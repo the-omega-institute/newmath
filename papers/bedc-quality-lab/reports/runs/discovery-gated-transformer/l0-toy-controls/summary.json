@@ -1,11 +1,50 @@
 {
   "artifact_id": "bedc-quality-lab:dgt-l0-controls",
+  "boundary_ledger": [
+    {
+      "kind": "construct_suspension",
+      "owner": "#1207",
+      "reason": "Construct-validity review remains suspended until the owner rerun closes it.",
+      "source_pointer": "reports/canonical/dgt-l0-controls.json:$.construct_suspension",
+      "status": "active"
+    },
+    {
+      "arm_label": "DGT_full",
+      "metric": "classifier_shift_count",
+      "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+      "status": "measured-owner-required"
+    },
+    {
+      "arm_label": "base_transformer_l0",
+      "metric": "classifier_shift_count",
+      "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+      "status": "measured-owner-required"
+    },
+    {
+      "arm_label": "matched_random_structural_control",
+      "metric": "classifier_shift_count",
+      "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+      "status": "measured-owner-required"
+    },
+    {
+      "arm_label": "parameter_matched_transformer",
+      "metric": "classifier_shift_count",
+      "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+      "status": "measured-owner-required"
+    },
+    {
+      "arm_label": "compute_matched_transformer",
+      "metric": "classifier_shift_count",
+      "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+      "status": "measured-owner-required"
+    }
+  ],
   "compute_param_ledger": {
     "batch_size": 96,
-    "compute_units": 7603.2,
+    "compute_units": 7299.072,
     "device": "mps",
-    "flops_proxy": 15206.4,
-    "parameter_count": 2175,
+    "flops_proxy": 14598.144,
+    "parameter_count": 2103,
     "pass_cells": {
       "compute_units_positive": true,
       "parameter_count_positive": true,
@@ -13,10 +52,10 @@
     },
     "per_arm": {
       "DGT_full": {
-        "compute_units": 760.32,
-        "flops_proxy": 1520.64,
-        "parameter_count": 205,
-        "trainable_parameter_count": 205
+        "compute_units": 709.632,
+        "flops_proxy": 1419.264,
+        "parameter_count": 193,
+        "trainable_parameter_count": 193
       },
       "base_transformer_l0": {
         "compute_units": 405.504,
@@ -31,10 +70,10 @@
         "trainable_parameter_count": 121
       },
       "matched_random_structural_control": {
-        "compute_units": 557.568,
-        "flops_proxy": 1115.136,
-        "parameter_count": 157,
-        "trainable_parameter_count": 157
+        "compute_units": 506.88,
+        "flops_proxy": 1013.76,
+        "parameter_count": 145,
+        "trainable_parameter_count": 145
       },
       "parameter_matched_transformer": {
         "compute_units": 405.504,
@@ -46,13 +85,231 @@
     "seed_count": 3,
     "status": "pass",
     "train_steps": 44,
-    "trainable_parameter_count": 2175,
-    "wall_time_proxy": 7.6032
+    "trainable_parameter_count": 2103,
+    "wall_time_proxy": 7.299072
+  },
+  "construct_suspension": {
+    "headline_status": "suspended-construct-review",
+    "ladder_consumption_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.ladder_consumption",
+    "not_claimed": [
+      "No L0 construct review is promoted to L1 or higher.",
+      "No production scale claim.",
+      "No global superiority claim."
+    ],
+    "owner_module": "bedc_quality_lab/dgt_l0_controls.py",
+    "pointer": "reports/canonical/dgt-l0-controls.json:$.construct_suspension",
+    "taint_status": "tainted-l0-construct-review-only"
+  },
+  "construct_validity_hardgates": {
+    "artifact_id": "bedc-quality-lab:construct-validity-hardgates",
+    "claim_capsule_projection": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "failed_gates": [
+        "CV-HG4"
+      ],
+      "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+      "pointer": "$.construct_validity_hardgates",
+      "status": "fail"
+    },
+    "evidence": {
+      "arm_input_access": {
+        "arms": {
+          "DGT_full": {
+            "variables": [
+              "x0",
+              "x1",
+              "x2",
+              "x3",
+              "x4",
+              "x5",
+              "target_signal"
+            ]
+          },
+          "base_transformer_l0": {
+            "variables": [
+              "x0",
+              "x1",
+              "x2",
+              "x3",
+              "x4",
+              "x5",
+              "target_signal"
+            ]
+          },
+          "compute_matched_transformer": {
+            "variables": [
+              "x0",
+              "x1",
+              "x2",
+              "x3",
+              "x4",
+              "x5",
+              "target_signal"
+            ]
+          },
+          "matched_random_structural_control": {
+            "variables": [
+              "x0",
+              "x1",
+              "x2",
+              "x3",
+              "x4",
+              "x5",
+              "target_signal"
+            ]
+          },
+          "parameter_matched_transformer": {
+            "variables": [
+              "x0",
+              "x1",
+              "x2",
+              "x3",
+              "x4",
+              "x5",
+              "target_signal"
+            ]
+          }
+        },
+        "label_invisibility_certificate": true
+      },
+      "arm_roles": {
+        "candidate": "DGT_full",
+        "controls": [
+          "base_transformer_l0",
+          "matched_random_structural_control",
+          "parameter_matched_transformer",
+          "compute_matched_transformer"
+        ]
+      },
+      "finite_table": {
+        "coverage_status": "bounded-control",
+        "rule_abstraction_claim": false,
+        "support_count": 288,
+        "table_coverage_only": false
+      },
+      "hand_feature_ledger": {
+        "candidate_only_features": [
+          "ledger_head",
+          "certificate_gate",
+          "gap_head",
+          "mechanism_probe",
+          "jet_probe",
+          "witness_hook"
+        ],
+        "features": [
+          "target_signal",
+          "surface_suite"
+        ],
+        "mode": "candidate-only-ledger",
+        "shared_across_arms": false
+      },
+      "label_variables": {
+        "pointer": "$.construct_validity_hardgates.evidence.label_variables",
+        "variables": [
+          "toy_binary_label"
+        ]
+      },
+      "metric_source": {
+        "label_derived_metric_source": false,
+        "metric_keys": [
+          "quality_q",
+          "UER",
+          "uer_reduction",
+          "FalseLedgerRate",
+          "debt_q",
+          "benefit_q",
+          "classifier_shift_count",
+          "compute_cost"
+        ],
+        "per_arm_constants": false,
+        "record_count": 15,
+        "seed_count": 3,
+        "source_kind": "training-evaluation",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl:$"
+      },
+      "task_variables": {
+        "pointer": "$.construct_validity_hardgates.evidence.task_variables",
+        "variables": [
+          "x0",
+          "x1",
+          "x2",
+          "x3",
+          "x4",
+          "x5",
+          "target_signal"
+        ]
+      }
+    },
+    "failed_gates": [
+      "CV-HG4"
+    ],
+    "gates": {
+      "CV-HG1": {
+        "aliased_variables": [],
+        "criterion": "task variables, label variables, candidate arm, and control arm roles are declared without variable aliasing",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.task_variables",
+        "gate_id": "CV-HG1",
+        "label_variable_count": 1,
+        "reason": null,
+        "status": "pass",
+        "task_variable_count": 7
+      },
+      "CV-HG2": {
+        "criterion": "label variables are absent from all arm input-access declarations",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.arm_input_access",
+        "gate_id": "CV-HG2",
+        "label_invisibility_certificate": true,
+        "reason": null,
+        "status": "pass",
+        "visible_label_variables": {}
+      },
+      "CV-HG3": {
+        "coverage_status": "bounded-control",
+        "criterion": "finite table evidence is separated from rule-abstraction authority",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.finite_table",
+        "finite_pair_accuracy": null,
+        "gate_id": "CV-HG3",
+        "reason": null,
+        "rule_abstraction_claim": false,
+        "status": "pass"
+      },
+      "CV-HG4": {
+        "candidate_only_features": [
+          "ledger_head",
+          "certificate_gate",
+          "gap_head",
+          "mechanism_probe",
+          "jet_probe",
+          "witness_hook"
+        ],
+        "criterion": "hand features are absent or declared as shared across candidate and controls",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.hand_feature_ledger",
+        "gate_id": "CV-HG4",
+        "ledger_mode": "candidate-only-ledger",
+        "reason": "candidate-only hand feature or missing shared/no-gate ledger",
+        "status": "fail"
+      },
+      "CV-HG5": {
+        "criterion": "metric source is training/evaluation evidence rather than per-arm constants, labels, or scripted tables",
+        "evidence_pointer": "$.construct_validity_hardgates.evidence.metric_source",
+        "forbidden_sources": [],
+        "gate_id": "CV-HG5",
+        "label_derived_metric_source": false,
+        "per_arm_constants": false,
+        "reason": null,
+        "source_kind": "training-evaluation",
+        "status": "pass"
+      }
+    },
+    "owner_module": "bedc_quality_lab/construct_validity.py",
+    "owner_pointer": "bedc_quality_lab.construct_validity:evaluate_construct_validity",
+    "schema_id": "bedc.quality.construct_validity_hardgates",
+    "status": "fail"
   },
   "controls": {
     "base_transformer_control": {
-      "UER": 0.195,
-      "classifier_shift_count": 1,
+      "UER": 0.002465,
+      "classifier_shift_count": null,
       "loss_decrease": 0.62214305,
       "metric_keys": [
         "quality_q",
@@ -66,19 +323,19 @@
       ],
       "parameter_l2_delta": 6.65262794,
       "pointer": "reports/canonical/dgt-l0-controls.json:$.controls.base_transformer_control",
-      "quality_q": 0.828498,
+      "quality_q": 0.846981,
       "raw_row_ref": {
         "artifact": "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl",
         "pointer": "0"
       },
       "status": "pass",
       "surface_suite": "dgt_l0_toy_surface_suite",
-      "uer_reduction": 0.165
+      "uer_reduction": 0.277535
     },
     "matched_random_structural_control": {
-      "UER": 0.208,
-      "classifier_shift_count": 0,
-      "loss_decrease": 0.5081856,
+      "UER": 0.002419,
+      "classifier_shift_count": null,
+      "loss_decrease": 0.59475938,
       "metric_keys": [
         "quality_q",
         "UER",
@@ -89,54 +346,1413 @@
         "classifier_shift_count",
         "compute_cost"
       ],
-      "parameter_l2_delta": 7.73189449,
+      "parameter_l2_delta": 7.53415966,
       "pointer": "reports/canonical/dgt-l0-controls.json:$.controls.matched_random_structural_control",
-      "quality_q": 0.813773,
+      "quality_q": 0.847037,
       "raw_row_ref": {
         "artifact": "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl",
         "pointer": "1"
       },
       "status": "pass",
       "surface_suite": "dgt_l0_toy_surface_suite",
-      "uer_reduction": 0.152
+      "uer_reduction": 0.277581
     }
   },
+  "feature_audit": {
+    "demotion_rule": "DGT-only label-signal features force trained L0 evidence to scoped-boundary or DN.",
+    "dgt_only_forbidden_hits": [],
+    "failed_gates": [],
+    "gate_names": [
+      "L0-FEAT-HG1",
+      "L0-FEAT-HG2",
+      "L0-FEAT-HG3"
+    ],
+    "gates": {
+      "L0-FEAT-HG1": {
+        "criterion": "no DGT-only target_signal feature",
+        "evidence_pointer": "$.feature_audit.rows",
+        "reason": null,
+        "status": "pass"
+      },
+      "L0-FEAT-HG2": {
+        "criterion": "no DGT-only abs/sign/threshold target feature",
+        "evidence_pointer": "$.feature_audit.rows",
+        "reason": null,
+        "status": "pass"
+      },
+      "L0-FEAT-HG3": {
+        "criterion": "no DGT-only target-formula direct term",
+        "evidence_pointer": "$.feature_audit.rows",
+        "reason": null,
+        "status": "pass"
+      }
+    },
+    "owner_pointer": "reports/canonical/dgt-l0-controls.json:$.feature_audit",
+    "rows": [
+      {
+        "arm_label": "DGT_full",
+        "declared_shared_across_controls": false,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3",
+          "ledger_head",
+          "certificate_gate",
+          "mechanism_probe",
+          "jet_probe",
+          "witness_hook"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "base_transformer_l0",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "matched_random_structural_control",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3",
+          "random_projection"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "parameter_matched_transformer",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "compute_matched_transformer",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "DGT_full",
+        "declared_shared_across_controls": false,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3",
+          "ledger_head",
+          "certificate_gate",
+          "mechanism_probe",
+          "jet_probe",
+          "witness_hook"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "base_transformer_l0",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "matched_random_structural_control",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3",
+          "random_projection"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "parameter_matched_transformer",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "compute_matched_transformer",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "DGT_full",
+        "declared_shared_across_controls": false,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3",
+          "ledger_head",
+          "certificate_gate",
+          "mechanism_probe",
+          "jet_probe",
+          "witness_hook"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "base_transformer_l0",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "matched_random_structural_control",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3",
+          "random_projection"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "parameter_matched_transformer",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      },
+      {
+        "arm_label": "compute_matched_transformer",
+        "declared_shared_across_controls": true,
+        "feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "forbidden_hits": [],
+        "gate_rows": {
+          "L0-FEAT-HG1": {
+            "criterion": "raw target_signal is absent unless declared shared across all controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG2": {
+            "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          },
+          "L0-FEAT-HG3": {
+            "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+            "evidence_pointer": "$.feature_audit.rows",
+            "reason": null,
+            "status": "pass"
+          }
+        },
+        "shared_feature_columns": [
+          "x",
+          "x0_times_x1",
+          "x2_minus_x3"
+        ],
+        "status": "pass"
+      }
+    ],
+    "status": "pass"
+  },
   "generated_at": "2026-06-10T00:00:00+00:00",
+  "honest_metric_review": {
+    "UER": 0.001699,
+    "boundary_rows": [
+      {
+        "arm_label": "DGT_full",
+        "metric": "classifier_shift_count",
+        "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+        "status": "measured-owner-required"
+      },
+      {
+        "arm_label": "base_transformer_l0",
+        "metric": "classifier_shift_count",
+        "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+        "status": "measured-owner-required"
+      },
+      {
+        "arm_label": "matched_random_structural_control",
+        "metric": "classifier_shift_count",
+        "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+        "status": "measured-owner-required"
+      },
+      {
+        "arm_label": "parameter_matched_transformer",
+        "metric": "classifier_shift_count",
+        "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+        "status": "measured-owner-required"
+      },
+      {
+        "arm_label": "compute_matched_transformer",
+        "metric": "classifier_shift_count",
+        "reason": "No measurement owner exists for classifier shift in this toy owner payload.",
+        "status": "measured-owner-required"
+      }
+    ],
+    "classifier_shift_count": null,
+    "confidence_cells": {
+      "DGT_full": {
+        "eval_count": 288,
+        "quality_q_ci_low": 0.835918,
+        "seed_count": 3
+      },
+      "base_transformer_l0": {
+        "eval_count": 288,
+        "quality_q_ci_low": 0.834981,
+        "seed_count": 3
+      },
+      "compute_matched_transformer": {
+        "eval_count": 288,
+        "quality_q_ci_low": 0.834922,
+        "seed_count": 3
+      },
+      "matched_random_structural_control": {
+        "eval_count": 288,
+        "quality_q_ci_low": 0.835037,
+        "seed_count": 3
+      },
+      "parameter_matched_transformer": {
+        "eval_count": 288,
+        "quality_q_ci_low": 0.835068,
+        "seed_count": 3
+      }
+    },
+    "failed_gates": [],
+    "feature_audit": {
+      "demotion_rule": "DGT-only label-signal features force trained L0 evidence to scoped-boundary or DN.",
+      "dgt_only_forbidden_hits": [],
+      "failed_gates": [],
+      "gate_names": [
+        "L0-FEAT-HG1",
+        "L0-FEAT-HG2",
+        "L0-FEAT-HG3"
+      ],
+      "gates": {
+        "L0-FEAT-HG1": {
+          "criterion": "no DGT-only target_signal feature",
+          "evidence_pointer": "$.feature_audit.rows",
+          "reason": null,
+          "status": "pass"
+        },
+        "L0-FEAT-HG2": {
+          "criterion": "no DGT-only abs/sign/threshold target feature",
+          "evidence_pointer": "$.feature_audit.rows",
+          "reason": null,
+          "status": "pass"
+        },
+        "L0-FEAT-HG3": {
+          "criterion": "no DGT-only target-formula direct term",
+          "evidence_pointer": "$.feature_audit.rows",
+          "reason": null,
+          "status": "pass"
+        }
+      },
+      "owner_pointer": "reports/canonical/dgt-l0-controls.json:$.feature_audit",
+      "rows": [
+        {
+          "arm_label": "DGT_full",
+          "declared_shared_across_controls": false,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3",
+            "ledger_head",
+            "certificate_gate",
+            "mechanism_probe",
+            "jet_probe",
+            "witness_hook"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "base_transformer_l0",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "matched_random_structural_control",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3",
+            "random_projection"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "parameter_matched_transformer",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "compute_matched_transformer",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "DGT_full",
+          "declared_shared_across_controls": false,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3",
+            "ledger_head",
+            "certificate_gate",
+            "mechanism_probe",
+            "jet_probe",
+            "witness_hook"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "base_transformer_l0",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "matched_random_structural_control",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3",
+            "random_projection"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "parameter_matched_transformer",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "compute_matched_transformer",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "DGT_full",
+          "declared_shared_across_controls": false,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3",
+            "ledger_head",
+            "certificate_gate",
+            "mechanism_probe",
+            "jet_probe",
+            "witness_hook"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "base_transformer_l0",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "matched_random_structural_control",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3",
+            "random_projection"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "parameter_matched_transformer",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        },
+        {
+          "arm_label": "compute_matched_transformer",
+          "declared_shared_across_controls": true,
+          "feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "forbidden_hits": [],
+          "gate_rows": {
+            "L0-FEAT-HG1": {
+              "criterion": "raw target_signal is absent unless declared shared across all controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG2": {
+              "criterion": "absolute, sign, and threshold derivatives of target_signal are absent unless shared",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            },
+            "L0-FEAT-HG3": {
+              "criterion": "target-formula direct terms are absent unless declared shared across fairness controls",
+              "evidence_pointer": "$.feature_audit.rows",
+              "reason": null,
+              "status": "pass"
+            }
+          },
+          "shared_feature_columns": [
+            "x",
+            "x0_times_x1",
+            "x2_minus_x3"
+          ],
+          "status": "pass"
+        }
+      ],
+      "status": "pass"
+    },
+    "hardgate_rows": {
+      "L0-METRIC-HG1": {
+        "criterion": "all L0 arm labels have measured outcomes",
+        "evidence_pointer": "$.honest_metric_review.metrics",
+        "reason": null,
+        "status": "pass"
+      },
+      "L0-METRIC-HG2": {
+        "criterion": "feature audit has no DGT-only target-signal hits",
+        "evidence_pointer": "$.feature_audit",
+        "reason": null,
+        "status": "pass"
+      },
+      "L0-METRIC-HG3": {
+        "criterion": "DGT measured quality exceeds base control",
+        "evidence_pointer": "$.honest_metric_review.metrics",
+        "reason": null,
+        "status": "pass"
+      },
+      "L0-METRIC-HG4": {
+        "criterion": "DGT measured UER reduction exceeds matched-random control",
+        "evidence_pointer": "$.honest_metric_review.metrics",
+        "reason": null,
+        "status": "pass"
+      },
+      "L0-METRIC-HG5": {
+        "criterion": "unmeasured classifier shift is recorded as boundary instead of a number",
+        "evidence_pointer": "$.boundary_ledger",
+        "reason": null,
+        "status": "pass"
+      }
+    },
+    "metrics": {
+      "DGT_full": {
+        "FalseLedgerRate": 0.0,
+        "UER": 0.001699,
+        "benefit_q": 0.578726,
+        "classifier_shift_count": null,
+        "compute_cost": null,
+        "debt_q": 0.130306,
+        "eval_count": 288,
+        "margin": 0.489379,
+        "quality_q": 0.847918,
+        "task_accuracy": 1.0,
+        "uer_reduction": 0.278301
+      },
+      "base_transformer_l0": {
+        "FalseLedgerRate": 0.0,
+        "UER": 0.002465,
+        "benefit_q": 0.578151,
+        "classifier_shift_count": null,
+        "compute_cost": null,
+        "debt_q": 0.130444,
+        "eval_count": 288,
+        "margin": 0.484595,
+        "quality_q": 0.846981,
+        "task_accuracy": 1.0,
+        "uer_reduction": 0.277535
+      },
+      "compute_matched_transformer": {
+        "FalseLedgerRate": 0.0,
+        "UER": 0.002513,
+        "benefit_q": 0.578115,
+        "classifier_shift_count": null,
+        "compute_cost": null,
+        "debt_q": 0.130452,
+        "eval_count": 288,
+        "margin": 0.484295,
+        "quality_q": 0.846922,
+        "task_accuracy": 1.0,
+        "uer_reduction": 0.277487
+      },
+      "matched_random_structural_control": {
+        "FalseLedgerRate": 0.0,
+        "UER": 0.002419,
+        "benefit_q": 0.578186,
+        "classifier_shift_count": null,
+        "compute_cost": null,
+        "debt_q": 0.130435,
+        "eval_count": 288,
+        "margin": 0.484883,
+        "quality_q": 0.847037,
+        "task_accuracy": 1.0,
+        "uer_reduction": 0.277581
+      },
+      "parameter_matched_transformer": {
+        "FalseLedgerRate": 0.0,
+        "UER": 0.002393,
+        "benefit_q": 0.578205,
+        "classifier_shift_count": null,
+        "compute_cost": null,
+        "debt_q": 0.130431,
+        "eval_count": 288,
+        "margin": 0.485042,
+        "quality_q": 0.847068,
+        "task_accuracy": 1.0,
+        "uer_reduction": 0.277607
+      }
+    },
+    "pass_cells": {
+      "all_arms_present": true,
+      "dgt_quality_above_base": true,
+      "dgt_uer_reduction_above_matched": true,
+      "feature_audit_pass": true,
+      "measured_outcome_rows_present": true,
+      "unmeasured_classifier_shift_boundary_recorded": true
+    },
+    "quality_q": 0.847918,
+    "status": "scoped-boundary",
+    "uer_reduction": 0.278301
+  },
   "independent_replay": {
     "arms": {
       "DGT_full": {
-        "quality_q_ci_low": 0.916911,
-        "quality_q_mean": 0.928911,
+        "quality_q_ci_low": 0.835918,
+        "quality_q_mean": 0.847918,
         "seed_count": 3,
-        "uer_reduction_mean": 0.22
+        "uer_reduction_mean": 0.278301
       },
       "base_transformer_l0": {
-        "quality_q_ci_low": 0.81646,
-        "quality_q_mean": 0.82846,
+        "quality_q_ci_low": 0.834981,
+        "quality_q_mean": 0.846981,
         "seed_count": 3,
-        "uer_reduction_mean": 0.165
+        "uer_reduction_mean": 0.277535
       },
       "compute_matched_transformer": {
-        "quality_q_ci_low": 0.81843,
-        "quality_q_mean": 0.83043,
+        "quality_q_ci_low": 0.834922,
+        "quality_q_mean": 0.846922,
         "seed_count": 3,
-        "uer_reduction_mean": 0.167
+        "uer_reduction_mean": 0.277487
       },
       "matched_random_structural_control": {
-        "quality_q_ci_low": 0.801636,
-        "quality_q_mean": 0.813636,
+        "quality_q_ci_low": 0.835037,
+        "quality_q_mean": 0.847037,
         "seed_count": 3,
-        "uer_reduction_mean": 0.152
+        "uer_reduction_mean": 0.277581
       },
       "parameter_matched_transformer": {
-        "quality_q_ci_low": 0.821504,
-        "quality_q_mean": 0.833504,
+        "quality_q_ci_low": 0.835068,
+        "quality_q_mean": 0.847068,
         "seed_count": 3,
-        "uer_reduction_mean": 0.17
+        "uer_reduction_mean": 0.277607
       }
     },
     "comparisons": {
       "dgt_quality_ci_low_gt_base": true,
+      "dgt_quality_mean_gt_base": true,
       "dgt_uer_reduction_gt_matched_random": true
     },
     "fixed_seeds": [
@@ -152,7 +1768,15 @@
   },
   "l0_toy_projection": {
     "blocked_reason": null,
+    "boundary_ledger_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.boundary_ledger"
+    },
     "claim_scope": "bounded L0 toy training controls",
+    "construct_suspension_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.construct_suspension"
+    },
     "evidence_refs": {
       "base_transformer_control": {
         "artifact": "reports/canonical/dgt-l0-controls.json",
@@ -177,6 +1801,10 @@
     },
     "failed_gate": null,
     "failure_reasons": [],
+    "feature_audit_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.feature_audit"
+    },
     "hardgate_statuses": {
       "L0": {
         "gates": {
@@ -264,7 +1892,7 @@
             "status": "pass"
           },
           "BASE-L0-HG6": {
-            "criterion": "DGT quality CI-low beats base",
+            "criterion": "DGT measured quality exceeds base",
             "evidence_pointer": "$.independent_replay.comparisons",
             "reason": null,
             "status": "pass"
@@ -340,8 +1968,8 @@
             "status": "pass"
           },
           "MR-L0-HG6": {
-            "criterion": "classifier_shift_count remains zero",
-            "evidence_pointer": "$.controls.matched_random_structural_control.classifier_shift_count",
+            "criterion": "classifier_shift_count has no declared metric owner and remains boundary-only",
+            "evidence_pointer": "$.honest_metric_review.boundary_rows",
             "reason": null,
             "status": "pass"
           },
@@ -507,6 +2135,19 @@
         "status": "pass"
       }
     },
+    "honest_metric_review_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.honest_metric_review"
+    },
+    "ladder_consumption": {
+      "construct_suspension_ref": {
+        "artifact": "reports/canonical/dgt-l0-controls.json",
+        "pointer": "$.construct_suspension"
+      },
+      "reason": "honest L0 metric remains scoped boundary",
+      "source_pointer": "reports/canonical/dgt-l0-controls.json:$.honest_metric_review.status",
+      "status": "scoped-boundary"
+    },
     "not_claimed": [
       "Bounded toy training control only.",
       "No production scale claim.",
@@ -542,8 +2183,29 @@
         "pointer": "$.negative_witness_sweep"
       }
     },
-    "review_status": "pass",
-    "status": "pass"
+    "review_status": "scoped-boundary",
+    "status": "scoped-boundary"
+  },
+  "ladder_consumption": {
+    "construct_suspension_ref": {
+      "artifact": "reports/canonical/dgt-l0-controls.json",
+      "pointer": "$.construct_suspension"
+    },
+    "reason": "honest L0 metric remains scoped boundary",
+    "source_pointer": "reports/canonical/dgt-l0-controls.json:$.honest_metric_review.status",
+    "status": "scoped-boundary"
+  },
+  "negative_evidence": {
+    "prior_injected_metric_result": {
+      "forbidden_channels": [
+        "per-arm quality bonus",
+        "per-arm UER penalty",
+        "declarative classifier shift"
+      ],
+      "positive_claim_allowed": false,
+      "reason": "prior per-arm injected metric result is retained only as negative evidence",
+      "status": "negative-boundary-only"
+    }
   },
   "negative_witness_sweep": {
     "boundary_ledger": [
@@ -638,7 +2300,7 @@
   "schema_id": "bedc-quality-lab:dgt-l0-controls",
   "source_artifacts": {
     "canonical_input_hashes": {
-      "owner_module_contract": "5361574c19c42dd0225d5c556e1a37767252c2bd50f72d49a5d7ee0c7ea50315",
+      "owner_module_contract": "fa4329133a1c01c8eb6d45fc681913a549cb267859042d4e0e1292434316e06b",
       "run_artifacts": "7557edbbeeb31d133018010591a12def954fbe796bddb8852aa76c41037b3dd2"
     },
     "command": [
@@ -646,8 +2308,15 @@
       "scripts/run_dgt_l0_controls.py"
     ],
     "device_policy": {
-      "fallback": "mps-or-cpu",
-      "requested_device": "auto"
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
     },
     "dgt_neural_ablation_helper": "bedc_quality_lab/dgt_neural_ablation.py",
     "owner_module": "bedc_quality_lab/dgt_l0_controls.py",

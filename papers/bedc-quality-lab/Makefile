@@ -1,12 +1,19 @@
-.PHONY: check test canonical-consistency canonical-reports canonical-reports-cold claim-artifact-consistency cold-check run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa build-bedc-jepa-manifest build-bedc-jepa-quality-backend build-public-minigrid-debt-closure probe-public-minigrid clean-reports
+.PHONY: check test metric-purity canonical-consistency canonical-cache-equivalence canonical-reports canonical-reports-cold claim-artifact-consistency cold-check run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa build-bedc-jepa-manifest build-bedc-jepa-quality-backend build-public-minigrid-debt-closure probe-public-minigrid clean-reports
 
-check: canonical-consistency test
+check: metric-purity canonical-consistency test
 
 test:
 	python3 -m pytest -q
 
+metric-purity:
+	python3 scripts/check_metric_purity.py
+
 canonical-consistency:
 	python3 scripts/run_canonical_reports.py --verify-fingerprints
+	python3 scripts/run_canonical_cache_equivalence.py --check
+
+canonical-cache-equivalence:
+	python3 scripts/run_canonical_cache_equivalence.py --check
 
 canonical-reports:
 	python3 scripts/run_canonical_reports.py

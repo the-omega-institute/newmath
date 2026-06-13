@@ -4,6 +4,12 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
+from bedc_quality_lab.evidence_provenance import (
+    build_evidence_provenance,
+    evidence_provenance_pointer_for_report,
+    validate_evidence_provenance_payload,
+)
 from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     ClaimVerdictReasonBasis,
     reason_for_claim_verdict,
@@ -50,6 +56,20 @@ VALID_SCOPE_SEAL = {
     "real_training": False,
     "production_forbidden": True,
 }
+DN_DISCOVERY_OWNER_KEYS = (
+    "base_level",
+    "terminal_verdict",
+    "classifier_reasons",
+    "failed_gate",
+    "debt_row_pointer",
+    "downgrade_reason",
+    "effective_level",
+    "hypothesis",
+    "next_hypothesis",
+    "stop_reason",
+    "not_claimed",
+    "what_was_learned",
+)
 
 
 def _scorecard(status="ready"):
@@ -64,6 +84,20 @@ def _scorecard(status="ready"):
 def _write_json(path, payload):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _ensure_pointer_value(payload, pointer, value):
+    if pointer is None or not pointer.startswith("$."):
+        return
+    target = payload
+    parts = pointer[2:].split(".")
+    for part in parts[:-1]:
+        child = target.get(part)
+        if not isinstance(child, dict):
+            child = {}
+            target[part] = child
+        target = child
+    target.setdefault(parts[-1], value)
 
 
 def _base_payload():
@@ -118,6 +152,102 @@ def _payload_for_level(level):
     return payload
 
 
+def _add_positive_owner_contract(payload, level):
+    payload["owner_contract"] = {
+        "scale_only": {"status": "present"},
+        "metadata_only": ["fixture"],
+        "matched_random": {"status": "present"},
+        "forbidden_column": {"status": "present"},
+    }
+    payload["anti_triviality_status"] = "pass"
+    payload.update(
+        owner_local_anti_triviality_contract(
+            recommended_level=level,
+            scale_only_pointer="$.owner_contract.scale_only",
+            metadata_only_pointer="$.owner_contract.metadata_only",
+            matched_random_pointer="$.owner_contract.matched_random",
+            forbidden_column_pointer="$.owner_contract.forbidden_column",
+        )
+    )
+
+
+def _negative_owner_row(row, index):
+    pointer = row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")
+    return {
+        "report": row["report"],
+        "json_artifact": row["json_artifact"],
+        "markdown_artifact": row["markdown_artifact"],
+        "discovery_level": "DN",
+        "projection_status": row.get("projection_status", "projected"),
+        "audit_status": row.get("audit_status", "valid"),
+        "audit_reason": row.get("audit_reason", ""),
+        "failed_gate": pointer,
+        "what_was_learned": "fixture learned",
+        "claim_id": f"claim:{row['report']}",
+        "negative_id": f"negative:{row['report']}:{index}",
+    }
+
+
+def _sidecar_owner_row(row, index):
+    evidence_type = "boundary_negative" if row.get("discovery_level") == "DN" else "deterministic_projection"
+    allowed_claim_kinds = ("negative_boundary",) if evidence_type == "boundary_negative" else ("projection_only",)
+    return {
+        "report": row["report"],
+        "evidence_type": evidence_type,
+        "discovery_map_pointer": f"reports/canonical/discovery_map.json:$.rows[{index}]",
+        "metric_provenance_pointers": [],
+        "producer_training_audit_pointer": None,
+        "allowed_claim_kinds": list(allowed_claim_kinds),
+        "not_claimed": ["fixture sidecar evidence"],
+    }
+
+
+def _seed_discovery_map_rows(rows, reports):
+    seed_rows = []
+    negative_index = 0
+    for row in rows:
+        if row["report"] not in reports:
+            continue
+        seeded = dict(row)
+        seeded["evidence_type"] = "boundary_negative" if row.get("discovery_level") == "DN" else "deterministic_projection"
+        seeded["evidence_provenance_pointer"] = evidence_provenance_pointer_for_report(row["report"])
+        if row.get("discovery_level") == "DN":
+            seeded["negative_report_pointer"] = f"reports/canonical/negative_discovery_reports.json:$.rows[{negative_index}]"
+            for key in DN_DISCOVERY_OWNER_KEYS:
+                seeded.pop(key, None)
+            negative_index += 1
+        seed_rows.append(seeded)
+    return seed_rows
+
+
+def _attach_discovery_map_owner_cells(rows, evidence_provenance):
+    rows_by_report = evidence_provenance["discovery_rows_by_report"]
+    negative_index = 0
+    negative_rows = []
+    for index, row in enumerate(rows):
+        report = row["report"]
+        owner = rows_by_report.get(report)
+        if owner is None:
+            owner = _sidecar_owner_row(row, index)
+            evidence_provenance["discovery_rows"].append(owner)
+            rows_by_report[report] = owner
+        if owner is not None:
+            row["evidence_type"] = owner["evidence_type"]
+        elif row.get("discovery_level") == "DN":
+            row["evidence_type"] = "boundary_negative"
+        else:
+            row["evidence_type"] = "deterministic_projection"
+        row["evidence_provenance_pointer"] = evidence_provenance_pointer_for_report(report)
+        if row.get("discovery_level") == "DN":
+            negative_rows.append(_negative_owner_row(row, negative_index))
+            row["negative_report_pointer"] = f"reports/canonical/negative_discovery_reports.json:$.rows[{negative_index}]"
+            for key in DN_DISCOVERY_OWNER_KEYS:
+                row.pop(key, None)
+            negative_index += 1
+    validate_evidence_provenance_payload(evidence_provenance)
+    return negative_rows
+
+
 def _spec(
     name,
     artifact,
@@ -151,7 +281,6 @@ def _fixture_root(tmp_path, monkeypatch, rows, payloads, witnesses=()):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(demo, "CANONICAL_REPORTS", tuple(payloads))
     monkeypatch.setattr(canonical, "CANONICAL_REPORTS", tuple(payloads))
-    _write_json(tmp_path / "reports/canonical/discovery_map.json", {"rows": rows})
     _write_json(tmp_path / "reports/canonical/quality-scorecard.json", _scorecard())
     _write_json(
         tmp_path / "reports/canonical/formal_hardening.json",
@@ -176,6 +305,14 @@ def _fixture_root(tmp_path, monkeypatch, rows, payloads, witnesses=()):
                 "claim_capsule_ref": f"reports/runs/{spec.name}/claim_capsule.json",
             }
         )
+        _ensure_pointer_value(payload, spec.scope_pointer, {"status": "present"})
+        _ensure_pointer_value(payload, spec.cost_pointer, {"status": "present"})
+        _ensure_pointer_value(payload, spec.not_claimed_pointer, ["fixture"])
+        _ensure_pointer_value(payload, spec.positive_claim_pointer, {"claim": "fixture"})
+        _ensure_pointer_value(payload, spec.control_pointer, {"status": "present"})
+        _ensure_pointer_value(payload, spec.no_control_rationale_pointer, {"reason": "fixture"})
+        if rows_by_report(rows)[spec.name] in {"D4", "D5-O", "D5-M"}:
+            _add_positive_owner_contract(payload, rows_by_report(rows)[spec.name])
         _write_json(tmp_path / spec.json_artifact, payload)
         _write_json(
             tmp_path / f"reports/runs/{spec.name}/claim_capsule.json",
@@ -186,6 +323,37 @@ def _fixture_root(tmp_path, monkeypatch, rows, payloads, witnesses=()):
                 "what_was_learned": "fixture learned",
             },
         )
+    source = tmp_path / "scripts" / "run_fixture.py"
+    source.parent.mkdir(parents=True, exist_ok=True)
+    source.write_text("def train(loss, optimizer):\n    loss.backward()\n    optimizer.step()\n", encoding="utf-8")
+    seed_rows = _seed_discovery_map_rows(rows, {spec.name for spec in payloads})
+    if seed_rows:
+        _write_json(tmp_path / "reports/canonical/discovery_map.json", {"rows": seed_rows})
+    evidence_provenance = build_evidence_provenance(
+        root=tmp_path,
+        canonical_reports=tuple(payloads),
+        generated_at="fixture",
+    )
+    negative_rows = _attach_discovery_map_owner_cells(rows, evidence_provenance)
+    _write_json(
+        tmp_path / "reports/canonical/negative_discovery_reports.json",
+        {
+            "schema_id": "bedc-quality-lab:negative-discovery-reports",
+            "artifact_id": "bedc-quality-lab:negative-discovery-reports",
+            "generated_at": "fixture",
+            "json_artifact": "reports/canonical/negative_discovery_reports.json",
+            "markdown_artifact": "reports/canonical/negative_discovery_reports.md",
+            "row_count": len(negative_rows),
+            "rows": negative_rows,
+        },
+    )
+    _write_json(tmp_path / "reports/canonical/discovery_map.json", {"rows": rows})
+    index_payload = {
+        "schema_id": "bedc-quality-lab:canonical-report-index",
+        "generated_at": "fixture",
+        "evidence_provenance": evidence_provenance,
+    }
+    _write_json(tmp_path / "reports/canonical/index.json", index_payload)
     return tmp_path
 
 
@@ -596,7 +764,7 @@ def test_constraint_lagrangian_dn_reason_preserves_evidence_label(tmp_path, monk
     assert verdict["claim_id"] == "claim:certificate-guided-training"
     assert verdict["reason"] == "negative-discovery-failed-gate:claim-capsule-terminal-verdict"
     assert verdict["negative_report_pointer"] == (
-        "reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict"
+        "reports/canonical/negative_discovery_reports.json:$.rows[0]"
     )
 
 
@@ -632,22 +800,29 @@ def test_certificate_gated_attention_row_maps_existing_positive_verdict(tmp_path
     assert verdict["claim_verdict"] == "projected_positive_discovery"
 
 
-@pytest.mark.parametrize("audit_status", ["invalid", "pass", None])
-def test_positive_discovery_requires_valid_discovery_map_audit(tmp_path, monkeypatch, audit_status):
+@pytest.mark.parametrize(
+    ("audit_status", "message"),
+    [
+        ("invalid", "positive discovery map row cannot project boundary or protocol-only evidence"),
+        ("pass", "positive discovery map row cannot project boundary or protocol-only evidence"),
+        (None, "discovery map row missing required cells: audit_status"),
+    ],
+)
+def test_positive_discovery_requires_valid_discovery_map_audit(tmp_path, monkeypatch, audit_status, message):
     rows = [_discovery_row("gap-head-discovery", "reports/canonical/gap-head-discovery.json", "D4")]
     if audit_status is None:
         rows[0].pop("audit_status")
     else:
         rows[0]["audit_status"] = audit_status
     specs = (_spec("gap-head-discovery", "reports/canonical/gap-head-discovery.json"),)
+    if audit_status is None:
+        with pytest.raises(ValueError, match=message):
+            _fixture_root(tmp_path, monkeypatch, rows, specs)
+        return
     _fixture_root(tmp_path, monkeypatch, rows, specs)
 
-    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
-
-    assert verdict["claim_id"] == "claim:gap-head-discovery"
-    assert verdict["claim_verdict"] == "projected_discovery_required"
-    assert verdict["reason"] == "discovery-map-audit-not-valid"
-    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].audit_status"
+    with pytest.raises(ValueError, match=message):
+        demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
 
 
 def test_positive_discovery_accepts_valid_discovery_map_audit(tmp_path, monkeypatch):
@@ -945,8 +1120,7 @@ def test_noncanonical_dimension_mismatch_discovery_row_emits_negative_claim_verd
         "negative-discovery-failed-gate:dimension-mismatch-debt-transfer-anti-triviality-status"
     )
     assert verdict["negative_report_pointer"] == (
-        "reports/canonical/dimension-mismatch-debt-transfer.json:"
-        "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+        "reports/canonical/negative_discovery_reports.json:$.rows[0]"
     )
     discovery_map = json.loads((tmp_path / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
     assert discovery_map["rows"][0]["discovery_level"] == "DN"
@@ -969,7 +1143,7 @@ def test_noncanonical_dimension_mismatch_dn_ignores_positive_scorecard_gate(tmp_
         "negative-discovery-failed-gate:dimension-mismatch-debt-transfer-anti-triviality-status"
     )
     _assert_provenance(verdict, tmp_path, scorecard_ready=False)
-    assert verdict["negative_report_pointer"].endswith("$.dimension_mismatch_debt_transfer.anti_triviality_status")
+    assert verdict["negative_report_pointer"] == "reports/canonical/negative_discovery_reports.json:$.rows[0]"
 
 
 def test_noncanonical_dimension_mismatch_dn_requires_valid_discovery_map_audit(tmp_path, monkeypatch):
@@ -1004,7 +1178,7 @@ def test_noncanonical_dimension_mismatch_missing_cells_do_not_emit_negative_clai
 
 
 def test_noncanonical_dimension_mismatch_forbidden_claim_rejects_with_pointer(tmp_path, monkeypatch):
-    rows = [_dimension_mismatch_discovery_row()]
+    rows = [_dimension_mismatch_discovery_row("DN")]
     _fixture_root(tmp_path, monkeypatch, rows, ())
     term = FORBIDDEN_POSITIVE_CLAIM_TERMS[0]
     _write_json(
@@ -1072,6 +1246,100 @@ def test_claim_verdict_line_refs_are_stable_jsonl_pointers(tmp_path, monkeypatch
 
 
 @pytest.mark.parametrize(
+    ("certificate", "reason"),
+    [
+        (None, "winnability-certificate-missing"),
+        ({"status": "fail", "method": "analytic_bayes", "unwinnable": False, "coverage": {}}, "winnability-certificate-missing"),
+        ({"status": "pass", "method": "analytic_bayes", "unwinnable": True, "coverage": {}}, "split-unwinnable"),
+        (
+            {
+                "status": "pass",
+                "method": "analytic_bayes",
+                "unwinnable": False,
+                "coverage": {"coverage_classification": "table-coverage"},
+            },
+            "table-coverage-ceiling",
+        ),
+    ],
+)
+def test_claim_verdict_blocks_positive_claims_with_winnability_certificates(
+    tmp_path,
+    monkeypatch,
+    certificate,
+    reason,
+):
+    certificate_id = "win-fixture"
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    rows[0]["winnability_ref"] = {
+        "artifact": demo.WINNABILITY_CERTIFICATES_ARTIFACT,
+        "certificate_id": certificate_id,
+        "pointer": f"{demo.WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[0]",
+    }
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    if certificate is not None:
+        _write_json(
+            tmp_path / demo.WINNABILITY_CERTIFICATES_ARTIFACT,
+            {
+                "schema_id": "bedc-quality-lab:winnability-certificates",
+                "artifact_id": "bedc-quality-lab:winnability-certificates",
+                "certificates": [dict(certificate, certificate_id=certificate_id)],
+                "audit": {"status": "pass"},
+            },
+        )
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:d4"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == reason
+    assert verdict["ledger_pointer"] == (
+        "reports/canonical/winnability-certificates.json:$.certificates[0]"
+    )
+
+
+def test_claim_verdict_honors_winnability_claim_permissions(tmp_path, monkeypatch):
+    certificate_id = "win-deny"
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    rows[0]["winnability_ref"] = {
+        "artifact": demo.WINNABILITY_CERTIFICATES_ARTIFACT,
+        "certificate_id": certificate_id,
+        "pointer": f"{demo.WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[0]",
+    }
+    _fixture_root(tmp_path, monkeypatch, rows, (_spec("d4", "reports/canonical/d4.json"),))
+    _write_json(
+        tmp_path / demo.WINNABILITY_CERTIFICATES_ARTIFACT,
+        {
+            "schema_id": "bedc-quality-lab:winnability-certificates",
+            "artifact_id": "bedc-quality-lab:winnability-certificates",
+            "audit": {"status": "pass"},
+            "certificates": [
+                {
+                    "certificate_id": certificate_id,
+                    "status": "pass",
+                    "method": "analytic_bayes",
+                    "unwinnable": False,
+                    "coverage": {"coverage_classification": "not-applicable"},
+                    "claim_permissions": {
+                        "memorization_claim_allowed": False,
+                        "generalization_claim_allowed": False,
+                        "separation_claim_allowed": False,
+                        "architecture_claim_allowed": False,
+                        "rule_abstraction_claim_allowed": False,
+                    },
+                }
+            ],
+        },
+    )
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "winnability-permission-denied"
+    assert verdict["ledger_pointer"] == "reports/canonical/winnability-certificates.json:$.certificates[0]"
+
+
+@pytest.mark.parametrize(
     ("mutation", "missing_key"),
     [
         ("control", "control-or-no-control-rationale"),
@@ -1121,6 +1389,51 @@ def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, mon
 
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
     assert verdict["reason"] == "discovery-level-D4-positive"
+
+
+def test_positive_empirical_verdict_requires_owner_evidence_provenance(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    (tmp_path / "reports/canonical/index.json").unlink()
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "evidence-provenance-owner-missing"
+    assert verdict["ledger_pointer"] == (
+        "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.d4"
+    )
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda row: row.pop("evidence_type"), "requires owner evidence_type"),
+        (lambda row: row.update({"evidence_type": None}), "requires owner evidence_type"),
+        (
+            lambda row: row.update(
+                {
+                    "evidence_provenance_pointer": (
+                        "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing"
+                    )
+                }
+            ),
+            "requires owner evidence provenance pointer",
+        ),
+    ],
+)
+def test_claim_verdict_discovery_map_fast_path_validates_committed_payload(tmp_path, monkeypatch, mutate, message):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    path = tmp_path / "reports/canonical/discovery_map.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    mutate(payload["rows"][0])
+    _write_json(path, payload)
+
+    with pytest.raises(ValueError, match=message):
+        demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
 
 
 def _add_high_impact_review(payload, *, bad_pointer=False):
@@ -1319,9 +1632,10 @@ def test_dgt_d4_row_routes_through_generic_accepted_positive_path(tmp_path, monk
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:discovery-gated-transformer"
-    assert verdict["claim_verdict"] == "projected_positive_discovery"
-    assert verdict["reason"].startswith("fresh-discovery-level-D0:")
-    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "source-insufficient"
+    assert verdict["source"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert verdict["ledger_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
 
 
 def test_dgt_with_passing_high_impact_review_remains_owner_projection(tmp_path, monkeypatch):
@@ -1331,9 +1645,10 @@ def test_dgt_with_passing_high_impact_review_remains_owner_projection(tmp_path, 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:discovery-gated-transformer"
-    assert verdict["claim_verdict"] == "projected_positive_discovery"
-    assert verdict["reason"].startswith("fresh-discovery-level-D0:")
-    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "source-insufficient"
+    assert verdict["source"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
+    assert verdict["ledger_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
 
 
 def test_dgt_blocked_d4_row_does_not_emit_d5_o_verdict(tmp_path, monkeypatch):
@@ -1342,8 +1657,8 @@ def test_dgt_blocked_d4_row_does_not_emit_d5_o_verdict(tmp_path, monkeypatch):
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:discovery-gated-transformer"
-    assert verdict["claim_verdict"] == "projected_positive_discovery"
-    assert verdict["ledger_pointer"].endswith("$.rows[0].discovery_level")
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["ledger_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
     assert "D5-O" not in json.dumps(verdict, sort_keys=True)
 
 
@@ -1390,8 +1705,10 @@ def test_dn_owner_without_what_was_learned_fails_through_owner_pointer(tmp_path,
     capsule_payload = json.loads(capsule_path.read_text(encoding="utf-8"))
     capsule_payload["what_was_learned"] = ""
     _write_json(capsule_path, capsule_payload)
-    rows[0]["failed_gate"] = "$.claim_capsule.terminal_verdict"
-    _write_json(tmp_path / "reports/canonical/discovery_map.json", {"rows": rows})
+    negative_path = tmp_path / "reports/canonical/negative_discovery_reports.json"
+    negative_payload = json.loads(negative_path.read_text(encoding="utf-8"))
+    negative_payload["rows"][0]["what_was_learned"] = ""
+    _write_json(negative_path, negative_payload)
 
     with pytest.raises(ValueError, match="DN discovery owner evidence missing: what_was_learned"):
         demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")

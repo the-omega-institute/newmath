@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-09T08:21:49.156738+00:00",
+  "generated_at": "2026-06-12T22:50:28.746960+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -95,7 +95,7 @@
     {
       "json_artifact": "reports/canonical/dgt-l0-controls.json",
       "name": "dgt-l0-controls",
-      "status": "pass"
+      "status": "fail"
     },
     {
       "json_artifact": "reports/canonical/dgt-l1-controls.json",
@@ -103,9 +103,49 @@
       "status": "pass"
     },
     {
+      "json_artifact": "reports/canonical/reproduction-package.json",
+      "name": "reproduction-package",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/reproduction-check-result.json",
+      "name": "reproduction-check-result",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+      "name": "dgt-l1-boundary-report",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/winnability-certificates.json",
+      "name": "winnability-certificates",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/structural-generalization-splits.json",
+      "name": "structural-generalization-splits",
+      "status": "pass"
+    },
+    {
       "json_artifact": "reports/canonical/dgt-base-undertraining-audit.json",
       "name": "dgt-base-undertraining-audit",
       "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/scaling-ladder.json",
+      "name": "scaling-ladder",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/input-accessibility.json",
+      "name": "input-accessibility",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/fair-l1-decision.json",
+      "name": "fair-l1-decision",
+      "status": "fail"
     },
     {
       "json_artifact": "reports/canonical/discovery-gated-transformer.json",
@@ -125,6 +165,11 @@
     {
       "json_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
       "name": "dgt-component-redundancy-audit",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/dgt-model-card.json",
+      "name": "dgt-model-card",
       "status": "pass"
     },
     {
@@ -274,9 +319,9 @@
       "value": 10
     },
     {
-      "denominator": 32,
+      "denominator": 42,
       "metric": "ScopeCompleteness",
-      "numerator": 32,
+      "numerator": 42,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -384,9 +429,49 @@
           "report": "dgt-l1-controls"
         },
         {
+          "artifact": "reports/canonical/reproduction-package.json",
+          "pointer": "$.reproduction_targets",
+          "report": "reproduction-package"
+        },
+        {
+          "artifact": "reports/canonical/reproduction-check-result.json",
+          "pointer": "$.target_results",
+          "report": "reproduction-check-result"
+        },
+        {
+          "artifact": "reports/canonical/dgt-l1-boundary-report.json",
+          "pointer": "$.boundary_decision",
+          "report": "dgt-l1-boundary-report"
+        },
+        {
+          "artifact": "reports/canonical/winnability-certificates.json",
+          "pointer": "$.not_claimed",
+          "report": "winnability-certificates"
+        },
+        {
+          "artifact": "reports/canonical/structural-generalization-splits.json",
+          "pointer": "$.split_registry",
+          "report": "structural-generalization-splits"
+        },
+        {
           "artifact": "reports/canonical/dgt-base-undertraining-audit.json",
           "pointer": "$.base_undertraining_audit.not_claimed",
           "report": "dgt-base-undertraining-audit"
+        },
+        {
+          "artifact": "reports/canonical/scaling-ladder.json",
+          "pointer": "$.levels",
+          "report": "scaling-ladder"
+        },
+        {
+          "artifact": "reports/canonical/input-accessibility.json",
+          "pointer": "$.not_claimed",
+          "report": "input-accessibility"
+        },
+        {
+          "artifact": "reports/canonical/fair-l1-decision.json",
+          "pointer": "$.not_claimed",
+          "report": "fair-l1-decision"
         },
         {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
@@ -407,6 +492,11 @@
           "artifact": "reports/canonical/dgt-component-redundancy-audit.json",
           "pointer": "$.component_redundancy_audit.scope",
           "report": "dgt-component-redundancy-audit"
+        },
+        {
+          "artifact": "reports/canonical/dgt-model-card.json",
+          "pointer": "$.intended_use",
+          "report": "dgt-model-card"
         },
         {
           "artifact": "reports/canonical/order-k-benchmark.json",
@@ -437,15 +527,20 @@
           "artifact": "reports/canonical/claim_complexity.json",
           "pointer": "$.not_claimed",
           "report": "claim-complexity"
+        },
+        {
+          "artifact": "reports/canonical/experiment_stack_cards.json",
+          "pointer": "$.not_claimed",
+          "report": "experiment-stack-cards"
         }
       ],
       "status": "ready",
       "value": 1.0
     },
     {
-      "denominator": 32,
+      "denominator": 42,
       "metric": "CostProtocolCompleteness",
-      "numerator": 32,
+      "numerator": 42,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -553,9 +648,49 @@
           "report": "dgt-l1-controls"
         },
         {
+          "artifact": "reports/canonical/reproduction-package.json",
+          "pointer": "$.cost_protocol",
+          "report": "reproduction-package"
+        },
+        {
+          "artifact": "reports/canonical/reproduction-check-result.json",
+          "pointer": "$.package_ref",
+          "report": "reproduction-check-result"
+        },
+        {
+          "artifact": "reports/canonical/dgt-l1-boundary-report.json",
+          "pointer": "$.cost_protocol",
+          "report": "dgt-l1-boundary-report"
+        },
+        {
+          "artifact": "reports/canonical/winnability-certificates.json",
+          "pointer": "$.source_artifacts",
+          "report": "winnability-certificates"
+        },
+        {
+          "artifact": "reports/canonical/structural-generalization-splits.json",
+          "pointer": "$.source_artifacts",
+          "report": "structural-generalization-splits"
+        },
+        {
           "artifact": "reports/canonical/dgt-base-undertraining-audit.json",
           "pointer": "$.base_undertraining_audit.source_contract",
           "report": "dgt-base-undertraining-audit"
+        },
+        {
+          "artifact": "reports/canonical/scaling-ladder.json",
+          "pointer": "$.source_artifacts",
+          "report": "scaling-ladder"
+        },
+        {
+          "artifact": "reports/canonical/input-accessibility.json",
+          "pointer": "$.source_artifacts",
+          "report": "input-accessibility"
+        },
+        {
+          "artifact": "reports/canonical/fair-l1-decision.json",
+          "pointer": "$.source_artifacts",
+          "report": "fair-l1-decision"
         },
         {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
@@ -576,6 +711,11 @@
           "artifact": "reports/canonical/dgt-component-redundancy-audit.json",
           "pointer": "$.component_redundancy_audit.source_artifacts",
           "report": "dgt-component-redundancy-audit"
+        },
+        {
+          "artifact": "reports/canonical/dgt-model-card.json",
+          "pointer": "$.source_artifacts",
+          "report": "dgt-model-card"
         },
         {
           "artifact": "reports/canonical/order-k-benchmark.json",
@@ -606,6 +746,11 @@
           "artifact": "reports/canonical/claim_complexity.json",
           "pointer": "$.source_artifacts",
           "report": "claim-complexity"
+        },
+        {
+          "artifact": "reports/canonical/experiment_stack_cards.json",
+          "pointer": "$.source_artifacts",
+          "report": "experiment-stack-cards"
         }
       ],
       "status": "ready",
