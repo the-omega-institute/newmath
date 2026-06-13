@@ -804,17 +804,13 @@ def _specs_by_name() -> dict[str, Any]:
 
 def _validate_cg_hg6(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> list[str]:
     errors: list[str] = []
-    accepted = {
-        "accepted_positive_discovery",
-        "mechanism_not_closed",
-    }
-    if not any(row.get("claim_verdict") in accepted for row in verdict_rows):
+    if not any(row.get("claim_verdict") == "accepted_positive_discovery" for row in verdict_rows):
         return errors
     discovery_by_report = {str(row["report"]): row for row in _discovery_rows(root)}
     specs = _specs_by_name()
     scorecard_snapshot = load_scorecard_snapshot(root)
     for row in verdict_rows:
-        if row.get("claim_verdict") not in accepted:
+        if row.get("claim_verdict") != "accepted_positive_discovery":
             continue
         claim_id = str(row.get("claim_id") or "")
         report = claim_id.removeprefix("claim:")

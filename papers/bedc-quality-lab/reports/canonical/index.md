@@ -330,6 +330,7 @@
 - Markdown: `reports/canonical/claim-artifact-consistency.md`
 - Claim: `claim:discovery-gated-transformer`
 - Gates: `reports/canonical/claim-artifact-consistency.json:$.gates`
+- Hardgate status: `CLAIM-FIRST-HG1=pass, STACK-HG1=pass, STACK-HG2=pass`
 
 ## Claim capsule
 

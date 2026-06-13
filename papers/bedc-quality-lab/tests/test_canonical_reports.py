@@ -1686,6 +1686,21 @@ def _patch_lightweight_run_reports(monkeypatch):
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
     monkeypatch.setattr(canonical, "_run_metric_purity_preflight", lambda report_artifacts=None: {"status": "pass"})
+    monkeypatch.setattr(
+        canonical,
+        "_write_aggregation_consistency_status",
+        lambda payload, *, generated_at: payload
+        | {
+            "aggregation_consistency": {
+                "schema_id": "bedc-quality-lab:aggregation-consistency",
+                "status": "pass",
+                "hardgate_status": {},
+                "binding_count": 0,
+                "doc_scan_count": 0,
+                "generated_at": generated_at,
+            }
+        },
+    )
 
 
 def _file_digest_map(root):
@@ -5858,6 +5873,59 @@ def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monke
     assert calls == []
     assert payload["reports"][0]["fingerprint_status"] == "match"
     assert payload["reports"][0]["producer_status"] == "skipped"
+
+
+def test_claim_first_consistency_section_and_verify_fingerprints_fail_closed(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    payload = {
+        "schema_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_SCHEMA_ID,
+        "artifact_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID,
+        "generated_at": "fixture-time",
+        "claim_id": "claim:discovery-gated-transformer",
+        "status": "pass",
+        "json_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT,
+        "markdown_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT,
+        "gates": [
+            {"gate_id": "CONS-HG1", "status": "pass"},
+            {"gate_id": "STACK-HG1", "status": "pass"},
+            {"gate_id": "STACK-HG2", "status": "fail"},
+            {"gate_id": "CLAIM-FIRST-HG1", "status": "fail"},
+        ],
+    }
+    path = tmp_path / canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._claim_artifact_consistency_index_section(generated_at="fixture-time")
+
+    assert section["hardgate_status"] == {
+        "STACK-HG1": "pass",
+        "STACK-HG2": "fail",
+        "CLAIM-FIRST-HG1": "fail",
+    }
+    existing_index = canonical._index([], generated_at="fixture-time")
+    canonical._write_json_atomic(canonical.INDEX_ARTIFACT, existing_index)
+    canonical._refresh_claim_artifact_consistency_index_section(generated_at="fixture-time")
+    markdown = (tmp_path / "reports/canonical/index.md").read_text(encoding="utf-8")
+    assert "STACK-HG1=pass" in markdown
+    assert "STACK-HG2=fail" in markdown
+    assert "CLAIM-FIRST-HG1=fail" in markdown
+
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    monkeypatch.setattr(canonical, "_claim_artifact_consistency_required", lambda selected_specs=None: True)
+    monkeypatch.setattr(
+        canonical,
+        "_claim_artifact_consistency_payload",
+        lambda generated_at=None: {"status": "fail", "gates": payload["gates"]},
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert excinfo.value.code == 1
 
 
 def test_run_reports_preflight_runs_before_fingerprint_acceptance(tmp_path, monkeypatch):

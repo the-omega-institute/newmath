@@ -124,6 +124,7 @@ FINGERPRINT_SCHEMA_ID = "bedc-quality-lab:canonical-report-fingerprint"
 FINGERPRINT_INPUT_SCHEMA_ID = "bedc-quality-lab:canonical-report-input-fingerprint"
 INDEX_ROOT = "papers/bedc-quality-lab"
 REPORTING_HARDGATE_ID = "HG-P-REPORTING-DISCIPLINE"
+CLAIM_FIRST_CONSISTENCY_GATE_IDS = ("STACK-HG1", "STACK-HG2", "CLAIM-FIRST-HG1")
 REPORTING_REQUIRED_CELLS = ("claim_capsule", "cost_protocol", "not_claimed")
 QUALITY_SCORECARD_JSON_ARTIFACT = "reports/canonical/quality-scorecard.json"
 QUALITY_SCORECARD_MARKDOWN_ARTIFACT = "reports/canonical/quality-scorecard.md"
@@ -4224,7 +4225,12 @@ def _evidence_provenance_index_section(
 def _claim_artifact_consistency_payload(generated_at: str | None = None) -> dict[str, Any]:
     from bedc_quality_lab.claim_artifact_consistency import DGT_CLAIM_ID, audit_claim_artifact_consistency
 
-    return audit_claim_artifact_consistency(ROOT, claim_id=DGT_CLAIM_ID, generated_at=generated_at).to_json()
+    return audit_claim_artifact_consistency(
+        ROOT,
+        claim_id=DGT_CLAIM_ID,
+        generated_at=generated_at,
+        report_spec=_specs_by_name().get("discovery-gated-transformer"),
+    ).to_json()
 
 
 def _missing_claim_artifact_consistency_payload(generated_at: str | None = None) -> dict[str, Any]:
@@ -4271,7 +4277,7 @@ def _claim_artifact_consistency_index_section(generated_at: str | None = None) -
         "hardgate_status": {
             str(row.get("gate_id")): row.get("status")
             for row in gates
-            if isinstance(row, Mapping)
+            if isinstance(row, Mapping) and row.get("gate_id") in CLAIM_FIRST_CONSISTENCY_GATE_IDS
         },
     }
 
@@ -4286,6 +4292,29 @@ def _claim_artifact_consistency_required(selected_specs: Sequence[CanonicalRepor
     if selected_specs is None:
         return True
     return any(spec.name == "discovery-gated-transformer" for spec in selected_specs)
+
+
+def _refresh_claim_artifact_consistency_index_section(*, generated_at: str | None = None) -> dict[str, Any]:
+    if INDEX_ARTIFACT.exists():
+        try:
+            payload = json.loads(INDEX_ARTIFACT.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            payload = {}
+        if not isinstance(payload, dict):
+            payload = {}
+    else:
+        payload = {}
+    payload.setdefault("schema_id", INDEX_SCHEMA_ID)
+    payload.setdefault("generated_at", generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat())
+    payload.setdefault("root", INDEX_ROOT)
+    payload["claim_artifact_consistency"] = _claim_artifact_consistency_index_section(generated_at=generated_at)
+    _write_json_atomic(INDEX_ARTIFACT, payload)
+    try:
+        markdown = _render_index_markdown(payload)
+    except KeyError:
+        markdown = _minimal_scaling_ladder_index_markdown(payload)
+    _write_text_atomic(CANONICAL_DIR / "index.md", markdown)
+    return payload
 
 
 def _build_claim_capsule(generated_at: str) -> dict[str, Any]:
@@ -8044,6 +8073,7 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Markdown: `{payload['claim_artifact_consistency']['markdown_artifact']}`",
             f"- Claim: `{payload['claim_artifact_consistency']['claim_id']}`",
             f"- Gates: `{payload['claim_artifact_consistency']['gates_pointer']}`",
+            f"- Hardgate status: `{', '.join(f'{gate_id}={status}' for gate_id, status in sorted(payload['claim_artifact_consistency'].get('hardgate_status', {}).items()))}`",
             "",
             "## Claim capsule",
             "",
@@ -8512,6 +8542,10 @@ def run_reports(
             if consistency_payload["status"] != "pass":
                 raise SystemExit(1)
         payload = _index(verify_results, generated_at=timestamp)
+        if INDEX_ARTIFACT.exists():
+            if json_summary is not None:
+                _write_json_atomic(Path(json_summary), payload)
+            return payload
         _write_json_atomic(INDEX_ARTIFACT, payload)
         payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
         if json_summary is not None:
@@ -8727,7 +8761,11 @@ def run_reports(
             _write_fingerprint_sidecar(spec, generated_at=timestamp)
     from scripts.run_claim_artifact_consistency import write_claim_artifact_consistency
 
-    consistency_payload = write_claim_artifact_consistency(root=ROOT, generated_at=timestamp)
+    consistency_payload = write_claim_artifact_consistency(
+        root=ROOT,
+        generated_at=timestamp,
+        report_spec=_specs_by_name().get("discovery-gated-transformer"),
+    )
     if _claim_artifact_consistency_required(selected_specs) and consistency_payload["status"] != "pass":
         raise SystemExit(1)
     for spec in post_verdict_specs:

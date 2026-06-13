@@ -4,10 +4,24 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.artifact_freshness import ScorecardSnapshot
-from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
+from bedc_quality_lab.discovery_compiler.pointers import (
+    normalize_artifact_pointer,
+    pointer_value,
+    resolve_artifact_pointer,
+    split_artifact_pointer,
+)
+
+
+CLAIM_FIRST_CARD_IDS = (
+    "claim",
+    "task-target",
+    "data",
+    "training-authenticity",
+    "statistical",
+)
 
 
 @dataclass(frozen=True)
@@ -16,6 +30,26 @@ class PositiveClaimEvidenceResult:
     missing_key: str | None
     ledger_pointer: str
     reason: str
+
+
+@dataclass(frozen=True)
+class ClaimFirstPointerCheck:
+    card_id: str
+    pointer: str
+    status: str
+    reason: str
+    resolved_status: str | None = None
+    hardgate_status: str | None = None
+
+    def to_json(self) -> dict[str, Any]:
+        return {
+            "card_id": self.card_id,
+            "pointer": self.pointer,
+            "status": self.status,
+            "reason": self.reason,
+            "resolved_status": self.resolved_status,
+            "hardgate_status": self.hardgate_status,
+        }
 
 
 def _pass(ledger_pointer: str) -> PositiveClaimEvidenceResult:
@@ -28,6 +62,15 @@ def _fail(missing_key: str, ledger_pointer: str) -> PositiveClaimEvidenceResult:
         missing_key=missing_key,
         ledger_pointer=ledger_pointer,
         reason=f"positive-acceptance-evidence-missing:{missing_key}",
+    )
+
+
+def _claim_first_fail(card_id: str, ledger_pointer: str) -> PositiveClaimEvidenceResult:
+    return PositiveClaimEvidenceResult(
+        ok=False,
+        missing_key=f"claim-first:{card_id}",
+        ledger_pointer=ledger_pointer,
+        reason=f"positive-acceptance-evidence-missing:claim-first:{card_id}",
     )
 
 
@@ -47,6 +90,10 @@ def _artifact_pointer(artifact: str, pointer: str | None) -> str | None:
     if ":" in pointer:
         return pointer
     return None
+
+
+def _string_pointer(value: Any) -> str | None:
+    return value if isinstance(value, str) and normalize_artifact_pointer(value) is not None else None
 
 
 def _claim_capsule_pointer(payload: Mapping[str, Any]) -> str | None:
@@ -91,6 +138,164 @@ def _claim_capsule_resolves(root: Path, payload: Mapping[str, Any], capsule_poin
     return resolve_artifact_pointer(root, capsule_pointer) is not None
 
 
+def _mapping_status(value: Any) -> str | None:
+    if not isinstance(value, Mapping):
+        return None
+    for key in ("status", "hardgate_status", "review_status", "promotion_readiness", "training_evidence_status"):
+        status = value.get(key)
+        if isinstance(status, str):
+            return status
+    return None
+
+
+def _blocked_status(value: Any) -> str | None:
+    if not isinstance(value, Mapping):
+        return None
+    status = _mapping_status(value)
+    if isinstance(status, str) and status.lower() in {
+        "blocked",
+        "fail",
+        "failed",
+        "missing",
+        "not-ready",
+        "tainted",
+        "empirical_training_tainted",
+        "training_evidence_absent",
+    }:
+        return status
+    if value.get("taint_status") not in {None, "untainted"}:
+        return str(value.get("taint_status"))
+    allowed = value.get("allowed_claim_kinds")
+    if isinstance(allowed, Sequence) and not isinstance(allowed, (str, bytes)) and "projection_only" in allowed:
+        return "projection_only"
+    return None
+
+
+def _hardgates_pass(value: Any) -> bool:
+    if not isinstance(value, Mapping):
+        return True
+    hardgates = value.get("hardgates")
+    if not isinstance(hardgates, Mapping):
+        return True
+    for row in hardgates.values():
+        if isinstance(row, Mapping) and row.get("status") != "pass":
+            return False
+        if isinstance(row, str) and row != "pass":
+            return False
+    return True
+
+
+def _cell_passes(value: Any) -> bool:
+    if value is None:
+        return False
+    blocked = _blocked_status(value)
+    if blocked is not None:
+        return False
+    return _hardgates_pass(value)
+
+
+def _card_cell_passes(card_id: str, value: Any) -> bool:
+    if not _cell_passes(value):
+        return False
+    if not isinstance(value, Mapping):
+        return True
+    if card_id == "data":
+        return value.get("evidence_type") not in {"empirical_training_tainted"}
+    if card_id == "training-authenticity":
+        return value.get("training_evidence_status") == "empirical_training_clean"
+    if card_id == "statistical":
+        return value.get("allowed_for_empirical_claim") is True and value.get("source_type") == "measured_training"
+    return True
+
+
+def _claim_first_check(root: Path, card_id: str, pointer: str) -> ClaimFirstPointerCheck:
+    resolved = resolve_artifact_pointer(root, pointer)
+    if resolved is None:
+        return ClaimFirstPointerCheck(card_id, pointer, "fail", "owner pointer does not resolve")
+    status = _mapping_status(resolved)
+    if not _card_cell_passes(card_id, resolved):
+        return ClaimFirstPointerCheck(card_id, pointer, "fail", "owner status or hardgate blocks promotion", status, "fail")
+    return ClaimFirstPointerCheck(card_id, pointer, "pass", "owner pointer passes", status, "pass")
+
+
+def _evidence_owner(root: Path, evidence_pointer: str | None) -> Any:
+    if not evidence_pointer:
+        return None
+    return resolve_artifact_pointer(root, evidence_pointer)
+
+
+def claim_first_pointer_checks(
+    root: Path,
+    *,
+    spec: Any,
+    discovery_row: Mapping[str, Any],
+    payload: Mapping[str, Any],
+    scorecard_snapshot: ScorecardSnapshot,
+) -> tuple[ClaimFirstPointerCheck, ...]:
+    artifact = str(getattr(spec, "json_artifact"))
+    claim_capsule = _claim_capsule_pointer(payload)
+    claim_pointer = _artifact_pointer(artifact, getattr(spec, "positive_claim_pointer", None))
+    task_pointer = (
+        _artifact_pointer(artifact, getattr(spec, "control_pointer", None))
+        or _artifact_pointer(artifact, getattr(spec, "no_control_rationale_pointer", None))
+        or _artifact_pointer(artifact, getattr(spec, "scope_pointer", None))
+    )
+    evidence_pointer = _string_pointer(discovery_row.get("evidence_provenance_pointer"))
+    data_pointer = evidence_pointer
+    evidence_owner = _evidence_owner(root, evidence_pointer)
+    producer_pointer = (
+        evidence_owner.get("producer_training_audit_pointer")
+        if isinstance(evidence_owner, Mapping) and isinstance(evidence_owner.get("producer_training_audit_pointer"), str)
+        else None
+    )
+    metric_pointers = (
+        evidence_owner.get("metric_provenance_pointers")
+        if (
+            isinstance(evidence_owner, Mapping)
+            and isinstance(evidence_owner.get("metric_provenance_pointers"), Sequence)
+            and not isinstance(evidence_owner.get("metric_provenance_pointers"), (str, bytes))
+        )
+        else ()
+    )
+    metric_pointer = next((item for item in metric_pointers if isinstance(item, str)), None)
+    pointers = {
+        "claim": claim_capsule or claim_pointer,
+        "task-target": task_pointer,
+        "data": data_pointer,
+        "training-authenticity": producer_pointer,
+        "statistical": metric_pointer,
+    }
+    checks: list[ClaimFirstPointerCheck] = []
+    for card_id in CLAIM_FIRST_CARD_IDS:
+        pointer = pointers.get(card_id)
+        if not pointer:
+            checks.append(ClaimFirstPointerCheck(card_id, f"{artifact}:$", "fail", "owner pointer is missing"))
+            continue
+        checks.append(_claim_first_check(root, card_id, pointer))
+    return tuple(checks)
+
+
+def _claim_first_result(
+    root: Path,
+    *,
+    spec: Any,
+    discovery_row: Mapping[str, Any],
+    payload: Mapping[str, Any],
+    scorecard_snapshot: ScorecardSnapshot,
+) -> PositiveClaimEvidenceResult:
+    checks = claim_first_pointer_checks(
+        root,
+        spec=spec,
+        discovery_row=discovery_row,
+        payload=payload,
+        scorecard_snapshot=scorecard_snapshot,
+    )
+    for check in checks:
+        if check.status != "pass":
+            return _claim_first_fail(check.card_id, check.pointer)
+    return _pass(next(check.pointer for check in checks if check.card_id == "claim"))
+
+
 def validate_positive_claim_evidence(
     root: Path,
     *,
@@ -131,6 +336,16 @@ def validate_positive_claim_evidence(
     capsule_pointer = _claim_capsule_pointer(payload)
     if not _claim_capsule_resolves(root, payload, capsule_pointer):
         return _fail("claim_capsule", f"{artifact}:{capsule_pointer}" if capsule_pointer and capsule_pointer.startswith("$.") else capsule_pointer or f"{artifact}:$")
+
+    claim_first = _claim_first_result(
+        root,
+        spec=spec,
+        discovery_row=discovery_row,
+        payload=payload,
+        scorecard_snapshot=scorecard_snapshot,
+    )
+    if not claim_first.ok:
+        return claim_first
 
     return _pass(positive_cell)
 
