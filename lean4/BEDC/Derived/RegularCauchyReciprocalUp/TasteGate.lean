@@ -166,29 +166,6 @@ def taste_gate : ChapterTasteGate RegularCauchyReciprocalUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyReciprocalChapterTasteGate
 
-theorem RegularCauchyReciprocalTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      regularCauchyReciprocalDecodeBHist
-          (regularCauchyReciprocalEncodeBHist h) =
-        h) ∧
-      (∀ x : RegularCauchyReciprocalUp,
-        regularCauchyReciprocalFromEventFlow
-            (regularCauchyReciprocalToEventFlow x) =
-          some x) ∧
-        (∀ x y : RegularCauchyReciprocalUp,
-          regularCauchyReciprocalToEventFlow x =
-              regularCauchyReciprocalToEventFlow y →
-            x = y) ∧
-          regularCauchyReciprocalEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨regularCauchyReciprocal_decode_encode,
-      regularCauchyReciprocal_round_trip,
-      by
-        intro x y heq
-        exact regularCauchyReciprocalToEventFlow_injective heq,
-      rfl⟩
-
 theorem RegularCauchyReciprocalCarrier_apartness_window
     (x : RegularCauchyReciprocalUp) :
     ∃ Q A M W D B T E H C P N : BHist,
