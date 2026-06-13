@@ -66,6 +66,7 @@ import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
+import BEDC.Derived.AnalyticContinuationOperationUp.TasteGate
 import BEDC.Derived.AnalyticContinuationSocketUp
 import BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketLedgerExactnessObligation
 import BEDC.Derived.AnalyticContinuationSocketUp.BranchLedgerObligation
@@ -3616,6 +3617,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TerminalComparisonLedgerLock
 import BEDC.Derived.CriticalLineWitnessUp.TerminalLedgerNonescape
+import BEDC.Derived.CriticalLineWitnessUp.TerminalModulusComparisonScope
 import BEDC.Derived.CriticalLineWitnessUp.TerminalRHRefusalExactness
 import BEDC.Derived.CriticalLineWitnessUp.TerminalSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.TerminalWindowFactorization
@@ -5150,6 +5152,7 @@ import BEDC.Derived.FiniteTailFilterUp.ClassifierAlignmentBoundary
 import BEDC.Derived.FiniteTailFilterUp.CofinalWindowBudgetNormalForm
 import BEDC.Derived.FiniteTailFilterUp.ExactBoundarySharedConsumerDeterminacy
 import BEDC.Derived.FiniteTailFilterUp.ExactBoundaryTerminalNormalForm
+import BEDC.Derived.FiniteTailFilterUp.ForgetfulProjectionBoundary
 import BEDC.Derived.FiniteTailFilterUp.FormalIntakeRouteExhaustion
 import BEDC.Derived.FiniteTailFilterUp.FormalTargetConsumerRoute
 import BEDC.Derived.FiniteTailFilterUp.FormalTargetRouteClosure
@@ -6105,6 +6108,7 @@ import BEDC.Derived.LocatedCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterBasisUp
 import BEDC.Derived.LocatedCauchyFilterCompletionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterUp.BasisRefinementRoute
+import BEDC.Derived.LocatedCauchyFilterUp.BishopCompletionHandoff
 import BEDC.Derived.LocatedCauchyFilterUp.ChoiceFreeBasis
 import BEDC.Derived.LocatedCauchyFilterUp.NameCertObligations
 import BEDC.Derived.LocatedCauchyFilterUp.RealSealBoundary
@@ -9451,6 +9455,7 @@ import BEDC.Derived.SmythCompletionUp
 import BEDC.Derived.SmythCompletionUp.TasteGate
 import BEDC.Derived.SmythPowerdomainUp.TasteGate
 import BEDC.Derived.SobolevEmbeddingUp.TasteGate
+import BEDC.Derived.SobolevPoincareFiniteEnergyUp.TasteGate
 import BEDC.Derived.SobolevTraceBoundaryUp.TasteGate
 import BEDC.Derived.SobolevTraceCompactWindowUp.TasteGate
 import BEDC.Derived.SobolevTraceUp.TasteGate
