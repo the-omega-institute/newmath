@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyTransformUp
@@ -13,20 +14,20 @@ inductive RegularCauchyTransformUp : Type where
   | mk (S R M D U Q E H C P N : BHist) : RegularCauchyTransformUp
   deriving DecidableEq
 
-def regularCauchyTransformEncodeBHist : BHist → RawEvent
+def regularCauchyTransformEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: regularCauchyTransformEncodeBHist h
   | BHist.e1 h => BMark.b1 :: regularCauchyTransformEncodeBHist h
 
-def regularCauchyTransformDecodeBHist : RawEvent → BHist
+def regularCauchyTransformDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (regularCauchyTransformDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyTransformDecodeBHist tail)
 
 private theorem regularCauchyTransform_decode_encode_bhist :
-    ∀ h : BHist,
+    forall h : BHist,
       regularCauchyTransformDecodeBHist (regularCauchyTransformEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -35,16 +36,16 @@ private theorem regularCauchyTransform_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def regularCauchyTransformFields : RegularCauchyTransformUp → List BHist
+def regularCauchyTransformFields : RegularCauchyTransformUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyTransformUp.mk S R M D U Q E H C P N =>
       [S, R, M, D, U, Q, E, H, C, P, N]
 
-def regularCauchyTransformToEventFlow : RegularCauchyTransformUp → EventFlow
+def regularCauchyTransformToEventFlow : RegularCauchyTransformUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (regularCauchyTransformFields x).map regularCauchyTransformEncodeBHist
 
-private def regularCauchyTransformEventAtDefault : Nat → EventFlow → RawEvent
+private def regularCauchyTransformEventAtDefault : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -69,7 +70,7 @@ def regularCauchyTransformFromEventFlow
       (regularCauchyTransformDecodeBHist (regularCauchyTransformEventAtDefault 10 ef)))
 
 private theorem RegularCauchyTransformTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : RegularCauchyTransformUp,
+    forall x : RegularCauchyTransformUp,
       regularCauchyTransformFromEventFlow (regularCauchyTransformToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -105,7 +106,7 @@ private theorem RegularCauchyTransformTasteGate_single_carrier_alignment_round_t
 
 private theorem RegularCauchyTransformTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RegularCauchyTransformUp} :
-    regularCauchyTransformToEventFlow x = regularCauchyTransformToEventFlow y → x = y := by
+    regularCauchyTransformToEventFlow x = regularCauchyTransformToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -119,14 +120,14 @@ private theorem RegularCauchyTransformTasteGate_single_carrier_alignment_toEvent
         (RegularCauchyTransformTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem regularCauchyTransform_fields_faithful :
-    ∀ x y : RegularCauchyTransformUp,
-      regularCauchyTransformFields x = regularCauchyTransformFields y → x = y := by
+    forall x y : RegularCauchyTransformUp,
+      regularCauchyTransformFields x = regularCauchyTransformFields y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk S₁ R₁ M₁ D₁ U₁ Q₁ E₁ H₁ C₁ P₁ N₁ =>
+  | mk S1 R1 M1 D1 U1 Q1 E1 H1 C1 P1 N1 =>
       cases y with
-      | mk S₂ R₂ M₂ D₂ U₂ Q₂ E₂ H₂ C₂ P₂ N₂ =>
+      | mk S2 R2 M2 D2 U2 Q2 E2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -170,7 +171,7 @@ def taste_gate : ChapterTasteGate RegularCauchyTransformUp :=
   regularCauchyTransformChapterTasteGate
 
 theorem RegularCauchyTransformTasteGate_single_carrier_alignment :
-    ∃ x y : RegularCauchyTransformUp,
+    exists x y : RegularCauchyTransformUp,
       x ≠ y ∧
         regularCauchyTransformFields x =
           [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
