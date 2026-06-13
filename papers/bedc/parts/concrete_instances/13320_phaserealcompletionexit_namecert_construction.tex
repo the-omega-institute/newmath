@@ -225,6 +225,20 @@ Now use \autoref{thm:phase-real-completion-exit-status-token-product} together w
 Finally read the roadmap criterion in \autoref{sec:roadmap-near-term-phases} through the two-axis discipline of \autoref{sec:roadmap-closure-and-verification-axes}. The roadmap exit criterion names the four objects $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$; the fifth face is the exact-boundary witness that lets the accepted packet expose the same route, not an additional roadmap object.
 \end{proof}
 
+\begin{theorem}[Phase real-completion exit five-face local audit]
+\label{thm:phase-real-completion-exit-five-face-local-audit}
+An accepted $\PhaseRealCompletionExitUp$ packet passes the local packet audit exactly when the four roadmap faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are read through separate local status rows and the same-route $\RealCompletionExactBoundaryUp$ witness is read through its own local status row. The audit consumes those five status rows together with the displayed support rows $H,C,P,N$ of the carrier $E=(D,S,Q,R,B,H,C,P,N)$; it consumes no aggregate formalstatus row, bridge token, quotient stream, selected limit, host-completeness row, or fused completion witness.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the status-token product of \autoref{thm:phase-real-completion-exit-status-token-product}. It identifies the accepted status read as the product of the dyadic, stream, regular-rational, real, and exact-boundary local records, with no aggregate formalstatus row or bridge row.
+
+Next apply the local status gate of \autoref{thm:phase-real-completion-exit-local-status-gate} and the audit-clean threshold of \autoref{thm:phase-real-completion-exit-audit-clean-threshold}. These results force the local audit to read the four roadmap faces and the same-route exact-boundary face through separate local status rows before the packet can meet the audit threshold.
+
+For the reverse direction, suppose those five local status rows are displayed with the support rows $H,C,P,N$. Apply the scoped audit threshold of \autoref{thm:phase-real-completion-exit-scoped-audit-threshold} to admit the five-face packet audit, then project the roadmap side through \autoref{thm:phase-real-completion-exit-four-object-threshold-projection}.
+
+Finally use the noncollapse boundary of \autoref{thm:phase-real-completion-exit-noncollapse-boundary}. Since aggregate formalstatus rows, bridge tokens, quotient streams, selected limits, host-completeness rows, and fused completion witnesses have no carrier coordinate, they cannot discharge or replace any of the five local audit faces.
+\end{proof}
+
 \begin{theorem}[Phase real-completion exit public gate certificate]
 \label{thm:phase-real-completion-exit-public-gate-certificate}
 An accepted $\PhaseRealCompletionExitUp$ packet is the public paper-side gate certificate for the current Phase Real and Completion criterion exactly when the four roadmap faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ satisfy their local scoped-closure records and their local audit-clean records. The $\RealCompletionExactBoundaryUp$ face is used only as the same-route exact-boundary witness over those four records. The certificate exports no aggregate formalstatus row, aggregate bridge token, quotient stream, selected limit, host completeness row, metric-completeness row, countable-choice row, or fused completion witness.
