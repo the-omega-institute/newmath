@@ -623,4 +623,52 @@ theorem BooleanAlgebraStoneSourceLatticeForwardConsumer [AskSetup] [PackageSetup
     ⟨sourceDet.left, forward.left, sourceDet.right.left, sourceDet.right.right.left,
       sourceDet.right.right.right⟩
 
+theorem BooleanAlgebraStoneHandoffForwardConsumer [AskSetup] [PackageSetup]
+    {join meet compl zero one order transport replay provenance localName stoneRead
+      handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BooleanAlgebraCarrier join meet compl zero one order transport replay provenance localName
+        bundle pkg →
+      Cont order localName stoneRead →
+        Cont stoneRead provenance handoffRead →
+          PkgSig bundle provenance pkg →
+            PkgSig bundle stoneRead pkg →
+              PkgSig bundle handoffRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row handoffRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row join ∨ hsame row meet ∨ hsame row compl ∨ hsame row zero ∨
+                        hsame row one ∨ hsame row order ∨ hsame row stoneRead ∨
+                          hsame row handoffRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont order localName stoneRead ∧
+                        Cont stoneRead provenance handoffRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle handoffRead pkg)
+                    hsame ∧
+                  SemanticNameCert
+                      (fun row : BHist => hsame row stoneRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row join ∨ hsame row meet ∨ hsame row compl ∨ hsame row zero ∨
+                          hsame row one ∨ hsame row order ∨ hsame row stoneRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont order localName stoneRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle stoneRead pkg)
+                      hsame ∧
+                    UnaryHistory stoneRead ∧ UnaryHistory handoffRead := by
+  intro carrierRows stoneRoute handoffRoute provenancePkg stonePkg handoffPkg
+  have handoff :=
+    BooleanAlgebraCarrier_stone_duality_handoff
+      (join := join) (meet := meet) (compl := compl) (zero := zero) (one := one)
+      (order := order) (transport := transport) (replay := replay)
+      (provenance := provenance) (localName := localName) (stoneRead := stoneRead)
+      (handoffRead := handoffRead) (bundle := bundle) (pkg := pkg) carrierRows
+      stoneRoute handoffRoute provenancePkg handoffPkg
+  have forward :=
+    BooleanAlgebraCarrier_stone_duality_forward_route
+      (join := join) (meet := meet) (compl := compl) (zero := zero) (one := one)
+      (order := order) (transport := transport) (replay := replay)
+      (provenance := provenance) (localName := localName) (stoneRead := stoneRead)
+      (bundle := bundle) (pkg := pkg) carrierRows stoneRoute provenancePkg stonePkg
+  exact ⟨handoff.left, forward.left, handoff.right.left, handoff.right.right⟩
+
 end BEDC.Derived.BooleanalgebraUp
