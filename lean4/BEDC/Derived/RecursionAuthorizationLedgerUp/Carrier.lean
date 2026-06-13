@@ -228,4 +228,42 @@ theorem RecursionAuthorizationLedgerCarrier_consumer_nonescape [AskSetup] [Packa
       provenancePkg,
       consumerPkg⟩
 
+theorem RecursionAuthorizationLedgerCarrier_finite_induction_scope [AskSetup] [PackageSetup]
+    {signature recursor motive branches descent output transport routes provenance name
+      branchSeed branchStep outputRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RecursionAuthorizationLedgerCarrier signature recursor motive branches descent output
+        transport routes provenance name bundle pkg →
+      Cont BHist.Empty branches branchSeed →
+        Cont branchSeed (BHist.e1 BHist.Empty) branchStep →
+          Cont branchStep output outputRead →
+            PkgSig bundle outputRead pkg →
+              UnaryHistory branchSeed ∧ UnaryHistory branchStep ∧
+                UnaryHistory outputRead ∧ Cont BHist.Empty branches branchSeed ∧
+                  Cont branchSeed (BHist.e1 BHist.Empty) branchStep ∧
+                    Cont branchStep output outputRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle outputRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier branchSeedRoute branchStepRoute outputReadRoute outputReadPkg
+  obtain ⟨_signatureUnary, _recursorUnary, _motiveUnary, branchesUnary, _descentUnary,
+    outputUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _signatureRecursorMotive, _branchesDescentOutput, _outputTransportRoutes,
+    _transportRoutesProvenance, provenancePkg, _namePkg, _semanticCert⟩ :=
+    carrier
+  have branchSeedUnary : UnaryHistory branchSeed :=
+    unary_cont_closed unary_empty branchesUnary branchSeedRoute
+  have branchStepUnary : UnaryHistory branchStep :=
+    unary_cont_closed branchSeedUnary (unary_e1_closed unary_empty) branchStepRoute
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed branchStepUnary outputUnary outputReadRoute
+  exact
+    ⟨branchSeedUnary,
+      branchStepUnary,
+      outputReadUnary,
+      branchSeedRoute,
+      branchStepRoute,
+      outputReadRoute,
+      provenancePkg,
+      outputReadPkg⟩
+
 end BEDC.Derived.RecursionAuthorizationLedgerUp
