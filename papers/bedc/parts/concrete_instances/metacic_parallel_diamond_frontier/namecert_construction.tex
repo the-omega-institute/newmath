@@ -676,6 +676,18 @@ Use the typed-window local-join scope of \autoref{thm:metacic-parallel-diamond-f
 Finally apply the candidate-mediated strong-normalization socket and normalization-frontier handoff, \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket} and \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. They pass the same finite readback forward as a conditional socket, so the route cannot be retyped as any of the refused normalization, confluence, typing, equality, quotient, or kernel endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond closed-substitution window scope]
+\label{thm:metacic-parallel-diamond-frontier-closed-substitution-window-scope}
+Every candidate-mediated diamond read of an accepted $\MetaCICParallelDiamondFrontierUp$ carrier $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ that exposes the rows $P,K,J,R,S,C,B,O,H,T,G,N$ must keep the closed-substitution window visible before the closed checker seal and normalization-confluence handoff are consumed. The read therefore remains a finite frontier route through the displayed residual-substitution premise, typed candidate window, closed checker, local join ledger, obstruction row, transport, replay, provenance, and local naming rows. It cannot be reread as premise-free subject reduction or as closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Project the carrier and begin with the premise-retention route of \autoref{thm:metacic-parallel-diamond-frontier-premise-preservation}. The residual-substitution premise row $P$ remains visible whenever the candidate rows $K,J,R,S,C,B,O$ are exposed.
+
+Apply the typed-window candidate SN route of \autoref{thm:metacic-parallel-diamond-frontier-typed-window-candidate-sn-route}. It sends every strong-normalization-facing read through the typed window and candidate-mediated socket before the normalization-frontier handoff is available.
+
+Finally use the critical-path retained-premise handoff of \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff}. The structural rows $H,T,G,N$ transport, replay, source, and name the same retained-premise packet, so the closed checker seal and normalization-confluence handoff cannot erase the closed-substitution window. Hence the route is not a premise-free subject-reduction theorem and not closed Church--Rosser.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond finite candidate SN extension]
 \label{thm:metacic-parallel-diamond-frontier-finite-candidate-sn-extension}
 Let $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ be an accepted $\MetaCICParallelDiamondFrontierUp$ carrier. If a finite local peak is routed through the displayed candidate row $J$, residual row $R$, typed window $S$, and boundary rows $C,B,O$, then the only strong-normalization-facing read is the candidate-mediated socket already named by \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket}. The route cannot be retyped as global strong normalization, full confluence, quotient equality of terms, or a kernel endpoint.
