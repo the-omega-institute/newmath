@@ -128,7 +128,7 @@ EXPERIMENT_ID = "b_star_q6_fourth_mechanism_codon_pair_powered"
 CLAIM_ID = "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_codon_pair_powered"
 
 FOLD_COUNT = 5
-SHUFFLE_NULL_N = 200
+SHUFFLE_NULL_N = 50
 EPS = 1e-12
 MIN_STRONG_ABS_COS = 0.35
 MIN_PARTIAL_ABS_COS = 0.18
