@@ -126,11 +126,67 @@ def _status_bool(status: Any, expected: str = "pass") -> bool:
     return isinstance(status, str) and status == expected
 
 
-def _comparison_rows(base_audit: Any, step_ladder: Any) -> list[dict[str, Any]]:
+def _input_accessibility_row_pointer(row: Mapping[str, Any]) -> str:
+    return f"{INPUT_ACCESSIBILITY_ARTIFACT}#row_id={row['row_id']}"
+
+
+def _baseline_input_accessibility(input_accessibility: Any) -> dict[str, Any]:
+    if not isinstance(input_accessibility, Mapping):
+        return {"status": "missing", "failures": ["input-accessibility-owner-missing"]}
+    rows = input_accessibility.get("rows")
+    if not isinstance(rows, list):
+        return {"status": "missing", "failures": ["input-accessibility-owner-rows-missing"]}
+    matches = [
+        row
+        for row in rows
+        if isinstance(row, Mapping)
+        and row.get("experiment") == "dgt_l1_tiny_sequence"
+        and row.get("split") == "in_distribution"
+        and row.get("arm") == "information_starved_l1_baseline"
+        and row.get("role") == "fairness-control"
+    ]
+    if len(matches) != 1:
+        return {
+            "status": "fail",
+            "failures": ["baseline-input-accessibility-row-not-unique"],
+            "row_count": len(matches),
+        }
+    row = matches[0]
+    pointer = _input_accessibility_row_pointer(row)
+    consumers = input_accessibility.get("consumer_pointers")
+    information_refs = consumers.get("information_starved_arms_ref") if isinstance(consumers, Mapping) else None
+    extraction_pass = (
+        row.get("feature_extraction", {}).get("status") == "pass"
+        and row.get("label_extraction", {}).get("status") == "pass"
+    )
+    failures: list[str] = []
+    if not extraction_pass:
+        failures.append("baseline-input-accessibility-extraction-failed")
+    pointer_alignment = isinstance(information_refs, list) and ((pointer in information_refs) == bool(row.get("information_starved")))
+    if not pointer_alignment:
+        failures.append("baseline-input-accessibility-consumer-pointer-mismatch")
+    return {
+        "status": "pass" if not failures else "fail",
+        "row_id": row.get("row_id"),
+        "row_pointer": pointer,
+        "visible_variables": list(row.get("visible_variables", [])),
+        "required_variables": list(row.get("required_variables", [])),
+        "missing_variables": list(row.get("missing_variables", [])),
+        "information_starved": bool(row.get("information_starved")),
+        "coverage_status": row.get("coverage_status"),
+        "supports_architecture_claim": row.get("supports_architecture_claim"),
+        "feature_extraction_status": row.get("feature_extraction", {}).get("status"),
+        "label_extraction_status": row.get("label_extraction", {}).get("status"),
+        "consumer_pointer_aligned": pointer_alignment,
+        "failures": failures,
+    }
+
+
+def _comparison_rows(base_audit: Any) -> list[dict[str, Any]]:
     audit_rows = _dig(base_audit, ("comparison_rows",), [])
     rows: list[dict[str, Any]] = []
     if isinstance(audit_rows, list):
-        for row in audit_rows:
+        for index, row in enumerate(audit_rows):
             if not isinstance(row, Mapping):
                 continue
             rows.append(
@@ -138,6 +194,7 @@ def _comparison_rows(base_audit: Any, step_ladder: Any) -> list[dict[str, Any]]:
                     "comparison_id": str(row.get("comparison_id", "")).replace("_", "-"),
                     "status": row.get("status", "missing"),
                     "source_pointer": row.get("source_pointer"),
+                    "owner_row_pointer": f"{BASE_AUDIT_POINTER}.comparison_rows[{index}]",
                     "match_axis": row.get("match_axis"),
                     "decision": row.get("decision"),
                 }
@@ -148,7 +205,8 @@ def _comparison_rows(base_audit: Any, step_ladder: Any) -> list[dict[str, Any]]:
             {
                 "comparison_id": "equal-step",
                 "status": "missing",
-                "source_pointer": L1_STEP_LADDER_POINTER,
+                "source_pointer": BASE_AUDIT_POINTER,
+                "owner_row_pointer": BASE_AUDIT_POINTER,
                 "match_axis": "training_steps",
                 "decision": "required-evidence-missing",
             }
@@ -158,7 +216,8 @@ def _comparison_rows(base_audit: Any, step_ladder: Any) -> list[dict[str, Any]]:
             {
                 "comparison_id": "equal-compute",
                 "status": "missing",
-                "source_pointer": L1_STEP_LADDER_POINTER,
+                "source_pointer": BASE_AUDIT_POINTER,
+                "owner_row_pointer": BASE_AUDIT_POINTER,
                 "match_axis": "compute_units",
                 "decision": "required-evidence-missing",
             }
@@ -168,39 +227,28 @@ def _comparison_rows(base_audit: Any, step_ladder: Any) -> list[dict[str, Any]]:
             {
                 "comparison_id": "equal-loss-decrease",
                 "status": "missing",
-                "source_pointer": L1_STEP_LADDER_POINTER,
+                "source_pointer": BASE_AUDIT_POINTER,
+                "owner_row_pointer": BASE_AUDIT_POINTER,
                 "match_axis": "loss_decrease",
                 "decision": "required-evidence-missing",
             }
         )
-    validation_source = _validation_loss_source(step_ladder)
-    rows.append(
-        {
-            "comparison_id": "equal-validation-loss",
-            "status": "resolved" if validation_source is not None else "missing",
-            "source_pointer": validation_source or L1_STEP_LADDER_POINTER,
-            "match_axis": "validation_loss",
-            "decision": "validation-loss-cell-present" if validation_source is not None else "validation-loss-cell-missing",
-        }
-    )
+    if "equal-validation-loss" not in rows_by_id:
+        rows.append(
+            {
+                "comparison_id": "equal-validation-loss",
+                "status": "missing",
+                "source_pointer": BASE_AUDIT_POINTER,
+                "owner_row_pointer": BASE_AUDIT_POINTER,
+                "match_axis": "validation_loss",
+                "decision": "required-evidence-missing",
+            }
+        )
     ordered: list[dict[str, Any]] = []
     by_id = {str(row["comparison_id"]): row for row in rows}
     for comparison_id in REQUIRED_COMPARISONS:
         ordered.append(dict(by_id[comparison_id]))
     return ordered
-
-
-def _validation_loss_source(step_ladder: Any) -> str | None:
-    if not isinstance(step_ladder, Mapping):
-        return None
-    step_rows = step_ladder.get("step_rows")
-    if not isinstance(step_rows, list):
-        return None
-    for index, row in enumerate(step_rows):
-        metrics = row.get("metrics") if isinstance(row, Mapping) else None
-        if isinstance(metrics, Mapping) and "validation_loss_mean" in metrics:
-            return f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_step_ladder.step_rows[{index}].metrics.validation_loss_mean"
-    return None
 
 
 def _hardgate_row(gate_id: str, passed: bool, criterion: str, source_pointer: str, reason: str | None = None) -> dict[str, Any]:
@@ -227,10 +275,13 @@ def _fair_hardgates(
 
     resolved_inputs = all(cell.status == "resolved" for cell in source_cells.values())
     comparison_ok = all(row.get("status") == "resolved" for row in comparison_rows)
+    baseline_access = _baseline_input_accessibility(input_accessibility)
     construct_ok = (
         _status_bool(_dig(l1_construct, ("status",)))
         and _dig(base_audit, ("construct_validity", "status")) != "construct-boundary"
-        and _dig(input_accessibility, ("consumer_pointers", "information_starved_arms_ref"), []) == []
+        and baseline_access.get("status") == "pass"
+        and baseline_access.get("information_starved") is False
+        and baseline_access.get("missing_variables") == []
     )
     review_pass = _status_bool(_dig(l1_projection, ("status",))) and _status_bool(_dig(l1_projection, ("review_status",)))
     ladder_ok = _status_bool(_dig(l1_ladder, ("status",))) and _dig(l1_ladder, ("verdict",)) == "information-starved-catches-up"
@@ -238,7 +289,7 @@ def _fair_hardgates(
     base_not_starved = _dig(base_audit, ("construct_validity", "baseline_input_order")) == _dig(
         base_audit,
         ("construct_validity", "label_dependency_order"),
-    )
+    ) and baseline_access.get("information_starved") is False
     gates = [
         _hardgate_row(
             "FAIR-L1-HG1",
@@ -366,7 +417,7 @@ def build_payload(*, root: Path | None = None, generated_at: str = GENERATED_AT)
         "base_audit": _resolve_cell(active_root, BASE_AUDIT_POINTER),
         "input_accessibility": _resolve_cell(active_root, INPUT_ACCESSIBILITY_POINTER),
     }
-    comparison_rows = _comparison_rows(source_cells["base_audit"].value, source_cells["l1_step_ladder"].value)
+    comparison_rows = _comparison_rows(source_cells["base_audit"].value)
     gates = _fair_hardgates(source_cells=source_cells, comparison_rows=comparison_rows)
     decision = _decision_payload(gates=gates, comparison_rows=comparison_rows)
     status = decision["status"]
@@ -390,7 +441,7 @@ def build_payload(*, root: Path | None = None, generated_at: str = GENERATED_AT)
         "fair_alignment": {
             "comparison_ids": list(REQUIRED_COMPARISONS),
             "comparison_rows": list(comparison_rows),
-            "source_pointer": L1_STEP_LADDER_POINTER,
+            "source_pointer": BASE_AUDIT_POINTER,
         },
         "construct_validity_projection": {
             "l1_construct_validity_pointer": L1_CONSTRUCT_VALIDITY_POINTER,

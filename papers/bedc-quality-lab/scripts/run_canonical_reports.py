@@ -82,6 +82,13 @@ from bedc_quality_lab.reproducibility import (
     CanonicalReproducibilityContract,
     contract_from_payload,
 )
+from bedc_quality_lab.status_taxonomy import (
+    STATUS_AXIS_DOMAINS,
+    render_status_cell,
+    status_cell,
+    validate_status_cell,
+    validate_status_cells,
+)
 from bedc_quality_lab.high_impact_review import (
     ARTIFACT_ID as HIGH_IMPACT_REVIEW_ARTIFACT_ID,
     JSON_ARTIFACT as HIGH_IMPACT_REVIEW_JSON_ARTIFACT,
@@ -557,6 +564,11 @@ class CanonicalReportSpec:
     negative_witness_pointer: str | None = None
     formal_status_pointer: str | None = None
     construct_validity_pointer: str | None = None
+    scientific_claim_status_pointer: str | None = None
+    hardgate_status_pointer: str | None = None
+    hardgate_scope: str = "not-applicable"
+    ladder_state_pointer: str | None = None
+    decision_status_pointer: str | None = None
     forbidden_claim_terms: tuple[str, ...] = FORBIDDEN_POSITIVE_CLAIM_TERMS
     literature_ref_ids: tuple[str, ...] = ()
     reproducibility_mode: Literal["exact_fixture", "true_training"] = "exact_fixture"
@@ -1666,6 +1678,11 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         negative_witness_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.boundary_ledger",
         formal_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection.state",
         construct_validity_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.construct_validity_projection",
+        scientific_claim_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
+        hardgate_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.hardgate_status",
+        hardgate_scope="owner-scientific",
+        ladder_state_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection.state",
+        decision_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
     ),
     CanonicalReportSpec(
         name="discovery-gated-transformer",
@@ -7030,7 +7047,7 @@ def _validate_reproduction_blocked_reason(
             gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
             if not isinstance(evidence_value, Mapping) or (
                 evidence_value.get("comparison_id") != "equal-validation-loss"
-                or evidence_value.get("decision") != "validation-loss-cell-missing"
+                or evidence_value.get("decision") != "validation-loss-owner-cell-missing"
                 or evidence_value.get("status") != "missing"
             ):
                 errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "fair-l1 evidence row does not match equal-validation-loss"))
@@ -7144,7 +7161,7 @@ def _construct_validity_result(spec: CanonicalReportSpec) -> dict[str, Any] | No
     }
 
 
-def _result_status_from_validation(
+def _report_build_value_from_validation(
     validation: Mapping[str, Any],
     discipline: Mapping[str, Any],
     construct_validity: Mapping[str, Any] | None,
@@ -7157,16 +7174,124 @@ def _result_status_from_validation(
         validation["status"] == "fail"
         or discipline["forbidden_claim_terms_status"] == "fail"
         or discipline.get("reporting_hardgate", {}).get("status") == "fail"
-        or (construct_validity is not None and construct_validity["status"] != "pass")
+        or (construct_validity is not None and construct_validity["status"] == "missing")
     ):
         return "fail"
     return "pass"
+
+
+def _resolve_status_pointer(spec: CanonicalReportSpec, payload: Mapping[str, Any], pointer: str | None) -> Any:
+    if pointer is None:
+        return None
+    split = _split_artifact_pointer(pointer)
+    if split is not None:
+        return _resolve_committed_artifact_pointer(ROOT, pointer)
+    return _pointer_value(dict(payload), pointer)
+
+
+def _status_cells_for_spec(
+    spec: CanonicalReportSpec,
+    report_build_value: str,
+    *,
+    read_owner_status: bool = True,
+) -> dict[str, dict[str, Any]]:
+    payload = _load_report_payload(spec) if read_owner_status else {}
+    cells = {
+        "report_build_status": status_cell(
+            "report_build_status",
+            report_build_value,
+            source_pointer=f"{spec.json_artifact}:$",
+        ),
+        "scientific_claim_status": status_cell(
+            "scientific_claim_status",
+            _resolve_status_pointer(spec, payload, spec.scientific_claim_status_pointer) if read_owner_status else None,
+            source_pointer=spec.scientific_claim_status_pointer if read_owner_status else None,
+        ),
+        "hardgate_status": status_cell(
+            "hardgate_status",
+            _resolve_status_pointer(spec, payload, spec.hardgate_status_pointer) if read_owner_status else None,
+            source_pointer=spec.hardgate_status_pointer if read_owner_status else None,
+            hardgate_scope=spec.hardgate_scope if read_owner_status else "not-applicable",
+        ),
+        "ladder_state": status_cell(
+            "ladder_state",
+            _resolve_status_pointer(spec, payload, spec.ladder_state_pointer) if read_owner_status else None,
+            source_pointer=spec.ladder_state_pointer if read_owner_status else None,
+        ),
+        "decision_status": status_cell(
+            "decision_status",
+            _resolve_status_pointer(spec, payload, spec.decision_status_pointer) if read_owner_status else None,
+            source_pointer=spec.decision_status_pointer if read_owner_status else None,
+        ),
+    }
+    validation = validate_status_cells(cells)
+    for cell in cells.values():
+        cell["taxonomy_status"] = validate_status_cell(cell)["status"] if cell["axis"] in STATUS_AXIS_DOMAINS else "fail"
+    cells["taxonomy_validation"] = {
+        "axis": "status_taxonomy",
+        "value": validation["status"],
+        "render": validation["status"],
+        "blocks_report": validation["status"] != "pass",
+        "blocks_promotion": validation["status"] != "pass",
+        "source_pointer": None,
+        "errors": validation["errors"],
+    }
+    return cells
+
+
+def _status_taxonomy_block(cells: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    validation = validate_status_cells(
+        {
+            axis: cell
+            for axis, cell in cells.items()
+            if axis in STATUS_AXIS_DOMAINS and isinstance(cell, Mapping)
+        }
+    )
+    return {
+        "status": validation["status"],
+        "errors": validation["errors"],
+        "axes": sorted(STATUS_AXIS_DOMAINS),
+    }
+
+
+def _ensure_status_axes(report: Mapping[str, Any]) -> dict[str, Any]:
+    row = dict(report)
+    report_build_value = str(row.get("report_build_status", {}).get("value") if isinstance(row.get("report_build_status"), Mapping) else row.get("status", "pass"))
+    cells = {
+        axis: row.get(axis)
+        for axis in STATUS_AXIS_DOMAINS
+        if isinstance(row.get(axis), Mapping)
+    }
+    missing_axes = [axis for axis in STATUS_AXIS_DOMAINS if axis not in cells]
+    if missing_axes:
+        default_values = {
+            "report_build_status": report_build_value,
+            "scientific_claim_status": "not-applicable",
+            "hardgate_status": "not-applicable",
+            "ladder_state": "not-applicable",
+            "decision_status": "not-applicable",
+        }
+        for axis in missing_axes:
+            cells[axis] = status_cell(axis, default_values[axis], hardgate_scope="not-applicable" if axis == "hardgate_status" else None)
+    row.update(cells)
+    row["report_build_status"] = cells["report_build_status"]
+    row["status"] = row["report_build_status"]["value"]
+    row["status_taxonomy"] = _status_taxonomy_block(cells)
+    return row
 
 
 def _result_row_for_current_artifact(spec: CanonicalReportSpec, *, generated_at: str | None = None) -> dict[str, Any]:
     validation = _artifact_validation(spec)
     discipline = _discipline(spec)
     construct_validity = _construct_validity_result(spec)
+    report_build_value = _report_build_value_from_validation(validation, discipline, construct_validity)
+    read_owner_status = validation["status"] == "pass"
+    cells = _status_cells_for_spec(spec, report_build_value, read_owner_status=read_owner_status)
+    taxonomy = _status_taxonomy_block(cells)
+    if report_build_value == "pass" and taxonomy["status"] != "pass":
+        report_build_value = "fail"
+        cells = _status_cells_for_spec(spec, report_build_value, read_owner_status=read_owner_status)
+        taxonomy = _status_taxonomy_block(cells)
     result = {
         "name": spec.name,
         "producer_command": list(spec.command),
@@ -7174,7 +7299,13 @@ def _result_row_for_current_artifact(spec: CanonicalReportSpec, *, generated_at:
         "markdown_artifact": spec.markdown_artifact,
         "bundle_role": spec.bundle_role,
         "discipline": discipline,
-        "status": _result_status_from_validation(validation, discipline, construct_validity),
+        "report_build_status": cells["report_build_status"],
+        "scientific_claim_status": cells["scientific_claim_status"],
+        "hardgate_status": cells["hardgate_status"],
+        "ladder_state": cells["ladder_state"],
+        "decision_status": cells["decision_status"],
+        "status_taxonomy": taxonomy,
+        "status": report_build_value,
         "duration_seconds": 0.0,
         "estimated_seconds": spec.estimated_seconds,
         "producer_status": "completed",
@@ -7238,7 +7369,14 @@ def _run_spec(
     validation = _artifact_validation(spec)
     discipline = _discipline(spec)
     construct_validity = _construct_validity_result(spec)
-    status = _result_status_from_validation(validation, discipline, construct_validity, error=error)
+    report_build_value = _report_build_value_from_validation(validation, discipline, construct_validity, error=error)
+    read_owner_status = error is None and validation["status"] == "pass"
+    cells = _status_cells_for_spec(spec, report_build_value, read_owner_status=read_owner_status)
+    taxonomy = _status_taxonomy_block(cells)
+    if report_build_value == "pass" and taxonomy["status"] != "pass":
+        report_build_value = "fail"
+        cells = _status_cells_for_spec(spec, report_build_value, read_owner_status=read_owner_status)
+        taxonomy = _status_taxonomy_block(cells)
     result = {
         "name": spec.name,
         "producer_command": list(spec.command),
@@ -7246,7 +7384,13 @@ def _run_spec(
         "markdown_artifact": spec.markdown_artifact,
         "bundle_role": spec.bundle_role,
         "discipline": discipline,
-        "status": status,
+        "report_build_status": cells["report_build_status"],
+        "scientific_claim_status": cells["scientific_claim_status"],
+        "hardgate_status": cells["hardgate_status"],
+        "ladder_state": cells["ladder_state"],
+        "decision_status": cells["decision_status"],
+        "status_taxonomy": taxonomy,
+        "status": report_build_value,
         "duration_seconds": 0.0,
         "estimated_seconds": spec.estimated_seconds,
         "producer_status": producer_status if error is None else "error",
@@ -7279,25 +7423,44 @@ def _result_has_runner_failure(result: Mapping[str, Any]) -> bool:
             return True
     return False
 
+
+def _is_dgt_l0_cv_hg4_boundary_result(result: Mapping[str, Any]) -> bool:
+    if result.get("name") != "dgt-l0-controls":
+        return False
+    report_build = result.get("report_build_status")
+    if isinstance(report_build, Mapping) and report_build.get("value") != "pass":
+        return False
+    construct_validity = result.get("construct_validity")
+    if not isinstance(construct_validity, Mapping):
+        return False
+    return (
+        construct_validity.get("status") == "fail"
+        and construct_validity.get("failed_gates") == ["CV-HG4"]
+    )
+
+
 def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
     if _result_has_runner_failure(result):
         return True
-    if result.get("status") == "pass":
+    report_build = result.get("report_build_status")
+    report_build_value = report_build.get("value") if isinstance(report_build, Mapping) else result.get("status")
+    if report_build_value != "pass" and not _is_dgt_l0_cv_hg4_boundary_result(result):
+        return True
+    if result.get("producer_status") == "error":
+        return True
+    if result.get("fingerprint_status") == "miss":
+        return True
+    taxonomy = result.get("status_taxonomy")
+    if isinstance(taxonomy, Mapping) and taxonomy.get("status") != "pass":
+        return True
+    if _is_dgt_l0_cv_hg4_boundary_result(result):
         return False
-    if result.get("name") == "dgt-l0-controls":
-        construct_validity = result.get("construct_validity")
-        return not (
-            isinstance(construct_validity, Mapping)
-            and construct_validity.get("status") == "fail"
-            and construct_validity.get("failed_gates") == ["CV-HG4"]
-        )
-    if result.get("name") == "fair-l1-decision":
-        decision_status = _resolve_committed_artifact_pointer(
-            ROOT,
-            f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
-        )
-        return decision_status != "bounded-negative"
-    return True
+    cells = {
+        axis: result.get(axis)
+        for axis in STATUS_AXIS_DOMAINS
+        if isinstance(result.get(axis), Mapping)
+    }
+    return validate_status_cells(cells)["status"] != "pass"
 
 
 def _replace_result_rows(
@@ -7340,6 +7503,36 @@ def _refresh_final_index_dependent_fingerprints(
             _write_fingerprint_sidecar(spec, generated_at=generated_at)
 
 
+def _status_summary(reports: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    axes = {axis: {} for axis in STATUS_AXIS_DOMAINS}
+    per_report: list[dict[str, Any]] = []
+    for report in reports:
+        row: dict[str, Any] = {"name": report.get("name")}
+        for axis in STATUS_AXIS_DOMAINS:
+            cell = report.get(axis)
+            value = cell.get("value") if isinstance(cell, Mapping) else "not-applicable"
+            axes[axis][value] = axes[axis].get(value, 0) + 1
+            row[axis] = cell
+        per_report.append(row)
+    return {
+        "axes": axes,
+        "reports": per_report,
+    }
+
+
+def _render_status_summary(summary: Mapping[str, Any]) -> str:
+    axes = summary.get("axes", {})
+    lines = ["Canonical status summary:"]
+    for axis in ("report_build_status", "scientific_claim_status", "ladder_state"):
+        counts = axes.get(axis, {}) if isinstance(axes, Mapping) else {}
+        if isinstance(counts, Mapping):
+            rendered_counts = ", ".join(f"{key}={value}" for key, value in sorted(counts.items()))
+        else:
+            rendered_counts = ""
+        lines.append(f"- {axis}: {rendered_counts}")
+    return "\n".join(lines)
+
+
 def _index(
     results: Sequence[dict[str, Any]],
     *,
@@ -7349,7 +7542,7 @@ def _index(
     discovery_gated_transformer_payload: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     del canonical_reports
-    reports = list(results)
+    reports = [_ensure_status_axes(report) for report in results]
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     discovery_map_payload = _discovery_map_payload(generated_at=timestamp)
     if not _artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT).exists():
@@ -7363,6 +7556,7 @@ def _index(
         "generated_at": timestamp,
         "root": INDEX_ROOT,
         "reports": reports,
+        "status_summary": _status_summary(reports),
         "dashboard": _dashboard_index_section(),
         "quality_scorecard": _quality_scorecard_index_section(),
         "discovery_map": {
@@ -7438,11 +7632,12 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             [
                 f"## {title}",
                 "",
-                "| report | status | hardgate | CV | claim promotion eligible | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
-                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+                "| report | report build | claim | hardgate | ladder | decision | CV | claim promotion eligible | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
             ]
         )
         for report in reports:
+            report = _ensure_status_axes(report)
             discipline = report["discipline"]
             hardgate = discipline.get("reporting_hardgate")
             if not isinstance(hardgate, Mapping):
@@ -7457,8 +7652,11 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             lines.append(
                 "| "
                 f"`{report['name']}` | "
-                f"`{report['status']}` | "
-                f"`{hardgate['status']}` | "
+                f"`{render_status_cell(report['report_build_status'])}` | "
+                f"`{render_status_cell(report['scientific_claim_status'])}` | "
+                f"`{render_status_cell(report['hardgate_status'])}` | "
+                f"`{render_status_cell(report['ladder_state'])}` | "
+                f"`{render_status_cell(report['decision_status'])}` | "
                 f"`{cv_status}` | "
                 f"`{discipline['claim_promotion_eligible']}` | "
                 f"`{missing_cells}` | "
@@ -8045,6 +8243,8 @@ def _run_scaling_ladder_report_only(
     dgt_payload = _load_artifact_payload(DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT)
     if dgt_payload:
         payload["discovery-gated-transformer"] = _discovery_gated_transformer_index_section(dgt_payload)
+    payload["reports"] = [_ensure_status_axes(report) for report in payload["reports"]]
+    payload["status_summary"] = _status_summary(payload["reports"])
     payload["paper_outline"] = _paper_outline(payload["reports"])
     payload["claims_nonclaims"] = _claims_nonclaims(payload["reports"])
     _write_json_atomic(INDEX_ARTIFACT, payload)
@@ -8172,9 +8372,10 @@ def run_reports(
             "schema_id": INDEX_SCHEMA_ID,
             "generated_at": timestamp,
             "root": INDEX_ROOT,
-            "reports": [result],
+            "reports": [_ensure_status_axes(result)],
             "structural_generalization_splits": _structural_generalization_splits_index_section(),
         }
+        payload["status_summary"] = _status_summary(payload["reports"])
         if json_summary is not None:
             _write_json_atomic(Path(json_summary), payload)
         if result["status"] != "pass":
@@ -8545,13 +8746,16 @@ def main(argv: Sequence[str] | None = None) -> None:
     if args.list:
         _list_manifest()
         return
-    run_reports(
+    payload = run_reports(
         only=args.only,
         json_summary=args.json_summary,
         force=args.force,
         cold=args.cold,
         verify_fingerprints=args.verify_fingerprints,
     )
+    summary = payload.get("status_summary") if isinstance(payload, Mapping) else None
+    if isinstance(summary, Mapping):
+        print(_render_status_summary(summary))
 
 
 if __name__ == "__main__":

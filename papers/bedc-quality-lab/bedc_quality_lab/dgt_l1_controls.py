@@ -117,6 +117,7 @@ OWNER_REQUIRED_METRICS = (
 L1_MEASURABLE_METRICS = (
     "accuracy_mean",
     "ood_accuracy_mean",
+    "validation_loss_mean",
     "loss_decrease_mean",
     "UER_mean",
     "parameter_l2_delta_mean",
@@ -747,6 +748,7 @@ def _train_arm(
     with torch.no_grad():
         eval_logits = model(x_eval)
         ood_logits = model(x_ood)
+        validation_loss = float(torch.nn.functional.cross_entropy(eval_logits, y_eval).detach().cpu())
         probabilities = torch.softmax(eval_logits, dim=1)
         preds = torch.argmax(eval_logits, dim=1)
         ood_preds = torch.argmax(ood_logits, dim=1)
@@ -784,6 +786,7 @@ def _train_arm(
         "accuracy": round(accuracy, 6),
         "ood_accuracy": round(ood_accuracy, 6),
         "chance_accuracy": round(chance, 6),
+        "validation_loss": round(validation_loss, 8),
         "loss_start": round(loss_history[0], 8),
         "loss_end": round(loss_history[-1], 8),
         "loss_decrease": round(loss_history[0] - loss_history[-1], 8),
@@ -923,6 +926,10 @@ def _owner_required_metric_absent(metrics: Mapping[str, Any]) -> bool:
     return all(metric not in metrics and f"{metric}_mean" not in metrics for metric in OWNER_REQUIRED_METRICS)
 
 
+def _positive_finite(value: Any) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(float(value)) and float(value) > 0.0
+
+
 def _owner_pointer_resolves(payload: Mapping[str, Any], pointer: str) -> bool:
     prefix = f"{CANONICAL_JSON_ARTIFACT}:"
     if not isinstance(pointer, str) or not pointer.startswith(prefix):
@@ -959,6 +966,8 @@ def _arm_summaries(
                 "ood_accuracy_mean": _mean(rows, "ood_accuracy"),
                 "ood_accuracy_ci95_low": _ci95_low(rows, "ood_accuracy"),
                 "chance_accuracy": _mean(rows, "chance_accuracy"),
+                "validation_loss_mean": _mean(rows, "validation_loss"),
+                "validation_loss_ci95_low": _ci95_low(rows, "validation_loss"),
                 "loss_decrease_mean": _mean(rows, "loss_decrease"),
                 "UER_mean": _mean(rows, "UER"),
                 "parameter_l2_delta_mean": _mean(rows, "parameter_l2_delta"),
@@ -1070,6 +1079,11 @@ def build_l1_step_ladder(records: Sequence[Mapping[str, Any]], config: L1Trainin
             "parameter_matched_attention_ood_accuracy_mean": float(matched.get("ood_accuracy_mean", 0.0)),
             "parameter_matched_ood_accuracy_mean": float(param.get("ood_accuracy_mean", 0.0)),
             "compute_matched_ood_accuracy_mean": float(compute.get("ood_accuracy_mean", 0.0)),
+            "dgt_validation_loss_mean": float(dgt.get("validation_loss_mean", 0.0)),
+            "information_starved_validation_loss_mean": float(baseline.get("validation_loss_mean", 0.0)),
+            "matched_random_validation_loss_mean": float(matched.get("validation_loss_mean", 0.0)),
+            "parameter_matched_validation_loss_mean": float(param.get("validation_loss_mean", 0.0)),
+            "compute_matched_validation_loss_mean": float(compute.get("validation_loss_mean", 0.0)),
             "dgt_loss_decrease_mean": float(dgt.get("loss_decrease_mean", 0.0)),
             "input_ablation_loss_decrease_mean": float(baseline.get("loss_decrease_mean", 0.0)),
             "parameter_matched_attention_loss_decrease_mean": float(matched.get("loss_decrease_mean", 0.0)),
@@ -2182,6 +2196,7 @@ def _arm_seed_complete(arms: Mapping[str, Any], seed_count: int = 16) -> bool:
             and row.get("device_resolved") == "cpu"
             and int(row.get("training_steps", 0)) > 0
             and float(row.get("metrics", {}).get("loss_decrease_mean", 0.0)) > 0.0
+            and _positive_finite(row.get("metrics", {}).get("validation_loss_mean"))
             and float(row.get("metrics", {}).get("parameter_l2_delta_mean", 0.0)) > 0.0
             for row in arms.values()
         )
@@ -2408,6 +2423,7 @@ def _gate_l1step_hg2(per_step: Sequence[Any]) -> dict[str, Any]:
             and int(row.get("training_steps", 0)) == int(step.get("training_steps", 0))
             and float(row.get("metrics", {}).get("parameter_l2_delta_mean", 0.0)) > 0.0
             and float(row.get("metrics", {}).get("loss_decrease_mean", 0.0)) > 0.0
+            and _positive_finite(row.get("metrics", {}).get("validation_loss_mean"))
             for row in step.get("training_arms", {}).values()
         )
         for step in per_step
@@ -2792,6 +2808,10 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         for metric in L1_MEASURABLE_METRICS:
             if metric not in metrics:
                 raise ValueError(f"DGT L1 required metric missing: {arm_id}.{metric}")
+            if not isinstance(metrics[metric], (int, float)) or isinstance(metrics[metric], bool) or not math.isfinite(float(metrics[metric])):
+                raise ValueError(f"DGT L1 required metric invalid: {arm_id}.{metric}")
+        if not _positive_finite(metrics["validation_loss_mean"]):
+            raise ValueError(f"DGT L1 validation_loss metric missing or nonpositive: {arm_id}")
         forbidden_metrics = [metric for metric in OWNER_REQUIRED_METRICS if metric in metrics or f"{metric}_mean" in metrics]
         if forbidden_metrics:
             raise ValueError(f"DGT L1 owner-required metric must not be reported locally: {arm_id}.{forbidden_metrics[0]}")

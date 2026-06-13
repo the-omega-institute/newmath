@@ -19,7 +19,7 @@
 - `equal-step`: `resolved` - `noninformative-dgt-separated`
 - `equal-compute`: `resolved` - `noninformative-dgt-separated`
 - `equal-loss-decrease`: `resolved` - `noninformative-dgt-separated`
-- `equal-validation-loss`: `missing` - `validation-loss-cell-missing`
+- `equal-validation-loss`: `missing` - `validation-loss-owner-cell-missing`
 
 ## Boundary Ledger
 
