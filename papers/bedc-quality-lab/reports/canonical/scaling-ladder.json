@@ -1,0 +1,125 @@
+{
+  "artifact_id": "bedc-quality-lab:scaling-ladder",
+  "boundary_ledger": [],
+  "consumer_pointers": {
+    "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+    "hardgates_pointer": "reports/canonical/scaling-ladder.json:$.hardgates",
+    "levels_pointer": "reports/canonical/scaling-ladder.json:$.levels"
+  },
+  "generated_at": "2026-06-12T22:50:28.746960+00:00",
+  "hardgates": {
+    "SL-HG1-evidence-provenance": {
+      "pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "status": "fail"
+    },
+    "SL-HG2-construct-validity": {
+      "pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+      "status": "fail"
+    },
+    "SL-HG3-owner-decision": {
+      "pointer": "reports/canonical/scaling-ladder.json:$.levels[*].owner_decision_pointer",
+      "status": "fail"
+    },
+    "SL-HG4-split-separation": {
+      "pointer": "reports/canonical/scaling-ladder.json:$.levels",
+      "status": "fail"
+    },
+    "SL-HG5-no-injected-opening": {
+      "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+      "status": "pass"
+    }
+  },
+  "levels": [
+    {
+      "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+      "construct_validity_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+      "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "level_id": "L0_toy",
+      "owner_contracts": {
+        "construct_validity": {
+          "required_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+          "resolution_status": "resolved"
+        },
+        "evidence_provenance": {
+          "required_pointer": "reports/canonical/index.json:$.evidence_provenance",
+          "resolution_status": "resolved"
+        },
+        "owner_decision": {
+          "required_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.owner_decision",
+          "resolution_status": "unresolved-pointer"
+        },
+        "separation": {
+          "required_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.separation",
+          "resolution_status": "unresolved-pointer"
+        },
+        "source_report": {
+          "required_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
+          "resolution_status": "resolved"
+        },
+        "split_winnability": {
+          "required_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection.split_winnability",
+          "resolution_status": "unresolved-pointer"
+        }
+      },
+      "owner_decision_pointer": "reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.owner_decision",
+      "reason": "unresolved-pointer",
+      "separation_pointer": "reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.separation",
+      "source_report_pointer": "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
+      "split_winnability_pointer": "reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.split_winnability",
+      "state": "closed"
+    },
+    {
+      "boundary_ledger_pointer": "reports/canonical/scaling-ladder.json:$.boundary_ledger",
+      "construct_validity_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+      "evidence_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance",
+      "level_id": "L1_tiny_sequence",
+      "owner_contracts": {
+        "construct_validity": {
+          "required_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+          "resolution_status": "resolved"
+        },
+        "evidence_provenance": {
+          "required_pointer": "reports/canonical/index.json:$.evidence_provenance",
+          "resolution_status": "resolved"
+        },
+        "owner_decision": {
+          "required_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.fair_decision",
+          "resolution_status": "unresolved-pointer"
+        },
+        "separation": {
+          "required_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.separation",
+          "resolution_status": "unresolved-pointer"
+        },
+        "source_report": {
+          "required_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+          "resolution_status": "resolved"
+        },
+        "split_winnability": {
+          "required_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.split_winnability",
+          "resolution_status": "unresolved-pointer"
+        }
+      },
+      "owner_decision_pointer": "reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.owner_decision",
+      "reason": "unresolved-pointer",
+      "separation_pointer": "reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.separation",
+      "source_report_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "split_winnability_pointer": "reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.split_winnability",
+      "state": "closed"
+    }
+  ],
+  "not_claimed": [
+    "Scaling-ladder decisions are bounded canonical owner rows.",
+    "No non-owner artifact is an opening authority.",
+    "No production, global superiority, or natural-language capability claim is made.",
+    "Missing upstream owner contracts fail closed rather than inheriting adjacent level decisions."
+  ],
+  "producer": "scripts/run_scaling_ladder.py",
+  "schema_id": "bedc-quality-lab:scaling-ladder",
+  "source_artifacts": {
+    "construct_validity": "reports/canonical/dgt-base-undertraining-audit.json",
+    "dgt": "reports/canonical/discovery-gated-transformer.json",
+    "index": "reports/canonical/index.json",
+    "l0_controls": "reports/canonical/dgt-l0-controls.json",
+    "l1_controls": "reports/canonical/dgt-l1-controls.json"
+  }
+}

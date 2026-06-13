@@ -14,6 +14,7 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     POSITIVE_DISCOVERY_GATES_PASS,
     SOURCE_INSUFFICIENT,
 )
+from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import (
     normalize_artifact_pointer,
     resolve_artifact_pointer,
@@ -271,7 +272,7 @@ def _gate_hg3(claim_id: str, verdict_rows: Sequence[Mapping[str, Any]]) -> Consi
     ready = verdict_row.get("scorecard_ready")
     if reason == POSITIVE_DISCOVERY_GATES_PASS and ready is not True:
         return _fail("CONS-HG3", "positive pass reason requires scorecard_ready true", _claim_verdict_pointer(verdict_index), expected="scorecard_ready true", actual=ready)
-    if reason in {SOURCE_INSUFFICIENT, MODEL_COMPARISON_NOT_READY, "scorecard-not-ready"} and ready is True:
+    if reason in {SOURCE_INSUFFICIENT, "scorecard-not-ready"} and ready is True:
         return _fail("CONS-HG3", "not-ready reason cannot pair with scorecard_ready true", _claim_verdict_pointer(verdict_index), expected="scorecard_ready false", actual=ready)
     return _pass("CONS-HG3", "reason taxonomy matches scorecard readiness", _claim_verdict_pointer(verdict_index))
 
@@ -375,7 +376,7 @@ def audit_claim_artifact_consistency(
     timestamp = generated_at if generated_at is not None else "reusable"
     resolver = PointerResolver(root)
     verdict_rows = _load_jsonl_rows(root, CLAIM_VERDICTS_ARTIFACT)
-    discovery_payload = _load_json_object(root, DISCOVERY_MAP_ARTIFACT)
+    discovery_payload = load_validated_discovery_map_payload(root, artifact=DISCOVERY_MAP_ARTIFACT)
     discovery_rows_value = discovery_payload.get("rows")
     discovery_rows = [row for row in discovery_rows_value if isinstance(row, Mapping)] if isinstance(discovery_rows_value, list) else []
     graph_payload = _load_json_object(root, CLAIM_GRAPH_ARTIFACT)

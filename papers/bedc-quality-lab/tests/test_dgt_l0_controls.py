@@ -1,5 +1,8 @@
 import json
 from copy import deepcopy
+import ast
+import inspect
+import textwrap
 
 import pytest
 
@@ -118,11 +121,23 @@ def test_dgt_l0_controls_true_training_payload_is_ready():
 
     assert payload["schema_id"] == "bedc-quality-lab:dgt-l0-controls"
     assert payload["artifact_id"] == "bedc-quality-lab:dgt-l0-controls"
-    assert payload["l0_toy_projection"]["review_status"] == "pass"
+    assert payload["l0_toy_projection"]["review_status"] == "scoped-boundary"
+    assert payload["honest_metric_review"]["status"] == "scoped-boundary"
+    assert payload["feature_audit"]["status"] == "pass"
+    assert payload["l0_toy_projection"]["ladder_consumption"]["status"] == "scoped-boundary"
     assert payload["l0_toy_projection"]["ref_pointers"] == CONTROL_POINTERS
+    assert payload["construct_validity_hardgates"]["status"] == "fail"
+    assert payload["construct_validity_hardgates"]["failed_gates"] == ["CV-HG4"]
+    assert payload["construct_validity_hardgates"]["gates"]["CV-HG4"]["status"] == "fail"
+    assert payload["construct_validity_hardgates"]["evidence"]["hand_feature_ledger"] == {
+        "mode": "candidate-only-ledger",
+        "shared_across_arms": False,
+        "features": ["target_signal", "surface_suite"],
+        "candidate_only_features": list(dgt_l0_controls.DGT_CANDIDATE_ONLY_FEATURES),
+    }
     assert payload["controls"]["base_transformer_control"]["loss_decrease"] > 0
     assert payload["controls"]["base_transformer_control"]["parameter_l2_delta"] > 0
-    assert payload["controls"]["matched_random_structural_control"]["classifier_shift_count"] == 0
+    assert payload["controls"]["matched_random_structural_control"]["classifier_shift_count"] is None
     assert payload["compute_param_ledger"]["compute_units"] > 0
     assert payload["compute_param_ledger"]["parameter_count"] > 0
     assert payload["negative_witness_sweep"]["critical_hit_count"] == 0
@@ -144,9 +159,13 @@ def test_dgt_l0_controls_owns_l0_review_status_and_pass_hardgates():
     projection = payload["l0_toy_projection"]
     pass_gates = projection["hardgate_statuses"]["pass"]["gates"]
 
-    assert projection["review_status"] == "pass"
+    assert projection["review_status"] == "scoped-boundary"
     assert tuple(pass_gates) == tuple(f"L0-PASS-HG{index}" for index in range(1, 7))
     assert all(row["status"] == "pass" for row in pass_gates.values())
+    assert projection["honest_metric_review_ref"] == {
+        "artifact": CANONICAL_JSON_ARTIFACT,
+        "pointer": "$.honest_metric_review",
+    }
     assert projection["evidence_refs"] == {
         key: CONTROL_POINTERS[key]
         for key in (
@@ -208,12 +227,41 @@ def test_dgt_l0_controls_unavailable_payload_validates_blocked(monkeypatch, fail
     assert projection["review_status"] == "blocked"
     assert projection["status"] == "fail"
     assert payload["compute_param_ledger"]["status"] == "fail"
+    assert payload["construct_validity_hardgates"]["status"] == "fail"
+    assert set(payload["construct_validity_hardgates"]["failed_gates"]) == {"CV-HG3", "CV-HG4", "CV-HG5"}
     assert projection["hardgate_statuses"]["ledger"]["gates"]["LEDGER-L0-HG1"]["status"] == "fail"
     assert projection["hardgate_statuses"]["L0"]["gates"]["L0-HG3"]["status"] == "fail"
     assert projection["hardgate_statuses"]["pass"]["status"] == "fail"
 
 
-def test_dgt_l0_controls_writes_run_local_cache_without_authority(tmp_path):
+def test_dgt_l0_controls_rejects_unavailable_construct_validity_stub_pass():
+    payload = dgt_l0_controls.unavailable_payload(
+        generated_at="fixture-time",
+        requested_device="cpu",
+        reason="torch unavailable",
+    )
+    payload["construct_validity_hardgates"] = dgt_l0_controls.construct_validity_projection(
+        dgt_l0_controls.ConstructValidityEvidence(
+            task_variables={"variables": ["x0"]},
+            label_variables={"variables": ["toy_binary_label"]},
+            arm_input_access={
+                "label_invisibility_certificate": True,
+                "arms": {"candidate": {"variables": ["x0"]}, "control": {"variables": ["x0"]}},
+            },
+            arm_roles={"candidate": "candidate", "controls": ["control"]},
+            finite_table={"coverage_status": "bounded-control", "support_count": 1, "rule_abstraction_claim": False},
+            hand_feature_ledger={"mode": "no-gate", "features": [], "candidate_only_features": []},
+            metric_source={"source_kind": "training-evaluation", "metric_keys": ["quality_q"]},
+        ),
+        artifact=dgt_l0_controls.CANONICAL_JSON_ARTIFACT,
+        pointer="$.construct_validity_hardgates",
+    )
+
+    with pytest.raises(ValueError, match="without training records"):
+        validate_payload(payload)
+
+
+def test_dgt_l0_controls_writes_run_local_artifacts_without_report_fingerprint_authority(tmp_path):
     payload = _payload()
     dgt_l0_controls.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")
 
@@ -223,13 +271,16 @@ def test_dgt_l0_controls_writes_run_local_cache_without_authority(tmp_path):
             encoding="utf-8"
         )
     )
-    fingerprint = json.loads((tmp_path / "reports/canonical/dgt-l0-controls.fingerprint.json").read_text(encoding="utf-8"))
 
-    assert canonical_payload["l0_toy_projection"]["review_status"] == "pass"
+    assert canonical_payload["l0_toy_projection"]["review_status"] == "scoped-boundary"
     assert claim_capsule["owner_artifact"] == CANONICAL_JSON_ARTIFACT
     assert claim_capsule["owner_pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection"
-    assert "run_local_cache" in fingerprint["inputs"]
-    assert "reports/runs/discovery-gated-transformer/l0-toy-controls/claim_capsule.json" in json.dumps(fingerprint)
+    assert claim_capsule["ladder_consumption"] == {
+        "status": "scoped-boundary",
+        "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l0_toy_projection.ladder_consumption",
+    }
+    assert claim_capsule["ladder_consumption"] != canonical_payload["l0_toy_projection"]["ladder_consumption"]
+    assert not (tmp_path / "reports/canonical/dgt-l0-controls.fingerprint.json").exists()
 
 
 def test_dgt_l0_controls_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
@@ -238,8 +289,8 @@ def test_dgt_l0_controls_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
     assert exit_code == 0
     summary = json.loads(capsys.readouterr().out)
     assert summary["artifact_id"] == dgt_l0_controls.ARTIFACT_ID
-    assert summary["status"] == "pass"
-    assert summary["review_status"] == "pass"
+    assert summary["status"] == "scoped-boundary"
+    assert summary["review_status"] == "scoped-boundary"
     assert summary["device"] == "cpu"
     assert summary["compute_units"] > 0
 
@@ -247,7 +298,6 @@ def test_dgt_l0_controls_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
     expected_artifacts = [
         dgt_l0_controls.CANONICAL_JSON_ARTIFACT,
         dgt_l0_controls.CANONICAL_MARKDOWN_ARTIFACT,
-        dgt_l0_controls.CANONICAL_FINGERPRINT_ARTIFACT,
         run_artifacts["summary"],
         run_artifacts["raw_metrics"],
         run_artifacts["claim_capsule"],
@@ -263,7 +313,7 @@ def test_dgt_l0_controls_cli_main_writes_cpu_artifact_layout(tmp_path, capsys):
         ("base", lambda payload: payload["controls"]["base_transformer_control"].update({"loss_decrease": 0.0}), "BASE-L0-HG4"),
         (
             "matched_random",
-            lambda payload: payload["controls"]["matched_random_structural_control"].update({"classifier_shift_count": 1}),
+            lambda payload: payload["honest_metric_review"].update({"boundary_rows": []}),
             "MR-L0-HG6",
         ),
         ("ledger", lambda payload: payload["compute_param_ledger"].update({"compute_units": 0}), "LEDGER-L0-HG4"),
@@ -314,3 +364,119 @@ def test_dgt_l0_controls_rejects_stale_projection_after_mutation():
 
     with pytest.raises(ValueError, match="hardgate evaluation|positive compute"):
         validate_payload(payload)
+
+
+def test_metric_signature_excludes_arm_spec():
+    signature = str(inspect.signature(dgt_l0_controls.L0HonestMetric.evaluate))
+    source = textwrap.dedent(inspect.getsource(dgt_l0_controls.L0HonestMetric.evaluate))
+    tree = ast.parse(source)
+    names = {node.id for node in ast.walk(tree) if isinstance(node, ast.Name)}
+    attributes = {node.attr for node in ast.walk(tree) if isinstance(node, ast.Attribute)}
+
+    for forbidden in ("L0ArmSpec", "arm_id", "feature_mode", "quality_bonus", "uer_penalty"):
+        assert forbidden not in signature
+        assert forbidden not in source
+        assert forbidden not in names
+        assert forbidden not in attributes
+
+
+def test_arm_label_permutation_invariance():
+    payload = _payload()
+    outcomes = [row["measured_outcome"] for row in payload["_raw_records"]]
+    permuted = []
+    label_map = {
+        "DGT_full": "candidate-renamed",
+        "base_transformer_l0": "base-renamed",
+        "matched_random_structural_control": "matched-renamed",
+    }
+    for row in outcomes:
+        copied = dict(row)
+        copied["arm_label"] = label_map.get(copied["arm_label"], copied["arm_label"])
+        permuted.append(copied)
+
+    original = dgt_l0_controls.L0HonestMetric().evaluate(outcomes, thresholds={})
+    relabeled = dgt_l0_controls.L0HonestMetric().evaluate(
+        permuted,
+        thresholds={
+            "arm_labels": [
+                "candidate-renamed",
+                "base-renamed",
+                "matched-renamed",
+                "parameter_matched_transformer",
+                "compute_matched_transformer",
+            ],
+            "candidate_label": "candidate-renamed",
+            "base_label": "base-renamed",
+            "matched_label": "matched-renamed",
+        },
+    )
+
+    assert original["quality_q"] == relabeled["quality_q"]
+    assert original["UER"] == relabeled["UER"]
+    assert original["uer_reduction"] == relabeled["uer_reduction"]
+    assert original["hardgate_rows"] == relabeled["hardgate_rows"]
+
+
+def test_feature_audit_demotes_dgt_only_target_signal():
+    audit = dgt_l0_controls._measured_feature_audit(
+        arm_label="DGT_full",
+        feature_columns=["x", "x0_times_x1", "x2_minus_x3", "abs(target_signal)"],
+        shared_feature_columns=["x", "x0_times_x1", "x2_minus_x3"],
+        declared_shared_across_controls=False,
+    )
+    outcome = dgt_l0_controls.MeasuredL0Outcome(
+        arm_label="DGT_full",
+        seed=1,
+        split_id="eval",
+        task_accuracy=1.0,
+        margin=0.5,
+        unlogged_error_count=0,
+        logged_false_alarm_count=0,
+        eval_count=10,
+        measured_feature_audit=audit,
+    )
+
+    review = dgt_l0_controls.L0HonestMetric().evaluate([outcome], thresholds={})
+
+    assert review["feature_audit"]["status"] == "fail"
+    assert "abs(target_signal)" in review["feature_audit"]["dgt_only_forbidden_hits"]
+    assert review["status"] == "blocked"
+
+
+def test_shared_declared_feature_requires_control_parity():
+    failed = dgt_l0_controls.evaluate_feature_declaration(
+        ["x", "target_signal"],
+        [["x"], ["x", "random_projection"]],
+    )
+    passed = dgt_l0_controls.evaluate_feature_declaration(
+        ["x", "target_signal"],
+        [["x", "target_signal"], ["x", "target_signal"]],
+    )
+
+    assert failed["status"] == "fail"
+    assert passed["status"] == "pass"
+
+
+def test_measured_owner_required_for_unmeasurable_cells():
+    payload = _payload()
+
+    assert payload["honest_metric_review"]["classifier_shift_count"] is None
+    assert any(row["status"] == "measured-owner-required" for row in payload["boundary_ledger"])
+    assert payload["honest_metric_review"]["hardgate_rows"]["L0-METRIC-HG5"]["status"] == "pass"
+
+
+def test_injected_prior_only_negative_boundary():
+    payload = _payload()
+    public = {key: value for key, value in payload.items() if key != "_raw_records"}
+    allowed = json.dumps(public["negative_evidence"], sort_keys=True)
+    forbidden_surfaces = json.dumps(
+        {
+            "honest_metric_review": public["honest_metric_review"],
+            "l0_toy_projection": public["l0_toy_projection"],
+            "ladder_consumption": public["ladder_consumption"],
+        },
+        sort_keys=True,
+    )
+
+    assert "prior_injected_metric_result" in allowed
+    assert "prior_injected_metric_result" not in forbidden_surfaces
