@@ -3599,6 +3599,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceNormalizationInterface
 import BEDC.Derived.CriticalLineWitnessUp.SourceRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.SourceSignatureGapReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceSignatureReadback
+import BEDC.Derived.CriticalLineWitnessUp.SourceWindowRHBoundary
 import BEDC.Derived.CriticalLineWitnessUp.StdbridgePremiseSurface
 import BEDC.Derived.CriticalLineWitnessUp.StreamNameSourceWindowLock
 import BEDC.Derived.CriticalLineWitnessUp.StripDepthReadbackTotality
@@ -3634,6 +3635,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroStripReadbackSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceClassifierLock
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZetaBoundaryNonescape
 import BEDC.Derived.CriticalLineWitnessUp.ZetaComparisonLedger
@@ -6330,6 +6332,7 @@ import BEDC.Derived.LowerUpperRealCutUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
+import BEDC.Derived.MachineInterfaceBoundaryUp.PaperBridgeCertificate
 import BEDC.Derived.MachineInterfaceBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceFormalizationTargetUp.RegistryConsistencyHandoff
 import BEDC.Derived.MachineInterfaceFormalizationTargetUp.TasteGate
@@ -9254,6 +9257,7 @@ import BEDC.Derived.SequentialCompletionUp.TasteGate
 import BEDC.Derived.SequentialContinuityUp.MetricRowStability
 import BEDC.Derived.SequentialContinuityUp.TasteGate
 import BEDC.Derived.SequentialRealCompactnessUp.TasteGate
+import BEDC.Derived.SequentialSpaceUp.TasteGate
 import BEDC.Derived.SequentialUniformCompletionUp.TasteGate
 import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyFilterBridge
 import BEDC.Derived.SequentiallyCompleteMetricUp.CauchySequenceObligation
