@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\NewtonCotesUp$}
+\label{ch:concrete-instances-newton-cotes-namecert}
+\origin{human}
+
+Following Newton--Cotes quadrature in classical numerical analysis, the $\NewtonCotesUp$ packet records a finite interpolation-node quadrature rule as BEDC NameCert data before any integration-facing consumer may read an approximate integral. It sits after the quadrature carrier of \autoref{ch:concrete-instances-quadrature-namecert}, the Darboux-sum surface of \autoref{ch:concrete-instances-darboux-sum-namecert}, the polynomial source of \autoref{ch:concrete-instances-polynomial-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite node-and-weight rule with a displayed error budget; it does not import host integration, measure theory, selected limits, quotient function equality, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Newton--Cotes carrier]
+\label{def:newton-cotes-carrier}
+A $\NewtonCotesUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(I,N,W,S,A,D,R,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval endpoint row, naming the displayed left and right endpoints and the orientation data used by the quadrature rule.
+\item $N$ is the finite node ledger. It records the node order, endpoint inclusion flags, and node positions inside the same interval row.
+\item $W$ is the rational weight ledger, assigning one rational weight to each displayed node and recording the finite denominator schedule.
+\item $S$ is the sample row, exposing the inspected function values only at the nodes listed by $N$.
+\item $A$ is the finite weighted-sum row that combines $S$ with $W$ before any regular-rational or Real-facing readback is opened.
+\item $D$ is the dyadic error-budget row, recording the tolerance request, mesh width, and finite remainder budget available to the rule.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the weighted-sum row and the dyadic budget.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $I,N,W,S,A,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for endpoint, node, weight, sample, weighted-sum, budget, handoff, seal, provenance, replay, and naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval request through nodes, weights, samples, weighted sum, dyadic budget, regular-rational handoff, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\NewtonCotesUp$, $\QuadratureUp$, $\DarbouxSumUp$, $\PolynomialUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\NewtonCotesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,N,W,S,A,D,R,E,H,C,P,L$. It has no coordinate for a host integral, measure-theoretic completion, an unbounded function space, quotient function equality, selected limiting partitions, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Newton--Cotes NameCert obligations]
+\label{thm:newton-cotes-namecert-obligations}
+For every accepted $\NewtonCotesUp$ carrier
+$$
+Q=(I,N,W,S,A,D,R,E,H,C,P,L),
+$$
+the local $\NameCert_{\NewtonCotesUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the endpoint, node, weight, sample, weighted-sum, dyadic-budget, RegSeqRat handoff, Real seal, transport, replay, provenance, and local naming rows;
+\item node-and-weight coverage, requiring $N$ and $W$ to list the same finite node positions and rational weights over the endpoint row $I$;
+\item sample exactness, requiring each entry of $S$ to be a displayed sample at a node named by $N$;
+\item weighted-sum and dyadic-budget exactness, requiring $A$ to use only the samples and rational weights in $S,W$ and requiring $D$ to bind the requested quadrature tolerance before readback;
+\item RegSeqRat and Real-seal non-escape, requiring $R$ and $E$ to be exposed only after $I,N,W,S,A,D$ and the structural rows $H,C,P,L$ are visible.
+\end{enumerate}
+No Newton--Cotes obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple lists exactly the interval endpoint, finite node ledger, rational weight ledger, sample row, weighted-sum row, dyadic budget, regular-rational handoff, Real seal, and structural rows.
+
+Node-and-weight coverage is read from $N$ and $W$. The two rows have the same finite index surface over the endpoint row $I$, so there is no hidden node, extra weight, or external partition.
+
+Sample exactness is the row $S$. Since $S$ is indexed by $N$, every sampled value is attached to a displayed node before the weighted sum can be inspected.
+
+The numerical handoff is then finite. Row $A$ combines only $S$ and $W$, row $D$ binds the dyadic error request, and $R,E$ expose the regular-rational and Real-facing readback only after those rows are visible. Transport, replay, provenance, and local naming through $H,C,P,L$ preserve the same route and add no host integration or completeness principle.
+\end{proof}
+
+\begin{theorem}[Newton--Cotes RegSeqRat quadrature handoff]
+\label{thm:newton-cotes-regseqrat-quadrature-handoff}
+Every quadrature-facing read of an accepted $\NewtonCotesUp$ packet factors through the finite route
+$$
+I,N,W,S,A,D \longmapsto R \longmapsto E .
+$$
+In particular, a consumer must expose the endpoint row, node ledger, rational weight ledger, sample row, finite weighted-sum row, and dyadic error-budget row before the $\RegSeqRatUp$ handoff and terminal $\RealUp$ seal are available. The packet exports no host integral, measure-theoretic completion, selected limiting partition, quotient function equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:newton-cotes-namecert-obligations}. They place every consumer read downstream of the carrier rows $I,N,W,S,A,D,R,E,H,C,P,L$.
+
+Read the quadrature data in order. The endpoint row $I$ fixes the interval, $N$ lists the nodes, $W$ lists the rational weights on those nodes, and $S$ supplies only the corresponding samples.
+
+The finite weighted sum and error budget are the last numerical rows before readback. Row $A$ combines the displayed samples and weights, while $D$ records the dyadic tolerance and finite remainder budget attached to the same rule.
+
+Only then may the consumer inspect $R$ and $E$. The $\RegSeqRatUp$ handoff and $\RealUp$ seal are therefore exposed as a finite Newton--Cotes quadrature route, not as a host integration theorem, measure-theoretic limit, quotient function equality, compactness principle, or ambient completeness claim.
+\end{proof}
+
+\falsifiablePrediction{A $\NewtonCotesUp$ consumer that reaches a $\RegSeqRatUp$ handoff or $\RealUp$ seal without displaying the interval endpoint row, node ledger, rational weight ledger, sample row, weighted-sum row, and dyadic error-budget row refutes the carrier of \autoref{def:newton-cotes-carrier}.}
+
+\independenceWitness{quadrature, darbouxsum, polynomial, regseqrat, real: $\NewtonCotesUp$ is not bijective to any listed sibling because it jointly carries endpoint rows, node rows, rational weights, sample rows, finite weighted sums, dyadic error budgets, regular-rational handoff, Real sealing, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{NewtonCotesUp}{seedStr}
+
+\begin{closurestatus}{\NewtonCotesUp}
+  \constructivestory{A $\NewtonCotesUp$ packet is generated from an interval endpoint row, finite node ledger, rational weight ledger, sample row, finite weighted-sum row, dyadic error-budget row, RegSeqRat handoff, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:newton-cotes-carrier}, \autoref{thm:newton-cotes-namecert-obligations}, and \autoref{thm:newton-cotes-regseqrat-quadrature-handoff} seed the finite Newton--Cotes quadrature carrier and its RegSeqRat-to-Real handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter explicitly refuses host integration, measure theory, selected limits, quotient function equality, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, and bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, node-and-weight coverage, sample exactness, finite weighted-sum exactness, dyadic error-budget exposure, RegSeqRat handoff, Real-seal ordering, hsame transport, Cont replay, provenance, and local naming for BEDC.Derived.NewtonCotesUp.}
+\end{closurestatus}
