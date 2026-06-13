@@ -85,4 +85,48 @@ theorem RealApartnessCompletionSeparatedSealRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, separatedUnary, sealReadUnary⟩
 
+theorem RealApartnessCompletionRegSeqRatSeal [AskSetup] [PackageSetup]
+    {apartness separation completion stream readback dyadic realSeal transport route
+      provenance cert streamRead regSeqRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealApartnessCompletionCarrier apartness separation completion stream readback dyadic
+        realSeal transport route provenance cert bundle pkg ->
+      Cont stream readback streamRead ->
+        Cont streamRead dyadic regSeqRead ->
+          Cont regSeqRead realSeal sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory stream ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
+                UnaryHistory realSeal ∧ UnaryHistory streamRead ∧
+                  UnaryHistory regSeqRead ∧ UnaryHistory sealRead ∧
+                    Cont stream readback streamRead ∧
+                      Cont streamRead dyadic regSeqRead ∧
+                        Cont regSeqRead realSeal sealRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: RealApartnessCompletionCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier streamRoute regSeqRoute sealRoute sealPkg
+  obtain ⟨_apartnessUnary, _separationUnary, _completionUnary, streamUnary,
+    readbackUnary, dyadicUnary, realSealUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _certUnary, _apartnessSeparationCompletion,
+    _streamReadbackDyadic, _dyadicRealSealRoute, _transportRouteProvenance,
+    provenancePkg, _certPkg⟩ := carrier
+  have streamReadUnary : UnaryHistory streamRead :=
+    unary_cont_closed streamUnary readbackUnary streamRoute
+  have regSeqReadUnary : UnaryHistory regSeqRead :=
+    unary_cont_closed streamReadUnary dyadicUnary regSeqRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regSeqReadUnary realSealUnary sealRoute
+  exact
+    ⟨streamUnary,
+      readbackUnary,
+      dyadicUnary,
+      realSealUnary,
+      streamReadUnary,
+      regSeqReadUnary,
+      sealReadUnary,
+      streamRoute,
+      regSeqRoute,
+      sealRoute,
+      provenancePkg,
+      sealPkg⟩
+
 end BEDC.Derived.RealApartnessCompletionUp
