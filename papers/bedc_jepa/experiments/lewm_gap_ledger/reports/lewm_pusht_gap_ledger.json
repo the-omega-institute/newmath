@@ -1,0 +1,158 @@
+{
+  "env": "pusht",
+  "status": "evaluated",
+  "protocol": {
+    "split_seed": 1701,
+    "tau": "train prediction_mse p75",
+    "bootstrap_seed": 314159,
+    "bootstraps": 500,
+    "bootstrap_unit": "eval episodes",
+    "features": "emb only",
+    "matched_random": "same logistic head with train labels permuted",
+    "vanilla": "constant train base rate",
+    "claim_criteria": [
+      "learned AUROC ci95_low > matched-random AUROC ci95_high",
+      "learned UER ci95_high < vanilla UER ci95_low"
+    ]
+  },
+  "sample_counts": {
+    "episodes": 150,
+    "valid_transitions": 3092,
+    "latent_dim": 192,
+    "model_repo": "quentinll/lewm-pusht",
+    "dataset_repo": "quentinll/lewm-pusht",
+    "dataset_file": "pusht_expert_train.h5.zst",
+    "prediction_mse_identity_max_abs": 0.0
+  },
+  "splits": {
+    "train": {
+      "episodes": 90,
+      "transitions": 1890
+    },
+    "calibration": {
+      "episodes": 30,
+      "transitions": 606
+    },
+    "eval": {
+      "episodes": 30,
+      "transitions": 596
+    }
+  },
+  "failure_truth": {
+    "definition": "prediction_mse > train_split_p75",
+    "tau_err_train_p75": 0.4634852409362793,
+    "train_failure_rate": 0.21428571428571427,
+    "eval_failure_rate": 0.18456375838926176
+  },
+  "arms": {
+    "vanilla": {
+      "info": {
+        "status": "constant",
+        "train_base_rate": 0.21428571428571427
+      },
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.5,
+          "bootstrap_mean": 0.5,
+          "ci95_low": 0.5,
+          "ci95_high": 0.5
+        },
+        "ece": {
+          "observed": 0.02972195589645249,
+          "bootstrap_mean": 0.029839796366488792,
+          "ci95_low": 0.012331316891577432,
+          "ci95_high": 0.04682986176214896
+        },
+        "unlogged_error_rate": {
+          "observed": 0.18456375838926176,
+          "bootstrap_mean": 0.18444591791922546,
+          "ci95_low": 0.1674558525235652,
+          "ci95_high": 0.20195439739413681
+        },
+        "critical_unlogged_error_rate": {
+          "observed": 0.18456375838926176,
+          "bootstrap_mean": 0.18444591791922546,
+          "ci95_low": 0.1674558525235652,
+          "ci95_high": 0.20195439739413681
+        }
+      }
+    },
+    "learned_logistic_emb": {
+      "info": {
+        "status": "fit",
+        "label_rate": 0.21428571428571427,
+        "train_loss": 0.01661274715451346
+      },
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 1.0,
+          "bootstrap_mean": 1.0,
+          "ci95_low": 1.0,
+          "ci95_high": 1.0
+        },
+        "ece": {
+          "observed": 0.01711471541676972,
+          "bootstrap_mean": 0.01711840105390895,
+          "ci95_low": 0.01664119435993093,
+          "ci95_high": 0.01758878461549813
+        },
+        "unlogged_error_rate": {
+          "observed": 0.0,
+          "bootstrap_mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "critical_unlogged_error_rate": {
+          "observed": 0.0,
+          "bootstrap_mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        }
+      }
+    },
+    "matched_random_logistic_emb": {
+      "info": {
+        "status": "fit",
+        "label_rate": 0.21428571428571427,
+        "train_loss": 0.5151305077635479,
+        "label_permutation_seed": 90210
+      },
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.30942760942760944,
+          "bootstrap_mean": 0.3091715374518244,
+          "ci95_low": 0.29945416901938643,
+          "ci95_high": 0.3183011720914339
+        },
+        "ece": {
+          "observed": 0.1626470082916233,
+          "bootstrap_mean": 0.16261196135492254,
+          "ci95_low": 0.15944610165806922,
+          "ci95_high": 0.16600557639046354
+        },
+        "unlogged_error_rate": {
+          "observed": 0.18456375838926176,
+          "bootstrap_mean": 0.18444591791922546,
+          "ci95_low": 0.1674558525235652,
+          "ci95_high": 0.20195439739413681
+        },
+        "critical_unlogged_error_rate": {
+          "observed": 0.18456375838926176,
+          "bootstrap_mean": 0.18444591791922546,
+          "ci95_low": 0.1674558525235652,
+          "ci95_high": 0.20195439739413681
+        }
+      }
+    }
+  },
+  "lat_port_optional": {
+    "status": "not_run",
+    "reason": "optional_time_budget"
+  },
+  "conclusion": {
+    "claim": "positive",
+    "learned_auroc_ci_low_gt_matched_ci_high": true,
+    "learned_uer_ci_high_lt_vanilla_ci_low": true,
+    "fail_closed_notes": []
+  }
+}
