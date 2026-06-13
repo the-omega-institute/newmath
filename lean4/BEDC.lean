@@ -3500,6 +3500,7 @@ import BEDC.Derived.CriticalLineWitnessUp.P11961RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealFourFaceRouteExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealL10FaceStatusPullback
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealRegSeqRatRouteReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealRootReadbackCertificate
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRoute
@@ -3511,6 +3512,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PrimeZetaDependencyRoute
 import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryDownstreamLock
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryStdbridgeNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerSourceNonescape
@@ -3679,6 +3681,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRealStripRootHandoff
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRefusalConsumerScope
+import BEDC.Derived.CriticalLineWitnessUp.ZetaRhDependencyCertificate
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRouteCarrierSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ZetaSiblingRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZetaStripModulusTotality
@@ -7535,6 +7538,7 @@ import BEDC.Derived.OptionUp.CarrierReadback
 import BEDC.Derived.OptionUp.ChainPayload
 import BEDC.Derived.OptionUp.CommonLeftVisiblePayload
 import BEDC.Derived.OptionUp.CompositeAbsentPublicFactorization
+import BEDC.Derived.OptionUp.CompositeNormalizedRepresentativeIndependence
 import BEDC.Derived.OptionUp.CompositeNormalizedZeroEndpoint
 import BEDC.Derived.OptionUp.CompositeReadback
 import BEDC.Derived.OptionUp.Context
@@ -7565,6 +7569,7 @@ import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierSelectedVisible
+import BEDC.Derived.OptionUp.PayloadDescentImageClassifierStability
 import BEDC.Derived.OptionUp.PayloadDescentImageOccupancy
 import BEDC.Derived.OptionUp.PayloadDescentImagePublicReadback
 import BEDC.Derived.OptionUp.PayloadDescentImageVisible
