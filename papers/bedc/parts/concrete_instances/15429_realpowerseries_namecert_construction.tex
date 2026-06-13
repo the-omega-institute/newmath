@@ -652,6 +652,18 @@ The product side is supplied by \autoref{thm:real-power-series-cauchy-product-ra
 Finally apply \autoref{thm:real-power-series-radius-majorant-public-export}, \autoref{thm:real-power-series-endpoint-seal-factorization}, and \autoref{thm:real-power-series-product-endpoint-nonescape}. They bind the majorant route, regular-rational evaluation handoff, and endpoint seal, while excluding analytic continuation, quotient equality, selected sums, host multiplication, choice, and ambient completeness. The cited rows therefore form the exported obligation package.
 \end{proof}
 
+\begin{theorem}[Real power series obligation closure ledger]
+\label{thm:real-power-series-obligation-closure-ledger}
+For every accepted $\RealPowerSeriesUp$ packet $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the obligation package is exactly the carrier admission row, coefficient-window route, radius-window handoff, $\CauchyProductUp$ budget, selected majorant route, $\RegSeqRatUp$ endpoint handoff, endpoint seal, transport, replay, provenance, and local naming rows displayed by this chapter. No obligation row outside $A,Z,X,R,W,S,M,E,H,C,P,N$ is exported to an endpoint-facing, product-facing, or radius-facing consumer.
+\end{theorem}
+\begin{proof}
+Carrier admission and local naming are fixed by \autoref{def:real-power-series-carrier} and \autoref{thm:real-power-series-namecert-obligations}. These rows expose exactly the coefficient stream or formal-series row, center and argument rows, radius row, finite windows, partial sums, selected majorant route, endpoint seal, transport, replay, provenance, and local NameCert row.
+
+The analytic obligations are the existing ledger rows. The coefficient-window route is \autoref{thm:real-power-series-coefficient-window-ledger}; the radius-window handoff is \autoref{thm:real-power-series-radius-window-handoff}; the $\CauchyProductUp$ budget is \autoref{thm:real-power-series-cauchy-product-coefficient-budget}; the selected majorant route is \autoref{thm:realpowerseries-majorant-exhaustion}; and the $\RegSeqRatUp$ endpoint handoff is \autoref{thm:real-power-series-regseqrat-endpoint-handoff}.
+
+The endpoint and structural rows are sealed by \autoref{thm:real-power-series-endpoint-seal-factorization}, \autoref{thm:real-power-series-endpoint-cauchy-budget}, \autoref{thm:real-power-series-product-endpoint-nonescape}, and \autoref{thm:real-power-series-obligation-export}. Together with \autoref{thm:real-power-series-nonescape}, these results leave no carrier coordinate for analytic continuation, quotient function equality, selected infinite sums, host multiplication, countable choice, or ambient $\RealUp$ completeness. Hence the listed rows are the complete obligation package.
+\end{proof}
+
 \falsifiablePrediction{Every $\RealPowerSeriesUp$ endpoint-facing read factors through a coefficient or FormalPowerSeries row, center Real row, argument Real row, displayed radius or subradius row, finite StreamName windows, partial-sum RealSeries row, majorant data from M-test or ratio/root-test rows, endpoint Real seal, transport, continuation, provenance, and local naming.}
 
 \independenceWitness{realseries, weierstrass-mtest, regular-cauchy-ratio-test, regular-cauchy-root-test, formalpowerseries, convergence-radius, real, regseqrat, streamname, dyadicratcore: $\RealPowerSeriesUp$ is not bijective to any listed sibling because it jointly carries coefficient-stream access, center and argument Real rows, displayed radius windows, finite polynomial partial sums, selected majorant routes, endpoint sealing, transport, continuation, provenance, and local naming.}
@@ -660,10 +672,10 @@ Finally apply \autoref{thm:real-power-series-radius-majorant-public-export}, \au
 
 \begin{closurestatus}{\RealPowerSeriesUp}
   \constructivestory{A $\RealPowerSeriesUp$ packet is generated from a coefficient stream or formal-series row, center and argument $\RealUp$ rows, a displayed radius or subradius row, finite $\StreamNameUp$ windows, finite partial-sum and $\RealSeriesUp$ rows, majorant data from M-test or ratio/root-test rows, a $\RealUp$ endpoint seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:real-power-series-carrier}, \autoref{thm:real-power-series-namecert-obligations}, \autoref{thm:real-power-series-radius-window-handoff}, and \autoref{thm:real-power-series-nonescape} bind the finite constructive real-power-series certificate surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host analytic continuation, quotient function spaces, selected infinite sums, countable choice, ambient $\RealUp$ completeness, bridge checking, or Lean verification.}
-  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, radius-window handoff, nonescape boundary, and TasteGate field faithfulness for BEDC.Derived.RealPowerSeriesUp.}
+  \upgradepath{Scoped closure requires a single scope theorem that binds the carrier, coefficient-window route, radius-window handoff, product budget, majorant route, endpoint handoff, endpoint seal, transport, replay, provenance, local naming, and nonescape boundary for BEDC.Derived.RealPowerSeriesUp.}
 \end{closurestatus}

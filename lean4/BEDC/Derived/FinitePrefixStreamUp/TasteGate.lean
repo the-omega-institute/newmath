@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.FinitePrefixStreamUp
+namespace BEDC.Derived.FinitePrefixStreamUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,9 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FinitePrefixStreamUp : Type where
-  | mk
-      (depth window dyadic regseq transport replay provenance name : BHist) :
-      FinitePrefixStreamUp
+  | mk (k W D R H C P N : BHist) : FinitePrefixStreamUp
   deriving DecidableEq
 
 def finitePrefixStreamEncodeBHist : BHist → RawEvent
@@ -38,17 +36,16 @@ private theorem finitePrefixStream_decode_encode :
 
 def finitePrefixStreamFields : FinitePrefixStreamUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | FinitePrefixStreamUp.mk depth window dyadic regseq transport replay provenance name =>
-      [depth, window, dyadic, regseq, transport, replay, provenance, name]
+  | FinitePrefixStreamUp.mk k W D R H C P N => [k, W, D, R, H, C, P, N]
 
 def finitePrefixStreamToEventFlow : FinitePrefixStreamUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (finitePrefixStreamFields x).map finitePrefixStreamEncodeBHist
+  | x => List.map finitePrefixStreamEncodeBHist (finitePrefixStreamFields x)
 
 private def finitePrefixStreamRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
+  | 0, [] => []
+  | 0, event :: _rest => event
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => finitePrefixStreamRawAt index rest
 
@@ -71,31 +68,29 @@ private theorem finitePrefixStream_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk depth window dyadic regseq transport replay provenance name =>
+  | mk k W D R H C P N =>
       change
         some
           (FinitePrefixStreamUp.mk
-            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist depth))
-            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist window))
-            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist dyadic))
-            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist regseq))
-            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist transport))
-            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist replay))
-            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist provenance))
-            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist name))) =
-          some
-            (FinitePrefixStreamUp.mk
-              depth window dyadic regseq transport replay provenance name)
-      rw [finitePrefixStream_decode_encode depth,
-        finitePrefixStream_decode_encode window,
-        finitePrefixStream_decode_encode dyadic,
-        finitePrefixStream_decode_encode regseq,
-        finitePrefixStream_decode_encode transport,
-        finitePrefixStream_decode_encode replay,
-        finitePrefixStream_decode_encode provenance,
-        finitePrefixStream_decode_encode name]
+            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist k))
+            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist W))
+            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist D))
+            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist R))
+            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist H))
+            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist C))
+            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist P))
+            (finitePrefixStreamDecodeBHist (finitePrefixStreamEncodeBHist N))) =
+          some (FinitePrefixStreamUp.mk k W D R H C P N)
+      rw [finitePrefixStream_decode_encode k,
+        finitePrefixStream_decode_encode W,
+        finitePrefixStream_decode_encode D,
+        finitePrefixStream_decode_encode R,
+        finitePrefixStream_decode_encode H,
+        finitePrefixStream_decode_encode C,
+        finitePrefixStream_decode_encode P,
+        finitePrefixStream_decode_encode N]
 
-private theorem finitePrefixStreamToEventFlow_injective {x y : FinitePrefixStreamUp} :
+theorem finitePrefixStreamToEventFlow_injective {x y : FinitePrefixStreamUp} :
     finitePrefixStreamToEventFlow x = finitePrefixStreamToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -137,7 +132,7 @@ theorem FinitePrefixStreamTasteGate_single_carrier_alignment :
   exact
     ⟨finitePrefixStream_decode_encode,
       finitePrefixStream_round_trip,
-      (fun _ _ heq => finitePrefixStreamToEventFlow_injective heq),
+      fun x y => finitePrefixStreamToEventFlow_injective,
       rfl⟩
 
-end BEDC.Derived.FinitePrefixStreamUp
+end BEDC.Derived.FinitePrefixStreamUp.TasteGate
