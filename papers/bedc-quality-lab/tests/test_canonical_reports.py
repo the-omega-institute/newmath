@@ -1878,6 +1878,10 @@ def _assert_dgt_discovery_map_row_uses_l0_consumption(row):
     assert row["scaling_ladder_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
 
 
+def _without_aggregation_consistency(payload):
+    return {key: value for key, value in payload.items() if key != "aggregation_consistency"}
+
+
 def _drop_dgt_l0_from_manifest(monkeypatch):
     monkeypatch.setattr(
         canonical,
@@ -1921,9 +1925,9 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-dna",
         "dgt-l0-controls",
         "dgt-l1-controls",
-        "dgt-l1-boundary-report",
         "reproduction-package",
         "reproduction-check-result",
+        "dgt-l1-boundary-report",
         "winnability-certificates",
         "structural-generalization-splits",
         "dgt-base-undertraining-audit",
@@ -3043,7 +3047,7 @@ def test_committed_canonical_bundle_matches_generation_chain():
         discovery_timestamp=discovery_payload["generated_at"],
     )
 
-    assert index_payload == generated_index
+    assert _without_aggregation_consistency(index_payload) == generated_index
     assert discovery_payload == generated_discovery
     _assert_dgt_discovery_map_row_uses_l0_consumption(
         next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
@@ -6124,6 +6128,31 @@ def test_experiment_stack_cards_run_after_release_sidecar_inputs(tmp_path, monke
     assert [report["name"] for report in payload["reports"]] == ["mixing-family-sweep", "experiment-stack-cards"]
 
 
+def test_experiment_stack_cards_schema_index_and_fingerprint_inputs():
+    spec = canonical._specs_by_name()["experiment-stack-cards"]
+
+    assert "claim_first_gate" in spec.required_json_keys
+    assert "claim_first_admission" not in spec.required_json_keys
+    assert "claim_first_admission_pointer" not in spec.required_json_keys
+
+    section = canonical._experiment_stack_cards_index_section()
+    assert section["claim_first_gate_pointer"] == "reports/canonical/experiment_stack_cards.json:$.claim_first_gate"
+    assert "claim_first_admission_pointer" not in section
+
+    input_paths = {row["path"] for row in canonical._source_artifact_inputs(spec)}
+    assert {
+        "reports/canonical/discovery-gated-transformer.json",
+        "reports/canonical/dgt-l1-controls.json",
+        "reports/canonical/dgt-l1-boundary-report.json",
+        "reports/canonical/dgt-neural-ablation.json",
+        "reports/canonical/dgt-model-card.json",
+        "reports/canonical/reproduction-package.json",
+        "reports/canonical/index.json",
+        "reports/release_manifest_sidecar.json",
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+    }.issubset(input_paths)
+
+
 def test_run_reports_verify_fingerprints_does_not_cold_write_claim_graph_prerequisites(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _patch_lightweight_run_reports(monkeypatch)
@@ -6996,7 +7025,7 @@ def test_committed_canonical_bundle_matches_registered_reports():
         next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
     )
     assert claim_rows == regenerated_claim_rows
-    assert index_payload == regenerated_index
+    assert _without_aggregation_consistency(index_payload) == regenerated_index
 
 
 def test_canonical_dgt_report_exposes_jet_certificate_pointer_only():

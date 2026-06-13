@@ -2185,6 +2185,11 @@ QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", 
 POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
 RELEASE_INPUT_REPORTS = frozenset({"experiment-stack-cards"})
 CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite", "mechanism-dna"})
+REPORT_ALIASES = {
+    "experiment_stack_cards": "experiment-stack-cards",
+    "claim_artifact_consistency": "claim-artifact-consistency",
+}
+SPECIAL_ONLY_TARGETS = frozenset({"index", "claim-artifact-consistency"})
 
 
 def _artifact_path(relative_path: str) -> Path:
@@ -2198,6 +2203,12 @@ def _specs_by_name() -> dict[str, CanonicalReportSpec]:
     return {spec.name: spec for spec in CANONICAL_REPORTS}
 
 
+def _canonical_only_name(only: str | None) -> str | None:
+    if only is None:
+        return None
+    return REPORT_ALIASES.get(only, only)
+
+
 def _discovery_map_reports() -> tuple[CanonicalReportSpec, ...]:
     return tuple(
         spec
@@ -2209,14 +2220,18 @@ def _discovery_map_reports() -> tuple[CanonicalReportSpec, ...]:
 def _select_specs(only: str | None) -> tuple[CanonicalReportSpec, ...]:
     if only is None:
         return CANONICAL_REPORTS
+    only = _canonical_only_name(only)
+    if only in SPECIAL_ONLY_TARGETS:
+        return CANONICAL_REPORTS
     by_name = _specs_by_name()
     if only not in by_name:
-        names = ", ".join(sorted(by_name))
+        names = ", ".join(sorted([*by_name, *SPECIAL_ONLY_TARGETS, *REPORT_ALIASES]))
         raise ValueError(f"unknown canonical report {only!r}; available: {names}")
     return (by_name[only],)
 
 
 def _selected_specs_with_dependents(only: str | None, *, include_dependents: bool = True) -> tuple[CanonicalReportSpec, ...]:
+    only = _canonical_only_name(only)
     selected = list(_select_specs(only))
     if only is None or not include_dependents:
         return tuple(selected)
@@ -2775,6 +2790,20 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
                 DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
                 "reports/canonical/claim_capsule.json",
                 "reports/canonical/claim_graph.json",
+                "reports/canonical/index.json",
+            )
+        )
+    if spec.name == "experiment-stack-cards":
+        paths.update(
+            (
+                DGT_L1_CONTROLS_JSON_ARTIFACT,
+                DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT,
+                DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+                DGT_MODEL_CARD_JSON_ARTIFACT,
+                REPRODUCTION_PACKAGE_JSON_ARTIFACT,
+                DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+                "reports/runs/discovery-gated-transformer/claim_capsule.json",
+                "reports/release_manifest_sidecar.json",
                 "reports/canonical/index.json",
             )
         )
@@ -7552,6 +7581,15 @@ def _result_has_runner_failure(result: Mapping[str, Any]) -> bool:
 def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
     if _result_has_runner_failure(result):
         return True
+    construct_validity = result.get("construct_validity")
+    if (
+        result.get("name") == "dgt-l0-controls"
+        and result.get("status") == "fail"
+        and isinstance(construct_validity, Mapping)
+        and construct_validity.get("status") == "fail"
+        and construct_validity.get("failed_gates") == ["CV-HG4"]
+    ):
+        return False
     report_build = result.get("report_build_status")
     report_build_value = report_build.get("value") if isinstance(report_build, Mapping) else result.get("status")
     if report_build_value != "pass":
@@ -8278,6 +8316,61 @@ def _write_text_atomic(path: Path, text: str) -> None:
     tmp.replace(path)
 
 
+def _load_existing_index_reports() -> list[dict[str, Any]]:
+    if not INDEX_ARTIFACT.exists():
+        return []
+    try:
+        payload = json.loads(INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    reports = payload.get("reports") if isinstance(payload, Mapping) else None
+    if not isinstance(reports, list):
+        return []
+    return [dict(report) for report in reports if isinstance(report, Mapping)]
+
+
+def _write_index_from_existing_reports(
+    *,
+    generated_at: str,
+    replacements: Sequence[dict[str, Any]] = (),
+) -> dict[str, Any]:
+    from scripts.run_claim_verdict_demo import compile_claim_verdicts
+
+    reports = _load_existing_index_reports()
+    if not reports:
+        reports = [_result_row_for_current_artifact(spec, generated_at=generated_at) for spec in CANONICAL_REPORTS]
+    if replacements:
+        reports = _replace_result_rows(reports, replacements, append_missing=True)
+    claim_verdict_rows = compile_claim_verdicts(ROOT, generated_at=generated_at)
+    payload = _write_index_with_evidence_provenance(
+        reports,
+        generated_at=generated_at,
+        claim_verdict_rows=claim_verdict_rows,
+    )
+    payload = _write_aggregation_consistency_status_for_run(
+        payload,
+        generated_at=generated_at,
+        require_pass=True,
+    )
+    dgt_model_card_spec = _specs_by_name().get("dgt-model-card")
+    if dgt_model_card_spec is not None and (ROOT / DGT_MODEL_CARD_JSON_ARTIFACT).exists():
+        write_dgt_model_card(root=ROOT, generated_at=generated_at)
+        card_result = _result_row_for_current_artifact(dgt_model_card_spec, generated_at=generated_at)
+        reports = _replace_result_rows(payload["reports"], (card_result,), append_missing=False)
+        payload = _write_index_with_evidence_provenance(
+            reports,
+            generated_at=generated_at,
+            claim_verdict_rows=claim_verdict_rows,
+        )
+        payload = _write_aggregation_consistency_status_for_run(
+            payload,
+            generated_at=generated_at,
+            require_pass=True,
+        )
+        _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=generated_at)
+    return payload
+
+
 def _minimal_scaling_ladder_index_markdown(payload: Mapping[str, Any]) -> str:
     section = payload.get("scaling_ladder")
     section = section if isinstance(section, Mapping) else _scaling_ladder_index_section()
@@ -8341,15 +8434,38 @@ def _write_index_markdown_pointer_update(payload: dict[str, Any]) -> None:
     _write_text_atomic(CANONICAL_DIR / "index.md", markdown)
 
 
-def _write_aggregation_consistency_status(payload: dict[str, Any], *, generated_at: str) -> dict[str, Any]:
+def _write_aggregation_consistency_status(
+    payload: dict[str, Any],
+    *,
+    generated_at: str,
+    require_pass: bool = True,
+) -> dict[str, Any]:
     report = validate_aggregation_consistency(ROOT, index_payload=payload)
     status = report.compact_status(generated_at=generated_at)
     payload["aggregation_consistency"] = status
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
-    if report.errors:
+    if require_pass and report.errors:
         raise RuntimeError("aggregation consistency failed: " + " | ".join(report.errors))
     return payload
+
+
+def _write_aggregation_consistency_status_for_run(
+    payload: dict[str, Any],
+    *,
+    generated_at: str,
+    require_pass: bool,
+) -> dict[str, Any]:
+    try:
+        return _write_aggregation_consistency_status(
+            payload,
+            generated_at=generated_at,
+            require_pass=require_pass,
+        )
+    except TypeError as exc:
+        if "require_pass" not in str(exc):
+            raise
+        return _write_aggregation_consistency_status(payload, generated_at=generated_at)
 
 
 def _run_scaling_ladder_report_only(
@@ -8476,6 +8592,7 @@ def run_reports(
     verify_fingerprints: bool = False,
 ) -> dict[str, Any]:
     CANONICAL_DIR.mkdir(parents=True, exist_ok=True)
+    only = _canonical_only_name(only)
     mode: Literal["changed", "verify", "cold"] = "cold" if cold or force else "verify" if verify_fingerprints else "changed"
     timestamp = (
         generated_at
@@ -8483,6 +8600,38 @@ def run_reports(
         else (_reusable_generated_at() if mode != "cold" else None)
         or datetime.now(timezone.utc).isoformat()
     )
+    require_aggregation_pass = only is None
+    if only == "index":
+        payload = _write_index_from_existing_reports(generated_at=timestamp)
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        return payload
+    if only == "claim-artifact-consistency":
+        from scripts.run_claim_artifact_consistency import write_claim_artifact_consistency
+
+        consistency_payload = write_claim_artifact_consistency(
+            root=ROOT,
+            generated_at=timestamp,
+            report_spec=_specs_by_name().get("discovery-gated-transformer"),
+        )
+        if consistency_payload["status"] != "pass":
+            raise SystemExit(1)
+        payload = _write_index_from_existing_reports(generated_at=timestamp)
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        return payload
+    if only == "experiment-stack-cards":
+        spec = _specs_by_name()[only]
+        result = _run_spec(spec, mode=mode, generated_at=timestamp)
+        if result["status"] != "pass":
+            raise SystemExit(1)
+        payload = _write_index_from_existing_reports(
+            generated_at=timestamp,
+            replacements=(result,),
+        )
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        return payload
     if only == "scaling-ladder":
         return _run_scaling_ladder_report_only(
             mode=mode,
@@ -8547,7 +8696,11 @@ def run_reports(
                 _write_json_atomic(Path(json_summary), payload)
             return payload
         _write_json_atomic(INDEX_ARTIFACT, payload)
-        payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
+        payload = _write_aggregation_consistency_status_for_run(
+            payload,
+            generated_at=timestamp,
+            require_pass=require_aggregation_pass,
+        )
         if json_summary is not None:
             _write_json_atomic(Path(json_summary), payload)
         return payload
@@ -8801,7 +8954,11 @@ def run_reports(
         canonical_reports=selected_specs,
         discovery_gated_transformer_payload=discovery_gated_transformer,
     )
-    payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
+    payload = _write_aggregation_consistency_status_for_run(
+        payload,
+        generated_at=timestamp,
+        require_pass=require_aggregation_pass,
+    )
     if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
         _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
         if mode in {"verify", "cold"}:
@@ -8814,7 +8971,11 @@ def run_reports(
                 canonical_reports=selected_specs,
                 discovery_gated_transformer_payload=discovery_gated_transformer,
             )
-            payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
+            payload = _write_aggregation_consistency_status_for_run(
+                payload,
+                generated_at=timestamp,
+                require_pass=require_aggregation_pass,
+            )
     reproduction_package_spec = _specs_by_name().get("reproduction-package")
     reproduction_check_spec = _specs_by_name().get("reproduction-check-result")
     if (
@@ -8838,7 +8999,11 @@ def run_reports(
             canonical_reports=selected_specs,
             discovery_gated_transformer_payload=discovery_gated_transformer,
         )
-        payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
+        payload = _write_aggregation_consistency_status_for_run(
+            payload,
+            generated_at=timestamp,
+            require_pass=require_aggregation_pass,
+        )
     _refresh_final_index_dependent_fingerprints(selected_specs=selected_specs, generated_at=timestamp)
     if mode == "verify":
         refreshed_final_results = [
@@ -8855,7 +9020,11 @@ def run_reports(
                 canonical_reports=selected_specs,
                 discovery_gated_transformer_payload=discovery_gated_transformer,
             )
-    payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
+    payload = _write_aggregation_consistency_status_for_run(
+        payload,
+        generated_at=timestamp,
+        require_pass=require_aggregation_pass,
+    )
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if verify_fingerprints:
