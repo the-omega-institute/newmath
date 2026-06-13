@@ -25,35 +25,24 @@ summarized at
 and the adversarial verdicts at
 \path{experiments/lewm_gap_ledger/autoresearch/findings/adversarial_verdicts.jsonl}.
 
+\paragraph{Quality-lab claim interface.}
+The overclaim screen for the autoresearch loop consumes the quality-lab
+forbidden positive claim term list as its single term source, covering
+\texttt{full-lejepa}, \texttt{global-quality},
+\texttt{full-tensor-namecert}, and \texttt{llm-behavior}.  The loop keeps its
+own runner and adversarial-review path, but exports its authoritative findings
+as canonical claim-verdict pointer rows for quality-lab consumption at
+\path{experiments/lewm_gap_ledger/autoresearch/findings/canonical_claim_verdicts.jsonl}.
+Thus the relationship is a consumer relation to the quality-lab claim-verdict
+bus, not a second verdict system with its own positive-claim vocabulary.
+
 \paragraph{Verified findings on the fixed carriers.}
-The loop yielded two scoped positive results and four bounded or inconclusive
-ones, each carrying its own evidence pointer:
-\begin{itemize}
-\item A tail-weighted (CVaR) allocation head improves the budget-allocation
-delta relative to an identically architected unweighted head (paired episode
-bootstrap interval strictly below zero).  This is a within-design improvement,
-not a crossing of the readable-information ceiling.
-\item An independently stratified PushT export reproduces the
-unlogged-error-rate separation direction, with a post-hoc horizon-one
-$\mathrm{AUROC}$ of $0.744$ matching the conservative cross-environment
-magnitude rather than the contiguous-block artifact value.
-\item A multi-horizon ledger vector does not separate failure more reliably than
-a single-horizon scalar once the label-defining error is excluded from the
-features: the paired $\mathrm{AUROC}$ gain interval crosses zero.
-\item A reader trained on one environment does not transfer zero-shot to
-another, with target $\mathrm{AUROC} \approx 0.43$ and an interval crossing the
-chance level: the readable failure signal is carrier specific.
-\item Replacing a multilayer reader by a linear one does not change failure
-separation (paired gain interval crosses zero): reader capacity is not the
-binding constraint, which is consistent with an informational rather than a
-representational ceiling.
-\item Under the split-conformal selective rule whose finite counting core is
-machine-checked in \path{formal/bedc-conformal-lean/}, the realized
-failure-among-admitted risk on held-out evaluation is $0.092$ against a target
-of $0.10$, but its interval crosses the target.  The distribution-free guarantee
-is marginal on this carrier, which is consistent with the statistical
-exchangeability step being recorded as open rather than claimed.
-\end{itemize}
+The current verified findings on the fixed carriers are recorded in
+\path{experiments/lewm_gap_ledger/autoresearch/findings/verified_findings.md},
+which is the single ledger source for the number, status, evidence pointer, and
+claim text of those findings.  The paper text does not cache those counts; it
+uses the ledger as the authority for the current positive, bounded, and
+fail-closed findings.
 
 \paragraph{Native-predictor derisk.}
 A small BEDC-native next-latent predictor trained on fixed tworooms latents
