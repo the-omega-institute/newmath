@@ -53554,6 +53554,59 @@
       "wall_time_proxy": 0.068608
     }
   ],
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.paired_delta_matrix",
+        "metric_pointer": "$.nabl_hardgates.status",
+        "seed_pointer": "$.run_spec.seed_list"
+      },
+      "calibration_source": "$.paired_delta_matrix",
+      "owner": "dgt-neural-ablation"
+    },
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "torch"
+      },
+      "python": "owner-runtime"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.paired_delta_matrix",
+        "comparison": "status_equal",
+        "owner": "dgt-neural-ablation",
+        "pointer": "$.nabl_hardgates.status",
+        "reference_value": "pass",
+        "seed_basis": {
+          "seed_count": 8,
+          "source": "$.run_spec.seed_list"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "true_training",
+    "seed_list": [
+      1133,
+      1134,
+      1135,
+      1136,
+      1137,
+      1138,
+      1139,
+      1140
+    ]
+  },
   "robustness_by_steps": {
     "128": {
       "allowed_components": [],
@@ -53769,7 +53822,17 @@
       "scope_pressure_q": 0.015
     },
     "compute_unit_formula": "train_steps * feature_dim * sample_count / 100000",
-    "device_policy": "auto",
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
+    },
     "effect_thresholds": {
       "FalseLedgerRate": 0.015,
       "JetCoverage": 0.015,

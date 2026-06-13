@@ -1,21 +1,11 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "5ebbd442ecce0a92015b3515d4846045d9f9da06a039d527aabfa75bdde87b6c",
+  "input_fingerprint": "00351b6e7b848036478397cdc94bc88ea77663b0149d8ec0afcd14767117ba08",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
-    "config_inputs": [
-      {
-        "path": "configs/default_cost_protocol.yaml",
-        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
-      },
-      {
-        "path": "docs/lit/literature_ledger.yaml",
-        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
-      }
-    ],
     "dependency_abi": {
       "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
       "numpy": "2.2.5",
@@ -54,7 +44,7 @@
       },
       {
         "path": "bedc_quality_lab/model.py",
-        "sha256": "d7611dd13ccf81966e7418f6d54eef622c313d32ced14dcc602a596700f004f3"
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
       },
       {
         "path": "bedc_quality_lab/report.py",
@@ -94,7 +84,7 @@
       },
       {
         "path": "scripts/run_gaussian_ou_lejepa.py",
-        "sha256": "04d36e018fb1d306e0b18cb50dc9a1428b0b39b5c4c714d9e0f554cb9b4f0697"
+        "sha256": "87eae902d4e4f792858704e8ed49061c6b80a5203ef2d1004480f1006e59252a"
       },
       {
         "path": "scripts/run_observed_debt_sweep.py",
@@ -112,13 +102,20 @@
         "PYTHONHASHSEED": "unset"
       }
     },
-    "source_artifacts": [],
+    "source_artifacts": [
+      {
+        "path": "reports/gaussian_ou_dynamics_planning.json",
+        "sha256": "c2b6c705aa9b4bb83ee4ef5ae1baaee02f349f34471edf30c5c9d87d87193a0e"
+      }
+    ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_observed_debt_sweep.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": null,
       "cost_pointer": "$.source_artifacts",
       "estimated_seconds": 1,
@@ -135,6 +132,7 @@
       "no_control_rationale_pointer": "$.claim_boundary.C4",
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.hardgate_evidence.C-HG5",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "artifact_id",
         "generated_at",
@@ -154,11 +152,54 @@
   },
   "json_artifact": "reports/canonical/observed-debt-sweep.json",
   "markdown_artifact": "reports/canonical/observed-debt-sweep.md",
-  "output_digest": "5039991d23d7cba685583ba41171ac12df6f17007321a8313001d65bb3aaf5b2",
   "producer_command": [
     "python3",
     "scripts/run_observed_debt_sweep.py"
   ],
   "report_name": "observed-debt-sweep",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "observed-debt-sweep"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "observed-debt-sweep",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "091c4374e3761959b9d30cd4136305ef869353fae45b406e38978ab3c60ba076",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

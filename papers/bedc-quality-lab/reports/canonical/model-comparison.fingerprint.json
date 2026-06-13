@@ -1,21 +1,11 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "acdf06a3f188881dff6d012b4beb057c9d24f515e5a2e7c8c5a55fe47e3bc0af",
+  "input_fingerprint": "7743cbc97d4be3f5afb7eb3b12b8a1ebd460f845239c7f9c03d24deb1c8d9b7a",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
-    "config_inputs": [
-      {
-        "path": "configs/default_cost_protocol.yaml",
-        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
-      },
-      {
-        "path": "docs/lit/literature_ledger.yaml",
-        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
-      }
-    ],
     "dependency_abi": {
       "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
       "numpy": "2.2.5",
@@ -24,6 +14,10 @@
     },
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
+      {
+        "path": "bedc_quality_lab/__init__.py",
+        "sha256": "adb92d2cc82faac54a0b17338d51e2e7965a348931f77751bdd2bcf95f468fd6"
+      },
       {
         "path": "bedc_quality_lab/artifact_freshness.py",
         "sha256": "5485a1620df31df7c17da2f2cc2e0a48765c31dcf42bf2c513356a6b6ec32752"
@@ -46,7 +40,11 @@
       },
       {
         "path": "bedc_quality_lab/backends/current_lab/projection.py",
-        "sha256": "7a0dfb833a5acbe4bc26abd2ada28fe4fb6360c5bd5d6bdb062e3508af6a2b66"
+        "sha256": "0d2b78274c82e8a930d33575833e7aa333b114fdb19028b953a2456cf050ef1c"
+      },
+      {
+        "path": "bedc_quality_lab/canonical_digest.py",
+        "sha256": "8eed097f6a5996ef2484eff9e7d2975292d1dc47eaeb28e06b1f86399ec6c5d5"
       },
       {
         "path": "bedc_quality_lab/causal_patch_suite.py",
@@ -58,23 +56,23 @@
       },
       {
         "path": "bedc_quality_lab/claim_acceptance.py",
-        "sha256": "2dce7486ca3822c3ce1b67b50ef339090cda5e773dd10bb5a8490753d41bbb00"
+        "sha256": "1c3eb31522f3bb6bdb1e745c44e194c80021c1bd06f4e0ca2d94821ac1170e66"
       },
       {
         "path": "bedc_quality_lab/claim_artifact_consistency.py",
-        "sha256": "4c0767bc10931ff8fdb28c4a0014e647fd47b450781b4b2001f1f2820d927949"
+        "sha256": "c0e366193e127e831a2496a080dc80cc9faec8d9ef32f3e149ad1a9237b33f3b"
       },
       {
         "path": "bedc_quality_lab/claim_complexity.py",
-        "sha256": "f01c3319271335b25b779fb25f299c47322e581c52bee884b5994bf3cd78bb13"
+        "sha256": "2e499ee614e5546bc89e4da9940192eb8b9f56ca555c4b34b83e40573be53f0f"
       },
       {
         "path": "bedc_quality_lab/claim_graph.py",
-        "sha256": "898ccc37a8cb0a2ad1d40bca3f4e6b3a16e89ec56243ad6ae57d46104e9b0c77"
+        "sha256": "2a19ede12bacf4d97c6da229ecd047632e8657ba69be803b165258e49ed20511"
       },
       {
         "path": "bedc_quality_lab/claim_projection.py",
-        "sha256": "48b3044cf4c7d2ee016f12f165a57555cc62937915a479e5dccf9e8906fb718f"
+        "sha256": "4025ef02984a8decab21ac90ae25ece87292e48344d9ab94621e1cdcd2967790"
       },
       {
         "path": "bedc_quality_lab/claim_terms.py",
@@ -85,12 +83,24 @@
         "sha256": "bb09e8c6cbe9991e04a23c97c7f1b16d431a6045fb49c9b6f7c72dbd743fe209"
       },
       {
+        "path": "bedc_quality_lab/construct_validity.py",
+        "sha256": "eac03a3af807de0e6ede5499b177a431b2e17096209829ab480310a9a9c6e843"
+      },
+      {
         "path": "bedc_quality_lab/cost_protocol.py",
         "sha256": "3ddb4b57d75860b102b412e501d2d0f1a8bab702c317160822b0fe14d19fbb62"
       },
       {
         "path": "bedc_quality_lab/debt.py",
         "sha256": "6a3a749b2087fdf86e914412ccdf0fef166ab1764403424bbdd38ca3a9d507c6"
+      },
+      {
+        "path": "bedc_quality_lab/dgt_l1_boundary_report.py",
+        "sha256": "821a93956e130412a879d77edcdbd08a1d2b6fe82d42dd0beec81ac556b1b7be"
+      },
+      {
+        "path": "bedc_quality_lab/dgt_model_card.py",
+        "sha256": "b483c21851ccb5b14200c2202926f8094535d197425cc95a50c134fc982ab541"
       },
       {
         "path": "bedc_quality_lab/discovery.py",
@@ -110,7 +120,7 @@
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/capsule.py",
-        "sha256": "9620c15a2685d5115d3fca3f5d1240847de397c5cfce7ccdc388339e66e10ea3"
+        "sha256": "d8a3762da82876bdfa2e3f2ed2ed31768dd9b8e04bc8800c488b91b99f587526"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/claim_verdict_reason.py",
@@ -122,11 +132,11 @@
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/experiment_proposals.py",
-        "sha256": "1f66196d6d6e74145c3731ac1aa91119682d2021170ac58aabb2d86460fe9a19"
+        "sha256": "5feab468788f2b9072f71bb85582cdbf5db25e3ca4625f7ec6780df7a54a2d08"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/map.py",
-        "sha256": "2e85681cdd2a53f66472a116dc81489d9cd2cac40bad3604158b595516f71653"
+        "sha256": "c4285cc41b2f5a89ff2154850506a970e4b344bdd04ae2592802ea271de32529"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/negative_reports.py",
@@ -142,7 +152,7 @@
       },
       {
         "path": "bedc_quality_lab/discovery_gated_transformer.py",
-        "sha256": "bcb9053c497d5db1d42e213a36259db5f25edf4744da9f073206fe71ad1e9289"
+        "sha256": "37e905c5cf30a84cf3a43408d37bd0220cc8d464276787a62550450a986d2173"
       },
       {
         "path": "bedc_quality_lab/discovery_gated_transformer_training.py",
@@ -153,12 +163,20 @@
         "sha256": "90a502ba274f84e9ac9023b700668440c8daa91eb10700746bbb616a088daee9"
       },
       {
+        "path": "bedc_quality_lab/evidence_provenance.py",
+        "sha256": "4f9624848640921a30f9893a2b17349e8ab1f189dfd7f0380de890dbce16669f"
+      },
+      {
+        "path": "bedc_quality_lab/experiment_stack.py",
+        "sha256": "d74c40f3a897520d9f72f35d89d8ee8dbffc47e09ec780c721c6e0e2da9089b9"
+      },
+      {
         "path": "bedc_quality_lab/hardening.py",
         "sha256": "d918d1d642490e49913db0b3cbee02ff165e8e762ee727aa2705af09ea83ab27"
       },
       {
         "path": "bedc_quality_lab/high_impact_claim_review.py",
-        "sha256": "9f609ae3e1d4b96b036b6b7823ce7ffec591e2f5e04f6b91944cccd0d03adde8"
+        "sha256": "dd6f2d698446d882866c01ece5dbaa6de4c0cca301c623478c66823a3511e6db"
       },
       {
         "path": "bedc_quality_lab/high_impact_review.py",
@@ -181,6 +199,10 @@
         "sha256": "8979becc50751550c52e09fd1a37d12dfaf07db8ceeb9107ce935e63326e37ed"
       },
       {
+        "path": "bedc_quality_lab/metric_purity.py",
+        "sha256": "ded4c5a9aeb27289260aab8686985bd7c6ffb0a00f330f7d3a7e8d11b87772af"
+      },
+      {
         "path": "bedc_quality_lab/metrics.py",
         "sha256": "b5e6ad3f40802377f3fd122902f053c8cde3cc9ac3a01c8d155bcd1df0c482fe"
       },
@@ -197,6 +219,14 @@
         "sha256": "74c2a2b400918b8b55e61df1bdba6bf21b420f3578b134019e31cd0c9cc2260c"
       },
       {
+        "path": "bedc_quality_lab/reproducibility.py",
+        "sha256": "b3a88717202d5c8c8f6a3ca9fb0c3fd27a33a97a723878905e76db880683a266"
+      },
+      {
+        "path": "bedc_quality_lab/reproduction_package.py",
+        "sha256": "00fefbe37284bb2cd0b052e04a6e37fb7baf5ad9ea4c4c38b7cdac1eec185bbf"
+      },
+      {
         "path": "bedc_quality_lab/research_discovery.py",
         "sha256": "cc3fbdba46b4f6d095e2a4de565c840a491c6caf6d03c9f3e2d6b88879a2bf71"
       },
@@ -205,12 +235,20 @@
         "sha256": "c0510fcf8887f9b0d4ec2f1b0d0002d2d5a9f06210b4123c94ec226d3e34f0e4"
       },
       {
+        "path": "bedc_quality_lab/scaling_ladder.py",
+        "sha256": "9b73928176a951586b5c5ba38aa68c6fdadef4918f8307dc178017a008cf71be"
+      },
+      {
         "path": "bedc_quality_lab/schema.py",
         "sha256": "4f637dc4fc55988e3fe80bf9c1612ce42d80ab6ebd3947d88cb7e6202cbb8ed6"
       },
       {
         "path": "bedc_quality_lab/scope.py",
         "sha256": "c31e7e403bca8dc453bdb42704271c356447fe5dc7265f1acbb2ce19c78a9ea0"
+      },
+      {
+        "path": "bedc_quality_lab/structural_generalization_splits.py",
+        "sha256": "526d1a2425fe8d41e239762b7635a051542939b6224851c3fb2f0e0f7b494c5b"
       },
       {
         "path": "bedc_quality_lab/theorem_bound_quality.py",
@@ -223,6 +261,10 @@
       {
         "path": "bedc_quality_lab/verdict.py",
         "sha256": "df44339e698294f17c34871954f1d62a8d3be649f7553cae64317f650ce68404"
+      },
+      {
+        "path": "bedc_quality_lab/winnability.py",
+        "sha256": "c3577a5a1112a7bafd2d14160774a69a45d4ee081923cbe9e32459ef3ba2df24"
       },
       {
         "path": "scripts/experiment_stats.py",
@@ -238,7 +280,7 @@
       },
       {
         "path": "scripts/run_canonical_reports.py",
-        "sha256": "35ac98e06f56e15374e0e0b019f71e5c6b75c738ee58ed9e0207d23f83bd0841"
+        "sha256": "2b52e093e8e496534522c87f9e00772d48c699862f92f3571cb68e2617a807a8"
       },
       {
         "path": "scripts/run_causal_patch_suite.py",
@@ -258,7 +300,7 @@
       },
       {
         "path": "scripts/run_claim_verdict_demo.py",
-        "sha256": "232f3e3e400fb3106c44ec0dd01a1ddda0d510155363ba0be92d4795bde0a707"
+        "sha256": "bc09d73428b11f78d4515ba62a7d613bdcd9cbfdeb737f987b4faa770d260e5a"
       },
       {
         "path": "scripts/run_dimension_mismatch_anti_triviality.py",
@@ -278,7 +320,7 @@
       },
       {
         "path": "scripts/run_discovery_map.py",
-        "sha256": "8305172cbe55592726cb67c7035f2135813593b5a0296906892a5841b6365afd"
+        "sha256": "bf37a8c1b2619ce4ad1683b9f0a96da99c87b4ad3cf66d5372c44571b728e98d"
       },
       {
         "path": "scripts/run_discovery_negative_witness_summary.py",
@@ -305,12 +347,24 @@
         "sha256": "a345b7c2afd429664c5a9ced83d49bd8fe90b96db8a04fbd64b18535a8e7c886"
       },
       {
+        "path": "scripts/run_reproduction_package.py",
+        "sha256": "f24bd45bbda483fb6229e310e0e6930a96d31349665a4344a9a575affba05861"
+      },
+      {
+        "path": "scripts/run_scaling_ladder.py",
+        "sha256": "3b46df903c76669e98c70016c928df2ddfcf376523adaa22cd174cea5ddb40bb"
+      },
+      {
         "path": "scripts/run_single_threshold_escape_witness.py",
         "sha256": "5208fe12fd53eaff1bb1060cbc96d5068ccc16ff3ede8ac84ea94ae63f4d39d3"
       },
       {
         "path": "scripts/run_toy_safety_boundary.py",
         "sha256": "1b22a2c945cf2f28409245380fcb10aba899a91565c5d4b551a16976283fca7a"
+      },
+      {
+        "path": "scripts/run_winnability_certificates.py",
+        "sha256": "bc6ce57f684440b404d2638aeed96852c6f31eb2c74da0773e201a8a21fca022"
       }
     ],
     "report_output_schema_id": "bedc-quality-lab:model-comparison",
@@ -331,7 +385,7 @@
       },
       {
         "path": "reports/runs/model-comparison/base_transformer/claim_capsule.json",
-        "sha256": "c5b020779696b00c7f98614e9dcd6cca1551c22099ab27c8212ae67cdf380758"
+        "sha256": "56d2b203b059ac6a77daa11bff2469e272e7a1fe2b8aca73232af0ca1314b1e4"
       },
       {
         "path": "reports/runs/model-comparison/base_transformer/evidence_envelope.json",
@@ -339,7 +393,7 @@
       },
       {
         "path": "reports/runs/model-comparison/dgt/claim_capsule.json",
-        "sha256": "259d067c5c2d9a7fbcb9db913ea97669ad9ae71e99037c52a08edff5563d874c"
+        "sha256": "f65e724a7dc85c8f8afb6f8b85c548159d11c28194e2fa09691d83538408289b"
       },
       {
         "path": "reports/runs/model-comparison/dgt/evidence_envelope.json",
@@ -347,7 +401,7 @@
       },
       {
         "path": "reports/runs/model-comparison/matched_random_structural_control/claim_capsule.json",
-        "sha256": "ea9a69fa13d13b9c4e9f596f1acdbb840d72a012c70d8aa1356b3a0542e05908"
+        "sha256": "98bd652abd0213bfe2dd9e75126c04de84759fe5308c5c422788853e8f0a6b3e"
       },
       {
         "path": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json",
@@ -356,10 +410,12 @@
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_canonical_reports.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": "$.hardgates.MC-HG9",
       "cost_pointer": "$.source_reports",
       "estimated_seconds": 1,
@@ -376,6 +432,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.hardgates.MC-HG7",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -392,11 +449,54 @@
   },
   "json_artifact": "reports/canonical/model-comparison.json",
   "markdown_artifact": "reports/canonical/model-comparison.md",
-  "output_digest": "7ee5327d7a23883d564ed03bebca8e96c80574e7ce6f68ef0f82209219d1e704",
   "producer_command": [
     "python3",
     "scripts/run_canonical_reports.py"
   ],
   "report_name": "model-comparison",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "model-comparison"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "model-comparison",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "083d2c40872f5100d173696a68ef479cfc39953e09a6b1ab73ea9fa26a0732d2",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

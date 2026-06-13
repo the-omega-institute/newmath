@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -14,6 +15,13 @@ from bedc_quality_lab.discovery_compiler.pointers import (
 from bedc_quality_lab.discovery_compiler.anti_triviality import (
     ANTI_TRIVIALITY_FAMILIES,
     ANTI_TRIVIALITY_POLICY,
+)
+from bedc_quality_lab.evidence_provenance import (
+    DISCOVERY_EVIDENCE_TYPES,
+    evidence_provenance_pointer_for_report,
+    load_evidence_provenance,
+    owner_discovery_row,
+    resolve_owner_pointer,
 )
 
 
@@ -102,6 +110,17 @@ DN_FACT_KEYS = frozenset(
         "bedc_gap_mapping",
     }
 )
+LADDER_ROW_FORBIDDEN_KEYS = frozenset(
+    {
+        "ladder_state",
+        "ladder_reason",
+        "opened_levels",
+        "boundary_ledger",
+        "state",
+        "reason",
+    }
+)
+SCALING_LADDER_POINTER_PREFIX = "reports/canonical/scaling-ladder.json:$.levels["
 
 
 @dataclass(frozen=True)
@@ -115,13 +134,25 @@ class DiscoveryMapRow:
     audit_status: str
     audit_reason: str
     negative_report_pointer: str | None
+    evidence_type: str
+    evidence_provenance_pointer: str
+    scaling_ladder_pointer: str | None
     cells: Mapping[str, Any]
 
     @classmethod
-    def from_mapping(cls, row: Mapping[str, Any], *, root: Path | None = None) -> "DiscoveryMapRow":
+    def from_mapping(
+        cls,
+        row: Mapping[str, Any],
+        *,
+        root: Path | None = None,
+        validate_owner_projection: bool = True,
+    ) -> "DiscoveryMapRow":
         copied_reporting = sorted(key for key in REPORTING_VERDICT_FORBIDDEN_KEYS if key in row)
         if copied_reporting:
             raise ValueError(f"discovery map row copies reporting verdict fields: {', '.join(copied_reporting)}")
+        copied_ladder = sorted(key for key in LADDER_ROW_FORBIDDEN_KEYS if key in row)
+        if copied_ladder:
+            raise ValueError(f"discovery map row copies scaling ladder fields: {', '.join(copied_ladder)}")
         required = (
             "report",
             "json_artifact",
@@ -148,9 +179,29 @@ class DiscoveryMapRow:
             negative_pointer = row.get("negative_report_pointer")
             if negative_pointer is not None:
                 raise ValueError("non-DN discovery map row must not carry negative_report_pointer")
+        evidence_type = row.get("evidence_type")
+        if evidence_type not in DISCOVERY_EVIDENCE_TYPES:
+            raise ValueError("discovery map row requires owner evidence_type")
+        provenance_pointer = row.get("evidence_provenance_pointer")
+        if not isinstance(provenance_pointer, str) or provenance_pointer != evidence_provenance_pointer_for_report(str(row["report"])):
+            raise ValueError("discovery map row requires owner evidence provenance pointer")
+        if root is not None and validate_owner_projection:
+            _validate_owner_evidence_projection(root, row)
+        if level == "DN" and evidence_type != "boundary_negative":
+            raise ValueError("DN discovery map row must project boundary_negative evidence")
+        if level in POSITIVE_DISCOVERY_LEVELS and evidence_type in {
+            "empirical_training_tainted",
+            "boundary_negative",
+            "protocol_artifact",
+        }:
+            raise ValueError("positive discovery map row cannot project boundary or protocol-only evidence")
         evidence = row.get("evidence_pointer")
         if evidence is not None and not isinstance(evidence, str):
             raise ValueError("evidence_pointer must be a string or null")
+        scaling_ladder_pointer = row.get("scaling_ladder_pointer")
+        if scaling_ladder_pointer is not None:
+            if not isinstance(scaling_ladder_pointer, str) or not scaling_ladder_pointer.startswith(SCALING_LADDER_POINTER_PREFIX):
+                raise ValueError("scaling_ladder_pointer must point to scaling-ladder level rows")
         if level in POSITIVE_DISCOVERY_LEVELS and root is not None and str(row["audit_status"]) == "valid":
             _validate_positive_row_anti_triviality(root, row)
         return cls(
@@ -163,6 +214,9 @@ class DiscoveryMapRow:
             audit_status=str(row["audit_status"]),
             audit_reason=str(row["audit_reason"]),
             negative_report_pointer=negative_pointer,
+            evidence_type=str(evidence_type),
+            evidence_provenance_pointer=provenance_pointer,
+            scaling_ladder_pointer=scaling_ladder_pointer,
             cells=row,
         )
 
@@ -174,8 +228,16 @@ def level_counts(rows: Sequence[Mapping[str, Any]]) -> dict[str, int]:
     return {level: sum(1 for row in rows if row.get("discovery_level") == level) for level in DISCOVERY_LEVELS}
 
 
-def validate_rows(rows: Sequence[Mapping[str, Any]], *, root: Path | None = None) -> list[DiscoveryMapRow]:
-    return [DiscoveryMapRow.from_mapping(row, root=root) for row in rows]
+def validate_rows(
+    rows: Sequence[Mapping[str, Any]],
+    *,
+    root: Path | None = None,
+    validate_owner_projection: bool = True,
+) -> list[DiscoveryMapRow]:
+    return [
+        DiscoveryMapRow.from_mapping(row, root=root, validate_owner_projection=validate_owner_projection)
+        for row in rows
+    ]
 
 
 def owner_anti_triviality_check(root: Path, owner_pointer: str, *, accepted_level: str | None = None) -> tuple[bool, str]:
@@ -436,17 +498,55 @@ def _raise_coverage_cell_type() -> dict[str, Any]:
     raise ValueError("coverage_matrix cells must be objects")
 
 
-def validate_discovery_map_payload(payload: Mapping[str, Any], *, root: Path | None = None) -> dict[str, Any]:
+def validate_discovery_map_payload(
+    payload: Mapping[str, Any],
+    *,
+    root: Path | None = None,
+    validate_owner_projection: bool = True,
+) -> dict[str, Any]:
     rows = payload.get("rows")
     if not isinstance(rows, list):
         raise ValueError("discovery map rows must be a list")
-    validated = [row.as_dict() for row in validate_rows(rows, root=root)]
+    validated = [
+        row.as_dict()
+        for row in validate_rows(rows, root=root, validate_owner_projection=validate_owner_projection)
+    ]
     coverage_matrix = payload.get("coverage_matrix")
     if coverage_matrix is not None:
         if not isinstance(coverage_matrix, Mapping):
             raise ValueError("discovery map coverage_matrix must be an object")
         validate_coverage_matrix(coverage_matrix, rows=validated, root=root)
     return dict(payload)
+
+
+def load_validated_discovery_map_payload(
+    root: Path,
+    *,
+    artifact: str = DISCOVERY_MAP_JSON_ARTIFACT,
+    validate_owner_projection: bool = True,
+) -> dict[str, Any]:
+    payload = json.loads((root / artifact).read_text(encoding="utf-8"))
+    if not isinstance(payload, Mapping):
+        raise ValueError("discovery map must be a JSON object")
+    return validate_discovery_map_payload(payload, root=root, validate_owner_projection=validate_owner_projection)
+
+
+def _validate_owner_evidence_projection(root: Path, row: Mapping[str, Any]) -> None:
+    section = load_evidence_provenance(root, require=False)
+    if section is None:
+        if (root / "reports/canonical/index.json").exists():
+            raise ValueError("discovery map row requires evidence provenance owner section")
+        return
+    owner = owner_discovery_row(section, str(row.get("report")))
+    if owner is None:
+        raise ValueError("discovery map row lacks owner evidence provenance row")
+    if owner.get("evidence_type") != row.get("evidence_type"):
+        raise ValueError("discovery map row evidence_type disagrees with owner")
+    provenance_pointer = row.get("evidence_provenance_pointer")
+    if provenance_pointer != evidence_provenance_pointer_for_report(str(row.get("report"))):
+        raise ValueError("discovery map row evidence provenance pointer disagrees with owner")
+    if resolve_owner_pointer(root, str(provenance_pointer)) != owner:
+        raise ValueError("discovery map row evidence provenance pointer is unresolved")
 
 
 def build_discovery_map_payload(
@@ -457,8 +557,12 @@ def build_discovery_map_payload(
     coverage_matrix: Mapping[str, Any] | None = None,
     root: Path | None = None,
     expected_coverage_component_ids: frozenset[str] | None = None,
+    validate_owner_projection: bool = True,
 ) -> dict[str, Any]:
-    validated = [row.as_dict() for row in validate_rows(rows, root=root)]
+    validated = [
+        row.as_dict()
+        for row in validate_rows(rows, root=root, validate_owner_projection=validate_owner_projection)
+    ]
     payload = {
         "schema_id": DISCOVERY_MAP_SCHEMA_ID,
         "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,

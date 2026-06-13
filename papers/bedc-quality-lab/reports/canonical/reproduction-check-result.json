@@ -1,0 +1,272 @@
+{
+  "artifact_id": "bedc-quality-lab:reproduction-check-result",
+  "blocked_targets": [
+    "fair-l1-training"
+  ],
+  "failed_targets": [],
+  "generated_at": "2026-06-12T22:50:28.746960+00:00",
+  "not_claimed": [
+    "Pointer verification is not a substitute for full training replay.",
+    "Projection-only checks do not satisfy measured-training reproduction."
+  ],
+  "package_ref": "reports/canonical/reproduction-package.json:$",
+  "profile": "structural",
+  "schema_id": "bedc-quality-lab:reproduction-check-result",
+  "source_artifacts": {
+    "package": "reports/canonical/reproduction-package.json",
+    "runner": "scripts/run_reproduction_package.py"
+  },
+  "target_results": [
+    {
+      "blocked_reason": null,
+      "ci_rehearsal_ref": null,
+      "failure_reasons": [],
+      "fingerprint_status": "pass",
+      "rerun_artifact_refs": [
+        "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l0-toy-controls/summary.json:$"
+      ],
+      "resolved_owner_pointers": [
+        "reports/canonical/dgt-l0-controls.json:$.source_artifacts.command",
+        "reports/canonical/dgt-l0-controls.json:$.source_artifacts",
+        "reports/canonical/dgt-l0-controls.json:$.source_artifacts.command",
+        "reports/canonical/dgt-l0-controls.json:$.source_artifacts.device_policy",
+        "reports/canonical/dgt-l0-controls.json:$.source_artifacts.runner",
+        "reports/canonical/dgt-l0-controls.fingerprint.json:$.inputs.dependency_abi",
+        "reports/canonical/dgt-l0-controls.json:$.l0_toy_projection",
+        "reports/canonical/dgt-l0-controls.json:$.source_artifacts.device_policy",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/runs/discovery-gated-transformer/l0-toy-controls/raw_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l0-toy-controls/summary.json:$",
+        "reports/canonical/dgt-l0-controls.json:$.feature_audit",
+        "reports/canonical/dgt-l0-controls.fingerprint.json:$",
+        "reports/canonical/dgt-l0-controls.json:$.honest_metric_review",
+        "reports/canonical/dgt-l0-controls.json:$",
+        "reports/canonical/dgt-l0-controls.json:$.source_artifacts.seed_policy",
+        "reports/canonical/dgt-l0-controls.json:$.independent_replay.fixed_seeds",
+        "reports/canonical/dgt-l0-controls.json:$.independent_replay.pass_cells"
+      ],
+      "status": "pass",
+      "target_id": "dgt-l0-honest-rerun",
+      "target_kind": "full-repro-ci",
+      "tolerance_status": "pass"
+    },
+    {
+      "blocked_reason": {
+        "category": "missing-validation-loss-cell",
+        "dependency_ref": "github:issue:1196",
+        "detail": "validation-loss-cell-missing",
+        "evidence_ref": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows[3]",
+        "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG2",
+        "planning_context_ref": "github:issue:1329#plan-4"
+      },
+      "ci_rehearsal_ref": null,
+      "failure_reasons": [
+        "pointer does not resolve: reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
+        "fair-l1-training waits for seven-arm owner artifact"
+      ],
+      "fingerprint_status": "pass",
+      "rerun_artifact_refs": [
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json:$"
+      ],
+      "resolved_owner_pointers": [
+        "reports/canonical/dgt-l1-controls.json:$.source_artifacts.command",
+        "reports/canonical/dgt-l1-controls.json:$.task_spec",
+        "reports/canonical/dgt-l1-controls.json:$.source_artifacts.device_policy",
+        "reports/canonical/dgt-l1-controls.json:$.source_artifacts.runner",
+        "reports/canonical/dgt-l1-controls.fingerprint.json:$.inputs.dependency_abi",
+        "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+        "reports/canonical/dgt-l1-controls.json:$.source_artifacts.device_policy",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json:$",
+        "reports/canonical/dgt-l1-controls.fingerprint.json:$",
+        "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
+        "reports/canonical/dgt-l1-controls.json:$",
+        "reports/canonical/dgt-l1-controls.json:$.source_artifacts.seed_policy",
+        "reports/canonical/dgt-l1-controls.json:$.independent_replay.fixed_seeds",
+        "reports/canonical/dgt-l1-controls.json:$.independent_replay"
+      ],
+      "status": "blocked",
+      "target_id": "fair-l1-training",
+      "target_kind": "full-repro-ci",
+      "tolerance_status": "pass"
+    },
+    {
+      "blocked_reason": null,
+      "ci_rehearsal_ref": null,
+      "failure_reasons": [],
+      "fingerprint_status": "pass",
+      "rerun_artifact_refs": [
+        "reports/runs/dgt-neural-ablation/raw_metrics.jsonl",
+        "reports/runs/dgt-neural-ablation/summary.json:$"
+      ],
+      "resolved_owner_pointers": [
+        "reports/canonical/dgt-neural-ablation.fingerprint.json:$.producer_command",
+        "reports/canonical/dgt-neural-ablation.json:$.run_spec",
+        "reports/canonical/dgt-neural-ablation.json:$.training_protocol",
+        "reports/canonical/dgt-neural-ablation.json:$.source_artifacts.runner",
+        "reports/canonical/dgt-neural-ablation.fingerprint.json:$.inputs.dependency_abi",
+        "reports/canonical/dgt-ablation-null-decomposition.json:$.null_decomposition",
+        "reports/canonical/dgt-neural-ablation.json:$.training_protocol.resolved_device",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/runs/dgt-neural-ablation/raw_metrics.jsonl",
+        "reports/runs/dgt-neural-ablation/summary.json:$",
+        "reports/canonical/dgt-neural-ablation.json:$.scope_seal_mechanism",
+        "reports/canonical/dgt-neural-ablation.fingerprint.json:$",
+        "reports/canonical/dgt-ablation-null-decomposition.fingerprint.json:$",
+        "reports/canonical/dgt-neural-ablation.json:$.metric_protocol",
+        "reports/canonical/dgt-neural-ablation.json:$",
+        "reports/canonical/dgt-neural-ablation.json:$.training_protocol.seeds",
+        "reports/canonical/dgt-ablation-null-decomposition.json:$.threshold_schema"
+      ],
+      "status": "pass",
+      "target_id": "honest-ablation-null-training",
+      "target_kind": "full-repro-ci",
+      "tolerance_status": "pass"
+    },
+    {
+      "blocked_reason": null,
+      "ci_rehearsal_ref": null,
+      "failure_reasons": [],
+      "fingerprint_status": "pass",
+      "rerun_artifact_refs": [
+        "reports/canonical/index.json:$"
+      ],
+      "resolved_owner_pointers": [
+        "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+        "reports/canonical/index.json:$.reports",
+        "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+        "reports/canonical/reproduction-package.fingerprint.json:$.inputs.dependency_abi",
+        "reports/canonical/index.json:$.root",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/index.json:$",
+        "reports/canonical/index.json:$.input_accessibility",
+        "reports/canonical/reproduction-package.fingerprint.json:$",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/index.json:$",
+        "reports/canonical/reproduction-package.json:$.projection_regen_refs[0]",
+        "reports/canonical/reproduction-package.json:$.hardgates"
+      ],
+      "status": "pass",
+      "target_id": "canonical-index-view",
+      "target_kind": "projection-only",
+      "tolerance_status": "pass"
+    },
+    {
+      "blocked_reason": null,
+      "ci_rehearsal_ref": null,
+      "failure_reasons": [],
+      "fingerprint_status": "pass",
+      "rerun_artifact_refs": [
+        "reports/canonical/claim_capsule.json:$"
+      ],
+      "resolved_owner_pointers": [
+        "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+        "reports/canonical/claim_capsule.json:$",
+        "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+        "reports/canonical/reproduction-package.fingerprint.json:$.inputs.dependency_abi",
+        "reports/canonical/index.json:$.root",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/claim_capsule.json:$",
+        "reports/canonical/claim_capsule.json:$",
+        "reports/canonical/reproduction-package.fingerprint.json:$",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/claim_capsule.json:$",
+        "reports/canonical/reproduction-package.json:$.projection_regen_refs[1]",
+        "reports/canonical/reproduction-package.json:$.hardgates"
+      ],
+      "status": "pass",
+      "target_id": "claim-capsule-view",
+      "target_kind": "projection-only",
+      "tolerance_status": "pass"
+    },
+    {
+      "blocked_reason": null,
+      "ci_rehearsal_ref": null,
+      "failure_reasons": [],
+      "fingerprint_status": "pass",
+      "rerun_artifact_refs": [
+        "reports/canonical/claim_graph.json:$"
+      ],
+      "resolved_owner_pointers": [
+        "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+        "reports/canonical/claim_graph.json:$",
+        "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+        "reports/canonical/reproduction-package.fingerprint.json:$.inputs.dependency_abi",
+        "reports/canonical/index.json:$.root",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/claim_graph.json:$",
+        "reports/canonical/claim_graph.json:$",
+        "reports/canonical/reproduction-package.fingerprint.json:$",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/claim_graph.json:$",
+        "reports/canonical/reproduction-package.json:$.projection_regen_refs[2]",
+        "reports/canonical/reproduction-package.json:$.hardgates"
+      ],
+      "status": "pass",
+      "target_id": "claim-graph-view",
+      "target_kind": "projection-only",
+      "tolerance_status": "pass"
+    },
+    {
+      "blocked_reason": null,
+      "ci_rehearsal_ref": null,
+      "failure_reasons": [],
+      "fingerprint_status": "pass",
+      "rerun_artifact_refs": [
+        "reports/canonical/discovery-gated-transformer.json:$"
+      ],
+      "resolved_owner_pointers": [
+        "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+        "reports/canonical/discovery-gated-transformer.json:$.source_artifacts",
+        "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+        "reports/canonical/discovery-gated-transformer.fingerprint.json:$.inputs.dependency_abi",
+        "reports/canonical/index.json:$.root",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/discovery-gated-transformer.json:$",
+        "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+        "reports/canonical/discovery-gated-transformer.fingerprint.json:$",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+        "reports/canonical/reproduction-package.json:$.projection_regen_refs[3]",
+        "reports/canonical/reproduction-package.json:$.hardgates"
+      ],
+      "status": "pass",
+      "target_id": "scaling-ladder-view",
+      "target_kind": "projection-only",
+      "tolerance_status": "pass"
+    },
+    {
+      "blocked_reason": null,
+      "ci_rehearsal_ref": null,
+      "failure_reasons": [],
+      "fingerprint_status": "pass",
+      "rerun_artifact_refs": [
+        "reports/canonical/index.md"
+      ],
+      "resolved_owner_pointers": [
+        "reports/canonical/reproduction-package.json:$.source_artifacts.command",
+        "reports/canonical/index.json:$.reports",
+        "reports/canonical/reproduction-package.json:$.source_artifacts.runner",
+        "reports/canonical/reproduction-package.fingerprint.json:$.inputs.dependency_abi",
+        "reports/canonical/index.json:$.root",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/index.md",
+        "reports/canonical/index.json:$.reports",
+        "reports/canonical/reproduction-package.fingerprint.json:$",
+        "reports/canonical/index.json:$.evidence_provenance",
+        "reports/canonical/index.md",
+        "reports/canonical/reproduction-package.json:$.projection_regen_refs[4]",
+        "reports/canonical/reproduction-package.json:$.hardgates"
+      ],
+      "status": "pass",
+      "target_id": "generated-markdown-views",
+      "target_kind": "projection-only",
+      "tolerance_status": "pass"
+    }
+  ]
+}

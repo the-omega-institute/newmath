@@ -27,7 +27,9 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     reason_for_claim_verdict,
     validate_claim_verdict_reason,
 )
+from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.evidence_provenance import load_evidence_provenance, owner_supports_empirical_claim
 from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
@@ -88,6 +90,7 @@ DIMENSION_MISMATCH_COST_POINTER = "$.source_artifacts"
 DIMENSION_MISMATCH_NOT_CLAIMED_POINTER = "$.not_claimed"
 DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER = "$.dimension_mismatch_debt_transfer"
 DIMENSION_MISMATCH_CONTROL_POINTER = "$.control_protocol"
+WINNABILITY_CERTIFICATES_ARTIFACT = "reports/canonical/winnability-certificates.json"
 
 @dataclass(frozen=True)
 class ClaimSource:
@@ -124,10 +127,11 @@ def _load_payload(root: Path, artifact: str) -> dict[str, Any]:
 def _load_discovery_rows(root: Path, generated_at: str | None) -> list[dict[str, Any]]:
     path = _artifact_path(root, "reports/canonical/discovery_map.json")
     if path.exists():
-        payload = _load_json(path)
-        rows = payload.get("rows") if isinstance(payload, Mapping) else None
-        if isinstance(rows, list) and all(isinstance(row, dict) for row in rows):
-            return rows
+        payload = load_validated_discovery_map_payload(root)
+        rows = payload["rows"]
+        if not all(isinstance(row, dict) for row in rows):
+            raise ValueError("discovery map must contain object rows")
+        return rows
     return list(build_discovery_map(generated_at=generated_at, root=root, canonical_reports=_discovery_map_reports())["rows"])
 
 
@@ -137,6 +141,109 @@ def _load_scorecard(root: Path) -> dict[str, Any] | None:
         return None
     payload = _load_json(path)
     return payload if isinstance(payload, dict) else None
+
+
+def _empirical_claim_support(root: Path, report: str) -> tuple[bool, str]:
+    section = load_evidence_provenance(root, require=False)
+    if section is None:
+        return False, "evidence-provenance-owner-missing"
+    return owner_supports_empirical_claim(section, report)
+
+
+def _load_winnability_certificates(root: Path) -> dict[str, Any]:
+    path = _artifact_path(root, WINNABILITY_CERTIFICATES_ARTIFACT)
+    if not path.exists():
+        return {"status": "missing", "by_certificate_id": {}, "duplicates": set(), "pointers": {}}
+    payload = _load_json(path)
+    rows = payload.get("certificates") if isinstance(payload, Mapping) else None
+    if not isinstance(rows, list):
+        return {"status": "malformed", "by_certificate_id": {}, "duplicates": set(), "pointers": {}}
+    by_certificate_id: dict[str, Mapping[str, Any]] = {}
+    duplicates: set[str] = set()
+    pointers: dict[str, str] = {}
+    for index, row in enumerate(rows):
+        if not isinstance(row, Mapping) or not isinstance(row.get("certificate_id"), str):
+            continue
+        certificate_id = str(row["certificate_id"])
+        pointers[certificate_id] = f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates[{index}]"
+        if certificate_id in by_certificate_id:
+            duplicates.add(certificate_id)
+        else:
+            by_certificate_id[certificate_id] = row
+    return {
+        "status": "ready",
+        "by_certificate_id": by_certificate_id,
+        "duplicates": duplicates,
+        "pointers": pointers,
+    }
+
+
+def _winnability_ref_cell(row: Mapping[str, Any], payload: Mapping[str, Any]) -> Mapping[str, Any] | str | None:
+    for source in (row, payload):
+        for key in (
+            "winnability_ref",
+            "winnability_certificate_ref",
+            "winnability_certificate",
+            "winnability",
+        ):
+            value = source.get(key)
+            if isinstance(value, (Mapping, str)):
+                return value
+        value = source.get("winnability_certificate_id")
+        if isinstance(value, str):
+            return value
+    return None
+
+
+def _winnability_certificate_id(ref: Mapping[str, Any] | str | None) -> str | None:
+    if isinstance(ref, str):
+        return ref
+    if not isinstance(ref, Mapping):
+        return None
+    value = ref.get("certificate_id")
+    return value if isinstance(value, str) else None
+
+
+def _winnability_block(
+    root: Path,
+    row: Mapping[str, Any],
+    payload: Mapping[str, Any],
+) -> tuple[str, str, str] | None:
+    ref = _winnability_ref_cell(row, payload)
+    certificate_id = _winnability_certificate_id(ref)
+    if certificate_id is None:
+        return None
+    certificate_map = _load_winnability_certificates(root)
+    pointer = certificate_map.get("pointers", {}).get(certificate_id)
+    if pointer is None:
+        pointer = (
+            ref.get("pointer")
+            if isinstance(ref, Mapping) and isinstance(ref.get("pointer"), str)
+            else f"{WINNABILITY_CERTIFICATES_ARTIFACT}:$.certificates"
+        )
+    if certificate_map["status"] != "ready":
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    if certificate_id in certificate_map["duplicates"]:
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    certificate = certificate_map["by_certificate_id"].get(certificate_id)
+    if not isinstance(certificate, Mapping):
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    coverage = certificate.get("coverage") if isinstance(certificate.get("coverage"), Mapping) else {}
+    permissions = certificate.get("claim_permissions") if isinstance(certificate.get("claim_permissions"), Mapping) else {}
+    if certificate.get("status") == "fail" or certificate.get("method") == "unresolved":
+        return "projected_discovery_required", "winnability-certificate-missing", pointer
+    if certificate.get("unwinnable") is True:
+        return "projected_discovery_required", "split-unwinnable", pointer
+    if coverage.get("coverage_classification") == "table-coverage":
+        return "projected_discovery_required", "table-coverage-ceiling", pointer
+    if any(permissions.get(key) is False for key in (
+        "generalization_claim_allowed",
+        "separation_claim_allowed",
+        "architecture_claim_allowed",
+        "rule_abstraction_claim_allowed",
+    )):
+        return "projected_discovery_required", "winnability-permission-denied", pointer
+    return None
 
 
 def _cost_protocol_loads(root: Path) -> bool:
@@ -313,6 +420,13 @@ def _claim_source(row: Mapping[str, Any], fallback_pointer: str | None = None) -
             if isinstance(value, str):
                 pointer = value
                 break
+    if isinstance(pointer, str) and pointer.startswith("reports/") and ":$" in pointer:
+        artifact, local_pointer = pointer.split(":", 1)
+        return ClaimSource(
+            report=str(row["report"]),
+            json_artifact=artifact,
+            pointer=local_pointer,
+        )
     return ClaimSource(
         report=str(row["report"]),
         json_artifact=str(row["json_artifact"]),
@@ -331,6 +445,21 @@ def _discovery_map_row_pointer(root: Path, row: Mapping[str, Any]) -> str:
                 raise ValueError(f"discovery map row lacks discovery_level cell: {row['report']}")
             return f"reports/canonical/discovery_map.json:$.rows[{index}].discovery_level"
     raise ValueError(f"discovery map ledger row missing for claim: {row['report']}")
+
+
+def _dgt_scaling_ladder_pointer(row: Mapping[str, Any]) -> str:
+    pointer = row.get("scaling_ladder_pointer")
+    return pointer if isinstance(pointer, str) else "reports/canonical/scaling-ladder.json:$.levels[0]"
+
+
+def _dgt_scaling_ladder_open(root: Path, row: Mapping[str, Any]) -> bool:
+    owner = resolve_artifact_pointer(root, _dgt_scaling_ladder_pointer(row))
+    if not isinstance(owner, Mapping) or owner.get("state") != "open":
+        return False
+    hardgates = resolve_artifact_pointer(root, "reports/canonical/scaling-ladder.json:$.hardgates")
+    if not isinstance(hardgates, Mapping):
+        return False
+    return all(isinstance(gate, Mapping) and gate.get("status") == "pass" for gate in hardgates.values())
 
 
 def _discovery_map_audit_pointer(root: Path, row: Mapping[str, Any]) -> str:
@@ -474,6 +603,16 @@ def _mapped_discovery_row(
     level = str(row.get("discovery_level", "D0"))
     source = _claim_source(row)
     claim_id = f"claim:{report}"
+    if report == "discovery-gated-transformer" and level in POSITIVE_LEVELS and not _dgt_scaling_ladder_open(root, row):
+        owner_pointer = _dgt_scaling_ladder_pointer(row)
+        return _row(
+            claim_id=claim_id,
+            claim_verdict="projected_discovery_required",
+            reason="source-insufficient",
+            source=owner_pointer,
+            ledger_pointer=owner_pointer,
+            scorecard_snapshot=scorecard_snapshot,
+        )
     if level == "D0":
         return _row(
             claim_id=claim_id,
@@ -518,6 +657,7 @@ def _mapped_discovery_row(
         return None
     payload = _load_payload(root, str(row["json_artifact"]))
     scorecard = _load_scorecard(root)
+    empirical_owner_ok, empirical_owner_reason = _empirical_claim_support(root, report)
 
     positive_forbidden = _positive_claim_forbidden_pointer(spec, payload)
     if positive_forbidden is not None:
@@ -593,6 +733,18 @@ def _mapped_discovery_row(
             reason="cost-protocol-unavailable",
             source=source,
             ledger_pointer=f"{row['json_artifact']}:{spec.cost_pointer}",
+            scorecard_snapshot=scorecard_snapshot,
+        )
+
+    winnability_block = _winnability_block(root, row, payload) if level in POSITIVE_LEVELS else None
+    if winnability_block is not None:
+        claim_verdict, reason, ledger_pointer = winnability_block
+        return _row(
+            claim_id=claim_id,
+            claim_verdict=claim_verdict,
+            reason=reason,
+            source=source,
+            ledger_pointer=ledger_pointer,
             scorecard_snapshot=scorecard_snapshot,
         )
 
@@ -696,6 +848,15 @@ def _mapped_discovery_row(
                     reason="high-impact-review-required",
                     source=_claim_source(row, high_impact_failure),
                     ledger_pointer=f"{row['json_artifact']}:{high_impact_failure}",
+                    scorecard_snapshot=scorecard_snapshot,
+                )
+            if not empirical_owner_ok:
+                return _row(
+                    claim_id=claim_id,
+                    claim_verdict="projected_discovery_required",
+                    reason=empirical_owner_reason,
+                    source=source,
+                    ledger_pointer=str(row.get("evidence_provenance_pointer") or "reports/canonical/index.json:$.evidence_provenance"),
                     scorecard_snapshot=scorecard_snapshot,
                 )
             return _row(
@@ -921,12 +1082,13 @@ def claim_verdict_line_refs(*, root: Path | None = None) -> dict[str, str]:
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT, help="Lab root containing reports/canonical.")
+    parser.add_argument("--generated-at", default=None, help="Override the generated_at timestamp for deterministic regeneration.")
     return parser.parse_args(argv)
 
 
 def main(argv: Sequence[str] | None = None) -> None:
     args = parse_args(argv)
-    rows = write_claim_verdicts(root=args.root)
+    rows = write_claim_verdicts(root=args.root, generated_at=args.generated_at)
     print(f"wrote {len(rows)} claim verdict rows to {CLAIM_VERDICTS_JSONL_ARTIFACT}")
 
 

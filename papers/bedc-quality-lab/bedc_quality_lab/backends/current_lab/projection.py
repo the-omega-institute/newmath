@@ -27,6 +27,10 @@ from bedc_quality_lab.discovery_compiler.map import (
     build_discovery_map_payload,
     validate_discovery_map_payload,
 )
+from bedc_quality_lab.evidence_provenance import (
+    discovery_evidence_type_for_report,
+    evidence_provenance_pointer_for_report,
+)
 from bedc_quality_lab.discovery_compiler.anti_triviality import ANTI_TRIVIALITY_POLICY
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
@@ -145,6 +149,12 @@ TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observab
 DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
+SCALING_LADDER_ARTIFACT = "reports/canonical/scaling-ladder.json"
+DGT_L0_CONTROLS_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
+DGT_L0_LADDER_CONSUMPTION_REF = {
+    "artifact": DGT_L0_CONTROLS_ARTIFACT,
+    "pointer": "$.l0_toy_projection.ladder_consumption",
+}
 DGT_NEURAL_ABLATION_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 CERTIFICATE_GATED_ATTENTION_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 MECHANISM_SEEKING_NETWORK_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
@@ -156,10 +166,10 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
     {
         "component_id": "DGT",
         "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$",
-        "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.scaling_ladder.discovery_level",
-        "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.scaling_ladder.status",
+        "discovery_level_pointer": f"{SCALING_LADDER_ARTIFACT}:$.levels[0]",
+        "claim_verdict_pointer": f"{SCALING_LADDER_ARTIFACT}:$.levels[0].owner_decision_pointer",
         "mechanism_certificate_pointer": f"{MECHANISM_DNA_ARTIFACT}:$.rows[3]",
-        "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.scaling_ladder.boundary_ledger",
+        "debt_pointer": f"{SCALING_LADDER_ARTIFACT}:$.boundary_ledger",
         "negative_witness_pointer": None,
     },
     {
@@ -1154,6 +1164,18 @@ def _dgt_scaling_ladder_projection_status(payload: Mapping[str, Any]) -> tuple[b
     ladder = pointer_value(payload, "$.scaling_ladder")
     if not isinstance(ladder, Mapping):
         return False, "missing-dgt_scaling_ladder_owner", "$.scaling_ladder"
+    if ladder.get("ladder_consumption_ref") != DGT_L0_LADDER_CONSUMPTION_REF:
+        return False, "dgt_scaling_ladder_owner-l0-ladder-consumption-pointer-mismatch", "$.scaling_ladder.ladder_consumption_ref"
+    levels = ladder.get("levels")
+    if not isinstance(levels, list) or not levels:
+        return False, "dgt_scaling_ladder_owner-l0-level-missing", "$.scaling_ladder.levels"
+    l0_capsule = levels[0].get("claim_capsule") if isinstance(levels[0], Mapping) else None
+    if not isinstance(l0_capsule, Mapping):
+        return False, "dgt_scaling_ladder_owner-l0-capsule-missing", "$.scaling_ladder.levels[0].claim_capsule"
+    if l0_capsule.get("ladder_consumption_ref") != DGT_L0_LADDER_CONSUMPTION_REF:
+        return False, "dgt_scaling_ladder_owner-l0-capsule-pointer-mismatch", "$.scaling_ladder.levels[0].claim_capsule.ladder_consumption_ref"
+    if l0_capsule.get("ladder_consumption_status") != "open":
+        return False, "dgt_scaling_ladder_owner-l0-ladder-consumption-not-open", "$.scaling_ladder.levels[0].claim_capsule.ladder_consumption_status"
     hardgate = ladder.get("hardgate")
     if not isinstance(hardgate, Mapping):
         return False, "dgt_scaling_ladder_owner-hardgate-missing", "$.scaling_ladder.hardgate"
@@ -1181,6 +1203,53 @@ def _dgt_scaling_ladder_projection_status(payload: Mapping[str, Any]) -> tuple[b
     return True, "", "$.scaling_ladder"
 
 
+def _dgt_scaling_owner_context(context: Mapping[str, Mapping[str, Any]] | None) -> Mapping[str, Any]:
+    context_payloads = {} if context is None else context
+    return context_payloads.get(SCALING_LADDER_ARTIFACT, {})
+
+
+def _dgt_scaling_owner_level(
+    context: Mapping[str, Mapping[str, Any]] | None,
+    *,
+    level_id: str = "L0_toy",
+) -> tuple[Mapping[str, Any] | None, int | None]:
+    owner = _dgt_scaling_owner_context(context)
+    levels = owner.get("levels") if isinstance(owner, Mapping) else None
+    if not isinstance(levels, Sequence) or isinstance(levels, (str, bytes, bytearray)):
+        return None, None
+    for index, row in enumerate(levels):
+        if isinstance(row, Mapping) and row.get("level_id") == level_id:
+            return row, index
+    return None, None
+
+
+def _dgt_scaling_owner_pointer(index: int | None) -> str:
+    return f"{SCALING_LADDER_ARTIFACT}:$.levels[{0 if index is None else index}]"
+
+
+def _dgt_scaling_owner_status(
+    context: Mapping[str, Mapping[str, Any]] | None,
+    *,
+    level_id: str = "L0_toy",
+) -> tuple[bool, str, str, Mapping[str, Any] | None]:
+    row, index = _dgt_scaling_owner_level(context, level_id=level_id)
+    pointer = _dgt_scaling_owner_pointer(index)
+    if row is None:
+        return False, "scaling-ladder-owner-missing", pointer, None
+    state = row.get("state")
+    reason = row.get("reason")
+    if state != "open":
+        return False, f"scaling-ladder-owner-{state or 'missing'}:{reason or 'missing-reason'}", pointer, row
+    owner = _dgt_scaling_owner_context(context)
+    hardgates = owner.get("hardgates") if isinstance(owner, Mapping) else None
+    if not isinstance(hardgates, Mapping):
+        return False, "scaling-ladder-owner-hardgates-missing", f"{SCALING_LADDER_ARTIFACT}:$.hardgates", row
+    for gate_id, gate in hardgates.items():
+        if not isinstance(gate, Mapping) or gate.get("status") != "pass":
+            return False, f"scaling-ladder-owner-hardgate-failed:{gate_id}", f"{SCALING_LADDER_ARTIFACT}:$.hardgates.{gate_id}", row
+    return True, "", pointer, row
+
+
 def _discovery_gated_transformer_projection(
     payload: Mapping[str, Any],
     context: Mapping[str, Mapping[str, Any]] | None = None,
@@ -1188,9 +1257,9 @@ def _discovery_gated_transformer_projection(
     consistent, _reason, failed_pointer = _discovery_gated_transformer_consistency(payload, context)
     projection = pointer_value(payload, "$.d4_projection")
     projection = projection if isinstance(projection, Mapping) else {}
-    ladder = pointer_value(payload, "$.scaling_ladder")
     level = projection.get("discovery_level")
-    if not isinstance(ladder, Mapping):
+    owner_open, owner_reason, owner_pointer, owner_row = _dgt_scaling_owner_status(context)
+    if owner_row is None:
         return {
             "positive_discovery": False,
             "net_positive_signal": False,
@@ -1205,9 +1274,10 @@ def _discovery_gated_transformer_projection(
             },
         }, ProjectionEvidence(
             projection_status="source-insufficient",
-            failed_gate="$.scaling_ladder",
+            evidence_pointer=owner_pointer,
+            failed_gate=owner_pointer,
         )
-    if not isinstance(ladder.get("hardgate"), Mapping) or not isinstance(ladder.get("discovery_level"), str):
+    if not owner_open:
         return {
             "positive_discovery": False,
             "net_positive_signal": False,
@@ -1217,41 +1287,19 @@ def _discovery_gated_transformer_projection(
                 "structural_discovery": False,
                 "discovery_gated_transformer": {
                     "level_candidate": "D0",
-                    "status": "scaling-ladder-malformed",
+                    "status": "scaling-ladder-owner-blocked",
+                    "blocked_reason": owner_reason,
+                    "evidence_pointer": owner_pointer,
                 },
             },
         }, ProjectionEvidence(
             projection_status="source-insufficient",
-            failed_gate="$.scaling_ladder",
+            evidence_pointer=owner_pointer,
+            failed_gate=owner_pointer,
         )
     if consistent and level == "D4":
-        d5_ready, d5_reason, d5_pointer = _dgt_d5_o_projection_status(payload, context)
-        d5_m_ready, d5_m_reason, d5_m_pointer = _dgt_d5_m_projection_status(payload)
-        scale_ready, scale_reason, scale_pointer = _dgt_scaling_ladder_projection_status(payload)
-        scaling_level = pointer_value(payload, "$.scaling_ladder.discovery_level")
-        if not isinstance(scaling_level, str) or scaling_level not in DISCOVERY_LEVELS:
-            return {"verdict": "rejected"}, ProjectionEvidence(
-                projection_status="source-insufficient",
-                failed_gate="$.scaling_ladder.discovery_level",
-            )
-        dgt_level = scaling_level
-        evidence_pointer = "$.scaling_ladder"
-        if scale_ready:
-            blocked_reason = None
-            failed_pointer = None
-        elif scale_reason == "dgt_scaling_ladder_owner-status-not-ready":
-            blocked_reason = scale_reason
-            failed_pointer = "$.scaling_ladder.hardgate.gates.SCALE-HG1"
-        elif d5_m_ready:
-            blocked_reason = scale_reason
-            failed_pointer = scale_pointer
-        elif d5_ready:
-            blocked_reason = d5_m_reason
-            failed_pointer = d5_m_pointer
-        else:
-            blocked_reason = d5_reason
-            failed_pointer = d5_pointer
-        projection_status = "projected" if scale_ready else "scaling-ladder-blocked"
+        dgt_level = "D4"
+        evidence_pointer = owner_pointer
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
@@ -1262,9 +1310,9 @@ def _discovery_gated_transformer_projection(
                 "structural_discovery": True,
                 "discovery_gated_transformer": {
                     "level_candidate": dgt_level,
-                    "status": "scaling-ladder-projected" if scale_ready else "scaling-ladder-blocked",
+                    "status": "scaling-ladder-owner-open",
                     "evidence_pointer": evidence_pointer,
-                    "blocked_reason": blocked_reason,
+                    "blocked_reason": None,
                     "classifier_surface_delta_pointer": "$.tool_route_evidence.classifier_surface_delta",
                 },
             },
@@ -1278,11 +1326,11 @@ def _discovery_gated_transformer_projection(
             },
             "scope_seal": pointer_value(payload, "$.d4_projection.scope_seal"),
         }, ProjectionEvidence(
-            projection_status=projection_status,
+            projection_status="projected",
             evidence_pointer=evidence_pointer,
             control_pointer="$.d4_projection.matched_control",
             scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
-            failed_gate=failed_pointer,
+            failed_gate=None,
         )
     return {
         "verdict": "rejected",
@@ -2403,10 +2451,18 @@ def _atlas_claim_acceptance_consistent(payload: Mapping[str, Any], level: Discov
     return derived != ACCEPTED_CLAIM_VERDICT and terminal_verdict == derived
 
 
-def _audit_pointer_cell(payload: Mapping[str, Any], pointer: str | None, missing_reason: str, unresolved_reason: str) -> tuple[str, str] | None:
+def _audit_pointer_cell(
+    payload: Mapping[str, Any],
+    pointer: str | None,
+    missing_reason: str,
+    unresolved_reason: str,
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[str, str] | None:
     if pointer is None:
         return "invalid", missing_reason
-    if pointer_value(payload, pointer) is None:
+    context_payloads = {} if context is None else context
+    value = _artifact_pointer_value(payload, pointer, context_payloads) if ":" in pointer else pointer_value(payload, pointer)
+    if value is None:
         return "invalid", unresolved_reason
     return None
 
@@ -2559,18 +2615,11 @@ def _audit_row(
         consistent, reason, _failed_pointer = _discovery_gated_transformer_consistency(payload, context)
         if not consistent:
             return "invalid", reason
-        scale_ready, scale_reason, _scale_pointer = _dgt_scaling_ladder_projection_status(payload)
-        scaling_level = pointer_value(payload, "$.scaling_ladder.discovery_level")
-        if scaling_level != level:
-            return "invalid", "dgt_scaling_ladder_owner-level-mismatch"
-        if level == "D5-M" and pointer_value(payload, "$.scaling_ladder.status") == "ready" and not scale_ready:
-            return "invalid", scale_reason
-        d5_ready, d5_reason, _d5_pointer = _dgt_d5_o_projection_status(payload, context)
-        d5_m_ready, d5_m_reason, _d5_m_pointer = _dgt_d5_m_projection_status(payload)
-        if level == "D5-M" and not d5_m_ready:
-            return "invalid", d5_m_reason
-        if level in {"D5-O", "D5-M"} and not d5_ready:
-            return "invalid", d5_reason
+        owner_open, owner_reason, _owner_pointer, _owner_row = _dgt_scaling_owner_status(context)
+        if level in {"D4", "D5-O", "D5-M"} and not owner_open:
+            return "invalid", owner_reason
+        if level in {"D5-O", "D5-M"}:
+            return "invalid", "scaling-ladder-owner-does-not-open-d5"
     if spec.name == "dgt-neural-ablation":
         if pointer_value(payload, "$.nabl_hardgates.status") != "pass":
             return "invalid", "dgt-neural-ablation-hardgate-failed"
@@ -2605,7 +2654,13 @@ def _audit_row(
         if _artifact_pointer_value(payload, evidence.scorecard_pointer, context_payloads) is None:
             return "invalid", "unresolved-scorecard-pointer"
     if level == "DN":
-        pointer_result = _audit_pointer_cell(payload, evidence.failed_gate, "missing-failed-gate", "unresolved-failed-gate")
+        pointer_result = _audit_pointer_cell(
+            payload,
+            evidence.failed_gate,
+            "missing-failed-gate",
+            "unresolved-failed-gate",
+            {} if context is None else context,
+        )
         if pointer_result is not None:
             return pointer_result
     if level == "D1":
@@ -2633,13 +2688,14 @@ def discovery_row(
     terminal_verdict = verdict.terminal_verdict
     classifier_reasons = list(verdict.reasons)
     if spec.name == "discovery-gated-transformer":
-        scale_ready, scale_reason, _scale_pointer = _dgt_scaling_ladder_projection_status(payload)
-        scaling_level = pointer_value(payload, "$.scaling_ladder.discovery_level")
-        if isinstance(scaling_level, str) and scaling_level in DISCOVERY_LEVELS:
-            discovery_level = scaling_level
-            classifier_reasons = [
-                "DGT scaling ladder gates passed" if scale_ready else scale_reason or "DGT scaling ladder blocked"
-            ]
+        owner_open, owner_reason, _owner_pointer, _owner_row = _dgt_scaling_owner_status(context_payloads)
+        if owner_open and discovery_level in {"D4", "D5-O", "D5-M"}:
+            discovery_level = "D4"
+            classifier_reasons = ["DGT scaling-ladder owner opened bounded D4 evidence"]
+        else:
+            discovery_level = "D0"
+            terminal_verdict = ""
+            classifier_reasons = [owner_reason or "DGT scaling-ladder owner blocked"]
     if spec.name == "gap-head-transfer-atlas":
         claim = pointer_value(payload, "$.multi_surface_d5_o")
         if isinstance(claim, Mapping) and claim.get("discovery_level") in DISCOVERY_LEVELS:
@@ -2703,6 +2759,8 @@ def discovery_row(
         row["observed_debt_transfer_pointer"] = evidence.observed_debt_transfer_pointer
     if evidence.d5_readiness is not None:
         row["d5_readiness"] = evidence.d5_readiness.as_dict()
+    if spec.name == "discovery-gated-transformer":
+        row["scaling_ladder_pointer"] = f"{SCALING_LADDER_ARTIFACT}:$.levels[0]"
     if scope_claim is not None:
         row["scope_claim"] = dict(scope_claim)
     if scope_gate is not None:
@@ -2741,6 +2799,9 @@ def build_source_discovery_rows(
     reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
     gap_head_d5_context = _load_gap_head_d5_context(root=root)
     gap_head_d5_context[CLAIM_VERDICTS_ARTIFACT] = {"rows": _load_claim_verdict_rows(root=root)}
+    scaling_ladder = _load_artifact_payload(SCALING_LADDER_ARTIFACT, root=root)
+    if scaling_ladder:
+        gap_head_d5_context[SCALING_LADDER_ARTIFACT] = scaling_ladder
     high_impact_review = _load_artifact_payload(HIGH_IMPACT_REVIEW_ARTIFACT, root=root)
     if high_impact_review:
         gap_head_d5_context[HIGH_IMPACT_REVIEW_ARTIFACT] = high_impact_review
@@ -2965,8 +3026,15 @@ def _negative_index_by_report(
     return result
 
 
-def _discovery_map_row(source_row: Mapping[str, Any], negative_indices: Mapping[str, int]) -> dict[str, Any]:
+def _discovery_map_row(
+    source_row: Mapping[str, Any],
+    negative_indices: Mapping[str, int],
+    *,
+    root: Path | None = None,
+    spec_by_name: Mapping[str, CanonicalReportSpec] | None = None,
+) -> dict[str, Any]:
     row = dict(source_row)
+    _attach_evidence_owner_projection(row, root=root, spec_by_name=spec_by_name)
     if row.get("discovery_level") != "DN":
         return row
     report = str(row.get("report") or "")
@@ -2977,6 +3045,29 @@ def _discovery_map_row(source_row: Mapping[str, Any], negative_indices: Mapping[
         for key, value in row.items()
         if key not in DN_FACT_KEYS
     } | {"negative_report_pointer": pointer}
+
+
+def _attach_evidence_owner_projection(
+    row: dict[str, Any],
+    *,
+    root: Path | None = None,
+    spec_by_name: Mapping[str, CanonicalReportSpec] | None = None,
+) -> None:
+    report = str(row.get("report") or "")
+    if not report:
+        return
+    row["evidence_provenance_pointer"] = evidence_provenance_pointer_for_report(report)
+    spec = spec_by_name.get(report) if spec_by_name is not None else None
+    if spec is not None:
+        row["evidence_type"] = discovery_evidence_type_for_report(
+            root=_root(root),
+            spec=spec,
+            source_row=row,
+        )
+    elif row.get("discovery_level") == "DN":
+        row["evidence_type"] = "boundary_negative"
+    else:
+        row["evidence_type"] = "deterministic_projection"
 
 
 def _artifact_pointer_resolves(pointer: str, *, root: Path | None = None) -> bool:
@@ -3138,7 +3229,9 @@ def _manifest_audit(
     canonical_reports: Sequence[CanonicalReportSpec] | None = None,
 ) -> dict[str, Any]:
     reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
-    registered = {spec.json_artifact for spec in reports}
+    from scripts.run_canonical_reports import CANONICAL_REPORTS as full_canonical_reports
+
+    registered = {spec.json_artifact for spec in reports} | {spec.json_artifact for spec in full_canonical_reports}
     registered_pointer_artifacts = {
         "reports/canonical/quality-scorecard.json",
         "reports/canonical/formal_hardening.json",
@@ -3189,8 +3282,10 @@ def build_discovery_map(
         include_sidecars=(_root(root) / NEGATIVE_DISCOVERY_REPORTS_ARTIFACT).exists(),
     )
     negative_indices = _negative_index_by_report(source_rows, root=root)
+    reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
+    spec_by_name = {str(spec.name): spec for spec in reports}
     rows = [
-        _discovery_map_row(row, negative_indices)
+        _discovery_map_row(row, negative_indices, root=root, spec_by_name=spec_by_name)
         for row in source_rows
         if row.get("discovery_level") != "DN" or str(row.get("report") or "") in negative_indices
     ]
@@ -3202,6 +3297,7 @@ def build_discovery_map(
         coverage_matrix=coverage_matrix,
         root=_root(root),
         expected_coverage_component_ids=COVERAGE_COMPONENT_IDS,
+        validate_owner_projection=False,
     )
 
 
@@ -3398,12 +3494,13 @@ def write_discovery_map(
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--strict-manifest-audit", action="store_true", help="Exit nonzero on invalid rows or unregistered JSON artifacts.")
+    parser.add_argument("--generated-at", default=None, help="Override the generated_at timestamp for deterministic regeneration.")
     return parser.parse_args(argv)
 
 
 def main(argv: Sequence[str] | None = None) -> None:
     args = parse_args(argv)
-    payload = write_discovery_map()
+    payload = write_discovery_map(generated_at=args.generated_at)
     invalid_rows = [row for row in payload["rows"] if row["audit_status"] != "valid"]
     unregistered = payload["manifest_audit"]["unregistered_json_artifacts"]
     if args.strict_manifest_audit and (invalid_rows or unregistered):

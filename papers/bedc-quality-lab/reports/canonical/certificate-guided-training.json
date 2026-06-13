@@ -1278,6 +1278,57 @@
   },
   "raw_metrics_record_count": 56,
   "report": "reports/canonical/certificate-guided-training.md",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.paired_delta_ci.after_minus_before.quality_q_delta",
+        "metric_pointer": "$.metrics.delta_quality_q",
+        "seed_pointer": "$.paired_seed_protocol.seeds"
+      },
+      "calibration_source": "$.paired_delta_ci.after_minus_before.quality_q_delta",
+      "owner": "certificate-guided-training"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.paired_delta_ci.after_minus_before.quality_q_delta",
+        "comparison": "absolute",
+        "owner": "certificate-guided-training",
+        "pointer": "$.metrics.delta_quality_q",
+        "reference_value": 0.05900000000000001,
+        "seed_basis": {
+          "seed_count": 8,
+          "source": "$.paired_seed_protocol.seeds"
+        },
+        "tolerance": 0.002
+      }
+    ],
+    "mode": "true_training",
+    "seed_list": [
+      18,
+      25,
+      36,
+      44,
+      57,
+      63,
+      72,
+      89
+    ]
+  },
   "result": {
     "ledger_rows_written": true,
     "note": "constraint_lagrangian did not clear audit-improvement-tradeoff",

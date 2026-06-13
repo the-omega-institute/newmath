@@ -1,21 +1,11 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "d6f0daaf7e6c75c46099aeb9bb8f2f3aa1ce5dea0e9f7ebc37adc9db9414b4d3",
+  "input_fingerprint": "f6dea24a56f26fb85f478694d7fb0549f7fc171de5c29900d57feebbceb8a784",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
-    "config_inputs": [
-      {
-        "path": "configs/default_cost_protocol.yaml",
-        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
-      },
-      {
-        "path": "docs/lit/literature_ledger.yaml",
-        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
-      }
-    ],
     "dependency_abi": {
       "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
       "numpy": "2.2.5",
@@ -26,11 +16,23 @@
     "producer_sources": [
       {
         "path": "bedc_quality_lab/claim_complexity.py",
-        "sha256": "f01c3319271335b25b779fb25f299c47322e581c52bee884b5994bf3cd78bb13"
+        "sha256": "2e499ee614e5546bc89e4da9940192eb8b9f56ca555c4b34b83e40573be53f0f"
+      },
+      {
+        "path": "bedc_quality_lab/discovery_compiler/anti_triviality.py",
+        "sha256": "528a504bb0dc03887daa2aa530d684a13e1b462d471bc686f309de373a51d65b"
+      },
+      {
+        "path": "bedc_quality_lab/discovery_compiler/map.py",
+        "sha256": "c4285cc41b2f5a89ff2154850506a970e4b344bdd04ae2592802ea271de32529"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/pointers.py",
         "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
+      },
+      {
+        "path": "bedc_quality_lab/evidence_provenance.py",
+        "sha256": "4f9624848640921a30f9893a2b17349e8ab1f189dfd7f0380de890dbce16669f"
       },
       {
         "path": "scripts/run_claim_complexity_score.py",
@@ -50,20 +52,182 @@
     },
     "source_artifacts": [
       {
+        "path": "reports/canonical/anisotropic-ou-sweep.json",
+        "sha256": "958691c5265e3e4a33603896e3302b97f0885f43bb3537944e34cffef3b2ea52"
+      },
+      {
+        "path": "reports/canonical/causal_patch_suite.json",
+        "sha256": "8c9e63105c367799e5251860bb862c2654e961928f923ed774a05a10bac6f9a7"
+      },
+      {
+        "path": "reports/canonical/certificate-gated-attention.json",
+        "sha256": "4e9ac0baa04d6b5d82b861d0534d54553c59d1563539a9f4726068c4fe615e13"
+      },
+      {
+        "path": "reports/canonical/certificate-guided-discovery.json",
+        "sha256": "f0af5c650d8e208f219343058591504e169f4d2084476049725900b67417d759"
+      },
+      {
+        "path": "reports/canonical/certificate-guided-training.json",
+        "sha256": "d6739e22f3aab3563faec4f4b08d704845eeca726db74cf8c11fa46f5f542901"
+      },
+      {
         "path": "reports/canonical/claim_verdicts.jsonl",
-        "sha256": "d71abdc5e70449569cc149a12120175988d04746c906bae2e34e6c8b79839242"
+        "sha256": "b6abe4707fe1cd33325616586afde8d533058facbdb9e5b40ac9b778e8a851a5"
+      },
+      {
+        "path": "reports/canonical/dgt-ablation-null-decomposition.json",
+        "sha256": "42e53c3078a9ef20cd5d5a5c02e9ab57e96a3742305596a06fc3190f216b89be"
+      },
+      {
+        "path": "reports/canonical/dgt-base-undertraining-audit.json",
+        "sha256": "f1293e10041ff15850ef32b65769c089648b1b4412c530207c5bd79d5df8d8ca"
+      },
+      {
+        "path": "reports/canonical/dgt-component-redundancy-audit.json",
+        "sha256": "a9a04a3b3f722b3f014b4bdfe26579d7887dcd3b985a591028644284646be75e"
+      },
+      {
+        "path": "reports/canonical/dgt-l0-controls.json",
+        "sha256": "7bce0250dfe79238d60eb47eb2c096aa818cfaa59a213e1410d571c34863a9e3"
+      },
+      {
+        "path": "reports/canonical/dgt-model-card.json",
+        "sha256": "e4fc5a1a7ff26362e36635e42f9db4dd6d438f085bd2ebe3ce96ad4bde204796"
+      },
+      {
+        "path": "reports/canonical/dgt-neural-ablation.json",
+        "sha256": "e458525ebd7e0f6936bb945cc0f6fd667f48a8dc9fd3ca1ff735358c7c71af6c"
+      },
+      {
+        "path": "reports/canonical/dimension-mismatch-debt-transfer.json",
+        "sha256": "23c34f3e787427eb1c342638ef014a252999cd2b6a43e45a1635685cf525ebc9"
+      },
+      {
+        "path": "reports/canonical/discovery-gated-transformer.json",
+        "sha256": "99b7d7368a69df622b3292a91b8b27be0d72d186f4e851bd17ea821bc02a766f"
+      },
+      {
+        "path": "reports/canonical/discovery-regularized-training.json",
+        "sha256": "00cee49da5062157a7b2541cb48fe0078ba197587511f6ca9d22e1aa47523166"
       },
       {
         "path": "reports/canonical/discovery_map.json",
-        "sha256": "0db12e72225a14a72464d0aa502bb68a6ffa731c9d7276b483fe9f4f47446acc"
+        "sha256": "afc14e962d232e11258e83e6595722330cf7cd327a8b2f94440678973e0dd6c7"
+      },
+      {
+        "path": "reports/canonical/discovery_negative_witnesses.json",
+        "sha256": "0b26d041fb1cddfed9d62e7c99d28605f1d5d76aeccafcf0d150f2106d4dedd2"
+      },
+      {
+        "path": "reports/canonical/experiment_stack_cards.json",
+        "sha256": "0d012acdd9e2a24580594d4cde10dc415a0f4f81c8f4a9492011a20024eda1e9"
+      },
+      {
+        "path": "reports/canonical/fair-l1-decision.json",
+        "sha256": "e8c67806a8ce7c943defee8f2f832bacd7ee1a2e599322a02fd4f953b1c20c55"
+      },
+      {
+        "path": "reports/canonical/gap-head-ablation.json",
+        "sha256": "c86ec4195fc99d97169e20f0f13991c374e9d348426009296aa618dbfcdef772"
+      },
+      {
+        "path": "reports/canonical/gap-head-discovery.json",
+        "sha256": "7903a168d50e40af1ecdb38429f7a40a0d9b8cd7ffcbf7416ff1391139939774"
+      },
+      {
+        "path": "reports/canonical/gap-head-on-h.json",
+        "sha256": "856f960a4d8c9b81c46f6ab9dff8105e7bf6f934ef94e5414db4c800e6788b1a"
+      },
+      {
+        "path": "reports/canonical/gap-head-threshold-frontier.json",
+        "sha256": "a99643aa1b0e51bbc6de0b982c03cbab27433927abbbaff1a7878d7e19d61ee2"
+      },
+      {
+        "path": "reports/canonical/gap_head_attribution_capsule.json",
+        "sha256": "804dfcd444461ad2512bc34ab3e869913b81248ac143d35e853a2d9d0c81499e"
+      },
+      {
+        "path": "reports/canonical/gap_head_transfer_atlas.json",
+        "sha256": "4386aeaa2253455ec76706c0cdaf4832961d9c282d1c6d522e2f3daeadb49f05"
+      },
+      {
+        "path": "reports/canonical/input-accessibility.json",
+        "sha256": "311342eb88692d6034c21c81d491ea982213e10995dcdaa5ef6e88274de16b24"
+      },
+      {
+        "path": "reports/canonical/irreducibility_report.json",
+        "sha256": "f91ec654096e651c9c5272b4f0f323a37a2b5c5623209c304a3977b464bc82a0"
+      },
+      {
+        "path": "reports/canonical/ledger-aware-transformer.json",
+        "sha256": "935e57be3bdadc8a31fdfa0d70cf731f5a35299ceee78ef40977160192c46ed1"
+      },
+      {
+        "path": "reports/canonical/lejepa_theorem_ledger.json",
+        "sha256": "e4e586adc0efded1b04768338774c59d8e19a75001c5c0b77c133e3be5541e98"
+      },
+      {
+        "path": "reports/canonical/mechanism-seeking-network.json",
+        "sha256": "d915d69f51265df39725080b67f0b5fe3974b27ce10019865b0f96234107a6d2"
+      },
+      {
+        "path": "reports/canonical/mechanism_dna.json",
+        "sha256": "2ac2d7b064cbe84f326d8d0615e677be116463ad9072d7622c094a6ea1f462ee"
+      },
+      {
+        "path": "reports/canonical/mixing-family-sweep.json",
+        "sha256": "cc3f1f1e6108abeac44e7a5f97c8356797fe9fb1c8e3d8bd997e638e83cfa359"
+      },
+      {
+        "path": "reports/canonical/model-comparison.json",
+        "sha256": "6b3c1823a72a2afa9b025468cd5d5a578ab73f16e3e4bf71de54aff0e7dfd3e0"
+      },
+      {
+        "path": "reports/canonical/negative_discovery_reports.json",
+        "sha256": "259e2fc77d00deb1b58884cb0eec9ca7bd6f1ec709d08967b9bc61bc28227572"
+      },
+      {
+        "path": "reports/canonical/nongaussian-distribution-sweep.json",
+        "sha256": "eeba5e21489be76c11879755b9ccbb08329908bdfd6975c22e55ac9907dd9c36"
+      },
+      {
+        "path": "reports/canonical/observed-debt-sweep.json",
+        "sha256": "814f332d49bf0eba9dfb073e08d03a6ce53297621260232a8c15c859f6c0ba3f"
+      },
+      {
+        "path": "reports/canonical/order-k-benchmark.json",
+        "sha256": "105ed42d1f5007b748c90e3c9a89ddd3658a630d32c112b7dc9764d07fc0ad18"
+      },
+      {
+        "path": "reports/canonical/sigreg-mini-grid.json",
+        "sha256": "c253cdc83f619169fcd4395f78a9de2250d5fc66208319451ac902690310607e"
+      },
+      {
+        "path": "reports/canonical/sigreg-training-proxy.json",
+        "sha256": "86bb690223a00aa02f1fba182abec2f20a4d38ebbf122df6f886668a3cb56f7b"
+      },
+      {
+        "path": "reports/canonical/spectral-ablation-hinge.json",
+        "sha256": "f5bde3e985cd5b796b91446d5682db6a67999048302d5c90d6254a2979484da5"
+      },
+      {
+        "path": "reports/canonical/structural-generalization-splits.json",
+        "sha256": "49215d7c24c91469deddf878e82ce447ac122a6a138fd28bbe83a6c866be42c4"
+      },
+      {
+        "path": "reports/canonical/winnability-certificates.json",
+        "sha256": "365619d51be1dbaad2e542f942691fd0c2d9c3f01cdfca43125b04358599d68b"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_claim_complexity_score.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": null,
       "cost_pointer": "$.source_artifacts",
       "estimated_seconds": 1,
@@ -80,6 +244,7 @@
       "no_control_rationale_pointer": "$.not_claimed",
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.rows",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -94,11 +259,54 @@
   },
   "json_artifact": "reports/canonical/claim_complexity.json",
   "markdown_artifact": "reports/canonical/claim_complexity.md",
-  "output_digest": "1bacea08dbff6b976cb2e2d4cf078eb5ca471fac2a155499184a35476c99c89d",
   "producer_command": [
     "python3",
     "scripts/run_claim_complexity_score.py"
   ],
   "report_name": "claim-complexity",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "claim-complexity"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "claim-complexity",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "8746495964a1de9ac6a18f82fd688fc09fcc50caa19eb8b869a208ce1a1c7ceb",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

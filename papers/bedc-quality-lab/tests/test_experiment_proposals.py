@@ -2,8 +2,38 @@ import json
 
 import pytest
 
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler import experiment_proposals
+from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
 from scripts import run_discovery_map as discovery_map
+
+
+def _anti_triviality_contract():
+    return {
+        "anti_triviality_status": "pass",
+        "owner_contract": {
+            "scale_only": {"status": "present"},
+            "metadata_only": {"status": "present"},
+            "matched_random": {"status": "present"},
+            "forbidden_column": {"status": "present"},
+        },
+    } | owner_local_anti_triviality_contract(
+        recommended_level="D5-M",
+        scale_only_pointer="$.owner_contract.scale_only",
+        metadata_only_pointer="$.owner_contract.metadata_only",
+        matched_random_pointer="$.owner_contract.matched_random",
+        forbidden_column_pointer="$.owner_contract.forbidden_column",
+    )
+
+
+def _coverage_hardgates():
+    return {
+        gate: {
+            "status": "fail" if gate == "COV-HG4-positive-support" else "pass",
+            "reason": "fixture",
+        }
+        for gate in discovery_map.COVERAGE_HARDGATE_IDS
+    }
 
 
 def _write_sources(root):
@@ -26,6 +56,8 @@ def _write_sources(root):
                         "discovery_level": "D5-M",
                         "projection_status": "projected",
                         "evidence_pointer": "$.mechanism_evidence",
+                        "evidence_type": "deterministic_projection",
+                        "evidence_provenance_pointer": evidence_provenance_pointer_for_report("gap-head-attribution-capsule"),
                         "audit_status": "valid",
                         "audit_reason": "",
                         "mechanism_status": "blocked",
@@ -36,7 +68,7 @@ def _write_sources(root):
                 ],
                 "coverage_matrix": {
                     "status": "fail-closed",
-                    "hardgates": {gate: {"status": "pass", "reason": "pass"} for gate in discovery_map.COVERAGE_HARDGATE_IDS},
+                    "hardgates": _coverage_hardgates(),
                     "cells": [
                         {
                             "component_id": "fixture-gap",
@@ -71,7 +103,7 @@ def _write_sources(root):
         encoding="utf-8",
     )
     (root / "reports" / "canonical" / "gap_head_attribution_capsule.json").write_text(
-        json.dumps({"mechanism_evidence": {"failed_gate": "$.mechanism_evidence.failed_gate"}}) + "\n",
+        json.dumps({"mechanism_evidence": {"failed_gate": "$.mechanism_evidence.failed_gate"}, **_anti_triviality_contract()}) + "\n",
         encoding="utf-8",
     )
     (root / "reports" / "canonical" / "source.json").write_text(
@@ -106,6 +138,34 @@ def test_experiment_proposal_sidecar_builds_pointer_only_rows(tmp_path):
         assert row["claim_capsule_draft"]["schema_id"] == "bedc.quality.claim_capsule.draft"
         assert "No production readiness claim is made." in row["not_claimed"]
         assert "No global superiority claim is made." in row["not_claimed"]
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda row: row.pop("evidence_type"), "requires owner evidence_type"),
+        (lambda row: row.update({"evidence_type": None}), "requires owner evidence_type"),
+        (
+            lambda row: row.update(
+                {
+                    "evidence_provenance_pointer": (
+                        "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing"
+                    )
+                }
+            ),
+            "requires owner evidence provenance pointer",
+        ),
+    ],
+)
+def test_experiment_proposals_validate_committed_discovery_map_before_proposing(tmp_path, mutate, message):
+    _write_sources(tmp_path)
+    path = tmp_path / experiment_proposals.DISCOVERY_MAP_ARTIFACT
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    mutate(payload["rows"][0])
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match=message):
+        experiment_proposals.build_experiment_proposals(tmp_path, generated_at="fixture-time")
 
 
 def test_experiment_proposal_validation_rejects_owner_fact_copies(tmp_path):

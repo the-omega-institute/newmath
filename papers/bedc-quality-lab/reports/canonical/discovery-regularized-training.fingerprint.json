@@ -1,21 +1,11 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "c2080de4f78d0128313317fd6e3ccbcfe3573344fa68c90d15ae2c0ca35473a0",
+  "input_fingerprint": "c23623fdda46e72f4a9211390e9f678366e451c632e7dca3c1daa97ca8145aed",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
-    "config_inputs": [
-      {
-        "path": "configs/default_cost_protocol.yaml",
-        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
-      },
-      {
-        "path": "docs/lit/literature_ledger.yaml",
-        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
-      }
-    ],
     "dependency_abi": {
       "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
       "numpy": "2.2.5",
@@ -27,6 +17,10 @@
       {
         "path": "bedc_quality_lab/claim_terms.py",
         "sha256": "456004daca16b50ac7c4deab3af1b2001fa3d4d79f426cd731a8be01f555291f"
+      },
+      {
+        "path": "bedc_quality_lab/construct_validity.py",
+        "sha256": "eac03a3af807de0e6ede5499b177a431b2e17096209829ab480310a9a9c6e843"
       },
       {
         "path": "bedc_quality_lab/cost_protocol.py",
@@ -42,7 +36,7 @@
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/capsule.py",
-        "sha256": "9620c15a2685d5115d3fca3f5d1240847de397c5cfce7ccdc388339e66e10ea3"
+        "sha256": "d8a3762da82876bdfa2e3f2ed2ed31768dd9b8e04bc8800c488b91b99f587526"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/pointers.py",
@@ -69,6 +63,10 @@
         "sha256": "49ae896ad5c7d1a7c1c41baf7ce569ce7ebe180f91788dfe4f472d7f52517747"
       },
       {
+        "path": "bedc_quality_lab/model.py",
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
+      },
+      {
         "path": "bedc_quality_lab/scope.py",
         "sha256": "c31e7e403bca8dc453bdb42704271c356447fe5dc7265f1acbb2ce19c78a9ea0"
       },
@@ -78,7 +76,7 @@
       },
       {
         "path": "scripts/run_discovery_regularized_training.py",
-        "sha256": "8497ef15a0ead25b7a7858d204e9fa9c8ee68b93c3ad945d5fdffe29c6614924"
+        "sha256": "5fe0a0b8aca7f89aa816aff6d41c71f9b62dff9630255fb0638d39061cd2fd21"
       }
     ],
     "report_output_schema_id": "bedc-quality-lab:discovery-regularized-training",
@@ -94,6 +92,14 @@
     },
     "source_artifacts": [
       {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      },
+      {
         "path": "reports/runs/discovery-regularized-training/claim_capsule.json",
         "sha256": "5a826bbf30960295297c20ea7b1bcc215c02b65a346e21ae5b7ae391c1d6f62f"
       },
@@ -104,10 +110,12 @@
     ],
     "spec": {
       "bundle_role": "hg_p_core",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_discovery_regularized_training.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": "$.matched_random_control",
       "cost_pointer": "$.source_artifacts.cost_protocol",
       "estimated_seconds": 2,
@@ -126,6 +134,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "true_training",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -179,18 +188,75 @@
         "anti_triviality_gate_evidence",
         "anti_triviality_failed_gate",
         "anti_triviality_recommended_level",
-        "anti_triviality_policy"
+        "anti_triviality_policy",
+        "reproducibility_contract"
       ],
       "scope_pointer": "$.grid"
     }
   },
   "json_artifact": "reports/canonical/discovery-regularized-training.json",
   "markdown_artifact": "reports/canonical/discovery-regularized-training.md",
-  "output_digest": "b2c6d1e151eb273083500dd468c903108d97b5a25d652da6ec379445156afa76",
   "producer_command": [
     "python3",
     "scripts/run_discovery_regularized_training.py"
   ],
   "report_name": "discovery-regularized-training",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.torch_training_evidence",
+        "metric_pointer": "$.torch_training_evidence.row_count",
+        "seed_pointer": "$.config.seeds"
+      },
+      "calibration_source": "$.torch_training_evidence",
+      "owner": "discovery-regularized-training"
+    },
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "resolution_reason": "auto-mps-available",
+        "resolution_status": "available",
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "cuda_available": false,
+        "mps_available": true,
+        "resolution_reason": "auto-mps-available",
+        "resolution_status": "available",
+        "torch": "2.7.0"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.torch_training_evidence",
+        "comparison": "absolute",
+        "owner": "discovery-regularized-training",
+        "pointer": "$.torch_training_evidence.row_count",
+        "reference_value": 16.0,
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 0.0
+      }
+    ],
+    "mode": "true_training",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      11,
+      23,
+      37
+    ]
+  },
+  "reproducibility_contract_digest": "7c71f8254d2ea7f49b2e762d32dbc6f0810eeb31c313d11b8430658bbe7116af",
+  "reproducibility_mode": "true_training",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

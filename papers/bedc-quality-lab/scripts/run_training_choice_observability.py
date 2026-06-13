@@ -218,7 +218,7 @@ def _fit_torch_encoder(
     import torch
 
     set_deterministic_seed(seed)
-    device = choose_device()
+    device = str(choose_device())
     encoder = build_tiny_encoder().to(device)
     optimizer = torch.optim.AdamW(
         encoder.parameters(),
