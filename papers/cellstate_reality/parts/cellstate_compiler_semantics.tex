@@ -108,7 +108,7 @@ $$
 The implication is not a biological entailment from one layer to another; it is a typed join obligation over auditable keys and non-imputed modalities.
 \end{proposition}
 
-The witness is \texttt{cellstate.promotion-frontier.gse165180}, recorded as negative. Its carrier joins GSE165179 methylation and GSE165177 RNA by exact donor, day, condition, and experiment, with no imputed modality. It classifies each scope into no-age-gain, clock-only, identity-or-safety-break, or identity-safe age-reset candidate cases and reports no Case $3$ candidate. The companion \texttt{cellstate.identity-preserving-age-reset.samescope.gse165180} is also failed: its support condition requires O1/O2/O3 to join across age and identity contacts, every joined methylation treated-minus-baseline DNAm-age delta to be negative, identity RMS to stay within threshold, and every pluripotency exclusion condition to hold. The typed join exposes the failure rather than allowing age-layer evidence to imply an identity-preserving age reset.
+The witness is \texttt{cellstate.promotion-frontier.gse165180}, recorded as negative. Its carrier joins GSE165179 methylation and GSE165177 RNA by exact donor, day, condition, and experiment, with no imputed modality. Across the $58$ age-pair scopes, $57$ carried joined three-layer age/RNA readbacks; the finite classifier assigned $11$ no-age-gain, $1$ clock-only, $46$ identity-or-safety-break, and $0$ identity-safe age-reset candidate scopes, so no Case $3$ scope exists. The clock-only scope is O3 at day $17$ in the transient intermediate experiment, where the age readback is present but the RNA join is absent. This is a structured negative theorem rather than missing data: in this maturation-phase transient reprogramming contact age gain does not promote to an identity-safe age reset under the frozen identity and safety marker boundary, because the dominant case is an identity-or-safety break. The companion \texttt{cellstate.identity-preserving-age-reset.samescope.gse165180} is also failed: its support condition requires O1/O2/O3 to join across age and identity contacts, every joined methylation treated-minus-baseline DNAm-age delta to be negative, identity RMS to stay within threshold, and every pluripotency exclusion condition to hold. The typed join exposes the failure rather than allowing age-layer evidence to imply an identity-preserving age reset.
 
 \begin{proposition}[Phase-type separation]
 \label{prop:phase-type-separation}
@@ -133,6 +133,105 @@ $$
 \end{proposition}
 
 The witnesses are the passed records \texttt{cellstate.age-clock-shift.reversal-decomposition.gse165180}, \texttt{cellstate.age-clock-shift.reversal-leave-top20-out.gse165180}, and \texttt{cellstate.age-clock-shift.clock-dependence.coverage-control.gse165180}. The decomposition record reports that the day-17 Horvath353 reversal is carried by the top $20$ day-17-versus-day-10 CpGs, which account for $56.06\%$ of the positive z-space displacement; their mean absolute Horvath weight is $0.475877$, about $3.65$ times the covered-coordinate median absolute weight $0.130244$. The leave-top-20-out record removes those $20$ coordinates and rescoring leaves $314$ covered CpGs; day-17 $z$ changes from $0.314273$ to $-0.616288$, so the reversal disappears. The coverage-control record rules out a simple missing-CpG explanation by recording full skin-and-blood coverage at $391/391$ CpGs and \texttt{reversal\_explained\_by\_coverage=false}. Thus the gap geometry is coordinate-local and frontend-sensitive rather than a global state verdict.
+
+\subsection{Main results: four promotion-frontier theorems}
+
+\begin{theorem}[AgeClockShift is local]
+\label{thm:age-clock-shift-local}
+A paired DNAm-age decrease under a fixed clock coordinate admits
+$$
+\begin{aligned}
+\mathsf{AgeClockShift}^{\uparrow}
+\end{aligned}
+$$
+but no higher cell-state name.
+\end{theorem}
+
+Grounding is supplied by \texttt{cellstate.age-clock-shift.gse142439}, recorded as passed: the GSE142439 carrier has $8$ paired normal/treated samples, $334/353$ covered Horvath353 CpGs, and mean paired $\Delta\mathrm{DNAmAge}<0$. Together with Proposition~\ref{prop:layer-local-support-non-promotion}, this proves locality rather than cell-state promotion.
+
+\begin{theorem}[Method identity is part of the carrier]
+\label{thm:method-identity-carrier}
+Age-signature evidence is method-indexed. The object $\sigma_A$ is not an unqualified age object; it is a clock-specific, coordinate-bounded, coverage-bounded readback.
+\end{theorem}
+
+Grounding is supplied by two passed witnesses. The coverage-bound witness \texttt{cellstate.age-clock-shift.coverage-bound.gse142439} admits
+$$
+\begin{aligned}
+\mathsf{CoveredHorvath334AgeClockShift}^{\uparrow}
+\end{aligned}
+$$
+from $334$ observed and $19$ absent CpGs under a worst-case coefficient envelope. The clock-dependence witness \texttt{cellstate.age-clock-shift.clock-dependence.gse165180} records that the same timecourse has opposite late-phase direction under Horvath1/353 and Horvath2 skin-and-blood, with verdict \texttt{clock\_dependent\_reversal}. This is the carrier-level version of Proposition~\ref{prop:probe-indexed-signature}.
+
+\begin{theorem}[Structured negative evidence is BEDC content]
+\label{thm:structured-negative-evidence}
+If identity distance is acceptable but the pluripotency or safety boundary breaks, identity-safe age-reset promotion is blocked, and the break itself is a valid BEDC object.
+\end{theorem}
+
+Grounding is supplied by \texttt{cellstate.identity-samesig.break-decomposition.gse165177}, recorded as passed with \texttt{support=false} and verdict \texttt{break\_i\_decomposed}. The certificate locates the break at pluripotency-marker deltas and boundary conditions rather than at identity distance, and it gives donor-level and marker-level localization. Thus the failed promotion is not absence of content; it is a typed boundary object.
+
+\begin{theorem}[Promotion frontier closes negatively]
+\label{thm:promotion-frontier-closes-negatively}
+In the finite MPTR frontier carrier $B_F$, all age-gain scopes are either clock-only or identity/safety-breaking. Hence
+$$
+\begin{aligned}
+\mathsf{IdentitySafeAgeResetCandidate}^{\uparrow}
+\end{aligned}
+$$
+is not admitted. Under this MPTR contact and the frozen identity/safety markers, age gain does not promote to identity-safe age reset.
+\end{theorem}
+
+Grounding is supplied by \texttt{cellstate.promotion-frontier.gse165180}, whose failed status is a negative result rather than an unfilled slot. The certificate has $58$ age-pair scopes, $57$ joined three-layer age/RNA readbacks, and the discriminant matrix $11/1/46/0$ for no-age-gain, clock-only, identity-or-safety-break, and identity-safe age-reset candidate cases, with \texttt{exists\_case\_3=false}. The theorem is the frontier form of Proposition~\ref{prop:same-scope-join}: the same-scope carrier closes the promotion question negatively.
+
+\subsection{Why function, maintenance, and immortality layers stay closed}
+
+Because Case $3=0$, no scope qualifies as an identity-safe age-reset candidate; therefore no function-supported rejuvenation candidate can be promoted, no renewable-maintenance route opens, and
+$$
+\begin{aligned}
+\mathsf{ImmortalityPotential}^{\uparrow}
+\end{aligned}
+$$
+remains \texttt{blocked\_null}. The promotion order is fixed: a contact must first pass
+$$
+\begin{aligned}
+\mathrm{AgeGain}>0\wedge \mathrm{IdentityCost}\le\theta_I\wedge
+\mathrm{SafetyRisk}\le\theta_S
+\end{aligned}
+$$
+with a strict no-positive safety condition before the function layer is even eligible.
+
+The frontier certificate records these consequences in \texttt{blocked\_promotions}. The blocked names are
+$$
+\begin{aligned}
+\mathsf{Rejuvenation}^{\uparrow},\quad
+\mathsf{RenewableMaintenance}^{\uparrow},\quad
+\mathsf{ImmortalityPotential}^{\uparrow}.
+\end{aligned}
+$$
+They remain closed because the input carrier stops at the identity/safety frontier; no higher-layer biological phrase can bypass that typed stop.
+
+\subsection{Reverse lessons for BEDC}
+
+First, promotion is a theorem, not a paragraph. The judgment $\mathrm{Promote}(N_a\to N_b)$ is admissible only when $B_b$ extends $B_a$, $K_b$ can test $\mathrm{layer}(N_b)$, $\mathrm{classifier}_b$ has support or break rows, and $\mathrm{ledger}_b$ blocks unsupported claims.
+
+Second, a negative theorem is a first-class object. BEDC should standardize
+$$
+\begin{aligned}
+\mathsf{SafetyFrontierNegativeTheorem}^{\uparrow}
+\end{aligned}
+$$
+as an output type: Case $3=0$ under a finite discriminant is a certified boundary, not a statement that nothing was found.
+
+Third, method identity belongs inside $\mathrm{Sig}$ and $\mathrm{NameCert}$. The signature object should have the form
+$$
+\begin{aligned}
+\mathrm{Sig}=(\mathrm{emission},\mathrm{method\_id},\mathrm{coordinate\_domain},
+\mathrm{coverage},\mathrm{calibration},\mathrm{null\ ledger}).
+\end{aligned}
+$$
+
+Fourth, a discriminant matrix beats a scalar claim. The cases $\mathrm{case}_0,\ldots,\mathrm{case}_4$ say where an object stops in the promotion order, instead of asking whether an oversized biological phrase is simply true or false.
+
+Fifth, layer-matched reality-contact discipline is mandatory. A cross-layer claim requires layer-matched contact and a same-scope join; otherwise the correct BEDC output is a blocked promotion rather than a promoted name.
 
 \subsection{The Compiler Atlas}
 
