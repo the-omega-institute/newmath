@@ -882,6 +882,7 @@ import BEDC.Derived.BishopLocatedCompletionBoundaryUp.Scope
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.ScopedRoute
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.WindowExhaustion
+import BEDC.Derived.BishopLocatedCompletionComparisonUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
@@ -3474,6 +3475,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusConsumerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerReadback
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerTotality
+import BEDC.Derived.CriticalLineWitnessUp.ModulusRefusalExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRefusalLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRefusalScope
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRouteTotality
@@ -3500,6 +3502,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerSourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHInterfaceCarrier
@@ -3615,6 +3618,7 @@ import BEDC.Derived.CriticalLineWitnessUp.StdbridgePremiseSurface
 import BEDC.Derived.CriticalLineWitnessUp.StreamNameSourceWindowLock
 import BEDC.Derived.CriticalLineWitnessUp.StripDepthReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.StripLocalization
+import BEDC.Derived.CriticalLineWitnessUp.StripModulusReadback
 import BEDC.Derived.CriticalLineWitnessUp.StripModulusSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.StripReflectionBoundary
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroBoundary
@@ -6121,6 +6125,7 @@ import BEDC.Derived.LocatedCauchyFilterUp.BasisRefinementRoute
 import BEDC.Derived.LocatedCauchyFilterUp.BishopCompletionHandoff
 import BEDC.Derived.LocatedCauchyFilterUp.ChoiceFreeBasis
 import BEDC.Derived.LocatedCauchyFilterUp.NameCertObligations
+import BEDC.Derived.LocatedCauchyFilterUp.RealExtraction
 import BEDC.Derived.LocatedCauchyFilterUp.RealSealBoundary
 import BEDC.Derived.LocatedCauchyFilterUp.RegularSequenceHandoff
 import BEDC.Derived.LocatedCauchyFilterUp.RegularTailLocation
@@ -8943,6 +8948,7 @@ import BEDC.Derived.RegularCauchyTailSubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSumUp.TasteGate
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyTighteningUp.TasteGate
+import BEDC.Derived.RegularCauchyTransformUp.TasteGate
 import BEDC.Derived.RegularCauchyTranslationUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularCauchyTriangleBoundUp.TasteGate
