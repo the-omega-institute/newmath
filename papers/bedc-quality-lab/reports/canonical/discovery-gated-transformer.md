@@ -1,6 +1,6 @@
 # Discovery-Gated Transformer
 
-- Generated at: `2026-06-13T11:40:35.696577+00:00`
+- Generated at: `2026-06-13T14:56:21.159269+00:00`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Artifact: `bedc-quality-lab:discovery-gated-transformer`
 - Model: `discovery-gated-transformer`
@@ -146,6 +146,20 @@
 | `D5M-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.negative_witness_pointers.scale_leakage` |
 | `D5M-HG9` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control.control_positive` |
 | `D5M-HG10` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.forbidden_claim_audit` |
+
+## D5-M Scope
+
+- Status: `ready`
+- Basis: `bounded_synthetic`
+- Synthetic bounded: `True`
+- Model comparison semantic: `reports/canonical/model-comparison.json:$.comparisons[0].semantic`
+
+| gate | status | evidence |
+| --- | --- | --- |
+| `D5M-SCOPE-HG1` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.scope_pointer` |
+| `D5M-SCOPE-HG2` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.basis` |
+| `D5M-SCOPE-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.not_claimed` |
+| `D5M-SCOPE-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.model_comparison_semantic_pointer` |
 
 ## Scaling Ladder
 

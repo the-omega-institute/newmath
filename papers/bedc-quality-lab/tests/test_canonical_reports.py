@@ -1686,6 +1686,21 @@ def _patch_lightweight_run_reports(monkeypatch):
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
     monkeypatch.setattr(canonical, "_run_metric_purity_preflight", lambda report_artifacts=None: {"status": "pass"})
+    monkeypatch.setattr(
+        canonical,
+        "_write_aggregation_consistency_status",
+        lambda payload, *, generated_at: payload
+        | {
+            "aggregation_consistency": {
+                "schema_id": "bedc-quality-lab:aggregation-consistency",
+                "status": "pass",
+                "hardgate_status": {},
+                "binding_count": 0,
+                "doc_scan_count": 0,
+                "generated_at": generated_at,
+            }
+        },
+    )
 
 
 def _file_digest_map(root):
@@ -3123,11 +3138,17 @@ def test_model_comparison_sidecar_is_indexed_pointer_only():
     assert section["json_artifact"] == canonical.MODEL_COMPARISON_JSON_ARTIFACT
     assert section["markdown_artifact"] == canonical.MODEL_COMPARISON_MARKDOWN_ARTIFACT
     assert section["models_pointer"] == "reports/canonical/model-comparison.json:$.models"
+    assert section["semantic_pointer"] == "reports/canonical/model-comparison.json:$.comparisons[*].semantic"
+    assert section["dgt_control_semantic_pointer"] == "reports/canonical/model-comparison.json:$.comparisons[0].semantic"
     assert "models" not in section
     assert "rows" not in section
     assert index_payload["model_comparison"]["models_pointer"] == section["models_pointer"]
+    assert index_payload["model_comparison"]["semantic_pointer"] == section["semantic_pointer"]
     assert "## Model Comparison" in markdown
     assert "| `base_transformer` |" not in markdown
+    serialized = json.dumps(index_payload, sort_keys=True)
+    assert "model_comparison_semantics.json" not in serialized
+    assert "d5m_scope.json" not in serialized
 
 
 def test_model_comparison_rows_cover_issue_model_set_fail_closed():
@@ -3155,6 +3176,14 @@ def test_model_comparison_rejects_accuracy_only_ranking():
 
     assert keys.isdisjoint({"rank", "total_score", "accuracy_rank", "winner", "global_winner"})
     assert payload["ranking_key"] == ["quality_q", "JetCoverage"]
+
+
+def test_dgt_index_exposes_d5_m_scope_pointer():
+    payload = canonical._build_discovery_gated_transformer_payload(generated_at="2030-01-01T00:00:00+00:00")
+    section = canonical._discovery_gated_transformer_index_section(payload)
+
+    assert section["d5_m_scope_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope"
+    assert section["d5_m_scope_basis_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.basis"
 
 
 def test_model_comparison_ranking_key_is_claim_specific(monkeypatch):
@@ -4415,6 +4444,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "d4_projection",
         "d5_o_projection",
         "d5_m_projection",
+        "d5_m_scope",
         "scaling_ladder",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -4831,6 +4861,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "d5_m_projection_pointer",
         "d5_m_projection_discovery_level_pointer",
         "d5_m_projection_hardgate_pointer",
+        "d5_m_scope_pointer",
+        "d5_m_scope_basis_pointer",
+        "d5_m_scope_hardgate_pointer",
         "scaling_ladder_pointer",
         "scaling_ladder_discovery_level_pointer",
         "scaling_ladder_status_pointer",
@@ -5840,6 +5873,59 @@ def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monke
     assert calls == []
     assert payload["reports"][0]["fingerprint_status"] == "match"
     assert payload["reports"][0]["producer_status"] == "skipped"
+
+
+def test_claim_first_consistency_section_and_verify_fingerprints_fail_closed(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    payload = {
+        "schema_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_SCHEMA_ID,
+        "artifact_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID,
+        "generated_at": "fixture-time",
+        "claim_id": "claim:discovery-gated-transformer",
+        "status": "pass",
+        "json_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT,
+        "markdown_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT,
+        "gates": [
+            {"gate_id": "CONS-HG1", "status": "pass"},
+            {"gate_id": "STACK-HG1", "status": "pass"},
+            {"gate_id": "STACK-HG2", "status": "fail"},
+            {"gate_id": "CLAIM-FIRST-HG1", "status": "fail"},
+        ],
+    }
+    path = tmp_path / canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._claim_artifact_consistency_index_section(generated_at="fixture-time")
+
+    assert section["hardgate_status"] == {
+        "STACK-HG1": "pass",
+        "STACK-HG2": "fail",
+        "CLAIM-FIRST-HG1": "fail",
+    }
+    existing_index = canonical._index([], generated_at="fixture-time")
+    canonical._write_json_atomic(canonical.INDEX_ARTIFACT, existing_index)
+    canonical._refresh_claim_artifact_consistency_index_section(generated_at="fixture-time")
+    markdown = (tmp_path / "reports/canonical/index.md").read_text(encoding="utf-8")
+    assert "STACK-HG1=pass" in markdown
+    assert "STACK-HG2=fail" in markdown
+    assert "CLAIM-FIRST-HG1=fail" in markdown
+
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    monkeypatch.setattr(canonical, "_claim_artifact_consistency_required", lambda selected_specs=None: True)
+    monkeypatch.setattr(
+        canonical,
+        "_claim_artifact_consistency_payload",
+        lambda generated_at=None: {"status": "fail", "gates": payload["gates"]},
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert excinfo.value.code == 1
 
 
 def test_run_reports_preflight_runs_before_fingerprint_acceptance(tmp_path, monkeypatch):

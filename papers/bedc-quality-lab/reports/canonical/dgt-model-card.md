@@ -1,4 +1,4 @@
-<!-- payload-sha256: 05ea79311b39dedfbfeda2ff36e0ad5a770cda67025909fd4c222b670c8edb85 -->
+<!-- payload-sha256: 15c77bbc70d8c4b3fdfbb84eb1e773d7a64558d5b54794d81d73801c962e3520 -->
 # DGT Model Card
 
 - Schema: `bedc-quality-lab:dgt-model-card`

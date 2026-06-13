@@ -40,11 +40,13 @@ def write_claim_artifact_consistency(
     root: Path = ROOT,
     claim_id: str = DGT_CLAIM_ID,
     generated_at: str | None = None,
+    report_spec: object | None = None,
 ) -> dict[str, object]:
     report = audit_claim_artifact_consistency(
         root,
         claim_id=claim_id,
         generated_at=generated_at if generated_at is not None else _reusable_generated_at(root) or "reusable",
+        report_spec=report_spec,
     )
     payload = report.to_json()
     json_path = root / JSON_ARTIFACT

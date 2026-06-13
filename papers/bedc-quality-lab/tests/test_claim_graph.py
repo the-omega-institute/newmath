@@ -5,9 +5,6 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab import claim_graph
-from bedc_quality_lab import dgt_l0_controls
-from bedc_quality_lab import dgt_l1_boundary_report
-from bedc_quality_lab import dgt_l1_controls
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.evidence_provenance import OWNER as EVIDENCE_PROVENANCE_OWNER
 from bedc_quality_lab.evidence_provenance import SCHEMA_ID as EVIDENCE_PROVENANCE_SCHEMA_ID
@@ -15,7 +12,6 @@ from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for
 from bedc_quality_lab import high_impact_review
 from scripts import run_canonical_reports as canonical
 from scripts import run_claim_verdict_demo as claim_verdict_demo
-from scripts import run_discovery_gated_transformer as dgt_runner
 
 
 def _write_json(root: Path, artifact: str, payload):
@@ -356,102 +352,95 @@ def _errors(payload, root):
     return claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows)
 
 
-def _add_dgt_accepted_positive_fixture(root: Path) -> None:
+def _add_dgt_accepted_positive_fixture(root: Path, *, projection_blocked: bool = False) -> None:
     _write_dgt_owner_ref_fixtures(root)
     dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
-    _write_json(
-        root,
-        "reports/canonical/dgt-l0-controls.json",
-        {
-            "construct_suspension": {
-                "headline_status": "construct-review-passed",
-                "taint_status": "untainted",
-            },
-            "honest_metric_review": {"status": "pass"},
-            "l0_toy_projection": {
-                "review_status": "pass",
-                "status": "pass",
-                "failure_reasons": [],
-                "hardgate_statuses": {"pass": {"status": "pass"}},
-                "ladder_consumption": {"status": "open"},
-                "not_claimed": [
-                    "Bounded L0 toy training controls only.",
-                    "No production scale claim.",
-                    "No global superiority claim.",
-                    "No LLM replacement claim.",
-                    "No universal recipe claim.",
-                    "No verdict inheritance to L1 or higher scaling levels.",
-                    "No L1 or higher inheritance claim.",
-                ],
-            },
+    semantic = {
+        "comparison_type": "deterministic_projection" if projection_blocked else "trained_vs_trained",
+        "evidence_type_pointer": "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.model-comparison",
+        "evidence_type": "deterministic_projection" if projection_blocked else "empirical_training_clean",
+        "metric_provenance_pointer": "reports/canonical/index.json:$.evidence_provenance.metric_rows[2]",
+        "construct_validity_pointer": None,
+        "training_status": "not_trained" if projection_blocked else "trained",
+        "metric_provenance": "deterministic_projection" if projection_blocked else "measured_training",
+        "fair_input_access": False if projection_blocked else True,
+        "ood_solvability": None,
+        "baseline_validity": True,
+        "allowed_evidence_chain": False if projection_blocked else True,
+        "boundary_reason": "deterministic projection cannot support trained-model empirical superiority",
+    }
+    dgt_payload = {
+        "schema_id": "bedc-quality-lab:discovery-gated-transformer",
+        "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+        "generated_at": "2030-01-01T00:00:00+00:00",
+        "producer": "scripts/run_discovery_gated_transformer.py",
+        "projector": "bedc_quality_lab.discovery_gated_transformer.DiscoveryGatedTransformerProjector",
+        "source_artifacts": {},
+        "model_id": "discovery-gated-transformer",
+        "architecture_spec": {"status": "present"},
+        "claim_capsule_ref": "reports/runs/discovery-gated-transformer/claim_capsule.json",
+        "d4_projection": {
+            "discovery_level": "D4",
+            "readiness": "ready",
+            "matched_control": {"status": "present", "control_positive": False},
+            "claim_basis": "bounded deterministic toy projection",
         },
-    )
-    _write_json(
-        root,
-        "reports/canonical/dgt-l1-controls.json",
-        {
-            "l1_tiny_sequence_projection": {
-                "status": "pass",
-                "review_status": "pass",
-                "promotion_readiness": "ready-pass",
-                "not_claimed": ["fixture"],
-            },
-            "negative_witness_sweep": {
-                "status": "pass",
-                "rows": [
-                    {"witness": "information_starved_baseline"},
-                    {"witness": "unanswerable_ood"},
-                ],
-            },
-            "l1_ood_mechanism": {
-                "owner": "dgt-l1-controls",
-                "evidence_scope": "bounded-tiny-sequence-l1-ood-mechanism",
-                "verdict": "bounded",
-                "l2_implication": {
-                    "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
-                    "status": "pointer-only",
-                },
-            },
+        "d5_m_projection": {
+            "status": "ready",
+            "readiness": "ready",
+            "discovery_level": "D5-M",
+            "evidence_scope": ["bounded-design", "toy-model", "theorem-backed", "production-forbidden"],
+            "terminal_verdict_scope": "Core",
+            "not_claimed": [
+                "Bounded D5-M mechanism claim over deterministic model-prototype evidence only.",
+                "No production authority claim.",
+                "No global superiority claim.",
+                "No LLM replacement claim.",
+                "No unbounded mechanism closure claim.",
+                "No trained-model evidence claim from projection artifacts.",
+            ],
         },
-    )
-    _write_json(
-        root,
-        "reports/canonical/fair-l1-decision.json",
-        {
-            "decision": {"status": "scaling-evidence-eligible"},
-            "ladder_state_projection": {
-                "state": "l1-scaling-evidence-eligible",
-                "decision_status": "scaling-evidence-eligible",
-                "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
-                "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
-                "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
-                "not_claimed": [
-                    "Bounded tiny-sequence L1 decision only.",
-                    "No L2 or higher scaling claim.",
-                    "No production deployment claim.",
-                    "No global superiority claim.",
-                    "No LLM replacement claim.",
-                    "No OOD generalization claim.",
-                    "No architecture advantage claim.",
-                ],
-            },
+        "d5_m_scope": {
+            "status": "ready",
+            "basis": "bounded_synthetic",
+            "synthetic_bounded": True,
+            "aliases": ["discovery-gated-transformer"],
+            "scope_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope",
+            "d5_m_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection",
+            "model_comparison_pointer": "reports/canonical/model-comparison.json:$",
+            "model_comparison_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[0].semantic",
+            "allowed_claim_kinds": ["synthetic_boundary", "protocol_projection"],
+            "not_claimed": [
+                "No trained-model evidence claim from projection artifacts.",
+                "No production or deployment authority claim.",
+                "No global superiority claim.",
+                "No OOD superiority claim without measured OOD evidence.",
+                "No LLM replacement claim.",
+            ],
+            "hardgates": {f"D5M-SCOPE-HG{index}": {"status": "pass", "evidence": {"artifact": dgt_artifact, "pointer": "$.d5_m_scope"}} for index in range(1, 5)},
         },
-    )
-    boundary_payload = dgt_l1_boundary_report.build_l1_boundary_report(root=root, generated_at="2030-01-01T00:00:00+00:00")
-    dgt_l1_boundary_report.write_artifacts(boundary_payload, root=root, generated_at="2030-01-01T00:00:00+00:00")
-    dgt_payload = dgt_runner.build_payload(
-        generated_at="2030-01-01T00:00:00+00:00",
-        high_impact_review_rows=[
-            {
-                "claim_id": "claim:discovery-gated-transformer",
-                "status": "pass",
-                "reason": "positive-discovery-gates-pass",
-                "ledger_pointer": "reports/canonical/high-impact-review.json:$.review_rows[0]",
-                "claim_pointer": f"{dgt_artifact}:$.d4_projection",
-            }
+        "scaling_ladder": {
+            "status": "ready",
+            "review_status": "review-line-ready",
+            "discovery_level": "D5-M",
+            "not_claimed": [
+                "Bounded model prototype scaling only.",
+                "No production scale claim.",
+                "No GPT or Llama claim.",
+                "No global superiority claim.",
+                "No LLM replacement claim.",
+                "No universal recipe claim.",
+                "No unbounded scaling law claim.",
+            ],
+        },
+        "not_claimed": [
+            "Bounded deterministic toy evidence only.",
+            "No external operation authority.",
+            "No universal training recipe claim.",
+            "No external verdict ownership.",
         ],
-        root=root,
-    )
+        **_positive_owner_contract("D5-M"),
+    }
     _write_json(
         root,
         dgt_artifact,
@@ -501,8 +490,16 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             ],
             "hardgates": {
                 f"MC-HG{index}": {"status": "pass", "reason": "fixture"}
-                for index in range(1, 11)
+                for index in range(1, 15)
             },
+            "comparisons": [
+                {
+                    "comparison_id": "dgt_control_projection",
+                    "candidate_model_id": "dgt",
+                    "baseline_model_ids": ["base_transformer", "matched_random_structural_control"],
+                    "semantic": semantic,
+                }
+            ],
         },
     )
     discovery_payload = json.loads((root / claim_graph.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
@@ -520,12 +517,17 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             "audit_status": "valid",
             "audit_reason": "",
             "not_claimed": list(dgt_payload["d5_m_projection"]["not_claimed"]),
+            "projection_metadata": {
+                "model_comparison_pointer": "reports/canonical/model-comparison.json:$",
+                "model_comparison_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[0].semantic",
+                "d5_m_scope_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope",
+            },
         }
     )
     _write_evidence_provenance_index(
         root,
         discovery_payload["rows"],
-        empirical_reports=("gap-head-discovery", "discovery-gated-transformer"),
+        empirical_reports=("gap-head-discovery",) if projection_blocked else ("gap-head-discovery", "discovery-gated-transformer"),
     )
     _write_json(root, claim_graph.DISCOVERY_MAP_JSON_ARTIFACT, discovery_payload)
     rows = claim_graph.load_claim_verdict_rows(root)
@@ -556,8 +558,9 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
         },
     )
     _write_dgt_high_impact_review_pass(root)
-    provisional_graph = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
-    _write_json(root, claim_graph.CLAIM_GRAPH_JSON_ARTIFACT, provisional_graph)
+    if not projection_blocked:
+        provisional_graph = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+        _write_json(root, claim_graph.CLAIM_GRAPH_JSON_ARTIFACT, provisional_graph)
 
 
 def test_claim_verdict_rows_have_terminal_graph_foreign_keys(tmp_path):
@@ -654,6 +657,49 @@ def test_terminal_claim_verdict_matches_row_verdict(tmp_path):
             node["terminal_verdict"] = "negative_discovery"
 
     assert any("terminal verdict mismatch" in error for error in _errors(broken, root))
+
+
+def test_terminal_node_projection_helper_requires_exact_jsonl_row(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert claim_graph.validate_terminal_node_projection(payload, root=root) == []
+
+
+def test_non_terminal_node_with_terminal_verdict_fails(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_type"] != "terminal_claim":
+            node["terminal_verdict"] = "accepted_positive_discovery"
+            break
+
+    errors = claim_graph.validate_claim_graph_payload(broken, root=root)
+
+    assert any("non-terminal node has terminal verdict" in error for error in errors)
+    assert any("terminal projection non-terminal verdict" in error for error in errors)
+
+
+def test_terminal_source_pointer_wrong_or_missing_fails(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    wrong = deepcopy(payload)
+    missing = deepcopy(payload)
+    for node in wrong["nodes"]:
+        if node["node_id"] == "terminal:gap-head-discovery":
+            node["source_pointer"] = f"{claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[1]"
+            break
+    for node in missing["nodes"]:
+        if node["node_id"] == "terminal:gap-head-discovery":
+            node["source_pointer"] = "reports/canonical/missing.json:$.row"
+            break
+
+    wrong_errors = claim_graph.validate_terminal_node_projection(wrong, root=root)
+    missing_errors = claim_graph.validate_terminal_node_projection(missing, root=root)
+
+    assert any("terminal projection verdict mismatch" in error for error in wrong_errors)
+    assert any("source pointer is not a claim verdict row" in error for error in missing_errors)
 
 
 def test_cg_hg1_accepted_positive_discovery_traces_to_raw_evidence(tmp_path):
@@ -779,9 +825,23 @@ def test_dgt_accepted_positive_claim_graph_path_passes(tmp_path):
         "theorem-backed",
         "production-forbidden",
     )
+    assert by_id["projected:discovery-gated-transformer"]["model_comparison_semantic_pointer"] == (
+        "reports/canonical/model-comparison.json:$.comparisons[0].semantic"
+    )
+    assert by_id["projected:discovery-gated-transformer"]["d5_m_scope_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope"
+    )
     assert by_id["raw:discovery-gated-transformer"]["terminal_verdict"] is None
     assert by_id["projected:discovery-gated-transformer"]["terminal_verdict"] is None
     assert _errors(payload, root) == []
+
+
+def test_dgt_accepted_positive_claim_graph_fails_closed_for_projection_semantics(tmp_path):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root, projection_blocked=True)
+
+    with pytest.raises(ValueError, match="deterministic projection cannot support trained empirical evidence chain"):
+        claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
 
 
 def test_dgt_component_causal_claim_graph_requires_evidence_scope(tmp_path):
@@ -796,6 +856,27 @@ def test_dgt_component_causal_claim_graph_requires_evidence_scope(tmp_path):
     errors = _errors(broken, root)
 
     assert any("component-causal claim lacks evidence_scope" in error for error in errors)
+
+
+@pytest.mark.parametrize(
+    ("field", "message"),
+    [
+        ("model_comparison_semantic_pointer", "lacks model-comparison semantic pointer"),
+        ("d5_m_scope_pointer", "lacks D5-M scope pointer"),
+    ],
+)
+def test_dgt_accepted_positive_requires_scope_pointers(tmp_path, field, message):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_id"] == "projected:discovery-gated-transformer":
+            node[field] = None
+
+    errors = _errors(broken, root)
+
+    assert any(message in error for error in errors)
 
 
 @pytest.mark.parametrize(

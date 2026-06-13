@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-13T11:40:35.696577+00:00`
+- Generated at: `2026-06-13T14:56:21.159269+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -205,6 +205,8 @@
 - Robustness hardgate: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.hardgate`
 - D5-M projection: `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection`
 - D5-M discovery level: `reports/canonical/discovery-gated-transformer.json:$.d5_m_projection.discovery_level`
+- D5-M scope: `reports/canonical/discovery-gated-transformer.json:$.d5_m_scope`
+- D5-M scope basis: `reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.basis`
 - Scaling ladder: `reports/canonical/scaling-ladder.json:$.levels`
 - Scaling ladder discovery level: `reports/canonical/scaling-ladder.json:$.levels`
 - Scaling ladder status: `reports/canonical/scaling-ladder.json:$.levels`
@@ -248,6 +250,7 @@
 - Markdown: `reports/canonical/model-comparison.md`
 - Schema: `bedc-quality-lab:model-comparison`
 - Models: `reports/canonical/model-comparison.json:$.models`
+- Semantics: `reports/canonical/model-comparison.json:$.comparisons[*].semantic`
 - Hardgates: `reports/canonical/model-comparison.json:$.hardgates`
 - Ranking key: `reports/canonical/model-comparison.json:$.ranking_key`
 - Source reports: `reports/canonical/model-comparison.json:$.source_reports`
@@ -327,6 +330,7 @@
 - Markdown: `reports/canonical/claim-artifact-consistency.md`
 - Claim: `claim:discovery-gated-transformer`
 - Gates: `reports/canonical/claim-artifact-consistency.json:$.gates`
+- Hardgate status: `CLAIM-FIRST-HG1=pass, STACK-HG1=pass, STACK-HG2=pass`
 
 ## Claim capsule
 

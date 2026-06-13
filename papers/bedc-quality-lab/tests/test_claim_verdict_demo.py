@@ -361,6 +361,24 @@ def _scorecard_hash(root):
     return demo.load_scorecard_snapshot(root).scorecard_hash
 
 
+def _project_owner_to_deterministic_projection(section, index_path, report):
+    owner_update = {
+        "evidence_type": "deterministic_projection",
+        "allowed_claim_kinds": ["projection_only"],
+        "not_claimed": ["fixture deterministic projection does not certify empirical superiority."],
+    }
+    section["discovery_rows_by_report"][report].update(owner_update)
+    for row in section["discovery_rows"]:
+        if row.get("report") == report:
+            row.update(owner_update)
+    discovery_map_path = index_path.parent / "discovery_map.json"
+    discovery_map = json.loads(discovery_map_path.read_text(encoding="utf-8"))
+    for row in discovery_map["rows"]:
+        if row.get("report") == report:
+            row["evidence_type"] = "deterministic_projection"
+    _write_json(discovery_map_path, discovery_map)
+
+
 def _assert_provenance(row, root, *, scorecard_ready=True, formal_hardening_ready=True):
     if set(row) == DN_ALLOWED_KEYS:
         assert set(row) == DN_ALLOWED_KEYS
@@ -1389,6 +1407,68 @@ def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, mon
 
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
     assert verdict["reason"] == "discovery-level-D4-positive"
+
+
+@pytest.mark.parametrize(
+    ("mutate", "card"),
+    [
+        (lambda section, index_path: _project_owner_to_deterministic_projection(section, index_path, "d4"), "data"),
+        (lambda section, index_path: section["producer_audits"][0].update({"training_evidence_status": "training_evidence_absent"}), "training-authenticity"),
+        (lambda section, index_path: section["metric_rows"][0].update({"allowed_for_empirical_claim": False}), "statistical"),
+    ],
+)
+def test_claim_first_owner_pointers_block_positive_acceptance(tmp_path, monkeypatch, mutate, card):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    index_path = tmp_path / "reports/canonical/index.json"
+    index_payload = json.loads(index_path.read_text(encoding="utf-8"))
+    section = index_payload["evidence_provenance"]
+    mutate(section, index_path)
+    if index_path.exists():
+        _write_json(index_path, index_payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == f"positive-acceptance-evidence-missing:claim-first:{card}"
+
+
+def test_dgt_l1_readiness_cannot_bypass_claim_first_training_owner(tmp_path, monkeypatch):
+    rows = [_discovery_row("dgt-l1-controls", "reports/canonical/dgt-l1-controls.json", "D4")]
+    specs = (
+        _spec(
+            "dgt-l1-controls",
+            "reports/canonical/dgt-l1-controls.json",
+            positive="$.promotion_readiness",
+            control="$.training_arms",
+        ),
+    )
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/dgt-l1-controls.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload.update({"promotion_readiness": "ready-pass", "training_arms": {"dgt_l1": {"status": "pass"}}})
+    _write_json(payload_path, payload)
+    map_path = tmp_path / "reports/canonical/discovery_map.json"
+    discovery_map = json.loads(map_path.read_text(encoding="utf-8"))
+    discovery_map["rows"][0]["evidence_type"] = "empirical_training_clean"
+    _write_json(map_path, discovery_map)
+    index_path = tmp_path / "reports/canonical/index.json"
+    index_payload = json.loads(index_path.read_text(encoding="utf-8"))
+    owner = index_payload["evidence_provenance"]["discovery_rows_by_report"]["dgt-l1-controls"]
+    owner["evidence_type"] = "empirical_training_clean"
+    owner["allowed_claim_kinds"] = ["empirical_superiority"]
+    producer = index_payload["evidence_provenance"]["producer_audits"][0]
+    producer["training_evidence_status"] = "training_evidence_absent"
+    metric = index_payload["evidence_provenance"]["metric_rows"][0]
+    metric["allowed_for_empirical_claim"] = False
+    index_payload["evidence_provenance"]["discovery_rows"][0] = owner
+    _write_json(index_path, index_payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "positive-acceptance-evidence-missing:claim-first:training-authenticity"
 
 
 def test_positive_empirical_verdict_requires_owner_evidence_provenance(tmp_path, monkeypatch):

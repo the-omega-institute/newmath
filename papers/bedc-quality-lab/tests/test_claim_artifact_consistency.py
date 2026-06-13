@@ -18,6 +18,7 @@ from bedc_quality_lab.claim_artifact_consistency import (
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
 from scripts import run_discovery_map as discovery_map
+from scripts.run_canonical_reports import CanonicalReportSpec
 from bedc_quality_lab.verdict import QUALITY_SCORECARD_METRICS
 from scripts.run_claim_artifact_consistency import write_claim_artifact_consistency
 
@@ -62,6 +63,24 @@ def _anti_triviality_contract():
     )
 
 
+def _dgt_spec() -> CanonicalReportSpec:
+    return CanonicalReportSpec(
+        name="discovery-gated-transformer",
+        command=("python3", "scripts/run_fixture.py"),
+        json_artifact=DGT_ARTIFACT,
+        markdown_artifact="reports/canonical/discovery-gated-transformer.md",
+        required_json_keys=("schema_id",),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        scope_pointer="$.d4_projection",
+        cost_pointer="$.architecture_spec",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.d4_projection",
+        control_pointer="$.d4_projection.matched_control",
+        no_control_rationale_pointer=None,
+    )
+
+
 def _fixture_root(tmp_path: Path) -> Path:
     root = tmp_path
     _write_json(root, QUALITY_SCORECARD_ARTIFACT, _scorecard())
@@ -71,9 +90,11 @@ def _fixture_root(tmp_path: Path) -> Path:
         DGT_ARTIFACT,
         {
             "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+            "claim_capsule_ref": "reports/runs/discovery-gated-transformer/claim_capsule.json",
             "d4_projection_ref": {"artifact": DGT_ARTIFACT, "pointer": "$.d4_projection"},
             "d4_projection": {
                 "discovery_level": "D4",
+                "matched_control": {"status": "pass"},
                 "core_contracts": {
                     "claim_graph_owner": "Core",
                     "claim_verdict_owner": "Core",
@@ -83,8 +104,14 @@ def _fixture_root(tmp_path: Path) -> Path:
                 **_anti_triviality_contract(),
             },
             "hardgate": {"status": "pass"},
+            "scaling_ladder": {"not_claimed": ["bounded deterministic toy evidence only"]},
             "not_claimed": ["bounded deterministic toy evidence only"],
         },
+    )
+    _write_json(
+        root,
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+        {"schema_id": "bedc.quality.claim_capsule", "not_claimed": ["fixture"], "what_was_learned": "fixture"},
     )
     scorecard_hash = canonical_artifact_hash(root / QUALITY_SCORECARD_ARTIFACT)
     _write_jsonl(
@@ -116,7 +143,7 @@ def _fixture_root(tmp_path: Path) -> Path:
                     "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
                     "discovery_level": "D4",
                     "evidence_pointer": "$.d4_projection",
-                    "evidence_type": "deterministic_projection",
+                    "evidence_type": "empirical_training_clean",
                     "evidence_provenance_pointer": evidence_provenance_pointer_for_report("discovery-gated-transformer"),
                     "scorecard_pointer": f"{QUALITY_SCORECARD_ARTIFACT}:$.rows",
                     "projection_status": "projected",
@@ -181,6 +208,69 @@ def _fixture_root(tmp_path: Path) -> Path:
     _write_json(root, HIGH_IMPACT_REVIEW_ARTIFACT, {"review_rows": [{"claim_id": DGT_CLAIM_ID}], "not_claimed": ["bounded"]})
     _write_json(
         root,
+        "reports/canonical/index.json",
+        {
+            "evidence_provenance": {
+                "schema_id": "bedc-quality-lab:evidence-provenance",
+                "owner": "bedc_quality_lab.evidence_provenance",
+                "producer_audits": [
+                    {
+                        "report": "discovery-gated-transformer",
+                        "producer_command": ["python3", "scripts/run_fixture.py"],
+                        "producer_source_pointer": "scripts/run_fixture.py",
+                        "backward_pointers": ["scripts/run_fixture.py:L1"],
+                        "optimizer_step_pointers": ["scripts/run_fixture.py:L2"],
+                        "parameter_update_pointers": [],
+                        "training_evidence_status": "empirical_training_clean",
+                        "not_claimed": [],
+                    }
+                ],
+                "metric_rows": [
+                    {
+                        "report": "discovery-gated-transformer",
+                        "metric_name": "headline",
+                        "source_type": "measured_training",
+                        "source_code_pointer": "scripts/run_fixture.py",
+                        "source_artifact_pointer": f"{DGT_ARTIFACT}:$.d4_projection",
+                        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                        "allowed_for_empirical_claim": True,
+                        "value": {"status": "pass"},
+                        "not_claimed": [],
+                        "not_measurable_reason": None,
+                    }
+                ],
+                "discovery_rows": [
+                    {
+                        "report": "discovery-gated-transformer",
+                        "evidence_type": "empirical_training_clean",
+                        "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[0]",
+                        "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+                        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                        "allowed_claim_kinds": ["empirical_superiority"],
+                        "not_claimed": [],
+                    }
+                ],
+                "discovery_rows_by_report": {
+                    "discovery-gated-transformer": {
+                        "report": "discovery-gated-transformer",
+                        "evidence_type": "empirical_training_clean",
+                        "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[0]",
+                        "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+                        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                        "allowed_claim_kinds": ["empirical_superiority"],
+                        "not_claimed": [],
+                    }
+                },
+                "hardgate_status": {},
+                "artifact_pointers": {"owner_pointer": "reports/canonical/index.json:$.evidence_provenance"},
+            }
+        },
+    )
+    source = root / "scripts" / "run_fixture.py"
+    source.parent.mkdir(parents=True, exist_ok=True)
+    source.write_text("def train(loss, optimizer):\n    loss.backward()\n    optimizer.step()\n", encoding="utf-8")
+    _write_json(
+        root,
         HIGH_IMPACT_REVIEW_FINGERPRINT_ARTIFACT,
         {
             "inputs": {
@@ -223,6 +313,38 @@ def test_default_api_audits_dgt_claim(tmp_path):
 
     assert report.claim_id == DGT_CLAIM_ID
     assert report.status == "pass"
+
+
+def test_claim_first_all_pass_cards_emit_three_passing_gates(tmp_path):
+    root = _fixture_root(tmp_path)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
+
+    assert _gate(report, "STACK-HG1").status == "pass"
+    assert _gate(report, "STACK-HG2").status == "pass"
+    assert _gate(report, "CLAIM-FIRST-HG1").status == "pass"
+
+
+def test_claim_first_unresolved_pointer_fails_stack_hg1(tmp_path):
+    root = _fixture_root(tmp_path)
+    (root / "reports/runs/discovery-gated-transformer/claim_capsule.json").unlink()
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
+
+    assert _gate(report, "STACK-HG1").status == "fail"
+
+
+def test_claim_first_blocked_owner_status_fails_stack_hg2_and_claim_first(tmp_path):
+    root = _fixture_root(tmp_path)
+    index_path = root / "reports/canonical/index.json"
+    payload = json.loads(index_path.read_text(encoding="utf-8"))
+    payload["evidence_provenance"]["producer_audits"][0]["training_evidence_status"] = "training_evidence_absent"
+    _write_json(root, "reports/canonical/index.json", payload)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
+
+    assert _gate(report, "STACK-HG2").status == "fail"
+    assert _gate(report, "CLAIM-FIRST-HG1").status == "fail"
 
 
 def test_cons_hg2_positive_verdict_requires_current_scorecard_hash(tmp_path):

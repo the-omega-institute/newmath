@@ -721,12 +721,66 @@
       "No production authority claim.",
       "No global superiority claim.",
       "No LLM replacement claim.",
-      "No unbounded mechanism closure claim."
+      "No unbounded mechanism closure claim.",
+      "No trained-model evidence claim from projection artifacts."
     ],
     "readiness": "ready",
     "source_level": "D5-O",
     "status": "ready",
     "terminal_verdict_scope": "Core"
+  },
+  "d5_m_scope": {
+    "aliases": [
+      "discovery-gated-transformer"
+    ],
+    "allowed_claim_kinds": [
+      "synthetic_boundary",
+      "protocol_projection"
+    ],
+    "basis": "bounded_synthetic",
+    "d5_m_projection_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection",
+    "hardgates": {
+      "D5M-SCOPE-HG1": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_m_scope.scope_pointer"
+        },
+        "status": "pass"
+      },
+      "D5M-SCOPE-HG2": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_m_scope.basis"
+        },
+        "status": "pass"
+      },
+      "D5M-SCOPE-HG3": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_m_scope.not_claimed"
+        },
+        "status": "pass"
+      },
+      "D5M-SCOPE-HG4": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.d5_m_scope.model_comparison_semantic_pointer"
+        },
+        "status": "pass"
+      }
+    },
+    "model_comparison_pointer": "reports/canonical/model-comparison.json:$",
+    "model_comparison_semantic_pointer": "reports/canonical/model-comparison.json:$.comparisons[0].semantic",
+    "not_claimed": [
+      "No trained-model evidence claim from projection artifacts.",
+      "No production or deployment authority claim.",
+      "No global superiority claim.",
+      "No OOD superiority claim without measured OOD evidence.",
+      "No LLM replacement claim."
+    ],
+    "scope_pointer": "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope",
+    "status": "ready",
+    "synthetic_bounded": true
   },
   "d5_o_projection": {
     "anti_triviality_failed_gate": null,
@@ -1072,7 +1126,7 @@
     "hits": [],
     "status": "pass"
   },
-  "generated_at": "2026-06-13T11:40:35.696577+00:00",
+  "generated_at": "2026-06-13T14:56:21.159269+00:00",
   "hardgate": {
     "gate_names": [
       "DGT-HG1",

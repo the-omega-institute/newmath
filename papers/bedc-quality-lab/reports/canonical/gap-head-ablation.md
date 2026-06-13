@@ -1,6 +1,6 @@
 # Gap-Head Ablation
 
-- Generated at: `2026-06-13T08:50:00.802938+00:00`
+- Generated at: `2026-06-13T12:52:48.066512+00:00`
 - Hardgate status: `fail`
 - Sample count: `384`
 - Low sample count: `96`
