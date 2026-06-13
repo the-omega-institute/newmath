@@ -1394,9 +1394,9 @@ def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, mon
 @pytest.mark.parametrize(
     ("mutate", "card"),
     [
-        (lambda section, index_path: index_path.unlink(), "data"),
-        (lambda section, index_path: section["producer_audits"][0].update({"training_evidence_status": "training_evidence_absent"}), "training-authenticity"),
-        (lambda section, index_path: section["metric_rows"][0].update({"allowed_for_empirical_claim": False}), "statistical"),
+        (lambda section, index_path: index_path.unlink(), "data-card"),
+        (lambda section, index_path: section["producer_audits"][0].update({"training_evidence_status": "training_evidence_absent"}), "training-authenticity-card"),
+        (lambda section, index_path: section["metric_rows"][0].update({"allowed_for_empirical_claim": False}), "statistical-evidence-card"),
     ],
 )
 def test_claim_first_owner_pointers_block_positive_acceptance(tmp_path, monkeypatch, mutate, card):
@@ -1450,7 +1450,7 @@ def test_dgt_l1_readiness_cannot_bypass_claim_first_training_owner(tmp_path, mon
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_verdict"] == "projected_discovery_required"
-    assert verdict["reason"] == "positive-acceptance-evidence-missing:claim-first:training-authenticity"
+    assert verdict["reason"] == "positive-acceptance-evidence-missing:claim-first:training-authenticity-card"
 
 
 def test_positive_empirical_verdict_requires_owner_evidence_provenance(tmp_path, monkeypatch):
@@ -1462,7 +1462,7 @@ def test_positive_empirical_verdict_requires_owner_evidence_provenance(tmp_path,
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_verdict"] == "projected_discovery_required"
-    assert verdict["reason"] == "evidence-provenance-owner-missing"
+    assert verdict["reason"] == "positive-acceptance-evidence-missing:claim-first:data-card"
     assert verdict["ledger_pointer"] == (
         "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.d4"
     )

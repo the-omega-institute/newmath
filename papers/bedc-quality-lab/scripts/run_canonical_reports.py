@@ -8347,7 +8347,7 @@ def _write_index_from_existing_reports(
         generated_at=generated_at,
         claim_verdict_rows=claim_verdict_rows,
     )
-    payload = _write_aggregation_consistency_status_for_run(
+    payload = _write_aggregation_consistency_status(
         payload,
         generated_at=generated_at,
         require_pass=True,
@@ -8362,7 +8362,7 @@ def _write_index_from_existing_reports(
             generated_at=generated_at,
             claim_verdict_rows=claim_verdict_rows,
         )
-        payload = _write_aggregation_consistency_status_for_run(
+        payload = _write_aggregation_consistency_status(
             payload,
             generated_at=generated_at,
             require_pass=True,
@@ -8448,24 +8448,6 @@ def _write_aggregation_consistency_status(
     if require_pass and report.errors:
         raise RuntimeError("aggregation consistency failed: " + " | ".join(report.errors))
     return payload
-
-
-def _write_aggregation_consistency_status_for_run(
-    payload: dict[str, Any],
-    *,
-    generated_at: str,
-    require_pass: bool,
-) -> dict[str, Any]:
-    try:
-        return _write_aggregation_consistency_status(
-            payload,
-            generated_at=generated_at,
-            require_pass=require_pass,
-        )
-    except TypeError as exc:
-        if "require_pass" not in str(exc):
-            raise
-        return _write_aggregation_consistency_status(payload, generated_at=generated_at)
 
 
 def _run_scaling_ladder_report_only(
@@ -8696,7 +8678,7 @@ def run_reports(
                 _write_json_atomic(Path(json_summary), payload)
             return payload
         _write_json_atomic(INDEX_ARTIFACT, payload)
-        payload = _write_aggregation_consistency_status_for_run(
+        payload = _write_aggregation_consistency_status(
             payload,
             generated_at=timestamp,
             require_pass=require_aggregation_pass,
@@ -8954,7 +8936,7 @@ def run_reports(
         canonical_reports=selected_specs,
         discovery_gated_transformer_payload=discovery_gated_transformer,
     )
-    payload = _write_aggregation_consistency_status_for_run(
+    payload = _write_aggregation_consistency_status(
         payload,
         generated_at=timestamp,
         require_pass=require_aggregation_pass,
@@ -8971,7 +8953,7 @@ def run_reports(
                 canonical_reports=selected_specs,
                 discovery_gated_transformer_payload=discovery_gated_transformer,
             )
-            payload = _write_aggregation_consistency_status_for_run(
+            payload = _write_aggregation_consistency_status(
                 payload,
                 generated_at=timestamp,
                 require_pass=require_aggregation_pass,
@@ -8999,7 +8981,7 @@ def run_reports(
             canonical_reports=selected_specs,
             discovery_gated_transformer_payload=discovery_gated_transformer,
         )
-        payload = _write_aggregation_consistency_status_for_run(
+        payload = _write_aggregation_consistency_status(
             payload,
             generated_at=timestamp,
             require_pass=require_aggregation_pass,
@@ -9020,7 +9002,7 @@ def run_reports(
                 canonical_reports=selected_specs,
                 discovery_gated_transformer_payload=discovery_gated_transformer,
             )
-    payload = _write_aggregation_consistency_status_for_run(
+    payload = _write_aggregation_consistency_status(
         payload,
         generated_at=timestamp,
         require_pass=require_aggregation_pass,
