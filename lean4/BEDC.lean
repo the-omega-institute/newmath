@@ -3651,6 +3651,7 @@ import BEDC.Derived.CriticalLineWitnessUp.TerminalRHRefusalExactness
 import BEDC.Derived.CriticalLineWitnessUp.TerminalSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.TerminalWindowFactorization
 import BEDC.Derived.CriticalLineWitnessUp.TerminalZeroSourceTotality
+import BEDC.Derived.CriticalLineWitnessUp.TransportLock
 import BEDC.Derived.CriticalLineWitnessUp.TransportReplayObligation
 import BEDC.Derived.CriticalLineWitnessUp.VisibleSourceReadbackLock
 import BEDC.Derived.CriticalLineWitnessUp.VisibleSourceTriad
@@ -5197,7 +5198,6 @@ import BEDC.Derived.FiniteTailFilterUp.FormalIntakeRouteExhaustion
 import BEDC.Derived.FiniteTailFilterUp.FormalTargetConsumerRoute
 import BEDC.Derived.FiniteTailFilterUp.FormalTargetRouteClosure
 import BEDC.Derived.FiniteTailFilterUp.LeanIntakeNonescape
-import BEDC.Derived.FiniteTailFilterUp.MirrorBoundary
 import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetConsumerLink
 import BEDC.Derived.FiniteTailFilterUp.RealWindowBudgetSelectorBridge
 import BEDC.Derived.FiniteTailFilterUp.RefinementSealWitnessLedgerPullback
@@ -5671,6 +5671,7 @@ import BEDC.Derived.HyperbolicGeodesicBoundaryUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicFlowUp
 import BEDC.Derived.HyperbolicGeodesicFlowUp.TasteGate
 import BEDC.Derived.HyperbolicHoroballShadowUp.BoundaryHandoff
+import BEDC.Derived.HyperbolicHoroballShadowUp.NameCertObligations
 import BEDC.Derived.HyperbolicHoroballShadowUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicMetricUp.TasteGate
@@ -5846,7 +5847,6 @@ import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BoundedSequenceRoute
 import BEDC.Derived.IshiharaTrickUp.BranchStability
 import BEDC.Derived.IshiharaTrickUp.FiniteTestBoundary
-import BEDC.Derived.IshiharaTrickUp.SpeckerBoundaryHandoff
 import BEDC.Derived.IshiharaTrickUp.TasteGate
 import BEDC.Derived.IsometricCompletionUp
 import BEDC.Derived.IsometricCompletionUp.TasteGate
@@ -8676,7 +8676,6 @@ import BEDC.Derived.RegularCauchyAbsUp.RealSealBoundary
 import BEDC.Derived.RegularCauchyAbsUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyAbsUp.TasteGate
 import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
-import BEDC.Derived.RegularCauchyAffineCombinationUp.Ledger
 import BEDC.Derived.RegularCauchyAffineCombinationUp.ObligationSurface
 import BEDC.Derived.RegularCauchyAffineCombinationUp.Stability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
