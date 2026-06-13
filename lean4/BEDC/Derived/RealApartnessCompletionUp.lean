@@ -113,6 +113,84 @@ theorem RealApartnessCompletionObligationSurface [AskSetup] [PackageSetup]
   }
   exact ⟨cert, separatedUnary, readbackReadUnary, sealedUnary⟩
 
+theorem RealApartnessCompletionLocatedTailObligation [AskSetup] [PackageSetup]
+    {apartness separation completion stream readback tolerance sealRow transport replay
+      provenance localName tailRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealApartnessCompletionCarrier apartness separation completion stream readback tolerance
+        sealRow transport replay provenance localName bundle pkg →
+      Cont completion stream tailRead →
+        Cont tailRead tolerance sealRead →
+          PkgSig bundle sealRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row apartness ∨ hsame row separation ∨ hsame row completion ∨
+                    hsame row stream ∨ hsame row readback ∨ hsame row tolerance ∨
+                      hsame row tailRead ∨ hsame row sealRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont completion stream tailRead ∧
+                    Cont tailRead tolerance sealRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle sealRead pkg)
+                hsame ∧
+              UnaryHistory tailRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: RealApartnessCompletionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier tailRoute sealRoute sealPkg
+  obtain ⟨_apartnessUnary, _separationUnary, completionUnary, streamUnary, _readbackUnary,
+    toleranceUnary, _sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _apartnessSeparationCompletion, _streamReadbackTolerance,
+    _toleranceSealReplay, _transportReplayProvenance, provenancePkg, _localNamePkg⟩ :=
+      carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed completionUnary streamUnary tailRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed tailUnary toleranceUnary sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row apartness ∨ hsame row separation ∨ hsame row completion ∨
+              hsame row stream ∨ hsame row readback ∨ hsame row tolerance ∨
+                hsame row tailRead ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont completion stream tailRead ∧
+              Cont tailRead tolerance sealRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle sealRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead ⟨hsame_refl sealRead, sealReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, tailRoute, sealRoute, provenancePkg, sealPkg⟩
+  }
+  exact ⟨cert, tailUnary, sealReadUnary⟩
+
 theorem RealApartnessCompletionRegularReadbackDiscipline [AskSetup] [PackageSetup]
     {apartness separation completion stream readback tolerance sealRow transport replay
       provenance localName windowRead regularRead sealRead : BHist}
