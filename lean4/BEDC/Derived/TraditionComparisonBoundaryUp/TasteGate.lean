@@ -1,11 +1,16 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TraditionComparisonBoundaryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -237,5 +242,117 @@ theorem TraditionComparisonBoundaryTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+theorem TraditionComparisonBoundary_sibling_independence
+    {source landing rejectedSurplus distinction transport replay provenance localName : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row localName ∧
+          ∃ packet : TraditionComparisonBoundaryUp,
+            packet = TraditionComparisonBoundaryUp.mk source landing rejectedSurplus
+              distinction transport replay provenance localName)
+      (fun row : BHist =>
+        hsame row source ∨ hsame row landing ∨ hsame row rejectedSurplus ∨
+          hsame row distinction ∨ hsame row localName)
+      (fun row : BHist =>
+        hsame row localName ∧ hsame landing landing ∧
+          hsame rejectedSurplus rejectedSurplus ∧ hsame distinction distinction)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro localName
+          ⟨hsame_refl localName,
+            Exists.intro
+              (TraditionComparisonBoundaryUp.mk source landing rejectedSurplus
+                distinction transport replay provenance localName)
+              rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left, hsame_refl landing, hsame_refl rejectedSurplus,
+          hsame_refl distinction⟩
+  }
+
+theorem TraditionComparisonBoundary_no_doctrinal_identity
+    {S L R D H C P N comparisonRead boundaryRead : BHist} :
+    UnaryHistory S ->
+      UnaryHistory L ->
+        UnaryHistory R ->
+          Cont S L comparisonRead ->
+            Cont comparisonRead R boundaryRead ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+                  (fun row : BHist => hsame row boundaryRead)
+                  (fun row : BHist => hsame row boundaryRead ∧ Cont comparisonRead R boundaryRead)
+                  hsame ∧
+                traditionComparisonBoundaryFields
+                    (TraditionComparisonBoundaryUp.mk S L R D H C P N) =
+                  [S, L, R, D, H, C, P, N] ∧
+                  UnaryHistory comparisonRead ∧ UnaryHistory boundaryRead ∧
+                    Cont S L comparisonRead ∧ Cont comparisonRead R boundaryRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro sourceUnary landingUnary rejectedUnary comparisonCont boundaryCont
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed sourceUnary landingUnary comparisonCont
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed comparisonUnary rejectedUnary boundaryCont
+  have boundarySource :
+      hsame boundaryRead boundaryRead ∧ UnaryHistory boundaryRead :=
+    And.intro (hsame_refl boundaryRead) boundaryUnary
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+        (fun row : BHist => hsame row boundaryRead)
+        (fun row : BHist => hsame row boundaryRead ∧ Cont comparisonRead R boundaryRead)
+        hsame := by
+    refine
+      { core :=
+          { carrier_inhabited := ?_
+            equiv_refl := ?_
+            equiv_symm := ?_
+            equiv_trans := ?_
+            carrier_respects_equiv := ?_ }
+        pattern_sound := ?_
+        ledger_sound := ?_ }
+    · exact ⟨boundaryRead, boundarySource⟩
+    · intro row _source
+      exact hsame_refl row
+    · intro row other sameRow
+      exact hsame_symm sameRow
+    · intro row other final sameRow sameOther
+      exact hsame_trans sameRow sameOther
+    · intro row other sameRow source
+      cases sameRow
+      exact source
+    · intro row source
+      exact source.left
+    · intro row source
+      exact And.intro source.left boundaryCont
+  exact
+    And.intro cert
+      (And.intro rfl
+        (And.intro comparisonUnary
+          (And.intro boundaryUnary
+            (And.intro comparisonCont boundaryCont))))
 
 end BEDC.Derived.TraditionComparisonBoundaryUp

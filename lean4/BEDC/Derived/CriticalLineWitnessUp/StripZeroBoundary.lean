@@ -6,7 +6,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
-theorem strip_zero_boundary_critical_line_witness_carrier_projection
+theorem critical_line_witness_strip_zero_boundary_source_projection
     {Z S M R Q H C P N stripRead : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
       Cont Z S stripRead ->
