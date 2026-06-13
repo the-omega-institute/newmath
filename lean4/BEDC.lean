@@ -3514,6 +3514,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RHConsumerSourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHInterfaceCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalPhaseBoundary
+import BEDC.Derived.CriticalLineWitnessUp.RHRefusalSourceExactness
 import BEDC.Derived.CriticalLineWitnessUp.RHSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RationalComparisonLedgerTotality
@@ -6288,6 +6289,7 @@ import BEDC.Derived.LowerSemicontinuousUp.BHistCarrierRow
 import BEDC.Derived.LowerSemicontinuousUp.BaireOneSourceHandoff
 import BEDC.Derived.LowerSemicontinuousUp.BaireSuperlevelHandoff
 import BEDC.Derived.LowerSemicontinuousUp.BaireWindowFactorization
+import BEDC.Derived.LowerSemicontinuousUp.BaireWindowRealSealFactorization
 import BEDC.Derived.LowerSemicontinuousUp.ClosedSuperlevelCarrier
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphFilterRoute
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLedgerRefusal
@@ -6323,6 +6325,7 @@ import BEDC.Derived.LowerSemicontinuousUp.PublicRouteExport
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RealRegSeqRatScope
 import BEDC.Derived.LowerSemicontinuousUp.RealSealExportBoundary
+import BEDC.Derived.LowerSemicontinuousUp.RealSealFullRouteNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RealSealNonescapeRoute
 import BEDC.Derived.LowerSemicontinuousUp.RealSealTransportNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RealSealWindowExhaustion
