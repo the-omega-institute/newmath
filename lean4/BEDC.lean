@@ -2792,6 +2792,7 @@ import BEDC.Derived.CompactMetricUp.UniformWindowConsumerRoute
 import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.CompactModulusOscillationRouterUp.TasteGate
+import BEDC.Derived.CompactModulusSelectorUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.NameCertObligations
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
 import BEDC.Derived.CompactNetModulusSelectorUp.CenterLedgerExposure
@@ -3487,6 +3488,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
+import BEDC.Derived.CriticalLineWitnessUp.RHInterfaceCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RHSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RatComparisonLedgerExactness
@@ -3608,6 +3610,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBudgetTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripLedgerExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRefusal
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripReadbackSeparation
