@@ -1,0 +1,114 @@
+\origin{ai}
+
+\subsection{Window-six Foldbin weights and the forced Fibonacci block}
+\label{sec:window6-foldbin-weights-fibonacci-uniqueness}
+
+\paragraph{Finite carrier.}
+The construction is a finite arithmetic window with six visible binary coordinates and three tail coordinates. A visible word is an element $w=(w_1,w_2,w_3,w_4,w_5,w_6)$ of $\{0,1\}^6$ satisfying the non-adjacency rule
+$$
+\begin{aligned}
+w_i w_{i+1}=0 \quad \text{for } 1\leq i\leq 5.
+\end{aligned}
+$$
+There are exactly $21$ such visible words. The visible weights are
+$$
+\begin{aligned}
+g=(g_1,g_2,g_3,g_4,g_5,g_6)=(1,2,3,5,8,13).
+\end{aligned}
+$$
+For a visible word $w$, define
+$$
+\begin{aligned}
+V_6(w)=\sum_{i=1}^6 w_i g_i.
+\end{aligned}
+$$
+The tail coordinates are $c=(c_7,c_8,c_9)\in\{0,1\}^3$, with tail weights
+$$
+\begin{aligned}
+t=(21,34,55).
+\end{aligned}
+$$
+The tail is constrained by
+$$
+\begin{aligned}
+c_7c_8=0,\qquad c_8c_9=0,\qquad w_6c_7=0.
+\end{aligned}
+$$
+Thus the same non-adjacency rule continues across the boundary between the sixth visible coordinate and the first tail coordinate.
+
+\paragraph{Admissibility predicate and value map.}
+A Foldbin pair is a pair $(w,c)$ with $w\in\{0,1\}^6$ and $c\in\{0,1\}^3$. It is admissible when all of the following finite conditions hold: the visible word has no adjacent $1$s; the two tail products $c_7c_8$ and $c_8c_9$ vanish; the boundary product $w_6c_7$ vanishes; and the numerical value is at most $63$. The value map is
+$$
+\begin{aligned}
+\operatorname{val}(w,c)=V_6(w)+21c_7+34c_8+55c_9.
+\end{aligned}
+$$
+The admissible carrier is therefore the finite set
+$$
+\begin{aligned}
+\mathcal{A}=\{(w,c)\in\{0,1\}^6\times\{0,1\}^3 :&\ w_iw_{i+1}=0\text{ for }1\leq i\leq 5,\\
+& c_7c_8=0,\ c_8c_9=0,\ w_6c_7=0,\\
+& \operatorname{val}(w,c)\leq 63\}.
+\end{aligned}
+$$
+Direct finite enumeration gives
+$$
+\begin{aligned}
+|\mathcal{A}|=64.
+\end{aligned}
+$$
+The image of the value map on this admissible carrier is exactly
+$$
+\begin{aligned}
+\operatorname{val}(\mathcal{A})=\{0,1,2,\ldots,63\}.
+\end{aligned}
+$$
+Moreover each element of $\{0,1,2,\ldots,63\}$ occurs exactly once. Equivalently, the map $\operatorname{val}:\mathcal{A}\to\{0,1,2,\ldots,63\}$ is bijective.
+
+\paragraph{Kernel formulation.}
+The equality kernel of the value map is the finite relation
+$$
+\begin{aligned}
+K=\{((w,c),(w',c'))\in\mathcal{A}\times\mathcal{A}:\operatorname{val}(w,c)=\operatorname{val}(w',c')\}.
+\end{aligned}
+$$
+The bijection statement is equivalently the assertion that this kernel is diagonal:
+$$
+\begin{aligned}
+K=\{((w,c),(w,c)):(w,c)\in\mathcal{A}\}.
+\end{aligned}
+$$
+Thus the value map has no collisions on the admissible carrier, and it has no omissions in the six-bit value cube. The construction is finite throughout: the carrier, the constraints, the value map, and the kernel are all explicitly determined by the nine binary coordinates and the stated integer weights.
+
+\paragraph{Partition counts.}
+The associated four-block finite partition is recorded as disjoint subsets $U_2,U_1,U_L,U_R$ of the admissible carrier whose union is $\mathcal{A}$. Its audited cardinalities are
+$$
+\begin{aligned}
+(|U_2|,|U_1|,|U_L|,|U_R|)=(27,22,9,6).
+\end{aligned}
+$$
+Since these four numbers sum to $64$, the partition is numerically compatible with the full admissible carrier. In this chapter the partition is used only as finite counted structure attached to the same carrier; the bijectivity and weight-forcing statements below depend only on the admissibility predicate, the value map, and the exhaustive perturbation audit.
+
+\paragraph{Single-weight perturbation boundary.}
+A single-weight perturbation changes exactly one entry of
+$$
+\begin{aligned}
+(1,2,3,5,8,13,21,34,55)
+\end{aligned}
+$$
+by $+1$ or by $-1$, subject to the changed weight remaining positive. All other weights and all admissibility inequalities are then interpreted using the perturbed weight list. There are exactly $17$ valid perturbations of this kind. For every one of these $17$ perturbed weight systems, the sorted value multiset obtained from the corresponding admissible Foldbin pairs is not $\{0,1,2,\ldots,63\}$. Hence every valid single-weight perturbation breaks the bijection onto the six-bit value cube.
+
+\paragraph{Forced finite conclusion.}
+The consecutive Fibonacci block
+$$
+\begin{aligned}
+(1,2,3,5,8,13,21,34,55)
+\end{aligned}
+$$
+is therefore selected by a purely finite condition: the constrained Foldbin carrier maps bijectively onto $\{0,1,2,\ldots,63\}$, while each admissible one-coordinate integer perturbation by $\pm1$ destroys that bijection. The visible weights are $(1,2,3,5,8,13)$, the tail weights are $(21,34,55)$, and together they realize the truncated non-adjacent binary numeration on the six-bit value interval. This is not a fitted numerical pattern; it is the result of an exhaustive integer enumeration over the stated finite carrier and the stated perturbation boundary.
+
+\paragraph{Witness extraction.}
+The witness data are the two finite enumerations just described. First, under the stated Fibonacci weights there are $64$ admissible pairs, $64$ distinct values, and the value set is exactly $\{0,1,2,\ldots,63\}$. Second, the perturbation audit contains $17$ valid single-weight perturbations and all $17$ fail to preserve the same value cube bijection. These two enumerations together certify the local uniqueness of the weight block at the single-weight perturbation boundary.
+
+\paragraph{Boundary of the claim.}
+No physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond this finite construction follows from the chapter. Any such statement would require a separate certificate not supplied by the finite carrier, the value map, the kernel calculation, or the perturbation audit recorded here.
