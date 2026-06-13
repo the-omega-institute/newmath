@@ -1,0 +1,291 @@
+{
+  "schema_id": "lewm.ledger_aware_transformer_port",
+  "source_architecture": "paper-bedc-quality-lab:papers/bedc-quality-lab/bedc_quality_lab/ledger_aware_transformer.py (architecture idea: joint task + ledger head; reimplemented in torch, not imported)",
+  "carrier": "quentinll/lewm-tworooms public checkpoint latents (tworooms_latent_large.npz)",
+  "sample_counts": {
+    "valid_transitions": 4991,
+    "episodes": 278
+  },
+  "splits": {
+    "train": 3045,
+    "calibration": 982,
+    "eval": 964
+  },
+  "failure_truth": {
+    "definition": "prediction_mse > train_split_p75 (LeWM predictor's own rollout error)",
+    "tau_err_train_p75": 0.07670211046934128,
+    "eval_failure_rate": 0.23132780082987553
+  },
+  "architecture": {
+    "window": 6,
+    "d_model": 64,
+    "n_heads": 4,
+    "n_layers": 2,
+    "ffn_dim": 128,
+    "heads": [
+      "ledger (declare failure)",
+      "dynamics (next-latent prediction, joint loss)"
+    ],
+    "inference_inputs": "windows of (emb, action) only",
+    "forbidden_inference_columns": [
+      "prediction_mse",
+      "observation",
+      "pos_agent",
+      "pos_target",
+      "distance_to_target",
+      "agent_room_lr",
+      "target_room_lr",
+      "same_room_lr"
+    ]
+  },
+  "protocol": {
+    "split_seed": 1701,
+    "matched_random_seed": 90210,
+    "bootstrap_seed": 314159,
+    "bootstraps": 500,
+    "bootstrap_unit": "eval episodes",
+    "eval_episode_count": 55,
+    "claim_criteria": [
+      "lat_learned AUROC ci95_low > lat_matched_random AUROC ci95_high",
+      "lat_learned UER ci95_high < vanilla UER ci95_low"
+    ]
+  },
+  "arms": {
+    "vanilla": {
+      "info": {
+        "status": "constant",
+        "train_base_rate": 0.24991789819376026
+      },
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.5,
+          "bootstrap_mean": 0.5,
+          "ci95_low": 0.5,
+          "ci95_high": 0.5
+        },
+        "ece": {
+          "observed": 0.018590097363884728,
+          "bootstrap_mean": 0.01948401491128879,
+          "ci95_low": 0.0016856165612971466,
+          "ci95_high": 0.045219638452929034
+        },
+        "unlogged_error_rate": {
+          "observed": 0.23132780082987553,
+          "bootstrap_mean": 0.23183029216511228,
+          "ci95_low": 0.2046982597408312,
+          "ci95_high": 0.2585297007912704
+        },
+        "declared_gap_rate": {
+          "observed": 0.0,
+          "bootstrap_mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "false_alarm_rate": {
+          "observed": 0.0,
+          "bootstrap_mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        }
+      }
+    },
+    "lat_learned": {
+      "info": {
+        "status": "trained",
+        "parameter_count": 92865,
+        "train_rows": 3045,
+        "optimizer_steps": 360,
+        "epochs": 30,
+        "wall_time_seconds": 9.69,
+        "dynamics_weight": 1.0,
+        "label_permutation_seed": null,
+        "device": "cpu",
+        "torch_seed": 20260611
+      },
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.6745762301580097,
+          "bootstrap_mean": 0.6743237350159197,
+          "ci95_low": 0.6358818003097986,
+          "ci95_high": 0.7106314899893391
+        },
+        "ece": {
+          "observed": 0.2431621388583346,
+          "bootstrap_mean": 0.24498654956820692,
+          "ci95_low": 0.2154394745967216,
+          "ci95_high": 0.27552755979573007
+        },
+        "unlogged_error_rate": {
+          "observed": 0.13174273858921162,
+          "bootstrap_mean": 0.1320889274086171,
+          "ci95_low": 0.11000933202357564,
+          "ci95_high": 0.15575648406253786
+        },
+        "declared_gap_rate": {
+          "observed": 0.24273858921161826,
+          "bootstrap_mean": 0.2424174974812268,
+          "ci95_low": 0.21591820855462282,
+          "ci95_high": 0.2722999764236877
+        },
+        "false_alarm_rate": {
+          "observed": 0.14315352697095435,
+          "bootstrap_mean": 0.14267613272473167,
+          "ci95_low": 0.12095368450205689,
+          "ci95_high": 0.1633634892280146
+        }
+      }
+    },
+    "lat_matched_random": {
+      "info": {
+        "status": "trained",
+        "parameter_count": 92865,
+        "train_rows": 3045,
+        "optimizer_steps": 360,
+        "epochs": 30,
+        "wall_time_seconds": 10.08,
+        "dynamics_weight": 1.0,
+        "label_permutation_seed": 90210,
+        "device": "cpu",
+        "torch_seed": 20260611
+      },
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.5431818594433653,
+          "bootstrap_mean": 0.5428778422668662,
+          "ci95_low": 0.4986806764883047,
+          "ci95_high": 0.5876136566852427
+        },
+        "ece": {
+          "observed": 0.29165645398775775,
+          "bootstrap_mean": 0.29344780478891985,
+          "ci95_low": 0.2629196816413119,
+          "ci95_high": 0.32687773147136656
+        },
+        "unlogged_error_rate": {
+          "observed": 0.16182572614107885,
+          "bootstrap_mean": 0.1622612483229558,
+          "ci95_low": 0.13444708588957055,
+          "ci95_high": 0.18952343095939944
+        },
+        "declared_gap_rate": {
+          "observed": 0.237551867219917,
+          "bootstrap_mean": 0.23762930831747525,
+          "ci95_low": 0.2058766582317307,
+          "ci95_high": 0.27113556604929906
+        },
+        "false_alarm_rate": {
+          "observed": 0.16804979253112035,
+          "bootstrap_mean": 0.16806026447531877,
+          "ci95_low": 0.1401727473742399,
+          "ci95_high": 0.19970709146968138
+        }
+      }
+    },
+    "lat_without_dynamics": {
+      "info": {
+        "status": "trained",
+        "parameter_count": 92865,
+        "train_rows": 3045,
+        "optimizer_steps": 360,
+        "epochs": 30,
+        "wall_time_seconds": 9.15,
+        "dynamics_weight": 0.0,
+        "label_permutation_seed": null,
+        "device": "cpu",
+        "torch_seed": 20260611
+      },
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.6711600491397518,
+          "bootstrap_mean": 0.6708308117983731,
+          "ci95_low": 0.633589105482312,
+          "ci95_high": 0.7078189980339455
+        },
+        "ece": {
+          "observed": 0.25323717426089204,
+          "bootstrap_mean": 0.25522944214290133,
+          "ci95_low": 0.2246358339615182,
+          "ci95_high": 0.28345991957628963
+        },
+        "unlogged_error_rate": {
+          "observed": 0.13174273858921162,
+          "bootstrap_mean": 0.1323748409814662,
+          "ci95_low": 0.10779180377431243,
+          "ci95_high": 0.1582236156012097
+        },
+        "declared_gap_rate": {
+          "observed": 0.25,
+          "bootstrap_mean": 0.2496368596033872,
+          "ci95_low": 0.21922785707639939,
+          "ci95_high": 0.28309851694915256
+        },
+        "false_alarm_rate": {
+          "observed": 0.1504149377593361,
+          "bootstrap_mean": 0.1501814084197411,
+          "ci95_low": 0.12908142750245127,
+          "ci95_high": 0.1727055093046033
+        }
+      }
+    }
+  },
+  "conclusion": {
+    "claim": "positive",
+    "auroc_ci_separated_from_matched_random": true,
+    "uer_ci_separated_from_vanilla": true,
+    "fail_closed_notes": []
+  },
+  "component_ablation": {
+    "without_dynamics_loss": {
+      "auroc": {
+        "observed": 0.6711600491397518,
+        "bootstrap_mean": 0.6708308117983731,
+        "ci95_low": 0.633589105482312,
+        "ci95_high": 0.7078189980339455
+      },
+      "uer": {
+        "observed": 0.13174273858921162,
+        "bootstrap_mean": 0.1323748409814662,
+        "ci95_low": 0.10779180377431243,
+        "ci95_high": 0.1582236156012097
+      },
+      "note": "same arm minus the joint next-latent loss; measures whether joint task training matters"
+    }
+  },
+  "phase1c_logistic_reference": {
+    "learned_gap_head_A_all_probe_features": {
+      "failure_detection_auroc": {
+        "observed": 0.7321580944427298,
+        "bootstrap_mean": 0.730612657477052,
+        "ci95_low": 0.687698530516129,
+        "ci95_high": 0.7718901546673049
+      },
+      "unlogged_error_rate": {
+        "observed": 0.17012448132780084,
+        "bootstrap_mean": 0.17097308905026729,
+        "ci95_low": 0.14848933257811764,
+        "ci95_high": 0.1941880376347322
+      }
+    },
+    "learned_gap_head_B_denoised_agent_room_only": {
+      "failure_detection_auroc": {
+        "observed": 0.7313653225855256,
+        "bootstrap_mean": 0.7329151564768004,
+        "ci95_low": 0.6922535023322569,
+        "ci95_high": 0.7744776792213713
+      },
+      "unlogged_error_rate": {
+        "observed": 0.16804979253112035,
+        "bootstrap_mean": 0.1681221702897571,
+        "ci95_low": 0.1423487239141197,
+        "ci95_high": 0.19119471771247848
+      }
+    }
+  },
+  "not_claimed": [
+    "full model training",
+    "global architecture superiority",
+    "replacement of the phase1c logistic gap head",
+    "benchmark reproduction or public-benchmark superiority",
+    "transfer beyond the tworooms checkpoint"
+  ]
+}

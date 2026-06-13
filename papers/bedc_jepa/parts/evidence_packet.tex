@@ -72,7 +72,7 @@ $$
 \end{array}
 $$
 The torch objective artifact supplies gradient-trained BEDC heads for the
-boundary readback setting under a frozen-latent protocol: the latent encoder
+boundary readback setting under a fixed-latent protocol: the latent encoder
 has the same recovery score in the latent-only and BEDC-objective systems,
 while the trained distinction and gap heads lower debt and remove unlogged
 error.  The three-seed gradient sweep records mean gap AUROC gain
@@ -97,8 +97,8 @@ public V-JEPA2-AC Giant checkpoint.  The adapter loads
 \texttt{vjepa2\_ac\_vit\_giant} from the public V-JEPA2 hub with
 \texttt{pretrained=False}, because the observed hub source points its default
 \texttt{VJEPA\_BASE\_URL} at \texttt{localhost}.  The run then loads the
-public checkpoint
-\texttt{https://dl.fbaipublicfiles.com/vjepa2/vjepa2-ac-vitg.pt} explicitly.
+public checkpoint through the artifact pointer recorded in
+\texttt{reports/bedc\_jepa\_public\_ac\_giant\_adapter.json}.
 The CUDA environment records \texttt{torch} \texttt{2.5.1+cu121}, CUDA
 runtime \texttt{12.1}, and one \texttt{NVIDIA GeForce RTX 4060 Laptop GPU}
 with $8585216000$ bytes of device memory.
