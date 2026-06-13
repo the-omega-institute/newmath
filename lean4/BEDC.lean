@@ -3520,6 +3520,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusComparisonExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadback
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadbackUnblockPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusSourceExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusWindowTotality
@@ -4035,6 +4036,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.WindowSynchronizerPullback
 import BEDC.Derived.DiagonallimitcompatibilityUpSealReadbackExactness
 import BEDC.Derived.DiagonallimitrepresentativeUp
 import BEDC.Derived.DiagonallimitrepresentativeUp.FormalHandoffBoundary
+import BEDC.Derived.DiagonallimitrepresentativeUp.PhaseRealCompletionExitCertificate
 import BEDC.Derived.DiagonallimitrepresentativeUp.RootReadinessTriad
 import BEDC.Derived.DiffFormUp
 import BEDC.Derived.DiffFormUp.AntisymmetryChain
