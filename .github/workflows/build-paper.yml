@@ -15,6 +15,7 @@ on:
     paths:
       - 'docs/dossier/**'
       - 'papers/bedc/**'
+      - 'papers/bedc_jepa/**'
       - 'lean4/**'
       - 'tools/**'
       - '.github/workflows/build-paper.yml'
@@ -27,6 +28,7 @@ on:
     paths:
       - 'docs/dossier/**'
       - 'papers/bedc/**'
+      - 'papers/bedc_jepa/**'
       - 'lean4/**'
       - 'tools/**'
       - '.github/workflows/build-paper.yml'
@@ -114,6 +116,23 @@ jobs:
     uses: ./.github/workflows/reusable-lean4.yml
     secrets: inherit
 
+  build_bedc_jepa_pdf:
+    name: Build BEDC-JEPA PDF
+    needs: detect_changes
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/xu-cheng/texlive-full@sha256:8b4a00b6a17ebe6b96dee107d82f0cb3eb40daf322f1e23809a9be26486963dd
+    defaults:
+      run:
+        shell: bash
+        working-directory: papers/bedc_jepa
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Build BEDC-JEPA main.pdf
+        run: make precheck && make
+
   dossier_source_tests:
     name: Dossier source regression tests
     needs: detect_changes
@@ -144,7 +163,7 @@ jobs:
 
   gate:
     name: Gate
-    needs: [detect_changes, build_pdf, build_lean4, dossier_source_tests, render_dossier_check]
+    needs: [detect_changes, build_pdf, build_lean4, build_bedc_jepa_pdf, dossier_source_tests, render_dossier_check]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
@@ -153,6 +172,7 @@ jobs:
           detect_result="${{ needs.detect_changes.result }}"
           pdf_result="${{ needs.build_pdf.result }}"
           lean4_result="${{ needs.build_lean4.result }}"
+          bedc_jepa_result="${{ needs.build_bedc_jepa_pdf.result }}"
           source_test_result="${{ needs.dossier_source_tests.result }}"
           dossier_result="${{ needs.render_dossier_check.result }}"
 
@@ -162,6 +182,7 @@ jobs:
             echo "- detect_changes: \`$detect_result\`"
             echo "- build_pdf: \`$pdf_result\`"
             echo "- build_lean4: \`$lean4_result\`"
+            echo "- build_bedc_jepa_pdf: \`$bedc_jepa_result\`"
             echo "- dossier_source_tests: \`$source_test_result\`"
             echo "- render_dossier_check: \`$dossier_result\`"
           } >> "$GITHUB_STEP_SUMMARY"
@@ -172,7 +193,7 @@ jobs:
           fi
           # Each sub-job: must be `success` (ran and passed) or `skipped`
           # (path detection said not needed). Any other state fails the gate.
-          for r in "$pdf_result" "$lean4_result" "$source_test_result" "$dossier_result"; do
+          for r in "$pdf_result" "$lean4_result" "$bedc_jepa_result" "$source_test_result" "$dossier_result"; do
             case "$r" in
               success|skipped) : ;;
               *) exit 1 ;;
