@@ -1,3 +1,4 @@
+import dataclasses
 import json
 import os
 from pathlib import Path
@@ -7,6 +8,7 @@ import types
 
 import pytest
 
+from bedc_quality_lab import status_taxonomy
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
     certificate_guided_dn_preservation,
@@ -1081,17 +1083,12 @@ def _patch_scaling_ladder_pass_run_spec(monkeypatch):
 
     def fake_run_spec(spec, *args, **kwargs):
         if spec.name == "scaling-ladder":
-            return {
-                "name": spec.name,
-                "status": "pass",
-                "bundle_role": spec.bundle_role,
-                "json_artifact": spec.json_artifact,
-                "markdown_artifact": spec.markdown_artifact,
-                "fingerprint_sidecar": canonical._fingerprint_path(spec).relative_to(canonical.ROOT).as_posix(),
+            return _index_row_for_spec(spec) | {
                 "discipline": canonical._discipline(spec),
                 "fingerprint_status": "match",
+                "fingerprint_reason": "match",
                 "producer_status": "skipped",
-                "artifact_validation": {"status": "pass"},
+                "validation": {"status": "pass"},
             }
         return real_run_spec(spec, *args, **kwargs)
 
@@ -1700,10 +1697,15 @@ def _file_digest_map(root):
 
 
 def _index_row_for_spec(spec):
-    return {
+    row = {
         "name": spec.name,
         "bundle_role": spec.bundle_role,
         "status": "pass",
+        "report_build_status": status_taxonomy.status_cell("report_build_status", "pass", source_pointer=f"{spec.json_artifact}:$"),
+        "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "not-applicable"),
+        "hardgate_status": status_taxonomy.status_cell("hardgate_status", "not-applicable", hardgate_scope="not-applicable"),
+        "ladder_state": status_taxonomy.status_cell("ladder_state", "not-applicable"),
+        "decision_status": status_taxonomy.status_cell("decision_status", "not-applicable"),
         "json_artifact": spec.json_artifact,
         "markdown_artifact": spec.markdown_artifact,
         "fingerprint_sidecar": canonical._artifact_path(spec.json_artifact).with_suffix(".fingerprint.json").relative_to(canonical.ROOT).as_posix(),
@@ -1717,6 +1719,12 @@ def _index_row_for_spec(spec):
             "no_control_rationale_pointer": spec.no_control_rationale_pointer,
         },
     }
+    row["status_taxonomy"] = {
+        "status": "pass",
+        "errors": [],
+        "axes": sorted(status_taxonomy.STATUS_AXIS_DOMAINS),
+    }
+    return row
 
 
 def _patch_dgt_owner_fixture(monkeypatch, calls):
@@ -2300,7 +2308,7 @@ def _write_fair_l1_decision_fixture(root: Path, *, comparison_id: str = "equal-v
         {"comparison_id": "equal-loss-decrease", "decision": "resolved", "status": "pass"},
         {
             "comparison_id": comparison_id,
-            "decision": "validation-loss-cell-missing",
+            "decision": "validation-loss-owner-cell-missing",
             "status": "missing",
         },
     ]
@@ -4662,25 +4670,43 @@ def test_fair_l1_decision_canonical_spec_projects_ladder_state():
     }
 
 
-def test_fair_l1_changed_run_allows_nonpass_when_committed_status_is_bounded_negative(monkeypatch):
-    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", lambda _root, _pointer: "bounded-negative")
-
-    assert canonical._result_blocks_changed_run({"name": "fair-l1-decision", "status": "fail"}) is False
-
-
-def test_fair_l1_changed_run_blocks_nonpass_when_committed_status_is_not_bounded_negative(monkeypatch):
-    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", lambda _root, _pointer: "blocked")
-
-    assert canonical._result_blocks_changed_run({"name": "fair-l1-decision", "status": "fail"}) is True
-
-
-def test_changed_run_blocks_non_fair_nonpass_without_committed_decision_lookup(monkeypatch):
+def test_fair_l1_changed_run_uses_generic_report_build_gate(monkeypatch):
     def unexpected_lookup(_root, _pointer):
-        raise AssertionError("non-fair changed result must not read the fair L1 decision")
+        raise AssertionError("changed gate must not read the committed fair L1 decision")
 
     monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
 
-    assert canonical._result_blocks_changed_run({"name": "dgt-l1-controls", "status": "fail"}) is True
+    assert canonical._result_blocks_changed_run(
+        {
+            "name": "fair-l1-decision",
+            "status": "pass",
+            "report_build_status": status_taxonomy.status_cell("report_build_status", "pass"),
+            "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "bounded-negative"),
+            "hardgate_status": status_taxonomy.status_cell("hardgate_status", "fail", hardgate_scope="owner-scientific"),
+            "ladder_state": status_taxonomy.status_cell("ladder_state", "l1-bounded-negative"),
+            "decision_status": status_taxonomy.status_cell("decision_status", "bounded-negative"),
+            "status_taxonomy": {"status": "pass", "errors": []},
+            "producer_status": "completed",
+            "fingerprint_status": "written",
+        }
+    ) is False
+
+
+def test_changed_run_blocks_report_build_failure_without_committed_decision_lookup(monkeypatch):
+    def unexpected_lookup(_root, _pointer):
+        raise AssertionError("changed gate must not read the fair L1 decision")
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
+
+    assert canonical._result_blocks_changed_run(
+        {
+            "name": "fair-l1-decision",
+            "status": "fail",
+            "report_build_status": status_taxonomy.status_cell("report_build_status", "fail"),
+            "producer_status": "completed",
+            "fingerprint_status": "written",
+        }
+    ) is True
 
 
 def test_changed_run_allows_dgt_l0_cv_hg4_boundary_without_committed_lookup(monkeypatch):
@@ -5385,6 +5411,79 @@ def test_run_spec_can_reuse_existing_artifacts_without_producer(tmp_path, monkey
     assert result["validation"]["status"] == "pass"
 
 
+def test_run_spec_status_alias_is_report_build_status(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["status"] == result["report_build_status"]["value"]
+    assert result["status"] == "pass"
+    assert result["status_taxonomy"]["status"] == "pass"
+
+
+def test_changed_run_uses_report_build_status_only():
+    result = {
+        "name": "fair-l1-decision",
+        "status": "pass",
+        "report_build_status": status_taxonomy.status_cell("report_build_status", "pass"),
+        "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "bounded-negative"),
+        "hardgate_status": status_taxonomy.status_cell("hardgate_status", "fail", hardgate_scope="owner-scientific"),
+        "ladder_state": status_taxonomy.status_cell("ladder_state", "l1-bounded-negative"),
+        "decision_status": status_taxonomy.status_cell("decision_status", "bounded-negative"),
+        "status_taxonomy": {"status": "pass", "errors": []},
+        "producer_status": "completed",
+        "fingerprint_status": "written",
+    }
+
+    assert canonical._result_blocks_changed_run(result) is False
+
+
+def test_unknown_status_value_fails_report_build(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical.CanonicalReportSpec(
+        name="fixture-status",
+        command=("python3", "scripts/run_fixture.py"),
+        json_artifact="reports/canonical/fixture-status.json",
+        markdown_artifact="reports/canonical/fixture-status.md",
+        required_json_keys=("source_artifacts", "applicability_boundary", "positive_claim", "owner_status"),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.applicability_boundary",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.applicability_boundary.not_claimed",
+        positive_claim_pointer="$.positive_claim",
+        control_pointer=None,
+        no_control_rationale_pointer=None,
+        scientific_claim_status_pointer="$.owner_status",
+    )
+    payload = {
+        "source_artifacts": {},
+        "applicability_boundary": {"not_claimed": ["fixture"]},
+        "positive_claim": {"status": "pointer-only"},
+        "owner_status": "unknown-boundary",
+    }
+    json_path = canonical._artifact_path(spec.json_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    canonical._artifact_path(spec.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["validation"]["status"] == "pass"
+    assert result["scientific_claim_status"]["value"] == "unknown-boundary"
+    assert result["status_taxonomy"]["status"] == "fail"
+    assert result["report_build_status"]["value"] == "fail"
+    assert result["status"] == "fail"
+
+
 def test_matching_fingerprint_skips_producer_but_validates(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
@@ -5701,6 +5800,30 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     assert "gap-head-on-h" in index_markdown
     assert (canonical_dir / "quality-scorecard.json").exists()
     assert (canonical_dir / "quality-scorecard.md").exists()
+    assert "status_summary" in payload
+    assert {"report_build_status", "scientific_claim_status", "ladder_state"} <= set(payload["status_summary"]["axes"])
+
+
+def test_cli_summary_contains_report_claim_ladder(monkeypatch, capsys):
+    summary = {
+        "axes": {
+            "report_build_status": {"pass": 1},
+            "scientific_claim_status": {"bounded-negative": 1},
+            "hardgate_status": {"fail": 1},
+            "ladder_state": {"l1-bounded-negative": 1},
+            "decision_status": {"bounded-negative": 1},
+        },
+        "reports": [],
+    }
+
+    monkeypatch.setattr(canonical, "run_reports", lambda **_kwargs: {"status_summary": summary})
+
+    canonical.main([])
+
+    stdout = capsys.readouterr().out
+    assert "report_build_status" in stdout
+    assert "scientific_claim_status" in stdout
+    assert "ladder_state" in stdout
 
 
 def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monkeypatch):
@@ -5801,7 +5924,9 @@ def test_run_reports_verify_fingerprints_allows_matching_fail_closed_auxiliary(t
 
     result = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
 
-    assert result["reports"][0]["status"] == "fail"
+    assert result["reports"][0]["status"] == "pass"
+    assert result["reports"][0]["report_build_status"]["value"] == "pass"
+    assert result["reports"][0]["construct_validity"]["status"] == "fail"
     assert result["reports"][0]["fingerprint_status"] == "match"
     assert result["reports"][0]["producer_status"] == "skipped"
 
@@ -5815,7 +5940,9 @@ def test_verify_fingerprints_allows_fail_closed_report_status(tmp_path, monkeypa
 
     def fake_run_spec(called, mode="changed", generated_at=None):
         row = _index_row_for_spec(called)
-        row["status"] = "fail"
+        row["report_build_status"] = status_taxonomy.status_cell("report_build_status", "fail")
+        row["status"] = row["report_build_status"]["value"]
+        row["status_taxonomy"] = canonical._status_taxonomy_block(row)
         row["fingerprint_status"] = "match"
         row["fingerprint_reason"] = "match"
         return row
@@ -7765,11 +7892,14 @@ def test_quality_scorecard_markdown_contains_baseline_pointers(tmp_path):
 def test_run_spec_producer_exception_fails_closed_even_with_valid_stale_artifact(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
-    spec = canonical._specs_by_name()["gap-head-on-h"]
+    base_spec = canonical._specs_by_name()["gap-head-on-h"]
+    spec = dataclasses.replace(base_spec, scientific_claim_status_pointer="$.owner_status")
     json_path = canonical._artifact_path(spec.json_artifact)
     md_path = canonical._artifact_path(spec.markdown_artifact)
     json_path.parent.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    payload = _payload_for_spec(spec)
+    payload["owner_status"] = "unknown-boundary"
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
     md_path.write_text("# fixture\n", encoding="utf-8")
 
     def broken_producer(_spec):
@@ -7784,6 +7914,9 @@ def test_run_spec_producer_exception_fails_closed_even_with_valid_stale_artifact
     assert result["producer_status"] == "error"
     assert result["validation"]["status"] == "pass"
     assert result["validation"]["required_key_validation"]["status"] == "pass"
+    assert result["report_build_status"]["value"] == "error"
+    assert result["scientific_claim_status"]["value"] == "not-applicable"
+    assert result["status_taxonomy"]["status"] == "pass"
     assert result["error"] == "producer stopped"
 
 
@@ -8032,6 +8165,59 @@ def test_index_markdown_lists_gap_head_reports():
     assert "gap-head-discovery" in markdown
     assert "nongaussian-distribution-sweep" in markdown
     assert "certificate-guided-discovery" in markdown
+
+
+def test_index_rows_expose_five_status_axes():
+    payload = canonical._index([
+        _index_row_for_spec(canonical._specs_by_name()["mixing-family-sweep"]),
+        _index_row_for_spec(canonical._specs_by_name()["fair-l1-decision"]),
+    ])
+
+    for report in payload["reports"]:
+        assert report["status"] == report["report_build_status"]["value"]
+        assert {"report_build_status", "scientific_claim_status", "hardgate_status", "ladder_state", "decision_status"} <= set(report)
+        assert report["status_taxonomy"]["status"] == "pass"
+        for axis in ("report_build_status", "scientific_claim_status", "hardgate_status", "ladder_state", "decision_status"):
+            assert report[axis]["axis"] == axis
+            assert status_taxonomy.validate_status_cell(report[axis])["status"] == "pass"
+
+
+def _markdown_report_row(markdown: str, report_name: str) -> list[str]:
+    for line in markdown.splitlines():
+        if line.startswith(f"| `{report_name}` |"):
+            return [cell.strip().strip("`") for cell in line.strip("|").split("|")]
+    raise AssertionError(f"missing Markdown row for {report_name}")
+
+
+def test_index_markdown_status_cells_match_index_json():
+    fair_l1 = _index_row_for_spec(canonical._specs_by_name()["fair-l1-decision"])
+    fair_l1.update(
+        {
+            "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "bounded-negative"),
+            "hardgate_status": status_taxonomy.status_cell("hardgate_status", "fail", hardgate_scope="owner-scientific"),
+            "ladder_state": status_taxonomy.status_cell("ladder_state", "l1-bounded-negative"),
+            "decision_status": status_taxonomy.status_cell("decision_status", "bounded-negative"),
+        }
+    )
+    payload = canonical._index([fair_l1], generated_at="fixture", claim_verdict_rows=[])
+    markdown = canonical._render_index_markdown(payload)
+    row = _markdown_report_row(markdown, "fair-l1-decision")
+    by_name = {report["name"]: report for report in payload["reports"]}
+    report = by_name["fair-l1-decision"]
+
+    assert row[:6] == [
+        "fair-l1-decision",
+        status_taxonomy.render_status_cell(report["report_build_status"]),
+        status_taxonomy.render_status_cell(report["scientific_claim_status"]),
+        status_taxonomy.render_status_cell(report["hardgate_status"]),
+        status_taxonomy.render_status_cell(report["ladder_state"]),
+        status_taxonomy.render_status_cell(report["decision_status"]),
+    ]
+    assert row[1] == "pass"
+    assert row[2] == "bounded-negative"
+    assert row[3] == "fail"
+    assert row[4] == "l1-bounded-negative"
+    assert row[5] == "bounded-negative"
 
 
 def test_release_manifest_sidecar_index_summary_is_pointer_only(tmp_path, monkeypatch):
@@ -8553,7 +8739,8 @@ def test_run_spec_consumes_construct_validity_failure(tmp_path, monkeypatch):
     assert result["discipline"]["reporting_hardgate"]["status"] == "pass"
     assert result["construct_validity"]["status"] == "fail"
     assert result["construct_validity"]["failed_gates"] == ["CV-HG2"]
-    assert result["status"] == "fail"
+    assert result["report_build_status"]["value"] == "pass"
+    assert result["status"] == "pass"
 
 
 def test_run_spec_treats_missing_construct_validity_pointer_as_failure(tmp_path, monkeypatch):
@@ -8571,6 +8758,34 @@ def test_run_spec_treats_missing_construct_validity_pointer_as_failure(tmp_path,
     assert result["validation"]["status"] == "pass"
     assert result["construct_validity"]["status"] == "missing"
     assert result["status"] == "fail"
+
+
+def test_fair_l1_decision_owner_statuses_do_not_fail_report_build(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["fair-l1-decision"]
+    payload = json.loads((canonical.SOURCE_ROOT / spec.json_artifact).read_text(encoding="utf-8"))
+    json_path = canonical._artifact_path(spec.json_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    canonical._artifact_path(spec.markdown_artifact).write_text(
+        (canonical.SOURCE_ROOT / spec.markdown_artifact).read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["report_build_status"]["value"] == "pass"
+    assert result["status"] == "pass"
+    assert result["scientific_claim_status"]["value"] == "bounded-negative"
+    assert result["hardgate_status"]["value"] == "fail"
+    assert result["hardgate_status"]["hardgate_scope"] == "owner-scientific"
+    assert result["hardgate_status"]["blocks_report"] is False
+    assert result["hardgate_status"]["blocks_promotion"] is True
+    assert result["ladder_state"]["value"] == "l1-bounded-negative"
+    assert result["decision_status"]["value"] == "bounded-negative"
+    assert result["construct_validity"]["status"] == "bounded-negative"
+    assert result["status_taxonomy"]["status"] == "pass"
 
 
 def test_host_env_is_ignored_by_reporting_hardgate(tmp_path, monkeypatch):
