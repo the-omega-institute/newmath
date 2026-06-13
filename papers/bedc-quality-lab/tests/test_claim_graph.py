@@ -363,11 +363,15 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
         root,
         "reports/canonical/dgt-l0-controls.json",
         {
-            "construct_suspension": {"status": "reviewed"},
-            "honest_metric_review": {"status": "reviewed"},
+            "construct_suspension": {
+                "headline_status": "construct-review-passed",
+                "taint_status": "untainted",
+            },
+            "honest_metric_review": {"status": "pass"},
             "l0_toy_projection": {
-                "status": "pass",
                 "review_status": "pass",
+                "status": "pass",
+                "failure_reasons": [],
                 "hardgate_statuses": {"pass": {"status": "pass"}},
                 "ladder_consumption": {"status": "open"},
                 "not_claimed": [
@@ -377,6 +381,7 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
                     "No LLM replacement claim.",
                     "No universal recipe claim.",
                     "No verdict inheritance to L1 or higher scaling levels.",
+                    "No L1 or higher inheritance claim.",
                 ],
             },
         },
@@ -385,10 +390,21 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
         root,
         "reports/canonical/dgt-l1-controls.json",
         {
-            "negative_witness_sweep": {"status": "pass"},
+            "negative_witness_sweep": {
+                "status": "pass",
+                "rows": [
+                    {"witness": "information_starved_baseline"},
+                    {"witness": "unanswerable_ood"},
+                ],
+            },
             "l1_ood_mechanism": {
-                "verdict": "bounded-in-distribution-only",
-                "l2_implication": "not-established",
+                "owner": "dgt-l1-controls",
+                "evidence_scope": "bounded-tiny-sequence-l1-ood-mechanism",
+                "verdict": "bounded",
+                "l2_implication": {
+                    "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
+                    "status": "pointer-only",
+                },
             },
         },
     )

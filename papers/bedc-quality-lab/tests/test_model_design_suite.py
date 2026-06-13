@@ -3,9 +3,7 @@ from copy import deepcopy
 
 import pytest
 
-from bedc_quality_lab import dgt_l0_controls
 from bedc_quality_lab import dgt_l1_boundary_report
-from bedc_quality_lab import dgt_l1_controls
 from bedc_quality_lab.discovery_compiler.capsule import (
     ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE,
     CLAIM_CAPSULE_SCHEMA_ID,
@@ -97,31 +95,56 @@ def test_architecture_claim_capsule_rejects_missing_model_claim_cells():
         )
 
 
-def _write_dgt_owner_ref_inputs(root):
+def _write_dgt_owner_dependency_fixtures(root):
     canonical._write_json_atomic(
         root / canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
         {
-            "construct_suspension": {"status": "pass"},
+            "construct_suspension": {
+                "headline_status": "construct-review-passed",
+                "taint_status": "untainted",
+            },
             "honest_metric_review": {"status": "pass"},
-            "negative_witness_sweep": {"status": "fixture"},
-            "compute_param_ledger": {"status": "fixture"},
+            "negative_witness_sweep": {"status": "pass"},
             "l0_toy_projection": {
-                "status": "pass",
                 "review_status": "pass",
-                "ladder_consumption": {
-                    "status": "open",
-                    "hardgate_summary_ref": {
-                        "artifact": canonical.DGT_L0_CONTROLS_JSON_ARTIFACT,
-                        "pointer": "$.l0_toy_projection.hardgate_statuses.pass",
-                    },
-                    "review_status_alias": "pass",
-                },
-                "hardgate_statuses": {
-                    "pass": {
-                        "gates": {
-                            "L0-PASS-HG1": {"status": "pass"},
-                        }
-                    }
+                "status": "pass",
+                "failure_reasons": [],
+                "hardgate_statuses": {"pass": {"status": "pass"}},
+                "ladder_consumption": {"status": "open"},
+                "not_claimed": [
+                    "Bounded L0 toy training controls only.",
+                    "No production scale claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                    "No universal recipe claim.",
+                    "No L1 or higher inheritance claim.",
+                ],
+            },
+        },
+    )
+    canonical._write_json_atomic(
+        root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
+        {
+            "l1_step_ladder": {
+                "convergence_crossover": {"status": "fixture"},
+                "verdict": "construct-boundary",
+                "hardgates": {"BASE-UNDER-HG0": {"status": "fail-closed"}},
+                "not_claimed": ["fixture"],
+            },
+            "negative_witness_sweep": {
+                "status": "pass",
+                "rows": [
+                    {"witness": "information_starved_baseline"},
+                    {"witness": "unanswerable_ood"},
+                ],
+            },
+            "l1_ood_mechanism": {
+                "owner": "dgt-l1-controls",
+                "evidence_scope": "bounded-tiny-sequence-l1-ood-mechanism",
+                "verdict": "bounded",
+                "l2_implication": {
+                    "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
+                    "status": "pointer-only",
                 },
             },
         },
@@ -142,40 +165,14 @@ def _write_dgt_owner_ref_inputs(root):
                     "No production deployment claim.",
                     "No global superiority claim.",
                     "No LLM replacement claim.",
-                    "No OOD generalization claim.",
-                    "No architecture advantage claim.",
                 ],
-            },
-        },
-    )
-    canonical._write_json_atomic(
-        root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
-        {
-            "review_status": "pass",
-            "promotion_readiness": "ready-pass",
-            "negative_witness_sweep": {"status": "fixture"},
-            "l1_ood_mechanism": {
-                "verdict": "fixture",
-                "l2_implication": "blocked",
-            },
-            "l1_tiny_sequence_projection": {
-                "status": "pass",
-                "review_status": "pass",
-                "promotion_readiness": "ready-pass",
-                "not_claimed": ["fixture"],
-            },
-            "l1_step_ladder": {
-                "convergence_crossover": {"status": "fixture"},
-                "verdict": "construct-boundary",
-                "hardgates": {"BASE-UNDER-HG0": {"status": "fail-closed"}},
-                "not_claimed": ["fixture"],
             },
         },
     )
 
 
 def _write_suite_dependencies(root):
-    _write_dgt_owner_ref_inputs(root)
+    _write_dgt_owner_dependency_fixtures(root)
     boundary_payload = dgt_l1_boundary_report.build_l1_boundary_report(root=root, generated_at="fixture-time")
     dgt_l1_boundary_report.write_artifacts(boundary_payload, root=root, generated_at="fixture-time")
     dgt = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time")
