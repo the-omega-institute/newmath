@@ -55,4 +55,39 @@ theorem CriticalLineWitnessCarrier_zeta_dependency_lock
       routeC,
       routeN⟩
 
+theorem CriticalLineWitnessCarrier_zeta_dependency_readback
+    {Z S M R Q H C P N zetaRead zeroRead modulusRead dependencyRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S zetaRead ->
+        Cont zetaRead Q zeroRead ->
+          Cont M R modulusRead ->
+            Cont modulusRead H dependencyRead ->
+              UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+                UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory zetaRead ∧
+                  UnaryHistory zeroRead ∧ UnaryHistory modulusRead ∧
+                    UnaryHistory dependencyRead ∧ hsame H (append Z S) ∧
+                      Cont Z S zetaRead ∧ Cont zetaRead Q zeroRead ∧
+                        Cont M R modulusRead ∧ Cont modulusRead H dependencyRead ∧
+                          Cont M R Q ∧ Cont Q H C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet zetaRoute zeroRoute modulusRoute dependencyRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have zetaUnary : UnaryHistory zetaRead :=
+    unary_cont_closed unaryZ unaryS zetaRoute
+  have zeroUnary : UnaryHistory zeroRead :=
+    unary_cont_closed zetaUnary unaryQ zeroRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed unaryM unaryR modulusRoute
+  have dependencyUnary : UnaryHistory dependencyRead :=
+    unary_cont_closed modulusUnary unaryH dependencyRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryH, zetaUnary, zeroUnary,
+      modulusUnary, dependencyUnary, sameH, zetaRoute, zeroRoute, modulusRoute,
+      dependencyRoute, routeQ, routeC, routeN⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
