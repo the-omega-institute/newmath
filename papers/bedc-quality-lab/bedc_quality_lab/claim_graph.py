@@ -289,7 +289,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 node_type="projected_discovery",
                 source_pointer=f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[{index}]",
                 discovery_level=str(row.get("discovery_level") or ""),
-                terminal_verdict=str(row.get("terminal_verdict") or "") or None,
+                terminal_verdict=None,
                 evidence_scope=tuple(evidence_scope) if isinstance(evidence_scope, list) else None,
                 evidence_type=str(row.get("evidence_type")) if isinstance(row.get("evidence_type"), str) else None,
                 evidence_provenance_pointer=str(row.get("evidence_provenance_pointer"))
@@ -310,7 +310,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 node_type="negative_witness",
                 source_pointer=f"{NEGATIVE_WITNESSES_JSON_ARTIFACT}:$.witnesses[{index}]",
                 discovery_level=str(witness.get("discovery_level") or "") or None,
-                terminal_verdict=str(witness.get("terminal_verdict") or "") or None,
+                terminal_verdict=None,
                 evidence_scope=None,
                 evidence_type=None,
                 evidence_provenance_pointer=None,
@@ -340,7 +340,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                     node_type="revocation",
                     source_pointer=source_pointer,
                     discovery_level=None,
-                    terminal_verdict=str(row.get("claim_verdict") or ""),
+                    terminal_verdict=None,
                     evidence_scope=None,
                     evidence_type=None,
                     evidence_provenance_pointer=None,
@@ -562,8 +562,8 @@ def validate_claim_graph_payload(
             continue
         if node.node_type not in NODE_TYPES:
             errors.append(f"node {node.node_id} has invalid node_type")
-        if node.node_type == "raw_evidence" and node.terminal_verdict is not None:
-            errors.append(f"raw_evidence node has terminal verdict: {node.node_id}")
+        if node.node_type != "terminal_claim" and node.terminal_verdict is not None:
+            errors.append(f"non-terminal node has terminal verdict: {node.node_id}")
         if not source_pointer_resolves(root, node.source_pointer):
             errors.append(f"node source_pointer does not resolve: {node.node_id}")
         if node.evidence_provenance_pointer is not None and resolve_artifact_pointer(root, node.evidence_provenance_pointer) is None:
@@ -587,12 +587,58 @@ def validate_claim_graph_payload(
     errors.extend(_validate_cg_hg2(payload, by_id))
     errors.extend(_validate_cg_hg3(by_id))
     errors.extend(_validate_cg_hg4(verdict_rows, by_id, root))
+    errors.extend(validate_terminal_node_projection(payload, root=root, claim_verdict_rows=verdict_rows))
     errors.extend(_validate_cg_hg6(verdict_rows, root))
     errors.extend(_validate_owner_provenance_acceptance(verdict_rows, root))
     errors.extend(_validate_cg_hg8(verdict_rows, root))
     errors.extend(_validate_dgt_accepted_positive_path(verdict_rows, by_id))
     errors.extend(_validate_dgt_component_causal_evidence_scope(verdict_rows, by_id, root))
     errors.extend(_validate_dgt_neural_ablation_pointer(root))
+    return errors
+
+
+def validate_terminal_node_projection(
+    payload: Mapping[str, Any],
+    *,
+    root: Path,
+    claim_verdict_rows: Sequence[Mapping[str, Any]] | None = None,
+) -> list[str]:
+    raw_nodes = payload.get("nodes")
+    if not isinstance(raw_nodes, list):
+        return ["terminal projection payload must contain nodes list"]
+    verdict_rows = list(claim_verdict_rows) if claim_verdict_rows is not None else load_claim_verdict_rows(root)
+    rows_by_pointer = {
+        f"{CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[{index}]": row
+        for index, row in enumerate(verdict_rows)
+    }
+    errors: list[str] = []
+    seen_terminal_pointers: set[str] = set()
+    for index, raw_node in enumerate(raw_nodes):
+        if not isinstance(raw_node, Mapping):
+            continue
+        node_type = raw_node.get("node_type")
+        node_id = str(raw_node.get("node_id") or f"<node:{index}>")
+        terminal_verdict = raw_node.get("terminal_verdict")
+        if node_type != "terminal_claim":
+            if terminal_verdict is not None:
+                errors.append(f"terminal projection non-terminal verdict: {node_id}")
+            continue
+        source_pointer = raw_node.get("source_pointer")
+        if not isinstance(source_pointer, str):
+            errors.append(f"terminal projection source pointer missing: {node_id}")
+            continue
+        row = rows_by_pointer.get(source_pointer)
+        if row is None:
+            errors.append(f"terminal projection source pointer is not a claim verdict row: {node_id}")
+            continue
+        seen_terminal_pointers.add(source_pointer)
+        resolved = resolve_source_pointer(root, source_pointer)
+        if resolved != row:
+            errors.append(f"terminal projection source pointer resolves to another row: {node_id}")
+        if terminal_verdict != row.get("claim_verdict"):
+            errors.append(f"terminal projection verdict mismatch: {node_id}")
+    if seen_terminal_pointers != set(rows_by_pointer):
+        errors.append("terminal projection exact cover mismatch")
     return errors
 
 

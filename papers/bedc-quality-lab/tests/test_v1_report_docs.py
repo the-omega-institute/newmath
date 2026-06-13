@@ -7,6 +7,7 @@ from scripts.check_v1_report_docs import (
     D4_DISCOVERY_LEVEL,
     JSON_POINTER_RE,
     SELECTED_WORKED_CASE_DISCOVERY_LEVEL,
+    check_doc_hg_surfaces,
     check_literature_ledger,
     exclusive_positive_worked_case_hits,
     jsonpath_exists,
@@ -59,6 +60,10 @@ MINIMAL_LEDGER_INDEX = {
         "status": "ready",
     },
 }
+
+
+def _phrase(*parts: str) -> str:
+    return "".join(parts)
 
 
 def _code_spans(text: str) -> list[str]:
@@ -230,3 +235,36 @@ def test_v1_report_rejects_equivalent_unique_positive_wording():
     for phrase in cases:
         hits = exclusive_positive_worked_case_hits({V1_REPORT: phrase})
         assert hits != [], phrase
+
+
+def test_v1_doc_hg_cli_wrapper_delegates_shared_scan(tmp_path, monkeypatch):
+    import scripts.check_v1_report_docs as docs_gate
+
+    path = tmp_path / "reports/canonical/dgt-l1-boundary-report.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(_phrase("组件因果", "已全部证明\n"), encoding="utf-8")
+    monkeypatch.setattr(docs_gate, "ROOT", tmp_path)
+    monkeypatch.setattr(docs_gate, "DOC_PATHS", [path])
+
+    result = check_doc_hg_surfaces()
+
+    assert result.status == "FAIL"
+    assert "DOC-HG forbidden phrase" in result.detail
+
+
+def test_v1_doc_hg_cli_wrapper_accepts_boundary_pointer(tmp_path, monkeypatch):
+    import scripts.check_v1_report_docs as docs_gate
+
+    path = tmp_path / "reports/canonical/model-comparison.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        "Boundary pointer: `reports/canonical/index.json:$.honest_boundary.not_claimed`\n"
+        + _phrase("separation", "-persists\n"),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(docs_gate, "ROOT", tmp_path)
+    monkeypatch.setattr(docs_gate, "DOC_PATHS", [path])
+
+    result = check_doc_hg_surfaces()
+
+    assert result.status == "PASS"
