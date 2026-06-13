@@ -162,16 +162,4 @@ instance darbouxOscillationCriterionChapterTasteGate :
     intro x y hxy heq
     exact hxy (darbouxOscillationCriterionToEventFlow_injective heq)
 
-theorem DarbouxOscillationCriterionNamecertObligations
-    (x : _root_.BEDC.Derived.DarbouxOscillationCriterionUp) :
-    darbouxOscillationCriterionFromEventFlow (darbouxOscillationCriterionToEventFlow x) =
-        some x ∧
-      Nonempty (BHistCarrier _root_.BEDC.Derived.DarbouxOscillationCriterionUp) ∧
-        Nonempty (ChapterTasteGate _root_.BEDC.Derived.DarbouxOscillationCriterionUp) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨darbouxOscillationCriterion_round_trip x,
-      ⟨⟨darbouxOscillationCriterionBHistCarrier⟩,
-        ⟨darbouxOscillationCriterionChapterTasteGate⟩⟩⟩
-
 end BEDC.Derived.DarbouxOscillationCriterionUp
