@@ -1,5 +1,7 @@
 import json
 
+from bedc_quality_lab import dgt_base_undertraining_audit as audit
+from bedc_quality_lab import fair_l1_decision as fair
 from bedc_quality_lab import input_accessibility as ia
 from scripts import run_input_accessibility_audit as runner
 
@@ -303,6 +305,14 @@ def test_rows_are_sorted_and_row_id_is_stable():
 
 def test_real_callable_audit_builds_canonical_payload():
     payload = ia.build_payload(generated_at="fixture-time")
+    baseline_rows = [
+        row
+        for row in payload["rows"]
+        if row["experiment"] == "dgt_l1_tiny_sequence"
+        and row["split"] == "in_distribution"
+        and row["arm"] == "information_starved_l1_baseline"
+        and row["role"] == "fairness-control"
+    ]
 
     assert payload["schema_id"] == ia.SCHEMA_ID
     assert payload["artifact_id"] == ia.ARTIFACT_ID
@@ -310,6 +320,56 @@ def test_real_callable_audit_builds_canonical_payload():
     assert payload["access_hardgates"]["status"] == "fail"
     assert payload["boundary_ledger"]
     assert payload["consumer_pointers"]["input_accessibility_ref"] == f"{ia.JSON_ARTIFACT}:$"
+    assert len(baseline_rows) == 1
+    assert baseline_rows[0]["visible_variables"] == ["x_minus_1"]
+    assert baseline_rows[0]["required_variables"] == ["x_minus_1", "x_minus_2"]
+    assert baseline_rows[0]["missing_variables"] == ["x_minus_2"]
+    assert baseline_rows[0]["information_starved"] is True
+
+
+def test_hand_entered_visibility_facts_cannot_satisfy_fair_baseline_gates(tmp_path):
+    payload = ia.build_payload(generated_at="fixture-time")
+    baseline = next(
+        row
+        for row in payload["rows"]
+        if row["experiment"] == "dgt_l1_tiny_sequence"
+        and row["split"] == "in_distribution"
+        and row["arm"] == "information_starved_l1_baseline"
+        and row["role"] == "fairness-control"
+    )
+    payload["visible_variables"][baseline["row_id"]] = list(baseline["required_variables"])
+    payload["required_variables"][baseline["row_id"]] = list(baseline["required_variables"])
+
+    base_payload = audit.build_payload(
+        root=fair.LAB_ROOT,
+        generated_at="fixture",
+        input_accessibility_payload=payload,
+        construct_validity_override=audit.construct_validity_assessment(
+            baseline_input_order=2,
+            label_dependency_order=2,
+            second_predecessor_visible=True,
+        ),
+    )
+    assert base_payload["base_undertraining_audit"]["hardgates"]["BASE-UNDER-HG0"]["status"] == "fail-closed"
+
+    for artifact in (
+        fair.DGT_L1_CONTROLS_ARTIFACT,
+        fair.DGT_BASE_UNDERTRAINING_ARTIFACT,
+        fair.INPUT_ACCESSIBILITY_ARTIFACT,
+    ):
+        target = tmp_path / artifact
+        target.parent.mkdir(parents=True, exist_ok=True)
+        source = fair.LAB_ROOT / artifact
+        if artifact == fair.DGT_BASE_UNDERTRAINING_ARTIFACT:
+            target.write_text(json.dumps(base_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        elif artifact == fair.INPUT_ACCESSIBILITY_ARTIFACT:
+            target.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        else:
+            target.write_bytes(source.read_bytes())
+
+    fair_payload = fair.build_payload(root=tmp_path, generated_at="fixture")
+    assert fair_payload["hardgates"]["FAIR-L1-HG3"]["status"] == "fail"
+    assert fair_payload["hardgates"]["FAIR-L1-HG7"]["status"] == "fail"
 
 
 def test_producer_writes_idempotent_artifacts_even_when_gate_fails_closed(tmp_path):

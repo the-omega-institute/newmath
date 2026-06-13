@@ -4,7 +4,7 @@
     "boundary_ledger": [
       {
         "ledger_id": "base-undertraining-construct-validity",
-        "reason": "equal-compute and equal-loss-decrease rows are non-informative for an information-starved baseline",
+        "reason": "equal-compute, equal-loss-decrease, and equal-validation-loss rows are non-informative for an information-starved baseline",
         "reconstruction_pointer": "https://github.com/the-omega-institute/newmath/issues/1196",
         "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
         "status": "construct-boundary"
@@ -50,6 +50,19 @@
         "source_artifact": "reports/canonical/dgt-l1-controls.json",
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
         "status": "resolved"
+      },
+      {
+        "base_metric": 0.06543,
+        "ci_low_separation": 0.246338,
+        "ci_overlap": false,
+        "comparison_id": "equal_validation_loss",
+        "decision": "noninformative-dgt-separated",
+        "dgt_metric": 0.311768,
+        "match_axis": "validation_loss",
+        "match_value": 2.105649,
+        "source_artifact": "reports/canonical/dgt-l1-controls.json",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean",
+        "status": "resolved"
       }
     ],
     "construct_validity": {
@@ -60,6 +73,28 @@
       "chance_accuracy": 0.0625,
       "hidden_coefficient_modulus_gcd": 1,
       "input_accessibility_preconditions": {
+        "baseline_row": {
+          "consumer_pointer_aligned": true,
+          "coverage_status": "fail",
+          "failures": [],
+          "feature_extraction_status": "pass",
+          "information_starved": true,
+          "label_extraction_status": "pass",
+          "missing_variables": [
+            "x_minus_2"
+          ],
+          "required_variables": [
+            "x_minus_1",
+            "x_minus_2"
+          ],
+          "row_id": "59a87f14e31796e4",
+          "row_pointer": "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+          "status": "pass",
+          "supports_architecture_claim": false,
+          "visible_variables": [
+            "x_minus_1"
+          ]
+        },
         "boundary_ledger_count": 3,
         "boundary_ledger_ref": "reports/canonical/input-accessibility.json:$.boundary_ledger",
         "failures": [],
@@ -77,6 +112,7 @@
         "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb",
         "source_artifact": "reports/canonical/input-accessibility.json",
         "source_pointers": {
+          "baseline_row": "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
           "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
           "information_starved_arms": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
           "input_accessibility": "reports/canonical/input-accessibility.json:$",
@@ -93,6 +129,7 @@
       "label_rule": "(3*x_prev_1 + 5*x_prev_2 + 1) mod 16",
       "second_predecessor_visible_to_baseline": false,
       "source_pointers": {
+        "baseline_row": "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
         "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
         "controller_evidence": "https://github.com/the-omega-institute/newmath/issues/1190#issuecomment-4672534911",
         "fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196",
@@ -114,12 +151,12 @@
         "status": "fail-closed"
       },
       "BASE-UNDER-HG1": {
-        "criterion": "equal-step, equal-compute, and equal-loss-decrease rows are present",
+        "criterion": "equal-step, equal-compute, equal-loss-decrease, and equal-validation-loss rows are present",
         "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows",
         "status": "pass"
       },
       "BASE-UNDER-HG2": {
-        "criterion": "base step grid covers the DGT compute and loss-decrease interval",
+        "criterion": "base step grid covers the DGT compute, loss-decrease, and validation-loss interval",
         "evidence_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid",
         "status": "pass"
       },
@@ -129,12 +166,12 @@
         "status": "pass"
       },
       "BASE-UNDER-HG4": {
-        "criterion": "construct-valid compute or loss catch-up records a bounded downgrade ledger",
+        "criterion": "construct-valid compute, loss-decrease, or validation-loss catch-up records a bounded downgrade ledger",
         "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.boundary_ledger",
         "status": "not-triggered"
       },
       "BASE-UNDER-HG5": {
-        "criterion": "resolved compute and loss rows retain positive CI-low separation",
+        "criterion": "resolved compute, loss-decrease, and validation-loss rows retain positive CI-low separation",
         "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.evidence_ledger",
         "status": "pass"
       }
@@ -152,7 +189,7 @@
       },
       {
         "claim_action": "hold",
-        "condition": "base grid does not cover DGT compute and loss-decrease intervals",
+        "condition": "base grid does not cover DGT compute, loss-decrease, and validation-loss intervals",
         "verdict": "inconclusive"
       },
       {
@@ -163,6 +200,11 @@
       {
         "claim_action": "fair_loss_decrease_artifact",
         "condition": "equal-loss-decrease row has CI overlap or nonpositive CI-low separation",
+        "verdict": "downgrade"
+      },
+      {
+        "claim_action": "fair_validation_loss_artifact",
+        "condition": "equal-validation-loss row has CI overlap or nonpositive CI-low separation",
         "verdict": "downgrade"
       },
       {
@@ -207,6 +249,28 @@
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
       },
       "input_accessibility_preconditions": {
+        "baseline_row": {
+          "consumer_pointer_aligned": true,
+          "coverage_status": "fail",
+          "failures": [],
+          "feature_extraction_status": "pass",
+          "information_starved": true,
+          "label_extraction_status": "pass",
+          "missing_variables": [
+            "x_minus_2"
+          ],
+          "required_variables": [
+            "x_minus_1",
+            "x_minus_2"
+          ],
+          "row_id": "59a87f14e31796e4",
+          "row_pointer": "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+          "status": "pass",
+          "supports_architecture_claim": false,
+          "visible_variables": [
+            "x_minus_1"
+          ]
+        },
         "boundary_ledger_count": 3,
         "boundary_ledger_ref": "reports/canonical/input-accessibility.json:$.boundary_ledger",
         "failures": [],
@@ -224,6 +288,7 @@
         "sha256": "4f331e3992e9eed6f9211c917862d963906eea65c976b567cb641402015197cb",
         "source_artifact": "reports/canonical/input-accessibility.json",
         "source_pointers": {
+          "baseline_row": "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
           "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
           "information_starved_arms": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
           "input_accessibility": "reports/canonical/input-accessibility.json:$",
@@ -241,6 +306,7 @@
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid",
         "reports/canonical/input-accessibility.json#row_id=14ed3059f448592a",
@@ -249,7 +315,7 @@
         "reports/canonical/input-accessibility.json:$",
         "reports/canonical/input-accessibility.json:$.boundary_ledger"
       ],
-      "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21",
+      "sha256": "54ccd77b403e04520566af9f5848ea79811b78409c3c3cf417374ad078e52fa7",
       "source_artifact": "reports/canonical/dgt-l1-controls.json",
       "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
       "status": "resolved"

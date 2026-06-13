@@ -3033,7 +3033,7 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
     real_run_spec = canonical._run_spec
 
     def fake_run_spec(spec, *args, **kwargs):
-        if spec.name in {"dgt-l0-controls", "scaling-ladder", "dgt-model-card"}:
+        if spec.name in {"dgt-l0-controls", "scaling-ladder", "dgt-model-card", "reproduction-package", "reproduction-check-result"}:
             return {
                 "name": spec.name,
                 "status": "pass",
@@ -3053,6 +3053,8 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "_compile_discovery_compat", fake_compile_discovery)
     monkeypatch.setattr(canonical, "_validate_committed_discovery_map_round_trip", lambda: None)
     monkeypatch.setattr(canonical, "_build_discovery_gated_transformer_payload", fake_dgt_payload)
+    monkeypatch.setattr(canonical, "_result_blocks_changed_run", lambda _result: False)
+    monkeypatch.setattr("scripts.run_reproduction_package.write_check_result", lambda *args, **kwargs: {})
 
     payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
 

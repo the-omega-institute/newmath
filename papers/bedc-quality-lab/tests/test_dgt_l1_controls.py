@@ -62,6 +62,7 @@ def test_l1_training_requires_real_torch_updates():
         assert arm["training_steps"] > 0
         assert arm["metrics"]["parameter_l2_delta_mean"] > 0
         assert arm["metrics"]["loss_decrease_mean"] > 0
+        assert arm["metrics"]["validation_loss_mean"] > 0
         assert "FalseLedgerRate_mean" not in arm["metrics"]
         assert "JetCoverage_mean" not in arm["metrics"]
         assert "classifier_shift_count" not in arm["metrics"]
@@ -70,6 +71,12 @@ def test_l1_training_requires_real_torch_updates():
     assert len(ladder["step_rows"]) == 2
     assert all(step["training_arms"]["dgt_l1"]["device_resolved"] == "cpu" for step in ladder["per_step"])
     assert all("dgt_loss_decrease_mean" in step["metrics"] for step in ladder["step_rows"])
+    assert all("dgt_validation_loss_mean" in step["metrics"] for step in ladder["step_rows"])
+    assert all(
+        step["training_arms"][arm_id]["metrics"]["validation_loss_mean"] > 0
+        for step in ladder["per_step"]
+        for arm_id in l1.ARM_IDS
+    )
 
     mutated = json.loads(json.dumps(payload))
     mutated["training_arms"]["dgt_l1"]["training_steps"] = 0
@@ -78,6 +85,14 @@ def test_l1_training_requires_real_torch_updates():
     mutated = json.loads(json.dumps(payload))
     mutated["training_arms"]["dgt_l1"]["metrics"]["parameter_l2_delta_mean"] = 0
     _expect_invalid(mutated, "parameter update")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["training_arms"]["dgt_l1"]["metrics"].pop("validation_loss_mean")
+    _expect_invalid(mutated, "required metric missing")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["training_arms"]["dgt_l1"]["metrics"]["validation_loss_mean"] = 0
+    _expect_invalid(mutated, "validation_loss")
 
 
 def test_l1_owner_required_metrics_are_boundary_only_and_pointer_backed():

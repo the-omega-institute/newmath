@@ -159,6 +159,75 @@ def _errors(payload, root):
 
 def _add_dgt_accepted_positive_fixture(root: Path) -> None:
     dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
+    _write_json(
+        root,
+        "reports/canonical/dgt-l0-controls.json",
+        {
+            "construct_suspension": {
+                "headline_status": "construct-review-passed",
+                "taint_status": "untainted",
+            },
+            "honest_metric_review": {"status": "pass"},
+            "l0_toy_projection": {
+                "review_status": "pass",
+                "status": "pass",
+                "failure_reasons": [],
+                "hardgate_statuses": {"pass": {"status": "pass"}},
+                "ladder_consumption": {"status": "open"},
+                "not_claimed": [
+                    "Bounded L0 toy training controls only.",
+                    "No production scale claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                    "No universal recipe claim.",
+                    "No L1 or higher inheritance claim.",
+                ],
+            },
+        },
+    )
+    _write_json(
+        root,
+        "reports/canonical/dgt-l1-controls.json",
+        {
+            "negative_witness_sweep": {
+                "status": "pass",
+                "rows": [
+                    {"witness": "information_starved_baseline"},
+                    {"witness": "unanswerable_ood"},
+                ],
+            },
+            "l1_ood_mechanism": {
+                "owner": "dgt-l1-controls",
+                "evidence_scope": "bounded-tiny-sequence-l1-ood-mechanism",
+                "verdict": "bounded",
+                "l2_implication": {
+                    "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
+                    "status": "pointer-only",
+                },
+            },
+        },
+    )
+    _write_json(
+        root,
+        "reports/canonical/fair-l1-decision.json",
+        {
+            "decision": {"status": "scaling-evidence-eligible"},
+            "ladder_state_projection": {
+                "state": "l1-scaling-evidence-eligible",
+                "decision_status": "scaling-evidence-eligible",
+                "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+                "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+                "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+                "not_claimed": [
+                    "Bounded tiny-sequence L1 decision only.",
+                    "No L2 or higher scaling claim.",
+                    "No production deployment claim.",
+                    "No global superiority claim.",
+                    "No LLM replacement claim.",
+                ],
+            },
+        },
+    )
     dgt_payload = dgt_runner.build_payload(
         generated_at="2030-01-01T00:00:00+00:00",
         high_impact_review_rows=[

@@ -2,12 +2,6 @@
   "artifact_id": "bedc-quality-lab:fair-l1-decision",
   "boundary_ledger": [
     {
-      "gate_id": "FAIR-L1-HG2",
-      "reason": "one or more fair alignment rows are missing",
-      "source_pointer": "$.fair_alignment.comparison_rows",
-      "status": "bounded-negative"
-    },
-    {
       "gate_id": "FAIR-L1-HG3",
       "reason": "baseline arm is information-starved or input-accessibility rows mark missing variables",
       "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
@@ -75,7 +69,7 @@
     "claim_id": "claim:fair-l1-decision",
     "comparison_count": 4,
     "comparison_pointer": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows",
-    "failed_gate": "FAIR-L1-HG2",
+    "failed_gate": "FAIR-L1-HG3",
     "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
     "hardgate_status": "fail",
     "ladder_state": "l1-bounded-negative",
@@ -98,6 +92,7 @@
         "comparison_id": "equal-step",
         "decision": "noninformative-dgt-separated",
         "match_axis": "training_steps",
+        "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[0]",
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
         "status": "resolved"
       },
@@ -105,6 +100,7 @@
         "comparison_id": "equal-compute",
         "decision": "noninformative-dgt-separated",
         "match_axis": "compute_units",
+        "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[1]",
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
         "status": "resolved"
       },
@@ -112,18 +108,20 @@
         "comparison_id": "equal-loss-decrease",
         "decision": "noninformative-dgt-separated",
         "match_axis": "loss_decrease",
+        "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[2]",
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
         "status": "resolved"
       },
       {
         "comparison_id": "equal-validation-loss",
-        "decision": "validation-loss-cell-missing",
+        "decision": "noninformative-dgt-separated",
         "match_axis": "validation_loss",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
-        "status": "missing"
+        "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[3]",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean",
+        "status": "resolved"
       }
     ],
-    "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder"
+    "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit"
   },
   "generated_at": "2026-06-12T00:00:00+08:00",
   "hardgates": {
@@ -136,10 +134,10 @@
     },
     "FAIR-L1-HG2": {
       "criterion": "equal-step, equal-compute, equal-loss-decrease, and equal-validation-loss rows are resolved",
-      "fail_closed_reason": "one or more fair alignment rows are missing",
+      "fail_closed_reason": null,
       "gate_id": "FAIR-L1-HG2",
       "source_pointer": "$.fair_alignment.comparison_rows",
-      "status": "fail"
+      "status": "pass"
     },
     "FAIR-L1-HG3": {
       "criterion": "baseline arm has enough task information for a fair architecture comparison",
@@ -219,7 +217,7 @@
     "base_audit": {
       "artifact": "reports/canonical/dgt-base-undertraining-audit.json",
       "pointer": "$.base_undertraining_audit",
-      "sha256": "aee4eb2d8b4344842f25f294938da449de0d1d1853650d991bcf1e731f09f6e4",
+      "sha256": "e21f9ec4a6bba3a992d29041366f2869f9a9e362ac8e78574ec831431a27faa6",
       "status": "resolved"
     },
     "input_accessibility": {
@@ -231,25 +229,25 @@
     "l1_construct_validity": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
       "pointer": "$.construct_validity_hardgates",
-      "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21",
+      "sha256": "54ccd77b403e04520566af9f5848ea79811b78409c3c3cf417374ad078e52fa7",
       "status": "resolved"
     },
     "l1_ood_mechanism": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
       "pointer": "$.l1_ood_mechanism",
-      "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21",
+      "sha256": "54ccd77b403e04520566af9f5848ea79811b78409c3c3cf417374ad078e52fa7",
       "status": "resolved"
     },
     "l1_projection": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
       "pointer": "$.l1_tiny_sequence_projection",
-      "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21",
+      "sha256": "54ccd77b403e04520566af9f5848ea79811b78409c3c3cf417374ad078e52fa7",
       "status": "resolved"
     },
     "l1_step_ladder": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
       "pointer": "$.l1_step_ladder",
-      "sha256": "c7e4920d6e550f437b07b26b65660351a5aeb2faf464081805098e01812e7a21",
+      "sha256": "54ccd77b403e04520566af9f5848ea79811b78409c3c3cf417374ad078e52fa7",
       "status": "resolved"
     }
   }

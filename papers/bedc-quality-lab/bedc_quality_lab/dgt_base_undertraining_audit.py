@@ -23,7 +23,7 @@ FAIR_RECONSTRUCTION_POINTER = "https://github.com/the-omega-institute/newmath/is
 FEATURE_SOURCE_POINTER = "bedc_quality_lab/dgt_l1_controls.py:_TinySequenceModel._features"
 LABEL_SOURCE_POINTER = "bedc_quality_lab/dgt_l1_controls.py:_make_sequences"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
-REQUIRED_COMPARISONS = ("equal_step", "equal_compute", "equal_loss_decrease")
+REQUIRED_COMPARISONS = ("equal_step", "equal_compute", "equal_loss_decrease", "equal_validation_loss")
 REQUIRED_BASE_GRID = (36, 72, 128, 256, 512)
 NOT_CLAIMED = (
     "Bounded L1 tiny-sequence base-undertraining audit only.",
@@ -110,7 +110,7 @@ def mechanical_decision_table() -> list[dict[str, str]]:
             "claim_action": "hold",
         },
         {
-            "condition": "base grid does not cover DGT compute and loss-decrease intervals",
+            "condition": "base grid does not cover DGT compute, loss-decrease, and validation-loss intervals",
             "verdict": "inconclusive",
             "claim_action": "hold",
         },
@@ -123,6 +123,11 @@ def mechanical_decision_table() -> list[dict[str, str]]:
             "condition": "equal-loss-decrease row has CI overlap or nonpositive CI-low separation",
             "verdict": "downgrade",
             "claim_action": "fair_loss_decrease_artifact",
+        },
+        {
+            "condition": "equal-validation-loss row has CI overlap or nonpositive CI-low separation",
+            "verdict": "downgrade",
+            "claim_action": "fair_validation_loss_artifact",
         },
         {
             "condition": "all required rows resolve and non-informative rows retain positive CI-low separation",
@@ -162,6 +167,52 @@ def _row_pointer(row: Mapping[str, Any]) -> str:
     return f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}#row_id={row['row_id']}"
 
 
+def _baseline_input_accessibility(rows: Sequence[Any], consumers: Mapping[str, Any]) -> dict[str, Any]:
+    matches = [
+        row
+        for row in rows
+        if isinstance(row, Mapping)
+        and row.get("experiment") == "dgt_l1_tiny_sequence"
+        and row.get("split") == "in_distribution"
+        and row.get("arm") == "information_starved_l1_baseline"
+        and row.get("role") == "fairness-control"
+    ]
+    if len(matches) != 1:
+        return {
+            "status": "fail",
+            "failures": ["baseline-input-accessibility-row-not-unique"],
+            "row_count": len(matches),
+        }
+    row = matches[0]
+    pointer = _row_pointer(row)
+    information_refs = consumers.get("information_starved_arms_ref")
+    extraction_pass = (
+        row.get("feature_extraction", {}).get("status") == "pass"
+        and row.get("label_extraction", {}).get("status") == "pass"
+    )
+    pointer_alignment = isinstance(information_refs, list) and ((pointer in information_refs) == bool(row.get("information_starved")))
+    failures: list[str] = []
+    if not extraction_pass:
+        failures.append("baseline-input-accessibility-extraction-failed")
+    if not pointer_alignment:
+        failures.append("baseline-input-accessibility-consumer-pointer-mismatch")
+    return {
+        "status": "pass" if not failures else "fail",
+        "row_id": row.get("row_id"),
+        "row_pointer": pointer,
+        "visible_variables": list(row.get("visible_variables", [])),
+        "required_variables": list(row.get("required_variables", [])),
+        "missing_variables": list(row.get("missing_variables", [])),
+        "information_starved": bool(row.get("information_starved")),
+        "coverage_status": row.get("coverage_status"),
+        "supports_architecture_claim": row.get("supports_architecture_claim"),
+        "feature_extraction_status": row.get("feature_extraction", {}).get("status"),
+        "label_extraction_status": row.get("label_extraction", {}).get("status"),
+        "consumer_pointer_aligned": pointer_alignment,
+        "failures": failures,
+    }
+
+
 def _input_accessibility_preconditions(
     root: Path,
     payload: Mapping[str, Any] | None = None,
@@ -181,6 +232,7 @@ def _input_accessibility_preconditions(
             "information_starved_arms_ref": [],
             "unanswerable_ood_splits_ref": [],
             "boundary_ledger_ref": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
+            "baseline_row": {"status": "missing", "failures": ["input-accessibility-artifact-unresolved"]},
             "source_pointers": {
                 "input_accessibility": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
                 "boundary_ledger": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
@@ -199,6 +251,7 @@ def _input_accessibility_preconditions(
             "information_starved_arms_ref": [],
             "unanswerable_ood_splits_ref": [],
             "boundary_ledger_ref": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
+            "baseline_row": {"status": "invalid", "failures": ["input-accessibility-shape-mismatch"]},
             "source_pointers": {
                 "input_accessibility": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
                 "boundary_ledger": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
@@ -228,6 +281,9 @@ def _input_accessibility_preconditions(
         failures.append("information-starved-precondition-empty")
     if not unanswerable_rows:
         failures.append("unanswerable-ood-precondition-empty")
+    baseline_row = _baseline_input_accessibility(rows, consumers)
+    if baseline_row["status"] != "pass":
+        failures.extend(str(item) for item in baseline_row.get("failures", []))
     missing_variables = sorted({
         variable
         for row in information_rows + unanswerable_rows
@@ -244,10 +300,12 @@ def _input_accessibility_preconditions(
         "information_starved_row_count": len(information_rows),
         "unanswerable_ood_row_count": len(unanswerable_rows),
         "missing_variables": missing_variables,
+        "baseline_row": baseline_row,
         "source_pointers": {
             "input_accessibility": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
             "information_starved_arms": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.consumer_pointers.information_starved_arms_ref",
             "unanswerable_ood_splits": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.consumer_pointers.unanswerable_ood_splits_ref",
+            "baseline_row": str(baseline_row.get("row_pointer", f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.rows")),
             "boundary_ledger": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$.boundary_ledger",
         },
         "sha256": digest,
@@ -295,6 +353,20 @@ def _compute(row: Mapping[str, Any], arm_id: str) -> float | None:
     return float(value) if _is_number(value) else None
 
 
+def _arm_metric(row: Mapping[str, Any], arm_id: str, metric_key: str) -> float | None:
+    arms = row.get("training_arms")
+    if not isinstance(arms, Mapping):
+        return None
+    arm = arms.get(arm_id)
+    if not isinstance(arm, Mapping):
+        return None
+    metrics = arm.get("metrics")
+    if not isinstance(metrics, Mapping):
+        return None
+    value = metrics.get(metric_key)
+    return float(value) if _is_number(value) else None
+
+
 def _steps(row: Mapping[str, Any]) -> int | None:
     value = row.get("training_steps")
     return int(value) if isinstance(value, int) and not isinstance(value, bool) else None
@@ -339,6 +411,7 @@ def _comparison_row(
     match_axis: str,
     match_value: float | int | None,
     missing_reason: str | None = None,
+    source_pointer_override: str | None = None,
 ) -> BaseUndertrainingComparisonRow:
     if source_index is None or source_row is None:
         return BaseUndertrainingComparisonRow(
@@ -370,7 +443,7 @@ def _comparison_row(
         comparison_id=comparison_id,
         status=status,
         source_artifact=L1_SOURCE_ARTIFACT,
-        source_pointer=_public_pointer(source_row, source_index),
+        source_pointer=source_pointer_override or _public_pointer(source_row, source_index),
         match_axis=match_axis,
         match_value=_round(float(match_value)) if isinstance(match_value, float) else match_value,
         base_metric=_round(base_metric),
@@ -467,6 +540,16 @@ def _build_rows(l1_payload: Mapping[str, Any]) -> list[dict[str, Any]]:
             target=dgt_loss_dec,
         )
     )
+    dgt_validation_loss = _arm_metric(anchor_row, "dgt_l1", "validation_loss_mean")
+    equal_validation_match = (
+        None
+        if dgt_validation_loss is None
+        else _nearest_by_value(
+            rows,
+            value_getter=lambda row: _arm_metric(row, "information_starved_l1_baseline", "validation_loss_mean"),
+            target=dgt_validation_loss,
+        )
+    )
     equal_compute = _comparison_row(
         comparison_id="equal_compute",
         source_index=None if equal_compute_match is None else equal_compute_match[0],
@@ -483,7 +566,23 @@ def _build_rows(l1_payload: Mapping[str, Any]) -> list[dict[str, Any]]:
         match_value=dgt_loss_dec,
         missing_reason="equal-loss-decrease-source-missing",
     )
-    return [equal_step.as_dict(), equal_compute.as_dict(), equal_loss.as_dict()]
+    equal_validation = _comparison_row(
+        comparison_id="equal_validation_loss",
+        source_index=None if equal_validation_match is None else equal_validation_match[0],
+        source_row=None if equal_validation_match is None else equal_validation_match[1],
+        match_axis="validation_loss",
+        match_value=dgt_validation_loss,
+        missing_reason="validation-loss-owner-cell-missing",
+        source_pointer_override=(
+            None
+            if equal_validation_match is None
+            else (
+                f"{L1_SOURCE_ARTIFACT}:$.l1_step_ladder.per_step[{equal_validation_match[0]}]"
+                ".metrics.information_starved_validation_loss_mean"
+            )
+        ),
+    )
+    return [equal_step.as_dict(), equal_compute.as_dict(), equal_loss.as_dict(), equal_validation.as_dict()]
 
 
 def _hardgates(
@@ -494,7 +593,7 @@ def _hardgates(
     row_ids = {str(row.get("comparison_id")) for row in comparison_rows}
     all_rows_present = set(REQUIRED_COMPARISONS).issubset(row_ids)
     all_rows_resolved = all(row.get("status") == "resolved" for row in comparison_rows) and all_rows_present
-    fair_rows = [row for row in comparison_rows if row.get("comparison_id") in {"equal_compute", "equal_loss_decrease"}]
+    fair_rows = [row for row in comparison_rows if row.get("comparison_id") in {"equal_compute", "equal_loss_decrease", "equal_validation_loss"}]
     fair_catchup = any(row.get("ci_overlap") is True or (row.get("ci_low_separation") is not None and row.get("ci_low_separation") <= 0.0) for row in fair_rows)
     fair_separates = bool(fair_rows) and all(
         row.get("ci_overlap") is False and row.get("ci_low_separation") is not None and row.get("ci_low_separation") > 0.0
@@ -503,20 +602,27 @@ def _hardgates(
     construct_boundary = construct_validity.get("status") == "construct-boundary"
     input_accessibility = construct_validity.get("input_accessibility_preconditions")
     input_access_ok = isinstance(input_accessibility, Mapping) and input_accessibility.get("status") == "pass"
+    baseline_row = input_accessibility.get("baseline_row") if isinstance(input_accessibility, Mapping) else {}
+    baseline_access_ok = (
+        isinstance(baseline_row, Mapping)
+        and baseline_row.get("status") == "pass"
+        and baseline_row.get("information_starved") is False
+        and baseline_row.get("missing_variables") == []
+    )
     return {
         "BASE-UNDER-HG0": {
             "criterion": "input-accessibility boundary pointers and baseline input bandwidth must pass before undertraining evidence is allowed",
-            "status": "fail-closed" if construct_boundary or not input_access_ok else "pass",
+            "status": "fail-closed" if construct_boundary or not input_access_ok or not baseline_access_ok else "pass",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.construct_validity",
             "input_accessibility_pointer": f"{INPUT_ACCESSIBILITY_SOURCE_ARTIFACT}:$",
         },
         "BASE-UNDER-HG1": {
-            "criterion": "equal-step, equal-compute, and equal-loss-decrease rows are present",
+            "criterion": "equal-step, equal-compute, equal-loss-decrease, and equal-validation-loss rows are present",
             "status": "pass" if all_rows_present else "fail",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.comparison_rows",
         },
         "BASE-UNDER-HG2": {
-            "criterion": "base step grid covers the DGT compute and loss-decrease interval",
+            "criterion": "base step grid covers the DGT compute, loss-decrease, and validation-loss interval",
             "status": "pass" if coverage.get("covers_dgt_compute_loss_interval") else "fail",
             "evidence_pointer": coverage["source_pointer"],
         },
@@ -526,12 +632,12 @@ def _hardgates(
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.comparison_rows",
         },
         "BASE-UNDER-HG4": {
-            "criterion": "construct-valid compute or loss catch-up records a bounded downgrade ledger",
+            "criterion": "construct-valid compute, loss-decrease, or validation-loss catch-up records a bounded downgrade ledger",
             "status": "triggered" if fair_catchup else "not-triggered",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.boundary_ledger",
         },
         "BASE-UNDER-HG5": {
-            "criterion": "resolved compute and loss rows retain positive CI-low separation",
+            "criterion": "resolved compute, loss-decrease, and validation-loss rows retain positive CI-low separation",
             "status": "pass" if all_rows_resolved and fair_separates else "fail",
             "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.evidence_ledger",
         },
@@ -552,7 +658,7 @@ def _derive_decision(
                     "ledger_id": "base-undertraining-construct-validity",
                     "status": "construct-boundary",
                     "reason": (
-                        "equal-compute and equal-loss-decrease rows are non-informative for an information-starved baseline"
+                        "equal-compute, equal-loss-decrease, and equal-validation-loss rows are non-informative for an information-starved baseline"
                     ),
                     "source_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.base_undertraining_audit.construct_validity",
                     "reconstruction_pointer": FAIR_RECONSTRUCTION_POINTER,
@@ -562,14 +668,20 @@ def _derive_decision(
         )
     if hardgates["BASE-UNDER-HG1"]["status"] != "pass" or hardgates["BASE-UNDER-HG2"]["status"] != "pass" or hardgates["BASE-UNDER-HG3"]["status"] != "pass":
         return "inconclusive", "hold", [], []
-    fair_rows = [row for row in comparison_rows if row["comparison_id"] in {"equal_compute", "equal_loss_decrease"}]
+    fair_rows = [row for row in comparison_rows if row["comparison_id"] in {"equal_compute", "equal_loss_decrease", "equal_validation_loss"}]
     catchup = [
         row for row in fair_rows
         if row.get("ci_overlap") is True or (row.get("ci_low_separation") is not None and row["ci_low_separation"] <= 0.0)
     ]
     if catchup:
         first = catchup[0]
-        action = "fair_compute_artifact" if first["comparison_id"] == "equal_compute" else "fair_loss_decrease_artifact"
+        action = (
+            "fair_compute_artifact"
+            if first["comparison_id"] == "equal_compute"
+            else "fair_validation_loss_artifact"
+            if first["comparison_id"] == "equal_validation_loss"
+            else "fair_loss_decrease_artifact"
+        )
         return (
             "downgrade",
             action,
