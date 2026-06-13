@@ -62,3 +62,14 @@ launchctl list | grep window.codon.bridge          # 看 PID
 - bio daemon 跑在另一 worktree(launchctl `bio.reality.supervisor.20260525162508`),**别动它**。
 - 命名纪律:无版本号(分支/文件/claim 都按内容主题)。
 - git 提交用 `git config` 里的 email,别替换。
+
+---
+
+## Update 2026-06-13: BC1 head-started (by handoff session)
+
+`tools/window_codon_bridge/experiments/run_bc1_cardinality_forcing.py` is wired + run. Verdict **coincidence**:
+- Established: width-6 no-adjacent-one words = 21 = F8 (= 21 families); width-5 = 13 = F7 (= |R|).
+- **Honest caveat that matters**: the 21↔21 count match is **encoding-independent** (any nucleotide→2-bit map is a codons↔64-words bijection, and there are always 21 no-adj words). So the count match picks out **nothing specific** about the genetic code — leans toward numerology unless a **code-structure-specific** map is built.
+- **Your job on BC1**: construct a map that uses the actual synonymous-block / boundary structure (e.g. does the no-adjacent-one constraint, under a biologically-motivated encoding such as purine/pyrimidine = high/low bit, correspond to the family partition or to R?), with a necessity argument. Then upgrade to `certified` (real forcing) or downgrade to `refuted` (no structural map). Do NOT certify on counts alone.
+
+Current claim states: BC1 `coincidence` (head-started), BC2 `refuted`, BC3 `needs_derivation`.
