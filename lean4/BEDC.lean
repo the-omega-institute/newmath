@@ -3478,6 +3478,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerReadback
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRefusalExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRefusalLedgerExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.ModulusRefusalReadback
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRefusalScope
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusRow
@@ -3612,6 +3613,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusGapSeparation
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusReadback
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusTerminality
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusZetaReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceNormalizationInterface
@@ -3735,6 +3737,7 @@ import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxIntegralUp
 import BEDC.Derived.DarbouxIntegralUp.TasteGate
 import BEDC.Derived.DarbouxOscillationCriterionUp
+import BEDC.Derived.DarbouxOscillationCriterionUp.PartitionRoute
 import BEDC.Derived.DarbouxOscillationCriterionUp.TasteGate
 import BEDC.Derived.DarbouxOscillationUp
 import BEDC.Derived.DarbouxPropertyUp.TasteGate
@@ -4439,6 +4442,7 @@ import BEDC.Derived.EffectiveCauchySpaceUp.TasteGate
 import BEDC.Derived.EffectiveCompletionUp
 import BEDC.Derived.EffectiveCompletionUp.CauchyRealizerHandoff
 import BEDC.Derived.EffectiveCompletionUp.TasteGate
+import BEDC.Derived.EffectiveLimitOperatorUp.TasteGate
 import BEDC.Derived.EffectiveMetricCompletionUp.TasteGate
 import BEDC.Derived.EffectiveMetricSpaceUp.TasteGate
 import BEDC.Derived.EffectiveModulusCompactFamilyUp.TasteGate
@@ -7910,6 +7914,7 @@ import BEDC.Derived.PringsheimDoubleSequenceUp.TasteGate
 import BEDC.Derived.PringsheimPositiveRealSeriesUp.TasteGate
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.ProbSpaceUp.TasteGate
+import BEDC.Derived.ProbeBundleFiniteMinimumFoldUp.TasteGate
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.ComponentwiseRefinement
 import BEDC.Derived.ProdUp.EmptyLeftComponent
@@ -9628,6 +9633,7 @@ import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.StreamMapUp.CompositionWindowRoute
 import BEDC.Derived.StreamMapUp.TasteGate
 import BEDC.Derived.StreamMergeUp.TasteGate
+import BEDC.Derived.StreamNameModulusUp.TasteGate
 import BEDC.Derived.StreamNameUp
 import BEDC.Derived.StreamNameUp.CertifiedObservationDeterminacy
 import BEDC.Derived.StreamNameUp.CommonRefinementTerminalRealSeal
