@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.55 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.56 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
@@ -175,7 +175,8 @@ For each target in the list above:
    top-level `\origin{human}` or `\origin{ai}` line near the top after
    `\chapter{...}` and `\label{...}`. Pick `human` for traditional-math
    reconstructions and `ai` for BEDC-native concepts. Missing, duplicated,
-   or non-`human|ai` origin is rejected by `bedc_ci.py audit`. `reject`
+   or non-`human|ai` origin is rejected by `bedc_ci.py audit` and the
+   Phase Verify `chapter-origin` gate. `reject`
    targets are not applied.
 
 1. Open the listed `paper_files` and locate the `anchor` (theorem/definition block or section).

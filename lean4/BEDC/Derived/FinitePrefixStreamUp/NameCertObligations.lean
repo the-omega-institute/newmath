@@ -1,13 +1,17 @@
 import BEDC.Derived.FinitePrefixStreamUp.TasteGate
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.FinitePrefixStreamUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def FinitePrefixStreamCarrier (k W D R H C P N : BHist) : Prop :=
@@ -86,5 +90,78 @@ theorem FinitePrefixStreamCarrier_namecert_obligations
   exact
     ⟨cert, unaryK, unaryW, unaryD, unaryR, unaryH, unaryC, unaryN, windowUnary,
       regularUnary, sameH, windowRoute, regularRoute, routeH, routeP, localRoute⟩
+
+theorem FinitePrefixStreamCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {depth window dyadic regular transport replay provenance localName prefixRead
+      regularRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory depth →
+      UnaryHistory window →
+        UnaryHistory dyadic →
+          UnaryHistory regular →
+            UnaryHistory transport →
+              UnaryHistory replay →
+                Cont depth window prefixRead →
+                  Cont prefixRead dyadic regularRead →
+                    PkgSig bundle provenance pkg →
+                      PkgSig bundle localName pkg →
+                        SemanticNameCert
+                            (fun row : BHist => hsame row regularRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row depth ∨ hsame row window ∨ hsame row dyadic ∨
+                                hsame row regular ∨ hsame row prefixRead ∨
+                                  hsame row regularRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ Cont depth window prefixRead ∧
+                                Cont prefixRead dyadic regularRead ∧
+                                  PkgSig bundle provenance pkg ∧
+                                    PkgSig bundle localName pkg)
+                            hsame ∧
+                          UnaryHistory prefixRead ∧ UnaryHistory regularRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro depthUnary windowUnary dyadicUnary _regularUnary _transportUnary _replayUnary
+    depthWindowPrefixRead prefixReadDyadicRegularRead provenancePkg localNamePkg
+  have prefixReadUnary : UnaryHistory prefixRead :=
+    unary_cont_closed depthUnary windowUnary depthWindowPrefixRead
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed prefixReadUnary dyadicUnary prefixReadDyadicRegularRead
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row regularRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row depth ∨ hsame row window ∨ hsame row dyadic ∨
+              hsame row regular ∨ hsame row prefixRead ∨ hsame row regularRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont depth window prefixRead ∧
+              Cont prefixRead dyadic regularRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro regularRead ⟨hsame_refl regularRead, regularReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left, unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, depthWindowPrefixRead, prefixReadDyadicRegularRead, provenancePkg,
+          localNamePkg⟩
+  }
+  exact ⟨cert, prefixReadUnary, regularReadUnary⟩
 
 end BEDC.Derived.FinitePrefixStreamUp
