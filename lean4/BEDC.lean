@@ -10246,6 +10246,7 @@ import BEDC.Derived.WeylGroupUp.TasteGate
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.NameCertObligations
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
+import BEDC.Derived.Window6FibonacciCount
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
 import BEDC.Derived.WitnessedDescentLedgerUp
 import BEDC.Derived.WitnessedDescentLedgerUp.DisplayedWitnessAccountability
