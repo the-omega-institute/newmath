@@ -3470,6 +3470,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaConsumerSeparation
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaSourceFactorization
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleImageRow
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
+import BEDC.Derived.CriticalLineWitnessUp.FixedTupleStdbridgePremiseSurface
 import BEDC.Derived.CriticalLineWitnessUp.LedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.LedgerRouteStability
 import BEDC.Derived.CriticalLineWitnessUp.LocalRHBoundary
@@ -3513,6 +3514,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PrimeZetaDependencyRoute
 import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryDownstreamLock
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryStdbridgeNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerSourceNonescape
@@ -4582,6 +4584,8 @@ import BEDC.Derived.FableMachineBoundaryUp.TasteGate
 import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FailureCertificateUp.TasteGate
+import BEDC.Derived.FanBarRouteUp.FiniteBarHandoff
+import BEDC.Derived.FanBarRouteUp.NameCertObligations
 import BEDC.Derived.FanBarRouteUp.TasteGate
 import BEDC.Derived.FanContinuityPrincipleUp
 import BEDC.Derived.FanContinuityPrincipleUp.TasteGate
@@ -5564,6 +5568,7 @@ import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
+import BEDC.Derived.HemicompactSpaceUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
@@ -7539,6 +7544,7 @@ import BEDC.Derived.OptionUp.CarrierReadback
 import BEDC.Derived.OptionUp.ChainPayload
 import BEDC.Derived.OptionUp.CommonLeftVisiblePayload
 import BEDC.Derived.OptionUp.CompositeAbsentPublicFactorization
+import BEDC.Derived.OptionUp.CompositeNormalizedRepresentativeIndependence
 import BEDC.Derived.OptionUp.CompositeNormalizedZeroEndpoint
 import BEDC.Derived.OptionUp.CompositeReadback
 import BEDC.Derived.OptionUp.Context
@@ -7569,6 +7575,7 @@ import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierSelectedVisible
+import BEDC.Derived.OptionUp.PayloadDescentImageClassifierStability
 import BEDC.Derived.OptionUp.PayloadDescentImageOccupancy
 import BEDC.Derived.OptionUp.PayloadDescentImagePublicReadback
 import BEDC.Derived.OptionUp.PayloadDescentImageVisible
