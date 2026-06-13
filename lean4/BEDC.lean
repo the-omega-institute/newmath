@@ -3474,6 +3474,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ObligationClosurePackage
 import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
 import BEDC.Derived.CriticalLineWitnessUp.ObligationLedgerExactnessRow
 import BEDC.Derived.CriticalLineWitnessUp.ObligationModulusDisciplineRow
+import BEDC.Derived.CriticalLineWitnessUp.P11961ModulusLedgerSeparation
 import BEDC.Derived.CriticalLineWitnessUp.P11961RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
@@ -3570,6 +3571,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ScopedSourceBoundary
 import BEDC.Derived.CriticalLineWitnessUp.SignatureGapExactness
 import BEDC.Derived.CriticalLineWitnessUp.SignatureGapNonescape
+import BEDC.Derived.CriticalLineWitnessUp.SourceBudgetCarrier
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
@@ -10158,6 +10160,7 @@ import BEDC.Derived.UniformPartitionUp.TasteGate
 import BEDC.Derived.UniformReflectionKernelUp.TasteGate
 import BEDC.Derived.UniformSequentialContinuityUp.TasteGate
 import BEDC.Derived.UniformSequentialLimitUp.TasteGate
+import BEDC.Derived.UniformSpaceCompletionFilterUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UniformlyCauchySequenceUp.TasteGate
