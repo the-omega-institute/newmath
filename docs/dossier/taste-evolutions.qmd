@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-13T09:18:07Z
+> 最后刷新: 2026-06-13T12:15:11Z
 
-**Daemon 状态**: monitor (monitor cycle 4, adjust_since_research 2, round_counter 9113, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 5, adjust_since_research 2, round_counter 9150, last_adjust rule_evolution_completed)
 
-**待处理 queue** (214 条 finding):
+**待处理 queue** (216 条 finding):
+- isolated_theorem: 101 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 100 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- isolated_theorem: 99 条; 代表样本 `derived`, `derived`, `derived`
 - low_entropy_template: 15 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 28 次
+- TASTE ALERT category=isolated_theorem: 24 次
 - TASTE ALERT category=low_entropy_template: 5 次
-- TASTE ALERT category=cycle_exception: 1 次
+- TASTE ALERT category=cycle_exception: 2 次
 - TASTE ALERT category=rule_evolution_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -283,6 +283,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-13T07:41:32Z: `resolved` `delete_theorem` for `BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:regularcauchyreciprocal:BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalTasteGate_single_carrier_alignment:8cd7f86a`). Rationale: The target was an isolated aggregate wrapper over existing private decode/round-trip/injectivity facts plus an rfl empty-encoding fact; repository search found no Lean downstream consumer, and the only paper reference was a removable \leanchecked marker on the readback-route theorem. The surrounding chapter already has more substantive checked route, apartness, denominator, seal, and dependency-lock theorems, so deleting this wrapper removes staging-only surface without losing BEDC content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-13T09:17:16Z: `resolved` `leave_with_rationale` for `BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalCarrier_apartness_window` (flag `isolated_theorem`, finding `isolated_theorem:regularcauchyreciprocal:BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalCarrier_apartness_window:8cd7f86a`). Rationale: The target is not just an empty wrapper: it exposes the carrier rows, apartness row membership, dyadic row membership, round-trip carrier decoding, and the nonempty BMark encoding witness, and the paper uses it as the primary Lean marker for the apartness-window theorem. I attempted to add a downstream sibling consumer in `RegularCauchyReciprocalUp/NonzeroDenominatorWindow.lean`, tying the carrier-level apartness window to the existing `SemanticNameCert` nonzero-denominator route, but the required `lake build` gate failed on that edit with `Unknown identifier BHistCarrier.fromEventFlow`; per task instructions I reverted the edit and switched to `leave_with_rationale`. Gate results: lake_build=error: BEDC/Derived/RegularCauchyReciprocalUp/NonzeroDenominatorWindow.lean:96:34: Unknown identifier `BHistCarrier.fromEventFlow`; Some required targets logged failures: BEDC.Derived.RegularCauchyReciprocalUp.NonzeroDenominatorWindow; error: build failed, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-13T12:14:46Z: `resolved` `leave_with_rationale` for `BEDC.Derived.ProductMetricUp.ProductMetricCarrier_realup_consumer_package` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ProductMetricUp.ProductMetricCarrier_realup_consumer_package:8cd7f86a`). Rationale: The theorem is a real ProductMetricUp RealUp consumer package rather than a trivial wrapper: it records the component-distance read, product real read, hsame alignment, continuation rows, and package provenance, and the paper chapter marks it as the RealUp consumer surface. I attempted to wire it into the existing ProductMetricCarrier_real_classifier_bridge sibling as a downstream consumer, but the required lake build failed on BEDC.Derived.ProductMetricUp.BridgeCertificate with an unknown identifier 'carrier' in that edit; per instruction the edit was reverted and the finding is left with this rationale. Gate results: lake_build=FAIL: Some required targets logged failures: BEDC.Derived.ProductMetricUp.BridgeCertificate; local tail: BridgeCertificate.lean:40:51: error(lean.unknownIdentifier): Unknown identifier 'carrier', audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
