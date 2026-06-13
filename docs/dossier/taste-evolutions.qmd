@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-13T05:37:56Z
+> 最后刷新: 2026-06-13T07:42:12Z
 
-**Daemon 状态**: monitor (monitor cycle 2, adjust_since_research 2, round_counter 9027, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 3, adjust_since_research 2, round_counter 9068, last_adjust rule_evolution_completed)
 
-**待处理 queue** (213 条 finding):
+**待处理 queue** (214 条 finding):
 - isolated_theorem: 100 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 100 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 13 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 14 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 29 次
+- TASTE ALERT category=isolated_theorem: 30 次
 - TASTE ALERT category=low_entropy_template: 5 次
 - TASTE ALERT category=cycle_exception: 1 次
 - TASTE ALERT category=rule_evolution_failed: 1 次
@@ -279,6 +279,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-13T03:55:04Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BooleanalgebraUp.BooleanAlgebraCarrier_namecert_obligation_surface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BooleanalgebraUp.BooleanAlgebraCarrier_namecert_obligation_surface:059e3300`). Rationale: The target is not a trivial wrapper: it constructs the local BooleanAlgebra SemanticNameCert obligation surface and returns endpoint/order Cont evidence used by the paper narrative. Exact grep for the fully qualified unescaped name found no Lean downstream consumers; the paper references it via escaped marker/autoref. I attempted to add a substantive StoneDuality downstream consumer, but lake build failed because the BooleanAlgebra obligation endpoint chain uses `Cont endpoint one replay`, while the StoneDuality source interface expects different zero/one and meet/join row shapes. Per instructions I reverted the attempted Lean and paper edits; this should remain staging-only until a purpose-built BooleanAlgebra-to-StoneDuality bridge aligns those row interfaces. Gate results: lake_build=error: BEDC/Derived/StoneDualityUp.lean:59:60: Application type mismatch: endpointOne has type Cont endpoint one booleanSource but expected Cont endpoint one replay; additional mismatches: obligation projections used where UnaryHistory join/order expected, Cont join meet order expected as Cont meet join order, and Cont endpoint one booleanSource expected as Cont zero one booleanSource., audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-13T05:37:34Z: `resolved` `add_downstream_user` for `BEDC.Derived.SequentialCompactUp.SequentialCompactCarrier_real_seal_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:sequentialcompact:BEDC.Derived.SequentialCompactUp.SequentialCompactCarrier_real_seal_nonescape:8cd7f86a`). Rationale: The target is a real BEDC carrier projection used by the paper's Real seal nonescape claim, but grep showed no Lean downstream consumer. I added `SequentialCompactRealSealConsumerNonescapeCertificate` in the Real seal consumer boundary sibling; it explicitly invokes the target and lifts its route/provenance facts into a `SemanticNameCert` boundary through the local NameCert row, so the original theorem is no longer isolated and is not merely restated. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-13T07:41:32Z: `resolved` `delete_theorem` for `BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:regularcauchyreciprocal:BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalTasteGate_single_carrier_alignment:8cd7f86a`). Rationale: The target was an isolated aggregate wrapper over existing private decode/round-trip/injectivity facts plus an rfl empty-encoding fact; repository search found no Lean downstream consumer, and the only paper reference was a removable \leanchecked marker on the readback-route theorem. The surrounding chapter already has more substantive checked route, apartness, denominator, seal, and dependency-lock theorems, so deleting this wrapper removes staging-only surface without losing BEDC content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
