@@ -98,6 +98,7 @@
         "comparison_id": "equal-step",
         "decision": "noninformative-dgt-separated",
         "match_axis": "training_steps",
+        "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[0]",
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
         "status": "resolved"
       },
@@ -105,6 +106,7 @@
         "comparison_id": "equal-compute",
         "decision": "noninformative-dgt-separated",
         "match_axis": "compute_units",
+        "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[1]",
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
         "status": "resolved"
       },
@@ -112,18 +114,20 @@
         "comparison_id": "equal-loss-decrease",
         "decision": "noninformative-dgt-separated",
         "match_axis": "loss_decrease",
+        "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[2]",
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
         "status": "resolved"
       },
       {
         "comparison_id": "equal-validation-loss",
-        "decision": "validation-loss-cell-missing",
+        "decision": "validation-loss-owner-cell-missing",
         "match_axis": "validation_loss",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+        "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[3]",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step",
         "status": "missing"
       }
     ],
-    "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder"
+    "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit"
   },
   "generated_at": "2026-06-12T00:00:00+08:00",
   "hardgates": {
@@ -219,7 +223,7 @@
     "base_audit": {
       "artifact": "reports/canonical/dgt-base-undertraining-audit.json",
       "pointer": "$.base_undertraining_audit",
-      "sha256": "f1293e10041ff15850ef32b65769c089648b1b4412c530207c5bd79d5df8d8ca",
+      "sha256": "460152315b66d80dea93b94165a95027b4b82548ec1a46f91d082a7c4cef8fb2",
       "status": "resolved"
     },
     "input_accessibility": {
@@ -231,25 +235,25 @@
     "l1_construct_validity": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
       "pointer": "$.construct_validity_ledger",
-      "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4",
+      "sha256": "13e72b88791ccbd23a8043eed0fdbb82afba7b3a660f2d5004bb90537514194a",
       "status": "resolved"
     },
     "l1_ood_mechanism": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
       "pointer": "$.l1_ood_mechanism",
-      "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4",
+      "sha256": "13e72b88791ccbd23a8043eed0fdbb82afba7b3a660f2d5004bb90537514194a",
       "status": "resolved"
     },
     "l1_projection": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
       "pointer": "$.l1_tiny_sequence_projection",
-      "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4",
+      "sha256": "13e72b88791ccbd23a8043eed0fdbb82afba7b3a660f2d5004bb90537514194a",
       "status": "resolved"
     },
     "l1_step_ladder": {
       "artifact": "reports/canonical/dgt-l1-controls.json",
       "pointer": "$.l1_step_ladder",
-      "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4",
+      "sha256": "13e72b88791ccbd23a8043eed0fdbb82afba7b3a660f2d5004bb90537514194a",
       "status": "resolved"
     }
   }

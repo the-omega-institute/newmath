@@ -7047,7 +7047,7 @@ def _validate_reproduction_blocked_reason(
             gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
             if not isinstance(evidence_value, Mapping) or (
                 evidence_value.get("comparison_id") != "equal-validation-loss"
-                or evidence_value.get("decision") != "validation-loss-cell-missing"
+                or evidence_value.get("decision") != "validation-loss-owner-cell-missing"
                 or evidence_value.get("status") != "missing"
             ):
                 errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "fair-l1 evidence row does not match equal-validation-loss"))

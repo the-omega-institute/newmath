@@ -390,6 +390,12 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
         root,
         "reports/canonical/dgt-l1-controls.json",
         {
+            "l1_tiny_sequence_projection": {
+                "status": "pass",
+                "review_status": "pass",
+                "promotion_readiness": "ready-pass",
+                "not_claimed": ["fixture"],
+            },
             "negative_witness_sweep": {
                 "status": "pass",
                 "rows": [
@@ -431,6 +437,8 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
             },
         },
     )
+    boundary_payload = dgt_l1_boundary_report.build_l1_boundary_report(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    dgt_l1_boundary_report.write_artifacts(boundary_payload, root=root, generated_at="2030-01-01T00:00:00+00:00")
     dgt_payload = dgt_runner.build_payload(
         generated_at="2030-01-01T00:00:00+00:00",
         high_impact_review_rows=[
@@ -442,7 +450,7 @@ def _add_dgt_accepted_positive_fixture(root: Path) -> None:
                 "claim_pointer": f"{dgt_artifact}:$.d4_projection",
             }
         ],
-        **_positive_owner_contract("D5-M"),
+        root=root,
     )
     _write_json(
         root,

@@ -2308,7 +2308,7 @@ def _write_fair_l1_decision_fixture(root: Path, *, comparison_id: str = "equal-v
         {"comparison_id": "equal-loss-decrease", "decision": "resolved", "status": "pass"},
         {
             "comparison_id": comparison_id,
-            "decision": "validation-loss-cell-missing",
+            "decision": "validation-loss-owner-cell-missing",
             "status": "missing",
         },
     ]

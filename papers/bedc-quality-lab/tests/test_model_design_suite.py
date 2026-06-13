@@ -125,6 +125,12 @@ def _write_dgt_owner_dependency_fixtures(root):
     canonical._write_json_atomic(
         root / canonical.DGT_L1_CONTROLS_JSON_ARTIFACT,
         {
+            "l1_tiny_sequence_projection": {
+                "status": "pass",
+                "review_status": "pass",
+                "promotion_readiness": "ready-pass",
+                "not_claimed": ["fixture"],
+            },
             "l1_step_ladder": {
                 "convergence_crossover": {"status": "fixture"},
                 "verdict": "construct-boundary",

@@ -621,7 +621,9 @@
             "ood_accuracy_ci95_low",
             "ood_accuracy_mean",
             "parameter_l2_delta_mean",
-            "positive_margin_over_chance_mean"
+            "positive_margin_over_chance_mean",
+            "validation_loss_ci95_low",
+            "validation_loss_mean"
           ],
           "per_arm_constants": false,
           "source_kind": "training-evaluation",
@@ -2140,7 +2142,9 @@
         "ood_accuracy_ci95_low": 0.003491,
         "ood_accuracy_mean": 0.006103,
         "parameter_l2_delta_mean": 7.149918,
-        "positive_margin_over_chance_mean": -0.052002
+        "positive_margin_over_chance_mean": -0.052002,
+        "validation_loss_ci95_low": 3.863159,
+        "validation_loss_mean": 3.942591
       },
       "dgt_l1": {
         "UER_mean": 0.961914,
@@ -2151,7 +2155,9 @@
         "ood_accuracy_ci95_low": 0.027308,
         "ood_accuracy_mean": 0.036865,
         "parameter_l2_delta_mean": 10.159139,
-        "positive_margin_over_chance_mean": -0.024414
+        "positive_margin_over_chance_mean": -0.024414,
+        "validation_loss_ci95_low": 2.966288,
+        "validation_loss_mean": 3.030562
       },
       "input_ablation_masked_tail": {
         "UER_mean": 0.989014,
@@ -2162,7 +2168,9 @@
         "ood_accuracy_ci95_low": 0.004484,
         "ood_accuracy_mean": 0.007568,
         "parameter_l2_delta_mean": 5.814072,
-        "positive_margin_over_chance_mean": -0.051514
+        "positive_margin_over_chance_mean": -0.051514,
+        "validation_loss_ci95_low": 3.410126,
+        "validation_loss_mean": 3.44938
       },
       "parameter_matched_attention": {
         "UER_mean": 0.990235,
@@ -2173,7 +2181,9 @@
         "ood_accuracy_ci95_low": 0.005474,
         "ood_accuracy_mean": 0.008789,
         "parameter_l2_delta_mean": 6.931895,
-        "positive_margin_over_chance_mean": -0.052735
+        "positive_margin_over_chance_mean": -0.052735,
+        "validation_loss_ci95_low": 3.782404,
+        "validation_loss_mean": 3.862286
       }
     },
     "task_spec_digest": "e139cc8a90fe7ac1f83d0f237a087fc467c7392e49ef78ceb888ca4cdddb2747"
@@ -3096,20 +3106,25 @@
           "compute_matched_accuracy_mean": 0.010498,
           "compute_matched_loss_decrease_mean": 0.457756,
           "compute_matched_ood_accuracy_mean": 0.006103,
+          "compute_matched_validation_loss_mean": 3.942591,
           "dgt_accuracy_mean": 0.038086,
           "dgt_loss_decrease_mean": 1.079292,
           "dgt_minus_input_ablation_accuracy": 0.0271,
           "dgt_minus_parameter_matched_attention_accuracy": 0.028321,
           "dgt_ood_accuracy_mean": 0.036865,
+          "dgt_validation_loss_mean": 3.030562,
+          "information_starved_validation_loss_mean": 3.44938,
           "input_ablation_accuracy_mean": 0.010986,
           "input_ablation_loss_decrease_mean": 0.19116,
           "input_ablation_ood_accuracy_mean": 0.007568,
+          "matched_random_validation_loss_mean": 3.862286,
           "parameter_matched_accuracy_mean": 0.009765,
           "parameter_matched_attention_accuracy_mean": 0.009765,
           "parameter_matched_attention_loss_decrease_mean": 0.383695,
           "parameter_matched_attention_ood_accuracy_mean": 0.008789,
           "parameter_matched_loss_decrease_mean": 0.383695,
-          "parameter_matched_ood_accuracy_mean": 0.008789
+          "parameter_matched_ood_accuracy_mean": 0.008789,
+          "parameter_matched_validation_loss_mean": 3.862286
         },
         "parameter_ledger": {
           "match_tolerance": 0.22,
@@ -3162,7 +3177,9 @@
               "ood_accuracy_ci95_low": 0.003491,
               "ood_accuracy_mean": 0.006103,
               "parameter_l2_delta_mean": 7.149918,
-              "positive_margin_over_chance_mean": -0.052002
+              "positive_margin_over_chance_mean": -0.052002,
+              "validation_loss_ci95_low": 3.863159,
+              "validation_loss_mean": 3.942591
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.compute_matched_attention",
@@ -3205,7 +3222,9 @@
               "ood_accuracy_ci95_low": 0.027308,
               "ood_accuracy_mean": 0.036865,
               "parameter_l2_delta_mean": 10.159139,
-              "positive_margin_over_chance_mean": -0.024414
+              "positive_margin_over_chance_mean": -0.024414,
+              "validation_loss_ci95_low": 2.966288,
+              "validation_loss_mean": 3.030562
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.dgt_l1",
@@ -3248,7 +3267,9 @@
               "ood_accuracy_ci95_low": 0.004484,
               "ood_accuracy_mean": 0.007568,
               "parameter_l2_delta_mean": 5.814072,
-              "positive_margin_over_chance_mean": -0.051514
+              "positive_margin_over_chance_mean": -0.051514,
+              "validation_loss_ci95_low": 3.410126,
+              "validation_loss_mean": 3.44938
             },
             "parameter_count": 3116,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.input_ablation_masked_tail",
@@ -3291,7 +3312,9 @@
               "ood_accuracy_ci95_low": 0.005474,
               "ood_accuracy_mean": 0.008789,
               "parameter_l2_delta_mean": 6.931895,
-              "positive_margin_over_chance_mean": -0.052735
+              "positive_margin_over_chance_mean": -0.052735,
+              "validation_loss_ci95_low": 3.782404,
+              "validation_loss_mean": 3.862286
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].training_arms.parameter_matched_attention",
@@ -3736,20 +3759,25 @@
           "compute_matched_accuracy_mean": 0.009765,
           "compute_matched_loss_decrease_mean": 0.8548,
           "compute_matched_ood_accuracy_mean": 0.01123,
+          "compute_matched_validation_loss_mean": 4.623004,
           "dgt_accuracy_mean": 0.033936,
           "dgt_loss_decrease_mean": 1.515316,
           "dgt_minus_input_ablation_accuracy": 0.024659,
           "dgt_minus_parameter_matched_attention_accuracy": 0.021241,
           "dgt_ood_accuracy_mean": 0.032715,
+          "dgt_validation_loss_mean": 4.071414,
+          "information_starved_validation_loss_mean": 3.787497,
           "input_ablation_accuracy_mean": 0.009277,
           "input_ablation_loss_decrease_mean": 0.342693,
           "input_ablation_ood_accuracy_mean": 0.008301,
+          "matched_random_validation_loss_mean": 4.622215,
           "parameter_matched_accuracy_mean": 0.012695,
           "parameter_matched_attention_accuracy_mean": 0.012695,
           "parameter_matched_attention_loss_decrease_mean": 0.807277,
           "parameter_matched_attention_ood_accuracy_mean": 0.011963,
           "parameter_matched_loss_decrease_mean": 0.807277,
-          "parameter_matched_ood_accuracy_mean": 0.011963
+          "parameter_matched_ood_accuracy_mean": 0.011963,
+          "parameter_matched_validation_loss_mean": 4.622215
         },
         "parameter_ledger": {
           "match_tolerance": 0.22,
@@ -3802,7 +3830,9 @@
               "ood_accuracy_ci95_low": 0.007475,
               "ood_accuracy_mean": 0.01123,
               "parameter_l2_delta_mean": 11.351165,
-              "positive_margin_over_chance_mean": -0.052735
+              "positive_margin_over_chance_mean": -0.052735,
+              "validation_loss_ci95_low": 4.468157,
+              "validation_loss_mean": 4.623004
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.compute_matched_attention",
@@ -3845,7 +3875,9 @@
               "ood_accuracy_ci95_low": 0.027352,
               "ood_accuracy_mean": 0.032715,
               "parameter_l2_delta_mean": 14.155526,
-              "positive_margin_over_chance_mean": -0.028564
+              "positive_margin_over_chance_mean": -0.028564,
+              "validation_loss_ci95_low": 3.929261,
+              "validation_loss_mean": 4.071414
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.dgt_l1",
@@ -3888,7 +3920,9 @@
               "ood_accuracy_ci95_low": 0.005185,
               "ood_accuracy_mean": 0.008301,
               "parameter_l2_delta_mean": 8.75197,
-              "positive_margin_over_chance_mean": -0.053223
+              "positive_margin_over_chance_mean": -0.053223,
+              "validation_loss_ci95_low": 3.723665,
+              "validation_loss_mean": 3.787497
             },
             "parameter_count": 3116,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.input_ablation_masked_tail",
@@ -3931,7 +3965,9 @@
               "ood_accuracy_ci95_low": 0.009126,
               "ood_accuracy_mean": 0.011963,
               "parameter_l2_delta_mean": 11.183322,
-              "positive_margin_over_chance_mean": -0.049805
+              "positive_margin_over_chance_mean": -0.049805,
+              "validation_loss_ci95_low": 4.46151,
+              "validation_loss_mean": 4.622215
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1].training_arms.parameter_matched_attention",
@@ -4376,20 +4412,25 @@
           "compute_matched_accuracy_mean": 0.018555,
           "compute_matched_loss_decrease_mean": 1.327871,
           "compute_matched_ood_accuracy_mean": 0.012207,
+          "compute_matched_validation_loss_mean": 5.519935,
           "dgt_accuracy_mean": 0.031494,
           "dgt_loss_decrease_mean": 2.082013,
           "dgt_minus_input_ablation_accuracy": 0.020508,
           "dgt_minus_parameter_matched_attention_accuracy": 0.021973,
           "dgt_ood_accuracy_mean": 0.032715,
+          "dgt_validation_loss_mean": 5.543926,
+          "information_starved_validation_loss_mean": 4.145431,
           "input_ablation_accuracy_mean": 0.010986,
           "input_ablation_loss_decrease_mean": 0.518172,
           "input_ablation_ood_accuracy_mean": 0.013428,
+          "matched_random_validation_loss_mean": 5.627089,
           "parameter_matched_accuracy_mean": 0.009521,
           "parameter_matched_attention_accuracy_mean": 0.009521,
           "parameter_matched_attention_loss_decrease_mean": 1.275019,
           "parameter_matched_attention_ood_accuracy_mean": 0.01001,
           "parameter_matched_loss_decrease_mean": 1.275019,
-          "parameter_matched_ood_accuracy_mean": 0.01001
+          "parameter_matched_ood_accuracy_mean": 0.01001,
+          "parameter_matched_validation_loss_mean": 5.627089
         },
         "parameter_ledger": {
           "match_tolerance": 0.22,
@@ -4442,7 +4483,9 @@
               "ood_accuracy_ci95_low": 0.007525,
               "ood_accuracy_mean": 0.012207,
               "parameter_l2_delta_mean": 15.859729,
-              "positive_margin_over_chance_mean": -0.043945
+              "positive_margin_over_chance_mean": -0.043945,
+              "validation_loss_ci95_low": 5.269155,
+              "validation_loss_mean": 5.519935
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.compute_matched_attention",
@@ -4485,7 +4528,9 @@
               "ood_accuracy_ci95_low": 0.025355,
               "ood_accuracy_mean": 0.032715,
               "parameter_l2_delta_mean": 19.554928,
-              "positive_margin_over_chance_mean": -0.031006
+              "positive_margin_over_chance_mean": -0.031006,
+              "validation_loss_ci95_low": 5.344426,
+              "validation_loss_mean": 5.543926
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.dgt_l1",
@@ -4528,7 +4573,9 @@
               "ood_accuracy_ci95_low": 0.010304,
               "ood_accuracy_mean": 0.013428,
               "parameter_l2_delta_mean": 12.853352,
-              "positive_margin_over_chance_mean": -0.051514
+              "positive_margin_over_chance_mean": -0.051514,
+              "validation_loss_ci95_low": 4.068649,
+              "validation_loss_mean": 4.145431
             },
             "parameter_count": 3116,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.input_ablation_masked_tail",
@@ -4571,7 +4618,9 @@
               "ood_accuracy_ci95_low": 0.006734,
               "ood_accuracy_mean": 0.01001,
               "parameter_l2_delta_mean": 15.794272,
-              "positive_margin_over_chance_mean": -0.052979
+              "positive_margin_over_chance_mean": -0.052979,
+              "validation_loss_ci95_low": 5.311362,
+              "validation_loss_mean": 5.627089
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2].training_arms.parameter_matched_attention",
@@ -5016,20 +5065,25 @@
           "compute_matched_accuracy_mean": 0.014648,
           "compute_matched_loss_decrease_mean": 1.629194,
           "compute_matched_ood_accuracy_mean": 0.014892,
+          "compute_matched_validation_loss_mean": 6.692088,
           "dgt_accuracy_mean": 0.028564,
           "dgt_loss_decrease_mean": 2.451025,
           "dgt_minus_input_ablation_accuracy": 0.015136,
           "dgt_minus_parameter_matched_attention_accuracy": 0.017822,
           "dgt_ood_accuracy_mean": 0.028565,
+          "dgt_validation_loss_mean": 7.368703,
+          "information_starved_validation_loss_mean": 4.451581,
           "input_ablation_accuracy_mean": 0.013428,
           "input_ablation_loss_decrease_mean": 0.625375,
           "input_ablation_ood_accuracy_mean": 0.013916,
+          "matched_random_validation_loss_mean": 6.7027,
           "parameter_matched_accuracy_mean": 0.010742,
           "parameter_matched_attention_accuracy_mean": 0.010742,
           "parameter_matched_attention_loss_decrease_mean": 1.593705,
           "parameter_matched_attention_ood_accuracy_mean": 0.010498,
           "parameter_matched_loss_decrease_mean": 1.593705,
-          "parameter_matched_ood_accuracy_mean": 0.010498
+          "parameter_matched_ood_accuracy_mean": 0.010498,
+          "parameter_matched_validation_loss_mean": 6.7027
         },
         "parameter_ledger": {
           "match_tolerance": 0.22,
@@ -5082,7 +5136,9 @@
               "ood_accuracy_ci95_low": 0.006129,
               "ood_accuracy_mean": 0.014892,
               "parameter_l2_delta_mean": 20.555795,
-              "positive_margin_over_chance_mean": -0.047852
+              "positive_margin_over_chance_mean": -0.047852,
+              "validation_loss_ci95_low": 6.350008,
+              "validation_loss_mean": 6.692088
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.compute_matched_attention",
@@ -5125,7 +5181,9 @@
               "ood_accuracy_ci95_low": 0.020422,
               "ood_accuracy_mean": 0.028565,
               "parameter_l2_delta_mean": 25.896727,
-              "positive_margin_over_chance_mean": -0.033936
+              "positive_margin_over_chance_mean": -0.033936,
+              "validation_loss_ci95_low": 7.085319,
+              "validation_loss_mean": 7.368703
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.dgt_l1",
@@ -5168,7 +5226,9 @@
               "ood_accuracy_ci95_low": 0.011037,
               "ood_accuracy_mean": 0.013916,
               "parameter_l2_delta_mean": 16.32227,
-              "positive_margin_over_chance_mean": -0.049072
+              "positive_margin_over_chance_mean": -0.049072,
+              "validation_loss_ci95_low": 4.350168,
+              "validation_loss_mean": 4.451581
             },
             "parameter_count": 3116,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.input_ablation_masked_tail",
@@ -5211,7 +5271,9 @@
               "ood_accuracy_ci95_low": 0.00567,
               "ood_accuracy_mean": 0.010498,
               "parameter_l2_delta_mean": 20.274762,
-              "positive_margin_over_chance_mean": -0.051758
+              "positive_margin_over_chance_mean": -0.051758,
+              "validation_loss_ci95_low": 6.158251,
+              "validation_loss_mean": 6.7027
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3].training_arms.parameter_matched_attention",
@@ -5656,20 +5718,25 @@
           "compute_matched_accuracy_mean": 0.012939,
           "compute_matched_loss_decrease_mean": 1.906757,
           "compute_matched_ood_accuracy_mean": 0.015381,
+          "compute_matched_validation_loss_mean": 8.162159,
           "dgt_accuracy_mean": 0.03418,
           "dgt_loss_decrease_mean": 2.671405,
           "dgt_minus_input_ablation_accuracy": 0.020508,
           "dgt_minus_parameter_matched_attention_accuracy": 0.023438,
           "dgt_ood_accuracy_mean": 0.032959,
+          "dgt_validation_loss_mean": 9.414088,
+          "information_starved_validation_loss_mean": 4.645666,
           "input_ablation_accuracy_mean": 0.013672,
           "input_ablation_loss_decrease_mean": 0.719184,
           "input_ablation_ood_accuracy_mean": 0.015625,
+          "matched_random_validation_loss_mean": 8.021975,
           "parameter_matched_accuracy_mean": 0.010742,
           "parameter_matched_attention_accuracy_mean": 0.010742,
           "parameter_matched_attention_loss_decrease_mean": 1.873273,
           "parameter_matched_attention_ood_accuracy_mean": 0.010498,
           "parameter_matched_loss_decrease_mean": 1.873273,
-          "parameter_matched_ood_accuracy_mean": 0.010498
+          "parameter_matched_ood_accuracy_mean": 0.010498,
+          "parameter_matched_validation_loss_mean": 8.021975
         },
         "parameter_ledger": {
           "match_tolerance": 0.22,
@@ -5722,7 +5789,9 @@
               "ood_accuracy_ci95_low": 0.00866,
               "ood_accuracy_mean": 0.015381,
               "parameter_l2_delta_mean": 25.902071,
-              "positive_margin_over_chance_mean": -0.049561
+              "positive_margin_over_chance_mean": -0.049561,
+              "validation_loss_ci95_low": 7.734376,
+              "validation_loss_mean": 8.162159
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.compute_matched_attention",
@@ -5765,7 +5834,9 @@
               "ood_accuracy_ci95_low": 0.025697,
               "ood_accuracy_mean": 0.032959,
               "parameter_l2_delta_mean": 32.232895,
-              "positive_margin_over_chance_mean": -0.02832
+              "positive_margin_over_chance_mean": -0.02832,
+              "validation_loss_ci95_low": 9.101611,
+              "validation_loss_mean": 9.414088
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.dgt_l1",
@@ -5808,7 +5879,9 @@
               "ood_accuracy_ci95_low": 0.011671,
               "ood_accuracy_mean": 0.015625,
               "parameter_l2_delta_mean": 19.484647,
-              "positive_margin_over_chance_mean": -0.048828
+              "positive_margin_over_chance_mean": -0.048828,
+              "validation_loss_ci95_low": 4.481447,
+              "validation_loss_mean": 4.645666
             },
             "parameter_count": 3116,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.input_ablation_masked_tail",
@@ -5851,7 +5924,9 @@
               "ood_accuracy_ci95_low": 0.005375,
               "ood_accuracy_mean": 0.010498,
               "parameter_l2_delta_mean": 25.48618,
-              "positive_margin_over_chance_mean": -0.051758
+              "positive_margin_over_chance_mean": -0.051758,
+              "validation_loss_ci95_low": 7.293457,
+              "validation_loss_mean": 8.021975
             },
             "parameter_count": 3172,
             "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.parameter_matched_attention",
@@ -5900,20 +5975,25 @@
           "compute_matched_accuracy_mean": 0.010498,
           "compute_matched_loss_decrease_mean": 0.457756,
           "compute_matched_ood_accuracy_mean": 0.006103,
+          "compute_matched_validation_loss_mean": 3.942591,
           "dgt_accuracy_mean": 0.038086,
           "dgt_loss_decrease_mean": 1.079292,
           "dgt_minus_input_ablation_accuracy": 0.0271,
           "dgt_minus_parameter_matched_attention_accuracy": 0.028321,
           "dgt_ood_accuracy_mean": 0.036865,
+          "dgt_validation_loss_mean": 3.030562,
+          "information_starved_validation_loss_mean": 3.44938,
           "input_ablation_accuracy_mean": 0.010986,
           "input_ablation_loss_decrease_mean": 0.19116,
           "input_ablation_ood_accuracy_mean": 0.007568,
+          "matched_random_validation_loss_mean": 3.862286,
           "parameter_matched_accuracy_mean": 0.009765,
           "parameter_matched_attention_accuracy_mean": 0.009765,
           "parameter_matched_attention_loss_decrease_mean": 0.383695,
           "parameter_matched_attention_ood_accuracy_mean": 0.008789,
           "parameter_matched_loss_decrease_mean": 0.383695,
-          "parameter_matched_ood_accuracy_mean": 0.008789
+          "parameter_matched_ood_accuracy_mean": 0.008789,
+          "parameter_matched_validation_loss_mean": 3.862286
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
         "seed_counts": {
@@ -5929,20 +6009,25 @@
           "compute_matched_accuracy_mean": 0.009765,
           "compute_matched_loss_decrease_mean": 0.8548,
           "compute_matched_ood_accuracy_mean": 0.01123,
+          "compute_matched_validation_loss_mean": 4.623004,
           "dgt_accuracy_mean": 0.033936,
           "dgt_loss_decrease_mean": 1.515316,
           "dgt_minus_input_ablation_accuracy": 0.024659,
           "dgt_minus_parameter_matched_attention_accuracy": 0.021241,
           "dgt_ood_accuracy_mean": 0.032715,
+          "dgt_validation_loss_mean": 4.071414,
+          "information_starved_validation_loss_mean": 3.787497,
           "input_ablation_accuracy_mean": 0.009277,
           "input_ablation_loss_decrease_mean": 0.342693,
           "input_ablation_ood_accuracy_mean": 0.008301,
+          "matched_random_validation_loss_mean": 4.622215,
           "parameter_matched_accuracy_mean": 0.012695,
           "parameter_matched_attention_accuracy_mean": 0.012695,
           "parameter_matched_attention_loss_decrease_mean": 0.807277,
           "parameter_matched_attention_ood_accuracy_mean": 0.011963,
           "parameter_matched_loss_decrease_mean": 0.807277,
-          "parameter_matched_ood_accuracy_mean": 0.011963
+          "parameter_matched_ood_accuracy_mean": 0.011963,
+          "parameter_matched_validation_loss_mean": 4.622215
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[1]",
         "seed_counts": {
@@ -5958,20 +6043,25 @@
           "compute_matched_accuracy_mean": 0.018555,
           "compute_matched_loss_decrease_mean": 1.327871,
           "compute_matched_ood_accuracy_mean": 0.012207,
+          "compute_matched_validation_loss_mean": 5.519935,
           "dgt_accuracy_mean": 0.031494,
           "dgt_loss_decrease_mean": 2.082013,
           "dgt_minus_input_ablation_accuracy": 0.020508,
           "dgt_minus_parameter_matched_attention_accuracy": 0.021973,
           "dgt_ood_accuracy_mean": 0.032715,
+          "dgt_validation_loss_mean": 5.543926,
+          "information_starved_validation_loss_mean": 4.145431,
           "input_ablation_accuracy_mean": 0.010986,
           "input_ablation_loss_decrease_mean": 0.518172,
           "input_ablation_ood_accuracy_mean": 0.013428,
+          "matched_random_validation_loss_mean": 5.627089,
           "parameter_matched_accuracy_mean": 0.009521,
           "parameter_matched_attention_accuracy_mean": 0.009521,
           "parameter_matched_attention_loss_decrease_mean": 1.275019,
           "parameter_matched_attention_ood_accuracy_mean": 0.01001,
           "parameter_matched_loss_decrease_mean": 1.275019,
-          "parameter_matched_ood_accuracy_mean": 0.01001
+          "parameter_matched_ood_accuracy_mean": 0.01001,
+          "parameter_matched_validation_loss_mean": 5.627089
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[2]",
         "seed_counts": {
@@ -5987,20 +6077,25 @@
           "compute_matched_accuracy_mean": 0.014648,
           "compute_matched_loss_decrease_mean": 1.629194,
           "compute_matched_ood_accuracy_mean": 0.014892,
+          "compute_matched_validation_loss_mean": 6.692088,
           "dgt_accuracy_mean": 0.028564,
           "dgt_loss_decrease_mean": 2.451025,
           "dgt_minus_input_ablation_accuracy": 0.015136,
           "dgt_minus_parameter_matched_attention_accuracy": 0.017822,
           "dgt_ood_accuracy_mean": 0.028565,
+          "dgt_validation_loss_mean": 7.368703,
+          "information_starved_validation_loss_mean": 4.451581,
           "input_ablation_accuracy_mean": 0.013428,
           "input_ablation_loss_decrease_mean": 0.625375,
           "input_ablation_ood_accuracy_mean": 0.013916,
+          "matched_random_validation_loss_mean": 6.7027,
           "parameter_matched_accuracy_mean": 0.010742,
           "parameter_matched_attention_accuracy_mean": 0.010742,
           "parameter_matched_attention_loss_decrease_mean": 1.593705,
           "parameter_matched_attention_ood_accuracy_mean": 0.010498,
           "parameter_matched_loss_decrease_mean": 1.593705,
-          "parameter_matched_ood_accuracy_mean": 0.010498
+          "parameter_matched_ood_accuracy_mean": 0.010498,
+          "parameter_matched_validation_loss_mean": 6.7027
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[3]",
         "seed_counts": {
@@ -6016,20 +6111,25 @@
           "compute_matched_accuracy_mean": 0.012939,
           "compute_matched_loss_decrease_mean": 1.906757,
           "compute_matched_ood_accuracy_mean": 0.015381,
+          "compute_matched_validation_loss_mean": 8.162159,
           "dgt_accuracy_mean": 0.03418,
           "dgt_loss_decrease_mean": 2.671405,
           "dgt_minus_input_ablation_accuracy": 0.020508,
           "dgt_minus_parameter_matched_attention_accuracy": 0.023438,
           "dgt_ood_accuracy_mean": 0.032959,
+          "dgt_validation_loss_mean": 9.414088,
+          "information_starved_validation_loss_mean": 4.645666,
           "input_ablation_accuracy_mean": 0.013672,
           "input_ablation_loss_decrease_mean": 0.719184,
           "input_ablation_ood_accuracy_mean": 0.015625,
+          "matched_random_validation_loss_mean": 8.021975,
           "parameter_matched_accuracy_mean": 0.010742,
           "parameter_matched_attention_accuracy_mean": 0.010742,
           "parameter_matched_attention_loss_decrease_mean": 1.873273,
           "parameter_matched_attention_ood_accuracy_mean": 0.010498,
           "parameter_matched_loss_decrease_mean": 1.873273,
-          "parameter_matched_ood_accuracy_mean": 0.010498
+          "parameter_matched_ood_accuracy_mean": 0.010498,
+          "parameter_matched_validation_loss_mean": 8.021975
         },
         "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
         "seed_counts": {
@@ -6683,7 +6783,9 @@
         "ood_accuracy_ci95_low": 0.003491,
         "ood_accuracy_mean": 0.006103,
         "parameter_l2_delta_mean": 7.149918,
-        "positive_margin_over_chance_mean": -0.052002
+        "positive_margin_over_chance_mean": -0.052002,
+        "validation_loss_ci95_low": 3.863159,
+        "validation_loss_mean": 3.942591
       },
       "parameter_count": 3172,
       "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.compute_matched_attention",
@@ -6726,7 +6828,9 @@
         "ood_accuracy_ci95_low": 0.027308,
         "ood_accuracy_mean": 0.036865,
         "parameter_l2_delta_mean": 10.159139,
-        "positive_margin_over_chance_mean": -0.024414
+        "positive_margin_over_chance_mean": -0.024414,
+        "validation_loss_ci95_low": 2.966288,
+        "validation_loss_mean": 3.030562
       },
       "parameter_count": 3172,
       "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.dgt_l1",
@@ -6769,7 +6873,9 @@
         "ood_accuracy_ci95_low": 0.004484,
         "ood_accuracy_mean": 0.007568,
         "parameter_l2_delta_mean": 5.814072,
-        "positive_margin_over_chance_mean": -0.051514
+        "positive_margin_over_chance_mean": -0.051514,
+        "validation_loss_ci95_low": 3.410126,
+        "validation_loss_mean": 3.44938
       },
       "parameter_count": 3116,
       "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.input_ablation_masked_tail",
@@ -6812,7 +6918,9 @@
         "ood_accuracy_ci95_low": 0.005474,
         "ood_accuracy_mean": 0.008789,
         "parameter_l2_delta_mean": 6.931895,
-        "positive_margin_over_chance_mean": -0.052735
+        "positive_margin_over_chance_mean": -0.052735,
+        "validation_loss_ci95_low": 3.782404,
+        "validation_loss_mean": 3.862286
       },
       "parameter_count": 3172,
       "pointer": "reports/canonical/dgt-l1-controls.json:$.training_arms.parameter_matched_attention",
