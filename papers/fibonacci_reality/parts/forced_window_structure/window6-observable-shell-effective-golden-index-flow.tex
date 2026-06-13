@@ -1,0 +1,133 @@
+\origin{ai}
+
+\subsection{Window-6 observable shell and effective golden index}
+\label{sec:window6-observable-shell-effective-golden-index-flow}
+
+\paragraph{Finite carrier.}
+Let $\phi=(1+\sqrt{5})/2$. The carrier is the finite disjoint union
+$$
+\begin{aligned}
+X&=X_A\sqcup X_B,\\
+X_A&=\{a_0,a_1,\ldots,a_{20}\},\\
+X_B&=\{b_0,b_1,\ldots,b_{33}\}.
+\end{aligned}
+$$
+Thus $|X_A|=A=21$, $|X_B|=B=34$, and $|X|=55$. The two primitive predicates on $X$ are the block predicates
+$$
+\begin{aligned}
+P_A(x)&\Longleftrightarrow x\in X_A,\\
+P_B(x)&\Longleftrightarrow x\in X_B.
+\end{aligned}
+$$
+They form a partition: every element of $X$ satisfies exactly one of $P_A$ and $P_B$. The finite same-block relation is
+$$
+\begin{aligned}
+x\sim y\Longleftrightarrow (P_A(x)\wedge P_A(y))\vee(P_B(x)\wedge P_B(y)).
+\end{aligned}
+$$
+It has two equivalence classes, of sizes $21$ and $34$. No further hidden carrier, external dataset, or continuum parameter is used in the finite construction.
+
+\paragraph{Scalar weight and readout kernel.}
+For a positive integer parameter $D$, define
+$$
+\begin{aligned}
+C(D)&=\frac{1}{2}+\frac{1}{4}\cos(\pi/\phi)^2+\frac{1}{D\phi^5},\\
+D_\ast&=47+\phi^{-7}-\frac{1}{2}\phi^{-17}+\frac{8}{9}\phi^{-27},\\
+C_\ast&=C(D_\ast).
+\end{aligned}
+$$
+For each pair $(\sigma,D)$ the observable shell assigns the same weight to all points in $X_A$ and the same weight to all points in $X_B$. This is the diagonal block kernel
+$$
+\begin{aligned}
+K_{\sigma,D}(x)&=
+\begin{cases}
+\phi^{-\sigma},&x\in X_A,\\
+C(D)\phi^{-(\sigma+1)},&x\in X_B.
+\end{cases}
+\end{aligned}
+$$
+The corresponding total denominator is
+$$
+\begin{aligned}
+\sum_{x\in X}K_{\sigma,D}(x)=A\phi^{-\sigma}+B C(D)\phi^{-(\sigma+1)}.
+\end{aligned}
+$$
+The numerator is the unshifted block total $A+B C(D)$. The scalar readout is therefore
+$$
+\begin{aligned}
+R(\sigma,D)=2\pi\frac{A+B C(D)}{A\phi^{-\sigma}+B C(D)\phi^{-(\sigma+1)}}.
+\end{aligned}
+$$
+The reference readout is $R_0=R(6,D_\ast)$.
+
+\paragraph{Effective index.}
+The correction attached to the $D$-coordinate is defined by
+$$
+\begin{aligned}
+\delta_{\sigma,D}(D)=\log_\phi\left(\frac{A+B C(D)}{A+B C_\ast}\frac{A+B C_\ast\phi^{-1}}{A+B C(D)\phi^{-1}}\right).
+\end{aligned}
+$$
+The name $\delta_{\sigma,D}(D)$ records the role it plays next to $\sigma$, but the displayed expression depends on $D$ through $C(D)$ and on the fixed constants $A,B,C_\ast,\phi$. Equivalently,
+$$
+\begin{aligned}
+\phi^{\delta_{\sigma,D}(D)}=\frac{A+B C(D)}{A+B C_\ast}\frac{A+B C_\ast\phi^{-1}}{A+B C(D)\phi^{-1}}.
+\end{aligned}
+$$
+Set
+$$
+\begin{aligned}
+\sigma_{\mathrm{eff}}&=\sigma+\delta_{\sigma,D}(D),\\
+\gamma_{\mathrm{eff}}&=6-\sigma_{\mathrm{eff}}.
+\end{aligned}
+$$
+Then direct cancellation gives the absorption identity
+$$
+\begin{aligned}
+R(\sigma,D)&=R_0\phi^{\sigma-6+\delta_{\sigma,D}(D)},\\
+\gamma_{\mathrm{eff}}&=\log_\phi(R_0/R)=6-\sigma_{\mathrm{eff}}.
+\end{aligned}
+$$
+Thus the finite readout determines the single effective scalar $\sigma_{\mathrm{eff}}$, or equivalently $\gamma_{\mathrm{eff}}$, but it does not by itself determine the separate values of $\sigma$ and $D$.
+
+\paragraph{Non-injective splitting.}
+The map from a split pair to the effective index is
+$$
+\begin{aligned}
+(\sigma,\delta_{\sigma,D})\longmapsto \sigma+\delta_{\sigma,D}.
+\end{aligned}
+$$
+This map is not injective. The two distinct pairs
+$$
+\begin{aligned}
+(\sigma,\delta_{\sigma,D})=(6,0),\qquad (\sigma,\delta_{\sigma,D})=(5,1)
+\end{aligned}
+$$
+both give $\sigma_{\mathrm{eff}}=6$. Consequently a single scalar observable cannot recover a unique decomposition into a bare index and a $D$-dependent correction. A second independent observable, or a separate certificate specifying how the split is to be read, is required before such a decomposition has determinate content.
+
+\paragraph{Finite displacement row.}
+One named displacement of the $D$-coordinate is
+$$
+\begin{aligned}
+D(1)&=D_\ast+\Delta_R(1)\phi^{-37},\\
+\Delta_R(1)&=\frac{26401}{2^{13}\cdot 571}.
+\end{aligned}
+$$
+This row is an exact finite datum: it supplies a rational coefficient multiplied by a fixed power of $\phi^{-1}$. It is not a measurement claim and does not identify the readout with any physical constant.
+
+\paragraph{Formal differential dictionary.}
+If, as a separate formal convention, one writes $\alpha(Q)^{-1}=R(Q)$, then
+$$
+\begin{aligned}
+\gamma_{\mathrm{eff}}(Q)=\log_\phi(R_0\alpha(Q)).
+\end{aligned}
+$$
+With $\beta_\alpha=Q\,d\alpha/dQ$, differentiation gives
+$$
+\begin{aligned}
+\frac{d\gamma_{\mathrm{eff}}}{d\ln Q}=\frac{\beta_\alpha}{\alpha\ln\phi}.
+\end{aligned}
+$$
+This is only a calculus identity under the displayed convention. It does not assert a physical beta function, a physical value of $\alpha$, or a law of running.
+
+\paragraph{Boundary of the construction.}
+The construction proves only the finite two-block readout, the exact absorption identity, the effective-index reduction, the non-injectivity of the split, and the displayed formal differentiation rule. It does not identify $R(D_\ast)$ with $\alpha^{-1}$, does not assign physical meaning to $\sigma$, does not claim physical running of $\alpha(Q)$, does not provide physical beta-function values, and does not compare the scalar with metrological data. Any such interpretation requires a separate certificate containing both a physical reading and an additional observable capable of distinguishing the $\sigma$ and $D$ contributions.
