@@ -169,6 +169,18 @@ Apply the obligation surface of \autoref{thm:real-apartness-completion-obligatio
 The handoff is therefore the finite prefix named in \autoref{def:real-apartness-completion-apartness-cauchy-window}. Since the carrier contains no bypass coordinate, a completion-facing consumer cannot reach $E$ by quotient completion, selected limit, countable choice, trichotomy, host equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RealApartnessCompletion RegSeqRat seal handoff]
+\label{thm:real-apartness-completion-regseqrat-seal}
+Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Every Real-facing apartness-completion seal passes through the $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback row $R$, and the $\DyadicRatCoreUp$ tolerance row $D$ before the terminal seal $E$ is exposed. The seal therefore remains downstream of the displayed apartness-Cauchy window and cannot be read through a quotient completion, selected limit, countable-choice schedule, trichotomy row, host equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-apartness-completion-obligation-surface}. Its regular readback and ledger clauses place the finite window row $S$, regular rational readback row $R$, and dyadic tolerance row $D$ in the displayed obligation route before the seal is available.
+
+Apply \autoref{thm:real-apartness-completion-separated-completion-handoff}. It identifies the seal-facing prefix as the apartness-Cauchy window $X,Q,M,S,R,D$, so the seal cannot be consumed before the StreamName, RegSeqRat, and DyadicRatCore rows have been read.
+
+Finally use \autoref{thm:real-apartness-completion-located-real-seal-nonescape} and \autoref{thm:real-apartness-completion-ledger-exhaustion}. The downstream Real-facing consumer receives only $W_{\mathrm{ac}}(A),E,H,C,P,N$, and the ledger has no remaining coordinate for a bypass principle. Hence every Real-facing seal handoff passes through $S,R,D$ before $E$.
+\end{proof}
+
 \begin{theorem}[RealApartnessCompletion located Real seal non-escape]
 \label{thm:real-apartness-completion-located-real-seal-nonescape}
 Let $A=(X,Q,M,S,R,D,E,H,C,P,N)$ be an accepted $\RealApartnessCompletionUp$ packet. Every $\LocatedRealUp$ or $\RealUp$ consumer of the seal receives only the displayed apartness-Cauchy window together with the seal, transport, replay, provenance, and local naming rows
@@ -293,7 +305,7 @@ The remaining rows are structural. By \autoref{thm:real-apartness-completion-non
 
 \begin{closurestatus}{\RealApartnessCompletionUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-apartness-completion-carrier}, \autoref{thm:real-apartness-completion-obligation-surface}, \autoref{thm:real-apartness-completion-nonescape}, \autoref{def:real-apartness-completion-apartness-cauchy-window}, \autoref{thm:real-apartness-completion-separated-completion-handoff}, \autoref{thm:real-apartness-completion-located-real-seal-nonescape}, \autoref{thm:real-apartness-completion-separated-source-exactness}, \autoref{thm:real-apartness-completion-regular-readback-discipline}, \autoref{thm:real-apartness-completion-located-tail-obligation}, \autoref{thm:real-apartness-completion-regseqrat-refinement}, and \autoref{thm:real-apartness-completion-ledger-exhaustion} seed the separated apartness-completion boundary over ApartnessReal, HausdorffCompletion, ConstructiveMetricCompletion, StreamName, RegSeqRat, DyadicRatCore, and Real rows.}
+  \scopeclosed{\autoref{def:real-apartness-completion-carrier}, \autoref{thm:real-apartness-completion-obligation-surface}, \autoref{thm:real-apartness-completion-nonescape}, \autoref{def:real-apartness-completion-apartness-cauchy-window}, \autoref{thm:real-apartness-completion-separated-completion-handoff}, \autoref{thm:real-apartness-completion-regseqrat-seal}, \autoref{thm:real-apartness-completion-located-real-seal-nonescape}, \autoref{thm:real-apartness-completion-separated-source-exactness}, \autoref{thm:real-apartness-completion-regular-readback-discipline}, \autoref{thm:real-apartness-completion-located-tail-obligation}, \autoref{thm:real-apartness-completion-regseqrat-refinement}, and \autoref{thm:real-apartness-completion-ledger-exhaustion} seed the separated apartness-completion boundary over ApartnessReal, HausdorffCompletion, ConstructiveMetricCompletion, StreamName, RegSeqRat, DyadicRatCore, and Real rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, host real equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, or Lean verification.}
