@@ -1,0 +1,101 @@
+\section{Bridge Correspondence Verdicts}
+The following table lists every bridge claim in the registry.  The verdict column is
+generated directly from the registry status field.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.22\linewidth}>{\raggedright\arraybackslash}p{0.55\linewidth}>{\raggedright\arraybackslash}p{0.15\linewidth}}
+\textbf{Claim} & \textbf{Statement} & \textbf{Verdict} \\
+\hline
+% CLAIM_STATUS claim_id=bridge.window6_codon_q6.cardinality_forcing status=coincidence
+Cardinality Forcing & The codon-Q6 boundary cardinality ($|R|=13=F_7$, 21 synonymous families) is FORCED by the Window6 Fibonacci horizon ($X_6=21=F_8$) via an explicit structural map standard-code-boundary -> width-6 Fibonacci words, not coincidence. & \texttt{coincidence} \\
+% CLAIM_STATUS claim_id=bridge.window6_codon_q6.spectral_correspondence status=refuted
+Spectral Correspondence & The bio codon-Q6 spectral scalars ($\lambda_M$, $\lambda_R$, mu) equal the Window6 coarse Markov kernel spectrum (high/low energy superposition). & \texttt{refuted} \\
+% CLAIM_STATUS claim_id=bridge.window6_codon_q6.foldbin_codon_positions status=coincidence
+Foldbin Codon Positions & The Window6 Foldbin tail-cube (3 free Boolean coords, seam-return $\rho_6-s_6=3$) corresponds to the 3 codon positions / wobble folding; the bio $Q^{(2)}$ second-order structure is the biological image of the second fold. & \texttt{coincidence} \\
+% CLAIM_STATUS claim_id=bridge.window6_codon_q6.killed_walk_spectral_correspondence status=refuted
+Killed Walk Spectral Correspondence & The bio codon-Q6 spectral scalars ($\lambda_M$, $\lambda_R$, $\mu=6\lambda_M-1$) -- where lambda = (1/6)*spectral radius of the induced 6-cube subgraph adjacency on R and on M=median-closure(R) -- are structurally forced by the Window6 Fibonacci-cube killed-walk operator (same induced-subgraph spectrum / canonical map), not a numeric coincidence. & \texttt{refuted} \\
+% CLAIM_STATUS claim_id=bridge.window6_codon_q6.cyclic_sector_frame_symmetry status=refuted
+Cyclic Sector Frame Symmetry & Window6 cyclic Zeckendorf sector rotation corresponds to cyclic rotation of the 3 codon positions as a code-label-preserving sector character. & \texttt{refuted} \\
+% CLAIM_STATUS claim_id=bridge.window6_codon_q6.right_boundary_selection_axis status=needs_derivation
+Right Boundary Selection Axis & The Window6 right-boundary/foldbin escape functional $U_R$ (cyclic endpoint collision $w_1=w_6=1$, escape ledger |d$U_R$|/(6|$U_R$|)=8/9) maps onto the BIOLOGICAL low-optimality boundary axis -- R=tRNA-poor (BIO-M) and the unexplained universal residual axis $d_{\perp}$ (BIO-P) -- via sign/rank/projection constraints, NOT via naked cardinalities (|R|=13, 21, 3). & \texttt{needs\_derivation} \\
+\end{longtable}
+
+\subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
+% CLAIM_DETAIL claim_id=bridge.window6_codon_q6.cardinality_forcing status=coincidence
+\textbf{Statement.} The codon-Q6 boundary cardinality ($|R|=13=F_7$, 21 synonymous families) is FORCED by the Window6
+Fibonacci horizon ($X_6=21=F_8$) via an explicit structural map standard-code-boundary -> width-6
+Fibonacci words, not coincidence.
+
+\textbf{Verdict.} \texttt{coincidence}.
+
+\textbf{Why.} The counts 21 and 13 match the width-6 and width-5 Fibonacci cubes, but the tested canonical
+biological structures do not yield a structure-respecting forcing map.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_bc1\_cardinality\_forcing.py
+
+\subsection{Spectral Correspondence}\label{sec:bridge-spectral-correspondence}
+% CLAIM_DETAIL claim_id=bridge.window6_codon_q6.spectral_correspondence status=refuted
+\textbf{Statement.} The bio codon-Q6 spectral scalars ($\lambda_M$, $\lambda_R$, mu) equal the Window6 coarse Markov
+kernel spectrum (high/low energy superposition).
+
+\textbf{Verdict.} \texttt{refuted}.
+
+\textbf{Why.} bio spectral scalars are not the coarse Markov kernel spectrum (subdominant eig do not match lambda;
+mu>1 is not a stochastic eigenvalue).
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_bc2\_markov\_kernel\_spectrum.py
+
+\subsection{Foldbin Codon Positions}\label{sec:bridge-foldbin-codon-positions}
+% CLAIM_DETAIL claim_id=bridge.window6_codon_q6.foldbin_codon_positions status=coincidence
+\textbf{Statement.} The Window6 Foldbin tail-cube (3 free Boolean coords, seam-return $\rho_6-s_6=3$) corresponds to the
+3 codon positions / wobble folding; the bio $Q^{(2)}$ second-order structure is the biological image
+of the second fold.
+
+\textbf{Verdict.} \texttt{coincidence}.
+
+\textbf{Why.} foldbin tail-cube vs codon positions: 3=3 count match only; weight-order vs
+value-window-marginal-order vs reverse-constraint give 3 different assignments (no forcing); 8-state
+reading fails (only 4 tail states); $Q^{(2)}$ abundance reading failed (Route B).
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_bc3\_foldbin\_codon\_correspondence.py
+
+\subsection{Killed Walk Spectral Correspondence}\label{sec:bridge-killed-walk-spectral-correspondence}
+% CLAIM_DETAIL claim_id=bridge.window6_codon_q6.killed_walk_spectral_correspondence status=refuted
+\textbf{Statement.} The bio codon-Q6 spectral scalars ($\lambda_M$, $\lambda_R$, $\mu=6\lambda_M-1$) -- where lambda =
+(1/6)*spectral radius of the induced 6-cube subgraph adjacency on R and on M=median-closure(R) --
+are structurally forced by the Window6 Fibonacci-cube killed-walk operator (same induced-subgraph
+spectrum / canonical map), not a numeric coincidence.
+
+\textbf{Verdict.} \texttt{refuted}.
+
+\textbf{Why.} BC2-R1 is refuted: the operators have the same induced-subgraph killed-walk form, but the bio sets
+and Window Fibonacci cubes are not the same cube-embedded graph, their exact adjacency
+characteristic polynomials differ, and the bio radial factor does not occur in the Window graph
+spectra.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_bc2\_killed\_walk\_spectrum.py
+
+\subsection{Cyclic Sector Frame Symmetry}\label{sec:bridge-cyclic-sector-frame-symmetry}
+% CLAIM_DETAIL claim_id=bridge.window6_codon_q6.cyclic_sector_frame_symmetry status=refuted
+\textbf{Statement.} Window6 cyclic Zeckendorf sector rotation corresponds to cyclic rotation of the 3 codon positions as
+a code-label-preserving sector character.
+
+\textbf{Verdict.} \texttt{refuted}.
+
+\textbf{Why.} codon-position rotation preserves the amino-acid/stop label for only 4/64 codons (UUU,CCC,AAA,GGG)
+and positional degeneracy is strongly asymmetric
+(pos1\textasciitilde{}0.042,pos2\textasciitilde{}0.010,pos3\textasciitilde{}0.667), so no
+code-label-preserving rotation image exists.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_bc4\_cyclic\_sector\_frame\_symmetry.py
+
+\subsection{Right Boundary Selection Axis}\label{sec:bridge-right-boundary-selection-axis}
+% CLAIM_DETAIL claim_id=bridge.window6_codon_q6.right_boundary_selection_axis status=needs_derivation
+\textbf{Statement.} The Window6 right-boundary/foldbin escape functional $U_R$ (cyclic endpoint collision $w_1=w_6=1$,
+escape ledger |d$U_R$|/(6|$U_R$|)=8/9) maps onto the BIOLOGICAL low-optimality boundary axis --
+R=tRNA-poor (BIO-M) and the unexplained universal residual axis $d_{\perp}$ (BIO-P) -- via
+sign/rank/projection constraints, NOT via naked cardinalities (|R|=13, 21, 3).
+
+\textbf{Verdict.} \texttt{needs\_derivation}.
+
+\textbf{Why.} Needs bio input not yet in repo: a per-codon continuous selection vector in the codon-Q6 frame
+(tRNA-supply vector from BIO-N + $d_{\perp}$ residual axis from BIO-P).

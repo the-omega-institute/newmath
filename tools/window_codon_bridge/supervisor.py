@@ -172,6 +172,31 @@ def run_cycle() -> dict:
     return summary
 
 
+def paper_lane() -> dict:
+    gen = subprocess.run(
+        [sys.executable, str(SCRIPT_DIR / "paper_gen.py")],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+    )
+    gate = subprocess.run(
+        [sys.executable, str(SCRIPT_DIR / "paper_gate.py")],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+    )
+    result = {
+        "generated": gen.returncode == 0,
+        "gate_ok": gate.returncode == 0,
+    }
+    if gen.returncode != 0:
+        result["gen_error"] = ((gen.stderr or gen.stdout) or "")[-300:]
+    if gate.returncode != 0:
+        result["gate_error"] = ((gate.stderr or gate.stdout) or "")[-300:]
+    print(f"[paper] generated={result['generated']} gate_ok={result['gate_ok']}", flush=True)
+    return result
+
+
 def keep_lane():
     """Lean commit lane: commit changed bridge files on this branch."""
     st = git("status", "--porcelain", "tools/window_codon_bridge", "papers/window_codon_bridge").stdout.strip()
@@ -195,9 +220,10 @@ def main():
     while not should_stop():
         sync = sync_lane()
         summary = run_cycle()
+        paper = paper_lane()
         keep = {} if args.no_commit else keep_lane()
         publish = {} if args.no_commit else publish_lane()
-        print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} keep={keep} publish={publish}", flush=True)
+        print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} paper={paper} keep={keep} publish={publish}", flush=True)
         if args.once:
             break
         time.sleep(max(1.0, float(args.interval_seconds)))
