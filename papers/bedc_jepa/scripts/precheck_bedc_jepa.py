@@ -331,6 +331,36 @@ def check_closurestatus(files: list[Path]) -> list[str]:
     return errors
 
 
+def check_evidence_files_exist(files: list[Path]) -> list[str]:
+    """Every ``\\path{...}`` pointer in the LeWM section that names an in-repo
+    artifact (``experiments/...`` or ``formal/...``) must resolve to a real file
+    or directory under the article root. This closes the gap where a pointer
+    string is present in the prose but the artifact it names is absent from the
+    repository, which would let the article cite evidence that no reader can
+    open."""
+    path = ROOT / "parts" / "lewm_instantiation.tex"
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8", errors="ignore")
+    errors = []
+    seen: set[str] = set()
+    for match in re.finditer(r"\\path\{([^}]*)\}", text):
+        target = match.group(1).strip()
+        # Drop a trailing JSONPath selector such as ':$.not_claimed'.
+        target = target.split(":$", 1)[0]
+        if not (target.startswith("experiments/") or target.startswith("formal/")):
+            continue
+        if target in seen:
+            continue
+        seen.add(target)
+        if not (ROOT / target).exists():
+            errors.append(
+                f"parts/lewm_instantiation.tex: evidence pointer does not resolve "
+                f"to a repository artifact: {target}"
+            )
+    return errors
+
+
 def run_check(name: str, errors: list[str], *, note: str | None = None) -> bool:
     if errors:
         print(f"[bedc-jepa precheck] {name}: FAIL", file=sys.stderr)
@@ -356,6 +386,7 @@ def main() -> int:
         ("check_no_undefined_refs_or_cites", check_references(files), None),
         ("check_environment_balance", check_env_balance(files), None),
         ("check_lewm_evidence_pointer", check_lewm_evidence_pointer(files), None),
+        ("check_evidence_files_exist", check_evidence_files_exist(files), None),
         ("check_lean_markers", check_not_applicable_markers(files), "not applicable to this article, no markers present"),
         ("check_closurestatus", check_closurestatus(files), "not applicable to this article, no blocks present"),
     )

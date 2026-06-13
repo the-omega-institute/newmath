@@ -218,11 +218,19 @@ re-encoder does not make the failure signal linearly more readable, consistent
 with the allocation bound's $\rho\approx 0.5$ readable-information ceiling.
 
 \paragraph{Coverage formalization status.}
-The split-conformal counting core used by the gap-ledger readout is
-machine-checked in a mathlib-free Lean~4 package whose theorems depend on
-zero axioms (no \texttt{propext}, no \texttt{Classical.choice}); the full
-$\alpha$-statistical miscoverage bound (rank quantile plus exchangeability)
-is recorded as open rather than claimed.
+The deterministic counting core of the split-conformal selective rule is
+machine-checked in a mathlib-free Lean~4 package
+(\path{formal/bedc-conformal-lean/}) whose theorems depend on zero axioms, as
+reported by \texttt{\#print axioms} (no \texttt{propext}, no
+\texttt{Classical.choice}, no \texttt{Quot.sound}).  On a calibration list
+sorted by score the package proves four facts: the fail-closed branch admits
+the empty set, so no sample is declared OK when no threshold is feasible; the
+selected prefix satisfies the conservative Laplace-smoothed calibration bound
+$(1 + \mathrm{cumFail})\,\alpha_{\mathrm{den}} \le
+\alpha_{\mathrm{num}}\,(1 + (i+1))$ by construction; the admitted count equals
+the selected prefix length; and the cumulative failure count is monotone in the
+threshold.  The $\alpha$-statistical miscoverage bound (rank quantile plus
+exchangeability) is not formalized and is recorded as open rather than claimed.
 
 \paragraph{Calibrated selection.}
 Replacing the declared-OK rule by conservative thresholds chosen on a
@@ -272,29 +280,29 @@ The executed records live in the public repository
 
 \noindent{\small
 \begin{tabular}{@{}p{0.34\linewidth}@{}p{0.58\linewidth}@{}}
-gap head & \path{reports/lewm_gap_ledger_head_large.json}\\
-perturbation boundary & \path{reports/lewm_brittleness_gap.json}\\
-OOD-aware training & \path{reports/lewm_ood_aware_gap.json}\\
-trained ledger head & \path{reports/lewm_ledger_aware_transformer.json}\\
-trained-head perturbation arm & \path{reports/lewm_ledger_aware_transformer_ood.json}\\
-trained-head OOD-aware training & \path{reports/lewm_ledger_aware_transformer_ood_aware.json}\\
-dynamics comparison & \path{reports/lewm_lat_dynamics_comparison.json}\\
-state-recovery probe & \path{reports/lewm_identifiability_link.json}\\
-rollout budget allocation & \path{reports/lewm_ledger_gated_rollout.json}\\
-calibrated selection & \path{reports/lewm_conformal_selective_guarantee.json}\\
-cross-environment replication & \path{reports/lewm_cross_env_replication.json}\\
-reader capacity sweep & \path{reports/lewm_reader_capacity_frontier.json}\\
-horizon-indexed ledger & \path{reports/g2n_native_ledger.json}\\
-horizon ledger completion & \path{reports/g2n_matrix_completion.json}\\
-cross-environment horizon ledger & \path{reports/lewm_crossenv_horizon_ledger.json}\\
-allocation bridge study & \path{reports/lewm_allocation_bridge.json}\\
-native/post-hoc paired comparison & \path{reports/lewm_native_vs_posthoc_paired.json}\\
-allocation information bound & \path{reports/lewm_allocation_information_bound.json}\\
-ledger-shaped re-encoder & \path{reports/lewm_d_ledger_shaped_reencoder.json}\\
-pusht independent export & \path{reports/lewm_pusht_independent_export.json}\\
-pusht contiguous-block replication & \path{reports/lewm_pusht_replication.json}\\
+gap head & \path{experiments/lewm_gap_ledger/reports/lewm_gap_ledger_head_large.json}\\
+perturbation boundary & \path{experiments/lewm_gap_ledger/reports/lewm_brittleness_gap.json}\\
+OOD-aware training & \path{experiments/lewm_gap_ledger/reports/lewm_ood_aware_gap.json}\\
+trained ledger head & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_aware_transformer.json}\\
+trained-head perturbation arm & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_aware_transformer_ood.json}\\
+trained-head OOD-aware training & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_aware_transformer_ood_aware.json}\\
+dynamics comparison & \path{experiments/lewm_gap_ledger/reports/lewm_lat_dynamics_comparison.json}\\
+state-recovery probe & \path{experiments/lewm_gap_ledger/reports/lewm_identifiability_link.json}\\
+rollout budget allocation & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_gated_rollout.json}\\
+calibrated selection & \path{experiments/lewm_gap_ledger/reports/lewm_conformal_selective_guarantee.json}\\
+cross-environment replication & \path{experiments/lewm_gap_ledger/reports/lewm_cross_env_replication.json}\\
+reader capacity sweep & \path{experiments/lewm_gap_ledger/reports/lewm_reader_capacity_frontier.json}\\
+horizon-indexed ledger & \path{experiments/lewm_gap_ledger/reports/g2n_native_ledger.json}\\
+horizon ledger completion & \path{experiments/lewm_gap_ledger/reports/g2n_matrix_completion.json}\\
+cross-environment horizon ledger & \path{experiments/lewm_gap_ledger/reports/lewm_crossenv_horizon_ledger.json}\\
+allocation bridge study & \path{experiments/lewm_gap_ledger/reports/lewm_allocation_bridge.json}\\
+native/post-hoc paired comparison & \path{experiments/lewm_gap_ledger/reports/lewm_native_vs_posthoc_paired.json}\\
+allocation information bound & \path{experiments/lewm_gap_ledger/reports/lewm_allocation_information_bound.json}\\
+ledger-shaped re-encoder & \path{experiments/lewm_gap_ledger/reports/lewm_d_ledger_shaped_reencoder.json}\\
+pusht independent export & \path{experiments/lewm_gap_ledger/reports/lewm_pusht_independent_export.json}\\
+pusht contiguous-block replication & \path{experiments/lewm_gap_ledger/reports/lewm_pusht_replication.json}\\
 coverage formalization & \path{formal/bedc-conformal-lean/}\\
-not\_claimed boundary & \path{reports/lewm_d_ledger_shaped_reencoder.json:$.not_claimed}
+not\_claimed boundary & \path{experiments/lewm_gap_ledger/reports/lewm_d_ledger_shaped_reencoder.json:$.not_claimed}
 \end{tabular}
 }
 An interactive demonstration of the failure-versus-declared-gap readout is
