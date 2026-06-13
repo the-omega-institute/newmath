@@ -35,13 +35,18 @@
   {
    "claim_id": "bridge.window6_codon_q6.foldbin_codon_positions",
    "statement": "The Window6 Foldbin tail-cube (3 free Boolean coords, seam-return rho6-s6=3) corresponds to the 3 codon positions / wobble folding; the bio Q^(2) second-order structure is the biological image of the second fold.",
-   "status": "needs_derivation",
-   "experiment_id": "bc3_foldbin_correspondence",
+   "status": "coincidence",
+   "experiment_id": "bc3_foldbin_codon_correspondence",
    "history": [
     {
      "ts": "2026-06-13T14:38:09+00:00",
      "status": "needs_derivation",
      "reason": "no script_path (derivation not yet authored)"
+    },
+    {
+     "at": "2026-06-13T17:18:09+00:00",
+     "status": "coincidence",
+     "note": "foldbin tail-cube vs codon positions: 3=3 count match only; weight-order vs value-window-marginal-order vs reverse-constraint give 3 different assignments (no forcing); 8-state reading fails (only 4 tail states); Q^(2) abundance reading failed (Route B). Not a result."
     }
    ]
   },
@@ -55,6 +60,32 @@
      "ts": "2026-06-13T15:54:16+00:00",
      "status": "refuted",
      "reason": "BC2-R1 is refuted: the operators have the same induced-subgraph killed-walk form, but the bio sets and Window Fibonacci cubes are not the same cube-embedded graph, their exact adjacency characteristic polynomials differ, and the bio radial factor does not occur in the Window graph spectra."
+    }
+   ]
+  },
+  {
+   "claim_id": "bridge.window6_codon_q6.cyclic_sector_frame_symmetry",
+   "statement": "Window6 cyclic Zeckendorf sector rotation corresponds to cyclic rotation of the 3 codon positions as a code-label-preserving sector character.",
+   "status": "refuted",
+   "experiment_id": "bc4_cyclic_sector_frame_symmetry",
+   "history": [
+    {
+     "at": "2026-06-13T17:18:09+00:00",
+     "status": "refuted",
+     "note": "codon-position rotation preserves the amino-acid/stop label for only 4/64 codons (UUU,CCC,AAA,GGG) and positional degeneracy is strongly asymmetric (pos1~0.042,pos2~0.010,pos3~0.667), so no code-label-preserving rotation image exists."
+    }
+   ]
+  },
+  {
+   "claim_id": "bridge.window6_codon_q6.right_boundary_selection_axis",
+   "statement": "The Window6 right-boundary/foldbin escape functional U_R (cyclic endpoint collision w1=w6=1, escape ledger |dU_R|/(6|U_R|)=8/9) maps onto the BIOLOGICAL low-optimality boundary axis -- R=tRNA-poor (BIO-M) and the unexplained universal residual axis d_perp (BIO-P) -- via sign/rank/projection constraints, NOT via naked cardinalities (|R|=13, 21, 3).",
+   "status": "needs_derivation",
+   "experiment_id": "bc5_right_boundary_selection_axis",
+   "history": [
+    {
+     "at": "2026-06-13T17:18:09+00:00",
+     "status": "needs_derivation",
+     "note": "Needs bio input not yet in repo: a per-codon continuous selection vector in the codon-Q6 frame (tRNA-supply vector from BIO-N + d_perp residual axis from BIO-P). bridge->bio data request issued. Forcing plan: push Window6 right-boundary potential through a declared codon-Q6 labeling, test landing on tRNA-poor/low-optimality stratum + orthogonal-residual alignment with d_perp; certify only with sign+rank+projection, downgrade to coincidence if only cardinalities match or alignment needs a post-hoc permutation."
     }
    ]
   }
