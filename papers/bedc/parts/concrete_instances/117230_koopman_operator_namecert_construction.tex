@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\KoopmanOperatorUp$}
+\label{ch:concrete-instances-koopman-operator-namecert}
+\origin{human}
+
+Following Koopman and von Neumann on operator-theoretic dynamics, the $\KoopmanOperatorUp$ packet records the observable-side pullback of a displayed dynamical system as finite NameCert data. It sits after the routed flow carrier of \autoref{ch:concrete-instances-dynsystem-namecert}, the continuous-map graph surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the transfer-operator and Perron--Frobenius density routes of \autoref{ch:concrete-instances-transferoperator-namecert} and \autoref{ch:concrete-instances-perron-frobenius-namecert}, the mean-ergodic averaging route of \autoref{ch:concrete-instances-mean-ergodic-namecert}, and the finite StreamName-to-RegSeqRat-to-Real readback chain of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names a finite observable pullback route; it is not a host Hilbert-space operator, an invariant measure theorem, a selected spectral decomposition, quotient function equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Koopman operator carrier]
+\label{def:koopman-operator-carrier}
+A $\KoopmanOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,T,F,O,W,R,E,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\DynSystemUp$ state-evolution row, naming the displayed source states and the single-step or finite-step transition being inspected.
+\item $T$ is the $\ContinuousMapUp$ transition row attached to the same displayed dynamical system.
+\item $F$ is the observable row, recording the finite graph values of the displayed observable on the target of $T$.
+\item $O$ is the Koopman pullback row, whose displayed value at a source state is read as the observable row $F$ after the transition row $T$.
+\item $W$ is the $\StreamNameUp$ observation-window row through which the pulled-back observable is inspected.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row attached to those finite windows.
+\item $E$ is the terminal $\RealUp$ seal row available only after $X,T,F,O,W,R$ have been displayed.
+\item $A$ is the averaging or transfer-neighbour row, recording which reads may be compared with $\TransferOperatorUp$, $\PerronFrobeniusUp$, and $\MeanErgodicUp$ consumers without identifying the packet with any one of them.
+\item $H$ records componentwise $\hsame$ transport for the dynamical-system, transition, observable, pullback, window, readback, seal, neighbour, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+X,T,F,O,W,R \longmapsto E
+$$
+and through the neighbour row $A$ when an averaging or density-facing consumer is present.
+\item $P$ is the $\Pkg$ provenance over $\KoopmanOperatorUp$, $\DynSystemUp$, $\ContinuousMapUp$, $\TransferOperatorUp$, $\PerronFrobeniusUp$, $\MeanErgodicUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\KoopmanOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,T,F,O,W,R,E,A,H,C,P,N$. It has no coordinate for an ambient function space, selected invariant measure, spectral theorem, quotient observable equality, host integration, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Koopman operator NameCert obligations]
+\label{thm:koopman-operator-namecert-obligations}
+For every accepted $\KoopmanOperatorUp$ carrier
+$$
+K=(X,T,F,O,W,R,E,A,H,C,P,N),
+$$
+the local $\NameCert_{\KoopmanOperatorUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dynamical-system row, continuous transition row, observable row, pullback row, observation windows, regular-rational readback, Real seal, neighbour route, transport, replay, provenance, and local naming;
+\item pullback exactness, requiring each $O$ read to be the displayed observable row $F$ consumed after the transition row $T$ on the same $\DynSystemUp$ state row $X$;
+\item readback ordering, requiring $W$ and $R$ to be exposed before the terminal $\RealUp$ seal $E$ is available;
+\item neighbour separation, requiring the $\TransferOperatorUp$, $\PerronFrobeniusUp$, and $\MeanErgodicUp$ rows in $A$ to remain comparison or averaging consumers rather than replacements for the observable pullback row;
+\item structural stability under the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+\end{enumerate}
+No Koopman-operator obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple lists the dynamical-system row, transition row, observable row, pullback row, observation-window and readback rows, terminal seal, neighbour row, and structural rows.
+
+Pullback exactness is local. Row $O$ is admitted only as the observable row $F$ read after the displayed transition $T$ on the same state-evolution row $X$, so the packet has no coordinate for an ambient function-space equality.
+
+Readback ordering then follows the StreamName and RegSeqRat rows. The finite window $W$ is inspected before the regular-rational row $R$, and the terminal $\RealUp$ seal $E$ is downstream of both.
+
+Finally read the neighbour row $A$. It permits comparison with transfer, Perron--Frobenius, and mean-ergodic consumers while keeping the observable-side pullback distinct. Transport, replay, provenance, and local naming preserve that same finite route and add no invariant-measure theorem, spectral decomposition, host integration, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Koopman operator dynamics-observable route]
+\label{thm:koopman-operator-dynamics-observable-route}
+Every observable-facing read of an accepted $\KoopmanOperatorUp$ packet factors through the finite route
+$$
+\DynSystemUp,\ \ContinuousMapUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+More explicitly, the consumer must expose the state-evolution row $X$, transition row $T$, observable row $F$, pullback row $O$, observation window $W$, and readback row $R$ before the terminal seal $E$ or any neighbour comparison row $A$ is consumed. The packet exports no invariant measure, density pushforward, selected spectral datum, quotient observable equality, host integration theorem, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:koopman-operator-namecert-obligations}. They place every accepted consumer read inside the displayed carrier rows $X,T,F,O,W,R,E,A,H,C,P,N$.
+
+Read the dynamics-to-observable route first. The $\DynSystemUp$ row $X$ and $\ContinuousMapUp$ row $T$ determine where the observable is sampled, and the row $O$ records that the observable value is pulled back from $F$ along that transition.
+
+The numerical readback is downstream. The finite $\StreamNameUp$ window $W$ feeds the $\RegSeqRatUp$ row $R$, and only then can the terminal $\RealUp$ seal $E$ be read.
+
+The neighbour row $A$ cannot reverse the route. It may point to transfer, Perron--Frobenius, or mean-ergodic consumers, but those rows do not replace $X,T,F,O,W,R,E$ by a measure-theoretic, spectral, quotient, or host-completeness object. Therefore the displayed dynamics-observable route exhausts the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{A $\KoopmanOperatorUp$ consumer that reads a RealUp seal or an averaging neighbour without displaying the DynSystem transition, ContinuousMap row, observable pullback row, StreamName window, and RegSeqRat readback refutes the carrier of \autoref{def:koopman-operator-carrier}.}
+
+\independenceWitness{dynsystem, continuousmap, transferoperator, perronfrobenius, meanergodic, streamname, regseqrat, real: $\KoopmanOperatorUp$ is not bijective to any listed sibling because it jointly carries state evolution, transition, observable pullback, finite observation windows, regular-rational readback, Real sealing, neighbour separation, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{KoopmanOperatorUp}{seedStr}
+
+\begin{closurestatus}{\KoopmanOperatorUp}
+  \constructivestory{A $\KoopmanOperatorUp$ packet is generated from DynSystem state-evolution rows, ContinuousMap transition rows, observable pullback rows, StreamName windows, RegSeqRat readback, a RealUp seal, transfer and mean-ergodic neighbour rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:koopman-operator-carrier}, \autoref{thm:koopman-operator-namecert-obligations}, and \autoref{thm:koopman-operator-dynamics-observable-route} seed the finite observable-side dynamics route over DynSystem, ContinuousMap, StreamName, RegSeqRat, Real, transfer, Perron--Frobenius, and mean-ergodic rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close invariant measures, density pushforwards, spectral theory, quotient observable equality, host integration, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, pullback exactness, readback ordering, neighbour separation, transport, replay, provenance, and local naming for BEDC.Derived.KoopmanOperatorUp.}
+\end{closurestatus}
