@@ -93,6 +93,22 @@ Apply \autoref{thm:object-knowledge-certificate-namecert-obligations}. It makes 
 Apply \autoref{thm:object-knowledge-certificate-witness-exactness} and \autoref{thm:object-knowledge-certificate-nonescape}. The witness cannot be replaced by a certificate field, and no object-knowledge read escapes the displayed rows. Hence the exported public object-knowledge packet is exactly the stated row family.
 \end{proof}
 
+\begin{theorem}[Object-knowledge bridge obligation surface]
+\label{thm:object-knowledge-certificate-bridge-obligation-surface}
+Any standard bridge for $\ObjectKnowledgeCertificateUp$ must preserve the displayed rows
+$$
+N,W,S,P,K,T,L,A,C,Q.
+$$
+In particular, it preserves object-name licensing through $N$, witness exposure through $W$, audit routing through $A$, ledger exposure through $L$, classifier transport through $C$, and the local $\NameCert_{\ObjectKnowledgeCertificateUp}$ row $Q$. It must not collapse the packet to an unlicensed object, a witness-free knowledge predicate, or a detached truth classifier.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:object-knowledge-certificate-carrier}. The displayed bridge domain is exactly the finite row family $N,W,S,P,K,T,L,A,C,Q$, so a bridge can preserve only those rows and cannot introduce an unlicensed object coordinate, anonymous truth predicate, or detached classifier.
+
+Apply \autoref{thm:object-knowledge-certificate-namecert-obligations} and \autoref{thm:object-knowledge-certificate-witness-exactness}. These keep object-name licensing on $N$, witness exposure on $W$, audit checking on $A$, and the local certificate row on $Q$.
+
+Finally use \autoref{thm:object-knowledge-certificate-nonescape} together with \autoref{thm:object-knowledge-certificate-public-export}. The public export is exhausted by the displayed rows, while nonescape rules out witness-free knowledge, unlicensed objects, hidden ledgers, and classifier-free identity. Hence every standard bridge obligation is over the stated surface.
+\end{proof}
+
 \falsifiablePrediction{If an object-knowledge export bypasses either the displayed five-field NameCert row or the displayed witness row, the packet is refuted.}
 
 \independenceWitness{namecertmorphism, classifiermorphism, semanticnamecert, namecert: none is bijective because this carrier binds object license, auditable witness, five-field certificate, classifier transport, ledger, and local naming as one packet.}
