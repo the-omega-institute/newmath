@@ -135,7 +135,7 @@ def test_all_fourteen_cards_consume_existing_owner_paths():
         assert not spec.owner_artifact.startswith("reports/canonical/experiment_stack_")
 
 
-def test_projected_cards_resolve_r6_owner_table_and_do_not_emit_card_artifact_owners():
+def test_projected_cards_resolve_owner_table_and_do_not_emit_card_artifact_owners():
     payload = build_experiment_stack_payload(root=Path("."), generated_at="fixture")
     rows = {row["card_id"]: row for row in payload["cards"]}
 

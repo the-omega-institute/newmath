@@ -6153,6 +6153,177 @@ def test_experiment_stack_cards_schema_index_and_fingerprint_inputs():
     }.issubset(input_paths)
 
 
+def test_run_reports_index_only_rewrites_summary_from_existing_reports(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    summary_path = tmp_path / "summary.json"
+    calls = []
+    expected = {
+        "schema_id": canonical.INDEX_SCHEMA_ID,
+        "generated_at": "2030-01-01T00:00:00+00:00",
+        "root": canonical.INDEX_ROOT,
+        "reports": [_index_row_for_spec(canonical._specs_by_name()["mixing-family-sweep"])],
+    }
+
+    def fake_write_index(*, generated_at, replacements=()):
+        calls.append(("index", generated_at, tuple(replacement["name"] for replacement in replacements)))
+        return expected | {"generated_at": generated_at}
+
+    monkeypatch.setattr(
+        canonical,
+        "_run_spec",
+        lambda spec, **_kwargs: (_ for _ in ()).throw(AssertionError(f"unexpected producer path: {spec.name}")),
+    )
+    monkeypatch.setattr(canonical, "_write_index_from_existing_reports", fake_write_index)
+
+    payload = canonical.run_reports(
+        only="index",
+        json_summary=str(summary_path),
+        generated_at="2030-01-01T00:00:00+00:00",
+    )
+
+    assert calls == [("index", "2030-01-01T00:00:00+00:00", ())]
+    assert payload == expected
+    assert json.loads(summary_path.read_text(encoding="utf-8")) == expected
+
+
+def test_run_reports_claim_artifact_consistency_only_accepts_alias_and_refreshes_index(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    summary_path = tmp_path / "summary.json"
+    calls = []
+    expected = {
+        "schema_id": canonical.INDEX_SCHEMA_ID,
+        "generated_at": "2030-01-01T00:00:00+00:00",
+        "reports": [],
+    }
+
+    def fake_consistency(*, root, generated_at, report_spec):
+        calls.append(("claim-artifact-consistency", root, generated_at, report_spec.name))
+        return {"status": "pass"}
+
+    def fake_write_index(*, generated_at, replacements=()):
+        calls.append(("index", generated_at, tuple(replacement["name"] for replacement in replacements)))
+        return expected | {"generated_at": generated_at}
+
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_claim_artifact_consistency",
+        types.SimpleNamespace(write_claim_artifact_consistency=fake_consistency),
+    )
+    monkeypatch.setattr(canonical, "_write_index_from_existing_reports", fake_write_index)
+
+    payload = canonical.run_reports(
+        only="claim_artifact_consistency",
+        json_summary=str(summary_path),
+        generated_at="2030-01-01T00:00:00+00:00",
+    )
+
+    assert calls == [
+        (
+            "claim-artifact-consistency",
+            tmp_path,
+            "2030-01-01T00:00:00+00:00",
+            "discovery-gated-transformer",
+        ),
+        ("index", "2030-01-01T00:00:00+00:00", ()),
+    ]
+    assert payload == expected
+    assert json.loads(summary_path.read_text(encoding="utf-8")) == expected
+
+
+def test_run_reports_claim_artifact_consistency_only_fails_closed_on_non_pass(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    calls = []
+
+    def fake_consistency(*, root, generated_at, report_spec):
+        calls.append(("claim-artifact-consistency", report_spec.name))
+        return {"status": "fail"}
+
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_claim_artifact_consistency",
+        types.SimpleNamespace(write_claim_artifact_consistency=fake_consistency),
+    )
+    monkeypatch.setattr(
+        canonical,
+        "_write_index_from_existing_reports",
+        lambda **_kwargs: (_ for _ in ()).throw(AssertionError("index must not refresh after failed consistency")),
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="claim-artifact-consistency",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
+    assert calls == [("claim-artifact-consistency", "discovery-gated-transformer")]
+
+
+@pytest.mark.parametrize("only", ["experiment-stack-cards", "experiment_stack_cards"])
+def test_run_reports_experiment_stack_cards_only_replaces_index_row(tmp_path, monkeypatch, only):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    calls = []
+    spec = canonical._specs_by_name()["experiment-stack-cards"]
+    result = _index_row_for_spec(spec)
+
+    def fake_run_spec(called, mode="changed", generated_at=None):
+        calls.append(("run-spec", called.name, mode, generated_at))
+        return result
+
+    def fake_write_index(*, generated_at, replacements=()):
+        calls.append(("index", generated_at, tuple(replacement["name"] for replacement in replacements)))
+        return {
+            "schema_id": canonical.INDEX_SCHEMA_ID,
+            "generated_at": generated_at,
+            "reports": list(replacements),
+        }
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_write_index_from_existing_reports", fake_write_index)
+
+    payload = canonical.run_reports(only=only, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == [
+        ("run-spec", "experiment-stack-cards", "changed", "2030-01-01T00:00:00+00:00"),
+        ("index", "2030-01-01T00:00:00+00:00", ("experiment-stack-cards",)),
+    ]
+    assert payload["reports"] == [result]
+
+
+def test_run_reports_experiment_stack_cards_only_fails_closed_on_non_pass(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["experiment-stack-cards"]
+    result = _index_row_for_spec(spec)
+    result["status"] = "fail"
+
+    monkeypatch.setattr(canonical, "_run_spec", lambda called, **_kwargs: result)
+    monkeypatch.setattr(
+        canonical,
+        "_write_index_from_existing_reports",
+        lambda **_kwargs: (_ for _ in ()).throw(AssertionError("index must not refresh after failed report")),
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="experiment-stack-cards",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
+
+
+def test_run_reports_only_unknown_report_fails_closed_without_running_producers(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    monkeypatch.setattr(
+        canonical,
+        "_run_spec",
+        lambda spec, **_kwargs: (_ for _ in ()).throw(AssertionError(f"unexpected producer path: {spec.name}")),
+    )
+
+    with pytest.raises(ValueError, match="unknown canonical report 'missing-report'"):
+        canonical.run_reports(only="missing-report", generated_at="2030-01-01T00:00:00+00:00")
+
+
 def test_run_reports_verify_fingerprints_does_not_cold_write_claim_graph_prerequisites(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _patch_lightweight_run_reports(monkeypatch)
