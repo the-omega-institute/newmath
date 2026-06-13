@@ -54,6 +54,14 @@ def traditionComparisonBoundaryFields : TraditionComparisonBoundaryUp → List B
       [source, landing, rejectedSurplus, distinction, transport, replay, provenance,
         localName]
 
+def traditionComparisonBoundaryClassifier : TraditionComparisonBoundaryUp → Prop
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  | TraditionComparisonBoundaryUp.mk _source landing rejectedSurplus distinction transport
+      replay provenance localName =>
+      hsame transport (append landing rejectedSurplus) ∧
+        Cont landing rejectedSurplus distinction ∧ Cont distinction transport replay ∧
+          hsame provenance provenance ∧ hsame localName localName
+
 def traditionComparisonBoundaryToEventFlow : TraditionComparisonBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => List.map traditionComparisonBoundaryEncodeBHist (traditionComparisonBoundaryFields x)
