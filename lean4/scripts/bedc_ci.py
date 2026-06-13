@@ -13,6 +13,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -1784,6 +1785,41 @@ def detect_preamble_duplicate_commands() -> list[dict[str, object]]:
             continue
         duplicates.append({"name": name, "occurrences": occurrences})
     return duplicates
+
+
+def run_marker_uniqueness_check() -> tuple[list[dict[str, object]], str]:
+    script = PAPER_ROOT / "scripts" / "check_marker_uniqueness.py"
+    try:
+        result = subprocess.run(
+            [sys.executable, str(script)],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except OSError as exc:
+        output = f"[bedc-ci] marker uniqueness check failed to run: {exc}\n"
+        return (
+            [{
+                "kind": "marker_uniqueness_subprocess_error",
+                "script": str(script.relative_to(REPO_ROOT)),
+                "returncode": 1,
+                "output": output,
+            }],
+            output,
+        )
+    output = (result.stdout or "") + (result.stderr or "")
+    if result.returncode == 0:
+        return [], ""
+    return (
+        [{
+            "kind": "marker_uniqueness_failure",
+            "script": str(script.relative_to(REPO_ROOT)),
+            "returncode": result.returncode,
+            "output": output,
+        }],
+        output,
+    )
 
 
 def _get_commit_changed_files() -> set[str] | None:
@@ -6710,25 +6746,54 @@ def _run_structural_dna_expr_fingerprints(
             check=False,
         )
         if build.returncode != 0:
+            _print_structural_dna_subprocess_diag(
+                "expr-build-failed",
+                build.returncode,
+                build.stderr,
+            )
+            time.sleep(3)
+            build = subprocess.run(
+                ["lake", "build", "structural_dna"],
+                cwd=LEAN_ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+        if build.returncode != 0:
             return {}
     request = {
         "imports": list(imports),
         "decls": requested,
     }
-    result = subprocess.run(
-        ["lake", "env", str(STRUCTURAL_DNA_EXE)],
-        cwd=LEAN_ROOT,
-        input=json.dumps(request, ensure_ascii=False),
-        text=True,
-        capture_output=True,
-        check=False,
+    result, raw, failure = _run_structural_dna_json_request(request)
+    out = _structural_dna_expr_fingerprints_from_payload(raw) if raw is not None else {}
+    if out:
+        return out
+    failure = failure or "empty"
+    _print_structural_dna_subprocess_diag(
+        f"expr-fingerprints-{failure}",
+        result.returncode,
+        result.stderr,
+        result.stdout,
     )
-    if result.returncode != 0:
-        return {}
-    try:
-        raw = json.loads(result.stdout or "{}")
-    except json.JSONDecodeError:
-        return {}
+    time.sleep(3)
+    result, raw, failure = _run_structural_dna_json_request(request)
+    out = _structural_dna_expr_fingerprints_from_payload(raw) if raw is not None else {}
+    if out:
+        return out
+    failure = failure or "empty"
+    _print_structural_dna_subprocess_diag(
+        f"expr-fingerprints-{failure}-after-retry",
+        result.returncode,
+        result.stderr,
+        result.stdout,
+    )
+    return {}
+
+
+def _structural_dna_expr_fingerprints_from_payload(
+    raw: object,
+) -> dict[str, ExprFingerprint]:
     out: dict[str, ExprFingerprint] = {}
     if not isinstance(raw, dict):
         return out
@@ -6753,6 +6818,64 @@ def _run_structural_dna_expr_fingerprints(
                 canonical_reduced_payload=canonical_reduced_payload,
             )
     return out
+
+
+def _print_structural_dna_subprocess_diag(
+    context: str,
+    returncode: int,
+    stderr: str = "",
+    stdout: str = "",
+) -> None:
+    tail = _text_snippet(stderr or stdout or "", limit=300)
+    suffix = f" stderr_tail={tail}" if tail else " stderr_tail="
+    print(f"[bedc-ci] structural_dna {context}: rc={returncode}{suffix}", file=sys.stderr)
+
+
+def _run_structural_dna_json_request(
+    request: dict[str, object],
+) -> tuple[subprocess.CompletedProcess[str], object | None, str]:
+    result = subprocess.run(
+        ["lake", "env", str(STRUCTURAL_DNA_EXE)],
+        cwd=LEAN_ROOT,
+        input=json.dumps(request, ensure_ascii=False),
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return result, None, "rc"
+    if not (result.stdout or "").strip():
+        return result, None, "empty-json"
+    try:
+        return result, json.loads(result.stdout), ""
+    except json.JSONDecodeError:
+        return result, None, "bad-json"
+
+
+def _run_structural_dna_json_request_with_retry(
+    request: dict[str, object],
+    context: str,
+) -> tuple[subprocess.CompletedProcess[str] | None, object | None, str]:
+    result, raw, failure = _run_structural_dna_json_request(request)
+    if not failure:
+        return result, raw, ""
+    _print_structural_dna_subprocess_diag(
+        f"{context}-{failure}",
+        result.returncode,
+        result.stderr,
+        result.stdout,
+    )
+    time.sleep(3)
+    result, raw, failure = _run_structural_dna_json_request(request)
+    if failure:
+        _print_structural_dna_subprocess_diag(
+            f"{context}-{failure}-after-retry",
+            result.returncode,
+            result.stderr,
+            result.stdout,
+        )
+        return result, None, failure
+    return result, raw, ""
 
 
 def _structural_dna_relation_unavailable(
@@ -6791,6 +6914,20 @@ def _ensure_structural_dna_relation_exe() -> tuple[bool, dict[str, object] | Non
         capture_output=True,
         check=False,
     )
+    if build.returncode != 0:
+        _print_structural_dna_subprocess_diag(
+            "relation-build-failed",
+            build.returncode,
+            build.stderr,
+        )
+        time.sleep(3)
+        build = subprocess.run(
+            ["lake", "build", "structural_dna"],
+            cwd=LEAN_ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
     if build.returncode != 0:
         return False, _structural_dna_build_failure_note(build)
     if not STRUCTURAL_DNA_EXE.exists():
@@ -6864,26 +7001,25 @@ def _run_structural_dna_relations(
             "priors": prior_names,
         },
     }
-    result = subprocess.run(
-        ["lake", "env", str(STRUCTURAL_DNA_EXE)],
-        cwd=LEAN_ROOT,
-        input=json.dumps(request, ensure_ascii=False),
-        text=True,
-        capture_output=True,
-        check=False,
+    result, raw, failure = _run_structural_dna_json_request_with_retry(
+        request,
+        "relation-request",
     )
-    if result.returncode != 0:
-        return [], _structural_dna_relation_unavailable(
-            "structural_dna_relation_request_failed",
-            _text_snippet((result.stderr or "") + "\n" + (result.stdout or "")),
-            returncode=result.returncode,
+    if result is None or raw is None:
+        detail = (
+            "structural_dna_relation_json_invalid"
+            if failure in {"bad-json", "empty-json"}
+            else "structural_dna_relation_request_failed"
         )
-    try:
-        raw = json.loads(result.stdout or "{}")
-    except json.JSONDecodeError:
         return [], _structural_dna_relation_unavailable(
-            "structural_dna_relation_json_invalid",
-            _text_snippet(result.stdout or result.stderr or ""),
+            detail,
+            _text_snippet(((result.stderr or "") + "\n" + (result.stdout or "")) if result else ""),
+            returncode=result.returncode if result else None,
+        )
+    if not isinstance(raw, dict):
+        return [], _structural_dna_relation_unavailable(
+            "structural_dna_relation_payload_not_object",
+            type(raw).__name__,
             returncode=result.returncode,
         )
     return _structural_dna_relations_from_payload(raw, returncode=result.returncode)
@@ -11092,6 +11228,7 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
     ]
     case_collisions = detect_case_collision_paths()
     preamble_duplicate_commands = detect_preamble_duplicate_commands()
+    marker_uniqueness_failures, marker_uniqueness_output = run_marker_uniqueness_check()
     concrete_number_collisions = detect_concrete_instance_number_collisions()
     concrete_missing_origin = detect_concrete_instance_missing_origin()
     paper_chapter_origin_tags = detect_paper_chapter_origin_tags()
@@ -11164,6 +11301,9 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         "forbidden_construct_count": len(forbidden),
         "duplicate_part_labels": duplicate_part_labels,
         "missing_marker_targets": missing_marker_targets,
+        "marker_uniqueness_failures": marker_uniqueness_failures,
+        "marker_uniqueness_failure_count": len(marker_uniqueness_failures),
+        "marker_uniqueness_output": marker_uniqueness_output,
         "case_collisions": case_collisions,
         "closurestatus_blocks_total": len(closurestatus_blocks),
         "closurestatus_blocks": closurestatus_blocks,
@@ -11371,6 +11511,8 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 locs = label_to_files.get(label, [])
                 loc_str = ", ".join(locs) if locs else f"appears {count} times"
                 print(f"  {label}  @ {loc_str}")
+        if payload["marker_uniqueness_failures"]:
+            print(payload["marker_uniqueness_output"], end="")
         if payload["case_collisions"]:
             print(
                 "[bedc-ci] case-only-different paths in git index: "
@@ -11654,6 +11796,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         payload["forbidden_construct_count"]
         + payload["missing_marker_targets_new_count"]
         + len(payload["duplicate_part_labels"])
+        + payload["marker_uniqueness_failure_count"]
         # Case-only index collisions have no legacy-safe state: they poison every
         # case-insensitive checkout with APFS-style phantom dirty paths.
         + payload["case_collisions_count"]

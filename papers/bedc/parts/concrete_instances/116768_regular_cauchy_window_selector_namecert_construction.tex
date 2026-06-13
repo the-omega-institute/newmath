@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyWindowSelectorUp$}
+\label{ch:concrete-instances-regular-cauchy-window-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\RegularCauchyWindowSelectorUp$ packet records the finite window-selection surface used when a regular Cauchy name is inspected at a displayed dyadic tolerance. It sits between the finite $\StreamNameUp$ window route of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the tail selector of \autoref{ch:concrete-instances-regular-cauchy-tail-window-selector-namecert}. The packet selects one finite inspection window already justified by the displayed regular-Cauchy data; it is not a quotient stream equality, a selected limit, a host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness principle.
+
+\begin{definition}[Regular Cauchy window selector carrier]
+\label{def:regular-cauchy-window-selector-carrier}
+A $\RegularCauchyWindowSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+W=(D,S,R,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row naming the finite precision demand.
+\item $S$ is the $\StreamNameUp$ finite window row inspected for that demand.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback attached to $S$.
+\item $T$ is the $\RegularCauchyTailWindowSelectorUp$ tail-window row certifying that $S$ is admitted by the displayed regular-Cauchy route.
+\item $E$ is the $\RealUp$ seal row reached only after $D,S,R,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tolerance, window, readback, tail-selector, and seal rows.
+\item $C$ records displayed $\Cont$ replay of the same finite selection route.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyWindowSelectorUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyTailWindowSelectorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyWindowSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,T,E,H,C,P,N$. It contains no coordinate for quotient stream equality, selected limits, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy window selector NameCert obligations]
+\label{thm:regular-cauchy-window-selector-namecert-obligations}
+For every accepted $\RegularCauchyWindowSelectorUp$ carrier $W=(D,S,R,T,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyWindowSelectorUp}$ surface consists exactly of dyadic tolerance admission, finite stream-window exposure, regular rational readback, tail-window selection, terminal Real sealing, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-window-selector-carrier}. The rows $D,S,R,T,E,H,C,P,N$ are the whole selector packet, so the local naming surface is finite and displayed.
+
+The selection route is read in order. The dyadic row fixes the demanded tolerance, the stream row exposes the inspected finite window, and the regular rational row reads the associated rational data.
+
+The tail-window row $T$ then records that this finite window is admitted by the existing $\RegularCauchyTailWindowSelectorUp$ route. The rows $E,H,C,P,N$ seal, transport, replay, source, and name the same finite route, leaving no separate coordinate for a choice schedule or hidden limit.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy window selector Real seal]
+\label{thm:regular-cauchy-window-selector-real-seal}
+Every $\RealUp$-facing consumer of an accepted $\RegularCauchyWindowSelectorUp$ packet reads the seal row $E$ only after the displayed route
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RegularCauchyTailWindowSelectorUp,\quad \RealUp
+$$
+has exposed the rows $D,S,R,T,E,H,C,P,N$. The seal is a finite BEDC-native window-selection certificate for downstream $\RegSeqRatUp$ and $\RealUp$ arguments; it does not claim quotient stream equality, selected limits, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-cauchy-window-selector-namecert-obligations}. They place the dyadic tolerance, stream window, regular rational readback, and tail-window selector before any Real-facing row can be consumed.
+
+Read the tail selector through \autoref{ch:concrete-instances-regular-cauchy-tail-window-selector-namecert}. That sibling supplies the finite tail admission used by $T$, while the present packet binds the admitted window to the single Real seal row $E$.
+
+The carrier is exhausted by $D,S,R,T,E,H,C,P,N$. Since no row names a quotient stream, selected limit, host real equality, countable-choice enumeration, trichotomy proof, or ambient completeness theorem, the seal remains a finite window-selection certificate.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyWindowSelectorUp$ consumer is refuted if it reaches a Real-facing seal before displaying the dyadic tolerance, StreamName window, RegSeqRat readback, RegularCauchyTailWindowSelector row, Real seal, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real, regular-cauchy-tail-window-selector: $\RegularCauchyWindowSelectorUp$ is not bijective to any listed sibling because it binds a precision demand, one finite stream window, regular rational readback, tail-window admission, Real sealing, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one accepted window-selection packet.}
+
+\closureat{RegularCauchyWindowSelectorUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyWindowSelectorUp}
+  \constructivestory{A $\RegularCauchyWindowSelectorUp$ packet is generated from DyadicRatCore tolerance rows, StreamName finite windows, RegSeqRat readback, a RegularCauchyTailWindowSelector row, RealUp sealing, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-window-selector-carrier}, \autoref{thm:regular-cauchy-window-selector-namecert-obligations}, and \autoref{thm:regular-cauchy-window-selector-real-seal} seed the finite window-selection route for regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, host real equality, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exposure, dyadic tolerance coverage, RegSeqRat readback, tail-window admission, Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyWindowSelectorUp.}
+\end{closurestatus}

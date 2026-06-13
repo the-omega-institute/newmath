@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\DualityMappingUp$}
+\label{ch:concrete-instances-duality-mapping-namecert}
+\origin{human}
+
+Following Browder and Cioranescu, the $\DualityMappingUp$ packet records the normalized duality mapping of a displayed normed or Hilbert-facing carrier as finite NameCert data. It sits over the Banach carrier of \autoref{ch:concrete-instances-banachspace-namecert}, the dual-row interface of \autoref{ch:concrete-instances-banach-dual-namecert}, the norm readback surface of \autoref{ch:concrete-instances-norm-namecert}, the Hilbert specialization of \autoref{ch:concrete-instances-hilbert-namecert}, and convex admissible domains named by \autoref{ch:concrete-instances-convexset-namecert}. The packet names the pairing and norm-equality obligations without importing a Hahn--Banach selector or a host dual-space theorem.
+
+\begin{definition}[Duality mapping carrier]
+\label{def:duality-mapping-carrier}
+A $\DualityMappingUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,X^\ast,N,J,E,Q,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\BanachSpaceUp$ source row, or the $\HilbertUp$ source row when the normalized duality map is read through the Hilbert inner-product specialization.
+\item $X^\ast$ is the $\BanachDualUp$ row naming the admitted dual observations available to the packet.
+\item $N$ is the $\NormUp$ row for source and dual norms, including the Real-valued norm endpoints used by the normalized condition.
+\item $J$ is the graph row of the normalized duality mapping, relating each displayed source point to the admitted dual row that witnesses the mapping read.
+\item $E$ is the norm-pairing exactness row, recording the displayed equalities between the pairing, the source norm square, and the dual norm product.
+\item $Q$ is the admissible-domain row, read through $\ConvexSetUp$ when the mapping is consumed by monotonicity, variational-inequality, or convex-analysis packets.
+\item $H$ records componentwise $\hsame$ transport for source, dual, norm, graph, exactness, admissible-domain, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the source and dual rows through the normalized graph and exactness checks.
+\item $P$ is the $\Pkg$ provenance over $\DualityMappingUp$, $\BanachSpaceUp$, $\BanachDualUp$, $\NormUp$, $\HilbertUp$, $\ConvexSetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\DualityMappingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a choice-selected norming functional, a global Hahn--Banach extension, quotient dual equality, weak-star compactness, or an ambient Banach-dual existence theorem.
+\end{definition}
+
+\begin{theorem}[Duality mapping NameCert obligations]
+\label{thm:duality-mapping-namecert-obligations}
+For every accepted $\DualityMappingUp$ carrier $D=(X,X^\ast,N,J,E,Q,H,C,P,L)$, the local $\NameCert_{\DualityMappingUp}$ surface consists exactly of carrier admission, dual-row admission, norm-pairing exactness, transport, replay, provenance, and non-escape of Hahn--Banach choice.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the source row $X$ and the norm row $N$. The packet may be consumed through $\BanachSpaceUp$ or through the $\HilbertUp$ specialization, but the source endpoint and norm readback remain displayed rows of the same finite carrier.
+
+Dual-row admission projects $X^\ast$ and the graph row $J$. A consumer reads only the dual observations already named in the $\BanachDualUp$ row, and the normalized mapping graph records which admitted dual row is paired with the displayed source point.
+
+Norm-pairing exactness is the role of $E$. The pairing value, source norm, and dual norm are all read through $N$ and sealed as displayed Real-valued data, so exactness is a packet row rather than a host dual-space equality.
+
+Transport, replay, and provenance are carried by $H,C,P,L$. They preserve the same source, dual, norm, graph, exactness, and admissible-domain rows when a $\ConvexSetUp$ or Hilbert-facing consumer reuses the mapping.
+
+Finally, Hahn--Banach choice is outside the carrier. Since no row of $D$ stores a selected norming functional, an extension selector, quotient dual equality, weak-star compactness, or an ambient Banach-dual existence theorem, the local $\NameCert$ surface cannot export any of those objects.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DualityMappingUp$ read must expose the $\BanachSpaceUp$ or $\HilbertUp$ source row, the $\BanachDualUp$ dual row, the $\NormUp$ exactness row, the graph row, the $\ConvexSetUp$ admissible-domain row when used, $\BHist$ transport, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before any normalized duality-mapping conclusion is public.}
+
+\independenceWitness{banachspace, banachdual, norm, hilbert, convexset: $\DualityMappingUp$ is not bijective to any listed sibling because it jointly records source admission, dual-row admission, normalized norm-pairing exactness, graph replay, convex-domain handoff, transport, provenance, and local naming while refusing choice-selected norming functionals and Hahn--Banach extension data.}
+
+\closureat{DualityMappingUp}{seedStr}
+
+\begin{closurestatus}{\DualityMappingUp}
+  \constructivestory{A $\DualityMappingUp$ packet is generated from a displayed BanachSpaceUp or HilbertUp source row, a BanachDualUp row, NormUp source and dual norm readbacks, a normalized graph row, a norm-pairing exactness row, an optional ConvexSetUp admissible-domain row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:duality-mapping-carrier} and \autoref{thm:duality-mapping-namecert-obligations} seed the finite normalized duality-mapping packet over displayed Banach, dual, norm, Hilbert, and convex-domain rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close maximal monotonicity, smoothness of Banach spaces, strict convexity, reflexivity, weak-star compactness, Hahn--Banach extension, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dual-row admission, norm-pairing exactness, convex-domain handoff, transport, replay, provenance, and Hahn--Banach non-escape for BEDC.Derived.DualityMappingUp.}
+\end{closurestatus}

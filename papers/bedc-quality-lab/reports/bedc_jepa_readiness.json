@@ -1,0 +1,53 @@
+{
+  "blocking_gates": [],
+  "decision": "external_bundle_ready",
+  "evidence_boundary": {
+    "artifact_review_bundle": "closed",
+    "checkpoint_contact": "closed",
+    "native_public_benchmark": "closed"
+  },
+  "gates": {
+    "artifact_review_bundle": {
+      "evidence": "reports/bedc_jepa_review_bundle.json",
+      "requirement": "clean external review artifact bundle",
+      "status": "pass"
+    },
+    "local_visual_planning": {
+      "evidence": "reports/bedc_jepa_four_system_experiment.json",
+      "requirement": "local visual planning with learned transition and risk-adjusted gain",
+      "status": "pass"
+    },
+    "native_public_jepa_benchmark": {
+      "evidence": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
+      "requirement": "native public MiniGrid S0/S1/S2/S3 benchmark",
+      "status": "pass"
+    },
+    "object_counterfactual_clutter": {
+      "evidence": "reports/bedc_jepa_four_system_experiment.json",
+      "requirement": "object-level counterfactual readback under clutter",
+      "status": "pass"
+    },
+    "public_jepa_checkpoint_contact": {
+      "evidence": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
+      "requirement": "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+      "status": "pass"
+    },
+    "public_minigrid_execution": {
+      "evidence": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
+      "requirement": "executed public MiniGrid DoorKey readback/gap benchmark",
+      "status": "pass"
+    },
+    "torch_objective_seed_sweep": {
+      "evidence": "reports/bedc_jepa_torch_objective.json",
+      "requirement": "stable BEDC objective gain without latent R2 change",
+      "status": "pass"
+    }
+  },
+  "next_actions": [
+    "run native V-JEPA2-AC latent-prediction or rollout protocol on the public MiniGrid observation/action stream",
+    "record baseline commit, checkpoint, dataset, command line, and native metric contract",
+    "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
+    "run a public object-interaction benchmark with natural clutter or control"
+  ],
+  "schema_id": "bedc-jepa-readiness"
+}

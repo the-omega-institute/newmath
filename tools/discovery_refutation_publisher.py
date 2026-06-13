@@ -381,14 +381,6 @@ def ensure_publish_worktree() -> bool:
     return True
 
 
-def copy_ledgers_to_publish_worktree() -> None:
-    for rel in ALLOWED_LEDGER_RELS:
-        source = REPO_ROOT / rel
-        dest = PUBLISH_WORKTREE / rel
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, dest)
-
-
 def ledger_diff_exists(cwd: Path) -> bool:
     status = git("status", "--porcelain", "--", *(str(rel) for rel in ALLOWED_LEDGER_RELS), cwd=cwd)
     if status.returncode == 0 and status.stdout.strip():
@@ -444,11 +436,6 @@ def push_to_origin(target_branch: str) -> bool:
 
 
 def commit_and_maybe_push(*, no_push: bool) -> tuple[bool, str]:
-    if no_push:
-        return True, "push skipped"
-    if not ensure_publish_worktree():
-        return False, "publish worktree unavailable"
-    copy_ledgers_to_publish_worktree()
     if not ledger_diff_exists(PUBLISH_WORKTREE):
         return True, "no ledger changes"
     changed = touched_paths(PUBLISH_WORKTREE)
@@ -473,24 +460,28 @@ def commit_and_maybe_push(*, no_push: bool) -> tuple[bool, str]:
     return False, f"committed {commit_ref}; push failed"
 
 
-def build_ledgers() -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def build_ledgers(
+    ledger_root: Path,
+    *,
+    radar_payload: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     timestamp = now_iso()
     build_failure = ensure_structural_dna_build(append_log=append_log, label="refutation")
     if build_failure is not None:
         raise RuntimeError(build_failure)
-    payload = load_radar_payload()
+    payload = radar_payload if radar_payload is not None else load_radar_payload()
     degraded = radar_degraded_reason(payload)
     if degraded is not None:
         raise RuntimeError(f"discovery-radar degraded or empty: {degraded}")
     current_records = refutation_records_from_payload(payload, timestamp=timestamp)
     if not current_records:
         raise RuntimeError("discovery-radar returned no kernel-grounded refuted candidates")
-    json_path = REPO_ROOT / JSON_LEDGER_REL
+    json_path = ledger_root / JSON_LEDGER_REL
     existing = load_existing_ledger(json_path)
     records = merge_records(existing, current_records, timestamp=timestamp)
     content_changed = ledger_content_signature(existing) != ledger_content_signature(records)
     write_json_ledger(json_path, records)
-    write_markdown_ledger(REPO_ROOT / MD_LEDGER_REL, records)
+    write_markdown_ledger(ledger_root / MD_LEDGER_REL, records)
     summary = {
         "radar_refuted_count": int(payload.get("refuted_count") or 0),
         "kernel_grounded_records": len(current_records),
@@ -500,9 +491,11 @@ def build_ledgers() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     return records, summary
 
 
-def run_once(*, no_push: bool) -> bool:
+def run_once(*, no_push: bool, radar_payload: dict[str, Any] | None = None) -> bool:
     try:
-        _records, summary = build_ledgers()
+        if not ensure_publish_worktree():
+            raise RuntimeError("publish worktree unavailable")
+        _records, summary = build_ledgers(PUBLISH_WORKTREE, radar_payload=radar_payload)
         ok, message = commit_and_maybe_push(no_push=no_push)
         status = "OK" if ok else "WARN"
         append_log(

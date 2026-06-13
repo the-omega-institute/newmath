@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\DyadicDifferentiationBasisUp$}
+\label{ch:concrete-instances-dyadic-differentiation-basis-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real analysis and the classical dyadic basis used in differentiation theory, the $\DyadicDifferentiationBasisUp$ packet records the finite interval basis read before an L10 Real or Completion consumer asks for a local refinement. It sits over the dyadic arithmetic surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rational interval locator of \autoref{ch:concrete-instances-rational-interval-locator-namecert}, the dyadic interval cover of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite dyadic interval packets, rational locator rows, finite cover refinement rows, and Real seal handoffs; it is not a measure-theoretic differentiation theorem, a Vitali selection principle, quotient real equality, or ambient completeness.
+
+\begin{definition}[Dyadic differentiation basis carrier]
+\label{def:dyadic-differentiation-basis-carrier}
+A $\DyadicDifferentiationBasisUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,L,I,C,R,E,F,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and radius ledger, recording the admitted dyadic center, dyadic radius, positive tolerance, and endpoint comparisons for the requested interval.
+\item $L$ is the $\RationalIntervalLocatorUp$ row, locating the same request inside a rational interval window before any Real-facing read occurs.
+\item $I$ is the finite dyadic interval packet: a displayed lower endpoint, upper endpoint, radius, center, and containment witness over $D$ and $L$.
+\item $C$ is the $\DyadicIntervalCoverUp$ row that stores the finite family of dyadic intervals covering the inspected rational window.
+\item $R$ is the refinement ledger, recording finite subinterval choices, containment checks, radius shrinkage, and common-refinement comparisons inside the cover row $C$.
+\item $E$ is the terminal $\RealUp$ seal row. It is opened only after $D,L,I,C,R$ have displayed the dyadic interval packet and its finite refinement route.
+\item $F$ is the consumer handoff row for L10 Real and Completion routes; it records that local basis reads pass through the displayed interval packet before any dense, cover, or completion-facing consumer sees a basis element.
+\item $H$ records componentwise $\hsame$ transport for dyadic endpoints, rational locator rows, interval packets, cover rows, refinement rows, Real seals, consumer handoffs, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay from a local Real request through $D,L,I,C,R$ and then to $E,F$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicDifferentiationBasisUp$, $\DyadicRatCoreUp$, $\RationalIntervalLocatorUp$, $\DyadicIntervalCoverUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicDifferentiationBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted basis packets only through these rows. It has no coordinate for a Vitali selector, an ambient sigma-algebra, a measure derivative, quotient real equality, countable choice, or Real completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic differentiation basis NameCert obligations]
+\label{thm:dyadic-differentiation-basis-obligations}
+For every accepted $\DyadicDifferentiationBasisUp$ carrier
+$$
+B=(D,L,I,C,R,E,F,H,K,P,N),
+$$
+the local $\NameCert_{\DyadicDifferentiationBasisUp}$ surface consists exactly of carrier admission, dyadic endpoint and radius admission, rational interval location, finite dyadic interval packet formation, finite cover admission, refinement exactness, terminal $\RealUp$ seal nonescape, L10 consumer handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are exactly the dyadic ledger $D$, rational locator $L$, interval packet $I$, finite cover $C$, refinement ledger $R$, terminal Real seal $E$, and consumer handoff $F$.
+
+The dyadic endpoint and radius data are read first. The row $D$ fixes the scale and endpoint comparisons, while $L$ locates the request inside a rational interval window before any basis element can be exported.
+
+The interval and cover rows then provide the basis surface. The packet row $I$ gives a displayed dyadic interval, and $C$ records the finite cover family in which refinements are searched.
+
+The refinement ledger $R$ is the only row that may shrink or compare basis intervals. It records finite subinterval choices and common-refinement checks before the terminal seal $E$ and L10 handoff $F$ are public.
+
+Finally $H,K,P,N$ transport, replay, source, and name the same route. Since the carrier has no row for Vitali selection, measure derivatives, quotient equality, countable choice, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic differentiation basis finite refinement]
+\label{thm:dyadic-differentiation-basis-finite-refinement}
+Every accepted $\DyadicDifferentiationBasisUp$ read that refines a local Real or Completion request factors through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \RationalIntervalLocatorUp \longmapsto \DyadicIntervalCoverUp \longmapsto \RealUp .
+$$
+For a carrier $B=(D,L,I,C,R,E,F,H,K,P,N)$, the consumer first reads the dyadic endpoint and radius ledger $D$, then the rational locator $L$, then the interval packet $I$, then the finite cover and refinement rows $C,R$, and only then the terminal Real seal $E$ and L10 handoff $F$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection of \autoref{def:dyadic-differentiation-basis-carrier}. The request has no public basis element before $D,L,I,C,R$ are displayed.
+
+Read the dyadic and rational rows first. The dyadic ledger $D$ fixes the scale of the endpoint and radius comparisons, and the rational locator $L$ places the same request in a displayed rational interval window.
+
+Next open the finite cover. The interval packet $I$ is one displayed dyadic interval over the locator row, and the cover row $C$ is the finite family from which refinements are selected.
+
+Use the refinement ledger $R$ for shrinkage and common-refinement comparisons. Because $R$ records only finite subinterval choices inside $C$, the route remains a finite dyadic basis route rather than a Vitali or measure-theoretic selection.
+
+The terminal Real seal $E$ and handoff $F$ are therefore downstream of the finite basis packet. The structural rows $H,K,P,N$ preserve that order and add no quotient real equality, countable choice, ambient completeness, or measure derivative coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicDifferentiationBasisUp$ L10 Real or Completion read exposes a DyadicRatCore endpoint-radius ledger, a RationalIntervalLocator row, a finite dyadic interval packet, a DyadicIntervalCover row, a refinement ledger, a RealUp seal, a consumer handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any basis element is public.}
+
+\independenceWitness{dyadicratcore, rationalintervallocator, dyadicintervalcover, real: $\DyadicDifferentiationBasisUp$ is not bijective to any listed sibling because it jointly carries endpoint-radius ledgers, locator rows, finite interval packets, finite cover rows, refinement ledgers, Real seal handoff, L10 consumer routing, transport, replay, provenance, and local naming as one finite basis certificate.}
+
+\closureat{DyadicDifferentiationBasisUp}{seedStr}
+
+\begin{closurestatus}{\DyadicDifferentiationBasisUp}
+  \constructivestory{A $\DyadicDifferentiationBasisUp$ packet is generated from DyadicRatCore endpoint and radius rows, a RationalIntervalLocator row, a finite dyadic interval packet, a DyadicIntervalCover row, finite refinement rows, a Real seal, an L10 consumer handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-differentiation-basis-carrier}, \autoref{thm:dyadic-differentiation-basis-obligations}, and \autoref{thm:dyadic-differentiation-basis-finite-refinement} seed the finite dyadic basis route over $\DyadicRatCoreUp$, $\RationalIntervalLocatorUp$, $\DyadicIntervalCoverUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure-theoretic differentiation, Vitali selection, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic endpoint-radius exactness, rational locator compatibility, finite cover refinement, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicDifferentiationBasisUp.}
+\end{closurestatus}

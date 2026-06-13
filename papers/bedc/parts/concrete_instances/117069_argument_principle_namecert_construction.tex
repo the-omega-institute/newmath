@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\ArgumentPrincipleUp$}
+\label{ch:concrete-instances-argument-principle-namecert}
+\origin{human}
+
+Following Cauchy's argument principle, the $\ArgumentPrincipleUp$ packet records the finite contour-and-winding ledger by which a holomorphic input with displayed zero and pole boundary data can be read as a certified counting relation. It sits after the complex carrier of \autoref{ch:concrete-instances-complex-namecert}, the holomorphic source of \autoref{ch:concrete-instances-holomorphic-namecert}, the contour-integral operation of \autoref{ch:concrete-instances-contourintegraloperation-namecert}, the residue-facing handoff of \autoref{ch:concrete-instances-contour-residue-handoff-namecert}, and the reparameterization ledger of \autoref{ch:concrete-instances-contour-reparameterization-ledger-namecert}. The packet exposes only finite contour, meromorphic boundary, winding-count, residue-handoff, transport, replay, provenance, and local naming rows; it does not import a host path quotient, an analytic-continuation principle, or an unregistered zero-counting theorem.
+
+\begin{definition}[Argument principle carrier]
+\label{def:argument-principle-carrier}
+An $\ArgumentPrincipleUp$ carrier is a finite $\BHist$ packet
+$$
+A=(G,F,Z,P_0,W,I,R,Q,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\mathsf{PLContour}$ row with $\ComplexUp$ endpoints, segment rows, and a displayed non-boundary locus for zeros and poles.
+\item $F$ is the $\HolomorphicUp$ row on the displayed contour neighbourhood outside the recorded pole locus.
+\item $Z$ is the finite zero ledger, listing local zero witnesses and multiplicity rows that are visible to the packet.
+\item $P_0$ is the finite pole ledger, listing local pole witnesses and order rows that are visible to the packet.
+\item $W$ is the winding-number row computed from the contour row and the displayed zero-pole boundary data.
+\item $I$ is the $\ContourIntegralOperationUp$ row for the logarithmic-derivative contour read.
+\item $R$ is the $\ContourResidueHandoffUp$ row that exposes the corresponding residue-facing data.
+\item $Q$ is the $\ContourReparameterizationLedgerUp$ row recording that allowed contour refinements preserve the same visible winding and integral rows.
+\item $H$ records componentwise $\hsame$ transport for $G,F,Z,P_0,W,I,R,Q$.
+\item $C$ records displayed $\Cont$ replay for contour, holomorphic, zero, pole, winding, integral, residue, reparameterization, provenance, and naming reads.
+\item $K$ is $\Pkg$ provenance over $\ArgumentPrincipleUp$, $\ComplexUp$, $\HolomorphicUp$, $\ContourIntegralOperationUp$, $\ContourResidueHandoffUp$, $\ContourReparameterizationLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ArgumentPrincipleUp}$ row.
+\end{enumerate}
+The classifier accepts only packets with these displayed rows. It has no coordinate for quotient path equality, analytic continuation outside the displayed domain, unbounded zero searches, or a host meromorphic-function object.
+\end{definition}
+\leandef{BEDC.Derived.ArgumentPrincipleUp.ArgumentPrincipleUp}
+
+\begin{theorem}[Argument principle NameCert obligations]
+\label{thm:argument-principle-namecert-obligations}
+For the carrier of \autoref{def:argument-principle-carrier}, the local $\NameCert_{\ArgumentPrincipleUp}$ surface consists exactly of carrier admission, contour exposure, holomorphic-source exposure, zero-ledger exposure, pole-ledger exposure, winding-number exposure, contour-integral operation exposure, residue-handoff exposure, reparameterization-ledger exposure, componentwise transport, displayed replay, provenance, and local naming. An argument-principle consumer receives no host path quotient, analytic-continuation oracle, unbounded zero search, or global meromorphic-function principle.
+\end{theorem}
+\begin{proof}
+Project the carrier. The contour row $G$, holomorphic row $F$, zero ledger $Z$, pole ledger $P_0$, winding row $W$, integral row $I$, residue handoff $R$, and reparameterization ledger $Q$ are the only analytic coordinates available to the local certificate.
+
+The counting read is therefore forced through the displayed zero and pole ledgers before it may inspect the winding row. The contour-integral operation and residue handoff expose the corresponding logarithmic-derivative route, while the reparameterization ledger keeps permitted contour refinements attached to the same visible rows.
+
+Transport, replay, provenance, and local naming preserve this finite inventory. Since the packet contains no coordinate for quotient path equality, analytic continuation outside the displayed domain, unbounded zero search, or a host meromorphic-function object, none of those objects can be exported by the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Argument principle winding-number route]
+\label{thm:argument-principle-winding-number-route}
+Let $A=(G,F,Z,P_0,W,I,R,Q,H,C,K,N)$ be an accepted $\ArgumentPrincipleUp$ carrier. Every consumer that reads the argument-principle count must first expose the $\ComplexUp$ contour endpoints in $G$, the $\HolomorphicUp$ source row $F$, the finite zero ledger $Z$, the finite pole ledger $P_0$, the winding-number row $W$, the $\ContourIntegralOperationUp$ row $I$, the $\ContourResidueHandoffUp$ row $R$, the $\ContourReparameterizationLedgerUp$ row $Q$, and the structural rows $H,C,K,N$. The resulting route identifies the visible winding count with the displayed zero-minus-pole ledger count without using a host path quotient or analytic-continuation principle.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They expose $G,F,Z,P_0,W,I,R,Q,H,C,K,N$ as the complete carrier surface for any public count read.
+
+The zero and pole ledgers provide the finite counting side, while the winding row records the contour-facing count. The contour-integral operation row supplies the logarithmic-derivative read, and the residue handoff ties that read to the displayed local residue data.
+
+Finally use the reparameterization ledger to transport allowed refinements back to the same displayed contour surface. Componentwise $\hsame$ transport and $\Cont$ replay keep all rows under the same provenance and local naming certificate, so the consumer obtains only the finite winding-count route displayed by the packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ArgumentPrincipleUp$ count read is refuted if it omits any displayed contour row, holomorphic row, zero ledger, pole ledger, winding row, contour-integral operation row, residue-handoff row, reparameterization ledger, transport row, replay row, provenance row, or local $\NameCert$ row.}
+
+\independenceWitness{complex, holomorphic, contourintegraloperation, contour-residue-handoff, contour-reparameterization-ledger: none is bijective to $\ArgumentPrincipleUp$ because this packet jointly binds the visible zero and pole ledgers, winding row, logarithmic-derivative contour operation, residue handoff, contour-reparameterization ledger, transport, replay, provenance, and local naming.}
+
+\closureat{ArgumentPrincipleUp}{seedStr}
+
+\begin{closurestatus}{\ArgumentPrincipleUp}
+  \constructivestory{An $\ArgumentPrincipleUp$ packet is generated from a displayed PL-contour row, holomorphic source row, finite zero ledger, finite pole ledger, winding-number row, contour-integral operation row, residue-handoff row, reparameterization ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:argument-principle-carrier}, \autoref{thm:argument-principle-namecert-obligations}, and \autoref{thm:argument-principle-winding-number-route} seed the finite argument-principle carrier, obligation surface, and winding-count consumer route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient path equality, analytic continuation outside the displayed domain, unbounded zero search, or a host meromorphic-function theorem for $\ArgumentPrincipleUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, zero-ledger exposure, pole-ledger exposure, winding-row exactness, contour-integral routing, residue handoff, reparameterization stability, transport, replay, provenance, and local naming for BEDC.Derived.ArgumentPrincipleUp.}
+\end{closurestatus}

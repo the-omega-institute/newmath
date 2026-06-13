@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularRealRepresentationUp$}
+\label{ch:concrete-instances-bishop-regular-real-representation-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopRegularRealRepresentationUp$ packet records the regular Cauchy representation of a real name as finite BEDC data. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located-completion boundary of \autoref{ch:concrete-instances-bishoplocatedcompletionboundary-namecert}. The packet names a representation route for L10 Real and Completion consumers without asserting completeness, quotient real equality, trichotomy, countable choice, or host real primitives.
+
+\begin{definition}[Bishop regular real representation carrier]
+\label{def:bishop-regular-real-representation-carrier}
+A $\BishopRegularRealRepresentationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(W,Q,D,K,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ window ledger, exposing the finite inspected windows of the representing stream at requested precisions.
+\item $Q$ is the $\RegSeqRatUp$ source row, recording that the displayed windows are read as a regular rational sequence.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare displayed rational windows and record the regular Cauchy budget.
+\item $K$ is the regular closeness classifier, accepting only reads whose visible windows satisfy the dyadic tolerance rows required by the regular sequence discipline.
+\item $E$ is the $\RealUp$ seal row reached only after $W,Q,D,K$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for stream windows, regular rational source rows, dyadic tolerances, closeness classification, real sealing, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay along the route
+$$
+\DyadicRatCoreUp,\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto K \longmapsto \RealUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularRealRepresentationUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopLocatedCompletionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRegularRealRepresentationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,Q,D,K,E,H,C,P,N$. It has no coordinate for quotient real equality, a selected representative, trichotomy, countable choice, host real primitives, or ambient completeness of $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.BishopRegularRealRepresentationUp.TasteGate.BishopRegularRealRepresentationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bishop regular real representation NameCert obligations]
+\label{thm:bishop-regular-real-representation-namecert-obligations}
+For every accepted $\BishopRegularRealRepresentationUp$ carrier $R=(W,Q,D,K,E,H,C,P,N)$, the local $\NameCert_{\BishopRegularRealRepresentationUp}$ surface consists exactly of carrier admission for \autoref{def:bishop-regular-real-representation-carrier}, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ source readback, $\DyadicRatCoreUp$ tolerance comparison, regular closeness classification, $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The ledger nonescape obligation says that every tolerance, closeness, and seal read remains inside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The displayed coordinates are precisely $W,Q,D,K,E,H,C,P,N$, so carrier admission and local naming are finite row projections.
+
+The classifier side is $K$ together with $D$. It checks regular closeness only through the displayed dyadic tolerance ledger and the inspected stream windows, not through a host real comparison.
+
+The seal handoff is $E$. Since $C$ replays the route through $W,Q,D,K$ before $E$ is visible, a Real-facing read cannot bypass the StreamName, RegSeqRat, or DyadicRatCore rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. No remaining coordinate can export quotient real equality, trichotomy, countable choice, host real primitives, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Bishop regular real representation seal route]
+\label{thm:bishop-regular-real-representation-seal-route}
+Every $\RealUp$-facing read of an accepted $\BishopRegularRealRepresentationUp$ packet passes through the displayed route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+before the terminal seal row $E$ may be consumed. The route imports no quotient real equality, selected representative, trichotomy, countable-choice schedule, host real primitive, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the tolerance ledger. The row $D$ supplies the finite dyadic comparison budget used by the regular closeness classifier.
+
+Read the finite windows and regular source next. The row $W$ exposes the inspected $\StreamNameUp$ windows, and $Q$ records that those windows are consumed as a $\RegSeqRatUp$ source.
+
+Only then may the classifier and seal be read. The row $K$ accepts the visible regular closeness data, and $E$ is downstream of $W,Q,D,K$ by the continuation row $C$.
+
+The structural rows $H,C,P,N$ preserve that order for every consumer. Since the carrier has no additional equality, choice, trichotomy, host-real, or completeness coordinate, every Real-facing read remains inside the displayed seal route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopRegularRealRepresentationUp$ read exposes a $\DyadicRatCoreUp$ tolerance ledger, a $\StreamNameUp$ finite-window row, a $\RegSeqRatUp$ source row, a regular closeness classifier row, and a terminal $\RealUp$ seal before any Real or Completion consumer can use the representation.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, bishoplocatedcompletionboundary: none is bijective to $\BishopRegularRealRepresentationUp$ because this packet jointly carries stream windows, regular rational source rows, dyadic tolerance ledgers, regular closeness classification, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{BishopRegularRealRepresentationUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularRealRepresentationUp}
+  \constructivestory{A $\BishopRegularRealRepresentationUp$ packet is generated from StreamName windows, a RegSeqRat source row, a DyadicRatCore tolerance ledger, a regular closeness classifier, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-real-representation-carrier}, \autoref{thm:bishop-regular-real-representation-namecert-obligations}, and \autoref{thm:bishop-regular-real-representation-seal-route} seed the Bishop regular real representation packet over finite windows, regular rational readback, dyadic tolerance ledgers, closeness classification, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient real equality, trichotomy, countable choice, host real primitives, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, seal handoff, ledger nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopRegularRealRepresentationUp.}
+\end{closurestatus}

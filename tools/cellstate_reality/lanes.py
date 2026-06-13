@@ -2005,7 +2005,12 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                     history.append(_history_entry("needs_external", "blocked on external preconditions", external_preconditions=external_preconditions))
             summary["needs_external_this_cycle"] += 1
             continue
-        unmet = [dep for dep in id_deps if str(claim_by_id.get(dep, {}).get("status") or "") != "passed"]
+        # depends_on 是调度顺序门(等 dep 评估完成),不是有效性门。实验只读自身 required_data,
+        # 不消费 dep claim 的结果,其自身 gate 才决定 passed/needs_data。因此 dep 到达任一终态
+        # (passed/needs_data/needs_external/failed,即已被诚实评估)即放行下游;只在 dep 仍为 open
+        # 或未知时等待。否则一个永久 needs_data 的上游(如 n 不足的复现)会级联阻断整条独立分析链。
+        _dep_terminal = {"passed", "needs_data", "needs_external", "failed"}
+        unmet = [dep for dep in id_deps if str(claim_by_id.get(dep, {}).get("status") or "") not in _dep_terminal]
         if unmet:
             history = claim.setdefault("history", [])
             if isinstance(history, list):
@@ -3457,7 +3462,7 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"\newtheorem{lemma}[definition]{Lemma}",
         r"\newtheorem{proposition}[definition]{Proposition}",
         r"",
-        r"\title{CellStateReality: Reality-Bound Cell-State Promotion Deepening}",
+        r"\title{CellStateReality: A BEDC Promotion Frontier for Partial Reprogramming Claims}",
         r"\author{The Omega Institute}",
         r"\date{}",
         "",
@@ -3465,10 +3470,17 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"\maketitle",
         "",
         r"\section{Scope}",
-        "CellStateReality records cell-state conjecture deepening under explicit provenance boundaries. "
-        "External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.",
+        "CellStateReality treats partial-reprogramming claims not as a single proposition but as a sequence of scoped promotion steps. "
+        "External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; "
+        "a local age-signature result is never promoted to identity, safety, function, rejuvenation, or maintenance unless a layer-matched reality contact and an explicit support condition close that step. "
+        "In the current contacts the supported object is a coverage-bounded age-clock shift; the donor/day/condition/experiment promotion-frontier scan finds no identity-safe age-reset scope, "
+        "so age gain does not promote to identity-safe reset under the frozen identity and safety marker boundary; and the late maturation-phase clock signal is clock-dependent rather than a clock-independent biological age fact. "
+        "ImmortalityPotential remains blocked until organismal-maintenance, risk, repeated-cycle, and survival-horizon contacts exist. "
+        "The contribution is methodological: a hype-prone biological concept is rendered as a promotion frontier whose every step is provable, breakable, downgradable, and reusable.",
         "",
         r"\input{parts/cellstate_context_refresh_boundary}",
+        "",
+        r"\input{parts/cellstate_compiler_semantics}",
         "",
     ]
     if namecert_slugs:

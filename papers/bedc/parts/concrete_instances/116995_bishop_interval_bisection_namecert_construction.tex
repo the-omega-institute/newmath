@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalBisectionUp$}
+\label{ch:concrete-instances-bishop-interval-bisection-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopIntervalBisectionUp$ packet names the finite constructive bisection route by which a located rational interval is repeatedly halved, inspected through rational locator rows, repacked as a regular rational readback, and sealed only at the terminal real-name boundary. It is the Bishop-style neighbor of \autoref{ch:concrete-instances-locatedinterval-namecert}, \autoref{ch:concrete-instances-located-interval-bisection-namecert}, and \autoref{ch:concrete-instances-rational-interval-locator-namecert}: the packet consumes located endpoint rows, rational endpoint bracketing, dyadic midpoint cells, finite window schedules, and regular rational readbacks before any $\RealUp$ consumer may inspect the result.
+
+\begin{definition}[Bishop interval bisection carrier]
+\label{def:bishop-interval-bisection-carrier}
+A $\BishopIntervalBisectionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,Q,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedIntervalUp$ source row. It supplies the located endpoint surface and the endpoint-window discipline consumed from \autoref{ch:concrete-instances-locatedinterval-namecert}.
+\item $Q$ is the $\RationalIntervalLocatorUp$ bracketing row. It records the rational endpoint cells and comparison boundary consumed from \autoref{ch:concrete-instances-rational-interval-locator-namecert}.
+\item $D$ is the $\DyadicRatCoreUp$ midpoint and radius ledger for the requested finite bisection depth.
+\item $S$ is the $\StreamNameUp$ window schedule that records which endpoint and midpoint observations are inspected at each finite branch.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the retained rational cells and stream windows.
+\item $E$ is the terminal $\RealUp$ seal row. It is read only after $L,Q,D,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the located interval, rational locator, dyadic midpoint ledger, stream windows, readback, and seal rows.
+\item $C$ records displayed $\Cont$ replay from the bisection request through rational bracketing, midpoint halving, retained-window readback, and the terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalBisectionUp$, $\LocatedIntervalUp$, $\RationalIntervalLocatorUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalBisectionUp}$ row.
+\end{enumerate}
+The carrier predicate asserts that these rows form one finite Bishop interval bisection packet. It has no coordinate for a selected completed endpoint, quotient real equality, host interval equality, open-cover compactness, countable choice, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Bishop interval bisection halving stability]
+\label{thm:bishop-interval-bisection-halving-stability}
+Let $B=(L,Q,D,S,R,E,H,C,P,N)$ be an accepted $\BishopIntervalBisectionUp$ carrier. Every finite halving step requested by the packet is stable under the displayed $\hsame$ transport and $\Cont$ replay rows: the located interval row $L$, rational locator row $Q$, dyadic midpoint ledger $D$, stream-window schedule $S$, regular readback $R$, and terminal seal $E$ move as one packet, and the retained child interval remains attached to the same rational bracketing route.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:bishop-interval-bisection-carrier}. The halving step has no independent host interval coordinate; it can read only the located endpoint row $L$, the rational locator row $Q$, and the dyadic midpoint ledger $D$.
+
+Transport is componentwise. The row $H$ moves $L,Q,D,S,R,E$ together, while the row $C$ replays the same bisection route after transport. Thus the retained child interval is still the child selected by the displayed rational bracketing and midpoint rows.
+
+The stream and readback rows are downstream of that retained child. Since $S$ and $R$ are transported with the same history and provenance, the finite halving route remains stable before the terminal $\RealUp$ seal is inspected.
+\end{proof}
+
+\begin{theorem}[Bishop interval bisection Real-seal nonescape]
+\label{thm:bishop-interval-bisection-real-seal-nonescape}
+Every $\RealUp$-facing read of an accepted $\BishopIntervalBisectionUp$ carrier factors through the finite route
+$$
+L,Q,D,S,R,E,H,C,P,N .
+$$
+The consumer first reads the located interval surface, then the rational interval locator, then the dyadic halving ledger, then the finite stream windows and $\RegSeqRatUp$ readback, and only then the terminal $\RealUp$ seal. The packet exports no selected limit, no quotient equality of real names, no countable-choice sequence, no open-cover compactness witness, and no ambient real-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the displayed carrier. The only Real-facing coordinate is $E$, and the definition places $E$ after the located interval, rational locator, dyadic midpoint, stream-window, and regular-readback rows.
+
+The rational locator row $Q$ supplies endpoint bracketing before any midpoint branch is retained. The dyadic ledger $D$ records the finite halving data, and the stream schedule $S$ records exactly which finite observations are inspected.
+
+The regular readback $R$ is therefore the last non-Real row on the route. Componentwise transport, replay, provenance, and local naming are exactly $H,C,P,N$, so no host analytic object can be inserted between $R$ and the terminal seal $E$.
+\end{proof}
+
+\closureat{BishopIntervalBisectionUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalBisectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-bisection-carrier}, \autoref{thm:bishop-interval-bisection-halving-stability}, and \autoref{thm:bishop-interval-bisection-real-seal-nonescape} seed the finite Bishop interval bisection surface over located interval, rational locator, dyadic midpoint, stream-window, regular-readback, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient Real equality, countable choice, open-cover compactness, ambient Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, halving stability, regular-readback routing, Real-seal nonescape, and the corresponding BEDC.Derived.BishopIntervalBisectionUp target.}
+  \constructivestory{A $\BishopIntervalBisectionUp$ packet is generated from a $\LocatedIntervalUp$ source row, $\RationalIntervalLocatorUp$ rational bracketing, $\DyadicRatCoreUp$ midpoint data, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readback, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

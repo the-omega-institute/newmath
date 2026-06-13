@@ -1,0 +1,161 @@
+\chapter{A Concrete Naming Certificate for $\DecimalEndpointAmbiguityUp$}
+\label{ch:concrete-instances-decimal-endpoint-ambiguity-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real approximation and the
+classical terminating-decimal convention, the $\DecimalEndpointAmbiguityUp$
+packet records the finite boundary where a terminating decimal window and a
+repeating-nine window present the same endpoint route. It sits after
+\autoref{ch:concrete-instances-decimalexpansion-namecert},
+\autoref{ch:concrete-instances-decimal-endpoint-normalization-namecert},
+\autoref{ch:concrete-instances-signed-decimal-expansion-namecert}, and
+\autoref{ch:concrete-instances-real-decimal-normal-form-namecert}, and it
+hands all real-facing reads through
+\autoref{ch:concrete-instances-regseqrat-namecert},
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}. The packet names only the
+finite endpoint ambiguity surface for inspected decimal windows; it does not
+assert uniqueness of all decimal expansions, select a host real
+representative, or quotient arbitrary decimal streams.
+
+\begin{definition}[DecimalEndpointAmbiguity carrier]
+\label{def:decimal-endpoint-ambiguity-carrier}
+A $\DecimalEndpointAmbiguityUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,E,S,M,Q,R,Y,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DecimalExpansionUp$ source ledger for the inspected
+  finite decimal prefixes.
+\item $E$ is the $\DecimalEndpointNormalizationUp$ endpoint row that records
+  the terminating side and the repeating-nine side inside the same window.
+\item $S$ is the $\SignedDecimalExpansionUp$ sign and zero-window row, when
+  the endpoint ambiguity is read through a signed presentation.
+\item $M$ is the $\RealDecimalNormalFormUp$ normal-form route reached after
+  the endpoint row has been displayed.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance row attached to the same
+  endpoint window.
+\item $R$ is the $\RegSeqRatUp$ handoff row produced from the normalized
+  endpoint window.
+\item $Y$ is the terminal $\RealUp$ seal row reached only after $D,E,S,M,Q,R$
+  have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the decimal source,
+  endpoint-normalization, signed-window, normal-form, dyadic, regular,
+  real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the decimal window through
+  endpoint normalization, normal-form readback, dyadic tolerance, regular
+  handoff, and the real seal.
+\item $P$ is the $\Pkg$ provenance over $\DecimalEndpointAmbiguityUp$,
+  $\DecimalExpansionUp$, $\DecimalEndpointNormalizationUp$,
+  $\SignedDecimalExpansionUp$, $\RealDecimalNormalFormUp$, $\RegSeqRatUp$,
+  $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and
+  $\NameCert$.
+\item $N$ is the local $\NameCert_{\DecimalEndpointAmbiguityUp}$ row.
+\end{enumerate}
+The classifier compares accepted endpoint-ambiguity packets only through
+$D,E,S,M,Q,R,Y,H,C,P,N$. It has no coordinate for global decimal uniqueness,
+quotient stream equality, selected representatives, arbitrary real-name
+trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.DecimalEndpointAmbiguityUp.DecimalEndpointAmbiguityTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DecimalEndpointAmbiguity NameCert obligations]
+\label{thm:decimal-endpoint-ambiguity-namecert-obligations}
+For every accepted $\DecimalEndpointAmbiguityUp$ carrier
+$$
+A=(D,E,S,M,Q,R,Y,H,C,P,N),
+$$
+the local $\NameCert_{\DecimalEndpointAmbiguityUp}$ surface consists exactly
+of carrier admission for the displayed rows, endpoint-pair exposure through
+$E$, signed-window compatibility through $S$, normal-form routing through
+$M$, dyadic tolerance exposure through $Q$, regular rational handoff through
+$R$, terminal $\RealUp$ seal exposure through $Y$, componentwise $\hsame$
+transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+Every consumer of the terminating-versus-repeating-nine boundary must read
+that finite surface before treating the endpoint as real-facing data.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:decimal-endpoint-ambiguity-carrier}. The visible decimal
+coordinates are exactly $D,E,S,M,Q,R,Y$, while $H,C,P,N$ carry transport,
+replay, provenance, and local naming.
+
+Endpoint-pair exposure is local to $E$. The terminating side and the
+repeating-nine side are compared only because the endpoint-normalization row
+lists them inside the same inspected finite window.
+
+Signed-window compatibility uses $S$ only as a displayed signed presentation
+of that same endpoint window. It cannot introduce a second magnitude stream or
+an endpoint selector outside the packet.
+
+The real-facing route is ordered by $M,Q,R,Y$. Normal form is read first,
+then dyadic tolerance, then the regular rational handoff, and only then the
+terminal real seal. The structural rows preserve this finite route, so no
+global uniqueness, quotient equality, chosen representative, trichotomy,
+countable-choice schedule, or completeness row can be consumed.
+\end{proof}
+
+\begin{theorem}[DecimalEndpointAmbiguity real normal-form route]
+\label{thm:decimal-endpoint-ambiguity-real-normal-form-route}
+Every $\RealUp$ read of an accepted $\DecimalEndpointAmbiguityUp$ packet
+factors through the finite route
+$$
+\DecimalExpansionUp,\ \DecimalEndpointNormalizationUp,\ \SignedDecimalExpansionUp,\ \RealDecimalNormalFormUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp .
+$$
+The route records the terminating and repeating-nine windows as finite
+endpoint data before the normal-form, dyadic, regular-rational, and real-seal
+rows are public.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $A=(D,E,S,M,Q,R,Y,H,C,P,N)$. The source row
+$D$ supplies only finite decimal prefixes, and $E$ supplies the endpoint
+normalization row for the same inspected window.
+
+The signed row $S$ is read before the normal-form route $M$. Thus positive,
+negative, and zero-window presentations are attached to the displayed
+endpoint row rather than to an independent stream representative.
+
+Now read the arithmetic handoff rows. The dyadic tolerance row $Q$ and the
+regular rational row $R$ are reached from the normal-form route, and the
+terminal real seal $Y$ is downstream of both.
+
+Finally apply the structural rows $H,C,P,N$. They transport, replay, source,
+and name the same finite endpoint surface, so the real read is a route through
+the displayed packet rather than a proof of decimal uniqueness.
+\end{proof}
+
+\begin{theorem}[DecimalEndpointAmbiguity nonescape]
+\label{thm:decimal-endpoint-ambiguity-nonescape}
+An accepted $\DecimalEndpointAmbiguityUp$ packet exports no global decimal
+uniqueness theorem, quotient stream equality, selected endpoint
+representative, arbitrary real-name trichotomy, countable-choice schedule, or
+ambient $\RealUp$ completeness witness. Every endpoint read remains inside
+the displayed rows $D,E,S,M,Q,R,Y,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only endpoint ambiguity coordinate is
+$E$, and it is tied to the finite decimal source $D$ and signed-window row
+$S$.
+
+The normal-form and real-facing rows $M,Q,R,Y$ are downstream of that finite
+endpoint row. They can transport an already displayed terminating or
+repeating-nine window to a regular rational or real seal, but they cannot
+select representatives for arbitrary decimal streams.
+
+The structural rows $H,C,P,N$ do not add carrier data. They preserve,
+replay, source, and name the displayed route. Since the excluded objects are
+not coordinates of $A$, no accepted consumer can read them from the packet.
+\end{proof}
+
+\closureat{DecimalEndpointAmbiguityUp}{seedStr}
+
+\begin{closurestatus}{\DecimalEndpointAmbiguityUp}
+  \constructivestory{A $\DecimalEndpointAmbiguityUp$ packet is generated from finite DecimalExpansion source rows, DecimalEndpointNormalization endpoint rows, SignedDecimalExpansion sign and zero-window rows, RealDecimalNormalForm routes, DyadicRatCore tolerance rows, RegSeqRat handoff rows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decimal-endpoint-ambiguity-carrier}, \autoref{thm:decimal-endpoint-ambiguity-namecert-obligations}, \autoref{thm:decimal-endpoint-ambiguity-real-normal-form-route}, and \autoref{thm:decimal-endpoint-ambiguity-nonescape} seed the finite trailing-nine and trailing-zero endpoint ambiguity surface for decimal Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close uniqueness of all decimal expansions, quotient stream equality, selected representatives, arbitrary real-name trichotomy, countable choice, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-pair exposure, signed-window compatibility, normal-form routing, dyadic tolerance exposure, RegSeqRat handoff, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DecimalEndpointAmbiguityUp.}
+\end{closurestatus}

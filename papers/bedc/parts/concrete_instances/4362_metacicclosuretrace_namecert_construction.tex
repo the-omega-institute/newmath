@@ -370,6 +370,7 @@ Any candidate-mediated strong-normalization source read exported by an accepted 
 
 Concretely, the source read may forward only the displayed closedness-preservation rows for shift, variable substitution, full substitution, one-step beta, finite beta chains, generator accounting, and kernel acceptance. It may then pass those rows to a separate candidate packet through the candidate-mediated closedness ledger of \autoref{thm:metacicclosuretrace-candidate-mediated-closedness-ledger}, the confluence handoff boundary of \autoref{thm:metacicclosuretrace-confluence-handoff-boundary}, and the decidability readback frontier of \autoref{thm:metacicclosuretrace-decidability-readback-frontier}. The export does not claim full subject reduction, global strong normalization, kernel soundness, unrestricted confluence, decidable conversion, decidable typing, or quotient term equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_candidate\_sn\_source\_scope}
 \begin{proof}
 Project the carrier of \autoref{def:metacicclosuretrace-carrier}. Its rows are the substitution and beta closedness-preservation rows $S,U,V,B,R$, the generator and kernel-ledger rows $G,K$, and the structural rows $H,C,P,N$.
 
@@ -391,6 +392,7 @@ Use obligation status registration, \autoref{thm:metacicclosuretrace-obligation-
 
 The bridge obligation is therefore a preservation boundary for those public rows. A future bridge can check that the displayed rows survive the bridge schema, but it cannot strengthen the carrier by importing typing, confluence, normalization, or kernel-soundness evidence from outside the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_public\_bridge\_obligation}
 
 \closureat{MetaCICClosureTraceUp}{matureStr}
 
@@ -398,7 +400,7 @@ The bridge obligation is therefore a preservation boundary for those public rows
   \constructivestory{A $\MetaCICClosureTraceUp$ packet is generated from five MetaCIC ClosurePreservation theorem rows, shift and substitution generator-closure rows, kernel-acceptance trace rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:metacicclosuretrace-substitution-shift-generator-package}, \autoref{thm:metacicclosuretrace-beta-star-preservation-readback}, \autoref{thm:metacicclosuretrace-namecert-obligations}, and \autoref{thm:metacicclosuretrace-kernel-ledger-boundary} bind the checked substitution-shift, beta-star, NameCert-obligation, and kernel-ledger rows as the paper-side bridge surface for the displayed closure-trace packet.}
-  \formalstatus{\auditCleanV}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_obligation\_closure\_package}
   \bridgestatus{none}
   \notclaimed{This chapter does not prove subject reduction, type preservation, full normalization, kernel soundness, checked Lean carrier obligations, or a public bridge for the closure-trace packet.}

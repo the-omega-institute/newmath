@@ -1,0 +1,584 @@
+\chapter{Counterexample Program Safety Flow for RH}
+\label{ch:visions-rh-counterexample-program-safety-flow}
+\origin{ai}
+
+\autoref{ch:visions-rh-information-channel-normal-form} rewrites the
+critical line as the zero-bias surface of the prime information channels.
+The present chapter records the adjacent computational normal form.  It
+does not supply a proof of $\mathsf{RH}$.  It rewrites the same conjecture
+as a safety claim for a recognized program run: no accepted run of the
+counterexample-search flow emits a $\mathsf{CounterRH}$ event.
+
+\section{Elementary arithmetic interface}
+\label{sec:rh-counterprogram-elementary-interface}
+
+\begin{definition}[Lagarias bound interface]
+\label{def:rh-lagarias-bound-interface}
+The Lagarias bound interface is the displayed arithmetic predicate
+$\mathsf{LagBound}(n)$ on positive natural-number packets:
+$$
+\mathsf{LagBound}(n)
+:\Longleftrightarrow
+\sigma(n)\leq H_n+\exp(H_n)\log(H_n),
+$$
+where
+$$
+\sigma(n)=\sum_{d\mid n}d,
+\qquad
+H_n=\sum_{k=1}^{n}\frac{1}{k}.
+$$
+Write the right-hand side as
+$$
+\mathsf{LagRHS}(n)=H_n+\exp(H_n)\log(H_n).
+$$
+The interface also carries the external transport row
+$$
+\mathsf{RH}
+\Longleftrightarrow
+\forall n\geq 1,\ \mathsf{LagBound}(n).
+$$
+Inside the present vision chapter this row is consumed as an equivalence
+interface, not as an internal BEDC proof of the analytic theorem.
+\end{definition}
+
+\begin{definition}[Lagarias bad packet]
+\label{def:rh-lagarias-bad-packet}
+For a positive natural-number packet $n$, define
+$$
+\mathsf{LagBad}(n)
+:\Longleftrightarrow
+\neg\mathsf{LagBound}(n).
+$$
+Equivalently, at the arithmetic display level,
+$$
+\mathsf{LagBad}(n)
+:\Longleftrightarrow
+\sigma(n)>\mathsf{LagRHS}(n).
+$$
+\end{definition}
+
+\begin{proposition}[Bad packets are RH counter packets]
+\label{prop:rh-lagbad-counter-packets}
+Under the Lagarias bound interface,
+$$
+\mathsf{RH}
+\Longleftrightarrow
+\neg\exists n\geq 1,\ \mathsf{LagBad}(n).
+$$
+\end{proposition}
+
+\begin{proof}
+The interface gives
+$$
+\mathsf{RH}
+\Longleftrightarrow
+\forall n\geq 1,\ \mathsf{LagBound}(n).
+$$
+By \autoref{def:rh-lagarias-bad-packet}, the negation of the right-hand
+side is precisely the existence of a positive index with
+$\mathsf{LagBad}(n)$.  Thus $\mathsf{RH}$ is equivalent to the absence of
+Lagarias bad packets.
+\end{proof}
+
+\begin{definition}[Lagarias interval certificate]
+\label{def:rh-lagarias-interval-certificate}
+A Lagarias interval certificate
+$$
+\mathsf{IntervalCert}(n,q,a,b)
+$$
+is a finite rational packet with $a,b\in\mathbb Q$ such that
+$$
+a\leq \mathsf{LagRHS}(n)\leq b
+\qquad\text{and}\qquad
+b-a<2^{-q}.
+$$
+The interval row is the finite comparison surface for the real expression
+$\exp(H_n)\log(H_n)$; it is not an exact real-number oracle.
+\end{definition}
+
+\begin{definition}[Certified counter packet]
+\label{def:rh-certified-counter-packet}
+A certified counter packet $\mathsf{CounterLag}(n,q)$ is the existence of
+rational endpoints $a,b$ such that
+$$
+\mathsf{IntervalCert}(n,q,a,b)
+\qquad\text{and}\qquad
+b<\sigma(n).
+$$
+It is the finite event saying that the upper interval bound for
+$\mathsf{LagRHS}(n)$ already lies below the exact divisor sum.
+\end{definition}
+
+\begin{proposition}[Certified counters are sound]
+\label{prop:rh-certified-counter-sound}
+For every positive index $n$ and precision row $q$,
+$$
+\mathsf{CounterLag}(n,q)
+\Longrightarrow
+\mathsf{LagBad}(n).
+$$
+\end{proposition}
+
+\begin{proof}
+Choose rational endpoints $a,b$ witnessing
+$\mathsf{CounterLag}(n,q)$.  Then
+$$
+\mathsf{LagRHS}(n)\leq b<\sigma(n),
+$$
+so $\sigma(n)>\mathsf{LagRHS}(n)$.  This is exactly
+$\mathsf{LagBad}(n)$ by \autoref{def:rh-lagarias-bad-packet}.
+\end{proof}
+
+\section{Program and prime-register carrier}
+\label{sec:rh-counterprogram-prime-register-carrier}
+
+\begin{definition}[Counterexample enumerator]
+\label{def:rh-counterexample-enumerator}
+The counterexample enumerator $P_{\mathsf{Lag}}$ is the program-flow schema
+whose state contains a positive index $n$, a precision parameter $q$,
+divisor-sum data, harmonic-number data, a comparison row, and an output row.
+Its scheduler fairly enumerates pairs $(n,q)$ with $n\geq 1$.  At the pair
+$(n,q)$ it computes the exact rows $\sigma(n)$ and $H_n$, computes the
+precision-$q$ interval row for $\exp(H_n)\log(H_n)$, and emits only when
+that finite row certifies $\mathsf{CounterLag}(n,q)$.  When such a packet
+is accepted, the output row is
+$$
+\mathsf{CounterRH}(n,q).
+$$
+\end{definition}
+
+\begin{proposition}[Enumerator output criterion]
+\label{prop:rh-enumerator-output-criterion}
+The program $P_{\mathsf{Lag}}$ emits a $\mathsf{CounterRH}$ event exactly
+when some positive index satisfies $\mathsf{LagBad}$:
+$$
+P_{\mathsf{Lag}}\Downarrow\mathsf{CounterRH}
+\Longleftrightarrow
+\exists n\geq 1,\ \mathsf{LagBad}(n).
+$$
+\end{proposition}
+
+\begin{proof}
+If $P_{\mathsf{Lag}}$ emits $\mathsf{CounterRH}(n,q)$, the emission row is
+guarded by the accepted certified counter packet
+$\mathsf{CounterLag}(n,q)$.  By
+\autoref{prop:rh-certified-counter-sound}, this implies
+$\mathsf{LagBad}(n)$.  Conversely, if $\mathsf{LagBad}(n)$ holds, the
+strict comparison has a positive gap.  Exact arithmetic supplies
+$\sigma(n)$ and $H_n$, while interval narrowing for
+$\exp(H_n)\log(H_n)$ eventually separates the two sides.  Hence some
+precision $q$ gives a certified counter packet.  The fair scheduler
+eventually reaches the pair $(n,q)$ and accepts that packet, so it emits
+$\mathsf{CounterRH}(n,q)$.
+\end{proof}
+
+\begin{definition}[Prime-register Godel state]
+\label{def:rh-prime-register-godel-state}
+A prime-register Godel state is a natural-number packet
+$$
+N=\prod_i p_i^{r_i},
+$$
+where $p_i$ is the $i$-th displayed prime row and $r_i$ is the value of the
+$i$-th register.  The register readback and encoding rows satisfy
+$$
+\mathsf{Encode}(\mathsf{Decode}(N))\hsame N.
+$$
+For the RH counterexample program the register list includes the current
+index, precision budget, divisor-sum accumulators, harmonic numerator and
+denominator accumulators, comparison state, program counter, and
+counter-output flag.
+\end{definition}
+
+\begin{definition}[FRACTRAN counterexample program]
+\label{def:rh-fractran-counterexample-program}
+A FRACTRAN counterexample program $F_{\mathsf{RH}}$ is a finite ordered
+list of positive rational instructions
+$$
+f_0,\ldots,f_{m-1}.
+$$
+At state $N$, the accepted instruction is the least displayed index $i$
+such that $Nf_i$ is a natural number, and the next state is
+$$
+N\mapsto Nf_i.
+$$
+The program $F_{\mathsf{RH}}$ is the prime-register compilation of
+$P_{\mathsf{Lag}}$: the listed rational instructions implement the
+enumerator registers, the certified counter-packet registers, and the
+counter-output flag.
+\end{definition}
+
+\begin{proposition}[Prime-register preservation of counter output]
+\label{prop:rh-fractran-preserves-counter-output}
+The FRACTRAN program $F_{\mathsf{RH}}$ reaches a state with positive
+counter-output flag exactly when $P_{\mathsf{Lag}}$ emits
+$\mathsf{CounterRH}$:
+$$
+F_{\mathsf{RH}}\Downarrow\mathsf{halt}_{\mathsf{RH}}
+\Longleftrightarrow
+P_{\mathsf{Lag}}\Downarrow\mathsf{CounterRH}.
+$$
+\end{proposition}
+
+\begin{proof}
+The compilation is register preserving.  The prime exponent of each
+register prime stores the corresponding program register of
+$P_{\mathsf{Lag}}$, and each rational instruction performs the guarded
+increment, decrement, and branch operations of the enumerator.  The
+counter-output flag is set only by the instruction block reached after an
+accepted certified counter packet, and every accepted certified counter packet
+routes to that block.  Hence the FRACTRAN halt-prime state and the
+$\mathsf{CounterRH}$ output row are the same event read through different
+register coordinates.
+\end{proof}
+
+\section{GroundCompiler run recognition}
+\label{sec:rh-counterprogram-groundcompiler-recognition}
+
+\begin{definition}[RH FRACTRAN event]
+\label{def:rh-fractran-event}
+An RH FRACTRAN event is a finite tuple
+$$
+E_k=(N_k,i_k,f_{i_k},N_{k+1},C_k),
+$$
+where $N_k$ and $N_{k+1}$ are prime-register Godel states,
+$f_{i_k}$ is the accepted FRACTRAN instruction, and $C_k$ is a
+step-certificate row proving
+$$
+N_{k+1}\hsame N_k f_{i_k},
+$$
+with $i_k$ the least displayed instruction index for which
+$N_k f_{i_k}$ is a natural-number packet.
+\end{definition}
+
+\begin{definition}[Recognized RH run]
+\label{def:rh-recognized-run}
+A recognized RH run is an EventFlow
+$$
+S=E_0\mid E_1\mid E_2\mid\cdots
+$$
+accepted by a GroundCompiler recognizer
+$\mathsf{RecognizedRHRun}(F_{\mathsf{RH}},S)$.  The recognizer checks the
+legal EventFlow channel row, the FRACTRAN transition row of each event, the
+least-instruction row, the prime-exponent register ledger, the initial
+state row for $P_{\mathsf{Lag}}$, and the output decoding row.
+\end{definition}
+
+\begin{definition}[Counter output]
+\label{def:rh-counter-output}
+For a recognized RH run $S$, the predicate
+$\mathsf{Emits}(S,\mathsf{CounterRH}(n,q))$ means that some event in $S$
+decodes the counter-output flag with payload $(n,q)$.  The no-counter
+predicate is
+$$
+\mathsf{NoCounterOutput}(S)
+:\Longleftrightarrow
+\neg\exists n,q,\ n\geq 1\wedge
+\mathsf{Emits}(S,\mathsf{CounterRH}(n,q)).
+$$
+\end{definition}
+
+\begin{definition}[Information RH program flow]
+\label{def:rh-info-program-flow}
+The information RH program flow is the compiler-facing packet
+$$
+\mathsf{InfoRHProgramFlow}^{\uparrow}
+=
+(G,F,L,E,R,I,N),
+$$
+where
+$$
+\begin{gathered}
+G:\text{prime-register Godel state rows},\quad
+F:F_{\mathsf{RH}}\text{ FRACTRAN program rows},\\
+L:\mathsf{LagBound},\mathsf{LagRHS},\mathsf{IntervalCert},
+\mathsf{CounterLag}\text{ rows},\\
+E:\text{GroundCompiler EventFlow rows},\quad
+R:\mathsf{CounterRH}(n,q)\text{ recognizer rows},\\
+I:\mathsf{NoCounterOutput}\text{ and safety-invariant rows},\quad
+N:\NameCert\text{ local naming row}.
+\end{gathered}
+$$
+The packet names the counterexample-search run surface; it does not certify
+that the surface is counter-free.
+\end{definition}
+
+\begin{theorem}[Program safety normal form of RH]
+\label{thm:rh-program-safety-normal-form}
+Under the Lagarias bound interface and the register-preserving compilation
+of $P_{\mathsf{Lag}}$ into $F_{\mathsf{RH}}$, the Riemann Hypothesis is
+equivalent to the absence of recognized counter output:
+$$
+\mathsf{RH}
+\Longleftrightarrow
+\neg\exists S,n,q,\,
+\mathsf{RecognizedRHRun}(F_{\mathsf{RH}},S)
+\wedge
+\mathsf{Emits}(S,\mathsf{CounterRH}(n,q)).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{prop:rh-lagbad-counter-packets}, $\mathsf{RH}$ is equivalent to
+the absence of a positive $n$ satisfying $\mathsf{LagBad}(n)$.  By
+\autoref{prop:rh-enumerator-output-criterion}, such an $n$ exists exactly
+when $P_{\mathsf{Lag}}$ emits $\mathsf{CounterRH}$.  By
+\autoref{prop:rh-fractran-preserves-counter-output}, this is exactly the
+event that $F_{\mathsf{RH}}$ reaches the counter-output flag.  Finally,
+\autoref{def:rh-recognized-run} makes the GroundCompiler recognizer accept
+precisely the initial-state FRACTRAN run with its step certificates and
+prime-exponent ledger.  Thus a recognized counter event exists exactly when
+the Lagarias bad packet exists, which is exactly the negation of
+$\mathsf{RH}$ under the interface.
+\end{proof}
+
+\begin{corollary}[Specific halting instance]
+\label{cor:rh-specific-halting-instance}
+The halt-prime reachability claim for $F_{\mathsf{RH}}$ is a single
+program-instance claim:
+$$
+F_{\mathsf{RH}}\Downarrow\mathsf{halt}_{\mathsf{RH}}
+\Longleftrightarrow
+\neg\mathsf{RH}.
+$$
+It is not a uniform classifier for arbitrary program halting.
+\end{corollary}
+
+\begin{proof}
+Combine \autoref{prop:rh-fractran-preserves-counter-output} with
+\autoref{prop:rh-enumerator-output-criterion} and
+\autoref{prop:rh-lagbad-counter-packets}.  The resulting statement concerns
+the fixed program $F_{\mathsf{RH}}$ and the fixed counter-output row defined
+above.  No classifier ranging over arbitrary program codes is introduced.
+\end{proof}
+
+\section{Refutation layer}
+\label{sec:rh-counterprogram-refutation-layer}
+
+\begin{definition}[Counter refutation transformer]
+\label{def:rh-counter-refutation-transformer}
+A counter refutation transformer for the RH program flow is a displayed
+function
+$$
+\mathsf{RefuteCounter}
+:
+\prod_{n,q}\mathsf{CounterLag}(n,q)\to\bot.
+$$
+Equivalently, it is a proof that no certificate accepted by the
+counter-output gate can pass the Lagarias comparison rows.
+\end{definition}
+
+\begin{proposition}[Halting assumption exposes a counter packet]
+\label{prop:rh-halting-assumption-exposes-counter}
+Assuming that $P_{\mathsf{Lag}}$ halts does not by itself produce a
+contradiction.  It produces a certified counter packet:
+$$
+P_{\mathsf{Lag}}\Downarrow\mathsf{CounterRH}
+\Longrightarrow
+\exists n,q,\ \mathsf{CounterLag}(n,q).
+$$
+Consequently,
+$$
+P_{\mathsf{Lag}}\Downarrow\mathsf{CounterRH}
+\Longrightarrow
+\exists n\geq 1,\ \mathsf{LagBad}(n).
+$$
+\end{proposition}
+
+\begin{proof}
+By the definition of $P_{\mathsf{Lag}}$, the only output row is
+$\mathsf{CounterRH}(n,q)$, and that output is guarded by an accepted
+$\mathsf{CounterLag}(n,q)$ packet.  The second implication follows from
+\autoref{prop:rh-certified-counter-sound}.
+\end{proof}
+
+\begin{theorem}[Halting refutation normal form]
+\label{thm:rh-halting-refutation-normal-form}
+Under the Lagarias bound interface, the following are equivalent:
+$$
+\mathsf{RH},
+$$
+$$
+\neg(P_{\mathsf{Lag}}\Downarrow\mathsf{CounterRH}),
+$$
+and
+$$
+\prod_{n,q}\mathsf{CounterLag}(n,q)\to\bot.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{prop:rh-lagbad-counter-packets}, $\mathsf{RH}$ is equivalent to
+the absence of any $\mathsf{LagBad}(n)$.  By
+\autoref{prop:rh-enumerator-output-criterion}, the existence of such an
+$n$ is equivalent to $P_{\mathsf{Lag}}$ emitting a counter event.  Hence
+$\mathsf{RH}$ is equivalent to
+$\neg(P_{\mathsf{Lag}}\Downarrow\mathsf{CounterRH})$.
+
+The program emits a counter event exactly when some finite
+$\mathsf{CounterLag}(n,q)$ packet is accepted.  Therefore the negation of
+halting is the absence of all such packets, which is the displayed product
+of refutations
+$$
+\prod_{n,q}\mathsf{CounterLag}(n,q)\to\bot.
+$$
+\end{proof}
+
+\begin{remark}[Role of contradiction]
+\label{rem:rh-role-of-contradiction}
+The contradiction step in a proof by contradiction is not supplied by the
+halting assumption alone.  The halting assumption supplies
+$\mathsf{CounterLag}(n,q)$ for some finite pair $(n,q)$.  A contradiction is
+obtained only after a separate no-counter invariant supplies
+$\mathsf{CounterLag}(n,q)\to\bot$.  This invariant is not a free compiler
+fact; by \autoref{thm:rh-halting-refutation-normal-form}, it is the RH
+proof content in the Lagarias coordinates.
+\end{remark}
+
+\section{Safety fixed point}
+\label{sec:rh-counterprogram-safety-fixed-point}
+
+\begin{definition}[RH safety class]
+\label{def:rh-safety-class}
+The RH safety class is
+$$
+\mathsf{Safe}_{\mathsf{RH}}
+=
+\{S:\mathsf{NoCounterOutput}(S)\}.
+$$
+For a recognized finite prefix $S$, write
+$T_{\mathsf{RH}}(S)=S\mid E_{\mathsf{next}}$ when the next RH FRACTRAN
+event is accepted by the recognizer.
+\end{definition}
+
+\begin{proposition}[Safety invariance is no-counter output]
+\label{prop:rh-safety-invariance-no-counter-output}
+For the recognized run of $F_{\mathsf{RH}}$ from the initial
+counterexample-search state, the following are equivalent:
+$$
+\forall\text{ recognized prefixes }S,\quad
+S\in\mathsf{Safe}_{\mathsf{RH}},
+$$
+and
+$$
+\mathsf{NoCounterOutput}(S_{\mathsf{RH}}^\infty).
+$$
+\end{proposition}
+
+\begin{proof}
+If every recognized prefix is safe, no event in the infinite recognized run
+can decode a $\mathsf{CounterRH}$ payload, because any such event appears in
+some finite prefix.  Conversely, if the infinite recognized run has no
+counter-output event, every finite prefix inherits the same absence.
+\end{proof}
+
+\begin{corollary}[RH as a safety fixed point]
+\label{cor:rh-safety-fixed-point}
+Under the interfaces of \autoref{thm:rh-program-safety-normal-form},
+$$
+\mathsf{RH}
+\Longleftrightarrow
+\forall\text{ recognized prefixes }S,\quad
+T_{\mathsf{RH}}(S)\in\mathsf{Safe}_{\mathsf{RH}}
+\text{ whenever }S\in\mathsf{Safe}_{\mathsf{RH}}.
+$$
+Equivalently, the recognized counterexample-search EventFlow remains inside
+the greatest safety class
+$$
+\nu X.\ \{S:\mathsf{next}(S)\text{ is not a }\mathsf{CounterRH}
+\text{ event and every prefix lies in }X\}.
+$$
+\end{corollary}
+
+\begin{proof}
+The transition form is the prefix reading of
+\autoref{prop:rh-safety-invariance-no-counter-output}.  Combining that
+proposition with \autoref{thm:rh-program-safety-normal-form} gives the RH
+equivalence.  The greatest-fixed-class display is the coinductive packaging
+of the same prefix condition: a run remains inside the class exactly when no
+recognized step exits through the counter-output row.
+\end{proof}
+
+\begin{remark}[Residual bridge target]
+\label{rem:rh-residual-bridge-target}
+A stronger structural route would not merely refute
+$\mathsf{CounterLag}(n,q)$ directly.  It would route an accepted
+$\mathsf{CounterRH}(n,q)$ event into an off-mirror residual packet and then
+show that the residual dynamics force the residual to vanish.  In schematic
+form the missing bridge is
+$$
+\mathsf{CounterRH}(n,q)
+\to
+\mathsf{OffMirrorZero}
+\to
+\mathsf{NonzeroSkewResidual}.
+$$
+If a later Zeckendorf or finite-window projection tower supplied a return rule
+$R(\Delta)=-\frac{1}{2}\Delta$ together with a zero-event safety rule
+$R(\Delta)=\Delta$, then the residual would satisfy $\Delta=0$, contradicting
+the nonzero residual row.  The present chapter records this as a bridge
+target only; it does not claim a certified map from Lagarias counter packets
+to that residual surface.
+\end{remark}
+
+\begin{theorem}[Information halting normal form]
+\label{thm:rh-information-halting-normal-form}
+Under the displayed interfaces of this chapter, the following claims are
+equivalent:
+$$
+\mathsf{RH},
+$$
+$$
+\forall n\geq 1,\ \mathsf{LagBound}(n),
+$$
+$$
+\neg(P_{\mathsf{Lag}}\Downarrow\mathsf{CounterRH}),
+$$
+$$
+\neg(F_{\mathsf{RH}}\Downarrow\mathsf{halt}_{\mathsf{RH}}),
+$$
+$$
+\neg\exists S,n,q,\,
+\mathsf{RecognizedRHRun}(F_{\mathsf{RH}},S)
+\wedge
+\mathsf{Emits}(S,\mathsf{CounterRH}(n,q)),
+$$
+and
+$$
+\mathsf{InfoRHProgramFlow}^{\uparrow}
+\text{ preserves }\mathsf{NoCounterOutput}.
+$$
+\end{theorem}
+
+\begin{proof}
+The first two claims are the Lagarias bound interface of
+\autoref{def:rh-lagarias-bound-interface}.  The second and third are
+equivalent by \autoref{prop:rh-enumerator-output-criterion}.  The third and
+fourth are equivalent by \autoref{prop:rh-fractran-preserves-counter-output}.
+The fourth and fifth are equivalent by the recognized-run relation of
+\autoref{def:rh-recognized-run} and the counter-output predicate of
+\autoref{def:rh-counter-output}.  The fifth and sixth are the safety field
+of the packet in \autoref{def:rh-info-program-flow}.  Therefore all six are
+the same no-counter safety claim read through arithmetic, program,
+prime-register, EventFlow, and packet coordinates.
+\end{proof}
+
+\begin{remark}[Halting boundary]
+\label{rem:rh-counterprogram-halting-boundary}
+The packet $\mathsf{InfoRHProgramFlow}^{\uparrow}$ is a precise
+counterexample-search object, not a proof of counterexample absence.
+Producing the program, the FRACTRAN carrier, and the EventFlow recognizer
+only exposes the safety invariant.  Proving that the recognized run never
+emits $\mathsf{CounterRH}$ is, by
+\autoref{thm:rh-program-safety-normal-form}, the RH proof obligation itself.
+Thus the construction sits below the boundary of
+\autoref{ch:visions-rh-route-halting-boundary}: it records a fixed program
+run and a no-counter safety claim, while a classifier deciding such claims
+for arbitrary routes would cross the halting boundary described in
+\autoref{ch:visions-channel-termination-vs-halting-boundary}.
+\end{remark}
+
+\concretizedIn{ch:concrete-instances-groundcompilereventflowaudit-namecert}{GroundCompiler event-flow audit packets supply the channel, event, certificate-gate, transport, provenance, and local naming rows used by the recognized RH run surface.}
+\concretizedIn{ch:concrete-instances-groundcompilerrecognizerflow-namecert}{GroundCompiler recognizer-flow packets supply the generated recognizer discipline for accepting only ledgered FRACTRAN step events and output rows.}
+\concretizedIn{ch:concrete-instances-groundcompilerflowlevelroundtrip-namecert}{Flow-level compile-decode packets supply the event-boundary readback needed before the counter-output recognizer is applied.}
+\concretizedIn{ch:concrete-instances-prime-namecert}{Prime packets supply the factorization rows that make prime-exponent register states readable as finite arithmetic ledgers.}
+\concretizedIn{ch:concrete-instances-generatorfixedpoint-namecert}{Generator fixed-point packets supply the fixed-output boundary separating a displayed no-counter safety invariant from an unrestricted route-deciding oracle.}

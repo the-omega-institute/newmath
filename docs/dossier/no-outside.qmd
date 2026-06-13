@@ -25,14 +25,14 @@ Read `BHist` not as "an abstract record" but as *the observer itself*: the total
 This is not a philosophical preference. It is what the kernel signature already says. Look at the type:
 
 ::: {.evidence}
-**Lean:** [`BEDC.FKernel.Cont`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/FKernel/Cont.lean) — the relation `Cont : BHist → BMark → BHist → Prop`.
+**Lean:** [`BEDC.FKernel.Cont`](https://github.com/the-omega-institute/newmath/blob/dev/lean4/BEDC/FKernel/Cont.lean) — the relation $Cont : BHist \to BMark \to BHist \to Prop$.
 
 There is no fourth slot. No `Subject` parameter. No `Agent`, `Observer`, or `Carrier` argument. The relation takes two histories and a mark, returns a Prop. Whatever entity might be "doing" the continuation has no representation in the type.
 
-`hsame : BHist → BHist → Prop` is the only identity relation in the kernel. It identifies *traces*, not the agents that left them.
+$hsame : BHist \to BHist \to Prop$ is the only identity relation in the kernel. It identifies *traces*, not the agents that left them.
 :::
 
-If you tried to add an observer-substance — a separate type `Observer` with `Cont : Observer → BHist → BMark → BHist → Prop` — the `cont_assoc`, `cont_left_unit`, `cont_right_unit` proofs that the kernel already ships with would no longer go through. The two-loops architecture (ground loop closes, meta loop does not close) would break: positing an observer-as-substance generates a Tarski-style fixed-point that has no closed inductive home.
+If you tried to add an observer-substance — a separate type `Observer` with $Cont : Observer \to BHist \to BMark \to BHist \to Prop$ — the `cont_assoc`, `cont_left_unit`, `cont_right_unit` proofs that the kernel already ships with would no longer go through. The two-loops architecture (ground loop closes, meta loop does not close) would break: positing an observer-as-substance generates a Tarski-style fixed-point that has no closed inductive home.
 
 ```{=html}
 <span class="elim-mark">✗ "But surely there must be someone <em>doing</em> the distinguishing"</span>
@@ -42,10 +42,10 @@ There must not. The observer is the distinguishing, not the doer of distinguishi
 
 ## Time is Hist growth
 
-Once observer is identified with `Hist`, time falls out automatically. Every application of `E0` or `E1` is a single time-step. A `Cont` chain — h₀ → h₁ → h₂ → ... — is a time stream. The length of `h` is the *duration* of that observer's existence; the content of `h` is *what has been observed*; `hsame(h, h')` is the criterion under which two observers are *the same observer*.
+Once observer is identified with `Hist`, time falls out automatically. Every application of `E0` or `E1` is a single time-step. A `Cont` chain — $h_{0}$ $\to$ $h_{1}$ $\to$ $h_{2}$ $\to$ ... — is a time stream. The length of `h` is the *duration* of that observer's existence; the content of `h` is *what has been observed*; `hsame(h, h')` is the criterion under which two observers are *the same observer*.
 
 ::: {.evidence}
-**Modulus is temporal rate.** Every regular Cauchy sequence in BEDC ships with an explicit modulus function `N : Nat → Nat`, telling you how many `Cont` steps are needed to reach a given precision. This is the *temporal rate* of the observation — how fast the observer's trace stabilises. Bishop-style constructive analysis cares about moduli not as a technicality but because there is no external clock; each observer's convergence rate is intrinsic data of *that observer's time stream*.
+**Modulus is temporal rate.** Every regular Cauchy sequence in BEDC ships with an explicit modulus function $N : Nat \to Nat$, telling you how many `Cont` steps are needed to reach a given precision. This is the *temporal rate* of the observation — how fast the observer's trace stabilises. Bishop-style constructive analysis cares about moduli not as a technicality but because there is no external clock; each observer's convergence rate is intrinsic data of *that observer's time stream*.
 
 **Cont is asymmetric.** Given `h` and `m`, the continuation `h'` is determined; given `h'`, you cannot constructively recover the antecedent pair `(h, m)`. The arrow of time is built into the kernel as the asymmetry of `Cont`, not added on top.
 :::

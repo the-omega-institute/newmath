@@ -1,0 +1,75 @@
+\chapter{CandidateNormalizationDischargeUp NameCert Construction}
+\label{ch:concrete-instances-candidate-normalization-discharge-namecert}
+\origin{ai}
+
+The $\CandidateNormalizationDischargeUp$ packet realizes the normalization remaining question of \autoref{ch:metacic-open-problems} as finite discharge data. It reads the normalization audit map of \autoref{ch:metacic-normalization-audit-map} beside the frontier carrier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the candidate-normalization witness of \autoref{ch:concrete-instances-metacic-candidate-normalization-witness-namecert}, the normal-endpoint budget of \autoref{ch:concrete-instances-metacic-normal-endpoint-budget-namecert}, and the SN candidate interface of \autoref{ch:concrete-instances-metacic-sn-candidate-interface-namecert}. The packet binds the discharge row connecting candidate evidence to endpoint use; it is not a blanket normalization theorem for arbitrary closed typed terms.
+
+\begin{definition}[Candidate-normalization discharge carrier]
+\label{def:candidate-normalization-discharge-carrier}
+A $\CandidateNormalizationDischargeUp$ carrier is a finite $\BHist$ packet
+$$
+D=(A,K,E,S,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the audit-map anchor row for \autoref{ch:metacic-normalization-audit-map};
+\item $K$ is the candidate-evidence row, reading candidate, closed-candidate, or candidate-set evidence through the existing MetaCIC normalization frontier;
+\item $E$ is the endpoint-seal row, recording the normal endpoint that may be consumed only after $K$ is displayed;
+\item $S$ is the discharge row connecting the candidate evidence in $K$ to the endpoint use in $E$;
+\item $O$ is the obstruction-retention row, keeping absent candidate evidence, subject-reduction obstruction, and evidence-free endpoint requests visible;
+\item $H$ records componentwise $\hsame$ transport for $A,K,E,S,O$ and for the local naming row;
+\item $C$ records the displayed $\Cont$ replay routes for audit, candidate, endpoint, discharge, and obstruction reads;
+\item $P$ is the $\Pkg$ provenance over $\CandidateNormalizationDischargeUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICCandidateNormalizationWitnessUp$, $\MetaCICNormalEndpointBudgetUp$, $\MetaCICSnCandidateInterfaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CandidateNormalizationDischargeUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Candidate discharge obligation surface]
+\label{thm:candidate-normalization-discharge-obligation-surface}
+Every accepted $\CandidateNormalizationDischargeUp$ packet exposes exactly the candidate-evidence row $K$, endpoint-seal row $E$, discharge row $S$, obstruction-retention row $O$, displayed $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows needed before a normalization-facing consumer may use a strong-normalization endpoint. No consumer can reach the endpoint seal through the packet while omitting the candidate evidence or the discharge row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:candidate-normalization-discharge-carrier}. The endpoint row $E$ is stored beside $K$ and $S$, not as an independent normalization theorem.
+
+Replay the read through $C$. A normalization-facing consumer must display the audit anchor, candidate evidence, endpoint seal, discharge link, and obstruction row in the carrier order before using the endpoint.
+
+Transport and provenance through $H$ and $P$ preserve those same rows. Thus the local NameCert surface is exhausted by the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Endpoint seal nonescape]
+\label{thm:candidate-normalization-discharge-endpoint-seal-nonescape}
+An accepted $\CandidateNormalizationDischargeUp$ packet is refuted as a discharge certificate if a normalization-facing consumer obtains a strong-normalization endpoint without displaying candidate evidence, endpoint seal, obstruction retention, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The packet does not export evidence-free strong normalization, host evaluation soundness, unrestricted subject reduction, quotient syntax equality, or closed consistency.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:candidate-normalization-discharge-obligation-surface}. It places candidate evidence and the discharge row before endpoint use.
+
+The obstruction row $O$ records exactly the refused bypasses. If the consumer reaches a strong-normalization endpoint while erasing $K,S,O,H,C,P,N$, then the read no longer factors through the accepted carrier.
+
+Because the carrier has no row for evidence-free strong normalization, host evaluation soundness, unrestricted subject reduction, quotient syntax equality, or closed consistency, those endpoints remain outside the packet.
+\end{proof}
+
+\begin{theorem}[Sibling separation]
+\label{thm:candidate-normalization-discharge-sibling-separation}
+The $\CandidateNormalizationDischargeUp$ carrier is not bijective, row for row, with $\MetaCICNormalizationFrontierUp$, $\MetaCICCandidateNormalizationWitnessUp$, $\MetaCICNormalEndpointBudgetUp$, or $\MetaCICSnCandidateInterfaceUp$. It binds the discharge row connecting candidate evidence to endpoint use, while the siblings respectively expose frontier, witness, endpoint budget, or candidate interface rows without the same discharge packet.
+\end{theorem}
+\begin{proof}
+Compare first with $\MetaCICNormalizationFrontierUp$. The frontier exposes candidate and endpoint boundary rows, but it does not by itself store the local discharge row $S$ together with this packet's obstruction-retention and endpoint-use contract.
+
+Compare next with $\MetaCICCandidateNormalizationWitnessUp$ and $\MetaCICNormalEndpointBudgetUp$. The witness records evidence for a candidate-facing route, and the budget records endpoint consumption constraints; neither is the single carrier that binds both sides through $S$.
+
+Finally compare with $\MetaCICSnCandidateInterfaceUp$. The interface describes candidate admission, while $\CandidateNormalizationDischargeUp$ records the finite discharge packet through which an endpoint read is allowed. A row-preserving bijection would have to preserve $A,K,E,S,O,H,C,P,N$ simultaneously, which no listed sibling carries.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CandidateNormalizationDischargeUp$ packet is refuted if a normalization-facing consumer obtains a strong-normalization endpoint without displaying candidate evidence, endpoint seal, obstruction retention, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{metacicnormalizationfrontier, metacic-candidate-normalization-witness, metacic-normal-endpoint-budget, metacic-sn-candidate-interface: $\CandidateNormalizationDischargeUp$ is not bijective to these siblings because it binds the discharge row connecting candidate evidence to endpoint use, while the siblings respectively expose frontier, witness, endpoint budget, or candidate interface rows without the same discharge packet.}
+
+\begin{closurestatus}{\CandidateNormalizationDischargeUp}
+  \constructivestory{A $\CandidateNormalizationDischargeUp$ packet is generated from audit-map anchoring, candidate evidence, endpoint seal, discharge, obstruction retention, displayed transport, replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:candidate-normalization-discharge-carrier}, \autoref{thm:candidate-normalization-discharge-obligation-surface}, \autoref{thm:candidate-normalization-discharge-endpoint-seal-nonescape}, and \autoref{thm:candidate-normalization-discharge-sibling-separation} bind the finite candidate-mediated endpoint discharge packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global strong normalization, unrestricted subject reduction, host evaluation soundness, quotient syntax equality, or closed consistency.}
+  \upgradepath{A later Lean route should encode BEDC.Derived.CandidateNormalizationDischargeUp and provide Nontrivial and FieldFaithful instances in BEDC.Derived.CandidateNormalizationDischargeUp.TasteGate.}
+\end{closurestatus}

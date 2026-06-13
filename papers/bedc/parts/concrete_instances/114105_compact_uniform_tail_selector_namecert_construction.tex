@@ -56,6 +56,24 @@ Fold over the finite bundle spine $Pb$. Each local tail-radius row in $L$ is com
 The transport and continuation rows preserve the same finite handoff. The packet therefore cannot import a global point selector, selected subcover, external minimum, quotient real equality, or completeness row.
 \end{proof}
 
+\begin{theorem}[CompactUniformTailSelector finite-net route]
+\label{thm:compact-uniform-tail-selector-finite-net-route}
+Every accepted $\CompactUniformTailSelectorUp$ packet receives compact finite-net data through $\CompactUniformFiniteNetUp$ and $\CompactNetModulusStabilityUp$ before the $\mathsf{ProbeBundle}$ spine, local radius ledger, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback, and $\RealUp$ seal are visible. For a carrier
+$$
+T=(K,F,Pb,L,D,U,R,E,H,C,Q,N),
+$$
+the route projects $K,F,Pb,L,D,U,R,E$ in that order and exports no open-cover compactness object, point-choice coordinate, external minimum selector, countable-choice schedule, quotient real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $K,F,Pb,L,D,U,R,E,H,C,Q,N$ from \autoref{def:compact-uniform-tail-selector-carrier}. The rows $K$ and $F$ are the compact finite-net and pointwise-modulus inputs, while $Pb,L,D$ are the finite bundle spine, local radius ledger, and dyadic tolerance ledger inspected by the selector.
+
+Apply \autoref{thm:compact-uniform-tail-selector-finite-net-handoff}. It forces the selector threshold $U$ to be produced only after the compact finite-net row, pointwise modulus row, bundle spine, local radius rows, and dyadic comparisons have been displayed.
+
+Now apply \autoref{thm:compact-uniform-tail-selector-uniform-modulus-route}. The regular readback $R$ and terminal Real seal $E$ are downstream of the selected threshold, so the Real-facing route cannot be read before the finite-net and pointwise-modulus data have passed through the displayed ProbeBundle discipline.
+
+Finally inspect the excluded coordinates in the carrier. Since open-cover compactness, point choice, external minima, countable choice, quotient real equality, and ambient completeness are absent from $K,F,Pb,L,D,U,R,E,H,C,Q,N$, every accepted packet consumes the compact finite-net route directly through $\CompactUniformFiniteNetUp$ and $\CompactNetModulusStabilityUp$ rather than through any external compactness principle.
+\end{proof}
+
 \begin{theorem}[CompactUniformTailSelector uniform modulus route]
 \label{thm:compact-uniform-tail-selector-uniform-modulus-route}
 Every Real-facing or uniform-modulus consumer of an accepted $\CompactUniformTailSelectorUp$ packet must read

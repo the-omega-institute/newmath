@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\RegularSequenceEquivalenceUp$}
+\label{ch:concrete-instances-regular-sequence-equivalence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegularSequenceEquivalenceUp$ packet records the finite comparison surface between two regular sequence names before their terminal real seals are read. It sits between the $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy route of \autoref{ch:concrete-instances-cauchy-namecert}. The certificate names a non-quotient equivalence boundary for regular sequence comparison; it does not select a completed real, identify quotient streams, or import ambient completeness.
+
+\begin{definition}[RegularSequenceEquivalence NameCert surface]
+\label{def:regular-sequence-equivalence-namecert-surface}
+A $\RegularSequenceEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S_0,S_1,W_0,W_1,D,R_0,R_1,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\StreamNameUp$ schedules whose finite windows are compared;
+\item $W_0$ and $W_1$ are the paired finite window lists selected from those schedules;
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger for all paired window reads;
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ readback rows obtained from $S_0,W_0,D$ and $S_1,W_1,D$;
+\item $Q$ is the finite symmetric tail classifier, recording that each displayed tail request in either direction is met inside the same dyadic tolerance ledger;
+\item $A$ is the terminal $\RealUp$ seal-comparison row, readable only after $S_0,S_1,W_0,W_1,D,R_0,R_1,Q$ have been displayed;
+\item $H$ is the componentwise $\hsame$ provenance for the stream schedules, window lists, dyadic ledger, readbacks, classifier, and seal row;
+\item $C$ is the displayed $\Cont$ replay route for the same finite rows;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularSequenceEquivalenceUp}$ row.
+\end{enumerate}
+The packet exposes no quotient stream equality, selected representative, host real equality, countable-choice selector, or ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Symmetric tail obligations for regular sequence equivalence]
+\label{thm:regular-sequence-equivalence-symmetric-tail-obligations}
+For every accepted $\RegularSequenceEquivalenceUp$ packet $E=(S_0,S_1,W_0,W_1,D,R_0,R_1,Q,A,H,C,P,N)$, the finite tail comparison is symmetric over the same displayed ledger. A consumer reading the comparison from $R_0$ to $R_1$ and a consumer reading it from $R_1$ to $R_0$ must both pass through the same $\StreamNameUp$ windows, the same $\DyadicRatCoreUp$ tolerances, the same pair of $\RegSeqRatUp$ readback rows, and the same terminal $\RealUp$ seal row. Thus the comparison is a finite NameCert surface for regular sequence equivalence, not a quotient equality or a selected completed-real witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-equivalence-namecert-surface}. The two directions of the tail comparison are not stored as separate equivalence principles; they are the two readings of the single classifier row $Q$ over $W_0,W_1,D$.
+
+For the forward reading, the consumer first observes $S_0$ through $W_0$, reads $R_0$ through the dyadic ledger $D$, and compares it with the $S_1,W_1,R_1$ side by the displayed classifier $Q$. The terminal seal $A$ is available only after those rows have been displayed.
+
+For the reverse reading, the same classifier row is read with the two window sides exchanged. Because $D$, $H$, $C$, $P$, and $N$ are componentwise rows over both sides at once, the reverse read has no independent tolerance ledger or hidden equality source.
+
+The carrier contains no quotient stream, selected representative, host real equality, countable-choice selector, or ambient completeness coordinate. Therefore both directions of regular sequence equivalence are exhausted by the same finite StreamName, DyadicRatCore, RegSeqRat, Real, transport, replay, provenance, and NameCert rows.
+\end{proof}
+
+\begin{theorem}[Regular sequence equivalence Real handoff]
+\label{thm:regular-sequence-equivalence-real-handoff}
+Every $\RealUp$-facing comparison exported by an accepted $\RegularSequenceEquivalenceUp$ packet factors through the finite route
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RegularSequenceEquivalenceUp,\ \RealUp .
+$$
+The handoff may be cited by Cauchy and completion consumers only as the displayed comparison surface over those rows; it does not provide quotient equality of streams, a selected limit, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the displayed rows of \autoref{def:regular-sequence-equivalence-namecert-surface} in order. The stream schedules and finite windows determine the observation domain, the dyadic ledger fixes the tolerance tests, and the two RegSeqRat rows are the only regular rational readbacks available to the classifier.
+
+Apply \autoref{thm:regular-sequence-equivalence-symmetric-tail-obligations}. It identifies the two directional tail reads with the same finite classifier row over the same ledger and the same terminal Real seal.
+
+Since $A$ is attached after the two readbacks and the classifier, every Real-facing comparison must pass through the displayed sequence of rows. The remaining $H,C,P,N$ coordinates transport, replay, package, and name this route, while the excluded quotient, selection, host-equality, choice, and completeness data never appear in the carrier.
+\end{proof}
+
+\closureat{RegularSequenceEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\RegularSequenceEquivalenceUp}
+  \constructivestory{A $\RegularSequenceEquivalenceUp$ packet is generated from paired StreamName schedules, paired finite window lists, a shared DyadicRatCore tolerance ledger, two RegSeqRat readback rows, a symmetric finite tail classifier, a terminal Real seal-comparison row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-sequence-equivalence-namecert-surface}, \autoref{thm:regular-sequence-equivalence-symmetric-tail-obligations}, and \autoref{thm:regular-sequence-equivalence-real-handoff} bind the finite regular sequence comparison surface over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real equality, countable choice, ambient $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, symmetric tail-classifier stability, RegSeqRat readback exactness, Real seal nonescape, and local NameCert coverage for BEDC.Derived.RegularSequenceEquivalenceUp.}
+\end{closurestatus}

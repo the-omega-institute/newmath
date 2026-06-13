@@ -1,0 +1,315 @@
+\chapter{Information-Channel Normal Form of RH}
+\label{ch:visions-rh-information-channel-normal-form}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-unitary-balance-surface} identifies the critical
+line with the unit-amplitude surface of the centered prime-local channels.
+The present chapter rewrites the same fact in information-channel
+coordinates.  It does not introduce another conjecture and it does not prove
+$\mathsf{RH}$.  It replaces the geometric phrase "line $\Re(s)=1/2$" by the
+coordinate-free certificate condition that every non-trivial prime-source
+cancellation event has zero amplitude bias.
+
+\section{Information coordinates}
+\label{sec:rh-information-coordinates}
+
+\begin{definition}[Bias-clock coordinates]
+\label{def:rh-bias-clock-coordinates}
+For a complex history $s$, write
+$$
+s=\frac{1}{2}+\delta+i\tau.
+$$
+The real parameter $\delta$ is the amplitude-bias coordinate, and the real
+parameter $\tau$ is the phase-clock coordinate.  The critical-line predicate
+is then
+$$
+\mathsf{OnCritLine}(s)
+\quad\Longleftrightarrow\quad
+\delta\hsame 0.
+$$
+\end{definition}
+
+\begin{definition}[Prime information source]
+\label{def:rh-prime-information-source}
+The prime information source is the displayed atomic source $\mathcal P$
+whose atoms are the prime packets carried by $\PrimeUp$.  A positive
+integer packet is read as a finite product of these atoms:
+$$
+n=\prod_p p^{k_p}.
+$$
+Thus the prime source is not an auxiliary interpretation of zeta; it is the
+local coordinate system already exposed by the Euler-product row.
+\end{definition}
+
+\begin{definition}[Centered information channel]
+\label{def:rh-centered-information-channel}
+For $p\in\PrimeUp$ and $s=1/2+\delta+i\tau$, define the centered prime
+information channel
+$$
+U_p(\delta,\tau)=p^{1/2-s}=p^{-\delta-i\tau}.
+$$
+Equivalently,
+$$
+U_p(\delta,\tau)=p^{-\delta}e^{-i\tau\log p}.
+$$
+Its amplitude row is
+$$
+\mathsf{Amp}_p(\delta,\tau)=|U_p(\delta,\tau)|=p^{-\delta}.
+$$
+\end{definition}
+
+\begin{proposition}[Zero bias is unit channel amplitude]
+\label{prop:rh-zero-bias-unit-channel-amplitude}
+For any displayed prime row $p>1$,
+$$
+|U_p(\delta,\tau)|=1
+\quad\Longleftrightarrow\quad
+\delta=0.
+$$
+Consequently,
+$$
+\delta=0
+\quad\Longleftrightarrow\quad
+\forall p\in\PrimeUp,\ |U_p(\delta,\tau)|=1.
+$$
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:rh-centered-information-channel},
+$$
+|U_p(\delta,\tau)|=p^{-\delta}.
+$$
+Since $p>1$, this amplitude is one exactly when $-\delta=0$, equivalently
+$\delta=0$.  The universal statement follows because every displayed prime
+row has the same bias coordinate.
+\end{proof}
+
+\begin{corollary}[Amplitude bias is prime-source tilt]
+\label{cor:rh-amplitude-bias-prime-source-tilt}
+If $\delta>0$, every sufficiently large prime channel is damped by the factor
+$p^{-\delta}<1$.  If $\delta<0$, every sufficiently large prime channel is
+amplified by the factor $p^{-\delta}>1$.  Thus $\delta\neq 0$ is exactly the
+presence of a coherent prime-source amplitude tilt.
+\end{corollary}
+
+\begin{proof}
+This is the sign reading of $|U_p(\delta,\tau)|=p^{-\delta}$.  Positive bias
+places the exponent below zero, while negative bias places the exponent above
+zero.
+\end{proof}
+
+\section{Prime carrier and cancellation events}
+\label{sec:rh-prime-carrier-cancellation-events}
+
+\begin{definition}[Prime carrier]
+\label{def:rh-prime-carrier}
+The prime carrier at information parameter $(\delta,\tau)$ is the analytic
+recovery packet
+$$
+\mathsf{PrimeCarrier}(\delta,\tau)
+=
+\operatorname{AnaRec}
+\left(
+\prod_{p\in\PrimeUp}
+(1-p^{-1/2-\delta-i\tau})^{-1}
+\right).
+$$
+Equivalently, on the Dirichlet projection window, it is recovered from
+$$
+\sum_{n\geq 1}n^{-1/2-\delta-i\tau}.
+$$
+This is the same $\mathsf{ZETA}$ recovery carrier read through the
+information coordinates of \autoref{def:rh-bias-clock-coordinates}.
+\end{definition}
+
+\begin{definition}[Prime-source cancellation]
+\label{def:rh-prime-source-cancellation}
+The prime-source cancellation predicate is
+$$
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+:\Longleftrightarrow
+\mathsf{PrimeCarrier}(\delta,\tau)\hsame 0_{\mathbb C}.
+$$
+It is the information-channel reading of a zeta-zero row: the prime-source
+carrier has a global coherent cancellation at the displayed parameter.
+\end{definition}
+
+\begin{definition}[Information band]
+\label{def:rh-information-band}
+The non-trivial information band is
+$$
+\mathsf{InfoBand}(\delta)
+:\Longleftrightarrow
+-\frac{1}{2}<\delta<\frac{1}{2}.
+$$
+Under $s=1/2+\delta+i\tau$, this is exactly the critical-strip condition
+$0<\Re(s)<1$.
+\end{definition}
+
+\begin{definition}[Information RH]
+\label{def:rh-information-rh}
+The information-channel normal form of the Riemann Hypothesis is
+$$
+\mathsf{InfoRH}_{\mathcal P}
+:\Longleftrightarrow
+\forall(\delta,\tau),\,
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\Longrightarrow
+\delta=0.
+$$
+Equivalently,
+$$
+\forall(\delta,\tau),\,
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\Longrightarrow
+\forall p\in\PrimeUp,\ |U_p(\delta,\tau)|=1.
+$$
+\end{definition}
+
+\begin{proposition}[Information RH is BEDC-RH]
+\label{prop:rh-information-rh-equivalent}
+The proposition $\mathsf{InfoRH}_{\mathcal P}$ is equivalent to the BEDC
+statement $\mathsf{RH}$ of \autoref{def:rh-predicate}.
+\end{proposition}
+
+\begin{proof}
+Substitute $s=1/2+\delta+i\tau$.  Then
+$$
+\mathsf{InfoBand}(\delta)
+\quad\Longleftrightarrow\quad
+\mathsf{InCritStrip}(s),
+$$
+and
+$$
+\delta=0
+\quad\Longleftrightarrow\quad
+\mathsf{OnCritLine}(s).
+$$
+The cancellation predicate is the same zero row as
+$\mathsf{ZetaZero}(s)$, read through the recovered carrier of
+\autoref{def:rh-prime-carrier}.  Therefore
+$$
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\Longrightarrow
+\delta=0
+$$
+is exactly
+$$
+\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)
+\Longrightarrow
+\mathsf{OnCritLine}(s),
+$$
+which is the BEDC-RH predicate.
+\end{proof}
+
+\section{Dual return}
+\label{sec:rh-information-dual-return}
+
+\begin{definition}[Dual-return map]
+\label{def:rh-information-dual-return}
+The information-channel dual return is
+$$
+\mathcal J(\delta,\tau)=(-\delta,\tau).
+$$
+Under the coordinate relation $s=1/2+\delta+i\tau$, this is the mirror map
+$J(s)=1-\overline{s}$ of \autoref{def:rh-mirror-map}.
+\end{definition}
+
+\begin{proposition}[Dual-return fixed packets are zero-bias packets]
+\label{prop:rh-dual-return-fixed-zero-bias}
+For every information parameter $(\delta,\tau)$,
+$$
+(\delta,\tau)=\mathcal J(\delta,\tau)
+\quad\Longleftrightarrow\quad
+\delta=0.
+$$
+\end{proposition}
+
+\begin{proof}
+The equality $(\delta,\tau)=(-\delta,\tau)$ is equivalent to
+$\delta=-\delta$, hence to $\delta=0$.
+\end{proof}
+
+\begin{corollary}[Information fixed-point form of RH]
+\label{cor:rh-information-fixed-point-form}
+The BEDC statement $\mathsf{RH}$ is equivalent to
+$$
+\forall(\delta,\tau),\,
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\Longrightarrow
+(\delta,\tau)=\mathcal J(\delta,\tau).
+$$
+\end{corollary}
+
+\begin{proof}
+Combine \autoref{prop:rh-information-rh-equivalent} with
+\autoref{prop:rh-dual-return-fixed-zero-bias}.  The conclusion
+$\delta=0$ is exactly the dual-return fixed-packet condition.
+\end{proof}
+
+\begin{theorem}[Information-channel normal form]
+\label{thm:rh-information-channel-normal-form}
+The following are equivalent readings of the same RH target:
+$$
+\mathsf{ZetaZero}(s)\wedge\mathsf{InCritStrip}(s)
+\Longrightarrow
+\mathsf{OnCritLine}(s),
+$$
+$$
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\Longrightarrow
+\delta=0,
+$$
+$$
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\Longrightarrow
+\forall p\in\PrimeUp,\ |U_p(\delta,\tau)|=1,
+$$
+and
+$$
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\Longrightarrow
+(\delta,\tau)=\mathcal J(\delta,\tau).
+$$
+\end{theorem}
+
+\begin{proof}
+The first and second forms are equivalent by the coordinate substitution
+$s=1/2+\delta+i\tau$ used in
+\autoref{prop:rh-information-rh-equivalent}.  The second and third forms are
+equivalent by \autoref{prop:rh-zero-bias-unit-channel-amplitude}.  The second
+and fourth forms are equivalent by
+\autoref{prop:rh-dual-return-fixed-zero-bias}.
+\end{proof}
+
+\begin{remark}[Information reading]
+\label{rem:rh-information-reading}
+In this normal form, a non-trivial zero is read as a global cancellation
+event of the recovered prime-source carrier.  The coordinate $\delta$ records
+the coherent amplitude bias of every centered prime channel, while $\tau$
+records the phase clock.  The functional-equation mirror changes the sign of
+$\delta$ and preserves $\tau$.  The RH target states that every non-trivial
+cancellation event is fixed by this dual return, equivalently that it occurs
+with zero amplitude bias.
+\end{remark}
+
+\concretizedIn{ch:concrete-instances-prime-namecert}{The prime source $\mathcal P$ is realized by the finite $\PrimeUp$ NameCert surface and its factorization rows.}
+\concretizedIn{ch:concrete-instances-zeta-basic-namecert}{The right-half-plane prime carrier projection is realized by the $\ZetaBasicUp$ Dirichlet and Euler-product rows.}
+\concretizedIn{ch:concrete-instances-zeta-continuation-witness-namecert}{The analytic recovery of $\mathsf{PrimeCarrier}$ is routed through the zeta-continuation witness packet.}
+\concretizedIn{ch:concrete-instances-zeta-functional-equation-ledger-namecert}{The dual-return map is the information-coordinate reading of the zeta functional-equation mirror row.}
+\concretizedIn{ch:concrete-instances-criticalstripzetazerowitness-namecert}{Prime-source cancellation in the information band is consumed through the critical-strip zeta-zero witness surface.}
+\concretizedIn{ch:concrete-instances-criticallinewitness-namecert}{Zero-bias output is the information-channel reading of the critical-line witness packet.}

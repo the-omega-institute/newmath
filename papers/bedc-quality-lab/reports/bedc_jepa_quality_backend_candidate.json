@@ -1,0 +1,214 @@
+{
+  "artifacts": {
+    "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
+    "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+    "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
+    "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
+    "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
+    "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
+    "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
+    "readiness": "reports/bedc_jepa_readiness.json",
+    "review_bundle": "reports/bedc_jepa_review_bundle.json"
+  },
+  "backend": {
+    "assumptions": [
+      "boundary_gated_world",
+      "operational_distinction_labels",
+      "gap_ledger_labels",
+      "train_eval_split",
+      "lab_local_scope"
+    ],
+    "candidate_loader_path": "bedc_quality_lab.backends.bedc_jepa_world:BEDCJEPAWorldModelBackendEvidenceAdapter",
+    "hardgates": [
+      "artifact_review_bundle",
+      "local_visual_planning",
+      "native_public_jepa_benchmark",
+      "object_counterfactual_clutter",
+      "public_jepa_checkpoint_contact",
+      "public_minigrid_execution",
+      "torch_objective_seed_sweep"
+    ],
+    "ledger_rows": [
+      {
+        "kind": "source",
+        "residue": "operational-distinction-grounding"
+      },
+      {
+        "kind": "source",
+        "residue": "gap-ledger-label-grounding"
+      },
+      {
+        "kind": "classifier",
+        "residue": "distinction-head-certificate"
+      },
+      {
+        "kind": "classifier",
+        "residue": "gap-head-certificate"
+      },
+      {
+        "kind": "stability",
+        "residue": "public-benchmark-contact-readiness"
+      },
+      {
+        "kind": "generalization",
+        "residue": "global-claim-boundary"
+      },
+      {
+        "kind": "mechanism",
+        "residue": "mechanism-closure-debt"
+      }
+    ],
+    "metrics": [
+      "torch_objective_gap_auc_gain_mean",
+      "torch_objective_debt_reduction_mean",
+      "torch_objective_gap_auc_win_rate",
+      "torch_objective_latent_r2_delta_abs_max",
+      "minigrid_gap_auc_gain",
+      "minigrid_risk_adjusted_planning_gain",
+      "native_unlogged_error_reduction",
+      "native_planning_high_gap_reduction",
+      "seed_sweep_unlogged_error_win_rate",
+      "checkpoint_contact_closed",
+      "native_public_benchmark_closed",
+      "artifact_review_bundle_closed"
+    ],
+    "name": "bedc-jepa-world-model",
+    "not_claimed": [
+      "global model quality",
+      "full LeJEPA reproduction",
+      "full TensorNameCert",
+      "LLM behavior quality",
+      "public benchmark superiority",
+      "robotics benchmark result",
+      "large-scale real-world conclusion",
+      "formal neural-network proof",
+      "mechanism closure"
+    ],
+    "scope_kind": "non-canonical-backend-probe"
+  },
+  "classifier_spec": {
+    "adapter_boundary": "thin projection over existing BEDC-JEPA reports",
+    "readiness_decision": "external_bundle_ready",
+    "review_status": "review_ready"
+  },
+  "forbidden_surfaces": [
+    "model runner execution",
+    "canonical writer execution",
+    "terminal verdict projection",
+    "raw benchmark regeneration"
+  ],
+  "ledger_rows": [
+    {
+      "evidence_pointer": "reports/bedc_jepa_artifact_manifest.json:$.contact_ready_claims",
+      "key": "source/operational-distinction-grounding",
+      "kind": "source",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "operational-distinction-grounding",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_artifact_manifest.json:$.contact_ready_claims",
+      "key": "source/gap-ledger-label-grounding",
+      "kind": "source",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "gap-ledger-label-grounding",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_review_bundle.json:$.checks",
+      "key": "classifier/distinction-head-certificate",
+      "kind": "classifier",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "distinction-head-certificate",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_review_bundle.json:$.checks",
+      "key": "classifier/gap-head-certificate",
+      "kind": "classifier",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "gap-head-certificate",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_readiness.json:$.evidence_boundary.native_public_benchmark",
+      "key": "stability/public-benchmark-contact-readiness",
+      "kind": "stability",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "public-benchmark-contact-readiness",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_review_bundle.json:$.cannot_claim",
+      "key": "generalization/global-claim-boundary",
+      "kind": "generalization",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "global-claim-boundary",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_review_bundle.json:$.cannot_claim",
+      "key": "mechanism/mechanism-closure-debt",
+      "kind": "mechanism",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "mechanism-closure-debt",
+      "severity": "boundary",
+      "status": "open"
+    }
+  ],
+  "metrics": {
+    "artifact_review_bundle_closed": 1.0,
+    "checkpoint_contact_closed": 1.0,
+    "minigrid_gap_auc_gain": 0.4284585738549478,
+    "minigrid_risk_adjusted_planning_gain": 0.3134940677118583,
+    "native_planning_high_gap_reduction": 0.6875,
+    "native_public_benchmark_closed": 1.0,
+    "native_unlogged_error_reduction": 0.125,
+    "seed_sweep_unlogged_error_win_rate": 0.6,
+    "torch_objective_debt_reduction_mean": 0.10288747050501545,
+    "torch_objective_gap_auc_gain_mean": 0.4987624509356536,
+    "torch_objective_gap_auc_win_rate": 1.0,
+    "torch_objective_latent_r2_delta_abs_max": 0.0
+  },
+  "not_claimed": [
+    "global model quality",
+    "full LeJEPA reproduction",
+    "full TensorNameCert",
+    "LLM behavior quality",
+    "public benchmark superiority",
+    "robotics benchmark result",
+    "large-scale real-world conclusion",
+    "formal neural-network proof",
+    "mechanism closure"
+  ],
+  "pattern_spec": {
+    "planning": "risk-adjusted planning via gap readout",
+    "readback": "distinction and gap ledger readout",
+    "systems": [
+      "S0",
+      "S1",
+      "S2",
+      "S3"
+    ]
+  },
+  "schema_id": "bedc-jepa-quality-backend-candidate",
+  "source_spec": {
+    "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
+    "producer_branch_role": "bedc-jepa-world-model evidence producer",
+    "readiness": "reports/bedc_jepa_readiness.json",
+    "review_bundle": "reports/bedc_jepa_review_bundle.json",
+    "world_state_contract": "continuous latent state plus operational distinctions plus gap ledger"
+  },
+  "stability_spec": {
+    "artifact_review_bundle": "closed",
+    "checkpoint_contact": "closed",
+    "native_public_benchmark": "closed",
+    "seed_sweep_count": 5.0
+  }
+}

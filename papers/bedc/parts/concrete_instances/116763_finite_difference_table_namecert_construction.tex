@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDifferenceTableUp$}
+\label{ch:concrete-instances-finite-difference-table-namecert}
+\origin{human}
+
+Following Newton's finite-difference calculus and Bishop--Bridges constructive analysis, the $\FiniteDifferenceTableUp$ packet records a finite triangular table of successive differences as displayed BEDC rows. It sits over the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-difference surface of \autoref{ch:concrete-instances-finite-difference-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-facing boundary of \autoref{ch:concrete-instances-completion-namecert}. The packet supplies calculus, Real, and completion consumers with a finite table surface; it does not import a host derivative operator, quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite difference table carrier]
+\label{def:finite-difference-table-carrier}
+A $\FiniteDifferenceTableUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,W,R,D,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ row listing the finite source-name windows whose values seed the first table row.
+\item $W$ is the window ledger recording the finite index interval, row height, mesh step, and endpoint reuse schedule for the displayed table.
+\item $R$ is the $\RegSeqRatUp$ readback row for every source value and every derived table entry.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used for adjacent subtraction, row-to-row error budgeting, and terminal seal precision.
+\item $L$ is the table ledger, listing the displayed rows
+$$
+L_0,L_1,\ldots,L_k
+$$
+where $L_0$ is the read source row and each $L_{i+1}$ is obtained from adjacent finite differences in $L_i$ under the same dyadic budget.
+\item $E$ is the terminal $\RealUp$ seal row for the table entries and the completion-facing readback endpoints.
+\item $H$ records componentwise $\hsame$ transport for source windows, regular rational readbacks, dyadic tolerance rows, table rows, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a table request through
+$$
+S,W \longmapsto R \longmapsto D \longmapsto L \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteDifferenceTableUp$, $\FiniteDifferenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteDifferenceTableUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed source windows, regular readbacks, dyadic budgets, table rows, Real seals, transport, replay, provenance, and local naming rows. It has no coordinate for a host derivative operator, quotient stream equality, selected limiting process, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.FiniteDifferenceTableUp.FiniteDifferenceTableTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Finite difference table NameCert obligations]
+\label{thm:finite-difference-table-namecert-obligations}
+For every accepted $\FiniteDifferenceTableUp$ carrier
+$$
+T=(S,W,R,D,L,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteDifferenceTableUp}$ surface consists exactly of source-window admission, table-window admission, $\RegSeqRatUp$ readback for every displayed entry, $\DyadicRatCoreUp$ tolerance exactness for adjacent differences, table-ledger exactness for $L_0,\ldots,L_k$, terminal $\RealUp$ sealing, completion-facing endpoint exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteDifferenceTableUp.FiniteDifferenceTableCarrier\_namecert\_obligations}
+\begin{proof}
+Project the accepted carrier of \autoref{def:finite-difference-table-carrier}. The rows $S$ and $W$ are the only source of inspected names, finite windows, mesh requests, row height, and endpoint reuse.
+
+Proceed by finite induction on the displayed table rows. The base row $L_0$ is read from $S$ through $R$ under the dyadic budget $D$. In the induction step, $L_{i+1}$ is obtained only from adjacent entries of $L_i$, again through $R$ and $D$, so no host derivative operator or selected limiting process is introduced.
+
+The terminal rows $E,H,C,P,N$ seal, transport, replay, source, and name the same finite table route. Since the carrier has no coordinate for quotient stream equality, countable choice, or ambient $\RealUp$ completeness, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Finite difference table RegSeqRat handoff]
+\label{thm:finite-difference-table-regseqrat-handoff}
+Every Real-facing or completion-facing consumer of an accepted $\FiniteDifferenceTableUp$ packet receives the table only after the $\RegSeqRatUp$ row $R$ has read each displayed source entry and each displayed adjacent-difference entry under the $\DyadicRatCoreUp$ budget $D$. The handoff reaches $\RealUp$ and $\CompletionUp$ only through the finite route
+$$
+S,W \longmapsto R \longmapsto D \longmapsto L \longmapsto E,
+$$
+not through derivative semantics, quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:finite-difference-table-namecert-obligations}. They force every accepted table read to expose the source windows, table-window ledger, regular rational readback, dyadic tolerance row, table ledger, and Real seal before a downstream consumer can use the result.
+
+Use finite induction on the displayed table rows. The base row is a finite $\RegSeqRatUp$ readback of the source windows. Each successor row is a finite adjacent-difference pass through the same readback and dyadic tolerance rows, so the table never becomes an infinite stream quotient or a selected limit.
+
+Finally read the handoff rows. The $\RealUp$ seal and the $\CompletionUp$ endpoint exposure are downstream of $L$ and preserve the same finite route through $H,C,P,N$. Thus a Real or completion consumer receives only the displayed table data and not a host derivative, countable-choice schedule, quotient equality, selected limiting process, or ambient completeness claim.
+\end{proof}
+
+\begin{theorem}[Finite difference table calculus and completion route]
+\label{thm:finite-difference-table-calculus-completion-route}
+Every $\CalculusUp$, $\RealUp$, or $\CompletionUp$ consumer citing an accepted $\FiniteDifferenceTableUp$ packet must first read the source windows $S$, the table-window ledger $W$, the regular rational readback row $R$, the dyadic tolerance row $D$, and the full table ledger $L_0,\ldots,L_k$. Only then may it consume the terminal seal $E$ with transport, replay, provenance, and local naming rows still visible.
+\end{theorem}
+\begin{proof}
+Project the table carrier. The route to any calculus, Real, or completion consumer is displayed as $S,W,R,D,L,E,H,C,P,N$.
+
+Apply the RegSeqRat handoff. It places every source entry and adjacent-difference entry behind $R$ and $D$ before the terminal seal can be read.
+
+The finite induction on $L_0,\ldots,L_k$ accounts for the whole table ledger. The structural rows then transport and replay the same finite object, so the downstream route cannot add derivative operators, quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteDifferenceTableUp$ read factors through source StreamName windows, RegSeqRat readbacks, DyadicRatCore adjacent-difference budgets, displayed table rows, a RealUp seal, completion-facing endpoint exposure, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{finite-difference, streamname, regseqrat, dyadicratcore, real, completion: $\FiniteDifferenceTableUp$ is not bijective to any listed sibling because it jointly carries the source windows, finite table ledger, rowwise adjacent-difference route, rational readback, dyadic budgets, Real seal, completion endpoint exposure, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{FiniteDifferenceTableUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDifferenceTableUp}
+  \constructivestory{A $\FiniteDifferenceTableUp$ packet is generated from finite StreamName source windows, RegSeqRat readbacks, DyadicRatCore adjacent-difference budgets, a displayed table ledger, a RealUp seal, completion-facing endpoint exposure, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-difference-table-carrier}, \autoref{thm:finite-difference-table-namecert-obligations}, \autoref{thm:finite-difference-table-regseqrat-handoff}, and \autoref{thm:finite-difference-table-calculus-completion-route} seed the finite table carrier, certificate surface, rational readback handoff, and calculus/Real/completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host derivative operators, quotient stream equality, selected limits, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-window admission, rowwise difference induction, RegSeqRat readback exactness, DyadicRatCore tolerance exactness, Real sealing, completion endpoint exposure, transport, replay, provenance, and local naming for BEDC.Derived.FiniteDifferenceTableUp.}
+\end{closurestatus}

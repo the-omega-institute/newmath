@@ -1,0 +1,34 @@
+\subsection{Clock-Dependence Coverage Control for GSE165179 MPTR Methylation}
+\label{sec:age-clock-shift-clock-dependence-coverage-control-gse165180}
+
+\paragraph{Finite object.}
+The record concerns the GSE165180 SuperSeries as the access route to the GSE165179 processed EPIC methylation beta matrix, with donor-labelled baseline fibroblast samples and day-10 exp2 transiently reprogrammed MPTR fibroblast samples for donors O1, O2, and O3. The finite carrier used here is
+$$
+\begin{aligned}
+B_{\mathrm{CDC}}=(M,W_{H1},W_{H2},I,U_{H1},U_{H2},T,\Delta_I,V,L,N),
+\end{aligned}
+$$
+where $M$ is the curated methylation matrix, $W_{H1}$ is the pan-tissue Horvath353 coefficient table with its fixed offset, $W_{H2}$ is the skin-and-blood Horvath2 coefficient table with its fixed offset, $I$ is the CpG intersection of the two clocks, $U_{H1}$ and $U_{H2}$ are the clock-specific complements, $T$ is the donor-paired baseline-versus-MPTR contrast, $\Delta_I$ is the shared-CpG displacement scored in each clock's own weight coordinates, $V$ is the coverage verdict, $L=\mathrm{age\_signature}$ is the only layer label asserted by this record, and $N$ is the local no-promotion boundary.
+
+\paragraph{Observed contact.}
+The methylation contact is $\mathrm{k\text{-}a.gse165180.horvath353}$. Its recorded source is the GSE165180 SuperSeries GPL21145 methylation annotation set, the GSE165179 MPTR processed transient EPIC beta matrix, and the Horvath353 coefficient table. The contact supplies CpG-level beta values for covered Horvath353 markers, coefficient weights, the clock intercept, sample titles, GSM accessions, donor identifiers, cell-type annotations, reprogramming-phase annotations, and same-donor baseline-versus-MPTR pairing. The curated Horvath353 slice covers $334$ of $353$ Horvath clock CpGs. The contact is explicitly narrow: it is a methylation-array readout of a clock score, not an assay of cell identity, tissue function, organismal safety, renewable maintenance, or cross-layer causal structure.
+
+\paragraph{Clock partition.}
+The verified run $\mathrm{eed7b97b409f}$, completed at $\mathrm{2026\text{-}06\text{-}11T07{:}33{:}16+00{:}00}$, used the input file $\mathrm{tools/cellstate\_reality/data/gse165179\_dualclock\_inputs.json}$ for experiment $\mathrm{gse165179\_clock\_dependence\_coverage\_control}$. The coefficient-set partition is finite and concrete: the two clocks share $60$ CpGs, Horvath353 has $293$ CpGs outside that intersection, and Horvath2 has $331$ CpGs outside that intersection. Thus the verified row records
+$$
+\begin{aligned}
+|I|&=60,\\
+|U_{H1}|&=293,\\
+|U_{H2}|&=331.
+\end{aligned}
+$$
+The skin-and-blood Horvath2 coefficient set is fully covered in this finite input, recorded as $\mathrm{skinblood\_full\_coverage}=\mathrm{true}$. The same run records $\mathrm{reversal\_explained\_by\_coverage}=\mathrm{false}$, so the late split between the two clock readbacks is not discharged as a mere missing-CpG artifact by this coverage check.
+
+\paragraph{Shared-coordinate test.}
+The control asks a specific methodological question: after partitioning the clocks into shared and clock-specific CpGs, does restriction to the shared $60$-CpG coordinate set make the late clock sign split disappear as a coverage artifact? The answer in the verified row is no. Full Horvath2 coverage coexists with no late reversal under the skin-and-blood clock, while the pan-tissue Horvath353 readback carries the late reversal readback in the finite contrast. Because the shared subset is scored separately under each clock's own coefficient weights, the comparison is not a claim that the two clocks measure the same biological variable. It is only a check that the discrepancy survives a controlled coefficient-coverage decomposition.
+
+\paragraph{Verdict.}
+The local verdict is passed for the age-signature layer: GSE165179, reached through GSE165180, supports a finite clock-dependence coverage control in which $|I|=60$, $|U_{H1}|=293$, $|U_{H2}|=331$, full Horvath2 coverage is present, and the coverage explanation for the late split is false. The result therefore rules out one narrow methodological explanation, namely that the observed clock disagreement is simply due to absent Horvath2 CpGs in the processed methylation matrix. It does not certify a clock-independent biological age state. The output remains a DNAm-clock method certificate over a small donor-paired MPTR contrast with three donor pairs and known donor-level heterogeneity, including one donor whose treated-minus-baseline DNAm-age delta is positive.
+
+\paragraph{Local no-promotion boundary.}
+No translation result, folding statement, physical admissibility claim, function claim, mechanism claim, or universality claim follows from this record unless another contact independently supplies that information. In particular, the passed coverage control does not establish identity preservation, rejuvenation, safety, maintenance, immortality, or a general theory of biological true age. It also does not justify merging GSE165180 or GSE165179 with GSE142439 as a single cohort. The only asserted layer is $\mathrm{age\_signature}$, and the null boundary remains active for identity, function, safety, rejuvenation, maintenance, and immortality.

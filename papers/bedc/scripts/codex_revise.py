@@ -1139,28 +1139,10 @@ def _codex_resolve_post_rebase_audit(
 
 
 def _ff_local_branch_to(target: str) -> tuple[bool, str]:
-    """Fast-forward local BASE_BRANCH to `target` (a SHA or revision).
-
-    Works whether or not REPO_ROOT's currently-checked-out branch is
-    BASE_BRANCH — earlier versions used `git merge --ff-only` which silently
-    advanced the wrong branch when the user's working tree was checked out
-    on something else (e.g. `paper-dev`).
-
-    - If REPO_ROOT is on BASE_BRANCH: use `git merge --ff-only` (working tree
-      gets the new files).
-    - Otherwise: use `git fetch . target:BASE_BRANCH` — a ref-only ff update
-      that does not touch any working tree and refuses non-ff (we want that).
-    """
-    head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
-                   cwd=REPO_ROOT, timeout=10)
-    current = (head.stdout or "").strip()
-    if current == BASE_BRANCH:
-        r = run_cmd(["git", "merge", "--ff-only", target],
-                    cwd=REPO_ROOT, timeout=30)
-    else:
-        r = run_cmd(["git", "fetch", ".", f"{target}:{BASE_BRANCH}"],
-                    cwd=REPO_ROOT, timeout=30)
-    return r.returncode == 0, (r.stderr or r.stdout or "")[-300:]
+    """Fast-forward local BASE_BRANCH to target without moving a stale checkout."""
+    outcome = _advance_local_base_ref(BASE_BRANCH, target)
+    ok = outcome in {"ff-merged", "ref-only-ff", "already-current"}
+    return ok, outcome
 
 
 def _base_contains_origin() -> bool:
@@ -1171,28 +1153,119 @@ def _base_contains_origin() -> bool:
     ).returncode == 0
 
 
-def _ff_base_ref_to_origin() -> bool:
-    local = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT, timeout=30)
-    remote = run_cmd(["git", "rev-parse", f"origin/{BASE_BRANCH}"], cwd=REPO_ROOT, timeout=30)
-    if local.returncode != 0 or remote.returncode != 0:
-        return False
-    local_sha = local.stdout.strip()
-    remote_sha = remote.stdout.strip()
-    if local_sha == remote_sha:
-        return True
-    can_ff = run_cmd(
-        ["git", "merge-base", "--is-ancestor", local_sha, remote_sha],
-        cwd=REPO_ROOT,
+BASE_REF_ADVANCE_OUTCOMES = {
+    "ff-merged",
+    "skipped-dirty",
+    "ref-only-ff",
+    "skipped-not-ancestor",
+    "already-current",
+    "skipped-read-error",
+    "skipped-branch-mismatch",
+}
+
+
+def _base_ref_checked_out_paths(base_branch: str) -> list[str]:
+    result = run_cmd(["git", "worktree", "list", "--porcelain"], cwd=REPO_ROOT, timeout=30)
+    if result.returncode != 0:
+        raise RuntimeError((result.stderr or result.stdout or "worktree list failed").strip()[-300:])
+    paths: list[str] = []
+    current_path: str | None = None
+    for line in (result.stdout or "").splitlines():
+        if line.startswith("worktree "):
+            current_path = line[len("worktree "):].strip()
+        elif line == f"branch refs/heads/{base_branch}" and current_path:
+            paths.append(current_path)
+    return paths
+
+
+def _tracked_dirty_summary(path: Path) -> str:
+    status = run_cmd(
+        ["git", "status", "--porcelain=v1", "--untracked-files=no"],
+        cwd=path,
         timeout=30,
-    ).returncode == 0
-    if not can_ff:
-        return False
-    update = run_cmd(
-        ["git", "update-ref", f"refs/heads/{BASE_BRANCH}", remote_sha, local_sha],
+    )
+    if status.returncode != 0:
+        return (status.stderr or status.stdout or "status failed").strip()[-300:]
+    lines = [line for line in (status.stdout or "").splitlines() if line.strip()]
+    if not lines:
+        return ""
+    summary = "; ".join(lines[:5])
+    if len(lines) > 5:
+        summary += f"; ... {len(lines) - 5} more"
+    return summary
+
+
+def _advance_local_base_ref(base_branch: str, target_ref: str) -> str:
+    try:
+        checked_out_paths = _base_ref_checked_out_paths(base_branch)
+    except RuntimeError as exc:
+        logger.warning(
+            f"[base-ref-guard] skip advancing {base_branch}: cannot enumerate "
+            f"worktrees: {exc}"
+        )
+        return "skipped-read-error"
+    if checked_out_paths:
+        wt_path = Path(checked_out_paths[0])
+        head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"], cwd=wt_path, timeout=10)
+        current_branch = (head.stdout or "").strip()
+        if head.returncode != 0 or current_branch != base_branch:
+            logger.warning(
+                f"[base-ref-guard] skip advancing {base_branch}: checked out at "
+                f"{wt_path} but current branch is {current_branch or 'detached'}"
+            )
+            return "skipped-branch-mismatch"
+        dirty = _tracked_dirty_summary(wt_path)
+        if dirty:
+            logger.warning(
+                f"[base-ref-guard] skip advancing {base_branch}: checked out at "
+                f"{wt_path} with dirty tracked state: {dirty}"
+            )
+            return "skipped-dirty"
+        merge = run_cmd(["git", "merge", "--ff-only", target_ref], cwd=wt_path, timeout=120)
+        if merge.returncode == 0:
+            return "ff-merged"
+        logger.warning(
+            f"[base-ref-guard] skip advancing {base_branch}: {target_ref} is not "
+            f"a fast-forward target for checked-out worktree {wt_path}: "
+            f"{(merge.stderr or merge.stdout or '').strip()[-300:]}"
+        )
+        return "skipped-not-ancestor"
+
+    local = run_cmd(["git", "rev-parse", base_branch], cwd=REPO_ROOT, timeout=30)
+    target = run_cmd(["git", "rev-parse", target_ref], cwd=REPO_ROOT, timeout=30)
+    if local.returncode != 0 or target.returncode != 0:
+        logger.warning(
+            f"[base-ref-guard] skip advancing {base_branch}: cannot read "
+            f"{base_branch} or {target_ref}"
+        )
+        return "skipped-read-error"
+    local_sha = local.stdout.strip()
+    target_sha = target.stdout.strip()
+    if local_sha == target_sha:
+        return "already-current"
+    can_ff = run_cmd(
+        ["git", "merge-base", "--is-ancestor", local_sha, target_sha],
         cwd=REPO_ROOT,
         timeout=30,
     )
-    return update.returncode == 0
+    if can_ff.returncode != 0:
+        logger.warning(
+            f"[base-ref-guard] skip advancing {base_branch}: {target_ref} is not "
+            "a fast-forward target"
+        )
+        return "skipped-not-ancestor"
+    update = run_cmd(
+        ["git", "update-ref", f"refs/heads/{base_branch}", target_sha, local_sha],
+        cwd=REPO_ROOT,
+        timeout=30,
+    )
+    if update.returncode == 0:
+        return "ref-only-ff"
+    logger.warning(
+        f"[base-ref-guard] skip advancing {base_branch}: update-ref failed: "
+        f"{(update.stderr or update.stdout or '').strip()[-300:]}"
+    )
+    return "skipped-read-error"
 
 
 def _sync_base_via_worktree(*, model: Optional[str] = None) -> bool:
@@ -1235,13 +1308,9 @@ def _sync_base_via_worktree(*, model: Optional[str] = None) -> bool:
                     return False
                 if current_base.stdout.strip() != base_tip:
                     return _base_contains_origin()
-                update = run_cmd(
-                    ["git", "update-ref", f"refs/heads/{BASE_BRANCH}", new_tip.stdout.strip(), base_tip],
-                    cwd=REPO_ROOT,
-                    timeout=30,
-                )
-                if update.returncode != 0:
-                    logger.error(f"_sync_local_with_origin: cannot update {BASE_BRANCH}: {(update.stderr or '')[-300:]}")
+                outcome = _advance_local_base_ref(BASE_BRANCH, new_tip.stdout.strip())
+                if outcome not in {"ff-merged", "ref-only-ff", "already-current"}:
+                    logger.error(f"_sync_local_with_origin: cannot advance {BASE_BRANCH}: {outcome}")
                     return False
                 return _base_contains_origin()
         except TimeoutError as exc:
@@ -1269,11 +1338,8 @@ def _sync_local_with_origin(*, model: Optional[str] = None) -> bool:
                     cwd=REPO_ROOT, timeout=300)
             if _base_contains_origin():
                 return True
-            ff = run_cmd(["git", "fetch", "origin", f"{BASE_BRANCH}:{BASE_BRANCH}"],
-                         cwd=REPO_ROOT, timeout=120)
-            if ff.returncode == 0:
-                return _base_contains_origin()
-            if _ff_base_ref_to_origin():
+            outcome = _advance_local_base_ref(BASE_BRANCH, f"origin/{BASE_BRANCH}")
+            if outcome in {"ff-merged", "ref-only-ff", "already-current"}:
                 return _base_contains_origin()
     except TimeoutError as exc:
         logger.warning(f"_sync_local_with_origin: push lock timeout; skipping sync: {exc}")
@@ -1438,7 +1504,7 @@ def _recovery_loop(poll_seconds: float = 30.0,
         if codex_ok:
             logger.info(f"[recovery] {wt.branch} codex done; retrying merge_worktree_to_base")
             try:
-                merged = merge_worktree_to_base(wt, model=model)
+                merged = merge_worktree_to_base(wt, model=model, verify_before_push=True)
             except Exception as exc:
                 logger.error(f"[recovery] {wt.branch} retry merge crashed: {exc}")
         if merged:
@@ -1465,7 +1531,12 @@ def _recovery_loop(poll_seconds: float = 30.0,
     logger.info("[recovery] stopped")
 
 
-def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
+def merge_worktree_to_base(
+    wt: WorktreeInfo,
+    *,
+    model: Optional[str] = None,
+    verify_before_push: bool = False,
+) -> bool:
     """Merge BASE_BRANCH into the worktree branch, ff-update locally, push.
 
     Round commits are preserved verbatim under a merge commit; conflict
@@ -1561,9 +1632,26 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     captured_base_sha = run_cmd(
         ["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT
     ).stdout.strip()
+    verified_push_tips: set[str] = set()
 
     # Phase 2: Push retry loop (short push lock per attempt)
     for attempt in range(1, MAX_PUSH_ATTEMPTS + 1):
+        retry_merge_reason: str | None = None
+        if verify_before_push:
+            wt_tip_pre = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
+            if wt_tip_pre not in verified_push_tips:
+                logger.info(
+                    f"[P{wt.round_number}] recovery pre-push verify for {wt_tip_pre[:8]}"
+                )
+                verified, _verified_commits = verify_worktree_commits(wt, [])
+                if not verified:
+                    logger.error(
+                        f"[P{wt.round_number}] recovery pre-push verify failed; "
+                        "refusing to push"
+                    )
+                    return False
+                verified_push_tips.add(wt_tip_pre)
+
         if _pl is not None:
             try:
                 push_lock_cm = _pl(BASE_BRANCH, timeout=600)
@@ -1588,8 +1676,15 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                         f"{captured_base_sha[:8]} -> {current_base_sha[:8]}, "
                         f"retry needed (attempt {attempt})"
                     )
+                    retry_merge_reason = "origin-moved"
                 else:
                     wt_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt.path).stdout.strip()
+                    if verify_before_push and wt_tip not in verified_push_tips:
+                        logger.warning(
+                            f"[P{wt.round_number}] worktree tip changed after recovery "
+                            f"pre-push verify ({wt_tip[:8]}); retrying"
+                        )
+                        continue
                     ok, msg = _ff_local_branch_to(wt_tip)
                     if ok:
                         local_contains = run_cmd(
@@ -1634,6 +1729,8 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                             f"[P{wt.round_number}] ff update failed attempt {attempt} "
                             f"(transient diverge, will retry): {msg.strip()[:200]}"
                         )
+                        if msg.strip() == "skipped-not-ancestor":
+                            retry_merge_reason = "local-not-ancestor"
         except TimeoutError as exc:
             logger.warning(f"[P{wt.round_number}] push lock timeout attempt {attempt}: {exc}")
 
@@ -1655,11 +1752,32 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             return False
         with _git_lock:
             new_base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT).stdout.strip()
-        if new_base_sha != captured_base_sha:
+        if new_base_sha != captured_base_sha or retry_merge_reason == "local-not-ancestor":
+            if retry_merge_reason == "local-not-ancestor":
+                logger.info(
+                    f"[P{wt.round_number}] retry merging current local "
+                    f"{BASE_BRANCH} after skipped-not-ancestor"
+                )
             merge = run_cmd(
                 ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
                 cwd=wt.path, timeout=180,
             )
+            if merge.returncode != 0:
+                unmerged = run_cmd(
+                    ["git", "diff", "--name-only", "--diff-filter=U"],
+                    cwd=wt.path,
+                )
+                if not unmerged.stdout.strip():
+                    logger.warning(
+                        f"[P{wt.round_number}] retry merge blocked before start "
+                        f"(no unmerged paths): {(merge.stderr or merge.stdout or '').strip()[:200]}; "
+                        "stashing uncommitted state and retrying merge"
+                    )
+                    run_cmd(["git", "stash", "--include-untracked"], cwd=wt.path)
+                    merge = run_cmd(
+                        ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
+                        cwd=wt.path, timeout=180,
+                    )
             if merge.returncode != 0:
                 logger.warning(f"[P{wt.round_number}] retry merge conflict, invoking codex")
                 resolved = _codex_resolve_conflicts(wt.path, model=model)

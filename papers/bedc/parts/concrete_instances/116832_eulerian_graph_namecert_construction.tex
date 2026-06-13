@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\EulerianGraphUp$}
+\label{ch:concrete-instances-eulerian-graph-namecert}
+\origin{human}
+
+Following Euler and standard finite graph theory, the $\EulerianGraphUp$ packet names the finite parity and edge-traversal ledger behind Eulerian closed trails. It reads its graph carrier from \autoref{ch:concrete-instances-graph-namecert}, tree-style finite support traversal from \autoref{ch:concrete-instances-tree-namecert}, path and endpoint rows from \autoref{ch:concrete-instances-shortestpath-namecert}, spanning support bookkeeping from \autoref{ch:concrete-instances-spanningtree-namecert}, matching-style incidence pairing from \autoref{ch:concrete-instances-matching-namecert}, and residual edge-consumption ledgers from \autoref{ch:concrete-instances-networkflow-namecert}. The packet is finite: it records vertices, edges, incidence parity, non-isolated connected support, a closed edge-traversal schedule, structural transport, replay, provenance, and local naming, without importing an ambient infinite graph, a host theorem of Eulerianity, quotient equality of trails, or a selected external traversal.
+
+\begin{definition}[EulerianGraph finite trail carrier]
+\label{def:eulerian-graph-carrier}
+An $\EulerianGraphUp$ carrier is a finite $\BHist$ packet
+$$
+E=(G,I,P,S,T,M,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GraphUp$ carrier row, including finite vertex rows, finite edge rows, endpoint readback, and componentwise graph classification.
+\item $I$ is the incidence ledger, listing for each vertex the incident edge occurrences and their endpoint orientation as finite rows.
+\item $P$ is the even-degree parity row, pairing the incident edge occurrences at every vertex and exposing the empty-pair branch for isolated vertices.
+\item $S$ is the connected non-isolated support row, recording finite reachability among all vertices incident to at least one edge.
+\item $T$ is the edge-traversal schedule, a finite ordered row of edge occurrences whose edge projection lists every edge exactly once.
+\item $M$ is the closed-trail endpoint-match row, recording that consecutive entries of $T$ share the displayed vertex endpoint and that the final endpoint returns to the initial endpoint.
+\item $H$ is componentwise $\hsame$ transport for graph, incidence, parity, support, schedule, endpoint-match, replay, provenance, and local naming rows.
+\item $C$ is the displayed $\Cont$ replay row forcing every Eulerian read through $G,I,P,S,T,M,H$.
+\item $Q$ is the $\Pkg$ provenance over $\EulerianGraphUp$, $\GraphUp$, $\TreeUp$, $\ShortestPathUp$, $\SpanningTreeUp$, $\MatchingUp$, $\NetworkFlowUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EulerianGraphUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows and their displayed transports.
+\end{definition}
+
+\begin{theorem}[EulerianGraph NameCert obligations]
+\label{thm:eulerian-graph-namecert-obligations}
+For every accepted $\EulerianGraphUp$ carrier $E=(G,I,P,S,T,M,H,C,Q,N)$, the local $\NameCert_{\EulerianGraphUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the graph carrier, incidence ledger, even-degree parity row, connected non-isolated support row, traversal schedule, endpoint-match row, transport, replay, provenance, and local name;
+\item incidence exactness, requiring every edge occurrence in $I$ to read its two displayed endpoints from the $\GraphUp$ row $G$;
+\item parity exactness, requiring the incident edge occurrences at each vertex to be partitioned into displayed pairs by $P$;
+\item support connectedness, requiring every non-isolated vertex read to factor through the finite support row $S$;
+\item traversal coverage, requiring $T$ to list every displayed edge exactly once and no unlisted edge;
+\item closed endpoint matching, requiring $M$ to match consecutive endpoint rows in $T$ and to identify the final endpoint with the initial endpoint;
+\item structural stability, requiring $H,C,Q,N$ to transport, replay, source, and name only the rows already listed.
+\end{enumerate}
+No Eulerian trail obligation for this packet is stored outside those finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eulerian-graph-carrier}. The certificate can inspect only $G,I,P,S,T,M,H,C,Q,N$.
+
+The graph and incidence obligations read $G$ and $I$. Each incidence entry is tied to a displayed edge and its two endpoint rows, so the certificate cannot consult a hidden adjacency relation.
+
+The parity and support obligations read $P$ and $S$. The row $P$ pairs incident occurrences at each vertex, while $S$ supplies finite connected support for the non-isolated vertices.
+
+The traversal obligations read $T$ and $M$. Coverage is a finite ledger comparison between the edge projection of $T$ and the edge rows of $G$, and closedness is the displayed endpoint match along consecutive entries and the terminal return.
+
+Finally $H,C,Q,N$ only transport, replay, source, and name the same finite rows. Thus the local NameCert surface exports no host Euler theorem, hidden graph equality, quotient trail, selected external traversal, or infinite graph data.
+\end{proof}
+
+\begin{theorem}[EulerianGraph even-degree trail exhaustion]
+\label{thm:eulerian-graph-even-degree-trail-exhaustion}
+Let $E=(G,I,P,S,T,M,H,C,Q,N)$ be an accepted $\EulerianGraphUp$ carrier. Every edge-traversal read of $E$ is exhausted by finite induction on the schedule row $T$: each step consumes one displayed edge occurrence from $I$, preserves the parity pairing recorded by $P$ at the two touched endpoints, and leaves the remaining unread occurrences inside the same connected non-isolated support row $S$ until the final endpoint-match row $M$ closes the trail.
+\end{theorem}
+\begin{proof}
+Induct over the finite schedule row $T$. In the empty branch, traversal coverage says that no displayed edge remains unread, and the endpoint-match row supplies the degenerate closed endpoint read.
+
+For the successor branch, read the head edge occurrence through $I$. Its two endpoints are displayed by $G$, and its incidence memberships are part of the paired local parity ledger $P$.
+
+Remove the head occurrence from the unread traversal ledger. The remaining entries are still rows of $T$, and support connectedness keeps every non-isolated endpoint inside $S$; no external search over graph edges is available.
+
+At the terminal branch, the endpoint-match row $M$ identifies the last endpoint with the first. The induction has consumed each scheduled edge exactly once, and traversal coverage identifies the scheduled edge projection with the displayed edge ledger of $G$.
+\end{proof}
+
+\begin{theorem}[EulerianGraph sibling dependency route]
+\label{thm:eulerian-graph-sibling-dependency}
+Every downstream consumer of an accepted $\EulerianGraphUp$ packet factors through the finite sibling route
+$$
+\GraphUp,\ \TreeUp,\ \ShortestPathUp,\ \SpanningTreeUp,\ \MatchingUp,\ \NetworkFlowUp
+\longmapsto
+\EulerianGraphUp .
+$$
+The graph row supplies endpoints and incidence, the tree and spanning-tree rows supply finite support traversal, the shortest-path row supplies endpoint reachability windows, the matching row supplies local parity pairings, and the network-flow row supplies residual edge-consumption bookkeeping. The consumer receives no host Eulerian graph object, hidden connectedness proof, selected external tour, quotient trail equality, or ambient infinite graph.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of the Eulerian schedule. By \autoref{thm:eulerian-graph-namecert-obligations}, the read first exposes $G,I,P,S,T,M,H,C,Q,N$.
+
+The row $G$ is the entry point for finite vertices, edges, and endpoints. The rows $S$ and $M$ then use tree, spanning-tree, and shortest-path style support data only as finite traversal and endpoint windows over that same graph carrier.
+
+The row $P$ is the matching-style parity ledger: incident edge occurrences are paired locally before the schedule is accepted. The row $T$ is the residual-consumption ledger: each edge is consumed exactly once, in the same finite bookkeeping style used by the network-flow surface.
+
+Since $H,C,Q,N$ preserve only this displayed route, every downstream read factors through the named sibling surfaces and cannot obtain any of the excluded host-level data.
+\end{proof}
+
+\closureat{EulerianGraphUp}{seedStr}
+
+\begin{closurestatus}{\EulerianGraphUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eulerian-graph-carrier}, \autoref{thm:eulerian-graph-namecert-obligations}, \autoref{thm:eulerian-graph-even-degree-trail-exhaustion}, and \autoref{thm:eulerian-graph-sibling-dependency} seed the finite Eulerian graph certificate route over graph, incidence, parity, support, traversal, endpoint-match, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, standard bridge checking, infinite graph theory, selected external tours, quotient trail equality, host Eulerianity, or ambient connectedness principles.}
+  \upgradepath{Obligation closure requires checked carrier admission, incidence exactness, parity exactness, support connectedness, traversal coverage, closed endpoint matching, sibling dependency routing, transport, replay, provenance, and local naming for BEDC.Derived.EulerianGraphUp.}
+  \constructivestory{An $\EulerianGraphUp$ packet is generated from a displayed GraphUp carrier, incidence rows, even-degree parity pairs, connected non-isolated support, an edge-traversal schedule, closed endpoint matching, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

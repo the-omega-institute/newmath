@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CauchyBicategoryUp$}
+\label{ch:concrete-instances-cauchy-bicategory-namecert}
+\origin{human}
+
+Following Lawvere on enriched metric completion and Street on bicategorical completion, the $\CauchyBicategoryUp$ packet records the finite BEDC bookkeeping by which Cauchy-completion routes compose without turning into quotient representatives or chosen limits. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the metric-completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}. Its role is to name the identity, composition, and 2-cell rows used by L10 completion consumers, not to export a completed object in a host category.
+
+\begin{definition}[Cauchy bicategory carrier]
+\label{def:cauchy-bicategory-carrier}
+A $\CauchyBicategoryUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,S,R,M,I,O,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used by every displayed Cauchy comparison.
+\item $S$ is the $\StreamNameUp$ finite-window row serving the inspected prefixes.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to those windows.
+\item $M$ is the $\MetricCompletionUp$ completion-request row read only after $D,S,R$ are visible.
+\item $I$ is the identity-route ledger for an object row and its finite Cauchy window.
+\item $O$ is the composition-route ledger for two composable completion arrows.
+\item $T$ is the 2-cell ledger comparing two displayed completion routes through the same tolerance, window, and readback rows.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from a completion-composition request through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyBicategoryUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\MetricCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyBicategoryUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $D,S,R,M,I,O,T,H,C,P,N$. It has no coordinate for quotient completion equality, selected limit representatives, ambient $\RealUp$ completeness, host category equivalence, or a global choice of Cauchy representatives.
+\end{definition}
+
+\begin{theorem}[Cauchy bicategory NameCert obligations]
+\label{thm:cauchy-bicategory-namecert-obligations}
+For every accepted $\CauchyBicategoryUp$ carrier $K=(D,S,R,M,I,O,T,H,C,P,N)$, the local $\NameCert_{\CauchyBicategoryUp}$ surface consists exactly of carrier admission for the dyadic tolerance row, finite stream windows, regular rational readback, metric-completion request, identity ledger, composition ledger, 2-cell comparison ledger, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-bicategory-carrier}. The rows $D,S,R,M,I,O,T,H,C,P,N$ are exactly the visible identity, composition, and comparison surface.
+
+The completion-facing rows are finite. The dyadic tolerance row $D$, stream windows $S$, and regular rational readback $R$ must be displayed before the metric-completion request $M$ can be consumed, so no quotient representative or selected limit is introduced at the entrance.
+
+The identity row $I$, composition row $O$, and 2-cell row $T$ are themselves finite $\BHist$ routes. They name the identity, composite, and comparison ledgers by replaying the same tolerance-window-readback surface, rather than by appealing to an ambient bicategory of completed objects.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for quotient completion equality, selected limits, host category equivalence, or ambient Real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy bicategory completion-composition handoff]
+\label{thm:cauchy-bicategory-completion-composition-handoff}
+Every completion-composition consumer of an accepted $\CauchyBicategoryUp$ carrier factors through the finite route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \MetricCompletionUp,\ I,\ O,\ T,\ H,\ C,\ P,\ N .
+$$
+The exported handoff is the displayed identity, composition, and 2-cell $\BHist$ ledger. It exports no quotient representative, selected limit, ambient $\RealUp$ completeness theorem, host bicategorical equivalence, or choice-selected Cauchy object.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-bicategory-namecert-obligations}. They force every accepted consumer to read the dyadic tolerance, stream-window, regular rational, metric-completion, identity, composition, and 2-cell rows before the structural rows are consulted.
+
+The identity ledger $I$ is tied to the same finite Cauchy window surface as the source object. The composition ledger $O$ is tied to two displayed completion-arrow routes, and the 2-cell ledger $T$ compares only those displayed routes.
+
+The structural rows $H,C,P,N$ preserve that route under componentwise transport, replay, provenance, and local naming. They do not add a host completed category, choose representatives, quotient streams, or import ambient completeness.
+
+Therefore the completion-composition handoff is exactly the finite $\BHist$ route shown above.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyBicategoryUp$ consumer is refuted if it reaches an identity, composition, or 2-cell completion route without displaying the $\DyadicRatCoreUp$ tolerance row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback row, and $\MetricCompletionUp$ request row.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, metriccompletion: no listed sibling is bijective to $\CauchyBicategoryUp$ because this packet jointly binds identity ledgers, composition ledgers, 2-cell comparison ledgers, tolerance rows, finite windows, regular readback, completion requests, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyBicategoryUp}{seedStr}
+
+\begin{closurestatus}{\CauchyBicategoryUp}
+  \constructivestory{A $\CauchyBicategoryUp$ packet is generated from DyadicRatCore tolerance rows, StreamName finite windows, RegSeqRat readback, a MetricCompletion request, identity ledgers, composition ledgers, 2-cell comparison ledgers, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-bicategory-carrier}, \autoref{thm:cauchy-bicategory-namecert-obligations}, and \autoref{thm:cauchy-bicategory-completion-composition-handoff} seed the finite Cauchy-bicategory bookkeeping surface over displayed tolerance, window, readback, completion, identity, composition, 2-cell, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CauchyBicategoryUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected limit representatives, ambient $\RealUp$ completeness, host bicategorical equivalence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, identity-route exactness, composition-route exactness, 2-cell comparison stability, completion handoff, transport, replay, provenance, and local naming for BEDC.Derived.CauchyBicategoryUp.}
+\end{closurestatus}

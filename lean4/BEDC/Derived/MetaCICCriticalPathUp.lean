@@ -1,10 +1,17 @@
 import BEDC.Derived.MetaCICCriticalPathUp.Core
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundedDischargeRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNConfluenceHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNHandoffSourceExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.MatureConsumerSynthesis
+import BEDC.Derived.MetaCICCriticalPathUp.MaturePackageConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationConsumerHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealNormalFormHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetBridge
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCompletionNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondVisibleRoute
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualSocketBeforeSNRead
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualSocketConsumerSurface
 
 namespace BEDC.Derived.MetaCICCriticalPathUp
 
