@@ -3414,6 +3414,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ComponentwiseStdbridgeTransport
 import BEDC.Derived.CriticalLineWitnessUp.ContinuationRouteCoverage
 import BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessRootSourceWindowRouteLock
 import BEDC.Derived.CriticalLineWitnessUp.CriticalStripLedger
+import BEDC.Derived.CriticalLineWitnessUp.CriticalStripOrigin
 import BEDC.Derived.CriticalLineWitnessUp.CrossLatticeRoute
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.DepthLock
@@ -3579,6 +3580,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceSignatureReadback
 import BEDC.Derived.CriticalLineWitnessUp.StdbridgePremiseSurface
 import BEDC.Derived.CriticalLineWitnessUp.StreamNameSourceWindowLock
 import BEDC.Derived.CriticalLineWitnessUp.StripDepthReadbackTotality
+import BEDC.Derived.CriticalLineWitnessUp.StripLocalization
 import BEDC.Derived.CriticalLineWitnessUp.StripModulusSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
