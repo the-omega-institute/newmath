@@ -10,23 +10,24 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive SobolevPoincareFiniteEnergyUp : Type where
-  | mk (S Q D W Y A R Z H C P N : BHist) : SobolevPoincareFiniteEnergyUp
+  | mk (sobolev poincare domain window energy accounting rational realSeal transport route pkg name :
+      BHist) : SobolevPoincareFiniteEnergyUp
   deriving DecidableEq
 
-def sobolevPoincareFiniteEnergyEncodeBHist : BHist → RawEvent
+def sobolevPoincareFiniteEnergyEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: sobolevPoincareFiniteEnergyEncodeBHist h
   | BHist.e1 h => BMark.b1 :: sobolevPoincareFiniteEnergyEncodeBHist h
 
-def sobolevPoincareFiniteEnergyDecodeBHist : RawEvent → BHist
+def sobolevPoincareFiniteEnergyDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (sobolevPoincareFiniteEnergyDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (sobolevPoincareFiniteEnergyDecodeBHist tail)
 
 private theorem SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
+    forall h : BHist,
       sobolevPoincareFiniteEnergyDecodeBHist
           (sobolevPoincareFiniteEnergyEncodeBHist h) =
         h := by
@@ -40,116 +41,157 @@ private theorem SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_de
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+def sobolevPoincareFiniteEnergyFields :
+    SobolevPoincareFiniteEnergyUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | SobolevPoincareFiniteEnergyUp.mk sobolev poincare domain window energy accounting
+      rational realSeal transport route pkg name =>
+      [sobolev, poincare, domain, window, energy, accounting, rational, realSeal,
+        transport, route, pkg, name]
+
 def sobolevPoincareFiniteEnergyToEventFlow :
-    SobolevPoincareFiniteEnergyUp → EventFlow
+    SobolevPoincareFiniteEnergyUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | SobolevPoincareFiniteEnergyUp.mk S Q D W Y A R Z H C P N =>
-      [sobolevPoincareFiniteEnergyEncodeBHist S,
-        sobolevPoincareFiniteEnergyEncodeBHist Q,
-        sobolevPoincareFiniteEnergyEncodeBHist D,
-        sobolevPoincareFiniteEnergyEncodeBHist W,
-        sobolevPoincareFiniteEnergyEncodeBHist Y,
-        sobolevPoincareFiniteEnergyEncodeBHist A,
-        sobolevPoincareFiniteEnergyEncodeBHist R,
-        sobolevPoincareFiniteEnergyEncodeBHist Z,
-        sobolevPoincareFiniteEnergyEncodeBHist H,
-        sobolevPoincareFiniteEnergyEncodeBHist C,
-        sobolevPoincareFiniteEnergyEncodeBHist P,
-        sobolevPoincareFiniteEnergyEncodeBHist N]
+  | x =>
+      (sobolevPoincareFiniteEnergyFields x).map sobolevPoincareFiniteEnergyEncodeBHist
 
-private def sobolevPoincareFiniteEnergyEventAtDefault :
-    Nat → EventFlow → RawEvent
+def sobolevPoincareFiniteEnergyFromEventFlow :
+    EventFlow -> Option SobolevPoincareFiniteEnergyUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      sobolevPoincareFiniteEnergyEventAtDefault index rest
-
-def sobolevPoincareFiniteEnergyFromEventFlow
-    (ef : EventFlow) : Option SobolevPoincareFiniteEnergyUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (SobolevPoincareFiniteEnergyUp.mk
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 0 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 1 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 2 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 3 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 4 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 5 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 6 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 7 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 8 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 9 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 10 ef))
-      (sobolevPoincareFiniteEnergyDecodeBHist
-        (sobolevPoincareFiniteEnergyEventAtDefault 11 ef)))
+  | [] => none
+  | sobolev :: rest =>
+      match rest with
+      | [] => none
+      | poincare :: rest =>
+          match rest with
+          | [] => none
+          | domain :: rest =>
+              match rest with
+              | [] => none
+              | window :: rest =>
+                  match rest with
+                  | [] => none
+                  | energy :: rest =>
+                      match rest with
+                      | [] => none
+                      | accounting :: rest =>
+                          match rest with
+                          | [] => none
+                          | rational :: rest =>
+                              match rest with
+                              | [] => none
+                              | realSeal :: rest =>
+                                  match rest with
+                                  | [] => none
+                                  | transport :: rest =>
+                                      match rest with
+                                      | [] => none
+                                      | route :: rest =>
+                                          match rest with
+                                          | [] => none
+                                          | pkg :: rest =>
+                                              match rest with
+                                              | [] => none
+                                              | name :: rest =>
+                                                  match rest with
+                                                  | [] =>
+                                                      some
+                                                        (SobolevPoincareFiniteEnergyUp.mk
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            sobolev)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            poincare)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            domain)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            window)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            energy)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            accounting)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            rational)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            realSeal)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            transport)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            route)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            pkg)
+                                                          (sobolevPoincareFiniteEnergyDecodeBHist
+                                                            name))
+                                                  | _ :: _ => none
 
 private theorem SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : SobolevPoincareFiniteEnergyUp,
+    forall x : SobolevPoincareFiniteEnergyUp,
       sobolevPoincareFiniteEnergyFromEventFlow
           (sobolevPoincareFiniteEnergyToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk S Q D W Y A R Z H C P N =>
+  | mk sobolev poincare domain window energy accounting rational realSeal transport route
+      pkg name =>
       change
         some
           (SobolevPoincareFiniteEnergyUp.mk
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist S))
+              (sobolevPoincareFiniteEnergyEncodeBHist sobolev))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist Q))
+              (sobolevPoincareFiniteEnergyEncodeBHist poincare))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist D))
+              (sobolevPoincareFiniteEnergyEncodeBHist domain))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist W))
+              (sobolevPoincareFiniteEnergyEncodeBHist window))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist Y))
+              (sobolevPoincareFiniteEnergyEncodeBHist energy))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist A))
+              (sobolevPoincareFiniteEnergyEncodeBHist accounting))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist R))
+              (sobolevPoincareFiniteEnergyEncodeBHist rational))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist Z))
+              (sobolevPoincareFiniteEnergyEncodeBHist realSeal))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist H))
+              (sobolevPoincareFiniteEnergyEncodeBHist transport))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist C))
+              (sobolevPoincareFiniteEnergyEncodeBHist route))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist P))
+              (sobolevPoincareFiniteEnergyEncodeBHist pkg))
             (sobolevPoincareFiniteEnergyDecodeBHist
-              (sobolevPoincareFiniteEnergyEncodeBHist N))) =
-          some (SobolevPoincareFiniteEnergyUp.mk S Q D W Y A R Z H C P N)
-      rw [SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode S,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode Q,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode D,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode W,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode Y,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode A,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode R,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode Z,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode H,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode C,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode P,
-        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode N]
+              (sobolevPoincareFiniteEnergyEncodeBHist name))) =
+          some
+            (SobolevPoincareFiniteEnergyUp.mk sobolev poincare domain window energy
+              accounting rational realSeal transport route pkg name)
+      rw [SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          sobolev,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          poincare,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          domain,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          window,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          energy,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          accounting,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          rational,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          realSeal,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          transport,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          route,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          pkg,
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode
+          name]
 
 private theorem SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : SobolevPoincareFiniteEnergyUp} :
     sobolevPoincareFiniteEnergyToEventFlow x =
-      sobolevPoincareFiniteEnergyToEventFlow y →
+      sobolevPoincareFiniteEnergyToEventFlow y ->
         x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -164,6 +206,21 @@ private theorem SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_to
       (SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_fields_faithful :
+    forall x y : SobolevPoincareFiniteEnergyUp,
+      sobolevPoincareFiniteEnergyFields x =
+        sobolevPoincareFiniteEnergyFields y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk sobolev poincare domain window energy accounting rational realSeal transport route
+      pkg name =>
+      cases y with
+      | mk sobolev' poincare' domain' window' energy' accounting' rational' realSeal'
+          transport' route' pkg' name' =>
+          cases hfields
+          rfl
 
 instance sobolevPoincareFiniteEnergyBHistCarrier :
     BHistCarrier SobolevPoincareFiniteEnergyUp where
@@ -187,22 +244,60 @@ instance sobolevPoincareFiniteEnergyChapterTasteGate :
       (SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_toEventFlow_injective
         heq)
 
+instance sobolevPoincareFiniteEnergyFieldFaithful :
+    FieldFaithful SobolevPoincareFiniteEnergyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := sobolevPoincareFiniteEnergyFields
+  field_faithful :=
+    SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_fields_faithful
+
+instance sobolevPoincareFiniteEnergyNontrivial :
+    Nontrivial SobolevPoincareFiniteEnergyUp where
+  witness_pair :=
+    ⟨SobolevPoincareFiniteEnergyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      SobolevPoincareFiniteEnergyUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      by
+        -- BEDC touchpoint anchor: BHist BMark
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate SobolevPoincareFiniteEnergyUp :=
   -- BEDC touchpoint anchor: BHist BMark
   sobolevPoincareFiniteEnergyChapterTasteGate
 
 theorem SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier SobolevPoincareFiniteEnergyUp) ∧
-      Nonempty (ChapterTasteGate SobolevPoincareFiniteEnergyUp) ∧
-        (∀ x : SobolevPoincareFiniteEnergyUp,
-          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
-          sobolevPoincareFiniteEnergyEncodeBHist BHist.Empty = ([] : List BMark) ∧
-            sobolevPoincareFiniteEnergyDecodeBHist [BMark.b1] = BHist.e1 BHist.Empty := by
-  -- BEDC touchpoint anchor: BHist BMark
+    (forall h : BHist,
+        sobolevPoincareFiniteEnergyDecodeBHist
+          (sobolevPoincareFiniteEnergyEncodeBHist h) = h) ∧
+      (forall x : SobolevPoincareFiniteEnergyUp,
+        sobolevPoincareFiniteEnergyFromEventFlow
+          (sobolevPoincareFiniteEnergyToEventFlow x) = some x) ∧
+        (forall {x y : SobolevPoincareFiniteEnergyUp},
+          sobolevPoincareFiniteEnergyToEventFlow x =
+            sobolevPoincareFiniteEnergyToEventFlow y -> x = y) ∧
+          Nonempty (BHistCarrier SobolevPoincareFiniteEnergyUp) ∧
+            Nonempty (ChapterTasteGate SobolevPoincareFiniteEnergyUp) ∧
+              Nonempty (FieldFaithful SobolevPoincareFiniteEnergyUp) ∧
+                Nonempty (Nontrivial SobolevPoincareFiniteEnergyUp) ∧
+                  sobolevPoincareFiniteEnergyEncodeBHist BHist.Empty =
+                    ([] : List BMark) ∧
+                    sobolevPoincareFiniteEnergyDecodeBHist [BMark.b1] =
+                      BHist.e1 BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨⟨sobolevPoincareFiniteEnergyBHistCarrier⟩,
+    ⟨SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_decode_encode,
+      SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_round_trip,
+      fun {x} {y} heq =>
+        SobolevPoincareFiniteEnergyTasteGate_single_carrier_alignment_toEventFlow_injective
+          heq,
+      ⟨sobolevPoincareFiniteEnergyBHistCarrier⟩,
       ⟨sobolevPoincareFiniteEnergyChapterTasteGate⟩,
-      ChapterTasteGate.round_trip,
+      ⟨sobolevPoincareFiniteEnergyFieldFaithful⟩,
+      ⟨sobolevPoincareFiniteEnergyNontrivial⟩,
       rfl,
       rfl⟩
 
