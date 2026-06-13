@@ -28,6 +28,21 @@ Next read the replay and transport rows. The $\Cont$ row $C$ records the replay 
 Finally apply the obstruction boundary. The refusal rows $O,D$ remain visible along the handoff, so the consumer receives a bounded normalization-to-normal-form route rather than a proof of closed subject reduction or full consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical path normalization-frontier consumer route]
+\label{thm:metacic-critical-path-normalization-frontier-consumer-route}
+Every normalization-frontier consumer read of an accepted $\MetaCICCriticalPathUp$ packet that is passed to an L10-facing route must expose, before consumption, the strong-normalization source row $S$, the normal-form endpoint row $N$, the obstruction row $O$, the handoff row $U$, the discharge-socket row $D$, and the structural rows $H,C,P,L$. The route may cite the Lean-side namespace \texttt{BEDC.Derived.MetaCICCriticalPathUp} as the intended formalization surface, but the paper obligation remains the finite visibility condition on
+$$
+S,N,O,U,D,H,C,P,L.
+$$
+\end{theorem}
+\begin{proof}
+Start with the normalization consumer handoff of \autoref{thm:metacic-critical-path-normalization-consumer-handoff}. It already forces the normalization-facing read to move from the closed normalization-frontier source $S$ to the normal-form endpoint $N$ through the displayed replay route $C$, with $H,P,L$ still attached.
+
+Next retain the frontier boundaries. The obstruction row $O$ and the discharge-socket row $D$ cannot be bypassed, and the handoff row $U$ remains a visible substitution, confluence, and decidability handoff rather than a closed-consistency theorem.
+
+Finally expose the L10-facing consumer surface. A route read by downstream Real-and-Completion consumers must therefore present the candidate strong-normalization source, normal-form endpoint, obstruction, handoff, discharge socket, componentwise transport, replay, provenance, and local naming rows together. This is exactly the finite public-route surface later targeted by \texttt{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPublicRouteCertificate}, without adding a new Lean marker at this paper site.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path consistency refusal boundary]
 \label{thm:metacic-critical-path-consistency-refusal-boundary}
 Every consistency-facing read of an accepted $\MetaCICCriticalPathUp$ packet is bounded by the same finite $\BHist$ surface
