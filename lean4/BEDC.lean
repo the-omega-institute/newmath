@@ -904,6 +904,7 @@ import BEDC.Derived.BishopRealComparisonUp
 import BEDC.Derived.BishopRealComparisonUp.CauchyDedekindBoundary
 import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealCompletionUp.TasteGate
+import BEDC.Derived.BishopRealConstructionUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
 import BEDC.Derived.BishopRealLineInterfaceUp.TasteGate
 import BEDC.Derived.BishopRealLocatedOrderUp.TasteGate
@@ -2765,6 +2766,7 @@ import BEDC.Derived.CompactCauchyEquicontinuityUp
 import BEDC.Derived.CompactCompletionExtensionModulusUp.TasteGate
 import BEDC.Derived.CompactContinuityRadiusChoiceUp.TasteGate
 import BEDC.Derived.CompactContinuousImageTotalBoundedUp.TasteGate
+import BEDC.Derived.CompactContinuousInverseUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.FiniteNetRadiusExhaustion
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.UniformModulusHandoff
@@ -3509,6 +3511,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRoute
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceBudgetReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceNonescape
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.PrimeZetaDependencyRoute
@@ -5670,6 +5673,7 @@ import BEDC.Derived.HyperbolicBoundaryShadowUp.TasteGate
 import BEDC.Derived.HyperbolicBoundaryTransportUp
 import BEDC.Derived.HyperbolicBoundaryTransportUp.TasteGate
 import BEDC.Derived.HyperbolicBusemannBoundaryUp.TasteGate
+import BEDC.Derived.HyperbolicBusemannCocycleUp.TasteGate
 import BEDC.Derived.HyperbolicExpansionLedgerUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicBoundaryUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicFlowUp
