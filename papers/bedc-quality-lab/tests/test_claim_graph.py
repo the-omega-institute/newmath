@@ -614,6 +614,49 @@ def test_terminal_claim_verdict_matches_row_verdict(tmp_path):
     assert any("terminal verdict mismatch" in error for error in _errors(broken, root))
 
 
+def test_terminal_node_projection_helper_requires_exact_jsonl_row(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert claim_graph.validate_terminal_node_projection(payload, root=root) == []
+
+
+def test_non_terminal_node_with_terminal_verdict_fails(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_type"] != "terminal_claim":
+            node["terminal_verdict"] = "accepted_positive_discovery"
+            break
+
+    errors = claim_graph.validate_claim_graph_payload(broken, root=root)
+
+    assert any("non-terminal node has terminal verdict" in error for error in errors)
+    assert any("terminal projection non-terminal verdict" in error for error in errors)
+
+
+def test_terminal_source_pointer_wrong_or_missing_fails(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    wrong = deepcopy(payload)
+    missing = deepcopy(payload)
+    for node in wrong["nodes"]:
+        if node["node_id"] == "terminal:gap-head-discovery":
+            node["source_pointer"] = f"{claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[1]"
+            break
+    for node in missing["nodes"]:
+        if node["node_id"] == "terminal:gap-head-discovery":
+            node["source_pointer"] = "reports/canonical/missing.json:$.row"
+            break
+
+    wrong_errors = claim_graph.validate_terminal_node_projection(wrong, root=root)
+    missing_errors = claim_graph.validate_terminal_node_projection(missing, root=root)
+
+    assert any("terminal projection verdict mismatch" in error for error in wrong_errors)
+    assert any("source pointer is not a claim verdict row" in error for error in missing_errors)
+
+
 def test_cg_hg1_accepted_positive_discovery_traces_to_raw_evidence(tmp_path):
     root = _fixture_root(tmp_path)
     payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")

@@ -1,6 +1,6 @@
 # Discovery-Gated Transformer
 
-- Generated at: `2026-06-12T22:50:28.746960+00:00`
+- Generated at: `2026-06-13T06:43:09.456849+00:00`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Artifact: `bedc-quality-lab:discovery-gated-transformer`
 - Model: `discovery-gated-transformer`

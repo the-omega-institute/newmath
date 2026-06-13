@@ -23,6 +23,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.aggregation_consistency import validate_aggregation_consistency
 from bedc_quality_lab.claim_complexity import (
     ARTIFACT_ID as CLAIM_COMPLEXITY_ARTIFACT_ID,
     SCHEMA_ID as CLAIM_COMPLEXITY_SCHEMA_ID,
@@ -8030,6 +8031,17 @@ def _write_index_markdown_pointer_update(payload: dict[str, Any]) -> None:
     _write_text_atomic(CANONICAL_DIR / "index.md", markdown)
 
 
+def _write_aggregation_consistency_status(payload: dict[str, Any], *, generated_at: str) -> dict[str, Any]:
+    report = validate_aggregation_consistency(ROOT, index_payload=payload)
+    status = report.compact_status(generated_at=generated_at)
+    payload["aggregation_consistency"] = status
+    _write_json_atomic(INDEX_ARTIFACT, payload)
+    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
+    if report.errors:
+        raise RuntimeError("aggregation consistency failed: " + " | ".join(report.errors))
+    return payload
+
+
 def _run_scaling_ladder_report_only(
     *,
     mode: Literal["changed", "verify", "cold"],
@@ -8217,6 +8229,8 @@ def run_reports(
             if consistency_payload["status"] != "pass":
                 raise SystemExit(1)
         payload = _index(verify_results, generated_at=timestamp)
+        _write_json_atomic(INDEX_ARTIFACT, payload)
+        payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
         if json_summary is not None:
             _write_json_atomic(Path(json_summary), payload)
         return payload
@@ -8460,6 +8474,7 @@ def run_reports(
         canonical_reports=selected_specs,
         discovery_gated_transformer_payload=discovery_gated_transformer,
     )
+    payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
     if dgt_model_card_spec is not None and any(spec.name == "dgt-model-card" for spec in selected_specs):
         _write_fingerprint_sidecar(dgt_model_card_spec, generated_at=timestamp)
         if mode in {"verify", "cold"}:
@@ -8472,6 +8487,7 @@ def run_reports(
                 canonical_reports=selected_specs,
                 discovery_gated_transformer_payload=discovery_gated_transformer,
             )
+            payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
     reproduction_package_spec = _specs_by_name().get("reproduction-package")
     reproduction_check_spec = _specs_by_name().get("reproduction-check-result")
     if (
@@ -8495,7 +8511,9 @@ def run_reports(
             canonical_reports=selected_specs,
             discovery_gated_transformer_payload=discovery_gated_transformer,
         )
+        payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
     _refresh_final_index_dependent_fingerprints(selected_specs=selected_specs, generated_at=timestamp)
+    payload = _write_aggregation_consistency_status(payload, generated_at=timestamp)
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if verify_fingerprints:

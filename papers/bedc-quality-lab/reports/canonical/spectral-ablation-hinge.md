@@ -1,6 +1,6 @@
 # Spectral-ablation hinge report
 
-- Generated at: `2026-06-12T22:58:27.134356+00:00`
+- Generated at: `2026-06-13T06:50:02.263599+00:00`
 - Report schema id: `bedc-quality-lab:spectral-ablation-hinge-report`
 - Envelope schema id: `bedc-quality-lab:evidence-envelope`
 - Base rho by axis: `[0.92, 0.64]`
