@@ -3678,6 +3678,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRealStripRootHandoff
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRefusalConsumerScope
+import BEDC.Derived.CriticalLineWitnessUp.ZetaRhDependencyCertificate
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRouteCarrierSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ZetaSiblingRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZetaStripModulusTotality
