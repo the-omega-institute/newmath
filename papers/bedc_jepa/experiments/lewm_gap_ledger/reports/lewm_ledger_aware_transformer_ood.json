@@ -1,0 +1,1435 @@
+{
+  "schema_id": "lewm.ledger_aware_transformer_port.ood_arm",
+  "question": "does the clean-trained LAT port keep detecting LeWM predictor failures under visual perturbation (phase2a setting)?",
+  "claim_kind": "descriptive boundary mapping; no new positive claim",
+  "clean_anchor": {
+    "tau_err_train_p75": 0.07670211046934128,
+    "eval_auroc_observed": 0.6745762301580097,
+    "reproduces_committed_port_report": true
+  },
+  "protocol": {
+    "perturbation_grid": {
+      "color_shift": [
+        0.1,
+        0.2,
+        0.3,
+        0.4
+      ],
+      "occlusion": [
+        0.12,
+        0.2,
+        0.28,
+        0.36
+      ],
+      "brightness": [
+        0.1,
+        0.2,
+        0.3,
+        0.4
+      ],
+      "background_tint": [
+        0.15,
+        0.3,
+        0.45,
+        0.6
+      ],
+      "gaussian_noise": [
+        5.0,
+        10.0,
+        15.0,
+        25.0
+      ]
+    },
+    "failure_truth": "perturbed prediction_mse > clean train p75 (same tau as the port)",
+    "bootstraps": 300,
+    "bootstrap_unit": "eval episodes",
+    "single_class_policy": "AUROC unidentifiable; slice recorded fail-closed (auroc_rank returns 0.5)",
+    "emb_cache_dir": "lat_ood_emb_cache"
+  },
+  "families": {
+    "color_shift": {
+      "points": [
+        {
+          "family": "color_shift",
+          "strength": 0.1,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 0.41498926141264525,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.7600349731618866,
+              "bootstrap_mean": 0.7595263878013192,
+              "ci95_low": 0.7329697568871403,
+              "ci95_high": 0.7841254846159471
+            },
+            "unlogged_error_rate": {
+              "observed": 0.7634854771784232,
+              "bootstrap_mean": 0.763153270226596,
+              "ci95_low": 0.7322600152023654,
+              "ci95_high": 0.7913162707102511
+            },
+            "declared_gap_rate": {
+              "observed": 0.23651452282157676,
+              "bootstrap_mean": 0.23684672977340407,
+              "ci95_low": 0.20868372928974882,
+              "ci95_high": 0.2677399847976346
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8734439834024896,
+              "bootstrap_mean": 0.8735531347975083,
+              "ci95_low": 0.8487858632020766,
+              "ci95_high": 0.8982346832814122
+            },
+            "observed": {
+              "mean_prediction_mse": 0.4122973453114389,
+              "median_prediction_mse": 0.3740331679582596,
+              "failure_rate_vanilla_uer": 1.0,
+              "bedc_gap_head_uer": 0.8734439834024896,
+              "failure_detection_auroc": 0.5,
+              "mean_gap_score": 0.2736991910285249,
+              "declared_gap_rate": 0.12655601659751037,
+              "logged_given_failure_rate": 0.12655601659751037
+            }
+          }
+        },
+        {
+          "family": "color_shift",
+          "strength": 0.2,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 1.3895003654031832,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.8794259975474922,
+              "bootstrap_mean": 0.8795131685347021,
+              "ci95_low": 0.8591644426459564,
+              "ci95_high": 0.8964285796310574
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8931535269709544,
+              "bootstrap_mean": 0.8932165416845607,
+              "ci95_low": 0.8698299509285932,
+              "ci95_high": 0.9136237830463632
+            },
+            "declared_gap_rate": {
+              "observed": 0.10684647302904564,
+              "bootstrap_mean": 0.10678345831543937,
+              "ci95_low": 0.08637621695363691,
+              "ci95_high": 0.13017004907140683
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "unlogged_error_rate": {
+              "observed": 0.91701244813278,
+              "bootstrap_mean": 0.9157574536946773,
+              "ci95_low": 0.8922854966394771,
+              "ci95_high": 0.9370078700433861
+            },
+            "observed": {
+              "mean_prediction_mse": 1.3875828125046497,
+              "median_prediction_mse": 1.2796044945716858,
+              "failure_rate_vanilla_uer": 1.0,
+              "bedc_gap_head_uer": 0.91701244813278,
+              "failure_detection_auroc": 0.5,
+              "mean_gap_score": 0.2366781579027886,
+              "declared_gap_rate": 0.08298755186721991,
+              "logged_given_failure_rate": 0.08298755186721991
+            }
+          }
+        },
+        {
+          "family": "color_shift",
+          "strength": 0.3,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 2.4805906926942565,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.9710157652118643,
+              "bootstrap_mean": 0.9711537886628485,
+              "ci95_low": 0.9644878418820313,
+              "ci95_high": 0.9767317853065282
+            },
+            "unlogged_error_rate": {
+              "observed": 0.9875518672199171,
+              "bootstrap_mean": 0.9875778259068245,
+              "ci95_low": 0.9807259972433088,
+              "ci95_high": 0.9937891347096678
+            },
+            "declared_gap_rate": {
+              "observed": 0.012448132780082987,
+              "bootstrap_mean": 0.01242217409317536,
+              "ci95_low": 0.006210865290332259,
+              "ci95_high": 0.019274002756691142
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "unlogged_error_rate": {
+              "observed": 1.0,
+              "bootstrap_mean": 1.0,
+              "ci95_low": 1.0,
+              "ci95_high": 1.0
+            },
+            "observed": {
+              "mean_prediction_mse": 2.479318564239874,
+              "median_prediction_mse": 2.4663381576538086,
+              "failure_rate_vanilla_uer": 1.0,
+              "bedc_gap_head_uer": 1.0,
+              "failure_detection_auroc": 0.5,
+              "mean_gap_score": 0.0895155947521641,
+              "declared_gap_rate": 0.0,
+              "logged_given_failure_rate": 0.0
+            }
+          }
+        },
+        {
+          "family": "color_shift",
+          "strength": 0.4,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 3.3914700298883114,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.9951160458387536,
+              "bootstrap_mean": 0.9951882780581667,
+              "ci95_low": 0.9937126430243436,
+              "ci95_high": 0.9963690803468553
+            },
+            "unlogged_error_rate": {
+              "observed": 1.0,
+              "bootstrap_mean": 1.0,
+              "ci95_low": 1.0,
+              "ci95_high": 1.0
+            },
+            "declared_gap_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "unlogged_error_rate": {
+              "observed": 1.0,
+              "bootstrap_mean": 1.0,
+              "ci95_low": 1.0,
+              "ci95_high": 1.0
+            },
+            "observed": {
+              "mean_prediction_mse": 3.3904757376033734,
+              "median_prediction_mse": 3.3939735889434814,
+              "failure_rate_vanilla_uer": 1.0,
+              "bedc_gap_head_uer": 1.0,
+              "failure_detection_auroc": 0.5,
+              "mean_gap_score": 0.07834326666378132,
+              "declared_gap_rate": 0.0,
+              "logged_given_failure_rate": 0.0
+            }
+          }
+        }
+      ],
+      "summary": {
+        "strengths_with_auroc_ci_above_0p5": [],
+        "strengths_single_class_fail_closed": [
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ]
+      }
+    },
+    "occlusion": {
+      "points": [
+        {
+          "family": "occlusion",
+          "strength": 0.12,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.5,
+          "mean_prediction_mse": 0.09446546427820543,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.6237000912518724,
+              "bootstrap_mean": 0.6225275235706145,
+              "ci95_low": 0.5885030899440606,
+              "ci95_high": 0.65697633952195
+            },
+            "ece": {
+              "observed": 0.37391265143031827,
+              "bootstrap_mean": 0.37556385577279416,
+              "ci95_low": 0.34752305747796913,
+              "ci95_high": 0.40543872005745535
+            },
+            "unlogged_error_rate": {
+              "observed": 0.33713692946058094,
+              "bootstrap_mean": 0.3364314354840051,
+              "ci95_low": 0.3061075315226439,
+              "ci95_high": 0.368258303859757
+            },
+            "declared_gap_rate": {
+              "observed": 0.23858921161825727,
+              "bootstrap_mean": 0.23888903666478625,
+              "ci95_low": 0.21181399236278312,
+              "ci95_high": 0.26935422656699254
+            },
+            "false_alarm_rate": {
+              "observed": 0.07572614107883817,
+              "bootstrap_mean": 0.07584535868552131,
+              "ci95_low": 0.060171862322910816,
+              "ci95_high": 0.09147008163547031
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.6776309842057004,
+              "bootstrap_mean": 0.6766723574024993,
+              "ci95_low": 0.6403302579719886,
+              "ci95_high": 0.7083648371091351
+            },
+            "unlogged_error_rate": {
+              "observed": 0.42531120331950206,
+              "bootstrap_mean": 0.42722364023727816,
+              "ci95_low": 0.3916163931788932,
+              "ci95_high": 0.46137837175001123
+            },
+            "observed": {
+              "mean_prediction_mse": 0.09463059381462047,
+              "median_prediction_mse": 0.07690367102622986,
+              "failure_rate_vanilla_uer": 0.5051867219917012,
+              "bedc_gap_head_uer": 0.42531120331950206,
+              "failure_detection_auroc": 0.6776309842057004,
+              "mean_gap_score": 0.23960015233860396,
+              "declared_gap_rate": 0.09439834024896265,
+              "logged_given_failure_rate": 0.15811088295687886
+            }
+          }
+        },
+        {
+          "family": "occlusion",
+          "strength": 0.2,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.9336099585062241,
+          "mean_prediction_mse": 0.28327067368721814,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.61734375,
+              "bootstrap_mean": 0.6171538630963771,
+              "ci95_low": 0.5427931800968305,
+              "ci95_high": 0.6987105067920073
+            },
+            "ece": {
+              "observed": 0.6903721087930826,
+              "bootstrap_mean": 0.6909069340874364,
+              "ci95_low": 0.6532282026344762,
+              "ci95_high": 0.7258297510103082
+            },
+            "unlogged_error_rate": {
+              "observed": 0.6981327800829875,
+              "bootstrap_mean": 0.6974063544403034,
+              "ci95_low": 0.6595948233378329,
+              "ci95_high": 0.7321525520756389
+            },
+            "declared_gap_rate": {
+              "observed": 0.241701244813278,
+              "bootstrap_mean": 0.24197655609367102,
+              "ci95_low": 0.2139283519164659,
+              "ci95_high": 0.26813099364997084
+            },
+            "false_alarm_rate": {
+              "observed": 0.006224066390041493,
+              "bootstrap_mean": 0.0063717187864444375,
+              "ci95_low": 0.0004764292878635913,
+              "ci95_high": 0.0136612778690304
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.602487535894861,
+              "bootstrap_mean": 0.6046492017704994,
+              "ci95_low": 0.5287652598966285,
+              "ci95_high": 0.6755000223473674
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8537344398340249,
+              "bootstrap_mean": 0.8542605276530302,
+              "ci95_low": 0.8250363507688349,
+              "ci95_high": 0.8839938644134956
+            },
+            "observed": {
+              "mean_prediction_mse": 0.2836489152681098,
+              "median_prediction_mse": 0.14120323956012726,
+              "failure_rate_vanilla_uer": 0.9346473029045643,
+              "bedc_gap_head_uer": 0.8537344398340249,
+              "failure_detection_auroc": 0.602487535894861,
+              "mean_gap_score": 0.23456983817334118,
+              "declared_gap_rate": 0.08195020746887967,
+              "logged_given_failure_rate": 0.08657047724750278
+            }
+          }
+        },
+        {
+          "family": "occlusion",
+          "strength": 0.28,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 0.6911826096011395,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.8146128444756243,
+              "bootstrap_mean": 0.8142049260408208,
+              "ci95_low": 0.7852425834633249,
+              "ci95_high": 0.8394441181706611
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8215767634854771,
+              "bootstrap_mean": 0.8211989294837516,
+              "ci95_low": 0.7939908105348509,
+              "ci95_high": 0.8469938796945907
+            },
+            "declared_gap_rate": {
+              "observed": 0.17842323651452283,
+              "bootstrap_mean": 0.1788010705162484,
+              "ci95_low": 0.1530061203054093,
+              "ci95_high": 0.2060091894651491
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8246887966804979,
+              "bootstrap_mean": 0.8252175975729711,
+              "ci95_low": 0.7937655340729137,
+              "ci95_high": 0.8558588813585238
+            },
+            "observed": {
+              "mean_prediction_mse": 0.6906539351984673,
+              "median_prediction_mse": 0.4692123234272003,
+              "failure_rate_vanilla_uer": 1.0,
+              "bedc_gap_head_uer": 0.8246887966804979,
+              "failure_detection_auroc": 0.5,
+              "mean_gap_score": 0.3297760591307545,
+              "declared_gap_rate": 0.17531120331950206,
+              "logged_given_failure_rate": 0.17531120331950206
+            }
+          }
+        },
+        {
+          "family": "occlusion",
+          "strength": 0.36,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 0.6563275120534096,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.837503315167066,
+              "bootstrap_mean": 0.8366954301555496,
+              "ci95_low": 0.8087143156234601,
+              "ci95_high": 0.8607571901709825
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8423236514522822,
+              "bootstrap_mean": 0.8414173754578371,
+              "ci95_low": 0.81000857594616,
+              "ci95_high": 0.8682480245942295
+            },
+            "declared_gap_rate": {
+              "observed": 0.15767634854771784,
+              "bootstrap_mean": 0.15858262454216282,
+              "ci95_low": 0.13175197540577058,
+              "ci95_high": 0.18999142405383992
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8900414937759336,
+              "bootstrap_mean": 0.8894996279503423,
+              "ci95_low": 0.8696962162046543,
+              "ci95_high": 0.9101769856160099
+            },
+            "observed": {
+              "mean_prediction_mse": 0.6562882840973461,
+              "median_prediction_mse": 0.42751987278461456,
+              "failure_rate_vanilla_uer": 1.0,
+              "bedc_gap_head_uer": 0.8900414937759336,
+              "failure_detection_auroc": 0.5,
+              "mean_gap_score": 0.28608094464111966,
+              "declared_gap_rate": 0.10995850622406639,
+              "logged_given_failure_rate": 0.10995850622406639
+            }
+          }
+        }
+      ],
+      "summary": {
+        "strengths_with_auroc_ci_above_0p5": [
+          0.12,
+          0.2
+        ],
+        "strengths_single_class_fail_closed": [
+          0.28,
+          0.36
+        ]
+      }
+    },
+    "brightness": {
+      "points": [
+        {
+          "family": "brightness",
+          "strength": 0.1,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.9304979253112033,
+          "mean_prediction_mse": 0.16505366476847794,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.6424233348308624,
+              "bootstrap_mean": 0.6422028838481156,
+              "ci95_low": 0.5674151784364434,
+              "ci95_high": 0.7192316293435281
+            },
+            "ece": {
+              "observed": 0.708932963767585,
+              "bootstrap_mean": 0.7095810080042804,
+              "ci95_low": 0.6802031995459348,
+              "ci95_high": 0.7380239856769882
+            },
+            "unlogged_error_rate": {
+              "observed": 0.7136929460580913,
+              "bootstrap_mean": 0.7145600805940511,
+              "ci95_low": 0.6831427588053081,
+              "ci95_high": 0.7430251647424084
+            },
+            "declared_gap_rate": {
+              "observed": 0.22510373443983403,
+              "bootstrap_mean": 0.22452801972412387,
+              "ci95_low": 0.2015545051437063,
+              "ci95_high": 0.2492340558729165
+            },
+            "false_alarm_rate": {
+              "observed": 0.008298755186721992,
+              "bootstrap_mean": 0.008218979023654175,
+              "ci95_low": 0.003198924731182796,
+              "ci95_high": 0.013735935302390999
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5764322201700528,
+              "bootstrap_mean": 0.5809976543030513,
+              "ci95_low": 0.5079353950852802,
+              "ci95_high": 0.6635691139911449
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8786307053941909,
+              "bootstrap_mean": 0.8789356816935723,
+              "ci95_low": 0.8521790621084264,
+              "ci95_high": 0.9026730153271363
+            },
+            "observed": {
+              "mean_prediction_mse": 0.16507911463016914,
+              "median_prediction_mse": 0.14764375239610672,
+              "failure_rate_vanilla_uer": 0.9304979253112033,
+              "bedc_gap_head_uer": 0.8786307053941909,
+              "failure_detection_auroc": 0.5764322201700528,
+              "mean_gap_score": 0.2221387255252743,
+              "declared_gap_rate": 0.05394190871369295,
+              "logged_given_failure_rate": 0.055741360089186176
+            }
+          }
+        },
+        {
+          "family": "brightness",
+          "strength": 0.2,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.9979253112033195,
+          "mean_prediction_mse": 0.2985665454409429,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5114345114345115,
+              "bootstrap_mean": 0.5166938550198829,
+              "ci95_low": 0.40438360309556903,
+              "ci95_high": 0.6268762152668883
+            },
+            "ece": {
+              "observed": 0.777310171723222,
+              "bootstrap_mean": 0.7781967255733768,
+              "ci95_low": 0.7506641715845865,
+              "ci95_high": 0.802790979632189
+            },
+            "unlogged_error_rate": {
+              "observed": 0.7811203319502075,
+              "bootstrap_mean": 0.7823504144228733,
+              "ci95_low": 0.7520071350517452,
+              "ci95_high": 0.8071256345177665
+            },
+            "declared_gap_rate": {
+              "observed": 0.21680497925311204,
+              "bootstrap_mean": 0.2155461115728726,
+              "ci95_low": 0.1907597558159672,
+              "ci95_high": 0.24577951913393756
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.41735966735966734,
+              "bootstrap_mean": 0.4186908012642007,
+              "ci95_low": 0.22309167568000643,
+              "ci95_high": 0.6204582998996991
+            },
+            "unlogged_error_rate": {
+              "observed": 0.9450207468879668,
+              "bootstrap_mean": 0.9446337832110046,
+              "ci95_low": 0.9284958237327189,
+              "ci95_high": 0.9598568716040382
+            },
+            "observed": {
+              "mean_prediction_mse": 0.2985409807212867,
+              "median_prediction_mse": 0.2720254361629486,
+              "failure_rate_vanilla_uer": 0.9979253112033195,
+              "bedc_gap_head_uer": 0.9450207468879668,
+              "failure_detection_auroc": 0.41735966735966734,
+              "mean_gap_score": 0.21764225470247034,
+              "declared_gap_rate": 0.052904564315352696,
+              "logged_given_failure_rate": 0.05301455301455302
+            }
+          }
+        },
+        {
+          "family": "brightness",
+          "strength": 0.3,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 0.4287979644703914,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.7739410207179266,
+              "bootstrap_mean": 0.7742126124320893,
+              "ci95_low": 0.7491094829236602,
+              "ci95_high": 0.8000320853919571
+            },
+            "unlogged_error_rate": {
+              "observed": 0.7780082987551867,
+              "bootstrap_mean": 0.7781236640604204,
+              "ci95_low": 0.75,
+              "ci95_high": 0.8067228145969298
+            },
+            "declared_gap_rate": {
+              "observed": 0.22199170124481327,
+              "bootstrap_mean": 0.2218763359395796,
+              "ci95_low": 0.19327718540307012,
+              "ci95_high": 0.25
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.49428868120456904,
+              "bootstrap_mean": 0.4978553688183171,
+              "ci95_low": 0.4565866533781299,
+              "ci95_high": 0.5295079714128642
+            },
+            "unlogged_error_rate": {
+              "observed": 0.9387966804979253,
+              "bootstrap_mean": 0.9383732415952185,
+              "ci95_low": 0.9222818140206107,
+              "ci95_high": 0.953215004040633
+            },
+            "observed": {
+              "mean_prediction_mse": 0.4286852465996604,
+              "median_prediction_mse": 0.3990064561367035,
+              "failure_rate_vanilla_uer": 0.9989626556016598,
+              "bedc_gap_head_uer": 0.9387966804979253,
+              "failure_detection_auroc": 0.49428868120456904,
+              "mean_gap_score": 0.21696050862154612,
+              "declared_gap_rate": 0.06016597510373444,
+              "logged_given_failure_rate": 0.060228452751817235
+            }
+          }
+        },
+        {
+          "family": "brightness",
+          "strength": 0.4,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 0.5528056342077453,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.771182020379826,
+              "bootstrap_mean": 0.7714048514815388,
+              "ci95_low": 0.7479065894683048,
+              "ci95_high": 0.797454529488568
+            },
+            "unlogged_error_rate": {
+              "observed": 0.779045643153527,
+              "bootstrap_mean": 0.7795067110608941,
+              "ci95_low": 0.7528544167536535,
+              "ci95_high": 0.8072059423975223
+            },
+            "declared_gap_rate": {
+              "observed": 0.22095435684647302,
+              "bootstrap_mean": 0.2204932889391058,
+              "ci95_low": 0.19279405760247773,
+              "ci95_high": 0.24714558324634656
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "unlogged_error_rate": {
+              "observed": 0.9398340248962656,
+              "bootstrap_mean": 0.9389837919081486,
+              "ci95_low": 0.9212323789332055,
+              "ci95_high": 0.9569478283898305
+            },
+            "observed": {
+              "mean_prediction_mse": 0.5526347823703809,
+              "median_prediction_mse": 0.516425371170044,
+              "failure_rate_vanilla_uer": 1.0,
+              "bedc_gap_head_uer": 0.9398340248962656,
+              "failure_detection_auroc": 0.5,
+              "mean_gap_score": 0.21733217851758782,
+              "declared_gap_rate": 0.06016597510373444,
+              "logged_given_failure_rate": 0.06016597510373444
+            }
+          }
+        }
+      ],
+      "summary": {
+        "strengths_with_auroc_ci_above_0p5": [
+          0.1
+        ],
+        "strengths_single_class_fail_closed": [
+          0.3,
+          0.4
+        ]
+      }
+    },
+    "background_tint": {
+      "points": [
+        {
+          "family": "background_tint",
+          "strength": 0.15,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.31431535269709543,
+          "mean_prediction_mse": 0.09054100267295397,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.6495733537045081,
+              "bootstrap_mean": 0.6494629470386718,
+              "ci95_low": 0.6187937782180595,
+              "ci95_high": 0.68182383560032
+            },
+            "ece": {
+              "observed": 0.2792499200781995,
+              "bootstrap_mean": 0.2834376656170639,
+              "ci95_low": 0.25655631583130906,
+              "ci95_high": 0.3149068529995024
+            },
+            "unlogged_error_rate": {
+              "observed": 0.19294605809128632,
+              "bootstrap_mean": 0.19339510341838892,
+              "ci95_low": 0.16615608519269778,
+              "ci95_high": 0.2207884922150576
+            },
+            "declared_gap_rate": {
+              "observed": 0.24481327800829875,
+              "bootstrap_mean": 0.24520206254552457,
+              "ci95_low": 0.22169209812891288,
+              "ci95_high": 0.27305779569892474
+            },
+            "false_alarm_rate": {
+              "observed": 0.12344398340248963,
+              "bootstrap_mean": 0.12262902032813043,
+              "ci95_low": 0.10578619171552676,
+              "ci95_high": 0.14221314636136098
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.6845560919403222,
+              "bootstrap_mean": 0.6855888546707375,
+              "ci95_low": 0.6526815423177511,
+              "ci95_high": 0.7187812465466814
+            },
+            "unlogged_error_rate": {
+              "observed": 0.245850622406639,
+              "bootstrap_mean": 0.24554032948691865,
+              "ci95_low": 0.21409136292793512,
+              "ci95_high": 0.280781978191032
+            },
+            "observed": {
+              "mean_prediction_mse": 0.09084757229823356,
+              "median_prediction_mse": 0.06258723884820938,
+              "failure_rate_vanilla_uer": 0.31742738589211617,
+              "bedc_gap_head_uer": 0.245850622406639,
+              "failure_detection_auroc": 0.6845560919403222,
+              "mean_gap_score": 0.24927974445758483,
+              "declared_gap_rate": 0.11099585062240663,
+              "logged_given_failure_rate": 0.22549019607843138
+            }
+          }
+        },
+        {
+          "family": "background_tint",
+          "strength": 0.3,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.32261410788381745,
+          "mean_prediction_mse": 0.1329298301027987,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.6406469276108783,
+              "bootstrap_mean": 0.6409054962675508,
+              "ci95_low": 0.613210707043443,
+              "ci95_high": 0.6717857597993845
+            },
+            "ece": {
+              "observed": 0.2895280469516293,
+              "bootstrap_mean": 0.2925631644644669,
+              "ci95_low": 0.2667555158188442,
+              "ci95_high": 0.3236594678675993
+            },
+            "unlogged_error_rate": {
+              "observed": 0.20020746887966806,
+              "bootstrap_mean": 0.20054335745027121,
+              "ci95_low": 0.17446548663716593,
+              "ci95_high": 0.22819049829149513
+            },
+            "declared_gap_rate": {
+              "observed": 0.24481327800829875,
+              "bootstrap_mean": 0.24530272312466622,
+              "ci95_low": 0.21947205443841272,
+              "ci95_high": 0.2725922817523325
+            },
+            "false_alarm_rate": {
+              "observed": 0.12240663900414937,
+              "bootstrap_mean": 0.1216066122890579,
+              "ci95_low": 0.10504724908394633,
+              "ci95_high": 0.1429316215065967
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.7003008494572912,
+              "bootstrap_mean": 0.7009716405919697,
+              "ci95_low": 0.6669184361019574,
+              "ci95_high": 0.7359039967446945
+            },
+            "unlogged_error_rate": {
+              "observed": 0.25,
+              "bootstrap_mean": 0.24833561038443244,
+              "ci95_low": 0.2140924174744127,
+              "ci95_high": 0.28181459788240587
+            },
+            "observed": {
+              "mean_prediction_mse": 0.13305807303969605,
+              "median_prediction_mse": 0.06285857781767845,
+              "failure_rate_vanilla_uer": 0.3236514522821577,
+              "bedc_gap_head_uer": 0.25,
+              "failure_detection_auroc": 0.7003008494572912,
+              "mean_gap_score": 0.2497833642232774,
+              "declared_gap_rate": 0.10995850622406639,
+              "logged_given_failure_rate": 0.22756410256410256
+            }
+          }
+        },
+        {
+          "family": "background_tint",
+          "strength": 0.45,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.3236514522821577,
+          "mean_prediction_mse": 0.174578094128442,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.6244838367154318,
+              "bootstrap_mean": 0.6246981768342449,
+              "ci95_low": 0.5941458395077095,
+              "ci95_high": 0.6586475422935152
+            },
+            "ece": {
+              "observed": 0.2991800334496994,
+              "bootstrap_mean": 0.3015889942703853,
+              "ci95_low": 0.2729354558301602,
+              "ci95_high": 0.33433806642173075
+            },
+            "unlogged_error_rate": {
+              "observed": 0.2095435684647303,
+              "bootstrap_mean": 0.21010728260949646,
+              "ci95_low": 0.18423706382991387,
+              "ci95_high": 0.23829819998437426
+            },
+            "declared_gap_rate": {
+              "observed": 0.24066390041493776,
+              "bootstrap_mean": 0.24083729696780357,
+              "ci95_low": 0.2157934313205546,
+              "ci95_high": 0.26801532373494985
+            },
+            "false_alarm_rate": {
+              "observed": 0.12655601659751037,
+              "bootstrap_mean": 0.1257007611419713,
+              "ci95_low": 0.10863123188568605,
+              "ci95_high": 0.1453822488809489
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.71127742314183,
+              "bootstrap_mean": 0.7084122508777636,
+              "ci95_low": 0.6716875571846201,
+              "ci95_high": 0.7393620681247265
+            },
+            "unlogged_error_rate": {
+              "observed": 0.25311203319502074,
+              "bootstrap_mean": 0.2529882731884148,
+              "ci95_low": 0.2206823079937304,
+              "ci95_high": 0.2858632430131934
+            },
+            "observed": {
+              "mean_prediction_mse": 0.1749123805337798,
+              "median_prediction_mse": 0.06285857781767845,
+              "failure_rate_vanilla_uer": 0.32676348547717843,
+              "bedc_gap_head_uer": 0.25311203319502074,
+              "failure_detection_auroc": 0.71127742314183,
+              "mean_gap_score": 0.25025268015585755,
+              "declared_gap_rate": 0.10995850622406639,
+              "logged_given_failure_rate": 0.2253968253968254
+            }
+          }
+        },
+        {
+          "family": "background_tint",
+          "strength": 0.6,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.3236514522821577,
+          "mean_prediction_mse": 0.21622951008974578,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.6225986117665565,
+              "bootstrap_mean": 0.622722233601911,
+              "ci95_low": 0.5927188843379274,
+              "ci95_high": 0.6554504533186655
+            },
+            "ece": {
+              "observed": 0.3017342031196091,
+              "bootstrap_mean": 0.30548734116193316,
+              "ci95_low": 0.27655347368287947,
+              "ci95_high": 0.3414364816695514
+            },
+            "unlogged_error_rate": {
+              "observed": 0.21161825726141079,
+              "bootstrap_mean": 0.2121088797071723,
+              "ci95_low": 0.18504821920604145,
+              "ci95_high": 0.24200101932377627
+            },
+            "declared_gap_rate": {
+              "observed": 0.23962655601659752,
+              "bootstrap_mean": 0.23996870447388555,
+              "ci95_low": 0.21490712221011232,
+              "ci95_high": 0.2674886632722653
+            },
+            "false_alarm_rate": {
+              "observed": 0.1275933609958506,
+              "bootstrap_mean": 0.1268337657457291,
+              "ci95_low": 0.10900362278984152,
+              "ci95_high": 0.14711644732718146
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.7186685254481865,
+              "bootstrap_mean": 0.7177627361636325,
+              "ci95_low": 0.6851951994042957,
+              "ci95_high": 0.7539322238745997
+            },
+            "unlogged_error_rate": {
+              "observed": 0.2551867219917012,
+              "bootstrap_mean": 0.2562621425206625,
+              "ci95_low": 0.22210729155546066,
+              "ci95_high": 0.29380534670008346
+            },
+            "observed": {
+              "mean_prediction_mse": 0.21670669045191088,
+              "median_prediction_mse": 0.06304723024368286,
+              "failure_rate_vanilla_uer": 0.32676348547717843,
+              "bedc_gap_head_uer": 0.2551867219917012,
+              "failure_detection_auroc": 0.7186685254481865,
+              "mean_gap_score": 0.25101339701854036,
+              "declared_gap_rate": 0.1078838174273859,
+              "logged_given_failure_rate": 0.21904761904761905
+            }
+          }
+        }
+      ],
+      "summary": {
+        "strengths_with_auroc_ci_above_0p5": [
+          0.15,
+          0.3,
+          0.45,
+          0.6
+        ],
+        "strengths_single_class_fail_closed": []
+      }
+    },
+    "gaussian_noise": {
+      "points": [
+        {
+          "family": "gaussian_noise",
+          "strength": 5.0,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.6908713692946058,
+          "mean_prediction_mse": 0.10398908782000672,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.6270381119374407,
+              "bootstrap_mean": 0.6254002183123996,
+              "ci95_low": 0.5940585930030728,
+              "ci95_high": 0.6584902810738045
+            },
+            "ece": {
+              "observed": 0.5106145038873333,
+              "bootstrap_mean": 0.5132447545441436,
+              "ci95_low": 0.4783221860054857,
+              "ci95_high": 0.5417017453820082
+            },
+            "unlogged_error_rate": {
+              "observed": 0.4823651452282158,
+              "bootstrap_mean": 0.4822328883498476,
+              "ci95_low": 0.44728811092811604,
+              "ci95_high": 0.5150000588201953
+            },
+            "declared_gap_rate": {
+              "observed": 0.266597510373444,
+              "bootstrap_mean": 0.26661581581489824,
+              "ci95_low": 0.24208682798290435,
+              "ci95_high": 0.29622007151741286
+            },
+            "false_alarm_rate": {
+              "observed": 0.058091286307053944,
+              "bootstrap_mean": 0.05847998678085778,
+              "ci95_low": 0.045547911405106584,
+              "ci95_high": 0.07099873504266765
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.6318096620110043,
+              "bootstrap_mean": 0.6331874749765102,
+              "ci95_low": 0.592768023749919,
+              "ci95_high": 0.6703736325368375
+            },
+            "unlogged_error_rate": {
+              "observed": 0.5860995850622407,
+              "bootstrap_mean": 0.5857875142856709,
+              "ci95_low": 0.5476214290179409,
+              "ci95_high": 0.62072257015809
+            },
+            "observed": {
+              "mean_prediction_mse": 0.10377259804631479,
+              "median_prediction_mse": 0.09428783878684044,
+              "failure_rate_vanilla_uer": 0.6908713692946058,
+              "bedc_gap_head_uer": 0.5860995850622407,
+              "failure_detection_auroc": 0.6318096620110043,
+              "mean_gap_score": 0.26113648480558055,
+              "declared_gap_rate": 0.11618257261410789,
+              "logged_given_failure_rate": 0.15165165165165165
+            }
+          }
+        },
+        {
+          "family": "gaussian_noise",
+          "strength": 10.0,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 0.9896265560165975,
+          "mean_prediction_mse": 0.22178916881224178,
+          "single_class_fail_closed": false,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.7061844863731657,
+              "bootstrap_mean": 0.702972925928203,
+              "ci95_low": 0.532087804180957,
+              "ci95_high": 0.8445774929671079
+            },
+            "ece": {
+              "observed": 0.7040403887160273,
+              "bootstrap_mean": 0.703685195727179,
+              "ci95_low": 0.6731320976669645,
+              "ci95_high": 0.7290767384435081
+            },
+            "unlogged_error_rate": {
+              "observed": 0.7095435684647303,
+              "bootstrap_mean": 0.7089837295847803,
+              "ci95_low": 0.675216784989858,
+              "ci95_high": 0.7375994860151988
+            },
+            "declared_gap_rate": {
+              "observed": 0.28112033195020747,
+              "bootstrap_mean": 0.28156828565119174,
+              "ci95_low": 0.2556099656357388,
+              "ci95_high": 0.3143329274188252
+            },
+            "false_alarm_rate": {
+              "observed": 0.001037344398340249,
+              "bootstrap_mean": 0.0010191245075049519,
+              "ci95_low": 0.0,
+              "ci95_high": 0.003080082135523614
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.6411867364746946,
+              "bootstrap_mean": 0.6511400138566196,
+              "ci95_low": 0.3849849080349861,
+              "ci95_high": 0.8566800173869846
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8661825726141079,
+              "bootstrap_mean": 0.8664632625551182,
+              "ci95_low": 0.839731833837011,
+              "ci95_high": 0.8916572217378669
+            },
+            "observed": {
+              "mean_prediction_mse": 0.22143758399821664,
+              "median_prediction_mse": 0.19918593764305115,
+              "failure_rate_vanilla_uer": 0.9906639004149378,
+              "bedc_gap_head_uer": 0.8661825726141079,
+              "failure_detection_auroc": 0.6411867364746946,
+              "mean_gap_score": 0.2776776233969027,
+              "declared_gap_rate": 0.12551867219917012,
+              "logged_given_failure_rate": 0.1256544502617801
+            }
+          }
+        },
+        {
+          "family": "gaussian_noise",
+          "strength": 15.0,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 0.46757620433152214,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.68480178276111,
+              "bootstrap_mean": 0.6847735738840328,
+              "ci95_low": 0.6584006403795769,
+              "ci95_high": 0.7130222836245858
+            },
+            "unlogged_error_rate": {
+              "observed": 0.6846473029045643,
+              "bootstrap_mean": 0.6844465058441559,
+              "ci95_low": 0.6558318998470948,
+              "ci95_high": 0.7137613212713524
+            },
+            "declared_gap_rate": {
+              "observed": 0.3153526970954357,
+              "bootstrap_mean": 0.3155534941558441,
+              "ci95_low": 0.28623867872864756,
+              "ci95_high": 0.34416810015290517
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8796680497925311,
+              "bootstrap_mean": 0.8798209468775375,
+              "ci95_low": 0.8572894825890471,
+              "ci95_high": 0.8999201191899125
+            },
+            "observed": {
+              "mean_prediction_mse": 0.4676826398402329,
+              "median_prediction_mse": 0.4189748167991638,
+              "failure_rate_vanilla_uer": 1.0,
+              "bedc_gap_head_uer": 0.8796680497925311,
+              "failure_detection_auroc": 0.5,
+              "mean_gap_score": 0.2907600921158015,
+              "declared_gap_rate": 0.12033195020746888,
+              "logged_given_failure_rate": 0.12033195020746888
+            }
+          }
+        },
+        {
+          "family": "gaussian_noise",
+          "strength": 25.0,
+          "sample_count": 964,
+          "episode_count": 55,
+          "failure_rate_vanilla_uer": 1.0,
+          "mean_prediction_mse": 0.9067375588219195,
+          "single_class_fail_closed": true,
+          "lat_clean_trained": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "ece": {
+              "observed": 0.5608129715765376,
+              "bootstrap_mean": 0.5601801106594106,
+              "ci95_low": 0.5295201233168815,
+              "ci95_high": 0.5898429898222157
+            },
+            "unlogged_error_rate": {
+              "observed": 0.5549792531120332,
+              "bootstrap_mean": 0.5539357208725342,
+              "ci95_low": 0.5216864727550612,
+              "ci95_high": 0.5874148914254926
+            },
+            "declared_gap_rate": {
+              "observed": 0.4450207468879668,
+              "bootstrap_mean": 0.44606427912746577,
+              "ci95_low": 0.4125851085745073,
+              "ci95_high": 0.47831352724493875
+            },
+            "false_alarm_rate": {
+              "observed": 0.0,
+              "bootstrap_mean": 0.0,
+              "ci95_low": 0.0,
+              "ci95_high": 0.0
+            }
+          },
+          "phase2a_logistic_clean_only_reference": {
+            "failure_detection_auroc": {
+              "observed": 0.5,
+              "bootstrap_mean": 0.5,
+              "ci95_low": 0.5,
+              "ci95_high": 0.5
+            },
+            "unlogged_error_rate": {
+              "observed": 0.8713692946058091,
+              "bootstrap_mean": 0.8716598468001225,
+              "ci95_low": 0.848417178798162,
+              "ci95_high": 0.894087658856298
+            },
+            "observed": {
+              "mean_prediction_mse": 0.9066698609607843,
+              "median_prediction_mse": 0.8664564788341522,
+              "failure_rate_vanilla_uer": 1.0,
+              "bedc_gap_head_uer": 0.8713692946058091,
+              "failure_detection_auroc": 0.5,
+              "mean_gap_score": 0.31498899253333074,
+              "declared_gap_rate": 0.12863070539419086,
+              "logged_given_failure_rate": 0.12863070539419086
+            }
+          }
+        }
+      ],
+      "summary": {
+        "strengths_with_auroc_ci_above_0p5": [
+          5.0,
+          10.0
+        ],
+        "strengths_single_class_fail_closed": [
+          15.0,
+          25.0
+        ]
+      }
+    }
+  },
+  "fail_closed_slices": [
+    "color_shift@0.1",
+    "color_shift@0.2",
+    "color_shift@0.3",
+    "color_shift@0.4",
+    "occlusion@0.28",
+    "occlusion@0.36",
+    "brightness@0.3",
+    "brightness@0.4",
+    "gaussian_noise@15",
+    "gaussian_noise@25"
+  ],
+  "not_claimed": [
+    "OOD robustness of the clean-trained LAT (this arm MEASURES its boundary)",
+    "OOD-aware LAT training (not run; would need perturbed train-split latents)",
+    "any claim beyond the tworooms checkpoint and this perturbation grid"
+  ]
+}

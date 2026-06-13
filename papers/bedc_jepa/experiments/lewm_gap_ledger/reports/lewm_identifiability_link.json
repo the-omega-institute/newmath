@@ -1,0 +1,153 @@
+{
+  "scientific_question": "世界模型在其 latent 局部无法线性恢复环境状态的地方失败",
+  "protocol_status": "frozen_predeclared",
+  "data": {
+    "latent_path": "tworooms_latent_large.npz",
+    "row_builder": "_phase1c_gap_ledger.flatten_transition_rows",
+    "valid_transition_rows": 4991,
+    "episodes": 278,
+    "embedding_dim": 192,
+    "state_vector": "concat(pos_agent, pos_target)",
+    "state_dim": 4
+  },
+  "seeds": {
+    "numpy": 20260611,
+    "split": 1701,
+    "bootstrap": 314159
+  },
+  "split": {
+    "train": {
+      "episodes": 167,
+      "rows": 3045
+    },
+    "calibration": {
+      "episodes": 56,
+      "rows": 982
+    },
+    "eval": {
+      "episodes": 55,
+      "rows": 964
+    }
+  },
+  "failure_truth": {
+    "definition": "mse > train split p75",
+    "tau_train_p75": 0.07670211046934128,
+    "rates": {
+      "train": 0.24991789819376026,
+      "calibration": 0.23319755600814665,
+      "eval": 0.23132780082987553
+    },
+    "counts": {
+      "train_positive": 761,
+      "train_negative": 2284,
+      "calibration_positive": 229,
+      "calibration_negative": 753,
+      "eval_positive": 223,
+      "eval_negative": 741
+    }
+  },
+  "residual_definitions": {
+    "global_linear": {
+      "fit": "np.linalg.lstsq",
+      "includes_intercept": true,
+      "design_shape": [
+        3045,
+        193
+      ],
+      "target_shape": [
+        3045,
+        4
+      ],
+      "rank": 193,
+      "residuals_sum_by_target": [
+        13762.688557473466,
+        50077.094586074476,
+        8976923.38536681,
+        8615768.763784189
+      ],
+      "singular_values_min": 0.8862999089544046,
+      "singular_values_max": 157.98818781058637
+    },
+    "local_knn_mean": {
+      "k": 20,
+      "distance": "euclidean_in_emb_space",
+      "implementation": "numpy_argpartition_on_full_eval_by_train_squared_distance_matrix",
+      "distance_matrix_shape": [
+        964,
+        3045
+      ]
+    }
+  },
+  "metrics_eval_episode_bootstrap": {
+    "global_linear": {
+      "auroc_failure_truth": {
+        "observed": 0.4551962866808276,
+        "bootstrap_mean": 0.455453767488187,
+        "ci95_low": 0.4071526269383101,
+        "ci95_high": 0.5031200322174746
+      },
+      "spearman_with_mse": {
+        "observed": -0.05148109532637945,
+        "bootstrap_mean": -0.051508335618355716,
+        "ci95_low": -0.12140321762219755,
+        "ci95_high": 0.02170670733094878
+      }
+    },
+    "local_knn_mean": {
+      "auroc_failure_truth": {
+        "observed": 0.4661377486489594,
+        "bootstrap_mean": 0.46643332904835966,
+        "ci95_low": 0.41765740136122803,
+        "ci95_high": 0.5146273901488655
+      },
+      "spearman_with_mse": {
+        "observed": -0.026204043180103127,
+        "bootstrap_mean": -0.026459063005734577,
+        "ci95_low": -0.10384306802849755,
+        "ci95_high": 0.04998210039587157
+      }
+    }
+  },
+  "residual_summaries_eval": {
+    "global_linear": {
+      "mean": 1610.7023799145315,
+      "median": 1277.1429925076968,
+      "std": 1334.851603324867,
+      "min": 4.4489363502197445,
+      "p25": 617.3671840875191,
+      "p75": 2285.335107196314,
+      "max": 8266.729960366036
+    },
+    "local_knn_mean": {
+      "mean": 1567.501593239214,
+      "median": 1277.2822132676706,
+      "std": 1259.5746955771763,
+      "min": 0.424600804146654,
+      "p25": 618.8415337408431,
+      "p75": 2220.99915726731,
+      "max": 7644.33205913958
+    }
+  },
+  "bootstrap": {
+    "unit": "eval_episode",
+    "n_boot": 500,
+    "seed": 314159,
+    "eval_episodes": 55
+  },
+  "context_not_recomputed": {
+    "full_gap_head_auroc": 0.731,
+    "source_note": "Quoted control context from prior published report; not recomputed here."
+  },
+  "conclusion": {
+    "label": "negative_or_inconclusive",
+    "positive_criterion": "positive iff any residual AUROC ci95_low > 0.5",
+    "passed_by": []
+  },
+  "not_claimed": [
+    "不声称因果关系。",
+    "不声称全局可辨识性定理被检验。",
+    "仅为 tworooms 单导出上的操作化关联检验。",
+    "不声称结果可外推到其他环境、checkpoint、world seeds 或数据导出。",
+    "不重算完整 gap head；AUROC 0.731 仅作对照语境引用。"
+  ]
+}

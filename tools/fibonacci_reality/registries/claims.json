@@ -176,6 +176,109 @@
       "phase": 1,
       "statement": "The Zeckendorf representation (unique no-adjacent-one Fibonacci representation with weights F_2..F_10) is a bijection Z_9(63)≅{0..63}; the Foldbin tail-cube fiber over each visible six-bit prefix is exactly the Zeckendorf cylinder over that prefix; hence the Window6 four-cell partition counts (27,22,9,6) are forced by unique Zeckendorf representation together with the cyclic/boundary and Hamming-weight prefix predicates, with the cyclic count 18=L_6. No target count is assumed.",
       "status": "open"
+    },
+    {
+      "claim_id": "window6.transfer-operator.golden-perron-spectrum.certificate",
+      "claimed_layer": "golden_mean_shift",
+      "depends_on": [],
+      "experiment_id": "window6-transfer-operator-perron-forward-check",
+      "forbidden_claims": [
+        "The transfer-operator spectrum does not identify any physical constant.",
+        "The Perron root certificate does not prove edge-flux, Green-response, or physical readout claims."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.transfer-operator.golden-perron-spectrum",
+      "phase": 1,
+      "statement": "For the no-adjacent-one binary subshift, the transfer matrix M=[[1,1],[1,0]] has characteristic polynomial lambda^2-lambda-1, eigenvalues phi=(1+sqrt(5))/2 and psi=(1-sqrt(5))/2=-1/phi, Perron root phi, topological entropy log(phi), linear admissible counts 1^T M^(m-1) 1=F_{m+2}, cyclic counts tr(M^m)=L_m, and Binet F_n=(phi^n-psi^n)/sqrt(5) from diagonalization. The Window6 visible weights and Foldbin tail aliases use this same golden base.",
+      "status": "open"
+    },
+    {
+      "claim_id": "window6.markov-kernel.coarse-spectrum-fibonacci-leading.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [],
+      "experiment_id": "verify-window6-markov-kernel-spectrum",
+      "forbidden_claims": [
+        "The coarse Markov-kernel spectrum does not identify any physical constant.",
+        "The coarse stochastic Perron root one is not the fine transfer-operator growth Perron root phi."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.markov-kernel.coarse-spectrum-fibonacci-leading",
+      "phase": 1,
+      "statement": "For the Window6 four-cell Markov kernel T derived from the finite cell edge matrix, T is row-stochastic and strictly positive, so T*1=1 and Perron eigenvalue 1 is forced by probability conservation. Its resolvent determinant is det(I-zT)=(z-1)(55z^3+506z^2-7263z-48114)/48114, with leading coefficient 55=F_10. The three nontrivial eigenvalues are the roots of 48114 lambda^3+7263 lambda^2-506 lambda-55, numerically about -0.1736035222, -0.0706075224, and 0.0932570603, all inside the unit disk, giving spectral gap about 0.8263964778. The same kernel retains the boundary escape ratio 8/9 and is contrasted with the fine no-adjacent-one transfer operator whose Perron root is phi.",
+      "status": "open"
+    },
+    {
+      "claim_id": "window6.green-boundary.torsion-prime-571-resolvent-link.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "f-a2.window6.modpstar-571-spectral-collision.certificate",
+        "window6.green-spectral-response.alpha-readout-frontier.certificate"
+      ],
+      "experiment_id": "verify-window6-torsion-prime-resolvent-link",
+      "forbidden_claims": [
+        "The torsion-prime link does not identify any physical constant.",
+        "The torsion-prime link does not use reverse fitting, metrological data, or numerical proximity."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.green-boundary.torsion-prime-571-resolvent-link",
+      "phase": 1,
+      "statement": "For the Window6 Green boundary response, Delta_R(1)=26401/(2^13*571), while the reduced Laplacian Smith normal form has maximal invariant factor 123336=2^3*3^3*571; the same prime 571 is the shared torsion prime in the Green boundary resolvent denominator and the reduced Laplacian SNF endpoint.",
+      "status": "open"
+    },
+    {
+      "claim_id": "window6.edge-matrix.smith-normal-form-cokernel.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "f-a2.window6.modpstar-571-spectral-collision.certificate"
+      ],
+      "experiment_id": "verify-window6-edge-matrix-snf",
+      "forbidden_claims": [
+        "The edge-matrix Smith normal form does not identify any physical constant.",
+        "The small Fibonacci invariant factors do not make the full Smith normal form Fibonacci-forced.",
+        "The edge-matrix SNF is distinct from the reduced Laplacian SNF."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.edge-matrix.smith-normal-form-cokernel",
+      "phase": 1,
+      "statement": "The Window6 edge-flux integer matrix E has Smith normal form diag(1,1,3,3450), determinant 10350=2*3^2*5^2*23, and torsion cokernel Z/3 + Z/3450; only the small invariant factors (1,1,3) are Fibonacci values F_2,F_2,F_4, while 3450 is not Fibonacci. This is an edge-matrix invariant, not the reduced Laplacian SNF diag(1,1,123336).",
+      "status": "open"
+    },
+    {
+      "claim_id": "window6.parry-measure.golden-maximal-entropy.certificate",
+      "claimed_layer": "golden_mean_shift",
+      "depends_on": [],
+      "experiment_id": "verify-window6-parry-measure",
+      "forbidden_claims": [
+        "The Parry maximal-entropy measure does not identify any physical constant.",
+        "The Parry maximal-entropy measure is not the edge-flux Parry kernel attached to a different finite matrix."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.parry-measure.golden-maximal-entropy",
+      "phase": 1,
+      "statement": "For the no-adjacent-one SFT with transfer matrix M=[[1,1],[1,0]], Perron eigenvectors u=v=(phi,1) force the Parry transition kernel P=[[1/phi,1/phi^2],[1,0]], stationary distribution ((5+sqrt(5))/10,(5-sqrt(5))/10), and metric entropy log(phi), equal to topological entropy.",
+      "status": "open"
+    },
+    {
+      "claim_id": "window6.fold-gauge.a0-edge-derivability-nogo.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [],
+      "experiment_id": "verify-window6-a0-edge-nogo",
+      "forbidden_claims": [
+        "The A_0-edge no-go boundary does not identify any physical constant.",
+        "The A_0-edge no-go boundary does not derive A_0 from E, T, or the Window6 partition.",
+        "The Window6 first-principles origin of A_0 remains needs_certificate."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.fold-gauge.a0-edge-derivability-nogo",
+      "phase": 1,
+      "statement": "The paper-sourced Window6 fold-gauge operator A_0 is non-normal and defective, while the forward edge matrix E is symmetric and every polynomial in E is symmetric. Since A_0 has a nonzero antisymmetric part, A_0 is not a polynomial in E; moreover [A_0,E] and [A_0,T] are nonzero. Therefore the directed and defective fold-gauge structure of A_0 is not derivable from E, T, or the Window6 partition alone, and A_0's first-principles origin remains needs_certificate.",
+      "status": "open"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
