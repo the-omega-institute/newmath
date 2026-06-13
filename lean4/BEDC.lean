@@ -3588,7 +3588,6 @@ import BEDC.Derived.CriticalLineWitnessUp.StreamNameSourceWindowLock
 import BEDC.Derived.CriticalLineWitnessUp.StripDepthReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.StripLocalization
 import BEDC.Derived.CriticalLineWitnessUp.StripModulusSourceExhaustion
-import BEDC.Derived.CriticalLineWitnessUp.StripReflectionBoundary
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroBoundary
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
@@ -3625,7 +3624,6 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaDependencyLock
 import BEDC.Derived.CriticalLineWitnessUp.ZetaLink
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRealStripRootHandoff
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRefusalConsumerScope
-import BEDC.Derived.CriticalLineWitnessUp.ZetaStripModulusTotality
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.BoundaryLedgerNonescape
@@ -5084,6 +5082,7 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.NameCertObligations
 import BEDC.Derived.FinitePrefixStreamUp.TasteGate
+import BEDC.Derived.FinitePrefixStreamUp.WindowReadback
 import BEDC.Derived.FiniteRealCoverUp.TasteGate
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.DyadicSealFactorization
@@ -6617,7 +6616,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.NormalFormReadbackBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationBudgetNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationConsumerHandoff
-import BEDC.Derived.MetaCICCriticalPathUp.NormalizationFrontierConsumerRoute
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationFrontierFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationObstructionRouteCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationObstructionSourceOrder
