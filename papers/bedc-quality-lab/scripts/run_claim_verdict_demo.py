@@ -820,6 +820,21 @@ def _mapped_discovery_row(
             and projected_verdict.control_positive is not True
             and _net_positive_signal(payload, projected)
         ):
+            if _is_mechanism_open(row, level):
+                return _row(
+                    claim_id=claim_id,
+                    claim_verdict="mechanism_not_closed",
+                    reason=reason_for_claim_verdict(
+                        ClaimVerdictReasonBasis(
+                            claim_verdict="mechanism_not_closed",
+                            discovery_level=level,
+                            mechanism_open=True,
+                        )
+                    ),
+                    source=source,
+                    ledger_pointer=_discovery_map_row_pointer(root, row),
+                    scorecard_snapshot=scorecard_snapshot,
+                )
             evidence_result = validate_positive_claim_evidence(
                 root,
                 spec=spec,
@@ -861,17 +876,14 @@ def _mapped_discovery_row(
                 )
             return _row(
                 claim_id=claim_id,
-                claim_verdict="mechanism_not_closed" if _is_mechanism_open(row, level) else "accepted_positive_discovery",
+                claim_verdict="accepted_positive_discovery",
                 reason=(
                     POSITIVE_DISCOVERY_GATES_PASS
-                    if report == "discovery-gated-transformer" and not _is_mechanism_open(row, level)
+                    if report == "discovery-gated-transformer"
                     else reason_for_claim_verdict(
                         ClaimVerdictReasonBasis(
-                            claim_verdict="mechanism_not_closed"
-                            if _is_mechanism_open(row, level)
-                            else "accepted_positive_discovery",
+                            claim_verdict="accepted_positive_discovery",
                             discovery_level=level,
-                            mechanism_open=_is_mechanism_open(row, level),
                         )
                     )
                 ),

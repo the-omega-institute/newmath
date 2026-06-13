@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.artifact_freshness import canonical_artifact_hash, load_scorecard_snapshot
+from bedc_quality_lab.claim_acceptance import claim_first_pointer_checks, validate_positive_claim_evidence
 from bedc_quality_lab.claim_graph import terminal_node_id_for_claim_id
 from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     MODEL_COMPARISON_NOT_READY,
@@ -366,11 +367,134 @@ def _gate_hg6(root: Path, claim_id: str, verdict_rows: Sequence[Mapping[str, Any
     return _pass("CONS-HG6", "artifact hashes are current", f"{HIGH_IMPACT_REVIEW_FINGERPRINT_ARTIFACT}:$.inputs.source_artifacts")
 
 
+def _claim_first_inputs(
+    *,
+    claim_id: str,
+    verdict_rows: Sequence[Mapping[str, Any]],
+    discovery_rows: Sequence[Mapping[str, Any]],
+) -> tuple[Mapping[str, Any] | None, int | None, Mapping[str, Any] | None, int | None]:
+    verdict_index = _row_index(verdict_rows, "claim_id", claim_id)
+    verdict_row = verdict_rows[verdict_index] if verdict_index is not None else None
+    report = claim_id.removeprefix("claim:")
+    discovery_index = _row_index(discovery_rows, "report", report)
+    discovery_row = discovery_rows[discovery_index] if discovery_index is not None else None
+    return verdict_row, verdict_index, discovery_row, discovery_index
+
+
+def _default_report_spec(report: str) -> Any | None:
+    try:
+        from scripts.run_canonical_reports import _specs_by_name
+    except ImportError:
+        return None
+    return _specs_by_name().get(report)
+
+
+def _claim_first_checks(
+    root: Path,
+    *,
+    report_spec: Any | None,
+    discovery_row: Mapping[str, Any] | None,
+    payload: Mapping[str, Any],
+) -> tuple[Any, ...]:
+    if report_spec is None or discovery_row is None:
+        return ()
+    return claim_first_pointer_checks(
+        root,
+        spec=report_spec,
+        discovery_row=discovery_row,
+        payload=payload,
+        scorecard_snapshot=load_scorecard_snapshot(root),
+    )
+
+
+def _gate_stack_hg1(
+    root: Path,
+    *,
+    claim_id: str,
+    verdict_rows: Sequence[Mapping[str, Any]],
+    discovery_rows: Sequence[Mapping[str, Any]],
+    report_spec: Any | None,
+    payload: Mapping[str, Any],
+) -> ConsistencyFinding:
+    verdict_row, verdict_index, discovery_row, discovery_index = _claim_first_inputs(
+        claim_id=claim_id,
+        verdict_rows=verdict_rows,
+        discovery_rows=discovery_rows,
+    )
+    if not isinstance(verdict_row, Mapping) or verdict_row.get("claim_verdict") != "accepted_positive_discovery":
+        return _pass("STACK-HG1", "non-positive verdict has no claim-first pointer requirement", _claim_verdict_pointer(verdict_index), expected="not applicable", actual="not applicable")
+    checks = _claim_first_checks(root, report_spec=report_spec, discovery_row=discovery_row, payload=payload)
+    if not checks:
+        return _fail("STACK-HG1", "claim-first report spec or discovery row is missing", _discovery_row_pointer(discovery_index), expected="report spec and discovery row", actual=None)
+    failed = [check for check in checks if check.reason == "owner pointer does not resolve" or check.reason == "owner pointer is missing"]
+    if failed:
+        first = failed[0]
+        return _fail("STACK-HG1", "required card pointers must be present and resolvable", first.pointer, expected="resolving owner pointer", actual=first.card_id)
+    return _pass("STACK-HG1", "required card pointers are present and resolvable", _claim_verdict_pointer(verdict_index))
+
+
+def _gate_stack_hg2(
+    root: Path,
+    *,
+    claim_id: str,
+    verdict_rows: Sequence[Mapping[str, Any]],
+    discovery_rows: Sequence[Mapping[str, Any]],
+    report_spec: Any | None,
+    payload: Mapping[str, Any],
+) -> ConsistencyFinding:
+    verdict_row, verdict_index, discovery_row, discovery_index = _claim_first_inputs(
+        claim_id=claim_id,
+        verdict_rows=verdict_rows,
+        discovery_rows=discovery_rows,
+    )
+    if not isinstance(verdict_row, Mapping) or verdict_row.get("claim_verdict") != "accepted_positive_discovery":
+        return _pass("STACK-HG2", "non-positive verdict has no claim-first owner-status requirement", _claim_verdict_pointer(verdict_index), expected="not applicable", actual="not applicable")
+    checks = _claim_first_checks(root, report_spec=report_spec, discovery_row=discovery_row, payload=payload)
+    if not checks:
+        return _fail("STACK-HG2", "claim-first report spec or discovery row is missing", _discovery_row_pointer(discovery_index), expected="report spec and discovery row", actual=None)
+    failed = [check for check in checks if check.status != "pass"]
+    if failed:
+        first = failed[0]
+        return _fail("STACK-HG2", "resolved owner status and hardgate cells must pass", first.pointer, expected="pass and not projection-only or tainted", actual=first.to_json())
+    return _pass("STACK-HG2", "resolved owner status and hardgate cells pass", _claim_verdict_pointer(verdict_index))
+
+
+def _gate_claim_first_hg1(
+    root: Path,
+    *,
+    claim_id: str,
+    verdict_rows: Sequence[Mapping[str, Any]],
+    discovery_rows: Sequence[Mapping[str, Any]],
+    report_spec: Any | None,
+    payload: Mapping[str, Any],
+) -> ConsistencyFinding:
+    verdict_row, verdict_index, discovery_row, discovery_index = _claim_first_inputs(
+        claim_id=claim_id,
+        verdict_rows=verdict_rows,
+        discovery_rows=discovery_rows,
+    )
+    if not isinstance(verdict_row, Mapping) or verdict_row.get("claim_verdict") != "accepted_positive_discovery":
+        return _pass("CLAIM-FIRST-HG1", "no accepted positive row requires claim-first admission", _claim_verdict_pointer(verdict_index), expected="not applicable", actual="not applicable")
+    if report_spec is None or discovery_row is None:
+        return _fail("CLAIM-FIRST-HG1", "accepted positive row lacks claim-first inputs", _discovery_row_pointer(discovery_index), expected="claim-first inputs", actual=None)
+    result = validate_positive_claim_evidence(
+        root,
+        spec=report_spec,
+        discovery_row=discovery_row,
+        payload=payload,
+        scorecard_snapshot=load_scorecard_snapshot(root),
+    )
+    if not result.ok:
+        return _fail("CLAIM-FIRST-HG1", "accepted positive row must pass claim-first admission", result.ledger_pointer, expected="positive admission pass", actual=result.reason)
+    return _pass("CLAIM-FIRST-HG1", "accepted positive row passes claim-first admission", _claim_verdict_pointer(verdict_index))
+
+
 def audit_claim_artifact_consistency(
     root: Path,
     *,
     claim_id: str = DEFAULT_CLAIM_ID,
     generated_at: str | None = None,
+    report_spec: Any | None = None,
 ) -> ClaimArtifactConsistencyReport:
     root = Path(root)
     timestamp = generated_at if generated_at is not None else "reusable"
@@ -382,6 +506,15 @@ def audit_claim_artifact_consistency(
     graph_payload = _load_json_object(root, CLAIM_GRAPH_ARTIFACT)
     dgt_payload = _load_json_object(root, DGT_ARTIFACT)
     high_impact_review_payload = _load_json_object(root, HIGH_IMPACT_REVIEW_ARTIFACT)
+    report_name = claim_id.removeprefix("claim:")
+    spec = report_spec or _default_report_spec(report_name)
+    owner_payload = (
+        dgt_payload
+        if report_name == "discovery-gated-transformer"
+        else _load_json_object(root, str(getattr(spec, "json_artifact")))
+        if spec is not None
+        else {}
+    )
     gates = (
         _gate_hg1(resolver=resolver, claim_id=claim_id, verdict_rows=verdict_rows, discovery_rows=discovery_rows),
         _gate_hg2(root, claim_id, verdict_rows),
@@ -396,6 +529,30 @@ def audit_claim_artifact_consistency(
         ),
         _gate_hg5(resolver=resolver, discovery_payload=discovery_payload),
         _gate_hg6(root, claim_id, verdict_rows),
+        _gate_stack_hg1(
+            root,
+            claim_id=claim_id,
+            verdict_rows=verdict_rows,
+            discovery_rows=discovery_rows,
+            report_spec=spec,
+            payload=owner_payload,
+        ),
+        _gate_stack_hg2(
+            root,
+            claim_id=claim_id,
+            verdict_rows=verdict_rows,
+            discovery_rows=discovery_rows,
+            report_spec=spec,
+            payload=owner_payload,
+        ),
+        _gate_claim_first_hg1(
+            root,
+            claim_id=claim_id,
+            verdict_rows=verdict_rows,
+            discovery_rows=discovery_rows,
+            report_spec=spec,
+            payload=owner_payload,
+        ),
     )
     status = "pass" if all(gate.status == "pass" for gate in gates) else "fail"
     return ClaimArtifactConsistencyReport(
