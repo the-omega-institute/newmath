@@ -1,0 +1,61 @@
+\section{Autoresearch loop: gated, adversarially verified findings}
+\label{sec:bedc-jepa-autoresearch}
+
+The instantiation studies were extended by an autoresearch loop that treats
+every candidate finding as untrusted until two independent layers clear it.  An
+open hypothesis is compiled into a deterministic runner; the runner is executed
+twice at a fixed seed and must produce byte-identical output; the resulting
+verdict passes through mechanical gates (anchor reproduction, two-run
+reproducibility, a confidence-interval criterion, a measured-scope overclaim
+guard, and an executed-provenance check); and only then does an independent
+adversarial review judge whether the experiment is methodologically sound.  A
+finding is authoritative only when the mechanical gates and the adversarial
+review both clear it, and is held back otherwise (fail-closed).
+
+The two layers are not redundant.  The mechanical gates are necessary but not
+sufficient: one candidate placed the label-defining future error inside its own
+feature vector, passed every mechanical gate with an apparent
+$\mathrm{AUROC} \approx 0.98$, and was demoted only when the adversarial review
+identified the leakage; once the leaked variable was excluded the same
+hypothesis returned an honest unidentifiable result.  The pipeline, its gates,
+the verified runners, and the verdict records are at
+\path{experiments/lewm_gap_ledger/autoresearch/}; the authoritative findings are
+summarized at
+\path{experiments/lewm_gap_ledger/autoresearch/findings/verified_findings.md}
+and the adversarial verdicts at
+\path{experiments/lewm_gap_ledger/autoresearch/findings/adversarial_verdicts.jsonl}.
+
+\paragraph{Quality-lab claim interface.}
+The overclaim screen for the autoresearch loop consumes the quality-lab
+forbidden positive claim term list as its single term source, covering
+\texttt{full-lejepa}, \texttt{global-quality},
+\texttt{full-tensor-namecert}, and \texttt{llm-behavior}.  The loop keeps its
+own runner and adversarial-review path, but exports its authoritative findings
+as canonical claim-verdict pointer rows for quality-lab consumption at
+\path{experiments/lewm_gap_ledger/autoresearch/findings/canonical_claim_verdicts.jsonl}.
+Thus the relationship is a consumer relation to the quality-lab claim-verdict
+bus, not a second verdict system with its own positive-claim vocabulary.
+
+\paragraph{Verified findings on the fixed carriers.}
+The current verified findings on the fixed carriers are recorded in
+\path{experiments/lewm_gap_ledger/autoresearch/findings/verified_findings.md},
+which is the single ledger source for the number, status, evidence pointer, and
+claim text of those findings.  The paper text does not cache those counts; it
+uses the ledger as the authority for the current positive, bounded, and
+fail-closed findings.
+
+\paragraph{Native-predictor derisk.}
+A small BEDC-native next-latent predictor trained on fixed tworooms latents
+beats a trivial persistence baseline (evaluation mean squared error $0.880$
+against $1.467$, paired interval below zero), so the recipe learns genuine
+dynamics.  It remains about $12.6\times$ the LeWorldModel predictor's own
+next-latent error ($0.880$ against $0.070$), and enlarging the native predictor
+narrows that gap by only $0.011$.  The signal is therefore that closing the
+prediction-axis gap is not a matter of scale alone for this recipe: the
+objective or architecture is the binding factor, which bounds what a larger
+compute budget alone would buy.
+
+This loop is the continuation mechanism for the article: each hypothesis it
+clears is appended to the verified-findings record above, and nothing reaches
+that record without passing both the mechanical gates and the adversarial
+review.
