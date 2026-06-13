@@ -171,6 +171,13 @@ def test_claim_first_gate_is_pointer_only_metadata():
     assert "claim_first_admission_pointer" not in serialized
 
 
+def test_claim_first_duplicate_execution_surface_is_absent_from_source():
+    source = Path("bedc_quality_lab/experiment_stack.py").read_text(encoding="utf-8")
+
+    assert "evaluate_claim_first_gate" not in source
+    assert "ClaimFirstGateDecision" not in source
+
+
 def test_missing_owner_pointer_blocks_card(tmp_path):
     _copy_owner_artifacts(tmp_path)
     (tmp_path / "reports/runs/discovery-gated-transformer/claim_capsule.json").unlink()

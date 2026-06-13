@@ -36,6 +36,7 @@ from scripts import run_discovery_regularized_training as runner
 from scripts import run_mechanism_seeking_network as msn_runner
 from scripts import run_sigreg_mini_grid as sigreg_grid_runner
 from scripts import run_sigreg_training_proxy as sigreg_proxy_runner
+from bedc_quality_lab.aggregation_consistency import validate_aggregation_consistency
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
@@ -1686,11 +1687,8 @@ def _patch_lightweight_run_reports(monkeypatch):
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
     monkeypatch.setattr(canonical, "_run_metric_purity_preflight", lambda report_artifacts=None: {"status": "pass"})
-    monkeypatch.setattr(
-        canonical,
-        "_write_aggregation_consistency_status",
-        lambda payload, *, generated_at: payload
-        | {
+    def fake_aggregation_consistency_status(payload, *, generated_at, require_pass=True):
+        return payload | {
             "aggregation_consistency": {
                 "schema_id": "bedc-quality-lab:aggregation-consistency",
                 "status": "pass",
@@ -1699,8 +1697,9 @@ def _patch_lightweight_run_reports(monkeypatch):
                 "doc_scan_count": 0,
                 "generated_at": generated_at,
             }
-        },
-    )
+        }
+
+    monkeypatch.setattr(canonical, "_write_aggregation_consistency_status", fake_aggregation_consistency_status)
 
 
 def _file_digest_map(root):
@@ -1878,8 +1877,14 @@ def _assert_dgt_discovery_map_row_uses_l0_consumption(row):
     assert row["scaling_ladder_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
 
 
-def _without_aggregation_consistency(payload):
-    return {key: value for key, value in payload.items() if key != "aggregation_consistency"}
+def _index_with_aggregation_consistency(generated_index, *, generated_at):
+    return {
+        **generated_index,
+        "aggregation_consistency": validate_aggregation_consistency(
+            canonical.ROOT,
+            index_payload=generated_index,
+        ).compact_status(generated_at=generated_at),
+    }
 
 
 def _drop_dgt_l0_from_manifest(monkeypatch):
@@ -3047,7 +3052,10 @@ def test_committed_canonical_bundle_matches_generation_chain():
         discovery_timestamp=discovery_payload["generated_at"],
     )
 
-    assert _without_aggregation_consistency(index_payload) == generated_index
+    assert index_payload == _index_with_aggregation_consistency(
+        generated_index,
+        generated_at=index_payload["generated_at"],
+    )
     assert discovery_payload == generated_discovery
     _assert_dgt_discovery_map_row_uses_l0_consumption(
         next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
@@ -7196,7 +7204,10 @@ def test_committed_canonical_bundle_matches_registered_reports():
         next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
     )
     assert claim_rows == regenerated_claim_rows
-    assert _without_aggregation_consistency(index_payload) == regenerated_index
+    assert index_payload == _index_with_aggregation_consistency(
+        regenerated_index,
+        generated_at=index_payload["generated_at"],
+    )
 
 
 def test_canonical_dgt_report_exposes_jet_certificate_pointer_only():
