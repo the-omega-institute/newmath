@@ -133,6 +133,47 @@ jobs:
       - name: Build BEDC-JEPA main.pdf
         run: make precheck && make
 
+  build_conformal_lean:
+    name: Build conformal-lean
+    needs: detect_changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Guard against forbidden Lean primitives
+        run: |
+          set -euo pipefail
+          pkg=papers/bedc_jepa/formal/bedc-conformal-lean
+          if grep -REn '\b(axiom|sorry|admit)\b' "$pkg"/*.lean; then
+            echo "forbidden Lean primitive (axiom/sorry/admit) present in conformal-lean"
+            exit 1
+          fi
+
+      - name: Build conformal-lean package
+        uses: leanprover/lean-action@c544e89643240c6b398f14a431bcdc6309e36b3e # v1
+        with:
+          lake-package-directory: papers/bedc_jepa/formal/bedc-conformal-lean
+          build: true
+          use-mathlib-cache: false
+          use-github-cache: "false"
+
+      - name: Verify theorems depend on zero axioms
+        working-directory: papers/bedc_jepa/formal/bedc-conformal-lean
+        run: |
+          set -euo pipefail
+          out="$(lake env lean ConformalCounting.lean 2>&1)"
+          echo "$out"
+          for thm in fail_closed_selects_empty selected_satisfies_conservative_bound coverage_counting_correct cumFail_monotone; do
+            echo "$out" | grep -q "'ConformalCounting.$thm' does not depend on any axioms" \
+              || { echo "axiom-freedom check failed for $thm"; exit 1; }
+          done
+          if echo "$out" | grep -Eq 'propext|Classical\.choice|Quot\.sound'; then
+            echo "forbidden stdlib axiom dependency present in conformal-lean"
+            exit 1
+          fi
+
   dossier_source_tests:
     name: Dossier source regression tests
     needs: detect_changes
@@ -163,7 +204,7 @@ jobs:
 
   gate:
     name: Gate
-    needs: [detect_changes, build_pdf, build_lean4, build_bedc_jepa_pdf, dossier_source_tests, render_dossier_check]
+    needs: [detect_changes, build_pdf, build_lean4, build_bedc_jepa_pdf, build_conformal_lean, dossier_source_tests, render_dossier_check]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
@@ -173,6 +214,7 @@ jobs:
           pdf_result="${{ needs.build_pdf.result }}"
           lean4_result="${{ needs.build_lean4.result }}"
           bedc_jepa_result="${{ needs.build_bedc_jepa_pdf.result }}"
+          conformal_lean_result="${{ needs.build_conformal_lean.result }}"
           source_test_result="${{ needs.dossier_source_tests.result }}"
           dossier_result="${{ needs.render_dossier_check.result }}"
 
@@ -183,6 +225,7 @@ jobs:
             echo "- build_pdf: \`$pdf_result\`"
             echo "- build_lean4: \`$lean4_result\`"
             echo "- build_bedc_jepa_pdf: \`$bedc_jepa_result\`"
+            echo "- build_conformal_lean: \`$conformal_lean_result\`"
             echo "- dossier_source_tests: \`$source_test_result\`"
             echo "- render_dossier_check: \`$dossier_result\`"
           } >> "$GITHUB_STEP_SUMMARY"
@@ -193,7 +236,7 @@ jobs:
           fi
           # Each sub-job: must be `success` (ran and passed) or `skipped`
           # (path detection said not needed). Any other state fails the gate.
-          for r in "$pdf_result" "$lean4_result" "$bedc_jepa_result" "$source_test_result" "$dossier_result"; do
+          for r in "$pdf_result" "$lean4_result" "$bedc_jepa_result" "$conformal_lean_result" "$source_test_result" "$dossier_result"; do
             case "$r" in
               success|skipped) : ;;
               *) exit 1 ;;
