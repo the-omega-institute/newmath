@@ -1,0 +1,400 @@
+{
+  "blocked_promotions": [
+    {
+      "blocked": true,
+      "name": "identity",
+      "reason": "No higher-layer reality contact is supplied by this coverage control."
+    },
+    {
+      "blocked": true,
+      "name": "function",
+      "reason": "No higher-layer reality contact is supplied by this coverage control."
+    },
+    {
+      "blocked": true,
+      "name": "safety",
+      "reason": "No higher-layer reality contact is supplied by this coverage control."
+    },
+    {
+      "blocked": true,
+      "name": "rejuvenation",
+      "reason": "No higher-layer reality contact is supplied by this coverage control."
+    },
+    {
+      "blocked": true,
+      "name": "maintenance",
+      "reason": "No higher-layer reality contact is supplied by this coverage control."
+    },
+    {
+      "blocked": true,
+      "name": "immortality",
+      "reason": "No higher-layer reality contact is supplied by this coverage control."
+    }
+  ],
+  "cannot_claim": [
+    "This is an age_signature-layer coverage control; clock is a probe and clock-age is a signature.",
+    "The artifact does not establish clock-independent biological rejuvenation or biological aging.",
+    "It does not establish identity, function, safety, rejuvenation, maintenance, or immortality."
+  ],
+  "checks": [
+    {
+      "name": "input.available",
+      "passed": true,
+      "reason": "Curated dual-clock GSE165179 input must be present locally.",
+      "value": {
+        "data_path": "tools/cellstate_reality/data/gse165179_dualclock_inputs.json"
+      }
+    },
+    {
+      "name": "clock.cpg.partition",
+      "passed": true,
+      "reason": "The two clock coefficient sets must partition into shared and clock-specific CpGs.",
+      "value": {
+        "horvath2_only": 331,
+        "horvath353_only": 293,
+        "intersection_size": 60
+      }
+    },
+    {
+      "name": "skinblood.full.coverage",
+      "passed": true,
+      "reason": "Skin&blood Horvath2 is fully covered in the curated EPIC matrix.",
+      "value": {
+        "covered": 391,
+        "total": 391
+      }
+    },
+    {
+      "name": "coverage.not.explanatory",
+      "passed": true,
+      "reason": "A fully covered clock remains non-reversed while the pan-tissue clock reverses, so the reversal is not explained by missing CpGs.",
+      "value": {
+        "full_clock_late_directions": {
+          "pan_tissue_horvath1_day15": {
+            "clock_id": "pan_tissue_horvath1",
+            "day": 15,
+            "direction": "positive",
+            "donor_day": [
+              {
+                "day": 15,
+                "donor": "O3",
+                "mean_delta_z": 0.04010460740904985,
+                "observation_count": 2
+              }
+            ],
+            "donor_day_mean_delta_z": 0.04010460740904985,
+            "intersection_cpg_used": 353
+          },
+          "pan_tissue_horvath1_day17": {
+            "clock_id": "pan_tissue_horvath1",
+            "day": 17,
+            "direction": "positive",
+            "donor_day": [
+              {
+                "day": 17,
+                "donor": "O1",
+                "mean_delta_z": 0.07656738029962123,
+                "observation_count": 1
+              },
+              {
+                "day": 17,
+                "donor": "O2",
+                "mean_delta_z": 0.8449180210763312,
+                "observation_count": 1
+              },
+              {
+                "day": 17,
+                "donor": "O3",
+                "mean_delta_z": 0.02133399996269808,
+                "observation_count": 2
+              }
+            ],
+            "donor_day_mean_delta_z": 0.3142731337795502,
+            "intersection_cpg_used": 353
+          },
+          "skin_blood_horvath2_day15": {
+            "clock_id": "skin_blood_horvath2",
+            "day": 15,
+            "direction": "negative",
+            "donor_day": [
+              {
+                "day": 15,
+                "donor": "O3",
+                "mean_delta_z": -0.15895463111772784,
+                "observation_count": 2
+              }
+            ],
+            "donor_day_mean_delta_z": -0.15895463111772784,
+            "intersection_cpg_used": 391
+          },
+          "skin_blood_horvath2_day17": {
+            "clock_id": "skin_blood_horvath2",
+            "day": 17,
+            "direction": "negative",
+            "donor_day": [
+              {
+                "day": 17,
+                "donor": "O1",
+                "mean_delta_z": -1.7180095780170017,
+                "observation_count": 1
+              },
+              {
+                "day": 17,
+                "donor": "O2",
+                "mean_delta_z": -0.015340707544021913,
+                "observation_count": 1
+              },
+              {
+                "day": 17,
+                "donor": "O3",
+                "mean_delta_z": 0.9036644871435213,
+                "observation_count": 2
+              }
+            ],
+            "donor_day_mean_delta_z": -0.27656193280583413,
+            "intersection_cpg_used": 391
+          }
+        },
+        "pan_tissue_has_late_reversal": true,
+        "skinblood_full_coverage": true,
+        "skinblood_late_not_reversed": true
+      }
+    },
+    {
+      "name": "intersection.day17.control",
+      "passed": true,
+      "reason": "Day17 shared-CpG z-space directions are recomputed using each clock's own weights on the same CpG subset.",
+      "value": {
+        "divergence_location": "clock-specific_cpg_or_nonshared_weighting",
+        "intersection_still_diverges": false,
+        "pan_tissue_horvath1": {
+          "clock_id": "pan_tissue_horvath1",
+          "day": 17,
+          "direction": "negative",
+          "donor_day": [
+            {
+              "day": 17,
+              "donor": "O1",
+              "mean_delta_z": -0.38451329971730863,
+              "observation_count": 1
+            },
+            {
+              "day": 17,
+              "donor": "O2",
+              "mean_delta_z": 0.3628373328696467,
+              "observation_count": 1
+            },
+            {
+              "day": 17,
+              "donor": "O3",
+              "mean_delta_z": -0.10095142295577925,
+              "observation_count": 2
+            }
+          ],
+          "donor_day_mean_delta_z": -0.04087579660114706,
+          "intersection_cpg_used": 60
+        },
+        "skin_blood_horvath2": {
+          "clock_id": "skin_blood_horvath2",
+          "day": 17,
+          "direction": "negative",
+          "donor_day": [
+            {
+              "day": 17,
+              "donor": "O1",
+              "mean_delta_z": -0.08330417659691997,
+              "observation_count": 1
+            },
+            {
+              "day": 17,
+              "donor": "O2",
+              "mean_delta_z": -0.17410048220736918,
+              "observation_count": 1
+            },
+            {
+              "day": 17,
+              "donor": "O3",
+              "mean_delta_z": -0.0025014049953348636,
+              "observation_count": 2
+            }
+          ],
+          "donor_day_mean_delta_z": -0.08663535459987466,
+          "intersection_cpg_used": 60
+        }
+      }
+    },
+    {
+      "name": "age-signature-only.boundary",
+      "passed": true,
+      "reason": "The control is a DNAm clock coverage-method result at age_signature layer only.",
+      "value": {
+        "blocked_promotions": [
+          "identity",
+          "function",
+          "safety",
+          "rejuvenation",
+          "maintenance",
+          "immortality"
+        ]
+      }
+    }
+  ],
+  "claim_id": "cellstate.age-clock-shift.clock-dependence.coverage-control.gse165180",
+  "completed_at": "2026-06-11T06:39:01+00:00",
+  "conjecture_id": "age-clock-shift.clock-dependence.coverage-control.gse165180",
+  "contact_id": "k-a.gse165180.horvath353",
+  "data_path": "tools/cellstate_reality/data/gse165179_dualclock_inputs.json",
+  "experiment_id": "gse165179_clock_dependence_coverage_control",
+  "full_clock_late_directions": {
+    "pan_tissue_horvath1_day15": {
+      "clock_id": "pan_tissue_horvath1",
+      "day": 15,
+      "direction": "positive",
+      "donor_day": [
+        {
+          "day": 15,
+          "donor": "O3",
+          "mean_delta_z": 0.04010460740904985,
+          "observation_count": 2
+        }
+      ],
+      "donor_day_mean_delta_z": 0.04010460740904985,
+      "intersection_cpg_used": 353
+    },
+    "pan_tissue_horvath1_day17": {
+      "clock_id": "pan_tissue_horvath1",
+      "day": 17,
+      "direction": "positive",
+      "donor_day": [
+        {
+          "day": 17,
+          "donor": "O1",
+          "mean_delta_z": 0.07656738029962123,
+          "observation_count": 1
+        },
+        {
+          "day": 17,
+          "donor": "O2",
+          "mean_delta_z": 0.8449180210763312,
+          "observation_count": 1
+        },
+        {
+          "day": 17,
+          "donor": "O3",
+          "mean_delta_z": 0.02133399996269808,
+          "observation_count": 2
+        }
+      ],
+      "donor_day_mean_delta_z": 0.3142731337795502,
+      "intersection_cpg_used": 353
+    },
+    "skin_blood_horvath2_day15": {
+      "clock_id": "skin_blood_horvath2",
+      "day": 15,
+      "direction": "negative",
+      "donor_day": [
+        {
+          "day": 15,
+          "donor": "O3",
+          "mean_delta_z": -0.15895463111772784,
+          "observation_count": 2
+        }
+      ],
+      "donor_day_mean_delta_z": -0.15895463111772784,
+      "intersection_cpg_used": 391
+    },
+    "skin_blood_horvath2_day17": {
+      "clock_id": "skin_blood_horvath2",
+      "day": 17,
+      "direction": "negative",
+      "donor_day": [
+        {
+          "day": 17,
+          "donor": "O1",
+          "mean_delta_z": -1.7180095780170017,
+          "observation_count": 1
+        },
+        {
+          "day": 17,
+          "donor": "O2",
+          "mean_delta_z": -0.015340707544021913,
+          "observation_count": 1
+        },
+        {
+          "day": 17,
+          "donor": "O3",
+          "mean_delta_z": 0.9036644871435213,
+          "observation_count": 2
+        }
+      ],
+      "donor_day_mean_delta_z": -0.27656193280583413,
+      "intersection_cpg_used": 391
+    }
+  },
+  "horvath2_only": 331,
+  "horvath353_only": 293,
+  "intersection_day17_directions": {
+    "interpretation": "The shared-CpG subset is scored with each clock's own coefficients. A shared-subset sign split is a clock-weighting difference on common probes; a shared-subset same sign places the late full-clock split in clock-specific probes or nonshared coefficient geometry. Neither case is a missing-CpG coverage explanation.",
+    "intersection_still_diverges": false,
+    "pan_tissue_horvath1": {
+      "clock_id": "pan_tissue_horvath1",
+      "day": 17,
+      "direction": "negative",
+      "donor_day": [
+        {
+          "day": 17,
+          "donor": "O1",
+          "mean_delta_z": -0.38451329971730863,
+          "observation_count": 1
+        },
+        {
+          "day": 17,
+          "donor": "O2",
+          "mean_delta_z": 0.3628373328696467,
+          "observation_count": 1
+        },
+        {
+          "day": 17,
+          "donor": "O3",
+          "mean_delta_z": -0.10095142295577925,
+          "observation_count": 2
+        }
+      ],
+      "donor_day_mean_delta_z": -0.04087579660114706,
+      "intersection_cpg_used": 60
+    },
+    "skin_blood_horvath2": {
+      "clock_id": "skin_blood_horvath2",
+      "day": 17,
+      "direction": "negative",
+      "donor_day": [
+        {
+          "day": 17,
+          "donor": "O1",
+          "mean_delta_z": -0.08330417659691997,
+          "observation_count": 1
+        },
+        {
+          "day": 17,
+          "donor": "O2",
+          "mean_delta_z": -0.17410048220736918,
+          "observation_count": 1
+        },
+        {
+          "day": 17,
+          "donor": "O3",
+          "mean_delta_z": -0.0025014049953348636,
+          "observation_count": 2
+        }
+      ],
+      "donor_day_mean_delta_z": -0.08663535459987466,
+      "intersection_cpg_used": 60
+    }
+  },
+  "intersection_size": 60,
+  "layer": "age_signature",
+  "reversal_explained_by_coverage": false,
+  "skinblood_full_coverage": true,
+  "started_at": "2026-06-11T06:39:01+00:00",
+  "status": "passed"
+}

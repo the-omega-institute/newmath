@@ -354,4 +354,36 @@ theorem LPDualityFarkasAlternativeHandoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, alternativeUnary, namedUnary⟩
 
+theorem LPDualityPrimalFeasibilityBinaryConvexClosure [AskSetup] [PackageSetup]
+    {feasible field order objective classifier route provenance endpoint primalLeft primalRight
+      mixedLeft mixedRight mixedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LPDualityFiniteOrderedFieldFeasibilityRow feasible field order objective classifier route
+        provenance endpoint bundle pkg →
+      UnaryHistory primalLeft →
+        UnaryHistory primalRight →
+          Cont feasible primalLeft mixedLeft →
+            Cont feasible primalRight mixedRight →
+              Cont mixedLeft mixedRight mixedEndpoint →
+                PkgSig bundle mixedEndpoint pkg →
+                  UnaryHistory mixedLeft ∧ UnaryHistory mixedRight ∧
+                    UnaryHistory mixedEndpoint ∧ Cont feasible primalLeft mixedLeft ∧
+                      Cont feasible primalRight mixedRight ∧
+                        Cont mixedLeft mixedRight mixedEndpoint ∧
+                          PkgSig bundle endpoint pkg ∧ PkgSig bundle mixedEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro row primalLeftUnary primalRightUnary feasiblePrimalLeft feasiblePrimalRight mixedRoute
+    mixedPkg
+  obtain ⟨feasibleUnary, _fieldUnary, _orderUnary, _objectiveUnary, _provenanceUnary,
+    _classifierRow, _routeRow, _endpointRow, endpointPkg⟩ := row
+  have mixedLeftUnary : UnaryHistory mixedLeft :=
+    unary_cont_closed feasibleUnary primalLeftUnary feasiblePrimalLeft
+  have mixedRightUnary : UnaryHistory mixedRight :=
+    unary_cont_closed feasibleUnary primalRightUnary feasiblePrimalRight
+  have mixedEndpointUnary : UnaryHistory mixedEndpoint :=
+    unary_cont_closed mixedLeftUnary mixedRightUnary mixedRoute
+  exact
+    ⟨mixedLeftUnary, mixedRightUnary, mixedEndpointUnary, feasiblePrimalLeft,
+      feasiblePrimalRight, mixedRoute, endpointPkg, mixedPkg⟩
+
 end BEDC.Derived.LPDualityUp

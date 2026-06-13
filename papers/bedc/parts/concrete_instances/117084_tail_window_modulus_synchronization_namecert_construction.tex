@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\TailWindowModulusSynchronizationUp$}
+\label{ch:concrete-instances-tail-window-modulus-synchronization-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy sequences, the $\TailWindowModulusSynchronizationUp$ packet realizes the regular-Cauchy route of \autoref{sec:real-completeness-regular-cauchy} as a finite synchronization certificate. It sits after the StreamName window surface of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the DyadicRatCore threshold ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal RealUp seal of \autoref{ch:concrete-instances-real-namecert}, and the shared tail threshold discipline of \autoref{ch:concrete-instances-tail-cofinality-budget-namecert}. The packet names the finite synchronization between a tail-window request and a displayed modulus row; it does not choose an infinite subsequence, quotient regular Cauchy names, select a limit, invoke countable choice, or assume ambient Real completeness.
+
+\begin{definition}[Tail-window modulus synchronization carrier]
+\label{def:tail-window-modulus-synchronization-carrier}
+A $\TailWindowModulusSynchronizationUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,B,S,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the displayed modulus row assigning a unary precision request to a tail threshold.
+\item $B$ is the $\TailCofinalityBudgetUp$ row recording that later tail requests refine the same finite threshold route.
+\item $S$ is the $\StreamNameUp$ schedule for the regular Cauchy family being inspected.
+\item $W$ is the finite tail window selected by $M$ and admitted by $B$.
+\item $D$ is the $\DyadicRatCoreUp$ ledger containing the tolerance, threshold comparison, and synchronization scale for $W$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the synchronized window and dyadic ledger.
+\item $E$ is the $\RealUp$ seal row reached only after the modulus, cofinality, window, dyadic, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus, cofinality budget, stream schedule, selected window, dyadic ledger, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,B,S,W,D \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\TailWindowModulusSynchronizationUp$, $\TailCofinalityBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TailWindowModulusSynchronizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $M,B,S,W,D,R,E,H,C,P,N$. It has no coordinate for host sequence equality, quotient real equality, selected limits, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Tail-window modulus synchronization obligations]
+\label{thm:tail-window-modulus-synchronization-obligations}
+For every accepted $\TailWindowModulusSynchronizationUp$ carrier $T=(M,B,S,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\TailWindowModulusSynchronizationUp}$ surface consists exactly of carrier admission for the displayed packet; modulus threshold exposure through $M$; cofinal tail-budget exposure through $B$; StreamName window selection through $S,W$; DyadicRatCore synchronization through $D$; RegSeqRat readback through $R$; RealUp seal non-escape through $E$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $M,B,S,W,D,R,E,H,C,P,N$ are the only classifier-visible coordinates, so no host sequence equality, quotient real equality, selected limit, choice schedule, or completeness principle can be read from the packet.
+
+Read the synchronization rows in order. The modulus row $M$ chooses the threshold for the displayed precision request, and the tail cofinality budget $B$ records how later requests remain on the same finite route.
+
+The window and readback rows then consume that shared threshold. The StreamName schedule $S$ supplies $W$, the dyadic ledger $D$ records the synchronized tolerance comparison, and the regular readback $R$ is downstream from those rows.
+
+Finally the Real seal and structural rows preserve the route. The row $E$ is available only after $R$, while $H,C,P,N$ transport, replay, source, and name the same finite packet.
+\end{proof}
+
+\begin{theorem}[Tail-window modulus synchronization handoff]
+\label{thm:tail-window-modulus-synchronization-handoff}
+Every Real-completion consumer admitted by an accepted $\TailWindowModulusSynchronizationUp$ packet reads a single finite synchronization route
+$$
+M,B \longmapsto S,W,D \longmapsto R \longmapsto E .
+$$
+The route synchronizes the modulus threshold with the tail-window budget before any RegSeqRat readback or RealUp seal is available. It exports no quotient regular Cauchy equality, hidden subsequence selector, selected limit, countable-choice row, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the regular Cauchy vision site \autoref{sec:real-completeness-regular-cauchy}. A completion-facing read asks for a finite tail window at a displayed precision, so the packet first exposes the modulus row $M$ and the cofinal budget row $B$.
+
+Next the window is synchronized with those rows. The schedule $S$ names the finite observations, $W$ is the selected tail window, and $D$ records the dyadic threshold comparison that keeps the modulus and budget aligned.
+
+The readback and seal are downstream. The row $R$ is obtained from the displayed window and ledger, and the terminal row $E$ is available only after $R$. Since the carrier contains no refused coordinate, the consumer receives exactly the finite synchronization route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\TailWindowModulusSynchronizationUp$ read fails if a Real-completion consumer reaches RegSeqRat readback or a RealUp seal before displaying the modulus row, TailCofinalityBudget row, StreamName window, DyadicRatCore synchronization ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{tail-cofinality-budget, streamname, regseqrat, dyadicratcore, real: no listed sibling is bijective to $\TailWindowModulusSynchronizationUp$ because this packet binds a modulus threshold and a cofinal tail budget to one synchronized StreamName window, DyadicRatCore ledger, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming surface.}
+
+\closureat{TailWindowModulusSynchronizationUp}{seedStr}
+
+\begin{closurestatus}{\TailWindowModulusSynchronizationUp}
+  \constructivestory{A $\TailWindowModulusSynchronizationUp$ packet is generated from a modulus threshold row, a TailCofinalityBudget row, StreamName windows, a DyadicRatCore synchronization ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tail-window-modulus-synchronization-carrier}, \autoref{thm:tail-window-modulus-synchronization-obligations}, and \autoref{thm:tail-window-modulus-synchronization-handoff} seed the finite tail-window modulus synchronization route for regular-Cauchy Real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient regular Cauchy equality, hidden subsequence selection, selected limits, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus threshold exposure, tail cofinality exposure, StreamName window selection, DyadicRatCore synchronization, RegSeqRat readback, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.TailWindowModulusSynchronizationUp.}
+\end{closurestatus}

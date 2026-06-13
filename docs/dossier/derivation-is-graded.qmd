@@ -37,14 +37,16 @@ Each grade is a commitment the paper exhibits on its own, with no input from any
 | `bridgedClosed` | Above public, the chapter exhibits a paper-level standard bridge (six-field `StdBridge`) and a paper-level no-host-leak argument. |
 | `matureClosed` | Above bridged, the chapter records the mature-package theorem inventory **the scope itself naturally requires** and supplies BEDC-side certificates that those theorems hold. |
 
-The `bridgedClosed → matureClosed` step is where the discipline is most often misread. **A bridge does not entail mature**. The conservativity theorem `thm:acceptance-bridge-conservative` actively closes the shortcut of "let host theorems flow over the bridge for free." The bridge tells the host *"this is your N"*; it does not tell the host *"and moreover, every theorem you expect about N has been redone on my side."* The latter is what mature commits to.
+The $bridgedClosed \to matureClosed$ step is where the discipline is most often misread. **A bridge does not entail mature**. The conservativity theorem `thm:acceptance-bridge-conservative` actively closes the shortcut of "let host theorems flow over the bridge for free." The bridge tells the host *"this is your N"*; it does not tell the host *"and moreover, every theorem you expect about N has been redone on my side."* The latter is what mature commits to.
 
 ## The verification axis: eight grades, running independently
 
-```
- unformalized  <  formalTarget  <  encodedDef  <  scaffoldChecked  <  theoremChecked  <  auditClean  <  axiomClean
-                                                                                                              ⊕ bridgeChecked
-```
+$$
+\begin{aligned}
+unformalized  <  formalTarget  <  encodedDef  <  scaffoldChecked  <  theoremChecked  <  auditClean  <  axiomClean \\
+\oplus bridgeChecked
+\end{aligned}
+$$
 
 This axis reads only the Lean-side audit state, with no input from the paper. `theoremChecked` means `lake build` passes. `auditClean` means `bedc_ci.py audit` reports every marker resolves to a real declaration. `axiomClean` means `axiom-purity --strict` reports the transitive dependencies are free of `Classical.choice`, `Quot.sound`, and `propext`.
 
@@ -79,7 +81,7 @@ The block is the manuscript's binding commitment about the object. `bedc_ci.py a
 
 Two verbs: *records the full inventory* and *supplies certificates*. Not "intends to derive"; the obligation is **discharged**. The pivot is the phrase "**characterising the object in the standard reference**" — it must be read **relative to the scope declared in the `scopeclosed` block**, not relative to the host textbook in full.
 
-Look at three mature chapters in `scopeclosed × notclaimed` pairs:
+Look at three mature chapters in $scopeclosed \times notclaimed$ pairs:
 
 `NatUp` (`papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex`):
 
@@ -96,7 +98,7 @@ Look at three mature chapters in `scopeclosed × notclaimed` pairs:
 - **scopeclosed**: unary-continuation `CategoryUp` host interface + paper-level standard unary-continuation bridge + double-opposite identity / involution + split-epimorphism right-cancellation / composition closure
 - **notclaimed**: **arbitrary categories, limits, colimits, adjunctions, equivalences, enriched categories, categorical foundations, machine-checked bridge verification**
 
-Reading: each chapter's mature is a certificate for its own narrow scope. The host textbook's chapter on ℚ — order, density, Archimedean property, quotient construction — is **not in `RatUp`'s scope**; those concerns wait for `OrderUp`, `DensityUp`, `ArchimedeanUp`, `QuotientUp` to open their own scopes and discharge mature there. mature is assembled piece by piece, never delivered wholesale.
+Reading: each chapter's mature is a certificate for its own narrow scope. The host textbook's chapter on $\mathbb{Q}$ — order, density, Archimedean property, quotient construction — is **not in `RatUp`'s scope**; those concerns wait for `OrderUp`, `DensityUp`, `ArchimedeanUp`, `QuotientUp` to open their own scopes and discharge mature there. mature is assembled piece by piece, never delivered wholesale.
 
 `papers/bedc/parts/acceptance/03_cannot_claim_registry.tex` makes this discipline binding. Any strong claim of the form "`NatUp` is the full Peano natural numbers" is registered as `partial`: it cannot be promoted until the corresponding wider scope has itself completed the mature upgrade. **mature is scope-bound; the cannot-claim registry is its shadow.** Read together, the two are what tells you "where in the project derivation has actually been completed."
 
@@ -118,7 +120,7 @@ In one line: **BEDC at full mature is a strict-constructive, no-choice copy of m
 
 ### Gap 2: carriers are not host carriers — computation decouples from the public surface
 
-mature aligns the public surface (the `NameCert` interface) of `NatUp`, `RatUp`, `RealUp` with the host's ℕ, ℚ, ℝ. The carriers remain BEDC's own histories: `NatUp` is unary-repetition history, `RatUp` is ratio history. The consequence is computational complexity:
+mature aligns the public surface (the `NameCert` interface) of `NatUp`, `RatUp`, `RealUp` with the host's $\mathbb{N}$, $\mathbb{Q}$, $\mathbb{R}$. The carriers remain BEDC's own histories: `NatUp` is unary-repetition history, `RatUp` is ratio history. The consequence is computational complexity:
 
 - $17 + 25$ on host `Nat` (binary representation): O(log n), three machine instructions.
 - $17 + 25$ on BEDC `NatUp` (unary history): O(n), a stretch of history-concatenation.
@@ -185,7 +187,7 @@ Univalence — *iso = equal* — is cubical's core monistic move: collapse "isom
 
 | | The grammar of *doing math* |
 |---|---|
-| Cubical | **Write down the object you want.** Want $S^1$? `data S¹ where base : S¹; loop : base ≡ base`. Want a quotient? Higher inductive types deliver one. The mathematician writes "as one thinks." The kernel handles complexity. |
+| Cubical | **Write down the object you want.** Want $S^1$? `data Circle where base : Circle; loop : base == base`. Want a quotient? Higher inductive types deliver one. The mathematician writes "as one thinks." The kernel handles complexity. |
 | BEDC | **Submit the books.** Every object carries `scopeclosed`, `leantarget`, `bridgestatus`, `notclaimed`, `upgradepath`. The chapter's `closurestatus` block is a binding commitment of the project. The mathematician cannot write "as one thinks"; one must commit explicitly to where the writing reaches and where it does not. |
 
 This row most directly captures the two camps' view of **the mathematician's job**. Cubical sees the mathematician as a **structure-discoverer** to whom the kernel offers a rich set of primitives so structures can be expressed directly. BEDC sees the mathematician as an **accountant**, every commitment ledgered in the format prescribed by `closurestatus` and `cannot-claim`.
@@ -206,15 +208,17 @@ RISC-foundations has had practitioners. A Bishop takes a lifetime. A CoRN takes 
 
 Snapshot of `newmath` (project init at 2026-04-29; this snapshot at 2026-05-07, +7 days):
 
-```
-project age:        2026-04-29 → 2026-05-07 = 7 days
-total commits:      13,401
-commits/day avg:    1,914
-Lean files:           984
-Lean lines:       145,873
-LaTeX files:        1,095
-LaTeX lines:      216,677
-```
+$$
+\begin{aligned}
+project age:        2026-04-29 \to 2026-05-07 &= 7 days \\
+total commits&:      13,401 \\
+commits/day avg&:    1,914 \\
+Lean files&:           984 \\
+Lean lines&:       145,873 \\
+LaTeX files&:        1,095 \\
+LaTeX lines&:      216,677
+\end{aligned}
+$$
 
 Daily growth in mathematical content:
 
@@ -228,7 +232,7 @@ Daily growth in mathematical content:
 | theoremCheckedV  |     0 |     0 |     0 |    82 |
 | matureClosure    |     0 |     0 |     0 |    25 |
 
-Average ~840 Lean theorems / day. mathlib has accumulated ~150K theorems over ~9 years: a time-averaged ~45 / day, peak rate around ~150 / day. **BEDC's seven-day average runs at ~18× mathlib's historical mean and ~5× its peak**, while operating under stricter constraints: mathlib-free, three-axiom-clean, constructive.
+Average ~840 Lean theorems / day. mathlib has accumulated ~150K theorems over ~9 years: a time-averaged ~45 / day, peak rate around ~150 / day. **BEDC's seven-day average runs at ~18$\times$ mathlib's historical mean and ~5$\times$ its peak**, while operating under stricter constraints: mathlib-free, three-axiom-clean, constructive.
 
 The absolute count is less important than the **rate of structural buildup**. The `closurestatus` framework went online on 5/05; in three days it advanced from 0 to 105 blocks, of which 82 are at `theoremCheckedV` and 25 at `matureClosure`. Inductive types went from 10 to 57 — 47 new carriers each designed BEDC-side, none borrowed from mathlib.
 
@@ -242,7 +246,7 @@ The actual production setup:
 - `papers/bedc/scripts/codex_revise.py` runs paper-side codex, advancing `closurestatus` blocks and `\leanchecked` markers in lockstep.
 - Human + claude pair work on the `auto-dev` branch for architectural commits, with single-commit atomicity (each commit compiles cleanly on its own), merge-not-rebase synchronization, and pushes timed for quiet windows in the worker schedule.
 
-This is the product of **discipline × parallelism**. Cubical Agda is fast on its own (Brunerie's number was mechanized in eight years; agda/cubical has thousands of files). Bishop 1967 is strict on its own. **The product of the two — RISC discipline together with high throughput — has no precedent in the history of foundations**.
+This is the product of **discipline $\times$ parallelism**. Cubical Agda is fast on its own (Brunerie's number was mechanized in eight years; agda/cubical has thousands of files). Bishop 1967 is strict on its own. **The product of the two — RISC discipline together with high throughput — has no precedent in the history of foundations**.
 
 A linear extrapolation, assuming the rate holds:
 
@@ -257,7 +261,7 @@ Linear extrapolation is unreliable — the L9–L13 layers (analysis, geometry, 
 
 ## The full picture in one paragraph
 
-Derivation is not yes/no. It is two axes and six grades. mature is the project's atomic unit of derivation: it discharges paper-side commitments one scope at a time, with cannot-claim actively excluding the rest. Even at saturation, three permanent gaps to traditional mathematics remain: refusal of three axioms, non-host carriers, explicit-ledger style. Philosophically, BEDC is on the Bishop / observation / ledger side, opposite to Voevodsky / geometry / structure (cubical), and disjoint from mathlib (CISC + classical wholesale). Historically, RISC-foundations has been productivity-bound. BEDC dissolves that bound with AI parallelism, sustaining ~5× mathlib's peak rate at seven days. **RISC discipline + AI parallelism has not happened in the previous sixty years; it began on 2026-04-29 in `the-omega-institute/newmath`**.
+Derivation is not yes/no. It is two axes and six grades. mature is the project's atomic unit of derivation: it discharges paper-side commitments one scope at a time, with cannot-claim actively excluding the rest. Even at saturation, three permanent gaps to traditional mathematics remain: refusal of three axioms, non-host carriers, explicit-ledger style. Philosophically, BEDC is on the Bishop / observation / ledger side, opposite to Voevodsky / geometry / structure (cubical), and disjoint from mathlib (CISC + classical wholesale). Historically, RISC-foundations has been productivity-bound. BEDC dissolves that bound with AI parallelism, sustaining ~5$\times$ mathlib's peak rate at seven days. **RISC discipline + AI parallelism has not happened in the previous sixty years; it began on 2026-04-29 in `the-omega-institute/newmath`**.
 
 This is not a claim that BEDC has replaced traditional mathematics. It is an existence proof that traditional mathematics can be re-derived first-principles from a 7-step finite kernel, and that the RISC route — given AI parallelism — can outrun the CISC route. As of week one.
 

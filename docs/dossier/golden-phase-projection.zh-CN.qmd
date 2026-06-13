@@ -4,7 +4,7 @@ subtitle: "一段 Zeckendorf 几何程序规格, 不是普通软件代码"
 author: "The Omega Institute"
 date: 2026-06-10
 lang: zh-Hans
-description: "一篇 dossier essay, 把 Zeckendorf 黄金相位投影解释为派生接口级程序规格: 二元微态、Zeckendorf 折叠、Window6 稳定地址、黄金尺度、相位扇区、residual ledger 与可认证标量读出边界."
+description: "一篇 dossier 短文, 把 Zeckendorf 黄金相位投影解释为派生接口级程序规格: 二元微态、Zeckendorf 折叠、Window6 稳定地址、黄金尺度、相位扇区、residual 账本与可认证标量读出边界."
 ---
 
 ```{=html}
@@ -13,7 +13,7 @@ description: "一篇 dossier essay, 把 Zeckendorf 黄金相位投影解释为�
 
 ## 不是普通代码
 
-Zeckendorf 黄金相位投影确实像程序, 但不是普通软件意义上的程序. 它不是 Python function, 不是 Lean executable, 也不是宿主侧数值例程. 它更准确的状态是:
+Zeckendorf 黄金相位投影确实像程序, 但不是普通软件意义上的程序. 它不是 Python 函数, 不是 Lean executable, 也不是宿主侧数值例程. 它更准确的状态是:
 
 ```text
 a derived-interface program specification
@@ -43,7 +43,7 @@ binary microstate
 <span class="elim-mark">✗ 「所以这只是软件算一个数」</span>
 ```
 
-不是. 软件通常计算输出数据. 这个规格先生成一个可见几何接口, 然后只允许通过生成该接口的 ledger 做标量投影.
+不是. 软件通常计算输出数据. 这个规格先生成一个可见几何接口, 然后只允许通过生成该接口的账本做标量投影.
 
 ## 程序表面
 
@@ -65,19 +65,19 @@ X_6 = {0,1}^6 中没有相邻 11 的词.
 Fold_6 : Omega_6 -> X_6.
 ```
 
-它通过 Fibonacci value 读取 raw word, 把这个值约化到 Zeckendorf normal form, 再暴露稳定可见词. 可见状态数是:
+它通过 Fibonacci value 读取 raw word, 把这个值约化到 Zeckendorf 正规形, 再暴露稳定可见词. 可见状态数是:
 
 ```text
 |X_6| = F_8 = 21.
 ```
 
-所以第一层生成出来的几何不是欧氏点空间. 它是有限地址几何: 二十一个可见 Zeckendorf 地址, 每个地址背后都有 source fiber.
+所以第一层生成出来的几何不是欧氏点空间. 它是有限地址几何: 二十一个可见 Zeckendorf 地址, 每个地址背后都有源 fiber.
 
 ```text
 F_6(x) = Fold_6^{-1}(x)
 ```
 
-fiber 是机器状态的一部分. 丢掉它, projection 就已经偷偷变成 quotient.
+纤维是机器状态的一部分. 丢掉它, projection 就已经偷偷变成 quotient.
 
 ## opcode 读法
 
@@ -111,15 +111,15 @@ F_7 = 13
 D_0 = F_9 + F_7 = F_10 - F_6 = 47
 ```
 
-生成 residual ledger 分母.
+生成 residual 账本分母.
 
-闭包原则是: Window6 residual ledger 只允许由三层 tail 数据
+闭包原则是: Window6 residual 账本只允许由三层 tail 数据
 
 ```text
 21, 13, 9
 ```
 
-以及八重 boundary parity 闭合:
+以及八重边界 parity 闭合:
 
 ```text
 8.
@@ -167,13 +167,13 @@ R_Z(D)
 但可审计机器状态包含更多东西:
 
 - 六十四个 raw microstates;
-- 二十一个 visible stable addresses;
-- visible words 上方的 residual fibers;
+- 二十一个可见 stable addresses;
+- 可见 words 上方的 residual 纤维;
 - phase sectors;
-- boundary 与 carry-defect rows;
+- 边界与 carry-defect 行;
 - Window6 tail ladder `21, 13, 9`;
-- 八重 parity row;
-- tail ledgers 以及不会被 displayed scalar 穷尽的 hidden residual degrees.
+- 八重 parity 行;
+- tail 账本以及不会被显示 scalar 穷尽的 hidden residual degrees.
 
 这就是为什么更好的比喻是几何虚拟机, 不是计算器. 标量是一个输出端口. 它不是完整状态.
 
@@ -211,15 +211,15 @@ alpha_EM^-1 = 2 R_K / Z_0,
 
 Zeckendorf 字典因此是:
 
-| Zeckendorf structure | BEDC role | physical reading |
+| Zeckendorf structure | BEDC role | 物理读法 |
 |---|---|---|
-| `S_Z^1`, phase circumference | phase-circle interface | `U(1)` charge phase |
-| `chi_phi^Z` | golden phase character | phase closure or interference residue |
-| `F_8 = 21` | Window6 visible stable types | locally distinguishable phase channels |
-| `F_9 = 34` | next boundary | next vacuum-response boundary |
+| `S_Z^1`, phase circumference | phase-circle 接口 | `U(1)` charge phase |
+| `chi_phi^Z` | golden phase character | phase 闭合 or interference residue |
+| `F_8 = 21` | Window6 可见 stable types | locally distinguishable phase channels |
+| `F_9 = 34` | next 边界 | next vacuum-response 边界 |
 | `F_6 = 8` | carry or boundary-parity defect | continuous probe 看不见的离散相位残差 |
-| `F_7 = 13` | deep tail | coarse-grained hidden vacuum degrees |
-| `D` | residual ledger | polarization or renormalization-tail placeholder |
+| `F_7 = 13` | deep tail | 粗粒化 hidden vacuum degrees |
+| `D` | residual 账本 | polarization or renormalization-tail placeholder |
 | `phi` | Fibonacci self-scale | recursive geometric response 的固定尺度 |
 | `R_Z(D)` | projection readout | `alpha_EM^-1(0)` 的候选读数 |
 
@@ -268,7 +268,7 @@ CODATA 2022 的低能 inverse fine-structure constant 是:
 alpha_EM^-1 = 137.035999177(21).
 ```
 
-数值一致性落在当前 CODATA 不确定度内. 这仍是候选, 不是物理定理. 数学公式只在 Window6 Zeckendorf-golden phase projection 层闭合. 物理等号需要单独的 representation certificate:
+数值一致性落在当前 CODATA 不确定度内. 这仍是候选, 不是物理定理. 数学公式只在 Window6 Zeckendorf-golden phase projection 层闭合. 物理等号需要单独的 representation 证书:
 
 ```text
 rho_phys(R_Z6^*) = alpha_EM^-1(0).
@@ -344,23 +344,23 @@ phi = 1 + phi^{-1}.
 合法的黄金相位投影可以声称:
 
 - 一个有限 raw window 被折叠到稳定 Zeckendorf 地址;
-- 可见地址有 residual fiber;
-- Window6 暴露二十一个 visible stable types;
+- 可见地址有 residual 纤维;
+- Window6 暴露二十一个可见 stable types;
 - 相邻 Fibonacci 边界给出 residual denominator `47`;
 - phase sectors 与 golden scale 组织出一个 derived projection geometry;
-- 当 source、fold、fiber、phase 与 refusal rows 保持可见时, 可以附加一个 scalar readout.
+- 当源、fold、纤维、phase 与 refusal 行保持可见时, 可以附加一个 scalar readout.
 
 它不能声称:
 
-- fold 是 history equality;
+- fold 是历史 equality;
 - Zeckendorf carry 是 `hsame`;
 - phase coordinate 是源;
 - `FullAxis` 已经变成 `Real`;
-- circle carrier 免费获得;
+- circle 载体免费获得;
 - scalar projection 唯一重构 continuous physics;
-- 没有 physical certificate 就导出了物理定律.
+- 没有 physical 证书就导出了物理定律.
 
-cannot-claim list 不是谨慎措辞. 它是数学接口的一部分. 这段程序之所以被允许, 正是因为 refusal boundary 跟着它一起移动.
+cannot-claim list 不是谨慎措辞. 它是数学接口的一部分. 这段程序之所以被允许, 正是因为 refusal 边界跟着它一起移动.
 
 ## 紧凑形式
 

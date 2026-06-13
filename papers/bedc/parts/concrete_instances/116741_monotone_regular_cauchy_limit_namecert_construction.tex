@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneRegularCauchyLimitUp$}
+\label{ch:concrete-instances-monotone-regular-cauchy-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges on monotone bounded real sequences and constructive Cauchy completion, the $\MonotoneRegularCauchyLimitUp$ packet records a finite L10 route by which a monotone regular Cauchy stream receives a terminal real-name readback. It sits after the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the monotone limit route through displayed order, tolerance, and seal rows; it does not import a host least-upper-bound theorem, selected supremum, quotient equality of reals, countable choice, or ambient completeness.
+
+\begin{definition}[Monotone regular Cauchy limit carrier]
+\label{def:monotone-regular-cauchy-limit-carrier}
+A $\MonotoneRegularCauchyLimitUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,D,O,M,T,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row for the source stream, exposing only finite windows requested by the current tolerance read.
+\item $R$ is the $\RegSeqRatUp$ readback row for the same stream windows.
+\item $D$ is the dyadic tolerance ledger read through $\DyadicRatCoreUp$.
+\item $O$ is the $\TotalOrderUp$ comparison row on the regular rational readbacks.
+\item $M$ is the monotonicity ledger, recording that every displayed later window is $O$-above the earlier window after both have been read through $R$.
+\item $T$ is the regular Cauchy tail ledger, routing each dyadic tolerance through a finite tail threshold and a displayed $R,D,O$ comparison.
+\item $L$ is the candidate limit row, read only as a $\RealUp$ name assembled from the displayed regular tail route.
+\item $E$ is the exactness row saying that every visible tolerance request for $L$ factors through $S,R,D,O,M,T$ before the real seal is exposed.
+\item $H$ records componentwise $\hsame$ transport for stream, readback, tolerance, order, monotonicity, tail, limit, exactness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $S,R,D,O,M,T,L,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneRegularCauchyLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\TotalOrderUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MonotoneRegularCauchyLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,O,M,T,L,E,H,C,P,N$. It has no coordinate for a host supremum, selected limit, quotient equality of real names, trichotomy, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Monotone regular Cauchy limit NameCert obligations]
+\label{thm:monotone-regular-cauchy-limit-namecert-obligations}
+For every accepted $\MonotoneRegularCauchyLimitUp$ carrier $K=(S,R,D,O,M,T,L,E,H,C,P,N)$, the local $\NameCert_{\MonotoneRegularCauchyLimitUp}$ surface consists exactly of stream-window admission, regular rational readback, dyadic tolerance admission, total-order comparison exposure, monotonicity-ledger exactness, regular Cauchy tail exposure, terminal $\RealUp$ limit admission, limit-exactness replay, componentwise transport, displayed continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only analytic rows are $S,R,D,O,M,T,L,E$, so every limit read starts with finite stream windows and regular rational readback.
+
+The order and monotonicity rows are downstream of that readback. Row $O$ compares only displayed regular rational windows, while $M$ records the monotone direction for those same windows.
+
+The tail ledger $T$ then routes a dyadic tolerance through a finite threshold, and $E$ checks that the candidate $\RealUp$ row $L$ is exposed only after this route has been replayed. Thus the real-facing output is a finite NameCert route rather than a host supremum.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same row surface. Since the excluded objects are absent from $K$, the listed obligation families exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Monotone regular Cauchy limit induction route]
+\label{thm:monotone-regular-cauchy-limit-induction-route}
+Every finite induction over an accepted $\MonotoneRegularCauchyLimitUp$ read proceeds by extending the stream-window row $S$, transporting the regular rational readback $R$, preserving the dyadic tolerance ledger $D$, appending one $\TotalOrderUp$ comparison in $O$, and replaying the monotonicity and tail rows $M,T$ before the $\RealUp$ limit row $L$ may be consumed. The route exports no host least-upper-bound theorem, no selected supremum, no quotient equality of real names, no countable-choice selector, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Use induction on the displayed window extension in $S$. The base window exposes the initial regular rational readback through $R$ and records the initial dyadic tolerance cell through $D$.
+
+For the successor window, append the next readback cell and compare it with the previous visible cell through $O$. The monotonicity ledger $M$ stores only this displayed comparison, so the induction step has no access to a global order theorem.
+
+The regular Cauchy row $T$ is then replayed at the requested tolerance. It supplies the finite tail threshold needed by the candidate real-name row $L$, and $E$ records that the real seal is reached only through the same finite route.
+
+The structural rows $H,C,P,N$ preserve the induction route under $\hsame$, replay it under $\Cont$, record its provenance, and name the local certificate. Therefore every induction step remains inside the visible BEDC rows.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MonotoneRegularCauchyLimitUp$ consumer is refuted if it reads the $\RealUp$ limit row without first displaying StreamName windows, RegSeqRat readback, DyadicRatCore tolerance cells, TotalOrder comparisons, monotonicity, regular Cauchy tail routing, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: none is bijective with $\MonotoneRegularCauchyLimitUp$, because this packet alone binds stream windows, regular rational readback, dyadic tolerance cells, total-order comparisons, monotonicity, a regular Cauchy tail ledger, a terminal real-name row, exactness, transport, replay, provenance, and local naming into one finite limit route.}
+
+\closureat{MonotoneRegularCauchyLimitUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneRegularCauchyLimitUp}
+  \constructivestory{A $\MonotoneRegularCauchyLimitUp$ packet is generated from finite StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance cells, TotalOrder comparisons, monotonicity ledgers, regular Cauchy tail ledgers, a RealUp limit row, exactness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-regular-cauchy-limit-carrier}, \autoref{thm:monotone-regular-cauchy-limit-namecert-obligations}, and \autoref{thm:monotone-regular-cauchy-limit-induction-route} seed the finite monotone regular Cauchy limit readback over StreamName, RegSeqRat, DyadicRatCore, TotalOrder, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host supremum theorem, selected limit, quotient equality of real names, trichotomy, countable choice, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked stream-window admission, regular rational readback, dyadic tolerance exactness, total-order comparison exposure, monotonicity, regular Cauchy tail routing, RealUp limit admission, exactness, transport, replay, provenance, and local naming for BEDC.Derived.MonotoneRegularCauchyLimitUp.}
+\end{closurestatus}

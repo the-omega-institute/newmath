@@ -60,8 +60,9 @@ $$
   X_6\rightsquigarrow X_{m(Q)}.
 $$
 Thus any comparison with high-energy running of \(\alpha\) is an
-obligation to construct a Zeckendorf window-refinement flow, not an
-allowed reuse of the infrared scalar.
+obligation to construct a spectral-response activation map $z=z(Q)$ and a
+Zeckendorf window-refinement flow, not an allowed reuse of the infrared
+scalar.
 \end{principle}
 
 \begin{principle}[Projection does not expose the hidden vacuum ledger]
@@ -129,6 +130,8 @@ reservoir, image, and curvature-residual readout modes.
 \input{parts/visions/axiszeckendorf/flux_operator_geometry}
 
 \input{parts/visions/axiszeckendorf/right_block_flux_reservoir_coefficient}
+
+\input{parts/visions/axiszeckendorf/static_green_exact_boundary_flux}
 
 \begin{theorem}[Independent denominator is required for predictivity]
 \label{thm:zeckendorf-denominator-predictivity-requirement}
@@ -512,25 +515,36 @@ the ClosureMode obligation
 must certify that fixed
 \(R_6(D)\) readouts select anchor-local closure, while walking-gate
 closure belongs to a scale-indexed \(R_m(D_m)\) refinement object. Sixth,
-the
-GreenResolved obligation must keep the pure Window-six denominator closed
-at \(\varphi^{-27}\) unless a separate certificate supplies
+the GreenResolved obligation separates the static right-boundary cut-flux
+source from centered Green-relaxation input. The static low-energy
+right-boundary readout has $q_3=0$ by
+\autoref{thm:zeckendorf-static-right-boundary-source-green-zero}; the
+right-boundary cut vector is an instance of the general Dirichlet
+cut-source identity $L_B\mathbf{1}_I=b_B$ and therefore has zero
+$571$-Green class. By the same theorem, centered relaxation observables
+for the coarse Markov kernel have susceptibility and Green--Kubo
+denominators containing $571$. A nonzero Green term may therefore enter
+only in a running or dynamic response certificate, such as
 $$
-  D_{6,\alpha}^{G}
+  D_{6,\alpha}(z)
   =
   D_{6,\alpha}^{\star}
   +
-  q_3\varphi^{-37}
+  \Delta_R(z)\varphi^{-37}
   +
-  O(\varphi^{-47}).
+  O(\varphi^{-47}),
+  \qquad
+  \Delta_R(0)=0.
 $$
-The StaticLimit branch sets \(q_3=0\). The GreenClass branch must show
-that the non-Window-six part of \(q_3\) carries the single \(571\)-adic
-Green-kernel certificate, for example
-\(q_3\in 571^{-1}\mathbb{Z}[1/6]\). The FluxGreenCoupling branch must
-decide separately whether the global cut-flux density
-\(\Phi_R=1/12\) participates in that Green coefficient. Until
-these obligations are supplied, the closed denominator is a
+The Window-six seed candidate is
+\autoref{def:zeckendorf-window-six-green-running-seed}, with
+$\Delta_R(1)=26401/(2^{13}\cdot571)$. The GreenClass branch must
+therefore show that any physical running readout uses this centered
+Green-excess source, or else replace it by a certified higher-window
+Green mode. The FluxGreenCoupling branch must decide separately whether
+the global cut-flux density $\Phi_R=1/12$ participates in the activation
+of the Green-excess parameter. Until these obligations are supplied, the
+closed denominator is a
 protocol-gated Window-six ledger conclusion rather than a fully certified
 internal theorem.
 \end{principle}
@@ -550,7 +564,8 @@ selected third coefficient remains a fitted rational rather than a
 readout-mode normalization; independent low-energy routes converge to
 incompatible values after systematic corrections; a high-energy
 comparison reuses \(R_{Z6,\mu}^\star\) without a scale-indexed ledger or
-window-refinement flow; or later residual corrections require
+spectral-response activation map and window-refinement flow; or later
+residual corrections inside the static cut-flux layer require
 terms outside the selected gated ladder
 $$
   \{7,17,27\}\quad\text{in anchor-local mode,}

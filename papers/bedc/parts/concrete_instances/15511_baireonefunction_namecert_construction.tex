@@ -112,14 +112,31 @@ Replay the continuation row $C$. The consumer can reach $L$ only after the sourc
 Transport by $H$ keeps the lower-semicontinuous handoff attached to those same rows. Since the provenance and local naming rows carry no measurability theorem, no ambient function-space topology, no arbitrary approximant selector, and no $\RealUp$ completeness coordinate, the handoff exports none of them.
 \end{proof}
 
-\closureat{BaireOneFunctionUp}{scopedStr}
+\begin{theorem}[BaireOneFunction public export]
+\label{thm:baireonefunction-public-export}
+Every public $\BaireOneFunctionUp$ consumer receives exactly the displayed route
+$$
+X,F,S,Q,R,L,H,C,P,N .
+$$
+The public surface keeps the $\BaireSpaceUp$ source row, $\ContinuousMapUp$ approximant ledger, $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\LowerSemicontinuousUp$ handoff, transport, replay, provenance, and local $\NameCert$ rows visible. It exports no ambient function space, arbitrary approximant choice, quotient real equality, full measurability theorem, or $\RealUp$ completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_public\_export}
+\begin{proof}
+Project the carrier of \autoref{def:baireonefunction-carrier}. Its public coordinates are exactly $X,F,S,Q,R,L,H,C,P,N$.
+
+Apply the pointwise schedule obligations and lower-semicontinuous handoff, \autoref{thm:baireonefunction-pointwise-schedule-obligations} and \autoref{thm:baireonefunction-lowersemicontinuous-handoff}. These force every value and handoff read through the displayed BaireSpace, ContinuousMap, StreamName, RegSeqRat, Real, and LowerSemicontinuous rows before a public consumer can use the packet.
+
+The remaining rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for ambient function spaces, arbitrary approximant selection, quotient real equality, full measurability, or $\RealUp$ completeness, none of those principles is part of the public export.
+\end{proof}
+
+\closureat{BaireOneFunctionUp}{publicStr}
 
 \begin{closurestatus}{\BaireOneFunctionUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:baireonefunction-carrier}, \autoref{def:baireonefunction-classifier}, \autoref{thm:baireonefunction-namecert-obligation-surface}, \autoref{thm:baireonefunction-pointwise-limit-ledger}, and \autoref{thm:baireonefunction-lowersemicontinuous-handoff} seed the finite pointwise-limit packet from continuous real-valued approximants to lower-semicontinuous consumers.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:baireonefunction-carrier}, \autoref{def:baireonefunction-classifier}, \autoref{thm:baireonefunction-namecert-obligation-surface}, \autoref{thm:baireonefunction-pointwise-limit-ledger}, \autoref{thm:baireonefunction-lowersemicontinuous-handoff}, and \autoref{thm:baireonefunction-public-export} bind the finite pointwise-limit packet from continuous real-valued approximants to lower-semicontinuous public consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close ambient function spaces, arbitrary choice of approximating sequence, quotient equality of real names, full measurability, completeness of $\RealUp$, Lean verification, or a public standard bridge.}
-  \upgradepath{Public closure requires a public export theorem for the pointwise-limit route and the lower-semicontinuous handoff over BEDC.Derived.BaireOneFunctionUp.}
+  \notclaimed{This chapter does not close ambient function spaces, arbitrary choice of approximating sequence, quotient equality of real names, full measurability, completeness of $\RealUp$, Lean verification, or a standard bridge.}
+  \upgradepath{Bridge closure requires a standard bridge for the public pointwise-limit route and the lower-semicontinuous handoff over BEDC.Derived.BaireOneFunctionUp.}
   \constructivestory{A $\BaireOneFunctionUp$ packet is generated from a $\BaireSpaceUp$ source context, a finite ledger of $\ContinuousMapUp$ approximants, $\StreamNameUp$ schedule windows, $\RegSeqRatUp$ readbacks, a $\RealUp$ value seal, a $\LowerSemicontinuousUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
 \end{closurestatus}

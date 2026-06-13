@@ -1,0 +1,304 @@
+\begin{principle}[Pre-quantum phase-projection reading]
+\label{prin:zeckendorf-prequantum-phase-projection-reading}
+The Window-six Zeckendorf readout has a superposition-shaped record
+geometry, but it is not yet a Hilbert-space quantum model. The visible
+stable state
+$$
+  x\in X_6
+$$
+is the image of a residual fiber
+$$
+  \mathcal{F}_6(x)=\mathsf{Fold}_6^{-1}(x)\subseteq\Omega_6,
+  \qquad
+  \Omega_6=\{0,1\}^6.
+$$
+Thus a visible Zeckendorf address is not a single raw microstate; it is
+the public projection of a finite bundle of raw binary histories. The
+additional phase gate
+$$
+  C_\partial\times T
+  \longrightarrow
+  \mathbb{Z}/6\mathbb{Z}
+  \longrightarrow
+  U(1)
+$$
+turns this fold-fiber ledger into a discrete phase projection surface.
+\end{principle}
+
+\begin{theorem}[Fine-structure readout as projected phase record]
+\label{thm:zeckendorf-fine-structure-projected-phase-record}
+The scalar $\alpha_{Z6}^{-1}$ is a projected readout of the Window-six
+fold-fiber, phase-gate, boundary-flux, and Green-response ledger. It is
+not a primitive carrier of the raw microstates.
+\end{theorem}
+\begin{proof}
+The visible component is supplied by the fold
+$\mathsf{Fold}_6:\Omega_6\to X_6$, whose fibers are retained by
+\autoref{def:zeckendorf-window-observer}. The phase component is the
+$Z_6\to U(1)$ gate of
+\autoref{prin:zeckendorf-sixfold-phase-circumference-interface}. The
+static boundary component is the right-block flux-reservoir coefficient
+of \autoref{prin:zeckendorf-right-block-flux-reservoir-coefficient}.
+The dynamic response component is the centered Green-excess layer of
+\autoref{def:zeckendorf-window-six-green-running-seed}. The readout
+formula combines these records into a single scalar inverse coupling.
+Therefore the scalar is downstream from a finite record surface rather
+than identical to any one raw binary history.
+\end{proof}
+
+\begin{theorem}[Born-like two-shell radius projection]
+\label{thm:zeckendorf-born-like-two-shell-radius-projection}
+Let $C>0$ and let $\mathcal{H}_{\mathrm{shell}}$ be the two-dimensional
+complex carrier with orthonormal basis $|6\rangle,|7\rangle$. For any
+relative shell phase $\eta\in\mathbb{R}$ define
+$$
+  |\Psi_C(\eta)\rangle
+  =
+  \frac{
+    \sqrt{21}\,|6\rangle
+    +
+    e^{i\eta}\sqrt{34C}\,|7\rangle
+  }{
+    \sqrt{21+34C}
+  }.
+$$
+Let the diagonal radius observable be
+$$
+  \widehat r
+  =
+  \varphi^{-6}|6\rangle\langle 6|
+  +
+  \varphi^{-7}|7\rangle\langle 7|.
+$$
+Then
+$$
+  \langle\Psi_C(\eta)|\widehat r|\Psi_C(\eta)\rangle
+  =
+  \frac{
+    21\varphi^{-6}+34C\varphi^{-7}
+  }{
+    21+34C
+  }.
+$$
+Consequently, for the Window-six spectral family of
+\autoref{def:zeckendorf-window-six-spectral-response-family},
+$$
+  \alpha_{Z6}^{-1}(z)
+  =
+  \frac{
+    2\pi
+  }{
+    \langle\Psi_{C_{6,\alpha}(z)}(\eta)|
+    \widehat r|
+    \Psi_{C_{6,\alpha}(z)}(\eta)\rangle
+  }.
+$$
+\end{theorem}
+\begin{proof}
+The vector is normalized because the two shell basis vectors are
+orthonormal:
+$$
+  \langle\Psi_C(\eta)|\Psi_C(\eta)\rangle
+  =
+  \frac{21+34C}{21+34C}
+  =
+  1.
+$$
+The observable $\widehat r$ is diagonal in the same basis, so the
+relative phase contributes no cross term. Hence the expectation is
+$$
+  \frac{21}{21+34C}\varphi^{-6}
+  +
+  \frac{34C}{21+34C}\varphi^{-7}
+  =
+  \frac{
+    21\varphi^{-6}+34C\varphi^{-7}
+  }{
+    21+34C
+  }.
+$$
+Substituting $C=C_{6,\alpha}(z)$ gives exactly the inverse-coupling
+formula in \autoref{def:zeckendorf-window-six-spectral-response-family}.
+\end{proof}
+
+\begin{corollary}[Born-like shell weights]
+\label{cor:zeckendorf-born-like-shell-weights}
+The two-shell readout weights are squared amplitudes:
+$$
+  P_6(C)=\frac{21}{21+34C},
+  \qquad
+  P_7(C)=\frac{34C}{21+34C}.
+$$
+Thus the effective radius is the Born-like diagonal projection
+$$
+  \langle\widehat r\rangle
+  =
+  P_6(C)\varphi^{-6}
+  +
+  P_7(C)\varphi^{-7},
+$$
+and the scalar inverse coupling is the phase circumference divided by
+that projected radius.
+\end{corollary}
+
+\begin{corollary}[Diagonal radius phase blindness]
+\label{cor:zeckendorf-diagonal-radius-phase-blindness}
+The scalar $\alpha_{Z6}^{-1}(z)$ is insensitive to the relative shell
+phase $\eta$. An off-diagonal shell observable such as
+$$
+  \widehat X
+  =
+  |6\rangle\langle 7|
+  +
+  |7\rangle\langle 6|
+$$
+would instead read
+$$
+  \langle\Psi_C(\eta)|\widehat X|\Psi_C(\eta)\rangle
+  =
+  2\sqrt{P_6(C)P_7(C)}\cos\eta.
+$$
+Thus the inverse fine-structure scalar reads only the diagonal
+radius projection; a coherent shell phase would require an
+interference-type readout interface.
+\end{corollary}
+
+\begin{definition}[Cascade kernel as internal channel norm]
+\label{def:zeckendorf-cascade-kernel-internal-channel-norm}
+Let
+$$
+  \theta=\frac{\pi}{\varphi}.
+$$
+On the internal channel carrier
+$$
+  \mathcal{H}_C
+  =
+  \operatorname{span}\{|b\rangle,|\chi\rangle,|t\rangle\},
+$$
+define the amplitudes
+$$
+  a_b=\frac{1}{\sqrt2},
+  \qquad
+  a_\chi=\frac{e^{i\theta}+e^{-i\theta}}{4}
+  =
+  \frac12\cos\theta,
+  \qquad
+  a_t=\frac{1}{\sqrt{D_{6,\alpha}(z)\varphi^5}}.
+$$
+Then the Window-six cascade kernel is the squared norm of the internal
+channel vector
+$$
+  |\psi_C(z)\rangle
+  =
+  a_b|b\rangle+a_\chi|\chi\rangle+a_t|t\rangle:
+$$
+$$
+  \|\,|\psi_C(z)\rangle\,\|^2
+  =
+  \frac12
+  +
+  \frac14\cos^2\left(\frac{\pi}{\varphi}\right)
+  +
+  \frac{1}{D_{6,\alpha}(z)\varphi^5}
+  =
+  C_{6,\alpha}(z).
+$$
+\end{definition}
+
+\begin{principle}[Block-separated internal coherence]
+\label{prin:zeckendorf-block-separated-internal-coherence}
+The cascade kernel is not a fully coherent sum over the binary,
+golden-phase, and tail channels. It is a block-separated norm ledger:
+the channel magnitudes add as
+$$
+  C_{6,\alpha}(z)=|a_b|^2+|a_\chi|^2+|a_t|^2,
+$$
+while the golden-phase channel itself contains the coherent pair
+$$
+  e^{i\pi/\varphi},\qquad e^{-i\pi/\varphi}.
+$$
+Thus the visible fine-structure readout factors through two
+Hilbertizable rows:
+$$
+  \mathcal{H}_C
+  \longrightarrow
+  C_{6,\alpha}(z)
+  \longrightarrow
+  \mathcal{H}_{\mathrm{shell}}
+  \longrightarrow
+  \langle\widehat r\rangle
+  \longrightarrow
+  \alpha_{Z6}^{-1}(z).
+$$
+The coefficient layer separation of
+\autoref{prin:zeckendorf-three-coefficient-strata} is the corresponding
+separation of readout effects rather than a competition among scalar
+fits.
+\end{principle}
+
+\begin{principle}[Hilbert boundary for the Zeckendorf phase record]
+\label{prin:zeckendorf-hilbert-boundary-phase-record}
+The phase-projection reading does not assert a complete quantum
+mechanics. The two-shell construction above is a Hilbertizable
+compression of the scalar formula, not a complete carrier for the raw
+fold fibers, unitary time evolution, the Born rule as a physical
+postulate, or a measurement theory. A genuine Hilbert lift of the full
+Zeckendorf record would need a carrier such as
+$$
+  \mathcal{H}_6=\ell^2(\Omega_6)
+  \qquad\text{or}\qquad
+  \mathcal{H}_6=\ell^2(X_6),
+$$
+a state
+$$
+  |\Psi_6\rangle
+  =
+  \sum_{\omega\in\Omega_6}a_\omega|\omega\rangle,
+  \qquad
+  a_\omega\in\mathbb{C},
+$$
+fiber projectors
+$$
+  P_x|\Psi_6\rangle
+  =
+  \sum_{\mathsf{Fold}_6(\omega)=x}a_\omega|\omega\rangle,
+$$
+phase transport
+$$
+  a_\omega\longmapsto a_\omega e^{i\theta(\omega)},
+$$
+and an observable $\widehat{R}_6$ whose expectation value is compared
+with the scalar readout:
+$$
+  \langle\Psi_6|\widehat{R}_6|\Psi_6\rangle
+  \approx
+  \alpha_{Z6}^{-1}.
+$$
+Until such rows are supplied, the correct status is a Born-like
+pre-quantum phase-projection geometry rather than a complete quantum
+superposition theorem.
+\end{principle}
+
+\begin{corollary}[Interference-shadow status of the cosine term]
+\label{cor:zeckendorf-cosine-term-interference-shadow}
+The term
+$$
+  \frac14\cos^2\left(\frac{\pi}{\varphi}\right)
+$$
+in the cascade kernel is the squared intensity of the internal
+golden-phase channel:
+$$
+  \left|
+    \frac{
+      e^{i\pi/\varphi}
+      +
+      e^{-i\pi/\varphi}
+    }{4}
+  \right|^2
+  =
+  \frac14\cos^2\left(\frac{\pi}{\varphi}\right).
+$$
+It is therefore an explicit interference-shaped row inside the
+block-separated cascade norm, while the full manuscript still stops
+short of a complete quantum-mechanical measurement theory.
+\end{corollary}

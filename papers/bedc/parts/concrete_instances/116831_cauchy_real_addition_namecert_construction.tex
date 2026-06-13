@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealAdditionUp$}
+\label{ch:concrete-instances-cauchy-real-addition-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyRealAdditionUp$ packet records addition of Cauchy real names as a finite BEDC naming surface before any $\RealUp$ consumer is allowed to read a sum. It sits over the synchronized addition route of \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real-facing algebra consumers a finite route from two Cauchy names to one sealed sum name; it does not assert quotient equality of real names, selected host limits, trichotomy, ambient $\RealUp$ completeness, or a completed field operation.
+
+\begin{definition}[Cauchy real addition carrier]
+\label{def:cauchy-real-addition-carrier}
+A $\CauchyRealAdditionUp$ carrier is a finite $\BHist$ packet
+$$
+A_{\Real,+}=(A,R_0,R_1,W,D,S,E,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RegularCauchyAdditionUp$ source certificate for the synchronized sum route.
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ input-name rows read by the source certificate.
+\item $W$ is the paired $\StreamNameUp$ finite-window schedule used by the addition request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and endpoint-addition row.
+\item $S$ is the summed $\RegSeqRatUp$ readback row exposed by the synchronized route.
+\item $E$ is the finite tail ledger recording the two source tolerances, the dyadic addition tolerance, and the output tolerance.
+\item $Z$ is the $\RealUp$ seal row reached only after $A,R_0,R_1,W,D,S,E$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for the source certificate, input names, window schedule, dyadic row, summed readback, tail ledger, seal row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from every Real-facing addition request through $A,R_0,R_1,W,D,S,E,Z,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealAdditionUp$, $\RegularCauchyAdditionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealAdditionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,R_0,R_1,W,D,S,E,Z,H,C,P,N$. The carrier has no coordinate for quotient equality of Cauchy names, host real addition, selected limits, trichotomy, ambient $\RealUp$ completeness, or a detached completed-real algebra operation.
+\end{definition}
+
+\begin{theorem}[Cauchy real addition NameCert obligations]
+\label{thm:cauchy-real-addition-namecert-obligations}
+For every accepted $\CauchyRealAdditionUp$ carrier
+$$
+A_{\Real,+}=(A,R_0,R_1,W,D,S,E,Z,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRealAdditionUp}$ surface consists exactly of carrier admission for the $\RegularCauchyAdditionUp$ source certificate $A$, the two $\RegSeqRatUp$ input-name rows $R_0,R_1$, the paired $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ tolerance and endpoint row $D$, the summed readback row $S$, the tail ledger $E$, the $\RealUp$ seal row $Z$, and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-real-addition-carrier}. Its analytic rows are $A,R_0,R_1,W,D,S,E,Z$, and its structural rows are $H,C,P,N$.
+
+Read the source certificate first. The $\RegularCauchyAdditionUp$ row $A$ supplies the synchronized-window addition route, while $R_0,R_1,W,D$ expose the two regular rational names, the paired window schedule, and the dyadic endpoint arithmetic used by that route.
+
+The summed readback and seal rows are downstream. The ledger $E$ records the finite tail accounting before $S$ is consumed, and the $\RealUp$ row $Z$ is exposed only after the summed regular rational name has been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no other coordinate appears in the carrier, the local certificate has no hidden quotient-equality, host-arithmetic, selected-limit, trichotomy, or ambient-completeness obligation.
+\end{proof}
+
+\begin{theorem}[Cauchy real addition tail stability]
+\label{thm:cauchy-real-addition-tail-stability}
+Let two accepted $\CauchyRealAdditionUp$ packets have matching $\RegularCauchyAdditionUp$ source certificates, input-name rows, paired finite-window schedules, dyadic tolerance rows, summed readbacks, tail ledgers, and $\RealUp$ seal rows through their displayed $\hsame$ data. Then every Real-facing sum read of the first packet transports to the corresponding sum read of the second packet through the same finite route $A,R_0,R_1,W,D,S,E,Z,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the componentwise transport row $H$. It matches the source addition certificate $A$, the two input rows $R_0,R_1$, the window row $W$, and the dyadic tolerance row $D$.
+
+Use the synchronized route supplied by \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}. The row $A$ keeps the pointwise sum tied to the paired windows and dyadic tolerance arithmetic, so transport cannot replace the finite tail route by host real addition.
+
+The tail ledger and readback rows are preserved next. The ledger $E$ remains the only displayed place where source and output tolerances are combined before the summed readback row $S$ and the seal row $Z$ are consumed.
+
+Replay through $C$ and repack through $P,N$. Every accepted Real-facing sum read is one of these displayed routes, so no quotient equality, selected limit, trichotomy, or ambient $\RealUp$ completeness principle can enter under transport.
+\end{proof}
+
+\begin{theorem}[Cauchy real addition Real seal handoff]
+\label{thm:cauchy-real-addition-real-seal-handoff}
+Every accepted $\CauchyRealAdditionUp$ packet hands a sum to a $\RealUp$ consumer only through the finite route
+$$
+A\longmapsto(R_0,R_1)\longmapsto W\longmapsto D\longmapsto E\longmapsto S\longmapsto Z .
+$$
+Thus the consumer receives a $\RegularCauchyAdditionUp$ source certificate, two $\RegSeqRatUp$ input-name rows, a paired $\StreamNameUp$ window schedule, $\DyadicRatCoreUp$ tolerance arithmetic, a finite tail ledger, a summed regular rational readback, and a terminal $\RealUp$ seal; it receives no quotient real equality, host addition, selected host limit, trichotomy, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The Real-facing addition request has no source rows other than $A,R_0,R_1,W,D,E,S,Z$.
+
+Apply the source route of \autoref{thm:regular-cauchy-addition-real-seal-handoff}. It already orders the regular Cauchy addition read from input rows and paired windows through dyadic endpoint addition and finite regularity accounting before a $\RealUp$ seal is exposed.
+
+The present packet records that route as $A$ and exposes the same rows as $R_0,R_1,W,D,E,S,Z$. The structural rows $H,C,P,N$ preserve the order of the handoff for downstream Real algebra consumers.
+
+Therefore the packet supplies a finite Cauchy-name addition seal and nothing stronger. Quotient equality, host arithmetic, selected limits, trichotomy, and ambient completeness remain outside the exported surface.
+\end{proof}
+
+\closureat{CauchyRealAdditionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRealAdditionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-addition-carrier}, \autoref{thm:cauchy-real-addition-namecert-obligations}, \autoref{thm:cauchy-real-addition-tail-stability}, and \autoref{thm:cauchy-real-addition-real-seal-handoff} seed the finite Cauchy-real addition surface over a $\RegularCauchyAdditionUp$ source certificate, two $\RegSeqRatUp$ names, paired $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance arithmetic, a summed readback row, and a terminal $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of real names, host real addition, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-certificate exposure, tail-stability transport, Real seal handoff, replay, provenance, and local naming for BEDC.Derived.CauchyRealAdditionUp.}
+  \constructivestory{A $\CauchyRealAdditionUp$ packet is generated from a $\RegularCauchyAdditionUp$ source certificate, two $\RegSeqRatUp$ input rows, paired $\StreamNameUp$ finite-window schedules, $\DyadicRatCoreUp$ tolerance arithmetic, a tail ledger, a summed readback row, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

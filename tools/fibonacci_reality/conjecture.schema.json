@@ -1,0 +1,315 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-omega-institute.github.io/newmath/schemas/fibonacci-reality/conjecture.schema.json",
+  "title": "FibonacciReality conjecture packet",
+  "type": "object",
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": [
+        "conjecture_id",
+        "biological_object",
+        "informal_statement",
+        "bedc_minimal_form",
+        "claimed_layer",
+        "evidence_basis",
+        "reality_contact_refs",
+        "probe_refs",
+        "forbidden_claims",
+        "null_reason"
+      ],
+      "properties": {
+        "track": {
+          "enum": [
+            "bio_crosslayer"
+          ]
+        },
+        "claimed_layer": {
+          "enum": [
+            "code_read",
+            "codon_usage_topology",
+            "orf_eligibility",
+            "translation_realization",
+            "structural_order",
+            "physical_admissibility",
+            "function_realization",
+            "system_phenotype",
+            "cross_layer_relation"
+          ]
+        },
+        "evidence_basis": {
+          "$ref": "#/$defs/bio_evidence_basis"
+        }
+      }
+    },
+    {
+      "required": [
+        "conjecture_id",
+        "track",
+        "forced_window_object",
+        "informal_statement",
+        "bedc_minimal_form",
+        "claimed_layer",
+        "evidence_basis",
+        "certificate_refs",
+        "forbidden_claims",
+        "null_reason"
+      ],
+      "properties": {
+        "track": {
+          "const": "forced_window_bedc"
+        },
+        "claimed_layer": {
+          "enum": [
+            "window_observation",
+            "forbidden_pattern_count",
+            "fibonacci_count",
+            "characteristic_recurrence",
+            "golden_mean_shift",
+            "edge_flux_finite_count",
+            "arithmetic_certificate"
+          ]
+        },
+        "evidence_basis": {
+          "$ref": "#/$defs/forced_window_evidence_basis"
+        },
+        "certificate_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/certificate_ref"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "conjecture_id": {
+      "type": "string",
+      "description": "Lowercase FibonacciReality conjecture id; use dotted/kebab tokens, not underscores or uppercase.",
+      "examples": [
+        "orf-eligibility.seed.boundary",
+        "cross-organism.cun-uur-leu-gate.translation-realization"
+      ],
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+    },
+    "track": {
+      "type": "string",
+      "enum": [
+        "bio_crosslayer",
+        "forced_window_bedc"
+      ]
+    },
+    "biological_object": {
+      "type": "string",
+      "minLength": 1
+    },
+    "forced_window_object": {
+      "type": "string",
+      "minLength": 1
+    },
+    "informal_statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bedc_minimal_form": {
+      "$ref": "#/$defs/bedc_minimal_form"
+    },
+    "claimed_layer": {
+      "type": "string"
+    },
+    "evidence_basis": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "reality_contact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Reality contact id reference; use dotted/kebab tokens, not underscores or uppercase.",
+        "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+      }
+    },
+    "probe_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Probe id reference; use dotted/kebab tokens, not underscores or uppercase.",
+        "examples": [
+          "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+          "b-star-q6-survival-matrix-break-condition"
+        ],
+        "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+      }
+    },
+    "certificate_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/certificate_ref"
+      }
+    },
+    "numeric_constant_claim": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "forbidden_claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "null_reason": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "bedc_minimal_form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "carrier",
+        "distinctions",
+        "readback",
+        "internal_structure"
+      ],
+      "properties": {
+        "carrier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "distinctions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "readback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "internal_structure": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "coordinate",
+              "closure",
+              "spectrum",
+              "trigger",
+              "rank",
+              "homology",
+              "relation",
+              "none"
+            ]
+          }
+        }
+      }
+    },
+    "bio_evidence_basis": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "external_reality",
+          "internal_structure",
+          "bedc_coordinate",
+          "bedc_closure",
+          "bedc_spectrum",
+          "derived_probe",
+          "mismatch_ledger",
+          "mechanism_bridge"
+        ]
+      }
+    },
+    "forced_window_evidence_basis": {
+      "type": "array",
+      "minItems": 1,
+      "contains": {
+        "const": "automath_certificate"
+      },
+      "items": {
+        "type": "string",
+        "enum": [
+          "external_reality",
+          "internal_structure",
+          "bedc_coordinate",
+          "bedc_closure",
+          "bedc_spectrum",
+          "derived_probe",
+          "mismatch_ledger",
+          "mechanism_bridge",
+          "automath_certificate"
+        ]
+      }
+    },
+    "certificate_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repo",
+        "object",
+        "kind"
+      ],
+      "properties": {
+        "repo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lean_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "object": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "lean_finite_certificate",
+            "characteristic_recurrence_proof",
+            "golden_mean_shift_certificate",
+            "edge_flux_count_certificate",
+            "green_kirchhoff_certificate",
+            "automath_paper_section"
+          ]
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "lean_path"
+          ]
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "automath_paper_section"
+            }
+          },
+          "required": [
+            "section_ref"
+          ]
+        }
+      ]
+    }
+  }
+}

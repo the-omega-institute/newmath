@@ -101,6 +101,7 @@ Now replay through $C$ and transport through $H$. Provenance $P$ and the local $
 \label{thm:lawless-sequence-real-boundary-nonescape}
 No accepted $\LawlessSequenceUp$ packet exports $\RealUp$ completeness, quotient stream equality, a host infinite sequence, or a countable-choice schedule. Any downstream countable-name or real-boundary consumer must first pass through the finite rows $W,B,I,H,C,P,N$ and receives only the StreamName-compatible finite prefix surface of \autoref{thm:lawless-sequence-streamname-handoff}.
 \end{theorem}
+\leanchecked{BEDC.Derived.LawlessSequenceUp.LawlessSequenceRealBoundaryNonescape}
 \begin{proof}
 Read the carrier of \autoref{def:lawless-sequence-carrier}. Its classifier compares packets only through the finite rows $W,B,I,H,C,P,N$, and the definition explicitly leaves $\RealUp$ completeness, quotient stream equality, host infinite sequence data, and countable choice outside the carrier.
 
@@ -135,10 +136,28 @@ Use finite prefix induction over $I$. The base case reads the empty displayed pr
 Finally replay the structural rows. The rows $H,C,P,N$ transport and name the same finite window; they have no coordinate for future values outside $W$ or for a choice schedule selecting all positions at once.
 \end{proof}
 
+\begin{theorem}[Lawless sequence finite-prefix induction]
+\label{thm:lawlesssequence-finite-prefix-induction}
+Every finite extension of the $\NatUp$ prefix-index ledger $I$ in an accepted $\LawlessSequenceUp$ carrier $L=(W,B,I,H,C,P,N)$ preserves the displayed route
+$$
+I\longmapsto W\longmapsto B\longmapsto H,C,P,N .
+$$
+The induction exposes only the prefixes already listed by the finite ledger and their visible $\BoolUp$ digit rows. It exposes no unseen future values, no host infinite sequence, and no countable-choice schedule.
+\end{theorem}
+\leanchecked{BEDC.Derived.LawlessSequenceUp.LawlessSequenceFinitePrefixInduction}
+\begin{proof}
+Induct on the displayed finite prefix ledger $I$. The base case is the empty-prefix read: the consumer reads the initial request from $I$, consults the corresponding $\StreamNameUp$ window in $W$ when present, and obtains only the attached visible digit row in $B$.
+
+For the step, extend the displayed request by one unary prefix move. The carrier offers no direct digit coordinate outside $W$, so the next read must pass through the extended StreamName window and then through its attached Bool row.
+
+Finally replay the structural route. Componentwise transport in $H$, continuation replay in $C$, provenance in $P$, and local naming in $N$ preserve the same finite prefix packet at each stage, so the induction cannot reveal any value beyond the displayed ledger.
+\end{proof}
+
 \begin{theorem}[Lawless sequence Real nonescape]
 \label{thm:lawless-sequence-real-nonescape}
 No $\RealUp$ consumer of an accepted $\LawlessSequenceUp$ packet receives $\RealUp$ completeness, quotient stream equality, a host infinite sequence, or a countable-choice schedule. Every such consumer receives only the finite-window packet $L_{\mathrm{fin}}=(I,W,B,H,C,P,N)$ of \autoref{def:lawless-sequence-finite-window-carrier}, routed through the StreamName choice window of \autoref{thm:lawless-sequence-streamname-choice-window}.
 \end{theorem}
+\leanchecked{BEDC.Derived.LawlessSequenceUp.LawlessSequenceRealNonescape}
 \begin{proof}
 Read the Real-boundary nonescape theorem \autoref{thm:lawless-sequence-real-boundary-nonescape}. It already excludes completeness, quotient equality, host infinite sequences, and countable-choice schedules from the accepted packet.
 
@@ -151,12 +170,28 @@ Apply \autoref{thm:lawless-sequence-streamname-choice-window}. Since each observ
 \label{thm:lawless-sequence-prefix-induction-obligation}
 Every accepted prefix read of a $\LawlessSequenceUp$ carrier $L=(W,B,I,H,C,P,N)$ is obtained by finite induction over the $\NatUp$ index row $I$. The base read exposes the displayed empty prefix when it is present in $W$; each step extends the current displayed request by one index move in $I$, reads the corresponding $\StreamNameUp$ window from $W$, and then reads the attached $\BoolUp$ digit row from $B$. No accepted prefix read is supplied by a host infinite sequence or by a countable-choice schedule.
 \end{theorem}
+\leanchecked{BEDC.Derived.LawlessSequenceUp.LawlessSequencePrefixInductionObligation}
 \begin{proof}
 Project the carrier of \autoref{def:lawless-sequence-carrier}. The only index row available to a prefix consumer is $I$, so every request starts from the displayed finite prefix ledger.
 
 Induct over the finite row $I$. The base case reads the empty displayed prefix and stops if no digit row is attached. The step case consumes one displayed successor request, reads the matching window from $W$, and attaches only the visible digit row in $B$.
 
 Finally replay through $H,C,P,N$. These structural rows transport and name the same finite read, and none contains a coordinate for unseen future values or a choice schedule.
+\end{proof}
+
+\begin{theorem}[Lawless sequence prefix-window determinacy]
+\label{thm:lawless-sequence-prefix-window-determinacy}
+Let $L=(W,B,I,H,C,P,N)$ and $L'=(W',B',I',H',C',P',N')$ be accepted $\LawlessSequenceUp$ carriers. If the rows $I,W,B,H,C,P,N$ and $I',W',B',H',C',P',N'$ are transported componentwise by $\hsame$ and replayed through the displayed $\Cont$ routes, then every $\StreamNameUp$, $\BaireSpaceUp$, or real-boundary consumer sees the same finite observed prefix window and the same visible $\BoolUp$ digit rows. The determined surface is exactly the transported finite window; it exposes no future values, no host infinite sequence, and no countable-choice schedule.
+\end{theorem}
+\leanchecked{BEDC.Derived.LawlessSequenceUp.LawlessSequencePrefixWindowDeterminacy}
+\begin{proof}
+Project both carriers through \autoref{def:lawless-sequence-carrier}. The only rows capable of affecting a prefix-window read are the $\NatUp$ ledgers $I,I'$, the displayed StreamName windows $W,W'$, the Bool digit rows $B,B'$, and the structural rows that transport and replay them.
+
+Apply the prefix-induction obligation, \autoref{thm:lawless-sequence-prefix-induction-obligation}. It forces each accepted prefix read to proceed by finite induction over the transported Nat ledger, so both reads inspect the same finite sequence of displayed prefix requests.
+
+Use Baire-window stability, \autoref{thm:lawless-sequence-baire-window-stability}. Since the prefix windows and Bool rows are transported componentwise by $H,H'$ and replayed through $C,C'$, each Baire-facing consumer receives the same finite window and the same visible digit rows.
+
+Finally apply the countable-name boundary, \autoref{thm:lawless-sequence-countable-name-boundary}. Real-boundary and countable-name consumers remain inside $W,B,I,H,C,P,N$, so determinacy of the displayed window does not determine any future value, host infinite sequence, or countable-choice schedule.
 \end{proof}
 
 \begin{theorem}[Lawless sequence Baire-window stability]
@@ -183,6 +218,7 @@ Apply the prefix-induction obligation and Baire-window stability above. They for
 
 Thus a countable-name consumer can only receive the seven displayed rows. Any request for a countable-choice schedule, a host infinite sequence, quotient stream equality, or real completeness leaves the accepted packet.
 \end{proof}
+\leanchecked{BEDC.Derived.LawlessSequenceUp.LawlessSequenceCountableNameBoundary}
 
 \closureat{LawlessSequenceUp}{seedStr}
 

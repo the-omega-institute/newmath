@@ -23,7 +23,7 @@ inductive BHist where
 
 Most readers see "binary tree", "binary string", or "natural number in two-symbol encoding". All of those readings *project* the type onto an already-understood object. They smuggle in a prior commitment: that there is something called "0" and something called "1" being recorded.
 
-The literal reading of the Lean code does not say that. `e0` and `e1` are constructor names, but they could just as well have been called `α` and `β`, or `left` and `right`. What the code actually says is:
+The literal reading of the Lean code does not say that. `e0` and `e1` are constructor names, but they could just as well have been called $\alpha$ and $\beta$, or `left` and `right`. What the code actually says is:
 
 > There is a starting state where no construction has happened (`Empty`).
 > There are two recursive ways of extending any prior history.
@@ -77,7 +77,7 @@ Step 2 is a much stronger claim. It says: even when we are not talking about phy
 
 BEDC is a working test of step 2. Not a proof, but a constructive test: *can you build mathematics — Bishop-style real analysis, baby category theory, basic algebra — from `inductive BHist | Empty | e0 | e1` and nothing else, with no axioms?*
 
-After 72 hours of AI-driven formalisation: provisionally yes, for 38 chapters covering numbers, sequences, real-stream classifiers, continuous functions, metric spaces, compact subsets, S¹, categories, functors, natural transformations. With 1837 mechanically verified theorems, mathlib-free, axiom-pure.
+After 72 hours of AI-driven formalisation: provisionally yes, for 38 chapters covering numbers, sequences, real-stream classifiers, continuous functions, metric spaces, compact subsets, $S^{1}$, categories, functors, natural transformations. With 1837 mechanically verified theorems, mathlib-free, axiom-pure.
 
 This is not a proof that Wheeler is right. It is a demonstration that the *structural* version of his claim — distinction as foundational — is buildable, and what it looks like when you build it.
 
@@ -126,14 +126,14 @@ We know that, starting from `inductive BHist | Empty | e0 | e1` and adding only 
 
 - Bishop-style equivalence classes for real numbers (16 theorems and growing)
 - Constructive metric distance witnesses with symmetric and transport closure (20 theorems)
-- Constructive compactness via located ε-nets (26 theorems)
+- Constructive compactness via located $\varepsilon$-nets (26 theorems)
 - Continuous-function modulus chains and their composition (20 theorems)
 - Categories, functors, natural transformations as restricted continuations (59 theorems combined)
 - Full basic-data-type coverage: booleans, options, sums, products, lists, naturals, integers, rationals (saturated)
 
 We know the project is `axiom-purity --strict` — every one of these 1837 theorems traces transitively to CIC's `inductive` and `def` and nothing else.
 
-We know that schema-only chapters (groups, monoids, rings, fields, modules) — chapters whose paper definition uses parametric `mul : BHist → BHist → BHist` — *cannot* be built without giving them concrete carriers, because the AI's attempts produce parameter-echo and the mechanical lints reject them. This is itself evidence: the foundational claim says you cannot define algebraic structures abstractly in BEDC, you have to *exhibit* concrete instances. The blocked chapters are a signal that the foundation is doing what it should.
+We know that schema-only chapters (groups, monoids, rings, fields, modules) — chapters whose paper definition uses parametric $mul : BHist \to BHist \to BHist$ — *cannot* be built without giving them concrete carriers, because the AI's attempts produce parameter-echo and the mechanical lints reject them. This is itself evidence: the foundational claim says you cannot define algebraic structures abstractly in BEDC, you have to *exhibit* concrete instances. The blocked chapters are a signal that the foundation is doing what it should.
 
 What we don't know yet:
 

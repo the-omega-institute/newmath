@@ -1,0 +1,47 @@
+\subsection{Translation- and abundance-conditioned localization boundary for $B^{*}_{Q6}$ residual coordinates}\label{sec:q6-translation-abundance-conditioned-protein-localization-cross-layer}
+\origin{ai}
+
+\paragraph{Finite row object.}
+This record concerns a matched finite table whose rows are coding sequences or CDS-derived proteins, with one row carrying four separated kinds of information: a $B^{*}_{Q6}$ synonymous residual coordinate, same-row translation readout information, mRNA and sequence controls, protein abundance, and a downstream protein-localization label or score. The residual coordinate is not the raw codon-usage direction. Each coordinate $q_i$ is first projected away from the amino-acid quotient surface, so that the operative coordinate is $q_i-P_{\tau}q_i$. The admissible coordinate list in the present packet is
+$$
+\begin{aligned}
+&\texttt{K\_AAA},\ \texttt{Arg\_AGR},\ \texttt{Ile\_AUA},\ \texttt{Leu\_CUN\_vs\_UUR},\ \texttt{Leu\_UUA\_vs\_UUG},\\
+&\texttt{Ser\_UCR\_vs\_AGY},\ \texttt{Ser\_UCA\_vs\_UCG},\ \texttt{Thr\_ACR\_vs\_ACY},\ \texttt{f3\_stress}.
+\end{aligned}
+$$
+The control surface $Z$ contains an intercept, $\log(\text{CDS length in nt})$, twenty amino-acid composition proportions computed from real CDS codon counts, GC3, and an $M$-density baseline equal to the fraction of sense codons lying on the union support of the nine projected $B^{*}_{Q6}$ vectors. Thus the localization claim is not a direct $q_i\to L_k$ association. It is only an admissible downstream readback if a same-row translation statistic survives first and if the localization residual remains bounded after both mRNA and protein-abundance conditioning.
+
+\paragraph{Abundance surfaces already attached.}
+Two finite abundance contacts are available and are useful as conditioning surfaces, but neither is by itself a localization measurement. In \emph{Saccharomyces cerevisiae}, the condition-specific protein-abundance packet uses Newman GFP-tagged yeast PAXdb condition files, with the provenance note that the downloaded headers report Newman, Nature, 2006, while the task label names Newman et al. 2009. The YEPD file joins $2517$ proteins, the SD file joins $2442$ proteins, and the shared condition comparison uses $2209$ proteins. Under the common row set, the $B^{*}_{Q6}$ projection onto $\log_{10}(\text{abundance ppm})$ gives
+$$
+\begin{aligned}
+R^2_{QP}(\mathrm{SD})&=0.3050385538305022, & \operatorname{rank}(X_{\perp Z})&=9, & \operatorname{rank}(Z)&=23,\\
+R^2_{QP}(\mathrm{YEPD})&=0.3280825603424665, & \operatorname{df}_{\perp Z}(\mathrm{SD})&=2186, & \operatorname{df}_{\perp Z}(\mathrm{YEPD})&=2186.
+\end{aligned}
+$$
+The dominant coordinate is \texttt{f3\_stress} in both conditions. The condition vectors are nearly collinear, with cosine $0.9993775935182967$ and Pearson correlation $0.9983880256003688$ across $1000$ permutations. The explained energies are $131.4599852310053$ in SD and $149.3320327478236$ in YEPD, against residual response energies $430.9618688529857$ and $455.16601855320954$. These numbers support a finite protein-abundance conditioning surface for yeast; they do not supply ribosome profiling, matched mRNA control, or localization.
+
+\paragraph{Human tissue abundance surface.}
+The human packet uses Kim et al. 2014 SEQUEST adult tissue PAXdb files as tissue-specific draft proteome readouts. Three tissues are loaded: Adult Liver, Adult B cells, and Adult Heart. The joined row counts are $8664$, $9244$, and $6468$, respectively, each with $24$ control columns, $\operatorname{rank}(X_{\perp Z})=9$, and $\operatorname{rank}(Z)=23$. The observed abundance projections are
+$$
+\begin{aligned}
+R^2_{QP}(\mathrm{Adult\ Bcells})&=0.03626117434944674, & \operatorname{df}_{\perp Z}&=9221, & \text{dominant coordinate}&=\texttt{Arg\_AGR},\\
+R^2_{QP}(\mathrm{Adult\ Heart})&=0.02320896321347296, & \operatorname{df}_{\perp Z}&=6445, & \text{dominant coordinate}&=\texttt{Ser\_UCR\_vs\_AGY},\\
+R^2_{QP}(\mathrm{Adult\ Liver})&=0.026133456228248052, & \operatorname{df}_{\perp Z}&=8641, & \text{dominant coordinate}&=\texttt{Ile\_AUA}.
+\end{aligned}
+$$
+The corresponding explained energies are $290.65227005813716$, $145.8210071220004$, and $188.166380129298$, with residual response energies $8015.52280842145$, $6282.960844944177$, and $7200.210277808799$. Pairwise comparison across the three tissue vectors gives cosines $0.6883655232187615$ for Adult B cells versus Adult Heart, $0.8990093450963941$ for Adult Liver versus Adult B cells, and $0.9176793373754919$ for Adult Liver versus Adult Heart, again over $1000$ permutations. These rows establish that the abundance-conditioning surface can be finite, rank-powered, and tissue-specific, while remaining descriptive rather than causal.
+
+\paragraph{Localization admission rule.}
+A protein-localization readback may be added only after the row has passed three gates. First, a same-organism CDS coordinate must be present after amino-acid quotient residualization. Second, a translation readout $T_j$ must survive under the controls just listed, including mRNA abundance when ribosome profiling or translation efficiency is used. Third, protein abundance must be included before localization is interpreted, so that the tested localization residual is not merely a proxy for expression level. In symbols, the admitted statistic has the schematic form
+$$
+\begin{aligned}
+q_i-P_{\tau}q_i\quad &\longrightarrow\quad T_j\quad \longrightarrow\quad P_k\quad \longrightarrow\quad L_\ell,\\
+\text{with refusal if}\quad S^{QT}_{ij}&\leq 0\ \text{or rank-degenerate},\\
+\text{and refusal if}\quad L_\ell&\text{ loses its residual association after }T_j\text{ and }P_k\text{ conditioning}.
+\end{aligned}
+$$
+The present verified rows attach protein-abundance surfaces in yeast and human, but they do not yet attach a finite localization statistic matched to the same translation and abundance rows. Therefore the correct reading is a conditional localization boundary: abundance-conditioned localization is a well-defined downstream test target, not an established localization effect.
+
+\paragraph{Local refusal clauses.}
+No result in this record says that a $B^{*}_{Q6}$ coordinate changes translation unless a separate translation contact supplies a same-row ribosome-profiling, translation-efficiency, tAI, stAI, or equivalent bounded translation readout. No result says that a coordinate changes folding, structural order, physical admissibility, protein function, phenotype, trafficking mechanism, compartment identity mechanism, or any organism-wide law. Protein abundance is treated only as an abundance surface, not as protein state. Localization labels, imaging scores, fractionation enrichments, proximity-labeling intensities, or curated compartment annotations may enter only as separate matched contacts and only after organism, identifier, mRNA, translation, and abundance matching. If the translation step is nonpositive, rank-degenerate, or absent, or if the localization residual disappears after translation and abundance conditioning, the packet remains null at the localization layer.

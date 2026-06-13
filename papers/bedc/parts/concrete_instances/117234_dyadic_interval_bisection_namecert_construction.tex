@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalBisectionUp$}
+\label{ch:concrete-instances-dyadic-interval-bisection-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicIntervalBisectionUp$ packet records the finite act of bisecting a dyadic interval before any infinite branch or real-completion argument is available. It sits between the dyadic midpoint arithmetic of \autoref{ch:concrete-instances-dyadicmidpoint-namecert}, the arithmetic carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite located-real interval route of \autoref{ch:concrete-instances-located-real-interval-bisection-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a finite bisection ledger; it does not select an infinite branch, construct a Dedekind cut, assert trichotomy, quotient reals, or close ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic interval bisection carrier]
+\label{def:dyadic-interval-bisection-carrier}
+A $\DyadicIntervalBisectionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,R,M,S,W,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left dyadic endpoint row.
+\item $R$ is the right dyadic endpoint row.
+\item $M$ is the midpoint row consumed from the dyadic midpoint certificate and checked in $\DyadicRatCoreUp$.
+\item $S$ is the branch-choice row, recording whether the finite bisection retains the left half, the right half, or both halves as named subintervals.
+\item $W$ is the width-budget row, recording the dyadic width before and after the bisection.
+\item $J$ is the nestedness ledger, recording that every retained subinterval has endpoints between $L$ and $R$ and is read as a subinterval of the source packet.
+\item $H$ is the componentwise $\hsame$ transport row over $L,R,M,S,W,J$.
+\item $C$ is the displayed $\Cont$ replay row for the finite bisection step.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalBisectionUp$, the dyadic midpoint certificate of \autoref{ch:concrete-instances-dyadicmidpoint-namecert}, $\DyadicRatCoreUp$, $\LocatedRealIntervalBisectionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicIntervalBisectionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite branch selector, Dedekind cut, real trichotomy, quotient-real equality, or ambient $\RealUp$ completeness witness.
+\end{definition}
+
+\begin{theorem}[Dyadic interval bisection NameCert obligations]
+\label{thm:dyadic-interval-bisection-namecert-obligations}
+For every accepted $\DyadicIntervalBisectionUp$ carrier $B=(L,R,M,S,W,J,H,C,P,N)$, the local $\NameCert_{\DyadicIntervalBisectionUp}$ surface consists exactly of endpoint exposure through $L,R$, midpoint exposure through $M$, branch-choice exposure through $S$, width-budget exposure through $W$, nestedness exposure through $J$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+Every downstream finite located-interval consumer must read those rows before it can hand bisection data to $\LocatedRealIntervalBisectionUp$, $\RegSeqRatUp$, or $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-bisection-carrier}. Its rows are exactly $L,R,M,S,W,J,H,C,P,N$, so endpoint, midpoint, branch, width, and nestedness data are all displayed before any consumer can read the bisection.
+
+The midpoint row is checked against the dyadic midpoint certificate and $\DyadicRatCoreUp$, while $S$ and $J$ record which finite subintervals are retained. The transport row $H$ and replay row $C$ preserve those finite rows componentwise.
+
+Finally read the provenance and local naming rows $P,N$. They identify the route into $\LocatedRealIntervalBisectionUp$, $\RegSeqRatUp$, and $\RealUp$ without adding an infinite selector, cut object, quotient equality, trichotomy decision, or completeness witness. Hence the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic interval bisection nested width]
+\label{thm:dyadic-interval-bisection-nested-width}
+Every retained subinterval of an accepted $\DyadicIntervalBisectionUp$ packet is nested inside the source interval and has dyadic width bounded by the width-budget row $W$. In the exact bisection case, the retained width row is read as one half of the source width through the same $\DyadicRatCoreUp$ midpoint calculation.
+\end{theorem}
+\begin{proof}
+Use the endpoint rows $L,R$ and midpoint row $M$ from \autoref{def:dyadic-interval-bisection-carrier}. The midpoint is a dyadic rational row, so the two candidate subintervals have dyadic endpoints already visible in the packet.
+
+Read the branch-choice row $S$ together with the nestedness ledger $J$. These rows say that a retained left or right half uses the source endpoint and the midpoint, hence every retained endpoint lies between the original endpoints.
+
+The width-budget row $W$ records the source width and the retained width. Since the midpoint row is checked in $\DyadicRatCoreUp$, the exact bisection case reads the retained width as half the source width, while the structural rows $H,C,P,N$ preserve and name that finite calculation for downstream consumers.
+\end{proof}
+
+\closureat{DyadicIntervalBisectionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalBisectionUp}
+  \constructivestory{A $\DyadicIntervalBisectionUp$ packet is generated from left and right dyadic endpoint rows, a dyadic midpoint row, a branch-choice row, a width-budget row, a nestedness ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-bisection-carrier}, \autoref{thm:dyadic-interval-bisection-namecert-obligations}, and \autoref{thm:dyadic-interval-bisection-nested-width} seed the finite dyadic bisection carrier, local NameCert surface, and nested-width ledger used by located real interval and regular rational readback packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite branches, Dedekind cuts, trichotomy, quotient reals, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic midpoint exactness, branch-row stability, nested-width preservation, readback handoff, and nonescape for BEDC.Derived.DyadicIntervalBisectionUp.}
+\end{closurestatus}

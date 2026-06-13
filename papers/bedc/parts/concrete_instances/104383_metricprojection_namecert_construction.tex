@@ -63,7 +63,6 @@ The LocatedSet route supplies the sibling distance data before this endpoint is 
 
 Therefore a consumer cannot invert the endpoint row into a $\LocatedSetUp$ coordinate. The only accepted read is the forward projection route: first the located-set distance surface, then the $\MetricProjectionUp$ endpoint row $E$ as the consumer endpoint.
 \end{proof}
-\leanchecked{BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier\_endpoint\_separation}
 
 \begin{theorem}[MetricProjection carrier stability obligation]\label{thm:metric-projection-obligation-carrier-stability}
 Let $Q=(H,C,D,I,W,E,T,R,P,N)$ and $Q'=(H',C',D',I',W',E',T',R',P',N')$ be accepted $\MetricProjectionUp$ carriers whose displayed Hilbert source, closed convex source, metric distance ledger, located infimum budget, minimizing window, endpoint row, transport, replay, provenance, and local naming rows agree componentwise through the classifier of \autoref{def:metric-projection-carrier}. Then every accepted projection-facing read through $Q$ transports to the corresponding read through $Q'$ without adding a host nearest-point selector, quotient representative, trichotomy decision, countable-choice schedule, or ambient $\RealUp$ completeness row.
@@ -92,6 +91,7 @@ Use \autoref{thm:metricprojection-locatedset-endpoint-separation}. The LocatedSe
 \begin{theorem}[MetricProjection endpoint admission obligation]\label{thm:metric-projection-obligation-endpoint-admission}
 For an accepted $\MetricProjectionUp$ carrier $Q=(H,C,D,I,W,E,T,R,P,N)$, the endpoint row $E$ is admitted only after the minimizing-window row $W$ has replayed the located-infimum route over $H,C,D,I$ and after the LocatedSet source route has supplied its endpoint-separation boundary. Any consumer of $E$ must then pass through $T,R,P,N$ before using the endpoint as a projection-facing row.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetricProjectionUp.MetricProjectionCarrierEndpointAdmissionCertificate}
 \begin{proof}
 Project the carrier and apply \autoref{thm:metric-projection-obligation-located-infimum-replay}. The rows $H,C,D,I,W$ are the only route by which the endpoint can be reached from the Hilbert, convex, metric, and located-infimum data.
 
@@ -112,12 +112,15 @@ Finally use \autoref{thm:metric-projection-closest-point-nonescape}. Since the c
 \end{proof}
 \leanchecked{BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier\_public\_projection\_certificate}
 
+\closureat{MetricProjectionUp}{bridgedStr}
+\closureat{MetricProjectionUp}{matureStr}
+
 \begin{closurestatus}{\MetricProjectionUp}
   \constructivestory{A $\MetricProjectionUp$ packet is generated from a Hilbert source, closed convex source, metric distance ledger, located infimum budget, approximating minimizing window, projection endpoint, componentwise transport, continuation replay, package provenance, and local naming row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:metric-projection-carrier}, \autoref{thm:metric-projection-namecert-obligations}, \autoref{thm:metric-projection-closest-point-nonescape}, \autoref{thm:metricprojection-locatedset-endpoint-separation}, \autoref{thm:metric-projection-obligation-carrier-stability}, \autoref{thm:metric-projection-obligation-located-infimum-replay}, \autoref{thm:metric-projection-obligation-endpoint-admission}, and \autoref{thm:metricprojection-public-projection-certificate} scope $\MetricProjectionUp$ over $\MetricUp$, $\LocatedSetUp$, located-infimum replay, endpoint admission, public projection export, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, a host nearest-point selector, quotient equality of Hilbert points, countable choice, trichotomy, or ambient RealUp completeness.}
-  \upgradepath{Bridged closure requires a bridge theorem connecting the public projection certificate to the abstract projection interface.}
+  \upgradepath{The theory axis is mature; formal verification and bridge verification remain pending on their independent axes.}
 \end{closurestatus}

@@ -1,0 +1,300 @@
+import BEDC.Derived.RegularCauchyLocatedCutUp
+import BEDC.FKernel.Mark
+import BEDC.Meta.TasteGate
+
+namespace BEDC.Derived.RegularCauchyLocatedCutUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+def regularCauchyLocatedCutEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | BHist.Empty => []
+  | BHist.e0 h => BMark.b0 :: regularCauchyLocatedCutEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: regularCauchyLocatedCutEncodeBHist h
+
+def regularCauchyLocatedCutDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => BHist.Empty
+  | BMark.b0 :: tail => BHist.e0 (regularCauchyLocatedCutDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (regularCauchyLocatedCutDecodeBHist tail)
+
+private theorem RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist, regularCauchyLocatedCutDecodeBHist
+      (regularCauchyLocatedCutEncodeBHist h) = h := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  induction h with
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
+
+def regularCauchyLocatedCutToEventFlow : RegularCauchyLocatedCutUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | x => List.map regularCauchyLocatedCutEncodeBHist (regularCauchyLocatedCutFields x)
+
+private def regularCauchyLocatedCutEventAtDefault : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyLocatedCutEventAtDefault index rest
+
+def regularCauchyLocatedCutFromEventFlow :
+    EventFlow → Option RegularCauchyLocatedCutUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (RegularCauchyLocatedCutUp.mk
+        (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEventAtDefault 0 ef))
+        (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEventAtDefault 1 ef))
+        (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEventAtDefault 2 ef))
+        (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEventAtDefault 3 ef))
+        (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEventAtDefault 4 ef))
+        (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEventAtDefault 5 ef))
+        (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEventAtDefault 6 ef))
+        (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEventAtDefault 7 ef))
+        (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEventAtDefault 8 ef)))
+
+private theorem RegularCauchyLocatedCutTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : RegularCauchyLocatedCutUp,
+      regularCauchyLocatedCutFromEventFlow (regularCauchyLocatedCutToEventFlow x) =
+        some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
+  cases x with
+  | mk S Q D L R H C P N =>
+      change
+        some
+          (RegularCauchyLocatedCutUp.mk
+            (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist S))
+            (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist Q))
+            (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist D))
+            (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist L))
+            (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist R))
+            (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist H))
+            (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist C))
+            (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist P))
+            (regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist N))) =
+          some (RegularCauchyLocatedCutUp.mk S Q D L R H C P N)
+      rw [RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode S,
+        RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode Q,
+        RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode D,
+        RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode L,
+        RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode R,
+        RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode H,
+        RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode C,
+        RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode P,
+        RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode N]
+
+private theorem RegularCauchyLocatedCutTasteGate_single_carrier_alignment_fields :
+    ∀ x y : RegularCauchyLocatedCutUp,
+      regularCauchyLocatedCutFields x = regularCauchyLocatedCutFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S1 Q1 D1 L1 R1 H1 C1 P1 N1 =>
+      cases y with
+      | mk S2 Q2 D2 L2 R2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
+private theorem RegularCauchyLocatedCutTasteGate_single_carrier_alignment_injective
+    {x y : RegularCauchyLocatedCutUp} :
+    regularCauchyLocatedCutToEventFlow x = regularCauchyLocatedCutToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hread :
+      regularCauchyLocatedCutFromEventFlow (regularCauchyLocatedCutToEventFlow x) =
+        regularCauchyLocatedCutFromEventFlow (regularCauchyLocatedCutToEventFlow y) :=
+    congrArg regularCauchyLocatedCutFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans
+      (RegularCauchyLocatedCutTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (RegularCauchyLocatedCutTasteGate_single_carrier_alignment_round_trip y)))
+
+instance regularCauchyLocatedCutBHistCarrier : BHistCarrier RegularCauchyLocatedCutUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := regularCauchyLocatedCutToEventFlow
+  fromEventFlow := regularCauchyLocatedCutFromEventFlow
+
+instance regularCauchyLocatedCutChapterTasteGate :
+    ChapterTasteGate RegularCauchyLocatedCutUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  round_trip := by
+    intro x
+    change
+      regularCauchyLocatedCutFromEventFlow (regularCauchyLocatedCutToEventFlow x) =
+        some x
+    exact RegularCauchyLocatedCutTasteGate_single_carrier_alignment_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (RegularCauchyLocatedCutTasteGate_single_carrier_alignment_injective heq)
+
+instance regularCauchyLocatedCutFieldFaithful :
+    FieldFaithful RegularCauchyLocatedCutUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchyLocatedCutFields
+  field_faithful := RegularCauchyLocatedCutTasteGate_single_carrier_alignment_fields
+
+instance regularCauchyLocatedCutNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial RegularCauchyLocatedCutUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchyLocatedCutUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RegularCauchyLocatedCutUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate RegularCauchyLocatedCutUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  regularCauchyLocatedCutChapterTasteGate
+
+theorem RegularCauchyLocatedCutTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate RegularCauchyLocatedCutUp) ∧
+      Nonempty (FieldFaithful RegularCauchyLocatedCutUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RegularCauchyLocatedCutUp) ∧
+      (∀ h : BHist,
+        regularCauchyLocatedCutDecodeBHist (regularCauchyLocatedCutEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyLocatedCutUp,
+        regularCauchyLocatedCutFromEventFlow (regularCauchyLocatedCutToEventFlow x) =
+          some x) ∧
+      (∀ x y : RegularCauchyLocatedCutUp,
+        regularCauchyLocatedCutToEventFlow x = regularCauchyLocatedCutToEventFlow y →
+          x = y) ∧
+      regularCauchyLocatedCutEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  constructor
+  · exact Nonempty.intro regularCauchyLocatedCutChapterTasteGate
+  · constructor
+    · exact Nonempty.intro regularCauchyLocatedCutFieldFaithful
+    · constructor
+      · exact Nonempty.intro regularCauchyLocatedCutNontrivial
+      · constructor
+        · exact RegularCauchyLocatedCutTasteGate_single_carrier_alignment_decode
+        · constructor
+          · exact RegularCauchyLocatedCutTasteGate_single_carrier_alignment_round_trip
+          · constructor
+            · intro x y heq
+              exact RegularCauchyLocatedCutTasteGate_single_carrier_alignment_injective heq
+            · rfl
+
+theorem RegularCauchyLocatedCutRealSealHandoff [AskSetup] [PackageSetup]
+    (K : RegularCauchyLocatedCutUp)
+    {S Q D L R H C P N windowRead dyadicRead cutRead realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    regularCauchyLocatedCutFields K = [S, Q, D, L, R, H, C, P, N] ->
+      UnaryHistory S ->
+        UnaryHistory Q ->
+          UnaryHistory D ->
+            UnaryHistory L ->
+              UnaryHistory R ->
+                Cont S Q windowRead ->
+                  Cont windowRead D dyadicRead ->
+                    Cont dyadicRead L cutRead ->
+                      Cont cutRead R realSeal ->
+                        PkgSig bundle P pkg ->
+                          PkgSig bundle realSeal pkg ->
+                            SemanticNameCert
+                              (fun row : BHist => hsame row realSeal ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row S ∨ hsame row Q ∨ hsame row D ∨
+                                  hsame row L ∨ hsame row R ∨ hsame row realSeal)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ Cont S Q windowRead ∧
+                                  Cont windowRead D dyadicRead ∧ Cont dyadicRead L cutRead ∧
+                                    Cont cutRead R realSeal ∧ PkgSig bundle P pkg ∧
+                                      PkgSig bundle realSeal pkg)
+                              hsame ∧
+                              UnaryHistory realSeal := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro fieldsEq streamUnary rationalUnary dyadicUnary cutUnary realUnary
+    streamRationalWindow windowDyadicRead dyadicCutRead cutRealSeal provenancePkg realSealPkg
+  cases K with
+  | mk KS KQ KD KL KR KH KC KP KN =>
+      unfold regularCauchyLocatedCutFields at fieldsEq
+      injection fieldsEq with hS tail0
+      injection tail0 with hQ tail1
+      injection tail1 with hD tail2
+      injection tail2 with hL tail3
+      injection tail3 with hR tail4
+      injection tail4 with hH tail5
+      injection tail5 with hC tail6
+      injection tail6 with hP tail7
+      injection tail7 with hN _
+      subst hS
+      subst hQ
+      subst hD
+      subst hL
+      subst hR
+      subst hH
+      subst hC
+      subst hP
+      subst hN
+      have windowUnary : UnaryHistory windowRead :=
+        unary_cont_closed streamUnary rationalUnary streamRationalWindow
+      have dyadicReadUnary : UnaryHistory dyadicRead :=
+        unary_cont_closed windowUnary dyadicUnary windowDyadicRead
+      have cutReadUnary : UnaryHistory cutRead :=
+        unary_cont_closed dyadicReadUnary cutUnary dyadicCutRead
+      have realSealUnary : UnaryHistory realSeal :=
+        unary_cont_closed cutReadUnary realUnary cutRealSeal
+      have cert :
+          SemanticNameCert
+              (fun row : BHist => hsame row realSeal ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row KS ∨ hsame row KQ ∨ hsame row KD ∨ hsame row KL ∨
+                  hsame row KR ∨ hsame row realSeal)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont KS KQ windowRead ∧
+                  Cont windowRead KD dyadicRead ∧ Cont dyadicRead KL cutRead ∧
+                    Cont cutRead KR realSeal ∧ PkgSig bundle KP pkg ∧
+                      PkgSig bundle realSeal pkg)
+              hsame := {
+        core := {
+          carrier_inhabited :=
+            Exists.intro realSeal ⟨hsame_refl realSeal, realSealUnary⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other sameRows source
+            exact
+              ⟨hsame_trans (hsame_symm sameRows) source.left,
+                unary_transport source.right sameRows⟩
+        }
+        pattern_sound := by
+          intro _row source
+          right
+          right
+          right
+          right
+          right
+          exact source.left
+        ledger_sound := by
+          intro _row source
+          exact
+            ⟨source.right, streamRationalWindow, windowDyadicRead, dyadicCutRead,
+              cutRealSeal, provenancePkg, realSealPkg⟩
+      }
+      exact ⟨cert, realSealUnary⟩
+
+end BEDC.Derived.RegularCauchyLocatedCutUp

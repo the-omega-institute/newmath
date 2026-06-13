@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FiniteJacobianUp$}
+\label{ch:concrete-instances-finite-jacobian-namecert}
+\origin{human}
+
+Following Cartan and Spivak on finite-dimensional differential calculus, the $\FiniteJacobianUp$ packet records the derivative matrix of a finite coordinate-window presentation as BEDC NameCert data. It sits over the matrix surface of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map handoff of \autoref{ch:concrete-instances-linearmap-namecert}, the calculus route of \autoref{ch:concrete-instances-calculus-namecert}, the real readback seal of \autoref{ch:concrete-instances-real-namecert}, and the metric neighbourhood discipline of \autoref{ch:concrete-instances-metric-namecert}. The finite derivative table is consumed as a calculus-facing bridge from the $\MatrixUp$ table through the $\LinearMapUp$ handoff before $\RealUp$ error budgets and $\MetricUp$ neighbourhood budgets are exposed. The packet is a finite derivative table and error-budget certificate; it does not import host differentiability, quotient function equality, selected limits, inverse-function data, implicit-function data, or countable choice.
+
+\begin{definition}[FiniteJacobian carrier]
+\label{def:finite-jacobian-carrier}
+A $\FiniteJacobianUp$ carrier is a finite $\BHist$ packet
+$$
+J=(W,M,L,E,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite coordinate-window row: it records the source coordinate labels, target coordinate labels, base point window, and the finite list of directions inspected by the derivative read.
+\item $M$ is the $\MatrixUp$ derivative table row whose entries are the displayed coordinatewise linear coefficients for the window $W$.
+\item $L$ is the $\LinearMapUp$ handoff row reading the same table as a finite linear map between the displayed coordinate windows.
+\item $E$ is the $\RealUp$ finite-difference error budget row: for each displayed direction it records the rational or dyadic tolerance by which the table $M$ approximates the observed difference quotient.
+\item $V$ is the $\MetricUp$ neighbourhood budget row that bounds the domain window on which the finite-difference observations may be replayed.
+\item $H$ records componentwise $\hsame$ transport for $W,M,L,E,V,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a coordinate-window read through the matrix table, linear-map handoff, real error budget, and metric neighbourhood budget.
+\item $P$ is the $\Pkg$ provenance over $\FiniteJacobianUp$, $\MatrixUp$, $\LinearMapUp$, $\CalculusUp$, $\RealUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteJacobianUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for an ambient differentiability predicate, host function equality, selected limit, inverse map, implicit solver, quotient real equality, or countable-choice schedule.
+\end{definition}
+
+\begin{theorem}[FiniteJacobian NameCert obligations]
+\label{thm:finite-jacobian-namecert-obligations}
+For every accepted $\FiniteJacobianUp$ carrier
+$$
+J=(W,M,L,E,V,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteJacobianUp}$ surface consists exactly of finite coordinate-window admission, Matrix derivative-table admission, LinearMap handoff, Real finite-difference error-budget compatibility, Metric neighbourhood-budget compatibility, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming. Thus a derivative consumer may read the finite Jacobian only as displayed matrix and linear-map data over $\MatrixUp$, $\LinearMapUp$, $\CalculusUp$, $\RealUp$, and $\MetricUp$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:finite-jacobian-carrier}. The analytic rows are $W,M,L,E,V$, and the structural rows are $H,C,P,N$.
+
+The coordinate-window row $W$ fixes the finite source and target faces before any derivative entry is inspected. The matrix row $M$ is therefore a finite table over that window rather than an ambient derivative operator.
+
+The linear-map row $L$ reads the same table as a finite handoff. The real error row $E$ records the finite-difference tolerance for each displayed direction, and the metric row $V$ records the neighbourhood on which those observations may be replayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since every obligation is one of the displayed rows and none of the excluded host objects is a coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[FiniteJacobian matrix derivative handoff]
+\label{thm:finite-jacobian-matrix-derivative-handoff}
+Every inverse-function, implicit-function, ODE, PDE, or linearisation consumer of an accepted $\FiniteJacobianUp$ carrier receives the derivative only through the finite handoff
+$$
+W,M,L,E,V,H,C,P,N .
+$$
+In particular, the $\MatrixUp$ derivative table is consumed before the $\LinearMapUp$ handoff, the $\RealUp$ finite-difference error budget, and the $\MetricUp$ neighbourhood budget. The handoff exports no host differentiability theorem, selected derivative limit, quotient function equality, inverse-function conclusion, implicit-function conclusion, ODE solution, PDE solution, or countable choice.
+\end{theorem}
+\begin{proof}
+Begin with a downstream analytic consumer of the accepted packet. The carrier first exposes the coordinate-window row $W$, so every later derivative read is attached to the same finite list of source directions and target coordinates.
+
+The consumer then reads the matrix table $M$ and only afterward the linear-map handoff $L$. This order makes the linear map a replay of the displayed derivative table, not a hidden ambient derivative.
+
+The finite-difference budget $E$ and neighbourhood budget $V$ bound the table as real and metric data before any consumer can reuse it in an inverse, implicit, evolution, or linearisation route.
+
+Componentwise transport $H$ and displayed replay $C$ preserve this order, while $P$ and $N$ record provenance and local naming. Hence the consumer receives a finite matrix derivative packet and none of the stronger analytic endpoints refused in the statement.
+\end{proof}
+
+\begin{closurestatus}{\FiniteJacobianUp}
+  \constructivestory{A $\FiniteJacobianUp$ packet is generated from finite coordinate-window rows, a displayed MatrixUp derivative table, a LinearMapUp handoff, RealUp finite-difference error budgets, MetricUp neighbourhood budgets, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-jacobian-carrier}, \autoref{thm:finite-jacobian-namecert-obligations}, and \autoref{thm:finite-jacobian-matrix-derivative-handoff} seed the finite matrix derivative packet over coordinate windows, Matrix, LinearMap, Real error budgets, and Metric neighbourhood budgets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host differentiability, selected derivative limits, quotient function equality, inverse-function results, implicit-function results, ODE or PDE solvability, countable choice, Lean verification, or a standard bridge.}
+  \upgradepath{Scoped treatment asks for checked carrier admission, coordinate-window exactness, matrix-table compatibility, linear-map handoff, finite-difference error control, neighbourhood-budget compatibility, transport, replay, provenance, and local naming.}
+\end{closurestatus}

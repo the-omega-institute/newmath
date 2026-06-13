@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICParallelDiamondWitnessUp$}
+\label{ch:concrete-instances-metacic-parallel-diamond-witness-namecert}
+\origin{ai}
+
+The $\MetaCICParallelDiamondWitnessUp$ packet realizes a finite residual-pair witness surface from the confluence questions of \autoref{ch:metacic-open-problems}. It is narrower than the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}: the witness records one displayed local peak, its residual-substitution rows, its candidate join rows, and the bounded checker budget before any local-diamond read is public. It consumes the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization router of \autoref{ch:concrete-instances-metacicnormalizationcertificaterouter-namecert}, the closed substitution row of \autoref{ch:concrete-instances-closedtermsubstitution-namecert}, the existing frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a local finite witness, not a global confluence theorem, not a normalization theorem, and not a hidden substitution principle.
+
+\begin{definition}[MetaCIC parallel-diamond witness carrier]
+\label{def:metacic-parallel-diamond-witness-carrier}
+A $\MetaCICParallelDiamondWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(T,L,R,S,J,B,A,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed MetaCIC window row, exposing the closed source term, typing context, redex shape, and bounded binder depth inspected by the witness.
+\item $L$ and $R$ are the two one-step residual rows generated from the same displayed peak.
+\item $S$ is the closed-term substitution row, read through the $\ClosedTermSubstitutionUp$ surface before either residual row is joined.
+\item $J$ is the candidate local-join row, recording the displayed common residual target proposed for the pair.
+\item $B$ is the bounded checker row that verifies the two residual routes inside the shown finite budget.
+\item $A$ is the $\RealUp$ audit seal for the numeric fuel, height, and readback bounds used by the checker.
+\item $O$ is the obstruction-retention row, keeping the residual-substitution premise and subject-reduction boundary visible.
+\item $H$ records componentwise $\hsame$ transport for the typed window, residual pair, substitution row, local join, checker, real audit seal, obstruction row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the same local witness route.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICParallelDiamondWitnessUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationCertificateRouterUp$, $\MetaCICParallelDiamondFrontierUp$, $\ClosedTermSubstitutionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICParallelDiamondWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,L,R,S,J,B,A,O,H,C,P,N$. It has no coordinate for arbitrary closed-term Church--Rosser, global confluence, normalization for all closed terms, unrestricted substitution compatibility, quotient syntax equality, or a hidden evaluator oracle.
+\end{definition}
+
+\begin{theorem}[MetaCIC parallel-diamond witness obligations]
+\label{thm:metacic-parallel-diamond-witness-obligations}
+For every accepted $\MetaCICParallelDiamondWitnessUp$ carrier $W=(T,L,R,S,J,B,A,O,H,C,P,N)$, the local $\NameCert_{\MetaCICParallelDiamondWitnessUp}$ surface consists exactly of typed-window exposure, two residual rows from the same peak, closed-term substitution exposure, candidate local-join admission, bounded checker accounting, $\RealUp$ audit sealing, obstruction retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is supplied by global confluence, normalization, unrestricted substitution compatibility, quotient syntax equality, host evaluator soundness, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-parallel-diamond-witness-carrier}. The rows $T,L,R,S,J,B,A,O,H,C,P,N$ are the only visible coordinates of an accepted witness packet.
+
+The local peak is held by $T,L,R$. Both residual rows are tied to the same typed window, so a consumer cannot splice in a detached critical pair or an untyped residual route.
+
+The join and checking data are $S,J,B,A,O$. The closed substitution row remains visible before the candidate join is read, the bounded checker records the finite verification budget, the real audit seal accounts for numeric bounds, and the obstruction row preserves the residual-substitution premise.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same local route. Since none of the excluded global or host principles occurs as a coordinate, the listed rows exhaust the witness NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond witness handoff]
+\label{thm:metacic-parallel-diamond-witness-handoff}
+Every confluence or normalization-router consumer of an accepted $\MetaCICParallelDiamondWitnessUp$ packet factors through the finite handoff
+$$
+T,L,R \longmapsto S,J,B,A,O \longmapsto H,C,P,N .
+$$
+The handoff supplies one residual-pair local-diamond witness to the critical-path and frontier readers. It does not discharge the parallel-diamond frontier, close arbitrary confluence, prove normalization, or erase the closed-substitution boundary.
+\end{theorem}
+\begin{proof}
+Begin with an accepted consumer request. Carrier admission exposes the typed window $T$ and the two residual rows $L,R$ before a local-diamond read is available.
+
+Read the middle rows next. The closed substitution row $S$ binds the residual routes, the candidate join row $J$ records the proposed common target, the bounded checker $B$ checks the displayed routes, the real audit seal $A$ records the finite budget, and the obstruction row $O$ keeps the unclosed premises visible.
+
+The structural rows $H,C,P,N$ then carry the witness to the critical-path and frontier consumers. They preserve the local route without converting it into a global confluence theorem, a normalization theorem, or an unrestricted substitution result.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MetaCICParallelDiamondWitnessUp$ consumer that cites metaciccriticalpath, metacicnormalizationcertificaterouter, metacic-parallel-diamond-frontier, closedtermsubstitution, or real without displaying $T,L,R,S,J,B,A,O,H,C,P,N$ refutes the witness carrier surface.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationcertificaterouter, metacic-parallel-diamond-frontier, closedtermsubstitution, real: no listed sibling is bijective to $\MetaCICParallelDiamondWitnessUp$ because this packet jointly carries one typed local peak, two residual rows, closed substitution exposure, a candidate join, bounded checker budget, Real audit seal, obstruction retention, transport, replay, provenance, and local naming.}
+
+The Lean follow-up surface is \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondWitnessUp/TasteGate.lean}; it must provide \texttt{Nontrivial MetaCICParallelDiamondWitnessUp} and \texttt{FieldFaithful MetaCICParallelDiamondWitnessUp} instances for the same carrier rows before any TasteGate claim is recorded.
+
+\closureat{MetaCICParallelDiamondWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICParallelDiamondWitnessUp}
+  \constructivestory{A $\MetaCICParallelDiamondWitnessUp$ packet is generated from a typed MetaCIC window, two residual rows, a closed-term substitution row, a candidate local join, a bounded checker, a RealUp audit seal, obstruction retention, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-parallel-diamond-witness-carrier}, \autoref{thm:metacic-parallel-diamond-witness-obligations}, and \autoref{thm:metacic-parallel-diamond-witness-handoff} seed the finite residual-pair local-diamond witness consumed by MetaCIC confluence and normalization-router readers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global confluence, arbitrary closed-term Church--Rosser, normalization for all closed terms, unrestricted substitution compatibility, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-pair routing, closed-substitution exposure, local-join accounting, bounded-checker accounting, Real audit sealing, obstruction retention, transport, replay, provenance, local naming, Nontrivial TasteGate evidence, and FieldFaithful TasteGate evidence for BEDC.Derived.MetaCICParallelDiamondWitnessUp.}
+\end{closurestatus}

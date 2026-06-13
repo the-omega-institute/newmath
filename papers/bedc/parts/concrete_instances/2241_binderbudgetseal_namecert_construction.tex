@@ -148,15 +148,16 @@ The TasteGate carrier must therefore be grounded on row equality of this packet.
 \closureat{BinderBudgetSealUp}{seedStr}
 \closureat{BinderBudgetSealUp}{obligationStr}[BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGate\_single\_carrier\_alignment]
 \closureat{BinderBudgetSealUp}{scopedStr}[BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGate\_single\_carrier\_alignment]
+\closureat{BinderBudgetSealUp}{bridgedStr}[BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGate\_single\_carrier\_alignment]
+\closureat{BinderBudgetSealUp}{matureStr}[BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\BinderBudgetSealUp}
   \constructivestory{A $\BinderBudgetSealUp$ packet is generated from a binder-depth boundary, a MetaCIC term row, a substitution payload row, shift and substitution non-escape routes, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \leanchecked{BEDC.Derived.BinderBudgetSealUp.taste\_gate}
-  \scopeclosed{\autoref{def:binder-budget-seal-carrier}, \autoref{def:binder-budget-seal-obligation-surface}, \autoref{thm:binder-budget-seal-namecert-obligations}, \autoref{thm:binder-budget-seal-carrier-admission}, \autoref{thm:binder-budget-seal-compiler-boundary}, \autoref{thm:binder-budget-seal-non-escape}, and \autoref{thm:binder-budget-seal-tastegate-carrier-grounding} bind the closed-term substitution boundary as finite NameCert obligation data on one carrier.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:binder-budget-seal-carrier}, \autoref{def:binder-budget-seal-obligation-surface}, \autoref{thm:binder-budget-seal-namecert-obligations}, \autoref{thm:binder-budget-seal-carrier-admission}, \autoref{thm:binder-budget-seal-compiler-boundary}, \autoref{thm:binder-budget-seal-non-escape}, and \autoref{thm:binder-budget-seal-tastegate-carrier-grounding} bridge the public packet through the same finite carrier-alignment route over binder depth, MetaCIC term, substitution payload, shift and substitution nonescape, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
-  \origin{ai}
-  \notclaimed{This chapter does not close a Lean implementation, bridge checking, full compiler closure, normalization, definitional equality, quotient syntax equality, or host soundness.}
-  \upgradepath{Obligation closure requires the chapter TasteGate grounding together with Lean encoding of the displayed carrier and checked theorems for carrier admission, compiler-boundary handoff, and non-escape on the same finite packet.}
+  \notclaimed{This chapter does not claim StdBridge checking, full compiler closure, normalization, definitional equality, quotient syntax equality, or host soundness.}
+  \upgradepath{Further verification work requires purity auditing and, separately, a StdBridge theorem for the same finite carrier-alignment route.}
 \end{closurestatus}

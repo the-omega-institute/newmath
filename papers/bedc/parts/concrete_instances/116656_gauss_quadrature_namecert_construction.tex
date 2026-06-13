@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\GaussQuadratureUp$}
+\label{ch:concrete-instances-gauss-quadrature-namecert}
+\origin{human}
+
+Following Gauss, Christoffel, and the classical numerical-analysis tradition of Gaussian quadrature, the $\GaussQuadratureUp$ packet records a finite node-weight rule as BEDC NameCert data rather than as a host integration theorem. It sits over the coefficient and degree surface of \autoref{ch:concrete-instances-polynomial-namecert}, the orthogonality ledger of \autoref{ch:concrete-instances-orthogonal-polynomial-namecert}, the tagged integral consumer route of \autoref{ch:concrete-instances-riemannintegral-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet gives downstream numerical-integration chapters a finite quadrature-rule certificate without importing measure-theoretic integration, spectral completeness, quotient polynomial equality, selected real roots, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Gauss quadrature carrier]
+\label{def:gauss-quadrature-carrier}
+A $\GaussQuadratureUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(P,O,N,W,E,R,D,H,C,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\PolynomialUp$ source row, carrying the finite coefficient ledger, degree bound, and polynomial evaluation interface inspected by the rule.
+\item $O$ is the $\OrthogonalPolynomialUp$ row, displaying the finite orthogonal-family window whose root and recurrence data determine the quadrature nodes.
+\item $N$ is the node ledger, listing the finitely many displayed real-name nodes and their attachment to the orthogonal-polynomial window.
+\item $W$ is the weight ledger, listing the displayed real-name weights and the finite positivity or nondegeneracy checks required by the rule.
+\item $E$ is the exactness ledger, displaying the polynomial-degree range for which the weighted node sum and the $\RiemannIntegralUp$ read agree.
+\item $R$ is the $\RiemannIntegralUp$ handoff row, exposing only the tagged integration route that may consume the exactness ledger.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and arithmetic row for finite comparisons of node positions, weights, and exactness residuals.
+\item $H$ records componentwise $\hsame$ transport for $P,O,N,W,E,R,D$ and the local naming data.
+\item $C$ records displayed $\Cont$ replay from the polynomial row through the orthogonal-polynomial row, node and weight ledgers, exactness ledger, integration handoff, and dyadic comparison row.
+\item $K$ is the combined $\Pkg$ provenance and local $\NameCert_{\GaussQuadratureUp}$ row over $\GaussQuadratureUp$, $\PolynomialUp$, $\OrthogonalPolynomialUp$, $\RiemannIntegralUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{enumerate}
+The classifier compares accepted packets only through $P,O,N,W,E,R,D,H,C,K$. It has no coordinate for a host measure space, selected real-root solver, spectral completeness theorem, quotient polynomial equality, analytic error estimate outside the displayed degree range, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Gauss quadrature NameCert obligations]
+\label{thm:gauss-quadrature-namecert-obligations}
+For every accepted $\GaussQuadratureUp$ carrier
+$$
+Q=(P,O,N,W,E,R,D,H,C,K),
+$$
+the local $\NameCert_{\GaussQuadratureUp}$ surface consists exactly of polynomial-source admission, orthogonal-polynomial window admission, finite node ledger admission, finite weight ledger admission, degree-exactness exposure, $\RiemannIntegralUp$ handoff, dyadic comparison replay, componentwise transport, displayed continuation replay, provenance, local naming, and non-escape from host measure spaces, selected root solvers, spectral completeness, quotient polynomial equality, undisplayed error estimates, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gauss-quadrature-carrier}. The only source rows are $P$ and $O$, so the quadrature rule starts from a displayed polynomial ledger and a displayed orthogonal-polynomial window.
+
+The finite quadrature data are $N$ and $W$. These rows list the nodes and weights as real-name entries tied to the same orthogonal-polynomial window, with $D$ supplying the dyadic comparisons used to inspect them.
+
+The exactness row $E$ is then the only route to integration-facing content. It compares the weighted node sum against the $\RiemannIntegralUp$ handoff row $R$ over the displayed polynomial-degree range.
+
+The structural rows $H,C,K$ transport, replay, source, and name this same finite route. Since no carrier coordinate stores a host measure space, a root-selection oracle, spectral completeness, quotient polynomial equality, undisplayed error estimates, or ambient real completeness, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Gauss quadrature node-weight ledger]
+\label{thm:gauss-quadrature-node-weight-ledger}
+Every $\RiemannIntegralUp$-facing consumer of an accepted $\GaussQuadratureUp$ packet must read the finite route
+$$
+\PolynomialUp \longmapsto \OrthogonalPolynomialUp \longmapsto (N,W) \longmapsto E \longmapsto \RiemannIntegralUp
+$$
+through the displayed rows $P,O,N,W,E,R,D,H,C,K$. The consumer may use the quadrature rule only after the node ledger, weight ledger, degree-exactness ledger, and dyadic comparison row have been displayed, and it receives no host measure, selected root solver, spectral completeness theorem, quotient polynomial equality, analytic error estimate outside the displayed degree range, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with an integration-facing read. The carrier first exposes $P$, the finite polynomial source row, and then $O$, the finite orthogonal-polynomial window that controls the rule.
+
+The node and weight information is available only as $N$ and $W$. The dyadic row $D$ supplies the finite comparisons for these displayed entries; it does not select roots or appeal to a complete real-root solver.
+
+The exactness ledger $E$ is downstream of $P,O,N,W,D$. Only after this ledger is present may the handoff row $R$ be read by a $\RiemannIntegralUp$ consumer.
+
+Transport and replay preserve the same row order through $H$ and $C$, and $K$ names the route as a local certificate. Thus the public quadrature read is a finite node-weight ledger, not a host integration or spectral-completeness principle.
+\end{proof}
+
+\closureat{GaussQuadratureUp}{seedStr}
+
+\begin{closurestatus}{\GaussQuadratureUp}
+  \constructivestory{A $\GaussQuadratureUp$ packet is generated from a PolynomialUp source row, an OrthogonalPolynomialUp finite window, displayed real-name node and weight ledgers, a degree-exactness ledger, a RiemannIntegralUp handoff row, DyadicRatCoreUp comparison data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gauss-quadrature-carrier}, \autoref{thm:gauss-quadrature-namecert-obligations}, and \autoref{thm:gauss-quadrature-node-weight-ledger} seed the finite quadrature-rule certificate over $\PolynomialUp$, $\OrthogonalPolynomialUp$, $\RiemannIntegralUp$, $\RealUp$, $\DyadicRatCoreUp$, and $\BHist$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host measure spaces, selected root solvers, spectral completeness, quotient polynomial equality, analytic error estimates outside the displayed exactness range, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, polynomial-source admission, orthogonal-polynomial window admission, node and weight ledger admission, degree-exactness exposure, RiemannIntegralUp handoff, dyadic comparison replay, transport, non-escape, and field faithfulness for BEDC.Derived.GaussQuadratureUp.}
+\end{closurestatus}

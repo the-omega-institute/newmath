@@ -70,13 +70,14 @@ Finally inspect $T,L,P,N$. These rows supply componentwise stability, replay, pr
 
 \closureat{RegistryConsistencyAuditUp}{seedStr}
 \closureat{RegistryConsistencyAuditUp}{obligationStr}
+\closureat{RegistryConsistencyAuditUp}{publicStr}
 
 \begin{closurestatus}{\RegistryConsistencyAuditUp}
   \constructivestory{A $\RegistryConsistencyAuditUp$ packet is generated from displayed registry, status, dependency, gap, cannot-claim, closure/formal-status, proof-trace, transport, replay, provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{def:registry-consistency-audit-carrier}, \autoref{thm:registry-consistency-audit-route}, \autoref{thm:registry-consistency-audit-namecert-obligations}, and the checked TasteGate marker at the carrier site bind the scoped carrier, route, and obligation evidence for registry-consistency audit packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close public export, bridge checking, Lean verification, or any registry repair route for $\RegistryConsistencyAuditUp$.}
-  \upgradepath{The next paper-side step is publicClosure via an exported registry-consistency theorem over the scoped audit packet.}
+  \notclaimed{This chapter does not close bridge checking, Lean verification, or any registry repair route for $\RegistryConsistencyAuditUp$.}
+  \upgradepath{Bridged closure requires a standard bridge over the same exported registry-consistency audit packet.}
 \end{closurestatus}

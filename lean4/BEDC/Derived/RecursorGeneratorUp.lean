@@ -533,4 +533,65 @@ theorem RecursorGeneratorCarrierSemanticNameCertificate [AskSetup] [PackageSetup
           provenance name),
       generatedUnary, closedUnary, publicUnary, cert⟩
 
+theorem RecursorGeneratorBridgeRouteStatus [AskSetup] [PackageSetup]
+    {signature eliminator branches audit metacic transport cont provenance name generatedRead
+      auditRead closedRead publicRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory eliminator → UnaryHistory branches → UnaryHistory audit →
+      UnaryHistory metacic → UnaryHistory name →
+        Cont eliminator branches generatedRead → Cont generatedRead audit auditRead →
+          Cont generatedRead metacic closedRead → Cont closedRead name publicRead →
+            Cont auditRead publicRead bridgeRead → PkgSig bundle provenance pkg →
+              PkgSig bundle bridgeRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row generatedRead ∨ hsame row auditRead ∨ hsame row closedRead ∨
+                        hsame row publicRead ∨ hsame row bridgeRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont eliminator branches generatedRead ∧
+                        Cont generatedRead audit auditRead ∧
+                          Cont generatedRead metacic closedRead ∧
+                            Cont closedRead name publicRead ∧
+                              Cont auditRead publicRead bridgeRead ∧
+                                PkgSig bundle provenance pkg ∧ PkgSig bundle bridgeRead pkg)
+                    hsame ∧
+                  UnaryHistory generatedRead ∧ UnaryHistory auditRead ∧
+                    UnaryHistory closedRead ∧ UnaryHistory publicRead ∧
+                      UnaryHistory bridgeRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro eliminatorUnary branchesUnary auditUnary metacicUnary nameUnary generatedRoute
+    auditRoute closedRoute publicRoute bridgeRoute provenancePkg bridgePkg
+  have generatedUnary : UnaryHistory generatedRead :=
+    unary_cont_closed eliminatorUnary branchesUnary generatedRoute
+  have auditReadUnary : UnaryHistory auditRead := unary_cont_closed generatedUnary auditUnary auditRoute
+  have closedReadUnary : UnaryHistory closedRead := unary_cont_closed generatedUnary metacicUnary closedRoute
+  have publicReadUnary : UnaryHistory publicRead := unary_cont_closed closedReadUnary nameUnary publicRoute
+  have bridgeReadUnary : UnaryHistory bridgeRead := unary_cont_closed auditReadUnary publicReadUnary bridgeRoute
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro bridgeRead ⟨hsame_refl bridgeRead, bridgeReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by intro _row _other sameRows; exact hsame_symm sameRows
+        equiv_trans := by intro _row _middle _other sameLeft sameRight; exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+      ledger_sound := by
+        intro _row source
+        exact
+          ⟨source.right, generatedRoute, auditRoute, closedRoute, publicRoute, bridgeRoute,
+            provenancePkg, bridgePkg⟩
+    }
+  · exact ⟨generatedUnary, auditReadUnary, closedReadUnary, publicReadUnary, bridgeReadUnary⟩
+
 end BEDC.Derived.RecursorGeneratorUp

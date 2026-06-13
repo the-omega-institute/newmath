@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\LocatedDyadicApproximationUp$}
+\label{ch:concrete-instances-located-dyadic-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located constructive reals, the $\LocatedDyadicApproximationUp$ packet records the finite route from displayed located real bounds to dyadic approximation windows before a $\RealUp$ consumer reads the result. It sits beside the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic precision ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the Archimedean dyadic approximation route of \autoref{ch:concrete-instances-archimedean-dyadic-approximation-namecert}. The chapter names a finite located approximation carrier; it does not quotient real names, choose limits, assert trichotomy, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[LocatedDyadicApproximation carrier]
+\label{def:located-dyadic-approximation-carrier}
+A $\LocatedDyadicApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+L=(R,S,Q,D,A,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the located $\RealUp$ bounds row, exposing lower and upper rational guards for the named real source before any dyadic window is read.
+\item $S$ is the $\StreamNameUp$ source row that records the finite stream-name schedule through which the located bounds are inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same source schedule.
+\item $D$ is the $\DyadicRatCoreUp$ precision row, recording the dyadic denominator and tolerance ledger used by the approximation request.
+\item $A$ is the $\ArchimedeanDyadicApproximationUp$ handoff row, displaying the bounded dyadic approximation discipline already licensed by the Archimedean route.
+\item $W$ is the approximation-window row, carrying the finite dyadic lower and upper endpoints visible to downstream consumers.
+\item $E$ is the $\RealUp$ seal for the same located source, available only after $R,S,Q,D,A,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the located bounds, stream schedule, regular rational readback, dyadic precision, Archimedean handoff, approximation window, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a located approximation request through $R,S,Q,D,A,W,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedDyadicApproximationUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\ArchimedeanDyadicApproximationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedDyadicApproximationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient reals, equality of real names outside the displayed seal, trichotomy, selected limits, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[LocatedDyadicApproximation NameCert obligations]
+\label{thm:located-dyadic-approximation-obligations}
+For every accepted $\LocatedDyadicApproximationUp$ carrier $L=(R,S,Q,D,A,W,E,H,C,P,N)$, the local $\NameCert_{\LocatedDyadicApproximationUp}$ surface consists exactly of carrier admission for the located bounds, stream source, regular rational readback, dyadic precision, Archimedean handoff, approximation window, real seal, transport, replay, provenance, and local naming rows; source exposure requiring $R,S,Q$ before any dyadic precision row is read; precision exposure requiring $D,A$ before $W$; real handoff exactness requiring $W$ before $E$; and ledger exhaustion excluding quotient reals, trichotomy, selected limits, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-dyadic-approximation-carrier}. The rows $R,S,Q,D,A,W,E,H,C,P,N$ are displayed as separate coordinates, so the located bounds, stream schedule, regular rational readback, dyadic precision, and approximation window cannot be hidden inside the terminal real seal.
+
+The source rows are read first. The located real bounds $R$ are inspected through the stream-name row $S$ and regular rational readback row $Q$, so the approximation request is tied to the displayed name rather than to a quotient real.
+
+Next read the dyadic precision and Archimedean handoff rows $D,A$. They license the finite approximation window $W$ before the Real seal $E$ can be consumed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no quotient-real coordinate, trichotomy row, selected-limit row, choice schedule, or ambient-completeness witness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located dyadic approximation real handoff]
+\label{thm:located-dyadic-approximation-real-handoff}
+Every $\RealUp$ consumer of an accepted $\LocatedDyadicApproximationUp$ packet receives the finite route
+$$
+R,S,Q,D,A,W \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer reads located real bounds, a stream-name schedule, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ precision row, an $\ArchimedeanDyadicApproximationUp$ handoff row, and a dyadic approximation window before the terminal $\RealUp$ seal. The handoff exports no quotient real, trichotomy principle, selected limit, countable-choice schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:located-dyadic-approximation-obligations}. Its source exposure, precision exposure, and real handoff exactness clauses force the route $R,S,Q,D,A,W,E$ before any real-facing read occurs.
+
+After the seal is read, the remaining rows are $H,C,P,N$. They preserve the same finite packet by componentwise transport, displayed replay, provenance, and local naming.
+
+Therefore a $\RealUp$ consumer receives exactly the displayed located-bounds-to-window route with the terminal seal and structural rows. Since quotient reals, trichotomy, selected limits, countable choice, and ambient completeness are absent from both the carrier and the obligation surface, the handoff cannot export them.
+\end{proof}
+
+\leanstmt{BEDC.Derived.LocatedDyadicApproximationUp.LocatedDyadicApproximationUp}
+
+\begin{closurestatus}{\LocatedDyadicApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-dyadic-approximation-carrier}, \autoref{thm:located-dyadic-approximation-obligations}, and \autoref{thm:located-dyadic-approximation-real-handoff} seed the finite route from located real bounds to dyadic approximation windows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.LocatedDyadicApproximationUp.LocatedDyadicApproximationUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, trichotomy, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located source exposure, regular rational readback, dyadic precision exposure, Archimedean handoff, approximation-window exactness, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.LocatedDyadicApproximationUp.}
+  \constructivestory{A $\LocatedDyadicApproximationUp$ packet is generated from located RealUp bounds, StreamName schedule rows, RegSeqRat readback rows, DyadicRatCore precision rows, an ArchimedeanDyadicApproximation handoff, a dyadic approximation window, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

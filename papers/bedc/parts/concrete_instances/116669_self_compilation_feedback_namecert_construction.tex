@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SelfCompilationFeedbackUp$}
+\label{ch:concrete-instances-self-compilation-feedback-namecert}
+\origin{ai}
+
+The $\SelfCompilationFeedbackUp$ packet realizes the ledgered-feedback branch of \autoref{sec:compiler-closure-ledgered-feedback} as finite NameCert data. It packages a compiler-closure source genome, an expressed compiler phenotype, a feedback event flow into a later accepted genome, a refusal boundary for unledgered edits, structural transport, replay, provenance, and local naming. The packet is not a host account of file editing or an unrestricted reflection principle; every accepted feedback read must expose the finite ledger rows before it can be treated as self-compilation.
+
+The packet consumes the compiler-closure self-compilation route of \autoref{ch:concrete-instances-compiler-closure-self-compilation-namecert}, the theorem-genome evolution route of \autoref{ch:concrete-instances-theorem-genome-evolution-namecert}, and the refusal boundary of \autoref{ch:concrete-instances-refutation-gate-namecert} before a feedback event can be public.
+
+\begin{definition}[SelfCompilationFeedback carrier]
+\label{def:self-compilation-feedback-carrier}
+A $\SelfCompilationFeedbackUp$ carrier is a finite $\BHist$ packet
+$$
+F=(G,M,E,L,A,R,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $G$ is the source genome-flow row.
+\item $M$ is the compiler-phenotype row expressed by the source genome.
+\item $E$ is the $\EventFlow$ row carrying the feedback from $M$ into a later genome flow.
+\item $L$ is the visible feedback ledger required by \autoref{def:compiler-closure-feedback-witness}.
+\item $A$ is the accepted-export row for the later genome flow.
+\item $R$ is the refusal boundary excluding unledgered feedback, external file edits, and unrestricted reflection.
+\item $H$ is componentwise $\hsame$ transport for $G,M,E,L,A,R$.
+\item $C$ is displayed $\Cont$ replay for the feedback route.
+\item $P$ is $\Pkg$ provenance over $\SelfCompilationFeedbackUp$, compiler closure, $\EventFlow$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SelfCompilationFeedbackUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[SelfCompilationFeedback ledger nonescape]
+\label{thm:self-compilation-feedback-ledger-nonescape}
+Every accepted $\SelfCompilationFeedbackUp$ read that claims compiler-closure feedback must pass through the displayed source genome row, compiler-phenotype row, feedback $\EventFlow$ row, visible ledger row, accepted-export row, refusal boundary, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. A consumer cannot replace those rows by an unledgered host edit, a detached theorem-generation trace, a hidden classifier change, an unrestricted reflection step, or a feedback object lacking local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:self-compilation-feedback-carrier}. The source genome, compiler phenotype, feedback event, visible ledger, accepted export, and refusal boundary are separate rows of the accepted packet.
+
+Use the feedback witness of \autoref{def:compiler-closure-feedback-witness}. It requires the feedback ledger to record the source genome carrier, compiler phenotype, behavior relation, target genome carrier, accepted-export route, naming obligations, closure-certificate obligations, and boundary excluding unrestricted reflection. The rows $G,M,E,L,A,R$ are exactly the finite surface on which those requirements are read.
+
+Finally repack through $H,C,P,N$. Componentwise transport and displayed replay preserve the same ledger route for consumers, provenance records its package boundary, and the local NameCert row names the accepted feedback carrier. Since the refused host edit, detached generation trace, hidden classifier change, unrestricted reflection step, and unnamed feedback object have no coordinate in the packet, they cannot escape the ledger boundary.
+\end{proof}
+
+\begin{theorem}[SelfCompilationFeedback closed-substitution route]
+\label{thm:self-compilation-feedback-closed-substitution-route}
+Every accepted $\SelfCompilationFeedbackUp$ read that later reaches a MetaCIC substitution consumer must first expose the source genome row, compiler-phenotype row, feedback $\EventFlow$ row, visible ledger row, accepted-export row, refusal boundary, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row of \autoref{def:self-compilation-feedback-carrier}. Only after those rows are displayed may the read pass through \autoref{ch:concrete-instances-closed-substitution-boundary-namecert} or \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert} and be consumed as closed-substitution feedback.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:self-compilation-feedback-carrier}. The feedback $\EventFlow$ row and the visible ledger row are separate coordinates, so a substitution-facing consumer cannot read feedback directly from a host compiler trace.
+
+Apply \autoref{thm:self-compilation-feedback-ledger-nonescape}. It forces every compiler-closure feedback claim through the source genome, compiler phenotype, feedback event, ledger, accepted export, refusal boundary, transport, replay, provenance, and local naming rows.
+
+The closed-substitution boundary chapters then supply the only listed MetaCIC substitution surfaces. Routing through one of those chapters preserves the same displayed feedback ledger before any closed-substitution read is public, and the packet exports no detached substitution feedback object.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SelfCompilationFeedbackUp$ self-compilation read exposes source genome, compiler phenotype, feedback $\EventFlow$, visible ledger, accepted export, refusal boundary, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any compiler-closure feedback claim is public.}
+
+\independenceWitness{compiler-closure-self-compilation, theorem-genome-evolution, automated-theory-discovery-pipeline-calculus, refutation-gate, namecert: no listed sibling is bijective with $\SelfCompilationFeedbackUp$ because this packet jointly carries a compiler-phenotype row, feedback $\EventFlow$ row, visible feedback ledger, accepted-export row, refusal boundary, transport, replay, provenance, and local NameCert data.}
+
+The Lean TasteGate surface for this packet must provide explicit $\Nontrivial\ \SelfCompilationFeedbackUp$ and $\FieldFaithful\ \SelfCompilationFeedbackUp$ instances in \texttt{lean4/BEDC/Derived/SelfCompilationFeedbackUp/TasteGate.lean}. Those instances must keep $G,M,E,L,A,R,H,C,P,N$ as distinct fields before any checked carrier-alignment theorem can serve as a public TasteGate realization.
+
+\closureat{SelfCompilationFeedbackUp}{seedStr}
+
+\begin{closurestatus}{\SelfCompilationFeedbackUp}
+  \constructivestory{A $\SelfCompilationFeedbackUp$ packet is generated from source genome-flow, compiler-phenotype, feedback EventFlow, visible ledger, accepted-export, refusal-boundary, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:self-compilation-feedback-carrier} and \autoref{thm:self-compilation-feedback-ledger-nonescape} seed the finite feedback-ledger carrier for compiler-closure self-compilation reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted reflection, hidden feedback, external file-edit self-compilation, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, ledger nonescape, accepted-export routing, refusal-boundary preservation, transport, replay, provenance, local naming, and TasteGate instances for BEDC.Derived.SelfCompilationFeedbackUp.}
+\end{closurestatus}

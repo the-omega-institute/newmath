@@ -1,0 +1,340 @@
+{
+  "blocked_promotions": [
+    {
+      "blocked": true,
+      "name": "identity",
+      "reason": "No higher-layer reality contact is supplied by this clock-coordinate leave-out."
+    },
+    {
+      "blocked": true,
+      "name": "function",
+      "reason": "No higher-layer reality contact is supplied by this clock-coordinate leave-out."
+    },
+    {
+      "blocked": true,
+      "name": "safety",
+      "reason": "No higher-layer reality contact is supplied by this clock-coordinate leave-out."
+    },
+    {
+      "blocked": true,
+      "name": "rejuvenation",
+      "reason": "No higher-layer reality contact is supplied by this clock-coordinate leave-out."
+    },
+    {
+      "blocked": true,
+      "name": "maintenance",
+      "reason": "No higher-layer reality contact is supplied by this clock-coordinate leave-out."
+    },
+    {
+      "blocked": true,
+      "name": "immortality",
+      "reason": "No higher-layer reality contact is supplied by this clock-coordinate leave-out."
+    }
+  ],
+  "cannot_claim": [
+    "This is an age_signature-layer clock-internal leave-out control.",
+    "It does not establish an external biological mechanism or biological rejuvenation.",
+    "It does not establish identity, function, safety, rejuvenation, maintenance, or immortality."
+  ],
+  "checks": [
+    {
+      "name": "input.available",
+      "passed": true,
+      "reason": "Curated GSE165180 Horvath353 timecourse input must be present locally.",
+      "value": {
+        "data_path": "tools/cellstate_reality/data/gse165180_horvath353_timecourse_inputs.json"
+      }
+    },
+    {
+      "name": "top20.selected",
+      "passed": true,
+      "reason": "Exactly the fixed top-20 day17-vs-day10 reversal-driver CpGs must be selected.",
+      "value": {
+        "observed": 20,
+        "top_k": 20
+      }
+    },
+    {
+      "name": "leaveout.coverage",
+      "passed": true,
+      "reason": "After removing top-20, the remaining covered coordinate count must be 314.",
+      "value": {
+        "declared_covered": 334,
+        "remaining": 314
+      }
+    },
+    {
+      "name": "reversal.leaveout.response",
+      "passed": true,
+      "reason": "Removing the top-20 reversal drivers must eliminate or strongly attenuate the day17 positive z-space reversal.",
+      "value": {
+        "attenuation": 0.9305613683018075,
+        "attenuation_ratio": 2.9609956063077236,
+        "full_day17_z": 0.3142731337795502,
+        "leaveout_day17_z": -0.6162882345222572
+      }
+    },
+    {
+      "name": "age-signature-only.boundary",
+      "passed": true,
+      "reason": "The leave-out is a clock-internal age_signature mechanism control only.",
+      "value": {
+        "blocked_promotions": [
+          "identity",
+          "function",
+          "safety",
+          "rejuvenation",
+          "maintenance",
+          "immortality"
+        ]
+      }
+    }
+  ],
+  "claim_id": "cellstate.age-clock-shift.reversal-leave-top20-out.gse165180",
+  "completed_at": "2026-06-11T06:39:43+00:00",
+  "conjecture_id": "age-clock-shift.reversal-leave-top20-out.gse165180",
+  "contact_id": "k-a.gse165180.horvath353",
+  "covered_cpg_after_leaveout": 314,
+  "covered_cpg_full": 334,
+  "data_path": "tools/cellstate_reality/data/gse165180_horvath353_timecourse_inputs.json",
+  "day17_attenuation": 0.9305613683018075,
+  "day17_attenuation_ratio": 2.9609956063077236,
+  "experiment_id": "gse165180_reversal_leave_top20_out",
+  "full_day17_z": 0.3142731337795502,
+  "layer": "age_signature",
+  "leaveout_day17_z": -0.6162882345222572,
+  "per_timepoint_full": [
+    {
+      "covered_cpg_after_leaveout": 334,
+      "day": 10,
+      "donor_day_count": 3,
+      "mean_delta_z": -0.39309546744893226,
+      "negative_donor_day_count": 2,
+      "positive_donor_day_count": 1
+    },
+    {
+      "covered_cpg_after_leaveout": 334,
+      "day": 13,
+      "donor_day_count": 2,
+      "mean_delta_z": -0.6719706619381582,
+      "negative_donor_day_count": 2,
+      "positive_donor_day_count": 0
+    },
+    {
+      "covered_cpg_after_leaveout": 334,
+      "day": 15,
+      "donor_day_count": 1,
+      "mean_delta_z": 0.04010460740904985,
+      "negative_donor_day_count": 0,
+      "positive_donor_day_count": 1
+    },
+    {
+      "covered_cpg_after_leaveout": 334,
+      "day": 17,
+      "donor_day_count": 3,
+      "mean_delta_z": 0.3142731337795502,
+      "negative_donor_day_count": 0,
+      "positive_donor_day_count": 3
+    }
+  ],
+  "per_timepoint_leaveout": [
+    {
+      "covered_cpg_after_leaveout": 314,
+      "day": 10,
+      "donor_day_count": 3,
+      "mean_delta_z": 0.49315308487211235,
+      "negative_donor_day_count": 1,
+      "positive_donor_day_count": 2
+    },
+    {
+      "covered_cpg_after_leaveout": 314,
+      "day": 13,
+      "donor_day_count": 2,
+      "mean_delta_z": -0.122647562757311,
+      "negative_donor_day_count": 2,
+      "positive_donor_day_count": 0
+    },
+    {
+      "covered_cpg_after_leaveout": 314,
+      "day": 15,
+      "donor_day_count": 1,
+      "mean_delta_z": 0.26645050250441993,
+      "negative_donor_day_count": 0,
+      "positive_donor_day_count": 1
+    },
+    {
+      "covered_cpg_after_leaveout": 314,
+      "day": 17,
+      "donor_day_count": 3,
+      "mean_delta_z": -0.6162882345222572,
+      "negative_donor_day_count": 3,
+      "positive_donor_day_count": 0
+    }
+  ],
+  "reversal_removed_by_leaveout": true,
+  "started_at": "2026-06-11T06:39:43+00:00",
+  "status": "passed",
+  "top20_contribution": 0.9305613683018077,
+  "top20_reversal_cpg": [
+    {
+      "cg": "cg06144905",
+      "contrib_day10": -0.29677583789015916,
+      "contrib_day17": 0.012294516471500221,
+      "delta_contrib_day17_minus_day10": 0.30907035436165936,
+      "rank": 1,
+      "weight": 0.597211279
+    },
+    {
+      "cg": "cg07388493",
+      "contrib_day10": -0.0809321497650203,
+      "contrib_day17": 0.12979001788531966,
+      "delta_contrib_day17_minus_day10": 0.21072216765033996,
+      "rank": 2,
+      "weight": -0.520727113
+    },
+    {
+      "cg": "cg10281002",
+      "contrib_day10": 0.021942563483619747,
+      "contrib_day17": 0.18514212331898608,
+      "delta_contrib_day17_minus_day10": 0.16319955983536633,
+      "rank": 3,
+      "weight": 0.468416918
+    },
+    {
+      "cg": "cg02580606",
+      "contrib_day10": -0.08471085408016156,
+      "contrib_day17": 0.04305843672705571,
+      "delta_contrib_day17_minus_day10": 0.12776929080721727,
+      "rank": 4,
+      "weight": 0.349274493
+    },
+    {
+      "cg": "cg09722555",
+      "contrib_day10": 0.028301646574718023,
+      "contrib_day17": 0.1205296290647808,
+      "delta_contrib_day17_minus_day10": 0.09222798249006278,
+      "rank": 5,
+      "weight": -0.346465927
+    },
+    {
+      "cg": "cg04268405",
+      "contrib_day10": -0.18021060085652413,
+      "contrib_day17": -0.09303113969423825,
+      "delta_contrib_day17_minus_day10": 0.08717946116228588,
+      "rank": 6,
+      "weight": -0.416694314
+    },
+    {
+      "cg": "cg13460409",
+      "contrib_day10": -0.040682138819932594,
+      "contrib_day17": 0.043232382729862046,
+      "delta_contrib_day17_minus_day10": 0.08391452154979465,
+      "rank": 7,
+      "weight": 0.412023313
+    },
+    {
+      "cg": "cg02388150",
+      "contrib_day10": -0.021026226788252615,
+      "contrib_day17": 0.06005664588271622,
+      "delta_contrib_day17_minus_day10": 0.08108287267096884,
+      "rank": 8,
+      "weight": 0.425971257
+    },
+    {
+      "cg": "cg07158339",
+      "contrib_day10": -0.03966999622846947,
+      "contrib_day17": 0.037807511764976105,
+      "delta_contrib_day17_minus_day10": 0.07747750799344558,
+      "rank": 9,
+      "weight": -0.626329239
+    },
+    {
+      "cg": "cg13828047",
+      "contrib_day10": -0.02265580202695181,
+      "contrib_day17": 0.05186280286824187,
+      "delta_contrib_day17_minus_day10": 0.07451860489519369,
+      "rank": 10,
+      "weight": -0.448971744
+    },
+    {
+      "cg": "cg18984151",
+      "contrib_day10": 0.04511035450355301,
+      "contrib_day17": 0.11474784613537045,
+      "delta_contrib_day17_minus_day10": 0.06963749163181744,
+      "rank": 11,
+      "weight": 0.315009523
+    },
+    {
+      "cg": "cg24899750",
+      "contrib_day10": 0.019333697306226697,
+      "contrib_day17": 0.08026437159045442,
+      "delta_contrib_day17_minus_day10": 0.06093067428422773,
+      "rank": 12,
+      "weight": -0.307424926
+    },
+    {
+      "cg": "cg18328933",
+      "contrib_day10": -0.06350808354451497,
+      "contrib_day17": -0.007007229103633864,
+      "delta_contrib_day17_minus_day10": 0.056500854440881106,
+      "rank": 13,
+      "weight": -0.37048069
+    },
+    {
+      "cg": "cg03588357",
+      "contrib_day10": 0.0025923188345917687,
+      "contrib_day17": 0.05749745356995064,
+      "delta_contrib_day17_minus_day10": 0.05490513473535887,
+      "rank": 14,
+      "weight": -0.858843002
+    },
+    {
+      "cg": "cg13975369",
+      "contrib_day10": -0.027971643518519444,
+      "contrib_day17": 0.02509728314322284,
+      "delta_contrib_day17_minus_day10": 0.05306892666174229,
+      "rank": 15,
+      "weight": 0.378716214
+    },
+    {
+      "cg": "cg11932564",
+      "contrib_day10": 0.0066297237525631955,
+      "contrib_day17": 0.054117947452155174,
+      "delta_contrib_day17_minus_day10": 0.04748822369959198,
+      "rank": 16,
+      "weight": 0.700001079
+    },
+    {
+      "cg": "cg19761273",
+      "contrib_day10": -0.05311628346585055,
+      "contrib_day17": -0.009828894887124831,
+      "delta_contrib_day17_minus_day10": 0.04328738857872572,
+      "rank": 17,
+      "weight": -0.88692879
+    },
+    {
+      "cg": "cg19722847",
+      "contrib_day10": -0.06564515332117163,
+      "contrib_day17": -0.023543439210509044,
+      "delta_contrib_day17_minus_day10": 0.04210171411066259,
+      "rank": 18,
+      "weight": -0.452037396
+    },
+    {
+      "cg": "cg12830694",
+      "contrib_day10": -0.03558815028627902,
+      "contrib_day17": 0.006290291672231454,
+      "delta_contrib_day17_minus_day10": 0.041878441958510475,
+      "rank": 19,
+      "weight": 0.339726781
+    },
+    {
+      "cg": "cg26045434",
+      "contrib_day10": 0.0023340638154899767,
+      "contrib_day17": 0.04218281092048997,
+      "delta_contrib_day17_minus_day10": 0.03984874710499999,
+      "rank": 20,
+      "weight": -0.296285378
+    }
+  ]
+}

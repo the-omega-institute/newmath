@@ -322,5 +322,181 @@ theorem RealNameClassifierWindowCoverage [AskSetup] [PackageSetup]
     ⟨cert, toleranceAUnaryFromWindow, toleranceBUnary, classifierUnary, readbackBUnary,
       localNameUnary⟩
 
+theorem RealNameClassifierCommonWindowCauchyCompletionHandoff [AskSetup] [PackageSetup]
+    {source stream rat dyadic tolerance refinement sealRow transport replay provenance
+      localName completionRead completionSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealNameClassifierUp source stream rat dyadic tolerance refinement sealRow transport replay
+        provenance localName bundle pkg →
+      Cont tolerance sealRow completionRead →
+        Cont completionRead localName completionSeal →
+          PkgSig bundle completionSeal pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row completionSeal ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row stream ∨ hsame row dyadic ∨ hsame row tolerance ∨
+                    hsame row completionRead ∨ hsame row completionSeal)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont tolerance sealRow completionRead ∧
+                    Cont completionRead localName completionSeal ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle completionSeal pkg)
+                hsame ∧ UnaryHistory completionRead ∧ UnaryHistory completionSeal := by
+  -- BEDC touchpoint anchor: RealNameClassifierUp BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier completionReadRoute completionSealRoute completionSealPkg
+  obtain ⟨_sourceUnary, _streamUnary, _ratUnary, _dyadicUnary, toleranceUnary,
+    _refinementUnary, sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    localNameUnary, _sourceStreamReplay, _ratDyadicTolerance, _toleranceRefinementSeal,
+    _transportReplay, provenancePkg, _localNamePkg⟩ := carrier
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed toleranceUnary sealUnary completionReadRoute
+  have completionSealUnary : UnaryHistory completionSeal :=
+    unary_cont_closed completionReadUnary localNameUnary completionSealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row completionSeal ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row stream ∨ hsame row dyadic ∨ hsame row tolerance ∨
+              hsame row completionRead ∨ hsame row completionSeal)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont tolerance sealRow completionRead ∧
+              Cont completionRead localName completionSeal ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle completionSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro completionSeal ⟨hsame_refl completionSeal, completionSealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceData
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceData.left,
+            unary_transport sourceData.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceData
+      exact Or.inr (Or.inr (Or.inr (Or.inr sourceData.left)))
+    ledger_sound := by
+      intro _row sourceData
+      exact
+        ⟨sourceData.right, completionReadRoute, completionSealRoute, provenancePkg,
+          completionSealPkg⟩
+  }
+  exact ⟨cert, completionReadUnary, completionSealUnary⟩
+
+theorem RealNameClassifierCauchyCompletionHandoff [AskSetup] [PackageSetup]
+    {sourceA sourceB commonWindow dyadicA dyadicB toleranceA toleranceB classifierRead
+      readbackA readbackB sealRead transport replay provenance localName completionSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealNameClassifierUp sourceA commonWindow dyadicA dyadicB toleranceA readbackA sealRead
+        transport replay provenance localName bundle pkg →
+      Cont commonWindow dyadicA toleranceA →
+        Cont commonWindow dyadicB toleranceB →
+          Cont toleranceA toleranceB classifierRead →
+            Cont classifierRead readbackA readbackB →
+              Cont readbackB sealRead localName →
+                Cont localName sealRead completionSeal →
+                  PkgSig bundle completionSeal pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row completionSeal ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row commonWindow ∨ hsame row dyadicA ∨
+                            hsame row dyadicB ∨ hsame row toleranceA ∨
+                              hsame row toleranceB ∨ hsame row classifierRead ∨
+                                hsame row readbackB ∨ hsame row localName ∨
+                                  hsame row completionSeal)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont commonWindow dyadicA toleranceA ∧
+                            Cont commonWindow dyadicB toleranceB ∧
+                              Cont toleranceA toleranceB classifierRead ∧
+                                Cont classifierRead readbackA readbackB ∧
+                                  Cont readbackB sealRead localName ∧
+                                    Cont localName sealRead completionSeal ∧
+                                      PkgSig bundle completionSeal pkg)
+                        hsame ∧ UnaryHistory toleranceA ∧ UnaryHistory toleranceB ∧
+                      UnaryHistory classifierRead ∧ UnaryHistory readbackB ∧
+                        UnaryHistory localName ∧ UnaryHistory completionSeal := by
+  -- BEDC touchpoint anchor: RealNameClassifierUp BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier toleranceARoute toleranceBRoute classifierRoute readbackRoute sealRoute
+    completionRoute completionPkg
+  have _sourceBReflexive : hsame sourceB sourceB := hsame_refl sourceB
+  obtain ⟨_sourceUnary, commonWindowUnary, dyadicAUnary, dyadicBUnary, _toleranceAUnary,
+    readbackAUnary, sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _sourceWindowReplay, _dyadicToleranceRoute, _toleranceReadbackSeal,
+    _transportReplay, _provenancePkg, _carrierLocalPkg⟩ := carrier
+  have toleranceAUnaryFromWindow : UnaryHistory toleranceA :=
+    unary_cont_closed commonWindowUnary dyadicAUnary toleranceARoute
+  have toleranceBUnary : UnaryHistory toleranceB :=
+    unary_cont_closed commonWindowUnary dyadicBUnary toleranceBRoute
+  have classifierUnary : UnaryHistory classifierRead :=
+    unary_cont_closed toleranceAUnaryFromWindow toleranceBUnary classifierRoute
+  have readbackBUnary : UnaryHistory readbackB :=
+    unary_cont_closed classifierUnary readbackAUnary readbackRoute
+  have localNameUnary : UnaryHistory localName :=
+    unary_cont_closed readbackBUnary sealUnary sealRoute
+  have completionUnary : UnaryHistory completionSeal :=
+    unary_cont_closed localNameUnary sealUnary completionRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row completionSeal ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row commonWindow ∨ hsame row dyadicA ∨ hsame row dyadicB ∨
+              hsame row toleranceA ∨ hsame row toleranceB ∨ hsame row classifierRead ∨
+                hsame row readbackB ∨ hsame row localName ∨ hsame row completionSeal)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont commonWindow dyadicA toleranceA ∧
+              Cont commonWindow dyadicB toleranceB ∧
+                Cont toleranceA toleranceB classifierRead ∧
+                  Cont classifierRead readbackA readbackB ∧
+                    Cont readbackB sealRead localName ∧
+                      Cont localName sealRead completionSeal ∧
+                        PkgSig bundle completionSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro completionSeal ⟨hsame_refl completionSeal, completionUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, toleranceARoute, toleranceBRoute, classifierRoute, readbackRoute,
+          sealRoute, completionRoute, completionPkg⟩
+  }
+  exact
+    ⟨cert, toleranceAUnaryFromWindow, toleranceBUnary, classifierUnary, readbackBUnary,
+      localNameUnary, completionUnary⟩
+
 end RealNameClassifierUp
 end BEDC.Derived

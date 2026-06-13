@@ -92,4 +92,48 @@ theorem SchurOrthogonalityCharacterPairingRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, pairingReadUnary, orthogonalityReadUnary, exportReadUnary⟩
 
+theorem SchurOrthogonalityCharacterPairingRoute_withLocalNameCert [AskSetup] [PackageSetup]
+    {group vec character pairing orthogonality transport replay provenance localName pairingRead
+      orthogonalityRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SchurOrthogonalityCarrier group vec character pairing orthogonality transport replay
+        provenance localName bundle pkg →
+      Cont character pairing pairingRead →
+        Cont pairingRead orthogonality orthogonalityRead →
+          Cont orthogonalityRead localName exportRead →
+            PkgSig bundle exportRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    SchurOrthogonalityCarrier group vec character pairing orthogonality transport
+                        replay provenance localName bundle pkg ∧ hsame row localName)
+                  (fun row : BHist =>
+                    hsame row group ∨ hsame row vec ∨ hsame row character ∨
+                      hsame row pairing ∨ hsame row orthogonality ∨ hsame row localName)
+                  (fun row : BHist => UnaryHistory row ∧ PkgSig bundle localName pkg)
+                  hsame ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row group ∨ hsame row vec ∨ hsame row character ∨
+                      hsame row pairing ∨ hsame row orthogonality ∨ hsame row pairingRead ∨
+                        hsame row orthogonalityRead ∨ hsame row exportRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont character pairing pairingRead ∧
+                      Cont pairingRead orthogonality orthogonalityRead ∧
+                        Cont orthogonalityRead localName exportRead ∧
+                          PkgSig bundle exportRead pkg)
+                  hsame ∧
+                UnaryHistory pairingRead ∧ UnaryHistory orthogonalityRead ∧
+                  UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: SchurOrthogonalityCarrier SemanticNameCert Cont PkgSig
+  intro carrier pairingRoute orthogonalityRoute exportRoute exportPkg
+  have localCert :=
+    SchurOrthogonalityCarrier_namecert_obligations carrier
+  have exportedRoute :=
+    SchurOrthogonalityCharacterPairingRoute carrier pairingRoute orthogonalityRoute exportRoute
+      exportPkg
+  exact
+    ⟨localCert, exportedRoute.1, exportedRoute.2.1, exportedRoute.2.2.1,
+      exportedRoute.2.2.2⟩
+
 end BEDC.Derived.SchurOrthogonalityUp

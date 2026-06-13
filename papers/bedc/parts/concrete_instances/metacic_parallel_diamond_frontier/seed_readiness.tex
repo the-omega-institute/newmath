@@ -1,0 +1,47 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier seed readiness]
+\label{thm:metacic-parallel-diamond-frontier-seed-readiness}
+Every candidate-mediated parallel-diamond read from an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose both residual branches, the common join candidate, the normalization-confluence handoff row, and the MetaCIC critical-path readback socket before any confluence-frontier claim is available. In carrier notation the readiness route keeps $P,K,J,R,S,C,B,O,H,T,G,N$ visible: $K$ records the two residual branches, $J$ records the common join candidate, $C$ and $B$ route the normalization-confluence handoff consumed by \autoref{ch:concrete-instances-metacic-normalization-confluence-bridge-namecert}, and the critical-path socket of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} reads $P,R,O$ as retained boundary data. The theorem is a finite route projection, not a normalization theorem, a strong-normalization theorem, an unrestricted confluence theorem, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the frontier carrier from \autoref{def:metacic-parallel-diamond-frontier-carrier}. The branch and candidate data are visible only through the critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, and obstruction row $O$, with the structural rows attached.
+
+Use the existing confluence handoff route in the chapter. It keeps the local diamond conditional on the residual-substitution premise and routes the closed-normal and bounded-check rows through the normalization-confluence bridge rather than treating them as a global normalization proof.
+
+Finally read the MetaCIC critical-path packet as a socket boundary. The critical-path consumer receives the residual premise, residual windows, and obstruction rows as readback data, so the seed-readiness route exposes the two branches and common join candidate without discharging normalization, subject reduction, unrestricted confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond public seed readiness]
+\label{thm:metacic-parallel-diamond-frontier-public-seed-readiness}
+Every public seed read of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose the full route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+before any confluence-audit or normalization consumer can inspect the handoff. In particular, the residual-substitution premise row $P$ and obstruction row $O$ remain visible together with the critical-pair, candidate-join, residual-frontier, closed-checker, closed-normal, bounded-check, transport, replay, provenance, and local naming rows. The public seed read is therefore a retained-premise frontier, not full confluence, subject reduction, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness}. It already exposes the two residual branches, the candidate join, and the critical-path readback socket before any frontier claim can be consumed.
+
+Next apply the obligation and route surfaces, \autoref{thm:metacic-parallel-diamond-frontier-obligations} and \autoref{thm:metacic-parallel-diamond-frontier-route}. These force the public read through the rows $P,K,J,R,S,C,B,O,H,T,G,N$ rather than through a detached confluence theorem.
+
+Use the premise-retention and obstruction ledgers already present in the chapter, including \autoref{thm:metacic-parallel-diamond-frontier-premise-preservation} and \autoref{thm:metacic-parallel-diamond-frontier-residual-obstruction-ledger}. They keep $P$ and $O$ visible before confluence-audit or normalization consumers inspect the candidate-mediated handoff.
+
+Finally compose with the critical-path sibling route. The downstream consumer receives only the finite seed-readiness spine, so the packet does not discharge residual substitution, prove subject reduction, establish unrestricted confluence, identify evaluator or quotient equality, prove global normalization, or certify kernel consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond critical-path retained-premise handoff]
+\label{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff}
+Any critical-path consumer reading the candidate-mediated local diamond row of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must keep the residual-substitution premise $P$ and the obstruction row $O$ visible throughout the full route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The packet may be passed to $\MetaCICCriticalPathUp$, $\MetaCICConfluenceAuditPacketUp$, and the normalization-confluence bridge of \autoref{ch:concrete-instances-metacic-normalization-confluence-bridge-namecert} only as retained frontier evidence. It is not a proof of subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, residual-substitution discharge, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start from public seed readiness, \autoref{thm:metacic-parallel-diamond-frontier-public-seed-readiness}. It forces any public read of the frontier through the full route $P,K,J,R,S,C,B,O,H,T,G,N$ before a confluence-audit or normalization consumer may inspect the handoff.
+
+Use the seed-readiness route \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness}. The candidate-mediated local diamond exposes the residual branches, common join candidate, normalization-confluence handoff row, and critical-path readback socket, while leaving the residual-substitution premise as retained boundary data.
+
+Apply the premise preservation and critical-path consumer routes already named in the chapter, including \autoref{thm:metacic-parallel-diamond-frontier-premise-preservation} and \autoref{thm:metacic-parallel-diamond-frontier-critical-path-consumer-route}. These keep $P$ and $O$ visible when the handoff is read by $\MetaCICCriticalPathUp$, $\MetaCICConfluenceAuditPacketUp$, or the normalization-confluence bridge.
+
+The obstruction row then blocks endpoint promotion. Since $O$ remains part of the exported frontier evidence, the consumer cannot reinterpret the handoff as subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, residual-substitution discharge, or kernel consistency.
+\end{proof}
