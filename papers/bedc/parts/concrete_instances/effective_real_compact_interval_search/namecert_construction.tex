@@ -92,11 +92,25 @@ Apply \autoref{thm:effective-real-compact-interval-search-bisection-induction}. 
 Apply \autoref{thm:effective-real-compact-interval-search-extreme-value-handoff}. The final route reads $B,V,H,C,Q,N$ after the finite-net source rows, so the exported extreme-value handoff is a finite search certificate rather than an open-cover compactness, supremum-selection, trichotomy, quotient-equality, or completeness principle.
 \end{proof}
 
+\begin{theorem}[Effective real compact interval search inverse modulus bisection]
+\label{thm:effective-real-compact-interval-search-dyadic-bisection-inverse-modulus}
+For an accepted $\EffectiveRealCompactIntervalSearchUp$ carrier $S=(I,F,U,P,B,V,H,C,Q,N)$, a displayed $\UniformModulusUp$ tolerance row $U$ and a $\CompactNetModulusSelectorUp$ finite-net row $P$ determine a finite bisection depth in $B$ whose dyadic cell diameter is below the requested tolerance. The depth is read only through $P,B,V,H,C,Q,N$: the value ledger $V$ attaches comparisons to cells at that depth, $H$ transports the same cells under $\hsame$, $C$ replays the finite request, and $Q,N$ package and name the route. The construction exports no open-cover compactness proof, no host maximum, no quotient equality of functions, no trichotomy on $\RealUp$ values, and no ambient $\RealUp$ completeness assertion.
+\end{theorem}
+\begin{proof}
+Project the accepted search carrier. The uniform-modulus row $U$ supplies the requested tolerance, while the selector row $P$ displays the finite mesh data that the search is allowed to refine.
+
+Apply \autoref{thm:effective-real-compact-interval-search-bisection-induction}. Each step of $B$ replaces a displayed cell by named dyadic halves, so repeated refinement gives a finite depth at which the visible cell diameter is below the tolerance requested by $U$.
+
+Apply \autoref{thm:effective-real-compact-interval-search-net-handoff}. The finite-net row $P$ remains the source of the cells refined by $B$, and the value ledger $V$ records only comparisons attached to those cells.
+
+Finally $H,C,Q,N$ transport, replay, source, and name the same finite depth-control route. Because the carrier has no open-cover compactness coordinate, host maximum selector, quotient function equality coordinate, trichotomy oracle, or ambient completeness row, the inverse-modulus read remains finite interval-search data.
+\end{proof}
+
 \closureat{EffectiveRealCompactIntervalSearchUp}{seedStr}
 
 \begin{closurestatus}{\EffectiveRealCompactIntervalSearchUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:effective-real-compact-interval-search-carrier}, \autoref{thm:effective-real-compact-interval-search-namecert-obligations}, \autoref{thm:effective-real-compact-interval-search-bisection-induction}, \autoref{thm:effective-real-compact-interval-search-extreme-value-handoff}, and \autoref{thm:effective-real-compact-interval-search-net-handoff} seed the finite interval-search carrier from displayed Real, closed-bounded-interval, compact-net-selector, continuous-map, finite-net, and uniform-modulus rows to extremum-facing bracket handoffs.}
+  \scopeclosed{\autoref{def:effective-real-compact-interval-search-carrier}, \autoref{thm:effective-real-compact-interval-search-namecert-obligations}, \autoref{thm:effective-real-compact-interval-search-bisection-induction}, \autoref{thm:effective-real-compact-interval-search-extreme-value-handoff}, \autoref{thm:effective-real-compact-interval-search-net-handoff}, and \autoref{thm:effective-real-compact-interval-search-dyadic-bisection-inverse-modulus} seed the finite interval-search carrier from displayed Real, closed-bounded-interval, compact-net-selector, continuous-map, finite-net, and uniform-modulus rows to extremum-facing bracket and depth-control handoffs.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close classical Heine--Borel compactness, selected host maxima or minima, quotient equality of functions, global real trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
