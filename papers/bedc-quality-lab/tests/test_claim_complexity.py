@@ -15,13 +15,33 @@ from bedc_quality_lab.claim_complexity import (
     validate_claim_complexity_payload,
 )
 from bedc_quality_lab import claim_complexity
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
 from scripts import run_claim_complexity_score
 
 
 def _write_json(path, payload):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _anti_triviality_contract(level):
+    return {
+        "anti_triviality_status": "pass",
+        "owner_contract": {
+            "scale_only": {"status": "present"},
+            "metadata_only": {"status": "present"},
+            "matched_random": {"status": "present"},
+            "forbidden_column": {"status": "present"},
+        },
+    } | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.owner_contract.scale_only",
+        metadata_only_pointer="$.owner_contract.metadata_only",
+        matched_random_pointer="$.owner_contract.matched_random",
+        forbidden_column_pointer="$.owner_contract.forbidden_column",
+    )
 
 
 def _fixture_root(tmp_path, *, level="D5-M", include_verdict=True):
@@ -37,8 +57,12 @@ def _fixture_root(tmp_path, *, level="D5-M", include_verdict=True):
                     "markdown_artifact": "reports/canonical/demo.md",
                     "discovery_level": level,
                     "projection_status": "projected",
+                    "audit_status": "valid",
+                    "audit_reason": "",
                     "classifier_reasons": ["fixture"],
                     "evidence_pointer": "$.positive_claim",
+                    "evidence_type": "deterministic_projection",
+                    "evidence_provenance_pointer": evidence_provenance_pointer_for_report("demo"),
                     "control_pointer": "$.control",
                     "adversarial_pointer": "reports/canonical/witnesses.json:$.witnesses",
                     "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
@@ -46,7 +70,7 @@ def _fixture_root(tmp_path, *, level="D5-M", include_verdict=True):
             ]
         },
     )
-    _write_json(canonical / "demo.json", {"positive_claim": True, "control": {"status": "pass"}})
+    _write_json(canonical / "demo.json", {"positive_claim": True, "control": {"status": "pass"}} | _anti_triviality_contract(level))
     _write_json(canonical / "witnesses.json", {"witnesses": []})
     if include_verdict:
         (canonical / "claim_verdicts.jsonl").write_text(
@@ -284,6 +308,34 @@ def test_claim_complexity_missing_verdict_ref_fails_closed(tmp_path):
     root = _fixture_root(tmp_path, include_verdict=False)
 
     with pytest.raises(ValueError, match="claim verdict ref missing"):
+        build_claim_complexity_payload(root, "fixture-time")
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda row: row.pop("evidence_type"), "requires owner evidence_type"),
+        (lambda row: row.update({"evidence_type": None}), "requires owner evidence_type"),
+        (
+            lambda row: row.update(
+                {
+                    "evidence_provenance_pointer": (
+                        "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing"
+                    )
+                }
+            ),
+            "requires owner evidence provenance pointer",
+        ),
+    ],
+)
+def test_claim_complexity_validates_committed_discovery_map_before_consuming(tmp_path, mutate, message):
+    root = _fixture_root(tmp_path)
+    path = root / DISCOVERY_MAP_ARTIFACT
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    mutate(payload["rows"][0])
+    _write_json(path, payload)
+
+    with pytest.raises(ValueError, match=message):
         build_claim_complexity_payload(root, "fixture-time")
 
 

@@ -27,6 +27,10 @@ from bedc_quality_lab.discovery_compiler.map import (
     build_discovery_map_payload,
     validate_discovery_map_payload,
 )
+from bedc_quality_lab.evidence_provenance import (
+    discovery_evidence_type_for_report,
+    evidence_provenance_pointer_for_report,
+)
 from bedc_quality_lab.discovery_compiler.anti_triviality import ANTI_TRIVIALITY_POLICY
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
@@ -2700,6 +2704,9 @@ def discovery_row(
     if spec.name == "gap-head-transfer-atlas" and audit_status == "invalid":
         discovery_level = "DN"
         terminal_verdict = ""
+    elif audit_status == "invalid" and discovery_level in {"D4", "D5-O", "D5-M"}:
+        discovery_level = "D0"
+        terminal_verdict = ""
     scope_claim = _scope_claim_payload(spec, payload)
     scope_gate = _scope_expansion_gate_for_payload(spec, payload)
     if scope_gate is not None and scope_gate.status == "fail" and (
@@ -3022,8 +3029,15 @@ def _negative_index_by_report(
     return result
 
 
-def _discovery_map_row(source_row: Mapping[str, Any], negative_indices: Mapping[str, int]) -> dict[str, Any]:
+def _discovery_map_row(
+    source_row: Mapping[str, Any],
+    negative_indices: Mapping[str, int],
+    *,
+    root: Path | None = None,
+    spec_by_name: Mapping[str, CanonicalReportSpec] | None = None,
+) -> dict[str, Any]:
     row = dict(source_row)
+    _attach_evidence_owner_projection(row, root=root, spec_by_name=spec_by_name)
     if row.get("discovery_level") != "DN":
         return row
     report = str(row.get("report") or "")
@@ -3034,6 +3048,29 @@ def _discovery_map_row(source_row: Mapping[str, Any], negative_indices: Mapping[
         for key, value in row.items()
         if key not in DN_FACT_KEYS
     } | {"negative_report_pointer": pointer}
+
+
+def _attach_evidence_owner_projection(
+    row: dict[str, Any],
+    *,
+    root: Path | None = None,
+    spec_by_name: Mapping[str, CanonicalReportSpec] | None = None,
+) -> None:
+    report = str(row.get("report") or "")
+    if not report:
+        return
+    row["evidence_provenance_pointer"] = evidence_provenance_pointer_for_report(report)
+    spec = spec_by_name.get(report) if spec_by_name is not None else None
+    if spec is not None:
+        row["evidence_type"] = discovery_evidence_type_for_report(
+            root=_root(root),
+            spec=spec,
+            source_row=row,
+        )
+    elif row.get("discovery_level") == "DN":
+        row["evidence_type"] = "boundary_negative"
+    else:
+        row["evidence_type"] = "deterministic_projection"
 
 
 def _artifact_pointer_resolves(pointer: str, *, root: Path | None = None) -> bool:
@@ -3246,8 +3283,10 @@ def build_discovery_map(
         include_sidecars=(_root(root) / NEGATIVE_DISCOVERY_REPORTS_ARTIFACT).exists(),
     )
     negative_indices = _negative_index_by_report(source_rows, root=root)
+    reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
+    spec_by_name = {str(spec.name): spec for spec in reports}
     rows = [
-        _discovery_map_row(row, negative_indices)
+        _discovery_map_row(row, negative_indices, root=root, spec_by_name=spec_by_name)
         for row in source_rows
         if row.get("discovery_level") != "DN" or str(row.get("report") or "") in negative_indices
     ]
@@ -3259,6 +3298,7 @@ def build_discovery_map(
         coverage_matrix=coverage_matrix,
         root=_root(root),
         expected_coverage_component_ids=COVERAGE_COMPONENT_IDS,
+        validate_owner_projection=False,
     )
 
 

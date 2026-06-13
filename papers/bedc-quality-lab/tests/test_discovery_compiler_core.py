@@ -14,12 +14,55 @@ from bedc_quality_lab.discovery_compiler.map import (
     build_discovery_map_payload,
     owner_anti_triviality_check,
 )
+from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
+from bedc_quality_lab.evidence_provenance import OWNER as EVIDENCE_PROVENANCE_OWNER
+from bedc_quality_lab.evidence_provenance import SCHEMA_ID as EVIDENCE_PROVENANCE_SCHEMA_ID
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT,
     validate_negative_report_row,
 )
 from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
 from scripts import run_dimension_mismatch_debt_transfer as transfer
+
+
+def _owner_cells(report: str, evidence_type: str) -> dict[str, str]:
+    return {
+        "evidence_type": evidence_type,
+        "evidence_provenance_pointer": evidence_provenance_pointer_for_report(report),
+    }
+
+
+def _evidence_owner_row(report: str) -> dict[str, Any]:
+    return {
+        "report": report,
+        "evidence_type": "boundary_negative",
+        "discovery_map_pointer": None,
+        "metric_provenance_pointers": [],
+        "producer_training_audit_pointer": None,
+        "allowed_claim_kinds": ["negative_boundary"],
+        "not_claimed": ["fixture owner row"],
+    }
+
+
+def _write_evidence_provenance_owner(root: Path) -> None:
+    rows = [_evidence_owner_row("fixture-report"), _evidence_owner_row("dimension-mismatch-debt-transfer")]
+    payload = {
+        "schema_id": EVIDENCE_PROVENANCE_SCHEMA_ID,
+        "owner": EVIDENCE_PROVENANCE_OWNER,
+        "generated_at": "fixture-time",
+        "producer_audits": [],
+        "metric_rows": [],
+        "discovery_rows": rows,
+        "discovery_rows_by_report": {str(row["report"]): row for row in rows},
+        "hardgate_status": {},
+        "artifact_pointers": {
+            "owner_pointer": "reports/canonical/index.json:$.evidence_provenance",
+            "discovery_map_rows": "reports/canonical/discovery_map.json:$.rows",
+        },
+    }
+    path = root / "reports" / "canonical" / "index.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"evidence_provenance": payload}) + "\n", encoding="utf-8")
 
 
 class FakeAdapter:
@@ -48,21 +91,41 @@ class FakeAdapter:
 
     def compute_metrics(self, *, root: Path, generated_at: str | None = None) -> Mapping[str, Any]:
         self.calls.append("map")
+        required = (
+            "certificate-guided-training",
+            "gap-head-ablation",
+            "spectral-ablation-hinge",
+            "dimension-mismatch-scale-leakage",
+            "single-threshold-escape",
+            "training-choice-observability",
+            "gap-head-mechanism-blockage",
+        )
         payload = {
             "schema_id": "fixture-map",
             "generated_at": generated_at,
             "rows": [
                 {
-                    "report": "fixture-report",
-                    "json_artifact": "reports/canonical/fixture.json",
-                    "markdown_artifact": "reports/canonical/fixture.md",
+                    "report": "fixture-report" if report_id != "dimension-mismatch-scale-leakage" else "dimension-mismatch-debt-transfer",
+                    "json_artifact": "reports/canonical/fixture.json"
+                    if report_id != "dimension-mismatch-scale-leakage"
+                    else transfer.JSON_ARTIFACT,
+                    "markdown_artifact": "reports/canonical/fixture.md"
+                    if report_id != "dimension-mismatch-scale-leakage"
+                    else transfer.REPORT_ARTIFACT,
                     "discovery_level": "DN",
                     "projection_status": "projected",
-                    "evidence_pointer": "$.failed",
+                    "evidence_pointer": "$.failed"
+                    if report_id != "dimension-mismatch-scale-leakage"
+                    else "$.dimension_mismatch_debt_transfer.anti_triviality_status",
                     "audit_status": "valid",
                     "audit_reason": "",
-                    "negative_report_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]",
+                    "negative_report_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[{index}]",
+                    **_owner_cells(
+                        "fixture-report" if report_id != "dimension-mismatch-scale-leakage" else "dimension-mismatch-debt-transfer",
+                        "boundary_negative",
+                    ),
                 }
+                for index, report_id in enumerate(required)
             ],
         }
         (root / "reports" / "canonical").mkdir(parents=True, exist_ok=True)
@@ -140,6 +203,7 @@ class FakeAdapter:
 def _write_fixture_sources(root: Path) -> None:
     canonical = root / "reports" / "canonical"
     canonical.mkdir(parents=True, exist_ok=True)
+    _write_evidence_provenance_owner(root)
     (canonical / "fixture.json").write_text(json.dumps({"failed": True}) + "\n", encoding="utf-8")
     (canonical / "dimension-mismatch-debt-transfer.json").write_text(
         json.dumps(
@@ -300,6 +364,7 @@ def test_discovery_map_row_rejects_dn_fact_cells_and_accepts_pointer_only():
         "audit_status": "valid",
         "audit_reason": "",
         "negative_report_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]",
+        **_owner_cells("fixture-report", "boundary_negative"),
     }
 
     assert DiscoveryMapRow.from_mapping(row).negative_report_pointer == f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]"
@@ -365,6 +430,7 @@ def test_build_discovery_map_payload_validates_rows():
                 "evidence_pointer": "$.positive",
                 "audit_status": "valid",
                 "audit_reason": "",
+                **_owner_cells("positive-fixture", "deterministic_projection"),
             }
         ],
         generated_at="fixture-time",
@@ -413,6 +479,7 @@ def _positive_row():
         "evidence_pointer": "$.positive",
         "audit_status": "valid",
         "audit_reason": "",
+        **_owner_cells("positive-fixture", "deterministic_projection"),
     }
 
 
