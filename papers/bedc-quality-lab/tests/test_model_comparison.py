@@ -6,6 +6,11 @@ import shutil
 import pytest
 
 from bedc_quality_lab.discovery_compiler.capsule import require_architecture_claim_capsule
+from bedc_quality_lab.model_comparison import (
+    DGT_CONTROL_SEMANTIC_POINTER,
+    SEMANTIC_POINTER,
+    validate_model_comparison_payload,
+)
 from bedc_quality_lab.schema import QualityEvidenceEnvelope
 from scripts import run_canonical_reports as canonical
 
@@ -13,12 +18,13 @@ CONTROL_MODEL_IDS = set(canonical.MODEL_COMPARISON_CONTROL_MODEL_IDS)
 
 
 def _root(tmp_path):
-    shutil.copytree(Path(__file__).resolve().parents[1] / "configs", tmp_path / "configs")
+    shutil.copytree(Path(__file__).resolve().parents[1] / "configs", tmp_path / "configs", dirs_exist_ok=True)
     return tmp_path
 
 
 def _payload(tmp_path):
     root = _root(tmp_path)
+    _write_model_comparison_owner_index(root)
     original_root = canonical.ROOT
     original_dir = canonical.CANONICAL_DIR
     try:
@@ -38,6 +44,70 @@ def _payload(tmp_path):
     finally:
         canonical.ROOT = original_root
         canonical.CANONICAL_DIR = original_dir
+
+
+def _write_model_comparison_owner_index(root: Path) -> None:
+    path = root / "reports/canonical/index.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "schema_id": "bedc-quality-lab:canonical-report-index",
+        "evidence_provenance": {
+            "schema_id": "bedc-quality-lab:evidence-provenance",
+            "owner": "bedc_quality_lab.evidence_provenance",
+            "generated_at": "fixture",
+            "producer_audits": [
+                {
+                    "report": "model-comparison",
+                    "producer_command": ["python3", "scripts/run_model_comparison.py"],
+                    "producer_source_pointer": "scripts/run_model_comparison.py",
+                    "backward_pointers": [],
+                    "optimizer_step_pointers": [],
+                    "parameter_update_pointers": [],
+                    "training_evidence_status": "training_evidence_absent",
+                    "not_claimed": ["fixture"],
+                }
+            ],
+            "metric_rows": [
+                {
+                    "report": "model-comparison",
+                    "metric_name": "headline",
+                    "source_type": "deterministic_projection",
+                    "source_code_pointer": "scripts/run_model_comparison.py",
+                    "source_artifact_pointer": "reports/canonical/model-comparison.json:$.hardgates.MC-HG7",
+                    "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                    "allowed_for_empirical_claim": False,
+                    "value": {"status": "pass"},
+                    "not_claimed": ["fixture"],
+                    "not_measurable_reason": None,
+                }
+            ],
+            "discovery_rows": [
+                {
+                    "report": "model-comparison",
+                    "evidence_type": "deterministic_projection",
+                    "discovery_map_pointer": None,
+                    "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+                    "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                    "allowed_claim_kinds": ["projection_only"],
+                    "not_claimed": ["fixture"],
+                }
+            ],
+            "discovery_rows_by_report": {
+                "model-comparison": {
+                    "report": "model-comparison",
+                    "evidence_type": "deterministic_projection",
+                    "discovery_map_pointer": None,
+                    "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+                    "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                    "allowed_claim_kinds": ["projection_only"],
+                    "not_claimed": ["fixture"],
+                }
+            },
+            "hardgate_status": {},
+            "artifact_pointers": {"owner_pointer": "reports/canonical/index.json:$.evidence_provenance"},
+        },
+    }
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def test_model_comparison_generates_two_control_owners(tmp_path):
@@ -144,3 +214,46 @@ def test_forbidden_inference_and_negative_witness_sweep_are_required(tmp_path):
     assert "global model superiority" in text
     assert "negative_witness" in payload["models"][0]["surfaces"]
     assert payload["hardgates"]["MC-HG10"]["status"] == "pass"
+
+
+def test_model_comparison_projection_semantic_is_owner_backed(tmp_path):
+    _root, payload = _payload(tmp_path)
+    row = payload["comparisons"][0]
+    semantic = row["semantic"]
+
+    assert row["comparison_id"] == "dgt_control_projection"
+    assert semantic["comparison_type"] == "deterministic_projection"
+    assert semantic["training_status"] == "not_trained"
+    assert semantic["metric_provenance"] == "deterministic_projection"
+    assert semantic["allowed_evidence_chain"] is False
+    assert semantic["evidence_type_pointer"] == "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.model-comparison"
+    assert payload["hardgates"]["MC-HG11"]["status"] == "pass"
+    assert payload["hardgates"]["MC-HG13"]["status"] == "pass"
+    assert SEMANTIC_POINTER == "reports/canonical/model-comparison.json:$.comparisons[*].semantic"
+    assert DGT_CONTROL_SEMANTIC_POINTER == "reports/canonical/model-comparison.json:$.comparisons[0].semantic"
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("comparison_type", "unknown", "comparison_type"),
+        ("metric_provenance", "measured_training", "metric_provenance must not be measured_training"),
+        ("training_status", "trained", "training_status must not be trained"),
+        ("allowed_evidence_chain", True, "allowed_evidence_chain must be false"),
+        ("evidence_type_pointer", "reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.missing", "evidence_type_pointer unresolved"),
+    ],
+)
+def test_model_comparison_semantic_mutations_fail_closed(tmp_path, field, value, message):
+    root, payload = _payload(tmp_path)
+    payload["comparisons"][0]["semantic"][field] = value
+
+    errors = validate_model_comparison_payload(payload, root=root)
+
+    assert any(message in error for error in errors)
+
+
+def test_model_comparison_semantic_rows_are_stable(tmp_path):
+    _root, first = _payload(tmp_path)
+    _root, second = _payload(tmp_path)
+
+    assert first["comparisons"] == second["comparisons"]
