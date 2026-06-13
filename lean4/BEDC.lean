@@ -3414,6 +3414,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ComponentwiseStdbridgeTransport
 import BEDC.Derived.CriticalLineWitnessUp.ContinuationRouteCoverage
 import BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessRootSourceWindowRouteLock
 import BEDC.Derived.CriticalLineWitnessUp.CriticalStripLedger
+import BEDC.Derived.CriticalLineWitnessUp.CriticalStripOrigin
 import BEDC.Derived.CriticalLineWitnessUp.CrossLatticeRoute
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.DepthLock
@@ -3426,6 +3427,7 @@ import BEDC.Derived.CriticalLineWitnessUp.DownstreamRhBoundaryRefinement
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamSourcePackage
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamZeroStripExactness
 import BEDC.Derived.CriticalLineWitnessUp.EndpointHandoff
+import BEDC.Derived.CriticalLineWitnessUp.FiniteBudgetReadbackDeterminacy
 import BEDC.Derived.CriticalLineWitnessUp.FiniteObservationRoute
 import BEDC.Derived.CriticalLineWitnessUp.FiniteSourceLatticeBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FiniteStripCarrierAdmission
@@ -4373,6 +4375,7 @@ import BEDC.Derived.EffectiveCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.EffectiveCauchySequenceUp
 import BEDC.Derived.EffectiveCauchySequenceUp.Nonescape
 import BEDC.Derived.EffectiveCauchySequenceUp.TasteGate
+import BEDC.Derived.EffectiveCauchySpaceUp.TasteGate
 import BEDC.Derived.EffectiveCompletionUp
 import BEDC.Derived.EffectiveCompletionUp.CauchyRealizerHandoff
 import BEDC.Derived.EffectiveCompletionUp.TasteGate
@@ -8770,6 +8773,7 @@ import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyReciprocalUp.WindowComposition
 import BEDC.Derived.RegularCauchyReflectionLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
+import BEDC.Derived.RegularCauchyRegularizationUp.TasteGate
 import BEDC.Derived.RegularCauchyReindexInvarianceUp.TasteGate
 import BEDC.Derived.RegularCauchyRepletionBoundaryUp
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
