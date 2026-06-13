@@ -227,6 +227,120 @@ row, host real equality row, or ambient-completeness row, no $\RealUp$ consumer
 can extract such data from the arithmetic packet.
 \end{proof}
 
+\begin{theorem}[Common tail window obligation]
+\label{thm:cauchy-modulus-arithmetic-common-tail-window}
+For every accepted $\CauchyModulusArithmeticUp$ carrier
+$$
+A=(S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,E,H,C,P,N)
+$$
+inside the displayed $\BHist$ packet of
+\autoref{def:cauchy-modulus-arithmetic-carrier}, the common-tail window read for
+any $\RealUp$ or Completion consumer is forced through the route
+$$
+H,C,P,N:
+\hsame,\Cont,\Pkg,\NameCert_{\CauchyModulusArithmeticUp}.
+$$
+Concretely, $W$ may be consumed only after the two source schedules
+$\mu_0,\mu_1$ and the meet schedule $\mu_{\wedge}$ have been displayed, and any
+later seal row $E$ must keep the same $\StreamNameUp$, $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+provenance. No quotient stream, selected limit, host real equality, or ambient
+completeness row is exported by this common-tail obligation.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of
+\autoref{def:cauchy-modulus-arithmetic-carrier}. The common window row $W$ occurs
+after the two source stream rows, the two source schedules, the shared meet row,
+the arithmetic consumers, and the dyadic tolerance ledger.
+
+The $\hsame$ row $H$ then transports those displayed rows componentwise. Thus a
+consumer may not replace the common window by a quotient stream or by a host
+comparison of completed values.
+
+The replay row $C$ records the finite route from a precision request through
+$\mu_0,\mu_1,\mu_{\wedge},D,W,R$ before the arithmetic consumers can reach $E$.
+The provenance and local naming rows $P,N$ attach that same route to
+$\Pkg$ and $\NameCert_{\CauchyModulusArithmeticUp}$.
+
+Hence the common tail window is a visible $\BHist$ obligation anchored in the
+displayed schedules and structural rows, not a hidden completeness principle.
+\end{proof}
+
+\begin{theorem}[Sum-product shared threshold obligation]
+\label{thm:cauchy-modulus-arithmetic-sum-product-shared-threshold}
+For every accepted $\CauchyModulusArithmeticUp$ carrier
+$$
+A=(S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,E,H,C,P,N),
+$$
+the $\RegularCauchySumUp$ row $\sigma$ and the
+$\RegularCauchyProductUp$ row $\pi$ share the threshold supplied by
+$\mu_{\wedge}$ through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ route. Both consumers must read the two source modulus rows
+$\mu_0,\mu_1$, the meet row $\mu_{\wedge}$, the dyadic ledger $D$, the finite
+window row $W$, and the regular readback row $R$ before either arithmetic result
+is sealed for $\RealUp$. No separate product threshold, quotient-stream
+comparison, selected limit, host real equality, or ambient completeness witness
+is available.
+\end{theorem}
+\begin{proof}
+Begin with the sum consumer. By
+\autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure}, the row $\sigma$ reads
+the two source schedules, then the shared meet row, and then the dyadic split
+tolerances in $D$ before it reaches $W$ and $R$.
+
+Now turn to the product consumer. By
+\autoref{thm:cauchy-modulus-arithmetic-product-meet-compatibility}, the row
+$\pi$ reuses the same $\mu_0,\mu_1,\mu_{\wedge},D,W,R$ route rather than opening
+a separate product comparison coordinate.
+
+Transport through $H$ and replay through $C$ preserve this shared threshold for
+both arithmetic rows. The provenance and local name rows $P,N$ then package the
+same $\BHist$ route as the public $\NameCert_{\CauchyModulusArithmeticUp}$
+surface.
+
+Since the carrier contains no row for quotient streams, selected limits, host
+real equality, or ambient completeness, the shared threshold obligation is
+exactly the displayed meet route.
+\end{proof}
+
+\begin{theorem}[Real seal schedule nonescape obligation]
+\label{thm:cauchy-modulus-arithmetic-real-seal-schedule-nonescape}
+For every accepted $\CauchyModulusArithmeticUp$ carrier
+$$
+A=(S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,E,H,C,P,N),
+$$
+the terminal $\RealUp$ seal row $E$ is reachable only through the finite schedule
+surface
+$$
+\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,H,C,P,N
+$$
+inside the displayed $\BHist$ carrier. The seal preserves the same $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert_{\CauchyModulusArithmeticUp}$ route used by the
+source schedules, meet schedule, sum/product consumers, dyadic ledger,
+$\StreamNameUp$ windows, and $\RegSeqRatUp$ readbacks. It exports no quotient
+stream, selected limit, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from a consumer that requests the terminal seal row $E$. By
+\autoref{thm:cauchy-modulus-arithmetic-real-consumer-boundary}, the consumer
+must pass through either the displayed sum route or the displayed product route
+before the Real-facing seal can be read.
+
+The sum and product routes are already bound to the shared threshold by
+\autoref{thm:cauchy-modulus-arithmetic-sum-product-shared-threshold}. Thus both
+routes expose $\mu_0,\mu_1,\mu_{\wedge},D,W,R$ before they reach the arithmetic
+consumer row that feeds $E$.
+
+The common-tail obligation of
+\autoref{thm:cauchy-modulus-arithmetic-common-tail-window} keeps the window and
+readback rows inside the same $\BHist$ surface. Transport $H$, replay $C$,
+provenance $P$, and local naming $N$ therefore remain attached to the seal.
+
+Consequently $E$ is a schedule endpoint for the displayed arithmetic carrier.
+It is not an escape route to quotient streams, selected limits, host real
+equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Diagonal schedule dominates arithmetic consumers]
 \label{thm:cauchy-modulus-arithmetic-diagonal-dominates-sum-product}
 Let $A$ be an accepted $\CauchyModulusArithmeticUp$ carrier. Any displayed
