@@ -1,21 +1,11 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "c98545757d1004d408be5be99100a9fa11a4d41769b5c3ca170439b839935eb3",
+  "input_fingerprint": "d8dcb3996bff39b2e88b3a86527c20b846d9e6b3ffd6cbf5ede0fc7346e6d337",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
-    "config_inputs": [
-      {
-        "path": "configs/default_cost_protocol.yaml",
-        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
-      },
-      {
-        "path": "docs/lit/literature_ledger.yaml",
-        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
-      }
-    ],
     "dependency_abi": {
       "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
       "numpy": "2.2.5",
@@ -46,8 +36,16 @@
     },
     "source_artifacts": [
       {
+        "path": "reports/canonical/causal-patch-suite.json",
+        "sha256": "fc390345376ca1c1a09253982e0ff8d32a8cfe64ac6dfe7f1e745ff84d627aac"
+      },
+      {
+        "path": "reports/canonical/discovery-gated-transformer.json",
+        "sha256": "99b7d7368a69df622b3292a91b8b27be0d72d186f4e851bd17ea821bc02a766f"
+      },
+      {
         "path": "reports/canonical/gap-head-ablation.json",
-        "sha256": "166be251875fd222c253e68522b4a31d18006530170762f19fc2ab73db21f36c"
+        "sha256": "c86ec4195fc99d97169e20f0f13991c374e9d348426009296aa618dbfcdef772"
       },
       {
         "path": "reports/canonical/gap-head-on-h.json",
@@ -60,10 +58,12 @@
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_causal_patch_suite.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": "$.matched_controls",
       "cost_pointer": "$.source_artifacts",
       "estimated_seconds": 2,
@@ -80,6 +80,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.dgt_mechanism_cert",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -100,11 +101,54 @@
   },
   "json_artifact": "reports/canonical/causal_patch_suite.json",
   "markdown_artifact": "reports/canonical/patch_effect_summary.md",
-  "output_digest": "7a7591f3d1042d33e13bf5ca88b5fdca81eeba50d13ed41aa605aa590d8eba9c",
   "producer_command": [
     "python3",
     "scripts/run_causal_patch_suite.py"
   ],
   "report_name": "causal-patch-suite",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "causal-patch-suite"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "causal-patch-suite",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "02b2a5161f2ac5ecdfeec7f697e85356d75e7aa6dfbb7b488730add128cdaec7",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

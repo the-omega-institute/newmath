@@ -29,6 +29,9 @@ def _copy_l1(tmp_path):
     target = tmp_path / audit.L1_SOURCE_ARTIFACT
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes((ROOT / audit.L1_SOURCE_ARTIFACT).read_bytes())
+    ia_target = tmp_path / audit.INPUT_ACCESSIBILITY_SOURCE_ARTIFACT
+    ia_target.parent.mkdir(parents=True, exist_ok=True)
+    ia_target.write_bytes((ROOT / audit.INPUT_ACCESSIBILITY_SOURCE_ARTIFACT).read_bytes())
 
 
 def test_base_undertraining_audit_records_construct_boundary_for_current_l1_evidence():
@@ -41,6 +44,21 @@ def test_base_undertraining_audit_records_construct_boundary_for_current_l1_evid
     assert audit_payload["construct_validity"]["status"] == "construct-boundary"
     assert audit_payload["construct_validity"]["bayes_upper_bound_accuracy"] == 0.0625
     assert audit_payload["construct_validity"]["source_pointers"]["fair_reconstruction"].endswith("/issues/1196")
+    assert audit_payload["construct_validity"]["source_pointers"]["input_accessibility"] == (
+        "reports/canonical/input-accessibility.json:$"
+    )
+    assert audit_payload["construct_validity"]["source_pointers"]["unanswerable_ood_splits"] == (
+        "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
+    )
+    preconditions = audit_payload["construct_validity"]["input_accessibility_preconditions"]
+    assert preconditions["status"] == "pass"
+    assert preconditions["missing_variables"] == ["x_minus_2"]
+    assert preconditions["information_starved_arms_ref"]
+    assert preconditions["unanswerable_ood_splits_ref"]
+    assert audit_payload["source_contract"]["input_accessibility_preconditions"] == preconditions
+    assert set(preconditions["unanswerable_ood_splits_ref"]).issubset(
+        set(audit_payload["source_contract"]["required_pointers"])
+    )
     assert set(rows) == {"equal_step", "equal_compute", "equal_loss_decrease"}
     assert rows["equal_step"]["match_axis"] == "training_steps"
     assert rows["equal_compute"]["match_axis"] == "compute_units"
@@ -114,10 +132,31 @@ def test_missing_or_unresolvable_pointer_fails_closed(tmp_path):
     assert _audit(payload)["comparison_rows"] == []
 
 
+def test_missing_input_accessibility_precondition_fails_closed(tmp_path):
+    _copy_l1(tmp_path)
+    (tmp_path / audit.INPUT_ACCESSIBILITY_SOURCE_ARTIFACT).unlink()
+
+    payload = audit.build_payload(
+        root=tmp_path,
+        generated_at="fixture",
+        construct_validity_override=audit.construct_validity_assessment(
+            baseline_input_order=2,
+            label_dependency_order=2,
+            second_predecessor_visible=True,
+        ),
+    )
+    audit_payload = _audit(payload)
+
+    assert audit_payload["construct_validity"]["status"] == "construct-valid"
+    assert audit_payload["construct_validity"]["input_accessibility_preconditions"]["status"] == "missing"
+    assert audit_payload["hardgates"]["BASE-UNDER-HG0"]["status"] == "fail-closed"
+    assert audit_payload["verdict"] == "construct-boundary"
+
+
 def test_equal_compute_catchup_records_boundary():
     l1 = _l1_payload()
     row = l1["l1_step_ladder"]["per_step"][0]
-    row["metrics"]["base_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"]
+    row["metrics"]["input_ablation_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"]
 
     payload = audit.build_payload(
         root=ROOT,
@@ -147,7 +186,7 @@ def test_equal_compute_catchup_records_boundary():
 def test_equal_loss_decrease_catchup_records_boundary():
     l1 = _l1_payload()
     row = l1["l1_step_ladder"]["per_step"][4]
-    row["metrics"]["base_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"] + 0.01
+    row["metrics"]["input_ablation_accuracy_mean"] = row["metrics"]["dgt_accuracy_mean"] + 0.01
 
     payload = audit.build_payload(
         root=ROOT,

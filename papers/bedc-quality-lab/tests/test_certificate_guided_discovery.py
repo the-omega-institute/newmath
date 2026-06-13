@@ -67,46 +67,61 @@ def _assert_row_matches_predicates(payload, row):
     assert row["net_information"] == pytest.approx(net_information(claim))
     assert row["positive_discovery"] == positive_discovery(claim)
 
-def test_load_payload_requires_projection_source_shape(tmp_path):
+def test_invalid_projection_source_becomes_skipped_payload(tmp_path):
     payload = copy.deepcopy(_payload())
     payload["records"] = [record for record in payload["records"] if record["role"] != runner.CONTROL_ROLE]
     path = _write_payload(tmp_path, payload)
-    with pytest.raises(ValueError, match="before, after, and control"):
-        runner._load_payload(path)
+    report = runner._verdict_payload(runner._load_payload(path))
+
+    assert report["producer_status"] == "skipped"
+    assert report["positive_discovery"] is None
+    assert report["matched_random_baseline"] is None
+    assert report["discovery_level"] == "D0"
+    assert report["skip_reason"] == runner.SKIP_REASON
 
     payload = copy.deepcopy(_payload())
     payload["result"]["ledger_rows_written"] = False
     path = _write_payload(tmp_path, payload)
-    with pytest.raises(ValueError, match="record ledger rows"):
-        runner._load_payload(path)
+    report = runner._verdict_payload(runner._load_payload(path))
+
+    assert report["producer_status"] == "skipped"
+    assert report["skip_reason"] == "certificate-guided payload must record ledger rows"
 
 def test_loader_rejects_missing_claim_gate_or_paired_ci(tmp_path):
     payload = copy.deepcopy(_payload())
     del payload["claim_gate"]
     path = _write_payload(tmp_path, payload)
-    with pytest.raises(ValueError, match="claim_gate"):
-        runner._load_payload(path)
+    report = runner._verdict_payload(runner._load_payload(path))
+
+    assert report["producer_status"] == "skipped"
+    assert report["skip_reason"] == "certificate-guided payload must contain claim_gate"
 
     payload = copy.deepcopy(_payload())
     del payload["paired_delta_ci"]
     path = _write_payload(tmp_path, payload)
-    with pytest.raises(ValueError, match="paired quality_q CI"):
-        runner._load_payload(path)
+    report = runner._verdict_payload(runner._load_payload(path))
+
+    assert report["producer_status"] == "skipped"
+    assert report["skip_reason"] == "certificate-guided payload must contain paired quality_q CI evidence"
 
 def test_loader_rejects_when_shared_cost_protocol_name_not_true(tmp_path):
     payload = copy.deepcopy(_payload())
     payload["result"]["shared_cost_protocol_name"] = False
     path = _write_payload(tmp_path, payload)
-    with pytest.raises(ValueError, match="certificate-guided payload must share a cost protocol"):
-        runner._load_payload(path)
+    report = runner._verdict_payload(runner._load_payload(path))
+
+    assert report["producer_status"] == "skipped"
+    assert report["skip_reason"] == "certificate-guided payload must share a cost protocol"
 
 def test_loader_rejects_when_record_lacks_ledger_rows(tmp_path):
     payload = copy.deepcopy(_payload())
     after = next(record for record in payload["records"] if record["role"] == runner.AFTER_ROLE)
     after["ledger_rows"] = []
     path = _write_payload(tmp_path, payload)
-    with pytest.raises(ValueError, match="record lacks ledger rows: after"):
-        runner._load_payload(path)
+    report = runner._verdict_payload(runner._load_payload(path))
+
+    assert report["producer_status"] == "skipped"
+    assert report["skip_reason"] == "record lacks ledger rows: after"
 
 def test_certificate_guided_result_is_negative_when_net_is_negative_and_baseline_is_recorded():
     payload = _payload()
@@ -448,3 +463,26 @@ def test_main_writes_report_artifacts(tmp_path, monkeypatch):
         assert "Net information did not clear zero" not in report
     else:
         assert f"Net information did not clear zero: `{float(expected_row['net_information']):.6f}`" in report
+
+
+def test_load_payload_resolves_raw_metrics_relative_to_runner_root(tmp_path, monkeypatch):
+    source_payload = copy.deepcopy(_payload())
+    source_payload.pop("records")
+    raw_path = tmp_path / "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl"
+    raw_path.parent.mkdir(parents=True, exist_ok=True)
+    raw_path.write_text(
+        "".join(json.dumps(record, sort_keys=True) + "\n" for record in _payload()["records"]),
+        encoding="utf-8",
+    )
+    source_payload["raw_metrics_artifact"] = "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl"
+    source_payload["source_artifacts"]["raw_metrics_artifact"] = source_payload["raw_metrics_artifact"]
+    source_path = tmp_path / "reports/canonical/certificate-guided-training.json"
+    source_path.parent.mkdir(parents=True, exist_ok=True)
+    source_path.write_text(json.dumps(source_payload, sort_keys=True) + "\n", encoding="utf-8")
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+
+    loaded = runner._load_payload(source_path)
+    report = runner._verdict_payload(loaded)
+
+    assert report.get("producer_status") != "skipped"
+    assert report["matched_random_baseline"]["after_role"] == runner.CONTROL_ROLE

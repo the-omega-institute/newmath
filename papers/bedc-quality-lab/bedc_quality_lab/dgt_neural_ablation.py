@@ -14,6 +14,8 @@ import ast
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_gated_transformer import validate_evidence_scope
+from bedc_quality_lab.model import choose_device
+from bedc_quality_lab.reproducibility import contract_from_payload
 
 
 SCHEMA_ID = "bedc-quality-lab:dgt-neural-ablation"
@@ -163,7 +165,7 @@ class DgtNeuralAblationRunSpec:
             raise ValueError("seed_count must match seed_list length")
         if tuple(self.arms) != ARM_IDS:
             raise ValueError("DGT neural ablation run spec must retain the 11 owner arms")
-        if self.requested_device not in {"auto", "cpu", "mps"}:
+        if self.requested_device not in {"auto", "cpu", "mps", "cuda"}:
             raise ValueError(f"unsupported requested device: {self.requested_device}")
         if tuple(self.metric_keys) != METRIC_KEYS:
             raise ValueError("run spec metric_keys must match the owner metric protocol")
@@ -194,7 +196,19 @@ class DgtNeuralAblationRunSpec:
     def blocked_threshold_payload(self) -> dict[str, float]:
         return self.thresholds_for_payload(self.blocked_effect_thresholds, BLOCKED_EFFECT_THRESHOLD)
 
-    def as_payload(self, *, resolved_device: str | None = None) -> dict[str, Any]:
+    def as_payload(
+        self,
+        *,
+        resolved_device: str | None = None,
+        device_policy: Mapping[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        policy = dict(device_policy) if device_policy is not None else {
+            "requested_device": self.requested_device,
+            "resolved_device": resolved_device or "not-requested",
+            "resolution_status": "available" if resolved_device in {"cpu", "mps", "cuda"} else "unavailable",
+            "resolution_reason": "recorded-owner-training-device",
+            "backend_details": {"torch": "owner-imported"},
+        }
         return {
             "step_grid": list(self.step_grid),
             "seed_count": self.seed_count,
@@ -202,8 +216,8 @@ class DgtNeuralAblationRunSpec:
             "arms": list(self.arms),
             "arm_count": len(self.arms),
             "requested_device": self.requested_device,
-            "resolved_device": resolved_device,
-            "device_policy": self.requested_device,
+            "resolved_device": policy["resolved_device"],
+            "device_policy": policy,
             "metric_keys": list(self.metric_keys),
             "paired_ci_min_seeds": self.paired_ci_min_seeds,
             "effect_thresholds": self.effect_threshold_payload(),
@@ -355,20 +369,6 @@ def _mean(values: Sequence[float]) -> float:
 
 def _compute_units(*, train_steps: int, feature_dim: int) -> float:
     return round(float(train_steps * feature_dim * (CORE_SAMPLE_COUNT + SCOPE_SAMPLE_COUNT)) / 100000.0, 6)
-
-
-def _device_name(torch: Any, requested_device: str) -> str:
-    if requested_device == "auto":
-        mps = getattr(getattr(torch, "backends", None), "mps", None)
-        return "mps" if mps is not None and mps.is_available() else "cpu"
-    if requested_device == "mps":
-        mps = getattr(getattr(torch, "backends", None), "mps", None)
-        if mps is None or not mps.is_available():
-            return "cpu"
-        return "mps"
-    if requested_device != "cpu":
-        raise ValueError(f"unsupported requested device: {requested_device}")
-    return "cpu"
 
 
 def derive_training_metrics(outcome: TrainingOutcome, protocol: MetricProtocol = METRIC_PROTOCOL) -> dict[str, Any]:
@@ -1526,6 +1526,13 @@ def unavailable_payload(
     run_spec: DgtNeuralAblationRunSpec | None = None,
 ) -> dict[str, Any]:
     run_spec = run_spec or DgtNeuralAblationRunSpec.canonical(requested_device=requested_device)
+    device_policy = {
+        "requested_device": requested_device,
+        "resolved_device": "not-available",
+        "resolution_status": "unavailable",
+        "resolution_reason": reason,
+        "backend_details": {"torch": "unavailable"},
+    }
     run_artifacts = {
         "summary": f"{RUN_ROOT}/summary.json",
         "raw_metrics": f"{RUN_ROOT}/raw_metrics.jsonl",
@@ -1575,7 +1582,7 @@ def unavailable_payload(
         "source_artifacts": {"owner_module": "bedc_quality_lab/dgt_neural_ablation.py", "runner": PRODUCER},
         "run_artifacts": run_artifacts,
         "module_registry": module_registry_payload(),
-        "run_spec": run_spec.as_payload(resolved_device="unavailable"),
+        "run_spec": run_spec.as_payload(device_policy=device_policy),
         "training_protocol": {
             "status": "unavailable",
             "requested_device": requested_device,
@@ -1629,6 +1636,43 @@ def unavailable_payload(
             "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.records",
         },
     }
+    return _with_reproducibility_contract(payload)
+
+
+def _with_reproducibility_contract(payload: dict[str, Any]) -> dict[str, Any]:
+    run_spec = payload["run_spec"]
+    training = payload["training_protocol"]
+    seed_list = list(run_spec.get("seed_list", training.get("seeds", [])))
+    payload["reproducibility_contract"] = {
+        "mode": "true_training",
+        "seed_list": seed_list,
+        "metric_bands": [
+            {
+                "pointer": "$.nabl_hardgates.status",
+                "reference_value": payload["nabl_hardgates"]["status"],
+                "tolerance": 0,
+                "comparison": "status_equal",
+                "owner": "dgt-neural-ablation",
+                "calibration_source": "$.paired_delta_matrix",
+                "seed_basis": {"seed_count": len(seed_list), "source": "$.run_spec.seed_list"},
+            }
+        ],
+        "device_policy": run_spec["device_policy"],
+        "framework_provenance": {
+            "python": "owner-runtime",
+            "dependency_abi": {"torch": str(training.get("backend", "torch"))},
+        },
+        "calibration": {
+            "calibration_source": "$.paired_delta_matrix",
+            "owner": "dgt-neural-ablation",
+            "basis": {
+                "seed_pointer": "$.run_spec.seed_list",
+                "metric_pointer": "$.nabl_hardgates.status",
+                "calibration_pointer": "$.paired_delta_matrix",
+            },
+        },
+    }
+    contract_from_payload(payload)
     return payload
 
 
@@ -1659,7 +1703,17 @@ def build_payload(
             reason=f"torch unavailable: {exc}",
             run_spec=run_spec,
         )
-    device_name = _device_name(torch, requested_device)
+    try:
+        device_resolution = choose_device(requested_device)
+    except Exception as exc:
+        return unavailable_payload(
+            generated_at=generated_at,
+            requested_device=requested_device,
+            reason=f"device unavailable: {exc}",
+            run_spec=run_spec,
+        )
+    device_policy = device_resolution.to_dict()
+    device_name = device_resolution.resolved_device
     rows: list[dict[str, Any]] = []
     try:
         for train_steps in run_spec.step_grid:
@@ -1708,7 +1762,7 @@ def build_payload(
             "report": f"{RUN_ROOT}/report.md",
         },
         "module_registry": module_registry_payload(),
-        "run_spec": run_spec.as_payload(resolved_device=device_name),
+        "run_spec": run_spec.as_payload(device_policy=device_policy),
         "training_protocol": {
             "status": "pending",
             "requested_device": requested_device,
@@ -1764,7 +1818,7 @@ def build_payload(
     partial_payload["claim_capsule_ref"]["status"] = "available" if status == "available" else "blocked"
     if status != "available":
         partial_payload["component_causal_claims"] = []
-    return partial_payload
+    return _with_reproducibility_contract(partial_payload)
 
 
 def validate_payload(payload: Mapping[str, Any]) -> None:
@@ -1800,6 +1854,7 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         "not_claimed",
         "forbidden_claim_term_audit",
         "negative_witness_sweep",
+        "reproducibility_contract",
     }
     if set(payload) != required:
         raise ValueError("DGT neural ablation payload fields mismatch")
@@ -1932,6 +1987,7 @@ def _json_digest(payload: Mapping[str, Any]) -> str:
 
 
 def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dict[str, Any]:
+    contract = contract_from_payload(payload)
     return {
         "schema_id": "bedc-quality-lab:canonical-report-fingerprint",
         "report_name": "dgt-neural-ablation",
@@ -1939,7 +1995,9 @@ def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dic
         "markdown_artifact": CANONICAL_MARKDOWN_ARTIFACT,
         "producer_command": ["python3", "scripts/run_dgt_neural_ablation.py"],
         "input_fingerprint": _json_digest({"producer": PRODUCER, "run_spec": payload.get("run_spec", {})}),
-        "output_digest": _json_digest(payload),
+        "reproducibility_mode": contract.mode,
+        "reproducibility_contract_digest": contract.digest(),
+        "reproducibility_contract": contract.to_payload(),
         "inputs": {"static_owner": "bedc_quality_lab/dgt_neural_ablation.py"},
         "generated_by": {"runner": PRODUCER, "generated_at": generated_at},
     }

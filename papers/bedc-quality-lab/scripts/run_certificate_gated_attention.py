@@ -26,6 +26,7 @@ from bedc_quality_lab.certificate_gated_attention import (
     CertificateGatedAttentionProjection,
     default_grid,
 )
+from bedc_quality_lab.model import choose_device
 
 
 DEFAULT_RUN_ID = "certificate-gated-attention"
@@ -141,17 +142,14 @@ def collect_deterministic_records(
 
 def _resolve_torch_device(requested_device: str) -> tuple[str, str, dict[str, Any]]:
     try:
-        import torch
+        resolution = choose_device(requested_device)
     except Exception as exc:
         return "unavailable", "not-available", {"torch": "unavailable", "reason": exc.__class__.__name__}
-    if requested_device == "mps":
-        resolved = "mps" if getattr(torch.backends, "mps", None) is not None and torch.backends.mps.is_available() else "cpu"
-    elif requested_device == "cpu":
-        resolved = "cpu"
-    else:
-        resolved = "mps" if getattr(torch.backends, "mps", None) is not None and torch.backends.mps.is_available() else "cpu"
-    version = getattr(torch, "__version__", "unknown")
-    return "available", resolved, {"torch": str(version)}
+    policy = resolution.to_dict()
+    abi = dict(policy["backend_details"])
+    abi["resolution_status"] = policy["resolution_status"]
+    abi["resolution_reason"] = policy["resolution_reason"]
+    return "available", policy["resolved_device"], abi
 
 
 def collect_torch_records(

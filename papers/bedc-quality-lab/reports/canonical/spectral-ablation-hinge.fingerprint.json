@@ -1,21 +1,11 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "3577fe16b4f9ccd247eb7af8f25de8eb7a0b02b857d63ecac1f09137aa99070c",
+  "input_fingerprint": "8039f39e67b886c22691f0ca54014638ef24afd9db2fc726f54ac76c39e9c44b",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
-    "config_inputs": [
-      {
-        "path": "configs/default_cost_protocol.yaml",
-        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
-      },
-      {
-        "path": "docs/lit/literature_ledger.yaml",
-        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
-      }
-    ],
     "dependency_abi": {
       "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
       "numpy": "2.2.5",
@@ -54,7 +44,7 @@
       },
       {
         "path": "bedc_quality_lab/model.py",
-        "sha256": "d7611dd13ccf81966e7418f6d54eef622c313d32ced14dcc602a596700f004f3"
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
       },
       {
         "path": "bedc_quality_lab/report.py",
@@ -82,7 +72,7 @@
       },
       {
         "path": "scripts/run_gaussian_ou_lejepa.py",
-        "sha256": "04d36e018fb1d306e0b18cb50dc9a1428b0b39b5c4c714d9e0f554cb9b4f0697"
+        "sha256": "87eae902d4e4f792858704e8ed49061c6b80a5203ef2d1004480f1006e59252a"
       },
       {
         "path": "scripts/run_spectral_ablation_hinge.py",
@@ -103,10 +93,12 @@
     "source_artifacts": [],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_spectral_ablation_hinge.py"
       ],
+      "construct_validity_pointer": null,
       "control_pointer": "$.negative_control_summary",
       "cost_pointer": "$.source_artifacts",
       "estimated_seconds": 20,
@@ -123,6 +115,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.applicability_boundary.not_claimed",
       "positive_claim_pointer": "$.ledger_summary",
+      "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "generated_at",
         "config",
@@ -140,11 +133,54 @@
   },
   "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
   "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",
-  "output_digest": "6c7193b85ecb0a8297062878dd65cea93339f21a611fa72e2e8af286f90a28a9",
   "producer_command": [
     "python3",
     "scripts/run_spectral_ablation_hinge.py"
   ],
   "report_name": "spectral-ablation-hinge",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "spectral-ablation-hinge"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "spectral-ablation-hinge",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "5e181f7011832f0bf52ff084a3c1543c07f43789d032bf6190535da080487701",
+  "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

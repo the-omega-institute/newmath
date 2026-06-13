@@ -1,0 +1,256 @@
+{
+  "artifact_id": "bedc-quality-lab:fair-l1-decision",
+  "boundary_ledger": [
+    {
+      "gate_id": "FAIR-L1-HG2",
+      "reason": "one or more fair alignment rows are missing",
+      "source_pointer": "$.fair_alignment.comparison_rows",
+      "status": "bounded-negative"
+    },
+    {
+      "gate_id": "FAIR-L1-HG3",
+      "reason": "baseline arm is information-starved or input-accessibility rows mark missing variables",
+      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+      "status": "bounded-negative"
+    },
+    {
+      "gate_id": "FAIR-L1-HG5",
+      "reason": "step-ladder evidence does not support fair scaling promotion",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+      "status": "bounded-negative"
+    },
+    {
+      "gate_id": "FAIR-L1-HG6",
+      "reason": "OOD mechanism remains diagnostic or not claimed",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism",
+      "status": "bounded-negative"
+    },
+    {
+      "gate_id": "FAIR-L1-HG7",
+      "reason": "baseline Bayes limit is chance under the owner construct-validity proof",
+      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+      "status": "bounded-negative"
+    }
+  ],
+  "construct_validity_projection": {
+    "base_construct_validity_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+    "input_accessibility_pointer": "reports/canonical/input-accessibility.json:$",
+    "l1_construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
+    "status": "bounded-negative"
+  },
+  "decision": {
+    "allowed_statuses": [
+      "blocked",
+      "bounded-negative",
+      "scaling-evidence-eligible"
+    ],
+    "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+    "claim_capsule": {
+      "claim_id": "claim:fair-l1-decision",
+      "evidence_pointers": [
+        "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+        "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism",
+        "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+        "reports/canonical/input-accessibility.json:$",
+        "reports/canonical/fair-l1-decision.json:$.decision.status",
+        "reports/canonical/fair-l1-decision.json:$.ladder_state_projection.state"
+      ],
+      "not_claimed": [
+        "Bounded L1 tiny-sequence decision only.",
+        "No L2 or higher scaling claim.",
+        "No production deployment claim.",
+        "No global model superiority claim.",
+        "No LLM replacement claim.",
+        "No OOD generalization claim.",
+        "No architecture advantage claim."
+      ],
+      "projection_pointers": [
+        "reports/canonical/fair-l1-decision.json:$.decision",
+        "reports/canonical/fair-l1-decision.json:$.ladder_state_projection"
+      ],
+      "schema_id": "bedc.quality.claim_capsule",
+      "status": "pointer-only"
+    },
+    "claim_id": "claim:fair-l1-decision",
+    "comparison_count": 4,
+    "comparison_pointer": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows",
+    "failed_gate": "FAIR-L1-HG2",
+    "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+    "hardgate_status": "fail",
+    "ladder_state": "l1-bounded-negative",
+    "mechanical_rule": {
+      "blocked": "any required owner pointer is missing",
+      "bounded-negative": "owner pointers resolve but any fair comparison, construct-validity, step-ladder, or OOD gate fails",
+      "scaling-evidence-eligible": "all fair L1 hardgates pass"
+    },
+    "status": "bounded-negative"
+  },
+  "fair_alignment": {
+    "comparison_ids": [
+      "equal-step",
+      "equal-compute",
+      "equal-loss-decrease",
+      "equal-validation-loss"
+    ],
+    "comparison_rows": [
+      {
+        "comparison_id": "equal-step",
+        "decision": "noninformative-dgt-separated",
+        "match_axis": "training_steps",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "status": "resolved"
+      },
+      {
+        "comparison_id": "equal-compute",
+        "decision": "noninformative-dgt-separated",
+        "match_axis": "compute_units",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "status": "resolved"
+      },
+      {
+        "comparison_id": "equal-loss-decrease",
+        "decision": "noninformative-dgt-separated",
+        "match_axis": "loss_decrease",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
+        "status": "resolved"
+      },
+      {
+        "comparison_id": "equal-validation-loss",
+        "decision": "validation-loss-cell-missing",
+        "match_axis": "validation_loss",
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+        "status": "missing"
+      }
+    ],
+    "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder"
+  },
+  "generated_at": "2026-06-12T00:00:00+08:00",
+  "hardgates": {
+    "FAIR-L1-HG1": {
+      "criterion": "required owner pointers resolve before any L1 decision is emitted",
+      "fail_closed_reason": null,
+      "gate_id": "FAIR-L1-HG1",
+      "source_pointer": "$.source_artifacts",
+      "status": "pass"
+    },
+    "FAIR-L1-HG2": {
+      "criterion": "equal-step, equal-compute, equal-loss-decrease, and equal-validation-loss rows are resolved",
+      "fail_closed_reason": "one or more fair alignment rows are missing",
+      "gate_id": "FAIR-L1-HG2",
+      "source_pointer": "$.fair_alignment.comparison_rows",
+      "status": "fail"
+    },
+    "FAIR-L1-HG3": {
+      "criterion": "baseline arm has enough task information for a fair architecture comparison",
+      "fail_closed_reason": "baseline arm is information-starved or input-accessibility rows mark missing variables",
+      "gate_id": "FAIR-L1-HG3",
+      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+      "status": "fail"
+    },
+    "FAIR-L1-HG4": {
+      "criterion": "bounded L1 controls pass their owner-local review",
+      "fail_closed_reason": null,
+      "gate_id": "FAIR-L1-HG4",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+      "status": "pass"
+    },
+    "FAIR-L1-HG5": {
+      "criterion": "step-ladder verdict supplies positive fair scaling evidence",
+      "fail_closed_reason": "step-ladder evidence does not support fair scaling promotion",
+      "gate_id": "FAIR-L1-HG5",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
+      "status": "fail"
+    },
+    "FAIR-L1-HG6": {
+      "criterion": "OOD mechanism evidence is above boundary-only status",
+      "fail_closed_reason": "OOD mechanism remains diagnostic or not claimed",
+      "gate_id": "FAIR-L1-HG6",
+      "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism",
+      "status": "fail"
+    },
+    "FAIR-L1-HG7": {
+      "criterion": "baseline can in principle express the target dependency",
+      "fail_closed_reason": "baseline Bayes limit is chance under the owner construct-validity proof",
+      "gate_id": "FAIR-L1-HG7",
+      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+      "status": "fail"
+    }
+  },
+  "ladder_state_projection": {
+    "allowed_states": [
+      "l1-scaling-blocked",
+      "l1-bounded-negative",
+      "l1-scaling-evidence-eligible"
+    ],
+    "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
+    "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
+    "decision_status": "bounded-negative",
+    "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
+    "not_claimed": [
+      "Bounded L1 tiny-sequence decision only.",
+      "No L2 or higher scaling claim.",
+      "No production deployment claim.",
+      "No global model superiority claim.",
+      "No LLM replacement claim.",
+      "No OOD generalization claim.",
+      "No architecture advantage claim."
+    ],
+    "state": "l1-bounded-negative"
+  },
+  "not_claimed": [
+    "Bounded L1 tiny-sequence decision only.",
+    "No L2 or higher scaling claim.",
+    "No production deployment claim.",
+    "No global model superiority claim.",
+    "No LLM replacement claim.",
+    "No OOD generalization claim.",
+    "No architecture advantage claim."
+  ],
+  "ood_projection": {
+    "l1_projection_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
+    "mechanism_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism",
+    "status": "bounded-negative"
+  },
+  "owner_module": "bedc_quality_lab/fair_l1_decision.py",
+  "producer": "scripts/run_fair_l1_decision.py",
+  "schema_id": "bedc-quality-lab:fair-l1-decision",
+  "source_artifacts": {
+    "base_audit": {
+      "artifact": "reports/canonical/dgt-base-undertraining-audit.json",
+      "pointer": "$.base_undertraining_audit",
+      "sha256": "f1293e10041ff15850ef32b65769c089648b1b4412c530207c5bd79d5df8d8ca",
+      "status": "resolved"
+    },
+    "input_accessibility": {
+      "artifact": "reports/canonical/input-accessibility.json",
+      "pointer": "$",
+      "sha256": "311342eb88692d6034c21c81d491ea982213e10995dcdaa5ef6e88274de16b24",
+      "status": "resolved"
+    },
+    "l1_construct_validity": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.construct_validity_ledger",
+      "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4",
+      "status": "resolved"
+    },
+    "l1_ood_mechanism": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.l1_ood_mechanism",
+      "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4",
+      "status": "resolved"
+    },
+    "l1_projection": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.l1_tiny_sequence_projection",
+      "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4",
+      "status": "resolved"
+    },
+    "l1_step_ladder": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
+      "pointer": "$.l1_step_ladder",
+      "sha256": "b498e8ee560366006d3f0f88a73f7155bfb3c421338121841dae494d17da36a4",
+      "status": "resolved"
+    }
+  }
+}

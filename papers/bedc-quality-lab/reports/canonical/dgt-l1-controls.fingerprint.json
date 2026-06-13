@@ -1,21 +1,11 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-09T08:21:49.156738+00:00",
+    "generated_at": "2026-06-12T22:50:28.746960+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "b429049c6791eae11e6a321c0ad3a179edad722e4dc3ff6fdda3060e4ac07876",
+  "input_fingerprint": "8de471bfc24e51f515ccc98795966124e0013cd5d8e05a2000e58ef6aadb97a1",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
-    "config_inputs": [
-      {
-        "path": "configs/default_cost_protocol.yaml",
-        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
-      },
-      {
-        "path": "docs/lit/literature_ledger.yaml",
-        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
-      }
-    ],
     "dependency_abi": {
       "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
       "numpy": "2.2.5",
@@ -25,16 +15,28 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
+        "path": "bedc_quality_lab/canonical_cell_cache.py",
+        "sha256": "7c6f1db39e5279faa891d8429d268a34fdf213e22e172e34a72000273224a292"
+      },
+      {
         "path": "bedc_quality_lab/claim_terms.py",
         "sha256": "456004daca16b50ac7c4deab3af1b2001fa3d4d79f426cd731a8be01f555291f"
       },
       {
+        "path": "bedc_quality_lab/construct_validity.py",
+        "sha256": "eac03a3af807de0e6ede5499b177a431b2e17096209829ab480310a9a9c6e843"
+      },
+      {
         "path": "bedc_quality_lab/dgt_l1_controls.py",
-        "sha256": "b5d8f522778e326744f9a3a7d16bbb8534822e815094bc9ec47f430884d865ef"
+        "sha256": "6dbcec4855572017cf4ec0a0f106160812bd157f2a57247ac0750bf982a7d76a"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/pointers.py",
         "sha256": "d874bca960fac9776856fbd43fd00bf9dd2e212689ae48c2ff9285d7acdeea6e"
+      },
+      {
+        "path": "bedc_quality_lab/model.py",
+        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
       },
       {
         "path": "bedc_quality_lab/order_k_benchmark.py",
@@ -42,7 +44,7 @@
       },
       {
         "path": "scripts/run_dgt_l1_controls.py",
-        "sha256": "032071b6ddf4fcf5cb6361b6c85d72f9e5ef445326426c949a1cfe52d91106d6"
+        "sha256": "82301ba8fa3fed5476a2769a91cf3cb9e2c09c11041c4acc88bf18a5e0e7f4eb"
       }
     ],
     "report_output_schema_id": "bedc-quality-lab:dgt-l1-controls",
@@ -58,28 +60,50 @@
     },
     "source_artifacts": [
       {
+        "path": "reports/canonical/dgt-neural-ablation.json",
+        "sha256": "e458525ebd7e0f6936bb945cc0f6fd667f48a8dc9fd3ca1ff735358c7c71af6c"
+      },
+      {
+        "path": "reports/canonical/input-accessibility.json",
+        "sha256": "311342eb88692d6034c21c81d491ea982213e10995dcdaa5ef6e88274de16b24"
+      },
+      {
+        "path": "reports/canonical/order-k-benchmark.json",
+        "sha256": "105ed42d1f5007b748c90e3c9a89ddd3658a630d32c112b7dc9764d07fc0ad18"
+      },
+      {
+        "path": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+        "sha256": "bf918c3f98dd4898c686b0b0d2ef02c1d2a00d62de2d137a45a7ebed4d6f942e"
+      },
+      {
         "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/claim_capsule.json",
-        "sha256": "0270b4635c6ffa3c953b328434d005ba85bfb8502c91aeb5bdbaa8c74b6bcb42"
+        "sha256": "16205331cc25a5fc5efec6b46239dab548bd21027dfd4a2edcf6ac0980a92ec8"
+      },
+      {
+        "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
+        "sha256": "b8da9604a9479a0e0744f592d5b1530cae98c372ac0217a7a1ee5263efa2d035"
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
-        "sha256": "32fd1620018ef1de856dfc3c3e6b63546569db6ef855d3b2a9b7078b20b891e0"
+        "sha256": "fa189d0f2ee4c62f392499116d792a8a80ffcf9f775e7550407e794ba43262c8"
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/report.md",
-        "sha256": "6ef7fd3016768397c22c559fbef03a62d53fcda71d062485220a24e0951a7094"
+        "sha256": "3ea134394a71574151ff18f2e98cedb912e9d59a7695ba0e1f77c73952aa9740"
       },
       {
         "path": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json",
-        "sha256": "e95ac7bff95d024afde3f4854c31274c9c7d4eed7fefcb5a2cb051b58ee17103"
+        "sha256": "22a39a99cfb1cbfc6f4f326d281261ccbeaecb6536d40a2c1fc81d95623e7cc4"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
       "command": [
         "python3",
         "scripts/run_dgt_l1_controls.py"
       ],
+      "construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
       "control_pointer": "$.training_arms",
       "cost_pointer": "$.compute_ledger",
       "estimated_seconds": 10,
@@ -96,6 +120,7 @@
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
       "positive_claim_pointer": "$.l1_tiny_sequence_projection.review_status",
+      "reproducibility_mode": "true_training",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
@@ -109,6 +134,8 @@
         "negative_witness_sweep",
         "independent_replay",
         "l1_step_ladder",
+        "l1_ood_mechanism",
+        "construct_validity_ledger",
         "review_status",
         "promotion_readiness",
         "component_ablation_boundary",
@@ -116,18 +143,84 @@
         "claim_capsule_ref",
         "l1_tiny_sequence_projection",
         "boundary_ledger",
-        "not_claimed"
+        "not_claimed",
+        "reproducibility_contract"
       ],
       "scope_pointer": "$.l1_tiny_sequence_projection.evidence_scope"
     }
   },
   "json_artifact": "reports/canonical/dgt-l1-controls.json",
   "markdown_artifact": "reports/canonical/dgt-l1-controls.md",
-  "output_digest": "c0a30909f63092029f52223e72fb606847c9b1cd0e7440da4f4977a18c397cda",
   "producer_command": [
     "python3",
     "scripts/run_dgt_l1_controls.py"
   ],
   "report_name": "dgt-l1-controls",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.independent_replay",
+        "metric_pointer": "$.l1_tiny_sequence_projection.status",
+        "seed_pointer": "$.independent_replay.fixed_seeds"
+      },
+      "calibration_source": "$.independent_replay",
+      "owner": "dgt-l1-controls"
+    },
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "explicit-cpu",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.independent_replay",
+        "comparison": "status_equal",
+        "owner": "dgt-l1-controls",
+        "pointer": "$.l1_tiny_sequence_projection.status",
+        "reference_value": "pass",
+        "seed_basis": {
+          "seed_count": 16,
+          "source": "$.independent_replay.fixed_seeds"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "true_training",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      1174,
+      1175,
+      1176,
+      1177,
+      1178,
+      1179,
+      1180,
+      1181,
+      1182,
+      1183,
+      1184,
+      1185,
+      1186,
+      1187,
+      1188,
+      1189
+    ]
+  },
+  "reproducibility_contract_digest": "8145381d00f0cacb03921b84e7e0797a542578fdb6f1da86ea2fa89b5f177c8a",
+  "reproducibility_mode": "true_training",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }
