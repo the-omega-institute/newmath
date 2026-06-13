@@ -3455,6 +3455,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripModulusRefusal
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripModulusTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripNameCertSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripObstructionExactness
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripRHRefusal
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripReadback
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripRowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripScopeExhaustion
