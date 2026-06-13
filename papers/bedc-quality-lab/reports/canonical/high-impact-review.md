@@ -1,6 +1,6 @@
 # High Impact Review
 
-- Generated at: `2026-06-13T08:49:46.900678+00:00`
+- Generated at: `2026-06-13T12:52:34.119917+00:00`
 - Artifact: `bedc-quality-lab:high-impact-review`
 - Schema: `bedc-quality-lab:high-impact-review`
 

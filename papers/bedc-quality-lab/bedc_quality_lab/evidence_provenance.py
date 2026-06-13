@@ -593,8 +593,10 @@ def _metric_source_type(spec: Any, audit: ProducerTrainingAudit) -> str:
         return "arm_branch"
     if name in {"dgt-base-undertraining-audit", "dgt-ablation-null-decomposition", "dgt-component-redundancy-audit"}:
         return "declared_constant"
-    if name in {"order-k-benchmark", "claim-complexity", "mechanism-dna", "high-impact-review", "model-comparison"}:
-        return "protocol_field" if name != "order-k-benchmark" else "deterministic_projection"
+    if name in {"order-k-benchmark", "model-comparison"}:
+        return "deterministic_projection"
+    if name in {"claim-complexity", "mechanism-dna", "high-impact-review"}:
+        return "protocol_field"
     if name in {"transformer-derivative-atlas", "lejepa-theorem-ledger", "causal-patch-suite"}:
         return "deterministic_projection"
     if audit.training_evidence_status == TRAINING_CLEAN_STATUS:

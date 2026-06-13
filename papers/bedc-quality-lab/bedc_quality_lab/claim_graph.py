@@ -14,6 +14,7 @@ from bedc_quality_lab.high_impact_review import high_impact_review_dgt_gate
 from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
 from bedc_quality_lab.discovery_gated_transformer import validate_evidence_scope
+from bedc_quality_lab.model_comparison import D5_M_SCOPE_POINTER, DGT_CONTROL_SEMANTIC_POINTER
 from bedc_quality_lab.evidence_provenance import load_evidence_provenance, owner_discovery_row, owner_metric_rows
 
 
@@ -46,6 +47,8 @@ NODE_KEYS = frozenset(
         "evidence_scope",
         "evidence_type",
         "evidence_provenance_pointer",
+        "model_comparison_semantic_pointer",
+        "d5_m_scope_pointer",
         "depends_on",
         "not_claimed",
     }
@@ -62,6 +65,8 @@ class ClaimGraphNode:
     evidence_scope: tuple[str, ...] | None
     evidence_type: str | None
     evidence_provenance_pointer: str | None
+    model_comparison_semantic_pointer: str | None
+    d5_m_scope_pointer: str | None
     depends_on: tuple[str, ...]
     not_claimed: tuple[str, ...]
 
@@ -212,6 +217,8 @@ def _mechanism_nodes(root: Path) -> list[ClaimGraphNode]:
                     evidence_scope=None,
                     evidence_type=None,
                     evidence_provenance_pointer=None,
+                    model_comparison_semantic_pointer=None,
+                    d5_m_scope_pointer=None,
                     depends_on=(),
                     not_claimed=not_claimed,
                 )
@@ -243,6 +250,14 @@ def _claim_verdict_source_candidates(index: int, row: Mapping[str, Any]) -> list
     return [candidate for candidate in candidates if candidate]
 
 
+def _projection_metadata_pointer(row: Mapping[str, Any], key: str, fallback: str | None = None) -> str | None:
+    metadata = row.get("projection_metadata")
+    value = metadata.get(key) if isinstance(metadata, Mapping) else None
+    if isinstance(value, str) and value:
+        return value
+    return fallback
+
+
 def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) -> dict[str, Any]:
     rows = load_claim_verdict_rows(root)
     discovery_rows = _discovery_rows(root)
@@ -267,6 +282,16 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
         projected_id = f"projected:{report}"
         source_payload = _load_optional_mapping(root, source_artifact)
         evidence_scope = pointer_value(source_payload, "$.d5_m_projection.evidence_scope") if report == "discovery-gated-transformer" else None
+        model_comparison_semantic_pointer = (
+            _projection_metadata_pointer(row, "model_comparison_semantic_pointer", DGT_CONTROL_SEMANTIC_POINTER)
+            if report == "discovery-gated-transformer"
+            else None
+        )
+        d5_m_scope_pointer = (
+            _projection_metadata_pointer(row, "d5_m_scope_pointer", D5_M_SCOPE_POINTER)
+            if report == "discovery-gated-transformer"
+            else None
+        )
         nodes.append(
             ClaimGraphNode(
                 node_id=raw_id,
@@ -279,6 +304,8 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 evidence_provenance_pointer=str(row.get("evidence_provenance_pointer"))
                 if isinstance(row.get("evidence_provenance_pointer"), str)
                 else None,
+                model_comparison_semantic_pointer=model_comparison_semantic_pointer,
+                d5_m_scope_pointer=d5_m_scope_pointer,
                 depends_on=(),
                 not_claimed=_not_claimed(row.get("not_claimed")),
             )
@@ -289,12 +316,14 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 node_type="projected_discovery",
                 source_pointer=f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[{index}]",
                 discovery_level=str(row.get("discovery_level") or ""),
-                terminal_verdict=str(row.get("terminal_verdict") or "") or None,
+                terminal_verdict=None,
                 evidence_scope=tuple(evidence_scope) if isinstance(evidence_scope, list) else None,
                 evidence_type=str(row.get("evidence_type")) if isinstance(row.get("evidence_type"), str) else None,
                 evidence_provenance_pointer=str(row.get("evidence_provenance_pointer"))
                 if isinstance(row.get("evidence_provenance_pointer"), str)
                 else None,
+                model_comparison_semantic_pointer=model_comparison_semantic_pointer,
+                d5_m_scope_pointer=d5_m_scope_pointer,
                 depends_on=(raw_id,),
                 not_claimed=_not_claimed(row.get("not_claimed")),
             )
@@ -310,10 +339,12 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 node_type="negative_witness",
                 source_pointer=f"{NEGATIVE_WITNESSES_JSON_ARTIFACT}:$.witnesses[{index}]",
                 discovery_level=str(witness.get("discovery_level") or "") or None,
-                terminal_verdict=str(witness.get("terminal_verdict") or "") or None,
+                terminal_verdict=None,
                 evidence_scope=None,
                 evidence_type=None,
                 evidence_provenance_pointer=None,
+                model_comparison_semantic_pointer=None,
+                d5_m_scope_pointer=None,
                 depends_on=(),
                 not_claimed=_not_claimed(witness.get("not_claimed")),
             )
@@ -340,10 +371,12 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                     node_type="revocation",
                     source_pointer=source_pointer,
                     discovery_level=None,
-                    terminal_verdict=str(row.get("claim_verdict") or ""),
+                    terminal_verdict=None,
                     evidence_scope=None,
                     evidence_type=None,
                     evidence_provenance_pointer=None,
+                    model_comparison_semantic_pointer=None,
+                    d5_m_scope_pointer=None,
                     depends_on=(base_dependency,),
                     not_claimed=(),
                 )
@@ -359,6 +392,8 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
                 evidence_scope=None,
                 evidence_type=None,
                 evidence_provenance_pointer=None,
+                model_comparison_semantic_pointer=None,
+                d5_m_scope_pointer=None,
                 depends_on=depends_on,
                 not_claimed=(),
             )
@@ -536,6 +571,10 @@ def _node_from_json(row: Mapping[str, Any]) -> ClaimGraphNode | None:
         evidence_scope=tuple(str(item) for item in evidence_scope) if evidence_scope is not None else None,
         evidence_type=row["evidence_type"] if isinstance(row["evidence_type"], str) else None,
         evidence_provenance_pointer=row["evidence_provenance_pointer"] if isinstance(row["evidence_provenance_pointer"], str) else None,
+        model_comparison_semantic_pointer=row["model_comparison_semantic_pointer"]
+        if isinstance(row["model_comparison_semantic_pointer"], str)
+        else None,
+        d5_m_scope_pointer=row["d5_m_scope_pointer"] if isinstance(row["d5_m_scope_pointer"], str) else None,
         depends_on=tuple(str(item) for item in depends_on),
         not_claimed=tuple(str(item) for item in not_claimed),
     )
@@ -562,12 +601,16 @@ def validate_claim_graph_payload(
             continue
         if node.node_type not in NODE_TYPES:
             errors.append(f"node {node.node_id} has invalid node_type")
-        if node.node_type == "raw_evidence" and node.terminal_verdict is not None:
-            errors.append(f"raw_evidence node has terminal verdict: {node.node_id}")
+        if node.node_type != "terminal_claim" and node.terminal_verdict is not None:
+            errors.append(f"non-terminal node has terminal verdict: {node.node_id}")
         if not source_pointer_resolves(root, node.source_pointer):
             errors.append(f"node source_pointer does not resolve: {node.node_id}")
         if node.evidence_provenance_pointer is not None and resolve_artifact_pointer(root, node.evidence_provenance_pointer) is None:
             errors.append(f"node evidence_provenance_pointer does not resolve: {node.node_id}")
+        if node.model_comparison_semantic_pointer is not None and resolve_artifact_pointer(root, node.model_comparison_semantic_pointer) is None:
+            errors.append(f"node model_comparison_semantic_pointer does not resolve: {node.node_id}")
+        if node.d5_m_scope_pointer is not None and resolve_artifact_pointer(root, node.d5_m_scope_pointer) is None:
+            errors.append(f"node d5_m_scope_pointer does not resolve: {node.node_id}")
         nodes.append(node)
     try:
         by_id = _nodes_by_id(nodes)
@@ -587,12 +630,58 @@ def validate_claim_graph_payload(
     errors.extend(_validate_cg_hg2(payload, by_id))
     errors.extend(_validate_cg_hg3(by_id))
     errors.extend(_validate_cg_hg4(verdict_rows, by_id, root))
+    errors.extend(validate_terminal_node_projection(payload, root=root, claim_verdict_rows=verdict_rows))
     errors.extend(_validate_cg_hg6(verdict_rows, root))
     errors.extend(_validate_owner_provenance_acceptance(verdict_rows, root))
     errors.extend(_validate_cg_hg8(verdict_rows, root))
-    errors.extend(_validate_dgt_accepted_positive_path(verdict_rows, by_id))
+    errors.extend(_validate_dgt_accepted_positive_path(verdict_rows, by_id, root))
     errors.extend(_validate_dgt_component_causal_evidence_scope(verdict_rows, by_id, root))
     errors.extend(_validate_dgt_neural_ablation_pointer(root))
+    return errors
+
+
+def validate_terminal_node_projection(
+    payload: Mapping[str, Any],
+    *,
+    root: Path,
+    claim_verdict_rows: Sequence[Mapping[str, Any]] | None = None,
+) -> list[str]:
+    raw_nodes = payload.get("nodes")
+    if not isinstance(raw_nodes, list):
+        return ["terminal projection payload must contain nodes list"]
+    verdict_rows = list(claim_verdict_rows) if claim_verdict_rows is not None else load_claim_verdict_rows(root)
+    rows_by_pointer = {
+        f"{CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[{index}]": row
+        for index, row in enumerate(verdict_rows)
+    }
+    errors: list[str] = []
+    seen_terminal_pointers: set[str] = set()
+    for index, raw_node in enumerate(raw_nodes):
+        if not isinstance(raw_node, Mapping):
+            continue
+        node_type = raw_node.get("node_type")
+        node_id = str(raw_node.get("node_id") or f"<node:{index}>")
+        terminal_verdict = raw_node.get("terminal_verdict")
+        if node_type != "terminal_claim":
+            if terminal_verdict is not None:
+                errors.append(f"terminal projection non-terminal verdict: {node_id}")
+            continue
+        source_pointer = raw_node.get("source_pointer")
+        if not isinstance(source_pointer, str):
+            errors.append(f"terminal projection source pointer missing: {node_id}")
+            continue
+        row = rows_by_pointer.get(source_pointer)
+        if row is None:
+            errors.append(f"terminal projection source pointer is not a claim verdict row: {node_id}")
+            continue
+        seen_terminal_pointers.add(source_pointer)
+        resolved = resolve_source_pointer(root, source_pointer)
+        if resolved != row:
+            errors.append(f"terminal projection source pointer resolves to another row: {node_id}")
+        if terminal_verdict != row.get("claim_verdict"):
+            errors.append(f"terminal projection verdict mismatch: {node_id}")
+    if seen_terminal_pointers != set(rows_by_pointer):
+        errors.append("terminal projection exact cover mismatch")
     return errors
 
 
@@ -814,6 +903,7 @@ def _validate_cg_hg8(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> l
 def _validate_dgt_accepted_positive_path(
     verdict_rows: Sequence[Mapping[str, Any]],
     by_id: Mapping[str, ClaimGraphNode],
+    root: Path,
 ) -> list[str]:
     errors: list[str] = []
     for row in verdict_rows:
@@ -833,6 +923,21 @@ def _validate_dgt_accepted_positive_path(
             errors.append("DGT accepted-positive projected node must depend only on raw:DGT")
         if raw.terminal_verdict is not None or projected.terminal_verdict is not None:
             errors.append("DGT raw/projected nodes must not carry terminal verdict")
+        for node in (raw, projected):
+            if node.model_comparison_semantic_pointer != DGT_CONTROL_SEMANTIC_POINTER:
+                errors.append(f"DGT accepted-positive node lacks model-comparison semantic pointer: {node.node_id}")
+            if node.d5_m_scope_pointer != D5_M_SCOPE_POINTER:
+                errors.append(f"DGT accepted-positive node lacks D5-M scope pointer: {node.node_id}")
+        semantic = resolve_artifact_pointer(root, projected.model_comparison_semantic_pointer or "")
+        if not isinstance(semantic, Mapping):
+            errors.append("DGT accepted-positive semantic pointer does not resolve")
+        elif semantic.get("allowed_evidence_chain") is False:
+            errors.append("DGT accepted-positive deterministic projection cannot support trained empirical evidence chain")
+        scope = resolve_artifact_pointer(root, projected.d5_m_scope_pointer or "")
+        if not isinstance(scope, Mapping):
+            errors.append("DGT accepted-positive D5-M scope pointer does not resolve")
+        elif scope.get("synthetic_bounded") is not True:
+            errors.append("DGT accepted-positive D5-M scope lacks synthetic-bounded marker")
     return errors
 
 
