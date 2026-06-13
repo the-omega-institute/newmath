@@ -55,6 +55,25 @@ prediction-axis gap is not a matter of scale alone for this recipe: the
 objective or architecture is the binding factor, which bounds what a larger
 compute budget alone would buy.
 
+\paragraph{Three-tier BEDC-native readout evaluation.}
+Across the verified findings the BEDC-native ledger separates into three tiers
+against a fixed LeWorldModel carrier.  For \emph{detection}, the native
+horizon-indexed ledger beats the post-hoc discovery probe in paired
+episode-bootstrap comparison, with a native--post-hoc $\mathrm{AUROC}$ gap
+interval strictly above zero (native near $0.79$--$0.80$ against a post-hoc
+near $0.70$--$0.74$) on the carriers tested.  For \emph{selective prediction},
+the split-conformal rule on the native score holds realized
+failure-among-admitted risk below the target $\alpha = 0.10$ only at a
+conservative admitted coverage near $10\%$; at usable coverage the guarantee is
+marginal.  For \emph{allocation}, no post-hoc transform of the fixed latent --
+neither a readout head nor a tail-weighted re-encoder -- and no small
+from-scratch encoder (even with a verified non-collapsed latent of effective
+rank above $59$) brings the allocation delta against a uniform budget below
+zero; the rank signal stays near $\rho \approx 0.5$, so an allocation-useful
+improvement would require encoder training beyond the present small-scale
+budget.  Detection is therefore an internalized win, selective prediction is a
+conservative-coverage result, and allocation is a bounded frontier.
+
 This loop is the continuation mechanism for the article: each hypothesis it
 clears is appended to the verified-findings record above, and nothing reaches
 that record without passing both the mechanical gates and the adversarial
