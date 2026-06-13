@@ -66,6 +66,7 @@ import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
+import BEDC.Derived.AnalyticContinuationOperationUp.TasteGate
 import BEDC.Derived.AnalyticContinuationSocketUp
 import BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketLedgerExactnessObligation
 import BEDC.Derived.AnalyticContinuationSocketUp.BranchLedgerObligation
@@ -4245,7 +4246,6 @@ import BEDC.Derived.DyadicCoverUp.RealEnvelopeCoverageExactness
 import BEDC.Derived.DyadicCoverUp.RefinementWitnessExhaustion
 import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
 import BEDC.Derived.DyadicDensityRealEmbeddingComparisonUp.TasteGate
-import BEDC.Derived.DyadicDifferentiationBasisUp.TasteGate
 import BEDC.Derived.DyadicDivisionUp
 import BEDC.Derived.DyadicDivisionUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUniquenessUp.TasteGate
