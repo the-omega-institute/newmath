@@ -372,6 +372,20 @@ Apply substitution visibility and endpoint non-escape, \autoref{thm:metacic-diam
 Finally use premise-candidate coverage, \autoref{thm:metacic-diamond-residual-budget-premise-candidate-coverage}. The structural rows $H,C,P,N$ preserve the same finite route, so the refused endpoint claims remain recorded as obstructions rather than exported conclusions.
 \end{proof}
 
+\begin{theorem}[MetaCIC diamond residual budget obligation witness cut]
+\label{thm:metacic-diamond-residual-budget-obligation-witness-cut}
+Every confluence-facing consumer of an accepted $\MetaCICDiamondResidualBudgetUp$ packet must display the typed window $T$, redex frontier $F$, residual budget $R$, substitution boundary $S$, candidate join $J$, residual envelope $E$, closed premise ledger $L$, and local diamond row $D$ before reading structural transport, replay, provenance, or local name rows $H,C,P,N$. Without those displayed rows the packet supplies only the obstruction ledger of \autoref{thm:metacic-diamond-residual-budget-obstruction-ledger}; it does not supply substitution compatibility, full parallel diamond, Church--Rosser, or global strong normalization.
+\end{theorem}
+\begin{proof}
+Start with frontier accounting, \autoref{thm:metacic-diamond-residual-budget-obligation-frontier-accounting}. It fixes the typed window, redex frontier, and residual budget as visible finite rows before any confluence-facing consumer inspects a candidate.
+
+Apply substitution visibility and candidate-join visibility, \autoref{thm:metacic-diamond-residual-budget-substitution-visibility} and \autoref{thm:metacic-diamond-residual-budget-obligation-candidate-join-visibility}. These place the substitution boundary $S$ before the accepted join $J$ and prevent the join from hiding the boundary row.
+
+Use the local-join theorem and endpoint non-escape, \autoref{thm:metacic-diamond-residual-budget-local-join} and \autoref{thm:metacic-diamond-residual-budget-obligation-endpoint-nonescape}. The residual envelope $E$, closed premise ledger $L$, and local diamond row $D$ remain displayed after $J$ and before the structural rows are read.
+
+Finally apply the obstruction ledger theorem. Since $H,C,P,N$ only transport, replay, source, and name the same finite packet, a consumer missing $T,F,R,S,J,E,L,D$ has obstruction evidence rather than substitution compatibility, full parallel diamond, Church--Rosser, or global strong normalization.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual-budget normalization handoff]
 \label{thm:metacic-diamond-residual-budget-normalization-handoff}
 Any normalization-facing consumer of an accepted $\MetaCICDiamondResidualBudgetUp$ packet may consume the residual-normalization read only after the displayed rows
