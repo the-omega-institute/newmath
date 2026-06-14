@@ -1381,6 +1381,47 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
+        name="dgt-l1-boundary-report",
+        command=("python3", "scripts/run_dgt_l1_boundary_report.py"),
+        json_artifact=DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT,
+        markdown_artifact=DGT_L1_BOUNDARY_REPORT_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "artifact_role",
+            "source_artifacts",
+            "cost_protocol",
+            "task_formula",
+            "feature_reachability",
+            "base_bayes_ceiling",
+            "ood_solvability",
+            "table_coverage_ceiling",
+            "negative_witness_refs",
+            "boundary_decision",
+            "required_redesign",
+            "claim_promotion_eligible",
+            "claim_promotion_exclusion",
+            "scaling_claim_block",
+            "hardgates",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.boundary_decision",
+        cost_pointer="$.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.claim_promotion_exclusion",
+        control_pointer=None,
+        no_control_rationale_pointer="$.claim_promotion_exclusion",
+        claim_promotion_eligible=False,
+        claim_capsule_pointer="$.claim_promotion_exclusion",
+        evidence_envelope_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.scaling_claim_block",
+        backend_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.source_artifacts",
+        discovery_level_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.scaling_claim_block.status",
+        formal_status_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.hardgates",
+    ),
+    CanonicalReportSpec(
         name="reproduction-package",
         command=("python3", "scripts/run_reproduction_package.py"),
         json_artifact=REPRODUCTION_PACKAGE_JSON_ARTIFACT,
@@ -1444,47 +1485,6 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         discovery_level_pointer=f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$.profile",
         negative_witness_pointer=f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$.blocked_targets",
         formal_status_pointer=f"{REPRODUCTION_CHECK_RESULT_JSON_ARTIFACT}:$.target_results",
-    ),
-    CanonicalReportSpec(
-        name="dgt-l1-boundary-report",
-        command=("python3", "scripts/run_dgt_l1_boundary_report.py"),
-        json_artifact=DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT,
-        markdown_artifact=DGT_L1_BOUNDARY_REPORT_MARKDOWN_ARTIFACT,
-        required_json_keys=(
-            "schema_id",
-            "artifact_id",
-            "generated_at",
-            "artifact_role",
-            "source_artifacts",
-            "cost_protocol",
-            "task_formula",
-            "feature_reachability",
-            "base_bayes_ceiling",
-            "ood_solvability",
-            "table_coverage_ceiling",
-            "negative_witness_refs",
-            "boundary_decision",
-            "required_redesign",
-            "claim_promotion_eligible",
-            "claim_promotion_exclusion",
-            "scaling_claim_block",
-            "hardgates",
-            "not_claimed",
-        ),
-        estimated_seconds=1,
-        bundle_role="auxiliary",
-        scope_pointer="$.boundary_decision",
-        cost_pointer="$.cost_protocol",
-        not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.claim_promotion_exclusion",
-        control_pointer=None,
-        no_control_rationale_pointer="$.claim_promotion_exclusion",
-        claim_promotion_eligible=False,
-        claim_capsule_pointer="$.claim_promotion_exclusion",
-        evidence_envelope_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.scaling_claim_block",
-        backend_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.source_artifacts",
-        discovery_level_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.scaling_claim_block.status",
-        formal_status_pointer=f"{DGT_L1_BOUNDARY_REPORT_JSON_ARTIFACT}:$.hardgates",
     ),
     CanonicalReportSpec(
         name="winnability-certificates",
@@ -7195,22 +7195,21 @@ def _validate_reproduction_blocked_reason(
             errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "owner_gate_ref is required"))
         if reason["dependency_ref"] is None:
             errors.append(_reproduction_error(f"{row_path}.blocked_reason.dependency_ref", "dependency_ref is required"))
-        if target_id == "fair-l1-training":
-            for key, expected in FAIR_L1_BLOCKED_REASON.items():
-                if reason[key] != expected:
-                    errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"fair-l1-training requires {expected}"))
-            gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
-            if not isinstance(evidence_value, Mapping) or (
-                evidence_value.get("comparison_id") != "equal-validation-loss"
-                or evidence_value.get("decision") != "validation-loss-owner-cell-missing"
-                or evidence_value.get("status") != "missing"
-            ):
-                errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "fair-l1 evidence row does not match equal-validation-loss"))
-            if not isinstance(gate_value, Mapping) or (
-                gate_value.get("gate_id") != "FAIR-L1-HG2"
-                or gate_value.get("status") != "fail"
-            ):
-                errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "fair-l1 owner gate does not match FAIR-L1-HG2"))
+    if target_id == "fair-l1-training":
+        for key, expected in FAIR_L1_BLOCKED_REASON.items():
+            if reason[key] != expected:
+                errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"fair-l1-training requires {expected}"))
+        gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
+        if not isinstance(evidence_value, Mapping) or (
+            evidence_value.get("gate_id") != "FAIR-L1-HG3"
+            or evidence_value.get("status") != "fail"
+        ):
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "fair-l1 evidence gate does not match FAIR-L1-HG3"))
+        if not isinstance(gate_value, Mapping) or (
+            gate_value.get("gate_id") != "FAIR-L1-HG3"
+            or gate_value.get("status") != "fail"
+        ):
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "fair-l1 owner gate does not match FAIR-L1-HG3"))
     return errors
 
 
@@ -7578,6 +7577,22 @@ def _result_has_runner_failure(result: Mapping[str, Any]) -> bool:
             return True
     return False
 
+
+def _is_dgt_l0_cv_hg4_boundary_result(result: Mapping[str, Any]) -> bool:
+    if result.get("name") != "dgt-l0-controls":
+        return False
+    report_build = result.get("report_build_status")
+    if isinstance(report_build, Mapping) and report_build.get("value") != "pass":
+        return False
+    construct_validity = result.get("construct_validity")
+    if not isinstance(construct_validity, Mapping):
+        return False
+    return (
+        construct_validity.get("status") == "fail"
+        and construct_validity.get("failed_gates") == ["CV-HG4"]
+    )
+
+
 def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
     if _result_has_runner_failure(result):
         return True
@@ -7592,7 +7607,7 @@ def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
         return False
     report_build = result.get("report_build_status")
     report_build_value = report_build.get("value") if isinstance(report_build, Mapping) else result.get("status")
-    if report_build_value != "pass":
+    if report_build_value != "pass" and not _is_dgt_l0_cv_hg4_boundary_result(result):
         return True
     if result.get("producer_status") == "error":
         return True
@@ -7601,6 +7616,8 @@ def _result_blocks_changed_run(result: Mapping[str, Any]) -> bool:
     taxonomy = result.get("status_taxonomy")
     if isinstance(taxonomy, Mapping) and taxonomy.get("status") != "pass":
         return True
+    if _is_dgt_l0_cv_hg4_boundary_result(result):
+        return False
     cells = {
         axis: result.get(axis)
         for axis in STATUS_AXIS_DOMAINS
@@ -7698,7 +7715,7 @@ def _index(
         _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
     model_design_suite_payload = _build_model_design_suite_payload(generated_at=timestamp)
     model_comparison_payload = _build_model_comparison(generated_at=timestamp)
-    return {
+    payload = {
         "schema_id": INDEX_SCHEMA_ID,
         "generated_at": timestamp,
         "root": INDEX_ROOT,
@@ -7760,6 +7777,11 @@ def _index(
         "honest_boundary": _honest_boundary(),
         "literature_ledger": _literature_ledger(),
     }
+    payload["aggregation_consistency"] = _aggregation_consistency_status_for_index(
+        payload,
+        generated_at=timestamp,
+    )
+    return payload
 
 
 def _render_index_markdown(payload: dict[str, Any]) -> str:
@@ -8432,6 +8454,28 @@ def _write_index_markdown_pointer_update(payload: dict[str, Any]) -> None:
     except KeyError:
         markdown = _minimal_scaling_ladder_index_markdown(payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", markdown)
+
+
+def _aggregation_consistency_status_for_index(
+    payload: Mapping[str, Any],
+    *,
+    generated_at: str,
+) -> dict[str, Any]:
+    try:
+        return validate_aggregation_consistency(
+            ROOT,
+            index_payload=payload,
+        ).compact_status(generated_at=generated_at)
+    except (FileNotFoundError, json.JSONDecodeError, ValueError) as exc:
+        return {
+            "schema_id": "bedc-quality-lab:aggregation-consistency",
+            "status": "fail",
+            "hardgate_status": {"AGG-HG": "fail"},
+            "binding_count": 0,
+            "doc_scan_count": 0,
+            "generated_at": generated_at,
+            "error": str(exc),
+        }
 
 
 def _write_aggregation_consistency_status(

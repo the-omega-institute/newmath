@@ -2323,7 +2323,7 @@ def test_reproduction_package_validation_rejects_copied_owner_fact(tmp_path):
     assert validation["reproduction_errors"]
 
 
-def _write_fair_l1_decision_fixture(root: Path, *, comparison_id: str = "equal-validation-loss", gate_id: str = "FAIR-L1-HG2") -> None:
+def _write_fair_l1_decision_fixture(root: Path, *, gate_id: str = "FAIR-L1-HG3", gate_status: str = "fail") -> None:
     path = root / "reports/canonical/fair-l1-decision.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     comparison_rows = [
@@ -2331,7 +2331,7 @@ def _write_fair_l1_decision_fixture(root: Path, *, comparison_id: str = "equal-v
         {"comparison_id": "equal-compute", "decision": "resolved", "status": "pass"},
         {"comparison_id": "equal-loss-decrease", "decision": "resolved", "status": "pass"},
         {
-            "comparison_id": comparison_id,
+            "comparison_id": "equal-validation-loss",
             "decision": "validation-loss-owner-cell-missing",
             "status": "missing",
         },
@@ -2341,9 +2341,9 @@ def _write_fair_l1_decision_fixture(root: Path, *, comparison_id: str = "equal-v
         "artifact_id": "bedc-quality-lab:fair-l1-decision",
         "fair_alignment": {"comparison_rows": comparison_rows},
         "hardgates": {
-            "FAIR-L1-HG2": {
+            "FAIR-L1-HG3": {
                 "gate_id": gate_id,
-                "status": "fail",
+                "status": gate_status,
             }
         },
     }
@@ -2514,7 +2514,7 @@ def test_reproduction_check_result_validation_treats_failure_reasons_as_non_auth
 
 def test_reproduction_check_result_validation_rejects_fair_l1_evidence_drift(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path, comparison_id="equal-loss-decrease")
+    _write_fair_l1_decision_fixture(tmp_path, gate_status="pass")
     payload = _reproduction_check_payload()
 
     validation = _write_reproduction_check_fixture(tmp_path, payload)
@@ -2522,13 +2522,13 @@ def test_reproduction_check_result_validation_rejects_fair_l1_evidence_drift(tmp
     assert validation["status"] == "fail"
     assert {
         "path": "$.target_results[1].blocked_reason.evidence_ref",
-        "message": "fair-l1 evidence row does not match equal-validation-loss",
+        "message": "fair-l1 evidence gate does not match FAIR-L1-HG3",
     } in validation["reproduction_errors"]
 
 
 def test_reproduction_check_result_validation_rejects_fair_l1_owner_gate_drift(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path, gate_id="FAIR-L1-HG3")
+    _write_fair_l1_decision_fixture(tmp_path, gate_id="FAIR-L1-HG2")
     payload = _reproduction_check_payload()
 
     validation = _write_reproduction_check_fixture(tmp_path, payload)
@@ -2536,7 +2536,7 @@ def test_reproduction_check_result_validation_rejects_fair_l1_owner_gate_drift(t
     assert validation["status"] == "fail"
     assert {
         "path": "$.target_results[1].blocked_reason.owner_gate_ref",
-        "message": "fair-l1 owner gate does not match FAIR-L1-HG2",
+        "message": "fair-l1 owner gate does not match FAIR-L1-HG3",
     } in validation["reproduction_errors"]
 
 

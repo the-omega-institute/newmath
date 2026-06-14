@@ -310,8 +310,8 @@ def test_real_callable_audit_builds_canonical_payload():
         for row in payload["rows"]
         if row["experiment"] == "dgt_l1_tiny_sequence"
         and row["split"] == "in_distribution"
-        and row["arm"] == "information_starved_l1_baseline"
-        and row["role"] == "fairness-control"
+        and row["arm"] == "input_ablation_masked_tail"
+        and row["role"] == "ablation"
     ]
 
     assert payload["schema_id"] == ia.SCHEMA_ID
@@ -321,7 +321,7 @@ def test_real_callable_audit_builds_canonical_payload():
     assert payload["boundary_ledger"]
     assert payload["consumer_pointers"]["input_accessibility_ref"] == f"{ia.JSON_ARTIFACT}:$"
     assert len(baseline_rows) == 1
-    assert baseline_rows[0]["visible_variables"] == ["x_minus_1"]
+    assert baseline_rows[0]["visible_variables"] == ["x_minus_1", "full_sequence"]
     assert baseline_rows[0]["required_variables"] == ["x_minus_1", "x_minus_2"]
     assert baseline_rows[0]["missing_variables"] == ["x_minus_2"]
     assert baseline_rows[0]["information_starved"] is True
@@ -334,8 +334,8 @@ def test_hand_entered_visibility_facts_cannot_satisfy_fair_baseline_gates(tmp_pa
         for row in payload["rows"]
         if row["experiment"] == "dgt_l1_tiny_sequence"
         and row["split"] == "in_distribution"
-        and row["arm"] == "information_starved_l1_baseline"
-        and row["role"] == "fairness-control"
+        and row["arm"] == "input_ablation_masked_tail"
+        and row["role"] == "ablation"
     )
     payload["visible_variables"][baseline["row_id"]] = list(baseline["required_variables"])
     payload["required_variables"][baseline["row_id"]] = list(baseline["required_variables"])

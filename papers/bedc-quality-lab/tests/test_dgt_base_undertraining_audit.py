@@ -40,8 +40,8 @@ def _owner_valid_input_accessibility_payload():
         if (
             row["experiment"] == "dgt_l1_tiny_sequence"
             and row["split"] == "in_distribution"
-            and row["arm"] == "information_starved_l1_baseline"
-            and row["role"] == "fairness-control"
+            and row["arm"] == audit.INPUT_ABLATION_ARM_ID
+            and row["role"] == audit.INPUT_ABLATION_ROLE
         ):
             row["visible_variables"] = list(row["required_variables"])
             row["missing_variables"] = []
@@ -54,7 +54,7 @@ def _owner_valid_input_accessibility_payload():
     payload["consumer_pointers"]["information_starved_arms_ref"] = [
         pointer
         for pointer in payload["consumer_pointers"]["information_starved_arms_ref"]
-        if not pointer.endswith("#row_id=59a87f14e31796e4")
+        if not pointer.endswith("#row_id=6001d70d815f574b")
     ]
     return payload
 
@@ -90,7 +90,7 @@ def test_base_undertraining_audit_records_construct_boundary_for_current_l1_evid
     assert rows["equal_loss_decrease"]["match_axis"] == "loss_decrease"
     assert rows["equal_validation_loss"]["match_axis"] == "validation_loss"
     assert rows["equal_validation_loss"]["status"] == "resolved"
-    assert rows["equal_validation_loss"]["source_pointer"].endswith(".metrics.information_starved_validation_loss_mean")
+    assert rows["equal_validation_loss"]["source_pointer"].endswith(f".metrics.{audit.INPUT_ABLATION_VALIDATION_LOSS_METRIC}")
     assert all(row["decision"] == "noninformative-dgt-separated" for row in rows.values())
     assert audit_payload["hardgates"]["BASE-UNDER-HG1"]["status"] == "pass"
     assert audit_payload["hardgates"]["BASE-UNDER-HG2"]["status"] == "pass"
@@ -130,7 +130,7 @@ def test_equal_validation_loss_row_resolves_only_from_l1_owner_metric_cells():
     assert row["source_pointer"].startswith(
         f"{audit.L1_SOURCE_ARTIFACT}:$.l1_step_ladder.per_step["
     )
-    assert row["source_pointer"].endswith(".metrics.information_starved_validation_loss_mean")
+    assert row["source_pointer"].endswith(f".metrics.{audit.INPUT_ABLATION_VALIDATION_LOSS_METRIC}")
     assert row["decision"] == "noninformative-dgt-separated"
 
 

@@ -2188,7 +2188,7 @@ def test_positive_row_rejects_unresolved_spec_boundary_pointers(tmp_path, field,
         discovery_map._load_gap_head_d5_context(root=tmp_path),
     )
 
-    assert row["discovery_level"] == "D5-O"
+    assert row["discovery_level"] == "D0"
     assert row["audit_status"] == "invalid"
     assert row["audit_reason"] == expected_reason
 
@@ -2874,7 +2874,7 @@ def test_gap_head_on_h_d5_o_claim_with_unresolved_pointer_is_invalid(monkeypatch
         context,
     )
 
-    assert row["discovery_level"] == "D5-O"
+    assert row["discovery_level"] == "D0"
     assert row["audit_status"] == "invalid"
     assert row["audit_reason"] == "unresolved-d5-pointer-threshold"
 

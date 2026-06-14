@@ -14,7 +14,7 @@
 - `equal_step`: `noninformative-dgt-separated` (base `0.010986`, DGT `0.038086`, pointer `reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]`)
 - `equal_compute`: `noninformative-dgt-separated` (base `0.010986`, DGT `0.038086`, pointer `reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]`)
 - `equal_loss_decrease`: `noninformative-dgt-separated` (base `0.013672`, DGT `0.03418`, pointer `reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]`)
-- `equal_validation_loss`: `validation-loss-owner-cell-missing` (base `None`, DGT `None`, pointer `reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step`)
+- `equal_validation_loss`: `noninformative-dgt-separated` (base `0.010986`, DGT `0.038086`, pointer `reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean`)
 
 ## Not claimed
 

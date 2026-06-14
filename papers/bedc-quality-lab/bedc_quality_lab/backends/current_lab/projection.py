@@ -2713,6 +2713,9 @@ def discovery_row(
     if spec.name == "gap-head-transfer-atlas" and audit_status == "invalid":
         discovery_level = "DN"
         terminal_verdict = ""
+    elif audit_status == "invalid" and discovery_level in {"D4", "D5-O", "D5-M"}:
+        discovery_level = "D0"
+        terminal_verdict = ""
     scope_claim = _scope_claim_payload(spec, payload)
     scope_gate = _scope_expansion_gate_for_payload(spec, payload)
     if scope_gate is not None and scope_gate.status == "fail" and (

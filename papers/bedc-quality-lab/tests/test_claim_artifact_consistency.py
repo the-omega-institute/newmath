@@ -104,6 +104,7 @@ def _fixture_root(tmp_path: Path) -> Path:
                 **_anti_triviality_contract(),
             },
             "hardgate": {"status": "pass"},
+            "scaling_ladder": {"not_claimed": ["bounded deterministic toy evidence only"]},
             "not_claimed": ["bounded deterministic toy evidence only"],
             "scaling_ladder": {"not_claimed": ["bounded scaling ladder only"]},
         },

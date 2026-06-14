@@ -53,6 +53,7 @@ def test_bedc_jepa_experiment_runs_seed_sweep_with_second_world():
         assert world["s3_minus_s2_gap_auc_mean"] > 0.0
         assert world["s2_minus_s3_unlogged_error_mean"] > 0.0
         assert world["s2_minus_s3_debt_mean"] > 0.0
+        assert world["s3_better_gap_auc_rate"] >= 0.5
 
     aggregate = sweep["aggregate"]
     assert aggregate["world_count"] == 2

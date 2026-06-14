@@ -2,7 +2,7 @@
   "aggregation_consistency": {
     "binding_count": 54,
     "doc_scan_count": 10,
-    "generated_at": "2026-06-13T12:52:34.119917+00:00",
+    "generated_at": "2026-06-13T14:56:21.159269+00:00",
     "hardgate_status": {
       "AGG-HG1": "pass",
       "AGG-HG2": "pass",
@@ -1011,7 +1011,7 @@
           "deterministic_projection evidence does not certify empirical superiority."
         ],
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[21]",
-        "report": "reproduction-package"
+        "report": "dgt-l1-boundary-report"
       },
       {
         "allowed_claim_kinds": [
@@ -1026,7 +1026,7 @@
           "deterministic_projection evidence does not certify empirical superiority."
         ],
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[22]",
-        "report": "reproduction-check-result"
+        "report": "reproduction-package"
       },
       {
         "allowed_claim_kinds": [
@@ -1041,7 +1041,7 @@
           "deterministic_projection evidence does not certify empirical superiority."
         ],
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[23]",
-        "report": "dgt-l1-boundary-report"
+        "report": "reproduction-check-result"
       },
       {
         "allowed_claim_kinds": [
@@ -1552,12 +1552,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[23]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[21]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[23]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[21]",
         "report": "dgt-l1-boundary-report"
       },
       "dgt-l1-controls": {
@@ -1947,12 +1947,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[22]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[23]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[22]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[23]",
         "report": "reproduction-check-result"
       },
       "reproduction-package": {
@@ -1962,12 +1962,12 @@
         "discovery_map_pointer": null,
         "evidence_type": "deterministic_projection",
         "metric_provenance_pointers": [
-          "reports/canonical/index.json:$.evidence_provenance.metric_rows[21]"
+          "reports/canonical/index.json:$.evidence_provenance.metric_rows[22]"
         ],
         "not_claimed": [
           "deterministic_projection evidence does not certify empirical superiority."
         ],
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[21]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[22]",
         "report": "reproduction-package"
       },
       "scaling-ladder": {
@@ -2098,7 +2098,7 @@
         "report": "winnability-certificates"
       }
     },
-    "generated_at": "2026-06-13T12:52:34.119917+00:00",
+    "generated_at": "2026-06-13T14:56:21.159269+00:00",
     "hardgate_status": {
       "DM-HG1": {
         "reason": "discovery rows use the owner evidence_type vocabulary",
@@ -2648,6 +2648,30 @@
         ],
         "not_measurable_reason": null,
         "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[21]",
+        "report": "dgt-l1-boundary-report",
+        "source_artifact_pointer": "reports/canonical/dgt-l1-boundary-report.json:$.claim_promotion_exclusion",
+        "source_code_pointer": "scripts/run_dgt_l1_boundary_report.py",
+        "source_type": "deterministic_projection",
+        "value": {
+          "blocking_pointer": "$.scaling_claim_block",
+          "excluded_surfaces": [
+            "positive_claim_cells",
+            "discovery_promotion",
+            "l1-scaling"
+          ],
+          "fair_rebuild_required": true,
+          "reason": "information-access-boundary",
+          "status": "not-eligible"
+        }
+      },
+      {
+        "allowed_for_empirical_claim": false,
+        "metric_name": "headline",
+        "not_claimed": [
+          "deterministic_projection metric rows do not certify empirical superiority."
+        ],
+        "not_measurable_reason": null,
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[22]",
         "report": "reproduction-package",
         "source_artifact_pointer": "reports/canonical/reproduction-package.json:$.hardgates",
         "source_code_pointer": "scripts/run_reproduction_package.py",
@@ -2687,7 +2711,7 @@
           "deterministic_projection metric rows do not certify empirical superiority."
         ],
         "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[22]",
+        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[23]",
         "report": "reproduction-check-result",
         "source_artifact_pointer": "reports/canonical/reproduction-check-result.json:$.target_results",
         "source_code_pointer": "scripts/run_reproduction_package.py",
@@ -2729,11 +2753,11 @@
           },
           {
             "blocked_reason": {
-              "category": "missing-validation-loss-cell",
+              "category": "source-blocked",
               "dependency_ref": "github:issue:1196",
-              "detail": "validation-loss-owner-cell-missing",
-              "evidence_ref": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows[3]",
-              "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG2",
+              "detail": "baseline-input-accessibility-boundary",
+              "evidence_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG3",
+              "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG3",
               "planning_context_ref": "github:issue:1329#plan-4"
             },
             "ci_rehearsal_ref": null,
@@ -2945,30 +2969,6 @@
             "tolerance_status": "pass"
           }
         ]
-      },
-      {
-        "allowed_for_empirical_claim": false,
-        "metric_name": "headline",
-        "not_claimed": [
-          "deterministic_projection metric rows do not certify empirical superiority."
-        ],
-        "not_measurable_reason": null,
-        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[23]",
-        "report": "dgt-l1-boundary-report",
-        "source_artifact_pointer": "reports/canonical/dgt-l1-boundary-report.json:$.claim_promotion_exclusion",
-        "source_code_pointer": "scripts/run_dgt_l1_boundary_report.py",
-        "source_type": "deterministic_projection",
-        "value": {
-          "blocking_pointer": "$.scaling_claim_block",
-          "excluded_surfaces": [
-            "positive_claim_cells",
-            "discovery_promotion",
-            "l1-scaling"
-          ],
-          "fair_rebuild_required": true,
-          "reason": "information-access-boundary",
-          "status": "not-eligible"
-        }
       },
       {
         "allowed_for_empirical_claim": false,
@@ -6426,6 +6426,21 @@
         "parameter_update_pointers": [],
         "producer_command": [
           "python3",
+          "scripts/run_dgt_l1_boundary_report.py"
+        ],
+        "producer_source_pointer": "scripts/run_dgt_l1_boundary_report.py",
+        "report": "dgt-l1-boundary-report",
+        "training_evidence_status": "training_evidence_absent"
+      },
+      {
+        "backward_pointers": [],
+        "not_claimed": [
+          "No producer-side backward pass plus optimizer step evidence is present in the static source audit."
+        ],
+        "optimizer_step_pointers": [],
+        "parameter_update_pointers": [],
+        "producer_command": [
+          "python3",
           "scripts/run_reproduction_package.py"
         ],
         "producer_source_pointer": "scripts/run_reproduction_package.py",
@@ -6445,21 +6460,6 @@
         ],
         "producer_source_pointer": "scripts/run_reproduction_package.py",
         "report": "reproduction-check-result",
-        "training_evidence_status": "training_evidence_absent"
-      },
-      {
-        "backward_pointers": [],
-        "not_claimed": [
-          "No producer-side backward pass plus optimizer step evidence is present in the static source audit."
-        ],
-        "optimizer_step_pointers": [],
-        "parameter_update_pointers": [],
-        "producer_command": [
-          "python3",
-          "scripts/run_dgt_l1_boundary_report.py"
-        ],
-        "producer_source_pointer": "scripts/run_dgt_l1_boundary_report.py",
-        "report": "dgt-l1-boundary-report",
         "training_evidence_status": "training_evidence_absent"
       },
       {
@@ -6870,7 +6870,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-13T12:52:34.119917+00:00",
+  "generated_at": "2026-06-13T14:56:21.159269+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -7251,9 +7251,9 @@
       "nongaussian-distribution-sweep",
       "dgt-l0-controls",
       "dgt-l1-controls",
+      "dgt-l1-boundary-report",
       "reproduction-package",
       "reproduction-check-result",
-      "dgt-l1-boundary-report",
       "winnability-certificates",
       "structural-generalization-splits",
       "dgt-base-undertraining-audit",
@@ -7344,7 +7344,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "923c20fae897eab8b6439ca1223f682087acdea1f7b3a0b988054310e5afb237",
+    "source_sidecar_digest": "9fc77fc809b6312e5be0387e0b7bf11de99a59bac24a4d428ad0fa7215459e3a",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -11366,6 +11366,198 @@
       },
       "discipline": {
         "bundle_role": "auxiliary",
+        "claim_promotion_eligible": false,
+        "construct_validity_pointer": null,
+        "construct_validity_status": "not-applicable",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.cost_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.claim_promotion_exclusion",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.claim_promotion_exclusion",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.source_artifacts",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.claim_promotion_exclusion",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:dgt-l1-boundary-report]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.cost_protocol",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block.status",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.hardgates",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "negative_witness": {
+              "pointer": null,
+              "source_artifact": null,
+              "status": "not-applicable"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.boundary_decision",
+              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.boundary_decision",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/dgt-l1-boundary-report.fingerprint.json",
+      "fingerprint_status": "match",
+      "hardgate_status": {
+        "axis": "hardgate_status",
+        "blocks_promotion": false,
+        "blocks_report": false,
+        "hardgate_scope": "not-applicable",
+        "render": "not-applicable",
+        "source_pointer": null,
+        "taxonomy_status": "pass",
+        "value": "not-applicable"
+      },
+      "json_artifact": "reports/canonical/dgt-l1-boundary-report.json",
+      "ladder_state": {
+        "axis": "ladder_state",
+        "blocks_promotion": false,
+        "blocks_report": false,
+        "render": "not-applicable",
+        "source_pointer": null,
+        "taxonomy_status": "pass",
+        "value": "not-applicable"
+      },
+      "markdown_artifact": "reports/canonical/dgt-l1-boundary-report.md",
+      "name": "dgt-l1-boundary-report",
+      "producer_command": [
+        "python3",
+        "scripts/run_dgt_l1_boundary_report.py"
+      ],
+      "producer_status": "skipped",
+      "report_build_status": {
+        "axis": "report_build_status",
+        "blocks_promotion": false,
+        "blocks_report": false,
+        "render": "pass",
+        "source_pointer": "reports/canonical/dgt-l1-boundary-report.json:$",
+        "taxonomy_status": "pass",
+        "value": "pass"
+      },
+      "scientific_claim_status": {
+        "axis": "scientific_claim_status",
+        "blocks_promotion": false,
+        "blocks_report": false,
+        "render": "not-applicable",
+        "source_pointer": null,
+        "taxonomy_status": "pass",
+        "value": "not-applicable"
+      },
+      "status": "pass",
+      "status_taxonomy": {
+        "axes": [
+          "decision_status",
+          "hardgate_status",
+          "ladder_state",
+          "report_build_status",
+          "scientific_claim_status"
+        ],
+        "errors": [],
+        "status": "pass"
+      },
+      "validation": {
+        "boundary_report_errors": [],
+        "missing_artifacts": [],
+        "model_card_errors": [],
+        "reproduction_errors": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "artifact_role",
+          "source_artifacts",
+          "cost_protocol",
+          "task_formula",
+          "feature_reachability",
+          "base_bayes_ceiling",
+          "ood_solvability",
+          "table_coverage_ceiling",
+          "negative_witness_refs",
+          "boundary_decision",
+          "required_redesign",
+          "claim_promotion_eligible",
+          "claim_promotion_exclusion",
+          "scaling_claim_block",
+          "hardgates",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "semantic_errors": [],
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "decision_status": {
+        "axis": "decision_status",
+        "blocks_promotion": false,
+        "blocks_report": false,
+        "render": "not-applicable",
+        "source_pointer": null,
+        "taxonomy_status": "pass",
+        "value": "not-applicable"
+      },
+      "discipline": {
+        "bundle_role": "auxiliary",
         "claim_promotion_eligible": true,
         "construct_validity_pointer": null,
         "construct_validity_status": "not-applicable",
@@ -11711,198 +11903,6 @@
           "target_results",
           "blocked_targets",
           "failed_targets",
-          "not_claimed"
-        ],
-        "required_key_validation": {
-          "missing_keys": [],
-          "status": "pass"
-        },
-        "semantic_errors": [],
-        "status": "pass"
-      }
-    },
-    {
-      "bundle_role": "auxiliary",
-      "decision_status": {
-        "axis": "decision_status",
-        "blocks_promotion": false,
-        "blocks_report": false,
-        "render": "not-applicable",
-        "source_pointer": null,
-        "taxonomy_status": "pass",
-        "value": "not-applicable"
-      },
-      "discipline": {
-        "bundle_role": "auxiliary",
-        "claim_promotion_eligible": false,
-        "construct_validity_pointer": null,
-        "construct_validity_status": "not-applicable",
-        "control_pointer": null,
-        "control_status": "not-applicable",
-        "cost_pointer": "$.cost_protocol",
-        "cost_status": "present",
-        "forbidden_claim_term_hits": [],
-        "forbidden_claim_terms_status": "not-applicable",
-        "literature_ref_ids": [],
-        "no_control_rationale_pointer": "$.claim_promotion_exclusion",
-        "no_control_rationale_status": "present",
-        "not_claimed_pointer": "$.not_claimed",
-        "not_claimed_status": "present",
-        "positive_claim_pointer": "$.claim_promotion_exclusion",
-        "positive_claim_status": "present",
-        "reporting_hardgate": {
-          "applicability": "not-applicable",
-          "cells": {
-            "backend": {
-              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.source_artifacts",
-              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
-              "status": "present"
-            },
-            "claim_capsule": {
-              "pointer": "$.claim_promotion_exclusion",
-              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
-              "status": "present"
-            },
-            "claim_graph_path": {
-              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:dgt-l1-boundary-report]",
-              "source_artifact": "reports/canonical/claim_graph.json",
-              "status": "missing"
-            },
-            "cost_protocol": {
-              "pointer": "$.cost_protocol",
-              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
-              "status": "present"
-            },
-            "discovery_level": {
-              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block.status",
-              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
-              "status": "present"
-            },
-            "evidence_envelope": {
-              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.scaling_claim_block",
-              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
-              "status": "present"
-            },
-            "formal_status": {
-              "pointer": "reports/canonical/dgt-l1-boundary-report.json:$.hardgates",
-              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
-              "status": "present"
-            },
-            "negative_witness": {
-              "pointer": null,
-              "source_artifact": null,
-              "status": "not-applicable"
-            },
-            "not_claimed": {
-              "pointer": "$.not_claimed",
-              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
-              "status": "present"
-            },
-            "scope_seal": {
-              "pointer": "$.boundary_decision",
-              "source_artifact": "reports/canonical/dgt-l1-boundary-report.json",
-              "status": "present"
-            }
-          },
-          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
-          "missing_required_cells": [],
-          "promotion_eligible": false,
-          "required_cells": [
-            "claim_capsule",
-            "cost_protocol",
-            "not_claimed"
-          ],
-          "status": "not-applicable"
-        },
-        "scope_pointer": "$.boundary_decision",
-        "scope_status": "present"
-      },
-      "duration_seconds": 0.0,
-      "estimated_seconds": 1,
-      "fingerprint_reason": "match",
-      "fingerprint_sidecar": "reports/canonical/dgt-l1-boundary-report.fingerprint.json",
-      "fingerprint_status": "match",
-      "hardgate_status": {
-        "axis": "hardgate_status",
-        "blocks_promotion": false,
-        "blocks_report": false,
-        "hardgate_scope": "not-applicable",
-        "render": "not-applicable",
-        "source_pointer": null,
-        "taxonomy_status": "pass",
-        "value": "not-applicable"
-      },
-      "json_artifact": "reports/canonical/dgt-l1-boundary-report.json",
-      "ladder_state": {
-        "axis": "ladder_state",
-        "blocks_promotion": false,
-        "blocks_report": false,
-        "render": "not-applicable",
-        "source_pointer": null,
-        "taxonomy_status": "pass",
-        "value": "not-applicable"
-      },
-      "markdown_artifact": "reports/canonical/dgt-l1-boundary-report.md",
-      "name": "dgt-l1-boundary-report",
-      "producer_command": [
-        "python3",
-        "scripts/run_dgt_l1_boundary_report.py"
-      ],
-      "producer_status": "skipped",
-      "report_build_status": {
-        "axis": "report_build_status",
-        "blocks_promotion": false,
-        "blocks_report": false,
-        "render": "pass",
-        "source_pointer": "reports/canonical/dgt-l1-boundary-report.json:$",
-        "taxonomy_status": "pass",
-        "value": "pass"
-      },
-      "scientific_claim_status": {
-        "axis": "scientific_claim_status",
-        "blocks_promotion": false,
-        "blocks_report": false,
-        "render": "not-applicable",
-        "source_pointer": null,
-        "taxonomy_status": "pass",
-        "value": "not-applicable"
-      },
-      "status": "pass",
-      "status_taxonomy": {
-        "axes": [
-          "decision_status",
-          "hardgate_status",
-          "ladder_state",
-          "report_build_status",
-          "scientific_claim_status"
-        ],
-        "errors": [],
-        "status": "pass"
-      },
-      "validation": {
-        "boundary_report_errors": [],
-        "missing_artifacts": [],
-        "model_card_errors": [],
-        "reproduction_errors": [],
-        "required_json_keys": [
-          "schema_id",
-          "artifact_id",
-          "generated_at",
-          "artifact_role",
-          "source_artifacts",
-          "cost_protocol",
-          "task_formula",
-          "feature_reachability",
-          "base_bayes_ceiling",
-          "ood_solvability",
-          "table_coverage_ceiling",
-          "negative_witness_refs",
-          "boundary_decision",
-          "required_redesign",
-          "claim_promotion_eligible",
-          "claim_promotion_exclusion",
-          "scaling_claim_block",
-          "hardgates",
           "not_claimed"
         ],
         "required_key_validation": {
@@ -17129,6 +17129,55 @@
           "taxonomy_status": "pass",
           "value": "not-applicable"
         },
+        "name": "dgt-l1-boundary-report",
+        "report_build_status": {
+          "axis": "report_build_status",
+          "blocks_promotion": false,
+          "blocks_report": false,
+          "render": "pass",
+          "source_pointer": "reports/canonical/dgt-l1-boundary-report.json:$",
+          "taxonomy_status": "pass",
+          "value": "pass"
+        },
+        "scientific_claim_status": {
+          "axis": "scientific_claim_status",
+          "blocks_promotion": false,
+          "blocks_report": false,
+          "render": "not-applicable",
+          "source_pointer": null,
+          "taxonomy_status": "pass",
+          "value": "not-applicable"
+        }
+      },
+      {
+        "decision_status": {
+          "axis": "decision_status",
+          "blocks_promotion": false,
+          "blocks_report": false,
+          "render": "not-applicable",
+          "source_pointer": null,
+          "taxonomy_status": "pass",
+          "value": "not-applicable"
+        },
+        "hardgate_status": {
+          "axis": "hardgate_status",
+          "blocks_promotion": false,
+          "blocks_report": false,
+          "hardgate_scope": "not-applicable",
+          "render": "not-applicable",
+          "source_pointer": null,
+          "taxonomy_status": "pass",
+          "value": "not-applicable"
+        },
+        "ladder_state": {
+          "axis": "ladder_state",
+          "blocks_promotion": false,
+          "blocks_report": false,
+          "render": "not-applicable",
+          "source_pointer": null,
+          "taxonomy_status": "pass",
+          "value": "not-applicable"
+        },
         "name": "reproduction-package",
         "report_build_status": {
           "axis": "report_build_status",
@@ -17185,55 +17234,6 @@
           "blocks_report": false,
           "render": "pass",
           "source_pointer": "reports/canonical/reproduction-check-result.json:$",
-          "taxonomy_status": "pass",
-          "value": "pass"
-        },
-        "scientific_claim_status": {
-          "axis": "scientific_claim_status",
-          "blocks_promotion": false,
-          "blocks_report": false,
-          "render": "not-applicable",
-          "source_pointer": null,
-          "taxonomy_status": "pass",
-          "value": "not-applicable"
-        }
-      },
-      {
-        "decision_status": {
-          "axis": "decision_status",
-          "blocks_promotion": false,
-          "blocks_report": false,
-          "render": "not-applicable",
-          "source_pointer": null,
-          "taxonomy_status": "pass",
-          "value": "not-applicable"
-        },
-        "hardgate_status": {
-          "axis": "hardgate_status",
-          "blocks_promotion": false,
-          "blocks_report": false,
-          "hardgate_scope": "not-applicable",
-          "render": "not-applicable",
-          "source_pointer": null,
-          "taxonomy_status": "pass",
-          "value": "not-applicable"
-        },
-        "ladder_state": {
-          "axis": "ladder_state",
-          "blocks_promotion": false,
-          "blocks_report": false,
-          "render": "not-applicable",
-          "source_pointer": null,
-          "taxonomy_status": "pass",
-          "value": "not-applicable"
-        },
-        "name": "dgt-l1-boundary-report",
-        "report_build_status": {
-          "axis": "report_build_status",
-          "blocks_promotion": false,
-          "blocks_report": false,
-          "render": "pass",
-          "source_pointer": "reports/canonical/dgt-l1-boundary-report.json:$",
           "taxonomy_status": "pass",
           "value": "pass"
         },

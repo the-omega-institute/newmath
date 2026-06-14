@@ -237,7 +237,7 @@ def test_v1_report_rejects_equivalent_unique_positive_wording():
         assert hits != [], phrase
 
 
-def test_v1_doc_hg_cli_wrapper_delegates_shared_scan(tmp_path, monkeypatch):
+def test_doc_hg_cli_wrapper_delegates_shared_scan(tmp_path, monkeypatch):
     import scripts.check_v1_report_docs as docs_gate
 
     path = tmp_path / "reports/canonical/dgt-l1-boundary-report.md"
@@ -252,7 +252,7 @@ def test_v1_doc_hg_cli_wrapper_delegates_shared_scan(tmp_path, monkeypatch):
     assert "DOC-HG forbidden phrase" in result.detail
 
 
-def test_v1_doc_hg_cli_wrapper_accepts_boundary_pointer(tmp_path, monkeypatch):
+def test_doc_hg_cli_wrapper_accepts_boundary_pointer(tmp_path, monkeypatch):
     import scripts.check_v1_report_docs as docs_gate
 
     path = tmp_path / "reports/canonical/model-comparison.md"

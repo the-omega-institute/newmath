@@ -1,7 +1,7 @@
 # Claim Complexity
 
 - Artifact: `bedc-quality-lab:claim-complexity`
-- Generated at: `2026-06-13T12:52:34.119917+00:00`
+- Generated at: `2026-06-13T14:56:21.159269+00:00`
 - Role: `artifact-only evidence`
 
 ## Hardgates

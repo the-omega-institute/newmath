@@ -361,6 +361,24 @@ def _scorecard_hash(root):
     return demo.load_scorecard_snapshot(root).scorecard_hash
 
 
+def _project_owner_to_deterministic_projection(section, index_path, report):
+    owner_update = {
+        "evidence_type": "deterministic_projection",
+        "allowed_claim_kinds": ["projection_only"],
+        "not_claimed": ["fixture deterministic projection does not certify empirical superiority."],
+    }
+    section["discovery_rows_by_report"][report].update(owner_update)
+    for row in section["discovery_rows"]:
+        if row.get("report") == report:
+            row.update(owner_update)
+    discovery_map_path = index_path.parent / "discovery_map.json"
+    discovery_map = json.loads(discovery_map_path.read_text(encoding="utf-8"))
+    for row in discovery_map["rows"]:
+        if row.get("report") == report:
+            row["evidence_type"] = "deterministic_projection"
+    _write_json(discovery_map_path, discovery_map)
+
+
 def _assert_provenance(row, root, *, scorecard_ready=True, formal_hardening_ready=True):
     if set(row) == DN_ALLOWED_KEYS:
         assert set(row) == DN_ALLOWED_KEYS
@@ -1394,6 +1412,7 @@ def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, mon
 @pytest.mark.parametrize(
     ("mutate", "card"),
     [
+        (lambda section, index_path: _project_owner_to_deterministic_projection(section, index_path, "d4"), "data-card"),
         (lambda section, index_path: index_path.unlink(), "data-card"),
         (lambda section, index_path: section["producer_audits"][0].update({"training_evidence_status": "training_evidence_absent"}), "training-authenticity-card"),
         (lambda section, index_path: section["metric_rows"][0].update({"allowed_for_empirical_claim": False}), "statistical-evidence-card"),

@@ -1,3 +1,8 @@
+import sys
+import types
+
+import numpy as np
+
 from bedc_quality_lab.public_jepa_baselines import (
     build_public_jepa_cuda_adapter_comparison,
     build_public_jepa_adapter_comparison,
@@ -9,6 +14,73 @@ from bedc_quality_lab.public_jepa_baselines import (
     run_public_jepa_structure_adapter,
     import_public_jepa_baseline_metrics,
 )
+
+
+class _TensorStub:
+    def __init__(self, value):
+        self.value = np.asarray(value, dtype=np.float32)
+
+    @property
+    def shape(self):
+        return self.value.shape
+
+    def __setitem__(self, key, value):
+        self.value[key] = value
+
+    def mean(self, dim):
+        return _TensorStub(np.mean(self.value, axis=dim))
+
+    def detach(self):
+        return self
+
+    def cpu(self):
+        return self
+
+    def numpy(self):
+        return self.value
+
+
+class _ZeroEncoder:
+    def eval(self):
+        return None
+
+    def __call__(self, video):
+        values = np.asarray(video.value, dtype=np.float32)
+        features = values.mean(axis=(2, 3, 4))
+        return _TensorStub(features[:, None, :])
+
+
+class _InferenceMode:
+    def __enter__(self):
+        return None
+
+    def __exit__(self, exc_type, exc, tb):
+        return False
+
+
+class _TorchStub:
+    float32 = np.float32
+    hub = types.SimpleNamespace(load=lambda *args, **kwargs: _ZeroEncoder())
+
+    @staticmethod
+    def zeros(shape, dtype=None):
+        return _TensorStub(np.zeros(shape, dtype=np.float32))
+
+    @staticmethod
+    def linspace(start, stop, steps):
+        return np.linspace(start, stop, steps, dtype=np.float32)
+
+    @staticmethod
+    def meshgrid(*arrays, indexing="xy"):
+        return np.meshgrid(*arrays, indexing=indexing)
+
+    @staticmethod
+    def exp(values):
+        return np.exp(values)
+
+    @staticmethod
+    def inference_mode():
+        return _InferenceMode()
 
 
 def test_public_jepa_baseline_registry_records_action_conditioned_candidates():
@@ -140,7 +212,9 @@ def test_public_jepa_baseline_probe_model_load_attempt_is_fail_closed():
         assert "exception_type" in attempt
 
 
-def test_public_jepa_structure_adapter_runs_small_public_encoder_scope():
+def test_public_jepa_structure_adapter_runs_small_public_encoder_scope(monkeypatch):
+    monkeypatch.setitem(sys.modules, "torch", _TorchStub)
+
     result = run_public_jepa_structure_adapter(train_count=4, test_count=4, seed=77)
 
     assert result["schema_id"] == "bedc-jepa-public-structure-adapter"
@@ -154,17 +228,42 @@ def test_public_jepa_structure_adapter_runs_small_public_encoder_scope():
     assert "checkpoint weights were not loaded" in result["cannot_claim"]
 
 
+def test_public_jepa_structure_adapter_dependency_boundary_fails_closed(monkeypatch):
+    def unavailable(*_args, **_kwargs):
+        raise RuntimeError("dependency unavailable")
+
+    monkeypatch.setitem(sys.modules, "torch", _TorchStub)
+    monkeypatch.setattr(
+        "bedc_quality_lab.public_jepa_baselines._render_boundary_video",
+        unavailable,
+    )
+
+    result = run_public_jepa_structure_adapter(train_count=4, test_count=4, seed=77)
+
+    assert result["schema_id"] == "bedc-jepa-public-structure-adapter"
+    assert result["candidate_id"] == "vjepa2-1-vit-base-384-structure"
+    assert result["status"] == "unavailable"
+    assert result["model"]["pretrained"] is False
+    assert result["model"]["checkpoint_status"] == "not_loaded"
+    assert result["exception_type"] == "RuntimeError"
+    assert "public JEPA structure adapter execution" in result["cannot_claim"]
+    assert "checkpoint weights were not loaded" in result["cannot_claim"]
+
+
 def test_public_jepa_pretrained_adapter_records_checkpoint_scope():
     result = run_public_jepa_structure_adapter(train_count=4, test_count=4, seed=77, pretrained=True)
 
     assert result["schema_id"] == "bedc-jepa-public-structure-adapter"
     assert result["candidate_id"] == "vjepa2-1-vit-base-384-pretrained"
     assert result["status"] in {"available", "unavailable"}
+    assert result["model"]["pretrained"] is True
     if result["status"] == "available":
-        assert result["model"]["pretrained"] is True
         assert result["model"]["checkpoint_status"] == "loaded"
         assert result["metrics"]["unlogged_error_rate"] >= 0.0
         assert "V-JEPA2-AC action-conditioned checkpoint comparison" in result["cannot_claim"]
+    else:
+        assert result["model"]["checkpoint_status"] == "unavailable"
+        assert "exception_type" in result
 
 
 def test_public_jepa_adapter_comparison_records_bedc_advantage_and_ac_boundary():
