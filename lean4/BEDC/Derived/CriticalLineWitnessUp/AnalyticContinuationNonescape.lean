@@ -72,4 +72,85 @@ theorem CriticalLineWitnessCarrier_analytic_continuation_nonescape
     ⟨cert, unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryC, unaryN, unaryRefusal,
       unaryAnalytic, sameH, routeQ, routeC, routeN, refusalRoute, analyticRoute⟩
 
+theorem CriticalLineWitnessAnalyticContinuationNonescape
+    {Z S M R Q H C P N zetaRead continuationRead refusalRead analyticPayload : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S zetaRead ->
+        Cont zetaRead Q continuationRead ->
+          Cont continuationRead N refusalRead ->
+            Cont refusalRead C analyticPayload ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row analyticPayload ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row analyticPayload ∧ hsame H (append Z S) ∧
+                      Cont zetaRead Q continuationRead)
+                  (fun row : BHist =>
+                    hsame row analyticPayload ∧ Cont refusalRead C analyticPayload)
+                  hsame ∧
+                UnaryHistory zetaRead ∧ UnaryHistory continuationRead ∧
+                  UnaryHistory refusalRead ∧ UnaryHistory analyticPayload ∧
+                    hsame H (append Z S) ∧ Cont Z S zetaRead ∧
+                      Cont zetaRead Q continuationRead ∧
+                        Cont continuationRead N refusalRead ∧
+                          Cont refusalRead C analyticPayload := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet zetaRoute continuationRoute refusalRoute analyticRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryQ unaryH routeC
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryC unaryP routeN
+  have unaryZetaRead : UnaryHistory zetaRead :=
+    unary_cont_closed unaryZ unaryS zetaRoute
+  have unaryContinuationRead : UnaryHistory continuationRead :=
+    unary_cont_closed unaryZetaRead unaryQ continuationRoute
+  have unaryRefusalRead : UnaryHistory refusalRead :=
+    unary_cont_closed unaryContinuationRead unaryN refusalRoute
+  have unaryAnalyticPayload : UnaryHistory analyticPayload :=
+    unary_cont_closed unaryRefusalRead unaryC analyticRoute
+  have sourceAtPayload :
+      hsame analyticPayload analyticPayload ∧ UnaryHistory analyticPayload :=
+    ⟨hsame_refl analyticPayload, unaryAnalyticPayload⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row analyticPayload ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row analyticPayload ∧ hsame H (append Z S) ∧
+              Cont zetaRead Q continuationRead)
+          (fun row : BHist =>
+            hsame row analyticPayload ∧ Cont refusalRead C analyticPayload)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro analyticPayload sourceAtPayload
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, sameH, continuationRoute⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, analyticRoute⟩
+  }
+  exact
+    ⟨cert, unaryZetaRead, unaryContinuationRead, unaryRefusalRead, unaryAnalyticPayload,
+      sameH, zetaRoute, continuationRoute, refusalRoute, analyticRoute⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
