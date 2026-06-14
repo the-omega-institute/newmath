@@ -1694,6 +1694,447 @@
         }
       ],
       "linked_conjecture_id": "q6.rank-powered.translation-conditioned.protein-mediation.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_dwell_positional.b_star_q6_ramp_vs_body_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "f3_stress's ribosome-dwell mediation of its protein-abundance contribution (P_f3) is LOCALIZED TO THE 5' TRANSLATIONAL RAMP, not the gene body: 5'-window dwell adds held-out delta-R^2 ~0.023 over {te,stability,turnover} (vs null95 ~0.0016, f3<->5'-dwell corr 0.156 p~3e-8), while 3'/body-window dwell is null (delta-R^2 ~-0.0002), and the joint 5'+3' increment ~= 5'-alone. Supports the translational-ramp hypothesis: the dominant frontier coordinate acts through slow-codon dwell at the 5' ribosome-loading region, increment beyond bulk measured_te.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_f3_stress_dwell_positional_powered",
+      "history": [
+        {
+          "ts": "2026-06-13T04:14:11+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "6db78e1bf746",
+          "checks": {
+            "total": 4,
+            "passed": 3,
+            "failed": 1
+          },
+          "script_sha": "86de2548e473b0af"
+        }
+      ],
+      "linked_conjecture_id": "q6.rank-powered.translation-conditioned.protein-mediation.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_family_decomposition.b_star_q6_synonymous_identity_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Biological identity of f3_stress (the dominant B*_Q6 abundance coordinate): decomposing it into 21 synonymous family subcoordinates (exact, sum-consistency l2err~8e-16), 19/21 families are real held-out abundance sources, and the effect is DOMINATED BY GLYCINE (GGN) and ISOLEUCINE (AUU/AUC/AUA) synonymous choices (held-out R^2 0.079/0.063, energy 0.65/0.52), then Arginine (CGN, AGR), Gln, Phe, Thr, Val. So f3_stress is largely a Gly/Ile synonymous-choice axis (Ile-AUA is a known slow/wobble codon), not a uniform 'first-vs-last' artifact.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_f3_stress_family_decomposition_powered",
+      "history": [
+        {
+          "ts": "2026-06-13T04:29:22+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "1e753e65044b",
+          "checks": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0
+          },
+          "script_sha": "8f0012278c265fe4"
+        }
+      ],
+      "linked_conjecture_id": "translation-survival.b-star-q6-survival-matrix.translation-realization"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_cross_organism.b_star_q6_generality_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Cross-organism f3_stress->protein-abundance: the association DIRECTION generalizes near-universally (15/15 organisms held-out-significant vs permutation null after cds-length/total-codon/GC3/20-aa-composition controls, 14/15 POSITIVE; only the archaeon S. solfataricus negative), BUT the effect MAGNITUDE is strongly yeast-dominant. Held-out R^2: yeast 0.168 (clear outlier), lower-eukaryotes/some bacteria 0.01-0.05 (dicty, C.elegans, drosophila, pseudomonas, danio, bacillus), and MAMMALS negligible (human 0.0004, mouse 0.0006, rat 0.0008) -- the latter clear null only via large-n significance (explain <0.1% of variance). So the strong synonymous-codon->abundance coupling is a yeast (+lower-eukaryote/bacterial) phenomenon; in mammals the f3_stress axis is biologically negligible. NOTE: the experiment's pass gate is significance (held_out>null95), which overstates generality at large n; the honest reading is direction-universal, magnitude-yeast-dominant.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_f3_stress_cross_organism_powered",
+      "history": [
+        {
+          "ts": "2026-06-13T11:50:26+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "16528255bb3b",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "80edf593e8ae83ec"
+        }
+      ],
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout-survival.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_strength_driver.b_star_q6_translational_selection_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Why f3_stress is yeast-dominant: across 15 organisms its effect size = translational-selection strength x directional alignment. (1) Total synonymous-codon selection on abundance (independent 41-col full design) predicts f3 strength (Spearman rho=0.71). (2) f3_alignment sign predicts f3 direction 15/15, incl. the lone negative organism S. solfataricus (anti-aligned). Yeast is strongest because it has BY FAR the highest translational selection (syn_sel R^2=0.39, ~2x runner-up) AND positive f3 alignment (0.24). Counterexample E.coli: high selection (0.22) but f3 near-orthogonal (align 0.046) -> weak f3 (0.006), so alignment matters independently. Mammals: weak selection (0.05-0.08) -> negligible f3. So f3_stress is a 1-D proxy for the organism's codon-level translational selection; it is strong in yeast because yeast's translational selection is strongest. Caveat: n=15, no phylogenetic correction; alignment uses same-organism abundance preferences (direction-agreement partly definitional; non-circular core is the independent selection<->strength rho=0.71).",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_f3_stress_strength_driver_powered",
+      "history": [
+        {
+          "ts": "2026-06-13T12:10:45+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "a6b023b665b4",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "2bce346ac9bb1485"
+        }
+      ],
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout-survival.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.optimal_codon_conservation.b_star_q6_cross_organism_direction_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Cross-organism structure of the abundance-optimal synonymous-codon direction (15 organisms, 41-col synonymous contrast design). conservation_call=CLUSTERED: mean pairwise cosine 0.26 (not conserved>=0.6, not idiosyncratic), organized mainly by GENOMIC GC3 (GC3-delta vs cosine Pearson -0.36) more than by domain (same-domain 0.29 vs cross-domain 0.25). A weak UNIVERSAL CORE direction exists (mean held-out R^2 0.088; max yeast 0.30, E.coli 0.20). Yeast optimizes HARDEST (self-direction R^2 0.40) but in a relatively IDIOSYNCRATIC direction (core alignment 0.38, among the lowest); E.coli is core-aligned (0.77). f3_stress is a crude fixed proxy weakly aligned with everything (f3 vs core 0.26, vs yeast 0.20, vs E.coli 0.22). Caveat: n=15, no phylogenetic correction, optimal direction inferred from abundance-associated contrasts (not causal).",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_optimal_codon_conservation_powered",
+      "history": [
+        {
+          "ts": "2026-06-13T12:59:54+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "bb90bef3e588",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "a2e5644e6bebcee9"
+        }
+      ],
+      "linked_conjecture_id": "q6.h-ranking-table.direction-aware.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.boundary_set_biological_signature.b_star_q6_window6_R_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Window6 boundary set R biological-signature test (bridge BC1 empirical contact). The 10 R sense-codons (math/geometry-derived boundary, NO usage fitting) are systematically AVOIDED (lower abundance-preference than non-R sense codons) in ALL 15/15 organisms (cross-organism sign test ~ p 6e-5), but only 6/15 reach individual per-organism permutation significance, so the experiment's strict gate (>=8 significant) emits FAILED. Honest reading: the abstract Window6 boundary R HAS a real, directionally-universal biological signature (it is the set of avoided codons), under-detected by the per-organism gate (small-genome power). Same pattern as f3 cross-organism (direction universal, per-organism magnitude varies). Supports BC1's empirical prong; the math forcing prong still pending. Follow-on: a cross-organism sign-test gate would call this supported.",
+      "depends_on": [],
+      "status": "failed",
+      "experiment_id": "b_star_q6_boundary_set_biological_signature_powered",
+      "history": [
+        {
+          "ts": "2026-06-13T14:47:26+00:00",
+          "status": "failed",
+          "reason": "experiment result",
+          "experiment_run_id": "02751ced205e",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "6a4350f56eff4c86"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.boundary_set_trna_poverty.b_star_q6_window6_R_mechanism_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Mechanism for why Window6 boundary set R is biologically avoided (Route L): the 10 R sense-codons are systematically tRNA-POOR (lower dos-Reis tAI weight, from GtRNAdb tGCN+wobble) than non-R sense codons in 31/40 organisms (cross-organism sign test binomial two-sided p~7e-4; 9/40 opposite, so predominant not universal). So the math-defined Window6 boundary R = the translationally non-optimal / tRNA-scarce codons -> they are decoded slowly and selected against -> avoided (Route L). Gives the abstract boundary a real mechanistic biological identity. Deterministic; tAI from GtRNAdb. Caveat: tAI is a supply proxy, not direct decoding-rate; 40 organisms no phylogenetic correction.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_boundary_set_trna_poverty_powered",
+      "history": [
+        {
+          "ts": "2026-06-13T15:27:55+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "d7728cc8768e",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "56fd6f445fb3647e"
+        }
+      ],
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.universal_core_trna_adaptation.b_star_q6_optimal_direction_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route N: the cross-organism universal optimal synonymous-codon direction (the weak universal core of Route K) is substantially the tRNA-adaptation direction. Across 11 organisms with both proteomes and GtRNAdb tRNA-gene copies, each organism's abundance-optimal direction (full 41-dim synonymous contrast) aligns with its dos-Reis tAI tRNA-supply direction at mean cos 0.267 (median 0.302; cross-organism sign test 10/11 positive, p~5.9e-3; normal-approx p~7e-7), and the tRNA direction ALONE recovers ~43% (pooled held-out R2 ratio 0.434; median per-organism 0.30) of the abundance signal the full optimal direction captures (mean tRNA-alone held-out R2=0.059 vs self R2=0.136). The tRNA direction also aligns with the cross-organism universal core at cos 0.246 (9/11 positive, p~0.033). So translational selection toward tRNA-abundant codons is a MAJOR but PARTIAL (~43%) component of universal codon optimality, not the whole thing -- consistent with f3 residual dominance and the ~24.5% reducibility of B*_Q6. Deterministic; tAI from GtRNAdb tGCN+wobble. Caveat: 11 organisms (proteome intersect GtRNAdb), tAI is a supply proxy not a direct decoding rate, no phylogenetic correction.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_universal_core_is_trna_adaptation_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T16:12:23+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "373843e81379",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "ee527688534e2249"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.universal_optimal_residual_axis.b_star_q6_mutation_vs_selection_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route O: the NON-tRNA component of universal codon optimality is the f3-stress translational-selection axis, NOT GC mutational bias. After Gram-Schmidt-removing each organism's tRNA-adaptation direction from its 41-dim abundance-optimal synonymous direction (Route N), the residual aligns with the f3-stress axis (mean cos 0.139, 10/11 organisms positive, cross-organism sign-test p~5.9e-3, normal-approx p~6e-6) and is ANTI-aligned with the GC3 mutational-bias axis (mean cos -0.073, 10/11 negative). The GC3 and f3-stress reference directions are nearly anti-parallel in this contrast space (cos -0.905), so the residual selects the f3/translational-selection pole over the GC/mutation pole (paired |cos_f3|>|cos_gc| in 11/11 organisms, p~4.9e-4). Combined with Route N (~43% tRNA-adaptation), B*_Q6 codon optimality decomposes into TWO translational-selection mechanisms -- tRNA-supply adaptation + f3-ramp stress -- with GC mutational bias as the opposite pole, not a positive driver. Deterministic; 11 organisms (proteome intersect GtRNAdb). Caveat: f3 cosine magnitude is modest (0.139) though directionally consistent; GC/f3 near-antiparallel means the two readouts are not independent; observational not causal; E.coli/P.aeruginosa/etc lack GtRNAdb (needs_data); no phylogenetic correction.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_universal_optimal_residual_axis_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T16:34:23+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "2a526c9fb7f4",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "ccb82c67bb776543"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.universal_optimal_two_axis_closure.b_star_q6_trna_f3_span_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route P: universal codon optimality is NOT 2-dimensional (tRNA + f3) -- a universal THIRD selection axis exists. Projecting each organism's 41-dim abundance-optimal synonymous direction onto span{d_tRNA, d_f3} captures only mean 13.0% of its norm^2 (captured_fraction mean 0.130, median 0.102, 11/11 organisms < 0.5); the residual-after-both direction d_perp retains ~93% of the optimal norm. d_perp is NOT noise: systematically positive held-out R2 (mean 0.066, 11/11 positive, p~4.9e-4) recovering ~64% of the self-direction abundance R2 (d_perp/self ratio mean 0.640), and CROSS-ORGANISM ALIGNED (55-pair mean cosine 0.179, 38/55 positive, sign-test p~3.2e-3, normal-approx p~1.6e-6). In 8/11 organisms d_perp alone out-predicts the tRNA+f3 plane combined (two-axis recovers ~40% of self R2). So codon optimality has at least THREE universal selection dimensions; tRNA-supply adaptation (Route N) + f3-stress (Route O) are real but together a MINORITY of the optimal direction's geometry and predictive content. The identity of the third universal axis d_perp is the open frontier. Deterministic; 11 organisms (proteome intersect GtRNAdb). Caveat: cosines modest; observational not causal; no phylogenetic correction; d_perp is an orthogonal-complement residual so its mechanistic identity needs separate characterization.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_universal_optimal_two_axis_closure_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T17:01:54+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "99dc7e2d5abf",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "7b3a356fdf4e9b09"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.third_axis_identity.b_star_q6_d_perp_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route Q: the third universal codon-optimality axis d_perp (Route P) is provisionally identified as the within-synonymous-family USAGE-FREQUENCY axis (preferred-codon bias). Across 11 organisms d_perp aligns with the within-family usage-frequency direction at mean cos 0.128 (11/11 organisms positive, cross-organism sign-test p~4.9e-4) -- the ONLY tested candidate axis clearing the cross-organism gate. Other candidates are weak/non-significant: position composition (pos3_C 0.084 7/11 ns, pos1_C 0.079 8/11 ns), residual GC3 (0.054 9/11 p~0.03 marginal), the other 8 B*_Q6 synonymous coordinates, amino-acid/position composites -- none explain d_perp. So codon optimality has THREE universal selection axes: tRNA-supply adaptation (Route N), f3-stress 5'-ramp translational selection (Route O), and the genome-wide preferred-codon usage-frequency bias (Route Q), the last distinct from tRNA-supply. Deterministic; 11 organisms (proteome intersect GtRNAdb). Caveat: cosine modest (0.128); usage-frequency correlates with expression so part of this reflects the abundance-optimal direction recovering the preferred-codon set, and the deeper driver of usage-frequency beyond tRNA is itself composite/open; observational; no phylogenetic correction. Also exports per-codon d_perp + tRNA-supply vectors in the codon-Q6 6-bit frame (codon_q6_selection_vectors.json) fulfilling the Window6-codon bridge BC5 data request.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_third_axis_identity_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T18:14:57+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "377671f96e96",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "3880f1fd35361d8e"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.third_axis_mechanism.b_star_q6_d_perp_csc_vs_gc_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route R: the third universal codon-optimality axis d_perp (Route P/Q, the within-family preferred-codon/usage-frequency direction) is a GENUINE cross-organism SELECTION signal -- NOT a GC/mutational projection and NOT the wobble-decoding axis. GC-null defeat: after orthogonalizing d_perp against the GC3 direction it remains cross-organism aligned (55-pair mean cosine 0.177, 38/55 positive, sign-test p~3.2e-3) and still predicts protein abundance held-out (mean R2 0.071, 11/11 positive, p~5e-4) -- essentially unchanged from pre-orthogonalization (0.179/0.066); GC3 alone gives only R2 0.028. So d_perp is not mutational GC bias. Wobble test: d_perp per-codon loadings do NOT cluster by wobble-decoding class (exact-match vs wobble, NNU/NNC vs NNA/NNG, 2-codon U/C splits) -- not the tRNA-modification/wobble axis. The leading remaining identity -- CSC / mRNA-stability codon optimality (codon-mediated decay) and 5'-vs-CDS-body positional localization -- requires external data (published CSC vectors / mRNA half-lives / positional CDS) and is flagged needs_external (repo holds only whole-CDS codon counts). Deterministic; 11 organisms. Net: the third optimality axis is a real preferred-codon SELECTION pressure distinct from tRNA-supply, the 5'-ramp f3 axis, GC mutation, and wobble decoding; most plausibly mRNA-stability-driven, pending external CSC/half-life data. Oracle (chatgpt-pro) independently ranked CSC/mRNA-stability as the #1 candidate.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_third_axis_mechanism_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T18:41:12+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "d0893337f0dd",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "51479bfd21cbf558"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.optimality_axis_sufficiency.b_star_q6_three_axis_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route S (optimality-axis sufficiency, independent-axis design): the three NAMED mechanistic codon-optimality axes -- tRNA-supply (tAI), f3-ramp, within-family usage-frequency -- are NOT sufficient to explain the universal abundance-optimal direction. Using axes each defined INDEPENDENTLY of the optimal direction (anti-circularity sanity captured_fraction<1 enforced), the three jointly span only ~16.4% of the optimal direction's norm (captured_fraction_3indep 0.164 vs 0.130 for tRNA+f3 alone; usage-frequency adds only ~3.4% geometric) and recover ~45% of held-out abundance R2 (three-axis/self R2 0.448 vs 0.395 for two axes). A FOURTH universal mechanism remains: the residual d_resid4 (d_opt minus the 3 independent axes) is cross-organism ALIGNED (55-pair mean cosine 0.172, 38/55 positive, sign-test p~3.2e-3) and recovers ~56% of self-optimal abundance R2 (mean R2 0.058, 11/11 positive) -- the majority of the universal codon-optimality signal lies OUTSIDE the three identified mechanisms and is still unidentified. So codon abundance-optimality is at least 4-dimensional. CORRECTION NOTE: an earlier residual-basis design gave captured=1.0 ('three axes sufficient') tautologically because the third axis was defined as d_opt's own residual; this independent-axis design (tAI/f3/usage all from biology, not from d_opt) avoids that circularity. Deterministic; 11 organisms. Caveat: d_resid4 held-out R2 carries the usual full-sample-direction optimistic bias, but the cross-organism cosine alignment and the captured-fraction are bias-free; observational; no phylogenetic correction.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_optimality_axis_sufficiency_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T19:25:40+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "2436cae9d455",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "289f4c0a30f88bcd"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.axis_strength_spectrum.b_star_q6_per_organism_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route T (per-organism axis-strength spectrum): across all 11 organisms the captured-fraction spectrum of codon abundance-optimality is dominated by the unidentified 4th component d_resid4 (dominant axis in 11/11 organisms), d_tRNA second, f3 and usage-frequency secondary. NO organism is primarily explained by the named tRNA/f3/usage axes -- the unidentified mechanism leads universally. (Honest note: d_resid4's captured dominance is the geometric complement of the 3-named-axis ~16% capture from Route S, so this is a per-organism RESTATEMENT of Route S, not an independent finding; the genuinely new content is the per-organism universality and the domain/GC nulls below.) Cross-domain structure: NOT detectable -- domain means are descriptive only under imbalanced n (archaea 1, bacteria 2, eukaryote 8), low power; no significant domain difference in the spectrum. Genome-GC covariation: only the usage-frequency axis weakly tracks GC3 (Spearman rho 0.136). Deterministic; 11 organisms. So identifying the dominant 4th mechanism (most plausibly CSC/mRNA-stability, needs external data) is the key open frontier; the named-axis mix does not vary detectably by domain at this sample size.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_axis_strength_spectrum_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T20:00:56+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "0146012d8909",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "d6e41d3aca3a2879"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_mrna_stability_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route U: the unidentified 4th universal codon abundance-optimality axis (d_resid4, Route S/T) is NOT mRNA-stability/CSC -- refuting the leading hypothesis (oracle-ranked #1). Using in-repo per-gene mRNA-half-life data (yeast Neymotin + E.coli + human; NOT external), the half-life-optimal codon direction aligns only weakly with d_resid4 (cos 0.098) and more with tRNA (0.223)/usage (0.163); half-life optimality is itself barely in the named-axis span (captured 0.062). POSITIVE narrowing: the 4th axis IS shared across the abundance / translation-efficiency / mRNA-level optimal directions (TE-opt . d_resid4 = 0.616, mRNA-level-opt . d_resid4 = 0.544) but NOT half-life (0.098) -- so the dominant 4th mechanism is an EXPRESSION/TRANSLATION-level codon optimality common to abundance+TE+mRNA-abundance, distinct from mRNA-decay/stability. Caveat: the three named axes are geometrically correlated (f3-usage cos 0.711, tRNA-usage 0.499) despite independent biological definitions, so the 'span' overlaps; yeast-primary (half-life/TE richest there), cross-organism limited; cross-readout cosines are bias-free but held-out R2 carries the full-sample-direction optimistic bias; observational, no phylogenetic correction. Net: the 4th mechanism stays unidentified but is constrained -- NOT mRNA-stability, IS a shared expression/translation-level axis.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_fourth_mechanism_mrna_stability_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T20:39:23+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "377abd67b8b3",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "b560e5ecbd2137be"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_codon_pair_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route V: the dominant 4th universal codon-optimality axis is NOT codon-pair bias (refuting oracle #5, after Route U refuted #1 mRNA-stability). Per-gene codon-pair-bias (Coleman obs/exp adjacent in-frame pairs, in-repo ordered CDS seqs, yeast 5810 + E.coli 3738 genes) adds ZERO held-out abundance increment beyond the single-codon three axes (yeast increment R2 -1.8e-5; 3-axis+CPB 0.3077 ~ baseline 0.3077; codon-shuffle null p=1.0). CPB single-codon marginal does NOT align with d_resid4 (cos -0.23 yeast, |cos| 0.27 E.coli) and is largely just usage (|cos| d_usage 0.68 E.coli). Deterministic; yeast+E.coli. NET 4th-mechanism elimination: NOT mRNA-stability (U), NOT codon-pair (V), NOT wobble (R), NOT GC (R); specific identity unresolved with current repo data (remaining: co-translational elongation/ribosome-dwell, 5'-structure -- need dwell/structure data not cleanly available).",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_fourth_mechanism_codon_pair_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T21:53:16+00:00",
+          "status": "error",
+          "reason": "experiment result",
+          "experiment_run_id": "08ea0b0818e8",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "8089fdb3258441f7"
+        },
+        {
+          "ts": "2026-06-13T22:08:39+00:00",
+          "status": "open",
+          "reason": "orchestrator reset: prior error was a stale-write race (bkgmo26jd) + checks-total-0 transient; experiment is deterministic-verified (not_codon_pair), re-run"
+        },
+        {
+          "ts": "2026-06-13T22:31:30+00:00",
+          "status": "error",
+          "reason": "experiment result",
+          "experiment_run_id": "a82b2338618b",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "8089fdb3258441f7"
+        },
+        {
+          "ts": "2026-06-13T22:50:51+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-06-13T22:56:24+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "b519b5ebd34d",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "524736634115fb10"
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_elongation_dwell_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route W: ribosome-dwell/elongation is NOT the unidentified 4th codon-optimality axis (partial verdict). Per-codon ribosome-dwell direction (yeast riboseq positional occupancy, 1.41M windows) aligns with d_resid4 only cos -0.095 but with the named axes strongly (usage 0.640, tRNA 0.323, f3 0.272) -> dwell is the named-axes bundle (mostly usage), NOT the 4th residual. yeast-only. COMPLETES 4th-mechanism elimination (NOT mRNA-stability U / codon-pair V / wobble R / GC R / dwell W). ARC CONCLUSION (N->W): codon abundance-optimality >=4D; named axes (tRNA+f3+usage) capture ~16% of optimal-direction geometry; the dominant cross-organism-universal residual axis is real but mechanistically OPEN.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_fourth_mechanism_elongation_dwell_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-13T22:31:49+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "e4edcde459b7",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "43bd51180e5d7c51"
+        }
+      ]
     }
   ]
 }

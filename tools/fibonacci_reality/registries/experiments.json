@@ -176,6 +176,108 @@
           "cyclic_lucas_L6"
         ]
       }
+    },
+    {
+      "experiment_id": "window6-transfer-operator-perron-forward-check",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_transfer_operator_perron.py",
+      "claim_id": "window6.transfer-operator.golden-perron-spectrum.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "transfer_matrix_charpoly",
+          "perron_eigenvalue_phi",
+          "topological_entropy_log_phi",
+          "linear_count_fibonacci",
+          "cyclic_count_lucas",
+          "binet_from_diagonalization",
+          "golden_base_unification"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-markov-kernel-spectrum",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_markov_kernel_spectrum.py",
+      "claim_id": "window6.markov-kernel.coarse-spectrum-fibonacci-leading.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "kernel_row_stochastic",
+          "perron_eigenvalue_one",
+          "resolvent_leading_coeff_fibonacci",
+          "subdominant_eigenvalues_inside_unit",
+          "spectral_gap",
+          "escape_ratio_8_9",
+          "coarse_fine_perron_contrast"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-torsion-prime-resolvent-link",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_torsion_prime_resolvent_link.py",
+      "claim_id": "window6.green-boundary.torsion-prime-571-resolvent-link.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "delta_r_one_value",
+          "delta_r_one_denominator_prime_571",
+          "laplacian_snf_invariant_571",
+          "common_torsion_prime",
+          "resolvent_link"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-edge-matrix-snf",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_edge_matrix_snf.py",
+      "claim_id": "window6.edge-matrix.smith-normal-form-cokernel.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "edge_matrix_symmetric_det",
+          "edge_matrix_snf",
+          "invariant_factor_product_equals_det",
+          "cokernel_torsion",
+          "small_factors_fibonacci",
+          "distinct_from_laplacian_snf"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-parry-measure",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_parry_measure.py",
+      "claim_id": "window6.parry-measure.golden-maximal-entropy.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "perron_eigenvectors",
+          "parry_transition_probs",
+          "stationary_distribution",
+          "metric_entropy_log_phi",
+          "coarse_stationary_cell_sizes"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-a0-edge-nogo",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_a0_edge_nogo.py",
+      "claim_id": "window6.fold-gauge.a0-edge-derivability-nogo.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "a0_nonnormal",
+          "a0_defective_jordan",
+          "edge_symmetric_normal",
+          "a0_not_polynomial_in_E",
+          "a0_E_noncommute",
+          "a0_T_noncommute_spectrum"
+        ]
+      }
     }
   ]
 }
