@@ -560,17 +560,30 @@ def run_public_jepa_structure_adapter(
             + ([] if pretrained else ["checkpoint weights were not loaded"]),
         }
     except Exception as exc:  # pragma: no cover - environment-dependent adapter boundary
+        candidate_id = "vjepa2-1-vit-base-384-pretrained" if pretrained else "vjepa2-1-vit-base-384-structure"
+        checkpoint_url = (
+            "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt"
+            if pretrained
+            else None
+        )
         return {
             "schema_id": "bedc-jepa-public-structure-adapter",
             "status": "unavailable",
-            "candidate_id": "vjepa2-1-vit-base-384-structure",
+            "candidate_id": candidate_id,
+            "repository_url": "https://github.com/facebookresearch/vjepa2",
+            "model": {
+                "hub_entry": "vjepa2_1_vit_base_384",
+                "pretrained": bool(pretrained),
+                "checkpoint_status": "unavailable" if pretrained else "not_loaded",
+                "checkpoint_url": checkpoint_url,
+            },
             "exception_type": type(exc).__name__,
             "message": str(exc),
             "trace_tail": traceback.format_exc().splitlines()[-6:],
             "cannot_claim": [
                 "public JEPA structure adapter execution",
-                "checkpoint weights were not loaded",
-            ],
+            ]
+            + ([] if pretrained else ["checkpoint weights were not loaded"]),
         }
 
 

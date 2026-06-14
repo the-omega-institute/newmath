@@ -84,7 +84,8 @@ def _train_variant(
 ) -> dict[str, Any]:
     torch = require_torch()
     set_deterministic_seed(seed)
-    device = choose_device()
+    device_resolution = choose_device()
+    device = device_resolution.resolved_device
     encoder = _make_mlp(torch, train.x.shape[1], 2).to(device)
     predictor = _make_mlp(torch, 2, 2).to(device)
     distinction_head = _make_mlp(torch, 3, 1).to(device)

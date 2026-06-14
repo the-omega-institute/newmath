@@ -2,12 +2,6 @@
   "artifact_id": "bedc-quality-lab:fair-l1-decision",
   "boundary_ledger": [
     {
-      "gate_id": "FAIR-L1-HG2",
-      "reason": "one or more fair alignment rows are missing",
-      "source_pointer": "$.fair_alignment.comparison_rows",
-      "status": "bounded-negative"
-    },
-    {
       "gate_id": "FAIR-L1-HG3",
       "reason": "baseline arm is information-starved or input-accessibility rows mark missing variables",
       "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
@@ -75,7 +69,7 @@
     "claim_id": "claim:fair-l1-decision",
     "comparison_count": 4,
     "comparison_pointer": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows",
-    "failed_gate": "FAIR-L1-HG2",
+    "failed_gate": "FAIR-L1-HG3",
     "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
     "hardgate_status": "fail",
     "ladder_state": "l1-bounded-negative",
@@ -120,11 +114,11 @@
       },
       {
         "comparison_id": "equal-validation-loss",
-        "decision": "validation-loss-owner-cell-missing",
+        "decision": "noninformative-dgt-separated",
         "match_axis": "validation_loss",
         "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[3]",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step",
-        "status": "missing"
+        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean",
+        "status": "resolved"
       }
     ],
     "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit"
@@ -140,10 +134,10 @@
     },
     "FAIR-L1-HG2": {
       "criterion": "equal-step, equal-compute, equal-loss-decrease, and equal-validation-loss rows are resolved",
-      "fail_closed_reason": "one or more fair alignment rows are missing",
+      "fail_closed_reason": null,
       "gate_id": "FAIR-L1-HG2",
       "source_pointer": "$.fair_alignment.comparison_rows",
-      "status": "fail"
+      "status": "pass"
     },
     "FAIR-L1-HG3": {
       "criterion": "baseline arm has enough task information for a fair architecture comparison",
@@ -223,7 +217,7 @@
     "base_audit": {
       "artifact": "reports/canonical/dgt-base-undertraining-audit.json",
       "pointer": "$.base_undertraining_audit",
-      "sha256": "460152315b66d80dea93b94165a95027b4b82548ec1a46f91d082a7c4cef8fb2",
+      "sha256": "589689294b7640a0d224d545a8e8b34195d094037024ee9f879124bf629c89b6",
       "status": "resolved"
     },
     "input_accessibility": {

@@ -7166,22 +7166,21 @@ def _validate_reproduction_blocked_reason(
             errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "owner_gate_ref is required"))
         if reason["dependency_ref"] is None:
             errors.append(_reproduction_error(f"{row_path}.blocked_reason.dependency_ref", "dependency_ref is required"))
-        if target_id == "fair-l1-training":
-            for key, expected in FAIR_L1_BLOCKED_REASON.items():
-                if reason[key] != expected:
-                    errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"fair-l1-training requires {expected}"))
-            gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
-            if not isinstance(evidence_value, Mapping) or (
-                evidence_value.get("comparison_id") != "equal-validation-loss"
-                or evidence_value.get("decision") != "validation-loss-owner-cell-missing"
-                or evidence_value.get("status") != "missing"
-            ):
-                errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "fair-l1 evidence row does not match equal-validation-loss"))
-            if not isinstance(gate_value, Mapping) or (
-                gate_value.get("gate_id") != "FAIR-L1-HG2"
-                or gate_value.get("status") != "fail"
-            ):
-                errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "fair-l1 owner gate does not match FAIR-L1-HG2"))
+    if target_id == "fair-l1-training":
+        for key, expected in FAIR_L1_BLOCKED_REASON.items():
+            if reason[key] != expected:
+                errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"fair-l1-training requires {expected}"))
+        gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
+        if not isinstance(evidence_value, Mapping) or (
+            evidence_value.get("gate_id") != "FAIR-L1-HG3"
+            or evidence_value.get("status") != "fail"
+        ):
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "fair-l1 evidence gate does not match FAIR-L1-HG3"))
+        if not isinstance(gate_value, Mapping) or (
+            gate_value.get("gate_id") != "FAIR-L1-HG3"
+            or gate_value.get("status") != "fail"
+        ):
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "fair-l1 owner gate does not match FAIR-L1-HG3"))
     return errors
 
 

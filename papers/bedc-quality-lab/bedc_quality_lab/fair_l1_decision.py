@@ -32,6 +32,8 @@ L1_CONSTRUCT_VALIDITY_POINTER = f"{DGT_L1_CONTROLS_ARTIFACT}:$.construct_validit
 BASE_AUDIT_POINTER = f"{DGT_BASE_UNDERTRAINING_ARTIFACT}:$.base_undertraining_audit"
 INPUT_ACCESSIBILITY_POINTER = f"{INPUT_ACCESSIBILITY_ARTIFACT}:$"
 LADDER_STATE_PROJECTION_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.ladder_state_projection"
+INPUT_ABLATION_ARM_ID = "input_ablation_masked_tail"
+INPUT_ABLATION_ROLE = "ablation"
 
 DECISION_STATUSES = ("blocked", "bounded-negative", "scaling-evidence-eligible")
 LADDER_STATES = ("l1-scaling-blocked", "l1-bounded-negative", "l1-scaling-evidence-eligible")
@@ -142,8 +144,8 @@ def _baseline_input_accessibility(input_accessibility: Any) -> dict[str, Any]:
         if isinstance(row, Mapping)
         and row.get("experiment") == "dgt_l1_tiny_sequence"
         and row.get("split") == "in_distribution"
-        and row.get("arm") == "information_starved_l1_baseline"
-        and row.get("role") == "fairness-control"
+        and row.get("arm") == INPUT_ABLATION_ARM_ID
+        and row.get("role") == INPUT_ABLATION_ROLE
     ]
     if len(matches) != 1:
         return {

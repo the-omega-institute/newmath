@@ -79,7 +79,7 @@ def _write_eligible_sources(root):
         row["status"] = "resolved"
     construct.setdefault("input_accessibility_preconditions", {})["baseline_row"] = {
         "status": "pass",
-        "row_pointer": "reports/canonical/input-accessibility.json#row_id=59a87f14e31796e4",
+        "row_pointer": "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b",
         "missing_variables": [],
         "information_starved": False,
     }
@@ -87,11 +87,11 @@ def _write_eligible_sources(root):
 
     accessibility = _read_json(root, fair.INPUT_ACCESSIBILITY_ARTIFACT)
     baseline_row = {
-        "row_id": "59a87f14e31796e4",
+        "row_id": "6001d70d815f574b",
         "experiment": "dgt_l1_tiny_sequence",
         "split": "in_distribution",
-        "arm": "information_starved_l1_baseline",
-        "role": "fairness-control",
+        "arm": fair.INPUT_ABLATION_ARM_ID,
+        "role": fair.INPUT_ABLATION_ROLE,
         "visible_variables": ["x_minus_1", "x_minus_2", "full_sequence"],
         "required_variables": ["x_minus_1", "x_minus_2"],
         "missing_variables": [],
@@ -116,8 +116,8 @@ def _write_eligible_sources(root):
         if (
             row["experiment"] == "dgt_l1_tiny_sequence"
             and row["split"] == "in_distribution"
-            and row["arm"] == "information_starved_l1_baseline"
-            and row["role"] == "fairness-control"
+            and row["arm"] == fair.INPUT_ABLATION_ARM_ID
+            and row["role"] == fair.INPUT_ABLATION_ROLE
         ):
             row["visible_variables"] = list(row["required_variables"])
             row["missing_variables"] = []
@@ -127,7 +127,7 @@ def _write_eligible_sources(root):
     accessibility["consumer_pointers"]["information_starved_arms_ref"] = [
         pointer
         for pointer in accessibility["consumer_pointers"]["information_starved_arms_ref"]
-        if not pointer.endswith("59a87f14e31796e4")
+        if not pointer.endswith("6001d70d815f574b")
     ]
     _write_json(root, fair.INPUT_ACCESSIBILITY_ARTIFACT, accessibility)
 

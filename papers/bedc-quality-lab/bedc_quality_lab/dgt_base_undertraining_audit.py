@@ -26,8 +26,10 @@ GENERATED_AT = "2026-06-10T00:00:00+00:00"
 REQUIRED_COMPARISONS = ("equal_step", "equal_compute", "equal_loss_decrease", "equal_validation_loss")
 REQUIRED_BASE_GRID = (36, 72, 128, 256, 512)
 INPUT_ABLATION_ARM_ID = "input_ablation_masked_tail"
+INPUT_ABLATION_ROLE = "ablation"
 INPUT_ABLATION_ACCURACY_METRIC = "input_ablation_accuracy_mean"
 INPUT_ABLATION_LOSS_DECREASE_METRIC = "input_ablation_loss_decrease_mean"
+INPUT_ABLATION_VALIDATION_LOSS_METRIC = "information_starved_validation_loss_mean"
 NOT_CLAIMED = (
     "Bounded L1 tiny-sequence base-undertraining audit only.",
     "No undertraining discharge claim under information-starved baseline.",
@@ -177,8 +179,8 @@ def _baseline_input_accessibility(rows: Sequence[Any], consumers: Mapping[str, A
         if isinstance(row, Mapping)
         and row.get("experiment") == "dgt_l1_tiny_sequence"
         and row.get("split") == "in_distribution"
-        and row.get("arm") == "information_starved_l1_baseline"
-        and row.get("role") == "fairness-control"
+        and row.get("arm") == INPUT_ABLATION_ARM_ID
+        and row.get("role") == INPUT_ABLATION_ROLE
     ]
     if len(matches) != 1:
         return {
@@ -549,7 +551,7 @@ def _build_rows(l1_payload: Mapping[str, Any]) -> list[dict[str, Any]]:
         if dgt_validation_loss is None
         else _nearest_by_value(
             rows,
-            value_getter=lambda row: _arm_metric(row, "information_starved_l1_baseline", "validation_loss_mean"),
+            value_getter=lambda row: _metric(row, INPUT_ABLATION_VALIDATION_LOSS_METRIC),
             target=dgt_validation_loss,
         )
     )
@@ -581,7 +583,7 @@ def _build_rows(l1_payload: Mapping[str, Any]) -> list[dict[str, Any]]:
             if equal_validation_match is None
             else (
                 f"{L1_SOURCE_ARTIFACT}:$.l1_step_ladder.per_step[{equal_validation_match[0]}]"
-                ".metrics.information_starved_validation_loss_mean"
+                f".metrics.{INPUT_ABLATION_VALIDATION_LOSS_METRIC}"
             )
         ),
     )
