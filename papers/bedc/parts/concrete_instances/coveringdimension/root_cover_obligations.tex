@@ -145,6 +145,29 @@ Use \autoref{thm:coveringdimension-real-separability-root-route}. Dense real sam
 Finally apply \autoref{thm:coveringdimension-refinement-order-root-unblock}. It identifies refinement containment through $R$ as the root source that unblocks $O$, so the complete accepted read is exactly the displayed finite chain through $K,E,C,R,L,\RealSeparabilityUp,\MetricCompletionUp,O,H,T,P,N$.
 \end{proof}
 
+\begin{theorem}[CoveringDimension root cover order-ledger exhaustion]
+\label{thm:coveringdimension-root-cover-order-ledger-exhaustion}
+For an accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N),
+$$
+every order-bound ledger read in $O$ is exhausted by the finite chain
+$$
+K,E,C,R,L,\RealSeparabilityUp,\MetricCompletionUp,O,H,T,P,N .
+$$
+No later consumer may replace that chain by arbitrary open-cover compactness, a selected dense subfamily, a quotient completion witness, or an ambient dimension oracle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverOrderLedgerExhaustion}
+\begin{proof}
+First read $E$ through \autoref{thm:coveringdimension-finite-epsilon-net-carrier}. This fixes the root cover support before any order-bound count can be inspected.
+
+Next apply \autoref{thm:coveringdimension-compact-cover-forward-dependency}. The compact-cover row is routed through the Lebesgue ledger $L$, so the order read cannot import an unlisted open-cover compactness principle.
+
+Use \autoref{thm:coveringdimension-real-separability-root-route}. The RealSeparability and MetricCompletion windows are downstream of the same finite root data rather than selected dense subfamilies or quotient completion witnesses.
+
+Finally apply \autoref{thm:coveringdimension-root-cover-scope-route}. It identifies the complete scoped route through $K,E,C,R,L,\RealSeparabilityUp,\MetricCompletionUp,O,H,T,P,N$, and the carrier has no coordinate for an ambient dimension oracle. Therefore every accepted order-bound ledger read is exhausted by the displayed chain.
+\end{proof}
+
 \begin{theorem}[CoveringDimension root cover primitive route]
 \label{thm:coveringdimension-root-cover-scope-primitive-route}
 For an accepted $\CoveringDimensionUp$ carrier
@@ -197,6 +220,7 @@ K,E,C,R,L,\RealSeparabilityUp,\MetricCompletionUp,O,H,T,P,N,
 $$
 with no appeal to arbitrary open-cover compactness, selected dense subfamilies, quotient completion, or ambient dimension oracles.
 \end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverScopedDependency}
 \begin{proof}
 Start with \autoref{thm:coveringdimension-finite-epsilon-net-carrier}. It makes the finite epsilon-net row $E$ the root source for cover samples, refinement memberships, and later order counts.
 

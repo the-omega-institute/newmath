@@ -8,6 +8,7 @@ rows. No accepted packet exports hidden analytic continuation, a host zero
 locator, a completed $\mathsf{RH}$ proof, or an off-packet critical-line
 oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_source\_budget\_carrier}
 \begin{proof}
 Project the accepted packet through the carrier description of
 \autoref{def:critical-line-witness-carrier}. Coordinate exhaustion gives only
@@ -65,6 +66,7 @@ following five obligations:
 \item downstream stability through $H,C,P,N$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 First project the accepted packet to its carrier coordinates. The
 source-budget carrier theorem
@@ -83,4 +85,35 @@ refusal theorem
 the refusal row, while the displayed $H,C,P,N$ coordinates carry transport,
 continuation, provenance, and naming stability. These five rows exhaust the
 local $\NameCert_{\CriticalLineWitnessUp}$ surface.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness source-budget public interface]
+\label{thm:critical-line-witness-source-budget-public-interface}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$
+source-budget packet. Its public interface consists exactly of the critical
+strip source row, dyadic rational tolerance row, $\RegSeqRatUp$ readback row,
+$\RealUp$ seal row, $\ZetaUp$ and $\ZetaZerosUp$ route rows, refusal budget
+row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local
+$\NameCert_{\CriticalLineWitnessUp}$ row. No $\mathsf{RH}$ conclusion,
+zero-count completeness theorem, host analytic-continuation object, or
+hidden limit is exported by this interface.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{thm:critical-line-witness-source-budget-carrier}. The projection
+exposes the critical strip source, dyadic tolerance budget, regular-rational
+readback, Real seal, zeta-route, refusal, transport, replay, provenance, and
+local naming coordinates as the full visible source-budget tuple.
+
+Apply the NameCert obligation surface of
+\autoref{thm:critical-line-witness-namecert-obligation-surface}. Its carrier
+exposure, source-budget exactness, route determinacy, refusal non-escape, and
+downstream stability clauses identify those rows as the public interface
+rather than as private auxiliary data.
+
+Finally use the zero-strip refusal theorem
+\autoref{thm:critical-line-witness-zero-strip-refusal}. The non-escape
+clause prevents any consumer from replacing the refusal budget by an
+$\mathsf{RH}$ conclusion, zero-count completeness, host analytic
+continuation, or hidden limiting object.
 \end{proof}
