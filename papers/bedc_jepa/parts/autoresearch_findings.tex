@@ -75,20 +75,24 @@ failure-among-admitted risk below the target $\alpha = 0.10$ only at a
 conservative admitted coverage near $10\%$; at usable coverage the guarantee is
 marginal.  For \emph{allocation}, no post-hoc transform of the fixed latent --
 neither a readout head nor a tail-weighted re-encoder -- and no small
-from-scratch encoder (even with a verified non-collapsed latent of effective
-rank above $59$) brings the allocation delta against a uniform budget below
-zero; the rank signal stays near $\rho \approx 0.5$, so an allocation-useful
-improvement would require encoder training beyond the present small-scale
-budget.  Training the full integrated objective end to end -- a single encoder
-shaped jointly by next-latent prediction, a horizon-indexed detection head, and
-the tail-weighted allocation loss, behind an out-of-distribution fail-closed
-gate -- does not move this delta below zero either (delta
-$+0.007\ [0.0005,\ 0.013]$, rank signal $\rho \approx 0.27$ on a verified
-non-collapsed latent), so at this scale the bound is not an artifact of a
-post-hoc or incomplete objective.  Detection is therefore an internalization that reaches parity with the
+from-scratch encoder brings the allocation delta against a uniform budget below
+zero, with the readable rank signal saturating near $\rho \approx 0.5$.  Scaling
+the from-scratch encoder on a GPU across a $1200\times$ range of capacity (from
+$0.14$M to $165$M parameters), every run with a verified healthy non-collapsed
+latent of effective rank $54$--$112$, leaves the allocation rank correlation
+flat in $\rho \in [0.26,\ 0.39]$ -- never approaching that ceiling, and
+flat-to-decreasing along the matched-batch series -- so the bound is
+encoder-capacity-invariant rather than a small-budget artifact
+(\path{experiments/lewm_gap_ledger/encoder_scale_derisk/}).  Training the full
+integrated objective end to end -- a single encoder shaped jointly by
+next-latent prediction, a horizon-indexed detection head, and the tail-weighted
+allocation loss, behind an out-of-distribution fail-closed gate -- does not move
+this delta below zero either (delta $+0.007\ [0.0005,\ 0.013]$, rank signal
+$\rho \approx 0.27$ on a verified non-collapsed latent), so the bound is not an
+artifact of a post-hoc or incomplete objective.  Detection is therefore an internalization that reaches parity with the
 strongest probe, with a config-dependent margin seen only in separate paired
 comparisons, selective prediction is a conservative-coverage result, and
-allocation is a bounded frontier.
+allocation is a capacity-invariant bounded frontier.
 
 This loop is the continuation mechanism for the article: each hypothesis it
 clears is appended to the verified-findings record above, and nothing reaches
