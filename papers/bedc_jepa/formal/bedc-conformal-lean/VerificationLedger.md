@@ -74,6 +74,34 @@ k * alphaDen` (that is, `k / m >= 1 - alpha`), the miscoverage fraction is at
 most `alpha`. This is the deterministic rank-quantile core established by
 counting, not the trivial `m - k <= m`.
 
+On a strictly sorted (distinct) list the bound is two-sided. With
+`StrictSorted scores` the count at most the `k`-th order statistic is also at
+most `k`, so it equals `k` exactly and the miscoverage count equals `m - k`:
+
+```lean
+theorem coverage_count_le_k
+    (scores : List Nat) (k : Nat) :
+    StrictSorted scores -> 1 <= k -> k <= scores.length ->
+      countLE (kthSmallest scores k) scores <= k
+
+theorem coverage_count_eq_k
+    (scores : List Nat) (k : Nat) :
+    StrictSorted scores -> 1 <= k -> k <= scores.length ->
+      countLE (kthSmallest scores k) scores = k
+
+theorem two_sided_coverage_interval
+    (scores : List Nat) (k : Nat) :
+    StrictSorted scores -> 1 <= k -> k <= scores.length ->
+      scores.length - countLE (kthSmallest scores k) scores =
+        scores.length - k
+```
+
+`coverage_count_le_k` is where distinctness is used: positions past the `k`-th
+order statistic are strictly larger, so none of them is at most the threshold.
+With ties the upper bound can fail, which is why `StrictSorted` (not `Sorted`)
+is the hypothesis. Together with `coverage_count_ge_k` this gives the exact
+finite-sample coverage characterization rather than only its lower side.
+
 ## Kernel Dependency Audit
 
 The final `lake build` emitted:
@@ -83,7 +111,11 @@ info: 'ConformalCounting.fail_closed_selects_empty' does not depend on any axiom
 info: 'ConformalCounting.selected_satisfies_conservative_bound' does not depend on any axioms
 info: 'ConformalCounting.coverage_counting_correct' does not depend on any axioms
 info: 'ConformalCounting.cumFail_monotone' does not depend on any axioms
+info: 'ConformalCounting.strictSorted_sorted' does not depend on any axioms
 info: 'ConformalCounting.coverage_count_ge_k' does not depend on any axioms
+info: 'ConformalCounting.coverage_count_le_k' does not depend on any axioms
+info: 'ConformalCounting.coverage_count_eq_k' does not depend on any axioms
+info: 'ConformalCounting.two_sided_coverage_interval' does not depend on any axioms
 info: 'ConformalCounting.finite_coverage_count' does not depend on any axioms
 info: 'ConformalCounting.finite_miscoverage_bound' does not depend on any axioms
 Build completed successfully (3 jobs).
@@ -91,7 +123,7 @@ Build completed successfully (3 jobs).
 
 The checked Lean source contains no primitive assumption keyword and no
 placeholder proof keywords. The dependency output contains no `Classical.choice`,
-`Quot.sound`, or `propext` dependency for the seven theorems.
+`Quot.sound`, or `propext` dependency for the eleven theorems.
 
 ## Scope and Open Step
 

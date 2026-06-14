@@ -236,7 +236,11 @@ count is at most $m - k$ on a list of length $m$, and whenever $k$ meets the
 quantile budget $(\alpha_{\mathrm{den}} - \alpha_{\mathrm{num}})\,m \le
 k\,\alpha_{\mathrm{den}}$ the miscoverage fraction is at most $\alpha$ --- the
 deterministic rank-quantile core of the coverage guarantee, established by
-counting rather than asserted.  The formalized object is this deterministic
+counting rather than asserted.  For strictly sorted (distinct) scores the count
+is exactly $k$, so the miscoverage count is exactly $m - k$: the package proves
+the two-sided finite-sample coverage characterization, not only its lower side,
+with distinctness shown to be the hypothesis the upper bound requires.  The
+formalized object is this deterministic
 counting core over a failure-indicator list \emph{already ordered by score}: the
 score sort itself, the numeric threshold readout $\tau = s_{\mathrm{sorted}}[i]$,
 and the evaluation-side $\mathrm{score} \le \tau$ comparison are the trusted

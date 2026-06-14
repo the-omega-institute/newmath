@@ -217,6 +217,14 @@ def Sorted : List Nat -> Prop
   | [] => True
   | x :: xs => AllLE x xs ∧ Sorted xs
 
+def AllLT (x : Nat) : List Nat -> Prop
+  | [] => True
+  | y :: ys => x < y ∧ AllLT x ys
+
+def StrictSorted : List Nat -> Prop
+  | [] => True
+  | x :: xs => AllLT x xs ∧ StrictSorted xs
+
 def kthSmallest : List Nat -> Nat -> Nat
   | [], _ => 0
   | x :: _, 0 => x
@@ -279,6 +287,40 @@ private theorem allLE_kthSmallest
                     Nat.succ_le_succ (Nat.zero_le k)
                   exact ih (k + 1) htail htailLen htailPos
 
+private theorem allLT_allLE
+    (x : Nat) (xs : List Nat) :
+    AllLT x xs -> AllLE x xs := by
+  induction xs with
+  | nil =>
+      intro _
+      trivial
+  | cons y ys ih =>
+      intro hAll
+      change x < y ∧ AllLT x ys at hAll
+      cases hAll with
+      | intro hxy htail =>
+          change x <= y ∧ AllLE x ys
+          constructor
+          · exact Nat.le_of_lt hxy
+          · exact ih htail
+
+theorem strictSorted_sorted
+    (scores : List Nat) :
+    StrictSorted scores -> Sorted scores := by
+  induction scores with
+  | nil =>
+      intro _
+      trivial
+  | cons x xs ih =>
+      intro hStrict
+      change AllLT x xs ∧ StrictSorted xs at hStrict
+      cases hStrict with
+      | intro hAll hTailStrict =>
+          change AllLE x xs ∧ Sorted xs
+          constructor
+          · exact allLT_allLE x xs hAll
+          · exact ih hTailStrict
+
 theorem coverage_count_ge_k
     (scores : List Nat) (k : Nat) :
     Sorted scores -> k <= scores.length ->
@@ -320,6 +362,116 @@ theorem coverage_count_ge_k
                       (Nat.succ_le_succ (Nat.zero_le k))
                   rw [countLE_cons_of_le (kthSmallest xs (k + 1)) x xs hxThreshold]
                   exact Nat.succ_le_succ htailCount
+
+private theorem lt_leBool_false
+    (a b : Nat) :
+    a < b -> leBool b a = false := by
+  induction a generalizing b with
+  | zero =>
+      intro hlt
+      cases b with
+      | zero =>
+          cases hlt
+      | succ b =>
+          rfl
+  | succ a ih =>
+      intro hlt
+      cases b with
+      | zero =>
+          cases hlt
+      | succ b =>
+          change leBool b a = false
+          exact ih b (Nat.lt_of_succ_lt_succ hlt)
+
+private theorem countLE_zero_of_allLT
+    (t : Nat) (xs : List Nat) :
+    AllLT t xs -> countLE t xs = 0 := by
+  induction xs with
+  | nil =>
+      intro _
+      rfl
+  | cons x xs ih =>
+      intro hAll
+      change t < x ∧ AllLT t xs at hAll
+      cases hAll with
+      | intro htx htail =>
+          change (match leBool x t with
+            | false => countLE t xs
+            | true => countLE t xs + 1) = 0
+          rw [lt_leBool_false t x htx]
+          exact ih htail
+
+-- Ties make the upper bound false: for scores [1, 1] and k = 1,
+-- the threshold is 1 and both scores are counted.
+theorem coverage_count_le_k
+    (scores : List Nat) (k : Nat) :
+    StrictSorted scores -> 1 <= k -> k <= scores.length ->
+      countLE (kthSmallest scores k) scores <= k := by
+  induction scores generalizing k with
+  | nil =>
+      intro _ _ hlen
+      cases k with
+      | zero =>
+          exact Nat.zero_le 0
+      | succ k =>
+          cases hlen
+  | cons x xs ih =>
+      intro hStrict hpos hlen
+      change AllLT x xs ∧ StrictSorted xs at hStrict
+      cases hStrict with
+      | intro hAll hTailStrict =>
+          cases k with
+          | zero =>
+              cases hpos
+          | succ k =>
+              cases k with
+              | zero =>
+                  change countLE x (x :: xs) <= 1
+                  rw [countLE_cons_of_le x x xs (Nat.le_refl x)]
+                  rw [countLE_zero_of_allLT x xs hAll]
+                  exact Nat.le_refl 1
+              | succ k =>
+                  change countLE (kthSmallest xs (k + 1)) (x :: xs) <= k + 2
+                  have htailLen : k + 1 <= xs.length :=
+                    Nat.le_of_succ_le_succ hlen
+                  have htailPos : 1 <= k + 1 :=
+                    Nat.succ_le_succ (Nat.zero_le k)
+                  have htailCount :
+                      countLE (kthSmallest xs (k + 1)) xs <= k + 1 :=
+                    ih (k + 1) hTailStrict htailPos htailLen
+                  change (match leBool x (kthSmallest xs (k + 1)) with
+                    | false => countLE (kthSmallest xs (k + 1)) xs
+                    | true => countLE (kthSmallest xs (k + 1)) xs + 1) <= k + 2
+                  cases hc : leBool x (kthSmallest xs (k + 1)) with
+                  | false =>
+                      change countLE (kthSmallest xs (k + 1)) xs <= k + 2
+                      exact Nat.le_trans htailCount (Nat.le_succ (k + 1))
+                  | true =>
+                      change countLE (kthSmallest xs (k + 1)) xs + 1 <= k + 2
+                      exact Nat.succ_le_succ htailCount
+
+theorem coverage_count_eq_k
+    (scores : List Nat) (k : Nat) :
+    StrictSorted scores -> 1 <= k -> k <= scores.length ->
+      countLE (kthSmallest scores k) scores = k := by
+  intro hStrict hpos hlen
+  have hSorted : Sorted scores :=
+    strictSorted_sorted scores hStrict
+  have hGe :
+      k <= countLE (kthSmallest scores k) scores :=
+    coverage_count_ge_k scores k hSorted hlen
+  have hLe :
+      countLE (kthSmallest scores k) scores <= k :=
+    coverage_count_le_k scores k hStrict hpos hlen
+  exact Nat.le_antisymm hLe hGe
+
+theorem two_sided_coverage_interval
+    (scores : List Nat) (k : Nat) :
+    StrictSorted scores -> 1 <= k -> k <= scores.length ->
+      scores.length - countLE (kthSmallest scores k) scores =
+        scores.length - k := by
+  intro hStrict hpos hlen
+  rw [coverage_count_eq_k scores k hStrict hpos hlen]
 
 private theorem sub_succ_le_sub
     (n m : Nat) :
@@ -462,7 +614,11 @@ theorem finite_miscoverage_bound
 #print axioms selected_satisfies_conservative_bound
 #print axioms coverage_counting_correct
 #print axioms cumFail_monotone
+#print axioms strictSorted_sorted
 #print axioms coverage_count_ge_k
+#print axioms coverage_count_le_k
+#print axioms coverage_count_eq_k
+#print axioms two_sided_coverage_interval
 #print axioms finite_coverage_count
 #print axioms finite_miscoverage_bound
 
