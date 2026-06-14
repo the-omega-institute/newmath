@@ -4231,6 +4231,7 @@ import BEDC.Derived.DirectedCofinalSubsetUp
 import BEDC.Derived.DirectedFilterUp.TasteGate
 import BEDC.Derived.DirectedSetUp
 import BEDC.Derived.DirectedSetUp.TasteGate
+import BEDC.Derived.DirichletAbelSummabilityUp
 import BEDC.Derived.DirichletApproximationUp.TasteGate
 import BEDC.Derived.DirichletKernelUp
 import BEDC.Derived.DirichletKernelUp.NameCertObligations
