@@ -167,4 +167,27 @@ theorem DyadicIntervalTreeCarrier_refinement_induction_surface
     ⟨unaryR, unaryD, unaryB, unaryF, unaryM, unaryQ, unaryNW, unaryBranch,
       unaryWindow, routeF, routeQ, routeNW, branchRoute, windowRoute⟩
 
+theorem DyadicIntervalTreeCarrier_branch_coverage
+    {R D B F M Q NW H C P L branchRead containmentRead : BHist} :
+    DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
+      Cont B F branchRead ->
+        Cont branchRead Q containmentRead ->
+          UnaryHistory B ∧ UnaryHistory F ∧ UnaryHistory Q ∧ UnaryHistory branchRead ∧
+            UnaryHistory containmentRead ∧ Cont B F branchRead ∧
+              Cont branchRead Q containmentRead ∧ Cont Q D NW := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packet branchRoute containmentRoute
+  obtain
+    ⟨_unaryR, unaryD, unaryB, unaryF, unaryM, _unaryH, _unaryC, _unaryP,
+      _unaryL, _routeF, routeQ, routeNW⟩ := packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryF unaryM routeQ
+  have unaryBranch : UnaryHistory branchRead :=
+    unary_cont_closed unaryB unaryF branchRoute
+  have unaryContainment : UnaryHistory containmentRead :=
+    unary_cont_closed unaryBranch unaryQ containmentRoute
+  exact
+    ⟨unaryB, unaryF, unaryQ, unaryBranch, unaryContainment, branchRoute,
+      containmentRoute, routeNW⟩
+
 end BEDC.Derived.DyadicIntervalTreeUp
