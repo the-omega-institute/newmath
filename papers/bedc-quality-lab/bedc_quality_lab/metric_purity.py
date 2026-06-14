@@ -21,9 +21,6 @@ ALLOWLIST_SCHEMA_ID = "bedc.quality.metric_purity_allowlist"
 LAB_ROOT = Path(__file__).resolve().parents[1]
 TARGET_KINDS = frozenset({"metric", "feature", "hardgate", "pathology"})
 AST_SCANNED_KINDS = frozenset({"metric", "feature"})
-OWNER_POINTER_BY_FAMILY = {
-    "WIN": "bedc_quality_lab/winnability.py:build_payload",
-}
 AuditStage = Literal["full", "pre_generation", "post_generation"]
 FINDING_CODES = frozenset(
     {f"METPURE-HG{index}" for index in range(1, 6)}
@@ -841,7 +838,7 @@ def _effective_target_config(root: Path, config: Mapping[str, Any]) -> dict[str,
             targets_by_id[str(row.get("id", ""))] = row
     for row in generated_targets:
         if isinstance(row, Mapping):
-            targets_by_id[str(row.get("id", ""))] = _normalize_generated_target_row(row)
+            targets_by_id[str(row.get("id", ""))] = row
     mutation_keys: set[tuple[str, str]] = set()
     mutations = []
     for row in (*static_mutations, *generated_mutations):
@@ -864,14 +861,6 @@ def _effective_target_config(root: Path, config: Mapping[str, Any]) -> dict[str,
             ),
         ),
     }
-
-
-def _normalize_generated_target_row(row: Mapping[str, Any]) -> Mapping[str, Any]:
-    family = str(row.get("family", ""))
-    owner_pointer = OWNER_POINTER_BY_FAMILY.get(family)
-    if owner_pointer is None:
-        return row
-    return {**dict(row), "owner_pointer": owner_pointer}
 
 
 def _load_hardgate_mutation_cases(config: Mapping[str, Any], *, path: Path) -> tuple[tuple[HardgateMutationCase, ...], list[MetricPurityFinding]]:

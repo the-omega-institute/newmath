@@ -76,12 +76,28 @@ def test_registered_hardgate_mutations_fail_through_owner_contract():
         assert result["restored_gate_status"] == "pass"
 
 
+def test_owner_hardgate_surface_owner_pointers_resolve():
+    root = Path.cwd()
+    surfaces = hardgate_inventory.iter_promotion_hardgate_surfaces(root)
+    win_surface = next(surface for surface in surfaces if surface.family == "WIN")
+
+    assert win_surface.owner_pointer == "bedc_quality_lab/winnability.py:_hardgates"
+    for surface in surfaces:
+        _resolve_owner_pointer(surface.owner_pointer)
+
+
 def test_owner_inventory_generates_concrete_hardgate_targets_and_mutations():
     root = Path.cwd()
     inventory_gate_ids = {row.gate_id for row in hardgate_inventory.iter_hardgate_inventory(root)}
+    generated_targets_by_id = {row["id"]: row for row in hardgate_inventory.generated_target_rows(root)}
     payload = metric_purity.run_metric_purity_audit(root)
     hardgate_targets = {
         target["id"]
+        for target in payload["targets"]
+        if target["kind"] == "hardgate" and target["module"] == hardgate_inventory.INVENTORY_MODULE
+    }
+    hardgate_targets_by_id = {
+        target["id"]: target
         for target in payload["targets"]
         if target["kind"] == "hardgate" and target["module"] == hardgate_inventory.INVENTORY_MODULE
     }
@@ -89,6 +105,13 @@ def test_owner_inventory_generates_concrete_hardgate_targets_and_mutations():
 
     assert inventory_gate_ids
     assert hardgate_targets == inventory_gate_ids
+    assert {
+        gate_id: target["owner_pointer"]
+        for gate_id, target in hardgate_targets_by_id.items()
+    } == {
+        gate_id: target["owner_pointer"]
+        for gate_id, target in generated_targets_by_id.items()
+    }
     assert inventory_gate_ids <= mutation_refs
     assert "fair-l1-decision/hardgates" not in hardgate_targets
 
