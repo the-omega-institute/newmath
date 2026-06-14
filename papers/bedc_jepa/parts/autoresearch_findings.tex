@@ -79,7 +79,13 @@ from-scratch encoder (even with a verified non-collapsed latent of effective
 rank above $59$) brings the allocation delta against a uniform budget below
 zero; the rank signal stays near $\rho \approx 0.5$, so an allocation-useful
 improvement would require encoder training beyond the present small-scale
-budget.  Detection is therefore an internalization that reaches parity with the
+budget.  Training the full integrated objective end to end -- a single encoder
+shaped jointly by next-latent prediction, a horizon-indexed detection head, and
+the tail-weighted allocation loss, behind an out-of-distribution fail-closed
+gate -- does not move this delta below zero either (delta
+$+0.007\ [0.0005,\ 0.013]$, rank signal $\rho \approx 0.27$ on a verified
+non-collapsed latent), so at this scale the bound is not an artifact of a
+post-hoc or incomplete objective.  Detection is therefore an internalization that reaches parity with the
 strongest probe, with a config-dependent margin seen only in separate paired
 comparisons, selective prediction is a conservative-coverage result, and
 allocation is a bounded frontier.

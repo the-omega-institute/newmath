@@ -91,6 +91,7 @@ DIMENSION_MISMATCH_NOT_CLAIMED_POINTER = "$.not_claimed"
 DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER = "$.dimension_mismatch_debt_transfer"
 DIMENSION_MISMATCH_CONTROL_POINTER = "$.control_protocol"
 WINNABILITY_CERTIFICATES_ARTIFACT = "reports/canonical/winnability-certificates.json"
+CLAIM_FIRST_DATA_CARD_REASON = "positive-acceptance-evidence-missing:claim-first:data-card"
 
 @dataclass(frozen=True)
 class ClaimSource:
@@ -756,7 +757,7 @@ def _mapped_discovery_row(
         return _row(
             claim_id=claim_id,
             claim_verdict="projected_discovery_required",
-            reason=empirical_owner_reason,
+            reason=CLAIM_FIRST_DATA_CARD_REASON,
             source=source,
             ledger_pointer=str(row.get("evidence_provenance_pointer") or "reports/canonical/index.json:$.evidence_provenance"),
             scorecard_snapshot=scorecard_snapshot,
@@ -883,7 +884,11 @@ def _mapped_discovery_row(
                 return _row(
                     claim_id=claim_id,
                     claim_verdict="projected_discovery_required",
-                    reason=empirical_owner_reason,
+                    reason=(
+                        CLAIM_FIRST_DATA_CARD_REASON
+                        if empirical_owner_reason == "evidence-provenance-owner-missing"
+                        else empirical_owner_reason
+                    ),
                     source=source,
                     ledger_pointer=str(row.get("evidence_provenance_pointer") or "reports/canonical/index.json:$.evidence_provenance"),
                     scorecard_snapshot=scorecard_snapshot,

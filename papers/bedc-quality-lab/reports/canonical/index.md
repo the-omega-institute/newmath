@@ -263,7 +263,7 @@
 - Cards: `reports/canonical/experiment_stack_cards.json:$.cards`
 - Claim-first gate: `reports/canonical/experiment_stack_cards.json:$.claim_first_gate`
 - Blocked card ids: `reports/canonical/experiment_stack_cards.json:$.blocked_card_ids`
-- Blocked card count: `9`
+- Blocked card count: `10`
 
 ## Reproduction Package
 

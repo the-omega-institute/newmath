@@ -202,9 +202,424 @@ theorem cumFail_monotone
   unfold cumFail
   exact countFails_take_le cal (i + 1) (j + 1) (Nat.succ_le_succ hij)
 
+def countLE (t : Nat) : List Nat -> Nat
+  | [] => 0
+  | x :: xs =>
+      match leBool x t with
+      | false => countLE t xs
+      | true => countLE t xs + 1
+
+def AllLE (x : Nat) : List Nat -> Prop
+  | [] => True
+  | y :: ys => x <= y ∧ AllLE x ys
+
+def Sorted : List Nat -> Prop
+  | [] => True
+  | x :: xs => AllLE x xs ∧ Sorted xs
+
+def AllLT (x : Nat) : List Nat -> Prop
+  | [] => True
+  | y :: ys => x < y ∧ AllLT x ys
+
+def StrictSorted : List Nat -> Prop
+  | [] => True
+  | x :: xs => AllLT x xs ∧ StrictSorted xs
+
+def kthSmallest : List Nat -> Nat -> Nat
+  | [], _ => 0
+  | x :: _, 0 => x
+  | x :: _, 1 => x
+  | _ :: xs, k + 2 => kthSmallest xs (k + 1)
+
+private theorem le_leBool_true (a b : Nat) :
+    a <= b -> leBool a b = true := by
+  induction a generalizing b with
+  | zero =>
+      intro _
+      rfl
+  | succ a ih =>
+      cases b with
+      | zero =>
+          intro h
+          cases h
+      | succ b =>
+          intro h
+          change leBool a b = true
+          exact ih b (Nat.le_of_succ_le_succ h)
+
+private theorem countLE_cons_of_le (t x : Nat) (xs : List Nat) :
+    x <= t -> countLE t (x :: xs) = countLE t xs + 1 := by
+  intro h
+  change (match leBool x t with
+    | false => countLE t xs
+    | true => countLE t xs + 1) = countLE t xs + 1
+  rw [le_leBool_true x t h]
+
+private theorem allLE_kthSmallest
+    (x : Nat) (xs : List Nat) (k : Nat) :
+    AllLE x xs -> k <= xs.length -> 1 <= k ->
+      x <= kthSmallest xs k := by
+  induction xs generalizing k with
+  | nil =>
+      intro _ hlen hpos
+      cases k with
+      | zero =>
+          cases hpos
+      | succ k =>
+          cases hlen
+  | cons y ys ih =>
+      intro hAll hlen hpos
+      change x <= y ∧ AllLE x ys at hAll
+      cases hAll with
+      | intro hxy htail =>
+          cases k with
+          | zero =>
+              cases hpos
+          | succ k =>
+              cases k with
+              | zero =>
+                  exact hxy
+              | succ k =>
+                  change x <= kthSmallest ys (k + 1)
+                  have htailLen : k + 1 <= ys.length :=
+                    Nat.le_of_succ_le_succ hlen
+                  have htailPos : 1 <= k + 1 :=
+                    Nat.succ_le_succ (Nat.zero_le k)
+                  exact ih (k + 1) htail htailLen htailPos
+
+private theorem allLT_allLE
+    (x : Nat) (xs : List Nat) :
+    AllLT x xs -> AllLE x xs := by
+  induction xs with
+  | nil =>
+      intro _
+      trivial
+  | cons y ys ih =>
+      intro hAll
+      change x < y ∧ AllLT x ys at hAll
+      cases hAll with
+      | intro hxy htail =>
+          change x <= y ∧ AllLE x ys
+          constructor
+          · exact Nat.le_of_lt hxy
+          · exact ih htail
+
+theorem strictSorted_sorted
+    (scores : List Nat) :
+    StrictSorted scores -> Sorted scores := by
+  induction scores with
+  | nil =>
+      intro _
+      trivial
+  | cons x xs ih =>
+      intro hStrict
+      change AllLT x xs ∧ StrictSorted xs at hStrict
+      cases hStrict with
+      | intro hAll hTailStrict =>
+          change AllLE x xs ∧ Sorted xs
+          constructor
+          · exact allLT_allLE x xs hAll
+          · exact ih hTailStrict
+
+theorem coverage_count_ge_k
+    (scores : List Nat) (k : Nat) :
+    Sorted scores -> k <= scores.length ->
+      k <= countLE (kthSmallest scores k) scores := by
+  induction scores generalizing k with
+  | nil =>
+      intro _ hlen
+      cases k with
+      | zero =>
+          exact Nat.zero_le 0
+      | succ k =>
+          cases hlen
+  | cons x xs ih =>
+      intro hSorted hlen
+      change AllLE x xs ∧ Sorted xs at hSorted
+      cases hSorted with
+      | intro hAll hTailSorted =>
+          cases k with
+          | zero =>
+              exact Nat.zero_le (countLE (kthSmallest (x :: xs) 0) (x :: xs))
+          | succ k =>
+              have htailLen : k <= xs.length :=
+                Nat.le_of_succ_le_succ hlen
+              cases k with
+              | zero =>
+                  change 1 <= countLE x (x :: xs)
+                  rw [countLE_cons_of_le x x xs (Nat.le_refl x)]
+                  exact Nat.succ_le_succ (Nat.zero_le (countLE x xs))
+              | succ k =>
+                  change k + 2 <=
+                    countLE (kthSmallest xs (k + 1)) (x :: xs)
+                  have htailLen' : k + 1 <= xs.length := htailLen
+                  have htailCount :
+                      k + 1 <= countLE (kthSmallest xs (k + 1)) xs :=
+                    ih (k + 1) hTailSorted htailLen'
+                  have hxThreshold :
+                      x <= kthSmallest xs (k + 1) :=
+                    allLE_kthSmallest x xs (k + 1) hAll htailLen'
+                      (Nat.succ_le_succ (Nat.zero_le k))
+                  rw [countLE_cons_of_le (kthSmallest xs (k + 1)) x xs hxThreshold]
+                  exact Nat.succ_le_succ htailCount
+
+private theorem lt_leBool_false
+    (a b : Nat) :
+    a < b -> leBool b a = false := by
+  induction a generalizing b with
+  | zero =>
+      intro hlt
+      cases b with
+      | zero =>
+          cases hlt
+      | succ b =>
+          rfl
+  | succ a ih =>
+      intro hlt
+      cases b with
+      | zero =>
+          cases hlt
+      | succ b =>
+          change leBool b a = false
+          exact ih b (Nat.lt_of_succ_lt_succ hlt)
+
+private theorem countLE_zero_of_allLT
+    (t : Nat) (xs : List Nat) :
+    AllLT t xs -> countLE t xs = 0 := by
+  induction xs with
+  | nil =>
+      intro _
+      rfl
+  | cons x xs ih =>
+      intro hAll
+      change t < x ∧ AllLT t xs at hAll
+      cases hAll with
+      | intro htx htail =>
+          change (match leBool x t with
+            | false => countLE t xs
+            | true => countLE t xs + 1) = 0
+          rw [lt_leBool_false t x htx]
+          exact ih htail
+
+-- Ties make the upper bound false: for scores [1, 1] and k = 1,
+-- the threshold is 1 and both scores are counted.
+theorem coverage_count_le_k
+    (scores : List Nat) (k : Nat) :
+    StrictSorted scores -> 1 <= k -> k <= scores.length ->
+      countLE (kthSmallest scores k) scores <= k := by
+  induction scores generalizing k with
+  | nil =>
+      intro _ _ hlen
+      cases k with
+      | zero =>
+          exact Nat.zero_le 0
+      | succ k =>
+          cases hlen
+  | cons x xs ih =>
+      intro hStrict hpos hlen
+      change AllLT x xs ∧ StrictSorted xs at hStrict
+      cases hStrict with
+      | intro hAll hTailStrict =>
+          cases k with
+          | zero =>
+              cases hpos
+          | succ k =>
+              cases k with
+              | zero =>
+                  change countLE x (x :: xs) <= 1
+                  rw [countLE_cons_of_le x x xs (Nat.le_refl x)]
+                  rw [countLE_zero_of_allLT x xs hAll]
+                  exact Nat.le_refl 1
+              | succ k =>
+                  change countLE (kthSmallest xs (k + 1)) (x :: xs) <= k + 2
+                  have htailLen : k + 1 <= xs.length :=
+                    Nat.le_of_succ_le_succ hlen
+                  have htailPos : 1 <= k + 1 :=
+                    Nat.succ_le_succ (Nat.zero_le k)
+                  have htailCount :
+                      countLE (kthSmallest xs (k + 1)) xs <= k + 1 :=
+                    ih (k + 1) hTailStrict htailPos htailLen
+                  change (match leBool x (kthSmallest xs (k + 1)) with
+                    | false => countLE (kthSmallest xs (k + 1)) xs
+                    | true => countLE (kthSmallest xs (k + 1)) xs + 1) <= k + 2
+                  cases hc : leBool x (kthSmallest xs (k + 1)) with
+                  | false =>
+                      change countLE (kthSmallest xs (k + 1)) xs <= k + 2
+                      exact Nat.le_trans htailCount (Nat.le_succ (k + 1))
+                  | true =>
+                      change countLE (kthSmallest xs (k + 1)) xs + 1 <= k + 2
+                      exact Nat.succ_le_succ htailCount
+
+theorem coverage_count_eq_k
+    (scores : List Nat) (k : Nat) :
+    StrictSorted scores -> 1 <= k -> k <= scores.length ->
+      countLE (kthSmallest scores k) scores = k := by
+  intro hStrict hpos hlen
+  have hSorted : Sorted scores :=
+    strictSorted_sorted scores hStrict
+  have hGe :
+      k <= countLE (kthSmallest scores k) scores :=
+    coverage_count_ge_k scores k hSorted hlen
+  have hLe :
+      countLE (kthSmallest scores k) scores <= k :=
+    coverage_count_le_k scores k hStrict hpos hlen
+  exact Nat.le_antisymm hLe hGe
+
+theorem two_sided_coverage_interval
+    (scores : List Nat) (k : Nat) :
+    StrictSorted scores -> 1 <= k -> k <= scores.length ->
+      scores.length - countLE (kthSmallest scores k) scores =
+        scores.length - k := by
+  intro hStrict hpos hlen
+  rw [coverage_count_eq_k scores k hStrict hpos hlen]
+
+private theorem sub_succ_le_sub
+    (n m : Nat) :
+    n - (m + 1) <= n - m := by
+  rw [Nat.sub_succ]
+  exact Nat.pred_le (n - m)
+
+private theorem sub_le_sub_left_pure
+    {a b : Nat} (h : a <= b) (n : Nat) :
+    n - b <= n - a := by
+  induction h with
+  | refl =>
+      exact Nat.le.refl
+  | step h ih =>
+      exact Nat.le_trans (sub_succ_le_sub n _) ih
+
+theorem finite_coverage_count
+    (scores : List Nat) (k : Nat) :
+    Sorted scores -> k <= scores.length ->
+      scores.length - countLE (kthSmallest scores k) scores <=
+        scores.length - k := by
+  intro hSorted hlen
+  have hcov : k <= countLE (kthSmallest scores k) scores :=
+    coverage_count_ge_k scores k hSorted hlen
+  exact sub_le_sub_left_pure hcov scores.length
+
+private theorem add_le_cancel_right_pure
+    (a b c : Nat) :
+    a + c <= b + c -> a <= b := by
+  induction c with
+  | zero =>
+      intro h
+      exact h
+  | succ c ih =>
+      intro h
+      change a + c + 1 <= b + c + 1 at h
+      exact ih (Nat.le_of_succ_le_succ h)
+
+private theorem sub_add_cancel_pure
+    {k n : Nat} (h : k <= n) :
+    n - k + k = n := by
+  induction k generalizing n with
+  | zero =>
+      rfl
+  | succ k ih =>
+      cases n with
+      | zero =>
+          cases h
+      | succ n =>
+          rw [Nat.succ_sub_succ_eq_sub]
+          change (n - k) + (k + 1) = n + 1
+          change ((n - k) + k) + 1 = n + 1
+          rw [ih (Nat.le_of_succ_le_succ h)]
+
+private theorem add_sub_of_le_pure
+    {a b : Nat} (h : a <= b) :
+    a + (b - a) = b := by
+  rw [Nat.add_comm a (b - a)]
+  exact sub_add_cancel_pure h
+
+private theorem right_distrib_pure
+    (a b c : Nat) :
+    (a + b) * c = a * c + b * c := by
+  calc
+    (a + b) * c = c * (a + b) := by
+      rw [Nat.mul_comm (a + b) c]
+    _ = c * a + c * b := by
+      rw [Nat.left_distrib]
+    _ = a * c + b * c := by
+      rw [Nat.mul_comm c a, Nat.mul_comm c b]
+
+private theorem miscoverage_alpha_from_rank
+    (n k alphaNum alphaDen : Nat) :
+    k <= n ->
+    alphaNum <= alphaDen ->
+    (alphaDen - alphaNum) * n <= k * alphaDen ->
+      (n - k) * alphaDen <= alphaNum * n := by
+  intro hkn hAlpha hBudget
+  have hBudget' : n * (alphaDen - alphaNum) <= k * alphaDen := by
+    rw [Nat.mul_comm n (alphaDen - alphaNum)]
+    exact hBudget
+  have hDenSplit : alphaNum + (alphaDen - alphaNum) = alphaDen :=
+    add_sub_of_le_pure hAlpha
+  have hProdSplit :
+      n * alphaDen =
+        n * alphaNum + n * (alphaDen - alphaNum) := by
+    calc
+      n * alphaDen =
+          n * (alphaNum + (alphaDen - alphaNum)) := by
+        rw [hDenSplit]
+      _ = n * alphaNum + n * (alphaDen - alphaNum) := by
+        rw [Nat.left_distrib]
+  have hTotalLe : n * alphaDen <= n * alphaNum + k * alphaDen := by
+    rw [hProdSplit]
+    exact Nat.add_le_add_left hBudget' (n * alphaNum)
+  have hRankSplit : (n - k) * alphaDen + k * alphaDen = n * alphaDen := by
+    rw [← right_distrib_pure (n - k) k alphaDen]
+    rw [sub_add_cancel_pure hkn]
+  have hWithRank :
+      (n - k) * alphaDen + k * alphaDen <=
+        n * alphaNum + k * alphaDen := by
+    rw [hRankSplit]
+    exact hTotalLe
+  have hCancel :
+      (n - k) * alphaDen <= n * alphaNum :=
+    add_le_cancel_right_pure ((n - k) * alphaDen) (n * alphaNum)
+      (k * alphaDen) hWithRank
+  rw [Nat.mul_comm n alphaNum] at hCancel
+  exact hCancel
+
+theorem finite_miscoverage_bound
+    (scores : List Nat) (k alphaNum alphaDen : Nat) :
+    Sorted scores ->
+    k <= scores.length ->
+    alphaNum <= alphaDen ->
+    (alphaDen - alphaNum) * scores.length <= k * alphaDen ->
+      (scores.length - countLE (kthSmallest scores k) scores) *
+          alphaDen <=
+        alphaNum * scores.length := by
+  intro hSorted hlen hAlpha hBudget
+  have hCov :
+      k <= countLE (kthSmallest scores k) scores :=
+    coverage_count_ge_k scores k hSorted hlen
+  have hMisLe :
+      scores.length - countLE (kthSmallest scores k) scores <=
+        scores.length - k :=
+    sub_le_sub_left_pure hCov scores.length
+  have hMisMul :
+      (scores.length - countLE (kthSmallest scores k) scores) *
+          alphaDen <=
+        (scores.length - k) * alphaDen :=
+    Nat.mul_le_mul_right alphaDen hMisLe
+  have hRankAlpha :
+      (scores.length - k) * alphaDen <= alphaNum * scores.length :=
+    miscoverage_alpha_from_rank scores.length k alphaNum alphaDen hlen
+      hAlpha hBudget
+  exact Nat.le_trans hMisMul hRankAlpha
+
 #print axioms fail_closed_selects_empty
 #print axioms selected_satisfies_conservative_bound
 #print axioms coverage_counting_correct
 #print axioms cumFail_monotone
+#print axioms strictSorted_sorted
+#print axioms coverage_count_ge_k
+#print axioms coverage_count_le_k
+#print axioms coverage_count_eq_k
+#print axioms two_sided_coverage_interval
+#print axioms finite_coverage_count
+#print axioms finite_miscoverage_bound
 
 end ConformalCounting

@@ -22,6 +22,13 @@ CLAIM_FIRST_CARD_IDS = (
     "training-authenticity",
     "statistical",
 )
+CLAIM_FIRST_CARD_ID_PROJECTION = {
+    "claim": "claim-card",
+    "task-target": "task-target-card",
+    "data": "data-card",
+    "training-authenticity": "training-authenticity-card",
+    "statistical": "statistical-evidence-card",
+}
 
 
 @dataclass(frozen=True)
@@ -66,11 +73,14 @@ def _fail(missing_key: str, ledger_pointer: str) -> PositiveClaimEvidenceResult:
 
 
 def _claim_first_fail(card_id: str, ledger_pointer: str) -> PositiveClaimEvidenceResult:
+    projected_card_id = CLAIM_FIRST_CARD_ID_PROJECTION.get(card_id, card_id)
+    if projected_card_id.startswith("claim-first:"):
+        projected_card_id = projected_card_id.removeprefix("claim-first:")
     return PositiveClaimEvidenceResult(
         ok=False,
-        missing_key=f"claim-first:{card_id}",
+        missing_key=f"claim-first:{projected_card_id}",
         ledger_pointer=ledger_pointer,
-        reason=f"positive-acceptance-evidence-missing:claim-first:{card_id}",
+        reason=f"positive-acceptance-evidence-missing:claim-first:{projected_card_id}",
     )
 
 
@@ -209,13 +219,14 @@ def _card_cell_passes(card_id: str, value: Any) -> bool:
 
 
 def _claim_first_check(root: Path, card_id: str, pointer: str) -> ClaimFirstPointerCheck:
+    projected_card_id = CLAIM_FIRST_CARD_ID_PROJECTION.get(card_id, card_id)
     resolved = resolve_artifact_pointer(root, pointer)
     if resolved is None:
-        return ClaimFirstPointerCheck(card_id, pointer, "fail", "owner pointer does not resolve")
+        return ClaimFirstPointerCheck(projected_card_id, pointer, "fail", "owner pointer does not resolve")
     status = _mapping_status(resolved)
     if not _card_cell_passes(card_id, resolved):
-        return ClaimFirstPointerCheck(card_id, pointer, "fail", "owner status or hardgate blocks promotion", status, "fail")
-    return ClaimFirstPointerCheck(card_id, pointer, "pass", "owner pointer passes", status, "pass")
+        return ClaimFirstPointerCheck(projected_card_id, pointer, "fail", "owner status or hardgate blocks promotion", status, "fail")
+    return ClaimFirstPointerCheck(projected_card_id, pointer, "pass", "owner pointer passes", status, "pass")
 
 
 def _evidence_owner(root: Path, evidence_pointer: str | None) -> Any:
@@ -268,7 +279,8 @@ def claim_first_pointer_checks(
     for card_id in CLAIM_FIRST_CARD_IDS:
         pointer = pointers.get(card_id)
         if not pointer:
-            checks.append(ClaimFirstPointerCheck(card_id, f"{artifact}:$", "fail", "owner pointer is missing"))
+            projected_card_id = CLAIM_FIRST_CARD_ID_PROJECTION.get(card_id, card_id)
+            checks.append(ClaimFirstPointerCheck(projected_card_id, f"{artifact}:$", "fail", "owner pointer is missing"))
             continue
         checks.append(_claim_first_check(root, card_id, pointer))
     return tuple(checks)
@@ -290,7 +302,7 @@ def _claim_first_result(
     for check in checks:
         if check.status != "pass":
             return _claim_first_fail(check.card_id, check.pointer)
-    return _pass(next(check.pointer for check in checks if check.card_id == "claim"))
+    return _pass(next(check.pointer for check in checks if check.card_id == "claim-card"))
 
 
 def validate_positive_claim_evidence(
