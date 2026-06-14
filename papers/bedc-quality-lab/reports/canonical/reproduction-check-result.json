@@ -1,8 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:reproduction-check-result",
-  "blocked_targets": [
-    "fair-l1-training"
-  ],
+  "blocked_targets": [],
   "failed_targets": [],
   "generated_at": "2026-06-13T14:56:21.159269+00:00",
   "not_claimed": [
@@ -52,19 +50,9 @@
       "tolerance_status": "pass"
     },
     {
-      "blocked_reason": {
-        "category": "source-blocked",
-        "dependency_ref": "github:issue:1196",
-        "detail": "fair-comparison-boundary",
-        "evidence_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG5",
-        "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG5",
-        "planning_context_ref": "github:issue:1329#plan-4"
-      },
+      "blocked_reason": null,
       "ci_rehearsal_ref": null,
-      "failure_reasons": [
-        "pointer does not resolve: reports/canonical/dgt-l1-controls.json:$.construct_validity_hardgates",
-        "fair-l1-training waits for seven-arm owner artifact"
-      ],
+      "failure_reasons": [],
       "fingerprint_status": "pass",
       "rerun_artifact_refs": [
         "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
@@ -83,6 +71,7 @@
         "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/raw_metrics.jsonl",
         "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/probe_metrics.jsonl",
         "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/summary.json:$",
+        "reports/canonical/dgt-l1-controls.json:$.fair_l1_construction.input_contract",
         "reports/canonical/dgt-l1-controls.fingerprint.json:$",
         "reports/canonical/dgt-l1-controls.json:$.owner_local_measurement_boundary",
         "reports/canonical/dgt-l1-controls.json:$",
@@ -90,7 +79,7 @@
         "reports/canonical/dgt-l1-controls.json:$.independent_replay.fixed_seeds",
         "reports/canonical/dgt-l1-controls.json:$.independent_replay"
       ],
-      "status": "blocked",
+      "status": "pass",
       "target_id": "fair-l1-training",
       "target_kind": "full-repro-ci",
       "tolerance_status": "pass"

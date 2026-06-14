@@ -158,10 +158,17 @@ def test_l1_parameter_matched_attention_structural_control_fail_closed():
 def test_l1_construct_validity_ledger_records_input_and_split_protocol():
     payload = _payload()
     ledger = payload["construct_validity_ledger"]
+    folded = payload["fair_l1_construction"]["construct_validity"]
     split = ledger["split_protocol"]
     bandwidth = ledger["input_bandwidth_by_arm"]
 
     assert ledger["status"] == "pass"
+    assert folded["status"] == "construct-valid"
+    assert folded["source_pointer"] == "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger"
+    assert folded["folded_into_pointer"] == (
+        "reports/canonical/dgt-l1-controls.json:$.fair_l1_construction.construct_validity"
+    )
+    assert folded["bayes_full_input_accuracy"] == 1.0
     assert split["heldout_pair_rule"] == "balanced_label_stratified_pairs_via_seeded_enumeration"
     assert split["pair_key"] == ["x_last_1", "x_last_2"]
     assert split["heldout_pair_count"] == 64
@@ -398,6 +405,11 @@ def test_l1_review_status_pass_and_scoped_boundary():
     assert payload["l1_tiny_sequence_projection"]["verdict"] == "scoped-boundary"
     assert payload["l1_tiny_sequence_projection"]["pass_scope"] == "in-dist order-2 only"
     assert payload["l1_tiny_sequence_projection"]["ood_generalization_claim"] == "not-claimed"
+    assert payload["l1_tiny_sequence_projection"]["fair_l1_decision"] == (
+        payload["fair_l1_construction"]["fair_l1_decision"]
+    )
+    assert payload["l1_tiny_sequence_projection"]["fair_l1_decision"]["standing_verdict"] == "bounded-negative"
+    assert payload["l1_tiny_sequence_projection"]["fair_l1_decision"]["canonical_axis_action"] == "hold-current"
 
     mutated = json.loads(json.dumps(payload))
     mutated["review_status"] = "blocked"
@@ -465,6 +477,9 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     assert summary["ood_generalization_claim"] == "not-claimed"
     assert summary["l1_step_ladder_verdict"] in {"diagnostic-only", "diagnostic-ablation-catches-up", "inconclusive"}
     assert summary["l1_step_ladder_crossover"] in {"diagnostic-crossover-observed", "no-diagnostic-crossover-observed"}
+    assert summary["fair_l1_ood_survivor"] is False
+    assert summary["fair_l1_standing_verdict"] == "bounded-negative"
+    assert summary["fair_l1_canonical_axis_action"] == "hold-current"
 
     run_artifacts = l1.run_artifacts_payload()
     expected_artifacts = [
@@ -485,6 +500,8 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     assert canonical_payload["training_arms"]["dgt_l1"]["training_steps"] == 8
     assert canonical_payload["l1_step_ladder"]["step_grid"] == [8, 16]
     assert len(canonical_payload["l1_step_ladder"]["step_rows"]) == 2
+    assert "fair_l1_construction" in canonical_payload
+    assert canonical_payload["l1_tiny_sequence_projection"]["fair_l1_decision"]["standing_verdict"] == "bounded-negative"
     claim_capsule = json.loads((tmp_path / run_artifacts["claim_capsule"]).read_text(encoding="utf-8"))
     assert claim_capsule == canonical_payload["claim_capsule_ref"]
     assert not (tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT).exists()

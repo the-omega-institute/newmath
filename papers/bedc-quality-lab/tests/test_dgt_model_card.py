@@ -80,37 +80,28 @@ def _source_fixture(root: Path) -> None:
                     "chance_accuracy": 0.0625,
                     "dgt_ood_accuracy_ci95_low": 0.06309,
                 },
+                "fair_l1_decision": {
+                    "status": "bounded-negative",
+                    "standing_verdict": "bounded-negative",
+                    "canonical_axis_action": "hold-current",
+                    "ladder_axis": "hold-current",
+                },
                 "boundary_ledger": [{"status": "scoped-boundary"}],
             },
-        },
-    )
-    _write_json(
-        root,
-        "reports/canonical/fair-l1-decision.json",
-        {
-            "ladder_state_projection": {
-                "state": "l1-bounded-negative",
-                "decision_status": "bounded-negative",
-                "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
-                "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
-                "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
-                "not_claimed": ["bounded only"],
-            },
-        },
-    )
-    _write_json(
-        root,
-        "reports/canonical/dgt-base-undertraining-audit.json",
-        {
-            "base_undertraining_audit": {
-                "verdict": "construct-boundary",
-                "claim_action": "defer-to-fair-reconstruction",
+            "fair_l1_construction": {
                 "construct_validity": {
                     "status": "construct-boundary",
-                    "bayes_upper_bound_accuracy": 0.0625,
-                    "source_pointers": {"fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196"},
+                    "bayes_full_input_accuracy": 0.0625,
+                    "label_rule_ref": "tiny_sequence_order_two_pair_modular_rule",
+                    "input_accessibility": "pair-visible-for-every-fair-arm",
                 },
-            }
+                "fair_hardgates": {
+                    "FAIR-L1-HG5": {
+                        "gate_id": "FAIR-L1-HG5",
+                        "status": "pass",
+                    },
+                },
+            },
         },
     )
     _write_json(
@@ -255,7 +246,7 @@ def test_l1_construct_invalid_and_fair_decision_are_separate(tmp_path):
 
     assert fair["construct_validity_status"] == "construct-boundary"
     assert fair["status"] == "bounded-negative"
-    assert fair["ladder_state"] == "l1-bounded-negative"
+    assert fair["canonical_axis_action"] == "hold-current"
     assert fair["claim"] == "no architecture advantage"
     assert "architecture advantage" not in json.dumps(payload["intended_use"], sort_keys=True)
 
@@ -267,8 +258,8 @@ def test_fair_decision_boundary_survives_construct_valid_source(tmp_path):
     _source_fixture(tmp_path)
     _rewrite_source(
         tmp_path,
-        "reports/canonical/dgt-base-undertraining-audit.json",
-        lambda payload: payload["base_undertraining_audit"]["construct_validity"].__setitem__("status", "construct-valid"),
+        "reports/canonical/dgt-l1-controls.json",
+        lambda payload: payload["fair_l1_construction"]["construct_validity"].__setitem__("status", "construct-valid"),
     )
 
     payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
@@ -287,15 +278,15 @@ def test_owner_derived_status_rewrites_fail_closed(tmp_path):
     assert "CARD-HG5" in _errors(payload, tmp_path)
 
     fair["status"] = "bounded-negative"
-    fair["ladder_state"] = "pass-by-hand"
+    fair["canonical_axis_action"] = "pass-by-hand"
     assert "CARD-HG5" in _errors(payload, tmp_path)
 
-    fair["ladder_state"] = "l1-bounded-negative"
+    fair["canonical_axis_action"] = "hold-current"
     fair_failure = next(row for row in payload["known_failure_modes"] if row["failure_mode"] == "fair comparison boundary")
     fair_failure["status"] = "pass-by-hand"
     assert "CARD-HG5" in _errors(payload, tmp_path)
 
-    fair_failure["status"] = "l1-bounded-negative"
+    fair_failure["status"] = "bounded-negative"
     l1 = next(row for row in payload["evaluation_boundaries"] if row["boundary"] == "L1 scoped review")
     l1["review_status"] = "pass-by-hand"
     assert "CARD-HG5" in _errors(payload, tmp_path)
@@ -464,7 +455,7 @@ def test_hand_edited_card_hardgate_status_fails_closed(tmp_path):
 
 def test_missing_source_before_build_fails_closed(tmp_path):
     _source_fixture(tmp_path)
-    missing_pointer = "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection"
+    missing_pointer = "reports/canonical/dgt-l1-controls.json:$"
     (tmp_path / "reports/canonical/dgt-l1-controls.json").unlink()
 
     payload = card.build_dgt_model_card(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")

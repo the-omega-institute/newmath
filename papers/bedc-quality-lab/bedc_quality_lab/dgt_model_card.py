@@ -46,15 +46,7 @@ SOURCE_POINTERS = {
     },
     "dgt-l1-controls": {
         "owner_issue": "github:issue:1212",
-        "pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
-    },
-    "fair-l1-decision": {
-        "owner_issue": "github:issue:1212",
-        "pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
-    },
-    "dgt-base-undertraining-audit": {
-        "owner_issue": "github:issue:1196",
-        "pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+        "pointer": "reports/canonical/dgt-l1-controls.json:$",
     },
     "dgt-ablation-null-decomposition": {
         "owner_issue": "github:issue:1206",
@@ -256,6 +248,15 @@ def _dig(mapping: Mapping[str, Any], path: Sequence[str], default: Any = None) -
     return cursor
 
 
+def _l1_projection(l1: Any) -> Mapping[str, Any]:
+    if not isinstance(l1, Mapping):
+        return {}
+    projection = l1.get("l1_tiny_sequence_projection")
+    if isinstance(projection, Mapping):
+        return projection
+    return l1
+
+
 def _mapping_rows(value: Any) -> list[Mapping[str, Any]]:
     return [row for row in value if isinstance(row, Mapping)] if isinstance(value, list) else []
 
@@ -376,7 +377,7 @@ def _intended_use(resolved: Mapping[str, Any]) -> list[dict[str, str]]:
 
 def _training_facts(resolved: Mapping[str, Any]) -> dict[str, Any]:
     l1 = resolved.get("dgt-l1-controls")
-    base = resolved.get("dgt-base-undertraining-audit")
+    l1_projection = _l1_projection(l1)
     index_provenance = resolved.get("canonical-index-evidence-provenance")
     facts: dict[str, Any] = {
         "protocol_pointers": [
@@ -398,38 +399,38 @@ def _training_facts(resolved: Mapping[str, Any]) -> dict[str, Any]:
             "source_pointer": INDEX_EVIDENCE_PROVENANCE_POINTER,
         },
     }
-    if isinstance(l1, Mapping):
-        ood = l1.get("ood_boundary")
-        if isinstance(ood, Mapping):
-            if "dgt_ood_accuracy_ci95_low" in ood:
-                facts["metric_cells"].append(
-                    _metric_cell(
-                        metric="dgt_ood_accuracy_ci95_low",
-                        value=ood["dgt_ood_accuracy_ci95_low"],
-                        source_owner="dgt-l1-controls",
-                        source_pointer="reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary.dgt_ood_accuracy_ci95_low",
-                        interpretation="boundary-only OOD cell",
-                    )
-                )
-            if "chance_accuracy" in ood:
-                facts["metric_cells"].append(
-                    _metric_cell(
-                        metric="chance_accuracy",
-                        value=ood["chance_accuracy"],
-                        source_owner="dgt-l1-controls",
-                        source_pointer="reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary.chance_accuracy",
-                        interpretation="boundary-only OOD baseline",
-                    )
-                )
-    if isinstance(base, Mapping):
-        construct = base.get("construct_validity")
-        if isinstance(construct, Mapping) and "bayes_upper_bound_accuracy" in construct:
+    ood = l1_projection.get("ood_boundary")
+    if isinstance(ood, Mapping):
+        if "dgt_ood_accuracy_ci95_low" in ood:
             facts["metric_cells"].append(
                 _metric_cell(
-                    metric="bayes_upper_bound_accuracy",
-                    value=construct["bayes_upper_bound_accuracy"],
-                    source_owner="dgt-base-undertraining-audit",
-                    source_pointer="reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity.bayes_upper_bound_accuracy",
+                    metric="dgt_ood_accuracy_ci95_low",
+                    value=ood["dgt_ood_accuracy_ci95_low"],
+                    source_owner="dgt-l1-controls",
+                    source_pointer="reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary.dgt_ood_accuracy_ci95_low",
+                    interpretation="boundary-only OOD cell",
+                )
+            )
+        if "chance_accuracy" in ood:
+            facts["metric_cells"].append(
+                _metric_cell(
+                    metric="chance_accuracy",
+                    value=ood["chance_accuracy"],
+                    source_owner="dgt-l1-controls",
+                    source_pointer="reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary.chance_accuracy",
+                    interpretation="boundary-only OOD baseline",
+                )
+            )
+    if isinstance(l1, Mapping):
+        fair_construction = l1.get("fair_l1_construction")
+        construct = fair_construction.get("construct_validity") if isinstance(fair_construction, Mapping) else None
+        if isinstance(construct, Mapping) and "bayes_full_input_accuracy" in construct:
+            facts["metric_cells"].append(
+                _metric_cell(
+                    metric="bayes_full_input_accuracy",
+                    value=construct["bayes_full_input_accuracy"],
+                    source_owner="dgt-l1-controls",
+                    source_pointer="reports/canonical/dgt-l1-controls.json:$.fair_l1_construction.construct_validity.bayes_full_input_accuracy",
                     interpretation="construct-validity boundary",
                 )
             )
@@ -445,22 +446,23 @@ def _training_facts(resolved: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def _known_failure_modes(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
-    base = resolved.get("dgt-base-undertraining-audit")
-    fair = resolved.get("fair-l1-decision")
-    null = resolved.get("dgt-ablation-null-decomposition")
     l1 = resolved.get("dgt-l1-controls")
+    l1_projection = _l1_projection(l1)
+    fair = _dig(l1_projection, ("fair_l1_decision",), {})
+    null = resolved.get("dgt-ablation-null-decomposition")
+    construct = _dig(l1, ("fair_l1_construction", "construct_validity"), {})
     rows = [
         {
             "failure_mode": "construct-validity boundary",
-            "status": _dig(base, ("construct_validity", "status"), "blocked"),
-            "source_owner": "dgt-base-undertraining-audit",
-            "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
+            "status": _dig(construct, ("status",), "blocked"),
+            "source_owner": "dgt-l1-controls",
+            "source_pointer": "reports/canonical/dgt-l1-controls.json:$.fair_l1_construction.construct_validity",
         },
         {
             "failure_mode": "fair comparison boundary",
-            "status": _dig(fair, ("state",), "l1-scaling-blocked"),
-            "source_owner": "fair-l1-decision",
-            "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+            "status": _dig(fair, ("standing_verdict",), "blocked"),
+            "source_owner": "dgt-l1-controls",
+            "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.fair_l1_decision",
         },
         {
             "failure_mode": "ablation null decomposition",
@@ -470,7 +472,7 @@ def _known_failure_modes(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
         },
         {
             "failure_mode": "OOD boundary",
-            "status": _dig(l1, ("ood_generalization_claim",), "blocked"),
+            "status": _dig(l1_projection, ("ood_generalization_claim",), "blocked"),
             "source_owner": "dgt-l1-controls",
             "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.ood_boundary",
         },
@@ -481,9 +483,10 @@ def _known_failure_modes(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
 def _evaluation_boundaries(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
     l0 = resolved.get("dgt-l0-controls")
     l1 = resolved.get("dgt-l1-controls")
-    fair = resolved.get("fair-l1-decision")
-    base = resolved.get("dgt-base-undertraining-audit")
+    l1_projection = _l1_projection(l1)
+    fair = _dig(l1_projection, ("fair_l1_decision",), {})
     null = resolved.get("dgt-ablation-null-decomposition")
+    construct = _dig(l1, ("fair_l1_construction", "construct_validity"), {})
     return [
         {
             "boundary": "L0 review status",
@@ -494,18 +497,19 @@ def _evaluation_boundaries(resolved: Mapping[str, Any]) -> list[dict[str, Any]]:
         },
         {
             "boundary": "L1 scoped review",
-            "status": _dig(l1, ("status",), "blocked"),
-            "review_status": _dig(l1, ("review_status",), "blocked"),
+            "status": _dig(l1_projection, ("status",), "blocked"),
+            "review_status": _dig(l1_projection, ("review_status",), "blocked"),
             "source_owner": "dgt-l1-controls",
             "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
         },
         {
             "boundary": "fair architecture comparison",
-            "status": _dig(fair, ("decision_status",), "blocked"),
-            "ladder_state": _dig(fair, ("state",), "l1-scaling-blocked"),
-            "construct_validity_status": _dig(base, ("construct_validity", "status"), "blocked"),
-            "source_owner": "fair-l1-decision",
-            "source_pointer": "reports/canonical/fair-l1-decision.json:$.ladder_state_projection",
+            "status": _dig(fair, ("status",), "blocked"),
+            "standing_verdict": _dig(fair, ("standing_verdict",), "blocked"),
+            "canonical_axis_action": _dig(fair, ("canonical_axis_action",), "blocked"),
+            "construct_validity_status": _dig(construct, ("status",), "blocked"),
+            "source_owner": "dgt-l1-controls",
+            "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.fair_l1_decision",
             "claim": "no architecture advantage",
         },
         {
@@ -751,33 +755,36 @@ def _validate_l1_fair_boundary(card: Mapping[str, Any], root: Path) -> list[Card
     if not fair_known_rows:
         errors.append(CardGateError("CARD-HG5", "$.known_failure_modes", "fair comparison failure mode missing"))
     for index, row in fair_rows:
-        fair_pointer = "reports/canonical/fair-l1-decision.json:$.ladder_state_projection"
-        if row.get("source_owner") != "fair-l1-decision" or row.get("source_pointer") != fair_pointer:
+        fair_pointer = "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.fair_l1_decision"
+        if row.get("source_owner") != "dgt-l1-controls" or row.get("source_pointer") != fair_pointer:
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].source_pointer", "fair comparison owner pointer differs from owner"))
             continue
         status, source, _digest = _resolve_artifact_pointer(root, fair_pointer)
         if status != "resolved" or not isinstance(source, Mapping):
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}]", "fair comparison source pointer does not resolve"))
             continue
-        expected_status = source.get("decision_status")
-        expected_ladder_state = source.get("state")
-        base_status, base_source, _base_digest = _resolve_artifact_pointer(
+        expected_status = source.get("status")
+        expected_standing = source.get("standing_verdict")
+        expected_action = source.get("canonical_axis_action")
+        construct_status, construct_source, _construct_digest = _resolve_artifact_pointer(
             root,
-            "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+            "reports/canonical/dgt-l1-controls.json:$.fair_l1_construction.construct_validity",
         )
-        expected_construct_status = _dig(base_source, ("construct_validity", "status"), "blocked") if base_status == "resolved" and isinstance(base_source, Mapping) else "blocked"
+        expected_construct_status = _dig(construct_source, ("status",), "blocked") if construct_status == "resolved" and isinstance(construct_source, Mapping) else "blocked"
         if row.get("status") != expected_status:
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].status", "fair comparison status differs from owner"))
-        if row.get("ladder_state") != expected_ladder_state:
-            errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].ladder_state", "fair comparison ladder state differs from owner"))
+        if row.get("standing_verdict") != expected_standing:
+            errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].standing_verdict", "fair comparison standing differs from owner"))
+        if row.get("canonical_axis_action") != expected_action:
+            errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].canonical_axis_action", "fair comparison action differs from owner"))
         if row.get("construct_validity_status") != expected_construct_status:
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].construct_validity_status", "fair comparison construct-validity status differs from owner"))
         if row.get("claim") != "no architecture advantage":
             errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", "architecture advantage wording is not blocked"))
         for known_index, known_row in fair_known_rows:
-            if known_row.get("source_owner") != "fair-l1-decision" or known_row.get("source_pointer") != fair_pointer:
+            if known_row.get("source_owner") != "dgt-l1-controls" or known_row.get("source_pointer") != fair_pointer:
                 errors.append(CardGateError("CARD-HG5", f"$.known_failure_modes[{known_index}].source_pointer", "fair comparison failure mode owner pointer differs from owner"))
-            if known_row.get("status") != expected_ladder_state:
+            if known_row.get("status") != expected_standing:
                 errors.append(CardGateError("CARD-HG5", f"$.known_failure_modes[{known_index}].status", "fair comparison failure mode status differs from owner"))
     serialized_intended = json.dumps(card.get("intended_use", []), sort_keys=True).lower()
     if "architecture advantage" in serialized_intended:

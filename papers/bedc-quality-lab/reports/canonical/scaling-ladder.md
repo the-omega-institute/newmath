@@ -8,8 +8,8 @@
 
 | level | state | reason | owner decision | provenance | construct validity | split | separation |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `L0_toy` | `closed` | `unresolved-pointer` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.owner_decision` | `reports/canonical/index.json:$.evidence_provenance` | `reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.split_winnability` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.separation` |
-| `L1_tiny_sequence` | `closed` | `unresolved-pointer` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.owner_decision` | `reports/canonical/index.json:$.evidence_provenance` | `reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.split_winnability` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.separation` |
+| `L0_toy` | `closed` | `unresolved-pointer` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.owner_decision` | `reports/canonical/index.json:$.evidence_provenance` | `reports/canonical/dgt-l1-controls.json:$.fair_l1_construction.construct_validity` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.split_winnability` | `reports/canonical/scaling-ladder.json:$.levels[0].owner_contracts.separation` |
+| `L1_tiny_sequence` | `closed` | `unresolved-pointer` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.owner_decision` | `reports/canonical/index.json:$.evidence_provenance` | `reports/canonical/dgt-l1-controls.json:$.fair_l1_construction.construct_validity` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.split_winnability` | `reports/canonical/scaling-ladder.json:$.levels[1].owner_contracts.separation` |
 
 ## Boundary Ledger
 
@@ -20,7 +20,7 @@
 | gate | status | pointer |
 | --- | --- | --- |
 | `SL-HG1-evidence-provenance` | `fail` | `reports/canonical/index.json:$.evidence_provenance` |
-| `SL-HG2-construct-validity` | `fail` | `reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity` |
+| `SL-HG2-construct-validity` | `pass` | `reports/canonical/dgt-l1-controls.json:$.fair_l1_construction.construct_validity` |
 | `SL-HG3-owner-decision` | `fail` | `reports/canonical/scaling-ladder.json:$.levels[*].owner_decision_pointer` |
 | `SL-HG4-split-separation` | `fail` | `reports/canonical/scaling-ladder.json:$.levels` |
 | `SL-HG5-no-injected-opening` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder` |

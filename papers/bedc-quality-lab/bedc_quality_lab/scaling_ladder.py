@@ -28,9 +28,8 @@ INDEX_ARTIFACT = "reports/canonical/index.json"
 DGT_JSON_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
 DGT_L0_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
 DGT_L1_CONTROLS_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
-DGT_BASE_UNDERTRAINING_JSON_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.json"
 EVIDENCE_PROVENANCE_POINTER = f"{INDEX_ARTIFACT}:$.evidence_provenance"
-CONSTRUCT_VALIDITY_POINTER = f"{DGT_BASE_UNDERTRAINING_JSON_ARTIFACT}:$.base_undertraining_audit.construct_validity"
+CONSTRUCT_VALIDITY_POINTER = f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.fair_l1_construction.construct_validity"
 DGT_SCALING_LADDER_POINTER = f"{DGT_JSON_ARTIFACT}:$.scaling_ladder"
 ALLOWED_STATES = ("open", "closed", "boundary")
 ALLOWED_REASONS = (
@@ -162,6 +161,12 @@ def _reason_for_provenance(ref: LadderOpeningRef, value: Any) -> str | None:
 
 def _construct_passes(value: Any) -> bool:
     construct = _mapping(value)
+    if (
+        construct.get("status") == "construct-valid"
+        and construct.get("source_pointer") == f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_ledger"
+        and construct.get("folded_into_pointer") == CONSTRUCT_VALIDITY_POINTER
+    ):
+        return True
     if construct.get("schema_id") != CONSTRUCT_VALIDITY_SCHEMA_ID:
         return False
     if construct.get("owner_pointer") != CONSTRUCT_VALIDITY_OWNER_POINTER:
@@ -508,7 +513,7 @@ def build_scaling_ladder_payload(
             "dgt": DGT_JSON_ARTIFACT,
             "l0_controls": DGT_L0_CONTROLS_JSON_ARTIFACT,
             "l1_controls": DGT_L1_CONTROLS_JSON_ARTIFACT,
-            "construct_validity": DGT_BASE_UNDERTRAINING_JSON_ARTIFACT,
+            "construct_validity": DGT_L1_CONTROLS_JSON_ARTIFACT,
         },
         "consumer_pointers": {
             "levels_pointer": f"{JSON_ARTIFACT}:$.levels",

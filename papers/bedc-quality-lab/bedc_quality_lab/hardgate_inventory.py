@@ -53,11 +53,11 @@ class HardgateInventoryRow:
 
 OWNER_HARDGATE_SURFACES: tuple[HardgateSurface, ...] = (
     HardgateSurface(
-        "fair-l1-decision/hardgates",
+        "dgt-l1-controls/fair-hardgates",
         "FAIR-L1",
-        "reports/canonical/fair-l1-decision.json",
-        "$.hardgates",
-        "bedc_quality_lab/fair_l1_decision.py:_fair_hardgates",
+        "reports/canonical/dgt-l1-controls.json",
+        "$.fair_l1_construction.fair_hardgates",
+        "bedc_quality_lab/tiny_sequence_l1.py:FairL1ConstructionSlice.evaluate_fair_hardgates",
     ),
     HardgateSurface(
         "dgt-l1-controls/review",

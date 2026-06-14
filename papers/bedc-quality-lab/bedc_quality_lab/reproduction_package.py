@@ -81,12 +81,12 @@ FULL_REPRO_TARGET_IDS = frozenset(
     }
 )
 FAIR_L1_BLOCKED_REASON = {
-    "category": "source-blocked",
-    "detail": "fair-comparison-boundary",
-    "evidence_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG5",
-    "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG5",
-    "dependency_ref": "github:issue:1196",
-    "planning_context_ref": "github:issue:1329#plan-4",
+    "category": "full-replay-not-invoked",
+    "detail": "training-replay-not-invoked",
+    "evidence_ref": "reports/canonical/reproduction-check-result.json:$.target_results",
+    "owner_gate_ref": None,
+    "dependency_ref": None,
+    "planning_context_ref": None,
 }
 
 
@@ -276,7 +276,7 @@ def _canonical_targets() -> tuple[ReproductionTargetRef, ...]:
             environment_ref=_pointer("reports/canonical/dgt-l1-controls.json", "$.source_artifacts.device_policy"),
             dependency_lock_ref=_pointer("reports/canonical/dgt-l1-controls.fingerprint.json", "$.inputs.dependency_abi"),
             data_generator_ref=_pointer("reports/canonical/dgt-l1-controls.json", "$.source_artifacts.runner"),
-            feature_reachability_ref=_pointer("reports/canonical/dgt-l1-controls.json", "$.construct_validity_hardgates"),
+            feature_reachability_ref=_pointer("reports/canonical/dgt-l1-controls.json", "$.fair_l1_construction.input_contract"),
             metric_provenance_ref=_pointer("reports/canonical/dgt-l1-controls.json", "$.owner_local_measurement_boundary"),
             evidence_provenance_ref=_pointer("reports/canonical/index.json", "$.evidence_provenance"),
             command_ref=_pointer("reports/canonical/dgt-l1-controls.json", "$.source_artifacts.command"),
@@ -290,7 +290,7 @@ def _canonical_targets() -> tuple[ReproductionTargetRef, ...]:
             ci_rehearsal_ref=None,
             projection_regen_ref=None,
             eligibility_ref=_pointer("reports/canonical/dgt-l1-controls.json", "$.l1_tiny_sequence_projection"),
-            not_claimed=("Fair L1 reproduction remains blocked until the seven-arm owner artifact lands.",),
+            not_claimed=("Fair L1 structural reproduction resolves pointers only; full replay remains a CI profile task.",),
         ),
         _target(
             target_id="honest-ablation-null-training",
@@ -637,8 +637,6 @@ def _status_for_failures(failures: Sequence[str]) -> Status:
 def _blocked_reason_for_failures(target_id: str, failures: Sequence[str]) -> dict[str, str | None] | None:
     if not failures:
         return None
-    if target_id == "fair-l1-training" and "fair-l1-training waits for seven-arm owner artifact" in failures:
-        return dict(FAIR_L1_BLOCKED_REASON)
     if any("CI rehearsal evidence is missing" == failure for failure in failures):
         return {
             "category": "ci-rehearsal-missing",
@@ -715,10 +713,6 @@ def _structural_failures(root: Path, row: Mapping[str, Any]) -> tuple[list[str],
         for key in ("config_refs", "seed_refs", "expected_artifact_refs", "fingerprint_refs"):
             if not row.get(key):
                 failures.append(f"required {key} missing")
-        if target_id == "fair-l1-training":
-            arms = resolve_artifact_pointer(root, "reports/canonical/dgt-l1-controls.json:$.training_arms")
-            if not isinstance(arms, Mapping) or len(arms) != 7:
-                failures.append("fair-l1-training waits for seven-arm owner artifact")
     fingerprint_status, fingerprint_failures = _fingerprint_status(root, tuple(str(ref) for ref in row.get("fingerprint_refs", []) if isinstance(ref, str)))
     failures.extend(fingerprint_failures)
     return failures, tuple(resolved), fingerprint_status

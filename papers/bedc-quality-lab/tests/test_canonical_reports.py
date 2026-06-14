@@ -258,18 +258,10 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_component_redundancy_audit
 
         return dgt_component_redundancy_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
-    if spec.name == "dgt-base-undertraining-audit":
-        from bedc_quality_lab import dgt_base_undertraining_audit
-
-        return dgt_base_undertraining_audit.build_payload(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "scaling-ladder":
         from bedc_quality_lab.scaling_ladder import build_scaling_ladder_payload
 
         return build_scaling_ladder_payload(root=canonical.ROOT, generated_at="fixture")
-    if spec.name == "fair-l1-decision":
-        from bedc_quality_lab import fair_l1_decision
-
-        return fair_l1_decision.build_payload(root=canonical.ROOT, generated_at="fixture")
     if spec.name == "dgt-model-card":
         return {
             "schema_id": canonical.DGT_MODEL_CARD_SCHEMA_ID,
@@ -1382,6 +1374,11 @@ def _write_release_pointer_fixture(root):
                 "l1_tiny_sequence_projection": {
                     "review_status": "pass",
                     "promotion_readiness": "ready-pass",
+                    "fair_l1_decision": {
+                        "status": "bounded-negative",
+                        "standing_verdict": "bounded-negative",
+                        "canonical_axis_action": "hold-current",
+                    },
                     "not_claimed": [
                         "Bounded tiny-sequence order-k training only.",
                         "No production deployment claim.",
@@ -1389,6 +1386,12 @@ def _write_release_pointer_fixture(root):
                         "No LLM replacement claim.",
                         "No L2 or higher scaling claim.",
                     ],
+                },
+                "fair_l1_construction": {
+                    "construct_validity": {"status": "construct-valid"},
+                    "fair_hardgates": {
+                        "FAIR-L1-HG5": {"gate_id": "FAIR-L1-HG5", "status": "fail"}
+                    },
                 },
                 "negative_witness_sweep": {
                     "status": "pass",
@@ -1407,31 +1410,6 @@ def _write_release_pointer_fixture(root):
                         "verdict_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism.verdict",
                         "status": "pointer-only",
                     },
-                },
-            }
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-    (canonical_dir / "fair-l1-decision.json").write_text(
-        json.dumps(
-            {
-                "decision": {"status": "bounded-negative"},
-                "ladder_state_projection": {
-                    "state": "l1-bounded-negative",
-                    "decision_status": "bounded-negative",
-                    "decision_pointer": "reports/canonical/fair-l1-decision.json:$.decision.status",
-                    "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
-                    "boundary_ledger_pointer": "reports/canonical/fair-l1-decision.json:$.boundary_ledger",
-                    "not_claimed": [
-                        "Bounded tiny-sequence L1 decision only.",
-                        "No L2 or higher scaling claim.",
-                        "No production deployment claim.",
-                        "No global superiority claim.",
-                        "No LLM replacement claim.",
-                        "No OOD generalization claim.",
-                        "No architecture advantage claim.",
-                    ],
                 },
             }
         )
@@ -1930,15 +1908,13 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-dna",
         "dgt-l0-controls",
         "dgt-l1-controls",
+        "dgt-l1-boundary-report",
         "reproduction-package",
         "reproduction-check-result",
-        "dgt-l1-boundary-report",
         "winnability-certificates",
         "structural-generalization-splits",
-        "dgt-base-undertraining-audit",
         "scaling-ladder",
         "input-accessibility",
-        "fair-l1-decision",
         "discovery-gated-transformer",
         "dgt-neural-ablation",
         "dgt-ablation-null-decomposition",
@@ -2327,28 +2303,19 @@ def _fair_l1_owner_gate_id() -> str:
     return str(canonical.FAIR_L1_BLOCKED_REASON["owner_gate_ref"]).rsplit(".", 1)[-1]
 
 
-def _write_fair_l1_decision_fixture(root: Path, *, gate_id: str | None = None, gate_status: str = "fail") -> None:
-    path = root / "reports/canonical/fair-l1-decision.json"
+def _write_fair_l1_gate_fixture(root: Path, *, gate_id: str | None = None, gate_status: str = "fail") -> None:
+    path = root / "reports/canonical/dgt-l1-controls.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     owner_gate_id = _fair_l1_owner_gate_id()
-    comparison_rows = [
-        {"comparison_id": "equal-step", "decision": "resolved", "status": "pass"},
-        {"comparison_id": "equal-compute", "decision": "resolved", "status": "pass"},
-        {"comparison_id": "equal-loss-decrease", "decision": "resolved", "status": "pass"},
-        {
-            "comparison_id": "equal-validation-loss",
-            "decision": "validation-loss-owner-cell-missing",
-            "status": "missing",
-        },
-    ]
     payload = {
-        "schema_id": "bedc-quality-lab:fair-l1-decision",
-        "artifact_id": "bedc-quality-lab:fair-l1-decision",
-        "fair_alignment": {"comparison_rows": comparison_rows},
-        "hardgates": {
-            owner_gate_id: {
-                "gate_id": gate_id or owner_gate_id,
-                "status": gate_status,
+        "schema_id": "bedc-quality-lab:dgt-l1-controls",
+        "artifact_id": "bedc-quality-lab:dgt-l1-controls",
+        "fair_l1_construction": {
+            "fair_hardgates": {
+                owner_gate_id: {
+                    "gate_id": gate_id or owner_gate_id,
+                    "status": gate_status,
+                }
             }
         },
     }
@@ -2388,7 +2355,7 @@ def _reproduction_check_payload() -> dict[str, object]:
                 "fingerprint_status": "pass",
                 "tolerance_status": "pass",
                 "rerun_artifact_refs": [],
-                "failure_reasons": ["fair-l1-training waits for seven-arm owner artifact"],
+                "failure_reasons": ["training replay execution is not invoked by the pointer verifier"],
                 "ci_rehearsal_ref": None,
             },
             {
@@ -2426,7 +2393,7 @@ def _write_reproduction_check_fixture(tmp_path: Path, payload: dict[str, object]
 
 def test_reproduction_check_result_validation_accepts_six_key_blocked_reasons(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path)
+    _write_fair_l1_gate_fixture(tmp_path)
     payload = _reproduction_check_payload()
 
     validation = _write_reproduction_check_fixture(tmp_path, payload)
@@ -2438,7 +2405,7 @@ def test_reproduction_check_result_validation_accepts_six_key_blocked_reasons(tm
 @pytest.mark.parametrize("missing_key", ["owner_gate_ref", "dependency_ref", "planning_context_ref"])
 def test_reproduction_check_result_validation_rejects_missing_blocked_reason_keys(tmp_path, monkeypatch, missing_key):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path)
+    _write_fair_l1_gate_fixture(tmp_path)
     payload = _reproduction_check_payload()
     fair_row = payload["target_results"][1]
     del fair_row["blocked_reason"][missing_key]
@@ -2454,7 +2421,7 @@ def test_reproduction_check_result_validation_rejects_missing_blocked_reason_key
 
 def test_reproduction_check_result_validation_rejects_pass_row_with_blocked_reason(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path)
+    _write_fair_l1_gate_fixture(tmp_path)
     payload = _reproduction_check_payload()
     payload["target_results"][0]["blocked_reason"] = {
         "category": "source-blocked",
@@ -2476,7 +2443,7 @@ def test_reproduction_check_result_validation_rejects_pass_row_with_blocked_reas
 
 def test_reproduction_check_result_validation_rejects_prose_only_blocked_row(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path)
+    _write_fair_l1_gate_fixture(tmp_path)
     payload = _reproduction_check_payload()
     payload["target_results"][2]["blocked_reason"] = None
 
@@ -2491,7 +2458,7 @@ def test_reproduction_check_result_validation_rejects_prose_only_blocked_row(tmp
 
 def test_reproduction_check_result_validation_rejects_alias_fields(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path)
+    _write_fair_l1_gate_fixture(tmp_path)
     payload = _reproduction_check_payload()
     payload["target_results"][1]["dependency_ref"] = "github:issue:1196"
     payload["target_results"][1]["blocked_reason"]["evidence_pointer"] = canonical.FAIR_L1_BLOCKED_REASON["evidence_ref"]
@@ -2505,7 +2472,7 @@ def test_reproduction_check_result_validation_rejects_alias_fields(tmp_path, mon
 
 def test_reproduction_check_result_validation_treats_failure_reasons_as_non_authority(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path)
+    _write_fair_l1_gate_fixture(tmp_path)
     payload = _reproduction_check_payload()
     source_row = payload["target_results"][2]
     source_row["failure_reasons"] = ["missing-validation-loss-cell"]
@@ -2515,34 +2482,6 @@ def test_reproduction_check_result_validation_treats_failure_reasons_as_non_auth
 
     assert validation["status"] == "pass"
     assert validation["reproduction_errors"] == []
-
-
-def test_reproduction_check_result_validation_rejects_fair_l1_evidence_drift(tmp_path, monkeypatch):
-    _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path, gate_status="pass")
-    payload = _reproduction_check_payload()
-
-    validation = _write_reproduction_check_fixture(tmp_path, payload)
-
-    assert validation["status"] == "fail"
-    assert {
-        "path": "$.target_results[1].blocked_reason.evidence_ref",
-        "message": f"fair-l1 evidence gate does not match {_fair_l1_owner_gate_id()}",
-    } in validation["reproduction_errors"]
-
-
-def test_reproduction_check_result_validation_rejects_fair_l1_owner_gate_drift(tmp_path, monkeypatch):
-    _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path, gate_id="FAIR-L1-HG2")
-    payload = _reproduction_check_payload()
-
-    validation = _write_reproduction_check_fixture(tmp_path, payload)
-
-    assert validation["status"] == "fail"
-    assert {
-        "path": "$.target_results[1].blocked_reason.owner_gate_ref",
-        "message": f"fair-l1 owner gate does not match {_fair_l1_owner_gate_id()}",
-    } in validation["reproduction_errors"]
 
 
 def test_reproduction_check_result_validation_rejects_malformed_target_row(tmp_path, monkeypatch):
@@ -2689,10 +2628,98 @@ def test_dgt_model_card_canonical_spec_is_auxiliary_pointer_projection():
     assert "upstream_status" not in section
 
 
-def test_dgt_model_card_report_row_consumes_card_hardgates():
+def _write_model_card_source_fixture(root: Path) -> None:
+    canonical_dir = root / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True, exist_ok=True)
+    (canonical_dir / "dgt-l0-controls.json").write_text(
+        json.dumps(
+            {
+                "construct_validity_hardgates": {
+                    "status": "pass",
+                    "failed_gates": [],
+                    "coverage_bound": {"rule_abstraction_claim": False},
+                },
+                "l0_toy_projection": {
+                    "status": "pass",
+                    "review_status": "pass",
+                    "not_claimed": ["bounded only"],
+                },
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (canonical_dir / "dgt-l1-controls.json").write_text(
+        json.dumps(
+            {
+                "construct_validity_ledger": {
+                    "status": "pass",
+                    "failed_gates": [],
+                    "coverage_bound": {"rule_abstraction_claim": False},
+                },
+                "task_spec": {"task": "tiny-sequence"},
+                "training_arms": {"dgt_l1": {"status": "present"}},
+                "l1_tiny_sequence_projection": {
+                    "status": "pass",
+                    "review_status": "pass",
+                    "ood_generalization_claim": "not-claimed",
+                    "ood_boundary": {
+                        "chance_accuracy": 0.0625,
+                        "dgt_ood_accuracy_ci95_low": 0.06309,
+                    },
+                    "fair_l1_decision": {
+                        "status": "bounded-negative",
+                        "standing_verdict": "bounded-negative",
+                        "canonical_axis_action": "hold-current",
+                    },
+                },
+                "fair_l1_construction": {
+                    "construct_validity": {
+                        "status": "construct-valid",
+                        "bayes_full_input_accuracy": 0.0625,
+                    },
+                    "fair_hardgates": {
+                        "FAIR-L1-HG5": {"gate_id": "FAIR-L1-HG5", "status": "pass"},
+                    },
+                },
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (canonical_dir / "dgt-ablation-null-decomposition.json").write_text(
+        json.dumps({"null_decomposition": {"analysis_status": "pass", "verdict": "mixed"}}, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    (canonical_dir / "discovery-gated-transformer.json").write_text(
+        json.dumps({"model_id": "discovery-gated-transformer", "not_claimed": ["bounded only"]}, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    (canonical_dir / "index.json").write_text(
+        json.dumps(
+            {
+                "evidence_provenance": {
+                    "source_type": "canonical-quality-index",
+                    "evidence_type": "pointer-owner-provenance",
+                }
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def test_dgt_model_card_report_row_consumes_card_hardgates(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    _write_model_card_source_fixture(tmp_path)
     spec = canonical._specs_by_name()["dgt-model-card"]
+    canonical.write_dgt_model_card(root=tmp_path, generated_at="fixture-time")
     result = canonical._run_spec(spec, reuse_existing=True)
-    payload = json.loads((canonical.ROOT / spec.json_artifact).read_text(encoding="utf-8"))
+    payload = json.loads((tmp_path / spec.json_artifact).read_text(encoding="utf-8"))
 
     assert result["validation"]["model_card_errors"] == []
     assert result["validation"]["status"] == "pass"
@@ -2711,24 +2738,10 @@ def test_dgt_model_card_report_row_consumes_card_hardgates():
 
 
 def test_dgt_model_card_missing_source_fixture_fails_closed(tmp_path):
-    source_root = canonical.SOURCE_ROOT
-    source_artifacts = (
-        "reports/canonical/dgt-l0-controls.json",
-        "reports/canonical/dgt-l1-controls.json",
-        "reports/canonical/fair-l1-decision.json",
-        "reports/canonical/dgt-base-undertraining-audit.json",
-        "reports/canonical/dgt-ablation-null-decomposition.json",
-        "reports/canonical/discovery-gated-transformer.json",
-    )
-    for artifact in source_artifacts:
-        target = tmp_path / artifact
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text((source_root / artifact).read_text(encoding="utf-8"), encoding="utf-8")
-
-    index_payload = json.loads((source_root / "reports/canonical/index.json").read_text(encoding="utf-8"))
-    index_payload.pop("evidence_provenance", None)
+    _write_model_card_source_fixture(tmp_path)
     index_path = tmp_path / "reports/canonical/index.json"
-    index_path.parent.mkdir(parents=True, exist_ok=True)
+    index_payload = json.loads(index_path.read_text(encoding="utf-8"))
+    index_payload.pop("evidence_provenance", None)
     index_path.write_text(json.dumps(index_payload, sort_keys=True) + "\n", encoding="utf-8")
 
     card = canonical.write_dgt_model_card(root=tmp_path, generated_at="fixture-time")
@@ -4056,9 +4069,6 @@ def test_manifest_required_keys_cover_linked_control_evidence():
         if spec.name == "dgt-component-redundancy-audit":
             assert keys == {"component_redundancy_audit"}
             continue
-        if spec.name == "dgt-base-undertraining-audit":
-            assert keys == {"base_undertraining_audit"}
-            continue
         if spec.name == "input-accessibility":
             assert {"source_registry", "consumer_pointers", "access_hardgates"}.issubset(keys)
             continue
@@ -4669,63 +4679,25 @@ def test_dgt_component_redundancy_audit_canonical_spec_follows_null_decompositio
     assert spec.positive_claim_pointer == "$.component_redundancy_audit.global_recommendation"
 
 
-def test_dgt_base_undertraining_audit_canonical_spec_follows_l1_controls():
-    specs = [spec for spec in canonical.CANONICAL_REPORTS if spec.name == "dgt-base-undertraining-audit"]
-
-    assert len(specs) == 1
-    spec = specs[0]
+def test_base_undertraining_and_standalone_fair_l1_specs_are_not_registered():
     names = [item.name for item in canonical.CANONICAL_REPORTS]
-    assert names.index("dgt-l1-controls") < names.index("dgt-base-undertraining-audit")
-    assert names.index("dgt-base-undertraining-audit") < names.index("discovery-gated-transformer")
-    assert spec.bundle_role == "auxiliary"
-    assert spec.command == ("python3", "scripts/run_dgt_base_undertraining_audit.py")
-    assert spec.json_artifact == canonical.DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT
-    assert spec.markdown_artifact == canonical.DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT
-    assert spec.required_json_keys == ("base_undertraining_audit",)
-    assert spec.scope_pointer == "$.base_undertraining_audit.not_claimed"
-    assert spec.cost_pointer == "$.base_undertraining_audit.source_contract"
-    assert spec.not_claimed_pointer == "$.base_undertraining_audit.not_claimed"
-    assert spec.positive_claim_pointer == "$.base_undertraining_audit.verdict"
-    assert spec.discovery_level_pointer == (
-        "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.verdict"
-    )
+
+    assert "dgt-base-undertraining-audit" not in names
+    assert "fair-l1-decision" not in names
+    l1 = canonical._specs_by_name()["dgt-l1-controls"]
+    assert "fair_l1_construction" in l1.required_json_keys
+    assert l1.construct_validity_pointer == f"{l1.json_artifact}:$.construct_validity_ledger"
 
 
-def test_fair_l1_decision_canonical_spec_projects_ladder_state():
-    spec = canonical._specs_by_name()["fair-l1-decision"]
-    names = [item.name for item in canonical.CANONICAL_REPORTS]
-    payload = _payload_for_spec(spec)
-
-    assert names.index("dgt-l1-controls") < names.index("fair-l1-decision")
-    assert names.index("dgt-base-undertraining-audit") < names.index("fair-l1-decision")
-    assert names.index("input-accessibility") < names.index("fair-l1-decision")
-    assert names.index("fair-l1-decision") < names.index("discovery-gated-transformer")
-    assert spec.bundle_role == "auxiliary"
-    assert spec.command == ("python3", "scripts/run_fair_l1_decision.py")
-    assert spec.json_artifact == canonical.FAIR_L1_DECISION_JSON_ARTIFACT
-    assert spec.markdown_artifact == canonical.FAIR_L1_DECISION_MARKDOWN_ARTIFACT
-    assert spec.positive_claim_pointer == "$.decision.status"
-    assert spec.claim_capsule_pointer == "$.decision.claim_capsule"
-    assert spec.construct_validity_pointer == (
-        "reports/canonical/fair-l1-decision.json:$.construct_validity_projection"
-    )
-    assert payload["decision"]["status"] in {"blocked", "bounded-negative", "scaling-evidence-eligible"}
-    assert payload["ladder_state_projection"]["state"] in {
-        "l1-scaling-blocked",
-        "l1-bounded-negative",
-        "l1-scaling-evidence-eligible",
-    }
-
-
-def test_fair_l1_changed_run_uses_generic_report_build_gate(monkeypatch):
+def test_l1_controls_changed_run_uses_generic_report_build_gate(monkeypatch):
     def unexpected_lookup(_root, _pointer):
-        raise AssertionError("changed gate must not read the committed fair L1 decision")
+        raise AssertionError("changed gate must not read the committed L1 controls decision")
 
     monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
 
     assert canonical._result_blocks_changed_run(
         {
-            "name": "fair-l1-decision",
+            "name": "dgt-l1-controls",
             "status": "pass",
             "report_build_status": status_taxonomy.status_cell("report_build_status", "pass"),
             "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "bounded-negative"),
@@ -4741,13 +4713,13 @@ def test_fair_l1_changed_run_uses_generic_report_build_gate(monkeypatch):
 
 def test_changed_run_blocks_report_build_failure_without_committed_decision_lookup(monkeypatch):
     def unexpected_lookup(_root, _pointer):
-        raise AssertionError("changed gate must not read the fair L1 decision")
+        raise AssertionError("changed gate must not read the committed L1 controls decision")
 
     monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
 
     assert canonical._result_blocks_changed_run(
         {
-            "name": "fair-l1-decision",
+            "name": "dgt-l1-controls",
             "status": "fail",
             "report_build_status": status_taxonomy.status_cell("report_build_status", "fail"),
             "producer_status": "completed",
@@ -4790,29 +4762,6 @@ def test_changed_run_blocks_dgt_l0_construct_validity_failure_drift(monkeypatch)
         )
         is True
     )
-
-
-def test_dgt_base_undertraining_changed_mode_reruns_when_input_accessibility_changes(tmp_path, monkeypatch):
-    monkeypatch.setattr(canonical, "ROOT", tmp_path)
-    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
-    spec = canonical._specs_by_name()["dgt-base-undertraining-audit"]
-    _write_fingerprint_fixture(canonical, tmp_path, spec)
-    input_accessibility = tmp_path / canonical.INPUT_ACCESSIBILITY_JSON_ARTIFACT
-    input_accessibility.write_text('{"rows":[{"missing_variables":["changed"]}]}\n', encoding="utf-8")
-    calls = []
-
-    def fake_run_producer(called):
-        calls.append(called.name)
-        _write_fingerprint_fixture(canonical, tmp_path, called)
-
-    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
-
-    result = canonical._run_spec(spec, mode="changed", generated_at="fixture")
-
-    assert calls == ["dgt-base-undertraining-audit"]
-    assert result["producer_status"] == "completed"
-    assert result["fingerprint_status"] == "written"
-    assert result["fingerprint_reason"] == "input-fingerprint"
 
 
 def test_discovery_gated_transformer_hardgate_instances_are_candidate_local():
@@ -4891,7 +4840,8 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "l0_control_ledger_pointer",
         "l0_control_negative_witness_pointer",
         "l1_control_projection_pointer",
-        "fair_l1_decision_projection_pointer",
+        "fair_l1_construction_pointer",
+        "fair_l1_decision_pointer",
         "fair_l1_decision_status_pointer",
         "interpretation_boundary_ref_pointer",
         "negative_witness_sweep_ref_pointer",
@@ -4979,11 +4929,14 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     assert section["scaling_ladder_source_projection_pointer"] == (
         "reports/canonical/scaling-ladder.json:$.source_artifacts"
     )
-    assert section["fair_l1_decision_projection_pointer"] == (
-        "reports/canonical/fair-l1-decision.json:$.ladder_state_projection"
+    assert section["fair_l1_construction_pointer"] == (
+        "reports/canonical/dgt-l1-controls.json:$.fair_l1_construction"
+    )
+    assert section["fair_l1_decision_pointer"] == (
+        "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.fair_l1_decision"
     )
     assert section["fair_l1_decision_status_pointer"] == (
-        "reports/canonical/fair-l1-decision.json:$.decision.status"
+        "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.fair_l1_decision.status"
     )
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in (
@@ -5480,7 +5433,7 @@ def test_run_spec_status_alias_is_report_build_status(tmp_path, monkeypatch):
 
 def test_changed_run_uses_report_build_status_only():
     result = {
-        "name": "fair-l1-decision",
+        "name": "dgt-l1-controls",
         "status": "pass",
         "report_build_status": status_taxonomy.status_cell("report_build_status", "pass"),
         "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "bounded-negative"),
@@ -8472,7 +8425,7 @@ def test_index_markdown_lists_gap_head_reports():
 def test_index_rows_expose_five_status_axes():
     payload = canonical._index([
         _index_row_for_spec(canonical._specs_by_name()["mixing-family-sweep"]),
-        _index_row_for_spec(canonical._specs_by_name()["fair-l1-decision"]),
+        _index_row_for_spec(canonical._specs_by_name()["dgt-l1-controls"]),
     ])
 
     for report in payload["reports"]:
@@ -8492,8 +8445,8 @@ def _markdown_report_row(markdown: str, report_name: str) -> list[str]:
 
 
 def test_index_markdown_status_cells_match_index_json():
-    fair_l1 = _index_row_for_spec(canonical._specs_by_name()["fair-l1-decision"])
-    fair_l1.update(
+    l1_row = _index_row_for_spec(canonical._specs_by_name()["dgt-l1-controls"])
+    l1_row.update(
         {
             "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "bounded-negative"),
             "hardgate_status": status_taxonomy.status_cell("hardgate_status", "fail", hardgate_scope="owner-scientific"),
@@ -8501,14 +8454,14 @@ def test_index_markdown_status_cells_match_index_json():
             "decision_status": status_taxonomy.status_cell("decision_status", "bounded-negative"),
         }
     )
-    payload = canonical._index([fair_l1], generated_at="fixture", claim_verdict_rows=[])
+    payload = canonical._index([l1_row], generated_at="fixture", claim_verdict_rows=[])
     markdown = canonical._render_index_markdown(payload)
-    row = _markdown_report_row(markdown, "fair-l1-decision")
+    row = _markdown_report_row(markdown, "dgt-l1-controls")
     by_name = {report["name"]: report for report in payload["reports"]}
-    report = by_name["fair-l1-decision"]
+    report = by_name["dgt-l1-controls"]
 
     assert row[:6] == [
-        "fair-l1-decision",
+        "dgt-l1-controls",
         status_taxonomy.render_status_cell(report["report_build_status"]),
         status_taxonomy.render_status_cell(report["scientific_claim_status"]),
         status_taxonomy.render_status_cell(report["hardgate_status"]),
@@ -9060,34 +9013,6 @@ def test_run_spec_treats_missing_construct_validity_pointer_as_failure(tmp_path,
     assert result["validation"]["status"] == "pass"
     assert result["construct_validity"]["status"] == "missing"
     assert result["status"] == "fail"
-
-
-def test_fair_l1_decision_owner_statuses_do_not_fail_report_build(tmp_path, monkeypatch):
-    monkeypatch.setattr(canonical, "ROOT", tmp_path)
-    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
-    spec = canonical._specs_by_name()["fair-l1-decision"]
-    payload = json.loads((canonical.SOURCE_ROOT / spec.json_artifact).read_text(encoding="utf-8"))
-    json_path = canonical._artifact_path(spec.json_artifact)
-    json_path.parent.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
-    canonical._artifact_path(spec.markdown_artifact).write_text(
-        (canonical.SOURCE_ROOT / spec.markdown_artifact).read_text(encoding="utf-8"),
-        encoding="utf-8",
-    )
-
-    result = canonical._run_spec(spec, reuse_existing=True)
-
-    assert result["report_build_status"]["value"] == "pass"
-    assert result["status"] == "pass"
-    assert result["scientific_claim_status"]["value"] == "bounded-negative"
-    assert result["hardgate_status"]["value"] == "fail"
-    assert result["hardgate_status"]["hardgate_scope"] == "owner-scientific"
-    assert result["hardgate_status"]["blocks_report"] is False
-    assert result["hardgate_status"]["blocks_promotion"] is True
-    assert result["ladder_state"]["value"] == "l1-bounded-negative"
-    assert result["decision_status"]["value"] == "bounded-negative"
-    assert result["construct_validity"]["status"] == "bounded-negative"
-    assert result["status_taxonomy"]["status"] == "pass"
 
 
 def test_host_env_is_ignored_by_reporting_hardgate(tmp_path, monkeypatch):

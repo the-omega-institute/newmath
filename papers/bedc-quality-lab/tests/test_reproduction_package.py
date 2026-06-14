@@ -17,7 +17,6 @@ def _copy_reproduction_fixture(root: Path) -> None:
         "reports/canonical/dgt-l0-controls.fingerprint.json",
         "reports/canonical/dgt-l1-controls.json",
         "reports/canonical/dgt-l1-controls.fingerprint.json",
-        "reports/canonical/fair-l1-decision.json",
         "reports/canonical/dgt-neural-ablation.json",
         "reports/canonical/dgt-neural-ablation.fingerprint.json",
         "reports/canonical/dgt-ablation-null-decomposition.json",
@@ -64,11 +63,11 @@ def test_reproduction_package_structural_profile_reports_upstream_gap_without_fa
 
     assert rows["dgt-l0-honest-rerun"]["status"] == "pass"
     assert rows["honest-ablation-null-training"]["status"] == "pass"
-    assert rows["fair-l1-training"]["status"] == "blocked"
+    assert rows["fair-l1-training"]["status"] == "pass"
     assert rows["fair-l1-training"]["fingerprint_status"] == "pass"
     assert rows["fair-l1-training"]["tolerance_status"] == "pass"
-    assert rows["fair-l1-training"]["blocked_reason"] == repro.FAIR_L1_BLOCKED_REASON
-    assert "fair-l1-training" in result["blocked_targets"]
+    assert rows["fair-l1-training"]["blocked_reason"] is None
+    assert "fair-l1-training" not in result["blocked_targets"]
     assert result["failed_targets"] == []
     assert rows["dgt-l0-honest-rerun"]["blocked_reason"] is None
     assert rows["honest-ablation-null-training"]["blocked_reason"] is None

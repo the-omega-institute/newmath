@@ -7,6 +7,8 @@
 - Step-ladder crossover: `no-diagnostic-crossover-observed`
 - L1 OOD mechanism verdict: `brittle-rule`
 - L1 OOD mechanism confidence: `medium`
+- Fair L1 standing verdict: `bounded-negative`
+- Fair L1 canonical axis action: `hold-current`
 - Seeds: `16`
 - Compute units: `931.332096`
 - Parameter count: `12632`
@@ -55,6 +57,26 @@
 - `L1OOD-HG4`: `pass` - parameter-matched attention control rows are present and remain diagnostic controls rather than verdict owners
 - `L1OOD-HG5`: `pass` - mechanism diagnosis uses the existing pointer-backed order-two task source
 - `L1OOD-HG6`: `pass` - mechanism verdict is mechanically selected from the registered verdict set
+
+## Fair L1 Construction
+
+- OOD survivor present: `False`
+- Construct validity: `construct-valid`
+- `base`: in-dist acc `0.192627`, OOD acc `0.000977`, loss decrease `0.377059`
+- `dgt`: in-dist acc `0.203613`, OOD acc `0.000000`, loss decrease `0.405523`
+- `matched-random`: in-dist acc `0.160400`, OOD acc `0.000000`, loss decrease `0.305516`
+- `parameter-matched`: in-dist acc `0.191406`, OOD acc `0.003906`, loss decrease `0.379724`
+- `compute-matched`: in-dist acc `0.195068`, OOD acc `0.000977`, loss decrease `0.396454`
+
+## Fair L1 Hardgates
+
+- `FAIR-L1-HG1`: `pass` - every fair arm sees x_minus_1 and x_minus_2 and no forbidden feature name
+- `FAIR-L1-HG2`: `pass` - train and OOD support partitions are disjoint and share the same label rule reference
+- `FAIR-L1-HG3`: `pass` - fair L1 grid contains true CPU training rows with parameter movement and loss decrease
+- `FAIR-L1-HG4`: `pass` - OOD gate records raw metrics and rejects lookup-only behavior
+- `FAIR-L1-HG5`: `pass` - OOD survivor signals are routed to maintainer review rather than standing promotion
+- `FAIR-L1-HG6`: `pass` - forbidden public-claim phrase audit is clean
+- `FAIR-L1-HG7`: `pass` - construct-validity evaluation is folded into the DGT L1 controls payload
 
 ## Claim Capsule
 

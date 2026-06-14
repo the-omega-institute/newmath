@@ -591,7 +591,7 @@ def _metric_source_type(spec: Any, audit: ProducerTrainingAudit) -> str:
     name = str(spec.name)
     if name in {"dgt-l0-controls", "dgt-l1-controls"}:
         return "arm_branch"
-    if name in {"dgt-base-undertraining-audit", "dgt-ablation-null-decomposition", "dgt-component-redundancy-audit"}:
+    if name in {"dgt-ablation-null-decomposition", "dgt-component-redundancy-audit"}:
         return "declared_constant"
     if name in {"order-k-benchmark", "model-comparison"}:
         return "deterministic_projection"

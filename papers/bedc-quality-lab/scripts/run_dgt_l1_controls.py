@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from bedc_quality_lab import dgt_l1_controls as l1_controls
 from bedc_quality_lab.dgt_l1_controls import GENERATED_AT, L1_STEP_GRID, L1TrainingConfig, build_payload, write_artifacts
 
 
@@ -49,7 +50,25 @@ def main(argv: Sequence[str] | None = None) -> int:
         train_examples=args.train_examples if args.train_examples is not None else L1TrainingConfig().train_examples,
         eval_examples=args.eval_examples if args.eval_examples is not None else L1TrainingConfig().eval_examples,
     )
+    def progress(row: dict[str, object]) -> None:
+        print(
+            (
+                "fair_l1_progress "
+                f"cell={row['cell_index']}/{row['cell_count']} "
+                f"step={row['training_steps']} "
+                f"seed={row['seed']} "
+                f"arm={row['arm_id']} "
+                f"device={row['device']} "
+                f"in_dist={row['in_distribution_accuracy']} "
+                f"ood={row['ood_accuracy']}"
+            ),
+            file=sys.stderr,
+            flush=True,
+        )
+
+    l1_controls.FAIR_L1_PROGRESS_OBSERVER = progress
     payload = build_payload(generated_at=args.generated_at, requested_device=args.requested_device, config=config)
+    l1_controls.FAIR_L1_PROGRESS_OBSERVER = None
     write_artifacts(payload, root=args.root, generated_at=args.generated_at)
     print(
         json.dumps(
@@ -66,6 +85,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "l1_step_ladder_verdict": payload["l1_step_ladder"]["verdict"],
                 "l1_step_ladder_crossover": payload["l1_step_ladder"]["convergence_crossover"]["status"],
                 "l1_ood_mechanism_verdict": payload["l1_ood_mechanism"]["verdict"],
+                "fair_l1_ood_survivor": payload["fair_l1_construction"]["ood_gate"]["has_ood_survivor"],
+                "fair_l1_standing_verdict": payload["l1_tiny_sequence_projection"]["fair_l1_decision"]["standing_verdict"],
+                "fair_l1_canonical_axis_action": payload["l1_tiny_sequence_projection"]["fair_l1_decision"]["canonical_axis_action"],
             },
             sort_keys=True,
         )

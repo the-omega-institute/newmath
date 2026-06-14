@@ -29,6 +29,11 @@ from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.model import choose_device
 from bedc_quality_lab.order_k_benchmark import LEDGER_ROWS_POINTER as ORDER_K_LEDGER_ROWS_POINTER
 from bedc_quality_lab.order_k_benchmark import REPORT_ARTIFACT as ORDER_K_REPORT_ARTIFACT
+from bedc_quality_lab.tiny_sequence_l1 import (
+    FAIR_ARM_IDS,
+    FAIR_HARDGATE_IDS,
+    FairL1ConstructionSlice,
+)
 
 
 SCHEMA_ID = "bedc-quality-lab:dgt-l1-controls"
@@ -135,6 +140,7 @@ L1OOD_COLLAPSE_MARGIN = 0.05
 L1OOD_FREQUENCY_RATIO = 2.0
 L1OOD_LOGIT_MARGIN_MIN = 0.0
 CELL_CACHE_EVENT_OBSERVER: Any = None
+FAIR_L1_PROGRESS_OBSERVER: Any = None
 
 
 @dataclass(frozen=True)
@@ -940,6 +946,140 @@ def _owner_pointer_resolves(payload: Mapping[str, Any], pointer: str) -> bool:
     return pointer_value(payload, local_pointer) is not None
 
 
+def _validate_fair_l1_construction(construction: Any) -> None:
+    if not isinstance(construction, Mapping):
+        raise ValueError("DGT L1 fair construction missing")
+    required = {
+        "schema_id",
+        "owner",
+        "canonical_producer",
+        "construction_scope",
+        "input_contract",
+        "support_partitions",
+        "training_config",
+        "training_rows",
+        "progress_rows",
+        "fair_arm_metrics",
+        "ood_gate",
+        "lookup_only_control",
+        "construct_validity",
+        "forbidden_phrase_audit",
+        "fair_hardgates",
+        "fair_l1_decision",
+        "not_claimed",
+        "pointer",
+    }
+    if set(construction) != required:
+        raise ValueError("DGT L1 fair construction fields mismatch")
+    if construction.get("owner") != "dgt-l1-controls" or construction.get("canonical_producer") != "dgt-l1-controls":
+        raise ValueError("DGT L1 fair construction owner mismatch")
+    contract = construction["input_contract"]
+    if not isinstance(contract, Mapping):
+        raise ValueError("DGT L1 fair input contract missing")
+    visible = contract.get("visible_variables_by_arm")
+    if not isinstance(visible, Mapping) or set(visible) != set(FAIR_ARM_IDS):
+        raise ValueError("DGT L1 fair input contract arm set mismatch")
+    for arm_id in FAIR_ARM_IDS:
+        variables = set(visible.get(arm_id, []))
+        if not {"x_minus_1", "x_minus_2"}.issubset(variables):
+            raise ValueError(f"DGT L1 fair input contract missing pair-visible input: {arm_id}")
+        lowered = {str(variable).lower() for variable in variables}
+        if any(
+            any(token in variable for token in ("label", "target", "split_id", "seed_id", "coefficient"))
+            for variable in lowered
+        ):
+            raise ValueError(f"DGT L1 fair input contract leaks forbidden feature: {arm_id}")
+    if contract.get("validation") != {"no_leakage": "pass", "pair_visible": "pass"}:
+        raise ValueError("DGT L1 fair input contract validation mismatch")
+    partitions = construction["support_partitions"]
+    if not isinstance(partitions, Mapping):
+        raise ValueError("DGT L1 fair support partitions missing")
+    train_pairs = {tuple(pair) for pair in partitions.get("train_pairs", []) if isinstance(pair, list)}
+    ood_pairs = {tuple(pair) for pair in partitions.get("ood_pairs", []) if isinstance(pair, list)}
+    if (
+        not train_pairs
+        or not ood_pairs
+        or not train_pairs.isdisjoint(ood_pairs)
+        or partitions.get("disjoint") is not True
+        or partitions.get("shared_label_rule_ref") != partitions.get("label_rule_ref")
+        or partitions.get("all_digest") != contract.get("support_partition_digest")
+    ):
+        raise ValueError("DGT L1 fair support partitions must be disjoint and share label rule ref")
+    rows = construction["training_rows"]
+    progress_rows = construction["progress_rows"]
+    training_config = construction["training_config"]
+    if not isinstance(rows, list) or not isinstance(progress_rows, list) or not isinstance(training_config, Mapping):
+        raise ValueError("DGT L1 fair training rows missing")
+    seeds = set(training_config.get("seeds", []))
+    step_grid = set(training_config.get("step_grid", []))
+    expected_count = len(FAIR_ARM_IDS) * len(seeds) * len(step_grid)
+    if len(rows) != expected_count or len(progress_rows) != expected_count:
+        raise ValueError("DGT L1 fair training grid row count mismatch")
+    if not all(row.get("progress_visible") is True for row in progress_rows):
+        raise ValueError("DGT L1 fair progress rows must be visible")
+    for row in rows:
+        if row.get("arm_id") not in FAIR_ARM_IDS:
+            raise ValueError("DGT L1 fair training row arm mismatch")
+        if row.get("device_resolved") != "cpu":
+            raise ValueError("DGT L1 fair training row must be CPU canonical")
+        metrics = row.get("metrics")
+        if not isinstance(metrics, Mapping):
+            raise ValueError("DGT L1 fair training metrics missing")
+        if float(metrics.get("parameter_l2_delta", 0.0)) <= 0.0:
+            raise ValueError("DGT L1 fair training row lacks parameter delta")
+        if float(metrics.get("loss_decrease", 0.0)) <= 0.0:
+            raise ValueError("DGT L1 fair training row lacks loss movement")
+    metrics = construction["fair_arm_metrics"]
+    if not isinstance(metrics, Mapping) or set(metrics) != set(FAIR_ARM_IDS):
+        raise ValueError("DGT L1 fair arm metrics mismatch")
+    for arm_id in FAIR_ARM_IDS:
+        row = metrics[arm_id]
+        if int(row.get("seed_count", 0)) != len(seeds):
+            raise ValueError(f"DGT L1 fair arm seed count mismatch: {arm_id}")
+        arm_metrics = row.get("metrics")
+        if not isinstance(arm_metrics, Mapping):
+            raise ValueError(f"DGT L1 fair arm metrics missing: {arm_id}")
+        for metric in (
+            "in_distribution_accuracy_mean",
+            "ood_accuracy_mean",
+            "validation_loss_mean",
+            "loss_decrease_mean",
+            "parameter_l2_delta_mean",
+        ):
+            if metric not in arm_metrics or not isinstance(arm_metrics[metric], (int, float)):
+                raise ValueError(f"DGT L1 fair arm metric missing: {arm_id}.{metric}")
+    lookup = construction["lookup_only_control"]
+    ood_gate = construction["ood_gate"]
+    if not isinstance(lookup, Mapping) or lookup.get("in_distribution_accuracy") != 1.0 or lookup.get("satisfies_ood_survivor") is not False:
+        raise ValueError("DGT L1 fair OOD gate must reject lookup-only behavior")
+    if not isinstance(ood_gate, Mapping) or ood_gate.get("status") != "pass" or not isinstance(ood_gate.get("survivor_arms"), list):
+        raise ValueError("DGT L1 fair OOD gate missing")
+    construct_validity = construction["construct_validity"]
+    if not isinstance(construct_validity, Mapping) or construct_validity.get("status") != "construct-valid":
+        raise ValueError("DGT L1 fair construct validity must be folded in")
+    audit = construction["forbidden_phrase_audit"]
+    if not isinstance(audit, Mapping) or audit.get("status") != "pass" or audit.get("hits") != []:
+        raise ValueError("DGT L1 fair forbidden phrase audit failed")
+    gates = construction["fair_hardgates"]
+    if not isinstance(gates, Mapping) or set(gates) != set(FAIR_HARDGATE_IDS):
+        raise ValueError("DGT L1 fair hardgate ids mismatch")
+    expected_gates = FairL1ConstructionSlice().evaluate_fair_hardgates(construction)
+    if gates != expected_gates:
+        raise ValueError("DGT L1 fair hardgate evaluation mismatch")
+    decision = construction["fair_l1_decision"]
+    expected_decision = FairL1ConstructionSlice().derive_fair_decision(construction)
+    if decision != expected_decision:
+        raise ValueError("DGT L1 fair decision mismatch")
+    if ood_gate.get("has_ood_survivor") is True and all(row["status"] == "pass" for row in gates.values()):
+        if decision.get("standing_verdict") != "maintainer-review-required" or decision.get("canonical_axis_action") != "stop-report":
+            raise ValueError("DGT L1 fair OOD survivor must stop for maintainer review")
+    if not ood_gate.get("has_ood_survivor"):
+        if decision.get("standing_verdict") != "bounded-negative" or decision.get("canonical_axis_action") != "hold-current":
+            raise ValueError("DGT L1 fair no-survivor decision must hold bounded-negative standing")
+    if decision.get("superiority_claim_allowed") is not False:
+        raise ValueError("DGT L1 fair decision must not allow superiority claims")
+
+
 def _arm_summaries(
     records: Sequence[Mapping[str, Any]],
     *,
@@ -1219,6 +1359,12 @@ def source_regression_guard() -> dict[str, Any]:
         "missing_training_terms": missing,
         "owner_module": OWNER_MODULE,
     }
+
+
+def _emit_fair_l1_progress(row: Mapping[str, Any]) -> None:
+    observer = FAIR_L1_PROGRESS_OBSERVER
+    if observer is not None:
+        observer(dict(row))
 
 
 def _negative_witness_sweep(summaries: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -1675,6 +1821,7 @@ def _runtime_abi(torch: Any) -> dict[str, str]:
 def _producer_source_closure() -> tuple[dict[str, str], ...]:
     paths = (
         OWNER_MODULE,
+        "bedc_quality_lab/tiny_sequence_l1.py",
         PRODUCER,
         "bedc_quality_lab/canonical_cell_cache.py",
         "bedc_quality_lab/order_k_benchmark.py",
@@ -1906,6 +2053,7 @@ def _owner_local_measurement_boundary() -> dict[str, Any]:
 def source_artifacts_payload(*, device_policy: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "owner_module": OWNER_MODULE,
+        "fair_l1_construction_helper": "bedc_quality_lab/tiny_sequence_l1.py",
         "runner": PRODUCER,
         "command": ["python3", PRODUCER],
         "input_accessibility_ref": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$",
@@ -2543,6 +2691,8 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             "independent_replay_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.independent_replay",
             "owner_local_measurement_boundary_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.owner_local_measurement_boundary",
             "step_ladder_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
+            "fair_l1_construction_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.fair_l1_construction",
+            "fair_l1_decision_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.fair_l1_decision",
             "review_status_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
         },
         "hardgate_pointers": {
@@ -2563,6 +2713,8 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
             f"{CANONICAL_JSON_ARTIFACT}:$.independent_replay",
             f"{CANONICAL_JSON_ARTIFACT}:$.owner_local_measurement_boundary",
             f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
+            f"{CANONICAL_JSON_ARTIFACT}:$.fair_l1_construction",
+            f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.fair_l1_decision",
             f"{CANONICAL_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.review_status",
         ],
         "scope_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.not_claimed",
@@ -2591,6 +2743,11 @@ def _projection(payload: Mapping[str, Any], gates: Mapping[str, Mapping[str, Any
     dgt_metrics = payload.get("training_arms", {}).get("dgt_l1", {}).get("metrics", {})
     chance = float(dgt_metrics.get("chance_accuracy", 1.0))
     ood_ci_low = float(dgt_metrics.get("ood_accuracy_ci95_low", 0.0))
+    fair_construction = payload.get("fair_l1_construction")
+    fair_decision = {}
+    if isinstance(fair_construction, Mapping):
+        raw_decision = fair_construction.get("fair_l1_decision")
+        fair_decision = dict(raw_decision) if isinstance(raw_decision, Mapping) else {}
     review_status = "pass" if status == "pass" else "blocked"
     pass_decision = "ready->pass" if status == "pass" else "blocked"
     pass_scope = "in-dist order-2 only" if status == "pass" else "blocked"
@@ -2611,6 +2768,8 @@ def _projection(payload: Mapping[str, Any], gates: Mapping[str, Mapping[str, Any
         "evidence_scope": "bounded-tiny-sequence",
         "task_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.task_spec",
         "claim_capsule_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.claim_capsule_ref",
+        "fair_l1_construction_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.fair_l1_construction",
+        "fair_l1_decision": fair_decision,
         "hardgate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.hardgates",
         "pass_hardgate_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.hardgates",
         "step_ladder_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.l1_step_ladder",
@@ -2703,6 +2862,24 @@ def build_payload(
     step_ladder = build_l1_step_ladder(records, cfg)
     l1_ood_mechanism = build_l1_ood_mechanism(primary_records, probe_rows, task_spec.as_payload(), summaries)
     construct_validity_ledger = build_construct_validity_ledger(summaries=summaries, config=cfg)
+    fair_l1_construction = FairL1ConstructionSlice().build_fair_construction_payload(
+        torch=torch,
+        seeds=cfg.seeds,
+        step_grid=cfg.step_grid,
+        training_steps=cfg.training_steps,
+        train_examples=cfg.train_examples,
+        eval_examples=cfg.eval_examples,
+        sequence_length=cfg.sequence_length,
+        vocab_size=cfg.vocab_size,
+        batch_size=cfg.batch_size,
+        learning_rate=LEARNING_RATE,
+        requested_device=requested_device,
+        device_name=device_name,
+        support_seed=HELDOUT_PAIR_SPLIT_SEED,
+        construction_pointer_prefix=f"{CANONICAL_JSON_ARTIFACT}:$.fair_l1_construction",
+        construct_validity=construct_validity_ledger,
+        progress_callback=_emit_fair_l1_progress,
+    )
     payload: dict[str, Any] = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
@@ -2721,6 +2898,7 @@ def build_payload(
         "l1_step_ladder": step_ladder,
         "l1_ood_mechanism": l1_ood_mechanism,
         "construct_validity_ledger": construct_validity_ledger,
+        "fair_l1_construction": fair_l1_construction,
         "review_status": "pass",
         "promotion_readiness": "ready-pass",
         "component_ablation_boundary": _component_ablation_boundary(),
@@ -2764,6 +2942,7 @@ def _required_fields() -> set[str]:
         "l1_step_ladder",
         "l1_ood_mechanism",
         "construct_validity_ledger",
+        "fair_l1_construction",
         "review_status",
         "promotion_readiness",
         "component_ablation_boundary",
@@ -2960,6 +3139,7 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         raise ValueError("DGT L1 construct validity projection missing")
     if not _construct_validity_owner_projection_passes(projection):
         raise ValueError("DGT L1 construct validity owner projection failed")
+    _validate_fair_l1_construction(payload["fair_l1_construction"])
     gate_status, failures = _hardgate_status(expected_gates)
     if gate_status != "pass":
         raise ValueError(f"DGT L1 hardgates fail closed: {failures[0]}")
@@ -3037,6 +3217,8 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         raise ValueError("DGT L1 pass scope must remain in-dist order-2 only")
     if expected_projection["ood_generalization_claim"] != "not-claimed":
         raise ValueError("DGT L1 scoped boundary must not claim OOD generalization")
+    if expected_projection["fair_l1_decision"] != payload["fair_l1_construction"]["fair_l1_decision"]:
+        raise ValueError("DGT L1 fair decision projection mismatch")
     if payload["boundary_ledger"] != expected_projection["boundary_ledger"]:
         raise ValueError("DGT L1 boundary ledger mismatch")
     text = " ".join(str(item).lower() for item in payload["not_claimed"])
@@ -3055,6 +3237,8 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
 def render_markdown(payload: Mapping[str, Any]) -> str:
     projection = payload["l1_tiny_sequence_projection"]
     ladder = payload["l1_step_ladder"]
+    fair = payload["fair_l1_construction"]
+    fair_decision = projection["fair_l1_decision"]
     lines = [
         "# DGT L1 tiny-sequence controls",
         "",
@@ -3065,6 +3249,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Step-ladder crossover: `{ladder['convergence_crossover']['status']}`",
         f"- L1 OOD mechanism verdict: `{payload['l1_ood_mechanism']['verdict']}`",
         f"- L1 OOD mechanism confidence: `{payload['l1_ood_mechanism']['diagnostic_confidence']}`",
+        f"- Fair L1 standing verdict: `{fair_decision['standing_verdict']}`",
+        f"- Fair L1 canonical axis action: `{fair_decision['canonical_axis_action']}`",
         f"- Seeds: `{payload['independent_replay']['seed_count']}`",
         f"- Compute units: `{payload['compute_ledger']['compute_units']}`",
         f"- Parameter count: `{payload['parameter_ledger']['parameter_count']}`",
@@ -3104,6 +3290,21 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         )
     lines.extend(["", "## L1 OOD Hardgates", ""])
     for gate_id, row in mechanism["hardgates"].items():
+        lines.append(f"- `{gate_id}`: `{row['status']}` - {row['criterion']}")
+    lines.extend(["", "## Fair L1 Construction", ""])
+    lines.append(f"- OOD survivor present: `{fair['ood_gate']['has_ood_survivor']}`")
+    lines.append(f"- Construct validity: `{fair['construct_validity']['status']}`")
+    for arm_id in FAIR_ARM_IDS:
+        metrics = fair["fair_arm_metrics"][arm_id]["metrics"]
+        lines.append(
+            "- "
+            f"`{arm_id}`: "
+            f"in-dist acc `{metrics['in_distribution_accuracy_mean']:.6f}`, "
+            f"OOD acc `{metrics['ood_accuracy_mean']:.6f}`, "
+            f"loss decrease `{metrics['loss_decrease_mean']:.6f}`"
+        )
+    lines.extend(["", "## Fair L1 Hardgates", ""])
+    for gate_id, row in fair["fair_hardgates"].items():
         lines.append(f"- `{gate_id}`: `{row['status']}` - {row['criterion']}")
     lines.extend(["", "## Claim Capsule", ""])
     lines.append(f"- Scope: `{payload['claim_capsule_ref']['evidence_scope']}`")

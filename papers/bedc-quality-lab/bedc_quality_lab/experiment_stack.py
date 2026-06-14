@@ -667,7 +667,7 @@ def build_experiment_stack_payload(*, root: Path, generated_at: str) -> dict[str
                 "owner_issues": ["1205", "1212"],
                 "owner_pointers": [
                     "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
-                    "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
+                    "reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection.fair_l1_decision",
                 ],
             },
             {
@@ -678,7 +678,7 @@ def build_experiment_stack_payload(*, root: Path, generated_at: str) -> dict[str
             {
                 "mapping_id": "construct-validity-gate-family",
                 "owner_issues": ["1197"],
-                "owner_pointers": ["reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity"],
+                "owner_pointers": ["reports/canonical/dgt-l1-controls.json:$.fair_l1_construction.construct_validity"],
             },
         ],
         "industry_standard_alignment": build_standard_alignment_rows(),

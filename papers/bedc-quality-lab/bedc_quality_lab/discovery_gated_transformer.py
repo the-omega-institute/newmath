@@ -26,7 +26,6 @@ NABL_HARDGATE_STATUS_POINTER = "$.nabl_hardgates.status"
 NABL_HARDGATE_FAILED_GATE_POINTER = "$.nabl_hardgates.failed_gate"
 DGT_L0_CONTROLS_ARTIFACT = "reports/canonical/dgt-l0-controls.json"
 DGT_L1_CONTROLS_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
-FAIR_L1_DECISION_ARTIFACT = "reports/canonical/fair-l1-decision.json"
 DGT_L1_BOUNDARY_REPORT_ARTIFACT = "reports/canonical/dgt-l1-boundary-report.json"
 CLAIM_CAPSULE_ARTIFACT = f"{RUN_ROOT}/claim_capsule.json"
 EVIDENCE_ENVELOPE_ARTIFACT = f"{RUN_ROOT}/evidence_envelope.json"
@@ -314,7 +313,7 @@ L1_OOD_MECHANISM_REF = {"artifact": DGT_L1_CONTROLS_ARTIFACT, "pointer": "$.l1_o
 L1_SCALING_BOUNDARY_REF = {"artifact": DGT_L1_BOUNDARY_REPORT_ARTIFACT, "pointer": "$.scaling_claim_block"}
 L1_OOD_MECHANISM_VERDICT_POINTER = f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_ood_mechanism.verdict"
 L1_OOD_MECHANISM_L2_IMPLICATION_POINTER = f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_ood_mechanism.l2_implication"
-FAIR_L1_DECISION_STATUS_POINTER = f"{FAIR_L1_DECISION_ARTIFACT}:$.decision.status"
+FAIR_L1_DECISION_STATUS_POINTER = f"{DGT_L1_CONTROLS_ARTIFACT}:$.l1_tiny_sequence_projection.fair_l1_decision.status"
 L0_CONSTRUCT_SUSPENSION_REF = {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.construct_suspension"}
 L0_CONTROL_POINTER_CONTRACT = {
     "base_transformer_control": {"artifact": DGT_L0_CONTROLS_ARTIFACT, "pointer": "$.controls.base_transformer_control"},

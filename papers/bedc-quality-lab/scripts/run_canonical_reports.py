@@ -208,18 +208,10 @@ STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT = "reports/canonical/structural-g
 STRUCTURAL_GENERALIZATION_SPLITS_MARKDOWN_ARTIFACT = "reports/canonical/structural-generalization-splits.md"
 STRUCTURAL_GENERALIZATION_SPLITS_ARTIFACT_ID = "bedc-quality-lab:structural-generalization-splits"
 STRUCTURAL_GENERALIZATION_SPLITS_SCHEMA_ID = "bedc-quality-lab:structural-generalization-splits"
-DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.json"
-DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT = "reports/canonical/dgt-base-undertraining-audit.md"
-DGT_BASE_UNDERTRAINING_AUDIT_ARTIFACT_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
-DGT_BASE_UNDERTRAINING_AUDIT_SCHEMA_ID = "bedc-quality-lab:dgt-base-undertraining-audit"
 SCALING_LADDER_JSON_ARTIFACT = "reports/canonical/scaling-ladder.json"
 SCALING_LADDER_MARKDOWN_ARTIFACT = "reports/canonical/scaling-ladder.md"
 SCALING_LADDER_ARTIFACT_ID = "bedc-quality-lab:scaling-ladder"
 SCALING_LADDER_SCHEMA_ID = "bedc-quality-lab:scaling-ladder"
-FAIR_L1_DECISION_JSON_ARTIFACT = "reports/canonical/fair-l1-decision.json"
-FAIR_L1_DECISION_MARKDOWN_ARTIFACT = "reports/canonical/fair-l1-decision.md"
-FAIR_L1_DECISION_ARTIFACT_ID = "bedc-quality-lab:fair-l1-decision"
-FAIR_L1_DECISION_SCHEMA_ID = "bedc-quality-lab:fair-l1-decision"
 INPUT_ACCESSIBILITY_JSON_ARTIFACT = "reports/canonical/input-accessibility.json"
 INPUT_ACCESSIBILITY_MARKDOWN_ARTIFACT = "reports/canonical/input-accessibility.md"
 INPUT_ACCESSIBILITY_ARTIFACT_ID = "bedc-quality-lab:input-accessibility"
@@ -1352,6 +1344,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "l1_step_ladder",
             "l1_ood_mechanism",
             "construct_validity_ledger",
+            "fair_l1_construction",
             "review_status",
             "promotion_readiness",
             "component_ablation_boundary",
@@ -1557,26 +1550,6 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         formal_status_pointer=f"{STRUCTURAL_GENERALIZATION_SPLITS_JSON_ARTIFACT}:$.hardgates",
     ),
     CanonicalReportSpec(
-        name="dgt-base-undertraining-audit",
-        command=("python3", "scripts/run_dgt_base_undertraining_audit.py"),
-        json_artifact=DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
-        markdown_artifact=DGT_BASE_UNDERTRAINING_AUDIT_MARKDOWN_ARTIFACT,
-        required_json_keys=("base_undertraining_audit",),
-        estimated_seconds=1,
-        bundle_role="auxiliary",
-        scope_pointer="$.base_undertraining_audit.not_claimed",
-        cost_pointer="$.base_undertraining_audit.source_contract",
-        not_claimed_pointer="$.base_undertraining_audit.not_claimed",
-        positive_claim_pointer="$.base_undertraining_audit.verdict",
-        control_pointer="$.base_undertraining_audit.comparison_rows",
-        no_control_rationale_pointer=None,
-        evidence_envelope_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
-        backend_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.source_contract",
-        discovery_level_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
-        negative_witness_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.hardgates",
-        formal_status_pointer=f"{DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT}:$.base_undertraining_audit.verdict",
-    ),
-    CanonicalReportSpec(
         name="scaling-ladder",
         command=("python3", "scripts/run_scaling_ladder.py"),
         json_artifact=SCALING_LADDER_JSON_ARTIFACT,
@@ -1654,45 +1627,6 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         discovery_level_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
         negative_witness_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.boundary_ledger",
         formal_status_pointer=f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.access_hardgates.status",
-    ),
-    CanonicalReportSpec(
-        name="fair-l1-decision",
-        command=("python3", "scripts/run_fair_l1_decision.py"),
-        json_artifact=FAIR_L1_DECISION_JSON_ARTIFACT,
-        markdown_artifact=FAIR_L1_DECISION_MARKDOWN_ARTIFACT,
-        required_json_keys=(
-            "schema_id",
-            "artifact_id",
-            "generated_at",
-            "producer",
-            "source_artifacts",
-            "fair_alignment",
-            "hardgates",
-            "decision",
-            "ladder_state_projection",
-            "boundary_ledger",
-            "not_claimed",
-        ),
-        estimated_seconds=1,
-        bundle_role="auxiliary",
-        scope_pointer="$.not_claimed",
-        cost_pointer="$.source_artifacts",
-        not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.decision.status",
-        control_pointer="$.fair_alignment.comparison_rows",
-        no_control_rationale_pointer=None,
-        claim_capsule_pointer="$.decision.claim_capsule",
-        evidence_envelope_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection",
-        backend_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.source_artifacts",
-        discovery_level_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
-        negative_witness_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.boundary_ledger",
-        formal_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection.state",
-        construct_validity_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.construct_validity_projection",
-        scientific_claim_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
-        hardgate_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.hardgate_status",
-        hardgate_scope="owner-scientific",
-        ladder_state_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection.state",
-        decision_status_pointer=f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
     ),
     CanonicalReportSpec(
         name="discovery-gated-transformer",
@@ -2736,15 +2670,12 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         paths.update(mechanism_dna_artifacts())
     if spec.name == "dgt-component-redundancy-audit":
         paths.update((DGT_NEURAL_ABLATION_JSON_ARTIFACT, DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT))
-    if spec.name == "dgt-base-undertraining-audit":
-        paths.update((DGT_L1_CONTROLS_JSON_ARTIFACT, INPUT_ACCESSIBILITY_JSON_ARTIFACT))
     if spec.name == "scaling-ladder":
         paths.update(
             (
                 DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
                 DGT_L0_CONTROLS_JSON_ARTIFACT,
                 DGT_L1_CONTROLS_JSON_ARTIFACT,
-                DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
             )
         )
         paths.discard("reports/canonical/index.json")
@@ -2759,15 +2690,11 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
                 ),
             }
         )
-    if spec.name == "fair-l1-decision":
-        paths.update((DGT_L1_CONTROLS_JSON_ARTIFACT, DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT, INPUT_ACCESSIBILITY_JSON_ARTIFACT))
     if spec.name == "dgt-model-card":
         paths.update(
             (
                 DGT_L0_CONTROLS_JSON_ARTIFACT,
                 DGT_L1_CONTROLS_JSON_ARTIFACT,
-                FAIR_L1_DECISION_JSON_ARTIFACT,
-                DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
                 DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT,
                 DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
                 "reports/canonical/index.json",
@@ -5619,8 +5546,9 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any] | None
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
         "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
-        "fair_l1_decision_projection_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection",
-        "fair_l1_decision_status_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
+        "fair_l1_construction_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.fair_l1_construction",
+        "fair_l1_decision_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.fair_l1_decision",
+        "fair_l1_decision_status_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.fair_l1_decision.status",
         "interpretation_boundary_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.interpretation_boundary_ref",
         "negative_witness_sweep_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts.negative_witness_sweep_ref",
         "l1_control_step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
@@ -5719,8 +5647,9 @@ def _missing_discovery_gated_transformer_index_section() -> dict[str, Any]:
         "l0_control_ledger_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.compute_param_ledger",
         "l0_control_negative_witness_pointer": f"{DGT_L0_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         "l1_control_projection_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection",
-        "fair_l1_decision_projection_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.ladder_state_projection",
-        "fair_l1_decision_status_pointer": f"{FAIR_L1_DECISION_JSON_ARTIFACT}:$.decision.status",
+        "fair_l1_construction_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.fair_l1_construction",
+        "fair_l1_decision_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.fair_l1_decision",
+        "fair_l1_decision_status_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.fair_l1_decision.status",
         "interpretation_boundary_ref_pointer": f"{artifact}:$.source_artifacts.interpretation_boundary_ref",
         "negative_witness_sweep_ref_pointer": f"{artifact}:$.source_artifacts.negative_witness_sweep_ref",
         "l1_control_step_ladder_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder",
@@ -7195,22 +7124,6 @@ def _validate_reproduction_blocked_reason(
             errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "owner_gate_ref is required"))
         if reason["dependency_ref"] is None:
             errors.append(_reproduction_error(f"{row_path}.blocked_reason.dependency_ref", "dependency_ref is required"))
-    if target_id == "fair-l1-training":
-        for key, expected in FAIR_L1_BLOCKED_REASON.items():
-            if reason[key] != expected:
-                errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"fair-l1-training requires {expected}"))
-        gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
-        expected_gate_id = str(FAIR_L1_BLOCKED_REASON["owner_gate_ref"]).rsplit(".", 1)[-1]
-        if not isinstance(evidence_value, Mapping) or (
-            evidence_value.get("gate_id") != expected_gate_id
-            or evidence_value.get("status") != "fail"
-        ):
-            errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", f"fair-l1 evidence gate does not match {expected_gate_id}"))
-        if not isinstance(gate_value, Mapping) or (
-            gate_value.get("gate_id") != expected_gate_id
-            or gate_value.get("status") != "fail"
-        ):
-            errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", f"fair-l1 owner gate does not match {expected_gate_id}"))
     return errors
 
 
@@ -8796,14 +8709,6 @@ def run_reports(
             run_spec_names.add(dgt_l0_spec.name)
             _run_metric_purity_post_generation((dgt_l0_spec.json_artifact,))
             _write_fingerprint_sidecar(dgt_l0_spec, generated_at=timestamp)
-    fair_l1_spec = _specs_by_name().get("fair-l1-decision")
-    if fair_l1_spec is not None:
-        fair_l1_selected = any(spec.name in {"fair-l1-decision", "discovery-gated-transformer", "dgt-model-card"} for spec in selected_specs)
-        if (only is None or fair_l1_selected) and fair_l1_spec.name not in run_spec_names:
-            results.append(_run_spec(fair_l1_spec, mode=mode, generated_at=timestamp))
-            run_spec_names.add(fair_l1_spec.name)
-            _run_metric_purity_post_generation((fair_l1_spec.json_artifact,))
-            _write_fingerprint_sidecar(fair_l1_spec, generated_at=timestamp)
     dgt_l1_spec = _specs_by_name().get("dgt-l1-controls")
     if dgt_l1_spec is not None:
         dgt_l1_selected = any(
