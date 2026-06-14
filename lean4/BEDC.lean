@@ -841,6 +841,7 @@ import BEDC.Derived.BishopCauchySequenceUp.TasteGate
 import BEDC.Derived.BishopCompactIntervalUp.TasteGate
 import BEDC.Derived.BishopCompactnessCriterionUp.TasteGate
 import BEDC.Derived.BishopCompleteMetricUp.TasteGate
+import BEDC.Derived.BishopCompleteRealUp.NameCertObligations
 import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusSelectionUp.NameCertObligations
@@ -2577,6 +2578,7 @@ import BEDC.Derived.ClosedObservationTotalHostUp.NameCertObligations
 import BEDC.Derived.ClosedObservationTotalHostUp.TasteGate
 import BEDC.Derived.ClosedParallelDiamondPremiseLedgerUp.TasteGate
 import BEDC.Derived.ClosedPiDomainSubjectReductionUp.TasteGate
+import BEDC.Derived.ClosedSetUp.TasteGate
 import BEDC.Derived.ClosedSubspaceCompletionUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.ClosedSliceTransport
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.ConsumerExhaustion
