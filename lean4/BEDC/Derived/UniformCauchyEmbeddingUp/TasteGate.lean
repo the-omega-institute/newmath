@@ -155,17 +155,4 @@ def uniformCauchyEmbeddingTasteGate : ChapterTasteGate UniformCauchyEmbeddingUp 
   -- BEDC touchpoint anchor: BHist BMark
   uniformCauchyEmbeddingChapterTasteGate
 
-theorem UniformCauchyEmbeddingTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-        uniformCauchyEmbeddingDecodeBHist (uniformCauchyEmbeddingEncodeBHist h) = h) ∧
-      (∀ x : UniformCauchyEmbeddingUp,
-        uniformCauchyEmbeddingFromEventFlow (uniformCauchyEmbeddingToEventFlow x) =
-          some x) ∧
-      (∀ x y : UniformCauchyEmbeddingUp,
-        uniformCauchyEmbeddingToEventFlow x = uniformCauchyEmbeddingToEventFlow y → x = y) ∧
-      uniformCauchyEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact ⟨uniformCauchyEmbeddingDecode_encode_bhist, uniformCauchyEmbedding_round_trip,
-    fun _ _ heq => uniformCauchyEmbeddingToEventFlow_injective heq, rfl⟩
-
 end BEDC.Derived.UniformCauchyEmbeddingUp
