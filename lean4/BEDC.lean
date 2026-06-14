@@ -3563,6 +3563,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RHConsumerSourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHInterfaceCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RHNonclassificationBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalConsumerNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RHRefusalInterface
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedgerRoute
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalPhaseBoundary
