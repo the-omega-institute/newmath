@@ -26,6 +26,7 @@ REPORT_DIR = ROOT.parent / "reports"
 DEFAULT_LATENTS = ROOT / "tworooms_latent_large.npz"
 DEFAULT_LABELS = REPORT_DIR / "g2n_labels_clean.npz"
 DEFAULT_OUT = REPORT_DIR / "g2n_integrated_a100_local.json"
+DEFAULT_SCORE_DUMP = REPORT_DIR / "g2n_integrated_a100_scores.npz"
 
 TARGET_HORIZONS = (1, 3, 5, 10)
 Q75 = 75
@@ -911,6 +912,67 @@ def selective_eval(score: np.ndarray, y: np.ndarray, threshold: float | None) ->
     }
 
 
+def maybe_write_score_dump(
+    path_raw: str,
+    *,
+    args: argparse.Namespace,
+    labels: dict[str, np.ndarray],
+    h_to_idx: dict[int, int],
+    q_idx: int,
+    train_rows: dict[str, np.ndarray],
+    cal_rows: dict[str, np.ndarray],
+    eval_rows: dict[str, np.ndarray],
+    cal_pred: dict[str, np.ndarray],
+    eval_pred: dict[str, np.ndarray],
+    eval_ood_dist: np.ndarray,
+    ood_threshold: float,
+) -> None:
+    if not path_raw:
+        return
+    target_idx = np.asarray([h_to_idx[h] for h in TARGET_HORIZONS], dtype=np.int64)
+    source_horizons = labels["horizons"].astype(np.int64).reshape(-1)
+    quantiles = labels["quantiles"].astype(np.int64).reshape(-1)
+    config = {
+        "use_rollout": int(args.use_rollout),
+        "use_pred": int(args.use_pred),
+        "use_tail": int(args.use_tail),
+        "use_ood": int(args.use_ood),
+        "pred_only": int(args.pred_only),
+        "shuffle_labels": int(args.shuffle_labels),
+        "width": int(args.width),
+        "depth": int(args.depth),
+        "batch": int(args.batch),
+        "epochs": int(args.epochs),
+        "lr": float(args.lr),
+        "seed": int(args.seed),
+    }
+    out = Path(path_raw)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(
+        out,
+        config_json=np.asarray(json.dumps(config, sort_keys=True), dtype=np.str_),
+        source_horizons=source_horizons,
+        target_horizons=np.asarray(TARGET_HORIZONS, dtype=np.int64),
+        quantiles=quantiles,
+        q75_index=np.asarray(q_idx, dtype=np.int64),
+        train_anchor_ep_t0=train_rows["anchor_ep_t0"].astype(np.int64),
+        calibration_anchor_ep_t0=cal_rows["anchor_ep_t0"].astype(np.int64),
+        eval_anchor_ep_t0=eval_rows["anchor_ep_t0"].astype(np.int64),
+        calibration_y_target=labels["calibration_y"][:, target_idx, :].astype(np.int8),
+        calibration_valid_target=labels["calibration_valid"][:, target_idx].astype(bool),
+        eval_y_target=labels["eval_y"][:, target_idx, :].astype(np.int8),
+        eval_valid_target=labels["eval_valid"][:, target_idx].astype(bool),
+        calibration_horizon_logits=cal_pred["horizon_logits"].astype(np.float32),
+        eval_horizon_logits=eval_pred["horizon_logits"].astype(np.float32),
+        calibration_admission=cal_pred["admission"].astype(np.float64),
+        eval_admission=eval_pred["admission"].astype(np.float64),
+        calibration_tail=cal_pred["tail"].astype(np.float64),
+        eval_tail=eval_pred["tail"].astype(np.float64),
+        eval_ood_distance=eval_ood_dist.astype(np.float64),
+        ood_distance_threshold=np.asarray(float(ood_threshold), dtype=np.float64),
+    )
+
+
 def build_detection(
     train_rows: dict[str, np.ndarray],
     eval_rows: dict[str, np.ndarray],
@@ -1214,6 +1276,20 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
     )
 
     eval_ood_dist = mahalanobis_distance(x_eval, ood_stats)
+    maybe_write_score_dump(
+        str(getattr(args, "score_dump", "")),
+        args=args,
+        labels=labels,
+        h_to_idx=h_to_idx,
+        q_idx=q_idx,
+        train_rows=train_rows,
+        cal_rows=cal_rows,
+        eval_rows=eval_rows,
+        cal_pred=cal_pred,
+        eval_pred=eval_pred,
+        eval_ood_dist=eval_ood_dist,
+        ood_threshold=float(ood_stats["threshold"]),
+    )
     health = {
         "status": "ok",
         "params_count": int(train_health["params_count"]),
@@ -1272,6 +1348,7 @@ def main() -> int:
     parser.add_argument("--use-ood", type=zero_one, default=1)
     parser.add_argument("--pred-only", type=zero_one, default=0)
     parser.add_argument("--shuffle-labels", type=zero_one, default=0)
+    parser.add_argument("--score-dump", default="")
     args = parser.parse_args()
 
     payload = clean_json(build_payload(args))
