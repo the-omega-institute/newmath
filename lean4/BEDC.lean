@@ -1190,6 +1190,7 @@ import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
+import BEDC.Derived.BoundedNormalizationCandidateUp.TasteGate
 import BEDC.Derived.BoundedOscillationUp.TasteGate
 import BEDC.Derived.BoundedRealFamilyUp
 import BEDC.Derived.BoundedRealFamilyUp.TasteGate
@@ -3699,6 +3700,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaRealRatSourceReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaSourceLock
+import BEDC.Derived.CriticalLineWitnessUp.RootZetaSourceLockPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaStripNonescapeTriad
 import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
@@ -3715,6 +3717,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceModulusConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExclusion
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusGapSeparation
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusNameCertReadiness
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusReadback
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusRefusalTotality
@@ -3741,6 +3744,7 @@ import BEDC.Derived.CriticalLineWitnessUp.TerminalComparisonLedgerLock
 import BEDC.Derived.CriticalLineWitnessUp.TerminalLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.TerminalModulusComparisonScope
 import BEDC.Derived.CriticalLineWitnessUp.TerminalRHRefusalExactness
+import BEDC.Derived.CriticalLineWitnessUp.TerminalRefusalPackage
 import BEDC.Derived.CriticalLineWitnessUp.TerminalSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.TerminalWindowFactorization
 import BEDC.Derived.CriticalLineWitnessUp.TerminalZeroSourceTotality
@@ -4699,6 +4703,7 @@ import BEDC.Derived.FanBarRouteUp.FiniteBarHandoff
 import BEDC.Derived.FanBarRouteUp.NameCertObligations
 import BEDC.Derived.FanBarRouteUp.TasteGate
 import BEDC.Derived.FanCompactUp
+import BEDC.Derived.FanCompactUp.TasteGate
 import BEDC.Derived.FanContinuityPrincipleUp
 import BEDC.Derived.FanContinuityPrincipleUp.TasteGate
 import BEDC.Derived.FanModulusBoundaryUp.TasteGate
@@ -6130,6 +6135,7 @@ import BEDC.Derived.LatticeUp.DistributivityModular
 import BEDC.Derived.LatticeUp.MeetAbsorption
 import BEDC.Derived.LatticeUp.ModularComparison
 import BEDC.Derived.LatticeUp.Monotonicity
+import BEDC.Derived.LatticeUp.OneSidedDistributiveInequality
 import BEDC.Derived.LatticeUp.OppositeAbsorption
 import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema

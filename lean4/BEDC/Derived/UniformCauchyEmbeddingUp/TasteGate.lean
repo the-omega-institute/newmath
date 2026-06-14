@@ -46,6 +46,16 @@ def uniformCauchyEmbeddingToEventFlow : UniformCauchyEmbeddingUp → EventFlow
 def uniformCauchyEmbeddingFromEventFlow :
     EventFlow → Option UniformCauchyEmbeddingUp
   -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _C :: [] => none
+  | _C :: _S :: [] => none
+  | _C :: _S :: _R :: [] => none
+  | _C :: _S :: _R :: _T :: [] => none
+  | _C :: _S :: _R :: _T :: _E :: [] => none
+  | _C :: _S :: _R :: _T :: _E :: _V :: [] => none
+  | _C :: _S :: _R :: _T :: _E :: _V :: _H :: [] => none
+  | _C :: _S :: _R :: _T :: _E :: _V :: _H :: _K :: [] => none
+  | _C :: _S :: _R :: _T :: _E :: _V :: _H :: _K :: _P :: [] => none
   | C :: S :: R :: T :: E :: V :: H :: K :: P :: N :: [] =>
       some
         (UniformCauchyEmbeddingUp.mk
@@ -59,7 +69,7 @@ def uniformCauchyEmbeddingFromEventFlow :
           (uniformCauchyEmbeddingDecodeBHist K)
           (uniformCauchyEmbeddingDecodeBHist P)
           (uniformCauchyEmbeddingDecodeBHist N))
-  | _ => none
+  | _C :: _S :: _R :: _T :: _E :: _V :: _H :: _K :: _P :: _N :: _extra :: _rest => none
 
 private theorem uniformCauchyEmbedding_round_trip :
     ∀ x : UniformCauchyEmbeddingUp,
@@ -154,5 +164,20 @@ instance uniformCauchyEmbeddingNontrivial : Nontrivial UniformCauchyEmbeddingUp 
 def uniformCauchyEmbeddingTasteGate : ChapterTasteGate UniformCauchyEmbeddingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   uniformCauchyEmbeddingChapterTasteGate
+
+theorem UniformCauchyEmbeddingTasteGate_single_carrier_alignment :
+    (forall h : BHist,
+      uniformCauchyEmbeddingDecodeBHist (uniformCauchyEmbeddingEncodeBHist h) = h) ∧
+      (forall x : UniformCauchyEmbeddingUp,
+        uniformCauchyEmbeddingFromEventFlow (uniformCauchyEmbeddingToEventFlow x) = some x) ∧
+        (forall x y : UniformCauchyEmbeddingUp,
+          uniformCauchyEmbeddingToEventFlow x = uniformCauchyEmbeddingToEventFlow y -> x = y) ∧
+          uniformCauchyEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨uniformCauchyEmbeddingDecode_encode_bhist,
+      uniformCauchyEmbedding_round_trip,
+      (fun _ _ heq => uniformCauchyEmbeddingToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.UniformCauchyEmbeddingUp
