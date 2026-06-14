@@ -1,10 +1,67 @@
 import json
+import importlib
 from pathlib import Path
 
 import pytest
 
 from bedc_quality_lab import hardgate_inventory
 from bedc_quality_lab import metric_purity
+
+
+L1_GATING_FAMILIES = {
+    "FAIR-L1": {
+        "FAIR-L1-HG1",
+        "FAIR-L1-HG2",
+        "FAIR-L1-HG3",
+        "FAIR-L1-HG4",
+        "FAIR-L1-HG5",
+        "FAIR-L1-HG6",
+        "FAIR-L1-HG7",
+    },
+    "L1OOD": {
+        "L1OOD-HG1",
+        "L1OOD-HG2",
+        "L1OOD-HG3",
+        "L1OOD-HG4",
+        "L1OOD-HG5",
+        "L1OOD-HG6",
+    },
+    "INPUT": {
+        "ACCESS-HG1",
+        "ACCESS-HG2",
+        "ACCESS-HG3",
+        "OOD-HG1",
+    },
+    "WIN": {
+        "ORACLE-HG1",
+        "ORACLE-HG2",
+        "ORACLE-HG3",
+        "ORACLE-HG4",
+        "ORACLE-HG5",
+    },
+    "SGS": {
+        "POS-HG1",
+        "POS-HG2",
+        "POS-HG3",
+        "POS-HG4",
+        "SYM-HG1",
+        "SYM-HG2",
+        "SYM-HG3",
+        "SYM-HG4",
+    },
+}
+
+
+def _resolve_owner_pointer(owner_pointer):
+    module_name, _, callable_name = owner_pointer.partition(":")
+    if not callable_name:
+        module_name, _, callable_name = owner_pointer.rpartition(".")
+    module_name = module_name.removesuffix(".py").replace("/", ".")
+    value = importlib.import_module(module_name)
+    for part in callable_name.split("."):
+        value = getattr(value, part)
+    assert callable(value)
+    return value
 
 
 def test_registered_hardgate_mutations_fail_through_owner_contract():
@@ -34,6 +91,45 @@ def test_owner_inventory_generates_concrete_hardgate_targets_and_mutations():
     assert hardgate_targets == inventory_gate_ids
     assert inventory_gate_ids <= mutation_refs
     assert "fair-l1-decision/hardgates" not in hardgate_targets
+
+
+def test_l1_gating_hardgate_families_are_registered_with_mutation_coverage():
+    root = Path.cwd()
+    payload = metric_purity.run_metric_purity_audit(root)
+    targets = {
+        target["id"]: target
+        for target in payload["targets"]
+        if target["kind"] == "hardgate"
+    }
+    mutation_results = {
+        result["gate_id"]: result
+        for result in payload["mutation_coverage"]["results"]
+    }
+
+    assert payload["status"] == "pass"
+    assert payload["mutation_coverage"]["by_family"] == {
+        family: len(gates)
+        for family, gates in sorted(L1_GATING_FAMILIES.items())
+    } | {
+        family: payload["mutation_coverage"]["by_family"][family]
+        for family in payload["mutation_coverage"]["by_family"]
+        if family not in L1_GATING_FAMILIES
+    }
+    for family, gate_ids in L1_GATING_FAMILIES.items():
+        assert payload["mutation_coverage"]["by_family"][family] >= len(gate_ids)
+        for gate_id in gate_ids:
+            target = targets[gate_id]
+            result = mutation_results[gate_id]
+            assert target["family"] == family
+            assert target["owner_surface"]
+            assert target["owner_pointer"]
+            _resolve_owner_pointer(target["owner_pointer"])
+            assert target["evidence_pointer"].startswith("reports/canonical/")
+            assert result["status"] == "pass"
+            assert result["owner_status"] == "fail"
+            assert result["failed_gate"] == gate_id
+            assert result["restored_owner_status"] == "pass"
+            assert result["restored_gate_status"] == "pass"
 
 
 def test_every_concrete_hardgate_target_has_mutation_row():
