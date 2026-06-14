@@ -77,6 +77,20 @@ The replay row $A$ orders the public read through item admission, classifier rea
 If a consumer omits the open-gap, refused-gap, or cannot-claim content of $G$, the read no longer follows the displayed replay row and no longer preserves the local NameCert surface. Such a read is not a permitted consumer read of the packet.
 \end{proof}
 
+\begin{theorem}[Writing-item audit packet scoped claim route]
+\label{thm:writing-item-audit-packet-scoped-claim-route}
+Every permitted consumer read of an accepted $\WritingItemAuditPacketUp$ packet $W=(K,C,R,L,T,F,G,Q,H,A,P,N)$ factors through the displayed theory-closure row $T$, formal-status row $F$, gap-report row $G$, permitted-claim row $Q$, and componentwise transport, replay, provenance, and local naming rows $H,A,P,N$ before publishing the claim. The route keeps the paper-side closure axis and the machine-facing verification axis independent: it does not read $T$ as Lean verification, does not read $F$ as paper closure, and does not erase the exposed gap row $G$ when presenting $Q$.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:writing-item-audit-packet-namecert-obligations}. They require theory-closure readback through $T$, formal-status readback through $F$, gap exposure through $G$, permitted-claim readback through $Q$, and structural preservation through $H,A,P,N$.
+
+Apply the closure-bound theorem \autoref{thm:writing-item-audit-packet-closure-bound}. It prevents a consumer from strengthening the claim beyond the conjunction of the displayed closure, formal-status, gap, and permitted-claim rows.
+
+Apply the gap-exposure theorem \autoref{thm:writing-item-audit-packet-gap-exposure}. A consumer cannot reach the permitted claim text while suppressing an open gap, refused gap, or cannot-claim boundary carried by $G$.
+
+Finally use the independence of the two status axes from \autoref{thm:philosophy-theory-formal-independent}. The row $T$ reports paper closure scope and the row $F$ reports machine-facing status; neither row can discharge the other. The structural rows $H,A,P,N$ replay exactly that separated packet, so the published claim remains scoped by both axes and by the exposed gap row.
+\end{proof}
+
 \falsifiablePrediction{A consumer whose claim text exceeds its displayed closure-status row refutes the $\WritingItemAuditPacketUp$ packet.}
 
 \independenceWitness{registrylayer, objectknowledgecertificate, registryconsistencyaudit, machinereadableauditinterface: none is bijective to $\WritingItemAuditPacketUp$ because the registry layer lacks per-item permitted claim text, the object-knowledge certificate lacks the writing-kind and formal-status rows, the registry-consistency audit lacks the item-kind and permitted-claim rows, and the machine-readable audit interface lacks the carrier-classifier-ledger writing discipline as one finite NameCert surface.}
