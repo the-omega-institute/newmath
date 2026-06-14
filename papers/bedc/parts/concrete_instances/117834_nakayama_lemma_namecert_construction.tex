@@ -1,0 +1,144 @@
+\chapter{A Concrete Naming Certificate for $\NakayamaLemmaUp$}
+\label{ch:concrete-instances-nakayama-lemma-namecert}
+\origin{human}
+
+Following Atiyah--Macdonald and Matsumura, the $\NakayamaLemmaUp$ packet names
+the finite commutative-algebra handoff by which an ideal action trapped in the
+Jacobson-radical direction forces a finitely generated module witness to
+collapse. In BEDC form it sits after the $\NameCert_{\ModuleUp}$ carrier of
+\autoref{ch:concrete-instances-module-namecert}, the $\NameCert_{\IdealUp}$
+carrier of \autoref{ch:concrete-instances-ideal-namecert}, the ring and
+commutative-ring rows of \autoref{ch:concrete-instances-ring-namecert} and
+\autoref{ch:concrete-instances-commring-namecert}, and the finite-generation
+surface of $\NameCert_{\NoetherianModuleUp}$
+(\autoref{ch:concrete-instances-noetherian-module-namecert}). The certificate
+records only the displayed algebraic rows needed for the lemma-shaped
+non-escape argument; it does not import quotient-module equality, host module
+equality, full local algebra, or a standard bridge.
+
+\section{Carrier}
+\label{sec:nakayama-lemma-carrier}
+
+\begin{definition}[Nakayama lemma carrier]
+\label{def:nakayama-lemma-carrier}
+A $\NakayamaLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{Nak}(M,R,C,I,F,J,A,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$, the $\ModuleUp$ source surface for the module whose generators are
+being inspected;
+\item $R$, the ambient $\RingUp$ scalar row read by the module action;
+\item $C$, the $\CommRingUp$ specialization used by the ideal-action rows;
+\item $I$, the $\IdealUp$ source surface acting on $M$;
+\item $F$, a finite-generator ledger for the displayed module endpoints,
+read through the $\NoetherianModuleUp$ finite-generation surface;
+\item $J$, a Jacobson-radical containment row for the ideal action;
+\item $A$, the action-collapse row recording that the ideal action carries
+each displayed generator back into the generated submodule boundary;
+\item $H$, componentwise $\hsame$ transport for the module, scalar, ideal,
+finite-generation, radical-containment, and action-collapse rows;
+\item $Q$, displayed $\Cont$ replay for the finite generator and ideal-action
+checks;
+\item $P$, $\mathsf{Pkg}$ provenance for the module, ring, commutative-ring,
+ideal, finite-generation, radical, and action rows;
+\item $N$, the local $\NameCert_{\NakayamaLemmaUp}$ row binding these rows as
+one certificate.
+\end{enumerate}
+The packet contains no quotient-module equality, no host equality of module
+carriers, no local-ring structure theorem, and no chosen maximal ideal.
+\end{definition}
+
+\begin{theorem}[Nakayama NameCert obligations]
+\label{thm:nakayama-lemma-namecert-obligations}
+For an accepted $\NakayamaLemmaUp$ carrier
+$\mathsf{Nak}(M,R,C,I,F,J,A,H,Q,P,N)$, the local
+$\NameCert_{\NakayamaLemmaUp}$ surface consists exactly of carrier admission
+for the displayed rows, source compatibility with $\ModuleUp$, $\RingUp$,
+$\CommRingUp$, $\IdealUp$, and $\NoetherianModuleUp$, finite-generation access
+through $F$, radical-containment access through $J$, ideal-action collapse
+through $A$, componentwise classifier transport through $H$, displayed
+continuation replay through $Q$, provenance non-escape through $P$, and local
+naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:nakayama-lemma-carrier}. The projection
+exposes exactly the module row, scalar ring row, commutative specialization,
+ideal row, finite-generation ledger, radical-containment row, action-collapse
+row, transport, replay, provenance, and local name.
+
+The source compatibility obligations are read componentwise from the first
+four rows, with $F$ tied to the $\NoetherianModuleUp$ finite-generation surface.
+The radical and action rows are separate finite ledgers, so the certificate
+does not need a host quotient module or a selected maximal ideal to state the
+handoff.
+
+Transport and replay preserve only these rows. Thus $H$, $Q$, $P$, and $N$
+record movement, finite observation, provenance, and local naming without
+exporting quotient equality, host module equality, or full local algebra.
+\end{proof}
+
+\begin{theorem}[Nakayama finite-generation handoff]
+\label{thm:nakayama-lemma-finite-generation-handoff}
+Every accepted $\NakayamaLemmaUp$ carrier exports finite-generation evidence
+only through the displayed ledger $F$ over the $\ModuleUp$ row $M$ and the
+$\NoetherianModuleUp$ finite-generation surface. Downstream algebra consumers
+may reuse this evidence together with $R,C,I,H,Q,P,N$, but they cannot read a
+chosen basis, a quotient-module representative, or a host equality of modules
+from the packet.
+\end{theorem}
+\begin{proof}
+Read $F$ from the carrier. It is attached to the module row $M$ and to the
+finite-generation surface already provided by $\NoetherianModuleUp$, so it is
+the only generator ledger available to a consumer.
+
+The scalar and ideal rows $R,C,I$ give the algebraic context in which the
+generators are inspected. They do not choose a basis or identify quotient
+representatives; they only supply the displayed ring, commutative-ring, and
+ideal surfaces.
+
+Componentwise transport through $H$, replay through $Q$, provenance through
+$P$, and local naming through $N$ keep the finite-generation row attached to
+the same packet. Hence the handoff is finite-generation evidence, not host
+module equality or quotient-module data.
+\end{proof}
+
+\begin{theorem}[Nakayama nilpotent radical non-escape]
+\label{thm:nakayama-lemma-nilpotent-radical-nonescape}
+In an accepted $\NakayamaLemmaUp$ carrier, radical-action information is
+confined to the displayed rows $J$ and $A$: $J$ records the
+Jacobson-radical containment surface for the ideal row $I$, and $A$ records
+the finite action-collapse check over the module row $M$. Any nilpotent or
+radical-action read transported by $H$ and replayed by $Q$ remains inside the
+same $M,R,C,I,F,J,A,H,Q,P,N$ packet and cannot escape into a local-algebra
+oracle, a maximal-ideal selector, quotient-module equality, or host module
+equality.
+\end{theorem}
+\begin{proof}
+Project the radical-facing part of the packet. The row $J$ is the only
+radical-containment source, and $A$ is the only row that connects the ideal
+action back to the finite module generator boundary.
+
+The surrounding algebraic rows keep this read finite. The $\ModuleUp$,
+$\RingUp$, $\CommRingUp$, and $\IdealUp$ sources specify the carrier and
+action surfaces, while $F$ supplies the finite-generation ledger needed by the
+collapse argument.
+
+Transport and replay do not add structure. The rows $H$ and $Q$ move and
+replay the displayed radical and action ledgers componentwise, with $P$ and
+$N$ recording provenance and local naming. Therefore every radical-action read
+stays inside the named packet and exports none of the excluded host algebra.
+\end{proof}
+
+\closureat{NakayamaLemmaUp}{seedStr}
+
+\begin{closurestatus}{\NakayamaLemmaUp}
+  \constructivestory{A $\NakayamaLemmaUp$ packet is generated from ModuleUp, RingUp, CommRingUp, IdealUp, NoetherianModuleUp finite-generation, radical-containment, action-collapse, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nakayama-lemma-carrier}, \autoref{thm:nakayama-lemma-namecert-obligations}, \autoref{thm:nakayama-lemma-finite-generation-handoff}, and \autoref{thm:nakayama-lemma-nilpotent-radical-nonescape} seed the finite Nakayama handoff over ModuleUp, IdealUp, RingUp, CommRingUp, NoetherianModuleUp, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient module equality, host module equality, full local algebra, maximal-ideal choice, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-generation handoff, radical-containment access, action-collapse access, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.NakayamaLemmaUp.}
+\end{closurestatus}
