@@ -3576,12 +3576,14 @@ import BEDC.Derived.CriticalLineWitnessUp.RHConsumerSourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHInterfaceCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RHNonclassificationBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalConsumerNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RHRefusalExportBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalInterface
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedgerClosure
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedgerRoute
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalPhaseBoundary
+import BEDC.Derived.CriticalLineWitnessUp.RHRefusalPublicNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalSourceExactness
 import BEDC.Derived.CriticalLineWitnessUp.RHSourceLedgerClosure
@@ -5032,6 +5034,7 @@ import BEDC.Derived.FilterConvergenceUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
 import BEDC.Derived.FilterLimitCriterionUp
 import BEDC.Derived.FilterRefinementUp.CauchyBaseDependency
+import BEDC.Derived.FilterRefinementUp.CauchyBasisConsumer
 import BEDC.Derived.FilterRefinementUp.CauchyPreservation
 import BEDC.Derived.FilterRefinementUp.CompletionRoute
 import BEDC.Derived.FilterRefinementUp.TasteGate
@@ -5961,6 +5964,7 @@ import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
 import BEDC.Derived.IsometricEmbeddingUp.TasteGate
 import BEDC.Derived.IwasawaUp
+import BEDC.Derived.JacobiIterationUp.TasteGate
 import BEDC.Derived.JensenInequalityUp.TasteGate
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.JordanContentUp.TasteGate
