@@ -276,6 +276,7 @@ import BEDC.Derived.ArchimedeanRealUp.BudgetedCauchyBound
 import BEDC.Derived.ArchimedeanRealUp.CauchyThresholdForwardRoute
 import BEDC.Derived.ArchimedeanRealUp.PublicOrderConsumer
 import BEDC.Derived.ArchimedeanRealUp.TasteGate
+import BEDC.Derived.ArensFortSpaceUp
 import BEDC.Derived.ArgumentPrincipleUp.TasteGate
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFiniteEquicontinuousUp.TasteGate
@@ -3432,6 +3433,7 @@ import BEDC.Derived.CriticalLineWitnessUp.CriticalStripLedger
 import BEDC.Derived.CriticalLineWitnessUp.CriticalStripOrigin
 import BEDC.Derived.CriticalLineWitnessUp.CriticalStripSourceSurface
 import BEDC.Derived.CriticalLineWitnessUp.CrossLatticeRoute
+import BEDC.Derived.CriticalLineWitnessUp.DependencyLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.DepthComparisonScope
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.DepthLock
@@ -3534,6 +3536,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RationalComparisonLedgerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RationalHeightWindow
 import BEDC.Derived.CriticalLineWitnessUp.RealPartModulusStability
 import BEDC.Derived.CriticalLineWitnessUp.RealWindowNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RefusalCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RegSeqRatRealModulusHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RhBoundarySourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
@@ -3570,6 +3573,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadback
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadbackUnblockPackage
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusSeparation
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusSourceExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusWindowTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertConsumerTotality
