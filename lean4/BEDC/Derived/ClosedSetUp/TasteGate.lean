@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ClosedSetUp
+namespace BEDC.Derived.ClosedSetUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def closedSetDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (closedSetDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (closedSetDecodeBHist tail)
 
-private theorem ClosedSetTasteGate_single_carrier_alignment_decode :
+private theorem closedSetDecode_encode_bhist :
     ∀ h : BHist, closedSetDecodeBHist (closedSetEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,34 +38,33 @@ def closedSetFields : ClosedSetUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | ClosedSetUp.mk T M S F O B H C P N => [T, M, S, F, O, B, H, C, P, N]
 
-def closedSetToEventFlow : ClosedSetUp → EventFlow
+def closedSetToEventFlow : ClosedSetUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map closedSetEncodeBHist (closedSetFields x)
+  fun x => (closedSetFields x).map closedSetEncodeBHist
 
-private def closedSetEventAt : Nat → EventFlow → RawEvent
+private def closedSetEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => closedSetEventAt index rest
+  | Nat.succ index, _event :: rest => closedSetEventAtDefault index rest
 
-def closedSetFromEventFlow : EventFlow → Option ClosedSetUp
+def closedSetFromEventFlow (ef : EventFlow) : Option ClosedSetUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (ClosedSetUp.mk
-          (closedSetDecodeBHist (closedSetEventAt 0 ef))
-          (closedSetDecodeBHist (closedSetEventAt 1 ef))
-          (closedSetDecodeBHist (closedSetEventAt 2 ef))
-          (closedSetDecodeBHist (closedSetEventAt 3 ef))
-          (closedSetDecodeBHist (closedSetEventAt 4 ef))
-          (closedSetDecodeBHist (closedSetEventAt 5 ef))
-          (closedSetDecodeBHist (closedSetEventAt 6 ef))
-          (closedSetDecodeBHist (closedSetEventAt 7 ef))
-          (closedSetDecodeBHist (closedSetEventAt 8 ef))
-          (closedSetDecodeBHist (closedSetEventAt 9 ef)))
+  some
+    (ClosedSetUp.mk
+      (closedSetDecodeBHist (closedSetEventAtDefault 0 ef))
+      (closedSetDecodeBHist (closedSetEventAtDefault 1 ef))
+      (closedSetDecodeBHist (closedSetEventAtDefault 2 ef))
+      (closedSetDecodeBHist (closedSetEventAtDefault 3 ef))
+      (closedSetDecodeBHist (closedSetEventAtDefault 4 ef))
+      (closedSetDecodeBHist (closedSetEventAtDefault 5 ef))
+      (closedSetDecodeBHist (closedSetEventAtDefault 6 ef))
+      (closedSetDecodeBHist (closedSetEventAtDefault 7 ef))
+      (closedSetDecodeBHist (closedSetEventAtDefault 8 ef))
+      (closedSetDecodeBHist (closedSetEventAtDefault 9 ef)))
 
-private theorem ClosedSetTasteGate_single_carrier_alignment_round_trip :
+private theorem closedSet_round_trip :
     ∀ x : ClosedSetUp, closedSetFromEventFlow (closedSetToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -85,18 +84,13 @@ private theorem ClosedSetTasteGate_single_carrier_alignment_round_trip :
             (closedSetDecodeBHist (closedSetEncodeBHist P))
             (closedSetDecodeBHist (closedSetEncodeBHist N))) =
           some (ClosedSetUp.mk T M S F O B H C P N)
-      rw [ClosedSetTasteGate_single_carrier_alignment_decode T,
-        ClosedSetTasteGate_single_carrier_alignment_decode M,
-        ClosedSetTasteGate_single_carrier_alignment_decode S,
-        ClosedSetTasteGate_single_carrier_alignment_decode F,
-        ClosedSetTasteGate_single_carrier_alignment_decode O,
-        ClosedSetTasteGate_single_carrier_alignment_decode B,
-        ClosedSetTasteGate_single_carrier_alignment_decode H,
-        ClosedSetTasteGate_single_carrier_alignment_decode C,
-        ClosedSetTasteGate_single_carrier_alignment_decode P,
-        ClosedSetTasteGate_single_carrier_alignment_decode N]
+      rw [closedSetDecode_encode_bhist T, closedSetDecode_encode_bhist M,
+        closedSetDecode_encode_bhist S, closedSetDecode_encode_bhist F,
+        closedSetDecode_encode_bhist O, closedSetDecode_encode_bhist B,
+        closedSetDecode_encode_bhist H, closedSetDecode_encode_bhist C,
+        closedSetDecode_encode_bhist P, closedSetDecode_encode_bhist N]
 
-private theorem ClosedSetTasteGate_single_carrier_alignment_injective {x y : ClosedSetUp} :
+private theorem closedSetToEventFlow_injective {x y : ClosedSetUp} :
     closedSetToEventFlow x = closedSetToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -105,8 +99,18 @@ private theorem ClosedSetTasteGate_single_carrier_alignment_injective {x y : Clo
         closedSetFromEventFlow (closedSetToEventFlow y) :=
     congrArg closedSetFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (ClosedSetTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (ClosedSetTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (closedSet_round_trip x).symm (Eq.trans hread (closedSet_round_trip y)))
+
+private theorem closedSet_fields_faithful :
+    ∀ x y : ClosedSetUp, closedSetFields x = closedSetFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk T1 M1 S1 F1 O1 B1 H1 C1 P1 N1 =>
+      cases y with
+      | mk T2 M2 S2 F2 O2 B2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance closedSetBHistCarrier : BHistCarrier ClosedSetUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -118,23 +122,27 @@ instance closedSetChapterTasteGate : ChapterTasteGate ClosedSetUp where
   round_trip := by
     intro x
     change closedSetFromEventFlow (closedSetToEventFlow x) = some x
-    exact ClosedSetTasteGate_single_carrier_alignment_round_trip x
+    exact closedSet_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (ClosedSetTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (closedSetToEventFlow_injective heq)
+
+instance closedSetFieldFaithful : FieldFaithful ClosedSetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := closedSetFields
+  field_faithful := closedSet_fields_faithful
+
+def taste_gate : ChapterTasteGate ClosedSetUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  closedSetChapterTasteGate
 
 theorem ClosedSetTasteGate_single_carrier_alignment :
     (∀ h : BHist, closedSetDecodeBHist (closedSetEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier ClosedSetUp) ∧
-        Nonempty (ChapterTasteGate ClosedSetUp) ∧
-          closedSetEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact ClosedSetTasteGate_single_carrier_alignment_decode
-  · constructor
-    · exact ⟨closedSetBHistCarrier⟩
-    · constructor
-      · exact ⟨closedSetChapterTasteGate⟩
-      · rfl
+      Nonempty (BHistCarrier ClosedSetUp) ∧ Nonempty (ChapterTasteGate ClosedSetUp) ∧
+        closedSetEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨closedSetDecode_encode_bhist, ⟨closedSetBHistCarrier⟩,
+      ⟨closedSetChapterTasteGate⟩, rfl⟩
 
-end BEDC.Derived.ClosedSetUp
+end BEDC.Derived.ClosedSetUp.TasteGate

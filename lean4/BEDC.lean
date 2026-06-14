@@ -3528,6 +3528,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowExactness
 import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowTransport
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationPackage
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationSurface
+import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationTriad
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRootUnblockConsumerScope
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ObligationClosurePackage
@@ -3556,6 +3557,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryDownstreamLock
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonclaim
+import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryRefusalExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryStdbridgeNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundary
@@ -3585,6 +3587,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RhConsumerUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetSelectorTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootCarrierClassifierBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootCarrierProjectionRows
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierBudgetLock
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierReadiness
@@ -4402,6 +4405,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.RootWindowCoverage
 import BEDC.Derived.DyadicIntervalCoverUp.RootWindowObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RouteCoverStability
 import BEDC.Derived.DyadicIntervalCoverUp.ScopedFiniteCoverChain
+import BEDC.Derived.DyadicIntervalCoverUp.StandardBridgePremise
 import BEDC.Derived.DyadicIntervalCoverUp.SubcoverExclusionObligation
 import BEDC.Derived.DyadicIntervalCoverUp.SubcoverHandoffObligation
 import BEDC.Derived.DyadicIntervalCoverUp.TailPullbackStability
@@ -4412,6 +4416,7 @@ import BEDC.Derived.DyadicIntervalDiameterUp.TasteGate
 import BEDC.Derived.DyadicIntervalEnclosureUp
 import BEDC.Derived.DyadicIntervalNestingUp.TasteGate
 import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
+import BEDC.Derived.DyadicIntervalTreeUp
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
@@ -6359,6 +6364,7 @@ import BEDC.Derived.LocatedSequenceSupremumUp.TasteGate
 import BEDC.Derived.LocatedSequenceUp.TasteGate
 import BEDC.Derived.LocatedSetUp
 import BEDC.Derived.LocatedSetUp.TasteGate
+import BEDC.Derived.LocatedSpaceUp.NameCertObligations
 import BEDC.Derived.LocatedSpaceUp.TasteGate
 import BEDC.Derived.LocatedSubsetUp.TasteGate
 import BEDC.Derived.LocatedSupremumModulusUp
@@ -6872,6 +6878,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondLocalConfluenceFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceDeterminacy
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceFaceRetention
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourcePackageBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondTypedL10Budget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondVisibleRoute
@@ -9926,6 +9933,7 @@ import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TanneryTheoremUp
 import BEDC.Derived.TanneryTheoremUp.NameCertObligations
 import BEDC.Derived.TanneryTheoremUp.TasteGate
+import BEDC.Derived.TaoMetastableCauchyUp.NameCertObligations
 import BEDC.Derived.TaoMetastableCauchyUp.TasteGate
 import BEDC.Derived.TarskiTruthRefusalUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
