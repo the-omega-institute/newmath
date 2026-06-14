@@ -80,3 +80,17 @@ Now apply the discharge route and the target-scope theorem. The discharge route 
 
 Finally replay the displayed $\Cont$ route for $F'$. Since the replay reads exactly the transported recognition and discharge rows, the candidate-mediated boundary is preserved, and none of the excluded strong-normalization, confluence, subject-reduction, quotient-equality, or hidden-normalizer claims is added.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier residual-premise retention]
+\label{thm:metacic-normalization-frontier-residual-premise-retention}
+Let $F=(C,K,E,N,S,H,R,P,L)$ be an accepted $\MetaCICNormalizationFrontierUp$ packet. Any candidate-mediated discharge that preserves the ground-compiler route must retain the obstruction row $S$ as a visible residual premise until a separate subject-reduction row is supplied. The route may export candidate evidence, endpoint evidence, ground-compiler recognition, replay, provenance, and local ledger data, but it may not export hidden normalization, full strong normalization, confluence, erased subject reduction, quotient term equality, or a hidden normalizer.
+\end{theorem}
+\begin{proof}
+Begin with the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route}. It requires a consumer to read the carrier surface, candidate-evidence route, and root normal-form boundary before any normalization boundary is exported.
+
+Next apply the TasteGate route of \autoref{thm:metacic-normalization-frontier-tastegate-route}. That route keeps $C,K,E,N,S,H,R,P,L$ visible together, so the obstruction row $S$ cannot be silently erased by a promotion that still claims to use the displayed frontier packet.
+
+Use the discharge route of \autoref{thm:metacic-normalization-frontier-discharge-route}. It joins candidate evidence, endpoint evidence, obstruction accounting, and ground-compiler rows in one packet, and it excludes hidden normalizers, host strong-normalization theorems, erased subject-reduction transport, and quotient-level term equality.
+
+Finally apply candidate-discharge stability from \autoref{thm:metacic-normalization-frontier-candidate-discharge-stability}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve exactly the same boundary, so the transported discharge still retains $S$ until an independent subject-reduction row is displayed.
+\end{proof}
