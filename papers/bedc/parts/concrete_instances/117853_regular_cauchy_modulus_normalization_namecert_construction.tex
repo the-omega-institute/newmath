@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyModulusNormalizationUp$}
+\label{ch:concrete-instances-regular-cauchy-modulus-normalization-namecert}
+\origin{human}
+
+Following Bishop--Bridges regular Cauchy real construction, the $\RegularCauchyModulusNormalizationUp$ packet records the finite BEDC rows needed to replace a displayed Cauchy modulus by a normalized dyadic schedule. It sits beside the stream naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence packet of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, and the diagonal selector of \autoref{ch:concrete-instances-cauchy-diagonal-selection-namecert}. The packet names only the finite normalization route from a stream-indexed modulus to a regular dyadic handoff; it does not assert located order, completion uniqueness, countable choice, or a global real-equality theorem.
+
+\begin{definition}[Regular Cauchy modulus-normalization carrier]
+\label{def:regular-cauchy-modulus-normalization-carrier}
+A $\RegularCauchyModulusNormalizationUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,Q,D,R,\Delta,A,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row. It supplies the stream-indexed name whose successive entries are allowed to be queried by the normalization route.
+\item $Q$ is the $\RegSeqRatUp$ row. It stores the regular rational sequence read that receives the normalized modulus schedule.
+\item $D$ is the $\DyadicRatCoreUp$ row. It supplies dyadic radii, dyadic comparison rows, and denominator-depth data used by the normalized schedule.
+\item $R$ is the $\RealUp$ seal. It records only the scalar real-read interface reached after the regular rational sequence row has accepted the normalized schedule.
+\item $\Delta$ is the $\CauchyDiagonalSelectionUp$ row. It records the finite diagonal read that chooses a common index for the stream name, dyadic depth, and regular rational row.
+\item $A$ is the admission ledger. It records the original Cauchy modulus row, the normalized dyadic modulus row, and the finite proof that the normalized row is at least as demanding as the original row at every displayed depth.
+\item $X$ is the normalization classifier. It distinguishes stream-name reads, regular rational reads, dyadic-depth reads, real-seal reads, diagonal-selection reads, and admission-ledger reads, but has no coordinate for global choice or completed real equality.
+\item $H$ stores componentwise $\hsame$ transport for $S,Q,D,R,\Delta,A,X$ and the structural rows.
+\item $C$ stores displayed $\Cont$ replay from a modulus-normalization request through the stream name, dyadic-depth row, diagonal selector, regular rational target, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyModulusNormalizationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyDiagonalSelectionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyModulusNormalizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,Q,D,R,\Delta,A,X,H,C,P,N$. It does not contain a located-order decision, a completed-real quotient equality, a countable-choice principle, or an unrestricted completeness theorem.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy modulus-normalization NameCert obligations]
+\label{thm:regular-cauchy-modulus-normalization-namecert-obligations}
+For every accepted $\RegularCauchyModulusNormalizationUp$ carrier
+$$
+M=(S,Q,D,R,\Delta,A,X,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyModulusNormalizationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the stream-name, regular rational sequence, dyadic rational core, real seal, diagonal-selection, admission-ledger, classifier, transport, replay, provenance, and local naming rows;
+\item modulus dominance, requiring the normalized dyadic row in $A$ to dominate the original Cauchy modulus row at each displayed depth before $Q$ may read the schedule;
+\item diagonal compatibility, requiring $\Delta$ to expose a common finite index for the stream row $S$, dyadic-depth row $D$, and regular rational target $Q$;
+\item scalar exactness, requiring every real-read budget to pass through the displayed $\RealUp$ seal $R$ after the normalized schedule has been accepted by $Q$;
+\item structural stability under $X,H,C,P,N$, which classifies, transports, replays, sources, and names only the displayed finite route.
+\end{enumerate}
+No $\RegularCauchyModulusNormalizationUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-modulus-normalization-carrier}. The analytic rows visible to the classifier are exactly $S,Q,D,R,\Delta,A$, and the structural rows are $X,H,C,P,N$.
+
+The modulus-dominance obligation is attached to $A$. A regular rational consumer may read $Q$ only after the normalized dyadic row has been shown to dominate the displayed Cauchy modulus row at the relevant depth.
+
+The diagonal obligation then passes through $\Delta$. This row exposes the common finite index needed by the stream name $S$, dyadic-depth row $D$, and regular rational target $Q$.
+
+Finally scalar reads reach $R$ only after the normalized schedule has passed through $Q$. Since $X,H,C,P,N$ classify, transport, replay, source, and name the same row order, and since the carrier has no coordinate for located order, quotient equality, countable choice, or unrestricted completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus-normalization handoff]
+\label{thm:regular-cauchy-modulus-normalization-handoff}
+Every downstream regular-sequence or real-construction consumer citing an accepted $\RegularCauchyModulusNormalizationUp$ carrier receives only the finite handoff
+$$
+\StreamNameUp,\DyadicRatCoreUp,\CauchyDiagonalSelectionUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+followed by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the same packet. The handoff is a finite modulus-normalization certificate; it is not located order, completed-real equality, countable choice, or a standalone completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted normalization request. The request first reads the stream-name row $S$ and dyadic-depth row $D$, so it inherits only the displayed stream entries and dyadic budget data.
+
+Next it reads the diagonal selector $\Delta$ and admission ledger $A$. These rows fix a common finite index and require dominance of the original Cauchy modulus by the normalized dyadic schedule before the regular rational target can be consulted.
+
+The remaining analytic read passes through $Q$ and then $R$. Thus the regular rational sequence and real seal receive only the normalized finite schedule named by the same packet.
+
+The structural rows $X,H,C,P,N$ only classify, transport, replay, source, and name this route. No carrier coordinate remains from which located order, completed-real equality, countable choice, or unrestricted completeness could be read.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus-normalization nonescape boundary]
+\label{thm:regular-cauchy-modulus-normalization-nonescape-boundary}
+Every accepted $\RegularCauchyModulusNormalizationUp$ consumer that reaches the regular rational target or real seal must first display the stream-name row $S$, dyadic-depth row $D$, diagonal selector $\Delta$, and admission ledger $A$. Consequently the consumer cannot replace the finite normalization route by a detached modulus choice, a located-order decision, a completed-real quotient equality, countable choice, or an unrestricted completeness theorem.
+\end{theorem}
+\begin{proof}
+Project an accepted consumer of the carrier. The regular rational row $Q$ and real seal $R$ occur downstream of $S,D,\Delta,A$, so neither read can be reached before the stream, dyadic-depth, diagonal, and admission rows are fixed.
+
+The classifier row $X$ records this row order as part of the accepted packet. Componentwise transport $H$ and replay $C$ preserve that order, while $P$ and $N$ source and name the same route.
+
+Any consumer omitting $S,D,\Delta$, or $A$ would be reading a coordinate absent from the displayed carrier. Hence the regular rational and real reads cannot escape the finite modulus-normalization route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyModulusNormalizationUp$ normalization read factors through displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyDiagonalSelectionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any downstream consumer receives a regular rational or real read.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchy-diagonal-selection: $\RegularCauchyModulusNormalizationUp$ is not bijective to any listed sibling because it jointly carries stream-indexed modulus data, dyadic-depth data, diagonal index selection, regular rational target data, real-seal readback, classifier, transport, replay, provenance, and local naming in one finite normalization-route carrier.}
+
+\closureat{RegularCauchyModulusNormalizationUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyModulusNormalizationUp}
+  \constructivestory{A $\RegularCauchyModulusNormalizationUp$ packet is generated from a StreamName row, RegSeqRat row, DyadicRatCore row, Real seal, CauchyDiagonalSelection row, admission ledger, normalization classifier, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-normalization-carrier}, \autoref{thm:regular-cauchy-modulus-normalization-namecert-obligations}, \autoref{thm:regular-cauchy-modulus-normalization-handoff}, and \autoref{thm:regular-cauchy-modulus-normalization-nonescape-boundary} seed the finite modulus-normalization surface over StreamName, RegSeqRat, DyadicRatCore, Real, and CauchyDiagonalSelection neighbours.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close located order, completed-real quotient equality, countable choice, unrestricted completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus dominance, diagonal compatibility, scalar exactness, classifier nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyModulusNormalizationUp.}
+\end{closurestatus}
