@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BalancedTruncationUp$}
+\label{ch:concrete-instances-balanced-truncation-namecert}
+\origin{human}
+
+Following Moore's balanced realization construction and Antoulas's reduced-order modeling treatment, the $\BalancedTruncationUp$ packet records the finite certificate surface that turns reachability and observability energy rows into a reduced state-space model with an explicit error ledger. It sits after the state-space presentation of \autoref{ch:concrete-instances-statespacemodel-namecert}, the Gramian surfaces of \autoref{ch:concrete-instances-reachabilitygramian-namecert} and \autoref{ch:concrete-instances-observability-gramian-namecert}, the Hankel window of \autoref{ch:concrete-instances-hankel-operator-namecert}, and the Riccati/control consumers of \autoref{ch:concrete-instances-riccati-namecert}, \autoref{ch:concrete-instances-lqr-namecert}, and \autoref{ch:concrete-instances-modelpredictivecontrol-namecert}.
+
+\begin{definition}[Balanced truncation carrier]
+\label{def:balanced-truncation-carrier}
+A $\BalancedTruncationUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,G_r,G_o,H,k,E,T,R,Q,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite state-space row read through $\StateSpaceModelUp$, including the state, input, output, and transition matrices used by the reduction request.
+\item $G_r$ is the $\ReachabilityGramianUp$ row and $G_o$ is the $\ObservabilityGramianUp$ row, both attached to the same displayed state-space row $S$.
+\item $H$ is the $\HankelOperatorUp$ window comparing the reachable and observable energy coordinates visible in $G_r$ and $G_o$.
+\item $k$ is the truncation-order row, bounded by the displayed state dimension and recorded as finite BEDC data rather than as an ambient spectral projection.
+\item $E$ is the $\RealUp$ error-bound row for the discarded Hankel window.
+\item $T$ is the reduced state-space row obtained by reading $S,G_r,G_o,H,k,E$ and exposing only the retained coordinates.
+\item $R$ is the $\RiccatiUp$ dependency row available to control consumers that compare reduced Riccati data with the source model.
+\item $Q$ records componentwise $\hsame$ transport for the state-space, Gramian, Hankel, order, error, reduced-model, Riccati, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every reduction request through $S,G_r,G_o,H,k,E,T,R,Q,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BalancedTruncationUp$, $\StateSpaceModelUp$, $\ReachabilityGramianUp$, $\ObservabilityGramianUp$, $\HankelOperatorUp$, $\RiccatiUp$, $\LQRUp$, $\ModelPredictiveControlUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BalancedTruncationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,G_r,G_o,H,k,E,T,R,Q,C,P,N$. It has no coordinate for an unlogged infinite-dimensional Hankel operator, hidden singular-vector basis, host norm equality, external optimality theorem, selected controller, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Balanced truncation NameCert obligations]
+\label{thm:balanced-truncation-namecert-obligations}
+For every accepted $\BalancedTruncationUp$ carrier $B=(S,G_r,G_o,H,k,E,T,R,Q,C,P,N)$, the local $\NameCert_{\BalancedTruncationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item common state-space admission, requiring $G_r$ and $G_o$ to be read as Gramian rows over the same displayed $\StateSpaceModelUp$ row $S$;
+\item Hankel-window exposure, requiring $H$ to display the finite comparison window between reachable and observable energy rows before any truncation order is consumed;
+\item order and error binding, requiring $k$ and the $\RealUp$ error-bound row $E$ to be visible before the reduced row $T$ is exported;
+\item downstream control handoff, requiring Riccati, LQR, and model-predictive-control consumers to read only the displayed reduced row and its source rows;
+\item ledger non-escape, requiring $Q,C,P,N$ to transport, replay, source, and name only the displayed packet, with no hidden singular-vector basis, host norm equality, detached optimality theorem, selected controller, or ambient completeness coordinate.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:balanced-truncation-carrier}. The reachability and observability rows are both tied to the same state-space row $S$, so the energy comparison cannot be read from two unrelated models.
+
+The Hankel row $H$ is downstream of $G_r$ and $G_o$. Thus the truncation order $k$ and the error-bound row $E$ are attached to a displayed finite Hankel window rather than to an unlogged operator or hidden basis.
+
+The reduced row $T$ is exported only after $S,G_r,G_o,H,k,E$ are visible. Control consumers then receive a finite handoff through $R$ and the provenance rows, not an external controller or an ambient optimality principle.
+
+Finally, $Q,C,P,N$ preserve and name the same coordinates. Since the refused objects do not occur in the carrier, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Balanced truncation Hankel-Riccati handoff]
+\label{thm:balanced-truncation-hankel-riccati-handoff}
+Every downstream $\RiccatiUp$, $\LQRUp$, or $\ModelPredictiveControlUp$ consumer of an accepted $\BalancedTruncationUp$ packet must pass through the displayed $\HankelOperatorUp$ window $H$, truncation-order row $k$, $\RealUp$ error-bound row $E$, and reduced state-space row $T$ before reading any Riccati or finite-horizon control data. The handoff exports no hidden singular-vector basis, detached Hankel norm equality, selected controller, infinite-horizon optimality theorem, or ambient state-space completion.
+\end{theorem}
+\begin{proof}
+Project the rows $S,G_r,G_o,H,k,E,T,R,Q,C,P,N$ from \autoref{def:balanced-truncation-carrier}. The Riccati dependency row $R$ appears only after the Hankel window, truncation order, error-bound row, and reduced model have been displayed.
+
+Use the obligation surface of \autoref{thm:balanced-truncation-namecert-obligations}. Hankel-window exposure binds $H$ to the two Gramian rows, while order and error binding force $k,E,T$ to precede any exported reduced-control read.
+
+The downstream handoff clause then restricts Riccati, LQR, and model-predictive-control consumers to the displayed reduced row and its provenance. Transport and replay through $Q$ and $C$ keep the handoff inside the same finite packet.
+
+Because no hidden basis, detached norm equality, selected controller, infinite-horizon optimality theorem, or ambient completion coordinate is present in $B$, none can be exported by the handoff.
+\end{proof}
+
+\closureat{BalancedTruncationUp}{seedStr}
+
+\begin{closurestatus}{\BalancedTruncationUp}
+  \constructivestory{A $\BalancedTruncationUp$ packet is generated from a finite StateSpaceModelUp row, ReachabilityGramianUp and ObservabilityGramianUp rows over the same state-space source, a HankelOperatorUp comparison window, a truncation-order row, a RealUp error-bound row, a reduced state-space row, a RiccatiUp dependency row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:balanced-truncation-carrier}, \autoref{thm:balanced-truncation-namecert-obligations}, and \autoref{thm:balanced-truncation-hankel-riccati-handoff} seed the finite reduced-order control route through state-space, Gramian, Hankel, truncation-order, error-bound, Riccati, LQR, and model-predictive-control rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic balanced realization existence, singular-vector computation, host Hankel norm equality, optimal reduced-order control, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked common state-space admission, Hankel-window exposure, order and error binding, downstream control handoff, transport, replay, provenance, and local naming for BEDC.Derived.BalancedTruncationUp.}
+\end{closurestatus}
