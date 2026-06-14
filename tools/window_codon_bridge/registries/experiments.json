@@ -160,6 +160,14 @@
    "status": "open",
    "timeout_seconds": 600,
    "note": "REAL DATA (29 organisms, per-gene codon_counts). m_bio vs GC3 corr=0.97; GC-controlled residual null_p=0.43, non_gc_residual_signal=False -> m_bio is a GC3 PROXY, no independent fold signal -> coincidence."
+  },
+  {
+   "experiment_id": "claim20_neutral_trna_edge_coupling",
+   "claim_id": "bridge.genetic_code.neutral_trna_edge_coupling",
+   "script_path": "tools/window_codon_bridge/experiments/run_claim20_neutral_trna_edge_coupling.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "REAL DATA (29 organisms, 725 genes, 30799 gene-edge obs). Tests if Window6 edge score H modulates tRNA-usage synonymous-edge coupling (interaction beta_bridge). FIRST PASS with GLOBAL tRNA proxy -> T and T*H are constant per edge -> ABSORBED by edge fixed effect (strict_edge_fe norms=0) -> DEGENERATE, cannot estimate the interaction. beta_bridge~0.0017, CV fails (median dLL=-2.34, 0% folds), Null1 p=0.17, Null2 p=0.26 -> coincidence. NOTE: proper test REQUIRES per-species tRNA (GtRNAdb) so T_{s,e} varies across species and is not absorbed by edge FE."
   }
  ]
 }

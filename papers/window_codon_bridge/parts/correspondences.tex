@@ -43,6 +43,8 @@ Fold Structure 64 16 25 21 & The standard genetic code is an exact two-layer 64-
 Neutral Hamming Adjacency & The standard code's per-codon Hamming-1 neutral-neighbor histogram is exactly 0:2,1:22,2:8,3:28,4:4 (merged defect = 28/22/8/6), close to but not equal to the Window6 27/22/9/6; no natural untuned biological weighting bridges them. & \texttt{certified} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.fold_order_parameter_usage status=coincidence
 Fold Order Parameter Usage & The fold order parameter m\_bio = P\_bulk - P\_seam computed from real multi-organism codon usage carries an independent (non-GC) cross-organism signal. & \texttt{coincidence} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.neutral_trna_edge_coupling status=coincidence
+Neutral Trna Edge Coupling & The certified Window6 edge score modulates the tRNA supply-demand alignment on synonymous Hamming-1 edges (usage-edge-gradient \textasciitilde{} tRNA-edge-gradient x Window6-edge-score, interaction beta\_bridge), beyond GC/f3 and edge-permutation nulls, with held-out-species predictive lift. & \texttt{coincidence} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -318,3 +320,16 @@ carries an independent (non-GC) cross-organism signal.
 coincidence rather than an independent fold signal.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_codon\_usage\_projection\_cert.py
+
+\subsection{Neutral Trna Edge Coupling}\label{sec:bridge-neutral-trna-edge-coupling}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.neutral_trna_edge_coupling status=coincidence
+\textbf{Statement.} The certified Window6 edge score modulates the tRNA supply-demand alignment on synonymous Hamming-1
+edges (usage-edge-gradient \textasciitilde{} tRNA-edge-gradient x Window6-edge-score, interaction
+beta\_bridge), beyond GC/f3 and edge-permutation nulls, with held-out-species predictive lift.
+
+\textbf{Verdict.} \texttt{coincidence}.
+
+\textbf{Why.} Reduced global-tRNA-proxy interaction does not pass the pre-registered CV/null gates; strict edge-FE
+model is not identified with edge-only T.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_claim20\_neutral\_trna\_edge\_coupling.py
