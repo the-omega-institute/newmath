@@ -9,42 +9,50 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem CriticalLineWitnessCarrier_modulus_ledger_exhaustion
-    {Z S M R Q H C P N modulusRead downstreamRead : BHist} :
-    CriticalLineWitnessCarrier Z S M R Q H C P N ->
-      Cont M R modulusRead ->
-        Cont modulusRead Q downstreamRead ->
-          SemanticNameCert
-              (fun row : BHist => hsame row downstreamRead ∧ UnaryHistory row)
-              (fun row : BHist =>
-                hsame row M ∨ hsame row R ∨ hsame row Q ∨ hsame row H ∨
-                  hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row downstreamRead)
-              (fun row : BHist =>
-                UnaryHistory row ∧ Cont M R modulusRead ∧
-                  Cont modulusRead Q downstreamRead)
-              hsame ∧
-            UnaryHistory modulusRead ∧ UnaryHistory downstreamRead := by
+    {Z S M R Q H C P N zeroStripRead modulusRead ledgerRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N →
+      Cont Z S zeroStripRead →
+        Cont M R modulusRead →
+          Cont modulusRead H ledgerRead →
+            SemanticNameCert
+                (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row ledgerRead ∧ Cont Z S zeroStripRead ∧
+                    Cont M R modulusRead)
+                (fun row : BHist => hsame row ledgerRead ∧ Cont modulusRead H ledgerRead)
+                hsame ∧
+              UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+                UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory zeroStripRead ∧
+                  UnaryHistory modulusRead ∧ UnaryHistory ledgerRead ∧
+                    hsame H (append Z S) ∧ Cont Z S zeroStripRead ∧
+                      Cont M R Q ∧ Cont M R modulusRead ∧
+                        Cont modulusRead H ledgerRead ∧ Cont Q H C ∧
+                          Cont C P N := by
   -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
-  intro packet modulusRoute downstreamRoute
-  obtain ⟨_unaryZ, _unaryS, unaryM, unaryR, _unaryP, _sameH, routeQ, _routeC,
-    _routeN⟩ := packet
-  have modulusUnary : UnaryHistory modulusRead :=
-    unary_cont_closed unaryM unaryR modulusRoute
+  intro packet zeroStripRoute modulusRoute ledgerRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
   have unaryQ : UnaryHistory Q :=
     unary_cont_closed unaryM unaryR routeQ
-  have downstreamUnary : UnaryHistory downstreamRead :=
-    unary_cont_closed modulusUnary unaryQ downstreamRoute
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have zeroStripUnary : UnaryHistory zeroStripRead :=
+    unary_cont_closed unaryZ unaryS zeroStripRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed unaryM unaryR modulusRoute
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed modulusUnary unaryH ledgerRoute
+  have sourceAtLedger : hsame ledgerRead ledgerRead ∧ UnaryHistory ledgerRead :=
+    ⟨hsame_refl ledgerRead, ledgerUnary⟩
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row downstreamRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row M ∨ hsame row R ∨ hsame row Q ∨ hsame row H ∨ hsame row C ∨
-              hsame row P ∨ hsame row N ∨ hsame row downstreamRead)
-          (fun row : BHist =>
-            UnaryHistory row ∧ Cont M R modulusRead ∧ Cont modulusRead Q downstreamRead)
+            hsame row ledgerRead ∧ Cont Z S zeroStripRead ∧ Cont M R modulusRead)
+          (fun row : BHist => hsame row ledgerRead ∧ Cont modulusRead H ledgerRead)
           hsame := {
     core := {
-      carrier_inhabited :=
-        Exists.intro downstreamRead ⟨hsame_refl downstreamRead, downstreamUnary⟩
+      carrier_inhabited := Exists.intro ledgerRead sourceAtLedger
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -62,11 +70,14 @@ theorem CriticalLineWitnessCarrier_modulus_ledger_exhaustion
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+      exact ⟨source.left, zeroStripRoute, modulusRoute⟩
     ledger_sound := by
       intro _row source
-      exact ⟨source.right, modulusRoute, downstreamRoute⟩
+      exact ⟨source.left, ledgerRoute⟩
   }
-  exact ⟨cert, modulusUnary, downstreamUnary⟩
+  exact
+    ⟨cert, unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryH, zeroStripUnary,
+      modulusUnary, ledgerUnary, sameH, zeroStripRoute, routeQ, modulusRoute,
+      ledgerRoute, routeC, routeN⟩
 
 end BEDC.Derived.CriticalLineWitnessUp
