@@ -701,6 +701,20 @@ def _oracle_uses_nyxid(server_url: str) -> bool:
     return str(server_url or "").startswith("nyxid://")
 
 
+def oracle_runtime_summary() -> dict[str, Any]:
+    config = _load_oracle_integration_config()
+    server_url = str(config.get("server_url") or "")
+    bio_g = config.get("bio_g") if isinstance(config.get("bio_g"), dict) else {}
+    bio_plan = config.get("bio_plan") if isinstance(config.get("bio_plan"), dict) else {}
+    return {
+        "enabled": bool(config.get("enabled", False)),
+        "bio_g_enabled": bool(bio_g.get("enabled", False)),
+        "bio_plan_enabled": bool(bio_plan.get("enabled", False)),
+        "transport": "nyxid" if _oracle_uses_nyxid(server_url) else "http",
+        "server_url": server_url,
+    }
+
+
 def _bio_oracle_health_payload(server_url: str, timeout: int = 3) -> dict[str, Any]:
     if _oracle_uses_nyxid(server_url):
         return {"status": "skipped", "kind": "bio-oracle", "transport": "nyxid"}
