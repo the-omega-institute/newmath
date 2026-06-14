@@ -348,6 +348,7 @@ PAPER_GATE_POLICY: dict[str, dict[str, str]] = {
     "oversized": {"severity": "hard", "label": "OVERSIZED .TEX"},
     "leanvariant": {"severity": "advisory", "label": "NEW LEANVARIANT (allowed)"},
     "axis-confusion": {"severity": "hard", "label": "axis-confusion gate"},
+    "chapter-origin": {"severity": "hard", "label": "CHAPTER ORIGIN"},
     "orphan-new-chapter": {"severity": "hard", "label": "ORPHAN NEW CHAPTER"},
     "ai-missing-falsifiable": {"severity": "hard", "label": "AI MISSING FALSIFIABLE"},
     "ai-missing-independence": {"severity": "hard", "label": "AI MISSING INDEPENDENCE"},
