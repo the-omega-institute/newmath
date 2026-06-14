@@ -40,3 +40,19 @@ Next use the strip reflection boundary of \autoref{thm:critical-line-witness-str
 
 Finally apply the downstream RH-boundary refinement of \autoref{thm:critical-line-witness-downstream-rh-boundary-refinement} together with the root refusal downstream gate of \autoref{thm:critical-line-witness-root-refusal-downstream-gate}. The downstream route is therefore an unblock package for finite BEDC reads only, with no analytic continuation, $\mathsf{RH}$ truth value, global zero classification, or host evaluator exported.
 \end{proof}
+
+\begin{theorem}[Critical-line witness root RH-boundary formal target]
+\label{thm:criticallinewitness-root-rh-boundary-formal-target}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every downstream RH-facing read from the root RH-boundary sibling remains inside
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The target surface exports only the displayed zero, strip, modulus, real-part, rational-comparison, transport, continuation, provenance, and local naming rows. It cannot export analytic continuation, an $\mathsf{RH}$ truth value, a global zero classifier, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Project the downstream unblock package of \autoref{thm:critical-line-witness-downstream-rh-unblock-package}. It identifies the complete read surface as the finite packet $Z,S,M,R,Q,H,C,P,N$.
+
+Use the root source lock and strip reflection boundary. Together \autoref{thm:critical-line-witness-root-source-lock} and \autoref{thm:critical-line-witness-strip-reflection-boundary} keep the source side and strip side on the same displayed rows before an RH-facing consumer can inspect the sibling.
+
+Finally apply the downstream RH-boundary refinement and root refusal gate. Those refusal rows remove analytic continuation, $\mathsf{RH}$ truth values, global zero classifiers, and host evaluators from the target surface, so the formal target is exactly the finite BEDC boundary named above.
+\end{proof}
