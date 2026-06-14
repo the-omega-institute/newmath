@@ -33,6 +33,7 @@ DEFAULT_INTERVAL = 600.0
 
 sys.path.insert(0, str(SCRIPT_DIR))
 import runner  # noqa: E402
+import oracle_lane  # noqa: E402
 
 
 def now_iso() -> str:
@@ -205,6 +206,7 @@ def keep_lane():
     tracked_paths = (
         "tools/window_codon_bridge/registries",
         "tools/window_codon_bridge/experiments",
+        "tools/window_codon_bridge/oracle_inbox",
         "tools/window_codon_bridge/synced",
         "papers/window_codon_bridge",
     )
@@ -225,6 +227,8 @@ def main():
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--interval-seconds", type=float, default=DEFAULT_INTERVAL)
     ap.add_argument("--no-commit", action="store_true")
+    ap.add_argument("--no-oracle", action="store_true")
+    ap.add_argument("--oracle-dry-run", action="store_true")
     args = ap.parse_args()
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     with LOCK.open("w", encoding="utf-8") as lock_fh:
@@ -238,10 +242,11 @@ def main():
         while not should_stop():
             sync = sync_lane()
             summary = run_cycle()
+            oracle = {"ran": False, "reason": "disabled_by_flag"} if args.no_oracle else oracle_lane.run_oracle_lane(dry_run=args.oracle_dry_run)
             paper = paper_lane()
             keep = {} if args.no_commit else keep_lane()
             publish = {} if args.no_commit else publish_lane()
-            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} paper={paper} keep={keep} publish={publish}", flush=True)
+            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} oracle={oracle} paper={paper} keep={keep} publish={publish}", flush=True)
             if args.once:
                 break
             time.sleep(max(1.0, float(args.interval_seconds)))
