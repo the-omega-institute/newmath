@@ -1203,6 +1203,7 @@ import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.NameCertObligations
+import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.TasteGate
 import BEDC.Derived.BoundedSelfAdjointOperatorUp.TasteGate
 import BEDC.Derived.BoundedSetUp.BallContainmentRoute
 import BEDC.Derived.BoundedSetUp.BallRadiusLedgerFactorization
@@ -3559,12 +3560,14 @@ import BEDC.Derived.CriticalLineWitnessUp.RealWindowNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RefusalCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RegSeqRatRealModulusHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RhBoundarySourceLock
+import BEDC.Derived.CriticalLineWitnessUp.RhConsumerUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetSelectorTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootCarrierProjectionRows
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierBudgetLock
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierReadiness
+import BEDC.Derived.CriticalLineWitnessUp.RootClassifierRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierStability
 import BEDC.Derived.CriticalLineWitnessUp.RootComparisonLedger
 import BEDC.Derived.CriticalLineWitnessUp.RootComponentwiseNamecertTransport
@@ -3585,6 +3588,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootGammaRealDependency
 import BEDC.Derived.CriticalLineWitnessUp.RootGapRefusalCompleteness
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerReadiness
+import BEDC.Derived.CriticalLineWitnessUp.RootLedgerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExhaustion
@@ -6565,6 +6569,7 @@ import BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp
 import BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceDiamondLedgerUp
 import BEDC.Derived.MetaCICConfluenceDiamondLedgerUp.TasteGate
+import BEDC.Derived.MetaCICConfluenceResidualCheckerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPairLedgerUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
