@@ -462,6 +462,27 @@ Next apply public adequacy. \autoref{thm:metacic-normalization-certificate-route
 Finally use the axiom-clean synchronization surface. \autoref{thm:metacic-normalization-certificate-router-axiom-clean-sync} identifies the same finite rows as the audit-clean public surface and excludes full subject reduction, global confluence, and host strong normalization. Because quotient reduction equality is also absent from the carrier, a bridge-facing consumer can treat this theorem only as a candidate surface for a later checked bridge.
 \end{proof}
 
+\begin{theorem}[MetaCIC router bridge-ready exactness]
+\label{thm:metacic-router-bridge-ready-exactness}
+Let $R=(A,K,S,P,D,U,G,L,H,C,Q,N)$ be an accepted
+$\MetaCICNormalizationCertificateRouterUp$ packet. Every bridge-facing read
+that treats the router as bridge-ready must preserve the public adequacy target,
+the axiom-clean synchronization surface, and the TasteGate row before it uses
+the bridge-candidate route. The exact bridge-ready surface is therefore the
+same finite route through $A,K,S,P,D,U,G,L,H,C,Q,N$ together with the named
+frontier, residual-substitution, confluence-critical-pair, and TasteGate rows.
+It still refuses evidence-free strong normalization, unconditional application
+normalization, host normalization, quotient reduction equality, and
+bridgeChecked status.
+\end{theorem}
+\begin{proof}
+Start with public adequacy. \autoref{thm:metacic-normalization-certificate-router-public-adequacy} exports only the candidate-mediated route through $A,K,S,P,D,U,G,L,H,C,Q,N$ together with the named frontier and residual boundary rows.
+
+Next preserve the axiom-clean synchronization surface. \autoref{thm:metacic-normalization-certificate-router-axiom-clean-sync} identifies the same finite rows as the audit-clean public surface and refuses full subject reduction, global confluence, and host strong normalization.
+
+Now attach the bridge-candidate surface and TasteGate row. \autoref{thm:metacic-normalization-router-bridge-candidate-surface} keeps bridge-facing reads behind the displayed router rows, while the existing Lean TasteGate marker records the single-carrier alignment for the same packet. Since neither row is a checked standard bridge, the read is bridge-ready only as this exact finite surface and not as bridgeChecked evidence.
+\end{proof}
+
 \falsifiablePrediction{A closed-term normalization read is refused unless candidate, closed-candidate, or candidate-set evidence is present on the displayed route.}
 
 \independenceWitness{metacicnormalizationfrontier, closedtermsubstitutionboundary, authorizedgeneratorrecursor, groundcompilerrecognizerflow, kernelinductiveacceptance: the router has simultaneous candidate-evidence, closed projection, Pi/app adequacy, and no-infinite-reduction rows not bijective with any one sibling.}
