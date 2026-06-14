@@ -32,6 +32,18 @@ rows. Hence the root consumer receives the listed finite source rows before
 any critical-line-facing read begins.
 \end{proof}
 
+\begin{theorem}[Critical-line witness root-strip Zeta-Gamma source lock]
+\label{thm:critical-line-witness-root-strip-zeta-gamma-source-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. A consumer cannot expose the root-strip row of $W$ until the $\ZetaZerosUp$, $\CritStripUp$, $\ZetaContinuationWitnessUp$, $\GammaUp$, $\NatUp$, $\RatUp$, and $\RealUp$ source rows have all been exposed through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CriticalLineWitnessUp}$ route.
+\end{theorem}
+\begin{proof}
+Start with the root-strip source totality theorem \autoref{thm:critical-line-witness-root-strip-source-totality}. It projects an accepted packet to the finite rows $Z,S,M,R,Q,H,C,P,N$ and places $\ZetaZerosUp$, $\CritStripUp$, $\ZetaContinuationWitnessUp$, $\GammaUp$, $\NatUp$, $\RatUp$, and $\RealUp$ on the route before any critical-line-facing read.
+
+Next apply the modulus refusal exhaustion theorem \autoref{thm:critical-line-witness-modulus-refusal-exhaustion}. A zero-strip modulus request remains inside the same displayed route and cannot supply analytic continuation evidence, a zero-free-strip theorem, a global zero classifier, or a host numeric oracle.
+
+Finally use the RH-boundary nonescape theorem \autoref{thm:critical-line-witness-rh-boundary-nonescape}. The packet exports no $\mathsf{RH}$ proof, finished critical-line theorem, or host analytic primitive. Therefore the root-strip row is source-locked to the listed Zeta, Gamma, Nat, Rat, Real, transport, replay, provenance, and local naming rows.
+\end{proof}
+
 \begin{theorem}[Critical-line witness modulus refusal exhaustion]
 \label{thm:critical-line-witness-modulus-refusal-exhaustion}
 For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every
@@ -69,6 +81,7 @@ $\ZetaZerosUp$--$\CritStripUp$--$\ZetaContinuationWitnessUp$ source route,
 the $\NatUp$, $\RatUp$, and $\RealUp$ modulus rows, and the displayed
 $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_rh\_boundary\_public\_nonescape}
 \begin{proof}
 Read the packet through
 \autoref{thm:critical-line-witness-root-strip-source-totality}. The available
