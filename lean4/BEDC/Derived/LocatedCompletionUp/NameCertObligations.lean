@@ -4,6 +4,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.LocatedCompletionUp.TasteGate
 
 namespace BEDC.Derived.LocatedCompletionUp
 
@@ -14,22 +15,6 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
-
-structure LocatedCompletionUp where
-  metricSource : BHist
-  separatedBoundary : BHist
-  embeddingEntry : BHist
-  streamWindow : BHist
-  regularReadback : BHist
-  dyadicLedger : BHist
-  realSeal : BHist
-  transport : BHist
-  replay : BHist
-  provenance : BHist
-  localName : BHist
-
-def locatedCompletionFields : LocatedCompletionUp → List BHist
-  | LocatedCompletionUp.mk M S E W R D A H C P N => [M, S, E, W, R, D, A, H, C, P, N]
 
 theorem LocatedCompletionCarrier_namecert_obligations [AskSetup] [PackageSetup]
     (L : LocatedCompletionUp)

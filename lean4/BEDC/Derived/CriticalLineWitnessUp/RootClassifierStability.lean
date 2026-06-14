@@ -31,4 +31,33 @@ theorem CriticalLineWitnessCarrier_root_classifier_stability
   exact
     ⟨classifierUnary, replayUnary, sameH, classifierRoute, replayRoute, routeQ, routeC, routeN⟩
 
+theorem CriticalLineWitnessCarrier_root_classifier_refusal_boundary
+    {Z S M R Q H C P N classifierRead replayRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont H C classifierRead ->
+        Cont classifierRead P replayRead ->
+          UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory Q ∧
+            UnaryHistory classifierRead ∧ UnaryHistory replayRead ∧
+              hsame H (append Z S) ∧ Cont H C classifierRead ∧
+                Cont classifierRead P replayRead ∧ Cont M R Q ∧ Cont Q H C ∧
+                  Cont C P N := by
+  -- BEDC touchpoint anchor: CriticalLineWitnessCarrier BHist Cont hsame UnaryHistory
+  intro packet classifierRoute replayRoute
+  have classifierStability :
+      UnaryHistory classifierRead ∧ UnaryHistory replayRead ∧ hsame H (append Z S) ∧
+        Cont H C classifierRead ∧ Cont classifierRead P replayRead ∧
+          Cont M R Q ∧ Cont Q H C ∧ Cont C P N :=
+    CriticalLineWitnessCarrier_root_classifier_stability packet classifierRoute replayRoute
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  exact
+    ⟨packet.left, packet.right.left, routeClosure.left, classifierStability.left,
+      classifierStability.right.left, classifierStability.right.right.left,
+      classifierStability.right.right.right.left,
+      classifierStability.right.right.right.right.left,
+      classifierStability.right.right.right.right.right.left,
+      classifierStability.right.right.right.right.right.right.left,
+      classifierStability.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
