@@ -86,4 +86,58 @@ theorem DyadicIntervalTreeCarrier_namecert_obligations {R D B F M Q NW H C P L :
   }
   exact ⟨cert, unaryQ, unaryNW⟩
 
+theorem DyadicIntervalTreeFrontierExhaustion {R D B F M Q NW H C P L leafRead : BHist} :
+    DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
+      hsame leafRead F ->
+        SemanticNameCert
+            (fun row : BHist => hsame row leafRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row R ∨ hsame row B ∨ hsame row F ∨ hsame row M ∨
+                hsame row Q ∨ hsame row leafRead)
+            (fun row : BHist => UnaryHistory row ∧ Cont R B F ∧ Cont F M Q)
+            hsame ∧ UnaryHistory leafRead ∧ Cont F M Q := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet sameLeafRead
+  obtain
+    ⟨_unaryR, _unaryD, _unaryB, unaryF, _unaryM, _unaryH, _unaryC, _unaryP,
+      _unaryL, routeF, routeQ, _routeNW⟩ := packet
+  have leafReadUnary : UnaryHistory leafRead :=
+    unary_transport unaryF (hsame_symm sameLeafRead)
+  have sourceLeafRead :
+      (fun row : BHist => hsame row leafRead ∧ UnaryHistory row) leafRead := by
+    exact ⟨hsame_refl leafRead, leafReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row leafRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row B ∨ hsame row F ∨ hsame row M ∨
+              hsame row Q ∨ hsame row leafRead)
+          (fun row : BHist => UnaryHistory row ∧ Cont R B F ∧ Cont F M Q)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro leafRead sourceLeafRead
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, routeF, routeQ⟩
+  }
+  exact ⟨cert, leafReadUnary, routeQ⟩
+
 end BEDC.Derived.DyadicIntervalTreeUp
