@@ -7,12 +7,13 @@ import argparse
 import base64
 import json
 import socket
+import subprocess
 import sys
 import time
 from pathlib import Path
 from typing import Any, Callable
 from urllib.error import HTTPError, URLError
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
 
@@ -27,7 +28,67 @@ def _error(kind: str, detail: str) -> dict[str, Any]:
     return {"status": "error", "error_kind": kind, "detail": detail}
 
 
+def _is_nyxid_url(server_url: str) -> bool:
+    return urlparse(str(server_url or "")).scheme == "nyxid"
+
+
+def _parse_nyxid_target(server_url: str, path: str) -> tuple[str, str] | None:
+    parsed = urlparse(str(server_url or ""))
+    service = parsed.netloc.strip()
+    if not service:
+        return None
+    prefix = parsed.path.rstrip("/")
+    request_path = "/" + path.lstrip("/")
+    return service, f"{prefix}{request_path}" if prefix else request_path
+
+
+def _request_json_nyxid(method: str, server_url: str, path: str, payload: dict[str, Any] | None, timeout_seconds: float) -> dict[str, Any]:
+    target = _parse_nyxid_target(server_url, path)
+    if target is None:
+        return _error("nyxid_config_missing", "nyxid server_url must be nyxid://<service>[/path-prefix]")
+    service, request_path = target
+    cmd = [
+        "nyxid",
+        "proxy",
+        "request",
+        "-m",
+        method,
+        "--output",
+        "json",
+    ]
+    input_text = None
+    if payload is not None:
+        cmd.extend(["-d", "-"])
+        input_text = json.dumps(payload, ensure_ascii=False, sort_keys=True)
+    cmd.extend([service, request_path])
+    try:
+        completed = subprocess.run(
+            cmd,
+            input=input_text,
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired as exc:
+        return _error("timeout", str(exc))
+    except OSError as exc:
+        return _error("nyxid_unavailable", str(exc))
+    if completed.returncode != 0:
+        detail = (completed.stderr or completed.stdout or "nyxid proxy request failed").strip()
+        kind = "nyxid_login_required" if "session has expired" in detail.lower() or "nyxid login" in detail.lower() else "nyxid_error"
+        return _error(kind, detail[:2000])
+    text = (completed.stdout or "").strip()
+    try:
+        data = json.loads(text or "{}")
+    except json.JSONDecodeError as exc:
+        return _error("invalid_json", str(exc))
+    return data if isinstance(data, dict) else {"status": "ok", "result": data}
+
+
 def _request_json(method: str, server_url: str, path: str, payload: dict[str, Any] | None, timeout_seconds: float) -> dict[str, Any]:
+    if _is_nyxid_url(server_url):
+        return _request_json_nyxid(method, server_url, path, payload, timeout_seconds)
     url = urljoin(_server_url(server_url), path.lstrip("/"))
     body = None if payload is None else json.dumps(payload).encode("utf-8")
     req = Request(url, data=body, method=method)
@@ -348,10 +409,12 @@ def run_session(
 
 
 def health_check(server_url: str = DEFAULT_SERVER_URL, timeout_seconds: int = 5) -> bool:
-    """Return True if oracle server is reachable + has at least one active userscript tab."""
+    """Return True if the configured oracle transport is reachable."""
     data = _request_json("GET", server_url, "/health", None, timeout_seconds)
     if data.get("status") != "ok":
         return False
+    if _is_nyxid_url(server_url):
+        return True
     try:
         return int(data.get("active_userscript_tabs") or 0) > 0
     except (TypeError, ValueError):
@@ -540,7 +603,7 @@ def _self_test() -> int:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Submit and poll BioReality oracle queries")
-    parser.add_argument("--server-url", default=DEFAULT_SERVER_URL)
+    parser.add_argument("--server-url", default=DEFAULT_SERVER_URL, help="HTTP URL or nyxid://<service>[/path-prefix]")
     parser.add_argument("--query", default="")
     parser.add_argument("--intended-claim", default="")
     parser.add_argument("--intended-lane", default="")

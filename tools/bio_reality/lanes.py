@@ -676,7 +676,13 @@ def _load_oracle_integration_config() -> dict[str, Any]:
     return config if isinstance(config, dict) else {}
 
 
+def _oracle_uses_nyxid(server_url: str) -> bool:
+    return str(server_url or "").startswith("nyxid://")
+
+
 def _bio_oracle_health_payload(server_url: str, timeout: int = 3) -> dict[str, Any]:
+    if _oracle_uses_nyxid(server_url):
+        return {"status": "skipped", "kind": "bio-oracle", "transport": "nyxid"}
     try:
         url = server_url.rstrip("/") + "/health"
         with urllib.request.urlopen(url, timeout=timeout) as response:
@@ -695,6 +701,8 @@ def run_oracle_server_lane(store: BioRealityStore) -> dict[str, Any]:
     try:
         config = _load_oracle_integration_config()
         server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
+        if _oracle_uses_nyxid(server_url):
+            return {"lane": "bio-O", "status": "external_transport", "transport": "nyxid"}
         health = _bio_oracle_health_payload(server_url)
         if health.get("status") == "ok" and health.get("kind") == "bio-oracle":
             summary: dict[str, Any] = {"lane": "bio-O", "status": "already_up"}
@@ -976,9 +984,10 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
         pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/bio_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
-    server_host, server_port = _parse_server_host_port(server_url)
-    if server_host and server_port and not _localhost_available(server_host, server_port):
-        return _oracle_skip("oracle_server_unreachable")
+    if not _oracle_uses_nyxid(server_url):
+        server_host, server_port = _parse_server_host_port(server_url)
+        if server_host and server_port and not _localhost_available(server_host, server_port):
+            return _oracle_skip("oracle_server_unreachable")
     if not _network_available():
         return _oracle_skip("network_unreachable")
     claim_id, prompt = _bio_g_initial_prompt(store, candidate)
@@ -1344,9 +1353,10 @@ def _maybe_run_bio_plan_oracle(
         pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/bio_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
-    server_host, server_port = _parse_server_host_port(server_url)
-    if server_host and server_port and not _localhost_available(server_host, server_port):
-        return _oracle_skip("oracle_server_unreachable")
+    if not _oracle_uses_nyxid(server_url):
+        server_host, server_port = _parse_server_host_port(server_url)
+        if server_host and server_port and not _localhost_available(server_host, server_port):
+            return _oracle_skip("oracle_server_unreachable")
     if not _network_available():
         return _oracle_skip("network_unreachable")
     topic, claim_id, prompt = _bio_plan_prompt(claims, phases_passed, trigger_event)
