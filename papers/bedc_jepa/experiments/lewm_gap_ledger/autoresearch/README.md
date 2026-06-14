@@ -62,6 +62,11 @@ model. The registered runner `fi-021.compute-value-world-model.py` evaluates
 `reports/compute_value_labels.npz` when present, requiring `episode`,
 `option_error`, `uniform_error`, and `predicted_mv`; otherwise it fails closed
 and keeps the missing label artifact as research pressure.
+The companion generator `../code/_compute_value_labels.py` builds the label
+artifact from `g2n_labels_clean.npz`. Its default `predicted_mv` is an oracle
+readback placeholder equal to true per-step marginal value, so it validates the
+target and gate only. A trained compute-value claim requires replacing
+`predicted_mv` with model outputs produced without evaluation error labels.
 
 ## Experiment Execution
 

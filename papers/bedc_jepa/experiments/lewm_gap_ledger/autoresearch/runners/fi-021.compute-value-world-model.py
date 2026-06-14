@@ -49,6 +49,12 @@ def fail_closed(reason: str, *, labels: Path) -> dict[str, Any]:
     }
 
 
+def read_step_vector(arrays: dict[str, np.ndarray], key: str, fallback: np.ndarray) -> np.ndarray:
+    if key not in arrays:
+        return fallback.astype(np.float64)
+    return np.asarray(arrays[key], dtype=np.float64).reshape(-1)
+
+
 def validate_arrays(arrays: dict[str, np.ndarray]) -> str | None:
     required = ("episode", "option_error", "uniform_error", "predicted_mv")
     missing = [key for key in required if key not in arrays]
@@ -114,30 +120,129 @@ def bootstrap_ci(values: list[float]) -> dict[str, float]:
     }
 
 
+def episode_groups(episode: np.ndarray) -> list[np.ndarray]:
+    return [np.where(episode == ep)[0] for ep in np.unique(episode)]
+
+
+def balanced_depth_choice(
+    episode: np.ndarray,
+    predicted_mv: np.ndarray,
+    option_steps: np.ndarray,
+    *,
+    uniform_step: float,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    low_candidates = np.where(option_steps < uniform_step)[0]
+    mid_candidates = np.where(option_steps == uniform_step)[0]
+    high_candidates = np.where(option_steps > uniform_step)[0]
+    if len(low_candidates) == 0 or len(mid_candidates) == 0 or len(high_candidates) == 0:
+        raise ValueError("balanced policy requires option steps below, equal to, and above uniform step")
+    low = int(low_candidates[np.argmin(option_steps[low_candidates])])
+    mid = int(mid_candidates[0])
+    high = int(high_candidates[np.argmax(option_steps[high_candidates])])
+    score = predicted_mv[:, high] - predicted_mv[:, low]
+    chosen = np.full(len(episode), mid, dtype=np.int64)
+    for idxs in episode_groups(episode):
+        ordered = sorted((int(i) for i in idxs), key=lambda i: (float(score[i]), int(i)))
+        n = len(ordered)
+        half = n // 2
+        chosen[np.asarray(ordered[:half], dtype=np.int64)] = low
+        chosen[np.asarray(ordered[n - half :], dtype=np.int64)] = high
+        if n % 2:
+            chosen[ordered[half]] = mid
+        selected_steps = option_steps[chosen]
+        target = uniform_step * n
+        got = float(np.sum(selected_steps[np.asarray(ordered, dtype=np.int64)]))
+        if abs(got - target) > 1.0e-9:
+            raise RuntimeError("balanced compute-value allocation budget mismatch")
+    return chosen, score, np.asarray([low, mid, high], dtype=np.int64)
+
+
+def paired_per_step_delta(
+    episode: np.ndarray,
+    chosen_error: np.ndarray,
+    chosen_steps: np.ndarray,
+    uniform_error: np.ndarray,
+    uniform_steps: np.ndarray,
+    *,
+    seed: int,
+) -> tuple[float, dict[str, float], list[float]]:
+    groups = episode_groups(episode)
+    selected_ep_error = np.asarray([float(np.sum(chosen_error[idx])) for idx in groups], dtype=np.float64)
+    selected_ep_steps = np.asarray([float(np.sum(chosen_steps[idx])) for idx in groups], dtype=np.float64)
+    uniform_ep_error = np.asarray([float(np.sum(uniform_error[idx])) for idx in groups], dtype=np.float64)
+    uniform_ep_steps = np.asarray([float(np.sum(uniform_steps[idx])) for idx in groups], dtype=np.float64)
+    observed = clean_float(float(selected_ep_error.sum() / selected_ep_steps.sum() - uniform_ep_error.sum() / uniform_ep_steps.sum()))
+    rng = np.random.default_rng(seed)
+    samples: list[float] = []
+    for _ in range(BOOTSTRAPS):
+        pick = rng.integers(0, len(groups), size=len(groups))
+        samples.append(
+            float(
+                selected_ep_error[pick].sum() / selected_ep_steps[pick].sum()
+                - uniform_ep_error[pick].sum() / uniform_ep_steps[pick].sum()
+            )
+        )
+    return observed, bootstrap_ci(samples), samples
+
+
 def evaluate(arrays: dict[str, np.ndarray], *, seed: int) -> dict[str, Any]:
     episode = np.asarray(arrays["episode"]).reshape(-1).astype(np.int64)
     option_error = np.asarray(arrays["option_error"], dtype=np.float64)
     uniform_error = np.asarray(arrays["uniform_error"], dtype=np.float64).reshape(-1)
     predicted_mv = np.asarray(arrays["predicted_mv"], dtype=np.float64)
-    true_mv = uniform_error[:, None] - option_error
-    chosen = np.argmax(predicted_mv, axis=1)
+    option_steps = read_step_vector(arrays, "option_steps", np.ones(option_error.shape[1], dtype=np.float64))
+    uniform_steps = read_step_vector(arrays, "uniform_steps", np.ones(option_error.shape[0], dtype=np.float64))
+    if len(uniform_steps) == 1:
+        uniform_steps = np.full(len(episode), float(uniform_steps[0]), dtype=np.float64)
+    if option_steps.shape[0] == option_error.shape[1]:
+        true_mv = uniform_error[:, None] / uniform_steps[:, None] - option_error / option_steps[None, :]
+    else:
+        true_mv = uniform_error[:, None] - option_error
+    policy = "argmax_variable_budget"
+    chosen: np.ndarray
+    rank_score: np.ndarray
+    policy_options: list[int] | None = None
+    try:
+        uniform_step = float(uniform_steps[0])
+        if np.all(uniform_steps == uniform_step) and option_steps.shape[0] == option_error.shape[1]:
+            chosen, rank_score, selected_options = balanced_depth_choice(
+                episode,
+                predicted_mv,
+                option_steps,
+                uniform_step=uniform_step,
+            )
+            policy = "balanced_depth_episode_budget"
+            policy_options = [int(item) for item in selected_options.tolist()]
+        else:
+            chosen = np.argmax(predicted_mv, axis=1)
+            rank_score = predicted_mv[np.arange(option_error.shape[0]), chosen]
+    except ValueError:
+        chosen = np.argmax(predicted_mv, axis=1)
+        rank_score = predicted_mv[np.arange(option_error.shape[0]), chosen]
     chosen_error = option_error[np.arange(option_error.shape[0]), chosen]
-    observed_delta = clean_float(float(np.mean(chosen_error - uniform_error)))
-    per_anchor_true_mv = true_mv[np.arange(option_error.shape[0]), chosen]
-    per_anchor_pred_mv = predicted_mv[np.arange(option_error.shape[0]), chosen]
-    observed_rho = spearman(per_anchor_pred_mv, per_anchor_true_mv)
+    chosen_steps = option_steps[chosen] if option_steps.shape[0] == option_error.shape[1] else np.ones_like(chosen_error)
+    observed_delta, delta_ci, _ = paired_per_step_delta(
+        episode,
+        chosen_error,
+        chosen_steps,
+        uniform_error,
+        uniform_steps,
+        seed=seed,
+    )
+    if policy == "balanced_depth_episode_budget" and policy_options is not None:
+        low, _mid, high = policy_options
+        true_rank_score = true_mv[:, high] - true_mv[:, low]
+    else:
+        true_rank_score = true_mv[np.arange(option_error.shape[0]), chosen]
+    observed_rho = spearman(rank_score, true_rank_score)
 
-    episodes = np.unique(episode)
-    by_episode = [np.where(episode == ep)[0] for ep in episodes]
-    rng = np.random.default_rng(seed)
-    deltas: list[float] = []
+    by_episode = episode_groups(episode)
+    rng = np.random.default_rng(seed + 1)
     rhos: list[float] = []
     for _ in range(BOOTSTRAPS):
         sample = rng.integers(0, len(by_episode), size=len(by_episode))
         idx = np.concatenate([by_episode[int(item)] for item in sample])
-        deltas.append(float(np.mean(chosen_error[idx] - uniform_error[idx])))
-        rhos.append(spearman(per_anchor_pred_mv[idx], per_anchor_true_mv[idx]))
-    delta_ci = bootstrap_ci(deltas)
+        rhos.append(spearman(rank_score[idx], true_rank_score[idx]))
     rho_ci = bootstrap_ci(rhos)
     status = "positive" if delta_ci["high"] < 0.0 else ("negative" if delta_ci["low"] >= 0.0 else "unidentifiable")
     return {
@@ -153,12 +258,16 @@ def evaluate(arrays: dict[str, np.ndarray], *, seed: int) -> dict[str, Any]:
             f"95% CI=[{delta_ci['low']:.9g},{delta_ci['high']:.9g}], "
             f"MV Spearman={observed_rho:.9g} "
             f"[{rho_ci['low']:.9g},{rho_ci['high']:.9g}]; "
-            "failure probability is not used as the allocation target"
+            f"policy={policy}; failure probability is not used as the allocation target"
         ),
         "diagnostics": {
             "anchors": int(option_error.shape[0]),
             "options": int(option_error.shape[1]),
-            "episodes": int(len(episodes)),
+            "episodes": int(len(np.unique(episode))),
+            "policy": policy,
+            "policy_options": policy_options,
+            "option_steps": [float(item) for item in option_steps.tolist()],
+            "uniform_steps_mean": float(np.mean(uniform_steps)),
             "mv_spearman": {
                 "observed": observed_rho,
                 "low": rho_ci["low"],

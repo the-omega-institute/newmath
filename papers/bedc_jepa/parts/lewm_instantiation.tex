@@ -210,6 +210,15 @@ downstream metric of the gap score; it is a supervised intervention-value task
 with its own label artifact and its own episode-bootstrap gate.  The registered
 autoresearch packet for this target expects option-level errors and predicted
 marginal values, and fails closed when those arrays are absent.
+The present compute-value artifact instantiates this label interface on the
+tworooms evaluation split with $634$ anchors, $55$ episodes, and rollout-depth
+options $b\in\{1,3,5\}$ against a uniform depth-$3$ baseline.  Its oracle
+readback, using true per-step $MV(t,b)$ in place of a trained prediction, gives
+allocation delta $-0.01290$ $[-0.01851,\ -0.00806]$ under the same balanced
+episode-budget rule.  This is a target-validity result, not a trained-model
+result: the artifact records \texttt{predicted\_mv} as an oracle placeholder,
+and the admissible model claim requires replacing that array by a prediction
+made without evaluation error labels.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -304,6 +313,7 @@ $$
 \text{allocation bridge study} & \texttt{reports/lewm\_allocation\_bridge.json},\\
 \text{native/post-hoc paired comparison} & \texttt{reports/lewm\_native\_vs\_posthoc\_paired.json},\\
 \text{allocation information bound} & \texttt{reports/lewm\_allocation\_information\_bound.json},\\
+\text{compute-value labels} & \texttt{reports/compute\_value\_labels.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

@@ -114,6 +114,15 @@ marginal values; absent those arrays it emits a fail-closed verdict.  Thus the
 automation continues the BEDC-native world-model program by asking for
 intervention-value evidence, not by retrieving one named experiment or
 relabeling detection as planning.
+The first artifact for this axis is deliberately an oracle readback: it writes
+the option-level label matrix for rollout depths $1$, $3$, and $5$ on $634$
+evaluation anchors from $55$ episodes, and fills \texttt{predicted\_mv} with
+the true per-step marginal value only to test whether the target itself can
+drive the balanced allocation gate.  That readback gives allocation delta
+$-0.01290$ $[-0.01851,\ -0.00806]$ with $MV$ Spearman $1.0$.  It is therefore
+evidence that the missing variable is allocation-relevant, while the trained
+compute-value model remains unclaimed until \texttt{predicted\_mv} is produced
+by a model that has not read evaluation errors.
 
 The registered closure checks for the integrated A100 row are intentionally
 kept outside the verified-findings ledger until their finite artifacts exist.
