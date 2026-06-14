@@ -217,4 +217,30 @@ theorem DyadicIntervalTreeCarrier_leaf_locality
     ⟨unaryB, unaryF, unaryM, unaryQ, unaryBranch, unaryLeaf, unaryLocal,
       branchRoute, leafRoute, localRoute, routeQ⟩
 
+theorem DyadicIntervalTreeCarrier_mesh_refinement_functoriality
+    {R D B F M Q NW H C P L parentChildRead finalWindow : BHist} :
+    DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
+      Cont M Q parentChildRead ->
+        Cont parentChildRead NW finalWindow ->
+          UnaryHistory M ∧ UnaryHistory Q ∧ UnaryHistory NW ∧
+            UnaryHistory parentChildRead ∧ UnaryHistory finalWindow ∧ Cont F M Q ∧
+              Cont Q D NW ∧ Cont M Q parentChildRead ∧
+                Cont parentChildRead NW finalWindow := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packet parentChildRoute finalWindowRoute
+  obtain
+    ⟨_unaryR, unaryD, _unaryB, unaryF, unaryM, _unaryH, _unaryC, _unaryP,
+      _unaryL, _routeF, routeQ, routeNW⟩ := packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryF unaryM routeQ
+  have unaryNW : UnaryHistory NW :=
+    unary_cont_closed unaryQ unaryD routeNW
+  have unaryParentChild : UnaryHistory parentChildRead :=
+    unary_cont_closed unaryM unaryQ parentChildRoute
+  have unaryFinalWindow : UnaryHistory finalWindow :=
+    unary_cont_closed unaryParentChild unaryNW finalWindowRoute
+  exact
+    ⟨unaryM, unaryQ, unaryNW, unaryParentChild, unaryFinalWindow, routeQ,
+      routeNW, parentChildRoute, finalWindowRoute⟩
+
 end BEDC.Derived.DyadicIntervalTreeUp

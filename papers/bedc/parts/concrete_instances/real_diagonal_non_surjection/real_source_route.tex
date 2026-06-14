@@ -1,0 +1,13 @@
+\begin{theorem}[Real diagonal non-surjection Real source route]
+\label{thm:real-diagonal-non-surjection-real-source-route}
+Every diagonal non-surjection read of an accepted $\RealDiagonalNonSurjectionUp$ packet consumes the $\RealUp$ source row of \autoref{ch:concrete-instances-real-namecert}, the $\StreamNameUp$ finite-window row of \autoref{ch:concrete-instances-streamname-namecert}, and the $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert} before exposing a diagonal packet. The route exposes only the finite enumeration slice, diagonal window schedule, regular rational readback, terminal Real seal, transport, replay, provenance, and local naming rows; it does not claim host uncountability, quotient stream equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-diagonal-non-surjection-carrier}. The enumeration slice $E$ and finite diagonal schedule $W$ are read as $\StreamNameUp$ source data before the bit observation row $B$ or flipped-bit row $F$ can be interpreted.
+
+Apply the RegSeqRat dependency route of \autoref{thm:real-diagonal-non-surjection-regseqrat-dependency-route}. The anti-diagonal readback passes through $R$ as regular rational data and cannot bypass that row with host stream equality, selected limits, quotient reals, countable choice, or hidden surjectivity data.
+
+Finally use the Real seal dependency of \autoref{thm:real-diagonal-non-surjection-real-seal-dependency}. The seal row $S$ is the only $\RealUp$ endpoint available to the diagonal witness, and it is exposed after the stream and regular-rational source rows have already been read.
+
+Thus every diagonal packet is source-routed through $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before the non-surjection surface is visible. The carrier has no coordinate for host uncountability, quotient stream equality, countable choice, or ambient Real completeness.
+\end{proof}
