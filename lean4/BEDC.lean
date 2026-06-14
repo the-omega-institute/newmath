@@ -1203,6 +1203,7 @@ import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.NameCertObligations
+import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.TasteGate
 import BEDC.Derived.BoundedSelfAdjointOperatorUp.TasteGate
 import BEDC.Derived.BoundedSetUp.BallContainmentRoute
 import BEDC.Derived.BoundedSetUp.BallRadiusLedgerFactorization
@@ -2355,6 +2356,7 @@ import BEDC.Derived.CausalInterventionUp
 import BEDC.Derived.CausalInterventionUp.TasteGate
 import BEDC.Derived.CayleyHamiltonUp.TasteGate
 import BEDC.Derived.CayleyTheoremUp.TasteGate
+import BEDC.Derived.CechCompleteSpaceUp.TasteGate
 import BEDC.Derived.CellularAutomatonUp.TasteGate
 import BEDC.Derived.CellularBoundaryConditionUp.CarrierSemanticNameCert
 import BEDC.Derived.CellularBoundaryConditionUp.NonescapeBoundary
@@ -3590,6 +3592,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootGammaRealDependency
 import BEDC.Derived.CriticalLineWitnessUp.RootGapRefusalCompleteness
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerReadiness
+import BEDC.Derived.CriticalLineWitnessUp.RootLedgerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusClassifierExhaustion
@@ -6572,6 +6575,7 @@ import BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp
 import BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceDiamondLedgerUp
 import BEDC.Derived.MetaCICConfluenceDiamondLedgerUp.TasteGate
+import BEDC.Derived.MetaCICConfluenceResidualCheckerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPairLedgerUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
@@ -9095,6 +9099,7 @@ import BEDC.Derived.RegularityModulusUp.ObligationCompleteness
 import BEDC.Derived.RegulatedCauchyIntegralUp
 import BEDC.Derived.RegulatedCauchyIntegralUp.TasteGate
 import BEDC.Derived.RegulatedCauchyModulusUp
+import BEDC.Derived.RegulatedFunctionCompactOscillationUp.TasteGate
 import BEDC.Derived.RegulatedFunctionUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.DarbouxRiemannCompatibility
 import BEDC.Derived.RegulatedIntegralUp.Nonescape
