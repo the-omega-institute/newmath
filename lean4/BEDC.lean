@@ -2820,6 +2820,7 @@ import BEDC.Derived.CompactOpenFunctionSpaceUp
 import BEDC.Derived.CompactOpenFunctionSpaceUp.TasteGate
 import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactOpenMetricUp.TasteGate
+import BEDC.Derived.CompactOpenTopologyUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
@@ -6171,6 +6172,7 @@ import BEDC.Derived.LocatedArchimedeanUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSetUp
 import BEDC.Derived.LocatedCauchyCompletionFunctorUp.TasteGate
+import BEDC.Derived.LocatedCauchyExtractionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterBasisUp
 import BEDC.Derived.LocatedCauchyFilterCompletionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterLimitUp.TasteGate
@@ -8987,6 +8989,7 @@ import BEDC.Derived.RegularCauchyTailFiberUp
 import BEDC.Derived.RegularCauchyTailFiberUp.CompletionHandoffScope
 import BEDC.Derived.RegularCauchyTailFiberUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFilterBasisUp.TasteGate
+import BEDC.Derived.RegularCauchyTailFilterCofinalityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.SharedThresholdExhaustion
@@ -9999,6 +10002,7 @@ import BEDC.Derived.TrieUp.TerminalPrefixReadback
 import BEDC.Derived.TriebelLizorkinSpaceUp
 import BEDC.Derived.TriggerBlockerDualityUp.NameCertObligations
 import BEDC.Derived.TriggerBlockerDualityUp.TasteGate
+import BEDC.Derived.TriggerEnergyPartitionUp.TasteGate
 import BEDC.Derived.TriggerHypergraphReliabilityUp
 import BEDC.Derived.TriggerHypergraphReliabilityUp.Factorization
 import BEDC.Derived.TriggerHypergraphReliabilityUp.TasteGate
@@ -10387,6 +10391,8 @@ import BEDC.Derived.WeylGroupUp.PublicBoundary
 import BEDC.Derived.WeylGroupUp.RootSystemMatureBridge
 import BEDC.Derived.WeylGroupUp.TasteGate
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.NameCertObligations
+import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
+import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
