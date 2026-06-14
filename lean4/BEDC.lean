@@ -873,6 +873,7 @@ import BEDC.Derived.BishopIntervalApartnessModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
 import BEDC.Derived.BishopIntervalCompletionUp.TasteGate
 import BEDC.Derived.BishopIntervalContractionUp.CauchyHandoff
+import BEDC.Derived.BishopIntervalContractionUp.NamecertObligations
 import BEDC.Derived.BishopIntervalContractionUp.TasteGate
 import BEDC.Derived.BishopIntervalCoverUp.TasteGate
 import BEDC.Derived.BishopIntervalEnclosureUp
@@ -3528,6 +3529,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusBudgetTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonNameCertRoute
 import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusConsumerCoverage
+import BEDC.Derived.CriticalLineWitnessUp.ModulusDepthLedgerCertificate
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerReadback
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerTotality
@@ -3651,6 +3653,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootNameCertScopeCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNonescapePackage
 import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
+import BEDC.Derived.CriticalLineWitnessUp.RootRHBoundaryPublicNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootRHConsumerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBoundaryTotality
