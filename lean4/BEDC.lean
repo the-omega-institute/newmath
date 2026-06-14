@@ -4398,6 +4398,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.RootWindowCoverage
 import BEDC.Derived.DyadicIntervalCoverUp.RootWindowObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RouteCoverStability
 import BEDC.Derived.DyadicIntervalCoverUp.ScopedFiniteCoverChain
+import BEDC.Derived.DyadicIntervalCoverUp.StandardBridgePremise
 import BEDC.Derived.DyadicIntervalCoverUp.SubcoverExclusionObligation
 import BEDC.Derived.DyadicIntervalCoverUp.SubcoverHandoffObligation
 import BEDC.Derived.DyadicIntervalCoverUp.TailPullbackStability
@@ -6355,6 +6356,7 @@ import BEDC.Derived.LocatedSequenceSupremumUp.TasteGate
 import BEDC.Derived.LocatedSequenceUp.TasteGate
 import BEDC.Derived.LocatedSetUp
 import BEDC.Derived.LocatedSetUp.TasteGate
+import BEDC.Derived.LocatedSpaceUp.NameCertObligations
 import BEDC.Derived.LocatedSpaceUp.TasteGate
 import BEDC.Derived.LocatedSubsetUp.TasteGate
 import BEDC.Derived.LocatedSupremumModulusUp
@@ -9922,6 +9924,7 @@ import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TanneryTheoremUp
 import BEDC.Derived.TanneryTheoremUp.NameCertObligations
 import BEDC.Derived.TanneryTheoremUp.TasteGate
+import BEDC.Derived.TaoMetastableCauchyUp.NameCertObligations
 import BEDC.Derived.TaoMetastableCauchyUp.TasteGate
 import BEDC.Derived.TarskiTruthRefusalUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
