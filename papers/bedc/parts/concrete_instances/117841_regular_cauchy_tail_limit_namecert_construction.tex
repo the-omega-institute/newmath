@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailLimitUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-limit-namecert}
+\origin{human}
+
+Following Bishop--Bridges regular Cauchy sequences, the $\RegularCauchyTailLimitUp$ packet records the finite tail-window limit route from inspected regular rational data to a terminal real-name seal. It sits between the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the tail-certificate route of \autoref{ch:concrete-instances-regular-cauchy-tail-certificate-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite tail-limit handoff; it does not assert ambient $\RealUp$ completeness, select a quotient representative, or import countable choice.
+
+\begin{definition}[Regular Cauchy tail limit carrier]
+\label{def:regular-cauchy-tail-limit-carrier}
+A $\RegularCauchyTailLimitUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,Q,D,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite tail-window row inspected by the limit request;
+\item $Q$ is the $\RegSeqRatUp$ readback row for the regular rational sequence visible on that window;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the requested precision, tail index budget, and comparison allowance;
+\item $R$ is the terminal $\RealUp$ seal reached only through the displayed $S,Q,D$ route;
+\item $A$ is the tail-stability row, recording that later inspected windows replay the same regular-Cauchy tail route at the requested tolerance;
+\item $H$ records componentwise $\hsame$ transport for $S,Q,D,R,A,C,P,N$;
+\item $C$ records displayed $\Cont$ replay through the stream window, regular rational readback, dyadic tolerance row, real seal, tail-stability row, transport, provenance, and local naming rows;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegularCauchyTailLimitUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden limit choice, quotient stream equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail limit NameCert obligations]
+\label{thm:regular-cauchy-tail-limit-namecert-obligations}
+For every accepted $\RegularCauchyTailLimitUp$ carrier $T=(S,Q,D,R,A,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTailLimitUp}$ surface consists exactly of finite StreamName window exposure, RegSeqRat readback exposure, DyadicRatCore tolerance exposure, Real seal handoff, tail-stability exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-limit-carrier}. The finite observation is $S$, the regular rational readback is $Q$, and the tolerance budget is $D$.
+
+The terminal real seal $R$ is downstream of those three rows. The tail-stability row $A$ records that later inspected windows replay the same route at the displayed tolerance; it is not a hidden choice of a limit.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name this finite route. Because the carrier stores no quotient stream equality, countable-choice schedule, ambient Real completeness, Lean theorem, or bridge row, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail limit nonescape]
+\label{thm:regular-cauchy-tail-limit-nonescape}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyTailLimitUp$ packet factors through
+$$
+S,Q,D,A,H,C,P,N
+$$
+before it can read the seal row $R$. The terminal seal is therefore a finite tail-window limit handoff, not an ambient completeness principle, selected quotient representative, countable-choice output, or detached host real.
+\end{theorem}
+\begin{proof}
+Start with $T=(S,Q,D,R,A,H,C,P,N)$. Carrier admission makes the finite tail window, regular rational readback, dyadic tolerance row, and tail-stability row visible before a consumer can reach the terminal seal.
+
+Use \autoref{thm:regular-cauchy-tail-limit-namecert-obligations}. Its Real seal handoff clause binds $R$ to the displayed $S,Q,D,A$ route, while the transport and replay clauses keep that route componentwise stable.
+
+The packet has no coordinate for quotient stream equality, selected representatives, countable choice, detached host reals, or ambient completeness. Thus the terminal seal cannot escape the finite StreamName, RegSeqRat, DyadicRatCore, tail-stability, transport, replay, provenance, and local naming rows.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\RegularCauchyTailLimitUp$ read while omitting the $\StreamNameUp$ finite tail window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance row, $\RealUp$ seal, tail-stability row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert$ row refutes the carrier of \autoref{def:regular-cauchy-tail-limit-carrier}.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, regularcauchytailcertificate: no listed sibling is bijective to $\RegularCauchyTailLimitUp$ because this packet alone binds finite tail windows, regular rational readbacks, dyadic tolerance budgets, terminal Real seals, tail-stability, transport, replay, provenance, and local naming as one tail-limit certificate.}
+
+\closureat{RegularCauchyTailLimitUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailLimitUp}
+  \constructivestory{A $\RegularCauchyTailLimitUp$ packet is generated from StreamName tail-window rows, RegSeqRat readback rows, DyadicRatCore tolerance rows, a Real seal, tail-stability evidence, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-limit-carrier}, \autoref{thm:regular-cauchy-tail-limit-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-limit-nonescape} seed the finite regular-Cauchy tail-window limit route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient $\RealUp$ completeness, quotient stream equality, selected representatives, countable choice, hidden limit selection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName window exposure, RegSeqRat readback, DyadicRatCore tolerance exposure, Real seal handoff, tail-stability exactness, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyTailLimitUp.}
+\end{closurestatus}
