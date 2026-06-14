@@ -1,76 +1,101 @@
 {
   "base_undertraining_audit": {
     "artifact_id": "bedc-quality-lab:dgt-base-undertraining-audit",
-    "boundary_ledger": [
-      {
-        "ledger_id": "base-undertraining-construct-validity",
-        "reason": "equal-compute, equal-loss-decrease, and equal-validation-loss rows are non-informative for an information-starved baseline",
-        "reconstruction_pointer": "https://github.com/the-omega-institute/newmath/issues/1196",
-        "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
-        "status": "construct-boundary"
-      }
-    ],
-    "claim_action": "defer-to-fair-reconstruction",
+    "boundary_ledger": [],
+    "claim_action": "record_noninformative_rows",
     "comparison_rows": [
       {
-        "base_metric": 0.010986,
-        "ci_low_separation": 0.0271,
+        "base_metric": 0.009765,
+        "ci_low_separation": 0.028321,
         "ci_overlap": false,
         "comparison_id": "equal_step",
         "decision": "noninformative-dgt-separated",
         "dgt_metric": 0.038086,
         "match_axis": "training_steps",
         "match_value": 36,
-        "source_artifact": "reports/canonical/dgt-l1-controls.json",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "source_artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.training_config.epoch_count",
         "status": "resolved"
       },
       {
-        "base_metric": 0.010986,
-        "ci_low_separation": 0.0271,
+        "base_metric": 0.009765,
+        "ci_low_separation": 0.028321,
         "ci_overlap": false,
         "comparison_id": "equal_compute",
         "decision": "noninformative-dgt-separated",
         "dgt_metric": 0.038086,
         "match_axis": "compute_units",
         "match_value": 233.865216,
-        "source_artifact": "reports/canonical/dgt-l1-controls.json",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "source_artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.compute_units",
         "status": "resolved"
       },
       {
-        "base_metric": 0.013672,
-        "ci_low_separation": 0.020508,
+        "base_metric": 0.009765,
+        "ci_low_separation": 0.028321,
         "ci_overlap": false,
         "comparison_id": "equal_loss_decrease",
         "decision": "noninformative-dgt-separated",
-        "dgt_metric": 0.03418,
+        "dgt_metric": 0.038086,
         "match_axis": "loss_decrease",
         "match_value": 1.079292,
-        "source_artifact": "reports/canonical/dgt-l1-controls.json",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
+        "source_artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.metrics.loss_decrease_mean",
         "status": "resolved"
       },
       {
-        "base_metric": 0.010986,
-        "ci_low_separation": 0.0271,
+        "base_metric": 0.009765,
+        "ci_low_separation": 0.028321,
         "ci_overlap": false,
         "comparison_id": "equal_validation_loss",
         "decision": "noninformative-dgt-separated",
         "dgt_metric": 0.038086,
         "match_axis": "validation_loss",
         "match_value": 3.030562,
-        "source_artifact": "reports/canonical/dgt-l1-controls.json",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean",
+        "source_artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.metrics.validation_loss_mean",
         "status": "resolved"
       }
     ],
     "construct_validity": {
       "baseline_feature_wiring": "full token sequence with x_prev_2 masked before attention",
-      "baseline_input_order": 1,
-      "bayes_upper_bound_accuracy": 0.0625,
-      "boundary_reason": "Given x_prev_1, varying hidden x_prev_2 permutes all labels, so the baseline Bayes limit is chance.",
+      "baseline_input_order": 2,
+      "bayes_upper_bound_accuracy": null,
+      "boundary_reason": "Baseline input bandwidth covers the label dependency order.",
       "chance_accuracy": 0.0625,
+      "fair_baseline_contract": {
+        "accuracy_mean": 0.009765,
+        "arm_id": "non_starved_fair_attention",
+        "compute_ratio_to_dgt_anchor": 0.0,
+        "compute_units": 233.865216,
+        "epoch_count": 36,
+        "failures": [],
+        "fair_baseline_summary_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$",
+        "information_starved": false,
+        "loss_decrease_mean": 0.383695,
+        "missing_variables": [],
+        "model_source_arm_id": "parameter_matched_attention",
+        "parameter_count": 3172,
+        "parameter_ratio_to_dgt_anchor": 0.0,
+        "raw_metrics_artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl",
+        "raw_metrics_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$",
+        "raw_sha256": "c0bf49fe6f7c9d1e4d17bdc8a50aba5327ba37e3defb7e53f20f096e6ccdfcd1",
+        "required_variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ],
+        "seed_count": 16,
+        "source_artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json",
+        "status": "pass",
+        "summary_sha256": "62dc122566239312d72ebe187ceaff492473e679195bdb9cace9403c187a1db7",
+        "tolerance": 0.03,
+        "validation_loss_mean": 3.862286,
+        "visible_variables": [
+          "x_minus_1",
+          "x_minus_2",
+          "full_sequence"
+        ]
+      },
       "hidden_coefficient_modulus_gcd": 1,
       "input_accessibility_preconditions": {
         "baseline_row": {
@@ -99,6 +124,30 @@
         "boundary_ledger_count": 2,
         "boundary_ledger_ref": "reports/canonical/input-accessibility.json:$.boundary_ledger",
         "failures": [],
+        "fair_baseline_row": {
+          "consumer_pointer_aligned": true,
+          "coverage_status": "pass",
+          "failures": [],
+          "fair_baseline_arm_id": "non_starved_fair_attention",
+          "feature_extraction_status": "pass",
+          "information_starved": false,
+          "label_extraction_status": "pass",
+          "missing_variables": [],
+          "required_variables": [
+            "x_minus_1",
+            "x_minus_2"
+          ],
+          "row_id": "204ec8632f4351bb",
+          "row_pointer": "reports/canonical/input-accessibility.json#row_id=204ec8632f4351bb",
+          "source_arm_id": "parameter_matched_attention",
+          "status": "pass",
+          "supports_architecture_claim": true,
+          "visible_variables": [
+            "x_minus_1",
+            "x_minus_2",
+            "full_sequence"
+          ]
+        },
         "information_starved_arms_ref": [
           "reports/canonical/input-accessibility.json#row_id=39f940c7504e9416",
           "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b"
@@ -113,6 +162,7 @@
         "source_pointers": {
           "baseline_row": "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b",
           "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
+          "fair_baseline_row": "reports/canonical/input-accessibility.json#row_id=204ec8632f4351bb",
           "information_starved_arms": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
           "input_accessibility": "reports/canonical/input-accessibility.json:$",
           "unanswerable_ood_splits": "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
@@ -125,11 +175,14 @@
       },
       "label_dependency_order": 2,
       "label_rule": "(3*x_prev_1 + 5*x_prev_2 + 1) mod 16",
-      "second_predecessor_visible_to_baseline": false,
+      "second_predecessor_visible_to_baseline": true,
       "source_pointers": {
         "baseline_row": "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b",
         "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
         "controller_evidence": "https://github.com/the-omega-institute/newmath/issues/1190#issuecomment-4672534911",
+        "fair_baseline_raw_metrics": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$",
+        "fair_baseline_row": "reports/canonical/input-accessibility.json#row_id=204ec8632f4351bb",
+        "fair_baseline_summary": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$",
         "fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196",
         "feature_source": "bedc_quality_lab/dgt_l1_controls.py:_TinySequenceModel._features",
         "information_starved_arms": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
@@ -137,19 +190,65 @@
         "label_source": "bedc_quality_lab/dgt_l1_controls.py:_make_sequences",
         "unanswerable_ood_splits": "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
       },
-      "status": "construct-boundary"
+      "status": "construct-valid"
     },
-    "evidence_ledger": [],
+    "evidence_ledger": [
+      {
+        "ci_low_separation": 0.028321,
+        "comparison_id": "equal_step",
+        "ledger_id": "base-undertraining-equal_step",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.training_config.epoch_count"
+      },
+      {
+        "ci_low_separation": 0.028321,
+        "comparison_id": "equal_compute",
+        "ledger_id": "base-undertraining-equal_compute",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.compute_units"
+      },
+      {
+        "ci_low_separation": 0.028321,
+        "comparison_id": "equal_loss_decrease",
+        "ledger_id": "base-undertraining-equal_loss_decrease",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.metrics.loss_decrease_mean"
+      },
+      {
+        "ci_low_separation": 0.028321,
+        "comparison_id": "equal_validation_loss",
+        "ledger_id": "base-undertraining-equal_validation_loss",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.metrics.validation_loss_mean"
+      }
+    ],
     "generated_at": "2026-06-10T00:00:00+00:00",
     "hardgates": {
+      "BASE-HG1": {
+        "criterion": "fair baseline sees x_minus_1 and x_minus_2",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.source_contract.fair_baseline_contract",
+        "input_accessibility_pointer": "reports/canonical/input-accessibility.json:$",
+        "status": "pass"
+      },
+      "BASE-HG2": {
+        "criterion": "fair baseline loss decreases under real training",
+        "evidence_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.metrics.loss_decrease_mean",
+        "status": "pass"
+      },
+      "BASE-HG3": {
+        "criterion": "fair baseline compute and parameters match the DGT anchor within tolerance",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.source_contract.fair_baseline_contract",
+        "status": "pass"
+      },
+      "BASE-HG4": {
+        "criterion": "fair baseline catch-up remains a bounded-negative architecture result",
+        "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.boundary_ledger",
+        "status": "not-triggered"
+      },
       "BASE-UNDER-HG0": {
-        "criterion": "input-accessibility boundary pointers and baseline input bandwidth must pass before undertraining evidence is allowed",
+        "criterion": "input-accessibility boundary pointers and fair baseline input bandwidth must pass before undertraining evidence is allowed",
         "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
         "input_accessibility_pointer": "reports/canonical/input-accessibility.json:$",
-        "status": "fail-closed"
+        "status": "pass"
       },
       "BASE-UNDER-HG1": {
-        "criterion": "equal-step, equal-compute, equal-loss-decrease, and equal-validation-loss rows are present",
+        "criterion": "fairness baseline comes from the non-starved trained baseline",
         "evidence_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows",
         "status": "pass"
       },
@@ -213,7 +312,7 @@
     ],
     "not_claimed": [
       "Bounded L1 tiny-sequence base-undertraining audit only.",
-      "No undertraining discharge claim under information-starved baseline.",
+      "No undertraining discharge claim from information-starved ablations.",
       "No production deployment claim.",
       "No global superiority claim.",
       "No LLM replacement claim.",
@@ -246,6 +345,39 @@
         "required_grid_present": false,
         "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid"
       },
+      "fair_baseline_contract": {
+        "accuracy_mean": 0.009765,
+        "arm_id": "non_starved_fair_attention",
+        "compute_ratio_to_dgt_anchor": 0.0,
+        "compute_units": 233.865216,
+        "epoch_count": 36,
+        "failures": [],
+        "fair_baseline_summary_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$",
+        "information_starved": false,
+        "loss_decrease_mean": 0.383695,
+        "missing_variables": [],
+        "model_source_arm_id": "parameter_matched_attention",
+        "parameter_count": 3172,
+        "parameter_ratio_to_dgt_anchor": 0.0,
+        "raw_metrics_artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl",
+        "raw_metrics_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$",
+        "raw_sha256": "c0bf49fe6f7c9d1e4d17bdc8a50aba5327ba37e3defb7e53f20f096e6ccdfcd1",
+        "required_variables": [
+          "x_minus_1",
+          "x_minus_2"
+        ],
+        "seed_count": 16,
+        "source_artifact": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json",
+        "status": "pass",
+        "summary_sha256": "62dc122566239312d72ebe187ceaff492473e679195bdb9cace9403c187a1db7",
+        "tolerance": 0.03,
+        "validation_loss_mean": 3.862286,
+        "visible_variables": [
+          "x_minus_1",
+          "x_minus_2",
+          "full_sequence"
+        ]
+      },
       "input_accessibility_preconditions": {
         "baseline_row": {
           "consumer_pointer_aligned": true,
@@ -273,6 +405,30 @@
         "boundary_ledger_count": 2,
         "boundary_ledger_ref": "reports/canonical/input-accessibility.json:$.boundary_ledger",
         "failures": [],
+        "fair_baseline_row": {
+          "consumer_pointer_aligned": true,
+          "coverage_status": "pass",
+          "failures": [],
+          "fair_baseline_arm_id": "non_starved_fair_attention",
+          "feature_extraction_status": "pass",
+          "information_starved": false,
+          "label_extraction_status": "pass",
+          "missing_variables": [],
+          "required_variables": [
+            "x_minus_1",
+            "x_minus_2"
+          ],
+          "row_id": "204ec8632f4351bb",
+          "row_pointer": "reports/canonical/input-accessibility.json#row_id=204ec8632f4351bb",
+          "source_arm_id": "parameter_matched_attention",
+          "status": "pass",
+          "supports_architecture_claim": true,
+          "visible_variables": [
+            "x_minus_1",
+            "x_minus_2",
+            "full_sequence"
+          ]
+        },
         "information_starved_arms_ref": [
           "reports/canonical/input-accessibility.json#row_id=39f940c7504e9416",
           "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b"
@@ -287,6 +443,7 @@
         "source_pointers": {
           "baseline_row": "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b",
           "boundary_ledger": "reports/canonical/input-accessibility.json:$.boundary_ledger",
+          "fair_baseline_row": "reports/canonical/input-accessibility.json#row_id=204ec8632f4351bb",
           "information_starved_arms": "reports/canonical/input-accessibility.json:$.consumer_pointers.information_starved_arms_ref",
           "input_accessibility": "reports/canonical/input-accessibility.json:$",
           "unanswerable_ood_splits": "reports/canonical/input-accessibility.json:$.consumer_pointers.unanswerable_ood_splits_ref"
@@ -301,20 +458,23 @@
       "required_pointers": [
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step",
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean",
-        "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
         "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.step_grid",
         "reports/canonical/input-accessibility.json#row_id=39f940c7504e9416",
         "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b",
         "reports/canonical/input-accessibility.json:$",
-        "reports/canonical/input-accessibility.json:$.boundary_ledger"
+        "reports/canonical/input-accessibility.json:$.boundary_ledger",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.compute_units",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.metrics.loss_decrease_mean",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.metrics.validation_loss_mean",
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.training_config.epoch_count"
       ],
       "sha256": "13e72b88791ccbd23a8043eed0fdbb82afba7b3a660f2d5004bb90537514194a",
       "source_artifact": "reports/canonical/dgt-l1-controls.json",
       "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
       "status": "resolved"
     },
-    "verdict": "construct-boundary"
+    "verdict": "noninformative-separation"
   }
 }

@@ -2755,9 +2755,9 @@
             "blocked_reason": {
               "category": "source-blocked",
               "dependency_ref": "github:issue:1196",
-              "detail": "baseline-input-accessibility-boundary",
-              "evidence_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG3",
-              "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG3",
+              "detail": "fair-comparison-boundary",
+              "evidence_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG5",
+              "owner_gate_ref": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG5",
               "planning_context_ref": "github:issue:1329#plan-4"
             },
             "ci_rehearsal_ref": null,
@@ -3010,7 +3010,7 @@
         "source_artifact_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.verdict",
         "source_code_pointer": "scripts/run_dgt_base_undertraining_audit.py",
         "source_type": "declared_constant",
-        "value": "construct-boundary"
+        "value": "noninformative-separation"
       },
       {
         "allowed_for_empirical_claim": false,
@@ -6493,11 +6493,13 @@
         "training_evidence_status": "training_evidence_absent"
       },
       {
-        "backward_pointers": [],
-        "not_claimed": [
-          "No producer-side backward pass plus optimizer step evidence is present in the static source audit."
+        "backward_pointers": [
+          "bedc_quality_lab/dgt_base_undertraining_audit.py:L364"
         ],
-        "optimizer_step_pointers": [],
+        "not_claimed": [],
+        "optimizer_step_pointers": [
+          "bedc_quality_lab/dgt_base_undertraining_audit.py:L365"
+        ],
         "parameter_update_pointers": [],
         "producer_command": [
           "python3",
@@ -6505,7 +6507,7 @@
         ],
         "producer_source_pointer": "scripts/run_dgt_base_undertraining_audit.py",
         "report": "dgt-base-undertraining-audit",
-        "training_evidence_status": "training_evidence_absent"
+        "training_evidence_status": "empirical_training_clean"
       },
       {
         "backward_pointers": [],
@@ -12848,7 +12850,7 @@
       "construct_validity": {
         "failed_gates": [],
         "pointer": "reports/canonical/fair-l1-decision.json:$.construct_validity_projection",
-        "status": "bounded-negative"
+        "status": "pass"
       },
       "decision_status": {
         "axis": "decision_status",

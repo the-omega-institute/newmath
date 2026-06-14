@@ -278,12 +278,17 @@ def _fair_hardgates(
     resolved_inputs = all(cell.status == "resolved" for cell in source_cells.values())
     comparison_ok = all(row.get("status") == "resolved" for row in comparison_rows)
     baseline_access = _baseline_input_accessibility(input_accessibility)
+    fair_contract = _dig(base_audit, ("source_contract", "fair_baseline_contract"), {})
+    fair_contract_ok = (
+        isinstance(fair_contract, Mapping)
+        and fair_contract.get("status") == "pass"
+        and fair_contract.get("information_starved") is False
+        and fair_contract.get("missing_variables") == []
+    )
     construct_ok = (
         _status_bool(_dig(l1_construct, ("status",)))
         and _dig(base_audit, ("construct_validity", "status")) != "construct-boundary"
-        and baseline_access.get("status") == "pass"
-        and baseline_access.get("information_starved") is False
-        and baseline_access.get("missing_variables") == []
+        and fair_contract_ok
     )
     review_pass = _status_bool(_dig(l1_projection, ("status",))) and _status_bool(_dig(l1_projection, ("review_status",)))
     ladder_ok = _status_bool(_dig(l1_ladder, ("status",))) and _dig(l1_ladder, ("verdict",)) == "information-starved-catches-up"
@@ -291,7 +296,7 @@ def _fair_hardgates(
     base_not_starved = _dig(base_audit, ("construct_validity", "baseline_input_order")) == _dig(
         base_audit,
         ("construct_validity", "label_dependency_order"),
-    ) and baseline_access.get("information_starved") is False
+    ) and fair_contract_ok
     gates = [
         _hardgate_row(
             "FAIR-L1-HG1",

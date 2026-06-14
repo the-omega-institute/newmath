@@ -772,8 +772,6 @@ def _validate_l1_fair_boundary(card: Mapping[str, Any], root: Path) -> list[Card
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].ladder_state", "fair comparison ladder state differs from owner"))
         if row.get("construct_validity_status") != expected_construct_status:
             errors.append(CardGateError("CARD-HG5", f"$.evaluation_boundaries[{index}].construct_validity_status", "fair comparison construct-validity status differs from owner"))
-        if row.get("construct_validity_status") != "construct-boundary":
-            errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", "construct-validity boundary not preserved"))
         if row.get("claim") != "no architecture advantage":
             errors.append(CardGateError("CARD-HG5", "$.evaluation_boundaries", "architecture advantage wording is not blocked"))
         for known_index, known_row in fair_known_rows:
