@@ -23,6 +23,8 @@ class LeWMPaths:
     verdicts: Path = SCRIPT_DIR / "state" / "verdicts.jsonl"
     gate_results: Path = SCRIPT_DIR / "state" / "gate_results.jsonl"
     verified_findings: Path = SCRIPT_DIR / "state" / "verified_findings.jsonl"
+    deepening_tasks: Path = SCRIPT_DIR / "state" / "deepening_tasks.jsonl"
+    review_queue: Path = SCRIPT_DIR / "state" / "review_queue.jsonl"
     events: Path = SCRIPT_DIR / "state" / "events.jsonl"
     agent_tasks: Path = SCRIPT_DIR / "state" / "agent_tasks.jsonl"
     dispatch_results: Path = SCRIPT_DIR / "state" / "dispatch_results.jsonl"
@@ -136,6 +138,18 @@ class LeWMStore:
 
     def write_verified_findings(self, records: list[dict[str, Any]]) -> None:
         write_jsonl(self.paths.verified_findings, records)
+
+    def load_deepening_tasks(self) -> list[dict[str, Any]]:
+        return read_jsonl(self.paths.deepening_tasks)
+
+    def write_deepening_tasks(self, records: list[dict[str, Any]]) -> None:
+        write_jsonl(self.paths.deepening_tasks, records)
+
+    def load_review_queue(self) -> list[dict[str, Any]]:
+        return read_jsonl(self.paths.review_queue)
+
+    def write_review_queue(self, records: list[dict[str, Any]]) -> None:
+        write_jsonl(self.paths.review_queue, records)
 
     def load_events(self) -> list[dict[str, Any]]:
         return read_jsonl(self.paths.events)
