@@ -44,6 +44,16 @@ def spreadSpaceToEventFlow : SpreadSpaceUp → EventFlow
 
 def spreadSpaceFromEventFlow : EventFlow → Option SpreadSpaceUp
   -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _B :: [] => none
+  | _B :: _L :: [] => none
+  | _B :: _L :: _Q :: [] => none
+  | _B :: _L :: _Q :: _W :: [] => none
+  | _B :: _L :: _Q :: _W :: _R :: [] => none
+  | _B :: _L :: _Q :: _W :: _R :: _E :: [] => none
+  | _B :: _L :: _Q :: _W :: _R :: _E :: _H :: [] => none
+  | _B :: _L :: _Q :: _W :: _R :: _E :: _H :: _C :: [] => none
+  | _B :: _L :: _Q :: _W :: _R :: _E :: _H :: _C :: _P :: [] => none
   | B :: L :: Q :: W :: R :: E :: H :: C :: P :: N :: [] =>
       some
         (SpreadSpaceUp.mk
@@ -57,7 +67,7 @@ def spreadSpaceFromEventFlow : EventFlow → Option SpreadSpaceUp
           (spreadSpaceDecodeBHist C)
           (spreadSpaceDecodeBHist P)
           (spreadSpaceDecodeBHist N))
-  | _ => none
+  | _B :: _L :: _Q :: _W :: _R :: _E :: _H :: _C :: _P :: _N :: _extra :: _rest => none
 
 private theorem spreadSpace_round_trip :
     ∀ x : SpreadSpaceUp, spreadSpaceFromEventFlow (spreadSpaceToEventFlow x) = some x := by
@@ -142,5 +152,19 @@ instance spreadSpaceNontrivial : Nontrivial SpreadSpaceUp where
 def spreadSpaceTasteGate : ChapterTasteGate SpreadSpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   spreadSpaceChapterTasteGate
+
+theorem SpreadSpaceTasteGate_single_carrier_alignment :
+    (forall h : BHist, spreadSpaceDecodeBHist (spreadSpaceEncodeBHist h) = h) ∧
+      (forall x : SpreadSpaceUp,
+        spreadSpaceFromEventFlow (spreadSpaceToEventFlow x) = some x) ∧
+        (forall x y : SpreadSpaceUp,
+          spreadSpaceToEventFlow x = spreadSpaceToEventFlow y -> x = y) ∧
+          spreadSpaceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨spreadSpaceDecode_encode_bhist,
+      spreadSpace_round_trip,
+      (fun _ _ heq => spreadSpaceToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.SpreadSpaceUp
