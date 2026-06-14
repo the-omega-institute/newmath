@@ -1190,6 +1190,7 @@ import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
+import BEDC.Derived.BoundedNormalizationCandidateUp.TasteGate
 import BEDC.Derived.BoundedOscillationUp.TasteGate
 import BEDC.Derived.BoundedRealFamilyUp
 import BEDC.Derived.BoundedRealFamilyUp.TasteGate
@@ -3699,6 +3700,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaRealRatSourceReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaSourceLock
+import BEDC.Derived.CriticalLineWitnessUp.RootZetaSourceLockPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaStripNonescapeTriad
 import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
@@ -3767,6 +3769,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripReadbackSeparation
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceClassifierLock
@@ -4360,6 +4363,7 @@ import BEDC.Derived.DyadicBracketingUp.TasteGate
 import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
 import BEDC.Derived.DyadicCauchyCriterionUp
 import BEDC.Derived.DyadicCauchyStaircaseUp.TasteGate
+import BEDC.Derived.DyadicCeilingUp.FloorDualRoute
 import BEDC.Derived.DyadicCeilingUp.TasteGate
 import BEDC.Derived.DyadicClosedIntervalEndpointGridUp.TasteGate
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
@@ -4699,6 +4703,7 @@ import BEDC.Derived.FanBarRouteUp.FiniteBarHandoff
 import BEDC.Derived.FanBarRouteUp.NameCertObligations
 import BEDC.Derived.FanBarRouteUp.TasteGate
 import BEDC.Derived.FanCompactUp
+import BEDC.Derived.FanCompactUp.TasteGate
 import BEDC.Derived.FanContinuityPrincipleUp
 import BEDC.Derived.FanContinuityPrincipleUp.TasteGate
 import BEDC.Derived.FanModulusBoundaryUp.TasteGate
