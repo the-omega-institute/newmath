@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Thin stdlib HTTP client for the BioReality oracle daemon."""
+"""Thin stdlib client for BioReality oracle transports."""
 
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ import socket
 import subprocess
 import sys
 import time
+import tempfile
 from pathlib import Path
 from typing import Any, Callable
 from urllib.error import HTTPError, URLError
@@ -30,6 +31,141 @@ def _error(kind: str, detail: str) -> dict[str, Any]:
 
 def _is_nyxid_url(server_url: str) -> bool:
     return urlparse(str(server_url or "")).scheme == "nyxid"
+
+
+def _is_nyxid_oracle_url(server_url: str) -> bool:
+    return urlparse(str(server_url or "")).scheme == "nyxid-oracle"
+
+
+def _parse_nyxid_oracle_pool(server_url: str) -> str:
+    parsed = urlparse(str(server_url or ""))
+    return parsed.netloc.strip() or parsed.path.strip("/")
+
+
+def _run_nyxid_oracle(cmd: list[str], *, timeout_seconds: float) -> dict[str, Any]:
+    try:
+        completed = subprocess.run(
+            cmd,
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired as exc:
+        return _error("timeout", str(exc))
+    except OSError as exc:
+        return _error("nyxid_unavailable", str(exc))
+    if completed.returncode != 0:
+        detail = (completed.stderr or completed.stdout or "nyxid oracle command failed").strip()
+        lower = detail.lower()
+        kind = "nyxid_login_required" if "session has expired" in lower or "nyxid login" in lower else "nyxid_error"
+        return _error(kind, detail[:2000])
+    text = (completed.stdout or "").strip()
+    try:
+        data = json.loads(text or "{}")
+    except json.JSONDecodeError as exc:
+        return _error("invalid_json", f"{exc}: {text[:1000]}")
+    return data if isinstance(data, dict) else {"status": "ok", "result": data}
+
+
+def _request_json_nyxid_oracle(
+    method: str,
+    server_url: str,
+    path: str,
+    payload: dict[str, Any] | None,
+    timeout_seconds: float,
+) -> dict[str, Any]:
+    pool = _parse_nyxid_oracle_pool(server_url)
+    if not pool:
+        return _error("nyxid_config_missing", "nyxid-oracle server_url must be nyxid-oracle://<pool-slug>")
+    normalized_path = "/" + path.lstrip("/")
+    payload = payload or {}
+    if method == "POST" and normalized_path == "/tasks":
+        prompt = str(payload.get("prompt") or payload.get("text") or "")
+        if not prompt:
+            return _error("invalid_prompt", "oracle prompt is empty")
+        tag = str(payload.get("tag") or payload.get("intended_claim_id") or payload.get("intended_lane") or "bio-oracle-query")
+        cmd = ["nyxid", "oracle", "ask", "--output", "json", "--no-wait", "--tag", tag]
+        conversation_id = str(payload.get("conversation_id") or "")
+        if conversation_id:
+            cmd.extend(["--conversation", conversation_id])
+        else:
+            cmd.append("--new-conversation")
+        pdf_base64 = str(payload.get("pdf_base64") or "")
+        temp_path: Path | None = None
+        try:
+            if pdf_base64:
+                suffix = Path(str(payload.get("pdf_name") or "main.pdf")).suffix or ".pdf"
+                with tempfile.NamedTemporaryFile(prefix="bio-oracle-", suffix=suffix, delete=False) as handle:
+                    temp_path = Path(handle.name)
+                    handle.write(base64.b64decode(pdf_base64))
+                cmd.extend(["--pdf", str(temp_path)])
+            cmd.extend([pool, prompt])
+            return _run_nyxid_oracle(cmd, timeout_seconds=timeout_seconds)
+        except (OSError, ValueError) as exc:
+            return _error("pdf_attach_failed", str(exc))
+        finally:
+            if temp_path is not None:
+                try:
+                    temp_path.unlink()
+                except OSError:
+                    pass
+    if method == "POST" and normalized_path == "/continue":
+        conversation_id = str(payload.get("conversation_id") or "")
+        prompt = str(payload.get("prompt") or payload.get("text") or "")
+        if not conversation_id:
+            return _error("invalid_conversation_id", "conversation_id is empty")
+        if not prompt:
+            return _error("invalid_prompt", "oracle prompt is empty")
+        tag = str(payload.get("tag") or payload.get("intended_claim_id") or payload.get("intended_lane") or "bio-oracle-followup")
+        return _run_nyxid_oracle(
+            [
+                "nyxid",
+                "oracle",
+                "ask",
+                "--output",
+                "json",
+                "--no-wait",
+                "--tag",
+                tag,
+                "--conversation",
+                conversation_id,
+                pool,
+                prompt,
+            ],
+            timeout_seconds=timeout_seconds,
+        )
+    if method == "GET" and normalized_path == "/health":
+        data = _run_nyxid_oracle(
+            ["nyxid", "oracle", "status", "--output", "json", pool],
+            timeout_seconds=timeout_seconds,
+        )
+        if data.get("status") == "error":
+            return data
+        active_workers = data.get("active_workers")
+        return {
+            "status": "ok" if isinstance(active_workers, list) and active_workers else "unavailable",
+            "kind": "bio-oracle",
+            "transport": "nyxid-oracle",
+            "pool": pool,
+            "active_workers": len(active_workers) if isinstance(active_workers, list) else 0,
+            "raw": data,
+        }
+    if method == "GET" and normalized_path.startswith("/tasks/"):
+        task_id = normalized_path.split("/", 2)[2]
+        return _run_nyxid_oracle(
+            ["nyxid", "oracle", "result", "--output", "json", task_id],
+            timeout_seconds=timeout_seconds,
+        )
+    if method == "POST" and normalized_path == "/close":
+        conversation_id = str(payload.get("conversation_id") or "")
+        if not conversation_id:
+            return _error("invalid_conversation_id", "conversation_id is empty")
+        return _run_nyxid_oracle(
+            ["nyxid", "oracle", "close-session", "--output", "json", conversation_id],
+            timeout_seconds=timeout_seconds,
+        )
+    return _error("unsupported_nyxid_oracle_route", f"{method} {normalized_path}")
 
 
 def _parse_nyxid_target(server_url: str, path: str) -> tuple[str, str] | None:
@@ -87,6 +223,8 @@ def _request_json_nyxid(method: str, server_url: str, path: str, payload: dict[s
 
 
 def _request_json(method: str, server_url: str, path: str, payload: dict[str, Any] | None, timeout_seconds: float) -> dict[str, Any]:
+    if _is_nyxid_oracle_url(server_url):
+        return _request_json_nyxid_oracle(method, server_url, path, payload, timeout_seconds)
     if _is_nyxid_url(server_url):
         return _request_json_nyxid(method, server_url, path, payload, timeout_seconds)
     url = urljoin(_server_url(server_url), path.lstrip("/"))
@@ -254,7 +392,7 @@ def poll_result(
     while True:
         data = _request_json("GET", server_url, f"/tasks/{task_id}", None, min(interval, 30.0))
         status = str(data.get("status") or "")
-        if status in {"completed", "cancelled", "error"}:
+        if status in {"completed", "cancelled", "error", "failed"}:
             return data
         if status == "not_found":
             return _error("not_found", f"oracle task not found: {task_id}")
@@ -275,6 +413,7 @@ def run_session(
     pdf_base64: str = "",
     pdf_name: str = "",
     existing_conversation_id: str = "",
+    allow_resume_fallback: bool = True,
     close_on_exit: bool = True,
     server_url: str = DEFAULT_SERVER_URL,
     poll_timeout: int = 600,
@@ -306,6 +445,7 @@ def run_session(
     current_prompt = initial_prompt
     total_turns = max(0, int(max_turns))
     resumed = bool(conversation_id)
+    resume_fallback = False
 
     try:
         for turn_index in range(total_turns):
@@ -336,6 +476,20 @@ def run_session(
                     tag=topic,
                     server_url=server_url,
                 )
+                if not task_id and allow_resume_fallback and _is_nyxid_oracle_url(server_url):
+                    task_id, new_conv_id = submit_query_full(
+                        current_prompt,
+                        intended_claim_id=intended_claim_id,
+                        intended_lane=intended_lane,
+                        pdf_base64=pdf_base64,
+                        pdf_name=pdf_name,
+                        tag=topic,
+                        server_url=server_url,
+                    )
+                    if task_id:
+                        conversation_id = new_conv_id
+                        resumed = False
+                        resume_fallback = True
             else:
                 task_id = continue_query(
                     conversation_id,
@@ -362,7 +516,7 @@ def run_session(
             turns.append({"turn": turn_index, "prompt": current_prompt, "result": result})
 
             status = str(result.get("status") or "")
-            if status in {"cancelled", "error"}:
+            if status in {"cancelled", "error", "failed"}:
                 closed_reason = f"turn {turn_index} ended with status {status}"
                 break
 
@@ -404,6 +558,7 @@ def run_session(
         "closed_reason": closed_reason,
         "max_turns_reached": max_turns_reached,
         "resumed": resumed,
+        "resume_fallback": resume_fallback,
         "closed": bool(conversation_id and close_on_exit),
     }
 
@@ -413,7 +568,7 @@ def health_check(server_url: str = DEFAULT_SERVER_URL, timeout_seconds: int = 5)
     data = _request_json("GET", server_url, "/health", None, timeout_seconds)
     if data.get("status") != "ok":
         return False
-    if _is_nyxid_url(server_url):
+    if _is_nyxid_url(server_url) or _is_nyxid_oracle_url(server_url):
         return True
     try:
         return int(data.get("active_userscript_tabs") or 0) > 0
@@ -603,7 +758,11 @@ def _self_test() -> int:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Submit and poll BioReality oracle queries")
-    parser.add_argument("--server-url", default=DEFAULT_SERVER_URL, help="HTTP URL or nyxid://<service>[/path-prefix]")
+    parser.add_argument(
+        "--server-url",
+        default=DEFAULT_SERVER_URL,
+        help="HTTP URL, nyxid://<service>[/path-prefix], or nyxid-oracle://<pool-slug>",
+    )
     parser.add_argument("--query", default="")
     parser.add_argument("--intended-claim", default="")
     parser.add_argument("--intended-lane", default="")
@@ -616,7 +775,7 @@ def main(argv: list[str] | None = None) -> int:
         return _self_test()
     if args.health_check:
         ok = health_check(server_url=args.server_url)
-        print(json.dumps({"status": "ok" if ok else "error", "active_userscript_tab": ok}, sort_keys=True))
+        print(json.dumps({"status": "ok" if ok else "error", "oracle_reachable": ok}, sort_keys=True))
         return 0 if ok else 1
     if not args.query:
         parser.error("--query is required unless --health-check or --self-test is used")

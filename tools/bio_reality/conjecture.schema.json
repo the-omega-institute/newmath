@@ -16,6 +16,29 @@
     "forbidden_claims",
     "null_reason"
   ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "evidence_basis": {
+            "contains": {
+              "const": "external_reality"
+            }
+          }
+        },
+        "required": [
+          "evidence_basis"
+        ]
+      },
+      "then": {
+        "properties": {
+          "reality_contact_refs": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
   "properties": {
     "conjecture_id": {
       "type": "string",

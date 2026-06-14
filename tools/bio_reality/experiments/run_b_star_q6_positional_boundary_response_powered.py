@@ -8,6 +8,7 @@ import json
 import math
 import pathlib
 import sys
+from datetime import datetime, timezone
 from typing import Any
 
 from run_b_star_q6_translation_survival_powered import (
@@ -28,6 +29,7 @@ NULL_SUBSAMPLE_MAX_ROWS = 8000
 LAMBDA_DL = 0.01
 MODEL_DF = 2
 EPS = 1e-12
+STARTED_AT = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 YEAST_ORDERED_CDS = "tools/bio_reality/data/cds_ordered_sequences_saccharomyces_cerevisiae.json"
 ECOLI_ORDERED_CDS = "tools/bio_reality/data/cds_ordered_sequences_escherichia_coli_k12_mg1655.json"
@@ -36,7 +38,13 @@ YEAST_TE = "tools/bio_reality/data/riboseq_translation_efficiency_saccharomyces_
 
 
 def emit(status: str, **kw: object) -> None:
-    payload = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": status,
+        "started_at": STARTED_AT,
+        "completed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
     payload.update(kw)
     print(json.dumps(payload, sort_keys=False))
     sys.exit(0 if status == "passed" else (2 if status == "failed" else 3))
