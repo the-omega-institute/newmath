@@ -9,6 +9,7 @@ from bedc_quality_lab.discovery_compiler.capsule import require_architecture_cla
 from bedc_quality_lab.model_comparison import (
     DGT_CONTROL_SEMANTIC_POINTER,
     SEMANTIC_POINTER,
+    semantic_hardgates,
     validate_model_comparison_payload,
 )
 from bedc_quality_lab.schema import QualityEvidenceEnvelope
@@ -250,6 +251,31 @@ def test_model_comparison_semantic_mutations_fail_closed(tmp_path, field, value,
     errors = validate_model_comparison_payload(payload, root=root)
 
     assert any(message in error for error in errors)
+
+
+def test_model_comparison_semantic_hg12_fails_on_wrong_resolving_owner_pointer(tmp_path):
+    root, payload = _payload(tmp_path)
+    semantic = payload["comparisons"][0]["semantic"]
+    semantic["evidence_type_pointer"] = "reports/canonical/index.json:$.evidence_provenance.discovery_rows[0]"
+
+    assert validate_model_comparison_payload(payload, root=root) == []
+
+    gates = semantic_hardgates(payload, root=root)
+
+    assert gates["MC-HG12"]["status"] == "fail"
+    assert gates["MC-HG11"]["status"] == "pass"
+
+
+def test_model_comparison_semantic_hg14_fails_on_insufficient_boundary_reason(tmp_path):
+    root, payload = _payload(tmp_path)
+    payload["comparisons"][0]["semantic"]["boundary_reason"] = "deterministic projection boundary recorded"
+
+    assert validate_model_comparison_payload(payload, root=root) == []
+
+    gates = semantic_hardgates(payload, root=root)
+
+    assert gates["MC-HG14"]["status"] == "fail"
+    assert gates["MC-HG11"]["status"] == "pass"
 
 
 def test_model_comparison_semantic_rows_are_stable(tmp_path):

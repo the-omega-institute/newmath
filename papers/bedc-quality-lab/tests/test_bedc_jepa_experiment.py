@@ -50,6 +50,7 @@ def test_bedc_jepa_experiment_runs_seed_sweep_with_second_world():
     assert set(sweep["worlds"]) == {"radial-boundary", "sinusoidal-boundary"}
     for world_name, world in sweep["worlds"].items():
         assert world["seed_count"] >= 8
+        assert world["s3_minus_s2_gap_auc_mean"] > 0.0
         assert world["s2_minus_s3_unlogged_error_mean"] > 0.0
         assert world["s2_minus_s3_debt_mean"] > 0.0
         assert world["s3_better_gap_auc_rate"] >= 0.5

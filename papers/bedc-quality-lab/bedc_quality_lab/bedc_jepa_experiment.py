@@ -92,6 +92,11 @@ def _logit(labels: np.ndarray, *, positive: float = 0.92, negative: float = 0.08
     return np.log(probs / (1.0 - probs))
 
 
+def _logit_shift(scores: np.ndarray, shift: float) -> np.ndarray:
+    clipped = np.clip(np.asarray(scores, dtype=np.float64), 1e-6, 1.0 - 1e-6)
+    return _sigmoid(np.log(clipped / (1.0 - clipped)) + shift)
+
+
 def _design(h: np.ndarray) -> np.ndarray:
     if h.ndim != 2:
         raise ValueError("h must be a matrix")
@@ -196,7 +201,7 @@ def _evaluate_system(
         distinction_labels,
         gap_labels,
     )
-    gap_auc = gap_detection_auc(prediction.gap_scores, batch.gap)
+    gap_auc = gap_detection_auc(prediction.gap_scores, gap_labels)
     unlogged_error = unlogged_error_rate(
         prediction.distinction_scores,
         distinction_labels,
@@ -253,14 +258,7 @@ def _fit_systems_for_world(
     s2_gap = _margin_gap_score(s1_scores)
 
     s3_scores = s1_scores
-    world_gap_score = world.s3_gap_score(s3_latent) if world.s3_gap_score is not None else world.gap_score(s3_latent)
-    s3_gap = np.maximum.reduce(
-        [
-            nearest_gap_head.score(s3_latent),
-            world_gap_score,
-            _margin_gap_score(s1_scores),
-        ]
-    )
+    s3_gap = _logit_shift(nearest_gap_head.score(s3_latent), 0.10)
 
     return {
         "S0": SystemPrediction("S0", "latent-jepa-style", h_test, s0_scores, s0_gap),
