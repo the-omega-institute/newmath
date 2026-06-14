@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SeparatedReflectionUp
@@ -10,23 +11,23 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive SeparatedReflectionUp : Type where
-  | mk (P₀ Z S M R E H C N : BHist) : SeparatedReflectionUp
+  | mk (P0 Z S M R E H C N : BHist) : SeparatedReflectionUp
   deriving DecidableEq
 
-def separatedReflectionEncodeBHist : BHist → RawEvent
+def separatedReflectionEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: separatedReflectionEncodeBHist h
   | BHist.e1 h => BMark.b1 :: separatedReflectionEncodeBHist h
 
-def separatedReflectionDecodeBHist : RawEvent → BHist
+def separatedReflectionDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (separatedReflectionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (separatedReflectionDecodeBHist tail)
 
 private theorem SeparatedReflectionTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist, separatedReflectionDecodeBHist (separatedReflectionEncodeBHist h) = h := by
+    forall h : BHist, separatedReflectionDecodeBHist (separatedReflectionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,15 +35,15 @@ private theorem SeparatedReflectionTasteGate_single_carrier_alignment_decode_enc
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def separatedReflectionFields : SeparatedReflectionUp → List BHist
+def separatedReflectionFields : SeparatedReflectionUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | SeparatedReflectionUp.mk P₀ Z S M R E H C N => [P₀, Z, S, M, R, E, H, C, N]
+  | SeparatedReflectionUp.mk P0 Z S M R E H C N => [P0, Z, S, M, R, E, H, C, N]
 
-def separatedReflectionToEventFlow : SeparatedReflectionUp → EventFlow
+def separatedReflectionToEventFlow : SeparatedReflectionUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (separatedReflectionFields x).map separatedReflectionEncodeBHist
 
-private def separatedReflectionEventAt : Nat → EventFlow → RawEvent
+private def separatedReflectionEventAt : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -69,11 +70,11 @@ private theorem SeparatedReflectionTasteGate_single_carrier_alignment_round_trip
     separatedReflectionFromEventFlow (separatedReflectionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
-  | mk P₀ Z S M R E H C N =>
+  | mk P0 Z S M R E H C N =>
       change
         some
           (SeparatedReflectionUp.mk
-            (separatedReflectionDecodeBHist (separatedReflectionEncodeBHist P₀))
+            (separatedReflectionDecodeBHist (separatedReflectionEncodeBHist P0))
             (separatedReflectionDecodeBHist (separatedReflectionEncodeBHist Z))
             (separatedReflectionDecodeBHist (separatedReflectionEncodeBHist S))
             (separatedReflectionDecodeBHist (separatedReflectionEncodeBHist M))
@@ -82,8 +83,8 @@ private theorem SeparatedReflectionTasteGate_single_carrier_alignment_round_trip
             (separatedReflectionDecodeBHist (separatedReflectionEncodeBHist H))
             (separatedReflectionDecodeBHist (separatedReflectionEncodeBHist C))
             (separatedReflectionDecodeBHist (separatedReflectionEncodeBHist N))) =
-          some (SeparatedReflectionUp.mk P₀ Z S M R E H C N)
-      rw [SeparatedReflectionTasteGate_single_carrier_alignment_decode_encode P₀,
+          some (SeparatedReflectionUp.mk P0 Z S M R E H C N)
+      rw [SeparatedReflectionTasteGate_single_carrier_alignment_decode_encode P0,
         SeparatedReflectionTasteGate_single_carrier_alignment_decode_encode Z,
         SeparatedReflectionTasteGate_single_carrier_alignment_decode_encode S,
         SeparatedReflectionTasteGate_single_carrier_alignment_decode_encode M,
@@ -95,7 +96,7 @@ private theorem SeparatedReflectionTasteGate_single_carrier_alignment_round_trip
 
 private theorem SeparatedReflectionTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : SeparatedReflectionUp} :
-    separatedReflectionToEventFlow x = separatedReflectionToEventFlow y → x = y := by
+    separatedReflectionToEventFlow x = separatedReflectionToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -107,14 +108,14 @@ private theorem SeparatedReflectionTasteGate_single_carrier_alignment_toEventFlo
       (Eq.trans hread (SeparatedReflectionTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem SeparatedReflectionTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : SeparatedReflectionUp,
-      separatedReflectionFields x = separatedReflectionFields y → x = y := by
+    forall x y : SeparatedReflectionUp,
+      separatedReflectionFields x = separatedReflectionFields y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk P₀₁ Z₁ S₁ M₁ R₁ E₁ H₁ C₁ N₁ =>
+  | mk P01 Z1 S1 M1 R1 E1 H1 C1 N1 =>
       cases y with
-      | mk P₀₂ Z₂ S₂ M₂ R₂ E₂ H₂ C₂ N₂ =>
+      | mk P02 Z2 S2 M2 R2 E2 H2 C2 N2 =>
           cases hfields
           rfl
 
@@ -157,13 +158,13 @@ def SeparatedReflectionTasteGate_single_carrier_alignment_taste_gate :
   separatedReflectionChapterTasteGate
 
 theorem SeparatedReflectionTasteGate_single_carrier_alignment :
-    (∀ h : BHist, separatedReflectionDecodeBHist (separatedReflectionEncodeBHist h) = h) ∧
-      (∀ x : SeparatedReflectionUp,
+    (forall h : BHist, separatedReflectionDecodeBHist (separatedReflectionEncodeBHist h) = h) ∧
+      (forall x : SeparatedReflectionUp,
         separatedReflectionFromEventFlow (separatedReflectionToEventFlow x) = some x) ∧
-        (∀ x y : SeparatedReflectionUp,
+        (forall x y : SeparatedReflectionUp,
           separatedReflectionToEventFlow x = separatedReflectionToEventFlow y -> x = y) ∧
           separatedReflectionEncodeBHist BHist.Empty = ([] : List BMark) ∧
-            (∀ x y : SeparatedReflectionUp, separatedReflectionFields x =
+            (forall x y : SeparatedReflectionUp, separatedReflectionFields x =
               separatedReflectionFields y -> x = y) ∧
               (∃ x y : SeparatedReflectionUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
