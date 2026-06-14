@@ -1438,6 +1438,60 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translation_conditioned_stability_boundary.b_star_q6_powered",
+   "experiment_id": "b_star_q6_translation_conditioned_stability_boundary_powered",
+   "hypothesis_level": "H3",
+   "statement": "Route X2 (translation->protein-stability boundary): B*_Q6 does NOT independently cross to the protein-stability layer -- same composition-confound pattern as localization (Route X). Across 3 organisms (yeast/E.coli/human, 12751 genes), B*_Q6 predicts protein/mRNA stability (Δr2 +0.028 vs baseline, 3/3 positive) and weakly survives translation controls (Δr2 +0.010, 2/3), but the FULL-control increment (translation+length+aa+GC) collapses to -0.0026 (1/3 positive), indistinguishable from the sign-flip permutation null (null mean -0.0028; p(obs>0)=0.95). So the codon-Q6 stability signal is fully explained by protein composition/length; no independent stability information (verdict partial, leaning blocked_null). EMERGING BOUNDARY (with Route X localization): the codon-Q6 channel reaches protein ABUNDANCE (the N->W optimality arc) but does NOT independently cross to downstream protein phenotypes (localization, stability) -- those apparent signals are protein-composition/length confounds. Deterministic; 3 organisms; held-out CV + sign-flip null + full composition controls.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_conditioned_stability_boundary_powered.py",
+   "required_data": null,
+   "timeout_seconds": 1200,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-14T05:07:49+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translation_conditioned_structural_order_boundary.b_star_q6_powered",
+   "experiment_id": "b_star_q6_translation_conditioned_structural_order_boundary_powered",
+   "hypothesis_level": "H3",
+   "statement": "Route X3 (translation->protein-structural-order boundary): B*_Q6 DOES independently cross to the protein structural-order layer -- the one downstream phenotype (of those tested) where the codon signal survives full controls, consistent with co-translational folding. Across yeast + E.coli (2/2 organisms, both domains), B*_Q6 predicts protein structural order/disorder (Δr2 +0.099 vs baseline) and the increment SURVIVES the full controls (translation+length+aa+GC): full-control Δr2 +0.0053 (2/2 positive), above the sign-flip permutation null (null -0.0021; p(obs>0)=0.0029). Unlike localization (Route X) and stability (Route X2) -- which collapsed to the composition null -- structural order retains a small (~0.5% incremental R2) but REAL, composition-independent, cross-domain-replicated codon signal. Mechanism consistent with co-translational folding (local codon usage tuning elongation rate to aid folding/disorder). Deterministic; 2 organisms (yeast+E.coli); held-out CV + sign-flip null + full composition controls. Caveat: small magnitude; only 2 organisms; per-protein order/disorder readout. PROTEIN-PHENOTYPE BOUNDARY MAP (Route X/X2/X3): codon-Q6 crosses to ABUNDANCE (strong, optimality arc) and STRUCTURAL ORDER (small, co-translational folding) but NOT to localization or stability (composition confounds).",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_conditioned_structural_order_boundary_powered.py",
+   "required_data": null,
+   "timeout_seconds": 1200,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-14T05:15:49+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.structural_order_axis_identity.b_star_q6_powered",
+   "experiment_id": "b_star_q6_structural_order_axis_identity_powered",
+   "hypothesis_level": "H3",
+   "statement": "Route X3b (structural-order crossing axis identity): the codon-Q6 -> protein-structural-order crossing (Route X3) is carried predominantly by the f3_stress (5'-ramp) axis -- confirming the co-translational folding mechanism. Of the 9 B*_Q6 coordinates, f3_stress is the ONLY individually-significant carrier of the full-control structural-order increment (weighted held-out Δr2 +0.0032, sign-flip p=0.031, 2/2 organisms), accounting for the bulk of the full B*_Q6 increment (+0.0038, p=0.017); all other axes are individually non-significant (Arg_AGR p=0.14, Ile_AUA p=0.069, ...). So the same 5'-ramp translational-selection axis (f3_stress) that dominates abundance-optimality (Route O) is ALSO the axis that reaches protein structural order -- one elongation/ramp axis spanning both abundance and co-translational folding. Deterministic; yeast+E.coli. Caveat: f3_stress p=0.031 (modest), 2 organisms; per-organism dominant LOADING varies (yeast K_AAA, E.coli f3_stress) but the increment-based ranking puts f3_stress uniquely significant. CLOSES the protein-phenotype boundary arc (Route X/X2/X3/X3b): codon-Q6 crosses to abundance + structural-order (both via the f3/ramp co-translational-selection axis), not to localization or stability (composition confounds).",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_structural_order_axis_identity_powered.py",
+   "required_data": null,
+   "timeout_seconds": 1200,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-14T05:27:23+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
