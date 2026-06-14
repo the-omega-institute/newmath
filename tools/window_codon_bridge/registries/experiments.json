@@ -168,6 +168,14 @@
    "status": "open",
    "timeout_seconds": 600,
    "note": "REAL DATA (29 organisms, 725 genes, 30799 gene-edge obs). Tests if Window6 edge score H modulates tRNA-usage synonymous-edge coupling (interaction beta_bridge). FIRST PASS with GLOBAL tRNA proxy -> T and T*H are constant per edge -> ABSORBED by edge fixed effect (strict_edge_fe norms=0) -> DEGENERATE, cannot estimate the interaction. beta_bridge~0.0017, CV fails (median dLL=-2.34, 0% folds), Null1 p=0.17, Null2 p=0.26 -> coincidence. NOTE: proper test REQUIRES per-species tRNA (GtRNAdb) so T_{s,e} varies across species and is not absorbed by edge FE."
+  },
+  {
+   "experiment_id": "claim20_per_species_trna_edge_coupling",
+   "claim_id": "bridge.genetic_code.neutral_trna_edge_coupling",
+   "script_path": "tools/window_codon_bridge/experiments/run_claim20_per_species_trna_edge_coupling.py",
+   "status": "coincidence",
+   "timeout_seconds": 3600,
+   "note": "AUTHORITATIVE per-species version (fixes first-pass degeneracy). Fetched GtRNAdb tRNA for 29/29 species; strict_edge_fe_TH_norm=55.5 (interaction now estimable). beta_T=0.73 (real tRNA-adaptation) but beta_bridge=0.031 fails CV (median dLL=-1.58, 26% folds) + Null1 p=0.089 + Null2 p=0.69 + Null3 p=0.90 -> coincidence. The certified Window6 edge score does NOT modulate real per-organism tRNA-usage coupling."
   }
  ]
 }
