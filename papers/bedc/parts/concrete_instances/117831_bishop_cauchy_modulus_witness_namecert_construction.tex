@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyModulusWitnessUp$}
+\label{ch:concrete-instances-bishop-cauchy-modulus-witness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a regular Cauchy construction carries its usable modulus as displayed finite evidence, not as a selected limit or a quotient completion. The $\BishopCauchyModulusWitnessUp$ packet records that evidence on the L10 Real and Completion route: it reads dyadic tolerances from \autoref{ch:concrete-instances-dyadicratcore-namecert}, finite windows from \autoref{ch:concrete-instances-streamname-namecert}, regular rational schedules from \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal from \autoref{ch:concrete-instances-real-namecert}. The packet is a constructive Cauchy-modulus witness; it is not a quotient, selected limit, countable-choice object, or $\RealUp$ completeness claim.
+
+\begin{definition}[Bishop Cauchy modulus witness carrier]
+\label{def:bishop-cauchy-modulus-witness-carrier}
+A $\BishopCauchyModulusWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(D,S,Q,A,R,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the requested dyadic precision and the rational comparisons used to inspect it.
+\item $S$ is the $\StreamNameUp$ row, recording the finite windows opened on the source stream before any modulus claim is read.
+\item $Q$ is the $\RegSeqRatUp$ schedule row, recording the regular rational readbacks whose tails must be controlled.
+\item $A$ is the $\RatUp$ arithmetic row, carrying the rational addition, subtraction, and bound comparisons used inside the modulus witness.
+\item $R$ is the $\RealUp$ handoff row, recording only the terminal seal route available after the displayed rational schedule has been inspected.
+\item $M$ is the modulus-witness row, assigning each displayed dyadic tolerance in $D$ a finite index boundary for the schedule in $Q$.
+\item $H$ records componentwise $\hsame$ transport for $D,S,Q,A,R,M$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through stream windows, rational readbacks, rational arithmetic, the modulus witness, and the terminal seal route.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyModulusWitnessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopCauchyModulusWitnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy modulus witness obligation surface]
+\label{thm:bishop-cauchy-modulus-witness-obligation-surface}
+For the carrier of \autoref{def:bishop-cauchy-modulus-witness-carrier}, the local $\NameCert_{\BishopCauchyModulusWitnessUp}$ surface consists exactly of carrier admission, dyadic tolerance exposure, finite stream-window exposure, regular rational schedule readback, rational arithmetic accounting, terminal Real-seal handoff, modulus-witness admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier $W=(D,S,Q,A,R,M,H,C,P,N)$. The rows $D,S,Q,A,R,M$ expose the tolerance request, source windows, regular rational schedule, rational arithmetic checks, terminal Real handoff, and displayed modulus witness.
+
+The structural rows $H,C,P,N$ preserve that same finite inventory. Since the carrier lists no quotient, selected limit, choice schedule, host real equality, or ambient completeness row, the named rows exhaust the local $\NameCert_{\BishopCauchyModulusWitnessUp}$ obligation surface.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy modulus witness induction]
+\label{thm:bishop-cauchy-modulus-witness-induction}
+Every accepted $\BishopCauchyModulusWitnessUp$ read is determined by finite-window induction on the displayed tolerance requests and the stream windows opened for those requests. At each induction step, the witness row $M$ may inspect only the current $\DyadicRatCoreUp$ tolerance, the current $\StreamNameUp$ window, the current $\RegSeqRatUp$ schedule segment, and the $\RatUp$ arithmetic row before extending the same packet through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The base case is the empty inspection window. The displayed rows carry no quotient class, limit point, or host real equality, so the empty route is the unique admitted packet prefix.
+
+For the induction step, extend the finite window by one displayed tolerance request. The row $D$ supplies the dyadic precision, $S$ supplies the newly opened stream window, $Q$ supplies the matching regular schedule segment, and $A$ supplies the rational comparisons needed by the modulus witness.
+
+The row $M$ records the finite index boundary for that request. The rows $H,C,P,N$ then transport, replay, source, and name the same packet prefix, so the induction step stays inside the displayed carrier.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy modulus witness Real handoff]
+\label{thm:bishop-cauchy-modulus-witness-real-handoff}
+Every $\RealUp$ consumer of an accepted $\BishopCauchyModulusWitnessUp$ packet must first read the dyadic tolerance row, finite stream windows, regular rational schedule, rational arithmetic row, and modulus-witness row. The terminal Real seal row is therefore a handoff from displayed modulus evidence, not a completeness principle and not a selected limit.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bishop-cauchy-modulus-witness-obligation-surface}. Its obligation surface places dyadic tolerance exposure, stream-window exposure, regular rational schedule readback, rational arithmetic accounting, and modulus-witness admission before the terminal Real-seal handoff.
+
+Apply \autoref{thm:bishop-cauchy-modulus-witness-induction}. Every finite consumer route is built by extending displayed tolerance and stream windows, so the Real-facing row can only be reached after those finite rows have been inspected.
+
+Finally inspect the carrier inventory. The packet has no row for ambient completeness, selected limits, quotient real equality, countable choice, or host real equality; the Real handoff is exactly the displayed seal route $R$ preserved by $H,C,P,N$.
+\end{proof}
+
+\falsifiablePrediction{A consumer that reads a $\RealUp$ seal from a regular Cauchy schedule while bypassing the displayed dyadic tolerance row, stream-window row, rational arithmetic row, or modulus-witness row is not reading a $\BishopCauchyModulusWitnessUp$ packet.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: none is bijective to $\BishopCauchyModulusWitnessUp$ because the witness packet jointly carries tolerance requests, finite windows, regular rational schedules, rational arithmetic checks, a displayed modulus row, terminal seal handoff, transport, replay, provenance, and local naming.}
+
+\closureat{BishopCauchyModulusWitnessUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyModulusWitnessUp}
+  \constructivestory{A $\BishopCauchyModulusWitnessUp$ packet is generated from dyadic tolerance requests, finite stream windows, regular rational schedule rows, rational arithmetic checks, a displayed modulus-witness row, terminal Real-seal handoff, componentwise transport, displayed continuation replay, package provenance, and local naming evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-modulus-witness-carrier}, \autoref{thm:bishop-cauchy-modulus-witness-obligation-surface}, \autoref{thm:bishop-cauchy-modulus-witness-induction}, and \autoref{thm:bishop-cauchy-modulus-witness-real-handoff} seed the displayed Cauchy-modulus witness over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient completion, selected limits, countable choice, host real equality, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance exposure, stream-window exposure, regular schedule readback, rational arithmetic accounting, modulus-witness admission, terminal seal handoff, transport, replay, provenance, and local naming.}
+\end{closurestatus}
