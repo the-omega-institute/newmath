@@ -3674,6 +3674,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripExclusion
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusRows
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripReadback
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaRealRatSourceReadiness
@@ -4777,6 +4778,7 @@ import BEDC.Derived.FareySequenceUp.StreamWindowAdjacencyScope
 import BEDC.Derived.FareySequenceUp.StreamWindowDenominatorLock
 import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
+import BEDC.Derived.FastCauchyCompletionUp.ModulusRealSeal
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
 import BEDC.Derived.FastCauchyCriterionUp.TasteGate
 import BEDC.Derived.FastCauchyModulusUp.TasteGate
@@ -6431,6 +6433,7 @@ import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowInduction
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowMonotoneRefinement
 import BEDC.Derived.LowerSemicontinuousUp.FiniteEpigraphThresholdExhaustion
+import BEDC.Derived.LowerSemicontinuousUp.FormalTargetBridgeRequest
 import BEDC.Derived.LowerSemicontinuousUp.KernelScope
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphFilterStability
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphRoute
@@ -6486,6 +6489,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootLocatedSetThresholdRoute
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedThresholdExhaustion
 import BEDC.Derived.LowerSemicontinuousUp.RootLowerRealProjection
 import BEDC.Derived.LowerSemicontinuousUp.RootNonescape
+import BEDC.Derived.LowerSemicontinuousUp.RootNonescapeStrengthened
 import BEDC.Derived.LowerSemicontinuousUp.RootObligationSplit
 import BEDC.Derived.LowerSemicontinuousUp.RootRealSealBoundary
 import BEDC.Derived.LowerSemicontinuousUp.RootRealSealRefusal
@@ -6795,6 +6799,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectReady
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationDischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.L10ObjectStatusReadback
+import BEDC.Derived.MetaCICCriticalPathUp.L10ObjectwiseStatusConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
 import BEDC.Derived.MetaCICCriticalPathUp.L10ReadinessLocalMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualDyadicRoute
@@ -8209,6 +8214,7 @@ import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RankNullityUp.TasteGate
 import BEDC.Derived.RapidCauchyNameUp.TasteGate
 import BEDC.Derived.RatCauchyCompletionUp.TasteGate
+import BEDC.Derived.RatCauchyGapWitnessUp.TasteGate
 import BEDC.Derived.RatClassifierTransportSealUp.ClassifierHandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.HandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.NameCertObligations
