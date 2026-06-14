@@ -65,6 +65,47 @@ Apply the induction hypothesis to the remaining finite ledger. The unary depth r
 Thus every $\RegSeqRatUp$ or $\RealUp$ window proof reaches the same finite nested route $NW$ through $P$ and $L$. No step introduces an infinite tree, a host subset of $\RealUp$, a Dedekind cut, a selected completed point, open-cover compactness, or ambient real completeness.
 \end{proof}
 
+\begin{definition}[DyadicIntervalTree level scope]
+\label{def:dyadic-interval-tree-level-scope}
+For an accepted $\DyadicIntervalTreeUp$ packet $T=(R,D,B,F,M,Q,NW,H,C,P,L)$, the \emph{level scope} at a displayed depth prefix is the finite read surface consisting of the root interval row $R$, the unary depth prefix of $D$, the branch-ledger entries of $B$ already consumed, the visible frontier rows of $F$, the common mesh row $M$, the containment rows of $Q$ reached by that prefix, and the corresponding nested-route prefix of $NW$. Its structural boundary is transported by $H$, replayed by $C$, recorded by $P$, and named by $L$.
+\end{definition}
+
+\begin{theorem}[DyadicIntervalTree branch coverage]
+\label{thm:dyadic-interval-tree-branch-coverage}
+Let $T=(R,D,B,F,M,Q,NW,H,C,P,L)$ be an accepted $\DyadicIntervalTreeUp$ packet. Every retained branch row in $B$ is backed by a displayed $\DyadicBisectionUp$ child row and a matching $\RationalIntervalRefinementUp$ containment row in $Q$, and both rows lie in the level scope of \autoref{def:dyadic-interval-tree-level-scope} at the branch prefix where the decision is read.
+\end{theorem}
+\begin{proof}
+Induct on the finite branch ledger $B$. In the empty case there is no retained branch row, so the assertion is exhausted by the root level scope.
+
+For a nonempty branch ledger, read its first retained child decision. The carrier rows require the corresponding dyadic child to be exposed among the branch data and require the parent-child containment to be recorded in $Q$.
+
+Apply the induction hypothesis to the remaining branch suffix. The transport and replay rows $H$ and $C$ preserve the same child and containment reads at each later prefix, while $P$ and $L$ keep those reads inside the local packet. Thus every retained branch row is covered by the displayed bisection and rational-containment evidence.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalTree leaf locality]
+\label{thm:dyadic-interval-tree-leaf-locality}
+Let $T=(R,D,B,F,M,Q,NW,H,C,P,L)$ be an accepted $\DyadicIntervalTreeUp$ packet. Every leaf frontier read in $F$ is local to the displayed $\DyadicSubdivisionUp$ frontier and the common $\DyadicMeshUp$ row $M$: a consumer that reads a leaf may use only the subdivision row, the mesh row, the branch prefix that reaches it, and the corresponding containment row in $Q$.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the branch prefix that reaches the leaf. The root case reads the root frontier at the mesh scale $M$.
+
+At a child step, the retained branch row selects one displayed dyadic child, and the corresponding containment row in $Q$ shows that the child is still inside the parent interval. The frontier row in $F$ records that child as a visible leaf only at the mesh scale supplied by $M$.
+
+The structural rows $H,C,P,L$ transport, replay, package, and name those same rows. They add no ambient subset of $\RealUp$ and no completed point, so the leaf read remains local to the displayed subdivision and mesh data.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalTree window exhaustion]
+\label{thm:dyadic-interval-tree-window-exhaustion}
+Let $T=(R,D,B,F,M,Q,NW,H,C,P,L)$ be an accepted $\DyadicIntervalTreeUp$ packet. Any $\RegSeqRatUp$ or $\RealUp$ window consumer receives only the displayed finite nested route $NW$: its available reads are the root interval, the consumed branch prefix, the matching containment rows, the visible frontier rows, the common mesh row, and the structural transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Use induction on the branch ledger $B$. The base window is the root interval row $R$ together with the mesh row $M$ and the root nested-route prefix.
+
+At each successor branch, the consumer reads one retained child decision, one containment row from $Q$, and the corresponding frontier update from $F$. The level scope of \autoref{def:dyadic-interval-tree-level-scope} records exactly these finite reads.
+
+The induction stops at the unary depth row $D$. Since the carrier has no coordinate for an infinite tree, a host subset of $\RealUp$, a Dedekind cut, a selected completed point, or ambient real completeness, the exported $\RegSeqRatUp$ or $\RealUp$ window can only be the finite route $NW$ together with $H,C,P,L$.
+\end{proof}
+
 \begin{theorem}[DyadicIntervalTree frontier exhaustion]
 \label{thm:dyadic-interval-tree-frontier-exhaustion}
 Let $T=(R,D,B,F,M,Q,NW,H,C,P,L)$ be an accepted $\DyadicIntervalTreeUp$ packet. The frontier row $F$ exhausts exactly the leaves named by the finite branch ledger $B$: every visible leaf in $F$ is obtained by following a prefix recorded in $B$ from the root row $R$, and every terminal prefix of $B$ has its displayed $\DyadicSubdivisionUp$ leaf in $F$ with the common mesh row $M$ and containment evidence in $Q$.
@@ -103,8 +144,8 @@ The remaining induction is bounded by the predecessor depth row. The structural 
 
 \begin{closurestatus}{\DyadicIntervalTreeUp}
   \constructivestory{A $\DyadicIntervalTreeUp$ packet is generated from a root rational interval row, unary depth row, finite branch ledger, dyadic bisection child rows, dyadic subdivision frontier rows, dyadic mesh cells, rational containment rows, a nested interval route, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-interval-tree-carrier}, \autoref{def:dyadic-interval-tree-classifier}, \autoref{thm:dyadic-interval-tree-namecert-obligations}, \autoref{thm:dyadic-interval-tree-refinement-induction}, \autoref{thm:dyadic-interval-tree-frontier-exhaustion}, \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality}, and \autoref{thm:dyadic-interval-tree-branch-ledger-depth-bound} seed the finite dyadic interval-tree certificate for Real and Completion window consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-tree-carrier}, \autoref{def:dyadic-interval-tree-classifier}, \autoref{def:dyadic-interval-tree-level-scope}, \autoref{thm:dyadic-interval-tree-namecert-obligations}, \autoref{thm:dyadic-interval-tree-refinement-induction}, \autoref{thm:dyadic-interval-tree-branch-coverage}, \autoref{thm:dyadic-interval-tree-leaf-locality}, \autoref{thm:dyadic-interval-tree-window-exhaustion}, \autoref{thm:dyadic-interval-tree-frontier-exhaustion}, \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality}, and \autoref{thm:dyadic-interval-tree-branch-ledger-depth-bound} bind the finite dyadic interval-tree obligation surface for Real and Completion window consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close infinite interval trees, host subsets of $\RealUp$, Dedekind cuts, selected completed points, open-cover compactness, ambient real completeness, standard bridges, or a Lean theorem.}
