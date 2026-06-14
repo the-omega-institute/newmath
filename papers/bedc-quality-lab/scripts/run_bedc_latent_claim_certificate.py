@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write BEDC latent claim certificate artifacts."""
+"""Write BEDC latent claim certificate records."""
 
 from __future__ import annotations
 

@@ -21,6 +21,7 @@ from bedc_quality_lab.latent_claim_certificate import (
     source_gap_claim,
 )
 from bedc_quality_lab.public_jepa_baselines import (
+    PUBLIC_VJEPA2_AC_GIANT_CHECKPOINT_URL,
     _load_vjepa2_ac_giant_modules,
 )
 from bedc_quality_lab.public_minigrid_native_benchmark import (
@@ -155,11 +156,30 @@ def _extract_features(
     device: str,
     use_amp: bool,
 ) -> np.ndarray:
-    import torch
-
     encoder, predictor, _ = _load_vjepa2_ac_giant_modules(num_frames=2)
     encoder.eval().to(device)
     predictor.eval().to(device)
+    return _extract_features_with_modules(
+        carrier,
+        encoder=encoder,
+        predictor=predictor,
+        batch_size=batch_size,
+        device=device,
+        use_amp=use_amp,
+    )
+
+
+def _extract_features_with_modules(
+    carrier: dict[str, np.ndarray],
+    *,
+    encoder: Any,
+    predictor: Any,
+    batch_size: int,
+    device: str,
+    use_amp: bool,
+) -> np.ndarray:
+    import torch
+
     features: list[np.ndarray] = []
     videos = torch.from_numpy(carrier["videos"])
     actions_np = carrier["actions"]
@@ -196,6 +216,9 @@ def build_vjepa2_ac_claim_certificate_packet(
     environment_id: str = DEFAULT_ENVIRONMENT_ID,
     carrier_id: str = "vjepa2-ac-giant-fixed-minigrid-carrier",
     torch_environment: dict[str, Any] | None = None,
+    execution_contract: dict[str, Any] | None = None,
+    checkpoint_contract: dict[str, Any] | None = None,
+    feature_contract: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     claims = [
         certify_latent_claim(
@@ -264,6 +287,33 @@ def build_vjepa2_ac_claim_certificate_packet(
         "risk_level": PRIMARY_ALPHA,
         "alphas": [float(alpha) for alpha in ALPHAS],
         "torch_environment": torch_environment or {},
+        "execution_contract": execution_contract
+        or {
+            "run_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+            "environment_id": environment_id,
+            "train_count": float(features_train.shape[0]),
+            "calibration_count": float(features_calibration.shape[0]),
+            "test_count": float(features_test.shape[0]),
+            "split_rule": "disjoint train, calibration, and test transition streams are used for LCCP readback",
+        },
+        "checkpoint_contract": checkpoint_contract
+        or {
+            "repository_url": "https://github.com/facebookresearch/vjepa2",
+            "hub_entry": "vjepa2_ac_vit_giant",
+            "checkpoint_url": PUBLIC_VJEPA2_AC_GIANT_CHECKPOINT_URL,
+            "candidate_id": "vjepa2-ac-vit-giant",
+            "loaded_components": ["encoder", "predictor"],
+            "checkpoint_loading": "torch hub model structure with explicit public checkpoint state dictionaries for encoder and predictor",
+            "official_benchmark_boundary": "this packet certifies fixed-carrier readback on a MiniGrid stream and does not reproduce the official V-JEPA2-AC benchmark protocol",
+        },
+        "feature_contract": feature_contract
+        or {
+            "carrier_features": "action-conditioned predictor pooled token features over two-frame MiniGrid transition videos",
+            "video_contract": "two 256x256 RGB frames rendered from MiniGrid symbolic observations before and after the sampled action",
+            "action_contract": "one-hot MiniGrid action vector with an auxiliary action-count coordinate",
+            "state_contract": "agent position, visible key/door/goal indicators, nearest-object distance, and action-count coordinate",
+            "certificate_protocol": "split conformal singleton claims over linear readout scores; non-singleton sets are ledgered as coverage debt",
+        },
         "claims": claims,
         "accepted_claim_count": float(sum(1 for claim in claims if claim["claim_status"] == "certified")),
         "gap_claim_count": float(sum(1 for claim in claims if claim["claim_status"] != "certified")),
@@ -307,9 +357,33 @@ def run_vjepa2_ac_minigrid_claim_certificate(
             seed=seed + 1,
         )
         test = _collect_minigrid_transitions(environment_id=environment_id, sample_count=test_count, seed=seed + 2)
-        features_train = _extract_features(train, batch_size=batch_size, device=device, use_amp=use_amp)
-        features_calibration = _extract_features(calibration, batch_size=batch_size, device=device, use_amp=use_amp)
-        features_test = _extract_features(test, batch_size=batch_size, device=device, use_amp=use_amp)
+        encoder, predictor, _ = _load_vjepa2_ac_giant_modules(num_frames=2)
+        encoder.eval().to(device)
+        predictor.eval().to(device)
+        features_train = _extract_features_with_modules(
+            train,
+            encoder=encoder,
+            predictor=predictor,
+            batch_size=batch_size,
+            device=device,
+            use_amp=use_amp,
+        )
+        features_calibration = _extract_features_with_modules(
+            calibration,
+            encoder=encoder,
+            predictor=predictor,
+            batch_size=batch_size,
+            device=device,
+            use_amp=use_amp,
+        )
+        features_test = _extract_features_with_modules(
+            test,
+            encoder=encoder,
+            predictor=predictor,
+            batch_size=batch_size,
+            device=device,
+            use_amp=use_amp,
+        )
         packet = build_vjepa2_ac_claim_certificate_packet(
             features_train=features_train,
             labels_train=train["door_key_context_visible"],
@@ -322,6 +396,37 @@ def run_vjepa2_ac_minigrid_claim_certificate(
             gaps_test=test["unsafe_transition"],
             environment_id=environment_id,
             torch_environment=torch_environment,
+            execution_contract={
+                "run_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+                "environment_id": environment_id,
+                "seed": float(seed),
+                "train_seed": float(seed),
+                "calibration_seed": float(seed + 1),
+                "test_seed": float(seed + 2),
+                "train_count": float(train_count),
+                "calibration_count": float(calibration_count),
+                "test_count": float(test_count),
+                "batch_size": float(batch_size),
+                "device": device,
+                "use_amp": bool(use_amp),
+                "split_rule": "disjoint seeded transition streams; train fits readouts, calibration sets conformal thresholds, test reports claims and gaps",
+            },
+            checkpoint_contract={
+                "repository_url": "https://github.com/facebookresearch/vjepa2",
+                "hub_entry": "vjepa2_ac_vit_giant",
+                "checkpoint_url": PUBLIC_VJEPA2_AC_GIANT_CHECKPOINT_URL,
+                "candidate_id": "vjepa2-ac-vit-giant",
+                "loaded_components": ["encoder", "predictor"],
+                "checkpoint_loading": "torch hub model structure with explicit public checkpoint state dictionaries for encoder and predictor",
+                "official_benchmark_boundary": "this packet certifies fixed-carrier readback on a MiniGrid stream and does not reproduce the official V-JEPA2-AC benchmark protocol",
+            },
+            feature_contract={
+                "carrier_features": "action-conditioned predictor pooled token features over two-frame MiniGrid transition videos",
+                "video_contract": "two 256x256 RGB frames rendered from MiniGrid symbolic observations before and after the sampled action",
+                "action_contract": "one-hot MiniGrid action vector with an auxiliary action-count coordinate",
+                "state_contract": "agent position, visible key/door/goal indicators, nearest-object distance, and action-count coordinate",
+                "certificate_protocol": "split conformal singleton claims over linear readout scores; non-singleton sets are ledgered as coverage debt",
+            },
         )
         packet["dependency_status"] = deps
         packet["sample_counts"] = {

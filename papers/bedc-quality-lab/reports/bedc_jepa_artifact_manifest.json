@@ -8,6 +8,7 @@
     "general autonomous intelligence"
   ],
   "commands": {
+    "build_public_jepa_adapter_comparison": "python scripts/build_public_jepa_adapter_comparison.py",
     "build_public_jepa_cuda_comparison": "python scripts/build_public_jepa_cuda_comparison.py",
     "export_public_jepa_baseline_result": "python scripts/export_public_jepa_baseline_result.py",
     "export_public_minigrid_benchmark_result": "python scripts/export_public_minigrid_benchmark_result.py",
@@ -17,24 +18,32 @@
     "import_public_minigrid_benchmark_metrics": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
     "latent_claim_certificate": "python scripts/run_bedc_latent_claim_certificate.py",
     "paper": "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
+    "paper_writeback_packet": "python scripts/build_bedc_jepa_paper_writeback_packet.py",
     "probe_public_jepa_baseline": "python scripts/probe_public_jepa_baseline.py",
+    "public_baseline_native_metric_contract": "python scripts/build_public_baseline_native_metric_contract.py",
+    "public_baseline_native_metric_template": "python scripts/build_public_baseline_native_metric_template.py",
+    "public_benchmark_scope_contracts": "python scripts/build_public_benchmark_scope_contracts.py",
     "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
+    "public_minigrid_calibration_extension": "python scripts/build_public_minigrid_calibration_extension.py",
     "public_minigrid_debt_closure": "python scripts/build_public_minigrid_debt_closure.py",
     "public_minigrid_native_benchmark": "python scripts/run_public_minigrid_native_benchmark.py",
     "public_minigrid_native_seed_sweep": "python scripts/run_public_minigrid_native_seed_sweep.py",
     "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
     "quality_backend_candidate": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+    "quality_lab_export": "python scripts/build_bedc_jepa_quality_lab_export.py",
     "readiness": "python scripts/build_bedc_jepa_readiness.py",
     "review_bundle": "python scripts/build_bedc_jepa_review_bundle.py",
     "run_public_jepa_ac_giant_adapter": "python scripts/run_public_jepa_ac_giant_adapter.py",
+    "run_public_jepa_structure_adapter": "python scripts/run_public_jepa_structure_adapter.py",
     "test": "python -m pytest -q",
     "torch_objective": "python scripts/run_torch_bedc_jepa.py",
     "torch_retraining_loss_ablation": "python scripts/run_torch_retraining_loss_ablation.py",
     "vjepa2_ac_minigrid_claim_certificate": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
     "vjepa2_ac_minigrid_latent_prediction": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
-    "vjepa2_ac_native_boundary": "python scripts/build_vjepa2_ac_native_boundary.py"
+    "vjepa2_ac_native_boundary": "python scripts/build_vjepa2_ac_native_boundary.py",
+    "vjepa2_ac_near_native_reproduction": "python scripts/build_vjepa2_ac_near_native_reproduction.py"
   },
-  "contact_ready_claims": {
+  "evidence_ready_claims": {
     "cluttered_object_counterfactual_accuracy_mean": 0.9466071428571429,
     "cluttered_object_gap_auc_gain_mean": 0.5016133638257341,
     "cluttered_object_unlogged_error_reduction_mean": 0.27,
@@ -70,12 +79,15 @@
     "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
   },
   "objective_artifacts": {
+    "boundary_envelope": "reports/bedc_jepa_boundary_envelope.json",
     "torch": "reports/bedc_jepa_torch_objective.json",
     "torch_retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json"
   },
+  "paper_writeback_packet": "reports/bedc_jepa_paper_writeback_packet.json",
   "public_adapters": {
     "minigrid": "reports/bedc_jepa_public_minigrid_probe.json",
     "minigrid_benchmark_packet": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
+    "minigrid_calibration_extension": "reports/bedc_jepa_public_minigrid_calibration_extension.json",
     "minigrid_certified_coverage_curve": "reports/bedc_jepa_certified_coverage_curve.json",
     "minigrid_conformal_certified_coverage": "reports/bedc_jepa_conformal_certified_coverage.json",
     "minigrid_external_result": "reports/bedc_jepa_public_minigrid_external_result.json",
@@ -92,13 +104,22 @@
     "jepa_ac_giant_adapter": "reports/bedc_jepa_public_ac_giant_adapter.json",
     "jepa_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
     "jepa_ac_native_boundary": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+    "jepa_ac_near_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
+    "jepa_ac_near_native_reproduction": "reports/bedc_vjepa2_ac_native_reproduction.json",
     "jepa_comparison": "reports/bedc_jepa_public_baseline_comparison.json",
     "jepa_cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
     "jepa_external_result": "reports/bedc_jepa_public_baseline_external_result.json",
+    "jepa_native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+    "jepa_native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
     "jepa_probe": "reports/bedc_jepa_public_baseline_probe.json",
-    "jepa_registry": "reports/bedc_jepa_public_baseline_registry.json"
+    "jepa_public_adapter_comparison": "reports/bedc_jepa_public_adapter_comparison.json",
+    "jepa_public_pretrained_vitb_adapter": "reports/bedc_jepa_public_pretrained_vitb_adapter.json",
+    "jepa_public_structure_adapter": "reports/bedc_jepa_public_structure_adapter.json",
+    "jepa_registry": "reports/bedc_jepa_public_baseline_registry.json",
+    "public_benchmark_scope_contracts": "reports/bedc_jepa_public_benchmark_scope_contracts.json"
   },
   "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
+  "quality_lab_export": "reports/bedc_jepa_quality_lab_exports.json",
   "readiness": "reports/bedc_jepa_readiness.json",
   "review_bundle": "reports/bedc_jepa_review_bundle.json",
   "schema_id": "bedc-jepa-artifact-manifest"

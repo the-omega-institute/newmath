@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write public MiniGrid BEDC-JEPA debt decomposition and calibration artifacts."""
+"""Write public MiniGrid BEDC-JEPA debt decomposition and calibration records."""
 
 from __future__ import annotations
 

@@ -3,9 +3,14 @@
   "decision": "external_bundle_ready",
   "evidence_boundary": {
     "artifact_review_bundle": "closed",
-    "checkpoint_contact": "closed",
+    "checkpoint_evaluation": "closed",
     "native_public_benchmark": "closed",
-    "vjepa2_ac_minigrid_latent_prediction": "closed"
+    "public_baseline_native_metric_contract": "closed",
+    "public_baseline_native_metric_template": "closed",
+    "public_minigrid_calibration_extension": "closed",
+    "public_minigrid_calibration_pareto": "closed",
+    "vjepa2_ac_minigrid_latent_prediction": "closed",
+    "vjepa2_ac_near_native_reproduction": "closed"
   },
   "gates": {
     "artifact_review_bundle": {
@@ -28,9 +33,29 @@
       "requirement": "object-level counterfactual readback under clutter",
       "status": "pass"
     },
-    "public_jepa_checkpoint_contact": {
+    "public_baseline_native_metric_contract": {
+      "evidence": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "requirement": "public baseline native metric contract",
+      "status": "pass"
+    },
+    "public_baseline_native_metric_template": {
+      "evidence": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+      "requirement": "public baseline native metric template",
+      "status": "pass"
+    },
+    "public_jepa_checkpoint_evaluation": {
       "evidence": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
       "requirement": "public V-JEPA2-AC Giant CUDA checkpoint-scope adapter",
+      "status": "pass"
+    },
+    "public_minigrid_calibration_extension": {
+      "evidence": "reports/bedc_jepa_public_minigrid_calibration_extension.json",
+      "requirement": "public MiniGrid seed, planning-budget, and task-variant calibration extension",
+      "status": "pass"
+    },
+    "public_minigrid_calibration_pareto": {
+      "evidence": "reports/bedc_jepa_public_debt_decomposition.json; reports/bedc_jepa_conformal_certified_coverage.json; reports/bedc_jepa_risk_success_pareto.json",
+      "requirement": "public MiniGrid threshold, conformal, debt-decomposition, and risk-success Pareto records",
       "status": "pass"
     },
     "public_minigrid_execution": {
@@ -45,15 +70,98 @@
     },
     "vjepa2_ac_minigrid_latent_prediction": {
       "evidence": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
-      "requirement": "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction contact",
+      "requirement": "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction study",
+      "status": "pass"
+    },
+    "vjepa2_ac_near_native_reproduction": {
+      "evidence": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "requirement": "V-JEPA2-AC MiniGrid near-native fixed-checkpoint record with official reproduction boundary",
       "status": "pass"
     }
   },
   "next_actions": [
-    "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid contact protocol",
-    "record baseline commit, checkpoint, dataset, command line, and native metric contract",
-    "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
+    "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint and near-native MiniGrid studies",
+    "execute the recorded public baseline native metric contract on an official or external benchmark stream",
+    "extend public MiniGrid calibration beyond the current symbolic-control readback scope",
+    "import a public pixel-world benchmark result satisfying the recorded scope contract",
     "run a public object-interaction benchmark with natural clutter or control"
   ],
+  "remaining_evidence_contracts": {
+    "true_retraining_loss_ablation": {
+      "evidence": "reports/bedc_jepa_retraining_loss_ablation.json",
+      "executed_rows": [
+        "full_s3",
+        "minus_l_gap",
+        "minus_l_intervention",
+        "minus_l_stab",
+        "minus_l_unlogged"
+      ],
+      "required_record": "true retraining loss-term ablation for every declared loss removal row",
+      "source_debt_contract": {},
+      "source_debt_rows": [],
+      "status": "closed",
+      "supervision_surface_contract": {
+        "intervention_bce": {
+          "fields": [
+            "intervention_source_split",
+            "pre_intervention_observation",
+            "intervention_or_action",
+            "post_intervention_label",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+          "source_surface": "OU action/transition pair with post-transition operational distinction label"
+        },
+        "stability_consistency": {
+          "fields": [
+            "stability_source_split",
+            "paired_observations_or_augmentations",
+            "stability_label_or_invariance_target",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+          "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
+        }
+      }
+    },
+    "vjepa2_ac_native_reproduction": {
+      "evidence": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+      "native_acceptance_contract": {
+        "native_acceptance_rule": "mark native reproduction as evaluated only when the same public stream, official or near-native rollout score, command, checkpoint identity, and BEDC readback metrics are recorded in one packet",
+        "parity_protocol_fields": [
+          "same_observation_preprocessing",
+          "same_action_encoding",
+          "same_train_cal_test_split",
+          "same_planning_or_rollout_target",
+          "same_bedc_predicate_set",
+          "same_alpha_grid"
+        ],
+        "required_native_evidence": [
+          "public_environment_id",
+          "image_action_stream_split",
+          "vjepa2_repository_commit",
+          "checkpoint_identity",
+          "execution_command",
+          "native_or_near_native_rollout_score",
+          "latent_prediction_score",
+          "bedc_readback_metrics",
+          "lccp_certificate_metrics",
+          "cannot_claim_boundary"
+        ],
+        "successor_record_requirements": [
+          "reports/bedc_vjepa2_ac_native_reproduction.json",
+          "reports/bedc_vjepa2_ac_native_readback_comparison.json"
+        ]
+      },
+      "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "native_metric_contract_status": "contract_ready",
+      "native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+      "native_metric_template_status": "recorded",
+      "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "near_native_record_status": "evaluated_near_native",
+      "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
+      "status": "not_evaluated"
+    }
+  },
   "schema_id": "bedc-jepa-readiness"
 }

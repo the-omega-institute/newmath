@@ -45,6 +45,43 @@ PREDICATE_NAMES = (
 )
 
 
+def _analysis_contract(
+    *,
+    environment_id: str,
+    train_count: int,
+    test_count: int,
+    planning_state_count: int,
+    seed: int,
+) -> dict[str, Any]:
+    return {
+        "run_command": "python scripts/build_public_minigrid_debt_closure.py",
+        "environment_id": environment_id,
+        "seed": float(seed),
+        "train_seed": float(seed),
+        "test_seed": float(seed + 1),
+        "train_count": float(train_count),
+        "test_count": float(test_count),
+        "planning_state_count": float(planning_state_count),
+        "systems": SYSTEM_NAMES,
+        "debt_component_weights": {
+            "silent_debt": 0.40,
+            "false_claim_debt": 0.30,
+            "ranking_debt": 0.20,
+            "coverage_debt": 0.10,
+        },
+        "gap_thresholds": [float(item) for item in GAP_THRESHOLDS],
+        "risk_budgets": [float(item) for item in RISK_BUDGETS],
+        "risk_constrained_planning_rule": (
+            "select the highest distinction score among candidate actions whose predicted gap is within "
+            "the declared risk budget; if no action is within budget, emit no_certified_plan"
+        ),
+        "conformal_alphas": [float(item) for item in CONFORMAL_ALPHAS],
+        "predicate_surfaces": list(PREDICATE_NAMES),
+        "source_split": "train split fits readouts; test split reports debt, coverage, conformal rows, and planning states",
+        "claim_boundary": "public MiniGrid debt and planning accounting only; not public benchmark superiority or native V-JEPA2-AC reproduction",
+    }
+
+
 def _system_scores(train: dict[str, np.ndarray], test: dict[str, np.ndarray]) -> tuple[dict[str, dict[str, np.ndarray]], dict[str, Any]]:
     distinction_head = _fit_head(train["features"], train["labels"])
     gap_head = _calibrate_gap_head(_fit_head(train["features"], train["gaps"]), train["features"], train["gaps"])
@@ -255,7 +292,7 @@ def _threshold_curve_for_system(
     }
 
 
-def _risk_constrained_rows(planning_states: list[dict[str, Any]], heads: dict[str, Any]) -> list[dict[str, float]]:
+def _risk_constrained_rows(planning_states: list[dict[str, Any]], heads: dict[str, Any]) -> list[dict[str, Any]]:
     rows = []
     for budget in RISK_BUDGETS:
         selected_successes = []
@@ -281,12 +318,15 @@ def _risk_constrained_rows(planning_states: list[dict[str, Any]], heads: dict[st
             predicted_gaps.append(float(gap_scores[selected]))
         total = len(planning_states)
         selected_count = len(selected_successes)
+        no_certified_plan_rate = float(no_plan / total) if total else 0.0
+        decision_status = "no_certified_plan" if selected_count == 0 and total else "selected_plan"
         rows.append(
             {
                 "risk_budget": float(budget),
                 "planning_state_count": float(total),
                 "selected_plan_count": float(selected_count),
-                "no_certified_plan_rate": float(no_plan / total) if total else 0.0,
+                "decision_status": decision_status,
+                "no_certified_plan_rate": no_certified_plan_rate,
                 "selected_success_rate": float(np.mean(selected_successes)) if selected_successes else 0.0,
                 "effective_success_rate": float(np.mean(effective_successes)) if effective_successes else 0.0,
                 "high_gap_state_rate": float(np.mean(high_gaps)) if high_gaps else 0.0,
@@ -296,7 +336,7 @@ def _risk_constrained_rows(planning_states: list[dict[str, Any]], heads: dict[st
     return rows
 
 
-def _risk_success_pareto(planning_rows: list[dict[str, float]]) -> dict[str, Any]:
+def _risk_success_pareto(planning_rows: list[dict[str, Any]]) -> dict[str, Any]:
     if not planning_rows:
         empty = {
             "risk_budget": 0.0,
@@ -309,6 +349,25 @@ def _risk_success_pareto(planning_rows: list[dict[str, float]]) -> dict[str, Any
     low_gap = min(planning_rows, key=lambda row: (row["high_gap_state_rate"], row["no_certified_plan_rate"], -row["effective_success_rate"]))
     half_risk = [row for row in planning_rows if row["risk_budget"] <= 0.5]
     best_half = max(half_risk or planning_rows, key=lambda row: (row["effective_success_rate"], -row["high_gap_state_rate"], -row["no_certified_plan_rate"]))
+    frontier_rows = []
+    baseline_high_gap = float(baseline["high_gap_state_rate"])
+    baseline_success = float(baseline["effective_success_rate"])
+    baseline_no_plan = float(baseline["no_certified_plan_rate"])
+    for row in planning_rows:
+        frontier_row = dict(row)
+        frontier_row["baseline_minus_high_gap_rate"] = float(baseline_high_gap - float(row["high_gap_state_rate"]))
+        frontier_row["success_delta_vs_baseline"] = float(float(row["effective_success_rate"]) - baseline_success)
+        frontier_row["no_certified_plan_delta_vs_baseline"] = float(float(row["no_certified_plan_rate"]) - baseline_no_plan)
+        if frontier_row["baseline_minus_high_gap_rate"] > 0.0 and frontier_row["success_delta_vs_baseline"] >= 0.0:
+            claim_status = "risk_improvement"
+        elif frontier_row["baseline_minus_high_gap_rate"] > 0.0:
+            claim_status = "risk_success_tradeoff"
+        elif frontier_row["no_certified_plan_rate"] >= 1.0:
+            claim_status = "no_certified_plan_under_budget"
+        else:
+            claim_status = "no_risk_improvement"
+        frontier_row["claim_status"] = claim_status
+        frontier_rows.append(frontier_row)
     return {
         "baseline": {
             **baseline,
@@ -316,7 +375,12 @@ def _risk_success_pareto(planning_rows: list[dict[str, float]]) -> dict[str, Any
         },
         "best_low_gap": low_gap,
         "best_success_under_half_risk": best_half,
-        "frontier_rows": planning_rows,
+        "frontier_rows": frontier_rows,
+        "claim_rule": (
+            "risk_improvement requires lower high-gap rate without success loss; otherwise lower risk with "
+            "success loss is recorded as a risk-success tradeoff, and empty feasible sets are recorded as "
+            "no_certified_plan_under_budget"
+        ),
     }
 
 
@@ -405,6 +469,13 @@ def build_public_minigrid_debt_closure_analysis(
     if not all(status == "installed" for status in deps.values()):
         return _unavailable_packet(environment_id, deps)
 
+    contract = _analysis_contract(
+        environment_id=environment_id,
+        train_count=train_count,
+        test_count=test_count,
+        planning_state_count=planning_state_count,
+        seed=seed,
+    )
     train, _, action_count = _collect_examples(
         environment_id=environment_id,
         sample_count=train_count,
@@ -443,6 +514,7 @@ def build_public_minigrid_debt_closure_analysis(
         "planning_state_count": float(len(planning_states)),
         "action_count": float(action_count),
         "dependency_status": deps,
+        "analysis_contract": contract,
         "debt_decomposition": decomposition,
         "certified_coverage_curve": {
             "gap_thresholds": [float(item) for item in GAP_THRESHOLDS],
@@ -509,7 +581,9 @@ def build_public_debt_closure_report(packet: dict[str, Any]) -> str:
         "",
         "## Risk-Constrained Planning",
         "",
+        "- Rule: select the highest distinction score among actions whose predicted gap is within the risk budget; if no such action exists, record `no_certified_plan`.",
         f"- Selected risk budget: `{best_planning['risk_budget']:.2f}`",
+        f"- Claim status: `{pareto['frontier_rows'][0]['claim_status']}` at the tightest recorded budget",
         f"- High-gap state rate: `{best_planning['high_gap_state_rate']:.6f}`",
         f"- Effective success rate: `{best_planning['effective_success_rate']:.6f}`",
         f"- No-certified-plan rate: `{best_planning['no_certified_plan_rate']:.6f}`",
@@ -545,6 +619,7 @@ def write_public_minigrid_debt_closure_analysis(report_dir: str | Path) -> dict[
                 "schema_id": "bedc-jepa-public-debt-decomposition",
                 "status": packet["status"],
                 "environment_id": packet["environment_id"],
+                "analysis_contract": packet.get("analysis_contract", {}),
                 "debt_decomposition": packet["debt_decomposition"],
                 "interpretation": packet.get("interpretation", {}),
                 "cannot_claim": packet["cannot_claim"],
@@ -561,6 +636,7 @@ def write_public_minigrid_debt_closure_analysis(report_dir: str | Path) -> dict[
                 "schema_id": "bedc-jepa-certified-coverage-curve",
                 "status": packet["status"],
                 "environment_id": packet["environment_id"],
+                "analysis_contract": packet.get("analysis_contract", {}),
                 "certified_coverage_curve": packet["certified_coverage_curve"],
                 "cannot_claim": packet["cannot_claim"],
             },
@@ -576,6 +652,7 @@ def write_public_minigrid_debt_closure_analysis(report_dir: str | Path) -> dict[
                 "schema_id": "bedc-jepa-risk-constrained-planning",
                 "status": packet["status"],
                 "environment_id": packet["environment_id"],
+                "analysis_contract": packet.get("analysis_contract", {}),
                 "risk_constrained_planning": packet["risk_constrained_planning"],
                 "cannot_claim": packet["cannot_claim"],
             },
@@ -591,6 +668,7 @@ def write_public_minigrid_debt_closure_analysis(report_dir: str | Path) -> dict[
                 "schema_id": "bedc-jepa-conformal-certified-coverage",
                 "status": packet["status"],
                 "environment_id": packet["environment_id"],
+                "analysis_contract": packet.get("analysis_contract", {}),
                 "conformal_certified_coverage": packet["conformal_certified_coverage"],
                 "cannot_claim": packet["cannot_claim"],
             },
@@ -606,6 +684,7 @@ def write_public_minigrid_debt_closure_analysis(report_dir: str | Path) -> dict[
                 "schema_id": "bedc-jepa-risk-success-pareto",
                 "status": packet["status"],
                 "environment_id": packet["environment_id"],
+                "analysis_contract": packet.get("analysis_contract", {}),
                 "risk_success_pareto": packet["risk_success_pareto"],
                 "cannot_claim": packet["cannot_claim"],
             },
@@ -621,6 +700,7 @@ def write_public_minigrid_debt_closure_analysis(report_dir: str | Path) -> dict[
                 "schema_id": "bedc-jepa-loss-ablation",
                 "status": packet["status"],
                 "environment_id": packet["environment_id"],
+                "analysis_contract": packet.get("analysis_contract", {}),
                 "loss_ablation": packet["loss_ablation"],
                 "cannot_claim": [
                     *packet["cannot_claim"],

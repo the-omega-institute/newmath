@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write the BEDC-JEPA external-contact readiness gate."""
+"""Write the BEDC-JEPA external evaluation readiness record."""
 
 from __future__ import annotations
 

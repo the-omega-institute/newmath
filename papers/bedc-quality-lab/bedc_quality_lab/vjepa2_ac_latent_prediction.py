@@ -1,4 +1,4 @@
-"""MiniGrid latent-prediction contact for the public V-JEPA2-AC checkpoint."""
+"""MiniGrid latent-prediction evaluation for the public V-JEPA2-AC checkpoint."""
 
 from __future__ import annotations
 
@@ -10,7 +10,11 @@ from typing import Any
 
 import numpy as np
 
-from bedc_quality_lab.public_jepa_baselines import _cuda_environment_report, _load_vjepa2_ac_giant_modules
+from bedc_quality_lab.public_jepa_baselines import (
+    PUBLIC_VJEPA2_AC_GIANT_CHECKPOINT_URL,
+    _cuda_environment_report,
+    _load_vjepa2_ac_giant_modules,
+)
 from bedc_quality_lab.public_minigrid_native_benchmark import DEFAULT_ENVIRONMENT_ID
 from bedc_quality_lab.vjepa2_ac_claim_certificate import (
     _collect_minigrid_transitions,
@@ -71,6 +75,9 @@ def build_vjepa2_ac_latent_prediction_packet(
     carrier_id: str = "vjepa2-ac-giant-fixed-minigrid-carrier",
     torch_environment: dict[str, Any] | None = None,
     dependency_status: dict[str, str] | None = None,
+    execution_contract: dict[str, Any] | None = None,
+    checkpoint_contract: dict[str, Any] | None = None,
+    feature_contract: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     source = np.asarray(source_features, dtype=np.float64)
     predicted = np.asarray(predicted_features, dtype=np.float64)
@@ -105,7 +112,7 @@ def build_vjepa2_ac_latent_prediction_packet(
         "candidate_id": "vjepa2-ac-vit-giant",
         "carrier_id": carrier_id,
         "environment_id": environment_id,
-        "protocol": "fixed-checkpoint MiniGrid latent-prediction contact",
+        "protocol": "fixed-checkpoint MiniGrid latent-prediction evaluation",
         "sample_counts": {
             "total": float(source.shape[0]),
             "train": float(source_train.shape[0]),
@@ -114,6 +121,33 @@ def build_vjepa2_ac_latent_prediction_packet(
         "feature_dimension": float(source.shape[1]),
         "torch_environment": torch_environment or {},
         "dependency_status": dependency_status or {},
+        "execution_contract": execution_contract
+        or {
+            "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+            "environment_id": environment_id,
+            "sample_count": float(source.shape[0]),
+            "train_count": float(source_train.shape[0]),
+            "test_count": float(source_test.shape[0]),
+            "split_rule": "first train_count rows fit the linear alignment; remaining rows are held out for reporting",
+        },
+        "checkpoint_contract": checkpoint_contract
+        or {
+            "repository_url": "https://github.com/facebookresearch/vjepa2",
+            "hub_entry": "vjepa2_ac_vit_giant",
+            "checkpoint_url": PUBLIC_VJEPA2_AC_GIANT_CHECKPOINT_URL,
+            "candidate_id": "vjepa2-ac-vit-giant",
+            "loaded_components": ["encoder", "predictor"],
+            "checkpoint_loading": "torch hub model structure with explicit public checkpoint state dictionaries for encoder and predictor",
+        },
+        "feature_contract": feature_contract
+        or {
+            "source_features": "encoder pooled token features over the two-frame MiniGrid transition video",
+            "predicted_features": "action-conditioned predictor pooled token features over the same transition video, action vector, and state vector",
+            "video_contract": "two 256x256 RGB frames rendered from MiniGrid symbolic observations before and after the sampled action",
+            "action_contract": "one-hot MiniGrid action vector with an auxiliary action-count coordinate",
+            "state_contract": "agent position, visible key/door/goal indicators, nearest-object distance, and action-count coordinate",
+            "alignment": "ridge linear map fitted from predicted features to source features on the train split only",
+        },
         "metrics": {
             "linear_aligned_r2": r2,
             "linear_aligned_mse": mse,
@@ -125,13 +159,13 @@ def build_vjepa2_ac_latent_prediction_packet(
         "claim_scope": (
             "same MiniGrid image/action stream as the BEDC native packet; V-JEPA2-AC encoder and "
             "action-conditioned predictor are loaded from the public Giant checkpoint; a linear "
-            "alignment is fitted only on the train split for reporting latent-prediction contact"
+            "alignment is fitted only on the train split for reporting the fixed-checkpoint latent-prediction evaluation"
         ),
         "cannot_claim": [
             "public benchmark superiority",
             "official V-JEPA2-AC benchmark reproduction",
             "end-to-end V-JEPA2-AC retraining",
-            "certified operational claim without the separate LCCP artifact",
+            "certified operational claim without the separate LCCP record",
         ],
     }
 
@@ -186,7 +220,7 @@ def run_vjepa2_ac_minigrid_latent_prediction(
             "torch_environment": cuda,
             "reason": "CUDA was requested but torch.cuda.is_available() is false",
             "cannot_claim": [
-                "V-JEPA2-AC MiniGrid latent-prediction contact",
+                "V-JEPA2-AC MiniGrid latent-prediction evaluation",
                 "public benchmark superiority",
             ],
         }
@@ -215,6 +249,35 @@ def run_vjepa2_ac_minigrid_latent_prediction(
             environment_id=environment_id,
             torch_environment=cuda,
             dependency_status=deps,
+            execution_contract={
+                "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+                "environment_id": environment_id,
+                "seed": float(seed),
+                "sample_count": float(sample_count),
+                "train_count": float(train_count),
+                "test_count": float(sample_count - train_count),
+                "batch_size": float(batch_size),
+                "device": device,
+                "use_amp": bool(use_amp),
+                "split_rule": "single seeded transition stream; first train_count rows fit the linear alignment; remaining rows are held out for reporting",
+            },
+            checkpoint_contract={
+                "repository_url": "https://github.com/facebookresearch/vjepa2",
+                "hub_entry": "vjepa2_ac_vit_giant",
+                "checkpoint_url": PUBLIC_VJEPA2_AC_GIANT_CHECKPOINT_URL,
+                "candidate_id": "vjepa2-ac-vit-giant",
+                "loaded_components": ["encoder", "predictor"],
+                "checkpoint_loading": "torch hub model structure with explicit public checkpoint state dictionaries for encoder and predictor",
+                "official_benchmark_boundary": "this packet uses the public checkpoint as a fixed carrier on a MiniGrid stream and does not reproduce the official V-JEPA2-AC benchmark protocol",
+            },
+            feature_contract={
+                "source_features": "encoder pooled token features over the two-frame MiniGrid transition video",
+                "predicted_features": "action-conditioned predictor pooled token features over the same transition video, action vector, and state vector",
+                "video_contract": "two 256x256 RGB frames rendered from MiniGrid symbolic observations before and after the sampled action",
+                "action_contract": "one-hot MiniGrid action vector with an auxiliary action-count coordinate",
+                "state_contract": "agent position, visible key/door/goal indicators, nearest-object distance, and action-count coordinate",
+                "alignment": "ridge linear map fitted from predicted features to source features on the train split only",
+            },
         )
     except Exception as exc:  # pragma: no cover - environment-dependent checkpoint path
         return {
@@ -228,7 +291,7 @@ def run_vjepa2_ac_minigrid_latent_prediction(
             "message": str(exc),
             "trace_tail": traceback.format_exc().splitlines()[-8:],
             "cannot_claim": [
-                "V-JEPA2-AC MiniGrid latent-prediction contact",
+                "V-JEPA2-AC MiniGrid latent-prediction evaluation",
                 "public benchmark superiority",
             ],
         }

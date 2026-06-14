@@ -17,12 +17,31 @@ def test_torch_retraining_loss_ablation_records_true_training_rows():
     assert packet["systems"]["full_s3"]["status"] == "executed"
     assert packet["systems"]["minus_l_unlogged"]["status"] == "executed"
     assert packet["systems"]["minus_l_gap"]["status"] == "executed"
-    assert packet["systems"]["minus_l_stab"]["status"] == "source_debt"
-    assert packet["systems"]["minus_l_intervention"]["status"] == "source_debt"
-    assert len(packet["runs"]) == 3
-    assert set(packet["summary"]) == {"full_s3", "minus_l_unlogged", "minus_l_gap"}
+    assert packet["systems"]["minus_l_stab"]["status"] == "executed"
+    assert packet["systems"]["minus_l_intervention"]["status"] == "executed"
+    assert set(packet["supervision_surface_contract"]) == {"stability_consistency", "intervention_bce"}
+    assert (
+        "stability_source_split"
+        in packet["supervision_surface_contract"]["stability_consistency"]["fields"]
+    )
+    assert (
+        "intervention_source_split"
+        in packet["supervision_surface_contract"]["intervention_bce"]["fields"]
+    )
+    assert "outside-gap OU pairs" in packet["supervision_surface_contract"]["stability_consistency"]["implemented_as"]
+    assert "distinction_pair" in packet["supervision_surface_contract"]["intervention_bce"]["implemented_as"]
+    assert len(packet["runs"]) == 5
+    assert set(packet["summary"]) == {
+        "full_s3",
+        "minus_l_unlogged",
+        "minus_l_gap",
+        "minus_l_stab",
+        "minus_l_intervention",
+    }
     assert "full_s3_minus_minus_l_unlogged" in packet["comparisons"]
     assert "full_s3_minus_minus_l_gap" in packet["comparisons"]
+    assert "full_s3_minus_minus_l_stab" in packet["comparisons"]
+    assert "full_s3_minus_minus_l_intervention" in packet["comparisons"]
 
     for system_summary in packet["summary"].values():
         assert 0.0 <= system_summary["unlogged_error_rate_mean"] <= 1.0

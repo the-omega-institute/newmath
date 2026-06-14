@@ -7,11 +7,17 @@
     "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
     "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
     "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
+    "public_baseline_native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+    "public_baseline_native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+    "public_benchmark_scope_contracts": "reports/bedc_jepa_public_benchmark_scope_contracts.json",
+    "public_minigrid_calibration_extension": "reports/bedc_jepa_public_minigrid_calibration_extension.json",
     "readiness": "reports/bedc_jepa_readiness.json",
     "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
     "review_bundle": "reports/bedc_jepa_review_bundle.json",
     "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
-    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
+    "vjepa2_ac_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
+    "vjepa2_ac_near_native_reproduction": "reports/bedc_vjepa2_ac_native_reproduction.json"
   },
   "backend": {
     "assumptions": [
@@ -27,10 +33,15 @@
       "local_visual_planning",
       "native_public_jepa_benchmark",
       "object_counterfactual_clutter",
-      "public_jepa_checkpoint_contact",
+      "public_baseline_native_metric_contract",
+      "public_baseline_native_metric_template",
+      "public_jepa_checkpoint_evaluation",
+      "public_minigrid_calibration_extension",
+      "public_minigrid_calibration_pareto",
       "public_minigrid_execution",
       "torch_objective_seed_sweep",
-      "vjepa2_ac_minigrid_latent_prediction"
+      "vjepa2_ac_minigrid_latent_prediction",
+      "vjepa2_ac_near_native_reproduction"
     ],
     "ledger_rows": [
       {
@@ -51,7 +62,15 @@
       },
       {
         "kind": "stability",
-        "residue": "public-benchmark-contact-readiness"
+        "residue": "public-benchmark-evidence-readiness"
+      },
+      {
+        "kind": "calibration",
+        "residue": "public-minigrid-calibration-pareto"
+      },
+      {
+        "kind": "calibration",
+        "residue": "public-minigrid-calibration-extension"
       },
       {
         "kind": "generalization",
@@ -72,6 +91,18 @@
       {
         "kind": "mechanism",
         "residue": "vjepa2-ac-minigrid-latent-prediction"
+      },
+      {
+        "kind": "mechanism",
+        "residue": "vjepa2-ac-near-native-minigrid-record"
+      },
+      {
+        "kind": "mechanism",
+        "residue": "public-baseline-native-metric-contract"
+      },
+      {
+        "kind": "mechanism",
+        "residue": "public-baseline-native-metric-template"
       }
     ],
     "metrics": [
@@ -84,12 +115,24 @@
       "native_unlogged_error_reduction",
       "native_planning_high_gap_reduction",
       "seed_sweep_unlogged_error_win_rate",
-      "checkpoint_contact_closed",
+      "checkpoint_evaluation_closed",
       "native_public_benchmark_closed",
+      "public_minigrid_calibration_pareto_closed",
+      "public_minigrid_calibration_extension_closed",
+      "public_minigrid_calibration_row_count",
+      "public_minigrid_calibration_executed_row_count",
+      "public_minigrid_calibration_source_gap_row_count",
+      "public_minigrid_calibration_risk_reduction_mean",
+      "public_minigrid_calibration_total_debt_direction_win_rate",
       "artifact_review_bundle_closed",
       "retraining_ablation_recorded",
+      "full_retraining_loss_ablation_closed",
       "vjepa2_ac_lccp_recorded",
-      "vjepa2_ac_latent_prediction_score"
+      "vjepa2_ac_latent_prediction_score",
+      "vjepa2_ac_near_native_recorded",
+      "public_baseline_native_metric_contract_recorded",
+      "public_baseline_native_metric_template_recorded",
+      "vjepa2_ac_official_reproduction_evaluated"
     ],
     "name": "bedc-jepa-world-model",
     "not_claimed": [
@@ -118,7 +161,7 @@
   ],
   "ledger_rows": [
     {
-      "evidence_pointer": "reports/bedc_jepa_artifact_manifest.json:$.contact_ready_claims",
+      "evidence_pointer": "reports/bedc_jepa_artifact_manifest.json:$.evidence_ready_claims",
       "key": "source/operational-distinction-grounding",
       "kind": "source",
       "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
@@ -127,7 +170,7 @@
       "status": "closed"
     },
     {
-      "evidence_pointer": "reports/bedc_jepa_artifact_manifest.json:$.contact_ready_claims",
+      "evidence_pointer": "reports/bedc_jepa_artifact_manifest.json:$.evidence_ready_claims",
       "key": "source/gap-ledger-label-grounding",
       "kind": "source",
       "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
@@ -155,10 +198,28 @@
     },
     {
       "evidence_pointer": "reports/bedc_jepa_readiness.json:$.evidence_boundary.native_public_benchmark",
-      "key": "stability/public-benchmark-contact-readiness",
+      "key": "stability/public-benchmark-evidence-readiness",
       "kind": "stability",
       "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
-      "residue": "public-benchmark-contact-readiness",
+      "residue": "public-benchmark-evidence-readiness",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_readiness.json:$.evidence_boundary.public_minigrid_calibration_pareto",
+      "key": "calibration/public-minigrid-calibration-pareto",
+      "kind": "calibration",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "public-minigrid-calibration-pareto",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_readiness.json:$.evidence_boundary.public_minigrid_calibration_extension",
+      "key": "calibration/public-minigrid-calibration-extension",
+      "kind": "calibration",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "public-minigrid-calibration-extension",
       "severity": "none",
       "status": "closed"
     },
@@ -181,7 +242,7 @@
       "status": "open"
     },
     {
-      "evidence_pointer": "reports/bedc_jepa_retraining_loss_ablation.json",
+      "evidence_pointer": "reports/bedc_jepa_review_bundle.json:$.remaining_evidence_contracts.true_retraining_loss_ablation",
       "key": "mechanism/full-retraining-loss-ablation",
       "kind": "mechanism",
       "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
@@ -206,16 +267,53 @@
       "residue": "vjepa2-ac-minigrid-latent-prediction",
       "severity": "none",
       "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "key": "mechanism/vjepa2-ac-near-native-minigrid-record",
+      "kind": "mechanism",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "vjepa2-ac-near-native-minigrid-record",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "key": "mechanism/public-baseline-native-metric-contract",
+      "kind": "mechanism",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "public-baseline-native-metric-contract",
+      "severity": "none",
+      "status": "closed"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+      "key": "mechanism/public-baseline-native-metric-template",
+      "kind": "mechanism",
+      "owner": "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate",
+      "residue": "public-baseline-native-metric-template",
+      "severity": "none",
+      "status": "closed"
     }
   ],
   "metrics": {
     "artifact_review_bundle_closed": 1.0,
-    "checkpoint_contact_closed": 1.0,
+    "checkpoint_evaluation_closed": 1.0,
+    "full_retraining_loss_ablation_closed": 1.0,
     "minigrid_gap_auc_gain": 0.4284585738549478,
     "minigrid_risk_adjusted_planning_gain": 0.3134940677118583,
     "native_planning_high_gap_reduction": 0.6875,
     "native_public_benchmark_closed": 1.0,
     "native_unlogged_error_reduction": 0.125,
+    "public_baseline_native_metric_contract_recorded": 1.0,
+    "public_baseline_native_metric_template_recorded": 1.0,
+    "public_minigrid_calibration_executed_row_count": 75.0,
+    "public_minigrid_calibration_extension_closed": 1.0,
+    "public_minigrid_calibration_pareto_closed": 1.0,
+    "public_minigrid_calibration_risk_reduction_mean": 0.4828479853479854,
+    "public_minigrid_calibration_row_count": 75.0,
+    "public_minigrid_calibration_source_gap_row_count": 0.0,
+    "public_minigrid_calibration_total_debt_direction_win_rate": 0.28,
     "retraining_ablation_recorded": 1.0,
     "seed_sweep_unlogged_error_win_rate": 0.6,
     "torch_objective_debt_reduction_mean": 0.10288747050501545,
@@ -223,7 +321,9 @@
     "torch_objective_gap_auc_win_rate": 1.0,
     "torch_objective_latent_r2_delta_abs_max": 0.0,
     "vjepa2_ac_latent_prediction_score": 0.9812458076166543,
-    "vjepa2_ac_lccp_recorded": 1.0
+    "vjepa2_ac_lccp_recorded": 1.0,
+    "vjepa2_ac_near_native_recorded": 1.0,
+    "vjepa2_ac_official_reproduction_evaluated": 0.0
   },
   "not_claimed": [
     "global model quality",
@@ -246,18 +346,98 @@
       "S3"
     ]
   },
+  "remaining_evidence_contracts": {
+    "true_retraining_loss_ablation": {
+      "evidence": "reports/bedc_jepa_retraining_loss_ablation.json",
+      "executed_rows": [
+        "full_s3",
+        "minus_l_gap",
+        "minus_l_intervention",
+        "minus_l_stab",
+        "minus_l_unlogged"
+      ],
+      "required_record": "true retraining loss-term ablation for every declared loss removal row",
+      "source_debt_contract": {},
+      "source_debt_rows": [],
+      "status": "closed",
+      "supervision_surface_contract": {
+        "intervention_bce": {
+          "fields": [
+            "intervention_source_split",
+            "pre_intervention_observation",
+            "intervention_or_action",
+            "post_intervention_label",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+          "source_surface": "OU action/transition pair with post-transition operational distinction label"
+        },
+        "stability_consistency": {
+          "fields": [
+            "stability_source_split",
+            "paired_observations_or_augmentations",
+            "stability_label_or_invariance_target",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+          "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
+        }
+      }
+    },
+    "vjepa2_ac_native_reproduction": {
+      "evidence": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+      "native_acceptance_contract": {
+        "native_acceptance_rule": "mark native reproduction as evaluated only when the same public stream, official or near-native rollout score, command, checkpoint identity, and BEDC readback metrics are recorded in one packet",
+        "parity_protocol_fields": [
+          "same_observation_preprocessing",
+          "same_action_encoding",
+          "same_train_cal_test_split",
+          "same_planning_or_rollout_target",
+          "same_bedc_predicate_set",
+          "same_alpha_grid"
+        ],
+        "required_native_evidence": [
+          "public_environment_id",
+          "image_action_stream_split",
+          "vjepa2_repository_commit",
+          "checkpoint_identity",
+          "execution_command",
+          "native_or_near_native_rollout_score",
+          "latent_prediction_score",
+          "bedc_readback_metrics",
+          "lccp_certificate_metrics",
+          "cannot_claim_boundary"
+        ],
+        "successor_record_requirements": [
+          "reports/bedc_vjepa2_ac_native_reproduction.json",
+          "reports/bedc_vjepa2_ac_native_readback_comparison.json"
+        ]
+      },
+      "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "native_metric_contract_status": "contract_ready",
+      "native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+      "native_metric_template_status": "recorded",
+      "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "near_native_record_status": "evaluated_near_native",
+      "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
+      "status": "not_evaluated"
+    }
+  },
   "schema_id": "bedc-jepa-quality-backend-candidate",
   "source_spec": {
     "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
     "producer_branch_role": "bedc-jepa-world-model evidence producer",
+    "public_minigrid_calibration_extension": "reports/bedc_jepa_public_minigrid_calibration_extension.json",
     "readiness": "reports/bedc_jepa_readiness.json",
     "review_bundle": "reports/bedc_jepa_review_bundle.json",
     "world_state_contract": "continuous latent state plus operational distinctions plus gap ledger"
   },
   "stability_spec": {
     "artifact_review_bundle": "closed",
-    "checkpoint_contact": "closed",
+    "checkpoint_evaluation": "closed",
     "native_public_benchmark": "closed",
+    "public_minigrid_calibration_extension": "closed",
+    "public_minigrid_calibration_pareto": "closed",
     "seed_sweep_count": 5.0
   }
 }

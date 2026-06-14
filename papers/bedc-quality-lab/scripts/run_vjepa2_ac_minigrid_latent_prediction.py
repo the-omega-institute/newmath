@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run a fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction contact."""
+"""Run a fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction evaluation."""
 
 from __future__ import annotations
 

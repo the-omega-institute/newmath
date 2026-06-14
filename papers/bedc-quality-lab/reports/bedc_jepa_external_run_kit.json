@@ -4,13 +4,69 @@
     "native V-JEPA2-AC checkpoint reproduction"
   ],
   "latent_claim_certificate_command": "python scripts/run_bedc_latent_claim_certificate.py",
+  "paper_writeback_packet_command": "python scripts/build_bedc_jepa_paper_writeback_packet.py",
+  "public_baseline_native_metric_contract_command": "python scripts/build_public_baseline_native_metric_contract.py",
+  "public_baseline_native_metric_template_command": "python scripts/build_public_baseline_native_metric_template.py",
+  "public_benchmark_scope_contracts_command": "python scripts/build_public_benchmark_scope_contracts.py",
+  "public_minigrid_calibration_extension_command": "python scripts/build_public_minigrid_calibration_extension.py",
   "quality_backend_candidate_command": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+  "quality_lab_export_command": "python scripts/build_bedc_jepa_quality_lab_export.py",
   "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
   "required_external_results": {
+    "paper_writeback_packet": {
+      "build_command": "python scripts/build_bedc_jepa_paper_writeback_packet.py",
+      "pass_condition": "target record projects the admitted paper-facing claims from the review bundle and quality-lab export without adding empirical claims",
+      "readiness_gate": "paper_writeback_packet",
+      "required_fields": [
+        "schema_id",
+        "status",
+        "source_records",
+        "metrics",
+        "ledger_rows",
+        "not_claimed",
+        "record",
+        "fact_owner"
+      ],
+      "target_artifact": "reports/bedc_jepa_paper_writeback_packet.json"
+    },
+    "public_baseline_native_metric_contract": {
+      "build_command": "python scripts/build_public_baseline_native_metric_contract.py",
+      "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
+      "pass_condition": "contract record is ready; external baseline comparison remains unevaluated until a result satisfying this contract is imported",
+      "readiness_gate": "public_baseline_native_metric_contract",
+      "required_execution_fields": [
+        "candidate_id",
+        "repository_commit",
+        "checkpoint_identity",
+        "dataset_identity",
+        "environment_or_benchmark_name",
+        "execution_command",
+        "observation_action_stream_contract",
+        "native_metric_contract",
+        "latent_prediction_score",
+        "rollout_or_planning_score",
+        "bedc_readback_metrics",
+        "lccp_certificate_metrics",
+        "cannot_claim_boundary"
+      ],
+      "target_artifact": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "template_artifact": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+      "template_command": "python scripts/build_public_baseline_native_metric_template.py"
+    },
+    "public_benchmark_scope_contracts": {
+      "build_command": "python scripts/build_public_benchmark_scope_contracts.py",
+      "pass_condition": "scope contracts are ready; public pixel-world and object-interaction benchmark claims remain source gaps until executed results satisfying the contracts are imported",
+      "readiness_gate": "public_benchmark_scope_contracts",
+      "required_contracts": [
+        "public_pixel_world_benchmark",
+        "public_object_interaction_benchmark"
+      ],
+      "target_artifact": "reports/bedc_jepa_public_benchmark_scope_contracts.json"
+    },
     "public_jepa_baseline": {
       "export_command": "python scripts/export_public_jepa_baseline_result.py",
       "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
-      "pass_condition": "target artifact status is executed with S0/S1/S2/S3, baseline boundary, and nonzero planning high-gap reduction",
+      "pass_condition": "target record status is executed with S0/S1/S2/S3, baseline boundary, and nonzero planning high-gap reduction",
       "probe_command": "python scripts/probe_public_jepa_baseline.py",
       "readiness_gate": "native_public_jepa_benchmark",
       "required_fields": [
@@ -24,17 +80,37 @@
       "seed_sweep_command": "python scripts/run_public_minigrid_native_seed_sweep.py",
       "target_artifact": "reports/bedc_jepa_public_native_minigrid_benchmark.json"
     },
-    "public_jepa_checkpoint_contact": {
+    "public_jepa_checkpoint_evaluation": {
       "comparison_command": "python scripts/build_public_jepa_cuda_comparison.py",
-      "pass_condition": "target artifact status is executed and AC Giant checkpoint_status is loaded under CUDA",
-      "readiness_gate": "public_jepa_checkpoint_contact",
+      "pass_condition": "target record status is executed and AC Giant checkpoint_status is loaded under CUDA",
+      "readiness_gate": "public_jepa_checkpoint_evaluation",
       "run_command": "python scripts/run_public_jepa_ac_giant_adapter.py",
       "target_artifact": "reports/bedc_jepa_public_cuda_adapter_comparison.json"
+    },
+    "public_minigrid_calibration_extension": {
+      "coverage_requirements": {
+        "minimum_executed_rows": 30,
+        "minimum_planning_budget_count": 3,
+        "minimum_seed_count": 5,
+        "minimum_task_variant_count": 3
+      },
+      "pass_condition": "target record executes at least 30 public MiniGrid calibration rows across at least five seeds, three task variants, and three planning budgets",
+      "readiness_gate": "public_minigrid_calibration_extension",
+      "required_fields": [
+        "task_variants",
+        "seeds",
+        "planning_state_counts",
+        "summary",
+        "rows",
+        "cannot_claim"
+      ],
+      "run_command": "python scripts/build_public_minigrid_calibration_extension.py",
+      "target_artifact": "reports/bedc_jepa_public_minigrid_calibration_extension.json"
     },
     "public_minigrid_execution": {
       "export_command": "python scripts/export_public_minigrid_benchmark_result.py",
       "import_command": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
-      "pass_condition": "target artifact status is available and sample_count_collected is positive",
+      "pass_condition": "target record status is available and sample_count_collected is positive",
       "readiness_gate": "public_minigrid_execution",
       "required_fields": [
         "environment_id",
@@ -49,8 +125,19 @@
       ],
       "target_artifact": "reports/bedc_jepa_public_minigrid_benchmark_packet.json"
     },
+    "quality_lab_export": {
+      "build_command": "python scripts/build_bedc_jepa_quality_lab_export.py",
+      "pass_condition": "target record compiles the BEDC-JEPA review bundle, readiness, manifest, and quality backend into a rollup-style quality-lab export registry",
+      "readiness_gate": "quality_lab_export_registry",
+      "required_fields": [
+        "schema_id",
+        "generated_at",
+        "exports"
+      ],
+      "target_artifact": "reports/bedc_jepa_quality_lab_exports.json"
+    },
     "torch_retraining_loss_ablation": {
-      "pass_condition": "target artifact status is executed; full S3, minus L_unlogged, and minus L_gap are retrained rows; unavailable stability or intervention surfaces are recorded as source debt",
+      "pass_condition": "target record status is executed and full S3, minus L_unlogged, minus L_gap, minus L_stab, and minus L_intervention are true retraining rows under the declared OU-pair stability and intervention surfaces",
       "readiness_gate": "full_retraining_loss_ablation",
       "required_systems": [
         "full_s3",
@@ -60,11 +147,33 @@
         "minus_l_intervention"
       ],
       "run_command": "python scripts/run_torch_retraining_loss_ablation.py",
+      "source_surface_contract": {
+        "intervention_bce": [
+          "intervention_source_split",
+          "pre_intervention_observation",
+          "intervention_or_action",
+          "post_intervention_label",
+          "same_train_cal_test_split"
+        ],
+        "stability_consistency": [
+          "stability_source_split",
+          "paired_observations_or_augmentations",
+          "stability_label_or_invariance_target",
+          "same_train_cal_test_split"
+        ]
+      },
       "target_artifact": "reports/bedc_jepa_retraining_loss_ablation.json"
     },
     "vjepa2_ac_minigrid_claim_certificate": {
-      "pass_condition": "target artifact records each predicate as certified, coverage debt, or source debt under the Latent Claim Certificate Protocol",
+      "pass_condition": "target record includes execution, checkpoint, and feature contracts and assigns each predicate to certified, coverage-debt, or source-debt status under LCCP",
       "readiness_gate": "vjepa2_ac_fixed_carrier_lccp",
+      "required_fields": [
+        "execution_contract",
+        "checkpoint_contract",
+        "feature_contract",
+        "claims",
+        "cannot_claim"
+      ],
       "required_predicates": [
         "door_key_context_visible",
         "unsafe_transition",
@@ -76,18 +185,50 @@
       "target_artifact": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
     },
     "vjepa2_ac_minigrid_latent_prediction": {
-      "pass_condition": "target artifact status is executed and reports latent_prediction_score beside explicit cannot-claim rows",
+      "pass_condition": "target record status is executed and reports latent_prediction_score beside execution, checkpoint, feature, and cannot-claim contracts",
       "readiness_gate": "vjepa2_ac_minigrid_latent_prediction",
       "required_fields": [
         "candidate_id",
         "environment_id",
         "sample_counts",
+        "execution_contract",
+        "checkpoint_contract",
+        "feature_contract",
         "metrics",
         "claim_scope",
         "cannot_claim"
       ],
       "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
       "target_artifact": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    },
+    "vjepa2_ac_native_reproduction": {
+      "boundary_command": "python scripts/build_vjepa2_ac_native_boundary.py",
+      "boundary_record": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+      "comparison_artifact": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
+      "parity_protocol_fields": [
+        "same_observation_preprocessing",
+        "same_action_encoding",
+        "same_train_cal_test_split",
+        "same_planning_or_rollout_target",
+        "same_bedc_predicate_set",
+        "same_alpha_grid"
+      ],
+      "pass_condition": "near-native fixed-checkpoint record may be evaluated when fixed-checkpoint score, checkpoint identity, command, stream split, and BEDC readback metrics are recorded together; official native reproduction remains unevaluated until the official benchmark protocol is run",
+      "readiness_gate": "vjepa2_ac_native_reproduction",
+      "required_fields": [
+        "public_environment_id",
+        "image_action_stream_split",
+        "vjepa2_repository_commit",
+        "checkpoint_identity",
+        "execution_command",
+        "native_or_near_native_rollout_score",
+        "latent_prediction_score",
+        "bedc_readback_metrics",
+        "lccp_certificate_metrics",
+        "cannot_claim_boundary"
+      ],
+      "run_command": "python scripts/build_vjepa2_ac_near_native_reproduction.py",
+      "target_artifact": "reports/bedc_vjepa2_ac_native_reproduction.json"
     }
   },
   "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
@@ -99,5 +240,7 @@
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
   ],
   "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
-  "vjepa2_ac_minigrid_latent_prediction_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py"
+  "vjepa2_ac_minigrid_latent_prediction_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+  "vjepa2_ac_native_boundary_command": "python scripts/build_vjepa2_ac_native_boundary.py",
+  "vjepa2_ac_near_native_reproduction_command": "python scripts/build_vjepa2_ac_near_native_reproduction.py"
 }

@@ -96,6 +96,8 @@ def _variant_weights(*, bedc_objective: bool = True, remove: str | None = None) 
         "gap_bce": 1.8,
         "unlogged_error_penalty": 2.4,
         "boundary_caution": 0.8,
+        "stability_consistency": 0.6,
+        "intervention_bce": 0.9,
     }
     if not bedc_objective:
         return {
@@ -109,6 +111,10 @@ def _variant_weights(*, bedc_objective: bool = True, remove: str | None = None) 
         weights["boundary_caution"] = 0.0
     elif remove == "unlogged_error_penalty":
         weights["unlogged_error_penalty"] = 0.0
+    elif remove == "stability_consistency":
+        weights["stability_consistency"] = 0.0
+    elif remove == "intervention_bce":
+        weights["intervention_bce"] = 0.0
     return weights
 
 
@@ -134,7 +140,15 @@ def _train_weighted_variant(
     x_pair = _tensor(torch, train.x_pair, device=device)
     z_target = _tensor(torch, train.z, device=device)
     distinction = _tensor(torch, train.distinction.astype(np.float32)[:, None], device=device)
+    distinction_pair = _tensor(torch, train.distinction_pair.astype(np.float32)[:, None], device=device)
     gap = _tensor(torch, train.gap.astype(np.float32)[:, None], device=device)
+    gap_pair = _tensor(torch, train.gap_pair.astype(np.float32)[:, None], device=device)
+    stability_mask_np = (
+        (~train.gap)
+        & (~train.gap_pair)
+        & (train.distinction == train.distinction_pair)
+    ).astype(np.float32)[:, None]
+    stability_mask = _tensor(torch, stability_mask_np, device=device)
     bce = torch.nn.BCEWithLogitsLoss()
     mse = torch.nn.MSELoss()
     pretrain_epochs = epochs
@@ -156,6 +170,8 @@ def _train_weighted_variant(
         )
         with torch.no_grad():
             z_fixed = encoder(x).detach()
+            z_pair_fixed = encoder(x_pair).detach()
+            pred_pair_fixed = predictor(z_fixed).detach()
     for _ in range(bedc_epochs):
         head_optimizer.zero_grad(set_to_none=True)
         z = z_fixed
@@ -168,11 +184,20 @@ def _train_weighted_variant(
         gap_prob = torch.sigmoid(g_logits)
         unlogged_loss = torch.mean(wrong_soft * (1.0 - gap_prob) ** 2)
         boundary_caution = torch.mean(gap * (1.0 - gap_prob) ** 2)
+        d_pair_logits = distinction_head(_distinction_features(torch, z_pair_fixed))
+        d_pair_prob = torch.sigmoid(d_pair_logits)
+        d_pred_pair_logits = distinction_head(_distinction_features(torch, pred_pair_fixed))
+        stability_numer = torch.sum(stability_mask * (d_prob - d_pair_prob) ** 2)
+        stability_denom = torch.clamp(torch.sum(stability_mask), min=1.0)
+        stability_loss = stability_numer / stability_denom
+        intervention_loss = bce(d_pred_pair_logits, distinction_pair)
         loss = (
             float(weights["distinction_bce"]) * d_loss
             + float(weights["gap_bce"]) * g_loss
             + float(weights["unlogged_error_penalty"]) * unlogged_loss
             + float(weights["boundary_caution"]) * boundary_caution
+            + float(weights["stability_consistency"]) * stability_loss
+            + float(weights["intervention_bce"]) * intervention_loss
         )
         loss.backward()
         head_optimizer.step()
@@ -223,6 +248,29 @@ def run_torch_retraining_loss_ablation(
     epochs: int = 220,
 ) -> dict[str, Any]:
     torch = require_torch()
+    supervision_surface_contract = {
+        "stability_consistency": {
+            "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction",
+            "fields": [
+                "stability_source_split",
+                "paired_observations_or_augmentations",
+                "stability_label_or_invariance_target",
+                "same_train_cal_test_split",
+            ],
+            "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+        },
+        "intervention_bce": {
+            "source_surface": "OU action/transition pair with post-transition operational distinction label",
+            "fields": [
+                "intervention_source_split",
+                "pre_intervention_observation",
+                "intervention_or_action",
+                "post_intervention_label",
+                "same_train_cal_test_split",
+            ],
+            "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+        },
+    }
     systems = {
         "full_s3": {
             "objective_terms": [
@@ -231,9 +279,12 @@ def run_torch_retraining_loss_ablation(
                 "gap_bce",
                 "unlogged_error_penalty",
                 "boundary_caution",
+                "stability_consistency",
+                "intervention_bce",
             ],
             "weights": _variant_weights(),
             "status": "executed",
+            "supervision_surface_contract": supervision_surface_contract,
         },
         "minus_l_unlogged": {
             "objective_terms": [
@@ -241,30 +292,52 @@ def run_torch_retraining_loss_ablation(
                 "distinction_bce",
                 "gap_bce",
                 "boundary_caution",
+                "stability_consistency",
+                "intervention_bce",
             ],
             "weights": _variant_weights(remove="unlogged_error_penalty"),
             "status": "executed",
+            "supervision_surface_contract": supervision_surface_contract,
         },
         "minus_l_gap": {
             "objective_terms": [
                 "latent_prediction",
                 "distinction_bce",
                 "unlogged_error_penalty",
+                "stability_consistency",
+                "intervention_bce",
             ],
             "weights": _variant_weights(remove="gap_bce"),
             "status": "executed",
+            "supervision_surface_contract": supervision_surface_contract,
         },
         "minus_l_stab": {
-            "objective_terms": [],
-            "weights": {},
-            "status": "source_debt",
-            "reason": "boundary-gated torch objective has no declared stability supervision term",
+            "objective_terms": [
+                "latent_prediction",
+                "distinction_bce",
+                "gap_bce",
+                "unlogged_error_penalty",
+                "boundary_caution",
+                "intervention_bce",
+            ],
+            "weights": _variant_weights(remove="stability_consistency"),
+            "status": "executed",
+            "removed_term": "stability_consistency",
+            "supervision_surface_contract": supervision_surface_contract,
         },
         "minus_l_intervention": {
-            "objective_terms": [],
-            "weights": {},
-            "status": "source_debt",
-            "reason": "boundary-gated torch objective has no declared intervention supervision term",
+            "objective_terms": [
+                "latent_prediction",
+                "distinction_bce",
+                "gap_bce",
+                "unlogged_error_penalty",
+                "boundary_caution",
+                "stability_consistency",
+            ],
+            "weights": _variant_weights(remove="intervention_bce"),
+            "status": "executed",
+            "removed_term": "intervention_bce",
+            "supervision_surface_contract": supervision_surface_contract,
         },
     }
     run_rows: list[dict[str, Any]] = []
@@ -288,7 +361,7 @@ def run_torch_retraining_loss_ablation(
     summary = {name: _summarize_rows(rows) for name, rows in by_system.items()}
     full = summary.get("full_s3", {})
     comparisons = {}
-    for name in ("minus_l_unlogged", "minus_l_gap"):
+    for name in ("minus_l_unlogged", "minus_l_gap", "minus_l_stab", "minus_l_intervention"):
         other = summary.get(name, {})
         if not full or not other:
             continue
@@ -317,14 +390,15 @@ def run_torch_retraining_loss_ablation(
         },
         "seeds": [float(seed) for seed in seeds],
         "systems": systems,
+        "supervision_surface_contract": supervision_surface_contract,
         "runs": run_rows,
         "summary": summary,
         "comparisons": comparisons,
         "cannot_claim": [
             "public MiniGrid retraining ablation",
             "native V-JEPA2-AC retraining ablation",
-            "stability-term ablation without a declared stability supervision surface",
-            "intervention-term ablation without a declared intervention supervision surface",
+            "natural-video stability ablation",
+            "robot-control intervention ablation",
         ],
     }
 

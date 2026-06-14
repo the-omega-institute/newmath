@@ -2,21 +2,35 @@
   "cannot_claim": [
     "public MiniGrid retraining ablation",
     "native V-JEPA2-AC retraining ablation",
-    "stability-term ablation without a declared stability supervision surface",
-    "intervention-term ablation without a declared intervention supervision surface"
+    "natural-video stability ablation",
+    "robot-control intervention ablation"
   ],
   "comparisons": {
     "full_s3_minus_minus_l_gap": {
-      "certified_coverage_delta": 0.9114583333333334,
-      "debt_reduction": 0.17932513672934425,
-      "gap_auc_gain": 0.6539066736942556,
+      "certified_coverage_delta": 0.9058159722222222,
+      "debt_reduction": 0.17601809679102368,
+      "gap_auc_gain": 0.6536364908995629,
+      "latent_r2_delta": 0.0,
+      "unlogged_error_reduction": 0.0
+    },
+    "full_s3_minus_minus_l_intervention": {
+      "certified_coverage_delta": -0.0060763888888888395,
+      "debt_reduction": 0.000650634356414579,
+      "gap_auc_gain": -0.0001296917800185371,
+      "latent_r2_delta": 0.0,
+      "unlogged_error_reduction": 0.0
+    },
+    "full_s3_minus_minus_l_stab": {
+      "certified_coverage_delta": 0.00043402777777790114,
+      "debt_reduction": 1.598415768146004e-05,
+      "gap_auc_gain": -2.8586156037069266e-05,
       "latent_r2_delta": 0.0,
       "unlogged_error_reduction": 0.0
     },
     "full_s3_minus_minus_l_unlogged": {
-      "certified_coverage_delta": 0.00043402777777790114,
-      "debt_reduction": -0.0010046585982554082,
-      "gap_auc_gain": -0.00022983915140761813,
+      "certified_coverage_delta": -0.003472222222222321,
+      "debt_reduction": -0.00024388675655016498,
+      "gap_auc_gain": -0.0003513782271952204,
       "latent_r2_delta": 0.0,
       "unlogged_error_reduction": 0.0
     }
@@ -24,13 +38,13 @@
   "runs": [
     {
       "approx_identifiability_proxy": 0.9734179819809784,
-      "bedc_debt_score": 0.007532125350140044,
-      "certified_coverage": 0.9114583333333334,
+      "bedc_debt_score": 0.00483876050420169,
+      "certified_coverage": 0.90625,
       "covariance_deviation": 0.07972068558368543,
-      "distinction_accuracy": 0.98828125,
+      "distinction_accuracy": 0.9908854166666666,
       "distinction_accuracy_outside_gap": 1.0,
-      "false_claim_rate_inside_gap": 0.014705882352941176,
-      "gap_detection_auc": 0.9991806722689076,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.9992436974789916,
       "linear_identifiability_r2": 0.991837095039347,
       "orthogonality_error": 0.03381610944163174,
       "seed": 4242.0,
@@ -40,13 +54,13 @@
     },
     {
       "approx_identifiability_proxy": 0.9734179819809784,
-      "bedc_debt_score": 0.004712753851540613,
-      "certified_coverage": 0.9088541666666666,
+      "bedc_debt_score": 0.0045531337535013984,
+      "certified_coverage": 0.9114583333333334,
       "covariance_deviation": 0.07972068558368543,
-      "distinction_accuracy": 0.9895833333333334,
+      "distinction_accuracy": 0.98046875,
       "distinction_accuracy_outside_gap": 1.0,
       "false_claim_rate_inside_gap": 0.0,
-      "gap_detection_auc": 0.9992226890756303,
+      "gap_detection_auc": 0.9993697478991597,
       "linear_identifiability_r2": 0.991837095039347,
       "orthogonality_error": 0.03381610944163174,
       "seed": 4242.0,
@@ -56,18 +70,114 @@
     },
     {
       "approx_identifiability_proxy": 0.9734179819809784,
-      "bedc_debt_score": 0.18478991596638655,
+      "bedc_debt_score": 0.17580462184873952,
       "certified_coverage": 0.0,
       "covariance_deviation": 0.07972068558368543,
-      "distinction_accuracy": 0.9921875,
+      "distinction_accuracy": 0.9856770833333334,
       "distinction_accuracy_outside_gap": 1.0,
-      "false_claim_rate_inside_gap": 0.04411764705882353,
-      "gap_detection_auc": 0.3701680672268908,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.3709768907563025,
       "linear_identifiability_r2": 0.991837095039347,
       "orthogonality_error": 0.03381610944163174,
       "seed": 4242.0,
       "system": "minus_l_gap",
       "system_name": "minus_l_gap",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "approx_identifiability_proxy": 0.9734179819809784,
+      "bedc_debt_score": 0.0048996629901960805,
+      "certified_coverage": 0.9049479166666666,
+      "covariance_deviation": 0.07972068558368543,
+      "distinction_accuracy": 0.984375,
+      "distinction_accuracy_outside_gap": 1.0,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.9992647058823529,
+      "linear_identifiability_r2": 0.991837095039347,
+      "orthogonality_error": 0.03381610944163174,
+      "seed": 4242.0,
+      "system": "minus_l_stab",
+      "system_name": "minus_l_stab",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "approx_identifiability_proxy": 0.9734179819809784,
+      "bedc_debt_score": 0.007458617822128848,
+      "certified_coverage": 0.9127604166666666,
+      "covariance_deviation": 0.07972068558368543,
+      "distinction_accuracy": 0.98828125,
+      "distinction_accuracy_outside_gap": 1.0,
+      "false_claim_rate_inside_gap": 0.014705882352941176,
+      "gap_detection_auc": 0.9992226890756303,
+      "linear_identifiability_r2": 0.991837095039347,
+      "orthogonality_error": 0.03381610944163174,
+      "seed": 4242.0,
+      "system": "minus_l_intervention",
+      "system_name": "minus_l_intervention",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "approx_identifiability_proxy": 0.9772017824732767,
+      "bedc_debt_score": 0.005362317081067086,
+      "certified_coverage": 0.9010416666666666,
+      "covariance_deviation": 0.08353750726706484,
+      "distinction_accuracy": 0.9869791666666666,
+      "distinction_accuracy_outside_gap": 1.0,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.9979279979279979,
+      "linear_identifiability_r2": 0.9927117328904856,
+      "orthogonality_error": 0.02027104803530344,
+      "seed": 4259.0,
+      "system": "full_s3",
+      "system_name": "full_s3",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "approx_identifiability_proxy": 0.9772017824732767,
+      "bedc_debt_score": 0.005098291947250273,
+      "certified_coverage": 0.9036458333333334,
+      "covariance_deviation": 0.08353750726706484,
+      "distinction_accuracy": 0.9869791666666666,
+      "distinction_accuracy_outside_gap": 1.0,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.9985970819304153,
+      "linear_identifiability_r2": 0.9927117328904856,
+      "orthogonality_error": 0.02027104803530344,
+      "seed": 4259.0,
+      "system": "minus_l_unlogged",
+      "system_name": "minus_l_unlogged",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "approx_identifiability_proxy": 0.9772017824732767,
+      "bedc_debt_score": 0.190667357334024,
+      "certified_coverage": 0.0,
+      "covariance_deviation": 0.08353750726706484,
+      "distinction_accuracy": 0.9791666666666666,
+      "distinction_accuracy_outside_gap": 0.9971509971509972,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.29666321332988,
+      "linear_identifiability_r2": 0.9927117328904856,
+      "orthogonality_error": 0.02027104803530344,
+      "seed": 4259.0,
+      "system": "minus_l_gap",
+      "system_name": "minus_l_gap",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "approx_identifiability_proxy": 0.9772017824732767,
+      "bedc_debt_score": 0.005349367068117079,
+      "certified_coverage": 0.9010416666666666,
+      "covariance_deviation": 0.08353750726706484,
+      "distinction_accuracy": 0.9869791666666666,
+      "distinction_accuracy_outside_gap": 1.0,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.997992747992748,
+      "linear_identifiability_r2": 0.9927117328904856,
+      "orthogonality_error": 0.02027104803530344,
+      "seed": 4259.0,
+      "system": "minus_l_stab",
+      "system_name": "minus_l_stab",
       "unlogged_error_rate": 0.0
     },
     {
@@ -82,88 +192,88 @@
       "linear_identifiability_r2": 0.9927117328904856,
       "orthogonality_error": 0.02027104803530344,
       "seed": 4259.0,
+      "system": "minus_l_intervention",
+      "system_name": "minus_l_intervention",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "approx_identifiability_proxy": 0.967940366616448,
+      "bedc_debt_score": 0.004751187759000253,
+      "certified_coverage": 0.91015625,
+      "covariance_deviation": 0.06785681882046166,
+      "distinction_accuracy": 0.9908854166666666,
+      "distinction_accuracy_outside_gap": 1.0,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.9987049987049987,
+      "linear_identifiability_r2": 0.9912829147880027,
+      "orthogonality_error": 0.05944178327598776,
+      "seed": 4276.0,
       "system": "full_s3",
       "system_name": "full_s3",
       "unlogged_error_rate": 0.0
     },
     {
-      "approx_identifiability_proxy": 0.9772017824732767,
-      "bedc_debt_score": 0.004929233575066917,
-      "certified_coverage": 0.90625,
-      "covariance_deviation": 0.08353750726706484,
-      "distinction_accuracy": 0.99609375,
+      "approx_identifiability_proxy": 0.967940366616448,
+      "bedc_debt_score": 0.004569179373866866,
+      "certified_coverage": 0.9127604166666666,
+      "covariance_deviation": 0.06785681882046166,
+      "distinction_accuracy": 0.9856770833333334,
       "distinction_accuracy_outside_gap": 1.0,
       "false_claim_rate_inside_gap": 0.0,
-      "gap_detection_auc": 0.9987913321246654,
-      "linear_identifiability_r2": 0.9927117328904856,
-      "orthogonality_error": 0.02027104803530344,
-      "seed": 4259.0,
+      "gap_detection_auc": 0.998963998963999,
+      "linear_identifiability_r2": 0.9912829147880027,
+      "orthogonality_error": 0.05944178327598776,
+      "seed": 4276.0,
       "system": "minus_l_unlogged",
       "system_name": "minus_l_unlogged",
       "unlogged_error_rate": 0.0
     },
     {
-      "approx_identifiability_proxy": 0.9772017824732767,
-      "bedc_debt_score": 0.19026159026159029,
+      "approx_identifiability_proxy": 0.967940366616448,
+      "bedc_debt_score": 0.17653457653457655,
       "certified_coverage": 0.0,
-      "covariance_deviation": 0.08353750726706484,
-      "distinction_accuracy": 0.9947916666666666,
+      "covariance_deviation": 0.06785681882046166,
+      "distinction_accuracy": 0.9856770833333334,
       "distinction_accuracy_outside_gap": 1.0,
       "false_claim_rate_inside_gap": 0.0,
-      "gap_detection_auc": 0.2986920486920487,
-      "linear_identifiability_r2": 0.9927117328904856,
-      "orthogonality_error": 0.02027104803530344,
-      "seed": 4259.0,
+      "gap_detection_auc": 0.3673271173271173,
+      "linear_identifiability_r2": 0.9912829147880027,
+      "orthogonality_error": 0.05944178327598776,
+      "seed": 4276.0,
       "system": "minus_l_gap",
       "system_name": "minus_l_gap",
       "unlogged_error_rate": 0.0
     },
     {
       "approx_identifiability_proxy": 0.967940366616448,
-      "bedc_debt_score": 0.004286471148450328,
+      "bedc_debt_score": 0.004751187759000253,
+      "certified_coverage": 0.91015625,
+      "covariance_deviation": 0.06785681882046166,
+      "distinction_accuracy": 0.9908854166666666,
+      "distinction_accuracy_outside_gap": 1.0,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.9987049987049987,
+      "linear_identifiability_r2": 0.9912829147880027,
+      "orthogonality_error": 0.05944178327598776,
+      "seed": 4276.0,
+      "system": "minus_l_stab",
+      "system_name": "minus_l_stab",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "approx_identifiability_proxy": 0.967940366616448,
+      "bedc_debt_score": 0.004290787819433656,
       "certified_coverage": 0.9205729166666666,
       "covariance_deviation": 0.06785681882046166,
       "distinction_accuracy": 0.9908854166666666,
       "distinction_accuracy_outside_gap": 1.0,
       "false_claim_rate_inside_gap": 0.0,
-      "gap_detection_auc": 0.9984244150910817,
+      "gap_detection_auc": 0.9984028317361651,
       "linear_identifiability_r2": 0.9912829147880027,
       "orthogonality_error": 0.05944178327598776,
       "seed": 4276.0,
-      "system": "full_s3",
-      "system_name": "full_s3",
-      "unlogged_error_rate": 0.0
-    },
-    {
-      "approx_identifiability_proxy": 0.967940366616448,
-      "bedc_debt_score": 0.004317396049166877,
-      "certified_coverage": 0.91796875,
-      "covariance_deviation": 0.06785681882046166,
-      "distinction_accuracy": 0.9947916666666666,
-      "distinction_accuracy_outside_gap": 1.0,
-      "false_claim_rate_inside_gap": 0.0,
-      "gap_detection_auc": 0.9989208322541656,
-      "linear_identifiability_r2": 0.9912829147880027,
-      "orthogonality_error": 0.05944178327598776,
-      "seed": 4276.0,
-      "system": "minus_l_unlogged",
-      "system_name": "minus_l_unlogged",
-      "unlogged_error_rate": 0.0
-    },
-    {
-      "approx_identifiability_proxy": 0.967940366616448,
-      "bedc_debt_score": 0.17989726323059657,
-      "certified_coverage": 0.0,
-      "covariance_deviation": 0.06785681882046166,
-      "distinction_accuracy": 0.9921875,
-      "distinction_accuracy_outside_gap": 1.0,
-      "false_claim_rate_inside_gap": 0.015151515151515152,
-      "gap_detection_auc": 0.36566519899853234,
-      "linear_identifiability_r2": 0.9912829147880027,
-      "orthogonality_error": 0.05944178327598776,
-      "seed": 4276.0,
-      "system": "minus_l_gap",
-      "system_name": "minus_l_gap",
+      "system": "minus_l_intervention",
+      "system_name": "minus_l_intervention",
       "unlogged_error_rate": 0.0
     }
   ],
@@ -183,52 +293,107 @@
   "status": "executed",
   "summary": {
     "full_s3": {
-      "bedc_debt_score_ci95": 0.001901416326821686,
-      "bedc_debt_score_mean": 0.005657786423513544,
-      "certified_coverage_ci95": 0.010314121996460483,
-      "certified_coverage_mean": 0.9114583333333334,
-      "distinction_accuracy_ci95": 0.0045014518834085105,
-      "distinction_accuracy_mean": 0.9917534722222222,
+      "bedc_debt_score_ci95": 0.0003739611524843556,
+      "bedc_debt_score_mean": 0.004984088448089677,
+      "certified_coverage_ci95": 0.005174572291399548,
+      "certified_coverage_mean": 0.9058159722222222,
+      "distinction_accuracy_ci95": 0.0025520833333333337,
+      "distinction_accuracy_mean": 0.9895833333333334,
       "distinction_accuracy_outside_gap_ci95": 0.0,
       "distinction_accuracy_outside_gap_mean": 1.0,
-      "gap_detection_auc_ci95": 0.0004408346365532224,
-      "gap_detection_auc_mean": 0.9987484453334128,
+      "gap_detection_auc_ci95": 0.0007484862065675253,
+      "gap_detection_auc_mean": 0.9986255647039961,
       "linear_identifiability_r2_ci95": 0.0008151794091909156,
       "linear_identifiability_r2_mean": 0.9919439142392784,
       "unlogged_error_rate_ci95": 0.0,
       "unlogged_error_rate_mean": 0.0
     },
     "minus_l_gap": {
-      "bedc_debt_score_ci95": 0.0058672197088123325,
-      "bedc_debt_score_mean": 0.1849829231528578,
+      "bedc_debt_score_ci95": 0.009480868823811047,
+      "bedc_debt_score_mean": 0.18100218523911335,
       "certified_coverage_ci95": 0.0,
       "certified_coverage_mean": 0.0,
-      "distinction_accuracy_ci95": 0.0017013888888888647,
-      "distinction_accuracy_mean": 0.9930555555555555,
+      "distinction_accuracy_ci95": 0.00425347222222227,
+      "distinction_accuracy_mean": 0.9835069444444445,
+      "distinction_accuracy_outside_gap_ci95": 0.0018613485280151642,
+      "distinction_accuracy_outside_gap_mean": 0.9990503323836658,
+      "gap_detection_auc_ci95": 0.04740434411905526,
+      "gap_detection_auc_mean": 0.3449890738044333,
+      "linear_identifiability_r2_ci95": 0.0008151794091909156,
+      "linear_identifiability_r2_mean": 0.9919439142392784,
+      "unlogged_error_rate_ci95": 0.0,
+      "unlogged_error_rate_mean": 0.0
+    },
+    "minus_l_intervention": {
+      "bedc_debt_score_ci95": 0.00185305810704651,
+      "bedc_debt_score_mean": 0.005634722804504256,
+      "certified_coverage_ci95": 0.010349144582799034,
+      "certified_coverage_mean": 0.911892361111111,
+      "distinction_accuracy_ci95": 0.0045014518834085105,
+      "distinction_accuracy_mean": 0.9917534722222222,
       "distinction_accuracy_outside_gap_ci95": 0.0,
       "distinction_accuracy_outside_gap_mean": 1.0,
-      "gap_detection_auc_ci95": 0.04529843194102331,
-      "gap_detection_auc_mean": 0.34484177163915725,
+      "gap_detection_auc_ci95": 0.00047737383997154686,
+      "gap_detection_auc_mean": 0.9987552564840146,
+      "linear_identifiability_r2_ci95": 0.0008151794091909156,
+      "linear_identifiability_r2_mean": 0.9919439142392784,
+      "unlogged_error_rate_ci95": 0.0,
+      "unlogged_error_rate_mean": 0.0
+    },
+    "minus_l_stab": {
+      "bedc_debt_score_ci95": 0.00035246626037891256,
+      "bedc_debt_score_mean": 0.005000072605771137,
+      "certified_coverage_ci95": 0.005174572291399548,
+      "certified_coverage_mean": 0.9053819444444443,
+      "distinction_accuracy_ci95": 0.00370809111516479,
+      "distinction_accuracy_mean": 0.9874131944444443,
+      "distinction_accuracy_outside_gap_ci95": 0.0,
+      "distinction_accuracy_outside_gap_mean": 1.0,
+      "gap_detection_auc_ci95": 0.0007214010213875084,
+      "gap_detection_auc_mean": 0.9986541508600332,
       "linear_identifiability_r2_ci95": 0.0008151794091909156,
       "linear_identifiability_r2_mean": 0.9919439142392784,
       "unlogged_error_rate_ci95": 0.0,
       "unlogged_error_rate_mean": 0.0
     },
     "minus_l_unlogged": {
-      "bedc_debt_score_ci95": 0.00035107668375244445,
-      "bedc_debt_score_mean": 0.004653127825258136,
-      "certified_coverage_ci95": 0.006963234128849835,
-      "certified_coverage_mean": 0.9110243055555555,
-      "distinction_accuracy_ci95": 0.0038983716849450407,
-      "distinction_accuracy_mean": 0.9934895833333334,
+      "bedc_debt_score_ci95": 0.0003510458653579067,
+      "bedc_debt_score_mean": 0.004740201691539512,
+      "certified_coverage_ci95": 0.005578376522409658,
+      "certified_coverage_mean": 0.9092881944444445,
+      "distinction_accuracy_ci95": 0.0038983716849450645,
+      "distinction_accuracy_mean": 0.984375,
       "distinction_accuracy_outside_gap_ci95": 0.0,
       "distinction_accuracy_outside_gap_mean": 1.0,
-      "gap_detection_auc_ci95": 0.0002504733120732798,
-      "gap_detection_auc_mean": 0.9989782844848204,
+      "gap_detection_auc_ci95": 0.0004373609229329625,
+      "gap_detection_auc_mean": 0.9989769429311913,
       "linear_identifiability_r2_ci95": 0.0008151794091909156,
       "linear_identifiability_r2_mean": 0.9919439142392784,
       "unlogged_error_rate_ci95": 0.0,
       "unlogged_error_rate_mean": 0.0
+    }
+  },
+  "supervision_surface_contract": {
+    "intervention_bce": {
+      "fields": [
+        "intervention_source_split",
+        "pre_intervention_observation",
+        "intervention_or_action",
+        "post_intervention_label",
+        "same_train_cal_test_split"
+      ],
+      "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+      "source_surface": "OU action/transition pair with post-transition operational distinction label"
+    },
+    "stability_consistency": {
+      "fields": [
+        "stability_source_split",
+        "paired_observations_or_augmentations",
+        "stability_label_or_invariance_target",
+        "same_train_cal_test_split"
+      ],
+      "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+      "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
     }
   },
   "systems": {
@@ -238,13 +403,40 @@
         "distinction_bce",
         "gap_bce",
         "unlogged_error_penalty",
-        "boundary_caution"
+        "boundary_caution",
+        "stability_consistency",
+        "intervention_bce"
       ],
       "status": "executed",
+      "supervision_surface_contract": {
+        "intervention_bce": {
+          "fields": [
+            "intervention_source_split",
+            "pre_intervention_observation",
+            "intervention_or_action",
+            "post_intervention_label",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+          "source_surface": "OU action/transition pair with post-transition operational distinction label"
+        },
+        "stability_consistency": {
+          "fields": [
+            "stability_source_split",
+            "paired_observations_or_augmentations",
+            "stability_label_or_invariance_target",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+          "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
+        }
+      },
       "weights": {
         "boundary_caution": 0.8,
         "distinction_bce": 1.2,
         "gap_bce": 1.8,
+        "intervention_bce": 0.9,
+        "stability_consistency": 0.6,
         "unlogged_error_penalty": 2.4
       }
     },
@@ -252,40 +444,168 @@
       "objective_terms": [
         "latent_prediction",
         "distinction_bce",
-        "unlogged_error_penalty"
+        "unlogged_error_penalty",
+        "stability_consistency",
+        "intervention_bce"
       ],
       "status": "executed",
+      "supervision_surface_contract": {
+        "intervention_bce": {
+          "fields": [
+            "intervention_source_split",
+            "pre_intervention_observation",
+            "intervention_or_action",
+            "post_intervention_label",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+          "source_surface": "OU action/transition pair with post-transition operational distinction label"
+        },
+        "stability_consistency": {
+          "fields": [
+            "stability_source_split",
+            "paired_observations_or_augmentations",
+            "stability_label_or_invariance_target",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+          "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
+        }
+      },
       "weights": {
         "boundary_caution": 0.0,
         "distinction_bce": 1.2,
         "gap_bce": 0.0,
+        "intervention_bce": 0.9,
+        "stability_consistency": 0.6,
         "unlogged_error_penalty": 2.4
       }
     },
     "minus_l_intervention": {
-      "objective_terms": [],
-      "reason": "boundary-gated torch objective has no declared intervention supervision term",
-      "status": "source_debt",
-      "weights": {}
+      "objective_terms": [
+        "latent_prediction",
+        "distinction_bce",
+        "gap_bce",
+        "unlogged_error_penalty",
+        "boundary_caution",
+        "stability_consistency"
+      ],
+      "removed_term": "intervention_bce",
+      "status": "executed",
+      "supervision_surface_contract": {
+        "intervention_bce": {
+          "fields": [
+            "intervention_source_split",
+            "pre_intervention_observation",
+            "intervention_or_action",
+            "post_intervention_label",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+          "source_surface": "OU action/transition pair with post-transition operational distinction label"
+        },
+        "stability_consistency": {
+          "fields": [
+            "stability_source_split",
+            "paired_observations_or_augmentations",
+            "stability_label_or_invariance_target",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+          "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
+        }
+      },
+      "weights": {
+        "boundary_caution": 0.8,
+        "distinction_bce": 1.2,
+        "gap_bce": 1.8,
+        "intervention_bce": 0.0,
+        "stability_consistency": 0.6,
+        "unlogged_error_penalty": 2.4
+      }
     },
     "minus_l_stab": {
-      "objective_terms": [],
-      "reason": "boundary-gated torch objective has no declared stability supervision term",
-      "status": "source_debt",
-      "weights": {}
+      "objective_terms": [
+        "latent_prediction",
+        "distinction_bce",
+        "gap_bce",
+        "unlogged_error_penalty",
+        "boundary_caution",
+        "intervention_bce"
+      ],
+      "removed_term": "stability_consistency",
+      "status": "executed",
+      "supervision_surface_contract": {
+        "intervention_bce": {
+          "fields": [
+            "intervention_source_split",
+            "pre_intervention_observation",
+            "intervention_or_action",
+            "post_intervention_label",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+          "source_surface": "OU action/transition pair with post-transition operational distinction label"
+        },
+        "stability_consistency": {
+          "fields": [
+            "stability_source_split",
+            "paired_observations_or_augmentations",
+            "stability_label_or_invariance_target",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+          "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
+        }
+      },
+      "weights": {
+        "boundary_caution": 0.8,
+        "distinction_bce": 1.2,
+        "gap_bce": 1.8,
+        "intervention_bce": 0.9,
+        "stability_consistency": 0.0,
+        "unlogged_error_penalty": 2.4
+      }
     },
     "minus_l_unlogged": {
       "objective_terms": [
         "latent_prediction",
         "distinction_bce",
         "gap_bce",
-        "boundary_caution"
+        "boundary_caution",
+        "stability_consistency",
+        "intervention_bce"
       ],
       "status": "executed",
+      "supervision_surface_contract": {
+        "intervention_bce": {
+          "fields": [
+            "intervention_source_split",
+            "pre_intervention_observation",
+            "intervention_or_action",
+            "post_intervention_label",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+          "source_surface": "OU action/transition pair with post-transition operational distinction label"
+        },
+        "stability_consistency": {
+          "fields": [
+            "stability_source_split",
+            "paired_observations_or_augmentations",
+            "stability_label_or_invariance_target",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+          "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
+        }
+      },
       "weights": {
         "boundary_caution": 0.8,
         "distinction_bce": 1.2,
         "gap_bce": 1.8,
+        "intervention_bce": 0.9,
+        "stability_consistency": 0.6,
         "unlogged_error_penalty": 0.0
       }
     }

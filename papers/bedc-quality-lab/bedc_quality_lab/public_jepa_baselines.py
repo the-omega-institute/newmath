@@ -1,4 +1,4 @@
-"""Public JEPA-family baseline registry for BEDC-JEPA contact readiness."""
+"""Public JEPA-family baseline registry for BEDC-JEPA evaluation readiness."""
 
 from __future__ import annotations
 
@@ -34,7 +34,7 @@ def _vjepa2_ac_candidate() -> dict[str, Any]:
         "repository_url": "https://github.com/facebookresearch/vjepa2",
         "baseline_role": "action-conditioned latent world-model baseline",
         "why_relevant": (
-            "V-JEPA 2-AC is the closest public JEPA-family contact because it "
+            "V-JEPA 2-AC is the closest public JEPA-family evaluation target because it "
             "uses action-conditioned latent prediction for world modeling."
         ),
         "expected_input_contract": [
@@ -51,7 +51,7 @@ def _vjepa2_ac_candidate() -> dict[str, Any]:
             "BEDC distinction head and gap head evaluated on the same rollout cases",
             "unlogged error, gap AUROC, certified coverage, and debt reported beside baseline scores",
         ],
-        "current_artifact_status": "not_executed",
+        "current_evidence_status": "not_executed",
     }
 
 
@@ -78,26 +78,47 @@ def _leworldmodel_candidate() -> dict[str, Any]:
             "baseline next-embedding prediction metrics",
             "BEDC objective readback metrics on the declared distinction/gap scope",
         ],
-        "current_artifact_status": "not_executed",
+        "current_evidence_status": "not_executed",
     }
 
 
 def build_public_jepa_baseline_registry() -> dict[str, Any]:
     candidates = [_vjepa2_ac_candidate(), _leworldmodel_candidate()]
+    external_result_path = Path(__file__).resolve().parents[1] / "reports" / "bedc_jepa_public_baseline_external_result.json"
+    execution_status = {
+        "status": "missing",
+        "reason": "no public JEPA-family baseline has been cloned, vendored, or executed in this workspace",
+    }
+    if external_result_path.exists():
+        external_result = json.loads(external_result_path.read_text(encoding="utf-8"))
+        if isinstance(external_result, dict):
+            result_status = str(external_result.get("status") or "")
+            if result_status == "near_native_candidate_not_importable":
+                execution_status = {
+                    "status": "near_native_candidate_not_importable",
+                    "reason": "near-native fixed-checkpoint evidence is recorded but does not satisfy the native metric import contract",
+                    "source_record": str(external_result.get("source_record") or ""),
+                    "candidate_id": str(external_result.get("candidate_id") or ""),
+                    "cannot_export": list(external_result.get("cannot_export", [])),
+                }
+            elif result_status == "available":
+                execution_status = {
+                    "status": "external_result_available",
+                    "reason": "a fillable native-metric result is available for import",
+                    "candidate_id": str(external_result.get("candidate_id") or ""),
+                    "source_record": str(external_result.get("source_record") or ""),
+                }
     return {
         "schema_id": "bedc-jepa-public-baseline-registry",
         "status": "contract_only",
         "selected_candidate_id": "vjepa2-ac",
         "candidates": candidates,
-        "execution_status": {
-            "status": "missing",
-            "reason": "no public JEPA-family baseline has been cloned, vendored, or executed in this workspace",
-        },
+        "execution_status": execution_status,
         "next_actions": [
             "clone or vendor the selected public baseline in an approved environment",
             "record the exact commit, checkpoint, dataset, and command line",
             "run the selected baseline on a public visual/action benchmark",
-            "export baseline metrics into a BEDC-JEPA comparison artifact",
+            "export baseline metrics into a BEDC-JEPA comparison record",
         ],
     }
 
@@ -123,6 +144,7 @@ def build_public_jepa_baseline_comparison() -> dict[str, Any]:
             "rollout_or_planning_score": None,
             "reported_benchmark_name": None,
         },
+        "native_metric_contract_source": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
         "bedc_metrics_source": "reports/bedc_jepa_torch_objective.json",
         "bedc_metrics_required": [
             "gap_auc_gain_mean",
@@ -130,7 +152,7 @@ def build_public_jepa_baseline_comparison() -> dict[str, Any]:
             "debt_reduction_mean",
             "latent_r2_delta_abs_max",
         ],
-        "blocking_reason": "selected public baseline has not been executed in this workspace",
+        "remaining_requirement": "selected public baseline has not been executed in this workspace",
         "cannot_claim": [
             "public JEPA baseline comparison",
             "JEPA-family checkpoint parity",
@@ -190,17 +212,19 @@ def build_public_jepa_adapter_comparison(
 
 
 def import_public_jepa_baseline_metrics(result: dict[str, Any]) -> dict[str, Any]:
-    required = {
-        "candidate_id",
-        "commit",
-        "checkpoint",
-        "reported_benchmark_name",
-        "latent_prediction_score",
-        "rollout_or_planning_score",
-    }
-    missing = sorted(required - set(result))
-    if missing:
-        raise ValueError(f"missing public baseline result fields: {', '.join(missing)}")
+    from bedc_quality_lab.public_baseline_native_metric_contract import (
+        validate_public_baseline_native_metric_result,
+    )
+
+    if "repository_commit" not in result and "commit" in result:
+        result = {
+            **result,
+            "repository_commit": result["commit"],
+            "checkpoint_identity": result.get("checkpoint"),
+            "dataset_identity": result.get("reported_benchmark_name"),
+            "environment_or_benchmark_name": result.get("reported_benchmark_name"),
+        }
+    validate_public_baseline_native_metric_result(result)
     registry = build_public_jepa_baseline_registry()
     candidates = {candidate["candidate_id"]: candidate for candidate in registry["candidates"]}
     candidate_id = str(result["candidate_id"])
@@ -220,13 +244,23 @@ def import_public_jepa_baseline_metrics(result: dict[str, Any]) -> dict[str, Any
     comparison["baseline_metrics"] = {
         "latent_prediction_score": float(result["latent_prediction_score"]),
         "rollout_or_planning_score": float(result["rollout_or_planning_score"]),
-        "reported_benchmark_name": str(result["reported_benchmark_name"]),
+        "reported_benchmark_name": str(result["environment_or_benchmark_name"]),
     }
     comparison["execution_record"] = {
-        "commit": str(result["commit"]),
-        "checkpoint": str(result["checkpoint"]),
+        "repository_commit": str(result["repository_commit"]),
+        "checkpoint_identity": str(result["checkpoint_identity"]),
+        "dataset_identity": str(result["dataset_identity"]),
+        "environment_or_benchmark_name": str(result["environment_or_benchmark_name"]),
+        "execution_command": str(result["execution_command"]),
+        "observation_action_stream_contract": result["observation_action_stream_contract"],
+        "native_metric_contract": result["native_metric_contract"],
+        "bedc_readback_metrics": {
+            key: float(value) for key, value in result["bedc_readback_metrics"].items()
+        },
+        "lccp_certificate_metrics": result["lccp_certificate_metrics"],
+        "cannot_claim_boundary": list(result["cannot_claim_boundary"]),
     }
-    comparison["blocking_reason"] = None
+    comparison["remaining_requirement"] = None
     comparison["cannot_claim"] = []
     return comparison
 
@@ -591,7 +625,7 @@ def run_public_jepa_ac_giant_adapter(
             "candidate_id": "vjepa2-ac-vit-giant",
             "repository_url": "https://github.com/facebookresearch/vjepa2",
             "cuda_environment": cuda,
-            "blocking_reason": "CUDA was requested but torch.cuda.is_available() is false",
+            "remaining_requirement": "CUDA was requested but torch.cuda.is_available() is false",
             "cannot_claim": [
                 "V-JEPA2-AC action-conditioned checkpoint comparison",
                 "public benchmark score superiority",
@@ -696,7 +730,7 @@ def run_public_jepa_ac_giant_adapter(
             "exception_type": type(exc).__name__,
             "message": str(exc),
             "trace_tail": traceback.format_exc().splitlines()[-8:],
-            "blocking_reason": "V-JEPA2-AC Giant checkpoint could not be loaded and evaluated inside the declared CUDA boundary",
+            "remaining_requirement": "V-JEPA2-AC Giant checkpoint could not be loaded and evaluated inside the declared CUDA boundary",
             "cannot_claim": [
                 "V-JEPA2-AC action-conditioned checkpoint comparison",
                 "public benchmark superiority",
@@ -775,7 +809,7 @@ def build_public_jepa_baseline_probe() -> dict[str, Any]:
     if model_load_attempt["status"] == "loaded" and head is not None:
         status = "structure_loaded"
     if model_load_attempt["status"] == "loaded" and head is not None and not cannot_execute:
-        status = "ready_to_import_metrics"
+        status = "metrics_import_ready"
     return {
         "schema_id": "bedc-jepa-public-baseline-probe",
         "status": status,
@@ -795,6 +829,76 @@ def build_public_jepa_baseline_probe() -> dict[str, Any]:
 
 
 def build_public_jepa_baseline_external_result() -> dict[str, Any]:
+    near_native_path = Path(__file__).resolve().parents[1] / "reports" / "bedc_vjepa2_ac_native_reproduction.json"
+    if near_native_path.exists():
+        near_native = json.loads(near_native_path.read_text(encoding="utf-8"))
+        if isinstance(near_native, dict) and near_native.get("status") == "evaluated_near_native":
+            readback = near_native.get("bedc_readback_metrics", {})
+            lccp = near_native.get("lccp_certificate_metrics", {})
+            checkpoint = near_native.get("checkpoint_identity", {})
+            split = near_native.get("image_action_stream_split", {})
+            latent_split = split.get("latent_prediction", {}) if isinstance(split, dict) else {}
+            lccp_split = split.get("lccp_certificate", {}) if isinstance(split, dict) else {}
+            repository_commit = str(near_native.get("vjepa2_repository_commit") or "")
+            cannot_export = []
+            if "not recorded" in repository_commit.lower() or not repository_commit:
+                cannot_export.append("repository commit is not recorded for the fixed-checkpoint MiniGrid reports")
+            if not checkpoint.get("checkpoint_url"):
+                cannot_export.append("checkpoint URL is not recorded")
+            status = "available" if not cannot_export else "near_native_candidate_not_importable"
+            return {
+                "status": status,
+                "candidate_id": "vjepa2-ac",
+                "near_native_candidate_id": str(near_native.get("candidate_id") or ""),
+                "repository_url": "https://github.com/facebookresearch/vjepa2",
+                "repository_commit": repository_commit,
+                "checkpoint_identity": checkpoint.get("checkpoint_url"),
+                "dataset_identity": str(near_native.get("public_environment_id") or ""),
+                "environment_or_benchmark_name": str(near_native.get("public_environment_id") or ""),
+                "execution_command": " && ".join(str(item) for item in near_native.get("execution_command", [])),
+                "observation_action_stream_contract": {
+                    "observation_preprocessing": "MiniGrid two-frame 256x256 RGB video contracts",
+                    "action_encoding": "one-hot MiniGrid action contracts",
+                    "split": {
+                        "latent_prediction": latent_split,
+                        "lccp_certificate": lccp_split,
+                    },
+                },
+                "native_metric_contract": {
+                    "latent_prediction_score": "fixed-checkpoint latent prediction score, higher is better",
+                    "rollout_or_planning_score": "fixed-checkpoint latent prediction score used as near-native score; official rollout score not evaluated",
+                },
+                "latent_prediction_score": float(near_native.get("latent_prediction_score", 0.0)),
+                "rollout_or_planning_score": float(
+                    near_native.get("native_or_near_native_rollout_score", {}).get("value", 0.0)
+                ),
+                "bedc_readback_metrics": {
+                    "distinction_accuracy": float(readback.get("mean_outside_gap_accuracy", 0.0)),
+                    "gap_detection_auc": 0.0,
+                    "unlogged_error": float(readback.get("mean_unlogged_error", 0.0)),
+                    "certified_coverage": float(readback.get("mean_certified_coverage", 0.0)),
+                    "debt": float(
+                        1.0
+                        - float(readback.get("mean_certified_coverage", 0.0))
+                        + float(readback.get("mean_unlogged_error", 0.0))
+                    ),
+                },
+                "lccp_certificate_metrics": {
+                    "alpha_grid": lccp.get("alphas", []),
+                    "certified_claim_count": float(lccp.get("accepted_claim_count", 0.0)),
+                    "gap_claim_count": float(lccp.get("gap_claim_count", 0.0)),
+                    "mean_certified_coverage": float(readback.get("mean_certified_coverage", 0.0)),
+                    "mean_unlogged_error": float(readback.get("mean_unlogged_error", 0.0)),
+                    "mean_conformal_miscoverage": float(readback.get("mean_conformal_miscoverage", 0.0)),
+                },
+                "cannot_claim_boundary": list(near_native.get("cannot_claim_boundary", [])),
+                "cannot_export": cannot_export,
+                "scope_boundary": [
+                    "official V-JEPA2-AC benchmark protocol was not executed",
+                    "gap detection AUROC is not separately evaluated in the near-native candidate",
+                ],
+                "source_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+            }
     probe = build_public_jepa_baseline_probe()
     return {
         "status": "unavailable",

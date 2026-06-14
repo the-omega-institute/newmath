@@ -26,6 +26,21 @@ $$
 The second term is not an interpretability report.  It changes the selected
 plan by making high-gap trajectories expensive.
 
+The same ledger can also be used as a constrained planner.  For a declared
+risk budget $\eta$, define
+$$
+  \pi_\eta
+  \in
+  \arg\min_{\tau\in\mathcal T} C(\tau)
+  \quad\text{subject to}\quad
+  \sum_t \lVert g_t\rVert_1 \le \eta .
+$$
+If the feasible set is empty, the planner does not silently choose the least
+bad high-gap trajectory.  It records that no certified low-gap plan is
+available under budget $\eta$.  The resulting evidence is therefore a
+risk-success frontier: lower high-gap selection can be a risk improvement, a
+risk-success tradeoff, or a no-certified-plan outcome.
+
 \begin{proposition}[Gap penalty blocks cheap high-gap plans]
 Suppose a low-gap feasible trajectory has predicted task cost at most $C$.
 Suppose every high-gap trajectory has gap penalty at least $G$.  If
@@ -63,7 +78,7 @@ action-conditioned transition model.  The vanilla planner enters high-gap
 states at rate $0.520833$ and unsafe states at rate $0.333333$.  The gap-aware
 planner reduces both rates to $0.000000$ in the same rollout setting.  This is
 not a robotics-scale control result, but it is no longer an oracle-state
-planning-only artifact: the rollout is mediated by a learned transition model
+planning-only study: the rollout is mediated by a learned transition model
 trained from pixel observations.
 
 The larger grid planning sweep uses three targets and thirty-six trajectories.

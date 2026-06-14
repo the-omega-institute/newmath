@@ -8,15 +8,31 @@
   ],
   "checks": {
     "ac_giant_checkpoint_status": "loaded",
-    "checkpoint_contact": "closed",
+    "checkpoint_evaluation": "closed",
     "native_planning_high_gap_reduction": 0.6875,
     "native_public_benchmark": "closed",
     "native_unlogged_error_reduction": 0.125,
+    "paper_writeback_admitted_name": "door_key_context_visible",
+    "paper_writeback_packet_status": "paper_ready",
     "public_ablation_unlogged_penalty_effect": 0.0859375,
+    "public_adapter_comparison_status": "executed",
+    "public_baseline_native_metric_contract_status": "contract_ready",
+    "public_baseline_native_metric_required_field_count": 13.0,
+    "public_baseline_native_metric_template_status": "recorded",
+    "public_benchmark_scope_contract_count": 2.0,
+    "public_benchmark_scope_contract_status": "contract_ready",
     "public_conformal_predicate_count": 5.0,
     "public_coverage_debt_change": -0.065625,
     "public_debt_diagnosis": "silent debt falls while coverage debt rises",
+    "public_minigrid_calibration_extension_executed_rows": 75.0,
+    "public_minigrid_calibration_extension_risk_win_rate": 0.5466666666666666,
+    "public_minigrid_calibration_extension_silent_win_rate": 0.24,
+    "public_minigrid_calibration_extension_status": "executed",
+    "public_pretrained_vitb_adapter_status": "available",
     "public_silent_debt_reduction": 0.05,
+    "public_structure_adapter_status": "available",
+    "quality_lab_export_count": 1.0,
+    "quality_lab_export_status": "recorded",
     "retraining_ablation_status": "executed",
     "retraining_ablation_system_count": 5.0,
     "seed_sweep_count": 5.0,
@@ -24,27 +40,118 @@
     "vjepa2_ac_latent_prediction_score": 0.9812458076166543,
     "vjepa2_ac_latent_prediction_status": "executed",
     "vjepa2_ac_lccp_claim_count": 5.0,
-    "vjepa2_ac_lccp_status": "executed"
+    "vjepa2_ac_lccp_status": "executed",
+    "vjepa2_ac_near_native_gap_claim_count": 5.0,
+    "vjepa2_ac_near_native_latent_prediction_score": 0.9812458076166543,
+    "vjepa2_ac_near_native_status": "evaluated_near_native",
+    "vjepa2_ac_official_native_reproduction_status": "not_evaluated"
   },
   "failures": [],
+  "remaining_evidence_contracts": {
+    "true_retraining_loss_ablation": {
+      "evidence": "reports/bedc_jepa_retraining_loss_ablation.json",
+      "executed_rows": [
+        "full_s3",
+        "minus_l_gap",
+        "minus_l_intervention",
+        "minus_l_stab",
+        "minus_l_unlogged"
+      ],
+      "required_record": "true retraining loss-term ablation for every declared loss removal row",
+      "source_debt_contract": {},
+      "source_debt_rows": [],
+      "status": "closed",
+      "supervision_surface_contract": {
+        "intervention_bce": {
+          "fields": [
+            "intervention_source_split",
+            "pre_intervention_observation",
+            "intervention_or_action",
+            "post_intervention_label",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+          "source_surface": "OU action/transition pair with post-transition operational distinction label"
+        },
+        "stability_consistency": {
+          "fields": [
+            "stability_source_split",
+            "paired_observations_or_augmentations",
+            "stability_label_or_invariance_target",
+            "same_train_cal_test_split"
+          ],
+          "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+          "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction"
+        }
+      }
+    },
+    "vjepa2_ac_native_reproduction": {
+      "evidence": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+      "native_acceptance_contract": {
+        "native_acceptance_rule": "mark native reproduction as evaluated only when the same public stream, official or near-native rollout score, command, checkpoint identity, and BEDC readback metrics are recorded in one packet",
+        "parity_protocol_fields": [
+          "same_observation_preprocessing",
+          "same_action_encoding",
+          "same_train_cal_test_split",
+          "same_planning_or_rollout_target",
+          "same_bedc_predicate_set",
+          "same_alpha_grid"
+        ],
+        "required_native_evidence": [
+          "public_environment_id",
+          "image_action_stream_split",
+          "vjepa2_repository_commit",
+          "checkpoint_identity",
+          "execution_command",
+          "native_or_near_native_rollout_score",
+          "latent_prediction_score",
+          "bedc_readback_metrics",
+          "lccp_certificate_metrics",
+          "cannot_claim_boundary"
+        ],
+        "successor_record_requirements": [
+          "reports/bedc_vjepa2_ac_native_reproduction.json",
+          "reports/bedc_vjepa2_ac_native_readback_comparison.json"
+        ]
+      },
+      "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+      "native_metric_contract_status": "contract_ready",
+      "native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+      "native_metric_template_status": "recorded",
+      "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+      "near_native_record_status": "evaluated_near_native",
+      "required_record": "official or near-native V-JEPA2-AC rollout reproduction with BEDC readback metrics",
+      "status": "not_evaluated"
+    }
+  },
   "reproduction_commands": [
     "python scripts/run_public_minigrid_native_benchmark.py",
     "python scripts/run_public_minigrid_native_seed_sweep.py",
     "python scripts/build_public_minigrid_debt_closure.py",
+    "python scripts/build_public_minigrid_calibration_extension.py",
     "python scripts/run_torch_retraining_loss_ablation.py",
+    "python scripts/build_public_baseline_native_metric_contract.py",
+    "python scripts/build_public_baseline_native_metric_template.py",
+    "python scripts/build_public_benchmark_scope_contracts.py",
+    "python scripts/run_public_jepa_structure_adapter.py",
+    "python scripts/build_public_jepa_adapter_comparison.py",
     "python scripts/build_public_jepa_cuda_comparison.py",
     "python scripts/build_bedc_jepa_artifact_manifest.py",
     "python scripts/build_bedc_jepa_readiness.py",
     "python scripts/build_bedc_jepa_review_bundle.py",
     "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+    "python scripts/build_bedc_jepa_quality_lab_export.py",
+    "python scripts/build_bedc_jepa_paper_writeback_packet.py",
     "python scripts/run_bedc_latent_claim_certificate.py",
     "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
     "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+    "python scripts/build_vjepa2_ac_near_native_reproduction.py",
     "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
   ],
   "required_artifacts": {
     "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
+    "boundary_envelope": "reports/bedc_jepa_boundary_envelope.json",
     "certified_coverage_curve": "reports/bedc_jepa_certified_coverage_curve.json",
     "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
     "conformal_certified_coverage": "reports/bedc_jepa_conformal_certified_coverage.json",
@@ -54,19 +161,30 @@
     "loss_ablation": "reports/bedc_jepa_loss_ablation.json",
     "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
     "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
+    "paper_writeback_packet": "reports/bedc_jepa_paper_writeback_packet.json",
+    "public_adapter_comparison": "reports/bedc_jepa_public_adapter_comparison.json",
+    "public_baseline_native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+    "public_baseline_native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+    "public_benchmark_scope_contracts": "reports/bedc_jepa_public_benchmark_scope_contracts.json",
     "public_debt_closure_report": "reports/bedc_jepa_public_debt_closure_report.md",
     "public_debt_decomposition": "reports/bedc_jepa_public_debt_decomposition.json",
+    "public_minigrid_calibration_extension": "reports/bedc_jepa_public_minigrid_calibration_extension.json",
+    "public_pretrained_vitb_adapter": "reports/bedc_jepa_public_pretrained_vitb_adapter.json",
+    "public_structure_adapter": "reports/bedc_jepa_public_structure_adapter.json",
     "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
+    "quality_lab_export": "reports/bedc_jepa_quality_lab_exports.json",
     "readiness": "reports/bedc_jepa_readiness.json",
     "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
     "risk_constrained_planning": "reports/bedc_jepa_risk_constrained_planning.json",
     "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json",
     "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
-    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
+    "vjepa2_ac_native_readback_comparison": "reports/bedc_vjepa2_ac_native_readback_comparison.json",
+    "vjepa2_ac_near_native_reproduction": "reports/bedc_vjepa2_ac_native_reproduction.json"
   },
   "schema_id": "bedc-jepa-review-bundle",
-  "source_commit_at_build": "a15cda889a1c6f8c9ddbff9e68347d6bfe196f65",
-  "source_commit_observed_at_build": "a15cda889a1c6f8c9ddbff9e68347d6bfe196f65",
+  "source_commit_at_build": "02c8122174019f621a1856172cdcd2d048fb6795",
+  "source_commit_observed_at_build": "02c8122174019f621a1856172cdcd2d048fb6795",
   "source_commit_semantics": "commit observed by the review-bundle builder before the generated bundle is committed; not a self-referential assertion about the commit that contains this JSON file",
   "status": "review_ready"
 }
