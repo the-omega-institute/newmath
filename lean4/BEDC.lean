@@ -3530,6 +3530,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ObligationLedgerExactnessRow
 import BEDC.Derived.CriticalLineWitnessUp.ObligationModulusDisciplineRow
 import BEDC.Derived.CriticalLineWitnessUp.ObstructionSeparation
 import BEDC.Derived.CriticalLineWitnessUp.P11961ModulusLedgerSeparation
+import BEDC.Derived.CriticalLineWitnessUp.P11961RhRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.P11961RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
@@ -9763,6 +9764,7 @@ import BEDC.Derived.StreamNameUp.EmptyWindow
 import BEDC.Derived.StreamNameUp.FiniteSectionClassifierDeterminacy
 import BEDC.Derived.StreamNameUp.FiniteSectionPullbackExactness
 import BEDC.Derived.StreamNameUp.FiniteSectionRealRegSeqDyadicLock
+import BEDC.Derived.StreamNameUp.FiniteWindowBudgetHandoff
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
 import BEDC.Derived.StreamNameUp.FiniteWindowLatticeMeet
 import BEDC.Derived.StreamNameUp.FiniteWindowRealHandoffCoverage
