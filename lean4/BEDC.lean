@@ -3740,6 +3740,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SuppliedInputCarrierRow
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TerminalComparisonLedgerLock
+import BEDC.Derived.CriticalLineWitnessUp.TerminalConsumerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.TerminalLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.TerminalModulusComparisonScope
 import BEDC.Derived.CriticalLineWitnessUp.TerminalRHRefusalExactness
@@ -10131,6 +10132,7 @@ import BEDC.Derived.TowerEquivalenceUp.NameCertObligations
 import BEDC.Derived.TowerEquivalenceUp.RefinementSeparation
 import BEDC.Derived.TowerEquivalenceUp.TasteGate
 import BEDC.Derived.TraceVerdictBoundaryUp.TasteGate
+import BEDC.Derived.TraditionComparisonBoundaryUp
 import BEDC.Derived.TraditionComparisonBoundaryUp.TasteGate
 import BEDC.Derived.TraditionLandingLedgerUp.TasteGate
 import BEDC.Derived.TraditionRegistryUp.TasteGate
