@@ -4,7 +4,8 @@
   "evidence_boundary": {
     "artifact_review_bundle": "closed",
     "checkpoint_contact": "closed",
-    "native_public_benchmark": "closed"
+    "native_public_benchmark": "closed",
+    "vjepa2_ac_minigrid_latent_prediction": "closed"
   },
   "gates": {
     "artifact_review_bundle": {
@@ -29,7 +30,7 @@
     },
     "public_jepa_checkpoint_contact": {
       "evidence": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
-      "requirement": "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+      "requirement": "public V-JEPA2-AC Giant CUDA checkpoint-scope adapter",
       "status": "pass"
     },
     "public_minigrid_execution": {
@@ -41,10 +42,15 @@
       "evidence": "reports/bedc_jepa_torch_objective.json",
       "requirement": "stable BEDC objective gain without latent R2 change",
       "status": "pass"
+    },
+    "vjepa2_ac_minigrid_latent_prediction": {
+      "evidence": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
+      "requirement": "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction contact",
+      "status": "pass"
     }
   },
   "next_actions": [
-    "run native V-JEPA2-AC latent-prediction or rollout protocol on the public MiniGrid observation/action stream",
+    "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid contact protocol",
     "record baseline commit, checkpoint, dataset, command line, and native metric contract",
     "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
     "run a public object-interaction benchmark with natural clutter or control"

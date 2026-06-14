@@ -145,7 +145,7 @@ def _public_checkpoint_contact_gate(cuda_comparison: dict[str, Any] | None) -> d
         return _gate(
             "missing",
             evidence,
-            "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+            "public V-JEPA2-AC Giant CUDA checkpoint-scope adapter",
         )
     adapter = cuda_comparison.get("public_adapters", {}).get("ac_giant", {})
     model = adapter.get("model", {})
@@ -159,7 +159,25 @@ def _public_checkpoint_contact_gate(cuda_comparison: dict[str, Any] | None) -> d
     return _gate(
         "pass" if loaded else "missing",
         evidence,
-        "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+        "public V-JEPA2-AC Giant CUDA checkpoint-scope adapter",
+    )
+
+
+def _vjepa2_latent_prediction_gate(packet: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    if packet is None:
+        return _gate("missing", evidence, "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction contact")
+    metrics = packet.get("metrics", {})
+    passes = (
+        packet.get("status") == "executed"
+        and packet.get("candidate_id") == "vjepa2-ac-vit-giant"
+        and float(packet.get("sample_counts", {}).get("test", 0.0)) > 0.0
+        and float(metrics.get("latent_prediction_score", 0.0)) > 0.0
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        evidence,
+        "V-JEPA2-AC MiniGrid fixed-checkpoint latent-prediction contact",
     )
 
 
@@ -198,6 +216,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     native_public_minigrid = _load_optional_json("bedc_jepa_public_native_minigrid_benchmark.json")
     public_jepa_comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
     public_cuda_comparison = _load_optional_json("bedc_jepa_public_cuda_adapter_comparison.json")
+    vjepa2_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
     run_kit = _load_optional_json("bedc_jepa_review_bundle.json")
     gates = {
         "torch_objective_seed_sweep": _torch_objective_gate(torch_objective),
@@ -205,6 +224,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "object_counterfactual_clutter": _clutter_gate(summary),
         "public_minigrid_execution": _public_minigrid_gate(public_minigrid),
         "public_jepa_checkpoint_contact": _public_checkpoint_contact_gate(public_cuda_comparison),
+        "vjepa2_ac_minigrid_latent_prediction": _vjepa2_latent_prediction_gate(vjepa2_latent_prediction),
         "native_public_jepa_benchmark": _native_public_benchmark_gate(native_public_minigrid),
         "artifact_review_bundle": _artifact_review_bundle_gate(run_kit),
     }
@@ -214,13 +234,16 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "decision": _decision(gates, blocking),
         "evidence_boundary": {
             "checkpoint_contact": "closed" if gates["public_jepa_checkpoint_contact"]["status"] == "pass" else "open",
+            "vjepa2_ac_minigrid_latent_prediction": "closed"
+            if gates["vjepa2_ac_minigrid_latent_prediction"]["status"] == "pass"
+            else "open",
             "native_public_benchmark": "closed" if gates["native_public_jepa_benchmark"]["status"] == "pass" else "open",
             "artifact_review_bundle": "closed" if gates["artifact_review_bundle"]["status"] == "pass" else "open",
         },
         "gates": gates,
         "blocking_gates": blocking,
         "next_actions": [
-            "run native V-JEPA2-AC latent-prediction or rollout protocol on the public MiniGrid observation/action stream",
+            "run an official V-JEPA2-AC benchmark reproduction or rollout benchmark beyond the fixed-checkpoint MiniGrid contact protocol",
             "record baseline commit, checkpoint, dataset, command line, and native metric contract",
             "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
             "run a public object-interaction benchmark with natural clutter or control",

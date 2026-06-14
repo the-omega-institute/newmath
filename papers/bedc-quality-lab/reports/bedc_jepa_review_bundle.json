@@ -17,20 +17,29 @@
     "public_coverage_debt_change": -0.065625,
     "public_debt_diagnosis": "silent debt falls while coverage debt rises",
     "public_silent_debt_reduction": 0.05,
+    "retraining_ablation_status": "executed",
+    "retraining_ablation_system_count": 5.0,
     "seed_sweep_count": 5.0,
-    "seed_sweep_unlogged_error_win_rate": 0.6
+    "seed_sweep_unlogged_error_win_rate": 0.6,
+    "vjepa2_ac_latent_prediction_score": 0.9812458076166543,
+    "vjepa2_ac_latent_prediction_status": "executed",
+    "vjepa2_ac_lccp_claim_count": 5.0,
+    "vjepa2_ac_lccp_status": "executed"
   },
   "failures": [],
   "reproduction_commands": [
     "python scripts/run_public_minigrid_native_benchmark.py",
     "python scripts/run_public_minigrid_native_seed_sweep.py",
     "python scripts/build_public_minigrid_debt_closure.py",
+    "python scripts/run_torch_retraining_loss_ablation.py",
     "python scripts/build_public_jepa_cuda_comparison.py",
     "python scripts/build_bedc_jepa_artifact_manifest.py",
     "python scripts/build_bedc_jepa_readiness.py",
     "python scripts/build_bedc_jepa_review_bundle.py",
     "python scripts/build_bedc_jepa_quality_backend_candidate.py",
     "python scripts/run_bedc_latent_claim_certificate.py",
+    "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+    "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
     "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
   ],
@@ -49,10 +58,15 @@
     "public_debt_decomposition": "reports/bedc_jepa_public_debt_decomposition.json",
     "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
     "readiness": "reports/bedc_jepa_readiness.json",
+    "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
     "risk_constrained_planning": "reports/bedc_jepa_risk_constrained_planning.json",
-    "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json"
+    "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json",
+    "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
+    "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
   },
   "schema_id": "bedc-jepa-review-bundle",
-  "source_commit_at_build": "69315616398e3236af6b7ad96dfea12a2232e382",
+  "source_commit_at_build": "a15cda889a1c6f8c9ddbff9e68347d6bfe196f65",
+  "source_commit_observed_at_build": "a15cda889a1c6f8c9ddbff9e68347d6bfe196f65",
+  "source_commit_semantics": "commit observed by the review-bundle builder before the generated bundle is committed; not a self-referential assertion about the commit that contains this JSON file",
   "status": "review_ready"
 }

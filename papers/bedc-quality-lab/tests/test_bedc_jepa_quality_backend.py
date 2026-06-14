@@ -43,6 +43,9 @@ def test_quality_backend_metrics_are_projection_cells_only():
     assert metrics["checkpoint_contact_closed"] == 1.0
     assert metrics["native_public_benchmark_closed"] == 1.0
     assert metrics["artifact_review_bundle_closed"] == 1.0
+    assert metrics["retraining_ablation_recorded"] in {0.0, 1.0}
+    assert metrics["vjepa2_ac_lccp_recorded"] in {0.0, 1.0}
+    assert metrics["vjepa2_ac_latent_prediction_score"] >= 0.0
     assert "terminal_verdict" not in metrics
     assert "raw_records" not in packet
 
@@ -59,6 +62,9 @@ def test_quality_backend_ledger_rows_pin_claim_boundaries():
     assert rows["generalization/global-claim-boundary"]["status"] == "closed"
     assert rows["mechanism/mechanism-closure-debt"]["status"] == "open"
     assert rows["mechanism/mechanism-closure-debt"]["severity"] == "boundary"
+    assert rows["mechanism/full-retraining-loss-ablation"]["status"] in {"open", "closed"}
+    assert rows["classifier/vjepa2-ac-fixed-carrier-lccp"]["status"] in {"open", "closed"}
+    assert rows["mechanism/vjepa2-ac-minigrid-latent-prediction"]["status"] in {"open", "closed"}
     assert all(row["owner"] == "bedc_quality_lab.bedc_jepa_quality_backend.build_quality_backend_candidate" for row in rows.values())
     assert "large-scale real-world conclusion" in packet["not_claimed"]
     assert "mechanism closure" in packet["not_claimed"]
@@ -74,3 +80,12 @@ def test_quality_backend_artifacts_are_existing_report_pointers():
     assert packet["artifacts"]["latent_claim_certificates"] == "reports/bedc_latent_claim_certificates.json"
     assert packet["artifacts"]["conformal_gap_sweep"] == "reports/bedc_conformal_gap_sweep.json"
     assert packet["artifacts"]["claim_boundary_audit"] == "reports/bedc_claim_boundary_audit.json"
+    assert packet["artifacts"]["retraining_loss_ablation"] == "reports/bedc_jepa_retraining_loss_ablation.json"
+    assert (
+        packet["artifacts"]["vjepa2_ac_minigrid_claim_certificate"]
+        == "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
+    )
+    assert (
+        packet["artifacts"]["vjepa2_ac_minigrid_latent_prediction"]
+        == "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
+    )

@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+import os
 import random
+from dataclasses import asdict, dataclass
 from typing import Any
 
 import numpy as np
+
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 
 
 def require_torch() -> Any:

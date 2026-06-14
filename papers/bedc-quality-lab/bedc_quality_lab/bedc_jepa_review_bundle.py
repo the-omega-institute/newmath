@@ -16,6 +16,13 @@ def _load_json(name: str) -> dict[str, Any]:
     return json.loads((REPORTS / name).read_text(encoding="utf-8"))
 
 
+def _load_optional_json(name: str) -> dict[str, Any] | None:
+    path = REPORTS / name
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def _git_head() -> str | None:
     try:
         completed = subprocess.run(
@@ -43,6 +50,9 @@ def build_review_bundle() -> dict[str, Any]:
     public_debt = _load_json("bedc_jepa_public_debt_decomposition.json")
     conformal = _load_json("bedc_jepa_conformal_certified_coverage.json")
     ablation = _load_json("bedc_jepa_loss_ablation.json")
+    retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
+    vjepa_lccp = _load_optional_json("bedc_vjepa2_ac_minigrid_claim_certificate.json")
+    vjepa_latent_prediction = _load_optional_json("bedc_vjepa2_ac_minigrid_latent_prediction.json")
     cuda = _load_json("bedc_jepa_public_cuda_adapter_comparison.json")
     manifest = _load_json("bedc_jepa_artifact_manifest.json")
     failures: list[str] = []
@@ -60,17 +70,69 @@ def build_review_bundle() -> dict[str, Any]:
     )
     _check(conformal.get("status") == "executed", "public MiniGrid conformal certified coverage executed", failures)
     _check(ablation.get("status") == "executed", "public MiniGrid local ablation executed", failures)
+    retraining_executed = retraining_ablation is not None and retraining_ablation.get("status") == "executed"
+    if retraining_executed:
+        _check(
+            retraining_ablation.get("schema_id") == "bedc-jepa-retraining-loss-ablation",
+            "torch retraining ablation schema",
+            failures,
+        )
+    if vjepa_lccp is not None:
+        _check(
+            vjepa_lccp.get("schema_id") == "bedc-vjepa2-ac-minigrid-claim-certificate",
+            "V-JEPA2-AC MiniGrid LCCP schema",
+            failures,
+        )
+    if vjepa_latent_prediction is not None:
+        _check(
+            vjepa_latent_prediction.get("schema_id") == "bedc-vjepa2-ac-minigrid-latent-prediction",
+            "V-JEPA2-AC MiniGrid latent-prediction schema",
+            failures,
+        )
+        _check(
+            vjepa_latent_prediction.get("status") == "executed",
+            "V-JEPA2-AC MiniGrid latent-prediction evaluated",
+            failures,
+        )
+        _check(
+            "official V-JEPA2-AC benchmark reproduction" in vjepa_latent_prediction.get("cannot_claim", []),
+            "V-JEPA2-AC MiniGrid latent-prediction claim boundary",
+            failures,
+        )
+        _check(
+            vjepa_lccp.get("status") in {"executed", "source_gap"},
+            "V-JEPA2-AC MiniGrid LCCP fail-closed status",
+            failures,
+        )
+        _check(
+            len(vjepa_lccp.get("claims", [])) >= 1,
+            "V-JEPA2-AC MiniGrid LCCP claim rows",
+            failures,
+        )
+        _check(retraining_ablation.get("status") == "executed", "torch retraining ablation executed", failures)
+        _check(
+            set(retraining_ablation.get("systems", {}))
+            == {"full_s3", "minus_l_unlogged", "minus_l_gap", "minus_l_stab", "minus_l_intervention"},
+            "torch retraining ablation systems",
+            failures,
+        )
     _check(sweep.get("status") == "executed", "native MiniGrid seed sweep executed", failures)
     _check(float(sweep.get("seed_count_executed", 0.0)) >= 5.0, "native MiniGrid seed sweep count", failures)
     _check(float(sweep["summary"]["unlogged_error_win_rate"]) >= 0.6, "seed sweep UER win rate", failures)
-    _check(cuda.get("status") == "executed", "CUDA checkpoint-contact comparison", failures)
+    _check(cuda.get("status") == "executed", "CUDA checkpoint-scope comparison", failures)
     _check(cuda["public_adapters"]["ac_giant"]["model"]["checkpoint_status"] == "loaded", "AC Giant checkpoint loaded", failures)
     _check(manifest.get("schema_id") == "bedc-jepa-artifact-manifest", "artifact manifest schema", failures)
     status = "review_ready" if not failures else "incomplete"
+    source_commit = _git_head()
     return {
         "schema_id": "bedc-jepa-review-bundle",
         "status": status,
-        "source_commit_at_build": _git_head(),
+        "source_commit_at_build": source_commit,
+        "source_commit_observed_at_build": source_commit,
+        "source_commit_semantics": (
+            "commit observed by the review-bundle builder before the generated bundle is committed; "
+            "not a self-referential assertion about the commit that contains this JSON file"
+        ),
         "required_artifacts": {
             "readiness": "reports/bedc_jepa_readiness.json",
             "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
@@ -82,23 +144,29 @@ def build_review_bundle() -> dict[str, Any]:
             "conformal_certified_coverage": "reports/bedc_jepa_conformal_certified_coverage.json",
             "risk_success_pareto": "reports/bedc_jepa_risk_success_pareto.json",
             "loss_ablation": "reports/bedc_jepa_loss_ablation.json",
+            "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
             "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
             "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+            "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
+            "vjepa2_ac_minigrid_latent_prediction": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json",
         },
         "reproduction_commands": [
             "python scripts/run_public_minigrid_native_benchmark.py",
             "python scripts/run_public_minigrid_native_seed_sweep.py",
             "python scripts/build_public_minigrid_debt_closure.py",
+            "python scripts/run_torch_retraining_loss_ablation.py",
             "python scripts/build_public_jepa_cuda_comparison.py",
             "python scripts/build_bedc_jepa_artifact_manifest.py",
             "python scripts/build_bedc_jepa_readiness.py",
             "python scripts/build_bedc_jepa_review_bundle.py",
             "python scripts/build_bedc_jepa_quality_backend_candidate.py",
             "python scripts/run_bedc_latent_claim_certificate.py",
+            "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+            "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
             "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
         ],
@@ -120,6 +188,22 @@ def build_review_bundle() -> dict[str, Any]:
             "public_ablation_unlogged_penalty_effect": ablation["loss_ablation"]["mechanism_readout"][
                 "unlogged_penalty_effect"
             ],
+            "retraining_ablation_status": (
+                retraining_ablation.get("status") if retraining_ablation is not None else "not recorded"
+            ),
+            "retraining_ablation_system_count": (
+                float(len(retraining_ablation.get("systems", {}))) if retraining_executed else 0.0
+            ),
+            "vjepa2_ac_lccp_status": vjepa_lccp.get("status") if vjepa_lccp is not None else "not recorded",
+            "vjepa2_ac_lccp_claim_count": float(len(vjepa_lccp.get("claims", []))) if vjepa_lccp is not None else 0.0,
+            "vjepa2_ac_latent_prediction_status": (
+                vjepa_latent_prediction.get("status") if vjepa_latent_prediction is not None else "not recorded"
+            ),
+            "vjepa2_ac_latent_prediction_score": (
+                float(vjepa_latent_prediction.get("metrics", {}).get("latent_prediction_score", 0.0))
+                if vjepa_latent_prediction is not None
+                else 0.0
+            ),
             "seed_sweep_count": sweep.get("seed_count_executed", 0.0),
             "seed_sweep_unlogged_error_win_rate": sweep["summary"].get("unlogged_error_win_rate") if sweep.get("summary") else None,
             "ac_giant_checkpoint_status": cuda["public_adapters"]["ac_giant"]["model"]["checkpoint_status"],

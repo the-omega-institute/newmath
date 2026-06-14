@@ -9,6 +9,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["artifact"] == "reports/bedc_jepa_four_system_experiment.json"
     assert manifest["commands"]["generate"] == "python scripts/run_bedc_jepa_experiment.py"
     assert manifest["commands"]["torch_objective"] == "python scripts/run_torch_bedc_jepa.py"
+    assert (
+        manifest["commands"]["torch_retraining_loss_ablation"]
+        == "python scripts/run_torch_retraining_loss_ablation.py"
+    )
     assert manifest["commands"]["public_minigrid_probe"] == "python scripts/probe_public_minigrid.py"
     assert (
         manifest["commands"]["public_minigrid_native_benchmark"]
@@ -29,6 +33,14 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert (
         manifest["commands"]["latent_claim_certificate"]
         == "python scripts/run_bedc_latent_claim_certificate.py"
+    )
+    assert (
+        manifest["commands"]["vjepa2_ac_minigrid_claim_certificate"]
+        == "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py"
+    )
+    assert (
+        manifest["commands"]["vjepa2_ac_minigrid_latent_prediction"]
+        == "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py"
     )
     assert (
         manifest["commands"]["import_public_minigrid_benchmark_metrics"]
@@ -71,6 +83,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["commands"]["readiness"] == "python scripts/build_bedc_jepa_readiness.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
+    assert (
+        manifest["objective_artifacts"]["torch_retraining_loss_ablation"]
+        == "reports/bedc_jepa_retraining_loss_ablation.json"
+    )
     assert manifest["readiness"] == "reports/bedc_jepa_readiness.json"
     assert manifest["external_run_kit"] == "reports/bedc_jepa_external_run_kit.json"
     assert manifest["review_bundle"] == "reports/bedc_jepa_review_bundle.json"
@@ -87,6 +103,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         manifest["latent_claim_certificates"]["claim_boundary_audit"]
         == "reports/bedc_claim_boundary_audit.json"
     )
+    assert (
+        manifest["latent_claim_certificates"]["vjepa2_ac_minigrid_claim_certificate"]
+        == "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
+    )
     assert manifest["public_baselines"]["jepa_comparison"] == "reports/bedc_jepa_public_baseline_comparison.json"
     assert (
         manifest["public_baselines"]["jepa_ac_native_boundary"]
@@ -95,6 +115,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert (
         manifest["public_baselines"]["jepa_ac_giant_adapter"]
         == "reports/bedc_jepa_public_ac_giant_adapter.json"
+    )
+    assert (
+        manifest["public_baselines"]["jepa_ac_minigrid_latent_prediction"]
+        == "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
     )
     assert (
         manifest["public_baselines"]["jepa_cuda_adapter_comparison"]

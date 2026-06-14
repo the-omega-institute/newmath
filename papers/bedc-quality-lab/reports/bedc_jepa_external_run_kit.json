@@ -48,13 +48,56 @@
         "bedc_debt_score"
       ],
       "target_artifact": "reports/bedc_jepa_public_minigrid_benchmark_packet.json"
+    },
+    "torch_retraining_loss_ablation": {
+      "pass_condition": "target artifact status is executed; full S3, minus L_unlogged, and minus L_gap are retrained rows; unavailable stability or intervention surfaces are recorded as source debt",
+      "readiness_gate": "full_retraining_loss_ablation",
+      "required_systems": [
+        "full_s3",
+        "minus_l_unlogged",
+        "minus_l_gap",
+        "minus_l_stab",
+        "minus_l_intervention"
+      ],
+      "run_command": "python scripts/run_torch_retraining_loss_ablation.py",
+      "target_artifact": "reports/bedc_jepa_retraining_loss_ablation.json"
+    },
+    "vjepa2_ac_minigrid_claim_certificate": {
+      "pass_condition": "target artifact records each predicate as certified, coverage debt, or source debt under the Latent Claim Certificate Protocol",
+      "readiness_gate": "vjepa2_ac_fixed_carrier_lccp",
+      "required_predicates": [
+        "door_key_context_visible",
+        "unsafe_transition",
+        "has_key",
+        "door_open_or_unlocked",
+        "goal_reachable_with_current_state"
+      ],
+      "run_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+      "target_artifact": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json"
+    },
+    "vjepa2_ac_minigrid_latent_prediction": {
+      "pass_condition": "target artifact status is executed and reports latent_prediction_score beside explicit cannot-claim rows",
+      "readiness_gate": "vjepa2_ac_minigrid_latent_prediction",
+      "required_fields": [
+        "candidate_id",
+        "environment_id",
+        "sample_counts",
+        "metrics",
+        "claim_scope",
+        "cannot_claim"
+      ],
+      "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+      "target_artifact": "reports/bedc_vjepa2_ac_minigrid_latent_prediction.json"
     }
   },
   "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
   "schema_id": "bedc-jepa-external-run-kit",
   "status": "review_ready",
+  "torch_retraining_loss_ablation_command": "python scripts/run_torch_retraining_loss_ablation.py",
   "verification_commands": [
     "python -m pytest -q",
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
-  ]
+  ],
+  "vjepa2_ac_minigrid_claim_certificate_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+  "vjepa2_ac_minigrid_latent_prediction_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py"
 }
