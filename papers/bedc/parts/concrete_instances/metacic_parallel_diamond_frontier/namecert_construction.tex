@@ -716,6 +716,18 @@ Apply the local-join and normalization handoff theorems, \autoref{thm:metacic-pa
 Finally read the structural rows $H,T,G,N$. They transport, replay, source, and name the same finite packet, so the seed closure surface is exactly the listed conjunction and none of the refused endpoints is exported.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual-join induction]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-induction}
+Let $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ be an accepted $\MetaCICParallelDiamondFrontierUp$ carrier. Finite iteration over a displayed list of residual pairs preserves the local-diamond route through the critical-pair row $K$, residual-substitution premise row $P$, candidate-normalization row $J$, closed-checker row $S$, bounded-check row $B$, obstruction row $O$, transport row $H$, replay row $T$, provenance row $G$, and local naming row $N$. The iterated route remains candidate-mediated and exports no premise-free parallel diamond, subject reduction, full closed Church--Rosser theorem, evaluator equality, quotient equality of terms, or kernel consistency endpoint.
+\end{theorem}
+\begin{proof}
+Induct on the finite residual-pair list. The base case is \autoref{thm:metacic-parallel-diamond-frontier-seed-closure-status}: seed readiness already exposes residual-substitution premise retention, critical-pair rows, candidate joins, closed checker rows, bounded checks, obstruction retention, and the structural rows.
+
+For the step, append one displayed residual pair. The residual-substitution dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope} keeps $P$ visible, while candidate-normalization scope and finite residual witness consumption keep the new pair inside $K,J,R,S,C,B,O$ before any normalization-facing handoff is read.
+
+Finally apply the critical-path consumer route of \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff}. It passes the extended finite readback through $H,T,G,N$ without changing the refused endpoints, so the induction preserves the local-diamond route claimed above.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
 \closureat{MetaCICParallelDiamondFrontierUp}{seedStr}
