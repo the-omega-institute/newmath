@@ -1,0 +1,102 @@
+{
+  "arm_id": "non_starved_fair_attention",
+  "artifact_id": "bedc-quality-lab:non-starved-fair-baseline",
+  "comparison_tolerance": 0.03,
+  "compute_units": 233.865216,
+  "generated_at": "2026-06-10T00:00:00+00:00",
+  "input_visibility": {
+    "information_starved": false,
+    "missing_variables": [],
+    "required_variables": [
+      "x_minus_1",
+      "x_minus_2"
+    ],
+    "source_pointer": "reports/canonical/input-accessibility.json#arm=parameter_matched_attention",
+    "visible_variables": [
+      "x_minus_1",
+      "x_minus_2",
+      "full_sequence"
+    ]
+  },
+  "metrics": {
+    "UER_mean": 0.990235,
+    "accuracy_ci95_low": 0.006271,
+    "accuracy_mean": 0.009765,
+    "loss_decrease_ci95_low": 0.337368,
+    "loss_decrease_mean": 0.383695,
+    "loss_end_mean": 2.396502,
+    "loss_start_mean": 2.780197,
+    "ood_accuracy_mean": 0.008789,
+    "parameter_l2_delta_mean": 6.931824,
+    "positive_margin_over_chance_mean": -0.052735,
+    "validation_loss_ci95_low": 3.782403,
+    "validation_loss_mean": 3.862286
+  },
+  "model_source_arm_id": "parameter_matched_attention",
+  "parameter_count": 3172,
+  "raw_record_pointers": [
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[0]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[1]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[2]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[3]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[4]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[5]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[6]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[7]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[8]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[9]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[10]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[11]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[12]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[13]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[14]",
+    "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl:$.lines[15]"
+  ],
+  "record_count": 16,
+  "role": "fair_baseline",
+  "schema_id": "bedc-quality-lab:non-starved-fair-baseline-summary",
+  "seed_count": 16,
+  "source_artifacts": {
+    "l1_model_owner": "bedc_quality_lab/dgt_l1_controls.py",
+    "raw_metrics": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_metrics.jsonl",
+    "summary": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json"
+  },
+  "status": "pass",
+  "summary_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$",
+  "training_config": {
+    "batch_size": 128,
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
+    },
+    "epoch_count": 36,
+    "eval_examples": 256,
+    "learning_rate": 0.018,
+    "seeds": [
+      1174,
+      1175,
+      1176,
+      1177,
+      1178,
+      1179,
+      1180,
+      1181,
+      1182,
+      1183,
+      1184,
+      1185,
+      1186,
+      1187,
+      1188,
+      1189
+    ],
+    "train_examples": 1024
+  }
+}

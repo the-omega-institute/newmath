@@ -2,12 +2,6 @@
   "artifact_id": "bedc-quality-lab:fair-l1-decision",
   "boundary_ledger": [
     {
-      "gate_id": "FAIR-L1-HG3",
-      "reason": "baseline arm is information-starved or input-accessibility rows mark missing variables",
-      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
-      "status": "bounded-negative"
-    },
-    {
       "gate_id": "FAIR-L1-HG5",
       "reason": "step-ladder evidence does not support fair scaling promotion",
       "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder",
@@ -18,19 +12,13 @@
       "reason": "OOD mechanism remains diagnostic or not claimed",
       "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_ood_mechanism",
       "status": "bounded-negative"
-    },
-    {
-      "gate_id": "FAIR-L1-HG7",
-      "reason": "baseline Bayes limit is chance under the owner construct-validity proof",
-      "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
-      "status": "bounded-negative"
     }
   ],
   "construct_validity_projection": {
     "base_construct_validity_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.construct_validity",
     "input_accessibility_pointer": "reports/canonical/input-accessibility.json:$",
     "l1_construct_validity_pointer": "reports/canonical/dgt-l1-controls.json:$.construct_validity_ledger",
-    "status": "bounded-negative"
+    "status": "pass"
   },
   "decision": {
     "allowed_statuses": [
@@ -69,7 +57,7 @@
     "claim_id": "claim:fair-l1-decision",
     "comparison_count": 4,
     "comparison_pointer": "reports/canonical/fair-l1-decision.json:$.fair_alignment.comparison_rows",
-    "failed_gate": "FAIR-L1-HG3",
+    "failed_gate": "FAIR-L1-HG5",
     "hardgate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates",
     "hardgate_status": "fail",
     "ladder_state": "l1-bounded-negative",
@@ -93,7 +81,7 @@
         "decision": "noninformative-dgt-separated",
         "match_axis": "training_steps",
         "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[0]",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.training_config.epoch_count",
         "status": "resolved"
       },
       {
@@ -101,7 +89,7 @@
         "decision": "noninformative-dgt-separated",
         "match_axis": "compute_units",
         "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[1]",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0]",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.compute_units",
         "status": "resolved"
       },
       {
@@ -109,7 +97,7 @@
         "decision": "noninformative-dgt-separated",
         "match_axis": "loss_decrease",
         "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[2]",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4]",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.metrics.loss_decrease_mean",
         "status": "resolved"
       },
       {
@@ -117,7 +105,7 @@
         "decision": "noninformative-dgt-separated",
         "match_axis": "validation_loss",
         "owner_row_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit.comparison_rows[3]",
-        "source_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean",
+        "source_pointer": "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json:$.metrics.validation_loss_mean",
         "status": "resolved"
       }
     ],
@@ -141,10 +129,10 @@
     },
     "FAIR-L1-HG3": {
       "criterion": "baseline arm has enough task information for a fair architecture comparison",
-      "fail_closed_reason": "baseline arm is information-starved or input-accessibility rows mark missing variables",
+      "fail_closed_reason": null,
       "gate_id": "FAIR-L1-HG3",
       "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
-      "status": "fail"
+      "status": "pass"
     },
     "FAIR-L1-HG4": {
       "criterion": "bounded L1 controls pass their owner-local review",
@@ -169,10 +157,10 @@
     },
     "FAIR-L1-HG7": {
       "criterion": "baseline can in principle express the target dependency",
-      "fail_closed_reason": "baseline Bayes limit is chance under the owner construct-validity proof",
+      "fail_closed_reason": null,
       "gate_id": "FAIR-L1-HG7",
       "source_pointer": "reports/canonical/dgt-base-undertraining-audit.json:$.base_undertraining_audit",
-      "status": "fail"
+      "status": "pass"
     }
   },
   "ladder_state_projection": {
@@ -217,7 +205,7 @@
     "base_audit": {
       "artifact": "reports/canonical/dgt-base-undertraining-audit.json",
       "pointer": "$.base_undertraining_audit",
-      "sha256": "589689294b7640a0d224d545a8e8b34195d094037024ee9f879124bf629c89b6",
+      "sha256": "fac871bf094b9fd449e99c7542a8fc11709c12e2ae04fe2a6787be16bdc62b86",
       "status": "resolved"
     },
     "input_accessibility": {

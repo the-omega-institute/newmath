@@ -54,6 +54,16 @@ def _write_eligible_sources(root):
     construct = base["base_undertraining_audit"]["construct_validity"]
     construct["status"] = "construct-valid"
     construct["baseline_input_order"] = construct["label_dependency_order"]
+    construct["fair_baseline_contract"] = {
+        "status": "pass",
+        "information_starved": False,
+        "missing_variables": [],
+    }
+    base["base_undertraining_audit"]["source_contract"]["fair_baseline_contract"] = {
+        "status": "pass",
+        "information_starved": False,
+        "missing_variables": [],
+    }
     rows = base["base_undertraining_audit"]["comparison_rows"]
     by_id = {row["comparison_id"]: row for row in rows}
     if "equal_validation_loss" not in by_id:
@@ -144,15 +154,16 @@ def test_fair_l1_decision_projects_bounded_negative_from_current_l1_evidence(tmp
     ]
     assert payload["ladder_state_projection"]["state"] == "l1-bounded-negative"
     assert payload["hardgates"]["FAIR-L1-HG1"]["status"] == "pass"
-    assert payload["hardgates"]["FAIR-L1-HG3"]["status"] == "fail"
-    assert payload["hardgates"]["FAIR-L1-HG7"]["status"] == "fail"
+    assert payload["hardgates"]["FAIR-L1-HG3"]["status"] == "pass"
+    assert payload["hardgates"]["FAIR-L1-HG7"]["status"] == "pass"
+    assert payload["hardgates"]["FAIR-L1-HG5"]["status"] == "fail"
     assert payload["hardgates"]["FAIR-L1-HG6"]["status"] == "fail"
     assert [row["comparison_id"] for row in payload["fair_alignment"]["comparison_rows"]] == list(fair.REQUIRED_COMPARISONS)
     validation = payload["fair_alignment"]["comparison_rows"][-1]
     assert validation["comparison_id"] == "equal-validation-loss"
     assert validation["match_axis"] == "validation_loss"
     assert validation["owner_row_pointer"].startswith(fair.BASE_AUDIT_POINTER)
-    assert any(row["gate_id"] == "FAIR-L1-HG3" for row in payload["boundary_ledger"])
+    assert any(row["gate_id"] == "FAIR-L1-HG5" for row in payload["boundary_ledger"])
     assert "unblocked" not in json.dumps(payload, sort_keys=True)
     assert "scoped-boundary" not in json.dumps(payload, sort_keys=True)
 
@@ -169,7 +180,9 @@ def test_fair_l1_decision_projects_scaling_evidence_eligible_from_resolved_sourc
     assert payload["decision"]["hardgate_status"] == "pass"
     assert payload["ladder_state_projection"]["state"] == "l1-scaling-evidence-eligible"
     assert payload["boundary_ledger"] == []
-    assert payload["fair_alignment"]["comparison_rows"][-1]["source_pointer"].startswith(fair.DGT_L1_CONTROLS_ARTIFACT)
+    assert payload["fair_alignment"]["comparison_rows"][-1]["source_pointer"].startswith(
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json"
+    )
 
     fair.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")
     capsule = payload["decision"]["claim_capsule"]

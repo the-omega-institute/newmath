@@ -7200,16 +7200,17 @@ def _validate_reproduction_blocked_reason(
             if reason[key] != expected:
                 errors.append(_reproduction_error(f"{row_path}.blocked_reason.{key}", f"fair-l1-training requires {expected}"))
         gate_value = _resolve_committed_artifact_pointer(ROOT, FAIR_L1_BLOCKED_REASON["owner_gate_ref"])
+        expected_gate_id = str(FAIR_L1_BLOCKED_REASON["owner_gate_ref"]).rsplit(".", 1)[-1]
         if not isinstance(evidence_value, Mapping) or (
-            evidence_value.get("gate_id") != "FAIR-L1-HG3"
+            evidence_value.get("gate_id") != expected_gate_id
             or evidence_value.get("status") != "fail"
         ):
-            errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", "fair-l1 evidence gate does not match FAIR-L1-HG3"))
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.evidence_ref", f"fair-l1 evidence gate does not match {expected_gate_id}"))
         if not isinstance(gate_value, Mapping) or (
-            gate_value.get("gate_id") != "FAIR-L1-HG3"
+            gate_value.get("gate_id") != expected_gate_id
             or gate_value.get("status") != "fail"
         ):
-            errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", "fair-l1 owner gate does not match FAIR-L1-HG3"))
+            errors.append(_reproduction_error(f"{row_path}.blocked_reason.owner_gate_ref", f"fair-l1 owner gate does not match {expected_gate_id}"))
     return errors
 
 

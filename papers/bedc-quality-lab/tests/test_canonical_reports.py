@@ -2323,9 +2323,14 @@ def test_reproduction_package_validation_rejects_copied_owner_fact(tmp_path):
     assert validation["reproduction_errors"]
 
 
-def _write_fair_l1_decision_fixture(root: Path, *, gate_id: str = "FAIR-L1-HG3", gate_status: str = "fail") -> None:
+def _fair_l1_owner_gate_id() -> str:
+    return str(canonical.FAIR_L1_BLOCKED_REASON["owner_gate_ref"]).rsplit(".", 1)[-1]
+
+
+def _write_fair_l1_decision_fixture(root: Path, *, gate_id: str | None = None, gate_status: str = "fail") -> None:
     path = root / "reports/canonical/fair-l1-decision.json"
     path.parent.mkdir(parents=True, exist_ok=True)
+    owner_gate_id = _fair_l1_owner_gate_id()
     comparison_rows = [
         {"comparison_id": "equal-step", "decision": "resolved", "status": "pass"},
         {"comparison_id": "equal-compute", "decision": "resolved", "status": "pass"},
@@ -2341,8 +2346,8 @@ def _write_fair_l1_decision_fixture(root: Path, *, gate_id: str = "FAIR-L1-HG3",
         "artifact_id": "bedc-quality-lab:fair-l1-decision",
         "fair_alignment": {"comparison_rows": comparison_rows},
         "hardgates": {
-            "FAIR-L1-HG3": {
-                "gate_id": gate_id,
+            owner_gate_id: {
+                "gate_id": gate_id or owner_gate_id,
                 "status": gate_status,
             }
         },
@@ -2522,7 +2527,7 @@ def test_reproduction_check_result_validation_rejects_fair_l1_evidence_drift(tmp
     assert validation["status"] == "fail"
     assert {
         "path": "$.target_results[1].blocked_reason.evidence_ref",
-        "message": "fair-l1 evidence gate does not match FAIR-L1-HG3",
+        "message": f"fair-l1 evidence gate does not match {_fair_l1_owner_gate_id()}",
     } in validation["reproduction_errors"]
 
 
@@ -2536,7 +2541,7 @@ def test_reproduction_check_result_validation_rejects_fair_l1_owner_gate_drift(t
     assert validation["status"] == "fail"
     assert {
         "path": "$.target_results[1].blocked_reason.owner_gate_ref",
-        "message": "fair-l1 owner gate does not match FAIR-L1-HG3",
+        "message": f"fair-l1 owner gate does not match {_fair_l1_owner_gate_id()}",
     } in validation["reproduction_errors"]
 
 
