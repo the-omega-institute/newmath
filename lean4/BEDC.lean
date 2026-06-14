@@ -2820,6 +2820,7 @@ import BEDC.Derived.CompactOpenFunctionSpaceUp
 import BEDC.Derived.CompactOpenFunctionSpaceUp.TasteGate
 import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactOpenMetricUp.TasteGate
+import BEDC.Derived.CompactOpenTopologyUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
@@ -3497,6 +3498,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowExactness
 import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowTransport
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationPackage
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationSurface
+import BEDC.Derived.CriticalLineWitnessUp.NameCertRowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ObligationClosurePackage
 import BEDC.Derived.CriticalLineWitnessUp.ObligationCompletionPacket
 import BEDC.Derived.CriticalLineWitnessUp.ObligationLedgerExactnessRow
@@ -3524,6 +3526,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryStdbridgeNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
+import BEDC.Derived.CriticalLineWitnessUp.RHConsumerRoute
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerSourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHInterfaceCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
@@ -6171,6 +6174,7 @@ import BEDC.Derived.LocatedArchimedeanUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSetUp
 import BEDC.Derived.LocatedCauchyCompletionFunctorUp.TasteGate
+import BEDC.Derived.LocatedCauchyExtractionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterBasisUp
 import BEDC.Derived.LocatedCauchyFilterCompletionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterLimitUp.TasteGate
@@ -8987,6 +8991,7 @@ import BEDC.Derived.RegularCauchyTailFiberUp
 import BEDC.Derived.RegularCauchyTailFiberUp.CompletionHandoffScope
 import BEDC.Derived.RegularCauchyTailFiberUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFilterBasisUp.TasteGate
+import BEDC.Derived.RegularCauchyTailFilterCofinalityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.SharedThresholdExhaustion
