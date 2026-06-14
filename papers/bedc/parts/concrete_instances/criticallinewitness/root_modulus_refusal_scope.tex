@@ -42,3 +42,19 @@ Next apply the root zero-strip exclusion. It fixes the supplied zero and strip r
 
 Finally use the RH-refusal ledger completeness theorem \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. It identifies the downstream export as a refusal ledger rather than an RH proof surface, so the downstream consumer receives exactly the displayed finite package and none of the excluded proof data.
 \end{proof}
+
+\begin{theorem}[Critical-line witness root public export]
+\label{thm:critical-line-witness-root-public-export}
+Every public root-facing consumer of an accepted $\CriticalLineWitnessUp$ packet receives exactly the finite package
+$$
+Z,S,M,R,Q,H,C,P,N .
+$$
+This package is obtained by composing root modulus ledger scope, root zero-strip exclusion, and root RH-boundary refusal. The export contains no proof of $\mathsf{RH}$, no global zero classifier, no analytic-continuation certificate, no quotient representative, no host equality, and no ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:critical-line-witness-root-modulus-ledger-scope}. It fixes the modulus and rational-comparison side of every root-facing read through $M,R,Q,H,C,P,N$.
+
+Next apply \autoref{thm:critical-line-witness-root-zero-strip-exclusion}. It keeps the supplied zero row $Z$ and critical-strip row $S$ attached to the same finite transport, continuation, package, and naming route.
+
+Finally apply \autoref{thm:critical-line-witness-root-rh-boundary-refusal}. It identifies the RH-facing boundary as a refusal package over $Z,S,M,R,Q,H,C,P,N$ rather than as proof data. The public root-facing consumer therefore receives exactly the displayed finite package and none of the refused RH, global-zero, analytic-continuation, quotient, host-equality, or ambient-completeness data.
+\end{proof}

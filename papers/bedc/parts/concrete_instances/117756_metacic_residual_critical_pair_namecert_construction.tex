@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualCriticalPairUp$}
+\label{ch:concrete-instances-metacic-residual-critical-pair-namecert}
+\origin{ai}
+
+The $\MetaCICResidualCriticalPairUp$ packet realizes the MetaCIC confluence audit map as finite residual-critical-pair data. It sits after the critical-path source of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, and the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}. The packet records residual-substitution, local-join, closed-checker, obstruction, transport, replay, provenance, and NameCert rows; it does not claim global confluence, substitution compatibility, closed Church--Rosser, subject reduction, quotient syntax equality, or a hidden reduction oracle.
+
+\begin{definition}[MetaCIC residual critical-pair carrier]
+\label{def:metacic-residual-critical-pair-carrier}
+A $\MetaCICResidualCriticalPairUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,P,J,D,O,T,R,V,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the residual-substitution row, naming the substitution-sensitive residual window that must be displayed before a peak can be consumed.
+\item $P$ is the local peak row, recording the two one-step residual branches and their shared typed source window.
+\item $J$ is the candidate local-join row, naming the finite common-reduct attempt associated to the displayed peak.
+\item $D$ is the closed-checker row, restricting the read to the closed or shape-limited fragment currently admitted by the audit map.
+\item $O$ is the obstruction row, preserving any missing residual-substitution compatibility, parallel diamond, or closed-confluence input as visible boundary data.
+\item $T$ is the transport row carrying componentwise $\hsame$ comparisons for $S,P,J,D,O,R,V,G,N$.
+\item $R$ is the replay row, recording displayed $\Cont$ replay from residual-substitution inspection through local join checking and obstruction retention.
+\item $V$ is the verification-frontier row tying the packet to the critical path, normalization frontier, parallel-diamond frontier, confluence audit packet, and normal-form consistency seal.
+\item $H$ is the audit-history row preserving source labels, shape bounds, peak identifiers, local-join attempts, and obstruction names.
+\item $C$ is the closed-fragment handoff row consumed by closed-normal or shape-limited confluence readers after $S,P,J,D,O$ have been displayed.
+\item $G$ is the $\Pkg$ provenance over $\MetaCICResidualCriticalPairUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICParallelDiamondFrontierUp$, $\MetaCICConfluenceAuditPacketUp$, $\NormalFormConsistencySealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualCriticalPairUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose residual-substitution, local peak, candidate join, closed-checker, obstruction, transport, replay, frontier, history, provenance, and local naming rows agree componentwise. It has no coordinate for a global confluence theorem, arbitrary substitution compatibility, a hidden parallel diamond, subject reduction, quotient syntax equality, or off-packet oracle joins.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual critical-pair NameCert obligations]
+\label{thm:metacic-residual-critical-pair-namecert-obligations}
+For every accepted $\MetaCICResidualCriticalPairUp$ carrier $K=(S,P,J,D,O,T,R,V,H,C,G,N)$, the local $\NameCert_{\MetaCICResidualCriticalPairUp}$ surface consists exactly of carrier admission for the displayed rows; residual-substitution admission through $S$; local peak admission through $P$; candidate join admission through $J$; closed or shape-limited checker admission through $D$; obstruction retention through $O$; componentwise transport through $T$; displayed replay through $R$; critical-path, normalization-frontier, parallel-diamond-frontier, confluence-audit, and normal-form-seal anchoring through $V,H,C,G$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-critical-pair-carrier}. The confluence-facing rows are $S,P,J,D,O$, and the structural rows are $T,R,V,H,C,G,N$.
+
+The residual-substitution row $S$ is read before the local peak $P$ and candidate join $J$. This keeps the packet inside the substitution-sensitive audit map instead of treating a local join as an unconditional diamond.
+
+The closed-checker row $D$ and obstruction row $O$ are then inspected. They separate the available closed or shape-limited fragment from the missing residual-substitution compatibility, parallel-diamond, and closed-confluence inputs.
+
+Finally $T,R,V,H,C,G,N$ transport, replay, anchor, preserve, hand off, source, and name the same finite route. Since the carrier contains no global confluence, subject-reduction, quotient-syntax, or hidden-oracle coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual critical-pair frontier handoff]
+\label{thm:metacic-residual-critical-pair-frontier-handoff}
+Every confluence-facing consumer of an accepted $\MetaCICResidualCriticalPairUp$ packet receives the finite route
+$$
+S,P,J,D,O,T,R,V,H,C,G,N .
+$$
+The route may be handed to $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICParallelDiamondFrontierUp$, $\MetaCICConfluenceAuditPacketUp$, and $\NormalFormConsistencySealUp$ consumers only as residual-critical-pair evidence with an explicit obstruction boundary. It does not export global confluence, arbitrary residual-substitution compatibility, an unconditional parallel diamond, closed Church--Rosser, subject reduction, quotient syntax equality, or a hidden reduction oracle.
+\end{theorem}
+\begin{proof}
+Start with the residual-substitution and local-peak rows. The packet exposes $S$ before $P,J$, so the consumer sees the substitution-sensitive residual window together with the candidate join attempt.
+
+Read the closed-checker and obstruction rows next. The row $D$ confines the consumer to the closed or shape-limited fragment, while $O$ names the missing compatibility, parallel-diamond, or closed-confluence input that remains outside the carrier.
+
+The structural rows $T,R,V,H,C,G,N$ then preserve the same route for the critical-path, normalization-frontier, parallel-diamond, confluence-audit, and normal-form-seal consumers. The handoff is therefore residual-critical-pair evidence with a visible obstruction boundary, not a confluence theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MetaCICResidualCriticalPairUp$ consumer that reaches a confluence-facing handoff without displaying residual-substitution row $S$, local peak row $P$, candidate join row $J$, closed-checker row $D$, obstruction row $O$, and structural rows $T,R,V,H,C,G,N$ refutes the carrier surface.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacic-parallel-diamond-frontier, metacicconfluenceauditpacket, normalformconsistencyseal: no listed sibling is bijective to $\MetaCICResidualCriticalPairUp$ because this packet jointly carries residual-substitution windows, local peaks, candidate joins, closed-checker rows, obstruction retention, transport, replay, audit history, closed-fragment handoff, provenance, and local naming. The Lean TasteGate follow-up must provide Nontrivial and FieldFaithful instances for the packet surface.}
+
+\begin{closurestatus}{\MetaCICResidualCriticalPairUp}
+  \constructivestory{A $\MetaCICResidualCriticalPairUp$ packet is generated from residual-substitution windows, local peaks, candidate joins, closed-checker rows, obstruction rows, componentwise hsame transport, displayed Cont replay, audit-frontier anchoring, history preservation, closed-fragment handoff, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-critical-pair-carrier}, \autoref{thm:metacic-residual-critical-pair-namecert-obligations}, and \autoref{thm:metacic-residual-critical-pair-frontier-handoff} seed the finite residual critical-pair route for the MetaCIC confluence audit map.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global confluence, arbitrary residual-substitution compatibility, unconditional parallel diamond, closed Church--Rosser, subject reduction, quotient syntax equality, Lean verification, or bridge checking for $\MetaCICResidualCriticalPairUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-substitution admission, local peak admission, candidate join admission, closed-checker admission, obstruction retention, transport, replay, audit-frontier anchoring, history preservation, closed-fragment handoff, provenance, and local naming for BEDC.Derived.MetaCICResidualCriticalPairUp.}
+\end{closurestatus}
