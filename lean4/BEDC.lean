@@ -276,6 +276,7 @@ import BEDC.Derived.ArchimedeanRealUp.BudgetedCauchyBound
 import BEDC.Derived.ArchimedeanRealUp.CauchyThresholdForwardRoute
 import BEDC.Derived.ArchimedeanRealUp.PublicOrderConsumer
 import BEDC.Derived.ArchimedeanRealUp.TasteGate
+import BEDC.Derived.ArensFortSpaceUp
 import BEDC.Derived.ArgumentPrincipleUp.TasteGate
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFiniteEquicontinuousUp.TasteGate
@@ -2819,6 +2820,7 @@ import BEDC.Derived.CompactOpenFunctionSpaceUp
 import BEDC.Derived.CompactOpenFunctionSpaceUp.TasteGate
 import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactOpenMetricUp.TasteGate
+import BEDC.Derived.CompactOpenTopologyUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
@@ -3534,6 +3536,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RationalComparisonLedgerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RationalHeightWindow
 import BEDC.Derived.CriticalLineWitnessUp.RealPartModulusStability
 import BEDC.Derived.CriticalLineWitnessUp.RealWindowNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RefusalCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RegSeqRatRealModulusHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RhBoundarySourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
@@ -6169,6 +6172,7 @@ import BEDC.Derived.LocatedArchimedeanUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSetUp
 import BEDC.Derived.LocatedCauchyCompletionFunctorUp.TasteGate
+import BEDC.Derived.LocatedCauchyExtractionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterBasisUp
 import BEDC.Derived.LocatedCauchyFilterCompletionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterLimitUp.TasteGate
@@ -8985,6 +8989,7 @@ import BEDC.Derived.RegularCauchyTailFiberUp
 import BEDC.Derived.RegularCauchyTailFiberUp.CompletionHandoffScope
 import BEDC.Derived.RegularCauchyTailFiberUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFilterBasisUp.TasteGate
+import BEDC.Derived.RegularCauchyTailFilterCofinalityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.SharedThresholdExhaustion
