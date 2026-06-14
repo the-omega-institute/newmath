@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\FiniteElementStiffnessMatrixUp$}
+\label{ch:concrete-instances-finite-element-stiffness-matrix-namecert}
+\origin{human}
+
+Following Ciarlet and Brenner--Scott, the $\FiniteElementStiffnessMatrixUp$ packet records the finite stiffness matrix obtained by reading local element energy rows, assembling them over a displayed mesh, and exposing the result as BEDC NameCert data. It sits after the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map handoff of \autoref{ch:concrete-instances-linearmap-namecert}, the finite-difference stencil surface of \autoref{ch:concrete-instances-finite-difference-namecert}, the PDE relation carrier of \autoref{ch:concrete-instances-pde-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the metric-space source of \autoref{ch:concrete-instances-metric-space-namecert}. The packet names the finite energy matrix and its Galerkin-facing handoff; it does not assert a host weak solution, mesh-limit convergence, global coercivity theorem, quotient function equality, selected basis outside the displayed rows, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite element stiffness matrix carrier]
+\label{def:finite-element-stiffness-matrix-carrier}
+A $\FiniteElementStiffnessMatrixUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,E,B,A,L,R,D,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite mesh row, listing element names, incidence data, boundary tags, and the finite trial-test basis labels inspected by the assembly route.
+\item $E$ is the element-energy row, recording the local bilinear energy contributions read on each displayed element.
+\item $B$ is the boundary-condition row, separating constrained degrees of freedom, interior degrees of freedom, and boundary load routes.
+\item $A$ is the $\MatrixUp$ assembly row whose entries are obtained by summing only the displayed element contributions from $E$ over the incidence row $M$.
+\item $L$ is the $\LinearMapUp$ handoff row reading the same assembled matrix as a finite operator on the displayed trial-test coordinate window.
+\item $R$ is the $\RealUp$ scalar seal for matrix entries, local energy values, symmetry comparisons, and positive-energy tests.
+\item $D$ is the $\FiniteDifferenceUp$ or quadrature-facing local-difference row used when the element energy is read from displayed finite stencil data.
+\item $V$ is the $\MetricSpaceUp$ or $\MetricUp$ geometric row naming the finite metric observations used to orient element neighbourhoods and boundary faces.
+\item $H$ records componentwise $\hsame$ transport for $M,E,B,A,L,R,D,V,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from mesh and local-energy reads through assembly, linear-map interpretation, scalar sealing, local-difference data, and metric geometry.
+\item $P$ is the $\Pkg$ provenance over $\FiniteElementStiffnessMatrixUp$, $\MatrixUp$, $\LinearMapUp$, $\FiniteDifferenceUp$, $\PdeUp$, $\RealUp$, $\MetricSpaceUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteElementStiffnessMatrixUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an ambient finite-element space, a selected external basis, host weak-form equality, mesh-limit convergence, PDE solvability, global coercivity, quotient function equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite element stiffness matrix NameCert obligations]
+\label{thm:finite-element-stiffness-matrix-namecert-obligations}
+For every accepted $\FiniteElementStiffnessMatrixUp$ carrier
+$$
+K=(M,E,B,A,L,R,D,V,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteElementStiffnessMatrixUp}$ surface consists exactly of finite mesh admission, element-energy admission, boundary-condition separation, Matrix assembly, LinearMap handoff, Real scalar sealing, local finite-difference or quadrature readback, metric-geometric orientation, componentwise transport, displayed replay, provenance, and local naming through $M,E,B,A,L,R,D,V,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-element-stiffness-matrix-carrier}. The mesh row $M$, element-energy row $E$, and boundary row $B$ are the only source rows from which the assembly route may draw element and boundary data.
+
+The assembled row $A$ is then a $\MatrixUp$ readback of those displayed local contributions. The row $L$ reads exactly the same table as a finite $\LinearMapUp$ handoff, while $R$ seals every entry and comparison as displayed $\RealUp$ data.
+
+The local-difference row $D$ and metric row $V$ keep the finite stencil, quadrature, and geometric observations visible. They do not supply a host weak form or a mesh-limit object.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since every obligation is one of the displayed rows and no excluded analytic endpoint is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite element stiffness matrix symmetric positive ledger]
+\label{thm:finite-element-stiffness-matrix-symmetric-positive-ledger}
+Every symmetry or positive-energy read of an accepted $\FiniteElementStiffnessMatrixUp$ packet factors through the same displayed rows $M,E,B,A,L,R,D,V,H,C,P,N$. Symmetry is read as equality of the paired finite matrix-entry ledgers in $A$ after the element incidences in $M$ and local energies in $E$ have been displayed; positive-energy evidence is read as a finite $\RealUp$ comparison over the displayed coordinate window and does not assert global coercivity, spectral positivity, elliptic regularity, or PDE solvability.
+\end{theorem}
+\begin{proof}
+Start with the matrix assembly row $A$. Each entry comparison in a symmetry read is attached to the mesh incidence row $M$ and the element-energy row $E$, so the comparison is a finite ledger over displayed element contributions.
+
+For positive-energy evidence, the consumer reads the coordinate window through $L$ and the scalar comparisons through $R$. Boundary rows $B$ and metric or local-difference rows $D,V$ remain visible before the comparison is exported.
+
+Transport and replay through $H,C$ preserve the same rows, and $P,N$ record provenance and local naming. The packet therefore supplies only a finite symmetric positive ledger for the displayed matrix, not a global coercivity theorem, spectral theorem, regularity theorem, PDE solution, or mesh-limit conclusion.
+\end{proof}
+
+\begin{theorem}[Finite element stiffness matrix Galerkin handoff]
+\label{thm:finite-element-stiffness-matrix-galerkin-handoff}
+Every Galerkin-facing or PDE-facing consumer of an accepted $\FiniteElementStiffnessMatrixUp$ carrier must read the assembly route
+$$
+M,E,B,A,L,R,D,V,H,C,P,N
+$$
+before it may use the stiffness matrix as input to a finite variational calculation. The handoff reaches $\PdeUp$ only through the displayed Matrix, LinearMap, Real, finite-difference, and metric rows, and exports no weak solution, convergence theorem, quotient finite-element function, selected external basis, unbounded solver trace, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a Galerkin-facing consumer. The consumer first sees the finite mesh row $M$, element-energy row $E$, and boundary row $B$, so the variational data are tied to displayed element and boundary coordinates.
+
+Next it reads the assembled matrix $A$ and the linear-map handoff $L$. This makes the stiffness object a finite matrix and operator row, rather than an ambient bilinear form over an unspecified function space.
+
+The scalar, local-difference, and metric rows $R,D,V$ then expose the real comparisons, stencil or quadrature evidence, and geometric observations that a PDE-facing read may consume. The PDE route is therefore a provenance and replay handoff, not a proof of a host solution theorem.
+
+Finally $H,C,P,N$ preserve and name the same finite route. Since the carrier has no coordinate for weak solutions, convergence, quotient functions, selected external bases, solver traces, or ambient completeness, none of those endpoints can be exported by the Galerkin handoff.
+\end{proof}
+
+\closureat{FiniteElementStiffnessMatrixUp}{seedStr}
+
+\begin{closurestatus}{\FiniteElementStiffnessMatrixUp}
+  \constructivestory{A $\FiniteElementStiffnessMatrixUp$ packet is generated from finite mesh rows, local element-energy rows, boundary-condition rows, a displayed MatrixUp assembly table, a LinearMapUp handoff, RealUp scalar seals, finite-difference or quadrature readbacks, MetricSpace or Metric geometry rows, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-element-stiffness-matrix-carrier}, \autoref{thm:finite-element-stiffness-matrix-namecert-obligations}, \autoref{thm:finite-element-stiffness-matrix-symmetric-positive-ledger}, and \autoref{thm:finite-element-stiffness-matrix-galerkin-handoff} seed the finite stiffness-matrix carrier, its symmetric positive ledger, and its Galerkin-facing handoff over displayed Matrix, LinearMap, Real, finite-difference, PDE, and metric rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host weak solutions, mesh-limit convergence, global coercivity, spectral positivity, elliptic regularity, quotient finite-element functions, selected external bases, solver traces, Lean verification, or a standard bridge.}
+  \upgradepath{Scoped treatment asks for checked carrier admission, element-energy admission, boundary separation, matrix assembly, linear-map handoff, scalar sealing, local-difference or quadrature readback, metric geometry, transport, replay, provenance, and local naming.}
+\end{closurestatus}
