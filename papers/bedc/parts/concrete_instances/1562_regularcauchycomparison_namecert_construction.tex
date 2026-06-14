@@ -195,6 +195,26 @@ $X$-to-$Z$ finite comparison, with no appeal to quotient streams, selected
 limits, host real equality, or completeness outside the carrier.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy comparison finite-window induction]
+\label{thm:regular-cauchy-comparison-finite-window-induction}
+Let $K=(X,Y,W,D,\tau,L,E,H,C,P,N)$ be an accepted $\RegularCauchyComparisonUp$ packet. Every accepted comparison route over a finite $\StreamNameUp$ window schedule is exhausted by induction over the displayed window ledger $W$. Along the induction, the route preserves the $\DyadicRatCoreUp$ observation row $D$, the tolerance row $\tau$, the $\RealUp$ seal $E$, and the structural rows $H,C,P,N$.
+
+Consequently a comparison consumer that accepts all finite windows in $W$ receives exactly the displayed comparison surface
+$$
+X,Y,W,D,\tau,L,E,H,C,P,N
+$$
+and cannot add a dyadic observation outside $D$, a tolerance coordinate outside $\tau$, a second real seal, quotient stream equality, a selected limit, host real equality, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite window ledger $W$.
+
+In the empty-window case, there is no window from which a fresh $\DyadicRatCoreUp$ observation can be read. The comparison route is therefore restricted to the already displayed rows $D,\tau,L,E,H,C,P,N$, and the carrier supplies no coordinate for quotient streams or selected host limits.
+
+For the successor window, apply common-window stability to keep the new $\StreamNameUp$ cell on the same transported schedule. Then use tolerance-row exactness: the successor read may consume only the dyadic observation already recorded in $D$ and the rational tolerance already recorded in $\tau$ for that cell.
+
+The induction hypothesis preserves all earlier cells of $W$ with the same structural rows $H,C,P,N$. Combining the earlier route with the successor read gives the full finite ledger, and the $\RealUp$ seal boundary closes the induction by forcing the final handoff through $E$ rather than through host real equality or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy comparison diagonal-budget handoff]
 \label{thm:regular-cauchy-comparison-diagonal-budget-handoff}
 Let $K=(X,Y,W,D,\tau,L,E,H,C,P,N)$ be an accepted $\RegularCauchyComparisonUp$ packet. Suppose the shared window $W$ and tolerance rows $D,\tau,L$ are consumed by an accepted $\CauchyDiagonalBudgetUp$ packet and an accepted $\TailCofinalityScheduleUp$ packet. Then $K$ exports one diagonal $\RealUp$ handoff through the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
