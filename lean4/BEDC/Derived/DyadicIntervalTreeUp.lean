@@ -140,4 +140,31 @@ theorem DyadicIntervalTreeFrontierExhaustion {R D B F M Q NW H C P L leafRead : 
   }
   exact ⟨cert, leafReadUnary, routeQ⟩
 
+theorem DyadicIntervalTreeCarrier_refinement_induction_surface
+    {R D B F M Q NW H C P L branchStep windowRead : BHist} :
+    DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
+      Cont B F branchStep ->
+        Cont branchStep NW windowRead ->
+          UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory B ∧ UnaryHistory F ∧
+            UnaryHistory M ∧ UnaryHistory Q ∧ UnaryHistory NW ∧
+              UnaryHistory branchStep ∧ UnaryHistory windowRead ∧ Cont R B F ∧
+                Cont F M Q ∧ Cont Q D NW ∧ Cont B F branchStep ∧
+                  Cont branchStep NW windowRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packet branchRoute windowRoute
+  obtain
+    ⟨unaryR, unaryD, unaryB, unaryF, unaryM, _unaryH, _unaryC, _unaryP,
+      _unaryL, routeF, routeQ, routeNW⟩ := packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryF unaryM routeQ
+  have unaryNW : UnaryHistory NW :=
+    unary_cont_closed unaryQ unaryD routeNW
+  have unaryBranch : UnaryHistory branchStep :=
+    unary_cont_closed unaryB unaryF branchRoute
+  have unaryWindow : UnaryHistory windowRead :=
+    unary_cont_closed unaryBranch unaryNW windowRoute
+  exact
+    ⟨unaryR, unaryD, unaryB, unaryF, unaryM, unaryQ, unaryNW, unaryBranch,
+      unaryWindow, routeF, routeQ, routeNW, branchRoute, windowRoute⟩
+
 end BEDC.Derived.DyadicIntervalTreeUp
