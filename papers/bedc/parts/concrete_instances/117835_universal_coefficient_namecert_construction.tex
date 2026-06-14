@@ -1,0 +1,63 @@
+\chapter{UniversalCoefficientUp NameCert Construction}
+\label{ch:concrete-instances-universal-coefficient-namecert}
+\origin{human}
+
+Following Eilenberg--Steenrod and Mac Lane, the $\UniversalCoefficientUp$ packet records the finite homological-algebra interface by which a chain-complex homology read and the corresponding cohomology read share coefficient data through displayed module or abelian-group rows. It sits beside the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the cohomology substrate of \autoref{ch:concrete-instances-cohomology-namecert}, the module source of \autoref{ch:concrete-instances-module-namecert}, the abelian-group carrier of \autoref{ch:concrete-instances-abgroup-namecert}, and the Mayer--Vietoris sequence route of \autoref{ch:concrete-instances-mayer-vietoris-sequence-namecert}. The packet names coefficient, chain-complex, exact-sequence, transport, replay, provenance, and local naming rows; it does not assert a host derived functor, selected chain representatives, quotient-class equality, spectral-sequence convergence, or ambient exactness outside the displayed finite window.
+
+\begin{definition}[Universal coefficient carrier]
+\label{def:universal-coefficient-carrier}
+A $\UniversalCoefficientUp$ carrier is a finite $\BHist$ packet
+$$
+U=(C,A,M,H_*,H^*,E,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\ChainComplexUp$ source row, naming the inspected boundary windows and the displayed square-zero compatibility rows.
+\item $A$ is the $\AbGroupUp$ or $\ModuleUp$ coefficient row, read as the only coefficient carrier available to both homology and cohomology consumers.
+\item $M$ is the finite coefficient-action ledger, recording the module action or additive group operation rows consumed by the inspected degree.
+\item $H_*$ is the $\HomologyUp$ row for the displayed chain-complex degree window.
+\item $H^*$ is the $\CohomologyUp$ row for the matching cochain degree window.
+\item $E$ is the $\ExactSequenceUp$ row that records the displayed boundary order, kernel-image contact, and connecting slot for the inspected universal-coefficient window.
+\item $T$ records componentwise $\hsame$ transport for chain-complex, coefficient, homology, cohomology, exact-sequence, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay for consumers that ask for the same coefficient window and degree route.
+\item $P$ is the $\Pkg$ provenance over $\UniversalCoefficientUp$, $\ChainComplexUp$, $\HomologyUp$, $\CohomologyUp$, $\ModuleUp$, $\AbGroupUp$, $\ExactSequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniversalCoefficientUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a global derived functor, a selected cycle or cocycle representative, quotient-class equality, an unrestricted splitting, spectral-sequence data, or ambient exactness beyond $E$.
+\end{definition}
+
+\begin{theorem}[Universal coefficient NameCert obligations]
+\label{thm:universal-coefficient-namecert-obligations}
+For every accepted $\UniversalCoefficientUp$ carrier $U=(C,A,M,H_*,H^*,E,T,R,P,N)$, the local $\NameCert_{\UniversalCoefficientUp}$ surface consists exactly of carrier admission for the displayed chain-complex source $C$, coefficient row $A$, coefficient-action ledger $M$, homology row $H_*$, cohomology row $H^*$, exact-sequence row $E$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $N$. Every consumer must read the coefficient row before either the $\HomologyUp$ or $\CohomologyUp$ face, and must read the displayed $\ExactSequenceUp$ row before using the homology-to-cohomology handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:universal-coefficient-carrier}. The tuple lists the only rows available to the classifier: chain-complex source, coefficient carrier, coefficient action, homology, cohomology, exact-sequence, transport, replay, provenance, and local naming.
+
+The coefficient row is shared. A homology-facing read and a cohomology-facing read both pass through $A$ and $M$, so the packet cannot silently change coefficient systems between $H_*$ and $H^*$.
+
+The exact-sequence row is then the unique handoff route. The row $E$ records the displayed kernel-image contact and connecting slot for the inspected degree window, while $T$ and $R$ transport and replay that same finite route. Thus no selected representative, unrestricted splitting, quotient equality, or ambient exactness principle can be exported.
+\end{proof}
+
+\begin{theorem}[Universal coefficient homology-cohomology handoff]
+\label{thm:universal-coefficient-homology-cohomology-handoff}
+Let $U=(C,A,M,H_*,H^*,E,T,R,P,N)$ be an accepted $\UniversalCoefficientUp$ packet. Any downstream consumer that moves from the $\HomologyUp$ row $H_*$ to the $\CohomologyUp$ row $H^*$ must first expose the common coefficient row $A$, the coefficient-action ledger $M$, the $\ChainComplexUp$ source $C$, and the $\ExactSequenceUp$ row $E$. The handoff supplies a finite displayed universal-coefficient route for the inspected degree window, not a chosen splitting, selected chain representative, quotient-class equality, host derived-functor computation, or spectral-sequence convergence claim.
+\end{theorem}
+\begin{proof}
+Begin with the shared coefficient surface. The rows $A$ and $M$ are the only coefficient data named by the packet, so both homology and cohomology reads must use the same displayed $\AbGroupUp$ or $\ModuleUp$ source.
+
+Read the chain-complex and exact-sequence rows next. The row $C$ fixes the inspected boundary windows, and $E$ records the finite exact-sequence contact through which the homology and cohomology rows are related.
+
+The structural rows preserve this route for downstream consumers. Componentwise transport $T$, replay $R$, provenance $P$, and local naming $N$ carry the displayed $C,A,M,H_*,H^*,E$ surface without adding a selected representative, a split sequence, quotient equality, a host derived functor, or spectral-sequence data.
+\end{proof}
+
+\closureat{UniversalCoefficientUp}{seedStr}
+
+\begin{closurestatus}{\UniversalCoefficientUp}
+  \constructivestory{A $\UniversalCoefficientUp$ packet is generated from a displayed ChainComplexUp source row, a shared AbGroupUp or ModuleUp coefficient row, a coefficient-action ledger, HomologyUp and CohomologyUp degree-window rows, an ExactSequenceUp handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:universal-coefficient-carrier}, \autoref{thm:universal-coefficient-namecert-obligations}, and \autoref{thm:universal-coefficient-homology-cohomology-handoff} seed the finite carrier and handoff surface for universal-coefficient packets over homology, cohomology, chain-complex, module, abelian-group, and exact-sequence rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a global derived functor, selected chain representatives, quotient-class equality, unrestricted splitting, spectral-sequence convergence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier, coefficient, homology, cohomology, exact-sequence, transport, replay, provenance, and local naming rows for BEDC.Derived.UniversalCoefficientUp.}
+\end{closurestatus}
