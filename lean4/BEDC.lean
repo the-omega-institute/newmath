@@ -1013,6 +1013,7 @@ import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
 import BEDC.Derived.BoundaryPressureLedgerUp.NameCertObligations
+import BEDC.Derived.BoundaryPressureLedgerUp.TasteGate
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
 import BEDC.Derived.BoundedCauchyFilterCompletionUp.TasteGate
@@ -1669,6 +1670,7 @@ import BEDC.Derived.CauchyFilterBasisCompletionUp.TasteGate
 import BEDC.Derived.CauchyFilterCategoryUp
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterCompletenessUp
+import BEDC.Derived.CauchyFilterCompletionCriterionUp.BasisRoute
 import BEDC.Derived.CauchyFilterCompletionCriterionUp.TasteGate
 import BEDC.Derived.CauchyFilterConvergenceUp.TasteGate
 import BEDC.Derived.CauchyFilterCriterionUp.TasteGate
@@ -3559,6 +3561,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryDownstreamLock
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonclaim
+import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryRefusalExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryStdbridgeNonescape
@@ -3643,6 +3646,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRefusalLedgerPullback
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootRhBoundaryRefusal
+import BEDC.Derived.CriticalLineWitnessUp.RootRhConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
@@ -3730,6 +3734,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroSourceLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ZeroSourceRealReadbackFactorization
 import BEDC.Derived.CriticalLineWitnessUp.ZeroSourceRefusalReadback
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBoundary
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBudgetFactorization
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBudgetTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripConsumerBoundary
@@ -6887,6 +6892,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondTypedL10Budget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondVisibleRoute
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualPublicHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualScheduleDiamond
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSocketBeforeSNRead
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSocketConsumerSurface
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionDiamondBudget
@@ -9258,6 +9264,7 @@ import BEDC.Derived.RoundedDyadicLocatorUp.TasteGate
 import BEDC.Derived.RoundedIdealCompletionUp.TasteGate
 import BEDC.Derived.RoundedIntervalDomainUp.TasteGate
 import BEDC.Derived.RoundedIntervalUp
+import BEDC.Derived.RoundedIntervalUp.RouteObligations
 import BEDC.Derived.RoundedIntervalUp.TasteGate
 import BEDC.Derived.RuleOneTenGliderCatalogUp.TasteGate
 import BEDC.Derived.RuleOneTenGliderPhaseClassifierUp.MarkHandoff
@@ -9796,6 +9803,7 @@ import BEDC.Derived.StreamNameUp.FiniteWindowRealHandoffCoverage
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
 import BEDC.Derived.StreamNameUp.OpenPhaseExitBoundary
+import BEDC.Derived.StreamNameUp.OpenPhaseFiniteWindowExitDeterminacy
 import BEDC.Derived.StreamNameUp.OpenPhaseFourFaceExitReadback
 import BEDC.Derived.StreamNameUp.OpenPhaseFourFaceTerminality
 import BEDC.Derived.StreamNameUp.OverlapExactness
@@ -10468,6 +10476,7 @@ import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WLPOBoundaryUp.TasteGate
+import BEDC.Derived.WRRHotspotCubeUp.TasteGate
 import BEDC.Derived.WeakCompactnessUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
