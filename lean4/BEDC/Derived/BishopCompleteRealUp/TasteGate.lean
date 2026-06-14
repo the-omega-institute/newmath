@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.BishopCompleteRealUp
+namespace BEDC.Derived.BishopCompleteRealUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,9 +25,8 @@ def bishopCompleteRealDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (bishopCompleteRealDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (bishopCompleteRealDecodeBHist tail)
 
-private theorem BishopCompleteRealTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist,
-      bishopCompleteRealDecodeBHist (bishopCompleteRealEncodeBHist h) = h := by
+private theorem BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist, bishopCompleteRealDecodeBHist (bishopCompleteRealEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,7 +40,7 @@ def bishopCompleteRealFields : BishopCompleteRealUp → List BHist
 
 def bishopCompleteRealToEventFlow : BishopCompleteRealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map bishopCompleteRealEncodeBHist (bishopCompleteRealFields x)
+  | x => (bishopCompleteRealFields x).map bishopCompleteRealEncodeBHist
 
 private def bishopCompleteRealEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -66,11 +65,10 @@ def bishopCompleteRealFromEventFlow : EventFlow → Option BishopCompleteRealUp
           (bishopCompleteRealDecodeBHist (bishopCompleteRealEventAt 8 ef))
           (bishopCompleteRealDecodeBHist (bishopCompleteRealEventAt 9 ef)))
 
-private theorem BishopCompleteRealTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : BishopCompleteRealUp,
-      bishopCompleteRealFromEventFlow (bishopCompleteRealToEventFlow x) = some x := by
+private theorem BishopCompleteRealTasteGate_single_carrier_alignment_round_trip
+    (x : BishopCompleteRealUp) :
+    bishopCompleteRealFromEventFlow (bishopCompleteRealToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk D W R E S F H C P N =>
       change
@@ -87,18 +85,18 @@ private theorem BishopCompleteRealTasteGate_single_carrier_alignment_round_trip 
             (bishopCompleteRealDecodeBHist (bishopCompleteRealEncodeBHist P))
             (bishopCompleteRealDecodeBHist (bishopCompleteRealEncodeBHist N))) =
           some (BishopCompleteRealUp.mk D W R E S F H C P N)
-      rw [BishopCompleteRealTasteGate_single_carrier_alignment_decode D,
-        BishopCompleteRealTasteGate_single_carrier_alignment_decode W,
-        BishopCompleteRealTasteGate_single_carrier_alignment_decode R,
-        BishopCompleteRealTasteGate_single_carrier_alignment_decode E,
-        BishopCompleteRealTasteGate_single_carrier_alignment_decode S,
-        BishopCompleteRealTasteGate_single_carrier_alignment_decode F,
-        BishopCompleteRealTasteGate_single_carrier_alignment_decode H,
-        BishopCompleteRealTasteGate_single_carrier_alignment_decode C,
-        BishopCompleteRealTasteGate_single_carrier_alignment_decode P,
-        BishopCompleteRealTasteGate_single_carrier_alignment_decode N]
+      rw [BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode D,
+        BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode W,
+        BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode R,
+        BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode E,
+        BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode S,
+        BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode F,
+        BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode H,
+        BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode C,
+        BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode P,
+        BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem BishopCompleteRealTasteGate_single_carrier_alignment_injective
+private theorem BishopCompleteRealTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : BishopCompleteRealUp} :
     bishopCompleteRealToEventFlow x = bishopCompleteRealToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -110,6 +108,17 @@ private theorem BishopCompleteRealTasteGate_single_carrier_alignment_injective
   exact Option.some.inj
     (Eq.trans (BishopCompleteRealTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (BishopCompleteRealTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem BishopCompleteRealTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : BishopCompleteRealUp, bishopCompleteRealFields x = bishopCompleteRealFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk D₁ W₁ R₁ E₁ S₁ F₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk D₂ W₂ R₂ E₂ S₂ F₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance bishopCompleteRealBHistCarrier : BHistCarrier BishopCompleteRealUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -124,20 +133,47 @@ instance bishopCompleteRealChapterTasteGate : ChapterTasteGate BishopCompleteRea
     exact BishopCompleteRealTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (BishopCompleteRealTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (BishopCompleteRealTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+instance bishopCompleteRealFieldFaithful : FieldFaithful BishopCompleteRealUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := bishopCompleteRealFields
+  field_faithful := BishopCompleteRealTasteGate_single_carrier_alignment_fields_faithful
+
+instance bishopCompleteRealNontrivial : Nontrivial BishopCompleteRealUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BishopCompleteRealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BishopCompleteRealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def BishopCompleteRealTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate BishopCompleteRealUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  bishopCompleteRealChapterTasteGate
 
 theorem BishopCompleteRealTasteGate_single_carrier_alignment :
-    (∀ h : BHist, bishopCompleteRealDecodeBHist (bishopCompleteRealEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier BishopCompleteRealUp) ∧
-        Nonempty (ChapterTasteGate BishopCompleteRealUp) ∧
-          bishopCompleteRealEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact BishopCompleteRealTasteGate_single_carrier_alignment_decode
-  · constructor
-    · exact ⟨bishopCompleteRealBHistCarrier⟩
-    · constructor
-      · exact ⟨bishopCompleteRealChapterTasteGate⟩
-      · rfl
+    Nonempty (ChapterTasteGate BishopCompleteRealUp) ∧
+      Nonempty (FieldFaithful BishopCompleteRealUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial BishopCompleteRealUp) ∧
+          (∀ h : BHist, bishopCompleteRealDecodeBHist (bishopCompleteRealEncodeBHist h) = h) ∧
+            (∀ x : BishopCompleteRealUp,
+              bishopCompleteRealFromEventFlow (bishopCompleteRealToEventFlow x) = some x) ∧
+              (∀ x y : BishopCompleteRealUp,
+                bishopCompleteRealToEventFlow x = bishopCompleteRealToEventFlow y -> x = y) ∧
+                bishopCompleteRealEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨⟨bishopCompleteRealChapterTasteGate⟩,
+      ⟨bishopCompleteRealFieldFaithful⟩,
+      ⟨bishopCompleteRealNontrivial⟩,
+      BishopCompleteRealTasteGate_single_carrier_alignment_decode_encode,
+      BishopCompleteRealTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => BishopCompleteRealTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
-end BEDC.Derived.BishopCompleteRealUp
+end BEDC.Derived.BishopCompleteRealUp.TasteGate
