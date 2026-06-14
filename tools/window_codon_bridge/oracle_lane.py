@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -28,6 +29,12 @@ INBOX_PATH = SCRIPT_DIR / "oracle_inbox" / "candidates.jsonl"
 SELECTION_PACKET = REPO_ROOT / "papers" / "window_codon_bridge" / "data" / "codon_q6_selection_vectors.json"
 
 OPEN_STATUSES = {"open", "needs_rerun"}
+NYXID_CANDIDATES = (
+    "nyxid",
+    "/Users/lexa/.local/bin/nyxid",
+    "/opt/homebrew/bin/nyxid",
+    "/usr/local/bin/nyxid",
+)
 
 
 def now_iso() -> str:
@@ -223,12 +230,34 @@ def nyxid_payload(prompt: str, model: str) -> dict[str, Any]:
     }
 
 
+def nyxid_executable() -> str | None:
+    for candidate in NYXID_CANDIDATES:
+        if os.path.isabs(candidate):
+            if os.access(candidate, os.X_OK):
+                return candidate
+            continue
+        found = shutil.which(candidate)
+        if found:
+            return found
+    return None
+
+
 def run_nyxid(prompt: str, transport: dict[str, Any]) -> dict[str, Any]:
     service = str(transport.get("service") or "aevatar")
     path = str(transport.get("path") or "v1/responses")
     method = str(transport.get("method") or "POST")
     timeout_seconds = int(transport.get("timeout_seconds") or 180)
     model = str(transport.get("model") or "gpt-5")
+    exe = nyxid_executable()
+    if exe is None:
+        return {
+            "status": "transport_failed",
+            "service": service,
+            "path": path,
+            "error": "nyxid executable not found",
+            "response_text": "",
+            "response_json": None,
+        }
     payload = nyxid_payload(prompt, model)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".json", delete=False) as fh:
         json.dump(payload, fh, ensure_ascii=False)
@@ -236,7 +265,7 @@ def run_nyxid(prompt: str, transport: dict[str, Any]) -> dict[str, Any]:
     try:
         proc = subprocess.run(
             [
-                "nyxid",
+                exe,
                 "proxy",
                 "request",
                 service,
@@ -341,16 +370,17 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
         )
         record.update(candidate_fields(payload))
     append_jsonl(INBOX_PATH, record)
-    write_json(
-        STATE_PATH,
-        {
-            "last_attempt_ts": record["ts"],
-            "last_attempt_epoch": time.time(),
-            "last_topic_hash": topic_hash,
-            "last_status": record.get("status"),
-            "last_inbox": str(INBOX_PATH.relative_to(REPO_ROOT)),
-        },
-    )
+    if record.get("status") != "transport_failed":
+        write_json(
+            STATE_PATH,
+            {
+                "last_attempt_ts": record["ts"],
+                "last_attempt_epoch": time.time(),
+                "last_topic_hash": topic_hash,
+                "last_status": record.get("status"),
+                "last_inbox": str(INBOX_PATH.relative_to(REPO_ROOT)),
+            },
+        )
     return {
         "ran": True,
         "status": record.get("status"),
