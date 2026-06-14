@@ -1013,7 +1013,6 @@ import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
 import BEDC.Derived.BoundaryPressureLedgerUp.NameCertObligations
-import BEDC.Derived.BoundaryPressureLedgerUp.TasteGate
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
 import BEDC.Derived.BoundedCauchyFilterCompletionUp.TasteGate
@@ -3496,6 +3495,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripReadback
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripRefusalBudget
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripRowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripScopeExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripSource
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceAdmissionCompletion
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceReadbackTotality
@@ -3645,7 +3645,6 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRefusalLedgerPullback
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
 import BEDC.Derived.CriticalLineWitnessUp.RootRhBoundaryRefusal
-import BEDC.Derived.CriticalLineWitnessUp.RootRhConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RootRouteExposure
@@ -5986,6 +5985,7 @@ import BEDC.Derived.KernelCategoryUp.LawTransportExhaustion
 import BEDC.Derived.KernelCategoryUp.NameCertRootRouteReadiness
 import BEDC.Derived.KernelCategoryUp.StdBridge
 import BEDC.Derived.KernelCategoryUp.UnitScope
+import BEDC.Derived.KernelInductiveAcceptanceUp.ConstructorLedgerExhaustion
 import BEDC.Derived.KernelInductiveAcceptanceUp.ContinuationRouteTotality
 import BEDC.Derived.KernelInductiveAcceptanceUp.EmittedEliminatorCoverage
 import BEDC.Derived.KernelInductiveAcceptanceUp.EnvironmentEntryDeterminacy
@@ -10472,7 +10472,6 @@ import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WLPOBoundaryUp.TasteGate
-import BEDC.Derived.WRRHotspotCubeUp.TasteGate
 import BEDC.Derived.WeakCompactnessUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
