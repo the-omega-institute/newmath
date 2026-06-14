@@ -136,6 +136,30 @@
    "status": "open",
    "timeout_seconds": 600,
    "note": "DATA basic-match vs real per-codon 4D selection vectors (codon_q6_selection_vectors.json). Window6 4-cell partition (27/22/9/6): MANOVA R2_cell=0.033; p_size_preserving=0.74, p_gc_conservative=0.21 -> REFUTED (explains no more selection variance than random same-size partitions; not a real codon stratification)."
+  },
+  {
+   "experiment_id": "genetic_code_fold_cert",
+   "claim_id": "bridge.genetic_code.fold_structure_64_16_25_21",
+   "script_path": "tools/window_codon_bridge/experiments/run_genetic_code_fold_cert.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Exact enumeration of NCBI standard code: fold chain [64,16,25,21], box decomp [8,7,1], degeneracy spectrum 1^2,2^9,3^2,4^5,6^3, 4 cross-box merges (Leu/Ser/Arg/Stop). HARD structural fact (certified). Golden/Zeckendorf/ratio parts flagged non-forcing in honesty field."
+  },
+  {
+   "experiment_id": "neutral_adjacency_cert",
+   "claim_id": "bridge.genetic_code.neutral_hamming_adjacency",
+   "script_path": "tools/window_codon_bridge/experiments/run_neutral_adjacency_cert.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Exact: histogram 0:2,1:22,2:8,3:28,4:4 -> 28/22/8/6 (certified hard fact). Tested Ti/Tv, wobble, sense-only, tRNA weightings: best (sense-only) gives [28,20,7,9], none reaches 27/22/9/6 -> the near-match to physics is NOT bridged by a natural weighting (honest)."
+  },
+  {
+   "experiment_id": "codon_usage_projection_cert",
+   "claim_id": "bridge.genetic_code.fold_order_parameter_usage",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_usage_projection_cert.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "REAL DATA (29 organisms, per-gene codon_counts). m_bio vs GC3 corr=0.97; GC-controlled residual null_p=0.43, non_gc_residual_signal=False -> m_bio is a GC3 PROXY, no independent fold signal -> coincidence."
   }
  ]
 }

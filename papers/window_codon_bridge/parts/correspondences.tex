@@ -37,6 +37,12 @@ Green Spectral Codon Q Spectra & The Window6 Green/resolvent spectrum has the sa
 Edge Exhaustion Meta Certificate & Within the pre-registered label-free invariant battery (tau plus spectral/Parry/SNF/mod3/partition/rigidity), the ONLY certified Window6<->codon cross-domain relation is the contravariant local-edge-hiding extremality (tau\_W=0 separating endpoint, tau\_C=0.958 tolerant endpoint); conditioned on this e\_in extremality and native graph/fiber constraints, all remaining invariants have residual alignment indistinguishable from a conditional null (operational independence). The realization mechanisms are polarized (Window6 isotropic separator, codon anisotropic third-position tolerator). NOT an isomorphism, NOT a forcing, NOT strict C-1 profile duality. & \texttt{certified} \\
 % CLAIM_STATUS claim_id=bridge.window6_codon_q6.fourcell_selection_enrichment status=refuted
 Fourcell Selection Enrichment & The Window6 4-cell coarse partition (sizes 27/22/9/6) explains significant non-random variance in the real 4D codon selection vectors (tRNA/f3/$d_{\perp}$/optimal) beyond cell-size-preserving and GC-conservative nulls. & \texttt{refuted} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.fold_structure_64_16_25_21 status=certified
+Fold Structure 64 16 25 21 & The standard genetic code is an exact two-layer 64->16->25->21 fold (16 doublet boxes = 8 pure + 7 binary-split + 1 tri-split; 25 box-output fragments minus 4 cross-box merges = 21 classes; degeneracy spectrum 1\textasciicircum{}2,2\textasciicircum{}9,3\textasciicircum{}2,4\textasciicircum{}5,6\textasciicircum{}3) -- the hard biological instance of the abstract microstate->block->seam->stable fold pattern. NOT a golden-ratio forcing; Zeckendorf decompositions universal/presentational; ratios are ratio-of-counts. & \texttt{certified} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.neutral_hamming_adjacency status=certified
+Neutral Hamming Adjacency & The standard code's per-codon Hamming-1 neutral-neighbor histogram is exactly 0:2,1:22,2:8,3:28,4:4 (merged defect = 28/22/8/6), close to but not equal to the Window6 27/22/9/6; no natural untuned biological weighting bridges them. & \texttt{certified} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.fold_order_parameter_usage status=coincidence
+Fold Order Parameter Usage & The fold order parameter m\_bio = P\_bulk - P\_seam computed from real multi-organism codon usage carries an independent (non-GC) cross-organism signal. & \texttt{coincidence} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -269,3 +275,46 @@ GC-conservative nulls.
 partitions.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_bcd\_fourcell\_selection\_enrichment.py
+
+\subsection{Fold Structure 64 16 25 21}\label{sec:bridge-fold-structure-64-16-25-21}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.fold_structure_64_16_25_21 status=certified
+\textbf{Statement.} The standard genetic code is an exact two-layer 64->16->25->21 fold (16 doublet boxes = 8 pure + 7
+binary-split + 1 tri-split; 25 box-output fragments minus 4 cross-box merges = 21 classes;
+degeneracy spectrum
+1\textasciicircum{}2,2\textasciicircum{}9,3\textasciicircum{}2,4\textasciicircum{}5,6\textasciicircum{}3)
+-- the hard biological instance of the abstract microstate->block->seam->stable fold pattern. NOT a
+golden-ratio forcing; Zeckendorf decompositions universal/presentational; ratios are
+ratio-of-counts.
+
+\textbf{Verdict.} \texttt{certified}.
+
+\textbf{Why.} The standard genetic code is certified here as a 64->21 two-layer fold with bulk(8 pure box)/seam(7
+split)/defect(1 tri-split) stratification and exact degeneracy spectrum; Zeckendorf and small-ratio
+observations are explicitly flagged non-forcing.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_genetic\_code\_fold\_cert.py
+
+\subsection{Neutral Hamming Adjacency}\label{sec:bridge-neutral-hamming-adjacency}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.neutral_hamming_adjacency status=certified
+\textbf{Statement.} The standard code's per-codon Hamming-1 neutral-neighbor histogram is exactly 0:2,1:22,2:8,3:28,4:4
+(merged defect = 28/22/8/6), close to but not equal to the Window6 27/22/9/6; no natural untuned
+biological weighting bridges them.
+
+\textbf{Verdict.} \texttt{certified}.
+
+\textbf{Why.} No fixed natural weighting tested here turns the exact 28/22/8/6 neutral-adjacency profile into
+27/22/9/6.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_neutral\_adjacency\_cert.py
+
+\subsection{Fold Order Parameter Usage}\label{sec:bridge-fold-order-parameter-usage}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.fold_order_parameter_usage status=coincidence
+\textbf{Statement.} The fold order parameter m\_bio = P\_bulk - P\_seam computed from real multi-organism codon usage
+carries an independent (non-GC) cross-organism signal.
+
+\textbf{Verdict.} \texttt{coincidence}.
+
+\textbf{Why.} m\_bio is dominated by GC3 and shows no GC-controlled residual signal; this is a GC proxy
+coincidence rather than an independent fold signal.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_codon\_usage\_projection\_cert.py
