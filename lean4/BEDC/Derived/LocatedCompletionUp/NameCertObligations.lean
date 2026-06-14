@@ -5,6 +5,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.LocatedCompletionUp.TasteGate
 
 namespace BEDC.Derived.LocatedCompletionUp
 
