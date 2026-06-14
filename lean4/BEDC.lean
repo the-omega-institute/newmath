@@ -3577,6 +3577,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RHRefusalConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalInterface
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedgerClosure
+import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedgerRoute
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalPhaseBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalReadbackTotality
@@ -3674,6 +3675,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripExclusion
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusRows
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripReadback
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaRealRatSourceReadiness
@@ -4314,6 +4316,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetSealUniqueness
 import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
 import BEDC.Derived.DyadicArchimedeanUp.NameCertObligations
 import BEDC.Derived.DyadicArchimedeanUp.ScaleExistence
+import BEDC.Derived.DyadicArchimedeanUp.StreamnameScaleTransport
 import BEDC.Derived.DyadicArchimedeanUp.TasteGate
 import BEDC.Derived.DyadicBallUp
 import BEDC.Derived.DyadicBallUp.Core
@@ -6026,6 +6029,7 @@ import BEDC.Derived.KernelPhaseRefusalUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KirszbraunExtensionUp.TasteGate
 import BEDC.Derived.KleeneKreiselSpaceUp
+import BEDC.Derived.KleeneTreeUp.CantorSpaceFanBoundary
 import BEDC.Derived.KleeneTreeUp.NameCertObligations
 import BEDC.Derived.KleeneTreeUp.PrefixInductionClosure
 import BEDC.Derived.KleeneTreeUp.RealCompletionNonescape
@@ -8216,6 +8220,7 @@ import BEDC.Derived.RankNullityUp.TasteGate
 import BEDC.Derived.RapidCauchyNameUp.TasteGate
 import BEDC.Derived.RatCauchyCompletionUp.TasteGate
 import BEDC.Derived.RatCauchyGapWitnessUp.NameCertObligations
+import BEDC.Derived.RatCauchyGapWitnessUp.TasteGate
 import BEDC.Derived.RatClassifierTransportSealUp.ClassifierHandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.HandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.NameCertObligations
