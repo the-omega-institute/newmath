@@ -409,6 +409,7 @@ def test_l1_review_status_pass_and_scoped_boundary():
         payload["fair_l1_construction"]["fair_l1_decision"]
     )
     assert payload["l1_tiny_sequence_projection"]["fair_l1_decision"]["standing_verdict"] == "bounded-negative"
+    assert payload["l1_tiny_sequence_projection"]["fair_l1_decision"]["ladder_state"] == "l1-bounded-negative"
     assert payload["l1_tiny_sequence_projection"]["fair_l1_decision"]["canonical_axis_action"] == "hold-current"
 
     mutated = json.loads(json.dumps(payload))

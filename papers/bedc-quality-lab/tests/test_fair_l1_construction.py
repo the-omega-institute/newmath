@@ -108,6 +108,7 @@ def test_fair_l1_decision_no_survivor_holds_bounded_negative():
     decision = FairL1ConstructionSlice().derive_fair_decision(construction)
 
     assert decision["standing_verdict"] == "bounded-negative"
+    assert decision["ladder_state"] == "l1-bounded-negative"
     assert decision["canonical_axis_action"] == "hold-current"
     assert decision["superiority_claim_allowed"] is False
 

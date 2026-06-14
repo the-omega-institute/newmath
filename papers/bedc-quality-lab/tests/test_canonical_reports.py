@@ -4689,6 +4689,48 @@ def test_base_undertraining_and_standalone_fair_l1_specs_are_not_registered():
     assert l1.construct_validity_pointer == f"{l1.json_artifact}:$.construct_validity_ledger"
 
 
+def test_l1_controls_index_axes_surface_folded_fair_l1_decision(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["dgt-l1-controls"]
+    canonical._artifact_path(spec.json_artifact).write_text(
+        json.dumps(
+            {
+                "l1_tiny_sequence_projection": {
+                    "fair_l1_decision": {
+                        "standing_verdict": "bounded-negative",
+                        "ladder_state": "l1-bounded-negative",
+                        "canonical_axis_action": "hold-current",
+                    }
+                }
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    cells = canonical._status_cells_for_spec(spec, "pass")
+    reports = [_index_row_for_spec(report_spec) for report_spec in canonical.CANONICAL_REPORTS]
+    for report in reports:
+        if report["name"] == "dgt-l1-controls":
+            report["scientific_claim_status"] = cells["scientific_claim_status"]
+            report["ladder_state"] = cells["ladder_state"]
+            break
+    summary = canonical._status_summary(reports)
+
+    assert spec.scientific_claim_status_pointer == (
+        f"{spec.json_artifact}:$.l1_tiny_sequence_projection.fair_l1_decision.standing_verdict"
+    )
+    assert spec.ladder_state_pointer == (
+        f"{spec.json_artifact}:$.l1_tiny_sequence_projection.fair_l1_decision.ladder_state"
+    )
+    assert cells["scientific_claim_status"]["value"] == "bounded-negative"
+    assert cells["ladder_state"]["value"] == "l1-bounded-negative"
+    assert summary["axes"]["report_build_status"] == {"pass": 43}
+    assert summary["axes"]["scientific_claim_status"] == {"not-applicable": 42, "bounded-negative": 1}
+    assert summary["axes"]["ladder_state"] == {"not-applicable": 42, "l1-bounded-negative": 1}
+
+
 def test_l1_controls_changed_run_uses_generic_report_build_gate(monkeypatch):
     def unexpected_lookup(_root, _pointer):
         raise AssertionError("changed gate must not read the committed L1 controls decision")

@@ -1371,6 +1371,10 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         negative_witness_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.negative_witness_sweep",
         formal_status_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.status",
         construct_validity_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_ledger",
+        scientific_claim_status_pointer=(
+            f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.fair_l1_decision.standing_verdict"
+        ),
+        ladder_state_pointer=f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_tiny_sequence_projection.fair_l1_decision.ladder_state",
         reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(

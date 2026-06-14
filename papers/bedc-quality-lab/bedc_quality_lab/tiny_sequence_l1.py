@@ -702,14 +702,17 @@ class FairL1ConstructionSlice:
             standing_verdict = "maintainer-review-required"
             canonical_axis_action = "stop-report"
             decision_status = "stop-report"
+            ladder_state = "blocked"
         else:
             standing_verdict = "bounded-negative"
             canonical_axis_action = "hold-current"
             decision_status = "bounded-negative"
+            ladder_state = "l1-bounded-negative"
         return {
             "status": decision_status,
             "standing_verdict": standing_verdict,
             "canonical_axis_action": canonical_axis_action,
+            "ladder_state": ladder_state,
             "ood_survivor_present": has_survivor,
             "survivor_arms": list(ood_gate.get("survivor_arms", [])),
             "hardgate_status": "pass" if not failures else "fail",
