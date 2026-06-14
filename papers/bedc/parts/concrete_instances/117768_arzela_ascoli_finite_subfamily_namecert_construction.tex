@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ArzelaAscoliFiniteSubfamilyUp$}
+\label{ch:concrete-instances-arzela-ascoli-finite-subfamily-namecert}
+\origin{human}
+
+Following Arzela, Ascoli, Kelley, and Bishop--Bridges, the $\ArzelaAscoliFiniteSubfamilyUp$ packet records the finite-subfamily surface by which compact-metric finite nets, bounded-family ledgers, and equicontinuity rows are inspected before an Arzela--Ascoli consumer may read compactness-facing data. It sits after the Arzela--Ascoli packet of \autoref{ch:concrete-instances-arzelaascoli-namecert}, the equicontinuity-family surface of \autoref{ch:concrete-instances-equicontinuityfamily-namecert}, the bounded-family packet of \autoref{ch:concrete-instances-bounded-function-family-namecert}, the compact-metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, and the finite epsilon-net rows of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}. The packet names only the displayed finite subfamily and net-selection readback; it does not claim full Arzela--Ascoli compactness, selected subsequences, quotient function spaces, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Arzela--Ascoli finite-subfamily carrier]
+\label{def:arzela-ascoli-finite-subfamily-carrier}
+An $\ArzelaAscoliFiniteSubfamilyUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,F,B,E,Q,W,R,Y,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\CompactMetricUp$ source row, including the compact-metric finite-net schedule on which the subfamily will be inspected.
+\item $F$ is the finite function-family row. It lists the selected family members as displayed $\BHist$ entries rather than as a host function space.
+\item $B$ is the bounded-family ledger read through $\BoundedFunctionFamilyUp$, recording the pointwise or sup-bound rows needed by each selected member.
+\item $E$ is the equicontinuity ledger read through $\EquicontinuityFamilyUp$, exposing the shared finite modulus requests used by the selected members.
+\item $Q$ is the $\FiniteEpsilonNetUp$ row, recording the finite source-net centers, tolerance rows, and coverage checks used for the selection surface.
+\item $W$ is the $\StreamNameUp$ and $\RegSeqRatUp$ readback row for the finite inspection windows and rational observations.
+\item $R$ is the terminal $\RealUp$ seal row attached to the displayed readback, not a global completeness principle.
+\item $Y$ is the Arzela--Ascoli handoff row, read only by $\ArzelaAscoliUp$ or $\AscoliDiagonalUp$ consumers after $X,F,B,E,Q,W,R$ are present.
+\item $H$ records componentwise $\hsame$ transport of the compact source, finite family, boundedness, equicontinuity, finite-net, readback, seal, and handoff rows.
+\item $C$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\ArzelaAscoliFiniteSubfamilyUp$, $\ArzelaAscoliUp$, $\AscoliDiagonalUp$, $\CompactMetricUp$, $\BoundedFunctionFamilyUp$, $\EquicontinuityFamilyUp$, $\FiniteEpsilonNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ArzelaAscoliFiniteSubfamilyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,F,B,E,Q,W,R,Y,H,C,P,N$. It has no coordinate for a host compact-open topology, an arbitrary subsequence selector, quotient equality of functions, open-cover compactness, countable choice, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Arzela--Ascoli finite-subfamily NameCert obligations]
+\label{thm:arzela-ascoli-finite-subfamily-namecert-obligations}
+For every accepted $\ArzelaAscoliFiniteSubfamilyUp$ carrier $S=(X,F,B,E,Q,W,R,Y,H,C,P,N)$, the local $\NameCert_{\ArzelaAscoliFiniteSubfamilyUp}$ surface consists exactly of compact-source admission through $X$, finite-family admission through $F$, boundedness admission through $B$, equicontinuity admission through $E$, finite epsilon-net admission through $Q$, StreamName and RegSeqRat readback through $W$, terminal Real sealing through $R$, Arzela--Ascoli or Ascoli-diagonal handoff through $Y$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:arzela-ascoli-finite-subfamily-carrier}. The analytic rows are exactly $X,F,B,E,Q,W,R,Y$, and the structural rows are exactly $H,C,P,N$.
+
+The source and family rows are read first. Row $X$ supplies the compact-metric finite-net schedule, row $F$ supplies the selected finite family, row $B$ supplies the bounded-family ledger, and row $E$ supplies the shared equicontinuity ledger.
+
+The finite inspection rows are downstream from those ledgers. Row $Q$ exposes the finite epsilon-net centers and tolerance checks, row $W$ exposes only finite StreamName windows and RegSeqRat observations, and row $R$ seals that readback as a displayed Real-facing row.
+
+The handoff row $Y$ is therefore a consumer boundary, not a compactness theorem. Rows $H,C,P,N$ transport, replay, source, and name the same finite route, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Arzela--Ascoli finite-subfamily handoff]
+\label{thm:arzela-ascoli-finite-subfamily-ascoli-handoff}
+Every $\ArzelaAscoliUp$ or $\AscoliDiagonalUp$ consumer of an accepted $\ArzelaAscoliFiniteSubfamilyUp$ carrier must read the finite subfamily row $F$, the finite-net row $Q$, the equicontinuity row $E$, the boundedness row $B$, and the Real-seal row $R$ before any compactness-facing conclusion. The handoff factors through
+$$
+\CompactMetricUp,\ \BoundedFunctionFamilyUp,\ \EquicontinuityFamilyUp,\ \FiniteEpsilonNetUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+\longmapsto
+\ArzelaAscoliUp,\ \AscoliDiagonalUp .
+$$
+It exports no full Arzela--Ascoli compactness theorem, selected subsequence, quotient function space, open-cover compactness proof, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:arzela-ascoli-finite-subfamily-namecert-obligations}. It orders each consumer read through the compact source, finite family, boundedness, equicontinuity, finite epsilon-net, readback, Real seal, and handoff rows.
+
+The finite subfamily and finite-net checks are visible before the consumer boundary. Thus an $\ArzelaAscoliUp$ or $\AscoliDiagonalUp$ consumer can inspect which family members and net centers were used, together with the boundedness and equicontinuity rows that constrain them.
+
+The Real seal is also a displayed coordinate of the same packet. Since the refused compactness, subsequence, quotient-space, open-cover, choice, and ambient-completeness objects are not carrier coordinates, the handoff cannot export them.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ArzelaAscoliFiniteSubfamilyUp$ handoff is refuted if an $\ArzelaAscoliUp$ or $\AscoliDiagonalUp$ consumer reaches a compactness-facing read without displaying the finite subfamily, finite epsilon-net, equicontinuity, boundedness, StreamName, RegSeqRat, Real-seal, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{arzelaascoli, ascoli-diagonal, equicontinuityfamily, bounded-function-family, compactmetric, finite-epsilon-net: none alone is bijective with $\ArzelaAscoliFiniteSubfamilyUp$ because the packet jointly records the compact source, finite function family, bounded-family ledger, equicontinuity ledger, finite epsilon-net rows, StreamName and RegSeqRat readback, Real seal, handoff boundary, transport, replay, provenance, and local NameCert.}
+
+\closureat{ArzelaAscoliFiniteSubfamilyUp}{seedStr}
+
+\begin{closurestatus}{\ArzelaAscoliFiniteSubfamilyUp}
+  \constructivestory{An $\ArzelaAscoliFiniteSubfamilyUp$ packet is generated from a compact source, finite function family, bounded-family ledger, equicontinuity ledger, finite epsilon-net rows, StreamName and RegSeqRat readback, a Real seal, an Arzela--Ascoli or Ascoli-diagonal handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:arzela-ascoli-finite-subfamily-carrier}, \autoref{thm:arzela-ascoli-finite-subfamily-namecert-obligations}, and \autoref{thm:arzela-ascoli-finite-subfamily-ascoli-handoff} seed the finite-subfamily selection surface over compact-metric, bounded-family, equicontinuity, finite-net, StreamName, RegSeqRat, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full Arzela--Ascoli compactness, selected subsequences, quotient function spaces, open-cover compactness, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-source exposure, finite-family exposure, boundedness exposure, equicontinuity exposure, finite epsilon-net inspection, StreamName and RegSeqRat readback, Real-seal nonescape, handoff ordering, transport, replay, provenance, and local naming for BEDC.Derived.ArzelaAscoliFiniteSubfamilyUp.}
+\end{closurestatus}
