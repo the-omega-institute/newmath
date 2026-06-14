@@ -3639,6 +3639,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootNameCertScopeCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNonescapePackage
 import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
+import BEDC.Derived.CriticalLineWitnessUp.RootRHConsumerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBoundaryTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalBudgetCompletion
@@ -3676,6 +3677,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripExclusion
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusRows
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripModulusTotality
+import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripReadback
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaRealRatSourceReadiness
@@ -8219,6 +8221,7 @@ import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RankNullityUp.TasteGate
 import BEDC.Derived.RapidCauchyNameUp.TasteGate
 import BEDC.Derived.RatCauchyCompletionUp.TasteGate
+import BEDC.Derived.RatCauchyGapWitnessUp.TasteGate
 import BEDC.Derived.RatClassifierTransportSealUp.ClassifierHandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.HandoffDeterminacy
 import BEDC.Derived.RatClassifierTransportSealUp.NameCertObligations
