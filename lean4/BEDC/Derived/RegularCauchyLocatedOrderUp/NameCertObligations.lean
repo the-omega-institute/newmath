@@ -43,4 +43,35 @@ theorem RegularCauchyLocatedOrderCarrier_namecert_obligations [AskSetup] [Packag
     ⟨leftUnary, rightUnary, windowUnary, toleranceUnary, comparisonUnary, sealUnary,
       sourceRoute, sealRoute, provenancePkg⟩
 
+theorem RegularCauchyLocatedOrderCarrier_real_seal_boundary [AskSetup] [PackageSetup]
+    {left right window tolerance comparison sealRow transport replay provenance name
+      leftWindow comparisonRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLocatedOrderCarrier left right window tolerance comparison sealRow transport
+        replay provenance name bundle pkg ->
+      Cont left window leftWindow ->
+        Cont leftWindow tolerance comparisonRead ->
+          Cont comparisonRead sealRow sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory leftWindow ∧ UnaryHistory comparisonRead ∧
+                UnaryHistory sealRead ∧ Cont left window leftWindow ∧
+                  Cont leftWindow tolerance comparisonRead ∧
+                    Cont comparisonRead sealRow sealRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier leftWindowRoute comparisonRoute sealReadRoute sealReadPkg
+  obtain
+    ⟨leftUnary, _rightUnary, windowUnary, toleranceUnary, _comparisonUnary, sealUnary,
+      _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, _sourceRoute,
+        _sealRoute, provenancePkg⟩ := carrier
+  have leftWindowUnary : UnaryHistory leftWindow :=
+    unary_cont_closed leftUnary windowUnary leftWindowRoute
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed leftWindowUnary toleranceUnary comparisonRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed comparisonReadUnary sealUnary sealReadRoute
+  exact
+    ⟨leftWindowUnary, comparisonReadUnary, sealReadUnary, leftWindowRoute, comparisonRoute,
+      sealReadRoute, provenancePkg, sealReadPkg⟩
+
 end BEDC.Derived.RegularCauchyLocatedOrderUp
