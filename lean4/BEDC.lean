@@ -1007,7 +1007,6 @@ import BEDC.Derived.BornologyUp.TasteGate
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
-import BEDC.Derived.BoundaryPressureLedgerUp.NameCertObligations
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
 import BEDC.Derived.BoundedCauchyFilterCompletionUp.TasteGate
@@ -1200,7 +1199,6 @@ import BEDC.Derived.BoundedRealVariationUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
-import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.NameCertObligations
 import BEDC.Derived.BoundedSelfAdjointOperatorUp.TasteGate
 import BEDC.Derived.BoundedSetUp.BallContainmentRoute
 import BEDC.Derived.BoundedSetUp.BallRadiusLedgerFactorization
