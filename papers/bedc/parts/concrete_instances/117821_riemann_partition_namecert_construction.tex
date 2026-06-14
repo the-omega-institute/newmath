@@ -1,0 +1,56 @@
+\chapter{RiemannPartitionUp NameCert construction}
+\label{ch:concrete-instances-riemann-partition-namecert}
+\origin{human}
+
+Following Riemann and Darboux, the $\RiemannPartitionUp$ packet records a finite subdivision of a displayed $\RealUp$ interval as NameCert data before tags, sums, or integrability claims are available. It sits after the dyadic partition route of \autoref{ch:concrete-instances-dyadic-partition-namecert}, the equal-mesh route of \autoref{ch:concrete-instances-uniform-partition-namecert}, and the finite mesh-refinement surface of \autoref{ch:concrete-instances-finite-partition-mesh-namecert}. The packet gives L10 interval consumers a standard finite-subdivision interface without importing host finite lists, quotient partition equality, selected mesh limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RiemannPartition carrier]
+\label{def:riemann-partition-carrier}
+A $\RiemannPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+P=(I,D,U,M,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ interval source row, carrying the named left and right endpoint seals through which the subdivision is read.
+\item $D$ is the $\DyadicPartitionUp$ row, listing the dyadic breakpoint cells that refine the displayed interval.
+\item $U$ is the $\UniformPartitionUp$ row, recording any equal-mesh window used by the same subdivision request.
+\item $M$ is the $\FinitePartitionMeshUp$ row, exposing the mesh bound, adjacency, endpoint coverage, and common-refinement witness for the displayed cells.
+\item $R$ is the downstream readback row for Darboux, Riemann-sum, regulated-function, or interval-estimate consumers that inspect the subdivision only after $I,D,U,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for interval endpoints, dyadic cells, uniform mesh data, finite mesh witnesses, downstream readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval-subdivision request through $I,D,U,M,R,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\RiemannPartitionUp$, $\RealUp$, $\DyadicPartitionUp$, $\UniformPartitionUp$, $\FinitePartitionMeshUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,D,U,M,R,H,C,Q,N$. It has no coordinate for tagged Riemann sums, Darboux equality, host finite-list equality, quotient partitions, selected mesh limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RiemannPartition mesh refinement]
+\label{thm:riemann-partition-mesh-refinement}
+Every accepted $\RiemannPartitionUp$ carrier $P=(I,D,U,M,R,H,C,Q,N)$ refines its displayed $\RealUp$ interval through the existing $\DyadicPartitionUp$, $\UniformPartitionUp$, and $\FinitePartitionMeshUp$ carrier rows before any subdivision consumer can read the packet. The refinement route exposes dyadic cells through $D$, equal-mesh windows through $U$ when present, and mesh-bound and common-refinement witnesses through $M$; it exports no Riemann integrability theorem, Darboux equality, host finite-list presentation, quotient partition equality, or selected limiting partition.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:riemann-partition-carrier}. The interval source $I$ is the only endpoint row, while $D,U,M$ are the only subdivision and mesh rows available to a consumer.
+
+Read the dyadic side through \autoref{ch:concrete-instances-dyadic-partition-namecert}. The row $D$ supplies the finite dyadic cells and their ordered interval coverage, so a consumer cannot replace the subdivision by a host list of breakpoints.
+
+Next read the equal-mesh and mesh-refinement rows through \autoref{ch:concrete-instances-uniform-partition-namecert} and \autoref{ch:concrete-instances-finite-partition-mesh-namecert}. These rows expose uniform windows, mesh bounds, adjacency, endpoint coverage, and common-refinement data before $R$ is public.
+
+Finally replay the structural rows $H,C,Q,N$. Transport, continuation replay, provenance, and local naming preserve the same finite subdivision packet, so the accepted route remains a NameCert interface for interval work rather than an integrability theorem, Darboux equality, quotient partition principle, selected mesh-limit construction, or host finite-list assertion.
+\end{proof}
+
+\falsifiablePrediction{A $\RiemannPartitionUp$ consumer that reads a subdivision without exposing the $\RealUp$ interval row, dyadic partition row, optional uniform-mesh row, finite mesh-refinement row, transport, replay, provenance, and local $\NameCert$ row refutes the carrier surface.}
+
+\independenceWitness{dyadic-partition, uniform-partition, finite-partition-mesh: $\RiemannPartitionUp$ is not bijective with any listed sibling because it joins the interval source, dyadic cells, optional uniform window, and common mesh-refinement handoff as one subdivision packet for downstream interval consumers.}
+
+\closureat{RiemannPartitionUp}{seedStr}
+
+\begin{closurestatus}{\RiemannPartitionUp}
+  \constructivestory{A $\RiemannPartitionUp$ packet is generated from a RealUp interval row, DyadicPartition cells, optional UniformPartition mesh windows, FinitePartitionMesh refinement witnesses, downstream readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-partition-carrier} and \autoref{thm:riemann-partition-mesh-refinement} seed the finite Real interval subdivision interface through DyadicPartitionUp, UniformPartitionUp, and FinitePartitionMeshUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Riemann integrability, equality of Darboux upper and lower values, host finite-list presentation, quotient partition equality, selected mesh limits, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic-cell coverage, uniform-window compatibility, mesh-refinement exactness, downstream readback nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannPartitionUp.}
+\end{closurestatus}
