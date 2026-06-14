@@ -144,11 +144,26 @@ with native AUROC $0.788$ versus this post-hoc AUROC $0.737$.  This is a
 config-dependent margin against a scoped post-hoc reference, not against the
 strongest probe.  Under a hardening comparison the standard horizon-ledger
 configuration gives native $0.737$ against the strongest logistic probe $0.744$
-with a paired interval that crosses zero, so the global detection claim is
-parity with the strongest probe, not superiority.  The independent confidence
-intervals overlap and are a conservative parity check; the paired comparison is
-the appropriate test for two scorers on the same episode sample, and establishes
-only this scoped config-dependent margin.
+with a paired interval that crosses zero, so that standard row establishes
+parity rather than superiority.  A later integrated A100 row changes the
+detection frontier without changing the allocation frontier.  The full
+rollout-internal, prediction, tail-risk, and OOD-gated row reaches $h=1$ native
+AUROC $0.78165$, above the recorded strongest-probe scalar $0.74399$; in the
+same runner its train-only current-latent post-hoc reference is $0.73432$, and
+the paired episode bootstrap gives
+$$
+\Delta\mathrm{AUROC}_{h=1}^{\mathrm{integrated-native-posthoc}}
+= +0.04734\ [0.00319,\ 0.09463].
+$$
+The paired interval is against that in-runner post-hoc reference, not directly
+against the strongest-probe scalar, so the accepted reading is scalar hardening
+past $0.744$ plus an interval-separated paired gain against the matched runner
+reference.  The matrix isolates the lever: latent/action rows remain below the
+post-hoc reference ($h=1$ $0.69530$ for H and $0.69094$ for H+P), rollout
+features move the row to $0.76728$, and the full row reaches $0.78165$.
+The pred-only control collapses to $h=1$ $0.48784$ with paired
+$\Delta=-0.24648$ $[-0.30930,\ -0.18052]$, so the ledger objective carries the
+detection gain rather than next-latent prediction alone.
 With the same horizon-ledger configuration trained separately on three
 additional carriers, every test horizon is detectable (all confidence-interval
 lower endpoints exceed $0.5$): reacher has AUROC $0.734$/$0.725$/$0.701$/$0.696$
@@ -186,6 +201,12 @@ $+0.006$ $[-0.003,\ +0.018]$, and a two-stage ranker on fixed ledger logits
 gives $+0.010$ $[-0.002,\ +0.024]$.  Each nevertheless learns the true
 within-episode error ordering, with Spearman $0.460$/$0.508$/$0.432$, against a
 target-permutation control at $0.160$ and an oracle of $1.0$ at $-0.016$.
+The integrated A100 row does not overturn this boundary: its allocation delta is
+$+0.00786$ $[-0.00243,\ +0.02061]$ with $\rho=0.421$
+$[0.321,\ 0.513]$, and its selective admission risk is $0.1165$ at
+$\alpha=0.10$ with coverage $0.162$.  The shuffled-label guard for that A100
+matrix is not accepted because it failed closed with a non-finite training loss,
+so the accepted controls are the row matrix and the pred-only collapse.
 The allocation records give a scoped information bound.  Across $7$
 cross-fit readers, the strongest reader is pairwise RankNet with
 within-episode Spearman
@@ -318,6 +339,7 @@ cross-environment replication & \path{experiments/lewm_gap_ledger/reports/lewm_c
 reader capacity sweep & \path{experiments/lewm_gap_ledger/reports/lewm_reader_capacity_frontier.json}\\
 horizon-indexed ledger & \path{experiments/lewm_gap_ledger/reports/g2n_native_ledger.json}\\
 horizon ledger completion & \path{experiments/lewm_gap_ledger/reports/g2n_matrix_completion.json}\\
+integrated A100 matrix & \path{experiments/lewm_gap_ledger/reports/g2n_integrated_a100_summary.json}\\
 cross-environment horizon ledger & \path{experiments/lewm_gap_ledger/reports/lewm_crossenv_horizon_ledger.json}\\
 allocation bridge study & \path{experiments/lewm_gap_ledger/reports/lewm_allocation_bridge.json}\\
 native/post-hoc paired comparison & \path{experiments/lewm_gap_ledger/reports/lewm_native_vs_posthoc_paired.json}\\
@@ -331,12 +353,12 @@ not\_claimed boundary & \path{experiments/lewm_gap_ledger/reports/lewm_d_ledger_
 }
 An interactive demonstration of the failure-versus-declared-gap readout is
 published from the same repository.  The strongest-probe hardening result and the
-integrated-model allocation result are recorded in
-\path{experiments/lewm_gap_ledger/autoresearch/findings/verified_findings.md} as
-\texttt{fi-016} (detection is parity with the strongest logistic probe, not
-superiority) and \texttt{fi-017} (the integrated horizon-ledger model does not
-beat uniform allocation at this scale); these govern the global reading of the
-older native/post-hoc paired comparison above.
+integrated-model allocation result are recorded in the verified findings, while
+the A100 integrated matrix is recorded in
+\path{experiments/lewm_gap_ledger/reports/g2n_integrated_a100_summary.json}.
+Together they govern the reading above: scalar hardening past the $0.744$
+strongest-probe record, paired gain against the matched in-runner post-hoc
+reference, and no selective or allocation breakthrough.
 
 \paragraph{Boundary of this instantiation.}
 The detection-signal record summary is scoped to four public checkpoints
@@ -345,6 +367,9 @@ with a single latent export unless an independent export is explicitly named;
 the strict two-criterion record and all trained-ledger rows remain scoped to the
 specified records; the ledger-shaped re-encoder row is scoped to one latent
 export, clean labels, an $8$GB GPU budget, and the tested re-encoder class; the
+integrated A100 matrix is scoped to one latent export, one seed, its matched
+runner reference, and the accepted rows whose JSON records are carried in the
+repository; the shuffled-label row is not an accepted control; the
 confidence intervals use episode bootstrap rather than independent world
 seeds, and no benchmark superiority record is asserted.
 The pusht $1.000$ row is retained only as a contiguous-block replication record,
