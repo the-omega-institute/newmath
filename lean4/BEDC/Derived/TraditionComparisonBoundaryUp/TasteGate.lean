@@ -54,6 +54,14 @@ def traditionComparisonBoundaryFields : TraditionComparisonBoundaryUp → List B
       [source, landing, rejectedSurplus, distinction, transport, replay, provenance,
         localName]
 
+def traditionComparisonBoundaryClassifier : TraditionComparisonBoundaryUp → Prop
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  | TraditionComparisonBoundaryUp.mk _source landing rejectedSurplus distinction transport
+      replay provenance localName =>
+      hsame transport (append landing rejectedSurplus) ∧
+        Cont landing rejectedSurplus distinction ∧ Cont distinction transport replay ∧
+          hsame provenance provenance ∧ hsame localName localName
+
 def traditionComparisonBoundaryToEventFlow : TraditionComparisonBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => List.map traditionComparisonBoundaryEncodeBHist (traditionComparisonBoundaryFields x)
@@ -242,6 +250,56 @@ theorem TraditionComparisonBoundaryTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+theorem TraditionComparisonBoundary_sibling_independence
+    {source landing rejectedSurplus distinction transport replay provenance localName : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row localName ∧
+          ∃ packet : TraditionComparisonBoundaryUp,
+            packet = TraditionComparisonBoundaryUp.mk source landing rejectedSurplus
+              distinction transport replay provenance localName)
+      (fun row : BHist =>
+        hsame row source ∨ hsame row landing ∨ hsame row rejectedSurplus ∨
+          hsame row distinction ∨ hsame row localName)
+      (fun row : BHist =>
+        hsame row localName ∧ hsame landing landing ∧
+          hsame rejectedSurplus rejectedSurplus ∧ hsame distinction distinction)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro localName
+          ⟨hsame_refl localName,
+            Exists.intro
+              (TraditionComparisonBoundaryUp.mk source landing rejectedSurplus
+                distinction transport replay provenance localName)
+              rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left, hsame_refl landing, hsame_refl rejectedSurplus,
+          hsame_refl distinction⟩
+  }
 
 theorem TraditionComparisonBoundary_no_doctrinal_identity
     {S L R D H C P N comparisonRead boundaryRead : BHist} :
