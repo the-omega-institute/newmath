@@ -133,17 +133,22 @@ $0.739$ $[0.696,\ 0.781]$, matching the post-hoc head at $0.731$, while also
 detecting at $h=5$ ($0.710$ $[0.657,\ 0.761]$).  The same labels let a
 logistic head reach $h=1$ $0.737$, $h=5$ $0.710$, and $h=10$ $0.715$, so
 horizon detection is label-driven rather than architecture-specific.  With
-within-episode pairwise ranking, the native horizon ledger separates from the
-post-hoc scorer on the clean $h=1$ evaluation.  The paired episode bootstrap on
-the same evaluation episodes gives
+within-episode pairwise ranking, one native horizon-ledger configuration exceeds
+its paired post-hoc scorer on the clean $h=1$ evaluation.  The paired episode
+bootstrap on the same evaluation episodes gives
 $$
 \Delta\mathrm{AUROC}_{h=1}^{\mathrm{native-posthoc}}
 = +0.050\ [0.0043,\ 0.100],
 $$
-with native AUROC $0.788$ versus post-hoc AUROC $0.737$.  Independent
-confidence intervals are a conservative parity check because they overlap; the
-paired comparison is the appropriate test for two scorers on the same episode
-sample and gives interval-separated gain.
+with native AUROC $0.788$ versus this post-hoc AUROC $0.737$.  This is a
+config-dependent margin against a scoped post-hoc reference, not against the
+strongest probe.  Under a hardening comparison the standard horizon-ledger
+configuration gives native $0.737$ against the strongest logistic probe $0.744$
+with a paired interval that crosses zero, so the global detection claim is
+parity with the strongest probe, not superiority.  The independent confidence
+intervals overlap and are a conservative parity check; the paired comparison is
+the appropriate test for two scorers on the same episode sample, and establishes
+only this scoped config-dependent margin.
 With the same horizon-ledger configuration trained separately on three
 additional carriers, every test horizon is detectable (all confidence-interval
 lower endpoints exceed $0.5$): reacher has AUROC $0.734$/$0.725$/$0.701$/$0.696$
@@ -288,9 +293,10 @@ representative population claim.  The independent stratified-random
 $150$-episode export gives post-hoc $h=1$ AUROC $0.744$ and native AUROC
 $0.800$, with CI95\_high $<0.95$ and UER $>0.02$.  The corrected conclusion is
 that representative pusht failure detection is about $0.74$--$0.80$, in the
-same range as tworooms/reacher/cube ($0.61$--$0.78$), and not perfect.  The
-native $0.800 > 0.744$ comparison is consistent with the paired native-over-
-post-hoc result above.
+same range as tworooms/reacher/cube ($0.61$--$0.78$), and not perfect.  On this
+PushT export the native row is numerically higher than its matched post-hoc row
+($0.800$ versus $0.744$), but this is a scoped single-export comparison, not the
+global strongest-probe hardening test, which remains parity.
 
 \paragraph{Record pointers.}
 The executed records live in the public repository
@@ -324,7 +330,13 @@ not\_claimed boundary & \path{experiments/lewm_gap_ledger/reports/lewm_d_ledger_
 \end{tabular}
 }
 An interactive demonstration of the failure-versus-declared-gap readout is
-published from the same repository.
+published from the same repository.  The strongest-probe hardening result and the
+integrated-model allocation result are recorded in
+\path{experiments/lewm_gap_ledger/autoresearch/findings/verified_findings.md} as
+\texttt{fi-016} (detection is parity with the strongest logistic probe, not
+superiority) and \texttt{fi-017} (the integrated horizon-ledger model does not
+beat uniform allocation at this scale); these govern the global reading of the
+older native/post-hoc paired comparison above.
 
 \paragraph{Boundary of this instantiation.}
 The detection-signal record summary is scoped to four public checkpoints
