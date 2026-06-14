@@ -7560,6 +7560,7 @@ import BEDC.Derived.ObserverDirectionUp.FalsifiableBoundary
 import BEDC.Derived.ObserverDirectionUp.NameCertObligations
 import BEDC.Derived.ObserverDirectionUp.TasteGate
 import BEDC.Derived.ObserverDistinctionTraceUp.TasteGate
+import BEDC.Derived.ObserverExperienceTraceUp
 import BEDC.Derived.ObserverFilterBudgetSelectorUp.RealCompletionConsumer
 import BEDC.Derived.ObserverFilterBudgetSelectorUp.TasteGate
 import BEDC.Derived.ObserverFilterUp
