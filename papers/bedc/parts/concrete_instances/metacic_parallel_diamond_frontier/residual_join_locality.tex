@@ -1,0 +1,17 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier residual-join locality]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-locality}
+Every accepted $\MetaCICParallelDiamondFrontierUp$ residual join is read through the local frontier route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The read must first expose the critical-pair envelope of \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}, the residual-substitution dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}, the candidate-normalization scope of \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}, the finite residual witness consumption row of \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}, and the carrier-local $\NameCert$ row of \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It exports only a bounded residual-join locality certificate for the displayed packet, not global confluence, unbounded normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the accepted frontier carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The only rows available to a residual-join consumer are the finite packet rows $P,K,J,R,S,C,B,O,H,T,G,N$.
+
+Read the critical-pair and residual-substitution rows first. The critical-pair envelope keeps $K,J,R,S,C,B,O$ visible, while the dependency route places the retained residual-substitution premise $P$ before any local join can be consumed.
+
+Next read candidate normalization and finite residual witnesses. The candidate-normalization scope keeps $J$ inside the same conditional spine, and the finite residual witness theorem consumes typed windows, residual frontier data, bounded checker rows, transport, replay, provenance, and local naming before a closed parallel-diamond route can inspect the join.
+
+Finally use the local NameCert obligation surface. Since $H,T,G,N$ preserve only this finite packet and the obstruction row $O$ remains visible, the residual join is local to the displayed frontier and cannot be promoted to global confluence, unbounded normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
