@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\FinitePowerBoundedOperatorUp$}
+\label{ch:concrete-instances-finite-power-bounded-operator-namecert}
+\origin{human}
+
+Following Dunford--Schwartz and Bishop--Bridges normed-operator analysis, the $\FinitePowerBoundedOperatorUp$ packet records finite iterates of a bounded linear operator before spectral-radius or Neumann-series consumers inspect the bound. It sits between the bounded-operator route of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the scalar-bound surface of \autoref{ch:concrete-instances-operator-norm-namecert}, the finite inverse-series route of \autoref{ch:concrete-instances-neumann-series-namecert}, the spectral-radius boundary of \autoref{ch:concrete-instances-spectral-radius-namecert}, and the rational-to-real readback chain of \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. The packet names a finite power corridor; it does not assert a spectral-radius limit, a Neumann inverse, a quotient equality of operators, or an ambient completeness theorem.
+
+\begin{definition}[Spectral-radius finite-power carrier]
+\label{def:spectral-radius-finite-power-carrier}
+A $\FinitePowerBoundedOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,n,A,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\BoundedLinearOperatorUp$ row naming the source endpoint, target endpoint, endpoint action, linearity ledger, and displayed norm-bound surface.
+\item $n$ is the unary power-depth row specifying the finite iterate window that may be inspected.
+\item $A$ is the finite iterate row. It records the accepted powers $T^0,T^1,\ldots,T^n$ only as displayed operator rows and product ledgers.
+\item $B$ is the displayed norm-bound ledger for the same finite window. Each entry reads its scalar bound through the $\OperatorNormUp$ surface and keeps the product-bound ancestry visible.
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ readback route for the rational bound entries and terminal real seals used by downstream comparisons.
+\item $H$ records componentwise $\hsame$ transport for $T,n,A,B,R$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a bounded-operator power request through the same finite iterate and norm-bound rows.
+\item $P$ is the $\Pkg$ provenance over $\FinitePowerBoundedOperatorUp$, $\BoundedLinearOperatorUp$, $\OperatorNormUp$, $\NeumannSeriesUp$, $\SpectralRadiusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FinitePowerBoundedOperatorUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. Its classifier compares accepted packets only through the bounded-operator source row, unary depth, finite iterate ledger, displayed norm-bound ledger, rational and real readback, transport, replay, provenance, and local naming.
+\end{definition}
+
+\begin{theorem}[Spectral-radius finite-power bound]
+\label{thm:spectral-radius-finite-power-bound}
+For every accepted $\FinitePowerBoundedOperatorUp$ carrier
+$$
+F=(T,n,A,B,R,H,C,P,N),
+$$
+all public finite-power and norm-bound information is exposed only through the rows $T,n,A,B,R,H,C,P,N$. A $\SpectralRadiusUp$ consumer may read the finite iterate window and displayed norm bounds, and a $\NeumannSeriesUp$ consumer may read the same finite corridor before checking residual rows, but neither consumer receives a spectral-radius limit, a Neumann-series inverse, quotient operator equality, selected representative data, or an ambient completeness coordinate from this packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectral-radius-finite-power-carrier}. The bounded operator is the row $T$, and the only iteration budget is the unary depth row $n$.
+
+The finite powers are then exactly the entries of $A$. Their scalar controls are exactly the entries of $B$, with rational and real readback passing through $R$.
+
+Transport and replay do not add analytic coordinates. The rows $H$ and $C$ move and replay the same finite iterate and norm-bound ledger, while $P$ and $N$ only source and name that surface.
+
+Thus a spectral-radius or Neumann-series consumer can inspect the finite corridor but cannot recover a limiting radius, an inverse, quotient equality of operators, selected representatives, or ambient completeness data from the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FinitePowerBoundedOperatorUp$ read exposes a BoundedLinearOperatorUp row, unary power depth, finite iterate row, displayed norm-bound ledger, RegSeqRatUp and RealUp readback, hsame transport, Cont replay, Pkg provenance, and local NameCert before any spectral-radius or Neumann-series consumer may cite the corridor.}
+
+\independenceWitness{boundedlinearoperator, operatornorm, neumann-series, spectral-radius, regseqrat, real: BoundedLinearOperatorUp supplies the operator row without a finite iterate corridor; OperatorNormUp supplies scalar bound rows without a power-depth ledger; NeumannSeriesUp supplies residual and inverse-check rows only after a separate finite corridor is read; SpectralRadiusUp supplies a radius boundary without exporting a limiting theorem from this packet; RegSeqRatUp and RealUp seal bounds without naming operator powers.}
+
+\closureat{FinitePowerBoundedOperatorUp}{seedStr}
+
+\begin{closurestatus}{\FinitePowerBoundedOperatorUp}
+  \constructivestory{A $\FinitePowerBoundedOperatorUp$ packet is generated from a BoundedLinearOperatorUp row, unary power depth, finite iterate rows, displayed norm-bound ledgers, RegSeqRatUp and RealUp readback, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spectral-radius-finite-power-carrier}, \autoref{thm:spectral-radius-finite-power-bound}, the falsifiable prediction, and the independence witness seed the finite bounded-operator power corridor consumed by spectral-radius and Neumann-series packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a spectral-radius limit, Neumann-series inverse, quotient operator equality, selected representative data, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite iterate stability, norm-bound ledger readback, rational and real bound sealing, transport and replay stability, and consumer nonescape for BEDC.Derived.FinitePowerBoundedOperatorUp.}
+\end{closurestatus}
