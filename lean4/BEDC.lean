@@ -1675,6 +1675,7 @@ import BEDC.Derived.CauchyFilterSubbasisUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyFilterUp.TasteGate
 import BEDC.Derived.CauchyHadamardUp.TasteGate
+import BEDC.Derived.CauchyIntegralFormulaUp
 import BEDC.Derived.CauchyIntegralFormulaUp.TasteGate
 import BEDC.Derived.CauchyIntegralTestUp.TasteGate
 import BEDC.Derived.CauchyInterlacingUp.TasteGate
@@ -3435,6 +3436,7 @@ import BEDC.Derived.CriticalLineWitnessUp.CriticalStripLedger
 import BEDC.Derived.CriticalLineWitnessUp.CriticalStripOrigin
 import BEDC.Derived.CriticalLineWitnessUp.CriticalStripSourceSurface
 import BEDC.Derived.CriticalLineWitnessUp.CrossLatticeRoute
+import BEDC.Derived.CriticalLineWitnessUp.DependencyLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.DepthComparisonScope
 import BEDC.Derived.CriticalLineWitnessUp.DepthLedgerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.DepthLock
@@ -3575,6 +3577,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootModulusLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadback
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusReadbackUnblockPackage
+import BEDC.Derived.CriticalLineWitnessUp.RootModulusSeparation
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusSourceExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootModulusWindowTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertConsumerTotality
