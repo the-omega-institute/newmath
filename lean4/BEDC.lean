@@ -27,6 +27,7 @@ import BEDC.Derived.AbsolutelyContinuousFunctionUp.TasteGate
 import BEDC.Derived.ActionCommitmentUp.TasteGate
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AdamsBashforthFiniteStepUp
+import BEDC.Derived.AdaptiveCauchyModulusUp.TasteGate
 import BEDC.Derived.AddUp
 import BEDC.Derived.AddUp.TasteGate
 import BEDC.Derived.AdeleUp
@@ -4221,6 +4222,7 @@ import BEDC.Derived.DirectedCofinalSubsetUp
 import BEDC.Derived.DirectedFilterUp.TasteGate
 import BEDC.Derived.DirectedSetUp
 import BEDC.Derived.DirectedSetUp.TasteGate
+import BEDC.Derived.DirichletAbelSummabilityUp
 import BEDC.Derived.DirichletApproximationUp.TasteGate
 import BEDC.Derived.DirichletKernelUp
 import BEDC.Derived.DirichletKernelUp.NameCertObligations
@@ -7858,6 +7860,7 @@ import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolishBaireFixedPointUp.TasteGate
+import BEDC.Derived.PolishBasisUp.TasteGate
 import BEDC.Derived.PolishspaceUp.CompactMetricFactorization
 import BEDC.Derived.PolishspaceUp.CompleteMetricRootObligation
 import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
