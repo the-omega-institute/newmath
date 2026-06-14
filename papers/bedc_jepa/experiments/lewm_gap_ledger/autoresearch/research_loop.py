@@ -35,6 +35,7 @@ RESEARCH_AXES = {
     "horizon": "Does the signal remain indexed by rollout horizon?",
     "selective": "Can the model abstain or admit claims under calibration?",
     "allocation": "Does the score improve budget allocation, not only detection?",
+    "compute_value": "Does the model learn option-conditioned marginal compute value rather than failure probability alone?",
     "representation": "Does the objective reshape the carrier rather than only the head?",
     "ood": "Does the monitor fail closed under non-exchangeable shift?",
     "tail": "Does the objective target tail risk rather than mean error?",
@@ -60,6 +61,7 @@ def _axis_from_hypothesis(hypothesis: dict[str, Any]) -> str:
         for key in ("hypothesis_id", "predicate", "failure_surface", "perturbation_family")
     ).lower()
     ordered = [
+        ("compute_value", ("compute-value", "compute value", "marginal", "intervention", "option-conditioned", "mv(")),
         ("allocation", ("allocation", "budget", "ranking")),
         ("selective", ("selective", "conformal", "admission", "risk_margin")),
         ("representation", ("reencoder", "representation", "encoder")),
@@ -226,7 +228,7 @@ def plan_deepening_tasks(
         for hypothesis in hypotheses
         if _has_authoritative_finding(str(hypothesis.get("hypothesis_id") or ""), experiments, findings)
     }
-    for axis in ("detection", "selective", "allocation", "ood", "tail"):
+    for axis in ("detection", "selective", "allocation", "compute_value", "ood", "tail"):
         if axis not in axis_with_authority:
             key = ("research_axis", axis, "needs_axis_evidence")
             if key not in existing_kinds:
@@ -318,6 +320,15 @@ def render_agent_prompt(task: dict[str, Any]) -> str:
                 "- Prefer tests that separate objective, representation, calibration, and allocation effects.",
             ]
         )
+        if str(task.get("axis") or "") == "compute_value":
+            lines.extend(
+                [
+                    "- Treat failure probability and allocation value as different targets.",
+                    "- Define candidate compute options b explicitly, such as rollout depths, refinement, or abstention.",
+                    "- Require direct marginal-value labels MV(t,b) from option-level errors; do not derive the allocation head from a failure-score ranking.",
+                    "- Report allocation_delta, MV rank correlation, detection AUROC, and selective risk as separate gates.",
+                ]
+            )
     elif action == "materialize_or_run_evidence":
         lines.extend(
             [
@@ -480,6 +491,17 @@ def self_test() -> int:
                     "reality_contact_refs": ["fixture.contact"],
                     "status": "open",
                 },
+                {
+                    "hypothesis_id": "fi-test.compute-value",
+                    "predicate": "option-conditioned marginal compute value predicts useful rollout choices",
+                    "failure_surface": "compute-value MV(t,b)",
+                    "horizon": {"steps": [1, 3]},
+                    "perturbation_family": "marginal intervention value",
+                    "carrier": "fixture.npz",
+                    "criterion": {"kind": "delta_ci_below_zero", "metric": "allocation_delta"},
+                    "reality_contact_refs": ["fixture.contact"],
+                    "status": "open",
+                },
             ],
         )
         store = LeWMStore(paths)
@@ -490,6 +512,9 @@ def self_test() -> int:
             print(json.dumps({"summary": summary, "tasks": tasks}, indent=2), file=sys.stderr)
             return 1
         if not any(task.get("agent_id") == "bedc-jepa-experimentalist" for task in agent_tasks):
+            print(json.dumps(agent_tasks, indent=2), file=sys.stderr)
+            return 1
+        if not any(task.get("lane") == "compute_value" and "MV(t,b)" in str(task.get("prompt") or "") for task in agent_tasks):
             print(json.dumps(agent_tasks, indent=2), file=sys.stderr)
             return 1
         if not paths.lane_dashboard.exists():

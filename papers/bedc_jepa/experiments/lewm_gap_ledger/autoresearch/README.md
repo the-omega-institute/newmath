@@ -48,10 +48,20 @@ python autoresearch/research_loop.py --self-test
 ```
 
 The loop is axis-oriented. It asks whether the current evidence covers
-detection, horizon semantics, selective admission, allocation, representation
-shaping, OOD fail-closed behavior, tail risk, and paper-boundary writeback. If
-an axis has no authoritative finding, the loop emits a task rather than
-inventing a claim.
+detection, horizon semantics, selective admission, allocation, compute value,
+representation shaping, OOD fail-closed behavior, tail risk, and paper-boundary
+writeback. If an axis has no authoritative finding, the loop emits a task
+rather than inventing a claim.
+
+The compute-value axis treats failure probability and allocation value as
+distinct targets. A valid packet must name candidate compute options `b`, such
+as rollout depth, refinement, or abstention, and must supply direct
+option-level marginal-value labels `MV(t,b)` from option-level errors. It is
+not enough to sort anchors by a failure score and call that an allocation
+model. The registered runner `fi-021.compute-value-world-model.py` evaluates
+`reports/compute_value_labels.npz` when present, requiring `episode`,
+`option_error`, `uniform_error`, and `predicted_mv`; otherwise it fails closed
+and keeps the missing label artifact as research pressure.
 
 ## Experiment Execution
 

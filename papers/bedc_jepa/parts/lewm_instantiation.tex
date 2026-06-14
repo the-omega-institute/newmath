@@ -189,6 +189,28 @@ $\rho\approx 0$, and oracle gives $\rho=1.0$.  The bound is not a theorem about
 all models; it is under the current latent export, finite CPU-readable feature
 family, and fixed $5/1/3$ allocation rule.
 
+\paragraph{Compute-value target.}
+The allocation boundary changes the target variable.  The detection ledger
+estimates whether a rollout will fail,
+$$
+g_{t,h,q} = \Pr(e_{t,h} > \tau_{h,q} \mid x_t),
+$$
+but the allocation decision needs the value of a compute option $b$:
+$$
+MV(t,b) = E_{\mathrm{uniform}}(t) - E_b(t).
+$$
+A high failure probability can mean either that deeper rollout or refinement
+has value, or that the state is outside the useful intervention region and
+extra compute only spends budget.  The BEDC-native planning target is therefore
+option-conditioned: the model must read the current latent/action context,
+rollout-internal trajectory features, calibration debt, and a candidate
+compute option $b$, then predict $MV(t,b)$ separately from the horizon failure
+logits and selective-admission score.  In this form allocation is not a
+downstream metric of the gap score; it is a supervised intervention-value task
+with its own label artifact and its own episode-bootstrap gate.  The registered
+autoresearch packet for this target expects option-level errors and predicted
+marginal values, and fails closed when those arrays are absent.
+
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
 representation itself rather than only read a fixed one.  A learnable

@@ -100,6 +100,21 @@ strongest-probe scalar under the integrated row, selective prediction is a
 conservative-coverage result, and allocation is a capacity-invariant bounded
 frontier.
 
+The bounded allocation frontier is not treated as a request for another
+failure-score ranker.  The research loop carries a separate compute-value axis:
+a valid evidence packet must name candidate compute options $b$ and provide
+direct option-level labels
+$$
+MV(t,b) = E_{\mathrm{uniform}}(t) - E_b(t),
+$$
+with the allocation head trained and evaluated against that marginal value
+rather than against $P(e_{t,h}>\tau_{h,q})$.  The corresponding runner accepts
+only an artifact with episode ids, option errors, uniform errors, and predicted
+marginal values; absent those arrays it emits a fail-closed verdict.  Thus the
+automation continues the BEDC-native world-model program by asking for
+intervention-value evidence, not by retrieving one named experiment or
+relabeling detection as planning.
+
 The registered closure checks for the integrated A100 row are intentionally
 kept outside the verified-findings ledger until their finite artifacts exist.
 The score-dump row records the per-anchor quantities needed to replace the
