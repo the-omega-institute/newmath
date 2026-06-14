@@ -207,6 +207,23 @@ $[0.321,\ 0.513]$, and its selective admission risk is $0.1165$ at
 $\alpha=0.10$ with coverage $0.162$.  The shuffled-label guard for that A100
 matrix is not accepted because it failed closed with a non-finite training loss,
 so the accepted controls are the row matrix and the pred-only collapse.
+The closure registry for the same row therefore separates three non-result
+checks from the accepted detection record.  First, a score-dump execution of the
+full integrated row exports per-anchor calibration and evaluation logits,
+admission scores, tail scores, horizon labels, anchors, and the OOD-distance
+proxy.  This artifact is the required input for a direct paired comparison
+against the strongest Phase1c logistic post-hoc probe, because the scalar
+$0.74399$ record cannot by itself define a paired bootstrap on the integrated
+row's evaluation anchors.  Second, the same score dump supports a calibration
+only selective sweep at $\alpha \in \{0.05,0.10,0.15,0.20\}$, measuring the
+risk--coverage tradeoff without retraining the model.  Third, a repaired
+shuffled-label execution repeats the full integrated configuration with labels
+permuted within episodes, supplying the capacity-artifact guard that the
+non-finite failed-closed row did not provide.  Until those artifacts produce
+finite payloads, the accepted A100 reading remains exactly the scoped one above:
+scalar hardening past the strongest-probe record, interval-separated paired gain
+against the matched in-runner reference, selective admission still above
+$\alpha=0.10$, and allocation still bounded.
 The allocation records give a scoped information bound.  Across $7$
 cross-fit readers, the strongest reader is pairwise RankNet with
 within-episode Spearman
