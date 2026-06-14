@@ -603,4 +603,84 @@ theorem CriticalLineWitnessCarrier_root_strip_comparison_classifier
       unaryModulusRead, unaryClassifierRead, sameH, zeroStripRoute, routeQ, modulusRoute,
       classifierRoute, routeC, routeN⟩
 
+theorem CriticalLineWitnessCarrier_zero_strip_localization_exhaustion
+    {Z S M R Q H C P N stripRead localizationRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S stripRead ->
+        Cont stripRead Q localizationRead ->
+          SemanticNameCert
+              (fun row : BHist => hsame row localizationRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨ hsame row Q ∨
+                  hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                    hsame row stripRead ∨ hsame row localizationRead)
+              (fun row : BHist =>
+                hsame row localizationRead ∧ Cont Z S stripRead ∧
+                  Cont stripRead Q localizationRead)
+              hsame ∧
+            UnaryHistory stripRead ∧ UnaryHistory localizationRead ∧ hsame H (append Z S) ∧
+              Cont M R Q ∧ Cont Q H C ∧ Cont C P N ∧ Cont Z S stripRead ∧
+                Cont stripRead Q localizationRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet stripRoute localizationRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have stripUnary : UnaryHistory stripRead :=
+    unary_cont_closed unaryZ unaryS stripRoute
+  have localizationUnary : UnaryHistory localizationRead :=
+    unary_cont_closed stripUnary unaryQ localizationRoute
+  have sourceAtLocalization : hsame localizationRead localizationRead ∧
+      UnaryHistory localizationRead :=
+    ⟨hsame_refl localizationRead, localizationUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row localizationRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨ hsame row Q ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row stripRead ∨ hsame row localizationRead)
+          (fun row : BHist =>
+            hsame row localizationRead ∧ Cont Z S stripRead ∧
+              Cont stripRead Q localizationRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro localizationRead sourceAtLocalization
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, stripRoute, localizationRoute⟩
+  }
+  exact
+    ⟨cert, stripUnary, localizationUnary, sameH, routeQ, routeC, routeN, stripRoute,
+      localizationRoute⟩
+
 end BEDC.Derived.CriticalLineWitnessUp

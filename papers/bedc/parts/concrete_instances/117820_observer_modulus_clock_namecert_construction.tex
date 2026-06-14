@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\ObserverModulusClockUp$}
+\label{ch:concrete-instances-observer-modulus-clock-namecert}
+\origin{ai}
+
+The $\ObserverModulusClockUp$ packet realizes the modulus-as-temporal-rate route of \autoref{thm:modulus-temporal-rate} as finite NameCert data: a regular convergence request exposes a stream window, a modulus threshold, a regular rational readback, and a terminal real seal, and the observer reads the modulus as the local rate of the associated Hist time stream rather than as a global clock.
+
+\begin{definition}[Observer modulus clock carrier]
+\label{def:observer-modulus-clock-carrier}
+An $\ObserverModulusClockUp$ carrier is a finite $\BHist$ packet
+$$
+O=(L,S,M,Q,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the local $\HistTimeStreamUp$ row, exposing the observer's finite Cont-step window and no global synchronization coordinate.
+\item $S$ is the $\StreamNameUp$ finite-window row whose observations are read by the regular convergence request.
+\item $M$ is the $\CauchyModulusUp$ threshold row, interpreted as the number of local time steps required before the requested precision window stabilizes.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the same $S,M$ route.
+\item $R$ is the terminal $\RealUp$ seal reached only after the stream window, modulus threshold, and regular readback have been displayed.
+\item $A$ is the observer-selection row, recording which local Hist time stream reads the modulus threshold.
+\item $H$ records componentwise $\hsame$ transport for the local time stream, stream window, modulus threshold, regular readback, real seal, observer-selection, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every observer precision request through $L,S,M,Q,R,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ObserverModulusClockUp$, $\HistTimeStreamUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ObserverModulusClockUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,S,M,Q,R,A,H,C,P,N$. It has no coordinate for a global observer clock, synchronized Hist stream, hidden convergence oracle, selected real limit, quotient stream equality, host real equality, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Observer modulus clock NameCert obligations]
+\label{thm:observer-modulus-clock-namecert-obligations}
+For every accepted $\ObserverModulusClockUp$ carrier $O=(L,S,M,Q,R,A,H,C,P,N)$, the local $\NameCert_{\ObserverModulusClockUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item local-time admission, requiring $L$ and $A$ to name the observer's finite Hist time stream before any modulus rate is read;
+\item stream-window exposure, requiring the $\StreamNameUp$ row $S$ to display the finite observations inspected by the request;
+\item modulus-rate binding, requiring $M$ to be read as a local temporal threshold for $S$ before the $\RegSeqRatUp$ readback $Q$ is consumed;
+\item real-seal handoff, requiring the terminal $\RealUp$ row $R$ to be downstream of $L,S,M,Q,A$;
+\item ledger non-escape, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed packet, with no global clock, synchronized Hist stream, hidden convergence oracle, selected real limit, quotient stream equality, host real equality, or ambient completeness coordinate.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observer-modulus-clock-carrier}. The observer-selection row $A$ chooses a local Hist time stream $L$, so the modulus read is attached to a finite Cont-step window rather than to a global clock.
+
+The stream row $S$ supplies the observations inspected by the regular convergence request. The modulus row $M$ is consumed as the local threshold for that displayed window, and the regular readback $Q$ is downstream of the same $S,M$ route.
+
+The real seal $R$ is available only after the local time stream, observer selection, stream window, modulus threshold, and readback are visible. Thus a Real-facing consumer receives a finite temporal-rate route, not a selected limit or quotient stream.
+
+Finally, $H,C,P,N$ preserve and name exactly these rows. Since no global clock, synchronized Hist stream, hidden convergence oracle, host equality, or ambient completeness coordinate appears in the carrier, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ObserverModulusClockUp$ read is refuted if a $\RealUp$ seal or $\RegSeqRatUp$ readback is reached without displaying the local $\HistTimeStreamUp$ row, observer-selection row, $\StreamNameUp$ finite window, $\CauchyModulusUp$ threshold, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{histtimestream, streamname, cauchymodulus, regseqrat, real: no listed sibling is bijective with $\ObserverModulusClockUp$ because this packet alone binds a local Hist time stream, observer selection, finite stream window, modulus-as-rate threshold, regular readback, Real seal, transport, replay, provenance, and local naming as one temporal-rate carrier.}
+
+The Lean follow-up for this chapter must provide explicit $\mathsf{Nontrivial}\ \ObserverModulusClockUp$ and $\mathsf{FieldFaithful}\ \ObserverModulusClockUp$ instances preserving $L,S,M,Q,R,A,H,C,P,N$ as distinct rows before any checked carrier-alignment theorem can serve as a public TasteGate realization.
+
+\closureat{ObserverModulusClockUp}{seedStr}
+
+\begin{closurestatus}{\ObserverModulusClockUp}
+  \constructivestory{An $\ObserverModulusClockUp$ packet is generated from a local HistTimeStreamUp row, StreamNameUp finite-window row, CauchyModulusUp threshold row, RegSeqRatUp readback row, terminal RealUp seal, observer-selection row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-modulus-clock-carrier} and \autoref{thm:observer-modulus-clock-namecert-obligations} seed the finite observer-history route that reads a modulus as a local temporal rate over StreamName, CauchyModulus, RegSeqRat, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a global observer clock, inter-Hist synchronization, selected real limits, quotient stream equality, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked local-time admission, stream-window exposure, modulus-rate binding, real-seal handoff, ledger non-escape, transport, replay, provenance, local naming, and Nontrivial and FieldFaithful instances for BEDC.Derived.ObserverModulusClockUp.}
+\end{closurestatus}
