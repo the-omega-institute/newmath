@@ -146,10 +146,22 @@ At a successor depth, consume one branch decision from $B$. The rows $Q$ and $F$
 The remaining induction is bounded by the predecessor depth row. The structural rows $H,C,P,L$ preserve this bounded ledger under transport, replay, provenance, and local naming, so no $\RegSeqRatUp$ or $\RealUp$ consumer can manufacture an additional branch step outside $D$.
 \end{proof}
 
+\begin{theorem}[DyadicIntervalTree scoped kernel route]
+\label{thm:dyadic-interval-tree-scoped-kernel-route}
+Every accepted $\DyadicIntervalTreeUp$ consumer route is scoped only by the displayed BEDC rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\DyadicBisectionUp$, $\DyadicSubdivisionUp$, $\DyadicMeshUp$, $\RationalIntervalRefinementUp$, and $\NestedIntervalUp$. No infinite branch, host real subset, selected point, quotient point equality, open-cover compactness, or ambient completeness row can enter the route.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier of \autoref{def:dyadic-interval-tree-carrier} and \autoref{def:dyadic-interval-tree-classifier}. Their displayed coordinates are exactly the finite root, depth, branch ledger, frontier, mesh, containment, nested route, transport, replay, provenance, and local NameCert rows.
+
+Use \autoref{thm:dyadic-interval-tree-branch-coverage}, \autoref{thm:dyadic-interval-tree-leaf-locality}, \autoref{thm:dyadic-interval-tree-frontier-exhaustion}, and \autoref{thm:dyadic-interval-tree-window-exhaustion} to restrict every branch, leaf, frontier, and window read to the rows named by the carrier.
+
+Finally apply \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality} and \autoref{thm:dyadic-interval-tree-branch-ledger-depth-bound}. The common mesh row and unary depth row exhaust the refinement route, so row exhaustion leaves no coordinate through which an infinite branch, host subset of $\RealUp$, selected point, quotient equality, compactness principle, or completeness principle could be consumed.
+\end{proof}
+
 \begin{closurestatus}{\DyadicIntervalTreeUp}
   \constructivestory{A $\DyadicIntervalTreeUp$ packet is generated from a root rational interval row, unary depth row, finite branch ledger, dyadic bisection child rows, dyadic subdivision frontier rows, dyadic mesh cells, rational containment rows, a nested interval route, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:dyadic-interval-tree-carrier}, \autoref{def:dyadic-interval-tree-classifier}, \autoref{def:dyadic-interval-tree-level-scope}, \autoref{thm:dyadic-interval-tree-namecert-obligations}, \autoref{thm:dyadic-interval-tree-refinement-induction}, \autoref{thm:dyadic-interval-tree-branch-coverage}, \autoref{thm:dyadic-interval-tree-leaf-locality}, \autoref{thm:dyadic-interval-tree-window-exhaustion}, \autoref{thm:dyadic-interval-tree-frontier-exhaustion}, \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality}, and \autoref{thm:dyadic-interval-tree-branch-ledger-depth-bound} bind the finite dyadic interval-tree obligation surface for Real and Completion window consumers.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-tree-carrier}, \autoref{def:dyadic-interval-tree-classifier}, \autoref{def:dyadic-interval-tree-level-scope}, \autoref{thm:dyadic-interval-tree-namecert-obligations}, \autoref{thm:dyadic-interval-tree-refinement-induction}, \autoref{thm:dyadic-interval-tree-branch-coverage}, \autoref{thm:dyadic-interval-tree-leaf-locality}, \autoref{thm:dyadic-interval-tree-window-exhaustion}, \autoref{thm:dyadic-interval-tree-frontier-exhaustion}, \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality}, \autoref{thm:dyadic-interval-tree-branch-ledger-depth-bound}, and \autoref{thm:dyadic-interval-tree-scoped-kernel-route} bind the finite dyadic interval-tree obligation and scoped kernel route for Real and Completion window consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close infinite interval trees, host subsets of $\RealUp$, Dedekind cuts, selected completed points, open-cover compactness, ambient real completeness, standard bridges, or a Lean theorem.}
