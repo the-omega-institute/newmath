@@ -403,7 +403,6 @@ def _claim_first_checks(
         spec=report_spec,
         discovery_row=discovery_row,
         payload=payload,
-        scorecard_snapshot=load_scorecard_snapshot(root),
     )
 
 

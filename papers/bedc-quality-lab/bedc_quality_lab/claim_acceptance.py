@@ -230,7 +230,6 @@ def claim_first_pointer_checks(
     spec: Any,
     discovery_row: Mapping[str, Any],
     payload: Mapping[str, Any],
-    scorecard_snapshot: ScorecardSnapshot,
 ) -> tuple[ClaimFirstPointerCheck, ...]:
     artifact = str(getattr(spec, "json_artifact"))
     claim_capsule = _claim_capsule_pointer(payload)
@@ -281,14 +280,12 @@ def _claim_first_result(
     spec: Any,
     discovery_row: Mapping[str, Any],
     payload: Mapping[str, Any],
-    scorecard_snapshot: ScorecardSnapshot,
 ) -> PositiveClaimEvidenceResult:
     checks = claim_first_pointer_checks(
         root,
         spec=spec,
         discovery_row=discovery_row,
         payload=payload,
-        scorecard_snapshot=scorecard_snapshot,
     )
     for check in checks:
         if check.status != "pass":
@@ -342,7 +339,6 @@ def validate_positive_claim_evidence(
         spec=spec,
         discovery_row=discovery_row,
         payload=payload,
-        scorecard_snapshot=scorecard_snapshot,
     )
     if not claim_first.ok:
         return claim_first
