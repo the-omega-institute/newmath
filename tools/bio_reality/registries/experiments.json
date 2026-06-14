@@ -1420,6 +1420,24 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translation_conditioned_localization_boundary.b_star_q6_powered",
+   "experiment_id": "b_star_q6_translation_conditioned_localization_boundary_powered",
+   "hypothesis_level": "H3",
+   "statement": "Route X (translation->protein-localization boundary, first protein-PHENOTYPE-layer test beyond abundance): B*_Q6 does NOT robustly cross the translation->subcellular-localization layer -- its apparent localization discrimination is largely protein-composition/length-confounded. Held-out multiclass localization discrimination (yeast 4304 / human 10187 / danio 1908 genes): B*_Q6 beats baseline (Δacc +0.022, Δmacro-AUC +0.078) and SURVIVES translation controls (abundance+TE; Δacc +0.023, ΔAUC +0.021), BUT collapses to ~0 after additionally controlling protein length + amino-acid composition + GC (cross-organism aggregate Δacc -1e-5, ΔAUC -0.0014). Only yeast retains a weak per-organism full-control residual; human and danio are partial and the aggregate full-control increment is null -> NOT replicated. So the codon-Q6 signal carries no localization information independent of protein composition/length; the apparent codon->localization channel is a composition confound (verdict: partial, leaning blocked_null). Deterministic; yeast+human+danio. Anti-over-claim: the per-organism 'crosses' for yeast was downgraded to partial at the headline (orchestrator-fixed verdict gate) because the cross-organism aggregate increment does not survive length+aa+GC controls. Caveat: multi-label localization reduced to primary classes; 3 organisms; held-out CV.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_conditioned_localization_boundary_powered.py",
+   "required_data": null,
+   "timeout_seconds": 1200,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-14T04:56:13+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
