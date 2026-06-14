@@ -733,6 +733,7 @@ import BEDC.Derived.BanachFixedPointIterationBudgetUp
 import BEDC.Derived.BanachFixedPointStabilityUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.BanachLatticeUp.TasteGate
+import BEDC.Derived.BanachMazurGameUp.TasteGate
 import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
 import BEDC.Derived.BanachSpaceUp
 import BEDC.Derived.BanachSpaceUp.CauchyCompletionHandoff
@@ -940,6 +941,7 @@ import BEDC.Derived.BishopSpeckerCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopSplineSpaceUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.UniformHandoff
+import BEDC.Derived.BishopUniformContinuityModulusUp.TasteGate
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BlaschkeSelectionCompactHyperspaceUp.TasteGate
@@ -6425,6 +6427,7 @@ import BEDC.Derived.LowerSemicontinuousUp.TransportReplayExactness
 import BEDC.Derived.LowerSemicontinuousUp.WindowFactorization
 import BEDC.Derived.LowerUpperRealCutUp
 import BEDC.Derived.LowerUpperRealCutUp.TasteGate
+import BEDC.Derived.LusinApproximationUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
