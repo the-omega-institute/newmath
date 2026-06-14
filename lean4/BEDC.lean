@@ -3769,6 +3769,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripModulusSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripReadbackSeparation
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripSourceClassifierLock
@@ -4362,6 +4363,7 @@ import BEDC.Derived.DyadicBracketingUp.TasteGate
 import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
 import BEDC.Derived.DyadicCauchyCriterionUp
 import BEDC.Derived.DyadicCauchyStaircaseUp.TasteGate
+import BEDC.Derived.DyadicCeilingUp.FloorDualRoute
 import BEDC.Derived.DyadicCeilingUp.TasteGate
 import BEDC.Derived.DyadicClosedIntervalEndpointGridUp.TasteGate
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
