@@ -3066,7 +3066,6 @@ import BEDC.Derived.ConstructiveDiniModulusUp.TasteGate
 import BEDC.Derived.ConstructiveDiniTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveGreenFunctionUp.TasteGate
 import BEDC.Derived.ConstructiveHeineBorelIntervalUp
-import BEDC.Derived.ConstructiveLipschitzFlowUp.TasteGate
 import BEDC.Derived.ConstructiveMeanValueUp.TasteGate
 import BEDC.Derived.ConstructivePolishSpaceUp.TasteGate
 import BEDC.Derived.ConstructiveRealLineUp.TasteGate
@@ -6223,6 +6222,7 @@ import BEDC.Derived.LocatedCompletionFunctorUp.TasteGate
 import BEDC.Derived.LocatedCompletionSealUp.TasteGate
 import BEDC.Derived.LocatedCompletionSpaceUp.TasteGate
 import BEDC.Derived.LocatedCompletionUniversalPropertyUp.TasteGate
+import BEDC.Derived.LocatedCompletionUp.NameCertObligations
 import BEDC.Derived.LocatedCoveringNumberUp.Carrier
 import BEDC.Derived.LocatedCoveringNumberUp.TasteGate
 import BEDC.Derived.LocatedCutApproximationUp.TasteGate
@@ -7965,7 +7965,6 @@ import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.NameCertObligations
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.TasteGate
 import BEDC.Derived.PrimitiveRecursionUp.TasteGate
-import BEDC.Derived.PrimitiveRecursiveUp.TasteGate
 import BEDC.Derived.PrincipalFilterUp.TasteGate
 import BEDC.Derived.PringsheimDoubleSequenceUp.TasteGate
 import BEDC.Derived.PringsheimPositiveRealSeriesUp.TasteGate
