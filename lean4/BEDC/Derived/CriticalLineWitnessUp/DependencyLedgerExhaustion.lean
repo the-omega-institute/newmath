@@ -6,7 +6,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
 
-theorem CriticalLineWitnessCarrier_dependency_ledger_exhaustion
+theorem CriticalLineWitnessCarrier_zeta_gamma_dependency_exhaustion
     {Z S M R Q H C P N zetaRead gammaRead dependencyRead : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
       Cont Z S zetaRead ->
@@ -33,5 +33,41 @@ theorem CriticalLineWitnessCarrier_dependency_ledger_exhaustion
   exact
     ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, zetaUnary, gammaUnary, dependencyUnary,
       sameH, zetaRoute, gammaRoute, dependencyRoute, routeC, routeN⟩
+
+theorem CriticalLineWitnessCarrier_dependency_ledger_exhaustion
+    {Z S M R Q H C P N zeroStripRead dependencyRead ledgerRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S zeroStripRead ->
+        Cont zeroStripRead Q dependencyRead ->
+          Cont dependencyRead H ledgerRead ->
+            UnaryHistory Z ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory R ∧
+              UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory N ∧
+                UnaryHistory zeroStripRead ∧ UnaryHistory dependencyRead ∧
+                  UnaryHistory ledgerRead ∧ hsame H (append Z S) ∧
+                    Cont Z S zeroStripRead ∧ Cont zeroStripRead Q dependencyRead ∧
+                      Cont dependencyRead H ledgerRead ∧ Cont M R Q ∧ Cont Q H C ∧
+                        Cont C P N := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro packet zeroStripRoute dependencyRoute ledgerRoute
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, unaryP, sameH, routeQ, routeC, routeN⟩ :=
+    packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryM unaryR routeQ
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryQ unaryH routeC
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryC unaryP routeN
+  have unaryZeroStripRead : UnaryHistory zeroStripRead :=
+    unary_cont_closed unaryZ unaryS zeroStripRoute
+  have unaryDependencyRead : UnaryHistory dependencyRead :=
+    unary_cont_closed unaryZeroStripRead unaryQ dependencyRoute
+  have unaryLedgerRead : UnaryHistory ledgerRead :=
+    unary_cont_closed unaryDependencyRead unaryH ledgerRoute
+  exact
+    ⟨unaryZ, unaryS, unaryM, unaryR, unaryQ, unaryH, unaryC, unaryN,
+      unaryZeroStripRead, unaryDependencyRead, unaryLedgerRead, sameH, zeroStripRoute,
+      dependencyRoute, ledgerRoute, routeQ, routeC, routeN⟩
 
 end BEDC.Derived.CriticalLineWitnessUp
