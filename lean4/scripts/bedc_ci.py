@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -2082,6 +2083,87 @@ def detect_paper_chapter_origin_tags() -> list[dict[str, object]]:
             "kind": kind,
         })
     return violations
+
+
+def detect_paper_gate_policy_drift() -> list[dict]:
+    try:
+        producer_path = PAPER_ROOT / "scripts" / "phase_paper_gates.py"
+        consumer_path = PAPER_ROOT / "scripts" / "codex_revise.py"
+        spec = importlib.util.spec_from_file_location(
+            "bedc_phase_paper_gates_for_audit",
+            producer_path,
+        )
+        if spec is None or spec.loader is None:
+            return []
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        producer_keys = set(module.GATE_DISPATCH.keys())
+
+        text = consumer_path.read_text(encoding="utf-8")
+        assignment = re.search(r"\bPAPER_GATE_POLICY\b[^=]*=", text)
+        if not assignment:
+            return []
+        start = text.find("{", assignment.end())
+        if start < 0:
+            return []
+
+        depth = 0
+        in_string = False
+        quote = ""
+        escaped = False
+        end = -1
+        for index in range(start, len(text)):
+            char = text[index]
+            if in_string:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == quote:
+                    in_string = False
+                continue
+            if char in ("'", '"'):
+                in_string = True
+                quote = char
+            elif char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+                if depth == 0:
+                    end = index
+                    break
+        if end < 0:
+            return []
+
+        policy_body = text[start + 1:end]
+        consumer_keys = set(
+            re.findall(r'^\s*"([^"]+)":\s*\{', policy_body, re.MULTILINE)
+        )
+    except Exception:
+        return []
+
+    findings: list[dict] = []
+    for key in sorted(producer_keys - consumer_keys):
+        findings.append({
+            "key": key,
+            "side": "producer_only",
+            "message": (
+                f"paper-gate schema drift: '{key}' in GATE_DISPATCH(producer) "
+                "but missing from PAPER_GATE_POLICY(consumer) — will wedge "
+                "paper pipeline with invalid-schema"
+            ),
+        })
+    for key in sorted(consumer_keys - producer_keys):
+        findings.append({
+            "key": key,
+            "side": "consumer_only",
+            "message": (
+                f"paper-gate schema drift: '{key}' in PAPER_GATE_POLICY(consumer) "
+                "but missing from GATE_DISPATCH(producer) — will wedge paper "
+                "pipeline with invalid-schema"
+            ),
+        })
+    return findings
 
 
 def changed_concrete_instance_tex_paths() -> set[Path] | None:
@@ -11232,6 +11314,7 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
     concrete_number_collisions = detect_concrete_instance_number_collisions()
     concrete_missing_origin = detect_concrete_instance_missing_origin()
     paper_chapter_origin_tags = detect_paper_chapter_origin_tags()
+    paper_gate_policy_drift = detect_paper_gate_policy_drift()
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     theorem_dna_records = collect_theorem_dna_records()
     theorem_dna_coverage = theorem_dna_coverage_payload(
@@ -11335,6 +11418,8 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
         "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
         "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
+        "paper_gate_policy_drift": paper_gate_policy_drift,
+        "paper_gate_policy_drift_count": len(paper_gate_policy_drift),
         "theorem_dna_coverage_count": theorem_dna_coverage["covered_count"],
         "theorem_dna_stale_count": theorem_dna_stale["stale_count"],
         "leanstmt_debt": leanstmt_debt,
@@ -11564,6 +11649,13 @@ def cmd_audit(args: argparse.Namespace) -> int:
             )
             for item in payload["paper_chapter_origin_tags"][:50]:
                 print(f"  {item['file']}:{item['line']}: {item['kind']}")
+        if payload["paper_gate_policy_drift"]:
+            print(
+                "[bedc-ci] paper-gate schema drift: "
+                f"{payload['paper_gate_policy_drift_count']} (BLOCKING)"
+            )
+            for item in payload["paper_gate_policy_drift"][:50]:
+                print(f"  {item['message']}")
         if payload["closurestatus_diagnostics"]:
             print(
                 "[bedc-ci] closurestatus block diagnostics: "
@@ -11804,6 +11896,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["concrete_number_collisions_new_count"]
         + payload["concrete_missing_origin_new_count"]
         + payload["paper_chapter_origin_tags_new_count"]
+        + payload["paper_gate_policy_drift_count"]
         + payload["closurestatus_diagnostics_new_count"]
         + payload["closurestatus_open_errors_new_count"]
         + payload["orphan_concrete_subdirs_new_count"]
