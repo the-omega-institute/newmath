@@ -202,10 +202,16 @@ def paper_lane() -> dict:
 
 def keep_lane():
     """Lean commit lane: commit changed bridge files on this branch."""
-    st = git("status", "--porcelain", "tools/window_codon_bridge", "papers/window_codon_bridge").stdout.strip()
+    tracked_paths = (
+        "tools/window_codon_bridge/registries",
+        "tools/window_codon_bridge/experiments",
+        "tools/window_codon_bridge/synced",
+        "papers/window_codon_bridge",
+    )
+    st = git("status", "--porcelain", *tracked_paths).stdout.strip()
     if not st:
         return {"committed": False}
-    git("add", "tools/window_codon_bridge", "papers/window_codon_bridge")
+    git("add", *tracked_paths)
     r = git("commit", "-m", f"Bridge cycle {now_iso()}: derivation verdicts + ledger")
     return {"committed": r.returncode == 0, "out": (r.stdout or r.stderr)[-200:]}
 
