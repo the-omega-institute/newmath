@@ -673,7 +673,28 @@ def _load_pipeline_config() -> dict[str, Any]:
 
 def _load_oracle_integration_config() -> dict[str, Any]:
     config = _load_pipeline_config().get("oracle_integration")
-    return config if isinstance(config, dict) else {}
+    config = dict(config) if isinstance(config, dict) else {}
+    server_url = os.environ.get("BIO_REALITY_ORACLE_SERVER_URL", "").strip()
+    if server_url:
+        config["server_url"] = server_url
+    enabled = os.environ.get("BIO_REALITY_ORACLE_ENABLED", "").strip().lower()
+    if enabled in {"1", "true", "yes", "on"}:
+        config["enabled"] = True
+    elif enabled in {"0", "false", "no", "off"}:
+        config["enabled"] = False
+    for lane_key, env_key in (
+        ("bio_g", "BIO_REALITY_ORACLE_BIO_G_ENABLED"),
+        ("bio_plan", "BIO_REALITY_ORACLE_BIO_PLAN_ENABLED"),
+    ):
+        lane_config = dict(config.get(lane_key)) if isinstance(config.get(lane_key), dict) else {}
+        lane_enabled = os.environ.get(env_key, "").strip().lower()
+        if lane_enabled in {"1", "true", "yes", "on"}:
+            lane_config["enabled"] = True
+        elif lane_enabled in {"0", "false", "no", "off"}:
+            lane_config["enabled"] = False
+        if lane_config:
+            config[lane_key] = lane_config
+    return config
 
 
 def _oracle_uses_nyxid(server_url: str) -> bool:
