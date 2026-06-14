@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PolishBasisUp
@@ -25,7 +26,7 @@ def polishBasisDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (polishBasisDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (polishBasisDecodeBHist tail)
 
-private theorem PolishBasisTasteGate_single_carrier_alignment_decode :
+private theorem PolishBasisTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, polishBasisDecodeBHist (polishBasisEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,32 +39,60 @@ def polishBasisFields : PolishBasisUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | PolishBasisUp.mk M D K S R I F H C P N => [M, D, K, S, R, I, F, H, C, P, N]
 
-def polishBasisToEventFlow : PolishBasisUp → EventFlow :=
+def polishBasisToEventFlow : PolishBasisUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (polishBasisFields x).map polishBasisEncodeBHist
+  | x => (polishBasisFields x).map polishBasisEncodeBHist
 
-private def polishBasisEventAtDefault : Nat → EventFlow → RawEvent
+def polishBasisFromEventFlow : EventFlow → Option PolishBasisUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => polishBasisEventAtDefault index rest
-
-def polishBasisFromEventFlow (ef : EventFlow) : Option PolishBasisUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (PolishBasisUp.mk
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 0 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 1 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 2 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 3 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 4 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 5 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 6 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 7 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 8 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 9 ef))
-      (polishBasisDecodeBHist (polishBasisEventAtDefault 10 ef)))
+  | [] => none
+  | M :: rest0 =>
+      match rest0 with
+      | [] => none
+      | D :: rest1 =>
+          match rest1 with
+          | [] => none
+          | K :: rest2 =>
+              match rest2 with
+              | [] => none
+              | S :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | R :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | I :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | F :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | H :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | C :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | P :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | N :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (PolishBasisUp.mk
+                                                      (polishBasisDecodeBHist M)
+                                                      (polishBasisDecodeBHist D)
+                                                      (polishBasisDecodeBHist K)
+                                                      (polishBasisDecodeBHist S)
+                                                      (polishBasisDecodeBHist R)
+                                                      (polishBasisDecodeBHist I)
+                                                      (polishBasisDecodeBHist F)
+                                                      (polishBasisDecodeBHist H)
+                                                      (polishBasisDecodeBHist C)
+                                                      (polishBasisDecodeBHist P)
+                                                      (polishBasisDecodeBHist N))
+                                              | _ :: _ => none
 
 private theorem PolishBasisTasteGate_single_carrier_alignment_round_trip :
     ∀ x : PolishBasisUp, polishBasisFromEventFlow (polishBasisToEventFlow x) = some x := by
@@ -86,17 +115,17 @@ private theorem PolishBasisTasteGate_single_carrier_alignment_round_trip :
             (polishBasisDecodeBHist (polishBasisEncodeBHist P))
             (polishBasisDecodeBHist (polishBasisEncodeBHist N))) =
           some (PolishBasisUp.mk M D K S R I F H C P N)
-      rw [PolishBasisTasteGate_single_carrier_alignment_decode M,
-        PolishBasisTasteGate_single_carrier_alignment_decode D,
-        PolishBasisTasteGate_single_carrier_alignment_decode K,
-        PolishBasisTasteGate_single_carrier_alignment_decode S,
-        PolishBasisTasteGate_single_carrier_alignment_decode R,
-        PolishBasisTasteGate_single_carrier_alignment_decode I,
-        PolishBasisTasteGate_single_carrier_alignment_decode F,
-        PolishBasisTasteGate_single_carrier_alignment_decode H,
-        PolishBasisTasteGate_single_carrier_alignment_decode C,
-        PolishBasisTasteGate_single_carrier_alignment_decode P,
-        PolishBasisTasteGate_single_carrier_alignment_decode N]
+      rw [PolishBasisTasteGate_single_carrier_alignment_decode_encode M,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode D,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode K,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode S,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode R,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode I,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode F,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode H,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode C,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode P,
+        PolishBasisTasteGate_single_carrier_alignment_decode_encode N]
 
 private theorem PolishBasisTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : PolishBasisUp} :
@@ -108,9 +137,19 @@ private theorem PolishBasisTasteGate_single_carrier_alignment_toEventFlow_inject
         polishBasisFromEventFlow (polishBasisToEventFlow y) :=
     congrArg polishBasisFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (PolishBasisTasteGate_single_carrier_alignment_round_trip x).symm
+    (Eq.trans (PolishBasisTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (PolishBasisTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem PolishBasisTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : PolishBasisUp, polishBasisFields x = polishBasisFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk M1 D1 K1 S1 R1 I1 F1 H1 C1 P1 N1 =>
+      cases y with
+      | mk M2 D2 K2 S2 R2 I2 F2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance polishBasisBHistCarrier : BHistCarrier PolishBasisUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -130,44 +169,15 @@ instance polishBasisChapterTasteGate : ChapterTasteGate PolishBasisUp where
 instance polishBasisFieldFaithful : FieldFaithful PolishBasisUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := polishBasisFields
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk M₁ D₁ K₁ S₁ R₁ I₁ F₁ H₁ C₁ P₁ N₁ =>
-        cases y with
-        | mk M₂ D₂ K₂ S₂ R₂ I₂ F₂ H₂ C₂ P₂ N₂ =>
-            injection h with hM t1
-            injection t1 with hD t2
-            injection t2 with hK t3
-            injection t3 with hS t4
-            injection t4 with hR t5
-            injection t5 with hI t6
-            injection t6 with hF t7
-            injection t7 with hH t8
-            injection t8 with hC t9
-            injection t9 with hP t10
-            injection t10 with hN _
-            cases hM
-            cases hD
-            cases hK
-            cases hS
-            cases hR
-            cases hI
-            cases hF
-            cases hH
-            cases hC
-            cases hP
-            cases hN
-            rfl
+  field_faithful := PolishBasisTasteGate_single_carrier_alignment_fields_faithful
 
-instance polishBasisNontrivial : BEDC.Meta.TasteGate.Nontrivial PolishBasisUp where
+instance polishBasisNontrivial : Nontrivial PolishBasisUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨PolishBasisUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       PolishBasisUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -175,16 +185,9 @@ instance polishBasisNontrivial : BEDC.Meta.TasteGate.Nontrivial PolishBasisUp wh
 theorem PolishBasisTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate PolishBasisUp) ∧ Nonempty (FieldFaithful PolishBasisUp) ∧
       Nonempty (BEDC.Meta.TasteGate.Nontrivial PolishBasisUp) ∧
-        (∀ h : BHist, polishBasisDecodeBHist (polishBasisEncodeBHist h) = h) ∧
-          (∀ x : PolishBasisUp, polishBasisFromEventFlow (polishBasisToEventFlow x) = some x) ∧
-            (∀ x y : PolishBasisUp, polishBasisToEventFlow x = polishBasisToEventFlow y ->
-              x = y) ∧ polishBasisEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
+        polishBasisEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
-    ⟨⟨polishBasisChapterTasteGate⟩, ⟨polishBasisFieldFaithful⟩,
-      ⟨polishBasisNontrivial⟩, PolishBasisTasteGate_single_carrier_alignment_decode,
-      PolishBasisTasteGate_single_carrier_alignment_round_trip,
-      (fun x y heq => PolishBasisTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+    ⟨⟨polishBasisChapterTasteGate⟩, ⟨polishBasisFieldFaithful⟩, ⟨polishBasisNontrivial⟩, rfl⟩
 
 end BEDC.Derived.PolishBasisUp
