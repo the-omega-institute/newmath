@@ -6,6 +6,7 @@ import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.DyadicIntervalCoverUp.StandardBridgePremise
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicIntervalCoverUp
