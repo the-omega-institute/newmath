@@ -190,6 +190,33 @@ theorem DyadicIntervalTreeCarrier_branch_coverage
     ⟨unaryB, unaryF, unaryQ, unaryBranch, unaryContainment, branchRoute,
       containmentRoute, routeNW⟩
 
+theorem DyadicIntervalTreeCarrier_leaf_locality
+    {R D B F M Q NW H C P L branchPrefix leafRead localRead : BHist} :
+    DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
+      Cont B F branchPrefix ->
+        Cont branchPrefix M leafRead ->
+          Cont leafRead Q localRead ->
+            UnaryHistory B ∧ UnaryHistory F ∧ UnaryHistory M ∧ UnaryHistory Q ∧
+              UnaryHistory branchPrefix ∧ UnaryHistory leafRead ∧ UnaryHistory localRead ∧
+                Cont B F branchPrefix ∧ Cont branchPrefix M leafRead ∧
+                  Cont leafRead Q localRead ∧ Cont F M Q := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packet branchRoute leafRoute localRoute
+  obtain
+    ⟨_unaryR, _unaryD, unaryB, unaryF, unaryM, _unaryH, _unaryC, _unaryP,
+      _unaryL, _routeF, routeQ, _routeNW⟩ := packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryF unaryM routeQ
+  have unaryBranch : UnaryHistory branchPrefix :=
+    unary_cont_closed unaryB unaryF branchRoute
+  have unaryLeaf : UnaryHistory leafRead :=
+    unary_cont_closed unaryBranch unaryM leafRoute
+  have unaryLocal : UnaryHistory localRead :=
+    unary_cont_closed unaryLeaf unaryQ localRoute
+  exact
+    ⟨unaryB, unaryF, unaryM, unaryQ, unaryBranch, unaryLeaf, unaryLocal,
+      branchRoute, leafRoute, localRoute, routeQ⟩
+
 theorem DyadicIntervalTreeCarrier_mesh_refinement_functoriality
     {R D B F M Q NW H C P L parentChildRead finalWindow : BHist} :
     DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
