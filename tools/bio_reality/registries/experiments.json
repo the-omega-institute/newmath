@@ -1510,6 +1510,26 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.f3_ramp_ortholog_portability.b_star_q6_powered",
+   "experiment_id": "b_star_q6_f3_ramp_ortholog_portability_powered",
+   "hypothesis_level": "H3",
+   "statement": "Route Z (f3-ramp evolutionary portability, oracle-proposed genuinely-new direction): tests whether within-orthogroup cross-species differences in the 5'-ramp f3 signal predict conserved same-direction differences in protein abundance/TE/structural-order (ortholog + species fixed effects, controlling aa-composition/GC/tRNA/length; negative controls half-life/localization). NEEDS_EXTERNAL with current repo data: no species pair satisfies BOTH (enough 1:1 orthologs) AND (full features both sides). Attempt 1 yeast+human: human lacks ordered-CDS + structural-order locally. Attempt 2 yeast+E.coli (cross-domain): a real OrthoDB fetch ran (598/600 requests, 474s, not rate-limited) but found 0 exact local 1:1 orthogroups with full features among 352 orthogroups seen -- cross-domain (eukaryote vs bacteria) 1:1 orthology + full-feature coverage is too sparse. So the portability question is feasible IN PRINCIPLE (OrthoDB reachable) but blocked on data: needs human ordered-CDS+structural-order or >=3 same-kingdom full-feature species. Honestly registered needs_data (data gap documented); NOT a scientific verdict. Local feature coverage confirmed: yeast 5810 genes (abundance+TE 5128+structural 5804+half-life 5379+localization 4831), E.coli 3738 (abundance+TE 3415+structural 3736+half-life 2947; no localization).",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_ramp_ortholog_portability_powered.py",
+   "required_data": "human ordered-CDS + structural-order (for a same-kingdom yeast-human full-feature ortholog set), OR >=3 same-kingdom species each with ordered-CDS+structural-order+proteome+TE; cross-domain yeast<->E.coli 1:1 orthologs with full features are too sparse (OrthoDB returned 352 orthogroups but 0 were exact local 1:1 with all required features)",
+   "timeout_seconds": 1200,
+   "status": "needs_data",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-14T07:10:44+00:00",
+   "dependencies": [],
+   "external_preconditions": [
+    "human ordered-CDS + structural-order (for a same-kingdom yeast-human full-feature ortholog set), OR >=3 same-kingdom species each with ordered-CDS+structural-order+proteome+TE; cross-domain yeast<->E.coli 1:1 orthologs with full features are too sparse (OrthoDB returned 352 orthogroups but 0 were exact local 1:1 with all required features)"
+   ],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
