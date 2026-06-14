@@ -11,3 +11,17 @@ Apply the residual-substitution route \autoref{thm:metacic-parallel-diamond-resi
 
 Finally use the candidate-mediated strong-normalization socket \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket}. When candidate-SN evidence is present, it is consumed as the same finite socket before the closed parallel-diamond route can read the witness. Since the route retains $P$ and $O$ and exports only the displayed packet, it does not prove arbitrary closed Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond bounded local-confluence decision]
+\label{thm:metacic-parallel-diamond-frontier-bounded-local-confluence-decision}
+A bounded local-join checker for the displayed finite residual witness of a $\MetaCICParallelDiamondFrontierUp$ packet may return a positive local-confluence certificate only after exposing the typed window, residual frontier, substitution-boundary row, candidate join, bounded checker status, componentwise transport, displayed replay, provenance, and local $\NameCert$ rows. The positive result is a bounded local-confluence certificate for that finite residual witness; it is not residual-substitution compatibility, subject reduction, unrestricted confluence, evaluator equality, quotient equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with local-join scope. By \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}, a checker read must expose the typed window, candidate join, residual frontier, checker rows, and obstruction row before any local join can be used.
+
+Next apply residual boundary and substitution nonescape, \autoref{thm:metacic-parallel-diamond-frontier-residual-boundary} and \autoref{thm:metacic-parallel-diamond-frontier-substitution-nonescape}. These rows keep the substitution-boundary premise visible and prevent the bounded decision from being read as residual-substitution compatibility.
+
+Use finite residual witness consumption from \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. It forces the checker status, candidate join, transport, replay, provenance, and local naming rows to be consumed as the finite route through $P,K,J,R,S,C,B,O,H,T,G,N$.
+
+The checker may therefore certify only that this displayed finite residual witness has a bounded local join. Since the route still retains the typed window and substitution-boundary rows and never exports a global reduction relation, the certificate does not imply subject reduction, unrestricted confluence, evaluator equality, quotient equality, or kernel consistency.
+\end{proof}
