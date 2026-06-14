@@ -25,3 +25,21 @@ Use finite residual witness consumption from \autoref{thm:metacic-parallel-diamo
 
 The checker may therefore certify only that this displayed finite residual witness has a bounded local join. Since the route still retains the typed window and substitution-boundary rows and never exports a global reduction relation, the certificate does not imply subject reduction, unrestricted confluence, evaluator equality, quotient equality, or kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond finite candidate frontier]
+\label{thm:metacic-parallel-diamond-finite-candidate-frontier}
+Any bounded local-confluence certificate consumed from a $\MetaCICParallelDiamondFrontierUp$ packet is limited to the displayed finite candidate rows
+$$
+P,K,J,R,S,C,B,O,H,T,G,N.
+$$
+Candidate-normalization rows and residual-substitution rows must remain visible before a closed parallel-diamond route can read the result. The certificate therefore records only a finite candidate frontier for the displayed packet; it is not full Church--Rosser, subject reduction, evaluator equality, quotient equality, residual-substitution discharge, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. It forces every local-diamond witness read to pass through the typed window, residual frontier, substitution-boundary row, bounded local-join checker, transport, replay, provenance, and local naming rows.
+
+Next use bounded local-confluence decision, \autoref{thm:metacic-parallel-diamond-frontier-bounded-local-confluence-decision}. A positive checker result is available only for that displayed finite residual witness and only after the candidate join, checker status, and structural rows have been exposed.
+
+Now attach the candidate-mediated strong-normalization socket and the residual-substitution route, \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket} and \autoref{thm:metacic-parallel-diamond-residual-substitution-route}. These keep candidate normalization and residual substitution inside the same $P,K,J,R,S,C,B,O,H,T,G,N$ spine before the closed route may inspect the handoff.
+
+Thus the consumer receives a finite candidate frontier and nothing stronger. Since the residual-substitution and candidate-normalization rows remain visible, the certificate cannot be reread as a premise-free confluence theorem, subject reduction, evaluator equality, quotient equality, residual-substitution discharge, or kernel consistency.
+\end{proof}
