@@ -3529,6 +3529,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowExactness
 import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowTransport
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationPackage
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationSurface
+import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationTriad
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRootUnblockConsumerScope
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ObligationClosurePackage
@@ -3557,6 +3558,8 @@ import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryDownstreamLock
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonclaim
+import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonescape
+import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryRefusalExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryStdbridgeNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundary
@@ -3569,6 +3572,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RHNonclassificationBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalInterface
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedger
+import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedgerClosure
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalLedgerRoute
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalPhaseBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RHRefusalReadbackTotality
@@ -3704,6 +3708,7 @@ import BEDC.Derived.CriticalLineWitnessUp.StripModulusSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.StripReflectionBoundary
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroBoundary
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
+import BEDC.Derived.CriticalLineWitnessUp.SuppliedInputCarrierRow
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TerminalComparisonLedgerLock
@@ -6877,6 +6882,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondLocalConfluenceFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceDeterminacy
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceFaceRetention
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourcePackageBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondTypedL10Budget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondVisibleRoute
@@ -7782,6 +7788,7 @@ import BEDC.Derived.PdeUp.TasteGate
 import BEDC.Derived.PeanoContinuumUp.TasteGate
 import BEDC.Derived.PeanoCurveUp.TasteGate
 import BEDC.Derived.PeanoExistenceUp.TasteGate
+import BEDC.Derived.PeetreKFunctionalUp
 import BEDC.Derived.PellEquationUp.TasteGate
 import BEDC.Derived.PerfectSetUp.TasteGate
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
@@ -9365,6 +9372,7 @@ import BEDC.Derived.SeparatedMetricUp.RealCompletionConsumerBoundary
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceConsumerExactness
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceRealReflection
+import BEDC.Derived.SeparatedPseudometricCompletionUp.NameCertObligations
 import BEDC.Derived.SeparatedPseudometricCompletionUp.TasteGate
 import BEDC.Derived.SeparatedQuotientMetricUp
 import BEDC.Derived.SeparatedQuotientMetricUp.TasteGate
@@ -9787,6 +9795,7 @@ import BEDC.Derived.StreamNameUp.FiniteWindowRealHandoffCoverage
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
 import BEDC.Derived.StreamNameUp.OpenPhaseExitBoundary
+import BEDC.Derived.StreamNameUp.OpenPhaseFiniteWindowExitDeterminacy
 import BEDC.Derived.StreamNameUp.OpenPhaseFourFaceExitReadback
 import BEDC.Derived.StreamNameUp.OpenPhaseFourFaceTerminality
 import BEDC.Derived.StreamNameUp.OverlapExactness
