@@ -380,19 +380,6 @@ def _minimal_payload(spec, *, root: Path | None = None):
             ),
         )
         return {key: value for key, value in payload.items() if key not in {"_raw_records", "_probe_rows"}}
-    if spec.name == "dgt-base-undertraining-audit":
-        payload["base_undertraining_audit"] = {
-            "verdict": "construct-boundary",
-            "claim_action": "defer-to-fair-reconstruction",
-            "construct_validity": {
-                "status": "construct-boundary",
-                "bayes_upper_bound_accuracy": 0.0625,
-                "source_pointers": {
-                    "fair_reconstruction": "https://github.com/the-omega-institute/newmath/issues/1196"
-                },
-            },
-        }
-        return payload
     if spec.name == "dgt-ablation-null-decomposition":
         payload["null_decomposition"] = {"analysis_status": "pass", "verdict": "mixed"}
         return payload
@@ -403,14 +390,6 @@ def _minimal_payload(spec, *, root: Path | None = None):
             root=root or discovery_map.ROOT,
             generated_at="fixture-time",
         )
-    if spec.name == "dgt-base-undertraining-audit":
-        from bedc_quality_lab import dgt_base_undertraining_audit
-
-        return dgt_base_undertraining_audit.build_payload(root=root or canonical.ROOT, generated_at="fixture-time")
-    if spec.name == "fair-l1-decision":
-        from bedc_quality_lab import fair_l1_decision
-
-        return fair_l1_decision.build_payload(root=root or canonical.ROOT, generated_at="fixture-time")
     if spec.name == "reproduction-package":
         from bedc_quality_lab import reproduction_package
 
@@ -3132,15 +3111,6 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
     _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
-        if spec.name == "fair-l1-decision":
-            from bedc_quality_lab.fair_l1_decision import build_payload, write_artifacts
-
-            write_artifacts(
-                build_payload(root=tmp_path, generated_at="2026-01-02T03:04:05+00:00"),
-                root=tmp_path,
-                generated_at="2026-01-02T03:04:05+00:00",
-            )
-            return
         if spec.name == "reproduction-package":
             from scripts.run_reproduction_package import write_package
 

@@ -75,8 +75,6 @@ from bedc_quality_lab.discovery_gated_transformer import (
 from bedc_quality_lab import dgt_l0_controls
 from bedc_quality_lab import dgt_l1_boundary_report
 from bedc_quality_lab import dgt_l1_controls
-from bedc_quality_lab import dgt_base_undertraining_audit
-from bedc_quality_lab import fair_l1_decision
 from scripts import run_discovery_gated_transformer as dgt
 
 
@@ -124,15 +122,8 @@ def _write_passed_dgt_l0_controls_artifact(root):
 
 
 def _write_ready_dgt_l1_controls_artifact(root):
-    input_path = root / fair_l1_decision.INPUT_ACCESSIBILITY_ARTIFACT
-    input_path.parent.mkdir(parents=True, exist_ok=True)
-    input_path.write_bytes((fair_l1_decision.LAB_ROOT / fair_l1_decision.INPUT_ACCESSIBILITY_ARTIFACT).read_bytes())
     payload = dgt_l1_controls.build_payload(generated_at="fixture-time", requested_device="cpu")
     dgt_l1_controls.write_artifacts(payload, root=root, generated_at="fixture-time")
-    base_payload = dgt_base_undertraining_audit.build_payload(root=root, generated_at="fixture-time")
-    dgt_base_undertraining_audit.write_artifacts(base_payload, root=root, generated_at="fixture-time")
-    fair_payload = fair_l1_decision.build_payload(root=root, generated_at="fixture-time")
-    fair_l1_decision.write_artifacts(fair_payload, root=root, generated_at="fixture-time")
     return payload
 
 

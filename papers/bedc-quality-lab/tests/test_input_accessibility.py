@@ -1,7 +1,7 @@
 import json
 
-from bedc_quality_lab import dgt_base_undertraining_audit as audit
-from bedc_quality_lab import fair_l1_decision as fair
+from bedc_quality_lab import construct_validity as cv
+from bedc_quality_lab import dgt_l1_controls as l1
 from bedc_quality_lab import input_accessibility as ia
 from scripts import run_input_accessibility_audit as runner
 
@@ -327,7 +327,7 @@ def test_real_callable_audit_builds_canonical_payload():
     assert baseline_rows[0]["information_starved"] is True
 
 
-def test_hand_entered_visibility_facts_cannot_satisfy_fair_baseline_gates(tmp_path):
+def test_hand_entered_visibility_facts_cannot_satisfy_folded_construct_validity_gate():
     payload = ia.build_payload(generated_at="fixture-time")
     baseline = next(
         row
@@ -340,36 +340,26 @@ def test_hand_entered_visibility_facts_cannot_satisfy_fair_baseline_gates(tmp_pa
     payload["visible_variables"][baseline["row_id"]] = list(baseline["required_variables"])
     payload["required_variables"][baseline["row_id"]] = list(baseline["required_variables"])
 
-    base_payload = audit.build_payload(
-        root=fair.LAB_ROOT,
-        generated_at="fixture",
-        input_accessibility_payload=payload,
-        construct_validity_override=audit.construct_validity_assessment(
-            baseline_input_order=2,
-            label_dependency_order=2,
-            second_predecessor_visible=True,
-        ),
+    evidence = l1.construct_validity_evidence(config=l1.L1TrainingConfig())
+    tainted = cv.ConstructValidityEvidence(
+        task_variables=evidence.task_variables,
+        label_variables=evidence.label_variables,
+        arm_input_access=evidence.arm_input_access,
+        arm_roles=evidence.arm_roles,
+        finite_table=evidence.finite_table,
+        hand_feature_ledger={
+            "mode": "manual-entry",
+            "shared_across_arms": False,
+            "features": ["x_minus_1", "x_minus_2"],
+            "candidate_only_features": ["x_minus_2"],
+        },
+        metric_source=evidence.metric_source,
     )
-    assert base_payload["base_undertraining_audit"]["hardgates"]["BASE-UNDER-HG0"]["status"] == "fail-closed"
+    audit = cv.evaluate_construct_validity(tainted)
 
-    for artifact in (
-        fair.DGT_L1_CONTROLS_ARTIFACT,
-        fair.DGT_BASE_UNDERTRAINING_ARTIFACT,
-        fair.INPUT_ACCESSIBILITY_ARTIFACT,
-    ):
-        target = tmp_path / artifact
-        target.parent.mkdir(parents=True, exist_ok=True)
-        source = fair.LAB_ROOT / artifact
-        if artifact == fair.DGT_BASE_UNDERTRAINING_ARTIFACT:
-            target.write_text(json.dumps(base_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-        elif artifact == fair.INPUT_ACCESSIBILITY_ARTIFACT:
-            target.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-        else:
-            target.write_bytes(source.read_bytes())
-
-    fair_payload = fair.build_payload(root=tmp_path, generated_at="fixture")
-    assert fair_payload["hardgates"]["FAIR-L1-HG3"]["status"] == "fail"
-    assert fair_payload["hardgates"]["FAIR-L1-HG7"]["status"] == "fail"
+    assert audit.status == "fail"
+    assert audit.gates["CV-HG4"]["status"] == "fail"
+    assert audit.gates["CV-HG4"]["candidate_only_features"] == ["x_minus_2"]
 
 
 def test_producer_writes_idempotent_artifacts_even_when_gate_fails_closed(tmp_path):
