@@ -1,7 +1,7 @@
 # G2N Integrated A100 Matrix
 
 - status: `ok-scoped`
-- runner: `/mnt/rna01/zwlexa/scratch/lewm_alloc_derisk/runners/g2n_integrated.py`
+- runner: `code/_g2n_integrated_a100.py`, mirrored for the A100 run at `/mnt/rna01/zwlexa/scratch/lewm_alloc_derisk/runners/g2n_integrated.py`
 - scheduler: Slurm `g2n_matrix`, `GPUA100`, one GPU, 80G memory, 160 epochs, batch 256, seed 0
 - accepted row files: `g2n_integrated_a100_H.json`, `g2n_integrated_a100_HP.json`, `g2n_integrated_a100_HR.json`, `g2n_integrated_a100_HRT.json`, `g2n_integrated_a100_HRTO.json`, `g2n_integrated_a100_predonly.json`
 - not carried as evidence: Slurm stdout/stderr and the shuffled-label traceback
