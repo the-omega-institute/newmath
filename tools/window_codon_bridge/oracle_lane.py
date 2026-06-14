@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""NyxID-backed candidate lane for the Window6--codon-Q6 bridge.
+"""Oracle candidate lane for the Window6--codon-Q6 bridge.
 
 Oracle output is only an inbox signal.  It does not update claims,
 experiments, verdicts, or paper status.
@@ -316,6 +316,15 @@ def run_nyxid(prompt: str, transport: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def external_transport_allowed(transport: dict[str, Any]) -> tuple[bool, str]:
+    allow_env = str(transport.get("allow_env") or "").strip()
+    if not allow_env:
+        return False, "transport requires an allow_env setting"
+    if os.environ.get(allow_env) == "1":
+        return True, allow_env
+    return False, f"set {allow_env}=1 to allow NyxID transport"
+
+
 def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
     manifest = load_json(ORACLE_MANIFEST, {})
     if not manifest.get("enabled", False):
@@ -347,28 +356,43 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
         "verdict_update_allowed": False,
         "promotion_rule": "manual_or_deterministic_experiment_only",
     }
+    transport = dict(manifest.get("transport") or {})
     if dry_run:
         record["status"] = "dry_run"
         record["candidate_axes"] = []
         record["data_requests"] = []
         record["tests"] = []
     else:
-        result = run_nyxid(prompt, dict(manifest.get("transport") or {}))
-        payload = first_json_payload(result.get("response_json"))
-        if payload is None:
-            payload = first_json_payload(result.get("response_text"))
-        record.update(
-            {
-                "status": result.get("status"),
-                "service": result.get("service"),
-                "path": result.get("path"),
-                "returncode": result.get("returncode"),
-                "response_tail": response_tail(str(result.get("response_text") or "")),
-                "oracle_json": payload,
-                "error": result.get("error") or "",
-            }
-        )
-        record.update(candidate_fields(payload))
+        allowed, allow_reason = external_transport_allowed(transport)
+        if not allowed:
+            record.update(
+                {
+                    "status": "prompt_ready",
+                    "service": transport.get("service"),
+                    "path": transport.get("path"),
+                    "transport_skipped": allow_reason,
+                    "candidate_axes": [],
+                    "data_requests": [],
+                    "tests": [],
+                }
+            )
+        else:
+            result = run_nyxid(prompt, transport)
+            payload = first_json_payload(result.get("response_json"))
+            if payload is None:
+                payload = first_json_payload(result.get("response_text"))
+            record.update(
+                {
+                    "status": result.get("status"),
+                    "service": result.get("service"),
+                    "path": result.get("path"),
+                    "returncode": result.get("returncode"),
+                    "response_tail": response_tail(str(result.get("response_text") or "")),
+                    "oracle_json": payload,
+                    "error": result.get("error") or "",
+                }
+            )
+            record.update(candidate_fields(payload))
     append_jsonl(INBOX_PATH, record)
     if record.get("status") != "transport_failed":
         write_json(
