@@ -1,46 +1,55 @@
-# BioReality Oracle bridge
+# BioReality Oracle transport
 
-Independent ChatGPT bridge for the BioReality pipeline, distinct from
-the BEDC oracle. Same architecture as BEDC, fork-namespaced so the two
-oracles run side by side without collision.
+BioReality oracle consultations are driven by `tools/bio_reality/oracle/oracle_client.py`.
+The client accepts two transport forms:
 
-## Components
+- `nyxid://<service>[/path-prefix]` routes requests through `nyxid proxy request`.
+- `http://127.0.0.1:8769` uses the legacy local bridge server.
 
-- bio_reality_oracle_server.py: local HTTP server on :8769
-- bio_reality_oracle_macos.user.js: Tampermonkey userscript for
-  ChatGPT.com tabs (Chrome / Firefox / Safari with Tampermonkey)
-- oracle_client.py: stdlib Python HTTP client the daemon uses
-
-## Installation
-
-1. Open Chrome (the user account you reserved for BioReality)
-2. Tampermonkey -> Create a new script
-3. Paste contents of bio_reality_oracle_macos.user.js
-4. Save
-5. Navigate to https://chatgpt.com/g/g-p-.../哥本哈根之路/project (or any
-   chatgpt.com URL)
-6. The BioReality oracle panel appears top-right with [bio] prefix
-7. Click ACTIVATE on each tab you want to use as a worker
-
-## Start the local server
+The tracked `pipeline_config.json` leaves oracle integration disabled by default.
+For a local daemon, enable it through environment variables so the account-specific
+nyxid service name is not committed:
 
 ```bash
-python3 tools/bio_reality/oracle/bio_reality_oracle_server.py
+BIO_REALITY_ORACLE_ENABLED=1 \
+BIO_REALITY_ORACLE_BIO_G_ENABLED=1 \
+BIO_REALITY_ORACLE_BIO_PLAN_ENABLED=1 \
+BIO_REALITY_ORACLE_SERVER_URL='nyxid://<service>[/path-prefix]' \
+python3 tools/bio_reality/supervisor.py --interval-seconds 300 --max-dispatch 3
 ```
+
+Do not pass `--plan-only` when the `bio-R` lane should execute Codex agent tasks.
+That flag is a dry-run mode: it plans agent tasks and records `planned_only`
+dispatch results without invoking `codex exec`.
 
 ## Health check
 
 ```bash
-python3 tools/bio_reality/oracle/oracle_client.py --health-check
+python3 tools/bio_reality/oracle/oracle_client.py \
+  --server-url 'nyxid://<service>[/path-prefix]' \
+  --health-check
 ```
+
+If this reports `nyxid_login_required`, refresh the local nyxid session with
+`nyxid login`.
 
 ## Send a query
 
 ```bash
-python3 tools/bio_reality/oracle/oracle_client.py --query "..." --intended-claim h0.M.equals.WNR.CUN
+python3 tools/bio_reality/oracle/oracle_client.py \
+  --server-url 'nyxid://<service>[/path-prefix]' \
+  --query "..." \
+  --intended-claim h0.M.equals.WNR.CUN
 ```
 
-## Parallel tabs
+## Legacy local bridge
 
-Open multiple chatgpt.com tabs, ACTIVATE each via panel. Server
-dispatches one task per active tab in round-robin.
+The old local HTTP bridge remains available for compatibility:
+
+```bash
+python3 tools/bio_reality/oracle/bio_reality_oracle_server.py
+python3 tools/bio_reality/oracle/oracle_client.py --health-check
+```
+
+That bridge depends on `bio_reality_oracle_macos.user.js` in an active ChatGPT tab.
+The nyxid transport does not use that userscript.
