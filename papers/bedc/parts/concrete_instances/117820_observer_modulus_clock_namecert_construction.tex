@@ -48,6 +48,18 @@ The real seal $R$ is available only after the local time stream, observer select
 Finally, $H,C,P,N$ preserve and name exactly these rows. Since no global clock, synchronized Hist stream, hidden convergence oracle, host equality, or ambient completeness coordinate appears in the carrier, the listed obligations exhaust the certificate surface.
 \end{proof}
 
+\begin{theorem}[Observer modulus clock sibling route]
+\label{thm:observer-modulus-clock-sibling-route}
+Every accepted $\ObserverModulusClockUp$ read consumes the sibling rows of \autoref{ch:concrete-instances-histtimestream-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-cauchymodulus-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} before the observer-selection and temporal-rate rows can be read.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $O=(L,S,M,Q,R,A,H,C,P,N)$. The carrier of \autoref{def:observer-modulus-clock-carrier} displays $L$ as the local Hist time stream, $S$ as the finite StreamName window, $M$ as the CauchyModulus threshold, $Q$ as the RegSeqRat readback, and $R$ as the terminal Real seal.
+
+Apply the obligation surface of \autoref{thm:observer-modulus-clock-namecert-obligations}. Its local-time, stream-window, modulus-rate, and real-seal clauses force those sibling rows to be read before $A$ may select the observer route or before $M$ may be interpreted as a temporal rate.
+
+The remaining rows $H,C,P,N$ transport, replay, source, and name the same route. Since no global clock, hidden convergence oracle, selected limit, quotient stream equality, host real equality, or ambient completeness coordinate occurs in $O$, the accepted read cannot bypass the five sibling chapters listed in the statement.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\ObserverModulusClockUp$ read is refuted if a $\RealUp$ seal or $\RegSeqRatUp$ readback is reached without displaying the local $\HistTimeStreamUp$ row, observer-selection row, $\StreamNameUp$ finite window, $\CauchyModulusUp$ threshold, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.}
 
 \independenceWitness{histtimestream, streamname, cauchymodulus, regseqrat, real: no listed sibling is bijective with $\ObserverModulusClockUp$ because this packet alone binds a local Hist time stream, observer selection, finite stream window, modulus-as-rate threshold, regular readback, Real seal, transport, replay, provenance, and local naming as one temporal-rate carrier.}
