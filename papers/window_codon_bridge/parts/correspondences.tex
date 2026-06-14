@@ -45,6 +45,8 @@ Neutral Hamming Adjacency & The standard code's per-codon Hamming-1 neutral-neig
 Fold Order Parameter Usage & The fold order parameter m\_bio = P\_bulk - P\_seam computed from real multi-organism codon usage carries an independent (non-GC) cross-organism signal. & \texttt{coincidence} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.neutral_trna_edge_coupling status=coincidence
 Neutral Trna Edge Coupling & The certified Window6 edge score modulates the tRNA supply-demand alignment on synonymous Hamming-1 edges (usage-edge-gradient \textasciitilde{} tRNA-edge-gradient x Window6-edge-score, interaction beta\_bridge), beyond GC/f3 and edge-permutation nulls, with held-out-species predictive lift. & \texttt{coincidence} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.twolayer_fold_edge_hiding_extremality status=certified
+Twolayer Fold Edge Hiding Extremality & The contravariant edge-hiding extremality iterates across the genetic code's two-layer fold: the first-two-base box partition (64->16) is the EXACT maximum-edge-hiding partition for its size-4x16 block profile (tau\_box=1.0), and the family layer (64->21) is near-maximal (tau\_family=0.958), both in the extreme upper tail of a same-block-size null; Window6 Fold6 sits at the opposite extreme (tau=0). Restricted to iterated edge-hiding extremality; NOT isomorphism or biological forcing. & \texttt{certified} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -333,3 +335,19 @@ beta\_bridge), beyond GC/f3 and edge-permutation nulls, with held-out-species pr
 beta\_bridge=0.031 fails CV + all 3 nulls.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_claim20\_per\_species\_trna\_edge\_coupling.py
+
+\subsection{Twolayer Fold Edge Hiding Extremality}\label{sec:bridge-twolayer-fold-edge-hiding-extremality}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.twolayer_fold_edge_hiding_extremality status=certified
+\textbf{Statement.} The contravariant edge-hiding extremality iterates across the genetic code's two-layer fold: the
+first-two-base box partition (64->16) is the EXACT maximum-edge-hiding partition for its size-4x16
+block profile (tau\_box=1.0), and the family layer (64->21) is near-maximal (tau\_family=0.958),
+both in the extreme upper tail of a same-block-size null; Window6 Fold6 sits at the opposite extreme
+(tau=0). Restricted to iterated edge-hiding extremality; NOT isomorphism or biological forcing.
+
+\textbf{Verdict.} \texttt{certified}.
+
+\textbf{Why.} Statement is restricted to iteration of two edge-hiding extremes: the first-two-base box layer
+attains the exact size-4x16 maximum, and the family layer is within three edges of the exact
+family-profile maximum while lying in the extreme upper tail of the same-size null.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_twolayer\_fold\_extremality.py
