@@ -322,6 +322,271 @@ def _fair_baseline_summary(records: Sequence[Mapping[str, Any]], *, device_polic
     return summary
 
 
+def _fair_baseline_config(l1: Any, seeds: Sequence[int], epoch_count: int) -> Any:
+    return l1.L1TrainingConfig(
+        seeds=tuple(int(seed) for seed in seeds),
+        training_steps=int(epoch_count),
+        step_grid=(int(epoch_count),),
+    )
+
+
+def _cyclic_batch(torch: Any, x_train: Any, y_train: Any, *, start: int, batch_size: int) -> tuple[Any, Any]:
+    end = min(start + batch_size, len(x_train))
+    if end - start < batch_size:
+        remainder = batch_size - (end - start)
+        return (
+            torch.cat([x_train[start:end], x_train[:remainder]], dim=0),
+            torch.cat([y_train[start:end], y_train[:remainder]], dim=0),
+        )
+    return x_train[start:end], y_train[start:end]
+
+
+def _fit_fair_baseline_model(
+    *,
+    torch: Any,
+    l1: Any,
+    model: Any,
+    x_train: Any,
+    y_train: Any,
+    config: Any,
+    epoch_count: int,
+    seed: int,
+    progress: bool,
+) -> list[float]:
+    optimizer = torch.optim.Adam(model.parameters(), lr=l1.LEARNING_RATE)
+    loss_history: list[float] = []
+    for epoch in range(int(epoch_count)):
+        start = (epoch * config.batch_size) % config.train_examples
+        xb, yb = _cyclic_batch(torch, x_train, y_train, start=start, batch_size=config.batch_size)
+        optimizer.zero_grad(set_to_none=True)
+        logits = model(xb)
+        loss = torch.nn.functional.cross_entropy(logits, yb)
+        loss.backward()
+        optimizer.step()
+        loss_value = float(loss.detach().cpu())
+        loss_history.append(loss_value)
+        if progress:
+            print(
+                "non-starved fair baseline "
+                f"seed={seed} epoch={epoch + 1}/{epoch_count} "
+                f"train_loss={loss_value:.6f}",
+                flush=True,
+            )
+    return loss_history
+
+
+def _evaluate_fair_baseline_model(
+    *,
+    torch: Any,
+    model: Any,
+    x_eval: Any,
+    y_eval: Any,
+    x_ood: Any,
+    y_ood: Any,
+    vocab_size: int,
+) -> dict[str, float]:
+    with torch.no_grad():
+        eval_logits = model(x_eval)
+        ood_logits = model(x_ood)
+        validation_loss = float(torch.nn.functional.cross_entropy(eval_logits, y_eval).detach().cpu())
+        probabilities = torch.softmax(eval_logits, dim=1)
+        preds = torch.argmax(eval_logits, dim=1)
+        ood_preds = torch.argmax(ood_logits, dim=1)
+        accuracy = float((preds == y_eval).to(torch.float32).mean().detach().cpu())
+        ood_accuracy = float((ood_preds == y_ood).to(torch.float32).mean().detach().cpu())
+        confidence = float(probabilities.max(dim=1).values.mean().detach().cpu())
+    chance = 1.0 / vocab_size
+    return {
+        "accuracy": accuracy,
+        "ood_accuracy": ood_accuracy,
+        "validation_loss": validation_loss,
+        "confidence": confidence,
+        "chance": chance,
+    }
+
+
+def _fair_baseline_datasets(*, l1: Any, torch: Any, seed: int, task_spec: Any, device_name: str) -> dict[str, Any]:
+    x_train, y_train = l1._make_sequences(
+        torch,
+        seed=int(seed),
+        examples=task_spec.train_examples,
+        spec=task_spec,
+        device_name=device_name,
+    )
+    x_eval, y_eval = l1._make_sequences(
+        torch,
+        seed=int(seed) + 31,
+        examples=task_spec.eval_examples,
+        spec=task_spec,
+        device_name=device_name,
+        split="heldout",
+    )
+    x_ood, y_ood = l1._make_sequences(
+        torch,
+        seed=int(seed) + 59,
+        examples=task_spec.eval_examples,
+        spec=task_spec,
+        device_name=device_name,
+        ood=True,
+        split="heldout",
+    )
+    return {
+        "x_train": x_train,
+        "y_train": y_train,
+        "x_eval": x_eval,
+        "y_eval": y_eval,
+        "x_ood": x_ood,
+        "y_ood": y_ood,
+    }
+
+
+def _parameter_l2_delta(torch: Any, *, before: Any, after: Any) -> float:
+    delta = float(torch.linalg.vector_norm(after - before).item())
+    if not math.isfinite(delta) or delta <= 0.0:
+        raise RuntimeError(f"no parameter update evidence for {FAIR_BASELINE_ARM_ID}")
+    return delta
+
+
+def _fair_baseline_row(
+    *,
+    seed: int,
+    requested_device: str,
+    device_name: str,
+    epoch_count: int,
+    config: Any,
+    learning_rate: float,
+    parameter_count: int,
+    delta: float,
+    loss_history: Sequence[float],
+    eval_metrics: Mapping[str, float],
+    record_index: int,
+) -> dict[str, Any]:
+    accuracy = float(eval_metrics["accuracy"])
+    chance = float(eval_metrics["chance"])
+    compute_units = round(float(int(epoch_count) * config.batch_size * parameter_count) / 1_000_000.0, 6)
+    row = {
+        "arm_id": FAIR_BASELINE_ARM_ID,
+        "model_source_arm_id": FAIR_BASELINE_MODEL_ARM_ID,
+        "model_family": "non-starved parameter-matched attention fair baseline",
+        "parameter_count": parameter_count,
+        "compute_units": compute_units,
+        "device_requested": requested_device,
+        "device_resolved": device_name,
+        "training_steps": int(epoch_count),
+        "seed": int(seed),
+        "metrics": {
+            "accuracy": round(accuracy, 6),
+            "ood_accuracy": round(float(eval_metrics["ood_accuracy"]), 6),
+            "chance_accuracy": round(chance, 6),
+            "validation_loss": round(float(eval_metrics["validation_loss"]), 8),
+            "loss_start": round(float(loss_history[0]), 8),
+            "loss_end": round(float(loss_history[-1]), 8),
+            "loss_decrease": round(float(loss_history[0]) - float(loss_history[-1]), 8),
+            "UER": round(max(0.0, 1.0 - accuracy), 6),
+            "parameter_l2_delta": round(delta, 8),
+            "confidence": round(float(eval_metrics["confidence"]), 6),
+            "positive_margin_over_chance": round(accuracy - chance, 6),
+        },
+    }
+    row["model_source_arm_id"] = FAIR_BASELINE_MODEL_ARM_ID
+    row["role"] = "fair_baseline"
+    row["epoch_count"] = int(epoch_count)
+    row["train_examples"] = int(config.train_examples)
+    row["eval_examples"] = int(config.eval_examples)
+    row["batch_size"] = int(config.batch_size)
+    row["learning_rate"] = float(learning_rate)
+    row["input_visibility"] = {
+        "visible_variables": ["x_minus_1", "x_minus_2", "full_sequence"],
+        "required_variables": ["x_minus_1", "x_minus_2"],
+        "missing_variables": [],
+        "information_starved": False,
+    }
+    row["run_artifact_ref"] = f"{FAIR_BASELINE_METRICS_ARTIFACT}:$.lines[{record_index}]"
+    return row
+
+
+def _train_fair_baseline_seed(
+    *,
+    l1: Any,
+    torch: Any,
+    seed: int,
+    config: Any,
+    task_spec: Any,
+    device_name: str,
+    requested_device: str,
+    epoch_count: int,
+    record_index: int,
+    progress: bool,
+) -> dict[str, Any]:
+    l1._seed_all_rngs(torch, int(seed) + l1.ARM_IDS.index(FAIR_BASELINE_MODEL_ARM_ID) * 997)
+    model = l1._TinySequenceModel(
+        torch,
+        arm_id=FAIR_BASELINE_MODEL_ARM_ID,
+        vocab_size=task_spec.vocab_size,
+        device_name=device_name,
+    )
+    before = l1._snapshot(torch, model)
+    datasets = _fair_baseline_datasets(l1=l1, torch=torch, seed=int(seed), task_spec=task_spec, device_name=device_name)
+    loss_history = _fit_fair_baseline_model(
+        torch=torch,
+        l1=l1,
+        model=model,
+        x_train=datasets["x_train"],
+        y_train=datasets["y_train"],
+        config=config,
+        epoch_count=epoch_count,
+        seed=int(seed),
+        progress=progress,
+    )
+    after = l1._snapshot(torch, model)
+    delta = _parameter_l2_delta(torch, before=before, after=after)
+    if not loss_history or not math.isfinite(loss_history[-1]):
+        raise RuntimeError(f"invalid loss history for {FAIR_BASELINE_ARM_ID}")
+    parameter_count = int(sum(parameter.numel() for parameter in model.parameters()))
+    eval_metrics = _evaluate_fair_baseline_model(
+        torch=torch,
+        model=model,
+        x_eval=datasets["x_eval"],
+        y_eval=datasets["y_eval"],
+        x_ood=datasets["x_ood"],
+        y_ood=datasets["y_ood"],
+        vocab_size=task_spec.vocab_size,
+    )
+    row = _fair_baseline_row(
+        seed=int(seed),
+        requested_device=requested_device,
+        device_name=device_name,
+        epoch_count=epoch_count,
+        config=config,
+        learning_rate=float(l1.LEARNING_RATE),
+        parameter_count=parameter_count,
+        delta=delta,
+        loss_history=loss_history,
+        eval_metrics=eval_metrics,
+        record_index=record_index,
+    )
+    if progress:
+        metrics = row["metrics"]
+        print(
+            "non-starved fair baseline "
+            f"seed={seed} epoch={epoch_count} "
+            f"loss_start={metrics['loss_start']:.6f} "
+            f"loss_end={metrics['loss_end']:.6f} "
+            f"loss_decrease={metrics['loss_decrease']:.6f} "
+            f"accuracy={metrics['accuracy']:.6f}",
+            flush=True,
+        )
+    return row
+
+
+def _write_fair_baseline_artifacts(root: Path, *, records: Sequence[Mapping[str, Any]], summary: Mapping[str, Any]) -> None:
+    metrics_path = root / FAIR_BASELINE_METRICS_ARTIFACT
+    summary_path = root / FAIR_BASELINE_SUMMARY_ARTIFACT
+    metrics_path.parent.mkdir(parents=True, exist_ok=True)
+    metrics_path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in records), encoding="utf-8")
+    _write_json(summary_path, summary)
+
+
 def train_non_starved_fair_baseline(
     *,
     root: Path,
@@ -335,143 +600,26 @@ def train_non_starved_fair_baseline(
     torch = importlib.import_module("torch")
     device_resolution = choose_device(requested_device)
     device_name = device_resolution.resolved_device
-    config = l1.L1TrainingConfig(seeds=tuple(int(seed) for seed in seeds), training_steps=int(epoch_count), step_grid=(int(epoch_count),))
+    config = _fair_baseline_config(l1, seeds, epoch_count)
     task_spec = l1.default_task_spec(config)
-    records: list[dict[str, Any]] = []
-    for seed in config.seeds:
-        l1._seed_all_rngs(torch, int(seed) + l1.ARM_IDS.index(FAIR_BASELINE_MODEL_ARM_ID) * 997)
-        model = l1._TinySequenceModel(
-            torch,
-            arm_id=FAIR_BASELINE_MODEL_ARM_ID,
-            vocab_size=task_spec.vocab_size,
-            device_name=device_name,
-        )
-        before = l1._snapshot(torch, model)
-        x_train, y_train = l1._make_sequences(
-            torch,
+    records = [
+        _train_fair_baseline_seed(
+            l1=l1,
+            torch=torch,
             seed=int(seed),
-            examples=task_spec.train_examples,
-            spec=task_spec,
+            config=config,
+            task_spec=task_spec,
             device_name=device_name,
+            requested_device=requested_device,
+            epoch_count=int(epoch_count),
+            record_index=index,
+            progress=progress,
         )
-        x_eval, y_eval = l1._make_sequences(
-            torch,
-            seed=int(seed) + 31,
-            examples=task_spec.eval_examples,
-            spec=task_spec,
-            device_name=device_name,
-            split="heldout",
-        )
-        x_ood, y_ood = l1._make_sequences(
-            torch,
-            seed=int(seed) + 59,
-            examples=task_spec.eval_examples,
-            spec=task_spec,
-            device_name=device_name,
-            ood=True,
-            split="heldout",
-        )
-        optimizer = torch.optim.Adam(model.parameters(), lr=l1.LEARNING_RATE)
-        loss_history: list[float] = []
-        for epoch in range(int(epoch_count)):
-            start = (epoch * config.batch_size) % task_spec.train_examples
-            end = min(start + config.batch_size, task_spec.train_examples)
-            if end - start < config.batch_size:
-                xb = torch.cat([x_train[start:end], x_train[: config.batch_size - (end - start)]], dim=0)
-                yb = torch.cat([y_train[start:end], y_train[: config.batch_size - (end - start)]], dim=0)
-            else:
-                xb = x_train[start:end]
-                yb = y_train[start:end]
-            optimizer.zero_grad(set_to_none=True)
-            logits = model(xb)
-            loss = torch.nn.functional.cross_entropy(logits, yb)
-            loss.backward()
-            optimizer.step()
-            loss_value = float(loss.detach().cpu())
-            loss_history.append(loss_value)
-            if progress:
-                print(
-                    "non-starved fair baseline "
-                    f"seed={seed} epoch={epoch + 1}/{epoch_count} "
-                    f"train_loss={loss_value:.6f}",
-                    flush=True,
-                )
-        after = l1._snapshot(torch, model)
-        with torch.no_grad():
-            eval_logits = model(x_eval)
-            ood_logits = model(x_ood)
-            validation_loss = float(torch.nn.functional.cross_entropy(eval_logits, y_eval).detach().cpu())
-            probabilities = torch.softmax(eval_logits, dim=1)
-            preds = torch.argmax(eval_logits, dim=1)
-            ood_preds = torch.argmax(ood_logits, dim=1)
-            accuracy = float((preds == y_eval).to(torch.float32).mean().detach().cpu())
-            ood_accuracy = float((ood_preds == y_ood).to(torch.float32).mean().detach().cpu())
-            confidence = float(probabilities.max(dim=1).values.mean().detach().cpu())
-        delta = float(torch.linalg.vector_norm(after - before).item())
-        if not math.isfinite(delta) or delta <= 0.0:
-            raise RuntimeError(f"no parameter update evidence for {FAIR_BASELINE_ARM_ID}")
-        if not loss_history or not math.isfinite(loss_history[-1]):
-            raise RuntimeError(f"invalid loss history for {FAIR_BASELINE_ARM_ID}")
-        parameter_count = int(sum(parameter.numel() for parameter in model.parameters()))
-        compute_units = round(float(int(epoch_count) * config.batch_size * parameter_count) / 1_000_000.0, 6)
-        chance = 1.0 / task_spec.vocab_size
-        row = {
-            "arm_id": FAIR_BASELINE_ARM_ID,
-            "model_source_arm_id": FAIR_BASELINE_MODEL_ARM_ID,
-            "model_family": "non-starved parameter-matched attention fair baseline",
-            "parameter_count": parameter_count,
-            "compute_units": compute_units,
-            "device_requested": requested_device,
-            "device_resolved": device_name,
-            "training_steps": int(epoch_count),
-            "seed": int(seed),
-            "metrics": {
-                "accuracy": round(accuracy, 6),
-                "ood_accuracy": round(ood_accuracy, 6),
-                "chance_accuracy": round(chance, 6),
-                "validation_loss": round(validation_loss, 8),
-                "loss_start": round(loss_history[0], 8),
-                "loss_end": round(loss_history[-1], 8),
-                "loss_decrease": round(loss_history[0] - loss_history[-1], 8),
-                "UER": round(max(0.0, 1.0 - accuracy), 6),
-                "parameter_l2_delta": round(delta, 8),
-                "confidence": round(confidence, 6),
-                "positive_margin_over_chance": round(accuracy - chance, 6),
-            },
-        }
-        row["model_source_arm_id"] = FAIR_BASELINE_MODEL_ARM_ID
-        row["role"] = "fair_baseline"
-        row["epoch_count"] = int(epoch_count)
-        row["train_examples"] = int(config.train_examples)
-        row["eval_examples"] = int(config.eval_examples)
-        row["batch_size"] = int(config.batch_size)
-        row["learning_rate"] = float(l1.LEARNING_RATE)
-        row["input_visibility"] = {
-            "visible_variables": ["x_minus_1", "x_minus_2", "full_sequence"],
-            "required_variables": ["x_minus_1", "x_minus_2"],
-            "missing_variables": [],
-            "information_starved": False,
-        }
-        row["run_artifact_ref"] = f"{FAIR_BASELINE_METRICS_ARTIFACT}:$.lines[{len(records)}]"
-        records.append(row)
-        if progress:
-            metrics = row["metrics"]
-            print(
-                "non-starved fair baseline "
-                f"seed={seed} epoch={epoch_count} "
-                f"loss_start={metrics['loss_start']:.6f} "
-                f"loss_end={metrics['loss_end']:.6f} "
-                f"loss_decrease={metrics['loss_decrease']:.6f} "
-                f"accuracy={metrics['accuracy']:.6f}",
-                flush=True,
-            )
+        for index, seed in enumerate(config.seeds)
+    ]
     summary = _fair_baseline_summary(records, device_policy=device_resolution.to_dict())
     summary["generated_at"] = generated_at
-    metrics_path = root / FAIR_BASELINE_METRICS_ARTIFACT
-    summary_path = root / FAIR_BASELINE_SUMMARY_ARTIFACT
-    metrics_path.parent.mkdir(parents=True, exist_ok=True)
-    metrics_path.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in records), encoding="utf-8")
-    _write_json(summary_path, summary)
+    _write_fair_baseline_artifacts(root, records=records, summary=summary)
     return summary
 
 

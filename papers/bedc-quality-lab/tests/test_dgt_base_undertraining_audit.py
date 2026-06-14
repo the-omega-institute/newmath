@@ -1,3 +1,4 @@
+import importlib.util
 import json
 from pathlib import Path
 
@@ -28,6 +29,16 @@ def _audit(payload):
 
 def _rows(payload):
     return {row["comparison_id"]: row for row in _audit(payload)["comparison_rows"]}
+
+
+def _load_audit_script():
+    script_path = ROOT / "scripts/run_dgt_base_undertraining_audit.py"
+    spec = importlib.util.spec_from_file_location("run_dgt_base_undertraining_audit_test", script_path)
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def _copy_l1(tmp_path):
@@ -130,6 +141,119 @@ def _owner_valid_input_accessibility_payload():
         if not pointer.endswith("#row_id=6001d70d815f574b")
     ]
     return payload
+
+
+def test_train_non_starved_fair_baseline_runs_training_and_writes_artifacts(tmp_path):
+    summary = audit.train_non_starved_fair_baseline(
+        root=tmp_path,
+        requested_device="cpu",
+        seeds=(1174,),
+        epoch_count=5,
+        generated_at="fixture",
+        progress=False,
+    )
+    metrics_path = tmp_path / audit.FAIR_BASELINE_METRICS_ARTIFACT
+    summary_path = tmp_path / audit.FAIR_BASELINE_SUMMARY_ARTIFACT
+    records = [json.loads(line) for line in metrics_path.read_text(encoding="utf-8").splitlines()]
+    written_summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    row = records[0]
+
+    assert len(records) == 1
+    assert written_summary == summary
+    assert summary["arm_id"] == audit.FAIR_BASELINE_ARM_ID
+    assert summary["status"] == "pass"
+    assert summary["record_count"] == 1
+    assert summary["seed_count"] == 1
+    assert summary["training_config"]["seeds"] == [1174]
+    assert summary["training_config"]["epoch_count"] == 5
+    assert summary["training_config"]["device_policy"]["requested_device"] == "cpu"
+    assert summary["training_config"]["device_policy"]["resolved_device"] == "cpu"
+    assert summary["input_visibility"]["visible_variables"] == ["x_minus_1", "x_minus_2", "full_sequence"]
+    assert summary["input_visibility"]["information_starved"] is False
+    assert summary["metrics"]["parameter_l2_delta_mean"] > 0.0
+    assert summary["metrics"]["loss_decrease_mean"] > 0.0
+    assert summary["metrics"]["loss_start_mean"] > summary["metrics"]["loss_end_mean"]
+    assert summary["raw_record_pointers"] == [f"{audit.FAIR_BASELINE_METRICS_ARTIFACT}:$.lines[0]"]
+
+    assert row["arm_id"] == audit.FAIR_BASELINE_ARM_ID
+    assert row["model_source_arm_id"] == audit.FAIR_BASELINE_MODEL_ARM_ID
+    assert row["input_visibility"]["visible_variables"] == ["x_minus_1", "x_minus_2", "full_sequence"]
+    assert row["input_visibility"]["information_starved"] is False
+    assert row["metrics"]["parameter_l2_delta"] > 0.0
+    assert row["metrics"]["loss_decrease"] > 0.0
+    assert row["metrics"]["loss_start"] > row["metrics"]["loss_end"]
+    assert row["run_artifact_ref"] == f"{audit.FAIR_BASELINE_METRICS_ARTIFACT}:$.lines[0]"
+
+
+def test_cli_trains_fair_baseline_before_writing_audit(monkeypatch, tmp_path, capsys):
+    script = _load_audit_script()
+    calls = []
+    fair_summary = {
+        "seed_count": 2,
+        "training_config": {"seeds": [101, 102], "epoch_count": 3},
+        "metrics": {
+            "accuracy_mean": 0.25,
+            "loss_start_mean": 2.0,
+            "loss_end_mean": 1.5,
+            "loss_decrease_mean": 0.5,
+            "validation_loss_mean": 1.25,
+        },
+    }
+    payload = {
+        "base_undertraining_audit": {
+            "artifact_id": "bedc-quality-lab:dgt-base-undertraining-audit",
+            "verdict": "noninformative-separation",
+            "claim_action": "record_noninformative_rows",
+            "comparison_rows": [{"comparison_id": "equal_validation_loss"}],
+        }
+    }
+
+    def train_stub(**kwargs):
+        calls.append(("train", kwargs))
+        return fair_summary
+
+    def build_stub(**kwargs):
+        calls.append(("build", kwargs))
+        return payload
+
+    def write_stub(payload_arg, **kwargs):
+        calls.append(("write", payload_arg, kwargs))
+
+    monkeypatch.setattr(script, "FAIR_BASELINE_SEEDS", (101, 102))
+    monkeypatch.setattr(script, "FAIR_BASELINE_EPOCHS", 3)
+    monkeypatch.setattr(script, "train_non_starved_fair_baseline", train_stub)
+    monkeypatch.setattr(script, "build_payload", build_stub)
+    monkeypatch.setattr(script, "write_artifacts", write_stub)
+
+    assert script.main(["--root", str(tmp_path), "--generated-at", "fixture", "--device", "cpu"]) == 0
+    output = json.loads(capsys.readouterr().out)
+
+    assert [call[0] for call in calls] == ["train", "build", "write"]
+    assert calls[0][1] == {
+        "root": tmp_path,
+        "requested_device": "cpu",
+        "seeds": (101, 102),
+        "epoch_count": 3,
+        "generated_at": "fixture",
+        "progress": True,
+    }
+    assert calls[1][1] == {"root": tmp_path, "generated_at": "fixture"}
+    assert calls[2][1] == payload
+    assert calls[2][2] == {"root": tmp_path, "generated_at": "fixture"}
+    assert output["artifact_id"] == payload["base_undertraining_audit"]["artifact_id"]
+    assert output["verdict"] == "noninformative-separation"
+    assert output["claim_action"] == "record_noninformative_rows"
+    assert output["comparison_count"] == 1
+    assert output["fair_baseline"] == {
+        "seed_count": 2,
+        "seeds": [101, 102],
+        "epoch_count": 3,
+        "accuracy_mean": 0.25,
+        "loss_start_mean": 2.0,
+        "loss_end_mean": 1.5,
+        "loss_decrease_mean": 0.5,
+        "validation_loss_mean": 1.25,
+    }
 
 
 def test_base_undertraining_audit_records_non_starved_fair_baseline_for_current_l1_evidence():
