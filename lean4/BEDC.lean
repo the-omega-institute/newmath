@@ -5369,6 +5369,7 @@ import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.FrobeniusCoinUp.TasteGate
 import BEDC.Derived.FubiniFiniteRectangleUp.NameCertObligations
 import BEDC.Derived.FubiniFiniteRectangleUp.TasteGate
+import BEDC.Derived.FuchsianGroupActionUp
 import BEDC.Derived.FuelBoundedPartialTraceUp.TasteGate
 import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
@@ -8757,6 +8758,7 @@ import BEDC.Derived.RegularCauchyAverageUp
 import BEDC.Derived.RegularCauchyAverageUp.TasteGate
 import BEDC.Derived.RegularCauchyBallUp.TasteGate
 import BEDC.Derived.RegularCauchyBinaryInterleavingUp.TasteGate
+import BEDC.Derived.RegularCauchyBishopLimitUp
 import BEDC.Derived.RegularCauchyCancellationUp.TasteGate
 import BEDC.Derived.RegularCauchyCanonicalModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyCategoryUp.TasteGate
