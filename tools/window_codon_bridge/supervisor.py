@@ -16,6 +16,7 @@ Stop sentinel: tools/window_codon_bridge/.stop
 """
 from __future__ import annotations
 import argparse, json, os, subprocess, sys, tempfile, time
+import fcntl
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent           # tools/window_codon_bridge
@@ -26,6 +27,8 @@ SYNC_MANIFEST = SCRIPT_DIR / "registries" / "sync_manifest.json"
 SYNCED_DIR = SCRIPT_DIR / "synced"
 LEDGER = REPO_ROOT / "papers" / "window_codon_bridge" / "bridge_ledger.jsonl"
 STOP = SCRIPT_DIR / ".stop"
+STATE_DIR = SCRIPT_DIR / "state"
+LOCK = STATE_DIR / "supervisor.lock"
 DEFAULT_INTERVAL = 600.0
 
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -217,16 +220,25 @@ def main():
     ap.add_argument("--interval-seconds", type=float, default=DEFAULT_INTERVAL)
     ap.add_argument("--no-commit", action="store_true")
     args = ap.parse_args()
-    while not should_stop():
-        sync = sync_lane()
-        summary = run_cycle()
-        paper = paper_lane()
-        keep = {} if args.no_commit else keep_lane()
-        publish = {} if args.no_commit else publish_lane()
-        print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} paper={paper} keep={keep} publish={publish}", flush=True)
-        if args.once:
-            break
-        time.sleep(max(1.0, float(args.interval_seconds)))
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    with LOCK.open("w", encoding="utf-8") as lock_fh:
+        try:
+            fcntl.flock(lock_fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            print("[supervisor] another window-codon bridge supervisor is running", flush=True)
+            return
+        lock_fh.write(str(os.getpid()))
+        lock_fh.flush()
+        while not should_stop():
+            sync = sync_lane()
+            summary = run_cycle()
+            paper = paper_lane()
+            keep = {} if args.no_commit else keep_lane()
+            publish = {} if args.no_commit else publish_lane()
+            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} paper={paper} keep={keep} publish={publish}", flush=True)
+            if args.once:
+                break
+            time.sleep(max(1.0, float(args.interval_seconds)))
 
 
 if __name__ == "__main__":
