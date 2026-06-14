@@ -6524,6 +6524,7 @@ import BEDC.Derived.MarkovChainUp.TransitionPacketScope
 import BEDC.Derived.MarkovPrincipleBoundaryUp
 import BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
 import BEDC.Derived.MartingaleConvergenceUp.TasteGate
+import BEDC.Derived.MartingaleStoppingConvergenceUp
 import BEDC.Derived.MartingaleUp
 import BEDC.Derived.MaschkeTheoremUp
 import BEDC.Derived.MaschkeTheoremUp.TasteGate
