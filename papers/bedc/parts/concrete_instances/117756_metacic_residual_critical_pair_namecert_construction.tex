@@ -58,6 +58,30 @@ Read the closed-checker and obstruction rows next. The row $D$ confines the cons
 The structural rows $T,R,V,H,C,G,N$ then preserve the same route for the critical-path, normalization-frontier, parallel-diamond, confluence-audit, and normal-form-seal consumers. The handoff is therefore residual-critical-pair evidence with a visible obstruction boundary, not a confluence theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual critical-pair obstruction preservation]
+\label{thm:metacic-residual-critical-pair-obstruction-preservation}
+Let $K=(S,P,J,D,O,T,R,V,H,C,G,N)$ be an accepted $\MetaCICResidualCriticalPairUp$ packet. Any handoff from $K$ to a confluence-facing consumer preserves the obstruction row $O$ until residual-substitution compatibility and parallel-diamond inputs are displayed through the same residual-critical-pair route. In particular, the rows $S,P,J,D,T,R,V,H,C,G,N$ may transport and replay the local peak and candidate join, but they cannot erase $O$ or convert the packet into a global confluence export.
+\end{theorem}
+\begin{proof}
+Begin with the frontier handoff of \autoref{thm:metacic-residual-critical-pair-frontier-handoff}. It exports the route $S,P,J,D,O,T,R,V,H,C,G,N$ with the obstruction boundary still visible.
+
+The residual-substitution row $S$, local peak row $P$, and candidate join row $J$ expose only the local critical-pair data. They do not contain the missing residual-substitution compatibility or parallel-diamond input named by $O$.
+
+The closed-checker row $D$ then restricts the admissible fragment, while $T,R,V,H,C,G,N$ preserve, replay, anchor, hand off, source, and name the same displayed route. Since $O$ is one of the displayed rows transported by $T$ and replayed by $R$, every confluence-facing consumer must keep it until the missing inputs are separately displayed.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual critical-pair closed-checker monotonicity]
+\label{thm:metacic-residual-critical-pair-closed-checker-monotonicity}
+For an accepted $\MetaCICResidualCriticalPairUp$ packet $K=(S,P,J,D,O,T,R,V,H,C,G,N)$, strengthening the closed or shape-limited checker row $D$ can only restrict the admitted local-join route. It may remove a candidate read of $S,P,J$ from the closed-fragment handoff $C$, but it cannot create residual-substitution compatibility, erase the obstruction row $O$, produce a parallel diamond, or export global confluence.
+\end{theorem}
+\begin{proof}
+Use the frontier handoff of \autoref{thm:metacic-residual-critical-pair-frontier-handoff} as the ambient route. The consumer receives $S,P,J,D,O,T,R,V,H,C,G,N$, not an unrestricted reduction relation or a global confluence theorem.
+
+Strengthening $D$ narrows the closed or shape-limited fragment inspected by the packet. Therefore any local-join read through $J$ that remains admitted still passes through the same residual-substitution row $S$, local peak row $P$, obstruction row $O$, and structural rows $T,R,V,H,C,G,N$.
+
+If a candidate route is excluded by the stronger checker, it simply leaves the handoff surface. If it remains, the obstruction row is still transported and replayed with the route, so the stronger checker cannot manufacture compatibility, a parallel diamond, subject reduction, quotient syntax equality, or global confluence.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\MetaCICResidualCriticalPairUp$ consumer that reaches a confluence-facing handoff without displaying residual-substitution row $S$, local peak row $P$, candidate join row $J$, closed-checker row $D$, obstruction row $O$, and structural rows $T,R,V,H,C,G,N$ refutes the carrier surface.}
 
 \independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacic-parallel-diamond-frontier, metacicconfluenceauditpacket, normalformconsistencyseal: no listed sibling is bijective to $\MetaCICResidualCriticalPairUp$ because this packet jointly carries residual-substitution windows, local peaks, candidate joins, closed-checker rows, obstruction retention, transport, replay, audit history, closed-fragment handoff, provenance, and local naming. The Lean TasteGate follow-up must provide Nontrivial and FieldFaithful instances for the packet surface.}
@@ -65,7 +89,7 @@ The structural rows $T,R,V,H,C,G,N$ then preserve the same route for the critica
 \begin{closurestatus}{\MetaCICResidualCriticalPairUp}
   \constructivestory{A $\MetaCICResidualCriticalPairUp$ packet is generated from residual-substitution windows, local peaks, candidate joins, closed-checker rows, obstruction rows, componentwise hsame transport, displayed Cont replay, audit-frontier anchoring, history preservation, closed-fragment handoff, Pkg provenance, and local NameCert evidence.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-residual-critical-pair-carrier}, \autoref{thm:metacic-residual-critical-pair-namecert-obligations}, and \autoref{thm:metacic-residual-critical-pair-frontier-handoff} seed the finite residual critical-pair route for the MetaCIC confluence audit map.}
+  \scopeclosed{\autoref{def:metacic-residual-critical-pair-carrier}, \autoref{thm:metacic-residual-critical-pair-namecert-obligations}, \autoref{thm:metacic-residual-critical-pair-frontier-handoff}, \autoref{thm:metacic-residual-critical-pair-obstruction-preservation}, and \autoref{thm:metacic-residual-critical-pair-closed-checker-monotonicity} seed the finite residual critical-pair route for the MetaCIC confluence audit map.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close global confluence, arbitrary residual-substitution compatibility, unconditional parallel diamond, closed Church--Rosser, subject reduction, quotient syntax equality, Lean verification, or bridge checking for $\MetaCICResidualCriticalPairUp$.}
