@@ -1189,6 +1189,7 @@ import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
+import BEDC.Derived.BoundedNormalizationCandidateUp.TasteGate
 import BEDC.Derived.BoundedOscillationUp.TasteGate
 import BEDC.Derived.BoundedRealFamilyUp
 import BEDC.Derived.BoundedRealFamilyUp.TasteGate
@@ -3695,6 +3696,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripSourceExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaRealRatSourceReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaSourceLock
+import BEDC.Derived.CriticalLineWitnessUp.RootZetaSourceLockPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootZetaStripNonescapeTriad
 import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
@@ -4691,6 +4693,7 @@ import BEDC.Derived.FailureCertificateUp.TasteGate
 import BEDC.Derived.FanBarRouteUp.FiniteBarHandoff
 import BEDC.Derived.FanBarRouteUp.NameCertObligations
 import BEDC.Derived.FanBarRouteUp.TasteGate
+import BEDC.Derived.FanCompactUp.TasteGate
 import BEDC.Derived.FanContinuityPrincipleUp
 import BEDC.Derived.FanContinuityPrincipleUp.TasteGate
 import BEDC.Derived.FanModulusBoundaryUp.TasteGate
@@ -7033,6 +7036,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetClassifierTotalit
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetLedgerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FuelLedgerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FuelRoute
+import BEDC.Derived.MetaCICNormalizationFrontierUp.GroundCompilerReadback
 import BEDC.Derived.MetaCICNormalizationFrontierUp.GroundCompilerRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.KernelNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.LedgerExhaustion
