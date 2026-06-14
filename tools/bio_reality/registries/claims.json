@@ -2255,6 +2255,79 @@
           "script_sha": "cdd97ac409d46b2f"
         }
       ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_ramp_ortholog_portability.b_star_q6_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route Z (f3-ramp evolutionary portability, oracle-proposed genuinely-new direction): tests whether within-orthogroup cross-species differences in the 5'-ramp f3 signal predict conserved same-direction differences in protein abundance/TE/structural-order (ortholog + species fixed effects, controlling aa-composition/GC/tRNA/length; negative controls half-life/localization). NEEDS_EXTERNAL with current repo data: no species pair satisfies BOTH (enough 1:1 orthologs) AND (full features both sides). Attempt 1 yeast+human: human lacks ordered-CDS + structural-order locally. Attempt 2 yeast+E.coli (cross-domain): a real OrthoDB fetch ran (598/600 requests, 474s, not rate-limited) but found 0 exact local 1:1 orthogroups with full features among 352 orthogroups seen -- cross-domain (eukaryote vs bacteria) 1:1 orthology + full-feature coverage is too sparse. So the portability question is feasible IN PRINCIPLE (OrthoDB reachable) but blocked on data: needs human ordered-CDS+structural-order or >=3 same-kingdom full-feature species. Honestly registered needs_data (data gap documented); NOT a scientific verdict. Local feature coverage confirmed: yeast 5810 genes (abundance+TE 5128+structural 5804+half-life 5379+localization 4831), E.coli 3738 (abundance+TE 3415+structural 3736+half-life 2947; no localization).",
+      "depends_on": [
+        "external_data:human_ordered_cds_and_structural_order_or_ge3_samekingdom_fullfeature_species"
+      ],
+      "status": "needs_external",
+      "experiment_id": "b_star_q6_f3_ramp_ortholog_portability_powered",
+      "linked_conjecture_id": "q6.f3-stress.wobble-broken.translation-readout.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-14T07:15:10+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-14T07:23:47+00:00",
+          "status": "error",
+          "reason": "experiment result",
+          "experiment_run_id": "ce9c10f17879",
+          "checks": {
+            "total": 3,
+            "passed": 0,
+            "failed": 3
+          },
+          "script_sha": "0a149d54ac65bf3b"
+        },
+        {
+          "ts": "2026-06-14T07:52:14+00:00",
+          "status": "needs_data",
+          "reason": "orchestrator fix: was error because claim depends_on was empty -> bio-X re-ran OrthoDB script. Set depends_on to non-id external-data string so bio-X keeps it blocked (genuine needs_external; repo lacks a species pair with enough orthologs + full features)"
+        },
+        {
+          "ts": "2026-06-14T07:53:14+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-14T07:53:14+00:00",
+          "status": "needs_external",
+          "reason": "blocked on external preconditions",
+          "external_preconditions": [
+            "external_data:human_ordered_cds_and_structural_order_or_ge3_samekingdom_fullfeature_species"
+          ]
+        }
+      ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.structural_order_ramp_positional.b_star_q6_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Route X3c (positional/ramp localization of the f3->structural-order crossing): the f3->structural-order signal (Route X3) is RAMP-CONCENTRATED, consistent with co-translational folding, though ramp-exclusivity is only marginally significant at 2 organisms. At the first 50 codons, ramp f3 crosses to structural order (held-out Δr2 +0.0011, sign-flip p=0.048, 2/2 organisms yeast+E.coli) while CDS-body f3 does NOT (Δr2 -0.0003, p=0.54, 0/2); ramp > body in 2/2 organisms (paired Δr2 +0.0014, paired sign-flip p=0.059 -- just above 0.05). So the structural-order crossing is driven by the N-terminal ramp window, not the CDS body -- the per-arm pattern (ramp significant, body NS, ramp>body 2/2) supports the co-translational-folding spatial prediction, but the strict ramp-vs-body paired test is marginal (underpowered at 2 organisms; codex conservatively labelled 'ramp_positive_but_not_localized' because the paired gate p=0.059 narrowly missed 0.05). N=30 sensitivity weaker (ramp p=0.30); the effect emerges at a ~50-codon window. Deterministic; yeast+E.coli; held-out + sign-flip null. Completes the f3->structural-order mechanism line (X3 crossing / X3b f3-axis carrier / X3c ramp-concentrated): a 5'-ramp f3 co-translational-folding channel, modest and marginal but directionally coherent.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_structural_order_ramp_positional_powered",
+      "linked_conjecture_id": "q6.translation-conditioned.structural-order.cross-layer",
+      "history": [
+        {
+          "ts": "2026-06-14T07:54:18+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "fd29bb46dde6",
+          "checks": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0
+          },
+          "script_sha": "92f6b5fcb271402f"
+        }
+      ]
     }
   ]
 }

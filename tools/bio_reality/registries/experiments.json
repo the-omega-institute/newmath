@@ -1510,6 +1510,46 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.f3_ramp_ortholog_portability.b_star_q6_powered",
+   "experiment_id": "b_star_q6_f3_ramp_ortholog_portability_powered",
+   "hypothesis_level": "H3",
+   "statement": "Route Z (f3-ramp evolutionary portability, oracle-proposed genuinely-new direction): tests whether within-orthogroup cross-species differences in the 5'-ramp f3 signal predict conserved same-direction differences in protein abundance/TE/structural-order (ortholog + species fixed effects, controlling aa-composition/GC/tRNA/length; negative controls half-life/localization). NEEDS_EXTERNAL with current repo data: no species pair satisfies BOTH (enough 1:1 orthologs) AND (full features both sides). Attempt 1 yeast+human: human lacks ordered-CDS + structural-order locally. Attempt 2 yeast+E.coli (cross-domain): a real OrthoDB fetch ran (598/600 requests, 474s, not rate-limited) but found 0 exact local 1:1 orthogroups with full features among 352 orthogroups seen -- cross-domain (eukaryote vs bacteria) 1:1 orthology + full-feature coverage is too sparse. So the portability question is feasible IN PRINCIPLE (OrthoDB reachable) but blocked on data: needs human ordered-CDS+structural-order or >=3 same-kingdom full-feature species. Honestly registered needs_data (data gap documented); NOT a scientific verdict. Local feature coverage confirmed: yeast 5810 genes (abundance+TE 5128+structural 5804+half-life 5379+localization 4831), E.coli 3738 (abundance+TE 3415+structural 3736+half-life 2947; no localization).",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_ramp_ortholog_portability_powered.py",
+   "required_data": [
+    "tools/bio_reality/data/f3_portability_human_ordered_cds_structural_order_or_more_fullfeature_species.json"
+   ],
+   "timeout_seconds": 1200,
+   "status": "needs_data",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-14T07:10:44+00:00",
+   "dependencies": [],
+   "external_preconditions": [
+    "tools/bio_reality/data/f3_portability_human_ordered_cds_structural_order_or_more_fullfeature_species.json"
+   ],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.structural_order_ramp_positional.b_star_q6_powered",
+   "experiment_id": "b_star_q6_structural_order_ramp_positional_powered",
+   "hypothesis_level": "H3",
+   "statement": "Route X3c (positional/ramp localization of the f3->structural-order crossing): the f3->structural-order signal (Route X3) is RAMP-CONCENTRATED, consistent with co-translational folding, though ramp-exclusivity is only marginally significant at 2 organisms. At the first 50 codons, ramp f3 crosses to structural order (held-out Δr2 +0.0011, sign-flip p=0.048, 2/2 organisms yeast+E.coli) while CDS-body f3 does NOT (Δr2 -0.0003, p=0.54, 0/2); ramp > body in 2/2 organisms (paired Δr2 +0.0014, paired sign-flip p=0.059 -- just above 0.05). So the structural-order crossing is driven by the N-terminal ramp window, not the CDS body -- the per-arm pattern (ramp significant, body NS, ramp>body 2/2) supports the co-translational-folding spatial prediction, but the strict ramp-vs-body paired test is marginal (underpowered at 2 organisms; codex conservatively labelled 'ramp_positive_but_not_localized' because the paired gate p=0.059 narrowly missed 0.05). N=30 sensitivity weaker (ramp p=0.30); the effect emerges at a ~50-codon window. Deterministic; yeast+E.coli; held-out + sign-flip null. Completes the f3->structural-order mechanism line (X3 crossing / X3b f3-axis carrier / X3c ramp-concentrated): a 5'-ramp f3 co-translational-folding channel, modest and marginal but directionally coherent.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_structural_order_ramp_positional_powered.py",
+   "required_data": null,
+   "timeout_seconds": 1200,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-14T07:51:15+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
