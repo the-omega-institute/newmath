@@ -47,6 +47,12 @@ Fold Order Parameter Usage & The fold order parameter m\_bio = P\_bulk - P\_seam
 Neutral Trna Edge Coupling & The certified Window6 edge score modulates the tRNA supply-demand alignment on synonymous Hamming-1 edges (usage-edge-gradient \textasciitilde{} tRNA-edge-gradient x Window6-edge-score, interaction beta\_bridge), beyond GC/f3 and edge-permutation nulls, with held-out-species predictive lift. & \texttt{coincidence} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.twolayer_fold_edge_hiding_extremality status=certified
 Twolayer Fold Edge Hiding Extremality & The contravariant edge-hiding extremality iterates across the genetic code's two-layer fold: the first-two-base box partition (64->16) is the EXACT maximum-edge-hiding partition for its size-4x16 block profile (tau\_box=1.0), and the family layer (64->21) is near-maximal (tau\_family=0.958), both in the extreme upper tail of a same-block-size null; Window6 Fold6 sits at the opposite extreme (tau=0). Restricted to iterated edge-hiding extremality; NOT isomorphism or biological forcing. & \texttt{certified} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.foldlayer_zigzag_extremality status=certified
+Foldlayer Zigzag Extremality & The standard genetic code realizes a zig-zag edge-hiding fold layer B <- M=B meet F -> F: the first-two-base box layer and box-family fragment layer are exact edge-hiding endpoints, while the family layer is near-maximal with a small deficit. This is a finite label-free extremality certificate, not a monotone quotient tower, isomorphism, biological forcing, or live-usage claim. & \texttt{certified} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.halfbox_fibonacci_tower status=coincidence
+Halfbox Fibonacci Tower & The genetic-code halfbox and family-meet layers create exact edge-hiding endpoint facts and a strict Fibonacci tower across the naturally generated block counts 13, 21, 34, and 55 under canonical finite partition operations. The claim must separate hard extremality facts from numerical tower appearances. & \texttt{coincidence} \\
+% CLAIM_STATUS claim_id=bridge.window6.fold_tower_separating_extremality status=refuted
+Fold Tower Separating Extremality & The Window fold tower is edge-separating at each tested finite width under the same value-window convention that reproduces the Window6 certificate, yielding a cross-width revealing endpoint dual to the genetic-code hiding tower. & \texttt{refuted} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -351,3 +357,44 @@ attains the exact size-4x16 maximum, and the family layer is within three edges 
 family-profile maximum while lying in the extreme upper tail of the same-size null.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_twolayer\_fold\_extremality.py
+
+\subsection{Foldlayer Zigzag Extremality}\label{sec:bridge-foldlayer-zigzag-extremality}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.foldlayer_zigzag_extremality status=certified
+\textbf{Statement.} The standard genetic code realizes a zig-zag edge-hiding fold layer B <- M=B meet F -> F: the
+first-two-base box layer and box-family fragment layer are exact edge-hiding endpoints, while the
+family layer is near-maximal with a small deficit. This is a finite label-free extremality
+certificate, not a monotone quotient tower, isomorphism, biological forcing, or live-usage claim.
+
+\textbf{Verdict.} \texttt{certified}.
+
+\textbf{Why.} Certified zig-zag extremality, not a monotone quotient tower: 64->16 box and 64->25 box-family
+fragments are exact edge-hiding extrema; the 21-family layer is near-max with deficit 3.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_bc15\_foldlayer\_zigzag\_extremality.py
+
+\subsection{Halfbox Fibonacci Tower}\label{sec:bridge-halfbox-fibonacci-tower}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.halfbox_fibonacci_tower status=coincidence
+\textbf{Statement.} The genetic-code halfbox and family-meet layers create exact edge-hiding endpoint facts and a strict
+Fibonacci tower across the naturally generated block counts 13, 21, 34, and 55 under canonical
+finite partition operations. The claim must separate hard extremality facts from numerical tower
+appearances.
+
+\textbf{Verdict.} \texttt{coincidence}.
+
+\textbf{Why.} BC16 exact halfbox extremality is a hard endpoint fact; BC17 is not a certified Fibonacci tower
+because only 21 and 34 appear naturally under the preregistered canonical operations.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_bc1617\_halfbox\_fibonacci\_tower.py
+
+\subsection{Fold Tower Separating Extremality}\label{sec:bridge-fold-tower-separating-extremality}
+% CLAIM_DETAIL claim_id=bridge.window6.fold_tower_separating_extremality status=refuted
+\textbf{Statement.} The Window fold tower is edge-separating at each tested finite width under the same value-window
+convention that reproduces the Window6 certificate, yielding a cross-width revealing endpoint dual
+to the genetic-code hiding tower.
+
+\textbf{Verdict.} \texttt{refuted}.
+
+\textbf{Why.} The tower-wide separating claim fails under the finite value-window convention that reproduces the
+required Window6 histogram: widths 4,5 have e\_in>0.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_window\_fold\_tower\_extremality.py

@@ -10,6 +10,8 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
 CLAIMS = SCRIPT_DIR / "registries" / "claims.json"
+EXPS = SCRIPT_DIR / "registries" / "experiments.json"
+EXPERIMENTS_DIR = SCRIPT_DIR / "experiments"
 PAPER_DIR = REPO_ROOT / "papers" / "window_codon_bridge"
 PARTS_DIR = PAPER_DIR / "parts"
 
@@ -25,6 +27,14 @@ def load_claims() -> dict[str, str]:
         for claim in doc.get("claims", [])
         if claim.get("claim_id")
     }
+
+
+def load_claim_doc() -> dict:
+    return json.loads(CLAIMS.read_text(encoding="utf-8"))
+
+
+def load_experiment_doc() -> dict:
+    return json.loads(EXPS.read_text(encoding="utf-8"))
 
 
 def tex_files() -> list[Path]:
@@ -81,9 +91,60 @@ def check_consistency() -> list[str]:
     return errors
 
 
+def check_registry_topology() -> list[str]:
+    errors: list[str] = []
+    claims = load_claim_doc().get("claims", [])
+    experiments = load_experiment_doc().get("experiments", [])
+
+    claim_ids = [str(claim.get("claim_id")) for claim in claims if claim.get("claim_id")]
+    experiment_ids = [str(exp.get("experiment_id")) for exp in experiments if exp.get("experiment_id")]
+    claim_by_id = {claim_id: claim for claim_id, claim in zip(claim_ids, claims)}
+    experiment_by_id = {experiment_id: exp for experiment_id, exp in zip(experiment_ids, experiments)}
+
+    if len(claim_by_id) != len(claim_ids):
+        errors.append(f"{CLAIMS.relative_to(REPO_ROOT)}: duplicate claim_id")
+    if len(experiment_by_id) != len(experiment_ids):
+        errors.append(f"{EXPS.relative_to(REPO_ROOT)}: duplicate experiment_id")
+
+    for claim_id, claim in claim_by_id.items():
+        experiment_id = str(claim.get("experiment_id") or "")
+        if not experiment_id:
+            errors.append(f"{CLAIMS.relative_to(REPO_ROOT)}: claim {claim_id} has no experiment_id")
+            continue
+        exp = experiment_by_id.get(experiment_id)
+        if exp is None:
+            errors.append(f"{CLAIMS.relative_to(REPO_ROOT)}: claim {claim_id} points to missing experiment {experiment_id}")
+            continue
+        if str(exp.get("claim_id") or "") != claim_id:
+            errors.append(
+                f"{EXPS.relative_to(REPO_ROOT)}: experiment {experiment_id} points to {exp.get('claim_id')}, expected {claim_id}"
+            )
+
+    referenced_scripts: set[str] = set()
+    for experiment_id, exp in experiment_by_id.items():
+        claim_id = str(exp.get("claim_id") or "")
+        if claim_id and claim_id not in claim_by_id:
+            errors.append(f"{EXPS.relative_to(REPO_ROOT)}: experiment {experiment_id} points to missing claim {claim_id}")
+        script_path = exp.get("script_path")
+        if not script_path:
+            continue
+        script = REPO_ROOT / str(script_path)
+        referenced_scripts.add(str(script.relative_to(REPO_ROOT)))
+        if not script.exists():
+            errors.append(f"{EXPS.relative_to(REPO_ROOT)}: experiment {experiment_id} script is missing: {script_path}")
+
+    for script in sorted(EXPERIMENTS_DIR.glob("run_*.py")):
+        rel = str(script.relative_to(REPO_ROOT))
+        if rel not in referenced_scripts:
+            errors.append(f"{script.relative_to(REPO_ROOT)}: derivation script is not registered in experiments.json")
+
+    return errors
+
+
 def main() -> int:
     files = tex_files()
     errors: list[str] = []
+    errors.extend(check_registry_topology())
     errors.extend(check_consistency())
     errors.extend(check_no_cjk(files))
     errors.extend(check_math_env(files))
