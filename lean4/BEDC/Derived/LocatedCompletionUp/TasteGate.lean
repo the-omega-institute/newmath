@@ -1,4 +1,3 @@
-import BEDC.Derived.LocatedCompletionUp.NameCertObligations
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -9,6 +8,10 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
+
+inductive LocatedCompletionUp : Type where
+  | mk (M S E W R D A H C P N : BHist) : LocatedCompletionUp
+  deriving DecidableEq
 
 def locatedCompletionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -31,6 +34,10 @@ private theorem locatedCompletion_decode_encode :
   | Empty => rfl
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
+
+def locatedCompletionFields : LocatedCompletionUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | LocatedCompletionUp.mk M S E W R D A H C P N => [M, S, E, W, R, D, A, H, C, P, N]
 
 def locatedCompletionToEventFlow : LocatedCompletionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
