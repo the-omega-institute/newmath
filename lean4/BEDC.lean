@@ -10686,6 +10686,7 @@ import BEDC.Derived.YoungInequalityUp.TasteGate
 import BEDC.Derived.YoungIntegralUp.TasteGate
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
+import BEDC.Derived.ZeckendorfCarryClassifierUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryNormalizationUp
 import BEDC.Derived.ZeckendorfCarryNormalizationUp.AxisNatDependency
 import BEDC.Derived.ZeckendorfCarryValueUp.ClassifierDependencyRows
