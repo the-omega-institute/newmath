@@ -46,14 +46,44 @@ The finite observation and completion route is forced through $S,R,E$. The Strea
 Transport and replay remain row-local. The rows $H,C,P,N$ carry the endpoint, bracket, locatedness, observation, handoff, and seal data componentwise, so a refinement can only repack the same finite NameCert surface. Since the carrier contains no row for selected subcovers, quotient stream equality, countable choice, chosen limits, or ambient completeness, no such principle can be exported by the certificate.
 \end{proof}
 
-\closureat{BishopLocatedIntervalUp}{seedStr}
+\begin{theorem}[Bishop located interval endpoint admission]
+\label{thm:bishop-located-interval-endpoint-admission}
+For every accepted $\BishopLocatedIntervalUp$ carrier $I=(L,U,D,Q,S,R,E,H,C,P,N)$, the lower endpoint row $L$ and upper endpoint row $U$ are admitted only as the displayed $\LocatedRealUp$ rows in the same finite $\BHist$. Any endpoint-facing read of $I$ must pass through the same $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\BishopLocatedIntervalUp}$ surface recorded by $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-interval-carrier}. Its first two rows are precisely $L$ and $U$, and the defining display already types both rows as $\LocatedRealUp$ packets in the shared finite history. The endpoint surface is therefore the located-real surface of \autoref{ch:concrete-instances-locatedreal-namecert}, not a host real or quotient stream row.
+
+The remaining endpoint-facing access is controlled by the displayed certificate rows. The dyadic brackets are read through \autoref{ch:concrete-instances-dyadicratcore-namecert}; the finite observation windows are those of \autoref{ch:concrete-instances-streamname-namecert}; the regular rational handoff is the one named in \autoref{ch:concrete-instances-regseqrat-namecert}; and the terminal seal is the $\RealUp$ route of \autoref{ch:concrete-instances-real-namecert}. Since $H,C,P,N$ are the only transport, replay, provenance, and local naming rows, endpoint admission is exhausted by these finite rows.
+\end{proof}
+
+\begin{theorem}[Bishop located interval locatedness witness]
+\label{thm:bishop-located-interval-locatedness-witness}
+For every accepted $\BishopLocatedIntervalUp$ carrier $I=(L,U,D,Q,S,R,E,H,C,P,N)$, each finite locatedness probe answered by $Q$ factors through a displayed endpoint bracket, dyadic subcell, or visible gap row. No such answer can invoke selected subcovers, countable choice, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the locatedness coordinate $Q$. By \autoref{def:bishop-located-interval-carrier}, $Q$ answers only accepted finite probes, and each answer names one of the visible rows already displayed by the endpoint brackets, the $\DyadicRatCoreUp$ subcell ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, or the visible gap rows carried in the same ledger.
+
+The finite row-exhaustion argument then excludes the ambient principles. Stream observations may only use the finite windows of \autoref{ch:concrete-instances-streamname-namecert}; regular readback may only use \autoref{ch:concrete-instances-regseqrat-namecert}; endpoint reads remain in \autoref{ch:concrete-instances-locatedreal-namecert}; and any terminal real name must enter through \autoref{ch:concrete-instances-real-namecert}. The tuple has no coordinate for subcover selection, countable choice, quotient equality, or host completeness, so a $Q$-answer cannot factor through any of them.
+\end{proof}
+
+\begin{theorem}[Bishop located interval Real seal non-escape]
+\label{thm:bishop-located-interval-real-seal-non-escape}
+For every accepted $\BishopLocatedIntervalUp$ carrier $I=(L,U,D,Q,S,R,E,H,C,P,N)$, any $\RealUp$ seal read from $E$ is downstream of the displayed endpoint rows $L,U$, dyadic ledger $D$, locatedness witness $Q$, finite observation row $S$, regular rational handoff $R$, and the transport, replay, provenance, and local naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the seal coordinate $E$. The carrier definition places $E$ after $L,U,D,Q,S,R$, so a real-facing read cannot reach the seal before the endpoint, dyadic, locatedness, stream, and regular-rational rows have been displayed. This is exactly the finite L10 route through \autoref{ch:concrete-instances-locatedreal-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+The certificate rows $H,C,P,N$ preserve that order. Componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming may repack the finite route, but they add no separate seal source. Thus every $\RealUp$ read from $E$ remains downstream of the displayed rows and cannot escape to quotient stream equality, selected limits, countable choice, Heine--Borel compactness, or ambient real completeness.
+\end{proof}
+
+\closureat{BishopLocatedIntervalUp}{obligationStr}
 
 \begin{closurestatus}{\BishopLocatedIntervalUp}
   \constructivestory{A $\BishopLocatedIntervalUp$ packet is generated from lower and upper LocatedReal endpoint rows, a DyadicRatCore bracket ledger, a locatedness witness, StreamName finite observation, RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bishop-located-interval-carrier} and \autoref{thm:bishop-located-interval-namecert-obligations} seed the finite located-interval carrier and obligation surface over $\LocatedRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:bishop-located-interval-carrier}, \autoref{thm:bishop-located-interval-namecert-obligations}, \autoref{thm:bishop-located-interval-endpoint-admission}, \autoref{thm:bishop-located-interval-locatedness-witness}, and \autoref{thm:bishop-located-interval-real-seal-non-escape} bind the finite located-interval carrier, endpoint admission, locatedness witness, and Real seal non-escape obligations over $\LocatedRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Heine--Borel compactness, selected finite subcovers, quotient stream equality, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked endpoint admission, bracket visibility, locatedness, dyadic refinement stability, RegSeqRat handoff, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.BishopLocatedIntervalUp.}
+  \upgradepath{Scoped closure requires checked finite-row coverage for endpoint admission, locatedness factoring, RegSeqRat handoff, Real seal non-escape, transport, replay, provenance, and local naming over BEDC.Derived.BishopLocatedIntervalUp.}
 \end{closurestatus}
