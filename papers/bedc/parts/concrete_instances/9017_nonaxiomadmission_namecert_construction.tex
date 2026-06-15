@@ -37,6 +37,8 @@ Read the admission rows in order. The row $X$ names the proposed supply position
 
 Finally inspect $H,C,P,N$. These rows only transport, replay, package, and name the same admitted route. Since none of them contains supplied content as substrate truth, the local NameCert obligations are exhausted by the displayed rows.
 \end{proof}
+\leanchecked{BEDC.Derived.NonAxiomAdmissionUp.NonAxiomAdmissionCarrier\_namecert\_obligations}
+\leanchecked{BEDC.Derived.NonAxiomAdmissionUp.NonAxiomAdmissionNamecertObligations}
 
 \begin{theorem}[NonAxiomAdmission boundary exhaustion]
 \label{thm:non-axiom-admission-boundary-exhaustion}
@@ -49,6 +51,24 @@ Use the witness route $W$ together with the transport and replay rows $H,C$. The
 
 Now read the provenance and naming rows $P,N$. The provenance row ties the admission to $\ExternalSupplyBoundaryUp$, $\SupplySocketLedgerUp$, $\ApophaticSocketUp$, $\SelectorLedgerUp$, $\TasteGateAdmissionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, while $N$ names the local packet. Since consumers can read only $X,F,W,H,C,P,N$, all excluded coordinates are absent from the public route.
 \end{proof}
+\leanchecked{BEDC.Derived.NonAxiomAdmissionUp.NonAxiomAdmissionCarrier\_boundary\_exhaustion}
+
+\begin{theorem}[NonAxiomAdmission witness-route nonescape]
+\label{thm:non-axiom-admission-witness-route-nonescape}
+If an accepted $\NonAxiomAdmissionUp$ packet exposes witness route $W$, then every consumer route that preserves the local $\NameCert_{\NonAxiomAdmissionUp}$ row must read the same displayed coordinates
+$$
+X,F,W,H,C,P,N .
+$$
+Changing the proposed supply position, accepted non-axiom form, witness route, componentwise transport, replay, provenance, or local name without changing one displayed coordinate is unreadable to the packet. The carrier therefore admits no consumer edge that treats altered supplied content as the same local admission while leaving $X,F,W,H,C,P,N$ fixed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:non-axiom-admission-carrier}. The witness route $W$ is not a detachable annotation; it is one of the displayed coordinates transported by $H$, replayed by $C$, sourced by $P$, and named by $N$.
+
+Apply \autoref{thm:non-axiom-admission-boundary-exhaustion}. A consumer may read only $X,F,W,H,C,P,N$, so any change to the supplied content must appear as a change in the proposed position, accepted form, witness route, transport, replay, provenance, or name.
+
+If all seven displayed coordinates are held fixed, the local NameCert has no remaining row from which a different supplied-content route can be read. Thus the witness route is nonescaping for every row-preserving consumer of the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.NonAxiomAdmissionUp.NonAxiomAdmissionWitnessRoute\_nonescape}
 
 \falsifiablePrediction{Every accepted NonAxiomAdmissionUp packet classifies a proposed supply position into a displayed non-axiom boundary form and exposes no consumer route that treats the supplied content as substrate truth.}
 
@@ -62,7 +82,7 @@ The Lean follow-up target is $\mathsf{BEDC.Derived.NonAxiomAdmissionUp.taste\_ga
 \begin{closurestatus}{\NonAxiomAdmissionUp}
   \constructivestory{A $\NonAxiomAdmissionUp$ packet is generated from a proposed supply position, accepted non-axiom form, witness route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:non-axiom-admission-carrier}, \autoref{thm:non-axiom-admission-namecert-obligations}, and \autoref{thm:non-axiom-admission-boundary-exhaustion} bind the proposed supply position, accepted non-axiom form, witness route, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows into one seed-grade admission packet.}
+  \scopeclosed{\autoref{def:non-axiom-admission-carrier}, \autoref{thm:non-axiom-admission-namecert-obligations}, \autoref{thm:non-axiom-admission-boundary-exhaustion}, and \autoref{thm:non-axiom-admission-witness-route-nonescape} bind the proposed supply position, accepted non-axiom form, witness route, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows into one seed-grade admission packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
