@@ -904,6 +904,7 @@ import BEDC.Derived.BishopLocatedCompletionComparisonUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
+import BEDC.Derived.BishopLocatedLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedMaximumUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
@@ -5540,6 +5541,7 @@ import BEDC.Derived.FunctorUp.VisibleMorphismStrictPrefix
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FundamentalGroupUp.TasteGate
 import BEDC.Derived.FundamentalTheoremCalculusUp
+import BEDC.Derived.FundamentalTheoremCalculusUp.TasteGate
 import BEDC.Derived.GDeltaSetUp.TasteGate
 import BEDC.Derived.GalerkinErrorEstimateUp
 import BEDC.Derived.GaloisConnectionUp
@@ -7223,6 +7225,7 @@ import BEDC.Derived.MetacicRedexChoiceFrontierUp.TasteGate
 import BEDC.Derived.MetacompactUp.TasteGate
 import BEDC.Derived.MetricAnnulusUp.TasteGate
 import BEDC.Derived.MetricApartnessUp.TasteGate
+import BEDC.Derived.MetricBaireSpaceUp.TasteGate
 import BEDC.Derived.MetricBallUp.BoundedSetContainmentRoute
 import BEDC.Derived.MetricBallUp.CauchyFilterEntryBoundary
 import BEDC.Derived.MetricBallUp.FiniteIntersectionReadiness
