@@ -85,6 +85,17 @@ $[-0.95362,\ -0.80311]$.  Sequence inductive bias moves the row in the right
 direction without changing the order-of-magnitude prediction gap; the next
 prediction-parity attempt must change the dynamics architecture or training
 regime rather than continue small local readout sweeps.
+The action-conditioned multi-step dynamics row supplies that stronger local
+test.  It trains recurrent residual dynamics with teacher-forced rollout
+losses at horizons $1$, $3$, and $5$, then evaluates the one-step parity gate
+and the multi-step rollout error.  The best local row is the $h=5$ candidate:
+native one-step MSE $0.84617$ against LeWM $0.06711$, native-to-LeWM ratio
+$12.61$, rollout-final MSE $1.07626$, and parity margin $-0.77235$
+$[-0.81061,\ -0.73129]$.  This is the strongest local prediction row in the
+current parity series and it beats trivial persistence by $-0.56925$
+$[-0.61231,\ -0.52739]$, but it still does not promote the native state to a
+world model.  The A100-scale follow-up is therefore a scaling test for this
+multi-step dynamics recipe, not a continuation of head-only probing.
 
 \paragraph{Three-tier BEDC-native readout evaluation.}
 Across the verified findings the BEDC-native ledger separates into three tiers
