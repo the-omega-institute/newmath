@@ -975,6 +975,7 @@ import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BlaschkeSelectionCompactHyperspaceUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp
+import BEDC.Derived.BolzanoWeierstrassSelectorUp.RootWindow
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.WindowObligation
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceAdmission
@@ -1777,6 +1778,7 @@ import BEDC.Derived.CauchyMergeUp
 import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp
+import BEDC.Derived.CauchyModulusArithmeticUp.DiagonalMeetStability
 import BEDC.Derived.CauchyModulusArithmeticUp.SumProductSharedThreshold
 import BEDC.Derived.CauchyModulusArithmeticUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp.WindowedProductDistributivity
@@ -5668,6 +5670,7 @@ import BEDC.Derived.GroundCompilerAuditRouteUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditVerdictUp.TasteGate
 import BEDC.Derived.GroundCompilerEventFlowAuditRouteUp
 import BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.TasteGate
+import BEDC.Derived.GroundCompilerEventFlowAuditUp.NameCertObligations
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.TasteGate
 import BEDC.Derived.GroundCompilerFlowLevelRoundTripUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognitionUp.ReportBoundaryExhaustion
