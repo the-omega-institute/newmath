@@ -125,6 +125,42 @@ and no host function row, a $\CauchyContinuousMapUp$ consumer has no alternate
 route by which to obtain $T$.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus of continuity finite-window monotonicity]
+\label{thm:cauchy-modulus-of-continuity-window-monotonicity}
+Let $K=(S,T,\mu,F,R,E,H,C,P,N)$ and
+$K^+=(S,T^+,\mu^+,F,R^+,E^+,H^+,C^+,P^+,N^+)$ be accepted
+$\CauchyModulusOfContinuityUp$ carriers with the same source window $S$,
+the same transformer row $F$, the same $\RegSeqRatUp$ readback route, and
+the same $\RealUp$ seal route. Suppose that, for one displayed target
+tolerance, the schedule $\mu^+$ asks for a larger finite source-window bound
+than $\mu$ while preserving the transformer, readback, and seal rows. Then
+every target-window read admitted by $K$ through $\mu$ is also admitted by
+$K^+$ through $\mu^+$, using the same $\Cont$, $\Pkg$, and local
+$\NameCert$ rows after the larger source-window inspection is replayed.
+\end{theorem}
+\begin{proof}
+Project both carriers with
+\autoref{def:cauchy-modulus-of-continuity-carrier}. The shared rows identify
+the same source window, transformer route, regular-rational readback route,
+and real-seal route; only the displayed source-window threshold is enlarged.
+
+Use the threshold handoff of
+\autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff}. It says that a
+target-window read has a unique displayed route through the schedule before
+the transformer row $F$ can produce $T$.
+
+Replay the larger schedule $\mu^+$. Its source-window inspection contains the
+smaller inspection required by $\mu$ and then continues through the same
+transformer, readback, and seal rows. Thus the target-window read admitted by
+$K$ is admitted again by $K^+$ after the larger finite source window has been
+displayed.
+
+Finally transport through $H^+$ and attach $C^+,P^+,N^+$. These rows preserve
+the same continuation, provenance, and local NameCert route, so the enlarged
+schedule creates no alternate host function, quotient stream, selected limit,
+or ambient completeness coordinate.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus of continuity Real consumer boundary]
 \label{thm:cauchy-modulus-of-continuity-real-consumer-boundary}
 For every accepted $\CauchyModulusOfContinuityUp$ carrier
