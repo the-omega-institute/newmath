@@ -709,6 +709,42 @@ transport, replay, provenance, and local NameCert rows. No other carrier
 coordinate can supply a product budget.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus arithmetic windowed product distributivity]
+\label{thm:cauchy-modulus-arithmetic-windowed-product-distributivity}
+Let $A$ be an accepted $\CauchyModulusArithmeticUp$ packet whose sum and
+product modulus schedules expose the same $\StreamNameUp$ window. Any Real
+consumer that reads the product distributivity budget for those schedules must
+route the comparison through the displayed $\CauchyModulusMeetUp$ shared
+threshold, the $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ rows, the
+$\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback rows, and the
+terminal $\RealUp$ seal before it receives the product budget. The common
+window is therefore the only route by which distributivity of the finite
+product budget reaches a downstream Real consumer.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of
+\autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}. They expose the
+two source schedules, the shared threshold row, the arithmetic consumer rows,
+the dyadic tolerance ledger, the readback rows, the Real seal, and the
+structural transport rows as one packet.
+
+Apply the sum and product shared-threshold route of
+\autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure} together with the
+product tail bound of
+\autoref{thm:cauchy-modulus-arithmetic-product-tail-bound}. These clauses keep
+the product budget downstream of the same $\StreamNameUp$ window and the same
+$\CauchyModulusMeetUp$ threshold used by the sum schedule.
+
+Finally use the uniform product budget of
+\autoref{thm:cauchy-modulus-arithmetic-uniform-product-budget} and Real-seal
+congruence,
+\autoref{thm:cauchy-modulus-arithmetic-real-seal-congruence}. The Real
+consumer receives only the route through the displayed tolerance ledger,
+readback rows, terminal seal, transport, replay, provenance, and local naming,
+so the common-window product distributivity obligation is exhausted by the
+carrier surface.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\CauchyModulusArithmeticUp$ consumer that
 reaches a $\RegularCauchySumUp$, $\RegularCauchyProductUp$, or $\RealUp$ row
 without reading the two displayed $\CauchyModulusUp$ schedules, the
