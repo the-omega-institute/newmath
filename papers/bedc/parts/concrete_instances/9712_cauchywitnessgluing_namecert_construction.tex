@@ -139,6 +139,20 @@ The remaining three families are structural. The row $H$ carries componentwise $
 
 The Lean TasteGate development is expected to place the explicit $\mathsf{Nontrivial}\ \CauchyWitnessGluingUp$ and $\mathsf{FieldFaithful}\ \CauchyWitnessGluingUp$ instances in $\mathsf{BEDC.Derived.CauchyWitnessGluingUp.TasteGate}$, with the single-carrier alignment target named $\mathsf{BEDC.Derived.CauchyWitnessGluingUp.CauchyWitnessGluingTasteGate\_single\_carrier\_alignment}$.
 
+\begin{theorem}[CauchyWitnessGluing scoped primitive binding]
+\label{thm:cauchy-witness-gluing-scoped-primitive-binding}
+Every accepted $\CauchyWitnessGluingUp$ packet reads its witness ledger $L$, tail envelope $T$, seal synchronizer $S$, completion classifier $K$, $\StreamNameUp$ row $U$, $\RegSeqRatUp$ handoff $V$, $\DyadicRatCoreUp$ ledger $D$, $\RealUp$ seal $R$, witness edge $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ replays $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\CauchyWitnessGluingUp}$ row $N$ only through the displayed BEDC primitives and the sibling scope named in the carrier provenance. The scoped read exports no quotient stream equality, selected limit, countable-choice row, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the route-obligation surface. By \autoref{thm:cauchy-witness-gluing-route-obligation-surface}, the local NameCert surface of an accepted packet is exactly the displayed tuple $L,T,S,K,U,V,D,R,E,H,C,P,N$, so there is no additional coordinate from which a consumer can read a hidden primitive.
+
+Next bind the completion-facing side. Apply \autoref{thm:cauchy-witness-gluing-completion-seal-scope}: completion-seal reads pass only through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the sibling certificates listed by the provenance row. Apply \autoref{thm:cauchy-witness-gluing-real-seal-nonescape} to force every Real-facing read through the ledger, tail, synchronizer, classifier, stream, dyadic, regular, and Real rows before the terminal seal is visible.
+
+It remains to account for the ledger boundary. By \autoref{thm:cauchy-witness-gluing-obligation-ledger}, the five obligation families are witness-ledger admission, finite handoff to $\RealUp$, componentwise transport, displayed replay, and package plus local naming. These families include the $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance, and local $\NameCert$ row, and they exhaust the scoped primitive surface.
+
+Combining these rows gives the claimed primitive binding. Since the cited theorems also exclude quotient streams, selected limits, countable-choice schedules, host real equality, and ambient Real-completeness coordinates, the accepted packet remains inside the displayed BEDC primitive and sibling scope.
+\end{proof}
+
 \falsifiablePrediction{If the gluing packet is accepted, a Real-completion consumer that preserves the witness ledger and tail envelope but changes the seal-synchronizer row is rejected by the classifier.}
 
 \independenceWitness{cauchywitnessledger, cauchytailwitnessenvelope, cauchysealbudgetsynchronizer, realcompletionsealclassifier, regularcauchydiagonalmeet: none is bijective because each sibling omits at least one of the paired witness, tail, synchronizer, completion-seal, and RealUp rows required by this gluing packet.}
