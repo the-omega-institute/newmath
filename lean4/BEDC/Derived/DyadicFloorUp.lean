@@ -38,4 +38,60 @@ theorem DyadicFloorRegSeqRatHandoff
     ⟨regularWindowUnary, dyadicWindowUnary, sealedWindowUnary, modulusRegularRoute,
       regularDyadicRoute, dyadicSealRoute, rfl⟩
 
+theorem DyadicFloorBoundingInterval
+    {x k d s lower upper modulus regular realSeal H C P N lowerRead upperRead
+      regularWindow : BHist} :
+    Cont d lower lowerRead ->
+      Cont s upper upperRead ->
+        Cont modulus regular regularWindow ->
+          UnaryHistory d ->
+            UnaryHistory s ->
+              UnaryHistory lower ->
+                UnaryHistory upper ->
+                  UnaryHistory modulus ->
+                    UnaryHistory regular ->
+                      dyadicFloorFields
+                            (DyadicFloorUp.mk x k d s lower upper modulus regular realSeal H C P N) =
+                          [x, k, d, s, lower, upper, modulus, regular, realSeal, H, C, P, N] ∧
+                        UnaryHistory lowerRead ∧ UnaryHistory upperRead ∧
+                          UnaryHistory regularWindow := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro lowerRoute upperRoute regularRoute dyadicUnary successorUnary lowerUnary upperUnary
+    modulusUnary regularUnary
+  have lowerReadUnary : UnaryHistory lowerRead :=
+    unary_cont_closed dyadicUnary lowerUnary lowerRoute
+  have upperReadUnary : UnaryHistory upperRead :=
+    unary_cont_closed successorUnary upperUnary upperRoute
+  have regularWindowUnary : UnaryHistory regularWindow :=
+    unary_cont_closed modulusUnary regularUnary regularRoute
+  exact ⟨rfl, lowerReadUnary, upperReadUnary, regularWindowUnary⟩
+
+theorem DyadicFloorCarrier_window_obligations
+    {x k d s lower upper modulus regular realSeal H C P N scaleWindow lowerWindow
+      upperWindow : BHist} :
+    Cont k d scaleWindow ->
+      Cont scaleWindow lower lowerWindow ->
+        Cont lowerWindow upper upperWindow ->
+          UnaryHistory k ->
+            UnaryHistory d ->
+              UnaryHistory lower ->
+                UnaryHistory upper ->
+                  UnaryHistory scaleWindow ∧ UnaryHistory lowerWindow ∧
+                    UnaryHistory upperWindow ∧ Cont k d scaleWindow ∧
+                      Cont scaleWindow lower lowerWindow ∧
+                        Cont lowerWindow upper upperWindow ∧
+                          dyadicFloorFields
+                              (DyadicFloorUp.mk x k d s lower upper modulus regular realSeal H C P N) =
+                            [x, k, d, s, lower, upper, modulus, regular, realSeal, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro scaleRoute lowerRoute upperRoute kUnary dUnary lowerUnary upperUnary
+  have scaleUnary : UnaryHistory scaleWindow :=
+    unary_cont_closed kUnary dUnary scaleRoute
+  have lowerWindowUnary : UnaryHistory lowerWindow :=
+    unary_cont_closed scaleUnary lowerUnary lowerRoute
+  have upperWindowUnary : UnaryHistory upperWindow :=
+    unary_cont_closed lowerWindowUnary upperUnary upperRoute
+  exact
+    ⟨scaleUnary, lowerWindowUnary, upperWindowUnary, scaleRoute, lowerRoute, upperRoute, rfl⟩
+
 end BEDC.Derived.DyadicFloorUp

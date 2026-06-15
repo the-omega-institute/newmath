@@ -67,3 +67,21 @@ Now use \autoref{thm:criticallinewitness-critical-strip-ledger}. The critical-st
 Finally combine this with \autoref{thm:critical-line-witness-public-export} and \autoref{thm:critical-line-witness-ledger-nonescape}. The public export identifies the same finite surface, while the ledger boundary excludes analytic continuation, global zero-set data, $\mathsf{RH}$ proof data, host complex equality, quotient representatives, selected Real representatives, and ambient completeness.
 \end{proof}
 \leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_zero\_localization\_selector\_exhaustion}
+
+\begin{theorem}[Critical-line witness root-zero localization scope]
+\label{thm:critical-line-witness-root-zero-localization-scope}
+Every accepted root-zero localization read of a $\CriticalLineWitnessUp$ packet is scoped exactly by the finite rows
+$$
+Z,S,M,R,Q,H,C,P,N .
+$$
+The read may consume the supplied $\ZetaZerosUp$ row, $\CritStripUp$ row, rational height-window modulus, $\RealUp$ real-part row, $\RatUp$ comparison ledger, and the local transport, replay, provenance, and naming rows. It excludes analytic continuation, global zero-set data, $\mathsf{RH}$ proof data, host complex equality, quotient representatives, selected Real representatives, and ambient completeness.
+\end{theorem}
+\begin{proof}
+The zero-localization obligation \autoref{thm:criticallinewitness-zero-localization-obligation} fixes the source of a localization read. It binds the supplied $\ZetaZerosUp$ row, $\CritStripUp$ row, $\RealUp$ real-part row, $\RatUp$ comparison row, and local structural rows to one finite $\BHist$ packet.
+
+The rational height-window theorem \autoref{thm:criticallinewitness-rational-height-window} adds the only admitted budget for selector depth. Together with \autoref{ch:concrete-instances-riemann-zero-count-ledger-namecert}, it routes bounded height information through $M$ and $Q$ rather than through an unbounded zero search.
+
+The critical-strip ledger theorem \autoref{thm:criticallinewitness-critical-strip-ledger} and public export theorem \autoref{thm:critical-line-witness-public-export} identify the exported surface as exactly $Z,S,M,R,Q,H,C,P,N$. The sibling chapters \autoref{ch:concrete-instances-zeta-zeros-namecert}, \autoref{ch:concrete-instances-critical-strip-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-rat-namecert} contribute only their displayed rows to that surface.
+
+Finally apply \autoref{thm:critical-line-witness-root-zero-localization-selector-exhaustion}. It exhausts every localization consumer by the same rows and refuses analytic continuation, global zero-set data, $\mathsf{RH}$ proof data, host equality, quotient representatives, selected Real representatives, and ambient completeness. Therefore the localization scope is exactly the displayed packet route.
+\end{proof}
