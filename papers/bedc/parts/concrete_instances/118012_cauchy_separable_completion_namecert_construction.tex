@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\CauchySeparableCompletionUp$}
+\label{ch:concrete-instances-cauchy-separable-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchySeparableCompletionUp$ packet records the constructive completion route in which a countable dense boundary, finite dyadic tolerances, stream windows, and regular Cauchy readback are assembled before the terminal Real seal is visible. It consumes the separability witness of \autoref{ch:concrete-instances-real-separability-namecert}, the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter gives the L10 Real and Completion route a single human-known NameCert packet rather than separate density and completion fragments.
+
+\begin{definition}[Cauchy separable completion carrier]
+\label{def:cauchy-separable-completion-carrier}
+A $\CauchySeparableCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,T,W,R,C,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the dense enumeration row, naming the countable dense source exposed by $\RealSeparabilityUp$.
+\item $T$ is the dyadic tolerance row, recording the finite precision requests used to compare dense approximants.
+\item $W$ is the $\StreamNameUp$ window row, listing exactly the stream fragments inspected for the displayed tolerance requests.
+\item $R$ is the $\RegSeqRatUp$ row, repacking the inspected windows as a regular Cauchy handoff.
+\item $C$ is the regular Cauchy handoff row consumed by the $\MetricCompletionUp$ boundary.
+\item $E$ is the completion seal, visible only after $D,T,W,R,C$ have been displayed.
+\item $H$ is the terminal $\RealUp$ seal reached from the completion seal and not from a host equality of completed names.
+\item $K$ records componentwise $\hsame$ transport and displayed $\Cont$ replay for the dense enumeration, tolerance, window, regular readback, completion seal, and Real seal rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchySeparableCompletionUp$, $\RealSeparabilityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\MetricCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySeparableCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $D,T,W,R,C,E,H,K,P,N$. It has no coordinate for quotient streams, selected dense points, chosen limits, host equality, countable choice, open-cover compactness, or ambient completeness of $\RealUp$.
+\end{definition}
+\leanstmt{BEDC.Derived.CauchySeparableCompletionUp}
+
+\begin{theorem}[Cauchy separable completion NameCert obligations]
+\label{thm:cauchy-separable-completion-namecert-obligations}
+For every accepted $\CauchySeparableCompletionUp$ carrier
+$$
+Q=(D,T,W,R,C,E,H,K,P,N),
+$$
+the local $\NameCert_{\CauchySeparableCompletionUp}$ surface consists exactly of dense enumeration admission, dyadic tolerance accounting, stream-window inspection, regular rational readback, regular Cauchy handoff, completion-seal discipline, Real-seal routing, componentwise transport and replay, provenance, and local naming. Every completion-facing consumer must read the displayed route
+$$
+\RealSeparabilityUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \MetricCompletionUp \longmapsto \RealUp
+$$
+before it may export the completed real-name boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-separable-completion-carrier}. The projection exposes the dense enumeration row, dyadic tolerance row, stream windows, regular rational readback, regular Cauchy handoff, completion seal, Real seal, and structural rows.
+
+The route is finite at each consumer request. The dense row $D$ supplies only the displayed enumeration boundary, while $T$ supplies the finite tolerance budget used to inspect the requested approximants.
+
+The stream and regular rows then determine the handoff surface. The window row $W$ records the inspected fragments, and $R$ repacks them as the regular Cauchy readback consumed by $C$.
+
+Finally $E$ and $H$ are exposed only after that handoff, and $K,P,N$ transport, replay, source, and name the same packet. Since no carrier coordinate stores quotient streams, selected dense points, chosen limits, host equality, countable choice, open-cover compactness, or ambient Real completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy separable completion dense regular handoff]
+\label{thm:cauchy-separable-completion-dense-regular-handoff}
+Every accepted $\CauchySeparableCompletionUp$ packet hands a completion-facing consumer from the dense enumeration row $D$ to the $\MetricCompletionUp$ seal only through the dyadic tolerance row $T$, the finite $\StreamNameUp$ window row $W$, and the $\RegSeqRatUp$ regular Cauchy readback row $R$. The handoff supplies a displayed regular Cauchy boundary; it does not supply a selected dense point, a quotient stream, a chosen limit, or host equality of completed names.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:cauchy-separable-completion-namecert-obligations}. They order every completion-facing read through the dense enumeration, tolerance, stream-window, regular readback, and handoff rows before the completion seal is available.
+
+The dense row is only an enumeration boundary. A consumer may request finite approximants from $D$, but those requests are interpreted through the dyadic budget $T$ and the stream windows $W$.
+
+The regular Cauchy handoff is therefore the row $R$ together with its continuation into $C$. No selected dense point or quotient stream is present in the carrier, so the completion-facing consumer receives exactly the displayed regular route.
+\end{proof}
+
+\begin{theorem}[Cauchy separable completion no-choice boundary]
+\label{thm:cauchy-separable-completion-no-choice-boundary}
+No accepted $\CauchySeparableCompletionUp$ carrier exports Real completeness, open-cover compactness, quotient streams, selected dense points, host equality of completed names, or countable choice. Any Real-facing read must factor through the dense enumeration row, dyadic tolerance row, stream-window row, regular Cauchy handoff, completion seal, Real seal, transport and replay row, provenance row, and local NameCert row displayed in \autoref{def:cauchy-separable-completion-carrier}.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-separable-completion-dense-regular-handoff}. It forces every completion-facing read through $D,T,W,R,C$ before the completion seal can be inspected.
+
+The Real-facing seal adds no new analytic principle. It is the row $H$ reached after $E$, with $K$ transporting and replaying only the same finite dependency surface.
+
+Thus the excluded principles are absent by carrier projection. The packet records separable completion data as finite NameCert rows and not as a choice principle, quotient construction, open-cover theorem, host equality, or ambient completeness assertion.
+\end{proof}
+
+\closureat{CauchySeparableCompletionUp}{seedStr}
+
+\begin{closurestatus}{\CauchySeparableCompletionUp}
+  \constructivestory{A $\CauchySeparableCompletionUp$ packet is generated from a dense enumeration row, dyadic tolerance row, StreamName windows, RegSeqRat regular readback, regular Cauchy handoff, completion seal, Real seal, componentwise hsame transport and Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-separable-completion-carrier}, \autoref{thm:cauchy-separable-completion-namecert-obligations}, \autoref{thm:cauchy-separable-completion-dense-regular-handoff}, and \autoref{thm:cauchy-separable-completion-no-choice-boundary} seed the finite separable-completion route over RealSeparabilityUp, StreamNameUp, RegSeqRatUp, MetricCompletionUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, open-cover compactness, quotient streams, selected dense points, host equality of completed names, countable choice, Lean theorem verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove dense enumeration admission, dyadic tolerance accounting, stream-window inspection, regular Cauchy handoff, completion-seal discipline, Real-seal routing, transport, replay, provenance, and ledger non-escape.}
+\end{closurestatus}

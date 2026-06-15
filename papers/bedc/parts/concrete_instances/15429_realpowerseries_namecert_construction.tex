@@ -190,6 +190,19 @@ The selected windows $W$ expose only the coefficients, real-point readbacks, pow
 The majorant row $M$ is then the only route from the finite partial sums to endpoint convergence data. Reading $E$ and the structural rows $H,C,P,N$ therefore hands off a finite radius-window certificate and no host convergence theorem.
 \end{proof}
 
+\begin{theorem}[Real power series center evaluation window]\label{thm:real-power-series-center-evaluation-window}
+Let $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ be an accepted $\RealPowerSeriesUp$ carrier. An evaluation request whose displayed argument row $X$ is the same center row $Z$ may read the endpoint seal only through the coefficient row $A$, the finite window row $W$ restricted to the constant coefficient and the zero-power window, the partial-sum row $S$, the selected majorant row $M$, and then $E,H,C,P,N$. The center evaluation exports no host Taylor theorem, analytic continuation, selected infinite sum, quotient function equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows available to an evaluation request are exactly $A,Z,X,R,W,S,M,E,H,C,P,N$.
+
+Apply \autoref{thm:real-power-series-radius-window-handoff}. It routes every evaluation through $A,Z,X,R$ before the finite window row $W$, and then through $S$ and $M$ before the endpoint seal $E$ can be read.
+
+Use the displayed equality of the argument row with the center row. In that local request, the finite power window inside $W$ collapses to the zero-power read, so the only coefficient-facing data that can reach $S$ is the constant coefficient route from $A$ through the corresponding window in $W$.
+
+Finally apply \autoref{thm:real-power-series-nonescape} and \autoref{thm:realpowerseries-terminal-real-seal-obligation}. The endpoint remains inside the displayed packet and the terminal $\RealUp$ seal is read only after the finite rows already named, so none of the excluded host analytic, selector, quotient, choice, or ambient-completeness objects can be exported.
+\end{proof}
+
 \begin{theorem}[Real power series coefficient-shift route]\label{thm:real-power-series-coefficient-shift-route}
 Let $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ be an accepted $\RealPowerSeriesUp$ carrier. Shifting the center row $Z$ to any displayed subcenter admitted by the finite radius-window row $R$ preserves coefficient reads only along
 $$
@@ -668,14 +681,30 @@ The endpoint and structural rows are sealed by \autoref{thm:real-power-series-en
 
 \independenceWitness{realseries, weierstrass-mtest, regular-cauchy-ratio-test, regular-cauchy-root-test, formalpowerseries, convergence-radius, real, regseqrat, streamname, dyadicratcore: $\RealPowerSeriesUp$ is not bijective to any listed sibling because it jointly carries coefficient-stream access, center and argument Real rows, displayed radius windows, finite polynomial partial sums, selected majorant routes, endpoint sealing, transport, continuation, provenance, and local naming.}
 
-\closureat{RealPowerSeriesUp}{seedStr}
+\begin{theorem}[RealPowerSeries scoped radius ledger]
+\label{thm:realpowerseries-scoped-radius-ledger}
+The scoped surface of $\RealPowerSeriesUp$ is exactly the displayed coefficient-window carrier, radius witness, $\CauchyProductUp$ handoff, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, and $\Pkg$ provenance recorded by the carrier
+$$
+K=(A,Z,X,R,W,S,M,E,H,C,P,N).
+$$
+Every endpoint-facing, product-facing, or radius-facing consumer must read the packet through $A,Z,X,R,W,S,M,E,H,C,P,N$ before it may use the endpoint seal, and no consumer receives host analytic continuation, quotient function equality, selected infinite sums, host multiplication, countable choice, or ambient $\RealUp$ completeness as an additional coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-power-series-carrier}. The rows $A,Z,X,R,W,S,M,E,H,C,P,N$ are the only rows available to a consumer, so the coefficient source, center, argument, radius witness, finite windows, partial sums, majorant route, endpoint seal, transport, replay, provenance, and local naming are the visible scope boundary.
+
+Apply \autoref{thm:real-power-series-obligation-closure-ledger}. It identifies carrier admission, the coefficient-window route, the radius-window handoff, the $\CauchyProductUp$ budget, selected majorant route, $\RegSeqRatUp$ endpoint handoff, endpoint seal, transport, replay, provenance, and local naming as the complete obligation package.
+
+Finally use \autoref{thm:realpowerseries-coefficient-product-radius-exhaustion} and \autoref{thm:real-power-series-product-endpoint-nonescape}. They keep product and endpoint requests downstream of the same coefficient, radius, tolerance, readback, and seal rows, while the excluded analytic, quotient, selector, choice, and completeness objects have no carrier coordinate. Hence the displayed rows are exactly the scoped ledger.
+\end{proof}
+
+\closureat{RealPowerSeriesUp}{scopedStr}
 
 \begin{closurestatus}{\RealPowerSeriesUp}
   \constructivestory{A $\RealPowerSeriesUp$ packet is generated from a coefficient stream or formal-series row, center and argument $\RealUp$ rows, a displayed radius or subradius row, finite $\StreamNameUp$ windows, finite partial-sum and $\RealSeriesUp$ rows, majorant data from M-test or ratio/root-test rows, a $\RealUp$ endpoint seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:real-power-series-carrier}, \autoref{thm:real-power-series-namecert-obligations}, \autoref{thm:real-power-series-radius-window-handoff}, and \autoref{thm:real-power-series-nonescape} bind the finite constructive real-power-series certificate surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:real-power-series-carrier}, \autoref{thm:real-power-series-namecert-obligations}, \autoref{thm:real-power-series-obligation-closure-ledger}, and \autoref{thm:realpowerseries-scoped-radius-ledger} bind the coefficient-window carrier, radius witness, product handoff, tolerance row, readback, seal, transport, replay, provenance, local naming, and nonescape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host analytic continuation, quotient function spaces, selected infinite sums, countable choice, ambient $\RealUp$ completeness, bridge checking, or Lean verification.}
-  \upgradepath{Scoped closure requires a single scope theorem that binds the carrier, coefficient-window route, radius-window handoff, product budget, majorant route, endpoint handoff, endpoint seal, transport, replay, provenance, local naming, and nonescape boundary for BEDC.Derived.RealPowerSeriesUp.}
+  \upgradepath{Public closure requires Lean coverage and bridge-ready public-object rows for BEDC.Derived.RealPowerSeriesUp.}
 \end{closurestatus}

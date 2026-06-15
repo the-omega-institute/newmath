@@ -66,12 +66,24 @@ The readback row $R$ and basis row $B$ then replay along the stored $\Cont$ rout
 The structural rows finish the classification. The provenance and local name are transported with the packet, and the carrier has no extra coordinate from which a quotient interval equality, host real equality, open-cover compactness theorem, Dedekind completeness principle, countable-choice witness, or selected completion point could be read.
 \end{proof}
 
+\begin{theorem}[DyadicIntervalBasis refinement cover]
+\label{thm:dyadic-interval-basis-refinement-cover}
+Let $D=(I,E,O,R,B,H,C,P,N)$ be an accepted $\DyadicIntervalBasisUp$ carrier. Any finite family of displayed dyadic subcell refinements whose endpoint rows are transported through $H$ and replayed through $C$ assembles into finite basis-cover data over the same $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RealOrderTopologyUp$ rows. Each refined cell contributes only a transported endpoint cell, endpoint ledger, rational containment row, finite readback row, Real seal, order-topology basis read, provenance, and local name; the assembled cover exports no Dedekind completeness, open-cover compactness, quotient interval equality, host real equality, countable choice, or selected completion point.
+\end{theorem}
+\begin{proof}
+Induct on the finite refinement family. The empty family assembles to the empty finite basis-cover packet over the displayed carrier rows, with no new mathematical coordinate.
+
+For the successor step, assume the preceding refinements have already been assembled as finite basis-cover data over $I,E,O,R,B,H,C,P,N$. Apply \autoref{thm:dyadic-interval-basis-refinement-stability} to the next displayed subcell refinement. Its endpoints are transported by $H$, its route is replayed by $C$, and its accepted packet preserves the dyadic interval cell, endpoint ledger, rational containment row, finite readback row, Real seal rows, and order-topology basis read.
+
+Append that accepted subcell packet to the finite cover list. The provenance and local naming rows $P,N$ source the appended cell in the same carrier surface, so the assembled cover remains finite and basis-facing. Since every induction step uses only the transported carrier rows, none of the excluded host principles can enter the assembled data.
+\end{proof}
+
 \closureat{DyadicIntervalBasisUp}{seedStr}
 
 \begin{closurestatus}{\DyadicIntervalBasisUp}
   \constructivestory{A $\DyadicIntervalBasisUp$ packet is generated from a DyadicInterval endpoint cell, a DyadicRatCore endpoint ledger, a RationalInterval containment row, StreamName finite windows, RegSeqRat readbacks, RealUp seal rows, a RealOrderTopology basis read, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-interval-basis-carrier}, \autoref{thm:dyadic-interval-basis-namecert-obligations}, and \autoref{thm:dyadic-interval-basis-refinement-stability} seed the finite dyadic basis-cell route over dyadic endpoint cells, endpoint ledgers, rational containment, finite readbacks, Real seals, and order-topology basis reads.}
+  \scopeclosed{\autoref{def:dyadic-interval-basis-carrier}, \autoref{thm:dyadic-interval-basis-namecert-obligations}, \autoref{thm:dyadic-interval-basis-refinement-stability}, and \autoref{thm:dyadic-interval-basis-refinement-cover} seed the finite dyadic basis-cell route over dyadic endpoint cells, endpoint ledgers, rational containment, finite readbacks, Real seals, and order-topology basis reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Dedekind completeness, open-cover compactness, quotient interval equality, host real equality, countable choice, a selected completion point, Lean verification, or bridge checking.}

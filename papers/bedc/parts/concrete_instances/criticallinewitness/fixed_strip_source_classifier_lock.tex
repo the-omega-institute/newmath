@@ -35,3 +35,16 @@ Next use the downstream consumer rows. Root downstream consumer totality and fix
 
 Finally apply classifier separation together with the NameCert route exhaustion theorem, \autoref{thm:critical-line-witness-fixed-strip-classifier-separation} and \autoref{thm:critical-line-witness-namecert-route-exhaustion}. The classifier, signature-gap ledger, and downstream route all factor through the same visible zero-source ledger, so the consumer cannot replace that ledger by an analytic oracle, host zero classifier, quotient representative, ambient completeness datum, or direct $\mathsf{RH}$ proof.
 \end{proof}
+
+\begin{theorem}[CriticalLineWitness fixed-strip zero-source refusal]
+\label{thm:critical-line-witness-fixed-strip-zero-source-refusal}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. If an $\mathsf{RH}$-facing consumer reads the fixed-strip classifier without the matching zero-source ledger $Z,S,M,R,Q,H,C,P,N$ on the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CriticalLineWitnessUp}$ route, then that classifier read remains on the refusal route. It cannot be promoted to zero search, analytic continuation, host equality, quotient representatives, ambient completeness, or an $\mathsf{RH}$ proof.
+\end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_fixed\_strip\_zero\_source\_refusal}
+\begin{proof}
+First apply fixed-strip carrier source totality, \autoref{thm:critical-line-witness-fixed-strip-carrier-source-totality}. It confines the classifier-side source to the finite displayed rows of $W$.
+
+Next apply classifier separation, \autoref{thm:critical-line-witness-fixed-strip-classifier-separation}. Without the matching signature-gap and zero-source ledger, the fixed-strip classifier and zero-source read stay on distinct displayed rows.
+
+Finally use zero-source ledger exhaustion, \autoref{thm:critical-line-witness-zero-source-ledger-exhaustion}. Every $\mathsf{RH}$-facing consumer must pass through the same ledger before reading a public conclusion, so the unmatched classifier read cannot become any of the refused analytic, host, quotient, completeness, zero-search, or $\mathsf{RH}$ endpoints.
+\end{proof}

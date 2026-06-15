@@ -184,7 +184,18 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     runner = build_runner(paths, execute_codex=not args.plan_only, max_dispatch=max(0, args.max_dispatch))
-    supervisor_log("starting BioReality supervisor")
+    supervisor_log(
+        "starting BioReality supervisor "
+        + json.dumps(
+            {
+                "plan_only": bool(args.plan_only),
+                "execute_codex": not bool(args.plan_only),
+                "max_dispatch": max(0, args.max_dispatch),
+                "oracle": lanes.oracle_runtime_summary(),
+            },
+            sort_keys=True,
+        )
+    )
     while not should_stop():
         results = runner.run_once()
         summary = [

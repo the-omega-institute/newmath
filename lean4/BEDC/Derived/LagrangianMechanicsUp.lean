@@ -398,4 +398,69 @@ theorem LagrangianMechanicsPacket_finite_obligation_carrier [AskSetup] [PackageS
       publicReadUnary, configurationVelocityAction, routeProvenanceCertificate,
       certificateConfigurationPublicRead, certificatePkg, publicReadPkg⟩
 
+theorem LagrangianMechanicsPacket_symplectic_noether_sibling_route [AskSetup] [PackageSetup]
+    {configuration velocity action variation endpoint residual symplectic current transport route
+      provenance certificate noetherRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LagrangianMechanicsPacket configuration velocity action variation endpoint residual symplectic
+        current transport route provenance certificate bundle pkg ->
+      Cont symplectic current noetherRead ->
+        PkgSig bundle noetherRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row noetherRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row symplectic ∨ hsame row current ∨ hsame row noetherRead ∨
+                  hsame row route)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont symplectic current noetherRead ∧
+                  PkgSig bundle noetherRead pkg ∧ PkgSig bundle certificate pkg)
+              hsame ∧
+            UnaryHistory symplectic ∧ UnaryHistory current ∧ UnaryHistory noetherRead ∧
+              PkgSig bundle certificate pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet noetherRoute noetherPkg
+  have noetherBoundary :=
+    LagrangianMechanicsPacket_noether_consumer_boundary packet noetherRoute noetherPkg
+  obtain ⟨_configurationUnary, _velocityUnary, _actionUnary, _variationUnary, _endpointUnary,
+    _residualUnary, symplecticUnary, currentUnary, _transportUnary, _routeUnary, noetherUnary,
+    _configurationVelocityAction, _actionVariationEndpoint, _residualSymplecticCurrent,
+    _currentTransportRoute, _noetherRoute, certificatePkg, _noetherPkg⟩ := noetherBoundary
+  have sourceAtNoether :
+      (fun row : BHist => hsame row noetherRead ∧ UnaryHistory row) noetherRead :=
+    ⟨hsame_refl noetherRead, noetherUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row noetherRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row symplectic ∨ hsame row current ∨ hsame row noetherRead ∨ hsame row route)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont symplectic current noetherRead ∧
+              PkgSig bundle noetherRead pkg ∧ PkgSig bundle certificate pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro noetherRead sourceAtNoether
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inl source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, noetherRoute, noetherPkg, certificatePkg⟩
+  }
+  exact ⟨cert, symplecticUnary, currentUnary, noetherUnary, certificatePkg⟩
+
 end BEDC.Derived.LagrangianMechanicsUp

@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\SheafificationUp$}
+\label{ch:concrete-instances-sheafification-namecert}
+\origin{human}
+
+Following Grothendieck's SGA 4 site formalism and the Mac Lane--Moerdijk account of sheaves in geometry and logic, the $\SheafificationUp$ packet records the finite BEDC surface by which a displayed presheaf is routed to a sheaf-facing carrier. It sits after the categorical source of \autoref{ch:concrete-instances-category-namecert}, the topological and site carriers of \autoref{ch:concrete-instances-topology-namecert} and \autoref{ch:concrete-instances-grothendieck-topology-namecert}, the presheaf restriction surface of \autoref{ch:concrete-instances-presheaf-namecert}, and the gluing target of \autoref{ch:concrete-instances-sheaf-namecert}. The packet names the separated-refinement, cover-local matching, plus-style gluing, transport, replay, provenance, and local naming rows; it is not a host sheafification functor, not a quotient of compatible families, and not a topos-level reflector.
+
+\begin{definition}[Sheafification carrier]
+\label{def:sheafification-carrier}
+A $\SheafificationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(C,T,J,P,L,G,S,H,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CategoryUp$ source row naming the displayed objects and arrows over which the presheaf is read.
+\item $T$ is the $\TopologyUp$ or site-open row supplying the indexed open windows used by cover requests.
+\item $J$ is the $\GrothendieckTopologyUp$ coverage row, including covering sieves, pullback-stability rows, and local-transitivity rows.
+\item $P$ is the $\PreSheafUp$ restriction row over $C,T,J$, with section carriers and restriction comparison data.
+\item $L$ is the locality-refinement ledger, recording matching families after every displayed cover refinement.
+\item $G$ is the gluing ledger, recording the accepted glued section row for each compatible local family.
+\item $S$ is the resulting $\SheafUp$ target row, exposed only through the same locality and gluing data.
+\item $H$ records componentwise $\hsame$ transport for the category, topology, site, presheaf, locality, gluing, sheaf, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from presheaf restriction reads through the locality and gluing ledgers to the sheaf target.
+\item $Q$ is the $\Pkg$ provenance over $\SheafificationUp$, $\CategoryUp$, $\TopologyUp$, $\GrothendieckTopologyUp$, $\PreSheafUp$, $\SheafUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SheafificationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $C,T,J,P,L,G,S,H,R,Q,N$. It has no coordinate for a host reflector, quotient of compatible families, global choice of covers, topos object, ambient powerset equality, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Sheafification NameCert obligations]
+\label{thm:sheafification-namecert-obligations}
+For every accepted $\SheafificationUp$ carrier
+$$
+A=(C,T,J,P,L,G,S,H,R,Q,N),
+$$
+the local $\NameCert_{\SheafificationUp}$ surface consists exactly of category-source exposure through $C$, topology-window exposure through $T$, Grothendieck coverage through $J$, presheaf restriction exposure through $P$, locality-refinement rows through $L$, gluing rows through $G$, the sheaf target row through $S$, componentwise transport through $H$, displayed replay through $R$, provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sheafification-carrier}. The source side is the displayed category, topology or site window, Grothendieck coverage row, and presheaf restriction row.
+
+The locality ledger $L$ records the cover-refinement comparisons that make matching families visible. The gluing ledger $G$ records the resulting glued section row only after those matching-family rows have been displayed.
+
+The sheaf target $S$ is therefore read from $P,L,G$ over the same $C,T,J$ source. The structural rows $H,R,Q,N$ transport, replay, source, and name that same route. Since no host reflector, quotient family, selected cover, topos object, or powerset equality is a carrier coordinate, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Sheafification sheaf handoff]
+\label{thm:sheafification-sheaf-handoff}
+Every downstream $\SheafUp$ consumer of an accepted $\SheafificationUp$ packet receives only the displayed sheaf row $S$ together with its dependency route
+$$
+\CategoryUp,\TopologyUp,\GrothendieckTopologyUp,\PreSheafUp
+\longmapsto L \longmapsto G \longmapsto \SheafUp .
+$$
+The handoff exposes the category source, topology or site windows, coverage row, presheaf restriction row, locality ledger, gluing ledger, transport row, replay row, provenance row, and local naming row; it does not expose a host sheafification functor, quotient of compatible families, selected cover system, topos object, or ambient powerset equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. A sheaf-facing consumer can read $S$ only after $C,T,J,P,L,G$ have been displayed, because $S$ is the target row of that finite route.
+
+Use the topology and site rows to interpret covers as displayed $\TopologyUp$ windows and $\GrothendieckTopologyUp$ covering sieves. The presheaf row $P$ supplies restriction data on those windows, while $L$ records locality under cover refinement and $G$ records the glued section row.
+
+The handoff to $\SheafUp$ is therefore the same row package, transported by $H$ and replayed by $R$. The provenance and local naming rows $Q,N$ name the consumed siblings without adding a host reflector or quotient object.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SheafificationUp$ read displays CategoryUp, TopologyUp or GrothendieckTopologyUp, PreSheafUp, locality, gluing, SheafUp, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any sheaf-facing consumer can use the target row.}
+
+\independenceWitness{category, topology, grothendieck topology, presheaf, sheaf: $\SheafificationUp$ is not bijective to any listed sibling because it binds locality refinement and gluing handoff rows between a displayed presheaf source and a displayed sheaf target.}
+
+\closureat{SheafificationUp}{seedStr}
+
+\begin{closurestatus}{\SheafificationUp}
+  \constructivestory{A $\SheafificationUp$ packet is generated from CategoryUp source rows, TopologyUp or GrothendieckTopologyUp cover rows, a PreSheafUp restriction row, locality-refinement rows, gluing rows, a SheafUp target row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sheafification-carrier}, \autoref{thm:sheafification-namecert-obligations}, and \autoref{thm:sheafification-sheaf-handoff} seed the finite sheafification route from presheaf restrictions to sheaf-facing gluing data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host sheafification functor, quotient of compatible families, global choice of covers, topos objects, ambient powerset equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source exposure, coverage exactness, presheaf restriction exposure, locality refinement, gluing exactness, sheaf handoff, transport, replay, provenance, and local naming for BEDC.Derived.SheafificationUp.}
+\end{closurestatus}

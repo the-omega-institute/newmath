@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\PolynomialResultantUp$}
+\label{ch:concrete-instances-polynomial-resultant-namecert}
+\origin{human}
+
+Following Sylvester and van der Waerden, the $\PolynomialResultantUp$ packet records the finite elimination row by which two displayed univariate polynomial coefficient lists expose a determinant obstruction to a shared root. It sits after the coefficient carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the finite matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, and the scalar arithmetic surface of \autoref{ch:concrete-instances-field-namecert}. The packet names only the Sylvester matrix assembly, determinant readback, degree ledger, transport, replay, provenance, and local naming rows; it is not an algebraic closure theorem, a selected common root, a quotient-polynomial equality, a Euclidean division oracle, or a host elimination procedure.
+
+\begin{definition}[Polynomial resultant carrier]
+\label{def:polynomial-resultant-carrier}
+A $\PolynomialResultantUp$ carrier is a finite $\BHist$ packet
+$$
+R=(F,G,D,S,M,\Delta,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ and $G$ are $\PolynomialUp$ coefficient-list rows for the two input polynomials.
+\item $D$ is the finite degree and leading-coefficient ledger that fixes the Sylvester block sizes.
+\item $S$ is the Sylvester assembly row, listing the shifted coefficient rows used to build the matrix.
+\item $M$ is the $\MatrixUp$ row that exposes the assembled Sylvester matrix as finite matrix data.
+\item $\Delta$ is the $\FieldUp$ scalar determinant readback row for the matrix $M$.
+\item $H$ records componentwise $\hsame$ transport for $F,G,D,S,M,\Delta$ and the local packet shape.
+\item $C$ records displayed $\Cont$ replay from polynomial coefficient reads through Sylvester assembly and determinant readback.
+\item $P$ is the $\Pkg$ provenance over $\PolynomialResultantUp$, $\PolynomialUp$, $\MatrixUp$, $\FieldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PolynomialResultantUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for algebraic closure, selected roots, quotient-polynomial equality, Euclidean division, subresultant chains, ambient field completion, or host elimination.
+\end{definition}
+
+\begin{theorem}[Polynomial resultant Sylvester determinacy]
+\label{thm:polynomial-resultant-sylvester-determinacy}
+For every accepted $\PolynomialResultantUp$ carrier
+$$
+R=(F,G,D,S,M,\Delta,H,C,P,N),
+$$
+the determinant row $\Delta$ is determined only after the two polynomial rows $F,G$, the degree ledger $D$, the Sylvester assembly row $S$, and the finite matrix row $M$ have all been displayed. A consumer may therefore read the resultant scalar only along the route
+$$
+\PolynomialUp,\PolynomialUp \longmapsto D \longmapsto S \longmapsto \MatrixUp \longmapsto \FieldUp,
+$$
+followed by $H,C,P,N$; no accepted packet reads $\Delta$ from a selected common root, a quotient-polynomial equality, a Euclidean algorithm transcript, or an ambient elimination theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:polynomial-resultant-carrier}. The scalar row $\Delta$ appears only after the two coefficient rows, the degree ledger, the Sylvester assembly row, and the matrix row have been named.
+
+The Sylvester row $S$ is finite because it is built from shifted copies of the displayed coefficient rows with block sizes fixed by $D$. The matrix row $M$ is therefore a displayed $\MatrixUp$ read, not a host array or an implicit linear operator.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier contains no selected root, quotient-polynomial equality, Euclidean transcript, or host elimination theorem, the determinant row is determined exactly by the displayed Sylvester route.
+\end{proof}
+
+\begin{theorem}[Polynomial resultant NameCert obligations]
+\label{thm:polynomial-resultant-namecert-obligations}
+For every accepted $\PolynomialResultantUp$ carrier
+$$
+R=(F,G,D,S,M,\Delta,H,C,P,N),
+$$
+the local $\NameCert_{\PolynomialResultantUp}$ surface consists exactly of polynomial coefficient exposure through $F,G$, degree and leading-coefficient exposure through $D$, Sylvester block assembly through $S$, matrix readback through $M$, field determinant readback through $\Delta$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+Thus every downstream elimination, discriminant, or algebraic-geometry consumer receives a finite resultant packet only through the sibling surfaces of \autoref{ch:concrete-instances-polynomial-namecert}, \autoref{ch:concrete-instances-matrix-namecert}, and \autoref{ch:concrete-instances-field-namecert}.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The polynomial source rows $F,G$ and the ledger $D$ provide the only coefficient and degree data available to the packet.
+
+Next apply \autoref{thm:polynomial-resultant-sylvester-determinacy}. It forces every determinant read to pass through $S$ and $M$ before the scalar row $\Delta$ is exposed.
+
+The structural rows do not add algebraic content. They only transport, replay, source, and name the same finite packet, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PolynomialResultantUp$ read displays two PolynomialUp coefficient rows, a finite degree ledger, a Sylvester assembly row, a MatrixUp row, a FieldUp determinant readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence before any resultant scalar is consumed.}
+
+\independenceWitness{polynomial, matrix, field: $\PolynomialResultantUp$ is not bijective to any listed sibling because it jointly carries two polynomial coefficient rows, the Sylvester block assembly, the finite matrix readback, the determinant scalar, and the local NameCert ledger in one elimination packet.}
+
+\leanstmt{BEDC.Derived.PolynomialResultantUp}
+
+\closureat{PolynomialResultantUp}{seedStr}
+
+\begin{closurestatus}{\PolynomialResultantUp}
+  \constructivestory{A $\PolynomialResultantUp$ packet is generated from two PolynomialUp coefficient rows, a degree and leading-coefficient ledger, a Sylvester assembly row, a MatrixUp readback, a FieldUp determinant row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:polynomial-resultant-carrier}, \autoref{thm:polynomial-resultant-sylvester-determinacy}, and \autoref{thm:polynomial-resultant-namecert-obligations} seed the finite Sylvester-resultant route over polynomial, matrix, and field sibling surfaces.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.PolynomialResultantUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close algebraic closure, selected roots, quotient-polynomial equality, Euclidean division, subresultant chains, ambient field completion, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Sylvester assembly determinacy, matrix readback exactness, determinant row exposure, transport, replay, provenance, and local naming for BEDC.Derived.PolynomialResultantUp.}
+\end{closurestatus}

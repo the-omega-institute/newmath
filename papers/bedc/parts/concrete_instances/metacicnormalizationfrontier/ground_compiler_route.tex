@@ -80,3 +80,78 @@ Now apply the discharge route and the target-scope theorem. The discharge route 
 
 Finally replay the displayed $\Cont$ route for $F'$. Since the replay reads exactly the transported recognition and discharge rows, the candidate-mediated boundary is preserved, and none of the excluded strong-normalization, confluence, subject-reduction, quotient-equality, or hidden-normalizer claims is added.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier residual-premise retention]
+\label{thm:metacic-normalization-frontier-residual-premise-retention}
+Let $F=(C,K,E,N,S,H,R,P,L)$ be an accepted $\MetaCICNormalizationFrontierUp$ packet. Any candidate-mediated discharge that preserves the ground-compiler route must retain the obstruction row $S$ as a visible residual premise until a separate subject-reduction row is supplied. The route may export candidate evidence, endpoint evidence, ground-compiler recognition, replay, provenance, and local ledger data, but it may not export hidden normalization, full strong normalization, confluence, erased subject reduction, quotient term equality, or a hidden normalizer.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierResidualPremiseRetention}
+\begin{proof}
+Begin with the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route}. It requires a consumer to read the carrier surface, candidate-evidence route, and root normal-form boundary before any normalization boundary is exported.
+
+Next apply the TasteGate route of \autoref{thm:metacic-normalization-frontier-tastegate-route}. That route keeps $C,K,E,N,S,H,R,P,L$ visible together, so the obstruction row $S$ cannot be silently erased by a promotion that still claims to use the displayed frontier packet.
+
+Use the discharge route of \autoref{thm:metacic-normalization-frontier-discharge-route}. It joins candidate evidence, endpoint evidence, obstruction accounting, and ground-compiler rows in one packet, and it excludes hidden normalizers, host strong-normalization theorems, erased subject-reduction transport, and quotient-level term equality.
+
+Finally apply candidate-discharge stability from \autoref{thm:metacic-normalization-frontier-candidate-discharge-stability}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve exactly the same boundary, so the transported discharge still retains $S$ until an independent subject-reduction row is displayed.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier subject-reduction residual budget]
+\label{thm:metacic-normalization-frontier-subject-reduction-residual-budget}
+Let $F=(C,K,E,N,S,H,R,P,L)$ be an accepted $\MetaCICNormalizationFrontierUp$ packet whose ground-compiler route is preserved. The subject-reduction obstruction row $S$ remains a visible residual budget row until a separate subject-reduction certificate is supplied. Candidate evidence $C,K$, endpoint evidence $E,N$, and ground-compiler rows $H,R,P,L$ may be consumed only as their displayed rows; they cannot be retyped as subject reduction, strong normalization, confluence, quotient term equality, evaluator equality, or a hidden normalizer.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierSubjectReductionResidualBudget}
+\begin{proof}
+Begin with the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route}. It forces every normalization-boundary consumer to read the carrier surface, candidate-evidence route, and endpoint boundary before exporting any ground-compiler-facing result.
+
+Apply the TasteGate and discharge routes of \autoref{thm:metacic-normalization-frontier-tastegate-route} and \autoref{thm:metacic-normalization-frontier-discharge-route}. These routes keep $C,K,E,N,S,H,R,P,L$ visible as separate rows, so the candidate and endpoint evidence cannot be promoted into subject reduction or a stronger normalization theorem.
+
+Use candidate-discharge stability from \autoref{thm:metacic-normalization-frontier-candidate-discharge-stability}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same row family, including the distinction between candidate evidence, endpoints, obstruction accounting, and ground-compiler replay.
+
+Finally apply residual-premise retention from \autoref{thm:metacic-normalization-frontier-residual-premise-retention}. Since $S$ is the only displayed subject-reduction obstruction row and no other coordinate has the required type, row exhaustion leaves $S$ as an ordinary residual budget row until an independent subject-reduction certificate is supplied.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier ground-compiler readback]
+\label{thm:metacic-normalization-frontier-ground-compiler-readback}
+Let $F=(C,K,E,N,S,H,R,P,L)$ be an accepted $\MetaCICNormalizationFrontierUp$ carrier. Any normalization-frontier readback consumed by a MetaCIC audit or TasteGate consumer must pass through candidate evidence $C,K$, endpoint evidence $E,N$, residual premise $S$, and the ground-compiler rows $H,R,P,L$. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve that readback, and the route exports no strong normalization, confluence, erased subject reduction, quotient term equality, or hidden normalizer.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierGroundCompilerReadback}
+\begin{proof}
+Begin with the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route}. It requires every normalization-boundary consumer to read the carrier surface, candidate-evidence route, and root normal-form boundary before any frontier readback is exported.
+
+Next apply the TasteGate route and discharge route of \autoref{thm:metacic-normalization-frontier-tastegate-route} and \autoref{thm:metacic-normalization-frontier-discharge-route}. These rows keep $C,K,E,N,S,H,R,P,L$ visible together, so an audit-facing readback cannot separate candidate evidence from endpoints, residual obstruction accounting, recognition, replay, provenance, or the local ledger.
+
+Use candidate-discharge stability from \autoref{thm:metacic-normalization-frontier-candidate-discharge-stability}. Componentwise $\hsame$ transport only renames the displayed rows, and displayed $\Cont$ replay replays the same recognition and discharge route for the transported packet.
+
+Finally retain the residual premise by \autoref{thm:metacic-normalization-frontier-residual-premise-retention}. Since $S$ remains visible until a separate subject-reduction row is supplied, the readback exports none of the excluded strong-normalization, confluence, erased subject-reduction, quotient-equality, or hidden-normalizer claims.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier formal-target contract]
+\label{thm:metacic-critical-path-formal-target-contract}
+Any formal target consumed from an accepted $\MetaCICNormalizationFrontierUp$ packet must expose candidate evidence rows $C,K$, finished-normal endpoint rows $E,N$, residual premise $S$, and ground-compiler rows $H,R,P,L$ before it may export a normalization boundary. A target is outside the contract if it drops $S$ or replaces these rows by hidden strong normalization, confluence, erased subject reduction, quotient term equality, or a hidden normalizer.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierFormalTargetContract}
+\begin{proof}
+Begin with the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route}. It requires a consumer to read the carrier surface, candidate-evidence route, and root normal-form boundary before any normalization boundary is exported.
+
+Apply the TasteGate route of \autoref{thm:metacic-normalization-frontier-tastegate-route} and the discharge route of \autoref{thm:metacic-normalization-frontier-discharge-route}. Together they keep $C,K,E,N,S,H,R,P,L$ visible as one packet rather than allowing a formal target to cite an ambient normalization principle.
+
+Use candidate-discharge stability from \autoref{thm:metacic-normalization-frontier-candidate-discharge-stability}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the candidate-mediated discharge boundary and do not add confluence, erased subject reduction, quotient term equality, or a hidden normalizer.
+
+Finally apply \autoref{thm:metacic-normalization-frontier-residual-premise-retention} and \autoref{thm:metacic-normalization-frontier-ground-compiler-readback}. The residual premise $S$ remains visible until a separate subject-reduction row is supplied, and the readback exports the normalization boundary only through the displayed ground-compiler rows. Hence any target that drops $S$ or substitutes hidden strong normalization lies outside the local contract.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier certificate-router handoff]
+\label{thm:metacic-normalization-frontier-certificate-router-handoff}
+Every accepted $\MetaCICNormalizationFrontierUp$ packet whose frontier rows name closed-normal candidates, bounded reduction windows, residual obstruction data, and classifier-stable proof certificates can be consumed by the normalization-certificate router only after those rows remain visible under $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport. The handoff refuses unconditional strong normalization, unrestricted confluence, and host equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierCertificateRouterHandoff}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-frontier-carrier}. Candidate evidence, endpoint evidence, residual obstruction, route recognition, replay, provenance, and local ledger rows are the only rows available to a router-facing consumer.
+
+Use the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route} and the target scope of \autoref{thm:metacic-normalization-frontier-ground-compiler-target-scope}. They force every normalization-boundary read through the displayed carrier, candidate-evidence boundary, endpoint boundary, and ground-compiler rows before any certificate is exported.
+
+Apply candidate-discharge stability, residual-premise retention, and ground-compiler readback. These theorems keep the same rows visible under componentwise $\hsame$ transport and displayed $\Cont$ replay, with $\Pkg$ provenance and the local $\NameCert$ ledger still attached to the packet.
+
+The certificate router therefore receives only the displayed closed-normal candidate data, bounded window data, residual obstruction row, and classifier-stable proof certificate rows. Since no carrier coordinate stores unconditional strong normalization, unrestricted confluence, or host equality, the handoff cannot export those claims.
+\end{proof}
