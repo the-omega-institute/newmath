@@ -3733,6 +3733,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootStripWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootStripZetaGammaSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootVisibleModulusConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroCarrier
+import BEDC.Derived.CriticalLineWitnessUp.RootZeroLocalizationSelectorExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripCarrierRow
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripExclusion
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripHandoff
@@ -5961,6 +5962,7 @@ import BEDC.Derived.IdealUp.RingMapZeroFiber
 import BEDC.Derived.IdealUp.StdBridge
 import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.ImplicitFunctionTheoremUp
+import BEDC.Derived.ImplicitFunctionUp.RootEquationCarrier
 import BEDC.Derived.ImplicitFunctionUp.TasteGate
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.InducedRepUp
