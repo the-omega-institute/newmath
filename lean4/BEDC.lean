@@ -3842,6 +3842,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaStripModulusTotality
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.BoundaryLedgerNonescape
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.ConsumerBoundary
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.PacketScopeBinding
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RHHandoffObligation
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RhInputLedger
@@ -4341,6 +4342,7 @@ import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DiscreteGronwallUp
 import BEDC.Derived.DistanceFunctionCompletionUp.TasteGate
+import BEDC.Derived.DistanceToCompactUp.TasteGate
 import BEDC.Derived.DistributionDerivativeUp.TasteGate
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.DivisibilityUp
@@ -7123,6 +7125,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedNormalBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FinishedRouteTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetCarrierCoverage
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetClassifierTotality
+import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetContract
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FormalTargetLedgerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FuelLedgerNonescape
 import BEDC.Derived.MetaCICNormalizationFrontierUp.FuelRoute
@@ -7172,6 +7175,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.ScopeBinding
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SealBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SubjectObstructionPreservation
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SubjectReductionObstructionCompatibility
+import BEDC.Derived.MetaCICNormalizationFrontierUp.SubjectReductionResidualBudget
 import BEDC.Derived.MetaCICNormalizationFrontierUp.SubstitutionStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionAdmission
@@ -8264,6 +8268,7 @@ import BEDC.Derived.PseudometricUp.ZeroDistanceScope
 import BEDC.Derived.PseudometricUp.ZeroDistanceSourceReflection
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.PuncturedCubeSkeletonUp.TasteGate
+import BEDC.Derived.QRDecompositionUp.TasteGate
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
@@ -8370,6 +8375,7 @@ import BEDC.Derived.RationalCauchyCompletionUp.TasteGate
 import BEDC.Derived.RationalCauchyGapUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
 import BEDC.Derived.RationalEmbeddingUp.TasteGate
+import BEDC.Derived.RationalFastLimitUp.TasteGate
 import BEDC.Derived.RationalIntervalCoverUp.TasteGate
 import BEDC.Derived.RationalIntervalEnclosureUp.TasteGate
 import BEDC.Derived.RationalIntervalRefinementUp
