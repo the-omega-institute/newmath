@@ -3483,6 +3483,7 @@ import BEDC.Derived.CriticalLineWitnessUp.DepthRequestLedger
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamConsumerUnblock
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamCounterSurface
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamModulusRefusalExport
+import BEDC.Derived.CriticalLineWitnessUp.DownstreamObligations
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamRHUnblockPackage
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamReadbackExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.DownstreamRefusalLedger
@@ -3586,6 +3587,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryDownstreamLock
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonclaim
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryRefusalExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryStdbridgeNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundary
@@ -3622,6 +3624,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetSelectorTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootCarrierClassifierBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootCarrierProjectionRows
+import BEDC.Derived.CriticalLineWitnessUp.RootCarrierScope
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierBudgetLock
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierRefusalBoundary
@@ -3631,6 +3634,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootComponentwiseNamecertTransport
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerReadinessCertificate
+import BEDC.Derived.CriticalLineWitnessUp.RootContinuationZeroStripCoherence
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetLedgerStability
@@ -3749,6 +3753,7 @@ import BEDC.Derived.CriticalLineWitnessUp.StripZeroBoundary
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedInputCarrierRow
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroReadback
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TerminalComparisonLedgerLock
 import BEDC.Derived.CriticalLineWitnessUp.TerminalConsumerExhaustion
@@ -4301,6 +4306,7 @@ import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUnitUp
+import BEDC.Derived.DiscreteGronwallUp
 import BEDC.Derived.DistanceFunctionCompletionUp.TasteGate
 import BEDC.Derived.DistributionDerivativeUp.TasteGate
 import BEDC.Derived.DistributionUp
@@ -4418,6 +4424,7 @@ import BEDC.Derived.DyadicIntervalArithmeticUp.EnclosureSoundness
 import BEDC.Derived.DyadicIntervalArithmeticUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalBasisUp.TasteGate
+import BEDC.Derived.DyadicIntervalBisectionUp
 import BEDC.Derived.DyadicIntervalCompletionUp
 import BEDC.Derived.DyadicIntervalCoverUp.BishopIntervalCompactRoute
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeBudget
@@ -5994,6 +6001,7 @@ import BEDC.Derived.InverseFunctionUp.TasteGate
 import BEDC.Derived.InverseLimitMetricUp.TasteGate
 import BEDC.Derived.InverseMappingTheoremUp.TasteGate
 import BEDC.Derived.IrrationalWitnessUp.TasteGate
+import BEDC.Derived.IsaacsEquationUp
 import BEDC.Derived.IsbellTightSpanUp.TasteGate
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BoundedSequenceRoute
@@ -7564,6 +7572,7 @@ import BEDC.Derived.NormalSpaceUp.TietzeExtensionRefusal
 import BEDC.Derived.NormalSpaceUp.TopologyConsumerBoundary
 import BEDC.Derived.NormalSpaceUp.UrysohnCozeroLocalization
 import BEDC.Derived.NormalSpaceUp.UrysohnLemmaConsumerExactness
+import BEDC.Derived.NormalizationEvidenceBudgetUp.TasteGate
 import BEDC.Derived.NormedSpaceUp
 import BEDC.Derived.NormedSpaceUp.AnalysisConsumerExhaustion
 import BEDC.Derived.NormedSpaceUp.BanachConsumerNonescape
@@ -10438,6 +10447,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.ScopedL10ObligationRoute
 import BEDC.Derived.UniformCompletionFunctorUp.SourceExtensionReadback
 import BEDC.Derived.UniformCompletionFunctorUp.SourceFactorization
 import BEDC.Derived.UniformCompletionFunctorUp.SourceUnitCompatibility
+import BEDC.Derived.UniformCompletionFunctorUp.TargetSourceOrder
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.UnitRootObligation
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalExtensionUniquenessLedger
