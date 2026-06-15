@@ -193,6 +193,45 @@ coordinate from which to read a quotient stream, host function equality,
 selected limit, or ambient completeness principle.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus of continuity obligation-closure package]
+\label{thm:cauchy-modulus-of-continuity-obligation-closure-package}
+For every accepted $\CauchyModulusOfContinuityUp$ carrier
+$K=(S,T,\mu,F,R,E,H,C,P,N)$, the carrier definition, the local NameCert
+obligations, the $\CauchyContinuousMapUp$ threshold handoff, finite-window
+monotonicity, and the $\RealUp$ consumer boundary jointly supply the full
+obligation surface over $\StreamNameUp$, $\CauchyModulusUp$,
+$\CauchyContinuousMapUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$. The package exposes exactly the displayed
+source windows, target windows, threshold schedule, transformer route,
+regular readbacks, real seal, transport rows, continuation replay,
+provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:cauchy-modulus-of-continuity-carrier}. It fixes the
+tuple $K=(S,T,\mu,F,R,E,H,C,P,N)$ and states that every visible coordinate is
+one of the named BEDC rows.
+
+Apply
+\autoref{thm:cauchy-modulus-of-continuity-namecert-obligations}. The local
+NameCert surface is exhausted by carrier admission, classifier transport,
+componentwise stability, threshold-route exactness, replay, provenance, seal
+factorization, and local naming.
+
+Use
+\autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff} and
+\autoref{thm:cauchy-modulus-of-continuity-window-monotonicity} for the
+consumer side. They force every target-window read to pass through
+$S,\mu,F,T,R$ and show that enlarging a finite source window preserves the
+same displayed route.
+
+Finally apply
+\autoref{thm:cauchy-modulus-of-continuity-real-consumer-boundary}. The real
+consumer reaches only the $\RegSeqRatUp$ readback and $\RealUp$ seal after
+the threshold route has been replayed. Hence the package excludes uniform
+continuity, compactness, quotient streams, host function equality, selected
+limits, and ambient completeness.
+\end{proof}
+
 \closureat{CauchyModulusOfContinuityUp}{seedStr}
 
 \begin{closurestatus}{\CauchyModulusOfContinuityUp}
