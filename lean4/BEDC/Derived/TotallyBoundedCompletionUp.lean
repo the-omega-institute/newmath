@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -166,6 +168,40 @@ theorem TotallyBoundedCompletionCarrier_net_handoff [AskSetup] [PackageSetup]
     ⟨sourceUnary, netUnary, refinementUnary, netReadUnary, sourceNetRefinement,
       sourceNetRead, localNamePkg⟩
 
+theorem TotallyBoundedCompletionCarrier_extension_nonescape [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName extensionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont separated extension extensionRead ->
+        PkgSig bundle extensionRead pkg ->
+          UnaryHistory source ∧ UnaryHistory net ∧ UnaryHistory refinement ∧
+            UnaryHistory basis ∧ UnaryHistory embedding ∧ UnaryHistory completion ∧
+              UnaryHistory separated ∧ UnaryHistory extension ∧ UnaryHistory extensionRead ∧
+                Cont source net refinement ∧ Cont refinement basis embedding ∧
+                  Cont embedding completion separated ∧ Cont separated extension extensionRead ∧
+                    PkgSig bundle localName pkg ∧ PkgSig bundle extensionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier separatedExtensionRead extensionReadPkg
+  obtain ⟨sourceUnary, netUnary, basisUnary, completionUnary, extensionUnary,
+    _transportUnary, sourceNetRefinement, refinementBasisEmbedding,
+    embeddingCompletionSeparated, _separatedExtensionProvenance,
+    _transportProvenanceLocalName, _provenancePkg, localNamePkg⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed sourceUnary netUnary sourceNetRefinement
+  have embeddingUnary : UnaryHistory embedding :=
+    unary_cont_closed refinementUnary basisUnary refinementBasisEmbedding
+  have separatedUnary : UnaryHistory separated :=
+    unary_cont_closed embeddingUnary completionUnary embeddingCompletionSeparated
+  have extensionReadUnary : UnaryHistory extensionRead :=
+    unary_cont_closed separatedUnary extensionUnary separatedExtensionRead
+  exact
+    ⟨sourceUnary, netUnary, refinementUnary, basisUnary, embeddingUnary, completionUnary,
+      separatedUnary, extensionUnary, extensionReadUnary, sourceNetRefinement,
+      refinementBasisEmbedding, embeddingCompletionSeparated, separatedExtensionRead,
+      localNamePkg, extensionReadPkg⟩
+
 theorem TotallyBoundedCompletionCarrier_net_refinement_stability [AskSetup] [PackageSetup]
     {source net refinement basis embedding completion separated extension transport provenance
       localName refinementRead embeddingRead : BHist}
@@ -194,5 +230,70 @@ theorem TotallyBoundedCompletionCarrier_net_refinement_stability [AskSetup] [Pac
   exact
     ⟨netUnary, refinementUnary, refinementReadUnary, embeddingReadUnary,
       sourceNetRefinement, netRefinementRead, refinementBasisRead, localNamePkg⟩
+
+theorem TotallyBoundedCompletionCarrier_root_net_ledger_certificate [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName netRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont source net netRead ->
+        PkgSig bundle netRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row netRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row source ∨ hsame row net ∨ hsame row refinement ∨ hsame row netRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont source net refinement ∧ Cont source net netRead ∧
+                  PkgSig bundle netRead pkg)
+              hsame ∧
+            UnaryHistory netRead ∧ Cont source net refinement ∧ Cont source net netRead ∧
+              PkgSig bundle netRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert UnaryHistory
+  intro carrier sourceNetRead netReadPkg
+  obtain ⟨sourceUnary, netUnary, _basisUnary, _completionUnary, _extensionUnary,
+    _transportUnary, sourceNetRefinement, _refinementBasisEmbedding,
+    _embeddingCompletionSeparated, _separatedExtensionProvenance,
+    _transportProvenanceLocalName, _provenancePkg, _localNamePkg⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed sourceUnary netUnary sourceNetRefinement
+  have netReadUnary : UnaryHistory netRead :=
+    unary_cont_closed sourceUnary netUnary sourceNetRead
+  have sourceAtNetRead : hsame netRead netRead ∧ UnaryHistory netRead :=
+    ⟨hsame_refl netRead, netReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row netRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row net ∨ hsame row refinement ∨ hsame row netRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont source net refinement ∧ Cont source net netRead ∧
+              PkgSig bundle netRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro netRead sourceAtNetRead
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, sourceNetRefinement, sourceNetRead, netReadPkg⟩
+  }
+  exact ⟨cert, netReadUnary, sourceNetRefinement, sourceNetRead, netReadPkg⟩
 
 end BEDC.Derived.TotallyBoundedCompletionUp
