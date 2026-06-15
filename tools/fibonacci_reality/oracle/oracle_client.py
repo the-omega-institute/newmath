@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import os
 import socket
 import subprocess
 import sys
@@ -43,6 +44,7 @@ def _parse_nyxid_oracle_pool(server_url: str) -> str:
 
 
 def _run_nyxid_oracle(cmd: list[str], *, timeout_seconds: float) -> dict[str, Any]:
+    env = _nyxid_oracle_env()
     try:
         completed = subprocess.run(
             cmd,
@@ -50,6 +52,7 @@ def _run_nyxid_oracle(cmd: list[str], *, timeout_seconds: float) -> dict[str, An
             capture_output=True,
             check=False,
             timeout=timeout_seconds,
+            env=env,
         )
     except subprocess.TimeoutExpired as exc:
         return _error("timeout", str(exc))
@@ -66,6 +69,29 @@ def _run_nyxid_oracle(cmd: list[str], *, timeout_seconds: float) -> dict[str, An
     except json.JSONDecodeError as exc:
         return _error("invalid_json", f"{exc}: {text[:1000]}")
     return data if isinstance(data, dict) else {"status": "ok", "result": data}
+
+
+def _nyxid_oracle_env() -> dict[str, str]:
+    env = os.environ.copy()
+    if any(env.get(name) for name in ("HTTPS_PROXY", "https_proxy", "ALL_PROXY", "all_proxy")):
+        return env
+    host = env.get("FIBONACCI_REALITY_NYXID_HTTP_PROXY_HOST", "127.0.0.1")
+    port_text = env.get("FIBONACCI_REALITY_NYXID_HTTP_PROXY_PORT", "8119")
+    try:
+        port = int(port_text)
+    except ValueError:
+        return env
+    try:
+        with socket.create_connection((host, port), timeout=0.2):
+            pass
+    except OSError:
+        return env
+    proxy = f"http://{host}:{port}"
+    env.setdefault("HTTP_PROXY", proxy)
+    env.setdefault("HTTPS_PROXY", proxy)
+    env.setdefault("http_proxy", proxy)
+    env.setdefault("https_proxy", proxy)
+    return env
 
 
 def _request_json_nyxid_oracle(
