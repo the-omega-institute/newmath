@@ -132,4 +132,66 @@ theorem TraditionComparisonBoundary_export_consistency_obligation
   }
   exact ⟨cert, transportSame, distinctionRoute, replayRoute, exportRoute, registryRoute⟩
 
+theorem TraditionComparisonBoundary_scoped_kernel_route {S L R D H C P N routeRead : BHist} :
+    traditionComparisonBoundaryClassifier (TraditionComparisonBoundaryUp.mk S L R D H C P N) ->
+      Cont C N routeRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row routeRead ∧ Cont C N routeRead)
+            (fun row : BHist =>
+              hsame row S ∨ hsame row L ∨ hsame row R ∨ hsame row D ∨
+                hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                  hsame row routeRead)
+            (fun row : BHist =>
+              hsame row routeRead ∧ hsame H (append L R) ∧ Cont L R D ∧
+                Cont D H C ∧ Cont C N routeRead)
+            hsame ∧
+          hsame H (append L R) ∧ Cont L R D ∧ Cont D H C ∧ Cont C N routeRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert append
+  intro accepted routeRoute
+  obtain ⟨transportSame, distinctionRoute, replayRoute, _provenanceSame, _localSame⟩ :=
+    accepted
+  have sourceAtRoute : hsame routeRead routeRead ∧ Cont C N routeRead :=
+    ⟨hsame_refl routeRead, routeRoute⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row routeRead ∧ Cont C N routeRead)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row L ∨ hsame row R ∨ hsame row D ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row routeRead)
+          (fun row : BHist =>
+            hsame row routeRead ∧ hsame H (append L R) ∧ Cont L R D ∧
+              Cont D H C ∧ Cont C N routeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro routeRead sourceAtRoute
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, transportSame, distinctionRoute, replayRoute, source.right⟩
+  }
+  exact ⟨cert, transportSame, distinctionRoute, replayRoute, routeRoute⟩
+
 end BEDC.Derived.TraditionComparisonBoundaryUp
