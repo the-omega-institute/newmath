@@ -60,6 +60,18 @@ If the BEDC site in $C$ is absent, the concept remains external vocabulary rathe
 The sibling failure surface of \autoref{ch:concrete-instances-auditgatefailurewitness-namecert} records failed gate items as diagnostic refusal data. It does not convert a missing concept row or missing forbidden-reading row into theorem content. Package provenance and local naming preserve the displayed refusal route; they do not add a hidden export path.
 \end{proof}
 
+\begin{theorem}[Concept registry surface bridge schema]
+\label{thm:concept-registry-surface-bridge-schema}
+For an accepted $\ConceptRegistrySurfaceUp$ packet $Q=(C,T,G,R,S,F,U,H,P,N)$, the export exactness row of \autoref{thm:concept-registry-surface-export-exactness} and the forbidden-reading refusal row of \autoref{thm:concept-registry-surface-forbidden-reading-refusal} form the paper bridge schema from the local registry surface to the abstract registry interface. The schema exports only the displayed concept-entry, theorem-entry, gap-entry, tradition-entry, science-entry, cannot-claim, upgrade, transport, provenance, and local naming rows, and it does not assert Lean bridge checking.
+\end{theorem}
+\begin{proof}
+Read the export exactness theorem first. It identifies the registry-facing public surface with the displayed rows $C,T,G,R,S,F,U,H,P,N$ and makes those rows the only admissible source of concept export.
+
+Read the forbidden-reading refusal theorem next. It blocks prose synthesis, inherited tradition, scientific vocabulary, host semantics, and diagnostic failure rows from replacing any displayed registry coordinate.
+
+Together these two rows give the bridge schema: every abstract registry-interface read must enter through the local carrier rows and must respect the refusal boundary. Since the schema is stated entirely on the paper side, it records no Lean bridge certificate.
+\end{proof}
+
 \falsifiablePrediction{An exported philosophical concept without a displayed BEDC site, forbidden-reading row, and registry route is outside ConceptRegistrySurfaceUp.}
 
 \independenceWitness{registryexportsurface, auditgatefailurewitness, cannotclaimregistry, conceptregistry, philosophypackage: none is bijective because ConceptRegistrySurfaceUp carries the concept-entry exactness and forbidden-reading route simultaneously while each sibling lacks at least one of those rows.}
@@ -70,10 +82,10 @@ The Lean follow-up for $\ConceptRegistrySurfaceUp$ must provide $\mathsf{Nontriv
 
 \begin{closurestatus}{\ConceptRegistrySurfaceUp}
   \constructivestory{A $\ConceptRegistrySurfaceUp$ packet is generated from concept, theorem, gap, tradition, science, cannot-claim, upgrade, componentwise hsame transport, package provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:concept-registry-surface-export-exactness}, \autoref{thm:concept-registry-surface-forbidden-reading-refusal}, the falsifiable prediction, the independence witness, and the existing ConceptRegistrySurfaceTasteGate\_single\_carrier\_alignment, Nontrivial, and FieldFaithful Lean support in \texttt{lean4/BEDC/Derived/ConceptRegistrySurfaceUp/TasteGate.lean} bind the public export surface for the concept registry.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:concept-registry-surface-export-exactness}, \autoref{thm:concept-registry-surface-forbidden-reading-refusal}, \autoref{thm:concept-registry-surface-bridge-schema}, the falsifiable prediction, the independence witness, and the existing ConceptRegistrySurfaceTasteGate\_single\_carrier\_alignment, Nontrivial, and FieldFaithful Lean support in \texttt{lean4/BEDC/Derived/ConceptRegistrySurfaceUp/TasteGate.lean} bind the paper bridge schema for the concept registry surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, complete philosophy-package governance, or correctness of every downstream concept registry entry.}
-  \upgradepath{Lean closure requires Nontrivial ConceptRegistrySurfaceUp and FieldFaithful ConceptRegistrySurfaceUp instances in \texttt{lean4/BEDC/Derived/ConceptRegistrySurfaceUp/TasteGate.lean}.}
+  \upgradepath{Mature closure requires examples, completeness coverage for downstream registry entries, and later Lean verification of the bridge-facing theorem surface.}
 \end{closurestatus}
