@@ -267,4 +267,87 @@ theorem WritingItemAudit_namecert_obligations [AskSetup] [PackageSetup]
   exact
     ⟨cert, admittedRoute, ledgerRoute, transportRoute, queryRoute, namedRoute⟩
 
+theorem WritingItemAudit_axis_separation [AskSetup] [PackageSetup]
+    {K C R L T F G Q H U P _N admitted _ledger named : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont K C admitted →
+      Cont admitted R L →
+        Cont T F G →
+          Cont Q H U →
+            Cont U P named →
+              PkgSig bundle named pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row T ∧ Cont T F G)
+                    (fun row : BHist => hsame row T ∨ hsame row F ∨ hsame row G)
+                    (fun _row : BHist => PkgSig bundle named pkg)
+                    hsame ∧
+                  SemanticNameCert
+                    (fun row : BHist => hsame row F ∧ Cont T F G)
+                    (fun row : BHist => hsame row T ∨ hsame row F ∨ hsame row G)
+                    (fun _row : BHist => PkgSig bundle named pkg)
+                    hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro _admittedRoute _ledgerRoute transportRoute _queryRoute _namedRoute pkgNamed
+  have theoryCert :
+      SemanticNameCert
+          (fun row : BHist => hsame row T ∧ Cont T F G)
+          (fun row : BHist => hsame row T ∨ hsame row F ∨ hsame row G)
+          (fun _row : BHist => PkgSig bundle named pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro T ⟨hsame_refl T, transportRoute⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inl sourceRow.left
+      ledger_sound := by
+        intro _row _sourceRow
+        exact pkgNamed
+    }
+  have formalCert :
+      SemanticNameCert
+          (fun row : BHist => hsame row F ∧ Cont T F G)
+          (fun row : BHist => hsame row T ∨ hsame row F ∨ hsame row G)
+          (fun _row : BHist => PkgSig bundle named pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro F ⟨hsame_refl F, transportRoute⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inl sourceRow.left)
+      ledger_sound := by
+        intro _row _sourceRow
+        exact pkgNamed
+    }
+  exact ⟨theoryCert, formalCert⟩
+
 end BEDC.Derived.WritingItemAuditUp
