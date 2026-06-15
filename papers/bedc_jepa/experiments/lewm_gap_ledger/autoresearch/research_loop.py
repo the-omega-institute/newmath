@@ -29,6 +29,7 @@ except ModuleNotFoundError:  # pragma: no cover
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 FINDINGS_DIR = SCRIPT_DIR / "findings"
+ADVERSARIAL_VERDICTS = FINDINGS_DIR / "adversarial_verdicts.jsonl"
 
 RESEARCH_AXES = {
     "detection": "Can the ledger read future failure without label leakage?",
@@ -151,6 +152,16 @@ def load_research_findings(store: LeWMStore) -> list[dict[str, Any]]:
     return dedup_by_key(state_findings + exported_findings, "finding_id")
 
 
+def load_adversarial_verdicts() -> dict[str, dict[str, Any]]:
+    rows = read_jsonl(ADVERSARIAL_VERDICTS)
+    return {str(row.get("hypothesis_id") or ""): row for row in rows if row.get("hypothesis_id")}
+
+
+def _is_missing_remote_artifact(verdict: dict[str, Any]) -> bool:
+    claim = str(verdict.get("reported_claim") or "").lower()
+    return str(verdict.get("status") or "") == "fail-closed" and "missing a100" in claim
+
+
 def _paper_scope_issues(verdict: dict[str, Any], contact: dict[str, Any] | None) -> list[str]:
     claim = str(verdict.get("reported_claim") or "")
     issues = [f"reported_claim mentions forbidden scope: {scope}" for scope in sorted(FORBIDDEN_PAPER_SCOPES) if scope in claim]
@@ -170,6 +181,7 @@ def plan_deepening_tasks(
     verdicts: list[dict[str, Any]],
     gate_results: list[dict[str, Any]],
     findings: list[dict[str, Any]],
+    adversarial_verdicts: dict[str, dict[str, Any]],
 ) -> list[dict[str, Any]]:
     contact_ids = _ids(contacts, "contact_id")
     contacts_by_id = {str(contact.get("contact_id") or ""): contact for contact in contacts}
@@ -185,8 +197,36 @@ def plan_deepening_tasks(
         if has_authority:
             tasks.append(_task("hypothesis", hypothesis_id, "ready_for_paper_boundary_review", "authoritative finding is available", 30, "paper"))
             continue
+        adversarial = adversarial_verdicts.get(hypothesis_id)
+        if str((adversarial or {}).get("adversarial_verdict") or "") == "needs-more":
+            reason = str(adversarial.get("reason") or "adversarial review requires a stronger replacement")
+            tasks.append(
+                _task(
+                    "hypothesis",
+                    hypothesis_id,
+                    "needs_hardened_replacement",
+                    reason,
+                    45,
+                    axis,
+                    {"adversarial_verdict": adversarial},
+                )
+            )
+            continue
         linked_experiments = experiments_for_hypothesis.get(hypothesis_id, [])
         linked_verdicts = [verdict for experiment in linked_experiments for verdict in verdicts_for_experiment.get(str(experiment.get("experiment_id") or ""), [])]
+        if linked_verdicts and all(_is_missing_remote_artifact(verdict) for verdict in linked_verdicts):
+            tasks.append(
+                _task(
+                    "hypothesis",
+                    hypothesis_id,
+                    "awaiting_remote_artifact",
+                    "A100 report is missing from local reports directory",
+                    82,
+                    axis,
+                    {"verdict_ids": [str(verdict.get("verdict_id") or "") for verdict in linked_verdicts]},
+                )
+            )
+            continue
         executed_contact_ids = {
             str(verdict.get("contact_ref") or "")
             for verdict in linked_verdicts
@@ -381,6 +421,27 @@ def plan_agent_tasks(tasks: list[dict[str, Any]], existing: list[dict[str, Any]]
     return out
 
 
+def reconcile_agent_tasks(tasks: list[dict[str, Any]], existing: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    current_sources = {str(task.get("task_id") or "") for task in tasks if task.get("task_id")}
+    reconciled: list[dict[str, Any]] = []
+    for item in existing:
+        status = str(item.get("status") or "queued")
+        source = str(item.get("source_task_id") or "")
+        if status in {"queued", "in_flight"} and source and source not in current_sources:
+            updated = dict(item)
+            updated["status"] = "inactive"
+            updated["inactive_at"] = now_iso()
+            updated["inactive_reason"] = "source research task is not current"
+            reconciled.append(updated)
+        else:
+            reconciled.append(item)
+    return dedup_by_key(reconciled + plan_agent_tasks(tasks, reconciled), "task_id")
+
+
+def count_active_agent_tasks(tasks: list[dict[str, Any]]) -> int:
+    return sum(1 for task in tasks if str(task.get("status") or "queued") in {"queued", "in_flight"})
+
+
 def write_dashboard(store: LeWMStore, summary: dict[str, Any], tasks: list[dict[str, Any]]) -> None:
     by_axis: dict[str, int] = {}
     by_kind: dict[str, int] = {}
@@ -426,10 +487,11 @@ def run_once(store: LeWMStore) -> dict[str, Any]:
     gate_results = gate_all(hypotheses, experiments, contacts, verdicts)
     store.write_gate_results(gate_results)
     findings = load_research_findings(store)
-    tasks = plan_deepening_tasks(hypotheses, experiments, contacts, verdicts, gate_results, findings)
+    adversarial = load_adversarial_verdicts()
+    tasks = plan_deepening_tasks(hypotheses, experiments, contacts, verdicts, gate_results, findings, adversarial)
     review = plan_review_queue(gate_results, tasks)
     events = dedup_by_key(store.load_events() + [_event_from_task(task) for task in tasks], "event_id")
-    agent_tasks = dedup_by_key(store.load_agent_tasks() + plan_agent_tasks(tasks, store.load_agent_tasks()), "task_id")
+    agent_tasks = reconcile_agent_tasks(tasks, store.load_agent_tasks())
     store.write_deepening_tasks(tasks)
     store.write_review_queue(review)
     store.write_events(events)
@@ -443,7 +505,7 @@ def run_once(store: LeWMStore) -> dict[str, Any]:
         "tasks": len(tasks),
         "review_items": len(review),
         "events": len(events),
-        "agent_tasks": len(agent_tasks),
+        "agent_tasks": count_active_agent_tasks(agent_tasks),
         "blocked_gates": sum(1 for result in gate_results if result.get("gate_status") == "gate_blocked"),
     }
     write_dashboard(store, summary, tasks)
