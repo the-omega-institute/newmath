@@ -3704,6 +3704,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootSourceRouteCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootStdBridgeRefusalSource
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
+import BEDC.Derived.CriticalLineWitnessUp.RootStripPublicTarget
 import BEDC.Derived.CriticalLineWitnessUp.RootStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.RootStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootStripWindowExhaustion
@@ -4595,6 +4596,7 @@ import BEDC.Derived.DyadicWindowSealUp.TasteGate
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.EberleinSmulianUp.TasteGate
 import BEDC.Derived.EdelsteinFixedPointUp
+import BEDC.Derived.EdelsteinFixedPointUp.TasteGate
 import BEDC.Derived.EffectiveCauchyModulusUp.TasteGate
 import BEDC.Derived.EffectiveCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.EffectiveCauchySequenceUp
@@ -6438,6 +6440,7 @@ import BEDC.Derived.LocatedRealIntervalBisectionUp
 import BEDC.Derived.LocatedRealIntervalHullUp
 import BEDC.Derived.LocatedRealIntervalHullUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalPartitionUp.TasteGate
+import BEDC.Derived.LocatedRealIntervalUp.ExactnessRoute
 import BEDC.Derived.LocatedRealIntervalUp.TasteGate
 import BEDC.Derived.LocatedRealLineUp.TasteGate
 import BEDC.Derived.LocatedRealModulusUp.TasteGate
@@ -7268,6 +7271,7 @@ import BEDC.Derived.MetricCompletionUp.SeparatedBranchReadback
 import BEDC.Derived.MetricCompletionUp.SeparatedLimit
 import BEDC.Derived.MetricCompletionUp.SeparatedLimitBoundary
 import BEDC.Derived.MetricCompletionUp.SourceSeparatedScope
+import BEDC.Derived.MetricCompletionUp.StdBridge
 import BEDC.Derived.MetricCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoff
 import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoffSurface
@@ -9342,6 +9346,7 @@ import BEDC.Derived.RiemannSumUp
 import BEDC.Derived.RiemannSumUp.MatureFiniteMeshExamples
 import BEDC.Derived.RiemannSumUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
+import BEDC.Derived.RieszFischerUp.TasteGate
 import BEDC.Derived.RieszLemmaUp.NormedSeparationWitness
 import BEDC.Derived.RieszLemmaUp.TasteGate
 import BEDC.Derived.RieszMarkovUp.TasteGate
