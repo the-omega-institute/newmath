@@ -277,6 +277,7 @@ def _fixture_root(tmp_path: Path) -> Path:
             "inputs": {
                 "source_artifacts": [
                     {"path": DGT_ARTIFACT, "sha256": canonical_artifact_hash(root / DGT_ARTIFACT)},
+                    {"path": DISCOVERY_MAP_ARTIFACT, "sha256": canonical_artifact_hash(root / DISCOVERY_MAP_ARTIFACT)},
                     {"path": CLAIM_GRAPH_ARTIFACT, "sha256": canonical_artifact_hash(root / CLAIM_GRAPH_ARTIFACT)},
                 ]
             }
@@ -455,6 +456,7 @@ def test_cons_hg4_terminal_node_points_to_dgt_d4_projection(tmp_path):
             "inputs": {
                 "source_artifacts": [
                     {"path": DGT_ARTIFACT, "sha256": canonical_artifact_hash(root / DGT_ARTIFACT)},
+                    {"path": DISCOVERY_MAP_ARTIFACT, "sha256": canonical_artifact_hash(root / DISCOVERY_MAP_ARTIFACT)},
                     {"path": CLAIM_GRAPH_ARTIFACT, "sha256": canonical_artifact_hash(root / CLAIM_GRAPH_ARTIFACT)},
                 ]
             }
@@ -509,6 +511,17 @@ def test_cons_hg6_stale_artifact_hash_fails_closed(tmp_path):
     graph = json.loads((root / CLAIM_GRAPH_ARTIFACT).read_text(encoding="utf-8"))
     graph["nodes"][0]["not_claimed"] = ["mutated"]
     _write_json(root, CLAIM_GRAPH_ARTIFACT, graph)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time")
+
+    assert _gate(report, "CONS-HG6").status == "fail"
+
+
+def test_cons_hg6_stale_discovery_map_hash_fails_closed(tmp_path):
+    root = _fixture_root(tmp_path)
+    discovery_map = json.loads((root / DISCOVERY_MAP_ARTIFACT).read_text(encoding="utf-8"))
+    discovery_map["rows"][0]["audit_reason"] = "hash changed"
+    _write_json(root, DISCOVERY_MAP_ARTIFACT, discovery_map)
 
     report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time")
 

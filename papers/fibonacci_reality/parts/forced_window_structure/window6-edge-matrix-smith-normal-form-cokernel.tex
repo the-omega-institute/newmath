@@ -1,0 +1,109 @@
+\origin{ai}
+
+\subsection{Window-six edge-flux matrix and cokernel}
+\label{sec:window6-edge-matrix-smith-normal-form-cokernel}
+
+\paragraph{Finite carrier.}
+The finite carrier has four named cells, ordered as
+$$
+\begin{aligned}
+C=\{U_2,U_1,U_L,U_R\}, \qquad (U_2,U_1,U_L,U_R).
+\end{aligned}
+$$
+A forward enumeration of the window-six edge data assigns to each ordered pair of cells an integer edge-flux count.  This produces a function
+$$
+\begin{aligned}
+E:C\times C\longrightarrow {\bf Z},
+\end{aligned}
+$$
+represented in the displayed order by the integer matrix
+$$
+\begin{aligned}
+E=
+\left(\begin{array}{rrrr}
+28&63&23&20\\
+63&21&21&6\\
+23&21&2&6\\
+20&6&6&2
+\end{array}\right).
+\end{aligned}
+$$
+The entries are edge-flux counts, not Laplacian entries.  Thus this chapter studies the abelian group map obtained by left multiplication by this integer matrix, rather than a reduced graph Laplacian or a kernel built from row sums.
+
+\paragraph{Symmetry and exact determinant.}
+The matrix is symmetric, since the displayed entries satisfy $E_{ij}=E_{ji}$ for every pair of cells in $C$.  Its determinant is the positive integer
+$$
+\begin{aligned}
+\det(E)=10350=2\cdot 3^2\cdot 5^2\cdot 23.
+\end{aligned}
+$$
+Consequently the induced map $E:{\bf Z}^4\to {\bf Z}^4$ has finite cokernel, and the order of that cokernel is $10350$ once the Smith invariant factors are known to have nonzero product.
+
+\paragraph{Smith normal form.}
+Over ${\bf Z}$, the Smith normal form of $E$ is
+$$
+\begin{aligned}
+{\rm SNF}(E)=
+\left(\begin{array}{rrrr}
+1&0&0&0\\
+0&1&0&0\\
+0&0&3&0\\
+0&0&0&3450
+\end{array}\right).
+\end{aligned}
+$$
+Equivalently, the invariant factors are
+$$
+\begin{aligned}
+d_1=1,\qquad d_2=1,\qquad d_3=3,\qquad d_4=3450.
+\end{aligned}
+$$
+They satisfy the determinant consistency check
+$$
+\begin{aligned}
+1\cdot 1\cdot 3\cdot 3450=10350=|\det(E)|.
+\end{aligned}
+$$
+The large invariant factor has the prime factorization
+$$
+\begin{aligned}
+3450=2\cdot 3\cdot 5^2\cdot 23.
+\end{aligned}
+$$
+This is an exact integer computation attached to the displayed finite matrix.
+
+\paragraph{Cokernel extraction.}
+The cokernel considered here is the quotient abelian group
+$$
+\begin{aligned}
+{\rm coker}(E)={\bf Z}^4/E{\bf Z}^4.
+\end{aligned}
+$$
+The unit Smith factors contribute no nontrivial cyclic torsion.  Removing those unit factors leaves precisely the two non-one invariant factors $3$ and $3450$.  Hence the torsion subgroup decomposes as
+$$
+\begin{aligned}
+{\rm coker}(E)_{\rm tors}\cong {\bf Z}/3{\bf Z}\oplus {\bf Z}/3450{\bf Z}.
+\end{aligned}
+$$
+This is the witness extraction step: start from the four-by-four edge-flux matrix, compute the Smith diagonal over ${\bf Z}$, discard the invariant factors equal to $1$, and read the remaining diagonal entries as cyclic torsion orders.
+
+\paragraph{Fibonacci comparison.}
+Let the Fibonacci sequence be defined by
+$$
+\begin{aligned}
+F_0=0,\qquad F_1=1,\qquad F_{n+2}=F_{n+1}+F_n.
+\end{aligned}
+$$
+Then $F_2=1$ and $F_4=3$, so the first three Smith invariant factors satisfy
+$$
+\begin{aligned}
+(1,1,3)=(F_2,F_2,F_4).
+\end{aligned}
+$$
+Only this small-factor observation is asserted.  The final invariant factor $3450$ is not a Fibonacci number and is not claimed to arise from the Fibonacci recurrence.  The complete Smith normal form is therefore a finite edge-matrix fact with a limited Fibonacci subpattern, not a global Fibonacci law for all invariant factors.
+
+\paragraph{Separation from the reduced Laplacian record.}
+The matrix $E$ is the forward edge-flux matrix displayed above.  It is distinct from the reduced Laplacian whose Smith normal form is $\operatorname{diag}(1,1,123336)$.  No replacement or recomputation of that reduced Laplacian statement is made here.  The present construction has its own carrier $C$, its own integer matrix $E$, its own determinant $10350$, and its own torsion cokernel ${\bf Z}/3{\bf Z}\oplus {\bf Z}/3450{\bf Z}$.
+
+\paragraph{Boundary of the claim.}
+The chapter records only the finite integer construction and the consequences listed above.  It does not identify any physical constant, impose a global flow principle, import an outside dependency, make a metrological comparison, or attach an interpretation beyond the finite matrix, its Smith normal form, and its cokernel unless a separate certificate supplies additional data.

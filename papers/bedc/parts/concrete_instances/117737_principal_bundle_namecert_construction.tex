@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\PrincipalBundleUp$}
+\label{ch:concrete-instances-principal-bundle-namecert}
+\origin{human}
+
+Following Steenrod and Kobayashi--Nomizu, the $\PrincipalBundleUp$ packet records principal-bundle data as finite BEDC NameCert rows. It sits over the displayed bundle carrier of \autoref{ch:concrete-instances-bundle-namecert}, the charted base surface of \autoref{ch:concrete-instances-manifold-namecert}, the smooth structure-group rows of \autoref{ch:concrete-instances-liegroup-namecert}, the algebraic action boundary of \autoref{ch:concrete-instances-group-namecert}, and the continuous operation ledger of \autoref{ch:concrete-instances-topgroup-namecert}. The packet names only the visible total space, base manifold, projection, local trivializations, transition cocycle, group action, transport, replay, provenance, and local certificate rows; it does not construct quotient bundle equality, choose a global section, assert a host smooth structure, or provide bridge checking.
+
+\begin{definition}[Principal bundle carrier]
+\label{def:principal-bundle-carrier}
+A $\PrincipalBundleUp$ carrier is a finite $\BHist$ packet
+$$
+P=(E,B,\pi,G,U,\tau,\gamma,\alpha,H,C,\rho,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the total-space row, read through the upstream $\BundleUp$ carrier surface.
+\item $B$ is the base-manifold row, read through the chart carrier of $\ManifoldUp$.
+\item $\pi$ is the projection row from $E$ to $B$, displayed as bundle data rather than as a host map equality.
+\item $G$ is the structure-group row, read through the $\LieGroupUp$, $\GroupUp$, and $\TopGroupUp$ operation surfaces.
+\item $U$ is the finite local-trivialization cover row, including the displayed local product windows used by the bundle packet.
+\item $\tau$ is the transition-cocycle row over overlapping local trivialization windows.
+\item $\gamma$ is the group-action row, naming the right action of the displayed structure group on the displayed total-space fibres.
+\item $\alpha$ is the $\hsame$ transport row for the total space, base, projection, structure group, local trivializations, transition cocycle, and group action.
+\item $H$ is the displayed $\Cont$ replay row for reading the same local data after transport.
+\item $C$ is the $\Pkg$ provenance over $\PrincipalBundleUp$, $\BundleUp$, $\ManifoldUp$, $\LieGroupUp$, $\GroupUp$, $\TopGroupUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $\rho$ records the finite dependency order in which the upstream rows are exposed to a principal-bundle consumer.
+\item $N$ is the local $\NameCert_{\PrincipalBundleUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient bundle equality, selected global sections, ambient smooth structures, external atlas maximality, or detached host principal-bundle objects.
+\end{definition}
+
+\begin{theorem}[Principal bundle NameCert obligations]
+\label{thm:principal-bundle-namecert-obligations}
+For the carrier of \autoref{def:principal-bundle-carrier}, the local $\NameCert_{\PrincipalBundleUp}$ surface consists exactly of the following displayed obligations:
+\begin{enumerate}
+\item carrier admission for the packet $P=(E,B,\pi,G,U,\tau,\gamma,\alpha,H,C,\rho,N)$;
+\item bundle exposure through the total-space, projection, and local-trivialization rows $E,\pi,U$;
+\item base exposure through the $\ManifoldUp$ row $B$;
+\item structure-group exposure through the $\LieGroupUp$, $\GroupUp$, and $\TopGroupUp$ readings of $G$;
+\item action and transition exposure through $\gamma$ and $\tau$;
+\item componentwise transport, replay, dependency provenance, and local naming through $\alpha,H,C,\rho,N$.
+\end{enumerate}
+Ledger exactness says that every accepted principal-bundle read exposes precisely these rows before a principal-bundle consumer may inspect the transition or action data. The obligations do not add quotient bundle equality, selected global sections, host smooth structures, atlas maximality, or bridge checking.
+\end{theorem}
+
+\begin{theorem}[Principal bundle transition cocycle]
+\label{thm:principal-bundle-transition-cocycle}
+Let $P=(E,B,\pi,G,U,\tau,\gamma,\alpha,H,C,\rho,N)$ be an accepted $\PrincipalBundleUp$ carrier. Every transition-cocycle read from $P$ factors through the displayed base-manifold row $B$, the local-trivialization row $U$, and the structure-group row $G$ before the cocycle row $\tau$ is public:
+$$
+\ManifoldUp,\ \BundleUp,\ \LieGroupUp,\ \GroupUp,\ \TopGroupUp \longrightarrow \tau .
+$$
+On triple overlaps, the cocycle comparison is recorded only as finite NameCert data transported by $\alpha$ and replayed by $H$. It cannot identify quotient bundles, choose a section, import a maximal smooth atlas, or replace the displayed structure-group row by an ambient host group.
+\end{theorem}
+
+\closureat{PrincipalBundleUp}{seedStr}
+
+\begin{closurestatus}{\PrincipalBundleUp}
+  \constructivestory{A $\PrincipalBundleUp$ packet is generated from total-space, base-manifold, projection, structure-group, local-trivialization, transition-cocycle, and group-action rows, together with componentwise hsame transport, displayed Cont replay, Pkg provenance, dependency ordering, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:principal-bundle-carrier}, \autoref{thm:principal-bundle-namecert-obligations}, and \autoref{thm:principal-bundle-transition-cocycle} seed the finite principal-bundle NameCert surface over displayed bundle, manifold, Lie-group, group, topological-group, action, and transition-cocycle rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient bundle equality, selected global sections, host smooth structures, atlas maximality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, transition-cocycle exposure, group-action exposure, dependency exactness, transport, replay, provenance, and local naming for BEDC.Derived.PrincipalBundleUp.}
+\end{closurestatus}

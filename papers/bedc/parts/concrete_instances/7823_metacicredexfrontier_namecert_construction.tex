@@ -47,6 +47,7 @@ coordinate for a beta-only shortcut, a three-row discharge interface, a hidden
 substitution oracle, a closed subject-reduction theorem, or a consumer route
 that bypasses $E$.
 \end{definition}
+\leandef{BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierCarrier}
 
 \begin{theorem}[MetaCICRedexFrontier NameCert obligations]
 \label{thm:metacic-redex-frontier-namecert-obligations}
@@ -219,6 +220,47 @@ handoff to finite candidates and records that substitution admissibility and
 hidden oracle access are not carrier rows. Since dependent-codomain readback
 is also absent from the carrier inventory, the strong-normalization-window
 consumer receives only the displayed finite candidate packet.
+\end{proof}
+
+\begin{theorem}[MetaCICRedexFrontier obstruction retention]
+\label{thm:metacic-redex-frontier-obstruction-retention}
+Every candidate-mediated strong-normalization or normalization-window consumer
+of an accepted $\MetaCICRedexFrontierUp$ carrier must keep the beta-boundary row
+$E$, the four discharge rows $B,A,L,P$, the obstruction row $O$, componentwise
+transport $H$, displayed replay $C$, provenance $G$, and local naming $N$
+visible before any handoff to the normalization-window confluence packet of
+\autoref{ch:concrete-instances-metacic-normalization-window-confluence-namecert}.
+The retained packet exports only the finite redex-frontier surface; it exports
+no subject reduction, global confluence, normalization, or substitution
+admissibility.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier
+$$
+R=(B,A,L,P,O,E,H,C,G,N).
+$$
+The carrier inventory already displays the four discharge rows, the
+beta-boundary row, the obstruction row, and the structural transport, replay,
+provenance, and naming rows.
+
+Apply the candidate SN-window theorem,
+\autoref{thm:metacic-redex-frontier-candidate-sn-window}. It permits a
+strong-normalization-window consumer to pass only the finite candidate packet
+formed from $B,A,L,P,O,E,H,C,G,N$ to the downstream normalization-window
+confluence route.
+
+Apply the scoped package theorem,
+\autoref{thm:metacic-redex-frontier-scope-package}. It identifies the same rows
+as the primitive surface of the accepted packet, so a candidate-mediated
+consumer that hides $O$, drops $E$, or separates $H,C,G,N$ from the discharge
+rows is not reading the scoped package.
+
+Finally use beta-boundary routing,
+\autoref{thm:metacic-redex-frontier-beta-boundary}, together with the
+normalization-window handoff of
+\autoref{thm:metacic-redex-frontier-normalization-window-handoff}. The beta row
+is consumed through $E$ before the handoff, and the downstream packet receives
+only the displayed redex-frontier rows, not the off-carrier global claims.
 \end{proof}
 
 \closureat{MetaCICRedexFrontierUp}{scopedStr}[BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierTasteGate\_single\_carrier\_alignment]

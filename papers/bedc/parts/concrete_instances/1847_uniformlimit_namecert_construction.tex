@@ -429,6 +429,46 @@ Combining these two finite routes gives the forward exhaustion claim. Apply \aut
 For the converse direction, start with a read assembled from the displayed rows of the two routes. The uniform route is admissible because the accepted carrier $U$ exposes exactly $F,M,T,R,S,E,H,C,P,N$ to endpoint-facing consumers, and the selected-window route is admissible because the accepted carrier $G$ exposes exactly $q,w,r,d,e,h,c,p,n$ to Real-facing consumers. Since the two routes agree at the displayed window $w$ and the handoff row $r$, their assembly is a finite seal read on the common endpoint-facing surface and uses no row outside the two accepted packets.
 \end{proof}
 
+\begin{theorem}[UniformLimit finite-window induction]
+\label{thm:uniform-limit-finite-window-induction}
+Let
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+be an accepted $\UniformLimitUp$ carrier. Induction over the displayed finite windows of $F$, with the base row read through the shared threshold ledger $M$ and successor rows read through the uniform tail ledger $T$, generates the finite endpoint route
+$$
+F \longmapsto M \longmapsto T \longmapsto R \longmapsto S \longmapsto E.
+$$
+Every finite stage of this induction is an admissible carrier read using only the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $U$.
+\end{theorem}
+\begin{proof}
+The base stage is the displayed threshold row. By \autoref{thm:uniform-limit-windowwise-cauchy-obligation}, each finite window of $F$ must be read through the shared threshold ledger $M$ before any endpoint-facing consumer can see a tail estimate.
+
+For the successor stage, apply \autoref{thm:uniform-limit-tail-ledger-exactness}. The uniform tail row $T$ supplies the next finite witness without changing the selected threshold surface, so the regular handoff $R$ and the seal row $S$ are appended by the same carrier route rather than by a pointwise side channel.
+
+Iterating these finite stages yields the displayed route from $F$ through $E$. The exhaustion theorem \autoref{thm:uniform-limit-finite-window-seal-exhaustion} then shows that no additional endpoint read is needed: every common completion-facing read is already accounted for by the finite route and the visible transport, continuation, provenance, and naming rows of $U$.
+\end{proof}
+
+\begin{theorem}[UniformLimit Real seal nonescape]
+\label{thm:uniform-limit-real-seal-nonescape}
+Let
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+be an accepted $\UniformLimitUp$ carrier. The finite-window induction of \autoref{thm:uniform-limit-finite-window-induction} exports only the finite route
+$$
+F \longmapsto M \longmapsto T \longmapsto R \longmapsto S \longmapsto E
+$$
+and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $U$. It does not export pointwise-only convergence, a selected host limit, a quotient function space, open-cover compactness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:uniform-limit-finite-window-induction}. The induction surface is finite at every stage and reaches the endpoint only through $M,T,R,S,E$ and the visible carrier rows.
+
+Now use \autoref{thm:uniform-limit-non-escape-boundary}. That boundary rules out every read of $U$ that bypasses the shared threshold ledger or treats the seal row as evidence for a pointwise, quotient, compactness, host-limit, or ambient-completeness object.
+
+Finally apply \autoref{thm:uniform-limit-completion-consumer-boundary}. Completion-facing consumers are confined to the same finite endpoint surface, so the induction cannot export any $\RealUp$ completeness principle or external function-space limit beyond the rows displayed by the accepted carrier.
+\end{proof}
+
 \closureat{UniformLimitUp}{seedStr}
 \closureat{UniformLimitUp}{obligationStr}[BEDC.Derived.UniformLimitUp.UniformLimitCarrier\_seal\_factorization]
 \closureat{UniformLimitUp}{scopedStr}[BEDC.Derived.UniformLimitUp.UniformLimitCarrier\_seal\_factorization]

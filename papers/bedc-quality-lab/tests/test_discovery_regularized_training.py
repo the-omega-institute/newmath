@@ -61,6 +61,8 @@ REQUIRED_SUMMARY_KEYS = {
     "component_ablation",
     "training_method_comparison",
     "drt_extension_hardgates",
+    "negative_witness_penalty",
+    "drt2_semantic_hardgates",
     "jet_loss_protocol",
     "jet_loss_surface",
     "jet_ablation",
@@ -410,6 +412,52 @@ def test_torch_available_fixture_promotes_d5m_and_records_payload_sections(monke
     assert len(summary["component_ablation"]["rows"]) == 7
     assert summary["training_method_comparison"]["metric_pointers"]["uer"].endswith("$.records.extension_metrics.uer_mean")
     assert "terminal_verdict" not in json.dumps(summary, sort_keys=True)
+
+
+def test_drt2_semantic_hardgates_are_pointer_only_and_resolve(monkeypatch):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
+    gates = summary["drt2_semantic_hardgates"]["gates"]
+
+    assert tuple(gates) == tuple(f"DRT2-HG{index}" for index in range(1, 7))
+    assert summary["drt2_semantic_hardgates"]["status"] == "pass"
+    assert summary["drt2_semantic_hardgates"]["owner_pointer"].endswith("$.drt2_semantic_hardgates")
+    assert summary["drt2_semantic_hardgates"]["failed_gate"] is None
+    assert set(summary["training_method_comparison"]["rows"]) == {
+        "DGT+DRT",
+        "DGT-without-DRT",
+        "Transformer+DRT",
+        "component+DRT",
+    }
+    assert summary["negative_witness_penalty"]["status"] == "pointer-only"
+    assert "terminal_verdict" not in json.dumps(summary["drt2_semantic_hardgates"], sort_keys=True)
+    assert "terminal_verdict" not in json.dumps(summary["training_method_comparison"], sort_keys=True)
+    for gate in gates.values():
+        pointer = gate["evidence_pointer"]
+        assert pointer.startswith("reports/canonical/discovery-regularized-training.json:")
+        assert discovery_map.pointer_value(summary, pointer.split(":", 1)[1]) is not None
+
+
+@pytest.mark.parametrize(
+    ("mutate", "gate"),
+    [
+        (lambda item: item["certificate_guided_dn_preservation"]["required_refs"].pop(), "DRT2-HG1"),
+        (lambda item: item["loss_family"]["terms"]["cost"].update({"evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.missing"}), "DRT2-HG2"),
+        (lambda item: item["component_ablation"]["rows"][1].update({"pointer_state": "missing"}), "DRT2-HG3"),
+        (lambda item: item["negative_witness_penalty"].update({"candidate_measurement_body": {"verdict": "accepted"}}), "DRT2-HG4"),
+        (lambda item: item["training_method_comparison"]["rows"].pop("Transformer+DRT"), "DRT2-HG5"),
+        (lambda item: item["not_claimed"].remove("global architecture superiority"), "DRT2-HG6"),
+    ],
+)
+def test_drt2_semantic_hardgates_fail_closed(monkeypatch, mutate, gate):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
+    mutated = deepcopy(summary)
+    mutate(mutated)
+    gates = drt.drt2_semantic_hardgate_verdicts(mutated)
+
+    assert gates[gate]["status"] == "fail"
+    assert drt.drt2_semantic_hardgate_summary(mutated)["failed_gate"] == gate
 
 
 def test_drt_compute_ledger_is_required_summary(monkeypatch):

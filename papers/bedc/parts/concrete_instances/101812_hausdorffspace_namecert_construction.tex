@@ -162,14 +162,32 @@ Since no other coordinate appears in the carrier, completion-facing and Real-fac
 \end{proof}
 \leanchecked{BEDC.Derived.HausdorffSpaceUp.HausdorffSpaceCarrier\_real\_seal\_nonescape}
 
-\closureat{HausdorffSpaceUp}{obligationStr}
+\begin{theorem}[HausdorffSpace public separation export]
+\label{thm:hausdorff-space-public-separation-export}
+For an accepted $\HausdorffSpaceUp$ carrier
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N),
+$$
+the carrier row of \autoref{def:hausdorff-space-carrier}, the NameCert obligations of \autoref{thm:hausdorff-space-namecert-obligations}, the metric separation handoff of \autoref{thm:hausdorff-space-metric-separation-handoff}, the classifier transport of \autoref{thm:hausdorff-space-open-neighborhood-classifier-transport}, the point-separation choice-free route of \autoref{thm:hausdorff-space-point-separation-choicefree}, and the Real-seal nonescape row of \autoref{thm:hausdorff-space-realseal-nonescape} assemble a public $\NameCert_{\HausdorffSpaceUp}$ separation export over $\TopologyUp$, $\MetricSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. This export has no coordinate for quotient point equality, selected representatives, open-cover compactness, ambient completeness, Lean verification, or bridge closure.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:hausdorff-space-carrier}. It displays the topology source, point-name rows, disjoint open-neighborhood rows, optional metric handoff, Real seal, and structural rows used by every public separation read.
+
+Apply the NameCert obligations of \autoref{thm:hausdorff-space-namecert-obligations}. They identify the finite obligation surface for carrier admission, disjoint open-neighborhood separation, classifier transport, metric handoff, and nonescape.
+
+Next use the metric handoff and classifier-transport routes, \autoref{thm:hausdorff-space-metric-separation-handoff} and \autoref{thm:hausdorff-space-open-neighborhood-classifier-transport}. These keep any metric-generated separation behind the displayed distance seal and preserve the same open-neighborhood rows under componentwise transport.
+
+Finally apply \autoref{thm:hausdorff-space-point-separation-choicefree} and \autoref{thm:hausdorff-space-realseal-nonescape}. The public export is therefore exactly the finite separation packet over topology, metric, Real, history, transport, continuation, provenance, and naming rows, while quotient point equality, representatives, compactness, completeness, Lean verification, and bridge closure remain unavailable.
+\end{proof}
+
+\closureat{HausdorffSpaceUp}{publicStr}
 
 \begin{closurestatus}{\HausdorffSpaceUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:hausdorff-space-carrier}, \autoref{thm:hausdorff-space-namecert-obligations}, \autoref{thm:hausdorff-space-metric-separation-handoff}, \autoref{thm:hausdorff-space-open-neighborhood-classifier-transport}, and \autoref{thm:hausdorff-space-realseal-nonescape} bind the finite separated-topology obligation surface over carrier admission, NameCert obligations, metric separation handoff, classifier transport, and Real seal nonescape.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:hausdorff-space-carrier}, \autoref{thm:hausdorff-space-namecert-obligations}, \autoref{thm:hausdorff-space-metric-separation-handoff}, \autoref{thm:hausdorff-space-open-neighborhood-classifier-transport}, \autoref{thm:hausdorff-space-point-separation-choicefree}, \autoref{thm:hausdorff-space-realseal-nonescape}, and \autoref{thm:hausdorff-space-public-separation-export} bind the public separated-topology export over carrier admission, NameCert obligations, metric separation handoff, classifier transport, choice-free point separation, and Real seal nonescape.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient point equality, open-cover compactness, selected representatives, ambient completeness, Lean verification, or standard bridge closure.}
-  \upgradepath{Public closure requires a public Hausdorff separation export theorem over the displayed topology, metric handoff, classifier transport, and Real-seal nonescape rows for BEDC.Derived.HausdorffSpaceUp.}
+  \upgradepath{Lean closure requires a checked BEDC.Derived.HausdorffSpaceUp target for the public Hausdorff separation export.}
   \constructivestory{A $\HausdorffSpaceUp$ packet is generated from a Topology source row, two point-name rows, two disjoint open-neighborhood rows, a disjointness ledger, an optional MetricSpace distance-separation handoff, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

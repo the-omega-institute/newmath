@@ -1589,6 +1589,7 @@ def _write_passing_dgt_hir(root):
         "source_artifacts": {
             "dgt": high_impact_review.DGT_ARTIFACT,
             "model_comparison": high_impact_review.MODEL_COMPARISON_ARTIFACT,
+            "discovery_map": high_impact_review.DISCOVERY_MAP_ARTIFACT,
             "claim_graph": high_impact_review.CLAIM_GRAPH_ARTIFACT,
         },
         "review_rows": [

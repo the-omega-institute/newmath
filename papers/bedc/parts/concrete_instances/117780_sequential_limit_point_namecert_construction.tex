@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SequentialLimitPointUp$}
+\label{ch:concrete-instances-sequential-limit-point-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on limit points and filters, together with Bishop--Bridges constructive sequence practice, the $\SequentialLimitPointUp$ packet names the sequence-specific route by which a displayed sequence supplies a limit-point candidate through finite tail evidence. It consumes the tail filter of \autoref{ch:concrete-instances-frechetfilter-namecert}, the cluster handoff of \autoref{ch:concrete-instances-cluster-filter-namecert}, the finite source windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert interface for sequence-limit arguments; it does not import a selected host limit, quotient filter equality, ambient compactness, countable choice, or completeness of $\RealUp$.
+
+\begin{definition}[Sequential limit-point carrier]
+\label{def:sequential-limit-point-carrier}
+A $\SequentialLimitPointUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,F,Q,R,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ sequence row, exposing only finite observation windows of the named sequence;
+\item $F$ is the $\FrechetFilterUp$ tail row, recording the eventual-tail requests through which subsequence or neighbourhood reads are inspected;
+\item $Q$ is the $\ClusterFilterUp$ handoff row, used only after the Frechet tail row has been displayed;
+\item $R$ is the $\RegSeqRatUp$ readback row for the finite source and tail windows;
+\item $E$ is the terminal $\RealUp$ seal row reached after $S,F,Q,R$ have been exposed;
+\item $H$ records componentwise $\hsame$ transport of $S,F,Q,R,E$;
+\item $C$ records displayed $\Cont$ replay from a sequence-window request through the tail and cluster rows to the terminal seal;
+\item $P$ records $\Pkg$ provenance over $\SequentialLimitPointUp$, $\StreamNameUp$, $\FrechetFilterUp$, $\ClusterFilterUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SequentialLimitPointUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected host limit, quotient filter equality, arbitrary subnet selection, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Sequential limit-point NameCert obligations]
+\label{thm:sequential-limit-point-namecert-obligations}
+For the carrier of \autoref{def:sequential-limit-point-carrier}, the local $\NameCert_{\SequentialLimitPointUp}$ surface consists exactly of source StreamName admission through $S$, Frechet tail admission through $F$, ClusterFilter handoff through $Q$, RegSeqRat readback through $R$, Real seal handoff through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The source sequence row $S$ and Frechet tail row $F$ are the only rows that expose sequence observations and eventual-tail requests.
+
+Read the cluster handoff and regular readback next. The row $Q$ is downstream of the tail filter, and $R$ reads only the displayed finite windows supplied by $S$ and $F$ before any real-facing seal is available.
+
+Finally the seal and structural rows $E,H,C,P,N$ replay, transport, source, and name the same finite route. Since the carrier contains no host-limit, quotient-filter, subnet-choice, compactness, countable-choice, or completeness coordinate, none of those principles can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Sequential limit-point Frechet cluster route]
+\label{thm:sequential-limit-point-frechet-cluster-route}
+Every accepted $\SequentialLimitPointUp$ packet reaches a cluster-facing or real-facing consumer only through
+$$
+\StreamNameUp \longmapsto \FrechetFilterUp \longmapsto \ClusterFilterUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Equivalently, a consumer must first inspect the source sequence windows, then the Frechet tail row, then the cluster handoff, then the regular rational readback, and only then the terminal real seal.
+\end{theorem}
+\begin{proof}
+Start with the carrier row $S$. It supplies finite sequence windows and no infinite representative.
+
+The Frechet tail row $F$ then fixes the eventual-tail request, and the cluster row $Q$ may be consumed only after that tail request is displayed. Thus cluster use remains sequence-specific rather than an arbitrary filter import.
+
+The readback row $R$ and seal row $E$ finish the route through regular rational data and the terminal $\RealUp$ boundary. The structural rows $H,C,P,N$ preserve that order, so the route cannot bypass the Frechet tail or cluster handoff by selecting a host limit or using quotient filter equality.
+\end{proof}
+
+\falsifiablePrediction{Every $\SequentialLimitPointUp$ read displays one StreamName sequence row, one Frechet tail row, one ClusterFilter handoff row, one RegSeqRat readback row, one Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any limit-point consumer is public.}
+
+\independenceWitness{streamname, frechetfilter, cluster-filter, regseqrat, real: $\SequentialLimitPointUp$ is not bijective to any listed sibling because it jointly carries a sequence source, a Frechet tail row, a cluster-filter handoff, regular rational readback, a terminal Real seal, transport, replay, provenance, and local naming as one sequence-specific limit-point certificate.}
+
+\closureat{SequentialLimitPointUp}{seedStr}
+
+\begin{closurestatus}{\SequentialLimitPointUp}
+  \constructivestory{A $\SequentialLimitPointUp$ packet is generated from source StreamName sequence rows, Frechet tail rows, ClusterFilter handoff rows, RegSeqRat readback, Real seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-limit-point-carrier}, \autoref{thm:sequential-limit-point-namecert-obligations}, and \autoref{thm:sequential-limit-point-frechet-cluster-route} seed the sequence-specific limit-point route over StreamName, FrechetFilter, ClusterFilter, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected host limits, quotient filter equality, arbitrary subnet selection, open-cover compactness, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for BEDC.Derived.SequentialLimitPointUp.}
+\end{closurestatus}

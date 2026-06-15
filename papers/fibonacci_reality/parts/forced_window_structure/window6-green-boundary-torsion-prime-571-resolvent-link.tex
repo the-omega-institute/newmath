@@ -1,0 +1,83 @@
+\origin{ai}
+
+\subsection{Window6 Green boundary torsion prime}
+\label{subsec:window6-green-boundary-torsion-prime-571-resolvent-link}
+
+\paragraph{Finite carrier.}
+Consider a finite four-cell quotient of a forced-window structure. Its cell set is ordered as
+$$
+\begin{aligned}
+(U_2,U_1,U_L,U_R).
+\end{aligned}
+$$
+The predicates of the quotient are the four membership tests $x\in U_2$, $x\in U_1$, $x\in U_L$, and $x\in U_R$, with the cells treated as disjoint names for the four states of the quotient. The finite relation is a symmetric edge-count relation between these cells, recorded by the matrix
+$$
+\begin{aligned}
+A=
+\begin{pmatrix}
+28&63&23&20\\
+63&21&21&6\\
+23&21&2&6\\
+20&6&6&2
+\end{pmatrix}.
+\end{aligned}
+$$
+Thus the entry in row $U_i$ and column $U_j$ is the exact number of directed cell-level incidences from $U_i$ to $U_j$ in the quotient count. No continuum object or fitted parameter is part of the input: the data are the four cell names and the integer matrix $A$.
+
+\paragraph{Boundary resolvent.}
+From the finite edge-count matrix one obtains a finite transition kernel $T$ on the same ordered four-cell state space. The right boundary cell is $U_R$, and its indicator is the function $f_R$ which is $1$ on $U_R$ and $0$ on the other three cells. With respect to the stationary weight $\pi$ of the finite kernel, define the Green boundary response by
+$$
+\begin{aligned}
+\chi_R(z)&=\langle f_R,(I-zT)^{-1}f_R\rangle_{\pi},\\
+\Delta_R(z)&=2(\chi_R(z)-\chi_R(0)).
+\end{aligned}
+$$
+This definition uses only the inverse resolvent of the finite kernel derived from $A$. The denominator controlling the resolvent is
+$$
+\begin{aligned}
+\det(I-zT)=\frac{(z-1)(55z^3+506z^2-7263z-48114)}{48114}.
+\end{aligned}
+$$
+At the evaluation point $z=1$, the forward computation gives the exact rational boundary excess
+$$
+\begin{aligned}
+\Delta_R(1)&=\frac{26401}{2^{13}\cdot 571},\\
+26401&=17\cdot 1553,\\
+\operatorname{denominator}(\Delta_R(1))&=4677632=2^{13}\cdot 571.
+\end{aligned}
+$$
+The factor $571$ is therefore an odd prime factor of the reduced denominator of the Green boundary excess.
+
+\paragraph{Reduced Laplacian.}
+The same finite edge counts also define a reduced Laplacian. Delete the $U_R$ row and column after forming the Laplacian from the off-diagonal edge counts. In the ordered basis $(U_2,U_1,U_L)$ the reduced matrix is
+$$
+\begin{aligned}
+L_{\mathrm{red}}=
+\begin{pmatrix}
+106&-63&-23\\
+-63&90&-21\\
+-23&-21&50
+\end{pmatrix}.
+\end{aligned}
+$$
+Its Smith normal form is exactly
+$$
+\begin{aligned}
+\operatorname{SNF}(L_{\mathrm{red}})&=\operatorname{diag}(1,1,123336),\\
+123336&=2^3\cdot 3^3\cdot 571.
+\end{aligned}
+$$
+Consequently $571$ divides the maximal invariant factor of the reduced Laplacian. Combining this with the denominator computation above gives
+$$
+\begin{aligned}
+571&\mid \operatorname{denominator}(\Delta_R(1)),\\
+571&\mid 123336.
+\end{aligned}
+$$
+Among odd primes larger than $3$, it is the unique common prime shared by the denominator of $\Delta_R(1)$ and the maximal Smith invariant $123336$.
+
+\paragraph{Witness extraction.}
+The witness is not a numerical fit. It is extracted by three finite operations applied to the displayed data: exact rational resolvent evaluation for $\Delta_R(1)$, integer factorization of the resulting numerator and denominator, and Smith normal form of $L_{\mathrm{red}}$. These operations produce the same prime $571$ on both sides. The Green side contributes the denominator factor $2^{13}\cdot 571$ through the boundary resolvent, while the Laplacian side contributes the torsion factor $2^3\cdot 3^3\cdot 571$ through the terminal Smith invariant. Thus the finite matrix $A$ carries a prime torsion signal into a boundary Green denominator through the common finite quotient structure.
+
+\paragraph{Local boundary of the claim.}
+The conclusion is only the finite arithmetic link just stated. No physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond this finite construction follows from the displayed computation. Any such reading would require a separate certificate not supplied here.

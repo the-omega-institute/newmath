@@ -1,0 +1,101 @@
+\origin{ai}
+
+\subsection{Forced-window clock couplings and the irreducible $C_{10}$ origin}
+\label{sec:window6-clock-coupling-cert-c10-torsor-origin-irreducible}
+
+\paragraph{Finite carrier.}
+The finite window carrier is the set
+$$
+\begin{aligned}
+X_6=\{w\in \{0,1\}^6 : w_jw_{j+1}\ne 11\text{ for }0\le j<5\}.
+\end{aligned}
+$$
+Thus $X_6$ consists of the length-$6$ binary words with no adjacent pair $11$ in the linear word. Exhaustive enumeration gives
+$$
+\begin{aligned}
+|X_6|=21.
+\end{aligned}
+$$
+The clock carrier is the ten-element cyclic residue set $\mathbf{Z}/10\mathbf{Z}$. Its torsor form, denoted here in words as the $C_{10}$ torsor of absolute clock origins, is the set of possible choices of a base residue before any origin has been selected. The period-$10$ cyclic placement carrier $P_{10}$ is the collection of cyclic binary words of length $10$ obtained by placing a word from $X_6$ into six consecutive cyclic positions and filling the four remaining cyclic positions with $0$.
+
+\paragraph{Zero-padding placement.}
+For $w=(w_0,\ldots,w_5)\in X_6$ and a start residue $r\in \mathbf{Z}/10\mathbf{Z}$, define the zero-padding placement $z(w,r)$ to be the cyclic word of length $10$ whose coordinate $r+i$ carries $w_i$ for $0\le i\le 5$, with all other four coordinates equal to $0$. The defining finite relation is therefore
+$$
+\begin{aligned}
+z(w,r)_{r+i}&=w_i &&\text{for }0\le i\le 5,\\
+z(w,r)_j&=0 &&\text{when }j\notin \{r,r+1,r+2,r+3,r+4,r+5\}.
+\end{aligned}
+$$
+All residues are read modulo $10$. Since the four unfilled coordinates are zero, the only adjacent $1$-$1$ pairs that can occur inside the six-cell cylinder are precisely those already forbidden in $X_6$. The boundary pairs at the two ends of the placed cylinder also meet zero coordinates. Hence the resulting cyclic length-$10$ word is always cyclically golden. Exhaustive finite checking yields the exact identity
+$$
+\begin{aligned}
+\{r\in \mathbf{Z}/10\mathbf{Z}: z(w,r)\in P_{10}\}=\mathbf{Z}/10\mathbf{Z}
+\end{aligned}
+$$
+for every $w\in X_6$.
+
+\paragraph{Local events and full residue support.}
+A local coordinate event is a pair $(w,i)$ with $w\in X_6$ and $i\in\{0,1,2,3,4,5\}$. Under the start residue $r$, this event lands at the clock residue $r+i$ modulo $10$. Therefore the residue support of a fixed event is
+$$
+\begin{aligned}
+\{r+i\bmod 10:r\in \mathbf{Z}/10\mathbf{Z}\}=\mathbf{Z}/10\mathbf{Z}.
+\end{aligned}
+$$
+This identity is the core obstruction. Every local coordinate event realizes every absolute residue once the start residue is allowed to range over the ten valid placements. Consequently, the local word, its coordinate index, and any finite data derived only from the six-window cylinder cannot distinguish one absolute clock origin from another.
+
+\paragraph{Relations, partitions, and kernels visible inside the window.}
+The window data may include a finite edge relation $Q_6$ on local events, a four-cell partition of the six-window positions, and fold-equivalence labels on local words or local events. These objects are still internal to the six-coordinate cylinder. Their information content is obtained from the same finite list of words, coordinates, edges, cells, and equivalence classes before a cyclic start residue is chosen. The residue-support computation above shows that each local event has full image in $\mathbf{Z}/10\mathbf{Z}$ under the placement relation. Thus any matrix or incidence kernel built from these local objects has rows indexed by window-local data and columns indexed by absolute residues only after an external placement choice has been supplied. Since every row has support over all ten residue columns, no row, no finite partition block, and no fold-equivalence class determines a distinguished residue.
+
+\paragraph{No canonical section.}
+The forgetful map from cyclic placements to window words sends $z(w,r)$ to $w$. For each fixed $w\in X_6$, the fiber contains placements at all ten residues:
+$$
+\begin{aligned}
+\{z(w,r):r\in \mathbf{Z}/10\mathbf{Z}\}\subseteq P_{10}.
+\end{aligned}
+$$
+A Window6-internal choice of absolute phase would amount to a canonical section selecting one start residue from this ten-element fiber as a function of the local word and its internal finite labels. Such a section is not present in the finite data: translating every residue by $a\in \mathbf{Z}/10\mathbf{Z}$ preserves all window-local words, all local coordinate incidences, all $Q_6$ edges, all four-cell partition labels, and all fold-equivalence labels. Therefore the $C_{10}$ basepoint is not forced by the window carrier.
+
+\paragraph{Shifted clock couplings.}
+A clock coupling is a map $\iota$ from the residual, seam, and return events under consideration to $\mathbf{Z}/10\mathbf{Z}$. For each $a\in \mathbf{Z}/10\mathbf{Z}$, define the shifted coupling
+$$
+\begin{aligned}
+\iota_a(e)=\iota(e)+a.
+\end{aligned}
+$$
+The ten maps $\iota_a$ have the same window-local behavior. They differ only by the absolute choice of the $C_{10}$ origin. Since Window6 data see cylinders before an origin is chosen, these ten shifted couplings are indistinguishable by any test that uses only the finite window word, its local coordinate events, the $Q_6$ edge relation, the four-cell partition, and fold-equivalence labels.
+
+\paragraph{Affine return shape.}
+The forward-local pair is $(s_6,\rho_6)=(7,10)$. It determines the affine return shape
+$$
+\begin{aligned}
+e_k=7+10k.
+\end{aligned}
+$$
+Modulo $10$, the period satisfies
+$$
+\begin{aligned}
+\rho_6=10\equiv 0\pmod {10},
+\end{aligned}
+$$
+so the residue of every return term is constant after an origin is chosen. This fixes the affine shape and the relative recurrence spacing, but it does not choose the absolute base residue of the $C_{10}$ torsor. The finite window construction therefore proves a separation between relative return form and absolute clock phase.
+
+\paragraph{Certificate required for closure.}
+The minimal additional datum is a clock-coupling certificate
+$$
+\begin{aligned}
+(O,\sigma,o_0,E_{\mathrm{res}},k,\widetilde{\deg}).
+\end{aligned}
+$$
+Here $O$ is the ten-origin torsor, $\sigma$ records the cyclic action, $o_0$ is the chosen basepoint, $E_{\mathrm{res}}$ is the residual-event carrier to be coupled to residues, $k$ indexes the affine return family, and $\widetilde{\deg}$ is the degree lift satisfying
+$$
+\begin{aligned}
+\widetilde{\deg}(e_k)=7+10k.
+\end{aligned}
+$$
+The finite obstruction above proves that $o_0$ is not obtained from Window6-internal data. The certificate is therefore not a cosmetic annotation: it supplies the missing torsor origin that the window carrier cannot select.
+
+\paragraph{Witness extraction.}
+The witness is entirely finite. First enumerate the $21$ words of $X_6$. For each word $w$, evaluate the ten zero-padding placements $z(w,r)$ and verify that all ten are cyclically valid. Next, for every local coordinate event $(w,i)$, compute the set of residues $r+i\bmod 10$ over the ten possible start residues and verify that the result is the full set $\mathbf{Z}/10\mathbf{Z}$. Finally, compare $\iota$ with the ten shifted couplings $\iota_a$ and observe that shifting by $a$ changes only the absolute origin while preserving the same affine return shape $e_k=7+10k$. No measured physical value is used in this computation.
+
+\paragraph{Boundary of the claim.}
+The construction proves a finite functorial obstruction: Window6 cylinders do not contain a canonical $C_{10}$ torsor basepoint. It does not identify any physical constant, does not establish a global flow law, does not remove the need for an external clock-coupling certificate, does not compare against metrological data, and does not provide an interpretation beyond the finite placement and residue-support calculation.

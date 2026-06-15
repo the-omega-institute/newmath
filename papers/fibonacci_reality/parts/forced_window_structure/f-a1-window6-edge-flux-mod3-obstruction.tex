@@ -1,0 +1,80 @@
+\subsection{Forced-window edge-flux obstruction modulo $3$}\label{sec:f-a-window-edge-flux-mod3-obstruction}
+\origin{ai}
+
+\paragraph{Finite carrier.}
+Fix a positive integer $n$. The finite state space is the vector space $\mathbb{F}_3^n$, where $\mathbb{F}_3=\mathbb{Z}/3\mathbb{Z}$. Its elements are column vectors $v=(v_1,\ldots,v_n)$ with each coordinate in $\mathbb{F}_3$, and its cardinality is exactly $3^n$. The forced-window data are encoded by an integer matrix $E\in \operatorname{Mat}_n(\mathbb{Z})$. Reduction of entries modulo $3$ gives a matrix $\overline E\in \operatorname{Mat}_n(\mathbb{F}_3)$. The only finite relation used here is the edge-flux relation
+$$
+\begin{aligned}
+\Phi_E:\mathbb{F}_3^n&\longrightarrow \mathbb{F}_3^n,\\
+v&\longmapsto \overline E v.
+\end{aligned}
+$$
+Thus every state $v$ has a forced output $\Phi_E(v)$, computed by multiplying by $E$ over the integers and then reducing every coordinate modulo $3$.
+
+\paragraph{Singularity condition.}
+Assume that $3$ divides $\det(E)$. Since determinant commutes with reduction modulo $3$, this gives
+$$
+\begin{aligned}
+\det(\overline E)=0\quad \text{in }\mathbb{F}_3.
+\end{aligned}
+$$
+Equivalently, $\overline E$ has rank strictly smaller than $n$ over $\mathbb{F}_3$. Applying the same rank statement to the transpose, the left nullspace is nontrivial:
+$$
+\begin{aligned}
+\ker(\overline E^{T})=\{a\in\mathbb{F}_3^n: \overline E^{T}a=0\}
+\end{aligned}
+$$
+contains at least one nonzero vector. Choose such a vector and call it $a$. It defines a nonzero linear functional
+$$
+\begin{aligned}
+\chi:\mathbb{F}_3^n&\longrightarrow \mathbb{F}_3,\\
+x&\longmapsto a^{T}x.
+\end{aligned}
+$$
+The defining condition $\overline E^T a=0$ is exactly the assertion that $\chi$ is in the left kernel of $\overline E$.
+
+\paragraph{Exact obstruction identity.}
+For every $v\in\mathbb{F}_3^n$, the forced output $\Phi_E(v)=\overline E v$ is annihilated by $\chi$. Indeed,
+$$
+\begin{aligned}
+\chi(\Phi_E(v))
+&=\chi(\overline E v)\\
+&=a^T\overline E v\\
+&=(\overline E^T a)^T v\\
+&=0^T v\\
+&=0.
+\end{aligned}
+$$
+This is the exact finite obstruction: the edge-flux image is contained in the zero fiber of a nonzero linear functional. No approximation or limiting argument is involved.
+
+\paragraph{Partition by the certificate functional.}
+The functional $\chi$ partitions the carrier into three fibers
+$$
+\begin{aligned}
+C_0&=\{x\in\mathbb{F}_3^n:\chi(x)=0\},\\
+C_1&=\{x\in\mathbb{F}_3^n:\chi(x)=1\},\\
+C_2&=\{x\in\mathbb{F}_3^n:\chi(x)=2\}.
+\end{aligned}
+$$
+Because $\chi$ is nonzero, some vector $u$ satisfies $\chi(u)\neq 0$; multiplying $u$ by the inverse of $\chi(u)$ in $\mathbb{F}_3$ gives a vector mapped to $1$. Hence $\chi$ is surjective, and each fiber has exactly $3^{n-1}$ elements. The relation $v\mapsto\overline E v$ therefore lands entirely in the single block $C_0$:
+$$
+\begin{aligned}
+\Phi_E(\mathbb{F}_3^n)\subseteq C_0.
+\end{aligned}
+$$
+The other two blocks are legitimate carrier states, but they are never produced as values of the edge-flux map under this obstruction.
+
+\paragraph{Witness extraction.}
+A witness is obtained by ordinary finite linear algebra over $\mathbb{F}_3$. Reduce $E$ entrywise modulo $3$, solve the homogeneous system
+$$
+\begin{aligned}
+\overline E^T a=0,
+\end{aligned}
+$$
+and choose any nonzero solution $a$. The vector $a$ supplies the functional $\chi(x)=a^T x$, and the preceding calculation verifies the identity $\chi((Ev)\bmod 3)=0$ for every $v\in\mathbb{F}_3^n$. Thus the certificate consists of the reduced matrix $\overline E$, a nonzero left-null vector $a$, and the finite check that $\overline E^T a=0$.
+
+\paragraph{Conjectural placement.}
+The mathematical assertion in this subsection is a finite modulo-$3$ construction: an integer edge-count matrix with determinant divisible by $3$ forces its reduced edge-flux image into the kernel fiber of a nonzero linear functional. Its role as a forced-window obstruction is recorded at the conjectural level of interpretation, while the internal algebraic mechanism is the explicit singular-matrix calculation above.
+
+\paragraph{Boundary of the claim.}
+This subsection asserts no physical-constant identification, no global flow law, no dependence on material outside the finite construction, no metrological comparison, and no interpretation beyond the modulo-$3$ matrix obstruction unless an additional independent certificate is supplied.

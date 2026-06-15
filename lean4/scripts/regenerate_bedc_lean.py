@@ -16,6 +16,7 @@ HEADER = (
 
 AGGREGATE_IMPORT_OMIT = {
     "BEDC.Derived.DyadicIntervalCoverUp",
+    "BEDC.Derived.LocatedCompletionUp.TasteGate",
 }
 
 

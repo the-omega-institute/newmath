@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualSubstitutionComparisonUp$}
+\label{ch:concrete-instances-metacic-residual-substitution-comparison-namecert}
+\origin{human}
+
+Following Barendregt-style residual and confluence analysis, the $\MetaCICResidualSubstitutionComparisonUp$ packet records the finite comparison surface through which residual-substitution data may be audited before a confluence consumer cites a conditional diamond route. It sits beside the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the critical-pair ledger of \autoref{ch:concrete-instances-metacic-critical-pair-ledger-namecert}, and the local confluence frontier of \autoref{ch:concrete-instances-metacic-local-confluence-frontier-namecert}. The packet compares displayed residual-substitution rows; it does not prove global confluence or discharge substitution compatibility.
+
+\begin{definition}[MetaCIC residual-substitution comparison carrier]
+\label{def:metacic-residual-substitution-comparison-carrier}
+A $\MetaCICResidualSubstitutionComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T_0,T_1,S_0,S_1,J,O,Q,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $T_0$ and $T_1$ are the typed-window rows. They display the two finite MetaCIC term windows whose residual substitution traces are compared.
+\item $S_0$ and $S_1$ are the residual-substitution trace rows. They record the two substituted residual branches and the binder windows used by the comparison.
+\item $J$ is the local-join row. It records the bounded local join attempt between the two residual traces, without promoting the attempt to a full parallel diamond.
+\item $O$ is the obstruction-retention row. It keeps the named substitution-compatibility boundary visible whenever the local join is conditional.
+\item $Q$ is the bounded-checker row. It records the finite checker requests used to compare the typed windows, residual traces, local join, and obstruction row.
+\item $H$ records componentwise $\hsame$ transport for the typed windows, residual traces, local join, obstruction retention, bounded checker, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+T_0,T_1 \longmapsto S_0,S_1 \longmapsto J,O,Q \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualSubstitutionComparisonUp$, MetaCIC typed windows, residual substitution traces, local join data, obstruction rows, bounded checker data, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualSubstitutionComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these displayed typed-window, residual-trace, local-join, obstruction-retention, bounded-checker, transport, replay, provenance, and local naming rows. It has no coordinate for global confluence, premise-free substitution compatibility, arbitrary closed Church--Rosser, quotient syntax, or host evaluator soundness.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual-substitution comparison NameCert obligations]
+\label{thm:metacic-residual-substitution-comparison-namecert-obligations}
+For every accepted $\MetaCICResidualSubstitutionComparisonUp$ carrier
+$$
+B=(T_0,T_1,S_0,S_1,J,O,Q,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICResidualSubstitutionComparisonUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the typed windows, residual-substitution traces, local join, obstruction retention, bounded checker, transport, replay, provenance, and local naming rows;
+\item typed-window exposure, requiring $T_0$ and $T_1$ to be read before either residual trace is compared;
+\item residual-trace comparison, requiring $S_0$ and $S_1$ to remain paired with their typed windows and binder windows;
+\item local-join boundedness, requiring $J$ to record only the displayed local join attempt inspected by $Q$;
+\item obstruction retention, requiring $O$ to keep the residual-substitution compatibility boundary visible whenever the comparison is conditional;
+\item provenance exhaustion, requiring $H,C,P,N$ to transport, replay, source, and name exactly the displayed rows.
+\end{enumerate}
+No MetaCIC residual-substitution comparison obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-substitution-comparison-carrier}. The typed windows $T_0,T_1$ are finite term-and-binder windows, and the residual traces $S_0,S_1$ are read only through those windows.
+
+The local join row $J$ is bounded by the checker row $Q$. Thus the packet can record a finite comparison between two residual traces without claiming a global parallel diamond.
+
+The obstruction row $O$ remains visible whenever the join is conditional. This matches the premise-retention discipline of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert} and keeps the confluence audit map from silently treating a named input as a theorem.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since no coordinate supplies global confluence, premise-free substitution compatibility, arbitrary closed Church--Rosser, quotient syntax, or host evaluator soundness, the obligation surface is exactly the finite comparison packet displayed above.
+\end{proof}
+\leanstmt{BEDC.Derived.MetaCICResidualSubstitutionComparisonUp}
+
+\falsifiablePrediction{A $\MetaCICResidualSubstitutionComparisonUp$ confluence-audit read factors through finite typed-window rows, residual-substitution trace rows, local-join data, obstruction retention, bounded checker data, transport, replay, provenance, and local NameCert rows before any conditional diamond handoff is cited.}
+
+\independenceWitness{metacic-residual-substitution-boundary, metacic-critical-pair-ledger, metacic-local-confluence-frontier: the comparison packet is not bijective to any listed sibling because it jointly carries two typed windows, two residual traces, a bounded local join, obstruction retention, bounded checking, transport, replay, provenance, and local naming.}
+
+\closureat{MetaCICResidualSubstitutionComparisonUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualSubstitutionComparisonUp}
+  \constructivestory{A $\MetaCICResidualSubstitutionComparisonUp$ packet is generated from two finite typed-window rows, two residual-substitution trace rows, a bounded local-join row, obstruction-retention data, a bounded-checker row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-substitution-comparison-carrier} and \autoref{thm:metacic-residual-substitution-comparison-namecert-obligations} seed the finite residual-substitution comparison packet over typed windows, residual traces, local joins, obstruction retention, bounded checking, transport, replay, provenance, and local naming.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.MetaCICResidualSubstitutionComparisonUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global confluence, premise-free substitution compatibility, arbitrary closed Church--Rosser, quotient syntax, host evaluator soundness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window exposure, residual-trace comparison, local-join boundedness, obstruction retention, provenance exhaustion, and finite NameCert coverage for BEDC.Derived.MetaCICResidualSubstitutionComparisonUp.}
+\end{closurestatus}

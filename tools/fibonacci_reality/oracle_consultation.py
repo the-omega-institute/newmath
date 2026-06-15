@@ -284,6 +284,7 @@ def run_oracle_consultation(
     poll_timeout: int = 600,
     codex_judge_timeout: int = 240,
     existing_conversation_id: str = "",
+    allow_resume_fallback: bool = True,
     close_on_exit: bool = False,
 ) -> dict[str, Any]:
     """Run a multi-turn oracle consultation and optionally persist its transcript."""
@@ -300,8 +301,7 @@ def run_oracle_consultation(
         max_turns,
         codex_timeout_seconds=codex_judge_timeout,
     )
-    # Skip PDF attach when resuming an existing conversation (ChatGPT already has the file).
-    if existing_conversation_id:
+    if existing_conversation_id and not str(server_url).startswith("nyxid-oracle://"):
         pdf_base64 = ""
         pdf_name = ""
         pdf_skipped_reason = pdf_skipped_reason or "resuming_existing_conversation"
@@ -315,6 +315,7 @@ def run_oracle_consultation(
         pdf_base64=pdf_base64,
         pdf_name=pdf_name,
         existing_conversation_id=existing_conversation_id,
+        allow_resume_fallback=allow_resume_fallback,
         close_on_exit=close_on_exit,
         server_url=server_url,
         poll_timeout=poll_timeout,
