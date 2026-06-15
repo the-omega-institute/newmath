@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.QuotientFreeCompletionSealUp
@@ -25,11 +26,10 @@ def quotientFreeCompletionSealDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (quotientFreeCompletionSealDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (quotientFreeCompletionSealDecodeBHist tail)
 
-private theorem quotientFreeCompletionSeal_decode_encode_bhist :
+private theorem QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       quotientFreeCompletionSealDecodeBHist
-          (quotientFreeCompletionSealEncodeBHist h) =
-        h := by
+        (quotientFreeCompletionSealEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,43 +37,51 @@ private theorem quotientFreeCompletionSeal_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def quotientFreeCompletionSealFields :
-    QuotientFreeCompletionSealUp → List BHist
+def quotientFreeCompletionSealFields : QuotientFreeCompletionSealUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | QuotientFreeCompletionSealUp.mk D S R E L H C P N => [D, S, R, E, L, H, C, P, N]
 
-def quotientFreeCompletionSealToEventFlow :
-    QuotientFreeCompletionSealUp → EventFlow
+def quotientFreeCompletionSealToEventFlow : QuotientFreeCompletionSealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (quotientFreeCompletionSealFields x).map quotientFreeCompletionSealEncodeBHist
 
-private def quotientFreeCompletionSealEventAt : Nat → EventFlow → RawEvent
+private def QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => quotientFreeCompletionSealEventAt index rest
+  | Nat.succ index, _event :: rest =>
+      QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt index rest
 
-def quotientFreeCompletionSealFromEventFlow :
-    EventFlow → Option QuotientFreeCompletionSealUp :=
+def quotientFreeCompletionSealFromEventFlow : EventFlow → Option QuotientFreeCompletionSealUp
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (QuotientFreeCompletionSealUp.mk
-        (quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEventAt 0 ef))
-        (quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEventAt 1 ef))
-        (quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEventAt 2 ef))
-        (quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEventAt 3 ef))
-        (quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEventAt 4 ef))
-        (quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEventAt 5 ef))
-        (quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEventAt 6 ef))
-        (quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEventAt 7 ef))
-        (quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEventAt 8 ef)))
+  | ef =>
+      some
+        (QuotientFreeCompletionSealUp.mk
+          (quotientFreeCompletionSealDecodeBHist
+            (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt 0 ef))
+          (quotientFreeCompletionSealDecodeBHist
+            (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt 1 ef))
+          (quotientFreeCompletionSealDecodeBHist
+            (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt 2 ef))
+          (quotientFreeCompletionSealDecodeBHist
+            (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt 3 ef))
+          (quotientFreeCompletionSealDecodeBHist
+            (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt 4 ef))
+          (quotientFreeCompletionSealDecodeBHist
+            (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt 5 ef))
+          (quotientFreeCompletionSealDecodeBHist
+            (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt 6 ef))
+          (quotientFreeCompletionSealDecodeBHist
+            (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt 7 ef))
+          (quotientFreeCompletionSealDecodeBHist
+            (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_eventAt 8 ef)))
 
-private theorem quotientFreeCompletionSeal_round_trip :
+private theorem QuotientFreeCompletionSealTasteGate_single_carrier_alignment_round_trip :
     ∀ x : QuotientFreeCompletionSealUp,
-      quotientFreeCompletionSealFromEventFlow (quotientFreeCompletionSealToEventFlow x) =
-        some x := by
+      quotientFreeCompletionSealFromEventFlow
+        (quotientFreeCompletionSealToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -100,32 +108,47 @@ private theorem quotientFreeCompletionSeal_round_trip :
             (quotientFreeCompletionSealDecodeBHist
               (quotientFreeCompletionSealEncodeBHist N))) =
           some (QuotientFreeCompletionSealUp.mk D S R E L H C P N)
-      rw [quotientFreeCompletionSeal_decode_encode_bhist D,
-        quotientFreeCompletionSeal_decode_encode_bhist S,
-        quotientFreeCompletionSeal_decode_encode_bhist R,
-        quotientFreeCompletionSeal_decode_encode_bhist E,
-        quotientFreeCompletionSeal_decode_encode_bhist L,
-        quotientFreeCompletionSeal_decode_encode_bhist H,
-        quotientFreeCompletionSeal_decode_encode_bhist C,
-        quotientFreeCompletionSeal_decode_encode_bhist P,
-        quotientFreeCompletionSeal_decode_encode_bhist N]
+      rw [QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode D,
+        QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode S,
+        QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode R,
+        QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode E,
+        QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode L,
+        QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode H,
+        QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode C,
+        QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode P,
+        QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode N]
 
-private theorem quotientFreeCompletionSealToEventFlow_injective
+private theorem QuotientFreeCompletionSealTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : QuotientFreeCompletionSealUp} :
-    quotientFreeCompletionSealToEventFlow x = quotientFreeCompletionSealToEventFlow y →
-      x = y := by
+    quotientFreeCompletionSealToEventFlow x =
+      quotientFreeCompletionSealToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      quotientFreeCompletionSealFromEventFlow (quotientFreeCompletionSealToEventFlow x) =
-        quotientFreeCompletionSealFromEventFlow (quotientFreeCompletionSealToEventFlow y) :=
+      quotientFreeCompletionSealFromEventFlow
+          (quotientFreeCompletionSealToEventFlow x) =
+        quotientFreeCompletionSealFromEventFlow
+          (quotientFreeCompletionSealToEventFlow y) :=
     congrArg quotientFreeCompletionSealFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (quotientFreeCompletionSeal_round_trip x).symm
-      (Eq.trans hread (quotientFreeCompletionSeal_round_trip y)))
+    (Eq.trans
+      (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_round_trip y)))
 
-instance quotientFreeCompletionSealBHistCarrier :
-    BHistCarrier QuotientFreeCompletionSealUp where
+private theorem QuotientFreeCompletionSealTasteGate_single_carrier_alignment_fields :
+    ∀ x y : QuotientFreeCompletionSealUp,
+      quotientFreeCompletionSealFields x = quotientFreeCompletionSealFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk D₁ S₁ R₁ E₁ L₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk D₂ S₂ R₂ E₂ L₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
+instance quotientFreeCompletionSealBHistCarrier : BHistCarrier QuotientFreeCompletionSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := quotientFreeCompletionSealToEventFlow
   fromEventFlow := quotientFreeCompletionSealFromEventFlow
@@ -133,29 +156,48 @@ instance quotientFreeCompletionSealBHistCarrier :
 instance quotientFreeCompletionSealChapterTasteGate :
     ChapterTasteGate QuotientFreeCompletionSealUp where
   -- BEDC touchpoint anchor: BHist BMark
-  round_trip := by
-    intro x
-    change
-      quotientFreeCompletionSealFromEventFlow (quotientFreeCompletionSealToEventFlow x) =
-        some x
-    exact quotientFreeCompletionSeal_round_trip x
+  round_trip := QuotientFreeCompletionSealTasteGate_single_carrier_alignment_round_trip
   layer_separation := by
     intro x y hxy heq
-    exact hxy (quotientFreeCompletionSealToEventFlow_injective heq)
+    exact hxy
+      (QuotientFreeCompletionSealTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+instance quotientFreeCompletionSealFieldFaithful :
+    FieldFaithful QuotientFreeCompletionSealUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := quotientFreeCompletionSealFields
+  field_faithful := QuotientFreeCompletionSealTasteGate_single_carrier_alignment_fields
+
+instance quotientFreeCompletionSealNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial QuotientFreeCompletionSealUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨QuotientFreeCompletionSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      QuotientFreeCompletionSealUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem QuotientFreeCompletionSealTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier QuotientFreeCompletionSealUp) ∧
-        Nonempty (ChapterTasteGate QuotientFreeCompletionSealUp) ∧
+      (∀ x : QuotientFreeCompletionSealUp,
+        quotientFreeCompletionSealFromEventFlow
+          (quotientFreeCompletionSealToEventFlow x) = some x) ∧
+        (∀ x y : QuotientFreeCompletionSealUp,
+          quotientFreeCompletionSealToEventFlow x =
+            quotientFreeCompletionSealToEventFlow y → x = y) ∧
           quotientFreeCompletionSealEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark BHistCarrier ChapterTasteGate
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact quotientFreeCompletionSeal_decode_encode_bhist
+  · exact QuotientFreeCompletionSealTasteGate_single_carrier_alignment_decode
   · constructor
-    · exact Nonempty.intro quotientFreeCompletionSealBHistCarrier
+    · exact QuotientFreeCompletionSealTasteGate_single_carrier_alignment_round_trip
     · constructor
-      · exact Nonempty.intro quotientFreeCompletionSealChapterTasteGate
+      · intro x y
+        exact QuotientFreeCompletionSealTasteGate_single_carrier_alignment_toEventFlow_injective
       · rfl
 
 end BEDC.Derived.QuotientFreeCompletionSealUp
