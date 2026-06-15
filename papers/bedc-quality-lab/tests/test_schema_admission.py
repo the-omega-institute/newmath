@@ -83,6 +83,14 @@ def test_schema_admission_passes_when_every_schema_has_owner_validator_and_polic
     assert all(gate["status"] == "pass" for gate in result["hardgates"].values())
 
 
+def test_schema_admission_fails_without_rows():
+    result = validate_schema_admission(()).as_dict()
+
+    assert result["status"] == "fail"
+    assert result["rows"] == []
+    assert all(gate["status"] == "pass" for gate in result["hardgates"].values())
+
+
 def test_schema_admission_fails_when_validator_ref_is_not_callable():
     result = validate_schema_admission(
         [
