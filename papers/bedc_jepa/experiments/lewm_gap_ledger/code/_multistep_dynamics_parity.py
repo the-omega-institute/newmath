@@ -181,6 +181,19 @@ def predict(model: ActionDynamics, rows: dict[str, np.ndarray], mask: np.ndarray
     return out
 
 
+def loss_weights(profile: str, horizon: int, device: torch.device) -> torch.Tensor:
+    if profile == "decay":
+        weights = torch.linspace(1.0, 1.0 / float(horizon), steps=horizon, device=device)
+    elif profile == "h1":
+        weights = torch.zeros(horizon, device=device)
+        weights[0] = 1.0
+    elif profile == "uniform":
+        weights = torch.ones(horizon, device=device)
+    else:
+        raise ValueError(f"unknown loss_profile: {profile!r}")
+    return weights.view(1, horizon, 1)
+
+
 def train_for_horizon(args: argparse.Namespace, data: dict[str, np.ndarray], horizon: int) -> dict[str, Any]:
     device = configure(int(args.seed) + horizon)
     rows_raw = build_rows(data, horizon)
@@ -214,7 +227,7 @@ def train_for_horizon(args: argparse.Namespace, data: dict[str, np.ndarray], hor
             tf = torch.from_numpy(rows["t_features"][idx].astype(np.float32)).to(device)
             target = torch.from_numpy(rows["target_scaled"][idx].astype(np.float32)).to(device)
             pred = model(cur, act, gap, tf)
-            weights = torch.linspace(1.0, 1.0 / float(horizon), steps=horizon, device=device).view(1, horizon, 1)
+            weights = loss_weights(str(args.loss_profile), horizon, device)
             loss = torch.mean(weights * F.smooth_l1_loss(pred, target, reduction="none"))
             opt.zero_grad(set_to_none=True)
             loss.backward()
@@ -315,6 +328,7 @@ def main() -> int:
     parser.add_argument("--epsilon", type=float, default=0.10)
     parser.add_argument("--horizons", default="1,3,5")
     parser.add_argument("--split-mode", choices=["episode", "transition"], default="episode")
+    parser.add_argument("--loss-profile", choices=["decay", "h1", "uniform"], default="decay")
     args = parser.parse_args()
     start_time = time.time()
     latents_path = resolve_path(str(args.latents))
@@ -347,6 +361,7 @@ def main() -> int:
             "epsilon": float(args.epsilon),
             "horizons": list(horizons),
             "split_mode": str(args.split_mode),
+            "loss_profile": str(args.loss_profile),
             "training_target": "teacher-forced multi-step latent rollout with action-conditioned recurrent residual dynamics",
         },
         "primary_horizon": int(primary["horizon"]),
