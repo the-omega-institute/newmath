@@ -73,15 +73,17 @@
       },
       "durable_write_scope": [
         "papers/fibonacci_reality/main.tex",
-        "papers/fibonacci_reality/parts/forced_window_structure.tex"
+        "papers/fibonacci_reality/parts/forced_window_structure.tex",
+        "papers/fibonacci_reality/parts/forced_window_structure/*.tex",
+        "papers/fibonacci_reality/parts/namecerts/*.tex"
       ]
     },
     {
       "lane": "bio-B",
       "loop_name": "bio_B_bedc_writeback",
-      "role": "staged BEDC concrete-instances writeback from gated NameCert proposals",
-      "durable_write_allowed": true,
-      "enabled": true
+      "role": "DISABLED for fibonacci_reality: BEDC concrete-instances writeback is orchestrator-controlled",
+      "durable_write_allowed": false,
+      "enabled": false
     },
     {
       "lane": "bio-Q",
@@ -143,13 +145,10 @@
       "papers/fibonacci_reality/Makefile",
       "papers/fibonacci_reality/parts/*.tex",
       "papers/fibonacci_reality/parts/namecerts/*.tex",
-      "papers/bedc/parts/concrete_instances/*fibonacci_reality*.tex",
       "papers/bedc/parts/concrete_instances/*bioreality*.tex",
       "papers/bedc/parts/concrete_instances/*reality_bound*.tex",
-      "papers/bedc/parts/concrete_instances/fibonacci_reality_*/*.tex",
       "papers/bedc/parts/concrete_instances/bioreality_*/*.tex",
       "papers/bedc/parts/concrete_instances/reality_bound_*/*.tex",
-      "papers/bedc/parts/fibonacci_reality_module.tex",
       "papers/bedc/preamble_chapter_macros_late_tail.tex"
     ],
     "exclude_paths": [
@@ -218,12 +217,12 @@
     }
   },
   "bedc_writeback": {
-    "enabled": true,
+    "enabled": false,
     "target_concrete_instances_dir": "papers/bedc/parts/concrete_instances",
     "module_aggregator": "papers/bedc/parts/fibonacci_reality_module.tex",
-    "max_writebacks_per_cycle": 1,
+    "max_writebacks_per_cycle": 5,
     "codex_writer": {
-      "enabled": true,
+      "enabled": false,
       "max_retries": 2,
       "timeout_seconds": 600,
       "log_dir": "tools/fibonacci_reality/state/bedc_writeback_logs",
