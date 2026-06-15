@@ -317,6 +317,20 @@ episode-policy score on the same refined grid gives $-0.00330$
 $[-0.00679,\ +0.00020]$.  The oracle remains far below at $-0.03059$
 $[-0.03810,\ -0.02476]$.  The refined grid is therefore a real lever, but the
 tested direct per-option readout does not capture it.
+The closed allocation row comes from making the allocator structured rather
+than making the readout wider.  An option-conditioned local RTX~4060 model
+reads rollout-internal features together with an explicit depth option
+$b\in\{1,2,3,4,5\}$, predicts option error, and then selects depths with an
+exact per-episode dynamic program constrained to total budget $3n$.  The
+calibration-selected row evaluates at allocation delta $-0.00604$
+$[-0.01045,\ -0.00168]$ with score/error Spearman $0.8899$.  Under the same
+exact-budget rule, the oracle gives $-0.02412$ $[-0.03045,\ -0.01944]$; the
+direct refined-value DP row gives $+0.00182$ $[-0.00279,\ +0.00629]$; and the
+reused policy-score balanced row gives $-0.00330$ $[-0.00697,\ +0.00024]$.
+Thus compute-value control is not recovered by a scalar failure score or by a
+plain five-output marginal-value head.  It appears when the world-model state is
+asked for option-conditioned compute cost and the budget constraint is part of
+the assignment rule.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -426,6 +440,7 @@ $$
 \text{compute-value hard-episode sequence probe} & \texttt{reports/compute\_value\_hard\_episode\_sequence\_probe.json},\\
 \text{compute-value option set} & \texttt{reports/compute\_value\_option\_set.json},\\
 \text{compute-value refined option model} & \texttt{reports/compute\_value\_refined\_option\_model.json},\\
+\text{compute-value structured assignment} & \texttt{reports/compute\_value\_structured\_assignment.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

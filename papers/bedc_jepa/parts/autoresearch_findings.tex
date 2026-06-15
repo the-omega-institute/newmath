@@ -97,8 +97,8 @@ $\rho=0.421$ $[0.321,\ 0.513]$; its selective admission risk is $0.1165$ at
 $\alpha=0.10$, so neither selective admission nor allocation passes its
 criterion.  Detection is therefore an internalization that hardens past the
 strongest-probe scalar under the integrated row, selective prediction is a
-conservative-coverage result, and allocation is a capacity-invariant bounded
-frontier.
+conservative-coverage result, and allocation remains bounded when it is treated
+as a downstream failure-score or integrated-detector ranking problem.
 
 The bounded allocation frontier is not treated as a request for another
 failure-score ranker.  The research loop carries a separate compute-value axis:
@@ -216,6 +216,20 @@ $[-0.00679,\ +0.00020]$.  Thus the refined option space is useful, but a
 small direct per-option value readout has not learned the right assignment
 signal.  The next step is option-conditioned or structured assignment learning,
 not just a wider output head.
+A structured assignment row gives the compute-value axis its first closed
+allocation-side model result on this fixed export.  The model reads the same
+rollout-internal features plus an explicit depth option, predicts option error
+for each depth in $\{1,2,3,4,5\}$, and then uses an exact per-episode dynamic
+program with budget $\sum b = 3n$ before any evaluation errors are read.  The
+learned structured row evaluates at allocation delta $-0.00604$
+$[-0.01045,\ -0.00168]$ with score/error Spearman $0.8899$.  The exact-budget
+oracle is still lower at $-0.02412$ $[-0.03045,\ -0.01944]$, while the direct
+refined-value DP row remains $+0.00182$ $[-0.00279,\ +0.00629]$ and the reused
+policy-score balanced row is $-0.00330$ $[-0.00697,\ +0.00024]$.  The positive
+reading is therefore not that failure detection solved allocation, but that
+allocation becomes learnable when the model predicts option-conditioned
+compute cost and the allocator enforces the budget as a discrete assignment
+constraint.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar

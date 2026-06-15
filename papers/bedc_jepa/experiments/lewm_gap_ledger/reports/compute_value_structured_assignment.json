@@ -1,0 +1,195 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_structured_assignment",
+  "selected_model": "option_conditioned_exact_budget",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz",
+    "refined_prediction": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_refined_option_model_predictions.npz",
+    "policy_prediction": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy_stability_predictions.npz"
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "target": {
+    "option_depths": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "assignment_rule": "exact per-episode budget sum(depth)=3*episode_anchor_count using dynamic programming",
+    "learned_score": "predicted option error; lower score is selected by the DP"
+  },
+  "calibration": {
+    "ridge_structured": {
+      "allocation_delta": {
+        "observed": 0.0,
+        "low": 0.0,
+        "high": 0.0
+      },
+      "chosen_depth_counts": {
+        "3": 646
+      },
+      "score_error_spearman": 0.2821498645418194
+    },
+    "learned_structured": {
+      "allocation_delta": {
+        "observed": -0.008058205954943054,
+        "low": -0.011678332940623778,
+        "high": -0.004955632047493946
+      },
+      "chosen_depth_counts": {
+        "1": 56,
+        "2": 252,
+        "3": 105,
+        "4": 102,
+        "5": 131
+      },
+      "score_error_spearman": 0.8906608136705193
+    }
+  },
+  "health": {
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+    "best": {
+      "epoch": 287,
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.008058205954943054,
+          "low": -0.011678332940623778,
+          "high": -0.004955632047493946
+        },
+        "chosen_depth_counts": {
+          "1": 56,
+          "2": 252,
+          "3": 105,
+          "4": 102,
+          "5": 131
+        },
+        "score_error_spearman": 0.8906608136705193
+      },
+      "cal_smooth_l1": 0.12404101341962814
+    },
+    "history_first": {
+      "epoch": 1.0,
+      "train": 0.5155730918049812,
+      "cal_smooth_l1": 0.17362146079540253,
+      "cal_delta_high": 0.003297160942685565,
+      "cal_delta_observed": 0.0016906562447183554
+    },
+    "history_last": {
+      "epoch": 420.0,
+      "train": 0.12328322865068912,
+      "cal_smooth_l1": 0.12388522922992706,
+      "cal_delta_high": -0.003421918260803144,
+      "cal_delta_observed": -0.006614722219057331
+    },
+    "params_count": 1979137
+  },
+  "eval": {
+    "exact_budget_oracle": {
+      "allocation_delta": {
+        "observed": -0.024122137932078153,
+        "low": -0.030449682857947653,
+        "high": -0.019436570563229068
+      },
+      "chosen_depth_counts": {
+        "1": 148,
+        "2": 114,
+        "3": 117,
+        "4": 100,
+        "5": 155
+      },
+      "score_error_spearman": 1.0
+    },
+    "learned_structured": {
+      "allocation_delta": {
+        "observed": -0.006037844418029237,
+        "low": -0.010450344141019096,
+        "high": -0.001683271889703478
+      },
+      "chosen_depth_counts": {
+        "1": 46,
+        "2": 253,
+        "3": 107,
+        "4": 111,
+        "5": 117
+      },
+      "score_error_spearman": 0.8898838415040493
+    },
+    "ridge_structured": {
+      "allocation_delta": {
+        "observed": 0.0,
+        "low": 0.0,
+        "high": 0.0
+      },
+      "chosen_depth_counts": {
+        "3": 634
+      },
+      "score_error_spearman": 0.2831407460909266
+    },
+    "refined_mv_dp": {
+      "allocation_delta": {
+        "observed": 0.0018150234253323794,
+        "low": -0.002793125046365314,
+        "high": 0.006292981841386974
+      },
+      "chosen_depth_counts": {
+        "1": 95,
+        "2": 67,
+        "3": 306,
+        "4": 75,
+        "5": 91
+      },
+      "score_error_spearman": 0.43738003498836153
+    },
+    "policy_score_balanced": {
+      "allocation_delta": {
+        "observed": -0.0033048625628667727,
+        "low": -0.006972053515845698,
+        "high": 0.00023673201179474698
+      },
+      "chosen_depth_counts": {
+        "1": 99,
+        "2": 92,
+        "3": 252,
+        "4": 92,
+        "5": 99
+      },
+      "policy_target_spearman": 0.3963775077698914
+    },
+    "per_step_oracle": {
+      "allocation_delta": {
+        "observed": -0.03059239361686994,
+        "low": -0.03854560641585473,
+        "high": -0.02472875109203734
+      },
+      "chosen_depth_counts": {
+        "1": 448,
+        "2": 94,
+        "3": 43,
+        "4": 24,
+        "5": 25
+      },
+      "score_error_spearman": 1.0
+    }
+  },
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only",
+    "target_standardizer": "fit on train option_error only",
+    "model_selection": "calibration split exact-budget allocation only",
+    "eval_truth_usage": "eval option_error used only after predicted option scores are written for final metrics and references",
+    "slurm_or_ssh": "not used"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_structured_assignment_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_structured_assignment.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_structured_assignment.md"
+  },
+  "wall_time_sec": 325.58793902397156
+}
