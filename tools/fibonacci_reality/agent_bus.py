@@ -1263,7 +1263,6 @@ def dispatch_codex(task: dict[str, Any], *, execute: bool) -> dict[str, Any]:
         changed_paths = _paths_changed_since(before_status, _git_status(repo_root))
         violations = [path for path in changed_paths if not _allowed_path(path, allowed_writes)]
         if violations:
-            _revert_paths(repo_root, violations)
             dispatch["dispatch_status"] = "write_path_violation"
             _append_stderr_tail(dispatch, "write_path_violation: " + ", ".join(violations))
         return dispatch
@@ -1315,7 +1314,6 @@ def dispatch_codex(task: dict[str, Any], *, execute: bool) -> dict[str, Any]:
     changed_paths = _paths_changed_since(before_status, after_status)
     violations = [path for path in changed_paths if not _allowed_path(path, allowed_writes)]
     if violations:
-        _revert_paths(repo_root, violations)
         dispatch["dispatch_status"] = "write_path_violation"
         _append_stderr_tail(dispatch, "write_path_violation: " + ", ".join(violations))
         return dispatch
@@ -1599,6 +1597,13 @@ def run_agent_lane(store: FibonacciRealityStore, *, execute_codex: bool = True, 
     queued = [task for task in tasks if str(task.get("status") or "queued") == "queued"]
     queued.sort(key=_status_sort)
     selected = queued[:max_dispatch]
+    if max_dispatch > 0 and not any(str(task.get("action") or "") == "draft_namecert_proposal" for task in selected):
+        namer_task = next((task for task in queued if str(task.get("action") or "") == "draft_namecert_proposal"), None)
+        if namer_task is not None:
+            if len(selected) < max_dispatch:
+                selected.append(namer_task)
+            elif selected:
+                selected[-1] = namer_task
     if execute_codex:
         dispatch_at = now_iso()
         selected_ids = {str(task.get("task_id") or "") for task in selected}
