@@ -27,6 +27,26 @@ EXPECTED_MODEL_DESIGN_OWNER_ARTIFACTS = {
     canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
     canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
 }
+EXPECTED_MODEL_DESIGN_ROW_FIELDS = {
+    "component_id",
+    "canonical_owner_pointer",
+    "coverage_pointer",
+    "discovery_pointer",
+    "verdict_pointer",
+    "mechanism_pointer",
+    "debt_pointer",
+    "not_claimed_pointer",
+    "negative_witness_pointer",
+    "hardgate_status",
+    "hardgate_reason",
+}
+EXPECTED_MODEL_DESIGN_COVERAGE_POINTERS = {
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[0]",
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[1]",
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[3]",
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[4]",
+    f"{canonical.DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[6]",
+}
 
 
 def _model_claim() -> dict:
@@ -200,7 +220,21 @@ def _write_suite_dependencies(root):
     )
     canonical._write_json_atomic(
         root / canonical.DISCOVERY_MAP_JSON_ARTIFACT,
-        {"coverage_matrix": {"status": "pointer-only"}, "level_counts": {"D0": 0}},
+        {
+            "coverage_matrix": {
+                "cells": [
+                    {"component_id": "CGA"},
+                    {"component_id": "DGT"},
+                    {"component_id": "DGT-neural-ablation"},
+                    {"component_id": "DRT"},
+                    {"component_id": "LAT"},
+                    {"component_id": "LeJEPA-mini-grid-DN"},
+                    {"component_id": "MSN"},
+                ],
+                "status": "pointer-only",
+            },
+            "level_counts": {"D0": 0},
+        },
     )
     canonical._write_json_atomic(
         root / canonical.DGT_NEURAL_ABLATION_JSON_ARTIFACT,
@@ -262,13 +296,15 @@ def test_model_design_suite_is_runner_local_pointer_only_and_resolvable(tmp_path
     assert payload["status"] == "pass"
     assert payload["canonical_owner"]["owner_pointer"] == f"{canonical.MODEL_DESIGN_SUITE_JSON_ARTIFACT}:$"
     assert {gate["status"] for gate in payload["hardgates"].values()} == {"pass"}
-    assert all(set(row) == canonical.MODEL_DESIGN_SUITE_ROW_FIELDS for row in payload["rows"])
+    assert canonical.MODEL_DESIGN_SUITE_ROW_FIELDS == EXPECTED_MODEL_DESIGN_ROW_FIELDS
+    assert all(set(row) == EXPECTED_MODEL_DESIGN_ROW_FIELDS for row in payload["rows"])
     assert "terminal_verdict" not in json.dumps(payload, sort_keys=True)
     assert "candidate_measurements" not in json.dumps(payload, sort_keys=True)
 
     for row in payload["rows"]:
         for field in canonical.MODEL_DESIGN_SUITE_POINTER_FIELDS:
             assert resolve_artifact_pointer(tmp_path, row[field]) is not None, (field, row[field])
+    assert {row["coverage_pointer"] for row in payload["rows"]} == EXPECTED_MODEL_DESIGN_COVERAGE_POINTERS
     assert {
         row["negative_witness_pointer"]
         for row in payload["rows"]
@@ -376,7 +412,11 @@ def test_suite_hg2_owner_pointer_fail_closed_and_propagates(tmp_path, field, val
         ("SUITE-HG1", "component_id"),
         ("SUITE-HG2", "canonical_owner_pointer"),
         ("SUITE-HG3", "discovery_pointer"),
+        ("SUITE-HG4", "coverage_pointer"),
         ("SUITE-HG4", "verdict_pointer"),
+        ("SUITE-HG4", "mechanism_pointer"),
+        ("SUITE-HG4", "debt_pointer"),
+        ("SUITE-HG5", "not_claimed_pointer"),
         ("SUITE-HG5", "negative_witness_pointer"),
     ],
 )
