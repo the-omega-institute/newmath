@@ -963,6 +963,7 @@ import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BlaschkeSelectionCompactHyperspaceUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
+import BEDC.Derived.BolzanoWeierstrassSelectorUp.WindowObligation
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceAdmission
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceSource
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSubsequenceCauchyExtraction
@@ -4342,6 +4343,7 @@ import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DiscreteGronwallUp
 import BEDC.Derived.DistanceFunctionCompletionUp.TasteGate
+import BEDC.Derived.DistanceToCompactUp.TasteGate
 import BEDC.Derived.DistributionDerivativeUp.TasteGate
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.DivisibilityUp
@@ -7740,6 +7742,7 @@ import BEDC.Derived.ObserverTraceKernelUp.TasteGate
 import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ObserverperspectiveclassifierUp
 import BEDC.Derived.OdeUp
+import BEDC.Derived.OlivierTheoremUp.TasteGate
 import BEDC.Derived.OnePointCompactificationUp.TasteGate
 import BEDC.Derived.OneSidedLimitUp.TasteGate
 import BEDC.Derived.OnticAdequacyAuditUp.NameCert
@@ -8985,6 +8988,7 @@ import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.Nonescape
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.SharedThresholdFactorization
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.TasteGate
+import BEDC.Derived.RegularCauchyDiagonalSealUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalUp
 import BEDC.Derived.RegularCauchyDiagonalUp.BridgeNonEscape
 import BEDC.Derived.RegularCauchyDiagonalUp.CompletionSealComposition
@@ -9980,6 +9984,7 @@ import BEDC.Derived.StreamNameUp.StreamnameRegseqratUniformFiniteWindowSeal
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
+import BEDC.Derived.StrongLawFiniteWindowUp.TasteGate
 import BEDC.Derived.StronglyExtensionalRealMapUp.TasteGate
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate
 import BEDC.Derived.SturmComparisonUp.TasteGate
