@@ -3987,6 +3987,7 @@ import BEDC.Derived.DecimalExpansionUp.TasteGate
 import BEDC.Derived.DecimalExpansionUp.TerminalCarryRefusal
 import BEDC.Derived.DecimalExpansionUp.WindowNormalizationObligation
 import BEDC.Derived.DecimalIntervalRealUp
+import BEDC.Derived.DecimalIntervalRealUp.TasteGate
 import BEDC.Derived.DecimalNormalityUp.TasteGate
 import BEDC.Derived.DecimalRealUp.TasteGate
 import BEDC.Derived.DecimalStreamUp
@@ -6187,6 +6188,7 @@ import BEDC.Derived.KleeneTreeUp.TasteGate
 import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KochCurveUp.TasteGate
+import BEDC.Derived.KolmogorovContinuityUp
 import BEDC.Derived.KolmogorovRieszFiniteTranslationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KonigLemmaUp.TasteGate
@@ -7151,6 +7153,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateFinishedBoundaryTota
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmissionRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierRows
+import BEDC.Derived.MetaCICNormalizationFrontierUp.CertificateRouterHandoff
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClassifierStability
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedCandidateReadbackExhaustion
 import BEDC.Derived.MetaCICNormalizationFrontierUp.ClosedNormalConsumerRoute
@@ -7493,6 +7496,7 @@ import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.ModulusOfConvergenceUp.DoubleTail
 import BEDC.Derived.ModulusOfSequentialContinuityUp.TasteGate
+import BEDC.Derived.ModulusOfTotalBoundednessUp.TasteGate
 import BEDC.Derived.ModulusOfUniformConvergenceUp.TasteGate
 import BEDC.Derived.MollifierUp.TasteGate
 import BEDC.Derived.MonadUp
