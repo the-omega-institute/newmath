@@ -86,6 +86,20 @@ It remains to rule out non-displayed Real data. The carrier has no field for hos
 \end{proof}
 \leanchecked{BEDC.Derived.LocatednessModulusUp.LocatednessModulusRealSeal\_nonescape}
 
+\begin{theorem}[Locatedness modulus window decision budget]
+\label{thm:locatedness-modulus-obligation-window-decision-budget}
+For every accepted $\LocatednessModulusUp$ carrier $M=(q,L,I,D,S,R,E,H,C,P,N)$, a locatedness request at tolerance $q$ is discharged only by the displayed route through $L,I,D,S,R,E,H,C,P,N$. Every rational-cell decision reads the dyadic refinement ledger $D$ before the $\StreamNameUp$ window and $\RegSeqRatUp$ handoff, and every Real-facing output is sealed only after that budget is displayed. The route exports no host trichotomy, selected endpoints, quotient real equality, global apartness choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locatedness-modulus-carrier}. The tolerance request $q$ is attached to the located interval $L$, rational-cell ledger $I$, dyadic refinement ledger $D$, StreamName window $S$, RegSeqRat readback $R$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Apply \autoref{thm:locatedness-modulus-window-transport}. It routes the request through $L$, then through the rational cells and dyadic refinements, and only then through $S,R,E,H,C,P,N$. Thus a rational-cell decision cannot bypass the displayed dyadic budget before the StreamName and RegSeqRat handoff.
+
+Now apply \autoref{thm:locatedness-modulus-real-seal-non-escape}. The Real-facing read factors through the same finite budget and reaches the seal row $E$ only after the request, interval, cells, refinements, stream window, and readback are displayed.
+
+The carrier has no coordinate for host trichotomy, selected endpoints, quotient real equality, global apartness choice, or ambient Real completeness. Therefore the locatedness request is discharged exactly by the displayed window decision budget and exports none of the excluded data.
+\end{proof}
+
 \closureat{LocatednessModulusUp}{seedStr}
 
 \begin{closurestatus}{\LocatednessModulusUp}
