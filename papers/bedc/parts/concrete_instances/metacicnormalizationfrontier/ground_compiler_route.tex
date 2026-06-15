@@ -110,3 +110,17 @@ Use candidate-discharge stability from \autoref{thm:metacic-normalization-fronti
 
 Finally retain the residual premise by \autoref{thm:metacic-normalization-frontier-residual-premise-retention}. Since $S$ remains visible until a separate subject-reduction row is supplied, the readback exports none of the excluded strong-normalization, confluence, erased subject-reduction, quotient-equality, or hidden-normalizer claims.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier formal-target contract]
+\label{thm:metacic-critical-path-formal-target-contract}
+Any formal target consumed from an accepted $\MetaCICNormalizationFrontierUp$ packet must expose candidate evidence rows $C,K$, finished-normal endpoint rows $E,N$, residual premise $S$, and ground-compiler rows $H,R,P,L$ before it may export a normalization boundary. A target is outside the contract if it drops $S$ or replaces these rows by hidden strong normalization, confluence, erased subject reduction, quotient term equality, or a hidden normalizer.
+\end{theorem}
+\begin{proof}
+Begin with the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route}. It requires a consumer to read the carrier surface, candidate-evidence route, and root normal-form boundary before any normalization boundary is exported.
+
+Apply the TasteGate route of \autoref{thm:metacic-normalization-frontier-tastegate-route} and the discharge route of \autoref{thm:metacic-normalization-frontier-discharge-route}. Together they keep $C,K,E,N,S,H,R,P,L$ visible as one packet rather than allowing a formal target to cite an ambient normalization principle.
+
+Use candidate-discharge stability from \autoref{thm:metacic-normalization-frontier-candidate-discharge-stability}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the candidate-mediated discharge boundary and do not add confluence, erased subject reduction, quotient term equality, or a hidden normalizer.
+
+Finally apply \autoref{thm:metacic-normalization-frontier-residual-premise-retention} and \autoref{thm:metacic-normalization-frontier-ground-compiler-readback}. The residual premise $S$ remains visible until a separate subject-reduction row is supplied, and the readback exports the normalization boundary only through the displayed ground-compiler rows. Hence any target that drops $S$ or substitutes hidden strong normalization lies outside the local contract.
+\end{proof}
