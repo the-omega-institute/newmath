@@ -6,6 +6,9 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 
+def TraditionComparisonBoundaryCarrier (S L R D H C P N : BHist) : Prop :=
+  hsame H (append L R) ∧ Cont L R D ∧ Cont D H C ∧ hsame P P ∧ hsame N N
+
 theorem TraditionComparisonBoundary_source_registry_obligation
     {S L R D H C P N sourceRead registryRead : BHist} :
     traditionComparisonBoundaryClassifier (TraditionComparisonBoundaryUp.mk S L R D H C P N) ->
