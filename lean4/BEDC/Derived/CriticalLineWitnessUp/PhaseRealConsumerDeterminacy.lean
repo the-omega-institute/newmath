@@ -8,54 +8,41 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 theorem CriticalLineWitnessCarrier_phase_real_consumer_determinacy
-    {Z S M R Q H C P N phaseRead classifierRead consumerRead : BHist} :
+    {Z S M R Q H C P N dyadicFace streamFace regSeqRatFace realFace selectedFace : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
-      Cont R Q phaseRead ->
-        Cont phaseRead H classifierRead ->
-          Cont classifierRead N consumerRead ->
-            SemanticNameCert
-                (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
-                (fun row : BHist =>
-                  hsame row R ∨ hsame row Q ∨ hsame row H ∨ hsame row N ∨
-                    hsame row phaseRead ∨ hsame row classifierRead ∨ hsame row consumerRead)
-                (fun row : BHist =>
-                  UnaryHistory row ∧ Cont R Q phaseRead ∧ Cont phaseRead H classifierRead ∧
-                    Cont classifierRead N consumerRead)
-                hsame ∧
-              UnaryHistory phaseRead ∧ UnaryHistory classifierRead ∧
-                UnaryHistory consumerRead ∧ Cont M R Q ∧ Cont Q H C ∧ Cont C P N := by
-  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
-  intro packet phaseRoute classifierRoute consumerRoute
-  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, routeC, routeN⟩ :=
+      Cont (append Z S) Q selectedFace ->
+        hsame selectedFace dyadicFace ∨ hsame selectedFace streamFace ∨
+          hsame selectedFace regSeqRatFace ∨ hsame selectedFace realFace ->
+          SemanticNameCert
+              (fun row : BHist => hsame row selectedFace ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row dyadicFace ∨ hsame row streamFace ∨
+                  hsame row regSeqRatFace ∨ hsame row realFace)
+              (fun row : BHist => hsame row selectedFace ∧ Cont (append Z S) Q selectedFace)
+              hsame ∧
+            UnaryHistory selectedFace ∧ hsame H (append Z S) := by
+  -- BEDC touchpoint anchor: CriticalLineWitnessCarrier BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet selectedRoute selectedFaceChoice
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, _routeC, _routeN⟩ :=
     packet
   have unaryQ : UnaryHistory Q :=
     unary_cont_closed unaryM unaryR routeQ
-  have unaryH : UnaryHistory H :=
-    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
-  have phaseUnary : UnaryHistory phaseRead :=
-    unary_cont_closed unaryR unaryQ phaseRoute
-  have classifierUnary : UnaryHistory classifierRead :=
-    unary_cont_closed phaseUnary unaryH classifierRoute
-  have unaryN : UnaryHistory N := by
-    have unaryC : UnaryHistory C :=
-      unary_cont_closed unaryQ unaryH routeC
-    exact unary_cont_closed unaryC _unaryP routeN
-  have consumerUnary : UnaryHistory consumerRead :=
-    unary_cont_closed classifierUnary unaryN consumerRoute
-  have sourceAtConsumer : hsame consumerRead consumerRead ∧ UnaryHistory consumerRead :=
-    ⟨hsame_refl consumerRead, consumerUnary⟩
+  have appendUnary : UnaryHistory (append Z S) :=
+    unary_cont_closed unaryZ unaryS (cont_intro rfl)
+  have selectedUnary : UnaryHistory selectedFace :=
+    unary_cont_closed appendUnary unaryQ selectedRoute
+  have sourceAtSelected : hsame selectedFace selectedFace ∧ UnaryHistory selectedFace :=
+    ⟨hsame_refl selectedFace, selectedUnary⟩
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row selectedFace ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row R ∨ hsame row Q ∨ hsame row H ∨ hsame row N ∨
-              hsame row phaseRead ∨ hsame row classifierRead ∨ hsame row consumerRead)
-          (fun row : BHist =>
-            UnaryHistory row ∧ Cont R Q phaseRead ∧ Cont phaseRead H classifierRead ∧
-              Cont classifierRead N consumerRead)
+            hsame row dyadicFace ∨ hsame row streamFace ∨
+              hsame row regSeqRatFace ∨ hsame row realFace)
+          (fun row : BHist => hsame row selectedFace ∧ Cont (append Z S) Q selectedFace)
           hsame := {
     core := {
-      carrier_inhabited := Exists.intro consumerRead sourceAtConsumer
+      carrier_inhabited := Exists.intro selectedFace sourceAtSelected
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -73,12 +60,27 @@ theorem CriticalLineWitnessCarrier_phase_real_consumer_determinacy
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+      cases selectedFaceChoice with
+      | inl selectedIsDyadic =>
+          exact Or.inl (hsame_trans source.left selectedIsDyadic)
+      | inr remainingFaces =>
+          cases remainingFaces with
+          | inl selectedIsStream =>
+              exact Or.inr (Or.inl (hsame_trans source.left selectedIsStream))
+          | inr finalFaces =>
+              cases finalFaces with
+              | inl selectedIsRegSeqRat =>
+                  exact
+                    Or.inr
+                      (Or.inr (Or.inl (hsame_trans source.left selectedIsRegSeqRat)))
+              | inr selectedIsReal =>
+                  exact
+                    Or.inr
+                      (Or.inr (Or.inr (hsame_trans source.left selectedIsReal)))
     ledger_sound := by
       intro _row source
-      exact ⟨source.right, phaseRoute, classifierRoute, consumerRoute⟩
+      exact ⟨source.left, selectedRoute⟩
   }
-  exact
-    ⟨cert, phaseUnary, classifierUnary, consumerUnary, routeQ, routeC, routeN⟩
+  exact ⟨cert, selectedUnary, sameH⟩
 
 end BEDC.Derived.CriticalLineWitnessUp
