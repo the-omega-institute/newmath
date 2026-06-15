@@ -2037,6 +2037,7 @@ def test_dgt_owner_path_is_hyphen_only():
     assert "d5_o_projection" in spec.required_json_keys
     assert "d5_m_projection" in spec.required_json_keys
     assert "scaling_ladder" in spec.required_json_keys
+    assert "family_roadmap" in spec.required_json_keys
     assert spec.positive_claim_pointer == "$.scaling_ladder"
     assert spec.not_claimed_pointer == "$.scaling_ladder.not_claimed"
     assert spec.scope_pointer == "$.scaling_ladder"
@@ -4484,6 +4485,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
+        "family_roadmap",
         "component_ablation",
         "neural_ablation_ref",
         "operational_robustness",
@@ -4529,6 +4531,13 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert set(payload["family_definition"]["invariant_groups"]) == {"architecture", "objective", "certificate"}
     assert payload["family_definition"]["hardgate"]["status"] == "pass"
     assert payload["family_definition"]["model_family_claim_status"]["claim_allowed"] is False
+    assert payload["family_roadmap"]["owner_ref"] == (
+        "reports/canonical/discovery-gated-transformer.json:$"
+    )
+    assert set(payload["family_roadmap"]["hardgate"]["gates"]) == {
+        f"DGT-FAMILY-ROADMAP-HG{index}" for index in range(1, 9)
+    }
+    assert payload["family_roadmap"]["family_level_discovery_status"]["allowed"] is False
     assert payload["component_ablation"]["owner_ref"] == (
         "reports/canonical/discovery-gated-transformer.json:$.component_ablation"
     )
@@ -4889,6 +4898,10 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "family_definition_pointer",
         "family_definition_hardgate_pointer",
         "model_family_claim_status_pointer",
+        "family_roadmap_pointer",
+        "family_roadmap_hardgate_pointer",
+        "family_roadmap_cross_level_evidence_pointer",
+        "family_level_discovery_status_pointer",
         "component_ablation_pointer",
         "component_ablation_hardgate_pointer",
         "component_ablation_arm_catalog_pointer",
@@ -7326,7 +7339,12 @@ def test_canonical_dgt_report_exposes_jet_certificate_pointer_only():
 
 
 def test_dgt_canonical_index_uses_artifact_qualified_jet_pointers():
-    payload = canonical._index([], generated_at="fixture-generated-at")
+    dgt_payload = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-generated-at")
+    payload = canonical._index(
+        [],
+        generated_at="fixture-generated-at",
+        discovery_gated_transformer_payload=dgt_payload,
+    )
     section = payload["discovery-gated-transformer"]
 
     assert section["jet_certificate_pointer"] == "reports/runs/discovery-gated-transformer/jet_certificate.json:$"
@@ -7340,6 +7358,64 @@ def test_dgt_canonical_index_uses_artifact_qualified_jet_pointers():
     assert "surface_rows" not in serialized
     assert "matched_random_gain" not in serialized
     assert "dgt-boundary-causal-jet" not in serialized
+
+
+def test_dgt_canonical_index_exposes_family_roadmap_pointers():
+    dgt_payload = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-generated-at")
+    payload = canonical._index(
+        [],
+        generated_at="fixture-generated-at",
+        discovery_gated_transformer_payload=dgt_payload,
+    )
+    section = payload["discovery-gated-transformer"]
+
+    assert section["family_roadmap_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.family_roadmap"
+    assert section["family_roadmap_hardgate_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate"
+    )
+    assert section["family_level_discovery_status_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.family_level_discovery_status"
+    )
+    assert section["family_roadmap_cross_level_evidence_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.cross_level_evidence"
+    )
+    serialized = json.dumps(section, sort_keys=True)
+    assert "records" not in serialized
+    assert "raw_metrics" not in serialized
+
+
+def test_dgt_canonical_validation_rejects_forged_family_roadmap_allowed_status():
+    payload = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-generated-at")
+    payload["family_roadmap"]["family_level_discovery_status"] = {
+        "status": "allowed",
+        "allowed": True,
+        "claim_scope": "bounded DGT family-level roadmap claim",
+        "basis": "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate",
+    }
+
+    with pytest.raises(ValueError, match="family roadmap"):
+        canonical._validate_discovery_gated_transformer_payload(payload)
+
+
+def test_dgt_canonical_index_markdown_lists_family_roadmap_pointers():
+    dgt_payload = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-generated-at")
+    payload = canonical._index(
+        [],
+        generated_at="fixture-generated-at",
+        discovery_gated_transformer_payload=dgt_payload,
+    )
+    markdown = canonical._render_index_markdown(payload)
+
+    assert "- Family roadmap: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap`" in markdown
+    assert (
+        "- Family roadmap hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate`"
+        in markdown
+    )
+    assert (
+        "- Family level discovery status: "
+        "`reports/canonical/discovery-gated-transformer.json:$.family_roadmap.family_level_discovery_status`"
+        in markdown
+    )
 
 
 def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, monkeypatch):

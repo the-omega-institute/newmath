@@ -1740,6 +1740,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "hardgate_ref",
             "tool_route_evidence",
             "family_definition",
+            "family_roadmap",
             "component_ablation",
             "neural_ablation_ref",
             "operational_robustness",
@@ -6348,6 +6349,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
+        "family_roadmap",
         "component_ablation",
         "neural_ablation_ref",
         "operational_robustness",
@@ -6380,6 +6382,27 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("DGT family definition hardgate failed")
     if family_definition["model_family_claim_status"]["claim_allowed"] is not False:
         raise ValueError("DGT family definition claim status must remain blocked")
+    family_roadmap = payload["family_roadmap"]
+    if family_roadmap["owner_ref"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$":
+        raise ValueError("DGT family roadmap owner pointer mismatch")
+    if set(family_roadmap["hardgate"]["gates"]) != {f"DGT-FAMILY-ROADMAP-HG{index}" for index in range(1, 9)}:
+        raise ValueError("DGT family roadmap hardgates must contain DGT-FAMILY-ROADMAP-HG1..8")
+    if family_roadmap["scaling_ladder"]["pointer"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.scaling_ladder":
+        raise ValueError("DGT family roadmap scaling pointer mismatch")
+    if family_roadmap["family_invariants"]["pointer"] != (
+        f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_definition.invariant_groups"
+    ):
+        raise ValueError("DGT family roadmap invariant pointer mismatch")
+    roadmap_all_pass = all(row["status"] == "pass" for row in family_roadmap["hardgate"]["gates"].values())
+    if family_roadmap["family_level_discovery_status"]["allowed"] is not roadmap_all_pass:
+        raise ValueError("DGT family roadmap status mismatch")
+    cross_level_evidence = family_roadmap["cross_level_evidence"]
+    if cross_level_evidence["independent"] is True and cross_level_evidence["cross_level_comparison"]["status"] != "pass":
+        raise ValueError("DGT family roadmap cross-level comparison mismatch")
+    if cross_level_evidence["independent"] is not True and family_roadmap["family_level_discovery_status"]["allowed"] is True:
+        raise ValueError("DGT family roadmap independent evidence mismatch")
+    if family_roadmap["forbidden_claim_term_audit"]["status"] != "pass":
+        raise ValueError("DGT family roadmap forbidden claim audit failed")
     component_ablation = payload["component_ablation"]
     if component_ablation["owner_ref"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation":
         raise ValueError("DGT component ablation owner pointer mismatch")
@@ -6591,6 +6614,16 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any] | None
         "model_family_claim_status_pointer": (
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_definition.model_family_claim_status"
         ),
+        "family_roadmap_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_roadmap",
+        "family_roadmap_hardgate_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_roadmap.hardgate"
+        ),
+        "family_roadmap_cross_level_evidence_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_roadmap.cross_level_evidence"
+        ),
+        "family_level_discovery_status_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_roadmap.family_level_discovery_status"
+        ),
         "component_ablation_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation",
         "component_ablation_hardgate_pointer": (
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_ablation.hardgate"
@@ -6703,6 +6736,10 @@ def _missing_discovery_gated_transformer_index_section() -> dict[str, Any]:
         "family_definition_pointer": f"{artifact}:$.family_definition",
         "family_definition_hardgate_pointer": f"{artifact}:$.family_definition.hardgate",
         "model_family_claim_status_pointer": f"{artifact}:$.family_definition.model_family_claim_status",
+        "family_roadmap_pointer": f"{artifact}:$.family_roadmap",
+        "family_roadmap_hardgate_pointer": f"{artifact}:$.family_roadmap.hardgate",
+        "family_roadmap_cross_level_evidence_pointer": f"{artifact}:$.family_roadmap.cross_level_evidence",
+        "family_level_discovery_status_pointer": f"{artifact}:$.family_roadmap.family_level_discovery_status",
         "component_ablation_pointer": f"{artifact}:$.component_ablation",
         "component_ablation_hardgate_pointer": f"{artifact}:$.component_ablation.hardgate",
         "component_ablation_arm_catalog_pointer": f"{artifact}:$.component_ablation.arms",
@@ -9042,6 +9079,9 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Family definition: `{payload['discovery-gated-transformer']['family_definition_pointer']}`",
             f"- Family definition hardgate: `{payload['discovery-gated-transformer']['family_definition_hardgate_pointer']}`",
             f"- Model family claim status: `{payload['discovery-gated-transformer']['model_family_claim_status_pointer']}`",
+            f"- Family roadmap: `{payload['discovery-gated-transformer']['family_roadmap_pointer']}`",
+            f"- Family roadmap hardgate: `{payload['discovery-gated-transformer']['family_roadmap_hardgate_pointer']}`",
+            f"- Family level discovery status: `{payload['discovery-gated-transformer']['family_level_discovery_status_pointer']}`",
             f"- Robustness: `{payload['discovery-gated-transformer']['robustness_pointer']}`",
             f"- Robustness readiness: `{payload['discovery-gated-transformer']['robustness_readiness_pointer']}`",
             f"- Robustness hardgate: `{payload['discovery-gated-transformer']['robustness_hardgate_pointer']}`",
