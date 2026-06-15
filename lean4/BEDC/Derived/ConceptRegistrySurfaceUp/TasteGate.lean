@@ -332,4 +332,61 @@ theorem ConceptRegistrySurface_export_exactness_certificate [AskSetup] [PackageS
   }
   exact ⟨rfl, cert⟩
 
+theorem ConceptRegistrySurface_bridge_schema_certificate [AskSetup] [PackageSetup]
+    {C T G R S F U H P N localRead refusedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ConceptRegistrySurfaceCarrier C T G R S F U H P N bundle pkg ->
+      PkgSig bundle P pkg ->
+        PkgSig bundle F pkg ->
+          PkgSig bundle N pkg ->
+            hsame localRead N ->
+              hsame refusedRead F ->
+                Cont C T G ∧ Cont G R S ∧ Cont S F U ∧ Cont U H P ∧
+                  SemanticNameCert
+                    (fun row : BHist => hsame row N)
+                    (fun row : BHist =>
+                      hsame row C ∨ hsame row T ∨ hsame row G ∨ hsame row R ∨
+                        hsame row S ∨ hsame row F ∨ hsame row U ∨ hsame row H ∨
+                          hsame row P ∨ hsame row N)
+                    (fun row : BHist => hsame row localRead ∧ PkgSig bundle P pkg)
+                    hsame ∧
+                  SemanticNameCert
+                    (fun row : BHist => hsame row refusedRead ∨ hsame row F ∨
+                      hsame row N)
+                    (fun row : BHist => hsame row refusedRead ∨ hsame row F ∨
+                      hsame row N)
+                    (fun row : BHist =>
+                      (hsame row F ∧ PkgSig bundle F pkg) ∨
+                        (hsame row N ∧ PkgSig bundle N pkg))
+                    hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame
+  intro carrier _pkgP pkgF pkgN localReadSameName refusedSameForbidden
+  obtain ⟨routeCTG, routeGRS, routeSFU, routeUHP, pkgPFromCarrier, _pkgNFromCarrier⟩ :=
+    carrier
+  have exportCert :
+      SemanticNameCert
+        (fun row : BHist => hsame row N)
+        (fun row : BHist =>
+          hsame row C ∨ hsame row T ∨ hsame row G ∨ hsame row R ∨ hsame row S ∨
+            hsame row F ∨ hsame row U ∨ hsame row H ∨ hsame row P ∨ hsame row N)
+        (fun row : BHist => hsame row localRead ∧ PkgSig bundle P pkg)
+        hsame :=
+    (ConceptRegistrySurface_export_exactness_certificate
+      (C := C) (T := T) (G := G) (R := R) (S := S) (F := F) (U := U)
+      (H := H) (P := P) (N := N) (localRead := localRead)
+      (bundle := bundle) (pkg := pkg) pkgPFromCarrier localReadSameName).right
+  have refusalCert :
+      SemanticNameCert
+        (fun row : BHist => hsame row refusedRead ∨ hsame row F ∨ hsame row N)
+        (fun row : BHist => hsame row refusedRead ∨ hsame row F ∨ hsame row N)
+        (fun row : BHist =>
+          (hsame row F ∧ PkgSig bundle F pkg) ∨
+            (hsame row N ∧ PkgSig bundle N pkg))
+        hsame :=
+    (ConceptRegistrySurface_forbidden_reading_refusal_certificate
+      (C := C) (T := T) (G := G) (R := R) (S := S) (F := F) (U := U)
+      (H := H) (P := P) (N := N) (refusedRead := refusedRead)
+      (bundle := bundle) (pkg := pkg) pkgF pkgN refusedSameForbidden).right
+  exact ⟨routeCTG, routeGRS, routeSFU, routeUHP, exportCert, refusalCert⟩
+
 end BEDC.Derived.ConceptRegistrySurfaceUp
