@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -85,5 +87,71 @@ theorem ImplicitFunctionLinearizationPicardRoute [AskSetup] [PackageSetup]
     ⟨derivativeUnary, linearUnary, matrixUnary, picardUnary, graphUnary, graphReadUnary,
       sealReadUnary, derivativeLinearMatrix, matrixPicardGraph, picardGraphRead,
       graphSealRead, provenancePkg, sealReadPkg⟩
+
+theorem ImplicitFunctionCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {equation base derivative linear matrix picard graph sealRow transport replay provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ImplicitFunctionCarrier equation base derivative linear matrix picard graph sealRow transport
+        replay provenance localName bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row localName ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row equation ∨ hsame row derivative ∨ hsame row picard ∨
+              hsame row graph ∨ hsame row sealRow ∨ hsame row localName)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+          hsame ∧
+        UnaryHistory equation ∧ UnaryHistory derivative ∧ UnaryHistory graph ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont SemanticNameCert hsame
+  intro carrier
+  obtain
+    ⟨equationUnary, _baseUnary, derivativeUnary, _linearUnary, _matrixUnary, picardUnary,
+      graphUnary, sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+      localNameUnary, _equationBaseDerivative, _derivativeLinearMatrix, _matrixPicardGraph,
+      _transportReplayProvenance, provenancePkg, localNamePkg⟩ := carrier
+  have sourceLocalName :
+      (fun row : BHist => hsame row localName ∧ UnaryHistory row) localName := by
+    exact And.intro (hsame_refl localName) localNameUnary
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row localName ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row equation ∨ hsame row derivative ∨ hsame row picard ∨
+              hsame row graph ∨ hsame row sealRow ∨ hsame row localName)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro localName sourceLocalName
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, localNamePkg⟩
+  }
+  exact ⟨cert, equationUnary, derivativeUnary, graphUnary, provenancePkg, localNamePkg⟩
 
 end BEDC.Derived.ImplicitFunctionUp
