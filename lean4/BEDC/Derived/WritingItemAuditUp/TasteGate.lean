@@ -498,6 +498,70 @@ theorem WritingItemAudit_scoped_kernel_route [AskSetup] [PackageSetup]
   exact
     ⟨cert, admittedRoute, ledgerRoute, statusRoute, queryRoute, namedRoute, scopedRoute⟩
 
+theorem WritingItemAudit_public_axis_export [AskSetup] [PackageSetup]
+    {K C R L T F G Q H U P N registryRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont T F registryRead →
+      Cont registryRead Q exportRead →
+        PkgSig bundle exportRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row exportRead ∧ Cont registryRead Q exportRead ∧
+                  PkgSig bundle exportRead pkg)
+              (fun row : BHist =>
+                hsame row T ∨ hsame row F ∨ hsame row G ∨ hsame row Q ∨
+                  hsame row exportRead)
+              (fun row : BHist =>
+                hsame row exportRead ∧ PkgSig bundle exportRead pkg ∧
+                  Cont T F registryRead ∧ Cont registryRead Q exportRead)
+              hsame ∧
+            writingItemAuditFields
+                (WritingItemAuditUp.mk K C R L T F G Q H U P N) =
+              [K, C, R, L, T, F, G, Q, H, U, P, N] ∧
+              Cont T F registryRead ∧ Cont registryRead Q exportRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro registryRoute exportRoute pkgExport
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row exportRead ∧ Cont registryRead Q exportRead ∧
+              PkgSig bundle exportRead pkg)
+          (fun row : BHist =>
+            hsame row T ∨ hsame row F ∨ hsame row G ∨ hsame row Q ∨
+              hsame row exportRead)
+          (fun row : BHist =>
+            hsame row exportRead ∧ PkgSig bundle exportRead pkg ∧
+              Cont T F registryRead ∧ Cont registryRead Q exportRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro exportRead ⟨hsame_refl exportRead, exportRoute, pkgExport⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              sourceRow.right.left,
+              sourceRow.right.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, sourceRow.right.right, registryRoute, sourceRow.right.left⟩
+    }
+  exact ⟨cert, rfl, registryRoute, exportRoute⟩
+
 theorem WritingItemAudit_tastegate_obligation :
     let base :=
       WritingItemAuditUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
