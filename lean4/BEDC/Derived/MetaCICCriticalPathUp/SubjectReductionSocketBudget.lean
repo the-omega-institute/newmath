@@ -102,4 +102,72 @@ theorem MetaCICCriticalPathSubjectReductionSocketBudget [AskSetup] [PackageSetup
   }
   exact ⟨cert, consistencyUnary, socketUnary, provenancePkg⟩
 
+theorem MetaCICCriticalPathTypedExampleFrontierRoute [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName consistencyRead socketRead typedExampleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg ->
+      Cont strongNorm normalForm consistencyRead ->
+        Cont handoff obstruction socketRead ->
+          Cont socketRead transport typedExampleRead ->
+            PkgSig bundle typedExampleRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row typedExampleRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row dischargeSocket ∨ hsame row socketRead ∨
+                      hsame row typedExampleRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont socketRead transport typedExampleRead ∧
+                      PkgSig bundle typedExampleRead pkg)
+                  hsame ∧
+                UnaryHistory typedExampleRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet _strongNormNormalFormConsistency handoffObstructionSocket
+    socketTransportTyped typedExamplePkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, handoffUnary,
+    _dischargeSocketUnary, transportUnary, _routeUnary, _provenanceUnary,
+    _localNameUnary, _strongNormNormalFormRoute, _handoffObstructionDischargeSocket,
+    _transportLocalName, _provenancePkg⟩ := packet
+  have socketUnary : UnaryHistory socketRead :=
+    unary_cont_closed handoffUnary obstructionUnary handoffObstructionSocket
+  have typedExampleUnary : UnaryHistory typedExampleRead :=
+    unary_cont_closed socketUnary transportUnary socketTransportTyped
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row typedExampleRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row dischargeSocket ∨ hsame row socketRead ∨ hsame row typedExampleRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont socketRead transport typedExampleRead ∧
+              PkgSig bundle typedExampleRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro typedExampleRead
+          ⟨hsame_refl typedExampleRead, typedExampleUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, socketTransportTyped, typedExamplePkg⟩
+  }
+  exact ⟨cert, typedExampleUnary⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
