@@ -240,6 +240,16 @@ $-0.00355$, while the weakest row is $+0.00095$ with upper endpoint
 $+0.01040$.  This supports option-conditioned exact-budget assignment as the
 right allocation-native direction, but it also makes stability and independent
 export replication the next claim boundary.
+An ablation localizes the lever.  With the same seed and epoch budget, the full
+state-plus-depth row remains closed at $-0.00604$ $[-0.01080,\ -0.00130]$.
+Removing explicit depth conditioning while keeping the state gives a wrong-side
+row, $+0.02756$ $[+0.01436,\ +0.04333]$.  Removing the state while keeping only
+depth information collapses to the uniform-depth assignment, $0.00000$
+$[0.00000,\ 0.00000]$; a ridge reader over the full feature set also collapses
+to the same zero row.  Thus the positive allocation result is not created by
+the dynamic program alone, by a depth prior, or by a linear readout.  It
+requires a nonlinear state--option interaction that predicts option-conditioned
+compute cost before the exact-budget assignment is applied.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar

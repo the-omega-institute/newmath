@@ -339,6 +339,14 @@ endpoint below zero, the median observed delta is $-0.00355$, and the weakest
 row is $+0.00095$ $[-0.00555,\ +0.01040]$.  The positive result is therefore a
 calibration-selectable structured-assignment row on the fixed export, not yet a
 uniform seed-stability or independent-export claim.
+The ablation row identifies the necessary interaction.  The full
+state-plus-depth model remains at $-0.00604$ $[-0.01080,\ -0.00130]$.  A
+state-only model, which lacks explicit option identity, goes sharply wrong-side
+at $+0.02756$ $[+0.01436,\ +0.04333]$.  A depth-only model and a ridge model
+over the full features both choose the uniform depth and produce exactly zero
+allocation delta.  The closed row is therefore not an artifact of the dynamic
+program or of depth priors.  It depends on nonlinear interaction between the
+rollout-internal state and the candidate compute option.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -450,6 +458,7 @@ $$
 \text{compute-value refined option model} & \texttt{reports/compute\_value\_refined\_option\_model.json},\\
 \text{compute-value structured assignment} & \texttt{reports/compute\_value\_structured\_assignment.json},\\
 \text{compute-value structured stability} & \texttt{reports/compute\_value\_structured\_stability.json},\\
+\text{compute-value structured ablation} & \texttt{reports/compute\_value\_structured\_ablation.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\
