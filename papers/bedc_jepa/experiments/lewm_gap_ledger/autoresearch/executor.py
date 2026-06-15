@@ -37,12 +37,12 @@ from typing import Any
 
 try:
     from lanes import _compile_experiment, now_iso, run_gate_lane, run_writeback_lane, stable_id
-    from store import LeWMStore, dedup_by_key
+    from store import LeWMStore, dedup_by_key, upsert_by_key
     from verification import apply_verification_gate
 except ModuleNotFoundError:  # pragma: no cover
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from lanes import _compile_experiment, now_iso, run_gate_lane, run_writeback_lane, stable_id
-    from store import LeWMStore, dedup_by_key
+    from store import LeWMStore, dedup_by_key, upsert_by_key
     from verification import apply_verification_gate
 
 
@@ -193,7 +193,7 @@ def execute_and_record(store: LeWMStore, hypotheses: list[dict[str, Any]], *, ma
         )
     store.write_experiments(dedup_by_key(experiments, "experiment_id"))
     store.write_contacts(dedup_by_key(contacts, "contact_id"))
-    store.write_verdicts(dedup_by_key(verdicts, "verdict_id"))
+    store.write_verdicts(upsert_by_key(verdicts, "verdict_id"))
     return summaries
 
 
