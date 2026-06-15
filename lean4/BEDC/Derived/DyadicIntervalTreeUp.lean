@@ -15,6 +15,13 @@ def DyadicIntervalTreeCarrier (R D B F M Q NW H C P L : BHist) : Prop :=
     UnaryHistory M ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
       UnaryHistory L ∧ Cont R B F ∧ Cont F M Q ∧ Cont Q D NW
 
+def DyadicIntervalTreeLevelScope
+    (R D B F M Q NW H C P L prefixRow scope : BHist) : Prop :=
+  DyadicIntervalTreeCarrier R D B F M Q NW H C P L ∧
+    UnaryHistory prefixRow ∧ UnaryHistory scope ∧ Cont R prefixRow scope ∧
+      (hsame scope R ∨ hsame scope B ∨ hsame scope F ∨ hsame scope M ∨
+        hsame scope Q ∨ hsame scope NW)
+
 theorem DyadicIntervalTreeCarrier_namecert_obligations {R D B F M Q NW H C P L : BHist} :
     DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
       SemanticNameCert
