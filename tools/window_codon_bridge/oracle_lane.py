@@ -24,6 +24,7 @@ REPO_ROOT = SCRIPT_DIR.parents[1]
 CLAIMS = SCRIPT_DIR / "registries" / "claims.json"
 ORACLE_MANIFEST = SCRIPT_DIR / "registries" / "oracle_manifest.json"
 STATE_PATH = SCRIPT_DIR / "state" / "oracle_lane_state.json"
+PIN_PATH = SCRIPT_DIR / "state" / "omega_oracle_pin.json"
 INBOX_PATH = SCRIPT_DIR / "oracle_inbox" / "candidates.jsonl"
 SELECTION_PACKET = REPO_ROOT / "papers" / "window_codon_bridge" / "data" / "codon_q6_selection_vectors.json"
 
@@ -53,6 +54,26 @@ def write_json(path: Path, obj: Any) -> None:
         json.dump(obj, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
     os.replace(tmp, path)
+
+
+def load_oracle_pin() -> dict[str, Any]:
+    pin = load_json(PIN_PATH, {})
+    return pin if isinstance(pin, dict) else {}
+
+
+def write_oracle_pin(*, pool: str, conversation_id: str, chatgpt_url: str = "") -> None:
+    if not conversation_id:
+        return
+    current = load_oracle_pin()
+    write_json(
+        PIN_PATH,
+        {
+            "pool": pool,
+            "conversation_id": conversation_id,
+            "chatgpt_url": chatgpt_url or str(current.get("chatgpt_url") or ""),
+            "updated_ts": now_iso(),
+        },
+    )
 
 
 def append_jsonl(path: Path, record: dict[str, Any]) -> None:
@@ -365,7 +386,8 @@ def run_nyxid_oracle_cli(prompt: str, transport: dict[str, Any]) -> dict[str, An
     model = str(transport.get("model") or "")
     tag = str(transport.get("tag") or "window-codon-edge-defect-axis")
     state = load_json(STATE_PATH, {})
-    conversation_id = str(transport.get("conversation_id") or state.get("conversation_id") or "")
+    pin = load_oracle_pin()
+    conversation_id = str(transport.get("conversation_id") or pin.get("conversation_id") or state.get("conversation_id") or "")
     exe = nyxid_executable()
     if exe is None:
         return {
@@ -642,6 +664,11 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
         }
         record.update(candidate_fields(payload))
         append_jsonl(INBOX_PATH, record)
+        write_oracle_pin(
+            pool=str(transport.get("pool") or ""),
+            conversation_id=str(result.get("conversation_id") or state.get("conversation_id") or ""),
+            chatgpt_url=str(result.get("chatgpt_url") or state.get("chatgpt_url") or ""),
+        )
         write_json(
             STATE_PATH,
             {
@@ -745,6 +772,11 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
     if record.get("status") != "submitted":
         append_jsonl(INBOX_PATH, record)
     if record.get("status") != "transport_failed":
+        write_oracle_pin(
+            pool=str(transport.get("pool") or ""),
+            conversation_id=str(record.get("conversation_id") or ""),
+            chatgpt_url=str(record.get("chatgpt_url") or ""),
+        )
         write_json(
             STATE_PATH,
             {
