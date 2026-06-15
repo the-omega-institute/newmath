@@ -876,6 +876,7 @@ import BEDC.Derived.BishopIntervalApartnessModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
 import BEDC.Derived.BishopIntervalCompletionUp.TasteGate
 import BEDC.Derived.BishopIntervalContractionUp.CauchyHandoff
+import BEDC.Derived.BishopIntervalContractionUp.EndpointReadback
 import BEDC.Derived.BishopIntervalContractionUp.EndpointStability
 import BEDC.Derived.BishopIntervalContractionUp.NamecertObligations
 import BEDC.Derived.BishopIntervalContractionUp.TasteGate
@@ -1195,6 +1196,7 @@ import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
 import BEDC.Derived.BoundedNormalizationCandidateUp.TasteGate
+import BEDC.Derived.BoundedOscillationUp.PartitionRoute
 import BEDC.Derived.BoundedOscillationUp.TasteGate
 import BEDC.Derived.BoundedRealFamilyUp
 import BEDC.Derived.BoundedRealFamilyUp.TasteGate
@@ -3546,6 +3548,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusComparisonRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusConsumerCoverage
 import BEDC.Derived.CriticalLineWitnessUp.ModulusDepthLedger
 import BEDC.Derived.CriticalLineWitnessUp.ModulusDepthLedgerCertificate
+import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerEntry
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerReadback
 import BEDC.Derived.CriticalLineWitnessUp.ModulusLedgerTotality
@@ -3745,6 +3748,7 @@ import BEDC.Derived.CriticalLineWitnessUp.SourceBudgetPublicInterface
 import BEDC.Derived.CriticalLineWitnessUp.SourceLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
+import BEDC.Derived.CriticalLineWitnessUp.SourceModulusConsumerDeterminacy
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExclusion
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusExposure
@@ -4520,6 +4524,7 @@ import BEDC.Derived.DyadicMetricTriangleUp.TasteGate
 import BEDC.Derived.DyadicMetricUp.TasteGate
 import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMidpointUp.BranchLedgerTotality
+import BEDC.Derived.DyadicMidpointUp.FiniteWindowConsumerRoute
 import BEDC.Derived.DyadicMidpointUp.RadiusHalvingWindow
 import BEDC.Derived.DyadicMidpointUp.SelectedWindowDenominatorSeal
 import BEDC.Derived.DyadicMidpointUp.WindowPackage
