@@ -38,4 +38,32 @@ theorem DyadicFloorRegSeqRatHandoff
     ⟨regularWindowUnary, dyadicWindowUnary, sealedWindowUnary, modulusRegularRoute,
       regularDyadicRoute, dyadicSealRoute, rfl⟩
 
+theorem DyadicFloorBoundingInterval
+    {x k d s lower upper modulus regular realSeal H C P N lowerRead upperRead
+      regularWindow : BHist} :
+    Cont d lower lowerRead ->
+      Cont s upper upperRead ->
+        Cont modulus regular regularWindow ->
+          UnaryHistory d ->
+            UnaryHistory s ->
+              UnaryHistory lower ->
+                UnaryHistory upper ->
+                  UnaryHistory modulus ->
+                    UnaryHistory regular ->
+                      dyadicFloorFields
+                            (DyadicFloorUp.mk x k d s lower upper modulus regular realSeal H C P N) =
+                          [x, k, d, s, lower, upper, modulus, regular, realSeal, H, C, P, N] ∧
+                        UnaryHistory lowerRead ∧ UnaryHistory upperRead ∧
+                          UnaryHistory regularWindow := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro lowerRoute upperRoute regularRoute dyadicUnary successorUnary lowerUnary upperUnary
+    modulusUnary regularUnary
+  have lowerReadUnary : UnaryHistory lowerRead :=
+    unary_cont_closed dyadicUnary lowerUnary lowerRoute
+  have upperReadUnary : UnaryHistory upperRead :=
+    unary_cont_closed successorUnary upperUnary upperRoute
+  have regularWindowUnary : UnaryHistory regularWindow :=
+    unary_cont_closed modulusUnary regularUnary regularRoute
+  exact ⟨rfl, lowerReadUnary, upperReadUnary, regularWindowUnary⟩
+
 end BEDC.Derived.DyadicFloorUp
