@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\VisionCoverageIndexUp$}
+\label{ch:concrete-instances-vision-coverage-index-namecert}
+\origin{ai}
+
+The $\VisionCoverageIndexUp$ packet realizes the top-level vision routing surface of \autoref{ch:capstones} as finite BEDC data. It records which exploratory source label is covered by which concrete-instance target, which marker row witnesses the coverage, and which replay/provenance rows make the route auditable. The packet is an index certificate for vision coverage accounting; it is not a new mathematical theorem about the source chapters, not a semantic endorsement of every vision paragraph, and not a replacement for the concrete-instance chapters named by its rows.
+
+\begin{definition}[Vision coverage index carrier]
+\label{def:vision-coverage-index-carrier}
+A $\VisionCoverageIndexUp$ carrier is a finite $\BHist$ packet
+$$
+V=(S,T,M,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source-label row naming a vision chapter, section, or routing paragraph.
+\item $T$ is the concrete-target row naming the realized chapter label under \texttt{concrete\_instances/}.
+\item $M$ is the marker ledger row containing the displayed \texttt{\textbackslash concretizedIn} route from $S$ to $T$.
+\item $L$ is the local coverage ledger, recording whether the row is root-index coverage, sibling coverage, bridge-facing coverage, or replay-only coverage.
+\item $R$ is the replay row that lets an audit reread the target chapter without relying on cached coverage counts.
+\item $H$ records componentwise $\hsame$ transport for source labels, target labels, marker rows, coverage ledgers, replay rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from source label to target label through the marker ledger and the replay row.
+\item $P$ is the $\Pkg$ provenance over $\VisionCoverageIndexUp$, the referenced vision source, the referenced concrete-instance target, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VisionCoverageIndexUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,M,L,R,H,C,P,N$. It has no coordinate for hidden coverage totals, cached root counts, semantic approval of source prose, or a target chapter that lacks a concrete label.
+\end{definition}
+
+\begin{theorem}[Vision coverage index NameCert obligations]
+\label{thm:vision-coverage-index-namecert-obligations}
+For every accepted $\VisionCoverageIndexUp$ carrier $V=(S,T,M,L,R,H,C,P,N)$, the local $\NameCert_{\VisionCoverageIndexUp}$ surface consists exactly of carrier admission for the source-label row $S$, concrete-target row $T$, marker ledger $M$, coverage ledger $L$, replay row $R$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:vision-coverage-index-carrier}. The coverage data visible to the certificate are exactly the source label, target label, marker ledger, local coverage ledger, and replay row.
+
+The marker row binds source to target. It records the displayed concretization route and therefore cannot be replaced by a cached count or by prose that merely resembles a coverage claim.
+
+The replay row keeps the certificate auditable. It points back to the target chapter so that a consumer can inspect the finite NameCert rows named by $T$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier has no hidden total or semantic-approval coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Vision coverage replay handoff]
+\label{thm:vision-coverage-index-replay-handoff}
+Every coverage consumer of an accepted $\VisionCoverageIndexUp$ packet factors through
+$$
+S \longmapsto M \longmapsto T \longmapsto R \longmapsto H,C,P,N .
+$$
+Thus a vision source is counted as concretely covered only through a displayed marker ledger and a replayable concrete-instance target; the packet exports no hidden coverage count, no semantic endorsement of the source prose, and no target without a concrete chapter label.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:vision-coverage-index-namecert-obligations}. They require the source label, target label, marker ledger, coverage ledger, and replay row before any coverage consumer reads the packet.
+
+The marker ledger $M$ is the only source-to-target edge. The target row $T$ is therefore not inferred from the source title or from a cached index; it is displayed by the packet.
+
+The replay row $R$ makes the target inspectable. The structural rows $H,C,P,N$ preserve that route under transport, continuation replay, provenance, and local naming.
+
+Consequently coverage accounting is finite BEDC data routed through the displayed marker and replay rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\VisionCoverageIndexUp$ coverage read names a source label, concrete target label, marker ledger, replay row, transport row, continuation row, provenance row, and local NameCert row before it is counted.}
+
+\independenceWitness{kernelacceptancewitness, inscriptionevent, closure-capstone-realization, finitekernelcategory, koksma-hlawka-finite-error: $\VisionCoverageIndexUp$ is not bijective to any listed sibling because it indexes coverage routes among source labels and concrete targets rather than carrying the target's mathematical or audit payload.}
+
+Lean Nontrivial and FieldFaithful TasteGate instances for $\VisionCoverageIndexUp$ should inspect the carrier rows directly: Nontriviality is witnessed by distinct source-label and concrete-target rows, while field faithfulness requires projections of $S,T,M,L,R,H,C,P,N$ to preserve the displayed marker-ledger and replay route. Neither instance may read hidden coverage totals, cached routing weights, or source prose outside the displayed marker row.
+
+\closureat{VisionCoverageIndexUp}{seedStr}
+
+\begin{closurestatus}{\VisionCoverageIndexUp}
+  \constructivestory{A $\VisionCoverageIndexUp$ packet is generated from source-label rows, concrete-target rows, marker-ledger rows, local coverage ledgers, replay rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:vision-coverage-index-carrier}, \autoref{thm:vision-coverage-index-namecert-obligations}, and \autoref{thm:vision-coverage-index-replay-handoff} seed the finite routing packet that turns vision coverage accounting into displayed source-label, target-label, marker-ledger, replay, transport, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, source-prose semantics, hidden coverage totals, cached routing weights, or the NameCert obligations of any target chapter named by the index.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-label exactness, concrete-target exactness, marker-ledger routing, coverage-ledger classification, replay handoff, transport stability, continuation replay, provenance nonescape, and local naming for BEDC.Derived.VisionCoverageIndexUp.}
+\end{closurestatus}
