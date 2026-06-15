@@ -2283,6 +2283,7 @@ import BEDC.Derived.CauchyWindowStabilityBridgeUp.TasteGate
 import BEDC.Derived.CauchyWindowTransducerUp.NameCertObligations
 import BEDC.Derived.CauchyWindowTransducerUp.StdBridge
 import BEDC.Derived.CauchyWindowTransducerUp.TasteGate
+import BEDC.Derived.CauchyWitnessGluingUp
 import BEDC.Derived.CauchyWitnessGluingUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.BudgetFactorization
 import BEDC.Derived.CauchyWitnessLedgerUp.BudgetRealRouteTotality
