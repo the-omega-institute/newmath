@@ -231,6 +231,38 @@ theorem TotallyBoundedCompletionCarrier_net_refinement_stability [AskSetup] [Pac
     ⟨netUnary, refinementUnary, refinementReadUnary, embeddingReadUnary,
       sourceNetRefinement, netRefinementRead, refinementBasisRead, localNamePkg⟩
 
+theorem TotallyBoundedCompletionCarrier_route_coverage [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont source net refinement ∧ Cont refinement basis embedding ∧
+        Cont embedding completion separated ∧ Cont separated extension provenance ∧
+          Cont transport provenance localName ∧ UnaryHistory refinement ∧
+            UnaryHistory embedding ∧ UnaryHistory separated ∧ UnaryHistory provenance ∧
+              UnaryHistory localName ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨sourceUnary, netUnary, basisUnary, completionUnary, extensionUnary, transportUnary,
+    sourceNetRefinement, refinementBasisEmbedding, embeddingCompletionSeparated,
+    separatedExtensionProvenance, transportProvenanceLocalName, _provenancePkg,
+    localNamePkg⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed sourceUnary netUnary sourceNetRefinement
+  have embeddingUnary : UnaryHistory embedding :=
+    unary_cont_closed refinementUnary basisUnary refinementBasisEmbedding
+  have separatedUnary : UnaryHistory separated :=
+    unary_cont_closed embeddingUnary completionUnary embeddingCompletionSeparated
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed separatedUnary extensionUnary separatedExtensionProvenance
+  have localNameUnary : UnaryHistory localName :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceLocalName
+  exact
+    ⟨sourceNetRefinement, refinementBasisEmbedding, embeddingCompletionSeparated,
+      separatedExtensionProvenance, transportProvenanceLocalName, refinementUnary, embeddingUnary,
+      separatedUnary, provenanceUnary, localNameUnary, localNamePkg⟩
+
 theorem TotallyBoundedCompletionCarrier_root_net_ledger_certificate [AskSetup] [PackageSetup]
     {source net refinement basis embedding completion separated extension transport provenance
       localName netRead : BHist}
@@ -325,5 +357,86 @@ theorem TotallyBoundedCompletionCarrier_root_completion_handoff [AskSetup] [Pack
     ⟨sourceUnary, netUnary, refinementUnary, basisUnary, embeddingUnary, completionUnary,
       completionReadUnary, sourceNetRefinement, refinementBasisEmbedding,
       embeddingCompletionRead, localNamePkg, completionReadPkg⟩
+
+theorem TotallyBoundedCompletionCarrier_extension_consumer_boundary [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName extensionRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont extension transport extensionRead ->
+        Cont extensionRead localName consumerRead ->
+          PkgSig bundle consumerRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row extension ∨ hsame row transport ∨ hsame row localName ∨
+                    hsame row consumerRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont extension transport extensionRead ∧
+                    Cont extensionRead localName consumerRead ∧ PkgSig bundle consumerRead pkg)
+                hsame ∧
+              UnaryHistory extensionRead ∧ UnaryHistory consumerRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier extensionTransportRead consumerRoute consumerPackage
+  obtain ⟨sourceUnary, netUnary, basisUnary, completionUnary, extensionUnary,
+    transportUnary, sourceNetRefinement, refinementBasisEmbedding,
+    embeddingCompletionSeparated, separatedExtensionProvenance,
+    transportProvenanceLocalName, provenancePackage, localPackage⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed sourceUnary netUnary sourceNetRefinement
+  have embeddingUnary : UnaryHistory embedding :=
+    unary_cont_closed refinementUnary basisUnary refinementBasisEmbedding
+  have separatedUnary : UnaryHistory separated :=
+    unary_cont_closed embeddingUnary completionUnary embeddingCompletionSeparated
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed separatedUnary extensionUnary separatedExtensionProvenance
+  have localNameUnary : UnaryHistory localName :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceLocalName
+  have extensionReadUnary : UnaryHistory extensionRead :=
+    unary_cont_closed extensionUnary transportUnary extensionTransportRead
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed extensionReadUnary localNameUnary consumerRoute
+  have sourceAtConsumer : hsame consumerRead consumerRead ∧ UnaryHistory consumerRead :=
+    ⟨hsame_refl consumerRead, consumerReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row extension ∨ hsame row transport ∨ hsame row localName ∨
+              hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont extension transport extensionRead ∧
+              Cont extensionRead localName consumerRead ∧ PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumerRead sourceAtConsumer
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        have otherSameConsumer : hsame _other consumerRead :=
+          hsame_trans (hsame_symm sameRows) source.left
+        have otherUnary : UnaryHistory _other :=
+          unary_transport source.right sameRows
+        exact ⟨otherSameConsumer, otherUnary⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, extensionTransportRead, consumerRoute, consumerPackage⟩
+  }
+  exact
+    ⟨cert, extensionReadUnary, consumerReadUnary, provenancePackage, localPackage⟩
 
 end BEDC.Derived.TotallyBoundedCompletionUp
