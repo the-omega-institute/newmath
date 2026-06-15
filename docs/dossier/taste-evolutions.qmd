@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-15T10:09:14Z
+> 最后刷新: 2026-06-15T11:49:20Z
 
-**Daemon 状态**: monitor (monitor cycle 28, adjust_since_research 2, round_counter 10479, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 29, adjust_since_research 2, round_counter 10597, last_adjust rule_evolution_completed)
 
-**待处理 queue** (272 条 finding):
-- isolated_theorem: 153 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (281 条 finding):
+- isolated_theorem: 162 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 100 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 19 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 42 次
-- TASTE ALERT category=low_entropy_template: 9 次
-- TASTE ALERT category=cycle_exception: 3 次
+- TASTE ALERT category=isolated_theorem: 63 次
+- TASTE ALERT category=low_entropy_template: 10 次
+- TASTE ALERT category=cycle_exception: 2 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -298,6 +298,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-15T08:22:36Z: `resolved` `add_downstream_user` for `BEDC.Derived.ProductMetricUp.ProductMetricCarrier_standard_metricspace_bridge_certificate` (flag `isolated_theorem`, finding `isolated_theorem:productmetric:BEDC.Derived.ProductMetricUp.ProductMetricCarrier_standard_metricspace_bridge_certificate:42e7c050`). Rationale: The target is not a disposable wrapper: it combines the scoped ProductMetric SemanticNameCert with the Real classifier bridge transport for the standard MetricSpace-facing product bridge. It was isolated only because the paper consumed it in prose while Lean had no downstream theorem using it. I added ProductMetricCarrier_public_metricspace_bridge_consumer in the same sibling file; it calls the target and combines it with ProductMetricCarrier_public_metricspace_export to bind the standard bridge certificate to both productRealRead and publicDistance transport/provenance. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-15T10:08:39Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_regular_name_handoff_obligation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_regular_name_handoff_obligation:42e7c050`). Rationale: The theorem is not merely a wrapper: it packages the regular-name handoff through R,Q,N and preserves the carrier transport row, but grep showed no downstream Lean consumer. I added CauchySpaceCarrier_regular_name_real_consumer_boundary in the same CauchySpaceUp row family; it explicitly invokes the flagged theorem, then extends the named handoff into the Real-consumer row T via a displayed Cont route, so the original obligation now has a substantive sibling consumer. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-15T11:48:55Z: `resolved` `leave_with_rationale` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_regseqrat_uniform_obligation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_regseqrat_uniform_obligation:42e7c050`). Rationale: The theorem is not a pure wrapper: it specializes the CauchySpace carrier's filter-uniform interface to the local RegSeqRat readback route, producing replay/R0 sameness, transport, and named-row continuity, and the CauchySpace paper chapter uses it as the RegSeqRat uniform obligation in later public-boundary arguments. I attempted add_downstream_user in the UniformCauchyCriterion RegSeqRat consumer sibling, but the required lake build failed on the edited module with tabs and unsolved goals, so I reverted the edit per instructions; a local rebuild of that module after revert succeeded. Removing the theorem would lose a real local route node, so it should remain as staging until a clean sibling consumer is added. Gate results: lake_build=failed after attempted edit: BEDC.Derived.UniformCauchyCriterionUp.RegSeqRatUniformConsumerExhaustion; tabs are not allowed at lines 46-48 and unsolved goals at line 32; changes reverted, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
