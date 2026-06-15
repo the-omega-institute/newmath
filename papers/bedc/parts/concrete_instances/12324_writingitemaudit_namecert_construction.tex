@@ -114,6 +114,24 @@ Apply \autoref{thm:writing-item-audit-namecert-obligations} to expose the NameCe
 Finally read \autoref{thm:writing-item-audit-tastegate-obligation}. Its visible TasteGate requirement keeps the same carrier under nontriviality and field-faithfulness checks. The listed rows therefore exhaust the obligation surface without producing public closure, scoped closure, bridge checking, or verification beyond the existing Lean marker.
 \end{proof}
 
+\begin{theorem}[Writing item audit scoped kernel route]
+\label{thm:writing-item-audit-scoped-kernel-route}
+Every scoped consumer of an accepted $\WritingItemAuditUp$ packet must read
+$$
+K,C,R,L,T,F,G,Q,H,U,P,N
+$$
+together with the writing-item legality definitions of \autoref{def:philosophy-writing-item} and \autoref{def:philosophy-writing-item-minimal-legality}, the axis-separation theorem of \autoref{thm:writing-item-audit-axis-separation}, the nonescape theorem of \autoref{thm:writing-item-audit-nonescape}, and the TasteGate obligation of \autoref{thm:writing-item-audit-tastegate-obligation}. No scoped projection derives $T$ from $F$, derives $F$ from $T$, proves $Q$, discharges $G$, or exports a registry claim stronger than the displayed claim-text row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:writing-item-audit-carrier}. The finite packet gives the item kind, carrier, classifier, ledger, paper-closure row, formal-verification row, gap row, claim row, transport, continuation, provenance, and local name as separate displayed coordinates.
+
+Apply \autoref{thm:writing-item-audit-namecert-obligations}. It forces the scoped consumer to read the same carrier rows through the local $\NameCert_{\WritingItemAuditUp}$ surface and to keep the writing-item legality definitions visible before the packet is used.
+
+Use \autoref{thm:writing-item-audit-axis-separation} and \autoref{thm:writing-item-audit-nonescape}. These keep $T$, $F$, $G$, and $Q$ in their own coordinates and rule out proofs of the claim text, status upgrades, hidden gap discharge, and stronger registry exports.
+
+Finally read \autoref{thm:writing-item-audit-tastegate-obligation}. It attaches nontriviality and field-faithfulness to the same carrier rows, so the scoped route is a kernel-local reading discipline rather than a projection from one axis or claim row into another.
+\end{proof}
+
 \closureat{WritingItemAuditUp}{obligationStr}
 
 \begin{closurestatus}{\WritingItemAuditUp}
