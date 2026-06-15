@@ -3563,6 +3563,7 @@ import BEDC.Derived.CriticalLineWitnessUp.P11961ModulusLedgerSeparation
 import BEDC.Derived.CriticalLineWitnessUp.P11961RhRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.P11961RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealClassifierDeterminacy
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealFourFaceRouteExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealL10FaceStatusPullback
@@ -3641,6 +3642,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootFormalTargetLedger
 import BEDC.Derived.CriticalLineWitnessUp.RootGammaRealDependency
 import BEDC.Derived.CriticalLineWitnessUp.RootGapRefusalCompleteness
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.RootLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
@@ -3659,6 +3661,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertScopeCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNonescapePackage
 import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
+import BEDC.Derived.CriticalLineWitnessUp.RootPublicExport
 import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootRHBoundaryPublicNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootRHConsumerRefusalTotality
