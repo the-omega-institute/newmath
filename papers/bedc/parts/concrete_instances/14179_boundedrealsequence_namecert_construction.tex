@@ -361,15 +361,30 @@ Use \autoref{thm:bounded-real-sequence-dyadic-bound-transport} to keep the dyadi
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedRealSequenceUp.BoundedRealSequenceCarrier\_bolzano\_source\_exactness}
 
+\begin{theorem}[Bounded real sequence bridge-facing route]
+\label{thm:bounded-real-sequence-bridge-facing-route}
+The public bounded-source export for $\BoundedRealSequenceUp$ is bridge-facing exactly through the checked finite-window closure package and the Bolzano--Weierstrass source exactness route. A bridge consumer must first read \autoref{thm:bounded-real-sequence-obligation-closure-package} to expose the rows $S,W,Q,R,I,H,C,P,N$ and then read \autoref{thm:bounded-real-sequence-bolzano-source-exactness} before the bounded source can be handed to a standard bridge comparison. Thus the paper bridge surface is the finite-window route grounded by $\mathsf{BEDC.Derived.BoundedRealSequenceUp.NameCertObligations.BoundedRealSequenceObligation\_closure\_package}$, not a selected subsequence, open-cover compactness proof, quotient stream equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Use the obligation closure package. It gathers carrier admission, finite-window bounds, regular readback, dyadic transport, window factorization, and source handoff into one checked NameCert surface.
+
+Now apply the Bolzano source exactness theorem. It identifies the only public export as the finite route
+$$
+S \to W \to Q \to R \to I \to H \to C \to P \to N .
+$$
+
+A bridge comparison can therefore inspect exactly those displayed rows before reading the bounded source. Since neither cited route exposes selected subsequences, quotient stream equality, open-cover compactness, or ambient completeness, the bridge-facing paper surface is exhausted by the checked closure package and the Bolzano source exactness route.
+\end{proof}
+
 \closureat{BoundedRealSequenceUp}{scopedStr}[BEDC.Derived.BoundedRealSequenceUp.NameCertObligations.BoundedRealSequenceObligation\_closure\_package]
 
 \begin{closurestatus}{\BoundedRealSequenceUp}
   \constructivestory{A $\BoundedRealSequenceUp$ packet is generated from inspected sequence indices, finite StreamName windows, RegSeqRat readback, RealUp sequence-name seals, a ClosedBoundedIntervalNet bound row, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:bounded-real-sequence-carrier}, \autoref{thm:bounded-real-sequence-namecert-obligations}, \autoref{thm:bounded-real-sequence-obligation-closure-package}, and \autoref{thm:bounded-real-sequence-bolzano-source-exactness} expose the finite-window bounded-sequence source as a public route for Bolzano--Weierstrass consumers over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ClosedBoundedIntervalNetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:bounded-real-sequence-carrier}, \autoref{thm:bounded-real-sequence-namecert-obligations}, \autoref{thm:bounded-real-sequence-obligation-closure-package}, \autoref{thm:bounded-real-sequence-bolzano-source-exactness}, and \autoref{thm:bounded-real-sequence-bridge-facing-route} expose the finite-window bounded-sequence source as a bridge-facing route for Bolzano--Weierstrass consumers over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ClosedBoundedIntervalNetUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.BoundedRealSequenceUp.NameCertObligations.BoundedRealSequenceObligation\_closure\_package}
   \bridgestatus{none}
   \notclaimed{This chapter does not close bridge checking, open-cover compactness, trichotomy, host completeness, quotient equality of streams, or choice-selected subsequences.}
-  \upgradepath{A bridge step would equip the public bounded-source export route of \autoref{thm:bounded-real-sequence-bolzano-source-exactness} with a checked standard bridge.}
+  \upgradepath{A checked standard bridge would turn the bridge-facing finite-window route of \autoref{thm:bounded-real-sequence-bridge-facing-route} into bridgeChecked verification.}
 \end{closurestatus}
