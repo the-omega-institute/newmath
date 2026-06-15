@@ -66,6 +66,7 @@ import BEDC.Derived.AlgebraicRealUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
+import BEDC.Derived.AnalogyCertificateGateUp.NameCertObligations
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationOperationUp.TasteGate
@@ -328,6 +329,8 @@ import BEDC.Derived.AuditMapInterfaceUp.TasteGate
 import BEDC.Derived.AuditMapMethodologyUp.TasteGate
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.AuditMapRouteBudgetUp.TasteGate
+import BEDC.Derived.AuditMapRouteCompilerUp
+import BEDC.Derived.AuditMapRouteCompilerUp.NameCertObligations
 import BEDC.Derived.AuditMapRouteCompilerUp.NonEscape
 import BEDC.Derived.AuditMapRouteCompilerUp.TasteGate
 import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
@@ -3083,6 +3086,7 @@ import BEDC.Derived.CompressionDescentAuditUp.LedgerExhaustion
 import BEDC.Derived.CompressionDescentAuditUp.RouteSoundness
 import BEDC.Derived.CompressionDescentAuditUp.TasteGate
 import BEDC.Derived.CompressionLedgerFunctorUp.TasteGate
+import BEDC.Derived.ComputableCompactMetricUp.TasteGate
 import BEDC.Derived.ComputablePolishSpaceUp.TasteGate
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.ComputableUniformContinuityUp.TasteGate
@@ -3095,7 +3099,9 @@ import BEDC.Derived.ConceptRegistrySurfaceUp.TasteGate
 import BEDC.Derived.CondExpUp
 import BEDC.Derived.CondensationTailSelectorUp.TasteGate
 import BEDC.Derived.ConditionalTriggerEnsembleUp.TasteGate
+import BEDC.Derived.ConnectedIntervalUp
 import BEDC.Derived.ConnectedIntervalUp.NameCertObligations
+import BEDC.Derived.ConnectedIntervalUp.RealRoute
 import BEDC.Derived.ConnectedIntervalUp.TasteGate
 import BEDC.Derived.ConnectedSpaceUp.TasteGate
 import BEDC.Derived.ConnectionUp
