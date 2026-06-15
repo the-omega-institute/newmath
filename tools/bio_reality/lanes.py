@@ -865,6 +865,19 @@ def _turn_count(result: dict[str, Any]) -> int:
     return len(turns) if isinstance(turns, list) else 0
 
 
+def _oracle_has_completed_turn(result: dict[str, Any]) -> bool:
+    turns = result.get("turns")
+    if not isinstance(turns, list):
+        return False
+    for turn in turns:
+        if not isinstance(turn, dict):
+            continue
+        turn_result = turn.get("result")
+        if isinstance(turn_result, dict) and str(turn_result.get("status") or "") == "completed":
+            return True
+    return False
+
+
 def _gate_candidate_priority(result: dict[str, Any]) -> tuple[float, str, str]:
     try:
         priority = float(result.get("priority_score"))
@@ -1065,10 +1078,14 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
         allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
     )
-    lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
-    consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
-    consulted_map[claim_id] = now_iso()
-    lane_state["consulted_claim_ids"] = consulted_map
+    completed_turn = _oracle_has_completed_turn(result)
+    if completed_turn:
+        lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
+        consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
+        consulted_map[claim_id] = now_iso()
+        lane_state["consulted_claim_ids"] = consulted_map
+    else:
+        lane_state.update({"last_failed_at": now_iso(), "last_failed_topic": topic, "last_failed_claim_id": claim_id})
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
     if forced_conv_id:
         lane_state["conversation_id"] = forced_conv_id
@@ -1085,6 +1102,7 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
         "oracle_rotation_used": rotation_used,
         "oracle_resumed": bool(existing_conv_id),
         "oracle_forced_conversation": bool(forced_conv_id),
+        "oracle_completed": completed_turn,
     }
 
 
@@ -1444,7 +1462,11 @@ def _maybe_run_bio_plan_oracle(
         allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
     )
-    lane_state.update({"last_consulted_at": now_iso(), "last_consulted_cycle": cycle, "last_topic": topic})
+    completed_turn = _oracle_has_completed_turn(result)
+    if completed_turn:
+        lane_state.update({"last_consulted_at": now_iso(), "last_consulted_cycle": cycle, "last_topic": topic})
+    else:
+        lane_state.update({"last_failed_at": now_iso(), "last_failed_cycle": cycle, "last_failed_topic": topic})
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
     if forced_conv_id:
         lane_state["conversation_id"] = forced_conv_id
@@ -1460,6 +1482,7 @@ def _maybe_run_bio_plan_oracle(
         "oracle_skipped_reason": "",
         "oracle_resumed": bool(existing_conv_id),
         "oracle_forced_conversation": bool(forced_conv_id),
+        "oracle_completed": completed_turn,
     }
 
 
