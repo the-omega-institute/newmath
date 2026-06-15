@@ -4371,6 +4371,7 @@ import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DiscreteGronwallUp
 import BEDC.Derived.DistanceFunctionCompletionUp.TasteGate
 import BEDC.Derived.DistanceToCompactUp.TasteGate
+import BEDC.Derived.DistanceToSetUp.TasteGate
 import BEDC.Derived.DistributionDerivativeUp.TasteGate
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.DivisibilityUp
@@ -6052,6 +6053,7 @@ import BEDC.Derived.IntermediateValueUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.IntervalBisectionTreeUp.TasteGate
+import BEDC.Derived.IntervalBisectionUp
 import BEDC.Derived.IntervalBisectionUp.TasteGate
 import BEDC.Derived.IntervalCauchyCompletenessUp.TasteGate
 import BEDC.Derived.IntervalConnectednessUp.TasteGate
@@ -8613,6 +8615,7 @@ import BEDC.Derived.RealOneUp.NameCertObligations
 import BEDC.Derived.RealOneUp.RationalEmbeddingRoute
 import BEDC.Derived.RealOneUp.TasteGate
 import BEDC.Derived.RealOneUp.TerminalSealNonescape
+import BEDC.Derived.RealOrderCompletionBoundaryUp.TasteGate
 import BEDC.Derived.RealOrderTopologyUp.TasteGate
 import BEDC.Derived.RealOscillationUp
 import BEDC.Derived.RealOscillationUp.TasteGate
@@ -9219,6 +9222,7 @@ import BEDC.Derived.RegularCauchyScaleUp.ScopedRealConsumerBoundary
 import BEDC.Derived.RegularCauchyScaleUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp.UnitScalarBoundary
 import BEDC.Derived.RegularCauchySelectorBudgetUp
+import BEDC.Derived.RegularCauchySeparatedCompletionUp.TasteGate
 import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.NameCertObligations
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
@@ -10113,6 +10117,7 @@ import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SynchronizationCertificateUp.Locality
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
 import BEDC.Derived.TZeroReflectionUp.TasteGate
+import BEDC.Derived.TaggedRealPartitionUp.TasteGate
 import BEDC.Derived.TailBudgetCoherenceUp
 import BEDC.Derived.TailBudgetCoherenceUp.PublicExportBoundary
 import BEDC.Derived.TailBudgetCoherenceUp.RealRouteScope
