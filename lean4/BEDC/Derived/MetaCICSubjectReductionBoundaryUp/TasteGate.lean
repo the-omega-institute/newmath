@@ -411,4 +411,20 @@ theorem MetaCICSubjectReductionBoundaryCarrier_nonescape [AskSetup] [PackageSetu
       exact ⟨sourceRow.left, consumerPkg⟩
   }
 
+theorem MetaCICSubjectReductionBoundaryNamecertObligations
+    (x : MetaCICSubjectReductionBoundaryUp) :
+    ∃ beta app lam pi preservation obstruction audit transport route provenance name : BHist,
+      x =
+          MetaCICSubjectReductionBoundaryUp.mk beta app lam pi preservation obstruction audit
+            transport route provenance name ∧
+        metaCICSubjectReductionBoundaryFromEventFlow
+            (metaCICSubjectReductionBoundaryToEventFlow x) = some x ∧
+          metaCICSubjectReductionBoundaryEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk beta app lam pi preservation obstruction audit transport route provenance name =>
+      exact
+        ⟨beta, app, lam, pi, preservation, obstruction, audit, transport, route,
+          provenance, name, rfl, metaCICSubjectReductionBoundary_round_trip _, rfl⟩
+
 end BEDC.Derived.MetaCICSubjectReductionBoundaryUp
