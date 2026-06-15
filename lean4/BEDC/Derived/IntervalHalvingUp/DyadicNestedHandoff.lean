@@ -35,6 +35,6 @@ theorem interval_halving_dyadic_nested_handoff_carrier_route [AskSetup] [Package
     unary_cont_closed dyadicUnary streamWindowUnary nestedRoute
   exact
     ⟨leftUnary, radiusUnary, streamWindowUnary, dyadicUnary, nestedUnary, dyadicRoute,
-      nestedRoute, packageRoute, nestedPkg⟩
+      nestedRoute, packageRoute.right, nestedPkg⟩
 
 end BEDC.Derived.IntervalHalvingUp
