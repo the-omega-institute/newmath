@@ -927,6 +927,7 @@ import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedUniformConvergenceUp.TasteGate
 import BEDC.Derived.BishopMetricCompletionUp.TasteGate
 import BEDC.Derived.BishopMetricSpaceUp.TasteGate
+import BEDC.Derived.BishopModulusConvergenceUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
 import BEDC.Derived.BishopMonotoneRealConvergenceUp.TasteGate
@@ -1505,6 +1506,7 @@ import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CauchyApproximationSchemeUp.TasteGate
 import BEDC.Derived.CauchyApproximationSequenceUp.TasteGate
 import BEDC.Derived.CauchyApproximationSystemUp.TasteGate
+import BEDC.Derived.CauchyApproximationTreeUp.TasteGate
 import BEDC.Derived.CauchyBicategoryUp
 import BEDC.Derived.CauchyBornologyUp.TasteGate
 import BEDC.Derived.CauchyBoundednessCriterionUp.TasteGate
@@ -9644,6 +9646,7 @@ import BEDC.Derived.SeparatedCompletionUp.DenseFactorization
 import BEDC.Derived.SeparatedCompletionUp.ZeroDistanceFactorization
 import BEDC.Derived.SeparatedLimitUniquenessUp.TasteGate
 import BEDC.Derived.SeparatedMetricCompletionUp.TasteGate
+import BEDC.Derived.SeparatedMetricReflectionUp
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp.UniversalRoute
 import BEDC.Derived.SeparatedMetricUp.CarrierBoundary
