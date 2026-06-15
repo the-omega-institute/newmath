@@ -55,6 +55,22 @@ Finally inspect $P$ and $N$. Provenance and local naming mention only $Q,S,R,E,H
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicUp.DyadicNameCertObligations}
 
+\begin{theorem}[DyadicUp obligation-closure dependency surface]
+\label{thm:dyadic-up-obligation-closure-dependency-surface}
+For every accepted $\DyadicUp$ obligation read, the dependency surface factors through exactly the displayed rows
+$$
+Q,S,R,E,H,C,P,N .
+$$
+Here $Q$ is read from $\DyadicRatCoreUp$, $S$ from $\StreamNameUp$, $R$ from $\RegSeqRatUp$, and $E$ from $\RealUp$ before any Real or Completion consumer can use the dyadic packet. The rows $H,C,P,N$ then transport, replay, source, and locally name that same route. No selected binary expansion, quotient stream, trichotomy, countable choice, host equality, or ambient completeness row is admitted by the dependency surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadic-up-namecert-obligations}. Its finite obligation list admits only the dyadic core, stream window, regular rational sequence, real seal, transport, replay, provenance, and local naming rows of the carrier.
+
+Next apply \autoref{thm:dyadic-up-streamname-regseqrat-route}. It forces every Real-facing read to expose $Q$, then $S$, then $R$ before the terminal row $E$ becomes visible.
+
+Finally use \autoref{thm:dyadic-up-real-seal-factorization}. Since Real and Completion consumers can reach the packet only through that terminal factorization, the remaining rows $H,C,P,N$ merely preserve and name the same finite route, and the excluded binary-expansion, quotient-stream, trichotomy, choice, host-equality, and completeness data have no coordinate from which they can be read.
+\end{proof}
+
 \begin{theorem}[DyadicUp real-seal factorization]
 \label{thm:dyadic-up-real-seal-factorization}
 Let $D=(Q,S,R,E,H,C,P,N)$ be an accepted $\DyadicUp$ carrier. Every $\RealUp$-facing consumer of $D$ must read the displayed dyadic core $Q$, the finite stream window $S$, the regular rational row $R$, and the terminal real seal $E$ in that order before it can export a Real-facing name.
