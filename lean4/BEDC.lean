@@ -13,6 +13,7 @@ import BEDC.Derived.AbGroupUp
 import BEDC.Derived.AbGroupUp.TasteGate
 import BEDC.Derived.AbelDirichletComparisonUp.TasteGate
 import BEDC.Derived.AbelLimitTheoremUp.TasteGate
+import BEDC.Derived.AbelMeanBoundaryUp
 import BEDC.Derived.AbelPartialSummationUp.TasteGate
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelRuffiniUp.TasteGate
@@ -1768,6 +1769,7 @@ import BEDC.Derived.CauchyMergeUp
 import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp
+import BEDC.Derived.CauchyModulusArithmeticUp.SumProductSharedThreshold
 import BEDC.Derived.CauchyModulusArithmeticUp.TasteGate
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
@@ -6189,6 +6191,7 @@ import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KochCurveUp.TasteGate
 import BEDC.Derived.KolmogorovContinuityUp
+import BEDC.Derived.KolmogorovContinuityUp.TasteGate
 import BEDC.Derived.KolmogorovRieszFiniteTranslationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KonigLemmaUp.TasteGate
@@ -6346,6 +6349,7 @@ import BEDC.Derived.LipschitzMapUp.CompleteMetricRegularSealBoundary
 import BEDC.Derived.LipschitzMapUp.ScopedModulusRoute
 import BEDC.Derived.LipschitzMapUp.SeparatedCompletionNonescape
 import BEDC.Derived.LipschitzModulusUp.TasteGate
+import BEDC.Derived.LipschitzRealMapUp.TasteGate
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.BoolReadback
@@ -7245,6 +7249,7 @@ import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICResidualDiamondWitnessUp
 import BEDC.Derived.MetaCICResidualSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICResidualSubstitutionComparisonUp
+import BEDC.Derived.MetaCICResidualSubstitutionCompatibilityUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineRealizerUp.TasteGate
@@ -7671,6 +7676,7 @@ import BEDC.Derived.NormalFormConsistencySealUp.SubjectReductionSocketReadiness
 import BEDC.Derived.NormalFormConsistencySealUp.VisionHandoff
 import BEDC.Derived.NormalSpaceUp
 import BEDC.Derived.NormalSpaceUp.ClosedSetSeparationRoute
+import BEDC.Derived.NormalSpaceUp.ScopedKernelGrounding
 import BEDC.Derived.NormalSpaceUp.TasteGate
 import BEDC.Derived.NormalSpaceUp.TietzeExtensionRefusal
 import BEDC.Derived.NormalSpaceUp.TopologyConsumerBoundary
@@ -8450,6 +8456,7 @@ import BEDC.Derived.RationalIntervalUp.RefinementNormalForm
 import BEDC.Derived.RationalIntervalUp.TerminalSeal
 import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
 import BEDC.Derived.RationalNestedIntervalLimitUp.TasteGate
+import BEDC.Derived.RationalOpenIntervalBasisUp.TasteGate
 import BEDC.Derived.RationalRealEmbeddingUp.TasteGate
 import BEDC.Derived.RationalRootIntervalUp.TasteGate
 import BEDC.Derived.RationalSqueezeUp
@@ -10673,6 +10680,7 @@ import BEDC.Derived.UpperSemicontinuousUp.FiniteWindowStability
 import BEDC.Derived.UpperSemicontinuousUp.LowerDualBoundary
 import BEDC.Derived.UpperSemicontinuousUp.TasteGate
 import BEDC.Derived.UrysohnLemmaUp.TasteGate
+import BEDC.Derived.UrysohnMetrizationUp.TasteGate
 import BEDC.Derived.UseProcessBoundaryUp.TasteGate
 import BEDC.Derived.UseProcessLimitLedgerUp.TasteGate
 import BEDC.Derived.UseProcessLimitUp.TasteGate
