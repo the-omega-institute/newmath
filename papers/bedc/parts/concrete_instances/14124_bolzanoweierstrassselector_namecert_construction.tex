@@ -121,6 +121,22 @@ Apply \autoref{thm:bolzano-weierstrass-subsequence-handoff}. It supplies the fin
 Finally apply \autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}. The bounded monotone witness and convergence seal place $E$ behind the same route, while $H,C,P,N$ transport, replay, source, and name the packet.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass selector finite-window induction]
+\label{thm:bolzano-weierstrass-selector-finite-window-induction}
+For every accepted $\BolzanoWeierstrassSelectorUp$ packet $T=(B,M,Q,W,D,R,E,H,C,P,N)$, any finite extension of the inspected selector-threshold ledger that preserves the bounded source window row $B$ and the monotone selector ledger $M$ extends the selected-window route only by replaying
+$$
+B,M,Q \longmapsto W \longmapsto D \longmapsto R \longmapsto E .
+$$
+The induction exports no selected infinite subsequence, quotient stream equality, host real equality, ambient $\RealUp$ completeness, or additional compactness principle.
+\end{theorem}
+\begin{proof}
+Induct over the displayed finite selector-threshold ledger. The base ledger is the selected-window route already bound by \autoref{thm:bolzano-weierstrass-selector-window-obligation}: the consumer reads $B,M,Q,W,D,R,E,H,C,P,N$ as one finite packet and receives no external subsequence object.
+
+For the successor step, append one inspected threshold that preserves the same bounded source row $B$ and monotone selector ledger $M$. The subsequence handoff of \autoref{thm:bolzano-weierstrass-subsequence-handoff} admits only the corresponding selected $\StreamNameUp$ window in $W$, with the dyadic and regular rows still downstream of that window.
+
+Finally apply \autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route} and \autoref{thm:bolzano-weierstrass-selector-window-obligation}. They force the route through $D,R,E$ after the selected window, while $H,C,P,N$ merely transport, replay, source, and name the same finite packet. Thus every finite extension is a replay of the displayed route and not an export of compactness, quotient equality, host equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass selector cluster route]
 \label{thm:bolzano-weierstrass-selector-cluster-route}
 For every accepted $\BolzanoWeierstrassSelectorUp$ packet $T=(B,M,Q,W,D,R,E,H,C,P,N)$, the cluster-facing read is exactly the finite route
