@@ -96,6 +96,15 @@ current parity series and it beats trivial persistence by $-0.56925$
 $[-0.61231,\ -0.52739]$, but it still does not promote the native state to a
 world model.  The A100-scale follow-up is therefore a scaling test for this
 multi-step dynamics recipe, not a continuation of head-only probing.
+The local scaling diagnostic for the same recipe is directionally positive but
+still fail-closed.  Restricting to the best $h=5$ row and increasing the local
+model to $13.31$M parameters gives native one-step MSE $0.76720$, rollout-final
+MSE $0.99348$, native-to-LeWM ratio $11.43$, and parity margin $-0.69338$
+$[-0.74168,\ -0.63541]$.  The gain over the base multi-step row is $0.07897$
+MSE, so scale is not irrelevant; the remaining gap is still too large for a
+local run to justify a world-model claim.  This is the concrete A100 target:
+test whether the same multi-step action-conditioned objective continues the
+improvement curve or saturates far above the LeWM parity threshold.
 
 \paragraph{Three-tier BEDC-native readout evaluation.}
 Across the verified findings the BEDC-native ledger separates into three tiers
