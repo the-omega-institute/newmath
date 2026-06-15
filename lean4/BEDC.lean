@@ -10310,6 +10310,7 @@ import BEDC.Derived.TotalVariationFunctionUp.TasteGate
 import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedCompletionUp
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCompletionRoute
+import BEDC.Derived.TotallyBoundedCompletionUp.NoEscape
 import BEDC.Derived.TotallyBoundedLocatedSetUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
