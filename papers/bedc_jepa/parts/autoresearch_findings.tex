@@ -128,6 +128,9 @@ loss-profile row among the checked scaled objectives, with native one-step MSE
 $0.74727$, rollout-final MSE $0.97184$, native-to-LeWM ratio $11.13$, and
 parity margin $-0.67345$.  The improvement over the decay-weighted row is
 $0.01993$ MSE, but the row remains far outside the LeWM prediction-parity gate.
+The A100 computation queue therefore tracks both the decay-weighted scaled row
+and the uniform-loss scaled row; the uniform-loss verdict remains fail-closed
+until its A100 report is present in the local evidence directory.
 
 \paragraph{Three-tier BEDC-native readout evaluation.}
 Across the verified findings the BEDC-native ledger separates into three tiers
