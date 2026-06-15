@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import shutil
 import socket
 import subprocess
 import sys
@@ -42,10 +43,30 @@ def _parse_nyxid_oracle_pool(server_url: str) -> str:
     return parsed.netloc.strip() or parsed.path.strip("/")
 
 
+def _nyxid_executable() -> str:
+    found = shutil.which("nyxid")
+    if found:
+        return found
+    for candidate in (
+        Path.home() / ".local" / "bin" / "nyxid",
+        Path("/opt/homebrew/bin/nyxid"),
+        Path("/usr/local/bin/nyxid"),
+    ):
+        if candidate.exists():
+            return str(candidate)
+    return "nyxid"
+
+
+def _materialize_nyxid_cmd(cmd: list[str]) -> list[str]:
+    if cmd and cmd[0] == "nyxid":
+        return [_nyxid_executable(), *cmd[1:]]
+    return cmd
+
+
 def _run_nyxid_oracle(cmd: list[str], *, timeout_seconds: float) -> dict[str, Any]:
     try:
         completed = subprocess.run(
-            cmd,
+            _materialize_nyxid_cmd(cmd),
             text=True,
             capture_output=True,
             check=False,
@@ -199,7 +220,7 @@ def _request_json_nyxid(method: str, server_url: str, path: str, payload: dict[s
     cmd.extend([service, request_path])
     try:
         completed = subprocess.run(
-            cmd,
+            _materialize_nyxid_cmd(cmd),
             input=input_text,
             text=True,
             capture_output=True,
