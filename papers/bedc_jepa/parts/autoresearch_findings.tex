@@ -130,6 +130,19 @@ $MV$ Spearman $0.4499$ $[0.3651,\ 0.5272]$, but remains wrong-side on
 allocation: $+0.00822$ $[+0.00053,\ +0.01738]$.  The signal is therefore
 partly readable, but the readout still does not supply an allocation-native
 policy.
+A policy-oriented local RTX~4060 run trains the scorer directly on the
+episode-balanced top/bottom assignment induced by the same marginal-value
+labels.  It slightly improves the allocation delta relative to the scalar
+RankNet row, $+0.00675$ $[+0.00179,\ +0.01146]$ versus $+0.00822$
+$[+0.00065,\ +0.01656]$, but it remains on the wrong side.  Its global
+$MV$ Spearman is lower ($0.3413$), even though the allocation delta is better,
+so global marginal-value rank correlation is not a sufficient model-selection
+statistic for the balanced budget gate.  The oracle under the identical gate
+still gives $-0.01290$ $[-0.01922,\ -0.00830]$, while a random reference gives
+$+0.02094$ $[+0.01211,\ +0.03207]$ and an inverted oracle gives $+0.05886$
+$[+0.04546,\ +0.07605]$.  The target has usable intervention signal; the open
+model problem is stable episode-local assignment, not merely per-anchor
+compute-value readability.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar
