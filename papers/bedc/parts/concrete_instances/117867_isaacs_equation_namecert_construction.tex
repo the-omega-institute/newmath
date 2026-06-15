@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\IsaacsEquationUp$}
+\label{ch:concrete-instances-isaacs-equation-namecert}
+\origin{human}
+
+Following Isaacs and Fleming--Soner on differential games and viscosity solutions, the $\IsaacsEquationUp$ packet records the finite BEDC surface by which a two-player dynamic-programming boundary can be read as an Isaacs-equation certificate. It sits after the dynamic-programming route of \autoref{ch:concrete-instances-dynamic-programming-namecert}, the viscosity-solution boundary of \autoref{ch:concrete-instances-viscosity-solution-namecert}, the PDE carrier of \autoref{ch:concrete-instances-pde-namecert}, the ODE evolution surface of \autoref{ch:concrete-instances-ode-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite game-PDE handoff only; it does not assert comparison, existence, uniqueness, measurable strategy selection, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Isaacs equation carrier]
+\label{def:isaacs-equation-carrier}
+An $\IsaacsEquationUp$ carrier is a finite $\BHist$ packet
+$$
+I=(G,A,B,V,D,E,O,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the differential-game state and payoff row;
+\item $A$ and $B$ are the two finite control-action boundary rows;
+\item $V$ is the value-function candidate row read through $\DynamicProgrammingUp$;
+\item $D$ is the dynamic-programming handoff row recording the local min-max or max-min route;
+\item $E$ is the $\mathsf{PDE}^{\uparrow}$ row that displays the Hamilton-Jacobi-Isaacs expression;
+\item $O$ is the $\mathsf{ODE}^{\uparrow}$ row that records the controlled state-evolution boundary;
+\item $R$ is the $\RealUp$ seal reached only after the game, control, dynamic-programming, PDE, and ODE rows are visible;
+\item $H$ records componentwise $\hsame$ transport for $G,A,B,V,D,E,O,R,C,P,N$;
+\item $C$ records displayed $\Cont$ replay through the game, control, dynamic-programming, viscosity, PDE, ODE, real-seal, transport, provenance, and local naming rows;
+\item $P$ is the $\Pkg$ provenance over $\IsaacsEquationUp$, $\DynamicProgrammingUp$, $\ViscositySolutionUp$, $\mathsf{PDE}^{\uparrow}$, $\mathsf{ODE}^{\uparrow}$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\IsaacsEquationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a full PDE comparison theorem, an existence theorem, a uniqueness theorem, selected measurable strategies, quotient equality of value functions, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Isaacs equation NameCert obligations]
+\label{thm:isaacs-equation-namecert-obligations}
+For every accepted $\IsaacsEquationUp$ carrier $I=(G,A,B,V,D,E,O,R,H,C,P,N)$, the local $\NameCert_{\IsaacsEquationUp}$ surface consists exactly of game-state exposure, both finite control-action rows, value-candidate exposure, dynamic-programming handoff, viscosity-facing PDE exposure, controlled ODE exposure, real-seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No local obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:isaacs-equation-carrier}. The rows $G,A,B,V,D,E,O,R$ are the only analytic data visible to the local certificate.
+
+Read the dynamic-programming and viscosity boundaries through the named siblings. The dynamic-programming row supplies the finite min-max handoff, while the viscosity-solution, PDE, and ODE rows keep the Hamilton-Jacobi-Isaacs expression attached to displayed evolution data.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the packet. Since the carrier contains no comparison theorem, existence theorem, uniqueness theorem, selected strategy, quotient value-function equality, Lean theorem, or bridge row, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Isaacs equation dynamic-programming route]
+\label{thm:isaacs-equation-dynamic-programming-route}
+Every $\ViscositySolutionUp$, $\mathsf{PDE}^{\uparrow}$, $\mathsf{ODE}^{\uparrow}$, or $\RealUp$ consumer of an accepted $\IsaacsEquationUp$ packet must first read
+$$
+G,A,B,V,D,E,O,H,C,P,N
+$$
+before it can consume the real-seal row $R$. The route is the displayed dynamic-programming handoff for a differential-game equation, not a proof of PDE comparison, existence, uniqueness, selected optimal strategies, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet $I=(G,A,B,V,D,E,O,R,H,C,P,N)$. The carrier orders the value-candidate row and dynamic-programming handoff before the PDE, ODE, and real-seal rows can be consumed.
+
+Use \autoref{thm:isaacs-equation-namecert-obligations}. Its obligations bind every downstream read to the same game-state, control-action, dynamic-programming, PDE, ODE, transport, replay, provenance, and local naming rows.
+
+The sibling chapters then supply the horizontal route: dynamic programming supplies the finite handoff, viscosity solutions supply the weak PDE reading discipline, PDE and ODE supply the displayed equation and evolution rows, and Real supplies only the terminal seal. No comparison, existence, uniqueness, strategy-selection, quotient, or ambient-completeness coordinate can be substituted for that route.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims an $\IsaacsEquationUp$ read while omitting the differential-game row, one of the two control-action rows, the $\DynamicProgrammingUp$ value handoff, the $\ViscositySolutionUp$ discipline, the $\mathsf{PDE}^{\uparrow}$ expression row, the $\mathsf{ODE}^{\uparrow}$ evolution row, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert$ row refutes the carrier of \autoref{def:isaacs-equation-carrier}.}
+
+\independenceWitness{dynamic-programming, viscosity-solution, pde, ode, real: no listed sibling is bijective to $\IsaacsEquationUp$ because this packet alone binds two-player game rows, min-max dynamic-programming handoff, viscosity-facing PDE expression, controlled ODE evolution, real sealing, transport, replay, provenance, and local naming as one finite differential-game certificate.}
+
+\closureat{IsaacsEquationUp}{seedStr}
+
+\begin{closurestatus}{\IsaacsEquationUp}
+  \constructivestory{An $\IsaacsEquationUp$ packet is generated from differential-game source rows, two finite control-action rows, a value-candidate row, a dynamic-programming handoff, viscosity-facing PDE and ODE rows, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:isaacs-equation-carrier}, \autoref{thm:isaacs-equation-namecert-obligations}, and \autoref{thm:isaacs-equation-dynamic-programming-route} seed the finite differential-game dynamic-programming route for Isaacs-equation consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim PDE comparison, PDE existence, uniqueness, measurable strategy selection, quotient equality of value functions, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked game-row admission, control-action exposure, dynamic-programming handoff, viscosity-facing PDE and ODE routing, real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.IsaacsEquationUp.}
+\end{closurestatus}
