@@ -163,6 +163,43 @@ schedule creates no alternate host function, quotient stream, selected limit,
 or ambient completeness coordinate.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus of continuity schedule stability]
+\label{thm:cauchy-modulus-of-continuity-schedule-stability}
+Let $K=(S,T,\mu,F,R,E,H,C,P,N)$ and
+$K'=(S',T',\mu',F',R',E',H',C',P',N')$ be accepted
+$\CauchyModulusOfContinuityUp$ carriers. Suppose the $S,T,F,R,E$ rows of $K$
+and the $S',T',F',R',E'$ rows of $K'$ are related componentwise by the
+displayed $H,H'$ $\hsame$ transports, and suppose $\mu$ and $\mu'$ answer the
+same target tolerance with transported finite source-window bounds. Then every
+target-window read admitted through $\mu$ is admitted through $\mu'$ after
+displayed $\Cont$ replay, with the same $\Pkg$ and local $\NameCert$ route.
+\end{theorem}
+\begin{proof}
+Project both carriers through
+\autoref{def:cauchy-modulus-of-continuity-carrier}. The displayed rows expose
+only the source windows, target windows, schedules, transformer rows, readback
+rows, Real seals, transport, replay, provenance, and local naming data.
+
+Use the componentwise transports $H$ and $H'$. They identify the $S,T,F,R,E$
+surface of $K$ with the $S',T',F',R',E'$ surface of $K'$ at the transported
+finite source-window and target-window bounds.
+
+Replay $C$ and $C'$ through the schedules before reading the transformer row.
+The schedule rows $\mu$ and $\mu'$ answer the same target tolerance, so the
+target-window request reaches the transformer surface only after the matching
+finite source-window inspection has been displayed.
+
+Apply the threshold handoff of
+\autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff} and the finite-window
+monotonicity of \autoref{thm:cauchy-modulus-of-continuity-window-monotonicity}.
+They keep the admitted target-window read inside the transported schedule route
+and allow the replay to use the transported finite source-window bound.
+
+Finally attach the same provenance and local naming route. No quotient stream,
+host function equality, selected limit, compactness, or completeness coordinate
+is introduced, so schedule transport preserves the accepted read.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus of continuity Real consumer boundary]
 \label{thm:cauchy-modulus-of-continuity-real-consumer-boundary}
 For every accepted $\CauchyModulusOfContinuityUp$ carrier
