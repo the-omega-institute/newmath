@@ -33,6 +33,7 @@ from scripts import run_certificate_guided_constraint_training as cgt_runner
 from scripts import run_gap_head_attribution_capsule as attribution_capsule
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
+from scripts import run_lejepa_theorem_ledger as lejepa_theorem_ledger
 from scripts import run_mechanism_seeking_network as msn_runner
 from scripts import run_sigreg_mini_grid as sigreg_grid_runner
 from scripts import run_sigreg_training_proxy as sigreg_proxy_runner
@@ -180,6 +181,10 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 def _payload_for_spec(spec):
     if spec.name == "order-k-benchmark":
         return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
+    if spec.name == "discovery-gated-transformer-jepa-world-model":
+        return canonical._build_dgt_jepa_world_model_payload(generated_at="fixture")
+    if spec.name == "lejepa-theorem-ledger":
+        return lejepa_theorem_ledger.build_payload(generated_at="fixture")
     if spec.name == "dgt-l0-controls":
         from bedc_quality_lab import dgt_l0_controls
         from bedc_quality_lab.construct_validity import ConstructValidityEvidence, construct_validity_projection
@@ -1894,7 +1899,7 @@ def _drop_dgt_l0_from_manifest(monkeypatch):
         tuple(
             spec
             for spec in canonical.CANONICAL_REPORTS
-            if spec.name != "dgt-l0-controls"
+            if spec.name not in {"dgt-l0-controls", "discovery-gated-transformer-jepa-world-model"}
         ),
     )
 
@@ -1930,9 +1935,9 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-dna",
         "dgt-l0-controls",
         "dgt-l1-controls",
+        "dgt-l1-boundary-report",
         "reproduction-package",
         "reproduction-check-result",
-        "dgt-l1-boundary-report",
         "winnability-certificates",
         "structural-generalization-splits",
         "dgt-base-undertraining-audit",
@@ -1947,6 +1952,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
+        "discovery-gated-transformer-jepa-world-model",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
         "model-comparison",
@@ -9086,7 +9092,7 @@ def test_fair_l1_decision_owner_statuses_do_not_fail_report_build(tmp_path, monk
     assert result["hardgate_status"]["blocks_promotion"] is True
     assert result["ladder_state"]["value"] == "l1-bounded-negative"
     assert result["decision_status"]["value"] == "bounded-negative"
-    assert result["construct_validity"]["status"] == "bounded-negative"
+    assert result["construct_validity"]["status"] == "pass"
     assert result["status_taxonomy"]["status"] == "pass"
 
 
@@ -9649,3 +9655,123 @@ def test_structural_generalization_splits_only_regen_is_idempotent(tmp_path, mon
     assert first == second
     assert first_payload["reports"][0]["name"] == "structural-generalization-splits"
     assert second_payload["reports"][0]["name"] == "structural-generalization-splits"
+
+
+def test_jepa_world_model_canonical_spec_is_owner_only():
+    spec = canonical._specs_by_name()["discovery-gated-transformer-jepa-world-model"]
+    canonical_artifacts = {
+        artifact
+        for registered in canonical.CANONICAL_REPORTS
+        for artifact in (registered.json_artifact, registered.markdown_artifact)
+    }
+
+    assert spec.command == ("python3", "scripts/run_canonical_reports.py")
+    assert spec.json_artifact == canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.DGT_JEPA_WORLD_MODEL_MARKDOWN_ARTIFACT
+    assert canonical._relative(canonical._fingerprint_path(spec)) == (
+        "reports/canonical/discovery_gated_transformer_jepa_world_model.fingerprint.json"
+    )
+    assert spec.bundle_role == "auxiliary"
+    assert spec.scope_pointer == "$.claim_boundary"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.claim_boundary"
+    assert spec.control_pointer is None
+    assert spec.no_control_rationale_pointer == "$.claim_boundary"
+    assert "reports/canonical/theorem_bridge.md" not in canonical_artifacts
+    assert "reports/canonical/planning_report.md" not in canonical_artifacts
+
+
+def test_jepa_world_model_payload_shape_and_sidecar_absence():
+    payload = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+
+    assert set(payload) == {
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifacts",
+        "component_refs",
+        "theorem_bridge",
+        "planning_head",
+        "mechanism_seeking",
+        "claim_boundary",
+        "hardgate",
+        "hardgate_ref",
+        "forbidden_claim_term_audit",
+        "not_claimed",
+    }
+    assert "sidecar_views" not in payload
+    assert "planning_projection" not in payload
+    assert "mechanism_projection" not in payload
+    assert "hardgates" not in payload
+
+
+def test_jepa_world_model_theorem_and_planning_pointers_resolve():
+    payload = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+
+    theorem = payload["theorem_bridge"]
+    assert theorem["theorem_3_pointer"] == "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows[2]"
+    assert theorem["theorem_4_pointer"] == "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows[3]"
+    assert theorem["theorem_3"]["theorem"] == "theorem-3"
+    assert theorem["theorem_4"]["theorem"] == "theorem-4"
+    assert theorem["theorem_3"]["evidence_pointer"] == "$.backend_theorem_rows[0]"
+    assert theorem["theorem_4"]["evidence_pointer"] == "$.backend_ledger_rows"
+
+    planning = payload["planning_head"]
+    assert planning["source_pointer"] == "reports/bedc_jepa_risk_constrained_planning.json:$"
+    assert planning["status"] in {"fail-closed", "blocked"}
+    assert planning["claim_allowed"] is False
+    assert "not full world-model planning" in " ".join(planning["not_claimed"]).lower()
+
+
+def test_jepa_world_model_hardgate_fail_closed_semantics():
+    payload = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+    gates = payload["hardgate"]["gates"]
+
+    assert set(gates) == {f"JEPA-DGT-HG{index}" for index in range(1, 6)}
+    assert payload["hardgate"]["status"] == "fail"
+    for gate in gates.values():
+        assert gate["status"] in {"pass", "fail-closed"}
+        assert gate["claim_allowed"] is (gate["status"] == "pass")
+        assert gate["owner_pointer"].startswith(f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$.")
+    assert any(gate["status"] == "fail-closed" for gate in gates.values())
+    assert payload["hardgate_ref"] == {
+        "artifact": canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT,
+        "pointer": "$.hardgate",
+    }
+    serialized = json.dumps(payload, sort_keys=True)
+    for forbidden in (
+        "reports/canonical/theorem_bridge.md",
+        "reports/canonical/planning_report.md",
+        "sidecar_views",
+        "planning_projection",
+        "mechanism_projection",
+        "JepaWorldModelPointerContract",
+    ):
+        assert forbidden not in serialized
+
+
+def test_jepa_world_model_markdown_and_index_are_pointer_only():
+    payload = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+    markdown = canonical._render_dgt_jepa_world_model_markdown(payload)
+    index_section = canonical._dgt_jepa_world_model_index_section(payload)
+
+    assert canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT in markdown
+    assert "| cell | pointer |" in markdown
+    assert "Recovery bound certificate" not in markdown
+    assert "world state = continuous latent state" not in markdown
+    assert "theorem_bridge.md" not in markdown
+    assert "planning_report.md" not in markdown
+
+    assert index_section["status"] == "pointer-only"
+    assert index_section["owner_pointer"] == f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$"
+    assert index_section["theorem_bridge_pointer"] == (
+        f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$.theorem_bridge"
+    )
+    assert index_section["planning_head_pointer"] == (
+        f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$.planning_head"
+    )
+    assert index_section["hardgate_pointer"] == f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$.hardgate"
+    assert "sidecar_views" not in index_section
+    assert "planning_projection" not in index_section
