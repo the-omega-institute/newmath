@@ -51,4 +51,36 @@ theorem CauchyMajorantSequenceCarrier_namecert_obligations [AskSetup] [PackageSe
       realSealUnary, transportUnary, replayUnary, localNameUnary, sourceModulusWindow,
       windowDyadicMajorant, majorantHandoffRealSeal, transportReplayLocalName, localNamePkg⟩
 
+theorem CauchyMajorantSequenceCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {source modulus window dyadic majorant handoff realSeal transport replay localName
+      handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyMajorantSequenceCarrier source modulus window dyadic majorant handoff realSeal
+        transport replay localName bundle pkg ->
+      Cont handoff localName handoffRead ->
+        PkgSig bundle handoffRead pkg ->
+          UnaryHistory source ∧ UnaryHistory modulus ∧ UnaryHistory window ∧
+            UnaryHistory dyadic ∧ UnaryHistory majorant ∧ UnaryHistory handoff ∧
+              UnaryHistory handoffRead ∧ Cont source modulus window ∧
+                Cont window dyadic majorant ∧ Cont majorant handoff realSeal ∧
+                  Cont handoff localName handoffRead ∧ PkgSig bundle handoffRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier handoffLocalNameRead handoffReadPkg
+  have obligations :=
+    CauchyMajorantSequenceCarrier_namecert_obligations
+      (source := source) (modulus := modulus) (window := window) (dyadic := dyadic)
+      (majorant := majorant) (handoff := handoff) (realSeal := realSeal)
+      (transport := transport) (replay := replay) (localName := localName)
+      (bundle := bundle) (pkg := pkg) carrier
+  obtain ⟨sourceUnary, modulusUnary, windowUnary, dyadicUnary, majorantUnary,
+    handoffUnary, _realSealUnary, _transportUnary, _replayUnary, localNameUnary,
+    sourceModulusWindow, windowDyadicMajorant, majorantHandoffRealSeal,
+    _transportReplayLocalName, _localNamePkg⟩ := obligations
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed handoffUnary localNameUnary handoffLocalNameRead
+  exact
+    ⟨sourceUnary, modulusUnary, windowUnary, dyadicUnary, majorantUnary, handoffUnary,
+      handoffReadUnary, sourceModulusWindow, windowDyadicMajorant, majorantHandoffRealSeal,
+      handoffLocalNameRead, handoffReadPkg⟩
+
 end BEDC.Derived.CauchyMajorantSequenceUp
