@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\SmallInductiveDimensionUp$}
+\label{ch:concrete-instances-small-inductive-dimension-namecert}
+\origin{human}
+
+Following Hurewicz--Wallman and Engelking, the $\SmallInductiveDimensionUp$ packet records the boundary-recursive small inductive dimension as finite BEDC separation and cover data. It sits beside the finite cover-order carrier of \autoref{ch:concrete-instances-coveringdimension-namecert}, the Lebesgue refinement route of \autoref{ch:concrete-instances-lebesgue-covering-dimension-namecert}, the topology source of \autoref{ch:concrete-instances-topology-namecert}, the normal-space separation packet of \autoref{ch:concrete-instances-normalspace-namecert}, and the finite refinement carrier of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}. The packet names only displayed boundary neighborhoods, finite boundary-cover rows, refinement comparisons, transport, replay, provenance, and local naming; it does not assert a host inductive-dimension theorem, arbitrary open-cover compactness, selected separators outside the carrier, or ambient quotient topology equality.
+
+\begin{definition}[Small inductive dimension carrier]
+\label{def:small-inductive-dimension-carrier}
+A $\SmallInductiveDimensionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,N,B,R,F,L,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\TopologyUp$ source row, exposing the finite point, open-neighborhood, closed-set, and boundary observations inspected by the packet.
+\item $N$ is the $\NormalSpaceUp$ separation row, recording the closed-pair separation route used to choose a displayed neighborhood before its boundary is inspected.
+\item $B$ is the boundary-cover row, recording the finite $\BHist$ boundary entries whose own dimension read is one step lower than the surrounding packet.
+\item $R$ is the boundary-recursion ledger, recording that each boundary read is consumed only through the displayed topology and normal-space rows.
+\item $F$ is the $\FiniteCoverRefinementUp$ comparison row, recording the finite refinement handoff used when boundary covers are compared with cover-order packets.
+\item $L$ is the dimension-neighbor comparison row, recording the finite comparison with $\CoveringDimensionUp$ and $\LebesgueCoveringDimensionUp$ without identifying the three dimension notions.
+\item $H$ stores componentwise $\hsame$ transport for topology, normal-space, boundary, recursion, refinement, comparison, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a topology-neighborhood request through normal-space separation, boundary cover inspection, finite refinement comparison, and dimension-neighbor handoff.
+\item $P$ is the $\Pkg$ provenance over $\SmallInductiveDimensionUp$, $\TopologyUp$, $\NormalSpaceUp$, $\CoveringDimensionUp$, $\LebesgueCoveringDimensionUp$, $\FiniteCoverRefinementUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $A$ is the local $\NameCert_{\SmallInductiveDimensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $X,N,B,R,F,L,H,C,P,A$. It has no coordinate for a host dimension theorem, arbitrary open-cover compactness, a selected separating family outside the packet, quotient-topology equality, countable choice, or an ambient boundary oracle.
+\end{definition}
+
+\begin{theorem}[Small inductive dimension NameCert obligations]
+\label{thm:small-inductive-dimension-namecert-obligations}
+For every accepted $\SmallInductiveDimensionUp$ carrier
+$$
+S=(X,N,B,R,F,L,H,C,P,A),
+$$
+the local $\NameCert_{\SmallInductiveDimensionUp}$ surface consists exactly of topology-source admission through $X$, normal-space separation exposure through $N$, finite boundary-cover admission through $B$, boundary-recursion exactness through $R$, finite refinement comparison through $F$, covering-dimension and Lebesgue-covering comparison through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $A$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:small-inductive-dimension-carrier}. The source, separation, boundary, recursion, refinement, comparison, transport, replay, provenance, and naming rows are precisely the displayed coordinates of the finite packet.
+
+The boundary-recursive part is read from $X,N,B,R$. A consumer first sees the topology source, then the normal-space separation row, and only then the boundary-cover rows whose lower-dimensional reads are stored by the recursion ledger.
+
+The finite comparison part is read from $F,L$. These rows permit comparison with finite cover-refinement, covering-dimension, and Lebesgue-covering packets, but they do not identify those packets with the small inductive dimension carrier.
+
+Finally $H,C,P,A$ transport, replay, source, and name the same finite route. Since none of the refused host objects is a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Small inductive dimension boundary route]
+\label{thm:small-inductive-dimension-boundary-route}
+Every boundary-recursive read of an accepted $\SmallInductiveDimensionUp$ packet must factor through
+$$
+\TopologyUp,\ \NormalSpaceUp,\ B,\ R,\ H,\ C,\ P,\ A
+$$
+before a lower-dimensional boundary claim is consumed. The route exposes a displayed neighborhood-separation row and a finite boundary-cover row; it exports no selected separating family outside the carrier, no host boundary oracle, no quotient-topology equality, and no countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Begin with the topology source row $X$. It supplies the displayed point, open-neighborhood, closed-set, and boundary observations available to the packet.
+
+Use the normal-space separation row $N$ next. The boundary that enters the recursion ledger is admitted only after the separation route is visible, so a consumer cannot replace it by an unrecorded host separator.
+
+The rows $B$ and $R$ then record the finite boundary-cover entries and their lower-dimensional reads. Structural rows $H,C,P,A$ preserve, replay, source, and name this route, so the boundary claim remains inside the displayed packet.
+\end{proof}
+
+\begin{theorem}[Small inductive dimension cover comparison]
+\label{thm:small-inductive-dimension-cover-comparison}
+Every finite-cover comparison exported by an accepted $\SmallInductiveDimensionUp$ packet must read the route
+$$
+\FiniteCoverRefinementUp,\ \CoveringDimensionUp,\ \LebesgueCoveringDimensionUp
+\longmapsto
+F,L,H,C,P,A .
+$$
+The comparison is a finite handoff from boundary-recursive rows to cover-refinement and cover-order rows. It does not identify small inductive dimension with covering dimension, does not claim equality with Lebesgue covering dimension, and does not import arbitrary open-cover compactness or a host dimension theorem.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:small-inductive-dimension-namecert-obligations}. They require the topology source, normal-space separation row, finite boundary-cover row, and recursion ledger before any comparison is exported.
+
+Read the finite refinement row $F$. It supplies only the displayed refinement handoff, so cover comparison is routed through $\FiniteCoverRefinementUp$ rather than through arbitrary open-cover compactness.
+
+Finally inspect the neighbor comparison row $L$. It permits cover-order and Lebesgue-covering consumers to see the same finite boundary-refinement route while keeping $\SmallInductiveDimensionUp$, $\CoveringDimensionUp$, and $\LebesgueCoveringDimensionUp$ as distinct packet names. The structural rows $H,C,P,A$ then transport, replay, source, and name the comparison without adding a host theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SmallInductiveDimensionUp$ boundary read is refuted if it exports a lower-dimensional boundary claim without displaying the TopologyUp source row, NormalSpaceUp separation row, finite boundary-cover row, boundary-recursion ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{coveringdimension, lebesgue-covering-dimension, topology, normalspace, finite-cover-refinement: $\SmallInductiveDimensionUp$ jointly carries topology-source, normal-space separation, finite boundary-cover, boundary-recursion, finite refinement comparison, dimension-neighbor comparison, transport, replay, provenance, and local naming rows in one packet; each named sibling lacks at least one of these local boundary-recursive coordinates.}
+
+\closureat{SmallInductiveDimensionUp}{seedStr}
+
+\begin{closurestatus}{\SmallInductiveDimensionUp}
+  \constructivestory{A $\SmallInductiveDimensionUp$ packet is generated from a TopologyUp source row, a NormalSpaceUp separation row, finite BHist boundary-cover rows, a boundary-recursion ledger, a FiniteCoverRefinementUp comparison row, CoveringDimensionUp and LebesgueCoveringDimensionUp neighbor rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:small-inductive-dimension-carrier}, \autoref{thm:small-inductive-dimension-namecert-obligations}, \autoref{thm:small-inductive-dimension-boundary-route}, and \autoref{thm:small-inductive-dimension-cover-comparison} seed the boundary-recursive small inductive dimension surface over topology, normal-space, finite-refinement, covering-dimension, and Lebesgue-covering rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host inductive-dimension theorem, equality with covering dimension, equality with Lebesgue covering dimension, arbitrary open-cover compactness, selected separator choice, quotient topology equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked topology-source admission, normal-space separation exactness, finite boundary-cover admission, boundary-recursion exactness, finite refinement comparison, cover-dimension comparison, transport, replay, provenance, and local NameCert rows for BEDC.Derived.SmallInductiveDimensionUp.}
+\end{closurestatus}
