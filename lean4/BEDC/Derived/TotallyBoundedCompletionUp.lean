@@ -83,6 +83,32 @@ theorem TotallyBoundedCompletionCarrier_refinement_ledger_obligation [AskSetup] 
     ⟨sourceNetRefinement, refinementBasisEmbedding, embeddingCompletionSeparated,
       refinementUnary, embeddingUnary, separatedUnary, localNamePkg⟩
 
+theorem TotallyBoundedCompletionCarrier_cauchy_filter_basis_handoff [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName basisRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg →
+      Cont net refinement basisRead →
+        PkgSig bundle basisRead pkg →
+          UnaryHistory net ∧ UnaryHistory refinement ∧ UnaryHistory basis ∧
+            UnaryHistory basisRead ∧ Cont source net refinement ∧
+              Cont refinement basis embedding ∧ Cont net refinement basisRead ∧
+                PkgSig bundle localName pkg ∧ PkgSig bundle basisRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier netRefinementBasis basisReadPkg
+  obtain ⟨_sourceUnary, netUnary, basisUnary, _completionUnary, _extensionUnary,
+    _transportUnary, sourceNetRefinement, refinementBasisEmbedding,
+    _embeddingCompletionSeparated, _separatedExtensionProvenance,
+    _transportProvenanceLocalName, _provenancePkg, localNamePkg⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed _sourceUnary netUnary sourceNetRefinement
+  have basisReadUnary : UnaryHistory basisRead :=
+    unary_cont_closed netUnary refinementUnary netRefinementBasis
+  exact
+    ⟨netUnary, refinementUnary, basisUnary, basisReadUnary, sourceNetRefinement,
+      refinementBasisEmbedding, netRefinementBasis, localNamePkg, basisReadPkg⟩
+
 theorem TotallyBoundedCompletionCarrier_separated_extension_obligation [AskSetup] [PackageSetup]
     {source net refinement basis embedding completion separated extension transport provenance
       localName separatedRead : BHist}
