@@ -562,6 +562,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalReaderNonescape
 import BEDC.Derived.AuthorizedRecursorUp.TasteGate
 import BEDC.Derived.AutomorphicUp
+import BEDC.Derived.AutomorphicUp.TasteGate
 import BEDC.Derived.AxiomDependencyAuditMapUp
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomDependencyMapUp.TasteGate
@@ -1770,6 +1771,7 @@ import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusExtractorUp.TasteGate
+import BEDC.Derived.CauchyModulusFunctorialityUp.TasteGate
 import BEDC.Derived.CauchyModulusMajorantUp.TasteGate
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.CauchyModulusMeetUp.StdBridge
@@ -3647,6 +3649,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RegSeqRatRealModulusHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RhBoundarySourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RhConsumerUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RhNonproofBoundary
+import BEDC.Derived.CriticalLineWitnessUp.RhRefusalNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetSelectorTotality
@@ -8051,6 +8054,7 @@ import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolishBaireFixedPointUp.TasteGate
 import BEDC.Derived.PolishBasisUp.TasteGate
+import BEDC.Derived.PolishCauchyBasisUp.TasteGate
 import BEDC.Derived.PolishspaceUp.CompactMetricFactorization
 import BEDC.Derived.PolishspaceUp.CompleteMetricRootObligation
 import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
