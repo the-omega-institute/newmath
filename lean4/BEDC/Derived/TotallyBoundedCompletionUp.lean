@@ -83,6 +83,32 @@ theorem TotallyBoundedCompletionCarrier_refinement_ledger_obligation [AskSetup] 
     ⟨sourceNetRefinement, refinementBasisEmbedding, embeddingCompletionSeparated,
       refinementUnary, embeddingUnary, separatedUnary, localNamePkg⟩
 
+theorem TotallyBoundedCompletionCarrier_cauchy_filter_basis_handoff [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName basisRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg →
+      Cont net refinement basisRead →
+        PkgSig bundle basisRead pkg →
+          UnaryHistory net ∧ UnaryHistory refinement ∧ UnaryHistory basis ∧
+            UnaryHistory basisRead ∧ Cont source net refinement ∧
+              Cont refinement basis embedding ∧ Cont net refinement basisRead ∧
+                PkgSig bundle localName pkg ∧ PkgSig bundle basisRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier netRefinementBasis basisReadPkg
+  obtain ⟨_sourceUnary, netUnary, basisUnary, _completionUnary, _extensionUnary,
+    _transportUnary, sourceNetRefinement, refinementBasisEmbedding,
+    _embeddingCompletionSeparated, _separatedExtensionProvenance,
+    _transportProvenanceLocalName, _provenancePkg, localNamePkg⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed _sourceUnary netUnary sourceNetRefinement
+  have basisReadUnary : UnaryHistory basisRead :=
+    unary_cont_closed netUnary refinementUnary netRefinementBasis
+  exact
+    ⟨netUnary, refinementUnary, basisUnary, basisReadUnary, sourceNetRefinement,
+      refinementBasisEmbedding, netRefinementBasis, localNamePkg, basisReadPkg⟩
+
 theorem TotallyBoundedCompletionCarrier_separated_extension_obligation [AskSetup] [PackageSetup]
     {source net refinement basis embedding completion separated extension transport provenance
       localName separatedRead : BHist}
@@ -139,5 +165,34 @@ theorem TotallyBoundedCompletionCarrier_net_handoff [AskSetup] [PackageSetup]
   exact
     ⟨sourceUnary, netUnary, refinementUnary, netReadUnary, sourceNetRefinement,
       sourceNetRead, localNamePkg⟩
+
+theorem TotallyBoundedCompletionCarrier_net_refinement_stability [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName refinementRead embeddingRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont net refinement refinementRead ->
+        Cont refinement basis embeddingRead ->
+          PkgSig bundle localName pkg ->
+            UnaryHistory net ∧ UnaryHistory refinement ∧ UnaryHistory refinementRead ∧
+              UnaryHistory embeddingRead ∧ Cont source net refinement ∧
+                Cont net refinement refinementRead ∧ Cont refinement basis embeddingRead ∧
+                  PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier netRefinementRead refinementBasisRead localNamePkg
+  obtain ⟨sourceUnary, netUnary, basisUnary, _completionUnary, _extensionUnary,
+    _transportUnary, sourceNetRefinement, _refinementBasisEmbedding,
+    _embeddingCompletionSeparated, _separatedExtensionProvenance,
+    _transportProvenanceLocalName, _provenancePkg, _localNamePkgFromCarrier⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed sourceUnary netUnary sourceNetRefinement
+  have refinementReadUnary : UnaryHistory refinementRead :=
+    unary_cont_closed netUnary refinementUnary netRefinementRead
+  have embeddingReadUnary : UnaryHistory embeddingRead :=
+    unary_cont_closed refinementUnary basisUnary refinementBasisRead
+  exact
+    ⟨netUnary, refinementUnary, refinementReadUnary, embeddingReadUnary,
+      sourceNetRefinement, netRefinementRead, refinementBasisRead, localNamePkg⟩
 
 end BEDC.Derived.TotallyBoundedCompletionUp
