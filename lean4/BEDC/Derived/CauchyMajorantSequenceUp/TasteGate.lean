@@ -184,4 +184,19 @@ def taste_gate : ChapterTasteGate CauchyMajorantSequenceUp :=
 
 end TasteGate
 
+theorem CauchyMajorantSequenceTasteGate_single_carrier_alignment :
+    (forall h : BHist, cauchyMajorantSequenceDecodeBHist (cauchyMajorantSequenceEncodeBHist h) = h) /\
+      (forall x : CauchyMajorantSequenceUp,
+        cauchyMajorantSequenceFromEventFlow (cauchyMajorantSequenceToEventFlow x) = some x) /\
+      (forall x y : CauchyMajorantSequenceUp,
+        cauchyMajorantSequenceToEventFlow x = cauchyMajorantSequenceToEventFlow y -> x = y) /\
+      cauchyMajorantSequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨CauchyMajorantSequenceTasteGate_single_carrier_alignment_decode_encode,
+      CauchyMajorantSequenceTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        CauchyMajorantSequenceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
+
 end BEDC.Derived.CauchyMajorantSequenceUp

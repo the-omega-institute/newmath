@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\KTopologyUp$}
+\label{ch:concrete-instances-k-topology-namecert}
+\origin{human}
+
+Following Kelley and Munkres on point-set topology, the $\KTopologyUp$ packet records the finite naming surface for the real line with the deleted-neighbourhood discipline around a distinguished closed subset $K$. It sits over the real order topology of \autoref{ch:concrete-instances-real-order-topology-namecert}, the neighbourhood interface of \autoref{ch:concrete-instances-topology-namecert}, the observable-open handoff of $\SierpinskiSpaceUp$ in \autoref{ch:concrete-instances-sierpinski-space-namecert}, and the finite-window route of \autoref{ch:concrete-instances-streamname-namecert}. The packet names the displayed K-topology carrier only; it does not import host powersets, quotient point equality, choice over neighbourhood bases, or ambient real-line separation.
+
+\begin{definition}[K-topology carrier]
+\label{def:k-topology-carrier}
+A $\KTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,D,L,O,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealOrderTopologyUp$ source row, naming the order-neighbourhood surface inherited from the real-line order packet.
+\item $D$ is the distinguished closed-subset row, recording the visible closed set $K$ as a finite membership and boundary ledger rather than as an ambient powerset.
+\item $L$ is the deleted-neighbourhood ledger. A neighbourhood request at a displayed point may inspect ordinary order intervals from $R$ and, when the request meets the distinguished row $D$, the ledger records the deletion of the named $K$-part before the open row is exported.
+\item $O$ is the $\SierpinskiSpaceUp$ observable-open handoff, exposing accepted open observations as Sierpinski-valued reads instead of host predicates on points.
+\item $W$ is the $\StreamNameUp$ finite-window row, listing the finite point, interval, boundary, and observable-open reads admitted in the present packet.
+\item $H$ records componentwise $\hsame$ transport for the real-order source, closed-subset ledger, deleted-neighbourhood ledger, observable-open handoff, finite windows, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite neighbourhood request through $R,D,L,O,W,H$.
+\item $P$ is the $\Pkg$ provenance over $\KTopologyUp$, $\RealOrderTopologyUp$, $\TopologyUp$, $\SierpinskiSpaceUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KTopologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host subset equality, quotient point equality, arbitrary powersets, choice-selected bases, or a completed real-line topology beyond the displayed source rows.
+\end{definition}
+
+\begin{theorem}[K-topology NameCert obligations]
+\label{thm:k-topology-namecert-obligations}
+For every accepted $\KTopologyUp$ carrier $K=(R,D,L,O,W,H,C,P,N)$, the local $\NameCert_{\KTopologyUp}$ surface consists exactly of carrier admission for the real-order topology source, distinguished closed subset, deleted-neighbourhood ledger, Sierpinski observable-open handoff, finite StreamName windows, componentwise transport, displayed continuation replay, package provenance, and local naming. A consumer may read a K-topology open observation only after those rows have been exposed from the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:k-topology-carrier}. The projection exposes the source row $R$, the distinguished closed-subset row $D$, the deleted-neighbourhood ledger $L$, the observable-open handoff $O$, the finite-window row $W$, and the structural rows $H,C,P,N$.
+
+Read neighbourhood requests through $R,D,L$. Ordinary order-neighbourhood data comes from $\RealOrderTopologyUp$, while any request touching the distinguished closed row must display the deletion ledger before an open observation is accepted.
+
+The observable-open handoff $O$ and finite-window row $W$ then route the accepted request through $\SierpinskiSpaceUp$ and $\StreamNameUp$. This makes the open read finite and observable, not a host predicate over all real points.
+
+Finally transport through $H$, replay through $C$, and attach $P,N$. Since the carrier contains no powerset coordinate, quotient point equality, choice-selected basis, or ambient real-line separation oracle, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\KTopologyUp$ open-observation read factors through a $\RealOrderTopologyUp$ source row, a distinguished closed-subset ledger, a deleted-neighbourhood ledger, a $\SierpinskiSpaceUp$ observable-open handoff, a $\StreamNameUp$ finite-window row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{real-order-topology, topology, sierpinski-space, streamname, subspace-topology: $\KTopologyUp$ is not bijective to any listed sibling because it jointly carries a real-order source, a distinguished closed-subset row, deleted-neighbourhood routing, observable-open handoff, finite windows, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{KTopologyUp}{seedStr}
+
+\begin{closurestatus}{\KTopologyUp}
+  \constructivestory{A $\KTopologyUp$ packet is generated from a $\RealOrderTopologyUp$ source row, a distinguished closed-subset ledger, deleted-neighbourhood rows, a $\SierpinskiSpaceUp$ observable-open handoff, $\StreamNameUp$ finite windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:k-topology-carrier} and \autoref{thm:k-topology-namecert-obligations} seed the finite K-topology NameCert surface over real-order, deleted-neighbourhood, observable-open, finite-window, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host powersets, quotient point equality, choice-selected neighbourhood bases, ambient real-line separation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, deleted-neighbourhood exactness, observable-open handoff, finite-window replay, provenance exhaustion, and TasteGate nontriviality with field faithfulness for $R,D,L,O,W,H,C,P,N$.}
+\end{closurestatus}
