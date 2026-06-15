@@ -2985,6 +2985,7 @@ import BEDC.Derived.CompletionFunctorUp.BridgeCompositionExactness
 import BEDC.Derived.CompletionFunctorUp.NonEscape
 import BEDC.Derived.CompletionFunctorUp.TasteGate
 import BEDC.Derived.CompletionIdempotenceUp.TasteGate
+import BEDC.Derived.CompletionLadderUp.TasteGate
 import BEDC.Derived.CompletionModulusCategoryUp.ModulusFunctoriality
 import BEDC.Derived.CompletionModulusCategoryUp.NameCertObligations
 import BEDC.Derived.CompletionModulusCategoryUp.TasteGate
@@ -4403,6 +4404,7 @@ import BEDC.Derived.DyadicBisectionUp.TasteGate
 import BEDC.Derived.DyadicBracketingUp.TasteGate
 import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
 import BEDC.Derived.DyadicCauchyCriterionUp
+import BEDC.Derived.DyadicCauchyModulusLatticeUp.TasteGate
 import BEDC.Derived.DyadicCauchyStaircaseUp.TasteGate
 import BEDC.Derived.DyadicCeilingUp.FloorDualRoute
 import BEDC.Derived.DyadicCeilingUp.TasteGate
