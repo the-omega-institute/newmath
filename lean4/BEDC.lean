@@ -3585,6 +3585,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryDownstreamLock
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonclaim
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryRefusalExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryStdbridgeNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundary
