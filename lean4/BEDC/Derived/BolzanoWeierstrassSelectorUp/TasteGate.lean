@@ -160,4 +160,37 @@ theorem BolzanoWeierstrassSelectorSubsequenceHandoff (x : BolzanoWeierstrassSele
           · rfl
           · rfl
 
+namespace TasteGate
+
+theorem BolzanoWeierstrassSelectorBoundedMonotoneRoute
+    (x : BolzanoWeierstrassSelectorUp) :
+    (exists boundedWindow monotoneSelector cofinalEvidence selectedWindow dyadicLedger
+        regularHandoff realSeal transport route provenance name : BHist,
+        x =
+          BolzanoWeierstrassSelectorUp.mk boundedWindow monotoneSelector cofinalEvidence
+            selectedWindow dyadicLedger regularHandoff realSeal transport route provenance name ∧
+          bolzanoWeierstrassSelectorFields x =
+            [boundedWindow, monotoneSelector, cofinalEvidence, selectedWindow, dyadicLedger,
+              regularHandoff, realSeal, transport, route, provenance, name] ∧
+          bolzanoWeierstrassSelectorDecodeBHist
+              (bolzanoWeierstrassSelectorEncodeBHist boundedWindow) =
+            boundedWindow ∧
+          bolzanoWeierstrassSelectorDecodeBHist
+              (bolzanoWeierstrassSelectorEncodeBHist monotoneSelector) =
+            monotoneSelector) ∧
+      bolzanoWeierstrassSelectorEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier ChapterTasteGate
+  cases x with
+  | mk boundedWindow monotoneSelector cofinalEvidence selectedWindow dyadicLedger
+      regularHandoff realSeal transport route provenance name =>
+      constructor
+      · exact
+          ⟨boundedWindow, monotoneSelector, cofinalEvidence, selectedWindow, dyadicLedger,
+            regularHandoff, realSeal, transport, route, provenance, name, rfl, rfl,
+            bolzanoWeierstrassSelector_decode_encode_bhist boundedWindow,
+            bolzanoWeierstrassSelector_decode_encode_bhist monotoneSelector⟩
+      · rfl
+
+end TasteGate
+
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
