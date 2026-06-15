@@ -399,7 +399,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/gap-head-pair-rule-bounded-capsule.json`
 - Markdown: `reports/canonical/gap-head-pair-rule-bounded-capsule.md`
-- Capsule status: `bounded-negative`
+- Capsule status: `blocked`
 - Capsule status pointer: `reports/canonical/gap-head-pair-rule-bounded-capsule.json:$.capsule_verdict.status`
 - Prerequisite checks: `reports/canonical/gap-head-pair-rule-bounded-capsule.json:$.prerequisite_checks`
 

@@ -1126,40 +1126,57 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
 
 def _write_pair_rule_prerequisite_fixtures(root):
     payloads = {
-        pair_rule_capsule.GAP_HEAD_DISCOVERY_ARTIFACT: {
-            "artifact": pair_rule_capsule.GAP_HEAD_DISCOVERY_ARTIFACT,
-            "source_artifacts": {
-                "source_json_artifact": pair_rule_capsule.GAP_HEAD_ON_H_ARTIFACT,
-                "producer_script": "scripts/run_gap_ledger_head_on_h.py",
-                "projection_script": "scripts/run_gap_head_discovery.py",
-            },
-            "final_main_claim_status": "promoted",
-            "positive_discovery": True,
-            "matched_random_control": {"verified": True, "control_verdict": {"positive": False}},
-            "boundary_checks": {"common_source_seed_order": [1, 2, 3]},
-        },
-        pair_rule_capsule.OBSERVED_DEBT_TRANSFER_ARTIFACT: {
-            "artifact_id": pair_rule_capsule.OBSERVED_DEBT_TRANSFER_ARTIFACT_ID,
-            "artifact": pair_rule_capsule.OBSERVED_DEBT_TRANSFER_ARTIFACT,
-            "source_artifacts": {
-                "gap_head_surface_owner": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed",
-                "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
-            },
-            "gap_head_on_h_observed_debt_transfer": {
+        pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT_ID,
+            "downstream_admission": {
                 "status": "pass",
-                "discovery_map_pointer": "$.gap_head_on_h_observed_debt_transfer.status",
+                "owner_pointer": pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_OWNER_POINTER,
             },
-            "hardgate_evidence": {"HG-A5": {"status": "pass"}},
-        },
-        pair_rule_capsule.ATTRIBUTION_CAPSULE_ARTIFACT: {
-            "schema_id": "bedc.quality.claim_capsule",
-            "artifact_id": pair_rule_capsule.ATTRIBUTION_CAPSULE_ARTIFACT_ID,
+            "claim_capsule": {"status": "pass"},
             "source_artifacts": {
-                "run_artifacts": {"claim_capsule": "reports/runs/a1-canonical/claim_capsule.json"},
-                "cost_protocol": {"status": "recorded"},
+                "selected_l1_evidence": pair_rule_capsule.PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
             },
-            "d5_m": {"status": "pass", "passed": True, "failed_gate": None},
-            "mechanism_case": {"status": "resolved"},
+        },
+        pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT_ID,
+            "claim_gate": {
+                "status": "pass",
+                "owner_pointer": pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_STATUS_OWNER_POINTER,
+            },
+        },
+        pair_rule_capsule.PAIR_RULE_CLAIM_CAPSULE_ARTIFACT: {
+            "schema_id": "bedc.quality.claim_capsule",
+            "artifact_id": pair_rule_capsule.PAIR_RULE_CLAIM_CAPSULE_ARTIFACT_ID,
+            "claim_capsule_ref": {
+                "construct_validity": {
+                    "base_exceeds_chance": {
+                        "task_id": "dgt_l1_order2_pair_rule",
+                        "chance": 0.0625,
+                        "base_acc_mean": 0.25,
+                        "base_acc_ci95_low": 0.125,
+                        "margin_min": 0.0,
+                        "gate_status": "pass",
+                        "evidence_pointer": (
+                            pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_OWNER_POINTER
+                        ),
+                        "fair_control_id": "base_transformer_l1",
+                    }
+                }
+            },
+        },
+        pair_rule_capsule.PAIR_RULE_ATTRIBUTION_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.PAIR_RULE_ATTRIBUTION_ARTIFACT_ID,
+            "d5_m": {
+                "status": "pass",
+                "source_surface_owner_pointer": pair_rule_capsule.PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+            },
+        },
+        pair_rule_capsule.PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT_ID,
+            "observed_debt_transfer": {
+                "status": "pass",
+                "source_surface_owner_pointer": pair_rule_capsule.PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+            },
         },
     }
     for artifact, payload in payloads.items():
@@ -10141,9 +10158,11 @@ def test_gap_head_pair_rule_bounded_capsule_canonical_spec_and_filtered_run(tmp_
     assert "raw payload" not in markdown.lower()
     assert fingerprint["report_name"] == "gap-head-pair-rule-bounded-capsule"
     source_paths = {row["path"] for row in fingerprint["inputs"]["source_artifacts"]}
-    assert pair_rule_capsule.GAP_HEAD_DISCOVERY_ARTIFACT in source_paths
-    assert pair_rule_capsule.OBSERVED_DEBT_TRANSFER_ARTIFACT in source_paths
-    assert pair_rule_capsule.ATTRIBUTION_CAPSULE_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT in source_paths
+    assert pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_CLAIM_CAPSULE_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_ATTRIBUTION_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT in source_paths
 
 
 def test_jepa_world_model_markdown_and_index_are_pointer_only():

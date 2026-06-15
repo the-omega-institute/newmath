@@ -21,13 +21,35 @@ SCHEMA_ID = "bedc-quality-lab:gap-head-pair-rule-bounded-capsule"
 ARTIFACT_ID = "bedc-quality-lab:gap-head-pair-rule-bounded-capsule"
 JSON_ARTIFACT = "reports/canonical/gap-head-pair-rule-bounded-capsule.json"
 REPORT_ARTIFACT = "reports/canonical/gap-head-pair-rule-bounded-capsule.md"
-GAP_HEAD_ON_H_ARTIFACT = "reports/canonical/gap-head-on-h.json"
-GAP_HEAD_DISCOVERY_ARTIFACT = "reports/canonical/gap-head-discovery.json"
-OBSERVED_DEBT_TRANSFER_ARTIFACT = "reports/canonical/gap-head-observed-debt-transfer.json"
-OBSERVED_DEBT_TRANSFER_ARTIFACT_ID = "bedc-quality-lab:gap-head-observed-debt-transfer"
-ATTRIBUTION_CAPSULE_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
-ATTRIBUTION_CAPSULE_ARTIFACT_ID = "gap_head_attribution_capsule"
-TRANSFER_STATUS_POINTER = "$.gap_head_on_h_observed_debt_transfer.status"
+GAUSSIAN_OU_GAP_HEAD_ARTIFACT = "reports/canonical/gap-head-on-h.json"
+PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT = "reports/canonical/dgt-pair-rule-construct-validity.json"
+PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT_ID = "bedc-quality-lab:dgt-pair-rule-construct-validity"
+PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_POINTER = "$.downstream_admission.status"
+PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_OWNER_POINTER = (
+    f"{PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT}:{PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_POINTER}"
+)
+PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER = (
+    "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.parameter_matched_l1"
+)
+FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT = "reports/canonical/fair-alignment-control-ledger.json"
+FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT_ID = "bedc-quality-lab:fair-alignment-control-ledger"
+FAIR_ALIGNMENT_CONTROL_STATUS_POINTER = "$.claim_gate.status"
+FAIR_ALIGNMENT_CONTROL_STATUS_OWNER_POINTER = (
+    f"{FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT}:{FAIR_ALIGNMENT_CONTROL_STATUS_POINTER}"
+)
+PAIR_RULE_CLAIM_CAPSULE_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
+PAIR_RULE_CLAIM_CAPSULE_ARTIFACT_ID = "bedc-quality-lab:dgt-l1-controls"
+PAIR_RULE_BASE_EXCEEDS_CHANCE_POINTER = (
+    "$.claim_capsule_ref.construct_validity.base_exceeds_chance.gate_status"
+)
+PAIR_RULE_ATTRIBUTION_ARTIFACT = "reports/canonical/gap-head-pair-rule-attribution.json"
+PAIR_RULE_ATTRIBUTION_ARTIFACT_ID = "bedc-quality-lab:gap-head-pair-rule-attribution"
+PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT = (
+    "reports/canonical/gap-head-pair-rule-observed-debt-transfer.json"
+)
+PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT_ID = (
+    "bedc-quality-lab:gap-head-pair-rule-observed-debt-transfer"
+)
 
 
 @dataclass(frozen=True)
@@ -45,33 +67,55 @@ class PrerequisiteSpec:
 
 PREREQUISITES: tuple[PrerequisiteSpec, ...] = (
     PrerequisiteSpec(
-        prereq_id="gap_head_discovery",
+        prereq_id="pair_rule_construct_validity",
         issue=1481,
-        artifact=GAP_HEAD_DISCOVERY_ARTIFACT,
-        status_pointer="$.final_main_claim_status",
-        pass_values=("promoted",),
-        expected_pointer_path="$.source_artifacts.source_json_artifact",
-        expected_pointer_value=GAP_HEAD_ON_H_ARTIFACT,
-    ),
-    PrerequisiteSpec(
-        prereq_id="gap_head_observed_debt_transfer",
-        issue=1482,
-        artifact=OBSERVED_DEBT_TRANSFER_ARTIFACT,
-        status_pointer=TRANSFER_STATUS_POINTER,
+        artifact=PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT,
+        status_pointer=PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_POINTER,
         pass_values=("pass",),
-        expected_pointer_path="$.gap_head_on_h_observed_debt_transfer.discovery_map_pointer",
-        expected_pointer_value=TRANSFER_STATUS_POINTER,
+        expected_pointer_path="$.source_artifacts.selected_l1_evidence",
+        expected_pointer_value=PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
         artifact_id_pointer="$.artifact_id",
-        expected_artifact_id=OBSERVED_DEBT_TRANSFER_ARTIFACT_ID,
+        expected_artifact_id=PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT_ID,
     ),
     PrerequisiteSpec(
-        prereq_id="gap_head_attribution_capsule",
+        prereq_id="fair_alignment_control_ledger",
+        issue=1482,
+        artifact=FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT,
+        status_pointer=FAIR_ALIGNMENT_CONTROL_STATUS_POINTER,
+        pass_values=("pass",),
+        artifact_id_pointer="$.artifact_id",
+        expected_artifact_id=FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT_ID,
+    ),
+    PrerequisiteSpec(
+        prereq_id="pair_rule_base_exceeds_chance",
         issue=1483,
-        artifact=ATTRIBUTION_CAPSULE_ARTIFACT,
+        artifact=PAIR_RULE_CLAIM_CAPSULE_ARTIFACT,
+        status_pointer=PAIR_RULE_BASE_EXCEEDS_CHANCE_POINTER,
+        pass_values=("pass",),
+        artifact_id_pointer="$.artifact_id",
+        expected_artifact_id=PAIR_RULE_CLAIM_CAPSULE_ARTIFACT_ID,
+    ),
+    PrerequisiteSpec(
+        prereq_id="pair_rule_attribution",
+        issue=1484,
+        artifact=PAIR_RULE_ATTRIBUTION_ARTIFACT,
         status_pointer="$.d5_m.status",
         pass_values=("pass",),
+        expected_pointer_path="$.d5_m.source_surface_owner_pointer",
+        expected_pointer_value=PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
         artifact_id_pointer="$.artifact_id",
-        expected_artifact_id=ATTRIBUTION_CAPSULE_ARTIFACT_ID,
+        expected_artifact_id=PAIR_RULE_ATTRIBUTION_ARTIFACT_ID,
+    ),
+    PrerequisiteSpec(
+        prereq_id="pair_rule_observed_debt_transfer",
+        issue=1484,
+        artifact=PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT,
+        status_pointer="$.observed_debt_transfer.status",
+        pass_values=("pass",),
+        expected_pointer_path="$.observed_debt_transfer.source_surface_owner_pointer",
+        expected_pointer_value=PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+        artifact_id_pointer="$.artifact_id",
+        expected_artifact_id=PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT_ID,
     ),
 )
 
@@ -178,13 +222,18 @@ def _capsule_status(checks: list[Mapping[str, Any]]) -> str:
 def _source_artifacts() -> dict[str, Any]:
     return {
         "generation_script": "scripts/run_gap_head_pair_rule_bounded_capsule.py",
-        "gap_head_surface_owner": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed",
-        "gap_head_training_owner": "scripts/run_gap_ledger_head_on_h.py::_fit_gap_head",
-        "matched_random_control_owner": "scripts/run_gap_ledger_head_on_h.py::_matched_random_gap_labels",
-        "metric_helper_owner": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
-        "discovery_owner": "scripts/run_gap_head_discovery.py",
-        "observed_debt_transfer_owner": "scripts/run_gap_head_observed_debt_transfer.py",
-        "attribution_owner": "scripts/run_gap_head_attribution_capsule.py",
+        "pair_rule_surface_owner": PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+        "construct_validity_owner": PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_OWNER_POINTER,
+        "fair_alignment_control_owner": FAIR_ALIGNMENT_CONTROL_STATUS_OWNER_POINTER,
+        "base_exceeds_chance_owner": _artifact_pointer(
+            PAIR_RULE_CLAIM_CAPSULE_ARTIFACT,
+            PAIR_RULE_BASE_EXCEEDS_CHANCE_POINTER,
+        ),
+        "pair_rule_attribution_owner": _artifact_pointer(PAIR_RULE_ATTRIBUTION_ARTIFACT, "$.d5_m.status"),
+        "pair_rule_observed_debt_transfer_owner": _artifact_pointer(
+            PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT,
+            "$.observed_debt_transfer.status",
+        ),
     }
 
 
@@ -194,8 +243,9 @@ def _pair_rule_surface(checks: list[Mapping[str, Any]]) -> dict[str, Any]:
         "order": 2,
         "starvation_policy": "non-starving",
         "source_surface": {
-            "artifact": GAP_HEAD_ON_H_ARTIFACT,
-            "owner": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed",
+            "owner_pointer": PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+            "task_id": "dgt_l1_order2_pair_rule",
+            "label_rule": "y=(3*x_prev_1+5*x_prev_2+1) mod16",
         },
         "adaptation": "bounded capsule over prerequisite owner pointers",
         "prerequisite_owner_pointers": [check["owner_pointer"] for check in checks],
@@ -226,7 +276,7 @@ def build_payload(*, generated_at: str | None = None) -> dict[str, Any]:
         },
         "bounded_negative": {
             "status": "bounded-negative" if status == "bounded-negative" else "not-applicable",
-            "blocked_prerequisites": [
+            "bounded_negative_prerequisite_ids": [
                 check["id"] for check in checks if check["status"] == "bounded-negative"
             ],
         },
@@ -239,7 +289,7 @@ def build_payload(*, generated_at: str | None = None) -> dict[str, Any]:
         "cost_protocol": {
             "status": "pointer-only",
             "recomputed_upstream_truth": False,
-            "surface_owner": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed",
+            "surface_owner": PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
         },
         "not_claimed": [
             "no recomputation of base learnability",

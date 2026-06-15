@@ -2,23 +2,21 @@
   "artifact": "reports/canonical/gap-head-pair-rule-bounded-capsule.json",
   "artifact_id": "bedc-quality-lab:gap-head-pair-rule-bounded-capsule",
   "bounded_negative": {
-    "blocked_prerequisites": [
-      "gap_head_attribution_capsule"
-    ],
-    "status": "bounded-negative"
+    "bounded_negative_prerequisite_ids": [],
+    "status": "not-applicable"
   },
   "capsule_verdict": {
     "blocked_rule": "missing, unresolved, or mismatched prerequisite pointers block the capsule",
     "bounded_negative_rule": "resolved non-pass prerequisite statuses bound the capsule negative",
     "owner_pointer": "reports/canonical/gap-head-pair-rule-bounded-capsule.json:$.capsule_verdict.status",
     "pass_rule": "all prerequisite owner pointers resolve to expected pass values",
-    "status": "bounded-negative"
+    "status": "blocked"
   },
   "control_pointer": "$.prerequisite_checks",
   "cost_protocol": {
     "recomputed_upstream_truth": false,
     "status": "pointer-only",
-    "surface_owner": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed"
+    "surface_owner": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.parameter_matched_l1"
   },
   "generated_at": "2026-06-15T21:45:10.076039+00:00",
   "not_claimed": [
@@ -32,13 +30,16 @@
     "adaptation": "bounded capsule over prerequisite owner pointers",
     "order": 2,
     "prerequisite_owner_pointers": [
-      "reports/canonical/gap-head-discovery.json:$.final_main_claim_status",
-      "reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status",
-      "reports/canonical/gap_head_attribution_capsule.json:$.d5_m.status"
+      "reports/canonical/dgt-pair-rule-construct-validity.json:$.downstream_admission.status",
+      "reports/canonical/fair-alignment-control-ledger.json:$.claim_gate.status",
+      "reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref.construct_validity.base_exceeds_chance.gate_status",
+      "reports/canonical/gap-head-pair-rule-attribution.json:$.d5_m.status",
+      "reports/canonical/gap-head-pair-rule-observed-debt-transfer.json:$.observed_debt_transfer.status"
     ],
     "source_surface": {
-      "artifact": "reports/canonical/gap-head-on-h.json",
-      "owner": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed"
+      "label_rule": "y=(3*x_prev_1+5*x_prev_2+1) mod16",
+      "owner_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.parameter_matched_l1",
+      "task_id": "dgt_l1_order2_pair_rule"
     },
     "starvation_policy": "non-starving",
     "surface_id": "non-starving-order-2-gap-head-pair-rule"
@@ -50,97 +51,148 @@
   },
   "prerequisite_checks": [
     {
-      "artifact": "reports/canonical/gap-head-discovery.json",
+      "artifact": "reports/canonical/dgt-pair-rule-construct-validity.json",
       "expected_values": [
-        "promoted"
+        "pass"
       ],
-      "id": "gap_head_discovery",
+      "id": "pair_rule_construct_validity",
       "issue": 1481,
-      "observed_value": "promoted",
-      "owner_pointer": "reports/canonical/gap-head-discovery.json:$.final_main_claim_status",
-      "reason": "status_pass",
-      "status": "pass",
-      "status_pointer": "$.final_main_claim_status"
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/dgt-pair-rule-construct-validity.json:$.downstream_admission.status",
+      "reason": "missing_artifact",
+      "status": "blocked",
+      "status_pointer": "$.downstream_admission.status"
     },
     {
-      "artifact": "reports/canonical/gap-head-observed-debt-transfer.json",
+      "artifact": "reports/canonical/fair-alignment-control-ledger.json",
       "expected_values": [
         "pass"
       ],
-      "id": "gap_head_observed_debt_transfer",
+      "id": "fair_alignment_control_ledger",
       "issue": 1482,
-      "observed_value": "pass",
-      "owner_pointer": "reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status",
-      "reason": "status_pass",
-      "status": "pass",
-      "status_pointer": "$.gap_head_on_h_observed_debt_transfer.status"
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.claim_gate.status",
+      "reason": "missing_artifact",
+      "status": "blocked",
+      "status_pointer": "$.claim_gate.status"
     },
     {
-      "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+      "artifact": "reports/canonical/dgt-l1-controls.json",
       "expected_values": [
         "pass"
       ],
-      "id": "gap_head_attribution_capsule",
+      "id": "pair_rule_base_exceeds_chance",
       "issue": 1483,
-      "observed_value": "blocked",
-      "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_m.status",
-      "reason": "status_not_pass",
-      "status": "bounded-negative",
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref.construct_validity.base_exceeds_chance.gate_status",
+      "reason": "unresolved_status_pointer",
+      "status": "blocked",
+      "status_pointer": "$.claim_capsule_ref.construct_validity.base_exceeds_chance.gate_status"
+    },
+    {
+      "artifact": "reports/canonical/gap-head-pair-rule-attribution.json",
+      "expected_values": [
+        "pass"
+      ],
+      "id": "pair_rule_attribution",
+      "issue": 1484,
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/gap-head-pair-rule-attribution.json:$.d5_m.status",
+      "reason": "missing_artifact",
+      "status": "blocked",
       "status_pointer": "$.d5_m.status"
+    },
+    {
+      "artifact": "reports/canonical/gap-head-pair-rule-observed-debt-transfer.json",
+      "expected_values": [
+        "pass"
+      ],
+      "id": "pair_rule_observed_debt_transfer",
+      "issue": 1484,
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/gap-head-pair-rule-observed-debt-transfer.json:$.observed_debt_transfer.status",
+      "reason": "missing_artifact",
+      "status": "blocked",
+      "status_pointer": "$.observed_debt_transfer.status"
     }
   ],
   "prerequisite_checks_by_id": {
-    "gap_head_attribution_capsule": {
-      "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+    "fair_alignment_control_ledger": {
+      "artifact": "reports/canonical/fair-alignment-control-ledger.json",
       "expected_values": [
         "pass"
       ],
-      "id": "gap_head_attribution_capsule",
-      "issue": 1483,
-      "observed_value": "blocked",
-      "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_m.status",
-      "reason": "status_not_pass",
-      "status": "bounded-negative",
+      "id": "fair_alignment_control_ledger",
+      "issue": 1482,
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.claim_gate.status",
+      "reason": "missing_artifact",
+      "status": "blocked",
+      "status_pointer": "$.claim_gate.status"
+    },
+    "pair_rule_attribution": {
+      "artifact": "reports/canonical/gap-head-pair-rule-attribution.json",
+      "expected_values": [
+        "pass"
+      ],
+      "id": "pair_rule_attribution",
+      "issue": 1484,
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/gap-head-pair-rule-attribution.json:$.d5_m.status",
+      "reason": "missing_artifact",
+      "status": "blocked",
       "status_pointer": "$.d5_m.status"
     },
-    "gap_head_discovery": {
-      "artifact": "reports/canonical/gap-head-discovery.json",
-      "expected_values": [
-        "promoted"
-      ],
-      "id": "gap_head_discovery",
-      "issue": 1481,
-      "observed_value": "promoted",
-      "owner_pointer": "reports/canonical/gap-head-discovery.json:$.final_main_claim_status",
-      "reason": "status_pass",
-      "status": "pass",
-      "status_pointer": "$.final_main_claim_status"
-    },
-    "gap_head_observed_debt_transfer": {
-      "artifact": "reports/canonical/gap-head-observed-debt-transfer.json",
+    "pair_rule_base_exceeds_chance": {
+      "artifact": "reports/canonical/dgt-l1-controls.json",
       "expected_values": [
         "pass"
       ],
-      "id": "gap_head_observed_debt_transfer",
-      "issue": 1482,
-      "observed_value": "pass",
-      "owner_pointer": "reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status",
-      "reason": "status_pass",
-      "status": "pass",
-      "status_pointer": "$.gap_head_on_h_observed_debt_transfer.status"
+      "id": "pair_rule_base_exceeds_chance",
+      "issue": 1483,
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref.construct_validity.base_exceeds_chance.gate_status",
+      "reason": "unresolved_status_pointer",
+      "status": "blocked",
+      "status_pointer": "$.claim_capsule_ref.construct_validity.base_exceeds_chance.gate_status"
+    },
+    "pair_rule_construct_validity": {
+      "artifact": "reports/canonical/dgt-pair-rule-construct-validity.json",
+      "expected_values": [
+        "pass"
+      ],
+      "id": "pair_rule_construct_validity",
+      "issue": 1481,
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/dgt-pair-rule-construct-validity.json:$.downstream_admission.status",
+      "reason": "missing_artifact",
+      "status": "blocked",
+      "status_pointer": "$.downstream_admission.status"
+    },
+    "pair_rule_observed_debt_transfer": {
+      "artifact": "reports/canonical/gap-head-pair-rule-observed-debt-transfer.json",
+      "expected_values": [
+        "pass"
+      ],
+      "id": "pair_rule_observed_debt_transfer",
+      "issue": 1484,
+      "observed_value": null,
+      "owner_pointer": "reports/canonical/gap-head-pair-rule-observed-debt-transfer.json:$.observed_debt_transfer.status",
+      "reason": "missing_artifact",
+      "status": "blocked",
+      "status_pointer": "$.observed_debt_transfer.status"
     }
   },
   "report": "reports/canonical/gap-head-pair-rule-bounded-capsule.md",
   "schema_id": "bedc-quality-lab:gap-head-pair-rule-bounded-capsule",
   "source_artifacts": {
-    "attribution_owner": "scripts/run_gap_head_attribution_capsule.py",
-    "discovery_owner": "scripts/run_gap_head_discovery.py",
-    "gap_head_surface_owner": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed",
-    "gap_head_training_owner": "scripts/run_gap_ledger_head_on_h.py::_fit_gap_head",
+    "base_exceeds_chance_owner": "reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref.construct_validity.base_exceeds_chance.gate_status",
+    "construct_validity_owner": "reports/canonical/dgt-pair-rule-construct-validity.json:$.downstream_admission.status",
+    "fair_alignment_control_owner": "reports/canonical/fair-alignment-control-ledger.json:$.claim_gate.status",
     "generation_script": "scripts/run_gap_head_pair_rule_bounded_capsule.py",
-    "matched_random_control_owner": "scripts/run_gap_ledger_head_on_h.py::_matched_random_gap_labels",
-    "metric_helper_owner": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
-    "observed_debt_transfer_owner": "scripts/run_gap_head_observed_debt_transfer.py"
+    "pair_rule_attribution_owner": "reports/canonical/gap-head-pair-rule-attribution.json:$.d5_m.status",
+    "pair_rule_observed_debt_transfer_owner": "reports/canonical/gap-head-pair-rule-observed-debt-transfer.json:$.observed_debt_transfer.status",
+    "pair_rule_surface_owner": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.per_step[4].training_arms.parameter_matched_l1"
   },
   "source_issues": [
     1481,

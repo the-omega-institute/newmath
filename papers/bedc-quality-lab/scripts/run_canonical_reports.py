@@ -2865,9 +2865,11 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     if spec.name == "gap-head-pair-rule-bounded-capsule":
         paths.update(
             (
-                "reports/canonical/gap-head-discovery.json",
-                "reports/canonical/gap-head-observed-debt-transfer.json",
-                "reports/canonical/gap_head_attribution_capsule.json",
+                "reports/canonical/dgt-pair-rule-construct-validity.json",
+                "reports/canonical/fair-alignment-control-ledger.json",
+                "reports/canonical/dgt-l1-controls.json",
+                "reports/canonical/gap-head-pair-rule-attribution.json",
+                "reports/canonical/gap-head-pair-rule-observed-debt-transfer.json",
             )
         )
     if spec.name == "certificate-guided-discovery":

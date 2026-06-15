@@ -11,9 +11,11 @@
 
 | prerequisite | status | owner pointer |
 | --- | --- | --- |
-| `gap_head_discovery` | `pass` | `reports/canonical/gap-head-discovery.json:$.final_main_claim_status` |
-| `gap_head_observed_debt_transfer` | `pass` | `reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status` |
-| `gap_head_attribution_capsule` | `bounded-negative` | `reports/canonical/gap_head_attribution_capsule.json:$.d5_m.status` |
+| `pair_rule_construct_validity` | `blocked` | `reports/canonical/dgt-pair-rule-construct-validity.json:$.downstream_admission.status` |
+| `fair_alignment_control_ledger` | `blocked` | `reports/canonical/fair-alignment-control-ledger.json:$.claim_gate.status` |
+| `pair_rule_base_exceeds_chance` | `blocked` | `reports/canonical/dgt-l1-controls.json:$.claim_capsule_ref.construct_validity.base_exceeds_chance.gate_status` |
+| `pair_rule_attribution` | `blocked` | `reports/canonical/gap-head-pair-rule-attribution.json:$.d5_m.status` |
+| `pair_rule_observed_debt_transfer` | `blocked` | `reports/canonical/gap-head-pair-rule-observed-debt-transfer.json:$.observed_debt_transfer.status` |
 
 ## Boundary
 
