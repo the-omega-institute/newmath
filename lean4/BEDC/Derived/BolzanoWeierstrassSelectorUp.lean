@@ -275,4 +275,60 @@ theorem BolzanoWeierstrassSelectorFiniteWindowStabilization
   exact
     ⟨laterUnary, handoffUnary, stabilizedUnary, laterRoute, handoffRoute, sealRoute, rfl⟩
 
+theorem BolzanoWeierstrassSelectorRegSeqRatReadbackNonescape
+    {B M Q W D R E H C P N sealRead : BHist} :
+    Cont B M W →
+      Cont W D R →
+        Cont R E sealRead →
+          UnaryHistory B →
+            UnaryHistory M →
+              UnaryHistory D →
+                UnaryHistory E →
+                  bolzanoWeierstrassSelectorFields
+                        (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C P N) =
+                      [B, M, Q, W, D, R, E, H, C, P, N] ∧
+                    UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory sealRead ∧
+                      Cont W D R ∧ Cont R E sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro selectedRoute regularRoute sealRoute bUnary mUnary dUnary eUnary
+  have selectedUnary : UnaryHistory W :=
+    unary_cont_closed bUnary mUnary selectedRoute
+  have regularUnary : UnaryHistory R :=
+    unary_cont_closed selectedUnary dUnary regularRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary eUnary sealRoute
+  exact ⟨rfl, selectedUnary, regularUnary, sealUnary, regularRoute, sealRoute⟩
+
+theorem BolzanoWeierstrassSelectorRegularCauchyClusterSeal
+    {B M Q W D R E H C P N selected regular sealRead clusterRead : BHist} :
+    Cont B M selected →
+      Cont selected D regular →
+        Cont regular R sealRead →
+          Cont sealRead E clusterRead →
+            UnaryHistory B →
+              UnaryHistory M →
+                UnaryHistory D →
+                  UnaryHistory R →
+                    UnaryHistory E →
+                      bolzanoWeierstrassSelectorFields
+                            (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C P N) =
+                          [B, M, Q, W, D, R, E, H, C, P, N] ∧
+                        UnaryHistory selected ∧ UnaryHistory regular ∧
+                          UnaryHistory sealRead ∧ UnaryHistory clusterRead ∧
+                            Cont selected D regular ∧ Cont regular R sealRead ∧
+                              Cont sealRead E clusterRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro selectedRoute regularRoute sealRoute clusterRoute bUnary mUnary dUnary rUnary eUnary
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed bUnary mUnary selectedRoute
+  have regularUnary : UnaryHistory regular :=
+    unary_cont_closed selectedUnary dUnary regularRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary rUnary sealRoute
+  have clusterUnary : UnaryHistory clusterRead :=
+    unary_cont_closed sealUnary eUnary clusterRoute
+  exact
+    ⟨rfl, selectedUnary, regularUnary, sealUnary, clusterUnary, regularRoute, sealRoute,
+      clusterRoute⟩
+
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
