@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySandwichLimitUp$}
+\label{ch:concrete-instances-regular-cauchy-sandwich-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchySandwichLimitUp$ packet records the finite regular-Cauchy squeeze route by which a middle rational name is trapped between lower and upper regular rational names before a terminal Real-facing seal is exposed. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the completed real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate is a displayed sandwich-limit route for Phase Real and Completion consumers; it does not assert quotient real equality, choose a host limit, use countable choice, or invoke ambient completeness of $\RealUp$.
+
+\begin{definition}[Regular-Cauchy sandwich-limit carrier]
+\label{def:regular-cauchy-sandwich-limit-carrier}
+A $\RegularCauchySandwichLimitUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,M,U,B,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower $\RegSeqRatUp$ row, read through finite $\StreamNameUp$ windows and monotone lower-side rational observations.
+\item $M$ is the middle $\RegSeqRatUp$ row whose Real-facing read is to be certified by the sandwich route.
+\item $U$ is the upper $\RegSeqRatUp$ row, read through finite $\StreamNameUp$ windows and monotone upper-side rational observations.
+\item $B$ is the $\DyadicRatCoreUp$ two-sided bound ledger recording, for each inspected tolerance cell, the lower--middle and middle--upper inequalities and the dyadic width budget between $L$ and $U$.
+\item $S$ is the squeeze-to-$\RealUp$ seal row, exposing the terminal real-name boundary only after $L,M,U$ and $B$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the three regular-Cauchy rows, the dyadic bound ledger, the seal row, replay data, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for rereading the sandwich request through the same finite observation windows and dyadic tolerance cells.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySandwichLimitUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySandwichLimitUp}$ row naming exactly this finite packet.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, selected representatives, a host least upper bound, countable choice, trichotomy, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy sandwich-limit NameCert obligations]
+\label{thm:regular-cauchy-sandwich-limit-namecert-obligations}
+For every accepted $\RegularCauchySandwichLimitUp$ carrier $K=(L,M,U,B,S,H,C,P,N)$, the local $\NameCert_{\RegularCauchySandwichLimitUp}$ surface consists exactly of carrier admission for the lower, middle, and upper $\RegSeqRatUp$ rows; exposure of the finite $\StreamNameUp$ windows used by those rows; visibility of the $\DyadicRatCoreUp$ two-sided bound ledger; squeeze-to-$\RealUp$ seal exposure; componentwise $\hsame$ transport; displayed $\Cont$ replay; $\Pkg$ provenance; and local naming. No obligation may replace these rows by quotient real equality, a selected limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-sandwich-limit-carrier}. The only analytic rows available to a consumer are the three regular rational rows $L,M,U$, the dyadic bound ledger $B$, and the terminal seal $S$.
+
+The obligation surface is rowwise. The lower and upper rows supply the bounding regular-Cauchy names, the middle row supplies the candidate read, and $B$ supplies the two-sided dyadic inequalities at the inspected tolerance. The seal row $S$ is therefore available only after those rows have been displayed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name precisely the same finite packet. Since the carrier contains no quotient equality, selected limit, countable-choice selector, trichotomy branch, or ambient completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy sandwich-limit squeeze route]
+\label{thm:regular-cauchy-sandwich-limit-squeeze-route}
+Every $\RealUp$-facing read of the middle row $M$ in an accepted $\RegularCauchySandwichLimitUp$ packet factors through the two bounding $\RegSeqRatUp$ rows $L,U$ and the dyadic tolerance ledger $B$ before the seal row $S$ is available. The route reads lower--middle and middle--upper comparison cells at the same displayed precision and then exports the terminal $\RealUp$ seal as finite BEDC data, not as a host-limit assertion.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet $K=(L,M,U,B,S,H,C,P,N)$. A middle read is not independent carrier data: it is the row $M$ inside the same packet that also contains lower and upper regular-Cauchy rows.
+
+Next inspect the ledger $B$. For each visible tolerance cell, $B$ records the lower--middle comparison, the middle--upper comparison, and the dyadic width budget between $L$ and $U$. Thus a consumer cannot reach the middle Real-facing read without seeing both bounding rows and the same tolerance ledger.
+
+Finally read $S$ through $H,C,P,N$. Transport and replay keep the same sandwich route visible when the terminal seal is consumed, and provenance and local naming record that no selected host limit, quotient stream equality, countable choice, trichotomy, or ambient completeness principle has been added.
+\end{proof}
+
+\closureat{RegularCauchySandwichLimitUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySandwichLimitUp}
+  \constructivestory{A $\RegularCauchySandwichLimitUp$ packet is generated from lower, middle, and upper RegSeqRat rows, finite StreamName windows, a DyadicRatCore two-sided bound ledger, a squeeze-to-Real seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-sandwich-limit-carrier}, \autoref{thm:regular-cauchy-sandwich-limit-namecert-obligations}, and \autoref{thm:regular-cauchy-sandwich-limit-squeeze-route} seed the finite sandwich-limit certificate over lower, middle, and upper regular-Cauchy rows, dyadic tolerance cells, terminal Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower and upper regular-Cauchy exposure, middle-row readback, dyadic two-sided bound visibility, squeeze-to-Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchySandwichLimitUp.}
+\end{closurestatus}
