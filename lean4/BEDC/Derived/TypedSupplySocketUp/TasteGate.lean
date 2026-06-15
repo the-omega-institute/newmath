@@ -49,6 +49,13 @@ def typedSupplySocketFields : TypedSupplySocketUp → List BHist
       [kind, requestedSupply, consumptionSite, auditGate, refusal, transport, continuation,
         provenance, localName]
 
+def typedSupplySocketKindErasedFields : TypedSupplySocketUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | TypedSupplySocketUp.mk _ requestedSupply consumptionSite auditGate refusal transport continuation
+      provenance localName =>
+      [requestedSupply, consumptionSite, auditGate, refusal, transport, continuation, provenance,
+        localName]
+
 def typedSupplySocketToEventFlow : TypedSupplySocketUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (typedSupplySocketFields x).map typedSupplySocketEncodeBHist
@@ -191,6 +198,26 @@ theorem TypedSupplySocketTasteGate_single_carrier_alignment :
   exact
     ⟨TypedSupplySocketTasteGate_single_carrier_alignment_decode_encode, rfl,
       TypedSupplySocketTasteGate_single_carrier_alignment_fields_faithful⟩
+
+theorem TypedSupplySocketCarrier_kind_separation :
+    typedSupplySocketKindErasedFields
+        (TypedSupplySocketUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+      typedSupplySocketKindErasedFields
+        (TypedSupplySocketUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ∧
+    typedSupplySocketFields
+        (TypedSupplySocketUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+      typedSupplySocketFields
+        (TypedSupplySocketUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · intro hfields
+    injection hfields with hkind _
+    cases hkind
 
 def typedSupplySocketLocalNameSpec (x : TypedSupplySocketUp) : BHist → Prop :=
   -- BEDC touchpoint anchor: BHist hsame NameCert

@@ -432,6 +432,63 @@ theorem PositiveRealCarrier_dyadic_radius_lower_bound
       hsame_refl D, PositiveRealNameCert_obligations
         (PositiveRealUp.mk R A D W Q H C P N)⟩
 
+theorem PositiveRealCarrier_product_lower_bound_apartness
+    {R1 A1 D1 W Q1 H1 C1 P1 N1 R2 A2 D2 Q2 H2 C2 P2 N2 radiusProduct
+      transportedRead : BHist} :
+    PositiveRealCarrier R1 A1 D1 W Q1 H1 C1 P1 N1 ->
+      PositiveRealCarrier R2 A2 D2 W Q2 H2 C2 P2 N2 ->
+        Cont D1 D2 radiusProduct ->
+          Cont radiusProduct W transportedRead ->
+            UnaryHistory D1 ∧ UnaryHistory D2 ∧ UnaryHistory radiusProduct ∧
+              UnaryHistory transportedRead ∧ Cont D1 D2 radiusProduct ∧
+                Cont radiusProduct W transportedRead ∧
+                  SemanticNameCert
+                    (fun row : BHist => hsame row transportedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row D1 ∨ hsame row D2 ∨ hsame row radiusProduct ∨
+                        hsame row transportedRead)
+                    (fun row : BHist =>
+                      hsame row transportedRead ∧ Cont D1 D2 radiusProduct ∧
+                        Cont radiusProduct W transportedRead)
+                    hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrierLeft carrierRight radiusRoute transportedRoute
+  obtain ⟨_realLeft, _apartLeft, radiusLeft, windowUnary, _readLeft, _handoffLeft,
+    _certLeft, _pkgLeft, _nameLeft⟩ := carrierLeft
+  obtain ⟨_realRight, _apartRight, radiusRight, _windowRight, _readRight, _handoffRight,
+    _certRight, _pkgRight, _nameRight⟩ := carrierRight
+  have productUnary : UnaryHistory radiusProduct :=
+    unary_cont_closed radiusLeft radiusRight radiusRoute
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed productUnary windowUnary transportedRoute
+  refine
+    ⟨radiusLeft, radiusRight, productUnary, transportedUnary, radiusRoute, transportedRoute,
+      ?cert⟩
+  refine
+    { core :=
+        { carrier_inhabited := ?carrier_inhabited
+          equiv_refl := ?equiv_refl
+          equiv_symm := ?equiv_symm
+          equiv_trans := ?equiv_trans
+          carrier_respects_equiv := ?carrier_respects_equiv }
+      pattern_sound := ?pattern_sound
+      ledger_sound := ?ledger_sound }
+  · exact ⟨transportedRead, hsame_refl transportedRead, transportedUnary⟩
+  · intro h _source
+    exact hsame_refl h
+  · intro h k same
+    exact hsame_symm same
+  · intro h k r sameHK sameKR
+    exact hsame_trans sameHK sameKR
+  · intro h k same source
+    exact
+      ⟨hsame_trans (hsame_symm same) source.left,
+        unary_transport source.right same⟩
+  · intro h source
+    exact Or.inr (Or.inr (Or.inr source.left))
+  · intro h source
+    exact ⟨source.left, radiusRoute, transportedRoute⟩
+
 theorem PositiveRealCarrier_transport_obligations
     {R A D W Q H C P N R' A' D' W' Q' H' C' P' N' : BHist} :
     PositiveRealCarrier R A D W Q H C P N →
