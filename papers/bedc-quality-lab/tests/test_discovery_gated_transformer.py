@@ -28,6 +28,9 @@ from bedc_quality_lab.discovery_gated_transformer import (
     LAT_CANONICAL_ARTIFACT,
     FAMILY_DEFINITION_POINTER,
     FAMILY_DEFINITION_REQUIRED_KEYS,
+    FAMILY_ROADMAP_GATE_NAMES,
+    FAMILY_ROADMAP_POINTER,
+    FAMILY_ROADMAP_REQUIRED_KEYS,
     GATE_NAMES,
     JET_CERTIFICATE_SCHEMA_ID,
     JET_HARDGATE_NAMES,
@@ -41,6 +44,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     build_dgt_jet_certificate,
     build_d4_projection_payload,
     build_component_ablation,
+    build_dgt_family_roadmap,
     build_projection,
     build_d5_m_projection,
     build_d5_o_projection,
@@ -53,6 +57,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     evaluate_ablation_arm,
     evaluate_operational_robustness_hardgates,
     evaluate_dgt_family_definition_hardgate,
+    evaluate_dgt_family_roadmap_hardgate,
     evaluate_dgt_jet_hardgates,
     evaluate_dgt_tool_route_hardgates,
     arm_catalog,
@@ -63,6 +68,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     validate_projection,
     validate_dgt_hardgate_evidence_bundle,
     validate_dgt_family_definition,
+    validate_dgt_family_roadmap,
     validate_dgt_jet_certificate,
     validate_dgt_tool_route_evidence,
     validate_d4_projection,
@@ -1666,3 +1672,122 @@ def test_dgt_family_definition_rejects_forbidden_positive_model_family_wording()
     assert hardgate["gates"]["DGT-FAMILY-HG4"]["status"] == "fail"
     with pytest.raises(ValueError, match="hardgate"):
         validate_dgt_family_definition({**family_definition, "hardgate": hardgate})
+
+
+def test_dgt_family_roadmap_schema_defaults_to_fail_closed():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    roadmap = payload["family_roadmap"]
+
+    assert FAMILY_ROADMAP_POINTER == f"{CANONICAL_JSON_ARTIFACT}:$.family_roadmap"
+    assert tuple(roadmap) == FAMILY_ROADMAP_REQUIRED_KEYS
+    assert tuple(roadmap["hardgate"]["gates"]) == FAMILY_ROADMAP_GATE_NAMES
+    assert roadmap["owner_ref"] == f"{CANONICAL_JSON_ARTIFACT}:$"
+    assert roadmap["roadmap_scope"]["scope_ref"] == f"{CANONICAL_JSON_ARTIFACT}:$.family_roadmap"
+    assert roadmap["scaling_ladder"]["pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder"
+    assert roadmap["family_invariants"]["pointer"] == f"{CANONICAL_JSON_ARTIFACT}:$.family_definition.invariant_groups"
+    assert roadmap["training_objective_variants"]["pointers"] == [
+        f"{CANONICAL_JSON_ARTIFACT}:$.hardgate",
+        f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence",
+        f"{CANONICAL_JSON_ARTIFACT}:$.discovery_map_signal",
+    ]
+    assert roadmap["backend_surfaces"]["pointers"] == [
+        f"{CANONICAL_JSON_ARTIFACT}:$.component_refs",
+        f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation",
+        f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness",
+        f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection",
+    ]
+    assert roadmap["hardgate"]["status"] == "fail"
+    assert roadmap["hardgate"]["failed_gate"] in {"DGT-FAMILY-ROADMAP-HG6", "DGT-FAMILY-ROADMAP-HG7"}
+    assert roadmap["family_level_discovery_status"]["allowed"] is False
+    assert roadmap["family_level_discovery_status"]["status"] == "blocked"
+    validate_dgt_family_roadmap(roadmap, payload)
+
+
+def test_dgt_family_roadmap_independent_cross_level_evidence_allows_family_status(tmp_path):
+    payload = _owner_with_ready_scaling_ladder(tmp_path)
+    payload["family_roadmap"] = build_dgt_family_roadmap(payload, independent_cross_level_evidence=True)
+    roadmap = payload["family_roadmap"]
+
+    assert roadmap["hardgate"]["status"] == "pass"
+    assert roadmap["hardgate"]["failed_gate"] is None
+    assert roadmap["cross_level_evidence"]["independent"] is True
+    assert roadmap["cross_level_evidence"]["cross_level_comparison"]["status"] == "pass"
+    assert roadmap["family_level_discovery_status"] == {
+        "status": "allowed",
+        "allowed": True,
+        "claim_scope": "bounded DGT family-level roadmap claim",
+        "basis": f"{CANONICAL_JSON_ARTIFACT}:$.family_roadmap.hardgate",
+    }
+    validate_dgt_family_roadmap(roadmap, payload)
+
+
+def test_dgt_family_roadmap_blocks_when_cross_level_evidence_is_not_independent(tmp_path):
+    payload = _owner_with_ready_scaling_ladder(tmp_path)
+    payload["family_roadmap"] = build_dgt_family_roadmap(payload, independent_cross_level_evidence=True)
+    mutated = json.loads(json.dumps(payload))
+    mutated["family_roadmap"]["cross_level_evidence"]["independent"] = False
+    mutated["family_roadmap"]["cross_level_evidence"]["evidence_pointers"] = [
+        f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[0].claim_capsule",
+    ]
+    hardgate = evaluate_dgt_family_roadmap_hardgate(mutated["family_roadmap"], mutated)
+    mutated["family_roadmap"]["hardgate"] = hardgate
+    mutated["family_roadmap"]["family_level_discovery_status"] = {
+        "status": "blocked",
+        "allowed": False,
+        "claim_scope": "bounded DGT family-level roadmap claim",
+        "basis": f"{CANONICAL_JSON_ARTIFACT}:$.family_roadmap.hardgate",
+        "blocked_by": ["DGT-FAMILY-ROADMAP-HG6"],
+    }
+
+    assert hardgate["gates"]["DGT-FAMILY-ROADMAP-HG6"]["status"] == "fail"
+    assert hardgate["status"] == "fail"
+    validate_dgt_family_roadmap(mutated["family_roadmap"], mutated)
+
+
+def test_dgt_family_roadmap_requires_evidence_from_distinct_scaling_levels(tmp_path):
+    payload = _owner_with_ready_scaling_ladder(tmp_path)
+    payload["family_roadmap"] = build_dgt_family_roadmap(payload, independent_cross_level_evidence=True)
+    mutated = json.loads(json.dumps(payload))
+    mutated["family_roadmap"]["cross_level_evidence"]["evidence_pointers"] = [
+        f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[0].claim_capsule",
+        f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[0].claim_capsule.projected_claim_pointer",
+    ]
+    hardgate = evaluate_dgt_family_roadmap_hardgate(mutated["family_roadmap"], mutated)
+
+    assert hardgate["gates"]["DGT-FAMILY-ROADMAP-HG6"]["status"] == "fail"
+    assert hardgate["gates"]["DGT-FAMILY-ROADMAP-HG7"]["status"] == "fail"
+    assert hardgate["status"] == "fail"
+
+
+def test_dgt_family_roadmap_forbidden_audit_covers_not_claimed(tmp_path):
+    payload = _owner_with_ready_scaling_ladder(tmp_path)
+    payload["family_roadmap"] = build_dgt_family_roadmap(payload, independent_cross_level_evidence=True)
+    mutated = json.loads(json.dumps(payload))
+    mutated["family_roadmap"]["not_claimed"] = ["No global superiority claim is admitted."]
+    hardgate = evaluate_dgt_family_roadmap_hardgate(mutated["family_roadmap"], mutated)
+
+    assert hardgate["gates"]["DGT-FAMILY-ROADMAP-HG8"]["status"] == "fail"
+    assert hardgate["status"] == "fail"
+
+
+def test_dgt_family_roadmap_is_pointer_only_and_rejects_inline_leakage(tmp_path):
+    payload = _owner_with_ready_scaling_ladder(tmp_path)
+    payload["family_roadmap"] = build_dgt_family_roadmap(payload, independent_cross_level_evidence=True)
+    roadmap = payload["family_roadmap"]
+
+    serialized = json.dumps(roadmap, sort_keys=True)
+    for forbidden in (
+        '"records"',
+        '"quality_q"',
+        '"attention_rows"',
+        '"search_score"',
+        '"terminal_verdict"',
+        '"standalone_verdict"',
+        '"raw_metrics"',
+    ):
+        assert forbidden not in serialized
+
+    leaked = json.loads(json.dumps(roadmap))
+    leaked["backend_surfaces"]["records"] = []
+    with pytest.raises(ValueError, match="inline source body key"):
+        validate_dgt_family_roadmap(leaked, payload)

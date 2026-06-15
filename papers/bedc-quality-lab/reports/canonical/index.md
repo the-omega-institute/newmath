@@ -200,6 +200,9 @@
 - Family definition: `reports/canonical/discovery-gated-transformer.json:$.family_definition`
 - Family definition hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_definition.hardgate`
 - Model family claim status: `reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status`
+- Family roadmap: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap`
+- Family roadmap hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate`
+- Family level discovery status: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.family_level_discovery_status`
 - Robustness: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness`
 - Robustness readiness: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.readiness`
 - Robustness hardgate: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.hardgate`

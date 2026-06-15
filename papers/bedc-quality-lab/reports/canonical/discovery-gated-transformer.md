@@ -69,6 +69,26 @@
 | `objective` | `3` |
 | `certificate` | `4` |
 
+## Family Roadmap
+
+- Schema: `bedc-quality-lab:discovery-gated-transformer.family-roadmap`
+- Owner: `reports/canonical/discovery-gated-transformer.json:$`
+- Hardgate: `fail`
+- Family status: `blocked`
+- Scaling ladder: `reports/canonical/discovery-gated-transformer.json:$.scaling_ladder`
+- Family invariants: `reports/canonical/discovery-gated-transformer.json:$.family_definition.invariant_groups`
+
+| gate | status | evidence |
+| --- | --- | --- |
+| `DGT-FAMILY-ROADMAP-HG1` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.owner_ref` |
+| `DGT-FAMILY-ROADMAP-HG2` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.scaling_ladder` |
+| `DGT-FAMILY-ROADMAP-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.family_invariants` |
+| `DGT-FAMILY-ROADMAP-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.training_objective_variants` |
+| `DGT-FAMILY-ROADMAP-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.backend_surfaces` |
+| `DGT-FAMILY-ROADMAP-HG6` | `fail` | `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.cross_level_evidence.evidence_pointers` |
+| `DGT-FAMILY-ROADMAP-HG7` | `fail` | `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.cross_level_evidence.cross_level_comparison` |
+| `DGT-FAMILY-ROADMAP-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.forbidden_claim_term_audit` |
+
 ## Component Ablation
 
 - Schema: `bedc-quality-lab:discovery-gated-transformer.component-ablation`
