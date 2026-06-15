@@ -343,15 +343,27 @@ Finally apply the obligation package. It gathers the listed clauses as one finit
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerScopeClosure}
 
-\closureat{BoundedNormalEqualityCheckerUp}{scopedStr}
+\begin{theorem}[BoundedNormalEqualityChecker public export]
+\label{thm:bounded-normal-equality-checker-public-export}
+Every accepted $\BoundedNormalEqualityCheckerUp$ packet exports exactly the displayed bounded normal-equality checker surface: two closed term rows, the fuel row, bounded normalizer outputs, structural equality readback, finished-normalization witness rows, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. No public consumer receives unrestricted beta-conversion, hidden normalizer termination, quotient equality of terms, or a host equality oracle from this packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bounded-normal-equality-checker-scope-closure}. It already binds the carrier, classifier, route preorder, NameCert obligations, finished-soundness boundary, deterministic readback, non-escape theorem, classifier-stability row, ledger-exactness row, and obligation package as one closed finite scope.
+
+The public export reads that closed scope without adding a new coordinate. The two closed term rows, fuel row, bounded normalizer outputs, structural equality readback, finished-normalization witnesses, transports, replay, provenance, and local naming are exactly the rows exposed by the scope-closure theorem.
+
+Since the carrier has no row for unrestricted conversion, hidden termination, quotient equality, or host equality, the exported public surface is precisely the displayed bounded checker packet and nothing stronger.
+\end{proof}
+
+\closureat{BoundedNormalEqualityCheckerUp}{publicStr}
 
 \begin{closurestatus}{\BoundedNormalEqualityCheckerUp}
   \constructivestory{A $\BoundedNormalEqualityCheckerUp$ packet is generated from two closed MetaCIC term rows, a bounded fuel row, bounded normalizer outputs, structural equality readback, finished-normalization witness rows, componentwise transports, displayed continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:bounded-normal-equality-checker-carrier}, \autoref{def:bounded-normal-equality-checker-classifier}, \autoref{thm:bounded-normal-equality-checker-namecert-obligations}, \autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}, \autoref{thm:bounded-normal-equality-checker-deterministic-normal-form-readback}, \autoref{thm:bounded-normal-equality-checker-consumer-nonescape}, \autoref{thm:bounded-normal-equality-checker-classifier-stability-row}, \autoref{thm:bounded-normal-equality-checker-ledger-exactness-row}, \autoref{thm:bounded-normal-equality-checker-obligation-package}, and \autoref{thm:bounded-normal-equality-checker-scope-closure} bind the finite bounded normal-equality checker scope.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:bounded-normal-equality-checker-carrier}, \autoref{def:bounded-normal-equality-checker-classifier}, \autoref{thm:bounded-normal-equality-checker-namecert-obligations}, \autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}, \autoref{thm:bounded-normal-equality-checker-deterministic-normal-form-readback}, \autoref{thm:bounded-normal-equality-checker-consumer-nonescape}, \autoref{thm:bounded-normal-equality-checker-classifier-stability-row}, \autoref{thm:bounded-normal-equality-checker-ledger-exactness-row}, \autoref{thm:bounded-normal-equality-checker-obligation-package}, \autoref{thm:bounded-normal-equality-checker-scope-closure}, and \autoref{thm:bounded-normal-equality-checker-public-export} bind the public bounded normal-equality checker surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close unrestricted beta-conversion, hidden normalizer termination, quotient equality of terms, or host equality.}
-  \upgradepath{The next paper obligation is public closure for the same bounded normal-equality checker surface.}
+  \upgradepath{The next bridge-facing paper obligation is a standard bridge from the public bounded normal-equality checker surface to the acceptance schema.}
 \end{closurestatus}

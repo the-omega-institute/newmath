@@ -470,4 +470,36 @@ theorem CauchyModulusArithmeticCarrier_product_meet_compatibility
     ⟨modulus0Unary, modulus1Unary, meetUnary, dyadicUnary, productUnary,
       productReadUnary, meetRoute, productRoute, productReadRoute, packageRoute⟩
 
+theorem CauchyModulusArithmeticCarrier_sum_product_threshold_stability
+    [AskSetup] [PackageSetup]
+    {stream0 stream1 modulus0 modulus1 meet sum product dyadic window readback sealRow
+      transport replay provenance localName thresholdRead transportedThreshold : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusArithmeticCarrier stream0 stream1 modulus0 modulus1 meet sum product dyadic
+        window readback sealRow transport replay provenance localName bundle pkg ->
+      Cont meet dyadic thresholdRead ->
+        hsame thresholdRead transportedThreshold ->
+          PkgSig bundle transportedThreshold pkg ->
+            UnaryHistory meet ∧ UnaryHistory dyadic ∧ UnaryHistory sum ∧
+              UnaryHistory product ∧ UnaryHistory thresholdRead ∧
+                UnaryHistory transportedThreshold ∧ Cont meet dyadic sum ∧
+                  Cont meet dyadic product ∧ Cont meet dyadic thresholdRead ∧
+                    hsame thresholdRead transportedThreshold ∧
+                      PkgSig bundle localName pkg ∧
+                        PkgSig bundle transportedThreshold pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  intro carrier thresholdRoute thresholdSame transportedPackage
+  obtain
+    ⟨_stream0Unary, _stream1Unary, _modulus0Unary, _modulus1Unary, meetUnary,
+      sumUnary, productUnary, dyadicUnary, _windowUnary, _readbackUnary,
+      _sealUnary, _transportUnary, _meetRoute, sumRoute, productRoute, _sealRoute,
+      _provenanceRoute, localPackage⟩ := carrier
+  have thresholdUnary : UnaryHistory thresholdRead :=
+    unary_cont_closed meetUnary dyadicUnary thresholdRoute
+  have transportedUnary : UnaryHistory transportedThreshold :=
+    unary_transport thresholdUnary thresholdSame
+  exact
+    ⟨meetUnary, dyadicUnary, sumUnary, productUnary, thresholdUnary, transportedUnary,
+      sumRoute, productRoute, thresholdRoute, thresholdSame, localPackage, transportedPackage⟩
+
 end BEDC.Derived.CauchyModulusArithmeticUp
