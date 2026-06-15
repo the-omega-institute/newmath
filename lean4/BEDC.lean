@@ -101,6 +101,7 @@ import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ApartnessRealUp.TasteGate
+import BEDC.Derived.ApartnessSpaceUp
 import BEDC.Derived.ApartnessTopologyUp.Route
 import BEDC.Derived.ApartnessTopologyUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -3532,6 +3533,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceAdmissionCompletion
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceTotalityCertificate
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripSourceTuple
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZeroRouteBoundary
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZeroSourceRefusal
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaConsumerBoundary
@@ -3844,6 +3846,7 @@ import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RhInputLedger
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.ScopedPackage
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.SharedSourceScope
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.SourceBoundaryClosure
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.WitnessConsumerBoundary
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.WitnessScopeBinding
 import BEDC.Derived.CrossHistCausalConeUp.NameCertObligations
 import BEDC.Derived.CrossHistCausalConeUp.TasteGate
@@ -5538,6 +5541,7 @@ import BEDC.Derived.FunctorUp.VisibleMorphismStrictPrefix
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FundamentalGroupUp.TasteGate
 import BEDC.Derived.FundamentalTheoremCalculusUp
+import BEDC.Derived.FundamentalTheoremCalculusUp.TasteGate
 import BEDC.Derived.GDeltaSetUp.TasteGate
 import BEDC.Derived.GalerkinErrorEstimateUp
 import BEDC.Derived.GaloisConnectionUp
