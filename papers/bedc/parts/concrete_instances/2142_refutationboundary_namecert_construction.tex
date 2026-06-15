@@ -125,12 +125,30 @@ The refusal side is the pair $S,T$. By \autoref{thm:refutation-boundary-forbidde
 Thus the bridge-facing standard boundary has no further coordinate to expose. It is precisely the public packet already named by the chapter, read as permitted negation on one side and truth-branch refusal on the other.
 \end{proof}
 
-\closureat{RefutationBoundaryUp}{bridgedStr}
+\begin{theorem}[RefutationBoundary mature consumer route]
+\label{thm:refutation-boundary-mature-consumer-route}
+Every mature consumer read of an accepted $\RefutationBoundaryUp$ packet is the same finite route
+$$
+A,F,D,S,T,H,C,P,N .
+$$
+Permitted negation, truth-branch refusal, $\RealUp$ consumer scope, public export, and standard-boundary export are all projections of this packet route. No consumer receives an extra host truth predicate, excluded-middle branch, quotient truth object, nonconstructive existential selector, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:refutation-boundary-carrier}. It displays exactly the rows $A,F,D,S,T,H,C,P,N$, so every consumer route begins as a projection of the same finite packet.
+
+The permitted-negation projection is \autoref{thm:refutation-boundary-permitted-negation-sound}. It reads $A$ and $F$ through the transport and continuation rows $H,C$ and exports only the local route from an assumed witness of $A$ to bottom.
+
+The truth-branch refusal projection is \autoref{thm:refutation-boundary-forbidden-truth-branch-exclusion}. It reads $S,T,H,C,P,N$ as the finite exclusion ledger and supplies no certificate-indexed truth branch.
+
+The consumer-facing projections are then \autoref{thm:refutation-boundary-realup-consumer-scope}, \autoref{thm:refutation-boundary-public-export}, and \autoref{thm:refutation-boundary-standard-boundary-export}. These theorems expose the same rows to $\RealUp$, public, and bridge-facing consumers, so the mature route is the single displayed packet and no further coordinate is exported.
+\end{proof}
+
+\closureat{RefutationBoundaryUp}{matureStr}
 
 \begin{closurestatus}{\RefutationBoundaryUp}
   \constructivestory{A $\RefutationBoundaryUp$ packet is generated from a proposition row, a permitted-refutation route, an optional decidability row, a forbidden-schema descriptor, a truth-branch exclusion ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:refutation-boundary-carrier}, \autoref{thm:refutation-boundary-permitted-negation-sound}, \autoref{thm:refutation-boundary-forbidden-truth-branch-exclusion}, \autoref{thm:refutation-boundary-namecert-obligations}, \autoref{thm:refutation-boundary-realup-consumer-scope}, \autoref{thm:refutation-boundary-public-export}, and \autoref{thm:refutation-boundary-standard-boundary-export} bind the finite refutation-boundary rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ dependency data as the public standard-boundary packet.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:refutation-boundary-carrier}, \autoref{thm:refutation-boundary-permitted-negation-sound}, \autoref{thm:refutation-boundary-forbidden-truth-branch-exclusion}, \autoref{thm:refutation-boundary-namecert-obligations}, \autoref{thm:refutation-boundary-realup-consumer-scope}, \autoref{thm:refutation-boundary-public-export}, \autoref{thm:refutation-boundary-standard-boundary-export}, and \autoref{thm:refutation-boundary-mature-consumer-route} bind the finite refutation-boundary rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ dependency data as the mature public standard-boundary packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
