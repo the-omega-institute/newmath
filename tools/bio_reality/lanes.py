@@ -1089,6 +1089,8 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
     if forced_conv_id:
         lane_state["conversation_id"] = forced_conv_id
+        topic_conversations[topic] = forced_conv_id
+        lane_state["topic_conversations"] = topic_conversations
     elif new_conv_id:
         topic_conversations[topic] = new_conv_id
         lane_state["topic_conversations"] = topic_conversations
@@ -1470,6 +1472,8 @@ def _maybe_run_bio_plan_oracle(
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
     if forced_conv_id:
         lane_state["conversation_id"] = forced_conv_id
+        topic_conversations[topic] = forced_conv_id
+        lane_state["topic_conversations"] = topic_conversations
     elif new_conv_id:
         topic_conversations[topic] = new_conv_id
         lane_state["topic_conversations"] = topic_conversations
