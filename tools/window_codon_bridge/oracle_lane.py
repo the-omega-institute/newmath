@@ -380,7 +380,8 @@ def run_nyxid_oracle_cli(prompt: str, transport: dict[str, Any]) -> dict[str, An
         status_json = pool_status.get("response_json")
         queued = int(status_json.get("queued") or 0) if isinstance(status_json, dict) else 0
         dispatched = int(status_json.get("dispatched") or 0) if isinstance(status_json, dict) else 0
-        if queued + dispatched > 0:
+        max_inflight_before_defer = int(transport.get("max_inflight_before_defer") or 1)
+        if queued + dispatched >= max_inflight_before_defer:
             return {
                 "status": "oracle_busy",
                 "pool": pool,
