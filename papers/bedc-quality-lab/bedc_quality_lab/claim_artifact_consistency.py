@@ -18,7 +18,9 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
 from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import (
     normalize_artifact_pointer,
+    pointer_value,
     resolve_artifact_pointer,
+    split_artifact_pointer,
 )
 
 
@@ -38,6 +40,49 @@ DGT_CLAIM_ID = "claim:discovery-gated-transformer"
 DEFAULT_CLAIM_ID = DGT_CLAIM_ID
 POSITIVE_LEVELS = frozenset({"D4", "D5-O", "D5-M"})
 CORE_OWNER = "Core"
+PAPER_SURFACES_POINTER = f"{JSON_ARTIFACT}:$.paper_surfaces"
+PAPER_SURFACE_TYPES = frozenset({"table", "figure", "main_claim_chain"})
+PAPER_VALUE_TRANSFORMS = frozenset({"number", "integer", "string"})
+
+
+@dataclass(frozen=True)
+class PaperSurfaceValue:
+    value_id: str
+    artifact_pointer: str
+    paper_literal: str
+    transform: str
+    tolerance: float
+
+    def to_json(self) -> dict[str, Any]:
+        return {
+            "value_id": self.value_id,
+            "artifact_pointer": self.artifact_pointer,
+            "paper_literal": self.paper_literal,
+            "transform": self.transform,
+            "tolerance": self.tolerance,
+        }
+
+
+@dataclass(frozen=True)
+class PaperSurface:
+    surface_id: str
+    surface_type: str
+    artifact_pointer: str
+    claim_pointer: str | None
+    hardgate_pointer: str | None
+    not_claimed_pointer: str | None
+    values: tuple[PaperSurfaceValue, ...]
+
+    def to_json(self) -> dict[str, Any]:
+        return {
+            "surface_id": self.surface_id,
+            "surface_type": self.surface_type,
+            "artifact_pointer": self.artifact_pointer,
+            "claim_pointer": self.claim_pointer,
+            "hardgate_pointer": self.hardgate_pointer,
+            "not_claimed_pointer": self.not_claimed_pointer,
+            "values": [value.to_json() for value in self.values],
+        }
 
 
 @dataclass(frozen=True)
@@ -62,6 +107,7 @@ class ClaimArtifactConsistencyReport:
     status: str
     json_artifact: str
     markdown_artifact: str
+    paper_surfaces: tuple[PaperSurface, ...]
     gates: tuple[ConsistencyFinding, ...]
 
     def to_json(self) -> dict[str, Any]:
@@ -73,6 +119,7 @@ class ClaimArtifactConsistencyReport:
             "status": self.status,
             "json_artifact": self.json_artifact,
             "markdown_artifact": self.markdown_artifact,
+            "paper_surfaces": [surface.to_json() for surface in self.paper_surfaces],
             "gates": [gate.to_json() for gate in self.gates],
         }
 
@@ -123,6 +170,21 @@ def _json_text(value: Any) -> str:
     return str(value)
 
 
+def _is_repo_local_pointer(pointer: str | None) -> bool:
+    if not isinstance(pointer, str) or not pointer:
+        return False
+    split = split_artifact_pointer(pointer)
+    if split is None:
+        return False
+    artifact, _ = split
+    if "://" in artifact or artifact.startswith(("/", "~")):
+        return False
+    path = Path(artifact)
+    if path.is_absolute() or ".." in path.parts or ".refactor-loop" in path.parts:
+        return False
+    return True
+
+
 def _pointer_from_cell(cell: Any) -> str | None:
     if isinstance(cell, Mapping):
         artifact = cell.get("artifact")
@@ -154,6 +216,17 @@ def _row_by_key(rows: Sequence[Mapping[str, Any]], key: str, value: str) -> Mapp
     return rows[index] if index is not None else None
 
 
+def _claim_graph_node_pointer(root: Path, node_id: str) -> str:
+    payload = _load_json_object(root, CLAIM_GRAPH_ARTIFACT)
+    nodes = payload.get("nodes")
+    if isinstance(nodes, list):
+        rows = [row for row in nodes if isinstance(row, Mapping)]
+        index = _row_index(rows, "node_id", node_id)
+        if index is not None:
+            return f"{CLAIM_GRAPH_ARTIFACT}:$.nodes[{index}]"
+    return f"{CLAIM_GRAPH_ARTIFACT}:$.nodes"
+
+
 def _claim_verdict_pointer(index: int | None) -> str:
     return f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[{index}]" if index is not None else f"{CLAIM_VERDICTS_ARTIFACT}:$"
 
@@ -177,6 +250,186 @@ def _coverage_cell_pointer(index: int | None) -> str:
 def _current_hash(root: Path, artifact: str) -> str:
     path = root / artifact
     return canonical_artifact_hash(path) if path.exists() else ""
+
+
+def _scorecard_metric_value_pointer(root: Path, metric: str) -> str:
+    payload = _load_json_object(root, QUALITY_SCORECARD_ARTIFACT)
+    rows = payload.get("rows")
+    if isinstance(rows, list):
+        index = _row_index([row for row in rows if isinstance(row, Mapping)], "metric", metric)
+        if index is not None:
+            return f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[{index}].value"
+    return f"{QUALITY_SCORECARD_ARTIFACT}:$.rows"
+
+
+def _paper_value_actual(root: Path, value: PaperSurfaceValue) -> Any:
+    split = split_artifact_pointer(value.artifact_pointer)
+    if split is None:
+        return None
+    artifact, pointer = split
+    path = root / artifact
+    if not path.exists() or artifact.endswith(".jsonl"):
+        return resolve_artifact_pointer(root, value.artifact_pointer)
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    if pointer == "$":
+        return payload
+    return pointer_value(payload, pointer) if isinstance(payload, Mapping) else None
+
+
+def _coerced_paper_value(value: PaperSurfaceValue, actual: Any) -> tuple[Any, Any] | None:
+    if value.transform == "string":
+        return value.paper_literal, str(actual)
+    if value.transform == "integer":
+        try:
+            paper_value = int(value.paper_literal)
+        except ValueError:
+            return None
+        try:
+            actual_text = str(actual)
+            if "." in actual_text and float(actual_text) != int(float(actual_text)):
+                return None
+            actual_value = int(float(actual_text))
+        except (TypeError, ValueError):
+            return None
+        return paper_value, actual_value
+    if value.transform == "number":
+        try:
+            return float(value.paper_literal), float(actual)
+        except (TypeError, ValueError):
+            return None
+    return None
+
+
+def _paper_value_matches(value: PaperSurfaceValue, actual: Any) -> bool:
+    coerced = _coerced_paper_value(value, actual)
+    if coerced is None:
+        return False
+    paper_value, actual_value = coerced
+    if value.transform == "string":
+        return paper_value == actual_value
+    try:
+        tolerance = float(value.tolerance)
+    except (TypeError, ValueError):
+        return False
+    return abs(float(paper_value) - float(actual_value)) <= tolerance
+
+
+def _paper_value_tolerance(value: PaperSurfaceValue) -> float | None:
+    try:
+        tolerance = float(value.tolerance)
+    except (TypeError, ValueError):
+        return None
+    return tolerance if tolerance >= 0.0 else None
+
+
+def default_paper_surfaces(root: Path, *, claim_id: str = DEFAULT_CLAIM_ID) -> tuple[PaperSurface, ...]:
+    verdict_rows = _load_jsonl_rows(root, CLAIM_VERDICTS_ARTIFACT)
+    verdict_index = _row_index(verdict_rows, "claim_id", claim_id)
+    claim_pointer = _claim_verdict_pointer(verdict_index)
+    terminal_pointer = _claim_graph_node_pointer(root, terminal_node_id_for_claim_id(claim_id))
+    certcov_pointer = _scorecard_metric_value_pointer(root, "CertCov")
+    return (
+        PaperSurface(
+            surface_id="quality-scorecard-release-table",
+            surface_type="table",
+            artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows",
+            claim_pointer=claim_pointer,
+            hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+            not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+            values=(
+                PaperSurfaceValue(
+                    value_id="certcov-value",
+                    artifact_pointer=certcov_pointer,
+                    paper_literal="1.0",
+                    transform="number",
+                    tolerance=0.0,
+                ),
+            ),
+        ),
+        PaperSurface(
+            surface_id="discovery-gated-transformer-evidence-figure",
+            surface_type="figure",
+            artifact_pointer=f"{DGT_ARTIFACT}:$.d4_projection",
+            claim_pointer=claim_pointer,
+            hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+            not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+            values=(
+                PaperSurfaceValue(
+                    value_id="dgt-discovery-level",
+                    artifact_pointer=f"{DGT_ARTIFACT}:$.d4_projection.discovery_level",
+                    paper_literal="D4",
+                    transform="string",
+                    tolerance=0.0,
+                ),
+            ),
+        ),
+        PaperSurface(
+            surface_id="discovery-gated-transformer-main-claim-chain",
+            surface_type="main_claim_chain",
+            artifact_pointer=terminal_pointer,
+            claim_pointer=claim_pointer,
+            hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+            not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+            values=(
+                PaperSurfaceValue(
+                    value_id="dgt-main-chain-level",
+                    artifact_pointer=f"{DGT_ARTIFACT}:$.d4_projection.discovery_level",
+                    paper_literal="D4",
+                    transform="string",
+                    tolerance=0.0,
+                ),
+            ),
+        ),
+    )
+
+
+def _gate_paper_surfaces(root: Path, *, resolver: PointerResolver, paper_surfaces: Sequence[PaperSurface]) -> ConsistencyFinding:
+    seen_surface_ids: set[str] = set()
+    for surface in paper_surfaces:
+        if not surface.surface_id:
+            return _fail("PAPER-HG1", "paper surface id is required", PAPER_SURFACES_POINTER, expected="non-empty surface_id", actual=surface.surface_id)
+        if surface.surface_id in seen_surface_ids:
+            return _fail("PAPER-HG1", "paper surface ids must be unique", PAPER_SURFACES_POINTER, expected="unique surface_id", actual=surface.surface_id)
+        seen_surface_ids.add(surface.surface_id)
+        if surface.surface_type not in PAPER_SURFACE_TYPES:
+            return _fail("PAPER-HG1", "paper surface type is invalid", f"{PAPER_SURFACES_POINTER}.{surface.surface_id}", expected=sorted(PAPER_SURFACE_TYPES), actual=surface.surface_type)
+        pointer_fields = (
+            ("artifact_pointer", surface.artifact_pointer),
+            ("claim_pointer", surface.claim_pointer),
+            ("hardgate_pointer", surface.hardgate_pointer),
+            ("not_claimed_pointer", surface.not_claimed_pointer),
+        )
+        for field, pointer in pointer_fields:
+            if pointer is None:
+                continue
+            if not _is_repo_local_pointer(pointer):
+                return _fail("PAPER-HG1", "paper surface pointer must be repo-local", pointer, expected="repo-local artifact pointer", actual=pointer)
+            if not resolver.resolves(pointer):
+                return _fail("PAPER-HG1", f"paper surface {field} must resolve", pointer, expected="resolving artifact pointer", actual=pointer)
+        if not surface.values:
+            return _fail("PAPER-HG1", "paper surface must register at least one value", surface.artifact_pointer, expected="non-empty values", actual=[])
+        seen_value_ids: set[str] = set()
+        for value in surface.values:
+            if not value.value_id:
+                return _fail("PAPER-HG1", "paper surface value id is required", surface.artifact_pointer, expected="non-empty value_id", actual=value.value_id)
+            if value.value_id in seen_value_ids:
+                return _fail("PAPER-HG1", "paper surface value ids must be unique", surface.artifact_pointer, expected="unique value_id", actual=value.value_id)
+            seen_value_ids.add(value.value_id)
+            if value.transform not in PAPER_VALUE_TRANSFORMS:
+                return _fail("PAPER-HG1", "paper surface value transform is invalid", value.artifact_pointer, expected=sorted(PAPER_VALUE_TRANSFORMS), actual=value.transform)
+            if _paper_value_tolerance(value) is None:
+                return _fail("PAPER-HG1", "paper surface value tolerance must be nonnegative", value.artifact_pointer, expected="nonnegative tolerance", actual=value.tolerance)
+            if not _is_repo_local_pointer(value.artifact_pointer):
+                return _fail("PAPER-HG1", "paper surface value pointer must be repo-local", value.artifact_pointer, expected="repo-local artifact pointer", actual=value.artifact_pointer)
+            actual = _paper_value_actual(root, value)
+            if actual is None:
+                return _fail("PAPER-HG1", "paper surface value pointer must resolve", value.artifact_pointer, expected="resolving value pointer", actual=value.artifact_pointer)
+            if not _paper_value_matches(value, actual):
+                return _fail("PAPER-HG1", "paper literal must match artifact value", value.artifact_pointer, expected=value.paper_literal, actual=actual)
+    return _pass("PAPER-HG1", "paper artifact surface pointers and values are coherent", PAPER_SURFACES_POINTER)
 
 
 def _fingerprint_source_hash(root: Path, source_artifact: str) -> str | None:
@@ -494,6 +747,7 @@ def audit_claim_artifact_consistency(
     claim_id: str = DEFAULT_CLAIM_ID,
     generated_at: str | None = None,
     report_spec: Any | None = None,
+    paper_surfaces: Sequence[PaperSurface] | None = None,
 ) -> ClaimArtifactConsistencyReport:
     root = Path(root)
     timestamp = generated_at if generated_at is not None else "reusable"
@@ -514,6 +768,7 @@ def audit_claim_artifact_consistency(
         if spec is not None
         else {}
     )
+    paper_surface_rows = tuple(default_paper_surfaces(root, claim_id=claim_id) if paper_surfaces is None else paper_surfaces)
     gates = (
         _gate_hg1(resolver=resolver, claim_id=claim_id, verdict_rows=verdict_rows, discovery_rows=discovery_rows),
         _gate_hg2(root, claim_id, verdict_rows),
@@ -552,6 +807,7 @@ def audit_claim_artifact_consistency(
             report_spec=spec,
             payload=owner_payload,
         ),
+        _gate_paper_surfaces(root, resolver=resolver, paper_surfaces=paper_surface_rows),
     )
     status = "pass" if all(gate.status == "pass" for gate in gates) else "fail"
     return ClaimArtifactConsistencyReport(
@@ -562,6 +818,7 @@ def audit_claim_artifact_consistency(
         status=status,
         json_artifact=JSON_ARTIFACT,
         markdown_artifact=MARKDOWN_ARTIFACT,
+        paper_surfaces=paper_surface_rows,
         gates=gates,
     )
 
@@ -573,6 +830,7 @@ def render_claim_artifact_consistency_markdown(report: ClaimArtifactConsistencyR
         f"- Generated at: `{report.generated_at}`",
         f"- Claim: `{report.claim_id}`",
         f"- Status: `{report.status}`",
+        f"- Paper surfaces: `{len(report.paper_surfaces)}`",
         "",
         "| gate | status | pointer | reason | expected | actual |",
         "| --- | --- | --- | --- | --- | --- |",
@@ -581,5 +839,9 @@ def render_claim_artifact_consistency_markdown(report: ClaimArtifactConsistencyR
         lines.append(
             f"| `{gate.gate_id}` | `{gate.status}` | `{gate.pointer}` | {gate.reason} | `{gate.expected}` | `{gate.actual}` |"
         )
+    if report.paper_surfaces:
+        lines.extend(["", "## Paper Surfaces", ""])
+        for surface in report.paper_surfaces:
+            lines.append(f"- `{surface.surface_id}` `{surface.surface_type}` `{surface.artifact_pointer}`")
     lines.append("")
     return "\n".join(lines)

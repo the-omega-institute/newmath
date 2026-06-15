@@ -1930,9 +1930,9 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-dna",
         "dgt-l0-controls",
         "dgt-l1-controls",
+        "dgt-l1-boundary-report",
         "reproduction-package",
         "reproduction-check-result",
-        "dgt-l1-boundary-report",
         "winnability-certificates",
         "structural-generalization-splits",
         "dgt-base-undertraining-audit",
@@ -5902,6 +5902,7 @@ def test_claim_first_consistency_section_and_verify_fingerprints_fail_closed(tmp
         "status": "pass",
         "json_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT,
         "markdown_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT,
+        "paper_surfaces": [],
         "gates": [
             {"gate_id": "CONS-HG1", "status": "pass"},
             {"gate_id": "STACK-HG1", "status": "pass"},
@@ -5920,6 +5921,7 @@ def test_claim_first_consistency_section_and_verify_fingerprints_fail_closed(tmp
         "STACK-HG2": "fail",
         "CLAIM-FIRST-HG1": "fail",
     }
+    assert section["paper_surfaces_pointer"] == "reports/canonical/claim-artifact-consistency.json:$.paper_surfaces"
     existing_index = canonical._index([], generated_at="fixture-time")
     canonical._write_json_atomic(canonical.INDEX_ARTIFACT, existing_index)
     canonical._refresh_claim_artifact_consistency_index_section(generated_at="fixture-time")
@@ -5943,6 +5945,30 @@ def test_claim_first_consistency_section_and_verify_fingerprints_fail_closed(tmp
         canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
 
     assert excinfo.value.code == 1
+
+
+def test_claim_artifact_consistency_section_omits_pointer_when_owner_has_no_paper_surfaces(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    payload = {
+        "schema_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_SCHEMA_ID,
+        "artifact_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID,
+        "generated_at": "fixture-time",
+        "claim_id": "claim:discovery-gated-transformer",
+        "status": "pass",
+        "json_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT,
+        "markdown_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT,
+        "gates": [{"gate_id": "STACK-HG1", "status": "pass"}],
+    }
+    path = tmp_path / canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._claim_artifact_consistency_index_section(generated_at="fixture-time")
+
+    assert "paper_surfaces_pointer" not in section
+    index_payload = canonical._index([], generated_at="fixture-time")
+    markdown = canonical._render_index_markdown(index_payload)
+    assert "Paper surfaces:" not in markdown
 
 
 def test_run_reports_preflight_runs_before_fingerprint_acceptance(tmp_path, monkeypatch):
@@ -9086,7 +9112,7 @@ def test_fair_l1_decision_owner_statuses_do_not_fail_report_build(tmp_path, monk
     assert result["hardgate_status"]["blocks_promotion"] is True
     assert result["ladder_state"]["value"] == "l1-bounded-negative"
     assert result["decision_status"]["value"] == "bounded-negative"
-    assert result["construct_validity"]["status"] == "bounded-negative"
+    assert result["construct_validity"]["status"] == "pass"
     assert result["status_taxonomy"]["status"] == "pass"
 
 

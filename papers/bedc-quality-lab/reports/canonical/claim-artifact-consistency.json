@@ -73,11 +73,72 @@
       "pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
       "reason": "no accepted positive row requires claim-first admission",
       "status": "pass"
+    },
+    {
+      "actual": "consistent",
+      "expected": "consistent",
+      "gate_id": "PAPER-HG1",
+      "pointer": "reports/canonical/claim-artifact-consistency.json:$.paper_surfaces",
+      "reason": "paper artifact surface pointers and values are coherent",
+      "status": "pass"
     }
   ],
   "generated_at": "2026-06-13T14:56:21.159269+00:00",
   "json_artifact": "reports/canonical/claim-artifact-consistency.json",
   "markdown_artifact": "reports/canonical/claim-artifact-consistency.md",
+  "paper_surfaces": [
+    {
+      "artifact_pointer": "reports/canonical/quality-scorecard.json:$.rows",
+      "claim_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
+      "hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
+      "not_claimed_pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+      "surface_id": "quality-scorecard-release-table",
+      "surface_type": "table",
+      "values": [
+        {
+          "artifact_pointer": "reports/canonical/quality-scorecard.json:$.rows[0].value",
+          "paper_literal": "1.0",
+          "tolerance": 0.0,
+          "transform": "number",
+          "value_id": "certcov-value"
+        }
+      ]
+    },
+    {
+      "artifact_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection",
+      "claim_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
+      "hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
+      "not_claimed_pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+      "surface_id": "discovery-gated-transformer-evidence-figure",
+      "surface_type": "figure",
+      "values": [
+        {
+          "artifact_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level",
+          "paper_literal": "D4",
+          "tolerance": 0.0,
+          "transform": "string",
+          "value_id": "dgt-discovery-level"
+        }
+      ]
+    },
+    {
+      "artifact_pointer": "reports/canonical/claim_graph.json:$.nodes[119]",
+      "claim_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
+      "hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
+      "not_claimed_pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+      "surface_id": "discovery-gated-transformer-main-claim-chain",
+      "surface_type": "main_claim_chain",
+      "values": [
+        {
+          "artifact_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level",
+          "paper_literal": "D4",
+          "tolerance": 0.0,
+          "transform": "string",
+          "value_id": "dgt-main-chain-level"
+        }
+      ]
+    }
+  ],
   "schema_id": "bedc-quality-lab:claim-artifact-consistency",
   "status": "pass"
 }

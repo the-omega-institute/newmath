@@ -3,6 +3,7 @@
 - Generated at: `2026-06-13T14:56:21.159269+00:00`
 - Claim: `claim:discovery-gated-transformer`
 - Status: `pass`
+- Paper surfaces: `3`
 
 | gate | status | pointer | reason | expected | actual |
 | --- | --- | --- | --- | --- | --- |
@@ -15,3 +16,10 @@
 | `STACK-HG1` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[25]` | non-positive verdict has no claim-first pointer requirement | `not applicable` | `not applicable` |
 | `STACK-HG2` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[25]` | non-positive verdict has no claim-first owner-status requirement | `not applicable` | `not applicable` |
 | `CLAIM-FIRST-HG1` | `pass` | `reports/canonical/claim_verdicts.jsonl:$.lines[25]` | no accepted positive row requires claim-first admission | `not applicable` | `not applicable` |
+| `PAPER-HG1` | `pass` | `reports/canonical/claim-artifact-consistency.json:$.paper_surfaces` | paper artifact surface pointers and values are coherent | `consistent` | `consistent` |
+
+## Paper Surfaces
+
+- `quality-scorecard-release-table` `table` `reports/canonical/quality-scorecard.json:$.rows`
+- `discovery-gated-transformer-evidence-figure` `figure` `reports/canonical/discovery-gated-transformer.json:$.d4_projection`
+- `discovery-gated-transformer-main-claim-chain` `main_claim_chain` `reports/canonical/claim_graph.json:$.nodes[119]`
