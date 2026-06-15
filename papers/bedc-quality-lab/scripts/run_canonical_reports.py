@@ -180,6 +180,18 @@ DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT = "reports/canonical/discovery-gated-t
 DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery-gated-transformer.md"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
 DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT = (
+    "reports/canonical/minimal_irreducible_causal_derivative_mainline.json"
+)
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_MARKDOWN_ARTIFACT = (
+    "reports/canonical/minimal_irreducible_causal_derivative_mainline.md"
+)
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_ARTIFACT_ID = (
+    "bedc-quality-lab:minimal-irreducible-causal-derivative-mainline"
+)
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_SCHEMA_ID = (
+    "bedc-quality-lab:minimal-irreducible-causal-derivative-mainline"
+)
 DGT_NEURAL_ABLATION_JSON_ARTIFACT = "reports/canonical/dgt-neural-ablation.json"
 DGT_NEURAL_ABLATION_MARKDOWN_ARTIFACT = "reports/canonical/dgt-neural-ablation.md"
 DGT_NEURAL_ABLATION_ARTIFACT_ID = "bedc-quality-lab:dgt-neural-ablation"
@@ -1758,6 +1770,41 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
     ),
     CanonicalReportSpec(
+        name="minimal-irreducible-causal-derivative-mainline",
+        command=("python3", "scripts/run_canonical_reports.py"),
+        json_artifact=MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT,
+        markdown_artifact=MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "artifact_role",
+            "generated_at",
+            "producer",
+            "source_refs",
+            "candidate_status",
+            "claim_authority",
+            "verdict_authority",
+            "not_claimed",
+            "negative_results",
+            "child_artifacts",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_refs",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.candidate_status",
+        control_pointer=None,
+        no_control_rationale_pointer="$.not_claimed",
+        claim_promotion_eligible=False,
+        claim_capsule_pointer=f"{MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT}:$.source_refs[0]",
+        evidence_envelope_pointer=f"{MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT}:$.source_refs[1]",
+        backend_pointer=f"{MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT}:$.source_refs",
+        discovery_level_pointer=f"{MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT}:$.candidate_status.status",
+        negative_witness_pointer=f"{MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT}:$.source_refs[7]",
+        formal_status_pointer=f"{MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT}:$.candidate_status.status",
+    ),
+    CanonicalReportSpec(
         name="dgt-neural-ablation",
         command=("python3", "scripts/run_dgt_neural_ablation.py"),
         json_artifact=DGT_NEURAL_ABLATION_JSON_ARTIFACT,
@@ -2239,6 +2286,7 @@ CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-
 REPORT_ALIASES = {
     "experiment_stack_cards": "experiment-stack-cards",
     "claim_artifact_consistency": "claim-artifact-consistency",
+    "minimal_irreducible_causal_derivative_mainline": "minimal-irreducible-causal-derivative-mainline",
 }
 SPECIAL_ONLY_TARGETS = frozenset({"index", "claim-artifact-consistency"})
 
@@ -2860,6 +2908,8 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         )
     if spec.name == "reproduction-check-result":
         paths.update((REPRODUCTION_PACKAGE_JSON_ARTIFACT, REPRODUCTION_PACKAGE_JSON_ARTIFACT.replace(".json", ".fingerprint.json")))
+    if spec.name == "minimal-irreducible-causal-derivative-mainline":
+        paths.update(row["artifact"] for row in MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_SOURCE_REFS)
     paths.discard(spec.json_artifact)
     paths.discard(spec.markdown_artifact)
     paths.discard(_relative(_fingerprint_path(spec)))
@@ -3094,6 +3144,9 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
 
         payload = build_structural_generalization_payload(root=ROOT, generated_at=generated_at)
         write_structural_generalization_splits(payload, root=ROOT)
+        return
+    if spec.name == "minimal-irreducible-causal-derivative-mainline":
+        _write_minimal_irreducible_causal_derivative_mainline(generated_at=generated_at)
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
@@ -5418,6 +5471,425 @@ def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any])
     _validate_discovery_regularized_training_mechanism_ablation(payload)
     _validate_discovery_regularized_training_mechanism_cert(payload)
     _validate_discovery_regularized_training_jet(payload)
+
+
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_SOURCE_REFS = (
+    {
+        "id": "dgt-claim-capsule",
+        "label": "DGT claim capsule",
+        "artifact": "reports/runs/discovery-gated-transformer/claim_capsule.json",
+        "pointer": "$",
+    },
+    {
+        "id": "dgt-evidence-envelope",
+        "label": "DGT evidence envelope",
+        "artifact": "reports/runs/discovery-gated-transformer/evidence_envelope.json",
+        "pointer": "$",
+    },
+    {
+        "id": "dgt-mainline",
+        "label": "Discovery-gated transformer canonical artifact",
+        "artifact": DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+        "pointer": "$.hardgate",
+    },
+    {
+        "id": "derivative-order-ledger",
+        "label": "Derivative order ledger",
+        "artifact": DERIVATIVE_ORDER_LEDGER_ARTIFACT,
+        "pointer": "$.entries",
+    },
+    {
+        "id": "boundary-causal-derivative-schema",
+        "label": "Boundary causal derivative schema",
+        "artifact": BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT,
+        "pointer": "$",
+    },
+    {
+        "id": "causal-patch-suite",
+        "label": "Causal patch suite",
+        "artifact": CAUSAL_PATCH_SUITE_JSON_ARTIFACT,
+        "pointer": "$.hardgates",
+    },
+    {
+        "id": "irreducibility-report",
+        "label": "Irreducibility report",
+        "artifact": IRREDUCIBILITY_REPORT_JSON_ARTIFACT,
+        "pointer": "$.hardgate",
+    },
+    {
+        "id": "negative-witness-summary",
+        "label": "Negative witness summary",
+        "artifact": NEGATIVE_WITNESS_SUMMARY_JSON_ARTIFACT,
+        "pointer": "$.rows",
+    },
+    {
+        "id": "dgt-l0-controls",
+        "label": "DGT L0 controls",
+        "artifact": DGT_L0_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.l0_toy_projection",
+    },
+    {
+        "id": "dgt-l1-controls",
+        "label": "DGT L1 controls",
+        "artifact": DGT_L1_CONTROLS_JSON_ARTIFACT,
+        "pointer": "$.l1_tiny_sequence_projection",
+    },
+    {
+        "id": "dgt-neural-ablation",
+        "label": "DGT neural ablation",
+        "artifact": DGT_NEURAL_ABLATION_JSON_ARTIFACT,
+        "pointer": "$.nabl_hardgates",
+    },
+    {
+        "id": "dgt-null-decomposition",
+        "label": "DGT null decomposition",
+        "artifact": DGT_ABLATION_NULL_DECOMPOSITION_JSON_ARTIFACT,
+        "pointer": "$.hardgates",
+    },
+    {
+        "id": "dgt-component-redundancy",
+        "label": "DGT component redundancy audit",
+        "artifact": DGT_COMPONENT_REDUNDANCY_AUDIT_JSON_ARTIFACT,
+        "pointer": "$.component_redundancy_audit",
+    },
+    {
+        "id": "dgt-base-undertraining",
+        "label": "DGT base undertraining audit",
+        "artifact": DGT_BASE_UNDERTRAINING_AUDIT_JSON_ARTIFACT,
+        "pointer": "$.base_undertraining_audit",
+    },
+    {
+        "id": "model-comparison",
+        "label": "Model comparison",
+        "artifact": MODEL_COMPARISON_JSON_ARTIFACT,
+        "pointer": "$.comparisons",
+    },
+    {
+        "id": "mechanism-dna",
+        "label": "Mechanism DNA",
+        "artifact": MECHANISM_DNA_JSON_ARTIFACT,
+        "pointer": "$.rows",
+    },
+    {
+        "id": "new-model-hardgates",
+        "label": "New model hardgates",
+        "artifact": NEW_MODEL_HARDGATES_JSON_ARTIFACT,
+        "pointer": "$.gates",
+    },
+    {
+        "id": "claim-graph",
+        "label": "Claim graph",
+        "artifact": CLAIM_GRAPH_JSON_ARTIFACT,
+        "pointer": "$.nodes",
+    },
+)
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_CHILD_ARTIFACTS = (
+    {
+        "id": "scorecard-contract",
+        "label": "Scorecard contract",
+        "artifact": MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT,
+        "pointer": "$",
+    },
+    {
+        "id": "negative-results",
+        "label": "Negative results boundary",
+        "artifact": MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT,
+        "pointer": "$.negative_results",
+    },
+    {
+        "id": "not-claimed",
+        "label": "Not-claimed boundary",
+        "artifact": MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT,
+        "pointer": "$.not_claimed",
+    },
+)
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_FORBIDDEN_KEYS = frozenset(
+    {
+        "terminal_verdict",
+        "terminal_verdict_body",
+        "claim_verdict",
+        "claim_verdict_body",
+        "ClaimVerdict",
+        "metrics",
+        "raw_metrics",
+        "measurements",
+        "raw_measurements",
+        "evidence_body",
+        "copied_evidence",
+        "claim_capsule_body",
+        "parent_tracking",
+        "parent_tracking_comment",
+        "child_fingerprint",
+        "child_fingerprints",
+        "lifecycle_commands",
+        "github_lifecycle",
+        "host_env",
+    }
+)
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_FORBIDDEN_TEXT = (
+    "terminal_verdict",
+    "ClaimVerdict",
+    "claimverdict",
+    "raw metrics",
+    "raw measurements",
+    "copied evidence",
+    "gh issue create",
+    "gh issue close",
+    "gh issue edit",
+    "gh pr create",
+    "gh pr merge",
+    "gh pr close",
+    ".refactor-loop",
+    "host.env",
+    "parent tracking",
+    "child fingerprint",
+)
+
+
+def _minimal_mainline_pointer_resolves(artifact: str, pointer: str) -> bool:
+    return _resolve_committed_artifact_pointer(ROOT, f"{artifact}:{pointer}") is not None
+
+
+def _minimal_mainline_ref_row(row: Mapping[str, str]) -> dict[str, str]:
+    artifact = row["artifact"]
+    pointer = row["pointer"]
+    status = "present" if _minimal_mainline_pointer_resolves(artifact, pointer) else "missing"
+    result = {
+        "id": row["id"],
+        "label": row["label"],
+        "artifact": artifact,
+        "pointer": pointer,
+        "owner_pointer": f"{artifact}:{pointer}",
+        "status": status,
+    }
+    if status == "missing":
+        result["missing_reason"] = "artifact pointer did not resolve"
+    return result
+
+
+def _minimal_mainline_candidate_status(source_refs: Sequence[Mapping[str, str]]) -> dict[str, Any]:
+    missing = [row["id"] for row in source_refs if row.get("status") != "present"]
+    return {
+        "status": "admissible-pointer-present" if not missing else "blocked-missing-pointer",
+        "derivation": "lowest-admissible-pointer-presence",
+        "missing_source_refs": missing,
+        "authority": "candidate-status-only",
+    }
+
+
+def _build_minimal_irreducible_causal_derivative_mainline_payload(generated_at: str | None = None) -> dict[str, Any]:
+    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    source_refs = [
+        _minimal_mainline_ref_row(row)
+        for row in MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_SOURCE_REFS
+    ]
+    payload = {
+        "schema_id": MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_SCHEMA_ID,
+        "artifact_id": MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_ARTIFACT_ID,
+        "artifact_role": "runner_local_pointer_only_read_model",
+        "generated_at": timestamp,
+        "producer": "scripts/run_canonical_reports.py",
+        "source_refs": source_refs,
+        "candidate_status": _minimal_mainline_candidate_status(source_refs),
+        "claim_authority": "none",
+        "verdict_authority": "none",
+        "not_claimed": [
+            "This read model does not own terminal claim decisions.",
+            "This read model stores only artifact-qualified pointers, never duplicated source payloads.",
+            "This read model does not create, close, edit, or track GitHub issues.",
+            "A-O route intent without checked-in route bodies is not package-level reuse evidence.",
+        ],
+        "negative_results": {
+            "status": "pointer-only",
+            "owner_pointer": f"{MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT}:$.source_refs[7]",
+            "summary_pointer": f"{NEGATIVE_WITNESS_SUMMARY_JSON_ARTIFACT}:$.rows",
+        },
+        "child_artifacts": [
+            _minimal_mainline_ref_row(row)
+            for row in MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_CHILD_ARTIFACTS
+        ],
+    }
+    _validate_minimal_irreducible_causal_derivative_mainline_payload(payload)
+    return payload
+
+
+def _minimal_mainline_validate_ref_row(row: Any, path: str) -> None:
+    expected = {"id", "label", "artifact", "pointer", "owner_pointer", "status"}
+    if not isinstance(row, Mapping):
+        raise ValueError(f"minimal mainline reference row must be object: {path}")
+    allowed = expected | {"missing_reason"}
+    if not set(row).issubset(allowed) or not expected.issubset(row):
+        raise ValueError(f"minimal mainline reference row fields invalid: {path}")
+    artifact = row["artifact"]
+    pointer = row["pointer"]
+    owner_pointer = row["owner_pointer"]
+    status = row["status"]
+    if not all(isinstance(row[key], str) and row[key] for key in ("id", "label", "artifact", "pointer", "owner_pointer", "status")):
+        raise ValueError(f"minimal mainline reference row has empty field: {path}")
+    if not str(artifact).startswith("reports/") or ".refactor-loop" in str(artifact) or "host.env" in str(artifact):
+        raise ValueError(f"minimal mainline reference artifact invalid: {path}")
+    if not str(pointer).startswith("$"):
+        raise ValueError(f"minimal mainline reference pointer invalid: {path}")
+    if owner_pointer != f"{artifact}:{pointer}":
+        raise ValueError(f"minimal mainline owner pointer mismatch: {path}")
+    if status not in {"present", "missing"}:
+        raise ValueError(f"minimal mainline reference status invalid: {path}")
+
+
+def _minimal_mainline_forbidden_scan(value: Any, path: str) -> None:
+    if isinstance(value, Mapping):
+        for key, cell in value.items():
+            if key in MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_FORBIDDEN_KEYS or key.endswith("_body"):
+                raise ValueError(f"minimal mainline payload contains forbidden key at {path}.{key}")
+            _minimal_mainline_forbidden_scan(cell, f"{path}.{key}")
+    elif isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        for index, cell in enumerate(value):
+            _minimal_mainline_forbidden_scan(cell, f"{path}[{index}]")
+    elif isinstance(value, str):
+        lowered = value.lower()
+        for token in MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_FORBIDDEN_TEXT:
+            if token.lower() in lowered:
+                raise ValueError(f"minimal mainline payload contains forbidden value at {path}")
+
+
+def _validate_minimal_irreducible_causal_derivative_mainline_payload(payload: Mapping[str, Any]) -> None:
+    expected_top_level = {
+        "schema_id",
+        "artifact_id",
+        "artifact_role",
+        "generated_at",
+        "producer",
+        "source_refs",
+        "candidate_status",
+        "claim_authority",
+        "verdict_authority",
+        "not_claimed",
+        "negative_results",
+        "child_artifacts",
+    }
+    if set(payload) != expected_top_level:
+        raise ValueError("minimal mainline payload has invalid top-level fields")
+    _minimal_mainline_forbidden_scan(payload, "$")
+    if payload["schema_id"] != MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_SCHEMA_ID:
+        raise ValueError("minimal mainline schema mismatch")
+    if payload["artifact_id"] != MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_ARTIFACT_ID:
+        raise ValueError("minimal mainline artifact id mismatch")
+    if payload["artifact_role"] != "runner_local_pointer_only_read_model":
+        raise ValueError("minimal mainline role mismatch")
+    if payload["producer"] != "scripts/run_canonical_reports.py":
+        raise ValueError("minimal mainline producer mismatch")
+    if payload["claim_authority"] != "none" or payload["verdict_authority"] != "none":
+        raise ValueError("minimal mainline authority must remain none")
+    source_refs = payload["source_refs"]
+    child_artifacts = payload["child_artifacts"]
+    if not isinstance(source_refs, list) or len(source_refs) != len(MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_SOURCE_REFS):
+        raise ValueError("minimal mainline source ref count mismatch")
+    if not isinstance(child_artifacts, list) or len(child_artifacts) != len(MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_CHILD_ARTIFACTS):
+        raise ValueError("minimal mainline child artifact count mismatch")
+    for index, row in enumerate(source_refs):
+        _minimal_mainline_validate_ref_row(row, f"$.source_refs[{index}]")
+    for index, row in enumerate(child_artifacts):
+        _minimal_mainline_validate_ref_row(row, f"$.child_artifacts[{index}]")
+    candidate_status = payload["candidate_status"]
+    if not isinstance(candidate_status, Mapping):
+        raise ValueError("minimal mainline candidate status must be object")
+    expected_missing = [row["id"] for row in source_refs if row.get("status") != "present"]
+    expected_status = "admissible-pointer-present" if not expected_missing else "blocked-missing-pointer"
+    if set(candidate_status) != {"status", "derivation", "missing_source_refs", "authority"}:
+        raise ValueError("minimal mainline candidate status fields invalid")
+    if candidate_status["status"] != expected_status:
+        raise ValueError("minimal mainline candidate status mismatch")
+    if candidate_status["derivation"] != "lowest-admissible-pointer-presence":
+        raise ValueError("minimal mainline candidate derivation mismatch")
+    if list(candidate_status["missing_source_refs"]) != expected_missing:
+        raise ValueError("minimal mainline missing source refs mismatch")
+    if candidate_status["authority"] != "candidate-status-only":
+        raise ValueError("minimal mainline candidate authority mismatch")
+    negative_results = payload["negative_results"]
+    if not isinstance(negative_results, Mapping) or set(negative_results) != {"status", "owner_pointer", "summary_pointer"}:
+        raise ValueError("minimal mainline negative results fields invalid")
+    if negative_results["status"] != "pointer-only":
+        raise ValueError("minimal mainline negative results must be pointer-only")
+    if not isinstance(payload["not_claimed"], list) or not payload["not_claimed"]:
+        raise ValueError("minimal mainline not_claimed must be non-empty list")
+
+
+def _render_minimal_irreducible_causal_derivative_mainline_markdown(payload: Mapping[str, Any]) -> str:
+    _validate_minimal_irreducible_causal_derivative_mainline_payload(payload)
+    lines = [
+        "# 最小不可约因果导数层级",
+        "",
+        f"- Generated at: `{payload['generated_at']}`",
+        f"- Artifact: `{payload['artifact_id']}`",
+        f"- Role: `{payload['artifact_role']}`",
+        f"- Candidate status: `{payload['candidate_status']['status']}`",
+        "",
+        "## Source pointers",
+        "",
+        "| id | status | owner pointer |",
+        "| --- | --- | --- |",
+    ]
+    for row in payload["source_refs"]:
+        lines.append(f"| `{row['id']}` | `{row['status']}` | `{row['owner_pointer']}` |")
+    lines.extend(
+        [
+            "",
+            "## negative results",
+            "",
+            f"- Status: `{payload['negative_results']['status']}`",
+            f"- Summary: `{payload['negative_results']['summary_pointer']}`",
+            "",
+            "## not claimed",
+            "",
+        ]
+    )
+    lines.extend(f"- {row}" for row in payload["not_claimed"])
+    lines.extend(
+        [
+            "",
+            "## child artifacts",
+            "",
+            "| id | pointer |",
+            "| --- | --- |",
+        ]
+    )
+    for row in payload["child_artifacts"]:
+        lines.append(f"| `{row['id']}` | `{row['owner_pointer']}` |")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def _write_minimal_irreducible_causal_derivative_mainline(generated_at: str | None = None) -> dict[str, Any]:
+    payload = _build_minimal_irreducible_causal_derivative_mainline_payload(generated_at=generated_at)
+    _write_json_atomic(_artifact_path(MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT), payload)
+    _write_text_atomic(
+        _artifact_path(MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_MARKDOWN_ARTIFACT),
+        _render_minimal_irreducible_causal_derivative_mainline_markdown(payload),
+    )
+    return payload
+
+
+def _minimal_irreducible_causal_derivative_mainline_run_payload(
+    result: Mapping[str, Any],
+    *,
+    generated_at: str,
+) -> dict[str, Any]:
+    reports = [_ensure_status_axes(dict(result))]
+    payload = {
+        "schema_id": INDEX_SCHEMA_ID,
+        "generated_at": generated_at,
+        "root": INDEX_ROOT,
+        "reports": reports,
+        "minimal_irreducible_causal_derivative_mainline": {
+            "status": "pointer-only",
+            "json_artifact": MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT,
+            "markdown_artifact": MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_MARKDOWN_ARTIFACT,
+            "fingerprint_artifact": "reports/canonical/minimal_irreducible_causal_derivative_mainline.fingerprint.json",
+            "owner_pointer": f"{MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_JSON_ARTIFACT}:$",
+        },
+    }
+    payload["status_summary"] = _status_summary(reports)
+    return payload
 
 
 def _discovery_regularized_training_quality_boundary_index_section(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:
@@ -7867,6 +8339,12 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
             validate_l1_boundary_report(_load_report_payload(spec))
         except ValueError as exc:
             boundary_report_errors = [str(exc)]
+    minimal_mainline_errors: list[str] = []
+    if spec.name == "minimal-irreducible-causal-derivative-mainline" and key_validation["status"] == "pass" and not missing_artifacts:
+        try:
+            _validate_minimal_irreducible_causal_derivative_mainline_payload(_load_report_payload(spec))
+        except ValueError as exc:
+            minimal_mainline_errors = [str(exc)]
     jepa_world_model_errors: list[str] = []
     if (
         spec.name == "discovery-gated-transformer-jepa-world-model"
@@ -7885,6 +8363,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         and not model_card_errors
         and not reproduction_errors
         and not boundary_report_errors
+        and not minimal_mainline_errors
         and not jepa_world_model_errors
         else "fail"
     )
@@ -7897,6 +8376,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         "model_card_errors": model_card_errors,
         "reproduction_errors": reproduction_errors,
         "boundary_report_errors": boundary_report_errors,
+        "minimal_mainline_errors": minimal_mainline_errors,
         "jepa_world_model_errors": jepa_world_model_errors,
     }
 
@@ -9296,6 +9776,15 @@ def run_reports(
             "structural_generalization_splits": _structural_generalization_splits_index_section(),
         }
         payload["status_summary"] = _status_summary(payload["reports"])
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        if result["status"] != "pass":
+            raise SystemExit(1)
+        return payload
+    if only == "minimal-irreducible-causal-derivative-mainline":
+        spec = _specs_by_name()[only]
+        result = _run_spec(spec, mode=mode, generated_at=timestamp)
+        payload = _minimal_irreducible_causal_derivative_mainline_run_payload(result, generated_at=timestamp)
         if json_summary is not None:
             _write_json_atomic(Path(json_summary), payload)
         if result["status"] != "pass":
