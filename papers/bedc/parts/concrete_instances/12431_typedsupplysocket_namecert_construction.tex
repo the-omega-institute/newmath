@@ -71,6 +71,27 @@ Use \autoref{thm:typed-supply-socket-kind-separation}. The kind row $K$ is the p
 Thus a replay that preserves $Q$ and $S$ but hides $K$ before $G$ is read cannot present the gate with a typed socket boundary. Reading $C$ as replay of the same finite rows forces $K$ to remain visible until the audit-gate row is consumed.
 \end{proof}
 
+\begin{definition}[Gate-visible typed supply socket continuation]
+\label{def:typed-supply-socket-gate-visible-continuation}
+The gate-visible continuation subcarrier of $\TypedSupplySocketUp$ consists of accepted packets
+$$
+T=(K,Q,S,G,U,H,C,P,N)
+$$
+whose displayed $\Cont$ row $C$ keeps the socket-kind row $K$, requested-supply row $Q$, consumption-site row $S$, audit-gate row $G$, and non-internalization row $U$ visible until the audit gate is consumed. A read in this subcarrier may transport the packet by $H$ and replay it through $C$, but it has no coordinate for hiding $G$, converting $Q$ into an untyped grant, or replacing $U$ by a witness internal to the consuming construction.
+\end{definition}
+
+\begin{theorem}[Typed supply socket audit-gate nonescape]
+\label{thm:typed-supply-socket-audit-gate-nonescape}
+Every accepted gate-visible continuation read of \autoref{def:typed-supply-socket-gate-visible-continuation} factors through the socket-kind row $K$, requested-supply row $Q$, consumption-site row $S$, audit-gate row $G$, non-internalization row $U$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. It cannot replace the audit gate by an untyped supply grant or by a hidden witness.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:typed-supply-socket-kind-separation}. The row $K$ is the public separator for the socket kind, while $Q$ and $S$ identify the requested supply and the site at which it would be consumed.
+
+Next apply \autoref{thm:typed-supply-socket-continuation-kind-transport}. A continuation that preserves $Q$ and $S$ keeps $K$ visible before $G$ is consumed. The definition of the gate-visible subcarrier strengthens the same replay by requiring $G$ and $U$ to remain displayed as well.
+
+Finally read the TasteGate obligation of \autoref{thm:typed-supply-socket-tastegate-obligation}. Its checked marker records that the accepted carrier preserves $K,Q,S,G,U,H,C,P,N$ as distinct rows. Therefore the replay has no route that turns the audit gate into an untyped supply grant or hides a witness inside the consumer.
+\end{proof}
+
 \begin{theorem}[Typed supply socket TasteGate obligation]
 \label{thm:typed-supply-socket-tastegate-obligation}
 The $\TypedSupplySocketUp$ TasteGate obligation is the demand that any admitted instance preserve all rows

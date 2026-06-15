@@ -96,6 +96,20 @@ Use the discharge route of \autoref{thm:metacic-normalization-frontier-discharge
 Finally apply candidate-discharge stability from \autoref{thm:metacic-normalization-frontier-candidate-discharge-stability}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve exactly the same boundary, so the transported discharge still retains $S$ until an independent subject-reduction row is displayed.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization frontier subject-reduction residual budget]
+\label{thm:metacic-normalization-frontier-subject-reduction-residual-budget}
+Let $F=(C,K,E,N,S,H,R,P,L)$ be an accepted $\MetaCICNormalizationFrontierUp$ packet whose ground-compiler route is preserved. The subject-reduction obstruction row $S$ remains a visible residual budget row until a separate subject-reduction certificate is supplied. Candidate evidence $C,K$, endpoint evidence $E,N$, and ground-compiler rows $H,R,P,L$ may be consumed only as their displayed rows; they cannot be retyped as subject reduction, strong normalization, confluence, quotient term equality, evaluator equality, or a hidden normalizer.
+\end{theorem}
+\begin{proof}
+Begin with the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route}. It forces every normalization-boundary consumer to read the carrier surface, candidate-evidence route, and endpoint boundary before exporting any ground-compiler-facing result.
+
+Apply the TasteGate and discharge routes of \autoref{thm:metacic-normalization-frontier-tastegate-route} and \autoref{thm:metacic-normalization-frontier-discharge-route}. These routes keep $C,K,E,N,S,H,R,P,L$ visible as separate rows, so the candidate and endpoint evidence cannot be promoted into subject reduction or a stronger normalization theorem.
+
+Use candidate-discharge stability from \autoref{thm:metacic-normalization-frontier-candidate-discharge-stability}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same row family, including the distinction between candidate evidence, endpoints, obstruction accounting, and ground-compiler replay.
+
+Finally apply residual-premise retention from \autoref{thm:metacic-normalization-frontier-residual-premise-retention}. Since $S$ is the only displayed subject-reduction obstruction row and no other coordinate has the required type, row exhaustion leaves $S$ as an ordinary residual budget row until an independent subject-reduction certificate is supplied.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization frontier ground-compiler readback]
 \label{thm:metacic-normalization-frontier-ground-compiler-readback}
 Let $F=(C,K,E,N,S,H,R,P,L)$ be an accepted $\MetaCICNormalizationFrontierUp$ carrier. Any normalization-frontier readback consumed by a MetaCIC audit or TasteGate consumer must pass through candidate evidence $C,K$, endpoint evidence $E,N$, residual premise $S$, and the ground-compiler rows $H,R,P,L$. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve that readback, and the route exports no strong normalization, confluence, erased subject reduction, quotient term equality, or hidden normalizer.
