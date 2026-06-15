@@ -2188,6 +2188,7 @@ import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.CauchySealInterfaceUp.TasteGate
 import BEDC.Derived.CauchySelectionFunctionUp.TasteGate
 import BEDC.Derived.CauchySelectionPrincipleUp.TasteGate
+import BEDC.Derived.CauchySeparableCompletionUp
 import BEDC.Derived.CauchySequenceBoundedUp
 import BEDC.Derived.CauchySequenceBoundedUp.TasteGate
 import BEDC.Derived.CauchySequenceCompletionUp.TasteGate
