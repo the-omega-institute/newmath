@@ -72,6 +72,18 @@ Consequently $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCo
 \end{proof}
 \leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCompletionRoute}
 
+\begin{theorem}[FilterRefinement reverse-ledger comparison]
+\label{thm:filter-refinement-reverse-ledger-comparison}
+Let $R=(S,T,\rho,\lambda,H,C,P,N)$ be an accepted $\FilterRefinementUp$ carrier. When $\lambda$ is present, it supplies only finite return comparisons from the source route back to the target route. Thus source and target completion-facing reads may be compared through $S,T,\rho,\lambda,H,C,P,N$ without quotient-filter equality, ultrafilter data, selected limits, countable choice, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier surface of \autoref{def:filter-refinement-namecert-surface}. The rows $S$ and $T$ are displayed filter-base rows, $\rho$ is the cofinal refinement map, and $\lambda$ is explicitly the optional reverse comparison ledger.
+
+Use the completion route theorem \autoref{thm:filter-refinement-completion-route}. It identifies $\lambda$ as route-equivalence data read only when a finite comparison between the source and target completion-facing routes is required.
+
+Apply Cauchy preservation and the Cauchy-basis consumer, \autoref{thm:filter-refinement-cauchy-preservation} and \autoref{thm:filter-refinement-cauchy-basis-consumer}. Both directions remain inside displayed $\FilterBaseUp$ and $\CauchyFilterBaseUp$ rows, while $H,C,P,N$ transport, replay, source, and name the same finite packet. No quotient filter, ultrafilter, selected limit, choice schedule, host equality, or ambient completeness row is available to the comparison.
+\end{proof}
+
 \begin{theorem}[FilterRefinement Cauchy base dependency]
 \label{thm:filter-refinement-cauchy-base-dependency}
 Every refinement accepted by $\FilterRefinementUp$ consumes the finite Cauchy filter base carrier of \autoref{ch:concrete-instances-cauchy-filter-base-namecert} before it may replay completion-facing cofinality. The refined route therefore exposes a $\CauchyFilterBaseUp$ basis row, a cofinal comparison through $\rho$, and the same transport, replay, provenance, and local naming rows $H,C,P,N$ before any $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer reads the refinement.
