@@ -131,4 +131,50 @@ theorem ProductMetricCarrier_projection_bridge_consumer [AskSetup] [PackageSetup
     ⟨sameProduct, sameLeftRead, sameRightRead, leftReadUnary, rightReadUnary,
       triangleReadUnary, sameTransportProductRealRead, provenancePkg, productRealReadPkg'⟩
 
+theorem ProductMetricCarrier_public_metricspace_bridge_consumer [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      leftRead rightRead triangleRead componentRead productRealRead publicDistance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont left product leftRead ->
+        Cont right product rightRead ->
+          Cont distance transport triangleRead ->
+            Cont leftDistance rightDistance componentRead ->
+              Cont product componentRead productRealRead ->
+                Cont product distance publicDistance ->
+                  PkgSig bundle productRealRead pkg ->
+                    PkgSig bundle publicDistance pkg ->
+                      SemanticNameCert
+                          (fun row : BHist => hsame row triangleRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row left ∨ hsame row right ∨ hsame row leftDistance ∨
+                              hsame row rightDistance ∨ hsame row product ∨
+                                hsame row distance ∨ hsame row transport ∨
+                                  hsame row triangleRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont left right product ∧
+                              Cont leftDistance rightDistance distance ∧
+                                Cont product distance transport ∧
+                                  Cont distance transport triangleRead ∧
+                                    PkgSig bundle provenance pkg)
+                          hsame ∧
+                        hsame transport productRealRead ∧ hsame transport publicDistance ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle productRealRead pkg ∧
+                            PkgSig bundle publicDistance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont SemanticNameCert
+  intro carrier leftProjection rightProjection triangleReadRow componentReadRow
+    productRealReadRow publicDistanceRow productRealReadPkg publicDistancePkg
+  obtain ⟨cert, _leftReadUnary, _rightReadUnary, _triangleReadUnary,
+    sameTransportProductRealRead⟩ :=
+      ProductMetricCarrier_standard_metricspace_bridge_certificate carrier leftProjection
+        rightProjection triangleReadRow componentReadRow productRealReadRow productRealReadPkg
+  obtain ⟨_productUnary, _distanceUnary, _transportUnary, _publicDistanceUnary,
+    sameTransportPublicDistance, _productRow, _distanceRow, _transportRow, _publicDistanceRow,
+      provenancePkg, publicDistancePkg'⟩ :=
+      ProductMetricCarrier_public_metricspace_export carrier publicDistanceRow publicDistancePkg
+  exact
+    ⟨cert, sameTransportProductRealRead, sameTransportPublicDistance, provenancePkg,
+      productRealReadPkg, publicDistancePkg'⟩
+
 end BEDC.Derived.ProductMetricUp
