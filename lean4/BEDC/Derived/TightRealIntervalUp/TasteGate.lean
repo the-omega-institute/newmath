@@ -10,7 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive TightRealIntervalUp : Type where
-  | mk (L U Q D S R E H C P N : BHist) : TightRealIntervalUp
+  | mk :
+      (lowerEndpoint upperEndpoint rationalCell dyadicRefinement streamWindow
+        regularReadback realSeal transport replay provenance name : BHist) →
+      TightRealIntervalUp
   deriving DecidableEq
 
 def tightRealIntervalEncodeBHist : BHist → RawEvent
@@ -25,23 +28,28 @@ def tightRealIntervalDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (tightRealIntervalDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (tightRealIntervalDecodeBHist tail)
 
-private theorem TightRealIntervalTasteGate_single_carrier_alignment_decode :
+private theorem tightRealInterval_decode_encode_bhist :
     ∀ h : BHist, tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def tightRealIntervalFields : TightRealIntervalUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | TightRealIntervalUp.mk L U Q D S R E H C P N =>
-      [L, U, Q, D, S, R, E, H, C, P, N]
+  | TightRealIntervalUp.mk lowerEndpoint upperEndpoint rationalCell dyadicRefinement
+      streamWindow regularReadback realSeal transport replay provenance name =>
+      [lowerEndpoint, upperEndpoint, rationalCell, dyadicRefinement, streamWindow,
+        regularReadback, realSeal, transport, replay, provenance, name]
 
 def tightRealIntervalToEventFlow : TightRealIntervalUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map tightRealIntervalEncodeBHist (tightRealIntervalFields x)
+  | x => (tightRealIntervalFields x).map tightRealIntervalEncodeBHist
 
 private def tightRealIntervalEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -50,59 +58,61 @@ private def tightRealIntervalEventAt : Nat → EventFlow → RawEvent
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => tightRealIntervalEventAt index rest
 
-def tightRealIntervalFromEventFlow : EventFlow → Option TightRealIntervalUp
+def tightRealIntervalFromEventFlow : EventFlow → Option TightRealIntervalUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (TightRealIntervalUp.mk
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 0 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 1 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 2 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 3 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 4 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 5 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 6 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 7 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 8 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 9 ef))
-          (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 10 ef)))
+  fun ef =>
+    some
+      (TightRealIntervalUp.mk
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 0 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 1 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 2 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 3 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 4 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 5 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 6 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 7 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 8 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 9 ef))
+        (tightRealIntervalDecodeBHist (tightRealIntervalEventAt 10 ef)))
 
-private theorem TightRealIntervalTasteGate_single_carrier_alignment_round_trip :
+private theorem tightRealInterval_round_trip :
     ∀ x : TightRealIntervalUp,
       tightRealIntervalFromEventFlow (tightRealIntervalToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk L U Q D S R E H C P N =>
+  | mk lowerEndpoint upperEndpoint rationalCell dyadicRefinement streamWindow regularReadback
+      realSeal transport replay provenance name =>
       change
         some
           (TightRealIntervalUp.mk
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist L))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist U))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist Q))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist D))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist S))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist R))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist E))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist H))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist C))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist P))
-            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist N))) =
-          some (TightRealIntervalUp.mk L U Q D S R E H C P N)
-      rw [TightRealIntervalTasteGate_single_carrier_alignment_decode L,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode U,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode Q,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode D,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode S,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode R,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode E,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode H,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode C,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode P,
-        TightRealIntervalTasteGate_single_carrier_alignment_decode N]
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist lowerEndpoint))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist upperEndpoint))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist rationalCell))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist dyadicRefinement))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist streamWindow))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist regularReadback))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist realSeal))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist transport))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist replay))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist provenance))
+            (tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist name))) =
+          some
+            (TightRealIntervalUp.mk lowerEndpoint upperEndpoint rationalCell dyadicRefinement
+              streamWindow regularReadback realSeal transport replay provenance name)
+      rw [tightRealInterval_decode_encode_bhist lowerEndpoint,
+        tightRealInterval_decode_encode_bhist upperEndpoint,
+        tightRealInterval_decode_encode_bhist rationalCell,
+        tightRealInterval_decode_encode_bhist dyadicRefinement,
+        tightRealInterval_decode_encode_bhist streamWindow,
+        tightRealInterval_decode_encode_bhist regularReadback,
+        tightRealInterval_decode_encode_bhist realSeal,
+        tightRealInterval_decode_encode_bhist transport,
+        tightRealInterval_decode_encode_bhist replay,
+        tightRealInterval_decode_encode_bhist provenance,
+        tightRealInterval_decode_encode_bhist name]
 
-private theorem TightRealIntervalTasteGate_single_carrier_alignment_injective
-    {x y : TightRealIntervalUp} :
+private theorem tightRealIntervalToEventFlow_injective {x y : TightRealIntervalUp} :
     tightRealIntervalToEventFlow x = tightRealIntervalToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -111,21 +121,8 @@ private theorem TightRealIntervalTasteGate_single_carrier_alignment_injective
         tightRealIntervalFromEventFlow (tightRealIntervalToEventFlow y) :=
     congrArg tightRealIntervalFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (TightRealIntervalTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (TightRealIntervalTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem tightRealIntervalFieldFaithful :
-    ∀ x y : TightRealIntervalUp, tightRealIntervalFields x = tightRealIntervalFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y h
-  cases x with
-  | mk L1 U1 Q1 D1 S1 R1 E1 H1 C1 P1 N1 =>
-      cases y with
-      | mk L2 U2 Q2 D2 S2 R2 E2 H2 C2 P2 N2 =>
-          cases h
-          rfl
+    (Eq.trans (tightRealInterval_round_trip x).symm
+      (Eq.trans hread (tightRealInterval_round_trip y)))
 
 instance tightRealIntervalBHistCarrier : BHistCarrier TightRealIntervalUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -137,39 +134,32 @@ instance tightRealIntervalChapterTasteGate : ChapterTasteGate TightRealIntervalU
   round_trip := by
     intro x
     change tightRealIntervalFromEventFlow (tightRealIntervalToEventFlow x) = some x
-    exact TightRealIntervalTasteGate_single_carrier_alignment_round_trip x
+    exact tightRealInterval_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (TightRealIntervalTasteGate_single_carrier_alignment_injective heq)
-
-instance tightRealIntervalFieldFaithfulInstance : FieldFaithful TightRealIntervalUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := tightRealIntervalFields
-  field_faithful := tightRealIntervalFieldFaithful
-
-instance tightRealIntervalNontrivial : BEDC.Meta.TasteGate.Nontrivial TightRealIntervalUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨TightRealIntervalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      TightRealIntervalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+    exact hxy (tightRealIntervalToEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate TightRealIntervalUp :=
   -- BEDC touchpoint anchor: BHist BMark
   tightRealIntervalChapterTasteGate
 
-def taste_gate_witness : FieldFaithful TightRealIntervalUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  tightRealIntervalFieldFaithfulInstance
+namespace TasteGate
 
 theorem TightRealIntervalTasteGate_single_carrier_alignment :
-    tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist BHist.Empty) = BHist.Empty ∧
-      (∀ h : BHist, tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist h) = h) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
-  exact ⟨rfl, TightRealIntervalTasteGate_single_carrier_alignment_decode⟩
+    (∀ h : BHist, tightRealIntervalDecodeBHist (tightRealIntervalEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier TightRealIntervalUp) ∧
+        Nonempty (ChapterTasteGate TightRealIntervalUp) ∧
+          tightRealIntervalFields
+              (TightRealIntervalUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty) =
+            [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+              BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier ChapterTasteGate
+  exact
+    ⟨tightRealInterval_decode_encode_bhist, ⟨tightRealIntervalBHistCarrier⟩,
+      ⟨tightRealIntervalChapterTasteGate⟩, rfl⟩
+
+end TasteGate
 
 end BEDC.Derived.TightRealIntervalUp
