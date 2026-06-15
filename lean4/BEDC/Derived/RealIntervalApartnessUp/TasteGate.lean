@@ -7,7 +7,7 @@ import BEDC.Meta.TasteGate
 # RealIntervalApartnessUp TasteGate carrier.
 -/
 
-namespace BEDC.Derived.RealIntervalApartnessUp
+namespace BEDC.Derived.RealIntervalApartnessUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -74,25 +74,78 @@ def realIntervalApartnessToEventFlow : RealIntervalApartnessUp → EventFlow
 
 def realIntervalApartnessFromEventFlow : EventFlow → Option RealIntervalApartnessUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [leftInterval, rightInterval, leftLower, leftUpper, rightLower, rightUpper, gap,
-      finiteWindow, readback, separability, transport, replay, provenance, nameCert] =>
-      some
-        (RealIntervalApartnessUp.mk
-          (realIntervalApartnessDecodeBHist leftInterval)
-          (realIntervalApartnessDecodeBHist rightInterval)
-          (realIntervalApartnessDecodeBHist leftLower)
-          (realIntervalApartnessDecodeBHist leftUpper)
-          (realIntervalApartnessDecodeBHist rightLower)
-          (realIntervalApartnessDecodeBHist rightUpper)
-          (realIntervalApartnessDecodeBHist gap)
-          (realIntervalApartnessDecodeBHist finiteWindow)
-          (realIntervalApartnessDecodeBHist readback)
-          (realIntervalApartnessDecodeBHist separability)
-          (realIntervalApartnessDecodeBHist transport)
-          (realIntervalApartnessDecodeBHist replay)
-          (realIntervalApartnessDecodeBHist provenance)
-          (realIntervalApartnessDecodeBHist nameCert))
-  | _ => none
+  | [] => none
+  | leftInterval :: rest0 =>
+      match rest0 with
+      | [] => none
+      | rightInterval :: rest1 =>
+          match rest1 with
+          | [] => none
+          | leftLower :: rest2 =>
+              match rest2 with
+              | [] => none
+              | leftUpper :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | rightLower :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | rightUpper :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | gap :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | finiteWindow :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | readback :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | separability :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | transport :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | replay :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | provenance :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | nameCert :: rest13 =>
+                                                          match rest13 with
+                                                          | [] =>
+                                                              some
+                                                                (RealIntervalApartnessUp.mk
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    leftInterval)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    rightInterval)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    leftLower)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    leftUpper)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    rightLower)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    rightUpper)
+                                                                  (realIntervalApartnessDecodeBHist gap)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    finiteWindow)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    readback)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    separability)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    transport)
+                                                                  (realIntervalApartnessDecodeBHist replay)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    provenance)
+                                                                  (realIntervalApartnessDecodeBHist
+                                                                    nameCert))
+                                                          | _ :: _ => none
 
 private theorem realIntervalApartnessRoundTrip (x : RealIntervalApartnessUp) :
     realIntervalApartnessFromEventFlow (realIntervalApartnessToEventFlow x) = some x := by
@@ -226,11 +279,20 @@ def taste_gate : ChapterTasteGate RealIntervalApartnessUp :=
   realIntervalApartnessChapterTasteGate
 
 theorem RealIntervalApartnessTasteGate_single_carrier_alignment :
-    (∀ h : BHist, realIntervalApartnessDecodeBHist (realIntervalApartnessEncodeBHist h) = h) ∧
+    (forall h : BHist, realIntervalApartnessDecodeBHist (realIntervalApartnessEncodeBHist h) = h) /\
+      (forall x : RealIntervalApartnessUp,
+        realIntervalApartnessFromEventFlow (realIntervalApartnessToEventFlow x) = some x) /\
+      (forall x y : RealIntervalApartnessUp,
+        realIntervalApartnessToEventFlow x = realIntervalApartnessToEventFlow y -> x = y) /\
       realIntervalApartnessEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact realIntervalApartnessDecodeEncodeBHist
-  · rfl
+  · constructor
+    · exact realIntervalApartnessRoundTrip
+    · constructor
+      · intro x y heq
+        exact realIntervalApartnessToEventFlow_injective heq
+      · rfl
 
-end BEDC.Derived.RealIntervalApartnessUp
+end BEDC.Derived.RealIntervalApartnessUp.TasteGate
