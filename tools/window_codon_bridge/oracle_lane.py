@@ -375,6 +375,21 @@ def run_nyxid_oracle_cli(prompt: str, transport: dict[str, Any]) -> dict[str, An
             "response_text": "",
             "response_json": None,
         }
+    pool_status = run_nyxid_oracle_status(pool, transport)
+    if pool_status.get("status") == "transport_success":
+        status_json = pool_status.get("response_json")
+        queued = int(status_json.get("queued") or 0) if isinstance(status_json, dict) else 0
+        dispatched = int(status_json.get("dispatched") or 0) if isinstance(status_json, dict) else 0
+        if queued + dispatched > 0:
+            return {
+                "status": "oracle_busy",
+                "pool": pool,
+                "queued": queued,
+                "dispatched": dispatched,
+                "error": "",
+                "response_text": pool_status.get("response_text") or "",
+                "response_json": status_json,
+            }
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".txt", delete=False) as fh:
         fh.write(prompt)
         fh.write("\n")
@@ -439,6 +454,59 @@ def run_nyxid_oracle_cli(prompt: str, transport: dict[str, Any]) -> dict[str, An
         "task_id": parsed.get("task_id") if isinstance(parsed, dict) else None,
         "conversation_id": parsed.get("conversation_id") if isinstance(parsed, dict) else None,
         "chatgpt_url": parsed.get("chatgpt_url") if isinstance(parsed, dict) else None,
+    }
+
+
+def run_nyxid_oracle_status(pool: str, transport: dict[str, Any]) -> dict[str, Any]:
+    exe = nyxid_executable()
+    if exe is None:
+        return {
+            "status": "transport_failed",
+            "pool": pool,
+            "error": "nyxid executable not found",
+            "response_text": "",
+            "response_json": None,
+        }
+    try:
+        proc = subprocess.run(
+            [
+                exe,
+                "oracle",
+                "status",
+                pool,
+                "--output",
+                "json",
+            ],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            timeout=int(transport.get("status_timeout_seconds") or 30),
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return {
+            "status": "transport_failed",
+            "pool": pool,
+            "error": str(exc),
+            "response_text": "",
+            "response_json": None,
+        }
+    response_text = (proc.stdout or "") + (("\n" + proc.stderr) if proc.stderr else "")
+    parsed = first_json_object(proc.stdout) if proc.stdout.strip() else None
+    if not isinstance(parsed, dict):
+        parsed = first_json_object(response_text)
+    error = ""
+    if isinstance(parsed, dict) and isinstance(parsed.get("error"), dict):
+        error = response_tail(response_text, 1000)
+    elif proc.returncode != 0:
+        error = response_tail(response_text, 1000)
+    status = "transport_success" if proc.returncode == 0 and not error else "transport_failed"
+    return {
+        "status": status,
+        "pool": pool,
+        "returncode": proc.returncode,
+        "response_text": response_text,
+        "response_json": parsed,
+        "error": error,
     }
 
 
@@ -632,6 +700,15 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
             )
         else:
             result = run_nyxid(prompt, transport)
+            if result.get("status") == "oracle_busy":
+                return {
+                    "ran": False,
+                    "reason": "oracle_busy:active_tasks",
+                    "topic_id": topic.get("topic_id"),
+                    "pool": result.get("pool") or transport.get("pool"),
+                    "queued": result.get("queued"),
+                    "dispatched": result.get("dispatched"),
+                }
             transport_payload = result.get("response_json")
             err_code = oracle_error_code(transport_payload)
             if err_code == "oracle_quota_exceeded":
