@@ -41,6 +41,7 @@ The local $\NameCert_{\MetaCICSubjectReductionBoundaryUp}$ surface consists of f
 \item audit non-escape from hidden substitution preservation, host conversion, erased typing derivations, semantic equality of terms, global normalization, or an unrecorded closed subject-reduction theorem.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICSubjectReductionBoundaryUp.MetaCICSubjectReductionBoundary\_namecert\_obligations}
 \begin{proof}
 Carrier admission is the finite packet of \autoref{def:metacic-subject-reduction-boundary-carrier}. Its rows display the four named discharge obligations, the parameterized preservation theorem, the checked obstruction theorem, the audit ledger, transport data, continuation routes, package provenance, and local naming certificate.
 
@@ -50,6 +51,7 @@ Obstruction exactness is the role of $O$. It records the checked obstruction row
 
 The non-escape clause follows from absence of coordinates. Hidden substitution preservation, host conversion, erased typing derivations, semantic equality, global normalization, and unrecorded closed subject reduction are not rows of $M$ and cannot be reconstructed by $\hsame$ transport or a $\Cont$ read.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICSubjectReductionBoundaryUp.MetaCICSubjectReductionBoundaryNamecertObligations}
 
 \begin{theorem}[MetaCIC subject-reduction boundary non-escape]
 \label{thm:metacic-subject-reduction-boundary-nonescape}
@@ -68,12 +70,40 @@ The exclusions are immediate from the packet inventory. Since the carrier has no
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICSubjectReductionBoundaryUp.MetaCICSubjectReductionBoundaryCarrier\_nonescape}
 
+\begin{theorem}[MetaCIC subject-reduction boundary typed substitution]
+\label{thm:metacic-subject-reduction-boundary-typed-substitution}
+Every typed-substitution read displayed by an accepted $\MetaCICSubjectReductionBoundaryUp$ packet preserves the finite subject-reduction boundary only through the retained rows
+$$
+B,\ A,\ L,\ P_i,\ R,\ Q,\ H,\ C,\ K,\ N.
+$$
+The substitution-facing route may replay the beta-substitution row $B$ and the parameterized theorem row $R$ through the same context, term, type, substitution, and reduction windows recorded by $Q,H,C,K,N$. It cannot replace the four retained discharge rows by a hidden substitution lemma, a closed subject-reduction theorem, host conversion, erased derivation semantics, semantic equality of MetaCIC terms, or global normalization.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:metacic-subject-reduction-boundary-carrier}. A typed-substitution request can only see the beta-substitution row $B$, the remaining discharge rows $A,L,P_i$, the parameterized theorem row $R$, and the structural rows $Q,H,C,K,N$.
+
+The audit ledger $Q$ keeps the context, term, type, substitution, and reduction windows explicit before $R$ is consumed. Transport by $H$ and replay by $C$ preserve those displayed windows rather than creating a new substitution theorem.
+
+Apply the non-escape theorem \autoref{thm:metacic-subject-reduction-boundary-nonescape}. Since the forbidden objects are not rows of the packet, a typed-substitution read remains a boundary-preserving route through the retained finite data.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction boundary context non-escape]
+\label{thm:metacic-subject-reduction-boundary-context-nonescape}
+No context-facing consumer of an accepted $\MetaCICSubjectReductionBoundaryUp$ packet receives any global normalization, host conversion, or semantic equality row from the boundary packet. Every context extension, weakening, or retained-context read must factor through the displayed discharge rows $B,A,L,P_i$, the parameterized theorem row $R$, the checked obstruction row $O$, and the audit, transport, replay, provenance, and naming rows $Q,H,C,K,N$.
+\end{theorem}
+\begin{proof}
+Start with the finite inventory in \autoref{def:metacic-subject-reduction-boundary-carrier}. The context-visible rows are exactly the four discharge rows, the parameterized theorem row, the obstruction row, and the structural audit and replay rows.
+
+Use \autoref{thm:metacic-subject-reduction-boundary-namecert-obligations}. It separates obligation exposure from obstruction exactness, so a context read cannot move from retained local rows to an ambient conversion or semantic-equality principle.
+
+Finally apply \autoref{thm:metacic-subject-reduction-boundary-nonescape}. Global normalization, host conversion, and semantic equality are absent coordinates, hence no context-facing route exported by the packet can expose them.
+\end{proof}
+
 \closureat{MetaCICSubjectReductionBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICSubjectReductionBoundaryUp}
   \constructivestory{A $\MetaCICSubjectReductionBoundaryUp$ packet is generated from four displayed MetaCIC subject-reduction discharge rows, a parameterized preservation theorem row, a checked obstruction row, an audit ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-subject-reduction-boundary-carrier}, \autoref{thm:metacic-subject-reduction-boundary-namecert-obligations}, and \autoref{thm:metacic-subject-reduction-boundary-nonescape} bind the MetaCIC subject-reduction obstruction as a finite boundary packet.}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-boundary-carrier}, \autoref{thm:metacic-subject-reduction-boundary-namecert-obligations}, \autoref{thm:metacic-subject-reduction-boundary-nonescape}, \autoref{thm:metacic-subject-reduction-boundary-typed-substitution}, and \autoref{thm:metacic-subject-reduction-boundary-context-nonescape} bind the MetaCIC subject-reduction obstruction as a finite boundary packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

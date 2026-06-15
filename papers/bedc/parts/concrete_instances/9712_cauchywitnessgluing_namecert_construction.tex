@@ -110,6 +110,7 @@ L \to T \to S \to K \to U \to D \to V \to R
 $$
 with the witness edge $E$ and the structural rows $H,C,P,N$ visible. No consumer can reach the Real seal through an omitted ledger, hidden tail envelope, alternate seal synchronizer, detached completion-seal classifier, quotient stream, host real equality, selected external limit, countable-choice row, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyWitnessGluingUp.CauchyWitnessGluingCarrier\_real\_seal\_nonescape}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-witness-gluing-carrier}. The rows $L,T,S,K,U,V,D,R,E,H,C,P,N$ are the whole finite packet, and the definition excludes the ambient Real-completion objects named in the statement.
 
@@ -118,6 +119,20 @@ The route first exposes the witness and tail side. A Real-facing read has to pas
 The route then exposes the seal and observation side. The synchronizer $S$ and completion-seal classifier $K$ determine which completion-seal row is being read, while $U,D,V$ supply the finite StreamName, DyadicRatCore, and RegSeqRat handoff before $R$ is served.
 
 Finally, the structural rows repack the result. Componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row leave no coordinate from which a consumer could extract a second Real seal or a hidden completion principle.
+\end{proof}
+
+\begin{theorem}[CauchyWitnessGluing obligation ledger]
+\label{thm:cauchy-witness-gluing-obligation-ledger}
+Every accepted $\CauchyWitnessGluingUp$ packet exposes exactly five obligation families: witness-ledger admission through $L,T,S,K,E$; stream, dyadic, and $\RegSeqRatUp$ handoff through $U,D,V,R$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; and $\Pkg$ plus local $\NameCert$ provenance through $P,N$. These families exhaust the obligation ledger and export no quotient stream equality, selected limit, countable-choice row, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and route-obligation surface. The carrier of \autoref{def:cauchy-witness-gluing-carrier} lists exactly $L,T,S,K,U,V,D,R,E,H,C,P,N$, and \autoref{thm:cauchy-witness-gluing-route-obligation-surface} says that these rows are the local NameCert surface.
+
+The first family is the witness-ledger admission. By \autoref{thm:cauchy-witness-gluing-witness-ledger-exactness}, the ledger $L$ is exact only together with the tail envelope $T$, seal synchronizer $S$, completion classifier $K$, and witness edge $E$.
+
+The second family is the finite handoff to the Real seal. Apply \autoref{thm:cauchy-witness-gluing-tail-envelope-handoff} and \autoref{thm:cauchy-witness-gluing-real-seal-nonescape}: the stream windows $U$, dyadic ledger $D$, regular readback $V$, and terminal seal $R$ mediate every Real-facing read.
+
+The remaining three families are structural. The row $H$ carries componentwise $\hsame$ transport, the row $C$ carries displayed $\Cont$ replay, and the rows $P,N$ record package provenance and local naming. Since none of the five families contains a quotient stream, selected limit, countable-choice schedule, host real equality row, or ambient Real-completeness coordinate, the obligation ledger is exhausted by the listed rows.
 \end{proof}
 
 The Lean TasteGate development is expected to place the explicit $\mathsf{Nontrivial}\ \CauchyWitnessGluingUp$ and $\mathsf{FieldFaithful}\ \CauchyWitnessGluingUp$ instances in $\mathsf{BEDC.Derived.CauchyWitnessGluingUp.TasteGate}$, with the single-carrier alignment target named $\mathsf{BEDC.Derived.CauchyWitnessGluingUp.CauchyWitnessGluingTasteGate\_single\_carrier\_alignment}$.
