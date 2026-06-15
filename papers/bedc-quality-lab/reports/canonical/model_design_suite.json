@@ -5,7 +5,7 @@
     "rows_pointer": "reports/canonical/model_design_suite.json:$.rows"
   },
   "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
-  "generated_at": "2026-06-13T14:56:21.159269+00:00",
+  "generated_at": "2026-06-15T17:58:08.027224+00:00",
   "hardgates": {
     "SUITE-HG1": {
       "gate_id": "SUITE-HG1",
@@ -24,12 +24,12 @@
     },
     "SUITE-HG4": {
       "gate_id": "SUITE-HG4",
-      "reason": "verdict and mechanism pointers resolve for every row",
+      "reason": "coverage, verdict, mechanism, and debt pointers resolve for every row",
       "status": "pass"
     },
     "SUITE-HG5": {
       "gate_id": "SUITE-HG5",
-      "reason": "row hardgate statuses propagate to the suite status",
+      "reason": "not-claimed and negative-witness pointers resolve and row hardgate statuses propagate",
       "status": "pass"
     }
   },
@@ -43,6 +43,7 @@
     {
       "canonical_owner_pointer": "reports/canonical/ledger-aware-transformer.json:$",
       "component_id": "reports/canonical/ledger-aware-transformer.json:$.artifact_id",
+      "coverage_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[4]",
       "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs",
       "discovery_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG11",
       "hardgate_reason": "all pointer fields resolve",
@@ -55,6 +56,7 @@
     {
       "canonical_owner_pointer": "reports/canonical/certificate-gated-attention.json:$",
       "component_id": "reports/canonical/certificate-gated-attention.json:$.artifact_id",
+      "coverage_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[0]",
       "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
       "discovery_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG19",
       "hardgate_reason": "all pointer fields resolve",
@@ -67,6 +69,7 @@
     {
       "canonical_owner_pointer": "reports/canonical/discovery-regularized-training.json:$",
       "component_id": "reports/canonical/discovery-regularized-training.json:$.artifact_id",
+      "coverage_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[3]",
       "debt_pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.hardgate",
       "discovery_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG14",
       "hardgate_reason": "all pointer fields resolve",
@@ -79,6 +82,7 @@
     {
       "canonical_owner_pointer": "reports/canonical/mechanism-seeking-network.json:$",
       "component_id": "reports/canonical/mechanism-seeking-network.json:$.artifact_id",
+      "coverage_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[6]",
       "debt_pointer": "reports/canonical/mechanism-seeking-network.json:$.revocation_rows",
       "discovery_pointer": "reports/canonical/mechanism-seeking-network.json:$.discovery_map_signal",
       "hardgate_reason": "all pointer fields resolve",
@@ -91,6 +95,7 @@
     {
       "canonical_owner_pointer": "reports/canonical/discovery-gated-transformer.json:$",
       "component_id": "reports/canonical/discovery-gated-transformer.json:$.artifact_id",
+      "coverage_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[1]",
       "debt_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.hardgates",
       "discovery_pointer": "reports/canonical/dgt-l1-controls.json:$.l1_step_ladder.convergence_crossover",
       "hardgate_reason": "all pointer fields resolve",

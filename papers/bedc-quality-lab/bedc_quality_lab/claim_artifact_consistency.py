@@ -611,7 +611,7 @@ def _gate_hg6(root: Path, claim_id: str, verdict_rows: Sequence[Mapping[str, Any
     scorecard_hash = _current_hash(root, QUALITY_SCORECARD_ARTIFACT)
     if verdict_row.get("claim_verdict") == "accepted_positive_discovery" and verdict_row.get("scorecard_hash") != scorecard_hash:
         return _fail("CONS-HG6", "scorecard artifact hash is stale", _claim_verdict_pointer(verdict_index), expected=scorecard_hash, actual=verdict_row.get("scorecard_hash"))
-    for artifact in (DGT_ARTIFACT, CLAIM_GRAPH_ARTIFACT):
+    for artifact in (DGT_ARTIFACT, DISCOVERY_MAP_ARTIFACT, CLAIM_GRAPH_ARTIFACT):
         expected_hash = _current_hash(root, artifact)
         recorded_hash = _fingerprint_source_hash(root, artifact)
         pointer = f"{HIGH_IMPACT_REVIEW_FINGERPRINT_ARTIFACT}:$.inputs.source_artifacts"

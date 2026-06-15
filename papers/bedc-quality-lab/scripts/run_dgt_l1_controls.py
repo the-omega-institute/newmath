@@ -66,6 +66,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "l1_step_ladder_verdict": payload["l1_step_ladder"]["verdict"],
                 "l1_step_ladder_crossover": payload["l1_step_ladder"]["convergence_crossover"]["status"],
                 "l1_ood_mechanism_verdict": payload["l1_ood_mechanism"]["verdict"],
+                "fair_base_learnability_gate_status": payload["fair_base_learnability_gate"]["status"],
+                "fair_base_failed_gate": payload["fair_base_learnability_gate"]["failed_gate"],
+                "fair_base_pointer": payload["fair_base_learnability_gate"]["pointer"],
             },
             sort_keys=True,
         )

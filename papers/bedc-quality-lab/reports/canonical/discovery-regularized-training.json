@@ -364,6 +364,80 @@
     "torch_training_evidence_pointer": "$.torch_training_evidence",
     "training_mechanism_cert_pointer": "$.training_mechanism_cert"
   },
+  "drt2_semantic_hardgates": {
+    "failed_gate": null,
+    "failed_gate_pointer": null,
+    "gate_labels": [
+      "DRT2-HG1",
+      "DRT2-HG2",
+      "DRT2-HG3",
+      "DRT2-HG4",
+      "DRT2-HG5",
+      "DRT2-HG6"
+    ],
+    "gates": {
+      "DRT2-HG1": {
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.certificate_guided_dn_preservation",
+        "gate_id": "DRT2-HG1",
+        "required_refs_present": true,
+        "requirement": "Certificate-guided DN remains sibling evidence with no DRT terminal status.",
+        "status": "pass",
+        "terminal_status_isolated": true
+      },
+      "DRT2-HG2": {
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.loss_family",
+        "gate_id": "DRT2-HG2",
+        "loss_terms": [
+          "certificate",
+          "cost",
+          "discovery",
+          "ledger",
+          "mechanism",
+          "negative_witness"
+        ],
+        "requirement": "All six loss terms expose resolving schema or evidence pointers under loss_family.",
+        "status": "pass"
+      },
+      "DRT2-HG3": {
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.component_ablation.rows",
+        "gate_id": "DRT2-HG3",
+        "requirement": "Component ablation rows must exist and point to owner-local evidence.",
+        "row_count": 7,
+        "status": "pass"
+      },
+      "DRT2-HG4": {
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_penalty",
+        "forbidden_authority_status": "pass",
+        "gate_id": "DRT2-HG4",
+        "requirement": "Negative witness penalty points to existing owners and does not copy payload bodies or verdict authority.",
+        "status": "pass"
+      },
+      "DRT2-HG5": {
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.training_method_comparison.rows",
+        "gate_id": "DRT2-HG5",
+        "required_arms": [
+          "DGT+DRT",
+          "DGT-without-DRT",
+          "Transformer+DRT",
+          "component+DRT"
+        ],
+        "requirement": "Training-method comparison is pointer-only and covers all required arms.",
+        "status": "pass"
+      },
+      "DRT2-HG6": {
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.not_claimed",
+        "forbidden_authority_status": "pass",
+        "gate_id": "DRT2-HG6",
+        "requirement": "not_claimed excludes model-superiority claims and recursive authority audit rejects terminal verdicts.",
+        "scope_excludes_superiority": true,
+        "status": "pass",
+        "terminal_absent": true
+      }
+    },
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.drt2_semantic_hardgates",
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:semantic-hardgates",
+    "status": "pass"
+  },
   "drt_extension_hardgates": {
     "failed_gate": null,
     "failed_gate_pointer": null,
@@ -1112,9 +1186,23 @@
     "source_arm": "drt",
     "status": "armed"
   },
+  "negative_witness_penalty": {
+    "evidence_pointers": {
+      "mutation_ledger": "reports/canonical/negative_witness_mutation_ledger.json:$.entries",
+      "mutation_owner": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
+      "negative_witness_summary": "reports/canonical/discovery_negative_witness_summary.json:$.rows"
+    },
+    "loss_term_pointer": "reports/canonical/discovery-regularized-training.json:$.loss_family.terms.negative_witness",
+    "owner_local_pointer_resolves": true,
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_penalty",
+    "payload_policy": "artifact-pointer-only",
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:negative-witness-penalty",
+    "status": "pointer-only"
+  },
   "not_claimed": [
     "full model training",
     "global architecture superiority",
+    "standalone model superiority",
     "full LeJEPA reproduction",
     "mechanism closure",
     "production device authority"
@@ -1923,6 +2011,32 @@
       "uer_reduction": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.uer_reduction_mean"
     },
     "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_method_comparison",
+    "rows": {
+      "DGT+DRT": {
+        "arm_id": "DGT+DRT",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.full_arm",
+        "role": "candidate-dgt-with-discovery-regularization",
+        "status_pointer": "reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.full_arm.net_positive_signal"
+      },
+      "DGT-without-DRT": {
+        "arm_id": "DGT-without-DRT",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.rows[7]",
+        "role": "ablation-without-discovery-regularization",
+        "status_pointer": "reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.rows[7].net_positive_signal"
+      },
+      "Transformer+DRT": {
+        "arm_id": "Transformer+DRT",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.rows[1]",
+        "role": "transformer-baseline-with-drt-objective",
+        "status_pointer": "reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.rows[1].net_positive_signal"
+      },
+      "component+DRT": {
+        "arm_id": "component+DRT",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.component_ablation.rows",
+        "role": "component-family-with-drt-objective",
+        "status_pointer": "reports/canonical/discovery-regularized-training.json:$.component_ablation.status"
+      }
+    },
     "status": "pointer-only"
   },
   "training_replay_bridge": {

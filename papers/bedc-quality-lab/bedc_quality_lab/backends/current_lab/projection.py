@@ -27,6 +27,7 @@ from bedc_quality_lab.discovery_compiler.map import (
     build_discovery_map_payload,
     validate_discovery_map_payload,
 )
+from bedc_quality_lab.discovery_compiler.capsule import require_claim_capsule_protocol
 from bedc_quality_lab.evidence_provenance import (
     discovery_evidence_type_for_report,
     evidence_provenance_pointer_for_report,
@@ -2550,6 +2551,61 @@ def _audit_spec_pointer_cells(spec: CanonicalReportSpec, payload: Mapping[str, A
     return None
 
 
+def _protocol_capsule_artifact(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> str:
+    pointer = getattr(spec, "claim_capsule_pointer", None)
+    if isinstance(pointer, str):
+        split = pointer.split(":", 1)
+        if len(split) == 2:
+            return split[0]
+        value = pointer_value(payload, pointer)
+        if isinstance(value, str) and (value.endswith(".json") or ":$" in value):
+            return value.split(":", 1)[0]
+        if isinstance(value, Mapping):
+            artifact = value.get("artifact")
+            if isinstance(artifact, str) and artifact:
+                return artifact
+        if value is not None:
+            return spec.json_artifact
+        return f"{spec.json_artifact}.missing-claim-capsule"
+    return spec.json_artifact
+
+
+def _claim_capsule_protocol_failure(
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+    *,
+    level: DiscoveryLevel,
+) -> str | None:
+    if level not in {"D4", "D5-O", "D5-M"}:
+        return None
+    protocol_payload = {
+        **dict(payload),
+        "self_artifact": spec.json_artifact,
+    }
+    protocol_payload.setdefault("evidence_pointers", [f"{spec.json_artifact}:{spec.positive_claim_pointer}"])
+    if pointer_value(protocol_payload, "$.control_rows") is None and spec.control_pointer is not None:
+        controls = pointer_value(protocol_payload, spec.control_pointer)
+        if controls is not None:
+            protocol_payload["control_rows"] = _sequence_cell(controls) or [controls]
+    try:
+        require_claim_capsule_protocol(
+            protocol_payload,
+            root=ROOT,
+            capsule_artifact=_protocol_capsule_artifact(spec, payload),
+            required_not_claimed=(),
+            cost_pointer=spec.cost_pointer,
+            control_required=spec.control_pointer is not None,
+            positive_claim_pointer=spec.positive_claim_pointer,
+            revocation_pointer="$.revocation_rows",
+            not_claimed_pointer=spec.not_claimed_pointer,
+        )
+    except ValueError as exc:
+        failed = str(exc).removeprefix("claim capsule protocol failed: ").strip()
+        first = failed.split(",", 1)[0] if failed else "unknown"
+        return f"claim-capsule-protocol:{first}"
+    return None
+
+
 def _audit_row(
     spec: CanonicalReportSpec,
     payload: Mapping[str, Any],
@@ -2581,6 +2637,9 @@ def _audit_row(
     spec_pointer_result = _audit_spec_pointer_cells(spec, payload)
     if spec_pointer_result is not None:
         return spec_pointer_result
+    protocol_failure = _claim_capsule_protocol_failure(spec, payload, level=level)
+    if protocol_failure is not None:
+        return "invalid", protocol_failure
     if spec.name == "gap-head-transfer-atlas":
         claim = pointer_value(payload, "$.multi_surface_d5_o")
         if not isinstance(claim, Mapping):

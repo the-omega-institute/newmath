@@ -71,6 +71,20 @@ Nontriviality is witnessed by changing one displayed row while leaving the remai
 The non-escape theorem supplies the semantic boundary for this encoding. Removing $T$ or $G$ loses the non-internalized far-end boundary, while removing $I$ or $O$ loses the local inscription and observer-history discipline. The same finite packet is therefore the correct carrier for the paper-side NameCert surface and the Lean-side TasteGate.
 \end{proof}
 
+\begin{theorem}[Apophatic far-end socket public boundary]
+\label{thm:apophatic-far-end-socket-public-boundary}
+Every public consumer of an accepted $\ApophaticFarEndSocketUp$ carrier receives only the finite rows
+$$
+S,A,T,G,I,O,L,H,C,P,N
+$$
+together with the nonescape boundary of \autoref{thm:apophatic-far-end-socket-nonescape} and the TasteGate-readiness boundary of \autoref{thm:apophatic-far-end-socket-tastegate-readiness}. The public surface exposes the far-end row as displayed boundary data and exposes the local inscription row as displayed observer-chain data; it exports no kernel object named $\mathsf{T}$, no global frame, no hidden supply witness, and no bridge credential.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only displayed rows available to a consumer are $S,A,T,G,I,O,L,H,C,P,N$, and the nonescape theorem identifies the forbidden exports outside that row inventory.
+
+The TasteGate-readiness theorem then fixes the same inventory as the Lean-facing carrier boundary. Thus the public read is exactly the finite row surface plus the nonescape and TasteGate-readiness constraints, not an ambient object for the far end.
+\end{proof}
+
 \falsifiablePrediction{Removing either the far-end boundary row or the local inscription row makes \autoref{thm:apophatic-far-end-socket-nonescape} false: the former permits a hidden internalizer for $\mathsf{T}$, while the latter permits a detached observer-facing read with no local inscription site.}
 
 \independenceWitness{apophaticsocket, apophaticname, supplysocketledger, inscriptionpoint, observerhistidentity: none is bijective with $\ApophaticFarEndSocketUp$ because this carrier alone pairs the non-internalized far-end rows $T,G$ with the local inscription and observer-history rows $I,O$ while retaining the socket, name, ledger, transport, route, provenance, and local NameCert rows.}
@@ -79,12 +93,13 @@ The Lean-side TasteGate surface provides $\mathrm{Nontrivial}\ \ApophaticFarEndS
 
 \closureat{ApophaticFarEndSocketUp}{seedStr}
 \closureat{ApophaticFarEndSocketUp}{scopedStr}[BEDC.Derived.ApophaticFarEndSocketUp.TasteGate.ApophaticFarEndSocketTasteGate\_single\_carrier\_alignment]
+\closureat{ApophaticFarEndSocketUp}{publicStr}[BEDC.Derived.ApophaticFarEndSocketUp.TasteGate.ApophaticFarEndSocketTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ApophaticFarEndSocketUp}
   \constructivestory{An $\ApophaticFarEndSocketUp$ packet is generated from a forward-socket row, apophatic-name row, far-end boundary row, gap ledger, local inscription row, observer-history identity row, supply-socket ledger row, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
   \leanchecked{BEDC.Derived.ApophaticFarEndSocketUp.taste\_gate}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:apophatic-far-end-socket-carrier}, \autoref{thm:apophatic-far-end-socket-namecert-obligations}, \autoref{thm:apophatic-far-end-socket-nonescape}, and \autoref{thm:apophatic-far-end-socket-tastegate-readiness} bind the far-end socket packet as a finite NameCert surface over the displayed boundary and local inscription rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:apophatic-far-end-socket-carrier}, \autoref{thm:apophatic-far-end-socket-namecert-obligations}, \autoref{thm:apophatic-far-end-socket-nonescape}, \autoref{thm:apophatic-far-end-socket-tastegate-readiness}, and \autoref{thm:apophatic-far-end-socket-public-boundary} bind the far-end socket packet as a finite public NameCert surface over the displayed boundary and local inscription rows.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ApophaticFarEndSocketUp.TasteGate.ApophaticFarEndSocketTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}

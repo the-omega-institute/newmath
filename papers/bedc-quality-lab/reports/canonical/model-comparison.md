@@ -1,6 +1,6 @@
 # Model Comparison
 
-- Generated at: `2026-06-13T14:56:21.159269+00:00`
+- Generated at: `2026-06-15T17:58:08.027224+00:00`
 - Artifact: `bedc-quality-lab:model-comparison`
 - Schema: `bedc-quality-lab:model-comparison`
 - Status: `ready`

@@ -64,6 +64,20 @@ Apply gate blocking and axis separation, \autoref{thm:failure-certificate-gate-b
 The remaining rows $D,H,K,P,L$ provide diagnostic evidence, transport, replay, provenance, and local naming for the same packet. Since no private override, hidden verifier, host equality, prose repair, or untyped reason is a carrier coordinate, the listed rows are exactly the public export surface.
 \end{proof}
 
+\begin{theorem}[Failure certificate bridged interface]
+\label{thm:failurecertificate-bridged-interface}
+Every bridge-facing consumer of an accepted $\FailureCertificateUp$ packet must preserve the named claim row $N_0$, the separate theory row $C$, the separate verification row $V$, the failed-axis row $A$, the blocked-gate row $B$, the diagnostic row $D$, componentwise transport $H$, displayed replay $K$, provenance $P$, and the local $\NameCert$ row $L$. The bridge-facing surface may transport those rows to a standard bridge consumer, but it cannot collapse theory and verification status, drop the failed-axis row, replace the blocked-gate row by a private override, omit the diagnostic witness, or detach the local NameCert row.
+\end{theorem}
+\begin{proof}
+Start with gate blocking in \autoref{thm:failure-certificate-gate-blocking}. It makes the failed-axis row $A$ and blocked-gate row $B$ jointly responsible for the refused gate of the named claim $N_0$, so a bridge consumer cannot preserve the failure certificate after dropping either row.
+
+Use axis separation in \autoref{thm:failure-certificate-axis-separation}. The rows $C$ and $V$ remain distinct from the sibling audit packets, and the failed-axis row records whether the refusal is theory-side, verification-side, or axis-confusion data.
+
+Apply the public axis export of \autoref{thm:failurecertificate-public-axis-export}. The export surface already names $N_0,C,V,A,B,D,H,K,P,L$ as the public rows and excludes private overrides, hidden verifier results, host equality, prose repair, and untyped failure reasons.
+
+Finally read the checked TasteGate witness. Field faithfulness keeps $N_0,C,V,A,B,D,H,K,P,L$ as distinct carrier rows, while nontriviality prevents the bridge-facing packet from degenerating into a vacuous single-row object. Hence any bridge consumer must preserve exactly the listed interface.
+\end{proof}
+
 The Lean TasteGate file provides explicit $\Nontrivial\ \FailureCertificateUp$ and $\FieldFaithful\ \FailureCertificateUp$ instances in \texttt{lean4/BEDC/Derived/FailureCertificateUp/TasteGate.lean}. The field-faithfulness witness keeps $N_0,C,V,A,B,D,H,K,P,L$ distinct so the failed-axis row and blocked-gate row cannot be merged.
 \leanchecked{BEDC.Derived.FailureCertificateUp.taste\_gate}
 
@@ -75,11 +89,12 @@ The Lean TasteGate file provides explicit $\Nontrivial\ \FailureCertificateUp$ a
 \closureat{FailureCertificateUp}{obligationStr}
 \closureat{FailureCertificateUp}{scopedStr}
 \closureat{FailureCertificateUp}{publicStr}
+\closureat{FailureCertificateUp}{bridgedStr}
 
 \begin{closurestatus}{\FailureCertificateUp}
   \constructivestory{A $\FailureCertificateUp$ packet is generated from a named claim row, separate theory-closure and verification-status rows, a failed-axis row, a blocked-gate row, a diagnostic witness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:failure-certificate-carrier}, \autoref{thm:failure-certificate-gate-blocking}, \autoref{thm:failure-certificate-axis-separation}, \autoref{thm:failurecertificate-public-axis-export}, and the checked TasteGate witness bind the carrier, gate-blocking row, axis-separation row, public axis export, TasteGate, Nontrivial, and FieldFaithful obligation surface.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:failure-certificate-carrier}, \autoref{thm:failure-certificate-gate-blocking}, \autoref{thm:failure-certificate-axis-separation}, \autoref{thm:failurecertificate-public-axis-export}, \autoref{thm:failurecertificate-bridged-interface}, and the checked TasteGate witness bind the carrier, gate-blocking row, axis-separation row, public axis export, bridge-facing interface, TasteGate, Nontrivial, and FieldFaithful obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

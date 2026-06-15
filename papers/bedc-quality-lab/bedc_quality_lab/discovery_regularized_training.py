@@ -140,6 +140,7 @@ FORBIDDEN_SUMMARY_ALIASES = (
 NOT_CLAIMED = (
     "full model training",
     "global architecture superiority",
+    "standalone model superiority",
     "full LeJEPA reproduction",
     "mechanism closure",
     "production device authority",
@@ -176,6 +177,17 @@ DRT_EXTENSION_FORBIDDEN_PATTERNS = (
     "candidate_measurement_body",
     "candidate_measurements_body",
 )
+DRT2_SEMANTIC_HARDGATES = tuple(f"DRT2-HG{index}" for index in range(1, 7))
+DRT2_METHOD_COMPARISON_ARMS = (
+    "DGT+DRT",
+    "DGT-without-DRT",
+    "Transformer+DRT",
+    "component+DRT",
+)
+DRT2_NEGATIVE_WITNESS_POINTERS = {
+    "mutation_ledger": "reports/canonical/negative_witness_mutation_ledger.json:$.entries",
+    "negative_witness_summary": "reports/canonical/discovery_negative_witness_summary.json:$.rows",
+}
 FIXED_CELL_SECONDS_PROXY = 0.00025
 FLOPS_PER_STEP_PROXY = 4096
 ENERGY_PER_FLOP_PROXY = 1.0e-10
@@ -677,6 +689,248 @@ def certificate_guided_dn_preservation_audit(payload: Mapping[str, Any]) -> dict
     }
 
 
+def negative_witness_penalty_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    evidence_pointers = {
+        "mutation_owner": quality_artifact_pointer("$.negative_witness_mutations"),
+        **DRT2_NEGATIVE_WITNESS_POINTERS,
+    }
+    return {
+        "schema_id": f"{SCHEMA_ID}:negative-witness-penalty",
+        "status": "pointer-only",
+        "owner_pointer": quality_artifact_pointer("$.negative_witness_penalty"),
+        "loss_term_pointer": quality_artifact_pointer("$.loss_family.terms.negative_witness"),
+        "evidence_pointers": evidence_pointers,
+        "payload_policy": "artifact-pointer-only",
+        "owner_local_pointer_resolves": _artifact_pointer_resolves(owner_payload, evidence_pointers["mutation_owner"]),
+    }
+
+
+def _artifact_pointer_only(value: str) -> bool:
+    artifact, separator, pointer = value.partition(":")
+    return bool(separator and artifact and pointer.startswith("$."))
+
+
+def _drt_owner_pointer(value: str) -> bool:
+    return value.startswith(f"{JSON_ARTIFACT}:$.")
+
+
+def _forbidden_authority_audit(value: Any) -> dict[str, Any]:
+    forbidden_keys = {
+        "terminal_verdict",
+        "candidate_evidence_body",
+        "candidate_measurement_body",
+        "candidate_measurements_body",
+        "evidence_body",
+        "measurement_body",
+        "metrics",
+        "metric",
+        "verdict",
+        "final_verdict",
+    }
+    hits: list[dict[str, str]] = []
+
+    def walk(cell: Any, path: str) -> None:
+        if isinstance(cell, Mapping):
+            for key, item in cell.items():
+                key_text = str(key)
+                if key_text in forbidden_keys or key_text.endswith("_body"):
+                    hits.append({"path": f"{path}.{key_text}", "match": key_text})
+                walk(item, f"{path}.{key_text}")
+        elif isinstance(cell, (list, tuple)):
+            for index, item in enumerate(cell):
+                walk(item, f"{path}[{index}]")
+
+    walk(value, "$")
+    return {
+        "status": _status(not hits),
+        "hit_count": len(hits),
+        "hits": hits,
+    }
+
+
+def _terminal_authority_audit(value: Any) -> dict[str, Any]:
+    forbidden_keys = {"terminal_verdict", "final_verdict"}
+    hits: list[dict[str, str]] = []
+
+    def walk(cell: Any, path: str) -> None:
+        if isinstance(cell, Mapping):
+            for key, item in cell.items():
+                key_text = str(key)
+                if key_text in forbidden_keys:
+                    hits.append({"path": f"{path}.{key_text}", "match": key_text})
+                walk(item, f"{path}.{key_text}")
+        elif isinstance(cell, (list, tuple)):
+            for index, item in enumerate(cell):
+                walk(item, f"{path}[{index}]")
+
+    walk(value, "$")
+    return {
+        "status": _status(not hits),
+        "hit_count": len(hits),
+        "hits": hits,
+    }
+
+
+def _semantic_gate(
+    *,
+    gate_id: str,
+    passes: bool,
+    evidence_pointer: str,
+    requirement: str,
+    **fields: Any,
+) -> dict[str, Any]:
+    return {
+        "gate_id": gate_id,
+        "status": _status(passes),
+        "requirement": requirement,
+        "evidence_pointer": evidence_pointer,
+        **fields,
+    }
+
+
+def drt2_semantic_hardgate_verdicts(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    preservation = certificate_guided_dn_preservation_audit(owner_payload)
+    loss_family = owner_payload.get("loss_family")
+    terms = loss_family.get("terms") if isinstance(loss_family, Mapping) else None
+    expected_loss_terms = {
+        "discovery",
+        "ledger",
+        "certificate",
+        "mechanism",
+        "cost",
+        "negative_witness",
+    }
+    loss_pointers_resolve = (
+        isinstance(terms, Mapping)
+        and set(terms) == expected_loss_terms
+        and all(
+            isinstance(row, Mapping)
+            and _artifact_pointer_only(str(row.get("evidence_pointer", "")))
+            and _artifact_pointer_resolves(owner_payload, str(row.get("evidence_pointer")))
+            for row in terms.values()
+        )
+    )
+    component = owner_payload.get("component_ablation")
+    rows = component.get("rows") if isinstance(component, Mapping) else None
+    component_rows_pointer_only = (
+        isinstance(rows, Sequence)
+        and not isinstance(rows, str)
+        and len(rows) >= 7
+        and all(
+            isinstance(row, Mapping)
+            and row.get("pointer_state") == "present"
+            and _artifact_pointer_only(str(row.get("evidence_pointer", "")))
+            and _artifact_pointer_only(str(row.get("quality_q_pointer", "")))
+            and _artifact_pointer_resolves(owner_payload, str(row.get("evidence_pointer")))
+            and _artifact_pointer_resolves(owner_payload, str(row.get("quality_q_pointer")))
+            for row in rows
+        )
+    )
+    negative = owner_payload.get("negative_witness_penalty")
+    negative_audit = _forbidden_authority_audit(negative)
+    negative_pointers = negative.get("evidence_pointers") if isinstance(negative, Mapping) else None
+    negative_pointer_only = (
+        isinstance(negative, Mapping)
+        and negative.get("status") == "pointer-only"
+        and isinstance(negative_pointers, Mapping)
+        and dict(negative_pointers)
+        == {
+            "mutation_owner": quality_artifact_pointer("$.negative_witness_mutations"),
+            **DRT2_NEGATIVE_WITNESS_POINTERS,
+        }
+        and _drt_owner_pointer(str(negative_pointers.get("mutation_owner", "")))
+        and all(_artifact_pointer_only(str(pointer)) for pointer in negative_pointers.values())
+        and _artifact_pointer_resolves(owner_payload, str(negative_pointers.get("mutation_owner")))
+        and negative_audit["status"] == "pass"
+    )
+    comparison = owner_payload.get("training_method_comparison")
+    comparison_rows = comparison.get("rows") if isinstance(comparison, Mapping) else None
+    comparison_pointer_only = (
+        isinstance(comparison, Mapping)
+        and comparison.get("status") == "pointer-only"
+        and isinstance(comparison_rows, Mapping)
+        and set(comparison_rows) == set(DRT2_METHOD_COMPARISON_ARMS)
+        and all(
+            isinstance(row, Mapping)
+            and set(row) == {"arm_id", "role", "evidence_pointer", "status_pointer"}
+            and _artifact_pointer_only(str(row.get("evidence_pointer", "")))
+            and _artifact_pointer_only(str(row.get("status_pointer", "")))
+            and _artifact_pointer_resolves(owner_payload, str(row.get("evidence_pointer")))
+            and _artifact_pointer_resolves(owner_payload, str(row.get("status_pointer")))
+            for row in comparison_rows.values()
+        )
+    )
+    not_claimed = owner_payload.get("not_claimed")
+    not_claimed_text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, Sequence) and not isinstance(not_claimed, str) else ""
+    recursive_audit = _terminal_authority_audit(owner_payload)
+    terminal_absent = not _has_recursive_key(owner_payload, "terminal_verdict")
+    scope_excludes_superiority = (
+        "standalone model superiority" in not_claimed_text
+        and "global architecture superiority" in not_claimed_text
+    )
+    return {
+        "DRT2-HG1": _semantic_gate(
+            gate_id="DRT2-HG1",
+            passes=preservation["status"] == "pass",
+            evidence_pointer=quality_artifact_pointer("$.certificate_guided_dn_preservation"),
+            requirement="Certificate-guided DN remains sibling evidence with no DRT terminal status.",
+            required_refs_present=preservation["required_refs_present"],
+            terminal_status_isolated=preservation["terminal_status_isolated"],
+        ),
+        "DRT2-HG2": _semantic_gate(
+            gate_id="DRT2-HG2",
+            passes=loss_pointers_resolve,
+            evidence_pointer=quality_artifact_pointer("$.loss_family"),
+            requirement="All six loss terms expose resolving schema or evidence pointers under loss_family.",
+            loss_terms=sorted(expected_loss_terms),
+        ),
+        "DRT2-HG3": _semantic_gate(
+            gate_id="DRT2-HG3",
+            passes=component_rows_pointer_only,
+            evidence_pointer=quality_artifact_pointer("$.component_ablation.rows"),
+            requirement="Component ablation rows must exist and point to owner-local evidence.",
+            row_count=len(rows) if isinstance(rows, Sequence) and not isinstance(rows, str) else 0,
+        ),
+        "DRT2-HG4": _semantic_gate(
+            gate_id="DRT2-HG4",
+            passes=negative_pointer_only,
+            evidence_pointer=quality_artifact_pointer("$.negative_witness_penalty"),
+            requirement="Negative witness penalty points to existing owners and does not copy payload bodies or verdict authority.",
+            forbidden_authority_status=negative_audit["status"],
+        ),
+        "DRT2-HG5": _semantic_gate(
+            gate_id="DRT2-HG5",
+            passes=comparison_pointer_only,
+            evidence_pointer=quality_artifact_pointer("$.training_method_comparison.rows"),
+            requirement="Training-method comparison is pointer-only and covers all required arms.",
+            required_arms=list(DRT2_METHOD_COMPARISON_ARMS),
+        ),
+        "DRT2-HG6": _semantic_gate(
+            gate_id="DRT2-HG6",
+            passes=terminal_absent and scope_excludes_superiority and recursive_audit["status"] == "pass",
+            evidence_pointer=quality_artifact_pointer("$.not_claimed"),
+            requirement="not_claimed excludes model-superiority claims and recursive authority audit rejects terminal verdicts.",
+            terminal_absent=terminal_absent,
+            scope_excludes_superiority=scope_excludes_superiority,
+            forbidden_authority_status=recursive_audit["status"],
+        ),
+    }
+
+
+def drt2_semantic_hardgate_summary(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    gates = drt2_semantic_hardgate_verdicts(owner_payload)
+    failed = next((gate_id for gate_id in DRT2_SEMANTIC_HARDGATES if gates[gate_id]["status"] != "pass"), None)
+    return {
+        "schema_id": f"{SCHEMA_ID}:semantic-hardgates",
+        "status": _status(failed is None),
+        "owner_pointer": quality_artifact_pointer("$.drt2_semantic_hardgates"),
+        "gate_labels": list(DRT2_SEMANTIC_HARDGATES),
+        "gates": gates,
+        "failed_gate": failed,
+        "failed_gate_pointer": None if failed is None else f"$.drt2_semantic_hardgates.gates.{failed}.status",
+    }
+
+
 def _mechanism_ablation_row_key(row: Mapping[str, Any]) -> str:
     return str(row.get("arm", ""))
 
@@ -928,6 +1182,32 @@ def project_drt_training_extension(
         },
         spec.forbidden_keys,
     )
+    comparison_rows = {
+        "DGT+DRT": {
+            "arm_id": "DGT+DRT",
+            "role": "candidate-dgt-with-discovery-regularization",
+            "evidence_pointer": quality_artifact_pointer("$.training_replay_bridge.full_arm"),
+            "status_pointer": quality_artifact_pointer("$.training_replay_bridge.full_arm.net_positive_signal"),
+        },
+        "DGT-without-DRT": {
+            "arm_id": "DGT-without-DRT",
+            "role": "ablation-without-discovery-regularization",
+            "evidence_pointer": quality_artifact_pointer("$.training_replay_bridge.rows[7]"),
+            "status_pointer": quality_artifact_pointer("$.training_replay_bridge.rows[7].net_positive_signal"),
+        },
+        "Transformer+DRT": {
+            "arm_id": "Transformer+DRT",
+            "role": "transformer-baseline-with-drt-objective",
+            "evidence_pointer": quality_artifact_pointer("$.training_replay_bridge.rows[1]"),
+            "status_pointer": quality_artifact_pointer("$.training_replay_bridge.rows[1].net_positive_signal"),
+        },
+        "component+DRT": {
+            "arm_id": "component+DRT",
+            "role": "component-family-with-drt-objective",
+            "evidence_pointer": quality_artifact_pointer("$.component_ablation.rows"),
+            "status_pointer": quality_artifact_pointer("$.component_ablation.status"),
+        },
+    }
     gates = {
         "DRT-EXT-HG1_required_pointer_resolution": {
             "status": _status(all(row["status"] == "pass" for row in required_pointer_rows)),
@@ -977,6 +1257,7 @@ def project_drt_training_extension(
             "comparison_family_pointer": quality_artifact_pointer("$.records.extension_metrics.comparison_family"),
             "compute_ledger_pointer": quality_artifact_pointer("$.records.extension_metrics.compute_ledger_pointer"),
             "debt_marker_pointer": quality_artifact_pointer("$.records.extension_metrics.debt_marker_pointer"),
+            "rows": comparison_rows,
             "metric_pointers": {
                 "uer": quality_artifact_pointer("$.records.extension_metrics.uer_mean"),
                 "uer_reduction": quality_artifact_pointer("$.records.extension_metrics.uer_reduction_mean"),
@@ -1378,6 +1659,48 @@ def _claim_capsule_compute_ledger_snapshot(value: Mapping[str, Any]) -> dict[str
     }
 
 
+def reproducibility_contract_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
+    device = payload.get("device_protocol") if isinstance(payload.get("device_protocol"), Mapping) else {}
+    config = payload.get("config") if isinstance(payload.get("config"), Mapping) else {}
+    seeds = config.get("seeds") if isinstance(config.get("seeds"), Sequence) and not isinstance(config.get("seeds"), str) else ()
+    metric_value = _quality_pointer_value(payload, quality_artifact_pointer("$.torch_training_evidence.row_count"))
+    return {
+        "mode": "true_training",
+        "seed_list": [int(seed) for seed in seeds],
+        "metric_bands": [
+            {
+                "pointer": "$.torch_training_evidence.row_count",
+                "reference_value": metric_value,
+                "tolerance": 0.0,
+                "comparison": "absolute",
+                "owner": "discovery-regularized-training",
+                "calibration_source": "$.torch_training_evidence",
+                "seed_basis": {"seed_count": len(seeds), "source": "$.config.seeds"},
+            }
+        ],
+        "device_policy": {
+            "requested_device": device.get("requested_device", "auto"),
+            "resolved_device": device.get("resolved_device", "not-requested"),
+            "resolution_status": device.get("dependency_abi", {}).get("resolution_status", device.get("status", "available")),
+            "resolution_reason": device.get("dependency_abi", {}).get("resolution_reason", "recorded-device-policy"),
+            "backend_details": dict(device.get("dependency_abi", {})),
+        },
+        "framework_provenance": {
+            "python": config.get("python_version", "3.13.2"),
+            "dependency_abi": dict(config.get("dependency_abi", {})),
+        },
+        "calibration": {
+            "calibration_source": "$.torch_training_evidence",
+            "owner": "discovery-regularized-training",
+            "basis": {
+                "seed_pointer": "$.config.seeds",
+                "metric_pointer": "$.torch_training_evidence.row_count",
+                "calibration_pointer": "$.torch_training_evidence",
+            },
+        },
+    }
+
+
 def _forbidden_term_audit(value: Any) -> dict[str, Any]:
     text = json.dumps(value, sort_keys=True).lower().replace(" ", "-")
     hits = [term for term in FORBIDDEN_POSITIVE_CLAIM_TERMS if term.lower() in text]
@@ -1595,6 +1918,9 @@ class DiscoveryRegularizedTrainingProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "forbidden_claim_term_audit": capsule["forbidden_claim_term_audit"],
         }
+        summary["negative_witness_penalty"] = negative_witness_penalty_projection(summary)
+        summary["drt2_semantic_hardgates"] = drt2_semantic_hardgate_summary(summary)
+        summary["reproducibility_contract"] = reproducibility_contract_payload(summary)
         if signal["level_candidate"] in {"D4", "D5-M"} and failed_gate is None:
             summary.update(_anti_triviality_contract(str(signal["level_candidate"])))
         if any(alias in summary for alias in FORBIDDEN_SUMMARY_ALIASES):
@@ -2422,6 +2748,9 @@ __all__ = [
     "DEFAULT_RHOS",
     "DEFAULT_SEEDS",
     "DRIFT_TOLERANCE",
+    "DRT2_METHOD_COMPARISON_ARMS",
+    "DRT2_NEGATIVE_WITNESS_POINTERS",
+    "DRT2_SEMANTIC_HARDGATES",
     "DRT_EXTENSION_UER_MAX",
     "DRT_EXTENSION_UER_REDUCTION_MIN",
     "ENERGY_PER_FLOP_PROXY",
@@ -2443,7 +2772,10 @@ __all__ = [
     "default_grid",
     "default_drt_training_extension_spec",
     "default_jet_loss_protocol",
+    "drt2_semantic_hardgate_summary",
+    "drt2_semantic_hardgate_verdicts",
     "drt_extension_forbidden_key_audit",
+    "negative_witness_penalty_projection",
     "jet_hardgate_verdicts",
     "jet_protocol_payload",
     "project_jet_surface",
@@ -2451,4 +2783,5 @@ __all__ = [
     "quality_promotion_boundary",
     "quality_artifact_pointer",
     "QUALITY_PROMOTION_ARMS",
+    "reproducibility_contract_payload",
 ]

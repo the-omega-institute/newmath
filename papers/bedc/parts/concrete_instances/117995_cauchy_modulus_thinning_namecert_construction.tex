@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusThinningUp$}
+\label{ch:concrete-instances-cauchy-modulus-thinning-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyModulusThinningUp$ packet records the finite route by which an explicit Cauchy modulus is thinned to a monotone cofinal schedule before a regular rational or real-name consumer reads it. It sits over the modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a non-quotient thinning certificate; it supplies no selected limit, quotient stream equality, countable-choice schedule, host real equality, or ambient completeness theorem.
+
+\begin{definition}[Cauchy modulus thinning carrier]
+\label{def:cauchy-modulus-thinning-carrier}
+A $\CauchyModulusThinningUp$ carrier is a finite $\BHist$ packet
+$$
+X=(M,T,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\CauchyModulusUp$ row, carrying the original explicit modulus request and its finite threshold answers.
+\item $T$ is the monotone thinning route, recording the retained threshold schedule and the finite proof that each retained threshold dominates the source answer needed at the same dyadic depth.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic precision, scale, and comparison rows used to read the source and thinned schedules.
+\item $W$ is the retained $\StreamNameUp$ window opened at the thinned threshold.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the retained window and dyadic ledger.
+\item $E$ is the $\RealUp$ seal row reached only after $M,T,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus, thinning, tolerance, window, regular handoff, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the source modulus through the thinned threshold, dyadic ledger, retained window, regular handoff, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusThinningUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusThinningUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,T,D,W,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus thinning NameCert obligations]
+\label{thm:cauchy-modulus-thinning-namecert-obligations}
+For every accepted $\CauchyModulusThinningUp$ carrier $X=(M,T,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyModulusThinningUp}$ surface consists exactly of carrier admission for the ten displayed rows, source-modulus exposure through $M$, monotone thinning dominance through $T$, dyadic tolerance exactness through $D$, retained stream-window visibility through $W$, regular rational handoff through $R$, real-seal nonescape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-thinning-carrier}. The analytic rows are exactly $M,T,D,W,R,E$, and the structural rows are exactly $H,C,P,N$.
+
+The source-modulus and thinning obligations are read first. Row $M$ supplies the explicit threshold answer, while row $T$ records the retained monotone schedule and its finite dominance comparison against the source answer at the displayed dyadic depth.
+
+The tolerance and window obligations then force the read through $D$ and $W$. The dyadic ledger fixes the precision scale, and the retained stream window is opened only at the thinned threshold named by $T$.
+
+Finally the regular and real-facing rows are downstream. The row $R$ is obtained from the retained window and tolerance ledger, and the seal row $E$ is reachable only after that handoff. Since $H,C,P,N$ preserve the same route and the carrier lists no quotient, selected limit, choice schedule, host equality, or ambient completeness row, the displayed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus thinning Real handoff]
+\label{thm:cauchy-modulus-thinning-real-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\CauchyModulusThinningUp$ packet receives only the finite route
+$$
+\CauchyModulusUp,\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+with the monotone thinning row $T$ retained before any stream window is opened. Thus downstream regular-Cauchy and completion packets may consume a thinned explicit modulus without importing quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet and read the source modulus. The row $M$ answers the displayed dyadic request, while $T$ records a monotone retained threshold that dominates the source answer for that request.
+
+Read the dyadic and stream rows next. The ledger $D$ fixes the tolerance scale, and the stream window $W$ is opened only at the retained threshold. Therefore a regular rational consumer cannot bypass the thinning route.
+
+The handoff to $R$ and then $E$ is forced by the same finite rows. Componentwise transport, replay, provenance, and local naming preserve this route, but they do not add a selected real, a quotient equality, countable choice, host equality, or an ambient completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyModulusThinningUp$ real-facing read displays a source Cauchy modulus row, a monotone thinning row, a dyadic tolerance ledger, a retained StreamName window, a RegSeqRat handoff, and a RealUp seal before any downstream consumer receives the packet.}
+
+\independenceWitness{cauchymodulus, dyadicratcore, streamname, regseqrat, real: none is bijective to $\CauchyModulusThinningUp$ because the thinning packet jointly carries source modulus data, a monotone retained-threshold route, dyadic tolerance accounting, stream-window retention, regular rational handoff, terminal real seal, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyModulusThinningUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusThinningUp}
+  \constructivestory{A $\CauchyModulusThinningUp$ packet is generated from a source CauchyModulus row, a monotone thinning route, a DyadicRatCore tolerance ledger, a retained StreamName window, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-thinning-carrier}, \autoref{thm:cauchy-modulus-thinning-namecert-obligations}, and \autoref{thm:cauchy-modulus-thinning-real-handoff} seed the non-quotient modulus-thinning route over $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close obligation coverage, Lean theorem verification, quotient stream equality, selected limits, countable choice, host real equality, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-modulus exposure, thinning dominance, dyadic tolerance exactness, retained-window visibility, regular handoff, real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusThinningUp.}
+\end{closurestatus}
+\leanstmt{BEDC.Derived.CauchyModulusThinningUp}

@@ -1401,6 +1401,34 @@ def self_test() -> int:
             file=sys.stderr,
         )
         return 1
+    external_reality_requires_contact_ref = any(
+        condition.get("if", {})
+        .get("properties", {})
+        .get("evidence_basis", {})
+        .get("contains", {})
+        .get("const")
+        == "external_reality"
+        and condition.get("then", {})
+        .get("properties", {})
+        .get("reality_contact_refs", {})
+        .get("minItems")
+        == 1
+        for condition in conjecture_schema.get("allOf", [])
+        if isinstance(condition, dict)
+    )
+    if not external_reality_requires_contact_ref:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "reality_contact_refs",
+                    "expected": "external_reality evidence requires minItems 1",
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
     conjecture_probe_ref_pattern = (
         conjecture_schema.get("properties", {}).get("probe_refs", {}).get("items", {}).get("pattern")
     )

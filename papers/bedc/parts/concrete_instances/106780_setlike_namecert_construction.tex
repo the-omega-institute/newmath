@@ -624,14 +624,31 @@ Finally use the TypeLike FirstOrder ModelTheory consumer boundary \autoref{thm:s
 
 \input{parts/concrete_instances/setlike/root_unblock_consumer_routes.tex}
 
+\begin{theorem}[SetLike public NameCert export]
+\label{thm:setlike-public-namecert-export}
+The public $\SetLikeUp$ export is exactly the finite route
+$$
+M,Q,I,R,E,H,C,P,N .
+$$
+Membership reads expose $M,Q$, subset reads expose $I$, restricted-comprehension reads expose $R$, extensional-boundary reads expose $E$, and all public consumers pass through the structural rows $H,C,P,N$. The export contains no powerset coordinate, unrestricted separation principle, host quotient equality of sets, selected representative row, global choice coordinate, or external universe of all sets.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:setlike-carrier}. Its displayed rows are precisely $M,Q,I,R,E,H,C,P,N$, so every public read must be assembled from those rows before any downstream consumer can name a $\SetLikeUp$ packet.
+
+The membership route theorem \autoref{thm:setlike-membership-route} supplies the public read for $M,Q,H,C,P,N$. The subset ledger obligation \autoref{thm:setlike-subset-ledger-obligation} and the bounded comprehension obligation \autoref{thm:setlike-bounded-comprehension-obligation} add $I$ and $R$ without adding a powerset or unrestricted separation coordinate.
+
+Finally, the extensional-boundary consumer exactness theorem \autoref{thm:setlike-extensional-boundary-consumer-exactness} fixes $E$ as a displayed boundary row rather than host quotient equality. The TypeLike, FirstOrder, and ModelTheory consumer boundary keeps sibling consumers on the same nine-row route, so the public export is exactly $M,Q,I,R,E,H,C,P,N$.
+\end{proof}
+
 \closureat{SetLikeUp}{obligationStr}
+\closureat{SetLikeUp}{publicStr}
 
 \begin{closurestatus}{\SetLikeUp}
   \constructivestory{A $\SetLikeUp$ packet is generated from a finite membership source, classifier row, subset implication row, restricted-comprehension row, extensionality-boundary ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:setlike-carrier}, \autoref{thm:setlike-namecert-obligations}, \autoref{thm:setlike-membership-route}, subset implication, bounded comprehension, extensional-boundary, and the TypeLike, FirstOrder, and ModelTheory consumer boundaries bind the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope of the finite SetLike membership carrier.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:setlike-carrier}, \autoref{thm:setlike-namecert-obligations}, \autoref{thm:setlike-membership-route}, subset implication, bounded comprehension, extensional-boundary, the TypeLike, FirstOrder, and ModelTheory consumer boundaries, and \autoref{thm:setlike-public-namecert-export} bind the public $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface of the finite SetLike membership carrier.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim an ambient powerset, unrestricted separation, quotient equality of sets, selected representatives, global choice of elements, Lean verification, bridge checking, or a host universe of all sets.}
-  \upgradepath{Obligation closure requires checked carrier admission, membership classifier routing, subset implication, restricted comprehension, extensionality boundary, and sibling-consumer nonescape for BEDC.Derived.SetLikeUp.}
+  \upgradepath{Lean verification requires checked carrier admission, membership classifier routing, subset implication, restricted comprehension, extensionality boundary, public export, and sibling-consumer nonescape for BEDC.Derived.SetLikeUp.}
 \end{closurestatus}

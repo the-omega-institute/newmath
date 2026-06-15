@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
@@ -6,6 +7,7 @@ import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BoundedOscillationUp.TasteGate
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
@@ -225,5 +227,49 @@ theorem BoundedOscillationNamecertObligations (O : BoundedOscillationUp) :
           exact source
       }
       exact ⟨I, W, R, D, L, B, S, H, C, P, N, rfl, cert⟩
+
+theorem BoundedOscillationDarbouxHandoff
+    {I W R D L B S H C P N windowRead readbackRead ledgerRead boundedRead
+      darbouxRead : BHist} :
+    Cont I W windowRead →
+      Cont windowRead R readbackRead →
+        Cont D L ledgerRead →
+          Cont ledgerRead B boundedRead →
+            Cont boundedRead S darbouxRead →
+              SemanticNameCert
+                (fun row : BHist => hsame row darbouxRead)
+                (fun row : BHist =>
+                  hsame row I ∨ hsame row W ∨ hsame row R ∨ hsame row D ∨
+                    hsame row L ∨ hsame row B ∨ hsame row S ∨ hsame row darbouxRead)
+                (fun row : BHist =>
+                  Cont I W windowRead ∧ Cont windowRead R readbackRead ∧
+                    Cont D L ledgerRead ∧ Cont ledgerRead B boundedRead ∧
+                      Cont boundedRead S darbouxRead ∧ hsame row darbouxRead)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro windowRoute readbackRoute ledgerRoute boundedRoute darbouxRoute
+  refine
+    { core :=
+        { carrier_inhabited := ?carrier_inhabited
+          equiv_refl := ?equiv_refl
+          equiv_symm := ?equiv_symm
+          equiv_trans := ?equiv_trans
+          carrier_respects_equiv := ?carrier_respects_equiv }
+      pattern_sound := ?pattern_sound
+      ledger_sound := ?ledger_sound }
+  · exact ⟨darbouxRead, hsame_refl darbouxRead⟩
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other same
+    exact hsame_symm same
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro _row _other same source
+    exact hsame_trans (hsame_symm same) source
+  · intro _row source
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source))))))
+  · intro _row source
+    exact
+      ⟨windowRoute, readbackRoute, ledgerRoute, boundedRoute, darbouxRoute, source⟩
 
 end BEDC.Derived.BoundedOscillationUp.TasteGate

@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\RiemannDarbouxCriterionFiniteUp$}
+\label{ch:concrete-instances-riemann-darboux-criterion-finite-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Riemann integration, the $\RiemannDarbouxCriterionFiniteUp$ packet records the finite criterion that identifies a Riemann-sum Cauchy route with an upper/lower Darboux squeeze before a $\RealUp$ integral seal is exported. It sits between the finite Darboux boundary of \autoref{ch:concrete-instances-darboux-sum-namecert}, the tagged Riemann-sum route of \autoref{ch:concrete-instances-riemannsum-namecert}, the dyadic mesh source of \autoref{ch:concrete-instances-dyadicmesh-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives $\RiemannIntegrableUp$ and regulated-integral consumers a finite bridge from partition-sum criteria to real-sealed integration data, not a host theorem about arbitrary partitions, quotient function equality, measure completion, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann--Darboux finite criterion carrier]\label{def:riemann-darboux-criterion-finite-carrier}
+A $\RiemannDarbouxCriterionFiniteUp$ carrier is a finite $\BHist$ packet
+$$
+C=(M,U,L,S,R,D,O,Q,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the tagged partition mesh row, read through $\DyadicMeshUp$ and the finite tag ledger used by the $\RiemannSumUp$ consumer.
+\item $U$ is the upper Darboux-sum row, read through $\UpperDarbouxSumUp$ or the upper side of the $\DarbouxSumUp$ packet over the same mesh row $M$.
+\item $L$ is the lower Darboux-sum row, read through $\LowerDarbouxSumUp$ or the lower side of the $\DarbouxSumUp$ packet over the same mesh row $M$.
+\item $S$ is the Riemann-sum Cauchy-net read, exposing only displayed tagged sums and finite refinement witnesses.
+\item $R$ is the dyadic mesh refinement row, requiring every refinement consumed by $S,U,L$ to factor through the same $\DyadicMeshUp$ surface.
+\item $D$ is the oscillation ledger, recording the upper-minus-lower squeeze and the cellwise oscillation comparisons that license the finite criterion.
+\item $O$ is the $\RegSeqRatUp$ readback row for the gap, tagged-sum, and tolerance windows.
+\item $Q$ is the $\RealUp$ seal row, reached only after the Darboux squeeze and regular rational readback have been displayed.
+\item $E$ records hsame transport for the mesh, Darboux rows, Riemann-sum Cauchy-net read, refinement row, oscillation ledger, readback, seal, replay, provenance, and local name.
+\item $H$ records the displayed $\Cont$ replay from mesh rows to Darboux sums, from mesh rows to tagged sums, from refinement rows to the squeeze ledger, and from readback rows to the Real seal.
+\item $T$ is the $\Pkg$ provenance over $\RiemannDarbouxCriterionFiniteUp$, $\DyadicMeshUp$, $\DarbouxSumUp$, $\UpperDarbouxSumUp$, $\LowerDarbouxSumUp$, $\RiemannSumUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $P$ is the local integration-boundary provenance row naming the downstream $\RiemannIntegrableUp$ and regulated-integral consumers that may read the criterion.
+\item $N$ is the local $\NameCert_{\RiemannDarbouxCriterionFiniteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a selected refining sequence, quotient equality of integrands, measure-theoretic integration, host compactness, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Riemann--Darboux finite criterion NameCert obligations]\label{thm:riemann-darboux-criterion-finite-obligations}
+For every accepted $\RiemannDarbouxCriterionFiniteUp$ carrier
+$$
+C=(M,U,L,S,R,D,O,Q,E,H,T,P,N),
+$$
+the local $\NameCert_{\RiemannDarbouxCriterionFiniteUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed tagged partition mesh, upper and lower Darboux rows, Riemann-sum Cauchy-net read, refinement row, oscillation ledger, regular readback, Real seal, transport, replay, provenance, and local naming rows;
+\item mesh-refinement classifier transport, requiring every refinement used by the Darboux rows or Riemann-sum row to be compared through the same $\DyadicMeshUp$ row $M$ and refinement route $R$;
+\item upper/lower squeeze exactness, requiring the rows $U,L,D$ to expose the finite Darboux upper-minus-lower comparison before any integral-facing consumer reads the criterion;
+\item Riemann-sum Cauchy handoff, requiring the row $S$ to pass through the same mesh-refinement surface and then through the $\RegSeqRatUp$ readback row $O$;
+\item Real seal nonescape, requiring $Q,E,H,T,P,N$ to preserve, replay, source, and name only the displayed finite rows before a $\RealUp$ consumer receives the seal.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-darboux-criterion-finite-carrier}. The rows $M,U,L,S,R,D,O,Q,E,H,T,P,N$ are the whole packet, so carrier admission exposes exactly the finite mesh, Darboux, Riemann-sum, readback, seal, transport, replay, provenance, and naming data.
+
+Mesh-refinement transport is forced by $M$ and $R$. Both the Darboux rows and the tagged Riemann-sum row must read their cells through the same displayed $\DyadicMeshUp$ source, so a refinement changes the packet only by replaying the common finite route.
+
+The squeeze rows $U,L,D$ are read before the Cauchy handoff is accepted. They provide the upper and lower Darboux comparison over the displayed mesh, while $S$ supplies the tagged-sum Cauchy-net read over the same refinement surface.
+
+Finally $O$ and $Q$ form the terminal readback and seal. The structural rows $E,H,T,P,N$ transport, replay, source, and name that route without adding a selected refining sequence, quotient integrand equality, measure object, host compactness theorem, or ambient completeness principle.
+\end{proof}
+
+\closureat{RiemannDarbouxCriterionFiniteUp}{seedStr}
+
+\begin{closurestatus}{\RiemannDarbouxCriterionFiniteUp}
+  \constructivestory{A $\RiemannDarbouxCriterionFiniteUp$ packet is generated from a tagged DyadicMesh row, upper and lower Darboux-sum rows, a Riemann-sum Cauchy-net read, a mesh-refinement row, an oscillation ledger, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, downstream integration-boundary provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-darboux-criterion-finite-carrier} and \autoref{thm:riemann-darboux-criterion-finite-obligations} seed the finite Riemann--Darboux criterion over $\DyadicMeshUp$, $\DarbouxSumUp$, $\UpperDarbouxSumUp$, $\LowerDarbouxSumUp$, $\RiemannSumUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host Riemann integrability, selected refining sequences, quotient equality of integrands, measure-theoretic integration, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh-refinement classifier transport, Darboux squeeze exactness, Riemann-sum Cauchy handoff, Real seal nonescape, replay, provenance, and local naming for BEDC.Derived.RiemannDarbouxCriterionFiniteUp.}
+\end{closurestatus}

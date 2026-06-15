@@ -1,0 +1,59 @@
+\subsection{Greedy readout extraction leaves the modeled non-translation residual persistent}
+\label{subsec:q6-residual-basis-extraction-greedy-readout-cross-layer}
+
+\paragraph{Finite object under test.}
+The record considered here is the modeled-translation-complement abundance residual $R_0=P_{Q\perp T\mathrm{mod}}$ for the $B^*_{Q6}$ packet.  For each organism with enough matched rows, the finite ledger stores the available readout blocks, the greedy order in which blocks are selected, the absorbed residual increment at each step, the retained energy curve
+$$
+\begin{aligned}
+  \rho_k = \frac{\lVert R_k\rVert^2}{\lVert R_0\rVert^2},
+\end{aligned}
+$$
+and a degree-of-freedom-matched Gaussian null threshold for the selected block.  The selection rule is descriptive: at step $k$, among the remaining readout blocks $H$, the procedure selects a block maximizing the regularized score
+$$
+\begin{aligned}
+  \frac{\lVert \Pi_H R_{k-1}\rVert^2}{\lVert R_{k-1}\rVert^2} - \lambda\,\mathrm{DL}(H),
+  \qquad
+  \lambda = 0.01,
+  \qquad
+  \mathrm{DL}(H)=\log_2(1+n_{\mathrm{col}}(H)).
+\end{aligned}
+$$
+The readback is therefore a finite residual-compression audit, not an account of biochemical causation.  A fast fall in $\rho_k$ would mark compression by the current readout panel; persistence of $\rho_k$ near one marks residual energy not captured by the available blocks.
+
+\paragraph{Organism-level retained-energy ledger.}
+Four organisms have computed rows, and all four are persistent.  The yeast row uses $3046$ common joined entries and $9$ candidate readout blocks.  Its retained-energy curve is
+$$
+\begin{aligned}
+  1.0000,&\ 0.9962498989663637,\ 0.9929843170647626,\ 0.9915730985485388,\ 0.9903314906684438,\\
+  0.9894054695002641,&\ 0.9885902293718664,\ 0.9882386501212531,\ 0.9881524582851271,\ 0.9798667977250413.
+\end{aligned}
+$$
+Thus, even after all selected readouts are exhausted, approximately $97.9867\%$ of the initial residual energy remains.  The \emph{Escherichia coli} K12 MG1655 row uses $3415$ common joined entries and $2$ candidate blocks, with
+$$
+\begin{aligned}
+  \rho = (1.0000,\ 0.9982293045445091,\ 0.9979478314995476),
+\end{aligned}
+$$
+leaving approximately $99.7948\%$ of the residual.  The human row uses $16008$ common joined entries and $6$ candidate blocks, with
+$$
+\begin{aligned}
+  \rho = (&1.0000,\ 0.9852198225375993,\ 0.9806696939851618,\ 0.9792537895870558,\\
+          &0.9787609432955213,\ 0.9787233550315274,\ 0.9723341658092314),
+\end{aligned}
+$$
+so the final retained fraction is $97.2334\%$.  The zebrafish row uses $14410$ common joined entries and one candidate block, with
+$$
+\begin{aligned}
+  \rho=(1.0000,\ 0.9791828971490305),
+\end{aligned}
+$$
+leaving $97.9183\%$.  The minimum final retained fraction among computed organisms is $0.9723341658092314$, above the declared persistence floor $0.97$.  The finite classification is therefore: yeast persistent, \emph{E. coli} persistent, human persistent, and zebrafish persistent.  The chicken and \emph{Mycobacterium smegmatis} rows are not classified by this computation because the required matched readout panel is absent; their status is \emph{needs data}.
+
+\paragraph{Selected readouts and null comparison.}
+The per-step null ledger distinguishes a selected coordinate block from a merely size-matched random block.  In zebrafish, the sole selected block is measured tRNA-tAI, with increment $0.02081710285096942$ against null $95\%$ threshold $0.0002306374780841125$, exceeding the null while still leaving the residual persistent.  In \emph{E. coli}, mRNA is selected first with increment $0.0017706954554909888$ above null $0.0013371669456573104$; measured translation efficiency follows with increment $0.0002819723320884449$, below null $0.0010272364744326006$.  In human, the selected sequence is PTM density, complex membership, transmembrane count, measured tRNA-tAI, domain count, and localization.  Their increments are respectively $0.014780177462400674$, $0.004618389163869967$, $0.0014438137599134737$, $0.0005032876020244136$, $0.00003840392718095609$, and $0.006528084968494762$; all but domain count exceed their corresponding null $95\%$ thresholds.  In yeast, measured translation efficiency, PTM density, transmembrane count, turnover, complex membership, measured tRNA-tAI, domain count, mRNA, and localization are selected.  The final localization step has increment $0.008385002223710514$ above null threshold $0.00708487840939486$, but the full sequence still ends at $\rho=0.9798667977250413$.  These comparisons show that some steps are non-null relative to size-matched noise, while the total available panel still fails to compress the residual below the persistence boundary.
+
+\paragraph{Scientific interpretation.}
+The result is an honest negative compression result.  It does not say that the residual is noise, and it does not say that any selected readout is a biological driver.  It says only that the current finite readout panel does not explain most of $P_{Q\perp T\mathrm{mod}}$ in any computed organism.  The strongest local conclusion is the persistence statement: with the declared regularizer, row joins, candidate counts, greedy projection sequence, and per-step null thresholds, every computed organism retains more than $97\%$ of its initial non-translation residual energy after all available readout blocks have been applied.
+
+\paragraph{Local boundary on stronger claims.}
+No claim of translation realization, folding, physical admissibility, biological function, mechanism, causation, phenotype, or universality follows from this ledger.  Absorbed projection energy $\lVert \Pi_H R_{k-1}\rVert^2$ is a statistical quantity in the finite residual table, not a biochemical force.  Modeled tAI or stAI weights are not observed ribosome occupancy; proteomics abundance is not a direct observation of structure, function, or phenotype; and a selected readout label is not a mechanism.  Any promotion to those stronger layers would require a separate layer-matched contact and a statistic designed for that layer.  Until such contact is supplied, the packet remains a bounded cross-layer residual review whose computed readback is the $\rho_k$ curve, the selected-block ledger, and the persistent-versus-needs-data label.

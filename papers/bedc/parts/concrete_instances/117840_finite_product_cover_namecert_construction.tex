@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FiniteProductCoverUp$}
+\label{ch:concrete-instances-finite-product-cover-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley on finite products of compact metric covers, the $\FiniteProductCoverUp$ packet records the finite product-cover route used by compact metric and uniform-modulus consumers. It sits between the product metric carrier of \autoref{ch:concrete-instances-productmetric-namecert}, the compact product route of \autoref{ch:concrete-instances-compact-metric-product-namecert}, the compact metric source surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite refinement route of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}, and the product constructor surface of \autoref{ch:concrete-instances-prod-namecert}. The packet names a finite cover of a displayed product metric object; it does not choose subcovers, assert open-cover compactness, import countable choice, or identify quotient product points.
+
+\begin{definition}[Finite product cover carrier]
+\label{def:finite-product-cover-carrier}
+A $\FiniteProductCoverUp$ carrier is a finite $\BHist$ packet
+$$
+F=(L,R,J,M,K,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left finite cover row, a finite list of $\FiniteCoverRefinementUp$ cells over the left $\CompactMetricUp$ source;
+\item $R$ is the right finite cover row, a finite list of $\FiniteCoverRefinementUp$ cells over the right $\CompactMetricUp$ source;
+\item $J$ is the product pairing row, recording the $\ProdUp$ cell pairs obtained from the displayed left and right cover cells;
+\item $M$ is the $\ProductMetricUp$ ledger that reads distances only through the displayed left and right metric rows;
+\item $K$ records the $\CompactMetricProductUp$ and $\CompactMetricUp$ source rows consumed by the product-cover request;
+\item $B$ is the finite radius budget row, recording the product-radius allowance and the component radius budgets assigned to $L$ and $R$;
+\item $H$ records componentwise $\hsame$ transport for $L,R,J,M,K,B,C,P,N$;
+\item $C$ records displayed $\Cont$ replay through the left cover, right cover, product pairing, product metric ledger, compact metric sources, radius budget, transport, provenance, and local naming rows;
+\item $P$ is the $\Pkg$ provenance over $\FiniteProductCoverUp$, $\ProductMetricUp$, $\CompactMetricProductUp$, $\CompactMetricUp$, $\FiniteCoverRefinementUp$, $\ProdUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiniteProductCoverUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary open cover, a selected subcover, countable choice, quotient point equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Finite product cover NameCert obligations]
+\label{thm:finite-product-cover-namecert-obligations}
+For every accepted $\FiniteProductCoverUp$ carrier $F=(L,R,J,M,K,B,H,C,P,N)$, the local $\NameCert_{\FiniteProductCoverUp}$ surface consists exactly of left finite cover exposure, right finite cover exposure, product pairing exposure, product metric ledger exposure, compact metric source exposure, finite radius budget exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-product-cover-carrier}. The cover data are exactly the finite left and right rows $L,R$, and the product-cover cells are exactly the product pairing row $J$.
+
+The metric and compactness-facing reads are displayed separately. The row $M$ supplies the $\ProductMetricUp$ ledger, $K$ supplies the $\CompactMetricProductUp$ and $\CompactMetricUp$ source rows, and $B$ records the finite radius budget used by the product-cover request.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same finite route. Since the carrier stores no arbitrary open cover, selected subcover, countable-choice schedule, quotient point equality, ambient Real completeness, Lean theorem, or bridge row, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite product cover product-net route]
+\label{thm:finite-product-cover-product-net-route}
+Every product-net consumer of an accepted $\FiniteProductCoverUp$ packet factors through the displayed route
+$$
+L,R,B \longmapsto J \longmapsto M,K .
+$$
+It first reads the left and right finite cover rows and the finite radius budget, then forms only the displayed $\ProdUp$ pair cells, and only then consumes the $\ProductMetricUp$, $\CompactMetricProductUp$, and $\CompactMetricUp$ rows.
+\end{theorem}
+\begin{proof}
+Begin with $F=(L,R,J,M,K,B,H,C,P,N)$. The left and right finite cover rows are the only available component cover data, and $B$ is the only radius budget attached to them.
+
+Read the product pairing row $J$. It pairs cells already present in $L$ and $R$, so it cannot introduce an unseen component cover cell, an arbitrary open cover, or a selected subcover.
+
+Now consume the product metric ledger $M$ and the compact metric source row $K$. These rows read the paired cells as a product metric cover over the displayed compact metric sources, while $H,C,P,N$ keep the route stable under transport, replay, provenance, and naming.
+
+Thus every product-net route is componentwise and finite. No step supplies countable choice, quotient product point equality, ambient Real completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\FiniteProductCoverUp$ read while omitting the left finite cover row, right finite cover row, product pairing row, product metric ledger, compact metric source rows, finite radius budget, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert$ row refutes the carrier of \autoref{def:finite-product-cover-carrier}.}
+
+\independenceWitness{productmetric, compactmetricproduct, compactmetric, finitecoverrefinement, prod: no listed sibling is bijective to $\FiniteProductCoverUp$ because this packet alone binds paired finite cover rows, a product pairing row, a product metric ledger, compact metric source rows, finite radius budgeting, transport, replay, provenance, and local naming as one product-cover certificate.}
+
+\closureat{FiniteProductCoverUp}{seedStr}
+
+\begin{closurestatus}{\FiniteProductCoverUp}
+  \constructivestory{A $\FiniteProductCoverUp$ packet is generated from left and right finite cover rows, product pairing rows, a ProductMetric ledger, CompactMetricProduct and CompactMetric source rows, a finite radius budget, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-product-cover-carrier}, \autoref{thm:finite-product-cover-namecert-obligations}, and \autoref{thm:finite-product-cover-product-net-route} seed the finite product-cover route for compact metric and uniform-modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers, countable choice, quotient point equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, component cover exposure, product pairing exactness, product metric ledger exposure, compact metric source exposure, finite radius budget exactness, transport, replay, provenance, and local naming for BEDC.Derived.FiniteProductCoverUp.}
+\end{closurestatus}

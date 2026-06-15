@@ -179,6 +179,58 @@ def test_l1_construct_validity_ledger_records_input_and_split_protocol():
     _expect_invalid(mutated, "construct validity ledger")
 
 
+def test_pair_rule_preregistration_config_freezes_task_contract():
+    config_path = l1.LAB_ROOT / "configs/pair_rule_learnability_preregistration.json"
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    payload = _payload()
+    prereg = payload["pair_rule_preregistration"]
+
+    assert config["schema_id"] == "bedc-quality-lab:pair-rule-learnability-preregistration"
+    assert config["artifact_id"] == "bedc-quality-lab:pair-rule-learnability-preregistration"
+    assert config["task_id"] == "dgt_l1_order2_pair_rule"
+    assert config["pair_key"] == ["x_last_1", "x_last_2"]
+    assert config["heldout_pair_rule"] == "balanced_label_stratified_pairs_via_seeded_enumeration"
+    assert config["minimum_seed_count"] == 16
+    assert config["training_steps"] == l1.DEFAULT_TRAINING_STEPS
+    assert config["base_arm_id"] == "parameter_matched_attention"
+    assert prereg == l1.load_pair_rule_preregistration()
+    assert prereg["config_pointer"] == "configs/pair_rule_learnability_preregistration.json:$"
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["pair_rule_preregistration"]["pair_key"] = ["x_last_1"]
+    _expect_invalid(mutated, "pair-rule preregistration")
+
+
+def test_fair_base_learnability_gate_is_owner_local_and_fail_closed():
+    payload = _payload()
+    gate = payload["fair_base_learnability_gate"]
+
+    assert gate["owner"] == "dgt-l1-controls"
+    assert gate["status"] == "fail"
+    assert gate["base_arm_id"] == "parameter_matched_attention"
+    assert gate["two_predecessor_visibility"] is True
+    assert gate["base_acc_ci95_low"] == payload["training_arms"]["parameter_matched_attention"]["metrics"]["accuracy_ci95_low"]
+    assert gate["chance_accuracy"] == payload["training_arms"]["parameter_matched_attention"]["metrics"]["chance_accuracy"]
+    assert gate["margin"] == round(gate["base_acc_ci95_low"] - gate["chance_accuracy"], 6)
+    assert gate["loss_decrease_ci95_low"] > 0.0
+    assert gate["parameter_l2_delta_ci95_low"] > 0.0
+    assert gate["seed_count"] >= 16
+    assert gate["training_steps"] == l1.DEFAULT_TRAINING_STEPS
+    assert gate["fair_base_pointer"] == f"{l1.CANONICAL_JSON_ARTIFACT}:$.training_arms.parameter_matched_attention"
+    assert gate["failed_gate"] == "FAIR-BASE-HG3"
+    assert gate["control_ledger_pointer"] == f"{l1.CANONICAL_JSON_ARTIFACT}:$.fair_base_learnability_gate.control_ledger_placeholder"
+    assert gate["control_ledger_placeholder"]["status"] == "placeholder"
+    assert all(pointer.startswith(l1.CANONICAL_JSON_ARTIFACT + ":$") for pointer in gate["source_pointers"].values())
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["fair_base_learnability_gate"]["status"] = "pass"
+    _expect_invalid(mutated, "fair-base learnability gate")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["fair_base_learnability_gate"]["two_predecessor_visibility"] = False
+    _expect_invalid(mutated, "two predecessor")
+
+
 @pytest.mark.parametrize("masked_positions", ([], [0], [l1.SEQUENCE_LENGTH - 1]))
 def test_l1_construct_validity_rejects_wrong_masked_tail_positions(masked_positions):
     payload = _payload()
@@ -465,6 +517,11 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     assert summary["ood_generalization_claim"] == "not-claimed"
     assert summary["l1_step_ladder_verdict"] in {"diagnostic-only", "diagnostic-ablation-catches-up", "inconclusive"}
     assert summary["l1_step_ladder_crossover"] in {"diagnostic-crossover-observed", "no-diagnostic-crossover-observed"}
+    assert summary["fair_base_learnability_gate_status"] == "fail"
+    assert summary["fair_base_failed_gate"] == "FAIR-BASE-HG3"
+    assert summary["fair_base_pointer"] == (
+        f"{l1.CANONICAL_JSON_ARTIFACT}:$.fair_base_learnability_gate"
+    )
 
     run_artifacts = l1.run_artifacts_payload()
     expected_artifacts = [
@@ -485,9 +542,29 @@ def test_dgt_l1_controls_cli_main_forwards_config_and_writes_artifact_layout(tmp
     assert canonical_payload["training_arms"]["dgt_l1"]["training_steps"] == 8
     assert canonical_payload["l1_step_ladder"]["step_grid"] == [8, 16]
     assert len(canonical_payload["l1_step_ladder"]["step_rows"]) == 2
+    assert canonical_payload["pair_rule_preregistration"]["training_steps"] == l1.DEFAULT_TRAINING_STEPS
+    assert canonical_payload["fair_base_learnability_gate"]["status"] == "fail"
     claim_capsule = json.loads((tmp_path / run_artifacts["claim_capsule"]).read_text(encoding="utf-8"))
     assert claim_capsule == canonical_payload["claim_capsule_ref"]
     assert not (tmp_path / l1.CANONICAL_FINGERPRINT_ARTIFACT).exists()
+
+
+def test_dgt_l1_controls_index_section_points_to_owner_fair_base_gate(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    payload = _payload()
+    l1.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")
+
+    section = canonical._dgt_l1_controls_index_section()
+
+    assert section["fair_base_learnability_gate_status"] == "fail"
+    assert section["fair_base_failed_gate"] == "FAIR-BASE-HG3"
+    assert section["fair_base_learnability_gate_pointer"] == (
+        f"{l1.CANONICAL_JSON_ARTIFACT}:$.fair_base_learnability_gate"
+    )
+    assert section["pair_rule_preregistration_pointer"] == (
+        f"{l1.CANONICAL_JSON_ARTIFACT}:$.pair_rule_preregistration"
+    )
 
 
 def test_dgt_l1_controls_fingerprint_rejects_tampered_probe_metrics(tmp_path, monkeypatch):

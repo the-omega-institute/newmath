@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyReciprocalModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-reciprocal-modulus-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyReciprocalModulusUp$ packet records the finite away-from-zero modulus data needed to read a reciprocal of a regular Cauchy rational name. It sits after the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located positive lower-bound surface of \autoref{ch:concrete-instances-located-positive-real-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the reciprocal handoff of \autoref{ch:concrete-instances-real-reciprocal-namecert}. The packet names the local modulus route for a source already displayed away from zero; it is not RealUp completeness, field completeness, quotient equality of representatives, or a selector for inverses.
+
+\begin{definition}[Regular Cauchy reciprocal modulus carrier]
+\label{def:regular-cauchy-reciprocal-modulus-carrier}
+A $\RegularCauchyReciprocalModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,D,A,K,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\RegSeqRatUp$ row, displaying the regular rational name whose reciprocal modulus is being read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the requested precision, dyadic comparison budget, and denominator-safety scale.
+\item $A$ is the located positive away-from-zero witness, read through $\LocatedPositiveRealUp$ as a positive lower bound for the source seal.
+\item $K$ is the reciprocal modulus calculation row, turning the lower-bound witness and the requested tolerance into the finite denominator budget used by the reciprocal readback.
+\item $R$ is the $\RealReciprocalUp$ handoff row, available only after $S,D,A,K$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal handoff for the reciprocal name.
+\item $H$ records componentwise $\hsame$ transport for source, tolerance, located gap, modulus calculation, reciprocal handoff, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,D,A,K \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyReciprocalModulusUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\LocatedPositiveRealUp$, $\RealReciprocalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyReciprocalModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,D,A,K,R,E,H,C,P,N$. It has no coordinate for RealUp completeness, field completeness, quotient representatives, selected inverses, arbitrary trichotomy, or countable choice.
+\end{definition}
+\leanstmt{BEDC.Derived.RegularCauchyReciprocalModulusUp}
+
+\begin{theorem}[Regular Cauchy reciprocal modulus NameCert obligations]
+\label{thm:regular-cauchy-reciprocal-modulus-namecert-obligations}
+For every accepted $\RegularCauchyReciprocalModulusUp$ carrier $M=(S,D,A,K,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyReciprocalModulusUp}$ surface consists exactly of carrier admission; $\RegSeqRatUp$ source visibility through $S$; $\DyadicRatCoreUp$ tolerance exactness through $D$; away-from-zero located positivity through $A$; reciprocal modulus calculation through $K$; $\RealReciprocalUp$ handoff through $R$; $\RealUp$ seal handoff through $E$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-reciprocal-modulus-carrier}. The source row $S$, dyadic tolerance ledger $D$, and located positive row $A$ are the complete finite input surface for the reciprocal modulus request.
+
+Read the calculation row next. The row $K$ is downstream of the displayed tolerance and away-from-zero data, so the reciprocal handoff $R$ can be consumed only after the denominator-safety budget has been named.
+
+Finally the seal row $E$ and the structural rows $H,C,P,N$ transport, replay, source, and name the same route. Since no excluded completeness theorem, quotient representative, selected inverse, trichotomy, or choice row occurs in the carrier, every accepted obligation stays inside the listed NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy reciprocal modulus Real seal boundary]
+\label{thm:regular-cauchy-reciprocal-modulus-real-seal-boundary}
+Every Real-facing reciprocal read of an accepted $\RegularCauchyReciprocalModulusUp$ carrier factors through the displayed $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\LocatedPositiveRealUp$, $\RealReciprocalUp$, and $\RealUp$ rows. The route exports no RealUp completeness, field completeness, quotient representative equality, selected inverse, arbitrary trichotomy, or countable choice.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-reciprocal-modulus-namecert-obligations}. It identifies the source row $S$, dyadic ledger $D$, located positive row $A$, and reciprocal modulus calculation row $K$ as the only finite input surface for the reciprocal read.
+
+The $\RealReciprocalUp$ handoff row $R$ is therefore available only through that displayed input surface. A Real-facing consumer reaches the seal row $E$ only after the reciprocal handoff has been exposed.
+
+The transport, replay, provenance, and local naming rows preserve the same dependency order. No carrier row supplies completeness, quotient representatives, selected inverses, trichotomy, or countable choice, so the terminal handoff remains a finite seal rather than an ambient field operation.
+\end{proof}
+
+\closureat{RegularCauchyReciprocalModulusUp}{seedStr}
+\begin{closurestatus}{\RegularCauchyReciprocalModulusUp}
+  \constructivestory{A $\RegularCauchyReciprocalModulusUp$ packet is generated from a RegSeqRat source, a DyadicRatCore tolerance ledger, a located positive away-from-zero witness, a reciprocal modulus calculation row, a RealReciprocal handoff, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-reciprocal-modulus-carrier}, \autoref{thm:regular-cauchy-reciprocal-modulus-namecert-obligations}, and \autoref{thm:regular-cauchy-reciprocal-modulus-real-seal-boundary} seed the finite Bishop-style away-from-zero reciprocal-modulus route from regular Cauchy evidence to the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealUp completeness, field completeness, quotient representatives, selected inverses, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance exactness, located positive away-from-zero input, reciprocal modulus calculation, RealReciprocal handoff, RealUp seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyReciprocalModulusUp.}
+\end{closurestatus}
