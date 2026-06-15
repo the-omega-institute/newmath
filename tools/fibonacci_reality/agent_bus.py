@@ -1275,7 +1275,8 @@ def dispatch_codex(task: dict[str, Any], *, execute: bool) -> dict[str, Any]:
     try:
         try:
             result = subprocess.run(
-                ["codex", "exec", "--dangerously-bypass-approvals-and-sandbox", "-C", str(repo_root), prompt_path.read_text(encoding="utf-8")],
+                ["codex", "exec", "--dangerously-bypass-approvals-and-sandbox", "-C", str(repo_root)],
+                input=prompt_path.read_text(encoding="utf-8"),
                 text=True,
                 capture_output=True,
                 check=False,
