@@ -19,20 +19,22 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def ApartnessSpaceCarrier [AskSetup] [PackageSetup]
-    (object located gap transport classifier zeroBoundary hroute route provenance name : BHist)
+    (object located gap transport classifier zeroBoundary hroute route provenance name
+      apartRead : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory object ∧ UnaryHistory located ∧ UnaryHistory gap ∧
     UnaryHistory transport ∧ UnaryHistory classifier ∧ UnaryHistory zeroBoundary ∧
       UnaryHistory hroute ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
         UnaryHistory name ∧ Cont located gap classifier ∧
-          Cont zeroBoundary route provenance ∧ Cont route provenance name ∧
-            PkgSig bundle name pkg
+          Cont gap classifier apartRead ∧ Cont zeroBoundary route provenance ∧
+            Cont route provenance name ∧ PkgSig bundle name pkg
 
 theorem ApartnessSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
-    {object located gap transport classifier zeroBoundary hroute route provenance name : BHist}
+    {object located gap transport classifier zeroBoundary hroute route provenance name
+      apartRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ApartnessSpaceCarrier object located gap transport classifier zeroBoundary hroute route
-        provenance name bundle pkg ->
+        provenance name apartRead bundle pkg ->
       SemanticNameCert
         (fun row : BHist => hsame row name ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
         (fun row : BHist => hsame row name ∧ Cont route provenance name)
@@ -43,7 +45,8 @@ theorem ApartnessSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
   intro carrier
   obtain ⟨_objectUnary, _locatedUnary, _gapUnary, _transportUnary, _classifierUnary,
     _zeroBoundaryUnary, _hrouteUnary, _routeUnary, _provenanceUnary, nameUnary,
-    locatedGapClassifier, zeroBoundaryRouteProvenance, routeProvenanceName, namePkg⟩ :=
+    locatedGapClassifier, _gapClassifierApartRead, zeroBoundaryRouteProvenance,
+    routeProvenanceName, namePkg⟩ :=
       carrier
   exact {
     core := {
@@ -70,5 +73,61 @@ theorem ApartnessSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
       intro _row source
       exact ⟨source.right.right, locatedGapClassifier, zeroBoundaryRouteProvenance⟩
   }
+
+theorem ApartnessSpaceCarrier_located_positive_gap_route [AskSetup] [PackageSetup]
+    {object located gap transport classifierExclusion zeroBoundary htransport replay provenance
+      localName apartRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessSpaceCarrier object located gap transport classifierExclusion zeroBoundary
+        htransport replay provenance localName apartRead bundle pkg ->
+      Cont gap classifierExclusion apartRead ->
+        UnaryHistory located ∧ UnaryHistory gap ∧ UnaryHistory classifierExclusion ∧
+          UnaryHistory apartRead ∧ Cont located gap classifierExclusion ∧
+            Cont gap classifierExclusion apartRead ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro carrier route
+  cases carrier with
+  | intro objectUnary rest =>
+      cases rest with
+      | intro locatedUnary rest =>
+          cases rest with
+          | intro gapUnary rest =>
+              cases rest with
+              | intro transportUnary rest =>
+                  cases rest with
+                  | intro classifierUnary rest =>
+                      cases rest with
+                      | intro zeroBoundaryUnary rest =>
+                          cases rest with
+                          | intro htransportUnary rest =>
+                              cases rest with
+                              | intro replayUnary rest =>
+                                  cases rest with
+                                  | intro provenanceUnary rest =>
+                                      cases rest with
+                                      | intro localNameUnary rest =>
+                                          cases rest with
+                                          | intro locatedGapClassifier rest =>
+                                              cases rest with
+                                              | intro storedRoute rest =>
+                                                  cases rest with
+                                                  | intro zeroBoundaryReplayProvenance rest =>
+                                                      cases rest with
+                                                      | intro replayProvenanceName namePkg =>
+                                                          constructor
+                                                          · exact locatedUnary
+                                                          · constructor
+                                                            · exact gapUnary
+                                                            · constructor
+                                                              · exact classifierUnary
+                                                              · constructor
+                                                                · exact
+                                                                    unary_cont_closed gapUnary
+                                                                      classifierUnary route
+                                                                · constructor
+                                                                  · exact locatedGapClassifier
+                                                                  · constructor
+                                                                    · exact route
+                                                                    · exact namePkg
 
 end BEDC.Derived.ApartnessSpaceUp
