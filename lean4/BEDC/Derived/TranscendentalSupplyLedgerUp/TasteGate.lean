@@ -230,6 +230,61 @@ instance transcendentalSupplyLedgerChapterTasteGate :
     intro x y hxy heq
     exact hxy (transcendentalSupplyLedgerToEventFlow_injective heq)
 
+private def transcendentalSupplyLedgerFields :
+    TranscendentalSupplyLedgerUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | TranscendentalSupplyLedgerUp.mk socketSite requestedSupply taxonomy auditGate transportRow
+      routeRow provenanceRow nameCertRow =>
+      [socketSite, requestedSupply, taxonomy, auditGate, transportRow, routeRow,
+        provenanceRow, nameCertRow]
+
+private theorem transcendentalSupplyLedger_field_faithful :
+    ∀ x y : TranscendentalSupplyLedgerUp,
+      transcendentalSupplyLedgerFields x = transcendentalSupplyLedgerFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk socketSite₁ requestedSupply₁ taxonomy₁ auditGate₁ transportRow₁ routeRow₁
+      provenanceRow₁ nameCertRow₁ =>
+      cases y with
+      | mk socketSite₂ requestedSupply₂ taxonomy₂ auditGate₂ transportRow₂ routeRow₂
+          provenanceRow₂ nameCertRow₂ =>
+          injection h with hSocket t1
+          injection t1 with hRequested t2
+          injection t2 with hTaxonomy t3
+          injection t3 with hAudit t4
+          injection t4 with hTransport t5
+          injection t5 with hRoute t6
+          injection t6 with hProvenance t7
+          injection t7 with hName _
+          cases hSocket
+          cases hRequested
+          cases hTaxonomy
+          cases hAudit
+          cases hTransport
+          cases hRoute
+          cases hProvenance
+          cases hName
+          rfl
+
+instance transcendentalSupplyLedgerFieldFaithful :
+    FieldFaithful TranscendentalSupplyLedgerUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := transcendentalSupplyLedgerFields
+  field_faithful := transcendentalSupplyLedger_field_faithful
+
+instance transcendentalSupplyLedgerNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial TranscendentalSupplyLedgerUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨TranscendentalSupplyLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      TranscendentalSupplyLedgerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem TranscendentalSupplyLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       transcendentalSupplyLedgerDecodeBHist (transcendentalSupplyLedgerEncodeBHist h) = h) ∧
