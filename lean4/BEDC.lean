@@ -2136,6 +2136,7 @@ import BEDC.Derived.CauchyRateLatticeUp.TasteGate
 import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateRealizationUp.NoChoiceBoundary
 import BEDC.Derived.CauchyRateRealizationUp.Obligations
+import BEDC.Derived.CauchyRateRealizationUp.PublicCertificate
 import BEDC.Derived.CauchyRateRealizationUp.RealSealRoute
 import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
