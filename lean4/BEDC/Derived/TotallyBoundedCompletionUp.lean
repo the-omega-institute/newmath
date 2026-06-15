@@ -58,4 +58,29 @@ theorem TotallyBoundedCompletionCarrier_namecert_obligations [AskSetup] [Package
       separatedUnary, extensionUnary, transportUnary, provenanceUnary, localNameUnary,
       localNamePkg⟩
 
+theorem TotallyBoundedCompletionCarrier_refinement_ledger_obligation [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont source net refinement ∧ Cont refinement basis embedding ∧
+        Cont embedding completion separated ∧ UnaryHistory refinement ∧ UnaryHistory embedding ∧
+          UnaryHistory separated ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨sourceUnary, netUnary, basisUnary, completionUnary, _extensionUnary, _transportUnary,
+    sourceNetRefinement, refinementBasisEmbedding, embeddingCompletionSeparated,
+    _separatedExtensionProvenance, _transportProvenanceLocalName, _provenancePkg,
+    localNamePkg⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed sourceUnary netUnary sourceNetRefinement
+  have embeddingUnary : UnaryHistory embedding :=
+    unary_cont_closed refinementUnary basisUnary refinementBasisEmbedding
+  have separatedUnary : UnaryHistory separated :=
+    unary_cont_closed embeddingUnary completionUnary embeddingCompletionSeparated
+  exact
+    ⟨sourceNetRefinement, refinementBasisEmbedding, embeddingCompletionSeparated,
+      refinementUnary, embeddingUnary, separatedUnary, localNamePkg⟩
+
 end BEDC.Derived.TotallyBoundedCompletionUp
