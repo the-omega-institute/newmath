@@ -39,6 +39,7 @@ CANONICAL_JSON_ARTIFACT = "reports/canonical/dgt-l1-controls.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/dgt-l1-controls.md"
 CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/dgt-l1-controls.fingerprint.json"
 INPUT_ACCESSIBILITY_JSON_ARTIFACT = "reports/canonical/input-accessibility.json"
+PAIR_RULE_PREREGISTRATION_ARTIFACT = "configs/pair_rule_learnability_preregistration.json"
 RUN_ROOT = "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls"
 GENERATED_AT = "2026-06-10T00:00:00+00:00"
 LAB_ROOT = Path(__file__).resolve().parents[1]
@@ -134,6 +135,7 @@ L1OOD_POSITIVE_MARGIN = 0.05
 L1OOD_COLLAPSE_MARGIN = 0.05
 L1OOD_FREQUENCY_RATIO = 2.0
 L1OOD_LOGIT_MARGIN_MIN = 0.0
+FAIR_BASE_GATE_IDS = tuple(f"FAIR-BASE-HG{index}" for index in range(1, 7))
 CELL_CACHE_EVENT_OBSERVER: Any = None
 
 
@@ -883,6 +885,14 @@ def _ci95_low_values(values: Sequence[float]) -> float:
     return round(mean - 1.96 * math.sqrt(variance) / math.sqrt(len(values)), 6)
 
 
+def _ci95_low_for_arm_metric(records: Sequence[Mapping[str, Any]], arm_id: str, key: str) -> float:
+    return _ci95_low_values([
+        float(row["metrics"][key])
+        for row in records
+        if row.get("arm_id") == arm_id and isinstance(row.get("metrics"), Mapping) and key in row["metrics"]
+    ])
+
+
 def _paired_accuracy_stats(
     records: Sequence[Mapping[str, Any]],
     *,
@@ -969,8 +979,10 @@ def _arm_summaries(
                 "validation_loss_mean": _mean(rows, "validation_loss"),
                 "validation_loss_ci95_low": _ci95_low(rows, "validation_loss"),
                 "loss_decrease_mean": _mean(rows, "loss_decrease"),
+                "loss_decrease_ci95_low": _ci95_low(rows, "loss_decrease"),
                 "UER_mean": _mean(rows, "UER"),
                 "parameter_l2_delta_mean": _mean(rows, "parameter_l2_delta"),
+                "parameter_l2_delta_ci95_low": _ci95_low(rows, "parameter_l2_delta"),
                 "positive_margin_over_chance_mean": _mean(rows, "positive_margin_over_chance"),
             },
             "pointer": f"{CANONICAL_JSON_ARTIFACT}:$.{pointer_prefix}.{arm_id}",
@@ -1678,6 +1690,7 @@ def _producer_source_closure() -> tuple[dict[str, str], ...]:
         PRODUCER,
         "bedc_quality_lab/canonical_cell_cache.py",
         "bedc_quality_lab/order_k_benchmark.py",
+        PAIR_RULE_PREREGISTRATION_ARTIFACT,
     )
     return tuple({"path": path, "sha256": _path_digest(path)} for path in paths)
 
@@ -1699,7 +1712,7 @@ def _cell_input_record(
             **run_artifacts_payload(),
         },
         producer_source_closure=_producer_source_closure(),
-        extra_input_paths=(ORDER_K_REPORT_ARTIFACT,),
+        extra_input_paths=(ORDER_K_REPORT_ARTIFACT, PAIR_RULE_PREREGISTRATION_ARTIFACT),
         config_payload={
             "schema_id": SCHEMA_ID,
             "arm_ids": list(ARM_IDS),
@@ -1712,7 +1725,10 @@ def _cell_input_record(
             "deterministic_seeds": list(config.seeds),
             "step_grid": list(config.step_grid),
         },
-        source_artifact_digests={ORDER_K_REPORT_ARTIFACT: _path_digest(ORDER_K_REPORT_ARTIFACT)},
+        source_artifact_digests={
+            ORDER_K_REPORT_ARTIFACT: _path_digest(ORDER_K_REPORT_ARTIFACT),
+            PAIR_RULE_PREREGISTRATION_ARTIFACT: _path_digest(PAIR_RULE_PREREGISTRATION_ARTIFACT),
+        },
         requested_device=requested_device,
         resolved_device=device_name,
         runtime_abi=_runtime_abi(torch),
@@ -1903,11 +1919,48 @@ def _owner_local_measurement_boundary() -> dict[str, Any]:
     }
 
 
+def load_pair_rule_preregistration() -> dict[str, Any]:
+    path = LAB_ROOT / PAIR_RULE_PREREGISTRATION_ARTIFACT
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except OSError as exc:
+        raise ValueError("DGT L1 pair-rule preregistration missing") from exc
+    except json.JSONDecodeError as exc:
+        raise ValueError("DGT L1 pair-rule preregistration invalid JSON") from exc
+    if not isinstance(payload, dict):
+        raise ValueError("DGT L1 pair-rule preregistration must be an object")
+    expected = {
+        "schema_id": "bedc-quality-lab:pair-rule-learnability-preregistration",
+        "artifact_id": "bedc-quality-lab:pair-rule-learnability-preregistration",
+        "owner": "dgt-l1-controls",
+        "task_id": "dgt_l1_order2_pair_rule",
+        "task_family": "bounded_tiny_sequence_order_k",
+        "pair_key": list(PAIR_KEY),
+        "heldout_pair_rule": HELDOUT_PAIR_RULE,
+        "heldout_pair_split_seed": HELDOUT_PAIR_SPLIT_SEED,
+        "minimum_seed_count": 16,
+        "training_steps": DEFAULT_TRAINING_STEPS,
+        "base_arm_id": "parameter_matched_attention",
+        "candidate_arm_id": "dgt_l1",
+        "chance_accuracy": round(1.0 / VOCAB_SIZE, 6),
+        "required_visibility": ["x_minus_1", "x_minus_2"],
+        "required_positive_metrics": ["loss_decrease_ci95_low", "parameter_l2_delta_ci95_low"],
+        "config_pointer": f"{PAIR_RULE_PREREGISTRATION_ARTIFACT}:$",
+    }
+    if set(payload) != set(expected):
+        raise ValueError("DGT L1 pair-rule preregistration fields mismatch")
+    for key, value in expected.items():
+        if payload.get(key) != value:
+            raise ValueError(f"DGT L1 pair-rule preregistration mismatch: {key}")
+    return dict(payload)
+
+
 def source_artifacts_payload(*, device_policy: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "owner_module": OWNER_MODULE,
         "runner": PRODUCER,
         "command": ["python3", PRODUCER],
+        "pair_rule_preregistration": f"{PAIR_RULE_PREREGISTRATION_ARTIFACT}:$",
         "input_accessibility_ref": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$",
         "input_accessibility_consumer_pointers": f"{INPUT_ACCESSIBILITY_JSON_ARTIFACT}:$.consumer_pointers",
         "order_k_required_order_source": ORDER_K_LEDGER_ROWS_POINTER,
@@ -2127,6 +2180,113 @@ def _gate(status: bool, gate_id: str, criterion: str, evidence_pointer: str, rea
         evidence_pointer=evidence_pointer,
         fail_closed_reason=None if status else reason or criterion,
     ).as_payload()
+
+
+def _fair_base_two_predecessor_visibility(prereg: Mapping[str, Any], base: Mapping[str, Any]) -> bool:
+    return (
+        prereg.get("required_visibility") == ["x_minus_1", "x_minus_2"]
+        and base.get("arm_id") == prereg.get("base_arm_id")
+        and base.get("role") == "attention_control"
+        and base.get("eligible_for_advantage_claims") is True
+    )
+
+
+def _fair_base_hardgates(gate: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    return {
+        "FAIR-BASE-HG1": _gate(
+            gate.get("two_predecessor_visibility") is True,
+            "FAIR-BASE-HG1",
+            "fair base exposes both predecessor variables required by the pair rule",
+            "$.fair_base_learnability_gate.two_predecessor_visibility",
+            "two predecessor visibility is absent",
+        ),
+        "FAIR-BASE-HG2": _gate(
+            int(gate.get("seed_count", 0)) >= 16 and int(gate.get("training_steps", 0)) > 0,
+            "FAIR-BASE-HG2",
+            "fair base records at least sixteen seeds and positive training steps",
+            "$.fair_base_learnability_gate.seed_count",
+        ),
+        "FAIR-BASE-HG3": _gate(
+            isinstance(gate.get("base_acc_ci95_low"), (int, float))
+            and isinstance(gate.get("chance_accuracy"), (int, float))
+            and float(gate.get("base_acc_ci95_low", 0.0)) > float(gate.get("chance_accuracy", 1.0)),
+            "FAIR-BASE-HG3",
+            "fair base lower confidence bound exceeds chance accuracy",
+            "$.fair_base_learnability_gate.base_acc_ci95_low",
+            "fair base lower confidence bound does not exceed chance accuracy",
+        ),
+        "FAIR-BASE-HG4": _gate(
+            _positive_finite(gate.get("loss_decrease_ci95_low")),
+            "FAIR-BASE-HG4",
+            "fair base has positive loss-decrease lower confidence bound",
+            "$.fair_base_learnability_gate.loss_decrease_ci95_low",
+        ),
+        "FAIR-BASE-HG5": _gate(
+            _positive_finite(gate.get("parameter_l2_delta_ci95_low")),
+            "FAIR-BASE-HG5",
+            "fair base has positive parameter-update lower confidence bound",
+            "$.fair_base_learnability_gate.parameter_l2_delta_ci95_low",
+        ),
+        "FAIR-BASE-HG6": _gate(
+            isinstance(gate.get("fair_base_pointer"), str)
+            and str(gate.get("fair_base_pointer")).startswith(f"{CANONICAL_JSON_ARTIFACT}:$")
+            and gate.get("control_ledger_pointer") == f"{CANONICAL_JSON_ARTIFACT}:$.fair_base_learnability_gate.control_ledger_placeholder",
+            "FAIR-BASE-HG6",
+            "fair base evidence and control-ledger placeholder stay under the dgt-l1-controls owner",
+            "$.fair_base_learnability_gate.control_ledger_pointer",
+        ),
+    }
+
+
+def build_fair_base_learnability_gate(
+    prereg: Mapping[str, Any],
+    summaries: Mapping[str, Mapping[str, Any]],
+) -> dict[str, Any]:
+    base_arm_id = str(prereg.get("base_arm_id", ""))
+    base = summaries.get(base_arm_id, {})
+    base = base if isinstance(base, Mapping) else {}
+    metrics = base.get("metrics")
+    metrics = metrics if isinstance(metrics, Mapping) else {}
+    base_acc_ci95_low = round(float(metrics.get("accuracy_ci95_low", 0.0)), 6)
+    chance_accuracy = round(float(metrics.get("chance_accuracy", prereg.get("chance_accuracy", 1.0))), 6)
+    control_ledger_pointer = f"{CANONICAL_JSON_ARTIFACT}:$.fair_base_learnability_gate.control_ledger_placeholder"
+    gate: dict[str, Any] = {
+        "owner": "dgt-l1-controls",
+        "task_id": prereg.get("task_id"),
+        "base_arm_id": base_arm_id,
+        "candidate_arm_id": prereg.get("candidate_arm_id"),
+        "two_predecessor_visibility": _fair_base_two_predecessor_visibility(prereg, base),
+        "base_acc_ci95_low": base_acc_ci95_low,
+        "chance_accuracy": chance_accuracy,
+        "margin": round(base_acc_ci95_low - chance_accuracy, 6),
+        "loss_decrease_ci95_low": round(float(metrics.get("loss_decrease_ci95_low", 0.0)), 6),
+        "parameter_l2_delta_ci95_low": round(float(metrics.get("parameter_l2_delta_ci95_low", 0.0)), 6),
+        "seed_count": int(base.get("seed_count", 0)),
+        "training_steps": int(base.get("training_steps", 0)),
+        "fair_base_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.{base_arm_id}",
+        "preregistration_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.pair_rule_preregistration",
+        "control_ledger_pointer": control_ledger_pointer,
+        "control_ledger_placeholder": {
+            "status": "placeholder",
+            "owner": "dgt-l1-controls",
+            "pointer": control_ledger_pointer,
+        },
+        "source_pointers": {
+            "pair_rule_preregistration": f"{CANONICAL_JSON_ARTIFACT}:$.pair_rule_preregistration",
+            "fair_base": f"{CANONICAL_JSON_ARTIFACT}:$.training_arms.{base_arm_id}",
+            "visibility": f"{CANONICAL_JSON_ARTIFACT}:$.construct_validity_ledger.input_bandwidth_by_arm.{base_arm_id}",
+            "claim_comparison_policy": f"{CANONICAL_JSON_ARTIFACT}:$.construct_validity_ledger.claim_comparison_policy",
+            "paired_accuracy": f"{CANONICAL_JSON_ARTIFACT}:$.paired_accuracy.dgt_minus_parameter_matched_attention",
+        },
+    }
+    gates = _fair_base_hardgates(gate)
+    failed = [gate_id for gate_id in FAIR_BASE_GATE_IDS if gates[gate_id]["status"] != "pass"]
+    gate["hardgates"] = gates
+    gate["status"] = "pass" if not failed else "fail"
+    gate["failed_gates"] = failed
+    gate["failed_gate"] = failed[0] if failed else None
+    gate["pointer"] = f"{CANONICAL_JSON_ARTIFACT}:$.fair_base_learnability_gate"
+    return gate
 
 
 def _mapping_cell(payload: Mapping[str, Any], key: str) -> Mapping[str, Any]:
@@ -2685,6 +2845,8 @@ def build_payload(
     summaries["parameter_matched_attention"]["structural_marginals_preserved"] = True
     compute = _compute_ledger(summaries)
     params = _parameter_ledger(summaries)
+    pair_rule_preregistration = load_pair_rule_preregistration()
+    fair_base_learnability_gate = build_fair_base_learnability_gate(pair_rule_preregistration, summaries)
     paired_accuracy = {
         "dgt_minus_input_ablation_masked_tail": _paired_accuracy_stats(
             primary_records,
@@ -2721,6 +2883,8 @@ def build_payload(
         "l1_step_ladder": step_ladder,
         "l1_ood_mechanism": l1_ood_mechanism,
         "construct_validity_ledger": construct_validity_ledger,
+        "pair_rule_preregistration": pair_rule_preregistration,
+        "fair_base_learnability_gate": fair_base_learnability_gate,
         "review_status": "pass",
         "promotion_readiness": "ready-pass",
         "component_ablation_boundary": _component_ablation_boundary(),
@@ -2764,6 +2928,8 @@ def _required_fields() -> set[str]:
         "l1_step_ladder",
         "l1_ood_mechanism",
         "construct_validity_ledger",
+        "pair_rule_preregistration",
+        "fair_base_learnability_gate",
         "review_status",
         "promotion_readiness",
         "component_ablation_boundary",
@@ -2960,6 +3126,31 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
         raise ValueError("DGT L1 construct validity projection missing")
     if not _construct_validity_owner_projection_passes(projection):
         raise ValueError("DGT L1 construct validity owner projection failed")
+    prereg = payload["pair_rule_preregistration"]
+    if not isinstance(prereg, Mapping) or prereg != load_pair_rule_preregistration():
+        raise ValueError("DGT L1 pair-rule preregistration mismatch")
+    fair_gate = payload["fair_base_learnability_gate"]
+    if not isinstance(fair_gate, Mapping):
+        raise ValueError("DGT L1 fair-base learnability gate missing")
+    expected_fair_gate = build_fair_base_learnability_gate(prereg, arms)
+    if fair_gate != expected_fair_gate:
+        if fair_gate.get("two_predecessor_visibility") is not expected_fair_gate.get("two_predecessor_visibility"):
+            raise ValueError("DGT L1 fair-base learnability gate two predecessor visibility mismatch")
+        raise ValueError("DGT L1 fair-base learnability gate mismatch")
+    if set(fair_gate.get("hardgates", {})) != set(FAIR_BASE_GATE_IDS):
+        raise ValueError("DGT L1 fair-base learnability gate hardgates mismatch")
+    if fair_gate.get("status") != "fail":
+        raise ValueError("DGT L1 fair-base learnability gate must fail closed")
+    if fair_gate.get("failed_gate") != "FAIR-BASE-HG3":
+        raise ValueError("DGT L1 fair-base learnability gate failed gate mismatch")
+    if int(fair_gate.get("seed_count", 0)) < 16:
+        raise ValueError("DGT L1 fair-base learnability gate seed count too small")
+    if not _positive_finite(fair_gate.get("loss_decrease_ci95_low")):
+        raise ValueError("DGT L1 fair-base learnability gate loss decrease missing")
+    if not _positive_finite(fair_gate.get("parameter_l2_delta_ci95_low")):
+        raise ValueError("DGT L1 fair-base learnability gate parameter update missing")
+    if fair_gate.get("control_ledger_pointer") != f"{CANONICAL_JSON_ARTIFACT}:$.fair_base_learnability_gate.control_ledger_placeholder":
+        raise ValueError("DGT L1 fair-base learnability gate control ledger pointer mismatch")
     gate_status, failures = _hardgate_status(expected_gates)
     if gate_status != "pass":
         raise ValueError(f"DGT L1 hardgates fail closed: {failures[0]}")
@@ -3065,6 +3256,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Step-ladder crossover: `{ladder['convergence_crossover']['status']}`",
         f"- L1 OOD mechanism verdict: `{payload['l1_ood_mechanism']['verdict']}`",
         f"- L1 OOD mechanism confidence: `{payload['l1_ood_mechanism']['diagnostic_confidence']}`",
+        f"- Fair base learnability gate: `{payload['fair_base_learnability_gate']['status']}`",
+        f"- Fair base failed gate: `{payload['fair_base_learnability_gate']['failed_gate']}`",
         f"- Seeds: `{payload['independent_replay']['seed_count']}`",
         f"- Compute units: `{payload['compute_ledger']['compute_units']}`",
         f"- Parameter count: `{payload['parameter_ledger']['parameter_count']}`",
@@ -3170,6 +3363,7 @@ __all__ = [
     "L1TrainingConfig",
     "SCHEMA_ID",
     "build_claim_capsule",
+    "build_fair_base_learnability_gate",
     "build_l1_ood_mechanism",
     "build_l1_step_ladder",
     "build_payload",
@@ -3181,6 +3375,7 @@ __all__ = [
     "evaluate_hardgates",
     "evaluate_l1ood_hardgates",
     "evaluate_l1step_hardgates",
+    "load_pair_rule_preregistration",
     "render_markdown",
     "source_regression_guard",
     "validate_payload",
