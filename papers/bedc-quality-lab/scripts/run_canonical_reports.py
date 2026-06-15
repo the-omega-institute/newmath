@@ -290,6 +290,15 @@ GAP_HEAD_TRANSFER_ATLAS_ARTIFACT_ID = "bedc-quality-lab:gap-head-transfer-atlas"
 GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
 GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.md"
 GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_capsule"
+GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_JSON_ARTIFACT = (
+    "reports/canonical/gap-head-pair-rule-bounded-capsule.json"
+)
+GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_MARKDOWN_ARTIFACT = (
+    "reports/canonical/gap-head-pair-rule-bounded-capsule.md"
+)
+GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_ARTIFACT_ID = (
+    "bedc-quality-lab:gap-head-pair-rule-bounded-capsule"
+)
 RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT = "reports/release_manifest_sidecar.json"
 RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT = "reports/release_manifest_sidecar.md"
 RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID = "bedc-quality-lab:release-manifest-sidecar"
@@ -982,6 +991,36 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         not_claimed_pointer="$.scope.not_claimed",
         positive_claim_pointer="$.d5_m",
         control_pointer="$.control_pointer",
+        no_control_rationale_pointer=None,
+    ),
+    CanonicalReportSpec(
+        name="gap-head-pair-rule-bounded-capsule",
+        command=("python3", "scripts/run_gap_head_pair_rule_bounded_capsule.py"),
+        json_artifact=GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_JSON_ARTIFACT,
+        markdown_artifact=GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "source_issues",
+            "source_artifacts",
+            "pair_rule_surface",
+            "prerequisite_checks",
+            "prerequisite_checks_by_id",
+            "capsule_verdict",
+            "bounded_negative",
+            "positive_claim",
+            "control_pointer",
+            "cost_protocol",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        scope_pointer="$.pair_rule_surface",
+        cost_pointer="$.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive_claim.status",
+        control_pointer="$.prerequisite_checks",
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
@@ -2821,6 +2860,14 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
         paths.update(_structural_generalization_gate_artifact_paths(payload))
     if spec.name == "gap-head-discovery":
         paths.add("reports/canonical/gap-head-on-h.json")
+    if spec.name == "gap-head-pair-rule-bounded-capsule":
+        paths.update(
+            (
+                "reports/canonical/gap-head-discovery.json",
+                "reports/canonical/gap-head-observed-debt-transfer.json",
+                "reports/canonical/gap_head_attribution_capsule.json",
+            )
+        )
     if spec.name == "certificate-guided-discovery":
         paths.update(("reports/canonical/certificate-guided-training.json", "reports/canonical/certificate-guided-training.md"))
     if spec.name == "model-comparison":
@@ -7999,6 +8046,29 @@ def _gap_head_attribution_index_section() -> dict[str, Any]:
     }
 
 
+def _gap_head_pair_rule_bounded_capsule_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_JSON_ARTIFACT)
+    return {
+        "status": "pointer-only",
+        "artifact_id": GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_ARTIFACT_ID,
+        "json_artifact": GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_JSON_ARTIFACT,
+        "markdown_artifact": GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_MARKDOWN_ARTIFACT,
+        "capsule_status": _pointer_value(payload, "$.capsule_verdict.status") or "missing",
+        "capsule_status_pointer": (
+            f"{GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_JSON_ARTIFACT}:$.capsule_verdict.status"
+        ),
+        "positive_claim_pointer": (
+            f"{GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_JSON_ARTIFACT}:$.positive_claim.status"
+        ),
+        "pair_rule_surface_pointer": (
+            f"{GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_JSON_ARTIFACT}:$.pair_rule_surface"
+        ),
+        "prerequisite_checks_pointer": (
+            f"{GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_JSON_ARTIFACT}:$.prerequisite_checks"
+        ),
+    }
+
+
 def _mechanism_dna_index_section() -> dict[str, Any]:
     payload = _load_artifact_payload(MECHANISM_DNA_JSON_ARTIFACT)
     rows = payload.get("rows") if isinstance(payload, Mapping) else None
@@ -8847,6 +8917,7 @@ def _index(
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
         "gap_head_transfer_atlas": _gap_head_transfer_atlas_index_section(discovery_map_payload),
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
+        "gap_head_pair_rule_bounded_capsule": _gap_head_pair_rule_bounded_capsule_index_section(),
         "mechanism_dna": _mechanism_dna_index_section(),
         "experiment_stack_cards": _experiment_stack_cards_index_section(),
         "reproduction_package": _reproduction_package_index_section(),
@@ -9279,6 +9350,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- D5-O: `{payload['gap_head_attribution_capsule']['d5_o_status']}`",
             f"- D5-M: `{payload['gap_head_attribution_capsule']['d5_m_status']}`",
             f"- Mechanism case: `{payload['gap_head_attribution_capsule']['mechanism_case']}`",
+            "",
+            "## Gap-head pair-rule bounded capsule",
+            "",
+            f"- Status: `{payload['gap_head_pair_rule_bounded_capsule']['status']}`",
+            f"- JSON: `{payload['gap_head_pair_rule_bounded_capsule']['json_artifact']}`",
+            f"- Markdown: `{payload['gap_head_pair_rule_bounded_capsule']['markdown_artifact']}`",
+            f"- Capsule status: `{payload['gap_head_pair_rule_bounded_capsule']['capsule_status']}`",
+            f"- Capsule status pointer: `{payload['gap_head_pair_rule_bounded_capsule']['capsule_status_pointer']}`",
+            f"- Prerequisite checks: `{payload['gap_head_pair_rule_bounded_capsule']['prerequisite_checks_pointer']}`",
             "",
             "## Release manifest sidecar",
             "",

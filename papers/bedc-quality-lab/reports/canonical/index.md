@@ -27,6 +27,7 @@
 | `discovery-gated-transformer` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/discovery-gated-transformer.json` | `reports/canonical/discovery-gated-transformer.md` | `reports/canonical/discovery-gated-transformer.fingerprint.json` | `$.scaling_ladder` | `$.architecture_spec` | `$.scaling_ladder.not_claimed` | `$.scaling_ladder` | `$.d4_projection.matched_control` |
 | `order-k-benchmark` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/order-k-benchmark.json` | `reports/canonical/order-k-benchmark.md` | `reports/canonical/order-k-benchmark.fingerprint.json` | `$.task_specs` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_controls` |
 | `high-impact-review` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/high-impact-review.json` | `reports/canonical/high-impact-review.md` | `reports/canonical/high-impact-review.fingerprint.json` | `$.review_rows` | `$.hardgates` | `$.not_claimed` | `$.review_rows` | `$.hardgates` |
+| `gap-head-pair-rule-bounded-capsule` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/gap-head-pair-rule-bounded-capsule.json` | `reports/canonical/gap-head-pair-rule-bounded-capsule.md` | `reports/canonical/gap-head-pair-rule-bounded-capsule.fingerprint.json` | `$.pair_rule_surface` | `$.cost_protocol` | `$.not_claimed` | `$.positive_claim.status` | `$.prerequisite_checks` |
 
 ## Auxiliary reports
 
@@ -393,6 +394,15 @@
 - D5-M: `blocked`
 - Mechanism case: `unresolved`
 
+## Gap-head pair-rule bounded capsule
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/gap-head-pair-rule-bounded-capsule.json`
+- Markdown: `reports/canonical/gap-head-pair-rule-bounded-capsule.md`
+- Capsule status: `bounded-negative`
+- Capsule status pointer: `reports/canonical/gap-head-pair-rule-bounded-capsule.json:$.capsule_verdict.status`
+- Prerequisite checks: `reports/canonical/gap-head-pair-rule-bounded-capsule.json:$.prerequisite_checks`
+
 ## Release manifest sidecar
 
 - Status: `pointer-only`
@@ -470,7 +480,7 @@
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review, gap-head-pair-rule-bounded-capsule`
 - Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, dgt-l1-boundary-report, reproduction-package, reproduction-check-result, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, scaling-ladder, input-accessibility, fair-l1-decision, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, experiment-stack-cards, claim-complexity, discovery-gated-transformer-jepa-world-model`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -525,6 +535,7 @@
 | `high-impact-review` | `hg_p_core` | `$.review_rows` | `$.hardgates` | `None` |
 | `claim-complexity` | `auxiliary` | `$.rows` | `None` | `$.not_claimed` |
 | `discovery-gated-transformer-jepa-world-model` | `auxiliary` | `$.claim_boundary` | `None` | `$.claim_boundary` |
+| `gap-head-pair-rule-bounded-capsule` | `hg_p_core` | `$.positive_claim.status` | `$.prerequisite_checks` | `None` |
 
 | report | role | artifact role | eligible | exclusion pointer | block pointer |
 | --- | --- | --- | --- | --- | --- |
