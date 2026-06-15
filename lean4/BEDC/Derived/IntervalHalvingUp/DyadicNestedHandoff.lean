@@ -9,7 +9,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem IntervalHalvingCarrier_dyadic_nested_handoff [AskSetup] [PackageSetup]
+theorem interval_halving_dyadic_nested_handoff_carrier_route [AskSetup] [PackageSetup]
     {left right midpoint chosenHalf radius streamWindow regularReadback realSeal transport replay
       provenance localName dyadicRead nestedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -28,13 +28,18 @@ theorem IntervalHalvingCarrier_dyadic_nested_handoff [AskSetup] [PackageSetup]
     ⟨leftUnary, _rightUnary, _midpointUnary, _chosenHalfUnary, radiusUnary,
       streamWindowUnary, _regularReadbackUnary, _realSealUnary, _transportUnary,
       _transportAnchor, _midpointRoute, _radiusRoute, _readbackRoute, _realSealRoute,
-      _provenanceRoute, packageRoute⟩ := carrier
+      _provenanceRoute, _provenancePkg, packageRoute⟩ := carrier
   have dyadicUnary : UnaryHistory dyadicRead :=
     unary_cont_closed leftUnary radiusUnary dyadicRoute
   have nestedUnary : UnaryHistory nestedRead :=
     unary_cont_closed dyadicUnary streamWindowUnary nestedRoute
-  exact
+  have handoff :
+      UnaryHistory left ∧ UnaryHistory radius ∧ UnaryHistory streamWindow ∧
+        UnaryHistory dyadicRead ∧ UnaryHistory nestedRead ∧
+          Cont left radius dyadicRead ∧ Cont dyadicRead streamWindow nestedRead ∧
+            PkgSig bundle localName pkg ∧ PkgSig bundle nestedRead pkg :=
     ⟨leftUnary, radiusUnary, streamWindowUnary, dyadicUnary, nestedUnary, dyadicRoute,
       nestedRoute, packageRoute, nestedPkg⟩
+  exact handoff
 
 end BEDC.Derived.IntervalHalvingUp
