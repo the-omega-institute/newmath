@@ -1,0 +1,154 @@
+\origin{ai}
+\subsection{Finite forced-window Green response and spectral readout frontier}
+\label{sec:window6-green-spectral-response-alpha-readout-frontier}
+
+\paragraph{Carrier and window predicate.}
+The finite carrier begins with the set $X_6$ of Boolean words $w=(w_1,\ldots,w_6)\in \{0,1\}^6$ satisfying the adjacent-exclusion predicate $w_iw_{i+1}=0$ for $i=1,\ldots,5$. Direct enumeration gives $|X_6|=21$. A word is declared boundary exactly when it lies in $X_6$ and has $w_1=w_6=1$; the boundary words are $100001$, $100101$, and $101001$. The non-boundary cyclic words are separated by Hamming weight: weight $2$, weight $1$, and weight $0$ or $3$. Thus the four stable blocks on $X_6$ have sizes $9,6,3,3$ before any target count or readout value enters the construction.
+
+\paragraph{Foldbin fiber and micro-cell partition.}
+For each $w\in X_6$, the tail-cube fiber consists of triples $(c_7,c_8,c_9)\in \{0,1\}^3$ satisfying $c_7c_8=0$, $c_8c_9=0$, $w_6c_7=0$, and
+$$
+\begin{aligned}
+V_6(w)+21c_7+34c_8+55c_9 &\leq 63,\\
+V_6(w) &= w_1+2w_2+3w_3+5w_4+8w_5+13w_6.
+\end{aligned}
+$$
+The four micro-cells are the unions of these fibers over the four stable blocks. The cell $U_2$ is the union over non-boundary words of Hamming weight $2$, $U_1$ is the union over non-boundary words of Hamming weight $1$, $U_L$ is the union over non-boundary words of Hamming weight $0$ or $3$, and $U_R$ is the union over boundary words. The resulting subsets of $\{0,\ldots,63\}$ are disjoint and cover the full vertex set, with
+$$
+\begin{aligned}
+(|U_2|,|U_1|,|U_L|,|U_R|)&=(27,22,9,6),\\
+27+22+9+6&=64.
+\end{aligned}
+$$
+This is a finite partition statement: every vertex is assigned by the Boolean word predicate, the boundary rule, the Hamming-weight rule, and the tail-cube inequalities alone.
+
+\paragraph{Hypercube edge enumeration.}
+The graph $Q_6$ has vertices $0,\ldots,63$ and undirected edges obtained by toggling one of the six low bits, counted once. Hence $Q_6$ has $64$ vertices and $192$ undirected edges. Ordering the cells as $(U_2,U_1,U_L,U_R)$, direct edge enumeration gives
+$$
+\begin{aligned}
+E=\begin{pmatrix}
+28&63&23&20\\
+63&21&21&6\\
+23&21&2&6\\
+20&6&6&2
+\end{pmatrix}.
+\end{aligned}
+$$
+The internal-edge convention is that an edge contained in one cell contributes twice to the corresponding degree ledger. The coarse kernel $T$ is therefore defined by $T_{aa}=2E_{aa}/(6|U_a|)$ and $T_{ab}=E_{ab}/(6|U_a|)$ for $a\neq b$. This gives
+$$
+\begin{aligned}
+T=\begin{pmatrix}
+28/81&7/18&23/162&10/81\\
+21/44&7/22&7/44&1/22\\
+23/54&7/18&2/27&1/9\\
+5/9&1/6&1/6&1/9
+\end{pmatrix}.
+\end{aligned}
+$$
+The six-regular degree count makes $T$ row-stochastic, and the stationary weights inherited from the partition are
+$$
+\begin{aligned}
+\pi=(27/64,22/64,9/64,6/64).
+\end{aligned}
+$$
+The right-boundary escape ledger is
+$$
+\begin{aligned}
+|dU_R|&=E[R,2]+E[R,1]+E[R,L]\\
+&=20+6+6=32,
+\end{aligned}
+$$
+so the normalized escape ratio is $|dU_R|/(6|U_R|)=32/36=8/9$.
+
+\paragraph{Right-boundary Green response.}
+Let $1_R$ be the indicator of the right-boundary cell and set $f_R=1_R-\pi_R$, where $\pi_R=|U_R|/64=6/64=3/32$. The rational Green response is
+$$
+\begin{aligned}
+\chi_R(z)&=\langle f_R,(I-zT)^{-1}f_R\rangle_{\pi},\\
+\Delta_R(z)&=2(\chi_R(z)-\chi_R(0)).
+\end{aligned}
+$$
+At $z=0$ one has $\chi_R(0)=\pi_R(1-\pi_R)=(3/32)(29/32)=87/1024$ and $\Delta_R(0)=0$. Exact symbolic inversion of $I-zT$ gives
+$$
+\begin{aligned}
+\Delta_R(z)&=-\frac{3z(1595z^2+24477z+26730)}{512(55z^3+506z^2-7263z-48114)},\\
+\Delta_R(1)&=\frac{26401}{2^{13}\cdot 571}=\frac{26401}{4677632},\\
+\det(I-zT)&=\frac{(z-1)(55z^3+506z^2-7263z-48114)}{48114}.
+\end{aligned}
+$$
+The denominator appearing in the Green excess is the nontrivial Markov characteristic factor. The arithmetic factorization $123336=2^3\cdot 3^3\cdot 571$ accounts for the prime $571$ in the displayed value at $z=1$. The derivative $\Delta_R'(z)$ is positive for every $z\in[0,1]$: its numerator has no root on this interval and is positive at $0$, $1/2$, and $1$, while its denominator is a positive square with no pole on the interval.
+
+\paragraph{Fold-gauge operator and alternating spectral coefficient.}
+Independently of any physical readout, the finite spectral coefficient is checked from the explicit rational operator
+$$
+\begin{aligned}
+A_0=\begin{pmatrix}
+1/2&1/2&0&1/2\\
+0&0&1/2&0\\
+1/2&1&0&0\\
+1/2&0&0&0
+\end{pmatrix}.
+\end{aligned}
+$$
+Exact rational linear algebra gives
+$$
+\begin{aligned}
+\det(\lambda I-A_0)&=\frac{(\lambda-1)(2\lambda-1)(2\lambda+1)^2}{8},\\
+\mathrm{spec}(A_0)&=\{1,1/2,-1/2\},
+\end{aligned}
+$$
+with algebraic multiplicities $1,1,2$. Since $\mathrm{rank}(A_0+(1/2)I)=3$, the $-1/2$ eigenspace has dimension $1$, so the alternating mode at $\lambda_{\mathrm{alt}}=-1/2$ is one $2\times 2$ Jordan block. The associated Parry kernel
+$$
+\begin{aligned}
+P=\begin{pmatrix}
+1/2&1/4&0&1/4\\
+0&0&1&0\\
+1/2&1/2&0&0\\
+1&0&0&0
+\end{pmatrix}
+\end{aligned}
+$$
+is row-stochastic and has the same characteristic polynomial as $A_0$.
+
+\paragraph{Fibonacci ledger and formal readout definitions.}
+The coarse residual ledger records
+$$
+\begin{aligned}
+D_0=47=F_9+F_7=34+13=F_{10}-F_6=55-8.
+\end{aligned}
+$$
+For a general window parameter $m$, define $s_m=m+1$ and $\rho_m=\max\{k:F_k\leq 2^m-1\}$. At $m=6$ this gives $s_6=7$ and $\rho_6=10$, since $F_{10}=55\leq 63<F_{11}=89$. These are forward-verifiable arithmetic definitions only; they do not by themselves certify that the seam length or local-return step is forced. The finite response polynomial candidate is
+$$
+\begin{aligned}
+Q_{6,\alpha}(u)=1-\frac{1}{2}u+\frac{8}{9}u^2.
+\end{aligned}
+$$
+Here $q_0=1$ remains an item requiring a certificate, $q_1=-1/2$ is the alternating Jordan-mode eigenvalue of $A_0$, and $q_2=8/9$ is the edge-flux escape ratio derived above. With
+$$
+\begin{aligned}
+\mathcal{R}_m(D_0,Q)=D_0+\varphi^{-s_m}Q(\varphi^{-\rho_m}),
+\end{aligned}
+$$
+one obtains the symbolic expansion
+$$
+\begin{aligned}
+\mathcal{R}_6(47,Q_{6,\alpha})
+&=47+\varphi^{-7}\left(1-\frac{1}{2}\varphi^{-10}+\frac{8}{9}\varphi^{-20}\right)\\
+&=47+\varphi^{-7}-\frac{1}{2}\varphi^{-17}+\frac{8}{9}\varphi^{-27}.
+\end{aligned}
+$$
+Equivalently, the middle term is $-\frac{1}{2}\varphi^{-17}=\lambda_{\mathrm{alt}}\varphi^{-(s_6+\rho_6)}$ with $\lambda_{\mathrm{alt}}=-1/2$. This is a substitution into the displayed finite formula, not a proof that the formula is the only admissible response law.
+
+The accompanying readout is explicitly defined by
+$$
+\begin{aligned}
+C_6(D)&=\frac{1}{2}+\frac{1}{4}\cos^2(\pi/\varphi)+\frac{1}{D\varphi^5},\\
+R_6(D)&=2\pi\frac{21+34C_6(D)}{21\varphi^{-6}+34C_6(D)\varphi^{-7}}.
+\end{aligned}
+$$
+No value of this readout is here evaluated as a physical constant.
+
+\paragraph{Extracted witnesses and boundary of the result.}
+The witness data are finite: the carrier is $X_6$, the boundary and Hamming-weight rules define the four stable blocks, the Foldbin constraints and cutoff assign all $64$ vertices to micro-cells, the hypercube toggling rule yields the edge matrix $E$, and rational matrix algebra yields $T$, $\Delta_R(z)$, $\Delta_R(1)$, and the spectral statements for $A_0$ and $P$. The construction proves the finite edge-flux skeleton and the right-boundary Green response stated above. It also records explicit formulas for $\mathcal{R}_6(47,Q_{6,\alpha})$ and $R_6(D)$.
+
+The following are not consequences of the finite calculation alone: the forcedness of the response form $D_0+\varphi^{-s_m}Q(\varphi^{-\rho_m})$, the claim that $s_6=7$ is the forced residual seam, the claim that $\rho_6=10$ is the forced local-return step, a first-principles derivation of the operator $A_0$ from the window carrier, any global flow law, any external dependency, any metrological comparison, and any identification of $R_6(D)$ with a physical constant. Those assertions require separate certificates beyond the arithmetic and rational-linear-algebra data displayed here.
