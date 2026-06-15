@@ -10,7 +10,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def AnalogyCertificateGateCarrier [AskSetup] [PackageSetup]
+def analogy_certificate_gate_falsifiable_prediction_carrier [AskSetup] [PackageSetup]
     (source carrier classifier relation preserved refused ledger exactness failure transport replay
       provenance localName : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -28,7 +28,7 @@ theorem AnalogyCertificateGateFalsifiablePrediction [AskSetup] [PackageSetup]
     {source carrier classifier relation preserved refused ledger exactness failure transport replay
       provenance localName admittedRead refusedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    AnalogyCertificateGateCarrier source carrier classifier relation preserved refused ledger
+    analogy_certificate_gate_falsifiable_prediction_carrier source carrier classifier relation preserved refused ledger
         exactness failure transport replay provenance localName bundle pkg →
       Cont preserved refused admittedRead →
         Cont failure refused refusedRead →
