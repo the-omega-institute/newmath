@@ -40,6 +40,7 @@ Z,S,M,R,Q,H,C,P,N.
 $$
 Consequently the root source/modulus interface leaves $\mathsf{RH}$ proof content, global zero classification, zero search, analytic continuation, ambient completeness, host equality, and quotient representatives outside the formal boundary read by $\CriticalLineWitnessUp$ consumers.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_source\_modulus\_interface\_formal\_boundary}
 \begin{proof}
 Apply the source-normalization interface, \autoref{thm:critical-line-witness-source-normalization-interface}. It exposes the supplied zero row, critical-strip row, depth row, rational comparison row, and real-part row only through the displayed packet $Z,S,M,R,Q,H,C,P,N$.
 
@@ -60,3 +61,21 @@ Apply the terminal RH-refusal exactness of \autoref{thm:critical-line-witness-te
 The same exclusion also removes host equality as a source for the packet rows. Hence downstream RH-boundary consumers receive a refusal interface rather than an analytic or global-zero certificate.
 \end{proof}
 \leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_rh\_refusal\_interface}
+
+\begin{theorem}[Critical-line witness source/modulus consumer determinacy]
+\label{thm:critical-line-witness-source-modulus-consumer-determinacy}
+Let two $\CriticalLineWitnessUp$ consumer reads expose the same finite rows
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+Then they determine the same source/modulus boundary before any RH-boundary request is inspected: the supplied zero row $Z$, critical-strip row $S$, depth/modulus row $M$, real-part row $R$, rational comparison row $Q$, componentwise transport $H$, replay $C$, provenance $P$, and local naming row $N$ are fixed as the shared consumer interface. The determinacy does not expose $\mathsf{RH}$ proof content, global zero classification, zero search, analytic continuation, host equality, quotient representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:critical-line-witness-source-normalization-interface} to both consumer reads. Since the two reads expose the same $Z,S,M,R,Q,H,C,P,N$ rows, the supplied zero and critical-strip source boundary is identical before any downstream request is considered.
+
+Next use \autoref{thm:critical-line-witness-modulus-ledger-interface}. The depth/modulus, real-part, and rational comparison rows are downstream of the same source rows and are read through the same structural rows, so the source/modulus ledger cannot split into two consumer boundaries.
+
+Apply \autoref{thm:critical-line-witness-root-source-modulus-interface-formal-boundary}. It identifies the formal boundary with exactly the displayed finite route, preventing either read from importing a second analytic or host-side source.
+
+Finally use \autoref{thm:critical-line-witness-rh-refusal-interface}. Because RH proof content, global zero classification, zero search, analytic continuation, host equality, quotient representatives, and ambient completeness are refused at the same finite boundary, the two reads agree before any RH-boundary request is inspected.
+\end{proof}

@@ -1,0 +1,11 @@
+\begin{theorem}[DyadicIntervalCover bridge window]
+\label{thm:dyadic-interval-cover-bridge-window}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ finite-window carrier. If endpoint comparison, refinement-chain induction, $\RealUp$ seal handoff, and finite-subcover ledger rows are all displayed for $I$, then $I$ induces the bridge window required by the abstract dyadic interval cover interface. The induced window is the finite route through $L,U,M,R,V,W,Q,A,H,C,P,N$; it does not assert Heine--Borel compactness, open-cover compactness, selected limits, selected subcovers, quotient real equality, countable choice, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Start from the root finite-cover boundary of \autoref{thm:dyadic-interval-cover-root-finite-cover-boundary}. It fixes the endpoint, mesh, radius, membership, window, readback, seal, transport, replay, provenance, and local naming rows before any interval-cover reader can inspect the carrier.
+
+Apply mesh and refinement control through \autoref{thm:dyadic-interval-cover-mesh-refinement-induction} and \autoref{thm:dyadicintervalcover-refinement-chain-induction}. Finite induction keeps each refined cell inside the same displayed rows, while endpoint comparison totality from \autoref{thm:dyadic-interval-cover-endpoint-comparison-totality} keeps the lower and upper endpoint decisions inside the dyadic ledger.
+
+Finally compose the Real-facing and ledger boundaries. The $\RealUp$ handoff of \autoref{thm:dyadicintervalcover-real-seal-cover-handoff} and the nonescape obligation of \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation} place the seal after the finite window and cover rows, while \autoref{thm:dyadic-interval-cover-finite-subcover-ledger} accounts for the visible subcover ledger. The resulting bridge window is therefore a finite interface window only, with none of the excluded compactness, choice, limit, quotient, or standard-bridge data.
+\end{proof}
