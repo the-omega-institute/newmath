@@ -277,6 +277,17 @@ the unweighted episode-policy reference is still $+0.00184$
 $[-0.00306,\ +0.00687]$.  Thus moving the loss toward the budget gate helps
 relative to naive tail weighting, but a soft surrogate does not yet produce an
 allocation-native policy.
+A hard-episode feature probe asks whether the missing state is already
+available in the aggregate rollout/internal features.  It trains a linear
+episode-level probe on train-split oracle-gain tail labels and evaluates it
+against calibration labels and the top missed-oracle evaluation episodes from
+the decomposition record.  The probe overfits train (AUROC $1.000$) but gives
+calibration AUROC $0.5265$ and evaluation AUROC $0.5053$ against the top missed
+episodes.  The top missed episodes have mean score $-0.656$ against $-0.622$
+for non-top episodes.  The hard episodes are therefore not linearly readable
+from this aggregate feature view; the next model must expose richer
+episode-state structure or learn a structured assignment rather than only
+retune scalar objectives on the current aggregates.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -382,6 +393,7 @@ $$
 \text{compute-value episode decomposition} & \texttt{reports/compute\_value\_episode\_decomposition.json},\\
 \text{compute-value tail policy} & \texttt{reports/compute\_value\_tail\_policy.json},\\
 \text{compute-value budget surrogate} & \texttt{reports/compute\_value\_budget\_surrogate.json},\\
+\text{compute-value hard-episode probe} & \texttt{reports/compute\_value\_hard\_episode\_probe.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

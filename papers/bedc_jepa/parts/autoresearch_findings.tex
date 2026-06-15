@@ -178,6 +178,16 @@ $[-0.00355,\ +0.00700]$.  The unweighted episode-policy reference remains
 $+0.00184$ $[-0.00306,\ +0.00687]$.  This suggests that a soft surrogate is not
 enough; the missing step is likely a sharper discrete/listwise assignment
 objective or additional state that predicts transferable hard episodes.
+A hard-episode state probe tests the second possibility directly.  A linear
+episode-level probe over aggregated rollout/internal features fits
+train-split oracle-gain tail labels perfectly, but it does not transfer:
+calibration AUROC is $0.5265$ and evaluation AUROC against the top missed
+episodes is $0.5053$.  The top missed episodes have mean score $-0.656$,
+essentially the same as non-top episodes at $-0.622$.  Thus the hard-episode
+state is not linearly readable from this aggregate feature view; allocation
+progress likely requires richer episode-state features or a genuinely
+structured assignment model, not just a better scalar probe on the same
+aggregates.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar
