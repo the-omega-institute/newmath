@@ -350,4 +350,152 @@ theorem WritingItemAudit_axis_separation [AskSetup] [PackageSetup]
     }
   exact ⟨theoryCert, formalCert⟩
 
+theorem WritingItemAudit_nonescape [AskSetup] [PackageSetup]
+    {K C R L T F G Q H U P N admitted named claimRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont K C admitted →
+      Cont admitted R L →
+        Cont T F G →
+          Cont Q H U →
+            Cont U P named →
+              Cont named Q claimRead →
+                PkgSig bundle named pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row claimRead ∧ Cont named Q claimRead)
+                      (fun row : BHist =>
+                        hsame row K ∨ hsame row C ∨ hsame row R ∨ hsame row L ∨
+                          hsame row T ∨ hsame row F ∨ hsame row G ∨ hsame row Q ∨
+                            hsame row H ∨ hsame row U ∨ hsame row P ∨ hsame row N ∨
+                              hsame row claimRead)
+                      (fun row : BHist =>
+                        PkgSig bundle named pkg ∧ hsame row claimRead ∧
+                          Cont named Q claimRead)
+                      hsame ∧
+                    Cont K C admitted ∧ Cont admitted R L ∧ Cont T F G ∧ Cont Q H U ∧
+                      Cont U P named ∧ Cont named Q claimRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro admittedRoute ledgerRoute statusRoute queryRoute namedRoute claimRoute pkgNamed
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row claimRead ∧ Cont named Q claimRead)
+          (fun row : BHist =>
+            hsame row K ∨ hsame row C ∨ hsame row R ∨ hsame row L ∨ hsame row T ∨
+              hsame row F ∨ hsame row G ∨ hsame row Q ∨ hsame row H ∨ hsame row U ∨
+                hsame row P ∨ hsame row N ∨ hsame row claimRead)
+          (fun row : BHist =>
+            PkgSig bundle named pkg ∧ hsame row claimRead ∧ Cont named Q claimRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro claimRead ⟨hsame_refl claimRead, claimRoute⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr sourceRow.left)))))))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨pkgNamed, sourceRow.left, sourceRow.right⟩
+    }
+  exact
+    ⟨cert, admittedRoute, ledgerRoute, statusRoute, queryRoute, namedRoute, claimRoute⟩
+
+theorem WritingItemAudit_scoped_kernel_route [AskSetup] [PackageSetup]
+    {K C R L T F G Q H U P N admitted named scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont K C admitted →
+      Cont admitted R L →
+        Cont T F G →
+          Cont Q H U →
+            Cont U P named →
+              Cont named N scopedRead →
+                PkgSig bundle named pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row scopedRead ∧ Cont named N scopedRead)
+                      (fun row : BHist =>
+                        hsame row K ∨ hsame row C ∨ hsame row R ∨ hsame row L ∨
+                          hsame row T ∨ hsame row F ∨ hsame row G ∨ hsame row Q ∨
+                            hsame row H ∨ hsame row U ∨ hsame row P ∨ hsame row N ∨
+                              hsame row scopedRead)
+                      (fun row : BHist =>
+                        PkgSig bundle named pkg ∧ hsame row scopedRead ∧
+                          Cont named N scopedRead)
+                      hsame ∧
+                    Cont K C admitted ∧ Cont admitted R L ∧ Cont T F G ∧ Cont Q H U ∧
+                      Cont U P named ∧ Cont named N scopedRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro admittedRoute ledgerRoute statusRoute queryRoute namedRoute scopedRoute pkgNamed
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row scopedRead ∧ Cont named N scopedRead)
+          (fun row : BHist =>
+            hsame row K ∨ hsame row C ∨ hsame row R ∨ hsame row L ∨ hsame row T ∨
+              hsame row F ∨ hsame row G ∨ hsame row Q ∨ hsame row H ∨ hsame row U ∨
+                hsame row P ∨ hsame row N ∨ hsame row scopedRead)
+          (fun row : BHist =>
+            PkgSig bundle named pkg ∧ hsame row scopedRead ∧ Cont named N scopedRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro scopedRead ⟨hsame_refl scopedRead, scopedRoute⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr sourceRow.left)))))))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨pkgNamed, sourceRow.left, sourceRow.right⟩
+    }
+  exact
+    ⟨cert, admittedRoute, ledgerRoute, statusRoute, queryRoute, namedRoute, scopedRoute⟩
+
 end BEDC.Derived.WritingItemAuditUp
