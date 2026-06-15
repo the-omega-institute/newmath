@@ -3658,6 +3658,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertScopeCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNonescapePackage
 import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
+import BEDC.Derived.CriticalLineWitnessUp.RootPublicExport
 import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootRHBoundaryPublicNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootRHConsumerRefusalTotality
@@ -8044,6 +8045,7 @@ import BEDC.Derived.PolishspaceUp.StreamReadbackExactness
 import BEDC.Derived.PolishspaceUp.StreamReadbackStability
 import BEDC.Derived.PolishspaceUp.StreamRealizationObligation
 import BEDC.Derived.PolishspaceUp.TasteGate
+import BEDC.Derived.PolynomialResultantUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
