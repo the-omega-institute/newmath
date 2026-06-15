@@ -28,7 +28,7 @@ theorem interval_halving_dyadic_nested_handoff_carrier_route [AskSetup] [Package
     ⟨leftUnary, _rightUnary, _midpointUnary, _chosenHalfUnary, radiusUnary,
       streamWindowUnary, _regularReadbackUnary, _realSealUnary, _transportUnary,
       _transportAnchor, _midpointRoute, _radiusRoute, _readbackRoute, _realSealRoute,
-      _provenanceRoute, _provenancePkg, packageRoute⟩ := carrier
+      _provenanceRoute, packageRoute⟩ := carrier
   have dyadicUnary : UnaryHistory dyadicRead :=
     unary_cont_closed leftUnary radiusUnary dyadicRoute
   have nestedUnary : UnaryHistory nestedRead :=
