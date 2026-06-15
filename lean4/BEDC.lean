@@ -755,7 +755,6 @@ import BEDC.Derived.BanachMazurGameUp.TasteGate
 import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
 import BEDC.Derived.BanachSpaceUp
 import BEDC.Derived.BanachSpaceUp.CauchyCompletionHandoff
-import BEDC.Derived.BanachSpaceUp.CauchyNetSeparatedCompletionRoute
 import BEDC.Derived.BanachSpaceUp.CauchyWindowScope
 import BEDC.Derived.BanachSpaceUp.CompleteMetricReduction
 import BEDC.Derived.BanachSpaceUp.CompletionConsumerScope
@@ -977,7 +976,6 @@ import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BlaschkeSelectionCompactHyperspaceUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp
-import BEDC.Derived.BolzanoWeierstrassSelectorUp.MonotoneSubsequenceObligations
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.RootWindow
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.WindowObligation
@@ -9141,6 +9139,7 @@ import BEDC.Derived.RegularCauchyHausdorffReflectionUp.FiniteWindowUniquenessRou
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RepresentativeIndependence
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.TasteGate
+import BEDC.Derived.RegularCauchyHeineBorelRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingStabilityUp
 import BEDC.Derived.RegularCauchyInterleavingStabilityUp.TasteGate

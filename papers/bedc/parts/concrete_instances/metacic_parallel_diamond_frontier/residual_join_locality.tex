@@ -65,3 +65,21 @@ Then apply \autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. The gr
 
 Finally use the carrier-local NameCert obligation theorem \autoref{thm:metacic-parallel-diamond-frontier-obligations}. Since that obligation surface admits no coordinate for global confluence, subject reduction, unbounded normalization, evaluator equality, quotient term equality, or kernel consistency, a consumer that has read the grid has no further join row to project.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual obstruction budget]
+\label{thm:metacic-parallel-diamond-frontier-residual-obstruction-budget}
+Any candidate-mediated residual join in an accepted $\MetaCICParallelDiamondFrontierUp$ packet that consumes the local join row $J$ and bounded checker rows must keep both the retained premise row $P$ and the obstruction row $O$ visible through the structural rows $H,T,G,N$. The handoff is only a bounded residual-join locality budget for
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+It cannot be read as residual-substitution discharge, subject reduction, global confluence, strong normalization, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with residual-join locality, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. It forces every candidate-mediated join to read the displayed frontier rows and keeps the obstruction coordinate inside the same packet.
+
+Use the residual grid theorem, \autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. The grid separates the retained premise, critical-pair, local join, residual witness, bounded checker, and obstruction rows from the transport, replay, provenance, and local naming rows.
+
+Now apply the locality-scope theorem, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality-scope}. It identifies $P$ and $O$ as visible rows of the residual-join surface rather than side conditions that can be discharged after $J$ is consumed.
+
+Finally use residual-join locality exhaustion. Once the consumer has read $P,K,J,R,S,C,B,O,H,T,G,N$, there is no further coordinate for residual-substitution discharge, subject reduction, confluence, normalization, evaluator equality, quotient term equality, or kernel consistency. The obstruction budget is therefore retained as a carrier-local boundary.
+\end{proof}
