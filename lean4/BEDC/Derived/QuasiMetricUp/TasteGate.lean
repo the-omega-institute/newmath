@@ -1,5 +1,10 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
@@ -7,6 +12,11 @@ namespace BEDC.Derived.QuasiMetricUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -214,5 +224,49 @@ theorem QuasiMetricTasteGate_single_carrier_alignment :
       QuasiMetricTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => QuasiMetricTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+def QuasiMetricCarrier [AskSetup] [PackageSetup]
+    (source points distance zero triangle ball filter net uniformReflection transport replay
+      provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory source ∧ UnaryHistory points ∧ UnaryHistory zero ∧ UnaryHistory ball ∧
+    UnaryHistory uniformReflection ∧ UnaryHistory transport ∧ Cont source points distance ∧
+      Cont distance zero triangle ∧ Cont triangle ball filter ∧
+        Cont ball uniformReflection net ∧ Cont transport replay provenance ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
+theorem QuasiMetricCarrier_directed_ball_handoff [AskSetup] [PackageSetup]
+    {source points distance zero triangle ball filter net uniformReflection transport replay
+      provenance localName ballRead uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    QuasiMetricCarrier source points distance zero triangle ball filter net
+        uniformReflection transport replay provenance localName bundle pkg →
+      Cont triangle ball ballRead →
+        Cont ball uniformReflection uniformRead →
+          PkgSig bundle ballRead pkg →
+            PkgSig bundle uniformRead pkg →
+              UnaryHistory source ∧ UnaryHistory distance ∧ UnaryHistory triangle ∧
+                UnaryHistory ball ∧ UnaryHistory ballRead ∧ UnaryHistory uniformRead ∧
+                  Cont source points distance ∧ Cont distance zero triangle ∧
+                    Cont triangle ball ballRead ∧ Cont ball uniformReflection uniformRead ∧
+                      PkgSig bundle ballRead pkg ∧ PkgSig bundle uniformRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier triangleBallRead ballUniformRead ballReadPkg uniformReadPkg
+  obtain ⟨sourceUnary, pointsUnary, zeroUnary, ballUnary, uniformReflectionUnary,
+    _transportUnary, sourcePointsDistance, distanceZeroTriangle, _triangleBallFilter,
+    _ballUniformNet, _transportReplayProvenance, _provenancePkg, _localNamePkg⟩ := carrier
+  have distanceUnary : UnaryHistory distance :=
+    unary_cont_closed sourceUnary pointsUnary sourcePointsDistance
+  have triangleUnary : UnaryHistory triangle :=
+    unary_cont_closed distanceUnary zeroUnary distanceZeroTriangle
+  have ballReadUnary : UnaryHistory ballRead :=
+    unary_cont_closed triangleUnary ballUnary triangleBallRead
+  have uniformReadUnary : UnaryHistory uniformRead :=
+    unary_cont_closed ballUnary uniformReflectionUnary ballUniformRead
+  exact
+    ⟨sourceUnary, distanceUnary, triangleUnary, ballUnary, ballReadUnary,
+      uniformReadUnary, sourcePointsDistance, distanceZeroTriangle, triangleBallRead,
+      ballUniformRead, ballReadPkg, uniformReadPkg⟩
 
 end BEDC.Derived.QuasiMetricUp
