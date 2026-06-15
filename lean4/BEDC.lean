@@ -5515,6 +5515,7 @@ import BEDC.Derived.ForceInterHistRelationUp.TasteGate
 import BEDC.Derived.ForceMetaCICSameSchemaUp.TasteGate
 import BEDC.Derived.FormalBallBasisUp.TasteGate
 import BEDC.Derived.FormalBallCompletionUp.TasteGate
+import BEDC.Derived.FormalBallDomainUp.TasteGate
 import BEDC.Derived.FormalBallRadiusOrderUp.TasteGate
 import BEDC.Derived.FormalBallUp
 import BEDC.Derived.FormalBallUp.CarrierAdmission
@@ -7700,7 +7701,6 @@ import BEDC.Derived.NoetherianRingUp.TasteGate
 import BEDC.Derived.NonAxiomAdmissionUp
 import BEDC.Derived.NonAxiomAdmissionUp.NameCertObligations
 import BEDC.Derived.NonAxiomAdmissionUp.TasteGate
-import BEDC.Derived.NonAxiomAdmissionUp.WitnessRouteNonescape
 import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
@@ -10357,7 +10357,6 @@ import BEDC.Derived.TotallyBoundedCompletionUp
 import BEDC.Derived.TotallyBoundedCompletionUp.CompletionRefinementStability
 import BEDC.Derived.TotallyBoundedCompletionUp.ExtensionHandoff
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCompletionRoute
-import BEDC.Derived.TotallyBoundedCompletionUp.NetFilterCarrierAdmission
 import BEDC.Derived.TotallyBoundedCompletionUp.NoEscape
 import BEDC.Derived.TotallyBoundedCompletionUp.RootExtensionLedger
 import BEDC.Derived.TotallyBoundedCompletionUp.RootRouteExhaustion
