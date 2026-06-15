@@ -140,3 +140,17 @@ Use candidate-discharge stability from \autoref{thm:metacic-normalization-fronti
 
 Finally apply \autoref{thm:metacic-normalization-frontier-residual-premise-retention} and \autoref{thm:metacic-normalization-frontier-ground-compiler-readback}. The residual premise $S$ remains visible until a separate subject-reduction row is supplied, and the readback exports the normalization boundary only through the displayed ground-compiler rows. Hence any target that drops $S$ or substitutes hidden strong normalization lies outside the local contract.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier certificate-router handoff]
+\label{thm:metacic-normalization-frontier-certificate-router-handoff}
+Every accepted $\MetaCICNormalizationFrontierUp$ packet whose frontier rows name closed-normal candidates, bounded reduction windows, residual obstruction data, and classifier-stable proof certificates can be consumed by the normalization-certificate router only after those rows remain visible under $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport. The handoff refuses unconditional strong normalization, unrestricted confluence, and host equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-frontier-carrier}. Candidate evidence, endpoint evidence, residual obstruction, route recognition, replay, provenance, and local ledger rows are the only rows available to a router-facing consumer.
+
+Use the ground-compiler route of \autoref{thm:metacic-normalization-frontier-ground-compiler-route} and the target scope of \autoref{thm:metacic-normalization-frontier-ground-compiler-target-scope}. They force every normalization-boundary read through the displayed carrier, candidate-evidence boundary, endpoint boundary, and ground-compiler rows before any certificate is exported.
+
+Apply candidate-discharge stability, residual-premise retention, and ground-compiler readback. These theorems keep the same rows visible under componentwise $\hsame$ transport and displayed $\Cont$ replay, with $\Pkg$ provenance and the local $\NameCert$ ledger still attached to the packet.
+
+The certificate router therefore receives only the displayed closed-normal candidate data, bounded window data, residual obstruction row, and classifier-stable proof certificate rows. Since no carrier coordinate stores unconditional strong normalization, unrestricted confluence, or host equality, the handoff cannot export those claims.
+\end{proof}
