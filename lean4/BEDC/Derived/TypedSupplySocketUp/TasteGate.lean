@@ -249,4 +249,35 @@ theorem TypedSupplySocketCarrier_semantic_name_certificate (x : TypedSupplySocke
           exact hsame_trans (hsame_symm same) source
       }
 
+theorem TypedSupplySocketCarrier_kind_row_public_separation
+    (requestedSupply consumptionSite auditGate refusal transport continuation provenance localName :
+      BHist) :
+    typedSupplySocketToEventFlow
+        (TypedSupplySocketUp.mk BHist.Empty requestedSupply consumptionSite auditGate refusal
+          transport continuation provenance localName) ≠
+      typedSupplySocketToEventFlow
+        (TypedSupplySocketUp.mk (BHist.e0 BHist.Empty) requestedSupply consumptionSite auditGate
+          refusal transport continuation provenance localName) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  change
+    [] :: typedSupplySocketEncodeBHist requestedSupply ::
+        typedSupplySocketEncodeBHist consumptionSite ::
+          typedSupplySocketEncodeBHist auditGate ::
+            typedSupplySocketEncodeBHist refusal ::
+              typedSupplySocketEncodeBHist transport ::
+                typedSupplySocketEncodeBHist continuation ::
+                  typedSupplySocketEncodeBHist provenance ::
+                    typedSupplySocketEncodeBHist localName :: [] =
+      [BMark.b0] :: typedSupplySocketEncodeBHist requestedSupply ::
+        typedSupplySocketEncodeBHist consumptionSite ::
+          typedSupplySocketEncodeBHist auditGate ::
+            typedSupplySocketEncodeBHist refusal ::
+              typedSupplySocketEncodeBHist transport ::
+                typedSupplySocketEncodeBHist continuation ::
+                  typedSupplySocketEncodeBHist provenance ::
+                    typedSupplySocketEncodeBHist localName :: [] at heq
+  injection heq with hhead _tail
+  cases hhead
+
 end BEDC.Derived.TypedSupplySocketUp
