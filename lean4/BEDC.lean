@@ -200,6 +200,7 @@ import BEDC.Derived.ApophaticNameUp.RefusalGateRouteTotality
 import BEDC.Derived.ApophaticNameUp.RefusalGateSeparation
 import BEDC.Derived.ApophaticNameUp.RefusalLedgerDownstreamCoverage
 import BEDC.Derived.ApophaticNameUp.RefusalLedgerFiberProduct
+import BEDC.Derived.ApophaticNameUp.RefusalLedgerInductionSurface
 import BEDC.Derived.ApophaticNameUp.RefusalProvenanceTransport
 import BEDC.Derived.ApophaticNameUp.RefusalReadbackRow
 import BEDC.Derived.ApophaticNameUp.RefusalTupleBridgeScope
@@ -980,6 +981,7 @@ import BEDC.Derived.BlaschkeSelectionCompactHyperspaceUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.MonotoneSubsequenceObligations
+import BEDC.Derived.BolzanoWeierstrassSelectorUp.NestedIntervalObligation
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.RootWindow
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.WindowObligation
@@ -5511,6 +5513,7 @@ import BEDC.Derived.ForceInterHistRelationUp.TasteGate
 import BEDC.Derived.ForceMetaCICSameSchemaUp.TasteGate
 import BEDC.Derived.FormalBallBasisUp.TasteGate
 import BEDC.Derived.FormalBallCompletionUp.TasteGate
+import BEDC.Derived.FormalBallDomainUp.TasteGate
 import BEDC.Derived.FormalBallRadiusOrderUp.TasteGate
 import BEDC.Derived.FormalBallUp
 import BEDC.Derived.FormalBallUp.CarrierAdmission
@@ -7052,6 +7055,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseConsumerTotality
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseExactBoundaryHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierSeed
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondVisibleResidualConsumer
@@ -8293,6 +8297,7 @@ import BEDC.Derived.PrimeUp.TrialDivTerminal
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.NameCertObligations
+import BEDC.Derived.PrimitiveDistinctionLedgerUp.NoBooleanCollapse
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.TasteGate
 import BEDC.Derived.PrimitiveRecursionUp.TasteGate
 import BEDC.Derived.PrimitiveRecursiveUp.TasteGate
@@ -10347,6 +10352,7 @@ import BEDC.Derived.TotalVariationFunctionUp.TasteGate
 import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedCompletionUp
 import BEDC.Derived.TotallyBoundedCompletionUp.CompletionRefinementStability
+import BEDC.Derived.TotallyBoundedCompletionUp.ExtensionHandoff
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCompletionRoute
 import BEDC.Derived.TotallyBoundedCompletionUp.NoEscape
 import BEDC.Derived.TotallyBoundedCompletionUp.RootExtensionLedger
