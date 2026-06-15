@@ -1380,6 +1380,7 @@ import BEDC.Derived.CantorSetUp.NameCertObligations
 import BEDC.Derived.CantorSetUp.NestedIntervalHandoff
 import BEDC.Derived.CantorSetUp.NestedRealHandoff
 import BEDC.Derived.CantorSetUp.PrefixGapSeparation
+import BEDC.Derived.CantorSetUp.RealDiagonalNonSurjectionRoute
 import BEDC.Derived.CantorSetUp.RealMembershipHandoff
 import BEDC.Derived.CantorSetUp.RealSealMembershipBoundary
 import BEDC.Derived.CantorSetUp.RealSealNonescape
@@ -1771,6 +1772,7 @@ import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusExtractorUp.TasteGate
+import BEDC.Derived.CauchyModulusFunctorialityUp.TasteGate
 import BEDC.Derived.CauchyModulusMajorantUp.TasteGate
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.CauchyModulusMeetUp.StdBridge
@@ -3433,6 +3435,7 @@ import BEDC.Derived.CoveringdimensionUp.MetricRealSeparabilityRoute
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementRoute
+import BEDC.Derived.CoveringdimensionUp.PublicRootCoverExport
 import BEDC.Derived.CoveringdimensionUp.RealMetricForwardRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverNonescape
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverObligation
@@ -3456,6 +3459,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrierPacket
 import BEDC.Derived.CoveringdimensionUp.RootCoverDensityNerveLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverLedgerFactorization
+import BEDC.Derived.CoveringdimensionUp.RootCoverLedgerRealization
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootCoverOrderLedgerExhaustion
 import BEDC.Derived.CoveringdimensionUp.RootCoverPublicScope
@@ -3464,6 +3468,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCoverScopeLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopePackage
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopePrimitiveRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopedDependency
+import BEDC.Derived.CoveringdimensionUp.RootCoverSeparabilityCompletionLock
 import BEDC.Derived.CoveringdimensionUp.RootDimensionLedgerExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRealWindowExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRefinementObligation
@@ -3585,6 +3590,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowTransport
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationPackage
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationSurface
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationTriad
+import BEDC.Derived.CriticalLineWitnessUp.NameCertObligations
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRootUnblockConsumerScope
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRouteExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRowExhaustion
@@ -3653,6 +3659,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RegSeqRatRealModulusHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RhBoundarySourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RhConsumerUnblock
 import BEDC.Derived.CriticalLineWitnessUp.RhNonproofBoundary
+import BEDC.Derived.CriticalLineWitnessUp.RhRefusalNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootBridgeReadbackTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetSelectorTotality
@@ -8057,6 +8064,7 @@ import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolishBaireFixedPointUp.TasteGate
 import BEDC.Derived.PolishBasisUp.TasteGate
+import BEDC.Derived.PolishCauchyBasisUp.TasteGate
 import BEDC.Derived.PolishspaceUp.CompactMetricFactorization
 import BEDC.Derived.PolishspaceUp.CompleteMetricRootObligation
 import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
