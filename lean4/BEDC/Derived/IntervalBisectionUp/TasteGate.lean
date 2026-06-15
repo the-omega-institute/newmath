@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.IntervalBisectionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -159,5 +163,31 @@ theorem IntervalBisectionTasteGate_single_carrier_alignment :
       intervalBisection_round_trip,
       fun _ _ heq => intervalBisectionToEventFlow_injective heq,
       rfl⟩
+
+def IntervalBisectionCarrier (I M L R D S Q E H C P N : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  UnaryHistory I ∧ UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory S ∧
+    UnaryHistory E ∧ UnaryHistory P ∧ hsame H (append I M) ∧ Cont I M L ∧
+      Cont M R D ∧ Cont D S Q ∧ Cont Q E C ∧ Cont C P N
+
+theorem IntervalBisectionCarrier_namecert_obligations
+    {I M L R D S Q E H C P N : BHist} :
+    IntervalBisectionCarrier I M L R D S Q E H C P N ->
+      UnaryHistory I ∧ UnaryHistory M ∧ UnaryHistory L ∧ UnaryHistory R ∧
+        UnaryHistory D ∧ UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory C ∧
+          UnaryHistory N ∧ hsame H (append I M) ∧ Cont I M L ∧ Cont M R D ∧
+            Cont D S Q ∧ Cont Q E C ∧ Cont C P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier
+  obtain ⟨unaryI, unaryM, unaryR, unaryS, unaryE, unaryP, sameH, routeIML, routeMRD,
+    routeDSQ, routeQEC, routeCPN⟩ := carrier
+  have unaryL : UnaryHistory L := unary_cont_closed unaryI unaryM routeIML
+  have unaryD : UnaryHistory D := unary_cont_closed unaryM unaryR routeMRD
+  have unaryQ : UnaryHistory Q := unary_cont_closed unaryD unaryS routeDSQ
+  have unaryC : UnaryHistory C := unary_cont_closed unaryQ unaryE routeQEC
+  have unaryN : UnaryHistory N := unary_cont_closed unaryC unaryP routeCPN
+  exact
+    ⟨unaryI, unaryM, unaryL, unaryR, unaryD, unaryS, unaryQ, unaryC, unaryN,
+      sameH, routeIML, routeMRD, routeDSQ, routeQEC, routeCPN⟩
 
 end BEDC.Derived.IntervalBisectionUp
