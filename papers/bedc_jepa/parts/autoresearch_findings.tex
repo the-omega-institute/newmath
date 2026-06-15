@@ -123,8 +123,11 @@ the same scaled $h=5$ architecture with loss only on the first rollout step
 gives native one-step MSE $0.87164$, rollout-final MSE $2.47129$, and
 native-to-LeWM ratio $12.99$, worse than the decay-weighted multi-step row's
 native one-step MSE $0.76720$.  The one-step gate is therefore not being held
-back by later rollout losses; the multi-step decay loss is acting as useful
-dynamics regularization for the current architecture.
+back by later rollout losses.  A uniform multi-step loss gives the best local
+loss-profile row among the checked scaled objectives, with native one-step MSE
+$0.74727$, rollout-final MSE $0.97184$, native-to-LeWM ratio $11.13$, and
+parity margin $-0.67345$.  The improvement over the decay-weighted row is
+$0.01993$ MSE, but the row remains far outside the LeWM prediction-parity gate.
 
 \paragraph{Three-tier BEDC-native readout evaluation.}
 Across the verified findings the BEDC-native ledger separates into three tiers
