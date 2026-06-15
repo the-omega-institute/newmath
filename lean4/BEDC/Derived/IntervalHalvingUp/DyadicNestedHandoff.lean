@@ -37,7 +37,7 @@ theorem interval_halving_dyadic_nested_handoff_carrier_route [AskSetup] [Package
       UnaryHistory left ∧ UnaryHistory radius ∧ UnaryHistory streamWindow ∧
         UnaryHistory dyadicRead ∧ UnaryHistory nestedRead ∧
           Cont left radius dyadicRead ∧ Cont dyadicRead streamWindow nestedRead ∧
-            PkgSig bundle localName pkg ∧ PkgSig bundle nestedRead pkg :=
+    PkgSig bundle localName pkg ∧ PkgSig bundle nestedRead pkg :=
     ⟨leftUnary, radiusUnary, streamWindowUnary, dyadicUnary, nestedUnary, dyadicRoute,
       nestedRoute, packageRoute, nestedPkg⟩
   exact handoff
