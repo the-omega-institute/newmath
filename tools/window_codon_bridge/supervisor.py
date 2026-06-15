@@ -237,24 +237,14 @@ def _selection_packet_summary() -> dict:
 def _oracle_context(cdoc: dict) -> dict:
     claims = cdoc.get("claims") or []
     status_counts: dict[str, int] = {}
-    rows = []
     for claim in claims:
         status = str(claim.get("status") or "open")
         status_counts[status] = status_counts.get(status, 0) + 1
-        rows.append(
-            {
-                "claim_id": claim.get("claim_id"),
-                "status": status,
-                "statement": claim.get("statement"),
-                "latest_reason": _latest_reason(claim),
-            }
-        )
     edge_claim = next((claim for claim in claims if claim.get("claim_id") == "bridge.genetic_code.edge_defect_axis_cert"), {})
     return {
         "branch": "feat/window-codon-bridge",
         "claim_count": len(claims),
         "status_counts": status_counts,
-        "claims": rows,
         "edge_defect_claim": {
             "claim_id": edge_claim.get("claim_id"),
             "status": edge_claim.get("status"),
@@ -284,6 +274,7 @@ def _build_chatgpt_oracle_prompt(cdoc: dict) -> tuple[str, str]:
             "Deeply reason about concrete, finite, auditable routes to construct an independent codon-level fourth residual axis d_resid4 for the 61 sense codons.",
             "The route must be explicitly not explained by tRNA supply, f3/ramp, d_perp, GC, wobble, codon-pair effects, mRNA stability, or ribosome dwell.",
             "Focus on routes that can become deterministic local experiment scripts in this repository.",
+            "Keep the answer compact but concrete; prefer one implementable experiment over a survey.",
             "",
             "Required output shape:",
             "1. Give the single strongest next experiment proposal first.",
@@ -297,6 +288,25 @@ def _build_chatgpt_oracle_prompt(cdoc: dict) -> tuple[str, str]:
         ]
     )
     return topic, prompt
+
+
+def _oracle_session_has_response(result: dict) -> bool:
+    turns = result.get("turns")
+    if not isinstance(turns, list):
+        return False
+    for turn in turns:
+        if not isinstance(turn, dict):
+            continue
+        turn_result = turn.get("result")
+        if not isinstance(turn_result, dict) or str(turn_result.get("status") or "") != "completed":
+            continue
+        response = str(turn_result.get("response") or turn_result.get("answer") or turn_result.get("text") or "")
+        stripped = response.strip()
+        if stripped.startswith("[TIMEOUT after"):
+            continue
+        if len(stripped) >= 200:
+            return True
+    return False
 
 
 def chatgpt_oracle_lane() -> dict:
@@ -317,7 +327,7 @@ def chatgpt_oracle_lane() -> dict:
         topic,
         prompt,
         intended_claim_id="bridge.genetic_code.edge_defect_axis_cert",
-        pdf_path=REPO_ROOT / "papers" / "window_codon_bridge" / "main.pdf",
+        pdf_path=None,
         max_turns=8,
         persist_dir=STATE_DIR / "oracle_sessions",
         server_url="http://127.0.0.1:8769",
@@ -345,26 +355,34 @@ def chatgpt_oracle_lane() -> dict:
         "transcript_md": result.get("transcript_md"),
     }
     append_jsonl(ORACLE_CONSULTATIONS, record)
-    ORACLE_STATE.parent.mkdir(parents=True, exist_ok=True)
-    ORACLE_STATE.write_text(
-        json.dumps(
-            {
-                "last_attempt_ts": record["ts"],
-                "last_attempt_epoch": time.time(),
-                "last_prompt_hash": prompt_hash,
-                "last_topic": topic,
-                "conversation_id": result.get("conversation_id"),
-                "last_transcript_jsonl": result.get("transcript_jsonl"),
-                "last_transcript_md": result.get("transcript_md"),
-            },
-            ensure_ascii=False,
-            indent=1,
-            sort_keys=True,
+    has_response = _oracle_session_has_response(result)
+    if has_response:
+        ORACLE_STATE.parent.mkdir(parents=True, exist_ok=True)
+        ORACLE_STATE.write_text(
+            json.dumps(
+                {
+                    "last_attempt_ts": record["ts"],
+                    "last_attempt_epoch": time.time(),
+                    "last_prompt_hash": prompt_hash,
+                    "last_topic": topic,
+                    "conversation_id": result.get("conversation_id"),
+                    "last_transcript_jsonl": result.get("transcript_jsonl"),
+                    "last_transcript_md": result.get("transcript_md"),
+                },
+                ensure_ascii=False,
+                indent=1,
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
         )
-        + "\n",
-        encoding="utf-8",
-    )
-    return {"ran": True, "topic": topic, "turns": record["turns"], "closed_reason": record["closed_reason"]}
+    return {
+        "ran": True,
+        "topic": topic,
+        "turns": record["turns"],
+        "closed_reason": record["closed_reason"],
+        "has_response": has_response,
+    }
 
 
 def paper_lane() -> dict:
