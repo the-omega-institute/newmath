@@ -1367,6 +1367,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "l1_step_ladder",
             "l1_ood_mechanism",
             "construct_validity_ledger",
+            "pair_rule_preregistration",
+            "fair_base_learnability_gate",
             "review_status",
             "promotion_readiness",
             "component_ablation_boundary",
@@ -6333,6 +6335,7 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
     projection = payload.get("l1_tiny_sequence_projection") if isinstance(payload, Mapping) else {}
     ladder = payload.get("l1_step_ladder") if isinstance(payload, Mapping) else {}
     construct_validity = payload.get("construct_validity_ledger") if isinstance(payload, Mapping) else {}
+    fair_base = payload.get("fair_base_learnability_gate") if isinstance(payload, Mapping) else {}
     crossover = ladder.get("convergence_crossover") if isinstance(ladder, Mapping) else {}
     return {
         "status": projection.get("status", "missing") if isinstance(projection, Mapping) else "missing",
@@ -6358,6 +6361,14 @@ def _dgt_l1_controls_index_section() -> dict[str, Any]:
         "construct_validity_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.construct_validity_ledger",
         "construct_validity_status": (
             construct_validity.get("status", "missing") if isinstance(construct_validity, Mapping) else "missing"
+        ),
+        "pair_rule_preregistration_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.pair_rule_preregistration",
+        "fair_base_learnability_gate_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.fair_base_learnability_gate",
+        "fair_base_learnability_gate_status": (
+            fair_base.get("status", "missing") if isinstance(fair_base, Mapping) else "missing"
+        ),
+        "fair_base_failed_gate": (
+            fair_base.get("failed_gate", "missing") if isinstance(fair_base, Mapping) else "missing"
         ),
     }
 
