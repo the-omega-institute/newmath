@@ -3083,6 +3083,7 @@ import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConsistencyObservationBudgetUp
 import BEDC.Derived.ConstantRealStreamUp
 import BEDC.Derived.ConstantRealStreamUp.TasteGate
+import BEDC.Derived.ConstructiveBaireThreadUp.TasteGate
 import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCauchyFilterBoundaryUp
 import BEDC.Derived.ConstructiveCauchyIntervalUp.TasteGate
@@ -10384,6 +10385,7 @@ import BEDC.Derived.UniformCompletionCommonWindowUp.NameCertObligations
 import BEDC.Derived.UniformCompletionCommonWindowUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeSchema
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeSourceLock
+import BEDC.Derived.UniformCompletionFunctorUp.BridgeTargetInterface
 import BEDC.Derived.UniformCompletionFunctorUp.CarrierAdmission
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyFilterNonescape
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyHandoff
