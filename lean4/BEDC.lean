@@ -1758,6 +1758,7 @@ import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
 import BEDC.Derived.CauchyMergeUp
 import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
+import BEDC.Derived.CauchyModulusArithmeticUp
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
@@ -3836,6 +3837,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaStripModulusTotality
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.BoundaryLedgerNonescape
+import BEDC.Derived.CriticalStripZetaZeroWitnessUp.ConsumerBoundary
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.PacketScopeBinding
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RHHandoffObligation
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.RhInputLedger
@@ -6027,6 +6029,7 @@ import BEDC.Derived.IntervalDomainUp.RegularCauchyDirectedWidth
 import BEDC.Derived.IntervalDomainUp.RegularCauchyWindow
 import BEDC.Derived.IntervalDomainUp.TasteGate
 import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
+import BEDC.Derived.IntervalHalvingUp
 import BEDC.Derived.IntervalLengthUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
@@ -8253,6 +8256,7 @@ import BEDC.Derived.PseudometricUp.ZeroDistanceScope
 import BEDC.Derived.PseudometricUp.ZeroDistanceSourceReflection
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.PuncturedCubeSkeletonUp.TasteGate
+import BEDC.Derived.QRDecompositionUp.TasteGate
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
@@ -8359,6 +8363,7 @@ import BEDC.Derived.RationalCauchyCompletionUp.TasteGate
 import BEDC.Derived.RationalCauchyGapUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
 import BEDC.Derived.RationalEmbeddingUp.TasteGate
+import BEDC.Derived.RationalFastLimitUp.TasteGate
 import BEDC.Derived.RationalIntervalCoverUp.TasteGate
 import BEDC.Derived.RationalIntervalEnclosureUp.TasteGate
 import BEDC.Derived.RationalIntervalRefinementUp
