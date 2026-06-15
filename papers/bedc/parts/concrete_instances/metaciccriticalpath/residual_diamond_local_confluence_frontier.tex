@@ -14,6 +14,23 @@ Finally apply the L10 source separation theorem, \autoref{thm:metacic-critical-p
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualDiamondLocalConfluenceFrontier}
 
+\begin{theorem}[MetaCIC residual-schedule diamond]
+\label{thm:metacic-critical-path-residual-schedule-diamond}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet whose residual frontier and candidate schedule rows are both visible. Then the left and right residual contractions of the displayed critical-pair packet admit a local diamond budget: each contraction must re-enter the same candidate-mediated frontier before any strong-normalization, confluence, or decidability consumer may read $U$. The budget is local to the packet rows $S,N,O,U,D,H,C,P,L$; it does not claim global confluence, unconditional normalization, beta-decidability, quotient term equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the residual-diamond local-confluence frontier, \autoref{thm:metacic-critical-path-residual-diamond-local-confluence-frontier}. It already forces every confluence-facing read to display the residual-substitution frontier, residual-budget socket, bounded checker data, and L10 source rows before $U$ can be consumed.
+
+Next use the candidate residual budget interface, \autoref{thm:metacic-critical-path-candidate-residual-diamond-lock}. Candidate rows and residual-budget rows stay attached to the same packet, while $O,D$ and the four L10 faces remain visible.
+
+Finally apply the candidate schedule discharge route of \autoref{thm:metacic-critical-path-candidate-discharge-budget-route}. Since the schedule can be consumed only as a finite budget route with the discharge socket still displayed, both residual contractions must return through that candidate-mediated frontier before any downstream strong-normalization, confluence, or decidability consumer reads the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualScheduleDiamond}
+
 \begin{theorem}[MetaCIC candidate-SN confluence handoff]
 \label{thm:metacic-critical-path-candidate-sn-confluence-handoff}
 Let

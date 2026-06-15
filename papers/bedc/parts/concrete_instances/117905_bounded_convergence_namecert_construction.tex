@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BoundedConvergenceUp$}
+\label{ch:concrete-instances-bounded-convergence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive real analysis and the Lebesgue bounded-convergence theorem, the $\BoundedConvergenceUp$ packet records only the finite-window BEDC surface needed when a uniformly bounded real sequence has displayed pointwise convergence windows. It sits over the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the bounded real sequence surface of \autoref{ch:concrete-instances-boundedrealsequence-namecert}. The packet is a finite observation and averaging ledger for a bounded-convergence consumer; it does not assert a general measure-theoretic dominated-convergence theorem, choose pointwise limits, quotient functions, or import ambient completeness of $\RealUp$.
+
+\begin{definition}[Bounded convergence carrier]
+\label{def:bounded-convergence-carrier}
+A $\BoundedConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,W,L,M,A,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\BoundedRealSequenceUp$ source row, carrying the bounded real observation family inspected by the packet.
+\item $W$ is the finite observation-window ledger, listing the indices and sample names available to the current tolerance request.
+\item $L$ is the pointwise convergence-window row, recording finite evidence that the displayed samples eventually enter the requested rational tolerance window.
+\item $M$ is the finite measure or finite averaging ledger, naming the finite weights or finite sample average through which the consumer reads the bounded source.
+\item $A$ is the bounded-average comparison row, certifying that bounded tails outside the active window remain inside the displayed bound budget.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational windows produced by $W,L,M,A$.
+\item $E$ is the $\RealUp$ seal row reached only after the regular rational readback has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bounded source, windows, convergence ledger, finite measure or averaging row, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through the same finite-window route.
+\item $P$ is the $\Pkg$ provenance over $\BoundedConvergenceUp$, $\BoundedRealSequenceUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedConvergenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host almost-everywhere relation, a selected limiting function, countable choice, quotient equality of functions, arbitrary dominated convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bounded convergence NameCert obligations]
+\label{thm:bounded-convergence-namecert-obligations}
+For every accepted $\BoundedConvergenceUp$ carrier $B=(S,W,L,M,A,R,E,H,C,P,N)$, the local $\NameCert_{\BoundedConvergenceUp}$ surface consists exactly of bounded source admission through $S$, finite observation-window coverage through $W$, pointwise convergence-window exposure through $L$, finite measure or finite averaging admission through $M$, bounded-average comparison through $A$, regular rational readback through $R$, $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-convergence-carrier}. The analytic rows are the bounded source $S$, the finite windows $W$, the pointwise convergence ledger $L$, the finite measure or averaging row $M$, and the bounded-average comparison row $A$.
+
+The readback rows come next. The regular rational row $R$ records the finite rational comparison assembled from those windows, and the real seal $E$ is downstream of that readback.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no carrier coordinate names an external limit selector, arbitrary dominated convergence theorem, quotient function equality, countable choice, or ambient completeness principle, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bounded convergence finite-measure handoff]
+\label{thm:bounded-convergence-finite-measure-handoff}
+Every $\RealUp$ or $\RegSeqRatUp$ consumer of an accepted $\BoundedConvergenceUp$ packet reaches the convergence readback only through the finite route
+$$
+\BoundedRealSequenceUp \to \RegSeqRatUp \to \RealUp .
+$$
+The finite measure or finite averaging ledger $M$ and bounded-average comparison row $A$ must be read before $R$ or $E$ is public, and the consumer receives no general dominated-convergence theorem, selected pointwise limit, quotient function equality, countable choice, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier $B=(S,W,L,M,A,R,E,H,C,P,N)$. The bounded source row $S$ and finite windows $W$ identify the only observations available to the packet.
+
+Read $L,M,A$ before the readback rows. The pointwise convergence windows, finite measure or averaging ledger, and bounded comparison row are the data that justify the finite regular-rational readback.
+
+The row $R$ is then the only $\RegSeqRatUp$ surface exposed to consumers, and the real seal $E$ is downstream of $R$. Transport and replay through $H,C,P,N$ preserve that route without adding a selected limit or an external convergence principle.
+\end{proof}
+
+\closureat{BoundedConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\BoundedConvergenceUp}
+  \constructivestory{A $\BoundedConvergenceUp$ packet is generated from a bounded real sequence row, finite observation windows, pointwise convergence windows, a finite measure or averaging ledger, bounded-average comparison, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-convergence-carrier}, \autoref{thm:bounded-convergence-namecert-obligations}, and \autoref{thm:bounded-convergence-finite-measure-handoff} seed the finite-window bounded-convergence packet over RealUp and RegSeqRat readback rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general measure-theoretic dominated convergence, selected pointwise limits, quotient function equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window convergence exposure, finite measure or averaging exactness, bounded comparison, RegSeqRat readback, Real seal preservation, transport, replay, provenance, and local naming for BEDC.Derived.BoundedConvergenceUp.}
+\end{closurestatus}

@@ -28,6 +28,7 @@ The carrier has no coordinate for tradition membership alone, inherited doctrina
 \label{def:tradition-comparison-boundary-classifier}
 The $\TraditionComparisonBoundaryUp$ classifier accepts exactly those packets of \autoref{def:tradition-comparison-boundary-carrier} whose comparison is read only through the structural landing row $L$ together with the rejected-surplus row $R$. The classifier does not compare traditions by doctrinal identity, inherited vocabulary, host truth, or prose affinity unless those readings are rejected by $R$ and kept outside the accepted landing.
 \end{definition}
+\leandef{BEDC.Derived.TraditionComparisonBoundaryUp.traditionComparisonBoundaryClassifier}
 
 \begin{theorem}[Tradition comparison boundary NameCert obligations]
 \label{thm:tradition-comparison-boundary-namecert-obligations}
@@ -63,12 +64,71 @@ The structural-distinction row $D$ records that the comparison preserves a landi
 \label{thm:tradition-comparison-boundary-sibling-independence}
 The $\TraditionComparisonBoundaryUp$ carrier is not bijective, under NameCert-row preservation, to $\ClaimRegistryLayerUp$, $\AxisZeckendorfCannotClaimUp$, $\ObjectKnowledgeCertificateUp$, or $\RegistryExportConsistencyGateUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.TraditionComparisonBoundaryUp.TraditionComparisonBoundary\_sibling\_independence}
 \begin{proof}
 Compare the displayed rows. $\ClaimRegistryLayerUp$ regulates package-level claim export, $\AxisZeckendorfCannotClaimUp$ records cannot-claim refusal, $\ObjectKnowledgeCertificateUp$ licenses object knowledge, and $\RegistryExportConsistencyGateUp$ checks registry export consistency.
 
 None of those sibling packets carries the tradition-source row $S$, BEDC landing row $L$, rejected-surplus row $R$, structural-distinction row $D$, and local $\NameCert_{\TraditionComparisonBoundaryUp}$ row $N$ in one finite comparison packet.
 
 A NameCert-row-preserving bijection would have to preserve those rows as a joint comparison boundary. Since each sibling lacks at least one of the source, landing, surplus, or distinction coordinates, no such bijection exists.
+\end{proof}
+
+\begin{theorem}[Tradition comparison boundary source registry obligation]
+\label{thm:tradition-comparison-boundary-source-registry-obligation}
+Every accepted $\TraditionComparisonBoundaryUp$ packet that is read as a comparison boundary must keep the tradition-source row $S$ visible before any $\ClaimRegistryLayerUp$ export row or local $\NameCert_{\TraditionComparisonBoundaryUp}$ row is consumed. The source registry obligation is the displayed route
+$$
+S,L,R,D,H,C,P,N
+$$
+inside the same finite $\BHist$ packet; it is not a free tradition-membership claim, inherited doctrinal truth, host-semantic identity, or prose-affinity license.
+\end{theorem}
+\leanchecked{BEDC.Derived.TraditionComparisonBoundaryUp.TraditionComparisonBoundary\_source\_registry\_obligation}
+\begin{proof}
+Project the carrier of \autoref{def:tradition-comparison-boundary-carrier}. The tradition-source row $S$ is a displayed coordinate of the same packet that also contains the landing, rejected-surplus, distinction, transport, replay, provenance, and local naming rows.
+
+Read the classifier of \autoref{def:tradition-comparison-boundary-classifier}. Acceptance is mediated by the BEDC landing row $L$ and rejected-surplus row $R$, so $S$ cannot be consumed as a detached tradition-membership certificate.
+
+Finally use the NameCert obligations of \autoref{thm:tradition-comparison-boundary-namecert-obligations}. Since local naming and package provenance are downstream from the displayed carrier rows, every registry-facing export keeps $S$ visible inside $S,L,R,D,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Tradition comparison boundary export consistency obligation]
+\label{thm:tradition-comparison-boundary-export-consistency-obligation}
+Every export of an accepted $\TraditionComparisonBoundaryUp$ comparison to a $\RegistryExportConsistencyGateUp$ consumer must display the BEDC landing row $L$, rejected-surplus row $R$, structural-distinction row $D$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$ together with the source row $S$. The export may cite registry consistency only for that finite packet; it cannot export doctrinal identity, host truth, unrecorded source equivalence, or object-knowledge authority outside $S,L,R,D,H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.TraditionComparisonBoundaryUp.TraditionComparisonBoundary\_export\_consistency\_obligation}
+\begin{proof}
+Start from the finite obligation surface of \autoref{thm:tradition-comparison-boundary-namecert-obligations}. It makes $S,L,R,D,H,C,P,N$ the full local certificate surface for the comparison packet.
+
+Use sibling independence, \autoref{thm:tradition-comparison-boundary-sibling-independence}. The registry export gate is a consumer of the displayed comparison boundary, not a replacement for the source, landing, surplus, and distinction rows.
+
+The transport, replay, provenance, and local naming rows then keep the export tied to the same packet. Since the carrier has no coordinate for doctrinal identity, host truth, detached source equivalence, or object-knowledge authority, registry consistency cannot export any of those endpoints.
+\end{proof}
+
+\begin{theorem}[Tradition comparison boundary cannot-claim obligation]
+\label{thm:tradition-comparison-boundary-cannot-claim-obligation}
+Every accepted $\TraditionComparisonBoundaryUp$ packet retains the cannot-claim boundary carried by its rejected-surplus row $R$ before any comparison is exported through $\AxisZeckendorfCannotClaimUp$, $\ObjectKnowledgeCertificateUp$, or $\RegistryExportConsistencyGateUp$. The retained boundary says that the comparison may land structurally through $L$ and $D$, but cannot claim inherited doctrinal identity, prose affinity, host-semantic equality, or public object knowledge outside the displayed packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.TraditionComparisonBoundaryUp.TraditionComparisonBoundary\_cannot\_claim\_obligation}
+\begin{proof}
+Begin with the no-doctrinal-identity theorem, \autoref{thm:tradition-comparison-boundary-no-doctrinal-identity}. It requires every accepted comparison to display both the BEDC landing row $L$ and rejected-surplus row $R$.
+
+Apply the classifier definition. The comparison is accepted only when the structural landing is read together with rejected surplus, so $R$ remains the cannot-claim boundary rather than an optional annotation.
+
+Finally route the packet through the listed sibling consumers. Axis-level refusal, object-knowledge licensing, and registry export consistency may consume the boundary only as $S,L,R,D,H,C,P,N$, so none can turn the rejected surplus into doctrinal identity, prose affinity, host equality, or public object knowledge.
+\end{proof}
+
+\begin{theorem}[Tradition comparison boundary scoped kernel route]
+\label{thm:tradition-comparison-boundary-scoped-kernel-route}
+Every accepted $\TraditionComparisonBoundaryUp$ packet routes doctrinal refusal, sibling independence, source registry, export consistency, and cannot-claim obligations through the displayed rows $S,L,R,D,H,C,P,N$, the TasteGate marker on $\mathsf{BEDC.Derived.TraditionComparisonBoundaryUp.TraditionComparisonBoundaryTasteGate\_single\_carrier\_alignment}$, and the finite BEDC rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The scoped kernel route exports no doctrinal identity, hidden tradition source, detached prose-affinity comparison, host comparison oracle, public object-knowledge authority, or registry export outside the displayed packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.TraditionComparisonBoundaryUp.TraditionComparisonBoundary\_scoped\_kernel\_route}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:tradition-comparison-boundary-namecert-obligations}. They expose the finite comparison packet as exactly $S,L,R,D,H,C,P,N$ and tie the route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Use doctrinal refusal and sibling independence next. The no-doctrinal-identity theorem, \autoref{thm:tradition-comparison-boundary-no-doctrinal-identity}, requires the rejected-surplus row $R$, while \autoref{thm:tradition-comparison-boundary-sibling-independence} prevents the carrier from collapsing into the claim registry, cannot-claim registry, object-knowledge certificate, or registry export gate.
+
+The source and export obligations are then supplied by \autoref{thm:tradition-comparison-boundary-source-registry-obligation} and \autoref{thm:tradition-comparison-boundary-export-consistency-obligation}. They keep the source row $S$, landing row $L$, rejected-surplus row $R$, and structural-distinction row $D$ visible before any registry-facing read is exported.
+
+Finally apply \autoref{thm:tradition-comparison-boundary-cannot-claim-obligation} and the displayed TasteGate marker named after \autoref{thm:tradition-comparison-boundary-namecert-obligations}. The cannot-claim boundary remains in the same finite packet, and the marker records only the single-carrier alignment. Hence the scoped kernel route exports none of the excluded doctrinal, hidden-source, object-knowledge, or host-comparison endpoints.
 \end{proof}
 
 \falsifiablePrediction{If a comparison route exports doctrinal identity without a rejected-surplus row, it is not an accepted TraditionComparisonBoundaryUp packet.}
@@ -82,8 +142,8 @@ The Lean follow-up must provide $\Nontrivial\ \TraditionComparisonBoundaryUp$ an
 
 \begin{closurestatus}{\TraditionComparisonBoundaryUp}
   \constructivestory{A $\TraditionComparisonBoundaryUp$ packet is generated from tradition-source, BEDC landing, rejected-surplus, structural-distinction, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:tradition-comparison-boundary-carrier}, \autoref{def:tradition-comparison-boundary-classifier}, \autoref{thm:tradition-comparison-boundary-namecert-obligations}, \autoref{thm:tradition-comparison-boundary-no-doctrinal-identity}, and \autoref{thm:tradition-comparison-boundary-sibling-independence} bind structural tradition comparison to a finite NameCert boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:tradition-comparison-boundary-carrier}, \autoref{def:tradition-comparison-boundary-classifier}, \autoref{thm:tradition-comparison-boundary-namecert-obligations}, \autoref{thm:tradition-comparison-boundary-no-doctrinal-identity}, \autoref{thm:tradition-comparison-boundary-sibling-independence}, \autoref{thm:tradition-comparison-boundary-source-registry-obligation}, \autoref{thm:tradition-comparison-boundary-export-consistency-obligation}, \autoref{thm:tradition-comparison-boundary-cannot-claim-obligation}, and \autoref{thm:tradition-comparison-boundary-scoped-kernel-route} bind structural tradition comparison to a finite scoped NameCert kernel route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, public export closure, or the correctness of any inherited tradition's doctrine.}

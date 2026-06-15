@@ -12,6 +12,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealNormalFormHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetBridge
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCompletionNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondVisibleRoute
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualScheduleDiamond
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSocketBeforeSNRead
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSocketConsumerSurface
 

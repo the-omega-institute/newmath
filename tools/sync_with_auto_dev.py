@@ -1552,7 +1552,7 @@ def sync_rollup_pr(source_branch: str, target_branch: str,
 
     pr = _open_rollup_pr(rollup_branch, source_branch, target_branch)
 
-    pr_age_hours = _hours_since(pr.get("createdAt") or "") if pr is not None else None
+    pr_age_hours = _hours_since(_origin_commit_iso(rollup_branch) or "") if pr is not None else None
     action = _rollup_pr_action(pr, pr_age_hours)
     reason = _rollup_pr_action_reason(pr, pr_age_hours)
     if action == "merge":

@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $K,B,S,W,R,E,H,C,P,N$. It has no coordinate for an externally chosen subsequence, quotient equality of streams, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.SequentialCompactUp.SequentialCompactCarrier\_local\_namecert\_surface}
 
 \begin{theorem}[SequentialCompact NameCert obligations]
 \label{thm:sequential-compact-namecert-obligations}
@@ -252,6 +253,7 @@ Q=(K,B,S,W,R,E,H,C,P,N),
 $$
 every public $\NameCert_{\SequentialCompactUp}$ consumer must read the same finite rows $K,B,S,W,R,E,H,C,P,N$ through the $\CompactMetricUp$ source row, $\BaireSpaceUp$ cylinder row, $\StreamNameUp$ source-window row, $\RegSeqRatUp$ readback row, and terminal $\RealUp$ seal before using the local NameCert row $N$. The public route is a finite $\BHist$ route over those displayed rows; it does not provide host subsequence choice, quotient stream equality, open-cover compactness, countable choice, or ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNameCertCarrierRows}
 \begin{proof}
 Start with the finite public cluster surface of \autoref{thm:sequential-compact-public-finite-cluster-route}. It already forces public cluster reads through $K,B,S,W,R,E,H,C,P,N$ and refuses the host selector, quotient, choice, open-cover, and Real-completeness exits.
 
@@ -699,6 +701,7 @@ K,B,S,W,R,E,H,C,P,N
 $$
 exported by \autoref{thm:sequentialcompact-public-export}: the $\CompactMetricUp$ root surface $K$, the $\BaireSpaceUp$ and $\StreamNameUp$ window rows $B,S$, the selected finite-window row $W$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal row $E$, and the structural $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows $H,C,P,N$. It excludes selected subsequence objects outside $W$, open-cover compactness, countable-choice schedules, quotient-stream equality, and ambient completeness of $\RealUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SequentialCompactUp.SequentialCompactFormalTargetRouteCertificate}
 \begin{proof}
 Start with the public export boundary of \autoref{thm:sequentialcompact-public-export}. It states the visible consumer surface as exactly the finite cluster window, compact-metric handoff, Baire and StreamName rows, RegSeqRat readback, Real seal, and structural rows.
 
@@ -708,6 +711,7 @@ The compact-metric root surface and Real seal boundary are supplied by \autoref{
 
 Finally, \autoref{thm:sequential-compact-selector-refusal} and \autoref{thm:sequentialcompact-finite-window-cluster-obligation} keep subsequence information inside the displayed finite-window row $W$. Thus the formalization queue receives the same finite Baire/StreamName/RegSeqRat/Real cluster route and none of the excluded choice or completeness principles.
 \end{proof}
+\leanchecked{BEDC.Derived.SequentialCompactUp.SequentialCompactFormalTargetStructuralRowsCertificate}
 
 \begin{theorem}[SequentialCompact Real subsequence Cauchy handoff]
 \label{thm:sequential-compact-real-subsequence-cauchy-handoff}
@@ -735,14 +739,30 @@ Finally apply \autoref{thm:sequential-compact-real-seal-nonescape}. The Real-fac
 \end{proof}
 \leanchecked{BEDC.Derived.SequentialCompactUp.SequentialCompactStandardBridgeScope}
 
-\closureat{SequentialCompactUp}{scopedStr}
+\begin{theorem}[SequentialCompact mature public bridge package]
+\label{thm:sequential-compact-mature-public-bridge-package}
+The mature public package for $\SequentialCompactUp$ is exactly the finite route
+$$
+K,B,S,W,R,E,H,C,P,N
+$$
+assembled by \autoref{thm:sequentialcompact-public-export}, \autoref{thm:sequentialcompact-formal-target-scope}, \autoref{thm:sequential-compact-real-subsequence-cauchy-handoff}, and \autoref{thm:sequential-compact-standard-bridge-scope}. It exports the compact-metric source row, Baire and StreamName window rows, selected finite-window row, RegSeqRat readback, terminal Real seal, componentwise transport, replay, provenance, and local naming, with the same exclusions: no host sequential compactness, choice-selected subsequence outside $W$, quotient stream equality, open-cover compactness, countable-choice schedule, selected limit outside the displayed route, ambient $\RealUp$ completeness, Lean credential, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:sequentialcompact-public-export}. It gives the public consumer exactly the finite cluster route through $K,B,S,W,R,E,H,C,P,N$.
+
+Use \autoref{thm:sequentialcompact-formal-target-scope} and \autoref{thm:sequential-compact-real-subsequence-cauchy-handoff}. They keep the formal target and Real-facing Cauchy handoff on the same StreamName, selected-window, RegSeqRat, and Real-seal rows.
+
+Finally apply \autoref{thm:sequential-compact-standard-bridge-scope}. The standard-facing bridge may read only the displayed public packet and inherits the same exclusions, so the mature paper package is exactly the stated finite route.
+\end{proof}
+
+\closureat{SequentialCompactUp}{matureStr}
 
 \begin{closurestatus}{\SequentialCompactUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:sequential-compact-carrier}, \autoref{thm:sequential-compact-namecert-obligations}, \autoref{thm:sequentialcompact-public-namecert-route}, \autoref{thm:sequential-compact-obligation-closure}, and \autoref{thm:sequentialcompact-public-export} close the public finite subsequence-window route for compact-metric, Baire-space, RegSeqRat, and Real-facing consumers.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:sequential-compact-carrier}, \autoref{thm:sequential-compact-namecert-obligations}, \autoref{thm:sequentialcompact-public-namecert-route}, \autoref{thm:sequential-compact-obligation-closure}, \autoref{thm:sequentialcompact-public-export}, \autoref{thm:sequential-compact-standard-bridge-scope}, and \autoref{thm:sequential-compact-mature-public-bridge-package} close the public finite subsequence-window route and its standard-facing bridge scope for compact-metric, Baire-space, RegSeqRat, and Real-facing consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host sequential compactness, countable choice, quotient stream equality, open-cover compactness, external subsequence selection, ambient Real completeness, Lean verification, or bridge checking.}
-  \upgradepath{Mature closure requires a standard bridge for the same public finite-window route; Lean verification and bridge checking remain separate verification-axis work.}
+  \upgradepath{Mature closure requires Lean verification and bridge checking for the same public finite-window route; those remain separate verification-axis work.}
   \constructivestory{A $\SequentialCompactUp$ packet is generated from CompactMetric source data, BaireSpace cylinder data, StreamName source windows, displayed finite subsequence windows, RegSeqRat readback, Real seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
 \end{closurestatus}

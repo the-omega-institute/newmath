@@ -62,6 +62,7 @@ The remaining rows are structural. The transport row $H$ preserves the displayed
 \label{thm:writing-item-audit-axis-separation}
 In every accepted $\WritingItemAuditUp$ packet, the theory-closure status is read only from $T$ and the formal-verification status is read only from $F$. A consumer may compare, report, or jointly display the two rows, but no accepted projection can derive either status row from the other.
 \end{theorem}
+\leanchecked{BEDC.Derived.WritingItemAuditUp.WritingItemAudit\_axis\_separation}
 \begin{proof}
 Begin with the carrier inventory of \autoref{def:writing-item-audit-carrier}. The two status rows are separate coordinates: $T$ records paper-side closure, while $F$ records Lean-side and audit-side verification.
 
@@ -78,6 +79,7 @@ K,C,R,L,T,F,G,Q,H,U,P,N.
 $$
 The consumer receives the item kind, carrier, classifier, ledger, theory status, formal status, gap report, claim text, and structural support rows. It receives no proof of the claim text, no theory-status upgrade, no formal-status upgrade, no hidden gap discharge, and no license to export a stronger claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.WritingItemAuditUp.WritingItemAudit\_nonescape}
 \begin{proof}
 Read the carrier coordinates. The only claim-bearing row is $Q$, and it is bound to the displayed kind, carrier, classifier, ledger, two status rows, and gap report.
 
@@ -98,12 +100,47 @@ Field faithfulness is the corresponding projection discipline. It prevents a Tas
 The same carrier must witness both instances. Otherwise a consumer could certify nonemptiness for one packet shape while checking field preservation for another, which would break the audit surface named by $\WritingItemAuditUp$.
 \end{proof}
 
-\closureat{WritingItemAuditUp}{seedStr}
+\begin{theorem}[Writing item audit obligation closure route]
+\label{thm:writing-item-audit-obligation-closure-route}
+The carrier, NameCert obligations, axis-separation route, nonescape boundary, and TasteGate obligation rows exhaust the $\WritingItemAuditUp$ obligation surface. Every accepted consumer must read the finite packet
+$$
+K,C,R,L,T,F,G,Q,H,U,P,N
+$$
+together with the displayed $\NameCert_{\WritingItemAuditUp}$ obligation theorem, and no consumer can obtain a proof of the claim text, a closure-grade upgrade, a formal-grade upgrade, or a registry export stronger than the claim row.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:writing-item-audit-carrier}. It lists the item kind, carrier, classifier, ledger, two independent status rows, gap report, claim text, transport, continuation, provenance, and local naming rows.
+
+Apply \autoref{thm:writing-item-audit-namecert-obligations} to expose the NameCert surface, then use \autoref{thm:writing-item-audit-axis-separation} and \autoref{thm:writing-item-audit-nonescape} to keep the paper-closure row, verification row, gap row, and claim row from escaping their displayed coordinates.
+
+Finally read \autoref{thm:writing-item-audit-tastegate-obligation}. Its visible TasteGate requirement keeps the same carrier under nontriviality and field-faithfulness checks. The listed rows therefore exhaust the obligation surface without producing public closure, scoped closure, bridge checking, or verification beyond the existing Lean marker.
+\end{proof}
+
+\begin{theorem}[Writing item audit scoped kernel route]
+\label{thm:writing-item-audit-scoped-kernel-route}
+Every scoped consumer of an accepted $\WritingItemAuditUp$ packet must read
+$$
+K,C,R,L,T,F,G,Q,H,U,P,N
+$$
+together with the writing-item legality definitions of \autoref{def:philosophy-writing-item} and \autoref{def:philosophy-writing-item-minimal-legality}, the axis-separation theorem of \autoref{thm:writing-item-audit-axis-separation}, the nonescape theorem of \autoref{thm:writing-item-audit-nonescape}, and the TasteGate obligation of \autoref{thm:writing-item-audit-tastegate-obligation}. No scoped projection derives $T$ from $F$, derives $F$ from $T$, proves $Q$, discharges $G$, or exports a registry claim stronger than the displayed claim-text row.
+\end{theorem}
+\leanchecked{BEDC.Derived.WritingItemAuditUp.WritingItemAudit\_scoped\_kernel\_route}
+\begin{proof}
+Project the carrier of \autoref{def:writing-item-audit-carrier}. The finite packet gives the item kind, carrier, classifier, ledger, paper-closure row, formal-verification row, gap row, claim row, transport, continuation, provenance, and local name as separate displayed coordinates.
+
+Apply \autoref{thm:writing-item-audit-namecert-obligations}. It forces the scoped consumer to read the same carrier rows through the local $\NameCert_{\WritingItemAuditUp}$ surface and to keep the writing-item legality definitions visible before the packet is used.
+
+Use \autoref{thm:writing-item-audit-axis-separation} and \autoref{thm:writing-item-audit-nonescape}. These keep $T$, $F$, $G$, and $Q$ in their own coordinates and rule out proofs of the claim text, status upgrades, hidden gap discharge, and stronger registry exports.
+
+Finally read \autoref{thm:writing-item-audit-tastegate-obligation}. It attaches nontriviality and field-faithfulness to the same carrier rows, so the scoped route is a kernel-local reading discipline rather than a projection from one axis or claim row into another.
+\end{proof}
+
+\closureat{WritingItemAuditUp}{scopedStr}
 
 \begin{closurestatus}{\WritingItemAuditUp}
   \constructivestory{A $\WritingItemAuditUp$ packet is generated from item kind, carrier, classifier, ledger, theory-status, formal-status, gap-report, claim-text, hsame transport, Cont continuation, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:writing-item-audit-carrier}, \autoref{thm:writing-item-audit-namecert-obligations}, \autoref{thm:writing-item-audit-axis-separation}, \autoref{thm:writing-item-audit-nonescape}, and \autoref{thm:writing-item-audit-tastegate-obligation} bind legal writing items as finite NameCert packets with separated closure and verification axes.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:writing-item-audit-carrier}, \autoref{thm:writing-item-audit-namecert-obligations}, \autoref{thm:writing-item-audit-axis-separation}, and \autoref{thm:writing-item-audit-nonescape} bind writing-item legality, closure-status blocks, registry export rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ to finite packets with separated closure and verification axes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, proof of the claim text, grade upgrades, gap discharge, or registry export beyond the displayed claim row.}

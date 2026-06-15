@@ -1,0 +1,49 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier residual-join locality]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-locality}
+Every accepted $\MetaCICParallelDiamondFrontierUp$ residual join is read through the local frontier route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The read must first expose the critical-pair envelope of \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}, the residual-substitution dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}, the candidate-normalization scope of \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}, the finite residual witness consumption row of \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}, and the carrier-local $\NameCert$ row of \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It exports only a bounded residual-join locality certificate for the displayed packet, not global confluence, unbounded normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the accepted frontier carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The only rows available to a residual-join consumer are the finite packet rows $P,K,J,R,S,C,B,O,H,T,G,N$.
+
+Read the critical-pair and residual-substitution rows first. The critical-pair envelope keeps $K,J,R,S,C,B,O$ visible, while the dependency route places the retained residual-substitution premise $P$ before any local join can be consumed.
+
+Next read candidate normalization and finite residual witnesses. The candidate-normalization scope keeps $J$ inside the same conditional spine, and the finite residual witness theorem consumes typed windows, residual frontier data, bounded checker rows, transport, replay, provenance, and local naming before a closed parallel-diamond route can inspect the join.
+
+Finally use the local NameCert obligation surface. Since $H,T,G,N$ preserve only this finite packet and the obstruction row $O$ remains visible, the residual join is local to the displayed frontier and cannot be promoted to global confluence, unbounded normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual grid]
+\label{thm:metacic-parallel-diamond-frontier-residual-grid}
+Every accepted $\MetaCICParallelDiamondFrontierUp$ residual-join consumer receives a finite grid whose rows are the critical-pair envelope, residual-substitution dependency, candidate-normalization scope, finite residual witness, carrier-local $\NameCert$, $\hsame$ transport, $\Cont$ replay, and $\Pkg$ provenance rows before any local diamond handoff is exported. The grid is the displayed packet
+$$
+P,K,J,R,S,C,B,O,H,T,G,N ,
+$$
+not a global confluence theorem, strong-normalization theorem, subject-reduction theorem, quotient term equality, or evaluator equality.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. It already forces a residual-join read through $P,K,J,R,S,C,B,O,H,T,G,N$ and refuses to promote the local route to global confluence or unbounded normalization.
+
+Now refine the local route into grid rows. The critical-pair envelope of \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope} supplies the bounded overlap row, the residual-substitution dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route} places $P$ before any join handoff, the candidate-normalization scope of \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope} keeps $J$ inside the conditional spine, and finite residual witness consumption from \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption} supplies the typed-window and bounded-check rows.
+
+Finally attach the carrier-local $\NameCert$ row and structural rows. The obligation theorem \autoref{thm:metacic-parallel-diamond-frontier-obligations} supplies the local naming surface, while $H,T,G,N$ transport, replay, source, and name the same carrier. Since every grid row is finite and carrier-local, the exported handoff cannot become strong normalization, subject reduction, quotient term equality, evaluator equality, or kernel consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-join locality exhaustion]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-locality-exhaustion}
+A residual-join consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet that has read
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+has exhausted the carrier-local join surface. Any request for global confluence, subject reduction, unbounded normalization, evaluator equality, quotient term equality, or kernel consistency is outside the packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. It forces every residual-join read through the displayed local frontier route and keeps the obstruction row visible.
+
+Then apply \autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. The grid identifies the critical-pair, residual-substitution, candidate-normalization, finite-witness, transport, replay, provenance, and local naming rows as the whole carrier-local residual surface.
+
+Finally use the carrier-local NameCert obligation theorem \autoref{thm:metacic-parallel-diamond-frontier-obligations}. Since that obligation surface admits no coordinate for global confluence, subject reduction, unbounded normalization, evaluator equality, quotient term equality, or kernel consistency, a consumer that has read the grid has no further join row to project.
+\end{proof}

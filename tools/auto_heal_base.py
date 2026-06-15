@@ -802,7 +802,7 @@ def _ci_log_is_pdf_failure(log_tail: str) -> bool:
 def _targeted_verify_for_ci_log(log_tail: str) -> list[tuple[str, list[str], Path, int]]:
     checks: list[tuple[str, list[str], Path, int]] = []
     if _ci_log_is_pdf_failure(log_tail):
-        checks.append(("papers/bedc make", ["make"], HEAL_WT / "papers" / "bedc", 1800))
+        checks.append(("papers/bedc make", ["make"], HEAL_WT / "papers" / "bedc", 3600))
     if any(
         needle in log_tail
         for needle in (

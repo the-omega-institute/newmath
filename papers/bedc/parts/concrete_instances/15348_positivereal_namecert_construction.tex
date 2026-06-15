@@ -279,14 +279,136 @@ stronger real-order principle is exported.
 \end{proof}
 \leanchecked{BEDC.Derived.PositiveRealUp.PositiveRealCarrier\_dyadic\_radius\_lower\_bound}
 
-\closureat{PositiveRealUp}{seedStr}
+\begin{theorem}[PositiveReal product lower-bound apartness]
+\label{thm:positive-real-product-lower-bound-apartness}
+Let two accepted $\PositiveRealUp$ packets expose positive dyadic lower-bound
+rows through displayed $\DyadicRatCoreUp$ radius ledgers. A product-facing
+apartness-from-zero read can be formed only from the two radius rows, the common
+$\StreamNameUp$ and $\RegSeqRatUp$ observation windows, the componentwise
+$\hsame$ transports, the displayed $\Cont$ replays, the $\mathsf{Pkg}$
+provenance rows, and the two local $\NameCert$ rows. The resulting lower-bound
+ledger is therefore a finite product-radius witness for $\RealAlgOrderUp$ and
+metric consumers, not a trichotomy branch, host order comparison, quotient
+stream equality, selected limit, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the two accepted carriers of \autoref{def:positivereal-carrier}.
+Their positive reads expose exactly the two apartness rows, dyadic radius
+ledgers, finite observation windows, regular-rational readbacks, transport,
+replay, provenance, and local naming rows.
+
+Apply \autoref{thm:positivereal-multiplicative-radius-transport}. It supplies
+the product-facing radius transport while keeping the two dyadic ledgers inside
+the displayed finite packets. Then use
+\autoref{thm:positivereal-product-radius-window-compatibility} to require the
+common $\StreamNameUp$ and $\RegSeqRatUp$ windows before the product read is
+available.
+
+Finally apply \autoref{thm:positive-real-dyadic-radius-lower-bound} to each
+factor. The only lower-bound data exported to the product consumer are the two
+finite dyadic radius rows and their transported window evidence. Since neither
+carrier contains trichotomy, host order, quotient stream equality, selected
+limits, or ambient completeness, the product apartness read cannot export any
+of those principles.
+\end{proof}
+\leanchecked{BEDC.Derived.PositiveRealUp.PositiveRealCarrier\_product\_lower\_bound\_apartness}
+
+\begin{theorem}[PositiveReal obligation closure]
+\label{thm:positive-real-obligation-closure}
+The $\PositiveRealUp$ packet of \autoref{def:positivereal-carrier} presents an
+obligation-closed finite BEDC surface over the sealed $\RealUp$ row. Its local
+obligation rows consist exactly of the $\ApartnessRealUp$ and
+$\LocatedApartnessUp$ apartness handoff, the positive $\DyadicRatCoreUp$ radius
+ledger, the $\StreamNameUp$ observation window, the $\RegSeqRatUp$ readback,
+componentwise $\hsame$ transport, $\Cont$ replay, $\mathsf{Pkg}$ provenance,
+and the local $\NameCert$ row.
+
+Consequently every positivity consumer must enter through these displayed rows
+and no consumer receives trichotomy, host order, quotient stream equality,
+selected limits, or ambient $\RealUp$ completeness from this certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:positivereal-carrier}. The sealed
+real row $R$ fixes the ambient real-name surface, while $A,D,W,Q$ display the
+apartness packet, positive radius ledger, finite stream window, and rational
+readback.
+
+Use \autoref{thm:positivereal-namecert-obligations}. Its carrier admission,
+classifier transport, positive-radius exactness, apartness handoff,
+real-seal non-escape, and ledger exhaustion rows are precisely the finite
+obligations listed in the statement.
+
+The remaining support rows are structural. The $\hsame$ row transports the
+displayed coordinates, $\Cont$ replays the finite reads, $\mathsf{Pkg}$ records
+provenance, and $N$ binds the local name. Since the carrier has no further
+coordinate, the named rows close the paper-side obligation surface.
+\end{proof}
+
+\begin{theorem}[PositiveReal apartness obligation handoff]
+\label{thm:positive-real-apartness-handoff}
+For every accepted $\PositiveRealUp$ carrier $(R,A,D,W,Q,H,C,P,N)$, the
+apartness-to-zero assertion is available to downstream consumers only as the
+finite handoff from the sealed $\RealUp$ row through the
+$\ApartnessRealUp$/$\LocatedApartnessUp$ row $A$, the positive
+$\DyadicRatCoreUp$ radius $D$, the $\StreamNameUp$ window $W$, and the
+$\RegSeqRatUp$ readback $Q$. The handoff is stable under the displayed
+$\hsame$ transport, $\Cont$ replay, $\mathsf{Pkg}$ provenance, and local
+$\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Read the accepted packet componentwise. The real endpoint is sealed by $R$,
+and the positive assertion is not a host order predicate; it is the displayed
+apartness row $A$ with radius $D$.
+
+Apply \autoref{thm:positivereal-apartness-handoff} and
+\autoref{thm:positivereal-regseqrat-window-positivity-scope}. Together they
+force every positivity read through $W,Q$ before it can be exported as
+apartness-from-zero evidence.
+
+Transport is confined to the packet support. The rows $H,C,P,N$ move and
+record the same finite handoff, so no consumer can detach $A$ or $D$ from the
+sealed real row, the observation window, or the readback surface.
+\end{proof}
+
+\begin{theorem}[PositiveReal carrier transport obligations]
+\label{thm:positive-real-carrier-transport}
+Any transport of an accepted $\PositiveRealUp$ carrier preserves the whole
+finite obligation packet
+$(R,A,D,W,Q,H,C,P,N)$: the sealed $\RealUp$ row, the
+$\ApartnessRealUp$/$\LocatedApartnessUp$ apartness row, the positive
+$\DyadicRatCoreUp$ radius, the $\StreamNameUp$ window, the $\RegSeqRatUp$
+readback, the $\hsame$ transport rows, the $\Cont$ replay rows,
+$\mathsf{Pkg}$ provenance, and the local $\NameCert$ row. The transported
+carrier therefore exposes exactly the same obligation surface as the source
+carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.PositiveRealUp.PositiveRealCarrier\_transport\_obligations}
+\begin{proof}
+Start with the carrier definition and isolate the transport row $H$. Its
+components are attached to the real seal, apartness row, radius ledger,
+window, and readback, so it has no independent target outside the displayed
+packet.
+
+Use \autoref{thm:positivereal-apartness-radius-transport} for the radius
+coordinate and \autoref{thm:positivereal-product-radius-window-compatibility}
+for window compatibility. These results keep $D$ tied to $A,W,Q$ under any
+consumer-facing movement.
+
+Replay and provenance preserve the same boundary. The $\Cont$ rows replay the
+finite observations, $\mathsf{Pkg}$ records their source, and the local
+$\NameCert$ row binds the transported carrier. Thus the target carrier has
+exactly the obligation rows stated above and no stronger real-order or
+completeness datum.
+\end{proof}
+
+\closureat{PositiveRealUp}{obligationStr}
 
 \begin{closurestatus}{\PositiveRealUp}
   \constructivestory{A $\PositiveRealUp$ packet is generated from a sealed real-name row, an apartness-to-zero row, one positive dyadic radius ledger, one finite observation window, one regular-rational readback, transport, replay, provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:positivereal-carrier}, \autoref{thm:positivereal-namecert-obligations}, and \autoref{thm:positivereal-apartness-handoff} name the seed carrier, obligation surface, and finite apartness-from-zero handoff for positive real packets.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:positivereal-carrier}, \autoref{thm:positivereal-namecert-obligations}, \autoref{thm:positive-real-obligation-closure}, \autoref{thm:positive-real-apartness-handoff}, and \autoref{thm:positive-real-carrier-transport} name the carrier, obligation rows, finite apartness handoff, and transport boundary for positive real packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim trichotomy of constructive reals, total order, quotient stream equality, selected limits, ambient real completeness, or a standard bridge.}
-  \upgradepath{To reach obligationClosure, the carrier, six obligation rows, and apartness handoff must be checked as finite BEDC packet obligations.}
+  \upgradepath{To reach scopedClosure, the obligation packet must be tied to a checked classifier transport theorem and downstream consumer boundary.}
 \end{closurestatus}

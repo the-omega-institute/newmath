@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TypedSupplySocketUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -46,6 +48,13 @@ def typedSupplySocketFields : TypedSupplySocketUp → List BHist
       continuation provenance localName =>
       [kind, requestedSupply, consumptionSite, auditGate, refusal, transport, continuation,
         provenance, localName]
+
+def typedSupplySocketKindErasedFields : TypedSupplySocketUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | TypedSupplySocketUp.mk _ requestedSupply consumptionSite auditGate refusal transport continuation
+      provenance localName =>
+      [requestedSupply, consumptionSite, auditGate, refusal, transport, continuation, provenance,
+        localName]
 
 def typedSupplySocketToEventFlow : TypedSupplySocketUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -189,5 +198,55 @@ theorem TypedSupplySocketTasteGate_single_carrier_alignment :
   exact
     ⟨TypedSupplySocketTasteGate_single_carrier_alignment_decode_encode, rfl,
       TypedSupplySocketTasteGate_single_carrier_alignment_fields_faithful⟩
+
+theorem TypedSupplySocketCarrier_kind_separation :
+    typedSupplySocketKindErasedFields
+        (TypedSupplySocketUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+      typedSupplySocketKindErasedFields
+        (TypedSupplySocketUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ∧
+    typedSupplySocketFields
+        (TypedSupplySocketUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty) ≠
+      typedSupplySocketFields
+        (TypedSupplySocketUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · intro hfields
+    injection hfields with hkind _
+    cases hkind
+
+def typedSupplySocketLocalNameSpec (x : TypedSupplySocketUp) : BHist → Prop :=
+  -- BEDC touchpoint anchor: BHist hsame NameCert
+  match x with
+  | TypedSupplySocketUp.mk _ _ _ _ _ _ _ _ localName =>
+      fun row => hsame row localName
+
+theorem TypedSupplySocketCarrier_semantic_name_certificate (x : TypedSupplySocketUp) :
+    SemanticNameCert (typedSupplySocketLocalNameSpec x) (typedSupplySocketLocalNameSpec x)
+      (typedSupplySocketLocalNameSpec x) hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  refine NameCert_carrier_self_semantic_lifting ?core
+  cases x with
+  | mk kind requestedSupply consumptionSite auditGate refusal transport continuation provenance
+      localName =>
+      exact {
+        carrier_inhabited := Exists.intro localName (hsame_refl localName)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row other target sameRO sameOT
+          exact hsame_trans sameRO sameOT
+        carrier_respects_equiv := by
+          intro row other same source
+          exact hsame_trans (hsame_symm same) source
+      }
 
 end BEDC.Derived.TypedSupplySocketUp
