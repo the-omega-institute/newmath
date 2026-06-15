@@ -5537,6 +5537,7 @@ import BEDC.Derived.FunctorUp.VisibleMorphismStrictPrefix
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FundamentalGroupUp.TasteGate
 import BEDC.Derived.FundamentalTheoremCalculusUp
+import BEDC.Derived.FundamentalTheoremCalculusUp.TasteGate
 import BEDC.Derived.GDeltaSetUp.TasteGate
 import BEDC.Derived.GalerkinErrorEstimateUp
 import BEDC.Derived.GaloisConnectionUp
