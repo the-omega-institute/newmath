@@ -55,6 +55,22 @@ For a Type I read, $Q$ asks for unrestricted induction or universal closure beyo
 The audit row $G$ and non-internalization row $U$ preserve the distinction as a refusal-facing boundary; they do not reconstruct the kind after $K$ has been removed. Therefore kind separation is public exactly while $K$ remains part of the packet.
 \end{proof}
 
+\begin{theorem}[Typed supply socket continuation kind transport]
+\label{thm:typed-supply-socket-continuation-kind-transport}
+For every accepted $\TypedSupplySocketUp$ packet
+$$
+T=(K,Q,S,G,U,H,C,P,N),
+$$
+any displayed $\Cont$ replay that preserves the requested-supply row $Q$ and the consumption-site row $S$ must also keep the socket-kind row $K$ visible before the audit-gate row $G$ is consumed. Otherwise Type I induction sockets and Type II witness sockets collapse at the consumer boundary, since the same requested supply and site rows would no longer determine which kind of boundary request is being audited.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typed-supply-socket-carrier}. The continuation row $C$ replays the same finite rows $K,Q,S,G,U,H,P,N$ rather than building an untyped supply route.
+
+Use \autoref{thm:typed-supply-socket-kind-separation}. The kind row $K$ is the public separator between Type I induction sockets and Type II witness sockets, while $Q$ and $S$ only say what is requested and where it would be consumed.
+
+Thus a replay that preserves $Q$ and $S$ but hides $K$ before $G$ is read cannot present the gate with a typed socket boundary. Reading $C$ as replay of the same finite rows forces $K$ to remain visible until the audit-gate row is consumed.
+\end{proof}
+
 \begin{theorem}[Typed supply socket TasteGate obligation]
 \label{thm:typed-supply-socket-tastegate-obligation}
 The $\TypedSupplySocketUp$ TasteGate obligation is the demand that any admitted instance preserve all rows
