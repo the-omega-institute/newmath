@@ -3499,6 +3499,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripBridgeConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripBudgetSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripCarrierSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripClassifierStability
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripGapConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripModulusLedger
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripModulusRefusal
@@ -3641,7 +3642,6 @@ import BEDC.Derived.CriticalLineWitnessUp.RootFormalTargetLedger
 import BEDC.Derived.CriticalLineWitnessUp.RootGammaRealDependency
 import BEDC.Derived.CriticalLineWitnessUp.RootGapRefusalCompleteness
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
-import BEDC.Derived.CriticalLineWitnessUp.RootLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
@@ -3660,6 +3660,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertScopeCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNonescapePackage
 import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
+import BEDC.Derived.CriticalLineWitnessUp.RootPublicExport
 import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootRHBoundaryPublicNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootRHConsumerRefusalTotality
@@ -4350,6 +4351,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetExhaustion
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetSealUniqueness
 import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
+import BEDC.Derived.DyadicArchimedeanUp.L10Handoff
 import BEDC.Derived.DyadicArchimedeanUp.NameCertObligations
 import BEDC.Derived.DyadicArchimedeanUp.ScaleExistence
 import BEDC.Derived.DyadicArchimedeanUp.StreamnameScaleTransport
@@ -4467,6 +4469,7 @@ import BEDC.Derived.DyadicIntervalEnclosureUp
 import BEDC.Derived.DyadicIntervalNestingUp.TasteGate
 import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalTreeUp
+import BEDC.Derived.DyadicIntervalTreeUp.TasteGate
 import BEDC.Derived.DyadicIntervalUp
 import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
@@ -5289,6 +5292,7 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.NameCertObligations
 import BEDC.Derived.FinitePrefixStreamUp.Nonescape
+import BEDC.Derived.FinitePrefixStreamUp.ObservationInduction
 import BEDC.Derived.FinitePrefixStreamUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.WindowReadback
 import BEDC.Derived.FiniteRealCoverUp.TasteGate
@@ -9218,6 +9222,7 @@ import BEDC.Derived.RegulatedFunctionCompactOscillationUp.TasteGate
 import BEDC.Derived.RegulatedFunctionUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.DarbouxRiemannCompatibility
 import BEDC.Derived.RegulatedIntegralUp.Nonescape
+import BEDC.Derived.RegulatedIntegralUp.PublicInterface
 import BEDC.Derived.RegulatedIntegralUp.RealCompletionRoute
 import BEDC.Derived.RegulatedIntegralUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.VisibleStepHandoff
@@ -10392,6 +10397,7 @@ import BEDC.Derived.UniformCompletionCommonWindowUp.NameCertObligations
 import BEDC.Derived.UniformCompletionCommonWindowUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeSchema
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeSourceLock
+import BEDC.Derived.UniformCompletionFunctorUp.BridgeTargetInterface
 import BEDC.Derived.UniformCompletionFunctorUp.CarrierAdmission
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyFilterNonescape
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyHandoff
