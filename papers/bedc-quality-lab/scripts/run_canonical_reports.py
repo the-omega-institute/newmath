@@ -55,10 +55,13 @@ from bedc_quality_lab.discovery_regularized_training import (
     DRT2_METHOD_COMPARISON_ARMS,
     DRT2_NEGATIVE_WITNESS_POINTERS,
     DRT2_SEMANTIC_HARDGATES,
+    DRT_FAIR_CONTROL_HARDGATES,
+    DRT_FAIR_CONTROL_ISSUE_ARMS,
     DRT_EXTENSION_UER_MAX,
     DRT_EXTENSION_UER_REDUCTION_MIN,
     drt2_semantic_hardgate_verdicts,
     drt_extension_forbidden_key_audit,
+    fair_control_hardgate_verdicts,
     quality_artifact_pointer as _drt_quality_artifact_pointer,
 )
 from bedc_quality_lab.discovery_gated_transformer_training import (
@@ -1203,6 +1206,10 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "training_loop_trace",
             "matched_random_control",
             "quality_promotion_boundary",
+            "fair_control_ledger",
+            "base_chance_gate",
+            "four_axis_match_gate",
+            "drt_nondegenerate_gate",
             "certificate_guided_dn_preservation",
             "mechanism_ablation",
             "training_mechanism_cert",
@@ -1237,7 +1244,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         cost_pointer="$.source_artifacts.cost_protocol",
         not_claimed_pointer="$.not_claimed",
         positive_claim_pointer="$.positive_claim",
-        control_pointer="$.matched_random_control",
+        control_pointer="$.fair_control_ledger",
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
         reproducibility_mode="true_training",
@@ -5019,6 +5026,173 @@ def _validate_discovery_regularized_training_quality_promotion_boundary(payload:
         raise ValueError("quality_promotion_boundary DRT row gate must match hardgate")
 
 
+def _validate_discovery_regularized_training_fair_control(payload: Mapping[str, Any]) -> None:
+    ledger = payload.get("fair_control_ledger")
+    base_gate = payload.get("base_chance_gate")
+    axis_gate = payload.get("four_axis_match_gate")
+    nondegenerate = payload.get("drt_nondegenerate_gate")
+    if not all(isinstance(section, Mapping) for section in (ledger, base_gate, axis_gate, nondegenerate)):
+        raise ValueError("discovery_regularized_training fair-control sections must be objects")
+    ledger_fields = {
+        "schema_id",
+        "status",
+        "owner_pointer",
+        "candidate_arm",
+        "issue_arms",
+        "pair_rule_surface",
+        "arms",
+        "gate_pointers",
+        "bounded_drt_capsule_pointers",
+    }
+    base_fields = {
+        "schema_id",
+        "status",
+        "owner_pointer",
+        "candidate_pointer",
+        "chance_accuracy",
+        "base_task_accuracy",
+        "base_above_chance",
+        "margin",
+    }
+    axis_fields = {"schema_id", "status", "owner_pointer", "axes", "pair_rule_surface_pointer"}
+    nondegenerate_fields = {
+        "schema_id",
+        "status",
+        "owner_pointer",
+        "candidate_arm",
+        "candidate_quality_q",
+        "candidate_shift",
+        "candidate_positive_signal",
+        "control_quality_pointers",
+    }
+    if set(ledger) != ledger_fields or set(base_gate) != base_fields or set(axis_gate) != axis_fields or set(nondegenerate) != nondegenerate_fields:
+        raise ValueError("discovery_regularized_training fair-control section fields invalid")
+    if ledger["owner_pointer"] != _drt_quality_artifact_pointer("$.fair_control_ledger"):
+        raise ValueError("discovery_regularized_training fair-control owner pointer mismatch")
+    if base_gate["owner_pointer"] != _drt_quality_artifact_pointer("$.base_chance_gate"):
+        raise ValueError("discovery_regularized_training base chance owner pointer mismatch")
+    if axis_gate["owner_pointer"] != _drt_quality_artifact_pointer("$.four_axis_match_gate"):
+        raise ValueError("discovery_regularized_training four-axis owner pointer mismatch")
+    if nondegenerate["owner_pointer"] != _drt_quality_artifact_pointer("$.drt_nondegenerate_gate"):
+        raise ValueError("discovery_regularized_training nondegenerate owner pointer mismatch")
+    if tuple(ledger.get("issue_arms", ())) != DRT_FAIR_CONTROL_ISSUE_ARMS:
+        raise ValueError("discovery_regularized_training fair-control issue arms mismatch")
+    if ledger.get("candidate_arm") != "DGT_full" or nondegenerate.get("candidate_arm") != "DGT_full":
+        raise ValueError("discovery_regularized_training fair-control candidate arm mismatch")
+    pair_rule = ledger.get("pair_rule_surface")
+    if not isinstance(pair_rule, Mapping) or pair_rule.get("owner_pointer") != _drt_quality_artifact_pointer("$.fair_control_ledger.pair_rule_surface"):
+        raise ValueError("discovery_regularized_training fair-control pair-rule surface mismatch")
+    if pair_rule.get("cell_keys") != ["discovery_lambda", "rho", "mixing", "seed"]:
+        raise ValueError("discovery_regularized_training fair-control pair-rule keys mismatch")
+    if _drt_pointer_value(payload, str(pair_rule.get("raw_rows_pointer"))) is None:
+        raise ValueError("discovery_regularized_training fair-control raw rows pointer does not resolve")
+    arms = ledger.get("arms")
+    if not isinstance(arms, list) or [row.get("arm_id") for row in arms if isinstance(row, Mapping)] != list(DRT_FAIR_CONTROL_ISSUE_ARMS):
+        raise ValueError("discovery_regularized_training fair-control arm rows mismatch")
+    candidate_quality = _as_finite_number(nondegenerate.get("candidate_quality_q"))
+    for row in arms:
+        if not isinstance(row, Mapping):
+            raise ValueError("discovery_regularized_training fair-control arm row invalid")
+        for pointer_key in ("evidence_pointer", "quality_pointer"):
+            pointer = str(row.get(pointer_key))
+            if not pointer.startswith(f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:"):
+                raise ValueError("discovery_regularized_training fair-control pointer is not owner-local")
+            if _drt_pointer_value(payload, pointer) is None:
+                raise ValueError("discovery_regularized_training fair-control pointer does not resolve")
+        if row.get("status") != "present":
+            raise ValueError("discovery_regularized_training fair-control arm row missing")
+        row_quality = _as_finite_number(row.get("quality_q_mean"))
+        row_margin = _as_finite_number(row.get("candidate_quality_margin"))
+        expected_margin = None if candidate_quality is None or row_quality is None else _rounded_number(candidate_quality - row_quality)
+        if row_margin != expected_margin:
+            raise ValueError("discovery_regularized_training fair-control quality margin mismatch")
+    chance = _as_finite_number(base_gate.get("chance_accuracy"))
+    base_accuracy = _as_finite_number(base_gate.get("base_task_accuracy"))
+    base_above_chance = base_accuracy is not None and chance is not None and base_accuracy > chance
+    if base_gate.get("base_above_chance") is not base_above_chance:
+        raise ValueError("discovery_regularized_training base chance boolean mismatch")
+    if base_gate.get("status") != ("pass" if base_above_chance else "fail"):
+        raise ValueError("discovery_regularized_training base chance status mismatch")
+    axes = axis_gate.get("axes")
+    expected_axes = {"parameter_match", "compute_match", "threshold_match", "metric_helper_match"}
+    if not isinstance(axes, Mapping) or set(axes) != expected_axes:
+        raise ValueError("discovery_regularized_training four-axis fields mismatch")
+    if any(not isinstance(row, Mapping) or row.get("status") != "pass" for row in axes.values()):
+        expected_axis_status = "fail"
+    else:
+        expected_axis_status = "pass"
+    if axis_gate.get("status") != expected_axis_status:
+        raise ValueError("discovery_regularized_training four-axis status mismatch")
+    for row in axes.values():
+        pointer = str(row.get("evidence_pointer"))
+        if not pointer.startswith(f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:"):
+            raise ValueError("discovery_regularized_training four-axis pointer is not owner-local")
+        if _drt_pointer_value(payload, pointer) is None:
+            raise ValueError("discovery_regularized_training four-axis pointer does not resolve")
+    control_quality_pointers = nondegenerate.get("control_quality_pointers")
+    expected_control_pointers = {
+        arm: _drt_quality_artifact_pointer(f"$.surface_registry.quality.by_arm.{arm}.quality_q_mean")
+        for arm in DRT_FAIR_CONTROL_ISSUE_ARMS
+    }
+    if not isinstance(control_quality_pointers, Mapping) or dict(control_quality_pointers) != expected_control_pointers:
+        raise ValueError("discovery_regularized_training nondegenerate control pointers mismatch")
+    for pointer in control_quality_pointers.values():
+        if _drt_pointer_value(payload, str(pointer)) is None:
+            raise ValueError("discovery_regularized_training nondegenerate control pointer does not resolve")
+    candidate_beats_control = any(
+        _as_finite_number(row.get("candidate_quality_margin")) is not None
+        and float(row["candidate_quality_margin"]) > 0.0001
+        for row in arms
+        if row.get("arm_id") != "base_transformer"
+    )
+    expected_nondegenerate = (
+        nondegenerate.get("candidate_positive_signal") is True
+        and _as_finite_number(nondegenerate.get("candidate_shift")) is not None
+        and float(nondegenerate["candidate_shift"]) > 0.0
+        and candidate_quality is not None
+        and candidate_beats_control
+    )
+    if nondegenerate.get("status") != ("pass" if expected_nondegenerate else "fail"):
+        raise ValueError("discovery_regularized_training nondegenerate status mismatch")
+    expected_ledger_status = (
+        "pass"
+        if pair_rule.get("status") == "pass"
+        and base_gate.get("status") == "pass"
+        and axis_gate.get("status") == "pass"
+        and nondegenerate.get("status") == "pass"
+        else "fail"
+    )
+    if ledger.get("status") != expected_ledger_status:
+        raise ValueError("discovery_regularized_training fair-control ledger status mismatch")
+    run_artifacts = payload.get("run_artifacts") if isinstance(payload.get("run_artifacts"), Mapping) else {}
+    expected_capsule_pointers = {
+        "claim_capsule": run_artifacts.get("claim_capsule"),
+        "positive_claim": "$.positive_claim",
+        "promotion_gate": "$.hardgate.gates.DRT-HG9",
+        "discovery_map_signal": "$.discovery_map_signal",
+    }
+    if dict(ledger.get("bounded_drt_capsule_pointers", {})) != expected_capsule_pointers:
+        raise ValueError("discovery_regularized_training bounded DRT capsule pointers mismatch")
+    gate_pointers = ledger.get("gate_pointers")
+    if not isinstance(gate_pointers, Mapping) or set(gate_pointers) != {"base_chance_gate", "four_axis_match_gate", "drt_nondegenerate_gate"}:
+        raise ValueError("discovery_regularized_training fair-control gate pointers mismatch")
+    for pointer in gate_pointers.values():
+        if _drt_pointer_value(payload, str(pointer)) is None:
+            raise ValueError("discovery_regularized_training fair-control gate pointer does not resolve")
+    gates = payload.get("hardgate", {}).get("gates", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
+    expected_gates = fair_control_hardgate_verdicts(payload)
+    for gate in DRT_FAIR_CONTROL_HARDGATES:
+        row = gates.get(gate) if isinstance(gates, Mapping) else None
+        if not isinstance(row, Mapping):
+            raise ValueError(f"discovery_regularized_training {gate} missing")
+        if row.get("status") != expected_gates[gate]["status"]:
+            raise ValueError(f"discovery_regularized_training {gate} status mismatch")
+        if row.get("evidence_pointer") != expected_gates[gate]["evidence_pointer"]:
+            raise ValueError(f"discovery_regularized_training {gate} evidence pointer mismatch")
+        if _bracket_pointer_value(payload, str(row.get("evidence_pointer"))) is None:
+            raise ValueError(f"discovery_regularized_training {gate} evidence pointer does not resolve")
+
+
 def _validate_discovery_regularized_training_extension(payload: Mapping[str, Any]) -> None:
     loss_family = payload.get("loss_family")
     component_ablation = payload.get("component_ablation")
@@ -5554,6 +5728,7 @@ def _validate_discovery_regularized_training_jet(payload: Mapping[str, Any]) -> 
 
 def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any]) -> None:
     _validate_discovery_regularized_training_quality_promotion_boundary(payload)
+    _validate_discovery_regularized_training_fair_control(payload)
     _validate_discovery_regularized_training_extension(payload)
     _validate_discovery_regularized_training_drt2_semantics(payload)
     _validate_discovery_regularized_training_compute_ledger(payload)
