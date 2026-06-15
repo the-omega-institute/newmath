@@ -31,6 +31,7 @@ STOP = SCRIPT_DIR / ".stop"
 STATE_DIR = SCRIPT_DIR / "state"
 LOCK = STATE_DIR / "supervisor.lock"
 ORACLE_STATE = STATE_DIR / "chatgpt_oracle_state.json"
+ORACLE_PIN_STATE = STATE_DIR / "chatgpt_oracle_pin.json"
 ORACLE_CONSULTATIONS = SCRIPT_DIR / "oracle_inbox" / "chatgpt_consultations.jsonl"
 SELECTION_PACKET = REPO_ROOT / "papers" / "window_codon_bridge" / "data" / "codon_q6_selection_vectors.json"
 DEFAULT_INTERVAL = 600.0
@@ -309,11 +310,42 @@ def _oracle_session_has_response(result: dict) -> bool:
     return False
 
 
+def _oracle_result_chatgpt_url(result: dict) -> str:
+    for turn in result.get("turns", []):
+        if not isinstance(turn, dict):
+            continue
+        turn_result = turn.get("result")
+        if not isinstance(turn_result, dict):
+            continue
+        url = str(turn_result.get("chatgpt_url") or turn_result.get("conversation_url") or "")
+        if url:
+            return url
+    return ""
+
+
+def _write_oracle_pin(*, conversation_id: str, chatgpt_url: str, topic: str) -> None:
+    if not conversation_id:
+        return
+    current = _load_optional_json(ORACLE_PIN_STATE)
+    payload = {
+        "conversation_id": conversation_id,
+        "chatgpt_url": chatgpt_url or str(current.get("chatgpt_url") or ""),
+        "topic": topic,
+        "updated_ts": now_iso(),
+    }
+    ORACLE_PIN_STATE.parent.mkdir(parents=True, exist_ok=True)
+    ORACLE_PIN_STATE.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def chatgpt_oracle_lane() -> dict:
     cdoc = load(CLAIMS)
     if not _all_claims_terminal(cdoc):
         return {"ran": False, "reason": "claims_not_terminal"}
     state = _load_optional_json(ORACLE_STATE)
+    pin_state = _load_optional_json(ORACLE_PIN_STATE)
     topic, prompt = _build_chatgpt_oracle_prompt(cdoc)
     prompt_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
     last_hash = str(state.get("last_prompt_hash") or "")
@@ -333,7 +365,7 @@ def chatgpt_oracle_lane() -> dict:
         server_url="http://127.0.0.1:8769",
         poll_timeout=14400,
         codex_judge_timeout=300,
-        existing_conversation_id=str(state.get("conversation_id") or ""),
+        existing_conversation_id=str(pin_state.get("conversation_id") or state.get("conversation_id") or ""),
         close_on_exit=False,
     )
     record = {
@@ -355,6 +387,11 @@ def chatgpt_oracle_lane() -> dict:
         "transcript_md": result.get("transcript_md"),
     }
     append_jsonl(ORACLE_CONSULTATIONS, record)
+    _write_oracle_pin(
+        conversation_id=str(result.get("conversation_id") or pin_state.get("conversation_id") or ""),
+        chatgpt_url=_oracle_result_chatgpt_url(result) or str(pin_state.get("chatgpt_url") or ""),
+        topic=topic,
+    )
     has_response = _oracle_session_has_response(result)
     if has_response:
         ORACLE_STATE.parent.mkdir(parents=True, exist_ok=True)
@@ -417,7 +454,6 @@ def keep_lane():
         "tools/window_codon_bridge/experiments",
         "tools/window_codon_bridge/oracle_inbox",
         "tools/window_codon_bridge/state/oracle_sessions",
-        "tools/window_codon_bridge/synced",
         "papers/window_codon_bridge",
     )
     st = git("status", "--porcelain", *tracked_paths).stdout.strip()
