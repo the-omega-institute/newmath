@@ -110,4 +110,28 @@ theorem ReachabilityGramianBHistCarrier_ledger_nonescape [AskSetup] [PackageSetu
   exact
     ⟨cert, exportedUnary, endpointRoute, endpointExport, endpointPackage, exportedPackage⟩
 
+theorem ReachabilityGramianBHistCarrier_controllability_handoff [AskSetup] [PackageSetup]
+    {transition control horizon gramian transport route provenance cert endpoint
+      reachabilityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ReachabilityGramianBHistCarrier transition control horizon gramian transport route provenance
+        cert endpoint bundle pkg ->
+      Cont transition control reachabilityRead ->
+        PkgSig bundle reachabilityRead pkg ->
+          UnaryHistory transition ∧ UnaryHistory control ∧ UnaryHistory horizon ∧
+            UnaryHistory gramian ∧ UnaryHistory reachabilityRead ∧
+              Cont transition control reachabilityRead ∧ Cont transport route endpoint ∧
+                PkgSig bundle endpoint pkg ∧ PkgSig bundle reachabilityRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier reachabilityRoute reachabilityPackage
+  obtain
+    ⟨transitionUnary, controlUnary, horizonUnary, gramianUnary, _transportUnary,
+      _routeUnary, _provenanceUnary, _certUnary, _endpointUnary, endpointRoute,
+      endpointPackage⟩ := carrier
+  have reachabilityUnary : UnaryHistory reachabilityRead :=
+    unary_cont_closed transitionUnary controlUnary reachabilityRoute
+  exact
+    ⟨transitionUnary, controlUnary, horizonUnary, gramianUnary, reachabilityUnary,
+      reachabilityRoute, endpointRoute, endpointPackage, reachabilityPackage⟩
+
 end BEDC.Derived.ReachabilityGramianUp
