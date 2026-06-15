@@ -154,4 +154,40 @@ theorem BolzanoWeierstrassSelectorFiniteSubsequenceObligations
     ⟨selectedUnary, finiteUnary, regularUnary, sealUnary, selectedRoute, finiteRoute,
       regularRoute, sealRoute, rfl⟩
 
+theorem BolzanoWeierstrassSelectorFiniteWindowStabilization
+    {boundedWindow monotoneSelector cofinalEvidence selectedWindow laterWindow dyadicLedger
+      regularHandoff realSeal transport route provenance name stabilizedRead : BHist} :
+    Cont boundedWindow monotoneSelector selectedWindow →
+      Cont boundedWindow monotoneSelector laterWindow →
+        Cont laterWindow dyadicLedger regularHandoff →
+          Cont regularHandoff realSeal stabilizedRead →
+            UnaryHistory boundedWindow →
+              UnaryHistory monotoneSelector →
+                UnaryHistory dyadicLedger →
+                  UnaryHistory realSeal →
+                    UnaryHistory laterWindow ∧ UnaryHistory regularHandoff ∧
+                      UnaryHistory stabilizedRead ∧
+                        Cont boundedWindow monotoneSelector laterWindow ∧
+                          Cont laterWindow dyadicLedger regularHandoff ∧
+                            Cont regularHandoff realSeal stabilizedRead ∧
+                              bolzanoWeierstrassSelectorFields
+                                  (BolzanoWeierstrassSelectorUp.mk boundedWindow
+                                    monotoneSelector cofinalEvidence selectedWindow
+                                    dyadicLedger regularHandoff realSeal transport route
+                                    provenance name) =
+                                [boundedWindow, monotoneSelector, cofinalEvidence,
+                                  selectedWindow, dyadicLedger, regularHandoff, realSeal,
+                                  transport, route, provenance, name] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro _selectedRoute laterRoute handoffRoute sealRoute boundedUnary selectorUnary
+    dyadicUnary realUnary
+  have laterUnary : UnaryHistory laterWindow :=
+    unary_cont_closed boundedUnary selectorUnary laterRoute
+  have handoffUnary : UnaryHistory regularHandoff :=
+    unary_cont_closed laterUnary dyadicUnary handoffRoute
+  have stabilizedUnary : UnaryHistory stabilizedRead :=
+    unary_cont_closed handoffUnary realUnary sealRoute
+  exact
+    ⟨laterUnary, handoffUnary, stabilizedUnary, laterRoute, handoffRoute, sealRoute, rfl⟩
+
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
