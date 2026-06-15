@@ -1,0 +1,74 @@
+\origin{ai}
+
+\subsection{Forced binary windows with a Fibonacci count}
+\label{sec:f-a0-window6-fibonacci-sixframe-lock}
+
+\paragraph{Carrier.}
+For each integer $m\geq 0$, let $X_m$ denote the finite set of words $w=(w_1,\ldots,w_m)$ with letters in $\{0,1\}$ such that no two adjacent letters are both $1$. Thus the defining predicate is the following finite condition:
+$$
+\begin{aligned}
+w\in X_m \quad \Longleftrightarrow \quad &w\in \{0,1\}^m\text{ and there is no index }i\text{ with }1\leq i<m\text{ such that}\\
+&w_i=1\text{ and }w_{i+1}=1.
+\end{aligned}
+$$
+For $m=0$ the set $X_0$ contains the unique empty word. The window lengths audited here are the six positive lengths $2,3,4,5,6,7$, with $X_0$ and $X_1$ included as the initial rows needed to force the recursion.
+
+\paragraph{Finite transition kernel.}
+The same condition can be written as a two-state transition rule. The two states are the possible previous letters $0$ and $1$. An appended letter $b\in\{0,1\}$ is allowed after a previous letter $a\in\{0,1\}$ exactly when the ordered pair $(a,b)$ is not $(1,1)$. Hence the allowed one-step kernel, with rows indexed by the previous letter and columns indexed by the appended letter, is
+$$
+\begin{aligned}
+K=
+\begin{pmatrix}
+1&1\\
+1&0
+\end{pmatrix}.
+\end{aligned}
+$$
+The entry $K_{a,b}$ is $1$ precisely when the local pair $ab$ obeys the admissibility predicate, and is $0$ precisely for the forbidden pair $11$. This matrix is not used to assert an external spectral interpretation; it is only a compact encoding of the finite local rule defining $X_m$.
+
+\paragraph{Prefix partition.}
+For $m\geq 2$, every word in $X_m$ belongs to exactly one of two branches. If its first letter is $0$, then deleting that first letter gives an arbitrary element of $X_{m-1}$. Conversely, prepending $0$ to any admissible word of length $m-1$ produces an admissible word of length $m$. If its first letter is $1$, the second letter must be $0$, so deleting the prefix $10$ gives an arbitrary element of $X_{m-2}$. Conversely, prepending $10$ to any admissible word of length $m-2$ produces an admissible word of length $m$. Therefore
+$$
+\begin{aligned}
+X_m = \{0u:u\in X_{m-1}\}\,\sqcup\,\{10v:v\in X_{m-2}\},\qquad m\geq 2.
+\end{aligned}
+$$
+The union is disjoint because the first branch begins with $0$, while the second branch begins with $1$.
+
+\paragraph{Counting recursion.}
+Let $a_m=|X_m|$. The empty word gives $a_0=1$, and the two one-letter words $0$ and $1$ give $a_1=2$. The prefix partition gives, for every $m\geq 2$,
+$$
+\begin{aligned}
+a_m=a_{m-1}+a_{m-2}.
+\end{aligned}
+$$
+Let the Fibonacci numbers be fixed here by $F_0=0$, $F_1=1$, and $F_{n+2}=F_{n+1}+F_n$. The initial values satisfy $a_0=1=F_2$ and $a_1=2=F_3$. Since $a_m$ and $F_{m+2}$ obey the same two-term recursion with the same two initial rows, finite induction gives
+$$
+\begin{aligned}
+a_m=F_{m+2}\qquad\text{for every }m\geq 0.
+\end{aligned}
+$$
+In particular, for the six audited window lengths,
+$$
+\begin{aligned}
+|X_2|&=F_4=3,\\
+|X_3|&=F_5=5,\\
+|X_4|&=F_6=8,\\
+|X_5|&=F_7=13,\\
+|X_6|&=F_8=21,\\
+|X_7|&=F_9=34.
+\end{aligned}
+$$
+Equivalently, the finite count table through length seven is
+$$
+\begin{aligned}
+|X_0|&=1, & |X_1|&=2, & |X_2|&=3, & |X_3|&=5,\\
+|X_4|&=8, & |X_5|&=13, & |X_6|&=21, & |X_7|&=34.
+\end{aligned}
+$$
+
+\paragraph{Witness extraction.}
+The proof is constructive at the finite level. Given a word in $X_m$ with $m\geq 2$, inspect its first symbol. If the first symbol is $0$, the witness is the suffix in $X_{m-1}$ and the branch tag saying that $0$ was prepended. If the first symbol is $1$, admissibility forces the second symbol to be $0$, and the witness is the suffix after the initial $10$ in $X_{m-2}$ together with the branch tag saying that $10$ was prepended. Conversely, each tagged witness reconstructs a unique word in $X_m$ by the indicated prefix operation. These two extraction and reconstruction procedures are inverse to each other on their stated branches.
+
+\paragraph{Local boundary of the result.}
+The result proved here is only the finite enumeration of binary words with the adjacent-one exclusion and its six displayed rows. No physical-constant identification, global flow law, edge-flux obstruction, spectral collision, external dependency, metrological comparison, or interpretation beyond this finite construction follows from the count unless a separate certificate supplies that additional content.

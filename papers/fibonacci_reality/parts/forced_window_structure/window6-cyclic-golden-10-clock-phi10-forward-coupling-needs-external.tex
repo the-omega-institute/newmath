@@ -1,0 +1,82 @@
+\origin{ai}
+
+\subsection{Cyclic golden period-ten clock and the missing window coupling}
+\label{sec:window6-cyclic-golden-10-clock-phi10-forward-coupling-needs-external}
+
+\paragraph{Finite words and the two golden carriers.}
+Let $\{0,1\}^n$ denote the set of binary words of length $n$. A word has no adjacent $11$ if no two consecutive coordinates are both equal to $1$. For the cyclic length-ten carrier, the first and last coordinates are also adjacent. Thus
+$$
+\begin{aligned}
+P_{10}=\{w\in \{0,1\}^{10}:&\text{ no adjacent cyclic pair of coordinates of }w\text{ is }11\}.
+\end{aligned}
+$$
+The left cyclic shift $\sigma:P_{10}\to P_{10}$ sends the word $(w_0,w_1,\ldots,w_9)$ to $(w_1,w_2,\ldots,w_9,w_0)$. The standard $m$-block golden presentation $B_m$ has as vertices the length-$m$ binary words with no adjacent $11$. There is a directed edge from $w=(w_0,\ldots,w_{m-1})$ to $w'=(w_1,\ldots,w_{m-1},b)$ exactly when $b\in\{0,1\}$ and $w'$ again has no adjacent $11$. This presentation is the transfer object tested for $m=2,3,4,5,6,7$.
+
+\paragraph{Transfer spectrum does not force the tenth grading.}
+Let $\varphi$ be the golden ratio. The checked higher-block transfer presentations have vertex counts
+$$
+\begin{aligned}
+|X_2|&=3,& |X_3|&=5,& |X_4|&=8,& |X_5|&=13,& |X_6|&=21,& |X_7|&=34,
+\end{aligned}
+$$
+and their characteristic polynomials are exactly
+$$
+\begin{aligned}
+\operatorname{char}_{B_m}(x)=x^{|X_m|-2}(x^2-x-1)\qquad (2\leq m\leq 7).
+\end{aligned}
+$$
+Consequently the nonzero spectrum of these standard transfer carriers is only $\{\varphi,-\varphi^{-1}\}$. The tenth cyclotomic polynomial
+$$
+\begin{aligned}
+\Phi_{10}(x)=x^4-x^3+x^2-x+1
+\end{aligned}
+$$
+does not divide any of these checked transfer characteristic polynomials. The same absence persists for the checked tensor powers of the Fibonacci transfer matrix
+$$
+\begin{aligned}
+M=\begin{pmatrix}1&1\\1&0\end{pmatrix}.
+\end{aligned}
+$$
+For $M^{\otimes 2}$ and $M^{\otimes 3}$ all eigenvalues are real signed products built from $\varphi$ and $-\varphi^{-1}$, and $\Phi_{10}$ divides no checked tensor characteristic polynomial. Hence the tenth-order grading is not intrinsic to these pure transfer or tensor golden structures.
+
+\paragraph{Forward finite construction of a period-ten clock.}
+The cyclic carrier $P_{10}$ is larger than the standard transfer blocks used above. Its exact cardinality is
+$$
+\begin{aligned}
+|P_{10}|=L_{10}=123.
+\end{aligned}
+$$
+Under the cyclic shift $\sigma$, the orbit decomposition has eleven cycles of length $10$, two cycles of length $5$, one cycle of length $2$, and one fixed point. Therefore the characteristic polynomial of the permutation action of $\sigma$ on the vector space with basis $P_{10}$ is
+$$
+\begin{aligned}
+\operatorname{char}_{P_{10}}(x)=(x^{10}-1)^{11}(x^5-1)^2(x^2-1)(x-1).
+\end{aligned}
+$$
+This polynomial contains $\Phi_{10}(x)^{11}$ as a factor. Thus the tenth cyclotomic component is absent from the checked transfer and tensor carriers, but it is present in the finite cyclic period-ten golden point set.
+
+\paragraph{Minimal orbit and the residue indicator.}
+The word $0000000001\in P_{10}$ has a cyclic orbit of length $10$. Let $S_{10}$ be the permutation matrix of the left shift restricted to this ten-point orbit, with basis ordered so that $e_0$ represents $0000000001$ and $e_j$ represents its $j$-fold left shift. Then
+$$
+\begin{aligned}
+\operatorname{char}_{S_{10}}(x)=x^{10}-1.
+\end{aligned}
+$$
+The coordinate functional at the seventh basis vector gives the exact residue test
+$$
+\begin{aligned}
+e_7^T S_{10}^e e_0=1\quad\text{exactly when}\quad e\equiv 7\pmod {10},
+\end{aligned}
+$$
+for $0\leq e\leq 39$. This supplies a forward finite $C_{10}$ clock inside the cyclic golden carrier: the clock exists as an explicit orbit, and the residue-$7$ readout is an exact matrix-coordinate identity.
+
+\paragraph{What is not supplied by the finite clock.}
+Let $R_6$ denote the finite set of residual events from the length-six window calculation. The construction above does not determine a function
+$$
+\begin{aligned}
+\iota:R_6\longrightarrow \mathbf{Z}/10\mathbf{Z}
+\end{aligned}
+$$
+from the length-six residual events to the ten-cycle residues. The required certificate is precisely such a coupling, with the specified placements of $q_0,q_1,q_2$ at residues $7,17,27$ modulo the same ten-step clock and with local returns mapped by addition of $10$. This coupling is external to the finite cyclic construction. The period-ten orbit proves that a compatible clock carrier exists; it does not prove that the length-six residual events are forced to land on that clock by window-internal data alone.
+
+\paragraph{Boundary of the conclusion.}
+The exact conclusion is a separation. The tenth cyclotomic factor $\Phi_{10}$ is absent from the checked standard $m$-block transfer presentations for $2\leq m\leq 7$ and from the checked tensor powers $M^{\otimes 2}$ and $M^{\otimes 3}$, while it is present in the cyclic period-ten golden carrier $P_{10}$. The minimal orbit of $0000000001$ gives an explicit ten-state shift matrix and an exact residue-$7$ indicator. No physical fine-structure constant identification follows from this finite construction. No global flow law, metrological comparison, external dependency, or interpretation beyond the finite cyclic clock follows unless a separate certificate supplies the coupling $\iota:R_6\to \mathbf{Z}/10\mathbf{Z}$. In particular, the expression $D^*_6=D_0+\varphi^{-7}Q(\varphi^{-10})$ remains clock-gated rather than a theorem internal to the length-six window data.

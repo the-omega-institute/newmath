@@ -10640,6 +10640,15 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
+import BEDC.Derived.Window6CyclicCount
+import BEDC.Derived.Window6Doubling
+import BEDC.Derived.Window6FibonacciCount
+import BEDC.Derived.Window6Foldbin
+import BEDC.Derived.Window6GaugeOrbit
+import BEDC.Derived.Window6LucasCount
+import BEDC.Derived.Window6TraceLucas
+import BEDC.Derived.Window6TransferMatrix
+import BEDC.Derived.Window6Zeckendorf
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
 import BEDC.Derived.WitnessedDescentLedgerUp
 import BEDC.Derived.WitnessedDescentLedgerUp.DisplayedWitnessAccountability
