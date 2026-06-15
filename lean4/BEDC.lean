@@ -6307,6 +6307,7 @@ import BEDC.Derived.LocallyCompactUp.ProperMetricNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessComparisonNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessLocalityRootBoundary
 import BEDC.Derived.LocallyCompactUp.TasteGate
+import BEDC.Derived.LocallyConnectedContinuumUp
 import BEDC.Derived.LocallyFiniteCoverUp
 import BEDC.Derived.LocallyUniformConvergenceUp.TasteGate
 import BEDC.Derived.LocatedApartnessUp.TasteGate
@@ -7018,6 +7019,7 @@ import BEDC.Derived.MetaCICFrontierCriticalPairUp.TasteGate
 import BEDC.Derived.MetaCICFrontierDependencyMatrixUp.TasteGate
 import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICIdentityUp.TasteGate
+import BEDC.Derived.MetaCICLocalConfluenceFrontierUp
 import BEDC.Derived.MetaCICLocalDiamondWitnessUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp
@@ -8330,6 +8332,7 @@ import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
 import BEDC.Derived.RationalNestedIntervalLimitUp.TasteGate
 import BEDC.Derived.RationalRealEmbeddingUp.TasteGate
 import BEDC.Derived.RationalRootIntervalUp.TasteGate
+import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RealAbsoluteValueUp.TasteGate
