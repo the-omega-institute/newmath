@@ -9108,6 +9108,7 @@ import BEDC.Derived.RegularCauchyQuotientRefusalUp.TasteGate
 import BEDC.Derived.RegularCauchyRateExtractionUp.TasteGate
 import BEDC.Derived.RegularCauchyRealReflectionUp.TasteGate
 import BEDC.Derived.RegularCauchyRealUp.TasteGate
+import BEDC.Derived.RegularCauchyReciprocalModulusUp
 import BEDC.Derived.RegularCauchyReciprocalUp.NameCertObligations
 import BEDC.Derived.RegularCauchyReciprocalUp.NonzeroDenominatorWindow
 import BEDC.Derived.RegularCauchyReciprocalUp.ReadbackBudgetExactness
