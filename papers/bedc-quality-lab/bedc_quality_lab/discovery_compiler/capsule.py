@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.construct_validity import CLAIM_CAPSULE_PROJECTION_KEYS
+from bedc_quality_lab.discovery_compiler.hardgate_contract import evaluate_u_hardgates
 
 
 CLAIM_CAPSULE_SCHEMA_ID = "bedc.quality.claim_capsule"
@@ -134,6 +136,36 @@ def require_architecture_claim_capsule(payload: Mapping[str, Any]) -> ClaimCapsu
         if _is_rule_abstraction_claim(model_claim) and "CV-HG3" in construct_validity["failed_gates"]:
             raise ValueError("architecture claim capsule rejects rule-abstraction claim under CV-HG3 table coverage")
     return capsule
+
+
+def require_claim_capsule_protocol(
+    payload: Mapping[str, Any],
+    *,
+    root: Path,
+    capsule_artifact: str,
+    required_not_claimed: Sequence[str],
+    cost_pointer: str,
+    control_required: bool,
+    positive_claim_pointer: str = "$.positive_claim",
+    revocation_pointer: str = "$.revocation.rows",
+    not_claimed_pointer: str = "$.not_claimed",
+) -> dict[str, Any]:
+    result = evaluate_u_hardgates(
+        payload,
+        root=root,
+        capsule_artifact=capsule_artifact,
+        required_not_claimed=required_not_claimed,
+        cost_pointer=cost_pointer,
+        control_required=control_required,
+        positive_claim_pointer=positive_claim_pointer,
+        revocation_pointer=revocation_pointer,
+        not_claimed_pointer=not_claimed_pointer,
+    )
+    if result["status"] != "pass":
+        error = ValueError(f"claim capsule protocol failed: {', '.join(result['failed_gates'])}")
+        error.protocol_result = result
+        raise error
+    return result
 
 
 def build_claim_capsule_payload(

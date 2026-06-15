@@ -32,7 +32,7 @@ from bedc_quality_lab.claim_complexity import (
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value as _bracket_pointer_value
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer as _resolve_committed_artifact_pointer
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer as _split_artifact_pointer
-from bedc_quality_lab.discovery_compiler.capsule import build_architecture_claim_capsule_payload
+from bedc_quality_lab.discovery_compiler.capsule import build_architecture_claim_capsule_payload, require_claim_capsule_protocol
 from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload, validate_discovery_map_payload
 from bedc_quality_lab.evidence_provenance import build_evidence_provenance
 from bedc_quality_lab.model_comparison import (
@@ -3713,7 +3713,93 @@ def _reporting_hardgate_status(gate: Mapping[str, Any]) -> Literal["pass", "fail
     applicability = gate.get("applicability")
     if applicability == "not-applicable":
         return "not-applicable"
-    return "fail" if gate.get("missing_required_cells") else "pass"
+    return "fail" if gate.get("missing_required_cells") or gate.get("protocol_status") == "fail" else "pass"
+
+
+def _protocol_capsule_artifact(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> str:
+    pointer = _reporting_pointer_for(spec, "claim_capsule_pointer")
+    if isinstance(pointer, str):
+        split = _split_artifact_pointer(pointer)
+        if split is not None:
+            return split[0]
+        value = _pointer_value(dict(payload), pointer)
+        if isinstance(value, str) and (value.endswith(".json") or ":$" in value):
+            return value.split(":", 1)[0]
+        if isinstance(value, Mapping):
+            artifact = value.get("artifact")
+            if isinstance(artifact, str) and artifact:
+                return artifact
+        if value is not None:
+            return spec.json_artifact
+        return f"{spec.json_artifact}.missing-claim-capsule"
+    return spec.json_artifact
+
+
+def _claim_capsule_protocol_for_reporting(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> dict[str, Any]:
+    if spec.bundle_role != "hg_p_core" or spec.claim_promotion_eligible is not True or not _public_positive_candidate(spec, payload):
+        return {
+            "status": "not-applicable",
+            "failed_gates": [],
+            "evidence_pointer_audit_status": "not-applicable",
+        }
+    protocol_payload = {**dict(payload), "self_artifact": spec.json_artifact}
+    protocol_payload.setdefault("evidence_pointers", [f"{spec.json_artifact}:{spec.positive_claim_pointer}"])
+    if _pointer_value(protocol_payload, "$.control_rows") is None and spec.control_pointer is not None:
+        controls = _pointer_value(protocol_payload, spec.control_pointer)
+        if controls is not None:
+            protocol_payload["control_rows"] = controls if isinstance(controls, list) else [controls]
+    try:
+        result = require_claim_capsule_protocol(
+            protocol_payload,
+            root=ROOT,
+            capsule_artifact=_protocol_capsule_artifact(spec, payload),
+            required_not_claimed=(),
+            cost_pointer=spec.cost_pointer,
+            control_required=spec.control_pointer is not None,
+            positive_claim_pointer=spec.positive_claim_pointer,
+            revocation_pointer="$.revocation_rows",
+            not_claimed_pointer=spec.not_claimed_pointer,
+        )
+    except ValueError as exc:
+        failed = str(exc).removeprefix("claim capsule protocol failed: ").strip()
+        failed_gates = [part.strip() for part in failed.split(",") if part.strip()]
+        result = getattr(exc, "protocol_result", {})
+        pointer_audit = result.get("evidence_pointer_audit") if isinstance(result, Mapping) else None
+        return {
+            "status": "fail",
+            "failed_gates": failed_gates,
+            "evidence_pointer_audit_status": pointer_audit.get("status") if isinstance(pointer_audit, Mapping) else "not-evaluated",
+        }
+    return {
+        "status": "pass",
+        "failed_gates": [],
+        "evidence_pointer_audit_status": result["evidence_pointer_audit"]["status"],
+    }
+
+
+def _public_positive_candidate(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> bool:
+    discovery_level = _pointer_value(dict(payload), "$.discovery_level")
+    if discovery_level in {"D4", "D5-O", "D5-M"}:
+        return True
+    positive_claim = _pointer_value(dict(payload), spec.positive_claim_pointer)
+    if isinstance(positive_claim, Mapping):
+        claim_status = positive_claim.get("status")
+        if claim_status in {"skipped", "rejected", "negative", "blocked"}:
+            return False
+        if claim_status in {"bounded-positive", "positive"}:
+            return True
+        if positive_claim.get("level") in {"D4", "D5-O", "D5-M"}:
+            return True
+        if positive_claim.get("positive_discovery") is True or positive_claim.get("bounded-positive") is True:
+            return True
+    if positive_claim is True:
+        return True
+    if isinstance(positive_claim, str):
+        normalized = positive_claim.lower()
+        if normalized in {"skipped", "negative", "rejected", "blocked"}:
+            return False
+        return "positive" in normalized
+    return False
 
 
 def _reporting_hardgate(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> dict[str, Any]:
@@ -3773,6 +3859,7 @@ def _reporting_hardgate(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -
             )
         ]
     )
+    protocol = _claim_capsule_protocol_for_reporting(spec, payload)
     gate: dict[str, Any] = {
         "hardgate_id": REPORTING_HARDGATE_ID,
         "status": "fail",
@@ -3781,6 +3868,9 @@ def _reporting_hardgate(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -
         "required_cells": list(REPORTING_REQUIRED_CELLS),
         "missing_required_cells": missing_required,
         "cells": cells,
+        "protocol_status": protocol["status"],
+        "protocol_failed_gates": protocol["failed_gates"],
+        "protocol_pointer_audit_status": protocol["evidence_pointer_audit_status"],
     }
     gate["status"] = _reporting_hardgate_status(gate)
     gate["promotion_eligible"] = gate["status"] == "pass" and applicability == "positive-promotion"

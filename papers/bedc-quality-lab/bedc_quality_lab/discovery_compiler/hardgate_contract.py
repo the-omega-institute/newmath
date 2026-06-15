@@ -16,6 +16,25 @@ FORBIDDEN_AUDIT_COLUMNS = (
     "arm_aggregates",
     "metrics",
 )
+U_HARDGATE_SEMANTICS = {
+    "U-HG1": "claim_capsule",
+    "U-HG2": "cost_protocol",
+    "U-HG3": "not_claimed",
+    "U-HG4": "control_protocol",
+    "U-HG5": "negative_learning",
+    "U-HG6": "revocation",
+    "U-HG7": "forbidden_columns",
+    "U-HG8": "forbidden_positive_terms",
+}
+CC_HARDGATE_ALIASES = {
+    "CC-HG1": "U-HG1",
+    "CC-HG2": "U-HG2",
+    "CC-HG3": "U-HG3",
+    "CC-HG4": "U-HG4",
+    "CC-HG5": "U-HG5",
+    "CC-HG6": "U-HG6",
+    "CC-HG7": "U-HG7",
+}
 
 
 def _status(value: bool) -> str:
@@ -36,6 +55,14 @@ def _pointer(payload: Mapping[str, Any], pointer: str) -> Any:
     if pointer == "$":
         return payload
     return pointer_value(payload, pointer)
+
+
+def _gate(name: str, status: bool, **cells: Any) -> dict[str, Any]:
+    return {
+        "status": _status(status),
+        "semantic": U_HARDGATE_SEMANTICS[name],
+        **cells,
+    }
 
 
 def _load_json(root: Path, artifact: str) -> Mapping[str, Any] | None:
@@ -66,13 +93,25 @@ def _resolves_artifact_pointer(root: Path, cell: str, payload: Mapping[str, Any]
 
 
 def _forbidden_term_audit(value: Any) -> dict[str, Any]:
-    text = json.dumps(value, sort_keys=True).lower().replace(" ", "-")
+    text = json.dumps(_positive_claim_scan_value(value), sort_keys=True).lower().replace(" ", "-")
     hits = [term for term in FORBIDDEN_POSITIVE_CLAIM_TERMS if term.lower() in text]
     return {
         "status": _status(not hits),
         "forbidden_positive_claim_terms": list(FORBIDDEN_POSITIVE_CLAIM_TERMS),
         "hits": hits,
     }
+
+
+def _positive_claim_scan_value(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return {
+            key: _positive_claim_scan_value(cell)
+            for key, cell in value.items()
+            if str(key) not in {"not_claimed", "not_intended_use", "scope_boundary", "boundary_not_claimed"}
+        }
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        return [_positive_claim_scan_value(cell) for cell in value]
+    return value
 
 
 def _forbidden_column_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
@@ -95,6 +134,7 @@ def evaluate_u_hardgates(
     control_required: bool,
     positive_claim_pointer: str = "$.positive_claim",
     revocation_pointer: str = "$.revocation.rows",
+    not_claimed_pointer: str = "$.not_claimed",
 ) -> dict[str, Any]:
     """Evaluate generic U-HG1..8 mechanics without experiment-specific gates."""
 
@@ -123,7 +163,8 @@ def evaluate_u_hardgates(
                         "resolves": _resolves_artifact_pointer(root, pointer_cell, payload),
                     }
                 )
-    not_claimed = [str(item) for item in _as_sequence(payload.get("not_claimed"))]
+    not_claimed_value = _pointer(payload, not_claimed_pointer)
+    not_claimed = [str(item) for item in _as_sequence(not_claimed_value)]
     missing_not_claimed = [item for item in required_not_claimed if item not in not_claimed]
     cost_value = _pointer(payload, cost_pointer)
     controls = _as_sequence(payload.get("control_rows"))
@@ -142,55 +183,84 @@ def evaluate_u_hardgates(
     claim_status = str(payload.get("claim_status", payload.get("status", ""))).lower()
     positive_level = str((_as_mapping(positive_claim) or {}).get("level", "")).upper()
     dn_requires_learning = claim_status in {"failed", "dn", "negative"} or positive_level == "DN"
+    dr_requires_revocation = claim_status in {"dr", "revoked"} or positive_level == "DR"
     learning_ok = isinstance(what_was_learned, str) and bool(what_was_learned.strip())
     failed_gate_ok = isinstance(failed_gate, str) and bool(failed_gate.strip())
     gates = {
-        "U-HG1": {
-            "status": _status(capsule is not None),
-            "capsule_artifact": capsule_artifact,
-        },
-        "U-HG2": {
-            "status": _status(bool(pointer_checks) and all(row["resolves"] for row in pointer_checks)),
-            "pointers": pointer_checks,
-        },
-        "U-HG3": {
-            "status": _status(cost_value is not None),
-            "cost_pointer": cost_pointer,
-        },
-        "U-HG4": {
-            "status": _status(not missing_not_claimed),
-            "required_not_claimed": list(required_not_claimed),
-            "not_claimed": not_claimed,
-            "missing": missing_not_claimed,
-        },
-        "U-HG5": {
-            "status": _status((not control_required) or bool(controls)),
-            "control_required": bool(control_required),
-            "control_row_count": len(controls),
-        },
-        "U-HG6": {
-            "status": _status(learning_ok and ((not dn_requires_learning) or failed_gate_ok)),
-            "failed_gate": failed_gate,
-            "dn_requires_failed_gate": dn_requires_learning,
-            "what_was_learned_present": learning_ok,
-        },
-        "U-HG7": {
-            "status": _status(bool(revocation_list)),
-            "revocation_pointer": revocation_pointer,
-            "revocation_row_count": len(revocation_list),
-        },
-        "U-HG8": {
-            "status": _status(forbidden_claim["status"] == "pass" and forbidden_columns["status"] == "pass"),
-            "positive_claim_audit": forbidden_claim,
-            "forbidden_column_audit": forbidden_columns,
-        },
+        "U-HG1": _gate(
+            "U-HG1",
+            capsule is not None,
+            capsule_artifact=capsule_artifact,
+        ),
+        "U-HG2": _gate(
+            "U-HG2",
+            cost_value is not None,
+            cost_pointer=cost_pointer,
+        ),
+        "U-HG3": _gate(
+            "U-HG3",
+            bool(not_claimed) and not missing_not_claimed,
+            not_claimed_pointer=not_claimed_pointer,
+            required_not_claimed=list(required_not_claimed),
+            not_claimed=not_claimed,
+            missing=missing_not_claimed,
+        ),
+        "U-HG4": _gate(
+            "U-HG4",
+            (not control_required) or bool(controls),
+            control_required=bool(control_required),
+            control_row_count=len(controls),
+        ),
+        "U-HG5": _gate(
+            "U-HG5",
+            (not dn_requires_learning) or (learning_ok and failed_gate_ok),
+            failed_gate=failed_gate,
+            dn_requires_failed_gate=dn_requires_learning,
+            what_was_learned_present=learning_ok,
+        ),
+        "U-HG6": _gate(
+            "U-HG6",
+            (not dr_requires_revocation) or bool(revocation_list),
+            revocation_pointer=revocation_pointer,
+            dr_requires_revocation=dr_requires_revocation,
+            revocation_row_count=len(revocation_list),
+        ),
+        "U-HG7": _gate(
+            "U-HG7",
+            forbidden_columns["status"] == "pass",
+            forbidden_column_audit=forbidden_columns,
+        ),
+        "U-HG8": _gate(
+            "U-HG8",
+            forbidden_claim["status"] == "pass",
+            positive_claim_audit=forbidden_claim,
+        ),
     }
     failed = [name for name, row in gates.items() if row["status"] != "pass"]
+    evidence_pointer_audit = {
+        "status": _status(bool(pointer_checks) and all(row["resolves"] for row in pointer_checks)),
+        "pointers": pointer_checks,
+    }
+    cc_hardgates = {
+        alias: {
+            "status": gates[u_gate]["status"],
+            "semantic": gates[u_gate]["semantic"],
+            "u_hardgate": u_gate,
+        }
+        for alias, u_gate in CC_HARDGATE_ALIASES.items()
+    }
     return {
         "status": "pass" if not failed else "fail",
         "failed_gates": failed,
         "gates": gates,
+        "cc_hardgates": cc_hardgates,
+        "evidence_pointer_audit": evidence_pointer_audit,
     }
 
 
-__all__ = ["FORBIDDEN_AUDIT_COLUMNS", "evaluate_u_hardgates"]
+__all__ = [
+    "CC_HARDGATE_ALIASES",
+    "FORBIDDEN_AUDIT_COLUMNS",
+    "U_HARDGATE_SEMANTICS",
+    "evaluate_u_hardgates",
+]
