@@ -10418,6 +10418,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.CauchyHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.CofinalWindowFactorization
 import BEDC.Derived.UniformCompletionFunctorUp.CompletionConsumerFrontier
 import BEDC.Derived.UniformCompletionFunctorUp.CompletionHandoff
+import BEDC.Derived.UniformCompletionFunctorUp.DefinitionSurface
 import BEDC.Derived.UniformCompletionFunctorUp.DyadicWindowStability
 import BEDC.Derived.UniformCompletionFunctorUp.ExtensionOrdering
 import BEDC.Derived.UniformCompletionFunctorUp.FunctorialReplayStability
