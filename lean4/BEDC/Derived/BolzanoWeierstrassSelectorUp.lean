@@ -122,4 +122,36 @@ theorem BolzanoWeierstrassSelectorFiniteMonotoneInduction
     unary_cont_closed selectedUnary cofinalUnary inductionRoute
   exact ⟨selectedUnary, inductionUnary, selectedRoute, inductionRoute, rfl⟩
 
+theorem BolzanoWeierstrassSelectorFiniteSubsequenceObligations
+    {B M Q W D R E H C P N finiteRead regularRead sealRead : BHist} :
+    Cont B M W ->
+      Cont W D finiteRead ->
+        Cont finiteRead R regularRead ->
+          Cont regularRead E sealRead ->
+            UnaryHistory B ->
+              UnaryHistory M ->
+                UnaryHistory D ->
+                  UnaryHistory R ->
+                    UnaryHistory E ->
+                      UnaryHistory W ∧ UnaryHistory finiteRead ∧
+                        UnaryHistory regularRead ∧ UnaryHistory sealRead ∧ Cont B M W ∧
+                          Cont W D finiteRead ∧ Cont finiteRead R regularRead ∧
+                            Cont regularRead E sealRead ∧
+                              bolzanoWeierstrassSelectorFields
+                                  (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C P N) =
+                                [B, M, Q, W, D, R, E, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro selectedRoute finiteRoute regularRoute sealRoute bUnary mUnary dUnary rUnary eUnary
+  have selectedUnary : UnaryHistory W :=
+    unary_cont_closed bUnary mUnary selectedRoute
+  have finiteUnary : UnaryHistory finiteRead :=
+    unary_cont_closed selectedUnary dUnary finiteRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed finiteUnary rUnary regularRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary eUnary sealRoute
+  exact
+    ⟨selectedUnary, finiteUnary, regularUnary, sealUnary, selectedRoute, finiteRoute,
+      regularRoute, sealRoute, rfl⟩
+
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
