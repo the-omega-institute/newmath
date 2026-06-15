@@ -2168,11 +2168,11 @@ def _run_phase_paper_gates(wt: WorktreeInfo) -> PhasePaperGateOutcome:
         return PhasePaperGateOutcome.infra_failure("invalid-schema", detail)
     expected = set(PAPER_GATE_POLICY)
     actual = set(parsed)
-    if actual != expected:
-        missing = sorted(expected - actual)
+    missing = sorted(expected - actual)
+    if missing:
         extra = sorted(actual - expected)
         detail = (
-            "phase_paper_gates.py output key mismatch: "
+            "phase_paper_gates.py output missing configured gate(s): "
             f"missing={missing}, extra={extra}"
         )
         logger.error(f"[P{wt.round_number}] {detail}")
@@ -2223,7 +2223,7 @@ def verify_worktree_commits(
 
     gate_results = outcome.results
     for gate_name, policy in PAPER_GATE_POLICY.items():
-        violations = gate_results[gate_name]
+        violations = gate_results.get(gate_name, [])
         if not violations:
             continue
         label = policy["label"]
@@ -2235,6 +2235,22 @@ def verify_worktree_commits(
         for v in violations[:20]:
             logger.error(f"[P{wt.round_number}] {label}: {v}")
         return False, new
+
+    # Unregistered producer gates run as advisory until promoted into
+    # PAPER_GATE_POLICY. This decouples GATE_DISPATCH (hot-reloaded producer)
+    # from PAPER_GATE_POLICY (startup-loaded consumer) so a newly added gate
+    # never wedges paper rounds before the orchestrator is restarted.
+    for gate_name in sorted(set(gate_results) - set(PAPER_GATE_POLICY)):
+        violations = gate_results.get(gate_name, [])
+        if not violations:
+            continue
+        logger.warning(
+            f"[P{wt.round_number}] unregistered paper gate '{gate_name}' "
+            f"running advisory (promote in PAPER_GATE_POLICY to enforce); "
+            f"violations={len(violations)}"
+        )
+        for v in violations[:10]:
+            logger.warning(f"[P{wt.round_number}] {gate_name} (advisory): {v}")
 
     # Gate F — full PDF build is an async-builder obligation.
     envelope = record_deferred_pdf_build(wt)
