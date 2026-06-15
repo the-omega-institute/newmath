@@ -97,4 +97,38 @@ theorem ProductMetricCarrier_standard_metricspace_bridge_certificate [AskSetup] 
         triangleReadRow productRealReadPkg
   exact ⟨cert, leftReadUnary, rightReadUnary, triangleReadUnary, sameTransportProductRealRead⟩
 
+theorem ProductMetricCarrier_projection_bridge_consumer [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      leftRead rightRead triangleRead componentRead productRealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont left product leftRead ->
+        Cont right product rightRead ->
+          Cont distance transport triangleRead ->
+            Cont leftDistance rightDistance componentRead ->
+              Cont product componentRead productRealRead ->
+                PkgSig bundle productRealRead pkg ->
+                  hsame product (append left right) ∧
+                    hsame leftRead (append left (append left right)) ∧
+                      hsame rightRead (append right (append left right)) ∧
+                        UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                          UnaryHistory triangleRead ∧ hsame transport productRealRead ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle productRealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier leftProjection rightProjection triangleReadRow componentReadRow
+    productRealReadRow productRealReadPkg
+  obtain ⟨sameProduct, sameLeftRead, sameRightRead, leftReadUnary, rightReadUnary,
+    provenancePkg⟩ :=
+      ProductMetricCarrier_projection_route_exactness carrier leftProjection rightProjection
+  obtain ⟨_productUnary, _distanceUnary, _componentReadUnary, _productRealReadUnary,
+    triangleReadUnary, _sameDistanceComponentRead, sameTransportProductRealRead, _transportRow,
+    _productRealReadRow, _triangleReadRow, _provenancePkg, productRealReadPkg'⟩ :=
+      ProductMetricCarrier_real_classifier_bridge carrier componentReadRow productRealReadRow
+        triangleReadRow productRealReadPkg
+  exact
+    ⟨sameProduct, sameLeftRead, sameRightRead, leftReadUnary, rightReadUnary,
+      triangleReadUnary, sameTransportProductRealRead, provenancePkg, productRealReadPkg'⟩
+
 end BEDC.Derived.ProductMetricUp
