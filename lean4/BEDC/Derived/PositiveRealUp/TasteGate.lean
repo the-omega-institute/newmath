@@ -278,6 +278,35 @@ theorem PositiveRealCarrier_apartness_handoff
     ⟨apartnessReadUnary, apartnessRoute, hsame_refl R,
       PositiveRealNameCert_obligations (PositiveRealUp.mk R A D W Q H C P N)⟩
 
+theorem PositiveRealCarrier_apartness_obligation_handoff
+    {R A D W Q H C P N apartnessRead windowRead : BHist} :
+    PositiveRealCarrier R A D W Q H C P N ->
+      Cont A D apartnessRead ->
+        Cont W Q windowRead ->
+          UnaryHistory apartnessRead ∧ UnaryHistory windowRead ∧
+            Cont A D apartnessRead ∧ Cont W Q windowRead ∧
+              SemanticNameCert
+                (fun row : BHist =>
+                  List.Mem row (positiveRealFields (PositiveRealUp.mk R A D W Q H C P N)))
+                (fun row : BHist =>
+                  List.Mem row (positiveRealFields (PositiveRealUp.mk R A D W Q H C P N)) ∧
+                    Cont row BHist.Empty row)
+                (fun row : BHist =>
+                  List.Mem row (positiveRealFields (PositiveRealUp.mk R A D W Q H C P N)) ∧
+                    hsame (append row BHist.Empty) row)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist Cont Empty append hsame SemanticNameCert UnaryHistory
+  intro carrier apartnessRoute windowRoute
+  obtain ⟨_realUnary, apartnessUnary, radiusUnary, windowUnary, readbackUnary,
+    _transportUnary, _replayUnary, _pkgUnary, _nameUnary⟩ := carrier
+  have apartnessReadUnary : UnaryHistory apartnessRead :=
+    unary_cont_closed apartnessUnary radiusUnary apartnessRoute
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowUnary readbackUnary windowRoute
+  exact
+    ⟨apartnessReadUnary, windowReadUnary, apartnessRoute, windowRoute,
+      PositiveRealNameCert_obligations (PositiveRealUp.mk R A D W Q H C P N)⟩
+
 theorem PositiveRealCarrier_regseqrat_window_positivity_scope
     {R A D W Q H C P N windowRead : BHist} :
     PositiveRealCarrier R A D W Q H C P N ->
