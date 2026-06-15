@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-15T04:57:25Z
+> 最后刷新: 2026-06-15T06:37:24Z
 
-**Daemon 状态**: monitor (monitor cycle 25, adjust_since_research 2, round_counter 10086, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 26, adjust_since_research 2, round_counter 10225, last_adjust rule_evolution_completed)
 
-**待处理 queue** (232 条 finding):
-- isolated_theorem: 114 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (246 条 finding):
+- isolated_theorem: 127 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 100 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 18 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 19 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 19 次
-- TASTE ALERT category=cycle_exception: 6 次
-- TASTE ALERT category=low_entropy_template: 6 次
+- TASTE ALERT category=isolated_theorem: 30 次
+- TASTE ALERT category=low_entropy_template: 8 次
+- TASTE ALERT category=cycle_exception: 5 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -292,6 +292,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-15T03:05:20Z: `resolved` `delete_theorem` for `BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNameCertRoute` (flag `isolated_theorem`, finding `isolated_theorem:sequentialcompact:BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNameCertRoute:7e7d8d7e`). Rationale: The target was an isolated public-route wrapper with no downstream Lean references and no paper marker; grep found only the declaration itself. The sequentialcompact chapter already marks and uses the stronger sibling theorem BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNameCertCarrierRows for the public NameCert route, so deleting the unused wrapper removes staging-only surface without losing the checked paper claim. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-15T04:56:36Z: `resolved` `add_downstream_user` for `BEDC.Derived.RegularCauchyLocatedOrderUp.RegularCauchyLocatedOrderCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:regularcauchylocatedorder:BEDC.Derived.RegularCauchyLocatedOrderUp.RegularCauchyLocatedOrderCarrier_namecert_obligations:0df9ad3a`). Rationale: The target has real BEDC content: it projects the RegularCauchyLocatedOrder carrier into UnaryHistory, Cont, and PkgSig obligation rows, but grep showed no Lean consumer and only the paper marker referenced it. I added a downstream RealTightness consumer because that chapter explicitly carries a RegularCauchyLocatedOrder row; the new theorem consumes the flagged obligation projection while tying it to the RealTightness field surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-15T06:36:57Z: `resolved` `add_downstream_user` for `BEDC.Derived.ProductMetricUp.ProductMetricCarrier_projection_route_exactness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ProductMetricUp.ProductMetricCarrier_projection_route_exactness:8cd7f86a`). Rationale: The target is not a trivial wrapper: it establishes exact hsame identities for the displayed product row and both projection reads, plus unary closure and package provenance. It was only referenced by the paper marker, so I added a substantive downstream bridge consumer in the ProductMetricUp bridge sibling. The new theorem uses ProductMetricCarrier_projection_route_exactness together with the existing Real classifier bridge to tie projection exactness into the MetricSpace-facing bridge surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
