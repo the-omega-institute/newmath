@@ -6006,6 +6006,7 @@ import BEDC.Derived.IsometricCompletionUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
 import BEDC.Derived.IsometricEmbeddingUp.TasteGate
+import BEDC.Derived.IteratedFunctionSystemUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.JacobiIterationUp.TasteGate
 import BEDC.Derived.JensenInequalityUp.TasteGate
@@ -8330,6 +8331,7 @@ import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
 import BEDC.Derived.RationalNestedIntervalLimitUp.TasteGate
 import BEDC.Derived.RationalRealEmbeddingUp.TasteGate
 import BEDC.Derived.RationalRootIntervalUp.TasteGate
+import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RealAbsoluteValueUp.TasteGate
