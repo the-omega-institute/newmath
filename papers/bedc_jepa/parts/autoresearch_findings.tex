@@ -143,6 +143,15 @@ $+0.02094$ $[+0.01211,\ +0.03207]$ and an inverted oracle gives $+0.05886$
 $[+0.04546,\ +0.07605]$.  The target has usable intervention signal; the open
 model problem is stable episode-local assignment, not merely per-anchor
 compute-value readability.
+A stability grid over seeds $3,7,11$ and epoch budgets $1,5,20,100$ keeps that
+reading.  Selecting by calibration allocation delta chooses seed $3$ at $20$
+epochs and gives evaluation allocation delta $+0.00184$
+$[-0.00297,\ +0.00687]$, close to the decision boundary but still fail-closed.
+Across all $12$ runs, no evaluation interval has upper endpoint below zero; the
+observed deltas range from $+0.00162$ to $+0.01024$, with median $+0.00734$.
+This supports episode-local policy training as the right pressure point, but
+also shows that the present scorer is not stable enough to claim
+allocation-native control.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar

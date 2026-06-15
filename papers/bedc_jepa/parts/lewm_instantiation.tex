@@ -239,6 +239,15 @@ a random reference at $+0.02094$ $[+0.01211,\ +0.03207]$, and an inverted
 oracle at $+0.05886$ $[+0.04546,\ +0.07605]$.  The route therefore points to
 episode-local compute assignment and budget-feasible policy training, rather
 than another scalar failure-score or global-rank readout.
+A stability grid over seeds $3,7,11$ and epoch budgets $1,5,20,100$ tests
+whether that policy signal is robust enough for selection.  The
+calibration-selected run, seed $3$ at $20$ epochs, evaluates at allocation
+delta $+0.00184$ $[-0.00297,\ +0.00687]$.  The best observed run is
+$+0.00162$ $[-0.00318,\ +0.00665]$, but every interval upper endpoint remains
+positive and the median observed delta across the $12$ runs is $+0.00734$.
+Thus the episode-local objective can nearly erase the wrong-side scalar
+RankNet gap on this export, but the row remains a stability negative rather
+than an allocation claim.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -340,6 +349,7 @@ $$
 \text{compute-value labels} & \texttt{reports/compute\_value\_labels.json},\\
 \text{compute-value model} & \texttt{reports/compute\_value\_model.json},\\
 \text{compute-value policy} & \texttt{reports/compute\_value\_policy.json},\\
+\text{compute-value policy stability} & \texttt{reports/compute\_value\_policy\_stability.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\
