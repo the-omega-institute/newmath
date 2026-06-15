@@ -3564,6 +3564,7 @@ import BEDC.Derived.CriticalLineWitnessUp.P11961ModulusLedgerSeparation
 import BEDC.Derived.CriticalLineWitnessUp.P11961RhRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.P11961RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealClassifierDeterminacy
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealFourFaceRouteExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealL10FaceStatusPullback
@@ -3642,6 +3643,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootFormalTargetLedger
 import BEDC.Derived.CriticalLineWitnessUp.RootGammaRealDependency
 import BEDC.Derived.CriticalLineWitnessUp.RootGapRefusalCompleteness
 import BEDC.Derived.CriticalLineWitnessUp.RootHandoffExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.RootLedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootLedgerRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootLineRowExposure
@@ -7480,6 +7482,7 @@ import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
 import BEDC.Derived.NeighborhoodFilterUp.TasteGate
 import BEDC.Derived.NeighborhoodFunctionUp.TasteGate
 import BEDC.Derived.NemytskiiOperatorUp
+import BEDC.Derived.NemytskiiOperatorUp.TasteGate
 import BEDC.Derived.NestedCauchyIntervalSelectionUp.TasteGate
 import BEDC.Derived.NestedCauchyRealSectionUp.TasteGate
 import BEDC.Derived.NestedClosedBallUp.TasteGate
@@ -7556,6 +7559,7 @@ import BEDC.Derived.NormalSpaceUp.TietzeExtensionRefusal
 import BEDC.Derived.NormalSpaceUp.TopologyConsumerBoundary
 import BEDC.Derived.NormalSpaceUp.UrysohnCozeroLocalization
 import BEDC.Derived.NormalSpaceUp.UrysohnLemmaConsumerExactness
+import BEDC.Derived.NormalizationEvidenceBudgetUp.TasteGate
 import BEDC.Derived.NormedSpaceUp
 import BEDC.Derived.NormedSpaceUp.AnalysisConsumerExhaustion
 import BEDC.Derived.NormedSpaceUp.BanachConsumerNonescape
