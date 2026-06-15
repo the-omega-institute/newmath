@@ -7,6 +7,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.MatureConsumerSynthesis
 import BEDC.Derived.MetaCICCriticalPathUp.MaturePackageConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationConsumerHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
+import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierSeed
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealNormalFormHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetBridge
