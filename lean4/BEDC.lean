@@ -1775,6 +1775,7 @@ import BEDC.Derived.CauchyModulusMeetUp.StdBridge
 import BEDC.Derived.CauchyModulusMonotoneNormalizationUp.TasteGate
 import BEDC.Derived.CauchyModulusNormalFormUp.TasteGate
 import BEDC.Derived.CauchyModulusNormalizerUp.TasteGate
+import BEDC.Derived.CauchyModulusOfContinuityUp
 import BEDC.Derived.CauchyModulusPullbackUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchyModulusRefinementUp.BHistSourceScope
