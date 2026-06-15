@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FixedPointIndexUp$}
+\label{ch:concrete-instances-fixed-point-index-namecert}
+\origin{human}
+
+Following Dold and Brown on fixed-point index and Lefschetz theory, the $\FixedPointIndexUp$ packet records the finite BEDC surface by which a displayed compact-metric neighborhood, a continuous self-map row, homology trace data, and a Lefschetz fixed-point handoff are inspected before an index value is exported. It sits after the compact source row of \autoref{ch:concrete-instances-compactmetric-namecert}, the map row of \autoref{ch:concrete-instances-continuousmap-namecert}, the homology ledger of \autoref{ch:concrete-instances-homology-namecert}, the Lefschetz fixed-point packet of \autoref{ch:concrete-instances-lefschetz-fixed-point-namecert}, and the Brouwer fixed-point metric reconstruction of \autoref{ch:concrete-instances-brouwer-fixed-point-metric-namecert}. The chapter records only finite carrier rows and NameCert obligations; it does not assert a host fixed-point theorem or a global index existence theorem.
+
+\begin{definition}[Fixed-point index carrier]
+\label{def:fixed-point-index-carrier}
+A $\FixedPointIndexUp$ carrier is a finite $\BHist$ packet
+$$
+I=(K,U,F,H,L,B,V,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact source row, read through $\CompactMetricUp$, naming the inspected compact-metric neighborhood and its finite cover interface.
+\item $U$ is the isolating neighborhood row, recording the finite boundary and exclusion witnesses used before any fixed-point index read is admitted.
+\item $F$ is the continuous-map row, read through $\ContinuousMapUp$, for the displayed self-map on the inspected source.
+\item $H$ is the homology ledger row, read through $\HomologyUp$, recording the finite chain, trace, and boundary data available to the index packet.
+\item $L$ is the Lefschetz handoff row, read through $\LefschetzFixedPointUp$, attaching the displayed trace expression to the fixed-point-facing consumer route.
+\item $B$ is the Brouwer metric fixed-point comparison row, read through $\BrouwerFixedPointMetricUp$, used only as a finite local comparison surface.
+\item $V$ is the integer-valued index row, containing the displayed sign, degree, or trace readback accepted by the packet.
+\item $T$ records componentwise $\hsame$ transport for the compact source, isolating row, continuous-map row, homology ledger, Lefschetz handoff, Brouwer comparison, index value, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from compact-source inspection through isolating-neighborhood admission, continuous-map exposure, homology ledger readback, Lefschetz handoff, Brouwer comparison, and index-value export.
+\item $P$ is the $\Pkg$ provenance over $\FixedPointIndexUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\HomologyUp$, $\LefschetzFixedPointUp$, $\BrouwerFixedPointMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FixedPointIndexUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven rows. It has no coordinate for an ambient fixed-point set, unrestricted homotopy invariance, selected zero, global Brouwer theorem, quotient space equality, or bridge data.
+\end{definition}
+
+\begin{theorem}[Fixed-point index NameCert obligations]
+\label{thm:fixed-point-index-namecert-obligations}
+For every accepted $\FixedPointIndexUp$ carrier $I=(K,U,F,H,L,B,V,T,C,P,N)$, the local $\NameCert_{\FixedPointIndexUp}$ obligation surface consists exactly of compact-source admission, isolating-neighborhood exposure, continuous-map exposure, homology ledger exactness, Lefschetz handoff, Brouwer metric comparison, index-value readback, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fixed-point-index-carrier}. The compact source $K$ and isolating row $U$ are displayed before the map row $F$, so the index read is attached to a visible local neighborhood rather than to an ambient fixed-point set.
+
+Read the homology ledger $H$ and Lefschetz handoff $L$. These rows expose the finite chain and trace data that downstream consumers may inspect, while the Brouwer comparison row $B$ remains only a local metric comparison surface.
+
+Finally $V,T,C,P,N$ record the index value, transport, replay, provenance, and local name for that same route. Since none of the carrier rows stores unrestricted homotopy invariance, selected zeros, global fixed-point existence, quotient equality, or bridge data, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Fixed-point index dependency route]
+\label{thm:fixed-point-index-dependency-route}
+Every accepted $\FixedPointIndexUp$ consumer read of the index row $V$ must factor through the finite route
+$$
+\CompactMetricUp,\ \ContinuousMapUp,\ \HomologyUp,\ \LefschetzFixedPointUp,\ \BrouwerFixedPointMetricUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The route exports the displayed local index packet and its homology trace ledger. It does not export a global host fixed-point theorem, unrestricted Lefschetz theorem, selected fixed point, quotient-space equality, or bridge certificate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:fixed-point-index-namecert-obligations}. It places the index value after the compact source, isolating row, displayed self-map, homology ledger, Lefschetz handoff, and Brouwer metric comparison have all been exposed.
+
+The componentwise transport, replay, and provenance rows preserve this ordering. Thus a consumer cannot read $V$ without also reading the finite topology and homology rows that generated it.
+
+Because the classifier has no coordinate for a host fixed-point set, unrestricted Lefschetz theorem, selected fixed point, quotient equality, or bridge certificate, the exported route is exactly the displayed local index packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\FixedPointIndexUp$ consumer read factors through a compact source row, an isolating neighborhood row, a displayed $\ContinuousMapUp$ self-map, a $\HomologyUp$ trace ledger, a $\LefschetzFixedPointUp$ handoff, a $\BrouwerFixedPointMetricUp$ comparison row, an index-value row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{compactmetric, continuous-map, homology, lefschetz-fixed-point, brouwer-fixed-point-metric: $\FixedPointIndexUp$ is not bijective to any listed sibling because it jointly carries an isolating neighborhood, displayed self-map, finite homology ledger, Lefschetz handoff, Brouwer comparison, and local index row as one packet.}
+
+\closureat{FixedPointIndexUp}{seedStr}
+
+\begin{closurestatus}{\FixedPointIndexUp}
+  \constructivestory{A $\FixedPointIndexUp$ packet is generated from a CompactMetricUp source row, isolating neighborhood row, ContinuousMapUp self-map row, HomologyUp ledger, LefschetzFixedPointUp handoff, BrouwerFixedPointMetricUp comparison, index-value row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fixed-point-index-carrier}, \autoref{thm:fixed-point-index-namecert-obligations}, and \autoref{thm:fixed-point-index-dependency-route} seed the local fixed-point index certificate surface over displayed compact, map, homology, Lefschetz, and Brouwer rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a global host fixed-point theorem, unrestricted homotopy invariance, selected fixed points, quotient-space equality, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode BEDC.Derived.FixedPointIndexUp and prove the carrier, NameCert obligation, and dependency-route theorems.}
+\end{closurestatus}
