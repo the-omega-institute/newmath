@@ -163,7 +163,34 @@ def taste_gate : ChapterTasteGate ZeckendorfCarryClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
   zeckendorfCarryClassifierChapterTasteGate
 
-theorem ZeckendorfCarryClassifierTasteGate_single_carrier_alignment :
+namespace TasteGate
+
+theorem ZeckendorfCarryClassifierTasteGate_single_carrier_alignment
+    (x : ZeckendorfCarryClassifierUp) :
+    (exists u v c s t h r p n : BHist,
+        x = ZeckendorfCarryClassifierUp.mk u v c s t h r p n ∧
+          zeckendorfCarryClassifierFields x = [u, v, c, s, t, h, r, p, n] ∧
+          zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist u) =
+            u ∧
+          zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist v) =
+            v) ∧
+      zeckendorfCarryClassifierEncodeBHist (BHist.e0 (BHist.e1 BHist.Empty)) =
+        [BMark.b0, BMark.b1] := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier ChapterTasteGate
+  cases x with
+  | mk u v c s t h r p n =>
+      constructor
+      · exact
+          ⟨u, v, c, s, t, h, r, p, n, rfl, rfl,
+            zeckendorfCarryClassifierDecodeEncode u,
+            zeckendorfCarryClassifierDecodeEncode v⟩
+      · rfl
+
+end TasteGate
+
+theorem ZeckendorfCarryClassifierTasteGate_structural_witnesses :
     Nonempty (BHistCarrier ZeckendorfCarryClassifierUp) ∧
       Nonempty (ChapterTasteGate ZeckendorfCarryClassifierUp) ∧
         Nonempty (BEDC.Meta.TasteGate.Nontrivial ZeckendorfCarryClassifierUp) ∧
