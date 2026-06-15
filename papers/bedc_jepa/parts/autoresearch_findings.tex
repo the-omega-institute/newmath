@@ -355,10 +355,10 @@ requires \texttt{episode}, \texttt{option\_depths}, \texttt{option\_error},
 \texttt{uniform\_error}, and \texttt{predicted\_option\_score}; otherwise it
 returns a fail-closed payload.  On the fixed-export artifact it measures
 allocation delta $-0.00604$ $[-0.01074,\ -0.00163]$ with score/error
-$\rho=0.8899$, and the execution lane records a mechanically positive
-verdict.  Because the adversarial layer has not promoted this hypothesis, the
-paper treats the result as a gated fixed-export model result, not as an
-authoritative population claim.
+$\rho=0.8899$.  The adversarial gate audits this as sound but scoped: the
+fixed-export row is an authoritative model result for option-conditioned
+exact-budget assignment, but it is not an independent replication,
+prediction-parity result, selective-risk result, or universal-control claim.
 The independent-readiness scan then moves one step further without removing
 the full-replication boundary.  It inspects local \texttt{npz} artifacts for
 the structured compute-value schema and now finds one usable independent-export
@@ -369,8 +369,9 @@ full-feature structured-assignment replication.  Under the same exact-budget
 runner it gives allocation delta $-0.18572$ $[-0.18804,\ -0.18328]$ with
 score/error $\rho=0.9947$ on $416$ anchors from $30$ episodes.  The result is
 therefore a positive independent rollout-only replication of the compute-value
-assignment mechanism, while the full state-plus-rollout independent export
-is tested as a separate boundary.  On the aligned independent PushT carrier,
+assignment mechanism, adversarially sound but scoped because the base
+latent/action features are absent.  The full state-plus-rollout independent
+export is tested as a separate boundary.  On the aligned independent PushT carrier,
 the full-feature row reads the base latent/action window together with the
 predicted rollout-internal features and produces allocation delta $-0.18572$
 $[-0.18804,\ -0.18306]$ with score/error $\rho=0.9962$ on the same $416$
@@ -424,7 +425,10 @@ horizon-risk logits themselves as the exact-budget option score is plainly
 wrong-side at $+0.00703$ $[+0.00227,\ +0.01192]$.  This separates
 horizon-failure readability from compute-value control: better detection and
 better global option-error rank are not sufficient unless the training target
-and selection rule directly optimize budget-feasible intervention value.
+and selection rule directly optimize budget-feasible intervention value.  The
+corresponding autoresearch hypothesis,
+\texttt{fi-024.compute-value-joint-horizon-option}, is therefore an
+authoritative negative boundary rather than a positive allocation row.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar
