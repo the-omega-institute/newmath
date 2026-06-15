@@ -461,6 +461,17 @@ native next-latent predictor has MSE $0.87870$, giving a parity margin
 $-0.80542$.  Thus the current BEDC-native rows can be read as monitors,
 claim ledgers, compute-value assignment tests, and survival audits, but not as
 a parity-level native world model.
+A direct native-parity candidate makes the same boundary explicit.  It trains
+on fixed LeWM latents using a latent window, future action window,
+action-validity mask, historical gap proxy, and time features, and is selected
+by calibration next-latent MSE before evaluation.  On $539$ evaluation
+transitions across $55$ episodes, it improves over trivial persistence
+($1.04610$ against $1.26587$, paired difference $-0.21977$
+$[-0.27464,\ -0.16797]$), but it is not close to the LeWM predictor
+($0.06586$).  The $\epsilon=0.10$ parity threshold is $0.07244$, the
+native-to-LeWM ratio is $15.88$, and the parity margin is $-0.97366$
+$[-1.03679,\ -0.91201]$.  The direct candidate is therefore a genuine
+dynamics learner and a negative world-model-parity result at the same time.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
@@ -559,6 +570,8 @@ $$
 \text{compute-value independent audit} & \texttt{reports/compute\_value\_independent\_audit.json},\\
 \text{compute-value survival matrix} & \texttt{reports/compute\_value\_survival\_matrix.json},\\
 \text{prediction parity gate} & \texttt{reports/prediction\_parity\_gate.json},\\
+\text{native parity candidate} & \texttt{reports/native\_parity\_candidate.json},\\
+\text{native parity verdict} & \texttt{reports/fi\_027\_native\_parity\_candidate\_verdict.json},\\
 \text{compute-value joint horizon option} & \texttt{reports/compute\_value\_joint\_horizon\_option.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\

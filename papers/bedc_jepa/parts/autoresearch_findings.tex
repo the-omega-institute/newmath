@@ -61,6 +61,17 @@ the native mean MSE is $0.87870$.  The parity margin is therefore $-0.80542$,
 so the gate is negative.  These rows may support monitors, ledgers, and
 survival analyses, but they do not yet promote a BEDC-native predictor to a
 world model.
+A direct native-parity candidate trained on the local GPU gives the same
+boundary in a stronger form.  The model uses a latent window, future action
+window, action-validity mask, historical gap proxy, and time features.  It
+improves over trivial persistence on the same evaluation transitions, with
+native MSE $1.04610$ against trivial MSE $1.26587$ and paired difference
+$-0.21977$ $[-0.27464,\ -0.16797]$.  It remains far outside the
+world-model gate: the LeWM reference MSE is $0.06586$, the parity threshold
+is $0.07244$, the native-to-LeWM ratio is $15.88$, and the parity margin is
+$-0.97366$ with interval $[-1.03679,\ -0.91201]$.  Thus the direct run closes
+as a negative result for this architecture, not as an argument for further
+head scaling.
 
 \paragraph{Three-tier BEDC-native readout evaluation.}
 Across the verified findings the BEDC-native ledger separates into three tiers
