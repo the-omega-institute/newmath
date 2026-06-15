@@ -72,6 +72,19 @@ is $0.07244$, the native-to-LeWM ratio is $15.88$, and the parity margin is
 $-0.97366$ with interval $[-1.03679,\ -0.91201]$.  Thus the direct run closes
 as a negative result for this architecture, not as an argument for further
 head scaling.
+Two targeted parity checks make the boundary sharper.  Training the same
+native residual class against the LeWM next-latent transition target, while
+still evaluating against the true next latent, gives native MSE $1.05803$,
+teacher-imitation MSE $1.08923$, native-to-LeWM ratio $15.72$, and parity
+margin $-0.98398$ $[-1.04988,\ -0.91685]$.  The parity failure is therefore
+not removed by replacing the direct target with a LeWM transition teacher.
+A sequence-native candidate with recurrent latent-history, future-action, and
+gap-proxy encoders improves the local predictor to native MSE $0.95181$ and
+ratio $14.11$, but its parity margin remains $-0.87763$
+$[-0.95362,\ -0.80311]$.  Sequence inductive bias moves the row in the right
+direction without changing the order-of-magnitude prediction gap; the next
+prediction-parity attempt must change the dynamics architecture or training
+regime rather than continue small local readout sweeps.
 
 \paragraph{Three-tier BEDC-native readout evaluation.}
 Across the verified findings the BEDC-native ledger separates into three tiers

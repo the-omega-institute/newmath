@@ -1,0 +1,90 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.teacher_dynamics_parity",
+  "device": "cuda",
+  "inputs": {
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "config": {
+    "epochs": 260,
+    "width": 768,
+    "depth": 4,
+    "batch": 512,
+    "lr": 0.0004,
+    "epsilon": 0.1,
+    "features": "latent window t-4:t, future action window, action validity, past LeWM gap proxy, time features",
+    "training_target": "LeWM next-latent prediction delta; evaluation target remains true next latent"
+  },
+  "counts": {
+    "train": 1516,
+    "calibration": 463,
+    "eval": 514,
+    "eval_episodes": 54,
+    "input_dim": 1082,
+    "params": 2757312
+  },
+  "metrics": {
+    "native_mse": {
+      "observed": 1.0580260304889746,
+      "low": 0.990893121769844,
+      "high": 1.1239284776029062
+    },
+    "lewm_mse": {
+      "observed": 0.0673141245610635,
+      "low": 0.06391759578926476,
+      "high": 0.07150218706710744
+    },
+    "trivial_mse": {
+      "observed": 1.3380814482222372,
+      "low": 1.245687093682288,
+      "high": 1.4300643443368188
+    },
+    "teacher_oracle_mse": {
+      "observed": 0.06731412459061939,
+      "low": 0.06399681980461289,
+      "high": 0.07080092078534868
+    },
+    "teacher_imitation_mse": {
+      "observed": 1.0892325593931467,
+      "low": 1.0185160892831255,
+      "high": 1.1534327563345284
+    },
+    "native_minus_lewm": {
+      "observed": 0.9907119059279109,
+      "low": 0.9258988647490103,
+      "high": 1.0578223907241358
+    },
+    "native_minus_trivial": {
+      "observed": -0.2800554177332624,
+      "low": -0.3265971169016413,
+      "high": -0.23177997944719408
+    }
+  },
+  "parity_gate": {
+    "threshold": 0.07404553701716986,
+    "margin": -0.9839804934718047,
+    "pass": false,
+    "native_to_lewm_ratio": 15.717741817011884
+  },
+  "health": {
+    "best_cal_teacher_mse": 1.1150903177172626,
+    "history_first": {
+      "epoch": 1.0,
+      "train": 0.49296872814496356,
+      "cal_teacher_mse": 1.529156171568096
+    },
+    "history_last": {
+      "epoch": 260.0,
+      "train": 0.012887612916529179,
+      "cal_teacher_mse": 1.1182539621154293
+    }
+  },
+  "leakage_attestation": {
+    "standardizers": "fit on train split only",
+    "selection": "best epoch selected by calibration teacher-imitation MSE",
+    "teacher_usage": "LeWM predicted next latent is used as a training target, not as an input feature",
+    "eval_truth_usage": "eval target latent used only after model selection",
+    "lewm_reference": "exported pred-vs-emb next-latent MSE on the same eval transitions"
+  },
+  "wall_time_sec": 18.186518669128418
+}

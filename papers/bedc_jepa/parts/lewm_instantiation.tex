@@ -472,6 +472,17 @@ $[-0.27464,\ -0.16797]$), but it is not close to the LeWM predictor
 native-to-LeWM ratio is $15.88$, and the parity margin is $-0.97366$
 $[-1.03679,\ -0.91201]$.  The direct candidate is therefore a genuine
 dynamics learner and a negative world-model-parity result at the same time.
+The neighboring checks identify which simple explanations are insufficient.
+When the same residual class is trained against the LeWM transition target,
+its true-next-latent MSE is $1.05803$, its teacher-imitation MSE is
+$1.08923$, and its parity margin is $-0.98398$
+$[-1.04988,\ -0.91685]$.  Thus LeWM-transition supervision alone does not
+make the native state parity-level.  A recurrent sequence candidate improves
+the local native MSE to $0.95181$ and the native-to-LeWM ratio to $14.11$, but
+its parity margin remains $-0.87763$ $[-0.95362,\ -0.80311]$.  The admissible
+reading is that sequence structure helps, while the prediction-parity gap
+still requires a different dynamics-training regime before the BEDC ledger can
+be promoted from monitor to world model.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
@@ -572,6 +583,8 @@ $$
 \text{prediction parity gate} & \texttt{reports/prediction\_parity\_gate.json},\\
 \text{native parity candidate} & \texttt{reports/native\_parity\_candidate.json},\\
 \text{native parity verdict} & \texttt{reports/fi\_027\_native\_parity\_candidate\_verdict.json},\\
+\text{teacher dynamics parity} & \texttt{reports/teacher\_dynamics\_parity.json},\\
+\text{sequence native parity} & \texttt{reports/sequence\_native\_parity.json},\\
 \text{compute-value joint horizon option} & \texttt{reports/compute\_value\_joint\_horizon\_option.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
