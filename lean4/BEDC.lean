@@ -5384,6 +5384,7 @@ import BEDC.Derived.FiniteOscillationRadiusLedgerUp.TasteGate
 import BEDC.Derived.FiniteOscillationUniformModulusUp.NameCertObligations
 import BEDC.Derived.FiniteOscillationUniformModulusUp.TasteGate
 import BEDC.Derived.FinitePartitionMeshUp.TasteGate
+import BEDC.Derived.FinitePhaseCylinderUp
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
