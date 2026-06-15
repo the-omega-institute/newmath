@@ -3083,6 +3083,7 @@ import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConsistencyObservationBudgetUp
 import BEDC.Derived.ConstantRealStreamUp
 import BEDC.Derived.ConstantRealStreamUp.TasteGate
+import BEDC.Derived.ConstructiveBaireThreadUp.TasteGate
 import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCauchyFilterBoundaryUp
 import BEDC.Derived.ConstructiveCauchyIntervalUp.TasteGate
@@ -3767,6 +3768,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroSourceRefusalReadback
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBoundary
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBudgetFactorization
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBudgetTransport
+import BEDC.Derived.CriticalLineWitnessUp.ZeroStripCarrier
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripClassifierTransport
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripLedgerExhaustion
@@ -7738,6 +7740,7 @@ import BEDC.Derived.OptionUp.PayloadDescentCanonicalIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentCommonTarget
 import BEDC.Derived.OptionUp.PayloadDescentExactness
 import BEDC.Derived.OptionUp.PayloadDescentImageCarrierEndpoint
+import BEDC.Derived.OptionUp.PayloadDescentImageCertificate
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifier
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierIntermediate
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierReadback
