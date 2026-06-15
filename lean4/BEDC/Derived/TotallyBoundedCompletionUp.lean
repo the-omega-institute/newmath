@@ -497,4 +497,52 @@ theorem TotallyBoundedCompletionCarrier_extension_consumer_boundary [AskSetup] [
   exact
     ⟨cert, extensionReadUnary, consumerReadUnary, provenancePackage, localPackage⟩
 
+theorem TotallyBoundedCompletionCarrier_root_extension_nonescape [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName extensionRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont extension transport extensionRead ->
+        Cont extensionRead localName consumerRead ->
+          PkgSig bundle consumerRead pkg ->
+            UnaryHistory source ∧ UnaryHistory net ∧ UnaryHistory refinement ∧
+              UnaryHistory basis ∧ UnaryHistory embedding ∧ UnaryHistory completion ∧
+                UnaryHistory separated ∧ UnaryHistory extension ∧ UnaryHistory transport ∧
+                  UnaryHistory provenance ∧ UnaryHistory localName ∧
+                    UnaryHistory extensionRead ∧ UnaryHistory consumerRead ∧
+                      Cont source net refinement ∧ Cont refinement basis embedding ∧
+                        Cont embedding completion separated ∧ Cont separated extension provenance ∧
+                          Cont transport provenance localName ∧
+                            Cont extension transport extensionRead ∧
+                              Cont extensionRead localName consumerRead ∧
+                                PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg ∧
+                                  PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier extensionTransportRead consumerRoute consumerPackage
+  obtain ⟨sourceUnary, netUnary, basisUnary, completionUnary, extensionUnary, transportUnary,
+    sourceNetRefinement, refinementBasisEmbedding, embeddingCompletionSeparated,
+    separatedExtensionProvenance, transportProvenanceLocalName, provenancePackage,
+    localPackage⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed sourceUnary netUnary sourceNetRefinement
+  have embeddingUnary : UnaryHistory embedding :=
+    unary_cont_closed refinementUnary basisUnary refinementBasisEmbedding
+  have separatedUnary : UnaryHistory separated :=
+    unary_cont_closed embeddingUnary completionUnary embeddingCompletionSeparated
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed separatedUnary extensionUnary separatedExtensionProvenance
+  have localNameUnary : UnaryHistory localName :=
+    unary_cont_closed transportUnary provenanceUnary transportProvenanceLocalName
+  have extensionReadUnary : UnaryHistory extensionRead :=
+    unary_cont_closed extensionUnary transportUnary extensionTransportRead
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed extensionReadUnary localNameUnary consumerRoute
+  exact
+    ⟨sourceUnary, netUnary, refinementUnary, basisUnary, embeddingUnary, completionUnary,
+      separatedUnary, extensionUnary, transportUnary, provenanceUnary, localNameUnary,
+      extensionReadUnary, consumerReadUnary, sourceNetRefinement, refinementBasisEmbedding,
+      embeddingCompletionSeparated, separatedExtensionProvenance, transportProvenanceLocalName,
+      extensionTransportRead, consumerRoute, provenancePackage, localPackage, consumerPackage⟩
+
 end BEDC.Derived.TotallyBoundedCompletionUp
