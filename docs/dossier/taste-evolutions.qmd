@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-14T23:53:44Z
+> 最后刷新: 2026-06-15T03:06:05Z
 
-**Daemon 状态**: monitor (monitor cycle 23, adjust_since_research 2, round_counter 9850, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 24, adjust_since_research 2, round_counter 9981, last_adjust rule_evolution_completed)
 
 **待处理 queue** (227 条 finding):
 - isolated_theorem: 110 条; 代表样本 `derived`, `derived`, `derived`
@@ -30,11 +30,9 @@ date-modified: today
 - low_entropy_template: 17 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 8 次
-- TASTE ALERT category=cycle_exception: 6 次
-- TASTE ALERT category=low_entropy_template: 4 次
-- TASTE ALERT category=dossier_snapshot_commit_failed: 1 次
-- TASTE ALERT category=resolution_json_parse_failed: 1 次
+- TASTE ALERT category=isolated_theorem: 14 次
+- TASTE ALERT category=cycle_exception: 7 次
+- TASTE ALERT category=low_entropy_template: 5 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -290,6 +288,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-13T21:52:19Z: `resolved` `delete_theorem` for `BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNamecertRoute` (flag `isolated_theorem`, finding `isolated_theorem:sequentialcompact:BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNamecertRoute:7e7d8d7e`). Rationale: Deleted the isolated theorem because exact repo grep showed no Lean or paper consumers, and the chapter's public NameCert route is already represented by the surviving checked target BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNameCertCarrierRows. The removed declaration was an unused near-duplicate route wrapper in the same file, while downstream paper and Lean context use the carrier-rows theorem instead. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-14T19:42:44Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchyQuotientBoundaryUp.CauchyQuotientBoundaryCarrier_refusal_factorization` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchyQuotientBoundaryUp.CauchyQuotientBoundaryCarrier_refusal_factorization:0fd51ff6`). Rationale: The target is not a disposable wrapper: it formalizes the Cauchy quotient boundary refusal route already stated in the concrete chapter, but it had no Lean-side consumer beyond the paper marker. I added a LocatedRealInterval sibling consumer that first records the located interval endpoint/radius/dyadic/locator/modulus/bracket route and then invokes this target to factor the downstream Cauchy quotient boundary read through the existing refusal route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-15T03:05:20Z: `resolved` `delete_theorem` for `BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNameCertRoute` (flag `isolated_theorem`, finding `isolated_theorem:sequentialcompact:BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNameCertRoute:7e7d8d7e`). Rationale: The target was an isolated public-route wrapper with no downstream Lean references and no paper marker; grep found only the declaration itself. The sequentialcompact chapter already marks and uses the stronger sibling theorem BEDC.Derived.SequentialCompactUp.SequentialCompactPublicNameCertCarrierRows for the public NameCert route, so deleting the unused wrapper removes staging-only surface without losing the checked paper claim. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
