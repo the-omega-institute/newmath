@@ -113,18 +113,30 @@ If a consumer asks for the ground-loop negation, the packet supplies the assumpt
 If a consumer asks for a truth branch, excluded-middle split, undecided double-negation eliminator, existential selector, or unlisted route, the carrier has no such coordinate to project. The readiness condition therefore keeps every valid consumer inside the displayed ground-loop surface.
 \end{proof}
 
+\begin{theorem}[GroundRefutation bridge-facing route]
+\label{thm:ground-refutation-bridge-facing-route}
+The public $\GroundRefutationUp$ packet presents a bridge-facing finite route: its assumption row $A$, falsity route $F$, componentwise $\hsame$ ledger $H$, continuation replay $C$, provenance $P$, and local $\NameCert_{\GroundRefutationUp}$ row $N$ expose exactly the rows needed for the standard reflection bridge to inspect the ground-loop refutation surface. This route adds no certificate-indexed truth branch, excluded-middle split, undecided double-negation eliminator, existential witness by contradiction, or unlisted continuation.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:ground-refutation-namecert-obligations} to read the carrier exposure, classifier row, stability row, ledger row, and non-escape row from the local naming surface. These rows expose the finite packet as a public object rather than as an ambient refutation rule.
+
+Then use \autoref{thm:ground-refutation-ground-loop-boundary}, \autoref{thm:ground-refutation-classifier-transport}, and \autoref{thm:ground-refutation-route-stability}. They keep the exported negation attached to the same assumption, falsity route, transport ledger, and continuation replay under every displayed classifier transport.
+
+Finally apply \autoref{thm:ground-refutation-ledger-accountability} and \autoref{thm:ground-refutation-consumer-readiness}. Any bridge-facing consumer must read the same $A,F,H,C,P,N$ packet, so the route is ready for the standard reflection bridge while the excluded non-escape data remain absent.
+\end{proof}
+
 \closureat{GroundRefutationUp}{seedStr}
 \closureat{GroundRefutationUp}{obligationStr}[BEDC.Derived.GroundRefutationUp.GroundRefutationNameCertObligations]
 \closureat{GroundRefutationUp}{scopedStr}[BEDC.Derived.GroundRefutationUp.GroundRefutationNameCertObligations]
 
 \begin{closurestatus}{\GroundRefutationUp}
   \constructivestory{A $\GroundRefutationUp$ packet is generated from one displayed assumption row, a falsity-producing continuation route, componentwise $\hsame$ transports, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:ground-refutation-carrier}, \autoref{thm:ground-refutation-namecert-obligations}, \autoref{thm:ground-refutation-ground-loop-boundary}, \autoref{thm:ground-refutation-classifier-transport}, \autoref{thm:ground-refutation-route-stability}, \autoref{thm:ground-refutation-ledger-accountability}, and \autoref{thm:ground-refutation-consumer-readiness} bind the finite carrier, NameCert obligation rows, classifier transport, route stability, ledger accountability, and public consumer non-escape boundary.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:ground-refutation-carrier}, \autoref{thm:ground-refutation-namecert-obligations}, \autoref{thm:ground-refutation-ground-loop-boundary}, \autoref{thm:ground-refutation-classifier-transport}, \autoref{thm:ground-refutation-route-stability}, \autoref{thm:ground-refutation-ledger-accountability}, \autoref{thm:ground-refutation-consumer-readiness}, and \autoref{thm:ground-refutation-bridge-facing-route} bind the finite carrier, NameCert obligation rows, classifier transport, route stability, ledger accountability, public consumer non-escape boundary, and bridge-facing route.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.GroundRefutationUp.GroundRefutationNameCertObligations}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
-  \notclaimed{This chapter does not close bridge status, certificate-indexed truth branch, excluded-middle split, undecided double-negation eliminator, or existential witness by contradiction.}
-  \upgradepath{Bridge closure requires a standard bridge for the public ground-loop refutation packet and its checked obligations.}
+  \notclaimed{This chapter does not claim a checked standard bridge theorem, certificate-indexed truth branch, excluded-middle split, undecided double-negation eliminator, or existential witness by contradiction.}
+  \upgradepath{A checked standard bridge theorem is required to move the verification axis beyond the axiom-clean NameCert obligations.}
 \end{closurestatus}
