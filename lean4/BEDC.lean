@@ -777,7 +777,6 @@ import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BergeMaximumUp
 import BEDC.Derived.BernsteinPolynomialUp.TasteGate
 import BEDC.Derived.BertrandTestUp
-import BEDC.Derived.BesovSpaceUp.TasteGate
 import BEDC.Derived.BesselInequalityUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BetaCongruenceDomainAuditUp.TasteGate
@@ -3090,6 +3089,7 @@ import BEDC.Derived.ConstructiveBaireThreadUp.TasteGate
 import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCauchyFilterBoundaryUp
 import BEDC.Derived.ConstructiveCauchyIntervalUp.TasteGate
+import BEDC.Derived.ConstructiveCompactUniformFanUp.TasteGate
 import BEDC.Derived.ConstructiveCompletionEquivalenceUp
 import BEDC.Derived.ConstructiveCompletionEquivalenceUp.TasteGate
 import BEDC.Derived.ConstructiveCompletionModulusUp
@@ -3725,7 +3725,6 @@ import BEDC.Derived.CriticalLineWitnessUp.SiblingDependencyRoute
 import BEDC.Derived.CriticalLineWitnessUp.SignatureGapExactness
 import BEDC.Derived.CriticalLineWitnessUp.SignatureGapNonescape
 import BEDC.Derived.CriticalLineWitnessUp.SourceBudgetCarrier
-import BEDC.Derived.CriticalLineWitnessUp.SourceBudgetPublicInterface
 import BEDC.Derived.CriticalLineWitnessUp.SourceLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierJoin
 import BEDC.Derived.CriticalLineWitnessUp.SourceModulusClassifierLock
@@ -6004,6 +6003,7 @@ import BEDC.Derived.InverseLimitMetricUp.TasteGate
 import BEDC.Derived.InverseMappingTheoremUp.TasteGate
 import BEDC.Derived.IrrationalWitnessUp.TasteGate
 import BEDC.Derived.IsaacsEquationUp
+import BEDC.Derived.IsaacsEquationUp.TasteGate
 import BEDC.Derived.IsbellTightSpanUp.TasteGate
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BoundedSequenceRoute
@@ -9477,7 +9477,6 @@ import BEDC.Derived.SeparatedPseudometricCompletionUp.NameCertObligations
 import BEDC.Derived.SeparatedPseudometricCompletionUp.TasteGate
 import BEDC.Derived.SeparatedQuotientMetricUp
 import BEDC.Derived.SeparatedQuotientMetricUp.TasteGate
-import BEDC.Derived.SeparatedReflectionUniversalUp.TasteGate
 import BEDC.Derived.SeparatedReflectionUp.TasteGate
 import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
 import BEDC.Derived.SeqUp
