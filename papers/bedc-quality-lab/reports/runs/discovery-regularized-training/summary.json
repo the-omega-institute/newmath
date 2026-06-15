@@ -327,6 +327,72 @@
     "status": "d5-m-candidate",
     "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows"
   },
+  "drt2_semantic_hardgates": {
+    "failed_gate": null,
+    "gate_labels": [
+      "DRT2-HG1",
+      "DRT2-HG2",
+      "DRT2-HG3",
+      "DRT2-HG4",
+      "DRT2-HG5",
+      "DRT2-HG6"
+    ],
+    "gates": {
+      "DRT2-HG1": {
+        "gate_id": "DRT2-HG1",
+        "required_refs_present": true,
+        "requirement": "Certificate-guided DN remains sibling evidence with no DRT terminal status.",
+        "status": "pass",
+        "terminal_status_isolated": true
+      },
+      "DRT2-HG2": {
+        "gate_id": "DRT2-HG2",
+        "loss_terms": [
+          "certificate",
+          "cost",
+          "discovery",
+          "ledger",
+          "mechanism",
+          "negative_witness"
+        ],
+        "requirement": "All six loss terms expose resolving schema or evidence pointers under loss_family.",
+        "status": "pass"
+      },
+      "DRT2-HG3": {
+        "gate_id": "DRT2-HG3",
+        "requirement": "Component ablation rows must exist and point to owner-local evidence.",
+        "row_count": 7,
+        "status": "pass"
+      },
+      "DRT2-HG4": {
+        "forbidden_authority_status": "pass",
+        "gate_id": "DRT2-HG4",
+        "requirement": "Negative witness penalty points to existing owners and does not copy payload bodies or verdict authority.",
+        "status": "pass"
+      },
+      "DRT2-HG5": {
+        "gate_id": "DRT2-HG5",
+        "required_arms": [
+          "DGT+DRT",
+          "DGT-without-DRT",
+          "Transformer+DRT",
+          "component+DRT"
+        ],
+        "requirement": "Training-method comparison is pointer-only and covers all required arms.",
+        "status": "pass"
+      },
+      "DRT2-HG6": {
+        "forbidden_authority_status": "pass",
+        "gate_id": "DRT2-HG6",
+        "requirement": "not_claimed excludes model-superiority claims and recursive authority audit rejects terminal verdicts.",
+        "scope_excludes_superiority": true,
+        "status": "pass",
+        "terminal_absent": true
+      }
+    },
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:semantic-hardgates",
+    "status": "pass"
+  },
   "drt_extension_hardgates": {
     "failed_gate": null,
     "gates": {
@@ -981,9 +1047,21 @@
     "source_arm": "drt",
     "status": "armed"
   },
+  "negative_witness_penalty": {
+    "evidence_pointers": {
+      "mutation_ledger": "reports/canonical/negative_witness_mutation_ledger.json:$.entries",
+      "mutation_owner": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
+      "negative_witness_summary": "reports/canonical/discovery_negative_witness_summary.json:$.rows"
+    },
+    "owner_local_pointer_resolves": true,
+    "payload_policy": "artifact-pointer-only",
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:negative-witness-penalty",
+    "status": "pointer-only"
+  },
   "not_claimed": [
     "full model training",
     "global architecture superiority",
+    "standalone model superiority",
     "full LeJEPA reproduction",
     "mechanism closure",
     "production device authority"
@@ -1236,6 +1314,56 @@
     ],
     "public_arm_summary_policy": "formal-arms-only",
     "schema_id": "bedc-quality-lab:discovery-regularized-training:replay-arm-catalog"
+  },
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {},
+      "calibration_source": "$.torch_training_evidence",
+      "owner": "discovery-regularized-training"
+    },
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "resolution_reason": "auto-mps-available",
+        "resolution_status": "available",
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "cuda_available": false,
+        "mps_available": true,
+        "resolution_reason": "auto-mps-available",
+        "resolution_status": "available",
+        "torch": "2.7.0"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.torch_training_evidence",
+        "comparison": "absolute",
+        "owner": "discovery-regularized-training",
+        "pointer": "$.torch_training_evidence.row_count",
+        "reference_value": 16,
+        "seed_basis": {
+          "seed_count": 3,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 0.0
+      }
+    ],
+    "mode": "true_training",
+    "seed_list": [
+      11,
+      23,
+      37
+    ]
   },
   "revocation_rows": [
     {
@@ -1681,6 +1809,24 @@
       "raw_rows": "reports/canonical/discovery-regularized-training.json:$.records.raw_rows_pointer",
       "uer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.uer_mean",
       "uer_reduction": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.uer_reduction_mean"
+    },
+    "rows": {
+      "DGT+DRT": {
+        "arm_id": "DGT+DRT",
+        "role": "candidate-dgt-with-discovery-regularization"
+      },
+      "DGT-without-DRT": {
+        "arm_id": "DGT-without-DRT",
+        "role": "ablation-without-discovery-regularization"
+      },
+      "Transformer+DRT": {
+        "arm_id": "Transformer+DRT",
+        "role": "transformer-baseline-with-drt-objective"
+      },
+      "component+DRT": {
+        "arm_id": "component+DRT",
+        "role": "component-family-with-drt-objective"
+      }
     },
     "status": "pointer-only"
   },

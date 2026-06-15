@@ -1116,6 +1116,153 @@
     "schema_id": "bedc-quality-lab:discovery-gated-transformer.family-definition",
     "slot_state": "present-fail-closed"
   },
+  "family_roadmap": {
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer.family-roadmap",
+    "backend_surfaces": {
+      "pointers": [
+        "reports/canonical/discovery-gated-transformer.json:$.component_refs",
+        "reports/canonical/discovery-gated-transformer.json:$.component_ablation",
+        "reports/canonical/discovery-gated-transformer.json:$.operational_robustness",
+        "reports/canonical/discovery-gated-transformer.json:$.d5_m_projection"
+      ],
+      "required": true
+    },
+    "cross_level_evidence": {
+      "cross_level_comparison": {
+        "comparison_pointer": "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.cross_level_evidence.evidence_pointers",
+        "level_count": 6,
+        "status": "blocked"
+      },
+      "evidence_pointers": [
+        "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[0].claim_capsule",
+        "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.levels[1].claim_capsule"
+      ],
+      "independent": false
+    },
+    "family_invariants": {
+      "pointer": "reports/canonical/discovery-gated-transformer.json:$.family_definition.invariant_groups",
+      "required": true
+    },
+    "family_level_discovery_status": {
+      "allowed": false,
+      "basis": "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate",
+      "blocked_by": [
+        "DGT-FAMILY-ROADMAP-HG6"
+      ],
+      "claim_scope": "bounded DGT family-level roadmap claim",
+      "status": "blocked"
+    },
+    "forbidden_claim_term_audit": {
+      "forbidden_terms": [
+        "global superiority",
+        "architecture superiority",
+        "production authority",
+        "universal training recipe",
+        "terminal verdict",
+        "unbounded scaling law"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "hardgate": {
+      "failed_gate": "DGT-FAMILY-ROADMAP-HG6",
+      "failed_gate_pointer": "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.cross_level_evidence.evidence_pointers",
+      "gate_names": [
+        "DGT-FAMILY-ROADMAP-HG1",
+        "DGT-FAMILY-ROADMAP-HG2",
+        "DGT-FAMILY-ROADMAP-HG3",
+        "DGT-FAMILY-ROADMAP-HG4",
+        "DGT-FAMILY-ROADMAP-HG5",
+        "DGT-FAMILY-ROADMAP-HG6",
+        "DGT-FAMILY-ROADMAP-HG7",
+        "DGT-FAMILY-ROADMAP-HG8"
+      ],
+      "gates": {
+        "DGT-FAMILY-ROADMAP-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_roadmap.owner_ref"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-ROADMAP-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_roadmap.scaling_ladder"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-ROADMAP-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_roadmap.family_invariants"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-ROADMAP-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_roadmap.training_objective_variants"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-ROADMAP-HG5": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_roadmap.backend_surfaces"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-ROADMAP-HG6": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_roadmap.cross_level_evidence.evidence_pointers"
+          },
+          "status": "fail"
+        },
+        "DGT-FAMILY-ROADMAP-HG7": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_roadmap.cross_level_evidence.cross_level_comparison"
+          },
+          "status": "fail"
+        },
+        "DGT-FAMILY-ROADMAP-HG8": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_roadmap.forbidden_claim_term_audit"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "fail"
+    },
+    "not_claimed": [
+      "No deployment or operational authority is claimed.",
+      "No global-best model-family ranking is admitted.",
+      "No architecture-best ranking is admitted.",
+      "No universal recipe for training is claimed.",
+      "No unbounded scale law is claimed."
+    ],
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$",
+    "roadmap_scope": {
+      "scope": "bounded DGT family-level roadmap claim gate",
+      "scope_ref": "reports/canonical/discovery-gated-transformer.json:$.family_roadmap"
+    },
+    "scaling_ladder": {
+      "pointer": "reports/canonical/discovery-gated-transformer.json:$.scaling_ladder",
+      "required": true
+    },
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer.family-roadmap",
+    "training_objective_variants": {
+      "pointers": [
+        "reports/canonical/discovery-gated-transformer.json:$.hardgate",
+        "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence",
+        "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal"
+      ],
+      "required": true
+    }
+  },
   "forbidden_claim_term_audit": {
     "forbidden_terms": [
       "terminal verdict token",
@@ -1126,7 +1273,7 @@
     "hits": [],
     "status": "pass"
   },
-  "generated_at": "2026-06-13T14:56:21.159269+00:00",
+  "generated_at": "2026-06-15T17:58:08.027224+00:00",
   "hardgate": {
     "gate_names": [
       "DGT-HG1",

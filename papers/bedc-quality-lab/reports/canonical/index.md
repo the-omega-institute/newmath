@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-13T14:56:21.159269+00:00`
+- Generated at: `2026-06-15T17:58:08.027224+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -50,6 +50,7 @@
 | `dgt-model-card` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/dgt-model-card.json` | `reports/canonical/dgt-model-card.md` | `reports/canonical/dgt-model-card.fingerprint.json` | `$.intended_use` | `$.source_artifacts` | `$.not_claimed` | `$.card_hardgates.status` | `$.evaluation_boundaries` |
 | `transformer-derivative-atlas` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/transformer_derivative_atlas.json` | `reports/canonical/layerwise_jet_map.md` | `reports/canonical/transformer_derivative_atlas.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` |
 | `lejepa-theorem-ledger` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
+| `discovery-gated-transformer-jepa-world-model` | `pass` | `blocked` | `fail` | `not-applicable` | `blocked` | `not-applicable` | `True` | `` | `reports/canonical/discovery_gated_transformer_jepa_world_model.json` | `reports/canonical/discovery_gated_transformer_jepa_world_model.md` | `reports/canonical/discovery_gated_transformer_jepa_world_model.fingerprint.json` | `$.claim_boundary` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.claim_boundary` | `$.claim_boundary` |
 | `observed-debt-sweep` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/observed-debt-sweep.json` | `reports/canonical/observed-debt-sweep.md` | `reports/canonical/observed-debt-sweep.fingerprint.json` | `$.claim_boundary.C4` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate_evidence.C-HG5` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
 | `mechanism-dna` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/mechanism_dna.json` | `reports/canonical/mechanism_dna.md` | `reports/canonical/mechanism_dna.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate` | `$.not_claimed` |
@@ -200,6 +201,9 @@
 - Family definition: `reports/canonical/discovery-gated-transformer.json:$.family_definition`
 - Family definition hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_definition.hardgate`
 - Model family claim status: `reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status`
+- Family roadmap: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap`
+- Family roadmap hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate`
+- Family level discovery status: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.family_level_discovery_status`
 - Robustness: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness`
 - Robustness readiness: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.readiness`
 - Robustness hardgate: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.hardgate`
@@ -218,6 +222,19 @@
 - Evidence envelope: `reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref`
 - Mechanism NameCert: `reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref`
 - Jet certificate: `reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref`
+
+## Discovery-Gated Transformer JEPA World Model
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/discovery_gated_transformer_jepa_world_model.json`
+- Markdown: `reports/canonical/discovery_gated_transformer_jepa_world_model.md`
+- Owner: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$`
+- Theorem bridge: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.theorem_bridge`
+- Planning head: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.planning_head`
+- Mechanism seeking: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.mechanism_seeking`
+- Claim boundary: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.claim_boundary`
+- Hardgate: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.hardgate`
+- Not claimed: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.not_claimed`
 
 ## Scaling Ladder
 
@@ -454,7 +471,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review`
-- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, dgt-l1-boundary-report, reproduction-package, reproduction-check-result, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, scaling-ladder, input-accessibility, fair-l1-decision, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, experiment-stack-cards, claim-complexity`
+- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, dgt-l1-boundary-report, reproduction-package, reproduction-check-result, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, scaling-ladder, input-accessibility, fair-l1-decision, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, discovery-gated-transformer-jepa-world-model, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, experiment-stack-cards, claim-complexity`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -499,6 +516,7 @@
 | `order-k-benchmark` | `hg_p_core` | `$.positive_claim` | `$.matched_random_controls` | `None` |
 | `transformer-derivative-atlas` | `auxiliary` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
+| `discovery-gated-transformer-jepa-world-model` | `auxiliary` | `$.claim_boundary` | `None` | `$.claim_boundary` |
 | `observed-debt-sweep` | `auxiliary` | `$.hardgate_evidence.C-HG5` | `None` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
 | `mechanism-dna` | `auxiliary` | `$.hardgate` | `None` | `$.not_claimed` |
