@@ -333,4 +333,25 @@ theorem DyadicIntervalTreeCarrier_window_exhaustion
   }
   exact ⟨cert, branchUnary, containmentUnary, frontierUnary, windowUnary⟩
 
+theorem DyadicIntervalTreeCarrier_branch_ledger_depth_bound
+    {R D B F M Q NW H C P L branchDepth frontierStep : BHist} :
+    DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
+      Cont B D branchDepth ->
+        Cont branchDepth F frontierStep ->
+          UnaryHistory B ∧ UnaryHistory D ∧ UnaryHistory F ∧
+            UnaryHistory branchDepth ∧ UnaryHistory frontierStep ∧
+              Cont B D branchDepth ∧ Cont branchDepth F frontierStep ∧ Cont Q D NW := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packet branchDepthRoute frontierStepRoute
+  obtain
+    ⟨_unaryR, unaryD, unaryB, unaryF, _unaryM, _unaryH, _unaryC, _unaryP,
+      _unaryL, _routeF, _routeQ, routeNW⟩ := packet
+  have unaryBranchDepth : UnaryHistory branchDepth :=
+    unary_cont_closed unaryB unaryD branchDepthRoute
+  have unaryFrontierStep : UnaryHistory frontierStep :=
+    unary_cont_closed unaryBranchDepth unaryF frontierStepRoute
+  exact
+    ⟨unaryB, unaryD, unaryF, unaryBranchDepth, unaryFrontierStep,
+      branchDepthRoute, frontierStepRoute, routeNW⟩
+
 end BEDC.Derived.DyadicIntervalTreeUp
