@@ -3499,6 +3499,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripBridgeConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripBudgetSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripCarrierSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripClassifierStability
+import BEDC.Derived.CriticalLineWitnessUp.FixedStripGapConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripModulusLedger
 import BEDC.Derived.CriticalLineWitnessUp.FixedStripModulusRefusal
@@ -3659,6 +3660,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootNameCertObligationCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNameCertScopeCompletion
 import BEDC.Derived.CriticalLineWitnessUp.RootNonescapePackage
 import BEDC.Derived.CriticalLineWitnessUp.RootPhaseRealSourceUnblock
+import BEDC.Derived.CriticalLineWitnessUp.RootPublicExport
 import BEDC.Derived.CriticalLineWitnessUp.RootPublicReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootRHBoundaryPublicNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootRHConsumerRefusalTotality
@@ -5290,6 +5292,7 @@ import BEDC.Derived.FinitePrefixLimitStabilityUp.TasteGate
 import BEDC.Derived.FinitePrefixMachineUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.NameCertObligations
 import BEDC.Derived.FinitePrefixStreamUp.Nonescape
+import BEDC.Derived.FinitePrefixStreamUp.ObservationInduction
 import BEDC.Derived.FinitePrefixStreamUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.WindowReadback
 import BEDC.Derived.FiniteRealCoverUp.TasteGate
@@ -9219,6 +9222,7 @@ import BEDC.Derived.RegulatedFunctionCompactOscillationUp.TasteGate
 import BEDC.Derived.RegulatedFunctionUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.DarbouxRiemannCompatibility
 import BEDC.Derived.RegulatedIntegralUp.Nonescape
+import BEDC.Derived.RegulatedIntegralUp.PublicInterface
 import BEDC.Derived.RegulatedIntegralUp.RealCompletionRoute
 import BEDC.Derived.RegulatedIntegralUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.VisibleStepHandoff
