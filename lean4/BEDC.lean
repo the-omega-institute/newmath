@@ -6021,6 +6021,7 @@ import BEDC.Derived.IdealUp.StdBridge
 import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.ImplicitFunctionTheoremUp
 import BEDC.Derived.ImplicitFunctionUp
+import BEDC.Derived.ImplicitFunctionUp.LocalGraphSealHandoff
 import BEDC.Derived.ImplicitFunctionUp.RootEquationCarrier
 import BEDC.Derived.ImplicitFunctionUp.TasteGate
 import BEDC.Derived.IndependenceUp
@@ -6110,6 +6111,7 @@ import BEDC.Derived.IntervalDomainUp.TasteGate
 import BEDC.Derived.IntervalDomainWayBelowUp
 import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
 import BEDC.Derived.IntervalHalvingUp
+import BEDC.Derived.IntervalHalvingUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
