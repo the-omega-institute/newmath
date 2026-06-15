@@ -155,6 +155,7 @@ The remaining induction is bounded by the predecessor depth row. The structural 
 \label{thm:dyadic-interval-tree-prefix-frontier-coverage}
 Let $T=(R,D,B,F,M,Q,NW,H,C,P,L)$ be an accepted $\DyadicIntervalTreeUp$ packet. Every consumed branch prefix determines exactly the visible frontier rows reachable at that prefix, and every $\RegSeqRatUp$ or $\RealUp$ window consumer that reads a leaf must pass through this prefix-frontier surface before reading $NW$. The surface consists of the root row $R$, the consumed prefix of $B$, the retained child row at each successor step, the matching containment rows in $Q$, the visible frontier update in $F$, the common mesh row $M$, and the structural rows $H,C,P,L$. It excludes infinite branches, host subsets of $\RealUp$, Dedekind cuts, selected completed points, open-cover compactness, and ambient real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalTreeUp.DyadicIntervalTreeCarrier\_prefix\_frontier\_coverage}
 \begin{proof}
 Induct on the finite branch prefix. In the root case, the visible frontier is the root frontier determined by $R$ and $M$, and every window consumer can reach the nested route only through the root containment and replay rows.
 
@@ -198,9 +199,10 @@ Finally apply \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality} a
 \begin{closurestatus}{\DyadicIntervalTreeUp}
   \constructivestory{A $\DyadicIntervalTreeUp$ packet is generated from a root rational interval row, unary depth row, finite branch ledger, dyadic bisection child rows, dyadic subdivision frontier rows, dyadic mesh cells, rational containment rows, a nested interval route, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:dyadic-interval-tree-carrier}, \autoref{def:dyadic-interval-tree-classifier}, \autoref{def:dyadic-interval-tree-level-scope}, \autoref{thm:dyadic-interval-tree-namecert-obligations}, \autoref{thm:dyadic-interval-tree-refinement-induction}, \autoref{thm:dyadic-interval-tree-branch-coverage}, \autoref{thm:dyadic-interval-tree-leaf-locality}, \autoref{thm:dyadic-interval-tree-window-exhaustion}, \autoref{thm:dyadic-interval-tree-frontier-exhaustion}, \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality}, \autoref{thm:dyadic-interval-tree-branch-ledger-depth-bound}, \autoref{thm:dyadic-interval-tree-prefix-frontier-coverage}, and \autoref{thm:dyadic-interval-tree-scoped-kernel-route} bind the finite dyadic interval-tree obligation and scoped kernel route for Real and Completion window consumers.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:dyadic-interval-tree-carrier}, \autoref{def:dyadic-interval-tree-classifier}, \autoref{def:dyadic-interval-tree-level-scope}, \autoref{thm:dyadic-interval-tree-namecert-obligations}, \autoref{thm:dyadic-interval-tree-refinement-induction}, \autoref{thm:dyadic-interval-tree-branch-coverage}, \autoref{thm:dyadic-interval-tree-leaf-locality}, \autoref{thm:dyadic-interval-tree-window-exhaustion}, \autoref{thm:dyadic-interval-tree-frontier-exhaustion}, \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality}, \autoref{thm:dyadic-interval-tree-branch-ledger-depth-bound}, \autoref{thm:dyadic-interval-tree-prefix-frontier-coverage}, and \autoref{thm:dyadic-interval-tree-scoped-kernel-route} bind the displayed BEDC rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\DyadicBisectionUp$, $\DyadicSubdivisionUp$, $\DyadicMeshUp$, $\RationalIntervalRefinementUp$, and $\NestedIntervalUp$ for finite dyadic interval-tree consumers.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DyadicIntervalTreeUp.DyadicIntervalTreeCarrier\_scoped\_kernel\_route}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close infinite interval trees, host subsets of $\RealUp$, Dedekind cuts, selected completed points, open-cover compactness, ambient real completeness, standard bridges, or a Lean theorem.}
-  \upgradepath{A formal route can encode the carrier and classifier and prove the NameCert obligation and finite branch-ledger induction surfaces over the displayed history rows.}
+  \notclaimed{This chapter does not close infinite branches, host subsets of $\RealUp$, selected points, quotient equality, open-cover compactness, ambient completeness, or standard bridges.}
+  \upgradepath{Bridge checking requires a standard-bridge theorem from the scoped dyadic interval-tree route to the public BEDC schema.}
 \end{closurestatus}
