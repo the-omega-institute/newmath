@@ -57,6 +57,7 @@ rows to a common finite surface. It has no coordinate for quotient streams,
 selected limits, host real equality, or ambient completeness.
 \end{definition}
 \leandef{BEDC.Derived.CauchyModulusArithmeticUp.CauchyModulusArithmeticCarrier}
+\leanchecked{BEDC.Derived.CauchyModulusArithmeticUp.TasteGate.CauchyModulusArithmeticTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Cauchy-modulus arithmetic NameCert obligations]
 \label{thm:cauchy-modulus-arithmetic-namecert-obligations}
@@ -136,6 +137,7 @@ $\CauchyModulusMeetUp$, and $\DyadicRatCoreUp$. In particular the classifier
 cannot compare arithmetic carriers by quotient stream equality, selected
 limits, host real equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusArithmeticUp.CauchyModulusArithmeticCarrier\_namecert\_obligation\_classifier}
 \begin{proof}
 Read the classifier-transport row of
 \autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}. It names exactly
@@ -279,6 +281,7 @@ is exactly the route through $S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},D,W,R,E,H,C,P,N$,
 not a paired field-transport equivalence between independent arithmetic
 packets.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusArithmeticUp.CauchyModulusArithmeticCarrier\_sum\_product\_threshold\_stability}
 \begin{proof}
 Start with the sum route. By
 \autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure}, $\sigma$ is consumed
@@ -417,6 +420,7 @@ source schedules, meet schedule, sum/product consumers, dyadic ledger,
 $\StreamNameUp$ windows, and $\RegSeqRatUp$ readbacks. It exports no quotient
 stream, selected limit, host real equality, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusArithmeticUp.CauchyModulusArithmeticCarrier\_real\_seal\_schedule\_nonescape}
 \begin{proof}
 Start from a consumer that requests the terminal seal row $E$. By
 \autoref{thm:cauchy-modulus-arithmetic-real-consumer-boundary}, the consumer
@@ -704,6 +708,42 @@ The budget exported to the product consumer is therefore the unique displayed
 route through the meet threshold, tail ledger, readback windows, seal,
 transport, replay, provenance, and local NameCert rows. No other carrier
 coordinate can supply a product budget.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus arithmetic windowed product distributivity]
+\label{thm:cauchy-modulus-arithmetic-windowed-product-distributivity}
+Let $A$ be an accepted $\CauchyModulusArithmeticUp$ packet whose sum and
+product modulus schedules expose the same $\StreamNameUp$ window. Any Real
+consumer that reads the product distributivity budget for those schedules must
+route the comparison through the displayed $\CauchyModulusMeetUp$ shared
+threshold, the $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ rows, the
+$\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback rows, and the
+terminal $\RealUp$ seal before it receives the product budget. The common
+window is therefore the only route by which distributivity of the finite
+product budget reaches a downstream Real consumer.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of
+\autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}. They expose the
+two source schedules, the shared threshold row, the arithmetic consumer rows,
+the dyadic tolerance ledger, the readback rows, the Real seal, and the
+structural transport rows as one packet.
+
+Apply the sum and product shared-threshold route of
+\autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure} together with the
+product tail bound of
+\autoref{thm:cauchy-modulus-arithmetic-product-tail-bound}. These clauses keep
+the product budget downstream of the same $\StreamNameUp$ window and the same
+$\CauchyModulusMeetUp$ threshold used by the sum schedule.
+
+Finally use the uniform product budget of
+\autoref{thm:cauchy-modulus-arithmetic-uniform-product-budget} and Real-seal
+congruence,
+\autoref{thm:cauchy-modulus-arithmetic-real-seal-congruence}. The Real
+consumer receives only the route through the displayed tolerance ledger,
+readback rows, terminal seal, transport, replay, provenance, and local naming,
+so the common-window product distributivity obligation is exhausted by the
+carrier surface.
 \end{proof}
 
 \falsifiablePrediction{An accepted $\CauchyModulusArithmeticUp$ consumer that
