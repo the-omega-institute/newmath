@@ -288,6 +288,14 @@ for non-top episodes.  The hard episodes are therefore not linearly readable
 from this aggregate feature view; the next model must expose richer
 episode-state structure or learn a structured assignment rather than only
 retune scalar objectives on the current aggregates.
+A sequence-summary variant adds per-episode feature quantiles,
+adjacent-change summaries, and policy/oracle score-distribution statistics.
+This improves calibration AUROC to $0.5985$ but still gives only $0.5479$ on
+the top missed evaluation episodes, with top missed episodes scoring lower
+than non-top episodes ($-0.846$ versus $-0.728$).  Thus the failure is not
+resolved by simple sequence summaries.  The remaining route is to alter the
+state view more substantially, change the compute-option label space, or use a
+structured sequence/set assignment model.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -394,6 +402,7 @@ $$
 \text{compute-value tail policy} & \texttt{reports/compute\_value\_tail\_policy.json},\\
 \text{compute-value budget surrogate} & \texttt{reports/compute\_value\_budget\_surrogate.json},\\
 \text{compute-value hard-episode probe} & \texttt{reports/compute\_value\_hard\_episode\_probe.json},\\
+\text{compute-value hard-episode sequence probe} & \texttt{reports/compute\_value\_hard\_episode\_sequence\_probe.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

@@ -1,0 +1,67 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_hard_episode_sequence_probe",
+  "inputs": {
+    "decomposition": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_episode_decomposition.npz",
+    "policy": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy_stability_predictions.npz"
+  },
+  "settings": {
+    "gain_quantile": 0.8,
+    "eval_top_k": 8,
+    "steps": 5000,
+    "lr": 0.015,
+    "l2": 0.002
+  },
+  "feature_view": "episode quantiles plus adjacent-change summaries and score-distribution summaries",
+  "train": {
+    "episodes": 167,
+    "positive": 34,
+    "auroc": 1.0,
+    "spearman_with_oracle_gain": 0.5603002257103693,
+    "mean_score_positive": 28.10077967858403,
+    "mean_score_negative": -7.362389684771611
+  },
+  "calibration": {
+    "episodes": 56,
+    "positive": 12,
+    "auroc": 0.5984848484848485,
+    "spearman_with_oracle_gain": 0.18530416951469583,
+    "mean_score_positive": 1.1714079110690412,
+    "mean_score_negative": -0.8658648649189153
+  },
+  "eval": {
+    "episodes": 55,
+    "positive": 8,
+    "auroc": 0.5478723404255319,
+    "spearman_with_oracle_gain": 0.10158730158730159,
+    "mean_score_positive": -0.8455377979829621,
+    "mean_score_negative": -0.7275240903188193,
+    "top_missed_episode_mean_score": -0.8455377979829621,
+    "non_top_missed_episode_mean_score": -0.7275240903188193
+  },
+  "eval_top_missed_episodes": [
+    24,
+    39,
+    81,
+    115,
+    145,
+    193,
+    223,
+    277
+  ],
+  "training_loss_trace": [
+    1.3463025297242652,
+    1.7880027144897839,
+    3.0272765896001346,
+    1.5500901693308873,
+    0.9739457917278459,
+    0.0005152579992994322
+  ],
+  "leakage_attestation": {
+    "train_labels": "train split oracle-gain tail labels only",
+    "calibration_labels": "calibration split oracle-gain tail labels only",
+    "eval_labels": "top missed episodes from precomputed eval decomposition, used only after scores are produced",
+    "policy_scores": "eval policy scores are precomputed predictions and used as features only for the post-hoc eval diagnostic",
+    "slurm_or_ssh": "not used"
+  }
+}

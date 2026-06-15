@@ -188,6 +188,14 @@ state is not linearly readable from this aggregate feature view; allocation
 progress likely requires richer episode-state features or a genuinely
 structured assignment model, not just a better scalar probe on the same
 aggregates.
+A richer sequence-summary probe gives only a small movement.  It augments the
+episode aggregates with per-episode quantiles, adjacent-change summaries, and
+score-distribution summaries.  Calibration AUROC rises to $0.5985$, but
+evaluation AUROC against the top missed episodes is only $0.5479$, and the top
+missed episodes still receive lower mean score ($-0.846$) than non-top episodes
+($-0.728$).  The hard-episode state is therefore not recovered by simple
+sequence summaries either; the next useful experiment should change the state
+view or the option set rather than add another scalar probe.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar
