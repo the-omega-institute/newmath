@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\TreeAutomatonUp$}
+\label{ch:concrete-instances-tree-automaton-namecert}
+\origin{human}
+
+Following Thatcher and Wright's finite tree automata and the standard automata-theory presentation of regular tree languages, the $\TreeAutomatonUp$ packet records bottom-up recognition of finite ranked trees as BEDC NameCert data. It sits beside the word-facing $\FiniteAutomatonUp$ packet of \autoref{ch:concrete-instances-finite-automaton-namecert}, the accepted-language surface of $\RegularLanguageUp$ in \autoref{ch:concrete-instances-regularlanguage-namecert}, the grammar-side syntax carrier $\ContextFreeGrammarUp$ of \autoref{ch:concrete-instances-contextfreegrammar-namecert}, and the finite classifier discipline of $\MyhillNerodeUp$ in \autoref{ch:concrete-instances-myhill-nerode-namecert}. The point is a finite syntax-tree recognition packet, not a determinization theorem or a complement-closure result.
+
+\begin{definition}[Tree automaton carrier]
+\label{def:tree-automaton-carrier}
+A $\TreeAutomatonUp$ carrier is a finite $\BHist$ packet
+$$
+T=(\Sigma,Q,F,\Delta,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Sigma$ is a finite ranked alphabet row, recording each constructor symbol together with its arity.
+\item $Q$ is a finite state row.
+\item $F$ is the accepting-state row.
+\item $\Delta$ is the bottom-up transition ledger, assigning a target state to every displayed constructor together with the finite tuple of child states matching its rank.
+\item $R$ is the finite input-tree row, carrying a rooted syntax tree whose node labels are drawn from $\Sigma$ with matching arities.
+\item $A$ is the acceptance row, recording the root state reached by replaying $\Delta$ from leaves to root and checking membership in $F$.
+\item $H$ records componentwise $\hsame$ transport for $\Sigma,Q,F,\Delta,R,A$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay for reading child-state rows, transition rows, and the root acceptance row in the same finite packet.
+\item $P$ is the $\Pkg$ provenance over $\FiniteAutomatonUp$, $\RegularLanguageUp$, $\ContextFreeGrammarUp$, $\MyhillNerodeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TreeAutomatonUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for infinite trees, unranked branching, hidden state choice, determinization, complement closure, or an external quotient of regular tree languages.
+\end{definition}
+
+\begin{theorem}[Tree automaton NameCert obligations]
+\label{thm:tree-automaton-namecert-obligations}
+For the carrier of \autoref{def:tree-automaton-carrier}, the local $\NameCert_{\TreeAutomatonUp}$ surface consists exactly of carrier admission for
+$$
+T=(\Sigma,Q,F,\Delta,R,A,H,C,P,N),
+$$
+ranked-alphabet exposure through $\Sigma$, finite-state exposure through $Q$, accepting-state exposure through $F$, transition-ledger exactness through $\Delta$, finite-tree admission through $R$, root-recognition readback through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+
+\begin{proof}
+Project the displayed carrier. The finite ranked alphabet, state row, accepting row, transition ledger, input tree, and root-recognition row are the only data from which a $\TreeAutomatonUp$ certificate can be read.
+
+The transport and replay rows do not add a second recognizer. They only preserve the same finite constructor ranks, child-state tuples, transition entries, and root-state check under $\hsame$ and $\Cont$.
+
+Finally read $P$ and $N$. Provenance names the surrounding automata and language packets, while the local NameCert row registers this packet as the tree-recognition surface. No further NameCert obligation remains outside the displayed rows.
+\end{proof}
+
+\begin{theorem}[Tree automaton recognition stability]
+\label{thm:tree-automaton-recognition-stability}
+Every accepted $\TreeAutomatonUp$ replay that preserves the ranked alphabet row $\Sigma$, the transition ledger $\Delta$, and the finite input-tree row $R$ also preserves the root-recognition row $A$. Thus a syntax-tree consumer may export a recognized-tree result only after reading the constructor ranks, child-state transitions, and root accepting-state test from the same packet.
+\end{theorem}
+
+\begin{proof}
+Begin with the carrier of \autoref{def:tree-automaton-carrier}. Each node of $R$ has a constructor from $\Sigma$, and the rank recorded in $\Sigma$ fixes the number of child states that may be supplied to $\Delta$.
+
+Replay the tree from leaves to root. Since $\Delta$ is preserved, each displayed child-state tuple determines the same parent state in the replayed packet. Induction over the finite tree therefore preserves the state assigned to every node.
+
+At the root, the acceptance row $A$ reads exactly that preserved root state and the displayed accepting-state row $F$. Hence any replay preserving $\Sigma,\Delta,R$ and the displayed packet rows preserves the recognized-tree result seen by the downstream consumer.
+\end{proof}
+
+\falsifiablePrediction{A $\TreeAutomatonUp$ read is refuted if a consumer exports recognized-tree acceptance without displaying the finite ranked alphabet, child-state transition ledger, input-tree row, root-state calculation, transport, replay, provenance, and local naming row.}
+
+\independenceWitness{finiteautomaton, regularlanguage, contextfreegrammar, myhillnerode: FiniteAutomatonUp recognizes linear words rather than ranked trees; RegularLanguageUp names word-language acceptance rather than tree-recognition replay; ContextFreeGrammarUp records derivation syntax but not bottom-up ranked-tree state propagation; MyhillNerodeUp records right-congruence classifiers for regular word languages. None is bijective to $\TreeAutomatonUp$ under NameCert-row preservation.}
+
+\closureat{TreeAutomatonUp}{seedStr}
+
+\begin{closurestatus}{\TreeAutomatonUp}
+  \constructivestory{A $\TreeAutomatonUp$ packet is generated from a finite ranked alphabet, finite states, accepting states, a bottom-up transition ledger, a finite input tree, a root-recognition row, componentwise transport, displayed continuation replay, provenance over the automata-language siblings, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tree-automaton-carrier}, \autoref{thm:tree-automaton-namecert-obligations}, and \autoref{thm:tree-automaton-recognition-stability} seed the finite ranked-tree recognition certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim determinization, complement closure, minimization, infinite-tree acceptance, or a checked Lean implementation for $\TreeAutomatonUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, ranked-alphabet exactness, transition-ledger replay, root-recognition stability, transport, continuation, provenance, and local naming for BEDC.Derived.TreeAutomatonUp.}
+\end{closurestatus}
