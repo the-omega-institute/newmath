@@ -248,6 +248,15 @@ positive and the median observed delta across the $12$ runs is $+0.00734$.
 Thus the episode-local objective can nearly erase the wrong-side scalar
 RankNet gap on this export, but the row remains a stability negative rather
 than an allocation claim.
+An episode-level decomposition shows where the remaining error sits.  The
+selected policy's mean episode delta is $+0.00137$, compared with $+0.00698$
+for the scalar RankNet, $+0.02451$ for a random reference, and $-0.01280$ for
+the oracle.  It has $28$ positive-delta and $27$ negative-delta episodes,
+whereas the oracle has $12$ positive and $43$ negative.  The missed oracle gain
+is concentrated: the top missed episode contributes $13.94\%$ of positive
+missed mass, the top five contribute $41.62\%$, and the top ten contribute
+$61.78\%$.  This points to tail-episode assignment and not just average
+episode-listwise ranking.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -350,6 +359,7 @@ $$
 \text{compute-value model} & \texttt{reports/compute\_value\_model.json},\\
 \text{compute-value policy} & \texttt{reports/compute\_value\_policy.json},\\
 \text{compute-value policy stability} & \texttt{reports/compute\_value\_policy\_stability.json},\\
+\text{compute-value episode decomposition} & \texttt{reports/compute\_value\_episode\_decomposition.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\
