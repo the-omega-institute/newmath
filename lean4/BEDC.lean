@@ -562,6 +562,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalReaderNonescape
 import BEDC.Derived.AuthorizedRecursorUp.TasteGate
 import BEDC.Derived.AutomorphicUp
+import BEDC.Derived.AutomorphicUp.TasteGate
 import BEDC.Derived.AxiomDependencyAuditMapUp
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomDependencyMapUp.TasteGate
@@ -2255,6 +2256,7 @@ import BEDC.Derived.CauchyTailModulusSealUp.PublicClassifierRoute
 import BEDC.Derived.CauchyTailModulusSealUp.StdBridge
 import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
+import BEDC.Derived.CauchyTailSupremumUp.TasteGate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyTightnessUp.TasteGate
@@ -3250,6 +3252,7 @@ import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.UnitTailEndpointPackage
 import BEDC.Derived.ContinuationReplayUp
 import BEDC.Derived.ContinuationReplayUp.TasteGate
+import BEDC.Derived.ContinuationTerminationUp.TasteGate
 import BEDC.Derived.ContinuationTraceNormalFormUp
 import BEDC.Derived.ContinuationTraceNormalFormUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
@@ -9182,6 +9185,7 @@ import BEDC.Derived.RegularCauchyRegularizationUp.TasteGate
 import BEDC.Derived.RegularCauchyReindexInvarianceUp.TasteGate
 import BEDC.Derived.RegularCauchyRepletionBoundaryUp
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
+import BEDC.Derived.RegularCauchyRoundingProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
 import BEDC.Derived.RegularCauchyScalarUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp
