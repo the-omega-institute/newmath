@@ -34,6 +34,7 @@ from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointe
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer as _split_artifact_pointer
 from bedc_quality_lab.discovery_compiler.capsule import build_architecture_claim_capsule_payload
 from bedc_quality_lab.discovery_compiler.map import load_validated_discovery_map_payload, validate_discovery_map_payload
+from bedc_quality_lab.discovery_compiler.schema_admission import validate_schema_admission
 from bedc_quality_lab.evidence_provenance import build_evidence_provenance
 from bedc_quality_lab.model_comparison import (
     DGT_CONTROL_SEMANTIC_POINTER as MODEL_COMPARISON_DGT_CONTROL_SEMANTIC_POINTER,
@@ -7365,10 +7366,46 @@ def _validate_reproduction_check_result_payload(payload: Mapping[str, Any]) -> l
     return errors
 
 
+def _schema_validator_ref_for_spec(spec: CanonicalReportSpec, schema_id: str) -> str:
+    if spec.name == "claim-complexity" and schema_id == CLAIM_COMPLEXITY_SCHEMA_ID:
+        return "bedc_quality_lab.claim_complexity.validate_claim_complexity_payload"
+    if spec.name == "dgt-model-card" and schema_id == DGT_MODEL_CARD_SCHEMA_ID:
+        return "bedc_quality_lab.dgt_model_card.validate_dgt_model_card"
+    if spec.name == "reproduction-package" and schema_id == REPRODUCTION_PACKAGE_SCHEMA_ID:
+        return "bedc_quality_lab.reproduction_package.validate_package"
+    if spec.name == "reproduction-check-result" and schema_id == REPRODUCTION_CHECK_RESULT_SCHEMA_ID:
+        return "scripts.run_canonical_reports._validate_reproduction_check_result_payload"
+    if spec.name == "dgt-l1-boundary-report" and schema_id == DGT_L1_BOUNDARY_REPORT_SCHEMA_ID:
+        return "bedc_quality_lab.dgt_l1_boundary_report.validate_l1_boundary_report"
+    if spec.name == "scaling-ladder" and schema_id == SCALING_LADDER_SCHEMA_ID:
+        return "bedc_quality_lab.scaling_ladder.validate_scaling_ladder_payload"
+    return "scripts.run_canonical_reports._validate_json"
+
+
+def _schema_admission_validation(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> dict[str, Any]:
+    schema_id = payload.get("schema_id")
+    if not isinstance(schema_id, str) or not schema_id:
+        return validate_schema_admission(()).as_dict()
+    validator_ref = _schema_validator_ref_for_spec(spec, schema_id)
+    return validate_schema_admission(
+        (
+            {
+                "schema_id": schema_id,
+                "primitive_basis": True,
+                "owner_pointer": f"{spec.json_artifact}:$",
+                "validator_ref": validator_ref,
+                "downgrade_policy": "fail-closed",
+            },
+        )
+    ).as_dict()
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
     key_validation = _validate_json(json_path, spec.required_json_keys)
+    payload = _load_report_payload(spec)
+    schema_admission = _schema_admission_validation(spec, payload)
     semantic_errors: list[str] = []
     if spec.name == "scaling-ladder" and key_validation["status"] == "pass":
         try:
@@ -7387,28 +7424,28 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     ]
     model_card_errors: list[dict[str, str]] = []
     if spec.name == "dgt-model-card" and key_validation["status"] == "pass" and not missing_artifacts:
-        model_card_errors = [error.as_dict() for error in validate_dgt_model_card(_load_report_payload(spec), ROOT)]
+        model_card_errors = [error.as_dict() for error in validate_dgt_model_card(payload, ROOT)]
     reproduction_errors: list[dict[str, str]] = []
     if spec.name == "reproduction-package" and key_validation["status"] == "pass" and not missing_artifacts:
         from bedc_quality_lab.reproduction_package import validate_package
 
         try:
-            validate_package(_load_report_payload(spec), ROOT)
+            validate_package(payload, ROOT)
         except ValueError as exc:
             reproduction_errors.append({"path": spec.json_artifact, "message": str(exc)})
     if spec.name == "reproduction-check-result" and key_validation["status"] == "pass" and not missing_artifacts:
-        payload = _load_report_payload(spec)
         reproduction_errors.extend(_validate_reproduction_check_result_payload(payload))
     boundary_report_errors: list[str] = []
     if spec.name == "dgt-l1-boundary-report" and key_validation["status"] == "pass" and not missing_artifacts:
         try:
-            validate_l1_boundary_report(_load_report_payload(spec))
+            validate_l1_boundary_report(payload)
         except ValueError as exc:
             boundary_report_errors = [str(exc)]
     status = (
         "pass"
         if key_validation["status"] == "pass"
         and not missing_artifacts
+        and schema_admission["status"] == "pass"
         and not semantic_errors
         and not model_card_errors
         and not reproduction_errors
@@ -7420,6 +7457,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         "missing_artifacts": missing_artifacts,
         "required_json_keys": list(spec.required_json_keys),
         "required_key_validation": key_validation,
+        "schema_admission": schema_admission,
         "semantic_errors": semantic_errors,
         "model_card_errors": model_card_errors,
         "reproduction_errors": reproduction_errors,

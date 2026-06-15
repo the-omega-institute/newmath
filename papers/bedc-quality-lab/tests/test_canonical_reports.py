@@ -1206,6 +1206,81 @@ def test_input_accessibility_validation_fails_closed_without_rows(tmp_path):
     assert set(validation["required_key_validation"]["missing_keys"]) == {"rows", "row_count"}
 
 
+def test_artifact_validation_embeds_schema_admission_as_helper_only_contract(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["claim-complexity"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = _payload_for_spec(spec)
+    payload["schema_id"] = canonical.CLAIM_COMPLEXITY_SCHEMA_ID
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    validation = canonical._artifact_validation(spec)
+
+    admission = validation["schema_admission"]
+    assert admission["status"] == "pass"
+    assert list(admission) == ["status", "rows", "hardgates"]
+    assert admission["rows"] == [
+        {
+            "schema_id": canonical.CLAIM_COMPLEXITY_SCHEMA_ID,
+            "primitive_basis": True,
+            "owner_pointer": f"{canonical.CLAIM_COMPLEXITY_JSON_ARTIFACT}:$",
+            "validator_ref": "bedc_quality_lab.claim_complexity.validate_claim_complexity_payload",
+            "downgrade_policy": "fail-closed",
+            "status": "pass",
+            "reason": "schema admission fields are present",
+        }
+    ]
+    assert "hardgates" not in admission["rows"][0]
+    assert all(gate["status"] == "pass" for gate in admission["hardgates"].values())
+
+
+def test_artifact_validation_uses_required_key_validator_as_minimum_schema_binding(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["input-accessibility"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = _payload_for_spec(spec)
+    payload["schema_id"] = canonical.INPUT_ACCESSIBILITY_SCHEMA_ID
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    validation = canonical._artifact_validation(spec)
+
+    admission = validation["schema_admission"]
+    assert admission["status"] == "pass"
+    assert admission["rows"][0]["schema_id"] == canonical.INPUT_ACCESSIBILITY_SCHEMA_ID
+    assert admission["rows"][0]["validator_ref"] == "scripts.run_canonical_reports._validate_json"
+    assert admission["rows"][0]["downgrade_policy"] == "fail-closed"
+
+
+def test_artifact_validation_fails_schema_admission_when_validator_binding_is_not_callable(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["input-accessibility"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = _payload_for_spec(spec)
+    payload["schema_id"] = canonical.INPUT_ACCESSIBILITY_SCHEMA_ID
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+    monkeypatch.setattr(canonical, "_schema_validator_ref_for_spec", lambda _spec, _schema_id: "scripts.run_canonical_reports.MISSING")
+
+    validation = canonical._artifact_validation(spec)
+
+    assert validation["status"] == "fail"
+    admission = validation["schema_admission"]
+    assert admission["status"] == "fail"
+    assert admission["rows"][0]["status"] == "fail"
+    assert admission["hardgates"]["SCHEMA-MIN-HG3-validator-binding"]["row_indexes"] == [0]
+
+
 def test_order_k_benchmark_fingerprint_closure_has_runner_and_projector(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     spec = canonical._specs_by_name()["order-k-benchmark"]
@@ -8772,6 +8847,24 @@ def test_high_impact_claim_review_stays_absent_from_canonical_surfaces():
     assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
     for artifact in forbidden_artifacts:
         assert artifact not in index_text
+
+
+def test_schema_admission_stays_absent_from_canonical_surfaces():
+    forbidden_artifacts = {
+        "reports/canonical/schema_admission.json",
+        "reports/canonical/schema_admission.md",
+    }
+    specs = canonical.CANONICAL_REPORTS
+    index_payload = json.loads((canonical.ROOT / "reports/canonical/index.json").read_text(encoding="utf-8"))
+    index_text = json.dumps(index_payload, sort_keys=True)
+
+    assert "schema-admission" not in {spec.name for spec in specs}
+    assert forbidden_artifacts.isdisjoint({spec.json_artifact for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
+    assert "schema_admission" not in index_payload
+    for artifact in forbidden_artifacts:
+        assert artifact not in index_text
+        assert not (canonical.ROOT / artifact).exists()
 
 
 def test_high_impact_review_canonical_spec_uses_hyphen_path_and_core_role():
