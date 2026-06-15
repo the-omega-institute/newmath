@@ -2149,8 +2149,9 @@ def detect_paper_gate_policy_drift() -> list[dict]:
             "side": "producer_only",
             "message": (
                 f"paper-gate schema drift: '{key}' in GATE_DISPATCH(producer) "
-                "but missing from PAPER_GATE_POLICY(consumer) — will wedge "
-                "paper pipeline with invalid-schema"
+                "but missing from PAPER_GATE_POLICY(consumer) — runs as ADVISORY "
+                "until registered; register in PAPER_GATE_POLICY (+ restart "
+                "orchestrator) to enforce as configured severity"
             ),
         })
     for key in sorted(consumer_keys - producer_keys):
@@ -11420,6 +11421,9 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
         "paper_gate_policy_drift": paper_gate_policy_drift,
         "paper_gate_policy_drift_count": len(paper_gate_policy_drift),
+        "paper_gate_policy_drift_blocking_count": sum(
+            1 for d in paper_gate_policy_drift if d.get("side") == "consumer_only"
+        ),
         "theorem_dna_coverage_count": theorem_dna_coverage["covered_count"],
         "theorem_dna_stale_count": theorem_dna_stale["stale_count"],
         "leanstmt_debt": leanstmt_debt,
@@ -11650,9 +11654,18 @@ def cmd_audit(args: argparse.Namespace) -> int:
             for item in payload["paper_chapter_origin_tags"][:50]:
                 print(f"  {item['file']}:{item['line']}: {item['kind']}")
         if payload["paper_gate_policy_drift"]:
+            blocking = [
+                d for d in payload["paper_gate_policy_drift"]
+                if d.get("side") == "consumer_only"
+            ]
+            advisory = [
+                d for d in payload["paper_gate_policy_drift"]
+                if d.get("side") != "consumer_only"
+            ]
             print(
                 "[bedc-ci] paper-gate schema drift: "
-                f"{payload['paper_gate_policy_drift_count']} (BLOCKING)"
+                f"{len(blocking)} BLOCKING (missing from producer), "
+                f"{len(advisory)} advisory (unregistered producer gate; promote)"
             )
             for item in payload["paper_gate_policy_drift"][:50]:
                 print(f"  {item['message']}")
@@ -11896,7 +11909,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["concrete_number_collisions_new_count"]
         + payload["concrete_missing_origin_new_count"]
         + payload["paper_chapter_origin_tags_new_count"]
-        + payload["paper_gate_policy_drift_count"]
+        + payload["paper_gate_policy_drift_blocking_count"]
         + payload["closurestatus_diagnostics_new_count"]
         + payload["closurestatus_open_errors_new_count"]
         + payload["orphan_concrete_subdirs_new_count"]

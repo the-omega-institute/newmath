@@ -75,4 +75,63 @@ theorem WritingItemAudit_obligation_closure_route [AskSetup] [PackageSetup]
     }
   exact ⟨base, claimCert⟩
 
+theorem WritingItemAudit_sibling_dependency [AskSetup] [PackageSetup]
+    {K C R L T F _G Q _H U P _N discipline packet admitted named packetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont discipline packet admitted ->
+      Cont K C discipline ->
+        Cont R L packet ->
+          Cont U P named ->
+            Cont named packet packetRead ->
+              PkgSig bundle named pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row packetRead ∧ Cont named packet packetRead)
+                    (fun row : BHist =>
+                      hsame row packetRead ∨ hsame row discipline ∨ hsame row packet ∨
+                        hsame row K ∨ hsame row Q ∨ hsame row T ∨ hsame row F)
+                    (fun _row : BHist =>
+                      PkgSig bundle named pkg ∧ Cont discipline packet admitted ∧
+                        Cont named packet packetRead)
+                    hsame ∧
+                  Cont K C discipline ∧ Cont R L packet := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro disciplinePacketAdmitted kindDiscipline classifierPacket namedRoute packetReadRoute
+    pkgNamed
+  have packetCert :
+      SemanticNameCert
+          (fun row : BHist => hsame row packetRead ∧ Cont named packet packetRead)
+          (fun row : BHist =>
+            hsame row packetRead ∨ hsame row discipline ∨ hsame row packet ∨ hsame row K ∨
+              hsame row Q ∨ hsame row T ∨ hsame row F)
+          (fun _row : BHist =>
+            PkgSig bundle named pkg ∧ Cont discipline packet admitted ∧
+              Cont named packet packetRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro packetRead ⟨hsame_refl packetRead, packetReadRoute⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inl sourceRow.left
+      ledger_sound := by
+        intro _row _sourceRow
+        exact ⟨pkgNamed, disciplinePacketAdmitted, packetReadRoute⟩
+    }
+  exact ⟨packetCert, kindDiscipline, classifierPacket⟩
+
 end BEDC.Derived.WritingItemAuditUp
