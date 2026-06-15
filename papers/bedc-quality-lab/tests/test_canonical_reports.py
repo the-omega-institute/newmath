@@ -1786,6 +1786,32 @@ def _write_discovery_gated_transformer_owner_for_index(tmp_path):
     return owner
 
 
+def _write_jepa_world_model_source_fixtures(root):
+    canonical_dir = root / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True, exist_ok=True)
+    (root / canonical.LEJEPA_THEOREM_LEDGER_JSON_ARTIFACT).write_text(
+        json.dumps(lejepa_theorem_ledger.build_payload(generated_at="fixture-time"), sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    for relative, payload in {
+        canonical.BEDC_JEPA_QUALITY_PACKET_ARTIFACT: {
+            "namecert": {
+                "source_spec": "fixture-source",
+                "classifier_spec": "fixture-classifier",
+            },
+            "ledger": [],
+            "quality_gate": {"status": "pass"},
+        },
+        canonical.BEDC_JEPA_PLANNING_ARTIFACT: {
+            "risk_constrained_planning": {"status": "bounded"}
+        },
+        canonical.BEDC_JEPA_ARTIFACT_MANIFEST: {"status": "present"},
+    }.items():
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def _write_observed_debt_projection_fixtures(root):
     fixtures = {
         "reports/canonical/nongaussian-distribution-sweep.json": {
@@ -9706,6 +9732,92 @@ def test_structural_generalization_splits_only_regen_is_idempotent(tmp_path, mon
     assert first == second
     assert first_payload["reports"][0]["name"] == "structural-generalization-splits"
     assert second_payload["reports"][0]["name"] == "structural-generalization-splits"
+
+
+def test_jepa_world_model_only_route_replaces_index_row_and_writes_summary(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_jepa_world_model_source_fixtures(tmp_path)
+    spec = canonical._specs_by_name()["discovery-gated-transformer-jepa-world-model"]
+    canonical.INDEX_ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
+    existing_index = json.loads(
+        (canonical.SOURCE_ROOT / "reports" / "canonical" / "index.json").read_text(encoding="utf-8")
+    )
+    old_row = _index_row_for_spec(spec) | {"status": "fail", "stale": True}
+    other_spec = canonical._specs_by_name()["mixing-family-sweep"]
+    existing_index["reports"] = [
+        old_row if row.get("name") == spec.name else row
+        for row in existing_index["reports"]
+    ]
+    canonical.INDEX_ARTIFACT.write_text(json.dumps(existing_index, sort_keys=True) + "\n", encoding="utf-8")
+    owner = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+    canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), owner)
+    canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# JEPA owner\n")
+    summary_path = tmp_path / "summary.json"
+    calls = []
+
+    def fake_run_spec(route_spec, mode="changed", generated_at=None):
+        calls.append((route_spec.name, mode, generated_at))
+        assert route_spec is spec
+        return _index_row_for_spec(route_spec) | {"status": "pass", "producer_status": "completed"}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    payload = canonical.run_reports(
+        only="discovery-gated-transformer-jepa-world-model",
+        generated_at="2030-01-01T00:00:00+00:00",
+        json_summary=str(summary_path),
+    )
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    rows = {row["name"]: row for row in payload["reports"]}
+
+    assert calls == [("discovery-gated-transformer-jepa-world-model", "changed", "2030-01-01T00:00:00+00:00")]
+    assert rows[spec.name]["producer_status"] == "completed"
+    assert "stale" not in rows[spec.name]
+    assert rows[other_spec.name]["name"] == other_spec.name
+    assert payload["discovery_gated_transformer_jepa_world_model"]["status"] == "pointer-only"
+    assert payload["discovery_gated_transformer_jepa_world_model"]["owner_pointer"] == (
+        f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$"
+    )
+    pass_count = payload["status_summary"]["axes"]["report_build_status"]["pass"]
+    assert pass_count == sum(
+        1
+        for row in payload["reports"]
+        if row["report_build_status"]["value"] == "pass"
+    )
+    assert pass_count >= 2
+    assert spec.name in payload["paper_outline"]["auxiliary_reports"]
+    assert "not full LeJEPA" in payload["claims_nonclaims"]["nonclaims"]
+    assert payload["evidence_provenance"]["generated_at"] == "2030-01-01T00:00:00+00:00"
+    assert payload["aggregation_consistency"]["status"] in {"pass", "fail"}
+    assert summary["discovery_gated_transformer_jepa_world_model"] == payload["discovery_gated_transformer_jepa_world_model"]
+    assert summary["reports"] == payload["reports"]
+
+
+def test_jepa_world_model_only_route_raises_on_failed_report(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_jepa_world_model_source_fixtures(tmp_path)
+    spec = canonical._specs_by_name()["discovery-gated-transformer-jepa-world-model"]
+    canonical.INDEX_ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
+    canonical.INDEX_ARTIFACT.write_bytes(
+        (canonical.SOURCE_ROOT / "reports" / "canonical" / "index.json").read_bytes()
+    )
+    owner = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+    canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), owner)
+    canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# JEPA owner\n")
+
+    def fake_run_spec(route_spec, mode="changed", generated_at=None):
+        assert route_spec is spec
+        return _index_row_for_spec(route_spec) | {"status": "fail"}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="discovery-gated-transformer-jepa-world-model",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
 
 
 def test_jepa_world_model_canonical_spec_is_owner_only():
