@@ -108,13 +108,29 @@ selected limits, or ambient $\RealUp$ completeness.
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalDomainWayBelowUp.IntervalDomainWayBelowObligationClosurePackage}
 
+\begin{theorem}[IntervalDomainWayBelow strict-margin obligation scope]
+\label{thm:interval-domain-way-below-obligation-margin-scope}
+Every accepted $\IntervalDomainWayBelowUp$ carrier must expose the positive $\DyadicRatCoreUp$ margin row before any $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer may read the way-below comparison. The accepted route is therefore a strict-margin route through the displayed finite carrier, not a quotient-real comparison, host equality test, open-cover compactness proof, selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-domain-way-below-carrier}. The row $M$ is the positive dyadic margin, and it sits before the nested route $N$, stream windows $S$, regular readbacks $Q$, and seal boundary $E$ in the displayed tuple.
+
+Use \autoref{thm:interval-domain-way-below-namecert-obligations}. Its strict-margin clause requires $M$ to certify that the inner rational interval lies strictly inside the coarser interval cell before the local NameCert accepts the comparison.
+
+Apply \autoref{thm:interval-domain-way-below-approximation-route}. The completion-facing route factors through $\DyadicRatCoreUp$ before it reaches $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$, so every downstream consumer receives the margin row first.
+
+The exclusions follow from the same carrier projection. Since the carrier has no quotient-real equality, host-equality, open-cover compactness, selected-limit, or ambient-completeness coordinate, none of those principles can be supplied by the strict-margin obligation surface.
+\end{proof}
+
+\closureat{IntervalDomainWayBelowUp}{obligationStr}
+
 \begin{closurestatus}{\IntervalDomainWayBelowUp}
   \constructivestory{An $\IntervalDomainWayBelowUp$ packet is generated from a coarser IntervalDomainUp cell, an inner LocatedIntervalUp/RationalIntervalUp cell, a positive DyadicRatCore margin, a NestedIntervalUp refinement route, StreamNameUp windows, RegSeqRatUp readbacks, a RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:interval-domain-way-below-carrier}, \autoref{thm:interval-domain-way-below-namecert-obligations}, and \autoref{thm:interval-domain-way-below-approximation-route} seed the finite Scott-domain way-below relation for L10 interval-domain approximation.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:interval-domain-way-below-carrier}, \autoref{thm:interval-domain-way-below-namecert-obligations}, \autoref{thm:interval-domain-way-below-approximation-route}, \autoref{thm:interval-domain-way-below-obligation-closure-package}, and \autoref{thm:interval-domain-way-below-obligation-margin-scope} close the finite strict-margin obligation surface for L10 interval-domain way-below approximation.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.IntervalDomainWayBelowUp.IntervalDomainWayBelowCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient real equality, host real equality, open-cover compactness, selected limits, ambient RealUp completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, strict-margin evidence, nested-route compatibility, observation replay, transport stability, seal non-escape, and completion-consumer factorization for BEDC.Derived.IntervalDomainWayBelowUp.}
+  \upgradepath{Scoped closure requires a checked consumer boundary tying the strict-margin surface to every displayed NestedIntervalUp, StreamNameUp, RegSeqRatUp, and RealUp route.}
 \end{closurestatus}
