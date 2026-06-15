@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\WellFoundedTreeRankUp$}
+\label{ch:concrete-instances-well-founded-tree-rank-namecert}
+\origin{human}
+
+Following Brouwer-style finite-bar arguments and Bishop's use of induction over finitely generated construction trees, the $\WellFoundedTreeRankUp$ packet records the bounded tree-rank surface needed by prefix-tree reasoning in the L10 stream and completion route. It sits after the finitely branching tree carrier of \autoref{ch:concrete-instances-finitely-branching-tree-namecert} and the Brouwer bar-induction boundary of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}. The packet names only a finite rank row for displayed prefix trees; it does not import choice, infinite branch selection, host well-founded recursion, or quotient tree equality.
+
+\begin{definition}[Well-founded tree-rank carrier]
+\label{def:well-founded-tree-rank-carrier}
+A $\WellFoundedTreeRankUp$ carrier is a finite $\BHist$ packet
+$$
+T=(A,R,L,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite alphabet or constructor row for prefix labels;
+\item $R$ is the rank row, listing a natural height bound for each displayed node in the finite prefix tree;
+\item $L$ is the leaf row, recording the frontier nodes where the rank is $0$;
+\item $W$ is the window row, recording the finite $\StreamNameUp$ and $\RegSeqRatUp$ prefix windows served by the tree;
+\item $H$ is the componentwise $\hsame$ transport row for $A,R,L,W$;
+\item $C$ is the displayed $\Cont$ replay row that extends a prefix window without changing the already exposed rank data;
+\item $P$ is the $\Pkg$ provenance over $\WellFoundedTreeRankUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\WellFoundedTreeRankUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for choosing an infinite branch, identifying distinct tree presentations by quotient equality, or invoking an ambient well-founded-recursion principle outside the displayed finite rank row.
+\end{definition}
+
+\begin{theorem}[Well-founded tree-rank NameCert obligations]
+\label{thm:well-founded-tree-rank-namecert-obligations}
+For the carrier of \autoref{def:well-founded-tree-rank-carrier}, the local $\NameCert_{\WellFoundedTreeRankUp}$ surface consists exactly of carrier admission for $T=(A,R,L,W,H,C,P,N)$, rank-row exposure through $R$, leaf-frontier exposure through $L$, finite prefix-window readback through $W$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The finitely branching predecessor surface is supplied by \autoref{ch:concrete-instances-finitely-branching-tree-namecert}, while the bar-facing boundary of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert} explains why a finite frontier may be read without selecting an infinite branch.
+
+Induct on the displayed finite rank row $R$. At rank $0$, the leaf row $L$ supplies the frontier certificate, and the window row $W$ reads only the finite $\StreamNameUp$ or $\RegSeqRatUp$ prefix already present at that leaf.
+
+For the successor rank, each immediate subtree has a strictly smaller displayed rank. Apply the induction hypothesis to those rows, then repack the parent by $H,C,P,N$. Since every step reads only the finite coordinates $A,R,L,W,H,C,P,N$, the NameCert obligations are exhausted by the stated surface.
+\end{proof}
+
+\begin{theorem}[Well-founded tree-rank induction route]
+\label{thm:well-founded-tree-rank-induction-route}
+Every $\StreamNameUp$ or $\RegSeqRatUp$ prefix argument served by an accepted $\WellFoundedTreeRankUp$ packet may use induction only over the displayed finite rank row $R$. The route first exposes the finite branching data, then the leaf frontier, then the prefix window $W$, and only then replays continuation through $C$; it exports no choice of an infinite branch and no host recursion over an ambient tree type.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:well-founded-tree-rank-carrier}. The only induction coordinate is $R$, and every consumer-visible prefix window is recorded in $W$ before continuation replay is available.
+
+For the base rank, the leaf-frontier row $L$ gives the terminal prefix window. The consumer reads the finite $\StreamNameUp$ or $\RegSeqRatUp$ prefix directly from $W$, so no branch selection or quotient tree equality is needed.
+
+For the successor rank, use the induction hypothesis on each displayed predecessor row. Finitely branching exposure supplies the finite list of predecessors, and the Brouwer-style bar boundary supplies the reason that the read remains frontier-local. Transport and replay through $H$ and $C$ preserve the same packet, while $P$ and $N$ keep the route inside the local NameCert.
+\end{proof}
+
+\falsifiablePrediction{A prefix-tree proof that deletes the rank row $R$ can no longer distinguish finite $\StreamNameUp$ and $\RegSeqRatUp$ window induction from an illicit infinite-branch selection.}
+
+\independenceWitness{finitelybranchingtree, brouwerbarinduction, streamname, regseqrat: FinitelyBranchingTreeUp supplies finite branching but not a displayed decreasing rank row; BrouwerBarInductionUp supplies the bar-facing boundary but not the L10 prefix-window packet; StreamNameUp and RegSeqRatUp supply finite windows but not the tree-rank induction carrier. None is bijective to $\WellFoundedTreeRankUp$ under NameCert-row preservation.}
+
+\closureat{WellFoundedTreeRankUp}{seedStr}
+
+\begin{closurestatus}{\WellFoundedTreeRankUp}
+  \constructivestory{A $\WellFoundedTreeRankUp$ packet is generated from a finite label row, displayed rank row, leaf frontier, finite stream or regular-rational prefix window, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the finite rank carrier, NameCert obligation surface, and prefix-window induction route for $\StreamNameUp$ and $\RegSeqRatUp$ consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim choice, infinite branch selection, host well-founded recursion, quotient tree equality, or ambient completion equality.}
+  \upgradepath{Reaching obligation closure requires checked carrier admission, rank-row exposure, leaf-frontier readback, finite prefix-window preservation, transport, replay, provenance, and local naming for BEDC.Derived.WellFoundedTreeRankUp.}
+\end{closurestatus}
