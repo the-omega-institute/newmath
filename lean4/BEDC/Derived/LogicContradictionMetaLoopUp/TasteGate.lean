@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LogicContradictionMetaLoopUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -245,5 +255,42 @@ theorem LogicContradictionMetaLoopTasteGate_single_carrier_alignment :
       · intro x y heq
         exact LogicContradictionMetaLoopTasteGate_single_carrier_alignment_injective heq
       · rfl
+
+def LogicContradictionMetaLoopCarrier [AskSetup] [PackageSetup]
+    (proofPattern refutation metaRefusal auditGate transport replay provenance localName :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory proofPattern ∧ UnaryHistory refutation ∧ UnaryHistory auditGate ∧
+    UnaryHistory transport ∧ Cont proofPattern refutation metaRefusal ∧
+      Cont metaRefusal auditGate replay ∧ Cont transport replay provenance ∧
+        PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
+theorem LogicContradictionMetaLoopCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {proofPattern refutation metaRefusal auditGate transport replay provenance localName :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LogicContradictionMetaLoopCarrier proofPattern refutation metaRefusal auditGate
+        transport replay provenance localName bundle pkg →
+      UnaryHistory proofPattern ∧ UnaryHistory refutation ∧ UnaryHistory metaRefusal ∧
+        UnaryHistory auditGate ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+          Cont proofPattern refutation metaRefusal ∧ Cont metaRefusal auditGate replay ∧
+            Cont transport replay provenance ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨proofPatternUnary, refutationUnary, auditGateUnary, transportUnary,
+    proofRefutationMeta, metaAuditReplay, transportReplayProvenance, provenancePkg,
+    localNamePkg⟩ := carrier
+  have metaRefusalUnary : UnaryHistory metaRefusal :=
+    unary_cont_closed proofPatternUnary refutationUnary proofRefutationMeta
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed metaRefusalUnary auditGateUnary metaAuditReplay
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed transportUnary replayUnary transportReplayProvenance
+  exact
+    ⟨proofPatternUnary, refutationUnary, metaRefusalUnary, auditGateUnary, replayUnary,
+      provenanceUnary, proofRefutationMeta, metaAuditReplay, transportReplayProvenance,
+      provenancePkg, localNamePkg⟩
 
 end BEDC.Derived.LogicContradictionMetaLoopUp
