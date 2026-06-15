@@ -108,10 +108,9 @@ def _request_json_nyxid_oracle(
         tag = str(payload.get("tag") or payload.get("intended_claim_id") or payload.get("intended_lane") or "bio-oracle-query")
         cmd = ["nyxid", "oracle", "ask", "--output", "json", "--no-wait", "--tag", tag]
         conversation_id = str(payload.get("conversation_id") or "")
-        if conversation_id:
-            cmd.extend(["--conversation", conversation_id])
-        else:
-            cmd.append("--new-conversation")
+        if not conversation_id:
+            return _error("invalid_conversation_id", "conversation_id is required; refusing to create a new oracle conversation")
+        cmd.extend(["--conversation", conversation_id])
         pdf_base64 = str(payload.get("pdf_base64") or "")
         temp_path: Path | None = None
         try:
@@ -471,22 +470,13 @@ def run_session(
     try:
         for turn_index in range(total_turns):
             if turn_index == 0 and not conversation_id:
-                # Pass topic as tag so server-side conv files tag matches the
-                # client-side topic key; bio-C backfill can then write
-                # topic_conversations[topic] using the same key the lane reads.
-                task_id, new_conv_id = submit_query_full(
-                    current_prompt,
-                    intended_claim_id=intended_claim_id,
-                    intended_lane=intended_lane,
-                    pdf_base64=pdf_base64,
-                    pdf_name=pdf_name,
-                    tag=topic,
-                    server_url=server_url,
+                result = _error(
+                    "invalid_conversation_id",
+                    "conversation_id is required; oracle sessions only continue an existing conversation",
                 )
-                # Capture conv_id immediately from server's submit response so
-                # caller can persist it for follow-up even if poll_result times out.
-                if new_conv_id and not conversation_id:
-                    conversation_id = new_conv_id
+                turns.append({"turn": turn_index, "prompt": current_prompt, "result": result})
+                closed_reason = result["detail"]
+                break
             elif turn_index == 0 and conversation_id:
                 # Resuming an existing ChatGPT conversation across cycles.
                 task_id = continue_query(
@@ -497,20 +487,6 @@ def run_session(
                     tag=topic,
                     server_url=server_url,
                 )
-                if not task_id and allow_resume_fallback and _is_nyxid_oracle_url(server_url):
-                    task_id, new_conv_id = submit_query_full(
-                        current_prompt,
-                        intended_claim_id=intended_claim_id,
-                        intended_lane=intended_lane,
-                        pdf_base64=pdf_base64,
-                        pdf_name=pdf_name,
-                        tag=topic,
-                        server_url=server_url,
-                    )
-                    if task_id:
-                        conversation_id = new_conv_id
-                        resumed = False
-                        resume_fallback = True
             else:
                 task_id = continue_query(
                     conversation_id,
