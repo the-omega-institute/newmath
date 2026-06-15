@@ -83,3 +83,39 @@ Now apply the locality-scope theorem, \autoref{thm:metacic-parallel-diamond-fron
 
 Finally use residual-join locality exhaustion. Once the consumer has read $P,K,J,R,S,C,B,O,H,T,G,N$, there is no further coordinate for residual-substitution discharge, subject reduction, confluence, normalization, evaluator equality, quotient term equality, or kernel consistency. The obstruction budget is therefore retained as a carrier-local boundary.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-join witness locality]
+\label{thm:metacic-parallel-diamond-residual-join-witness-locality}
+Every accepted residual-join witness for
+$\MetaCICParallelDiamondFrontierUp$ must read the finite residual witness row
+and the bounded checker rows before exporting the local join row. The read
+retains both the premise row $P$ and the obstruction row $O$ through the
+structural rows $H,T,G,N$, so its carrier surface is still
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+It does not discharge residual substitution, subject reduction, global
+confluence, strong normalization, evaluator equality, quotient term equality,
+or kernel consistency.
+\end{theorem}
+\begin{proof}
+First apply finite residual witness consumption,
+\autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}.
+The witness read is forced through typed windows, residual witness data,
+bounded checker rows, transport, replay, provenance, and local naming before
+any local join row is exported.
+
+Next apply residual-join locality and the residual grid,
+\autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality} and
+\autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. These results
+place the join in the displayed finite route and keep the premise row $P$
+inside the same carrier-local grid as the critical-pair, witness, checker, and
+obstruction rows.
+
+Finally apply the residual obstruction budget,
+\autoref{thm:metacic-parallel-diamond-frontier-residual-obstruction-budget}.
+It keeps $O$ visible through $H,T,G,N$ and prevents the local join witness from
+being read as residual-substitution discharge, subject reduction, global
+confluence, strong normalization, evaluator equality, quotient term equality,
+or kernel consistency.
+\end{proof}

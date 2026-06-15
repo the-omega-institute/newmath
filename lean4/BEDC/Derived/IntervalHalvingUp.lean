@@ -25,7 +25,8 @@ def IntervalHalvingCarrier [AskSetup] [PackageSetup]
       UnaryHistory realSeal ∧ UnaryHistory transport ∧ hsame transport (append left right) ∧
         Cont left right midpoint ∧ Cont midpoint chosenHalf radius ∧
           Cont radius streamWindow regularReadback ∧ Cont regularReadback realSeal replay ∧
-            Cont transport replay provenance ∧ PkgSig bundle localName pkg
+            Cont transport replay provenance ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle localName pkg
 
 theorem IntervalHalvingCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {left right midpoint chosenHalf radius streamWindow regularReadback realSeal transport replay
@@ -51,7 +52,7 @@ theorem IntervalHalvingCarrier_namecert_obligations [AskSetup] [PackageSetup]
     ⟨_leftUnary, _rightUnary, _midpointUnary, _chosenHalfUnary, _radiusUnary,
       _streamWindowUnary, _regularReadbackUnary, realSealUnary, _transportUnary,
       transportAnchor, midpointRoute, radiusRoute, readbackRoute, realSealRoute,
-      provenanceRoute, packageRoute⟩ := carrier
+      provenanceRoute, _provenancePkg, packageRoute⟩ := carrier
   have sourceAtSeal : hsame realSeal realSeal ∧ UnaryHistory realSeal :=
     ⟨hsame_refl realSeal, realSealUnary⟩
   have cert :
@@ -94,5 +95,33 @@ theorem IntervalHalvingCarrier_namecert_obligations [AskSetup] [PackageSetup]
   exact
     ⟨cert, midpointRoute, radiusRoute, readbackRoute, realSealRoute, transportAnchor,
       packageRoute⟩
+
+theorem IntervalHalvingDyadicNestedHandoff [AskSetup] [PackageSetup]
+    {left right midpoint chosenHalf radius streamWindow regularReadback realSeal transport replay
+      provenance localName nestedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalHalvingCarrier left right midpoint chosenHalf radius streamWindow regularReadback
+        realSeal transport replay provenance localName bundle pkg →
+      Cont chosenHalf radius nestedRead →
+        PkgSig bundle nestedRead pkg →
+          UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory midpoint ∧
+            UnaryHistory chosenHalf ∧ UnaryHistory radius ∧ UnaryHistory nestedRead ∧
+              Cont left right midpoint ∧ Cont midpoint chosenHalf radius ∧
+                Cont chosenHalf radius nestedRead ∧ hsame transport (append left right) ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle nestedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  intro carrier chosenRadiusNested nestedPkg
+  obtain
+    ⟨leftUnary, rightUnary, midpointUnary, chosenUnary, radiusUnary, _streamUnary,
+      _regularUnary, _realSealUnary, _transportUnary, transportAnchor, midpointRoute,
+      radiusRoute, _readbackRoute, _realSealRoute, _provenanceRoute, provenancePkg,
+      _localNamePkg⟩ :=
+    carrier
+  have nestedUnary : UnaryHistory nestedRead :=
+    unary_cont_closed chosenUnary radiusUnary chosenRadiusNested
+  exact
+    ⟨leftUnary, rightUnary, midpointUnary, chosenUnary, radiusUnary, nestedUnary,
+      midpointRoute, radiusRoute, chosenRadiusNested, transportAnchor, provenancePkg,
+      nestedPkg⟩
 
 end BEDC.Derived.IntervalHalvingUp
