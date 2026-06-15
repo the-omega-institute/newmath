@@ -160,6 +160,15 @@ oracle by $0.01417$ on average.  The missed-oracle mass is tail concentrated:
 the worst episode accounts for $13.94\%$ of the positive missed mass, the worst
 five for $41.62\%$, and the worst ten for $61.78\%$.  Thus the next allocation
 objective should be tail-episode-aware, not only globally listwise.
+The direct tail-episode weighting test is negative.  It weights train episodes
+by their train-split oracle gain before fitting the same policy scorer, using a
+$3\times 3$ seed/epoch grid and calibration allocation selection.  The selected
+row evaluates at $+0.00878$ $[+0.00322,\ +0.01536]$, worse than the unweighted
+episode-policy reference $+0.00184$ $[-0.00309,\ +0.00651]$; the best observed
+tail-weighted row is still $+0.00431$ $[-0.00080,\ +0.01012]$.  This rejects
+naive train-oracle episode weighting as the missing step.  The tail signal must
+enter through a budget-feasible objective or a transferable hard-episode state,
+not through simple episode reweighting alone.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar

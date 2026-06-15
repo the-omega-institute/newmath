@@ -257,6 +257,16 @@ is concentrated: the top missed episode contributes $13.94\%$ of positive
 missed mass, the top five contribute $41.62\%$, and the top ten contribute
 $61.78\%$.  This points to tail-episode assignment and not just average
 episode-listwise ranking.
+A direct tail-episode weighting test is fail-closed.  Train episodes are
+weighted by their train-split oracle gain, producing aggressive point weights
+up to $64$ after the top/bottom label weights are applied.  Across seeds
+$3,7,11$ and epoch budgets $5,20,100$, calibration selection chooses a row with
+evaluation allocation delta $+0.00878$ $[+0.00322,\ +0.01536]$, worse than the
+unweighted episode-policy reference $+0.00184$ $[-0.00309,\ +0.00651]$.  The
+best observed tail-weighted row is $+0.00431$ $[-0.00080,\ +0.01012]$, still
+not a claim.  This separates the diagnosis from a simple remedy: the residual
+gap is tail-episode concentrated, but train-oracle episode reweighting does not
+transfer into useful allocation control.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -360,6 +370,7 @@ $$
 \text{compute-value policy} & \texttt{reports/compute\_value\_policy.json},\\
 \text{compute-value policy stability} & \texttt{reports/compute\_value\_policy\_stability.json},\\
 \text{compute-value episode decomposition} & \texttt{reports/compute\_value\_episode\_decomposition.json},\\
+\text{compute-value tail policy} & \texttt{reports/compute\_value\_tail\_policy.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\
