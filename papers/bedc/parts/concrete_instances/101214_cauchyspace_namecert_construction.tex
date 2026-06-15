@@ -290,6 +290,20 @@ The structural rows $H_0,C_0,P_0,N_0$ transport, replay, source, and name the sa
 \end{proof}
 \leanchecked{BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier\_public\_consumer\_boundary}
 
+\begin{theorem}[CauchySpace public completion interface]
+\label{thm:cauchyspace-public-completion-interface}
+For every accepted $\CauchySpaceUp$ local filter carrier $L=(F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0)$, any $\CompletionUp$, $\UniformCompletionUp$, $\RealUp$, or $\CauchyPrecompletionUp$ consumer reading the public $\CauchySpaceUp$ surface must pass through the local filter carrier, the precompletion nonescape route, the regular-name handoff, the completion handoff, and the public consumer boundary already displayed in this chapter. Thus the completion-facing interface exposes only the finite rows $F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0$ and exports no quotient completion, selected representative, host equality, countable choice, ambient $\RealUp$ completeness, open-cover compactness, Lean credential, or bridge claim.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:cauchyspace-local-filter-carrier}. It is the unique local inventory from which a completion-facing consumer may read filter rows, uniform rows, regular-name rows, completion handoff rows, transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:cauchyspace-precompletion-nonescape-obligation}. This keeps the precompletion-facing read inside the displayed handoff row and blocks quotient completions, selected representatives, and host equality from entering the interface.
+
+Next use \autoref{thm:cauchyspace-regular-name-handoff-obligation}. The regular-name read $R_0$ is reached only through the local filter and uniform rows, so a $\CompletionUp$, $\UniformCompletionUp$, $\RealUp$, or $\CauchyPrecompletionUp$ consumer cannot bypass the displayed rational-name route.
+
+Finally apply \autoref{thm:cauchyspace-completion-handoff-obligation} and \autoref{thm:cauchyspace-public-consumer-boundary}. The first theorem places the completion-facing row $T_0$ after the regular-name handoff, and the second repacks the entire route as the public boundary. Hence the stated public completion interface is exactly the same finite carrier surface.
+\end{proof}
+
 \closureat{CauchySpaceUp}{seedStr}
 \closureat{CauchySpaceUp}{obligationStr}
 \closureat{CauchySpaceUp}{scopedStr}
