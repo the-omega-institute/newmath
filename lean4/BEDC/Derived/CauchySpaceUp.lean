@@ -200,6 +200,33 @@ theorem CauchySpaceCarrier_regular_name_handoff_obligation
     ⟨rUnary, qUnary, nUnary, handoffUnary, namedUnary, handoffRoute, namedRoute,
       transportRow⟩
 
+theorem CauchySpaceCarrier_regular_name_real_consumer_boundary
+    {F U R Q T H C P N handoff named consumer : BHist} :
+    CauchySpaceCarrier F U R Q T H C P N ->
+      Cont R Q handoff ->
+        Cont handoff N named ->
+          Cont named T consumer ->
+            UnaryHistory R ∧ UnaryHistory Q ∧ UnaryHistory T ∧ UnaryHistory N ∧
+              UnaryHistory handoff ∧ UnaryHistory named ∧ UnaryHistory consumer ∧
+                Cont R Q handoff ∧ Cont handoff N named ∧ Cont named T consumer ∧
+                  hsame H (append F U) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier handoffRoute namedRoute consumerRoute
+  have handoff :=
+    CauchySpaceCarrier_regular_name_handoff_obligation
+      (F := F) (U := U) (R := R) (Q := Q) (T := T) (H := H) (C := C)
+      (P := P) (N := N) (handoff := handoff) (named := named)
+      carrier handoffRoute namedRoute
+  obtain ⟨rUnary, qUnary, nUnary, handoffUnary, namedUnary, handoffRouteOut,
+    namedRouteOut, transportRow⟩ := handoff
+  obtain ⟨_fUnary, _uUnary, _rUnary, _qUnary, tUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _transportRow, _filterRoute, _nameRoute⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed namedUnary tUnary consumerRoute
+  exact
+    ⟨rUnary, qUnary, tUnary, nUnary, handoffUnary, namedUnary, consumerUnary,
+      handoffRouteOut, namedRouteOut, consumerRoute, transportRow⟩
+
 theorem CauchySpaceCarrier_filter_uniform_completion_nonescape
     {F0 F1 U0 R0 T0 H0 C0 P0 N0 replay consumer named : BHist} :
     CauchySpaceCarrier F0 U0 R0 F1 T0 H0 C0 P0 N0 ->
