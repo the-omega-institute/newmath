@@ -3083,6 +3083,7 @@ import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConsistencyObservationBudgetUp
 import BEDC.Derived.ConstantRealStreamUp
 import BEDC.Derived.ConstantRealStreamUp.TasteGate
+import BEDC.Derived.ConstructiveBaireThreadUp.TasteGate
 import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCauchyFilterBoundaryUp
 import BEDC.Derived.ConstructiveCauchyIntervalUp.TasteGate
@@ -3521,6 +3522,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaSourceFactorization
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleImageRow
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleStdbridgePremiseSurface
+import BEDC.Derived.CriticalLineWitnessUp.GapPolicyStability
 import BEDC.Derived.CriticalLineWitnessUp.LedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.LedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.LedgerRouteStability
@@ -3571,6 +3573,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealZetaRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.PrimeZetaDependencyRoute
 import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryConsumerNonescape
@@ -8039,6 +8042,7 @@ import BEDC.Derived.PolishspaceUp.StreamReadbackExactness
 import BEDC.Derived.PolishspaceUp.StreamReadbackStability
 import BEDC.Derived.PolishspaceUp.StreamRealizationObligation
 import BEDC.Derived.PolishspaceUp.TasteGate
+import BEDC.Derived.PolynomialResultantUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
