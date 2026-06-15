@@ -5844,6 +5844,7 @@ def _structural_generalization_splits_index_section() -> dict[str, Any]:
 MODEL_DESIGN_SUITE_POINTER_FIELDS = (
     "component_id",
     "canonical_owner_pointer",
+    "coverage_pointer",
     "discovery_pointer",
     "verdict_pointer",
     "mechanism_pointer",
@@ -5880,6 +5881,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
         {
             "component_id": "reports/canonical/ledger-aware-transformer.json:$.artifact_id",
             "canonical_owner_pointer": "reports/canonical/ledger-aware-transformer.json:$",
+            "coverage_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[4]",
             "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.gates.DGT-HG11",
             "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.status",
             "mechanism_pointer": "reports/canonical/ledger-aware-transformer.json:$.run_artifacts",
@@ -5892,6 +5894,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
         {
             "component_id": "reports/canonical/certificate-gated-attention.json:$.artifact_id",
             "canonical_owner_pointer": "reports/canonical/certificate-gated-attention.json:$",
+            "coverage_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[0]",
             "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.gates.DGT-HG19",
             "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.status",
             "mechanism_pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
@@ -5904,6 +5907,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
         {
             "component_id": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.artifact_id",
             "canonical_owner_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$",
+            "coverage_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[3]",
             "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.gates.DGT-HG14",
             "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.status",
             "mechanism_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.training_mechanism_cert",
@@ -5916,6 +5920,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
         {
             "component_id": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.artifact_id",
             "canonical_owner_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$",
+            "coverage_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[6]",
             "discovery_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.discovery_map_signal",
             "verdict_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.hardgate.status",
             "mechanism_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.mechanism_gate_summary",
@@ -5928,6 +5933,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
         {
             "component_id": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.artifact_id",
             "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$",
+            "coverage_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[1]",
             "discovery_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.convergence_crossover",
             "verdict_pointer": f"{DGT_L1_CONTROLS_JSON_ARTIFACT}:$.l1_step_ladder.verdict",
             "mechanism_pointer": f"{DGT_NEURAL_ABLATION_JSON_ARTIFACT}:$.nabl_hardgates.status",
@@ -5955,6 +5961,8 @@ def _model_design_suite_hardgate_rows(rows: Sequence[Mapping[str, Any]]) -> dict
         else "fail"
         for field in MODEL_DESIGN_SUITE_POINTER_FIELDS
     }
+    accepted_positive_fields = ("coverage_pointer", "verdict_pointer", "mechanism_pointer", "debt_pointer")
+    boundary_fields = ("not_claimed_pointer", "negative_witness_pointer")
     suite_status = "pass" if all(row.get("hardgate_status") == "pass" for row in rows) else "fail"
     return {
         "SUITE-HG1": {
@@ -5974,13 +5982,17 @@ def _model_design_suite_hardgate_rows(rows: Sequence[Mapping[str, Any]]) -> dict
         },
         "SUITE-HG4": {
             "gate_id": "SUITE-HG4",
-            "status": field_status["verdict_pointer"],
-            "reason": "verdict and mechanism pointers resolve for every row",
+            "status": "pass" if all(field_status[field] == "pass" for field in accepted_positive_fields) else "fail",
+            "reason": "coverage, verdict, mechanism, and debt pointers resolve for every row",
         },
         "SUITE-HG5": {
             "gate_id": "SUITE-HG5",
-            "status": suite_status,
-            "reason": "row hardgate statuses propagate to the suite status",
+            "status": (
+                "pass"
+                if suite_status == "pass" and all(field_status[field] == "pass" for field in boundary_fields)
+                else "fail"
+            ),
+            "reason": "not-claimed and negative-witness pointers resolve and row hardgate statuses propagate",
         },
     }
 
@@ -6172,14 +6184,15 @@ def _render_model_design_suite_markdown(payload: Mapping[str, Any]) -> str:
         "",
         "## Coverage Rows",
         "",
-        "| component | owner | discovery | verdict | mechanism | debt | not claimed | negative witness | status |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| component | owner | coverage | discovery | verdict | mechanism | debt | not claimed | negative witness | status |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in payload["rows"]:
         lines.append(
             "| "
             f"`{row['component_id']}` | "
             f"`{row['canonical_owner_pointer']}` | "
+            f"`{row['coverage_pointer']}` | "
             f"`{row['discovery_pointer']}` | "
             f"`{row['verdict_pointer']}` | "
             f"`{row['mechanism_pointer']}` | "
