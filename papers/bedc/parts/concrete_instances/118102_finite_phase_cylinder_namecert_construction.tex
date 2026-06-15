@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\FinitePhaseCylinderUp$}
+\label{ch:concrete-instances-finite-phase-cylinder-namecert}
+\origin{ai}
+
+The $\FinitePhaseCylinderUp$ packet realizes the phase-surface and Poincare disk readings of \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} as finite NameCert data. It consumes the complex coordinate surface of \autoref{ch:concrete-instances-complex-namecert}, the boundary-circle carrier of \autoref{ch:concrete-instances-s1-namecert}, the disk row of \autoref{ch:concrete-instances-unitdisk-namecert}, the Poincare metric route of \autoref{ch:concrete-instances-poincare-disk-metric-namecert}, and the reversible transport row of \autoref{ch:concrete-instances-unitarygroup-namecert}.
+
+\begin{definition}[FinitePhaseCylinder carrier]
+\label{def:finite-phase-cylinder-carrier}
+A $\FinitePhaseCylinderUp$ carrier is a finite $\BHist$ packet
+$$
+F=(Z,S,D,U,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Z$ is the finite $\ComplexUp$ phase-coordinate row used for local readout.
+\item $S$ is the $\SOneUp$ boundary-circle row naming the phase boundary.
+\item $D$ is a $\UnitDiskUp$ or $\PoincareDiskMetricUp$ disk row that records the displayed interior and boundary read.
+\item $U$ is the $\UnitaryGroupUp$ reversible-transport row, read only as a classifier-preserving finite transport.
+\item $W$ is the finite phase-window ledger, listing the inspected phase samples, boundary tags, and disk-position reads.
+\item $R$ is the refusal row excluding a global universe digest, a global clock, an unlogged Hilbert-space operator, and an interior point named $\mathsf{T}$.
+\item $H$ records componentwise $\hsame$ transport for the complex phase, circle, disk, transport, window, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a phase-cylinder request through $Z,S,D,U,W,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FinitePhaseCylinderUp$, $\ComplexUp$, $\SOneUp$, $\UnitDiskUp$, $\PoincareDiskMetricUp$, $\UnitaryGroupUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FinitePhaseCylinderUp}$ row.
+\end{enumerate}
+The future TasteGate surface for this packet must expose $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the displayed phase and field-facing readback rows before downstream consumers use the cylinder as more than a finite representation packet.
+\end{definition}
+
+\begin{theorem}[FinitePhaseCylinder NameCert obligations]
+\label{thm:finite-phase-cylinder-namecert-obligations}
+For every accepted $\FinitePhaseCylinderUp$ carrier
+$$
+F=(Z,S,D,U,W,R,H,C,P,N),
+$$
+the local $\NameCert_{\FinitePhaseCylinderUp}$ surface consists exactly of carrier admission, complex phase readout, boundary-circle exposure, disk or Poincare-metric readback, reversible transport, finite phase-window stability, refusal-row preservation, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A phase-cylinder read may consume $\ComplexUp$, $\SOneUp$, $\UnitDiskUp$, $\PoincareDiskMetricUp$, and $\UnitaryGroupUp$ only through the displayed rows of the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-phase-cylinder-carrier}. The phase coordinate $Z$, boundary circle $S$, disk row $D$, and reversible transport $U$ give the only geometric rows exposed to a consumer.
+
+The finite window $W$ fixes which phase samples, boundary tags, and disk positions are readable. The refusal row $R$ travels with the same window, so no consumer can reinterpret the cylinder as a global digest or an unlogged ambient operator.
+
+Transport by $H$ is componentwise across $Z,S,D,U,W,R,C,P,N$. Replay through $C$ and provenance through $P,N$ preserve the same finite packet, exhausting the local NameCert obligations.
+\end{proof}
+\leanstmt{BEDC.Derived.FinitePhaseCylinderUp}
+
+\falsifiablePrediction{Every accepted $\FinitePhaseCylinderUp$ consumer must display ComplexUp phase coordinates, S1Up boundary tags, a UnitDiskUp or PoincareDiskMetricUp disk read, a UnitaryGroupUp reversible-transport row, a finite phase-window ledger, refusal rows, hsame transport, Cont replay, Pkg provenance, and local NameCert before using a phase-cylinder read.}
+
+\independenceWitness{complex, s1, unitdisk, poincare-disk-metric, unitarygroup: $\FinitePhaseCylinderUp$ is not bijective to any listed sibling because it jointly carries phase readout, boundary circle, disk metric, reversible transport, finite window, and refusal rows in one packet.}
+
+\closureat{FinitePhaseCylinderUp}{seedStr}
+
+\begin{closurestatus}{\FinitePhaseCylinderUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-phase-cylinder-carrier} and \autoref{thm:finite-phase-cylinder-namecert-obligations} seed the finite phase-cylinder packet through displayed phase, boundary, disk, reversible-transport, window, refusal, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, a global universe digest, a global clock, a hidden Hilbert-space operator, field-faithful TasteGate instances, or an interior point named $\mathsf{T}$.}
+  \upgradepath{Obligation closure requires checked carrier admission, phase readout, boundary-circle exposure, disk readback, reversible transport, refusal preservation, replay, provenance, and local naming for BEDC.Derived.FinitePhaseCylinderUp.}
+  \constructivestory{A $\FinitePhaseCylinderUp$ packet is generated from a ComplexUp phase row, an SOneUp boundary-circle row, a UnitDiskUp or PoincareDiskMetricUp disk row, a UnitaryGroupUp reversible-transport row, a finite phase-window ledger, refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
