@@ -155,6 +155,7 @@ The remaining induction is bounded by the predecessor depth row. The structural 
 \label{thm:dyadic-interval-tree-prefix-frontier-coverage}
 Let $T=(R,D,B,F,M,Q,NW,H,C,P,L)$ be an accepted $\DyadicIntervalTreeUp$ packet. Every consumed branch prefix determines exactly the visible frontier rows reachable at that prefix, and every $\RegSeqRatUp$ or $\RealUp$ window consumer that reads a leaf must pass through this prefix-frontier surface before reading $NW$. The surface consists of the root row $R$, the consumed prefix of $B$, the retained child row at each successor step, the matching containment rows in $Q$, the visible frontier update in $F$, the common mesh row $M$, and the structural rows $H,C,P,L$. It excludes infinite branches, host subsets of $\RealUp$, Dedekind cuts, selected completed points, open-cover compactness, and ambient real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalTreeUp.DyadicIntervalTreeCarrier\_prefix\_frontier\_coverage}
 \begin{proof}
 Induct on the finite branch prefix. In the root case, the visible frontier is the root frontier determined by $R$ and $M$, and every window consumer can reach the nested route only through the root containment and replay rows.
 

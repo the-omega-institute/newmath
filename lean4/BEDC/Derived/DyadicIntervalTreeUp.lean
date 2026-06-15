@@ -432,6 +432,83 @@ theorem DyadicIntervalTreeCarrier_scoped_kernel_route
   }
   exact ⟨cert, routeUnary⟩
 
+theorem DyadicIntervalTreeCarrier_prefix_frontier_coverage
+    {R D B F M Q NW H C P L prefixRow frontierRead windowRead : BHist} :
+    DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
+      UnaryHistory prefixRow ->
+        Cont R prefixRow frontierRead ->
+          Cont frontierRead NW windowRead ->
+            SemanticNameCert
+                (fun row : BHist => hsame row windowRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row R ∨ hsame row B ∨ hsame row F ∨ hsame row M ∨
+                    hsame row Q ∨ hsame row NW ∨ hsame row frontierRead ∨
+                      hsame row windowRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont R prefixRow frontierRead ∧
+                    Cont frontierRead NW windowRead)
+                hsame ∧
+              UnaryHistory prefixRow ∧ UnaryHistory frontierRead ∧
+                UnaryHistory windowRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet prefixUnary frontierRoute windowRoute
+  obtain
+    ⟨unaryR, unaryD, _unaryB, unaryF, unaryM, _unaryH, _unaryC, _unaryP,
+      _unaryL, _routeF, routeQ, routeNW⟩ := packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryF unaryM routeQ
+  have unaryNW : UnaryHistory NW :=
+    unary_cont_closed unaryQ unaryD routeNW
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed unaryR prefixUnary frontierRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed frontierUnary unaryNW windowRoute
+  have sourceWindow :
+      (fun row : BHist => hsame row windowRead ∧ UnaryHistory row) windowRead := by
+    exact ⟨hsame_refl windowRead, windowUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row windowRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row B ∨ hsame row F ∨ hsame row M ∨ hsame row Q ∨
+              hsame row NW ∨ hsame row frontierRead ∨ hsame row windowRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont R prefixRow frontierRead ∧
+              Cont frontierRead NW windowRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro windowRead sourceWindow
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, frontierRoute, windowRoute⟩
+  }
+  exact ⟨cert, prefixUnary, frontierUnary, windowUnary⟩
+
 theorem DyadicIntervalTreeCarrier_public_boundary
     {R D B F M Q NW H C P L branchRead containmentRead frontierRead windowRead meshRead
       publicRead : BHist} :
