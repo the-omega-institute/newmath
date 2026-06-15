@@ -562,6 +562,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalReaderNonescape
 import BEDC.Derived.AuthorizedRecursorUp.TasteGate
 import BEDC.Derived.AutomorphicUp
+import BEDC.Derived.AutomorphicUp.TasteGate
 import BEDC.Derived.AxiomDependencyAuditMapUp
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomDependencyMapUp.TasteGate
@@ -2187,6 +2188,7 @@ import BEDC.Derived.CauchySealFunctorUp.TasteGate
 import BEDC.Derived.CauchySealInterfaceUp.TasteGate
 import BEDC.Derived.CauchySelectionFunctionUp.TasteGate
 import BEDC.Derived.CauchySelectionPrincipleUp.TasteGate
+import BEDC.Derived.CauchySeparableCompletionUp
 import BEDC.Derived.CauchySequenceBoundedUp
 import BEDC.Derived.CauchySequenceBoundedUp.TasteGate
 import BEDC.Derived.CauchySequenceCompletionUp.TasteGate
@@ -2266,6 +2268,8 @@ import BEDC.Derived.CauchyUp
 import BEDC.Derived.CauchyUp.CauchyFilterModulusScopedRoute
 import BEDC.Derived.CauchyUp.CompletionLeftExactnessAdmission
 import BEDC.Derived.CauchyUp.CoreNameCert
+import BEDC.Derived.CauchyUp.CoreReadbackRoute
+import BEDC.Derived.CauchyUp.ForwardL10SumTailRoute
 import BEDC.Derived.CauchyUp.ModulusSpaceDiagonal
 import BEDC.Derived.CauchyUp.ModulusSpaceFilterHandoff
 import BEDC.Derived.CauchyUp.ModulusSpaceTail
@@ -3450,6 +3454,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrierPacket
 import BEDC.Derived.CoveringdimensionUp.RootCoverDensityNerveLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverLedgerFactorization
+import BEDC.Derived.CoveringdimensionUp.RootCoverLedgerRealization
 import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootCoverOrderLedgerExhaustion
 import BEDC.Derived.CoveringdimensionUp.RootCoverPublicScope
