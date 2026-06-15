@@ -223,6 +223,17 @@ def test_dgt_component_evidence_is_pointer_only():
         assert forbidden not in serialized
 
 
+def test_dgt_uses_new_model_hardgates_as_contract_pointer_only():
+    payload = dgt.build_payload(generated_at="fixture-time")
+
+    assert "new_model_candidate" not in payload
+    assert "new_model_candidate_ref" not in payload
+    assert payload["component_refs"]["hardgate_contract"] == {
+        "artifact": "reports/canonical/new_model_hardgates.json",
+        "pointer": "$.gates",
+    }
+
+
 def test_dgt_component_ablation_has_exact_eleven_owner_local_arms():
     payload = dgt.build_payload(generated_at="fixture-time")
     ablation = payload["component_ablation"]

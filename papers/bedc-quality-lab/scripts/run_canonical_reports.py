@@ -4542,9 +4542,13 @@ def _validate_new_model_hardgates_payload(payload: Mapping[str, Any]) -> None:
         "candidate_evidence",
         "candidate_evidence_body",
         "evidence_body",
+        "evidence_ref",
         "baseline_metrics",
         "baseline_results",
         "measured_baseline",
+        "status",
+        "predicate",
+        "blocked_reason",
     }
 
     def walk(value: Any, path: str) -> None:
