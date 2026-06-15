@@ -14,35 +14,35 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def LogicContradictionMetaLoopCarrier [AskSetup] [PackageSetup]
-    (P R M A T C G N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
-    Prop :=
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
-  UnaryHistory P ∧ UnaryHistory R ∧ UnaryHistory M ∧ UnaryHistory A ∧
-    UnaryHistory T ∧ UnaryHistory C ∧ UnaryHistory G ∧ UnaryHistory N ∧
-      Cont P R M ∧ Cont M A C ∧ Cont T C G ∧ PkgSig bundle N pkg
-
 theorem LogicContradictionMetaLoopCarrier_nonescape [AskSetup] [PackageSetup]
-    {P R M A T C G N routeRead gateRead : BHist}
+    {proofPattern refutation metaRefusal auditGate transport replay provenance localName
+      routeRead gateRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    LogicContradictionMetaLoopCarrier P R M A T C G N bundle pkg →
-      Cont P R routeRead →
-        Cont routeRead M gateRead →
+    LogicContradictionMetaLoopCarrier proofPattern refutation metaRefusal auditGate
+        transport replay provenance localName bundle pkg →
+      Cont proofPattern refutation routeRead →
+        Cont routeRead metaRefusal gateRead →
           PkgSig bundle gateRead pkg →
-            UnaryHistory P ∧ UnaryHistory R ∧ UnaryHistory M ∧ UnaryHistory A ∧
-              UnaryHistory routeRead ∧ UnaryHistory gateRead ∧ Cont P R routeRead ∧
-                Cont routeRead M gateRead ∧ Cont M A C ∧ Cont T C G ∧
-                  PkgSig bundle N pkg ∧ PkgSig bundle gateRead pkg := by
+            UnaryHistory proofPattern ∧ UnaryHistory refutation ∧
+              UnaryHistory metaRefusal ∧ UnaryHistory auditGate ∧ UnaryHistory routeRead ∧
+                UnaryHistory gateRead ∧ Cont proofPattern refutation routeRead ∧
+                  Cont routeRead metaRefusal gateRead ∧
+                    Cont metaRefusal auditGate replay ∧ Cont transport replay provenance ∧
+                      PkgSig bundle localName pkg ∧ PkgSig bundle gateRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
   intro carrier routeCont gateCont gatePkg
-  obtain ⟨pUnary, rUnary, mUnary, aUnary, _tUnary, _cUnary, _gUnary, _nUnary,
-    _carrierRoute, metaAudit, transportGate, localPkg⟩ := carrier
+  obtain ⟨proofPatternUnary, refutationUnary, auditGateUnary, _transportUnary,
+    proofRefutationMeta, metaAuditReplay, transportReplayProvenance, _provenancePkg,
+    localNamePkg⟩ := carrier
+  have metaRefusalUnary : UnaryHistory metaRefusal :=
+    unary_cont_closed proofPatternUnary refutationUnary proofRefutationMeta
   have routeUnary : UnaryHistory routeRead :=
-    unary_cont_closed pUnary rUnary routeCont
+    unary_cont_closed proofPatternUnary refutationUnary routeCont
   have gateUnary : UnaryHistory gateRead :=
-    unary_cont_closed routeUnary mUnary gateCont
+    unary_cont_closed routeUnary metaRefusalUnary gateCont
   exact
-    ⟨pUnary, rUnary, mUnary, aUnary, routeUnary, gateUnary, routeCont, gateCont,
-      metaAudit, transportGate, localPkg, gatePkg⟩
+    ⟨proofPatternUnary, refutationUnary, metaRefusalUnary, auditGateUnary, routeUnary,
+      gateUnary, routeCont, gateCont, metaAuditReplay, transportReplayProvenance,
+      localNamePkg, gatePkg⟩
 
 end BEDC.Derived.LogicContradictionMetaLoopUp
