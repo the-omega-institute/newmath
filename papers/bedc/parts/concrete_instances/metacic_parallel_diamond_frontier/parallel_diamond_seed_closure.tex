@@ -1,0 +1,13 @@
+\begin{theorem}[MetaCIC parallel-diamond seed closure]
+\label{thm:metacic-parallel-diamond-seed-closure}
+Let $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ be an accepted $\MetaCICParallelDiamondFrontierUp$ packet. Any candidate-mediated strong-normalization handoff from $F$ must first expose the critical-pair envelope, the residual-substitution dependency route, and the candidate-normalization scope rows of the same packet. More explicitly, the handoff reads $K,J,R,S,C,B,O$ through the envelope of \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}, retains $P$ through the dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}, and keeps $J$ inside the candidate-normalization scope of \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}. The structural rows $H,T,G,N$ preserve that same packet by $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. The conclusion is only seed-level row visibility before the SN handoff; it proves no global normalization theorem, no unrestricted confluence theorem, no subject reduction theorem, no evaluator equality, no quotient term equality, and no kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Begin with the critical-pair envelope. By \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}, the packet exposes critical-pair requests only through the finite route $P,K,J,R,S,C,B,O,H,T,G,N$.
+
+Next retain the residual-substitution dependency. The route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route} places $P$ before the local critical-pair, candidate-join, residual-frontier, closed-checker, and obstruction rows can be consumed.
+
+Now constrain the candidate-normalization read. The scope theorem \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope} keeps $J$ inside the same conditional spine and prevents a candidate-mediated consumer from hiding $P$ or $O$.
+
+Finally compare with the SN handoff of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. That theorem consumes the same envelope, dependency route, candidate-normalization scope, finite residual witness, and residual-row visibility surfaces. The present theorem isolates the seed-level visibility prerequisite: $H,T,G,N$ preserve the displayed packet, but they do not discharge residual substitution or promote the handoff to global normalization, unrestricted confluence, subject reduction, evaluator equality, quotient equality, or kernel consistency.
+\end{proof}
