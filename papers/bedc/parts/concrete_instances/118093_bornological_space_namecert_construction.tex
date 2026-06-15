@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\BornologicalSpaceUp$}
+\label{ch:concrete-instances-bornological-space-namecert}
+\origin{human}
+
+Following Hogbe-Nlend and Bourbaki on bounded structures in functional analysis, the $\BornologicalSpaceUp$ packet records a finite bounded-family carrier rather than an ambient collection of all bounded subsets. It sits after the bounded-set packet of \autoref{ch:concrete-instances-boundedset-namecert}, the locally convex family surface of \autoref{ch:concrete-instances-locally-convex-space-namecert}, the seminorm family route of \autoref{ch:concrete-instances-seminormed-space-namecert}, and the normed-space comparison row of \autoref{ch:concrete-instances-normedspace-namecert}. The packet names the rows needed by bounded-map and functional-analysis consumers; it does not assert a host bornology, all subset closure, quotient completion, selected absorbing disk, or classical duality.
+
+\begin{definition}[BornologicalSpace carrier]
+\label{def:bornological-space-carrier}
+A $\BornologicalSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,\mathcal{B},L,S,V,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the underlying carrier row whose admissible points and finite classifier reads are the only source data available to the packet.
+\item $\mathcal{B}$ is the finite bounded-set family row, listing the displayed $\BoundedSetUp$ certificates accepted as bounded disks or bounded subsets.
+\item $L$ is the locally convex control row imported from $\LocallyConvexSpaceUp$, exposing only the finite neighborhood and seminorm-family data used to test boundedness.
+\item $S$ is the seminorm control row imported from $\SeminormedSpaceUp$, recording finite seminorm budgets for every displayed bounded-family read.
+\item $V$ is the normed-space comparison row imported from $\NormedSpaceUp$ when a single norm comparison is part of the carrier.
+\item $M$ is the bounded-map route row, saying that a consumer may read bounded-map data only after the source bounded-family row and the target control row are displayed.
+\item $H$ records componentwise $\hsame$ transport for the carrier, bounded-family, locally convex, seminorm, normed comparison, bounded-map, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through $X,\mathcal{B},L,S,V,M,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BornologicalSpaceUp$, $\BoundedSetUp$, $\LocallyConvexSpaceUp$, $\SeminormedSpaceUp$, $\NormedSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BornologicalSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a host bornology, an unbounded subset universe, a selected disk basis, quotient completion, or classical duality.
+\end{definition}
+
+\begin{theorem}[BornologicalSpace NameCert obligations]
+\label{thm:bornological-space-namecert-obligations}
+For every accepted $\BornologicalSpaceUp$ carrier $B=(X,\mathcal{B},L,S,V,M,H,C,P,N)$, the local $\NameCert_{\BornologicalSpaceUp}$ surface consists exactly of carrier admission, finite bounded-family admission, locally convex control, seminorm control, normed-space comparison when present, bounded-map route exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bornological-space-carrier}. The analytic rows are the source carrier $X$, the bounded-family row $\mathcal{B}$, the locally convex row $L$, the seminorm row $S$, the normed comparison row $V$, and the bounded-map route $M$.
+
+The bounded-family obligation is finite. Each boundedness read names a displayed $\BoundedSetUp$ certificate before any locally convex, seminorm, or normed-space consumer can use it.
+
+The control obligations are rowwise. The row $L$ supplies locally convex neighborhood data, $S$ supplies finite seminorm budgets, and $V$ supplies the optional single-norm comparison without replacing the finite bornological carrier by a host topology.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no carrier coordinate stores a host bornology, unbounded subset universe, selected disk basis, quotient completion, or duality theorem, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[BornologicalSpace bounded-map route]
+\label{thm:bornological-space-bounded-map-route}
+Every bounded-map consumer of an accepted $\BornologicalSpaceUp$ carrier must first read
+$$
+X,\mathcal{B},L,S,V,M,H,C,P,N .
+$$
+Thus the consumer receives finite bounded-set family rows together with locally convex, seminorm, and normed comparison control before the bounded-map row is exported. It receives no host bornology, all-subsets closure principle, selected disk basis, quotient completion, or classical duality object.
+\end{theorem}
+\begin{proof}
+Start with a bounded-map request. By carrier admission, the request cannot reach $M$ before the source carrier $X$ and the bounded-family row $\mathcal{B}$ are displayed.
+
+Use the control rows next. Locally convex data in $L$, seminorm budgets in $S$, and the normed comparison row $V$ describe exactly how bounded family reads are tested by downstream functional-analysis packets.
+
+The row $M$ is therefore a bounded-map route rather than an independent host theorem. Componentwise transport and replay through $H$ and $C$ preserve the same finite path, while $P,N$ only record provenance and local naming.
+
+Because the carrier contains no coordinate for the excluded host objects, the displayed route is the entire bounded-map surface.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\BornologicalSpaceUp$ bounded-map read while omitting the finite bounded-family row, locally convex control, seminorm control, normed comparison when present, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert$ row refutes the carrier of \autoref{def:bornological-space-carrier}.}
+
+\independenceWitness{boundedset, locally-convex-space, seminormed-space, normedspace: no listed sibling is bijective to $\BornologicalSpaceUp$ because this packet jointly binds finite bounded-family rows, locally convex control, seminorm budgets, normed comparison, bounded-map routing, transport, replay, provenance, and local naming.}
+
+\closureat{BornologicalSpaceUp}{seedStr}
+
+\begin{closurestatus}{\BornologicalSpaceUp}
+  \constructivestory{A $\BornologicalSpaceUp$ packet is generated from carrier rows, finite bounded-family rows, locally convex control rows, seminorm control rows, normed-space comparison rows, bounded-map route rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bornological-space-carrier}, \autoref{thm:bornological-space-namecert-obligations}, and \autoref{thm:bornological-space-bounded-map-route} seed the finite bornological bounded-family packet for functional-analysis consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host bornologies, all-subsets closure, selected disk bases, quotient completion, classical duality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-family admission, locally convex control, seminorm control, normed comparison, bounded-map routing, transport, replay, provenance, and local naming for BEDC.Derived.BornologicalSpaceUp.}
+\end{closurestatus}
