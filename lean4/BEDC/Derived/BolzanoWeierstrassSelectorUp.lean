@@ -418,4 +418,36 @@ theorem BolzanoWeierstrassSelectorRealSealFinality
     ⟨selectedUnary, dyadicUnary, regularUnary, sealUnary, selectedRoute, dyadicRoute,
       regularRoute, sealRoute, rfl⟩
 
+theorem BolzanoWeierstrassSelectorRegularCauchyLimitHandoff
+    {B M Q W D R E H C P N dyadicRead regularRead sealRead : BHist} :
+    Cont B M W →
+      Cont W D dyadicRead →
+        Cont dyadicRead R regularRead →
+          Cont regularRead E sealRead →
+            UnaryHistory B →
+              UnaryHistory M →
+                UnaryHistory D →
+                  UnaryHistory R →
+                    UnaryHistory E →
+                      UnaryHistory W ∧ UnaryHistory dyadicRead ∧
+                        UnaryHistory regularRead ∧ UnaryHistory sealRead ∧ hsame H H ∧
+                          Cont B M W ∧ Cont W D dyadicRead ∧
+                            Cont dyadicRead R regularRead ∧ Cont regularRead E sealRead ∧
+                              bolzanoWeierstrassSelectorFields
+                                  (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C P N) =
+                                [B, M, Q, W, D, R, E, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame
+  intro windowRoute dyadicRoute regularRoute sealRoute bUnary mUnary dUnary rUnary eUnary
+  have windowUnary : UnaryHistory W :=
+    unary_cont_closed bUnary mUnary windowRoute
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed windowUnary dUnary dyadicRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed dyadicUnary rUnary regularRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary eUnary sealRoute
+  exact
+    ⟨windowUnary, dyadicUnary, regularUnary, sealUnary, hsame_refl H, windowRoute,
+      dyadicRoute, regularRoute, sealRoute, rfl⟩
+
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
