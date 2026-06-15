@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveLocatedRealUp$}
+\label{ch:concrete-instances-constructive-located-real-namecert}
+\origin{human}
+
+From Bishop and Bridges, the $\ConstructiveLocatedRealUp$ packet records a located real as finite dyadic locator data tied to regular rational readback and a terminal real-name seal. It sits after the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the Bishop regular real packet of \autoref{ch:concrete-instances-bishop-regular-real-namecert}, and the positive apartness witness of \autoref{ch:concrete-instances-located-real-apartness-namecert}. The packet names the constructive located-real boundary needed by Real and Completion consumers; it does not claim quotient equality of Cauchy streams, ambient real completeness, real trichotomy, countable choice, selected representatives, or a chosen limit.
+
+\begin{definition}[Constructive located real carrier]
+\label{def:constructive-located-real-carrier}
+A $\ConstructiveLocatedRealUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,S,R,E,A,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ locator row, carrying the dyadic radius, comparison slack, and positive tolerance budget used by each located read.
+\item $S$ is the $\StreamNameUp$ finite-window row inspected at the dyadic addresses requested by $D$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite windows and tolerance ledger.
+\item $E$ is the terminal $\RealUp$ seal, reachable only after the dyadic locator, stream window, and regular rational readback rows have been displayed.
+\item $A$ is the apartness and refusal row, recording either a displayed positive separation through $\LocatedRealApartnessUp$ or a finite refusal to provide trichotomy, quotient equality, countable choice, selected representatives, or ambient completeness.
+\item $F$ is the Bishop regular row, binding the $\BishopRegularRealUp$ route to the same dyadic windows and regular rational readback.
+\item $H$ records componentwise $\hsame$ transport for the dyadic locator, stream window, regular readback, Real seal, apartness/refusal row, Bishop regular row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a located-real request through $D,S,R,E,A,F,H$.
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveLocatedRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedRealApartnessUp$, $\BishopRegularRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveLocatedRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,E,A,F,H,C,P,N$. It has no coordinate for host real equality, quotient real equality, a trichotomy decision, a choice schedule, a selected Cauchy representative, a selected limit, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.ConstructiveLocatedRealUp}
+
+\begin{theorem}[Constructive located real apartness stability]
+\label{thm:constructive-located-real-apartness-stability}
+Let $L=(D,S,R,E,A,F,H,C,P,N)$ and $L'=(D',S',R',E',A',F',H',C',P',N')$ be accepted $\ConstructiveLocatedRealUp$ carriers. If $H$ records componentwise $\hsame$ transport from each displayed row of $L$ to the corresponding row of $L'$, then every apartness or refusal read of $L$ transports to $L'$ only through
+$$
+D,S,R,E,A,F,H,C,P,N .
+$$
+In particular, positive separation evidence remains attached to the same dyadic locator, finite StreamName window, RegSeqRat readback, and Real seal route, while refusal rows remain refusals of trichotomy, quotient equality, choice, selected representatives, selected limits, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The analytic rows are the dyadic locator $D$, the finite stream window $S$, the regular rational readback $R$, and the terminal Real seal $E$; the apartness/refusal row $A$ is downstream of those rows.
+
+Componentwise transport through $H$ carries $D,S,R,E,A,F$ to the corresponding rows of $L'$. Since $C$ only replays the displayed route and $P,N$ only source and name the same packet, no new comparison principle or equality test is introduced during transport.
+
+Therefore a positive separation witness remains a finite located-apartness witness, and a refusal row remains an explicit refusal of non-displayed real principles. The transported packet can be consumed as constructive located-real data only through the stated rows.
+\end{proof}
+
+\begin{theorem}[Constructive located real regular NameCert]
+\label{thm:constructive-located-real-regular-namecert}
+For every accepted $\ConstructiveLocatedRealUp$ carrier $L=(D,S,R,E,A,F,H,C,P,N)$, the local $\NameCert_{\ConstructiveLocatedRealUp}$ surface consists exactly of dyadic locator admission, finite StreamName window admission, RegSeqRat readback, Real seal admission, apartness/refusal admission, Bishop regular route admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the displayed rows $D,S,R,E,A,F,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:constructive-located-real-carrier}. The regular readback row $R$ is available only after the dyadic locator $D$ and finite stream window $S$ have been displayed, and the terminal Real seal $E$ is downstream of that readback.
+
+The apartness/refusal row $A$ is row-local: it records positive separation when such a finite witness is displayed, and otherwise records refusals of trichotomy, quotient equality, choice, selected representatives, selected limits, and ambient completeness. The Bishop regular row $F$ binds the same dyadic-window and regular-readback route to the classical Bishop regular-real surface without adding a host real oracle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Hence the local NameCert obligations are exhausted by the listed rows, and no unregistered equality, completeness, or selection principle can enter the constructive located-real boundary.
+\end{proof}
+
+\closureat{ConstructiveLocatedRealUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveLocatedRealUp}
+  \constructivestory{A $\ConstructiveLocatedRealUp$ packet is generated from a DyadicRatCore locator row, StreamName finite windows, RegSeqRat readback, a RealUp seal, apartness and refusal rows, a BishopRegularReal route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-located-real-carrier}, \autoref{thm:constructive-located-real-apartness-stability}, and \autoref{thm:constructive-located-real-regular-namecert} seed the finite constructive located-real boundary over DyadicRatCore, StreamName, RegSeqRat, Real, located-apartness, Bishop regular, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.ConstructiveLocatedRealUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient equality of Cauchy streams, ambient real completeness, real trichotomy, countable choice, selected representatives, selected limits, theorem checking, axiom purity, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic locator exactness, StreamName window admission, RegSeqRat readback, Real seal non-escape, apartness and refusal stability, Bishop regular route admission, transport, replay, provenance, and local naming for BEDC.Derived.ConstructiveLocatedRealUp.}
+\end{closurestatus}
