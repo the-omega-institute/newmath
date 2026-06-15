@@ -101,6 +101,24 @@ def test_schema_admission_fails_when_validator_ref_is_not_callable():
     assert result["hardgates"]["SCHEMA-MIN-HG3-validator-binding"]["row_indexes"] == [0]
 
 
+def test_schema_admission_fails_when_schema_id_is_missing():
+    result = validate_schema_admission(
+        [
+            {
+                "primitive_basis": True,
+                "owner_pointer": "reports/canonical/blocked.json:$",
+                "validator_ref": "bedc_quality_lab.discovery_compiler.schema_admission.validate_schema_admission",
+                "downgrade_policy": "fail-closed",
+            }
+        ]
+    ).as_dict()
+
+    assert result["status"] == "fail"
+    assert result["rows"][0]["schema_id"] == ""
+    assert result["rows"][0]["status"] == "fail"
+    assert all(gate["status"] == "pass" for gate in result["hardgates"].values())
+
+
 def test_schema_admission_requires_public_canonical_json_owner_pointer():
     rows = [
         {

@@ -133,7 +133,12 @@ def _gate(gate_id: str, rows: Sequence[SchemaAdmissionRow]) -> dict[str, Any]:
 def validate_schema_admission(rows: Sequence[Mapping[str, Any]]) -> SchemaAdmissionResult:
     admitted_rows = tuple(_row_from_mapping(row) for row in rows)
     hardgates = {gate_id: _gate(gate_id, admitted_rows) for gate_id in SCHEMA_ADMISSION_HARDGATE_IDS}
-    status: AdmissionStatus = "pass" if all(gate["status"] == "pass" for gate in hardgates.values()) else "fail"
+    status: AdmissionStatus = (
+        "pass"
+        if all(row.status == "pass" for row in admitted_rows)
+        and all(gate["status"] == "pass" for gate in hardgates.values())
+        else "fail"
+    )
     return SchemaAdmissionResult(status=status, rows=admitted_rows, hardgates=hardgates)
 
 

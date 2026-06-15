@@ -8419,13 +8419,24 @@ def _schema_validator_ref_for_spec(spec: CanonicalReportSpec, schema_id: str) ->
 
 def _schema_admission_validation(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> dict[str, Any]:
     schema_id = payload.get("schema_id")
-    if not isinstance(schema_id, str) or not schema_id:
-        return validate_schema_admission(()).as_dict()
-    validator_ref = _schema_validator_ref_for_spec(spec, schema_id)
+    normalized_schema_id = schema_id if isinstance(schema_id, str) else ""
+    validator_ref = _schema_validator_ref_for_spec(spec, normalized_schema_id)
+    if not normalized_schema_id:
+        return validate_schema_admission(
+            (
+                {
+                    "schema_id": normalized_schema_id,
+                    "primitive_basis": True,
+                    "owner_pointer": f"{spec.json_artifact}:$",
+                    "validator_ref": validator_ref,
+                    "downgrade_policy": "fail-closed",
+                },
+            )
+        ).as_dict()
     return validate_schema_admission(
         (
             {
-                "schema_id": schema_id,
+                "schema_id": normalized_schema_id,
                 "primitive_basis": True,
                 "owner_pointer": f"{spec.json_artifact}:$",
                 "validator_ref": validator_ref,
