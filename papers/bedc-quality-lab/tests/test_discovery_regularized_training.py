@@ -220,6 +220,16 @@ def test_deterministic_replay_and_required_keys():
     assert first["summary_payload"]["fair_alignment_control_ledger"]["fair_control_identity"] == (
         "matched-random-structural-control"
     )
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["claim_id"] == (
+        "discovery-regularized-training:positive-claim"
+    )
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["task_identity"] == (
+        "gaussian-ou:discovery-regularized-replay"
+    )
+    assert first["summary_payload"]["fair_control_protocol"]["parameter_match"] is True
+    assert first["summary_payload"]["fair_control_protocol"]["compute_match"] is True
+    assert first["summary_payload"]["fair_control_protocol"]["threshold_match"] is True
+    assert first["summary_payload"]["fair_control_protocol"]["surface_distribution_match"] is True
 
 
 def test_formal_replay_arms_and_gate_summary_are_canonical(monkeypatch):
