@@ -142,6 +142,39 @@ theorem CauchyModulusMeetPacket_shared_bound_transport [AskSetup] [PackageSetup]
     cont_respects_hsame sameH sameC muRow muRow'
   exact ⟨unary_transport packet.right.right.right.right.left sameMu, sameMu⟩
 
+theorem CauchyModulusMeetPacket_regseqrat_classifier_transport [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n s0' s1' mu0' mu1' mu' h' c' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg ->
+      hsame s0 s0' -> hsame s1 s1' -> hsame mu0 mu0' -> hsame mu1 mu1' ->
+        Cont s0' mu0' h' -> Cont s1' mu1' c' -> Cont h' c' mu' ->
+          UnaryHistory s0' ∧ UnaryHistory s1' ∧ UnaryHistory mu0' ∧
+            UnaryHistory mu1' ∧ UnaryHistory h' ∧ UnaryHistory c' ∧
+              UnaryHistory mu' ∧ hsame mu mu' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg UnaryHistory
+  intro packet sameS0 sameS1 sameMu0 sameMu1 hRow' cRow' muRow'
+  have hRow : Cont s0 mu0 h :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have cRow : Cont s1 mu1 c :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have muRow : Cont h c mu :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.left
+  have sameH : hsame h h' :=
+    cont_respects_hsame sameS0 sameMu0 hRow hRow'
+  have sameC : hsame c c' :=
+    cont_respects_hsame sameS1 sameMu1 cRow cRow'
+  have sameMu : hsame mu mu' :=
+    cont_respects_hsame sameH sameC muRow muRow'
+  exact
+    ⟨unary_transport packet.left sameS0,
+      unary_transport packet.right.left sameS1,
+      unary_transport packet.right.right.left sameMu0,
+      unary_transport packet.right.right.right.left sameMu1,
+      unary_transport packet.right.right.right.right.right.left sameH,
+      unary_transport packet.right.right.right.right.right.right.left sameC,
+      unary_transport packet.right.right.right.right.left sameMu,
+      sameMu⟩
+
 theorem CauchyModulusMeetPacket_swap_stability [AskSetup] [PackageSetup]
     {s0 s1 mu0 mu1 mu h c p n hSw cSw : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -199,6 +232,43 @@ theorem CauchyModulusMeetPacket_real_handoff_boundary [AskSetup] [PackageSetup]
       handoffUnary,
       packet.right.right.right.right.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
+theorem CauchyModulusMeetPacket_real_seal_consumer_obligation [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg ->
+      Cont mu n realSeal ->
+        PkgSig bundle realSeal pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row realSeal ∧ UnaryHistory row)
+              (fun row : BHist => hsame row mu ∨ hsame row realSeal)
+              (fun row : BHist =>
+                hsame row realSeal ∧ PkgSig bundle realSeal pkg ∧ PkgSig bundle p pkg)
+              hsame ∧
+            UnaryHistory realSeal ∧ PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro packet realSealRow realSealPkg
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed packet.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right.left realSealRow
+  have pPkg : PkgSig bundle p pkg :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.right.right
+  refine ⟨?cert, realSealUnary, pPkg⟩
+  constructor
+  · constructor
+    · exact Exists.intro realSeal ⟨hsame_refl realSeal, realSealUnary⟩
+    · intro row _source
+      exact hsame_refl row
+    · intro _row _other same
+      exact hsame_symm same
+    · intro _row _other _target sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro row other same source
+      exact ⟨hsame_trans (hsame_symm same) source.left, unary_transport source.right same⟩
+  · intro row source
+    exact Or.inr source.left
+  · intro row source
+    exact ⟨source.left, realSealPkg, pPkg⟩
 
 theorem CauchyModulusMeetPacket_consumer_factorization [AskSetup] [PackageSetup]
     {s0 s1 mu0 mu1 mu h c p n realRoute handoff : BHist}
