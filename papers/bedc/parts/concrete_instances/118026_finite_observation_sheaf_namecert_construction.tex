@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationSheafUp$}
+\label{ch:concrete-instances-finite-observation-sheaf-namecert}
+\origin{human}
+
+Following the sheaf-theoretic locality tradition and the auditable-generativity reading of \autoref{ch:visions-philosophy-auditable-generativity}, the $\FiniteObservationSheafUp$ packet records compatible finite observation windows as a NameCert object. It reads finite observation prefixes from \autoref{ch:concrete-instances-finite-prefix-stream-certificate-namecert}, stream windows from \autoref{ch:concrete-instances-streamname-namecert}, indexed restriction rows from \autoref{ch:concrete-instances-presheaf-namecert}, and finite overlap gluing from \autoref{ch:concrete-instances-sheaf-namecert}. The packet is an auditable finite sheaf of observations over $\BHist$ windows; it does not assert an external site of all observations, host sheaf equality, unrestricted gluing, quotient sections, or a black-box generativity principle.
+
+\begin{definition}[Finite observation sheaf carrier]
+\label{def:finite-observation-sheaf-carrier}
+A $\FiniteObservationSheafUp$ carrier is a finite $\BHist$ packet
+$$
+O=(I,W,A,R,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index row naming the inspected observation windows.
+\item $W$ is the $\FinitePrefixStreamUp/\StreamNameUp$ window row for the finite observations assigned to each index.
+\item $A$ is the assignment row sending each displayed window to its local observation section.
+\item $R$ is the $\PreSheafUp$ restriction row for every displayed inclusion of finite windows.
+\item $G$ is the $\SheafUp$ finite-overlap gluing row for compatible displayed sections.
+\item $H$ records componentwise $\hsame$ transport of indices, windows, assignments, restrictions, gluing rows, replay data, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from window inclusion to restriction and from pairwise compatibility to finite overlap gluing.
+\item $P$ is the $\Pkg$ provenance over $\FiniteObservationSheafUp$, $\FinitePrefixStreamUp$, $\StreamNameUp$, $\PreSheafUp$, $\SheafUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteObservationSheafUp}$ row naming exactly this finite observation-sheaf packet.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for a host observation topos, equality of external sheaves, quotient sections, unrestricted covers, or opaque generative output.
+\end{definition}
+
+\begin{theorem}[Finite observation sheaf NameCert obligations]
+\label{thm:finite-observation-sheaf-namecert-obligations}
+For every accepted $\FiniteObservationSheafUp$ carrier
+$$
+O=(I,W,A,R,G,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteObservationSheafUp}$ surface consists exactly of finite index admission, finite observation-window admission, local section assignment, presheaf restriction, finite-overlap compatibility, finite gluing, componentwise transport, displayed replay, provenance, and local naming. Every auditable-generativity read of the packet must pass through
+$$
+I,W,A,R,G,H,C,P,N
+$$
+and through no external site of all observations, host sheaf equality, quotient section, unrestricted cover, or opaque generator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-observation-sheaf-carrier}. The rows $I,W,A$ expose the finite observation indices, finite windows, and local sections before any restriction or gluing row is available.
+
+Read $R$ and $G$ next. The presheaf restriction row handles displayed window inclusions, while the sheaf row glues only compatible finite overlaps already named by the packet.
+
+The structural rows $H,C,P,N$ transport, replay, source, and locally name the same finite observation surface. Since the carrier has no coordinate for an external observation site, host sheaf equality, quotient sections, unrestricted covers, or an opaque generator, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite observation sheaf auditable gluing]
+\label{thm:finite-observation-sheaf-auditable-gluing}
+Every generativity-facing read of an accepted $\FiniteObservationSheafUp$ packet is a compatible finite gluing of displayed $\BHist$ window sections. The read factors through $\FinitePrefixStreamUp$, $\StreamNameUp$, $\PreSheafUp$, and $\SheafUp$ rows before the local $\NameCert_{\FiniteObservationSheafUp}$ row is consumed, and it exports auditable finite overlap data rather than opaque generated content.
+\end{theorem}
+\begin{proof}
+Start with the finite window rows $I,W,A$. They determine the observation windows and the local sections available to the consumer.
+
+Apply the restriction row $R$. It compares local sections only along displayed inclusions of finite windows, so compatibility is a finite presheaf condition over the carried observations.
+
+Finally apply $G$ and then $H,C,P,N$. The gluing row is available only for those compatible finite overlaps, and the structural rows preserve the same route. Thus the generativity-facing read is auditable as finite window data rather than as a black-box output.
+\end{proof}
+
+\closureat{FiniteObservationSheafUp}{seedStr}
+
+\begin{closurestatus}{\FiniteObservationSheafUp}
+  \constructivestory{A $\FiniteObservationSheafUp$ packet is generated from finite observation indices, finite StreamName and FinitePrefixStream windows, local section assignments, PreSheaf restriction rows, Sheaf finite-overlap gluing rows, hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-observation-sheaf-carrier}, \autoref{thm:finite-observation-sheaf-namecert-obligations}, and \autoref{thm:finite-observation-sheaf-auditable-gluing} seed the finite observation-sheaf route over finite indices, observation windows, local section assignments, presheaf restrictions, finite gluing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim Lean verification, bridge checking, an external site of all observations, host sheaf equality, quotient sections, unrestricted covers, or opaque generative output.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite observation-window admission, assignment rows, restriction rows, finite-overlap gluing, transport, replay, provenance, and local naming for BEDC.Derived.FiniteObservationSheafUp.}
+\end{closurestatus}
