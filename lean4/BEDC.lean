@@ -1782,6 +1782,8 @@ import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp
 import BEDC.Derived.CauchyModulusArithmeticUp.DiagonalMeetStability
+import BEDC.Derived.CauchyModulusArithmeticUp.ObligationClosure
+import BEDC.Derived.CauchyModulusArithmeticUp.SumProductCarrierAdmission
 import BEDC.Derived.CauchyModulusArithmeticUp.SumProductSharedThreshold
 import BEDC.Derived.CauchyModulusArithmeticUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp.WindowedProductDistributivity
