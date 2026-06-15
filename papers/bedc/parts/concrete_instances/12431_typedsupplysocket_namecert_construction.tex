@@ -111,6 +111,24 @@ Apply the kind-separation theorem. If a TasteGate route erases or identifies $K$
 Finally read $G,U,H,C,P,N$. The audit gate and non-internalization row keep the request boundary-visible, while transport, replay, provenance, and local naming preserve the same finite packet. A TasteGate instance that fails field preservation therefore leaves the accepted $\TypedSupplySocketUp$ carrier.
 \end{proof}
 
+\begin{theorem}[Typed supply socket obligation rows]
+\label{thm:typed-supply-socket-obligation-rows}
+Every accepted $\TypedSupplySocketUp$ socket exposes the kind row $K$, requested-supply row $Q$, consumption-site row $S$, audit-gate row $G$, refusal row $U$, transport row $H$, continuation row $C$, provenance row $P$, and local name row $N$ before any supply availability is public. The exposed surface is the finite packet
+$$
+T=(K,Q,S,G,U,H,C,P,N),
+$$
+not an untyped grant, host resource equality, or kind conversion outside the carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.TypedSupplySocketUp.taste\_gate}
+
+\begin{proof}
+Project the carrier of \autoref{def:typed-supply-socket-carrier}. Its public coordinates are exactly $K,Q,S,G,U,H,C,P,N$, so an accepted socket has no smaller route that can expose supply availability before those rows are read.
+
+Apply the TasteGate obligation of \autoref{thm:typed-supply-socket-tastegate-obligation}. The checked witness records preservation of the single carrier with these rows distinct, preventing the gate from identifying kind, request, site, refusal, transport, continuation, provenance, or local name.
+
+Thus the only public socket read is the obligation row sequence stated above. Since supply availability has no separate coordinate, it cannot be made public without first exposing the typed socket rows.
+\end{proof}
+
 \falsifiablePrediction{If the socket kind row is erased, Type I induction sockets and Type II witness sockets can no longer be separated by the public classifier.}
 
 \independenceWitness{socketkindclassifier, supplysocketledger, machineinterfacesocket, apophaticfarendsocket: SocketKindClassifierUp classifies kinds but lacks requested-supply, consumption-site, audit-gate, and non-internalization rows; SupplySocketLedgerUp accounts for requested supply but does not bind all seven kinds to a consumption site and gate; MachineInterfaceSocketUp routes formalization targets rather than the full seven-kind socket taxonomy; ApophaticFarEndSocketUp names the far-end refusal position but lacks the typed request and site rows. None is bijective to $\TypedSupplySocketUp$ under NameCert-row preservation.}
@@ -122,11 +140,12 @@ The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \TypedSupplySocke
 
 \begin{closurestatus}{\TypedSupplySocketUp}
   \constructivestory{The typed supply socket is generated from a $BHist$ packet that records a socket kind, requested supply, consumption site, audit gate, non-internalization row, and the socket route that consumes them together. The carrier convention reads the typed socket directly from those rows and uses $hsame$ to preserve both socket identity and kind across equivalent histories. Continuations are admitted only through $\Cont$ extensions that keep the typed row attached to the supply route. NameCert obligations, kind separation, TasteGate obligation, prediction, and independence witness certify that a consumer cannot silently retag a socket or use an untyped supply source. The socket is therefore a typed ledger route, not an ambient resource.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the typed supply-socket carrier, NameCert obligations, kind-separation theorem, TasteGate-obligation theorem, falsifiable prediction, and independence witness.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the typed supply-socket carrier, NameCert obligations, kind-separation theorem, TasteGate-obligation theorem, obligation-row exposure theorem, falsifiable prediction, and independence witness.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.TypedSupplySocketUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim untyped supply availability, host resource equality, or kind conversion outside the recorded socket carrier.}
-  \upgradepath{Reaching obligationClosure requires formal socket and kind rows plus checked preservation of typed supply through continuation.}
+  \upgradepath{Reaching scoped closure requires checked carrier admission, obligation-row exposure, transport, replay, provenance, and local naming beyond the TasteGate witness.}
 \end{closurestatus}
