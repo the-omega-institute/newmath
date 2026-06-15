@@ -1,3 +1,5 @@
+import json
+
 from scripts import run_canonical_reports as canonical
 
 
@@ -26,3 +28,22 @@ def test_fair_alignment_control_index_section_is_pointer_only():
         "hardgate_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.hardgate",
         "producer_adapters_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.producer_adapters",
     }
+
+
+def test_fair_alignment_control_dispatch_writes_canonical_artifacts(monkeypatch, tmp_path):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    spec = canonical._specs_by_name()["fair-alignment-control-ledger"]
+
+    canonical._run_spec_producer(spec, generated_at="fixture-time")
+
+    payload = json.loads((tmp_path / spec.json_artifact).read_text(encoding="utf-8"))
+    markdown = (tmp_path / spec.markdown_artifact).read_text(encoding="utf-8")
+
+    assert payload["generated_at"] == "fixture-time"
+    assert payload["status"] == "pass"
+    assert payload["hardgate"]["status"] == "pass"
+    assert payload["row_count"] == 2
+    assert payload["positive_claim"]["status"] == "positive-candidate"
+    assert set(payload["producer_adapters"]) == {"gap-head-on-h", "discovery-regularized-training"}
+    assert "- Generated at: `fixture-time`" in markdown
+    assert "`pointer-only`" in markdown

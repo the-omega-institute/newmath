@@ -1,4 +1,4 @@
-import pytest
+import json
 
 from bedc_quality_lab.fair_alignment_control_ledger import (
     ARTIFACT_ID,
@@ -10,6 +10,7 @@ from bedc_quality_lab.fair_alignment_control_ledger import (
     build_default_rows,
     render_markdown,
 )
+from scripts.run_fair_alignment_control_ledger import write_artifacts
 
 
 def _row(**overrides):
@@ -118,3 +119,19 @@ def test_markdown_renders_pointer_table_without_metric_bodies():
     assert "reports/canonical/fixture.json:$.control" in markdown
     assert "candidate_metrics" not in markdown
     assert "control_metrics" not in markdown
+
+
+def test_writer_preserves_payload_timestamp_and_renders_artifacts(tmp_path):
+    payload = write_artifacts(root=tmp_path, generated_at="fixture-time")
+    json_payload = json.loads((tmp_path / JSON_ARTIFACT).read_text(encoding="utf-8"))
+    markdown = (tmp_path / MARKDOWN_ARTIFACT).read_text(encoding="utf-8")
+
+    assert payload["generated_at"] == "fixture-time"
+    assert json_payload["generated_at"] == "fixture-time"
+    assert json_payload["status"] == "pass"
+    assert json_payload["row_count"] == 2
+    assert "- Generated at: `fixture-time`" in markdown
+    assert "- Status: `pass`" in markdown
+    assert "- Rows: `2`" in markdown
+    assert "`gap-head-on-h`" in markdown
+    assert "`discovery-regularized-training`" in markdown

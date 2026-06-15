@@ -1872,6 +1872,7 @@ class DiscoveryRegularizedTrainingProjection:
             "negative_witness_mutations": summaries["negative_witness_mutations"],
             "training_loop_trace": summaries["training_loop_trace"],
             "matched_random_control": summaries["matched_random_control"],
+            "fair_alignment_control_ledger": summaries["fair_alignment_control_ledger"],
             "training_replay_bridge": summaries["training_replay_bridge"],
             "quality_promotion_boundary": boundary,
             "certificate_guided_dn_preservation": preservation,
