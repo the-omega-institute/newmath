@@ -263,6 +263,36 @@ theorem TotallyBoundedCompletionCarrier_route_coverage [AskSetup] [PackageSetup]
       separatedExtensionProvenance, transportProvenanceLocalName, refinementUnary, embeddingUnary,
       separatedUnary, provenanceUnary, localNameUnary, localNamePkg⟩
 
+theorem TotallyBoundedCompletionCarrier_finite_net_completion_obligations
+    [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont embedding completion completionRead ->
+        UnaryHistory net ∧ UnaryHistory refinement ∧ UnaryHistory basis ∧
+          UnaryHistory embedding ∧ UnaryHistory completion ∧ UnaryHistory completionRead ∧
+            Cont source net refinement ∧ Cont refinement basis embedding ∧
+              Cont embedding completion separated ∧ Cont embedding completion completionRead ∧
+                PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier completionReadRoute
+  obtain ⟨sourceUnary, netUnary, basisUnary, completionUnary, _extensionUnary,
+    _transportUnary, sourceNetRefinement, refinementBasisEmbedding,
+    embeddingCompletionSeparated, _separatedExtensionProvenance,
+    _transportProvenanceLocalName, _provenancePkg, localNamePkg⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed sourceUnary netUnary sourceNetRefinement
+  have embeddingUnary : UnaryHistory embedding :=
+    unary_cont_closed refinementUnary basisUnary refinementBasisEmbedding
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed embeddingUnary completionUnary completionReadRoute
+  exact
+    ⟨netUnary, refinementUnary, basisUnary, embeddingUnary, completionUnary,
+      completionReadUnary, sourceNetRefinement, refinementBasisEmbedding,
+      embeddingCompletionSeparated, completionReadRoute, localNamePkg⟩
+
 theorem TotallyBoundedCompletionCarrier_root_net_ledger_certificate [AskSetup] [PackageSetup]
     {source net refinement basis embedding completion separated extension transport provenance
       localName netRead : BHist}

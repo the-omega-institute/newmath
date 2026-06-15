@@ -188,6 +188,29 @@ theorem CauchyModulusArithmeticCarrier_namecert_obligations [AskSetup] [PackageS
   }
   exact ⟨cert, meetRoute, sumRoute, productRoute, sealRoute, provenanceRoute, packageRoute⟩
 
+theorem CauchyModulusArithmeticCarrier_namecert_obligation_carrier [AskSetup] [PackageSetup]
+    {stream0 stream1 modulus0 modulus1 meet sum product dyadic window readback sealRow transport
+      replay provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusArithmeticCarrier stream0 stream1 modulus0 modulus1 meet sum product dyadic
+        window readback sealRow transport replay provenance localName bundle pkg ->
+      UnaryHistory stream0 /\ UnaryHistory stream1 /\ UnaryHistory modulus0 /\
+        UnaryHistory modulus1 /\ UnaryHistory meet /\ UnaryHistory sum /\
+          UnaryHistory product /\ UnaryHistory dyadic /\ UnaryHistory window /\
+            UnaryHistory readback /\ UnaryHistory sealRow /\ UnaryHistory transport /\
+              PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory ProbeBundle Pkg PkgSig
+  intro carrier
+  obtain
+    ⟨stream0Unary, stream1Unary, modulus0Unary, modulus1Unary, meetUnary, sumUnary,
+      productUnary, dyadicUnary, windowUnary, readbackUnary, sealUnary, transportUnary,
+      _meetRoute, _sumRoute, _productRoute, _sealRoute, _provenanceRoute,
+      packageRoute⟩ := carrier
+  exact
+    ⟨stream0Unary, stream1Unary, modulus0Unary, modulus1Unary, meetUnary, sumUnary,
+      productUnary, dyadicUnary, windowUnary, readbackUnary, sealUnary, transportUnary,
+      packageRoute⟩
+
 theorem CauchyModulusArithmeticCarrier_product_tail_bound [AskSetup] [PackageSetup]
     {stream0 stream1 modulus0 modulus1 meet sum product dyadic window readback sealRow transport
       replay provenance localName productTail : BHist}
@@ -208,6 +231,33 @@ theorem CauchyModulusArithmeticCarrier_product_tail_bound [AskSetup] [PackageSet
   exact
     ⟨productUnary, windowUnary, unary_cont_closed productUnary windowUnary productRoute,
       productRoute, localPackage, productPackage⟩
+
+theorem CauchyModulusArithmeticCarrier_real_consumer_boundary [AskSetup] [PackageSetup]
+    {stream0 stream1 modulus0 modulus1 meet sum product dyadic window readback sealRow transport
+      replay provenance localName sumProductRead productTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusArithmeticCarrier stream0 stream1 modulus0 modulus1 meet sum product dyadic
+        window readback sealRow transport replay provenance localName bundle pkg ->
+      Cont sum product sumProductRead ->
+        Cont product window productTail ->
+          PkgSig bundle productTail pkg ->
+            UnaryHistory sum /\ UnaryHistory product /\ UnaryHistory window /\
+              UnaryHistory sumProductRead /\ UnaryHistory productTail /\
+                Cont sum product sumProductRead /\ Cont product window productTail /\
+                  Cont window readback sealRow /\ PkgSig bundle localName pkg /\
+                    PkgSig bundle productTail pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier sumProductRoute productTailRoute productTailPackage
+  obtain
+    ⟨_stream0Unary, _stream1Unary, _modulus0Unary, _modulus1Unary, _meetUnary,
+      sumUnary, productUnary, _dyadicUnary, windowUnary, _readbackUnary, _sealUnary,
+      _transportUnary, _meetRoute, _sumRoute, _carrierProductRoute, sealRoute,
+      _provenanceRoute, localPackage⟩ := carrier
+  exact
+    ⟨sumUnary, productUnary, windowUnary,
+      unary_cont_closed sumUnary productUnary sumProductRoute,
+      unary_cont_closed productUnary windowUnary productTailRoute,
+      sumProductRoute, productTailRoute, sealRoute, localPackage, productTailPackage⟩
 
 theorem CauchyModulusArithmeticCarrier_ledger_nonescape [AskSetup] [PackageSetup]
     {stream0 stream1 modulus0 modulus1 meet sum product dyadic window readback sealRow transport
@@ -272,5 +322,30 @@ theorem CauchyModulusArithmeticCarrier_common_tail_window [AskSetup] [PackageSet
     ⟨modulus0Unary, modulus1Unary, meetUnary, windowUnary, readbackUnary,
       unary_cont_closed modulus0Unary meetUnary tailRoute, tailRoute, sealRoute,
       provenanceRoute, packageRoute⟩
+
+theorem CauchyModulusArithmeticCarrier_product_meet_compatibility
+    [AskSetup] [PackageSetup]
+    {stream0 stream1 modulus0 modulus1 meet sum product dyadic window readback sealRow transport
+      replay provenance localName productRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusArithmeticCarrier stream0 stream1 modulus0 modulus1 meet sum product dyadic
+        window readback sealRow transport replay provenance localName bundle pkg ->
+      Cont meet dyadic productRead ->
+        UnaryHistory modulus0 ∧ UnaryHistory modulus1 ∧ UnaryHistory meet ∧
+          UnaryHistory dyadic ∧ UnaryHistory product ∧ UnaryHistory productRead ∧
+            Cont modulus0 modulus1 meet ∧ Cont meet dyadic product ∧
+              Cont meet dyadic productRead ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier productReadRoute
+  obtain
+    ⟨_stream0Unary, _stream1Unary, modulus0Unary, modulus1Unary, meetUnary,
+      _sumUnary, productUnary, dyadicUnary, _windowUnary, _readbackUnary,
+      _sealUnary, _transportUnary, meetRoute, _sumRoute, productRoute, _sealRoute,
+      _provenanceRoute, packageRoute⟩ := carrier
+  have productReadUnary : UnaryHistory productRead :=
+    unary_cont_closed meetUnary dyadicUnary productReadRoute
+  exact
+    ⟨modulus0Unary, modulus1Unary, meetUnary, dyadicUnary, productUnary,
+      productReadUnary, meetRoute, productRoute, productReadRoute, packageRoute⟩
 
 end BEDC.Derived.CauchyModulusArithmeticUp
