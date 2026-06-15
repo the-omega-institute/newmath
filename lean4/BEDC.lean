@@ -3522,6 +3522,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedStripZetaSourceFactorization
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleImageRow
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleReadbackRow
 import BEDC.Derived.CriticalLineWitnessUp.FixedTupleStdbridgePremiseSurface
+import BEDC.Derived.CriticalLineWitnessUp.GapPolicyStability
 import BEDC.Derived.CriticalLineWitnessUp.LedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.LedgerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.LedgerRouteStability
@@ -3572,6 +3573,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealZetaRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.PrimeZetaDependencyRoute
 import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryConsumerNonescape
