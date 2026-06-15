@@ -1767,7 +1767,6 @@ import BEDC.Derived.CauchyMergeUp
 import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp
-import BEDC.Derived.CauchyModulusArithmeticUp.TasteGate
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
@@ -2867,6 +2866,7 @@ import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
 import BEDC.Derived.CompactNetModulusSelectorUp.CenterLedgerExposure
 import BEDC.Derived.CompactNetModulusSelectorUp.ConsumerFactorization
 import BEDC.Derived.CompactNetModulusSelectorUp.FiniteNetExposure
+import BEDC.Derived.CompactNetModulusSelectorUp.FoldRadiusExhaustion
 import BEDC.Derived.CompactNetModulusSelectorUp.FoldSoundness
 import BEDC.Derived.CompactNetModulusSelectorUp.IndependenceBoundary
 import BEDC.Derived.CompactNetModulusSelectorUp.KernelCarrier
@@ -6162,7 +6162,6 @@ import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelPhaseRefusalUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
-import BEDC.Derived.KernelSourceChannelLedgerUp.TasteGate
 import BEDC.Derived.KirszbraunExtensionUp.TasteGate
 import BEDC.Derived.KleeneKreiselSpaceUp
 import BEDC.Derived.KleeneTreeUp.CantorSpaceFanBoundary
@@ -6208,7 +6207,6 @@ import BEDC.Derived.LQRUp.PublicNameCertExport
 import BEDC.Derived.LagrangeInterpolationUp.TasteGate
 import BEDC.Derived.LagrangeInversionUp.TasteGate
 import BEDC.Derived.LagrangianMechanicsUp
-import BEDC.Derived.LagrangianMechanicsUp.TasteGate
 import BEDC.Derived.LaguerrePolyaUp.TasteGate
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
