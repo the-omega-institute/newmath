@@ -250,6 +250,34 @@ to the same zero row.  Thus the positive allocation result is not created by
 the dynamic program alone, by a depth prior, or by a linear readout.  It
 requires a nonlinear state--option interaction that predicts option-conditioned
 compute cost before the exact-budget assignment is applied.
+The feature-group ablation then asks which part of the state view carries this
+interaction.  At seed $41$ and $280$ epochs, the full feature set remains
+closed with allocation delta $-0.00474$ $[-0.00862,\ -0.00154]$ and
+score/error $\rho=0.8839$.  The base latent/action window alone is wrong-side
+at $+0.00331$ $[-0.00351,\ +0.01285]$; the rollout trajectory alone moves in
+the useful direction but stays fail-closed at $-0.00259$
+$[-0.00703,\ +0.00272]$; norm/gap summaries alone are near zero at $+0.00076$
+$[-0.00477,\ +0.00558]$.  Partial combinations with the base state also stay
+fail-closed.  The closed row is therefore not a single-feature discovery.  It
+uses distributed rollout-internal information together with the state and the
+explicit option token.
+The structured-assignment row is also exposed as an executable autoresearch
+hypothesis, \texttt{fi-022.compute-value-structured-assignment}.  The runner
+requires \texttt{episode}, \texttt{option\_depths}, \texttt{option\_error},
+\texttt{uniform\_error}, and \texttt{predicted\_option\_score}; otherwise it
+returns a fail-closed payload.  On the fixed-export artifact it measures
+allocation delta $-0.00604$ $[-0.01074,\ -0.00163]$ with score/error
+$\rho=0.8899$, and the execution lane records a mechanically positive
+verdict.  Because the adversarial layer has not promoted this hypothesis, the
+paper treats the result as a gated fixed-export model result, not as an
+authoritative population claim.
+An independent-readiness scan keeps the same boundary.  It inspects local
+\texttt{npz} artifacts for the structured compute-value schema and finds four
+usable fixed-export structured artifacts but zero usable independent-export
+artifacts.  Thus no independent structured compute-value replication is
+claimed: the next claim boundary is the creation of an independent export with
+the same option-error and predicted-option-score schema, followed by the same
+runner and paired episode-bootstrap gate.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar

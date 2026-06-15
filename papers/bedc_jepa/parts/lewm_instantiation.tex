@@ -347,6 +347,29 @@ over the full features both choose the uniform depth and produce exactly zero
 allocation delta.  The closed row is therefore not an artifact of the dynamic
 program or of depth priors.  It depends on nonlinear interaction between the
 rollout-internal state and the candidate compute option.
+A feature-group ablation shows that the interaction is distributed across the
+state view.  With seed $41$ and $280$ epochs, the full feature set evaluates at
+allocation delta $-0.00474$ $[-0.00862,\ -0.00154]$ with score/error Spearman
+$0.8839$.  Reading only the base latent/action window is wrong-side
+($+0.00331$ $[-0.00351,\ +0.01285]$).  Reading only the rollout trajectory is
+useful but not closed ($-0.00259$ $[-0.00703,\ +0.00272]$), and norm/gap
+summaries alone stay near zero ($+0.00076$ $[-0.00477,\ +0.00558]$).  Adding
+trajectory or norm/gap features back to the base state also remains
+fail-closed.  The allocation-native row therefore does not come from a single
+rollout statistic; it requires the full rollout-internal context, the base
+state, and the explicit option token.
+The structured row is registered in the autoresearch execution lane as
+\texttt{fi-022.compute-value-structured-assignment}.  The runner validates the
+structured artifact schema, recomputes the exact-budget assignment, and emits
+a fail-closed payload if the schema is absent.  On the fixed-export structured
+artifact it records allocation delta $-0.00604$ $[-0.01074,\ -0.00163]$ with
+score/error Spearman $0.8899$.  The mechanical gate is positive, while the
+adversarial layer still holds the finding pending review; the scientific claim
+therefore remains a fixed-export, calibration-selected structured-assignment
+result.  A readiness scan finds no usable independent-export structured
+compute-value artifact with the required arrays, so independent structured
+replication is not claimed.  The standalone runner verdict is stored at
+\path{experiments/lewm_gap_ledger/reports/fi_022_structured_assignment_verdict.json}.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -459,6 +482,8 @@ $$
 \text{compute-value structured assignment} & \texttt{reports/compute\_value\_structured\_assignment.json},\\
 \text{compute-value structured stability} & \texttt{reports/compute\_value\_structured\_stability.json},\\
 \text{compute-value structured ablation} & \texttt{reports/compute\_value\_structured\_ablation.json},\\
+\text{compute-value feature-group ablation} & \texttt{reports/compute\_value\_feature\_group\_ablation.json},\\
+\text{compute-value independent readiness} & \texttt{reports/compute\_value\_independent\_readiness.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

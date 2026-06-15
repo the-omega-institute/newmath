@@ -197,12 +197,32 @@ def execute_and_record(store: LeWMStore, hypotheses: list[dict[str, Any]], *, ma
     return summaries
 
 
+def _load_execution_hypotheses(store: LeWMStore, hypothesis_ids: set[str] | None) -> list[dict[str, Any]]:
+    state_hypotheses = store.load_hypotheses()
+    seed_hypotheses = store.load_seed_hypotheses()
+    if hypothesis_ids is None:
+        if state_hypotheses:
+            return state_hypotheses
+        store.write_hypotheses(seed_hypotheses)
+        return seed_hypotheses
+
+    by_id = {str(item.get("hypothesis_id") or ""): item for item in state_hypotheses}
+    seed_by_id = {str(item.get("hypothesis_id") or ""): item for item in seed_hypotheses}
+    changed = False
+    for hid in sorted(hypothesis_ids):
+        if hid not in by_id and hid in seed_by_id:
+            by_id[hid] = seed_by_id[hid]
+            changed = True
+    if changed or not state_hypotheses:
+        ordered = list(state_hypotheses)
+        present = {str(item.get("hypothesis_id") or "") for item in ordered}
+        ordered.extend(by_id[hid] for hid in sorted(hypothesis_ids) if hid in by_id and hid not in present)
+        store.write_hypotheses(ordered)
+    return [by_id[hid] for hid in sorted(hypothesis_ids) if hid in by_id]
+
+
 def run_execution_lane(store: LeWMStore, *, max_workers: int = 1, hypothesis_ids: set[str] | None = None) -> dict[str, Any]:
-    hypotheses = store.load_hypotheses() or store.load_seed_hypotheses()
-    if hypothesis_ids is not None:
-        hypotheses = [item for item in hypotheses if str(item.get("hypothesis_id") or "") in hypothesis_ids]
-    if not store.load_hypotheses():
-        store.write_hypotheses(hypotheses)
+    hypotheses = _load_execution_hypotheses(store, hypothesis_ids)
     summaries = execute_and_record(store, hypotheses, max_workers=max_workers)
     gate = run_gate_lane(store)
     writeback = run_writeback_lane(store)
