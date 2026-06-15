@@ -130,4 +130,68 @@ theorem ApartnessSpaceCarrier_located_positive_gap_route [AskSetup] [PackageSetu
                                                                     · exact route
                                                                     · exact namePkg
 
+theorem ApartnessSpaceCarrier_separatedmetric_zero_distance_boundary [AskSetup] [PackageSetup]
+    {object located gap transport classifierExclusion zeroBoundary htransport replay provenance
+      localName apartRead zeroDistanceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessSpaceCarrier object located gap transport classifierExclusion zeroBoundary
+        htransport replay provenance localName apartRead bundle pkg ->
+      Cont zeroBoundary replay zeroDistanceRead ->
+        PkgSig bundle zeroDistanceRead pkg ->
+          UnaryHistory zeroBoundary ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+            UnaryHistory zeroDistanceRead ∧ Cont zeroBoundary replay provenance ∧
+              Cont zeroBoundary replay zeroDistanceRead ∧ Cont replay provenance localName ∧
+                PkgSig bundle localName pkg ∧ PkgSig bundle zeroDistanceRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle UnaryHistory
+  intro carrier zeroDistanceRoute zeroDistancePkg
+  cases carrier with
+  | intro objectUnary rest =>
+      cases rest with
+      | intro locatedUnary rest =>
+          cases rest with
+          | intro gapUnary rest =>
+              cases rest with
+              | intro transportUnary rest =>
+                  cases rest with
+                  | intro classifierUnary rest =>
+                      cases rest with
+                      | intro zeroBoundaryUnary rest =>
+                          cases rest with
+                          | intro htransportUnary rest =>
+                              cases rest with
+                              | intro replayUnary rest =>
+                                  cases rest with
+                                  | intro provenanceUnary rest =>
+                                      cases rest with
+                                      | intro localNameUnary rest =>
+                                          cases rest with
+                                          | intro locatedGapClassifier rest =>
+                                              cases rest with
+                                              | intro gapClassifierApartRead rest =>
+                                                  cases rest with
+                                                  | intro zeroBoundaryReplayProvenance rest =>
+                                                      cases rest with
+                                                      | intro replayProvenanceName localNamePkg =>
+                                                          constructor
+                                                          · exact zeroBoundaryUnary
+                                                          · constructor
+                                                            · exact replayUnary
+                                                            · constructor
+                                                              · exact provenanceUnary
+                                                              · constructor
+                                                                · exact
+                                                                    unary_cont_closed
+                                                                      zeroBoundaryUnary
+                                                                      replayUnary
+                                                                      zeroDistanceRoute
+                                                                · constructor
+                                                                  · exact zeroBoundaryReplayProvenance
+                                                                  · constructor
+                                                                    · exact zeroDistanceRoute
+                                                                    · constructor
+                                                                      · exact replayProvenanceName
+                                                                      · constructor
+                                                                        · exact localNamePkg
+                                                                        · exact zeroDistancePkg
+
 end BEDC.Derived.ApartnessSpaceUp
