@@ -1505,6 +1505,7 @@ import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CauchyApproximationSchemeUp.TasteGate
 import BEDC.Derived.CauchyApproximationSequenceUp.TasteGate
 import BEDC.Derived.CauchyApproximationSystemUp.TasteGate
+import BEDC.Derived.CauchyApproximationTreeUp.TasteGate
 import BEDC.Derived.CauchyBicategoryUp
 import BEDC.Derived.CauchyBornologyUp.TasteGate
 import BEDC.Derived.CauchyBoundednessCriterionUp.TasteGate
@@ -4068,6 +4069,7 @@ import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivativeUp.TasteGate
 import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.DerivedFunctorUp
+import BEDC.Derived.DetachableSubsetUp
 import BEDC.Derived.DeterminantUp
 import BEDC.Derived.DiagonalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp
@@ -9645,6 +9647,7 @@ import BEDC.Derived.SeparatedCompletionUp.DenseFactorization
 import BEDC.Derived.SeparatedCompletionUp.ZeroDistanceFactorization
 import BEDC.Derived.SeparatedLimitUniquenessUp.TasteGate
 import BEDC.Derived.SeparatedMetricCompletionUp.TasteGate
+import BEDC.Derived.SeparatedMetricReflectionUp
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp.UniversalRoute
 import BEDC.Derived.SeparatedMetricUp.CarrierBoundary
