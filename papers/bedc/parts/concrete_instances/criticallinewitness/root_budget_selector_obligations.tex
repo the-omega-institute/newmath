@@ -15,6 +15,7 @@ Finally apply the root refusal boundary, \autoref{thm:critical-line-witness-root
 \label{thm:critical-line-witness-root-strip-window-exhaustion}
 Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ root packet whose finite selector route displays the same fixed-strip window rows as the root source surface. Then every fixed-strip or zero-strip readback over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ factors through $Z,S,M,R,Q,H,C,P,N$ before any refusal row is exported. No consumer may replace the fixed-strip window by analytic continuation, ambient completeness, host $\mathsf{RH}$ truth, or an unrecorded zero-location selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_strip\_window\_exhaustion}
 \begin{proof}
 Use the fixed-strip source rows first. The fixed-strip source totality and source readback theorems, \autoref{thm:critical-line-witness-fixed-strip-source-totality} and \autoref{thm:critical-line-witness-fixed-strip-source-readback-totality}, place strip-facing reads on the displayed root packet.
 
@@ -22,12 +23,12 @@ Now route the window through the finite selector. By \autoref{thm:critical-line-
 
 The exhaustion claim follows from the fixed-strip row exhaustion theorem \autoref{thm:critical-line-witness-fixed-strip-row-exhaustion}. Its refusal side excludes off-packet strip data, and the selector route adds no analytic-continuation, completeness, host-truth, or hidden-zero coordinate.
 \end{proof}
-\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_strip\_window\_exhaustion}
 
 \begin{theorem}[Critical-line witness root refusal-ledger pullback]
 \label{thm:critical-line-witness-root-refusal-ledger-pullback}
 Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ root packet, and suppose a finite observation-budget selector and an RH-boundary sibling read the same displayed root rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Then their refusal ledgers pull back to the same finite packet $Z,S,M,R,Q,H,C,P,N$: every refused request for host $\mathsf{RH}$ truth, analytic continuation, ambient completeness, or hidden zero-location selection is recorded on that packet-local ledger and nowhere else.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_refusal\_ledger\_pullback}
 \begin{proof}
 Start with the root refusal consumer exactness theorem \autoref{thm:critical-line-witness-root-refusal-consumer-exactness}. It makes refusal-facing consumers read the displayed finite root packet rather than a host analytic object.
 

@@ -61,6 +61,7 @@ N \hsame N'.
 $$
 No classifier branch may inspect quotient completions, selected representatives, countable-choice selectors, host real equality, ambient completeness, open-cover compactness, Lean verification, or bridge credentials.
 \end{definition}
+\leandef{BEDC.Derived.CauchySpaceUp.CauchySpaceClassifier}
 
 \begin{theorem}[CauchySpace filter stability]
 \label{thm:cauchyspace-filter-stability}
@@ -128,6 +129,23 @@ The precompletion row $Q$ is then the only permitted handoff into completion-fac
 The consumer row $T$ names later $\RealUp$ readers of that precompletion handoff. It has no coordinate from which to export a real-equality theorem, a completeness theorem, an open-cover compactness principle, or a bridge credential.
 
 Finally, $H,C,P,N$ preserve, replay, source, and name this same finite route. Since each structural row is attached to $F,U,R,Q,T$, every exported completion-consumer read remains inside the displayed Cauchy-space boundary.
+\end{proof}
+
+\begin{theorem}[CauchySpace Real completion provenance route]
+\label{thm:cauchyspace-real-completion-provenance-route}
+Every $\RealUp$ completion read exported by an accepted $\CauchySpaceUp$ carrier can be named only after the displayed route
+$$
+F,U \longmapsto R \longmapsto N \longmapsto P
+$$
+has exposed the filter-uniform replay, regular rational readback, local naming row, and provenance row. Thus the Real completion consumer boundary feeds the local $\NameCert_{\CauchySpaceUp}$ provenance route, rather than a detached completion object or selected host representative.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier\_real\_completion\_provenance\_route}
+\begin{proof}
+Start with \autoref{thm:cauchyspace-real-completion-consumer}. It places the Real-facing read downstream of the displayed filter-uniform route and the regular rational readback.
+
+The local naming row $N$ is then the only accepted row that names this Real-facing read for the packet. The provenance row $P$ records the source of that named read, so a consumer cannot replace the route by a quotient completion, selected representative, host equality, or ambient completeness datum.
+
+Because $H$ transports the same displayed packet and $C$ replays only that route, the resulting provenance read remains attached to $F,U,R,N,P$ and exports no external completion object.
 \end{proof}
 
 \begin{theorem}[CauchySpace filter-uniform Real consumer obligation]
@@ -290,16 +308,30 @@ The structural rows $H_0,C_0,P_0,N_0$ transport, replay, source, and name the sa
 \end{proof}
 \leanchecked{BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier\_public\_consumer\_boundary}
 
+\begin{theorem}[CauchySpace public completion interface]
+\label{thm:cauchyspace-public-completion-interface}
+For every accepted $\CauchySpaceUp$ local filter carrier $L=(F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0)$, any $\CompletionUp$, $\UniformCompletionUp$, $\RealUp$, or $\CauchyPrecompletionUp$ consumer reading the public $\CauchySpaceUp$ surface must pass through the local filter carrier, the precompletion nonescape route, the regular-name handoff, the completion handoff, and the public consumer boundary already displayed in this chapter. Thus the completion-facing interface exposes only the finite rows $F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0$ and exports no quotient completion, selected representative, host equality, countable choice, ambient $\RealUp$ completeness, open-cover compactness, Lean credential, or bridge claim.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:cauchyspace-local-filter-carrier}. It is the unique local inventory from which a completion-facing consumer may read filter rows, uniform rows, regular-name rows, completion handoff rows, transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:cauchyspace-precompletion-nonescape-obligation}. This keeps the precompletion-facing read inside the displayed handoff row and blocks quotient completions, selected representatives, and host equality from entering the interface.
+
+Next use \autoref{thm:cauchyspace-regular-name-handoff-obligation}. The regular-name read $R_0$ is reached only through the local filter and uniform rows, so a $\CompletionUp$, $\UniformCompletionUp$, $\RealUp$, or $\CauchyPrecompletionUp$ consumer cannot bypass the displayed rational-name route.
+
+Finally apply \autoref{thm:cauchyspace-completion-handoff-obligation} and \autoref{thm:cauchyspace-public-consumer-boundary}. The first theorem places the completion-facing row $T_0$ after the regular-name handoff, and the second repacks the entire route as the public boundary. Hence the stated public completion interface is exactly the same finite carrier surface.
+\end{proof}
+
 \closureat{CauchySpaceUp}{seedStr}
 \closureat{CauchySpaceUp}{obligationStr}
 \closureat{CauchySpaceUp}{scopedStr}
 
 \begin{closurestatus}{\CauchySpaceUp}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{def:cauchyspace-carrier}, \autoref{def:cauchyspace-classifier}, \autoref{thm:cauchyspace-obligation-coverage-route}, \autoref{thm:cauchyspace-precompletion-factorization}, and \autoref{thm:cauchyspace-public-consumer-boundary} close the displayed carrier, classifier, obligation coverage, precompletion factorization, and public consumer boundary surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host real equality, ambient $\RealUp$ completeness, open-cover compactness, Lean verification, or bridge checking.}
-  \upgradepath{Public closure requires a downstream consumer that imports the scoped CauchySpace boundary as a named public interface without adding quotient completion, selected representatives, countable choice, or ambient completeness.}
+  \upgradepath{Bridged closure requires a concrete bridge theorem that imports the public CauchySpace boundary into the standard bridge schema without adding quotient completion, selected representatives, countable choice, or ambient completeness.}
   \constructivestory{A $\CauchySpaceUp$ packet is generated from a CauchyFilter row, UniformSpace entourage row, RegSeqRat regular-name row, CauchyPrecompletion handoff row, RealUp completion-consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\ProofNetUp$}
+\label{ch:concrete-instances-proof-net-namecert}
+\origin{human}
+
+Following Girard proof nets, the $\ProofNetUp$ packet records proof objects as finite link-and-switching data rather than as host proof trees or quotient proof identities. It sits between the syntax and deduction rows of \autoref{ch:concrete-instances-firstorder-namecert}, the proof-term corridor of \autoref{ch:concrete-instances-lambdacalc-namecert}, the normalization-by-evaluation surface of \autoref{ch:concrete-instances-normalization-by-evaluation-namecert}, the logical-relation route of \autoref{ch:concrete-instances-logical-relation-namecert}, and the MetaCIC critical path of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The packet names finite link tables, switching choices, cut interfaces, transport, replay, provenance, and local naming rows; it does not assert full normalization, confluence, quotient proof equality, a completed semantic model, or a global cut-elimination theorem.
+
+\begin{definition}[Proof-net carrier]
+\label{def:proof-net-carrier}
+A $\ProofNetUp$ carrier is a finite $\BHist$ packet
+$$
+P=(L,S,C,B,R,H,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the link table, listing axiom, tensor, par, unit, dereliction, contraction, weakening, and cut links only as finite syntax rows.
+\item $S$ is the switching row, recording the finite switching choices and connectedness checks exposed to a consumer.
+\item $C$ is the cut-interface row, naming the displayed cut pairs and the local redex boundary without collapsing proof nets by cut conversion.
+\item $B$ is the boundary row, tying conclusions, formula occurrences, and sequent-facing endpoints to the $\FirstOrderUp$ and $\LambdaCalcUp$ source surfaces.
+\item $R$ is the proof-net route row consumed by $\NormalizationByEvaluationUp$, $\LogicalRelationUp$, and $\MetaCICCriticalPathUp$ readers before they may cite proof-object data.
+\item $H$ records componentwise $\hsame$ transport for link tables, switching rows, cut interfaces, boundaries, routes, provenance, and local naming.
+\item $Q$ is the $\Pkg$ provenance over $\ProofNetUp$, $\FirstOrderUp$, $\LambdaCalcUp$, $\NormalizationByEvaluationUp$, $\LogicalRelationUp$, $\MetaCICCriticalPathUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ProofNetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for completed proof normalization, Church--Rosser confluence, quotient proof equality, a semantic completeness theorem, or a host evaluator.
+\end{definition}
+
+\begin{theorem}[Proof-net NameCert obligations]
+\label{thm:proof-net-namecert-obligations}
+For every accepted $\ProofNetUp$ carrier $P=(L,S,C,B,R,H,Q,N)$, the local $\NameCert_{\ProofNetUp}$ surface consists exactly of carrier admission for the link table, switching row, cut-interface row, boundary row, proof-net route row, componentwise $\hsame$ transport, $\Pkg$ provenance, and local naming. A consumer may read proof-net data only after the finite links, switchings, cuts, boundaries, and route rows are displayed in the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proof-net-carrier}. The packet exposes only $L,S,C,B,R,H,Q,N$.
+
+The proof-object obligations are exhausted by $L,S,C,B,R$. Link data are finite syntax rows, switching data are finite checks, cut data are local interfaces, and boundary data keep the proof-net endpoints attached to the $\FirstOrderUp$ and $\LambdaCalcUp$ surfaces.
+
+The rows $H,Q,N$ transport, source, and name the same finite packet. Since no carrier coordinate stores global normalization, confluence, quotient proof equality, semantic completeness, or a host evaluator, the listed rows are exactly the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Proof-net cut-elimination route]
+\label{thm:proof-net-cut-elimination-route}
+Every cut-elimination-facing read of an accepted $\ProofNetUp$ packet must first expose
+$$
+L,S,C,B,R,H,Q,N
+$$
+and may then hand the displayed local cut-interface route to $\NormalizationByEvaluationUp$, $\LogicalRelationUp$, or $\MetaCICCriticalPathUp$ consumers. The handoff is a finite proof-net carrier route over displayed links, switchings, and cut interfaces; it is not a proof of full normalization, unrestricted confluence, quotient proof equality, or a completed semantic model.
+\end{theorem}
+\begin{proof}
+Read the link and switching rows $L,S$ first. They display the finite graph and switching data available to a proof-net consumer.
+
+Next read the cut-interface row $C$ and boundary row $B$. These rows identify the local redex boundary and the sequent or proof-term endpoints without quotienting proof nets by cut conversion.
+
+Finally read the route and structural rows $R,H,Q,N$. They allow the normalization-by-evaluation, logical-relation, and MetaCIC critical-path consumers to cite the same finite route, while the carrier inventory excludes full normalization, confluence, quotient proof equality, and completed semantic-model coordinates.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ProofNetUp$ consumer displays finite link tables, switching rows, cut-interface rows, boundary rows, proof-net route rows, componentwise $\hsame$ transport, $\Pkg$ provenance, and a local $\NameCert$ row before citing proof-object data.}
+
+\independenceWitness{firstorder, lambdacalc, normalization-by-evaluation, logical-relation, metaciccriticalpath: $\ProofNetUp$ is not bijective to any listed sibling because it jointly carries finite link tables, switching rows, cut-interface rows, proof-object boundaries, proof-net route rows, transport, provenance, and local naming while refusing full normalization, confluence, quotient proof equality, and completed semantic-model claims.}
+
+\closureat{ProofNetUp}{seedStr}
+
+\begin{closurestatus}{\ProofNetUp}
+  \constructivestory{A $\ProofNetUp$ packet is generated from finite link tables, switching rows, cut-interface rows, boundary endpoints, proof-net route rows, componentwise hsame transport, Pkg provenance, and local naming evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-net-carrier}, \autoref{thm:proof-net-namecert-obligations}, and \autoref{thm:proof-net-cut-elimination-route} seed the finite proof-net carrier surface for proof-object consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, full normalization, unrestricted confluence, quotient proof equality, semantic completeness, or a completed MetaCIC model.}
+  \upgradepath{Obligation closure requires checked carrier admission, switching exposure, cut-interface route preservation, boundary compatibility, transport, provenance, and local naming for BEDC.Derived.ProofNetUp.}
+\end{closurestatus}

@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyEmbeddingUp$}
+\label{ch:concrete-instances-regular-cauchy-embedding-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyEmbeddingUp$ packet records the finite constant-entry route by which a displayed dyadic or rational point is read as a regular Cauchy rational name and then sealed for Real-facing consumers. It sits after the dyadic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic embedding surface of \autoref{ch:concrete-instances-dyadicembedding-namecert}. The chapter names one L10 constant embedding boundary; it does not identify quotient streams, choose limits, assert trichotomy, use countable choice, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy embedding carrier]
+\label{def:regular-cauchy-embedding-carrier}
+A $\RegularCauchyEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,Q,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ source row, naming the dyadic endpoint when the embedding starts from dyadic data.
+\item $Q$ is the $\RatUp$ source row, naming the rational endpoint when the same route is read through rational data.
+\item $W$ is the $\StreamNameUp$ constant-window row, recording that every inspected finite window returns the displayed entry supplied by $D$ or $Q$.
+\item $R$ is the $\RegSeqRatUp$ readback row, carrying the stationary regular Cauchy checks for the constant windows in $W$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the source, window, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source rows, constant-window row, regular readback row, real-seal row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from the dyadic or rational source through the constant windows, regular readback, and terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyEmbeddingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,Q,W,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, trichotomy of rationals, countable-choice schedules, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy embedding NameCert obligations]
+\label{thm:regular-cauchy-embedding-namecert-obligations}
+For every accepted $\RegularCauchyEmbeddingUp$ carrier $K=(D,Q,W,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyEmbeddingUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $K$;
+\item constant-window exactness for the $\StreamNameUp$ row $W$ over the displayed source row $D$ or $Q$;
+\item regularity handoff from $W$ to the $\RegSeqRatUp$ readback row $R$;
+\item real-seal nonescape for the terminal $\RealUp$ row $E$;
+\item classifier transport through $H$;
+\item displayed replay through $C$;
+\item provenance and local naming through $P$ and $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-embedding-carrier}. Its analytic rows are precisely the dyadic source $D$, rational source $Q$, constant-window row $W$, regular readback row $R$, and real-seal row $E$.
+
+The constant-window obligation is local to $W$. Every finite observation named by $W$ returns the same displayed source entry, so the regularity handoff can read $R$ as the stationary $\RegSeqRatUp$ witness attached to that entry.
+
+The terminal seal is downstream of those rows. A Real-facing read reaches $E$ only after the source, window, and regularity rows have been displayed, and the transport, replay, provenance, and naming rows $H,C,P,N$ preserve that same route.
+
+No remaining coordinate exists in the carrier. Hence quotient stream equality, selected limits, trichotomy, countable choice, host real equality, and ambient completeness cannot supply further local obligations, and the seven listed groups exhaust the $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy embedding constant handoff]
+\label{thm:regular-cauchy-embedding-constant-handoff}
+Every $\RegSeqRatUp$- or $\RealUp$-facing consumer of an accepted $\RegularCauchyEmbeddingUp$ carrier receives only the displayed constant-entry route
+$$
+D,Q \longmapsto W \longmapsto R \longmapsto E
+$$
+preserved by $H,C,P,N$. In particular, the consumer cannot replace the route by quotient stream equality, a selected limit, a trichotomy branch not recorded in the source rows, a countable-choice schedule, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:regular-cauchy-embedding-namecert-obligations}. A consumer must first read carrier admission and the displayed dyadic or rational source row before the constant-window row is meaningful.
+
+The StreamName handoff is constant. Since $W$ repeats the displayed entry on each inspected finite window, the regular readback $R$ can only be consumed as the stationary $\RegSeqRatUp$ row attached to those windows.
+
+The Real seal is last. The row $E$ is exposed after the constant-window and regularity rows, while $H,C,P,N$ transport, replay, source, and name exactly that finite route.
+
+Therefore every RegSeqRat- or Real-facing read factors through $D,Q,W,R,E,H,C,P,N$. The carrier contains no separate coordinate for quotient stream equality, selected limits, trichotomy, countable-choice schedules, host equality, or ambient completeness, so none of those objects can be exported by the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyEmbeddingUp$ consumer must expose the dyadic or rational source row, the constant StreamName window row, the stationary RegSeqRat readback row, the Real seal row, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any RegSeqRat- or Real-facing constant-entry read is available.}
+
+\independenceWitness{Nearest siblings: DyadicRatCore, Rat, StreamName, RegSeqRat, Real, and DyadicEmbedding. $\RegularCauchyEmbeddingUp$ is not bijective to any one of them because it jointly carries source rows, constant windows, stationary regular readback, a terminal seal, transport, replay, provenance, and local naming for the same constant-entry embedding route.}
+
+\closureat{RegularCauchyEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyEmbeddingUp}
+  \constructivestory{A $\RegularCauchyEmbeddingUp$ packet is generated from displayed DyadicRatCore or Rat source rows, constant StreamName windows, stationary RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-embedding-carrier}, \autoref{thm:regular-cauchy-embedding-namecert-obligations}, and \autoref{thm:regular-cauchy-embedding-constant-handoff} seed the finite constant-entry route from DyadicRatCore or Rat data into RegSeqRat and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, trichotomy, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, constant-window exactness, regularity handoff, Real-seal nonescape, classifier transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyEmbeddingUp.}
+\end{closurestatus}

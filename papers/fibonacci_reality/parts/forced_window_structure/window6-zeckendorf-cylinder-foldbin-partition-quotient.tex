@@ -1,0 +1,124 @@
+\origin{ai}
+
+\subsection{Forced six-prefix partition from a finite Zeckendorf window}
+\label{sec:window6-zeckendorf-cylinder-foldbin-partition-quotient}
+
+\paragraph{Finite carrier.}
+Let the Fibonacci weights in the window be
+$$
+\begin{aligned}
+(F_2,F_3,F_4,F_5,F_6,F_7,F_8,F_9,F_{10})=(1,2,3,5,8,13,21,34,55).
+\end{aligned}
+$$
+The finite carrier is the set
+$$
+\begin{aligned}
+Z_9(63)=\{b\in \{0,1\}^9 : b_i b_{i+1}=0 \text{ for } 1\leq i\leq 8 \text{ and } \sum_{i=1}^{9} b_i F_{i+1}\leq 63\}.
+\end{aligned}
+$$
+The value of $b$ is
+$$
+\begin{aligned}
+\operatorname{value}(b)=\sum_{i=1}^{9} b_i F_{i+1}.
+\end{aligned}
+$$
+The first six coordinates $w=(b_1,\ldots,b_6)$ are the visible prefix and carry weights $F_2,\ldots,F_7=(1,2,3,5,8,13)$. The last three coordinates $c=(c_7,c_8,c_9)=(b_7,b_8,b_9)$ form the tail cube and carry weights $F_8,F_9,F_{10}=(21,34,55)$. For a visible word $w\in\{0,1\}^6$, put
+$$
+\begin{aligned}
+V_6(w)=w_1+2w_2+3w_3+5w_4+8w_5+13w_6.
+\end{aligned}
+$$
+
+\paragraph{Cylinder and tail-cube fiber.}
+For a visible prefix $w$, its Zeckendorf cylinder is the set of all tails $c\in\{0,1\}^3$ such that the concatenated word $(w_1,\ldots,w_6,c_7,c_8,c_9)$ belongs to $Z_9(63)$. Explicitly, admissibility requires the internal no-adjacent-one constraints already present in $w$, the tail constraints $c_7c_8=0$ and $c_8c_9=0$, the boundary constraint $w_6c_7=0$, and the finite value bound.
+
+The Foldbin tail-cube fiber over $w$ is defined by exactly the same four tail conditions:
+$$
+\begin{aligned}
+\operatorname{FoldbinFiber}(w)=\{c\in\{0,1\}^3 :{}& c_7c_8=0,\ c_8c_9=0,\ w_6c_7=0,\\
+& V_6(w)+21c_7+34c_8+55c_9\leq 63\}.
+\end{aligned}
+$$
+Therefore the fiber equality is a direct finite identity:
+$$
+\begin{aligned}
+\operatorname{FoldbinFiber}(w)=\operatorname{ZeckendorfCylinder}(w)
+\end{aligned}
+$$
+for every visible six-prefix $w$ for which the displayed conditions define an admissible cylinder. This equality uses no limiting argument, no analytic continuation, and no external interpretation; it is a comparison of two subsets of the same eight-point tail cube $\{0,1\}^3$.
+
+\paragraph{Bijective value window.}
+The value map on the finite carrier is exact:
+$$
+\begin{aligned}
+\operatorname{value}:Z_9(63)\longrightarrow \{0,1,\ldots,63\}
+\end{aligned}
+$$
+is bijective. Equivalently,
+$$
+\begin{aligned}
+|Z_9(63)|=64,\qquad \operatorname{value}(Z_9(63))=\{0,1,\ldots,63\}.
+\end{aligned}
+$$
+Thus each integer $n$ with $0\leq n\leq 63$ has one and only one no-adjacent-one word in this nine-coordinate Fibonacci window. The visible prefix of $n$ is obtained by taking that unique word and reading its first six coordinates.
+
+\paragraph{Cyclic six-prefix carrier.}
+Inside $\{0,1\}^6$, let the cyclic no-adjacent carrier be
+$$
+\begin{aligned}
+C_6=\{w\in\{0,1\}^6 : w_iw_{i+1}=0 \text{ for } 1\leq i\leq 5 \text{ and } w_6w_1=0\}.
+\end{aligned}
+$$
+Its finite count is
+$$
+\begin{aligned}
+|C_6|=18.
+\end{aligned}
+$$
+The Hamming-weight distribution on $C_6$ is
+$$
+\begin{aligned}
+\#\{w\in C_6: |w|=0\}=1,\quad
+\#\{w\in C_6: |w|=1\}=6,\quad
+\#\{w\in C_6: |w|=2\}=9,\quad
+\#\{w\in C_6: |w|=3\}=2.
+\end{aligned}
+$$
+Here $|w|=w_1+\cdots+w_6$. These four numbers give the witness extraction for the cyclic prefix side: enumerate the length-six binary words, impose the five linear adjacency exclusions and the wrap-around exclusion, then group the surviving words by Hamming weight.
+
+\paragraph{Four owner predicates.}
+The finite owner predicates are defined on the visible prefix $w$ read from the unique Zeckendorf word for $n$. The first three predicates use the cyclic carrier $C_6$ and Hamming weight, while the boundary predicate catches the visible endpoint collision that is linear-admissible but not cyclic-admissible:
+$$
+\begin{aligned}
+U_2(w)&\Longleftrightarrow w\in C_6 \text{ and } |w|=2,\\
+U_1(w)&\Longleftrightarrow w\in C_6 \text{ and } |w|=1,\\
+U_L(w)&\Longleftrightarrow w\in C_6 \text{ and } (|w|=0 \text{ or } |w|=3),\\
+U_R(w)&\Longleftrightarrow w_1=1 \text{ and } w_6=1.
+\end{aligned}
+$$
+For $n\in\{0,1,\ldots,63\}$, its cell owner is obtained by taking the unique $b\in Z_9(63)$ with $\operatorname{value}(b)=n$, setting $w=(b_1,\ldots,b_6)$, and applying these predicates in the cell order
+$$
+\begin{aligned}
+U_2,\quad U_1,\quad U_L,\quad U_R.
+\end{aligned}
+$$
+The resulting partition of the sixty-four integers has exact cell sizes
+$$
+\begin{aligned}
+(|U_2|,|U_1|,|U_L|,|U_R|)=(27,22,9,6).
+\end{aligned}
+$$
+The total is $27+22+9+6=64$, matching the bijective value window. These counts are forced by the unique Zeckendorf representative, the equality of the Foldbin tail fiber with the Zeckendorf cylinder over each visible prefix, and the stated cyclic or endpoint predicate applied to the visible six-prefix. No target cell size is inserted as an assumption.
+
+\paragraph{Finite identities and boundary.}
+The construction consists only of finite binary carriers, finite value sums, finite tail constraints, and finite predicate counts. No matrix, analytic kernel, global flow equation, or infinite object is introduced in this chapter. The established identities are
+$$
+\begin{aligned}
+|Z_9(63)|&=64,\\
+\operatorname{value}(Z_9(63))&=\{0,1,\ldots,63\},\\
+\operatorname{FoldbinFiber}(w)&=\operatorname{ZeckendorfCylinder}(w) \text{ for each admissible visible six-prefix } w,\\
+(|U_2|,|U_1|,|U_L|,|U_R|)&=(27,22,9,6),\\
+|C_6|&=18.
+\end{aligned}
+$$
+The chapter asserts no physical-constant identification, no global dynamical law, no dependency on material outside the displayed finite construction, no metrological comparison, and no interpretation beyond these finite sets and maps unless a separate certificate supplies such an interpretation.

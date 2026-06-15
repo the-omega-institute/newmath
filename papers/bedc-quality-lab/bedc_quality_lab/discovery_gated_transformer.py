@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import json
 from pathlib import Path
+import re
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
@@ -114,6 +115,34 @@ FAMILY_DEFINITION_FORBIDDEN_TERMS = (
     "production authority",
     "universal training recipe",
     "terminal verdict",
+)
+FAMILY_ROADMAP_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.family-roadmap"
+FAMILY_ROADMAP_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.family-roadmap"
+FAMILY_ROADMAP_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$"
+FAMILY_ROADMAP_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.family_roadmap"
+FAMILY_ROADMAP_REQUIRED_KEYS = (
+    "schema_id",
+    "artifact_id",
+    "owner_ref",
+    "roadmap_scope",
+    "scaling_ladder",
+    "family_invariants",
+    "training_objective_variants",
+    "backend_surfaces",
+    "cross_level_evidence",
+    "hardgate",
+    "family_level_discovery_status",
+    "not_claimed",
+    "forbidden_claim_term_audit",
+)
+FAMILY_ROADMAP_GATE_NAMES = tuple(f"DGT-FAMILY-ROADMAP-HG{index}" for index in range(1, 9))
+FAMILY_ROADMAP_FORBIDDEN_TERMS = (
+    "global superiority",
+    "architecture superiority",
+    "production authority",
+    "universal training recipe",
+    "terminal verdict",
+    "unbounded scaling law",
 )
 CLAIMED_POSITIVE_ROUTE_CLASSES = frozenset({"valid_positive_discovery"})
 BLOCKED_ROUTE_CLASSES = frozenset({"invalid_route", "unsafe_route"})
@@ -1095,6 +1124,289 @@ def validate_dgt_family_definition(payload: Mapping[str, Any]) -> None:
     found = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict"))
     if found is not None:
         raise ValueError(f"DGT family definition contains forbidden value: {found}")
+
+
+def _roadmap_pointer_group(pointer: str, *, required: bool = True) -> dict[str, Any]:
+    return {"pointer": pointer, "required": required}
+
+
+def _roadmap_pointer_list(pointers: Sequence[str], *, required: bool = True) -> dict[str, Any]:
+    return {"pointers": list(pointers), "required": required}
+
+
+def _roadmap_distinct_scaling_level_count(evidence_pointers: Sequence[str]) -> int:
+    level_indexes: set[int] = set()
+    pattern = re.compile(rf"^{re.escape(CANONICAL_JSON_ARTIFACT)}:\$\.scaling_ladder\.levels\[(\d+)\]\.claim_capsule(?:\.|$)")
+    for pointer in evidence_pointers:
+        if not isinstance(pointer, str):
+            continue
+        match = pattern.match(pointer)
+        if match is not None:
+            level_indexes.add(int(match.group(1)))
+    return len(level_indexes)
+
+
+def _roadmap_cross_level_comparison(
+    owner_payload: Mapping[str, Any],
+    evidence_pointers: Sequence[str],
+    *,
+    independent: bool,
+) -> dict[str, Any]:
+    scaling = owner_payload.get("scaling_ladder")
+    levels = scaling.get("levels") if isinstance(scaling, Mapping) else None
+    level_count = len(levels) if isinstance(levels, list) else 0
+    passed = (
+        independent
+        and len(evidence_pointers) >= 2
+        and _roadmap_distinct_scaling_level_count(evidence_pointers) >= 2
+        and level_count >= 2
+        and isinstance(scaling, Mapping)
+        and isinstance(scaling.get("hardgate"), Mapping)
+        and scaling["hardgate"].get("status") == "pass"
+    )
+    return {
+        "status": "pass" if passed else "blocked",
+        "level_count": level_count,
+        "comparison_pointer": f"{FAMILY_ROADMAP_POINTER}.cross_level_evidence.evidence_pointers",
+    }
+
+
+def _forbidden_family_roadmap_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
+    serialized = json.dumps(
+        {
+            "roadmap_scope": payload.get("roadmap_scope"),
+            "family_level_discovery_status": payload.get("family_level_discovery_status"),
+            "not_claimed": payload.get("not_claimed"),
+        },
+        sort_keys=True,
+    ).lower()
+    hits = [term for term in FAMILY_ROADMAP_FORBIDDEN_TERMS if term in serialized]
+    return {
+        "status": "pass" if not hits else "fail",
+        "hits": hits,
+        "forbidden_terms": list(FAMILY_ROADMAP_FORBIDDEN_TERMS),
+    }
+
+
+def _roadmap_pointer_passes(owner_payload: Mapping[str, Any], pointer: Any, *, canonical_only: bool = True) -> bool:
+    if not isinstance(pointer, str):
+        return False
+    if canonical_only and not pointer.startswith(f"{CANONICAL_JSON_ARTIFACT}:$"):
+        return False
+    if ":" in pointer:
+        artifact, local_pointer = pointer.split(":", 1)
+        if artifact != CANONICAL_JSON_ARTIFACT:
+            return bool(artifact and local_pointer.startswith("$"))
+        if local_pointer == "$":
+            return True
+        return pointer_value(owner_payload, local_pointer) is not None
+    return pointer_value(owner_payload, pointer) is not None
+
+
+def _roadmap_pointer_list_passes(owner_payload: Mapping[str, Any], value: Any) -> bool:
+    if not isinstance(value, Mapping) or value.get("required") is not True:
+        return False
+    pointers = value.get("pointers")
+    return (
+        isinstance(pointers, list)
+        and bool(pointers)
+        and all(_roadmap_pointer_passes(owner_payload, pointer) for pointer in pointers)
+    )
+
+
+def _roadmap_pointer_group_passes(owner_payload: Mapping[str, Any], value: Any, expected_pointer: str) -> bool:
+    return (
+        isinstance(value, Mapping)
+        and value.get("required") is True
+        and value.get("pointer") == expected_pointer
+        and _roadmap_pointer_passes(owner_payload, value.get("pointer"))
+    )
+
+
+def _family_roadmap_gate_rows(failed: Sequence[str]) -> dict[str, dict[str, Any]]:
+    failed_set = set(failed)
+    evidence_pointers = {
+        "DGT-FAMILY-ROADMAP-HG1": "$.family_roadmap.owner_ref",
+        "DGT-FAMILY-ROADMAP-HG2": "$.family_roadmap.scaling_ladder",
+        "DGT-FAMILY-ROADMAP-HG3": "$.family_roadmap.family_invariants",
+        "DGT-FAMILY-ROADMAP-HG4": "$.family_roadmap.training_objective_variants",
+        "DGT-FAMILY-ROADMAP-HG5": "$.family_roadmap.backend_surfaces",
+        "DGT-FAMILY-ROADMAP-HG6": "$.family_roadmap.cross_level_evidence.evidence_pointers",
+        "DGT-FAMILY-ROADMAP-HG7": "$.family_roadmap.cross_level_evidence.cross_level_comparison",
+        "DGT-FAMILY-ROADMAP-HG8": "$.family_roadmap.forbidden_claim_term_audit",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if gate_name in failed_set else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence_pointers[gate_name]),
+        }
+        for gate_name in FAMILY_ROADMAP_GATE_NAMES
+    }
+
+
+def evaluate_dgt_family_roadmap_hardgate(
+    payload: Mapping[str, Any],
+    owner_payload: Mapping[str, Any],
+) -> dict[str, Any]:
+    failed: list[str] = []
+    if (
+        payload.get("schema_id") != FAMILY_ROADMAP_SCHEMA_ID
+        or payload.get("artifact_id") != FAMILY_ROADMAP_ARTIFACT_ID
+        or payload.get("owner_ref") != FAMILY_ROADMAP_OWNER_REF
+        or not _roadmap_pointer_passes(owner_payload, payload.get("owner_ref"), canonical_only=False)
+    ):
+        failed.append("DGT-FAMILY-ROADMAP-HG1")
+    if not _roadmap_pointer_group_passes(owner_payload, payload.get("scaling_ladder"), f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder"):
+        failed.append("DGT-FAMILY-ROADMAP-HG2")
+    if not _roadmap_pointer_group_passes(
+        owner_payload,
+        payload.get("family_invariants"),
+        f"{CANONICAL_JSON_ARTIFACT}:$.family_definition.invariant_groups",
+    ):
+        failed.append("DGT-FAMILY-ROADMAP-HG3")
+    if not _roadmap_pointer_list_passes(owner_payload, payload.get("training_objective_variants")):
+        failed.append("DGT-FAMILY-ROADMAP-HG4")
+    if not _roadmap_pointer_list_passes(owner_payload, payload.get("backend_surfaces")):
+        failed.append("DGT-FAMILY-ROADMAP-HG5")
+    cross = payload.get("cross_level_evidence")
+    evidence_pointers = cross.get("evidence_pointers") if isinstance(cross, Mapping) else None
+    independent = isinstance(cross, Mapping) and cross.get("independent") is True
+    if (
+        not independent
+        or not isinstance(evidence_pointers, list)
+        or len(evidence_pointers) < 2
+        or len(set(evidence_pointers)) != len(evidence_pointers)
+        or _roadmap_distinct_scaling_level_count(evidence_pointers) < 2
+        or not all(_roadmap_pointer_passes(owner_payload, pointer) for pointer in evidence_pointers)
+    ):
+        failed.append("DGT-FAMILY-ROADMAP-HG6")
+    comparison = cross.get("cross_level_comparison") if isinstance(cross, Mapping) else None
+    expected_comparison = _roadmap_cross_level_comparison(
+        owner_payload,
+        evidence_pointers if isinstance(evidence_pointers, list) else [],
+        independent=independent,
+    )
+    if (
+        not isinstance(comparison, Mapping)
+        or dict(comparison) != expected_comparison
+        or expected_comparison.get("status") != "pass"
+    ):
+        failed.append("DGT-FAMILY-ROADMAP-HG7")
+    audit = payload.get("forbidden_claim_term_audit")
+    expected_audit = _forbidden_family_roadmap_claim_term_audit(payload)
+    if not isinstance(audit, Mapping) or dict(audit) != expected_audit or expected_audit["status"] != "pass":
+        failed.append("DGT-FAMILY-ROADMAP-HG8")
+    failed_gate = sorted(set(failed), key=FAMILY_ROADMAP_GATE_NAMES.index)
+    first_failed = failed_gate[0] if failed_gate else None
+    gates = _family_roadmap_gate_rows(failed_gate)
+    return {
+        "status": "pass" if first_failed is None else "fail",
+        "gate_names": list(FAMILY_ROADMAP_GATE_NAMES),
+        "gates": gates,
+        "failed_gate": first_failed,
+        "failed_gate_pointer": None if first_failed is None else artifact_pointer(gates[first_failed]["evidence"]),
+    }
+
+
+def _family_roadmap_status_from_hardgate(hardgate: Mapping[str, Any]) -> dict[str, Any]:
+    status = {
+        "status": "allowed" if hardgate.get("status") == "pass" else "blocked",
+        "allowed": hardgate.get("status") == "pass",
+        "claim_scope": "bounded DGT family-level roadmap claim",
+        "basis": f"{FAMILY_ROADMAP_POINTER}.hardgate",
+    }
+    if hardgate.get("status") != "pass":
+        status["blocked_by"] = [hardgate.get("failed_gate")] if hardgate.get("failed_gate") else []
+    return status
+
+
+def build_dgt_family_roadmap(
+    owner_payload: Mapping[str, Any],
+    *,
+    independent_cross_level_evidence: bool = False,
+) -> dict[str, Any]:
+    evidence_pointers = [
+        f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[0].claim_capsule",
+        f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[1].claim_capsule",
+    ]
+    payload: dict[str, Any] = {
+        "schema_id": FAMILY_ROADMAP_SCHEMA_ID,
+        "artifact_id": FAMILY_ROADMAP_ARTIFACT_ID,
+        "owner_ref": FAMILY_ROADMAP_OWNER_REF,
+        "roadmap_scope": {
+            "scope": "bounded DGT family-level roadmap claim gate",
+            "scope_ref": FAMILY_ROADMAP_POINTER,
+        },
+        "scaling_ladder": _roadmap_pointer_group(f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder"),
+        "family_invariants": _roadmap_pointer_group(f"{CANONICAL_JSON_ARTIFACT}:$.family_definition.invariant_groups"),
+        "training_objective_variants": _roadmap_pointer_list(
+            [
+                f"{CANONICAL_JSON_ARTIFACT}:$.hardgate",
+                f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence",
+                f"{CANONICAL_JSON_ARTIFACT}:$.discovery_map_signal",
+            ]
+        ),
+        "backend_surfaces": _roadmap_pointer_list(
+            [
+                f"{CANONICAL_JSON_ARTIFACT}:$.component_refs",
+                f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation",
+                f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness",
+                f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection",
+            ]
+        ),
+        "cross_level_evidence": {
+            "independent": independent_cross_level_evidence,
+            "evidence_pointers": evidence_pointers,
+            "cross_level_comparison": _roadmap_cross_level_comparison(
+                owner_payload,
+                evidence_pointers,
+                independent=independent_cross_level_evidence,
+            ),
+        },
+        "hardgate": {},
+        "family_level_discovery_status": {},
+        "not_claimed": [
+            "No deployment or operational authority is claimed.",
+            "No global-best model-family ranking is admitted.",
+            "No architecture-best ranking is admitted.",
+            "No universal recipe for training is claimed.",
+            "No unbounded scale law is claimed.",
+        ],
+        "forbidden_claim_term_audit": {},
+    }
+    payload["forbidden_claim_term_audit"] = _forbidden_family_roadmap_claim_term_audit(payload)
+    payload["hardgate"] = evaluate_dgt_family_roadmap_hardgate(payload, owner_payload)
+    payload["family_level_discovery_status"] = _family_roadmap_status_from_hardgate(payload["hardgate"])
+    payload["forbidden_claim_term_audit"] = _forbidden_family_roadmap_claim_term_audit(payload)
+    payload["hardgate"] = evaluate_dgt_family_roadmap_hardgate(payload, owner_payload)
+    payload["family_level_discovery_status"] = _family_roadmap_status_from_hardgate(payload["hardgate"])
+    validate_dgt_family_roadmap(payload, {**owner_payload, "family_roadmap": payload})
+    return payload
+
+
+def validate_dgt_family_roadmap(payload: Mapping[str, Any], owner_payload: Mapping[str, Any]) -> None:
+    if set(payload) != set(FAMILY_ROADMAP_REQUIRED_KEYS):
+        raise ValueError("DGT family roadmap fields mismatch")
+    if payload["schema_id"] != FAMILY_ROADMAP_SCHEMA_ID or payload["artifact_id"] != FAMILY_ROADMAP_ARTIFACT_ID:
+        raise ValueError("DGT family roadmap identity mismatch")
+    if payload["owner_ref"] != FAMILY_ROADMAP_OWNER_REF:
+        raise ValueError("DGT family roadmap owner pointer mismatch")
+    expected_hardgate = evaluate_dgt_family_roadmap_hardgate(payload, owner_payload)
+    if payload["hardgate"] != expected_hardgate:
+        raise ValueError("DGT family roadmap hardgate mismatch")
+    expected_status = _family_roadmap_status_from_hardgate(expected_hardgate)
+    if payload["family_level_discovery_status"] != expected_status:
+        raise ValueError("DGT family roadmap family-level status mismatch")
+    if payload["forbidden_claim_term_audit"] != _forbidden_family_roadmap_claim_term_audit(payload):
+        raise ValueError("DGT family roadmap forbidden claim audit mismatch")
+    if not isinstance(payload["not_claimed"], list) or not payload["not_claimed"]:
+        raise ValueError("DGT family roadmap not_claimed missing")
+    found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
+    if found is not None:
+        raise ValueError(f"DGT family roadmap contains inline source body key: {found}")
+    found_token = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict"))
+    if found_token is not None:
+        raise ValueError(f"DGT family roadmap contains forbidden value: {found_token}")
 
 
 def sidecar_refs() -> dict[str, dict[str, str]]:
@@ -3874,6 +4186,7 @@ class DiscoveryGatedTransformerProjector:
             ]
         }
         payload["scaling_ladder"] = build_scaling_ladder_projection(payload)
+        payload["family_roadmap"] = build_dgt_family_roadmap(payload)
         if not _owner_refs_resolve(self.root, payload):
             raise ValueError("DGT owner refs do not resolve")
         validate_projection(payload)
@@ -3895,6 +4208,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
+        "family_roadmap",
         "component_ablation",
         "neural_ablation_ref",
         "operational_robustness",
@@ -3940,6 +4254,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT ladder consumption pointer co-presence mismatch")
     validate_dgt_tool_route_evidence(payload["tool_route_evidence"])
     validate_dgt_family_definition(payload["family_definition"])
+    validate_dgt_family_roadmap(payload["family_roadmap"], payload)
     validate_component_ablation(payload["component_ablation"])
     validate_operational_robustness(payload["operational_robustness"], payload)
     found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
@@ -4084,6 +4399,25 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     )
     for group_name, group in family_definition["invariant_groups"].items():
         lines.append(f"| `{group_name}` | `{len(group['evidence_pointers'])}` |")
+    family_roadmap = payload["family_roadmap"]
+    lines.extend(
+        [
+            "",
+            "## Family Roadmap",
+            "",
+            f"- Schema: `{family_roadmap['schema_id']}`",
+            f"- Owner: `{family_roadmap['owner_ref']}`",
+            f"- Hardgate: `{family_roadmap['hardgate']['status']}`",
+            f"- Family status: `{family_roadmap['family_level_discovery_status']['status']}`",
+            f"- Scaling ladder: `{family_roadmap['scaling_ladder']['pointer']}`",
+            f"- Family invariants: `{family_roadmap['family_invariants']['pointer']}`",
+            "",
+            "| gate | status | evidence |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for gate_name, row in family_roadmap["hardgate"]["gates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
     component_ablation = payload["component_ablation"]
     lines.extend(
         [

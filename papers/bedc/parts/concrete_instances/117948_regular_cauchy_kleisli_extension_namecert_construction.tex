@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyKleisliExtensionUp$}
+\label{ch:concrete-instances-regular-cauchy-kleisli-extension-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy completion and the standard Kleisli reading of monads, the $\RegularCauchyKleisliExtensionUp$ packet records the finite route by which a regular-Cauchy completion arrow is composed without quotienting the underlying name data. It sits between the source $\RegSeqRatUp$ route of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance budget of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the Kleisli law surface of \autoref{ch:concrete-instances-cauchy-completion-monad-law-namecert}, and the stabilization surface of \autoref{ch:concrete-instances-cauchy-completion-idempotent-namecert}. The packet is a composition interface for regular-Cauchy routes, not a selected limit, quotient completion object, countable-choice schedule, host equality proof, or ambient Real-completeness theorem.
+
+\begin{definition}[Regular Cauchy Kleisli extension carrier]
+\label{def:regular-cauchy-kleisli-extension-carrier}
+A $\RegularCauchyKleisliExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,F,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source $\RegSeqRatUp$ route whose regular rational name is the input to the completion composition.
+\item $F$ is the Kleisli arrow and modulus row, recording the finite rule that sends each admitted regular-Cauchy request to the next regular-Cauchy route.
+\item $W$ is the intermediate $\StreamNameUp$ window through which the source route and the Kleisli arrow are jointly inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance budget used to synchronize the source request, the intermediate window, and the target readback.
+\item $R$ is the target $\RegSeqRatUp$ readback row obtained after the dyadic budget and StreamName window have been displayed.
+\item $E$ is the $\RealUp$ seal row reached only after the regular readback row has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source route, Kleisli arrow, window, tolerance budget, target readback, Real seal, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from $A$ through $F,W,D,R,E$ and back through the same transport and naming rows.
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyKleisliExtensionUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one finite Kleisli-composition packet. It has no coordinate for a quotient sequence, selected limit, countable choice, host equality of completed reals, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy Kleisli extension NameCert obligations]
+\label{thm:regular-cauchy-kleisli-extension-namecert-obligations}
+For every accepted $\RegularCauchyKleisliExtensionUp$ carrier $K=(A,F,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyKleisliExtensionUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission, requiring the displayed source $\RegSeqRatUp$ route, Kleisli arrow and modulus row, StreamName window, dyadic tolerance budget, target readback, Real seal, transport, replay, provenance, and local naming row to inhabit one $\BHist$ packet;
+\item source-window compatibility, requiring each request read from $A$ to pass through $W$ before the Kleisli arrow $F$ is applied;
+\item tolerance synchronization, requiring $D$ to bind the source request, the intermediate StreamName window, and the target $\RegSeqRatUp$ readback in one finite budget;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same displayed rows under componentwise $\hsame$ transport and $\Cont$ replay;
+\item non-escape, excluding quotient sequences, selected limits, countable-choice functionals, host equality of completed reals, and ambient $\RealUp$ completeness from the exported certificate.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-kleisli-extension-carrier}. The tuple displays the source route $A$, Kleisli row $F$, window $W$, tolerance budget $D$, target readback $R$, Real seal $E$, and structural rows $H,C,P,N$.
+
+The source-window obligation reads $A$ only through $W$. Thus a consumer cannot apply the Kleisli arrow to an unlisted source request or infer a hidden completion route.
+
+The tolerance synchronization obligation reads $D$ before $R$ and $E$. The dyadic budget is the finite ledger tying the source request, intermediate window, and target readback together.
+
+Transport and replay are componentwise. The rows $H$ and $C$ move only the displayed packet, while $P$ and $N$ record the provenance and local certificate. Since the carrier contains no quotient sequence, selected limit, countable-choice functional, host equality proof, or ambient completeness theorem, the local NameCert surface exports none of those objects.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy Kleisli extension composition law]
+\label{thm:regular-cauchy-kleisli-extension-composition-law}
+Every composed read from an accepted $\RegularCauchyKleisliExtensionUp$ carrier factors through the displayed route
+$$
+A \longmapsto W \longmapsto F \longmapsto D \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the Kleisli composition exports only the finite source route, arrow/modulus row, StreamName window, dyadic budget, target readback, Real seal, transport, replay, provenance, and local NameCert rows. It exports no quotient sequence, selected limit, countable-choice functional, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier $K=(A,F,W,D,R,E,H,C,P,N)$. A composed read first inspects the source regular-Cauchy route $A$ through the finite StreamName window $W$.
+
+The Kleisli arrow $F$ is then applied only under the displayed modulus row. Before a target readback is exposed, the route reads the dyadic tolerance budget $D$, so the target request remains tied to the same finite budget.
+
+The row $R$ is the only target $\RegSeqRatUp$ readback, and $E$ is the only $\RealUp$ seal. The structural rows $H,C,P,N$ preserve and name this same route rather than replacing it by an ambient completion principle.
+
+By \autoref{thm:regular-cauchy-kleisli-extension-namecert-obligations}, the carrier inventory has no coordinate for quotient sequences, selected limits, countable-choice functionals, host equality, or ambient Real completeness. The composed read therefore factors through the displayed rows and exports none of the excluded data.
+\end{proof}
+
+\closureat{RegularCauchyKleisliExtensionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyKleisliExtensionUp}
+  \constructivestory{A $\RegularCauchyKleisliExtensionUp$ packet is generated from a source $\RegSeqRatUp$ route, a Kleisli arrow and modulus row, an intermediate $\StreamNameUp$ window, a $\DyadicRatCoreUp$ tolerance budget, a target $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-kleisli-extension-carrier}, \autoref{thm:regular-cauchy-kleisli-extension-namecert-obligations}, and \autoref{thm:regular-cauchy-kleisli-extension-composition-law} seed the finite Kleisli-composition route for regular-Cauchy completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion, selected limits, countable choice, host equality of completed reals, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires carrier admission, source-window compatibility, dyadic tolerance synchronization, transport replay, and composition non-escape proofs for BEDC.Derived.RegularCauchyKleisliExtensionUp.}
+\end{closurestatus}

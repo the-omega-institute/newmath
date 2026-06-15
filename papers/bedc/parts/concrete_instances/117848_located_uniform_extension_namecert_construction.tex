@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\LocatedUniformExtensionUp$}
+\label{ch:concrete-instances-located-uniform-extension-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\LocatedUniformExtensionUp$ packet records the finite surface by which a uniformly continuous source map on a located dense domain is read as an extension candidate through explicit modulus, Cauchy handoff, window, readback, and real-seal rows. It refines the uniformly continuous extension route of \autoref{ch:concrete-instances-uniform-continuous-extension-namecert} and the Cauchy-controlled extension route of \autoref{ch:concrete-instances-cauchy-continuous-extension-namecert} by requiring the source domain to be displayed as located data before any completion-facing extension read is exposed.
+
+The packet is a non-quotient L10 extension certificate: it keeps the modulus and located-domain rows visible, routes Cauchy evidence through finite StreamName windows and RegSeqRat readback, and reaches $\RealUp$ only through a terminal seal. It does not identify host functions, select representatives, import ambient completeness, or replace the displayed domain by an impredicative subset.
+
+\begin{definition}[Located uniform extension carrier]
+\label{def:located-uniform-extension-carrier}
+A $\LocatedUniformExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,M,E,K,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the located domain row, naming the source subcarrier, its located comparison data, and the finite membership boundary read by the extension.
+\item $M$ is the modulus row, recording the uniform continuity tolerance-to-radius data consumed from the source map before completion-facing reads are available.
+\item $E$ is the extension candidate row, aligned with the $\UniformContinuousExtensionUp$ handoff of \autoref{ch:concrete-instances-uniform-continuous-extension-namecert}.
+\item $K$ is the Cauchy handoff row, aligned with the $\CauchyContinuousExtensionUp$ route of \autoref{ch:concrete-instances-cauchy-continuous-extension-namecert}.
+\item $W$ is the $\StreamNameUp$ window row through which source and target observations are requested at finite precision.
+\item $Q$ is the $\RegSeqRatUp$ readback row carrying the regular rational data used by the Cauchy and extension rows.
+\item $R$ is the terminal $\RealUp$ seal reached only after the located domain, modulus, extension candidate, Cauchy handoff, window, and readback rows have been replayed.
+\item $H$ records componentwise $\hsame$ transport for $D,M,E,K,W,Q,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from located-domain reads to modulus reads, from modulus reads to extension-candidate reads, and from Cauchy handoff through windows and readback to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\LocatedUniformExtensionUp$, $\UniformContinuousExtensionUp$, $\CauchyContinuousExtensionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedUniformExtensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,M,E,K,W,Q,R,H,C,P,N$. There is no coordinate for quotient function equality, selected completion representatives, host subset extensionality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located uniform extension NameCert obligations]
+\label{thm:located-uniform-extension-namecert-obligations}
+For every accepted $\LocatedUniformExtensionUp$ carrier
+$$
+L=(D,M,E,K,W,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedUniformExtensionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed located domain, modulus, extension candidate, Cauchy handoff, StreamName windows, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows;
+\item located-domain visibility, requiring every extension read to project $D$ before using the modulus row;
+\item modulus exactness, requiring $M$ to be the only tolerance-to-radius source for the extension candidate $E$;
+\item Cauchy handoff ordering, requiring $K$ to consume the same located-domain and modulus data before window or readback rows are public;
+\item readback and seal exactness, requiring $W,Q,R$ to be consumed in the displayed finite order before any Real-facing value is exported;
+\item ledger non-escape, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed packet.
+\end{enumerate}
+No obligation row stores a host function, quotient completion point, selected representative, ambient completeness principle, or choice functional.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-uniform-extension-carrier}. Carrier admission is the display of the rows $D,M,E,K,W,Q,R,H,C,P,N$ as one finite $\BHist$ packet.
+
+The located-domain and modulus clauses are read from $D$ and $M$. The row $D$ is the only source-domain coordinate, and $M$ is the only modulus coordinate, so the extension candidate $E$ cannot be read before those two rows have been consumed.
+
+The Cauchy handoff clause is read from $K$. It shares the same located-domain and modulus data as $E$, matching the sibling extension surfaces cited above while retaining finite window and readback access through $W$ and $Q$.
+
+Finally inspect $R,H,C,P,N$. The Real seal is terminal for the displayed window-readback route, and the structural rows only transport, replay, source, and name that route. Since the excluded objects have no carrier coordinate, the local NameCert obligations are exactly the listed finite rows.
+\end{proof}
+
+\begin{theorem}[Located uniform extension Cauchy handoff]
+\label{thm:located-uniform-extension-cauchy-handoff}
+Every Cauchy-facing read of an accepted $\LocatedUniformExtensionUp$ packet factors through the finite route
+$$
+D \longmapsto M \longmapsto E,K \longmapsto W,Q \longmapsto R,H,C,P,N .
+$$
+Thus the Cauchy handoff row cannot bypass the located domain, cannot replace the uniform modulus by a hidden host continuity assertion, and cannot reach the $\RealUp$ seal without the StreamName and RegSeqRat rows.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:located-uniform-extension-namecert-obligations}. They force each extension read to project the located domain row $D$ and the modulus row $M$ before the extension candidate or Cauchy handoff is public.
+
+The sibling uniform-extension route supplies the role of $E$, while the Cauchy-continuous extension route supplies the role of $K$. Both rows are attached to the same located source and modulus data, so neither can serve as an independent completion source.
+
+The readback rows $W,Q$ mediate all finite observation requests before the terminal seal $R$ is available. The structural rows $H,C,P,N$ preserve this order by componentwise transport, displayed replay, provenance, and local naming.
+
+Therefore every Cauchy-facing read remains on the displayed finite route, with no quotient function equality, selected representative, hidden host continuity assertion, or ambient completeness coordinate.
+\end{proof}
+
+\closureat{LocatedUniformExtensionUp}{seedStr}
+
+\begin{closurestatus}{\LocatedUniformExtensionUp}
+  \constructivestory{A $\LocatedUniformExtensionUp$ packet is generated from a located domain row, a uniform-modulus row, an extension candidate, a Cauchy handoff, finite StreamName windows, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-uniform-extension-carrier}, \autoref{thm:located-uniform-extension-namecert-obligations}, and \autoref{thm:located-uniform-extension-cauchy-handoff} give the seed carrier and Cauchy handoff surface for located uniform extension packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient extension equality, selected completion representatives, full extension uniqueness, Lean verification, axiom-purity certification, or bridge checking for $\LocatedUniformExtensionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-domain visibility, modulus exactness, Cauchy handoff ordering, StreamName-RegSeqRat-Real readback, transport, replay, provenance, and local naming for BEDC.Derived.LocatedUniformExtensionUp.}
+\end{closurestatus}

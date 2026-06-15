@@ -1,0 +1,60 @@
+\subsection{Window6 reduced Laplacian and the prime $571$}\label{sec:f-a2-window6-modpstar-571-spectral-collision}
+\origin{ai}
+
+\paragraph{Finite carrier.}
+The object of this subsection is a finite audit system built from Window6 vertices.  Let $V$ be the finite set of audit vertices produced by the Window6 construction, and let $R$ be the finite row set obtained after one Laplacian row is removed for the usual reduced Kirchhoff calculation.  The reduced row set has three indexed positions, so the reduced Laplacian is a $3 \times 3$ integer matrix
+$$
+\begin{aligned}
+L_{\mathrm{red}} \in \mathrm{Mat}_{3 \times 3}(\mathbb{Z}).
+\end{aligned}
+$$
+The finite predicates used here are only membership in $V$, membership in the reduced row set $R$, and incidence in the finite Window6 audit relation whose row-sum Laplacian gives $L_{\mathrm{red}}$ after the chosen row and column are deleted.  Thus the construction is completely finite: the carrier is $V$, the reduced calculation is carried by $R$, and every matrix entry is an integer count or signed count determined by the finite incidence relation.
+
+\paragraph{Smith calculation.}
+The exact integer normal form of the reduced Laplacian is
+$$
+\begin{aligned}
+\mathrm{SNF}(L_{\mathrm{red}}) &= \mathrm{diag}(1,1,123336).
+\end{aligned}
+$$
+Equivalently, there are unimodular integer matrices $U$ and $W$ such that
+$$
+\begin{aligned}
+U L_{\mathrm{red}} W &=
+\begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 123336
+\end{pmatrix}.
+\end{aligned}
+$$
+This records the finite abelian cokernel of the reduced Laplacian as having two trivial invariant factors and one nontrivial invariant factor of order $123336$.  The determinantal factor is therefore exactly
+$$
+\begin{aligned}
+\det(L_{\mathrm{red}}) &= 123336.
+\end{aligned}
+$$
+The prime factorization is
+$$
+\begin{aligned}
+123336 &= 8 \cdot 27 \cdot 571 \\
+       &= 2^3 \cdot 3^3 \cdot 571.
+\end{aligned}
+$$
+Hence $571$ is not introduced as an outside parameter.  It is extracted from the finite integer matrix itself as a prime divisor of the nontrivial Smith factor.
+
+\paragraph{Modular spectral collision.}
+Let $P(t) \in \mathbb{Z}[t]$ denote the associated finite Green--Kirchhoff spectral polynomial of this Window6 reduced audit.  Its coefficients are determined by the same finite matrix data as $L_{\mathrm{red}}$, so reduction modulo a prime is an ordinary coefficientwise map
+$$
+\begin{aligned}
+\mathbb{Z}[t] &\longrightarrow (\mathbb{Z}/571\mathbb{Z})[t], \\
+P(t) &\longmapsto \overline{P}(t).
+\end{aligned}
+$$
+Using the extracted prime $571$, the reduced polynomial has a repeated-root collision modulo $571$.  In purely algebraic terms, this means that $\overline{P}(t)$ and its formal derivative $\overline{P}'(t)$ have a nonconstant common divisor in $(\mathbb{Z}/571\mathbb{Z})[t]$; equivalently, at least one root of $\overline{P}(t)$ in an algebraic extension of $\mathbb{Z}/571\mathbb{Z}$ occurs with multiplicity greater than one.
+
+\paragraph{Witness extraction.}
+The witness has two finite parts.  First, the Smith normal form gives the integer invariant factor $123336$ and the exact factorization $123336=2^3\cdot 3^3\cdot 571$.  Second, the same prime $571$ is used as the reduction prime for the finite Green--Kirchhoff spectral polynomial, where the repeated-root condition is detected by the common divisor of $\overline{P}(t)$ and $\overline{P}'(t)$.  The numerical witness is therefore internal to the finite audit calculation: the prime appears in the reduced Laplacian invariant factor and then reappears as the modulus at which the spectral polynomial ceases to be squarefree.
+
+\paragraph{Boundary of the assertion.}
+The assertion made here is only the finite algebraic one: the Window6 reduced Laplacian has Smith normal form $\mathrm{diag}(1,1,123336)$, the integer $123336$ factors as $2^3\cdot 3^3\cdot 571$, and the corresponding finite Green--Kirchhoff spectral polynomial has a repeated-root collision after reduction modulo $571$.  No physical-constant identification, global flow law, outside dependency, metrological comparison, or interpretation beyond this finite construction follows from the calculation unless a separate certificate supplies the additional bridge.

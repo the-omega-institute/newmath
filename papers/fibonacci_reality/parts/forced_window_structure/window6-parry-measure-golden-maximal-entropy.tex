@@ -1,0 +1,98 @@
+\origin{ai}
+
+\subsection{Two-state golden maximal-entropy kernel}
+\label{sec:window6-parry-measure-golden-maximal-entropy}
+
+\paragraph{Finite carrier and admissibility relation.}
+The carrier is the two-state finite memory system whose state records whether the previous bit is $0$ or $1$.  Write the state set as $\{0,1\}$, with state $0$ meaning previous bit $0$ and state $1$ meaning previous bit $1$.  The emitted alphabet is also $\{0,1\}$.  The admissibility predicate is the no-adjacent-one predicate: a transition from state $i$ to state $j$ is allowed exactly when the two-bit word $ij$ is not $11$.  Thus the allowed transitions are $0\to 0$, $0\to 1$, and $1\to 0$, while $1\to 1$ is excluded.  The corresponding transfer matrix is
+$$
+\begin{aligned}
+M&=\begin{pmatrix}1&1\\1&0\end{pmatrix},
+\end{aligned}
+$$
+where $M_{ij}=1$ exactly when the transition $i\to j$ preserves the no-adjacent-one predicate, and $M_{ij}=0$ otherwise.
+
+\paragraph{Perron data and forced transition probabilities.}
+Let
+$$
+\begin{aligned}
+\phi&=\frac{1+\sqrt{5}}{2}, & \phi^2&=\phi+1.
+\end{aligned}
+$$
+The positive right vector $v=(\phi,1)^T$ and the positive left vector $u=(\phi,1)$ obey the exact eigenvector identities
+$$
+\begin{aligned}
+M\begin{pmatrix}\phi\\1\end{pmatrix}
+&=\phi\begin{pmatrix}\phi\\1\end{pmatrix},
+&
+(\phi,1)M&=\phi(\phi,1).
+\end{aligned}
+$$
+The stochastic kernel is obtained by normalizing each allowed edge with this Perron data:
+$$
+\begin{aligned}
+p_{ij}&=\frac{M_{ij}v_j}{\phi v_i}.
+\end{aligned}
+$$
+Substitution gives the exact transition matrix
+$$
+\begin{aligned}
+P&=\begin{pmatrix}1/\phi&1/\phi^2\\1&0\end{pmatrix}.
+\end{aligned}
+$$
+Equivalently,
+$$
+\begin{aligned}
+p_{00}&=\frac{1}{\phi}, & p_{01}&=\frac{1}{\phi^2}=1-\frac{1}{\phi}, & p_{10}&=1, & p_{11}&=0.
+\end{aligned}
+$$
+The two row sums are exactly $1$ and $1$, so $P$ is a Markov transition kernel on the finite state set $\{0,1\}$.  These probabilities are not fitted from measurements; they are fixed by the transfer matrix and Perron normalization.
+
+\paragraph{Stationary distribution.}
+A stationary row distribution $\pi=(\pi_0,\pi_1)$ is required to satisfy $\pi P=\pi$ and $\pi_0+\pi_1=1$.  The resulting distribution has the equivalent exact forms
+$$
+\begin{aligned}
+\pi
+&=\left(\frac{5+\sqrt{5}}{10},\frac{5-\sqrt{5}}{10}\right) \\
+&=\left(\frac{\phi^2}{\phi^2+1},\frac{1}{\phi^2+1}\right).
+\end{aligned}
+$$
+Direct substitution verifies the invariance and normalization equations:
+$$
+\begin{aligned}
+\pi P&=\pi, & \pi_0+\pi_1&=1.
+\end{aligned}
+$$
+Thus the finite construction supplies both the transition law and the equilibrium state distribution from the same two-state matrix.
+
+\paragraph{Entropy witness.}
+The metric entropy of this stationary Markov chain is computed from the finite sum
+$$
+\begin{aligned}
+h&=-\sum_i \pi_i\sum_j p_{ij}\log(p_{ij}).
+\end{aligned}
+$$
+Only the first row contributes nonzero uncertainty, since $p_{10}=1$ and $p_{11}=0$.  Using $p_{00}=\phi^{-1}$, $p_{01}=\phi^{-2}$, and $\pi_0=\phi^2/(\phi^2+1)$, the entropy reduces exactly to
+$$
+\begin{aligned}
+h
+&=-\frac{\phi^2}{\phi^2+1}\left(\frac{1}{\phi}\log\left(\frac{1}{\phi}\right)+\frac{1}{\phi^2}\log\left(\frac{1}{\phi^2}\right)\right) \\
+&=\log(\phi).
+\end{aligned}
+$$
+The same Perron eigenvalue gives the topological entropy of the no-adjacent-one finite type system, so the stationary Markov chain above realizes the maximal-entropy measure for this two-state presentation.
+
+\paragraph{Window-six coarse balance.}
+There is also a related coarse four-cell balance on the finite set $\{0,1\}^6$.  Its cell-size distribution is
+$$
+\begin{aligned}
+\left(\frac{27}{64},\frac{22}{64},\frac{9}{64},\frac{6}{64}\right).
+\end{aligned}
+$$
+This four-cell distribution is a Window6 coarse equilibrium by cell sizes.  It is not the two-state stationary distribution $\pi$, and it is not the transition kernel $P$.  Its role here is to record a separate finite partition balance associated with the same window length, while the golden maximal-entropy measure is the two-state Markov measure determined by $M$, $v$, and $\phi$.
+
+\paragraph{Separation from nearby kernels.}
+The construction in this subsection is the two-state no-adjacent-one maximal-entropy kernel.  It should not be conflated with an edge-flux Parry kernel built from a different finite matrix.  The present transition probabilities $1/\phi$ and $1/\phi^2$ arise from the matrix $\begin{pmatrix}1&1\\1&0\end{pmatrix}$ and the Perron vector $(\phi,1)^T$ alone.  Changing the finite matrix changes the normalization problem and therefore changes the kernel.
+
+\paragraph{Local boundary of the claim.}
+The record proves only the finite spectral construction described above: the carrier, admissible transitions, transfer matrix, Perron vectors, normalized Markov kernel, stationary distribution, entropy computation, and the separate four-cell Window6 size balance.  No physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond this finite construction follows from these formulas unless a separate certificate supplies that additional bridge.

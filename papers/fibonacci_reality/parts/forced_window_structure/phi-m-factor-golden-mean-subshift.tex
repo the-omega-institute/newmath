@@ -1,0 +1,103 @@
+\subsection{Finite forced-window factor for the golden-mean subshift}
+\origin{ai}
+\label{sec:phi-m-factor-golden-mean-subshift}
+
+\paragraph{Carrier.}
+Fix the binary alphabet $\{0,1\}$ and let $\{0,1\}^{\mathbb Z}$ denote the set of all bi-infinite binary words. An element is written $x=(x_i)_{i\in\mathbb Z}$, with each coordinate $x_i\in\{0,1\}$. The shift map $\sigma:\{0,1\}^{\mathbb Z}\to\{0,1\}^{\mathbb Z}$ is the coordinate relabelling determined by $(\sigma x)_i=x_{i+1}$. The golden-mean subshift is the subset
+$$
+\begin{aligned}
+\Sigma=\{x\in\{0,1\}^{\mathbb Z}:\text{ there is no }i\in\mathbb Z\text{ with }x_i=1\text{ and }x_{i+1}=1\}.
+\end{aligned}
+$$
+Thus the whole carrier is specified by a finite local exclusion: the adjacent factor $11$ is forbidden, and no other forbidden factor is imposed.
+
+\paragraph{Finite window set.}
+For a positive integer $m$, let $\{0,1\}^m$ be the finite set of binary words of length $m$. Define $A_m\subseteq\{0,1\}^m$ by
+$$
+\begin{aligned}
+A_m=\{a_0a_1\cdots a_{m-1}\in\{0,1\}^m:\text{ no adjacent pair }a_i a_{i+1}\text{ is }11\}.
+\end{aligned}
+$$
+The complementary finite set is
+$$
+\begin{aligned}
+\{0,1\}^m\setminus A_m=\{a_0a_1\cdots a_{m-1}\in\{0,1\}^m:\text{ some adjacent pair }a_i a_{i+1}\text{ is }11\}.
+\end{aligned}
+$$
+This gives a two-part partition of all length-$m$ windows into admissible windows and forbidden windows. A bi-infinite word belongs to $\Sigma$ exactly when every length-$2$ window is admissible, equivalently when every finite window read from it contains no adjacent $11$.
+
+\paragraph{Transition matrix.}
+The local rule can also be written as a finite adjacency matrix indexed by the ordered symbols $0,1$. Put
+$$
+\begin{aligned}
+M_{ab}=1\quad\text{if the adjacent word }ab\text{ is not }11,\qquad M_{ab}=0\quad\text{if }ab=11.
+\end{aligned}
+$$
+With rows and columns ordered as $0,1$, this is
+$$
+\begin{aligned}
+M=\begin{pmatrix}1&1\\1&0\end{pmatrix}.
+\end{aligned}
+$$
+This matrix is only the finite incidence record of the allowed adjacent pairs. No probability kernel, weight, measure, or spectral interpretation is part of the assertion.
+
+\paragraph{Counts.}
+The first admissible-window counts are
+$$
+\begin{aligned}
+|A_1|=2,\qquad |A_2|=3,\qquad |A_3|=5,\qquad |A_4|=8.
+\end{aligned}
+$$
+For $m\geq 2$, the admissible words split according to their initial symbols. If the word begins with $0$, the remaining $m-1$ symbols form an arbitrary element of $A_{m-1}$. If it begins with $1$, the next symbol cannot be $1$, so it begins with $10$ and the remaining $m-2$ symbols form an arbitrary element of $A_{m-2}$. Hence
+$$
+\begin{aligned}
+A_m=0A_{m-1}\,\dot\cup\,10A_{m-2},
+\end{aligned}
+$$
+where the union is disjoint because the two classes have different first symbols. Taking cardinalities gives
+$$
+\begin{aligned}
+|A_m|=|A_{m-1}|+|A_{m-2}|.
+\end{aligned}
+$$
+With the displayed initial values, this is the finite Fibonacci recursion, giving the closed count
+$$
+\begin{aligned}
+|A_m|=F_{m+2}.
+\end{aligned}
+$$
+Here the statement is only about the number of finite admissible windows produced by the no-$11$ rule.
+
+\paragraph{Sliding block factor.}
+Fix a width $m$. A width-$m$ sliding block code $\Phi_m$ is determined by a finite rule on length-$m$ windows. For every site $i\in\mathbb Z$, the output coordinate $(\Phi_m(x))_i$ is obtained by applying that finite rule to the window
+$$
+\begin{aligned}
+x_i x_{i+1}\cdots x_{i+m-1}.
+\end{aligned}
+$$
+On $\Sigma$, every such window lies in $A_m$, so the rule only needs values on the finite admissible set $A_m$. The witness for the factor map is therefore the finite assignment that sends each admissible $m$-window to its image symbol. Forbidden windows are not encountered by inputs from $\Sigma$.
+
+\paragraph{Shift commutation.}
+The shift-commutation identity is checked directly on coordinates. Reading a width-$m$ window after shifting $x$ gives the window that was one site later before shifting. Therefore, for every $i\in\mathbb Z$,
+$$
+\begin{aligned}
+(\Phi_m(\sigma x))_i&=\text{the rule applied to }x_{i+1}x_{i+2}\cdots x_{i+m},\\
+(\sigma(\Phi_m(x)))_i&=(\Phi_m(x))_{i+1}=\text{the rule applied to }x_{i+1}x_{i+2}\cdots x_{i+m}.
+\end{aligned}
+$$
+The two sides are equal coordinate by coordinate, hence
+$$
+\begin{aligned}
+\Phi_m(\sigma x)=\sigma(\Phi_m(x)).
+\end{aligned}
+$$
+Equivalently,
+$$
+\begin{aligned}
+\sigma\circ\Phi_m=\Phi_m\circ\sigma.
+\end{aligned}
+$$
+It follows at once that $\Phi_m(\Sigma)$ is shift-invariant: if $y=\Phi_m(x)$ with $x\in\Sigma$, then $\sigma y=\sigma(\Phi_m(x))=\Phi_m(\sigma x)$, and $\sigma x\in\Sigma$ because shifting does not create or destroy an adjacent occurrence of $11$.
+
+\paragraph{Boundary.}
+This subsection asserts only the finite local-rule construction: the carrier $\Sigma$, the admissible sets $A_m$, the admissible-forbidden partition, the Fibonacci count, the finite transition matrix for allowed adjacent pairs, the width-$m$ local rule, and the coordinatewise proof that $\Phi_m$ commutes with the shift. It does not assert any physical-constant identification, global flow law, external dependency, metrological comparison, measure, entropy, edge-flux law, spectral claim, or interpretation beyond this finite construction unless an additional certificate supplies that separate assertion.

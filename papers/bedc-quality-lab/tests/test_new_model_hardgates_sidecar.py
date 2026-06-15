@@ -39,3 +39,13 @@ def test_sidecar_validator_rejects_metric_body_leaks():
 
     with pytest.raises(ValueError):
         canonical._validate_new_model_hardgates_payload(mutated)
+
+
+@pytest.mark.parametrize("field", ("status", "predicate", "evidence_ref", "blocked_reason"))
+def test_sidecar_validator_rejects_evaluator_fields(field):
+    payload = canonical._build_new_model_hardgates_payload(generated_at="fixture-time")
+    mutated = json.loads(json.dumps(payload))
+    mutated["gates"]["NEW-MODEL-HG3"][field] = "candidate-derived"
+
+    with pytest.raises(ValueError, match="forbidden key"):
+        canonical._validate_new_model_hardgates_payload(mutated)
