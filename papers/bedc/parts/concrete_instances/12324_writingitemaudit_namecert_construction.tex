@@ -136,6 +136,18 @@ Use \autoref{thm:writing-item-audit-axis-separation} and \autoref{thm:writing-it
 Finally read \autoref{thm:writing-item-audit-tastegate-obligation}. It attaches nontriviality and field-faithfulness to the same carrier rows, so the scoped route is a kernel-local reading discipline rather than a projection from one axis or claim row into another.
 \end{proof}
 
+\begin{theorem}[Writing item audit public axis export]
+\label{thm:writing-item-audit-public-axis-export}
+Every registry or export consumer of an accepted $\WritingItemAuditUp$ packet receives the paper-closure row $T$ and the formal-verification row $F$ as separate public audit fields. The export may display the two rows together with $K,C,R,L,G,Q,H,U,P,N$, but it cannot derive either audit row from the other, discharge the gap row $G$, prove the claim row $Q$, or publish a stronger status than the displayed rows carry.
+\end{theorem}
+\begin{proof}
+Begin with the scoped kernel route of \autoref{thm:writing-item-audit-scoped-kernel-route}. A public registry or export consumer must read the same finite packet $K,C,R,L,T,F,G,Q,H,U,P,N$, so both audit rows are visible before the consumer may publish the item.
+
+Apply \autoref{thm:writing-item-audit-axis-separation}. It permits joint reporting of $T$ and $F$ while forbidding a projection that derives the paper-closure row from the formal-verification row or derives the formal-verification row from the paper-closure row.
+
+Finally use \autoref{thm:writing-item-audit-nonescape}. Since no accepted projection can prove $Q$, discharge $G$, upgrade either status row, or authorize a stronger registry claim, the public export surface consists exactly of the two displayed audit fields together with their carrier, ledger, claim, transport, replay, provenance, and naming rows.
+\end{proof}
+
 \closureat{WritingItemAuditUp}{scopedStr}
 
 \begin{closurestatus}{\WritingItemAuditUp}
