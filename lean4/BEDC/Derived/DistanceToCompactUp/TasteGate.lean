@@ -1,17 +1,18 @@
-import BEDC.FKernel.Bundle
 import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DistanceToCompactUp
 
-open BEDC.FKernel.Bundle
 open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -22,9 +23,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive DistanceToCompactUp : Type where
-  | mk (metricPoint compactNet locatedComparison finiteWitness regularReadback realSeal
-      transport replay provenance localName : BHist) :
-      DistanceToCompactUp
+  | mk (X K L F R E H C P N : BHist) : DistanceToCompactUp
   deriving DecidableEq
 
 def distanceToCompactEncodeBHist : BHist → RawEvent
@@ -39,101 +38,78 @@ def distanceToCompactDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (distanceToCompactDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (distanceToCompactDecodeBHist tail)
 
-private theorem distanceToCompact_decode_encode_bhist :
+private theorem DistanceToCompactTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, distanceToCompactDecodeBHist (distanceToCompactEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
-
-private theorem distanceToCompact_mk_congr
-    {metricPoint metricPoint' compactNet compactNet' locatedComparison locatedComparison'
-      finiteWitness finiteWitness' regularReadback regularReadback' realSeal realSeal'
-      transport transport' replay replay' provenance provenance' localName localName' : BHist}
-    (hMetricPoint : metricPoint' = metricPoint)
-    (hCompactNet : compactNet' = compactNet)
-    (hLocatedComparison : locatedComparison' = locatedComparison)
-    (hFiniteWitness : finiteWitness' = finiteWitness)
-    (hRegularReadback : regularReadback' = regularReadback)
-    (hRealSeal : realSeal' = realSeal)
-    (hTransport : transport' = transport)
-    (hReplay : replay' = replay)
-    (hProvenance : provenance' = provenance)
-    (hLocalName : localName' = localName) :
-    DistanceToCompactUp.mk metricPoint' compactNet' locatedComparison' finiteWitness'
-        regularReadback' realSeal' transport' replay' provenance' localName' =
-      DistanceToCompactUp.mk metricPoint compactNet locatedComparison finiteWitness
-        regularReadback realSeal transport replay provenance localName := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hMetricPoint
-  cases hCompactNet
-  cases hLocatedComparison
-  cases hFiniteWitness
-  cases hRegularReadback
-  cases hRealSeal
-  cases hTransport
-  cases hReplay
-  cases hProvenance
-  cases hLocalName
-  rfl
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def distanceToCompactFields : DistanceToCompactUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | DistanceToCompactUp.mk metricPoint compactNet locatedComparison finiteWitness
-      regularReadback realSeal transport replay provenance localName =>
-      [metricPoint, compactNet, locatedComparison, finiteWitness, regularReadback,
-        realSeal, transport, replay, provenance, localName]
+  | DistanceToCompactUp.mk X K L F R E H C P N => [X, K, L, F, R, E, H, C, P, N]
 
-def distanceToCompactToEventFlow : DistanceToCompactUp → EventFlow
+def distanceToCompactToEventFlow : DistanceToCompactUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (distanceToCompactFields x).map distanceToCompactEncodeBHist
+  fun x => (distanceToCompactFields x).map distanceToCompactEncodeBHist
 
-def distanceToCompactFromEventFlow : EventFlow → Option DistanceToCompactUp
+private def distanceToCompactEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | metricPoint :: compactNet :: locatedComparison :: finiteWitness :: regularReadback ::
-      realSeal :: transport :: replay :: provenance :: localName :: [] =>
-      some
-        (DistanceToCompactUp.mk
-          (distanceToCompactDecodeBHist metricPoint)
-          (distanceToCompactDecodeBHist compactNet)
-          (distanceToCompactDecodeBHist locatedComparison)
-          (distanceToCompactDecodeBHist finiteWitness)
-          (distanceToCompactDecodeBHist regularReadback)
-          (distanceToCompactDecodeBHist realSeal)
-          (distanceToCompactDecodeBHist transport)
-          (distanceToCompactDecodeBHist replay)
-          (distanceToCompactDecodeBHist provenance)
-          (distanceToCompactDecodeBHist localName))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => distanceToCompactEventAtDefault index rest
 
-private theorem distanceToCompact_round_trip :
-    ∀ x : DistanceToCompactUp,
-      distanceToCompactFromEventFlow (distanceToCompactToEventFlow x) = some x := by
+def distanceToCompactFromEventFlow (ef : EventFlow) : Option DistanceToCompactUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
+  some
+    (DistanceToCompactUp.mk
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 0 ef))
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 1 ef))
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 2 ef))
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 3 ef))
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 4 ef))
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 5 ef))
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 6 ef))
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 7 ef))
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 8 ef))
+      (distanceToCompactDecodeBHist (distanceToCompactEventAtDefault 9 ef)))
+
+private theorem DistanceToCompactTasteGate_single_carrier_alignment_round_trip
+    (x : DistanceToCompactUp) :
+    distanceToCompactFromEventFlow (distanceToCompactToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   cases x with
-  | mk metricPoint compactNet locatedComparison finiteWitness regularReadback realSeal
-      transport replay provenance localName =>
-      exact
-        congrArg some
-          (distanceToCompact_mk_congr
-            (distanceToCompact_decode_encode_bhist metricPoint)
-            (distanceToCompact_decode_encode_bhist compactNet)
-            (distanceToCompact_decode_encode_bhist locatedComparison)
-            (distanceToCompact_decode_encode_bhist finiteWitness)
-            (distanceToCompact_decode_encode_bhist regularReadback)
-            (distanceToCompact_decode_encode_bhist realSeal)
-            (distanceToCompact_decode_encode_bhist transport)
-            (distanceToCompact_decode_encode_bhist replay)
-            (distanceToCompact_decode_encode_bhist provenance)
-            (distanceToCompact_decode_encode_bhist localName))
+  | mk X K L F R E H C P N =>
+      change
+        some
+          (DistanceToCompactUp.mk
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist X))
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist K))
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist L))
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist F))
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist R))
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist E))
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist H))
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist C))
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist P))
+            (distanceToCompactDecodeBHist (distanceToCompactEncodeBHist N))) =
+          some (DistanceToCompactUp.mk X K L F R E H C P N)
+      rw [DistanceToCompactTasteGate_single_carrier_alignment_decode X,
+        DistanceToCompactTasteGate_single_carrier_alignment_decode K,
+        DistanceToCompactTasteGate_single_carrier_alignment_decode L,
+        DistanceToCompactTasteGate_single_carrier_alignment_decode F,
+        DistanceToCompactTasteGate_single_carrier_alignment_decode R,
+        DistanceToCompactTasteGate_single_carrier_alignment_decode E,
+        DistanceToCompactTasteGate_single_carrier_alignment_decode H,
+        DistanceToCompactTasteGate_single_carrier_alignment_decode C,
+        DistanceToCompactTasteGate_single_carrier_alignment_decode P,
+        DistanceToCompactTasteGate_single_carrier_alignment_decode N]
 
-private theorem distanceToCompactToEventFlow_injective {x y : DistanceToCompactUp} :
+private theorem DistanceToCompactTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : DistanceToCompactUp} :
     distanceToCompactToEventFlow x = distanceToCompactToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -142,20 +118,17 @@ private theorem distanceToCompactToEventFlow_injective {x y : DistanceToCompactU
         distanceToCompactFromEventFlow (distanceToCompactToEventFlow y) :=
     congrArg distanceToCompactFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (distanceToCompact_round_trip x).symm
-      (Eq.trans hread (distanceToCompact_round_trip y)))
+    (Eq.trans (DistanceToCompactTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (DistanceToCompactTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem distanceToCompact_field_faithful :
-    ∀ x y : DistanceToCompactUp,
-      distanceToCompactFields x = distanceToCompactFields y → x = y := by
+private theorem DistanceToCompactTasteGate_single_carrier_alignment_field_faithful :
+    ∀ x y : DistanceToCompactUp, distanceToCompactFields x = distanceToCompactFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk metricPoint compactNet locatedComparison finiteWitness regularReadback realSeal
-      transport replay provenance localName =>
+  | mk X K L F R E H C P N =>
       cases y with
-      | mk metricPoint' compactNet' locatedComparison' finiteWitness' regularReadback'
-          realSeal' transport' replay' provenance' localName' =>
+      | mk X' K' L' F' R' E' H' C' P' N' =>
           cases hfields
           rfl
 
@@ -169,15 +142,15 @@ instance distanceToCompactChapterTasteGate : ChapterTasteGate DistanceToCompactU
   round_trip := by
     intro x
     change distanceToCompactFromEventFlow (distanceToCompactToEventFlow x) = some x
-    exact distanceToCompact_round_trip x
+    exact DistanceToCompactTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (distanceToCompactToEventFlow_injective heq)
+    exact hxy (DistanceToCompactTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance distanceToCompactFieldFaithful : FieldFaithful DistanceToCompactUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := distanceToCompactFields
-  field_faithful := distanceToCompact_field_faithful
+  field_faithful := DistanceToCompactTasteGate_single_carrier_alignment_field_faithful
 
 instance distanceToCompactNontrivial :
     BEDC.Meta.TasteGate.Nontrivial DistanceToCompactUp where
@@ -190,6 +163,10 @@ instance distanceToCompactNontrivial :
       by
         intro h
         cases h⟩
+
+def distanceToCompactTasteGate : ChapterTasteGate DistanceToCompactUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  distanceToCompactChapterTasteGate
 
 def taste_gate : ChapterTasteGate DistanceToCompactUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -238,5 +215,25 @@ theorem DistanceToCompactCarrier_namecert_obligations [AskSetup] [PackageSetup]
   exact
     ⟨requestUnary, locatedReadUnary, finiteReadUnary, regularReadUnary, realReadUnary,
       provenancePkg⟩
+
+theorem DistanceToCompactTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate DistanceToCompactUp) ∧
+      Nonempty (FieldFaithful DistanceToCompactUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial DistanceToCompactUp) ∧
+      distanceToCompactEncodeBHist BHist.Empty = [] ∧
+        distanceToCompactEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
+          distanceToCompactEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] ∧
+            (∀ h : BHist,
+              distanceToCompactDecodeBHist (distanceToCompactEncodeBHist h) = h) ∧
+              (∀ x : DistanceToCompactUp,
+                distanceToCompactFromEventFlow (distanceToCompactToEventFlow x) = some x) ∧
+                Function.Injective distanceToCompactToEventFlow := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨distanceToCompactChapterTasteGate⟩, ⟨distanceToCompactFieldFaithful⟩,
+      ⟨distanceToCompactNontrivial⟩, rfl, rfl, rfl,
+      DistanceToCompactTasteGate_single_carrier_alignment_decode,
+      DistanceToCompactTasteGate_single_carrier_alignment_round_trip,
+      fun _ _ heq => DistanceToCompactTasteGate_single_carrier_alignment_toEventFlow_injective heq⟩
 
 end BEDC.Derived.DistanceToCompactUp
