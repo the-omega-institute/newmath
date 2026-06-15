@@ -206,13 +206,25 @@ Therefore the obstruction is strict in the BEDC sense. It rejects exactly the at
 \end{proof}
 \leanchecked{BEDC.Derived.CellularTrustSubstrateUp.CellularTrustSubstrate\_strict\_obstruction\_locality}
 
+\begin{theorem}[Cellular trust substrate standard bridge boundary]
+\label{thm:cellular-trust-substrate-standard-bridge-boundary}
+For every accepted $\CellularTrustSubstrateUp$ packet $S=(R,W,K,M,A,H,C,P,N)$, any bridge-facing read of the packet is confined to the displayed local-rule row $R$, finite orbit-window row $W$, classifier row $K$, manifest row $M$, audit route $A$, componentwise transport $H$, continuation replay $C$, package provenance $P$, and local naming row $N$. The bridge may preserve and expose only these rows together with the primitive and sibling scope bindings already proved in this chapter. It cannot import Rule 110 universality, host evaluator correctness, quotient streams, all-time induction, hidden global-orbit data, or external validation.
+\end{theorem}
+\begin{proof}
+Start from the public export package and the bridge-scope package. They give every public or bridge-scope consumer exactly the finite route through $R,W,K,M,A,H,C,P,N$.
+
+Use local-rule nonescape and orbit observation boundary. These force classifier reads through $R,W,K$ and closed observation reads through $M,A$, so a bridge-facing consumer cannot replace the displayed rows by a host evaluator, hidden transition table, quotient stream, global orbit, or all-time induction route.
+
+Finally apply primitive scope binding, sibling scope binding, and strict obstruction locality. They keep the accepted bridge surface over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CellularAutomatonUp$, $\BoundedUniversalTraceUp$, $\CellularSubstrateUp$, and $\LocalityCellUp$, while any attempted read outside those coordinates is only a local obstruction to that attempted reuse.
+\end{proof}
+
 \begin{closurestatus}{\CellularTrustSubstrateUp}
   \constructivestory{A $\CellularTrustSubstrateUp$ packet is generated from the displayed local rule, finite orbit window, classifier, manifest, audit route, componentwise transport, continuation route, package provenance, and local naming rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The displayed carrier rows, obligation surface, local-rule nonescape, manifest and audit rows, and sibling dependencies $\CellularAutomatonUp$, $\BoundedUniversalTraceUp$, $\CellularSubstrateUp$, and $\LocalityCellUp$ bind the finite $R,W,K,M,A,H,C,P,N$ cellular trust scope.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The displayed carrier rows, obligation surface, local-rule nonescape, manifest and audit rows, sibling dependencies $\CellularAutomatonUp$, $\BoundedUniversalTraceUp$, $\CellularSubstrateUp$, and $\LocalityCellUp$, and the standard bridge boundary bind the finite $R,W,K,M,A,H,C,P,N$ cellular trust scope.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.CellularTrustSubstrateUp.TasteGate.CellularTrustSubstrateTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{This chapter does not claim Rule 110 universality, host evaluator correctness, quotient streams, cellular completeness, or all-time induction.}
-  \upgradepath{Bridged closure requires a checked standard bridge for the public carrier rows, local-rule route, orbit boundary, manifest, audit route, transport, replay, provenance, and naming data.}
+  \upgradepath{Mature closure requires checked examples and completeness for the same public carrier rows, local-rule route, orbit boundary, manifest, audit route, transport, replay, provenance, and naming data.}
 \end{closurestatus}
