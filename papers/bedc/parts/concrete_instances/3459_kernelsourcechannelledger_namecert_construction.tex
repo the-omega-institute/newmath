@@ -114,6 +114,18 @@ Next use query-refusal stability from \autoref{thm:kernel-source-channel-ledger-
 Finally apply the audit boundary of \autoref{thm:kernel-source-channel-ledger-audit-boundary}. Since the carrier has no coordinate for source confidence or ambient environment trust, every consumer must read the query and refusal rows before using the route row $M$.
 \end{proof}
 
+\begin{theorem}[Kernel source-channel ledger public export package]
+\label{thm:kernel-source-channel-ledger-public-export-package}
+The audit boundary of \autoref{thm:kernel-source-channel-ledger-audit-boundary}, the trace projection of \autoref{thm:kernel-source-channel-ledger-trace-projection}, the query-refusal stability of \autoref{thm:kernel-source-channel-ledger-query-refusal-stability}, and the source-query separation of \autoref{thm:kernel-source-channel-ledger-source-query-separation} assemble the public source-channel export of an accepted $\KernelSourceChannelLedgerUp$ packet. The export passes through accepted-declaration trace rows, certificate-compiler or $\NameCert$-morphism rows, separated source and query channels, transport, replay, provenance, and local naming while keeping query-refusal and source-channel surfaces distinct.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $G,K,A,E,Q,R,T,M,F,H,C,P,N$. The source-channel surface is carried by $G,K,A,E,T,M,F,H,C,P,N$, while the query-refusal surface is carried by $Q,R,H,C,P,N$.
+
+Apply \autoref{thm:kernel-source-channel-ledger-audit-boundary} and \autoref{thm:kernel-source-channel-ledger-trace-projection}. These rows expose the accepted-declaration trace and keep kernel acceptance visible before any compiler or morphism route is consumed.
+
+Next apply \autoref{thm:kernel-source-channel-ledger-query-refusal-stability} and \autoref{thm:kernel-source-channel-ledger-source-query-separation}. The query row and refusal row remain separated from source confidence and environment trust, while the source and query channels are replayed through the same transport, continuation, provenance, and local naming rows. Hence the public export contains both surfaces without collapsing query refusal into source-channel acceptance.
+\end{proof}
+
 \closureat{KernelSourceChannelLedgerUp}{seedStr}
 \closureat{KernelSourceChannelLedgerUp}{obligationStr}[BEDC.Derived.KernelSourceChannelLedgerUp.KernelSourceChannelLedgerPacket\_namecert\_obligations]
 \closureat{KernelSourceChannelLedgerUp}{scopedStr}
