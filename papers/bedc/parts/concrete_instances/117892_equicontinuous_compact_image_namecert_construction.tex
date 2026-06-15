@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\EquicontinuousCompactImageUp$}
+\label{ch:concrete-instances-equicontinuous-compact-image-namecert}
+\origin{human}
+
+Following Arzela--Ascoli and Bishop--Bridges constructive compact metric analysis, the $\EquicontinuousCompactImageUp$ packet records the finite image-window surface obtained from an equicontinuous family over a compact metric source. It sits after the compact source of \autoref{ch:concrete-instances-compactmetric-namecert}, the displayed function rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the family modulus surface of \autoref{ch:concrete-instances-equicontinuityfamily-namecert}, the tolerance-only consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet exposes compact-image data only as finite source nets, synchronized family windows, regular readback, and Real seals.
+
+\begin{definition}[Equicontinuous compact image carrier]\label{def:equicontinuous-compact-image-carrier}
+An $\EquicontinuousCompactImageUp$ carrier is a finite $\BHist$ packet
+$$
+E=(K,F,M,U,S,R,Q,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ finite-net source row, carrying the displayed centers, coverage witnesses, and metric-window data available to the image computation.
+\item $F$ is the $\ContinuousMapUp$ family graph row restricted to the inspected maps and source centers.
+\item $M$ is the $\EquicontinuityFamilyUp$ row that synchronizes the family at the displayed source windows.
+\item $U$ is the $\UniformModulusUp$ handoff row receiving the finite tolerance schedule induced by $K,F,M$.
+\item $S$ is the $\StreamNameUp$ image-window row exposed only at listed source centers and displayed family indices.
+\item $R$ is the $\RegSeqRatUp$ readback row for the image values and their tolerance schedule.
+\item $Q$ is the terminal $\RealUp$ seal for the displayed image values.
+\item $H$ records componentwise $\hsame$ transport for compact-source, graph, equicontinuity, uniform-modulus, image-window, readback, seal, continuation, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a target image tolerance through
+$$
+K,F,M \longmapsto U,S,R,Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EquicontinuousCompactImageUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\EquicontinuityFamilyUp$, $\UniformModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\EquicontinuousCompactImageUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for host image compactness, open-cover compactness, quotient function equality, selected image points outside the finite net, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Equicontinuous compact image NameCert obligations]\label{thm:equicontinuous-compact-image-namecert-obligations}
+For every accepted $\EquicontinuousCompactImageUp$ carrier $E=(K,F,M,U,S,R,Q,H,C,P,N)$, the local NameCert obligation surface consists exactly of compact finite-net admission through $K$, displayed continuous-map image admission through $F$, equicontinuity-family synchronization through $M$, uniform-modulus handoff through $U$, finite image-window exposure through $S$, regular rational readback through $R$, terminal Real sealing through $Q$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+No obligation row asserts host image compactness, an open-cover finite subcover, quotient equality of functions, a selected image point outside the listed windows, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:equicontinuous-compact-image-carrier}. The compactness-facing data is the finite-net row $K$, the function-facing data is the displayed graph row $F$, and the family-control data is the equicontinuity row $M$.
+
+The tolerance handoff is finite. A target tolerance request first reads the source net in $K$, then the graph rows in $F$ at the displayed centers, and then the family synchronization row $M$. The resulting tolerance schedule is passed to $U$.
+
+The image rows are downstream of that handoff. The window row $S$ exposes only listed image observations, $R$ supplies regular rational readback for those observations, and $Q$ seals the resulting Real-facing values.
+
+Finally replay $H,C,P,N$. Componentwise transport, continuation replay, provenance, and local naming preserve the same route, so no host compactness principle, selected subcover, quotient function equality, choice schedule, selected image point, or ambient completeness row is introduced.
+\end{proof}
+
+\begin{theorem}[Equicontinuous compact image L10 route]\label{thm:equicontinuous-compact-image-l10-route}
+Every L10 consumer of an accepted $\EquicontinuousCompactImageUp$ packet must first inspect the finite compact-metric source row, the continuous-map graph row, the equicontinuity-family synchronization row, and the uniform-modulus handoff before reaching image windows, regular rational readback, and the terminal Real seal. Concretely, every such read factors through
+$$
+\CompactMetricUp,\ \ContinuousMapUp,\ \EquicontinuityFamilyUp,\ \UniformModulusUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+as displayed carrier rows, not as host compactness or quotient function data.
+\end{theorem}
+\begin{proof}
+Start with an L10 image read of the carrier in \autoref{def:equicontinuous-compact-image-carrier}. The first available source data is $K$, the compact-metric finite net, so the consumer cannot begin from an open cover or a host image set.
+
+Read the function and family rows next. The graph row $F$ supplies displayed image values at inspected centers, while $M$ forces those reads to share the equicontinuity-family synchronization. The handoff row $U$ then records the tolerance-only uniform-modulus surface consumed by the downstream route.
+
+Only after $K,F,M,U$ are displayed can the consumer reach $S,R,Q$. These rows expose finite image windows, regular rational readback, and the terminal Real seal.
+
+The structural rows $H,C,P,N$ preserve this order. Therefore the L10 route exports only the displayed compact-source, map, family-modulus, window, readback, and seal rows, while refusing host image compactness, open-cover compactness, quotient function equality, selected image points, countable choice, and ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\EquicontinuousCompactImageUp$ consumer read factors through CompactMetric finite-net rows, ContinuousMap graph rows, EquicontinuityFamily synchronization rows, UniformModulus handoff, StreamName windows, RegSeqRat readback, RealUp seals, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{compactmetric, continuousmap, equicontinuityfamily, uniformmodulus, streamname, regseqrat, real: no listed sibling supplies the whole eleven-row packet $E=(K,F,M,U,S,R,Q,H,C,P,N)$, because each sibling contributes only a compact source, graph row, family synchronization row, tolerance handoff, finite window, regular readback, or Real seal while this chapter binds the compact-image route through transport, replay, provenance, and local naming.}
+
+\closureat{EquicontinuousCompactImageUp}{seedStr}
+
+\begin{closurestatus}{\EquicontinuousCompactImageUp}
+  \constructivestory{An $\EquicontinuousCompactImageUp$ packet is generated from CompactMetric finite-net rows, ContinuousMap graph rows, EquicontinuityFamily synchronization rows, UniformModulus handoff, StreamName image windows, RegSeqRat readback, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:equicontinuous-compact-image-carrier}, \autoref{thm:equicontinuous-compact-image-namecert-obligations}, and \autoref{thm:equicontinuous-compact-image-l10-route} seed the finite compact-metric equicontinuous image route before L10 consumers inspect image windows and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host image compactness, open-cover compactness, quotient function equality, selected image points, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked compact-source admission, continuous-map graph admission, family synchronization, uniform-modulus handoff, image-window exposure, regular readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.EquicontinuousCompactImageUp.}
+\end{closurestatus}
