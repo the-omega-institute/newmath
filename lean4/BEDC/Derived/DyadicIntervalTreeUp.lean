@@ -425,4 +425,88 @@ theorem DyadicIntervalTreeCarrier_scoped_kernel_route
   }
   exact ⟨cert, routeUnary⟩
 
+theorem DyadicIntervalTreeCarrier_public_boundary
+    {R D B F M Q NW H C P L branchRead containmentRead frontierRead windowRead meshRead
+      publicRead : BHist} :
+    DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
+      Cont B F branchRead ->
+        Cont branchRead Q containmentRead ->
+          Cont F M frontierRead ->
+            Cont containmentRead NW windowRead ->
+              Cont M Q meshRead ->
+                Cont windowRead L publicRead ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row branchRead ∨ hsame row containmentRead ∨
+                          hsame row frontierRead ∨ hsame row windowRead ∨
+                            hsame row meshRead ∨ hsame row publicRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont windowRead L publicRead ∧
+                          Cont M Q meshRead)
+                      hsame ∧
+                    UnaryHistory branchRead ∧ UnaryHistory containmentRead ∧
+                      UnaryHistory frontierRead ∧ UnaryHistory windowRead ∧
+                        UnaryHistory meshRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet branchRoute containmentRoute frontierRoute windowRoute meshRoute publicRoute
+  obtain
+    ⟨_unaryR, unaryD, unaryB, unaryF, unaryM, _unaryH, _unaryC, _unaryP,
+      unaryL, _routeF, routeQ, routeNW⟩ := packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryF unaryM routeQ
+  have unaryNW : UnaryHistory NW :=
+    unary_cont_closed unaryQ unaryD routeNW
+  have branchUnary : UnaryHistory branchRead :=
+    unary_cont_closed unaryB unaryF branchRoute
+  have containmentUnary : UnaryHistory containmentRead :=
+    unary_cont_closed branchUnary unaryQ containmentRoute
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed unaryF unaryM frontierRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed containmentUnary unaryNW windowRoute
+  have meshUnary : UnaryHistory meshRead :=
+    unary_cont_closed unaryM unaryQ meshRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed windowUnary unaryL publicRoute
+  have sourcePublic :
+      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row) publicRead := by
+    exact ⟨hsame_refl publicRead, publicUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row branchRead ∨ hsame row containmentRead ∨ hsame row frontierRead ∨
+              hsame row windowRead ∨ hsame row meshRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont windowRead L publicRead ∧ Cont M Q meshRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourcePublic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, publicRoute, meshRoute⟩
+  }
+  exact
+    ⟨cert, branchUnary, containmentUnary, frontierUnary, windowUnary, meshUnary,
+      publicUnary⟩
+
 end BEDC.Derived.DyadicIntervalTreeUp
