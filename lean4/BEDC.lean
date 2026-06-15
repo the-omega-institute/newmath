@@ -3682,6 +3682,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootRefusalLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalLedgerPullback
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalLedgerScope
 import BEDC.Derived.CriticalLineWitnessUp.RootRefusalRoute
+import BEDC.Derived.CriticalLineWitnessUp.RootRhBoundaryFormalTarget
 import BEDC.Derived.CriticalLineWitnessUp.RootRhBoundaryRefusal
 import BEDC.Derived.CriticalLineWitnessUp.RootRhConsumerBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootRhRefusalBoundary
@@ -4591,6 +4592,7 @@ import BEDC.Derived.DyadicValuationUp.TasteGate
 import BEDC.Derived.DyadicWindowSealUp.TasteGate
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.EberleinSmulianUp.TasteGate
+import BEDC.Derived.EdelsteinFixedPointUp
 import BEDC.Derived.EffectiveCauchyModulusUp.TasteGate
 import BEDC.Derived.EffectiveCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.EffectiveCauchySequenceUp
