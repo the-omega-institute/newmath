@@ -123,6 +123,13 @@ $-0.01290$ $[-0.01851,\ -0.00806]$ with $MV$ Spearman $1.0$.  It is therefore
 evidence that the missing variable is allocation-relevant, while the trained
 compute-value model remains unclaimed until \texttt{predicted\_mv} is produced
 by a model that has not read evaluation errors.
+The local 4060 readout supplies that stricter test for a small model family.
+Ridge, MLP, and scalar RankNet readers are trained without evaluation labels
+and selected on calibration.  RankNet is selected, reaches evaluation
+$MV$ Spearman $0.4499$ $[0.3651,\ 0.5272]$, but remains wrong-side on
+allocation: $+0.00822$ $[+0.00053,\ +0.01738]$.  The signal is therefore
+partly readable, but the readout still does not supply an allocation-native
+policy.
 
 The registered closure checks for the integrated A100 row are intentionally
 kept outside the verified-findings ledger until their finite artifacts exist.

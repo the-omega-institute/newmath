@@ -219,6 +219,15 @@ episode-budget rule.  This is a target-validity result, not a trained-model
 result: the artifact records \texttt{predicted\_mv} as an oracle placeholder,
 and the admissible model claim requires replacing that array by a prediction
 made without evaluation error labels.
+A local RTX~4060 readout test then replaces the oracle field by model outputs.
+Ridge, MLP, and scalar RankNet readers are trained on train-split
+rollout-internal features and selected on the calibration split.  The selected
+RankNet reader learns a real marginal-value ordering on evaluation
+($\rho=0.4499$ with interval $[0.3651,\ 0.5272]$ under the runner bootstrap),
+but it still fails the allocation gate: allocation delta is $+0.00822$
+$[+0.00053,\ +0.01738]$.  Thus the compute-value variable is
+allocation-relevant in the oracle readback, while this local readout family has
+not converted it into useful budget control.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -314,6 +323,7 @@ $$
 \text{native/post-hoc paired comparison} & \texttt{reports/lewm\_native\_vs\_posthoc\_paired.json},\\
 \text{allocation information bound} & \texttt{reports/lewm\_allocation\_information\_bound.json},\\
 \text{compute-value labels} & \texttt{reports/compute\_value\_labels.json},\\
+\text{compute-value model} & \texttt{reports/compute\_value\_model.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

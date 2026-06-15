@@ -1,0 +1,176 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_model",
+  "selected_model": "ranknet_scalar",
+  "selection_rule": "minimize calibration allocation_delta CI high, then observed delta",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "feature_groups": [
+    "latent_window_z_t_minus_4_to_t",
+    "future_action_sequence_t_to_t_plus_9",
+    "lewm_pred_z_rollout",
+    "rollout_delta_z",
+    "rollout_delta_norm",
+    "rollout_spread_norm",
+    "past_one_step_gap_proxy_pred_vs_emb"
+  ],
+  "target": {
+    "option_depths": [
+      1,
+      3,
+      5
+    ],
+    "uniform_depth": 3,
+    "mv": "uniform per-step error - option per-step error"
+  },
+  "calibration": {
+    "mlp": {
+      "allocation_delta": {
+        "observed": 0.010951233654592107,
+        "low": 0.0031668884855734396,
+        "high": 0.020356460427709368
+      },
+      "mv_spearman": 0.25117857047870046,
+      "chosen_depth_counts": {
+        "1": 317,
+        "3": 12,
+        "5": 317
+      }
+    },
+    "ranknet_scalar": {
+      "allocation_delta": {
+        "observed": 0.0048229094474974005,
+        "low": -0.0030604506913711567,
+        "high": 0.014862701105432414
+      },
+      "mv_spearman": 0.46810916270011416,
+      "chosen_depth_counts": {
+        "1": 317,
+        "3": 12,
+        "5": 317
+      }
+    },
+    "ridge_alpha_1": {
+      "allocation_delta": {
+        "observed": 0.011999113769552136,
+        "low": 0.007576160026971497,
+        "high": 0.016753532013796285
+      },
+      "mv_spearman": 0.0875497193858616,
+      "chosen_depth_counts": {
+        "1": 317,
+        "3": 12,
+        "5": 317
+      }
+    },
+    "ridge_alpha_10": {
+      "allocation_delta": {
+        "observed": 0.012694765942585631,
+        "low": 0.007900618342951632,
+        "high": 0.017566608987985458
+      },
+      "mv_spearman": 0.11774394089236775,
+      "chosen_depth_counts": {
+        "1": 317,
+        "3": 12,
+        "5": 317
+      }
+    },
+    "ridge_alpha_100": {
+      "allocation_delta": {
+        "observed": 0.013976504863455641,
+        "low": 0.006688362211467194,
+        "high": 0.023399436116256275
+      },
+      "mv_spearman": 0.1505114462948284,
+      "chosen_depth_counts": {
+        "1": 317,
+        "3": 12,
+        "5": 317
+      }
+    }
+  },
+  "model_details": {
+    "mlp": {
+      "kind": "mlp",
+      "health": {
+        "best_cal_mse": 0.4015834331512451,
+        "loss_first": {
+          "epoch": 1.0,
+          "train": 3.194668561220169,
+          "cal": 0.6065582036972046
+        },
+        "loss_last": {
+          "epoch": 700.0,
+          "train": 0.0012195118761155754,
+          "cal": 0.4190749228000641
+        },
+        "params_count": 2669571
+      }
+    },
+    "ranknet_scalar": {
+      "kind": "ranknet_scalar",
+      "health": {
+        "best_cal_score_mse": 0.6584850549697876,
+        "loss_first": {
+          "epoch": 1.0,
+          "train": 0.8331403657793999,
+          "cal": 0.8148593902587891
+        },
+        "loss_last": {
+          "epoch": 700.0,
+          "train": 0.31911343708634377,
+          "cal": 0.8587476015090942
+        },
+        "params_count": 2669057
+      }
+    },
+    "ridge_alpha_1": {
+      "kind": "ridge",
+      "alpha": 1.0
+    },
+    "ridge_alpha_10": {
+      "kind": "ridge",
+      "alpha": 10.0
+    },
+    "ridge_alpha_100": {
+      "kind": "ridge",
+      "alpha": 100.0
+    }
+  },
+  "eval": {
+    "allocation_delta": {
+      "observed": 0.008218016678875326,
+      "low": 0.000589007300364311,
+      "high": 0.01671488671604838
+    },
+    "mv_spearman": 0.449880883836401,
+    "chosen_depth_counts": {
+      "1": 314,
+      "3": 6,
+      "5": 314
+    }
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_model_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_model.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_model.md"
+  },
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only",
+    "target_standardizer": "fit on train true_mv only",
+    "model_selection": "calibration split only",
+    "eval_truth_usage": "eval option_error and true_mv used only after predicted_mv is written for final metrics",
+    "predicted_mv": "model output, not copied from eval true_mv"
+  },
+  "wall_time_sec": 197.6149079799652
+}
