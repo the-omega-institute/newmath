@@ -269,6 +269,45 @@ continuity, compactness, quotient streams, host function equality, selected
 limits, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus of continuity obligation exactness]
+\label{thm:cauchy-modulus-of-continuity-obligation-exactness}
+For every accepted $\CauchyModulusOfContinuityUp$ carrier
+$K=(S,T,\mu,F,R,E,H,C,P,N)$, every $\CauchyContinuousMapUp$ or $\RealUp$
+consumer reads the same displayed threshold schedule $\mu$, source window
+$S$, transformer row $F$, $\RegSeqRatUp$ readback $R$, and $\RealUp$ seal
+$E$. The obligation surface has no alternate compactness coordinate, host
+function equality row, selected-limit witness, or second uniform-modulus
+coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:cauchy-modulus-of-continuity-carrier}. The rows
+$S,T,\mu,F,R,E,H,C,P,N$ are the only visible coordinates, so any consumer
+read begins with the displayed schedule, window, transformer, readback, and
+seal surface.
+
+Use
+\autoref{thm:cauchy-modulus-of-continuity-namecert-obligations}. Its local
+NameCert clauses bind carrier admission, classifier transport, threshold
+route exactness, replay, provenance, and local naming to those same rows.
+
+Apply the threshold handoff of
+\autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff}, the finite-window
+monotonicity of
+\autoref{thm:cauchy-modulus-of-continuity-window-monotonicity}, and the
+schedule stability of
+\autoref{thm:cauchy-modulus-of-continuity-schedule-stability}. Together they
+force every $\CauchyContinuousMapUp$ threshold read to pass through $\mu$,
+$S$, $F$, $T$, and $R$ with the same transported finite-window route.
+
+Finally apply
+\autoref{thm:cauchy-modulus-of-continuity-real-consumer-boundary}. The
+$\RealUp$ consumer can reach the seal only after the readback route has
+passed through the displayed threshold schedule, so no compactness, host
+function equality, selected-limit, or alternate uniform-modulus row is
+available.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus threshold transport]
 \label{thm:cauchy-modulus-of-continuity-threshold-transport}
 For every accepted $\CauchyModulusOfContinuityUp$ carrier
