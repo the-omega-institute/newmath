@@ -876,6 +876,7 @@ import BEDC.Derived.BishopIntervalApartnessModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
 import BEDC.Derived.BishopIntervalCompletionUp.TasteGate
 import BEDC.Derived.BishopIntervalContractionUp.CauchyHandoff
+import BEDC.Derived.BishopIntervalContractionUp.EndpointReadback
 import BEDC.Derived.BishopIntervalContractionUp.EndpointStability
 import BEDC.Derived.BishopIntervalContractionUp.NamecertObligations
 import BEDC.Derived.BishopIntervalContractionUp.TasteGate
@@ -1195,6 +1196,7 @@ import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
 import BEDC.Derived.BoundedNormalizationCandidateUp.TasteGate
+import BEDC.Derived.BoundedOscillationUp.PartitionRoute
 import BEDC.Derived.BoundedOscillationUp.TasteGate
 import BEDC.Derived.BoundedRealFamilyUp
 import BEDC.Derived.BoundedRealFamilyUp.TasteGate
