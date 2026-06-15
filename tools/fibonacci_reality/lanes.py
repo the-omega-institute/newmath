@@ -687,10 +687,70 @@ def _load_pipeline_config() -> dict[str, Any]:
 
 def _load_oracle_integration_config() -> dict[str, Any]:
     config = _load_pipeline_config().get("oracle_integration")
-    return config if isinstance(config, dict) else {}
+    config = dict(config) if isinstance(config, dict) else {}
+    oracle_pool = os.environ.get("FIBONACCI_REALITY_ORACLE_POOL", "").strip()
+    if oracle_pool:
+        config["server_url"] = f"nyxid-oracle://{oracle_pool}"
+    oracle_conversation_id = os.environ.get("FIBONACCI_REALITY_ORACLE_CONVERSATION_ID", "").strip()
+    if oracle_conversation_id:
+        config["conversation_id"] = oracle_conversation_id
+    server_url = os.environ.get("FIBONACCI_REALITY_ORACLE_SERVER_URL", "").strip()
+    if server_url:
+        config["server_url"] = server_url
+    enabled = os.environ.get("FIBONACCI_REALITY_ORACLE_ENABLED", "").strip().lower()
+    if enabled in {"1", "true", "yes", "on"}:
+        config["enabled"] = True
+    elif enabled in {"0", "false", "no", "off"}:
+        config["enabled"] = False
+    for lane_key, env_key in (
+        ("bio_g", "FIBONACCI_REALITY_ORACLE_BIO_G_ENABLED"),
+        ("bio_plan", "FIBONACCI_REALITY_ORACLE_BIO_PLAN_ENABLED"),
+    ):
+        lane_config = dict(config.get(lane_key)) if isinstance(config.get(lane_key), dict) else {}
+        lane_enabled = os.environ.get(env_key, "").strip().lower()
+        if lane_enabled in {"1", "true", "yes", "on"}:
+            lane_config["enabled"] = True
+        elif lane_enabled in {"0", "false", "no", "off"}:
+            lane_config["enabled"] = False
+        if lane_config:
+            config[lane_key] = lane_config
+    return config
+
+
+def _oracle_uses_nyxid(server_url: str) -> bool:
+    return str(server_url or "").startswith(("nyxid://", "nyxid-oracle://"))
+
+
+def _oracle_transport_name(server_url: str) -> str:
+    if str(server_url or "").startswith("nyxid-oracle://"):
+        return "nyxid-oracle"
+    if str(server_url or "").startswith("nyxid://"):
+        return "nyxid-proxy"
+    return "http"
+
+
+def _oracle_forced_conversation_id(config: dict[str, Any]) -> str:
+    return str(config.get("conversation_id") or "").strip()
+
+
+def oracle_runtime_summary() -> dict[str, Any]:
+    config = _load_oracle_integration_config()
+    server_url = str(config.get("server_url") or "")
+    bio_g = config.get("bio_g") if isinstance(config.get("bio_g"), dict) else {}
+    bio_plan = config.get("bio_plan") if isinstance(config.get("bio_plan"), dict) else {}
+    return {
+        "enabled": bool(config.get("enabled", False)),
+        "bio_g_enabled": bool(bio_g.get("enabled", False)),
+        "bio_plan_enabled": bool(bio_plan.get("enabled", False)),
+        "transport": _oracle_transport_name(server_url),
+        "server_url": server_url,
+        "conversation_id": _oracle_forced_conversation_id(config),
+    }
 
 
 def _bio_oracle_health_payload(server_url: str, timeout: int = 3) -> dict[str, Any]:
+    if _oracle_uses_nyxid(server_url):
+        return {"status": "skipped", "kind": "bio-oracle", "transport": "nyxid"}
     try:
         url = server_url.rstrip("/") + "/health"
         with urllib.request.urlopen(url, timeout=timeout) as response:
@@ -711,6 +771,8 @@ def run_oracle_server_lane(store: FibonacciRealityStore) -> dict[str, Any]:
         if not config.get("enabled", False):
             return {"lane": "bio-O", "status": "disabled"}
         server_url = str(config.get("server_url") or "http://127.0.0.1:8771")
+        if _oracle_uses_nyxid(server_url):
+            return {"lane": "bio-O", "status": "external_transport", "transport": _oracle_transport_name(server_url)}
         health = _bio_oracle_health_payload(server_url)
         if health.get("status") == "ok" and health.get("kind") == "bio-oracle":
             summary: dict[str, Any] = {"lane": "bio-O", "status": "already_up"}
@@ -817,6 +879,19 @@ def _oracle_skip(reason: str) -> dict[str, Any]:
 def _turn_count(result: dict[str, Any]) -> int:
     turns = result.get("turns")
     return len(turns) if isinstance(turns, list) else 0
+
+
+def _oracle_has_completed_turn(result: dict[str, Any]) -> bool:
+    turns = result.get("turns")
+    if not isinstance(turns, list):
+        return False
+    for turn in turns:
+        if not isinstance(turn, dict):
+            continue
+        turn_result = turn.get("result")
+        if isinstance(turn_result, dict) and str(turn_result.get("status") or "") == "completed":
+            return True
+    return False
 
 
 def _gate_candidate_priority(result: dict[str, Any]) -> tuple[float, str, str]:
@@ -992,15 +1067,17 @@ def _maybe_run_bio_g_oracle(store: FibonacciRealityStore) -> dict[str, Any]:
         pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/fibonacci_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8771")
-    server_host, server_port = _parse_server_host_port(server_url)
-    if server_host and server_port and not _localhost_available(server_host, server_port):
-        return _oracle_skip("oracle_server_unreachable")
+    if not _oracle_uses_nyxid(server_url):
+        server_host, server_port = _parse_server_host_port(server_url)
+        if server_host and server_port and not _localhost_available(server_host, server_port):
+            return _oracle_skip("oracle_server_unreachable")
     if not _network_available():
         return _oracle_skip("network_unreachable")
     claim_id, prompt = _bio_g_initial_prompt(store, candidate)
     topic = f"bio-G.review.{claim_id}"
+    forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
-    existing_conv_id = str(topic_conversations.get(topic) or "")
+    existing_conv_id = forced_conv_id or str(topic_conversations.get(topic) or "")
     result = oracle_consultation.run_oracle_consultation(
         repo_root,
         "bio-G",
@@ -1014,20 +1091,32 @@ def _maybe_run_bio_g_oracle(store: FibonacciRealityStore) -> dict[str, Any]:
         poll_timeout=int(lane_config.get("poll_timeout_seconds") or 600),
         codex_judge_timeout=int(lane_config.get("codex_judge_timeout_seconds") or 240),
         existing_conversation_id=existing_conv_id,
+        allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
     )
-    lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
-    consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
-    consulted_map[claim_id] = now_iso()
-    lane_state["consulted_claim_ids"] = consulted_map
+    completed_turn = _oracle_has_completed_turn(result)
+    if completed_turn:
+        lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
+        consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
+        consulted_map[claim_id] = now_iso()
+        lane_state["consulted_claim_ids"] = consulted_map
+    else:
+        lane_state.update({"last_failed_at": now_iso(), "last_failed_topic": topic, "last_failed_claim_id": claim_id})
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
-    if new_conv_id:
+    if new_conv_id and not forced_conv_id:
         topic_conversations[topic] = new_conv_id
         lane_state["topic_conversations"] = topic_conversations
     state["bio-G"] = lane_state
     _write_oracle_state(store, state)
     _append_oracle_event(store, "bio-G", topic, result, intended_claim_id=claim_id, reason=("rotation_deep_review" if rotation_used else ""))
-    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_rotation_used": rotation_used, "oracle_resumed": bool(existing_conv_id)}
+    return {
+        "oracle_consultations": 1,
+        "oracle_turns_total": _turn_count(result),
+        "oracle_skipped_reason": "",
+        "oracle_rotation_used": rotation_used,
+        "oracle_resumed": bool(existing_conv_id),
+        "oracle_completed": completed_turn,
+    }
 
 
 def _load_claims_document(path: Path) -> dict[str, Any]:
@@ -1360,14 +1449,16 @@ def _maybe_run_bio_plan_oracle(
         pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/fibonacci_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8771")
-    server_host, server_port = _parse_server_host_port(server_url)
-    if server_host and server_port and not _localhost_available(server_host, server_port):
-        return _oracle_skip("oracle_server_unreachable")
+    if not _oracle_uses_nyxid(server_url):
+        server_host, server_port = _parse_server_host_port(server_url)
+        if server_host and server_port and not _localhost_available(server_host, server_port):
+            return _oracle_skip("oracle_server_unreachable")
     if not _network_available():
         return _oracle_skip("network_unreachable")
     topic, claim_id, prompt = _bio_plan_prompt(claims, phases_passed, trigger_event)
+    forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
-    existing_conv_id = str(topic_conversations.get(topic) or "")
+    existing_conv_id = forced_conv_id or str(topic_conversations.get(topic) or "")
     result = oracle_consultation.run_oracle_consultation(
         repo_root,
         "bio-Plan",
@@ -1381,17 +1472,28 @@ def _maybe_run_bio_plan_oracle(
         poll_timeout=int(lane_config.get("poll_timeout_seconds") or 600),
         codex_judge_timeout=int(lane_config.get("codex_judge_timeout_seconds") or 240),
         existing_conversation_id=existing_conv_id,
+        allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
     )
-    lane_state.update({"last_consulted_at": now_iso(), "last_consulted_cycle": cycle, "last_topic": topic})
+    completed_turn = _oracle_has_completed_turn(result)
+    if completed_turn:
+        lane_state.update({"last_consulted_at": now_iso(), "last_consulted_cycle": cycle, "last_topic": topic})
+    else:
+        lane_state.update({"last_failed_at": now_iso(), "last_failed_cycle": cycle, "last_failed_topic": topic})
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
-    if new_conv_id:
+    if new_conv_id and not forced_conv_id:
         topic_conversations[topic] = new_conv_id
         lane_state["topic_conversations"] = topic_conversations
     state["bio-Plan"] = lane_state
     _write_oracle_state(store, state)
     _append_oracle_event(store, "bio-Plan", topic, result, intended_claim_id=claim_id)
-    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_resumed": bool(existing_conv_id)}
+    return {
+        "oracle_consultations": 1,
+        "oracle_turns_total": _turn_count(result),
+        "oracle_skipped_reason": "",
+        "oracle_resumed": bool(existing_conv_id),
+        "oracle_completed": completed_turn,
+    }
 
 
 def _append_frontier_log(store: FibonacciRealityStore, event: str, details: dict[str, Any]) -> None:
