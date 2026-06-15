@@ -498,4 +498,30 @@ theorem WritingItemAudit_scoped_kernel_route [AskSetup] [PackageSetup]
   exact
     ⟨cert, admittedRoute, ledgerRoute, statusRoute, queryRoute, namedRoute, scopedRoute⟩
 
+theorem WritingItemAudit_tastegate_obligation :
+    let base :=
+      WritingItemAuditUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    let kindShift :=
+      WritingItemAuditUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty
+    Nonempty (ChapterTasteGate WritingItemAuditUp) ∧
+      Nonempty (FieldFaithful WritingItemAuditUp) ∧
+        Nonempty (Nontrivial WritingItemAuditUp) ∧
+          writingItemAuditFields base ≠ writingItemAuditFields kindShift ∧
+            writingItemAuditToEventFlow base ≠ writingItemAuditToEventFlow kindShift := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  constructor
+  · exact ⟨writingItemAuditChapterTasteGate⟩
+  constructor
+  · exact ⟨writingItemAuditFieldFaithful⟩
+  constructor
+  · exact ⟨writingItemAuditNontrivial⟩
+  constructor
+  · intro hfields
+    cases hfields
+  · intro hflow
+    cases writingItemAuditToEventFlow_injective hflow
+
 end BEDC.Derived.WritingItemAuditUp
