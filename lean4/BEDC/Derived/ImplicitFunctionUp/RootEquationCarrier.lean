@@ -14,7 +14,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def ImplicitFunctionCarrier [AskSetup] [PackageSetup]
+def implicit_function_carrier_root_equation_carrier_carrier [AskSetup] [PackageSetup]
     (equation base derivative linear matrix picard graph realSeal transport replay
       provenance localName : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -29,7 +29,8 @@ theorem ImplicitFunctionCarrier_root_equation_carrier [AskSetup] [PackageSetup]
     {equation base derivative linear matrix picard graph realSeal transport replay
       provenance localName : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    ImplicitFunctionCarrier equation base derivative linear matrix picard graph realSeal
+    implicit_function_carrier_root_equation_carrier_carrier
+        equation base derivative linear matrix picard graph realSeal
         transport replay provenance localName bundle pkg ->
       UnaryHistory realSeal ∧ UnaryHistory provenance ∧
         Cont equation base derivative ∧ Cont derivative linear matrix ∧
