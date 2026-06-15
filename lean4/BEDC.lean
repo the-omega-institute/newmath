@@ -301,6 +301,7 @@ import BEDC.Derived.AtiyahSingerUp.TasteGate
 import BEDC.Derived.AttentionLedgerUp
 import BEDC.Derived.AttentionLedgerUp.TasteGate
 import BEDC.Derived.AttouchWetsTopologyUp
+import BEDC.Derived.AubinNitscheUp.TasteGate
 import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AuditExportFirewallUp.TasteGate
 import BEDC.Derived.AuditFinalityCertificateUp.TasteGate
@@ -2850,6 +2851,7 @@ import BEDC.Derived.CompactNetModulusSelectorUp.KernelCarrier
 import BEDC.Derived.CompactNetModulusSelectorUp.MetricConsumerBoundary
 import BEDC.Derived.CompactNetModulusSelectorUp.PointwiseRadiusRoute
 import BEDC.Derived.CompactNetModulusSelectorUp.RootBudgetAdmission
+import BEDC.Derived.CompactNetModulusSelectorUp.RootObligationTriad
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
 import BEDC.Derived.CompactOpenExhaustionUp.TasteGate
 import BEDC.Derived.CompactOpenFunctionSpaceUp
@@ -3571,6 +3573,7 @@ import BEDC.Derived.CriticalLineWitnessUp.P11961RhRefusalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.P11961RootRouteExposure
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealBudgetSeparation
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealClassifierDeterminacy
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealConsumerDeterminacy
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealFourFaceRouteExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealL10FaceStatusPullback
@@ -3698,6 +3701,8 @@ import BEDC.Derived.CriticalLineWitnessUp.RootSourceCoverage
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceExposure
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceModulusAdmission
+import BEDC.Derived.CriticalLineWitnessUp.RootSourceModulusFormalBoundary
+import BEDC.Derived.CriticalLineWitnessUp.RootSourceModulusInterfaceFormalBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceObligationTriad
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceReadinessTriad
 import BEDC.Derived.CriticalLineWitnessUp.RootSourceRouteCompletion
