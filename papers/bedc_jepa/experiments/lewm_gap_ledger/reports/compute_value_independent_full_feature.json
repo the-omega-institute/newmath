@@ -1,0 +1,138 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_independent_full_feature",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\crossenv_horizon_labels_pusht.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\pusht_latent_large.npz"
+  },
+  "counts": {
+    "train": 1350,
+    "calibration": 426,
+    "eval": 416,
+    "eval_episodes": 30,
+    "feature_dim": 4952
+  },
+  "target": {
+    "option_depths": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "assignment_rule": "exact per-episode budget sum(depth)=3*episode_anchor_count using dynamic programming",
+    "feature_scope": "independent export base latent/action window plus predicted rollout-internal features"
+  },
+  "calibration": {
+    "learned_full_feature": {
+      "allocation_delta": {
+        "observed": -0.1848007005915635,
+        "low": -0.18747756863352671,
+        "high": -0.1823639086067137
+      },
+      "chosen_depth_counts": {
+        "1": 120,
+        "2": 48,
+        "3": 69,
+        "4": 90,
+        "5": 99
+      },
+      "score_error_spearman": 0.9963569217677257
+    }
+  },
+  "eval": {
+    "learned_full_feature": {
+      "allocation_delta": {
+        "observed": -0.185719436946437,
+        "low": -0.18804490511940086,
+        "high": -0.18305613177799346
+      },
+      "chosen_depth_counts": {
+        "1": 121,
+        "2": 41,
+        "3": 67,
+        "4": 91,
+        "5": 96
+      },
+      "score_error_spearman": 0.996239826419783
+    },
+    "exact_budget_oracle": {
+      "allocation_delta": {
+        "observed": -0.185719436946437,
+        "low": -0.18805367945284443,
+        "high": -0.1831814009381905
+      },
+      "chosen_depth_counts": {
+        "1": 121,
+        "2": 41,
+        "3": 67,
+        "4": 91,
+        "5": 96
+      },
+      "score_error_spearman": 1.0
+    },
+    "per_step_oracle": {
+      "allocation_delta": {
+        "observed": -0.3282465570863133,
+        "low": -0.32974613497026045,
+        "high": -0.32585275892379195
+      },
+      "chosen_depth_counts": {
+        "1": 356,
+        "3": 60
+      },
+      "score_error_spearman": 1.0
+    }
+  },
+  "health": {
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+    "best": {
+      "epoch": 275,
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.1848007005915635,
+          "low": -0.18747756863352671,
+          "high": -0.1823639086067137
+        },
+        "chosen_depth_counts": {
+          "1": 120,
+          "2": 48,
+          "3": 69,
+          "4": 90,
+          "5": 99
+        },
+        "score_error_spearman": 0.9963569217677257
+      },
+      "cal_smooth_l1": 0.003470158204436302
+    },
+    "history_first": {
+      "epoch": 1.0,
+      "train": 0.7434016125542777,
+      "cal_smooth_l1": 0.34471595287323,
+      "cal_delta_high": -0.01693849025325086,
+      "cal_delta_observed": -0.017191272514793132
+    },
+    "history_last": {
+      "epoch": 320.0,
+      "train": 0.08298283921820777,
+      "cal_smooth_l1": 0.004737721756100655,
+      "cal_delta_high": -0.1823639086067137,
+      "cal_delta_observed": -0.1848007005915635
+    },
+    "params_count": 1979137
+  },
+  "leakage_attestation": {
+    "features": "built from aligned emb/action/pred carrier, split pred_z, valid masks, and anchor timing",
+    "labels": "err_at_h is used only for option_error targets and final evaluation",
+    "feature_standardizer": "fit on train full features only",
+    "target_standardizer": "fit on train option_error only",
+    "model_selection": "calibration split exact-budget allocation only"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_independent_full_feature_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_independent_full_feature.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_independent_full_feature.md"
+  },
+  "wall_time_sec": 190.0266134738922
+}

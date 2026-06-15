@@ -282,7 +282,17 @@ runner it gives allocation delta $-0.18572$ $[-0.18804,\ -0.18328]$ with
 score/error $\rho=0.9947$ on $416$ anchors from $30$ episodes.  The result is
 therefore a positive independent rollout-only replication of the compute-value
 assignment mechanism, while the full state-plus-rollout independent export
-remains the next claim boundary.
+is tested as a separate boundary.  On the aligned independent PushT carrier,
+the full-feature row reads the base latent/action window together with the
+predicted rollout-internal features and produces allocation delta $-0.18572$
+$[-0.18804,\ -0.18306]$ with score/error $\rho=0.9962$ on the same $416$
+anchors from $30$ episodes; its exact-budget oracle is numerically matched at
+$-0.18572$ $[-0.18805,\ -0.18318]$.  The corresponding autoresearch
+hypothesis, \texttt{fi-025.compute-value-independent-full-feature}, is
+mechanically positive but still adversarial-pending.  It closes the
+independent PushT compute-value assignment gate for this feature scope; it
+does not promote the row into a selective-risk or population-level control
+claim.
 A joint horizon-option row tests whether simply adding detection supervision to
 the option-conditioned compute-value model supplies the missing control
 variable.  It does not.  On the fixed export, the option-only joint-trunk row
