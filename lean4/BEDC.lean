@@ -875,6 +875,7 @@ import BEDC.Derived.BishopIntervalApartnessModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
 import BEDC.Derived.BishopIntervalCompletionUp.TasteGate
 import BEDC.Derived.BishopIntervalContractionUp.CauchyHandoff
+import BEDC.Derived.BishopIntervalContractionUp.EndpointStability
 import BEDC.Derived.BishopIntervalContractionUp.NamecertObligations
 import BEDC.Derived.BishopIntervalContractionUp.TasteGate
 import BEDC.Derived.BishopIntervalCoverUp.TasteGate
@@ -8104,6 +8105,7 @@ import BEDC.Derived.PorousSetUp.TasteGate
 import BEDC.Derived.PortmanteauUp.TasteGate
 import BEDC.Derived.PositiveConeUp.TasteGate
 import BEDC.Derived.PositiveRealRadiusScaleUp.TasteGate
+import BEDC.Derived.PositiveRealUp.ObligationClosure
 import BEDC.Derived.PositiveRealUp.TasteGate
 import BEDC.Derived.PostMedianGateShellUp.TasteGate
 import BEDC.Derived.PreRealUp.TasteGate
@@ -9110,6 +9112,7 @@ import BEDC.Derived.RegularCauchyQuotientRefusalUp.TasteGate
 import BEDC.Derived.RegularCauchyRateExtractionUp.TasteGate
 import BEDC.Derived.RegularCauchyRealReflectionUp.TasteGate
 import BEDC.Derived.RegularCauchyRealUp.TasteGate
+import BEDC.Derived.RegularCauchyReciprocalModulusUp
 import BEDC.Derived.RegularCauchyReciprocalUp.NameCertObligations
 import BEDC.Derived.RegularCauchyReciprocalUp.NonzeroDenominatorWindow
 import BEDC.Derived.RegularCauchyReciprocalUp.ReadbackBudgetExactness
