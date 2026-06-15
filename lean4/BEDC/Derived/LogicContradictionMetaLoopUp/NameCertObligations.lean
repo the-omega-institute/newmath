@@ -14,7 +14,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def LogicContradictionMetaLoopCarrier [AskSetup] [PackageSetup]
+def LogicContradictionMetaLoopNonescapeCarrier [AskSetup] [PackageSetup]
     (P R M A T C G N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
     Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
@@ -25,7 +25,7 @@ def LogicContradictionMetaLoopCarrier [AskSetup] [PackageSetup]
 theorem LogicContradictionMetaLoopCarrier_nonescape [AskSetup] [PackageSetup]
     {P R M A T C G N routeRead gateRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    LogicContradictionMetaLoopCarrier P R M A T C G N bundle pkg →
+    LogicContradictionMetaLoopNonescapeCarrier P R M A T C G N bundle pkg →
       Cont P R routeRead →
         Cont routeRead M gateRead →
           PkgSig bundle gateRead pkg →
