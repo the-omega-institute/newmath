@@ -199,6 +199,26 @@ def first_json_payload(value: Any) -> Any:
     return None
 
 
+def first_json_object(value: str) -> Any:
+    stripped = value.strip()
+    if not stripped:
+        return None
+    try:
+        return json.loads(stripped)
+    except json.JSONDecodeError:
+        pass
+    decoder = json.JSONDecoder()
+    for index, char in enumerate(stripped):
+        if char != "{":
+            continue
+        try:
+            parsed, _end = decoder.raw_decode(stripped[index:])
+            return parsed
+        except json.JSONDecodeError:
+            continue
+    return None
+
+
 def candidate_fields(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         return {}
@@ -207,6 +227,18 @@ def candidate_fields(payload: Any) -> dict[str, Any]:
         "data_requests": payload.get("data_requests") if isinstance(payload.get("data_requests"), list) else [],
         "tests": payload.get("tests") if isinstance(payload.get("tests"), list) else [],
     }
+
+
+def oracle_error_code(payload: Any) -> str:
+    if not isinstance(payload, dict):
+        return ""
+    error = payload.get("error")
+    if isinstance(error, dict):
+        return str(error.get("error") or error.get("code") or error.get("error_code") or "")
+    body = payload.get("body")
+    if isinstance(body, dict):
+        return str(body.get("error") or body.get("code") or body.get("error_code") or "")
+    return str(payload.get("error") or payload.get("code") or payload.get("error_code") or "")
 
 
 def nyxid_payload(prompt: str, model: str) -> dict[str, Any]:
@@ -244,6 +276,13 @@ def nyxid_executable() -> str | None:
 
 
 def run_nyxid(prompt: str, transport: dict[str, Any]) -> dict[str, Any]:
+    kind = str(transport.get("kind") or "nyxid_oracle_cli")
+    if kind == "nyxid_responses_api":
+        return run_nyxid_proxy(prompt, transport)
+    return run_nyxid_oracle_cli(prompt, transport)
+
+
+def run_nyxid_proxy(prompt: str, transport: dict[str, Any]) -> dict[str, Any]:
     service = str(transport.get("service") or "aevatar")
     path = str(transport.get("path") or "v1/responses")
     method = str(transport.get("method") or "POST")
@@ -306,14 +345,153 @@ def run_nyxid(prompt: str, transport: dict[str, Any]) -> dict[str, Any]:
             parsed = json.loads(proc.stdout)
         except json.JSONDecodeError:
             parsed = None
+    transport_ok = proc.returncode == 0 and not (
+        isinstance(parsed, dict)
+        and isinstance(parsed.get("error"), dict)
+    )
     return {
-        "status": "transport_success" if proc.returncode == 0 else "transport_failed",
+        "status": "transport_success" if transport_ok else "transport_failed",
         "service": service,
         "path": path,
         "returncode": proc.returncode,
         "response_text": response_text,
         "response_json": parsed,
-        "error": "" if proc.returncode == 0 else response_tail(response_text, 1000),
+        "error": "" if transport_ok else response_tail(response_text, 1000),
+    }
+
+
+def run_nyxid_oracle_cli(prompt: str, transport: dict[str, Any]) -> dict[str, Any]:
+    pool = str(transport.get("pool") or "omega-oracle")
+    model = str(transport.get("model") or "")
+    tag = str(transport.get("tag") or "window-codon-edge-defect-axis")
+    state = load_json(STATE_PATH, {})
+    conversation_id = str(transport.get("conversation_id") or state.get("conversation_id") or "")
+    exe = nyxid_executable()
+    if exe is None:
+        return {
+            "status": "transport_failed",
+            "pool": pool,
+            "error": "nyxid executable not found",
+            "response_text": "",
+            "response_json": None,
+        }
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".txt", delete=False) as fh:
+        fh.write(prompt)
+        fh.write("\n")
+        prompt_path = fh.name
+    cmd = [
+        exe,
+        "oracle",
+        "ask",
+        pool,
+        "--file",
+        prompt_path,
+        "--tag",
+        tag,
+        "--no-wait",
+        "--output",
+        "json",
+    ]
+    if model:
+        cmd.extend(["--model", model])
+    if conversation_id:
+        cmd.extend(["--conversation", conversation_id])
+    else:
+        cmd.append("--new-conversation")
+    try:
+        proc = subprocess.run(
+            cmd,
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            timeout=int(transport.get("submit_timeout_seconds") or 120),
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return {
+            "status": "transport_failed",
+            "pool": pool,
+            "error": str(exc),
+            "response_text": "",
+            "response_json": None,
+        }
+    finally:
+        try:
+            os.unlink(prompt_path)
+        except OSError:
+            pass
+    response_text = (proc.stdout or "") + (("\n" + proc.stderr) if proc.stderr else "")
+    parsed = first_json_object(proc.stdout) if proc.stdout.strip() else None
+    if not isinstance(parsed, dict):
+        parsed = first_json_object(response_text)
+    error = ""
+    if isinstance(parsed, dict) and isinstance(parsed.get("error"), dict):
+        error = response_tail(response_text, 1000)
+    elif proc.returncode != 0:
+        error = response_tail(response_text, 1000)
+    status = "transport_success" if proc.returncode == 0 and not error else "transport_failed"
+    return {
+        "status": status,
+        "pool": pool,
+        "returncode": proc.returncode,
+        "response_text": response_text,
+        "response_json": parsed,
+        "error": error,
+        "task_id": parsed.get("task_id") if isinstance(parsed, dict) else None,
+        "conversation_id": parsed.get("conversation_id") if isinstance(parsed, dict) else None,
+        "chatgpt_url": parsed.get("chatgpt_url") if isinstance(parsed, dict) else None,
+    }
+
+
+def run_nyxid_oracle_result(task_id: str, transport: dict[str, Any]) -> dict[str, Any]:
+    exe = nyxid_executable()
+    if exe is None:
+        return {
+            "status": "transport_failed",
+            "error": "nyxid executable not found",
+            "response_text": "",
+            "response_json": None,
+        }
+    try:
+        proc = subprocess.run(
+            [
+                exe,
+                "oracle",
+                "result",
+                task_id,
+                "--output",
+                "json",
+            ],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            timeout=int(transport.get("result_timeout_seconds") or 60),
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return {
+            "status": "transport_failed",
+            "error": str(exc),
+            "response_text": "",
+            "response_json": None,
+        }
+    response_text = (proc.stdout or "") + (("\n" + proc.stderr) if proc.stderr else "")
+    parsed = first_json_object(proc.stdout) if proc.stdout.strip() else None
+    if not isinstance(parsed, dict):
+        parsed = first_json_object(response_text)
+    error = ""
+    if isinstance(parsed, dict) and isinstance(parsed.get("error"), dict):
+        error = response_tail(response_text, 1000)
+    elif proc.returncode != 0:
+        error = response_tail(response_text, 1000)
+    status = "transport_success" if proc.returncode == 0 and not error else "transport_failed"
+    return {
+        "status": status,
+        "returncode": proc.returncode,
+        "response_text": response_text,
+        "response_json": parsed,
+        "error": error,
+        "task_id": task_id,
+        "conversation_id": parsed.get("conversation_id") if isinstance(parsed, dict) else None,
+        "chatgpt_url": parsed.get("chatgpt_url") if isinstance(parsed, dict) else None,
     }
 
 
@@ -341,6 +519,82 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
     topic_hash = sha256_text(json.dumps(topic, sort_keys=True) + "\n" + prompt)
     cooldown_seconds = int(manifest.get("cooldown_seconds") or 21600)
     state = load_json(STATE_PATH, {})
+    transport = dict(manifest.get("transport") or {})
+    pending_task_id = str(state.get("pending_task_id") or "")
+    if pending_task_id:
+        allowed, allow_reason = external_transport_allowed(transport)
+        if not allowed:
+            return {"ran": False, "reason": allow_reason, "pending_task_id": pending_task_id}
+        result = run_nyxid_oracle_result(pending_task_id, transport)
+        parsed = result.get("response_json")
+        task_status = str(parsed.get("status") or "") if isinstance(parsed, dict) else ""
+        task_response = str(parsed.get("response") or "") if isinstance(parsed, dict) else ""
+        if result.get("status") == "transport_success" and task_status != "completed":
+            write_json(
+                STATE_PATH,
+                {
+                    **state,
+                    "last_status": "awaiting_oracle",
+                    "last_check_ts": now_iso(),
+                },
+            )
+            return {
+                "ran": False,
+                "reason": f"awaiting_oracle:{task_status or 'unknown'}",
+                "pending_task_id": pending_task_id,
+            }
+        if result.get("status") != "transport_success":
+            return {
+                "ran": True,
+                "status": result.get("status"),
+                "pending_task_id": pending_task_id,
+                "error": result.get("error") or "",
+            }
+        payload = first_json_payload(task_response)
+        record: dict[str, Any] = {
+            "record_schema": "window_codon_oracle_candidate.v1",
+            "ts": now_iso(),
+            "source": "nyxid_oracle_lane",
+            "topic_id": state.get("pending_topic_id"),
+            "topic_hash": state.get("last_topic_hash"),
+            "prompt_sha256": state.get("last_prompt_sha256"),
+            "claim_update_allowed": False,
+            "verdict_update_allowed": False,
+            "promotion_rule": "manual_or_deterministic_experiment_only",
+            "status": "transport_success",
+            "transport_kind": transport.get("kind"),
+            "pool": transport.get("pool"),
+            "task_id": pending_task_id,
+            "conversation_id": result.get("conversation_id"),
+            "chatgpt_url": result.get("chatgpt_url"),
+            "response_tail": response_tail(task_response),
+            "oracle_json": payload,
+            "error": "",
+        }
+        record.update(candidate_fields(payload))
+        append_jsonl(INBOX_PATH, record)
+        write_json(
+            STATE_PATH,
+            {
+                "last_attempt_ts": record["ts"],
+                "last_attempt_epoch": time.time(),
+                "last_topic_hash": state.get("last_topic_hash"),
+                "last_prompt_sha256": state.get("last_prompt_sha256"),
+                "last_status": record.get("status"),
+                "last_inbox": str(INBOX_PATH.relative_to(REPO_ROOT)),
+                "conversation_id": result.get("conversation_id") or state.get("conversation_id"),
+                "chatgpt_url": result.get("chatgpt_url") or state.get("chatgpt_url"),
+            },
+        )
+        return {
+            "ran": True,
+            "status": record.get("status"),
+            "topic_id": state.get("pending_topic_id"),
+            "inbox": str(INBOX_PATH.relative_to(REPO_ROOT)),
+            "candidate_axes": len(record.get("candidate_axes") or []),
+            "data_requests": len(record.get("data_requests") or []),
+            "tests": len(record.get("tests") or []),
+        }
     due, due_reason = due_for_topic(state, topic_hash, cooldown_seconds)
     if not due:
         return {"ran": False, "reason": due_reason}
@@ -357,7 +611,6 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
         "verdict_update_allowed": False,
         "promotion_rule": "manual_or_deterministic_experiment_only",
     }
-    transport = dict(manifest.get("transport") or {})
     if dry_run:
         record["status"] = "dry_run"
         record["candidate_axes"] = []
@@ -369,8 +622,8 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
             record.update(
                 {
                     "status": "prompt_ready",
-                    "service": transport.get("service"),
-                    "path": transport.get("path"),
+                    "transport_kind": transport.get("kind"),
+                    "pool": transport.get("pool"),
                     "transport_skipped": allow_reason,
                     "candidate_axes": [],
                     "data_requests": [],
@@ -379,22 +632,40 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
             )
         else:
             result = run_nyxid(prompt, transport)
-            payload = first_json_payload(result.get("response_json"))
+            transport_payload = result.get("response_json")
+            err_code = oracle_error_code(transport_payload)
+            if err_code == "oracle_quota_exceeded":
+                return {
+                    "ran": False,
+                    "reason": "oracle_busy:quota_exceeded",
+                    "topic_id": topic.get("topic_id"),
+                    "pool": transport.get("pool"),
+                }
+            response_payload = None
+            if isinstance(transport_payload, dict) and transport_payload.get("response"):
+                response_payload = first_json_payload(transport_payload.get("response"))
+            payload = response_payload or first_json_payload(transport_payload)
             if payload is None:
                 payload = first_json_payload(result.get("response_text"))
             record.update(
                 {
-                    "status": result.get("status"),
+                    "status": "submitted" if result.get("status") == "transport_success" else result.get("status"),
                     "service": result.get("service"),
                     "path": result.get("path"),
+                    "transport_kind": transport.get("kind"),
+                    "pool": result.get("pool") or transport.get("pool"),
                     "returncode": result.get("returncode"),
                     "response_tail": response_tail(str(result.get("response_text") or "")),
                     "oracle_json": payload,
                     "error": result.get("error") or "",
+                    "task_id": result.get("task_id"),
+                    "conversation_id": result.get("conversation_id"),
+                    "chatgpt_url": result.get("chatgpt_url"),
                 }
             )
             record.update(candidate_fields(payload))
-    append_jsonl(INBOX_PATH, record)
+    if record.get("status") != "submitted":
+        append_jsonl(INBOX_PATH, record)
     if record.get("status") != "transport_failed":
         write_json(
             STATE_PATH,
@@ -402,8 +673,13 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
                 "last_attempt_ts": record["ts"],
                 "last_attempt_epoch": time.time(),
                 "last_topic_hash": topic_hash,
+                "last_prompt_sha256": record.get("prompt_sha256"),
                 "last_status": record.get("status"),
                 "last_inbox": str(INBOX_PATH.relative_to(REPO_ROOT)),
+                "conversation_id": record.get("conversation_id"),
+                "chatgpt_url": record.get("chatgpt_url"),
+                "pending_task_id": record.get("task_id") if record.get("status") == "submitted" else None,
+                "pending_topic_id": topic.get("topic_id") if record.get("status") == "submitted" else None,
             },
         )
     return {
