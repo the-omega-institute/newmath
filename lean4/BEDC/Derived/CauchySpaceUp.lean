@@ -13,6 +13,15 @@ def CauchySpaceCarrier (F U R Q T H C P N : BHist) : Prop :=
     UnaryHistory T ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
       UnaryHistory N ∧ hsame H (append F U) ∧ Cont F U R ∧ Cont C P N
 
+def CauchySpaceClassifier
+    (F U R Q T H C P N F' U' R' Q' T' H' C' P' N' : BHist) : Prop :=
+  CauchySpaceCarrier F U R Q T H C P N ∧
+    CauchySpaceCarrier F' U' R' Q' T' H' C' P' N' ∧
+      hsame F F' ∧ hsame U U' ∧ hsame R R' ∧ hsame Q Q' ∧ hsame T T' ∧
+        hsame H H' ∧ hsame C C' ∧ hsame P P' ∧ hsame N N' ∧
+          hsame H (append F U) ∧ hsame H' (append F' U') ∧ Cont F U R ∧
+            Cont F' U' R' ∧ Cont C P N ∧ Cont C' P' N'
+
 theorem CauchySpaceCarrier_filter_stability {F U R Q T H C P N replay : BHist} :
     CauchySpaceCarrier F U R Q T H C P N ->
       Cont F U replay -> UnaryHistory F ∧ UnaryHistory replay ∧ hsame H (append F U) := by
