@@ -62,11 +62,11 @@ def _axis_from_hypothesis(hypothesis: dict[str, Any]) -> str:
     ).lower()
     ordered = [
         ("compute_value", ("compute-value", "compute value", "marginal", "intervention", "option-conditioned", "mv(")),
+        ("tail", ("cvar", "tail")),
         ("allocation", ("allocation", "budget", "ranking")),
         ("selective", ("selective", "conformal", "admission", "risk_margin")),
         ("representation", ("reencoder", "representation", "encoder")),
         ("ood", ("ood", "shift", "cross-env", "transfer")),
-        ("tail", ("cvar", "tail")),
         ("horizon", ("horizon", "multi-horizon")),
         ("detection", ("auroc", "detection", "failure")),
     ]
