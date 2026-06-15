@@ -1,0 +1,131 @@
+\origin{ai}
+
+\subsection{Forced-window coarse Markov kernel and Fibonacci leading coefficient}
+\label{sec:window6-markov-kernel-coarse-spectrum-fibonacci-leading}
+
+\paragraph{Finite carrier.}
+The finite carrier is a four-cell partition with ordered cells
+$U_2,U_1,U_L,U_R$.  The cells are treated as disjoint finite classes, and the only membership predicates used here are the four assertions $x\in U_2$, $x\in U_1$, $x\in U_L$, and $x\in U_R$.  Their cardinalities are
+$$
+\begin{aligned}
+|U_2|&=27, & |U_1|&=22, & |U_L|&=9, & |U_R|&=6.
+\end{aligned}
+$$
+The same finite window record also contains the count $X_6=21$.  No infinite limiting object is used in the construction below; every assertion is a statement about this finite four-cell carrier and the rational matrix obtained from its edge counts.
+
+\paragraph{Finite edge relation and normalization.}
+Let $E_{ab}$ be the finite edge count from cell $U_a$ to cell $U_b$, with the convention that a loop inside a cell contributes twice to the degree normalization.  The row-normalized kernel is defined by
+$$
+\begin{aligned}
+T_{aa}&={2E_{aa}\over 6|U_a|},\qquad
+T_{ab}={E_{ab}\over 6|U_a|}\quad(a\ne b).
+\end{aligned}
+$$
+For the cell order $U_2,U_1,U_L,U_R$, the corresponding symmetric edge-count table recovered from the displayed normalization is
+$$
+\begin{aligned}
+E&=\begin{pmatrix}
+28&63&23&20\\
+63&21&21&6\\
+23&21&2&6\\
+20&6&6&2
+\end{pmatrix}.
+\end{aligned}
+$$
+Thus the coarse probability kernel is
+$$
+\begin{aligned}
+T&=\begin{pmatrix}
+28/81&7/18&23/162&10/81\\
+21/44&7/22&7/44&1/22\\
+23/54&7/18&2/27&1/9\\
+5/9&1/6&1/6&1/9
+\end{pmatrix}.
+\end{aligned}
+$$
+Direct summation of the four rows gives
+$$
+\begin{aligned}
+28/81+7/18+23/162+10/81&=1,\\
+21/44+7/22+7/44+1/22&=1,\\
+23/54+7/18+2/27+1/9&=1,\\
+5/9+1/6+1/6+1/9&=1.
+\end{aligned}
+$$
+Consequently $T$ is row-stochastic and the right Perron vector is the constant column vector:
+$$
+\begin{aligned}
+T\begin{pmatrix}1\\1\\1\\1\end{pmatrix}
+=\begin{pmatrix}1\\1\\1\\1\end{pmatrix}.
+\end{aligned}
+$$
+The Perron value $1$ here is therefore a probability-conservation eigenvalue of a normalized coarse Markov kernel.
+
+\paragraph{Characteristic and resolvent identities.}
+The exact determinant identity for the resolvent variable $z$ is
+$$
+\begin{aligned}
+\det(I-zT)&={(z-1)(55z^3+506z^2-7263z-48114)\over 48114}.
+\end{aligned}
+$$
+Equivalently, in the eigenvalue variable $\lambda$,
+$$
+\begin{aligned}
+\det(\lambda I-T)&={(\lambda-1)(48114\lambda^3+7263\lambda^2-506\lambda-55)\over 48114}.
+\end{aligned}
+$$
+The integer factor at the head of the resolvent cubic is
+$$
+\begin{aligned}
+55&=F_{10},
+\end{aligned}
+$$
+where $F_{10}$ denotes the tenth Fibonacci number under the usual indexing $F_0=0$, $F_1=1$.  The denominator also has the exact factorization
+$$
+\begin{aligned}
+48114&=2\cdot 3^7\cdot 11.
+\end{aligned}
+$$
+These identities are algebraic consequences of the displayed rational kernel, not fitted numerical parameters.
+
+\paragraph{Nontrivial spectrum and gap.}
+The three eigenvalues distinct from the Perron value are the roots of
+$$
+\begin{aligned}
+48114\lambda^3+7263\lambda^2-506\lambda-55&=0.
+\end{aligned}
+$$
+The cubic has discriminant
+$$
+\begin{aligned}
+108709030613700,
+\end{aligned}
+$$
+and the root-count certificate places all three real roots in $(-1,1)$.  Numerically they are approximately
+$$
+\begin{aligned}
+-0.1736035222,\qquad -0.0706075224,\qquad 0.0932570603.
+\end{aligned}
+$$
+The largest modulus among these three values is therefore approximately $0.1736035222$, so the coarse spectral gap is
+$$
+\begin{aligned}
+1-0.1736035222&\approx 0.8263964778.
+\end{aligned}
+$$
+Since every entry of $T$ is strictly positive and the nontrivial eigenvalues all lie strictly inside the unit disk, the eigenvalue $1$ is the unique eigenvalue of maximal modulus for this coarse kernel.  In the reciprocal resolvent variable, the cubic $55z^3+506z^2-7263z-48114$ has no root in $[-1,1]$, giving the same separation from the unit circle in the stated finite calculation.
+
+\paragraph{Boundary count.}
+The right boundary leave count is $32$.  Since $|U_R|=6$, the normalized right-boundary escape ratio is
+$$
+\begin{aligned}
+{|dU_R|\over 6|U_R|}&={32\over 36}={8\over 9}.
+\end{aligned}
+$$
+This ratio is recorded as a finite count divided by the local degree normalization of the right boundary cell.  It is not used to infer a continuum law.
+
+\paragraph{Separation from the fine Perron root.}
+The eigenvalue $1$ belongs to the row-stochastic four-cell probability kernel.  It is structurally different from the Perron root $\phi$ of a fine transfer operator, where $\phi$ is a counting growth rate before the coarse Markov normalization.  The present construction proves only the finite coarse statement: the displayed $4\times4$ rational kernel is stochastic, has the given determinant identities, has a Fibonacci leading coefficient in the resolvent cubic, has all nontrivial eigenvalues inside the unit disk, and has right-boundary escape ratio $8/9$.
+
+\paragraph{Finite certificates and scope.}
+The arithmetic witnesses are the row-sum checks, the exact determinant factorization, the cubic root-count certificate for the interval $(-1,1)$, and the direct boundary-count division $32/36=8/9$.  No physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond this finite construction follows from these data unless an additional certificate is supplied.

@@ -1,0 +1,90 @@
+\origin{ai}
+
+\subsection{Width-six forced-window counting}
+\label{sec:window6-three-rigidity-window-observation}
+
+\paragraph{Carrier.}
+The carrier is the finite binary cube of length six,
+$\{0,1\}^6$.  Its elements are words $w=(w_1,w_2,w_3,w_4,w_5,w_6)$ with each coordinate $w_i$ equal to either $0$ or $1$.  The full carrier has exactly
+$$
+\begin{aligned}
+|\{0,1\}^6|=2^6=64 .
+\end{aligned}
+$$
+Inside this carrier, define the admissible subset
+$X_6 \subseteq \{0,1\}^6$ by the local rule that adjacent ones are forbidden.  Thus
+$$
+\begin{aligned}
+X_6=\{w\in\{0,1\}^6 : \text{there is no index } i \text{ with } w_i=w_{i+1}=1\} .
+\end{aligned}
+$$
+Equivalently, the predicate $\operatorname{admissible}(w)$ holds exactly when no adjacent pair of coordinates of $w$ is equal to $(1,1)$.
+
+\paragraph{Finite predicate and partition.}
+The rule above partitions the sixty-four length-six binary words into two classes.  The first class is the admissible class $X_6$, consisting of the words that avoid the factor $11$.  The second class is its complement in $\{0,1\}^6$, consisting of the words that contain at least one occurrence of the adjacent factor $11$.  The exact sizes are
+$$
+\begin{aligned}
+|X_6|&=21,\\
+|\{0,1\}^6\setminus X_6|&=43.
+\end{aligned}
+$$
+The partition is therefore
+$$
+\begin{aligned}
+\{0,1\}^6=X_6\sqcup (\{0,1\}^6\setminus X_6),\qquad 21+43=64 .
+\end{aligned}
+$$
+This is a finite exhaustion statement: every length-six binary word either satisfies the no-adjacent-ones predicate or fails it, and the two cases are disjoint.
+
+\paragraph{Exact count.}
+The admissible count is the length-six no-adjacent-ones count.  It is
+$$
+\begin{aligned}
+|X_6|=21=F_8 .
+\end{aligned}
+$$
+Together with the full cube count, the finite identities used in this observation are
+$$
+\begin{aligned}
+2^6&=64,\\
+|X_6|&=21=F_8,\\
+64-21&=43 .
+\end{aligned}
+$$
+No limiting argument, continuum structure, or external model is needed for these equalities.  They are statements about the finite set $\{0,1\}^6$ and the explicit local exclusion rule on adjacent coordinates.
+
+\paragraph{Audit fibers.}
+Let $c_{\max}$ denote the maximum fiber multiplicity of the width-six audit map.  For any output value of that audit map, its fiber is the set of inputs mapping to that output; $c_{\max}$ is the largest such fiber size.  The finite audit bound supplied for this window is
+$$
+\begin{aligned}
+c_{\max}<21 .
+\end{aligned}
+$$
+Since $|X_6|=21$, this gives the first strict separation
+$$
+\begin{aligned}
+c_{\max}<|X_6| .
+\end{aligned}
+$$
+The construction does not introduce a spectral matrix, analytic kernel, or continuum operator.  If the predicate is encoded as a finite table, it is simply a sixty-four-row indicator of whether each word in $\{0,1\}^6$ has an adjacent pair of ones; the partition above is the complete finite content of that encoding.
+
+\paragraph{Forced-window separation.}
+Combining the maximum-fiber bound with the exact admissible and full-cube counts gives
+$$
+\begin{aligned}
+c_{\max}<|X_6|=21<64=2^6 .
+\end{aligned}
+$$
+Thus the admissible class sits strictly between the largest audit fiber and the complete width-six binary cube:
+$$
+\begin{aligned}
+c_{\max}<|X_6|<2^6 .
+\end{aligned}
+$$
+The middle term is not an asymptotic estimate; it is the exact number of admissible length-six words.  The upper inequality is immediate from $21<64$, and the lower inequality is exactly the supplied maximum-fiber bound $c_{\max}<21$.
+
+\paragraph{Witness extraction.}
+A witness for the middle count is obtained by enumerating all length-six binary words and retaining precisely those for which no adjacent pair equals $(1,1)$.  This enumeration yields the twenty-one admissible words.  A witness for the complement count is obtained by the opposite test: retain precisely those words with at least one adjacent factor $11$, giving forty-three words.  A witness for the full separation consists of these two exact counts together with the finite audit inequality $c_{\max}<21$.
+
+\paragraph{Boundary of assertion.}
+The assertion made here is only the finite forced-window counting statement.  It does not identify a physical constant, establish a global flow law, invoke an external dependency, compare against metrological data, or assign an interpretation beyond the finite construction.  No spectral, physical, continuum, edge-flux, or metrological claim follows from the count unless a separate certificate supplies the missing structure.
