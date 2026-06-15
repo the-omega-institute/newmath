@@ -105,6 +105,25 @@ def test_mismatched_prerequisite_pointer_blocks_capsule(tmp_path, monkeypatch):
     assert payload["capsule_verdict"]["status"] == "blocked"
 
 
+def test_mismatched_prerequisite_artifact_id_blocks_capsule(tmp_path, monkeypatch):
+    payloads = _source_payloads()
+    payloads[runner.OBSERVED_DEBT_TRANSFER_ARTIFACT]["artifact_id"] = (
+        "bedc-quality-lab:other-observed-debt-transfer"
+    )
+    _write_source_payloads(tmp_path, payloads)
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+
+    payload = runner.build_payload(generated_at="fixture-time")
+
+    observed = payload["prerequisite_checks_by_id"]["gap_head_observed_debt_transfer"]
+    assert observed["status"] == "blocked"
+    assert observed["reason"] == "mismatched_artifact_id"
+    assert observed["expected_artifact_id"] == runner.OBSERVED_DEBT_TRANSFER_ARTIFACT_ID
+    assert observed["observed_artifact_id"] == "bedc-quality-lab:other-observed-debt-transfer"
+    assert observed["observed_value"] == "pass"
+    assert payload["capsule_verdict"]["status"] == "blocked"
+
+
 def test_unresolved_prerequisite_status_pointer_blocks_capsule(tmp_path, monkeypatch):
     payloads = _source_payloads()
     del payloads[runner.OBSERVED_DEBT_TRANSFER_ARTIFACT]["gap_head_on_h_observed_debt_transfer"][
