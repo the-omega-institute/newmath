@@ -125,15 +125,67 @@ Use the transport theorem for stability. Any replayed or transported bisection o
 The excluded objects are absent from the carrier and from the NameCert obligations of \autoref{thm:interval-bisection-namecert-obligations}. Therefore the listed tuple exhausts the root-unblock ledger for all named consumers.
 \end{proof}
 
-\closureat{IntervalBisectionUp}{seedStr}
+\begin{theorem}[IntervalBisection midpoint formation]
+\label{thm:interval-bisection-midpoint-formation}
+For every accepted $\IntervalBisectionUp$ packet $K=(I,M,L,R,D,S,Q,E,H,C,P,N)$, the midpoint row $M$ is formed only from the displayed $\LocatedIntervalUp$ parent endpoint rows and the $\RationalIntervalUp$ endpoint cells read through $I$ and $Q$. No midpoint obligation may inspect a child branch, a Real equality row, or a compactness consumer before $M$ has been displayed.
+\end{theorem}
+\begin{proof}
+Project $I$ and $Q$ from the carrier. The parent interval row supplies the lower and upper endpoint observations, while the regular rational readback records the rational endpoint cells visible to the bisection packet.
+
+The midpoint row $M$ is placed between the parent row and the child rows in \autoref{def:interval-bisection-carrier}. Hence it is available before $L,R,D,S,Q,E$ are used as child-facing data, and its inputs are exactly the displayed endpoint cells.
+
+Since the carrier has no separate midpoint selector, Real equality coordinate, or compactness oracle, the midpoint obligation is exhausted by the located parent endpoint rows and the rational endpoint-cell calculation.
+\end{proof}
+
+\begin{theorem}[IntervalBisection child-cell admission]
+\label{thm:interval-bisection-child-cell-admission}
+For every accepted $\IntervalBisectionUp$ packet $K=(I,M,L,R,D,S,Q,E,H,C,P,N)$, the left and right child cells $L,R$ are admitted through the displayed $\DyadicIntervalUp$ refinement ledger $D$, the finite $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback row $Q$, and the terminal $\RealUp$ child seals $E$. The packet admits exactly the inherited-left and inherited-right child cells; it does not admit a selected infinite branch or a quotient-real endpoint.
+\end{theorem}
+\begin{proof}
+Read the child rows $L,R$ together with the dyadic ledger $D$. These rows display the inherited parent endpoints, the midpoint endpoint, and the refinement relation between parent and child cells.
+
+Next read $S,Q,E$. The finite windows expose only the endpoint observations needed by the displayed cells, the regular rational row checks the midpoint calculation and endpoint reuse, and the Real seals close the two child routes after those finite rows are visible.
+
+The admitted children are therefore the two displayed cells named by $L,R$. No carrier coordinate selects one child as an infinite branch, and no quotient-real equality row is present for replacing the displayed endpoint route.
+\end{proof}
+
+\begin{theorem}[IntervalBisection finite-net handoff]
+\label{thm:interval-bisection-finite-net-handoff}
+Every $\ClosedIntervalCompactNetUp$ consumer of an accepted $\IntervalBisectionUp$ packet reads the bisection through the finite rows
+$$
+I,M,L,R,D,S,Q,E,H,C,P,N.
+$$
+The handoff supplies parent and child mesh cells with finite readback and Real seals, but it supplies no selected branch, no selected subcover, and no open-cover compactness theorem.
+\end{theorem}
+\begin{proof}
+Start with the ledger exhaustion theorem. It lists the only rows available to located-interval, dyadic-interval, StreamName, RegSeqRat, Real, and closed-interval compact-net consumers.
+
+A finite-net consumer first sees the parent interval, midpoint, child cells, and dyadic refinement rows $I,M,L,R,D$. These rows supply a finite mesh refinement rather than an infinite nested branch.
+
+The readback rows $S,Q,E$ then expose the finite observation windows, rational endpoint checks, and Real child seals. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the same finite handoff without adding an open-cover or selected-subcover coordinate.
+\end{proof}
+
+\begin{theorem}[IntervalBisection obligation closure package]
+\label{thm:interval-bisection-obligation-closure-package}
+The carrier exposure, obligation transport, obligation ledger, midpoint formation, child-cell admission, and finite-net handoff theorems form the obligation-closure package for $\IntervalBisectionUp$. Every root-unblock consumer named in this chapter receives exactly the displayed bisection route, and every excluded object remains outside the carrier.
+\end{theorem}
+\begin{proof}
+The carrier exposure theorem fixes the visible tuple $K=(I,M,L,R,D,S,Q,E,H,C,P,N)$, while the obligation transport theorem shows that componentwise $\hsame$ and displayed $\Cont$ replay preserve that tuple for all named consumers.
+
+The obligation ledger theorem exhausts the root-unblock rows. The midpoint formation theorem binds $M$ to the displayed located and rational endpoint rows, and the child-cell admission theorem binds $L,R$ to the dyadic, StreamName, RegSeqRat, and Real rows.
+
+Finally the finite-net handoff theorem routes $\ClosedIntervalCompactNetUp$ consumers through the same finite mesh data. Together these clauses close the obligation surface without adding branch selection, selected subcovers, open-cover compactness, quotient real equality, trichotomy, or ambient compactness.
+\end{proof}
+
+\closureat{IntervalBisectionUp}{obligationStr}
 
 \begin{closurestatus}{\IntervalBisectionUp}
   \constructivestory{An $\IntervalBisectionUp$ packet is generated from a displayed LocatedIntervalUp parent row, a RationalIntervalUp midpoint route, left and right located subinterval rows, a DyadicIntervalUp refinement ledger, StreamNameUp finite windows, RegSeqRatUp readbacks, RealUp child seals, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:interval-bisection-carrier}, \autoref{thm:interval-bisection-namecert-obligations}, \autoref{thm:interval-bisection-endpoint-transport}, and \autoref{thm:interval-bisection-nested-cell-handoff} bind the explicit bisection certificate for displayed located intervals.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:interval-bisection-carrier}, \autoref{thm:interval-bisection-namecert-obligations}, \autoref{thm:interval-bisection-endpoint-transport}, \autoref{thm:interval-bisection-nested-cell-handoff}, \autoref{thm:interval-bisection-obligation-ledger}, \autoref{thm:interval-bisection-midpoint-formation}, \autoref{thm:interval-bisection-child-cell-admission}, \autoref{thm:interval-bisection-finite-net-handoff}, and \autoref{thm:interval-bisection-obligation-closure-package} bind the explicit bisection obligation surface for displayed located intervals and finite-net consumers.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.IntervalBisectionUp.IntervalBisectionCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, trichotomy, quotient real equality, selected branch choice, selected subcover choice, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, midpoint formation, endpoint transport, child-cell nesting, and finite-net handoff for BEDC.Derived.IntervalBisectionUp.}
+  \upgradepath{Scoped closure requires a public consumer theorem that every accepted bisection handoff is stable under repeated finite-net refinement for BEDC.Derived.IntervalBisectionUp.}
 \end{closurestatus}
