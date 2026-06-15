@@ -131,17 +131,18 @@ allocation: $+0.00822$ $[+0.00053,\ +0.01738]$.  The signal is therefore
 partly readable, but the readout still does not supply an allocation-native
 policy.
 
-The registered closure checks for the integrated A100 row are intentionally
-kept outside the verified-findings ledger until their finite artifacts exist.
-The score-dump row records the per-anchor quantities needed to replace the
-scalar strongest-probe comparison by a direct episode-bootstrap paired
-comparison.  The calibration-only selective sweep reuses those same scores to
-test whether a more conservative admission threshold can satisfy the risk
-criterion without changing the model.  The repaired shuffled-label row supplies
-the missing capacity-artifact guard for the full integrated configuration.
-These checks can tighten or weaken the scoped detection reading, but they are
-not evidence records until their outputs pass the same mechanical and
-adversarial gates as the accepted findings.
+The integrated A100 closure checks are now finite and keep the same bounded
+reading.  The direct paired comparison against the strongest post-hoc scalar
+has native $h=1$ AUROC $0.78165$ against $0.74399$, but the paired delta
+$+0.03767$ has interval $[-0.01262,\ 0.08607]$, so direct strongest-probe
+superiority remains fail-closed.  The calibration-only selective sweep has no
+threshold with realized eval risk at or below its $\alpha$ value: at
+$\alpha=0.10$ it admits $16.25\%$ of anchors with risk $0.1165$, and at larger
+coverage the risk rises further.  The shuffled-label permutation guard is
+healthy and collapses detection to $h=1$ AUROC $0.50918$, supporting that the
+finite detection row is not a simple shuffled-label capacity artifact.  These
+closures therefore strengthen the boundary rather than promote the row into an
+allocation or high-coverage selective claim.
 
 This loop is the continuation mechanism for the article: each hypothesis it
 clears is appended to the verified-findings record above, and nothing reaches
