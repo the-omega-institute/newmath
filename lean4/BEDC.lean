@@ -1380,6 +1380,7 @@ import BEDC.Derived.CantorSetUp.NameCertObligations
 import BEDC.Derived.CantorSetUp.NestedIntervalHandoff
 import BEDC.Derived.CantorSetUp.NestedRealHandoff
 import BEDC.Derived.CantorSetUp.PrefixGapSeparation
+import BEDC.Derived.CantorSetUp.RealDiagonalNonSurjectionRoute
 import BEDC.Derived.CantorSetUp.RealMembershipHandoff
 import BEDC.Derived.CantorSetUp.RealSealMembershipBoundary
 import BEDC.Derived.CantorSetUp.RealSealNonescape
@@ -2258,6 +2259,7 @@ import BEDC.Derived.CauchyTailModulusSealUp.PublicClassifierRoute
 import BEDC.Derived.CauchyTailModulusSealUp.StdBridge
 import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
+import BEDC.Derived.CauchyTailSupremumUp.TasteGate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyTightnessUp.TasteGate
@@ -3255,6 +3257,7 @@ import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.UnitTailEndpointPackage
 import BEDC.Derived.ContinuationReplayUp
 import BEDC.Derived.ContinuationReplayUp.TasteGate
+import BEDC.Derived.ContinuationTerminationUp.TasteGate
 import BEDC.Derived.ContinuationTraceNormalFormUp
 import BEDC.Derived.ContinuationTraceNormalFormUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
@@ -3432,6 +3435,7 @@ import BEDC.Derived.CoveringdimensionUp.MetricRealSeparabilityRoute
 import BEDC.Derived.CoveringdimensionUp.NerveOrderBound
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementObligation
 import BEDC.Derived.CoveringdimensionUp.OrderRefinementRoute
+import BEDC.Derived.CoveringdimensionUp.PublicRootCoverExport
 import BEDC.Derived.CoveringdimensionUp.RealMetricForwardRoute
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverNonescape
 import BEDC.Derived.CoveringdimensionUp.RealSeparabilityCoverObligation
@@ -3464,6 +3468,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCoverScopeLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopePackage
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopePrimitiveRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopedDependency
+import BEDC.Derived.CoveringdimensionUp.RootCoverSeparabilityCompletionLock
 import BEDC.Derived.CoveringdimensionUp.RootDimensionLedgerExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRealWindowExactness
 import BEDC.Derived.CoveringdimensionUp.RootFiniteCoverRefinementObligation
@@ -3585,6 +3590,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowTransport
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationPackage
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationSurface
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationTriad
+import BEDC.Derived.CriticalLineWitnessUp.NameCertObligations
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRootUnblockConsumerScope
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRouteExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.NameCertRowExhaustion
@@ -9190,6 +9196,7 @@ import BEDC.Derived.RegularCauchyRegularizationUp.TasteGate
 import BEDC.Derived.RegularCauchyReindexInvarianceUp.TasteGate
 import BEDC.Derived.RegularCauchyRepletionBoundaryUp
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
+import BEDC.Derived.RegularCauchyRoundingProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
 import BEDC.Derived.RegularCauchyScalarUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp
