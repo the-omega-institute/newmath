@@ -562,6 +562,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalReaderNonescape
 import BEDC.Derived.AuthorizedRecursorUp.TasteGate
 import BEDC.Derived.AutomorphicUp
+import BEDC.Derived.AutomorphicUp.TasteGate
 import BEDC.Derived.AxiomDependencyAuditMapUp
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomDependencyMapUp.TasteGate
@@ -8364,6 +8365,7 @@ import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RankNullityUp.TasteGate
 import BEDC.Derived.RapidCauchyNameUp.TasteGate
+import BEDC.Derived.RapidlyCauchySequenceUp
 import BEDC.Derived.RatCauchyCompletionUp.TasteGate
 import BEDC.Derived.RatCauchyGapWitnessUp.NameCertObligations
 import BEDC.Derived.RatCauchyGapWitnessUp.TasteGate
