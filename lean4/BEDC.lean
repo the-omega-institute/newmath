@@ -6110,6 +6110,7 @@ import BEDC.Derived.IntervalDomainUp.TasteGate
 import BEDC.Derived.IntervalDomainWayBelowUp
 import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
 import BEDC.Derived.IntervalHalvingUp
+import BEDC.Derived.IntervalHalvingUp.DyadicNestedHandoff
 import BEDC.Derived.IntervalLengthUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
@@ -8686,6 +8687,7 @@ import BEDC.Derived.RealPowerSeriesUp.EvaluationWindowExhaustion
 import BEDC.Derived.RealPowerSeriesUp.MajorantConsumerCoverage
 import BEDC.Derived.RealPowerSeriesUp.MajorantExhaustion
 import BEDC.Derived.RealPowerSeriesUp.MajorantRouteTotality
+import BEDC.Derived.RealPowerSeriesUp.ObligationClosureLedger
 import BEDC.Derived.RealPowerSeriesUp.ObligationRadiusExport
 import BEDC.Derived.RealPowerSeriesUp.ProductCoefficientWindowLock
 import BEDC.Derived.RealPowerSeriesUp.RadiusMajorantCoverage
