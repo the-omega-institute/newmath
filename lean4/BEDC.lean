@@ -10179,6 +10179,7 @@ import BEDC.Derived.TotalBoundedMetricUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TotalVariationFunctionUp.TasteGate
 import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
+import BEDC.Derived.TotallyBoundedCompletionUp
 import BEDC.Derived.TotallyBoundedLocatedSetUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
