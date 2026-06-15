@@ -13,3 +13,21 @@ Read the join-window and obstruction rows next. The closed-checker, closed-norma
 
 Finally apply the structural rows. Componentwise transport $H$, replay $T$, provenance $G$, and local naming $N$ preserve the same row order, so a consumer reaches a diamond conclusion only through the finite seed-obligation surface and not through subject reduction, evaluator equality, quotient equality, residual-substitution discharge, or kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond retained-obstruction obligation]
+\label{thm:metacic-parallel-diamond-frontier-retained-obstruction-obligation}
+Any confluence or normalization consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must keep the residual-substitution premise row $P$ and obstruction row $O$ visible through the displayed route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+If either row is hidden, discharged, or replaced by an endpoint assertion, the read is not a discharge of subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:metacic-parallel-diamond-frontier-carrier}. The rows $P,K,J,R,S,C,B,O,H,T,G,N$ are the local data available to a confluence or normalization consumer, and the residual-substitution premise row $P$ remains part of that display.
+
+Apply \autoref{thm:metacic-parallel-diamond-frontier-seed-obligations}. Its seed surface already forces the consumer to read the candidate pair, residual rows, join-window rows, closed-checker rows, obstruction row, transport, replay, provenance, and local naming before any diamond conclusion is inspected.
+
+Now use the obstruction row $O$. It records that the accepted packet has not promoted the local diamond to subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency, so hiding $P$ or $O$ would erase a load-bearing premise rather than discharge it.
+
+The public seed readiness of the chapter therefore remains conditional. A downstream consumer may pass along the finite candidate-mediated diamond surface only while $P$ and $O$ remain visible through the full route, and any endpoint promotion must be supplied by a separate packet.
+\end{proof}
