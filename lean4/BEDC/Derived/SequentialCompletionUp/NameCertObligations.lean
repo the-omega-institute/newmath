@@ -15,6 +15,15 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def SequentialCompletionCarrier [AskSetup] [PackageSetup]
+    (schedule readback dyadic criterion realSeal transport replay provenance
+      localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory schedule ∧ UnaryHistory readback ∧ UnaryHistory dyadic ∧
+    UnaryHistory criterion ∧ UnaryHistory realSeal ∧ UnaryHistory transport ∧
+      UnaryHistory replay ∧ UnaryHistory provenance ∧ UnaryHistory localName ∧
+        PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
 theorem SequentialCompletionNamecertObligations [AskSetup] [PackageSetup]
     {S Q D K E H C P N readbackRead toleranceRead criterionRead sealRead localRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -84,5 +93,40 @@ theorem SequentialCompletionNamecertObligations [AskSetup] [PackageSetup]
                   (And.intro routeSeal (And.intro routeLocal pkgLocal)))))
     }
   · exact unaryLocal
+
+theorem SequentialCompletionRegseqratRealHandoff [AskSetup] [PackageSetup]
+    {schedule readback dyadic criterion realSeal transport replay provenance localName
+      scheduleRead dyadicRead criterionRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SequentialCompletionCarrier schedule readback dyadic criterion realSeal transport replay
+      provenance localName bundle pkg →
+      Cont schedule readback scheduleRead →
+        Cont scheduleRead dyadic dyadicRead →
+          Cont dyadicRead criterion criterionRead →
+            Cont criterionRead realSeal sealRead →
+              PkgSig bundle sealRead pkg →
+                UnaryHistory scheduleRead ∧ UnaryHistory dyadicRead ∧
+                  UnaryHistory criterionRead ∧ UnaryHistory sealRead ∧
+                    Cont schedule readback scheduleRead ∧
+                      Cont scheduleRead dyadic dyadicRead ∧
+                        Cont dyadicRead criterion criterionRead ∧
+                          Cont criterionRead realSeal sealRead ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory SequentialCompletionCarrier
+  intro carrier scheduleRoute dyadicRoute criterionRoute sealRoute sealPkg
+  obtain ⟨scheduleUnary, readbackUnary, _dyadicUnary, _criterionUnary, realSealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, provenancePkg,
+    _localNamePkg⟩ := carrier
+  have scheduleReadUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed scheduleUnary readbackUnary scheduleRoute
+  have dyadicReadUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed scheduleReadUnary _dyadicUnary dyadicRoute
+  have criterionReadUnary : UnaryHistory criterionRead :=
+    unary_cont_closed dyadicReadUnary _criterionUnary criterionRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed criterionReadUnary realSealUnary sealRoute
+  exact
+    ⟨scheduleReadUnary, dyadicReadUnary, criterionReadUnary, sealReadUnary,
+      scheduleRoute, dyadicRoute, criterionRoute, sealRoute, provenancePkg, sealPkg⟩
 
 end BEDC.Derived.SequentialCompletionUp
