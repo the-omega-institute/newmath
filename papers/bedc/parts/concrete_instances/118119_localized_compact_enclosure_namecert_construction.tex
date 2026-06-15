@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\LocalizedCompactEnclosureUp$}
+\label{ch:concrete-instances-localized-compact-enclosure-namecert}
+\origin{human}
+
+Following Bishop--Bridges style located compact interval enclosures, the $\LocalizedCompactEnclosureUp$ packet records a finite boundary around one displayed located interval cell before any compactness or continuity consumer reads it. It sits after the endpoint-cell certificate of \autoref{ch:concrete-instances-locatedinterval-namecert}, the finite-net route of \autoref{ch:concrete-instances-closed-interval-compact-net-namecert}, and the bisection handoff of \autoref{ch:concrete-instances-intervalbisection-namecert}. The packet is a local compact-enclosure boundary over finite observation rows; it is not open-cover compactness, a selected subcover, a host interval object, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Localized compact enclosure carrier]
+\label{def:localized-compact-enclosure-carrier}
+A $\LocalizedCompactEnclosureUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,K,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\LocatedIntervalUp$ source row, carrying the located endpoint-cell boundary to be enclosed.
+\item $K$ is the $\ClosedIntervalCompactNetUp$ finite-net row for the displayed interval cell.
+\item $S$ is the $\StreamNameUp$ observation row through which downstream names request finite windows inside the enclosure.
+\item $Q$ is the $\RegSeqRatUp$ readback row used by Real and completion-facing consumers of the same enclosure.
+\item $E$ is the $\RealUp$ seal row reached only after the finite interval and readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $I,K,S,Q,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route from the located interval row through the finite-net row to stream, regular-rational, and real-seal consumers.
+\item $P$ is the $\Pkg$ provenance over $\LocalizedCompactEnclosureUp$, $\LocatedIntervalUp$, $\ClosedIntervalCompactNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocalizedCompactEnclosureUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $I,K,S,Q,E,H,C,P,N$. It has no coordinate for open-cover compactness, selected subcovers, host interval equality, quotient real equality, arbitrary choice of a mesh, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Localized compact enclosure NameCert obligations]
+\label{thm:localized-compact-enclosure-namecert-obligations}
+For every accepted $\LocalizedCompactEnclosureUp$ carrier
+$L=(I,K,S,Q,E,H,C,P,N)$, the local
+$\NameCert_{\LocalizedCompactEnclosureUp}$ surface consists exactly of carrier admission, located interval boundary exposure, finite-net admission, stream-window exposure, regular-rational readback, Real seal factorization, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of the enclosure must read these rows before it can consume the terminal seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:localized-compact-enclosure-carrier}. The rows $I,K,S,Q,E,H,C,P,N$ expose the located interval source, finite-net enclosure, stream windows, regular readbacks, Real seal, transport, replay, provenance, and local name.
+
+Use the sibling endpoint-cell route of \autoref{ch:concrete-instances-locatedinterval-namecert}. It supplies the finite located interval boundary read through $\LocatedIntervalUp$ rather than through a host interval or selected endpoint.
+
+Apply the finite-net route of \autoref{ch:concrete-instances-closed-interval-compact-net-namecert}. The row $K$ is the only compact-enclosure row, and it is displayed before any stream, regular-rational, or real-seal consumer can read the packet.
+
+Finally replay the structural rows $H,C,P,N$. They transport, route, source, and name the same finite enclosure surface. Since the carrier contains no open-cover, selected-subcover, quotient-real, mesh-choice, or ambient-completeness coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Localized compact enclosure finite-net handoff]
+\label{thm:localized-compact-enclosure-finite-net-handoff}
+Every accepted $\LocalizedCompactEnclosureUp$ carrier
+$L=(I,K,S,Q,E,H,C,P,N)$ hands a downstream compactness or uniform-continuity consumer the same finite route
+$$
+\LocatedIntervalUp,\ \ClosedIntervalCompactNetUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The consumer receives the located interval row $I$ and the finite-net row $K$ before it may read the stream windows $S$, regular readbacks $Q$, or seal row $E$. The handoff supplies a finite enclosure boundary only; it does not claim open-cover compactness, selected subcovers, host function equality, quotient real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the located interval row $I$. It is the same endpoint-cell boundary governed by \autoref{ch:concrete-instances-locatedinterval-namecert}, so the enclosure begins with displayed finite interval data.
+
+Read the compact-net row $K$ next. By \autoref{ch:concrete-instances-closed-interval-compact-net-namecert}, this row is an explicit finite-net handoff for the displayed interval cell, not a general open-cover compactness principle.
+
+The stream and regular-rational rows $S,Q$ then expose the finite observation windows consumed by downstream names. The seal row $E$ is reachable only after those finite rows are displayed.
+
+Transport and replay through $H,C$, then attach $P,N$. The resulting L10 dependency route is the same boundary used by interval bisection in \autoref{ch:concrete-instances-intervalbisection-namecert}, but the present packet exports only the localized enclosure surface and not a branch selector or selected subcover.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocalizedCompactEnclosureUp$ consumer displays a $\LocatedIntervalUp$ source row, a $\ClosedIntervalCompactNetUp$ finite-net row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row before any terminal compactness or Real-facing read.}
+
+\independenceWitness{locatedinterval, closed-interval-compact-net, streamname, regseqrat, real: $\LocalizedCompactEnclosureUp$ is not bijective to any listed sibling because it packages one localized finite enclosure boundary between a displayed located interval cell and later compactness or uniform-continuity consumers.}
+
+\closureat{LocalizedCompactEnclosureUp}{seedStr}
+
+\begin{closurestatus}{\LocalizedCompactEnclosureUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:localized-compact-enclosure-carrier}, \autoref{thm:localized-compact-enclosure-namecert-obligations}, and \autoref{thm:localized-compact-enclosure-finite-net-handoff} define the finite localized compact-enclosure boundary over located intervals and finite-net consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected subcovers, quotient real equality, host interval equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, finite-net handoff, consumer nonescape, transport replay, and local NameCert exactness for BEDC.Derived.LocalizedCompactEnclosureUp.}
+  \constructivestory{A $\LocalizedCompactEnclosureUp$ packet is generated from a LocatedIntervalUp source row, a ClosedIntervalCompactNetUp finite-net row, StreamNameUp windows, RegSeqRatUp readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
