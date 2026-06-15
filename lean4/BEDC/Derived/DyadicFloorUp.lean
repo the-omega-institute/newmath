@@ -66,4 +66,32 @@ theorem DyadicFloorBoundingInterval
     unary_cont_closed modulusUnary regularUnary regularRoute
   exact ⟨rfl, lowerReadUnary, upperReadUnary, regularWindowUnary⟩
 
+theorem DyadicFloorCarrier_window_obligations
+    {x k d s lower upper modulus regular realSeal H C P N scaleWindow lowerWindow
+      upperWindow : BHist} :
+    Cont k d scaleWindow ->
+      Cont scaleWindow lower lowerWindow ->
+        Cont lowerWindow upper upperWindow ->
+          UnaryHistory k ->
+            UnaryHistory d ->
+              UnaryHistory lower ->
+                UnaryHistory upper ->
+                  UnaryHistory scaleWindow ∧ UnaryHistory lowerWindow ∧
+                    UnaryHistory upperWindow ∧ Cont k d scaleWindow ∧
+                      Cont scaleWindow lower lowerWindow ∧
+                        Cont lowerWindow upper upperWindow ∧
+                          dyadicFloorFields
+                              (DyadicFloorUp.mk x k d s lower upper modulus regular realSeal H C P N) =
+                            [x, k, d, s, lower, upper, modulus, regular, realSeal, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro scaleRoute lowerRoute upperRoute kUnary dUnary lowerUnary upperUnary
+  have scaleUnary : UnaryHistory scaleWindow :=
+    unary_cont_closed kUnary dUnary scaleRoute
+  have lowerWindowUnary : UnaryHistory lowerWindow :=
+    unary_cont_closed scaleUnary lowerUnary lowerRoute
+  have upperWindowUnary : UnaryHistory upperWindow :=
+    unary_cont_closed lowerWindowUnary upperUnary upperRoute
+  exact
+    ⟨scaleUnary, lowerWindowUnary, upperWindowUnary, scaleRoute, lowerRoute, upperRoute, rfl⟩
+
 end BEDC.Derived.DyadicFloorUp
