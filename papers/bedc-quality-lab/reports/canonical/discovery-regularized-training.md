@@ -140,6 +140,7 @@
 
 - full model training
 - global architecture superiority
+- standalone model superiority
 - full LeJEPA reproduction
 - mechanism closure
 - production device authority

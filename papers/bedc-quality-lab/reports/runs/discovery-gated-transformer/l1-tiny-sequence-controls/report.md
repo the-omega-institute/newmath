@@ -7,6 +7,8 @@
 - Step-ladder crossover: `no-diagnostic-crossover-observed`
 - L1 OOD mechanism verdict: `brittle-rule`
 - L1 OOD mechanism confidence: `medium`
+- Fair base learnability gate: `fail`
+- Fair base failed gate: `FAIR-BASE-HG3`
 - Seeds: `16`
 - Compute units: `931.332096`
 - Parameter count: `12632`
