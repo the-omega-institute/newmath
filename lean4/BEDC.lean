@@ -304,6 +304,7 @@ import BEDC.Derived.AtiyahSingerUp.TasteGate
 import BEDC.Derived.AttentionLedgerUp
 import BEDC.Derived.AttentionLedgerUp.TasteGate
 import BEDC.Derived.AttouchWetsTopologyUp
+import BEDC.Derived.AttouchWetsTopologyUp.TasteGate
 import BEDC.Derived.AubinNitscheUp.TasteGate
 import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AuditExportFirewallUp
@@ -10229,6 +10230,7 @@ import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
+import BEDC.Derived.TightRealIntervalUp.TasteGate
 import BEDC.Derived.ToeplitzLemmaUp.NameCertObligations
 import BEDC.Derived.ToeplitzLemmaUp.RegularSequenceHandoff
 import BEDC.Derived.ToeplitzLemmaUp.TasteGate
