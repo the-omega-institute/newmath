@@ -562,6 +562,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalReaderNonescape
 import BEDC.Derived.AuthorizedRecursorUp.TasteGate
 import BEDC.Derived.AutomorphicUp
+import BEDC.Derived.AutomorphicUp.TasteGate
 import BEDC.Derived.AxiomDependencyAuditMapUp
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomDependencyMapUp.TasteGate
