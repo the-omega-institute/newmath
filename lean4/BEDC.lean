@@ -104,6 +104,7 @@ import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ApartnessRealUp.TasteGate
 import BEDC.Derived.ApartnessSpaceUp
+import BEDC.Derived.ApartnessSpaceUp.TasteGate
 import BEDC.Derived.ApartnessTopologyUp.Route
 import BEDC.Derived.ApartnessTopologyUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -4820,6 +4821,7 @@ import BEDC.Derived.FaberSchauderSystemUp
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
 import BEDC.Derived.FableClockOrderUp
 import BEDC.Derived.FableMachineBoundaryUp.TasteGate
+import BEDC.Derived.FableMachineClockUp.Obligations
 import BEDC.Derived.FableMachineClockUp.StepLedgerExactness
 import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FactorUp
@@ -6112,6 +6114,7 @@ import BEDC.Derived.IntervalDomainUp.TasteGate
 import BEDC.Derived.IntervalDomainWayBelowUp
 import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
 import BEDC.Derived.IntervalHalvingUp
+import BEDC.Derived.IntervalHalvingUp.DyadicNestedHandoff
 import BEDC.Derived.IntervalLengthUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
@@ -8624,6 +8627,7 @@ import BEDC.Derived.RealExponentialUp.TasteGate
 import BEDC.Derived.RealFunctionUniformCauchyUp.TasteGate
 import BEDC.Derived.RealIntegerPartUp
 import BEDC.Derived.RealIntegerPartUp.TasteGate
+import BEDC.Derived.RealIntervalApartnessUp.TasteGate
 import BEDC.Derived.RealIntervalArithmeticUp.TasteGate
 import BEDC.Derived.RealIntervalCompletionUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
@@ -8688,6 +8692,7 @@ import BEDC.Derived.RealPowerSeriesUp.EvaluationWindowExhaustion
 import BEDC.Derived.RealPowerSeriesUp.MajorantConsumerCoverage
 import BEDC.Derived.RealPowerSeriesUp.MajorantExhaustion
 import BEDC.Derived.RealPowerSeriesUp.MajorantRouteTotality
+import BEDC.Derived.RealPowerSeriesUp.ObligationClosureLedger
 import BEDC.Derived.RealPowerSeriesUp.ObligationRadiusExport
 import BEDC.Derived.RealPowerSeriesUp.ProductCoefficientWindowLock
 import BEDC.Derived.RealPowerSeriesUp.RadiusMajorantCoverage
