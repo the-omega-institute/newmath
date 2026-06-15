@@ -99,3 +99,44 @@ rows classify RH proof requests, analytic-continuation proof requests, host
 zero-selector requests, quotient-equality requests, host-equality requests,
 and ambient-completeness requests as outside the accepted packet.
 \end{proof}
+
+\begin{theorem}[Critical-line witness root zeta-strip source lock]
+\label{thm:critical-line-witness-root-zeta-strip-source-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+Every root packet read through $W$ must jointly expose the $\ZetaZerosUp$,
+$\CritStripUp$, $\GammaUp$, $\ZetaContinuationWitnessUp$, $\NatUp$, $\RatUp$,
+$\RealUp$, $\RegSeqRatUp$, and $\StreamNameUp$ rows before any modulus-side
+or RH-facing consumer can read $M,R,Q$.
+
+The source lock exports no proof of $\mathsf{RH}$, no analytic-continuation
+proof, no selected zero, no quotient representative, and no ambient
+completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the source-readiness triad of
+\autoref{thm:critical-line-witness-root-source-readiness-triad}. It places
+the zeta dependency row, the fixed strip-source rows, and the root
+non-escape package on the displayed packet before any RH-facing or
+zeta-facing obligation is public.
+
+Apply the zeta/strip non-escape triad
+\autoref{thm:critical-line-witness-root-zeta-strip-nonescape-triad} together
+with the RH-refusal boundary
+\autoref{thm:critical-line-witness-root-rh-refusal-boundary}. These two
+theorems keep modulus-side access downstream of the same finite route and
+remove the RH proof, analytic-continuation proof, selected-zero, quotient,
+and ambient-completeness exits.
+
+Now use the zeta dependency lattice
+\autoref{thm:critical-line-witness-zeta-link} and root-strip source totality
+\autoref{thm:critical-line-witness-root-strip-source-totality}. They expose
+$\ZetaZerosUp$, $\CritStripUp$, $\GammaUp$,
+$\ZetaContinuationWitnessUp$, $\NatUp$, $\RatUp$, and $\RealUp$ before the
+consumer reaches $M,R,Q$.
+
+Finally attach the Phase Real source rows already carried by the root
+source window: $\RegSeqRatUp$ and $\StreamNameUp$ remain visible through the
+same $Z,S,M,R,Q,H,C,P,N$ packet route. The RH refusal rows then guarantee
+that this joint exposure is a source lock, not an analytic proof or an
+ambient completeness import.
+\end{proof}
