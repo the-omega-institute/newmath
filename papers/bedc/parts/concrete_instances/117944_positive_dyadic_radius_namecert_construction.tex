@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\PositiveDyadicRadiusUp$}
+\label{ch:concrete-instances-positive-dyadic-radius-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real estimates, the $\PositiveDyadicRadiusUp$ packet names a strictly positive dyadic tolerance before a regular Cauchy or Real-facing consumer may use it as an error budget. It sits on the dyadic arithmetic rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the halving ladder of \autoref{ch:concrete-instances-dyadic-radius-halving-ladder-namecert}. The packet records positivity as displayed finite data; it does not import trichotomy of reals, a host positive cone, quotient equality of names, countable choice, selected limits, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Positive dyadic radius carrier]
+\label{def:positive-dyadic-radius-carrier}
+A $\PositiveDyadicRadiusUp$ carrier is a finite $\BHist$ packet
+$$
+R=(M,E,W,S,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\DyadicRatCoreUp$ mantissa row, naming the nonzero dyadic numerator visible to the current tolerance request.
+\item $E$ is the exponent row, naming the finite power-of-two scale used to read the radius as a dyadic rational.
+\item $W$ is the strict positivity witness row, recording that the displayed mantissa and exponent form a radius above zero inside the dyadic core comparison surface.
+\item $S$ is the halving successor row, pointing to the next positive dyadic radius consumed by \autoref{ch:concrete-instances-dyadic-radius-halving-ladder-namecert}.
+\item $T$ is the tolerance-consumer row, recording the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ requests allowed to read this positive radius.
+\item $H$ stores componentwise $\hsame$ transport for mantissa, exponent, strict positivity, halving successor, tolerance consumer, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a tolerance request to the mantissa, exponent, positivity witness, halving successor, and consumer rows.
+\item $P$ is the $\Pkg$ provenance over $\PositiveDyadicRadiusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRadiusHalvingLadderUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PositiveDyadicRadiusUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $M,E,W,S,T,H,C,P,N$. It has no coordinate for host real positivity, arbitrary order trichotomy, quotient Cauchy equality, a selected limiting radius, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Positive dyadic radius halving]
+\label{thm:positive-dyadic-radius-halving}
+Let $R=(M,E,W,S,T,H,C,P,N)$ be an accepted $\PositiveDyadicRadiusUp$ carrier. Any halving read exported from $R$ first exposes the displayed $\DyadicRatCoreUp$ mantissa row $M$, exponent row $E$, and strict positivity witness $W$, and then reaches the successor row $S$. The successor is therefore a positive dyadic radius in the same finite tolerance route, not a host arithmetic choice or a real-order inference.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:positive-dyadic-radius-carrier}. The positivity data are the rows $M,E,W$, so a consumer cannot inspect $S$ without first reading the dyadic representation and strict positivity witness.
+
+Read the halving ladder through \autoref{ch:concrete-instances-dyadic-radius-halving-ladder-namecert}. Its successor-halving row consumes displayed dyadic radius data and preserves the finite ladder route; here the row $S$ is the local successor coordinate attached to the same mantissa and exponent surface.
+
+Finally replay the request through $H,C,P,N$. Transport and continuation replay preserve the same packet before the successor is exported, while provenance and local naming keep the read inside the positive-radius certificate. No host positive cone, selected limit, quotient equality, countable-choice schedule, or ambient completeness row is added.
+\end{proof}
+
+\begin{theorem}[Positive dyadic radius regular-sequence budget]
+\label{thm:positive-dyadic-radius-regseq-budget}
+Every $\RegSeqRatUp$ or $\RealUp$ tolerance consumer of an accepted $\PositiveDyadicRadiusUp$ packet factors through
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \DyadicRadiusHalvingLadderUp .
+$$
+The consumer must read the dyadic mantissa and exponent rows, the strict positivity witness, the finite stream request, the regular-rational budget row, the halving successor, componentwise transport, displayed replay, package provenance, and local naming before using the radius as a Cauchy or Real-facing error budget.
+\end{theorem}
+\begin{proof}
+Begin with the tolerance-consumer row $T$. It records exactly which $\StreamNameUp$ window, $\RegSeqRatUp$ budget, and $\RealUp$ seal request may inspect the positive radius.
+
+Use the positivity rows $M,E,W$. They place the radius inside the dyadic core before any regular-sequence estimate is read, so the budget is a displayed positive dyadic row rather than an inferred real-order fact.
+
+Apply \autoref{thm:positive-dyadic-radius-halving}. If the consumer refines the tolerance, the successor row $S$ remains attached to the same positive-radius packet and to the halving ladder route.
+
+The structural rows $H,C,P,N$ close the handoff. They preserve the mantissa, exponent, positivity, successor, and consumer rows under transport and replay, so downstream regular Cauchy and Real consumers receive a finite positive-radius budget and nothing from quotient equality, selected limits, countable choice, host trichotomy, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{A regular Cauchy or Real-facing consumer refutes the PositiveDyadicRadiusUp packet if it uses a tolerance as positive without displaying the dyadic mantissa, exponent, strict positivity witness, halving successor, tolerance-consumer row, transport, replay, provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, and dyadicradiushalvingladder: none is bijective to $\PositiveDyadicRadiusUp$ because only this packet binds strict dyadic positivity, halving successor, tolerance-consumer routing, transport, replay, provenance, and local NameCert evidence as one certificate surface.}
+
+\closureat{PositiveDyadicRadiusUp}{seedStr}
+
+\begin{closurestatus}{\PositiveDyadicRadiusUp}
+  \constructivestory{A $\PositiveDyadicRadiusUp$ packet is generated from a DyadicRatCore mantissa row, exponent row, strict positivity witness, halving successor, StreamName and RegSeqRat tolerance-consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:positive-dyadic-radius-carrier}, \autoref{thm:positive-dyadic-radius-halving}, and \autoref{thm:positive-dyadic-radius-regseq-budget} seed the positive dyadic tolerance surface consumed by regular Cauchy and Real budget arguments.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real positivity, arbitrary order trichotomy, quotient Cauchy equality, selected limiting radii, ambient completeness of RealUp, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, strict positivity exactness, halving successor preservation, tolerance-consumer nonescape, transport, replay, provenance, and local naming for BEDC.Derived.PositiveDyadicRadiusUp.}
+\end{closurestatus}
