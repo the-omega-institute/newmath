@@ -66,6 +66,7 @@ import BEDC.Derived.AlgebraicRealUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
+import BEDC.Derived.AnalogyCertificateGateUp.FalsifiablePrediction
 import BEDC.Derived.AnalogyCertificateGateUp.NameCertObligations
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
@@ -1505,6 +1506,7 @@ import BEDC.Derived.CategoryUp.ZeroHeadedComponent
 import BEDC.Derived.CauchyApproximationSchemeUp.TasteGate
 import BEDC.Derived.CauchyApproximationSequenceUp.TasteGate
 import BEDC.Derived.CauchyApproximationSystemUp.TasteGate
+import BEDC.Derived.CauchyApproximationTreeUp.TasteGate
 import BEDC.Derived.CauchyBicategoryUp
 import BEDC.Derived.CauchyBornologyUp.TasteGate
 import BEDC.Derived.CauchyBoundednessCriterionUp.TasteGate
@@ -8386,6 +8388,7 @@ import BEDC.Derived.QuantumStateUp
 import BEDC.Derived.QuasiIsometryUp
 import BEDC.Derived.QuasiIsometryUp.NameCertObligations
 import BEDC.Derived.QuasiIsometryUp.TasteGate
+import BEDC.Derived.QuasiMetricUp
 import BEDC.Derived.QuasiMetricUp.TasteGate
 import BEDC.Derived.QuotientFreeCompletionSealUp.TasteGate
 import BEDC.Derived.QuotientGroupUp
@@ -9644,6 +9647,7 @@ import BEDC.Derived.SeparatedCompletionUp.DenseFactorization
 import BEDC.Derived.SeparatedCompletionUp.ZeroDistanceFactorization
 import BEDC.Derived.SeparatedLimitUniquenessUp.TasteGate
 import BEDC.Derived.SeparatedMetricCompletionUp.TasteGate
+import BEDC.Derived.SeparatedMetricReflectionUp
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp.UniversalRoute
 import BEDC.Derived.SeparatedMetricUp.CarrierBoundary
