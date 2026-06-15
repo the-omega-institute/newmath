@@ -51,3 +51,17 @@ Next read the rational height-window obligation. It routes every height request 
 
 Finally combine the critical-strip ledger obligation with \autoref{thm:critical-line-witness-ledger-nonescape}. The former exhausts the public ledger by $Z,S,M,R,Q,H,C,P,N$, and the latter excludes analytic continuation, global zero-set data, $\mathsf{RH}$ proof data, quotient representatives, host equality, and ambient completeness from the carrier.
 \end{proof}
+
+\begin{theorem}[Critical-line witness root-zero selector exhaustion]
+\label{thm:critical-line-witness-root-zero-localization-selector-exhaustion}
+Every selector or localization consumer of an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$ is exhausted by the supplied $\ZetaZerosUp$ row $Z$, $\CritStripUp$ row $S$, modulus row $M$, $\RealUp$ row $R$, $\RatUp$ comparison row $Q$, and the local $H,C,P,N$ transport, replay, provenance, and naming rows. No such consumer can introduce analytic continuation, global zero-set data, $\mathsf{RH}$ proof data, host complex equality, quotient representatives, selected Real representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:criticallinewitness-zero-localization-obligation}. It forces every zero-localization read to consume the supplied $\ZetaZerosUp$ row, $\CritStripUp$ row, $\RealUp$ real-part row, $\RatUp$ comparison row, and local structural rows inside the same finite packet.
+
+Next apply \autoref{thm:criticallinewitness-rational-height-window}. It routes selector depth and height-window requests through the displayed modulus row $M$ and rational comparison ledger $Q$, so a consumer cannot replace the finite budget with a host zero search or unbounded choice selector.
+
+Now use \autoref{thm:criticallinewitness-critical-strip-ledger}. The critical-strip ledger is exactly the displayed route $Z,S,M,R,Q,H,C,P,N$, and therefore a localization consumer has no additional analytic coordinate after those rows are read.
+
+Finally combine this with \autoref{thm:critical-line-witness-public-export} and \autoref{thm:critical-line-witness-ledger-nonescape}. The public export identifies the same finite surface, while the ledger boundary excludes analytic continuation, global zero-set data, $\mathsf{RH}$ proof data, host complex equality, quotient representatives, selected Real representatives, and ambient completeness.
+\end{proof}
