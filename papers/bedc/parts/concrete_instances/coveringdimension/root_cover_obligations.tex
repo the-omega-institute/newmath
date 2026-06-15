@@ -243,6 +243,7 @@ K,E,C,R,L \longmapsto \CompactCoverLebesgueLedgerUp \longmapsto \RealSeparabilit
 $$
 not an open-cover oracle, selected dense subfamily, quotient completion witness, or ambient dimension oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCoverLedgerFactorization}
 \begin{proof}
 Start with \autoref{thm:coveringdimension-finite-epsilon-net-carrier}. The finite epsilon-net row $E$ supplies the displayed $\mathsf{ProbeBundle}$ centers, dyadic tolerance witnesses, and $\BHist$ coverage rows for the cover and refinement data.
 
@@ -283,4 +284,22 @@ Read \autoref{thm:coveringdimension-finite-epsilon-net-carrier} first. It makes 
 Next use \autoref{thm:coveringdimension-compact-cover-forward-dependency} together with \autoref{thm:coveringdimension-root-cover-ledger-realization}. The cover row $C$, refinement row $R$, and compact-cover ledger $L$ must be visible before the order row is read.
 
 Finally apply \autoref{thm:coveringdimension-real-separability-root-route}. The $\RealSeparabilityUp$ windows and $\MetricCompletionUp$ boundary attach only to that already displayed finite route, and $H,T,P,N$ preserve it as the named order ledger. Therefore the separability and completion rows cannot bypass the finite epsilon-net, compact-cover ledger, or refinement rows.
+\end{proof}
+
+\begin{theorem}[CoveringDimension public root-cover export]
+\label{thm:coveringdimension-public-root-cover-export}
+For an accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N),
+$$
+the public order-bound root-cover surface exports only through $K,E,C,R,L$, the $\CompactCoverLebesgueLedgerUp$ finite-net radius route, $\RealSeparabilityUp$, $\MetricCompletionUp$, and the rows $O,H,T,P,N$. The export has no source in an open-cover oracle, selected dense subfamily, quotient completion witness, or ambient dimension oracle.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:coveringdimension-finite-epsilon-net-carrier}. The root-cover read begins with the finite sample and tolerance data in $K$ and $E$, not with an arbitrary open-cover oracle.
+
+Apply \autoref{thm:coveringdimension-compact-cover-forward-dependency} and \autoref{thm:coveringdimension-root-cover-scope-route}. These force the cover row $C$ and refinement row $R$ to pass through the compact-cover ledger $L$ before the order row can be inspected.
+
+Next use \autoref{thm:coveringdimension-root-cover-ledger-factorization} and \autoref{thm:coveringdimension-root-cover-ledger-realization}. The factorization and realization steps route every order-bound read through the $\CompactCoverLebesgueLedgerUp$ finite-net radius exhaustion, so no selected dense subfamily or ambient dimension oracle is available.
+
+Finally apply \autoref{thm:coveringdimension-root-cover-separability-completion-lock}. The $\RealSeparabilityUp$ and $\MetricCompletionUp$ rows attach only after the finite ledger route is visible, and $O,H,T,P,N$ export exactly that named route. Therefore the public surface is the displayed finite ledger chain and not a quotient completion witness or external dimension assertion.
 \end{proof}
