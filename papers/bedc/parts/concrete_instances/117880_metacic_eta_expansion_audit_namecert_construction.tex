@@ -1,0 +1,138 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICEtaExpansionAuditUp$}
+\label{ch:concrete-instances-metacic-eta-expansion-audit-namecert}
+\origin{ai}
+
+The $\MetaCICEtaExpansionAuditUp$ packet realizes the beta audit map of
+\autoref{ch:metacic-beta-audit-map} as finite eta-expansion boundary
+data. It sits beside the beta audit packet of
+\autoref{ch:concrete-instances-metacicbetaaudit-namecert}, the normalization
+frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert},
+the critical path of \autoref{ch:concrete-instances-metaciccriticalpath-namecert},
+and the closed beta trace envelope of
+\autoref{ch:concrete-instances-metacic-closed-beta-trace-envelope-namecert}. The
+packet records eta rows only as auditable finite data adjacent to beta
+conversion boundaries; it does not prove unrestricted eta conversion, subject
+reduction, confluence, normalization, or host conversion equality.
+
+\begin{definition}[MetaCIC eta-expansion audit carrier]
+\label{def:metacic-eta-expansion-audit-carrier}
+A $\MetaCICEtaExpansionAuditUp$ carrier is a finite $\BHist$ packet
+$$
+E=(A,B,N,F,O,T,R,V,H,C,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\MetaCICBetaAuditUp$ source row naming the audited beta
+boundary.
+\item $B$ is the finite beta-conversion-boundary row over the displayed
+$\mathrm{BetaStep}$ and $\mathrm{BetaConv}$ relations.
+\item $N$ is the $\MetaCICNormalizationFrontierUp$ row naming the bounded
+normalization frontier inspected by the packet.
+\item $F$ is the $\MetaCICCriticalPathUp$ row recording which syntax boundary or
+typing route is being audited.
+\item $O$ is the $\MetaCICClosedBetaTraceEnvelopeUp$ obstruction-retention row.
+\item $T$ is the eta-row ledger, recording the source term, target term, binder
+shape, and finite eta-expansion request.
+\item $R$ is the replay row that rechecks the eta ledger against the beta
+boundary without turning it into a global conversion rule.
+\item $V$ is the provenance row tying the packet to the beta audit map and the
+normalization frontier.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay through the eta-row,
+beta-boundary, normalization-frontier, obstruction-retention, transport,
+replay, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICEtaExpansionAuditUp$,
+$\MetaCICBetaAuditUp$, $\MetaCICNormalizationFrontierUp$,
+$\MetaCICCriticalPathUp$, $\MetaCICClosedBetaTraceEnvelopeUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $Q$ is the local $\NameCert_{\MetaCICEtaExpansionAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unrestricted eta conversion, subject
+reduction, confluence, normalization, or host conversion equality.
+\end{definition}
+
+\begin{theorem}[MetaCIC eta-expansion audit NameCert obligations]
+\label{thm:metacic-eta-expansion-audit-namecert-obligations}
+For every accepted $\MetaCICEtaExpansionAuditUp$ carrier
+$$
+E=(A,B,N,F,O,T,R,V,H,C,P,Q),
+$$
+the local $\NameCert_{\MetaCICEtaExpansionAuditUp}$ surface consists exactly of
+beta-audit source exposure, beta-conversion-boundary exposure,
+normalization-frontier exposure, critical-path exposure,
+obstruction-retention exposure, finite eta-row exposure, replay exposure,
+provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay,
+$\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-eta-expansion-audit-carrier}. The
+source audit row $A$, beta boundary $B$, normalization frontier $N$, critical
+path $F$, and closed trace envelope $O$ are displayed before the eta ledger can
+be consumed.
+
+Read the eta row locally. The row $T$ names a finite source, target, binder
+shape, and eta request, while $R$ replays that request against the displayed
+beta boundary.
+
+The obstruction row remains present. Since $O$ is carried with $T$ and $R$, a
+consumer cannot erase the boundary cases that separate eta-row auditing from
+global conversion equality.
+
+Finally $H,C,P,Q$ transport, replay, source, and name exactly that packet. No
+row supplies unrestricted eta conversion, subject reduction, confluence,
+normalization, or host conversion equality, so the local certificate is limited
+to the finite audit obligations named above.
+\end{proof}
+
+\begin{theorem}[MetaCIC eta-expansion audit boundary]
+\label{thm:metacic-eta-expansion-audit-boundary}
+Every consumer of an accepted $\MetaCICEtaExpansionAuditUp$ packet reads eta
+expansion only through finite eta rows, the displayed beta-conversion boundary,
+the normalization-frontier row, the critical-path row, the retained obstruction
+row, transport, replay, provenance, and local $\NameCert$ data. The packet
+does not authorize unrestricted eta conversion, subject reduction, confluence,
+normalization, or host conversion equality.
+\end{theorem}
+\begin{proof}
+Start with the beta audit row. It fixes the audited $\mathrm{BetaStep}$ and
+$\mathrm{BetaConv}$ boundary before any eta row is inspected.
+
+The normalization frontier and critical path narrow the read to a finite syntax
+and typing boundary. The retained obstruction row stays in the packet, so the
+consumer must keep the cases where conversion, typing preservation, and
+normalization are not globally available.
+
+The eta ledger is therefore a replayable audit row, not a conversion rule. The
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows preserve and name that
+finite route without adding an external equality principle.
+
+Thus the packet exports only the finite eta/beta audit boundary stated above.
+It cannot prove or imply unrestricted eta conversion, subject reduction,
+confluence, normalization, or host conversion equality.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\MetaCICEtaExpansionAuditUp$ read that
+derives host conversion equality or unrestricted eta conversion while bypassing
+the $\MetaCICBetaAuditUp$, $\MetaCICNormalizationFrontierUp$,
+$\MetaCICCriticalPathUp$, $\MetaCICClosedBetaTraceEnvelopeUp$, finite eta-row,
+obstruction-retention, transport, replay, provenance, and local $\NameCert$ rows
+refutes the carrier of \autoref{def:metacic-eta-expansion-audit-carrier}.}
+
+\independenceWitness{metacicbetaaudit, metacicnormalizationfrontier,
+metaciccriticalpath, metacic-closed-beta-trace-envelope: no listed sibling is
+bijective to $\MetaCICEtaExpansionAuditUp$ because this packet alone binds
+finite eta rows to a beta-conversion boundary, normalization frontier, critical
+path, retained obstruction envelope, transport, replay, provenance, and local
+naming while refusing global conversion claims.}
+
+\closureat{MetaCICEtaExpansionAuditUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICEtaExpansionAuditUp}
+  \constructivestory{A $\MetaCICEtaExpansionAuditUp$ packet is generated from beta-audit source rows, beta-conversion boundary rows, normalization-frontier rows, critical-path rows, obstruction-retention rows, finite eta-row data, replay, provenance, transport, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-eta-expansion-audit-carrier}, \autoref{thm:metacic-eta-expansion-audit-namecert-obligations}, and \autoref{thm:metacic-eta-expansion-audit-boundary} seed the finite eta-expansion audit boundary for MetaCIC beta-conversion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted eta conversion, subject reduction, confluence, normalization, host conversion equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked beta-audit exposure, eta-row exposure, beta-boundary retention, normalization-frontier routing, obstruction retention, transport, replay, provenance, and local naming rows for BEDC.Derived.MetaCICEtaExpansionAuditUp.}
+\end{closurestatus}

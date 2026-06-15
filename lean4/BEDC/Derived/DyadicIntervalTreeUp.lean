@@ -354,4 +354,75 @@ theorem DyadicIntervalTreeCarrier_branch_ledger_depth_bound
     ⟨unaryB, unaryD, unaryF, unaryBranchDepth, unaryFrontierStep,
       branchDepthRoute, frontierStepRoute, routeNW⟩
 
+theorem DyadicIntervalTreeCarrier_scoped_kernel_route
+    {R D B F M Q NW H C P L routeRead : BHist} :
+    DyadicIntervalTreeCarrier R D B F M Q NW H C P L ->
+      Cont NW L routeRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row R ∨ hsame row D ∨ hsame row B ∨ hsame row F ∨
+                hsame row M ∨ hsame row Q ∨ hsame row NW ∨ hsame row L ∨
+                  hsame row routeRead)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont R B F ∧ Cont F M Q ∧ Cont Q D NW ∧
+                Cont NW L routeRead)
+            hsame ∧ UnaryHistory routeRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro packet routeRoute
+  obtain
+    ⟨_unaryR, unaryD, _unaryB, unaryF, unaryM, _unaryH, _unaryC, _unaryP,
+      unaryL, routeF, routeQ, routeNW⟩ := packet
+  have unaryQ : UnaryHistory Q :=
+    unary_cont_closed unaryF unaryM routeQ
+  have unaryNW : UnaryHistory NW :=
+    unary_cont_closed unaryQ unaryD routeNW
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed unaryNW unaryL routeRoute
+  have sourceAtRoute : hsame routeRead routeRead ∧ UnaryHistory routeRead :=
+    ⟨hsame_refl routeRead, routeUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row D ∨ hsame row B ∨ hsame row F ∨ hsame row M ∨
+              hsame row Q ∨ hsame row NW ∨ hsame row L ∨ hsame row routeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont R B F ∧ Cont F M Q ∧ Cont Q D NW ∧
+              Cont NW L routeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro routeRead sourceAtRoute
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, routeF, routeQ, routeNW, routeRoute⟩
+  }
+  exact ⟨cert, routeUnary⟩
+
 end BEDC.Derived.DyadicIntervalTreeUp
