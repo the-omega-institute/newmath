@@ -331,6 +331,7 @@ import BEDC.Derived.AuditMapMethodologyUp.TasteGate
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.AuditMapRouteBudgetUp.TasteGate
 import BEDC.Derived.AuditMapRouteCompilerUp
+import BEDC.Derived.AuditMapRouteCompilerUp.GroundCompilerHandoff
 import BEDC.Derived.AuditMapRouteCompilerUp.NameCertObligations
 import BEDC.Derived.AuditMapRouteCompilerUp.NonEscape
 import BEDC.Derived.AuditMapRouteCompilerUp.TasteGate
@@ -1778,6 +1779,7 @@ import BEDC.Derived.CauchyMetastabilityUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp
 import BEDC.Derived.CauchyModulusArithmeticUp.SumProductSharedThreshold
 import BEDC.Derived.CauchyModulusArithmeticUp.TasteGate
+import BEDC.Derived.CauchyModulusArithmeticUp.WindowedProductDistributivity
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
