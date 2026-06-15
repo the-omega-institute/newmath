@@ -53,4 +53,43 @@ theorem BolzanoWeierstrassSelectorClusterRoute (x : BolzanoWeierstrassSelectorUp
             decodeEncode realSeal⟩
       · rfl
 
+theorem BolzanoWeierstrassSelectorFiniteWindowInduction
+    (x : BolzanoWeierstrassSelectorUp) :
+    ∃ boundedWindow monotoneSelector cofinalEvidence selectedWindow dyadicLedger regularHandoff
+      realSeal transport route provenance name : BHist,
+      x =
+        BolzanoWeierstrassSelectorUp.mk boundedWindow monotoneSelector cofinalEvidence
+          selectedWindow dyadicLedger regularHandoff realSeal transport route provenance name ∧
+        bolzanoWeierstrassSelectorFields x =
+          [boundedWindow, monotoneSelector, cofinalEvidence, selectedWindow, dyadicLedger,
+            regularHandoff, realSeal, transport, route, provenance, name] ∧
+          hsame transport transport ∧
+            bolzanoWeierstrassSelectorDecodeBHist
+                (bolzanoWeierstrassSelectorEncodeBHist selectedWindow) =
+              selectedWindow ∧
+              bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist realSeal) =
+                realSeal := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  have decodeEncode :
+      ∀ h : BHist,
+        bolzanoWeierstrassSelectorDecodeBHist
+            (bolzanoWeierstrassSelectorEncodeBHist h) =
+          h := by
+    intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  cases x with
+  | mk boundedWindow monotoneSelector cofinalEvidence selectedWindow dyadicLedger regularHandoff
+      realSeal transport route provenance name =>
+      exact
+        ⟨boundedWindow, monotoneSelector, cofinalEvidence, selectedWindow, dyadicLedger,
+          regularHandoff, realSeal, transport, route, provenance, name, rfl, rfl,
+          hsame_refl transport, decodeEncode selectedWindow, decodeEncode realSeal⟩
+
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
