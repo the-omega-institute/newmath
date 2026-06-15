@@ -41,6 +41,7 @@ The local $\NameCert_{\MetaCICSubjectReductionBoundaryUp}$ surface consists of f
 \item audit non-escape from hidden substitution preservation, host conversion, erased typing derivations, semantic equality of terms, global normalization, or an unrecorded closed subject-reduction theorem.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICSubjectReductionBoundaryUp.MetaCICSubjectReductionBoundaryCarrier\_obligation\_exposure\_certificate}
 \leanchecked{BEDC.Derived.MetaCICSubjectReductionBoundaryUp.MetaCICSubjectReductionBoundary\_namecert\_obligations}
 \begin{proof}
 Carrier admission is the finite packet of \autoref{def:metacic-subject-reduction-boundary-carrier}. Its rows display the four named discharge obligations, the parameterized preservation theorem, the checked obstruction theorem, the audit ledger, transport data, continuation routes, package provenance, and local naming certificate.
@@ -52,6 +53,18 @@ Obstruction exactness is the role of $O$. It records the checked obstruction row
 The non-escape clause follows from absence of coordinates. Hidden substitution preservation, host conversion, erased typing derivations, semantic equality, global normalization, and unrecorded closed subject reduction are not rows of $M$ and cannot be reconstructed by $\hsame$ transport or a $\Cont$ read.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICSubjectReductionBoundaryUp.MetaCICSubjectReductionBoundaryNamecertObligations}
+
+\begin{theorem}[MetaCIC subject-reduction boundary obligation exposure]
+\label{thm:metacic-subject-reduction-boundary-obligation-exposure}
+Every consumer of the parameterized preservation row $R$ in an accepted $\MetaCICSubjectReductionBoundaryUp$ packet must first display the four discharge rows $B,A,L,P_i$ and the audit ledger $Q$. The row $R$ is therefore consumed only as a theorem conditional on beta-substitution preservation, application-argument stability, lambda-domain subject reduction, and Pi-domain subject reduction; it is not a closed subject-reduction theorem and it does not erase the audit record.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:metacic-subject-reduction-boundary-carrier}. The only rows that can discharge the preservation hypotheses are $B,A,L,P_i$, and the only row that records their displayed status is $Q$.
+
+Apply the obligation-exposure clause of \autoref{thm:metacic-subject-reduction-boundary-namecert-obligations}. It requires the four discharge rows to be displayed before any consumer reads $R$.
+
+The parameterized preservation exactness clause then fixes the interpretation of $R$. Since the packet has no coordinate for an unparameterized theorem and $Q$ remains part of the visible route, a consumer cannot turn $R$ into closed subject reduction or drop the audit ledger.
+\end{proof}
 
 \begin{theorem}[MetaCIC subject-reduction boundary non-escape]
 \label{thm:metacic-subject-reduction-boundary-nonescape}
