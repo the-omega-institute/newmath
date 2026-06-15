@@ -31,3 +31,19 @@ Now refine the local route into grid rows. The critical-pair envelope of \autore
 
 Finally attach the carrier-local $\NameCert$ row and structural rows. The obligation theorem \autoref{thm:metacic-parallel-diamond-frontier-obligations} supplies the local naming surface, while $H,T,G,N$ transport, replay, source, and name the same carrier. Since every grid row is finite and carrier-local, the exported handoff cannot become strong normalization, subject reduction, quotient term equality, evaluator equality, or kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-join locality exhaustion]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-locality-exhaustion}
+A residual-join consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet that has read
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+has exhausted the carrier-local join surface. Any request for global confluence, subject reduction, unbounded normalization, evaluator equality, quotient term equality, or kernel consistency is outside the packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. It forces every residual-join read through the displayed local frontier route and keeps the obstruction row visible.
+
+Then apply \autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. The grid identifies the critical-pair, residual-substitution, candidate-normalization, finite-witness, transport, replay, provenance, and local naming rows as the whole carrier-local residual surface.
+
+Finally use the carrier-local NameCert obligation theorem \autoref{thm:metacic-parallel-diamond-frontier-obligations}. Since that obligation surface admits no coordinate for global confluence, subject reduction, unbounded normalization, evaluator equality, quotient term equality, or kernel consistency, a consumer that has read the grid has no further join row to project.
+\end{proof}
