@@ -4342,6 +4342,7 @@ import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DiscreteGronwallUp
 import BEDC.Derived.DistanceFunctionCompletionUp.TasteGate
+import BEDC.Derived.DistanceToCompactUp.TasteGate
 import BEDC.Derived.DistributionDerivativeUp.TasteGate
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.DivisibilityUp
@@ -9130,6 +9131,7 @@ import BEDC.Derived.RegularCauchyNameUp.StdBridge
 import BEDC.Derived.RegularCauchyNameUp.TasteGate
 import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
+import BEDC.Derived.RegularCauchyNetUp
 import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
 import BEDC.Derived.RegularCauchyOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyOscillationCriterionUp.TasteGate
@@ -9402,6 +9404,7 @@ import BEDC.Derived.RingUp.StdBridge
 import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingedSpaceUp
+import BEDC.Derived.RisingSunLemmaUp.TasteGate
 import BEDC.Derived.RolleTheoremUp.TasteGate
 import BEDC.Derived.RolleUp.TasteGate
 import BEDC.Derived.RootChoiceSeparationUp
@@ -9980,6 +9983,7 @@ import BEDC.Derived.StreamNameUp.StreamnameRegseqratUniformFiniteWindowSeal
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
+import BEDC.Derived.StrongLawFiniteWindowUp.TasteGate
 import BEDC.Derived.StronglyExtensionalRealMapUp.TasteGate
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate
 import BEDC.Derived.SturmComparisonUp.TasteGate
@@ -10320,6 +10324,7 @@ import BEDC.Derived.UniformBoundednessPrincipleUp.TasteGate
 import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyBicompletionUp.TasteGate
+import BEDC.Derived.UniformCauchyCompletionRealizerUp
 import BEDC.Derived.UniformCauchyCompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformCauchyCriterionUp.BudgetedRealSealFactorization
