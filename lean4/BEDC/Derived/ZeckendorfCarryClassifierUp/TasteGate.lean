@@ -11,7 +11,8 @@ open BEDC.Meta.TasteGate
 
 inductive ZeckendorfCarryClassifierUp : Type where
   | mk :
-      (source target carry sourceNormal targetNormal separated readback provenance name : BHist) →
+      (source target carry sourceNormal targetNormal separation readback provenance
+        name : BHist) →
       ZeckendorfCarryClassifierUp
   deriving DecidableEq
 
@@ -27,11 +28,9 @@ def zeckendorfCarryClassifierDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (zeckendorfCarryClassifierDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (zeckendorfCarryClassifierDecodeBHist tail)
 
-private theorem zeckendorfCarryClassifier_decode_encode_bhist :
+private theorem zeckendorfCarryClassifierDecodeEncode :
     ∀ h : BHist,
-      zeckendorfCarryClassifierDecodeBHist
-          (zeckendorfCarryClassifierEncodeBHist h) =
-        h := by
+      zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -42,65 +41,92 @@ private theorem zeckendorfCarryClassifier_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def zeckendorfCarryClassifierFields :
-    ZeckendorfCarryClassifierUp → List BHist
+def zeckendorfCarryClassifierFields : ZeckendorfCarryClassifierUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ZeckendorfCarryClassifierUp.mk source target carry sourceNormal targetNormal separated
+  | ZeckendorfCarryClassifierUp.mk source target carry sourceNormal targetNormal separation
       readback provenance name =>
-      [source, target, carry, sourceNormal, targetNormal, separated, readback, provenance, name]
+      [source, target, carry, sourceNormal, targetNormal, separation, readback, provenance, name]
 
-def zeckendorfCarryClassifierToEventFlow :
-    ZeckendorfCarryClassifierUp → EventFlow
+def zeckendorfCarryClassifierToEventFlow : ZeckendorfCarryClassifierUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (zeckendorfCarryClassifierFields x).map zeckendorfCarryClassifierEncodeBHist
+  fun x => (zeckendorfCarryClassifierFields x).map zeckendorfCarryClassifierEncodeBHist
 
-def zeckendorfCarryClassifierFromEventFlow :
-    EventFlow → Option ZeckendorfCarryClassifierUp
+private def zeckendorfCarryClassifierEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | source :: target :: carry :: sourceNormal :: targetNormal :: separated :: readback ::
-      provenance :: name :: [] =>
-      some
-        (ZeckendorfCarryClassifierUp.mk
-          (zeckendorfCarryClassifierDecodeBHist source)
-          (zeckendorfCarryClassifierDecodeBHist target)
-          (zeckendorfCarryClassifierDecodeBHist carry)
-          (zeckendorfCarryClassifierDecodeBHist sourceNormal)
-          (zeckendorfCarryClassifierDecodeBHist targetNormal)
-          (zeckendorfCarryClassifierDecodeBHist separated)
-          (zeckendorfCarryClassifierDecodeBHist readback)
-          (zeckendorfCarryClassifierDecodeBHist provenance)
-          (zeckendorfCarryClassifierDecodeBHist name))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => zeckendorfCarryClassifierEventAtDefault index rest
 
-private theorem zeckendorfCarryClassifier_round_trip :
+def zeckendorfCarryClassifierFromEventFlow
+    (ef : EventFlow) : Option ZeckendorfCarryClassifierUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (ZeckendorfCarryClassifierUp.mk
+      (zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEventAtDefault 0 ef))
+      (zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEventAtDefault 1 ef))
+      (zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEventAtDefault 2 ef))
+      (zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEventAtDefault 3 ef))
+      (zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEventAtDefault 4 ef))
+      (zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEventAtDefault 5 ef))
+      (zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEventAtDefault 6 ef))
+      (zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEventAtDefault 7 ef))
+      (zeckendorfCarryClassifierDecodeBHist (zeckendorfCarryClassifierEventAtDefault 8 ef)))
+
+private theorem zeckendorfCarryClassifierRoundTrip :
     ∀ x : ZeckendorfCarryClassifierUp,
       zeckendorfCarryClassifierFromEventFlow
-          (zeckendorfCarryClassifierToEventFlow x) =
-        some x := by
+        (zeckendorfCarryClassifierToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source target carry sourceNormal targetNormal separated readback provenance name =>
-      simp only [zeckendorfCarryClassifierToEventFlow, zeckendorfCarryClassifierFields,
-        zeckendorfCarryClassifierFromEventFlow, List.map_cons, List.map_nil,
-        zeckendorfCarryClassifier_decode_encode_bhist]
+  | mk source target carry sourceNormal targetNormal separation readback provenance name =>
+      change
+        some
+          (ZeckendorfCarryClassifierUp.mk
+            (zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist source))
+            (zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist target))
+            (zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist carry))
+            (zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist sourceNormal))
+            (zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist targetNormal))
+            (zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist separation))
+            (zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist readback))
+            (zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist provenance))
+            (zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist name))) =
+          some
+            (ZeckendorfCarryClassifierUp.mk source target carry sourceNormal targetNormal
+              separation readback provenance name)
+      rw [zeckendorfCarryClassifierDecodeEncode source,
+        zeckendorfCarryClassifierDecodeEncode target,
+        zeckendorfCarryClassifierDecodeEncode carry,
+        zeckendorfCarryClassifierDecodeEncode sourceNormal,
+        zeckendorfCarryClassifierDecodeEncode targetNormal,
+        zeckendorfCarryClassifierDecodeEncode separation,
+        zeckendorfCarryClassifierDecodeEncode readback,
+        zeckendorfCarryClassifierDecodeEncode provenance,
+        zeckendorfCarryClassifierDecodeEncode name]
 
 private theorem zeckendorfCarryClassifierToEventFlow_injective
     {x y : ZeckendorfCarryClassifierUp} :
-    zeckendorfCarryClassifierToEventFlow x =
-        zeckendorfCarryClassifierToEventFlow y →
-      x = y := by
+    zeckendorfCarryClassifierToEventFlow x = zeckendorfCarryClassifierToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      zeckendorfCarryClassifierFromEventFlow
-          (zeckendorfCarryClassifierToEventFlow x) =
-        zeckendorfCarryClassifierFromEventFlow
-          (zeckendorfCarryClassifierToEventFlow y) :=
+      zeckendorfCarryClassifierFromEventFlow (zeckendorfCarryClassifierToEventFlow x) =
+        zeckendorfCarryClassifierFromEventFlow (zeckendorfCarryClassifierToEventFlow y) :=
     congrArg zeckendorfCarryClassifierFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (zeckendorfCarryClassifier_round_trip x).symm
-      (Eq.trans hread (zeckendorfCarryClassifier_round_trip y)))
+    (Eq.trans (zeckendorfCarryClassifierRoundTrip x).symm
+      (Eq.trans hread (zeckendorfCarryClassifierRoundTrip y)))
 
 instance zeckendorfCarryClassifierBHistCarrier :
     BHistCarrier ZeckendorfCarryClassifierUp where
@@ -114,13 +140,24 @@ instance zeckendorfCarryClassifierChapterTasteGate :
   round_trip := by
     intro x
     change
-      zeckendorfCarryClassifierFromEventFlow
-          (zeckendorfCarryClassifierToEventFlow x) =
+      zeckendorfCarryClassifierFromEventFlow (zeckendorfCarryClassifierToEventFlow x) =
         some x
-    exact zeckendorfCarryClassifier_round_trip x
+    exact zeckendorfCarryClassifierRoundTrip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (zeckendorfCarryClassifierToEventFlow_injective heq)
+
+instance zeckendorfCarryClassifierNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial ZeckendorfCarryClassifierUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ZeckendorfCarryClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ZeckendorfCarryClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 def taste_gate : ChapterTasteGate ZeckendorfCarryClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -147,10 +184,34 @@ theorem ZeckendorfCarryClassifierTasteGate_single_carrier_alignment
       constructor
       · exact
           ⟨u, v, c, s, t, h, r, p, n, rfl, rfl,
-            zeckendorfCarryClassifier_decode_encode_bhist u,
-            zeckendorfCarryClassifier_decode_encode_bhist v⟩
+            zeckendorfCarryClassifierDecodeEncode u,
+            zeckendorfCarryClassifierDecodeEncode v⟩
       · rfl
 
 end TasteGate
+
+theorem ZeckendorfCarryClassifierTasteGate_structural_witnesses :
+    Nonempty (BHistCarrier ZeckendorfCarryClassifierUp) ∧
+      Nonempty (ChapterTasteGate ZeckendorfCarryClassifierUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial ZeckendorfCarryClassifierUp) ∧
+          (∀ h : BHist,
+            zeckendorfCarryClassifierDecodeBHist
+              (zeckendorfCarryClassifierEncodeBHist h) = h) ∧
+            (∀ x : ZeckendorfCarryClassifierUp,
+              zeckendorfCarryClassifierFromEventFlow
+                (zeckendorfCarryClassifierToEventFlow x) = some x) ∧
+              (∀ x y : ZeckendorfCarryClassifierUp,
+                zeckendorfCarryClassifierToEventFlow x =
+                  zeckendorfCarryClassifierToEventFlow y → x = y) ∧
+                zeckendorfCarryClassifierEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨⟨zeckendorfCarryClassifierBHistCarrier⟩,
+      ⟨zeckendorfCarryClassifierChapterTasteGate⟩,
+      ⟨zeckendorfCarryClassifierNontrivial⟩,
+      zeckendorfCarryClassifierDecodeEncode,
+      zeckendorfCarryClassifierRoundTrip,
+      (fun _ _ heq => zeckendorfCarryClassifierToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.ZeckendorfCarryClassifierUp
