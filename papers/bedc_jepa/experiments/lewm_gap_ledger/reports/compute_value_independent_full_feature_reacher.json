@@ -1,0 +1,141 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_independent_full_feature",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\crossenv_horizon_labels_reacher.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\reacher_latent_large.npz"
+  },
+  "counts": {
+    "train": 3060,
+    "calibration": 1020,
+    "eval": 1020,
+    "eval_episodes": 30,
+    "feature_dim": 4952
+  },
+  "target": {
+    "option_depths": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "assignment_rule": "exact per-episode budget sum(depth)=3*episode_anchor_count using dynamic programming",
+    "feature_scope": "independent export base latent/action window plus predicted rollout-internal features"
+  },
+  "calibration": {
+    "learned_full_feature": {
+      "allocation_delta": {
+        "observed": -0.00038370559282923516,
+        "low": -0.0005318949179538769,
+        "high": -0.00024233295970468166
+      },
+      "chosen_depth_counts": {
+        "1": 94,
+        "2": 348,
+        "3": 227,
+        "4": 166,
+        "5": 185
+      },
+      "score_error_spearman": 0.9127345153142157
+    }
+  },
+  "eval": {
+    "learned_full_feature": {
+      "allocation_delta": {
+        "observed": -0.0004595990318091714,
+        "low": -0.0008234515390754776,
+        "high": -7.625206250736377e-05
+      },
+      "chosen_depth_counts": {
+        "1": 143,
+        "2": 309,
+        "3": 210,
+        "4": 121,
+        "5": 237
+      },
+      "score_error_spearman": 0.9096141523473791
+    },
+    "exact_budget_oracle": {
+      "allocation_delta": {
+        "observed": -0.0023373685206088506,
+        "low": -0.0026304609524096874,
+        "high": -0.0020477688241457154
+      },
+      "chosen_depth_counts": {
+        "1": 236,
+        "2": 197,
+        "3": 178,
+        "4": 149,
+        "5": 260
+      },
+      "score_error_spearman": 1.0
+    },
+    "per_step_oracle": {
+      "allocation_delta": {
+        "observed": -0.0033692511078537418,
+        "low": -0.003728839746941656,
+        "high": -0.003022122613599409
+      },
+      "chosen_depth_counts": {
+        "1": 873,
+        "2": 86,
+        "3": 23,
+        "4": 16,
+        "5": 22
+      },
+      "score_error_spearman": 1.0
+    }
+  },
+  "health": {
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+    "best": {
+      "epoch": 313,
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.00038370559282923516,
+          "low": -0.0005318949179538769,
+          "high": -0.00024233295970468166
+        },
+        "chosen_depth_counts": {
+          "1": 94,
+          "2": 348,
+          "3": 227,
+          "4": 166,
+          "5": 185
+        },
+        "score_error_spearman": 0.9127345153142157
+      },
+      "cal_smooth_l1": 0.13197284936904907
+    },
+    "history_first": {
+      "epoch": 1.0,
+      "train": 0.6277676403522492,
+      "cal_smooth_l1": 0.34475091099739075,
+      "cal_delta_high": 0.0008969327644556167,
+      "cal_delta_observed": 0.000577835304570732
+    },
+    "history_last": {
+      "epoch": 320.0,
+      "train": 0.08753126288453737,
+      "cal_smooth_l1": 0.13352669775485992,
+      "cal_delta_high": -0.00017798128736908894,
+      "cal_delta_observed": -0.00032142914189179674
+    },
+    "params_count": 1979137
+  },
+  "leakage_attestation": {
+    "features": "built from aligned emb/action/pred carrier, split pred_z, valid masks, and anchor timing",
+    "labels": "err_at_h is used only for option_error targets and final evaluation",
+    "feature_standardizer": "fit on train full features only",
+    "target_standardizer": "fit on train option_error only",
+    "model_selection": "calibration split exact-budget allocation only"
+  },
+  "outputs": {
+    "predictions_npz": "reports\\compute_value_independent_full_feature_reacher_predictions.npz",
+    "json": "reports\\compute_value_independent_full_feature_reacher.json",
+    "md": "reports\\compute_value_independent_full_feature_reacher.md"
+  },
+  "wall_time_sec": 790.9372923374176
+}

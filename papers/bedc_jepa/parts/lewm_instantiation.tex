@@ -382,10 +382,15 @@ allocation delta $-0.18572$ $[-0.18804,\ -0.18306]$ with score/error Spearman
 $0.9962$ on the same $416$ anchors from $30$ episodes, matching the
 exact-budget oracle at $-0.18572$ $[-0.18805,\ -0.18318]$.  The result is
 registered as \texttt{fi-025.compute-value-independent-full-feature}: a
-mechanically positive independent full-feature compute-value assignment row
-whose adversarial status is still pending.  It supports the compute-value
-route for budget-feasible assignment, while leaving selective-risk coverage
-and population-level control claims outside the closed scope.
+positive independent full-feature compute-value assignment row whose
+adversarial audit is sound but scoped.  The audit rejects two simple shortcut
+explanations on PushT: depth-only assignment is wrong-side at $+0.10746$
+$[+0.10431,\ +0.11046]$, and shuffled learned scores are wrong-side at
+$+0.04216$ $[+0.01868,\ +0.06494]$.  The same runner gives a small but closed
+reacher row, $-0.00046$ $[-0.00080,\ -0.00008]$, while cube is not closed at
+$+0.00060$ $[-0.00039,\ +0.00186]$.  The compute-value route is therefore
+supported as a budget-feasible assignment signal on more than one carrier,
+but not as a universal cross-environment control claim.
 The standalone runner verdicts are stored in \texttt{reports/} under the
 \texttt{fi-022}, \texttt{fi-023}, and \texttt{fi-025} verdict records.
 A joint horizon-option test asks whether adding the detection task to the
@@ -516,6 +521,7 @@ $$
 \text{compute-value independent readiness} & \texttt{reports/compute\_value\_independent\_readiness.json},\\
 \text{compute-value independent rollout-only} & \texttt{reports/compute\_value\_independent\_rollout\_only.json},\\
 \text{compute-value independent full-feature} & \texttt{reports/compute\_value\_independent\_full\_feature.json},\\
+\text{compute-value independent audit} & \texttt{reports/compute\_value\_independent\_audit.json},\\
 \text{compute-value joint horizon option} & \texttt{reports/compute\_value\_joint\_horizon\_option.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\

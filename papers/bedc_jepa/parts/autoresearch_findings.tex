@@ -289,10 +289,15 @@ $[-0.18804,\ -0.18306]$ with score/error $\rho=0.9962$ on the same $416$
 anchors from $30$ episodes; its exact-budget oracle is numerically matched at
 $-0.18572$ $[-0.18805,\ -0.18318]$.  The corresponding autoresearch
 hypothesis, \texttt{fi-025.compute-value-independent-full-feature}, is
-mechanically positive but still adversarial-pending.  It closes the
-independent PushT compute-value assignment gate for this feature scope; it
-does not promote the row into a selective-risk or population-level control
-claim.
+adversarially audited as sound but scoped.  The shortcut audit rejects the
+simple depth-prior and shuffled-score explanations on PushT: depth-only is
+wrong-side at $+0.10746$ $[+0.10431,\ +0.11046]$, and shuffled learned scores
+are wrong-side at $+0.04216$ $[+0.01868,\ +0.06494]$.  The same full-feature
+runner also closes a small reacher row, $-0.00046$
+$[-0.00080,\ -0.00008]$, while cube remains unclosed at $+0.00060$
+$[-0.00039,\ +0.00186]$.  Thus independent compute-value assignment is real
+on at least two carriers under this protocol, but it is not universal and does
+not promote the row into a selective-risk or population-level control claim.
 A joint horizon-option row tests whether simply adding detection supervision to
 the option-conditioned compute-value model supplies the missing control
 variable.  It does not.  On the fixed export, the option-only joint-trunk row
