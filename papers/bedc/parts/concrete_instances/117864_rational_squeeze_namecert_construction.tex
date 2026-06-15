@@ -1,0 +1,101 @@
+\chapter{Rational squeeze NameCert construction}
+\label{ch:concrete-instances-rational-squeeze-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RationalSqueezeUp$ packet records the finite rational lower--upper squeeze data used by the L10 regular-Cauchy and Real completion route. It sits between the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, the located comparison route of \autoref{ch:concrete-instances-located-real-comparison-namecert}, and the Cauchy-tail basis of \autoref{ch:concrete-instances-cauchy-tail-basis-namecert}. The packet is a finite means certificate for reading a rational squeeze as a regular rational name and then as a sealed Real row; it is not a Dedekind cut, quotient real equality, selected limit, open-cover compactness principle, or ambient completeness axiom.
+
+\begin{definition}[Rational squeeze carrier]
+\label{def:rational-squeeze-carrier}
+A $\RationalSqueezeUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,U,M,D,R,E,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower rational bound stream, read as finite rational endpoint rows with monotone lower-side comparison data.
+\item $U$ is the upper rational bound stream, read as finite rational endpoint rows with monotone upper-side comparison data.
+\item $M$ is the middle stream row, obtained by finite dyadic midpoint or rational averaging rows from the displayed lower and upper bounds.
+\item $D$ is the dyadic tolerance row supplied by $\DyadicRatCoreUp$; it records denominator clearance, dyadic width budgets, and the visible tolerance cell inspected by a consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row; it records the regular rational name obtained by reading the middle stream against the dyadic tolerance row.
+\item $E$ is the $\RealUp$ seal row, displaying the terminal real-name package obtained from the regular rational readback.
+\item $O$ is the $\LocatedRealComparisonUp$ order route, recording the lower--middle and middle--upper comparisons needed by a located-order consumer.
+\item $H$ records componentwise $\hsame$ transport for lower bounds, upper bounds, middle stream, dyadic tolerance, regular readback, Real seal, located-order rows, replay rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for rereading the squeeze request through $L,U,M,D,R,E,O,H,P,N$ without changing the finite packet.
+\item $P$ is the $\Pkg$ provenance over $\RationalSqueezeUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedRealComparisonUp$, $\CauchyTailBasisUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalSqueezeUp}$ row naming exactly this squeeze packet.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for host real equality, quotient interval equality, a selected limit point, countable choice, open-cover compactness, or ambient Real completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.RationalSqueezeUp}
+
+\begin{theorem}[Rational squeeze NameCert obligations]
+\label{thm:rational-squeeze-namecert-obligations}
+For every accepted $\RationalSqueezeUp$ carrier $S=(L,U,M,D,R,E,O,H,C,P,N)$, the local $\NameCert_{\RationalSqueezeUp}$ obligations are exhausted by lower-bound exposure, upper-bound exposure, middle-stream exposure, dyadic-tolerance exposure, $\RegSeqRatUp$ readback, $\RealUp$ seal exposure, located-order route exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rational-squeeze-carrier}. The only numerical rows available to a consumer are $L,U,M,D,R,E,O$, and each row is displayed inside the finite packet before any downstream read occurs.
+
+The NameCert surface is therefore rowwise. The lower and upper bounds expose the squeeze interval, the middle row exposes the finite averaging stream, the dyadic tolerance row exposes the visible width budget, the regular readback row exposes the rational name, the Real seal row exposes the terminal package, and the located-order row exposes the comparison route.
+
+The remaining rows are structural. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming preserve precisely the same packet, so the certificate has no route to host real equality, quotient interval equality, selected limits, countable choice, open-cover compactness, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Rational squeeze RegSeqRat handoff]
+\label{thm:rational-squeeze-regseqrat-handoff}
+Every $\RegSeqRatUp$ consumer of an accepted $\RationalSqueezeUp$ packet must read the middle stream row $M$ through the dyadic tolerance row $D$ and the Cauchy-tail basis supplied by $\CauchyTailBasisUp$ before it may consume the readback row $R$. The handoff exports a regular rational sequence surface, not an arbitrary Cauchy wrapper or a host quotient name.
+\end{theorem}
+\begin{proof}
+Read the middle stream and tolerance rows of \autoref{def:rational-squeeze-carrier}. The row $M$ supplies the rational approximants, while $D$ supplies the dyadic width and denominator-clearance data needed by a regular rational name.
+
+Next apply the Cauchy-tail basis route. A consumer may inspect only the finite tolerance cell named by $D$ and the corresponding middle-stream window, so the regularity read is forced through $\CauchyTailBasisUp$ before the row $R$ is available.
+
+Finally attach the structural rows. The transports, replay, provenance, and local name keep the readback componentwise identical to the displayed squeeze packet. Thus the handoff exports the finite $\RegSeqRatUp$ readback row and no host quotient name.
+\end{proof}
+
+\begin{theorem}[Rational squeeze Real seal]
+\label{thm:rational-squeeze-real-seal}
+Every $\RealUp$ consumer of an accepted $\RationalSqueezeUp$ packet must obtain the real-name seal $E$ from the displayed $\RegSeqRatUp$ readback $R$, with the lower and upper rational rows $L,U$ and the dyadic tolerance row $D$ still visible as the finite witness surface. The seal does not identify quotient reals or select an external limit.
+\end{theorem}
+\begin{proof}
+First expose the regular rational row $R$ from \autoref{thm:rational-squeeze-regseqrat-handoff}. This row is already tied to $M$ and $D$, with $L$ and $U$ recording the squeeze bounds that constrain the middle stream.
+
+The Real seal row $E$ is then read as the terminal package over that regular rational name. Because the carrier keeps the squeeze rows displayed, the Real consumer receives the lower bound, upper bound, middle stream, tolerance, and readback evidence together.
+
+The rows $H,C,P,N$ preserve the same package during transport, replay, provenance, and local naming. No quotient real equality, selected external limit, countable choice, or ambient completeness principle is introduced by the seal.
+\end{proof}
+
+\begin{theorem}[Rational squeeze located-order route]
+\label{thm:rational-squeeze-located-order-route}
+Every located-order read exported by an accepted $\RationalSqueezeUp$ packet factors through the displayed row $O$: the lower-bound stream is compared with the middle stream, the middle stream is compared with the upper-bound stream, and each comparison is reread through the same dyadic tolerance row $D$ before a $\LocatedRealComparisonUp$ consumer can inspect it.
+\end{theorem}
+\begin{proof}
+Project the order route row $O$. It is displayed as part of the carrier and can mention only the lower, middle, upper, and tolerance rows already present in $L,U,M,D$.
+
+The located comparison is therefore finite. Lower--middle and middle--upper reads are replayed at the visible dyadic tolerance, and the same tolerance row is transported by $H$ before any consumer sees the route.
+
+The provenance and local naming rows export this comparison as a $\LocatedRealComparisonUp$ dependency of the squeeze packet. Since no host interval or quotient real equality is a carrier coordinate, the route remains a finite located-order read.
+\end{proof}
+
+\begin{theorem}[Rational squeeze Cauchy-window consumer]
+\label{thm:rational-squeeze-cauchy-window-consumer}
+Every Cauchy-window consumer of an accepted $\RationalSqueezeUp$ packet receives a finite window consisting of the lower and upper rational bounds $L,U$, the middle stream $M$, the dyadic tolerance row $D$, the $\CauchyTailBasisUp$ handoff, and the structural rows $H,C,P,N$. The consumer cannot replace this window by an infinite choice sequence, an open-cover compactness argument, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Read the squeeze window directly from the carrier. The rows $L,U,M,D$ display the lower endpoint, upper endpoint, middle stream, and tolerance budget of the finite window.
+
+The Cauchy-tail handoff is the same handoff used by \autoref{thm:rational-squeeze-regseqrat-handoff}. It lets a consumer reread a visible tolerance cell and its corresponding middle-stream approximant before passing to the regular rational readback.
+
+Finally, $H,C,P,N$ transport, replay, source, and name that finite window. These rows do not add an infinite choice sequence, an open-cover compactness argument, selected limits, quotient equality, or ambient Real completeness, so the Cauchy-window consumer remains bound to the displayed packet.
+\end{proof}
+
+\closureat{RationalSqueezeUp}{seedStr}
+
+\begin{closurestatus}{\RationalSqueezeUp}
+  \constructivestory{A $\RationalSqueezeUp$ packet is generated from lower rational bounds, upper rational bounds, a middle rational stream, dyadic tolerance rows, a RegSeqRat readback, a Real seal, a located-order route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-squeeze-carrier}, \autoref{thm:rational-squeeze-namecert-obligations}, \autoref{thm:rational-squeeze-regseqrat-handoff}, \autoref{thm:rational-squeeze-real-seal}, \autoref{thm:rational-squeeze-located-order-route}, and \autoref{thm:rational-squeeze-cauchy-window-consumer} seed the finite squeeze certificate used by the L10 regular-Cauchy and Real completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind cuts, quotient real equality, selected limits, countable choice, open-cover compactness, ambient Real completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked lower-bound exposure, upper-bound exposure, middle-stream readback, dyadic-tolerance exactness, RegSeqRat handoff, Real seal, located-order route, transport, replay, provenance, and local naming for BEDC.Derived.RationalSqueezeUp.}
+\end{closurestatus}
