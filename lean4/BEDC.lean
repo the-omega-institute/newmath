@@ -3610,6 +3610,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryRefusalTotality
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundarySourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryStdbridgeNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundary
+import BEDC.Derived.CriticalLineWitnessUp.RHConsumerBoundaryPackage
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerHandoff
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerRefusalExactness
 import BEDC.Derived.CriticalLineWitnessUp.RHConsumerRoute
@@ -3782,6 +3783,7 @@ import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroRouteExactness
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedInputCarrierRow
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroModulusObligation
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroReadback
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TerminalComparisonLedgerLock
@@ -5611,6 +5613,7 @@ import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditPacketUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditRouteUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditVerdictUp.TasteGate
+import BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.TasteGate
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.TasteGate
 import BEDC.Derived.GroundCompilerFlowLevelRoundTripUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognitionUp.ReportBoundaryExhaustion
@@ -6134,6 +6137,7 @@ import BEDC.Derived.KleeneTreeUp.CantorSpaceFanBoundary
 import BEDC.Derived.KleeneTreeUp.NameCertObligations
 import BEDC.Derived.KleeneTreeUp.PrefixInductionClosure
 import BEDC.Derived.KleeneTreeUp.RealCompletionNonescape
+import BEDC.Derived.KleeneTreeUp.ScopedPrefixChoiceRefusal
 import BEDC.Derived.KleeneTreeUp.SpeckerBoundaryRoute
 import BEDC.Derived.KleeneTreeUp.TasteGate
 import BEDC.Derived.KleisliTraceUp.TasteGate
