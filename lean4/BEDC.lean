@@ -5683,6 +5683,7 @@ import BEDC.Derived.GroundCompilerAuditRouteUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditVerdictUp.TasteGate
 import BEDC.Derived.GroundCompilerEventFlowAuditRouteUp
 import BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.TasteGate
+import BEDC.Derived.GroundCompilerEventFlowAuditUp.LosslessGate
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.NameCertObligations
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.TasteGate
 import BEDC.Derived.GroundCompilerFlowLevelRoundTripUp.TasteGate
