@@ -146,6 +146,33 @@ def _has_authoritative_finding(hypothesis_id: str, experiments: list[dict[str, A
     )
 
 
+def enrich_hypotheses_from_seed(hypotheses: list[dict[str, Any]], seed_hypotheses: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seed_by_id = {str(item.get("hypothesis_id") or ""): item for item in seed_hypotheses}
+    out: list[dict[str, Any]] = []
+    for hypothesis in hypotheses:
+        hypothesis_id = str(hypothesis.get("hypothesis_id") or "")
+        seed = seed_by_id.get(hypothesis_id, {})
+        merged = dict(hypothesis)
+        for key in ("hardening_successor_ref",):
+            if key not in merged and key in seed:
+                merged[key] = seed[key]
+        out.append(merged)
+    return out
+
+
+def _authoritative_successor_id(
+    hypothesis: dict[str, Any],
+    experiments: list[dict[str, Any]],
+    findings: list[dict[str, Any]],
+) -> str:
+    successor_id = str(hypothesis.get("hardening_successor_ref") or "")
+    if not successor_id:
+        return ""
+    if _has_authoritative_finding(successor_id, experiments, findings):
+        return successor_id
+    return ""
+
+
 def load_research_findings(store: LeWMStore) -> list[dict[str, Any]]:
     state_findings = store.load_verified_findings()
     exported_findings = read_jsonl(FINDINGS_DIR / "verified_findings.jsonl")
@@ -196,6 +223,20 @@ def plan_deepening_tasks(
         has_authority = _has_authoritative_finding(hypothesis_id, experiments, findings)
         if has_authority:
             tasks.append(_task("hypothesis", hypothesis_id, "ready_for_paper_boundary_review", "authoritative finding is available", 30, "paper"))
+            continue
+        successor_id = _authoritative_successor_id(hypothesis, experiments, findings)
+        if successor_id:
+            tasks.append(
+                _task(
+                    "hypothesis",
+                    hypothesis_id,
+                    "ready_for_paper_boundary_review",
+                    f"authoritative hardening successor is available: {successor_id}",
+                    30,
+                    "paper",
+                    {"hardening_successor_ref": successor_id},
+                )
+            )
             continue
         adversarial = adversarial_verdicts.get(hypothesis_id)
         if str((adversarial or {}).get("adversarial_verdict") or "") == "needs-more":
@@ -478,7 +519,8 @@ def write_dashboard(store: LeWMStore, summary: dict[str, Any], tasks: list[dict[
 
 
 def run_once(store: LeWMStore) -> dict[str, Any]:
-    hypotheses = store.load_hypotheses() or store.load_seed_hypotheses()
+    seed_hypotheses = store.load_seed_hypotheses()
+    hypotheses = enrich_hypotheses_from_seed(store.load_hypotheses() or seed_hypotheses, seed_hypotheses)
     if hypotheses and not store.load_hypotheses():
         store.write_hypotheses(hypotheses)
     experiments = store.load_experiments()
