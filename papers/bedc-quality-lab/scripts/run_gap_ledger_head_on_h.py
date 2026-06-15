@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.mixing import DEFAULT_MIXING, mix_latents
+from bedc_quality_lab.fair_alignment_control_ledger import gap_head_ledger_adapter
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 from bedc_quality_lab.toy_world import make_toy_batch
@@ -936,6 +937,7 @@ def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[st
         "aggregate_metrics": aggregate,
         "treatment_comparison": aggregate["comparison"],
         "control_protocol": _control_protocol(config),
+        "fair_alignment_control_ledger": gap_head_ledger_adapter(),
         "treatment_verdict": treatment_verdict,
         "control_verdict": control_verdict,
         "main_claim_status": "source_evidence_only",

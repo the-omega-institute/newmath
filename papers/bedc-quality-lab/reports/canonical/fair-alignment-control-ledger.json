@@ -1,0 +1,144 @@
+{
+  "artifact_id": "bedc-quality-lab:fair-alignment-control-ledger",
+  "canonical_role": "canonical_fair_control_comparability_ledger",
+  "control_protocol": {
+    "hardgate_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.hardgate",
+    "owner": "bedc-quality-lab:fair-alignment-control-ledger",
+    "rows_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.rows"
+  },
+  "cost_protocol": {
+    "mode": "pointer-ledger",
+    "runtime_cost": "no experiment rerun; canonical projection over producer pointers"
+  },
+  "generated_at": "2026-06-15T19:17:50.848759+00:00",
+  "hardgate": {
+    "failed_gate": null,
+    "gates": {
+      "FACL-HG1": {
+        "failed_producers": [],
+        "gate_id": "FACL-HG1",
+        "status": "pass"
+      },
+      "FACL-HG2": {
+        "failed_producers": [],
+        "gate_id": "FACL-HG2",
+        "status": "pass"
+      },
+      "FACL-HG3": {
+        "failed_producers": [],
+        "gate_id": "FACL-HG3",
+        "status": "pass"
+      },
+      "FACL-HG4": {
+        "failed_producers": [],
+        "gate_id": "FACL-HG4",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "json_artifact": "reports/canonical/fair-alignment-control-ledger.json",
+  "markdown_artifact": "reports/canonical/fair-alignment-control-ledger.md",
+  "not_claimed": [
+    "The ledger does not own raw measurements or rerun producer experiments.",
+    "The ledger does not promote any producer claim without the producer-local hardgates."
+  ],
+  "positive_claim": {
+    "ledger_rows_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.rows",
+    "scope": "comparability ledger completeness only",
+    "status": "positive-candidate"
+  },
+  "producer": "scripts/run_fair_alignment_control_ledger.py",
+  "producer_adapters": {
+    "discovery-regularized-training": {
+      "adapter_role": "pointer-only",
+      "fair_control_identity": "matched-random-structural-control",
+      "ledger_artifact": "reports/canonical/fair-alignment-control-ledger.json",
+      "ledger_row_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.rows[?producer_id=discovery-regularized-training]"
+    },
+    "gap-head-on-h": {
+      "adapter_role": "pointer-only",
+      "fair_control_identity": "matched-random-gap-head",
+      "ledger_artifact": "reports/canonical/fair-alignment-control-ledger.json",
+      "ledger_row_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.rows[?producer_id=gap-head-on-h]"
+    }
+  },
+  "row_count": 2,
+  "rows": [
+    {
+      "anti_triviality_pointers": {
+        "forbidden_column": "reports/canonical/gap-head-on-h.json:$.anti_triviality_gate_evidence.forbidden_column",
+        "matched_random": "reports/canonical/gap-head-on-h.json:$.anti_triviality_gate_evidence.matched_random",
+        "metadata_only": "reports/canonical/gap-head-on-h.json:$.anti_triviality_gate_evidence.metadata_only",
+        "scale_only": "reports/canonical/gap-head-on-h.json:$.anti_triviality_gate_evidence.scale_only"
+      },
+      "base_over_chance_gate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG3",
+      "candidate_pointer": "reports/canonical/gap-head-on-h.json:$.treatment_verdict",
+      "claim_id": "gap-head-on-h:main-claim",
+      "control_pointer": "reports/canonical/gap-head-on-h.json:$.control_verdict",
+      "evidence_pointers": {
+        "control_protocol": "reports/canonical/gap-head-on-h.json:$.control_protocol",
+        "positive_claim": "reports/canonical/gap-head-on-h.json:$.main_claim_status",
+        "raw_evidence": "reports/canonical/gap-head-on-h.json:$.records"
+      },
+      "failed_checks": [],
+      "fair_control_identity": "matched-random-gap-head",
+      "ledger_row_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.rows[?producer_id=gap-head-on-h]",
+      "match_axes": {
+        "compute_match": true,
+        "parameter_match": true,
+        "surface_distribution_match": true,
+        "threshold_match": true
+      },
+      "positive_claim_pointer": "reports/canonical/gap-head-on-h.json:$.main_claim_status",
+      "producer_id": "gap-head-on-h",
+      "row_status": "pass",
+      "task_identity": "gaussian-ou:learned-h-gap-detection"
+    },
+    {
+      "anti_triviality_pointers": {
+        "forbidden_column": "reports/canonical/discovery-regularized-training.json:$.anti_triviality_gate_evidence.forbidden_column",
+        "matched_random": "reports/canonical/discovery-regularized-training.json:$.anti_triviality_gate_evidence.matched_random",
+        "metadata_only": "reports/canonical/discovery-regularized-training.json:$.anti_triviality_gate_evidence.metadata_only",
+        "scale_only": "reports/canonical/discovery-regularized-training.json:$.anti_triviality_gate_evidence.scale_only"
+      },
+      "base_over_chance_gate_pointer": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG3",
+      "candidate_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full",
+      "claim_id": "discovery-regularized-training:positive-claim",
+      "control_pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+      "evidence_pointers": {
+        "control_protocol": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+        "positive_claim": "reports/canonical/discovery-regularized-training.json:$.positive_claim",
+        "raw_evidence": "reports/canonical/discovery-regularized-training.json:$.records"
+      },
+      "failed_checks": [],
+      "fair_control_identity": "matched-random-structural-control",
+      "ledger_row_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.rows[?producer_id=discovery-regularized-training]",
+      "match_axes": {
+        "compute_match": true,
+        "parameter_match": true,
+        "surface_distribution_match": true,
+        "threshold_match": true
+      },
+      "positive_claim_pointer": "reports/canonical/discovery-regularized-training.json:$.positive_claim",
+      "producer_id": "discovery-regularized-training",
+      "row_status": "pass",
+      "task_identity": "gaussian-ou:discovery-regularized-replay"
+    }
+  ],
+  "schema_id": "bedc-quality-lab:fair-alignment-control-ledger",
+  "scope": {
+    "claim": "lab-local cross-producer fair-control comparability for positive claim surfaces",
+    "not_claimed": [
+      "global model superiority",
+      "production fairness certification",
+      "metric-body ownership over producer raw evidence"
+    ]
+  },
+  "source_artifacts": {
+    "base_over_chance_gate": "reports/canonical/fair-l1-decision.json:$.hardgates.FAIR-L1-HG3",
+    "discovery_regularized_training": "reports/canonical/discovery-regularized-training.json",
+    "gap_head_on_h": "reports/canonical/gap-head-on-h.json"
+  },
+  "status": "pass"
+}

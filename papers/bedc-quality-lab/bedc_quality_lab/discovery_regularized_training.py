@@ -11,6 +11,7 @@ import statistics
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
+from bedc_quality_lab.fair_alignment_control_ledger import drt_ledger_adapter
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
@@ -2582,6 +2583,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "control_positive": False,
                 "evidence_pointer": "$.surface_registry.quality.by_arm",
             },
+            "fair_alignment_control_ledger": drt_ledger_adapter(),
         }
 
     def _arm_summary(self, rows: Sequence[Mapping[str, Any]], arms: Sequence[str]) -> dict[str, dict[str, float | int | bool]]:
