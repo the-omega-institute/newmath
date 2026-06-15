@@ -230,6 +230,16 @@ reading is therefore not that failure detection solved allocation, but that
 allocation becomes learnable when the model predicts option-conditioned
 compute cost and the allocator enforces the budget as a discrete assignment
 constraint.
+A seed/epoch stability grid keeps this positive row as calibration-selectable
+but not yet uniformly stable.  Across seeds $29,41,53$ and epoch budgets
+$160,280,420$, all calibration rows are below zero, the selected run is again
+seed $41$ at $420$ epochs, and its evaluation delta is $-0.00604$
+$[-0.01081,\ -0.00187]$.  Three of the nine evaluation rows have upper
+confidence endpoint below zero; the median observed evaluation delta is
+$-0.00355$, while the weakest row is $+0.00095$ with upper endpoint
+$+0.01040$.  This supports option-conditioned exact-budget assignment as the
+right allocation-native direction, but it also makes stability and independent
+export replication the next claim boundary.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar
