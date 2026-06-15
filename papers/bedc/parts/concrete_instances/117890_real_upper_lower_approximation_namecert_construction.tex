@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RealUpperLowerApproximationUp$}
+\label{ch:concrete-instances-real-upper-lower-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers, the $\RealUpperLowerApproximationUp$ packet records the two-sided approximation surface by which lower and upper rational names are read through a shared finite window before any located-real or completion-facing consumer sees a terminal real seal. It sits between the finite stream discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance budget of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located-real boundary of \autoref{ch:concrete-instances-located-real-namecert}, and the terminal $\RealUp$ certificate of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite upper/lower approximation object only; it does not choose representatives or assert ambient completeness.
+
+\begin{definition}[Real upper/lower approximation carrier]
+\label{def:real-upper-lower-approximation-carrier}
+A $\RealUpperLowerApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(L,U,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower approximation row, a finite monotone rational read that may be consumed only as lower evidence.
+\item $U$ is the upper approximation row, a finite antitone rational read that may be consumed only as upper evidence.
+\item $W$ is the shared finite $\StreamNameUp$ window through which both $L$ and $U$ are inspected at the same precision request.
+\item $R$ is the $\RegSeqRatUp$ readback row for the lower and upper rational observations inside $W$.
+\item $D$ is the $\DyadicRatCoreUp$ gap budget recording the displayed tolerance between the lower and upper reads.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the shared window, readback, and gap budget have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $L,U,W,R,D,E$.
+\item $C$ records displayed $\Cont$ replay from the two-sided approximation rows through the shared window into the terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\RealUpperLowerApproximationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\LocatedRealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealUpperLowerApproximationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for Dedekind cuts, quotient real equality, selected representatives, trichotomy, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Real upper/lower approximation NameCert obligations]
+\label{thm:real-upper-lower-approximation-namecert-obligations}
+For every accepted $\RealUpperLowerApproximationUp$ carrier $A=(L,U,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\RealUpperLowerApproximationUp}$ surface consists exactly of carrier admission for the lower approximation, upper approximation, shared finite stream window, regular rational readback, dyadic gap budget, terminal real seal, componentwise transport, displayed replay, provenance, and local naming rows; lower/upper polarity exactness for $L$ and $U$; shared-window exactness for $W$; gap-budget visibility for $D$ before $E$; and nonescape of quotient equality, selected representatives, trichotomy, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-upper-lower-approximation-carrier}. Its analytic rows are exactly the lower read, upper read, shared window, regular rational readback, dyadic budget, and terminal real seal.
+
+The polarity and shared-window clauses are read from $L,U,W,R,D$. The lower and upper rows are separate coordinates, and both pass through the same $\StreamNameUp$ window before the $\RegSeqRatUp$ readback and $\DyadicRatCoreUp$ gap budget are visible.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only these displayed rows. Since the carrier has no coordinate for quotient equality, selected representatives, trichotomy, countable choice, or ambient completeness, the listed clauses exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real upper/lower approximation window handoff]
+\label{thm:real-upper-lower-approximation-window-handoff}
+Every $\LocatedRealUp$ or $\RealUp$ consumer of an accepted $\RealUpperLowerApproximationUp$ packet reads the finite route
+$$
+L,U,W,R,D,E,H,C,P,N
+$$
+in that order: lower and upper approximation rows, the shared $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ gap budget, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The handoff may supply a located two-sided approximation boundary, but it does not supply Dedekind completeness, quotient real equality, selected representatives, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows. A consumer sees $L$ and $U$ as two-sided rational approximation data, but both rows are tied to the same finite window $W$.
+
+Read the regular rational and dyadic rows next. The $\RegSeqRatUp$ readback $R$ and $\DyadicRatCoreUp$ budget $D$ expose the finite gap discipline required before the terminal $\RealUp$ seal $E$ is available.
+
+Finally transport and replay the route through $H,C,P,N$. These rows preserve the displayed window handoff for $\LocatedRealUp$ and $\RealUp$ consumers, while all completeness, quotient, representative, trichotomy, and countable-choice claims remain outside the packet.
+\end{proof}
+
+\closureat{RealUpperLowerApproximationUp}{seedStr}
+
+\begin{closurestatus}{\RealUpperLowerApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-upper-lower-approximation-carrier}, \autoref{thm:real-upper-lower-approximation-namecert-obligations}, and \autoref{thm:real-upper-lower-approximation-window-handoff} seed the finite two-sided approximation route over lower and upper rational reads, shared stream windows, regular rational readback, dyadic gap budgets, terminal Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind completeness, quotient real equality, selected representatives, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower/upper polarity exactness, shared-window exactness, gap-budget visibility, terminal-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RealUpperLowerApproximationUp.}
+  \constructivestory{A $\RealUpperLowerApproximationUp$ packet is generated from lower and upper rational approximation rows, a shared StreamName window, RegSeqRat readback, DyadicRatCore gap budget, a terminal Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+\end{closurestatus}
