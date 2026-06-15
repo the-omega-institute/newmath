@@ -58,6 +58,7 @@ Finally, the provenance row $P$ and local naming row $L$ name only the displayed
 \label{thm:totally-bounded-completion-finite-net-cauchy-handoff}
 For every completion-facing read from an accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the consumer must expose the finite $\mathsf{ProbeBundle}$ centers and membership rows of $T$, the refinement ledger $N$, the $\CauchyFilterBasisUp$ row $F$, the $\CompletionEmbeddingUp$ row $E$, and the $\ConstructiveMetricCompletionUp$ route $C$ before any separated comparison in $S$ or uniformly continuous handoff in $U$ is read. Componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay preserve this order; they do not replace the finite-net-to-Cauchy-filter route.
 \end{theorem}
+\leanchecked{BEDC.Derived.TotallyBoundedCompletionUp.TotallyBoundedCompletionFiniteNetCauchyHandoff}
 \begin{proof}
 Start with the NameCert obligations of \autoref{thm:totally-bounded-completion-namecert-obligations}. Carrier admission displays the rows $X,T,N,F,E,C,S,U,H,P,L$ and finite-net persistence requires each tolerance request to read the center and membership data recorded in $T$.
 
@@ -200,6 +201,27 @@ Apply \autoref{thm:totally-bounded-completion-completion-route-exactness}. The o
 Finally use \autoref{thm:totally-bounded-completion-route-coverage}. It makes the route exhaustive, so the handoff from the finite-net ledger to separated completion comparison must pass through $F,E,C,S$ in the displayed order.
 \end{proof}
 \leanchecked{BEDC.Derived.TotallyBoundedCompletionUp.TotallyBoundedCompletionCarrier\_root\_completion\_handoff}
+
+\begin{definition}[TotallyBoundedCompletion effective net completion selector]
+\label{def:totally-bounded-completion-effective-net-completion}
+For an accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the effective net completion selector is the finite BEDC read that first opens the total-bounded ledger pair $T,N$ and only then follows
+$$
+F,E,C,S,U .
+$$
+It returns the completion-facing route selected from the displayed finite net and its refinement ledger: $F$ is the generated $\CauchyFilterBasisUp$ row, $E$ is the dense $\CompletionEmbeddingUp$ row, $C$ is the $\ConstructiveMetricCompletionUp$ route, $S$ is the separated comparison row, and $U$ is the uniformly continuous extension handoff. The selector has no coordinate for open-cover compactness, quotient completion, selected subnet limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[TotallyBoundedCompletion selector consumption]
+\label{thm:totally-bounded-completion-effective-net-completion-consumption}
+Every use of the effective selector of \autoref{def:totally-bounded-completion-effective-net-completion} is consumed by the root completion handoff and the root extension nonescape rows. In particular, any selected completion route reads $T,N$ before $F,E,C,S$ and reaches $U,H,P,L$ only as downstream extension, transport, provenance, and naming data.
+\end{theorem}
+\begin{proof}
+Start with the selector definition. Its first action is to open $T,N$, so the selected route is already tied to the root finite-net ledger rather than to an open cover or host finite subset.
+
+Apply \autoref{thm:totally-bounded-completion-root-completion-handoff}. The selected completion segment must pass through $F,E,C,S$ in order after the finite-net rows are displayed.
+
+Finally use \autoref{thm:totally-bounded-completion-root-extension-nonescape}. The rows $U,H,P,L$ can only consume that displayed route; they do not add quotient completion, selected limits, countable choice, open-cover compactness, ambient completeness, or a second completion route.
+\end{proof}
 
 \begin{theorem}[TotallyBoundedCompletion root extension nonescape]
 \label{thm:totally-bounded-completion-root-extension-nonescape}
