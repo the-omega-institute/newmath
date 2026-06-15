@@ -308,6 +308,15 @@ upper endpoint is just above zero, but it shows that allocation usefulness is
 sensitive to the option set.  The hard $1/3/5$ budget split is therefore not a
 neutral evaluation detail; intermediate compute options may be part of the
 native compute-value target.
+A direct learned readout over the refined option set is still bounded.  Ridge
+and MLP readers predict five-option marginal values for depths
+$\{1,2,3,4,5\}$ from the same rollout-internal features and are selected on the
+calibration split.  The selected MLP evaluates at allocation delta $+0.00184$
+$[-0.00199,\ +0.00656]$ with score Spearman $0.3315$, while reusing the
+episode-policy score on the same refined grid gives $-0.00330$
+$[-0.00679,\ +0.00020]$.  The oracle remains far below at $-0.03059$
+$[-0.03810,\ -0.02476]$.  The refined grid is therefore a real lever, but the
+tested direct per-option readout does not capture it.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -416,6 +425,7 @@ $$
 \text{compute-value hard-episode probe} & \texttt{reports/compute\_value\_hard\_episode\_probe.json},\\
 \text{compute-value hard-episode sequence probe} & \texttt{reports/compute\_value\_hard\_episode\_sequence\_probe.json},\\
 \text{compute-value option set} & \texttt{reports/compute\_value\_option\_set.json},\\
+\text{compute-value refined option model} & \texttt{reports/compute\_value\_refined\_option\_model.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

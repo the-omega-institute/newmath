@@ -206,6 +206,16 @@ $[-0.03704,\ -0.02333]$.  This is not yet a closed allocation claim, but it is
 the strongest sign that the hard boundary is partly an option-space problem:
 the score is more useful when the budget allocator has intermediate depths
 rather than only the hard $1/3/5$ split.
+A direct refined-option readout does not yet turn that diagnostic into a
+learned improvement.  Ridge and MLP readers are trained to predict
+five-option marginal values for depths $\{1,2,3,4,5\}$ and selected on
+calibration.  The selected MLP has evaluation allocation delta $+0.00184$
+$[-0.00199,\ +0.00656]$ with score Spearman $0.3315$, while the reused
+episode-policy score on the same refined grid remains better at $-0.00330$
+$[-0.00679,\ +0.00020]$.  Thus the refined option space is useful, but a
+small direct per-option value readout has not learned the right assignment
+signal.  The next step is option-conditioned or structured assignment learning,
+not just a wider output head.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar
