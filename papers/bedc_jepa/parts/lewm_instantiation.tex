@@ -366,10 +366,19 @@ artifact it records allocation delta $-0.00604$ $[-0.01074,\ -0.00163]$ with
 score/error Spearman $0.8899$.  The mechanical gate is positive, while the
 adversarial layer still holds the finding pending review; the scientific claim
 therefore remains a fixed-export, calibration-selected structured-assignment
-result.  A readiness scan finds no usable independent-export structured
-compute-value artifact with the required arrays, so independent structured
-replication is not claimed.  The standalone runner verdict is stored at
-\path{experiments/lewm_gap_ledger/reports/fi_022_structured_assignment_verdict.json}.
+result.  A readiness scan also finds a usable independent-export structured
+artifact, but only in a narrower feature scope.  On the independent PushT
+horizon export, a rollout-only option-conditioned model uses predicted rollout
+trajectories, rollout deltas, norms, validity masks, and timing features, with
+no base latent/action features.  It evaluates under the same exact-budget
+runner at allocation delta $-0.18572$ $[-0.18804,\ -0.18328]$ with score/error
+Spearman $0.9947$ on $416$ anchors from $30$ episodes.  This is an
+independent-export replication of the rollout-only compute-value assignment
+mechanism, not a full-feature replication of the fixed-export structured row.
+The standalone runner verdicts are stored at
+\path{experiments/lewm_gap_ledger/reports/fi_022_structured_assignment_verdict.json}
+and
+\path{experiments/lewm_gap_ledger/reports/fi_023_independent_rollout_only_verdict.json}.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -484,6 +493,7 @@ $$
 \text{compute-value structured ablation} & \texttt{reports/compute\_value\_structured\_ablation.json},\\
 \text{compute-value feature-group ablation} & \texttt{reports/compute\_value\_feature\_group\_ablation.json},\\
 \text{compute-value independent readiness} & \texttt{reports/compute\_value\_independent\_readiness.json},\\
+\text{compute-value independent rollout-only} & \texttt{reports/compute\_value\_independent\_rollout\_only.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

@@ -271,13 +271,18 @@ $\rho=0.8899$, and the execution lane records a mechanically positive
 verdict.  Because the adversarial layer has not promoted this hypothesis, the
 paper treats the result as a gated fixed-export model result, not as an
 authoritative population claim.
-An independent-readiness scan keeps the same boundary.  It inspects local
-\texttt{npz} artifacts for the structured compute-value schema and finds four
-usable fixed-export structured artifacts but zero usable independent-export
-artifacts.  Thus no independent structured compute-value replication is
-claimed: the next claim boundary is the creation of an independent export with
-the same option-error and predicted-option-score schema, followed by the same
-runner and paired episode-bootstrap gate.
+The independent-readiness scan then moves one step further without removing
+the full-replication boundary.  It inspects local \texttt{npz} artifacts for
+the structured compute-value schema and now finds one usable independent-export
+artifact: a PushT rollout-only row built from the independent horizon export's
+predicted rollout trajectory, rollout deltas, norms, validity masks, and timing
+features.  This row has no base latent/action features, so it is not the
+full-feature structured-assignment replication.  Under the same exact-budget
+runner it gives allocation delta $-0.18572$ $[-0.18804,\ -0.18328]$ with
+score/error $\rho=0.9947$ on $416$ anchors from $30$ episodes.  The result is
+therefore a positive independent rollout-only replication of the compute-value
+assignment mechanism, while the full state-plus-rollout independent export
+remains the next claim boundary.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar

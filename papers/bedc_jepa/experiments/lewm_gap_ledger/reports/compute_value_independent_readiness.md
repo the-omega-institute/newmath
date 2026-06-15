@@ -1,8 +1,8 @@
 # Compute-Value Independent Readiness
 
-- status: `fail-closed`
-- usable independent structured artifacts: `0`
-- inspected artifacts: `28`
+- status: `ready`
+- usable independent structured artifacts: `1`
+- inspected artifacts: `29`
 
 | artifact | usable | missing required arrays |
 |---|---:|---|
@@ -11,6 +11,7 @@
 | `compute_value_feature_group_ablation_predictions.npz` | `True` | `` |
 | `compute_value_hard_episode_probe_predictions.npz` | `False` | `episode,option_error,uniform_error,predicted_option_score` |
 | `compute_value_hard_episode_sequence_probe_predictions.npz` | `False` | `episode,option_error,uniform_error,predicted_option_score` |
+| `compute_value_independent_rollout_only_predictions.npz` | `True` | `` |
 | `compute_value_labels.npz` | `False` | `predicted_option_score` |
 | `compute_value_model_predictions.npz` | `False` | `predicted_option_score` |
 | `compute_value_option_set.npz` | `False` | `option_error,uniform_error,predicted_option_score` |
