@@ -9,7 +9,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem IntervalHalvingCarrier_dyadic_nested_handoff [AskSetup] [PackageSetup]
+theorem interval_halving_dyadic_nested_handoff_carrier_route [AskSetup] [PackageSetup]
     {left right midpoint chosenHalf radius streamWindow regularReadback realSeal transport replay
       provenance localName dyadicRead nestedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
