@@ -185,19 +185,24 @@ def plan_deepening_tasks(
         if has_authority:
             tasks.append(_task("hypothesis", hypothesis_id, "ready_for_paper_boundary_review", "authoritative finding is available", 30, "paper"))
             continue
+        linked_experiments = experiments_for_hypothesis.get(hypothesis_id, [])
+        linked_verdicts = [verdict for experiment in linked_experiments for verdict in verdicts_for_experiment.get(str(experiment.get("experiment_id") or ""), [])]
+        executed_contact_ids = {
+            str(verdict.get("contact_ref") or "")
+            for verdict in linked_verdicts
+            if str(verdict.get("provenance") or "") == "executed" and str(verdict.get("contact_ref") or "") in contact_ids
+        }
         refs = [str(item) for item in hypothesis.get("reality_contact_refs", []) if isinstance(item, str)]
-        if not refs:
+        if not refs and not executed_contact_ids:
             tasks.append(_task("hypothesis", hypothesis_id, "needs_reality_contact", "hypothesis has no evidence contact", 95, axis))
         for ref in refs:
-            if ref not in contact_ids:
+            if ref not in contact_ids and not executed_contact_ids:
                 tasks.append(_task("hypothesis", hypothesis_id, "needs_reality_contact", f"missing evidence contact {ref}", 95, axis))
 
-        linked_experiments = experiments_for_hypothesis.get(hypothesis_id, [])
         if not linked_experiments:
             tasks.append(_task("hypothesis", hypothesis_id, "needs_experiment_design", "hypothesis has no compiled experiment", 90, axis))
             continue
 
-        linked_verdicts = [verdict for experiment in linked_experiments for verdict in verdicts_for_experiment.get(str(experiment.get("experiment_id") or ""), [])]
         if not linked_verdicts:
             tasks.append(_task("hypothesis", hypothesis_id, "needs_execution", "compiled experiment has no verdict", 88, axis))
         if not any(str(verdict.get("provenance") or "") == "executed" for verdict in linked_verdicts):
