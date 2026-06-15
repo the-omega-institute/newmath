@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualCandidateSelectorUp$}
+\label{ch:concrete-instances-metacic-residual-candidate-selector-namecert}
+\origin{ai}
+
+The $\MetaCICResidualCandidateSelectorUp$ packet realizes the bounded residual-confluence frontier of \autoref{ch:metacic-confluence-audit-map} as a finite candidate-selection surface. It sits beside the residual diamond budget of \autoref{ch:concrete-instances-metacic-residual-diamond-budget-namecert}, the candidate-normalization witness of \autoref{ch:concrete-instances-metacic-candidate-normalization-witness-namecert}, the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, and the residual envelope of \autoref{ch:concrete-instances-metacic-confluence-residual-envelope-namecert}. The packet records typed windows, residual-pair budgets, candidate-normalization evidence, local-join checking, obstruction retention, transport, replay, provenance, and local naming without claiming residual-substitution compatibility, full Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+
+\begin{definition}[MetaCIC residual candidate selector carrier]
+\label{def:metacic-residual-candidate-selector-carrier}
+A $\MetaCICResidualCandidateSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,B,K,J,O,H,C,P,R,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-window row, fixing the closed MetaCIC source, local context fragment, redex shape, residual frontier, and observation depth inspected by the selector.
+\item $B$ is the residual-pair budget row, read through $\MetaCICResidualDiamondBudgetUp$, listing the finitely many residual pairs for which candidate selection is meaningful.
+\item $K$ is the candidate-normalization evidence row, read through $\MetaCICCandidateNormalizationWitnessUp$, naming the finite candidate evidence and endpoint data available to the selector.
+\item $J$ is the local-join checker row, recording the proposed common reducts, bounded checker status, and replay fuel for the residual pairs admitted by $B$.
+\item $O$ is the obstruction-retention row for residual-substitution compatibility, premise-free parallel diamond, full Church--Rosser, subject reduction, evaluator equality, quotient term equality, and kernel consistency.
+\item $H$ records componentwise $\hsame$ transport for $T,B,K,J,O,C,P,R,N$.
+\item $C$ records displayed $\Cont$ replay from the typed window through the residual-pair budget, candidate-normalization evidence, local-join checker, and obstruction row.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualCandidateSelectorUp$, $\MetaCICResidualDiamondBudgetUp$, $\MetaCICCandidateNormalizationWitnessUp$, $\MetaCICParallelDiamondFrontierUp$, $\MetaCICConfluenceResidualEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $R$ is the replay ledger that compares the selector's candidate row with the conditional handoff exposed by $\MetaCICParallelDiamondFrontierUp$ and the residual envelope exposed by $\MetaCICConfluenceResidualEnvelopeUp$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualCandidateSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,B,K,J,O,H,C,P,R,N$. It has no coordinate for an unbounded residual search, a premise-free diamond theorem, a global confluence proof, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual candidate selector NameCert obligations]
+\label{thm:metacic-residual-candidate-selector-namecert-obligations}
+For every accepted $\MetaCICResidualCandidateSelectorUp$ carrier
+$$
+S=(T,B,K,J,O,H,C,P,R,N),
+$$
+the local $\NameCert_{\MetaCICResidualCandidateSelectorUp}$ surface consists exactly of typed-window admission, residual-pair budget exposure, candidate-normalization evidence, local-join checker status, obstruction retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, replay comparison, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-candidate-selector-carrier}. The visible rows are precisely $T,B,K,J,O,H,C,P,R,N$.
+
+The typed window $T$ and residual-pair budget $B$ determine which residual branches are inspected. The candidate-normalization row $K$ supplies the finite candidate evidence available for those branches, and the local-join checker $J$ records only bounded checker status for the displayed budget.
+
+The obstruction row $O$ keeps the residual-substitution and confluence endpoints outside the packet, while $H,C,P,R,N$ transport, replay, source, compare, and name the same rows. Since the carrier has no other coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual candidate selector frontier route]
+\label{thm:metacic-residual-candidate-selector-frontier-route}
+Every confluence-audit consumer of an accepted $\MetaCICResidualCandidateSelectorUp$ packet must expose the finite route
+$$
+T,B,K,J,O \longmapsto H,C,P,R,N
+$$
+before reading a candidate-mediated local-join handoff. The handoff may be consumed by $\MetaCICParallelDiamondFrontierUp$ and $\MetaCICConfluenceResidualEnvelopeUp$ routes, but it does not discharge residual substitution, subject reduction, full Church--Rosser, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Read $T$ and $B$ first. They fix the typed residual frontier and the finite residual-pair budget, so the selector is not an unbounded search over reductions.
+
+Next read $K$ and $J$. The candidate-normalization evidence names the finite candidate data available to the selector, and the local-join checker records only bounded checker status for the residual pairs in $B$.
+
+Finally read $O,H,C,P,R,N$. The obstruction row remains visible, and the structural rows preserve the same candidate-mediated route for downstream frontier and envelope consumers. Thus the packet exports a bounded selector surface rather than a completed confluence theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MetaCICResidualCandidateSelectorUp$ packet with no residual-pair budget row $B$ cannot export a local-join certificate, because the candidate row $K$ and checker row $J$ would no longer be tied to a finite residual frontier.}
+
+\independenceWitness{metacic\_residual\_diamond\_budget, metacic\_candidate\_normalization\_witness, metacic\_parallel\_diamond\_frontier, metacic\_confluence\_residual\_envelope: none is bijective to $\MetaCICResidualCandidateSelectorUp$ because this packet jointly carries typed-window data, residual-pair budget rows, candidate-normalization evidence, local-join checker status, obstruction retention, transport, replay comparison, provenance, and local naming.}
+
+Lean support for $\MetaCICResidualCandidateSelectorUp$ should provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{TasteGate.lean} so the typed-window, budget, candidate, checker, obstruction, replay, provenance, and local naming rows remain distinguishable fields.
+
+\closureat{MetaCICResidualCandidateSelectorUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualCandidateSelectorUp}
+  \constructivestory{A $\MetaCICResidualCandidateSelectorUp$ packet is generated from typed-window rows, residual-pair budgets, candidate-normalization evidence, local-join checker rows, obstruction-retention rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, replay comparison, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-candidate-selector-carrier}, \autoref{thm:metacic-residual-candidate-selector-namecert-obligations}, and \autoref{thm:metacic-residual-candidate-selector-frontier-route} seed the finite residual-candidate selector over typed windows, budgets, candidates, checkers, obstruction, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, residual-substitution compatibility, premise-free parallel diamond, full Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, kernel consistency, Nontrivial or FieldFaithful instances, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window coverage, residual-pair budget exactness, candidate-normalization evidence, local-join checker status, obstruction retention, transport, replay comparison, provenance, local naming, Nontrivial, and FieldFaithful instances for BEDC.Derived.MetaCICResidualCandidateSelectorUp.}
+\end{closurestatus}
