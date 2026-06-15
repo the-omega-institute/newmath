@@ -363,4 +363,20 @@ theorem TraditionComparisonBoundary_no_doctrinal_identity
           (And.intro boundaryUnary
             (And.intro comparisonCont boundaryCont))))
 
+theorem TraditionComparisonBoundary_cannot_claim_obligation
+    {source landing rejectedSurplus distinction transport replay provenance localName :
+      BHist} :
+    traditionComparisonBoundaryClassifier
+        (TraditionComparisonBoundaryUp.mk source landing rejectedSurplus distinction
+          transport replay provenance localName) ->
+      hsame transport source ->
+        hsame source (append landing rejectedSurplus) ∧
+          Cont landing rejectedSurplus distinction ∧ Cont distinction transport replay := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  intro accepted transportSource
+  exact
+    ⟨hsame_trans (hsame_symm transportSource) accepted.left,
+      accepted.right.left,
+      accepted.right.right.left⟩
+
 end BEDC.Derived.TraditionComparisonBoundaryUp
