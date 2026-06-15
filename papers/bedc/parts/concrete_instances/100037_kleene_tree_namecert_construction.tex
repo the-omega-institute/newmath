@@ -162,6 +162,20 @@ The obstruction row contains no selected Cantor point, no path-coded real, no op
 \end{proof}
 \leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeRealCompletionNonescape}
 
+\begin{theorem}[KleeneTree scoped prefix-choice refusal]
+\label{thm:kleene-tree-scoped-prefix-choice-refusal}
+Every accepted $\KleeneTreeUp$ packet whose prefix induction, fan boundary, selector refusal, and Real-completion nonescape rows are displayed can answer a finite prefix-extension request only through the tree carrier, the $\CantorSpaceUp/\FanTheoremUp$ boundary rows, the $\StreamNameUp/\RegSeqRatUp$ readback route, and the existing refusal ledger. The answer cannot export a branch selector, fan theorem, countable-choice functional, quotient path, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(T,B,L,S,O,H,C,P,N)$ of \autoref{def:kleene-tree-carrier}. A finite prefix-extension request first reads the finite tree ledger $T$, the Bool node ledger $B$, and the List prefix spine $L$.
+
+Apply \autoref{thm:kleene-tree-prefix-induction-closure}. It keeps every accepted extension inside the displayed parent-prefix induction over $T,B,L$ and does not select an infinite branch.
+
+Apply \autoref{thm:kleene-tree-fan-boundary} and \autoref{thm:kleene-tree-selector-refusal}. The CantorSpace and FanTheorem reads remain finite boundary reads, while selector-facing consumers meet the obstruction row $O$ before any branch-producing coordinate can appear.
+
+Finally apply \autoref{thm:kleene-tree-real-completion-nonescape}. A completion-facing read must pass through $\StreamNameUp$ windows and $\RegSeqRatUp$ readback before any Real seal is inspected. Since the carrier inventory has no branch selector, fan theorem, countable-choice functional, quotient path, or ambient Real-completeness coordinate, the scoped prefix-extension answer exports none of those objects.
+\end{proof}
+
 \closureat{KleeneTreeUp}{obligationStr}
 
 \begin{closurestatus}{\KleeneTreeUp}
