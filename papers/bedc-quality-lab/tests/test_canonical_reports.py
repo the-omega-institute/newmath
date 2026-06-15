@@ -2012,16 +2012,6 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "sigreg-training-proxy",
         "sigreg-mini-grid",
         "discovery-regularized-training",
-<<<<<<< HEAD
-            "mechanism-seeking-network",
-            "mechanism-dna",
-            "dgt-l0-controls",
-            "dgt-l1-controls",
-            "dgt-l1-boundary-report",
-            "reproduction-package",
-            "reproduction-check-result",
-            "winnability-certificates",
-=======
         "mechanism-seeking-network",
         "mechanism-dna",
         "dgt-l0-controls",
@@ -2030,7 +2020,6 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "reproduction-package",
         "reproduction-check-result",
         "winnability-certificates",
->>>>>>> origin/paper-bedc-quality-lab
         "structural-generalization-splits",
         "dgt-base-undertraining-audit",
         "scaling-ladder",
