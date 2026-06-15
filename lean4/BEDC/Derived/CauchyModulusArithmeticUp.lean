@@ -211,6 +211,32 @@ theorem CauchyModulusArithmeticCarrier_namecert_obligation_carrier [AskSetup] [P
       productUnary, dyadicUnary, windowUnary, readbackUnary, sealUnary, transportUnary,
       packageRoute⟩
 
+theorem CauchyModulusArithmeticCarrier_namecert_obligation_classifier [AskSetup]
+    [PackageSetup]
+    {stream0 stream1 modulus0 modulus1 meet sum product dyadic window readback sealRow transport
+      replay provenance localName classifierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusArithmeticCarrier stream0 stream1 modulus0 modulus1 meet sum product dyadic
+        window readback sealRow transport replay provenance localName bundle pkg ->
+      Cont transport sealRow classifierRead ->
+        hsame transport (append meet dyadic) ->
+          UnaryHistory classifierRead ∧ hsame transport (append meet dyadic) ∧
+            Cont transport sealRow classifierRead ∧ Cont modulus0 modulus1 meet ∧
+              Cont meet dyadic sum ∧ Cont meet dyadic product ∧
+                PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory PkgSig
+  intro carrier classifierRoute transportAnchor
+  obtain
+    ⟨_stream0Unary, _stream1Unary, modulus0Unary, _modulus1Unary, _meetUnary,
+      _sumUnary, _productUnary, _dyadicUnary, _windowUnary, _readbackUnary, sealRowUnary,
+      transportUnary, meetRoute, sumRoute, productRoute, _sealRoute, _provenanceRoute,
+      packageRoute⟩ := carrier
+  have classifierUnary : UnaryHistory classifierRead :=
+    unary_cont_closed transportUnary sealRowUnary classifierRoute
+  exact
+    ⟨classifierUnary, transportAnchor, classifierRoute, meetRoute, sumRoute, productRoute,
+      packageRoute⟩
+
 theorem CauchyModulusArithmeticCarrier_product_tail_bound [AskSetup] [PackageSetup]
     {stream0 stream1 modulus0 modulus1 meet sum product dyadic window readback sealRow transport
       replay provenance localName productTail : BHist}
