@@ -146,7 +146,10 @@ validated stronger local recipe.
 The A100 computation queue therefore tracks both the decay-weighted scaled row
 and the uniform-loss scaled row; the uniform-loss verdict remains fail-closed
 until its A100 report is present in the local evidence directory, and the same
-fail-closed ingest contract is used for the decay-weighted A100 row.
+fail-closed ingest contract is used for the decay-weighted A100 row.  A remote
+one-epoch CPU smoke run verifies that the multi-step runner and latent export
+path can write the expected report schema, but it is not an A100 scaling row
+and does not enter the parity evidence.
 The prediction-parity boundary synthesis records this as a bounded local
 state: completed local rows are still outside parity, the transition split is
 only an upper-bound diagnostic, the loss-profile advantage is not stable, and
