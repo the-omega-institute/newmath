@@ -168,7 +168,8 @@ instance quotientFreeCompletionSealFieldFaithful :
   fields := quotientFreeCompletionSealFields
   field_faithful := QuotientFreeCompletionSealTasteGate_single_carrier_alignment_fields
 
-instance quotientFreeCompletionSealNontrivial : Nontrivial QuotientFreeCompletionSealUp where
+instance quotientFreeCompletionSealNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial QuotientFreeCompletionSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨QuotientFreeCompletionSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -180,14 +181,14 @@ instance quotientFreeCompletionSealNontrivial : Nontrivial QuotientFreeCompletio
         cases h⟩
 
 theorem QuotientFreeCompletionSealTasteGate_single_carrier_alignment :
-    (forall h : BHist,
+    (∀ h : BHist,
       quotientFreeCompletionSealDecodeBHist (quotientFreeCompletionSealEncodeBHist h) = h) ∧
-      (forall x : QuotientFreeCompletionSealUp,
+      (∀ x : QuotientFreeCompletionSealUp,
         quotientFreeCompletionSealFromEventFlow
           (quotientFreeCompletionSealToEventFlow x) = some x) ∧
-        (forall x y : QuotientFreeCompletionSealUp,
+        (∀ x y : QuotientFreeCompletionSealUp,
           quotientFreeCompletionSealToEventFlow x =
-            quotientFreeCompletionSealToEventFlow y -> x = y) ∧
+            quotientFreeCompletionSealToEventFlow y → x = y) ∧
           quotientFreeCompletionSealEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
