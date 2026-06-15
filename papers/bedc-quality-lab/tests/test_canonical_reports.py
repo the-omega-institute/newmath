@@ -9073,7 +9073,7 @@ def test_index_discipline_owns_reporting_hardgate_nested_object():
     for report in payload["reports"]:
         gate = report["discipline"]["reporting_hardgate"]
         assert gate["hardgate_id"] == canonical.REPORTING_HARDGATE_ID
-        required_gate_keys = {
+        assert set(gate) == {
             "hardgate_id",
             "status",
             "promotion_eligible",
@@ -9081,10 +9081,10 @@ def test_index_discipline_owns_reporting_hardgate_nested_object():
             "required_cells",
             "missing_required_cells",
             "cells",
+            "protocol_status",
+            "protocol_failed_gates",
+            "protocol_pointer_audit_status",
         }
-        assert required_gate_keys <= set(gate)
-        if "protocol_status" in gate:
-            assert {"protocol_status", "protocol_failed_gates", "protocol_pointer_audit_status"} <= set(gate)
         assert "construct_validity_pointer" in report["discipline"]
         assert "construct_validity_status" in report["discipline"]
         assert "construct_validity" not in gate
