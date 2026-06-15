@@ -3624,6 +3624,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootBudgetObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootBudgetSelectorTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootCarrierClassifierBoundary
 import BEDC.Derived.CriticalLineWitnessUp.RootCarrierProjectionRows
+import BEDC.Derived.CriticalLineWitnessUp.RootCarrierScope
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierBudgetLock
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierReadiness
 import BEDC.Derived.CriticalLineWitnessUp.RootClassifierRefusalBoundary
@@ -3633,6 +3634,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootComponentwiseNamecertTransport
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerReadinessCertificate
+import BEDC.Derived.CriticalLineWitnessUp.RootContinuationZeroStripCoherence
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootFiniteBudgetLedgerStability
@@ -3751,6 +3753,7 @@ import BEDC.Derived.CriticalLineWitnessUp.StripZeroBoundary
 import BEDC.Derived.CriticalLineWitnessUp.StripZeroCompatibility
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedInputCarrierRow
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedSourceCarrierTriadExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroReadback
 import BEDC.Derived.CriticalLineWitnessUp.SuppliedZeroStripRoute
 import BEDC.Derived.CriticalLineWitnessUp.TerminalComparisonLedgerLock
 import BEDC.Derived.CriticalLineWitnessUp.TerminalConsumerExhaustion
