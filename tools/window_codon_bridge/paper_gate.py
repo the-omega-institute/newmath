@@ -13,6 +13,7 @@ CLAIMS = SCRIPT_DIR / "registries" / "claims.json"
 EXPS = SCRIPT_DIR / "registries" / "experiments.json"
 EXPERIMENTS_DIR = SCRIPT_DIR / "experiments"
 ORACLE_INBOX = SCRIPT_DIR / "oracle_inbox" / "candidates.jsonl"
+CHATGPT_ORACLE_INBOX = SCRIPT_DIR / "oracle_inbox" / "chatgpt_consultations.jsonl"
 PAPER_DIR = REPO_ROOT / "papers" / "window_codon_bridge"
 PARTS_DIR = PAPER_DIR / "parts"
 
@@ -144,24 +145,34 @@ def check_registry_topology() -> list[str]:
 
 def check_oracle_inbox() -> list[str]:
     errors: list[str] = []
-    if not ORACLE_INBOX.exists():
-        return errors
-    for line_no, line in enumerate(ORACLE_INBOX.read_text(encoding="utf-8").splitlines(), start=1):
+    for inbox, schema in (
+        (ORACLE_INBOX, "window_codon_oracle_candidate.v1"),
+        (CHATGPT_ORACLE_INBOX, "window_codon_chatgpt_oracle_consultation.v1"),
+    ):
+        if not inbox.exists():
+            continue
+        errors.extend(check_oracle_jsonl(inbox, schema))
+    return errors
+
+
+def check_oracle_jsonl(path: Path, schema: str) -> list[str]:
+    errors: list[str] = []
+    for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
         if not line.strip():
             continue
         try:
             row = json.loads(line)
         except json.JSONDecodeError as exc:
-            errors.append(f"{ORACLE_INBOX.relative_to(REPO_ROOT)}:{line_no}: invalid JSONL row: {exc.msg}")
+            errors.append(f"{path.relative_to(REPO_ROOT)}:{line_no}: invalid JSONL row: {exc.msg}")
             continue
-        if row.get("record_schema") != "window_codon_oracle_candidate.v1":
-            errors.append(f"{ORACLE_INBOX.relative_to(REPO_ROOT)}:{line_no}: unexpected oracle record_schema")
+        if row.get("record_schema") != schema:
+            errors.append(f"{path.relative_to(REPO_ROOT)}:{line_no}: unexpected oracle record_schema")
         if row.get("claim_update_allowed") is not False:
-            errors.append(f"{ORACLE_INBOX.relative_to(REPO_ROOT)}:{line_no}: oracle row must not allow claim updates")
+            errors.append(f"{path.relative_to(REPO_ROOT)}:{line_no}: oracle row must not allow claim updates")
         if row.get("verdict_update_allowed") is not False:
-            errors.append(f"{ORACLE_INBOX.relative_to(REPO_ROOT)}:{line_no}: oracle row must not allow verdict updates")
+            errors.append(f"{path.relative_to(REPO_ROOT)}:{line_no}: oracle row must not allow verdict updates")
         if not row.get("prompt_sha256"):
-            errors.append(f"{ORACLE_INBOX.relative_to(REPO_ROOT)}:{line_no}: missing prompt_sha256")
+            errors.append(f"{path.relative_to(REPO_ROOT)}:{line_no}: missing prompt_sha256")
     return errors
 
 
