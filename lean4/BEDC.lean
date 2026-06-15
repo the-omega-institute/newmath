@@ -3778,6 +3778,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootStripWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootStripZetaGammaSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootVisibleModulusConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroCarrier
+import BEDC.Derived.CriticalLineWitnessUp.RootZeroLocalizationScope
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroLocalizationSelectorExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripCarrierRow
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripExclusion
@@ -6330,6 +6331,7 @@ import BEDC.Derived.LimitPointCompactUp.TasteGate
 import BEDC.Derived.LimitSelectorUp
 import BEDC.Derived.LimitSpaceUp.TasteGate
 import BEDC.Derived.LimitUp.BishopHandoff
+import BEDC.Derived.LimitUp.CompletionScopeRefusal
 import BEDC.Derived.LimitUp.ConsumerHandoffExactness
 import BEDC.Derived.LimitUp.FiniteWindowExactness
 import BEDC.Derived.LimitUp.RealCompletionHandoff
@@ -10773,6 +10775,7 @@ import BEDC.Derived.WitnessedDescentLedgerUp.TasteGate
 import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.WobbleQuotientSpectralTriggerUp.TasteGate
 import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
+import BEDC.Derived.WritingItemAuditUp.ObligationClosure
 import BEDC.Derived.WritingItemAuditUp.TasteGate
 import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
 import BEDC.Derived.YonedaCompletionUp.TasteGate
