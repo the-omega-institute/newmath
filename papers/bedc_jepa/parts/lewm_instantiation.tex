@@ -267,6 +267,16 @@ best observed tail-weighted row is $+0.00431$ $[-0.00080,\ +0.01012]$, still
 not a claim.  This separates the diagnosis from a simple remedy: the residual
 gap is tail-episode concentrated, but train-oracle episode reweighting does not
 transfer into useful allocation control.
+A soft budget-feasible surrogate makes the training objective closer to the
+balanced depth gate by using train-split option errors inside a differentiable
+episode objective.  It remains fail-closed.  Calibration selection over the
+same seed family chooses seed $11$ at $60$ epochs, with evaluation allocation
+delta $+0.00356$ $[-0.00342,\ +0.01177]$; the best observed row is seed $11$ at
+$20$ epochs with $+0.00193$ $[-0.00355,\ +0.00700]$.  Both remain bounded, and
+the unweighted episode-policy reference is still $+0.00184$
+$[-0.00306,\ +0.00687]$.  Thus moving the loss toward the budget gate helps
+relative to naive tail weighting, but a soft surrogate does not yet produce an
+allocation-native policy.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -371,6 +381,7 @@ $$
 \text{compute-value policy stability} & \texttt{reports/compute\_value\_policy\_stability.json},\\
 \text{compute-value episode decomposition} & \texttt{reports/compute\_value\_episode\_decomposition.json},\\
 \text{compute-value tail policy} & \texttt{reports/compute\_value\_tail\_policy.json},\\
+\text{compute-value budget surrogate} & \texttt{reports/compute\_value\_budget\_surrogate.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

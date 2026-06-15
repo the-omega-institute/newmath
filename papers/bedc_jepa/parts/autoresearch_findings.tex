@@ -169,6 +169,15 @@ tail-weighted row is still $+0.00431$ $[-0.00080,\ +0.01012]$.  This rejects
 naive train-oracle episode weighting as the missing step.  The tail signal must
 enter through a budget-feasible objective or a transferable hard-episode state,
 not through simple episode reweighting alone.
+A soft budget-feasible surrogate is also bounded.  The surrogate uses
+train-split option errors inside a differentiable balanced-depth objective and
+keeps calibration-only model selection.  It improves over the naive
+tail-weighted row but does not close allocation: the selected run gives
+$+0.00356$ $[-0.00342,\ +0.01177]$, and the best observed run gives $+0.00193$
+$[-0.00355,\ +0.00700]$.  The unweighted episode-policy reference remains
+$+0.00184$ $[-0.00306,\ +0.00687]$.  This suggests that a soft surrogate is not
+enough; the missing step is likely a sharper discrete/listwise assignment
+objective or additional state that predicts transferable hard episodes.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar
