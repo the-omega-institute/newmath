@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\EgyptianFractionUp$}
+\label{ch:concrete-instances-egyptian-fraction-namecert}
+\origin{human}
+
+Following Hardy--Wright style unit-fraction decomposition, the $\EgyptianFractionUp$ packet records the finite greedy route by which a positive rational window is decomposed into displayed unit-denominator rows before it is consumed by real-approximation data. It sits after the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the pointwise rational schedule of \autoref{ch:concrete-instances-rationalstream-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only a finite decomposition packet; it does not assert host rational trichotomy, select an infinite expansion, quotient real names, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Egyptian fraction carrier]
+\label{def:egyptian-fraction-carrier}
+An $\EgyptianFractionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(Q,R,D,G,T,S,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the initial positive $\RatUp$ source row to be decomposed.
+\item $R=(r_0,\ldots,r_m)$ is the residual rational row, with $r_0=Q$ and each displayed residual read through $\RatUp$.
+\item $D=(d_1,\ldots,d_m)$ is the finite unit-denominator list, recording the unit rows $1/d_i$ consumed by the decomposition.
+\item $G$ is the greedy-step ledger. Its $i$th row records that $d_i$ is a displayed positive denominator with $1/d_i \leq r_{i-1}$ and that the next residual is $r_i=r_{i-1}-1/d_i$.
+\item $T$ is the $\DyadicRatCoreUp$ error-budget row, recording dyadic windows for the residuals and for the finite partial sums $\sum_{j\leq i}1/d_j$.
+\item $S$ is the $\RationalStreamUp$ handoff row, exposing the finite partial-sum schedule as rational observations.
+\item $A$ is the $\RegSeqRatUp$ readback row, reading the same finite schedule as a regular rational approximation window for downstream Real and Completion consumers.
+\item $H$ records componentwise $\hsame$ transport for $Q,R,D,G,T,S,A$ and the local naming rows.
+\item $C$ records displayed $\Cont$ replay from the initial rational row through the greedy ledger, dyadic budget, rational-stream handoff, and regular-rational readback.
+\item $P$ is the $\Pkg$ provenance over $\EgyptianFractionUp$, $\RatUp$, $\DyadicRatCoreUp$, $\RationalStreamUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\EgyptianFractionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed finite rows $Q,R,D,G,T,S,A,H,C,P,N$. It has no coordinate for an infinite unit-fraction tail, a chosen host expansion, quotient equality of real names, rational trichotomy beyond the displayed comparisons, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Egyptian fraction greedy step]
+\label{thm:egyptian-fraction-greedy-step}
+For an accepted $\EgyptianFractionUp$ carrier $E=(Q,R,D,G,T,S,A,H,C,P,N)$, every displayed greedy row in $G$ decreases the residual inside the rational-and-dyadic surface. More precisely, if the $i$th ledger row records $1/d_i \leq r_{i-1}$ and $r_i=r_{i-1}-1/d_i$ with $r_{i-1}>0$, then the next residual row satisfies
+$$
+0 \leq r_i < r_{i-1}.
+$$
+The comparison is read only through the $\RatUp$ residual rows and the $\DyadicRatCoreUp$ budget row $T$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:egyptian-fraction-carrier}. The relevant data for one step are the residual pair $r_{i-1},r_i$, the denominator row $d_i$, the ledger equation in $G$, and the dyadic comparison budget in $T$.
+
+The lower bound is ledger exactness. Since $G$ records $1/d_i \leq r_{i-1}$ and $r_i=r_{i-1}-1/d_i$, the displayed $\RatUp$ subtraction row presents $r_i$ as a nonnegative residual.
+
+The strict upper bound uses only the positive unit row. The same ledger records a positive denominator, so the unit row $1/d_i$ is a positive rational. Subtracting a displayed positive rational from the positive residual gives $r_i<r_{i-1}$, and the dyadic budget row $T$ supplies the finite comparison window used by downstream consumers.
+\end{proof}
+
+\begin{theorem}[Egyptian fraction NameCert obligations]
+\label{thm:egyptian-fraction-namecert-obligations}
+For every accepted $\EgyptianFractionUp$ carrier $E=(Q,R,D,G,T,S,A,H,C,P,N)$, the local $\NameCert_{\EgyptianFractionUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $E$;
+\item residual exactness for the $\RatUp$ rows $Q,R$ and the unit-denominator list $D$;
+\item greedy-step exactness for $G$, including the residual decrease of \autoref{thm:egyptian-fraction-greedy-step};
+\item approximation handoff through the $\DyadicRatCoreUp$ budget row $T$, the $\RationalStreamUp$ schedule row $S$, and the $\RegSeqRatUp$ readback row $A$;
+\item componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the finite tuple $E$. The rational source, residual list, denominator list, greedy ledger, dyadic budget, rational-stream handoff, regular readback, transport, replay, provenance, and naming rows are all coordinates of the same $\BHist$ packet.
+
+Residual exactness and greedy-step exactness are local to $Q,R,D,G$. Each accepted step stores the unit denominator and the resulting residual equation, while \autoref{thm:egyptian-fraction-greedy-step} supplies the displayed decrease used to keep the finite ledger ordered.
+
+The approximation handoff is downstream of the greedy rows. The dyadic budget row $T$ bounds the finite partial sums, $S$ exposes those sums as rational-stream observations, and $A$ reads the same schedule as a regular rational approximation row. The remaining rows $H,C,P,N$ transport and name exactly this route, so the five listed rows exhaust the local $\NameCert$ surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\EgyptianFractionUp$ consumer must expose the initial Rat row, residual rational row, unit-denominator list, greedy-step ledger, dyadic error budget, RationalStream handoff, RegSeqRat readback, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any Real-facing rational approximation read is available.}
+
+\independenceWitness{Nearest siblings: Rat, DyadicRatCore, RationalStream, RegSeqRat, and Real. $\EgyptianFractionUp$ is not bijective to any one of them because it binds a finite unit-denominator decomposition ledger to dyadic budget, rational-stream, and regular-rational readback rows in one local NameCert packet.}
+
+\closureat{EgyptianFractionUp}{seedStr}
+
+\begin{closurestatus}{\EgyptianFractionUp}
+  \constructivestory{An $\EgyptianFractionUp$ packet is generated from a positive Rat source row, residual rational rows, a finite unit-denominator list, a greedy-step ledger, dyadic error budgets, RationalStream handoff, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:egyptian-fraction-carrier}, \autoref{thm:egyptian-fraction-greedy-step}, and \autoref{thm:egyptian-fraction-namecert-obligations} seed the finite unit-fraction decomposition surface for L10 rational approximation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close existence of a complete expansion for arbitrary rationals, uniqueness of decomposition, host rational trichotomy, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual exactness, greedy-step decrease, dyadic budget handoff, RationalStream handoff, RegSeqRat readback, transport, replay, provenance, and local naming for BEDC.Derived.EgyptianFractionUp.}
+\end{closurestatus}
