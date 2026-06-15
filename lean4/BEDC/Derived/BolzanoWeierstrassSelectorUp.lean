@@ -276,28 +276,43 @@ theorem BolzanoWeierstrassSelectorFiniteWindowStabilization
     ⟨laterUnary, handoffUnary, stabilizedUnary, laterRoute, handoffRoute, sealRoute, rfl⟩
 
 theorem BolzanoWeierstrassSelectorRegSeqRatReadbackNonescape
-    {B M Q W D R E H C P N sealRead : BHist} :
-    Cont B M W →
-      Cont W D R →
-        Cont R E sealRead →
-          UnaryHistory B →
-            UnaryHistory M →
-              UnaryHistory D →
-                UnaryHistory E →
-                  bolzanoWeierstrassSelectorFields
-                        (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C P N) =
-                      [B, M, Q, W, D, R, E, H, C, P, N] ∧
-                    UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory sealRead ∧
-                      Cont W D R ∧ Cont R E sealRead := by
+    {B M Q W D R E H C P N selectedRead dyadicRead regSeqRead realSeal : BHist} :
+    Cont B M selectedRead ->
+      Cont selectedRead Q W ->
+        Cont W D dyadicRead ->
+          Cont dyadicRead R regSeqRead ->
+            Cont regSeqRead E realSeal ->
+              UnaryHistory B ->
+                UnaryHistory M ->
+                  UnaryHistory Q ->
+                    UnaryHistory D ->
+                      UnaryHistory R ->
+                        UnaryHistory E ->
+                          UnaryHistory selectedRead ∧ UnaryHistory W ∧
+                            UnaryHistory dyadicRead ∧ UnaryHistory regSeqRead ∧
+                              UnaryHistory realSeal ∧ Cont B M selectedRead ∧
+                                Cont selectedRead Q W ∧ Cont W D dyadicRead ∧
+                                  Cont dyadicRead R regSeqRead ∧ Cont regSeqRead E realSeal ∧
+                                    bolzanoWeierstrassSelectorFields
+                                        (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C
+                                          P N) =
+                                      [B, M, Q, W, D, R, E, H, C, P, N] := by
   -- BEDC touchpoint anchor: BHist Cont UnaryHistory
-  intro selectedRoute regularRoute sealRoute bUnary mUnary dUnary eUnary
-  have selectedUnary : UnaryHistory W :=
+  intro selectedRoute windowRoute dyadicRoute regSeqRoute sealRoute bUnary mUnary qUnary
+    dUnary rUnary eUnary
+  have selectedUnary : UnaryHistory selectedRead :=
     unary_cont_closed bUnary mUnary selectedRoute
-  have regularUnary : UnaryHistory R :=
-    unary_cont_closed selectedUnary dUnary regularRoute
-  have sealUnary : UnaryHistory sealRead :=
-    unary_cont_closed regularUnary eUnary sealRoute
-  exact ⟨rfl, selectedUnary, regularUnary, sealUnary, regularRoute, sealRoute⟩
+  have windowUnary : UnaryHistory W :=
+    unary_cont_closed selectedUnary qUnary windowRoute
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed windowUnary dUnary dyadicRoute
+  have regSeqUnary : UnaryHistory regSeqRead :=
+    unary_cont_closed dyadicUnary rUnary regSeqRoute
+  have sealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regSeqUnary eUnary sealRoute
+  exact
+    ⟨selectedUnary, windowUnary, dyadicUnary, regSeqUnary, sealUnary, selectedRoute,
+      windowRoute, dyadicRoute, regSeqRoute, sealRoute, rfl⟩
 
 theorem BolzanoWeierstrassSelectorRegularCauchyClusterSeal
     {B M Q W D R E H C P N selected regular sealRead clusterRead : BHist} :
@@ -330,5 +345,25 @@ theorem BolzanoWeierstrassSelectorRegularCauchyClusterSeal
   exact
     ⟨rfl, selectedUnary, regularUnary, sealUnary, clusterUnary, regularRoute, sealRoute,
       clusterRoute⟩
+
+theorem BolzanoWeierstrassSelectorBoundedSubsequenceCarrier
+    {B M Q W D R E H C P N selectedRead inspectedRead : BHist} :
+    Cont B M selectedRead ->
+      Cont selectedRead Q inspectedRead ->
+        UnaryHistory B ->
+          UnaryHistory M ->
+            UnaryHistory Q ->
+              UnaryHistory selectedRead ∧ UnaryHistory inspectedRead ∧
+                Cont B M selectedRead ∧ Cont selectedRead Q inspectedRead ∧
+                  bolzanoWeierstrassSelectorFields
+                      (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C P N) =
+                    [B, M, Q, W, D, R, E, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro selectedRoute inspectedRoute bUnary mUnary qUnary
+  have selectedUnary : UnaryHistory selectedRead :=
+    unary_cont_closed bUnary mUnary selectedRoute
+  have inspectedUnary : UnaryHistory inspectedRead :=
+    unary_cont_closed selectedUnary qUnary inspectedRoute
+  exact ⟨selectedUnary, inspectedUnary, selectedRoute, inspectedRoute, rfl⟩
 
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
