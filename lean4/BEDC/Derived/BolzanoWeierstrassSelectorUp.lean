@@ -122,6 +122,91 @@ theorem BolzanoWeierstrassSelectorFiniteMonotoneInduction
     unary_cont_closed selectedUnary cofinalUnary inductionRoute
   exact ⟨selectedUnary, inductionUnary, selectedRoute, inductionRoute, rfl⟩
 
+theorem BolzanoWeierstrassSelectorNonescape (x : BolzanoWeierstrassSelectorUp) :
+    (exists boundedWindow monotoneSelector cofinalEvidence selectedWindow dyadicLedger
+        regularHandoff realSeal transport route provenance name : BHist,
+        x =
+          BolzanoWeierstrassSelectorUp.mk boundedWindow monotoneSelector cofinalEvidence
+            selectedWindow dyadicLedger regularHandoff realSeal transport route provenance name ∧
+          bolzanoWeierstrassSelectorFields x =
+            [boundedWindow, monotoneSelector, cofinalEvidence, selectedWindow, dyadicLedger,
+              regularHandoff, realSeal, transport, route, provenance, name] ∧
+          bolzanoWeierstrassSelectorFromEventFlow
+              (bolzanoWeierstrassSelectorToEventFlow x) =
+            some x ∧
+          hsame transport transport ∧
+          bolzanoWeierstrassSelectorDecodeBHist
+              (bolzanoWeierstrassSelectorEncodeBHist realSeal) =
+            realSeal) ∧
+      bolzanoWeierstrassSelectorEncodeBHist (BHist.e1 (BHist.e1 (BHist.e0 BHist.Empty))) =
+        [BMark.b1, BMark.b1, BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark hsame BHistCarrier ChapterTasteGate
+  have decodeEncode :
+      ∀ h : BHist,
+        bolzanoWeierstrassSelectorDecodeBHist
+            (bolzanoWeierstrassSelectorEncodeBHist h) =
+          h := by
+    intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  cases x with
+  | mk boundedWindow monotoneSelector cofinalEvidence selectedWindow dyadicLedger regularHandoff
+      realSeal transport route provenance name =>
+      have roundTrip :
+          bolzanoWeierstrassSelectorFromEventFlow
+              (bolzanoWeierstrassSelectorToEventFlow
+                (BolzanoWeierstrassSelectorUp.mk boundedWindow monotoneSelector
+                  cofinalEvidence selectedWindow dyadicLedger regularHandoff realSeal transport
+                  route provenance name)) =
+            some
+              (BolzanoWeierstrassSelectorUp.mk boundedWindow monotoneSelector cofinalEvidence
+                selectedWindow dyadicLedger regularHandoff realSeal transport route provenance
+                name) := by
+        change
+          some
+              (BolzanoWeierstrassSelectorUp.mk
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist boundedWindow))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist monotoneSelector))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist cofinalEvidence))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist selectedWindow))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist dyadicLedger))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist regularHandoff))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist realSeal))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist transport))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist route))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist provenance))
+                (bolzanoWeierstrassSelectorDecodeBHist
+                  (bolzanoWeierstrassSelectorEncodeBHist name))) =
+            some
+              (BolzanoWeierstrassSelectorUp.mk boundedWindow monotoneSelector cofinalEvidence
+                selectedWindow dyadicLedger regularHandoff realSeal transport route provenance
+                name)
+        rw [decodeEncode boundedWindow, decodeEncode monotoneSelector,
+          decodeEncode cofinalEvidence, decodeEncode selectedWindow, decodeEncode dyadicLedger,
+          decodeEncode regularHandoff, decodeEncode realSeal, decodeEncode transport,
+          decodeEncode route, decodeEncode provenance, decodeEncode name]
+      constructor
+      · exact
+          ⟨boundedWindow, monotoneSelector, cofinalEvidence, selectedWindow, dyadicLedger,
+            regularHandoff, realSeal, transport, route, provenance, name, rfl, rfl, roundTrip,
+            hsame_refl transport, decodeEncode realSeal⟩
+      · rfl
+
 theorem BolzanoWeierstrassSelectorFiniteSubsequenceObligations
     {B M Q W D R E H C P N finiteRead regularRead sealRead : BHist} :
     Cont B M W ->
@@ -153,5 +238,97 @@ theorem BolzanoWeierstrassSelectorFiniteSubsequenceObligations
   exact
     ⟨selectedUnary, finiteUnary, regularUnary, sealUnary, selectedRoute, finiteRoute,
       regularRoute, sealRoute, rfl⟩
+
+theorem BolzanoWeierstrassSelectorFiniteWindowStabilization
+    {boundedWindow monotoneSelector cofinalEvidence selectedWindow laterWindow dyadicLedger
+      regularHandoff realSeal transport route provenance name stabilizedRead : BHist} :
+    Cont boundedWindow monotoneSelector selectedWindow →
+      Cont boundedWindow monotoneSelector laterWindow →
+        Cont laterWindow dyadicLedger regularHandoff →
+          Cont regularHandoff realSeal stabilizedRead →
+            UnaryHistory boundedWindow →
+              UnaryHistory monotoneSelector →
+                UnaryHistory dyadicLedger →
+                  UnaryHistory realSeal →
+                    UnaryHistory laterWindow ∧ UnaryHistory regularHandoff ∧
+                      UnaryHistory stabilizedRead ∧
+                        Cont boundedWindow monotoneSelector laterWindow ∧
+                          Cont laterWindow dyadicLedger regularHandoff ∧
+                            Cont regularHandoff realSeal stabilizedRead ∧
+                              bolzanoWeierstrassSelectorFields
+                                  (BolzanoWeierstrassSelectorUp.mk boundedWindow
+                                    monotoneSelector cofinalEvidence selectedWindow
+                                    dyadicLedger regularHandoff realSeal transport route
+                                    provenance name) =
+                                [boundedWindow, monotoneSelector, cofinalEvidence,
+                                  selectedWindow, dyadicLedger, regularHandoff, realSeal,
+                                  transport, route, provenance, name] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro _selectedRoute laterRoute handoffRoute sealRoute boundedUnary selectorUnary
+    dyadicUnary realUnary
+  have laterUnary : UnaryHistory laterWindow :=
+    unary_cont_closed boundedUnary selectorUnary laterRoute
+  have handoffUnary : UnaryHistory regularHandoff :=
+    unary_cont_closed laterUnary dyadicUnary handoffRoute
+  have stabilizedUnary : UnaryHistory stabilizedRead :=
+    unary_cont_closed handoffUnary realUnary sealRoute
+  exact
+    ⟨laterUnary, handoffUnary, stabilizedUnary, laterRoute, handoffRoute, sealRoute, rfl⟩
+
+theorem BolzanoWeierstrassSelectorRegSeqRatReadbackNonescape
+    {B M Q W D R E H C P N sealRead : BHist} :
+    Cont B M W →
+      Cont W D R →
+        Cont R E sealRead →
+          UnaryHistory B →
+            UnaryHistory M →
+              UnaryHistory D →
+                UnaryHistory E →
+                  bolzanoWeierstrassSelectorFields
+                        (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C P N) =
+                      [B, M, Q, W, D, R, E, H, C, P, N] ∧
+                    UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory sealRead ∧
+                      Cont W D R ∧ Cont R E sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro selectedRoute regularRoute sealRoute bUnary mUnary dUnary eUnary
+  have selectedUnary : UnaryHistory W :=
+    unary_cont_closed bUnary mUnary selectedRoute
+  have regularUnary : UnaryHistory R :=
+    unary_cont_closed selectedUnary dUnary regularRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary eUnary sealRoute
+  exact ⟨rfl, selectedUnary, regularUnary, sealUnary, regularRoute, sealRoute⟩
+
+theorem BolzanoWeierstrassSelectorRegularCauchyClusterSeal
+    {B M Q W D R E H C P N selected regular sealRead clusterRead : BHist} :
+    Cont B M selected →
+      Cont selected D regular →
+        Cont regular R sealRead →
+          Cont sealRead E clusterRead →
+            UnaryHistory B →
+              UnaryHistory M →
+                UnaryHistory D →
+                  UnaryHistory R →
+                    UnaryHistory E →
+                      bolzanoWeierstrassSelectorFields
+                            (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C P N) =
+                          [B, M, Q, W, D, R, E, H, C, P, N] ∧
+                        UnaryHistory selected ∧ UnaryHistory regular ∧
+                          UnaryHistory sealRead ∧ UnaryHistory clusterRead ∧
+                            Cont selected D regular ∧ Cont regular R sealRead ∧
+                              Cont sealRead E clusterRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro selectedRoute regularRoute sealRoute clusterRoute bUnary mUnary dUnary rUnary eUnary
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed bUnary mUnary selectedRoute
+  have regularUnary : UnaryHistory regular :=
+    unary_cont_closed selectedUnary dUnary regularRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary rUnary sealRoute
+  have clusterUnary : UnaryHistory clusterRead :=
+    unary_cont_closed sealUnary eUnary clusterRoute
+  exact
+    ⟨rfl, selectedUnary, regularUnary, sealUnary, clusterUnary, regularRoute, sealRoute,
+      clusterRoute⟩
 
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
