@@ -79,6 +79,48 @@ The handoff to downstream consumers is then replayed through $H,C,P,N$. A nested
 The stream, regular-rational, and real-seal rows $S,Q,E$ remain available only as finite readbacks for the already displayed cells. They cannot introduce quotient real equality or a hidden choice of a child branch because those coordinates are absent from the carrier.
 \end{proof}
 
+\begin{theorem}[IntervalBisection obligation carrier exposure]
+\label{thm:interval-bisection-obligation-carrier}
+Every accepted $\IntervalBisectionUp$ packet exposes its root-unblock carrier rows before any located interval, dyadic interval, rational interval, StreamName, RegSeqRat, Real, or closed-interval compact-net consumer reads the bisection. The exposed rows are exactly the parent $\LocatedIntervalUp$ row $I$, midpoint route $M$, left and right child rows $L,R$, $\DyadicIntervalUp$ refinement ledger $D$, $\StreamNameUp$ finite-window row $S$, $\RegSeqRatUp$ readback row $Q$, $\RealUp$ child seals $E$, componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-bisection-carrier}. Its displayed tuple is $K=(I,M,L,R,D,S,Q,E,H,C,P,N)$, so the only carrier data available to a consumer are precisely those rows.
+
+The interval-facing rows are $I,M,L,R,D$. They expose the located parent cell, the rational midpoint route, both child cells, and the dyadic refinement ledger before any downstream readback is opened.
+
+The readback-facing rows are $S,Q,E$. They expose finite StreamName windows, regular rational readback, and the two Real child seals only after the bisection cells have been displayed.
+
+The structural rows $H,C,P,N$ preserve and name the same packet. Since no additional carrier coordinate exists, every listed consumer reads the bisection through the displayed root-unblock surface.
+\end{proof}
+
+\begin{theorem}[IntervalBisection obligation transport]
+\label{thm:interval-bisection-obligation-transport}
+Let $K=(I,M,L,R,D,S,Q,E,H,C,P,N)$ and $K'=(I',M',L',R',D',S',Q',E',H',C',P',N')$ be accepted $\IntervalBisectionUp$ packets. If the located interval, midpoint, child interval, dyadic ledger, finite-window, readback, and Real-seal rows transport componentwise under the displayed $\hsame$ rows and replay through the displayed $\Cont$ routes, then every located interval, dyadic interval, rational interval, StreamName, RegSeqRat, Real, and $\ClosedIntervalCompactNetUp$ consumer receives the same bisection obligation surface from $K$ and $K'$.
+\end{theorem}
+\begin{proof}
+The componentwise hypotheses identify the interval rows $I,M,L,R,D$ with $I',M',L',R',D'$ through the transport rows $H,H'$. Thus the parent cell, midpoint route, two child cells, and dyadic refinement ledger determine the same finite bisection shape.
+
+The readback rows transport in the same way. The finite windows $S,S'$, regular readbacks $Q,Q'$, and Real seals $E,E'$ are replayed through $C,C'$, so no consumer can observe a second bisection route outside the transported rows.
+
+Finally $P,N$ and $P',N'$ source and name the transported packet. The consumer list is exhausted by those interval, readback, and structural rows, so the transported packets expose the same obligation surface.
+\end{proof}
+
+\begin{theorem}[IntervalBisection obligation ledger exhaustion]
+\label{thm:interval-bisection-obligation-ledger}
+For every accepted $\IntervalBisectionUp$ packet, the root-unblock ledger for located interval, dyadic interval, rational interval, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\ClosedIntervalCompactNetUp$ consumers is exhausted by the rows
+$$
+I,M,L,R,D,S,Q,E,H,C,P,N.
+$$
+The ledger contains no row for selected infinite branch choice, open-cover compactness, quotient real equality, host endpoint equality, trichotomy, or an ambient compactness theorem.
+\end{theorem}
+\begin{proof}
+Use the carrier exposure theorem to list the only rows in the packet. The located, rational, and dyadic interval consumers read $I,M,L,R,D$; the StreamName, RegSeqRat, and Real consumers read $S,Q,E$ after those interval rows have been displayed.
+
+Use the transport theorem for stability. Any replayed or transported bisection obligation is still read through $H,C,P,N$ together with the same interval and readback rows, so the ledger has no second channel.
+
+The excluded objects are absent from the carrier and from the NameCert obligations of \autoref{thm:interval-bisection-namecert-obligations}. Therefore the listed tuple exhausts the root-unblock ledger for all named consumers.
+\end{proof}
+
 \closureat{IntervalBisectionUp}{seedStr}
 
 \begin{closurestatus}{\IntervalBisectionUp}
