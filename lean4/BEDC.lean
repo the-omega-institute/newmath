@@ -3713,6 +3713,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootStripPublicTarget
 import BEDC.Derived.CriticalLineWitnessUp.RootStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.RootStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootStripWindowExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.RootStripZetaGammaSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootVisibleModulusConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripCarrierRow
@@ -5741,6 +5742,7 @@ import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
 import BEDC.Derived.HeineBorelLocatedIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelNetCompactnessUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
+import BEDC.Derived.HellingerDistanceUp
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
@@ -6214,6 +6216,7 @@ import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
 import BEDC.Derived.LeastUpperBoundUp.TasteGate
+import BEDC.Derived.LebesgueCoveringDimensionUp.TasteGate
 import BEDC.Derived.LebesgueDifferentiationUp.TasteGate
 import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
 import BEDC.Derived.LeibnizAlternatingRemainderUp.TasteGate
@@ -10187,6 +10190,7 @@ import BEDC.Derived.TotalBoundedMetricUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TotalVariationFunctionUp.TasteGate
 import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
+import BEDC.Derived.TotallyBoundedCompletionUp
 import BEDC.Derived.TotallyBoundedLocatedSetUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
