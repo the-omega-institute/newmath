@@ -129,6 +129,22 @@ Apply the TasteGate obligation of \autoref{thm:typed-supply-socket-tastegate-obl
 Thus the only public socket read is the obligation row sequence stated above. Since supply availability has no separate coordinate, it cannot be made public without first exposing the typed socket rows.
 \end{proof}
 
+\begin{theorem}[Typed supply socket scoped rows]
+\label{thm:typed-supply-socket-scope-rows}
+Every accepted $\TypedSupplySocketUp$ packet scopes its displayed rows
+$$
+K,Q,S,G,U,H,C,P,N
+$$
+exactly over $\SocketKindClassifierUp$, $\SupplySocketLedgerUp$, $\MachineInterfaceSocketUp$, $\ApophaticFarEndSocketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The public surface exports the typed socket carrier, TasteGate boundary, and obligation rows of this finite scope only; it exports no untyped supply availability row.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:typed-supply-socket-namecert-obligations}. They bind carrier admission, kind exactness, requested-supply exposure, consumption-site exposure, audit-gate readback, non-internalization, transport, replay, provenance, and local naming to the displayed rows $K,Q,S,G,U,H,C,P,N$.
+
+Apply the TasteGate obligation of \autoref{thm:typed-supply-socket-tastegate-obligation}. It requires the same rows to remain distinct, so the classifier row, ledger row, machine-facing consumption row, apophatic boundary row, transport, continuation, provenance, and naming surface cannot be collapsed into an untyped supply grant.
+
+Finally use the obligation-row theorem \autoref{thm:typed-supply-socket-obligation-rows}. Since every public socket read exposes exactly $K,Q,S,G,U,H,C,P,N$ before any supply availability is public, the scoped dependency surface is precisely the listed BEDC primitives and no separate untyped availability row is exported.
+\end{proof}
+
 \falsifiablePrediction{If the socket kind row is erased, Type I induction sockets and Type II witness sockets can no longer be separated by the public classifier.}
 
 \independenceWitness{socketkindclassifier, supplysocketledger, machineinterfacesocket, apophaticfarendsocket: SocketKindClassifierUp classifies kinds but lacks requested-supply, consumption-site, audit-gate, and non-internalization rows; SupplySocketLedgerUp accounts for requested supply but does not bind all seven kinds to a consumption site and gate; MachineInterfaceSocketUp routes formalization targets rather than the full seven-kind socket taxonomy; ApophaticFarEndSocketUp names the far-end refusal position but lacks the typed request and site rows. None is bijective to $\TypedSupplySocketUp$ under NameCert-row preservation.}
@@ -140,12 +156,12 @@ The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \TypedSupplySocke
 
 \begin{closurestatus}{\TypedSupplySocketUp}
   \constructivestory{The typed supply socket is generated from a $BHist$ packet that records a socket kind, requested supply, consumption site, audit gate, non-internalization row, and the socket route that consumes them together. The carrier convention reads the typed socket directly from those rows and uses $hsame$ to preserve both socket identity and kind across equivalent histories. Continuations are admitted only through $\Cont$ extensions that keep the typed row attached to the supply route. NameCert obligations, kind separation, TasteGate obligation, prediction, and independence witness certify that a consumer cannot silently retag a socket or use an untyped supply source. The socket is therefore a typed ledger route, not an ambient resource.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the typed supply-socket carrier, NameCert obligations, kind-separation theorem, TasteGate-obligation theorem, obligation-row exposure theorem, falsifiable prediction, and independence witness.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:typed-supply-socket-scope-rows} scopes the rows $K,Q,S,G,U,H,C,P,N$ exactly over SocketKindClassifierUp, SupplySocketLedgerUp, MachineInterfaceSocketUp, ApophaticFarEndSocketUp, BHist, hsame, Cont, Pkg, and NameCert, with no untyped supply availability row exported.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.TypedSupplySocketUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim untyped supply availability, host resource equality, or kind conversion outside the recorded socket carrier.}
-  \upgradepath{Reaching scoped closure requires checked carrier admission, obligation-row exposure, transport, replay, provenance, and local naming beyond the TasteGate witness.}
+  \upgradepath{Reaching public closure requires a public consumer theorem for the scoped typed-supply socket surface and its refusal of untyped supply availability.}
 \end{closurestatus}
