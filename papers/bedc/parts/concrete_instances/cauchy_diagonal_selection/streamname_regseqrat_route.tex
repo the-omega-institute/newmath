@@ -1,0 +1,13 @@
+\begin{theorem}[Cauchy diagonal selection StreamName-RegSeqRat route]
+\label{thm:cauchy-diagonal-selection-streamname-regseqrat-route}
+Every accepted $\CauchyDiagonalSelectionUp$ packet must first expose the $\StreamNameUp$ finite-window rows of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RegSeqRatUp$ readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} before any diagonal selector is consumed. Thus a completion-facing diagonal request reads the same displayed $S,R,T,E$ route recorded by the local carrier and cannot replace it by a detached tail selector, quotient stream, selected limit, or hidden completion representative.
+\end{theorem}
+\begin{proof}
+Project the carrier $D=(S,R,M,W,T,E,H,C,P,N)$ from \autoref{def:cauchy-diagonal-selection-carrier}. The source schedule $S$ supplies the finite $\StreamNameUp$ windows, the readback row $R$ supplies the $\RegSeqRatUp$ values, the tolerance row $T$ supplies the $\DyadicRatCoreUp$ comparison, and the terminal row $E$ supplies the $\RealUp$ seal.
+
+Use the visible L10 dependency route recorded in \autoref{ch:concrete-instances-cauchy-diagonal-selection-namecert}. Its sibling route binds the diagonal-selection packet to the displayed StreamName, RegSeqRat, DyadicRatCore, and Real rows before the top-level dossier can be consumed.
+
+Now apply the rational interval locator forward route in the same dossier. That route reads the selected diagonal window as interval data only after the displayed source, readback, and tolerance rows have been exposed.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name this finite route. Since the carrier has no coordinate for a detached tail selector, quotient stream, selected limit, or hidden completion representative, none of those objects can replace the displayed $S,R,T,E$ route.
+\end{proof}

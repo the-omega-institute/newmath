@@ -79,12 +79,26 @@ The Jordan route $J$ is downstream of that accepted data. It may expose finite p
 No additional carrier coordinate remains for a host supremum of all partitions, quotient equality of real-valued functions, a selected Jordan decomposition, measure integration, or ambient $\RealUp$ completeness. Hence every Jordan-facing read factors through the displayed finite route.
 \end{proof}
 
+\begin{theorem}[BoundedVariationRealFunction partition-refinement induction]
+\label{thm:bounded-variation-partition-refinement-induction}
+Let $V=(I,F,W,R,D,B,J,H,C,P,N)$ be an accepted $\BoundedVariationRealFunctionUp$ carrier. Suppose that $I$ displays a finite dyadic partition window and that a finite refinement spine is obtained by repeatedly inserting one dyadic endpoint into an already displayed adjacent interval. Then primitive induction over that spine preserves the variation-budget row: at every stage each inserted endpoint is read through the same $\StreamNameUp$ and $\RegSeqRatUp$ route $W,R$, the two adjacent absolute-difference budgets replacing the old interval budget are recorded in the same $\DyadicRatCoreUp$ row $D$, and the refined partial variation ledger is accepted by the same bounded-variation row $B$.
+\end{theorem}
+\begin{proof}
+Use induction on the finite refinement spine displayed over $I$. In the base case the spine has no inserted endpoint, so the current ledger is exactly the partition row already accepted by $B$ through the budget comparisons recorded in $D$.
+
+For the successor step, assume that the current displayed ledger is accepted by $B$ and insert one dyadic endpoint inside a single adjacent interval. The endpoint observation is scheduled by the $\StreamNameUp$ row $W$ and read back by the $\RegSeqRatUp$ row $R$, so no value of $F$ is inspected outside the carrier route.
+
+The $\DyadicRatCoreUp$ row $D$ then replaces the old interval budget by the two adjacent absolute-difference budgets and updates the displayed partial variation sum. Since the induction hypothesis already identifies every unchanged interval with its accepted budget row, this replacement is the only local comparison required for the refined window.
+
+Finally $H,C,P,N$ transport, replay, source, and name the refined packet without changing the carrier rows. The acceptance row $B$ therefore reads the refined ledger through the same finite packet, and the induction preserves bounded-variation acceptance along the whole refinement spine.
+\end{proof}
+
 \closureat{BoundedVariationRealFunctionUp}{seedStr}
 
 \begin{closurestatus}{\BoundedVariationRealFunctionUp}
   \constructivestory{A $\BoundedVariationRealFunctionUp$ packet is generated from finite $\DyadicPartitionUp$ windows, a displayed $\RealSequenceSpaceUp$ function row, $\StreamNameUp$ observations, $\RegSeqRatUp$ readbacks, a $\DyadicRatCoreUp$ variation-budget ledger, a bounded-variation acceptance row, a finite Jordan-route row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-variation-real-function-carrier}, \autoref{thm:bounded-variation-real-function-namecert-obligations}, and \autoref{thm:bounded-variation-real-function-jordan-route} seed the finite bounded-variation real-function surface over partition windows, real-valued sequence rows, finite observations, regular readbacks, dyadic variation budgets, and local Jordan-route ledgers.}
+  \scopeclosed{\autoref{def:bounded-variation-real-function-carrier}, \autoref{thm:bounded-variation-real-function-namecert-obligations}, \autoref{thm:bounded-variation-real-function-jordan-route}, and \autoref{thm:bounded-variation-partition-refinement-induction} seed the finite bounded-variation real-function surface over partition windows, real-valued sequence rows, finite observations, regular readbacks, dyadic variation budgets, refinement ledgers, and local Jordan-route ledgers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim total variation as a host supremum, quotient equality of functions, a selected Jordan decomposition, measure integration, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}

@@ -86,4 +86,71 @@ theorem FastRegularCauchyEquivalenceRegularScheduleLock [AskSetup] [PackageSetup
   }
   exact ⟨cert, scheduleUnary, regularReadUnary, sealReadUnary⟩
 
+theorem FastRegularCauchyEquivalenceTailWindowCofinality [AskSetup] [PackageSetup]
+    {source tail window modulus replay provenance localRow tailRead windowRead cofinalRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source →
+      UnaryHistory tail →
+        UnaryHistory window →
+          UnaryHistory modulus →
+            Cont source tail tailRead →
+              Cont tail window windowRead →
+                Cont window modulus cofinalRead →
+                  PkgSig bundle cofinalRead pkg →
+                    UnaryHistory tailRead ∧ UnaryHistory windowRead ∧
+                      UnaryHistory cofinalRead ∧
+                        SemanticNameCert
+                          (fun row : BHist => hsame row cofinalRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row tailRead ∨ hsame row windowRead ∨
+                              hsame row cofinalRead)
+                          (fun row : BHist =>
+                            PkgSig bundle cofinalRead pkg ∧ hsame row cofinalRead)
+                          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro sourceUnary tailUnary windowUnary modulusUnary sourceTail tailWindow windowModulus
+    cofinalPkg
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed sourceUnary tailUnary sourceTail
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed tailUnary windowUnary tailWindow
+  have cofinalReadUnary : UnaryHistory cofinalRead :=
+    unary_cont_closed windowUnary modulusUnary windowModulus
+  have cofinalSource :
+      (fun row : BHist => hsame row cofinalRead ∧ UnaryHistory row) cofinalRead := by
+    exact ⟨hsame_refl cofinalRead, cofinalReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row cofinalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row tailRead ∨ hsame row windowRead ∨ hsame row cofinalRead)
+          (fun row : BHist => PkgSig bundle cofinalRead pkg ∧ hsame row cofinalRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro cofinalRead cofinalSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨cofinalPkg, source.left⟩
+  }
+  exact ⟨tailReadUnary, windowReadUnary, cofinalReadUnary, cert⟩
+
 end BEDC.Derived.FastRegularCauchyEquivalenceUp

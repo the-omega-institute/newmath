@@ -183,6 +183,30 @@ Use the Real-completion anchor \autoref{thm:pointwise-stream-metric-real-complet
 The conclusion is the carrier inventory. Since no coordinate stores ambient completeness, quotient stream equality, selected representatives, countable choice, or host function equality, the completion-facing read can use such data only by leaving the accepted $\PointwiseStreamMetricUp$ packet.
 \end{proof}
 
+\begin{theorem}[Pointwise stream metric synchronized-window triangle route]
+\label{thm:pointwise-stream-metric-synchronized-window-triangle-route}
+Let $Q_{\mathrm{xy}},Q_{\mathrm{yz}},Q_{\mathrm{xz}}$ be accepted $\PointwiseStreamMetricUp$ carriers for the displayed stream reads from $x$ to $y$, from $y$ to $z$, and from $x$ to $z$. Suppose the three packets share the same certified $\StreamNameUp$ window schedule $W$ and the same displayed $\MetricSpaceUp$ row $M$:
+$$
+\begin{gathered}
+Q_{\mathrm{xy}}=(S_{\mathrm{xy}},W,D_{\mathrm{xy}},R_{\mathrm{xy}},E_{\mathrm{xy}},M,H_{\mathrm{xy}},C_{\mathrm{xy}},P_{\mathrm{xy}},N_{\mathrm{xy}}),\\
+Q_{\mathrm{yz}}=(S_{\mathrm{yz}},W,D_{\mathrm{yz}},R_{\mathrm{yz}},E_{\mathrm{yz}},M,H_{\mathrm{yz}},C_{\mathrm{yz}},P_{\mathrm{yz}},N_{\mathrm{yz}}),\\
+Q_{\mathrm{xz}}=(S_{\mathrm{xz}},W,D_{\mathrm{xz}},R_{\mathrm{xz}},E_{\mathrm{xz}},M,H_{\mathrm{xz}},C_{\mathrm{xz}},P_{\mathrm{xz}},N_{\mathrm{xz}}).
+\end{gathered}
+$$
+Then any two-leg distance read from $x$ to $z$ through $y$ must consume, in the same synchronized order, the shared finite window $W$, the dyadic triangle ledgers $D_{\mathrm{xy}},D_{\mathrm{yz}},D_{\mathrm{xz}}$, the $\RegSeqRatUp$ readbacks $R_{\mathrm{xy}},R_{\mathrm{yz}},R_{\mathrm{xz}}$, the terminal $\RealUp$ seals $E_{\mathrm{xy}},E_{\mathrm{yz}},E_{\mathrm{xz}}$, and the displayed metric row $M$ before any $\MetricCompletionUp$ or $\RealModulusOfConvergenceUp$ consumer may use the composed distance. The route is a finite BEDC triangle ledger and not an ambient metric-space triangle proof over host functions, quotient streams, selected representatives, or countable-choice schedules.
+\end{theorem}
+\begin{proof}
+Project the three carriers. Each packet displays its stream source row, the shared finite window schedule, its dyadic ledger, its regular-rational readback, its Real seal, the shared metric row, transport, replay, provenance, and local naming row.
+
+Apply the pointwise classifier theorem, \autoref{thm:pointwise-stream-metric-pointwise-classifier}, to the three legs. For $Q_{\mathrm{xy}}$, $Q_{\mathrm{yz}}$, and $Q_{\mathrm{xz}}$ the distance read must pass through the displayed window, dyadic ledger, readback, and Real seal before $M$ is inspected.
+
+Use finite-window consumption, \autoref{thm:pointwise-stream-metric-finite-window-consumption}, for each leg. The two-leg read may compose the $x$ to $y$ and $y$ to $z$ reads only after both have exposed the same window $W$, and it may compare them with the $x$ to $z$ read only through the displayed dyadic triangle ledger and readback rows.
+
+Apply reindexing stability, \autoref{thm:pointwise-stream-metric-reindexing-stability}, to any transported schedule request. The $H_{\mathrm{xy}}$, $H_{\mathrm{yz}}$, and $H_{\mathrm{xz}}$ rows, replayed by the corresponding $C$ rows, preserve the shared window and metric row while keeping the three dyadic ledgers, readbacks, Real seals, provenance rows, and local names visible.
+
+Finally invoke completion separation, \autoref{thm:pointwise-stream-metric-completion-separation}. A completion or modulus consumer can use the composed distance only after the synchronized finite route has displayed all three pointwise packets. Since none of the carriers stores ambient completeness, quotient stream equality, selected representatives, host function equality, or countable choice, the triangle route remains a BEDC finite-window route.
+\end{proof}
+
 \begin{theorem}[Pointwise stream metric source separation]
 \label{thm:pointwise-stream-metric-source-separation}
 Let $Q=(S,W,D,R,E,M,H,C,P,N)$ be an accepted $\PointwiseStreamMetricUp$ carrier. If two completion-facing reads agree on the metric row $M$ but differ in any of the source rows $S,W,D,R,E$, then the packet cannot identify them by $\PointwiseStreamMetricUp$. Source separation requires the same $\StreamNameUp$ finite window, dyadic ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, and $\MetricSpaceUp$ row; no quotient stream equality or host function equality can collapse different source rows.

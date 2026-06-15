@@ -46,6 +46,7 @@ The classifier reads only the successor relation between $d$ and $s$, the lower 
 
 The remaining rows preserve the same packet. The real seal $E$ is downstream of the dyadic and regular rows, while $H,C,P,N$ transport, replay, source, and name the displayed data. Since no excluded object is a coordinate of $F$, the listed rows exhaust the seed obligation surface.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicFloorUp.DyadicFloorCarrier\_namecert\_obligations}
 
 \begin{theorem}[DyadicFloor bounding interval]
 \label{thm:dyadic-floor-bounding-interval}
@@ -62,6 +63,7 @@ The same classifier binds the lower and upper comparisons. The row $\ell$ suppli
 
 Finally inspect the carrier surface. The only comparison rows available to a consumer are $d,s,\ell,u$ together with the modulus and regular readback route $M,R$. Hence the bounding interval is the finite packet interval above, and the excluded host operations have no route into the accepted packet.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicFloorUp.DyadicFloorBoundingInterval}
 
 \begin{theorem}[DyadicFloor RegSeqRat handoff]
 \label{thm:dyadic-floor-regseqrat-handoff}
@@ -78,6 +80,35 @@ The dyadic comparisons are then forced through the same finite readback. Both th
 
 The real seal is terminal in this route. The row $E$ is reached only after the dyadic and regular rows are displayed, and the structural rows $H,C,P,N$ merely preserve and name the same route. Thus no detached seal, quotient equality, selected representative, or choice-driven search is available to the consumer.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicFloorUp.DyadicFloorRegSeqRatHandoff}
+
+\begin{theorem}[DyadicFloor finite-window obligations]
+\label{thm:dyadic-floor-window-obligations}
+Every accepted $\DyadicFloorUp$ packet must expose the displayed rows
+$$
+k,d,s,\ell,u,M,R
+$$
+before any floor-bounding read is available. The scale $k$, lower dyadic row $d$, successor row $s$, lower evidence $\ell$, upper evidence $u$, modulus schedule $M$, and regular readback row $R$ are therefore finite observation obligations, not optional annotations on a later host floor value.
+\end{theorem}
+\begin{proof}
+Read the carrier tuple of \autoref{def:dyadic-floor-carrier}. The rows $k,d,s,\ell,u,M,R$ are explicit coordinates, and the classifier of \autoref{def:dyadic-floor-classifier} accepts a packet only when these coordinates support the successor and bounding comparisons.
+
+The bounding interval theorem then consumes exactly those rows. The lower read uses $d$ and $\ell$, the upper read uses $s$ and $u$, and both reads are routed through the finite schedule and regular-rational window supplied by $M$ and $R$.
+
+Thus a consumer cannot reach the floor-bounding interval through a hidden host operation. Omitting any listed row removes the finite observation route required by the accepted packet.
+\end{proof}
+
+\begin{theorem}[DyadicFloor Real-seal nonescape]
+\label{thm:dyadic-floor-real-seal-nonescape}
+In an accepted $\DyadicFloorUp$ packet, the terminal $E$ row is reachable only after the dyadic scale row, successor row, comparison rows, modulus schedule, and $\RegSeqRatUp$ readback have been displayed. Consequently the packet gives no route to a host floor, selected representative, trichotomy decision, quotient $\RealUp$ equality, or hidden Archimedean search.
+\end{theorem}
+\begin{proof}
+Follow the handoff route of \autoref{thm:dyadic-floor-regseqrat-handoff}. The modulus row $M$ supplies the finite observation threshold, and the regular readback row $R$ is the only source from which the dyadic comparison rows are read.
+
+The terminal seal $E$ comes after this readback. Since the carrier has no earlier Real-seal coordinate and no coordinate for the excluded host operations, a consumer cannot escape from the displayed dyadic and regular-rational route into a detached real comparison.
+
+The transport, replay, provenance, and local naming rows preserve that order. They name the same finite route rather than adding a quotient Real equality, selected representative, or Archimedean search.
+\end{proof}
 
 \falsifiablePrediction{An accepted $\DyadicFloorUp$ consumer that reads a floor-bounding interval without the displayed scale $k$, lower dyadic row $d$, successor row $s$, lower evidence $\ell$, upper evidence $u$, modulus schedule $M$, and regular readback row $R$ refutes the carrier surface.}
 
@@ -86,7 +117,7 @@ The real seal is terminal in this route. The row $E$ is reached only after the d
 \begin{closurestatus}{\DyadicFloorUp}
   \constructivestory{A $\DyadicFloorUp$ packet is generated from a real-facing request, a dyadic scale, a lower dyadic grid point, its dyadic successor, lower and upper bounding evidence, a finite modulus schedule, a regular rational readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-floor-carrier}, \autoref{def:dyadic-floor-classifier}, \autoref{thm:dyadic-floor-namecert-obligations}, \autoref{thm:dyadic-floor-bounding-interval}, and \autoref{thm:dyadic-floor-regseqrat-handoff} seed the finite dyadic floor-bounding primitive for the L10 Real and Completion route.}
+  \scopeclosed{\autoref{def:dyadic-floor-carrier}, \autoref{def:dyadic-floor-classifier}, \autoref{thm:dyadic-floor-namecert-obligations}, \autoref{thm:dyadic-floor-bounding-interval}, \autoref{thm:dyadic-floor-regseqrat-handoff}, \autoref{thm:dyadic-floor-window-obligations}, and \autoref{thm:dyadic-floor-real-seal-nonescape} seed the finite dyadic floor-bounding primitive for the L10 Real and Completion route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host floor, trichotomy, quotient real equality, countable choice, selected representatives, ambient completeness, an Archimedean search theorem, or a Lean theorem.}

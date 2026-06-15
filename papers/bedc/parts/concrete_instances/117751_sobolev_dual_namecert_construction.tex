@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\SobolevDualUp$}
+\label{ch:concrete-instances-sobolev-dual-namecert}
+\origin{human}
+
+Following Sobolev and Adams--Fournier, the $\SobolevDualUp$ packet records the finite dual-test-action surface over the Sobolev carrier of \autoref{ch:concrete-instances-sobolev-space-namecert}. It reads the weak-derivative rows of $\WeakDerivativeUp$, the norm budgets of $\NormUp$, the scalar seals of $\RealUp$, and the completion handoff of $\MetricCompletionUp$ before any dual-facing consumer can inspect a test action or a budgeted functional value. The packet gives PDE, variational, and weak-form consumers a displayed BEDC route rather than a host distribution-dual quotient, a Hahn--Banach extension, or a selected representative of a function class.
+
+\begin{definition}[SobolevDual carrier]
+\label{def:sobolev-dual-carrier}
+A $\SobolevDualUp$ carrier is a finite $\BHist$ packet
+$$
+D^\ast=(S,T,A,R,B,M,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source Sobolev carrier row, read from the $\SobolevSpaceUp$ packet of \autoref{ch:concrete-instances-sobolev-space-namecert} after its source-function, $\WeakDerivativeUp$, $\NormUp$, integrability, $\MetricCompletionUp$, and $\RealUp$ rows have been displayed.
+\item $T$ is the test-action family row. It records the finite test windows, derivative-coordinate tags, support tags, and admissible probe names on which the dual action may be evaluated.
+\item $A$ is the action ledger row. It binds each displayed test window in $T$ to a finite action value request over the source Sobolev data in $S$.
+\item $R$ is the scalar $\RealUp$ readback row for action values, norm estimates, and dual-budget comparisons.
+\item $B$ is the norm and dual-budget row. It records the finite bound, tolerance, and comparison data by which the action ledger is admitted as a bounded dual-facing read.
+\item $M$ is the $\MetricCompletionUp$ handoff row, available only after $S,T,A,R,B$ have been displayed and only for the completion route named by this dual packet.
+\item $H$ stores componentwise $\hsame$ transport for Sobolev source, test-action family, action ledger, scalar readback, norm and dual budget, completion handoff, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from every dual-facing request through $S,T,A,R,B,M,H,P,L$.
+\item $P$ is the $\Pkg$ provenance over $\SobolevDualUp$, $\SobolevSpaceUp$, $\WeakDerivativeUp$, $\NormUp$, $\MetricCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\SobolevDualUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,A,R,B,M,H,C,P,L$. It has no coordinate for host distribution-dual quotients, quotient equality of functions, Hahn--Banach extension, choice, PDE solvability, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[SobolevDual NameCert obligations]
+\label{thm:sobolev-dual-obligation-surface}
+For every accepted $\SobolevDualUp$ carrier
+$$
+D^\ast=(S,T,A,R,B,M,H,C,P,L),
+$$
+the local $\NameCert_{\SobolevDualUp}$ surface consists exactly of carrier admission, test-action coverage, dual-budget exactness, SobolevSpace handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No dual obligation is stored outside those finite rows, and no consumer may escape to a host distribution-dual quotient before reading the displayed Sobolev source and test-action route.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:sobolev-dual-carrier}. The accepted packet displays the Sobolev source row $S$, test-action family $T$, action ledger $A$, scalar row $R$, dual-budget row $B$, completion handoff $M$, and structural rows $H,C,P,L$.
+
+Test-action coverage is finite. Every action value must first name a test window in $T$ and then read the action ledger $A$ against the displayed $\SobolevSpaceUp$ source row $S$; there is no separate coordinate for a host distribution space or a quotient representative.
+
+Dual-budget exactness is read through $R$ and $B$. The scalar seal $R$ is the only real-valued readback, while $B$ records the bound and tolerance data that make the action available to dual-facing consumers.
+
+The handoff to SobolevSpace is therefore prior to every dual read. The rows $H,C,P,L$ transport, replay, source, and name the same finite route, so replay and provenance cannot add Hahn--Banach, choice, PDE-solvability, verification, or bridge data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SobolevDualUp$ dual-facing consumer reads SobolevSpaceUp, WeakDerivativeUp, NormUp, RealUp, MetricCompletionUp, BHist, hsame, Cont, Pkg, and NameCert rows before receiving a test-action value or dual budget.}
+
+\independenceWitness{sobolev-space, weak-derivative, norm, real, metric-completion: no listed sibling is bijective to $\SobolevDualUp$ because this packet jointly binds a Sobolev source row, test-action family, action ledger, scalar readback, dual budget, completion handoff, transport, replay, provenance, and local naming.}
+
+\closureat{SobolevDualUp}{seedStr}
+
+\begin{closurestatus}{\SobolevDualUp}
+  \constructivestory{A $\SobolevDualUp$ packet is generated from a displayed SobolevSpaceUp source row, finite test-action family, action ledger, RealUp scalar readbacks, norm and dual-budget data, MetricCompletionUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sobolev-dual-carrier} and \autoref{thm:sobolev-dual-obligation-surface} seed the finite Sobolev-dual carrier from source Sobolev rows through test actions, scalar readback, dual budget, completion handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Banach duality, quotient functions, Hahn--Banach extension, choice, PDE solvability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, test-action coverage, dual-budget exactness, SobolevSpace handoff, transport, replay, provenance, and local naming for BEDC.Derived.SobolevDualUp.}
+\end{closurestatus}

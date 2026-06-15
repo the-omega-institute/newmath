@@ -5305,6 +5305,57 @@ def test_discovery_regularized_training_quality_boundary_index_is_pointer_only()
         assert forbidden not in lowered
 
 
+def test_discovery_regularized_training_drt2_semantic_hardgates_are_owner_local():
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+
+    canonical._validate_discovery_regularized_training_payload(payload)
+    semantic = payload["drt2_semantic_hardgates"]
+
+    assert set(canonical._specs_by_name()["discovery-regularized-training"].required_json_keys) >= {
+        "drt2_semantic_hardgates",
+        "negative_witness_penalty",
+    }
+    assert tuple(semantic["gates"]) == tuple(f"DRT2-HG{index}" for index in range(1, 7))
+    assert all(row["evidence_pointer"].startswith(canonical.DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT) for row in semantic["gates"].values())
+    assert "DRT2-HG1" not in canonical.CANONICAL_REPORTS
+    lowered = json.dumps(canonical._discovery_regularized_training_quality_boundary_index_section(payload), sort_keys=True)
+    assert "DRT2-HG" not in lowered
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda item: item["drt2_semantic_hardgates"]["gates"]["DRT2-HG1"].update({"status": "fail"}),
+        lambda item: item["drt2_semantic_hardgates"]["gates"]["DRT2-HG2"].update({"evidence_pointer": "$.loss_family"}),
+        lambda item: item["training_method_comparison"]["rows"]["DGT+DRT"].update({"metric": 0.4}),
+        lambda item: item["negative_witness_penalty"].update({"terminal_verdict": "accepted"}),
+    ],
+)
+def test_discovery_regularized_training_drt2_semantic_hardgates_reject_copied_authority(mutate):
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    mutated = json.loads(json.dumps(payload))
+    mutate(mutated)
+
+    with pytest.raises(ValueError):
+        canonical._validate_discovery_regularized_training_payload(mutated)
+
+
+def test_discovery_regularized_training_drt2_negative_witness_sibling_pointers_resolve():
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    pointers = payload["negative_witness_penalty"]["evidence_pointers"]
+
+    assert resolve_artifact_pointer(canonical.ROOT, pointers["mutation_ledger"]) is not None
+    assert resolve_artifact_pointer(canonical.ROOT, pointers["negative_witness_summary"]) is not None
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["negative_witness_penalty"]["evidence_pointers"]["negative_witness_summary"] = (
+        "reports/canonical/discovery_negative_witness_summary.json:$.missing"
+    )
+
+    with pytest.raises(ValueError):
+        canonical._validate_discovery_regularized_training_payload(mutated)
+
+
 def test_discovery_regularized_training_quality_boundary_index_disk_invalid_payload_falls_back(monkeypatch, tmp_path):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])

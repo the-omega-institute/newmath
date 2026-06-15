@@ -197,8 +197,10 @@ def execute_and_record(store: LeWMStore, hypotheses: list[dict[str, Any]], *, ma
     return summaries
 
 
-def run_execution_lane(store: LeWMStore, *, max_workers: int = 1) -> dict[str, Any]:
+def run_execution_lane(store: LeWMStore, *, max_workers: int = 1, hypothesis_ids: set[str] | None = None) -> dict[str, Any]:
     hypotheses = store.load_hypotheses() or store.load_seed_hypotheses()
+    if hypothesis_ids is not None:
+        hypotheses = [item for item in hypotheses if str(item.get("hypothesis_id") or "") in hypothesis_ids]
     if not store.load_hypotheses():
         store.write_hypotheses(hypotheses)
     summaries = execute_and_record(store, hypotheses, max_workers=max_workers)
@@ -309,12 +311,14 @@ def self_test() -> int:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Execute LeWM autoresearch experiment runners")
     parser.add_argument("--max-workers", type=int, default=1, help="parallel runner processes")
+    parser.add_argument("--hypothesis-id", action="append", default=[], help="Run only the named hypothesis id; repeatable")
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
     if args.self_test:
         return self_test()
     store = LeWMStore()
-    result = run_execution_lane(store, max_workers=args.max_workers)
+    hypothesis_ids = {str(item) for item in args.hypothesis_id} if args.hypothesis_id else None
+    result = run_execution_lane(store, max_workers=args.max_workers, hypothesis_ids=hypothesis_ids)
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
     return 0
 

@@ -52,8 +52,12 @@ from bedc_quality_lab.discovery_compiler.experiment_proposals import (
 )
 from bedc_quality_lab.discovery_regularized_training import (
     QUALITY_PROMOTION_ARMS as DRT_QUALITY_PROMOTION_ARMS,
+    DRT2_METHOD_COMPARISON_ARMS,
+    DRT2_NEGATIVE_WITNESS_POINTERS,
+    DRT2_SEMANTIC_HARDGATES,
     DRT_EXTENSION_UER_MAX,
     DRT_EXTENSION_UER_REDUCTION_MIN,
+    drt2_semantic_hardgate_verdicts,
     drt_extension_forbidden_key_audit,
     quality_artifact_pointer as _drt_quality_artifact_pointer,
 )
@@ -1194,6 +1198,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "component_ablation",
             "training_method_comparison",
             "drt_extension_hardgates",
+            "negative_witness_penalty",
+            "drt2_semantic_hardgates",
             "jet_loss_protocol",
             "jet_loss_surface",
             "jet_ablation",
@@ -4709,6 +4715,15 @@ def _drt_pointer_value(payload: Mapping[str, Any], artifact_pointer: str) -> Any
     return _bracket_pointer_value(payload, pointer)
 
 
+def _drt_sibling_pointer_value(artifact_pointer: str) -> Any:
+    resolved = _resolve_committed_artifact_pointer(ROOT, artifact_pointer)
+    if resolved is not None:
+        return resolved
+    if ROOT != SOURCE_ROOT:
+        return _resolve_committed_artifact_pointer(SOURCE_ROOT, artifact_pointer)
+    return None
+
+
 def _as_finite_number(value: Any) -> float | None:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         return None
@@ -4968,6 +4983,102 @@ def _validate_discovery_regularized_training_extension(payload: Mapping[str, Any
         raise ValueError("discovery_regularized_training extension failed gate pointer mismatch")
     if expected_failed_pointer is not None and _drt_pointer_value(payload, _drt_quality_artifact_pointer(expected_failed_pointer)) is None:
             raise ValueError("discovery_regularized_training extension failed gate pointer does not resolve")
+
+
+def _validate_discovery_regularized_training_drt2_semantics(payload: Mapping[str, Any]) -> None:
+    semantic = payload.get("drt2_semantic_hardgates")
+    negative = payload.get("negative_witness_penalty")
+    comparison = payload.get("training_method_comparison")
+    if not isinstance(semantic, Mapping):
+        raise ValueError("discovery_regularized_training DRT2 semantic hardgates must be an object")
+    if not isinstance(negative, Mapping):
+        raise ValueError("discovery_regularized_training negative_witness_penalty must be an object")
+    if negative.get("status") != "pointer-only":
+        raise ValueError("discovery_regularized_training negative_witness_penalty status mismatch")
+    negative_expected_keys = {
+        "schema_id",
+        "status",
+        "owner_pointer",
+        "loss_term_pointer",
+        "evidence_pointers",
+        "payload_policy",
+        "owner_local_pointer_resolves",
+    }
+    if set(negative) != negative_expected_keys:
+        raise ValueError("discovery_regularized_training negative_witness_penalty fields invalid")
+    if negative["owner_pointer"] != _drt_quality_artifact_pointer("$.negative_witness_penalty"):
+        raise ValueError("discovery_regularized_training negative_witness_penalty owner pointer mismatch")
+    if negative["loss_term_pointer"] != _drt_quality_artifact_pointer("$.loss_family.terms.negative_witness"):
+        raise ValueError("discovery_regularized_training negative_witness_penalty loss term pointer mismatch")
+    evidence_pointers = negative.get("evidence_pointers")
+    expected_negative_pointers = {
+        "mutation_owner": _drt_quality_artifact_pointer("$.negative_witness_mutations"),
+        **DRT2_NEGATIVE_WITNESS_POINTERS,
+    }
+    if not isinstance(evidence_pointers, Mapping) or dict(evidence_pointers) != expected_negative_pointers:
+        raise ValueError("discovery_regularized_training negative_witness_penalty evidence pointers mismatch")
+    if _drt_pointer_value(payload, str(evidence_pointers["mutation_owner"])) is None:
+        raise ValueError("discovery_regularized_training negative_witness_penalty owner pointer does not resolve")
+    for key in ("mutation_ledger", "negative_witness_summary"):
+        if _drt_sibling_pointer_value(str(evidence_pointers[key])) is None:
+            raise ValueError(f"discovery_regularized_training negative_witness_penalty sibling pointer does not resolve: {key}")
+    if not isinstance(comparison, Mapping) or not isinstance(comparison.get("rows"), Mapping):
+        raise ValueError("discovery_regularized_training method comparison rows missing")
+    comparison_rows = comparison["rows"]
+    if set(comparison_rows) != set(DRT2_METHOD_COMPARISON_ARMS):
+        raise ValueError("discovery_regularized_training method comparison arm coverage mismatch")
+    for arm, row in comparison_rows.items():
+        if not isinstance(row, Mapping) or set(row) != {"arm_id", "role", "evidence_pointer", "status_pointer"}:
+            raise ValueError(f"discovery_regularized_training method comparison row invalid: {arm}")
+        if row["arm_id"] != arm:
+            raise ValueError(f"discovery_regularized_training method comparison row identity mismatch: {arm}")
+        for pointer_key in ("evidence_pointer", "status_pointer"):
+            pointer = str(row[pointer_key])
+            if not pointer.startswith(f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:"):
+                raise ValueError(f"discovery_regularized_training method comparison pointer is not owner-local: {arm}")
+            if _drt_pointer_value(payload, pointer) is None:
+                raise ValueError(f"discovery_regularized_training method comparison pointer does not resolve: {arm}")
+    expected_fields = {
+        "schema_id",
+        "status",
+        "owner_pointer",
+        "gate_labels",
+        "gates",
+        "failed_gate",
+        "failed_gate_pointer",
+    }
+    if set(semantic) != expected_fields:
+        raise ValueError("discovery_regularized_training DRT2 semantic hardgate fields invalid")
+    if semantic["owner_pointer"] != _drt_quality_artifact_pointer("$.drt2_semantic_hardgates"):
+        raise ValueError("discovery_regularized_training DRT2 semantic owner pointer mismatch")
+    if tuple(semantic.get("gate_labels", ())) != DRT2_SEMANTIC_HARDGATES:
+        raise ValueError("discovery_regularized_training DRT2 gate labels mismatch")
+    gates = semantic.get("gates")
+    if not isinstance(gates, Mapping) or tuple(gates) != DRT2_SEMANTIC_HARDGATES:
+        raise ValueError("discovery_regularized_training DRT2 gate set mismatch")
+    expected_gates = drt2_semantic_hardgate_verdicts(payload)
+    for gate_id in DRT2_SEMANTIC_HARDGATES:
+        row = gates[gate_id]
+        expected = expected_gates[gate_id]
+        if not isinstance(row, Mapping):
+            raise ValueError(f"discovery_regularized_training {gate_id} row missing")
+        if row.get("status") != expected["status"]:
+            raise ValueError(f"discovery_regularized_training {gate_id} status mismatch")
+        if row.get("evidence_pointer") != expected["evidence_pointer"]:
+            raise ValueError(f"discovery_regularized_training {gate_id} evidence pointer mismatch")
+        pointer = str(row.get("evidence_pointer"))
+        if not pointer.startswith(f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:"):
+            raise ValueError(f"discovery_regularized_training {gate_id} evidence pointer is not owner-local")
+        if _drt_pointer_value(payload, pointer) is None:
+            raise ValueError(f"discovery_regularized_training {gate_id} evidence pointer does not resolve")
+    expected_failed = next((gate for gate in DRT2_SEMANTIC_HARDGATES if expected_gates[gate]["status"] != "pass"), None)
+    if semantic["status"] != ("pass" if expected_failed is None else "fail"):
+        raise ValueError("discovery_regularized_training DRT2 status mismatch")
+    if semantic["failed_gate"] != expected_failed:
+        raise ValueError("discovery_regularized_training DRT2 failed gate mismatch")
+    expected_pointer = None if expected_failed is None else f"$.drt2_semantic_hardgates.gates.{expected_failed}.status"
+    if semantic["failed_gate_pointer"] != expected_pointer:
+        raise ValueError("discovery_regularized_training DRT2 failed pointer mismatch")
 
 
 def _validate_discovery_regularized_training_compute_ledger(payload: Mapping[str, Any]) -> None:
@@ -5300,6 +5411,7 @@ def _validate_discovery_regularized_training_jet(payload: Mapping[str, Any]) -> 
 def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any]) -> None:
     _validate_discovery_regularized_training_quality_promotion_boundary(payload)
     _validate_discovery_regularized_training_extension(payload)
+    _validate_discovery_regularized_training_drt2_semantics(payload)
     _validate_discovery_regularized_training_compute_ledger(payload)
     _validate_discovery_regularized_training_certificate_guided_preservation(payload)
     _validate_discovery_regularized_training_mechanism_ablation(payload)

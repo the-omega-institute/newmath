@@ -1,3 +1,4 @@
+import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -177,8 +178,13 @@ end BEDC.Derived.LocatedRealIntervalUp.TasteGate
 
 namespace BEDC.Derived.LocatedRealIntervalUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
 theorem LocatedRealIntervalTasteGate_single_carrier_alignment :
     (∀ h : BHist,
@@ -195,5 +201,51 @@ theorem LocatedRealIntervalTasteGate_single_carrier_alignment :
             x = y) ∧
           TasteGate.locatedRealIntervalEncodeBHist BHist.Empty = ([] : List BMark) := by
   exact TasteGate.LocatedRealIntervalTasteGate_single_carrier_alignment
+
+theorem LocatedRealIntervalCarrier_cauchy_quotient_boundary_route [AskSetup] [PackageSetup]
+    {L U rho Delta Lambda M bracket F D W R E H C P N endpointRead radiusRead
+      dyadicIntervalRead locatorRead modulusRead bracketRead sourceRead refusalRead dyadicRead
+      readbackRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.CauchyQuotientBoundaryUp.CauchyQuotientBoundaryCarrier bracketRead bracket
+        F D W R E H C P N bundle pkg →
+      Cont L U endpointRead →
+        Cont endpointRead rho radiusRead →
+          Cont radiusRead Delta dyadicIntervalRead →
+            Cont dyadicIntervalRead Lambda locatorRead →
+              Cont locatorRead M modulusRead →
+                Cont modulusRead bracket bracketRead →
+                  Cont bracketRead W sourceRead →
+                    Cont sourceRead F refusalRead →
+                      Cont refusalRead D dyadicRead →
+                        Cont dyadicRead R readbackRead →
+                          Cont readbackRead E sealRead →
+                            PkgSig bundle sealRead pkg →
+                              Cont L U endpointRead ∧ Cont endpointRead rho radiusRead ∧
+                                Cont radiusRead Delta dyadicIntervalRead ∧
+                                  Cont dyadicIntervalRead Lambda locatorRead ∧
+                                    Cont locatorRead M modulusRead ∧
+                                      Cont modulusRead bracket bracketRead ∧
+                                        UnaryHistory sourceRead ∧
+                                          UnaryHistory refusalRead ∧
+                                            UnaryHistory dyadicRead ∧
+                                              UnaryHistory readbackRead ∧
+                                                UnaryHistory sealRead ∧
+                                                  Cont bracketRead W sourceRead ∧
+                                                    Cont sourceRead F refusalRead ∧
+                                                      Cont refusalRead D dyadicRead ∧
+                                                        Cont dyadicRead R readbackRead ∧
+                                                          Cont readbackRead E sealRead ∧
+                                                            PkgSig bundle P pkg ∧
+                                                              PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro boundaryCarrier endpointRoute radiusRoute dyadicIntervalRoute locatorRoute modulusRoute
+    bracketRoute sourceRoute refusalRoute dyadicRoute readbackRoute sealRoute sealPkg
+  have boundaryFactorization :=
+    BEDC.Derived.CauchyQuotientBoundaryUp.CauchyQuotientBoundaryCarrier_refusal_factorization
+      boundaryCarrier sourceRoute refusalRoute dyadicRoute readbackRoute sealRoute sealPkg
+  exact
+    ⟨endpointRoute, radiusRoute, dyadicIntervalRoute, locatorRoute, modulusRoute, bracketRoute,
+      boundaryFactorization⟩
 
 end BEDC.Derived.LocatedRealIntervalUp

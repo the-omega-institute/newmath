@@ -140,6 +140,24 @@ The downstream rows are reached only along the displayed continuation chain. The
 Apply \autoref{thm:cauchy-rate-effective-route-scope} to identify this chain as the only effective-rate consumer route, and apply \autoref{thm:cauchy-rate-transport-stability} to keep the same route under componentwise $\hsame$ transport. Hence every accepted precision request receives its scheduled finite window before any of the later rows can be read.
 \end{proof}
 
+\begin{theorem}[CauchyRate finite-tail induction]
+\label{thm:cauchy-rate-finite-tail-induction}
+Let $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$ be an accepted $\CauchyRateUp$ packet. Finite induction over the displayed unary precision row and the scheduled window preserves the route
+$$
+p \longmapsto \mu \longmapsto \tau \longmapsto F \longmapsto Q \longmapsto E
+$$
+for every admitted tail request. At each finite stage the consumer reads the same $\CauchyModulusUp$ schedule, the same $\DyadicTailBoundUp$ tolerance row, the same $\RegularCauchyFamilyUp$ source, the same $\RegSeqRatUp$ readback, and the same completion-facing row stored in $K$; it never replaces them by quotient streams, selected limits, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The base request is the displayed precision row $p$ in \autoref{def:cauchy-rate-bhist-source}. By \autoref{thm:cauchy-rate-scheduled-window-totality}, the request first reaches the schedule row $\mu$ and exposes its finite window before any downstream row is visible.
+
+For the induction step, enlarge only the displayed finite tail request admitted by the same schedule. The carrier still supplies the rows $p,\mu,\tau,F,Q,E,H,C,P,N$, and the continuation entries keep the new finite request on the route through $\mu$ and $\tau$ before the family row $F$ is read.
+
+Apply \autoref{thm:cauchy-rate-regular-family-handoff}. The readback row $Q$ is obtained from the scheduled family and the dyadic tail-bound row already present in the packet, so the step cannot introduce a new rational stream or selected limiting object.
+
+Finally use \autoref{thm:cauchy-rate-ledger-exactness}. The ledger rows $P$ and $N$ exhaust the dependency surface for every finite tail stage, and the route into $E$ remains the displayed completion-facing continuation. Thus finite induction preserves the route and refuses quotient streams, selected limits, host real equality, and ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[CauchyRate tolerance readback exactness]
 \label{thm:cauchy-rate-tolerance-readback-exactness}
 For every accepted $\CauchyRateUp$ packet $K=(p,\mu,\tau,F,Q,E,H,C,P,N)$, the displayed tolerance row $\tau$ and the displayed regular-family row $F$ determine the $\RegSeqRatUp$ readback row $Q$ through the packet route $\Cont((F,\tau),Q)$. No hidden rational stream, quotient representative, host sequence equality, or selected limiting object participates in the readback.
