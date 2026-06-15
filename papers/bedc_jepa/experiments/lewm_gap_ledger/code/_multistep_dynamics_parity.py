@@ -144,6 +144,27 @@ def scale_rows(rows: dict[str, np.ndarray], train: np.ndarray) -> dict[str, np.n
     return out
 
 
+def make_masks(rows: dict[str, np.ndarray], args: argparse.Namespace, horizon: int) -> dict[str, np.ndarray]:
+    if str(args.split_mode) == "episode":
+        splits = split_episodes(int(np.max(rows["episode"])) + 1, int(args.seed) + horizon)
+        return {name: np.isin(rows["episode"], eps) for name, eps in splits.items()}
+    if str(args.split_mode) == "transition":
+        rng = np.random.default_rng(int(args.seed) + 9100 + horizon)
+        order = rng.permutation(len(rows["episode"]))
+        n_train = int(round(0.60 * len(order)))
+        n_cal = int(round(0.20 * len(order)))
+        masks = {
+            "train": np.zeros(len(order), dtype=bool),
+            "calibration": np.zeros(len(order), dtype=bool),
+            "eval": np.zeros(len(order), dtype=bool),
+        }
+        masks["train"][order[:n_train]] = True
+        masks["calibration"][order[n_train : n_train + n_cal]] = True
+        masks["eval"][order[n_train + n_cal :]] = True
+        return masks
+    raise ValueError(f"unknown split_mode: {args.split_mode!r}")
+
+
 def predict(model: ActionDynamics, rows: dict[str, np.ndarray], mask: np.ndarray, device: torch.device, batch: int) -> np.ndarray:
     idx_all = np.where(mask)[0]
     out = np.zeros((len(idx_all), rows["target"].shape[1], rows["target"].shape[2]), dtype=np.float32)
@@ -163,8 +184,7 @@ def predict(model: ActionDynamics, rows: dict[str, np.ndarray], mask: np.ndarray
 def train_for_horizon(args: argparse.Namespace, data: dict[str, np.ndarray], horizon: int) -> dict[str, Any]:
     device = configure(int(args.seed) + horizon)
     rows_raw = build_rows(data, horizon)
-    splits = split_episodes(int(np.max(rows_raw["episode"])) + 1, int(args.seed) + horizon)
-    masks = {name: np.isin(rows_raw["episode"], eps) for name, eps in splits.items()}
+    masks = make_masks(rows_raw, args, horizon)
     train = masks["train"]
     cal = masks["calibration"]
     eval_mask = masks["eval"]
@@ -227,6 +247,7 @@ def train_for_horizon(args: argparse.Namespace, data: dict[str, np.ndarray], hor
             "calibration": int(np.sum(cal)),
             "eval": int(np.sum(eval_mask)),
             "eval_episodes": int(len(np.unique(eval_episode))),
+            "split_mode": str(args.split_mode),
             "params": int(sum(p.numel() for p in model.parameters())),
         },
         "metrics": {
@@ -293,6 +314,7 @@ def main() -> int:
     parser.add_argument("--lr", type=float, default=4.0e-4)
     parser.add_argument("--epsilon", type=float, default=0.10)
     parser.add_argument("--horizons", default="1,3,5")
+    parser.add_argument("--split-mode", choices=["episode", "transition"], default="episode")
     args = parser.parse_args()
     start_time = time.time()
     latents_path = resolve_path(str(args.latents))
@@ -324,6 +346,7 @@ def main() -> int:
             "lr": float(args.lr),
             "epsilon": float(args.epsilon),
             "horizons": list(horizons),
+            "split_mode": str(args.split_mode),
             "training_target": "teacher-forced multi-step latent rollout with action-conditioned recurrent residual dynamics",
         },
         "primary_horizon": int(primary["horizon"]),
@@ -331,6 +354,10 @@ def main() -> int:
         "rows": report_rows,
         "leakage_attestation": {
             "standardizers": "fit on train split only for each horizon",
+            "split_scope": (
+                "episode-heldout population diagnostic" if str(args.split_mode) == "episode"
+                else "transition-level upper-bound diagnostic; episodes may appear in multiple splits"
+            ),
             "selection": "primary row selected by calibration-trained candidate's eval h1 MSE only after all rows are trained; each row reports its own split",
             "eval_truth_usage": "eval target latents used only for final metrics and primary-row reporting",
             "lewm_reference": "exported one-step pred-vs-emb next-latent MSE on the same eval transitions",

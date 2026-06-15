@@ -105,6 +105,16 @@ MSE, so scale is not irrelevant; the remaining gap is still too large for a
 local run to justify a world-model claim.  This is the concrete A100 target:
 test whether the same multi-step action-conditioned objective continues the
 improvement curve or saturates far above the LeWM parity threshold.
+The transition-level upper-bound diagnostic separates fit from
+episode-heldout generalization.  With the same scaled $h=5$ model and a
+transition split, episodes may appear in multiple splits, so the row is not a
+population claim.  Under that easier split the native one-step MSE drops to
+$0.51243$, rollout-final MSE to $0.24327$, and native-to-LeWM ratio to $7.65$,
+with parity margin $-0.43876$ $[-0.46536,\ -0.40961]$.  The gap is therefore
+partly a heldout-episode generalization problem, but even the transition-level
+upper bound is still far from LeWM prediction parity; the next dynamics model
+must improve both fit and generalization rather than only increasing the
+parameter count.
 
 \paragraph{Three-tier BEDC-native readout evaluation.}
 Across the verified findings the BEDC-native ledger separates into three tiers
