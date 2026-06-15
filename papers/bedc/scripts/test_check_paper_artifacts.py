@@ -239,3 +239,33 @@ def test_check_paper_artifacts_rejects_invalid_surface_type(tmp_path):
     assert len(findings) == 1
     assert findings[0].reason == "invalid owner paper surface type"
     assert findings[0].expected == "figure, main_claim_chain, table"
+
+
+def test_check_paper_artifacts_rejects_marker_without_owner_surface(tmp_path):
+    root = _paper_root(tmp_path)
+    owner_root = _owner_root(tmp_path)
+    (root / "parts" / "claim.tex").write_text(r"\paperartifact{surface-a}{metric-a}{0.125}" + "\n", encoding="utf-8")
+    payload = _owner_payload()
+    payload["paper_surfaces"] = []
+
+    findings = check_paper_artifacts(root, owner_payload=payload, owner_root=owner_root)
+
+    assert len(findings) == 1
+    assert findings[0].reason == "paper marker has no owner surface row"
+    assert findings[0].surface_id == "surface-a"
+    assert findings[0].value_id == "metric-a"
+
+
+def test_check_paper_artifacts_rejects_marker_without_owner_value(tmp_path):
+    root = _paper_root(tmp_path)
+    owner_root = _owner_root(tmp_path)
+    (root / "parts" / "claim.tex").write_text(r"\paperartifact{surface-a}{metric-a}{0.125}" + "\n", encoding="utf-8")
+    payload = _owner_payload()
+    payload["paper_surfaces"][0]["values"] = []
+
+    findings = check_paper_artifacts(root, owner_payload=payload, owner_root=owner_root)
+
+    assert len(findings) == 1
+    assert findings[0].reason == "paper marker has no owner value row"
+    assert findings[0].surface_id == "surface-a"
+    assert findings[0].value_id == "metric-a"

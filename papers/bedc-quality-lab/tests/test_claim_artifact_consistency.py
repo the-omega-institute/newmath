@@ -689,6 +689,97 @@ def test_paper_surface_duplicate_rows_fail_closed(tmp_path):
     assert _gate(report, "PAPER-HG1").reason == "paper surface ids must be unique"
 
 
+def test_paper_surface_rejects_invalid_surface_type(tmp_path):
+    root = _fixture_root(tmp_path)
+    surface = PaperSurface(
+        surface_id="bad-type-surface",
+        surface_type="appendix",
+        artifact_pointer=f"{DGT_ARTIFACT}:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(_release_surface().values[0],),
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(surface,),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface type is invalid"
+
+
+def test_paper_surface_rejects_unresolved_surface_pointer(tmp_path):
+    root = _fixture_root(tmp_path)
+    surface = PaperSurface(
+        surface_id="missing-surface-pointer",
+        surface_type="figure",
+        artifact_pointer="reports/canonical/missing.json:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(_release_surface().values[0],),
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(surface,),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface artifact_pointer must resolve"
+
+
+def test_paper_surface_rejects_duplicate_value_identity(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = _release_surface().values[0]
+    surface = PaperSurface(
+        surface_id="duplicate-value-surface",
+        surface_type="table",
+        artifact_pointer=f"{DGT_ARTIFACT}:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(value, value),
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(surface,),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value ids must be unique"
+
+
+def test_paper_surface_rejects_invalid_value_transform(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = PaperSurfaceValue(
+        value_id="bad-transform",
+        artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
+        paper_literal="1.0",
+        transform="percent",
+        tolerance=0.0,
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value transform is invalid"
+
+
 def test_paper_surface_values_compare_declared_literal_to_artifact_value(tmp_path):
     root = _fixture_root(tmp_path)
 
@@ -842,3 +933,45 @@ def test_paper_surface_rejects_non_repo_local_pointers(tmp_path):
 
     assert report.status == "fail"
     assert _gate(report, "PAPER-HG1").reason == "paper surface pointer must be repo-local"
+
+
+def test_paper_surface_rejects_non_repo_local_value_pointer(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = PaperSurfaceValue(
+        value_id="bad-pointer",
+        artifact_pointer="https://example.test/value.json:$",
+        paper_literal="1.0",
+        transform="number",
+        tolerance=0.0,
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value pointer must be repo-local"
+
+
+def test_paper_surface_rejects_unresolved_value_pointer(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = PaperSurfaceValue(
+        value_id="missing-pointer",
+        artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[999].value",
+        paper_literal="1.0",
+        transform="number",
+        tolerance=0.0,
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value pointer must resolve"
