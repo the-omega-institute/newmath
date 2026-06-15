@@ -432,4 +432,39 @@ theorem PositiveRealCarrier_dyadic_radius_lower_bound
       hsame_refl D, PositiveRealNameCert_obligations
         (PositiveRealUp.mk R A D W Q H C P N)⟩
 
+theorem PositiveRealCarrier_transport_obligations
+    {R A D W Q H C P N R' A' D' W' Q' H' C' P' N' : BHist} :
+    PositiveRealCarrier R A D W Q H C P N →
+      hsame R R' →
+        hsame A A' →
+          hsame D D' →
+            hsame W W' →
+              hsame Q Q' →
+                hsame H H' →
+                  hsame C C' →
+                    hsame P P' →
+                      hsame N N' →
+                        PositiveRealCarrier R' A' D' W' Q' H' C' P' N' ∧
+                          UnaryHistory R' ∧ UnaryHistory A' ∧ UnaryHistory D' ∧
+                            UnaryHistory W' ∧ UnaryHistory Q' ∧ UnaryHistory H' ∧
+                              UnaryHistory C' ∧ UnaryHistory P' ∧ UnaryHistory N' := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory
+  intro carrier sameR sameA sameD sameW sameQ sameH sameC sameP sameN
+  obtain ⟨unaryR, unaryA, unaryD, unaryW, unaryQ, unaryH, unaryC, unaryP, unaryN⟩ :=
+    carrier
+  have unaryR' : UnaryHistory R' := unary_transport unaryR sameR
+  have unaryA' : UnaryHistory A' := unary_transport unaryA sameA
+  have unaryD' : UnaryHistory D' := unary_transport unaryD sameD
+  have unaryW' : UnaryHistory W' := unary_transport unaryW sameW
+  have unaryQ' : UnaryHistory Q' := unary_transport unaryQ sameQ
+  have unaryH' : UnaryHistory H' := unary_transport unaryH sameH
+  have unaryC' : UnaryHistory C' := unary_transport unaryC sameC
+  have unaryP' : UnaryHistory P' := unary_transport unaryP sameP
+  have unaryN' : UnaryHistory N' := unary_transport unaryN sameN
+  exact
+    ⟨⟨unaryR', unaryA', unaryD', unaryW', unaryQ', unaryH', unaryC', unaryP',
+        unaryN'⟩,
+      unaryR', unaryA', unaryD', unaryW', unaryQ', unaryH', unaryC', unaryP',
+      unaryN'⟩
+
 end BEDC.Derived.PositiveRealUp

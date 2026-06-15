@@ -279,6 +279,39 @@ stronger real-order principle is exported.
 \end{proof}
 \leanchecked{BEDC.Derived.PositiveRealUp.PositiveRealCarrier\_dyadic\_radius\_lower\_bound}
 
+\begin{theorem}[PositiveReal product lower-bound apartness]
+\label{thm:positive-real-product-lower-bound-apartness}
+Let two accepted $\PositiveRealUp$ packets expose positive dyadic lower-bound
+rows through displayed $\DyadicRatCoreUp$ radius ledgers. A product-facing
+apartness-from-zero read can be formed only from the two radius rows, the common
+$\StreamNameUp$ and $\RegSeqRatUp$ observation windows, the componentwise
+$\hsame$ transports, the displayed $\Cont$ replays, the $\mathsf{Pkg}$
+provenance rows, and the two local $\NameCert$ rows. The resulting lower-bound
+ledger is therefore a finite product-radius witness for $\RealAlgOrderUp$ and
+metric consumers, not a trichotomy branch, host order comparison, quotient
+stream equality, selected limit, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the two accepted carriers of \autoref{def:positivereal-carrier}.
+Their positive reads expose exactly the two apartness rows, dyadic radius
+ledgers, finite observation windows, regular-rational readbacks, transport,
+replay, provenance, and local naming rows.
+
+Apply \autoref{thm:positivereal-multiplicative-radius-transport}. It supplies
+the product-facing radius transport while keeping the two dyadic ledgers inside
+the displayed finite packets. Then use
+\autoref{thm:positivereal-product-radius-window-compatibility} to require the
+common $\StreamNameUp$ and $\RegSeqRatUp$ windows before the product read is
+available.
+
+Finally apply \autoref{thm:positive-real-dyadic-radius-lower-bound} to each
+factor. The only lower-bound data exported to the product consumer are the two
+finite dyadic radius rows and their transported window evidence. Since neither
+carrier contains trichotomy, host order, quotient stream equality, selected
+limits, or ambient completeness, the product apartness read cannot export any
+of those principles.
+\end{proof}
+
 \begin{theorem}[PositiveReal obligation closure]
 \label{thm:positive-real-obligation-closure}
 The $\PositiveRealUp$ packet of \autoref{def:positivereal-carrier} presents an
@@ -348,6 +381,7 @@ $\mathsf{Pkg}$ provenance, and the local $\NameCert$ row. The transported
 carrier therefore exposes exactly the same obligation surface as the source
 carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.PositiveRealUp.PositiveRealCarrier\_transport\_obligations}
 \begin{proof}
 Start with the carrier definition and isolate the transport row $H$. Its
 components are attached to the real seal, apartness row, radius ledger,
