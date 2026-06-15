@@ -311,4 +311,38 @@ theorem TypedSupplySocketCarrier_continuation_kind_transport
   injection heq with hhead _tail
   cases hhead
 
+theorem TypedSupplySocketCarrier_audit_gate_nonescape
+    (kind requestedSupply consumptionSite refusal transport continuation provenance localName :
+      BHist) :
+    typedSupplySocketToEventFlow
+        (TypedSupplySocketUp.mk kind requestedSupply consumptionSite BHist.Empty refusal
+          transport continuation provenance localName) ≠
+      typedSupplySocketToEventFlow
+        (TypedSupplySocketUp.mk kind requestedSupply consumptionSite (BHist.e0 BHist.Empty)
+          refusal transport continuation provenance localName) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  change
+    typedSupplySocketEncodeBHist kind :: typedSupplySocketEncodeBHist requestedSupply ::
+        typedSupplySocketEncodeBHist consumptionSite ::
+          [] ::
+            typedSupplySocketEncodeBHist refusal ::
+              typedSupplySocketEncodeBHist transport ::
+                typedSupplySocketEncodeBHist continuation ::
+                  typedSupplySocketEncodeBHist provenance ::
+                    typedSupplySocketEncodeBHist localName :: [] =
+      typedSupplySocketEncodeBHist kind :: typedSupplySocketEncodeBHist requestedSupply ::
+        typedSupplySocketEncodeBHist consumptionSite ::
+          [BMark.b0] ::
+            typedSupplySocketEncodeBHist refusal ::
+              typedSupplySocketEncodeBHist transport ::
+                typedSupplySocketEncodeBHist continuation ::
+                  typedSupplySocketEncodeBHist provenance ::
+                    typedSupplySocketEncodeBHist localName :: [] at heq
+  injection heq with _kind tail0
+  injection tail0 with _requestedSupply tail1
+  injection tail1 with _consumptionSite tail2
+  injection tail2 with hgate _tail
+  cases hgate
+
 end BEDC.Derived.TypedSupplySocketUp
