@@ -501,6 +501,26 @@
     }
   },
   "failed_gate": null,
+  "fair_alignment_control_ledger": {
+    "adapter_role": "pointer-only",
+    "claim_id": "discovery-regularized-training:positive-claim",
+    "fair_control_identity": "matched-random-structural-control",
+    "ledger_artifact": "reports/canonical/fair-alignment-control-ledger.json",
+    "ledger_row_pointer": "reports/canonical/fair-alignment-control-ledger.json:$.rows[?producer_id=discovery-regularized-training]",
+    "task_identity": "gaussian-ou:discovery-regularized-replay"
+  },
+  "fair_control_protocol": {
+    "compute_match": true,
+    "evidence_pointers": {
+      "compute_match": "$.compute_ledger",
+      "parameter_match": "$.training_replay_bridge",
+      "surface_distribution_match": "$.surface_registry.quality.by_arm",
+      "threshold_match": "$.records"
+    },
+    "parameter_match": true,
+    "surface_distribution_match": true,
+    "threshold_match": true
+  },
   "forbidden_claim_term_audit": {
     "forbidden_positive_claim_terms": [
       "full-lejepa",
@@ -515,7 +535,7 @@
     "hits": [],
     "status": "pass"
   },
-  "generated_at": "run-local:discovery-regularized-training",
+  "generated_at": "2026-06-15T19:17:50.848759+00:00",
   "grid": {
     "arm_count": 12,
     "discovery_lambda_count": 5,

@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
+from pathlib import Path
 from typing import Any, Mapping, Sequence
+
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 
 
 SCHEMA_ID = "bedc-quality-lab:fair-alignment-control-ledger"
@@ -31,16 +35,14 @@ HARDGATE_IDS = ("FACL-HG1", "FACL-HG2", "FACL-HG3", "FACL-HG4")
 @dataclass(frozen=True)
 class FairAlignmentControlRow:
     producer_id: str
-    claim_id: str
-    task_identity: str
-    fair_control_identity: str
-    candidate_artifact: str
+    claim_id_pointer: str
+    task_identity_pointer: str
+    fair_control_identity_pointer: str
     candidate_pointer: str
-    control_artifact: str
     control_pointer: str
     positive_claim_pointer: str
     base_over_chance_gate_pointer: str
-    match_axes: Mapping[str, bool]
+    match_axis_pointers: Mapping[str, str]
     anti_triviality_pointers: Mapping[str, str]
     evidence_pointers: Mapping[str, str]
 
@@ -71,20 +73,20 @@ def build_default_rows() -> tuple[FairAlignmentControlRow, ...]:
     return (
         FairAlignmentControlRow(
             producer_id="gap-head-on-h",
-            claim_id="gap-head-on-h:main-claim",
-            task_identity="gaussian-ou:learned-h-gap-detection",
-            fair_control_identity="matched-random-gap-head",
-            candidate_artifact="reports/canonical/gap-head-on-h.json",
-            candidate_pointer="$.treatment_verdict",
-            control_artifact="reports/canonical/gap-head-on-h.json",
-            control_pointer="$.control_verdict",
-            positive_claim_pointer="$.main_claim_status",
+            claim_id_pointer="reports/canonical/gap-head-on-h.json:$.fair_alignment_control_ledger.claim_id",
+            task_identity_pointer="reports/canonical/gap-head-on-h.json:$.fair_alignment_control_ledger.task_identity",
+            fair_control_identity_pointer=(
+                "reports/canonical/gap-head-on-h.json:$.fair_alignment_control_ledger.fair_control_identity"
+            ),
+            candidate_pointer="reports/canonical/gap-head-on-h.json:$.treatment_verdict",
+            control_pointer="reports/canonical/gap-head-on-h.json:$.control_verdict",
+            positive_claim_pointer="reports/canonical/gap-head-on-h.json:$.main_claim_status",
             base_over_chance_gate_pointer=BASE_OVER_CHANCE_GATE_POINTER,
-            match_axes={
-                "parameter_match": True,
-                "compute_match": True,
-                "threshold_match": True,
-                "surface_distribution_match": True,
+            match_axis_pointers={
+                "parameter_match": "reports/canonical/gap-head-on-h.json:$.control_protocol.parameter_match",
+                "compute_match": "reports/canonical/gap-head-on-h.json:$.control_protocol.compute_match",
+                "threshold_match": "reports/canonical/gap-head-on-h.json:$.control_protocol.threshold_match",
+                "surface_distribution_match": "reports/canonical/gap-head-on-h.json:$.control_protocol.surface_distribution_match",
             },
             anti_triviality_pointers={
                 "scale_only": "reports/canonical/gap-head-on-h.json:$.anti_triviality_gate_evidence.scale_only",
@@ -100,20 +102,30 @@ def build_default_rows() -> tuple[FairAlignmentControlRow, ...]:
         ),
         FairAlignmentControlRow(
             producer_id="discovery-regularized-training",
-            claim_id="discovery-regularized-training:positive-claim",
-            task_identity="gaussian-ou:discovery-regularized-replay",
-            fair_control_identity="matched-random-structural-control",
-            candidate_artifact="reports/canonical/discovery-regularized-training.json",
-            candidate_pointer="$.surface_registry.quality.by_arm.DGT_full",
-            control_artifact="reports/canonical/discovery-regularized-training.json",
-            control_pointer="$.matched_random_control",
-            positive_claim_pointer="$.positive_claim",
+            claim_id_pointer=(
+                "reports/canonical/discovery-regularized-training.json:$.fair_alignment_control_ledger.claim_id"
+            ),
+            task_identity_pointer=(
+                "reports/canonical/discovery-regularized-training.json:$.fair_alignment_control_ledger.task_identity"
+            ),
+            fair_control_identity_pointer=(
+                "reports/canonical/discovery-regularized-training.json:$.fair_alignment_control_ledger.fair_control_identity"
+            ),
+            candidate_pointer="reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full",
+            control_pointer="reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+            positive_claim_pointer="reports/canonical/discovery-regularized-training.json:$.positive_claim",
             base_over_chance_gate_pointer=BASE_OVER_CHANCE_GATE_POINTER,
-            match_axes={
-                "parameter_match": True,
-                "compute_match": True,
-                "threshold_match": True,
-                "surface_distribution_match": True,
+            match_axis_pointers={
+                "parameter_match": (
+                    "reports/canonical/discovery-regularized-training.json:$.fair_control_protocol.parameter_match"
+                ),
+                "compute_match": "reports/canonical/discovery-regularized-training.json:$.fair_control_protocol.compute_match",
+                "threshold_match": (
+                    "reports/canonical/discovery-regularized-training.json:$.fair_control_protocol.threshold_match"
+                ),
+                "surface_distribution_match": (
+                    "reports/canonical/discovery-regularized-training.json:$.fair_control_protocol.surface_distribution_match"
+                ),
             },
             anti_triviality_pointers={
                 "scale_only": "reports/canonical/discovery-regularized-training.json:$.anti_triviality_gate_evidence.scale_only",
@@ -134,43 +146,122 @@ def _present(value: str | None) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
-def _row_payload(row: FairAlignmentControlRow) -> dict[str, Any]:
+def _source_payloads_from_root(root: Path) -> dict[str, Any]:
+    payloads: dict[str, Any] = {}
+    for artifact in (
+        "reports/canonical/gap-head-on-h.json",
+        "reports/canonical/discovery-regularized-training.json",
+        "reports/canonical/fair-l1-decision.json",
+    ):
+        try:
+            payloads[artifact] = json.loads((root / artifact).read_text(encoding="utf-8"))
+        except (FileNotFoundError, json.JSONDecodeError):
+            payloads[artifact] = None
+    return payloads
+
+
+def _split_pointer(cell: str) -> tuple[str, str] | None:
+    if ":" not in cell:
+        return None
+    artifact, pointer = cell.split(":", 1)
+    if not artifact or not pointer.startswith("$"):
+        return None
+    return artifact, pointer
+
+
+def _resolve_source(source_payloads: Mapping[str, Any], cell: str) -> tuple[bool, Any]:
+    split = _split_pointer(cell)
+    if split is None:
+        return False, None
+    artifact, pointer = split
+    payload = source_payloads.get(artifact)
+    if not isinstance(payload, Mapping):
+        return False, None
+    if pointer == "$":
+        return True, payload
+    value = pointer_value(payload, pointer)
+    return value is not None, value
+
+
+def _status_from_source(value: Any) -> str:
+    if isinstance(value, bool):
+        return "pass" if value else "fail"
+    if isinstance(value, Mapping):
+        return str(value.get("status", "pass" if value else "fail"))
+    return "pass" if value is not None else "fail"
+
+
+def _resolved_cell(source_payloads: Mapping[str, Any], pointer: str) -> dict[str, Any]:
+    resolved, value = _resolve_source(source_payloads, pointer)
+    return {
+        "pointer": pointer,
+        "resolved": resolved,
+        "status": _status_from_source(value) if resolved else "fail",
+    }
+
+
+def _row_payload(row: FairAlignmentControlRow, source_payloads: Mapping[str, Any]) -> dict[str, Any]:
     failed_checks: list[str] = []
-    missing_axes = [axis for axis in MATCH_AXES if row.match_axes.get(axis) is not True]
-    failed_checks.extend(missing_axes)
+    resolved_sources = {
+        "claim_id": _resolved_cell(source_payloads, row.claim_id_pointer),
+        "task_identity": _resolved_cell(source_payloads, row.task_identity_pointer),
+        "fair_control_identity": _resolved_cell(source_payloads, row.fair_control_identity_pointer),
+        "candidate_pointer": _resolved_cell(source_payloads, row.candidate_pointer),
+        "control_pointer": _resolved_cell(source_payloads, row.control_pointer),
+        "positive_claim_pointer": _resolved_cell(source_payloads, row.positive_claim_pointer),
+        "base_over_chance_gate_pointer": _resolved_cell(source_payloads, row.base_over_chance_gate_pointer),
+    }
+    claim_id_resolved, claim_id = _resolve_source(source_payloads, row.claim_id_pointer)
+    task_resolved, task_identity = _resolve_source(source_payloads, row.task_identity_pointer)
+    control_identity_resolved, fair_control_identity = _resolve_source(source_payloads, row.fair_control_identity_pointer)
+    if not claim_id_resolved or not _present(str(claim_id)):
+        failed_checks.append("claim_id")
+    if not task_resolved or not _present(str(task_identity)):
+        failed_checks.append("task_identity")
+    if not control_identity_resolved or not _present(str(fair_control_identity)):
+        failed_checks.append("fair_control_identity")
+    for check_name in ("candidate_pointer", "control_pointer", "positive_claim_pointer"):
+        if not resolved_sources[check_name]["resolved"]:
+            failed_checks.append(check_name)
+    match_axis_evidence = {
+        axis: _resolved_cell(source_payloads, row.match_axis_pointers.get(axis, ""))
+        for axis in MATCH_AXES
+    }
+    failed_checks.extend(
+        axis
+        for axis in MATCH_AXES
+        if not match_axis_evidence[axis]["resolved"] or match_axis_evidence[axis]["status"] != "pass"
+    )
+    anti_triviality_evidence = {
+        axis: _resolved_cell(source_payloads, row.anti_triviality_pointers.get(axis, ""))
+        for axis in ANTI_TRIVIALITY_AXES
+    }
     missing_anti_triviality = [
         f"anti_triviality:{axis}"
         for axis in ANTI_TRIVIALITY_AXES
-        if not _present(row.anti_triviality_pointers.get(axis))
+        if not anti_triviality_evidence[axis]["resolved"] or anti_triviality_evidence[axis]["status"] != "pass"
     ]
     failed_checks.extend(missing_anti_triviality)
-    for field_name in (
-        "producer_id",
-        "claim_id",
-        "task_identity",
-        "fair_control_identity",
-        "candidate_artifact",
-        "candidate_pointer",
-        "control_artifact",
-        "control_pointer",
-        "positive_claim_pointer",
-        "base_over_chance_gate_pointer",
-    ):
-        if not _present(str(getattr(row, field_name))):
-            failed_checks.append(field_name)
+    if not resolved_sources["base_over_chance_gate_pointer"]["resolved"] or resolved_sources["base_over_chance_gate_pointer"]["status"] != "pass":
+        failed_checks.append("base_over_chance_gate_pointer")
+    if not _present(row.producer_id):
+        failed_checks.append("producer_id")
     return {
         "producer_id": row.producer_id,
-        "claim_id": row.claim_id,
-        "task_identity": row.task_identity,
-        "fair_control_identity": row.fair_control_identity,
+        "claim_id": claim_id if claim_id_resolved else "",
+        "task_identity": task_identity if task_resolved else "",
+        "fair_control_identity": fair_control_identity if control_identity_resolved else "",
         "ledger_row_pointer": ledger_row_pointer(row.producer_id),
-        "candidate_pointer": f"{row.candidate_artifact}:{row.candidate_pointer}",
-        "control_pointer": f"{row.control_artifact}:{row.control_pointer}",
-        "positive_claim_pointer": f"{row.candidate_artifact}:{row.positive_claim_pointer}",
+        "candidate_pointer": row.candidate_pointer,
+        "control_pointer": row.control_pointer,
+        "positive_claim_pointer": row.positive_claim_pointer,
         "base_over_chance_gate_pointer": row.base_over_chance_gate_pointer,
-        "match_axes": {axis: bool(row.match_axes.get(axis)) for axis in MATCH_AXES},
+        "match_axes": {axis: match_axis_evidence[axis]["status"] == "pass" for axis in MATCH_AXES},
+        "match_axis_evidence": match_axis_evidence,
         "anti_triviality_pointers": {axis: row.anti_triviality_pointers.get(axis, "") for axis in ANTI_TRIVIALITY_AXES},
+        "anti_triviality_evidence": anti_triviality_evidence,
         "evidence_pointers": dict(row.evidence_pointers),
+        "resolved_sources": resolved_sources,
         "row_status": "pass" if not failed_checks else "fail",
         "failed_checks": failed_checks,
     }
@@ -181,12 +272,12 @@ def _hardgate(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         "FACL-HG1": [
             row["producer_id"]
             for row in rows
-            if not row.get("task_identity") or not row.get("fair_control_identity")
+            if any(check in row.get("failed_checks", ()) for check in ("claim_id", "task_identity", "fair_control_identity"))
         ],
         "FACL-HG2": [
             row["producer_id"]
             for row in rows
-            if not row.get("candidate_pointer") or not row.get("control_pointer") or not row.get("positive_claim_pointer")
+            if any(check in row.get("failed_checks", ()) for check in ("candidate_pointer", "control_pointer", "positive_claim_pointer"))
         ],
         "FACL-HG3": [
             row["producer_id"]
@@ -196,8 +287,8 @@ def _hardgate(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         "FACL-HG4": [
             row["producer_id"]
             for row in rows
-            if not row.get("base_over_chance_gate_pointer")
-            or any(not row["anti_triviality_pointers"].get(axis) for axis in ANTI_TRIVIALITY_AXES)
+            if "base_over_chance_gate_pointer" in row.get("failed_checks", ())
+            or any(f"anti_triviality:{axis}" in row.get("failed_checks", ()) for axis in ANTI_TRIVIALITY_AXES)
         ],
     }
     gates = {
@@ -220,9 +311,10 @@ def _hardgate(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
 class FairAlignmentControlLedger:
     generated_at: str
     rows: Sequence[FairAlignmentControlRow]
+    source_payloads: Mapping[str, Any]
 
     def to_payload(self) -> dict[str, Any]:
-        rows = [_row_payload(row) for row in self.rows]
+        rows = [_row_payload(row, self.source_payloads) for row in self.rows]
         hardgate = _hardgate(rows)
         return {
             "schema_id": SCHEMA_ID,
@@ -274,10 +366,17 @@ class FairAlignmentControlLedger:
         }
 
 
-def build_payload(*, generated_at: str, rows: Sequence[FairAlignmentControlRow] | None = None) -> dict[str, Any]:
+def build_payload(
+    *,
+    generated_at: str,
+    rows: Sequence[FairAlignmentControlRow] | None = None,
+    root: Path | None = None,
+    source_payloads: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
     return FairAlignmentControlLedger(
         generated_at=generated_at,
         rows=build_default_rows() if rows is None else tuple(rows),
+        source_payloads=_source_payloads_from_root(Path.cwd() if root is None else root) if source_payloads is None else source_payloads,
     ).to_payload()
 
 

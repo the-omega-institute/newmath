@@ -25,7 +25,7 @@ from bedc_quality_lab.fair_alignment_control_ledger import (
 
 def write_artifacts(*, root: Path = ROOT, generated_at: str | None = None) -> dict[str, object]:
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
-    payload = build_payload(generated_at=timestamp)
+    payload = build_payload(generated_at=timestamp, root=root)
     json_path = root / JSON_ARTIFACT
     markdown_path = root / MARKDOWN_ARTIFACT
     json_path.parent.mkdir(parents=True, exist_ok=True)

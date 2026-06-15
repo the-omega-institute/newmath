@@ -661,6 +661,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "aggregate_metrics",
             "treatment_comparison",
             "control_protocol",
+            "fair_alignment_control_ledger",
             *(
                 "$.control_protocol" + path[1:]
                 for path in MATCHED_RANDOM_CONTROL_REQUIRED_PATHS
@@ -1186,6 +1187,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "negative_witness_mutations",
             "training_loop_trace",
             "matched_random_control",
+            "fair_control_protocol",
             "quality_promotion_boundary",
             "certificate_guided_dn_preservation",
             "mechanism_ablation",

@@ -937,7 +937,11 @@ def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[st
         "aggregate_metrics": aggregate,
         "treatment_comparison": aggregate["comparison"],
         "control_protocol": _control_protocol(config),
-        "fair_alignment_control_ledger": gap_head_ledger_adapter(),
+        "fair_alignment_control_ledger": {
+            **gap_head_ledger_adapter(),
+            "claim_id": "gap-head-on-h:main-claim",
+            "task_identity": "gaussian-ou:learned-h-gap-detection",
+        },
         "treatment_verdict": treatment_verdict,
         "control_verdict": control_verdict,
         "main_claim_status": "source_evidence_only",

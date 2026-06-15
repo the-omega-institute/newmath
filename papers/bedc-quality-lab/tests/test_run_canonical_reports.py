@@ -1,6 +1,7 @@
 import json
 
 from scripts import run_canonical_reports as canonical
+from tests.test_fair_alignment_control_ledger import _write_source_payloads
 
 
 def test_fair_alignment_control_ledger_canonical_spec_is_registered():
@@ -32,6 +33,7 @@ def test_fair_alignment_control_index_section_is_pointer_only():
 
 def test_fair_alignment_control_dispatch_writes_canonical_artifacts(monkeypatch, tmp_path):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    _write_source_payloads(tmp_path)
     spec = canonical._specs_by_name()["fair-alignment-control-ledger"]
 
     canonical._run_spec_producer(spec, generated_at="fixture-time")
@@ -47,3 +49,13 @@ def test_fair_alignment_control_dispatch_writes_canonical_artifacts(monkeypatch,
     assert set(payload["producer_adapters"]) == {"gap-head-on-h", "discovery-regularized-training"}
     assert "- Generated at: `fixture-time`" in markdown
     assert "`pointer-only`" in markdown
+
+
+def test_fair_alignment_control_targeted_selection_includes_source_reports():
+    selected = canonical._selected_specs_with_dependents("fair-alignment-control-ledger")
+
+    assert tuple(spec.name for spec in selected) == (
+        "fair-alignment-control-ledger",
+        "gap-head-on-h",
+        "discovery-regularized-training",
+    )

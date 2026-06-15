@@ -1872,6 +1872,7 @@ class DiscoveryRegularizedTrainingProjection:
             "negative_witness_mutations": summaries["negative_witness_mutations"],
             "training_loop_trace": summaries["training_loop_trace"],
             "matched_random_control": summaries["matched_random_control"],
+            "fair_control_protocol": summaries["fair_control_protocol"],
             "fair_alignment_control_ledger": summaries["fair_alignment_control_ledger"],
             "training_replay_bridge": summaries["training_replay_bridge"],
             "quality_promotion_boundary": boundary,
@@ -2441,6 +2442,8 @@ class DiscoveryRegularizedTrainingProjection:
         matched_cert = matched.get("certificate_loss_mean")
         classifier_shift_mean = drt.get("classifier_shift_count_mean")
         net_positive_count = sum(1 for row in _rows_for_arm(deterministic_rows, "DGT_full") if row.get("net_positive_signal") is True)
+        drt_rows = _rows_for_arm(deterministic_rows, "DGT_full")
+        matched_rows = _rows_for_arm(deterministic_rows, "matched_random_structural_control")
         task_only_promoted = any(
             row.get("arm") == "base_transformer" and (row.get("net_positive_signal") is True or _metric(row, "classifier_shift_count") not in (0.0, None))
             for row in deterministic_rows
@@ -2584,7 +2587,29 @@ class DiscoveryRegularizedTrainingProjection:
                 "control_positive": False,
                 "evidence_pointer": "$.surface_registry.quality.by_arm",
             },
-            "fair_alignment_control_ledger": drt_ledger_adapter(),
+            "fair_control_protocol": {
+                "parameter_match": training_replay_bridge["full_arm"].get("parameter_count")
+                == training_replay_bridge["matched_random_arm"].get("parameter_count"),
+                "compute_match": training_replay_bridge["full_arm"].get("compute_budget")
+                == training_replay_bridge["matched_random_arm"].get("compute_budget")
+                and asdict(compute_ledger)["status"] == "complete",
+                "threshold_match": all(
+                    row.get("discovery_lambda") in lambdas and row.get("rho") in rhos
+                    for row in (*drt_rows, *matched_rows)
+                ),
+                "surface_distribution_match": len(drt_rows) == len(matched_rows) and len(drt_rows) > 0,
+                "evidence_pointers": {
+                    "parameter_match": "$.training_replay_bridge",
+                    "compute_match": "$.compute_ledger",
+                    "threshold_match": "$.records",
+                    "surface_distribution_match": "$.surface_registry.quality.by_arm",
+                },
+            },
+            "fair_alignment_control_ledger": {
+                **drt_ledger_adapter(),
+                "claim_id": "discovery-regularized-training:positive-claim",
+                "task_identity": "gaussian-ou:discovery-regularized-replay",
+            },
         }
 
     def _arm_summary(self, rows: Sequence[Mapping[str, Any]], arms: Sequence[str]) -> dict[str, dict[str, float | int | bool]]:
