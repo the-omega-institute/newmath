@@ -39,7 +39,7 @@ theorem interval_halving_dyadic_nested_handoff_carrier_route [AskSetup] [Package
           Cont left radius dyadicRead ∧ Cont dyadicRead streamWindow nestedRead ∧
             PkgSig bundle localName pkg ∧ PkgSig bundle nestedRead pkg :=
     ⟨leftUnary, radiusUnary, streamWindowUnary, dyadicUnary, nestedUnary, dyadicRoute,
-      nestedRoute, packageRoute, nestedPkg⟩
+      nestedRoute, packageRoute.right, nestedPkg⟩
   exact handoff
 
 end BEDC.Derived.IntervalHalvingUp
