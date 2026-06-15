@@ -202,6 +202,27 @@ Finally use \autoref{thm:totally-bounded-completion-route-coverage}. It makes th
 \end{proof}
 \leanchecked{BEDC.Derived.TotallyBoundedCompletionUp.TotallyBoundedCompletionCarrier\_root\_completion\_handoff}
 
+\begin{definition}[TotallyBoundedCompletion effective net completion selector]
+\label{def:totally-bounded-completion-effective-net-completion}
+For an accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the effective net completion selector is the finite BEDC read that first opens the total-bounded ledger pair $T,N$ and only then follows
+$$
+F,E,C,S,U .
+$$
+It returns the completion-facing route selected from the displayed finite net and its refinement ledger: $F$ is the generated $\CauchyFilterBasisUp$ row, $E$ is the dense $\CompletionEmbeddingUp$ row, $C$ is the $\ConstructiveMetricCompletionUp$ route, $S$ is the separated comparison row, and $U$ is the uniformly continuous extension handoff. The selector has no coordinate for open-cover compactness, quotient completion, selected subnet limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[TotallyBoundedCompletion selector consumption]
+\label{thm:totally-bounded-completion-effective-net-completion-consumption}
+Every use of the effective selector of \autoref{def:totally-bounded-completion-effective-net-completion} is consumed by the root completion handoff and the root extension nonescape rows. In particular, any selected completion route reads $T,N$ before $F,E,C,S$ and reaches $U,H,P,L$ only as downstream extension, transport, provenance, and naming data.
+\end{theorem}
+\begin{proof}
+Start with the selector definition. Its first action is to open $T,N$, so the selected route is already tied to the root finite-net ledger rather than to an open cover or host finite subset.
+
+Apply \autoref{thm:totally-bounded-completion-root-completion-handoff}. The selected completion segment must pass through $F,E,C,S$ in order after the finite-net rows are displayed.
+
+Finally use \autoref{thm:totally-bounded-completion-root-extension-nonescape}. The rows $U,H,P,L$ can only consume that displayed route; they do not add quotient completion, selected limits, countable choice, open-cover compactness, ambient completeness, or a second completion route.
+\end{proof}
+
 \begin{theorem}[TotallyBoundedCompletion root extension nonescape]
 \label{thm:totally-bounded-completion-root-extension-nonescape}
 For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the downstream rows $U,H,P,L$ export only the uniformly continuous extension handoff, componentwise transport, provenance, and local naming for the already displayed route. They export no quotient completion, selected limits, countable choice, open-cover compactness, ambient $\RealUp$ completeness, or second completion route.
@@ -266,6 +287,7 @@ X,T,N,F,E,C,S,U,H,P,L .
 $$
 In particular, the consumer cannot read a quotient completion, a selected limit, countable choice, an open-cover compactness theorem, or ambient $\RealUp$ completeness in place of the finite completion route.
 \end{theorem}
+\leanchecked{BEDC.Derived.TotallyBoundedCompletionUp.TotallyBoundedCompletionExtensionHandoff}
 \begin{proof}
 The extension consumer first opens the carrier coordinate $U$. By \autoref{def:totally-bounded-completion-carrier}, that row is downstream from the source metric, finite-net ledger, refinement row, Cauchy-filter basis, embedding, constructive completion route, and separated equality row.
 
@@ -368,6 +390,7 @@ The route surface already carries the finite-net rows $T,N$, the completion rows
 
 Finally apply ledger non-escape, \autoref{thm:totally-bounded-completion-no-escape}. The excluded open-cover, quotient, selected-limit, countable-choice, and ambient-real principles have no row in the accepted $\BHist$ packet and no local $\NameCert_{\TotallyBoundedCompletionUp}$ obligation from which an extension consumer could export them.
 \end{proof}
+\leanchecked{BEDC.Derived.TotallyBoundedCompletionUp.TotallyBoundedCompletionCarrier\_root\_extension\_ledger}
 
 \begin{theorem}[TotallyBoundedCompletion net-filter carrier admission]
 \label{thm:totally-bounded-completion-net-filter-carrier-admission}
@@ -380,6 +403,7 @@ Use finite-net persistence and basis-and-embedding replay from \autoref{thm:tota
 
 The root route exhaustion theorem \autoref{thm:totally-bounded-completion-root-route-exhaustion} and the root extension ledger theorem above keep $S,U,H,P,L$ downstream of the same route. Thus later complete-metric or compact-metric consumers inherit the finite net and Cauchy-filter rows as one carrier surface, not as an open-cover or selected-limit substitute.
 \end{proof}
+\leanchecked{BEDC.Derived.TotallyBoundedCompletionUp.TotallyBoundedCompletionCarrier\_net\_filter\_carrier\_admission}
 
 \begin{theorem}[TotallyBoundedCompletion Cauchy-filter stability]
 \label{thm:totally-bounded-completion-cauchy-filter-stability}
@@ -406,6 +430,24 @@ Use net-filter carrier admission and Cauchy-filter stability, \autoref{thm:total
 Next apply completion route exactness and the extension consumer boundary, \autoref{thm:totally-bounded-completion-completion-route-exactness} and \autoref{thm:totally-bounded-completion-extension-consumer-boundary}. The only completion-facing segment is $F,E,C$, and the extension row $U$ is available only as a consumer of that segment.
 
 Finally use the root extension ledger above. The Real, stream-name, and regular-rational readbacks remain schedule data for the finite tolerance route, while compact and complete metric service rows are read only through the displayed completion route. Hence no quotient completion, selected representative, choice schedule, or ambient Real completeness can be exported.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion obligation ledger]
+\label{thm:totally-bounded-completion-obligation-ledger}
+Let $K=(X,T,N,F,E,C,S,U,H,P,L)$ be an accepted $\TotallyBoundedCompletionUp$ packet. Its obligation ledger is exhausted by six rows of work: carrier admission; finite-net persistence; $\CauchyFilterBasisUp$ generation; completion embedding; constructive completion route; and separated equality plus uniformly continuous extension handoff. The ledger exports no open-cover compactness, selected subnet, quotient completion, countable choice, ambient completeness, or detached $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is the first row of work. It is supplied by the carrier definition and by \autoref{thm:totally-bounded-completion-namecert-obligations}, which display $X,T,N,F,E,C,S,U,H,P,L$ as the local NameCert surface.
+
+Finite-net persistence is the second row. The net handoff theorem \autoref{thm:totally-bounded-completion-net-handoff} keeps every completion-facing read on the finite centers, membership rows, distance witnesses, rational bounds, and refinement ledger carried by $T,N$.
+
+The third and fourth rows are the Cauchy-filter-basis generation and completion embedding handoffs. Apply \autoref{thm:totally-bounded-completion-cauchy-filter-basis-handoff}: the basis row $F$ is generated only after $T,N$ are exposed, and the dense embedding row $E$ cannot be read while bypassing that finite-net source.
+
+The fifth row is the constructive completion route. The completion route exactness theorem \autoref{thm:totally-bounded-completion-completion-route-exactness} identifies $F,E,C$ as the only completion-facing segment, and the root route exhaustion theorem \autoref{thm:totally-bounded-completion-root-route-exhaustion} keeps all accepted routes inside the same finite packet.
+
+The sixth row is the separated and uniform-extension handoff. The extension nonescape theorem \autoref{thm:totally-bounded-completion-extension-nonescape} and uniform-extension ledger \autoref{thm:totally-bounded-completion-uniform-extension-ledger} keep $S,U,H,P,L$ downstream of the displayed completion route.
+
+Finally apply ledger nonescape, \autoref{thm:totally-bounded-completion-no-escape}. Since open-cover compactness, selected subnets, quotient completion, countable choice, ambient completeness, and detached Real completeness have no coordinate in the accepted packet, the six rows exhaust the obligation ledger.
 \end{proof}
 
 \begin{closurestatus}{\TotallyBoundedCompletionUp}
