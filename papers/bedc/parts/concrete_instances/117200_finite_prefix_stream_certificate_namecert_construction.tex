@@ -55,6 +55,20 @@ The window read is then bounded by $W$. For each displayed index at or below $k$
 The structural rows $H,C,P,N$ preserve this same finite route under transport, replay, provenance, and naming. They do not add an infinite tail, an equality class of streams, a choice schedule, host equality of real names, or completeness data.
 \end{proof}
 
+\begin{theorem}[Finite prefix stream observation induction]
+\label{thm:finite-prefix-stream-certificate-observation-induction}
+Let $F=(k,W,D,R,H,C,P,N)$ be an accepted $\FinitePrefixStreamUp$ carrier. For every displayed unary index $i \leq k$, the observation at $i$ is obtained by induction on the successor spine of $k$: the route reads exactly the corresponding $\StreamNameUp$ window row in $W$, the matching $\DyadicRatCoreUp$ tolerance row in $D$, the $\RegSeqRatUp$ handoff row in $R$, and the structural $H,C,P,N$ rows. The induction exports a finite observation proof only; it does not export quotient stream equality, a selected tail, countable choice, host real equality, ambient $\RealUp$ completeness, or a bridge certificate.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:finite-prefix-stream-certificate-carrier} to project the unary depth row $k$ and the finite rows $W,D,R,H,C,P,N$.
+
+The base depth reads the initial window entry from $W$, the matching dyadic tolerance entry from $D$, and the corresponding regular-rational handoff from $R$. The structural rows then record the displayed transport, replay, provenance, and local naming for that initial observation.
+
+For the successor step, extend the already-read finite route by one displayed observation. Apply \autoref{thm:finite-prefix-stream-certificate-window-readback} to force the new observation to pass through the same $W,D,R$ rows before it reaches the structural rows $H,C,P,N$.
+
+Thus every index $i \leq k$ is read by finite induction on the displayed spine. Since no excluded object is a carrier coordinate or a product of the induction, the observation proof remains a finite StreamName-to-RegSeqRat handoff.
+\end{proof}
+
 \begin{theorem}[Finite prefix stream nonescape]
 \label{thm:finite-prefix-stream-certificate-nonescape}
 Every Real or Completion-facing use of an accepted $\FinitePrefixStreamUp$ carrier remains downstream of the displayed prefix window and the RegSeqRat handoff. Thus the packet may be used by the real-name and Bishop regular Cauchy completion routes only as finite prefix evidence; it does not export quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
