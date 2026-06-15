@@ -212,6 +212,42 @@ instance fableMachineClockChapterTasteGate : ChapterTasteGate FableMachineClockU
     intro x y hxy heq
     exact hxy (fableMachineClockToEventFlow_injective heq)
 
+instance fableMachineClockFieldFaithful : FieldFaithful FableMachineClockUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | FableMachineClockUp.mk sourceHist stepLedger selectedMarks selectorWitnesses
+        clockBoundary transport continuation provenance nameCert =>
+        [sourceHist, stepLedger, selectedMarks, selectorWitnesses, clockBoundary,
+          transport, continuation, provenance, nameCert]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk source₁ step₁ selected₁ selector₁ boundary₁ transport₁ continuation₁
+        provenance₁ nameCert₁ =>
+        cases y with
+        | mk source₂ step₂ selected₂ selector₂ boundary₂ transport₂ continuation₂
+            provenance₂ nameCert₂ =>
+            injection h with hSource tail0
+            injection tail0 with hStep tail1
+            injection tail1 with hSelected tail2
+            injection tail2 with hSelector tail3
+            injection tail3 with hBoundary tail4
+            injection tail4 with hTransport tail5
+            injection tail5 with hContinuation tail6
+            injection tail6 with hProvenance tail7
+            injection tail7 with hNameCert _
+            subst hSource
+            subst hStep
+            subst hSelected
+            subst hSelector
+            subst hBoundary
+            subst hTransport
+            subst hContinuation
+            subst hProvenance
+            subst hNameCert
+            rfl
+
 theorem FableMachineClockTasteGate_single_carrier_alignment :
     (∀ h : BHist, fableMachineClockDecodeBHist (fableMachineClockEncodeBHist h) = h) ∧
       (∀ x : FableMachineClockUp,
