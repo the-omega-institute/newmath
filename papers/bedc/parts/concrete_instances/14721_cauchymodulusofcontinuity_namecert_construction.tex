@@ -270,6 +270,88 @@ continuity, compactness, quotient streams, host function equality, selected
 limits, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus threshold transport]
+\label{thm:cauchy-modulus-of-continuity-threshold-transport}
+For every accepted $\CauchyModulusOfContinuityUp$ carrier
+$K=(S,T,\mu,F,R,E,H,C,P,N)$, the displayed threshold schedule $\mu$ is
+transported through the $\StreamNameUp$ source window $S$, the target
+$\StreamNameUp$ window $T$, the $\RegSeqRatUp$ readbacks $R$, the
+$\DyadicRatCoreUp$ tolerance discipline used by those readbacks, and the
+$\CauchyContinuousMapUp$ transformer row $F$ before any Real-facing consumer
+reads the seal row $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:cauchy-modulus-of-continuity-carrier}. The threshold schedule
+$\mu$ is displayed between the source and target finite-window rows and the
+transformer row, so it is visible before the regular rational readback and the
+Real seal.
+
+Apply the NameCert obligations of
+\autoref{thm:cauchy-modulus-of-continuity-namecert-obligations}. They bind
+carrier admission, classifier transport, componentwise stability, and
+threshold-route exactness to the same finite surface.
+
+Use the handoff theorem
+\autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff}. It forces each
+target-window read to pass through $S,\mu,F,T,R$ before the Real consumer can
+reach $E$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus Real seal nonescape]
+\label{thm:cauchy-modulus-of-continuity-real-seal-nonescape}
+For every accepted $\CauchyModulusOfContinuityUp$ carrier
+$K=(S,T,\mu,F,R,E,H,C,P,N)$, the $\RealUp$ seal row $E$ is reachable only
+after the modulus row $\mu$, threshold route, finite-window rows $S,T$,
+readback row $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$
+replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ have been
+displayed.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:cauchy-modulus-of-continuity-real-consumer-boundary}.
+It places every Real-facing read behind the $\RegSeqRatUp$ readbacks and the
+seal row of the same carrier.
+
+Now use threshold transport from
+\autoref{thm:cauchy-modulus-of-continuity-threshold-transport}. The target
+readback cannot appear before $S,\mu,F,T$ and the dyadic tolerance route used
+by $R$ are visible.
+
+Finally read the structural rows $H,C,P,N$. They transport, replay, source,
+and name the already displayed threshold route; none supplies a bypass around
+$\mu,F,R$ or a detached Real seal.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus local NameCert surface]
+\label{thm:cauchy-modulus-of-continuity-local-namecert-surface}
+The rows
+$$
+S,T,\mu,F,R,E,H,C,P,N
+$$
+exhaust the local $\NameCert_{\CauchyModulusOfContinuityUp}$ obligations for
+an accepted packet. The packet excludes host continuity, selected limits,
+quotient stream equality, countable choice, and ambient $\RealUp$
+completeness.
+\end{theorem}
+\begin{proof}
+Project the finite tuple in
+\autoref{def:cauchy-modulus-of-continuity-carrier}. Its coordinates are
+exactly the source and target windows, threshold schedule, transformer,
+readbacks, Real seal, transport, replay, provenance, and local naming rows.
+
+Apply
+\autoref{thm:cauchy-modulus-of-continuity-namecert-obligations},
+\autoref{thm:cauchy-modulus-of-continuity-threshold-transport}, and
+\autoref{thm:cauchy-modulus-of-continuity-real-seal-nonescape}. Together they
+show that carrier admission, classifier transport, threshold-route exactness,
+Real-seal factorization, transport, replay, provenance, and local naming are
+all read from the displayed rows.
+
+Since the carrier contains no host continuity predicate, selected limit,
+quotient stream, countable-choice schedule, or ambient completeness row, those
+objects are outside the local NameCert surface.
+\end{proof}
+
 \closureat{CauchyModulusOfContinuityUp}{seedStr}
 
 \begin{closurestatus}{\CauchyModulusOfContinuityUp}

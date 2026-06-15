@@ -135,4 +135,57 @@ theorem IntervalDomainWayBelowCarrier_obligation_closure_package
   }
   exact ⟨cert, consumerUnary⟩
 
+theorem IntervalDomainWayBelowObligationClosurePackage
+    {O I M N S Q E H C P A completionRead : BHist} :
+    IntervalDomainWayBelowCarrier O I M N S Q E H C P A ->
+      Cont A Q completionRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row O ∨ hsame row I ∨ hsame row M ∨ hsame row completionRead)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont A Q completionRead ∧ hsame H (append O I))
+            hsame ∧ UnaryHistory completionRead ∧ hsame H (append O I) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory SemanticNameCert
+  intro carrier completionRoute
+  have route := IntervalDomainWayBelowApproximationRoute carrier completionRoute
+  obtain ⟨unaryO, unaryI, unaryM, _unaryN, _unaryS, _unaryQ, _unaryE, _unaryP,
+    _unaryA, unaryCompletion, sameH, _routeOIM, _routeMNS, _routeSQE, _routeECP,
+    _routePHA, _routeCompletion⟩ := route
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row O ∨ hsame row I ∨ hsame row M ∨ hsame row completionRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont A Q completionRead ∧ hsame H (append O I))
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro completionRead ⟨hsame_refl completionRead, unaryCompletion⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr sourceRow.left))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.right, completionRoute, sameH⟩
+    }
+  exact ⟨cert, unaryCompletion, sameH⟩
+
 end BEDC.Derived.IntervalDomainWayBelowUp
