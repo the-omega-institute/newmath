@@ -3084,6 +3084,7 @@ import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConsistencyObservationBudgetUp
 import BEDC.Derived.ConstantRealStreamUp
 import BEDC.Derived.ConstantRealStreamUp.TasteGate
+import BEDC.Derived.ConstructiveBaireThreadUp.TasteGate
 import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCauchyFilterBoundaryUp
 import BEDC.Derived.ConstructiveCauchyIntervalUp.TasteGate
