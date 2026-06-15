@@ -150,9 +150,23 @@ The remaining induction is bounded by the predecessor depth row. The structural 
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicIntervalTreeUp.DyadicIntervalTreeCarrier\_branch\_ledger\_depth\_bound}
 
+\begin{theorem}[DyadicIntervalTree prefix-frontier coverage]
+\label{thm:dyadic-interval-tree-prefix-frontier-coverage}
+Let $T=(R,D,B,F,M,Q,NW,H,C,P,L)$ be an accepted $\DyadicIntervalTreeUp$ packet. Every consumed branch prefix determines exactly the visible frontier rows reachable at that prefix, and every $\RegSeqRatUp$ or $\RealUp$ window consumer that reads a leaf must pass through this prefix-frontier surface before reading $NW$. The surface consists of the root row $R$, the consumed prefix of $B$, the retained child row at each successor step, the matching containment rows in $Q$, the visible frontier update in $F$, the common mesh row $M$, and the structural rows $H,C,P,L$. It excludes infinite branches, host subsets of $\RealUp$, Dedekind cuts, selected completed points, open-cover compactness, and ambient real completeness.
+\end{theorem}
+\begin{proof}
+Induct on the finite branch prefix. In the root case, the visible frontier is the root frontier determined by $R$ and $M$, and every window consumer can reach the nested route only through the root containment and replay rows.
+
+At a successor prefix, read the retained child decision from $B$. The corresponding $\DyadicBisectionUp$ child row identifies the next interval, the matching row of $Q$ records containment in the parent window, and the frontier row $F$ records exactly the visible leaves after this child is retained.
+
+Apply the induction hypothesis to the remaining prefix. The transport, replay, provenance, and local naming rows $H,C,P,L$ preserve the same prefix-frontier route while the nested-window row $NW$ remains downstream of the consumed frontier surface.
+
+Thus any $\RegSeqRatUp$ or $\RealUp$ consumer that reads a leaf must first pass through the finite prefix-frontier surface. Since the carrier has no coordinate for infinite branches, host subsets of $\RealUp$, Dedekind cuts, selected completed points, open-cover compactness, or ambient real completeness, none of those objects can be read from the coverage theorem.
+\end{proof}
+
 \begin{theorem}[Dyadic interval tree public boundary]
 \label{thm:dyadic-interval-tree-public-boundary}
-Every accepted $\DyadicIntervalTreeUp$ packet exposes branch coverage, window exhaustion, frontier exhaustion, and mesh-refinement functoriality before any $\RegSeqRatUp$ or $\RealUp$ interval consumer can read a nested dyadic interval route. The public boundary is the finite surface
+Every accepted $\DyadicIntervalTreeUp$ packet exposes branch coverage, prefix-frontier coverage, window exhaustion, frontier exhaustion, and mesh-refinement functoriality before any $\RegSeqRatUp$ or $\RealUp$ interval consumer can read a nested dyadic interval route. The public boundary is the finite surface
 $$
 R,D,B,F,M,Q,NW,H,C,P,L
 $$
@@ -165,6 +179,7 @@ Next read the two exhaustion surfaces. Window exhaustion restricts any $\RegSeqR
 
 Finally read mesh-refinement functoriality. The same mesh row is preserved through parent-child containment, frontier leaves, and the final nested-window route, while $H,C,P,L$ transport, replay, source, and name only these displayed rows. Since no carrier coordinate names a host open cover, a selected infinite branch limit, or quotient interval equality, those objects cannot be consumed by the public interval boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalTreeUp.DyadicIntervalTreeCarrier\_public\_boundary}
 
 \begin{theorem}[DyadicIntervalTree scoped kernel route]
 \label{thm:dyadic-interval-tree-scoped-kernel-route}
@@ -182,7 +197,7 @@ Finally apply \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality} a
 \begin{closurestatus}{\DyadicIntervalTreeUp}
   \constructivestory{A $\DyadicIntervalTreeUp$ packet is generated from a root rational interval row, unary depth row, finite branch ledger, dyadic bisection child rows, dyadic subdivision frontier rows, dyadic mesh cells, rational containment rows, a nested interval route, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:dyadic-interval-tree-carrier}, \autoref{def:dyadic-interval-tree-classifier}, \autoref{def:dyadic-interval-tree-level-scope}, \autoref{thm:dyadic-interval-tree-namecert-obligations}, \autoref{thm:dyadic-interval-tree-refinement-induction}, \autoref{thm:dyadic-interval-tree-branch-coverage}, \autoref{thm:dyadic-interval-tree-leaf-locality}, \autoref{thm:dyadic-interval-tree-window-exhaustion}, \autoref{thm:dyadic-interval-tree-frontier-exhaustion}, \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality}, \autoref{thm:dyadic-interval-tree-branch-ledger-depth-bound}, and \autoref{thm:dyadic-interval-tree-scoped-kernel-route} bind the finite dyadic interval-tree obligation and scoped kernel route for Real and Completion window consumers.}
+  \scopeclosed{\autoref{def:dyadic-interval-tree-carrier}, \autoref{def:dyadic-interval-tree-classifier}, \autoref{def:dyadic-interval-tree-level-scope}, \autoref{thm:dyadic-interval-tree-namecert-obligations}, \autoref{thm:dyadic-interval-tree-refinement-induction}, \autoref{thm:dyadic-interval-tree-branch-coverage}, \autoref{thm:dyadic-interval-tree-leaf-locality}, \autoref{thm:dyadic-interval-tree-window-exhaustion}, \autoref{thm:dyadic-interval-tree-frontier-exhaustion}, \autoref{thm:dyadic-interval-tree-mesh-refinement-functoriality}, \autoref{thm:dyadic-interval-tree-branch-ledger-depth-bound}, \autoref{thm:dyadic-interval-tree-prefix-frontier-coverage}, and \autoref{thm:dyadic-interval-tree-scoped-kernel-route} bind the finite dyadic interval-tree obligation and scoped kernel route for Real and Completion window consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close infinite interval trees, host subsets of $\RealUp$, Dedekind cuts, selected completed points, open-cover compactness, ambient real completeness, standard bridges, or a Lean theorem.}
