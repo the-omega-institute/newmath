@@ -138,6 +138,10 @@ The A100 computation queue therefore tracks both the decay-weighted scaled row
 and the uniform-loss scaled row; the uniform-loss verdict remains fail-closed
 until its A100 report is present in the local evidence directory, and the same
 fail-closed ingest contract is used for the decay-weighted A100 row.
+The prediction-parity boundary synthesis records this as a bounded local
+state: completed local rows are still outside parity, the transition split is
+only an upper-bound diagnostic, the loss-profile advantage is not stable, and
+A100 rows remain pending evidence rather than completed claims.
 
 \paragraph{Three-tier BEDC-native readout evaluation.}
 Across the verified findings the BEDC-native ledger separates into three tiers
