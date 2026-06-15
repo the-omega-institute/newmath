@@ -9145,6 +9145,7 @@ import BEDC.Derived.RegularCauchyHausdorffReflectionUp.FiniteWindowUniquenessRou
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RepresentativeIndependence
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.TasteGate
+import BEDC.Derived.RegularCauchyHeineBorelRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingStabilityUp
 import BEDC.Derived.RegularCauchyInterleavingStabilityUp.TasteGate
@@ -10328,6 +10329,7 @@ import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedCompletionUp
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCompletionRoute
 import BEDC.Derived.TotallyBoundedCompletionUp.NoEscape
+import BEDC.Derived.TotallyBoundedCompletionUp.RootRouteExhaustion
 import BEDC.Derived.TotallyBoundedCompletionUp.TasteGate
 import BEDC.Derived.TotallyBoundedLocatedSetUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
