@@ -304,6 +304,7 @@ import BEDC.Derived.AtiyahSingerUp.TasteGate
 import BEDC.Derived.AttentionLedgerUp
 import BEDC.Derived.AttentionLedgerUp.TasteGate
 import BEDC.Derived.AttouchWetsTopologyUp
+import BEDC.Derived.AttouchWetsTopologyUp.TasteGate
 import BEDC.Derived.AubinNitscheUp.TasteGate
 import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AuditExportFirewallUp
@@ -3776,6 +3777,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootStripWindowExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootStripZetaGammaSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.RootVisibleModulusConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroCarrier
+import BEDC.Derived.CriticalLineWitnessUp.RootZeroLocalizationScope
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroLocalizationSelectorExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripCarrierRow
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripExclusion
@@ -6327,6 +6329,7 @@ import BEDC.Derived.LimitPointCompactUp.TasteGate
 import BEDC.Derived.LimitSelectorUp
 import BEDC.Derived.LimitSpaceUp.TasteGate
 import BEDC.Derived.LimitUp.BishopHandoff
+import BEDC.Derived.LimitUp.CompletionScopeRefusal
 import BEDC.Derived.LimitUp.ConsumerHandoffExactness
 import BEDC.Derived.LimitUp.FiniteWindowExactness
 import BEDC.Derived.LimitUp.RealCompletionHandoff
@@ -6588,6 +6591,7 @@ import BEDC.Derived.LocatedUniformSpaceUp.TasteGate
 import BEDC.Derived.LocatedZeroUniquenessUp
 import BEDC.Derived.LocatednessModulusUp
 import BEDC.Derived.LocatednessModulusUp.TasteGate
+import BEDC.Derived.LogicContradictionMetaLoopUp.NameCertObligations
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
@@ -10315,6 +10319,7 @@ import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedCompletionUp
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCompletionRoute
 import BEDC.Derived.TotallyBoundedCompletionUp.NoEscape
+import BEDC.Derived.TotallyBoundedCompletionUp.TasteGate
 import BEDC.Derived.TotallyBoundedLocatedSetUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
