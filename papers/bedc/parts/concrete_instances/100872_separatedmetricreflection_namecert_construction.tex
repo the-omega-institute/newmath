@@ -78,6 +78,24 @@ The real-name seal and the local NameCert row are read only after this route has
 \end{proof}
 \leanchecked{BEDC.Derived.SeparatedMetricReflectionUp.SeparatedMetricReflectionCarrier\_universal\_route}
 
+\begin{theorem}[SeparatedMetricReflection obligation-closure package]
+\label{thm:separated-metric-reflection-obligation-closure-package}
+Let
+$$
+R=(X,S,A,U,Z,H,C,P,N)
+$$
+be an accepted $\SeparatedMetricReflectionUp$ packet. Then \autoref{def:separated-metric-reflection-carrier}, \autoref{thm:separated-metric-reflection-namecert-obligations}, and \autoref{thm:separated-metric-reflection-universal-route} assemble the five finite obligation rows required for obligation closure: carrier exposure, zero-distance classifier exactness, adjunction compatibility, universal-route preservation, and ledger non-escape for the same packet $R$.
+\end{theorem}
+\begin{proof}
+Project $R=(X,S,A,U,Z,H,C,P,N)$ from \autoref{def:separated-metric-reflection-carrier}. The carrier exposure row is the displayed tuple itself: metric source $X$, separated classifier $S$, completion adjunction $A$, universal route $U$, reflected classifier $Z$, transport $H$, replay $C$, provenance $P$, and local naming $N$.
+
+Zero-distance classifier exactness is the first named obligation in \autoref{thm:separated-metric-reflection-namecert-obligations}. A distance witness is read from $\MetricUp$ through $X$, routed to the zero-distance classifier in $\SeparatedMetricUp$ through $S$, and returned as the reflected classifier output $Z$.
+
+Adjunction compatibility and universal-route preservation are supplied by the completion-facing rows. The route passes through $\CauchyCompletionAdjunctionUp$ in $A$ and $\CompletionUniversalPropertyUp$ in $U$, so completion consumers read dense-row, extension, and uniqueness data only after the separated classifier route has been displayed.
+
+Finally apply the universal-route theorem. It keeps every completion-facing read on the chain through $\MetricUp$, $\SeparatedMetricUp$, $\CauchyCompletionAdjunctionUp$, $\CompletionUniversalPropertyUp$, and $\RealUp$, while the provenance row $P$ excludes quotient metric spaces, host equality, trichotomy, open-cover compactness, countable choice, and ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{closurestatus}{\SeparatedMetricReflectionUp}
   \constructivestory{A $\SeparatedMetricReflectionUp$ packet is generated from a $\MetricUp$ source row, a $\SeparatedMetricUp$ zero-distance classifier row, a $\CauchyCompletionAdjunctionUp$ completion route, a $\CompletionUniversalPropertyUp$ extension row, a reflected classifier output, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
