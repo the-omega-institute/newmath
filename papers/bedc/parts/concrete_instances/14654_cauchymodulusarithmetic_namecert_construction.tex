@@ -533,6 +533,20 @@ quotient streams, selected limits, host real equality, or ambient completeness.
 Hence the listed rows exhaust the obligation surface.
 \end{proof}
 
+\begin{theorem}[Cauchy-modulus arithmetic obligation scope package]
+\label{thm:cauchy-modulus-arithmetic-obligation-scope-package}
+The carrier, classifier, sum-meet closure, product meet compatibility, diagonal domination, Real-seal distribution, dyadic sum threshold, product tail bound, and Real-seal congruence rows jointly scope the $\CauchyModulusArithmeticUp$ NameCert surface over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every accepted arithmetic read must pass through the source schedules, shared meet threshold, arithmetic consumer rows, dyadic tolerance ledger, finite windows, regular rational readbacks, terminal Real seal, transport, replay, provenance, and local naming rows before it can expose a sum, product, or Real-facing output.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier rows of \autoref{def:cauchy-modulus-arithmetic-carrier} and \autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}. They expose the two source schedules, the shared meet row, the sum and product consumers, the dyadic ledger, the stream windows, the regular readback, the Real seal, and the structural rows.
+
+For the arithmetic routes, use \autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure}, \autoref{thm:cauchy-modulus-arithmetic-product-meet-compatibility}, and \autoref{thm:cauchy-modulus-arithmetic-diagonal-dominates-sum-product}. These force both $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ consumers to reuse $\mu_0,\mu_1,\mu_{\wedge},D,W,R$ before any output can be read.
+
+For the Real-facing boundary, apply \autoref{thm:cauchy-modulus-arithmetic-real-seal-distribution}, \autoref{thm:cauchy-modulus-arithmetic-dyadic-sum-threshold}, \autoref{thm:cauchy-modulus-arithmetic-product-tail-bound}, and \autoref{thm:cauchy-modulus-arithmetic-real-seal-congruence}. These rows keep every terminal read attached to the same finite ledger and to the same $H,C,P,N$ transport, replay, provenance, and local naming route.
+
+Thus the scoped obligation package is finite: each named dependency is one displayed sibling or kernel row, and no quotient stream, selected limit, host real equality, or ambient completeness principle is introduced.
+\end{proof}
+
 \begin{theorem}[Cauchy-modulus arithmetic sum-product carrier admission]
 \label{thm:cauchy-modulus-arithmetic-sum-product-carrier-admission}
 Every accepted $\CauchyModulusArithmeticUp$ arithmetic packet exposes the sum row $\sigma$, product row $\pi$, diagonal schedule reads, meet threshold $\mu_{\wedge}$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\RegSeqRatUp$ readback row $R$, $\StreamNameUp$ window row $W$, $\RealUp$ seal $E$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\CauchyModulusArithmeticUp}$ row $N$ before any Real arithmetic consumer reads the result. The admission route is therefore a concrete finite $\BHist$ surface, not a quotient stream, selected limit, host real equality, or ambient completeness read.
@@ -657,12 +671,12 @@ one arithmetic consumer, or the downstream real seal while this chapter binds
 the schedule-combination route with transport, replay, provenance, and local
 naming.}
 
-\closureat{CauchyModulusArithmeticUp}{seedStr}
+\closureat{CauchyModulusArithmeticUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyModulusArithmeticUp}
   \constructivestory{A $\CauchyModulusArithmeticUp$ packet is generated from two $\StreamNameUp$ windows, two $\CauchyModulusUp$ schedules, one $\CauchyModulusMeetUp$ shared-threshold row, $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ consumer rows, a $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readbacks, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-arithmetic-carrier}, \autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}, \autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure}, \autoref{thm:cauchy-modulus-arithmetic-real-consumer-boundary}, \autoref{thm:cauchy-modulus-arithmetic-diagonal-dominates-sum-product}, \autoref{thm:cauchy-modulus-arithmetic-product-meet-compatibility}, \autoref{thm:cauchy-modulus-arithmetic-real-seal-distribution}, and \autoref{thm:cauchy-modulus-arithmetic-obligation-closure} seed the finite modulus-arithmetic boundary over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-arithmetic-carrier}, \autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}, \autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure}, \autoref{thm:cauchy-modulus-arithmetic-real-consumer-boundary}, \autoref{thm:cauchy-modulus-arithmetic-diagonal-dominates-sum-product}, \autoref{thm:cauchy-modulus-arithmetic-product-meet-compatibility}, \autoref{thm:cauchy-modulus-arithmetic-real-seal-distribution}, \autoref{thm:cauchy-modulus-arithmetic-obligation-closure}, and \autoref{thm:cauchy-modulus-arithmetic-obligation-scope-package} bind the finite modulus-arithmetic obligation boundary over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient streams, selected limits, host real equality, ambient completeness, Lean verification, or bridge checking.}
