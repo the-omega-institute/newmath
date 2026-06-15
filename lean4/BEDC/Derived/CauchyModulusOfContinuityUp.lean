@@ -92,4 +92,30 @@ theorem CauchyModulusOfContinuityCarrier_namecert_obligations [AskSetup] [Packag
     }
   exact ⟨cert, realSealUnary⟩
 
+theorem CauchyModulusOfContinuityCarrier_cauchy_continuous_map_threshold_handoff
+    [AskSetup] [PackageSetup]
+    {source target modulus transformer readback realSeal transport replay provenance
+      localName targetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusOfContinuityCarrier source target modulus transformer readback realSeal
+        transport replay provenance localName bundle pkg ->
+      Cont modulus source targetRead ->
+        PkgSig bundle targetRead pkg ->
+          UnaryHistory source ∧ UnaryHistory modulus ∧ UnaryHistory transformer ∧
+            UnaryHistory targetRead ∧ Cont modulus source transformer ∧
+              Cont modulus source targetRead ∧ Cont transformer target readback ∧
+                PkgSig bundle localName pkg ∧ PkgSig bundle targetRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier targetReadRoute targetReadPkg
+  obtain ⟨sourceUnary, _targetUnary, modulusUnary, transformerUnary, _readbackUnary,
+    _realSealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    modulusSourceTransformer, transformerTargetReadback, _readbackRealSealLocalName,
+    _transportReplayProvenance, localNamePkg⟩ := carrier
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_cont_closed modulusUnary sourceUnary targetReadRoute
+  exact
+    ⟨sourceUnary, modulusUnary, transformerUnary, targetReadUnary,
+      modulusSourceTransformer, targetReadRoute, transformerTargetReadback, localNamePkg,
+      targetReadPkg⟩
+
 end BEDC.Derived.CauchyModulusOfContinuityUp
