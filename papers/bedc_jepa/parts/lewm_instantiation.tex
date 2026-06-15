@@ -379,6 +379,18 @@ The standalone runner verdicts are stored at
 \path{experiments/lewm_gap_ledger/reports/fi_022_structured_assignment_verdict.json}
 and
 \path{experiments/lewm_gap_ledger/reports/fi_023_independent_rollout_only_verdict.json}.
+A joint horizon-option test asks whether adding the detection task to the
+option-conditioned compute-value model is enough to make the score
+allocation-native.  It is not.  The option-only shared-trunk row is selected on
+calibration and evaluates near neutral at allocation delta $+0.00017$
+$[-0.00014,\ +0.00050]$ with score/error Spearman $0.8371$.  The joint row
+with a horizon-q75 head improves mean horizon AUROC to $0.7517$ and raises
+score/error Spearman to $0.8737$, but its allocation delta is worse:
+$+0.00466$ $[+0.0000003,\ +0.01128]$.  A direct dynamic program using
+horizon-risk logits as option scores is also wrong-side, $+0.00703$
+$[+0.00227,\ +0.01192]$.  Thus detection supervision can improve readability
+without producing intervention value.  The compute-value head must be trained
+and selected against the budget-feasible assignment target itself.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -494,6 +506,7 @@ $$
 \text{compute-value feature-group ablation} & \texttt{reports/compute\_value\_feature\_group\_ablation.json},\\
 \text{compute-value independent readiness} & \texttt{reports/compute\_value\_independent\_readiness.json},\\
 \text{compute-value independent rollout-only} & \texttt{reports/compute\_value\_independent\_rollout\_only.json},\\
+\text{compute-value joint horizon option} & \texttt{reports/compute\_value\_joint\_horizon\_option.json},\\
 \text{ledger-shaped re-encoder} & \texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json},\\
 \text{pusht independent export} & \texttt{reports/lewm\_pusht\_independent\_export.json},\\
 \text{pusht contiguous-block replication} & \texttt{reports/lewm\_pusht\_replication.json},\\

@@ -283,6 +283,18 @@ score/error $\rho=0.9947$ on $416$ anchors from $30$ episodes.  The result is
 therefore a positive independent rollout-only replication of the compute-value
 assignment mechanism, while the full state-plus-rollout independent export
 remains the next claim boundary.
+A joint horizon-option row tests whether simply adding detection supervision to
+the option-conditioned compute-value model supplies the missing control
+variable.  It does not.  On the fixed export, the option-only joint-trunk row
+selected by calibration is nearly neutral at allocation delta $+0.00017$
+$[-0.00014,\ +0.00050]$ with score/error $\rho=0.8371$.  Adding a horizon-q75
+head raises mean horizon AUROC to $0.7517$ and score/error $\rho$ to $0.8737$,
+but worsens allocation to $+0.00466$ $[+0.0000003,\ +0.01128]$.  Using the
+horizon-risk logits themselves as the exact-budget option score is plainly
+wrong-side at $+0.00703$ $[+0.00227,\ +0.01192]$.  This separates
+horizon-failure readability from compute-value control: better detection and
+better global option-error rank are not sufficient unless the training target
+and selection rule directly optimize budget-feasible intervention value.
 
 The integrated A100 closure checks are now finite and keep the same bounded
 reading.  The direct paired comparison against the strongest post-hoc scalar
