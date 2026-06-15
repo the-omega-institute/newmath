@@ -168,6 +168,34 @@ theorem TotallyBoundedCompletionCarrier_net_handoff [AskSetup] [PackageSetup]
     ⟨sourceUnary, netUnary, refinementUnary, netReadUnary, sourceNetRefinement,
       sourceNetRead, localNamePkg⟩
 
+theorem TotallyBoundedCompletionCarrier_total_bounded_input_admission [AskSetup] [PackageSetup]
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName finiteNetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont source net finiteNetRead ->
+        PkgSig bundle finiteNetRead pkg ->
+          UnaryHistory source ∧ UnaryHistory net ∧ UnaryHistory refinement ∧
+            UnaryHistory finiteNetRead ∧ Cont source net refinement ∧
+              Cont source net finiteNetRead ∧ Cont refinement basis embedding ∧
+                Cont embedding completion separated ∧ PkgSig bundle localName pkg ∧
+                  PkgSig bundle finiteNetRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier sourceNetFiniteRead finiteNetReadPkg
+  obtain ⟨sourceUnary, netUnary, basisUnary, completionUnary, _extensionUnary,
+    _transportUnary, sourceNetRefinement, refinementBasisEmbedding,
+    embeddingCompletionSeparated, _separatedExtensionProvenance,
+    _transportProvenanceLocalName, _provenancePkg, localNamePkg⟩ := carrier
+  have refinementUnary : UnaryHistory refinement :=
+    unary_cont_closed sourceUnary netUnary sourceNetRefinement
+  have finiteNetReadUnary : UnaryHistory finiteNetRead :=
+    unary_cont_closed sourceUnary netUnary sourceNetFiniteRead
+  exact
+    ⟨sourceUnary, netUnary, refinementUnary, finiteNetReadUnary, sourceNetRefinement,
+      sourceNetFiniteRead, refinementBasisEmbedding, embeddingCompletionSeparated,
+      localNamePkg, finiteNetReadPkg⟩
+
 theorem TotallyBoundedCompletionCarrier_extension_nonescape [AskSetup] [PackageSetup]
     {source net refinement basis embedding completion separated extension transport provenance
       localName extensionRead : BHist}
