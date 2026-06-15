@@ -36,4 +36,29 @@ theorem IntervalDomainWayBelowCarrier_namecert_obligations
     ⟨unaryO, unaryI, unaryM, unaryN, unaryS, unaryQ, unaryE, unaryP, unaryA,
       sameH, routeOIM, routeMNS, routeSQE, routeECP, routePHA⟩
 
+theorem IntervalDomainWayBelowApproximationRoute {O I M N S Q E H C P A consumer : BHist} :
+    IntervalDomainWayBelowCarrier O I M N S Q E H C P A ->
+      Cont A Q consumer ->
+        UnaryHistory O ∧ UnaryHistory I ∧ UnaryHistory M ∧ UnaryHistory N ∧
+          UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory E ∧ UnaryHistory P ∧
+            UnaryHistory A ∧ UnaryHistory consumer ∧ hsame H (append O I) ∧
+              Cont O I M ∧ Cont M N S ∧ Cont S Q E ∧ Cont E C P ∧ Cont P H A ∧
+                Cont A Q consumer := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier consumerRoute
+  have obligations :
+      UnaryHistory O ∧ UnaryHistory I ∧ UnaryHistory M ∧ UnaryHistory N ∧
+        UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory E ∧ UnaryHistory P ∧
+          UnaryHistory A ∧ hsame H (append O I) ∧ Cont O I M ∧ Cont M N S ∧
+            Cont S Q E ∧ Cont E C P ∧ Cont P H A :=
+    IntervalDomainWayBelowCarrier_namecert_obligations carrier
+  obtain ⟨unaryO, unaryI, unaryM, unaryN, unaryS, unaryQ, unaryE, unaryP, unaryA,
+    sameH, routeOIM, routeMNS, routeSQE, routeECP, routePHA⟩ := obligations
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed unaryA unaryQ consumerRoute
+  exact
+    ⟨unaryO, unaryI, unaryM, unaryN, unaryS, unaryQ, unaryE, unaryP, unaryA,
+      consumerUnary, sameH, routeOIM, routeMNS, routeSQE, routeECP, routePHA,
+      consumerRoute⟩
+
 end BEDC.Derived.IntervalDomainWayBelowUp
