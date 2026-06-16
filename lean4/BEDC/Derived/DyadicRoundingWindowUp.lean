@@ -275,4 +275,58 @@ theorem DyadicRoundingWindowCarrier_real_seal_factorization [AskSetup] [PackageS
     }
   · exact ⟨regularUnary, realSealUnary, readbackRegularRealSeal⟩
 
+theorem DyadicRoundingWindowCarrier_precision_window_obligation [AskSetup] [PackageSetup]
+    {stream precision endpoint readback regular realSeal transport route provenance localName :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicRoundingWindowCarrier stream precision endpoint readback regular realSeal transport route
+        provenance localName bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row stream ∨ hsame row precision ∨ hsame row endpoint ∨
+              hsame row readback ∨ hsame row regular ∨ hsame row realSeal)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont precision stream endpoint ∧ Cont stream endpoint readback ∧
+              PkgSig bundle provenance pkg)
+          hsame ∧ UnaryHistory stream ∧ UnaryHistory precision ∧ UnaryHistory endpoint ∧
+        Cont precision stream endpoint ∧ Cont stream endpoint readback := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier
+  obtain
+    ⟨streamUnary, precisionUnary, endpointUnary, _readbackUnary, _regularUnary, _realSealUnary,
+      precisionStreamEndpoint, streamEndpointReadback, _readbackRegularRealSeal, provenancePkg,
+      _localNameStream, _localNameProvenance⟩ := carrier
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro endpoint ⟨hsame_refl endpoint, endpointUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inl sourceRow.left))
+      ledger_sound := by
+        intro _row sourceRow
+        exact
+          ⟨sourceRow.right, precisionStreamEndpoint, streamEndpointReadback, provenancePkg⟩
+    }
+  · exact
+      ⟨streamUnary, precisionUnary, endpointUnary, precisionStreamEndpoint,
+        streamEndpointReadback⟩
+
 end BEDC.Derived.DyadicRoundingWindowUp
