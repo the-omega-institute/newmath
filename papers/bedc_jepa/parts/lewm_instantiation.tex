@@ -563,6 +563,15 @@ counts concentrate on depths $2$ and $5$ rather than the oracle's more balanced
 assignment.  The remaining allocation boundary is therefore not single-anchor
 option ordering; it is cross-anchor magnitude calibration under the
 episode-level exact-budget constraint.
+A post-hoc budget-shadow transform does not remove that boundary.  The
+calibration-selected transform chooses the base allocation-native score; on
+eval it therefore keeps allocation delta $0.00440$ $[-0.00143,\ 0.01211]$,
+with the same depth counts $\{1:42,2:349,3:24,4:5,5:214\}$.  The oracle on the
+same eval labels remains closed at $-0.02412$ $[-0.02998,\ -0.01897]$.  The
+negative result is useful because it separates post-hoc budget-shadow
+calibration from the next required route: the budget signal has to enter the
+training objective at the episode level, for example through a dual-price or
+exact-budget regret surrogate, rather than being appended after score training.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is

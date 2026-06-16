@@ -303,6 +303,7 @@ def select_calibrated_score(
     rows: dict[str, Any] = {}
     best_name = ""
     best_key = (float("inf"), float("inf"))
+    best_cal = cal_score
     best_eval = eval_score
     for offset, (name, cal_variant, eval_variant) in enumerate(candidates):
         metrics = structured.evaluate_scores(cal_payload, cal_variant, seed=seed + offset)
@@ -312,11 +313,13 @@ def select_calibrated_score(
         if key < best_key:
             best_key = key
             best_name = name
+            best_cal = cal_variant
             best_eval = eval_variant
     return {
         "selected": best_name,
         "selection_key": list(best_key),
         "calibration": rows,
+        "calibration_score": best_cal.astype(np.float64),
         "eval_score": best_eval.astype(np.float64),
     }
 
@@ -477,6 +480,11 @@ def main() -> int:
     chosen = structured.exact_budget_choice(eval_payload["episode"], eval_score, structured.DEPTHS)
     np.savez_compressed(
         Path(args.out),
+        calibration_episode=cal["episode"].astype(np.int64),
+        calibration_anchor_ep_t0=cal["anchor_ep_t0"].astype(np.int64),
+        calibration_option_error=cal["option_error"].astype(np.float64),
+        calibration_allocation_native_score=cal_score.astype(np.float64),
+        calibration_calibrated_allocation_native_score=calibration["calibration_score"].astype(np.float64),
         episode=eval_split["episode"].astype(np.int64),
         anchor_ep_t0=eval_split["anchor_ep_t0"].astype(np.int64),
         option_depths=option_depths.astype(np.int64),
