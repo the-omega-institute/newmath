@@ -154,6 +154,20 @@ It remains to account for the ledger boundary. By \autoref{thm:cauchy-witness-gl
 Combining these rows gives the claimed primitive binding. Since the cited theorems also exclude quotient streams, selected limits, countable-choice schedules, host real equality, and ambient Real-completeness coordinates, the accepted packet remains inside the displayed BEDC primitive and sibling scope.
 \end{proof}
 
+\begin{theorem}[CauchyWitnessGluing scoped route tightening]
+\label{thm:cauchy-witness-gluing-scoped-route-tightening}
+Any completion-facing read of an accepted $\CauchyWitnessGluingUp$ packet must factor through the witness ledger $L$, tail envelope $T$, seal synchronizer $S$, completion-seal classifier $K$, $\StreamNameUp$ windows $U$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff $V$, terminal $\RealUp$ seal $R$, witness edge $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ replays $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\CauchyWitnessGluingUp}$ row $N$ before a Real-completion consumer may inspect the route. The read exports no detached ledger, hidden tail envelope, alternate synchronizer, quotient stream equality, selected external limit, countable-choice row, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the route-obligation surface of \autoref{thm:cauchy-witness-gluing-route-obligation-surface}. It identifies $L,T,S,K,U,V,D,R,E,H,C,P,N$ as the whole local NameCert surface of an accepted packet.
+
+Bind the witness side next. Apply witness-ledger exactness, tail-envelope handoff, and completion-seal scope from \autoref{thm:cauchy-witness-gluing-witness-ledger-exactness}, \autoref{thm:cauchy-witness-gluing-tail-envelope-handoff}, and \autoref{thm:cauchy-witness-gluing-completion-seal-scope}. These results force the ledger, tail, synchronizer, classifier, and witness edge to be read as one synchronized route before the completion-seal consumer reaches the lower observation rows.
+
+Now bind the Real-facing side. Apply \autoref{thm:cauchy-witness-gluing-real-seal-nonescape} to require the StreamName windows, DyadicRatCore ledger, RegSeqRat handoff, and terminal Real seal before any completion-facing consumer reaches $R$.
+
+Finally apply the obligation ledger and scoped primitive binding of \autoref{thm:cauchy-witness-gluing-obligation-ledger} and \autoref{thm:cauchy-witness-gluing-scoped-primitive-binding}. The structural rows $H,C,P,N$ transport, replay, source, and name exactly the displayed route, so the excluded ledger, quotient, choice, equality, and completeness data remain outside the scoped handoff.
+\end{proof}
+
 \falsifiablePrediction{If the gluing packet is accepted, a Real-completion consumer that preserves the witness ledger and tail envelope but changes the seal-synchronizer row is rejected by the classifier.}
 
 \independenceWitness{cauchywitnessledger, cauchytailwitnessenvelope, cauchysealbudgetsynchronizer, realcompletionsealclassifier, regularcauchydiagonalmeet: none is bijective because each sibling omits at least one of the paired witness, tail, synchronizer, completion-seal, and RealUp rows required by this gluing packet.}
