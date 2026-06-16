@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\VisionCoverageLedgerUp$}
+\label{ch:concrete-instances-vision-coverage-ledger-namecert}
+\origin{ai}
+
+The $\VisionCoverageLedgerUp$ packet realizes the top-level routing surface of \autoref{ch:capstones} as finite BEDC data. It records which vision label is being covered, which concrete-instance chapter receives the coverage row, which marker was replayed, and which NameCert rows make the routing auditable. The packet sits beside the existing coverage account of \autoref{ch:concrete-instances-vision-coverage-index-namecert} and the concrete tail-modulus surface of \autoref{ch:concrete-instances-regular-sequence-modulus-namecert}; it is a finite ledger of label-to-chapter coverage, not a bijection between visions and constructions and not a global completeness theorem for the visions tree.
+
+\begin{definition}[Vision coverage ledger carrier]
+\label{def:vision-coverage-ledger-carrier}
+A $\VisionCoverageLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+V=(L,T,M,W,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $L$ is the source-label row, naming an existing vision label such as the capstone label of \autoref{ch:capstones}.
+\item $T$ is the concrete-target row, naming an existing concrete-instance chapter label.
+\item $M$ is the marker row, recording the displayed $\concretizedIn{\cdot}{\cdot}$ route that connects $L$ to $T$.
+\item $W$ is the well-formedness row, checking that both labels are present in the manuscript and that the target label belongs to a concrete-instance NameCert chapter.
+\item $H$ records componentwise $\hsame$ transport for the source-label, target-label, marker, and well-formedness rows.
+\item $C$ records displayed $\Cont$ replay from a coverage query through $L,T,M,W,H$.
+\item $P$ is the $\Pkg$ provenance over $\VisionCoverageLedgerUp$, $\VisionCoverageIndexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VisionCoverageLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the finite rows $L,T,M,W,H,C,P,N$. It has no coordinate for a total vision-to-instance bijection, a completeness theorem for all vision files, a semantic equivalence between a vision and a construction, or automatic coverage for unmarked chapters.
+\end{definition}
+
+\begin{theorem}[Vision coverage ledger marker admission]
+\label{thm:vision-coverage-ledger-marker-admission}
+Every accepted $\VisionCoverageLedgerUp$ carrier admits a coverage row only when its marker row $M$ names an existing source label $L$ and an existing concrete-instance target label $T$. The admitted row is exactly the finite marker route displayed in the carrier; it does not infer coverage from prose proximity, filename similarity, or thematic overlap.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:vision-coverage-ledger-carrier}. The marker row $M$ is stored together with the source-label row $L$ and target-label row $T$.
+
+Use the well-formedness row $W$. It checks existence of both labels and checks that $T$ is a concrete-instance NameCert chapter label before transport or replay is consumed.
+
+The structural rows $H,C,P,N$ preserve and name the same marker route. Since no prose-inference, filename, or thematic-overlap coordinate is present, marker admission is exactly the displayed finite row.
+\end{proof}
+
+\begin{theorem}[Vision coverage ledger label well-formedness]
+\label{thm:vision-coverage-ledger-label-well-formedness}
+For every accepted $\VisionCoverageLedgerUp$ carrier $V=(L,T,M,W,H,C,P,N)$, the well-formedness row $W$ is consumed before any coverage replay. Thus a coverage read can only cite a source label already present in the visions surface and a target label already present in a concrete-instance chapter, including rows such as \autoref{ch:capstones} and \autoref{ch:concrete-instances-vision-coverage-index-namecert}.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The replay row $C$ is downstream of $L,T,M,W,H$, so it cannot be consumed before the labels and marker are displayed.
+
+Apply \autoref{thm:vision-coverage-ledger-marker-admission}. Admission requires the marker route to name an existing source label and an existing concrete-instance target label.
+
+Therefore the well-formedness row is the gate for coverage replay. It keeps the ledger finite and prevents a consumer from reading a missing vision label or a missing concrete target as covered.
+\end{proof}
+
+\begin{theorem}[Vision coverage ledger transport and replay stability]
+\label{thm:vision-coverage-ledger-transport-replay-stability}
+If two accepted $\VisionCoverageLedgerUp$ carriers agree by componentwise $\hsame$ on $L,T,M,W,H,C,P,N$, then every coverage replay through one carrier replays through the other with the same source label, concrete target label, marker row, and well-formedness check. The transport does not create a new coverage target and does not turn a finite marker row into a global coverage theorem.
+\end{theorem}
+\begin{proof}
+Use the classifier in \autoref{def:vision-coverage-ledger-carrier}. Agreement is defined componentwise on the finite rows $L,T,M,W,H,C,P,N$.
+
+The transport row $H$ preserves the source label, target label, marker row, and well-formedness row. The replay row $C$ is displayed over those same transported rows.
+
+Finally apply \autoref{thm:vision-coverage-ledger-label-well-formedness}. Since replay is gated by the same well-formedness row on both carriers, transport cannot add an unlisted coverage target or promote the row to global coverage.
+\end{proof}
+
+\begin{theorem}[Vision coverage ledger finite-row non-escape]
+\label{thm:vision-coverage-ledger-finite-row-non-escape}
+Every admitted $\VisionCoverageLedgerUp$ coverage read remains inside the finite rows $L,T,M,W,H,C,P,N$. It records coverage only for the source and target labels named in the row, and it exports no completeness claim for unmarked vision sections, no bijection between all visions and all concrete instances, and no semantic equality between a vision narrative and a NameCert construction.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only data available to a coverage consumer are the source-label, target-label, marker, well-formedness, transport, replay, provenance, and local naming rows.
+
+Use marker admission and label well-formedness from \autoref{thm:vision-coverage-ledger-marker-admission} and \autoref{thm:vision-coverage-ledger-label-well-formedness}. They restrict the read to one existing source label and one existing concrete target label.
+
+Use transport and replay stability from \autoref{thm:vision-coverage-ledger-transport-replay-stability}. Transport preserves the same finite row, so replay cannot escape to unmarked labels, a total bijection, or semantic equality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\VisionCoverageLedgerUp$ coverage row names an existing vision label and an existing concrete-instance chapter label before it may be replayed as a coverage marker.}
+
+\independenceWitness{vision-coverage-index, namecert, package, gap, exact-globalize-base: $\VisionCoverageLedgerUp$ is not bijective to any listed sibling because it stores source-label, concrete-target, marker-ledger, well-formedness, transport, replay, provenance, and NameCert rows for coverage accounting without claiming total coverage, semantic equivalence, or a global bijection.}
+
+\closureat{VisionCoverageLedgerUp}{seedStr}
+
+\begin{closurestatus}{\VisionCoverageLedgerUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:vision-coverage-ledger-carrier}, \autoref{thm:vision-coverage-ledger-marker-admission}, \autoref{thm:vision-coverage-ledger-label-well-formedness}, \autoref{thm:vision-coverage-ledger-transport-replay-stability}, and \autoref{thm:vision-coverage-ledger-finite-row-non-escape} seed the finite label-to-concrete coverage ledger for the top-level visions surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close total vision coverage, vision-to-concrete bijection, semantic equality between narratives and constructions, Lean verification, bridge checking, or coverage for unmarked rows.}
+  \upgradepath{Obligation closure requires checked marker admission, target-label well-formedness, hsame transport, replay stability, provenance, local naming, and finite-row non-escape.}
+  \constructivestory{A $\VisionCoverageLedgerUp$ packet is generated from a source vision label, a concrete-instance target label, a coverage marker row, a label well-formedness row, componentwise transport, displayed replay, package provenance, and local naming evidence.}
+\end{closurestatus}

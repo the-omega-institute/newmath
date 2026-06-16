@@ -20,20 +20,20 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-15T22:54:06Z
+> 最后刷新: 2026-06-16T04:24:29Z
 
-**Daemon 状态**: monitor (monitor cycle 35, adjust_since_research 2, round_counter 11230, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 38, adjust_since_research 2, round_counter 11498, last_adjust rule_evolution_completed)
 
-**待处理 queue** (343 条 finding):
-- isolated_theorem: 194 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (352 条 finding):
+- isolated_theorem: 203 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 21 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 136 次
-- TASTE ALERT category=low_entropy_template: 16 次
+- TASTE ALERT category=isolated_theorem: 130 次
+- TASTE ALERT category=low_entropy_template: 14 次
 - TASTE ALERT category=unauthorized_capstone: 4 次
-- TASTE ALERT category=cycle_exception: 1 次
+- TASTE ALERT category=dossier_snapshot_commit_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -315,6 +315,10 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-15T22:53:32Z: `resolved` `add_downstream_user` for `BEDC.Derived.RealEqualityUp.RealEqualityCarrier_classifier_stability` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.RealEqualityUp.RealEqualityCarrier_classifier_stability:8996eb3b`). Rationale: The target has real BEDC content: it transports a RealEquality carrier through refined finite-window classifier data using Cont, hsame, UnaryHistory, and PkgSig. It was not safe to delete because the paper uses it as the classifier-stability claim, but Lean had no downstream consumer. I added DyadicTailBallRealEqualityClassifierConsumer as a sibling consumer that invokes RealEqualityCarrier_classifier_stability, then feeds the resulting equality route into the existing DyadicTailBallRealEqualityConsumer certificate path. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-16T00:49:03Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_obligation_coverage_route` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_obligation_coverage_route:42e7c050`). Rationale: The target is not a staging-only stub: it packages the local CauchySpace carrier's filter, regular, completion, ledger, transport, and route obligations into a real obligation-coverage surface already cited by the paper. Grep showed no Lean downstream user, so I added `CauchySpaceCarrier_coverage_public_readback` in the public completion interface sibling, which substantively consumes the target and extends it to public-readback and terminal rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-16T02:33:28Z: `resolved` `leave_with_rationale` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_namecert_ledger` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_namecert_ledger:42e7c050`). Rationale: The target has real BEDC content: it packages the local CauchySpace NameCert ledger route from the local filter-uniform read through R0,T0, the ledger row, provenance P0, and local name N0, and the paper cites it as the CauchySpace NameCert ledger. Grep showed no existing Lean downstream consumer. I attempted add_downstream_user in the existing public completion sibling, but the required lake build failed on the edited module with tabs and unsolved goals in PublicCompletionInterface.lean; I reverted the edit per instructions and confirmed the reverted file compiles locally with lake env lean. Removing the theorem would lose a legitimate local ledger boundary, so it should remain while a clean downstream consumer is added later. Gate results: lake_build=failed after attempted edit: BEDC.Derived.CauchySpaceUp.PublicCompletionInterface; tabs are not allowed at lines 122-125 and unsolved goals at line 101; changes reverted, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-16T04:24:00Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_real_consumer_obligation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_real_consumer_obligation:42e7c050`). Rationale: The target has real BEDC content: it proves the filter-uniform replay into a Real read across the CauchySpace carrier, rather than merely restating an existing theorem. It was isolated because no Lean theorem consumed it downstream, so I added a public readback theorem in the CauchySpace public interface that invokes this obligation and continues the route through provenance and Real-consumer rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
