@@ -2,7 +2,7 @@ import BEDC.Derived.MetricEmbeddingUp.TasteGate
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Unary
 
-namespace BEDC.Derived.MetricEmbeddingUp.GraphDistanceControl
+namespace BEDC.Derived.MetricEmbeddingUp
 
 open BEDC.Derived.MetricEmbeddingUp.TasteGate
 open BEDC.FKernel.Cont
@@ -43,4 +43,4 @@ theorem MetricEmbeddingCarrier_graph_distance_control
     ⟨sourceUnary, targetUnary, comparisonUnary, graphUnary, sourceRoute, targetRoute,
       comparisonRoute, graphRoute⟩
 
-end BEDC.Derived.MetricEmbeddingUp.GraphDistanceControl
+end BEDC.Derived.MetricEmbeddingUp
