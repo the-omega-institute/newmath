@@ -5450,6 +5450,51 @@ def test_discovery_regularized_training_drt2_negative_witness_sibling_pointers_r
         canonical._validate_discovery_regularized_training_payload(mutated)
 
 
+def test_discovery_regularized_training_fair_control_sections_are_required_and_owner_local():
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    payload = _payload_for_spec(spec)
+
+    canonical._validate_discovery_regularized_training_payload(payload)
+
+    assert spec.control_pointer == "$.fair_control_ledger"
+    assert set(spec.required_json_keys) >= {
+        "fair_control_ledger",
+        "base_chance_gate",
+        "four_axis_match_gate",
+        "drt_nondegenerate_gate",
+    }
+    assert payload["fair_control_ledger"]["owner_pointer"].endswith("$.fair_control_ledger")
+    assert payload["base_chance_gate"]["owner_pointer"].endswith("$.base_chance_gate")
+    assert payload["four_axis_match_gate"]["owner_pointer"].endswith("$.four_axis_match_gate")
+    assert payload["drt_nondegenerate_gate"]["owner_pointer"].endswith("$.drt_nondegenerate_gate")
+    assert tuple(
+        gate for gate in payload["hardgate"]["gates"] if gate.startswith("DRT-FC-HG")
+    ) == ("DRT-FC-HG1", "DRT-FC-HG2", "DRT-FC-HG3", "DRT-FC-HG4")
+    assert "fair-control-training" not in {item.name for item in canonical.CANONICAL_REPORTS}
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda item: item.update({"fair_control_ledger": {}}),
+        lambda item: item["fair_control_ledger"]["pair_rule_surface"].update({"status": "fail"}),
+        lambda item: item["base_chance_gate"].update({"status": "fail"}),
+        lambda item: item["four_axis_match_gate"]["axes"]["parameter_match"].update({"status": "fail"}),
+        lambda item: item["drt_nondegenerate_gate"].update({"status": "fail"}),
+        lambda item: item["drt_nondegenerate_gate"]["control_quality_pointers"].pop("compute_matched"),
+        lambda item: item["fair_control_ledger"]["arms"][1].update({"candidate_quality_margin": 0.0}),
+        lambda item: item["hardgate"]["gates"]["DRT-FC-HG1"].update({"status": "fail"}),
+    ],
+)
+def test_discovery_regularized_training_fair_control_validator_fails_closed(mutate):
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    mutated = json.loads(json.dumps(payload))
+    mutate(mutated)
+
+    with pytest.raises(ValueError):
+        canonical._validate_discovery_regularized_training_payload(mutated)
+
+
 def test_discovery_regularized_training_quality_boundary_index_disk_invalid_payload_falls_back(monkeypatch, tmp_path):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
