@@ -49,7 +49,6 @@ PAPER_VALUE_TRANSFORMS = frozenset({"number", "integer", "string"})
 class PaperSurfaceValue:
     value_id: str
     artifact_pointer: str
-    paper_literal: str
     transform: str
     tolerance: float
 
@@ -57,7 +56,6 @@ class PaperSurfaceValue:
         return {
             "value_id": self.value_id,
             "artifact_pointer": self.artifact_pointer,
-            "paper_literal": self.paper_literal,
             "transform": self.transform,
             "tolerance": self.tolerance,
         }
@@ -279,44 +277,6 @@ def _paper_value_actual(root: Path, value: PaperSurfaceValue) -> Any:
     return pointer_value(payload, pointer) if isinstance(payload, Mapping) else None
 
 
-def _coerced_paper_value(value: PaperSurfaceValue, actual: Any) -> tuple[Any, Any] | None:
-    if value.transform == "string":
-        return value.paper_literal, str(actual)
-    if value.transform == "integer":
-        try:
-            paper_value = int(value.paper_literal)
-        except ValueError:
-            return None
-        try:
-            actual_text = str(actual)
-            if "." in actual_text and float(actual_text) != int(float(actual_text)):
-                return None
-            actual_value = int(float(actual_text))
-        except (TypeError, ValueError):
-            return None
-        return paper_value, actual_value
-    if value.transform == "number":
-        try:
-            return float(value.paper_literal), float(actual)
-        except (TypeError, ValueError):
-            return None
-    return None
-
-
-def _paper_value_matches(value: PaperSurfaceValue, actual: Any) -> bool:
-    coerced = _coerced_paper_value(value, actual)
-    if coerced is None:
-        return False
-    paper_value, actual_value = coerced
-    if value.transform == "string":
-        return paper_value == actual_value
-    try:
-        tolerance = float(value.tolerance)
-    except (TypeError, ValueError):
-        return False
-    return abs(float(paper_value) - float(actual_value)) <= tolerance
-
-
 def _paper_value_tolerance(value: PaperSurfaceValue) -> float | None:
     try:
         tolerance = float(value.tolerance)
@@ -343,7 +303,6 @@ def default_paper_surfaces(root: Path, *, claim_id: str = DEFAULT_CLAIM_ID) -> t
                 PaperSurfaceValue(
                     value_id="certcov-value",
                     artifact_pointer=certcov_pointer,
-                    paper_literal="1.0",
                     transform="number",
                     tolerance=0.0,
                 ),
@@ -360,7 +319,6 @@ def default_paper_surfaces(root: Path, *, claim_id: str = DEFAULT_CLAIM_ID) -> t
                 PaperSurfaceValue(
                     value_id="dgt-discovery-level",
                     artifact_pointer=f"{DGT_ARTIFACT}:$.d4_projection.discovery_level",
-                    paper_literal="D4",
                     transform="string",
                     tolerance=0.0,
                 ),
@@ -377,7 +335,6 @@ def default_paper_surfaces(root: Path, *, claim_id: str = DEFAULT_CLAIM_ID) -> t
                 PaperSurfaceValue(
                     value_id="dgt-main-chain-level",
                     artifact_pointer=f"{DGT_ARTIFACT}:$.d4_projection.discovery_level",
-                    paper_literal="D4",
                     transform="string",
                     tolerance=0.0,
                 ),
@@ -427,8 +384,6 @@ def _gate_paper_surfaces(root: Path, *, resolver: PointerResolver, paper_surface
             actual = _paper_value_actual(root, value)
             if actual is None:
                 return _fail("PAPER-HG1", "paper surface value pointer must resolve", value.artifact_pointer, expected="resolving value pointer", actual=value.artifact_pointer)
-            if not _paper_value_matches(value, actual):
-                return _fail("PAPER-HG1", "paper literal must match artifact value", value.artifact_pointer, expected=value.paper_literal, actual=actual)
     return _pass("PAPER-HG1", "paper artifact surface pointers and values are coherent", PAPER_SURFACES_POINTER)
 
 

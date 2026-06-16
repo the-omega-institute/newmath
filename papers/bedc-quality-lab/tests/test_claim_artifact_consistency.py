@@ -292,7 +292,7 @@ def _gate(report, gate_id):
     return next(gate for gate in report.gates if gate.gate_id == gate_id)
 
 
-def _release_surface(value_literal: str = "1.0") -> PaperSurface:
+def _release_surface() -> PaperSurface:
     return PaperSurface(
         surface_id="bedc-jepa-evidence-table",
         surface_type="table",
@@ -304,7 +304,6 @@ def _release_surface(value_literal: str = "1.0") -> PaperSurface:
             PaperSurfaceValue(
                 value_id="scorecard-row-zero",
                 artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
-                paper_literal=value_literal,
                 transform="number",
                 tolerance=0.0,
             ),
@@ -381,7 +380,6 @@ def test_default_paper_surface_rows_have_resolving_value_contracts(tmp_path):
     assert payload["paper_surfaces"][0]["values"][0] == {
         "value_id": "certcov-value",
         "artifact_pointer": _scorecard_metric_value_pointer(root, "CertCov"),
-        "paper_literal": "1.0",
         "transform": "number",
         "tolerance": 0.0,
     }
@@ -664,7 +662,6 @@ def test_paper_surface_rows_are_owned_by_claim_artifact_consistency(tmp_path):
                 {
                     "value_id": "scorecard-row-zero",
                     "artifact_pointer": f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
-                    "paper_literal": "1.0",
                     "transform": "number",
                     "tolerance": 0.0,
                 }
@@ -764,7 +761,6 @@ def test_paper_surface_rejects_invalid_value_transform(tmp_path):
     value = PaperSurfaceValue(
         value_id="bad-transform",
         artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
-        paper_literal="1.0",
         transform="percent",
         tolerance=0.0,
     )
@@ -780,19 +776,20 @@ def test_paper_surface_rejects_invalid_value_transform(tmp_path):
     assert _gate(report, "PAPER-HG1").reason == "paper surface value transform is invalid"
 
 
-def test_paper_surface_values_compare_declared_literal_to_artifact_value(tmp_path):
+def test_paper_surface_values_resolve_artifact_pointer_without_literal_copy(tmp_path):
     root = _fixture_root(tmp_path)
 
     report = audit_claim_artifact_consistency(
         root,
         claim_id=DGT_CLAIM_ID,
         generated_at="fixture-time",
-        paper_surfaces=(_release_surface("2"),),
+        paper_surfaces=(_release_surface(),),
     )
+    payload = report.to_json()
 
-    assert report.status == "fail"
-    assert _gate(report, "PAPER-HG1").status == "fail"
-    assert _gate(report, "PAPER-HG1").pointer == f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value"
+    assert report.status == "pass"
+    assert _gate(report, "PAPER-HG1").status == "pass"
+    assert "paper_literal" not in payload["paper_surfaces"][0]["values"][0]
 
 
 def test_paper_surface_rejects_empty_values(tmp_path):
@@ -833,7 +830,6 @@ def test_paper_surface_integer_transform_requires_integral_match(tmp_path):
     value = PaperSurfaceValue(
         value_id="integer-row",
         artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
-        paper_literal="7",
         transform="integer",
         tolerance=0.0,
     )
@@ -854,7 +850,6 @@ def test_paper_surface_rejects_negative_tolerance(tmp_path):
     value = PaperSurfaceValue(
         value_id="bad-tolerance",
         artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
-        paper_literal="1.0",
         transform="number",
         tolerance=-0.1,
     )
@@ -875,7 +870,6 @@ def test_paper_surface_rejects_nonnumeric_tolerance(tmp_path):
     value = PaperSurfaceValue(
         value_id="bad-tolerance",
         artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
-        paper_literal="1.0",
         transform="number",
         tolerance="wide",  # type: ignore[arg-type]
     )
@@ -896,7 +890,6 @@ def test_paper_surface_rejects_empty_value_identity(tmp_path):
     value = PaperSurfaceValue(
         value_id="",
         artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
-        paper_literal="1.0",
         transform="number",
         tolerance=0.0,
     )
@@ -940,7 +933,6 @@ def test_paper_surface_rejects_non_repo_local_value_pointer(tmp_path):
     value = PaperSurfaceValue(
         value_id="bad-pointer",
         artifact_pointer="https://example.test/value.json:$",
-        paper_literal="1.0",
         transform="number",
         tolerance=0.0,
     )
@@ -961,7 +953,6 @@ def test_paper_surface_rejects_unresolved_value_pointer(tmp_path):
     value = PaperSurfaceValue(
         value_id="missing-pointer",
         artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[999].value",
-        paper_literal="1.0",
         transform="number",
         tolerance=0.0,
     )

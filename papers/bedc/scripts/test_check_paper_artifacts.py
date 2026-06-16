@@ -9,7 +9,12 @@ def _write_json(path: Path, payload):
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def _owner_payload(*, paper_literal: str = "0.125", artifact_pointer: str = "reports/canonical/owner.json:$"):
+def _owner_payload(
+    *,
+    artifact_pointer: str = "reports/canonical/owner.json:$",
+    value_pointer: str = "reports/canonical/owner.json:$.metric",
+    transform: str = "number",
+):
     return {
         "schema_id": "bedc-quality-lab:claim-artifact-consistency",
         "status": "pass",
@@ -24,9 +29,8 @@ def _owner_payload(*, paper_literal: str = "0.125", artifact_pointer: str = "rep
                 "values": [
                     {
                         "value_id": "metric-a",
-                        "artifact_pointer": "reports/canonical/owner.json:$.metric",
-                        "paper_literal": paper_literal,
-                        "transform": "number",
+                        "artifact_pointer": value_pointer,
+                        "transform": transform,
                         "tolerance": 0.0,
                     }
                 ],
@@ -43,14 +47,14 @@ def _paper_root(tmp_path: Path) -> Path:
     return root
 
 
-def _owner_root(tmp_path: Path, *, include_owner: bool = True) -> Path:
+def _owner_root(tmp_path: Path, *, include_owner: bool = True, metric=0.125) -> Path:
     root = tmp_path / "owner"
     if include_owner:
         _write_json(
             root / "reports/canonical/owner.json",
             {
                 "hardgate": {"status": "pass"},
-                "metric": 0.125,
+                "metric": metric,
                 "not_claimed": ["fixture boundary"],
             },
         )
@@ -116,24 +120,34 @@ def test_check_paper_artifacts_rejects_stale_displayed_value(tmp_path):
     owner_root = _owner_root(tmp_path)
     (root / "parts" / "claim.tex").write_text(r"\paperartifact{surface-a}{metric-a}{0.126}" + "\n", encoding="utf-8")
 
-    findings = check_paper_artifacts(root, owner_payload=_owner_payload(paper_literal="0.126"), owner_root=owner_root)
+    findings = check_paper_artifacts(root, owner_payload=_owner_payload(), owner_root=owner_root)
 
     assert len(findings) == 1
     assert findings[0].reason == "paper literal mismatch"
     assert findings[0].surface_id == "surface-a"
 
 
-def test_check_paper_artifacts_rejects_marker_literal_that_differs_from_owner_row(tmp_path):
+def test_check_paper_artifacts_accepts_integral_artifact_value_for_integer_transform(tmp_path):
     root = _paper_root(tmp_path)
-    owner_root = _owner_root(tmp_path)
-    (root / "parts" / "claim.tex").write_text(r"\paperartifact{surface-a}{metric-a}{0.125}" + "\n", encoding="utf-8")
+    owner_root = _owner_root(tmp_path, metric=7.0)
+    (root / "parts" / "claim.tex").write_text(r"\paperartifact{surface-a}{metric-a}{7}" + "\n", encoding="utf-8")
 
-    findings = check_paper_artifacts(root, owner_payload=_owner_payload(paper_literal="0.124"), owner_root=owner_root)
+    findings = check_paper_artifacts(root, owner_payload=_owner_payload(transform="integer"), owner_root=owner_root)
+
+    assert findings == []
+
+
+def test_check_paper_artifacts_rejects_nonintegral_artifact_value_for_integer_transform(tmp_path):
+    root = _paper_root(tmp_path)
+    owner_root = _owner_root(tmp_path, metric=7.5)
+    (root / "parts" / "claim.tex").write_text(r"\paperartifact{surface-a}{metric-a}{7}" + "\n", encoding="utf-8")
+
+    findings = check_paper_artifacts(root, owner_payload=_owner_payload(transform="integer"), owner_root=owner_root)
 
     assert len(findings) == 1
-    assert findings[0].reason == "paper marker literal differs from owner literal"
-    assert findings[0].expected == "0.124"
-    assert findings[0].actual == "0.125"
+    assert findings[0].reason == "paper literal mismatch"
+    assert findings[0].expected == "7.5"
+    assert findings[0].actual == "7"
 
 
 def test_check_paper_artifacts_rejects_forbidden_owner_pointer(tmp_path):

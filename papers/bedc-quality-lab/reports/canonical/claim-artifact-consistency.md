@@ -1,6 +1,6 @@
 # Claim Artifact Consistency Audit
 
-- Generated at: `2026-06-13T14:56:21.159269+00:00`
+- Generated at: `2026-06-16T00:19:52.227430+00:00`
 - Claim: `claim:discovery-gated-transformer`
 - Status: `pass`
 - Paper surfaces: `3`

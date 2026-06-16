@@ -173,6 +173,25 @@ def _numeric_equal(expected: str, actual: str, tolerance: float) -> bool:
         return False
 
 
+def _integer_value(value: Any) -> int | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return int(value) if value.is_integer() else None
+    if isinstance(value, str):
+        text = value.strip()
+        if re.fullmatch(r"[+-]?\d+", text):
+            return int(text)
+        try:
+            numeric = float(text)
+        except ValueError:
+            return None
+        return int(numeric) if numeric.is_integer() else None
+    return None
+
+
 def _coerce_tolerance(value: Any) -> float | None:
     try:
         tolerance = float(value)
@@ -188,10 +207,9 @@ def _literal_matches(owner_value: Mapping[str, Any], marker: PaperArtifactMarker
     transform = owner_value.get("transform")
     tolerance = _coerce_tolerance(owner_value.get("tolerance", 0.0))
     if transform == "integer":
-        try:
-            return int(marker.paper_literal) == int(actual)
-        except (TypeError, ValueError):
-            return False
+        marker_value = _integer_value(marker.paper_literal)
+        actual_value = _integer_value(actual)
+        return marker_value is not None and actual_value is not None and marker_value == actual_value
     if transform == "number" and tolerance is not None:
         return _numeric_equal(str(actual), marker.paper_literal, tolerance)
     if transform == "string":
@@ -481,20 +499,6 @@ def _findings_for_owner_payload(root: Path, owner_payload: Mapping[str, Any], *,
             continue
         if marker.key in invalid_value_keys:
             continue
-        owner_literal = owner_value.get("paper_literal")
-        if not isinstance(owner_literal, str) or marker.paper_literal != owner_literal:
-            findings.append(
-                PaperArtifactFinding(
-                    "fail",
-                    "paper marker literal differs from owner literal",
-                    marker.surface_id,
-                    marker.value_id,
-                    marker.pointer,
-                    str(owner_literal),
-                    marker.paper_literal,
-                )
-            )
-            continue
         if not _literal_matches(owner_value, marker, owner_root=owner_root):
             expected = _resolve_pointer_value(owner_value.get("artifact_pointer"), owner_root=owner_root)
             findings.append(
@@ -527,7 +531,7 @@ def _findings_for_owner_payload(root: Path, owner_payload: Mapping[str, Any], *,
                         value_id,
                         str(value.get("artifact_pointer", "")),
                         "single source marker",
-                        str(value.get("paper_literal", "")),
+                        value_id,
                     )
                 )
     return findings

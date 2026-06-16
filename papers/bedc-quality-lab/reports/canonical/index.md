@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-13T14:56:21.159269+00:00`
+- Generated at: `2026-06-16T00:19:52.227430+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -200,6 +200,9 @@
 - Family definition: `reports/canonical/discovery-gated-transformer.json:$.family_definition`
 - Family definition hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_definition.hardgate`
 - Model family claim status: `reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status`
+- Family roadmap: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap`
+- Family roadmap hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate`
+- Family level discovery status: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.family_level_discovery_status`
 - Robustness: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness`
 - Robustness readiness: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.readiness`
 - Robustness hardgate: `reports/canonical/discovery-gated-transformer.json:$.operational_robustness.hardgate`
@@ -218,6 +221,19 @@
 - Evidence envelope: `reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref`
 - Mechanism NameCert: `reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref`
 - Jet certificate: `reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref`
+
+## Discovery-Gated Transformer JEPA World Model
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/discovery_gated_transformer_jepa_world_model.json`
+- Markdown: `reports/canonical/discovery_gated_transformer_jepa_world_model.md`
+- Owner: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$`
+- Theorem bridge: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.theorem_bridge`
+- Planning head: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.planning_head`
+- Mechanism seeking: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.mechanism_seeking`
+- Claim boundary: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.claim_boundary`
+- Hardgate: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.hardgate`
+- Not claimed: `reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.not_claimed`
 
 ## Scaling Ladder
 
