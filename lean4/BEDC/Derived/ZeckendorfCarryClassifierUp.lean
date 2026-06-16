@@ -42,4 +42,27 @@ theorem ZeckendorfCarryClassifierCarrier_namecert_obligations [AskSetup] [Packag
     ⟨uUnary, vUnary, cUnary, sUnary, tUnary, hUnary, rUnary, pUnary, nUnary,
       uvCarry, carrySumRead, namePkg⟩
 
+theorem ZeckendorfCarryClassifierCarrier_window_determinacy [AskSetup] [PackageSetup]
+    {u v c s t h r p n carriedWindow cSourceRead carriedSourceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZeckendorfCarryClassifierCarrier u v c s t h r p n bundle pkg ->
+      Cont u v carriedWindow ->
+        Cont c s cSourceRead ->
+          Cont carriedWindow s carriedSourceRead ->
+            hsame c carriedWindow ∧ hsame cSourceRead carriedSourceRead ∧
+              UnaryHistory carriedSourceRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier carriedWindowRoute cSourceRoute carriedSourceRoute
+  obtain ⟨uUnary, vUnary, _cUnary, sUnary, _tUnary, _pUnary, uvCarry, _carrySumRead,
+    _readTailHandoff, _handoffProvenanceName, _provenancePkg, _namePkg⟩ := carrier
+  have sameCarryWindow : hsame c carriedWindow :=
+    cont_deterministic uvCarry carriedWindowRoute
+  have sameSourceRead : hsame cSourceRead carriedSourceRead :=
+    cont_respects_hsame sameCarryWindow (hsame_refl s) cSourceRoute carriedSourceRoute
+  have carriedWindowUnary : UnaryHistory carriedWindow :=
+    unary_cont_closed uUnary vUnary carriedWindowRoute
+  have carriedSourceUnary : UnaryHistory carriedSourceRead :=
+    unary_cont_closed carriedWindowUnary sUnary carriedSourceRoute
+  exact ⟨sameCarryWindow, sameSourceRead, carriedSourceUnary⟩
+
 end BEDC.Derived.ZeckendorfCarryClassifierUp
