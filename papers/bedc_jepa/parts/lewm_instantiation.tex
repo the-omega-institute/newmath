@@ -598,6 +598,14 @@ allocation delta is $-0.00047$ $[-0.00824,\ 0.00984]$, weaker than the
 exact-budget episode objective $-0.00130$ $[-0.00578,\ 0.00357]$ and still open.
 The route remains useful as a negative constraint: the budget signal must enter
 training, but a single fitted episode price is not enough to transfer the gate.
+A direct structured episode-regret surrogate gives the same warning in a
+stronger form.  Training against exact-budget oracle assignments and same-budget
+competitor margins selects a near-closed calibration row, but held-out eval moves
+back to $0.00010$ $[-0.00706,\ 0.01049]$.  This is still better than the
+allocation-native baseline, but worse than both the exact-budget episode
+objective and the dual-price row.  The boundary is therefore not merely the lack
+of a combinatorial loss on training episodes; it is transfer of the budgeted
+assignment structure to held-out episodes.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
