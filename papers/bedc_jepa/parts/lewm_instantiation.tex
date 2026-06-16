@@ -511,6 +511,14 @@ next BEDC-native route must train world-state generation under joint
 prediction-parity and compute/control-survival gates.  This is a route
 obligation, not evidence that a completed BEDC-native world model already
 exists.
+The first readiness audit for that route is fail-closed.  It tries to align the
+structured compute-value artifact with the multi-step dynamics prediction
+artifact by the shared $(\mathrm{episode},t)$ anchor.  Only $106$ anchors across
+$8$ episodes overlap, below the declared aligned-export threshold of $200$
+anchors and $12$ episodes.  The existing artifacts therefore cannot be safely
+stitched into a state-generation training result; the next experiment must
+produce a single aligned export carrying prediction targets, compute-value
+option labels, and BEDC ledger variables on the same anchors.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
