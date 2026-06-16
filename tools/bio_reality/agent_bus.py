@@ -729,7 +729,8 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
                 "",
                 "Hard rules:",
                 "- Use information from the transcript only. Do not add facts from your own training or outside knowledge.",
-                "- Return exactly one JSON object matching the requested schema; no Markdown wrapper.",
+                "- Reason freely and deeply. Prefer one JSON object matching the schema when it is natural, but prose is acceptable.",
+                "- The local BioReality pipeline will preserve raw prose and extract structured follow-up locally.",
                 "- Do not edit files, do not run network tools, do not call oracle, and do not call codex recursively.",
                 "- If the transcript is missing, empty, or inconclusive, return the non-actionable verdict for this action.",
                 "",
@@ -1190,6 +1191,16 @@ def _parse_oracle_consumer_result(stdout: str) -> dict[str, Any] | None:
     return _extract_json_object_from_text(_extract_codex_event_text(stdout or ""))
 
 
+def _oracle_consumer_raw_result(stdout: str) -> dict[str, Any]:
+    raw_text = _extract_codex_event_text(stdout or "").strip()
+    return {
+        "verdict": "raw_oracle_consumer_output",
+        "raw_text": raw_text,
+        "raw_text_chars": len(raw_text),
+        "structured_payload_present": False,
+    }
+
+
 def hardening_targets(reviews: list[dict[str, Any]]) -> list[dict[str, Any]]:
     targets: list[dict[str, Any]] = []
     for review in reviews:
@@ -1243,15 +1254,16 @@ def dispatch_codex(task: dict[str, Any], *, execute: bool) -> dict[str, Any]:
             parsed = _parse_oracle_consumer_result(result.stdout or "")
             dispatch = {
                 "task_id": task["task_id"],
-                "dispatch_status": "completed" if result.returncode == 0 and parsed is not None else "failed",
+                "dispatch_status": "completed" if result.returncode == 0 else "failed",
                 "returncode": result.returncode,
                 "stdout_tail": result.stdout[-2000:],
                 "stderr_tail": result.stderr[-2000:],
             }
             if parsed is not None:
+                parsed.setdefault("structured_payload_present", True)
                 dispatch["result"] = parsed
-            else:
-                _append_stderr_tail(dispatch, "oracle consumer returned no parseable JSON object")
+            elif result.returncode == 0:
+                dispatch["result"] = _oracle_consumer_raw_result(result.stdout or "")
         except (OSError, subprocess.TimeoutExpired) as exc:
             dispatch = {
                 "task_id": task["task_id"],
@@ -1470,13 +1482,48 @@ def _apply_oracle_gate_landing(
     result: dict[str, Any],
 ) -> dict[str, Any]:
     verdict = str(result.get("verdict") or "")
+    payload = event.get("payload") if isinstance(event.get("payload"), dict) else {}
+    claim_id = str(result.get("claim_id") or payload.get("intended_claim_id") or event.get("subject_id") or "")
+    if verdict == "raw_oracle_consumer_output" and str(result.get("raw_text") or "").strip():
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        refinement = {
+            "created_at": now_iso(),
+            "claim_id": claim_id,
+            "source_event_id": event.get("event_id"),
+            "source_task_id": task.get("task_id"),
+            "refinement_diff": [],
+            "rationale": "Raw oracle-consumer review preserved for local BioReality extraction.",
+            "risk_notes": "",
+            "raw_text": str(result.get("raw_text") or ""),
+            "raw_text_chars": int(result.get("raw_text_chars") or 0),
+            "structured_payload_present": False,
+        }
+        path = _oracle_refinements_dir(store) / f"{_safe_file_token(claim_id)}__{timestamp}.json"
+        _write_json_object(path, refinement)
+        refinement_event = _event(
+            "oracle_refinement_proposed",
+            "bio-oracle-consumer",
+            "claim",
+            claim_id,
+            "oracle gate consultation raw review preserved for local extraction",
+            {"claim_id": claim_id, "refinement_path": str(path), "source_event_id": event.get("event_id")},
+        )
+        return {
+            "applied": True,
+            "event": refinement_event,
+            "review_event": _landing_log_event(
+                task,
+                event,
+                verdict,
+                "oracle gate consultation produced raw review for local extraction",
+                {"claim_id": claim_id, "refinement_path": str(path), "oracle_result": result},
+            ),
+        }
     if verdict != "refinement_proposed":
         return {
             "applied": False,
             "event": _landing_log_event(task, event, verdict, "oracle gate consultation reviewed; no action taken", {"oracle_result": result}),
         }
-    payload = event.get("payload") if isinstance(event.get("payload"), dict) else {}
-    claim_id = str(result.get("claim_id") or payload.get("intended_claim_id") or event.get("subject_id") or "")
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     refinement = {
         "created_at": now_iso(),
@@ -2229,6 +2276,100 @@ def self_test() -> int:
             consumer_tasks = [task for task in repeat_tasks if task.get("agent_id") == "bio-oracle-consumer"]
             if oracle_agent_repeat.get("dispatches") != 0 or len(consumer_tasks) != 1:
                 print(json.dumps({"repeat": oracle_agent_repeat, "tasks": repeat_tasks}, indent=2), file=sys.stderr)
+                return 1
+        finally:
+            subprocess.run = original_subprocess_run
+        raw_oracle_base = base / "oracle_raw_case"
+        raw_oracle_paths = BioRealityPaths(
+            root=SCRIPT_DIR,
+            gate_results=raw_oracle_base / "out" / "gate_results.jsonl",
+            deepening_tasks=raw_oracle_base / "out" / "deepening_tasks.jsonl",
+            events=raw_oracle_base / "out" / "events.jsonl",
+            agent_tasks=raw_oracle_base / "out" / "agent_tasks.jsonl",
+            agent_reviews=raw_oracle_base / "out" / "agent_reviews.jsonl",
+            agent_reviews_archive=raw_oracle_base / "out" / "agent_reviews.archive.jsonl",
+            dispatch_results=raw_oracle_base / "out" / "dispatch_results.jsonl",
+            dispatch_results_archive=raw_oracle_base / "out" / "dispatch_results.archive.jsonl",
+            hardening_targets=raw_oracle_base / "out" / "hardening_targets.jsonl",
+            claims_registry=raw_oracle_base / "registries" / "claims.json",
+            experiments_registry=raw_oracle_base / "registries" / "experiments.json",
+            experiment_runs=raw_oracle_base / "state" / "experiment_runs.jsonl",
+        )
+        raw_store = BioRealityStore(raw_oracle_paths)
+        raw_topic = "bio-G.review.raw.claim"
+        raw_session_dir = raw_oracle_base / "state" / "oracle_sessions" / "bio-G"
+        raw_session_dir.mkdir(parents=True, exist_ok=True)
+        raw_transcript_jsonl = raw_session_dir / f"20260525T000002Z__{_safe_oracle_topic(raw_topic)}.jsonl"
+        raw_transcript_md = raw_transcript_jsonl.with_suffix(".md")
+        write_jsonl(
+            raw_transcript_jsonl,
+            [
+                {
+                    "record_kind": "session",
+                    "lane": "bio-G",
+                    "topic": raw_topic,
+                    "conversation_id": "conv-raw-self-test",
+                    "closed_reason": "done",
+                    "turn_count": 1,
+                }
+            ],
+        )
+        raw_transcript_md.write_text("The carrier needs a refinement, but this is prose only.\n", encoding="utf-8")
+        raw_event = _event(
+            "oracle_consultation_completed",
+            "bio-G",
+            "oracle_consultation",
+            _oracle_consultation_subject_id("bio-G", raw_topic),
+            "done",
+            {
+                "lane": "bio-G",
+                "topic": raw_topic,
+                "intended_claim_id": "raw.claim",
+                "conversation_id": "conv-raw-self-test",
+                "turns": 1,
+                "closed_reason": "done",
+                "transcript_jsonl": str(raw_transcript_jsonl),
+                "transcript_md": str(raw_transcript_md),
+            },
+        )
+        raw_store.write_events([raw_event])
+
+        def fake_raw_subprocess_run(*args: Any, **kwargs: Any) -> subprocess.CompletedProcess[str]:
+            cmd = args[0] if args else kwargs.get("args")
+            if isinstance(cmd, list) and cmd[:2] == ["codex", "exec"]:
+                return subprocess.CompletedProcess(cmd, 0, "Plain prose refinement with no JSON object.", "")
+            return original_subprocess_run(*args, **kwargs)
+
+        try:
+            subprocess.run = fake_raw_subprocess_run
+            raw_agent = run_agent_lane(raw_store, execute_codex=True, max_dispatch=1)
+            raw_events_after = raw_store.load_events()
+            raw_refinement_files = list((raw_oracle_base / "state" / "oracle_refinements").glob("*.json"))
+            raw_dispatches = raw_store.load_dispatch_results()
+            if (
+                raw_agent.get("dispatch_completed") != 1
+                or not raw_refinement_files
+                or not any(
+                    isinstance(dispatch.get("result"), dict)
+                    and dispatch["result"].get("verdict") == "raw_oracle_consumer_output"
+                    and dispatch["result"].get("structured_payload_present") is False
+                    for dispatch in raw_dispatches
+                )
+                or not any(event.get("event_kind") == "oracle_refinement_proposed" for event in raw_events_after)
+            ):
+                print(
+                    json.dumps(
+                        {
+                            "agent": raw_agent,
+                            "events": raw_events_after,
+                            "dispatches": raw_dispatches,
+                            "refinement_files": [str(path) for path in raw_refinement_files],
+                        },
+                        indent=2,
+                        ensure_ascii=False,
+                    ),
+                    file=sys.stderr,
+                )
                 return 1
         finally:
             subprocess.run = original_subprocess_run
