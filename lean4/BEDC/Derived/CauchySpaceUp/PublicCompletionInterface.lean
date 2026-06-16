@@ -124,4 +124,41 @@ theorem CauchySpaceCarrier_coverage_public_readback
       regularRouteOut, localPrecompletionRoute, completionRouteOut, ledgerRouteOut,
       publicReadRoute, terminalRoute⟩
 
+theorem CauchySpaceCarrier_filter_uniform_real_public_readback
+    {F U R Q T H C P N filterUniform replay realRead named publicRead : BHist} :
+    CauchySpaceCarrier F U R Q T H C P N ->
+      Cont F U filterUniform ->
+        Cont filterUniform C replay ->
+          Cont replay N realRead ->
+            Cont realRead P named ->
+              Cont named T publicRead ->
+                UnaryHistory F ∧ UnaryHistory U ∧ UnaryHistory R ∧
+                  UnaryHistory filterUniform ∧ UnaryHistory replay ∧ UnaryHistory N ∧
+                    UnaryHistory realRead ∧ UnaryHistory P ∧ UnaryHistory named ∧
+                      UnaryHistory T ∧ UnaryHistory publicRead ∧ hsame H (append F U) ∧
+                        Cont F U filterUniform ∧ Cont filterUniform C replay ∧
+                          Cont replay N realRead ∧ Cont realRead P named ∧
+                            Cont named T publicRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier filterUniformRoute replayRoute realReadRoute namedRoute publicReadRoute
+  have obligation :=
+    CauchySpaceCarrier_filter_uniform_real_consumer_obligation
+      (F := F) (U := U) (R := R) (Q := Q) (T := T) (H := H) (C := C)
+      (P := P) (N := N) (filterUniform := filterUniform) (replay := replay)
+      (realRead := realRead)
+      carrier filterUniformRoute replayRoute realReadRoute
+  obtain ⟨fUnary, uUnary, rUnary, filterUniformUnary, replayUnary, nUnary,
+    realReadUnary, transportRow, filterUniformRouteOut, replayRouteOut,
+    realReadRouteOut⟩ := obligation
+  obtain ⟨_fUnary, _uUnary, _rUnary, _qUnary, tUnary, _hUnary, _cUnary, pUnary,
+    _nUnary, _transportRow, _carrierFilterRoute, _nameRoute⟩ := carrier
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed realReadUnary pUnary namedRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed namedUnary tUnary publicReadRoute
+  exact
+    ⟨fUnary, uUnary, rUnary, filterUniformUnary, replayUnary, nUnary, realReadUnary,
+      pUnary, namedUnary, tUnary, publicReadUnary, transportRow, filterUniformRouteOut,
+      replayRouteOut, realReadRouteOut, namedRoute, publicReadRoute⟩
+
 end BEDC.Derived.CauchySpaceUp
