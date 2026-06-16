@@ -531,4 +531,43 @@ theorem BolzanoWeierstrassSelectorBoundedWindowExhaustion
     ⟨selectedUnary, windowUnary, dyadicUnary, regularUnary, sealUnary, replayUnary,
       selectedRoute, windowRoute, dyadicRoute, regularRoute, sealRoute, replayRoute, rfl⟩
 
+theorem BolzanoWeierstrassSelectorScopeClosure
+    {B M Q W D R E H C P N selected dyadic regularRead sealRead scopedRead : BHist} :
+    Cont B M selected ->
+      Cont selected D dyadic ->
+        Cont dyadic R regularRead ->
+          Cont regularRead E sealRead ->
+            Cont sealRead P scopedRead ->
+              UnaryHistory B ->
+                UnaryHistory M ->
+                  UnaryHistory D ->
+                    UnaryHistory R ->
+                      UnaryHistory E ->
+                        UnaryHistory P ->
+                          bolzanoWeierstrassSelectorFields
+                                (BolzanoWeierstrassSelectorUp.mk B M Q W D R E H C P N) =
+                              [B, M, Q, W, D, R, E, H, C, P, N] ∧
+                            UnaryHistory selected ∧ UnaryHistory dyadic ∧
+                              UnaryHistory regularRead ∧ UnaryHistory sealRead ∧
+                                UnaryHistory scopedRead ∧ Cont B M selected ∧
+                                  Cont selected D dyadic ∧ Cont dyadic R regularRead ∧
+                                    Cont regularRead E sealRead ∧
+                                      Cont sealRead P scopedRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro selectedRoute dyadicRoute regularRoute sealRoute scopedRoute bUnary mUnary dUnary
+    rUnary eUnary pUnary
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed bUnary mUnary selectedRoute
+  have dyadicUnary : UnaryHistory dyadic :=
+    unary_cont_closed selectedUnary dUnary dyadicRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed dyadicUnary rUnary regularRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary eUnary sealRoute
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed sealUnary pUnary scopedRoute
+  exact
+    ⟨rfl, selectedUnary, dyadicUnary, regularUnary, sealUnary, scopedUnary, selectedRoute,
+      dyadicRoute, regularRoute, sealRoute, scopedRoute⟩
+
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
