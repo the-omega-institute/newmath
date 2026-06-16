@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\CompactUniformTriangleEstimateLedgerUp$}
+\label{ch:concrete-instances-compact-uniform-triangle-estimate-ledger-namecert}
+\origin{human}
+
+The $\CompactUniformTriangleEstimateLedgerUp$ packet records the constructive Heine--Cantor source-target triangle estimate of \autoref{ch:visions-compact-uniform-continuity} as finite NameCert data. It reads the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous map row of \autoref{ch:concrete-instances-continuousmap-namecert}, the metric law carrier of \autoref{ch:concrete-instances-metric-namecert}, the tolerance-only handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the compact-uniform-continuity packet of \autoref{ch:concrete-instances-compactuniformcontinuity-namecert}. The ledger isolates the final pair of metric-triangle estimates so downstream consumers can cite the estimate without reopening the full compactness proof.
+
+\begin{definition}[Compact uniform triangle estimate ledger carrier]
+\label{def:compact-uniform-triangle-estimate-ledger-carrier}
+A $\CompactUniformTriangleEstimateLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+T=(K,F,U,M_X,M_Y,c,\rho,\varepsilon,\eta,S,Y,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row containing the displayed finite net and center membership ledger.
+\item $F$ is the $\ContinuousMapUp$ row whose pointwise modulus rows are read at the chosen compact-net centers.
+\item $U$ is the $\UniformModulusUp$ handoff row produced after the finite estimate is assembled.
+\item $M_X$ and $M_Y$ are the source and target $\MetricUp$ law rows, including the triangle rows used in the estimate.
+\item $c$ is the compact-net center selected from the finite net row, and $\rho$ is the pointwise radius row attached to $c$ by $F$.
+\item $\varepsilon$ is the requested target tolerance, and $\eta$ is the displayed epsilon-third budget used by the ledger.
+\item $S$ records the source-triangle estimate joining $x$, the center $c$, and the comparison point $x'$ inside the same local source ball.
+\item $Y$ records the target-triangle estimate joining $f(x)$, $f(c)$, and $f(x')$ within the displayed target tolerance.
+\item $H$ records componentwise $\hsame$ transport for compact-net rows, pointwise modulus rows, source metric triangle rows, target metric triangle rows, epsilon-third budget rows, UniformModulus handoff rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from compact-net coverage to pointwise modulus, from source-triangle estimates to target-triangle estimates, and from the target estimate to the UniformModulus handoff.
+\item $P$ is the $\Pkg$ provenance over $\CompactUniformTriangleEstimateLedgerUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\MetricUp$, $\UniformModulusUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactUniformTriangleEstimateLedgerUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for sequential compactness, selected subsequences, global choice of centers, quotient equality of metric points, or an ambient continuity principle outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Compact uniform triangle estimate ledger obligations]
+\label{thm:compact-uniform-triangle-estimate-ledger-obligations}
+For an accepted $\CompactUniformTriangleEstimateLedgerUp$ packet $T=(K,F,U,M_X,M_Y,c,\rho,\varepsilon,\eta,S,Y,H,C,P,N)$, the local obligation surface is exactly compact net center projection, pointwise modulus readback, source metric triangle transport, target metric triangle transport, epsilon-third splitting, UniformModulus handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Project the compact metric row $K$ and choose the displayed finite-net center $c$ from its carrier rows. The continuous map row $F$ then supplies the pointwise modulus row $\rho$ at that center, so the source estimate starts with finite compact-net data rather than a selected subsequence.
+
+Read the source metric triangle row $S$ from $M_X$. It combines the distance from $x$ to $c$ with the distance from $x$ to $x'$ inside the local source ball named by $\rho$.
+
+Read the target metric triangle row $Y$ from $M_Y$. The epsilon-third budget $\eta$ splits the requested tolerance $\varepsilon$ into the pointwise modulus contribution and the two triangle contributions, so the target estimate closes by finite rational arithmetic and the displayed metric-law rows.
+
+The row $U$ is the only UniformModulus handoff. The transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$ preserve the same compact-net, pointwise-modulus, source-triangle, target-triangle, and tolerance-budget rows; hence no sequential compactness, global choice of centers, quotient equality, or ambient continuity principle escapes the ledger.
+\end{proof}
+
+\closureat{CompactUniformTriangleEstimateLedgerUp}{seedStr}
+
+\begin{closurestatus}{\CompactUniformTriangleEstimateLedgerUp}
+  \constructivestory{A compact uniform triangle estimate ledger is generated from compact-net center rows, pointwise modulus rows, source and target metric triangle rows, an epsilon-third tolerance budget, a UniformModulus handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-uniform-triangle-estimate-ledger-carrier} and \autoref{thm:compact-uniform-triangle-estimate-ledger-obligations} seed the finite source-target triangle estimate ledger for compact-uniform-continuity consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close sequential compactness, selected subsequences, global choice of centers, quotient metric equality, ambient continuity, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked compact-net center projection, pointwise modulus readback, source and target metric triangle transport, epsilon-third split, UniformModulus handoff, provenance non-escape, and local NameCert exactness for BEDC.Derived.CompactUniformTriangleEstimateLedgerUp.}
+\end{closurestatus}
