@@ -23,7 +23,7 @@ REQUIRED_CHANCE = 1.0 / 8.0
 REQUIRED_ARMS = ("null", "oracle_or_teacher", "base", "larger_base")
 REQUIRED_CONTROLS = ("metadata_only", "no_context")
 HARDGATE_IDS = tuple(f"JWM-L1-HG{index}" for index in range(1, 8))
-STATUS_DOMAIN = ("PASS", "FAIL")
+STATUS_DOMAIN = ("PASS", "bounded_negative", "unavailable")
 NOT_CLAIMED = (
     "No JEPA-WM-L2 or higher result.",
     "No global model superiority claim.",
@@ -242,30 +242,41 @@ def _margin_gate(calibration: Mapping[str, Any]) -> Gate:
     )
 
 
-def _controls_gate(observation: Mapping[str, Any]) -> Gate:
+def _controls_gate(observation: Mapping[str, Any], chance_high: float | None) -> Gate:
     controls = _mapping(observation.get("controls"))
     bad: list[str] = []
     for control_id in REQUIRED_CONTROLS:
         row = _mapping(controls.get(control_id))
+        control_high = _number(row.get("ci_high"))
         if (
             row.get("status") != "clean"
             or row.get("leak_detected") is not False
-            or _number(row.get("ci_high")) is None
+            or control_high is None
+            or chance_high is None
+            or control_high > chance_high
         ):
             bad.append(control_id)
     if not bad:
         return _pass_gate(
             "JWM-L1-HG7",
-            "metadata_only and no_context controls are clean",
+            "metadata_only and no_context controls are clean and within the chance band",
             "$.controls",
             ",".join(REQUIRED_CONTROLS),
         )
     return _fail_gate(
         "JWM-L1-HG7",
-        "metadata_only and no_context controls are clean",
+        "metadata_only and no_context controls are clean and within the chance band",
         "$.controls",
         f"unclean={','.join(bad)}",
     )
+
+
+def _decision_status(failed: Sequence[str]) -> str:
+    if not failed:
+        return "PASS"
+    if any(gate_id in failed for gate_id in ("JWM-L1-HG1", "JWM-L1-HG2")):
+        return "unavailable"
+    return "bounded_negative"
 
 
 def build_payload(
@@ -284,10 +295,11 @@ def build_payload(
         _chance_gate(observation),
         _arms_gate(observation),
         _margin_gate(calibration),
-        _controls_gate(observation),
+        _controls_gate(observation, calibration["chance_CI_high"]),
     ]
     hardgates = {gate.gate_id: gate.as_dict() for gate in gates}
     failed = [gate.gate_id for gate in gates if gate.status != "pass"]
+    status = _decision_status(failed)
     run_id = _slug(observation.get("run_id"))
     run_artifact = RUNS_DIR / run_id / "admission.json"
     payload: dict[str, Any] = {
@@ -319,7 +331,7 @@ def build_payload(
         "hardgates": hardgates,
         "decision": {
             "status_domain": list(STATUS_DOMAIN),
-            "status": "PASS" if not failed else "FAIL",
+            "status": status,
             "failed_gates": failed,
             "admission_artifact": str(run_artifact),
         },
@@ -346,8 +358,12 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     failed = [gate_id for gate_id, row in hardgates.items() if _mapping(row).get("status") != "pass"]
     if list(decision.get("failed_gates", [])) != failed:
         raise ValueError("failed gate projection mismatch")
-    if (status == "PASS") != (not failed):
+    if status == "PASS" and failed:
         raise ValueError("decision status mismatch")
+    if status != "PASS" and not failed:
+        raise ValueError("decision status mismatch")
+    if status == "unavailable" and not any(gate_id in failed for gate_id in ("JWM-L1-HG1", "JWM-L1-HG2")):
+        raise ValueError("unavailable status mismatch")
     capsule = _mapping(payload.get("claim_capsule"))
     if capsule.get("status") != "pointer-only":
         raise ValueError("claim capsule must be pointer-only")

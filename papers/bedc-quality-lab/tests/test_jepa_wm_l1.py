@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
@@ -56,6 +57,7 @@ def test_jepa_wm_l1_pass_requires_complete_runtime_contract():
     )
 
     assert payload["decision"]["status"] == "PASS"
+    assert payload["decision"]["status_domain"] == ["PASS", "bounded_negative", "unavailable"]
     assert payload["decision"]["failed_gates"] == []
     assert payload["admission_contract"]["k"] == 7
     assert payload["admission_contract"]["chance_probability"] == 1.0 / 8.0
@@ -77,18 +79,29 @@ def test_jepa_wm_l1_strict_margin_blocks_boundary_equality():
     observation["arms"]["base"]["ci_low"] = 0.25  # type: ignore[index]
     payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
 
-    assert payload["decision"]["status"] == "FAIL"
+    assert payload["decision"]["status"] == "bounded_negative"
     assert payload["hardgates"]["JWM-L1-HG6"]["status"] == "fail"
     assert "JWM-L1-HG6" in payload["decision"]["failed_gates"]
 
 
-def test_jepa_wm_l1_runtime_failures_are_fail_closed():
+def test_jepa_wm_l1_unavailable_when_runtime_inputs_are_absent():
     cases = [
         (
             _mutated_observation(("checkpoint", "provenance", "checkpoint_sha256"), "not-a-digest"),
             "JWM-L1-HG1",
         ),
         (_mutated_observation(("clips",), []), "JWM-L1-HG2"),
+    ]
+
+    for observation, failed_gate in cases:
+        payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+        assert payload["decision"]["status"] == "unavailable"
+        assert payload["hardgates"][failed_gate]["status"] == "fail"
+        assert failed_gate in payload["decision"]["failed_gates"]
+
+
+def test_jepa_wm_l1_completed_non_pass_admissions_are_bounded_negative():
+    cases = [
         (_mutated_observation(("k",), 5), "JWM-L1-HG3"),
         (_mutated_observation(("chance", "probability"), 0.20), "JWM-L1-HG4"),
         (_mutated_observation(("arms", "larger_base"), None), "JWM-L1-HG5"),
@@ -97,9 +110,29 @@ def test_jepa_wm_l1_runtime_failures_are_fail_closed():
 
     for observation, failed_gate in cases:
         payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
-        assert payload["decision"]["status"] == "FAIL"
+        assert payload["decision"]["status"] == "bounded_negative"
         assert payload["hardgates"][failed_gate]["status"] == "fail"
         assert failed_gate in payload["decision"]["failed_gates"]
+
+
+def test_jepa_wm_l1_controls_must_not_exceed_chance_band():
+    observation = _passing_observation()
+    observation["controls"]["metadata_only"]["ci_high"] = 0.21  # type: ignore[index]
+    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+
+    assert payload["decision"]["status"] == "bounded_negative"
+    assert payload["hardgates"]["JWM-L1-HG7"]["status"] == "fail"
+    assert "metadata_only" in payload["hardgates"]["JWM-L1-HG7"]["detail"]
+
+
+def test_jepa_wm_l1_control_chance_band_equality_is_clean():
+    observation = _passing_observation()
+    observation["controls"]["metadata_only"]["ci_high"] = 0.20  # type: ignore[index]
+    observation["controls"]["no_context"]["ci_high"] = 0.20  # type: ignore[index]
+    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+
+    assert payload["decision"]["status"] == "PASS"
+    assert payload["hardgates"]["JWM-L1-HG7"]["status"] == "pass"
 
 
 def test_jepa_wm_l1_rejects_extra_admission_arm():
@@ -112,7 +145,7 @@ def test_jepa_wm_l1_rejects_extra_admission_arm():
     }
     payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
 
-    assert payload["decision"]["status"] == "FAIL"
+    assert payload["decision"]["status"] == "bounded_negative"
     assert payload["hardgates"]["JWM-L1-HG5"]["status"] == "fail"
     assert "unexpected=teacher_hint" in payload["hardgates"]["JWM-L1-HG5"]["detail"]
 
@@ -126,6 +159,8 @@ def test_jepa_wm_l1_writes_run_local_pointer_artifacts(tmp_path):
     assert artifacts["summary"] == expected_base / "summary.json"
     assert artifacts["claim_capsule"] == expected_base / "claim_capsule.json"
     assert artifacts["report"] == expected_base / "report.md"
+    assert artifacts["fingerprint"] == expected_base / "fingerprint.json"
+    assert artifacts["fingerprint"].exists()
     assert not (tmp_path / "reports" / "canonical" / "index.json").exists()
 
     capsule = json.loads(artifacts["claim_capsule"].read_text(encoding="utf-8"))
@@ -135,6 +170,13 @@ def test_jepa_wm_l1_writes_run_local_pointer_artifacts(tmp_path):
     assert resolve_artifact_pointer(tmp_path, capsule["admission_pointer"]) == "PASS"
     for pointer in capsule["hardgate_pointers"]:
         assert resolve_artifact_pointer(tmp_path, pointer) == "pass"
+
+    fingerprint = json.loads(artifacts["fingerprint"].read_text(encoding="utf-8"))
+    assert sorted(fingerprint["artifacts"]) == ["admission", "claim_capsule", "report", "summary"]
+    for artifact_id, artifact in fingerprint["artifacts"].items():
+        assert artifact["path"] == str(artifacts[artifact_id].relative_to(tmp_path))
+        digest = hashlib.sha256(artifacts[artifact_id].read_bytes()).hexdigest()
+        assert artifact["sha256"] == digest
 
 
 def test_jepa_wm_l1_cli_writes_run_local_artifacts(tmp_path, capsys):
