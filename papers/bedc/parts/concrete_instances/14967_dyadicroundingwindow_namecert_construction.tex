@@ -46,6 +46,37 @@ Dyadic readback exactness and the two handoff clauses are route projections. The
 The non-escape obligation is packet inspection. Since no row records quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness, every accepted consumer remains inside the displayed finite route.
 \end{proof}
 
+\begin{theorem}[DyadicRoundingWindow precision-window obligation]
+\label{thm:dyadicroundingwindow-obligation-precision-window}
+Every accepted $\DyadicRoundingWindowUp$ packet
+$W=(S,q,D,A,R,E,H,C,P,N)$ must open the $\StreamNameUp$ row $S$ at unary
+precision $q$ before $D$ is read as the $\DyadicRoundingUp$ endpoint packet.
+Only after this displayed read may the $\DyadicApproximationUp$ row $A$, the
+$\RegSeqRatUp$ handoff $R$, and the $\RealUp$ seal $E$ be consumed, and then
+only through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$
+rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-rounding-window-carrier}. Its
+ordered rows expose $S$ and $q$ before the endpoint packet $D$, so an accepted
+consumer has a finite stream window and a unary precision request before any
+rounded endpoint is inspected.
+
+Apply \autoref{thm:dyadicroundingwindow-namecert-obligations}. Its route order
+is
+$$
+S\longmapsto q\longmapsto D\longmapsto A\longmapsto R\longmapsto E
+$$
+together with $H,C,P,N$, so the precision-window obligation is a projection of
+the local $\NameCert_{\DyadicRoundingWindowUp}$ surface.
+
+Use \autoref{thm:dyadicroundingwindow-error-bound} for nonescape. The error
+bound follows the same endpoint and readback route into $\RegSeqRatUp$ and
+$\RealUp$, and the structural rows merely transport, replay, source, and name
+that route. No quotient equality, selected limit, trichotomy, host rounding, or
+ambient completeness row is introduced.
+\end{proof}
+
 \begin{theorem}[DyadicRoundingWindow error bound]
 \label{thm:dyadicroundingwindow-error-bound}
 Every accepted $\DyadicRoundingWindowUp$ carrier exports a finite error-bound route: the readback row $A$ is bounded by the adjacent endpoint packet $D$ at unary precision $q$, transported through $H$, replayed through $C$, and handed to $\RegSeqRatUp$ and $\RealUp$ only through $R$ and $E$. No exported bound may be replaced by quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
@@ -127,6 +158,7 @@ Use \autoref{thm:dyadicroundingwindow-error-bound}. It states that the bound on 
 
 Finally apply \autoref{thm:dyadicroundingwindow-adjacent-endpoint-compatibility}. The endpoint packet $D$ and the readback row $A$ remain tied to the $\DyadicRatCoreUp$ tolerance ledger at the displayed precision $q$. Since no other readback or real-facing coordinate is present, the handoff cannot escape the $A\mapsto R\mapsto E$ route.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_readback\_handoff}
 
 \begin{theorem}[DyadicRoundingWindow Real-seal factorization]
 \label{thm:dyadicroundingwindow-real-seal-factorization}
