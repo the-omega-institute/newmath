@@ -933,6 +933,13 @@ def _compact_json(value: Any, *, limit: int = 3000) -> str:
     return text[: limit - 3] + "..."
 
 
+def _compact_list(items: Any, *, limit: int = 5) -> str:
+    if not isinstance(items, list):
+        return ""
+    values = [str(item).strip() for item in items if str(item).strip()]
+    return "; ".join(values[:limit])
+
+
 def _conjecture_by_id(store: FibonacciRealityStore, conjecture_id: str) -> dict[str, Any]:
     for conjecture in store.load_conjectures():
         if str(conjecture.get("conjecture_id") or "") == conjecture_id:
@@ -963,41 +970,73 @@ def _namecert_proposal_text(store: FibonacciRealityStore, claim_id: str) -> str:
     return text[:4000]
 
 
+def _bio_g_research_question(claim_id: str, conjecture: dict[str, Any], form: dict[str, Any]) -> str:
+    text = " ".join(
+        [
+            claim_id,
+            str(conjecture.get("informal_statement") or ""),
+            str(form.get("carrier") or ""),
+            str(form.get("readback") or ""),
+        ]
+    ).lower()
+    if "571" in text or "spectral" in text or "smith" in text:
+        return (
+            "For this finite arithmetic claim, what is the exact implication chain that separates "
+            "the Smith-factor statement from the modular repeated-root statement, and what additional "
+            "finite witness is logically required before the two can be reported as one closed packet?"
+        )
+    if "mod3" in text or "mod-3" in text or "edge-flux" in text or "kernel" in text:
+        return (
+            "For this modulo-3 linear-algebra claim, what is the minimal theorem statement that derives "
+            "a nonzero left-kernel functional from the determinant condition, and which objects should be "
+            "treated as derived rather than primitive?"
+        )
+    if "binet" in text or "golden" in text or "phi" in text or "recurrence" in text:
+        return (
+            "For this Fibonacci recurrence claim, what is the smallest algebraic carrier that supports "
+            "the Binet-style readback, and where exactly must the boundary be drawn between recurrence "
+            "identity and analytic or numerical interpretation?"
+        )
+    if "window6" in text or "window 6" in text:
+        return (
+            "For this Window6 finite certificate, what is the sharpest local closure statement that follows "
+            "from the pinned finite data alone, and what stronger interpretations remain unsupported?"
+        )
+    return (
+        "What is the single sharp mathematical lemma needed to make this claim closed inside a finite BEDC "
+        "packet, and what is the weakest carrier on which that lemma is true?"
+    )
+
+
 def _bio_g_initial_prompt(store: FibonacciRealityStore, candidate: dict[str, Any]) -> tuple[str, str]:
     claim_id = str(candidate.get("claim_id") or candidate.get("packet_id") or "")
     conjecture = _conjecture_by_id(store, claim_id) if str(candidate.get("packet_kind") or "") == "conjecture" else {}
     form = conjecture.get("bedc_minimal_form") if isinstance(conjecture.get("bedc_minimal_form"), dict) else {}
-    verified_facts = {
-        "gate_result": candidate,
-        "conjecture": conjecture,
-    }
-    linked = _oracle_linked_records_for_conjecture(store, conjecture) if conjecture else {"reality_contacts": [], "probes": [], "mismatches": []}
-    minimal_form = {
-        "carrier": form.get("carrier") if isinstance(form, dict) else "",
-        "distinctions": form.get("distinctions") if isinstance(form, dict) else [],
-        "readback": form.get("readback") if isinstance(form, dict) else "",
-        "internal_structure": form.get("internal_structure") if isinstance(form, dict) else [],
-    }
+    statement = str(conjecture.get("informal_statement") or candidate.get("reason") or "").strip()
+    carrier = str(form.get("carrier") or "").strip() if isinstance(form, dict) else ""
+    distinctions = _compact_list(form.get("distinctions") if isinstance(form, dict) else [])
+    readback = str(form.get("readback") or "").strip() if isinstance(form, dict) else ""
+    boundary = _compact_list(conjecture.get("forbidden_claims"), limit=4)
+    question = _bio_g_research_question(claim_id, conjecture, form if isinstance(form, dict) else {})
     prompt = "\n".join(
-        [
-            "Review the BEDC minimal form for this FibonacciReality gate candidate.",
-            f"claim_id: {claim_id}",
+        line
+        for line in [
+            "You are a mathematical research oracle for a FibonacciReality discussion.",
+            "Answer only the single research question below.",
+            "Do not write structured data, contracts, implementation plans, operational instructions, or document-editing text.",
+            "Do not rely on hidden project state.",
+            "If a datum is missing, state the conditional answer and name the exact mathematical datum needed.",
             "",
-            "current verified_facts compact JSON:",
-            _compact_json(verified_facts),
+            f"Claim label: {claim_id}",
+            f"Mathematical statement: {statement}" if statement else "",
+            f"Proposed carrier: {carrier}" if carrier else "",
+            f"Proposed distinctions: {distinctions}" if distinctions else "",
+            f"Readback target: {readback}" if readback else "",
+            f"Known boundary to respect: {boundary}" if boundary else "",
             "",
-            "bio-namer markdown proposal if present:",
-            _namecert_proposal_text(store, claim_id) or "none",
-            "",
-            "BEDC minimal-form summary:",
-            _compact_json(minimal_form),
-            "",
-            "reality contacts and probes:",
-            _compact_json(linked),
-            "",
-            "Question: Is the carrier truly minimal? Are there dependency leaks or unjustified internal structure? "
-            "Is the closure boundary correct? Propose concrete refinement steps if any.",
+            f"Single research question: {question}",
         ]
+        if line
     )
     return claim_id, prompt
 
@@ -1074,10 +1113,11 @@ def _maybe_run_bio_g_oracle(store: FibonacciRealityStore) -> dict[str, Any]:
     if not _network_available():
         return _oracle_skip("network_unreachable")
     claim_id, prompt = _bio_g_initial_prompt(store, candidate)
+    pdf_path = None
     topic = f"bio-G.review.{claim_id}"
     forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
-    existing_conv_id = forced_conv_id or str(topic_conversations.get(topic) or "")
+    existing_conv_id = forced_conv_id
     result = oracle_consultation.run_oracle_consultation(
         repo_root,
         "bio-G",
@@ -1456,6 +1496,7 @@ def _maybe_run_bio_plan_oracle(
     if not _network_available():
         return _oracle_skip("network_unreachable")
     topic, claim_id, prompt = _bio_plan_prompt(claims, phases_passed, trigger_event)
+    pdf_path = None
     forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
     existing_conv_id = forced_conv_id or str(topic_conversations.get(topic) or "")
@@ -7412,6 +7453,28 @@ def self_test() -> int:
                 return 1
             if not list((base / "oracle_sessions" / "bio-G").glob("*.jsonl")) or not list((base / "oracle_sessions" / "bio-G").glob("*.md")):
                 print("bio-G oracle transcript missing", file=sys.stderr)
+                return 1
+            prompt_claim_id, oracle_prompt = _bio_g_initial_prompt(
+                oracle_gate_store,
+                {"packet_kind": "conjecture", "claim_id": "oracle.review.claim", "gate_status": "gate_passed"},
+            )
+            if prompt_claim_id != "oracle.review.claim":
+                print(prompt_claim_id, file=sys.stderr)
+                return 1
+            forbidden_prompt_terms = [
+                "verified_facts",
+                "bio-namer",
+                "reality contacts",
+                "probes",
+                "JSON",
+                "PDF",
+                "registry",
+                "writeback",
+                "repository",
+                "local file",
+            ]
+            if any(term in oracle_prompt for term in forbidden_prompt_terms):
+                print(oracle_prompt, file=sys.stderr)
                 return 1
 
             oracle_plan_paths = _temp_paths(base / "oracle_plan")
