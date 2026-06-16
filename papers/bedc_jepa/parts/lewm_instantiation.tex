@@ -614,6 +614,13 @@ $[-0.00932,\ 0.00157]$.  The seeds agree on a majority choice for $91.3\%$ of
 eval anchors, but the majority choice matches the exact-budget oracle on only
 $35.8\%$.  Thus the failure mode is stable held-out assignment error, not
 unstable optimization noise removable by ensembling.
+Episode-balanced sampling does not remove the same transfer error.  Training
+the exact-budget episode objective with batches balanced across training
+episodes selects a calibration-closed row, but held-out eval is $0.00033$
+$[-0.00822,\ 0.01101]$.  This remains better than the allocation-native
+baseline but worse than the original episode objective and the best replicated
+seed.  Hence the missing ingredient is not only episode reweighting; the model
+needs an invariant assignment rule that transfers across episodes.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
