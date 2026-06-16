@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BishopModulusConvergenceUp$}
+\label{ch:concrete-instances-bishop-modulus-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on convergence with displayed moduli, the $\BishopModulusConvergenceUp$ packet records the finite route by which a stream of rational approximants is read with a Bishop modulus before any real-facing consumer sees a limit seal. It sits after the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the displayed limit handoff of \autoref{ch:concrete-instances-bishop-cauchy-modulus-limit-namecert}. The packet names convergence through finite rows only; it is not quotient stream equality, a selected host limit, countable choice, trichotomy, or ambient completeness for $\RealUp$.
+
+\begin{definition}[Bishop modulus convergence carrier]
+\label{def:bishop-modulus-convergence-carrier}
+A $\BishopModulusConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+(S,D,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row scheduling the finite observation windows of the approximating sequence.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying dyadic requests and arithmetic comparisons for the convergence budget.
+\item $M$ is the Bishop modulus row: for each displayed tolerance request it supplies a finite stage bound, together with the statement that all later scheduled windows lie inside the requested dyadic tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $S$, $D$, and $M$.
+\item $E$ is the $\RealUp$ seal row, exposed only after the stream schedule, dyadic tolerance row, modulus row, and regular rational readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream, dyadic, modulus, regular-readback, real-seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from tolerance request through finite window inspection, modulus-bound lookup, regular rational readback, and real sealing.
+\item $P$ is the $\Pkg$ provenance over $\BishopModulusConvergenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopModulusConvergenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected host limits, countable choice, trichotomy, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.BishopModulusConvergenceUp.BishopModulusConvergenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[BishopModulusConvergence NameCert obligations]
+\label{thm:bishop-modulus-convergence-namecert-obligations}
+For an accepted $\BishopModulusConvergenceUp$ carrier $(S,D,M,R,E,H,C,P,N)$, the local $\NameCert_{\BishopModulusConvergenceUp}$ surface consists exactly of these finite obligations:
+\begin{enumerate}
+\item carrier admission for the stream schedule, dyadic tolerance row, Bishop modulus row, regular rational readback, real seal, componentwise transport, continuation replay, provenance, and local naming row;
+\item tolerance discipline, requiring every convergence request to enter through $D$ before a stage bound in $M$ is read;
+\item modulus exactness, requiring the bound supplied by $M$ to control all later windows exposed by $S$ at the requested tolerance;
+\item regular readback, requiring $R$ to be obtained from the displayed stream, dyadic, and modulus rows before the $\RealUp$ seal $E$ is public;
+\item transport and replay, requiring $H$ and $C$ to preserve the same ordered route under $\hsame$ transport and displayed $\Cont$ replay;
+\item ledger non-escape, excluding quotient streams, selected host limits, countable choice, trichotomy, host real equality, and ambient completeness of $\RealUp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The carrier inventory is exactly the stream schedule $S$, dyadic tolerance row $D$, Bishop modulus row $M$, regular readback $R$, real seal $E$, and structural rows $H,C,P,N$.
+
+Tolerance discipline follows from the order of the packet. A convergence request first becomes a dyadic row in $D$, and only then can the displayed modulus row $M$ supply the finite stage bound.
+
+Modulus exactness is the content of $M$: after the bound is read, every later scheduled window supplied by $S$ remains within the requested dyadic tolerance. The regular readback row $R$ packages that controlled tail as a $\RegSeqRatUp$ name before $E$ seals it as a $\RealUp$ row.
+
+The rows $H$ and $C$ transport and replay the same route, while $P$ and $N$ record provenance and local naming. Since no remaining coordinate stores quotient stream equality, a selected host limit, countable choice, trichotomy, host equality, or ambient completeness, those data cannot be projected from the packet.
+\end{proof}
+
+\begin{theorem}[BishopModulusConvergence regular handoff]
+\label{thm:bishop-modulus-convergence-regular-handoff}
+Every accepted $\BishopModulusConvergenceUp$ packet hands its convergence data to regular rational and real-name consumers only through the route
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+The Bishop modulus row supplies the finite stage bound used on this route, and the handoff remains stable under the displayed $\hsame$ transport and $\Cont$ replay rows. No consumer can bypass the regular readback by asking for a quotient stream, selected host limit, countable-choice selector, trichotomy split, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Read a consumer request through the continuation ledger $C$. The first public data are the finite stream windows in $S$ and the dyadic tolerance request in $D$.
+
+The modulus row $M$ then returns a stage bound for that request. This bound controls the later stream windows, so the controlled tail is available to $R$ as regular rational readback rather than as an external limit selection.
+
+Finally the real-facing row $E$ is read only after $R$ is present. Componentwise $\hsame$ transport in $H$ moves the same stream, dyadic, modulus, regular-readback, and real-seal rows together, so the handoff remains a displayed finite route. The excluded host and quotient data are absent from the carrier inventory.
+\end{proof}
+
+\closureat{BishopModulusConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\BishopModulusConvergenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-modulus-convergence-carrier}, \autoref{thm:bishop-modulus-convergence-namecert-obligations}, and \autoref{thm:bishop-modulus-convergence-regular-handoff} seed the convergence-modulus packet through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected host limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance discipline, modulus exactness, regular readback, transport replay, provenance, and non-escape for BEDC.Derived.BishopModulusConvergenceUp.}
+  \constructivestory{A $\BishopModulusConvergenceUp$ packet is generated from a StreamName schedule, DyadicRatCore tolerance row, Bishop modulus row, RegSeqRat readback, Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

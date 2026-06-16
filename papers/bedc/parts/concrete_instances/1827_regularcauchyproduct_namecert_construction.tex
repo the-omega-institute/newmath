@@ -154,6 +154,7 @@ Finally use \autoref{thm:regular-cauchy-product-source-window-transport}, \autor
 \label{thm:regular-cauchy-product-bridge-readiness}
 The public $\RegularCauchyProductUp$ export packet of \autoref{thm:regular-cauchy-product-public-export-certificate} is bridge-ready for downstream real-algebra consumers. Every such consumer factors through the carrier $M=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$, the local $\NameCert$ obligations, the $\RegSeqRatUp$ handoff row $R$, the $\RealUp$ seal boundary, and the public export certificate before it may read product data. The bridge-ready surface exports exactly the regular-Cauchy product boundary and no host multiplication over completed reals, quotient stream equality, selected limit, ambient completeness, or unlisted algebra law.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyProductUp.RegularCauchyProductCarrier\_bridge\_readiness}
 \begin{proof}
 Start with the public export certificate. It assembles the carrier, local naming obligations, window budget, regular readback handoff, real-seal boundary, source-window transport, error-budget exactness, and downstream source lock into one public packet.
 
@@ -326,14 +327,15 @@ Finally invoke error-budget exactness and downstream source lock. They exhaust t
 \closureat{RegularCauchyProductUp}{scopedStr}
 \closureat{RegularCauchyProductUp}{publicStr}
 \closureat{RegularCauchyProductUp}{bridgedStr}
+\closureat{RegularCauchyProductUp}{matureStr}
 
 \begin{closurestatus}{\RegularCauchyProductUp}
   \constructivestory{A $\RegularCauchyProductUp$ packet is generated from two $\RegSeqRatUp$ source rows, aligned $\StreamNameUp$ windows, $\DyadicRatCoreUp$ endpoint multiplication rows, a finite $\FiniteErrorBudgetUp$ product ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, a $\RegSeqRatUp$ readback row, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The scoped bridged surface records the finite carrier, local naming obligations, shared-window product budget, regular readback handoff, real-seal boundary, source-window transport, error-budget exactness, downstream source lock, public export certificate, and bridge-readiness theorem for pointwise products of regular Cauchy names.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature public export surface records the finite carrier, local naming obligations, shared-window product budget, regular readback handoff, real-seal boundary, source-window transport, error-budget exactness, downstream source lock, public export certificate, and bridge-readiness theorem for pointwise products of regular Cauchy names.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient equality of streams, selected limits, host real equality, ambient completeness, real-field multiplication laws, or bridge checking.}
-  \upgradepath{Bridge closure requires a standard bridge from the public regular-Cauchy product boundary to downstream real-algebra consumer interfaces.}
+  \upgradepath{Verification closure requires Lean synchronization for the mature public regular-Cauchy product boundary and any standard bridge target recorded by the formalization pipeline.}
 \end{closurestatus}
