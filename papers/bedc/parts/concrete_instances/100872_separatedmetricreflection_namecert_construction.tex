@@ -121,10 +121,28 @@ Adjunction compatibility and universal-route preservation are supplied by the co
 Finally apply the universal-route theorem. It keeps every completion-facing read on the chain through $\MetricUp$, $\SeparatedMetricUp$, $\CauchyCompletionAdjunctionUp$, $\CompletionUniversalPropertyUp$, and $\RealUp$, while the provenance row $P$ excludes quotient metric spaces, host equality, trichotomy, open-cover compactness, countable choice, and ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[SeparatedMetricReflection scoped dependency route]
+\label{thm:separated-metric-reflection-scope}
+Every accepted $\SeparatedMetricReflectionUp$ packet whose obligation rows are read for completion uniqueness factors through the displayed route
+$$
+\MetricUp\to\SeparatedMetricUp\to\CauchyCompletionAdjunctionUp\to\CompletionUniversalPropertyUp\to\RealUp\to\BHist\to\hsame\to\Cont\to\Pkg\to\NameCert .
+$$
+The route may read the metric source, separated classifier, completion adjunction, universal extension, real-name seal, history packet, transport, continuation, package provenance, and local naming rows of the same carrier. It has no quotient metric space, host equality, trichotomy, choice, open-cover compactness, or ambient $\RealUp$ completeness row available.
+\end{theorem}
+\begin{proof}
+Project the carrier $R=(X,S,A,U,Z,H,C,P,N)$ from \autoref{def:separated-metric-reflection-carrier}. The rows $X,S,A,U,Z$ provide the metric, separated classifier, completion adjunction, universal extension, and reflected output coordinates, while $H,C,P,N$ provide transport, replay, provenance, and local naming.
+
+Use the NameCert obligations of \autoref{thm:separated-metric-reflection-namecert-obligations}. They force carrier exposure, zero-distance classifier exactness, adjunction compatibility, universal-route preservation, and ledger non-escape for the same packet.
+
+Now apply the universal route theorem \autoref{thm:separated-metric-reflection-universal-route}. It places every completion-facing consumer on the chain through $\MetricUp$, $\SeparatedMetricUp$, $\CauchyCompletionAdjunctionUp$, $\CompletionUniversalPropertyUp$, and $\RealUp$ before the reflected classifier is read.
+
+It remains only to read the structural rows. The history, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates are exactly $R$'s finite support rows, and ledger non-escape from $P$ excludes quotient metric spaces, host equality, trichotomy, choice, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{closurestatus}{\SeparatedMetricReflectionUp}
   \constructivestory{A $\SeparatedMetricReflectionUp$ packet is generated from a $\MetricUp$ source row, a $\SeparatedMetricUp$ zero-distance classifier row, a $\CauchyCompletionAdjunctionUp$ completion route, a $\CompletionUniversalPropertyUp$ extension row, a reflected classifier output, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:separated-metric-reflection-carrier}, \autoref{thm:separated-metric-reflection-namecert-obligations}, and \autoref{thm:separated-metric-reflection-universal-route} seed the separated-reflection route consumed by completion-facing classifier reads.}
+  \scopeclosed{\autoref{def:separated-metric-reflection-carrier}, \autoref{thm:separated-metric-reflection-namecert-obligations}, \autoref{thm:separated-metric-reflection-universal-route}, and \autoref{thm:separated-metric-reflection-scope} seed the separated-reflection route consumed by completion-facing classifier reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient metric spaces, host equality, trichotomy, open-cover compactness, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
