@@ -1,32 +1,35 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealLineOrderUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RealLineOrderUp : Type where
-  | mk (D S R L A E H C P N : BHist) : RealLineOrderUp
+  | mk (dyadicTolerance streamWindow regularReadback locatedComparison apartness realSeal
+      transport replay provenance name : BHist) : RealLineOrderUp
   deriving DecidableEq
 
-def realLineOrderEncodeBHist : BHist -> RawEvent
+def realLineOrderEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: realLineOrderEncodeBHist h
   | BHist.e1 h => BMark.b1 :: realLineOrderEncodeBHist h
 
-def realLineOrderDecodeBHist : RawEvent -> BHist
+def realLineOrderDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (realLineOrderDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realLineOrderDecodeBHist tail)
 
-private theorem realLineOrderDecode_encode_bhist :
-    forall h : BHist, realLineOrderDecodeBHist (realLineOrderEncodeBHist h) = h := by
+private theorem realLineOrder_decode_encode_bhist :
+    ∀ h : BHist, realLineOrderDecodeBHist (realLineOrderEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,100 +37,48 @@ private theorem realLineOrderDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private theorem realLineOrder_mk_congr
-    {D D' S S' R R' L L' A A' E E' H H' C C' P P' N N' : BHist}
-    (hD : D' = D) (hS : S' = S) (hR : R' = R) (hL : L' = L)
-    (hA : A' = A) (hE : E' = E) (hH : H' = H) (hC : C' = C)
-    (hP : P' = P) (hN : N' = N) :
-    RealLineOrderUp.mk D' S' R' L' A' E' H' C' P' N' =
-      RealLineOrderUp.mk D S R L A E H C P N := by
+def realLineOrderFields : RealLineOrderUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  cases hD
-  cases hS
-  cases hR
-  cases hL
-  cases hA
-  cases hE
-  cases hH
-  cases hC
-  cases hP
-  cases hN
-  rfl
+  | RealLineOrderUp.mk dyadicTolerance streamWindow regularReadback locatedComparison
+      apartness realSeal transport replay provenance name =>
+      [dyadicTolerance, streamWindow, regularReadback, locatedComparison, apartness, realSeal,
+        transport, replay, provenance, name]
 
-def realLineOrderToEventFlow : RealLineOrderUp -> EventFlow
+def realLineOrderToEventFlow : RealLineOrderUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | RealLineOrderUp.mk D S R L A E H C P N =>
-      [[BMark.b1, BMark.b0],
-        realLineOrderEncodeBHist D,
-        realLineOrderEncodeBHist S,
-        realLineOrderEncodeBHist R,
-        realLineOrderEncodeBHist L,
-        realLineOrderEncodeBHist A,
-        realLineOrderEncodeBHist E,
-        realLineOrderEncodeBHist H,
-        realLineOrderEncodeBHist C,
-        realLineOrderEncodeBHist P,
-        realLineOrderEncodeBHist N]
+  | x => (realLineOrderFields x).map realLineOrderEncodeBHist
 
-private def realLineOrderEventAtDefault : Nat -> EventFlow -> RawEvent
+def realLineOrderFromEventFlow : EventFlow → Option RealLineOrderUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => realLineOrderEventAtDefault index rest
-
-def realLineOrderFromEventFlow (ef : EventFlow) : Option RealLineOrderUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RealLineOrderUp.mk
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 1 ef))
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 2 ef))
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 3 ef))
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 4 ef))
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 5 ef))
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 6 ef))
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 7 ef))
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 8 ef))
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 9 ef))
-      (realLineOrderDecodeBHist (realLineOrderEventAtDefault 10 ef)))
+  | dyadicTolerance :: streamWindow :: regularReadback :: locatedComparison :: apartness ::
+      realSeal :: transport :: replay :: provenance :: name :: [] =>
+      some
+        (RealLineOrderUp.mk
+          (realLineOrderDecodeBHist dyadicTolerance)
+          (realLineOrderDecodeBHist streamWindow)
+          (realLineOrderDecodeBHist regularReadback)
+          (realLineOrderDecodeBHist locatedComparison)
+          (realLineOrderDecodeBHist apartness)
+          (realLineOrderDecodeBHist realSeal)
+          (realLineOrderDecodeBHist transport)
+          (realLineOrderDecodeBHist replay)
+          (realLineOrderDecodeBHist provenance)
+          (realLineOrderDecodeBHist name))
+  | _ => none
 
 private theorem realLineOrder_round_trip :
-    forall x : RealLineOrderUp,
+    ∀ x : RealLineOrderUp,
       realLineOrderFromEventFlow (realLineOrderToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk D S R L A E H C P N =>
-      change
-        some
-          (RealLineOrderUp.mk
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist D))
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist S))
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist R))
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist L))
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist A))
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist E))
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist H))
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist C))
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist P))
-            (realLineOrderDecodeBHist (realLineOrderEncodeBHist N))) =
-          some (RealLineOrderUp.mk D S R L A E H C P N)
-      exact
-        congrArg some
-          (realLineOrder_mk_congr
-            (realLineOrderDecode_encode_bhist D)
-            (realLineOrderDecode_encode_bhist S)
-            (realLineOrderDecode_encode_bhist R)
-            (realLineOrderDecode_encode_bhist L)
-            (realLineOrderDecode_encode_bhist A)
-            (realLineOrderDecode_encode_bhist E)
-            (realLineOrderDecode_encode_bhist H)
-            (realLineOrderDecode_encode_bhist C)
-            (realLineOrderDecode_encode_bhist P)
-            (realLineOrderDecode_encode_bhist N))
+  | mk dyadicTolerance streamWindow regularReadback locatedComparison apartness realSeal
+      transport replay provenance name =>
+      simp only [realLineOrderToEventFlow, realLineOrderFields, realLineOrderFromEventFlow,
+        List.map_cons, List.map_nil, realLineOrder_decode_encode_bhist]
 
 private theorem realLineOrderToEventFlow_injective {x y : RealLineOrderUp} :
-    realLineOrderToEventFlow x = realLineOrderToEventFlow y -> x = y := by
+    realLineOrderToEventFlow x = realLineOrderToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -137,6 +88,38 @@ private theorem realLineOrderToEventFlow_injective {x y : RealLineOrderUp} :
   exact Option.some.inj
     (Eq.trans (realLineOrder_round_trip x).symm
       (Eq.trans hread (realLineOrder_round_trip y)))
+
+private theorem realLineOrder_field_faithful :
+    ∀ x y : RealLineOrderUp, realLineOrderFields x = realLineOrderFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk dyadicTolerance₁ streamWindow₁ regularReadback₁ locatedComparison₁ apartness₁ realSeal₁
+      transport₁ replay₁ provenance₁ name₁ =>
+      cases y with
+      | mk dyadicTolerance₂ streamWindow₂ regularReadback₂ locatedComparison₂ apartness₂
+          realSeal₂ transport₂ replay₂ provenance₂ name₂ =>
+          injection hfields with hDyadic tail0
+          injection tail0 with hStream tail1
+          injection tail1 with hRegular tail2
+          injection tail2 with hLocated tail3
+          injection tail3 with hApartness tail4
+          injection tail4 with hSeal tail5
+          injection tail5 with hTransport tail6
+          injection tail6 with hReplay tail7
+          injection tail7 with hProvenance tail8
+          injection tail8 with hName _
+          subst hDyadic
+          subst hStream
+          subst hRegular
+          subst hLocated
+          subst hApartness
+          subst hSeal
+          subst hTransport
+          subst hReplay
+          subst hProvenance
+          subst hName
+          rfl
 
 instance realLineOrderBHistCarrier : BHistCarrier RealLineOrderUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -153,21 +136,60 @@ instance realLineOrderChapterTasteGate : ChapterTasteGate RealLineOrderUp where
     intro x y hxy heq
     exact hxy (realLineOrderToEventFlow_injective heq)
 
+instance realLineOrderFieldFaithful : FieldFaithful RealLineOrderUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := realLineOrderFields
+  field_faithful := realLineOrder_field_faithful
+
+instance realLineOrderNontrivial : Nontrivial RealLineOrderUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RealLineOrderUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealLineOrderUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate RealLineOrderUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realLineOrderChapterTasteGate
 
-theorem RealLineOrderTasteGate_single_carrier_alignment :
-    (forall h : BHist, realLineOrderDecodeBHist (realLineOrderEncodeBHist h) = h) ∧
-      (forall x : RealLineOrderUp, realLineOrderFromEventFlow (realLineOrderToEventFlow x) =
-        some x) ∧
-        (forall x y : RealLineOrderUp, realLineOrderToEventFlow x = realLineOrderToEventFlow y ->
-          x = y) ∧ realLineOrderEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨realLineOrderDecode_encode_bhist,
-      realLineOrder_round_trip,
-      (fun _ _ heq => realLineOrderToEventFlow_injective heq),
-      rfl⟩
+theorem RealLineOrderNameCertObligations (x : RealLineOrderUp) :
+    SemanticNameCert
+      (fun row : BHist => row ∈ realLineOrderFields x)
+      (fun row : BHist => row ∈ realLineOrderFields x)
+      (fun row : BHist => row ∈ realLineOrderFields x)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  cases x with
+  | mk dyadicTolerance streamWindow regularReadback locatedComparison apartness realSeal
+      transport replay provenance name =>
+      exact
+        {
+          core := {
+            carrier_inhabited := Exists.intro dyadicTolerance (List.Mem.head _)
+            equiv_refl := by
+              intro row _source
+              exact hsame_refl row
+            equiv_symm := by
+              intro _row _row' same
+              exact hsame_symm same
+            equiv_trans := by
+              intro _row _row' _row'' sameLeft sameRight
+              exact hsame_trans sameLeft sameRight
+            carrier_respects_equiv := by
+              intro _row _row' same source
+              cases same
+              exact source
+          }
+          pattern_sound := by
+            intro _row source
+            exact source
+          ledger_sound := by
+            intro _row source
+            exact source
+        }
 
 end BEDC.Derived.RealLineOrderUp
