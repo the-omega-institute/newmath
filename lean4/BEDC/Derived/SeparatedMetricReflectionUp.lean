@@ -75,4 +75,127 @@ theorem SeparatedMetricReflectionNameCertObligations
     ⟨cert, zeroUnary, adjunctionUnary, universalUnary, hsame_refl Z, zeroRoute,
       adjunctionRoute, universalRoute⟩
 
+theorem SeparatedMetricReflectionCarrier_obligation_closure_package
+    {X S A U Z H C P N zeroRead adjunctionRead universalRead : BHist} :
+    Cont X S zeroRead ->
+      Cont zeroRead A adjunctionRead ->
+        Cont adjunctionRead U universalRead ->
+          UnaryHistory X ->
+            UnaryHistory S ->
+              UnaryHistory A ->
+                UnaryHistory U ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row universalRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row X ∨ hsame row S ∨ hsame row A ∨ hsame row U ∨
+                          hsame row Z ∨ hsame row universalRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont X S zeroRead ∧
+                          Cont zeroRead A adjunctionRead ∧
+                            Cont adjunctionRead U universalRead)
+                      hsame ∧
+                    UnaryHistory zeroRead ∧ UnaryHistory adjunctionRead ∧
+                      UnaryHistory universalRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame SemanticNameCert NameCert
+  intro zeroRoute adjunctionRoute universalRoute xUnary sUnary aUnary uUnary
+  have zeroUnary : UnaryHistory zeroRead :=
+    unary_cont_closed xUnary sUnary zeroRoute
+  have adjunctionUnary : UnaryHistory adjunctionRead :=
+    unary_cont_closed zeroUnary aUnary adjunctionRoute
+  have universalUnary : UnaryHistory universalRead :=
+    unary_cont_closed adjunctionUnary uUnary universalRoute
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro universalRead ⟨hsame_refl universalRead, universalUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.right, zeroRoute, adjunctionRoute, universalRoute⟩
+    }
+  · exact ⟨zeroUnary, adjunctionUnary, universalUnary⟩
+
+theorem SeparatedMetricReflectionCarrier_scope
+    {X S A U Z H C P N zeroRead adjunctionRead universalRead scopeRead : BHist} :
+    Cont X S zeroRead ->
+      Cont zeroRead A adjunctionRead ->
+        Cont adjunctionRead U universalRead ->
+          Cont universalRead P scopeRead ->
+            UnaryHistory X ->
+              UnaryHistory S ->
+                UnaryHistory A ->
+                  UnaryHistory U ->
+                    UnaryHistory P ->
+                      SemanticNameCert
+                          (fun row : BHist => hsame row scopeRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row X ∨ hsame row S ∨ hsame row A ∨ hsame row U ∨
+                              hsame row Z ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                                hsame row N ∨ hsame row scopeRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont X S zeroRead ∧
+                              Cont zeroRead A adjunctionRead ∧
+                                Cont adjunctionRead U universalRead ∧
+                                  Cont universalRead P scopeRead)
+                          hsame ∧
+                        UnaryHistory zeroRead ∧ UnaryHistory adjunctionRead ∧
+                          UnaryHistory universalRead ∧ UnaryHistory scopeRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame SemanticNameCert NameCert
+  intro zeroRoute adjunctionRoute universalRoute scopeRoute xUnary sUnary aUnary uUnary pUnary
+  have zeroUnary : UnaryHistory zeroRead :=
+    unary_cont_closed xUnary sUnary zeroRoute
+  have adjunctionUnary : UnaryHistory adjunctionRead :=
+    unary_cont_closed zeroUnary aUnary adjunctionRoute
+  have universalUnary : UnaryHistory universalRead :=
+    unary_cont_closed adjunctionUnary uUnary universalRoute
+  have scopeUnary : UnaryHistory scopeRead :=
+    unary_cont_closed universalUnary pUnary scopeRoute
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro scopeRead ⟨hsame_refl scopeRead, scopeUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          (Or.inr sourceRow.left))))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.right, zeroRoute, adjunctionRoute, universalRoute, scopeRoute⟩
+    }
+  · exact ⟨zeroUnary, adjunctionUnary, universalUnary, scopeUnary⟩
+
 end BEDC.Derived.SeparatedMetricReflectionUp

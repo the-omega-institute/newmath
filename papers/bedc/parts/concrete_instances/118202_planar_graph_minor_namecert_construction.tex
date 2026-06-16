@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\PlanarGraphMinorUp$}
+\label{ch:concrete-instances-planar-graph-minor-namecert}
+\origin{human}
+
+Following Diestel, the $\PlanarGraphMinorUp$ packet records the finite graph-minor route by which a displayed graph carrier is inspected through edge deletions, vertex deletions, contractions, and a planar embedding ledger. It sits over the finite graph carrier of \autoref{ch:concrete-instances-graph-namecert}, the independence and rank bookkeeping of \autoref{ch:concrete-instances-matroid-namecert}, the incidence-pairing discipline of \autoref{ch:concrete-instances-matching-namecert}, and the closed-trail parity surface of \autoref{ch:concrete-instances-eulerian-graph-namecert}. The packet names a finite obstruction-facing carrier for later minor and planar-routing consumers; it is not a host Robertson--Seymour theorem, not a completed obstruction catalogue, and not an ambient topological embedding principle.
+
+\begin{definition}[PlanarGraphMinor carrier]
+\label{def:planar-graph-minor-carrier}
+A $\PlanarGraphMinorUp$ carrier is a finite $\BHist$ packet
+$$
+M=(G,D,V,K,F,E,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the source $\GraphUp$ row, including finite vertex rows, finite edge rows, endpoint readback, incidence rows, and the local graph classifier.
+\item $D$ is the edge-deletion ledger, listing the displayed edge rows removed before the minor read is admitted.
+\item $V$ is the vertex-deletion ledger, listing the displayed vertex rows and incident edge rows removed before the minor read is admitted.
+\item $K$ is the contraction ledger, recording each contracted edge, the two endpoint rows it identifies, and the resulting endpoint readback in the contracted graph row.
+\item $F$ is the planar-face ledger, recording finite cyclic boundary walks, incidence checks, and the local face-adjacency rows accepted as planar evidence.
+\item $E$ is the obstruction-boundary row, retaining the inspected finite subgraph windows used to refuse hidden nonplanar witnesses or unstated contractions.
+\item $R$ is the $\MatroidUp$ support row, reading cycle and rank-style dependency data only through the displayed graph edges.
+\item $A$ is the $\MatchingUp$ and $\EulerianGraphUp$ sibling row, exposing incidence pairings, parity checks, and closed boundary-walk support used by the planar-face ledger.
+\item $H$ records componentwise $\hsame$ transport for $G,D,V,K,F,E,R,A$ and for the replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from the graph row through deletion, contraction, face, obstruction-boundary, matroid-support, and sibling-support rows.
+\item $P$ is the $\Pkg$ provenance over $\PlanarGraphMinorUp$, $\GraphUp$, $\MatroidUp$, $\MatchingUp$, $\EulerianGraphUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PlanarGraphMinorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an infinite graph, hidden embedding, quotient graph equality, unlisted contraction, host obstruction theorem, or completed minor-closed family.
+\end{definition}
+
+\begin{theorem}[PlanarGraphMinor NameCert obligations]
+\label{thm:planar-graph-minor-namecert-obligations}
+For every accepted $\PlanarGraphMinorUp$ carrier $M=(G,D,V,K,F,E,R,A,H,C,P,N)$, the local $\NameCert_{\PlanarGraphMinorUp}$ surface consists exactly of source graph admission through $G$, edge-deletion exposure through $D$, vertex-deletion exposure through $V$, contraction exposure through $K$, planar-face ledger exposure through $F$, obstruction-boundary retention through $E$, matroid-support exposure through $R$, matching and Eulerian sibling exposure through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:planar-graph-minor-carrier}. The visible rows are precisely the source graph, deletion ledgers, contraction ledger, planar-face ledger, obstruction-boundary row, matroid-support row, matching and Eulerian sibling row, transport, replay, provenance, and local naming.
+
+The graph-minor operations are finite. The rows $D$ and $V$ list deleted edges and vertices, while $K$ lists contracted edges together with the endpoint readback used after contraction. Each such read is downstream of the displayed $\GraphUp$ source row.
+
+The planar and obstruction-facing rows are also displayed. The face ledger $F$ records only finite boundary walks and incidence checks, while $E$ retains the inspected windows that prevent a consumer from inserting hidden nonplanar witnesses or unstated contractions.
+
+Finally $R,A,H,C,P,N$ keep the same route attached to matroid support, matching incidence, Eulerian parity, transport, replay, provenance, and local naming. Since the carrier has no coordinate for hidden embeddings, quotient graph equality, infinite graphs, completed obstruction families, or host minor theorems, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[PlanarGraphMinor finite contraction route]
+\label{thm:planar-graph-minor-finite-contraction-route}
+Every consumer that reads an accepted $\PlanarGraphMinorUp$ packet as planar minor evidence must first expose the finite route
+$$
+\GraphUp \longmapsto D,V,K \longmapsto F,E \longmapsto R,A \longmapsto H,C,P,N .
+$$
+In particular, a contraction read can identify endpoints only through the displayed edge row in $K$, can inspect planarity only through the finite face ledger $F$, and can use matroid, matching, or Eulerian support only after the corresponding sibling rows have been displayed.
+\end{theorem}
+\begin{proof}
+Start with a planar-minor consumer. By \autoref{def:planar-graph-minor-carrier}, the request reaches the minor packet only after the source graph row $G$ has exposed its finite vertices, edges, endpoints, incidence data, and local classifier.
+
+The minor route then passes through the operation ledgers. Edge deletion is read from $D$, vertex deletion from $V$, and contraction from $K$. The contraction row records the contracted edge and the endpoint pair, so no hidden quotient graph can replace the displayed endpoint readback.
+
+Next expose the planar-face and obstruction-boundary rows. The row $F$ supplies finite cyclic boundary walks and incidence checks, while $E$ retains the inspected subgraph windows that delimit the obstruction-facing read.
+
+The sibling support rows are downstream of the same route. The matroid row $R$ reads only displayed graph-edge dependencies, and the matching/Eulerian row $A$ reads only incidence pairings and parity-support data already visible in the packet. Transport, replay, provenance, and naming then preserve the same finite route, so every accepted contraction and planarity read factors through the displayed rows.
+\end{proof}
+
+\closureat{PlanarGraphMinorUp}{seedStr}
+
+\begin{closurestatus}{\PlanarGraphMinorUp}
+  \constructivestory{A $\PlanarGraphMinorUp$ packet is generated from a finite GraphUp carrier, edge-deletion rows, vertex-deletion rows, contraction rows, planar-face ledgers, obstruction-boundary windows, MatroidUp support, MatchingUp and EulerianGraphUp sibling support, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:planar-graph-minor-carrier}, \autoref{thm:planar-graph-minor-namecert-obligations}, and \autoref{thm:planar-graph-minor-finite-contraction-route} seed the finite graph-minor and planar-face NameCert route over displayed GraphUp, MatroidUp, MatchingUp, and EulerianGraphUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the Robertson--Seymour theorem, a complete obstruction catalogue, host planar embedding equivalence, quotient graph equality, infinite graph minors, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, deletion exposure, contraction endpoint readback, planar-face ledger exactness, obstruction-boundary retention, sibling support routing, transport, replay, provenance, and local naming for BEDC.Derived.PlanarGraphMinorUp.}
+\end{closurestatus}

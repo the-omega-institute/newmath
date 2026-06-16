@@ -191,6 +191,7 @@ Apply \autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}. It plac
 \label{thm:bolzanoweierstrassselector-window-choice-free-carrier}
 For every accepted $\BolzanoWeierstrassSelectorUp$ $\BHist$ packet $T=(B,M,Q,W,D,R,E,H,C,P,N)$, the selected-window carrier is choice-free: each $\StreamNameUp$ window in $W$ is read from a displayed selector entry in $M$ and an inspected bounded source window in $B$, then transported by the componentwise $\hsame$ row $H$ and replayed by the displayed $\Cont$ row $C$. The $\RegSeqRatUp$ row $R$, $\RealUp$ seal row $E$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$ are downstream rows of the same finite packet, not witnesses to a countable-choice selector, sequential compactness, or an ambient Bolzano--Weierstrass theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.BolzanoWeierstrassSelectorUp.BolzanoWeierstrassSelectorWindowChoiceFreeCarrier}
 \begin{proof}
 Induct over the finite selector-window portion of the displayed $\BHist$ packet. The empty window reads no selector entry and therefore exposes no hidden subsequence object.
 
@@ -430,6 +431,7 @@ Finally apply \autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}.
 \label{thm:bolzano-weierstrass-selector-cofinal-window-stability}
 For every accepted $\BolzanoWeierstrassSelectorUp$ packet $T=(B,M,Q,W,D,R,E,H,C,P,N)$, the inspected cofinal rows in $Q$ remain tied to the displayed bounded source windows $B$ and selected windows $W$ under componentwise $\hsame$ transport and displayed $\Cont$ replay. A consumer may refine an inspected threshold only by replaying the same $B,M,Q,W$ window route; it cannot replace the cofinal row by a choice-selected subsequence, an uninspected source window, or quotient-stream equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.BolzanoWeierstrassSelectorUp.BolzanoWeierstrassSelectorCofinalWindowStability}
 \begin{proof}
 Project the carrier of \autoref{def:bolzano-weierstrass-selector-carrier}. The cofinal row $Q$ is stored beside the bounded source window row $B$, the monotone selector ledger $M$, and the selected $\StreamNameUp$ windows $W$.
 
@@ -487,13 +489,30 @@ Use the nested-interval obligation of \autoref{thm:bolzano-weierstrass-selector-
 Finally apply the regular Cauchy limit handoff and Real seal finality, \autoref{thm:bolzano-weierstrass-selector-regular-cauchy-limit-handoff} and \autoref{thm:bolzano-weierstrass-selector-real-seal-finality}. They place the $\RegSeqRatUp$ row and the $\RealUp$ seal after $\DyadicRatCoreUp$ and the selected $\StreamNameUp$ windows. Since the nonescape theorem excludes compactness, choice, quotient, host equality, and ambient completeness rows, the stated L10 kernel scope is closed.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass selector public export]
+\label{thm:bolzano-weierstrass-selector-public-export}
+An accepted $\BolzanoWeierstrassSelectorUp$ packet exports exactly the finite handoff from bounded sequence windows through monotone-subsequence selection, bounded monotone Cauchy witness, bounded monotone convergence seal, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ seal rows. The exported public surface is the row family
+$$
+B,M,Q,W,D,R,E,H,C,P,N,
+$$
+read in that dependency order and no stronger order. It does not claim sequential compactness, countable choice, quotient-stream equality, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the selector handoff of \autoref{thm:bolzano-weierstrass-subsequence-handoff} and the real seal boundary of \autoref{thm:bolzano-weierstrass-real-seal-boundary}. These place the selected subsequence surface and the Real-facing seal behind displayed packet rows rather than behind a compactness theorem.
+
+Next apply the bounded-monotone route, finite-window stabilization, and regular Cauchy cluster seal through \autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}, \autoref{thm:bolzano-weierstrass-selector-finite-window-induction}, and \autoref{thm:bolzano-weierstrass-selector-regular-cauchy-limit-handoff}. The route forces the monotone-subsequence selection, bounded monotone Cauchy witness, bounded monotone convergence seal, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerances, and $\RegSeqRatUp$ handoff to appear before $E$ can be consumed.
+
+Finally use the scoped L10 kernel theorem, \autoref{thm:bolzano-weierstrass-selector-scope-closure}. It exhausts the public export by $B,M,Q,W,D,R,E,H,C,P,N$ and refuses any hidden compactness, choice, quotient, host-equality, or ambient-completeness row.
+\end{proof}
+
 \closureat{BolzanoWeierstrassSelectorUp}{obligationStr}
 \closureat{BolzanoWeierstrassSelectorUp}{scopedStr}
+\closureat{BolzanoWeierstrassSelectorUp}{publicStr}
 
 \begin{closurestatus}{\BolzanoWeierstrassSelectorUp}
   \constructivestory{A $\BolzanoWeierstrassSelectorUp$ packet is generated from bounded source windows, a monotone selector ledger, inspected-threshold cofinal evidence, selected StreamName windows, DyadicRatCore tolerance rows, a RegSeqRat handoff, a RealUp seal boundary, componentwise transports, displayed continuations, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:bolzano-weierstrass-selector-carrier}, \autoref{thm:bolzano-weierstrass-subsequence-handoff}, \autoref{thm:bolzano-weierstrass-real-seal-boundary}, \autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}, \autoref{thm:bolzano-weierstrass-selector-window-obligation}, \autoref{thm:bolzano-weierstrass-selector-finite-window-induction}, \autoref{thm:bolzano-weierstrass-selector-nested-interval-obligation}, \autoref{thm:bolzano-weierstrass-selector-regular-cauchy-limit-handoff}, \autoref{thm:bolzano-weierstrass-selector-bounded-window-exhaustion}, and \autoref{thm:bolzano-weierstrass-selector-scope-closure} bind the carrier, subsequence handoff, Real seal boundary, bounded-monotone route, window obligation, finite-window induction, nested-interval obligation, regular Cauchy limit handoff, bounded-window exhaustion, and scoped L10 kernel surfaces.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:bolzano-weierstrass-selector-carrier}, \autoref{thm:bolzano-weierstrass-subsequence-handoff}, \autoref{thm:bolzano-weierstrass-real-seal-boundary}, \autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}, \autoref{thm:bolzano-weierstrass-selector-window-obligation}, \autoref{thm:bolzano-weierstrass-selector-finite-window-induction}, \autoref{thm:bolzano-weierstrass-selector-nested-interval-obligation}, \autoref{thm:bolzano-weierstrass-selector-regular-cauchy-limit-handoff}, \autoref{thm:bolzano-weierstrass-selector-bounded-window-exhaustion}, \autoref{thm:bolzano-weierstrass-selector-scope-closure}, and \autoref{thm:bolzano-weierstrass-selector-public-export} bind the carrier, subsequence handoff, Real seal boundary, bounded-monotone route, window obligation, finite-window induction, nested-interval obligation, regular Cauchy limit handoff, bounded-window exhaustion, scoped L10 kernel, and public finite handoff surfaces.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
