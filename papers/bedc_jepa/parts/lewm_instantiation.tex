@@ -675,6 +675,18 @@ versus $0.769$, $p=0.0760$), equivalently same-room occupancy is lower
 or define a deployable policy, but it changes the next route: the hard
 assignment boundary is externally geometric, not merely a hidden uncertainty
 signal inside the scorer.
+Putting that geometry into the allocation objective gives bounded movement but
+not closure.  A geometry-conditioned row trains the same episode exact-budget
+objective as the episode-allocation baseline, augmenting the aligned carrier
+features with $16$ explicit two-rooms state/action features and selecting by
+the same calibration rule.  On held-out eval, its full allocation delta is
+$-0.00409$ versus $-0.00130$ for the original episode objective.  On the
+hard-only slice, it reduces observed damage to $0.01568$, compared with
+$0.02685$ for the best replicated seed, $0.03002$ for the original episode
+objective, and $0.03630$ for seed averaging.  The hard-only interval remains
+open, with CI high $0.03492$, so the result is mechanism-aligned movement
+rather than an allocation-native solution.  The next route must make geometry
+conditioning sharper, not simply append geometry once.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
