@@ -176,6 +176,34 @@ theorem RegularCauchyRingCarrier_windowwise_associativity [AskSetup] [PackageSet
     ⟨reassocSumUnary, reassocProductUnary, reassocScaleUnary, sumReassoc,
       productReassoc, scaleReassoc⟩
 
+theorem RegularCauchyRingCarrier_operation_row_admission [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+        bundle pkg ->
+      Cont A B S ->
+        Cont A WA G ->
+          Cont A B M ->
+            Cont A WB L ->
+              UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory WA ∧ UnaryHistory WB ∧
+                UnaryHistory S ∧ UnaryHistory G ∧ UnaryHistory M ∧ UnaryHistory L ∧
+                  Cont A B S ∧ Cont A WA G ∧ Cont A B M ∧ Cont A WB L ∧
+                    PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg PkgSig
+  intro carrier sumRoute negRoute productRoute scaleRoute
+  obtain ⟨unaryA, unaryB, unaryWA, unaryWB, _unaryDA, _unaryDB, _carrierUnaryS,
+    _carrierUnaryG, _carrierUnaryM, _carrierUnaryL, _carrierUnaryRS, _carrierUnaryRG,
+    _carrierUnaryRM, _carrierUnaryRL, _unaryES, _unaryEG, _unaryEM, _unaryEL, _unaryH,
+    _unaryC, _unaryP, _unaryN, _sourceWindowA, _sourceWindowB, _transportReplay,
+    provenancePkg, namePkg⟩ := carrier
+  have unaryS : UnaryHistory S := unary_cont_closed unaryA unaryB sumRoute
+  have unaryG : UnaryHistory G := unary_cont_closed unaryA unaryWA negRoute
+  have unaryM : UnaryHistory M := unary_cont_closed unaryA unaryB productRoute
+  have unaryL : UnaryHistory L := unary_cont_closed unaryA unaryWB scaleRoute
+  exact
+    ⟨unaryA, unaryB, unaryWA, unaryWB, unaryS, unaryG, unaryM, unaryL, sumRoute,
+      negRoute, productRoute, scaleRoute, provenancePkg, namePkg⟩
+
 theorem RegularCauchyRingCarrier_componentwise_distributivity [AskSetup] [PackageSetup]
     {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
       sumThenProduct leftProduct rightProduct distributedRead : BHist}
