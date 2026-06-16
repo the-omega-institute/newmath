@@ -73,7 +73,17 @@ def _run_nyxid_oracle(cmd: list[str], *, timeout_seconds: float) -> dict[str, An
 
 def _nyxid_oracle_env() -> dict[str, str]:
     env = os.environ.copy()
-    if any(env.get(name) for name in ("HTTPS_PROXY", "https_proxy", "ALL_PROXY", "all_proxy")):
+    existing_proxy = next(
+        (env.get(name) for name in ("HTTPS_PROXY", "https_proxy", "HTTP_PROXY", "http_proxy", "ALL_PROXY", "all_proxy") if env.get(name)),
+        "",
+    )
+    parsed_existing = urlparse(existing_proxy) if existing_proxy else None
+    existing_points_at_raw_socks = bool(
+        parsed_existing
+        and parsed_existing.hostname in {"127.0.0.1", "localhost"}
+        and parsed_existing.port == 40000
+    )
+    if existing_proxy and not existing_points_at_raw_socks:
         return env
     host = env.get("FIBONACCI_REALITY_NYXID_HTTP_PROXY_HOST", "127.0.0.1")
     port_text = env.get("FIBONACCI_REALITY_NYXID_HTTP_PROXY_PORT", "8119")
@@ -87,10 +97,13 @@ def _nyxid_oracle_env() -> dict[str, str]:
     except OSError:
         return env
     proxy = f"http://{host}:{port}"
-    env.setdefault("HTTP_PROXY", proxy)
-    env.setdefault("HTTPS_PROXY", proxy)
-    env.setdefault("http_proxy", proxy)
-    env.setdefault("https_proxy", proxy)
+    env["HTTP_PROXY"] = proxy
+    env["HTTPS_PROXY"] = proxy
+    env["http_proxy"] = proxy
+    env["https_proxy"] = proxy
+    if existing_points_at_raw_socks:
+        env.pop("ALL_PROXY", None)
+        env.pop("all_proxy", None)
     return env
 
 
