@@ -61,6 +61,28 @@ Now read the dyadic approximation row $A$. It is the only coordinate that expose
 Finally route the bound through $R,E,H,C,P,N$. These rows preserve, replay, source, and name the same finite packet for $\RegSeqRatUp$ and $\RealUp$ consumers. The carrier inventory contains no coordinate that can replace the bound by quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[DyadicRoundingWindow error-envelope monotonicity]
+\label{thm:dyadicroundingwindow-error-envelope-monotonicity}
+Let
+$$
+W=(S,q,D,A,R,E,H,C,P,N)
+$$
+and
+$$
+W'=(S',q',D',A',R',E',H',C',P',N')
+$$
+be accepted $\DyadicRoundingWindowUp$ packets. Suppose the two packets share the same $\StreamNameUp$ row, endpoint route, and readback route under the displayed $\hsame$ and $\Cont$ data, and suppose the unary precision $q'$ refines $q$. Then the exported error-bound route of $W'$ factors through the endpoint ledger of $W$ and cannot widen the tolerance envelope before the $\RegSeqRatUp$ and $\RealUp$ handoff. The comparison is made only through the displayed unary precisions and the $\DyadicRatCoreUp$ tolerance ledger.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:dyadic-rounding-window-carrier}. The only rows that can affect the error envelope are the stream rows $S,S'$, the unary precisions $q,q'$, the adjacent endpoint packets $D,D'$, and the readback rows $A,A'$.
+
+Apply \autoref{thm:dyadicroundingwindow-error-bound} to each packet. For $W$, the exported bound is the endpoint-and-tolerance surface carried by $D$ at precision $q$. For $W'$, the bound is the corresponding surface carried by $D'$ at precision $q'$.
+
+The shared StreamName row and shared endpoint/readback route force both bounds to read the same finite observation path. Since $q'$ refines $q$, the later $\DyadicRatCoreUp$ tolerance ledger is a subledger of the earlier endpoint ledger for the same route; it supplies a narrower observation budget, not an extra coordinate.
+
+Finally inspect the remaining rows $R,E,H,C,P,N$ and $R',E',H',C',P',N'$. They transport, replay, source, and name the already compared endpoint ledgers for the $\RegSeqRatUp$ and $\RealUp$ handoff. No quotient equality, host rounding mode, trichotomy row, selected limit, or completeness row is present to widen the envelope.
+\end{proof}
+
 \begin{theorem}[DyadicRoundingWindow precision classification]
 \label{thm:dyadicroundingwindow-precision-classification}
 Every accepted $\DyadicRoundingWindowUp$ carrier opens the same $\StreamNameUp$ row $S$ at the displayed unary precision $q$ before the adjacent endpoint packet $D$ is read as $\DyadicRoundingUp$ data. The precision classifier is therefore the finite route through $S,q,D,A,R,E,H,C,P,N$, not a host rounding mode, selected real approximation, trichotomy test, or ambient completeness argument.
@@ -75,6 +97,7 @@ $$
 
 Finally use the error-bound surface of \autoref{thm:dyadicroundingwindow-error-bound}. Since the bound is attached to the same $q$ and the same $D$, the classifier cannot swap in a host rounding mode, selected approximation, trichotomy test, or ambient completeness row.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_precision\_classification}
 
 \begin{theorem}[DyadicRoundingWindow adjacent endpoint compatibility]
 \label{thm:dyadicroundingwindow-adjacent-endpoint-compatibility}
@@ -87,6 +110,7 @@ The obligation theorem \autoref{thm:dyadicroundingwindow-namecert-obligations} t
 
 Now apply the error-bound theorem \autoref{thm:dyadicroundingwindow-error-bound}. The endpoint tolerance ledger bounds $A$ at the unary precision $q$, and $H$ transports this componentwise compatibility through the later rows. No carrier coordinate can replace that ledger by quotient real equality, host rounding, selected limits, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_adjacent\_endpoint\_compatibility}
 
 \begin{theorem}[DyadicRoundingWindow readback handoff]
 \label{thm:dyadicroundingwindow-readback-handoff}
