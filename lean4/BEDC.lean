@@ -2222,6 +2222,7 @@ import BEDC.Derived.CauchyRootCriterionUp.TasteGate
 import BEDC.Derived.CauchySchlomilchCondensationUp.TasteGate
 import BEDC.Derived.CauchySchwarzEqualityUp.TasteGate
 import BEDC.Derived.CauchySchwarzRealUp.Carrier
+import BEDC.Derived.CauchySchwarzRealUp.InnerproductBound
 import BEDC.Derived.CauchySchwarzRealUp.TasteGate
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.CauchySealBudgetSynchronizerUp.StdBridge
@@ -4454,6 +4455,7 @@ import BEDC.Derived.DominatedConvergenceUp.TasteGate
 import BEDC.Derived.DoobSurvivalChainUp.TasteGate
 import BEDC.Derived.DoobUpcrossingUp.TasteGate
 import BEDC.Derived.DoubleCauchyDiagonalUp
+import BEDC.Derived.DoubleCauchyDiagonalUp.CofinalWindowSelection
 import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
 import BEDC.Derived.DoublingMetricUp.TasteGate
