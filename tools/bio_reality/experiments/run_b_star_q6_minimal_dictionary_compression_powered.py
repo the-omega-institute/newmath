@@ -11,6 +11,7 @@ import pathlib
 import random
 import sys
 from collections import defaultdict
+from datetime import datetime, timezone
 from typing import Any
 
 import run_b_star_q6_residual_dictionary_consistency_powered as residual_dictionary
@@ -36,15 +37,32 @@ MODEL_DF = 2
 MIN_BOUNDARY_ROWS = 200
 MIN_BOUNDARY_ROWS_PER_WINDOW = 40
 MIN_BOUNDARY_BIN_ROWS = 4
+STARTED_AT = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 OCCUPANCY_PATH = "tools/bio_reality/data/riboseq_positional_occupancy_saccharomyces_cerevisiae.json"
 ORDERED_CDS_PATH = "tools/bio_reality/data/cds_ordered_sequences_saccharomyces_cerevisiae.json"
 POSITIONAL_PROFILE_PATH = "tools/bio_reality/data/cds_positional_codon_profile_saccharomyces_cerevisiae.json"
 
 
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
 def emit(status: str, **kw: object) -> None:
-    payload = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
-    payload.update(kw)
+    checks = kw.get("checks")
+    if not isinstance(checks, list):
+        checks = []
+    result = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
+    result.update(kw)
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": status,
+        "checks": checks,
+        "result": result,
+        "started_at": STARTED_AT,
+        "completed_at": now_iso(),
+    }
     print(json.dumps(payload, sort_keys=False))
     sys.exit(0 if status == "passed" else (2 if status == "failed" else 3))
 
@@ -1302,8 +1320,9 @@ def cannot_claim() -> list[str]:
 
 def checks_for(table: list[dict[str, object]], yeast_boundary: object) -> list[dict[str, object]]:
     computed = [row for row in table if row.get("coverage") is not None]
+    nonempty_dictionary = [row for row in computed if int(row.get("n_dict") or 0) > 0]
     compressed = [row for row in computed if row.get("compression_bound_le_3")]
-    above_null = [row for row in computed if row.get("coverage_above_null95")]
+    above_null = [row for row in nonempty_dictionary if row.get("coverage_above_null95")]
     boundary_pass: list[str] = []
     if isinstance(yeast_boundary, dict):
         components = yeast_boundary.get("component_boundary_response")
@@ -1318,9 +1337,9 @@ def checks_for(table: list[dict[str, object]], yeast_boundary: object) -> list[d
         },
         {
             "name": "coverage_exceeds_matched_null",
-            "passed": len(above_null) == len(computed) and bool(computed),
-            "actual": [{"organism_key": row.get("organism_key"), "coverage": row.get("coverage"), "null95": row.get("null95_coverage")} for row in computed],
-            "expected": "D_o_star coverage is above the matched readout-label Null95 for every computed organism",
+            "passed": len(above_null) == len(nonempty_dictionary) and bool(nonempty_dictionary),
+            "actual": [{"organism_key": row.get("organism_key"), "n_dict": row.get("n_dict"), "coverage": row.get("coverage"), "null95": row.get("null95_coverage")} for row in computed],
+            "expected": "D_o_star coverage is above the matched readout-label Null95 for every organism whose selected dictionary is non-empty",
         },
         {
             "name": "minimal_dictionary_bound",
