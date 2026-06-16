@@ -1054,6 +1054,7 @@ import BEDC.Derived.BorelFunctionUp.TasteGate
 import BEDC.Derived.BorelHierarchyUp.TasteGate
 import BEDC.Derived.BorelSetUp.TasteGate
 import BEDC.Derived.BornologyUp.TasteGate
+import BEDC.Derived.BornologyUp.UnionStability
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
@@ -1298,6 +1299,7 @@ import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BrentSalaminPiUp
 import BEDC.Derived.BrouwerBarInductionUp.ChoiceBoundary
+import BEDC.Derived.BrouwerBarInductionUp.NameCertObligations
 import BEDC.Derived.BrouwerBarInductionUp.PrefixStability
 import BEDC.Derived.BrouwerBarInductionUp.TasteGate
 import BEDC.Derived.BrouwerContinuityPrincipleUp.TasteGate
@@ -4530,6 +4532,7 @@ import BEDC.Derived.DyadicCauchyModulusLatticeUp.TasteGate
 import BEDC.Derived.DyadicCauchyStaircaseUp.TasteGate
 import BEDC.Derived.DyadicCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.DyadicCeilingUp.FloorDualRoute
+import BEDC.Derived.DyadicCeilingUp.NameCertObligations
 import BEDC.Derived.DyadicCeilingUp.TasteGate
 import BEDC.Derived.DyadicClosedIntervalEndpointGridUp.TasteGate
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
@@ -7477,6 +7480,7 @@ import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoffSurface
 import BEDC.Derived.MetricCompletionUp.UniformSealFactorization
 import BEDC.Derived.MetricCompletionUp.UniformSourceLock
 import BEDC.Derived.MetricCoveringNumberUp.TasteGate
+import BEDC.Derived.MetricEmbeddingUp.GraphDistanceControl
 import BEDC.Derived.MetricEmbeddingUp.TasteGate
 import BEDC.Derived.MetricEntourageUp
 import BEDC.Derived.MetricEntourageUp.TasteGate
