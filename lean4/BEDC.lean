@@ -3144,6 +3144,7 @@ import BEDC.Derived.ConnectedIntervalUp
 import BEDC.Derived.ConnectedIntervalUp.DyadicNestingObligations
 import BEDC.Derived.ConnectedIntervalUp.NameCertObligations
 import BEDC.Derived.ConnectedIntervalUp.NestedBisectionLedger
+import BEDC.Derived.ConnectedIntervalUp.ObligationClosureRoute
 import BEDC.Derived.ConnectedIntervalUp.RealRoute
 import BEDC.Derived.ConnectedIntervalUp.TasteGate
 import BEDC.Derived.ConnectedSpaceUp.TasteGate
