@@ -3141,6 +3141,7 @@ import BEDC.Derived.ConditionalTriggerEnsembleUp.TasteGate
 import BEDC.Derived.ConnectedIntervalUp
 import BEDC.Derived.ConnectedIntervalUp.DyadicNestingObligations
 import BEDC.Derived.ConnectedIntervalUp.NameCertObligations
+import BEDC.Derived.ConnectedIntervalUp.NestedBisectionLedger
 import BEDC.Derived.ConnectedIntervalUp.RealRoute
 import BEDC.Derived.ConnectedIntervalUp.TasteGate
 import BEDC.Derived.ConnectedSpaceUp.TasteGate
@@ -3672,6 +3673,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealFourFaceRouteExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealL10FaceStatusPullback
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealRegSeqRatRouteReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealRootReadbackCertificate
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorBudgetNonescape
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRoute
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceBudgetReadiness
@@ -5988,6 +5990,7 @@ import BEDC.Derived.HyperbolicHoroballShadowUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
+import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HyperfunctionUp
@@ -10048,6 +10051,7 @@ import BEDC.Derived.SpeckerSequenceBoundaryUp.TasteGate
 import BEDC.Derived.SpeckerSequenceUp
 import BEDC.Derived.SpeckerSequenceUp.TasteGate
 import BEDC.Derived.SpectralAblationHingeLedgerUp.TasteGate
+import BEDC.Derived.SpectralAblationHingeUp.TasteGate
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.SpectralRadiusFormulaUp.TasteGate
 import BEDC.Derived.SpectralRadiusUp.TasteGate
@@ -10246,6 +10250,7 @@ import BEDC.Derived.SumUp.StdBridge
 import BEDC.Derived.SumUp.VisibleBranchCases
 import BEDC.Derived.SummableSequenceUp.TasteGate
 import BEDC.Derived.SummableTailModulusUp.TasteGate
+import BEDC.Derived.SummationByPartsUp.TasteGate
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
 import BEDC.Derived.SupportNerveCensusUp.NameCertObligations
@@ -10884,6 +10889,7 @@ import BEDC.Derived.WitnessedDescentLedgerUp.SiblingBoundary
 import BEDC.Derived.WitnessedDescentLedgerUp.TasteGate
 import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.WobbleQuotientSpectralTriggerUp.TasteGate
+import BEDC.Derived.WobbleSaturationSealUp.TasteGate
 import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
 import BEDC.Derived.WritingItemAuditUp.ObligationClosure
 import BEDC.Derived.WritingItemAuditUp.TasteGate
