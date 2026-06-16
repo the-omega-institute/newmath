@@ -108,4 +108,58 @@ theorem GroundCompilerEventFlowAuditRouteCarrier_channel_lossless_boundary
   }
   exact ⟨cert, eventFlowLegalLossless, losslessRecognizerGate, localNamePkg⟩
 
+theorem GroundCompilerEventFlowAuditRouteCarrier_non_evidence_boundary
+    [AskSetup] [PackageSetup]
+    {eventFlow legalChannel lossless recognizer certificateGate nonEvidence transport replay
+      provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GroundCompilerEventFlowAuditRouteCarrier eventFlow legalChannel lossless recognizer
+        certificateGate nonEvidence transport replay provenance localName bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row nonEvidence ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row nonEvidence ∨ hsame row transport ∨ hsame row replay)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle localName pkg)
+          hsame ∧
+        Cont nonEvidence transport replay ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨_eventFlowUnary, _legalChannelUnary, _losslessUnary, _recognizerUnary,
+    _certificateGateUnary, nonEvidenceUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _eventFlowLegalLossless, _losslessRecognizerGate,
+    nonEvidenceTransportReplay, _replayProvenanceLocalName, localNamePkg⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row nonEvidence ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row nonEvidence ∨ hsame row transport ∨ hsame row replay)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro nonEvidence ⟨hsame_refl nonEvidence, nonEvidenceUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inl source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, localNamePkg⟩
+  }
+  exact ⟨cert, nonEvidenceTransportReplay, localNamePkg⟩
+
 end BEDC.Derived.GroundCompilerEventFlowAuditRouteUp
