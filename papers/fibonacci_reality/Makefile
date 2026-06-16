@@ -1,5 +1,5 @@
 PDF=main.pdf
-PARTS=$(wildcard parts/*.tex)
+PARTS=$(shell find parts -name '*.tex' -type f | sort)
 
 .PHONY: all precheck check clean
 
