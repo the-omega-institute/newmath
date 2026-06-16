@@ -66,7 +66,6 @@ import BEDC.Derived.AlgebraicRealUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
-import BEDC.Derived.AnalogyCertificateGateUp.FalsifiablePrediction
 import BEDC.Derived.AnalogyCertificateGateUp.NameCertObligations
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
@@ -3506,6 +3505,7 @@ import BEDC.Derived.CoveringdimensionUp.RootCoverNameCertObligations
 import BEDC.Derived.CoveringdimensionUp.RootCoverOrderLedgerExhaustion
 import BEDC.Derived.CoveringdimensionUp.RootCoverPublicScope
 import BEDC.Derived.CoveringdimensionUp.RootCoverRealSeparabilitySimplicialLock
+import BEDC.Derived.CoveringdimensionUp.RootCoverScopeAudit
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopeLock
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopePackage
 import BEDC.Derived.CoveringdimensionUp.RootCoverScopePrimitiveRoute
@@ -4638,6 +4638,7 @@ import BEDC.Derived.DyadicRatCoreUp.StandardSourceBridge
 import BEDC.Derived.DyadicRatCoreUp.TerminalFourFaceTolerance
 import BEDC.Derived.DyadicRegularErrorEnvelopeUp
 import BEDC.Derived.DyadicRoundingUp
+import BEDC.Derived.DyadicRoundingWindowUp.TasteGate
 import BEDC.Derived.DyadicSandwichUp.TasteGate
 import BEDC.Derived.DyadicShrinkScheduleUp
 import BEDC.Derived.DyadicShrinkScheduleUp.TasteGate
@@ -8139,6 +8140,7 @@ import BEDC.Derived.PoincareBoundaryFixedTransportUp.TasteGate
 import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
 import BEDC.Derived.PoincareInequalityUp
 import BEDC.Derived.PoincareInequalityUp.TasteGate
+import BEDC.Derived.PointedCompleteMetricSpaceUp.TasteGate
 import BEDC.Derived.PointedCompleteMetricUp
 import BEDC.Derived.PointedMetricSpaceUp.TasteGate
 import BEDC.Derived.PointwiseContinuityModulusUp.Obligations
@@ -10366,12 +10368,14 @@ import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedCompletionUp
 import BEDC.Derived.TotallyBoundedCompletionUp.CompletionRefinementStability
 import BEDC.Derived.TotallyBoundedCompletionUp.ExtensionHandoff
+import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCauchyHandoff
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCompletionRoute
 import BEDC.Derived.TotallyBoundedCompletionUp.NetFilterCarrierAdmission
 import BEDC.Derived.TotallyBoundedCompletionUp.NoEscape
 import BEDC.Derived.TotallyBoundedCompletionUp.RootExtensionLedger
 import BEDC.Derived.TotallyBoundedCompletionUp.RootRouteExhaustion
 import BEDC.Derived.TotallyBoundedCompletionUp.TasteGate
+import BEDC.Derived.TotallyBoundedCompletionUp.UniformExtensionLedger
 import BEDC.Derived.TotallyBoundedLocatedSetUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
