@@ -5,6 +5,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.MetricEmbeddingUp
 
@@ -16,6 +17,33 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+
+namespace GraphDistanceControl
+
+theorem MetricEmbeddingGraphDistance_control
+    {X F Y R sourceGraph targetGraph comparisonRead : BHist}
+    (unaryX : UnaryHistory X)
+    (unaryF : UnaryHistory F)
+    (unaryY : UnaryHistory Y)
+    (unaryR : UnaryHistory R)
+    (sourceRoute : Cont X F sourceGraph)
+    (targetRoute : Cont sourceGraph Y targetGraph)
+    (comparisonRoute : Cont targetGraph R comparisonRead) :
+    UnaryHistory sourceGraph ∧ UnaryHistory targetGraph ∧ UnaryHistory comparisonRead ∧
+      Cont X F sourceGraph ∧ Cont sourceGraph Y targetGraph ∧
+        Cont targetGraph R comparisonRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  have unarySourceGraph : UnaryHistory sourceGraph :=
+    unary_cont_closed unaryX unaryF sourceRoute
+  have unaryTargetGraph : UnaryHistory targetGraph :=
+    unary_cont_closed unarySourceGraph unaryY targetRoute
+  have unaryComparisonRead : UnaryHistory comparisonRead :=
+    unary_cont_closed unaryTargetGraph unaryR comparisonRoute
+  exact
+    ⟨unarySourceGraph, unaryTargetGraph, unaryComparisonRead,
+      sourceRoute, targetRoute, comparisonRoute⟩
+
+end GraphDistanceControl
 
 theorem MetricEmbeddingGraphDistanceControl [AskSetup] [PackageSetup]
     {X Y F D R S H C P N sourceRead graphRead targetRead controlRead sealRead : BHist}
