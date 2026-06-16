@@ -66,7 +66,16 @@ def main() -> int:
         local_pass = bool(local["parity_gate"]["pass"])
         transition_pass = bool(transition["parity_gate"]["pass"])
         a100_pending = a100_decay.get("status") == "fail-closed" and a100_uniform.get("status") == "fail-closed"
-        boundary_closed = 1.0 if (not local_pass and not transition_pass and a100_pending) else 0.0
+        a100_decay_margin = float(a100_decay["metric_value"])
+        a100_uniform_margin = float(a100_uniform["metric_value"])
+        a100_clause = (
+            "A100 rows remain pending rather than completed evidence."
+            if a100_pending
+            else (
+                f"A100 rows are completed negative evidence: uniform margin={a100_uniform_margin:.9g}; "
+                f"decay margin={a100_decay_margin:.9g}."
+            )
+        )
         payload = {
             "hypothesis_id": HYPOTHESIS_ID,
             "anchor": {"field": "anchor.metric", "value": transition_margin},
@@ -80,7 +89,7 @@ def main() -> int:
                 f"stable_uniform_advantage={loss_synthesis['metric_value']}; "
                 f"A100_pending={a100_pending}. "
                 "The current local evidence bounds ordinary loss-profile and local scaling sweeps away from the LeWM parity gate; "
-                "A100 rows remain pending rather than completed evidence."
+                f"{a100_clause}"
             ),
             "diagnostics": {
                 "best_local_episode_heldout": local,

@@ -484,6 +484,18 @@ its parity margin remains $-0.87763$ $[-0.95362,\ -0.80311]$.  The admissible
 reading is that sequence structure helps, while the prediction-parity gap
 still requires a different dynamics-training regime before the BEDC ledger can
 be promoted from monitor to world model.
+Multi-step dynamics scaling does not remove the boundary.  The strongest local
+episode-heldout multi-step row has native $h=1$ MSE $0.74727$ against LeWM
+$0.06711$, giving parity margin $-0.67345$, while the transition-split
+upper-bound diagnostic has margin $-0.43876$ with confidence upper endpoint
+$-0.40961$.  The A100 rows complete the same check under a larger
+$25.6$M-parameter runner rather than closing it: the uniform-loss row has native
+$h=1$ MSE $0.76081$, native/LeWM ratio $11.34$, and parity margin $-0.68699$
+$[-0.73691,\ -0.62952]$; the decay-loss row has native $h=1$ MSE $0.78191$,
+native/LeWM ratio $11.65$, and parity margin $-0.70809$
+$[-0.75905,\ -0.65106]$.  Thus larger A100 dynamics runs are completed negative
+evidence for the current prediction-parity route, not pending evidence for a
+parity-level BEDC-native world model.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
