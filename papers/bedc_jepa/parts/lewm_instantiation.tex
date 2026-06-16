@@ -541,6 +541,16 @@ allocation delta is $0.00395$ $[-0.00355,\ 0.01260]$.  The candidate therefore
 validates a joint state-generation measurement path and sharpens the boundary:
 prediction parity is still open, and the compute-value signal has not yet
 become an allocation-closed BEDC-native world model.
+The allocation diagnostic explains where that boundary sits.  Using the fixed
+candidate option scores inside the exact-budget dynamic program gives the same
+allocation delta $0.00395$ $[-0.00309,\ 0.01200]$ despite score/error
+Spearman $0.66865$ and pair accuracy $0.89479$.  Negating the score makes the
+allocation worse, $0.03230$ $[0.02588,\ 0.03973]$, so the failure is not a
+sign-convention error.  On the same eval labels, the exact-budget oracle closes
+allocation at $-0.02412$ $[-0.03015,\ -0.01915]$ with depth counts comparable
+to the candidate assignment.  Thus the substrate has allocation value, but
+global option-error readability is not enough: the candidate score still lacks
+the local option ranking and calibration needed for allocation-closed control.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
