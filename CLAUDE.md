@@ -220,6 +220,8 @@ python3 lean4/scripts/bedc_ci.py axiom-purity           # 传递依赖审计 (�
 
 上述命令全部 exit 0 才算 ship 标准.
 
+论文 artifact pointer gate: 发布承重的表、图、主 claim 链中出现的经验数值、release 数字、artifact-count 数字, 必须通过 paper artifact marker 绑定到 claim-artifact-consistency 的 canonical paper_surfaces 行; 行内只存 repo-local artifact pointer、声明的 transform/tolerance、claim/hardgate/not-claimed 指针, 不复制事实正文. make precheck 对缺失、重复、不可解析、数值不匹配或指向 .refactor-loop/URL/绝对路径的 pointer 直接失败. 纯数学常数、定理编号、章节编号、引用编号、label 名和构造名不在此 gate 范围内.
+
 ## `\origin{}` 标签语义
 
 每章顶部的 `\origin{}` 标记**理论 lineage**, 不是作者身份:

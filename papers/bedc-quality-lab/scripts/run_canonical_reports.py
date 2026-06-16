@@ -4611,7 +4611,7 @@ def _claim_artifact_consistency_index_section(generated_at: str | None = None) -
     else:
         payload = _claim_artifact_consistency_payload(generated_at)
     gates = payload.get("gates") if isinstance(payload.get("gates"), list) else []
-    return {
+    section = {
         "status": payload.get("status", "missing"),
         "artifact_id": CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID,
         "schema_id": CLAIM_ARTIFACT_CONSISTENCY_SCHEMA_ID,
@@ -4625,6 +4625,9 @@ def _claim_artifact_consistency_index_section(generated_at: str | None = None) -
             if isinstance(row, Mapping) and row.get("gate_id") in CLAIM_FIRST_CONSISTENCY_GATE_IDS
         },
     }
+    if "paper_surfaces" in payload:
+        section["paper_surfaces_pointer"] = f"{CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT}:$.paper_surfaces"
+    return section
 
 
 def _claim_artifact_consistency_required(selected_specs: Sequence[CanonicalReportSpec] | None = None) -> bool:
@@ -9653,6 +9656,11 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Markdown: `{payload['claim_artifact_consistency']['markdown_artifact']}`",
             f"- Claim: `{payload['claim_artifact_consistency']['claim_id']}`",
             f"- Gates: `{payload['claim_artifact_consistency']['gates_pointer']}`",
+            *(
+                [f"- Paper surfaces: `{payload['claim_artifact_consistency']['paper_surfaces_pointer']}`"]
+                if "paper_surfaces_pointer" in payload["claim_artifact_consistency"]
+                else []
+            ),
             f"- Hardgate status: `{', '.join(f'{gate_id}={status}' for gate_id, status in sorted(payload['claim_artifact_consistency'].get('hardgate_status', {}).items()))}`",
             "",
             "## Claim capsule",
