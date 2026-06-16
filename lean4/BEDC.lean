@@ -4084,6 +4084,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.KernelDependencyBinding
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DendriteUp.TasteGate
 import BEDC.Derived.DenjoyIntegralUp.TasteGate
 import BEDC.Derived.DenjoyWolffBoundaryDynamicsUp.TasteGate
 import BEDC.Derived.DenjoyYoungSaksUp.TasteGate
@@ -4740,6 +4741,7 @@ import BEDC.Derived.DynSystemUp
 import BEDC.Derived.EberleinSmulianUp.TasteGate
 import BEDC.Derived.EdelsteinFixedPointUp
 import BEDC.Derived.EdelsteinFixedPointUp.TasteGate
+import BEDC.Derived.EffectiveCauchyCriterionUp.TasteGate
 import BEDC.Derived.EffectiveCauchyModulusUp.TasteGate
 import BEDC.Derived.EffectiveCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.EffectiveCauchySequenceUp
@@ -7348,6 +7350,7 @@ import BEDC.Derived.MetaCICNormalizationWindowConfluenceUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.TasteGate
+import BEDC.Derived.MetaCICPiAdequacyBudgetUp.TasteGate
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.BlockedEdgeNonEscape
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.NameCertObligations
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.TasteGate
@@ -10530,6 +10533,7 @@ import BEDC.Derived.TwinSubstrateAuditPacketUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditSynthesisUp.TasteGate
 import BEDC.Derived.TwinSubstrateBoundaryClassifierUp.RefusalDiscipline
 import BEDC.Derived.TwinSubstrateBoundaryClassifierUp.TasteGate
+import BEDC.Derived.TypeCheckingClassifierMembershipUp.TasteGate
 import BEDC.Derived.TypeCheckingClassifierUp.TasteGate
 import BEDC.Derived.TypeCheckingDerivationTraceUp
 import BEDC.Derived.TypeCheckingMembershipTraceUp
@@ -10870,6 +10874,7 @@ import BEDC.Derived.ValidatedNumericsUp.RefinementCompositionContainment
 import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.ValuationDomainUp
 import BEDC.Derived.VanDerCorputDifferenceEstimateUp.TasteGate
+import BEDC.Derived.VariationDiminishingUp.TasteGate
 import BEDC.Derived.VariationMeasureUp.TasteGate
 import BEDC.Derived.VariationNormUp.TasteGate
 import BEDC.Derived.VariationOfConstantsUp.TasteGate

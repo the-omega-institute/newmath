@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.LocatedRealComparisonModulusUp.TasteGate
+namespace BEDC.Derived.LocatedRealComparisonModulusUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,26 +10,26 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive LocatedRealComparisonModulusUp : Type where
-  | mk (left right apartness modulus transport replay provenance localName : BHist) :
-      LocatedRealComparisonModulusUp
+  | mk (Q A D B R E H C P N : BHist) : LocatedRealComparisonModulusUp
   deriving DecidableEq
 
-def locatedRealComparisonModulusEncodeBHist : BHist → List BMark
+def locatedRealComparisonModulusEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: locatedRealComparisonModulusEncodeBHist h
   | BHist.e1 h => BMark.b1 :: locatedRealComparisonModulusEncodeBHist h
 
-def locatedRealComparisonModulusDecodeBHist : List BMark → BHist
+def locatedRealComparisonModulusDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (locatedRealComparisonModulusDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (locatedRealComparisonModulusDecodeBHist tail)
 
-private theorem locatedRealComparisonModulusDecodeEncode :
-    ∀ h : BHist,
+private theorem locatedRealComparisonModulus_decode_encode_bhist :
+    forall h : BHist,
       locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEncodeBHist h) = h := by
+          (locatedRealComparisonModulusEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -38,26 +38,21 @@ private theorem locatedRealComparisonModulusDecodeEncode :
   | e1 h ih => exact congrArg BHist.e1 ih
 
 def locatedRealComparisonModulusFields :
-    LocatedRealComparisonModulusUp → List BHist
+    LocatedRealComparisonModulusUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | LocatedRealComparisonModulusUp.mk left right apartness modulus transport replay provenance
-      localName =>
-      [left, right, apartness, modulus, transport, replay, provenance, localName]
+  | LocatedRealComparisonModulusUp.mk Q A D B R E H C P N => [Q, A, D, B, R, E, H, C, P, N]
 
 def locatedRealComparisonModulusToEventFlow :
-    LocatedRealComparisonModulusUp → EventFlow :=
+    LocatedRealComparisonModulusUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (locatedRealComparisonModulusFields x).map locatedRealComparisonModulusEncodeBHist
+  | x => (locatedRealComparisonModulusFields x).map locatedRealComparisonModulusEncodeBHist
 
-private def locatedRealComparisonModulusEventAtDefault :
-    Nat → EventFlow → List BMark
+private def locatedRealComparisonModulusEventAt : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      locatedRealComparisonModulusEventAtDefault index rest
+  | Nat.succ index, _event :: rest => locatedRealComparisonModulusEventAt index rest
 
 def locatedRealComparisonModulusFromEventFlow
     (ef : EventFlow) : Option LocatedRealComparisonModulusUp :=
@@ -65,65 +60,73 @@ def locatedRealComparisonModulusFromEventFlow
   some
     (LocatedRealComparisonModulusUp.mk
       (locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEventAtDefault 0 ef))
+        (locatedRealComparisonModulusEventAt 0 ef))
       (locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEventAtDefault 1 ef))
+        (locatedRealComparisonModulusEventAt 1 ef))
       (locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEventAtDefault 2 ef))
+        (locatedRealComparisonModulusEventAt 2 ef))
       (locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEventAtDefault 3 ef))
+        (locatedRealComparisonModulusEventAt 3 ef))
       (locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEventAtDefault 4 ef))
+        (locatedRealComparisonModulusEventAt 4 ef))
       (locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEventAtDefault 5 ef))
+        (locatedRealComparisonModulusEventAt 5 ef))
       (locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEventAtDefault 6 ef))
+        (locatedRealComparisonModulusEventAt 6 ef))
       (locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEventAtDefault 7 ef)))
+        (locatedRealComparisonModulusEventAt 7 ef))
+      (locatedRealComparisonModulusDecodeBHist
+        (locatedRealComparisonModulusEventAt 8 ef))
+      (locatedRealComparisonModulusDecodeBHist
+        (locatedRealComparisonModulusEventAt 9 ef)))
 
-private theorem locatedRealComparisonModulusRoundTrip :
-    ∀ x : LocatedRealComparisonModulusUp,
-      locatedRealComparisonModulusFromEventFlow
-        (locatedRealComparisonModulusToEventFlow x) = some x := by
+private theorem locatedRealComparisonModulus_round_trip
+    (x : LocatedRealComparisonModulusUp) :
+    locatedRealComparisonModulusFromEventFlow
+        (locatedRealComparisonModulusToEventFlow x) =
+      some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
-  | mk left right apartness modulus transport replay provenance localName =>
+  | mk Q A D B R E H C P N =>
       change
         some
           (LocatedRealComparisonModulusUp.mk
             (locatedRealComparisonModulusDecodeBHist
-              (locatedRealComparisonModulusEncodeBHist left))
+              (locatedRealComparisonModulusEncodeBHist Q))
             (locatedRealComparisonModulusDecodeBHist
-              (locatedRealComparisonModulusEncodeBHist right))
+              (locatedRealComparisonModulusEncodeBHist A))
             (locatedRealComparisonModulusDecodeBHist
-              (locatedRealComparisonModulusEncodeBHist apartness))
+              (locatedRealComparisonModulusEncodeBHist D))
             (locatedRealComparisonModulusDecodeBHist
-              (locatedRealComparisonModulusEncodeBHist modulus))
+              (locatedRealComparisonModulusEncodeBHist B))
             (locatedRealComparisonModulusDecodeBHist
-              (locatedRealComparisonModulusEncodeBHist transport))
+              (locatedRealComparisonModulusEncodeBHist R))
             (locatedRealComparisonModulusDecodeBHist
-              (locatedRealComparisonModulusEncodeBHist replay))
+              (locatedRealComparisonModulusEncodeBHist E))
             (locatedRealComparisonModulusDecodeBHist
-              (locatedRealComparisonModulusEncodeBHist provenance))
+              (locatedRealComparisonModulusEncodeBHist H))
             (locatedRealComparisonModulusDecodeBHist
-              (locatedRealComparisonModulusEncodeBHist localName))) =
-          some
-            (LocatedRealComparisonModulusUp.mk left right apartness modulus transport replay
-              provenance localName)
-      rw [locatedRealComparisonModulusDecodeEncode left,
-        locatedRealComparisonModulusDecodeEncode right,
-        locatedRealComparisonModulusDecodeEncode apartness,
-        locatedRealComparisonModulusDecodeEncode modulus,
-        locatedRealComparisonModulusDecodeEncode transport,
-        locatedRealComparisonModulusDecodeEncode replay,
-        locatedRealComparisonModulusDecodeEncode provenance,
-        locatedRealComparisonModulusDecodeEncode localName]
+              (locatedRealComparisonModulusEncodeBHist C))
+            (locatedRealComparisonModulusDecodeBHist
+              (locatedRealComparisonModulusEncodeBHist P))
+            (locatedRealComparisonModulusDecodeBHist
+              (locatedRealComparisonModulusEncodeBHist N))) =
+          some (LocatedRealComparisonModulusUp.mk Q A D B R E H C P N)
+      rw [locatedRealComparisonModulus_decode_encode_bhist Q,
+        locatedRealComparisonModulus_decode_encode_bhist A,
+        locatedRealComparisonModulus_decode_encode_bhist D,
+        locatedRealComparisonModulus_decode_encode_bhist B,
+        locatedRealComparisonModulus_decode_encode_bhist R,
+        locatedRealComparisonModulus_decode_encode_bhist E,
+        locatedRealComparisonModulus_decode_encode_bhist H,
+        locatedRealComparisonModulus_decode_encode_bhist C,
+        locatedRealComparisonModulus_decode_encode_bhist P,
+        locatedRealComparisonModulus_decode_encode_bhist N]
 
 private theorem locatedRealComparisonModulusToEventFlow_injective
     {x y : LocatedRealComparisonModulusUp} :
     locatedRealComparisonModulusToEventFlow x =
-      locatedRealComparisonModulusToEventFlow y → x = y := by
+      locatedRealComparisonModulusToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -133,8 +136,8 @@ private theorem locatedRealComparisonModulusToEventFlow_injective
           (locatedRealComparisonModulusToEventFlow y) :=
     congrArg locatedRealComparisonModulusFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (locatedRealComparisonModulusRoundTrip x).symm
-      (Eq.trans hread (locatedRealComparisonModulusRoundTrip y)))
+    (Eq.trans (locatedRealComparisonModulus_round_trip x).symm
+      (Eq.trans hread (locatedRealComparisonModulus_round_trip y)))
 
 instance locatedRealComparisonModulusBHistCarrier :
     BHistCarrier LocatedRealComparisonModulusUp where
@@ -147,25 +150,34 @@ instance locatedRealComparisonModulusChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change locatedRealComparisonModulusFromEventFlow
-      (locatedRealComparisonModulusToEventFlow x) = some x
-    exact locatedRealComparisonModulusRoundTrip x
+    change
+      locatedRealComparisonModulusFromEventFlow
+          (locatedRealComparisonModulusToEventFlow x) =
+        some x
+    exact locatedRealComparisonModulus_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (locatedRealComparisonModulusToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate LocatedRealComparisonModulusUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  locatedRealComparisonModulusChapterTasteGate
+
 theorem LocatedRealComparisonModulusTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
+    (forall h : BHist,
       locatedRealComparisonModulusDecodeBHist
-        (locatedRealComparisonModulusEncodeBHist h) = h) ∧
+          (locatedRealComparisonModulusEncodeBHist h) =
+        h) ∧
       Nonempty (BHistCarrier LocatedRealComparisonModulusUp) ∧
         Nonempty (ChapterTasteGate LocatedRealComparisonModulusUp) ∧
           locatedRealComparisonModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨locatedRealComparisonModulusDecodeEncode,
-      ⟨locatedRealComparisonModulusBHistCarrier⟩,
-      ⟨locatedRealComparisonModulusChapterTasteGate⟩,
-      rfl⟩
+  constructor
+  · exact locatedRealComparisonModulus_decode_encode_bhist
+  · constructor
+    · exact ⟨locatedRealComparisonModulusBHistCarrier⟩
+    · constructor
+      · exact ⟨locatedRealComparisonModulusChapterTasteGate⟩
+      · rfl
 
-end BEDC.Derived.LocatedRealComparisonModulusUp.TasteGate
+end BEDC.Derived.LocatedRealComparisonModulusUp

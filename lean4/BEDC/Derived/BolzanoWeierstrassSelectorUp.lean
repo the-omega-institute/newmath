@@ -483,4 +483,52 @@ theorem BolzanoWeierstrassSelectorWindowChoiceFreeCarrier
           List.Mem.tail _ <| List.Mem.tail _ <| List.Mem.tail _ <| List.Mem.tail _ <|
             List.Mem.tail _ <| List.Mem.head _⟩
 
+theorem BolzanoWeierstrassSelectorBoundedWindowExhaustion
+    {B M Q W D R E H C P N selectedRead dyadicRead regularRead sealRead replayRead :
+      BHist} :
+    Cont B M selectedRead ->
+      Cont selectedRead Q W ->
+        Cont W D dyadicRead ->
+          Cont dyadicRead R regularRead ->
+            Cont regularRead E sealRead ->
+              Cont H C replayRead ->
+                UnaryHistory B ->
+                  UnaryHistory M ->
+                    UnaryHistory Q ->
+                      UnaryHistory D ->
+                        UnaryHistory R ->
+                          UnaryHistory E ->
+                            UnaryHistory H ->
+                              UnaryHistory C ->
+                                UnaryHistory selectedRead ∧ UnaryHistory W ∧
+                                  UnaryHistory dyadicRead ∧ UnaryHistory regularRead ∧
+                                    UnaryHistory sealRead ∧ UnaryHistory replayRead ∧
+                                      Cont B M selectedRead ∧ Cont selectedRead Q W ∧
+                                        Cont W D dyadicRead ∧
+                                          Cont dyadicRead R regularRead ∧
+                                            Cont regularRead E sealRead ∧
+                                              Cont H C replayRead ∧
+                                                bolzanoWeierstrassSelectorFields
+                                                    (BolzanoWeierstrassSelectorUp.mk B M Q W D
+                                                      R E H C P N) =
+                                                  [B, M, Q, W, D, R, E, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro selectedRoute windowRoute dyadicRoute regularRoute sealRoute replayRoute bUnary
+    mUnary qUnary dUnary rUnary eUnary hUnary cUnary
+  have selectedUnary : UnaryHistory selectedRead :=
+    unary_cont_closed bUnary mUnary selectedRoute
+  have windowUnary : UnaryHistory W :=
+    unary_cont_closed selectedUnary qUnary windowRoute
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed windowUnary dUnary dyadicRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed dyadicUnary rUnary regularRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary eUnary sealRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed hUnary cUnary replayRoute
+  exact
+    ⟨selectedUnary, windowUnary, dyadicUnary, regularUnary, sealUnary, replayUnary,
+      selectedRoute, windowRoute, dyadicRoute, regularRoute, sealRoute, replayRoute, rfl⟩
+
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
