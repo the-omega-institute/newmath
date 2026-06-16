@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ContextWindowCommitmentUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -325,5 +328,38 @@ theorem ContextWindowCommitmentTasteGate_single_carrier_alignment :
       · intro x y heq
         exact contextWindowCommitmentToEventFlow_injective heq
       · rfl
+
+theorem ContextWindowCommitmentCarrier_prompt_response_boundary
+    {S P B R U promptRead boundaryRead refusalRead consumerRead : BHist} :
+    UnaryHistory S →
+      UnaryHistory P →
+        UnaryHistory B →
+          UnaryHistory R →
+            UnaryHistory U →
+              Cont S P promptRead →
+                Cont promptRead B boundaryRead →
+                  Cont boundaryRead R refusalRead →
+                    Cont refusalRead U consumerRead →
+                      UnaryHistory promptRead ∧
+                        UnaryHistory boundaryRead ∧
+                          UnaryHistory refusalRead ∧
+                            UnaryHistory consumerRead ∧
+                              Cont S P promptRead ∧
+                                Cont promptRead B boundaryRead ∧
+                                  Cont boundaryRead R refusalRead ∧
+                                    Cont refusalRead U consumerRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sUnary pUnary bUnary rUnary uUnary promptRoute boundaryRoute refusalRoute consumerRoute
+  have promptUnary : UnaryHistory promptRead :=
+    unary_cont_closed sUnary pUnary promptRoute
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed promptUnary bUnary boundaryRoute
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed boundaryUnary rUnary refusalRoute
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed refusalUnary uUnary consumerRoute
+  exact
+    ⟨promptUnary, boundaryUnary, refusalUnary, consumerUnary, promptRoute, boundaryRoute,
+      refusalRoute, consumerRoute⟩
 
 end BEDC.Derived.ContextWindowCommitmentUp
