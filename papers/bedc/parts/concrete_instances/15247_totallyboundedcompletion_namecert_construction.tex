@@ -69,6 +69,24 @@ Apply the basis and embedding replay clause. The row $F$ consumes the finite-net
 Finally use the separated and extension handoff clause. The rows $S$ and $U$ are downstream of $F,E,C$, while $H,P,L$ only transport, source, and name the same packet. Thus no completion-facing consumer can bypass the finite-net-to-Cauchy-filter handoff.
 \end{proof}
 
+\begin{theorem}[TotallyBoundedCompletion scope dependency seal]
+\label{thm:totally-bounded-completion-scope-dependency-seal}
+Every accepted scoped consumer of $\TotallyBoundedCompletionUp$ must expose the full route
+$$
+X,T,N,F,E,C,S,U,H,P,L
+$$
+with $\TotallyBoundedUp$ read first through the finite-net ledger $T$, $\CauchyFilterBasisUp$ read next through $F$, $\CompletionEmbeddingUp$ read through $E$, $\ConstructiveMetricCompletionUp$ read through $C$, and $\UniformContinuousExtensionUp$ read through $U$. The route is sealed only when the carrier definition, NameCert obligation surface, finite-net Cauchy handoff, and net-refinement stability all remain visible. No scoped read may replace this route by open-cover compactness, selected limits, quotient completion, countable choice, or detached Real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:totally-bounded-completion-carrier}. The rows $X,T,N,F,E,C,S,U,H,P,L$ are the complete packet inventory, so a scoped consumer cannot name a completion-facing read without exposing the finite-net, basis, embedding, constructive-completion, extension, transport, provenance, and local NameCert rows.
+
+Apply the obligation surface of \autoref{thm:totally-bounded-completion-namecert-obligations}. It forces carrier admission, finite-net persistence, basis-and-embedding replay, separated and extension handoff, and ledger non-escape on the same tuple.
+
+Use the finite-net Cauchy handoff of \autoref{thm:totally-bounded-completion-finite-net-cauchy-handoff}. That theorem places $T,N,F,E,C$ before any separated comparison in $S$ or uniformly continuous handoff in $U$ can be read.
+
+Finally apply net-refinement stability from \autoref{thm:totally-bounded-completion-net-refinement-stability}. Refinement preserves the displayed finite-net route through $T,N,F,E,C$ rather than replacing it by compactness, a selected limit, a quotient-completion representative, countable choice, or detached Real completeness. Thus the scoped dependency route is sealed exactly by the displayed L10 rows.
+\end{proof}
+
 \begin{definition}[TotallyBoundedCompletion carrier admission obligation]
 \label{def:totally-bounded-completion-carrier-admission-obligation}
 The carrier admission obligation for $\TotallyBoundedCompletionUp$ is the requirement that every accepted $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$ display all eleven rows before its local $\NameCert_{\TotallyBoundedCompletionUp}$ row is read. The source metric row $X$ feeds the $\TotallyBoundedUp$ finite-net ledger $T$; the refinement row $N$ feeds the $\CauchyFilterBasisUp$ row $F$; the dense $\CompletionEmbeddingUp$ row $E$ and $\ConstructiveMetricCompletionUp$ route $C$ precede the separated equality row $S$ and the $\UniformContinuousExtensionUp$ handoff $U$; and $H,P,L$ record componentwise $\hsame$ transport, package provenance, and local naming. The displayed $\Cont$ replay may follow only this row order.
