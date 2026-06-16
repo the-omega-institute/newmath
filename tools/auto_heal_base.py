@@ -1748,8 +1748,14 @@ run is stale and the defect was already fixed) do you make no commit.
      `Classical.choice` / `Quot.sound`: `python3 lean4/scripts/bedc_ci.py
      axiom-purity --strict` exits 0.
    - **pdflatex render failure** — `Undefined control sequence` / `Missing $`
-     raised by pdflatex itself (not by precheck): `cd papers/bedc && make`
-     exits 0.
+     raised by pdflatex itself (not by precheck): verify with `cd papers/bedc &&
+     make precheck` AND a SINGLE `pdflatex -interaction=nonstopmode -halt-on-error
+     -file-line-error main.tex` pass. A pdflatex *fatal* surfaces on the first
+     pass, so one halt-on-error pass confirms the fix. Do NOT run the full
+     double-pass `make` here — under system load the double pdflatex pass
+     exhausts the heal timeout (observed rc=124, heal never commits). The
+     auto-heal daemon re-runs the full `make` in verify_ci_heal before pushing,
+     so that double-pass is the authoritative gate.
    Do NOT run verification gates outside the failure class. Commit as soon as
    the class-matched gate(s) pass.
 
