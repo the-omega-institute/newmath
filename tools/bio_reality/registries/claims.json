@@ -701,6 +701,74 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-16T20:09:51+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-16T20:09:51+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "39d73c0bda3d",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-16T20:49:53+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-16T20:49:53+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "6cd65bd5b8ce",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-16T20:57:39+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-16T20:57:39+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "a05046654958",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-16T21:05:56+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-16T21:05:56+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "70f75ab856fc",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -774,46 +842,29 @@
       "claim_id": "h2.external.aca_puncture_orf_validated",
       "hypothesis_level": "H2",
       "claimed_layer": "external",
-      "statement": "Recovered claim h2.external.aca_puncture_orf_validated (status from experiment_runs; statement metadata reconstructed).",
-      "depends_on": [],
-      "status": "needs_data",
+      "statement": "Among externally supplied ORF-eligible nucleotide windows, ACA should validate as the unique latent puncture predicted by Med(R): independent ACA-to-Asp evidence should be enriched in conserved coding contexts, supported by compatible tRNA evidence, and adding ACA should preserve Med(R13 ∪ {ACA}) = WNR ∪ CUN.",
+      "depends_on": [
+        "Freeze R13 = (WNA \\ ACA) ∪ CUN ∪ {UAG, AGG} and M13 = Med(R13) = WNR ∪ CUN before external scoring.",
+        "Use externally supplied RAAP-2 / Acidimicrobiales nucleotide windows or assemblies, nearest outgroups, standard-code controls, and negative controls.",
+        "Apply the Phase-3 ORF eligibility classifier before counting ACA-to-Asp evidence; only ORF-eligible windows can support a positive call.",
+        "Use independent codon-inference or translation-rescue outputs such as Codetta/KACI-style evidence without using the frozen geometry to select favorable ACA sites.",
+        "Map ACA sites to conserved protein alignments, HMMs, ortholog families, or profile evidence and compare ACA-to-Asp against canonical ACA-to-Thr.",
+        "Audit contamination, MAG/binning quality, GC bias, codon counts, strand/frame ambiguity, low-quality assemblies, and phylogenetic coherence.",
+        "Assess tRNAUGU and aaRS evidence for loss of canonical Thr identity or directionally compatible non-Thr/Asp decoding support.",
+        "Compare against nearest outgroups, ORF-ineligible windows, shuffled ORF-eligible windows preserving codon composition, non-puncture M\\R codons, and off-M matched control codons.",
+        "Run the post-scoring geometry check Med(R13 ∪ {ACA}) = M13; if it fails, the geometric part of the claim fails."
+      ],
+      "status": "open",
       "experiment_id": "orf_constrained_aca_puncture_challenge",
       "history": [
         {
-          "ts": "2026-06-05T14:02:39+00:00",
-          "status": "history_trimmed",
-          "reason": "trimmed 311 thrash entries (needs_data re-run loop); required_data now declared so bio-X skips instead of re-running"
-        },
-        {
-          "ts": "2026-06-13T03:43:31+00:00",
-          "status": "needs_data",
-          "reason": "experiment result",
-          "experiment_run_id": "2a43fcf705aa",
-          "checks": {
-            "total": 5,
-            "passed": 4,
-            "failed": 1
-          },
-          "script_sha": "2600b84f09e011de"
-        },
-        {
-          "ts": "2026-06-13T03:49:23+00:00",
-          "status": "needs_rerun",
-          "reason": "required_data now available"
-        },
-        {
-          "ts": "2026-06-13T03:49:23+00:00",
-          "status": "needs_data",
-          "reason": "experiment result",
-          "experiment_run_id": "9ab89a204af2",
-          "checks": {
-            "total": 5,
-            "passed": 4,
-            "failed": 1
-          },
-          "script_sha": "2600b84f09e011de"
+          "ts": "2026-06-16T21:07:43+00:00",
+          "status": "open",
+          "reason": "proposed_by_oracle",
+          "source_event_id": "event.d9262d12deec5d1b"
         }
-      ]
+      ],
+      "phase": 2
     },
     {
       "claim_id": "h3.codon_usage_topology.translation_survival.b_star_q6_coupling_matrix",

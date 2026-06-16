@@ -330,13 +330,23 @@
       "claim_id": "h2.external.aca_puncture_orf_validated",
       "experiment_id": "orf_constrained_aca_puncture_challenge",
       "hypothesis_level": "H2",
-      "statement": "Recovered claim h2.external.aca_puncture_orf_validated (status from experiment_runs; statement metadata reconstructed).",
+      "statement": "Among externally supplied ORF-eligible nucleotide windows, ACA should validate as the unique latent puncture predicted by Med(R): independent ACA-to-Asp evidence should be enriched in conserved coding contexts, supported by compatible tRNA evidence, and adding ACA should preserve Med(R13 ∪ {ACA}) = WNR ∪ CUN.",
       "script_path": "tools/bio_reality/experiments/run_orf_constrained_aca_puncture_challenge.py",
       "timeout_seconds": 1200,
-      "status": "open",
-      "proposed_by": "recovery",
-      "created_at": "2026-06-05T14:02:39+00:00",
-      "dependencies": [],
+      "status": "proposed_by_oracle",
+      "proposed_by": "bio-oracle-consumer",
+      "created_at": "2026-06-16T21:07:43+00:00",
+      "dependencies": [
+        "Freeze R13 = (WNA \\ ACA) ∪ CUN ∪ {UAG, AGG} and M13 = Med(R13) = WNR ∪ CUN before external scoring.",
+        "Use externally supplied RAAP-2 / Acidimicrobiales nucleotide windows or assemblies, nearest outgroups, standard-code controls, and negative controls.",
+        "Apply the Phase-3 ORF eligibility classifier before counting ACA-to-Asp evidence; only ORF-eligible windows can support a positive call.",
+        "Use independent codon-inference or translation-rescue outputs such as Codetta/KACI-style evidence without using the frozen geometry to select favorable ACA sites.",
+        "Map ACA sites to conserved protein alignments, HMMs, ortholog families, or profile evidence and compare ACA-to-Asp against canonical ACA-to-Thr.",
+        "Audit contamination, MAG/binning quality, GC bias, codon counts, strand/frame ambiguity, low-quality assemblies, and phylogenetic coherence.",
+        "Assess tRNAUGU and aaRS evidence for loss of canonical Thr identity or directionally compatible non-Thr/Asp decoding support.",
+        "Compare against nearest outgroups, ORF-ineligible windows, shuffled ORF-eligible windows preserving codon composition, non-puncture M\\R codons, and off-M matched control codons.",
+        "Run the post-scoring geometry check Med(R13 ∪ {ACA}) = M13; if it fails, the geometric part of the claim fails."
+      ],
       "external_preconditions": [],
       "acceptance": {
         "required_checks": [],
@@ -344,7 +354,10 @@
       },
       "required_data": [
         "tools/bio_reality/data/orf_constrained_aca_puncture_external_audit_tables.json"
-      ]
+      ],
+      "rationale": "Across the transcript, the ACA puncture challenge is repeatedly identified as the strongest Phase 3 experiment, and the later turns sharpen it into an ORF-constrained version. The reason is that Phase 1/2 already provide the distinctive frozen geometry: ACA is absent from observed R13 but present in M13, making it the unique missing vertex inside the WNA block. A candidate external ACA-to-Asp signal is described as timely but early-stage, so the strongest downstream action is not automatic incorporation but adversarial validation under frozen geometry, ORF eligibility, conserved-protein rescue, controls, QC audits, tRNA/aaRS checks, and the invariant Med(R13 ∪ {ACA}) = WNR ∪ CUN.",
+      "proposal_rationale": "Across the transcript, the ACA puncture challenge is repeatedly identified as the strongest Phase 3 experiment, and the later turns sharpen it into an ORF-constrained version. The reason is that Phase 1/2 already provide the distinctive frozen geometry: ACA is absent from observed R13 but present in M13, making it the unique missing vertex inside the WNA block. A candidate external ACA-to-Asp signal is described as timely but early-stage, so the strongest downstream action is not automatic incorporation but adversarial validation under frozen geometry, ORF eligibility, conserved-protein rescue, controls, QC audits, tRNA/aaRS checks, and the invariant Med(R13 ∪ {ACA}) = WNR ∪ CUN.",
+      "source_event_id": "event.d9262d12deec5d1b"
     },
     {
       "claim_id": "h3.codon_usage_topology.translation_survival.b_star_q6_coupling_matrix",
