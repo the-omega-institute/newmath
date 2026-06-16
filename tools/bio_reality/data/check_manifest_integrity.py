@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import pathlib
 import sys
+import hashlib
 
 
 DATA_DIR = pathlib.Path(__file__).resolve().parent
@@ -25,6 +26,14 @@ def main() -> int:
         if not isinstance(provenance, dict):
             failures.append(f"{data_path}: missing provenance object")
             continue
+        raw_payload_text = payload.get("raw_payload_text")
+        if isinstance(raw_payload_text, str):
+            raw_bytes = raw_payload_text.encode("utf-8")
+            raw_sha = hashlib.sha256(raw_bytes).hexdigest()
+            if manifest.get("sha256") != raw_sha:
+                failures.append(f"{manifest_path}: sha256 does not match raw_payload_text")
+            if manifest.get("byte_size") != len(raw_bytes):
+                failures.append(f"{manifest_path}: byte_size does not match raw_payload_text")
         checks = {
             "sha256": provenance.get("payload_sha256"),
             "byte_size": provenance.get("payload_byte_size"),
