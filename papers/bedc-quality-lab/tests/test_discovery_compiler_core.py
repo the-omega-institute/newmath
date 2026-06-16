@@ -12,7 +12,6 @@ from bedc_quality_lab.discovery_compiler.capsule import (
     build_claim_capsule_payload,
     require_base_exceeds_chance_claim_capsule,
 )
-from bedc_quality_lab.discovery_compiler.hardgate_contract import U_HARDGATE_SEMANTICS
 from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.map import (
@@ -371,11 +370,18 @@ def test_base_exceeds_chance_claim_capsule_cell_is_optional_but_strict_when_pres
     }
     canonical = tmp_path / "reports" / "canonical" / "fixture.json"
     canonical.parent.mkdir(parents=True, exist_ok=True)
-    canonical.write_text(json.dumps({"evidence": {"base_acc_ci95_low": 0.51}}) + "\n", encoding="utf-8")
+    owner_gate = {
+        "status": "pass",
+        "base_arm_id": "parameter_matched_attention",
+        "base_acc_ci95_low": 0.51,
+        "chance_accuracy": 0.0625,
+        "margin": 0.4475,
+        "failed_gate": None,
+    }
+    canonical.write_text(json.dumps({"fair_base_learnability_gate": owner_gate}) + "\n", encoding="utf-8")
 
     generic = ClaimCapsule.from_payload(base_payload)
     assert generic.payload["schema_id"] == "bedc.quality.claim_capsule"
-    assert tuple(U_HARDGATE_SEMANTICS) == tuple(f"U-HG{index}" for index in range(1, 9))
 
     payload = {
         **base_payload,
@@ -385,7 +391,7 @@ def test_base_exceeds_chance_claim_capsule_cell_is_optional_but_strict_when_pres
                 "status": "pass",
                 "fair_control_id": "parameter_matched_attention",
                 "required_fair_control_id": "parameter_matched_attention",
-                "evidence_pointer": "reports/canonical/fixture.json:$.evidence.base_acc_ci95_low",
+                "evidence_pointer": "reports/canonical/fixture.json:$.fair_base_learnability_gate.base_acc_ci95_low",
                 "base_acc_ci95_low": 0.51,
                 "chance_accuracy": 0.0625,
                 "margin": 0.4475,
@@ -403,6 +409,16 @@ def test_base_exceeds_chance_claim_capsule_cell_is_optional_but_strict_when_pres
     with pytest.raises(ValueError, match="evidence_pointer"):
         require_base_exceeds_chance_claim_capsule(bad_pointer, root=tmp_path)
 
+    bad_owner_value = {
+        **owner_gate,
+        "base_acc_ci95_low": 0.01,
+        "margin": -0.0525,
+    }
+    canonical.write_text(json.dumps({"fair_base_learnability_gate": bad_owner_value}) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="resolved evidence"):
+        require_base_exceeds_chance_claim_capsule(payload, root=tmp_path)
+
+    canonical.write_text(json.dumps({"fair_base_learnability_gate": owner_gate}) + "\n", encoding="utf-8")
     bad_control = json.loads(json.dumps(payload))
     bad_control["construct_validity"]["base_exceeds_chance"]["fair_control_id"] = "compute_matched_attention"
     with pytest.raises(ValueError, match="fair_control_id"):

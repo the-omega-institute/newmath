@@ -8,7 +8,7 @@ from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.construct_validity import CLAIM_CAPSULE_PROJECTION_KEYS
 from bedc_quality_lab.discovery_compiler.hardgate_contract import evaluate_u_hardgates
-from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer, split_artifact_pointer
 
 
 CLAIM_CAPSULE_SCHEMA_ID = "bedc.quality.claim_capsule"
@@ -79,6 +79,49 @@ def _numeric_cell(cell: Mapping[str, Any], key: str) -> float:
     return float(value)
 
 
+def _parent_artifact_pointer(cell: str) -> str | None:
+    split = split_artifact_pointer(cell)
+    if split is None:
+        return None
+    artifact, pointer = split
+    if not pointer.startswith("$.") or "." not in pointer[2:]:
+        return None
+    return f"{artifact}:{pointer.rsplit('.', 1)[0]}"
+
+
+def _require_base_exceeds_chance_resolved_evidence(
+    cell: Mapping[str, Any],
+    *,
+    root: Path,
+    evidence_pointer: str,
+    base: float,
+    chance: float,
+    margin: float,
+) -> None:
+    resolved = resolve_artifact_pointer(root, evidence_pointer)
+    if resolved is None:
+        raise ValueError("base_exceeds_chance evidence_pointer does not resolve")
+    if isinstance(resolved, (int, float)) and not isinstance(resolved, bool):
+        if round(float(resolved), 6) != round(base, 6):
+            raise ValueError("base_exceeds_chance resolved evidence mismatch")
+    parent_pointer = _parent_artifact_pointer(evidence_pointer)
+    parent = resolve_artifact_pointer(root, parent_pointer) if parent_pointer is not None else None
+    if parent is None:
+        return
+    if not isinstance(parent, Mapping):
+        raise ValueError("base_exceeds_chance resolved evidence parent must be an object")
+    owner_control_id = parent.get("base_arm_id", parent.get("fair_control_id"))
+    if (
+        parent.get("status") != cell.get("status")
+        or parent.get("failed_gate") != cell.get("failed_gate")
+        or owner_control_id != cell.get("fair_control_id")
+        or round(float(parent.get("base_acc_ci95_low", base)), 6) != round(base, 6)
+        or round(float(parent.get("chance_accuracy", chance)), 6) != round(chance, 6)
+        or round(float(parent.get("margin", margin)), 6) != round(margin, 6)
+    ):
+        raise ValueError("base_exceeds_chance resolved evidence mismatch")
+
+
 def _require_base_exceeds_chance_cell(cell: Mapping[str, Any], *, root: Path | None = None) -> None:
     required = {
         "claim",
@@ -108,8 +151,6 @@ def _require_base_exceeds_chance_cell(cell: Mapping[str, Any], *, root: Path | N
     evidence_pointer = cell.get("evidence_pointer")
     if not isinstance(evidence_pointer, str) or not evidence_pointer.strip():
         raise ValueError("base_exceeds_chance evidence_pointer missing")
-    if root is not None and resolve_artifact_pointer(root, evidence_pointer) is None:
-        raise ValueError("base_exceeds_chance evidence_pointer does not resolve")
     base = _numeric_cell(cell, "base_acc_ci95_low")
     chance = _numeric_cell(cell, "chance_accuracy")
     margin = _numeric_cell(cell, "margin")
@@ -121,6 +162,15 @@ def _require_base_exceeds_chance_cell(cell: Mapping[str, Any], *, root: Path | N
         raise ValueError("base_exceeds_chance status contradicts base/chance values")
     if status == "fail" and not isinstance(cell.get("failed_gate"), str):
         raise ValueError("base_exceeds_chance failed_gate missing")
+    if root is not None:
+        _require_base_exceeds_chance_resolved_evidence(
+            cell,
+            root=root,
+            evidence_pointer=evidence_pointer,
+            base=base,
+            chance=chance,
+            margin=margin,
+        )
 
 
 def require_base_exceeds_chance_claim_capsule(
