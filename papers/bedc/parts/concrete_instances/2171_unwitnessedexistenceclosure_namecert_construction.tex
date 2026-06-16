@@ -196,20 +196,31 @@ Read the chapter gate against the carrier coordinates. The accepted surface has 
 The three replacement-route theorems isolate the only consumer-facing routes. The axiom-purity boundary then prevents a consumer from replacing those routes by a choice function, quotient selector, or proposition-extensionality equality token. The Lean-checked gate records the same carrier-level acceptance boundary for this chapter.
 \end{proof}
 
+\begin{theorem}[UnwitnessedExistenceClosure bridge-facing replacement surface]
+\label{thm:unwitnessed-existence-closure-bridge-facing-replacement-surface}
+Every bridge-facing consumer of the public $\UnwitnessedExistenceClosureUp$ replacement surface must first read the term row $T$, quotient row $Q$, proposition row $R$, classifier and stability rows $C,S$, and axiom-ledger row $L$ through the TasteGate boundary grounded by $\mathsf{BEDC.Derived.UnwitnessedExistenceClosureUp.taste\_gate}$. The exported bridge route is therefore the finite replacement surface over $T,Q,R,C,S,L,H,E,P,N$; it exports no choice function, quotient representative selector, or proposition-extensionality equality token.
+\end{theorem}
+\begin{proof}
+Begin with the TasteGate boundary of \autoref{thm:unwitnessed-existence-closure-tastegate-boundary}. It accepts exactly the displayed replacement and ledger rows, and it rejects any packet that asks to export $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$.
+
+The three replacement-route theorems then fix the bridge-facing channels. Term consumers pass through \autoref{thm:unwitnessed-existence-closure-term-replacement-route}; quotient and classifier consumers pass through \autoref{thm:unwitnessed-existence-closure-quotient-replacement-route}; proposition consumers pass through \autoref{thm:unwitnessed-existence-closure-proposition-replacement-route}.
+
+Thus the paper-side bridge boundary is exactly the public replacement surface already accepted by the TasteGate. It has no carrier coordinate for a global choice function, quotient representatives, or proposition equality obtained from implication transport.
+\end{proof}
+
 \falsifiablePrediction{Deleting any one of $T,Q,R,L$ admits a concrete rejected packet: a term consumer without the replacement-choice recipe, a quotient consumer without explicit classifier transport, a proposition consumer without implication transport, or a ledger consumer that cannot refuse forbidden axiom ancestry.}
 
 \independenceWitness{propexttransportboundary, quotientsoundnessboundary, forbiddenaxiomancestry, axiomqueryledger: no listed sibling is bijective to $\UnwitnessedExistenceClosureUp$ because this carrier stores all three replacement routes together with one non-exportable axiom ledger, while each sibling isolates a single boundary, ancestry, or query surface.}
 
-\closureat{UnwitnessedExistenceClosureUp}{scopedStr}[BEDC.Derived.UnwitnessedExistenceClosureUp.taste\_gate]
+\closureat{UnwitnessedExistenceClosureUp}{bridgedStr}[BEDC.Derived.UnwitnessedExistenceClosureUp.taste\_gate]
 
 \begin{closurestatus}{\UnwitnessedExistenceClosureUp}
   \constructivestory{An $\UnwitnessedExistenceClosureUp$ packet is generated from term, type, and proposition replacement rows, a componentwise classifier, stability transports, an axiom-purity ledger, a replacement handoff row, finite $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The finite carrier, five-row NameCert surface, axiom-purity boundary, effective replacement handoff, replacement-surface totality theorem, refutation-boundary link, TasteGate boundary, and the three term, quotient, and proposition replacement routes are closed as the public export surface over $T,Q,R,C,S,L,H,E,P,N$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The finite carrier, five-row NameCert surface, axiom-purity boundary, effective replacement handoff, replacement-surface totality theorem, refutation-boundary link, TasteGate boundary, the three term, quotient, and proposition replacement routes, and the bridge-facing replacement surface are closed as the public bridge route over $T,Q,R,C,S,L,H,E,P,N$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.UnwitnessedExistenceClosureUp.taste\_gate}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not close bridge checking, a global choice principle, quotient representatives, proposition extensionality, host axioms, or the full scoped NameCert implementation.}
-  \upgradepath{The next grade requires bridge checking or audit-clean verification for the same finite replacement and ledger boundary.}
+  \upgradepath{The next grade requires checked standard-bridge verification or audit-clean verification for the same finite replacement and ledger boundary.}
 \end{closurestatus}
