@@ -11,13 +11,13 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def analogy_certificate_gate_falsifiable_prediction_carrier [AskSetup] [PackageSetup]
-    (source carrier classifier relation preserved refused ledger exactness failure transport replay
+    (source carrier classifier relation preserved refused ledger exactness failureRow transport replay
       provenance localName : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
   UnaryHistory source ∧ UnaryHistory carrier ∧ UnaryHistory classifier ∧
     UnaryHistory relation ∧ UnaryHistory preserved ∧ UnaryHistory refused ∧
-      UnaryHistory ledger ∧ UnaryHistory exactness ∧ UnaryHistory failure ∧
+      UnaryHistory ledger ∧ UnaryHistory exactness ∧ UnaryHistory failureRow ∧
         UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
           UnaryHistory localName ∧ Cont source carrier classifier ∧
             Cont classifier relation preserved ∧ Cont preserved refused ledger ∧
@@ -25,31 +25,31 @@ def analogy_certificate_gate_falsifiable_prediction_carrier [AskSetup] [PackageS
                 PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
 
 theorem AnalogyCertificateGateFalsifiablePrediction [AskSetup] [PackageSetup]
-    {source carrier classifier relation preserved refused ledger exactness failure transport replay
+    {source carrier classifier relation preserved refused ledger exactness failureRow transport replay
       provenance localName admittedRead refusedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    analogy_certificate_gate_falsifiable_prediction_carrier source carrier classifier relation preserved refused ledger
-        exactness failure transport replay provenance localName bundle pkg →
+    analogy_certificate_gate_falsifiable_prediction_carrier source carrier classifier relation
+        preserved refused ledger exactness failureRow transport replay provenance localName bundle
+        pkg →
       Cont preserved refused admittedRead →
-        Cont failure refused refusedRead →
+        Cont failureRow refused refusedRead →
           PkgSig bundle refusedRead pkg →
             SemanticNameCert
                 (fun row : BHist => hsame row refusedRead ∧ UnaryHistory row)
                 (fun row : BHist =>
-                  hsame row preserved ∨ hsame row refused ∨ hsame row failure ∨
+                  hsame row preserved ∨ hsame row refused ∨ hsame row failureRow ∨
                     hsame row admittedRead ∨ hsame row refusedRead)
                 (fun row : BHist =>
                   UnaryHistory row ∧ Cont preserved refused admittedRead ∧
-                    Cont failure refused refusedRead ∧ PkgSig bundle refusedRead pkg)
+                    Cont failureRow refused refusedRead ∧ PkgSig bundle refusedRead pkg)
                 hsame ∧
               UnaryHistory admittedRead ∧ UnaryHistory refusedRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
   intro gateCarrier preservedRefusedAdmitted failureRefusedRead refusedPkg
   obtain ⟨_sourceUnary, _carrierUnary, _classifierUnary, _relationUnary, preservedUnary,
     refusedUnary, _ledgerUnary, _exactnessUnary, failureUnary, _transportUnary, _replayUnary,
-    _provenanceUnary, _localNameUnary, _sourceCarrierClassifier, _classifierRelationPreserved,
-    _preservedRefusedLedger, _ledgerExactnessTransport, _transportReplayProvenance,
-    _provenancePkg, _localNamePkg⟩ := gateCarrier
+    _provenanceUnary, _localNameUnary, _preservedRefusedLedger,
+    _ledgerExactnessFailure⟩ := gateCarrier
   have admittedUnary : UnaryHistory admittedRead :=
     unary_cont_closed preservedUnary refusedUnary preservedRefusedAdmitted
   have refusedReadUnary : UnaryHistory refusedRead :=
@@ -58,11 +58,11 @@ theorem AnalogyCertificateGateFalsifiablePrediction [AskSetup] [PackageSetup]
       SemanticNameCert
           (fun row : BHist => hsame row refusedRead ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row preserved ∨ hsame row refused ∨ hsame row failure ∨
+            hsame row preserved ∨ hsame row refused ∨ hsame row failureRow ∨
               hsame row admittedRead ∨ hsame row refusedRead)
           (fun row : BHist =>
             UnaryHistory row ∧ Cont preserved refused admittedRead ∧
-              Cont failure refused refusedRead ∧ PkgSig bundle refusedRead pkg)
+              Cont failureRow refused refusedRead ∧ PkgSig bundle refusedRead pkg)
           hsame := {
     core := {
       carrier_inhabited := Exists.intro refusedRead ⟨hsame_refl refusedRead, refusedReadUnary⟩

@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedIntervalRefinementMapUp$}
+\label{ch:concrete-instances-bishop-located-interval-refinement-map-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive interval analysis, the $\BishopLocatedIntervalRefinementMapUp$ packet names the finite map surface that sends one located interval certificate to a displayed refined interval certificate. It reads the Bishop refinement carrier of \autoref{ch:concrete-instances-bishop-located-interval-refinement-namecert}, the generic refinement packet of \autoref{ch:concrete-instances-located-interval-refinement-namecert}, the located interval source rows of \autoref{ch:concrete-instances-locatedinterval-namecert}, the dyadic endpoint window of \autoref{ch:concrete-instances-dyadicroundingwindow-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The map is recorded as finite certificate data, not as an ambient interval operation supplied by the host.
+
+\begin{definition}[Bishop located interval refinement map carrier]
+\label{def:bishop-located-interval-refinement-map-carrier}
+A $\BishopLocatedIntervalRefinementMapUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,J,R,D,W,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source $\LocatedIntervalUp$ row, including lower and upper endpoint names, located membership comparison rows, and the displayed interval non-emptiness witness.
+\item $J$ is the target $\LocatedIntervalUp$ row obtained after the refinement request is read.
+\item $R$ is the $\LocatedIntervalRefinementUp$ row asserting the finite inclusion route from $J$ into $I$ with the displayed endpoint and membership comparisons.
+\item $D$ is the $\BishopLocatedIntervalRefinementUp$ row, tying the refinement request to Bishop-style located interval data rather than to a host interval operator.
+\item $W$ is the $\DyadicRoundingWindowUp$ row that transports the source and target endpoints through one displayed dyadic precision window.
+\item $S$ is the StreamName and RegSeqRat readback seal used by endpoint consumers before the Real row is read.
+\item $E$ is the $\RealUp$ seal row for the endpoint and width data after dyadic readback.
+\item $H$ records componentwise $\hsame$ transport for source interval, target interval, refinement inclusion, dyadic endpoint window, readback seal, real seal, continuation replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the source interval to the refinement request, from the request to the target interval, from source and target endpoints to dyadic rounding windows, and from dyadic readback to the Real-facing rows.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedIntervalRefinementMapUp$, $\BishopLocatedIntervalRefinementUp$, $\LocatedIntervalRefinementUp$, $\LocatedIntervalUp$, $\DyadicRoundingWindowUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedIntervalRefinementMapUp}$ row.
+\end{enumerate}
+The classifier compares accepted map packets only through $I,J,R,D,W,S,E,H,C,P,N$. It has no coordinate for arbitrary interval choice, quotient real equality, selected limits, host rounding, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Bishop located interval refinement map obligations]
+\label{thm:bishop-located-interval-refinement-map-obligations}
+For an accepted $\BishopLocatedIntervalRefinementMapUp$ packet $M=(I,J,R,D,W,S,E,H,C,P,N)$, the local $\NameCert$ obligation surface consists exactly of source interval projection, target interval projection, refinement inclusion, dyadic endpoint transport, width decrease, StreamName readback, RegSeqRat handoff, Real seal factorization, componentwise transport, displayed replay, provenance non-escape, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-interval-refinement-map-carrier}. The source row $I$ and target row $J$ are both located interval packets, while $R$ records the inclusion of the target interval into the source interval and $D$ records that the route is the Bishop located refinement route.
+
+Endpoint and width data are transported through $W$. The dyadic window reads the displayed endpoint precision, carries the adjacent endpoint packet, and exposes the finite width decrease before any real-facing consumer is allowed to read $E$.
+
+The readback handoff is exact. The row $S$ supplies the StreamName and RegSeqRat route for the same endpoint observations, and $E$ seals only those rows as $\RealUp$ data. No selected limit or quotient real equality row is present.
+
+Finally exhaust $H,C,P,N$. Transport, replay, provenance, and local naming all name the same finite packet, so no arbitrary interval operator, host rounding operation, or ambient completeness principle can enter the local obligation surface.
+\end{proof}
+
+\closureat{BishopLocatedIntervalRefinementMapUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedIntervalRefinementMapUp}
+  \constructivestory{A Bishop located interval refinement map is generated from a source located interval, a target located interval, a displayed refinement inclusion, dyadic endpoint transport, StreamName and RegSeqRat readback, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-interval-refinement-map-carrier} and \autoref{thm:bishop-located-interval-refinement-map-obligations} seed the finite refinement-map carrier from source intervals to displayed refined intervals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary interval selection, quotient real equality, selected limits, host rounding, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source and target interval projection, refinement inclusion, dyadic endpoint transport, width decrease, StreamName and RegSeqRat readback, Real seal factorization, provenance non-escape, and local NameCert exactness for BEDC.Derived.BishopLocatedIntervalRefinementMapUp.}
+\end{closurestatus}
