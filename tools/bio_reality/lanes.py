@@ -4395,7 +4395,6 @@ def _run_writeback_make_check(paper_dir: Path) -> tuple[int, str]:
             ["make", "check"],
             cwd=paper_dir,
             env=_tex_env(),
-            text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=300.0,
@@ -4403,7 +4402,9 @@ def _run_writeback_make_check(paper_dir: Path) -> tuple[int, str]:
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 124, str(exc)
-    return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
+    stdout = (completed.stdout or b"").decode("utf-8", errors="replace")
+    stderr = (completed.stderr or b"").decode("utf-8", errors="replace")
+    return completed.returncode, stdout + stderr
 
 
 def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
@@ -4412,7 +4413,6 @@ def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
             ["make", "-s"],
             cwd=paper_dir,
             env=_tex_env(),
-            text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=300.0,
@@ -4420,7 +4420,9 @@ def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 1, str(exc)
-    return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
+    stdout = (completed.stdout or b"").decode("utf-8", errors="replace")
+    stderr = (completed.stderr or b"").decode("utf-8", errors="replace")
+    return completed.returncode, stdout + stderr
 
 
 def _writeback_heal_state_path(store: BioRealityStore) -> Path:
