@@ -80,4 +80,21 @@ theorem MetaCICSubjectReductionBoundaryCarrier_obligation_exposure_certificate
     ⟨cert, exposureUnary, preservationUnary, betaAppExposure,
       exposureTheoremPreservation⟩
 
+theorem MetaCICSubjectReductionBoundaryCarrier_typed_substitution_boundary
+    {B A L P R Q H C K N localName typedRead : BHist} :
+    MetaCICSubjectReductionBoundaryCarrier B A L P R Q H C K N localName →
+      Cont B R typedRead →
+        UnaryHistory B ∧ UnaryHistory A ∧ UnaryHistory L ∧ UnaryHistory P ∧
+          UnaryHistory R ∧ UnaryHistory typedRead ∧ Cont B R typedRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro carrier typedRoute
+  obtain
+    ⟨betaUnary, appUnary, lamUnary, piUnary, theoremUnary, _obstructionUnary,
+      _auditUnary, _transportUnary, _betaAppTransport, _lamPiRoute,
+      _transportRouteTheorem⟩ := carrier
+  have typedUnary : UnaryHistory typedRead :=
+    unary_cont_closed betaUnary theoremUnary typedRoute
+  exact
+    ⟨betaUnary, appUnary, lamUnary, piUnary, theoremUnary, typedUnary, typedRoute⟩
+
 end BEDC.Derived.MetaCICSubjectReductionBoundaryUp
