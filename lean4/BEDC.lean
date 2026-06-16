@@ -2315,6 +2315,7 @@ import BEDC.Derived.CauchyWindowTransducerUp.NameCertObligations
 import BEDC.Derived.CauchyWindowTransducerUp.StdBridge
 import BEDC.Derived.CauchyWindowTransducerUp.TasteGate
 import BEDC.Derived.CauchyWitnessGluingUp
+import BEDC.Derived.CauchyWitnessGluingUp.ObligationLedger
 import BEDC.Derived.CauchyWitnessGluingUp.RealSealNonescape
 import BEDC.Derived.CauchyWitnessGluingUp.Route
 import BEDC.Derived.CauchyWitnessGluingUp.TasteGate
@@ -9208,6 +9209,7 @@ import BEDC.Derived.RegularCauchyInterleavingUp.SwapSymmetryBoundary
 import BEDC.Derived.RegularCauchyInterleavingUp.TasteGate
 import BEDC.Derived.RegularCauchyInterpolationUp.TasteGate
 import BEDC.Derived.RegularCauchyIntervalSelectorUp
+import BEDC.Derived.RegularCauchyLatticeOperationsUp.TasteGate
 import BEDC.Derived.RegularCauchyLiftedLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitClassifierUp.BudgetSynchronizerRouteAgreement
@@ -10382,6 +10384,7 @@ import BEDC.Derived.TotalVariationFunctionUp.TasteGate
 import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedCompletionUp
 import BEDC.Derived.TotallyBoundedCompletionUp.CompletionRefinementStability
+import BEDC.Derived.TotallyBoundedCompletionUp.EffectiveNetCompletionConsumption
 import BEDC.Derived.TotallyBoundedCompletionUp.ExtensionHandoff
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCauchyHandoff
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCompletionRoute
