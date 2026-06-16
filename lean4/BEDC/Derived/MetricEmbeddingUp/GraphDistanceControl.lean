@@ -8,6 +8,7 @@ import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.MetricEmbeddingUp
 
+open BEDC.Derived.MetricEmbeddingUp.TasteGate
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
@@ -103,33 +104,37 @@ theorem MetricEmbeddingGraphDistanceControl [AskSetup] [PackageSetup]
       sealReadUnary⟩
 
 theorem MetricEmbeddingCarrier_graph_distance_control
-    {X Y F D R S H C P N sourceRead graphRead controlRead sealedRead : BHist} :
-    Cont X F sourceRead →
-      Cont sourceRead Y graphRead →
-        Cont graphRead D controlRead →
-          Cont controlRead R sealedRead →
-            UnaryHistory X →
-              UnaryHistory Y →
-                UnaryHistory F →
-                  UnaryHistory D →
-                    UnaryHistory R →
-                      UnaryHistory sourceRead ∧ UnaryHistory graphRead ∧
-                        UnaryHistory controlRead ∧ UnaryHistory sealedRead ∧
-                          Cont X F sourceRead ∧ Cont sourceRead Y graphRead ∧
-                            Cont graphRead D controlRead ∧
-                              Cont controlRead R sealedRead := by
+    {X Y F D R S H C P N sourceGraph targetMetric comparisonSeal graphDistance : BHist} :
+    metricEmbeddingFields (MetricEmbeddingUp.mk X Y F D R S H C P N) =
+        [X, Y, F, D, R, S, H, C, P, N] →
+      UnaryHistory X →
+        UnaryHistory F →
+          UnaryHistory Y →
+            UnaryHistory D →
+              UnaryHistory R →
+                Cont X F sourceGraph →
+                  Cont sourceGraph Y targetMetric →
+                    Cont targetMetric D comparisonSeal →
+                      Cont comparisonSeal R graphDistance →
+                        UnaryHistory sourceGraph ∧ UnaryHistory targetMetric ∧
+                          UnaryHistory comparisonSeal ∧ UnaryHistory graphDistance ∧
+                            Cont X F sourceGraph ∧ Cont sourceGraph Y targetMetric ∧
+                              Cont targetMetric D comparisonSeal ∧
+                                Cont comparisonSeal R graphDistance := by
   -- BEDC touchpoint anchor: BHist Cont UnaryHistory
-  intro sourceRoute graphRoute controlRoute sealedRoute xUnary yUnary fUnary dUnary rUnary
-  have sourceUnary : UnaryHistory sourceRead :=
+  intro fieldRows xUnary fUnary yUnary dUnary rUnary sourceRoute targetRoute comparisonRoute
+    graphRoute
+  cases fieldRows
+  have sourceUnary : UnaryHistory sourceGraph :=
     unary_cont_closed xUnary fUnary sourceRoute
-  have graphUnary : UnaryHistory graphRead :=
-    unary_cont_closed sourceUnary yUnary graphRoute
-  have controlUnary : UnaryHistory controlRead :=
-    unary_cont_closed graphUnary dUnary controlRoute
-  have sealedUnary : UnaryHistory sealedRead :=
-    unary_cont_closed controlUnary rUnary sealedRoute
+  have targetUnary : UnaryHistory targetMetric :=
+    unary_cont_closed sourceUnary yUnary targetRoute
+  have comparisonUnary : UnaryHistory comparisonSeal :=
+    unary_cont_closed targetUnary dUnary comparisonRoute
+  have graphUnary : UnaryHistory graphDistance :=
+    unary_cont_closed comparisonUnary rUnary graphRoute
   exact
-    ⟨sourceUnary, graphUnary, controlUnary, sealedUnary, sourceRoute, graphRoute,
-      controlRoute, sealedRoute⟩
+    ⟨sourceUnary, targetUnary, comparisonUnary, graphUnary, sourceRoute, targetRoute,
+      comparisonRoute, graphRoute⟩
 
 end BEDC.Derived.MetricEmbeddingUp
