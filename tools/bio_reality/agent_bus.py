@@ -34,6 +34,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 EVENT_STATUSES = {"open", "consumed", "archived"}
 TASK_STATUSES = {"queued", "in_flight", "completed", "failed", "archived"}
 MAX_DISPATCH_ATTEMPTS = 3
+IN_FLIGHT_STALE_SECONDS = 3600
 
 AGENTS = {
     "bio-researcher": {
@@ -239,6 +240,26 @@ def _dispatch_count(task: dict[str, Any]) -> int:
 
 def _task_retry_exhausted(task: dict[str, Any]) -> bool:
     return _dispatch_count(task) >= MAX_DISPATCH_ATTEMPTS
+
+
+def _parse_iso_datetime(value: Any) -> datetime | None:
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _task_in_flight_stale(task: dict[str, Any], *, now: datetime | None = None) -> bool:
+    dispatched_at = _parse_iso_datetime(task.get("last_dispatch_at"))
+    if dispatched_at is None:
+        return True
+    current = now or datetime.now(timezone.utc)
+    return (current - dispatched_at).total_seconds() >= IN_FLIGHT_STALE_SECONDS
 
 
 def _status_sort(task: dict[str, Any]) -> tuple[int, str, str]:
@@ -1657,12 +1678,35 @@ def archive_exhausted_failed_tasks(events: list[dict[str, Any]], tasks: list[dic
     return events, tasks
 
 
+def recover_stale_in_flight_tasks(
+    events: list[dict[str, Any]],
+    tasks: list[dict[str, Any]],
+    *,
+    now: datetime | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    event_by_id = {str(event.get("event_id") or ""): event for event in events}
+    for task in tasks:
+        if str(task.get("status") or "") != "in_flight" or not _task_in_flight_stale(task, now=now):
+            continue
+        event = event_by_id.get(str(task.get("event_id") or ""))
+        if _task_retry_exhausted(task):
+            task["status"] = "archived"
+            if event is not None:
+                event["status"] = "archived"
+            continue
+        task["status"] = "queued"
+        if event is not None and str(event.get("status") or "") == "consumed":
+            event["status"] = "open"
+    return events, tasks
+
+
 def run_agent_lane(store: BioRealityStore, *, execute_codex: bool = True, max_dispatch: int = 1) -> dict[str, Any]:
     events = build_events(store)
     existing_tasks = store.load_agent_tasks()
     planned_tasks = plan_agent_tasks(events, existing_tasks)
     tasks = merge_agent_tasks(existing_tasks, planned_tasks)
     events, tasks = archive_exhausted_failed_tasks(events, tasks)
+    events, tasks = recover_stale_in_flight_tasks(events, tasks)
     planned_reviews = review_tasks(planned_tasks, events)
     queued = [task for task in tasks if str(task.get("status") or "queued") == "queued"]
     queued.sort(key=_status_sort)
@@ -2498,6 +2542,37 @@ def self_test() -> int:
         )
         if exhausted_tasks[0]["status"] != "archived":
             print(json.dumps(exhausted_tasks, indent=2), file=sys.stderr)
+            return 1
+        stale_now = datetime(2026, 1, 1, 2, 0, 0, tzinfo=timezone.utc)
+        _stale_events, stale_retry_tasks = recover_stale_in_flight_tasks(
+            [_normalize_event(dict(event, status="open"))],
+            [
+                dict(
+                    first_task,
+                    status="in_flight",
+                    dispatch_count=MAX_DISPATCH_ATTEMPTS - 1,
+                    last_dispatch_at="2026-01-01T00:00:00+00:00",
+                )
+            ],
+            now=stale_now,
+        )
+        if stale_retry_tasks[0]["status"] != "queued":
+            print(json.dumps(stale_retry_tasks, indent=2), file=sys.stderr)
+            return 1
+        stale_archived_events, stale_archived_tasks = recover_stale_in_flight_tasks(
+            [_normalize_event(dict(event, status="open"))],
+            [
+                dict(
+                    first_task,
+                    status="in_flight",
+                    dispatch_count=MAX_DISPATCH_ATTEMPTS,
+                    last_dispatch_at="2026-01-01T00:00:00+00:00",
+                )
+            ],
+            now=stale_now,
+        )
+        if stale_archived_tasks[0]["status"] != "archived" or stale_archived_events[0]["status"] != "archived":
+            print(json.dumps({"events": stale_archived_events, "tasks": stale_archived_tasks}, indent=2), file=sys.stderr)
             return 1
         if not _allowed_path("tools/bio_reality/inbox/conjectures.jsonl", ["tools/bio_reality/inbox/*.jsonl"]):
             print("expected inbox jsonl glob to match", file=sys.stderr)
