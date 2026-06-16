@@ -1560,6 +1560,24 @@
       "statement": "A frozen BioReality execution packet applied to external ORF-eligible nucleotide windows validates ACA->Asp as the unique ACA puncture predicted by M13, while nearest outgroups, ORF-ineligible windows, matched M-minus-R controls, and off-M controls do not show comparable rescue; the invariant Med(R13 union {ACA}) = M13 remains fixed.",
       "experiment_id": "execute_br2_orf_aca_asp_puncture_v1",
       "dependencies": [
+        "h2.orf.start_stop.window_eligibility",
+        "h2.orf_eligibility.curated_interval_contact",
+        "h3.translation_realization.cross_organism.cun_uur_leu_gate"
+      ],
+      "rationale": "The transcript converges from broad external reassignment ranking to the ACA puncture challenge, then to an ORF-constrained ACA challenge, then to an executable frozen packet. The final and strongest proposal is to execute br2_orf_aca_asp_puncture_v1 because earlier phases have already opened the ORF-window eligibility interface and the transcript identifies ACA as the unique missing WNA vertex inside M13. This experiment directly tests whether ACA behaves like a real reassigned codon specifically inside high-quality ORF-eligible coding windows, with R13 and M13 locked, artifact gates active, outgroups and controls required, and the median-closure invariant checked after scoring.",
+      "status": "needs_data",
+      "proposal_rationale": "The transcript converges from broad external reassignment ranking to the ACA puncture challenge, then to an ORF-constrained ACA challenge, then to an executable frozen packet. The final and strongest proposal is to execute br2_orf_aca_asp_puncture_v1 because earlier phases have already opened the ORF-window eligibility interface and the transcript identifies ACA as the unique missing WNA vertex inside M13. This experiment directly tests whether ACA behaves like a real reassigned codon specifically inside high-quality ORF-eligible coding windows, with R13 and M13 locked, artifact gates active, outgroups and controls required, and the median-closure invariant checked after scoring.",
+      "proposed_by": "bio-oracle-consumer",
+      "source_event_id": "event.4d5c910e8743706b",
+      "created_at": "2026-06-16T12:06:04+00:00",
+      "script_path": "tools/bio_reality/experiments/run_execute_br2_orf_aca_asp_puncture.py",
+      "required_data": [
+        "tools/bio_reality/data/br2_orf_aca_asp_puncture_execution_packet.json",
+        "tools/bio_reality/data/br2_orf_aca_asp_puncture_external_audit_tables.json",
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 1200,
+      "external_preconditions": [
         "Frozen BioReality execution packet br2_orf_aca_asp_puncture_v1",
         "Frozen R13 and M13 constraints: R13 unchanged, M13 unchanged, ACA not in R13, ACA in M13",
         "Required geometry invariant: Med(R13 union {ACA}) = M13",
@@ -1577,12 +1595,33 @@
         "Frozen translation-rescue endpoint comparing ACA->Asp against ACA->Thr",
         "Site-level LLR endpoint log2((P_Asp + epsilon) / (P_Thr + epsilon))"
       ],
-      "rationale": "The transcript converges from broad external reassignment ranking to the ACA puncture challenge, then to an ORF-constrained ACA challenge, then to an executable frozen packet. The final and strongest proposal is to execute br2_orf_aca_asp_puncture_v1 because earlier phases have already opened the ORF-window eligibility interface and the transcript identifies ACA as the unique missing WNA vertex inside M13. This experiment directly tests whether ACA behaves like a real reassigned codon specifically inside high-quality ORF-eligible coding windows, with R13 and M13 locked, artifact gates active, outgroups and controls required, and the median-closure invariant checked after scoring.",
-      "status": "proposed_by_oracle",
-      "proposal_rationale": "The transcript converges from broad external reassignment ranking to the ACA puncture challenge, then to an ORF-constrained ACA challenge, then to an executable frozen packet. The final and strongest proposal is to execute br2_orf_aca_asp_puncture_v1 because earlier phases have already opened the ORF-window eligibility interface and the transcript identifies ACA as the unique missing WNA vertex inside M13. This experiment directly tests whether ACA behaves like a real reassigned codon specifically inside high-quality ORF-eligible coding windows, with R13 and M13 locked, artifact gates active, outgroups and controls required, and the median-closure invariant checked after scoring.",
-      "proposed_by": "bio-oracle-consumer",
-      "source_event_id": "event.4d5c910e8743706b",
-      "created_at": "2026-06-16T12:06:04+00:00"
+      "acceptance": {
+        "required_checks": [
+          "execution_packet_locked_before_external_holdout",
+          "external_audit_tables_available",
+          "independent_execution_without_geometry",
+          "target_aca_asp_llr_sign_test",
+          "control_specificity_gate",
+          "asp_over_thr_alignment_enrichment",
+          "artifact_qc_clean",
+          "trna_or_aars_identity_support",
+          "median_closure_preserved_after_aca",
+          "no_geometry_to_higher_layer_promotion"
+        ],
+        "criteria": {
+          "min_supported_species": 40,
+          "min_target_windows": 80,
+          "min_matched_control_pairs_per_class": 40,
+          "min_target_win_rate": 0.8,
+          "max_target_sign_test_p": 1e-05,
+          "max_control_win_rate": 0.55,
+          "max_control_sign_test_p": 0.05,
+          "min_alignment_columns": 500,
+          "min_asp_support_rate": 0.85,
+          "max_thr_support_rate": 0.1,
+          "max_alignment_binomial_p": 0.0001
+        }
+      }
     }
   ]
 }

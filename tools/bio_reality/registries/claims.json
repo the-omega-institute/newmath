@@ -2387,24 +2387,11 @@
       "phase": 2,
       "statement": "A frozen BioReality execution packet applied to external ORF-eligible nucleotide windows validates ACA->Asp as the unique ACA puncture predicted by M13, while nearest outgroups, ORF-ineligible windows, matched M-minus-R controls, and off-M controls do not show comparable rescue; the invariant Med(R13 union {ACA}) = M13 remains fixed.",
       "depends_on": [
-        "Frozen BioReality execution packet br2_orf_aca_asp_puncture_v1",
-        "Frozen R13 and M13 constraints: R13 unchanged, M13 unchanged, ACA not in R13, ACA in M13",
-        "Required geometry invariant: Med(R13 union {ACA}) = M13",
-        "External target-clade nucleotide windows",
-        "Nearest outgroup windows",
-        "Standard-code ACA controls",
-        "ORF-ineligible windows",
-        "Matched M-minus-R non-puncture controls",
-        "Matched off-M controls",
-        "Assembly or MAG QC table",
-        "Alignment-site table",
-        "ORF translation-rescue table",
-        "tRNA or aaRS evidence table",
-        "Primary-QC ORF eligibility filtering",
-        "Frozen translation-rescue endpoint comparing ACA->Asp against ACA->Thr",
-        "Site-level LLR endpoint log2((P_Asp + epsilon) / (P_Thr + epsilon))"
+        "h2.orf.start_stop.window_eligibility",
+        "h2.orf_eligibility.curated_interval_contact",
+        "h3.translation_realization.cross_organism.cun_uur_leu_gate"
       ],
-      "status": "open",
+      "status": "needs_data",
       "experiment_id": "execute_br2_orf_aca_asp_puncture_v1",
       "history": [
         {
@@ -2412,8 +2399,82 @@
           "status": "open",
           "reason": "proposed_by_oracle",
           "source_event_id": "event.4d5c910e8743706b"
+        },
+        {
+          "ts": "2026-06-16T12:49:51+00:00",
+          "status": "needs_external",
+          "reason": "blocked on external preconditions",
+          "external_preconditions": [
+            "Frozen BioReality execution packet br2_orf_aca_asp_puncture_v1",
+            "Frozen R13 and M13 constraints: R13 unchanged, M13 unchanged, ACA not in R13, ACA in M13",
+            "Required geometry invariant: Med(R13 union {ACA}) = M13",
+            "External target-clade nucleotide windows",
+            "Nearest outgroup windows",
+            "Standard-code ACA controls",
+            "ORF-ineligible windows",
+            "Matched M-minus-R non-puncture controls",
+            "Matched off-M controls",
+            "Assembly or MAG QC table",
+            "Alignment-site table",
+            "ORF translation-rescue table",
+            "tRNA or aaRS evidence table",
+            "Primary-QC ORF eligibility filtering",
+            "Frozen translation-rescue endpoint comparing ACA->Asp against ACA->Thr",
+            "Site-level LLR endpoint log2((P_Asp + epsilon) / (P_Thr + epsilon))"
+          ]
+        },
+        {
+          "ts": "2026-06-16T12:50:32+00:00",
+          "status": "needs_data",
+          "reason": "materialized needs_external claim into executable no-geometry external-data path; prose preconditions moved to experiment required_data and acceptance gates",
+          "source_event_id": "event.657ffa80987bac24"
+        },
+        {
+          "ts": "2026-06-16T12:59:20+00:00",
+          "status": "needs_rerun",
+          "reason": "freshly materialized, no prior experiment_run - kicking off"
+        },
+        {
+          "ts": "2026-06-16T12:59:20+00:00",
+          "status": "needs_data",
+          "reason": "missing required_data",
+          "missing_data": [
+            "tools/bio_reality/data/br2_orf_aca_asp_puncture_execution_packet.json",
+            "tools/bio_reality/data/br2_orf_aca_asp_puncture_external_audit_tables.json"
+          ]
         }
-      ]
+      ],
+      "claimed_layer": "translation_realization",
+      "bedc_five_tuple": {
+        "carrier": "finite execution rows from br2_orf_aca_asp_puncture_v1 external audit tables, keyed by window_id, species_id, codon, control_class, and frozen endpoint scores",
+        "distinctions": [
+          "target_clade_or_control_class",
+          "orf_eligible_aca_window",
+          "nearest_outgroup_window",
+          "standard_code_aca_control",
+          "orf_ineligible_window",
+          "matched_m_minus_r_non_puncture_control",
+          "matched_off_m_control",
+          "primary_qc_pass",
+          "aca_to_asp_llr_over_thr"
+        ],
+        "readback": "Read the external execution packet as a finite no-geometry audit: after primary QC and ORF eligibility filtering, ACA target windows must show Asp-over-Thr rescue stronger than matched controls while R13, M13, and Med(R13 union {ACA}) remain fixed internal coordinates.",
+        "internal_structure": [
+          "frozen_r13_m13_coordinate_check",
+          "orf_eligibility_filter",
+          "matched_control_partition",
+          "site_level_llr_endpoint",
+          "exact_sign_test",
+          "asp_thr_binomial_enrichment"
+        ],
+        "forbidden_claims": [
+          "Does not derive ACA translation from BEDC codon/window geometry alone.",
+          "Does not assert protein structure, physical admissibility, biological function, or global biological law.",
+          "Does not generalize outside the supplied target clade, outgroups, and matched controls.",
+          "Does not claim that M13 membership is sufficient for reassignment without the external execution packet.",
+          "Does not alter R13, M13, or the frozen median-closure invariant during scoring."
+        ]
+      }
     }
   ]
 }
