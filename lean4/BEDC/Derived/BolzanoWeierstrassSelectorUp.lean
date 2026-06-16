@@ -451,4 +451,36 @@ theorem BolzanoWeierstrassSelectorRegularCauchyLimitHandoff
     ⟨windowUnary, dyadicUnary, regularUnary, sealUnary, hsame_refl H, windowRoute,
       dyadicRoute, regularRoute, sealRoute, rfl⟩
 
+theorem BolzanoWeierstrassSelectorWindowChoiceFreeCarrier
+    {boundedWindow monotoneSelector cofinalEvidence selectedWindow dyadicLedger regularHandoff
+      realSeal transport route provenance name replayedWindow : BHist} :
+    Cont boundedWindow monotoneSelector selectedWindow ->
+      Cont selectedWindow selectedWindow replayedWindow ->
+        UnaryHistory boundedWindow ->
+          UnaryHistory monotoneSelector ->
+            UnaryHistory selectedWindow ∧ UnaryHistory replayedWindow ∧
+              List.Mem selectedWindow
+                (bolzanoWeierstrassSelectorFields
+                  (BolzanoWeierstrassSelectorUp.mk boundedWindow monotoneSelector
+                    cofinalEvidence selectedWindow dyadicLedger regularHandoff realSeal transport
+                    route provenance name)) ∧
+                List.Mem regularHandoff
+                  (bolzanoWeierstrassSelectorFields
+                    (BolzanoWeierstrassSelectorUp.mk boundedWindow monotoneSelector
+                      cofinalEvidence selectedWindow dyadicLedger regularHandoff realSeal transport
+                      route provenance name)) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro selectedRoute replayRoute boundedUnary selectorUnary
+  have selectedUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed boundedUnary selectorUnary selectedRoute
+  have replayedUnary : UnaryHistory replayedWindow :=
+    unary_cont_closed selectedUnary selectedUnary replayRoute
+  exact
+    ⟨selectedUnary, replayedUnary, by
+      exact List.Mem.tail _ <| List.Mem.tail _ <| List.Mem.tail _ <| List.Mem.head _,
+      by
+        exact
+          List.Mem.tail _ <| List.Mem.tail _ <| List.Mem.tail _ <| List.Mem.tail _ <|
+            List.Mem.tail _ <| List.Mem.head _⟩
+
 end BEDC.Derived.BolzanoWeierstrassSelectorUp
