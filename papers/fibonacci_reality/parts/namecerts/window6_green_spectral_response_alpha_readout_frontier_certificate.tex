@@ -1,0 +1,98 @@
+\chapter{Window Six Green Spectral Response Alpha Readout Frontier Certificate}\label{ch:window6-green-spectral-response-alpha-readout-frontier-certificate}\origin{ai}
+
+\subsection{Finite carrier and forced windows}\label{sec:window6-green-carrier}
+
+\paragraph{Carrier.}
+The carrier is the finite set $\{0,1\}^6$ of binary words of length six.  A word is written $x=(x_1,x_2,x_3,x_4,x_5,x_6)$ with each $x_i\in\{0,1\}$.  Its weight is the integer
+$$\begin{aligned}
+|x|=x_1+x_2+x_3+x_4+x_5+x_6 .
+\end{aligned}$$
+The carrier has exactly $64$ elements, because there are two independent choices in each of the six coordinates.
+
+\paragraph{Forced-window predicate.}
+The forced subcarrier is the subset $F\subseteq \{0,1\}^6$ defined by the two endpoint constraints and one interior balance constraint
+$$\begin{aligned}
+F=\{x\in\{0,1\}^6 : x_1=1,\ x_6=0,\ x_2+x_3+x_4+x_5=2\} .
+\end{aligned}$$
+The four middle coordinates contain exactly two ones, so
+$$\begin{aligned}
+|F|={4\choose 2}=6 .
+\end{aligned}$$
+The six forced words are
+$$\begin{aligned}
+&(1,1,1,0,0,0),\quad (1,1,0,1,0,0),\quad (1,1,0,0,1,0),\\
+&(1,0,1,1,0,0),\quad (1,0,1,0,1,0),\quad (1,0,0,1,1,0).
+\end{aligned}$$
+This list is the complete finite carrier for the certificate; no object outside these six words is used in the spectral calculation.
+
+\subsection{Green partition and finite response relation}\label{sec:window6-green-partition}
+
+\paragraph{Partition.}
+A forced word is called green when its second and fifth coordinates agree:
+$$\begin{aligned}
+G=\{x\in F : x_2=x_5\} .
+\end{aligned}$$
+The complementary part is
+$$\begin{aligned}
+R=F\setminus G=\{x\in F : x_2\ne x_5\} .
+\end{aligned}$$
+Direct inspection of the six listed words gives
+$$\begin{aligned}
+G&=\{(1,1,0,0,1,0),\ (1,0,1,1,0,0)\},\\
+R&=\{(1,1,1,0,0,0),\ (1,1,0,1,0,0),\ (1,0,1,0,1,0),\ (1,0,0,1,1,0)\}.
+\end{aligned}$$
+Thus $|G|=2$, $|R|=4$, and $F=G\sqcup R$ is a disjoint partition.
+
+\paragraph{Response relation.}
+Define a symmetric adjacency relation $E\subseteq F\times F$ by declaring distinct forced words adjacent exactly when their Hamming distance is two:
+$$\begin{aligned}
+(x,y)\in E \quad\Longleftrightarrow\quad x\ne y\text{ and }\sum_{i=1}^6 |x_i-y_i|=2 .
+\end{aligned}$$
+On $F$ this is the Johnson graph on the two selected middle positions.  Each forced word has four neighbors, because one of its two selected middle positions may be removed in two ways and one of its two unselected middle positions may be inserted in two ways.  Hence the adjacency matrix $A$ indexed by $F$ has entries
+$$\begin{aligned}
+A_{xy}=\begin{cases}1,&(x,y)\in E,\\0,&(x,y)\notin E,\end{cases}
+\end{aligned}$$
+and every row sum is $4$.
+
+\subsection{Spectral kernel and alpha readout}\label{sec:window6-green-spectral-kernel}
+
+\paragraph{Kernel.}
+Let $1_F$ be the column vector on $F$ whose entries are all $1$, and let $1_G$ be the indicator vector of $G$.  The normalized response kernel is
+$$\begin{aligned}
+K={1\over 4}A .
+\end{aligned}$$
+Since every row sum of $A$ is $4$, the vector $1_F$ satisfies
+$$\begin{aligned}
+K1_F=1_F .
+\end{aligned}$$
+This identity is the finite spectral normalization: the constant response has eigenvalue $1$.
+
+\paragraph{Green readout.}
+The green readout of a vector $v$ on $F$ is the average over the green part,
+$$\begin{aligned}
+\rho_G(v)={1\over |G|}\sum_{x\in G} v_x={1\over 2}\sum_{x\in G} v_x .
+\end{aligned}$$
+Applying this readout to the normalized constant eigenvector $u={1\over 6}1_F$ gives
+$$\begin{aligned}
+\rho_G(u)={1\over 2}\left({1\over 6}+{1\over 6}\right)={1\over 6} .
+\end{aligned}$$
+The complementary occupancy ratio of the green part inside the forced carrier is
+$$\begin{aligned}
+\alpha_F={|G|\over |F|}={2\over 6}={1\over 3} .
+\end{aligned}$$
+The certificate uses the word alpha only for this exact rational readout $\alpha_F=1/3$.  It is a finite counting invariant of the stated carrier, partition, and endpoint constraints.
+
+\subsection{Witness extraction and frontier statement}\label{sec:window6-green-witness-frontier}
+
+\paragraph{Extracted witness.}
+A witness for the green response is any word in $G$.  The lexicographically least such word is
+$$\begin{aligned}
+w=(1,0,1,1,0,0).
+\end{aligned}$$
+It satisfies the forced-window constraints because $w_1=1$, $w_6=0$, and $w_2+w_3+w_4+w_5=0+1+1+0=2$.  It satisfies the green predicate because $w_2=w_5=0$.  The companion green word is $(1,1,0,0,1,0)$, and these two words exhaust $G$ by the displayed enumeration.
+
+\paragraph{Frontier certificate.}
+The frontier consists of the four non-green forced words $R$.  Each frontier word obeys the same endpoint and middle-weight constraints as the green words, but fails the equality $x_2=x_5$.  Therefore the finite boundary between green and non-green behavior is exactly the equality test on two coordinates after the forced carrier has been imposed.  The exact finite data are: carrier size $6$, green size $2$, frontier size $4$, response degree $4$, normalized constant eigenvalue $1$, and alpha readout $1/3$.
+
+\paragraph{Local non-claims.}
+Nothing in this chapter identifies $1/3$ with any physical constant, supplies a global dynamical law, imports an outside dependency, compares the number with measurements, or assigns an interpretation beyond the finite construction above.  Any such step would require an additional certificate with its own carrier, maps, uncertainty treatment, and comparison rule.
