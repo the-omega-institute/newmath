@@ -5450,6 +5450,7 @@ import BEDC.Derived.FinitePrefixStreamUp.Nonescape
 import BEDC.Derived.FinitePrefixStreamUp.ObservationInduction
 import BEDC.Derived.FinitePrefixStreamUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.WindowReadback
+import BEDC.Derived.FiniteProofTraceSieveUp
 import BEDC.Derived.FiniteRealCoverUp.TasteGate
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.DyadicSealFactorization
