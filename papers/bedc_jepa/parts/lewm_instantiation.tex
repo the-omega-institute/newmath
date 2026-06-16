@@ -584,6 +584,14 @@ score/error Spearman drops to $0.19282$: the model is no longer a good
 option-error reader, but it is a better budget allocator.  Since the CI high is
 still positive, the correct conclusion is allocation movement, not
 allocation-closed control.
+A three-seed replication preserves the same boundary.  Across seeds
+$\{431,509,617\}$, the episode objective improves the observed allocation delta
+and CI high relative to the allocation-native baseline in all three cases.  The
+median observed allocation delta is $-0.00313$, versus the baseline median
+$0.00440$, and the median CI high is $0.00291$, versus the baseline median
+$0.01220$.  None of the three episode-objective seeds closes allocation, while
+the same-label oracle remains closed in all three.  The replicated conclusion is
+therefore stable movement toward the budget gate, not budget-closed control.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
