@@ -1,0 +1,17 @@
+\begin{theorem}[MetaCIC confluence audit candidate-SN discharge boundary]
+\label{thm:metacic-confluence-audit-packet-candidate-sn-discharge}
+Let
+$$
+A=(D,C,N,A_0,S,R,H,T,P,L)
+$$
+be an accepted $\MetaCICConfluenceAuditPacketUp$ carrier. A candidate strong-normalization consumer may read the audit packet only through the displayed rows $D,C,N,A_0,S,R,H,T,P,L$ together with the candidate-normalization sibling route of \autoref{lem:metacic-confluence-audit-candidate-normalization-sibling-route}. The handoff may discharge candidate-mediated finite normalization data into the audit boundary, but it does not discharge full confluence, subject reduction, closed Church--Rosser, full substitution compatibility, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The displayed audit packet has exactly the rows $D,C,N,A_0,S,R,H,T,P,L$, so a candidate strong-normalization consumer starts with the same finite row surface as every other confluence-audit read.
+
+Next attach the candidate-normalization sibling route. By \autoref{lem:metacic-confluence-audit-candidate-normalization-sibling-route} and \autoref{thm:metacic-confluence-audit-candidate-normalization-handoff}, candidate evidence enters only through the displayed audit surface and is replayed by $T$ with componentwise transport through $H$.
+
+Now read the critical-pair and residual boundaries. Theorems \autoref{thm:metacic-confluence-audit-critical-pair-coverage}, \autoref{thm:metacic-confluence-audit-residual-critical-pair-boundary}, and \autoref{thm:metacic-confluence-audit-obstruction-ledger-exhaustion} force each critical-pair or residual read into the conditional diamond rows, normal and source-shape fragments, substitution boundary, subject-reduction separation row, or candidate-normalization handoff.
+
+Finally use the decidability and substitution handoff. The closed-face decider boundary and substitution-obligation inversion keep closed substitution compatibility at the explicit $S,H,T,P,L$ face, while the subject-reduction separation row $R$ remains a pointer to sibling discharge packets. Thus the candidate-SN consumer receives a finite audit discharge boundary and none of the full confluence, subject-reduction, closed Church--Rosser, full substitution-compatibility, or kernel-consistency endpoints.
+\end{proof}
