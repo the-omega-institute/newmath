@@ -26,9 +26,8 @@ def summationByPartsDecodeBHist : RawEvent -> BHist
   | BMark.b0 :: tail => BHist.e0 (summationByPartsDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (summationByPartsDecodeBHist tail)
 
-private theorem SummationByPartsTasteGate_single_carrier_alignment_decode_encode :
-    forall h : BHist,
-      summationByPartsDecodeBHist (summationByPartsEncodeBHist h) = h := by
+private theorem summationByParts_decode_encode :
+    forall h : BHist, summationByPartsDecodeBHist (summationByPartsEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,87 +38,90 @@ private theorem SummationByPartsTasteGate_single_carrier_alignment_decode_encode
 def summationByPartsToEventFlow : SummationByPartsUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | SummationByPartsUp.mk S A Delta P B T R D E H C Q N =>
-      [summationByPartsEncodeBHist S,
-        summationByPartsEncodeBHist A,
-        summationByPartsEncodeBHist Delta,
-        summationByPartsEncodeBHist P,
-        summationByPartsEncodeBHist B,
-        summationByPartsEncodeBHist T,
-        summationByPartsEncodeBHist R,
-        summationByPartsEncodeBHist D,
-        summationByPartsEncodeBHist E,
-        summationByPartsEncodeBHist H,
-        summationByPartsEncodeBHist C,
-        summationByPartsEncodeBHist Q,
+      [summationByPartsEncodeBHist S, summationByPartsEncodeBHist A,
+        summationByPartsEncodeBHist Delta, summationByPartsEncodeBHist P,
+        summationByPartsEncodeBHist B, summationByPartsEncodeBHist T,
+        summationByPartsEncodeBHist R, summationByPartsEncodeBHist D,
+        summationByPartsEncodeBHist E, summationByPartsEncodeBHist H,
+        summationByPartsEncodeBHist C, summationByPartsEncodeBHist Q,
         summationByPartsEncodeBHist N]
 
-private def summationByPartsEventAt : Nat -> EventFlow -> RawEvent
+def summationByPartsFromEventFlow : EventFlow -> Option SummationByPartsUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => summationByPartsEventAt index rest
+  | S :: restS =>
+      match restS with
+      | A :: restA =>
+          match restA with
+          | Delta :: restDelta =>
+              match restDelta with
+              | P :: restP =>
+                  match restP with
+                  | B :: restB =>
+                      match restB with
+                      | T :: restT =>
+                          match restT with
+                          | R :: restR =>
+                              match restR with
+                              | D :: restD =>
+                                  match restD with
+                                  | E :: restE =>
+                                      match restE with
+                                      | H :: restH =>
+                                          match restH with
+                                          | C :: restC =>
+                                              match restC with
+                                              | Q :: restQ =>
+                                                  match restQ with
+                                                  | N :: restN =>
+                                                      match restN with
+                                                      | [] =>
+                                                          some
+                                                            (SummationByPartsUp.mk
+                                                              (summationByPartsDecodeBHist S)
+                                                              (summationByPartsDecodeBHist A)
+                                                              (summationByPartsDecodeBHist Delta)
+                                                              (summationByPartsDecodeBHist P)
+                                                              (summationByPartsDecodeBHist B)
+                                                              (summationByPartsDecodeBHist T)
+                                                              (summationByPartsDecodeBHist R)
+                                                              (summationByPartsDecodeBHist D)
+                                                              (summationByPartsDecodeBHist E)
+                                                              (summationByPartsDecodeBHist H)
+                                                              (summationByPartsDecodeBHist C)
+                                                              (summationByPartsDecodeBHist Q)
+                                                              (summationByPartsDecodeBHist N))
+                                                      | _ :: _ => none
+                                                  | [] => none
+                                              | [] => none
+                                          | [] => none
+                                      | [] => none
+                                  | [] => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
+  | [] => none
 
-def summationByPartsDecodeFields (ef : EventFlow) : SummationByPartsUp :=
+private theorem summationByParts_round_trip :
+    forall x : SummationByPartsUp,
+      summationByPartsFromEventFlow (summationByPartsToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  SummationByPartsUp.mk
-    (summationByPartsDecodeBHist (summationByPartsEventAt 0 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 1 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 2 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 3 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 4 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 5 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 6 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 7 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 8 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 9 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 10 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 11 ef))
-    (summationByPartsDecodeBHist (summationByPartsEventAt 12 ef))
-
-def summationByPartsFromEventFlow : EventFlow -> Option SummationByPartsUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  fun ef => some (summationByPartsDecodeFields ef)
-
-private theorem SummationByPartsTasteGate_single_carrier_alignment_round_trip
-    (x : SummationByPartsUp) :
-    summationByPartsFromEventFlow (summationByPartsToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk S A Delta P B T R D E H C Q N =>
-      change
-        some
-            (SummationByPartsUp.mk
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist S))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist A))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist Delta))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist P))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist B))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist T))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist R))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist D))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist E))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist H))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist C))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist Q))
-              (summationByPartsDecodeBHist (summationByPartsEncodeBHist N))) =
-          some (SummationByPartsUp.mk S A Delta P B T R D E H C Q N)
-      rw [SummationByPartsTasteGate_single_carrier_alignment_decode_encode S,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode A,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode Delta,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode P,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode B,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode T,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode R,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode D,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode E,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode H,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode C,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode Q,
-        SummationByPartsTasteGate_single_carrier_alignment_decode_encode N]
+      rw [summationByPartsToEventFlow, summationByPartsFromEventFlow,
+        summationByParts_decode_encode S, summationByParts_decode_encode A,
+        summationByParts_decode_encode Delta, summationByParts_decode_encode P,
+        summationByParts_decode_encode B, summationByParts_decode_encode T,
+        summationByParts_decode_encode R, summationByParts_decode_encode D,
+        summationByParts_decode_encode E, summationByParts_decode_encode H,
+        summationByParts_decode_encode C, summationByParts_decode_encode Q,
+        summationByParts_decode_encode N]
 
-private theorem SummationByPartsTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : SummationByPartsUp} :
+private theorem summationByPartsToEventFlow_injective {x y : SummationByPartsUp} :
     summationByPartsToEventFlow x = summationByPartsToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -128,10 +130,8 @@ private theorem SummationByPartsTasteGate_single_carrier_alignment_toEventFlow_i
         summationByPartsFromEventFlow (summationByPartsToEventFlow y) :=
     congrArg summationByPartsFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (SummationByPartsTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (SummationByPartsTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (summationByParts_round_trip x).symm
+      (Eq.trans hread (summationByParts_round_trip y)))
 
 instance summationByPartsBHistCarrier : BHistCarrier SummationByPartsUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -143,22 +143,25 @@ instance summationByPartsChapterTasteGate : ChapterTasteGate SummationByPartsUp 
   round_trip := by
     intro x
     change summationByPartsFromEventFlow (summationByPartsToEventFlow x) = some x
-    exact SummationByPartsTasteGate_single_carrier_alignment_round_trip x
+    exact summationByParts_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (SummationByPartsTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (summationByPartsToEventFlow_injective heq)
+
+def taste_gate : ChapterTasteGate SummationByPartsUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  summationByPartsChapterTasteGate
 
 theorem SummationByPartsTasteGate_single_carrier_alignment :
     (forall h : BHist, summationByPartsDecodeBHist (summationByPartsEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier SummationByPartsUp) ∧
-        Nonempty (ChapterTasteGate SummationByPartsUp) ∧
-          summationByPartsEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+      (forall x : SummationByPartsUp,
+        summationByPartsFromEventFlow (summationByPartsToEventFlow x) = some x) ∧
+      (forall x y : SummationByPartsUp,
+        summationByPartsToEventFlow x = summationByPartsToEventFlow y -> x = y) ∧
+      summationByPartsEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨SummationByPartsTasteGate_single_carrier_alignment_decode_encode,
-      ⟨summationByPartsBHistCarrier⟩,
-      ⟨summationByPartsChapterTasteGate⟩,
-      rfl⟩
+    ⟨summationByParts_decode_encode, summationByParts_round_trip,
+      fun _ _ heq => summationByPartsToEventFlow_injective heq, rfl⟩
 
 end BEDC.Derived.SummationByPartsUp
