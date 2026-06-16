@@ -621,6 +621,14 @@ $[-0.00822,\ 0.01101]$.  This remains better than the allocation-native
 baseline but worse than the original episode objective and the best replicated
 seed.  Hence the missing ingredient is not only episode reweighting; the model
 needs an invariant assignment rule that transfers across episodes.
+An episode-level anatomy diagnostic localizes the transfer error.  Across the
+best replicated seed, the original episode objective, seed averaging,
+episode-balanced sampling, direct regret, and dual-price rows, the top harmful
+episode sets have a union of only seven episode identifiers, with episodes
+$81$, $145$, and $213$ shared by all rows.  The top harmful slice accounts for
+at least $88.9\%$ of positive episode damage in every row.  The boundary is
+therefore concentrated in recurring hard held-out episodes, which makes
+hard-episode or cluster-transfer objectives the next relevant route.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
