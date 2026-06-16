@@ -1,0 +1,430 @@
+{
+  "anti_triviality_failed_gate": "BASE-CHANCE",
+  "anti_triviality_gate_evidence": {
+    "forbidden_column": {
+      "pointer": "$.preregistration.gap_head_success_criteria.forbidden_columns",
+      "status": "fail"
+    },
+    "matched_random": {
+      "pointer": "$.matched_random_control.control_positive",
+      "status": "fail"
+    },
+    "metadata_only": {
+      "pointer": "$.data_surface.status",
+      "status": "fail"
+    },
+    "scale_only": {
+      "pointer": "$.preregistration.preregistration_digest",
+      "status": "fail"
+    }
+  },
+  "anti_triviality_policy": "positive_requires_all_four_controls",
+  "anti_triviality_recommended_level": "DN",
+  "anti_triviality_status": "fail",
+  "arms": {
+    "drt": {
+      "skip_reason": "base-chance-gate-failed",
+      "status": "not-run"
+    },
+    "gap_head": {
+      "feature_audit": {
+        "feature_columns": [],
+        "forbidden_columns": [
+          "gap_label",
+          "label",
+          "prediction_error",
+          "z"
+        ],
+        "forbidden_hits": [],
+        "status": "pass"
+      },
+      "skip_reason": "base-chance-gate-failed",
+      "status": "not-run"
+    },
+    "heldout": {
+      "skip_reason": "base-chance-gate-failed",
+      "status": "not-run"
+    },
+    "same_training_surface": false,
+    "skip_reason": "base-chance-gate-failed",
+    "status": "not-run"
+  },
+  "artifact_id": "bedc-quality-lab:minigrid-doorkey-task-probe",
+  "base_chance_gate": {
+    "ci_method": "paired-bootstrap-ci95",
+    "delta": 0.03,
+    "distinction_accuracy": {
+      "base": 0.5625,
+      "base_minus_chance": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "effect_size": 0.0,
+        "mean": 0.0,
+        "n": 64
+      },
+      "chance": 0.5625,
+      "chance_components": {
+        "empirical_majority": 0.5625,
+        "permutation": 0.5625
+      },
+      "chance_selected_baseline": "empirical_majority",
+      "status": "fail"
+    },
+    "planning_success_rate": {
+      "base": 1.0,
+      "base_minus_chance": {
+        "ci95_high": 0.355017006802721,
+        "ci95_low": 0.22061011904761904,
+        "effect_size": 1.2516449539950243,
+        "mean": 0.2869897959183674,
+        "n": 48
+      },
+      "chance": 0.7130102040816326,
+      "chance_components": {
+        "empirical_label_rate": 0.7130102040816326,
+        "random_candidate": 0.6666666666666666
+      },
+      "chance_selected_baseline": "empirical_label_rate",
+      "status": "pass"
+    },
+    "status": "fail"
+  },
+  "claim_boundary": {
+    "failed_gate": "BASE-CHANCE",
+    "positive_discovery": false,
+    "status": "bounded-negative",
+    "terminal_verdict": "negative_discovery"
+  },
+  "config": {
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "epochs": 24,
+    "sample_budget": 384,
+    "seed": 20260616,
+    "seeds": [
+      20260616
+    ]
+  },
+  "control_protocol": {
+    "information_starved_baseline_role": "comparison-only",
+    "matched_compute": true,
+    "matched_input_surface": true,
+    "matched_parameter_count": true,
+    "same_training_surface": true,
+    "status": "blocked"
+  },
+  "data_surface": {
+    "action_count": 7,
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "planning_state_count": {
+      "heldout": 48,
+      "test": 48,
+      "validation": 48
+    },
+    "sample_counts": {
+      "heldout": 64,
+      "test": 64,
+      "total": 384,
+      "train": 192,
+      "validation": 64
+    },
+    "split_overlap": {
+      "protocol": "disjoint reset seeds",
+      "seed_overlap_count": 0
+    },
+    "status": "pass"
+  },
+  "dependency_status": {
+    "gymnasium": "installed",
+    "minigrid": "installed",
+    "torch": "installed"
+  },
+  "discovery_level": "DN",
+  "evidence_basis": {
+    "audit_status": "fail",
+    "robustness_ready": false,
+    "scorecard_ready": false
+  },
+  "execution_status": "abstain",
+  "failed_gate": "BASE-CHANCE",
+  "generated_at": "2026-06-16T00:00:00+00:00",
+  "hardgate": {
+    "failed_gate": "BASE-CHANCE",
+    "gate_order": [
+      "REAL",
+      "BASE-CHANCE",
+      "DATA",
+      "SEED",
+      "GAP",
+      "DRT-REAL",
+      "FAIR-INPUT",
+      "FAIR-COMP",
+      "HELDOUT",
+      "TRAIN",
+      "STAT",
+      "REPRO"
+    ],
+    "gates": {
+      "BASE-CHANCE": {
+        "criterion": "base CI95-low exceeds chance plus delta for distinction and planning",
+        "evidence_pointer": "$.base_chance_gate",
+        "reason": "",
+        "status": "fail"
+      },
+      "DATA": {
+        "criterion": "disjoint train/validation/test/heldout splits recorded",
+        "evidence_pointer": "$.data_surface",
+        "reason": "",
+        "status": "pass"
+      },
+      "DRT-REAL": {
+        "criterion": "DRT arm uses real optimizer training and clears endpoint criteria",
+        "evidence_pointer": "$.arms.drt",
+        "reason": "downstream arm not run because base gate failed",
+        "status": "fail"
+      },
+      "FAIR-COMP": {
+        "criterion": "matched compute, parameter, and input comparison",
+        "evidence_pointer": "$.control_protocol",
+        "reason": "",
+        "status": "fail"
+      },
+      "FAIR-INPUT": {
+        "criterion": "both arms share observation/action training surface",
+        "evidence_pointer": "$.control_protocol",
+        "reason": "",
+        "status": "fail"
+      },
+      "GAP": {
+        "criterion": "gap-head arm clears predeclared AUROC and unlogged-error criteria",
+        "evidence_pointer": "$.arms.gap_head",
+        "reason": "downstream arm not run because base gate failed",
+        "status": "fail"
+      },
+      "HELDOUT": {
+        "criterion": "heldout result does not contradict the promoted scope",
+        "evidence_pointer": "$.arms.heldout",
+        "reason": "downstream arm not run because base gate failed",
+        "status": "fail"
+      },
+      "REAL": {
+        "criterion": "MiniGrid dependency and native DoorKey stream executed",
+        "evidence_pointer": "$.dependency_status",
+        "reason": "",
+        "status": "pass"
+      },
+      "REPRO": {
+        "criterion": "seed, raw digest, device, and dependency status recorded",
+        "evidence_pointer": "$.reproducibility_contract",
+        "reason": "",
+        "status": "pass"
+      },
+      "SEED": {
+        "criterion": "seed protocol recorded before results",
+        "evidence_pointer": "$.preregistration.split_protocol",
+        "reason": "",
+        "status": "pass"
+      },
+      "STAT": {
+        "criterion": "paired delta, CI, and effect size recorded for primary endpoints",
+        "evidence_pointer": "$.arms",
+        "reason": "downstream arm not run because base gate failed",
+        "status": "fail"
+      },
+      "TRAIN": {
+        "criterion": "optimizer step, parameter delta, and loss decrease recorded",
+        "evidence_pointer": "$.training_evidence",
+        "reason": "",
+        "status": "pass"
+      }
+    },
+    "status": "fail"
+  },
+  "main_verdict": {
+    "net_information": 0.0,
+    "positive_discovery": false,
+    "shift_information": 0.0,
+    "structural_discovery": false,
+    "surface_delta_count": 0
+  },
+  "matched_random_control": {
+    "control_positive": false
+  },
+  "not_claimed": [
+    "No public MiniGrid benchmark superiority claim.",
+    "No OOD generalization claim when heldout gates fail.",
+    "No downstream gap-head or DRT claim when the base-chance gate fails.",
+    "No production policy or robotics claim."
+  ],
+  "positive_claim": {
+    "level": "DN",
+    "positive_discovery": false,
+    "scope_seal": {
+      "bounded": true,
+      "production_forbidden": true,
+      "real_training": false,
+      "status": "closed",
+      "theorem": false,
+      "toy": true
+    },
+    "status": "bounded-negative"
+  },
+  "preregistration": {
+    "base_chance_gate": {
+      "ci_method": "paired-bootstrap-ci95",
+      "criterion": "base CI95-low must exceed chance plus delta for distinction and planning",
+      "delta": 0.03,
+      "required_endpoints": [
+        "distinction_accuracy",
+        "planning_success_rate"
+      ]
+    },
+    "chance_baseline": {
+      "definition": "aggregate maximum over predeclared single fixed baselines on the validation split",
+      "distinction": "best aggregate accuracy among empirical majority-label and action-permutation baselines",
+      "planning": "best aggregate success among random candidate and label-rate candidate baselines"
+    },
+    "drt_success_criteria": {
+      "primary_endpoint": "unlogged error reduction under matched base training surface",
+      "success_rule": "DRT unlogged-error reduction CI95-low exceeds delta; gap AUROC non-regresses; task success non-regresses",
+      "task_success_non_regression": true
+    },
+    "environment": {
+      "action_schema": "MiniGrid discrete action id; candidate actions enumerate env.action_space.n",
+      "candidate_action_protocol": "single-step observation-action examples plus two-step candidate planning branches",
+      "environment_id": "MiniGrid-DoorKey-8x8-v0",
+      "observation_schema": "MiniGrid image observation; shape 7x7x3; object/color/state integer channels"
+    },
+    "gap_head_success_criteria": {
+      "forbidden_columns": [
+        "gap_label",
+        "label",
+        "prediction_error",
+        "z"
+      ],
+      "primary_endpoint": "high-gap AUROC on the same training surface",
+      "success_rule": "gap-head AUROC CI95-low exceeds base margin-gap AUROC CI95-high plus delta and unlogged error is not worse"
+    },
+    "hardgate_families": [
+      "REAL",
+      "BASE-CHANCE",
+      "DATA",
+      "SEED",
+      "GAP",
+      "DRT-REAL",
+      "FAIR-INPUT",
+      "FAIR-COMP",
+      "HELDOUT",
+      "TRAIN",
+      "STAT",
+      "REPRO"
+    ],
+    "heldout_protocol": {
+      "claim_rule": "in-distribution positive with heldout negative is diagnostic-only and does not claim generalization",
+      "heldout_seed_basis": "seed+1000"
+    },
+    "issue": "#1515",
+    "preregistration_digest": "8f9222877ca0421cf7c8c05223e05d165d6e8542df1136b6db82d9fe3f1ee78d",
+    "schema_id": "bedc-quality-lab:minigrid-doorkey-preregistration",
+    "split_protocol": {
+      "counts": {
+        "heldout": 64,
+        "test": 64,
+        "total": 384,
+        "train": 192,
+        "validation": 64
+      },
+      "heldout_seed": 20261616,
+      "layout_protocol": "MiniGrid reset seeds are disjoint across train, validation, test, and heldout",
+      "planning_state_count": 48,
+      "seed": 20260616,
+      "test_seed": 20260618,
+      "train_seed": 20260616,
+      "validation_seed": 20260617
+    }
+  },
+  "producer": "bedc_quality_lab.minigrid_doorkey_task_probe",
+  "raw_digest": "ccbb41bc3799a4a734ff2b2dbc09a54671f4f850f7c87105f3310085ff90f318",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": {
+        "calibration_pointer": "$.preregistration",
+        "metric_pointer": "$.execution_status",
+        "seed_pointer": "$.config.seeds"
+      },
+      "calibration_source": "$.preregistration",
+      "owner": "minigrid-doorkey-task-probe"
+    },
+    "device_policy": {
+      "backend_details": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-mps-available",
+      "resolution_status": "available",
+      "resolved_device": "mps"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "cuda_available": false,
+        "mps_available": true,
+        "torch": "2.7.0"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.preregistration",
+        "comparison": "status_equal",
+        "owner": "minigrid-doorkey-task-probe",
+        "pointer": "$.execution_status",
+        "reference_value": "abstain",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "true_training",
+    "seed_list": [
+      20260616
+    ]
+  },
+  "run_id": "minigrid-doorkey-task-probe",
+  "schema_id": "bedc-quality-lab:minigrid-doorkey-task-probe",
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "preregistration_digest": "8f9222877ca0421cf7c8c05223e05d165d6e8542df1136b6db82d9fe3f1ee78d",
+    "public_minigrid_native_benchmark": "bedc_quality_lab.public_minigrid_native_benchmark"
+  },
+  "source_issue": "#1515",
+  "training_evidence": {
+    "base": {
+      "backend": "torch",
+      "device_policy": {
+        "backend_details": {
+          "cuda_available": false,
+          "mps_available": true,
+          "torch": "2.7.0"
+        },
+        "requested_device": "auto",
+        "resolution_reason": "auto-mps-available",
+        "resolution_status": "available",
+        "resolved_device": "mps"
+      },
+      "loss_decrease": 0.5485243201255798,
+      "loss_final": 0.3919150233268738,
+      "loss_initial": 0.9404393434524536,
+      "optimizer": "Adam",
+      "optimizer_steps": 24,
+      "parameter_l2_delta": 7.972934722900391,
+      "requested_device": "auto",
+      "resolved_device": "mps",
+      "seed": 20260616
+    }
+  },
+  "verdict": "rejected",
+  "what_was_learned": "base gate or environment boundary prevented downstream task-probe claims"
+}
