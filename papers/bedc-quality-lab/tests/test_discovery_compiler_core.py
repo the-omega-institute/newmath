@@ -7,7 +7,11 @@ import pytest
 from bedc_quality_lab.backends.current_lab import projection as current_projection
 from bedc_quality_lab.backends.current_lab.adapter import CurrentLabBackendEvidenceAdapter
 from bedc_quality_lab.discovery_compiler.backend import BackendEvidenceAdapter, TheoryBackend
-from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule, build_claim_capsule_payload
+from bedc_quality_lab.discovery_compiler.capsule import (
+    ClaimCapsule,
+    build_claim_capsule_payload,
+    require_base_exceeds_chance_claim_capsule,
+)
 from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.map import (
@@ -353,6 +357,72 @@ def test_claim_capsule_payload_preserves_run_local_contract():
     capsule = ClaimCapsule.from_payload(payload)
 
     assert capsule.payload["run_local"] == run_local
+
+
+def test_base_exceeds_chance_claim_capsule_cell_is_optional_but_strict_when_present(tmp_path):
+    base_payload = {
+        "schema_id": "bedc.quality.claim_capsule",
+        "claim_id": "claim:fixture",
+        "report": "fixture-report",
+        "source": "reports/canonical/fixture.json",
+        "source_pointer": "$.claim",
+        "status": "complete",
+    }
+    canonical = tmp_path / "reports" / "canonical" / "fixture.json"
+    canonical.parent.mkdir(parents=True, exist_ok=True)
+    owner_gate = {
+        "status": "pass",
+        "base_arm_id": "parameter_matched_attention",
+        "base_acc_ci95_low": 0.51,
+        "chance_accuracy": 0.0625,
+        "margin": 0.4475,
+        "failed_gate": None,
+    }
+    canonical.write_text(json.dumps({"fair_base_learnability_gate": owner_gate}) + "\n", encoding="utf-8")
+
+    generic = ClaimCapsule.from_payload(base_payload)
+    assert generic.payload["schema_id"] == "bedc.quality.claim_capsule"
+
+    payload = {
+        **base_payload,
+        "construct_validity": {
+            "base_exceeds_chance": {
+                "claim": "base control lower confidence bound exceeds chance",
+                "status": "pass",
+                "fair_control_id": "parameter_matched_attention",
+                "required_fair_control_id": "parameter_matched_attention",
+                "evidence_pointer": "reports/canonical/fixture.json:$.fair_base_learnability_gate.base_acc_ci95_low",
+                "base_acc_ci95_low": 0.51,
+                "chance_accuracy": 0.0625,
+                "margin": 0.4475,
+            }
+        },
+    }
+
+    capsule = require_base_exceeds_chance_claim_capsule(payload, root=tmp_path)
+
+    assert capsule.claim_id == "claim:fixture"
+    assert capsule.payload["construct_validity"]["base_exceeds_chance"]["margin"] == 0.4475
+
+    bad_pointer = json.loads(json.dumps(payload))
+    bad_pointer["construct_validity"]["base_exceeds_chance"]["evidence_pointer"] = "reports/canonical/fixture.json:$.missing"
+    with pytest.raises(ValueError, match="evidence_pointer"):
+        require_base_exceeds_chance_claim_capsule(bad_pointer, root=tmp_path)
+
+    bad_owner_value = {
+        **owner_gate,
+        "base_acc_ci95_low": 0.01,
+        "margin": -0.0525,
+    }
+    canonical.write_text(json.dumps({"fair_base_learnability_gate": bad_owner_value}) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="resolved evidence"):
+        require_base_exceeds_chance_claim_capsule(payload, root=tmp_path)
+
+    canonical.write_text(json.dumps({"fair_base_learnability_gate": owner_gate}) + "\n", encoding="utf-8")
+    bad_control = json.loads(json.dumps(payload))
+    bad_control["construct_validity"]["base_exceeds_chance"]["fair_control_id"] = "compute_matched_attention"
+    with pytest.raises(ValueError, match="fair_control_id"):
+        require_base_exceeds_chance_claim_capsule(bad_control, root=tmp_path)
 
 
 def test_discovery_map_row_rejects_dn_fact_cells_and_accepts_pointer_only():

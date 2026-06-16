@@ -416,7 +416,11 @@ def test_l1_claim_capsule_scope_and_pointer_resolution():
     assert {"allowed_claim", "forbidden_claims", "not_claimed"}.isdisjoint(capsule["claim_projection"])
     owner_projection = payload["construct_validity_ledger"]["construct_validity_projection"]
     owner_claim_projection = owner_projection["claim_capsule_projection"]
-    assert capsule["construct_validity"] == {
+    assert {
+        key: value
+        for key, value in capsule["construct_validity"].items()
+        if key != "base_exceeds_chance"
+    } == {
         "artifact": owner_claim_projection["artifact"],
         "pointer": owner_claim_projection["pointer"],
         "status": owner_projection["status"],
@@ -440,6 +444,38 @@ def test_l1_claim_capsule_scope_and_pointer_resolution():
     mutated = json.loads(json.dumps(payload))
     mutated["claim_capsule_ref"]["allowed_claim"] = l1.ALLOWED_CLAIM
     _expect_invalid(mutated, "ClaimCapsule")
+
+
+def test_l1_claim_capsule_requires_base_exceeds_chance_cell(tmp_path):
+    payload = _payload()
+    l1.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")
+    cell = payload["claim_capsule_ref"]["construct_validity"]["base_exceeds_chance"]
+
+    assert cell["status"] == payload["fair_base_learnability_gate"]["status"]
+    assert cell["failed_gate"] == payload["fair_base_learnability_gate"]["failed_gate"]
+    assert cell["fair_control_id"] == payload["fair_base_learnability_gate"]["base_arm_id"]
+    assert cell["required_fair_control_id"] == payload["fair_base_learnability_gate"]["base_arm_id"]
+    assert cell["evidence_pointer"] == (
+        f"{l1.CANONICAL_JSON_ARTIFACT}:$.fair_base_learnability_gate.base_acc_ci95_low"
+    )
+    assert cell["base_acc_ci95_low"] == payload["fair_base_learnability_gate"]["base_acc_ci95_low"]
+    assert cell["chance_accuracy"] == payload["fair_base_learnability_gate"]["chance_accuracy"]
+    assert cell["margin"] == payload["fair_base_learnability_gate"]["margin"]
+    assert resolve_artifact_pointer(tmp_path, cell["evidence_pointer"]) is not None
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["claim_capsule_ref"]["construct_validity"].pop("base_exceeds_chance")
+    _expect_invalid(mutated, "base_exceeds_chance")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["claim_capsule_ref"]["construct_validity"]["base_exceeds_chance"]["fair_control_id"] = "compute_matched_attention"
+    _expect_invalid(mutated, "fair_control_id")
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["claim_capsule_ref"]["construct_validity"]["base_exceeds_chance"]["evidence_pointer"] = (
+        f"{l1.CANONICAL_JSON_ARTIFACT}:$.missing"
+    )
+    _expect_invalid(mutated, "evidence_pointer")
 
 
 def test_l1_review_status_pass_and_scoped_boundary():
