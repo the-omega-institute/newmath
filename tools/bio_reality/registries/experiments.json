@@ -330,22 +330,25 @@
       "claim_id": "h2.external.aca_puncture_orf_validated",
       "experiment_id": "orf_constrained_aca_puncture_challenge",
       "hypothesis_level": "H2",
-      "statement": "Among externally supplied ORF-eligible nucleotide windows, ACA should validate as the unique latent puncture predicted by Med(R): independent ACA-to-Asp evidence should be enriched in conserved coding contexts, supported by compatible tRNA evidence, and adding ACA should preserve Med(R13 ∪ {ACA}) = WNR ∪ CUN.",
+      "statement": "Among externally supplied ORF-eligible nucleotide windows, ACA should validate as the latent puncture predicted by the frozen Phase 1/2 geometry: independent ACA->Asp evidence should be enriched in conserved coding contexts, supported or not contradicted by tRNA/aaRS evidence, specific against controls and outgroups, and adding ACA should preserve Med(R13 union {ACA}) = WNR union CUN.",
       "script_path": "tools/bio_reality/experiments/run_orf_constrained_aca_puncture_challenge.py",
       "timeout_seconds": 1200,
       "status": "proposed_by_oracle",
       "proposed_by": "bio-oracle-consumer",
-      "created_at": "2026-06-16T21:07:43+00:00",
+      "created_at": "2026-06-16T22:21:58+00:00",
       "dependencies": [
-        "Freeze R13 = (WNA \\ ACA) ∪ CUN ∪ {UAG, AGG} and M13 = Med(R13) = WNR ∪ CUN before external scoring.",
-        "Use externally supplied RAAP-2 / Acidimicrobiales nucleotide windows or assemblies, nearest outgroups, standard-code controls, and negative controls.",
-        "Apply the Phase-3 ORF eligibility classifier before counting ACA-to-Asp evidence; only ORF-eligible windows can support a positive call.",
-        "Use independent codon-inference or translation-rescue outputs such as Codetta/KACI-style evidence without using the frozen geometry to select favorable ACA sites.",
-        "Map ACA sites to conserved protein alignments, HMMs, ortholog families, or profile evidence and compare ACA-to-Asp against canonical ACA-to-Thr.",
-        "Audit contamination, MAG/binning quality, GC bias, codon counts, strand/frame ambiguity, low-quality assemblies, and phylogenetic coherence.",
-        "Assess tRNAUGU and aaRS evidence for loss of canonical Thr identity or directionally compatible non-Thr/Asp decoding support.",
-        "Compare against nearest outgroups, ORF-ineligible windows, shuffled ORF-eligible windows preserving codon composition, non-puncture M\\R codons, and off-M matched control codons.",
-        "Run the post-scoring geometry check Med(R13 ∪ {ACA}) = M13; if it fails, the geometric part of the claim fails."
+        "Frozen Phase 1/2 reassigned-codon set R13 = (WNA \\ ACA) union CUN union {UAG, AGG}",
+        "Frozen median closure M13 = WNR union CUN, with ACA absent from R13 but present in M13",
+        "Post-scoring geometry check that R14 = R13 union {ACA} preserves Med(R14) = M13",
+        "Externally supplied RAAP-2 / Acidimicrobiales nucleotide windows or assemblies",
+        "Nearest standard-code outgroups and standard-code controls",
+        "Phase 3 ORF eligibility classifier or fixed ORF eligibility rules applied before ACA->Asp scoring",
+        "Independent Codetta/KACI-style codon-inference outputs or equivalent reassignment inference",
+        "Conserved-protein alignment, Pfam, HMM, ortholog-group, or curated-alignment evidence for mapped ACA sites",
+        "Genome or assembly QC sufficient to identify primary-QC windows and exclude contamination, binning, coverage, ambiguity, GC-bias, and frame artifacts",
+        "tRNAUGU/TGT and aaRS annotations sufficient to classify decoding support as supportive, noncontradictory, contradictory, or missing",
+        "Matched negative controls including nearest outgroups, ORF-ineligible windows, shuffled ORF-eligible windows, within-M non-puncture codons, and matched off-M codons",
+        "Pre-registered thresholds for data sufficiency, ACA-specific ORF rescue, control specificity, artifact resistance, mechanism status, and final decision values"
       ],
       "external_preconditions": [],
       "acceptance": {
@@ -355,9 +358,9 @@
       "required_data": [
         "tools/bio_reality/data/orf_constrained_aca_puncture_external_audit_tables.json"
       ],
-      "rationale": "Across the transcript, the ACA puncture challenge is repeatedly identified as the strongest Phase 3 experiment, and the later turns sharpen it into an ORF-constrained version. The reason is that Phase 1/2 already provide the distinctive frozen geometry: ACA is absent from observed R13 but present in M13, making it the unique missing vertex inside the WNA block. A candidate external ACA-to-Asp signal is described as timely but early-stage, so the strongest downstream action is not automatic incorporation but adversarial validation under frozen geometry, ORF eligibility, conserved-protein rescue, controls, QC audits, tRNA/aaRS checks, and the invariant Med(R13 ∪ {ACA}) = WNR ∪ CUN.",
-      "proposal_rationale": "Across the transcript, the ACA puncture challenge is repeatedly identified as the strongest Phase 3 experiment, and the later turns sharpen it into an ORF-constrained version. The reason is that Phase 1/2 already provide the distinctive frozen geometry: ACA is absent from observed R13 but present in M13, making it the unique missing vertex inside the WNA block. A candidate external ACA-to-Asp signal is described as timely but early-stage, so the strongest downstream action is not automatic incorporation but adversarial validation under frozen geometry, ORF eligibility, conserved-protein rescue, controls, QC audits, tRNA/aaRS checks, and the invariant Med(R13 ∪ {ACA}) = WNR ∪ CUN.",
-      "source_event_id": "event.d9262d12deec5d1b"
+      "rationale": "The transcript repeatedly converges from a broad blind reassignment ranking proposal to a more targeted ACA puncture challenge, and then strengthens it into the ORF-constrained ACA puncture challenge. This is presented as the highest-information next experiment because it directly tests the distinctive frozen geometry: ACA is the unique missing codon from R13 while already lying inside M13. The later turns make the proposal more concrete by requiring ORF-eligible external windows, conserved coding-context rescue for ACA->Asp, outgroup and codon-control specificity, tRNA/aaRS consistency, artifact resistance, and preservation of the median-closure invariant. The transcript states that this should be run before broad sweeps because it is targeted, externally anchored, falsifiable, and directly tests the most surprising structural feature already discovered.",
+      "proposal_rationale": "The transcript repeatedly converges from a broad blind reassignment ranking proposal to a more targeted ACA puncture challenge, and then strengthens it into the ORF-constrained ACA puncture challenge. This is presented as the highest-information next experiment because it directly tests the distinctive frozen geometry: ACA is the unique missing codon from R13 while already lying inside M13. The later turns make the proposal more concrete by requiring ORF-eligible external windows, conserved coding-context rescue for ACA->Asp, outgroup and codon-control specificity, tRNA/aaRS consistency, artifact resistance, and preservation of the median-closure invariant. The transcript states that this should be run before broad sweeps because it is targeted, externally anchored, falsifiable, and directly tests the most surprising structural feature already discovered.",
+      "source_event_id": "event.427fd4c04f464564"
     },
     {
       "claim_id": "h3.codon_usage_topology.translation_survival.b_star_q6_coupling_matrix",
