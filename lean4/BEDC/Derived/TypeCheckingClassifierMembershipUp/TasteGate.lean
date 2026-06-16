@@ -75,10 +75,40 @@ private theorem typeCheckingClassifierMembership_round_trip :
   intro x
   cases x with
   | mk T J E D S Q H C P N =>
-      simp only [typeCheckingClassifierMembershipToEventFlow,
-        typeCheckingClassifierMembershipFields, List.map_cons, List.map_nil,
-        typeCheckingClassifierMembershipFromEventFlow,
-        typeCheckingClassifierMembership_decode_encode_bhist]
+      change
+        some
+          (TypeCheckingClassifierMembershipUp.mk
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist T))
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist J))
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist E))
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist D))
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist S))
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist Q))
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist H))
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist C))
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist P))
+            (typeCheckingClassifierMembershipDecodeBHist
+              (typeCheckingClassifierMembershipEncodeBHist N))) =
+          some (TypeCheckingClassifierMembershipUp.mk T J E D S Q H C P N)
+      rw [typeCheckingClassifierMembership_decode_encode_bhist T,
+        typeCheckingClassifierMembership_decode_encode_bhist J,
+        typeCheckingClassifierMembership_decode_encode_bhist E,
+        typeCheckingClassifierMembership_decode_encode_bhist D,
+        typeCheckingClassifierMembership_decode_encode_bhist S,
+        typeCheckingClassifierMembership_decode_encode_bhist Q,
+        typeCheckingClassifierMembership_decode_encode_bhist H,
+        typeCheckingClassifierMembership_decode_encode_bhist C,
+        typeCheckingClassifierMembership_decode_encode_bhist P,
+        typeCheckingClassifierMembership_decode_encode_bhist N]
 
 private theorem typeCheckingClassifierMembershipToEventFlow_injective
     {x y : TypeCheckingClassifierMembershipUp} :
@@ -150,27 +180,5 @@ instance typeCheckingClassifierMembershipNontrivial :
 def taste_gate : ChapterTasteGate TypeCheckingClassifierMembershipUp :=
   -- BEDC touchpoint anchor: BHist BMark
   typeCheckingClassifierMembershipChapterTasteGate
-
-theorem TypeCheckingClassifierMembershipTasteGate_single_carrier_alignment :
-    (forall h : BHist,
-      typeCheckingClassifierMembershipDecodeBHist
-        (typeCheckingClassifierMembershipEncodeBHist h) = h) ∧
-      (forall x : TypeCheckingClassifierMembershipUp,
-        typeCheckingClassifierMembershipFromEventFlow
-          (typeCheckingClassifierMembershipToEventFlow x) = some x) ∧
-        (forall x y : TypeCheckingClassifierMembershipUp,
-          typeCheckingClassifierMembershipToEventFlow x =
-              typeCheckingClassifierMembershipToEventFlow y →
-            x = y) ∧
-          typeCheckingClassifierMembershipEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact typeCheckingClassifierMembership_decode_encode_bhist
-  · constructor
-    · exact typeCheckingClassifierMembership_round_trip
-    · constructor
-      · intro x y heq
-        exact typeCheckingClassifierMembershipToEventFlow_injective heq
-      · rfl
 
 end BEDC.Derived.TypeCheckingClassifierMembershipUp

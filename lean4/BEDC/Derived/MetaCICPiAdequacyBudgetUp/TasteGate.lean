@@ -76,10 +76,43 @@ private theorem metaCICPiAdequacyBudget_round_trip :
   intro x
   cases x with
   | mk G Pi N A S F O H C P L =>
-      simp only [metaCICPiAdequacyBudgetToEventFlow,
-        metaCICPiAdequacyBudgetFields, List.map_cons, List.map_nil,
-        metaCICPiAdequacyBudgetFromEventFlow,
-        metaCICPiAdequacyBudget_decode_encode_bhist]
+      change
+        some
+          (MetaCICPiAdequacyBudgetUp.mk
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist G))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist Pi))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist N))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist A))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist S))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist F))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist O))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist H))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist C))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist P))
+            (metaCICPiAdequacyBudgetDecodeBHist
+              (metaCICPiAdequacyBudgetEncodeBHist L))) =
+          some (MetaCICPiAdequacyBudgetUp.mk G Pi N A S F O H C P L)
+      rw [metaCICPiAdequacyBudget_decode_encode_bhist G,
+        metaCICPiAdequacyBudget_decode_encode_bhist Pi,
+        metaCICPiAdequacyBudget_decode_encode_bhist N,
+        metaCICPiAdequacyBudget_decode_encode_bhist A,
+        metaCICPiAdequacyBudget_decode_encode_bhist S,
+        metaCICPiAdequacyBudget_decode_encode_bhist F,
+        metaCICPiAdequacyBudget_decode_encode_bhist O,
+        metaCICPiAdequacyBudget_decode_encode_bhist H,
+        metaCICPiAdequacyBudget_decode_encode_bhist C,
+        metaCICPiAdequacyBudget_decode_encode_bhist P,
+        metaCICPiAdequacyBudget_decode_encode_bhist L]
 
 private theorem metaCICPiAdequacyBudgetToEventFlow_injective
     {x y : MetaCICPiAdequacyBudgetUp} :
@@ -152,27 +185,5 @@ instance metaCICPiAdequacyBudgetNontrivial :
 def taste_gate : ChapterTasteGate MetaCICPiAdequacyBudgetUp :=
   -- BEDC touchpoint anchor: BHist BMark
   metaCICPiAdequacyBudgetChapterTasteGate
-
-theorem MetaCICPiAdequacyBudgetTasteGate_single_carrier_alignment :
-    (forall h : BHist,
-      metaCICPiAdequacyBudgetDecodeBHist
-        (metaCICPiAdequacyBudgetEncodeBHist h) = h) ∧
-      (forall x : MetaCICPiAdequacyBudgetUp,
-        metaCICPiAdequacyBudgetFromEventFlow
-          (metaCICPiAdequacyBudgetToEventFlow x) = some x) ∧
-        (forall x y : MetaCICPiAdequacyBudgetUp,
-          metaCICPiAdequacyBudgetToEventFlow x =
-              metaCICPiAdequacyBudgetToEventFlow y →
-            x = y) ∧
-          metaCICPiAdequacyBudgetEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact metaCICPiAdequacyBudget_decode_encode_bhist
-  · constructor
-    · exact metaCICPiAdequacyBudget_round_trip
-    · constructor
-      · intro x y heq
-        exact metaCICPiAdequacyBudgetToEventFlow_injective heq
-      · rfl
 
 end BEDC.Derived.MetaCICPiAdequacyBudgetUp
