@@ -19,7 +19,10 @@ DEFAULT_MISMATCHES = SCRIPT_DIR / "inbox" / "mismatches.jsonl"
 DEFAULT_OUTPUT = SCRIPT_DIR / "out" / "gate_results.jsonl"
 
 ID_PATTERN = r"^[a-z0-9][a-z0-9.:-]*$"
-ID_SYNTAX = f"ids must match {ID_PATTERN}; use lowercase dotted/kebab tokens, not underscores or uppercase"
+ID_SYNTAX = (
+    f"ids must match {ID_PATTERN}; use lowercase dotted/kebab tokens, not underscores or uppercase; "
+    "normalize biological abbreviations before ids are submitted, for example tRNA Leu becomes trna-leu"
+)
 ID_RE = re.compile(ID_PATTERN)
 
 LAYERS = {
@@ -1787,6 +1790,27 @@ def self_test() -> int:
         if not any(token in issue and "internal object/operator token" in issue for issue in object_token_result["issues"]):
             print(json.dumps(results, indent=2), file=sys.stderr)
             return 1
+    pipeline_config = json.loads((SCRIPT_DIR / "pipeline_config.json").read_text(encoding="utf-8"))
+    default_gate_policy = pipeline_config.get("default_gate_policy", {})
+    id_normalization_rule = str(default_gate_policy.get("id_normalization_rule") or "")
+    if (
+        default_gate_policy.get("require_id_normalization") is not True
+        or "tRNA Leu" not in id_normalization_rule
+        or "trna-leu" not in id_normalization_rule
+    ):
+        print(
+            json.dumps(
+                {
+                    "config": "pipeline_config.json",
+                    "field": "default_gate_policy.require_id_normalization",
+                    "expected": "true with a biological-abbreviation normalization example mapping tRNA Leu to trna-leu",
+                    "actual": default_gate_policy.get("require_id_normalization"),
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
     print("[bio-reality-gates] self-test ok")
     return 0
 
