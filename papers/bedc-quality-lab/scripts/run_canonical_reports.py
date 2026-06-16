@@ -308,6 +308,10 @@ GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_MARKDOWN_ARTIFACT = (
 GAP_HEAD_PAIR_RULE_BOUNDED_CAPSULE_ARTIFACT_ID = (
     "bedc-quality-lab:gap-head-pair-rule-bounded-capsule"
 )
+MINIGRID_DOORKEY_TASK_PROBE_JSON_ARTIFACT = "reports/canonical/minigrid-doorkey-task-probe.json"
+MINIGRID_DOORKEY_TASK_PROBE_MARKDOWN_ARTIFACT = "reports/canonical/minigrid-doorkey-task-probe.md"
+MINIGRID_DOORKEY_TASK_PROBE_ARTIFACT_ID = "bedc-quality-lab:minigrid-doorkey-task-probe"
+MINIGRID_DOORKEY_TASK_PROBE_SCHEMA_ID = "bedc-quality-lab:minigrid-doorkey-task-probe"
 RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT = "reports/release_manifest_sidecar.json"
 RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT = "reports/release_manifest_sidecar.md"
 RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID = "bedc-quality-lab:release-manifest-sidecar"
@@ -1032,6 +1036,56 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         positive_claim_pointer="$.positive_claim.status",
         control_pointer="$.prerequisite_checks",
         no_control_rationale_pointer=None,
+    ),
+    CanonicalReportSpec(
+        name="minigrid-doorkey-task-probe",
+        command=("python3", "scripts/run_minigrid_doorkey_task_probe.py"),
+        json_artifact=MINIGRID_DOORKEY_TASK_PROBE_JSON_ARTIFACT,
+        markdown_artifact=MINIGRID_DOORKEY_TASK_PROBE_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "run_id",
+            "source_artifacts",
+            "preregistration",
+            "execution_status",
+            "dependency_status",
+            "config",
+            "data_surface",
+            "base_chance_gate",
+            "arms",
+            "control_protocol",
+            "claim_boundary",
+            "positive_claim",
+            "training_evidence",
+            "raw_digest",
+            "hardgate",
+            "anti_triviality_status",
+            "anti_triviality_policy",
+            "anti_triviality_recommended_level",
+            "anti_triviality_failed_gate",
+            "anti_triviality_gate_evidence",
+            "failed_gate",
+            "verdict",
+            "discovery_level",
+            "not_claimed",
+            "what_was_learned",
+            "reproducibility_contract",
+        ),
+        estimated_seconds=180,
+        bundle_role="hg_p_core",
+        scope_pointer="$.preregistration",
+        cost_pointer="$.source_artifacts.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive_claim",
+        control_pointer="$.control_protocol",
+        no_control_rationale_pointer=None,
+        scientific_claim_status_pointer="$.claim_boundary.status",
+        hardgate_status_pointer="$.hardgate.status",
+        hardgate_scope="owner-scientific",
+        decision_status_pointer="$.claim_boundary.status",
+        reproducibility_mode="true_training",
     ),
     CanonicalReportSpec(
         name="nongaussian-distribution-sweep",
@@ -2616,6 +2670,14 @@ def _true_training_contract_config(spec: CanonicalReportSpec) -> dict[str, Any]:
             "tolerance": 0,
             "comparison": "status_equal",
         },
+        "minigrid-doorkey-task-probe": {
+            "seed_pointer": "$.config.seeds",
+            "device_pointer": "$.reproducibility_contract.device_policy",
+            "metric_pointer": "$.execution_status",
+            "calibration_pointer": "$.preregistration",
+            "tolerance": 0,
+            "comparison": "status_equal",
+        },
     }
     if spec.name not in configs:
         raise ValueError(f"missing true-training reproducibility config for {spec.name}")
@@ -2923,6 +2985,8 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
                 "reports/canonical/gap-head-pair-rule-observed-debt-transfer.json",
             )
         )
+    if spec.name == "minigrid-doorkey-task-probe":
+        paths.add("configs/default_cost_protocol.yaml")
     if spec.name == "certificate-guided-discovery":
         paths.update(("reports/canonical/certificate-guided-training.json", "reports/canonical/certificate-guided-training.md"))
     if spec.name == "model-comparison":

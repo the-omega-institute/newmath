@@ -435,6 +435,17 @@ def _minimal_payload(spec, *, root: Path | None = None):
         )
     if spec.name == "dgt-neural-ablation":
         return _dgt_neural_ablation_payload()
+    if spec.name == "minigrid-doorkey-task-probe":
+        from bedc_quality_lab import minigrid_doorkey_task_probe as probe
+
+        prereg = probe.preregistration_capsule(sample_budget=64)
+        return probe._dependency_abstain_payload(
+            prereg=prereg,
+            generated_at="fixture-time",
+            deps={"gymnasium": "missing", "minigrid": "missing", "torch": "missing"},
+            sample_budget=64,
+            seed=probe.DEFAULT_SEED,
+        )
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
         payload["artifact_id"] = MODEL_DESIGN_FIXTURE_ARTIFACT_IDS[spec.name]
     if spec.name == "gap-head-on-h":

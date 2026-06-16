@@ -59,11 +59,13 @@ HG_P_CORE = {
     "gap-head-transfer-atlas",
     "gap-head-attribution-capsule",
     "gap-head-pair-rule-bounded-capsule",
+    "minigrid-doorkey-task-probe",
     "certificate-guided-training",
     "certificate-guided-discovery",
     "sigreg-training-proxy",
     "sigreg-mini-grid",
     "discovery-regularized-training",
+    "fair-alignment-control-ledger",
     "mechanism-seeking-network",
     "discovery-gated-transformer",
     "high-impact-review",
@@ -259,6 +261,17 @@ def _payload_for_spec(spec):
         return dgt_neural_ablation.build_payload(generated_at="fixture", requested_device="cpu")
     if spec.name == "gap-head-pair-rule-bounded-capsule":
         return pair_rule_capsule.build_payload(generated_at="fixture")
+    if spec.name == "minigrid-doorkey-task-probe":
+        from bedc_quality_lab import minigrid_doorkey_task_probe as probe
+
+        prereg = probe.preregistration_capsule(sample_budget=64)
+        return probe._dependency_abstain_payload(
+            prereg=prereg,
+            generated_at="fixture",
+            deps={"gymnasium": "missing", "minigrid": "missing", "torch": "missing"},
+            sample_budget=64,
+            seed=probe.DEFAULT_SEED,
+        )
     if spec.name == "dgt-ablation-null-decomposition":
         from bedc_quality_lab import dgt_ablation_null_decomposition
 
@@ -2159,12 +2172,15 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-threshold-frontier",
         "gap-head-transfer-atlas",
         "gap-head-attribution-capsule",
+        "gap-head-pair-rule-bounded-capsule",
+        "minigrid-doorkey-task-probe",
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
         "certificate-guided-discovery",
         "sigreg-training-proxy",
         "sigreg-mini-grid",
         "discovery-regularized-training",
+        "fair-alignment-control-ledger",
         "mechanism-seeking-network",
         "mechanism-dna",
         "dgt-l0-controls",
@@ -2179,6 +2195,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "input-accessibility",
         "fair-l1-decision",
         "discovery-gated-transformer",
+        "minimal-irreducible-causal-derivative-mainline",
         "dgt-neural-ablation",
         "dgt-ablation-null-decomposition",
         "dgt-component-redundancy-audit",

@@ -2356,6 +2356,33 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _spectral_ablation_projection(payload)
     elif spec.name == "anisotropic-ou-sweep":
         overlay, evidence = _debt_cell_projection(payload, "$.transition_debt_by_grid")
+    elif spec.name == "minigrid-doorkey-task-probe":
+        positive = pointer_value(payload, "$.claim_boundary.positive_discovery") is True
+        failed_gate = pointer_value(payload, "$.claim_boundary.failed_gate")
+        overlay, evidence = {
+            "positive_discovery": positive,
+            "main_verdict": {
+                "positive_discovery": positive,
+                "surface_delta_count": 1 if positive else 0,
+                "shift_information": 1.0 if positive else 0.0,
+                "structural_discovery": positive,
+                "net_information": 1.0 if positive else 0.0,
+            },
+            "net_positive_signal": positive,
+            "matched_random_control": {"control_positive": False},
+            "evidence_basis": {
+                "scorecard_ready": positive,
+                "audit_status": "pass" if pointer_value(payload, "$.hardgate.status") == "pass" else "fail",
+                "robustness_ready": positive,
+            },
+            "scope_seal": pointer_value(payload, "$.positive_claim.scope_seal"),
+        }, ProjectionEvidence(
+            projection_status="projected" if positive else "base-gated-boundary",
+            evidence_pointer="$.positive_claim",
+            control_pointer="$.control_protocol",
+            scorecard_pointer="$.hardgate.status",
+            failed_gate="$.claim_boundary.failed_gate" if isinstance(failed_gate, str) else "$.base_chance_gate.status",
+        )
     elif spec.name == "nongaussian-distribution-sweep":
         overlay, evidence = _debt_cell_projection(payload, "$.negative_result_ledger")
     elif spec.name == "mixing-family-sweep":
