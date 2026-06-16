@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.PointedCompleteMetricSpaceUp.TasteGate
+namespace BEDC.Derived.PointedCompleteMetricSpaceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def pointedCompleteMetricSpaceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (pointedCompleteMetricSpaceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (pointedCompleteMetricSpaceDecodeBHist tail)
 
-private theorem PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode :
+private theorem pointedCompleteMetricSpace_decode_encode_bhist :
     ∀ h : BHist,
       pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -51,27 +51,27 @@ private def pointedCompleteMetricSpaceEventAtDefault : Nat → EventFlow → Raw
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => pointedCompleteMetricSpaceEventAtDefault index rest
 
-def pointedCompleteMetricSpaceFromEventFlow : EventFlow → Option PointedCompleteMetricSpaceUp :=
+def pointedCompleteMetricSpaceFromEventFlow
+    (ef : EventFlow) : Option PointedCompleteMetricSpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (PointedCompleteMetricSpaceUp.mk
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 0 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 1 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 2 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 3 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 4 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 5 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 6 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 7 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 8 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 9 ef))
-        (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 10 ef)))
+  some
+    (PointedCompleteMetricSpaceUp.mk
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 0 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 1 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 2 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 3 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 4 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 5 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 6 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 7 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 8 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 9 ef))
+      (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEventAtDefault 10 ef)))
 
-private theorem PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_round_trip :
+private theorem pointedCompleteMetricSpace_round_trip :
     ∀ x : PointedCompleteMetricSpaceUp,
-      pointedCompleteMetricSpaceFromEventFlow
-        (pointedCompleteMetricSpaceToEventFlow x) = some x := by
+      pointedCompleteMetricSpaceFromEventFlow (pointedCompleteMetricSpaceToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -91,17 +91,17 @@ private theorem PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_rou
             (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEncodeBHist P0))
             (pointedCompleteMetricSpaceDecodeBHist (pointedCompleteMetricSpaceEncodeBHist N))) =
           some (PointedCompleteMetricSpaceUp.mk M B Q S R E L H C P0 N)
-      rw [PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode M,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode B,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode Q,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode S,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode R,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode E,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode L,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode H,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode C,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode P0,
-        PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_decode N]
+      rw [pointedCompleteMetricSpace_decode_encode_bhist M,
+        pointedCompleteMetricSpace_decode_encode_bhist B,
+        pointedCompleteMetricSpace_decode_encode_bhist Q,
+        pointedCompleteMetricSpace_decode_encode_bhist S,
+        pointedCompleteMetricSpace_decode_encode_bhist R,
+        pointedCompleteMetricSpace_decode_encode_bhist E,
+        pointedCompleteMetricSpace_decode_encode_bhist L,
+        pointedCompleteMetricSpace_decode_encode_bhist H,
+        pointedCompleteMetricSpace_decode_encode_bhist C,
+        pointedCompleteMetricSpace_decode_encode_bhist P0,
+        pointedCompleteMetricSpace_decode_encode_bhist N]
 
 private theorem pointedCompleteMetricSpaceToEventFlow_injective
     {x y : PointedCompleteMetricSpaceUp} :
@@ -114,8 +114,8 @@ private theorem pointedCompleteMetricSpaceToEventFlow_injective
         pointedCompleteMetricSpaceFromEventFlow (pointedCompleteMetricSpaceToEventFlow y) :=
     congrArg pointedCompleteMetricSpaceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (pointedCompleteMetricSpace_round_trip x).symm
+      (Eq.trans hread (pointedCompleteMetricSpace_round_trip y)))
 
 private theorem pointedCompleteMetricSpace_field_faithful :
     ∀ x y : PointedCompleteMetricSpaceUp,
@@ -134,6 +134,11 @@ instance pointedCompleteMetricSpaceBHistCarrier : BHistCarrier PointedCompleteMe
   toEventFlow := pointedCompleteMetricSpaceToEventFlow
   fromEventFlow := pointedCompleteMetricSpaceFromEventFlow
 
+instance pointedCompleteMetricSpaceFieldFaithful : FieldFaithful PointedCompleteMetricSpaceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := pointedCompleteMetricSpaceFields
+  field_faithful := pointedCompleteMetricSpace_field_faithful
+
 instance pointedCompleteMetricSpaceChapterTasteGate :
     ChapterTasteGate PointedCompleteMetricSpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -142,15 +147,12 @@ instance pointedCompleteMetricSpaceChapterTasteGate :
     change
       pointedCompleteMetricSpaceFromEventFlow (pointedCompleteMetricSpaceToEventFlow x) =
         some x
-    exact PointedCompleteMetricSpaceTasteGate_single_carrier_alignment_round_trip x
+    exact pointedCompleteMetricSpace_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (pointedCompleteMetricSpaceToEventFlow_injective heq)
 
-instance pointedCompleteMetricSpaceFieldFaithful : FieldFaithful PointedCompleteMetricSpaceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := pointedCompleteMetricSpaceFields
-  field_faithful := pointedCompleteMetricSpace_field_faithful
+namespace TasteGate
 
 def taste_gate : ChapterTasteGate PointedCompleteMetricSpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -161,4 +163,6 @@ theorem PointedCompleteMetricSpaceTasteGate_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact pointedCompleteMetricSpaceChapterTasteGate
 
-end BEDC.Derived.PointedCompleteMetricSpaceUp.TasteGate
+end TasteGate
+
+end BEDC.Derived.PointedCompleteMetricSpaceUp
