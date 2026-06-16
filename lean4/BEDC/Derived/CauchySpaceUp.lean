@@ -22,17 +22,6 @@ def CauchySpaceClassifier
           hsame H (append F U) ∧ hsame H' (append F' U') ∧ Cont F U R ∧
             Cont F' U' R' ∧ Cont C P N ∧ Cont C' P' N'
 
-theorem CauchySpaceCarrier_filter_stability {F U R Q T H C P N replay : BHist} :
-    CauchySpaceCarrier F U R Q T H C P N ->
-      Cont F U replay -> UnaryHistory F ∧ UnaryHistory replay ∧ hsame H (append F U) := by
-  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
-  intro carrier replayRoute
-  obtain ⟨fUnary, uUnary, _rUnary, _qUnary, _tUnary, _hUnary, _cUnary, _pUnary, _nUnary,
-    transportRow, _filterRoute, _nameRoute⟩ := carrier
-  have replayUnary : UnaryHistory replay :=
-    unary_cont_closed fUnary uUnary replayRoute
-  exact ⟨fUnary, replayUnary, transportRow⟩
-
 theorem CauchySpaceCarrier_uniform_regseq_interface {F U R Q T H C P N replay : BHist} :
     CauchySpaceCarrier F U R Q T H C P N ->
       Cont F U replay ->
