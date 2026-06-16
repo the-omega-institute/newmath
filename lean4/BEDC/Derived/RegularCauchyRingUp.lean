@@ -241,6 +241,64 @@ theorem RegularCauchyRingCarrier_componentwise_distributivity [AskSetup] [Packag
       distributedUnary, sumProductRoute, leftProductRoute, rightProductRoute, distributeRoute,
       provenancePkg, distributedPkg⟩
 
+theorem RegularCauchyRingCarrier_componentwise_transport [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N transportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+        bundle pkg ->
+      Cont H C transportRead ->
+        PkgSig bundle transportRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row transportRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row transportRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont H C P ∧ Cont H C transportRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle transportRead pkg)
+              hsame ∧
+            UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+              UnaryHistory transportRead ∧ Cont H C P ∧ Cont H C transportRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier transportReplay transportPkg
+  obtain
+    ⟨_aUnary, _bUnary, _waUnary, _wbUnary, _daUnary, _dbUnary, _sUnary, _gUnary,
+      _mUnary, _lUnary, _rsUnary, _rgUnary, _rmUnary, _rlUnary, _esUnary, _egUnary,
+      _emUnary, _elUnary, hUnary, cUnary, pUnary, _nUnary, _sourceWindowA,
+      _sourceWindowB, transportOriginal, provenancePkg, _namePkg⟩ := carrier
+  have transportReadUnary : UnaryHistory transportRead :=
+    unary_cont_closed hUnary cUnary transportReplay
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro transportRead ⟨hsame_refl transportRead, transportReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr sourceRow.left))
+      ledger_sound := by
+        intro _row sourceRow
+        exact
+          ⟨sourceRow.right, transportOriginal, transportReplay, provenancePkg,
+            transportPkg⟩
+    }
+  · exact
+      ⟨hUnary, cUnary, pUnary, transportReadUnary, transportOriginal, transportReplay⟩
+
 theorem RegularCauchyRingCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
     {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
