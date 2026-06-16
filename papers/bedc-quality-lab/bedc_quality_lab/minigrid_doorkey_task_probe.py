@@ -124,9 +124,9 @@ def preregistration_capsule(
             "planning_state_count": int(planning_state_count),
         },
         "chance_baseline": {
-            "definition": "empirical label-rate and permutation baselines on the predeclared validation split",
-            "distinction": "max empirical majority-label accuracy and action-permutation accuracy",
-            "planning": "max random candidate plan success and label-rate candidate success",
+            "definition": "aggregate maximum over predeclared single fixed baselines on the validation split",
+            "distinction": "best aggregate accuracy among empirical majority-label and action-permutation baselines",
+            "planning": "best aggregate success among random candidate and label-rate candidate baselines",
         },
         "base_chance_gate": {
             "delta": BASE_CHANCE_DELTA,
@@ -467,6 +467,17 @@ def _majority_baseline(labels: np.ndarray) -> np.ndarray:
     return (labels_bool == majority).astype(np.float64)
 
 
+def _select_aggregate_baseline(components: Mapping[str, np.ndarray]) -> tuple[str, np.ndarray, dict[str, float]]:
+    aggregates = {
+        name: float(np.mean(np.asarray(values, dtype=np.float64))) if np.asarray(values).size else 0.0
+        for name, values in components.items()
+    }
+    if not aggregates:
+        return "none", np.asarray([], dtype=np.float64), {}
+    selected = max(aggregates, key=aggregates.get)
+    return selected, np.asarray(components[selected], dtype=np.float64), aggregates
+
+
 def evaluate_base_chance_gate(
     surface: TrainingSurface,
     base: TrainedProbe,
@@ -482,7 +493,12 @@ def evaluate_base_chance_gate(
         rng.permutation(validation_labels),
     )
     majority_accuracy = _majority_baseline(validation_labels)
-    chance_accuracy = np.maximum(majority_accuracy, permutation_accuracy)
+    chance_accuracy_name, chance_accuracy, chance_accuracy_components = _select_aggregate_baseline(
+        {
+            "empirical_majority": majority_accuracy,
+            "permutation": permutation_accuracy,
+        }
+    )
     distinction_ci = _bootstrap_delta_ci(
         base_accuracy,
         chance_accuracy,
@@ -498,7 +514,12 @@ def evaluate_base_chance_gate(
         ],
         dtype=np.float64,
     )
-    chance_plan = np.maximum(random_plan, label_rate_plan)
+    chance_plan_name, chance_plan, chance_plan_components = _select_aggregate_baseline(
+        {
+            "random_candidate": random_plan,
+            "empirical_label_rate": label_rate_plan,
+        }
+    )
     planning_ci = _bootstrap_delta_ci(
         base_plan,
         chance_plan,
@@ -514,20 +535,16 @@ def evaluate_base_chance_gate(
         "distinction_accuracy": {
             "base": float(np.mean(base_accuracy)) if base_accuracy.size else 0.0,
             "chance": float(np.mean(chance_accuracy)) if chance_accuracy.size else 0.0,
-            "chance_components": {
-                "empirical_majority": float(np.mean(majority_accuracy)) if majority_accuracy.size else 0.0,
-                "permutation": float(np.mean(permutation_accuracy)) if permutation_accuracy.size else 0.0,
-            },
+            "chance_selected_baseline": chance_accuracy_name,
+            "chance_components": chance_accuracy_components,
             "base_minus_chance": distinction_ci,
             "status": "pass" if distinction_pass else "fail",
         },
         "planning_success_rate": {
             "base": float(np.mean(base_plan)) if base_plan.size else 0.0,
             "chance": float(np.mean(chance_plan)) if chance_plan.size else 0.0,
-            "chance_components": {
-                "random_candidate": float(np.mean(random_plan)) if random_plan.size else 0.0,
-                "empirical_label_rate": float(np.mean(label_rate_plan)) if label_rate_plan.size else 0.0,
-            },
+            "chance_selected_baseline": chance_plan_name,
+            "chance_components": chance_plan_components,
             "base_minus_chance": planning_ci,
             "status": "pass" if planning_pass else "fail",
         },

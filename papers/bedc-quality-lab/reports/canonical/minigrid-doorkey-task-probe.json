@@ -56,33 +56,35 @@
     "distinction_accuracy": {
       "base": 0.5625,
       "base_minus_chance": {
-        "ci95_high": -0.125,
-        "ci95_low": -0.328125,
-        "effect_size": -0.525,
-        "mean": -0.21875,
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "effect_size": 0.0,
+        "mean": 0.0,
         "n": 64
       },
-      "chance": 0.78125,
+      "chance": 0.5625,
       "chance_components": {
         "empirical_majority": 0.5625,
         "permutation": 0.5625
       },
+      "chance_selected_baseline": "empirical_majority",
       "status": "fail"
     },
     "planning_success_rate": {
       "base": 1.0,
       "base_minus_chance": {
-        "ci95_high": 0.19982993197278912,
-        "ci95_low": 0.0781781462585034,
-        "effect_size": 0.6273640793107197,
-        "mean": 0.13818027210884354,
+        "ci95_high": 0.355017006802721,
+        "ci95_low": 0.22061011904761904,
+        "effect_size": 1.2516449539950243,
+        "mean": 0.2869897959183674,
         "n": 48
       },
-      "chance": 0.8618197278911565,
+      "chance": 0.7130102040816326,
       "chance_components": {
         "empirical_label_rate": 0.7130102040816326,
         "random_candidate": 0.6666666666666666
       },
+      "chance_selected_baseline": "empirical_label_rate",
       "status": "pass"
     },
     "status": "fail"
@@ -277,9 +279,9 @@
       ]
     },
     "chance_baseline": {
-      "definition": "empirical label-rate and permutation baselines on the predeclared validation split",
-      "distinction": "max empirical majority-label accuracy and action-permutation accuracy",
-      "planning": "max random candidate plan success and label-rate candidate success"
+      "definition": "aggregate maximum over predeclared single fixed baselines on the validation split",
+      "distinction": "best aggregate accuracy among empirical majority-label and action-permutation baselines",
+      "planning": "best aggregate success among random candidate and label-rate candidate baselines"
     },
     "drt_success_criteria": {
       "primary_endpoint": "unlogged error reduction under matched base training surface",
@@ -321,7 +323,7 @@
       "heldout_seed_basis": "seed+1000"
     },
     "issue": "#1515",
-    "preregistration_digest": "efa4175093e09741c4bd0e48b16e117be2267228bbbbd76a16d214a0cf28867f",
+    "preregistration_digest": "8f9222877ca0421cf7c8c05223e05d165d6e8542df1136b6db82d9fe3f1ee78d",
     "schema_id": "bedc-quality-lab:minigrid-doorkey-preregistration",
     "split_protocol": {
       "counts": {
@@ -341,7 +343,7 @@
     }
   },
   "producer": "bedc_quality_lab.minigrid_doorkey_task_probe",
-  "raw_digest": "9d72b0e39c96d59638ccdf0a1f6cdd0a5564b61503497acef4feb14ccab30e03",
+  "raw_digest": "ccbb41bc3799a4a734ff2b2dbc09a54671f4f850f7c87105f3310085ff90f318",
   "reproducibility_contract": {
     "calibration": {
       "basis": {
@@ -394,7 +396,7 @@
   "schema_id": "bedc-quality-lab:minigrid-doorkey-task-probe",
   "source_artifacts": {
     "cost_protocol": "configs/default_cost_protocol.yaml",
-    "preregistration_digest": "efa4175093e09741c4bd0e48b16e117be2267228bbbbd76a16d214a0cf28867f",
+    "preregistration_digest": "8f9222877ca0421cf7c8c05223e05d165d6e8542df1136b6db82d9fe3f1ee78d",
     "public_minigrid_native_benchmark": "bedc_quality_lab.public_minigrid_native_benchmark"
   },
   "source_issue": "#1515",

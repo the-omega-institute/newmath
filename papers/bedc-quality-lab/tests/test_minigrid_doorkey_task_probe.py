@@ -1,8 +1,16 @@
 import json
+from pathlib import Path
 
 import numpy as np
 
 from bedc_quality_lab import minigrid_doorkey_task_probe as probe
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class _FixturePlanningHead:
+    def score(self, features):
+        return np.asarray(features, dtype=np.float64).reshape(-1)
 
 
 def test_preregistration_capsule_is_digest_locked_and_names_success_criteria():
@@ -29,6 +37,56 @@ def test_gap_head_feature_audit_rejects_forbidden_columns():
     assert clean["status"] == "pass"
     assert contaminated["status"] == "fail"
     assert contaminated["forbidden_hits"] == ["gap_label", "prediction_error"]
+
+
+def test_base_chance_gate_uses_single_aggregate_baseline_not_row_oracle():
+    surface = probe.TrainingSurface(
+        train={"features": np.zeros((4, 1)), "labels": np.zeros(4, dtype=bool), "gaps": np.zeros(4, dtype=bool)},
+        validation={
+            "features": np.zeros((4, 1)),
+            "labels": np.asarray([False, False, True, True]),
+            "gaps": np.zeros(4, dtype=bool),
+        },
+        test={"features": np.zeros((4, 1)), "labels": np.zeros(4, dtype=bool), "gaps": np.zeros(4, dtype=bool)},
+        heldout={"features": np.zeros((4, 1)), "labels": np.zeros(4, dtype=bool), "gaps": np.zeros(4, dtype=bool)},
+        planning_validation=[
+            {"features": np.asarray([0.9, 0.1]), "labels": np.asarray([True, False])},
+            {"features": np.asarray([0.9, 0.1]), "labels": np.asarray([False, True])},
+            {"features": np.asarray([0.9, 0.1]), "labels": np.asarray([True, False])},
+            {"features": np.asarray([0.9, 0.1]), "labels": np.asarray([False, True])},
+        ],
+        planning_test=[],
+        planning_heldout=[],
+        action_count=2,
+    )
+    base = probe.TrainedProbe(
+        distinction_scores={"validation": np.asarray([0.1, 0.9, 0.9, 0.1])},
+        gap_scores={},
+        latent={},
+        training_evidence={},
+        heads={"distinction": _FixturePlanningHead()},
+        parameter_count=0,
+    )
+
+    gate = probe.evaluate_base_chance_gate(surface, base, seed=7, bootstrap_resamples=32)
+
+    for endpoint in ("distinction_accuracy", "planning_success_rate"):
+        row = gate[endpoint]
+        best_component = max(row["chance_components"].values())
+        assert row["chance"] == best_component
+        assert row["chance_components"][row["chance_selected_baseline"]] == row["chance"]
+        assert row["base_minus_chance"]["mean"] == row["base"] - row["chance"]
+
+
+def test_committed_canonical_capsule_has_consistent_base_chance_numbers():
+    payload = json.loads((ROOT / probe.JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    for endpoint in ("distinction_accuracy", "planning_success_rate"):
+        row = payload["base_chance_gate"][endpoint]
+        best_component = max(row["chance_components"].values())
+        assert row["chance"] == best_component
+        assert row["chance_components"][row["chance_selected_baseline"]] == row["chance"]
+        assert row["base_minus_chance"]["mean"] == row["base"] - row["chance"]
 
 
 def test_base_gate_failure_returns_abstain_and_skips_downstream(monkeypatch):

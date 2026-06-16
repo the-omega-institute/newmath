@@ -3,7 +3,7 @@
 - Generated at: `2026-06-16T00:00:00+00:00`
 - Execution status: `abstain`
 - Claim boundary: `bounded-negative`
-- Preregistration digest: `efa4175093e09741c4bd0e48b16e117be2267228bbbbd76a16d214a0cf28867f`
+- Preregistration digest: `8f9222877ca0421cf7c8c05223e05d165d6e8542df1136b6db82d9fe3f1ee78d`
 - Base gate: `fail`
 - Arms: `not-run`
 - Hardgate: `fail`
