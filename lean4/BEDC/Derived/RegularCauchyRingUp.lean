@@ -184,4 +184,50 @@ theorem RegularCauchyRingCarrier_componentwise_distributivity [AskSetup] [Packag
       distributedUnary, sumProductRoute, leftProductRoute, rightProductRoute, distributeRoute,
       provenancePkg, distributedPkg⟩
 
+theorem RegularCauchyRingWindowwiseAssociativity [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+      sumAssoc productAssoc scaleAssoc : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+        bundle pkg →
+      Cont S M sumAssoc →
+        Cont M L productAssoc →
+          Cont L S scaleAssoc →
+            UnaryHistory sumAssoc ∧ UnaryHistory productAssoc ∧
+              UnaryHistory scaleAssoc ∧ Cont S M sumAssoc ∧
+                Cont M L productAssoc ∧ Cont L S scaleAssoc ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg
+  intro carrier sumRoute productRoute scaleRoute
+  obtain ⟨_unaryA, _unaryB, _unaryWA, _unaryWB, _unaryDA, _unaryDB, unaryS,
+    _unaryG, unaryM, unaryL, _unaryRS, _unaryRG, _unaryRM, _unaryRL, _unaryES,
+    _unaryEG, _unaryEM, _unaryEL, _unaryH, _unaryC, _unaryP, _unaryN,
+    _sourceWindowA, _sourceWindowB, _transportReplay, provenancePkg, namePkg⟩ := carrier
+  have unarySumAssoc : UnaryHistory sumAssoc := unary_cont_closed unaryS unaryM sumRoute
+  have unaryProductAssoc : UnaryHistory productAssoc := unary_cont_closed unaryM unaryL productRoute
+  have unaryScaleAssoc : UnaryHistory scaleAssoc := unary_cont_closed unaryL unaryS scaleRoute
+  exact
+    ⟨unarySumAssoc, unaryProductAssoc, unaryScaleAssoc, sumRoute, productRoute,
+      scaleRoute, provenancePkg, namePkg⟩
+
+theorem RegularCauchyRingRealSealNonescape [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N realConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+        bundle pkg →
+      Cont RS RG realConsumer →
+        UnaryHistory realConsumer ∧ UnaryHistory RS ∧ UnaryHistory RG ∧
+          UnaryHistory RM ∧ UnaryHistory RL ∧ hsame N N ∧ Cont RS RG realConsumer ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame ProbeBundle Pkg
+  intro carrier realRoute
+  obtain ⟨_unaryA, _unaryB, _unaryWA, _unaryWB, _unaryDA, _unaryDB, _unaryS,
+    _unaryG, _unaryM, _unaryL, unaryRS, unaryRG, unaryRM, unaryRL, _unaryES,
+    _unaryEG, _unaryEM, _unaryEL, _unaryH, _unaryC, _unaryP, _unaryN,
+    _sourceWindowA, _sourceWindowB, _transportReplay, provenancePkg, namePkg⟩ := carrier
+  have unaryRealConsumer : UnaryHistory realConsumer := unary_cont_closed unaryRS unaryRG realRoute
+  exact
+    ⟨unaryRealConsumer, unaryRS, unaryRG, unaryRM, unaryRL, hsame_refl N, realRoute,
+      provenancePkg, namePkg⟩
+
 end BEDC.Derived.RegularCauchyRingUp
