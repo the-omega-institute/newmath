@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CentralLimitFiniteWindowUp
+namespace BEDC.Derived.CentralLimitFiniteWindowUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CentralLimitFiniteWindowUp : Type where
-  | mk : (P V S K D R E H C Q N : BHist) → CentralLimitFiniteWindowUp
+  | mk (P V S K D R E H C Q N : BHist) : CentralLimitFiniteWindowUp
   deriving DecidableEq
 
 def centralLimitFiniteWindowEncodeBHist : BHist → RawEvent
@@ -26,17 +26,15 @@ def centralLimitFiniteWindowDecodeBHist : RawEvent → BHist
   | BMark.b1 :: tail => BHist.e1 (centralLimitFiniteWindowDecodeBHist tail)
 
 private theorem centralLimitFiniteWindowDecode_encode_bhist :
-    ∀ h : BHist, centralLimitFiniteWindowDecodeBHist
-      (centralLimitFiniteWindowEncodeBHist h) = h := by
+    ∀ h : BHist,
+      centralLimitFiniteWindowDecodeBHist
+        (centralLimitFiniteWindowEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def centralLimitFiniteWindowFields : CentralLimitFiniteWindowUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -44,32 +42,36 @@ def centralLimitFiniteWindowFields : CentralLimitFiniteWindowUp → List BHist
 
 def centralLimitFiniteWindowToEventFlow : CentralLimitFiniteWindowUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map centralLimitFiniteWindowEncodeBHist (centralLimitFiniteWindowFields x)
+  | x => (centralLimitFiniteWindowFields x).map centralLimitFiniteWindowEncodeBHist
 
-def centralLimitFiniteWindowFromEventFlow : EventFlow → Option CentralLimitFiniteWindowUp
+private def centralLimitFiniteWindowEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [P, V, S, K, D, R, E, H, C, Q, N] =>
-      some
-        (CentralLimitFiniteWindowUp.mk
-          (centralLimitFiniteWindowDecodeBHist P)
-          (centralLimitFiniteWindowDecodeBHist V)
-          (centralLimitFiniteWindowDecodeBHist S)
-          (centralLimitFiniteWindowDecodeBHist K)
-          (centralLimitFiniteWindowDecodeBHist D)
-          (centralLimitFiniteWindowDecodeBHist R)
-          (centralLimitFiniteWindowDecodeBHist E)
-          (centralLimitFiniteWindowDecodeBHist H)
-          (centralLimitFiniteWindowDecodeBHist C)
-          (centralLimitFiniteWindowDecodeBHist Q)
-          (centralLimitFiniteWindowDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => centralLimitFiniteWindowEventAt index rest
 
-private theorem centralLimitFiniteWindow_round_trip :
-    ∀ x : CentralLimitFiniteWindowUp,
-      centralLimitFiniteWindowFromEventFlow
+def centralLimitFiniteWindowFromEventFlow (ef : EventFlow) :
+    Option CentralLimitFiniteWindowUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (CentralLimitFiniteWindowUp.mk
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 0 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 1 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 2 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 3 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 4 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 5 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 6 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 7 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 8 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 9 ef))
+      (centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEventAt 10 ef)))
+
+private theorem centralLimitFiniteWindow_round_trip (x : CentralLimitFiniteWindowUp) :
+    centralLimitFiniteWindowFromEventFlow
         (centralLimitFiniteWindowToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk P V S K D R E H C Q N =>
       change
@@ -101,7 +103,8 @@ private theorem centralLimitFiniteWindow_round_trip :
 
 private theorem centralLimitFiniteWindowToEventFlow_injective
     {x y : CentralLimitFiniteWindowUp} :
-    centralLimitFiniteWindowToEventFlow x = centralLimitFiniteWindowToEventFlow y → x = y := by
+    centralLimitFiniteWindowToEventFlow x =
+      centralLimitFiniteWindowToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -112,7 +115,8 @@ private theorem centralLimitFiniteWindowToEventFlow_injective
     (Eq.trans (centralLimitFiniteWindow_round_trip x).symm
       (Eq.trans hread (centralLimitFiniteWindow_round_trip y)))
 
-instance centralLimitFiniteWindowBHistCarrier : BHistCarrier CentralLimitFiniteWindowUp where
+instance centralLimitFiniteWindowBHistCarrier :
+    BHistCarrier CentralLimitFiniteWindowUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := centralLimitFiniteWindowToEventFlow
   fromEventFlow := centralLimitFiniteWindowFromEventFlow
@@ -124,7 +128,8 @@ instance centralLimitFiniteWindowChapterTasteGate :
     intro x
     change
       centralLimitFiniteWindowFromEventFlow
-        (centralLimitFiniteWindowToEventFlow x) = some x
+          (centralLimitFiniteWindowToEventFlow x) =
+        some x
     exact centralLimitFiniteWindow_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -135,26 +140,24 @@ def taste_gate : ChapterTasteGate CentralLimitFiniteWindowUp :=
   centralLimitFiniteWindowChapterTasteGate
 
 theorem CentralLimitFiniteWindowTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-        centralLimitFiniteWindowDecodeBHist (centralLimitFiniteWindowEncodeBHist h) = h) ∧
-      (∀ x : CentralLimitFiniteWindowUp,
-        centralLimitFiniteWindowToEventFlow x =
-          List.map centralLimitFiniteWindowEncodeBHist
-            (centralLimitFiniteWindowFields x)) ∧
-          centralLimitFiniteWindowFields
-              (CentralLimitFiniteWindowUp.mk BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty BHist.Empty) =
-            [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-              BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-              BHist.Empty] := by
-  -- BEDC touchpoint anchor: BHist BMark
+    Nonempty (BHistCarrier CentralLimitFiniteWindowUp) ∧
+      Nonempty (ChapterTasteGate CentralLimitFiniteWindowUp) ∧
+        (∀ h : BHist,
+          centralLimitFiniteWindowDecodeBHist
+              (centralLimitFiniteWindowEncodeBHist h) = h) ∧
+          (∀ x : CentralLimitFiniteWindowUp,
+            centralLimitFiniteWindowFromEventFlow
+                (centralLimitFiniteWindowToEventFlow x) = some x) ∧
+            centralLimitFiniteWindowEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   constructor
-  · exact centralLimitFiniteWindowDecode_encode_bhist
-  constructor
-  · intro x
-    cases x
-    rfl
-  · rfl
+  · exact ⟨centralLimitFiniteWindowBHistCarrier⟩
+  · constructor
+    · exact ⟨centralLimitFiniteWindowChapterTasteGate⟩
+    · constructor
+      · exact centralLimitFiniteWindowDecode_encode_bhist
+      · constructor
+        · exact centralLimitFiniteWindow_round_trip
+        · rfl
 
-end BEDC.Derived.CentralLimitFiniteWindowUp
+end BEDC.Derived.CentralLimitFiniteWindowUp.TasteGate

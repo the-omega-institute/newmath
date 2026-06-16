@@ -193,15 +193,17 @@ def taste_gate : ChapterTasteGate BishopCauchyMeanUp :=
   bishopCauchyMeanChapterTasteGate
 
 theorem BishopCauchyMeanTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier BishopCauchyMeanUp) ∧
-      Nonempty (ChapterTasteGate BishopCauchyMeanUp) ∧
-      Nonempty (FieldFaithful BishopCauchyMeanUp) ∧
-      Nonempty BishopCauchyMeanUp := by
+    (∀ h : BHist, bishopCauchyMeanDecodeBHist (bishopCauchyMeanEncodeBHist h) = h) ∧
+      (∀ x : BishopCauchyMeanUp,
+        bishopCauchyMeanFromEventFlow (bishopCauchyMeanToEventFlow x) = some x) ∧
+        (∀ x y : BishopCauchyMeanUp,
+          bishopCauchyMeanToEventFlow x = bishopCauchyMeanToEventFlow y → x = y) ∧
+          bishopCauchyMeanEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨⟨bishopCauchyMeanBHistCarrier⟩, ⟨bishopCauchyMeanChapterTasteGate⟩,
-      ⟨bishopCauchyMeanFieldFaithful⟩,
-      ⟨BishopCauchyMeanUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty⟩⟩
+    ⟨BishopCauchyMeanTasteGate_single_carrier_alignment_decode,
+      bishopCauchyMean_round_trip,
+      fun _ _ heq => bishopCauchyMeanToEventFlow_injective heq,
+      rfl⟩
 
 end BEDC.Derived.BishopCauchyMeanUp

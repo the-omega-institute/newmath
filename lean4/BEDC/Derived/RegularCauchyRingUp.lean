@@ -147,6 +147,35 @@ theorem RegularCauchyRingOperationClosure [AskSetup] [PackageSetup]
     ⟨unaryS, unaryG, unaryM, unaryL, unaryRS, unaryRG, unaryRM, unaryRL, sumSeal,
       negSeal, productSeal, scaleSeal⟩
 
+theorem RegularCauchyRingCarrier_windowwise_associativity [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N reassocSum
+      reassocProduct reassocScale : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+        bundle pkg →
+      Cont S ES reassocSum →
+        Cont M EM reassocProduct →
+          Cont L EL reassocScale →
+            UnaryHistory reassocSum ∧ UnaryHistory reassocProduct ∧
+              UnaryHistory reassocScale ∧ Cont S ES reassocSum ∧
+                Cont M EM reassocProduct ∧ Cont L EL reassocScale := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg
+  intro carrier sumReassoc productReassoc scaleReassoc
+  obtain ⟨_unaryA, _unaryB, _unaryWA, _unaryWB, _unaryDA, _unaryDB, unaryS,
+    _unaryG, unaryM, unaryL, _unaryRS, _unaryRG, _unaryRM, _unaryRL, unaryES,
+    _unaryEG, unaryEM, unaryEL, _unaryH, _unaryC, _unaryP, _unaryN,
+    _sourceWindowA, _sourceWindowB, _transportReplay, _provenancePkg,
+    _namePkg⟩ := carrier
+  have reassocSumUnary : UnaryHistory reassocSum :=
+    unary_cont_closed unaryS unaryES sumReassoc
+  have reassocProductUnary : UnaryHistory reassocProduct :=
+    unary_cont_closed unaryM unaryEM productReassoc
+  have reassocScaleUnary : UnaryHistory reassocScale :=
+    unary_cont_closed unaryL unaryEL scaleReassoc
+  exact
+    ⟨reassocSumUnary, reassocProductUnary, reassocScaleUnary, sumReassoc,
+      productReassoc, scaleReassoc⟩
+
 theorem RegularCauchyRingCarrier_componentwise_distributivity [AskSetup] [PackageSetup]
     {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
       sumThenProduct leftProduct rightProduct distributedRead : BHist}
@@ -184,50 +213,122 @@ theorem RegularCauchyRingCarrier_componentwise_distributivity [AskSetup] [Packag
       distributedUnary, sumProductRoute, leftProductRoute, rightProductRoute, distributeRoute,
       provenancePkg, distributedPkg⟩
 
-theorem RegularCauchyRingWindowwiseAssociativity [AskSetup] [PackageSetup]
-    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
-      sumAssoc productAssoc scaleAssoc : BHist}
+theorem RegularCauchyRingCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
         bundle pkg →
-      Cont S M sumAssoc →
-        Cont M L productAssoc →
-          Cont L S scaleAssoc →
-            UnaryHistory sumAssoc ∧ UnaryHistory productAssoc ∧
-              UnaryHistory scaleAssoc ∧ Cont S M sumAssoc ∧
-                Cont M L productAssoc ∧ Cont L S scaleAssoc ∧
-                  PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
-  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg
-  intro carrier sumRoute productRoute scaleRoute
-  obtain ⟨_unaryA, _unaryB, _unaryWA, _unaryWB, _unaryDA, _unaryDB, unaryS,
-    _unaryG, unaryM, unaryL, _unaryRS, _unaryRG, _unaryRM, _unaryRL, _unaryES,
-    _unaryEG, _unaryEM, _unaryEL, _unaryH, _unaryC, _unaryP, _unaryN,
-    _sourceWindowA, _sourceWindowB, _transportReplay, provenancePkg, namePkg⟩ := carrier
-  have unarySumAssoc : UnaryHistory sumAssoc := unary_cont_closed unaryS unaryM sumRoute
-  have unaryProductAssoc : UnaryHistory productAssoc := unary_cont_closed unaryM unaryL productRoute
-  have unaryScaleAssoc : UnaryHistory scaleAssoc := unary_cont_closed unaryL unaryS scaleRoute
-  exact
-    ⟨unarySumAssoc, unaryProductAssoc, unaryScaleAssoc, sumRoute, productRoute,
-      scaleRoute, provenancePkg, namePkg⟩
-
-theorem RegularCauchyRingRealSealNonescape [AskSetup] [PackageSetup]
-    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N realConsumer : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
-        bundle pkg →
-      Cont RS RG realConsumer →
-        UnaryHistory realConsumer ∧ UnaryHistory RS ∧ UnaryHistory RG ∧
-          UnaryHistory RM ∧ UnaryHistory RL ∧ hsame N N ∧ Cont RS RG realConsumer ∧
-            PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
-  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame ProbeBundle Pkg
-  intro carrier realRoute
-  obtain ⟨_unaryA, _unaryB, _unaryWA, _unaryWB, _unaryDA, _unaryDB, _unaryS,
-    _unaryG, _unaryM, _unaryL, unaryRS, unaryRG, unaryRM, unaryRL, _unaryES,
-    _unaryEG, _unaryEM, _unaryEL, _unaryH, _unaryC, _unaryP, _unaryN,
-    _sourceWindowA, _sourceWindowB, _transportReplay, provenancePkg, namePkg⟩ := carrier
-  have unaryRealConsumer : UnaryHistory realConsumer := unary_cont_closed unaryRS unaryRG realRoute
-  exact
-    ⟨unaryRealConsumer, unaryRS, unaryRG, unaryRM, unaryRL, hsame_refl N, realRoute,
-      provenancePkg, namePkg⟩
+      Cont S ES RS →
+        Cont G EG RG →
+          Cont M EM RM →
+            Cont L EL RL →
+              PkgSig bundle P pkg →
+                PkgSig bundle N pkg →
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row RS ∨ hsame row RG ∨ hsame row RM ∨ hsame row RL)
+                      (fun row : BHist =>
+                        hsame row S ∨ hsame row G ∨ hsame row M ∨ hsame row L ∨
+                          hsame row RS ∨ hsame row RG ∨ hsame row RM ∨ hsame row RL)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont S ES RS ∧ Cont G EG RG ∧
+                          Cont M EM RM ∧ Cont L EL RL)
+                      hsame ∧ UnaryHistory RS ∧ UnaryHistory RG ∧ UnaryHistory RM ∧
+                    UnaryHistory RL := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory ProbeBundle Pkg
+  intro carrier sumSeal negSeal productSeal scaleSeal _provenancePkg _namePkg
+  obtain ⟨_unaryA, _unaryB, _unaryWA, _unaryWB, _unaryDA, _unaryDB, sUnary, gUnary,
+    mUnary, lUnary, _carrierUnaryRS, _carrierUnaryRG, _carrierUnaryRM, _carrierUnaryRL,
+    esUnary, egUnary, emUnary, elUnary, _unaryH, _unaryC, _unaryP, _unaryN,
+    _sourceWindowA, _sourceWindowB, _transportReplay, _carrierProvenancePkg,
+    _carrierNamePkg⟩ := carrier
+  have rsUnary : UnaryHistory RS := unary_cont_closed sUnary esUnary sumSeal
+  have rgUnary : UnaryHistory RG := unary_cont_closed gUnary egUnary negSeal
+  have rmUnary : UnaryHistory RM := unary_cont_closed mUnary emUnary productSeal
+  have rlUnary : UnaryHistory RL := unary_cont_closed lUnary elUnary scaleSeal
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro RS (Or.inl (hsame_refl RS))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other sameRows source
+          cases source with
+          | inl sameRS =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameRS)
+          | inr rest =>
+              cases rest with
+              | inl sameRG =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameRG))
+              | inr rest =>
+                  cases rest with
+                  | inl sameRM =>
+                      exact Or.inr
+                        (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameRM)))
+                  | inr sameRL =>
+                      exact Or.inr
+                        (Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameRL)))
+      }
+      pattern_sound := by
+        intro _row source
+        cases source with
+        | inl sameRS =>
+            right
+            right
+            right
+            right
+            exact Or.inl sameRS
+        | inr rest =>
+            cases rest with
+            | inl sameRG =>
+                right
+                right
+                right
+                right
+                exact Or.inr (Or.inl sameRG)
+            | inr rest =>
+                cases rest with
+                | inl sameRM =>
+                    right
+                    right
+                    right
+                    right
+                    exact Or.inr (Or.inr (Or.inl sameRM))
+                | inr sameRL =>
+                    right
+                    right
+                    right
+                    right
+                    exact Or.inr (Or.inr (Or.inr sameRL))
+      ledger_sound := by
+        intro _row source
+        cases source with
+        | inl sameRS =>
+            exact ⟨unary_transport rsUnary (hsame_symm sameRS), sumSeal, negSeal,
+              productSeal, scaleSeal⟩
+        | inr rest =>
+            cases rest with
+            | inl sameRG =>
+                exact ⟨unary_transport rgUnary (hsame_symm sameRG), sumSeal, negSeal,
+                  productSeal, scaleSeal⟩
+            | inr rest =>
+                cases rest with
+                | inl sameRM =>
+                    exact ⟨unary_transport rmUnary (hsame_symm sameRM), sumSeal, negSeal,
+                      productSeal, scaleSeal⟩
+                | inr sameRL =>
+                    exact ⟨unary_transport rlUnary (hsame_symm sameRL), sumSeal, negSeal,
+                      productSeal, scaleSeal⟩
+    }
+  · exact ⟨rsUnary, rgUnary, rmUnary, rlUnary⟩
 
 end BEDC.Derived.RegularCauchyRingUp
