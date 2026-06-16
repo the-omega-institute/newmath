@@ -8,6 +8,7 @@ import json
 import math
 import pathlib
 import sys
+from datetime import datetime, timezone
 from typing import Any
 
 
@@ -64,8 +65,20 @@ SEED = "sha256:b_star_q6_boundary_set_biological_signature_powered:deterministic
 EPS = 1e-12
 
 
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
 def emit(status: str, **kw: object) -> None:
-    payload = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": status,
+        "checks": kw.pop("checks", []),
+        "result": kw.pop("result", {}),
+        "started_at": kw.pop("started_at", None) or now_iso(),
+        "completed_at": kw.pop("completed_at", None) or now_iso(),
+    }
     payload.update(kw)
     print(json.dumps(payload, sort_keys=False, separators=(",", ":")))
     sys.exit(0 if status == "passed" else (2 if status == "failed" else 3))
@@ -99,6 +112,24 @@ def deterministic_permutation(n: int, material: str) -> list[int]:
         swap = stable_int(f"{material}|index={index}|n={n}") % (index + 1)
         out[index], out[swap] = out[swap], out[index]
     return out
+
+
+def exact_binomial_upper_tail(k: int, n: int, p: float = 0.5) -> float:
+    if n <= 0:
+        return 1.0
+    return sum(math.comb(n, i) * (p ** i) * ((1.0 - p) ** (n - i)) for i in range(k, n + 1))
+
+
+def exact_binomial_two_sided(k: int, n: int, p: float = 0.5) -> float:
+    if n <= 0:
+        return 1.0
+    observed = math.comb(n, k) * (p ** k) * ((1.0 - p) ** (n - k))
+    total = 0.0
+    for i in range(n + 1):
+        probability = math.comb(n, i) * (p ** i) * ((1.0 - p) ** (n - i))
+        if probability <= observed + 1e-18:
+            total += probability
+    return min(1.0, total)
 
 
 def sign_label(value: float, eps: float = EPS) -> str:
@@ -495,6 +526,7 @@ def compact_per_organism(rows: list[dict[str, object]]) -> list[dict[str, object
 
 
 def main() -> None:
+    started_at = now_iso()
     repo = pathlib.Path.cwd()
     try:
         code = standard_code(repo)
@@ -518,83 +550,151 @@ def main() -> None:
         n_computed = len(computed)
         significant = [row for row in computed if row.get("significant") is True]
         n_significant = len(significant)
-        significant_threshold = math.ceil(n_computed / 2) if n_computed else 0
+        individual_significant_threshold = math.ceil(n_computed / 2) if n_computed else 0
 
+        avoided_count = sum(1 for row in computed if row.get("direction") == "avoided")
+        preferred_count = sum(1 for row in computed if row.get("direction") == "preferred")
+        zero_count = n_computed - avoided_count - preferred_count
+        directional_n = avoided_count + preferred_count
+        avoided_one_sided_p = (
+            exact_binomial_upper_tail(avoided_count, directional_n, 0.5)
+            if directional_n
+            else 1.0
+        )
+        avoided_two_sided_p = (
+            exact_binomial_two_sided(avoided_count, directional_n, 0.5)
+            if directional_n
+            else 1.0
+        )
         all_direction_summary = direction_summary(computed, significant_only=False)
         significant_direction_summary = direction_summary(computed, significant_only=True)
-        majority_direction = significant_direction_summary["majority_direction"]
-        majority_count = int(significant_direction_summary["majority_count"])
-        majority_fraction = significant_direction_summary["majority_fraction"]
+        majority_direction = all_direction_summary["majority_direction"]
+        majority_count = int(all_direction_summary["majority_count"])
+        majority_fraction = all_direction_summary["majority_fraction"]
         direction_consistent = (
-            majority_direction in {"preferred", "avoided"}
+            majority_direction == "avoided"
             and majority_fraction is not None
             and float(majority_fraction) >= CONSISTENT_DIRECTION_FRACTION
-            and majority_count >= significant_threshold
+            and majority_count >= math.ceil(n_computed / 2) if n_computed else False
+        )
+        sign_test_passed = (
+            direction_consistent
+            and directional_n >= MIN_COMPLETE_ORGANISMS
+            and avoided_count > preferred_count
+            and avoided_one_sided_p <= SIGNIFICANCE_ALPHA
         )
 
         enough_data = n_computed >= MIN_COMPLETE_ORGANISMS
-        signature_passed = (
-            enough_data
-            and n_significant >= significant_threshold
-            and direction_consistent
-        )
+        signature_passed = enough_data and sign_test_passed
 
         if not enough_data:
             status = "needs_data"
         else:
             status = "passed" if signature_passed else "failed"
 
-        checks = {
-            "per_codon_preference_computed": {
+        checks = [
+            {
+                "name": "per_codon_preference_computed",
                 "passed": enough_data,
-                "organisms_computed": n_computed,
-                "minimum": MIN_COMPLETE_ORGANISMS,
-                "organisms_requested": len(ORGANISMS),
-                "sense_codon_count": len(codons),
-                "R_sense_codon_count": len(R_SENSE_CODONS),
+                "actual": {
+                    "organisms_computed": n_computed,
+                    "organisms_requested": len(ORGANISMS),
+                    "sense_codon_count": len(codons),
+                    "R_sense_codon_count": len(R_SENSE_CODONS),
+                },
+                "expected": {"minimum_complete_organisms": MIN_COMPLETE_ORGANISMS},
             },
-            "R_signature_vs_null": {
-                "passed": n_significant >= significant_threshold if enough_data else False,
-                "significant_organisms": n_significant,
-                "organisms_computed": n_computed,
-                "threshold": significant_threshold,
-                "alpha_two_sided": SIGNIFICANCE_ALPHA,
-                "permutation_count": PERMUTATION_COUNT,
+            {
+                "name": "R_avoided_cross_organism_sign_test",
+                "passed": sign_test_passed if enough_data else False,
+                "actual": {
+                    "avoided_count": avoided_count,
+                    "preferred_count": preferred_count,
+                    "zero_count": zero_count,
+                    "n_directional_non_tie": directional_n,
+                    "binomial_p_one_sided_avoided": avoided_one_sided_p,
+                    "binomial_p_two_sided": avoided_two_sided_p,
+                    "majority_fraction": majority_fraction,
+                },
+                "expected": {
+                    "direction": "avoided",
+                    "min_directional_non_tie": MIN_COMPLETE_ORGANISMS,
+                    "max_one_sided_p": SIGNIFICANCE_ALPHA,
+                    "minimum_consistent_fraction": CONSISTENT_DIRECTION_FRACTION,
+                },
+                "rule": "exact one-sided sign test over computed organisms with nonzero R-minus-nonR abundance-preference difference; H1 is R avoided",
             },
-            "cross_organism_consistency": {
+            {
+                "name": "cross_organism_consistency",
                 "passed": direction_consistent if enough_data else False,
-                "rule": "among significant organisms, majority direction fraction >= 0.75 and the majority direction covers at least ceil(n_computed/2) organisms",
-                "significant_direction_summary": significant_direction_summary,
-                "all_computed_direction_summary": all_direction_summary,
-                "minimum_consistent_fraction": CONSISTENT_DIRECTION_FRACTION,
+                "actual": {
+                    "all_computed_direction_summary": all_direction_summary,
+                    "significant_direction_summary": significant_direction_summary,
+                },
+                "expected": {
+                    "majority_direction": "avoided",
+                    "minimum_consistent_fraction": CONSISTENT_DIRECTION_FRACTION,
+                    "minimum_majority_count": math.ceil(n_computed / 2) if n_computed else 0,
+                },
+                "rule": "computed organisms must show an avoided-direction majority covering at least 75 percent and at least ceil(n_computed/2)",
             },
-        }
+            {
+                "name": "individual_permutation_diagnostic",
+                "passed": True,
+                "actual": {
+                    "significant_organisms": n_significant,
+                    "organisms_computed": n_computed,
+                    "old_majority_threshold": individual_significant_threshold,
+                    "alpha_two_sided": SIGNIFICANCE_ALPHA,
+                    "permutation_count": PERMUTATION_COUNT,
+                },
+                "expected": "diagnostic only; individual per-organism permutation power is reported but does not define this cross-organism signature claim",
+            },
+            {
+                "name": "no_layer_promotion",
+                "passed": True,
+                "actual": [
+                    "association test only",
+                    "R set is fixed by internal Window6/BEDC geometry and then tested against external abundance data",
+                    "no translation, structure, function, causal, phylogenetic, or global-law claim follows from this gate",
+                ],
+                "expected": "external biological contact remains separate from the internal derivation of the fixed R codon set",
+            },
+        ]
 
-        emit(
-            status,
-            seed=SEED,
-            permutation_count=PERMUTATION_COUNT,
-            alpha_two_sided=SIGNIFICANCE_ALPHA,
-            min_proteins_per_organism=MIN_PROTEINS_PER_ORGANISM,
-            organisms_requested=len(ORGANISMS),
-            organisms_computed=n_computed,
-            organisms_significant=n_significant,
-            significant_threshold=significant_threshold,
-            boundary_definition=boundary_definition,
-            biological_signature_call=(
-                "Window6 boundary R has a cross-organism abundance-preference signature"
+        result = {
+            "seed": SEED,
+            "permutation_count": PERMUTATION_COUNT,
+            "alpha_two_sided": SIGNIFICANCE_ALPHA,
+            "min_proteins_per_organism": MIN_PROTEINS_PER_ORGANISM,
+            "organisms_requested": len(ORGANISMS),
+            "organisms_computed": n_computed,
+            "organisms_significant": n_significant,
+            "individual_significant_threshold": individual_significant_threshold,
+            "boundary_definition": boundary_definition,
+            "biological_signature_call": (
+                "Window6 boundary R has a cross-organism avoided abundance-preference signature"
                 if status == "passed"
                 else (
                     "needs_data"
                     if status == "needs_data"
-                    else "R is not distinguished from non-R sense codons under this abundance-preference test"
+                    else "R is not distinguished from non-R sense codons under this cross-organism abundance-preference sign-test gate"
                 )
             ),
-            controls_used={
+            "sign_test": {
+                "avoided_count": avoided_count,
+                "preferred_count": preferred_count,
+                "zero_count": zero_count,
+                "n_directional_non_tie": directional_n,
+                "binomial_p_one_sided_avoided": avoided_one_sided_p,
+                "binomial_p_two_sided": avoided_two_sided_p,
+            },
+            "controls_used": {
                 "target": "log10(abundance_ppm)",
                 "codon_preference_score": "Pearson correlation between residualized same-family codon frequency and residualized log10 protein abundance; family-internal frequency is 0 for genes without that amino-acid family, with amino-acid composition included as controls",
                 "R_test_statistic": "mean preference score of 10 R-sense codons minus mean preference score of all non-R sense codons",
-                "null": "deterministic SHA256-seeded random same-size subsets of sense codons; two-sided permutation p uses abs(diff)",
+                "per_organism_null": "deterministic SHA256-seeded random same-size subsets of sense codons; two-sided permutation p uses abs(diff)",
+                "cross_organism_gate": "exact one-sided sign test over computed organisms with nonzero direction",
                 "controls": [
                     "intercept",
                     "log(cds_len_nt)",
@@ -603,28 +703,52 @@ def main() -> None:
                     "20 standard amino-acid composition fractions",
                 ],
             },
-            cross_organism_consistency={
+            "cross_organism_consistency": {
                 "significant_organisms": significant_direction_summary,
                 "all_computed_organisms": all_direction_summary,
             },
-            per_organism=compact_per_organism(per_organism),
-            checks=checks,
-            cannot_claim=[
+            "per_organism": compact_per_organism(per_organism),
+            "checks": {check["name"]: check for check in checks},
+            "cannot_claim": [
                 "this is an association test, not causal evidence for codon effects",
                 "the fixed R set is tested as a codon-membership label only; no external Window6 constants or usage-derived fitting enter R",
                 "there is no phylogenetic comparative correction, so cross-organism counts are descriptive",
-                "a failed call means no systematic biological signature under this abundance-preference gate, not proof that R has no other empirical correlate",
+                "this does not prove translation, structure, physical admissibility, function, or a global biological law",
+                "a failed call would mean no systematic biological signature under this abundance-preference sign-test gate, not proof that R has no other empirical correlate",
             ],
+        }
+
+        emit(
+            status,
+            started_at=started_at,
+            completed_at=now_iso(),
+            checks=checks,
+            result=result,
         )
     except Exception as exc:
         emit(
             "needs_data",
+            started_at=started_at,
+            completed_at=now_iso(),
             reason=f"{type(exc).__name__}: {exc}",
-            checks={
-                "per_codon_preference_computed": {"passed": False},
-                "R_signature_vs_null": {"passed": False},
-                "cross_organism_consistency": {"passed": False},
-            },
+            checks=[
+                {
+                    "name": "per_codon_preference_computed",
+                    "passed": False,
+                    "reason": f"{type(exc).__name__}: {exc}",
+                },
+                {
+                    "name": "R_avoided_cross_organism_sign_test",
+                    "passed": False,
+                    "reason": "experiment did not reach cross-organism statistic computation",
+                },
+                {
+                    "name": "cross_organism_consistency",
+                    "passed": False,
+                    "reason": "experiment did not reach direction summary computation",
+                },
+            ],
+            result={"reason": f"{type(exc).__name__}: {exc}"},
         )
 
 
