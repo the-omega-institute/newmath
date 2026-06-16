@@ -76,12 +76,26 @@ Use \autoref{thm:refutation-witness-namecert-obligations}. Its route replay and 
 Finally apply \autoref{thm:refutation-witness-truth-branch-blocker}. Since the local packet exports no certificate-indexed truth branch, excluded middle, double-negation eliminator, or witness selector, the GroundRefutation and RefutationBoundary consumers can only cite the finite route through the two named sibling chapters.
 \end{proof}
 
-\closureat{RefutationWitnessUp}{bridgedStr}
+\begin{theorem}[Refutation witness mature treatment]
+\label{thm:refutation-witness-mature-treatment}
+Every mature consumer of an accepted $\RefutationWitnessUp$ packet receives exactly the finite proposition row $A$, assumed-witness row $a$, refutation-route row $\rho$, bottom row $b$, componentwise $\hsame$ ledger $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The mature read factors through \autoref{def:refutation-witness-carrier}, \autoref{thm:refutation-witness-namecert-obligations}, \autoref{thm:refutation-witness-truth-branch-blocker}, and \autoref{thm:refutation-witness-ground-refutation-route-link}; it introduces no truth branch, selected witness, excluded middle, or double-negation eliminator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:refutation-witness-carrier}. The mature consumer can read only $A,a,\rho,b,H,C,P,N$, because these are the displayed rows admitted by the finite packet.
+
+Apply the NameCert obligations, \autoref{thm:refutation-witness-namecert-obligations}. Carrier admission, assumption accountability, route replay, bottom-row accountability, classifier transport, continuation locality, provenance, and local naming exhaust the accepted surface.
+
+Now use the truth-branch blocker, \autoref{thm:refutation-witness-truth-branch-blocker}, and the ground-refutation route link, \autoref{thm:refutation-witness-ground-refutation-route-link}. The former removes any certificate-indexed truth branch, excluded middle, double-negation eliminator, or witness selector; the latter places every ground-refutation and boundary-refutation read on the displayed assumption-to-bottom route.
+
+Thus the mature treatment is exactly the finite refutation packet and its two sibling routes, with no additional logical row.
+\end{proof}
+
+\closureat{RefutationWitnessUp}{matureStr}
 
 \begin{closurestatus}{\RefutationWitnessUp}
   \constructivestory{A $\RefutationWitnessUp$ packet is generated from a proposition row, an assumed witness row, a finite assumption-to-bottom route, the produced bottom row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:refutation-witness-carrier}, \autoref{thm:refutation-witness-namecert-obligations}, \autoref{thm:refutation-witness-truth-branch-blocker}, and \autoref{thm:refutation-witness-ground-refutation-route-link} bind the displayed RefuterTrace, StableNegationBoundary, GroundRefutation, RefutationBoundary, BHist, hsame, Cont, Pkg, and NameCert rows for carrier admission, route replay, classifier transport, bottom-row accountability, provenance, local NameCert admission, truth-branch exclusion, and the GroundRefutation--RefutationBoundary bridge route.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:refutation-witness-carrier}, \autoref{thm:refutation-witness-namecert-obligations}, \autoref{thm:refutation-witness-truth-branch-blocker}, \autoref{thm:refutation-witness-ground-refutation-route-link}, and \autoref{thm:refutation-witness-mature-treatment} bind the displayed RefuterTrace, StableNegationBoundary, GroundRefutation, RefutationBoundary, BHist, hsame, Cont, Pkg, and NameCert rows for carrier admission, route replay, classifier transport, bottom-row accountability, provenance, local NameCert admission, truth-branch exclusion, the GroundRefutation--RefutationBoundary bridge route, and mature finite-row consumption.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
