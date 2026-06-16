@@ -662,6 +662,19 @@ boundary is not visible as ordinary scorer uncertainty or rollout instability.
 The next state-generation route must introduce richer causal perturbations or
 environment-state descriptors rather than another post-hoc transform of the
 same internal scores.
+Using the source two-rooms export to expose explicit environment-state fields
+gives the first positive mechanism signal for the hard slice.  Descriptors
+constructed from agent and target positions, room membership, midline crossing,
+reward, and action magnitudes separate the same seven hard episodes after
+fixed descriptor construction.  The strongest descriptor is the episode mean
+agent $y$ coordinate, with hard episodes lower than the remaining eval episodes
+($60.0$ versus $87.5$) and permutation $p=0.0160$.  Room membership also
+separates weakly: hard episodes are in different rooms more often ($0.939$
+versus $0.769$, $p=0.0760$), equivalently same-room occupancy is lower
+($0.061$ versus $0.231$, $p=0.0736$).  This still does not close allocation
+or define a deployable policy, but it changes the next route: the hard
+assignment boundary is externally geometric, not merely a hidden uncertainty
+signal inside the scorer.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
