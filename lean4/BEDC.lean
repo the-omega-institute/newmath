@@ -3657,6 +3657,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ModulusSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowExactness
 import BEDC.Derived.CriticalLineWitnessUp.ModulusWindowTransport
+import BEDC.Derived.CriticalLineWitnessUp.NameCertLedger
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationPackage
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationSurface
 import BEDC.Derived.CriticalLineWitnessUp.NameCertObligationTriad
@@ -3841,6 +3842,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RouteClassifierExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.RouteReadbackExhaustionCertificate
 import BEDC.Derived.CriticalLineWitnessUp.RouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.ScopedSourceBoundary
+import BEDC.Derived.CriticalLineWitnessUp.ScopedSourceLock
 import BEDC.Derived.CriticalLineWitnessUp.SiblingDependencyRoute
 import BEDC.Derived.CriticalLineWitnessUp.SignatureGapExactness
 import BEDC.Derived.CriticalLineWitnessUp.SignatureGapNonescape
@@ -4719,6 +4721,7 @@ import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
 import BEDC.Derived.DyadicTotallyBoundedIntervalUp
+import BEDC.Derived.DyadicUp.CauchyTailEnvelope
 import BEDC.Derived.DyadicUp.CommonExponentNormalization
 import BEDC.Derived.DyadicUp.CommonExponentTotality
 import BEDC.Derived.DyadicUp.ExponentShiftComposition
@@ -8608,6 +8611,7 @@ import BEDC.Derived.RealApproximationEnvelopeUp
 import BEDC.Derived.RealApproximationSchemeUp.TasteGate
 import BEDC.Derived.RealArchimedeanBoundSchemaUp.TasteGate
 import BEDC.Derived.RealArchimedeanPropertyUp.TasteGate
+import BEDC.Derived.RealArchimedeanWindowUp
 import BEDC.Derived.RealArchimedeanWindowUp.TasteGate
 import BEDC.Derived.RealArithmeticProgressionUp.TasteGate
 import BEDC.Derived.RealBaireCylinderUp.NameCertObligations
@@ -9006,6 +9010,7 @@ import BEDC.Derived.RealityConstrainedScientificMethodologyUp.TasteGate
 import BEDC.Derived.RealityConstrainedSignatureDescentUp.TasteGate
 import BEDC.Derived.RealityConstrainedSignatureFitUp.NameCertObligations
 import BEDC.Derived.RealityConstrainedSignatureFitUp.TasteGate
+import BEDC.Derived.RealityConstrainedSignatureResidueUp.ConsumerBoundary
 import BEDC.Derived.RealityConstrainedSignatureResidueUp.TasteGate
 import BEDC.Derived.RealityConstrainedSignatureResidueUp.WitnessRouteTotality
 import BEDC.Derived.RealityConstrainedSynthesisSealUp.IndependenceBoundary
