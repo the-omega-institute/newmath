@@ -320,6 +320,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 
 - 2026-06-16T04:24:00Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_real_consumer_obligation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_real_consumer_obligation:42e7c050`). Rationale: The target has real BEDC content: it proves the filter-uniform replay into a Real read across the CauchySpace carrier, rather than merely restating an existing theorem. It was isolated because no Lean theorem consumed it downstream, so I added a public readback theorem in the CauchySpace public interface that invokes this obligation and continues the route through provenance and Real-consumer rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-16T06:21:49Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_completion_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_completion_nonescape:42e7c050`). Rationale: The target is not a staging-only wrapper: it packages the filter-uniform replay through the completion-facing route while preserving both the regular-name comparison hsame replay R0 and the CauchySpace transport row. It had a paper marker but no downstream Lean consumer, so I added a sibling public readback theorem that invokes it and extends the route through the local NameCert and terminal transport boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
