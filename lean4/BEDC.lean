@@ -1063,6 +1063,7 @@ import BEDC.Derived.BoundedFunctionFamilyUp.NameCertObligations
 import BEDC.Derived.BoundedFunctionFamilyUp.TasteGate
 import BEDC.Derived.BoundedIntervalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedIntervalProjectionUp.TasteGate
+import BEDC.Derived.BoundedLinearFunctionalUp.TasteGate
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetCofinalReadback
@@ -9685,6 +9686,7 @@ import BEDC.Derived.SeparatedLimitUniquenessUp.TasteGate
 import BEDC.Derived.SeparatedMetricCompletionUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp
 import BEDC.Derived.SeparatedMetricReflectionUp.NameCertObligations
+import BEDC.Derived.SeparatedMetricReflectionUp.ScopedDependencyRoute
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp.UniversalRoute
 import BEDC.Derived.SeparatedMetricReflectionUp.ZeroDistanceExactness
