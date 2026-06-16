@@ -81,4 +81,47 @@ theorem CauchySpaceCarrier_public_completion_interface
       publicReadUnary, terminalUnary, transportRow, filterRouteOut, localPrecompletionRoute,
       completionRouteOut, namedRouteOut, publicReadRouteOut, terminalRoute⟩
 
+theorem CauchySpaceCarrier_coverage_public_readback
+    {F0 F1 U0 R0 T0 H0 C0 P0 N0 regular completion ledger publicRead terminal : BHist} :
+    CauchySpaceLocalFilterCarrier F0 F1 U0 R0 T0 H0 C0 P0 N0 ->
+      Cont F0 U0 R0 ->
+        Cont R0 F1 regular ->
+          Cont R0 T0 completion ->
+            Cont completion P0 ledger ->
+              Cont ledger N0 publicRead ->
+                Cont publicRead H0 terminal ->
+                  UnaryHistory F0 ∧ UnaryHistory F1 ∧ UnaryHistory U0 ∧
+                    UnaryHistory R0 ∧ UnaryHistory T0 ∧ UnaryHistory H0 ∧
+                      UnaryHistory regular ∧ UnaryHistory completion ∧
+                        UnaryHistory ledger ∧ UnaryHistory publicRead ∧
+                          UnaryHistory terminal ∧ hsame H0 (append F0 U0) ∧
+                            Cont F0 U0 R0 ∧ Cont R0 F1 regular ∧
+                              Cont R0 T0 H0 ∧ Cont R0 T0 completion ∧
+                                Cont completion P0 ledger ∧ Cont ledger N0 publicRead ∧
+                                  Cont publicRead H0 terminal := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro localCarrier filterRoute regularRoute completionRoute ledgerRoute publicReadRoute
+    terminalRoute
+  obtain ⟨carrier, localPrecompletionRoute⟩ := localCarrier
+  have coverage :=
+    CauchySpaceCarrier_obligation_coverage_route
+      (F0 := F0) (F1 := F1) (U0 := U0) (R0 := R0) (T0 := T0) (H0 := H0)
+      (C0 := C0) (P0 := P0) (N0 := N0) (regular := regular)
+      (completion := completion) (ledger := ledger)
+      carrier filterRoute regularRoute completionRoute ledgerRoute
+  obtain ⟨fUnary, f1Unary, uUnary, rUnary, tUnary, regularUnary, completionUnary,
+    ledgerUnary, _pUnary, nUnary, transportRow, filterRouteOut, regularRouteOut,
+    completionRouteOut, ledgerRouteOut⟩ := coverage
+  obtain ⟨_fUnary, _uUnary, _rUnary, _f1Unary, _tUnary, hUnary, _cUnary, _pUnary,
+    _nUnary, _transportRow, _carrierFilterRoute, _nameRoute⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed ledgerUnary nUnary publicReadRoute
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed publicReadUnary hUnary terminalRoute
+  exact
+    ⟨fUnary, f1Unary, uUnary, rUnary, tUnary, hUnary, regularUnary, completionUnary,
+      ledgerUnary, publicReadUnary, terminalUnary, transportRow, filterRouteOut,
+      regularRouteOut, localPrecompletionRoute, completionRouteOut, ledgerRouteOut,
+      publicReadRoute, terminalRoute⟩
+
 end BEDC.Derived.CauchySpaceUp

@@ -256,4 +256,34 @@ theorem ApartnessSpaceClassifier_positive_gap_exactness [AskSetup] [PackageSetup
     }
   exact ⟨cert, locatedUnary, gapUnary, classifierUnary⟩
 
+theorem ApartnessSpaceCarrier_positive_gap_transport [AskSetup] [PackageSetup]
+    {object located gap transport classifierExclusion zeroBoundary htransport replay provenance
+      localName apartRead located' gap' classifierExclusion' apartRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessSpaceCarrier object located gap transport classifierExclusion zeroBoundary
+        htransport replay provenance localName apartRead bundle pkg ->
+      hsame located located' ->
+        hsame gap gap' ->
+          hsame classifierExclusion classifierExclusion' ->
+            hsame apartRead apartRead' ->
+              Cont located' gap' classifierExclusion' ∧
+                Cont gap' classifierExclusion' apartRead' ∧
+                  UnaryHistory located' ∧ UnaryHistory gap' ∧
+                    UnaryHistory classifierExclusion' ∧ UnaryHistory apartRead' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier locatedSame gapSame classifierSame apartReadSame
+  obtain ⟨_objectUnary, locatedUnary, gapUnary, _transportUnary, classifierUnary,
+    _zeroBoundaryUnary, _htransportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    locatedGapClassifier, gapClassifierApartRead, _zeroBoundaryReplayProvenance,
+    _replayProvenanceName, _localNamePkg⟩ := carrier
+  have apartReadUnary : UnaryHistory apartRead :=
+    unary_cont_closed gapUnary classifierUnary gapClassifierApartRead
+  cases locatedSame
+  cases gapSame
+  cases classifierSame
+  cases apartReadSame
+  exact
+    ⟨locatedGapClassifier, gapClassifierApartRead, locatedUnary, gapUnary, classifierUnary,
+      apartReadUnary⟩
+
 end BEDC.Derived.ApartnessSpaceUp
