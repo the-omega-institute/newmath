@@ -706,7 +706,15 @@ CI high $0.08669$, and the full eval delta moves back to $0.00007$.  The
 failure is therefore sharper than an omitted-interaction diagnosis: even an
 option-conditioned geometry reader can learn local option errors while failing
 the cross-anchor magnitude calibration required by the hard exact-budget
-assignment.
+assignment.  A fixed-score budget-magnitude diagnostic isolates this failure.
+For the same option-conditioned scores, the non-hard slice is still beneficial
+against uniform ($-0.00623$) while the hard-only slice is harmful
+($+0.04436$), even though hard-only score/error Spearman is $0.824$ and
+within-anchor pair accuracy is $1.0$.  The hard-only oracle remains strongly
+beneficial ($-0.04565$), so the chosen assignment is $0.09002$ above oracle;
+oracle-match on hard anchors is only $0.215$.  The boundary is therefore not
+local option ranking.  It is budget-magnitude transfer across anchors and
+episodes under the exact-budget dynamic program.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
