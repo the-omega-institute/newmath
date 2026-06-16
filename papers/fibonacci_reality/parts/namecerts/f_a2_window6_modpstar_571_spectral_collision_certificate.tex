@@ -1,0 +1,76 @@
+\subsection{Window6 Modular Spectral Collision Certificate}\label{sec:f-a2-window6-modpstar-571-spectral-collision-certificate}
+\origin{ai}
+
+\paragraph{Finite carrier.}
+The construction is a finite audit over a Window6 carrier. Its vertex set is a finite set $V$ of audit vertices, and its row set is a finite set $R$ of reduced Laplacian rows. The reduction has three rows and three columns, so the matrix under audit is an integer matrix
+$$
+\begin{aligned}
+L_{\mathrm{red}} &\in M_{3}(\mathbb{Z}).
+\end{aligned}
+$$
+No ambient infinite graph, limiting process, or external analytic model is part of the data. The only structural input is the finite integer matrix $L_{\mathrm{red}}$ obtained from the Window6 audit vertices after one Laplacian row and column have been removed in the usual reduced-Laplacian sense. Thus every predicate in the certificate is a finite predicate: membership in $V$, membership in $R$, equality of integer matrix entries, integer divisibility, and polynomial congruence modulo a stated prime.
+
+\paragraph{Smith data.}
+The certified normal form of the reduced Laplacian is
+$$
+\begin{aligned}
+\operatorname{SNF}(L_{\mathrm{red}}) &= \operatorname{diag}(1,1,123336).
+\end{aligned}
+$$
+Equivalently, there are unimodular integer matrices $U,V \in \operatorname{GL}_{3}(\mathbb{Z})$ such that
+$$
+\begin{aligned}
+U L_{\mathrm{red}} V &=
+\begin{pmatrix}
+1&0&0\\
+0&1&0\\
+0&0&123336
+\end{pmatrix}.
+\end{aligned}
+$$
+This gives the finite cokernel decomposition
+$$
+\begin{aligned}
+\mathbb{Z}^{3}/L_{\mathrm{red}}\mathbb{Z}^{3}
+&\cong \mathbb{Z}/1\mathbb{Z}\oplus \mathbb{Z}/1\mathbb{Z}\oplus \mathbb{Z}/123336\mathbb{Z}.
+\end{aligned}
+$$
+The first two invariant factors are trivial, and the only nontrivial invariant factor has exact order $123336$. The same number is the determinantal factor recorded by the finite audit.
+
+\paragraph{Exact arithmetic witness.}
+The integer factorization used by the certificate is
+$$
+\begin{aligned}
+123336 &= 8\cdot 27\cdot 571 \\
+       &= 2^{3}\cdot 3^{3}\cdot 571.
+\end{aligned}
+$$
+Therefore $571$ is a prime divisor of the nontrivial Smith factor. The witness extracted from the Smith data is not a decimal approximation and not a comparison with any measured quantity. It is the exact divisibility statement
+$$
+\begin{aligned}
+571 \mid 123336.
+\end{aligned}
+$$
+The role of $571$ in the certificate is then fixed internally: it is the prime used for modular reduction of the associated finite Green/Kirchhoff spectral polynomial.
+
+\paragraph{Spectral collision.}
+Let $P(t) \in \mathbb{Z}[t]$ denote the finite Green/Kirchhoff spectral polynomial associated with the same Window6 reduced-Laplacian audit. Reduction modulo $571$ gives a polynomial
+$$
+\begin{aligned}
+\overline{P}(t) \in \mathbb{F}_{571}[t].
+\end{aligned}
+$$
+The collision assertion is that $\overline{P}(t)$ has a repeated root over the residue field modulo $571$. In first-principles finite algebraic form, this means that there is an element $a \in \mathbb{F}_{571}$ such that
+$$
+\begin{aligned}
+\overline{P}(a) &= 0,\\
+\overline{P}'(a) &= 0.
+\end{aligned}
+$$
+Equivalently, the greatest common divisor of $\overline{P}(t)$ and its formal derivative $\overline{P}'(t)$ has positive degree in $\mathbb{F}_{571}[t]$. This is a finite check over $571$ residue classes and a finite polynomial ring operation. The certificate therefore binds the same prime $571$ in two places: first as an exact prime divisor of the nontrivial Smith invariant, and second as the modulus at which the spectral polynomial exhibits a repeated-root collision.
+
+\paragraph{Local conclusion.}
+The finite Window6 Green/Kirchhoff audit certifies the following closed statement: the reduced Laplacian has Smith normal form $\operatorname{diag}(1,1,123336)$; the nontrivial invariant factor satisfies $123336=2^{3}\cdot 3^{3}\cdot 571$; and, after reducing the associated finite Green/Kirchhoff spectral polynomial modulo $571$, a repeated-root collision occurs. All assertions are internal to the finite carrier, the integer reduced Laplacian, the Smith normal form computation, the exact factorization, and the modular polynomial collision.
+
+\paragraph{Boundary of the certificate.}
+This chapter asserts no identification with a physical constant, no global flow law, no metrological comparison, no external dependency, and no interpretation beyond the finite construction described above. Any numerical resemblance to an outside quantity would require a separate certificate giving its own finite data, admissible comparison rule, uncertainty model, and independence conditions; none of that is part of the present statement.

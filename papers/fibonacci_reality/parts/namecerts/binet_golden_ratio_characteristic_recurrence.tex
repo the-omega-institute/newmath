@@ -1,0 +1,69 @@
+\origin{ai}
+
+\subsection{Golden-root characteristic recurrence certificate}
+\label{sec:binet-golden-ratio-characteristic-recurrence}
+
+\paragraph{Finite carrier.}
+This record fixes a two-element carrier
+$\{\phi,\psi\}$, where
+$\phi=(1+\sqrt{5})/2$ and $\psi=(1-\sqrt{5})/2$.
+The carrier is the root set of the characteristic equation $x^2=x+1$, equivalently the zero set of the polynomial $x^2-x-1$.  The local root predicate is the first-principles condition that a scalar $r$ belongs to the carrier exactly when $r^2=r+1$.  Thus the carrier is not introduced by fitting a numerical parameter; it is introduced by the finite algebraic test
+$$
+\begin{aligned}
+ r \in \{\phi,\psi\} \quad \Longleftrightarrow \quad r^2=r+1.
+\end{aligned}
+$$
+The two advertised witnesses are obtained by direct substitution: inserting $\phi$ into $x^2-x-1$ gives $0$, and inserting $\psi$ into $x^2-x-1$ gives $0$.
+
+\paragraph{Relations on the carrier.}
+The finite relation table used by the certificate is
+$$
+\begin{aligned}
+\phi+\psi &= 1,\\
+\phi\psi &= -1,\\
+\phi-\psi &= \sqrt{5},\\
+\phi^2 &= \phi+1,\\
+\psi^2 &= \psi+1.
+\end{aligned}
+$$
+These identities are the complete local algebraic data for the two named roots.  They separate the two roots by sign and size without adding any extra interpretation.  The partition attached to the carrier is
+$$
+\begin{aligned}
+\{\phi,\psi\} &= \{\phi\} \cup \{\psi\},\\
+\phi &> 1,\\
+|\psi| &< 1.
+\end{aligned}
+$$
+The element $\phi$ is the dominant root, and $\psi$ is the subdominant root.  This dominance statement is only an algebraic asymptotic statement for the recurrence below.
+
+\paragraph{Recurrence extraction.}
+The Fibonacci sequence is certified here through the closed expression
+$$
+\begin{aligned}
+F_n = \frac{\phi^n-\psi^n}{\sqrt{5}}.
+\end{aligned}
+$$
+The witness for this expression is internal to the displayed data: the right-hand side satisfies the initial values $F_0=0$ and $F_1=1$, and it satisfies the recurrence $F_n=F_{n-1}+F_{n-2}$.  The same characteristic predicate explains the recurrence step, since each carrier element $r$ obeys $r^2=r+1$, so powers of $r$ advance by the same two-term rule.  No separate matrix object is needed for this chapter; the operative finite rule is the two-root characteristic test together with the recurrence check.  The resulting exact counts recorded in the finite window are
+$$
+\begin{aligned}
+F_5 &= 5,\\
+F_6 &= 8,\\
+F_7 &= 13,\\
+F_8 &= 21.
+\end{aligned}
+$$
+These four values are not statistical samples.  They are exact terms of the same recurrence certified by the root pair and the initial conditions.
+
+\paragraph{Dominant-root rounding.}
+Because $|\psi|<1$, the term $\psi^n$ tends to $0$.  The closed form therefore separates the exact integer $F_n$ into a dominant contribution $\phi^n/\sqrt{5}$ and a vanishing correction $-\psi^n/\sqrt{5}$:
+$$
+\begin{aligned}
+F_n &= \frac{\phi^n}{\sqrt{5}} - \frac{\psi^n}{\sqrt{5}},\\
+|\psi| &< 1,\\
+\psi^n &\to 0.
+\end{aligned}
+$$
+With this correction present, the exact statement recorded here is that $F_n$ is the nearest integer to $\phi^n/\sqrt{5}$.  The rounding assertion is part of the finite forced-window construction only through the displayed closed form and the subdominant-root bound.  It is not a license to identify $\phi$ with an unrelated measured quantity.
+
+\paragraph{Boundary of interpretation.}
+The symbol $\phi$ in this chapter denotes the proved algebraic root $(1+\sqrt{5})/2$ of $x^2=x+1$, and $\psi$ denotes the other root $(1-\sqrt{5})/2$.  Nothing in the construction supplies a physical-constant identification, a global flow law, an outside dependency, a metrological comparison, or any interpretation beyond the finite characteristic-recurrence calculation.  In particular, no fine-structure-constant assertion, no $137$-based assertion, and no measurement-level matching assertion follows from the two-root certificate unless an additional certificate is supplied for that separate purpose.

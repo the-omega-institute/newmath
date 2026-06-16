@@ -1,0 +1,76 @@
+\origin{ai}
+\subsection{A width-six forced-window observation}
+\label{sec:window6-three-rigidity-window-observation}
+
+\paragraph{Carrier and predicate.}
+The finite carrier is the set of all binary words of length six,
+$\{0,1\}^6$.  An element is written as
+$w=(w_1,w_2,w_3,w_4,w_5,w_6)$ with each coordinate in $\{0,1\}$.  The admissibility predicate is the local forced-window rule
+that no adjacent pair is simultaneously equal to one.  Thus
+$w$ is admissible exactly when there is no index $i\in\{1,2,3,4,5\}$ such that $w_i=w_{i+1}=1$.  The admissible class is
+$$
+\begin{aligned}
+X_6=\{w\in\{0,1\}^6 : \text{there is no } i\in\{1,2,3,4,5\}\text{ with } w_i=w_{i+1}=1\}.
+\end{aligned}
+$$
+This is a purely finite definition: the rule refers only to the six displayed coordinates and the five adjacent coordinate pairs inside the word.
+
+\paragraph{Exact enumeration.}
+The full binary cube has one independent binary choice in each of the six coordinates, hence
+$$
+\begin{aligned}
+|\{0,1\}^6|=2^6=64.
+\end{aligned}
+$$
+The admissible words are exactly the words selected by the no-adjacent-ones predicate.  They are
+$$
+\begin{aligned}
+&000000,\ 000001,\ 000010,\ 000100,\ 000101,\ 001000,\ 001001,\ 001010,\ 010000,\ 010001,\ 010010,\\
+&010100,\ 010101,\ 100000,\ 100001,\ 100010,\ 100100,\ 100101,\ 101000,\ 101001,\ 101010.
+\end{aligned}
+$$
+Each displayed word has length six and avoids the factor $11$.  Conversely, scanning the five adjacent positions of any length-six binary word either finds such a factor or places the word in the displayed list.  Therefore the admissible class has cardinality
+$$
+\begin{aligned}
+|X_6|=21.
+\end{aligned}
+$$
+If $F_0=0$, $F_1=1$, and $F_{n+2}=F_{n+1}+F_n$, then the initial values give
+$$
+\begin{aligned}
+F_2&=1,\quad F_3=2,\quad F_4=3,\quad F_5=5,\\
+F_6&=8,\quad F_7=13,\quad F_8=21,
+\end{aligned}
+$$
+so the same count may be recorded as $|X_6|=21=F_8$.
+
+\paragraph{Partition of the cube.}
+The predicate partitions $\{0,1\}^6$ into two disjoint finite classes: the admissible class $X_6$ and its complement, consisting of all words that contain at least one adjacent pair $11$.  The exact sizes are
+$$
+\begin{aligned}
+|X_6|&=21,\\
+|\{0,1\}^6\setminus X_6|&=64-21=43.
+\end{aligned}
+$$
+Thus the complete partition is admissible $21$ and non-admissible $43$.  The identity $64-21=43$ is the whole complement count; no limiting argument, density statement, or asymptotic estimate is involved.
+
+\paragraph{Finite audit map and maximum-fiber relation.}
+Let the width-six audit map be the finite map whose fibers are being counted in this window record, and let $c_{\max}$ denote its maximum fiber multiplicity.  In first-principles finite terms, if the audit map is written as $a$ on its finite domain, then a fiber over a value $y$ is the finite set $\{w : a(w)=y\}$, and $c_{\max}$ is the largest cardinality of such a fiber.  The supplied finite bound for this record is
+$$
+\begin{aligned}
+c_{\max}<21.
+\end{aligned}
+$$
+Combining this maximum-fiber bound with the exact admissible count and the full cube count gives the strict three-term separation
+$$
+\begin{aligned}
+c_{\max}<|X_6|=21<2^6=64.
+\end{aligned}
+$$
+The right inequality is witnessed by the explicit counts $21$ and $64$.  The left inequality is witnessed by the stated maximum-fiber bound for the width-six audit map.  The middle term is witnessed by the full enumeration of the no-adjacent-ones words above.
+
+\paragraph{Witness extraction.}
+A finite checker can recover the admissible witness set by scanning each of the $64$ words in $\{0,1\}^6$ and rejecting exactly those with some adjacent pair equal to $11$.  The accepted words are precisely the $21$ displayed elements of $X_6$.  A separate finite check of the audit map fibers supplies the inequality $c_{\max}<21$.  These two finite checks are independent in form: one counts words selected by a local adjacency predicate, while the other bounds the largest fiber of the audit map.  Their conjunction is exactly the asserted separation.
+
+\paragraph{Boundary of the assertion.}
+The construction proves only the finite statement for the width-six binary window: an admissible class of size $21$ lies strictly between the maximum audit-map fiber multiplicity and the full cube of size $64$.  No physical-constant identification, global flow law, external dependency, metrological comparison, continuum limit, spectral interpretation, edge-flux statement, or broader physical reading follows from this finite construction unless an additional certificate supplies that further content.
