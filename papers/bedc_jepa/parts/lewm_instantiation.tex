@@ -572,6 +572,18 @@ negative result is useful because it separates post-hoc budget-shadow
 calibration from the next required route: the budget signal has to enter the
 training objective at the episode level, for example through a dual-price or
 exact-budget regret surrogate, rather than being appended after score training.
+Putting the episode-level allocation signal into training gives the first
+positive movement on this boundary, but still not closure.  A scorer trained
+against exact-budget oracle choices, pairwise option order, expected depth, and
+centered option error gives eval allocation delta $-0.00130$
+$[-0.00601,\ 0.00337]$, improving both the observed value and CI high relative
+to the allocation-native baseline $0.00440$ $[-0.00152,\ 0.01226]$.  Its depth
+counts $\{1:159,2:110,3:103,4:96,5:166\}$ also move close to the eval oracle
+counts $\{1:148,2:114,3:117,4:100,5:155\}$.  The tradeoff is that global
+score/error Spearman drops to $0.19282$: the model is no longer a good
+option-error reader, but it is a better budget allocator.  Since the CI high is
+still positive, the correct conclusion is allocation movement, not
+allocation-closed control.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
