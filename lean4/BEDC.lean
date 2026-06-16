@@ -2448,6 +2448,7 @@ import BEDC.Derived.CellularCarrierBHistEquivalenceUp.TasteGate
 import BEDC.Derived.CellularCarrierEncodingUp.TasteGate
 import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
+import BEDC.Derived.CellularOrbitSynchronizationUp.TasteGate
 import BEDC.Derived.CellularPatternCatalogUp.Carrier
 import BEDC.Derived.CellularPatternCatalogUp.TagLookupDeterminacy
 import BEDC.Derived.CellularPatternCatalogUp.TasteGate
@@ -6815,6 +6816,7 @@ import BEDC.Derived.MeasureUp.RootDownstreamUnblockPackage
 import BEDC.Derived.MeasureUp.RootPublicObligationBasis
 import BEDC.Derived.MeasureUp.RootPublicSurface
 import BEDC.Derived.MeasureUp.RootRealStreamRegularity
+import BEDC.Derived.MedianClosureSpectrumUp.TasteGate
 import BEDC.Derived.MedianClosureUp.TasteGate
 import BEDC.Derived.MedianLeakageSpectrumUp.TasteGate
 import BEDC.Derived.MeirKeelerContractionUp.TasteGate
