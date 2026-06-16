@@ -1,1558 +1,1627 @@
 {
- "version": "bio-reality-experiments-v1",
- "experiments": [
-  {
-   "experiment_id": "compute_R",
-   "script_path": "tools/bio_reality/experiments/run_compute_R.py",
-   "claim_id": "h0.R.cardinality.13",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 120,
-   "acceptance": {
-    "required_checks": [
-     "R_cardinality_equals_13"
-    ]
-   }
-  },
-  {
-   "experiment_id": "check_motif_compression",
-   "script_path": "tools/bio_reality/experiments/run_check_motif_compression.py",
-   "claim_id": "h0.R.motif.compression",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 60,
-   "acceptance": {
-    "required_checks": [
-     "R_equals_motif_union",
-     "no_extra",
-     "no_missing"
-    ]
-   }
-  },
-  {
-   "experiment_id": "check_punctured_cube",
-   "script_path": "tools/bio_reality/experiments/run_check_punctured_cube.py",
-   "claim_id": "h0.R.punctured.cube",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 60,
-   "acceptance": {
-    "required_checks": [
-     "R_equals_punctured_cube",
-     "f_vector_matches"
-    ]
-   }
-  },
-  {
-   "experiment_id": "check_M_equals_WNR_CUN",
-   "script_path": "tools/bio_reality/experiments/run_check_M_equals_WNR_CUN.py",
-   "claim_id": "h0.M.equals.WNR.CUN",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 60,
-   "acceptance": {
-    "required_checks": [
-     "M_equals_WNR_union_CUN",
-     "M_cardinality_equals_20"
-    ]
-   }
-  },
-  {
-   "experiment_id": "check_f3_saturation",
-   "script_path": "tools/bio_reality/experiments/run_check_f3_saturation.py",
-   "claim_id": "h0.f3.saturation",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 60,
-   "acceptance": {
-    "required_checks": [
-     "f3_boundary_is_zero"
-    ]
-   }
-  },
-  {
-   "experiment_id": "check_quotient_geometry",
-   "script_path": "tools/bio_reality/experiments/run_check_quotient_geometry.py",
-   "claim_id": "h0.quotient.geometry",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 60,
-   "acceptance": {
-    "required_checks": [
-     "M_is_product_decomposition"
-    ]
-   }
-  },
-  {
-   "experiment_id": "compute_spectrum",
-   "script_path": "tools/bio_reality/experiments/run_compute_spectrum.py",
-   "claim_id": "h0.spectrum",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 120,
-   "acceptance": {
-    "required_checks": [
-     "spectral_radius_in_tolerance",
-     "cubic_polynomial_satisfied"
-    ]
-   }
-  },
-  {
-   "experiment_id": "null_model_uniform",
-   "script_path": "tools/bio_reality/experiments/run_null_model_uniform.py",
-   "claim_id": "h0.null.model.significance",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 600,
-   "acceptance": {
-    "required_checks": [
-     "p_value_uniform_lower_tail_significant",
-     "p_value_position_preserving_lower_tail_significant"
-    ]
-   }
-  },
-  {
-   "experiment_id": "leave_one_code_out",
-   "script_path": "tools/bio_reality/experiments/run_leave_one_code_out.py",
-   "claim_id": "h1.leave.one.code.out",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 300,
-   "acceptance": {
-    "required_checks": [
-     "hit_rate_above_baseline"
-    ]
-   }
-  },
-  {
-   "experiment_id": "leave_one_codon_out",
-   "script_path": "tools/bio_reality/experiments/run_leave_one_codon_out.py",
-   "claim_id": "h1.leave.one.codon.out",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 300,
-   "acceptance": {
-    "required_checks": [
-     "recovery_rate_above_threshold",
-     "closure_coverage_high"
-    ]
-   }
-  },
-  {
-   "experiment_id": "null_model_shape",
-   "script_path": "tools/bio_reality/experiments/run_null_model_shape.py",
-   "claim_id": "h0.M.shape.significance",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 600,
-   "acceptance": {
-    "required_checks": [
-     "p_value_exact_shape_significant"
-    ]
-   }
-  },
-  {
-   "experiment_id": "self_experiment",
-   "script_path": "tools/bio_reality/experiments/run_self_experiment.py",
-   "claim_id": "self.claim",
-   "required_data": [],
-   "timeout_seconds": 180,
-   "acceptance": {
-    "required_checks": [
-     "self_check"
-    ]
-   }
-  },
-  {
-   "experiment_id": "null_model_aa_class_preserving",
-   "script_path": "tools/bio_reality/experiments/run_null_model_aa_class_preserving.py",
-   "claim_id": "h0.null.model.aa_class_preserving",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 600,
-   "acceptance": {
-    "required_checks": [
-     "p_value_aa_class_lower_tail_significant",
-     "p_value_aa_class_exact_shape_significant"
-    ]
-   }
-  },
-  {
-   "experiment_id": "leave_one_code_out_by_family",
-   "script_path": "tools/bio_reality/experiments/run_leave_one_code_out_by_family.py",
-   "claim_id": "h1.leave_one_code_out.by_family",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 300,
-   "acceptance": {
-    "required_checks": [
-     "family_hit_rate_above_baseline"
-    ]
-   }
-  },
-  {
-   "experiment_id": "leave_one_codon_out_module",
-   "script_path": "tools/bio_reality/experiments/run_leave_one_codon_out_module.py",
-   "claim_id": "h1.leave_one_codon_out.module_classification",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json"
-   ],
-   "timeout_seconds": 120,
-   "acceptance": {
-    "required_checks": [
-     "module_classification_complete",
-     "every_module_has_predictable_or_boundary"
-    ]
-   }
-  },
-  {
-   "experiment_id": "orf_start_stop_window_eligibility",
-   "script_path": "tools/bio_reality/experiments/run_orf_start_stop_window_eligibility.py",
-   "claim_id": "h2.orf.start_stop.window_eligibility",
-   "required_data": [
-    "tools/bio_reality/data/ncbi_genetic_codes.json",
-    "tools/bio_reality/data/orf_window_dataset.json"
-   ],
-   "timeout_seconds": 120,
-   "acceptance": {
-    "required_checks": [
-     "external_window_dataset_loaded",
-     "all_windows_classified_by_start_stop_enumeration",
-     "no_geometry_to_translation_promotion"
-    ]
-   }
-  },
-  {
-   "claim_id": "phase.one.a+phase.one.b+phase.one.c",
-   "experiment_id": "exp.phase2.confirmatory_falsification.v1",
-   "hypothesis_level": "H1",
-   "statement": "Recovered claim phase.one.a+phase.one.b+phase.one.c (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_phase2_confirmatory_falsification.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-05-29T20:11:31+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   },
-   "required_data": [
-    "tools/bio_reality/data/phase2_confirmatory_falsification_dataset.json"
-   ]
-  },
-  {
-   "claim_id": "h2.external.aca_puncture_fill_in",
-   "experiment_id": "external_aca_puncture_challenge",
-   "hypothesis_level": "H2",
-   "statement": "Recovered claim h2.external.aca_puncture_fill_in (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_external_aca_puncture_challenge.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-05-30T19:10:48+00:00",
-   "dependencies": [],
-  "external_preconditions": [],
-  "acceptance": {
-    "required_checks": [
-     "source_is_real",
-     "current_claim_acceptance"
-    ],
-    "criteria": {}
-  }
- },
-  {
-   "claim_id": "h2.orf_eligibility.curated_interval_contact",
-   "experiment_id": "curated_orf_interval_contact_validation",
-   "hypothesis_level": "H2",
-   "statement": "Recovered claim h2.orf_eligibility.curated_interval_contact (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_curated_orf_interval_contact_validation.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-05-30T11:18:03+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.translation_realization.cross_organism.cun_uur_leu_gate",
-   "experiment_id": "cross_organism_cun_uur_leu_gate_validation",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.translation_realization.cross_organism.cun_uur_leu_gate (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_cross_organism_cun_uur_leu_gate_validation.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-05-30T13:28:17+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient",
-   "experiment_id": "residual_basis_q6_topology_validation",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_residual_basis_q6_topology_validation.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-05-30T17:40:43+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h2.external.aca_puncture_orf_validated",
-   "experiment_id": "orf_constrained_aca_puncture_challenge",
-   "hypothesis_level": "H2",
-   "statement": "Recovered claim h2.external.aca_puncture_orf_validated (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_orf_constrained_aca_puncture_challenge.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-05T14:02:39+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   },
-   "required_data": [
-    "tools/bio_reality/data/orf_constrained_aca_puncture_external_audit_tables.json"
-   ]
-  },
-  {
-   "claim_id": "h3.codon_usage_topology.translation_survival.b_star_q6_coupling_matrix",
-   "experiment_id": "b_star_q6_coupling_matrix_validation",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.codon_usage_topology.translation_survival.b_star_q6_coupling_matrix (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_coupling_matrix_validation.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-05-31T20:34:39+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.codon_usage_topology.translation_survival.b_star_q6_survival_matrix_modeled_tai",
-   "experiment_id": "b_star_q6_survival_matrix_validation",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.codon_usage_topology.translation_survival.b_star_q6_survival_matrix_modeled_tai (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_survival_matrix_validation.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-04T13:56:16+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.codon_usage_topology.translation_survival.b_star_q6_sqt_powered_modeled_tai",
-   "experiment_id": "b_star_q6_translation_survival_powered",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.codon_usage_topology.translation_survival.b_star_q6_sqt_powered_modeled_tai (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_survival_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-06T17:41:25+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.direct_protein_omics_survival.b_star_q6_sqp_powered",
-   "experiment_id": "b_star_q6_protein_omics_survival_powered",
-   "hypothesis_level": "H3",
-   "statement": "Direct per-protein B*_Q6 codon-usage residual survival against measured PAXdb protein abundance after length, amino-acid composition, GC3, and M-density controls; this is a direct omics correlation, NOT a translation-mediated mechanism.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_protein_omics_survival_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T17:44:38+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.translation_mediated_protein_abundance.b_star_q6_mqtp_powered",
-   "experiment_id": "b_star_q6_translation_mediation_powered",
-   "hypothesis_level": "H3",
-   "statement": "Per-protein B*_Q6 codon residual to protein-abundance association is decomposed by conditioning on modeled per-protein tAI; this is a statistical mediation decomposition, NOT a causal mechanism.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_mediation_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T17:47:03+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.translation_gated_structural_order.b_star_q6_sso_powered",
-   "experiment_id": "b_star_q6_structural_order_survival_powered",
-   "hypothesis_level": "H3",
-   "statement": "Per-protein B*_Q6 codon-usage residual association with AlphaFold mean pLDDT predicted structural-order confidence after length, 20 amino-acid composition, GC3, and M-density controls; this is NOT function, phenotype, causality, or experimental structural order.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_structural_order_survival_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-06T17:43:24+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.translation_mediated_protein_function.b_star_q6_fe_powered",
-   "experiment_id": "b_star_q6_essentiality_survival_powered",
-   "hypothesis_level": "H3",
-   "statement": "Per-gene B*_Q6 codon residual association with lab knockout essentiality after amino-acid composition and measured protein-abundance control, using a binary linear-probability residualization; this is NOT causal and NOT a mechanism claim.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_essentiality_survival_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-06T17:43:30+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.translation_conditioned_four_case_discriminant.b_star_q6_fourcase_powered",
-   "experiment_id": "b_star_q6_four_case_discriminant_powered",
-   "hypothesis_level": "H3",
-   "statement": "The four-case discriminant is an objective S^{QT}/S^{QP} sign plus mediation-condition classification over per-protein modeled-tAI and measured abundance readouts; it is not a mechanism claim.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_four_case_discriminant_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-06T17:43:38+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.ribosome_te_survival.b_star_q6_measured_te_powered",
-   "experiment_id": "b_star_q6_measured_te_survival_powered",
-   "hypothesis_level": "H3",
-   "statement": "Measured ribo-seq TE equals footprint/mRNA in the local source files, so the readout is already mRNA-normalized; this powered per-gene S^{QT,meas} reports codon residual survival against log10 measured TE after length, amino-acid composition, GC3, and M-density controls. The data are single/small-study, condition-specific, cross-sectional, and non-causal; the modeled-tAI contrast is a coordinate-pattern comparison only.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_measured_te_survival_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-06T20:14:41+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.translation_mediated_measured_protein_abundance.b_star_q6_measured_mqtp_powered",
-   "experiment_id": "b_star_q6_measured_mediation_powered",
-   "hypothesis_level": "H3",
-   "statement": "Codon residual to PAXdb protein-abundance association is decomposed by conditioning on measured ribo-seq log10(TE), not modeled tAI, across yeast, E. coli, human, and danio. This is a powered cross-sectional statistical mediation decomposition and comparison to the modeled-tAI mediation result; it is non-causal and not a mechanism claim.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_measured_mediation_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-06T22:03:43+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.translation_complement_residual.b_star_q6_complement_support_powered",
-   "experiment_id": "b_star_q6_translation_complement_residual_powered",
-   "hypothesis_level": "H3",
-   "statement": "For each organism, P_Q is the abundance component explained by residualized B*_Q6 coordinates, and P_Q_perp_T is the modeled-tAI-complement residual of that component. a_perp reads this residual back in the 9 B*_Q6 coordinates.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_complement_residual_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-07T02:50:55+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.h_candidate_measured_te.b_star_q6_nontranslation_residual_powered",
-   "experiment_id": "b_star_q6_h_candidate_measured_te_powered",
-   "hypothesis_level": "H3",
-   "statement": "Measured ribo-seq TE is tested as a first H-candidate by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized measured TE.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_measured_te_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-07T04:24:18+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.h_candidate_mrna.b_star_q6_abundance_residual_powered",
-   "experiment_id": "b_star_q6_h_candidate_mrna_powered",
-   "hypothesis_level": "H3",
-   "statement": "mRNA is tested as an H-candidate by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized log10 mRNA.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_mrna_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-07T04:58:40+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.measured_trna_tai.b_star_q6_modeled_residual_absorption_powered",
-   "experiment_id": "b_star_q6_measured_trna_tai_residual_absorption_powered",
-   "hypothesis_level": "H3",
-   "statement": "Measured tRNA gene-copy tAI is tested for whether it absorbs the modeled-tAI-complement abundance component P_hat_{Q perp Tmod}.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_measured_trna_tai_residual_absorption_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-07T15:20:01+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.h_candidate_localization.b_star_q6_nontranslation_residual_powered",
-   "experiment_id": "b_star_q6_h_candidate_localization_powered",
-   "hypothesis_level": "H3",
-   "statement": "UniProtKB reviewed subcellular localization is tested as an H-candidate by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized multi-label localization one-hot columns, with a K-column dof-matched Gaussian null baseline.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_localization_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-07T17:26:54+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.h_candidate_protein_features.b_star_q6_nontranslation_residual_powered",
-   "experiment_id": "b_star_q6_h_candidate_protein_features_powered",
-   "hypothesis_level": "H3",
-   "statement": "UniProtKB reviewed protein features are tested as H-candidates by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized one-column feature readouts, with per-candidate dof-matched Gaussian nulls and Bonferroni correction over organism x candidate tests.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_protein_features_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T03:53:50.608719+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.h_candidate_turnover.b_star_q6_nontranslation_residual_powered",
-   "experiment_id": "b_star_q6_h_candidate_turnover_powered",
-   "hypothesis_level": "H3",
-   "statement": "Protein turnover/half-life is tested as a third H-candidate by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized log10 Christiano 2014 half-life.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_turnover_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-08T19:43:23+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.h_candidate_turnover_human.b_star_q6_large_residual_powered",
-   "experiment_id": "b_star_q6_h_candidate_turnover_human_powered",
-   "hypothesis_level": "H3",
-   "statement": "Mathieson 2018 human protein turnover is tested as an H-candidate by projecting the large human modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized log10 half-life.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_turnover_human_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-08T23:53:52+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.h_candidate_ranking_table.b_star_q6_non_translation_residual_powered",
-   "experiment_id": "b_star_q6_h_candidate_ranking_table_powered",
-   "hypothesis_level": "H3",
-   "statement": "H-candidate readouts are ranked by direction-aware support for the modeled-tAI complement of the B*_Q6 abundance component.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_ranking_table_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T13:18:40+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.residual_basis_extraction.b_star_q6_non_translation_residual_powered",
-   "experiment_id": "b_star_q6_residual_basis_extraction_powered",
-   "hypothesis_level": "H3",
-   "statement": "For each organism with sufficient local readout data, R_0 = P_{Q perp Tmod}; a lambda-regularized greedy basis selects readout blocks H_k to absorb R_{k-1}, records rho_k decay, and compares each selected step with a dof-matched deterministic Gaussian null.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_residual_basis_extraction_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T14:02:42.381443+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.organism_specificity_meta.b_star_q6_cross_organism_powered",
-   "experiment_id": "b_star_q6_organism_specificity_meta_powered",
-   "hypothesis_level": "H3",
-   "statement": "Organism-specific B*_Q6 cross-layer summaries are compared against domain, GC3, tRNA-pool size, and proteome-size proxies with deterministic permutation nulls.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_organism_specificity_meta_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T18:20:06+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.condition_specific_sqp.b_star_q6_growth_condition_powered",
-   "experiment_id": "b_star_q6_condition_specific_sqp_powered",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.cross_layer_relation.condition_specific_sqp.b_star_q6_growth_condition_powered (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_condition_specific_sqp_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T18:36:11+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.tissue_specific_sqp.b_star_q6_human_tissue_powered",
-   "experiment_id": "b_star_q6_tissue_specific_sqp_powered",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.cross_layer_relation.tissue_specific_sqp.b_star_q6_human_tissue_powered (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_tissue_specific_sqp_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T19:07:20+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.tissue_dependence_structure.b_star_q6_functional_class_powered",
-   "experiment_id": "b_star_q6_tissue_dependence_structure_powered",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.cross_layer_relation.tissue_dependence_structure.b_star_q6_functional_class_powered (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_tissue_dependence_structure_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T19:08:36+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.mrna_stability_sqm.b_star_q6_codon_optimality_powered",
-   "experiment_id": "b_star_q6_mrna_half_life_sqm_powered",
-   "hypothesis_level": "H3",
-   "statement": "B*_Q6 codon residuals are tested as statistical predictors of residualized log10 yeast mRNA half-life after the same CDS-derived controls used by S^QP.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_half_life_sqm_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T21:01:52+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.mrna_stability_mediation.b_star_q6_abundance_residual_powered",
-   "experiment_id": "b_star_q6_mrna_stability_mediation_powered",
-   "hypothesis_level": "H3",
-   "statement": "B*_Q6 to yeast protein-abundance residual association is decomposed by conditioning on residualized log10 mRNA half-life from Neymotin 2014; this is statistical mediation, NOT causal pathway evidence.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_stability_mediation_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T21:25:47+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.mrna_stability_sqm_ecoli.b_star_q6_codon_optimality_powered",
-   "experiment_id": "b_star_q6_mrna_half_life_sqm_ecoli_powered",
-   "hypothesis_level": "H3",
-   "statement": "B*_Q6 codon residuals are tested as statistical predictors of residualized log10 E. coli mRNA half-life after the same CDS-derived controls used by S^QP.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_half_life_sqm_ecoli_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T21:55:13+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.mrna_stability_sqm_human.b_star_q6_codon_optimality_powered",
-   "experiment_id": "b_star_q6_mrna_half_life_sqm_human_powered",
-   "hypothesis_level": "H3",
-   "statement": "B*_Q6 codon residuals are tested as statistical predictors of residualized human consensus relative mRNA half-life after the same CDS-derived controls used by S^QP.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_half_life_sqm_human_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T23:01:53+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.mrna_stability_mediation_crossdomain.b_star_q6_abundance_residual_powered",
-   "experiment_id": "b_star_q6_mrna_stability_mediation_crossdomain_powered",
-   "hypothesis_level": "H3",
-   "statement": "B*_Q6 to protein-abundance residual association is decomposed per organism by conditioning on residualized mRNA half-life/stability readout; this is statistical mediation, NOT causal pathway evidence.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_stability_mediation_crossdomain_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-09T23:16:50+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.joint_te_stability_mediation.b_star_q6_abundance_residual_powered",
-   "experiment_id": "b_star_q6_joint_te_stability_mediation_powered",
-   "hypothesis_level": "H3",
-   "statement": "B*_Q6 to protein-abundance residual association is decomposed per organism by conditioning on residualized measured-TE, residualized mRNA-stability, and both mediators jointly; this is a statistical variance partition, not causal pathway evidence.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_joint_te_stability_mediation_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-10T03:29:28+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.structure_mediation_yeast.b_star_q6_abundance_residual_powered",
-   "experiment_id": "b_star_q6_structure_mediation_yeast_powered",
-   "hypothesis_level": "H3",
-   "statement": "B*_Q6 to protein-abundance residual association is decomposed by conditioning on residualized 5-prime CDS MFE alone and beyond residualized measured-TE plus mRNA-stability; this is a statistical variance partition, not causal pathway evidence.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_structure_mediation_yeast_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-10T05:39:33+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.residual_decomposition.b_star_q6_abundance_ordered_powered",
-   "experiment_id": "b_star_q6_residual_decomposition_powered",
-   "hypothesis_level": "H3",
-   "statement": "For each organism, P_Q = Pi_{Q_e} P_e is decomposed in the fixed order measured-TE, mRNA-stability where available, then a greedy scored H-dictionary. This is an ordered orthogonal projection partition, not causal pathway proof.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_residual_decomposition_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-10T12:01:19+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.sqt_organism_sweep.b_star_q6_modeled_tai_powered",
-   "experiment_id": "b_star_q6_sqt_organism_sweep_powered",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.cross_layer_relation.sqt_organism_sweep.b_star_q6_modeled_tai_powered (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_sqt_organism_sweep_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-10T16:09:44+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.minimal_compilation_law.b_star_q6_residual_compressibility_powered",
-   "experiment_id": "b_star_q6_minimal_compilation_law_powered",
-   "hypothesis_level": "H3",
-   "statement": "Minimal compilation law test: P_Q = Pi_{Q_e} P_e is projected through T, S where available, and a greedy scored H dictionary; compressibility = 1 - ||R_final||^2 / ||P_Q||^2.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_minimal_compilation_law_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-10T16:58:56+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.residual_dictionary_consistency.b_star_q6_direction_aware_ordered_powered",
-   "experiment_id": "b_star_q6_residual_dictionary_consistency_powered",
-   "hypothesis_level": "H3",
-   "statement": "For each organism, P_Q = Pi_{Q_e} P_e is decomposed in the fixed order measured-TE, mRNA-stability where available, then a greedy direction-aware H-dictionary scored by A_H*C_H minus null, description-length, and join-shift penalties. This is an ordered orthogonal projection partition, not causal pathway proof.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_residual_dictionary_consistency_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-11T06:56:16+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.positional_boundary_response.b_star_q6_translation_efficiency_powered",
-   "experiment_id": "b_star_q6_positional_boundary_response_powered",
-   "hypothesis_level": "H3",
-   "statement": "Descriptive position projection: fit B*_Q6 synonymous residual coordinates along normalized CDS position and compare high-vs-low real ribo-seq TE strata; this is not causal proof.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_positional_boundary_response_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-12T03:31:55+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.wobble_dwell_coupling.b_star_q6_ribosome_occupancy_powered",
-   "experiment_id": "b_star_q6_wobble_dwell_coupling_powered",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.cross_layer_relation.wobble_dwell_coupling.b_star_q6_ribosome_occupancy_powered (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_wobble_dwell_coupling_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-12T06:14:39+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.minimal_dictionary_compression.b_star_q6_readout_boundary_response_powered",
-   "experiment_id": "b_star_q6_minimal_dictionary_compression_powered",
-   "hypothesis_level": "H3",
-   "statement": "Recovered claim h3.cross_layer_relation.minimal_dictionary_compression.b_star_q6_readout_boundary_response_powered (status from experiment_runs; statement metadata reconstructed).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_minimal_dictionary_compression_powered.py",
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "recovery",
-   "created_at": "2026-06-12T08:50:07+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.context_lift.b_star_q6_codon_pair_residual_powered",
-   "experiment_id": "b_star_q6_context_lift_powered",
-   "hypothesis_level": "H3",
-   "statement": "Local codon-pair context lift Q^(2) explains the B*_Q6 -> protein-abundance residual that single-codon Q^(1) readouts leave irreducible: held-out 5-fold incremental Delta-R^2 of adjacent-codon synonymous B*_Q6 pair features (residualized against the 400 amino-acid-pair composition basis) exceeds the matched permutation null and clears the LAMBDA_DL complexity penalty. Tests whether the irreducible residual is local-context structure versus genuinely higher-order/non-local.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_context_lift_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-12T17:22:49+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.partial_mediation.b_star_q6_readout_dictionary_powered",
-   "experiment_id": "b_star_q6_partial_mediation_certificate_powered",
-   "hypothesis_level": "H3",
-   "statement": "The B*_Q6 synonymous-codon residual association with yeast protein abundance is real (held-out 5-fold R^2 ~0.19 vs permutation null ~0) and partially reducible: a <=3-readout measured dictionary {measured_te, mrna_stability, turnover} captures ~24.5% of the Z-residualized abundance residual, surviving a selection-aware permutation null (null95 ~0.029, ~5x the naive fixed-subset null ~0.006); ~75% remains unexplained, and local codon-pair Q^(2) context adds no held-out signal. Certifies the residual as a real, partially-mediated (not irreducible) primitive over the tested readout family.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_partial_mediation_certificate_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-12T18:01:24+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.irreducibility_certificate.b_star_q6_residual_primitive_powered",
-   "experiment_id": "b_star_q6_irreducibility_certificate_powered",
-   "hypothesis_level": "H3",
-   "statement": "Hypothesis (tested, falsified): the B*_Q6 synonymous-codon residual on yeast protein abundance is an irreducible primitive -- a real held-out signal that NEITHER single-codon readout-dictionary compression NOR local codon-pair Q^(2) context captures. Result: source is real, but the {measured_te, mrna_stability, turnover} dictionary captures ~24.5% (selection-aware significant), so the residual is partially reducible, not irreducible. Explicit negative complementing the partial_mediation certificate.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_irreducibility_certificate_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-12T18:13:46+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.trna_supply_increment.b_star_q6_beyond_measured_dictionary_powered",
-   "experiment_id": "b_star_q6_trna_supply_increment_powered",
-   "hypothesis_level": "H3",
-   "statement": "A per-gene tRNA-supply readout (dos Reis tAI from yeast GtRNAdb tRNA gene-copy numbers + wobble) adds incremental held-out predictive power for Z-residualized yeast protein abundance BEYOND the measured {measured_te, mrna_stability, turnover} dictionary: 5-fold held-out delta-R^2 ~0.061 (base R^2 ~0.458 -> full ~0.519), exceeding a fixed-readout permutation null95 ~0.0007. Codon-level tRNA adaptation carries abundance information not captured by bulk measured translation efficiency, partly addressing the residual left unexplained by the partial_mediation dictionary.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_trna_supply_increment_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-12T18:41:31+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.coordinate_decomposition.b_star_q6_per_coordinate_reducibility_powered",
-   "experiment_id": "b_star_q6_coordinate_decomposition_powered",
-   "hypothesis_level": "H3",
-   "statement": "Per-coordinate decomposition of the B*_Q6 -> yeast protein-abundance residual: of the 9 synonymous coordinates, 8 are real held-out abundance sources (K_AAA, Arg_AGR, Ile_AUA, Leu_CUN_vs_UUR, Leu_UUA_vs_UUG, Ser_UCR_vs_AGY, Thr_ACR_vs_ACY, f3_stress) and 1 (Ser_UCA_vs_UCG) is not; f3_stress carries the most residual energy (~20% of target, R^2~0.19) followed by Ile_AUA and Thr_ACR_vs_ACY. The measured {te,mrna_stability,turnover} dictionary's projection coverage exceeds the per-coordinate permutation null for the 8 real sources, but a large absolute residual energy remains unexplained per coordinate (e.g. f3_stress ~81% unexplained). Descriptive decomposition, not causal mediation.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_coordinate_decomposition_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-12T18:53:55+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.f3_stress_readout_reach.b_star_q6_dominant_coordinate_powered",
-   "experiment_id": "b_star_q6_f3_stress_readout_reach_powered",
-   "hypothesis_level": "H3",
-   "statement": "The dominant B*_Q6 coordinate f3_stress (a global synonymous first-vs-last-codon direction across all 21 families) carrying ~20% of the abundance-residual energy is only MARGINALLY reachable by independent molecular measurements: the full {te,stability,turnover,localization,ptm,complex,tm,domain,mrna_abundance} readout set reaches best coverage 0.226 vs base {te,stability,turnover} 0.190 (increment +0.036, selection-aware-significant vs null95 0.027), but ~77.4% of f3_stress remains unexplained by ALL available measurements. The dominant frontier is largely orthogonal to current molecular readouts and needs new data/mechanism.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_readout_reach_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-12T20:12:40+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.f3_stress_dwell_mediation.b_star_q6_dwell_abundance_powered",
-   "experiment_id": "b_star_q6_f3_stress_dwell_mediation_powered",
-   "hypothesis_level": "H3",
-   "statement": "The dominant B*_Q6 coordinate f3_stress's protein-abundance contribution (P_f3, ~20% of target, ~77% orthogonal to static measured readouts) is PARTLY MEDIATED BY RIBOSOME DWELL: per-gene local ribosome occupancy features add held-out delta-R^2 ~0.019 over the {te,mrna_stability,turnover} dictionary (vs fixed-readout permutation null95 ~0.0013), and f3_stress couples positively to dwell (corr 0.162, p~8e-9, reproducing wobble-dwell). Since base already contains measured_te (footprint/mRNA), this is an increment beyond bulk TE -- a dynamic elongation mechanism partly explains f3_stress's abundance effect that static molecular readouts miss.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_dwell_mediation_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T04:00:04+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.f3_stress_dwell_positional.b_star_q6_ramp_vs_body_powered",
-   "experiment_id": "b_star_q6_f3_stress_dwell_positional_powered",
-   "hypothesis_level": "H3",
-   "statement": "f3_stress's ribosome-dwell mediation of its protein-abundance contribution (P_f3) is LOCALIZED TO THE 5' TRANSLATIONAL RAMP, not the gene body: 5'-window dwell adds held-out delta-R^2 ~0.023 over {te,stability,turnover} (vs null95 ~0.0016, f3<->5'-dwell corr 0.156 p~3e-8), while 3'/body-window dwell is null (delta-R^2 ~-0.0002), and the joint 5'+3' increment ~= 5'-alone. Supports the translational-ramp hypothesis: the dominant frontier coordinate acts through slow-codon dwell at the 5' ribosome-loading region, increment beyond bulk measured_te.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_dwell_positional_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T04:09:19+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.f3_stress_family_decomposition.b_star_q6_synonymous_identity_powered",
-   "experiment_id": "b_star_q6_f3_stress_family_decomposition_powered",
-   "hypothesis_level": "H3",
-   "statement": "Biological identity of f3_stress (the dominant B*_Q6 abundance coordinate): decomposing it into 21 synonymous family subcoordinates (exact, sum-consistency l2err~8e-16), 19/21 families are real held-out abundance sources, and the effect is DOMINATED BY GLYCINE (GGN) and ISOLEUCINE (AUU/AUC/AUA) synonymous choices (held-out R^2 0.079/0.063, energy 0.65/0.52), then Arginine (CGN, AGR), Gln, Phe, Thr, Val. So f3_stress is largely a Gly/Ile synonymous-choice axis (Ile-AUA is a known slow/wobble codon), not a uniform 'first-vs-last' artifact.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_family_decomposition_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T04:23:50+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.f3_stress_cross_organism.b_star_q6_generality_powered",
-   "experiment_id": "b_star_q6_f3_stress_cross_organism_powered",
-   "hypothesis_level": "H3",
-   "statement": "Cross-organism f3_stress->protein-abundance: the association DIRECTION generalizes near-universally (15/15 organisms held-out-significant vs permutation null after cds-length/total-codon/GC3/20-aa-composition controls, 14/15 POSITIVE; only the archaeon S. solfataricus negative), BUT the effect MAGNITUDE is strongly yeast-dominant. Held-out R^2: yeast 0.168 (clear outlier), lower-eukaryotes/some bacteria 0.01-0.05 (dicty, C.elegans, drosophila, pseudomonas, danio, bacillus), and MAMMALS negligible (human 0.0004, mouse 0.0006, rat 0.0008) -- the latter clear null only via large-n significance (explain <0.1% of variance). So the strong synonymous-codon->abundance coupling is a yeast (+lower-eukaryote/bacterial) phenomenon; in mammals the f3_stress axis is biologically negligible. NOTE: the experiment's pass gate is significance (held_out>null95), which overstates generality at large n; the honest reading is direction-universal, magnitude-yeast-dominant.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_cross_organism_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T11:43:59+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.f3_stress_strength_driver.b_star_q6_translational_selection_powered",
-   "experiment_id": "b_star_q6_f3_stress_strength_driver_powered",
-   "hypothesis_level": "H3",
-   "statement": "Why f3_stress is yeast-dominant: across 15 organisms its effect size = translational-selection strength x directional alignment. (1) Total synonymous-codon selection on abundance (independent 41-col full design) predicts f3 strength (Spearman rho=0.71). (2) f3_alignment sign predicts f3 direction 15/15, incl. the lone negative organism S. solfataricus (anti-aligned). Yeast is strongest because it has BY FAR the highest translational selection (syn_sel R^2=0.39, ~2x runner-up) AND positive f3 alignment (0.24). Counterexample E.coli: high selection (0.22) but f3 near-orthogonal (align 0.046) -> weak f3 (0.006), so alignment matters independently. Mammals: weak selection (0.05-0.08) -> negligible f3. So f3_stress is a 1-D proxy for the organism's codon-level translational selection; it is strong in yeast because yeast's translational selection is strongest. Caveat: n=15, no phylogenetic correction; alignment uses same-organism abundance preferences (direction-agreement partly definitional; non-circular core is the independent selection<->strength rho=0.71).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_strength_driver_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T12:01:37+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.optimal_codon_conservation.b_star_q6_cross_organism_direction_powered",
-   "experiment_id": "b_star_q6_optimal_codon_conservation_powered",
-   "hypothesis_level": "H3",
-   "statement": "Cross-organism structure of the abundance-optimal synonymous-codon direction (15 organisms, 41-col synonymous contrast design). conservation_call=CLUSTERED: mean pairwise cosine 0.26 (not conserved>=0.6, not idiosyncratic), organized mainly by GENOMIC GC3 (GC3-delta vs cosine Pearson -0.36) more than by domain (same-domain 0.29 vs cross-domain 0.25). A weak UNIVERSAL CORE direction exists (mean held-out R^2 0.088; max yeast 0.30, E.coli 0.20). Yeast optimizes HARDEST (self-direction R^2 0.40) but in a relatively IDIOSYNCRATIC direction (core alignment 0.38, among the lowest); E.coli is core-aligned (0.77). f3_stress is a crude fixed proxy weakly aligned with everything (f3 vs core 0.26, vs yeast 0.20, vs E.coli 0.22). Caveat: n=15, no phylogenetic correction, optimal direction inferred from abundance-associated contrasts (not causal).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_optimal_codon_conservation_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T12:49:53+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.boundary_set_biological_signature.b_star_q6_window6_R_powered",
-   "experiment_id": "b_star_q6_boundary_set_biological_signature_powered",
-   "hypothesis_level": "H3",
-   "statement": "Window6 boundary set R biological-signature test (bridge BC1 empirical contact). The 10 R sense-codons (math/geometry-derived boundary, NO usage fitting) are systematically AVOIDED (lower abundance-preference than non-R sense codons) in ALL 15/15 organisms (cross-organism sign test ~ p 6e-5), but only 6/15 reach individual per-organism permutation significance, so the experiment's strict gate (>=8 significant) emits FAILED. Honest reading: the abstract Window6 boundary R HAS a real, directionally-universal biological signature (it is the set of avoided codons), under-detected by the per-organism gate (small-genome power). Same pattern as f3 cross-organism (direction universal, per-organism magnitude varies). Supports BC1's empirical prong; the math forcing prong still pending. Follow-on: a cross-organism sign-test gate would call this supported.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_boundary_set_biological_signature_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T14:41:42+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.boundary_set_trna_poverty.b_star_q6_window6_R_mechanism_powered",
-   "experiment_id": "b_star_q6_boundary_set_trna_poverty_powered",
-   "hypothesis_level": "H3",
-   "statement": "Mechanism for why Window6 boundary set R is biologically avoided (Route L): the 10 R sense-codons are systematically tRNA-POOR (lower dos-Reis tAI weight, from GtRNAdb tGCN+wobble) than non-R sense codons in 31/40 organisms (cross-organism sign test binomial two-sided p~7e-4; 9/40 opposite, so predominant not universal). So the math-defined Window6 boundary R = the translationally non-optimal / tRNA-scarce codons -> they are decoded slowly and selected against -> avoided (Route L). Gives the abstract boundary a real mechanistic biological identity. Deterministic; tAI from GtRNAdb. Caveat: tAI is a supply proxy, not direct decoding-rate; 40 organisms no phylogenetic correction.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_boundary_set_trna_poverty_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T15:27:13+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.universal_core_trna_adaptation.b_star_q6_optimal_direction_powered",
-   "experiment_id": "b_star_q6_universal_core_is_trna_adaptation_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route N: the cross-organism universal optimal synonymous-codon direction (the weak universal core of Route K) is substantially the tRNA-adaptation direction. Across 11 organisms with both proteomes and GtRNAdb tRNA-gene copies, each organism's abundance-optimal direction (full 41-dim synonymous contrast) aligns with its dos-Reis tAI tRNA-supply direction at mean cos 0.267 (median 0.302; cross-organism sign test 10/11 positive, p~5.9e-3; normal-approx p~7e-7), and the tRNA direction ALONE recovers ~43% (pooled held-out R2 ratio 0.434; median per-organism 0.30) of the abundance signal the full optimal direction captures (mean tRNA-alone held-out R2=0.059 vs self R2=0.136). The tRNA direction also aligns with the cross-organism universal core at cos 0.246 (9/11 positive, p~0.033). So translational selection toward tRNA-abundant codons is a MAJOR but PARTIAL (~43%) component of universal codon optimality, not the whole thing -- consistent with f3 residual dominance and the ~24.5% reducibility of B*_Q6. Deterministic; tAI from GtRNAdb tGCN+wobble. Caveat: 11 organisms (proteome intersect GtRNAdb), tAI is a supply proxy not a direct decoding rate, no phylogenetic correction.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_universal_core_is_trna_adaptation_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T16:05:18+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.universal_optimal_residual_axis.b_star_q6_mutation_vs_selection_powered",
-   "experiment_id": "b_star_q6_universal_optimal_residual_axis_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route O: the NON-tRNA component of universal codon optimality is the f3-stress translational-selection axis, NOT GC mutational bias. After Gram-Schmidt-removing each organism's tRNA-adaptation direction from its 41-dim abundance-optimal synonymous direction (Route N), the residual aligns with the f3-stress axis (mean cos 0.139, 10/11 organisms positive, cross-organism sign-test p~5.9e-3, normal-approx p~6e-6) and is ANTI-aligned with the GC3 mutational-bias axis (mean cos -0.073, 10/11 negative). The GC3 and f3-stress reference directions are nearly anti-parallel in this contrast space (cos -0.905), so the residual selects the f3/translational-selection pole over the GC/mutation pole (paired |cos_f3|>|cos_gc| in 11/11 organisms, p~4.9e-4). Combined with Route N (~43% tRNA-adaptation), B*_Q6 codon optimality decomposes into TWO translational-selection mechanisms -- tRNA-supply adaptation + f3-ramp stress -- with GC mutational bias as the opposite pole, not a positive driver. Deterministic; 11 organisms (proteome intersect GtRNAdb). Caveat: f3 cosine magnitude is modest (0.139) though directionally consistent; GC/f3 near-antiparallel means the two readouts are not independent; observational not causal; E.coli/P.aeruginosa/etc lack GtRNAdb (needs_data); no phylogenetic correction.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_universal_optimal_residual_axis_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T16:26:59+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.universal_optimal_two_axis_closure.b_star_q6_trna_f3_span_powered",
-   "experiment_id": "b_star_q6_universal_optimal_two_axis_closure_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route P: universal codon optimality is NOT 2-dimensional (tRNA + f3) -- a universal THIRD selection axis exists. Projecting each organism's 41-dim abundance-optimal synonymous direction onto span{d_tRNA, d_f3} captures only mean 13.0% of its norm^2 (captured_fraction mean 0.130, median 0.102, 11/11 organisms < 0.5); the residual-after-both direction d_perp retains ~93% of the optimal norm. d_perp is NOT noise: systematically positive held-out R2 (mean 0.066, 11/11 positive, p~4.9e-4) recovering ~64% of the self-direction abundance R2 (d_perp/self ratio mean 0.640), and CROSS-ORGANISM ALIGNED (55-pair mean cosine 0.179, 38/55 positive, sign-test p~3.2e-3, normal-approx p~1.6e-6). In 8/11 organisms d_perp alone out-predicts the tRNA+f3 plane combined (two-axis recovers ~40% of self R2). So codon optimality has at least THREE universal selection dimensions; tRNA-supply adaptation (Route N) + f3-stress (Route O) are real but together a MINORITY of the optimal direction's geometry and predictive content. The identity of the third universal axis d_perp is the open frontier. Deterministic; 11 organisms (proteome intersect GtRNAdb). Caveat: cosines modest; observational not causal; no phylogenetic correction; d_perp is an orthogonal-complement residual so its mechanistic identity needs separate characterization.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_universal_optimal_two_axis_closure_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T16:53:47+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.third_axis_identity.b_star_q6_d_perp_powered",
-   "experiment_id": "b_star_q6_third_axis_identity_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route Q: the third universal codon-optimality axis d_perp (Route P) is provisionally identified as the within-synonymous-family USAGE-FREQUENCY axis (preferred-codon bias). Across 11 organisms d_perp aligns with the within-family usage-frequency direction at mean cos 0.128 (11/11 organisms positive, cross-organism sign-test p~4.9e-4) -- the ONLY tested candidate axis clearing the cross-organism gate. Other candidates are weak/non-significant: position composition (pos3_C 0.084 7/11 ns, pos1_C 0.079 8/11 ns), residual GC3 (0.054 9/11 p~0.03 marginal), the other 8 B*_Q6 synonymous coordinates, amino-acid/position composites -- none explain d_perp. So codon optimality has THREE universal selection axes: tRNA-supply adaptation (Route N), f3-stress 5'-ramp translational selection (Route O), and the genome-wide preferred-codon usage-frequency bias (Route Q), the last distinct from tRNA-supply. Deterministic; 11 organisms (proteome intersect GtRNAdb). Caveat: cosine modest (0.128); usage-frequency correlates with expression so part of this reflects the abundance-optimal direction recovering the preferred-codon set, and the deeper driver of usage-frequency beyond tRNA is itself composite/open; observational; no phylogenetic correction. Also exports per-codon d_perp + tRNA-supply vectors in the codon-Q6 6-bit frame (codon_q6_selection_vectors.json) fulfilling the Window6-codon bridge BC5 data request.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_third_axis_identity_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T18:10:49+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.third_axis_mechanism.b_star_q6_d_perp_csc_vs_gc_powered",
-   "experiment_id": "b_star_q6_third_axis_mechanism_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route R: the third universal codon-optimality axis d_perp (Route P/Q, the within-family preferred-codon/usage-frequency direction) is a GENUINE cross-organism SELECTION signal -- NOT a GC/mutational projection and NOT the wobble-decoding axis. GC-null defeat: after orthogonalizing d_perp against the GC3 direction it remains cross-organism aligned (55-pair mean cosine 0.177, 38/55 positive, sign-test p~3.2e-3) and still predicts protein abundance held-out (mean R2 0.071, 11/11 positive, p~5e-4) -- essentially unchanged from pre-orthogonalization (0.179/0.066); GC3 alone gives only R2 0.028. So d_perp is not mutational GC bias. Wobble test: d_perp per-codon loadings do NOT cluster by wobble-decoding class (exact-match vs wobble, NNU/NNC vs NNA/NNG, 2-codon U/C splits) -- not the tRNA-modification/wobble axis. The leading remaining identity -- CSC / mRNA-stability codon optimality (codon-mediated decay) and 5'-vs-CDS-body positional localization -- requires external data (published CSC vectors / mRNA half-lives / positional CDS) and is flagged needs_external (repo holds only whole-CDS codon counts). Deterministic; 11 organisms. Net: the third optimality axis is a real preferred-codon SELECTION pressure distinct from tRNA-supply, the 5'-ramp f3 axis, GC mutation, and wobble decoding; most plausibly mRNA-stability-driven, pending external CSC/half-life data. Oracle (chatgpt-pro) independently ranked CSC/mRNA-stability as the #1 candidate.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_third_axis_mechanism_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T18:33:53+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.optimality_axis_sufficiency.b_star_q6_three_axis_powered",
-   "experiment_id": "b_star_q6_optimality_axis_sufficiency_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route S (optimality-axis sufficiency, independent-axis design): the three NAMED mechanistic codon-optimality axes -- tRNA-supply (tAI), f3-ramp, within-family usage-frequency -- are NOT sufficient to explain the universal abundance-optimal direction. Using axes each defined INDEPENDENTLY of the optimal direction (anti-circularity sanity captured_fraction<1 enforced), the three jointly span only ~16.4% of the optimal direction's norm (captured_fraction_3indep 0.164 vs 0.130 for tRNA+f3 alone; usage-frequency adds only ~3.4% geometric) and recover ~45% of held-out abundance R2 (three-axis/self R2 0.448 vs 0.395 for two axes). A FOURTH universal mechanism remains: the residual d_resid4 (d_opt minus the 3 independent axes) is cross-organism ALIGNED (55-pair mean cosine 0.172, 38/55 positive, sign-test p~3.2e-3) and recovers ~56% of self-optimal abundance R2 (mean R2 0.058, 11/11 positive) -- the majority of the universal codon-optimality signal lies OUTSIDE the three identified mechanisms and is still unidentified. So codon abundance-optimality is at least 4-dimensional. CORRECTION NOTE: an earlier residual-basis design gave captured=1.0 ('three axes sufficient') tautologically because the third axis was defined as d_opt's own residual; this independent-axis design (tAI/f3/usage all from biology, not from d_opt) avoids that circularity. Deterministic; 11 organisms. Caveat: d_resid4 held-out R2 carries the usual full-sample-direction optimistic bias, but the cross-organism cosine alignment and the captured-fraction are bias-free; observational; no phylogenetic correction.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_optimality_axis_sufficiency_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T19:19:53+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.axis_strength_spectrum.b_star_q6_per_organism_powered",
-   "experiment_id": "b_star_q6_axis_strength_spectrum_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route T (per-organism axis-strength spectrum): across all 11 organisms the captured-fraction spectrum of codon abundance-optimality is dominated by the unidentified 4th component d_resid4 (dominant axis in 11/11 organisms), d_tRNA second, f3 and usage-frequency secondary. NO organism is primarily explained by the named tRNA/f3/usage axes -- the unidentified mechanism leads universally. (Honest note: d_resid4's captured dominance is the geometric complement of the 3-named-axis ~16% capture from Route S, so this is a per-organism RESTATEMENT of Route S, not an independent finding; the genuinely new content is the per-organism universality and the domain/GC nulls below.) Cross-domain structure: NOT detectable -- domain means are descriptive only under imbalanced n (archaea 1, bacteria 2, eukaryote 8), low power; no significant domain difference in the spectrum. Genome-GC covariation: only the usage-frequency axis weakly tracks GC3 (Spearman rho 0.136). Deterministic; 11 organisms. So identifying the dominant 4th mechanism (most plausibly CSC/mRNA-stability, needs external data) is the key open frontier; the named-axis mix does not vary detectably by domain at this sample size.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_axis_strength_spectrum_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T19:55:14+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_mrna_stability_powered",
-   "experiment_id": "b_star_q6_fourth_mechanism_mrna_stability_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route U: the unidentified 4th universal codon abundance-optimality axis (d_resid4, Route S/T) is NOT mRNA-stability/CSC -- refuting the leading hypothesis (oracle-ranked #1). Using in-repo per-gene mRNA-half-life data (yeast Neymotin + E.coli + human; NOT external), the half-life-optimal codon direction aligns only weakly with d_resid4 (cos 0.098) and more with tRNA (0.223)/usage (0.163); half-life optimality is itself barely in the named-axis span (captured 0.062). POSITIVE narrowing: the 4th axis IS shared across the abundance / translation-efficiency / mRNA-level optimal directions (TE-opt . d_resid4 = 0.616, mRNA-level-opt . d_resid4 = 0.544) but NOT half-life (0.098) -- so the dominant 4th mechanism is an EXPRESSION/TRANSLATION-level codon optimality common to abundance+TE+mRNA-abundance, distinct from mRNA-decay/stability. Caveat: the three named axes are geometrically correlated (f3-usage cos 0.711, tRNA-usage 0.499) despite independent biological definitions, so the 'span' overlaps; yeast-primary (half-life/TE richest there), cross-organism limited; cross-readout cosines are bias-free but held-out R2 carries the full-sample-direction optimistic bias; observational, no phylogenetic correction. Net: the 4th mechanism stays unidentified but is constrained -- NOT mRNA-stability, IS a shared expression/translation-level axis.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_fourth_mechanism_mrna_stability_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T20:34:14+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_codon_pair_powered",
-   "experiment_id": "b_star_q6_fourth_mechanism_codon_pair_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route V: the dominant 4th universal codon-optimality axis is NOT codon-pair bias (refuting oracle #5, after Route U refuted #1 mRNA-stability). Per-gene codon-pair-bias (Coleman obs/exp adjacent in-frame pairs, in-repo ordered CDS seqs, yeast 5810 + E.coli 3738 genes) adds ZERO held-out abundance increment beyond the single-codon three axes (yeast increment R2 -1.8e-5; 3-axis+CPB 0.3077 ~ baseline 0.3077; codon-shuffle null p=1.0). CPB single-codon marginal does NOT align with d_resid4 (cos -0.23 yeast, |cos| 0.27 E.coli) and is largely just usage (|cos| d_usage 0.68 E.coli). Deterministic; yeast+E.coli. NET 4th-mechanism elimination: NOT mRNA-stability (U), NOT codon-pair (V), NOT wobble (R), NOT GC (R); specific identity unresolved with current repo data (remaining: co-translational elongation/ribosome-dwell, 5'-structure -- need dwell/structure data not cleanly available).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_fourth_mechanism_codon_pair_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T21:29:16+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_elongation_dwell_powered",
-   "experiment_id": "b_star_q6_fourth_mechanism_elongation_dwell_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route W: ribosome-dwell/elongation is NOT the unidentified 4th codon-optimality axis (partial verdict). The per-codon ribosome-dwell direction (yeast riboseq positional occupancy, 1.41M windows, synonymous-contrast encoded) aligns with the 4th residual d_resid4 only cos -0.095, but aligns strongly with the already-NAMED axes: usage cos 0.640, tRNA 0.323, f3 0.272. So ribosome-dwell IS a real codon-optimality signal but it is the named-axes bundle (mostly usage-frequency), NOT the missing 4th residual. Deterministic; yeast-only (riboseq occupancy single-species -> no cross-species power). This COMPLETES the 4th-mechanism elimination over all repo-testable candidates: the dominant unidentified 4th expression/translation-level axis is NOT mRNA-stability (U), codon-pair (V), wobble-decoding (R), GC/mutation (R), or ribosome-dwell/elongation (W). ARC CONCLUSION (Route N->W): codon abundance-optimality is >=4-dimensional; the three named selection axes (tRNA-supply + f3-ramp + usage-frequency) capture only ~16% of the optimal direction's geometry, and the dominant cross-organism-universal residual axis is real but mechanistically OPEN -- not explained by any standard single-codon mechanism with currently-available data.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_fourth_mechanism_elongation_dwell_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-13T21:38:22+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.translation_conditioned_localization_boundary.b_star_q6_powered",
-   "experiment_id": "b_star_q6_translation_conditioned_localization_boundary_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route X (translation->protein-localization boundary, first protein-PHENOTYPE-layer test beyond abundance): B*_Q6 does NOT robustly cross the translation->subcellular-localization layer -- its apparent localization discrimination is largely protein-composition/length-confounded. Held-out multiclass localization discrimination (yeast 4304 / human 10187 / danio 1908 genes): B*_Q6 beats baseline (Δacc +0.022, Δmacro-AUC +0.078) and SURVIVES translation controls (abundance+TE; Δacc +0.023, ΔAUC +0.021), BUT collapses to ~0 after additionally controlling protein length + amino-acid composition + GC (cross-organism aggregate Δacc -1e-5, ΔAUC -0.0014). Only yeast retains a weak per-organism full-control residual; human and danio are partial and the aggregate full-control increment is null -> NOT replicated. So the codon-Q6 signal carries no localization information independent of protein composition/length; the apparent codon->localization channel is a composition confound (verdict: partial, leaning blocked_null). Deterministic; yeast+human+danio. Anti-over-claim: the per-organism 'crosses' for yeast was downgraded to partial at the headline (orchestrator-fixed verdict gate) because the cross-organism aggregate increment does not survive length+aa+GC controls. Caveat: multi-label localization reduced to primary classes; 3 organisms; held-out CV.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_conditioned_localization_boundary_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-14T04:56:13+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.translation_conditioned_stability_boundary.b_star_q6_powered",
-   "experiment_id": "b_star_q6_translation_conditioned_stability_boundary_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route X2 (translation->protein-stability boundary): B*_Q6 does NOT independently cross to the protein-stability layer -- same composition-confound pattern as localization (Route X). Across 3 organisms (yeast/E.coli/human, 12751 genes), B*_Q6 predicts protein/mRNA stability (Δr2 +0.028 vs baseline, 3/3 positive) and weakly survives translation controls (Δr2 +0.010, 2/3), but the FULL-control increment (translation+length+aa+GC) collapses to -0.0026 (1/3 positive), indistinguishable from the sign-flip permutation null (null mean -0.0028; p(obs>0)=0.95). So the codon-Q6 stability signal is fully explained by protein composition/length; no independent stability information (verdict partial, leaning blocked_null). EMERGING BOUNDARY (with Route X localization): the codon-Q6 channel reaches protein ABUNDANCE (the N->W optimality arc) but does NOT independently cross to downstream protein phenotypes (localization, stability) -- those apparent signals are protein-composition/length confounds. Deterministic; 3 organisms; held-out CV + sign-flip null + full composition controls.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_conditioned_stability_boundary_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-14T05:07:49+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.translation_conditioned_structural_order_boundary.b_star_q6_powered",
-   "experiment_id": "b_star_q6_translation_conditioned_structural_order_boundary_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route X3 (translation->protein-structural-order boundary): B*_Q6 DOES independently cross to the protein structural-order layer -- the one downstream phenotype (of those tested) where the codon signal survives full controls, consistent with co-translational folding. Across yeast + E.coli (2/2 organisms, both domains), B*_Q6 predicts protein structural order/disorder (Δr2 +0.099 vs baseline) and the increment SURVIVES the full controls (translation+length+aa+GC): full-control Δr2 +0.0053 (2/2 positive), above the sign-flip permutation null (null -0.0021; p(obs>0)=0.0029). Unlike localization (Route X) and stability (Route X2) -- which collapsed to the composition null -- structural order retains a small (~0.5% incremental R2) but REAL, composition-independent, cross-domain-replicated codon signal. Mechanism consistent with co-translational folding (local codon usage tuning elongation rate to aid folding/disorder). Deterministic; 2 organisms (yeast+E.coli); held-out CV + sign-flip null + full composition controls. Caveat: small magnitude; only 2 organisms; per-protein order/disorder readout. PROTEIN-PHENOTYPE BOUNDARY MAP (Route X/X2/X3): codon-Q6 crosses to ABUNDANCE (strong, optimality arc) and STRUCTURAL ORDER (small, co-translational folding) but NOT to localization or stability (composition confounds).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_conditioned_structural_order_boundary_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-14T05:15:49+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.structural_order_axis_identity.b_star_q6_powered",
-   "experiment_id": "b_star_q6_structural_order_axis_identity_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route X3b (structural-order crossing axis identity): the codon-Q6 -> protein-structural-order crossing (Route X3) is carried predominantly by the f3_stress (5'-ramp) axis -- confirming the co-translational folding mechanism. Of the 9 B*_Q6 coordinates, f3_stress is the ONLY individually-significant carrier of the full-control structural-order increment (weighted held-out Δr2 +0.0032, sign-flip p=0.031, 2/2 organisms), accounting for the bulk of the full B*_Q6 increment (+0.0038, p=0.017); all other axes are individually non-significant (Arg_AGR p=0.14, Ile_AUA p=0.069, ...). So the same 5'-ramp translational-selection axis (f3_stress) that dominates abundance-optimality (Route O) is ALSO the axis that reaches protein structural order -- one elongation/ramp axis spanning both abundance and co-translational folding. Deterministic; yeast+E.coli. Caveat: f3_stress p=0.031 (modest), 2 organisms; per-organism dominant LOADING varies (yeast K_AAA, E.coli f3_stress) but the increment-based ranking puts f3_stress uniquely significant. CLOSES the protein-phenotype boundary arc (Route X/X2/X3/X3b): codon-Q6 crosses to abundance + structural-order (both via the f3/ramp co-translational-selection axis), not to localization or stability (composition confounds).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_structural_order_axis_identity_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-14T05:27:23+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_translation_accuracy_powered",
-   "experiment_id": "b_star_q6_fourth_mechanism_translation_accuracy_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route Y (4th-mechanism candidate: translation accuracy): the dominant unidentified 4th codon-optimality axis is NOT translation-accuracy / near-cognate mistranslation-robustness either (oracle's top remaining bet, refuted). Per-codon Accuracy score = log(cognate dos-Reis decoding supply / one-mismatch missense near-cognate pressure x Grantham severity), residualized against {tAI,f3,usage,GC,wobble} + within-family centered, tested across 11 organisms with 3 oracle-designed gates -- ALL 3 FAILED: (a) codon-axis alignment with d_resid4: median abs cosine 0.07, within-family permutation null median p=0.71 (NS; 8/11 same sign but only drosophila/yeast individually significant); (b) gene held-out abundance increment beyond known axes: mean Δr2 +0.0043, sign-test p=0.11 (NS); (c) structural-order gradient: only yeast has data and accuracy is stronger in DISORDERED (Δ +0.023) than ordered (Δ +0.0036) regions -- OPPOSITE the co-translational prediction. ELIMINATION LEDGER (4th universal optimality axis): NOT mRNA-stability, codon-pair, wobble, GC, ribosome-dwell, OR translation-accuracy -- 6 standard codon-bias mechanisms excluded. The dominant cross-organism-universal optimality axis remains a genuine open mystery, resistant to standard single-mechanism explanation with available data. Deterministic; 11 organisms; permutation null + full controls; codex verdict conservative/correct (0/3 gates passed, no over-claim).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_fourth_mechanism_translation_accuracy_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-14T06:09:02+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.f3_ramp_ortholog_portability.b_star_q6_powered",
-   "experiment_id": "b_star_q6_f3_ramp_ortholog_portability_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route Z (f3-ramp evolutionary portability, oracle-proposed genuinely-new direction): tests whether within-orthogroup cross-species differences in the 5'-ramp f3 signal predict conserved same-direction differences in protein abundance/TE/structural-order (ortholog + species fixed effects, controlling aa-composition/GC/tRNA/length; negative controls half-life/localization). NEEDS_EXTERNAL with current repo data: no species pair satisfies BOTH (enough 1:1 orthologs) AND (full features both sides). Attempt 1 yeast+human: human lacks ordered-CDS + structural-order locally. Attempt 2 yeast+E.coli (cross-domain): a real OrthoDB fetch ran (598/600 requests, 474s, not rate-limited) but found 0 exact local 1:1 orthogroups with full features among 352 orthogroups seen -- cross-domain (eukaryote vs bacteria) 1:1 orthology + full-feature coverage is too sparse. So the portability question is feasible IN PRINCIPLE (OrthoDB reachable) but blocked on data: needs human ordered-CDS+structural-order or >=3 same-kingdom full-feature species. Honestly registered needs_data (data gap documented); NOT a scientific verdict. Local feature coverage confirmed: yeast 5810 genes (abundance+TE 5128+structural 5804+half-life 5379+localization 4831), E.coli 3738 (abundance+TE 3415+structural 3736+half-life 2947; no localization).",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_ramp_ortholog_portability_powered.py",
-   "required_data": [
-    "tools/bio_reality/data/f3_portability_human_ordered_cds_structural_order_or_more_fullfeature_species.json"
-   ],
-   "timeout_seconds": 1200,
-   "status": "needs_data",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-14T07:10:44+00:00",
-   "dependencies": [],
-   "external_preconditions": [
-    "tools/bio_reality/data/f3_portability_human_ordered_cds_structural_order_or_more_fullfeature_species.json"
-   ],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  },
-  {
-   "claim_id": "h3.cross_layer_relation.structural_order_ramp_positional.b_star_q6_powered",
-   "experiment_id": "b_star_q6_structural_order_ramp_positional_powered",
-   "hypothesis_level": "H3",
-   "statement": "Route X3c (positional/ramp localization of the f3->structural-order crossing): the f3->structural-order signal (Route X3) is RAMP-CONCENTRATED, consistent with co-translational folding, though ramp-exclusivity is only marginally significant at 2 organisms. At the first 50 codons, ramp f3 crosses to structural order (held-out Δr2 +0.0011, sign-flip p=0.048, 2/2 organisms yeast+E.coli) while CDS-body f3 does NOT (Δr2 -0.0003, p=0.54, 0/2); ramp > body in 2/2 organisms (paired Δr2 +0.0014, paired sign-flip p=0.059 -- just above 0.05). So the structural-order crossing is driven by the N-terminal ramp window, not the CDS body -- the per-arm pattern (ramp significant, body NS, ramp>body 2/2) supports the co-translational-folding spatial prediction, but the strict ramp-vs-body paired test is marginal (underpowered at 2 organisms; codex conservatively labelled 'ramp_positive_but_not_localized' because the paired gate p=0.059 narrowly missed 0.05). N=30 sensitivity weaker (ramp p=0.30); the effect emerges at a ~50-codon window. Deterministic; yeast+E.coli; held-out + sign-flip null. Completes the f3->structural-order mechanism line (X3 crossing / X3b f3-axis carrier / X3c ramp-concentrated): a 5'-ramp f3 co-translational-folding channel, modest and marginal but directionally coherent.",
-   "script_path": "tools/bio_reality/experiments/run_b_star_q6_structural_order_ramp_positional_powered.py",
-   "required_data": null,
-   "timeout_seconds": 1200,
-   "status": "open",
-   "proposed_by": "orchestrator",
-   "created_at": "2026-06-14T07:51:15+00:00",
-   "dependencies": [],
-   "external_preconditions": [],
-   "acceptance": {
-    "required_checks": [],
-    "criteria": {}
-   }
-  }
- ]
+  "version": "bio-reality-experiments-v1",
+  "experiments": [
+    {
+      "experiment_id": "compute_R",
+      "script_path": "tools/bio_reality/experiments/run_compute_R.py",
+      "claim_id": "h0.R.cardinality.13",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "R_cardinality_equals_13"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_motif_compression",
+      "script_path": "tools/bio_reality/experiments/run_check_motif_compression.py",
+      "claim_id": "h0.R.motif.compression",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "R_equals_motif_union",
+          "no_extra",
+          "no_missing"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_punctured_cube",
+      "script_path": "tools/bio_reality/experiments/run_check_punctured_cube.py",
+      "claim_id": "h0.R.punctured.cube",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "R_equals_punctured_cube",
+          "f_vector_matches"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_M_equals_WNR_CUN",
+      "script_path": "tools/bio_reality/experiments/run_check_M_equals_WNR_CUN.py",
+      "claim_id": "h0.M.equals.WNR.CUN",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "M_equals_WNR_union_CUN",
+          "M_cardinality_equals_20"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_f3_saturation",
+      "script_path": "tools/bio_reality/experiments/run_check_f3_saturation.py",
+      "claim_id": "h0.f3.saturation",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "f3_boundary_is_zero"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_quotient_geometry",
+      "script_path": "tools/bio_reality/experiments/run_check_quotient_geometry.py",
+      "claim_id": "h0.quotient.geometry",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "M_is_product_decomposition"
+        ]
+      }
+    },
+    {
+      "experiment_id": "compute_spectrum",
+      "script_path": "tools/bio_reality/experiments/run_compute_spectrum.py",
+      "claim_id": "h0.spectrum",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "spectral_radius_in_tolerance",
+          "cubic_polynomial_satisfied"
+        ]
+      }
+    },
+    {
+      "experiment_id": "null_model_uniform",
+      "script_path": "tools/bio_reality/experiments/run_null_model_uniform.py",
+      "claim_id": "h0.null.model.significance",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 600,
+      "acceptance": {
+        "required_checks": [
+          "p_value_uniform_lower_tail_significant",
+          "p_value_position_preserving_lower_tail_significant"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_code_out",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_code_out.py",
+      "claim_id": "h1.leave.one.code.out",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "hit_rate_above_baseline"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_codon_out",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_codon_out.py",
+      "claim_id": "h1.leave.one.codon.out",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "recovery_rate_above_threshold",
+          "closure_coverage_high"
+        ]
+      }
+    },
+    {
+      "experiment_id": "null_model_shape",
+      "script_path": "tools/bio_reality/experiments/run_null_model_shape.py",
+      "claim_id": "h0.M.shape.significance",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 600,
+      "acceptance": {
+        "required_checks": [
+          "p_value_exact_shape_significant"
+        ]
+      }
+    },
+    {
+      "experiment_id": "self_experiment",
+      "script_path": "tools/bio_reality/experiments/run_self_experiment.py",
+      "claim_id": "self.claim",
+      "required_data": [],
+      "timeout_seconds": 180,
+      "acceptance": {
+        "required_checks": [
+          "self_check"
+        ]
+      }
+    },
+    {
+      "experiment_id": "null_model_aa_class_preserving",
+      "script_path": "tools/bio_reality/experiments/run_null_model_aa_class_preserving.py",
+      "claim_id": "h0.null.model.aa_class_preserving",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 600,
+      "acceptance": {
+        "required_checks": [
+          "p_value_aa_class_lower_tail_significant",
+          "p_value_aa_class_exact_shape_significant"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_code_out_by_family",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_code_out_by_family.py",
+      "claim_id": "h1.leave_one_code_out.by_family",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "family_hit_rate_above_baseline"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_codon_out_module",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_codon_out_module.py",
+      "claim_id": "h1.leave_one_codon_out.module_classification",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "module_classification_complete",
+          "every_module_has_predictable_or_boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "orf_start_stop_window_eligibility",
+      "script_path": "tools/bio_reality/experiments/run_orf_start_stop_window_eligibility.py",
+      "claim_id": "h2.orf.start_stop.window_eligibility",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json",
+        "tools/bio_reality/data/orf_window_dataset.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "external_window_dataset_loaded",
+          "all_windows_classified_by_start_stop_enumeration",
+          "no_geometry_to_translation_promotion"
+        ]
+      }
+    },
+    {
+      "claim_id": "phase.one.a+phase.one.b+phase.one.c",
+      "experiment_id": "exp.phase2.confirmatory_falsification.v1",
+      "hypothesis_level": "H1",
+      "statement": "Recovered claim phase.one.a+phase.one.b+phase.one.c (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_phase2_confirmatory_falsification.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-05-29T20:11:31+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      },
+      "required_data": [
+        "tools/bio_reality/data/phase2_confirmatory_falsification_dataset.json"
+      ]
+    },
+    {
+      "claim_id": "h2.external.aca_puncture_fill_in",
+      "experiment_id": "external_aca_puncture_challenge",
+      "hypothesis_level": "H2",
+      "statement": "Recovered claim h2.external.aca_puncture_fill_in (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_external_aca_puncture_challenge.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-05-30T19:10:48+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [
+          "source_is_real",
+          "current_claim_acceptance"
+        ],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h2.orf_eligibility.curated_interval_contact",
+      "experiment_id": "curated_orf_interval_contact_validation",
+      "hypothesis_level": "H2",
+      "statement": "Recovered claim h2.orf_eligibility.curated_interval_contact (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_curated_orf_interval_contact_validation.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-05-30T11:18:03+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.translation_realization.cross_organism.cun_uur_leu_gate",
+      "experiment_id": "cross_organism_cun_uur_leu_gate_validation",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.translation_realization.cross_organism.cun_uur_leu_gate (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_cross_organism_cun_uur_leu_gate_validation.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-05-30T13:28:17+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient",
+      "experiment_id": "residual_basis_q6_topology_validation",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_residual_basis_q6_topology_validation.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-05-30T17:40:43+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h2.external.aca_puncture_orf_validated",
+      "experiment_id": "orf_constrained_aca_puncture_challenge",
+      "hypothesis_level": "H2",
+      "statement": "Recovered claim h2.external.aca_puncture_orf_validated (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_orf_constrained_aca_puncture_challenge.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-05T14:02:39+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      },
+      "required_data": [
+        "tools/bio_reality/data/orf_constrained_aca_puncture_external_audit_tables.json"
+      ]
+    },
+    {
+      "claim_id": "h3.codon_usage_topology.translation_survival.b_star_q6_coupling_matrix",
+      "experiment_id": "b_star_q6_coupling_matrix_validation",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.codon_usage_topology.translation_survival.b_star_q6_coupling_matrix (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_coupling_matrix_validation.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-05-31T20:34:39+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.codon_usage_topology.translation_survival.b_star_q6_survival_matrix_modeled_tai",
+      "experiment_id": "b_star_q6_survival_matrix_validation",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.codon_usage_topology.translation_survival.b_star_q6_survival_matrix_modeled_tai (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_survival_matrix_validation.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-04T13:56:16+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.codon_usage_topology.translation_survival.b_star_q6_sqt_powered_modeled_tai",
+      "experiment_id": "b_star_q6_translation_survival_powered",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.codon_usage_topology.translation_survival.b_star_q6_sqt_powered_modeled_tai (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_survival_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-06T17:41:25+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.direct_protein_omics_survival.b_star_q6_sqp_powered",
+      "experiment_id": "b_star_q6_protein_omics_survival_powered",
+      "hypothesis_level": "H3",
+      "statement": "Direct per-protein B*_Q6 codon-usage residual survival against measured PAXdb protein abundance after length, amino-acid composition, GC3, and M-density controls; this is a direct omics correlation, NOT a translation-mediated mechanism.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_protein_omics_survival_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T17:44:38+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_mediated_protein_abundance.b_star_q6_mqtp_powered",
+      "experiment_id": "b_star_q6_translation_mediation_powered",
+      "hypothesis_level": "H3",
+      "statement": "Per-protein B*_Q6 codon residual to protein-abundance association is decomposed by conditioning on modeled per-protein tAI; this is a statistical mediation decomposition, NOT a causal mechanism.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_mediation_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T17:47:03+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_gated_structural_order.b_star_q6_sso_powered",
+      "experiment_id": "b_star_q6_structural_order_survival_powered",
+      "hypothesis_level": "H3",
+      "statement": "Per-protein B*_Q6 codon-usage residual association with AlphaFold mean pLDDT predicted structural-order confidence after length, 20 amino-acid composition, GC3, and M-density controls; this is NOT function, phenotype, causality, or experimental structural order.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_structural_order_survival_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-06T17:43:24+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_mediated_protein_function.b_star_q6_fe_powered",
+      "experiment_id": "b_star_q6_essentiality_survival_powered",
+      "hypothesis_level": "H3",
+      "statement": "Per-gene B*_Q6 codon residual association with lab knockout essentiality after amino-acid composition and measured protein-abundance control, using a binary linear-probability residualization; this is NOT causal and NOT a mechanism claim.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_essentiality_survival_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-06T17:43:30+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_conditioned_four_case_discriminant.b_star_q6_fourcase_powered",
+      "experiment_id": "b_star_q6_four_case_discriminant_powered",
+      "hypothesis_level": "H3",
+      "statement": "The four-case discriminant is an objective S^{QT}/S^{QP} sign plus mediation-condition classification over per-protein modeled-tAI and measured abundance readouts; it is not a mechanism claim.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_four_case_discriminant_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-06T17:43:38+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.ribosome_te_survival.b_star_q6_measured_te_powered",
+      "experiment_id": "b_star_q6_measured_te_survival_powered",
+      "hypothesis_level": "H3",
+      "statement": "Measured ribo-seq TE equals footprint/mRNA in the local source files, so the readout is already mRNA-normalized; this powered per-gene S^{QT,meas} reports codon residual survival against log10 measured TE after length, amino-acid composition, GC3, and M-density controls. The data are single/small-study, condition-specific, cross-sectional, and non-causal; the modeled-tAI contrast is a coordinate-pattern comparison only.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_measured_te_survival_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-06T20:14:41+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_mediated_measured_protein_abundance.b_star_q6_measured_mqtp_powered",
+      "experiment_id": "b_star_q6_measured_mediation_powered",
+      "hypothesis_level": "H3",
+      "statement": "Codon residual to PAXdb protein-abundance association is decomposed by conditioning on measured ribo-seq log10(TE), not modeled tAI, across yeast, E. coli, human, and danio. This is a powered cross-sectional statistical mediation decomposition and comparison to the modeled-tAI mediation result; it is non-causal and not a mechanism claim.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_measured_mediation_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-06T22:03:43+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_complement_residual.b_star_q6_complement_support_powered",
+      "experiment_id": "b_star_q6_translation_complement_residual_powered",
+      "hypothesis_level": "H3",
+      "statement": "For each organism, P_Q is the abundance component explained by residualized B*_Q6 coordinates, and P_Q_perp_T is the modeled-tAI-complement residual of that component. a_perp reads this residual back in the 9 B*_Q6 coordinates.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_complement_residual_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-07T02:50:55+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.h_candidate_measured_te.b_star_q6_nontranslation_residual_powered",
+      "experiment_id": "b_star_q6_h_candidate_measured_te_powered",
+      "hypothesis_level": "H3",
+      "statement": "Measured ribo-seq TE is tested as a first H-candidate by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized measured TE.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_measured_te_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-07T04:24:18+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.h_candidate_mrna.b_star_q6_abundance_residual_powered",
+      "experiment_id": "b_star_q6_h_candidate_mrna_powered",
+      "hypothesis_level": "H3",
+      "statement": "mRNA is tested as an H-candidate by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized log10 mRNA.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_mrna_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-07T04:58:40+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.measured_trna_tai.b_star_q6_modeled_residual_absorption_powered",
+      "experiment_id": "b_star_q6_measured_trna_tai_residual_absorption_powered",
+      "hypothesis_level": "H3",
+      "statement": "Measured tRNA gene-copy tAI is tested for whether it absorbs the modeled-tAI-complement abundance component P_hat_{Q perp Tmod}.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_measured_trna_tai_residual_absorption_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-07T15:20:01+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.h_candidate_localization.b_star_q6_nontranslation_residual_powered",
+      "experiment_id": "b_star_q6_h_candidate_localization_powered",
+      "hypothesis_level": "H3",
+      "statement": "UniProtKB reviewed subcellular localization is tested as an H-candidate by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized multi-label localization one-hot columns, with a K-column dof-matched Gaussian null baseline.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_localization_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-07T17:26:54+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.h_candidate_protein_features.b_star_q6_nontranslation_residual_powered",
+      "experiment_id": "b_star_q6_h_candidate_protein_features_powered",
+      "hypothesis_level": "H3",
+      "statement": "UniProtKB reviewed protein features are tested as H-candidates by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized one-column feature readouts, with per-candidate dof-matched Gaussian nulls and Bonferroni correction over organism x candidate tests.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_protein_features_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T03:53:50.608719+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.h_candidate_turnover.b_star_q6_nontranslation_residual_powered",
+      "experiment_id": "b_star_q6_h_candidate_turnover_powered",
+      "hypothesis_level": "H3",
+      "statement": "Protein turnover/half-life is tested as a third H-candidate by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized log10 Christiano 2014 half-life.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_turnover_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-08T19:43:23+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.h_candidate_turnover_human.b_star_q6_large_residual_powered",
+      "experiment_id": "b_star_q6_h_candidate_turnover_human_powered",
+      "hypothesis_level": "H3",
+      "statement": "Mathieson 2018 human protein turnover is tested as an H-candidate by projecting the large human modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized log10 half-life.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_turnover_human_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-08T23:53:52+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.h_candidate_ranking_table.b_star_q6_non_translation_residual_powered",
+      "experiment_id": "b_star_q6_h_candidate_ranking_table_powered",
+      "hypothesis_level": "H3",
+      "statement": "H-candidate readouts are ranked by direction-aware support for the modeled-tAI complement of the B*_Q6 abundance component.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_h_candidate_ranking_table_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T13:18:40+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.residual_basis_extraction.b_star_q6_non_translation_residual_powered",
+      "experiment_id": "b_star_q6_residual_basis_extraction_powered",
+      "hypothesis_level": "H3",
+      "statement": "For each organism with sufficient local readout data, R_0 = P_{Q perp Tmod}; a lambda-regularized greedy basis selects readout blocks H_k to absorb R_{k-1}, records rho_k decay, and compares each selected step with a dof-matched deterministic Gaussian null.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_residual_basis_extraction_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T14:02:42.381443+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.organism_specificity_meta.b_star_q6_cross_organism_powered",
+      "experiment_id": "b_star_q6_organism_specificity_meta_powered",
+      "hypothesis_level": "H3",
+      "statement": "Organism-specific B*_Q6 cross-layer summaries are compared against domain, GC3, tRNA-pool size, and proteome-size proxies with deterministic permutation nulls.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_organism_specificity_meta_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T18:20:06+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.condition_specific_sqp.b_star_q6_growth_condition_powered",
+      "experiment_id": "b_star_q6_condition_specific_sqp_powered",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.cross_layer_relation.condition_specific_sqp.b_star_q6_growth_condition_powered (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_condition_specific_sqp_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T18:36:11+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.tissue_specific_sqp.b_star_q6_human_tissue_powered",
+      "experiment_id": "b_star_q6_tissue_specific_sqp_powered",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.cross_layer_relation.tissue_specific_sqp.b_star_q6_human_tissue_powered (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_tissue_specific_sqp_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T19:07:20+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.tissue_dependence_structure.b_star_q6_functional_class_powered",
+      "experiment_id": "b_star_q6_tissue_dependence_structure_powered",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.cross_layer_relation.tissue_dependence_structure.b_star_q6_functional_class_powered (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_tissue_dependence_structure_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T19:08:36+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.mrna_stability_sqm.b_star_q6_codon_optimality_powered",
+      "experiment_id": "b_star_q6_mrna_half_life_sqm_powered",
+      "hypothesis_level": "H3",
+      "statement": "B*_Q6 codon residuals are tested as statistical predictors of residualized log10 yeast mRNA half-life after the same CDS-derived controls used by S^QP.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_half_life_sqm_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T21:01:52+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.mrna_stability_mediation.b_star_q6_abundance_residual_powered",
+      "experiment_id": "b_star_q6_mrna_stability_mediation_powered",
+      "hypothesis_level": "H3",
+      "statement": "B*_Q6 to yeast protein-abundance residual association is decomposed by conditioning on residualized log10 mRNA half-life from Neymotin 2014; this is statistical mediation, NOT causal pathway evidence.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_stability_mediation_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T21:25:47+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.mrna_stability_sqm_ecoli.b_star_q6_codon_optimality_powered",
+      "experiment_id": "b_star_q6_mrna_half_life_sqm_ecoli_powered",
+      "hypothesis_level": "H3",
+      "statement": "B*_Q6 codon residuals are tested as statistical predictors of residualized log10 E. coli mRNA half-life after the same CDS-derived controls used by S^QP.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_half_life_sqm_ecoli_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T21:55:13+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.mrna_stability_sqm_human.b_star_q6_codon_optimality_powered",
+      "experiment_id": "b_star_q6_mrna_half_life_sqm_human_powered",
+      "hypothesis_level": "H3",
+      "statement": "B*_Q6 codon residuals are tested as statistical predictors of residualized human consensus relative mRNA half-life after the same CDS-derived controls used by S^QP.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_half_life_sqm_human_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T23:01:53+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.mrna_stability_mediation_crossdomain.b_star_q6_abundance_residual_powered",
+      "experiment_id": "b_star_q6_mrna_stability_mediation_crossdomain_powered",
+      "hypothesis_level": "H3",
+      "statement": "B*_Q6 to protein-abundance residual association is decomposed per organism by conditioning on residualized mRNA half-life/stability readout; this is statistical mediation, NOT causal pathway evidence.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_mrna_stability_mediation_crossdomain_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-09T23:16:50+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.joint_te_stability_mediation.b_star_q6_abundance_residual_powered",
+      "experiment_id": "b_star_q6_joint_te_stability_mediation_powered",
+      "hypothesis_level": "H3",
+      "statement": "B*_Q6 to protein-abundance residual association is decomposed per organism by conditioning on residualized measured-TE, residualized mRNA-stability, and both mediators jointly; this is a statistical variance partition, not causal pathway evidence.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_joint_te_stability_mediation_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-10T03:29:28+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.structure_mediation_yeast.b_star_q6_abundance_residual_powered",
+      "experiment_id": "b_star_q6_structure_mediation_yeast_powered",
+      "hypothesis_level": "H3",
+      "statement": "B*_Q6 to protein-abundance residual association is decomposed by conditioning on residualized 5-prime CDS MFE alone and beyond residualized measured-TE plus mRNA-stability; this is a statistical variance partition, not causal pathway evidence.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_structure_mediation_yeast_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-10T05:39:33+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.residual_decomposition.b_star_q6_abundance_ordered_powered",
+      "experiment_id": "b_star_q6_residual_decomposition_powered",
+      "hypothesis_level": "H3",
+      "statement": "For each organism, P_Q = Pi_{Q_e} P_e is decomposed in the fixed order measured-TE, mRNA-stability where available, then a greedy scored H-dictionary. This is an ordered orthogonal projection partition, not causal pathway proof.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_residual_decomposition_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-10T12:01:19+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.sqt_organism_sweep.b_star_q6_modeled_tai_powered",
+      "experiment_id": "b_star_q6_sqt_organism_sweep_powered",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.cross_layer_relation.sqt_organism_sweep.b_star_q6_modeled_tai_powered (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_sqt_organism_sweep_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-10T16:09:44+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.minimal_compilation_law.b_star_q6_residual_compressibility_powered",
+      "experiment_id": "b_star_q6_minimal_compilation_law_powered",
+      "hypothesis_level": "H3",
+      "statement": "Minimal compilation law test: P_Q = Pi_{Q_e} P_e is projected through T, S where available, and a greedy scored H dictionary; compressibility = 1 - ||R_final||^2 / ||P_Q||^2.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_minimal_compilation_law_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-10T16:58:56+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.residual_dictionary_consistency.b_star_q6_direction_aware_ordered_powered",
+      "experiment_id": "b_star_q6_residual_dictionary_consistency_powered",
+      "hypothesis_level": "H3",
+      "statement": "For each organism, P_Q = Pi_{Q_e} P_e is decomposed in the fixed order measured-TE, mRNA-stability where available, then a greedy direction-aware H-dictionary scored by A_H*C_H minus null, description-length, and join-shift penalties. This is an ordered orthogonal projection partition, not causal pathway proof.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_residual_dictionary_consistency_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-11T06:56:16+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.positional_boundary_response.b_star_q6_translation_efficiency_powered",
+      "experiment_id": "b_star_q6_positional_boundary_response_powered",
+      "hypothesis_level": "H3",
+      "statement": "Descriptive position projection: fit B*_Q6 synonymous residual coordinates along normalized CDS position and compare high-vs-low real ribo-seq TE strata; this is not causal proof.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_positional_boundary_response_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-12T03:31:55+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.wobble_dwell_coupling.b_star_q6_ribosome_occupancy_powered",
+      "experiment_id": "b_star_q6_wobble_dwell_coupling_powered",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.cross_layer_relation.wobble_dwell_coupling.b_star_q6_ribosome_occupancy_powered (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_wobble_dwell_coupling_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-12T06:14:39+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.minimal_dictionary_compression.b_star_q6_readout_boundary_response_powered",
+      "experiment_id": "b_star_q6_minimal_dictionary_compression_powered",
+      "hypothesis_level": "H3",
+      "statement": "Recovered claim h3.cross_layer_relation.minimal_dictionary_compression.b_star_q6_readout_boundary_response_powered (status from experiment_runs; statement metadata reconstructed).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_minimal_dictionary_compression_powered.py",
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "recovery",
+      "created_at": "2026-06-12T08:50:07+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.context_lift.b_star_q6_codon_pair_residual_powered",
+      "experiment_id": "b_star_q6_context_lift_powered",
+      "hypothesis_level": "H3",
+      "statement": "Local codon-pair context lift Q^(2) explains the B*_Q6 -> protein-abundance residual that single-codon Q^(1) readouts leave irreducible: held-out 5-fold incremental Delta-R^2 of adjacent-codon synonymous B*_Q6 pair features (residualized against the 400 amino-acid-pair composition basis) exceeds the matched permutation null and clears the LAMBDA_DL complexity penalty. Tests whether the irreducible residual is local-context structure versus genuinely higher-order/non-local.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_context_lift_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-12T17:22:49+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.partial_mediation.b_star_q6_readout_dictionary_powered",
+      "experiment_id": "b_star_q6_partial_mediation_certificate_powered",
+      "hypothesis_level": "H3",
+      "statement": "The B*_Q6 synonymous-codon residual association with yeast protein abundance is real (held-out 5-fold R^2 ~0.19 vs permutation null ~0) and partially reducible: a <=3-readout measured dictionary {measured_te, mrna_stability, turnover} captures ~24.5% of the Z-residualized abundance residual, surviving a selection-aware permutation null (null95 ~0.029, ~5x the naive fixed-subset null ~0.006); ~75% remains unexplained, and local codon-pair Q^(2) context adds no held-out signal. Certifies the residual as a real, partially-mediated (not irreducible) primitive over the tested readout family.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_partial_mediation_certificate_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-12T18:01:24+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.irreducibility_certificate.b_star_q6_residual_primitive_powered",
+      "experiment_id": "b_star_q6_irreducibility_certificate_powered",
+      "hypothesis_level": "H3",
+      "statement": "Hypothesis (tested, falsified): the B*_Q6 synonymous-codon residual on yeast protein abundance is an irreducible primitive -- a real held-out signal that NEITHER single-codon readout-dictionary compression NOR local codon-pair Q^(2) context captures. Result: source is real, but the {measured_te, mrna_stability, turnover} dictionary captures ~24.5% (selection-aware significant), so the residual is partially reducible, not irreducible. Explicit negative complementing the partial_mediation certificate.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_irreducibility_certificate_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-12T18:13:46+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.trna_supply_increment.b_star_q6_beyond_measured_dictionary_powered",
+      "experiment_id": "b_star_q6_trna_supply_increment_powered",
+      "hypothesis_level": "H3",
+      "statement": "A per-gene tRNA-supply readout (dos Reis tAI from yeast GtRNAdb tRNA gene-copy numbers + wobble) adds incremental held-out predictive power for Z-residualized yeast protein abundance BEYOND the measured {measured_te, mrna_stability, turnover} dictionary: 5-fold held-out delta-R^2 ~0.061 (base R^2 ~0.458 -> full ~0.519), exceeding a fixed-readout permutation null95 ~0.0007. Codon-level tRNA adaptation carries abundance information not captured by bulk measured translation efficiency, partly addressing the residual left unexplained by the partial_mediation dictionary.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_trna_supply_increment_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-12T18:41:31+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.coordinate_decomposition.b_star_q6_per_coordinate_reducibility_powered",
+      "experiment_id": "b_star_q6_coordinate_decomposition_powered",
+      "hypothesis_level": "H3",
+      "statement": "Per-coordinate decomposition of the B*_Q6 -> yeast protein-abundance residual: of the 9 synonymous coordinates, 8 are real held-out abundance sources (K_AAA, Arg_AGR, Ile_AUA, Leu_CUN_vs_UUR, Leu_UUA_vs_UUG, Ser_UCR_vs_AGY, Thr_ACR_vs_ACY, f3_stress) and 1 (Ser_UCA_vs_UCG) is not; f3_stress carries the most residual energy (~20% of target, R^2~0.19) followed by Ile_AUA and Thr_ACR_vs_ACY. The measured {te,mrna_stability,turnover} dictionary's projection coverage exceeds the per-coordinate permutation null for the 8 real sources, but a large absolute residual energy remains unexplained per coordinate (e.g. f3_stress ~81% unexplained). Descriptive decomposition, not causal mediation.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_coordinate_decomposition_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-12T18:53:55+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_readout_reach.b_star_q6_dominant_coordinate_powered",
+      "experiment_id": "b_star_q6_f3_stress_readout_reach_powered",
+      "hypothesis_level": "H3",
+      "statement": "The dominant B*_Q6 coordinate f3_stress (a global synonymous first-vs-last-codon direction across all 21 families) carrying ~20% of the abundance-residual energy is only MARGINALLY reachable by independent molecular measurements: the full {te,stability,turnover,localization,ptm,complex,tm,domain,mrna_abundance} readout set reaches best coverage 0.226 vs base {te,stability,turnover} 0.190 (increment +0.036, selection-aware-significant vs null95 0.027), but ~77.4% of f3_stress remains unexplained by ALL available measurements. The dominant frontier is largely orthogonal to current molecular readouts and needs new data/mechanism.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_readout_reach_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-12T20:12:40+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_dwell_mediation.b_star_q6_dwell_abundance_powered",
+      "experiment_id": "b_star_q6_f3_stress_dwell_mediation_powered",
+      "hypothesis_level": "H3",
+      "statement": "The dominant B*_Q6 coordinate f3_stress's protein-abundance contribution (P_f3, ~20% of target, ~77% orthogonal to static measured readouts) is PARTLY MEDIATED BY RIBOSOME DWELL: per-gene local ribosome occupancy features add held-out delta-R^2 ~0.019 over the {te,mrna_stability,turnover} dictionary (vs fixed-readout permutation null95 ~0.0013), and f3_stress couples positively to dwell (corr 0.162, p~8e-9, reproducing wobble-dwell). Since base already contains measured_te (footprint/mRNA), this is an increment beyond bulk TE -- a dynamic elongation mechanism partly explains f3_stress's abundance effect that static molecular readouts miss.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_dwell_mediation_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T04:00:04+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_dwell_positional.b_star_q6_ramp_vs_body_powered",
+      "experiment_id": "b_star_q6_f3_stress_dwell_positional_powered",
+      "hypothesis_level": "H3",
+      "statement": "f3_stress's ribosome-dwell mediation of its protein-abundance contribution (P_f3) is LOCALIZED TO THE 5' TRANSLATIONAL RAMP, not the gene body: 5'-window dwell adds held-out delta-R^2 ~0.023 over {te,stability,turnover} (vs null95 ~0.0016, f3<->5'-dwell corr 0.156 p~3e-8), while 3'/body-window dwell is null (delta-R^2 ~-0.0002), and the joint 5'+3' increment ~= 5'-alone. Supports the translational-ramp hypothesis: the dominant frontier coordinate acts through slow-codon dwell at the 5' ribosome-loading region, increment beyond bulk measured_te.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_dwell_positional_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T04:09:19+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_family_decomposition.b_star_q6_synonymous_identity_powered",
+      "experiment_id": "b_star_q6_f3_stress_family_decomposition_powered",
+      "hypothesis_level": "H3",
+      "statement": "Biological identity of f3_stress (the dominant B*_Q6 abundance coordinate): decomposing it into 21 synonymous family subcoordinates (exact, sum-consistency l2err~8e-16), 19/21 families are real held-out abundance sources, and the effect is DOMINATED BY GLYCINE (GGN) and ISOLEUCINE (AUU/AUC/AUA) synonymous choices (held-out R^2 0.079/0.063, energy 0.65/0.52), then Arginine (CGN, AGR), Gln, Phe, Thr, Val. So f3_stress is largely a Gly/Ile synonymous-choice axis (Ile-AUA is a known slow/wobble codon), not a uniform 'first-vs-last' artifact.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_family_decomposition_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T04:23:50+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_cross_organism.b_star_q6_generality_powered",
+      "experiment_id": "b_star_q6_f3_stress_cross_organism_powered",
+      "hypothesis_level": "H3",
+      "statement": "Cross-organism f3_stress->protein-abundance: the association DIRECTION generalizes near-universally (15/15 organisms held-out-significant vs permutation null after cds-length/total-codon/GC3/20-aa-composition controls, 14/15 POSITIVE; only the archaeon S. solfataricus negative), BUT the effect MAGNITUDE is strongly yeast-dominant. Held-out R^2: yeast 0.168 (clear outlier), lower-eukaryotes/some bacteria 0.01-0.05 (dicty, C.elegans, drosophila, pseudomonas, danio, bacillus), and MAMMALS negligible (human 0.0004, mouse 0.0006, rat 0.0008) -- the latter clear null only via large-n significance (explain <0.1% of variance). So the strong synonymous-codon->abundance coupling is a yeast (+lower-eukaryote/bacterial) phenomenon; in mammals the f3_stress axis is biologically negligible. NOTE: the experiment's pass gate is significance (held_out>null95), which overstates generality at large n; the honest reading is direction-universal, magnitude-yeast-dominant.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_cross_organism_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T11:43:59+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_stress_strength_driver.b_star_q6_translational_selection_powered",
+      "experiment_id": "b_star_q6_f3_stress_strength_driver_powered",
+      "hypothesis_level": "H3",
+      "statement": "Why f3_stress is yeast-dominant: across 15 organisms its effect size = translational-selection strength x directional alignment. (1) Total synonymous-codon selection on abundance (independent 41-col full design) predicts f3 strength (Spearman rho=0.71). (2) f3_alignment sign predicts f3 direction 15/15, incl. the lone negative organism S. solfataricus (anti-aligned). Yeast is strongest because it has BY FAR the highest translational selection (syn_sel R^2=0.39, ~2x runner-up) AND positive f3 alignment (0.24). Counterexample E.coli: high selection (0.22) but f3 near-orthogonal (align 0.046) -> weak f3 (0.006), so alignment matters independently. Mammals: weak selection (0.05-0.08) -> negligible f3. So f3_stress is a 1-D proxy for the organism's codon-level translational selection; it is strong in yeast because yeast's translational selection is strongest. Caveat: n=15, no phylogenetic correction; alignment uses same-organism abundance preferences (direction-agreement partly definitional; non-circular core is the independent selection<->strength rho=0.71).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_stress_strength_driver_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T12:01:37+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.optimal_codon_conservation.b_star_q6_cross_organism_direction_powered",
+      "experiment_id": "b_star_q6_optimal_codon_conservation_powered",
+      "hypothesis_level": "H3",
+      "statement": "Cross-organism structure of the abundance-optimal synonymous-codon direction (15 organisms, 41-col synonymous contrast design). conservation_call=CLUSTERED: mean pairwise cosine 0.26 (not conserved>=0.6, not idiosyncratic), organized mainly by GENOMIC GC3 (GC3-delta vs cosine Pearson -0.36) more than by domain (same-domain 0.29 vs cross-domain 0.25). A weak UNIVERSAL CORE direction exists (mean held-out R^2 0.088; max yeast 0.30, E.coli 0.20). Yeast optimizes HARDEST (self-direction R^2 0.40) but in a relatively IDIOSYNCRATIC direction (core alignment 0.38, among the lowest); E.coli is core-aligned (0.77). f3_stress is a crude fixed proxy weakly aligned with everything (f3 vs core 0.26, vs yeast 0.20, vs E.coli 0.22). Caveat: n=15, no phylogenetic correction, optimal direction inferred from abundance-associated contrasts (not causal).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_optimal_codon_conservation_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T12:49:53+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.boundary_set_biological_signature.b_star_q6_window6_R_powered",
+      "experiment_id": "b_star_q6_boundary_set_biological_signature_powered",
+      "hypothesis_level": "H3",
+      "statement": "Window6 boundary set R biological-signature test (bridge BC1 empirical contact). The 10 R sense-codons (math/geometry-derived boundary, NO usage fitting) are systematically AVOIDED (lower abundance-preference than non-R sense codons) in ALL 15/15 organisms (cross-organism sign test ~ p 6e-5), but only 6/15 reach individual per-organism permutation significance, so the experiment's strict gate (>=8 significant) emits FAILED. Honest reading: the abstract Window6 boundary R HAS a real, directionally-universal biological signature (it is the set of avoided codons), under-detected by the per-organism gate (small-genome power). Same pattern as f3 cross-organism (direction universal, per-organism magnitude varies). Supports BC1's empirical prong; the math forcing prong still pending. Follow-on: a cross-organism sign-test gate would call this supported.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_boundary_set_biological_signature_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T14:41:42+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.boundary_set_trna_poverty.b_star_q6_window6_R_mechanism_powered",
+      "experiment_id": "b_star_q6_boundary_set_trna_poverty_powered",
+      "hypothesis_level": "H3",
+      "statement": "Mechanism for why Window6 boundary set R is biologically avoided (Route L): the 10 R sense-codons are systematically tRNA-POOR (lower dos-Reis tAI weight, from GtRNAdb tGCN+wobble) than non-R sense codons in 31/40 organisms (cross-organism sign test binomial two-sided p~7e-4; 9/40 opposite, so predominant not universal). So the math-defined Window6 boundary R = the translationally non-optimal / tRNA-scarce codons -> they are decoded slowly and selected against -> avoided (Route L). Gives the abstract boundary a real mechanistic biological identity. Deterministic; tAI from GtRNAdb. Caveat: tAI is a supply proxy, not direct decoding-rate; 40 organisms no phylogenetic correction.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_boundary_set_trna_poverty_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T15:27:13+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.universal_core_trna_adaptation.b_star_q6_optimal_direction_powered",
+      "experiment_id": "b_star_q6_universal_core_is_trna_adaptation_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route N: the cross-organism universal optimal synonymous-codon direction (the weak universal core of Route K) is substantially the tRNA-adaptation direction. Across 11 organisms with both proteomes and GtRNAdb tRNA-gene copies, each organism's abundance-optimal direction (full 41-dim synonymous contrast) aligns with its dos-Reis tAI tRNA-supply direction at mean cos 0.267 (median 0.302; cross-organism sign test 10/11 positive, p~5.9e-3; normal-approx p~7e-7), and the tRNA direction ALONE recovers ~43% (pooled held-out R2 ratio 0.434; median per-organism 0.30) of the abundance signal the full optimal direction captures (mean tRNA-alone held-out R2=0.059 vs self R2=0.136). The tRNA direction also aligns with the cross-organism universal core at cos 0.246 (9/11 positive, p~0.033). So translational selection toward tRNA-abundant codons is a MAJOR but PARTIAL (~43%) component of universal codon optimality, not the whole thing -- consistent with f3 residual dominance and the ~24.5% reducibility of B*_Q6. Deterministic; tAI from GtRNAdb tGCN+wobble. Caveat: 11 organisms (proteome intersect GtRNAdb), tAI is a supply proxy not a direct decoding rate, no phylogenetic correction.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_universal_core_is_trna_adaptation_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T16:05:18+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.universal_optimal_residual_axis.b_star_q6_mutation_vs_selection_powered",
+      "experiment_id": "b_star_q6_universal_optimal_residual_axis_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route O: the NON-tRNA component of universal codon optimality is the f3-stress translational-selection axis, NOT GC mutational bias. After Gram-Schmidt-removing each organism's tRNA-adaptation direction from its 41-dim abundance-optimal synonymous direction (Route N), the residual aligns with the f3-stress axis (mean cos 0.139, 10/11 organisms positive, cross-organism sign-test p~5.9e-3, normal-approx p~6e-6) and is ANTI-aligned with the GC3 mutational-bias axis (mean cos -0.073, 10/11 negative). The GC3 and f3-stress reference directions are nearly anti-parallel in this contrast space (cos -0.905), so the residual selects the f3/translational-selection pole over the GC/mutation pole (paired |cos_f3|>|cos_gc| in 11/11 organisms, p~4.9e-4). Combined with Route N (~43% tRNA-adaptation), B*_Q6 codon optimality decomposes into TWO translational-selection mechanisms -- tRNA-supply adaptation + f3-ramp stress -- with GC mutational bias as the opposite pole, not a positive driver. Deterministic; 11 organisms (proteome intersect GtRNAdb). Caveat: f3 cosine magnitude is modest (0.139) though directionally consistent; GC/f3 near-antiparallel means the two readouts are not independent; observational not causal; E.coli/P.aeruginosa/etc lack GtRNAdb (needs_data); no phylogenetic correction.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_universal_optimal_residual_axis_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T16:26:59+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.universal_optimal_two_axis_closure.b_star_q6_trna_f3_span_powered",
+      "experiment_id": "b_star_q6_universal_optimal_two_axis_closure_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route P: universal codon optimality is NOT 2-dimensional (tRNA + f3) -- a universal THIRD selection axis exists. Projecting each organism's 41-dim abundance-optimal synonymous direction onto span{d_tRNA, d_f3} captures only mean 13.0% of its norm^2 (captured_fraction mean 0.130, median 0.102, 11/11 organisms < 0.5); the residual-after-both direction d_perp retains ~93% of the optimal norm. d_perp is NOT noise: systematically positive held-out R2 (mean 0.066, 11/11 positive, p~4.9e-4) recovering ~64% of the self-direction abundance R2 (d_perp/self ratio mean 0.640), and CROSS-ORGANISM ALIGNED (55-pair mean cosine 0.179, 38/55 positive, sign-test p~3.2e-3, normal-approx p~1.6e-6). In 8/11 organisms d_perp alone out-predicts the tRNA+f3 plane combined (two-axis recovers ~40% of self R2). So codon optimality has at least THREE universal selection dimensions; tRNA-supply adaptation (Route N) + f3-stress (Route O) are real but together a MINORITY of the optimal direction's geometry and predictive content. The identity of the third universal axis d_perp is the open frontier. Deterministic; 11 organisms (proteome intersect GtRNAdb). Caveat: cosines modest; observational not causal; no phylogenetic correction; d_perp is an orthogonal-complement residual so its mechanistic identity needs separate characterization.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_universal_optimal_two_axis_closure_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T16:53:47+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.third_axis_identity.b_star_q6_d_perp_powered",
+      "experiment_id": "b_star_q6_third_axis_identity_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route Q: the third universal codon-optimality axis d_perp (Route P) is provisionally identified as the within-synonymous-family USAGE-FREQUENCY axis (preferred-codon bias). Across 11 organisms d_perp aligns with the within-family usage-frequency direction at mean cos 0.128 (11/11 organisms positive, cross-organism sign-test p~4.9e-4) -- the ONLY tested candidate axis clearing the cross-organism gate. Other candidates are weak/non-significant: position composition (pos3_C 0.084 7/11 ns, pos1_C 0.079 8/11 ns), residual GC3 (0.054 9/11 p~0.03 marginal), the other 8 B*_Q6 synonymous coordinates, amino-acid/position composites -- none explain d_perp. So codon optimality has THREE universal selection axes: tRNA-supply adaptation (Route N), f3-stress 5'-ramp translational selection (Route O), and the genome-wide preferred-codon usage-frequency bias (Route Q), the last distinct from tRNA-supply. Deterministic; 11 organisms (proteome intersect GtRNAdb). Caveat: cosine modest (0.128); usage-frequency correlates with expression so part of this reflects the abundance-optimal direction recovering the preferred-codon set, and the deeper driver of usage-frequency beyond tRNA is itself composite/open; observational; no phylogenetic correction. Also exports per-codon d_perp + tRNA-supply vectors in the codon-Q6 6-bit frame (codon_q6_selection_vectors.json) fulfilling the Window6-codon bridge BC5 data request.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_third_axis_identity_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T18:10:49+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.third_axis_mechanism.b_star_q6_d_perp_csc_vs_gc_powered",
+      "experiment_id": "b_star_q6_third_axis_mechanism_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route R: the third universal codon-optimality axis d_perp (Route P/Q, the within-family preferred-codon/usage-frequency direction) is a GENUINE cross-organism SELECTION signal -- NOT a GC/mutational projection and NOT the wobble-decoding axis. GC-null defeat: after orthogonalizing d_perp against the GC3 direction it remains cross-organism aligned (55-pair mean cosine 0.177, 38/55 positive, sign-test p~3.2e-3) and still predicts protein abundance held-out (mean R2 0.071, 11/11 positive, p~5e-4) -- essentially unchanged from pre-orthogonalization (0.179/0.066); GC3 alone gives only R2 0.028. So d_perp is not mutational GC bias. Wobble test: d_perp per-codon loadings do NOT cluster by wobble-decoding class (exact-match vs wobble, NNU/NNC vs NNA/NNG, 2-codon U/C splits) -- not the tRNA-modification/wobble axis. The leading remaining identity -- CSC / mRNA-stability codon optimality (codon-mediated decay) and 5'-vs-CDS-body positional localization -- requires external data (published CSC vectors / mRNA half-lives / positional CDS) and is flagged needs_external (repo holds only whole-CDS codon counts). Deterministic; 11 organisms. Net: the third optimality axis is a real preferred-codon SELECTION pressure distinct from tRNA-supply, the 5'-ramp f3 axis, GC mutation, and wobble decoding; most plausibly mRNA-stability-driven, pending external CSC/half-life data. Oracle (chatgpt-pro) independently ranked CSC/mRNA-stability as the #1 candidate.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_third_axis_mechanism_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T18:33:53+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.optimality_axis_sufficiency.b_star_q6_three_axis_powered",
+      "experiment_id": "b_star_q6_optimality_axis_sufficiency_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route S (optimality-axis sufficiency, independent-axis design): the three NAMED mechanistic codon-optimality axes -- tRNA-supply (tAI), f3-ramp, within-family usage-frequency -- are NOT sufficient to explain the universal abundance-optimal direction. Using axes each defined INDEPENDENTLY of the optimal direction (anti-circularity sanity captured_fraction<1 enforced), the three jointly span only ~16.4% of the optimal direction's norm (captured_fraction_3indep 0.164 vs 0.130 for tRNA+f3 alone; usage-frequency adds only ~3.4% geometric) and recover ~45% of held-out abundance R2 (three-axis/self R2 0.448 vs 0.395 for two axes). A FOURTH universal mechanism remains: the residual d_resid4 (d_opt minus the 3 independent axes) is cross-organism ALIGNED (55-pair mean cosine 0.172, 38/55 positive, sign-test p~3.2e-3) and recovers ~56% of self-optimal abundance R2 (mean R2 0.058, 11/11 positive) -- the majority of the universal codon-optimality signal lies OUTSIDE the three identified mechanisms and is still unidentified. So codon abundance-optimality is at least 4-dimensional. CORRECTION NOTE: an earlier residual-basis design gave captured=1.0 ('three axes sufficient') tautologically because the third axis was defined as d_opt's own residual; this independent-axis design (tAI/f3/usage all from biology, not from d_opt) avoids that circularity. Deterministic; 11 organisms. Caveat: d_resid4 held-out R2 carries the usual full-sample-direction optimistic bias, but the cross-organism cosine alignment and the captured-fraction are bias-free; observational; no phylogenetic correction.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_optimality_axis_sufficiency_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T19:19:53+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.axis_strength_spectrum.b_star_q6_per_organism_powered",
+      "experiment_id": "b_star_q6_axis_strength_spectrum_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route T (per-organism axis-strength spectrum): across all 11 organisms the captured-fraction spectrum of codon abundance-optimality is dominated by the unidentified 4th component d_resid4 (dominant axis in 11/11 organisms), d_tRNA second, f3 and usage-frequency secondary. NO organism is primarily explained by the named tRNA/f3/usage axes -- the unidentified mechanism leads universally. (Honest note: d_resid4's captured dominance is the geometric complement of the 3-named-axis ~16% capture from Route S, so this is a per-organism RESTATEMENT of Route S, not an independent finding; the genuinely new content is the per-organism universality and the domain/GC nulls below.) Cross-domain structure: NOT detectable -- domain means are descriptive only under imbalanced n (archaea 1, bacteria 2, eukaryote 8), low power; no significant domain difference in the spectrum. Genome-GC covariation: only the usage-frequency axis weakly tracks GC3 (Spearman rho 0.136). Deterministic; 11 organisms. So identifying the dominant 4th mechanism (most plausibly CSC/mRNA-stability, needs external data) is the key open frontier; the named-axis mix does not vary detectably by domain at this sample size.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_axis_strength_spectrum_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T19:55:14+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_mrna_stability_powered",
+      "experiment_id": "b_star_q6_fourth_mechanism_mrna_stability_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route U: the unidentified 4th universal codon abundance-optimality axis (d_resid4, Route S/T) is NOT mRNA-stability/CSC -- refuting the leading hypothesis (oracle-ranked #1). Using in-repo per-gene mRNA-half-life data (yeast Neymotin + E.coli + human; NOT external), the half-life-optimal codon direction aligns only weakly with d_resid4 (cos 0.098) and more with tRNA (0.223)/usage (0.163); half-life optimality is itself barely in the named-axis span (captured 0.062). POSITIVE narrowing: the 4th axis IS shared across the abundance / translation-efficiency / mRNA-level optimal directions (TE-opt . d_resid4 = 0.616, mRNA-level-opt . d_resid4 = 0.544) but NOT half-life (0.098) -- so the dominant 4th mechanism is an EXPRESSION/TRANSLATION-level codon optimality common to abundance+TE+mRNA-abundance, distinct from mRNA-decay/stability. Caveat: the three named axes are geometrically correlated (f3-usage cos 0.711, tRNA-usage 0.499) despite independent biological definitions, so the 'span' overlaps; yeast-primary (half-life/TE richest there), cross-organism limited; cross-readout cosines are bias-free but held-out R2 carries the full-sample-direction optimistic bias; observational, no phylogenetic correction. Net: the 4th mechanism stays unidentified but is constrained -- NOT mRNA-stability, IS a shared expression/translation-level axis.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_fourth_mechanism_mrna_stability_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T20:34:14+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_codon_pair_powered",
+      "experiment_id": "b_star_q6_fourth_mechanism_codon_pair_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route V: the dominant 4th universal codon-optimality axis is NOT codon-pair bias (refuting oracle #5, after Route U refuted #1 mRNA-stability). Per-gene codon-pair-bias (Coleman obs/exp adjacent in-frame pairs, in-repo ordered CDS seqs, yeast 5810 + E.coli 3738 genes) adds ZERO held-out abundance increment beyond the single-codon three axes (yeast increment R2 -1.8e-5; 3-axis+CPB 0.3077 ~ baseline 0.3077; codon-shuffle null p=1.0). CPB single-codon marginal does NOT align with d_resid4 (cos -0.23 yeast, |cos| 0.27 E.coli) and is largely just usage (|cos| d_usage 0.68 E.coli). Deterministic; yeast+E.coli. NET 4th-mechanism elimination: NOT mRNA-stability (U), NOT codon-pair (V), NOT wobble (R), NOT GC (R); specific identity unresolved with current repo data (remaining: co-translational elongation/ribosome-dwell, 5'-structure -- need dwell/structure data not cleanly available).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_fourth_mechanism_codon_pair_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T21:29:16+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_elongation_dwell_powered",
+      "experiment_id": "b_star_q6_fourth_mechanism_elongation_dwell_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route W: ribosome-dwell/elongation is NOT the unidentified 4th codon-optimality axis (partial verdict). The per-codon ribosome-dwell direction (yeast riboseq positional occupancy, 1.41M windows, synonymous-contrast encoded) aligns with the 4th residual d_resid4 only cos -0.095, but aligns strongly with the already-NAMED axes: usage cos 0.640, tRNA 0.323, f3 0.272. So ribosome-dwell IS a real codon-optimality signal but it is the named-axes bundle (mostly usage-frequency), NOT the missing 4th residual. Deterministic; yeast-only (riboseq occupancy single-species -> no cross-species power). This COMPLETES the 4th-mechanism elimination over all repo-testable candidates: the dominant unidentified 4th expression/translation-level axis is NOT mRNA-stability (U), codon-pair (V), wobble-decoding (R), GC/mutation (R), or ribosome-dwell/elongation (W). ARC CONCLUSION (Route N->W): codon abundance-optimality is >=4-dimensional; the three named selection axes (tRNA-supply + f3-ramp + usage-frequency) capture only ~16% of the optimal direction's geometry, and the dominant cross-organism-universal residual axis is real but mechanistically OPEN -- not explained by any standard single-codon mechanism with currently-available data.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_fourth_mechanism_elongation_dwell_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-13T21:38:22+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_conditioned_localization_boundary.b_star_q6_powered",
+      "experiment_id": "b_star_q6_translation_conditioned_localization_boundary_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route X (translation->protein-localization boundary, first protein-PHENOTYPE-layer test beyond abundance): B*_Q6 does NOT robustly cross the translation->subcellular-localization layer -- its apparent localization discrimination is largely protein-composition/length-confounded. Held-out multiclass localization discrimination (yeast 4304 / human 10187 / danio 1908 genes): B*_Q6 beats baseline (Δacc +0.022, Δmacro-AUC +0.078) and SURVIVES translation controls (abundance+TE; Δacc +0.023, ΔAUC +0.021), BUT collapses to ~0 after additionally controlling protein length + amino-acid composition + GC (cross-organism aggregate Δacc -1e-5, ΔAUC -0.0014). Only yeast retains a weak per-organism full-control residual; human and danio are partial and the aggregate full-control increment is null -> NOT replicated. So the codon-Q6 signal carries no localization information independent of protein composition/length; the apparent codon->localization channel is a composition confound (verdict: partial, leaning blocked_null). Deterministic; yeast+human+danio. Anti-over-claim: the per-organism 'crosses' for yeast was downgraded to partial at the headline (orchestrator-fixed verdict gate) because the cross-organism aggregate increment does not survive length+aa+GC controls. Caveat: multi-label localization reduced to primary classes; 3 organisms; held-out CV.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_conditioned_localization_boundary_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-14T04:56:13+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_conditioned_stability_boundary.b_star_q6_powered",
+      "experiment_id": "b_star_q6_translation_conditioned_stability_boundary_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route X2 (translation->protein-stability boundary): B*_Q6 does NOT independently cross to the protein-stability layer -- same composition-confound pattern as localization (Route X). Across 3 organisms (yeast/E.coli/human, 12751 genes), B*_Q6 predicts protein/mRNA stability (Δr2 +0.028 vs baseline, 3/3 positive) and weakly survives translation controls (Δr2 +0.010, 2/3), but the FULL-control increment (translation+length+aa+GC) collapses to -0.0026 (1/3 positive), indistinguishable from the sign-flip permutation null (null mean -0.0028; p(obs>0)=0.95). So the codon-Q6 stability signal is fully explained by protein composition/length; no independent stability information (verdict partial, leaning blocked_null). EMERGING BOUNDARY (with Route X localization): the codon-Q6 channel reaches protein ABUNDANCE (the N->W optimality arc) but does NOT independently cross to downstream protein phenotypes (localization, stability) -- those apparent signals are protein-composition/length confounds. Deterministic; 3 organisms; held-out CV + sign-flip null + full composition controls.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_conditioned_stability_boundary_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-14T05:07:49+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_conditioned_structural_order_boundary.b_star_q6_powered",
+      "experiment_id": "b_star_q6_translation_conditioned_structural_order_boundary_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route X3 (translation->protein-structural-order boundary): B*_Q6 DOES independently cross to the protein structural-order layer -- the one downstream phenotype (of those tested) where the codon signal survives full controls, consistent with co-translational folding. Across yeast + E.coli (2/2 organisms, both domains), B*_Q6 predicts protein structural order/disorder (Δr2 +0.099 vs baseline) and the increment SURVIVES the full controls (translation+length+aa+GC): full-control Δr2 +0.0053 (2/2 positive), above the sign-flip permutation null (null -0.0021; p(obs>0)=0.0029). Unlike localization (Route X) and stability (Route X2) -- which collapsed to the composition null -- structural order retains a small (~0.5% incremental R2) but REAL, composition-independent, cross-domain-replicated codon signal. Mechanism consistent with co-translational folding (local codon usage tuning elongation rate to aid folding/disorder). Deterministic; 2 organisms (yeast+E.coli); held-out CV + sign-flip null + full composition controls. Caveat: small magnitude; only 2 organisms; per-protein order/disorder readout. PROTEIN-PHENOTYPE BOUNDARY MAP (Route X/X2/X3): codon-Q6 crosses to ABUNDANCE (strong, optimality arc) and STRUCTURAL ORDER (small, co-translational folding) but NOT to localization or stability (composition confounds).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_translation_conditioned_structural_order_boundary_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-14T05:15:49+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.structural_order_axis_identity.b_star_q6_powered",
+      "experiment_id": "b_star_q6_structural_order_axis_identity_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route X3b (structural-order crossing axis identity): the codon-Q6 -> protein-structural-order crossing (Route X3) is carried predominantly by the f3_stress (5'-ramp) axis -- confirming the co-translational folding mechanism. Of the 9 B*_Q6 coordinates, f3_stress is the ONLY individually-significant carrier of the full-control structural-order increment (weighted held-out Δr2 +0.0032, sign-flip p=0.031, 2/2 organisms), accounting for the bulk of the full B*_Q6 increment (+0.0038, p=0.017); all other axes are individually non-significant (Arg_AGR p=0.14, Ile_AUA p=0.069, ...). So the same 5'-ramp translational-selection axis (f3_stress) that dominates abundance-optimality (Route O) is ALSO the axis that reaches protein structural order -- one elongation/ramp axis spanning both abundance and co-translational folding. Deterministic; yeast+E.coli. Caveat: f3_stress p=0.031 (modest), 2 organisms; per-organism dominant LOADING varies (yeast K_AAA, E.coli f3_stress) but the increment-based ranking puts f3_stress uniquely significant. CLOSES the protein-phenotype boundary arc (Route X/X2/X3/X3b): codon-Q6 crosses to abundance + structural-order (both via the f3/ramp co-translational-selection axis), not to localization or stability (composition confounds).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_structural_order_axis_identity_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-14T05:27:23+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.fourth_mechanism_identity.b_star_q6_translation_accuracy_powered",
+      "experiment_id": "b_star_q6_fourth_mechanism_translation_accuracy_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route Y (4th-mechanism candidate: translation accuracy): the dominant unidentified 4th codon-optimality axis is NOT translation-accuracy / near-cognate mistranslation-robustness either (oracle's top remaining bet, refuted). Per-codon Accuracy score = log(cognate dos-Reis decoding supply / one-mismatch missense near-cognate pressure x Grantham severity), residualized against {tAI,f3,usage,GC,wobble} + within-family centered, tested across 11 organisms with 3 oracle-designed gates -- ALL 3 FAILED: (a) codon-axis alignment with d_resid4: median abs cosine 0.07, within-family permutation null median p=0.71 (NS; 8/11 same sign but only drosophila/yeast individually significant); (b) gene held-out abundance increment beyond known axes: mean Δr2 +0.0043, sign-test p=0.11 (NS); (c) structural-order gradient: only yeast has data and accuracy is stronger in DISORDERED (Δ +0.023) than ordered (Δ +0.0036) regions -- OPPOSITE the co-translational prediction. ELIMINATION LEDGER (4th universal optimality axis): NOT mRNA-stability, codon-pair, wobble, GC, ribosome-dwell, OR translation-accuracy -- 6 standard codon-bias mechanisms excluded. The dominant cross-organism-universal optimality axis remains a genuine open mystery, resistant to standard single-mechanism explanation with available data. Deterministic; 11 organisms; permutation null + full controls; codex verdict conservative/correct (0/3 gates passed, no over-claim).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_fourth_mechanism_translation_accuracy_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-14T06:09:02+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.f3_ramp_ortholog_portability.b_star_q6_powered",
+      "experiment_id": "b_star_q6_f3_ramp_ortholog_portability_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route Z (f3-ramp evolutionary portability, oracle-proposed genuinely-new direction): tests whether within-orthogroup cross-species differences in the 5'-ramp f3 signal predict conserved same-direction differences in protein abundance/TE/structural-order (ortholog + species fixed effects, controlling aa-composition/GC/tRNA/length; negative controls half-life/localization). NEEDS_EXTERNAL with current repo data: no species pair satisfies BOTH (enough 1:1 orthologs) AND (full features both sides). Attempt 1 yeast+human: human lacks ordered-CDS + structural-order locally. Attempt 2 yeast+E.coli (cross-domain): a real OrthoDB fetch ran (598/600 requests, 474s, not rate-limited) but found 0 exact local 1:1 orthogroups with full features among 352 orthogroups seen -- cross-domain (eukaryote vs bacteria) 1:1 orthology + full-feature coverage is too sparse. So the portability question is feasible IN PRINCIPLE (OrthoDB reachable) but blocked on data: needs human ordered-CDS+structural-order or >=3 same-kingdom full-feature species. Honestly registered needs_data (data gap documented); NOT a scientific verdict. Local feature coverage confirmed: yeast 5810 genes (abundance+TE 5128+structural 5804+half-life 5379+localization 4831), E.coli 3738 (abundance+TE 3415+structural 3736+half-life 2947; no localization).",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_f3_ramp_ortholog_portability_powered.py",
+      "required_data": [
+        "tools/bio_reality/data/f3_portability_human_ordered_cds_structural_order_or_more_fullfeature_species.json"
+      ],
+      "timeout_seconds": 1200,
+      "status": "needs_data",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-14T07:10:44+00:00",
+      "dependencies": [],
+      "external_preconditions": [
+        "tools/bio_reality/data/f3_portability_human_ordered_cds_structural_order_or_more_fullfeature_species.json"
+      ],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.structural_order_ramp_positional.b_star_q6_powered",
+      "experiment_id": "b_star_q6_structural_order_ramp_positional_powered",
+      "hypothesis_level": "H3",
+      "statement": "Route X3c (positional/ramp localization of the f3->structural-order crossing): the f3->structural-order signal (Route X3) is RAMP-CONCENTRATED, consistent with co-translational folding, though ramp-exclusivity is only marginally significant at 2 organisms. At the first 50 codons, ramp f3 crosses to structural order (held-out Δr2 +0.0011, sign-flip p=0.048, 2/2 organisms yeast+E.coli) while CDS-body f3 does NOT (Δr2 -0.0003, p=0.54, 0/2); ramp > body in 2/2 organisms (paired Δr2 +0.0014, paired sign-flip p=0.059 -- just above 0.05). So the structural-order crossing is driven by the N-terminal ramp window, not the CDS body -- the per-arm pattern (ramp significant, body NS, ramp>body 2/2) supports the co-translational-folding spatial prediction, but the strict ramp-vs-body paired test is marginal (underpowered at 2 organisms; codex conservatively labelled 'ramp_positive_but_not_localized' because the paired gate p=0.059 narrowly missed 0.05). N=30 sensitivity weaker (ramp p=0.30); the effect emerges at a ~50-codon window. Deterministic; yeast+E.coli; held-out + sign-flip null. Completes the f3->structural-order mechanism line (X3 crossing / X3b f3-axis carrier / X3c ramp-concentrated): a 5'-ramp f3 co-translational-folding channel, modest and marginal but directionally coherent.",
+      "script_path": "tools/bio_reality/experiments/run_b_star_q6_structural_order_ramp_positional_powered.py",
+      "required_data": null,
+      "timeout_seconds": 1200,
+      "status": "open",
+      "proposed_by": "orchestrator",
+      "created_at": "2026-06-14T07:51:15+00:00",
+      "dependencies": [],
+      "external_preconditions": [],
+      "acceptance": {
+        "required_checks": [],
+        "criteria": {}
+      }
+    },
+    {
+      "claim_id": "h3.aca_puncture_bioreality_external_execution",
+      "hypothesis_level": "H3",
+      "statement": "A frozen BioReality execution packet applied to external ORF-eligible nucleotide windows validates ACA->Asp as the unique ACA puncture predicted by M13, while nearest outgroups, ORF-ineligible windows, matched M-minus-R controls, and off-M controls do not show comparable rescue; the invariant Med(R13 union {ACA}) = M13 remains fixed.",
+      "experiment_id": "execute_br2_orf_aca_asp_puncture_v1",
+      "dependencies": [
+        "h2.orf.start_stop.window_eligibility",
+        "h2.orf_eligibility.curated_interval_contact",
+        "h3.translation_realization.cross_organism.cun_uur_leu_gate"
+      ],
+      "rationale": "The transcript converges from broad external reassignment ranking to the ACA puncture challenge, then to an ORF-constrained ACA challenge, then to an executable frozen packet. The final and strongest proposal is to execute br2_orf_aca_asp_puncture_v1 because earlier phases have already opened the ORF-window eligibility interface and the transcript identifies ACA as the unique missing WNA vertex inside M13. This experiment directly tests whether ACA behaves like a real reassigned codon specifically inside high-quality ORF-eligible coding windows, with R13 and M13 locked, artifact gates active, outgroups and controls required, and the median-closure invariant checked after scoring.",
+      "status": "needs_data",
+      "proposal_rationale": "The transcript converges from broad external reassignment ranking to the ACA puncture challenge, then to an ORF-constrained ACA challenge, then to an executable frozen packet. The final and strongest proposal is to execute br2_orf_aca_asp_puncture_v1 because earlier phases have already opened the ORF-window eligibility interface and the transcript identifies ACA as the unique missing WNA vertex inside M13. This experiment directly tests whether ACA behaves like a real reassigned codon specifically inside high-quality ORF-eligible coding windows, with R13 and M13 locked, artifact gates active, outgroups and controls required, and the median-closure invariant checked after scoring.",
+      "proposed_by": "bio-oracle-consumer",
+      "source_event_id": "event.4d5c910e8743706b",
+      "created_at": "2026-06-16T12:06:04+00:00",
+      "script_path": "tools/bio_reality/experiments/run_execute_br2_orf_aca_asp_puncture.py",
+      "required_data": [
+        "tools/bio_reality/data/br2_orf_aca_asp_puncture_execution_packet.json",
+        "tools/bio_reality/data/br2_orf_aca_asp_puncture_external_audit_tables.json",
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 1200,
+      "external_preconditions": [
+        "Frozen BioReality execution packet br2_orf_aca_asp_puncture_v1",
+        "Frozen R13 and M13 constraints: R13 unchanged, M13 unchanged, ACA not in R13, ACA in M13",
+        "Required geometry invariant: Med(R13 union {ACA}) = M13",
+        "External target-clade nucleotide windows",
+        "Nearest outgroup windows",
+        "Standard-code ACA controls",
+        "ORF-ineligible windows",
+        "Matched M-minus-R non-puncture controls",
+        "Matched off-M controls",
+        "Assembly or MAG QC table",
+        "Alignment-site table",
+        "ORF translation-rescue table",
+        "tRNA or aaRS evidence table",
+        "Primary-QC ORF eligibility filtering",
+        "Frozen translation-rescue endpoint comparing ACA->Asp against ACA->Thr",
+        "Site-level LLR endpoint log2((P_Asp + epsilon) / (P_Thr + epsilon))"
+      ],
+      "acceptance": {
+        "required_checks": [
+          "execution_packet_locked_before_external_holdout",
+          "external_audit_tables_available",
+          "independent_execution_without_geometry",
+          "target_aca_asp_llr_sign_test",
+          "control_specificity_gate",
+          "asp_over_thr_alignment_enrichment",
+          "artifact_qc_clean",
+          "trna_or_aars_identity_support",
+          "median_closure_preserved_after_aca",
+          "no_geometry_to_higher_layer_promotion"
+        ],
+        "criteria": {
+          "min_supported_species": 40,
+          "min_target_windows": 80,
+          "min_matched_control_pairs_per_class": 40,
+          "min_target_win_rate": 0.8,
+          "max_target_sign_test_p": 1e-05,
+          "max_control_win_rate": 0.55,
+          "max_control_sign_test_p": 0.05,
+          "min_alignment_columns": 500,
+          "min_asp_support_rate": 0.85,
+          "max_thr_support_rate": 0.1,
+          "max_alignment_binomial_p": 0.0001
+        }
+      }
+    }
+  ]
 }
