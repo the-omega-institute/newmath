@@ -694,7 +694,19 @@ the non-hard delta to $-0.00813$, and it slightly lowers the hard-only CI high
 to $0.03454$.  It does not improve the hard-only observed damage, which moves
 from $0.01568$ to $0.01841$.  Thus geometry is a real external descriptor of
 the hard regime, but static train-regime reweighting is not the missing
-allocation-control mechanism.
+allocation-control mechanism.  Making the geometry explicitly option
+conditioned also fails the hard-regime gate.  The option-conditioned row reads
+the aligned carrier, the same geometry features, a candidate depth token, and
+geometry-depth interactions, trains on option error with a within-anchor
+ranking term, and is selected by the calibration exact-budget dynamic program.
+It closes the calibration criterion and achieves high held-out option-error
+readability, with full-eval Spearman $0.866$ and hard-only Spearman $0.824$.
+Nevertheless the held-out hard-only allocation delta worsens to $0.04436$ with
+CI high $0.08669$, and the full eval delta moves back to $0.00007$.  The
+failure is therefore sharper than an omitted-interaction diagnosis: even an
+option-conditioned geometry reader can learn local option errors while failing
+the cross-anchor magnitude calibration required by the hard exact-budget
+assignment.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
