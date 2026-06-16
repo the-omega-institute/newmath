@@ -53,6 +53,7 @@ REQUIRED_SUMMARY_KEYS = {
     "negative_witness_mutations",
     "training_loop_trace",
     "matched_random_control",
+    "fair_alignment_control_ledger",
     "quality_promotion_boundary",
     "fair_control_ledger",
     "base_chance_gate",
@@ -216,6 +217,23 @@ def test_deterministic_replay_and_required_keys():
     assert first["summary_payload"]["grid"]["record_count"] == 2160
     assert first["summary_payload"]["grid"]["expected_record_count"] == 2160
     assert first["summary_payload"]["run_artifacts"]["raw_metrics"] == first["summary_payload"]["records"]["raw_rows_pointer"]
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["adapter_role"] == "pointer-only"
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["ledger_row_pointer"] == (
+        "reports/canonical/fair-alignment-control-ledger.json:$.rows[?producer_id=discovery-regularized-training]"
+    )
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["fair_control_identity"] == (
+        "matched-random-structural-control"
+    )
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["claim_id"] == (
+        "discovery-regularized-training:positive-claim"
+    )
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["task_identity"] == (
+        "gaussian-ou:discovery-regularized-replay"
+    )
+    assert first["summary_payload"]["fair_control_protocol"]["parameter_match"] is True
+    assert first["summary_payload"]["fair_control_protocol"]["compute_match"] is True
+    assert first["summary_payload"]["fair_control_protocol"]["threshold_match"] is True
+    assert first["summary_payload"]["fair_control_protocol"]["surface_distribution_match"] is True
 
 
 def test_formal_replay_arms_and_gate_summary_are_canonical(monkeypatch):

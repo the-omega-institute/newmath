@@ -64,6 +64,11 @@ from bedc_quality_lab.discovery_regularized_training import (
     fair_control_hardgate_verdicts,
     quality_artifact_pointer as _drt_quality_artifact_pointer,
 )
+from bedc_quality_lab.fair_alignment_control_ledger import (
+    ARTIFACT_ID as FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT_ID,
+    JSON_ARTIFACT as FAIR_ALIGNMENT_CONTROL_LEDGER_JSON_ARTIFACT,
+    MARKDOWN_ARTIFACT as FAIR_ALIGNMENT_CONTROL_LEDGER_MARKDOWN_ARTIFACT,
+)
 from bedc_quality_lab.discovery_gated_transformer_training import (
     TRAINING_REPLAY_ARTIFACT as DGT_TRAINING_REPLAY_ARTIFACT,
 )
@@ -689,6 +694,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "aggregate_metrics",
             "treatment_comparison",
             "control_protocol",
+            "fair_alignment_control_ledger",
             *(
                 "$.control_protocol" + path[1:]
                 for path in MATCHED_RANDOM_CONTROL_REQUIRED_PATHS
@@ -1244,6 +1250,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "negative_witness_mutations",
             "training_loop_trace",
             "matched_random_control",
+            "fair_control_protocol",
             "quality_promotion_boundary",
             "fair_control_ledger",
             "base_chance_gate",
@@ -1287,6 +1294,41 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
         reproducibility_mode="true_training",
+    ),
+    CanonicalReportSpec(
+        name="fair-alignment-control-ledger",
+        command=("python3", "scripts/run_fair_alignment_control_ledger.py"),
+        json_artifact=FAIR_ALIGNMENT_CONTROL_LEDGER_JSON_ARTIFACT,
+        markdown_artifact=FAIR_ALIGNMENT_CONTROL_LEDGER_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "canonical_role",
+            "source_artifacts",
+            "scope",
+            "cost_protocol",
+            "positive_claim",
+            "control_protocol",
+            "not_claimed",
+            "rows",
+            "row_count",
+            "producer_adapters",
+            "hardgate",
+            "status",
+        ),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        scope_pointer="$.scope",
+        cost_pointer="$.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.status",
+        control_pointer="$.rows",
+        no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.positive_claim",
+        hardgate_status_pointer="$.hardgate.status",
+        hardgate_scope="owner-scientific",
     ),
     CanonicalReportSpec(
         name="mechanism-seeking-network",
@@ -2384,6 +2426,7 @@ def _selected_specs_with_dependents(only: str | None, *, include_dependents: boo
         return tuple(selected)
     dependent_names = {
         "gap-head-on-h": ("gap-head-discovery",),
+        "fair-alignment-control-ledger": ("gap-head-on-h", "discovery-regularized-training"),
         "certificate-guided-training": ("certificate-guided-discovery",),
     }.get(only, ())
     by_name = _specs_by_name()
@@ -3239,6 +3282,11 @@ def _run_spec_producer(spec: CanonicalReportSpec, *, generated_at: str | None) -
         payload = _build_model_comparison(generated_at=generated_at, write_owner_artifacts=True)
         _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), payload)
         _write_text_atomic(_artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT), _render_model_comparison_markdown(payload))
+        return
+    if spec.name == "fair-alignment-control-ledger":
+        from scripts.run_fair_alignment_control_ledger import write_artifacts
+
+        write_artifacts(root=ROOT, generated_at=generated_at)
         return
     _call_run_producer(spec, generated_at=generated_at)
 
@@ -6270,6 +6318,18 @@ def _discovery_regularized_training_quality_boundary_index_section(payload: Mapp
     }
 
 
+def _fair_alignment_control_ledger_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT_ID,
+        "json_artifact": FAIR_ALIGNMENT_CONTROL_LEDGER_JSON_ARTIFACT,
+        "markdown_artifact": FAIR_ALIGNMENT_CONTROL_LEDGER_MARKDOWN_ARTIFACT,
+        "rows_pointer": f"{FAIR_ALIGNMENT_CONTROL_LEDGER_JSON_ARTIFACT}:$.rows",
+        "hardgate_pointer": f"{FAIR_ALIGNMENT_CONTROL_LEDGER_JSON_ARTIFACT}:$.hardgate",
+        "producer_adapters_pointer": f"{FAIR_ALIGNMENT_CONTROL_LEDGER_JSON_ARTIFACT}:$.producer_adapters",
+    }
+
+
 def _build_discovery_gated_transformer_payload(generated_at: str | None = None) -> dict[str, Any]:
     from scripts import run_discovery_gated_transformer as dgt_runner
 
@@ -9174,6 +9234,7 @@ def _index(
         "cache_equivalence": _cache_equivalence_index_section(),
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
+        "fair_alignment_control_ledger": _fair_alignment_control_ledger_index_section(),
         "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "discovery_gated_transformer_jepa_world_model": _dgt_jepa_world_model_index_section(),
         "scaling_ladder": _scaling_ladder_index_section(),
@@ -9412,6 +9473,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Owner: `{payload['discovery_regularized_training_quality']['owner_pointer']}`",
             f"- Hardgate: `{payload['discovery_regularized_training_quality']['hardgate_pointer']}`",
             f"- Arm comparisons: `{payload['discovery_regularized_training_quality']['arm_comparisons_pointer']}`",
+            "",
+            "## Fair Alignment Control Ledger",
+            "",
+            f"- Status: `{payload['fair_alignment_control_ledger']['status']}`",
+            f"- JSON: `{payload['fair_alignment_control_ledger']['json_artifact']}`",
+            f"- Markdown: `{payload['fair_alignment_control_ledger']['markdown_artifact']}`",
+            f"- Rows: `{payload['fair_alignment_control_ledger']['rows_pointer']}`",
+            f"- Hardgate: `{payload['fair_alignment_control_ledger']['hardgate_pointer']}`",
+            f"- Producer adapters: `{payload['fair_alignment_control_ledger']['producer_adapters_pointer']}`",
             "",
             "## Discovery-Gated Transformer",
             "",
