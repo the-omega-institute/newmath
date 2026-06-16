@@ -528,6 +528,19 @@ train has $2043$ anchors over $167$ episodes, calibration has $646$ anchors
 over $56$ episodes, eval has $634$ anchors over $55$ episodes, and the feature
 dimension is $4952$.  This closes the data-substrate step for the
 state-generation route; it is not yet a trained state-generation model.
+On this substrate, the aligned state-generation candidate uses a shared trunk
+with next-latent, option-error, and horizon-failure heads.  Epoch selection is
+made on calibration next-latent and option-error losses before eval readout.
+On the held-out eval split, the candidate gives native h1 MSE $0.43077$
+$[0.41537,\ 0.44770]$, while the matched LeWM h1 MSE is $0.06747$
+$[0.06445,\ 0.07072]$; the prediction-parity margin is therefore $-0.35655$
+$[-0.37226,\ -0.34105]$.  The horizon head retains a detection signal
+(mean AUROC $0.73587$ over $30$ binary horizon labels), and the option-error
+score has Spearman correlation $0.66865$ with held-out option error, but the
+allocation delta is $0.00395$ $[-0.00355,\ 0.01260]$.  The candidate therefore
+validates a joint state-generation measurement path and sharpens the boundary:
+prediction parity is still open, and the compute-value signal has not yet
+become an allocation-closed BEDC-native world model.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
