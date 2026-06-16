@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CantorSchemeUp$}
+\label{ch:concrete-instances-cantor-scheme-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a Cantor scheme is the finite binary tree surface used when compact metric and Cantor-space arguments must expose their branch choices without importing countable choice or a hidden limit selector. The $\CantorSchemeUp$ packet sits between the Cantor-space cylinder route of \autoref{ch:concrete-instances-cantorspace-namecert}, the finite observation rows of \autoref{ch:concrete-instances-streamname-namecert}, the nested interval discipline of \autoref{ch:concrete-instances-nestedinterval-namecert}, and the compact support route of \autoref{ch:concrete-instances-compactmetric-namecert}. It also shares the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert} when a compact-metric consumer asks for radius or diameter data along a displayed branch.
+
+\begin{definition}[Cantor scheme carrier]
+\label{def:cantor-scheme-carrier}
+A $\CantorSchemeUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,B,W,R,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite binary tree row, listing the nodes, parent links, left and right successor rows, and the level of each displayed node.
+\item $B$ is the branch-prefix row, recording the finite bit string or cylinder prefix currently read by the consumer.
+\item $W$ is the $\StreamNameUp$ window row that says which branch-prefix coordinates have been inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row used when the scheme carries dyadic radii, diameters, or compact-metric comparison data.
+\item $K$ is the compact support row, read through $\CantorSpaceUp$, $\NestedIntervalUp$, or $\CompactMetricUp$ according to the consumer-facing route.
+\item $H$ records componentwise $\hsame$ transport for tree nodes, branch prefixes, finite windows, readback rows, compact support rows, provenance, replay, and local naming.
+\item $C$ records displayed $\Cont$ replay from tree-node requests to branch-prefix reads, from branch-prefix reads to stream windows, and from those windows to regular readback and compact support.
+\item $P$ is the $\Pkg$ provenance over $\CantorSchemeUp$, $\CantorSpaceUp$, $\StreamNameUp$, $\NestedIntervalUp$, $\CompactMetricUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorSchemeUp}$ row.
+\end{enumerate}
+The classifier compares accepted schemes only through $T,B,W,R,K,H,C,P,N$. It has no coordinate for a selected infinite branch, quotient stream equality, detached path choice, open-cover compactness, countable choice, or ambient completion.
+\end{definition}
+
+\begin{theorem}[Cantor scheme NameCert obligations]
+\label{thm:cantor-scheme-namecert-obligations}
+For every accepted $\CantorSchemeUp$ carrier $S=(T,B,W,R,K,H,C,P,N)$, the local $\NameCert_{\CantorSchemeUp}$ surface consists exactly of finite binary tree exposure, branch-prefix exposure, finite $\StreamNameUp$ window inspection, $\RegSeqRatUp$ readback, compact support through $\CantorSpaceUp$, $\NestedIntervalUp$, or $\CompactMetricUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer may read a compact cylinder, nested interval prefix, or compact-metric support row only after these displayed rows have been exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-scheme-carrier}. The finite tree row $T$ and branch-prefix row $B$ are the only source rows for the scheme.
+
+The observation route is $W$ followed by $R$. A consumer can inspect only the displayed branch-prefix coordinates and the corresponding regular rational readback data.
+
+The compact support row $K$ is downstream of the same prefix and window rows. It may route to Cantor-space cylinders, nested interval prefixes, or compact-metric comparison data, but it cannot add a selected infinite branch or quotient stream equality.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no excluded coordinate appears in the carrier, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cantor scheme branch nonescape]
+\label{thm:cantor-scheme-branch-nonescape}
+Every accepted branch read of a $\CantorSchemeUp$ packet factors through the displayed route
+$$
+\CantorSpaceUp
+\longmapsto
+\StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\NestedIntervalUp
+\longmapsto
+\CompactMetricUp .
+$$
+The read may extend a finite prefix or refine a compact support row, but it must keep the finite tree row, branch-prefix row, inspected StreamName windows, regular readback, compact support, transport, replay, provenance, and local naming visible. It cannot escape to an unlogged infinite path, quotient stream equality, detached path choice, open-cover compactness, countable choice, or ambient completion.
+\end{theorem}
+\begin{proof}
+Begin with the finite tree and branch-prefix rows. They expose a finite cylinder boundary, not a completed infinite path.
+
+Read the finite observation rows next. The $\StreamNameUp$ window row determines which prefix coordinates are inspected, and the $\RegSeqRatUp$ row records any diameter, radius, or comparison data attached to that inspection.
+
+The compact support row then routes the same prefix through the relevant Cantor-space, nested-interval, or compact-metric sibling. This row refines displayed finite data; it does not introduce a hidden branch selector.
+
+The structural rows $H,C,P,N$ preserve the route under transport, replay, provenance, and local naming. Therefore every branch read remains inside the displayed scheme packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CantorSchemeUp$ branch read exposes finite tree, branch-prefix, StreamName window, RegSeqRat readback, compact support, transport, replay, provenance, and NameCert rows before any compact-cylinder or nested-interval consumer reads it.}
+
+\independenceWitness{Nearest siblings: cantorspace, streamname, nestedinterval, compactmetric, and regseqrat. $\CantorSchemeUp$ is not bijective to any one sibling because it jointly carries finite binary tree structure, branch-prefix inspection, finite observation windows, regular readback, compact support, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{CantorSchemeUp}{seedStr}
+
+\begin{closurestatus}{\CantorSchemeUp}
+  \constructivestory{A $\CantorSchemeUp$ packet is generated from finite binary tree rows, branch-prefix rows, StreamName windows, RegSeqRat readback, compact support through CantorSpace, NestedInterval, or CompactMetric rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-scheme-carrier}, \autoref{thm:cantor-scheme-namecert-obligations}, and \autoref{thm:cantor-scheme-branch-nonescape} seed the finite branching-scheme carrier consumed by Cantor-space, nested-interval, and compact-metric reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a selected infinite branch, quotient stream equality, detached path choice, open-cover compactness, countable choice, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-tree exposure, branch-prefix stability, StreamName window inspection, RegSeqRat readback, compact support nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CantorSchemeUp.}
+\end{closurestatus}
