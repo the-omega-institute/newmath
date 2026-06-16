@@ -1,0 +1,51 @@
+\chapter{A Concrete Naming Certificate for $\ParallelReductionUp$}
+\label{ch:concrete-instances-parallel-reduction-namecert}
+\origin{human}
+
+Following Barendregt and Takahashi on parallel beta reduction, the $\ParallelReductionUp$ packet records the finite simultaneous-contraction surface used by confluence arguments before any quotient of lambda terms is exposed. It sits after the lambda-calculus carrier of \autoref{ch:concrete-instances-lambdacalc-namecert} and beside the MetaCIC parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. The packet gives the traditional route through reflexive constructor cases, simultaneous redex contraction, residual bookkeeping, transport, replay, provenance, and local naming; it does not assert full Church--Rosser, subject reduction, quotient equality of terms, global normalization, or kernel consistency.
+
+\begin{definition}[Parallel reduction carrier]
+\label{def:parallel-reduction-carrier}
+A $\ParallelReductionUp$ carrier is a finite $\BHist$ packet
+$$
+P=(T,B,A,S,R,J,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\LambdaCalcUp$ term-packet row supplying the source and target term syntax.
+\item $B$ is the one-step beta row whose redex witnesses may be contracted simultaneously.
+\item $A$ is the alpha-stability row keeping binder names and capture-avoidance ledgers visible during the contraction.
+\item $S$ is the simultaneous-contraction schedule, including reflexive constructor cases for variables, abstraction, and application.
+\item $R$ is the residual ledger recording which redex rows survive, disappear, or are copied across the displayed constructor route.
+\item $J$ is the local join candidate row used by downstream diamond consumers, without asserting that every peak has already been joined.
+\item $H$ records componentwise $\hsame$ transport for the term, beta, alpha, schedule, residual, join, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay through the same rows.
+\item $K$ is the $\Pkg$ provenance over $\ParallelReductionUp$, $\LambdaCalcUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ParallelReductionUp}$ evidence row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for quotient term equality, subject reduction, evaluator equality, global normalization, full Church--Rosser, or MetaCIC kernel consistency.
+\end{definition}
+
+\begin{theorem}[Parallel reduction NameCert obligations]
+\label{thm:parallel-reduction-namecert-obligations}
+For every accepted $\ParallelReductionUp$ carrier $P=(T,B,A,S,R,J,H,C,K,N)$, the local $\NameCert_{\ParallelReductionUp}$ surface consists exactly of carrier admission, lambda-term exposure, one-step beta row visibility, alpha-stable simultaneous contraction, residual ledger preservation, local join-candidate exposure, componentwise transport, displayed replay, provenance, and local naming. A MetaCIC confluence consumer may read this packet as the traditional parallel-reduction surface feeding \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, but it cannot read it as full Church--Rosser, subject reduction, quotient equality of terms, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:parallel-reduction-carrier}. The rows $T,B,A,S,R,J,H,C,K,N$ are the whole visible surface, and the lambda-calculus source row keeps the term syntax inside the existing carrier of \autoref{ch:concrete-instances-lambdacalc-namecert}.
+
+The simultaneous-contraction obligation reads $B,A,S$ together. The beta row supplies the redex witnesses, the alpha row keeps binder transport and capture-avoidance visible, and the schedule row records the constructorwise reflexive and contraction cases.
+
+The residual and join-facing obligations then read $R$ and $J$. These rows expose the data a parallel-diamond consumer may inspect, while retaining the conditional frontier: the packet names candidate residuals and local joins without asserting that all closed peaks have been joined.
+
+Finally, $H,C,K,N$ transport, replay, source, and certify exactly the displayed rows. Since quotient equality, subject reduction, evaluator equality, global normalization, full Church--Rosser, and kernel consistency are absent from the carrier, none of those conclusions is exported by the local NameCert surface.
+\end{proof}
+
+\begin{closurestatus}{\ParallelReductionUp}
+  \constructivestory{A $\ParallelReductionUp$ packet is generated from lambda-term syntax rows, one-step beta rows, alpha-stability rows, simultaneous-contraction schedules, residual ledgers, local join candidates, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:parallel-reduction-carrier} and \autoref{thm:parallel-reduction-namecert-obligations} seed the finite parallel beta-reduction route consumed by MetaCIC parallel-diamond frontier packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full Church--Rosser, subject reduction, quotient equality of terms, global normalization, kernel consistency, Lean verification, or bridge checking for $\ParallelReductionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, simultaneous-contraction schedule exactness, residual ledger preservation, local join-candidate confinement, transport, replay, provenance, and local naming for BEDC.Derived.ParallelReductionUp.}
+\end{closurestatus}
