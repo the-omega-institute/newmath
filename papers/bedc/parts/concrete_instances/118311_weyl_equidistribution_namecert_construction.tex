@@ -1,0 +1,70 @@
+\chapter{WeylEquidistribution NameCert Construction}
+\label{ch:concrete-instances-weyl-equidistribution-namecert}
+\origin{human}
+
+Following Weyl, the $\WeylEquidistributionUp$ packet reads equidistribution through finite rational interval tests over $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, not through measure or choice. It sits after the rational interval surface of \autoref{ch:concrete-instances-rationalinterval-namecert}, the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite test ledger, discrepancy budget, transport, replay, provenance, and local NameCert rows needed before a constructive distribution statement can be consumed.
+
+\begin{definition}[Weyl equidistribution finite carrier]
+\label{def:weyl-equidistribution-finite-carrier}
+A $\WeylEquidistributionUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,I,K,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sequence-source row, reading a $\StreamNameUp$ or $\RegSeqRatUp$ name indexed by $\NatUp$ and sealed only through the displayed $\RealUp$ readback.
+\item $I$ is the finite rational interval-test ledger. Each entry names rational endpoints from $\RatUp$, a half-open interval in the unit window, and the finite prefix length over which the test is inspected.
+\item $K$ is the counting row, recording for each entry of $I$ the finite set of indices whose displayed real readback falls in that rational interval.
+\item $D$ is the discrepancy row, comparing the counted frequency with the rational interval length by a displayed $\RatUp$ tolerance.
+\item $E$ is the exhaustion row, recording the finite list of interval tests currently exposed to a consumer and the remaining tests not claimed by the packet.
+\item $H$ records componentwise $\hsame$ transport for the sequence source, interval ledger, counting row, discrepancy row, exhaustion row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite interval-test request through $S,I,K,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\WeylEquidistributionUp$, $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WeylEquidistributionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,I,K,D,E,H,C,P,N$. It has no coordinate for a measure space, an infinite choice of test intervals, a selected subsequence, host real equality, or an unbounded limiting frequency claim.
+\end{definition}
+
+\begin{theorem}[WeylEquidistribution NameCert obligations]
+\label{thm:weyl-equidistribution-namecert-obligations}
+For every accepted $\WeylEquidistributionUp$ carrier $W=(S,I,K,D,E,H,C,P,N)$, the local $\NameCert_{\WeylEquidistributionUp}$ surface consists exactly of sequence-source admission, finite rational interval-test exposure, finite counting exposure, discrepancy-budget exposure, test-exhaustion accounting, componentwise transport, displayed continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The rows $S,I,K,D,E$ expose the inspected sequence name, the finite interval ledger, the counted index set for each ledger entry, the rational discrepancy comparison, and the finite-test exhaustion boundary.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the same finite packet. They do not add a measure object, an infinite interval family, or a selected representative outside the displayed sequence row.
+
+Since the carrier has no coordinate outside $S,I,K,D,E,H,C,P,N$, every accepted local NameCert obligation is one of the listed rows, and each listed row is present before the packet is public to a downstream distribution consumer.
+\end{proof}
+
+\begin{theorem}[WeylEquidistribution interval-test coverage]
+\label{thm:weyl-equidistribution-interval-test-coverage}
+Every constructive distribution statement consumed from an accepted $\WeylEquidistributionUp$ packet first factors through the finite route
+$$
+\NatUp,\StreamNameUp,\RegSeqRatUp,\RealUp \longmapsto \RatUp\text{-interval tests} \longmapsto \RatUp\text{-discrepancy budgets}.
+$$
+The route covers exactly the rational interval tests displayed in $I$ and recorded by $E$; it does not assert measure-theoretic equidistribution, an unrestricted limiting frequency, countable choice, or host equality of real representatives.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $W$. Carrier admission exposes the sequence source only through the displayed natural-indexed stream or regular rational name and the terminal real readback named in $S$.
+
+Next read the interval ledger $I$ and the counting row $K$. Each test is finite: it names rational endpoints, a prefix length, and the counted indices visible inside that prefix.
+
+Finally read the discrepancy and exhaustion rows $D,E$. They record the rational tolerance currently certified and the finite test list currently covered. Thus any downstream constructive distribution statement receives finite interval-test coverage and no hidden measure, choice principle, or unbounded limit assertion.
+\end{proof}
+
+\falsifiablePrediction{Every accepted WeylEquidistributionUp consumer that exports distribution evidence must expose a finite rational interval-test ledger, finite counts, rational discrepancy budgets, exhaustion accounting, transport, replay, provenance, and local naming before export.}
+
+\independenceWitness{real, rat, streamname, regseqrat, rationalinterval: $\WeylEquidistributionUp$ is not bijective to any listed sibling because it jointly carries the natural-indexed sequence source, rational interval ledger, finite counting row, discrepancy budget, exhaustion row, transport, replay, provenance, and local NameCert in one packet.}
+
+\closureat{WeylEquidistributionUp}{seedStr}
+
+\begin{closurestatus}{\WeylEquidistributionUp}
+  \constructivestory{A $\WeylEquidistributionUp$ packet is generated from a natural-indexed sequence source, rational interval-test ledger, finite counting rows, rational discrepancy budgets, test-exhaustion accounting, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:weyl-equidistribution-finite-carrier}, \autoref{thm:weyl-equidistribution-namecert-obligations}, and \autoref{thm:weyl-equidistribution-interval-test-coverage} seed the finite rational interval-test surface for constructive equidistribution reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure-theoretic equidistribution, unrestricted limiting frequencies, countable choice, selected subsequences, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite interval-test exposure, counting exposure, rational discrepancy accounting, exhaustion accounting, transport, replay, provenance, and local naming for BEDC.Derived.WeylEquidistributionUp.}
+\end{closurestatus}
