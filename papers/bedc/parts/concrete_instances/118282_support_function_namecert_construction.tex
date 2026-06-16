@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SupportFunctionUp$}
+\label{ch:concrete-instances-support-function-namecert}
+\origin{human}
+
+Following Schneider on convex bodies, the $\SupportFunctionUp$ packet records the finite NameCert surface for support-function rows over $\RealUp$, $\VecSpaceUp$, and $\ConvexSetUp$. It sits over the scalar seal of \autoref{ch:concrete-instances-real-namecert}, the vector carrier of \autoref{ch:concrete-instances-vecspace-namecert}, and the convex membership boundary of \autoref{ch:concrete-instances-convexset-namecert}. The packet names support values only through displayed direction rows, convex witness rows, real comparison rows, and finite supremum budgets; it does not import host compactness, a selected maximizing point, quotient dual spaces, or ambient real completeness.
+
+\begin{definition}[Support-function carrier]
+\label{def:support-function-carrier}
+A $\SupportFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,V,D,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the convex body row, read through $\ConvexSetUp$, carrying membership, convex-combination, and located boundary tests for the inspected points.
+\item $V$ is the ambient vector-space row, read through $\VecSpaceUp$, carrying vector addition, scalar action, and finite pairing coordinates used by the packet.
+\item $D$ is the direction row, listing the finitely many inspected linear-functional or dual-direction reads.
+\item $E$ is the evaluation row, whose entries pair displayed directions from $D$ with displayed convex witnesses from $K$ and seal the values through $\RealUp$.
+\item $B$ is the support-budget row, listing finite upper-bound comparisons and the inspected witnesses that justify each support value read.
+\item $H$ records componentwise $\hsame$ transport for $K,V,D,E,B$ and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from vector and convex-set reads to evaluations and from evaluations to budgeted real comparisons.
+\item $P$ is the $\Pkg$ provenance over $\SupportFunctionUp$, $\RealUp$, $\VecSpaceUp$, $\ConvexSetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SupportFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,V,D,E,B,H,C,P,N$. It has no coordinate for a host supremum operator, a chosen maximizer, quotient dual equality, compactness of $K$, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Support-function finite supremum budget]
+\label{thm:support-function-finite-supremum-budget}
+Every support value read from an accepted $\SupportFunctionUp$ packet factors through the displayed route
+$$
+K,V,D,E \longmapsto B
+$$
+before any downstream consumer may inspect a real bound. The row $B$ contains the only supremum-facing data: finite inspected witnesses, upper-bound comparisons sealed through $\RealUp$, and the replay route tying those comparisons to the convex and vector rows. No support read may be interpreted as a host supremum over all points of $K$, a selected exposed point, an ambient compactness theorem, or a quotient dual-space value.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:support-function-carrier}. The only rows that can mention support values are the direction row $D$, the evaluation row $E$, and the support-budget row $B$, all attached to the convex and vector rows $K,V$.
+
+The evaluation route is finite. Each inspected direction is paired with displayed convex witnesses, and every resulting comparison is sealed through the $\RealUp$ dependency rather than by an external supremum operation.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite rows. Since the carrier contains no maximizer selector, host compactness row, quotient dual equality, or ambient completeness field, the finite budget $B$ exhausts the support-function supremum surface.
+\end{proof}
+
+\begin{theorem}[Support-function NameCert obligations]
+\label{thm:support-function-namecert-obligations}
+For every accepted $\SupportFunctionUp$ carrier
+$$
+S=(K,V,D,E,B,H,C,P,N),
+$$
+the local $\NameCert_{\SupportFunctionUp}$ surface consists exactly of convex-set admission for $K$, vector-space admission for $V$, direction exposure for $D$, real evaluation sealing for $E$, finite support-budget exposure for $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. These obligations are sufficient to hand a finite support-bound surface to later convex-duality and compact-convex consumers, but they do not assert classical support-function reconstruction or compact-convex duality.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:support-function-carrier}. The carrier lists exactly the convex row, vector row, direction row, evaluation row, support-budget row, transport row, replay row, provenance row, and local naming row.
+
+Apply \autoref{thm:support-function-finite-supremum-budget}. It forces every support-facing read through $K,V,D,E,B$ before a real bound can be consumed, so the local NameCert obligations include budget exposure and real sealing but no host supremum.
+
+The structural rows $H,C,P,N$ preserve the same displayed packet under transport, replay, provenance, and naming. Because no coordinate records a selected maximizer, quotient dual equality, compactness theorem, countable choice, or ambient $\RealUp$ completeness, the listed rows exhaust the accepted support-function surface.
+\end{proof}
+
+\closureat{SupportFunctionUp}{seedStr}
+
+\begin{closurestatus}{\SupportFunctionUp}
+  \constructivestory{A $\SupportFunctionUp$ packet is generated from convex-set rows, vector-space rows, displayed direction rows, real evaluation rows, finite support-budget comparisons, componentwise transports, displayed continuations, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:support-function-carrier}, \autoref{thm:support-function-finite-supremum-budget}, and \autoref{thm:support-function-namecert-obligations} seed the finite support-function NameCert surface over RealUp, VecSpaceUp, and ConvexSetUp.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host support-function theorem, compactness of convex bodies, selected maximizers, quotient dual spaces, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, direction exposure, finite evaluation sealing, support-budget nonescape, transport, replay, provenance, and local naming for $K,V,D,E,B,H,C,P,N$.}
+\end{closurestatus}
