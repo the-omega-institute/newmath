@@ -11,46 +11,40 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem TotallyBoundedCompletionCarrier_compact_metric_scope [AskSetup] [PackageSetup]
-    {X T N F E C S U H P L compactRead : BHist}
+    {source net refinement basis embedding completion separated extension transport provenance
+      localName compactRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    TotallyBoundedCompletionCarrier X T N F E C S U H P L bundle pkg ->
-      Cont T N F ->
-        Cont F E C ->
-          Cont C U compactRead ->
-            PkgSig bundle compactRead pkg ->
-              SemanticNameCert
-                  (fun row : BHist => hsame row compactRead ∧ UnaryHistory row)
-                  (fun row : BHist =>
-                    hsame row T ∨ hsame row N ∨ hsame row F ∨ hsame row E ∨
-                      hsame row C ∨ hsame row S ∨ hsame row U ∨ hsame row H ∨
-                        hsame row P ∨ hsame row L ∨ hsame row compactRead)
-                  (fun row : BHist =>
-                    UnaryHistory row ∧ Cont T N F ∧ Cont F E C ∧
-                      Cont C U compactRead ∧ PkgSig bundle compactRead pkg)
-                  hsame ∧
-                UnaryHistory compactRead := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
-  intro carrier finiteNetRoute completionRoute compactRoute compactPkg
-  obtain ⟨xUnary, tUnary, fUnary, cUnary, uUnary, _hUnary, xTnRoute,
-    nFeRoute, _eCsRoute, _sUpRoute, _hPlRoute, _pPkg, _lPkg⟩ := carrier
-  have nUnary : UnaryHistory N :=
-    unary_cont_closed (h := X) (k := T) (r := N) xUnary tUnary xTnRoute
-  have eUnary : UnaryHistory E :=
-    unary_cont_closed (h := N) (k := F) (r := E) nUnary fUnary nFeRoute
-  have _cUnaryFromRoute : UnaryHistory C :=
-    unary_cont_closed (h := F) (k := E) (r := C) fUnary eUnary completionRoute
+    TotallyBoundedCompletionCarrier source net refinement basis embedding completion separated
+        extension transport provenance localName bundle pkg ->
+      Cont extension transport compactRead ->
+        PkgSig bundle compactRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row compactRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row net ∨ hsame row refinement ∨ hsame row basis ∨
+                  hsame row embedding ∨ hsame row completion ∨ hsame row separated ∨
+                    hsame row extension ∨ hsame row compactRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ PkgSig bundle compactRead pkg ∧
+                  PkgSig bundle localName pkg)
+              hsame ∧ UnaryHistory compactRead := by
+  -- BEDC touchpoint anchor: TotallyBoundedCompletionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier compactRoute compactPkg
+  obtain ⟨_sourceUnary, _netUnary, _basisUnary, _completionUnary, extensionUnary,
+    transportUnary, _sourceNetRefinement, _refinementBasisEmbedding,
+    _embeddingCompletionSeparated, _separatedExtensionProvenance,
+    _transportProvenanceLocalName, _provenancePkg, localNamePkg⟩ := carrier
   have compactUnary : UnaryHistory compactRead :=
-    unary_cont_closed (h := C) (k := U) (r := compactRead) cUnary uUnary compactRoute
+    unary_cont_closed extensionUnary transportUnary compactRoute
   have cert :
       SemanticNameCert
           (fun row : BHist => hsame row compactRead ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row T ∨ hsame row N ∨ hsame row F ∨ hsame row E ∨
-              hsame row C ∨ hsame row S ∨ hsame row U ∨ hsame row H ∨
-                hsame row P ∨ hsame row L ∨ hsame row compactRead)
+            hsame row net ∨ hsame row refinement ∨ hsame row basis ∨ hsame row embedding ∨
+              hsame row completion ∨ hsame row separated ∨ hsame row extension ∨
+                hsame row compactRead)
           (fun row : BHist =>
-            UnaryHistory row ∧ Cont T N F ∧ Cont F E C ∧
-              Cont C U compactRead ∧ PkgSig bundle compactRead pkg)
+            UnaryHistory row ∧ PkgSig bundle compactRead pkg ∧ PkgSig bundle localName pkg)
           hsame := {
     core := {
       carrier_inhabited := Exists.intro compactRead ⟨hsame_refl compactRead, compactUnary⟩
@@ -71,11 +65,10 @@ theorem TotallyBoundedCompletionCarrier_compact_metric_scope [AskSetup] [Package
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
-        (Or.inr (Or.inr (Or.inr source.left)))))))))
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
     ledger_sound := by
       intro _row source
-      exact ⟨source.right, finiteNetRoute, completionRoute, compactRoute, compactPkg⟩
+      exact ⟨source.right, compactPkg, localNamePkg⟩
   }
   exact ⟨cert, compactUnary⟩
 
