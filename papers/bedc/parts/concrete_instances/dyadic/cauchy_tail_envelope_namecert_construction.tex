@@ -136,12 +136,32 @@ Apply \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}. It orders 
 For paired tail reads, use \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement}. The common refinement supplies a shared finite route for the two reads, so neither branch can replace the displayed stream window, regular readback, dyadic budget, or tail ledger by a quotient stream, selected limit, countable-choice selector, trichotomy datum, host real equality, or ambient completeness proof.
 \end{proof}
 
+\begin{theorem}[DyadicCauchyTailEnvelope scoped dependency package]
+\label{thm:dyadic-cauchy-tail-envelope-scoped-dependency-package}
+For every accepted $\DyadicCauchyTailEnvelopeUp$ packet $E=(S,R,D,T,I,H,C,P,N)$, the obligation surface displayed in this chapter closes exactly over
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \CauchyReindexingUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Every $\RealUp$ or $\CauchyLimitSealUp$ consumer must pass through those dependencies, in the order
+$$
+I \longrightarrow S \longrightarrow R \longrightarrow D \longrightarrow T ,
+$$
+before it reads the seal. The seal is therefore scoped by the listed dependencies and by no quotient stream, selected limit, countable-choice schedule, trichotomy row, host real equality, or ambient Real-completeness row.
+\end{theorem}
+\begin{proof}
+Start with carrier projection and the NameCert obligations of \autoref{def:dyadic-cauchy-tail-envelope-carrier} and \autoref{thm:dyadic-cauchy-tail-envelope-namecert-obligations}. They expose exactly the stream window, regular rational readback, dyadic tolerance, tail ledger, reindexing route, transport, replay, provenance, and local naming rows.
+
+Apply the RegSeqRat Real route, common refinement, and window handoff of \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}, \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement}, and \autoref{thm:dyadic-cauchy-tail-envelope-window-handoff}. These results force each consumer read to pass from the reindexing row through the finite stream window, regular rational row, dyadic budget, and tail ledger before any Real-facing boundary is available.
+
+Finally use nonescape and the regular-seal handoff, \autoref{thm:dyadic-cauchy-tail-envelope-nonescape} and \autoref{thm:dyadic-cauchy-tail-regular-seal}. They exclude every row outside the listed dependency package, so a $\RealUp$ or $\CauchyLimitSealUp$ consumer can inspect the seal only after the displayed BEDC dependencies have already been read.
+\end{proof}
+
 \closureat{DyadicCauchyTailEnvelopeUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicCauchyTailEnvelopeUp}
   \constructivestory{A $\DyadicCauchyTailEnvelopeUp$ packet is generated from a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ tolerance row, a tail-envelope ledger, a $\CauchyReindexingUp$ route row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:dyadic-cauchy-tail-envelope-carrier}, \autoref{thm:dyadic-cauchy-tail-envelope-namecert-obligations}, \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}, \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement}, \autoref{thm:dyadic-cauchy-tail-envelope-window-handoff}, \autoref{thm:dyadic-cauchy-tail-envelope-nonescape}, and \autoref{thm:dyadic-cauchy-tail-regular-seal} enumerate the full finite obligation surface: carrier rows, NameCert obligations, the RegSeqRat-to-Real route, common refinement, window handoff, nonescape, and regular-seal handoff.}
+  \scopeclosed{\autoref{def:dyadic-cauchy-tail-envelope-carrier}, \autoref{thm:dyadic-cauchy-tail-envelope-namecert-obligations}, \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}, \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement}, \autoref{thm:dyadic-cauchy-tail-envelope-window-handoff}, \autoref{thm:dyadic-cauchy-tail-envelope-nonescape}, \autoref{thm:dyadic-cauchy-tail-regular-seal}, and \autoref{thm:dyadic-cauchy-tail-envelope-scoped-dependency-package} enumerate the full finite obligation surface: carrier rows, NameCert obligations, the RegSeqRat-to-Real route, common refinement, window handoff, nonescape, regular-seal handoff, and scoped dependency package.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient streams, selected limits, countable choice, trichotomy, host real equality, Real completeness, Lean verification, or bridge checking.}
