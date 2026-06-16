@@ -651,6 +651,17 @@ higher by $8.49$ episodes, with lower-tail $p=0.964$.  Thus simple
 feature-space coverage reweighting is not the mechanism; the remaining route
 requires richer invariant episode descriptors or perturbation features that
 separate hard assignment regimes from merely nearby carrier summaries.
+Fixed scorer and rollout descriptors also fail to expose the hard regime.
+Using only fixed scorer margins, scorer disagreement, exact-budget assignment
+flip rates, and predicted-rollout geometry, no tested decision-boundary
+descriptor separates the seven hard episodes under permutation tests.  The
+strongest descriptor is the best-seed score entropy, but its permutation
+$p$-value is only $0.257$; row argmin disagreement, exact-budget assignment
+flip rate, and rollout curvature are weaker.  Thus the remaining allocation
+boundary is not visible as ordinary scorer uncertainty or rollout instability.
+The next state-generation route must introduce richer causal perturbations or
+environment-state descriptors rather than another post-hoc transform of the
+same internal scores.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
