@@ -4519,6 +4519,7 @@ import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
 import BEDC.Derived.DyadicCauchyCriterionUp
 import BEDC.Derived.DyadicCauchyModulusLatticeUp.TasteGate
 import BEDC.Derived.DyadicCauchyStaircaseUp.TasteGate
+import BEDC.Derived.DyadicCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.DyadicCeilingUp.FloorDualRoute
 import BEDC.Derived.DyadicCeilingUp.TasteGate
 import BEDC.Derived.DyadicClosedIntervalEndpointGridUp.TasteGate

@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.BishopLocatedCompletionEmbeddingUp
+namespace BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive BishopLocatedCompletionEmbeddingUp : Type where
-  | mk (M L D E R H C P N : BHist) : BishopLocatedCompletionEmbeddingUp
+  | mk (metric located dense embedding readback transport replay provenance name : BHist) :
+      BishopLocatedCompletionEmbeddingUp
   deriving DecidableEq
 
 def bishopLocatedCompletionEmbeddingEncodeBHist : BHist → RawEvent
@@ -25,10 +26,11 @@ def bishopLocatedCompletionEmbeddingDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (bishopLocatedCompletionEmbeddingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (bishopLocatedCompletionEmbeddingDecodeBHist tail)
 
-private theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode :
+private theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEncodeBHist h) = h := by
+          (bishopLocatedCompletionEmbeddingEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,20 +41,23 @@ private theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignme
 def bishopLocatedCompletionEmbeddingFields :
     BishopLocatedCompletionEmbeddingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | BishopLocatedCompletionEmbeddingUp.mk M L D E R H C P N => [M, L, D, E, R, H, C, P, N]
+  | BishopLocatedCompletionEmbeddingUp.mk metric located dense embedding readback transport
+      replay provenance name =>
+      [metric, located, dense, embedding, readback, transport, replay, provenance, name]
 
 def bishopLocatedCompletionEmbeddingToEventFlow :
-    BishopLocatedCompletionEmbeddingUp → EventFlow :=
+    BishopLocatedCompletionEmbeddingUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (bishopLocatedCompletionEmbeddingFields x).map bishopLocatedCompletionEmbeddingEncodeBHist
+  | x =>
+      (bishopLocatedCompletionEmbeddingFields x).map
+        bishopLocatedCompletionEmbeddingEncodeBHist
 
-private def bishopLocatedCompletionEmbeddingEventAtDefault : Nat → EventFlow → RawEvent
+private def bishopLocatedCompletionEmbeddingEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => bishopLocatedCompletionEmbeddingEventAtDefault index rest
+  | Nat.succ index, _event :: rest => bishopLocatedCompletionEmbeddingEventAt index rest
 
 def bishopLocatedCompletionEmbeddingFromEventFlow
     (ef : EventFlow) : Option BishopLocatedCompletionEmbeddingUp :=
@@ -60,68 +65,71 @@ def bishopLocatedCompletionEmbeddingFromEventFlow
   some
     (BishopLocatedCompletionEmbeddingUp.mk
       (bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEventAtDefault 0 ef))
+        (bishopLocatedCompletionEmbeddingEventAt 0 ef))
       (bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEventAtDefault 1 ef))
+        (bishopLocatedCompletionEmbeddingEventAt 1 ef))
       (bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEventAtDefault 2 ef))
+        (bishopLocatedCompletionEmbeddingEventAt 2 ef))
       (bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEventAtDefault 3 ef))
+        (bishopLocatedCompletionEmbeddingEventAt 3 ef))
       (bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEventAtDefault 4 ef))
+        (bishopLocatedCompletionEmbeddingEventAt 4 ef))
       (bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEventAtDefault 5 ef))
+        (bishopLocatedCompletionEmbeddingEventAt 5 ef))
       (bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEventAtDefault 6 ef))
+        (bishopLocatedCompletionEmbeddingEventAt 6 ef))
       (bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEventAtDefault 7 ef))
+        (bishopLocatedCompletionEmbeddingEventAt 7 ef))
       (bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEventAtDefault 8 ef)))
+        (bishopLocatedCompletionEmbeddingEventAt 8 ef)))
 
-private theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : BishopLocatedCompletionEmbeddingUp,
-      bishopLocatedCompletionEmbeddingFromEventFlow
-        (bishopLocatedCompletionEmbeddingToEventFlow x) = some x := by
+private theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip
+    (x : BishopLocatedCompletionEmbeddingUp) :
+    bishopLocatedCompletionEmbeddingFromEventFlow
+        (bishopLocatedCompletionEmbeddingToEventFlow x) =
+      some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
-  | mk M L D E R H C P N =>
+  | mk metric located dense embedding readback transport replay provenance name =>
       change
         some
           (BishopLocatedCompletionEmbeddingUp.mk
             (bishopLocatedCompletionEmbeddingDecodeBHist
-              (bishopLocatedCompletionEmbeddingEncodeBHist M))
+              (bishopLocatedCompletionEmbeddingEncodeBHist metric))
             (bishopLocatedCompletionEmbeddingDecodeBHist
-              (bishopLocatedCompletionEmbeddingEncodeBHist L))
+              (bishopLocatedCompletionEmbeddingEncodeBHist located))
             (bishopLocatedCompletionEmbeddingDecodeBHist
-              (bishopLocatedCompletionEmbeddingEncodeBHist D))
+              (bishopLocatedCompletionEmbeddingEncodeBHist dense))
             (bishopLocatedCompletionEmbeddingDecodeBHist
-              (bishopLocatedCompletionEmbeddingEncodeBHist E))
+              (bishopLocatedCompletionEmbeddingEncodeBHist embedding))
             (bishopLocatedCompletionEmbeddingDecodeBHist
-              (bishopLocatedCompletionEmbeddingEncodeBHist R))
+              (bishopLocatedCompletionEmbeddingEncodeBHist readback))
             (bishopLocatedCompletionEmbeddingDecodeBHist
-              (bishopLocatedCompletionEmbeddingEncodeBHist H))
+              (bishopLocatedCompletionEmbeddingEncodeBHist transport))
             (bishopLocatedCompletionEmbeddingDecodeBHist
-              (bishopLocatedCompletionEmbeddingEncodeBHist C))
+              (bishopLocatedCompletionEmbeddingEncodeBHist replay))
             (bishopLocatedCompletionEmbeddingDecodeBHist
-              (bishopLocatedCompletionEmbeddingEncodeBHist P))
+              (bishopLocatedCompletionEmbeddingEncodeBHist provenance))
             (bishopLocatedCompletionEmbeddingDecodeBHist
-              (bishopLocatedCompletionEmbeddingEncodeBHist N))) =
-          some (BishopLocatedCompletionEmbeddingUp.mk M L D E R H C P N)
-      rw [BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode M,
-        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode L,
-        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode D,
-        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode E,
-        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode R,
-        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode H,
-        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode C,
-        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode P,
-        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode N]
+              (bishopLocatedCompletionEmbeddingEncodeBHist name))) =
+          some
+            (BishopLocatedCompletionEmbeddingUp.mk metric located dense embedding readback
+              transport replay provenance name)
+      rw [BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode metric,
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode located,
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode dense,
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode embedding,
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode readback,
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode transport,
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode replay,
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode provenance,
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode name]
 
-private theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_injective
+private theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : BishopLocatedCompletionEmbeddingUp} :
     bishopLocatedCompletionEmbeddingToEventFlow x =
-      bishopLocatedCompletionEmbeddingToEventFlow y → x = y := by
+        bishopLocatedCompletionEmbeddingToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -131,7 +139,8 @@ private theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignme
           (bishopLocatedCompletionEmbeddingToEventFlow y) :=
     congrArg bishopLocatedCompletionEmbeddingFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip x).symm
+    (Eq.trans
+      (BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip y)))
 
@@ -148,11 +157,14 @@ instance bishopLocatedCompletionEmbeddingChapterTasteGate :
     intro x
     change
       bishopLocatedCompletionEmbeddingFromEventFlow
-          (bishopLocatedCompletionEmbeddingToEventFlow x) = some x
+          (bishopLocatedCompletionEmbeddingToEventFlow x) =
+        some x
     exact BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_injective heq)
+    exact hxy
+      (BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq)
 
 def taste_gate : ChapterTasteGate BishopLocatedCompletionEmbeddingUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -161,20 +173,24 @@ def taste_gate : ChapterTasteGate BishopLocatedCompletionEmbeddingUp :=
 theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       bishopLocatedCompletionEmbeddingDecodeBHist
-        (bishopLocatedCompletionEmbeddingEncodeBHist h) = h) ∧
+          (bishopLocatedCompletionEmbeddingEncodeBHist h) =
+        h) ∧
       (∀ x : BishopLocatedCompletionEmbeddingUp,
         bishopLocatedCompletionEmbeddingFromEventFlow
-          (bishopLocatedCompletionEmbeddingToEventFlow x) = some x) ∧
+            (bishopLocatedCompletionEmbeddingToEventFlow x) =
+          some x) ∧
         (∀ x y : BishopLocatedCompletionEmbeddingUp,
           bishopLocatedCompletionEmbeddingToEventFlow x =
-            bishopLocatedCompletionEmbeddingToEventFlow y → x = y) ∧
+              bishopLocatedCompletionEmbeddingToEventFlow y →
+            x = y) ∧
           bishopLocatedCompletionEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode,
+    ⟨BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode,
       BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq =>
-        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_injective heq),
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_toEventFlow_injective
+          heq),
       rfl⟩
 
-end BEDC.Derived.BishopLocatedCompletionEmbeddingUp
+end BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
