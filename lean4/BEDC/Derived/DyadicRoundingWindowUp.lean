@@ -138,4 +138,39 @@ theorem DyadicRoundingWindowCarrier_error_bound [AskSetup] [PackageSetup]
     }
   · exact ⟨endpointUnary, readbackUnary, realSealUnary⟩
 
+theorem DyadicRoundingWindowCarrier_precision_classification [AskSetup] [PackageSetup]
+    {stream precision endpoint readback regular realSeal transport route provenance localName :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicRoundingWindowCarrier stream precision endpoint readback regular realSeal transport route
+        provenance localName bundle pkg ->
+      UnaryHistory precision ∧ UnaryHistory stream ∧ UnaryHistory endpoint ∧
+        Cont precision stream endpoint ∧ Cont stream endpoint readback ∧
+          hsame localName stream := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier
+  obtain
+    ⟨streamUnary, precisionUnary, endpointUnary, _readbackUnary, _regularUnary, _realSealUnary,
+      precisionStreamEndpoint, streamEndpointReadback, _readbackRegularRealSeal, _provenancePkg,
+      localNameStream, _localNameProvenance⟩ := carrier
+  exact
+    ⟨precisionUnary, streamUnary, endpointUnary, precisionStreamEndpoint,
+      streamEndpointReadback, localNameStream⟩
+
+theorem DyadicRoundingWindowCarrier_adjacent_endpoint_compatibility [AskSetup] [PackageSetup]
+    {stream precision endpoint readback regular realSeal transport route provenance localName :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicRoundingWindowCarrier stream precision endpoint readback regular realSeal transport route
+        provenance localName bundle pkg ->
+      UnaryHistory endpoint ∧ UnaryHistory readback ∧ Cont stream endpoint readback ∧
+        hsame localName provenance := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier
+  obtain
+    ⟨_streamUnary, _precisionUnary, endpointUnary, readbackUnary, _regularUnary, _realSealUnary,
+      _precisionStreamEndpoint, streamEndpointReadback, _readbackRegularRealSeal, _provenancePkg,
+      _localNameStream, localNameProvenance⟩ := carrier
+  exact ⟨endpointUnary, readbackUnary, streamEndpointReadback, localNameProvenance⟩
+
 end BEDC.Derived.DyadicRoundingWindowUp
