@@ -329,4 +329,131 @@ theorem DyadicRoundingWindowCarrier_precision_window_obligation [AskSetup] [Pack
       ⟨streamUnary, precisionUnary, endpointUnary, precisionStreamEndpoint,
         streamEndpointReadback⟩
 
+theorem DyadicRoundingWindowCarrier_ledger_nonescape [AskSetup] [PackageSetup]
+    {stream precision endpoint readback regular realSeal transport route provenance localName :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicRoundingWindowCarrier stream precision endpoint readback regular realSeal transport route
+        provenance localName bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row provenance ∧ PkgSig bundle provenance pkg)
+          (fun row : BHist =>
+            hsame row stream ∨ hsame row precision ∨ hsame row endpoint ∨
+              hsame row readback ∨ hsame row regular ∨ hsame row realSeal ∨
+                hsame row provenance ∨ hsame row localName)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+            hsame row provenance)
+          hsame ∧
+        UnaryHistory provenance ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier
+  obtain
+    ⟨streamUnary, _precisionUnary, _endpointUnary, _readbackUnary, _regularUnary,
+      _realSealUnary, _precisionStreamEndpoint, _streamEndpointReadback,
+      _readbackRegularRealSeal, provenancePkg, localNameStream,
+      localNameProvenance⟩ := carrier
+  have streamProvenance : hsame stream provenance :=
+    hsame_trans (hsame_symm localNameStream) localNameProvenance
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_transport streamUnary streamProvenance
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro provenance ⟨hsame_refl provenance, provenancePkg⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sourceRow.left))))))
+      ledger_sound := by
+        intro row sourceRow
+        exact
+          ⟨unary_transport provenanceUnary (hsame_symm sourceRow.left), sourceRow.right,
+            sourceRow.left⟩
+    }
+  · exact ⟨provenanceUnary, provenancePkg⟩
+
+theorem DyadicRoundingWindowCarrier_scoped_consumer_boundary [AskSetup] [PackageSetup]
+    {stream precision endpoint readback regular realSeal transport route provenance localName
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicRoundingWindowCarrier stream precision endpoint readback regular realSeal transport route
+        provenance localName bundle pkg ->
+      Cont realSeal provenance consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row stream ∨ hsame row precision ∨ hsame row endpoint ∨
+                  hsame row readback ∨ hsame row regular ∨ hsame row realSeal ∨
+                    hsame row provenance ∨ hsame row localName ∨ hsame row consumerRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont precision stream endpoint ∧
+                  Cont stream endpoint readback ∧ Cont readback regular realSeal ∧
+                    Cont realSeal provenance consumerRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle consumerRead pkg)
+              hsame ∧
+            UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier realSealProvenanceConsumer consumerPkg
+  obtain
+    ⟨streamUnary, precisionUnary, _endpointUnary, _readbackUnary, _regularUnary,
+      realSealUnary, precisionStreamEndpoint, streamEndpointReadback,
+      readbackRegularRealSeal, provenancePkg, localNameStream,
+      localNameProvenance⟩ := carrier
+  have streamProvenance : hsame stream provenance :=
+    hsame_trans (hsame_symm localNameStream) localNameProvenance
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_transport streamUnary streamProvenance
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed realSealUnary provenanceUnary realSealProvenanceConsumer
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr (Or.inr (Or.inr sourceRow.left)))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact
+          ⟨sourceRow.right, precisionStreamEndpoint, streamEndpointReadback,
+            readbackRegularRealSeal, realSealProvenanceConsumer, provenancePkg, consumerPkg⟩
+    }
+  · exact consumerUnary
+
 end BEDC.Derived.DyadicRoundingWindowUp

@@ -121,6 +121,7 @@ For sums, reassociation changes only the order in which the finite $\RegularCauc
 
 For products and rational scales, use the same argument with the product and scale routes. The product route is governed by \autoref{thm:regular-cauchy-product-regseqrat-handoff} and \autoref{thm:regular-cauchy-product-real-seal-boundary}; the scale route is governed by \autoref{thm:regular-cauchy-scale-regseqrat-handoff} and \autoref{thm:regular-cauchy-scale-realup-seal-boundary}. These sibling handoffs expose finite readbacks and then the terminal $\RealUp$ seal, so reassociation cannot introduce host real equality, selected limits, trichotomy, choice, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_windowwise\_associativity}
 
 \begin{theorem}[Regular Cauchy ring componentwise distributivity]
 \label{thm:regular-cauchy-ring-componentwise-distributivity}
@@ -145,12 +146,27 @@ S\longmapsto R_S,\qquad G\longmapsto R_G,\qquad M\longmapsto R_M,\qquad L\longma
 $$
 together with the relevant source windows, dyadic endpoint ledgers, finite budget ledger, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchyRingUp}$ row. The packet exports no quotient stream, host real equality, selected completed limit, trichotomy, countable choice, or $\RealUp$ completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_real\_seal\_nonescape}
 \begin{proof}
 Begin with the terminal seal clause of \autoref{thm:regular-cauchy-ring-namecert-obligations}. It forces any real-facing consumer to choose one of the four operation routes and to keep the corresponding source, window, dyadic, budget, transport, continuation, provenance, and naming rows attached.
 
 The sibling non-escape clauses then close the four cases. For the sum route use \autoref{thm:regular-cauchy-sum-non-escape-boundary}; for the negation route use \autoref{thm:regular-cauchy-negation-apartness-nonescape}; for the product route use \autoref{thm:regular-cauchy-product-real-algebra-boundary}; for the scale route use \autoref{thm:regular-cauchy-scale-real-seal-handoff-obligation}.
 
 Since the ring carrier contains only those four terminal routes and their shared structural rows, no real-facing consumer can read a fifth route through host arithmetic, quotient real equality, selected limits, trichotomy, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy ring componentwise ring laws]
+\label{thm:regularcauchyring-componentwise-ring-laws}
+For every accepted $\RegularCauchyRingUp$ carrier, associativity of displayed addition and product routes, additive inverse readback, distributivity of product over sum, and rational-scalar compatibility are inherited only through the componentwise operation rows $\RegularCauchySumUp$, $\RegularCauchyNegationUp$, $\RegularCauchyProductUp$, and $\RegularCauchyScaleUp$, together with the source $\RegSeqRatUp$ rows and terminal $\RealUp$ seal rows. The ring packet does not import host real ring laws, quotient real equality, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the operation-row admission theorem \autoref{thm:regular-cauchy-ring-operation-row-admission}. It separates the four algebraic cases $S,G,M,L$ and admits each one only as the displayed sibling operation row attached to the source windows, dyadic ledgers, finite budget rows, transport, replay, provenance, and local naming.
+
+For the addition and additive-inverse cases, use the sibling non-escape clauses already used by the Real seal boundary: \autoref{thm:regular-cauchy-sum-non-escape-boundary} for $S$ and \autoref{thm:regular-cauchy-negation-apartness-nonescape} for $G$. These clauses keep associativity reads and inverse reads inside $\RegularCauchySumUp$, $\RegularCauchyNegationUp$, $\RegSeqRatUp$, and the terminal $\RealUp$ seal rows.
+
+For the product and rational-scalar cases, use \autoref{thm:regular-cauchy-product-real-algebra-boundary} for $M$ and \autoref{thm:regular-cauchy-scale-real-seal-handoff-obligation} for $L$. The componentwise distributivity theorem \autoref{thm:regular-cauchy-ring-componentwise-distributivity} supplies the mixed sum-product route, while the scale route remains a displayed rational-scalar handoff rather than host scalar multiplication on completed quotients.
+
+These four cases exhaust the carrier's algebraic coordinates. Since componentwise transport from \autoref{thm:regular-cauchy-ring-componentwise-transport} preserves only the displayed operation rows and their seal boundaries, every ring-law read is a finite BEDC packet route and not an imported law of ambient completed reals.
 \end{proof}
 
 \closureat{RegularCauchyRingUp}{seedStr}
