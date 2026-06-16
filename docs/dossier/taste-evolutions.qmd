@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-16T04:24:29Z
+> 最后刷新: 2026-06-16T06:22:24Z
 
-**Daemon 状态**: monitor (monitor cycle 38, adjust_since_research 2, round_counter 11498, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 39, adjust_since_research 2, round_counter 11627, last_adjust rule_evolution_completed)
 
-**待处理 queue** (352 条 finding):
-- isolated_theorem: 203 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (360 条 finding):
+- isolated_theorem: 211 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 21 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 130 次
-- TASTE ALERT category=low_entropy_template: 14 次
+- TASTE ALERT category=isolated_theorem: 129 次
+- TASTE ALERT category=low_entropy_template: 13 次
 - TASTE ALERT category=unauthorized_capstone: 4 次
 - TASTE ALERT category=dossier_snapshot_commit_failed: 1 次
 
@@ -319,6 +319,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-16T02:33:28Z: `resolved` `leave_with_rationale` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_namecert_ledger` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_namecert_ledger:42e7c050`). Rationale: The target has real BEDC content: it packages the local CauchySpace NameCert ledger route from the local filter-uniform read through R0,T0, the ledger row, provenance P0, and local name N0, and the paper cites it as the CauchySpace NameCert ledger. Grep showed no existing Lean downstream consumer. I attempted add_downstream_user in the existing public completion sibling, but the required lake build failed on the edited module with tabs and unsolved goals in PublicCompletionInterface.lean; I reverted the edit per instructions and confirmed the reverted file compiles locally with lake env lean. Removing the theorem would lose a legitimate local ledger boundary, so it should remain while a clean downstream consumer is added later. Gate results: lake_build=failed after attempted edit: BEDC.Derived.CauchySpaceUp.PublicCompletionInterface; tabs are not allowed at lines 122-125 and unsolved goals at line 101; changes reverted, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-16T04:24:00Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_real_consumer_obligation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_real_consumer_obligation:42e7c050`). Rationale: The target has real BEDC content: it proves the filter-uniform replay into a Real read across the CauchySpace carrier, rather than merely restating an existing theorem. It was isolated because no Lean theorem consumed it downstream, so I added a public readback theorem in the CauchySpace public interface that invokes this obligation and continues the route through provenance and Real-consumer rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-16T06:21:49Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_completion_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_uniform_completion_nonescape:42e7c050`). Rationale: The target is not a staging-only wrapper: it packages the filter-uniform replay through the completion-facing route while preserving both the regular-name comparison hsame replay R0 and the CauchySpace transport row. It had a paper marker but no downstream Lean consumer, so I added a sibling public readback theorem that invokes it and extends the route through the local NameCert and terminal transport boundary. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
