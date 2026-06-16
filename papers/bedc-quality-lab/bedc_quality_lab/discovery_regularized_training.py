@@ -513,6 +513,22 @@ def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+DRT_FAIR_CONTROL_ISSUE_ARMS = (
+    "base_transformer",
+    "parameter_matched",
+    "compute_matched",
+    "matched_random_structural_control",
+)
+DRT_FAIR_CONTROL_HARDGATES = tuple(f"DRT-FC-HG{index}" for index in range(1, 5))
+DRT_BASE_HARDGATES = (
+    DGT_REPLAY_OWNER_READY_GATE,
+    *DRT_HARDGATES[:8],
+    *DRT_FAIR_CONTROL_HARDGATES,
+    *DRTJ_HARDGATES,
+    *DGT_REPLAY_HARDGATES,
+)
+
+
 def _artifact_pointer_resolves(payload: Mapping[str, Any], artifact_pointer: str) -> bool:
     return _quality_pointer_value(payload, artifact_pointer) is not None
 
@@ -1100,6 +1116,225 @@ def _training_mechanism_cert(owner_payload: Mapping[str, Any]) -> dict[str, Any]
         "mechanism_ablation_status": mechanism_status,
         "torch_positive": torch_positive,
         "ledger_complete": ledger_complete,
+    }
+
+
+def _fair_control_arm_row(
+    arm: str,
+    bridge_rows: Mapping[str, Mapping[str, Any]],
+    quality_by_arm: Mapping[str, Any],
+    *,
+    base_accuracy: float | None,
+    candidate_quality: float | None,
+) -> dict[str, Any]:
+    bridge = bridge_rows.get(arm, {})
+    quality = quality_by_arm.get(arm, {}) if isinstance(quality_by_arm, Mapping) else {}
+    task_accuracy = _as_finite_number(quality.get("task_accuracy_mean")) if isinstance(quality, Mapping) else None
+    row_quality = _as_finite_number(quality.get("quality_q_mean")) if isinstance(quality, Mapping) else None
+    return {
+        "arm_id": arm,
+        "role": REPLAY_ARM_ROLES.get(arm, "DRT control arm"),
+        "evidence_pointer": quality_artifact_pointer(f"$.training_replay_bridge.rows_by_arm.{arm}"),
+        "quality_pointer": quality_artifact_pointer(f"$.surface_registry.quality.by_arm.{arm}"),
+        "parameter_count": bridge.get("parameter_count") if isinstance(bridge, Mapping) else None,
+        "compute_budget": bridge.get("compute_budget") if isinstance(bridge, Mapping) else None,
+        "task_accuracy_mean": _rounded_number(task_accuracy),
+        "quality_q_mean": _rounded_number(row_quality),
+        "base_accuracy_margin": _rounded_number(
+            None if task_accuracy is None or base_accuracy is None else task_accuracy - base_accuracy
+        ),
+        "candidate_quality_margin": _rounded_number(
+            None if candidate_quality is None or row_quality is None else candidate_quality - row_quality
+        ),
+        "structural_randomized": bool(bridge.get("structural_randomized")) if isinstance(bridge, Mapping) else False,
+        "status": "present" if isinstance(bridge, Mapping) and bridge else "missing",
+    }
+
+
+def fair_control_projection(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    bridge = owner_payload.get("training_replay_bridge")
+    bridge_rows = bridge.get("rows_by_arm") if isinstance(bridge, Mapping) else None
+    if not isinstance(bridge_rows, Mapping):
+        bridge_rows = {}
+    quality = owner_payload.get("surface_registry", {}).get("quality", {}) if isinstance(owner_payload.get("surface_registry"), Mapping) else {}
+    quality_by_arm = quality.get("by_arm", {}) if isinstance(quality, Mapping) else {}
+    candidate = quality_by_arm.get("DGT_full", {}) if isinstance(quality_by_arm, Mapping) else {}
+    candidate_quality = _as_finite_number(candidate.get("quality_q_mean")) if isinstance(candidate, Mapping) else None
+    candidate_shift = _as_finite_number(candidate.get("classifier_shift_count_mean")) if isinstance(candidate, Mapping) else None
+    candidate_positive = isinstance(candidate, Mapping) and candidate.get("net_positive_count", 0) > 0
+    chance_accuracy = 0.5
+    base_row = quality_by_arm.get("base_transformer", {}) if isinstance(quality_by_arm, Mapping) else {}
+    base_accuracy = _as_finite_number(base_row.get("task_accuracy_mean")) if isinstance(base_row, Mapping) else None
+    arms = [
+        _fair_control_arm_row(
+            arm,
+            bridge_rows,
+            quality_by_arm,
+            base_accuracy=chance_accuracy,
+            candidate_quality=candidate_quality,
+        )
+        for arm in DRT_FAIR_CONTROL_ISSUE_ARMS
+    ]
+    base_above_chance = base_accuracy is not None and base_accuracy > chance_accuracy
+    base_gate = {
+        "schema_id": f"{SCHEMA_ID}:base-chance-gate",
+        "status": _status(base_above_chance),
+        "owner_pointer": quality_artifact_pointer("$.base_chance_gate"),
+        "candidate_pointer": quality_artifact_pointer("$.surface_registry.quality.by_arm.base_transformer.task_accuracy_mean"),
+        "chance_accuracy": chance_accuracy,
+        "base_task_accuracy": _rounded_number(base_accuracy),
+        "base_above_chance": base_above_chance,
+        "margin": _rounded_number(None if base_accuracy is None else base_accuracy - chance_accuracy),
+    }
+    parameter_values = {row["parameter_count"] for row in arms}
+    compute_values = {row["compute_budget"] for row in arms}
+    threshold_values = set()
+    for row in arms:
+        bridge_row = bridge_rows.get(row["arm_id"], {})
+        if isinstance(bridge_row, Mapping):
+            threshold_values.add(bridge_row.get("row_count"))
+    axis_rows = {
+        "parameter_match": {
+            "status": _status(len(parameter_values) == 1 and None not in parameter_values),
+            "evidence_pointer": quality_artifact_pointer("$.fair_control_ledger.arms"),
+            "values": sorted(parameter_values, key=lambda item: str(item)),
+        },
+        "compute_match": {
+            "status": _status(len(compute_values) == 1 and None not in compute_values),
+            "evidence_pointer": quality_artifact_pointer("$.fair_control_ledger.arms"),
+            "values": sorted(compute_values, key=lambda item: str(item)),
+        },
+        "threshold_match": {
+            "status": _status(len(threshold_values) == 1 and None not in threshold_values),
+            "evidence_pointer": quality_artifact_pointer("$.training_replay_bridge.rows"),
+            "values": sorted(threshold_values, key=lambda item: str(item)),
+        },
+        "metric_helper_match": {
+            "status": _status(all(row.get("status") == "present" for row in arms)),
+            "evidence_pointer": quality_artifact_pointer("$.surface_registry.quality.by_arm"),
+            "metric": "quality_q",
+        },
+    }
+    four_axis_gate = {
+        "schema_id": f"{SCHEMA_ID}:four-axis-match-gate",
+        "status": _status(all(row["status"] == "pass" for row in axis_rows.values())),
+        "owner_pointer": quality_artifact_pointer("$.four_axis_match_gate"),
+        "axes": axis_rows,
+        "pair_rule_surface_pointer": quality_artifact_pointer("$.fair_control_ledger.pair_rule_surface"),
+    }
+    nondegenerate_gate = {
+        "schema_id": f"{SCHEMA_ID}:nondegenerate-gate",
+        "status": _status(
+            candidate_quality is not None
+            and candidate_shift is not None
+            and candidate_shift > 0.0
+            and candidate_positive
+            and any(
+                isinstance(row.get("candidate_quality_margin"), (int, float))
+                and float(row["candidate_quality_margin"]) > DRIFT_TOLERANCE
+                for row in arms
+                if row["arm_id"] != "base_transformer"
+            )
+        ),
+        "owner_pointer": quality_artifact_pointer("$.drt_nondegenerate_gate"),
+        "candidate_arm": "DGT_full",
+        "candidate_quality_q": _rounded_number(candidate_quality),
+        "candidate_shift": _rounded_number(candidate_shift),
+        "candidate_positive_signal": candidate_positive,
+        "control_quality_pointers": {
+            arm: quality_artifact_pointer(f"$.surface_registry.quality.by_arm.{arm}.quality_q_mean")
+            for arm in DRT_FAIR_CONTROL_ISSUE_ARMS
+        },
+    }
+    pair_rule_surface = {
+        "status": _status(bool(arms) and all(row["status"] == "present" for row in arms)),
+        "owner_pointer": quality_artifact_pointer("$.fair_control_ledger.pair_rule_surface"),
+        "cell_keys": ["discovery_lambda", "rho", "mixing", "seed"],
+        "candidate_arm": "DGT_full",
+        "control_arms": list(DRT_FAIR_CONTROL_ISSUE_ARMS),
+        "raw_rows_pointer": quality_artifact_pointer("$.records.raw_rows_pointer"),
+    }
+    ledger = {
+        "schema_id": f"{SCHEMA_ID}:fair-control-ledger",
+        "status": _status(
+            pair_rule_surface["status"] == "pass"
+            and base_gate["status"] == "pass"
+            and four_axis_gate["status"] == "pass"
+            and nondegenerate_gate["status"] == "pass"
+        ),
+        "owner_pointer": quality_artifact_pointer("$.fair_control_ledger"),
+        "candidate_arm": "DGT_full",
+        "issue_arms": list(DRT_FAIR_CONTROL_ISSUE_ARMS),
+        "pair_rule_surface": pair_rule_surface,
+        "arms": arms,
+        "gate_pointers": {
+            "base_chance_gate": quality_artifact_pointer("$.base_chance_gate"),
+            "four_axis_match_gate": quality_artifact_pointer("$.four_axis_match_gate"),
+            "drt_nondegenerate_gate": quality_artifact_pointer("$.drt_nondegenerate_gate"),
+        },
+        "bounded_drt_capsule_pointers": {
+            "claim_capsule": str(owner_payload.get("run_artifacts", {}).get("claim_capsule", "")),
+            "positive_claim": "$.positive_claim",
+            "promotion_gate": "$.hardgate.gates.DRT-HG9",
+            "discovery_map_signal": "$.discovery_map_signal",
+        },
+    }
+    return {
+        "fair_control_ledger": ledger,
+        "base_chance_gate": base_gate,
+        "four_axis_match_gate": four_axis_gate,
+        "drt_nondegenerate_gate": nondegenerate_gate,
+    }
+
+
+def fair_control_hardgate_verdicts(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    ledger = payload.get("fair_control_ledger")
+    base_gate = payload.get("base_chance_gate")
+    axis_gate = payload.get("four_axis_match_gate")
+    nondegenerate = payload.get("drt_nondegenerate_gate")
+    pair_rule = ledger.get("pair_rule_surface") if isinstance(ledger, Mapping) else None
+    return {
+        "DRT-FC-HG1": {
+            "status": _status(
+                isinstance(ledger, Mapping)
+                and ledger.get("status") == "pass"
+                and isinstance(pair_rule, Mapping)
+                and pair_rule.get("status") == "pass"
+            ),
+            "evidence": "DRT-local fair-control ledger must bind the four issue arms to one owner-local pair-rule surface.",
+            "evidence_pointer": "$.fair_control_ledger",
+            "pair_rule_surface_pointer": "$.fair_control_ledger.pair_rule_surface",
+        },
+        "DRT-FC-HG2": {
+            "status": _status(
+                isinstance(base_gate, Mapping)
+                and base_gate.get("status") == "pass"
+                and base_gate.get("base_above_chance") is True
+            ),
+            "evidence": "Base transformer accuracy must exceed the explicit chance baseline.",
+            "evidence_pointer": "$.base_chance_gate",
+        },
+        "DRT-FC-HG3": {
+            "status": _status(
+                isinstance(axis_gate, Mapping)
+                and axis_gate.get("status") == "pass"
+                and all(
+                    isinstance(row, Mapping) and row.get("status") == "pass"
+                    for row in axis_gate.get("axes", {}).values()
+                )
+            ),
+            "evidence": "The issue arms must match on parameter, compute, threshold, and metric-helper axes.",
+            "evidence_pointer": "$.four_axis_match_gate",
+        },
+        "DRT-FC-HG4": {
+            "status": _status(
+                isinstance(nondegenerate, Mapping)
+                and nondegenerate.get("status") == "pass"
+                and nondegenerate.get("candidate_positive_signal") is True
+            ),
+            "evidence": "DGT_full must carry a nondegenerate positive signal above matched controls.",
+            "evidence_pointer": "$.drt_nondegenerate_gate",
+        },
     }
 
 
@@ -1805,11 +2040,17 @@ class DiscoveryRegularizedTrainingProjection:
         cert_seed = jet_seed
         training_mechanism_cert = _training_mechanism_cert(cert_seed)
         preservation = certificate_guided_dn_preservation(source_artifacts)
+        fair_control_seed = {
+            **jet_seed,
+            "run_artifacts": dict(self.run_artifacts),
+        }
+        fair_control_sections = fair_control_projection(fair_control_seed)
         hardgates = self.hardgate_verdicts(
             {
                 **jet_seed,
                 "certificate_guided_dn_preservation": preservation,
                 "training_mechanism_cert": training_mechanism_cert,
+                **fair_control_sections,
             },
             boundary,
         )
@@ -1819,10 +2060,11 @@ class DiscoveryRegularizedTrainingProjection:
             **POSITIVE_CLAIM,
             "level_candidate": signal["level_candidate"],
             "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
+            "fair_control_ledger_pointer": "$.fair_control_ledger",
         }
         capsule = self.claim_capsule_payload(
             hardgates=hardgates,
-            summaries=summaries,
+            summaries={**summaries, **fair_control_sections},
             signal=signal,
             positive_claim=positive_claim,
             quality_boundary=boundary,
@@ -1873,6 +2115,7 @@ class DiscoveryRegularizedTrainingProjection:
             "matched_random_control": summaries["matched_random_control"],
             "training_replay_bridge": summaries["training_replay_bridge"],
             "quality_promotion_boundary": boundary,
+            **fair_control_sections,
             "certificate_guided_dn_preservation": preservation,
             "mechanism_ablation": summaries["mechanism_ablation"],
             "training_mechanism_cert": training_mechanism_cert,
@@ -2001,6 +2244,7 @@ class DiscoveryRegularizedTrainingProjection:
         matched_random_control_positive = matched.get("control_positive") is True
         owner_payload = {**summaries, "quality_promotion_boundary": boundary}
         jet_gates = jet_hardgate_verdicts(owner_payload)
+        fair_control_gates = fair_control_hardgate_verdicts(owner_payload)
         return {
             **_dgt_replay_gate_verdicts(summaries),
             "DRT-HG1": {
@@ -2069,6 +2313,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "status_pointer": "$.training_mechanism_cert.status",
                 "all_required_pointers_resolve": bool(training_mechanism_cert.get("all_required_pointers_resolve")) if isinstance(training_mechanism_cert, Mapping) else False,
             },
+            **fair_control_gates,
             **jet_gates,
         }
 
@@ -2080,6 +2325,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "level_candidate": "DN",
                 "reason": "hardgate-failed",
                 "evidence_pointer": "$.hardgate.failed_gate",
+                "control_pointer": "$.fair_control_ledger",
                 "surface_registry_pointer": "$.surface_registry",
                 "torch_training_evidence_pointer": "$.torch_training_evidence",
                 "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
@@ -2093,7 +2339,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "level_candidate": "D4",
                 "reason": "mechanism-certificate-promotion-failed",
                 "evidence_pointer": "$.torch_training_evidence",
-                "control_pointer": "$.matched_random_control",
+                "control_pointer": "$.fair_control_ledger",
                 "surface_registry_pointer": "$.surface_registry",
                 "torch_training_evidence_pointer": "$.torch_training_evidence",
                 "training_mechanism_cert_pointer": "$.training_mechanism_cert",
@@ -2106,7 +2352,7 @@ class DiscoveryRegularizedTrainingProjection:
             "level_candidate": "D5-M",
             "reason": "training-mechanism-certificate-positive",
             "evidence_pointer": "$.training_mechanism_cert",
-            "control_pointer": "$.matched_random_control",
+            "control_pointer": "$.fair_control_ledger",
             "surface_registry_pointer": "$.surface_registry",
             "torch_training_evidence_pointer": "$.torch_training_evidence",
             "training_mechanism_cert_pointer": "$.training_mechanism_cert",
@@ -2153,6 +2399,10 @@ class DiscoveryRegularizedTrainingProjection:
                 "lambda_summary": summaries["lambda_summary"],
                 "constraint_summary": summaries["constraint_summary"],
                 "matched_random_control": _without_pointer_fields(summaries["matched_random_control"]),
+                "fair_control_ledger": _without_pointer_fields(summaries["fair_control_ledger"]),
+                "base_chance_gate": _without_pointer_fields(summaries["base_chance_gate"]),
+                "four_axis_match_gate": _without_pointer_fields(summaries["four_axis_match_gate"]),
+                "drt_nondegenerate_gate": _without_pointer_fields(summaries["drt_nondegenerate_gate"]),
                 "compute_ledger": _claim_capsule_compute_ledger_snapshot(summaries["compute_ledger"]),
                 "quality_promotion_boundary": dict(quality_boundary),
             },
@@ -2208,6 +2458,7 @@ class DiscoveryRegularizedTrainingProjection:
             "comparison_owner_pointer": quality_artifact_pointer("$.comparison_owner"),
             "status": "ready" if comparison_owner.get("ready") is True else "blocked",
             "rows": rows,
+            "rows_by_arm": by_id,
             "full_arm": by_id.get("DGT_full"),
             "matched_random_arm": by_id.get("matched_random_structural_control"),
             "not_claimed": "Toy replay bridge only; no production deployment or global model superiority is claimed.",
@@ -2279,6 +2530,34 @@ class DiscoveryRegularizedTrainingProjection:
                 f"`{row['quality_q_ci_low']}` | "
                 f"`{row['comparison_to_task_only']}` | "
                 f"`{row['promotion_gate']}` | "
+                f"`{row['evidence_pointer']}` |"
+            )
+        fair = payload["fair_control_ledger"]
+        lines.extend(
+            [
+                "",
+                "## Fair Control Ledger",
+                "",
+                f"- status: `{fair['status']}`",
+                f"- owner pointer: `{fair['owner_pointer']}`",
+                f"- pair-rule surface: `{fair['pair_rule_surface']['status']}`",
+                f"- base chance gate: `{payload['base_chance_gate']['status']}`",
+                f"- four-axis match gate: `{payload['four_axis_match_gate']['status']}`",
+                f"- nondegenerate gate: `{payload['drt_nondegenerate_gate']['status']}`",
+                "",
+                "| arm | role | accuracy | quality_q | base margin | DRT quality margin | evidence |",
+                "| --- | --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+        for row in fair["arms"]:
+            lines.append(
+                "| "
+                f"`{row['arm_id']}` | "
+                f"`{row['role']}` | "
+                f"`{row['task_accuracy_mean']}` | "
+                f"`{row['quality_q_mean']}` | "
+                f"`{row['base_accuracy_margin']}` | "
+                f"`{row['candidate_quality_margin']}` | "
                 f"`{row['evidence_pointer']}` |"
             )
         mechanism = payload["mechanism_ablation"]
@@ -2751,6 +3030,8 @@ __all__ = [
     "DRT2_METHOD_COMPARISON_ARMS",
     "DRT2_NEGATIVE_WITNESS_POINTERS",
     "DRT2_SEMANTIC_HARDGATES",
+    "DRT_FAIR_CONTROL_HARDGATES",
+    "DRT_FAIR_CONTROL_ISSUE_ARMS",
     "DRT_EXTENSION_UER_MAX",
     "DRT_EXTENSION_UER_REDUCTION_MIN",
     "ENERGY_PER_FLOP_PROXY",
@@ -2775,6 +3056,8 @@ __all__ = [
     "drt2_semantic_hardgate_summary",
     "drt2_semantic_hardgate_verdicts",
     "drt_extension_forbidden_key_audit",
+    "fair_control_hardgate_verdicts",
+    "fair_control_projection",
     "negative_witness_penalty_projection",
     "jet_hardgate_verdicts",
     "jet_protocol_payload",

@@ -31,6 +31,7 @@ from scripts import run_canonical_reports as canonical
 from scripts import run_certificate_gated_attention as cga_runner
 from scripts import run_certificate_guided_constraint_training as cgt_runner
 from scripts import run_gap_head_attribution_capsule as attribution_capsule
+from scripts import run_gap_head_pair_rule_bounded_capsule as pair_rule_capsule
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
 from scripts import run_lejepa_theorem_ledger as lejepa_theorem_ledger
@@ -57,6 +58,7 @@ HG_P_CORE = {
     "gap-head-threshold-frontier",
     "gap-head-transfer-atlas",
     "gap-head-attribution-capsule",
+    "gap-head-pair-rule-bounded-capsule",
     "certificate-guided-training",
     "certificate-guided-discovery",
     "sigreg-training-proxy",
@@ -255,6 +257,8 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_neural_ablation
 
         return dgt_neural_ablation.build_payload(generated_at="fixture", requested_device="cpu")
+    if spec.name == "gap-head-pair-rule-bounded-capsule":
+        return pair_rule_capsule.build_payload(generated_at="fixture")
     if spec.name == "dgt-ablation-null-decomposition":
         from bedc_quality_lab import dgt_ablation_null_decomposition
 
@@ -1064,6 +1068,7 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
     canonical_module.ROOT = tmp_path
     canonical_module.CANONICAL_DIR = tmp_path / "reports" / "canonical"
     canonical_module.INDEX_ARTIFACT = tmp_path / "reports" / "canonical" / "index.json"
+    _write_pair_rule_prerequisite_fixtures(tmp_path)
     for spec in canonical_module.CANONICAL_REPORTS:
         json_path = canonical_module._artifact_path(spec.json_artifact)
         md_path = canonical_module._artifact_path(spec.markdown_artifact)
@@ -1117,6 +1122,67 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
         + "\n",
         encoding="utf-8",
     )
+
+
+def _write_pair_rule_prerequisite_fixtures(root):
+    payloads = {
+        pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT_ID,
+            "downstream_admission": {
+                "status": "pass",
+                "owner_pointer": pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_OWNER_POINTER,
+            },
+            "claim_capsule": {"status": "pass"},
+            "source_artifacts": {
+                "selected_l1_evidence": pair_rule_capsule.PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+            },
+        },
+        pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT_ID,
+            "claim_gate": {
+                "status": "pass",
+                "owner_pointer": pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_STATUS_OWNER_POINTER,
+            },
+        },
+        pair_rule_capsule.PAIR_RULE_CLAIM_CAPSULE_ARTIFACT: {
+            "schema_id": "bedc.quality.claim_capsule",
+            "artifact_id": pair_rule_capsule.PAIR_RULE_CLAIM_CAPSULE_ARTIFACT_ID,
+            "claim_capsule_ref": {
+                "construct_validity": {
+                    "base_exceeds_chance": {
+                        "task_id": "dgt_l1_order2_pair_rule",
+                        "chance": 0.0625,
+                        "base_acc_mean": 0.25,
+                        "base_acc_ci95_low": 0.125,
+                        "margin_min": 0.0,
+                        "gate_status": "pass",
+                        "evidence_pointer": (
+                            pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_OWNER_POINTER
+                        ),
+                        "fair_control_id": "base_transformer_l1",
+                    }
+                }
+            },
+        },
+        pair_rule_capsule.PAIR_RULE_ATTRIBUTION_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.PAIR_RULE_ATTRIBUTION_ARTIFACT_ID,
+            "d5_m": {
+                "status": "pass",
+                "source_surface_owner_pointer": pair_rule_capsule.PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+            },
+        },
+        pair_rule_capsule.PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT_ID,
+            "observed_debt_transfer": {
+                "status": "pass",
+                "source_surface_owner_pointer": pair_rule_capsule.PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+            },
+        },
+    }
+    for artifact, payload in payloads.items():
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def _patch_scaling_ladder_pass_run_spec(monkeypatch):
@@ -5450,6 +5516,51 @@ def test_discovery_regularized_training_drt2_negative_witness_sibling_pointers_r
         canonical._validate_discovery_regularized_training_payload(mutated)
 
 
+def test_discovery_regularized_training_fair_control_sections_are_required_and_owner_local():
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    payload = _payload_for_spec(spec)
+
+    canonical._validate_discovery_regularized_training_payload(payload)
+
+    assert spec.control_pointer == "$.fair_control_ledger"
+    assert set(spec.required_json_keys) >= {
+        "fair_control_ledger",
+        "base_chance_gate",
+        "four_axis_match_gate",
+        "drt_nondegenerate_gate",
+    }
+    assert payload["fair_control_ledger"]["owner_pointer"].endswith("$.fair_control_ledger")
+    assert payload["base_chance_gate"]["owner_pointer"].endswith("$.base_chance_gate")
+    assert payload["four_axis_match_gate"]["owner_pointer"].endswith("$.four_axis_match_gate")
+    assert payload["drt_nondegenerate_gate"]["owner_pointer"].endswith("$.drt_nondegenerate_gate")
+    assert tuple(
+        gate for gate in payload["hardgate"]["gates"] if gate.startswith("DRT-FC-HG")
+    ) == ("DRT-FC-HG1", "DRT-FC-HG2", "DRT-FC-HG3", "DRT-FC-HG4")
+    assert "fair-control-training" not in {item.name for item in canonical.CANONICAL_REPORTS}
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda item: item.update({"fair_control_ledger": {}}),
+        lambda item: item["fair_control_ledger"]["pair_rule_surface"].update({"status": "fail"}),
+        lambda item: item["base_chance_gate"].update({"status": "fail"}),
+        lambda item: item["four_axis_match_gate"]["axes"]["parameter_match"].update({"status": "fail"}),
+        lambda item: item["drt_nondegenerate_gate"].update({"status": "fail"}),
+        lambda item: item["drt_nondegenerate_gate"]["control_quality_pointers"].pop("compute_matched"),
+        lambda item: item["fair_control_ledger"]["arms"][1].update({"candidate_quality_margin": 0.0}),
+        lambda item: item["hardgate"]["gates"]["DRT-FC-HG1"].update({"status": "fail"}),
+    ],
+)
+def test_discovery_regularized_training_fair_control_validator_fails_closed(mutate):
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    mutated = json.loads(json.dumps(payload))
+    mutate(mutated)
+
+    with pytest.raises(ValueError):
+        canonical._validate_discovery_regularized_training_payload(mutated)
+
+
 def test_discovery_regularized_training_quality_boundary_index_disk_invalid_payload_falls_back(monkeypatch, tmp_path):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
@@ -8698,6 +8809,7 @@ def test_index_markdown_lists_gap_head_reports():
             _index_row_for_spec(canonical._specs_by_name()["gap-head-on-h"]),
             _index_row_for_spec(canonical._specs_by_name()["nongaussian-distribution-sweep"]),
             _index_row_for_spec(canonical._specs_by_name()["gap-head-discovery"]),
+            _index_row_for_spec(canonical._specs_by_name()["gap-head-pair-rule-bounded-capsule"]),
             _index_row_for_spec(canonical._specs_by_name()["certificate-guided-discovery"]),
         ]
     )
@@ -8705,6 +8817,7 @@ def test_index_markdown_lists_gap_head_reports():
 
     assert "gap-head-on-h" in markdown
     assert "gap-head-discovery" in markdown
+    assert "gap-head-pair-rule-bounded-capsule" in markdown
     assert "nongaussian-distribution-sweep" in markdown
     assert "certificate-guided-discovery" in markdown
 
@@ -10090,6 +10203,37 @@ def test_jepa_world_model_hardgate_fail_closed_semantics():
         "JepaWorldModelPointerContract",
     ):
         assert forbidden not in serialized
+
+
+def test_gap_head_pair_rule_bounded_capsule_canonical_spec_and_filtered_run(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_pair_rule_prerequisite_fixtures(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-pair-rule-bounded-capsule"]
+
+    assert spec.command == ("python3", "scripts/run_gap_head_pair_rule_bounded_capsule.py")
+    assert spec.json_artifact == pair_rule_capsule.JSON_ARTIFACT
+    assert spec.markdown_artifact == pair_rule_capsule.REPORT_ARTIFACT
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.positive_claim_pointer == "$.positive_claim.status"
+    assert spec.control_pointer == "$.prerequisite_checks"
+
+    result = canonical._run_spec(spec, mode="cold", generated_at="fixture-time")
+
+    payload = json.loads((tmp_path / spec.json_artifact).read_text(encoding="utf-8"))
+    markdown = (tmp_path / spec.markdown_artifact).read_text(encoding="utf-8")
+    fingerprint = json.loads((tmp_path / "reports/canonical/gap-head-pair-rule-bounded-capsule.fingerprint.json").read_text(encoding="utf-8"))
+    assert result["status"] == "pass"
+    assert result["producer_status"] == "completed"
+    assert payload["capsule_verdict"]["status"] == "pass"
+    assert payload["artifact_id"] == pair_rule_capsule.ARTIFACT_ID
+    assert "raw payload" not in markdown.lower()
+    assert fingerprint["report_name"] == "gap-head-pair-rule-bounded-capsule"
+    source_paths = {row["path"] for row in fingerprint["inputs"]["source_artifacts"]}
+    assert pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT in source_paths
+    assert pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_CLAIM_CAPSULE_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_ATTRIBUTION_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT in source_paths
 
 
 def test_jepa_world_model_markdown_and_index_are_pointer_only():
