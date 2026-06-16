@@ -24,6 +24,7 @@ from bedc_quality_lab.construct_validity import (
     construct_validity_projection,
     evaluate_construct_validity,
 )
+from bedc_quality_lab.discovery_compiler.capsule import require_base_exceeds_chance_claim_capsule
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.model import choose_device
@@ -2671,6 +2672,22 @@ def _hardgate_status(gates: Mapping[str, Mapping[str, Any]]) -> tuple[str, list[
     return ("pass" if not failures else "fail", failures)
 
 
+def _base_exceeds_chance_claim_cell(fair_gate: Mapping[str, Any]) -> dict[str, Any]:
+    base = round(float(fair_gate.get("base_acc_ci95_low", 0.0)), 6)
+    chance = round(float(fair_gate.get("chance_accuracy", 1.0)), 6)
+    return {
+        "claim": "fair base lower confidence bound exceeds chance accuracy",
+        "status": fair_gate.get("status", "fail"),
+        "fair_control_id": fair_gate.get("base_arm_id"),
+        "required_fair_control_id": fair_gate.get("base_arm_id"),
+        "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.fair_base_learnability_gate.base_acc_ci95_low",
+        "base_acc_ci95_low": base,
+        "chance_accuracy": chance,
+        "margin": round(base - chance, 6),
+        "failed_gate": fair_gate.get("failed_gate"),
+    }
+
+
 def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[str, Any]] | None = None) -> dict[str, Any]:
     gate_rows = gates if gates is not None else evaluate_hardgates(payload)
     gate_status, failures = _hardgate_status(gate_rows)
@@ -2728,8 +2745,11 @@ def build_claim_capsule(payload: Mapping[str, Any], gates: Mapping[str, Mapping[
         "scope_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.not_claimed",
         "failed_gate": failures[0] if failures else None,
     }
+    fair_gate = payload.get("fair_base_learnability_gate")
     if cv_projection is not None:
         capsule["construct_validity"] = cv_projection
+        if isinstance(fair_gate, Mapping):
+            capsule["construct_validity"]["base_exceeds_chance"] = _base_exceeds_chance_claim_cell(fair_gate)
     return capsule
 
 
@@ -3197,16 +3217,39 @@ def validate_payload(payload: Mapping[str, Any], *, root: Path | None = None) ->
             raise ValueError("DGT L1 negative witness taint status missing")
     if "witness_rows" in negative:
         raise ValueError("DGT L1 negative witness sweep must use rows only")
-    expected_capsule = build_claim_capsule(payload, expected_gates)
-    if payload["claim_capsule_ref"] != expected_capsule:
-        raise ValueError("DGT L1 ClaimCapsule mismatch")
     capsule_text = json.dumps(payload["claim_capsule_ref"], sort_keys=True)
     if "terminal_verdict" in capsule_text:
         raise ValueError("DGT L1 ClaimCapsule must not contain terminal verdict")
-    if set(payload["claim_capsule_ref"].get("construct_validity", {})) != set(CONSTRUCT_VALIDITY_PROJECTION_KEYS):
+    construct_validity_capsule = payload["claim_capsule_ref"].get("construct_validity", {})
+    if "base_exceeds_chance" not in construct_validity_capsule:
+        raise ValueError("DGT L1 ClaimCapsule base_exceeds_chance missing")
+    if set(construct_validity_capsule) != set(CONSTRUCT_VALIDITY_PROJECTION_KEYS).union({"base_exceeds_chance"}):
         raise ValueError("DGT L1 ClaimCapsule construct validity projection mismatch")
-    if payload["claim_capsule_ref"].get("construct_validity") != _construct_validity_claim_projection(construct_validity):
+    expected_capsule_projection = _construct_validity_claim_projection(construct_validity)
+    observed_capsule_projection = {
+        key: value
+        for key, value in construct_validity_capsule.items()
+        if key in set(CONSTRUCT_VALIDITY_PROJECTION_KEYS)
+    }
+    if observed_capsule_projection != expected_capsule_projection:
         raise ValueError("DGT L1 ClaimCapsule construct validity must use owner projection")
+    require_base_exceeds_chance_claim_capsule(payload["claim_capsule_ref"])
+    base_chance_cell = construct_validity_capsule["base_exceeds_chance"]
+    if not _owner_pointer_resolves(payload, str(base_chance_cell.get("evidence_pointer", ""))):
+        raise ValueError("DGT L1 ClaimCapsule base_exceeds_chance evidence_pointer does not resolve")
+    fair_gate = payload["fair_base_learnability_gate"]
+    if (
+        base_chance_cell.get("status") != fair_gate.get("status")
+        or base_chance_cell.get("failed_gate") != fair_gate.get("failed_gate")
+        or base_chance_cell.get("fair_control_id") != fair_gate.get("base_arm_id")
+        or base_chance_cell.get("base_acc_ci95_low") != fair_gate.get("base_acc_ci95_low")
+        or base_chance_cell.get("chance_accuracy") != fair_gate.get("chance_accuracy")
+        or base_chance_cell.get("margin") != fair_gate.get("margin")
+    ):
+        raise ValueError("DGT L1 ClaimCapsule base_exceeds_chance fair_control_id mismatch")
+    expected_capsule = build_claim_capsule(payload, expected_gates)
+    if payload["claim_capsule_ref"] != expected_capsule:
+        raise ValueError("DGT L1 ClaimCapsule mismatch")
     capsule_forbidden_fields = {"model_claim", "allowed_claim", "forbidden_claims", "not_claimed"}
     if capsule_forbidden_fields.intersection(payload["claim_capsule_ref"]):
         raise ValueError("DGT L1 ClaimCapsule must use pointers for claim prose")

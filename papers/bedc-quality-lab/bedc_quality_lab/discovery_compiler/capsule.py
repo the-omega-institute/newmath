@@ -8,6 +8,7 @@ from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.construct_validity import CLAIM_CAPSULE_PROJECTION_KEYS
 from bedc_quality_lab.discovery_compiler.hardgate_contract import evaluate_u_hardgates
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 
 
 CLAIM_CAPSULE_SCHEMA_ID = "bedc.quality.claim_capsule"
@@ -49,8 +50,11 @@ def _construct_validity_projection(payload: Mapping[str, Any]) -> Mapping[str, A
 
 
 def _require_construct_validity_projection(projection: Mapping[str, Any]) -> None:
-    if set(projection) != set(CLAIM_CAPSULE_PROJECTION_KEYS):
-        raise ValueError("construct_validity projection must contain only pointer/status cells")
+    if not set(CLAIM_CAPSULE_PROJECTION_KEYS).issubset(set(projection)):
+        raise ValueError("construct_validity projection missing pointer/status cells")
+    extra_keys = set(projection).difference(CLAIM_CAPSULE_PROJECTION_KEYS).difference({"base_exceeds_chance"})
+    if extra_keys:
+        raise ValueError("construct_validity projection has unsupported cells")
     if not isinstance(projection.get("artifact"), str) or not projection["artifact"]:
         raise ValueError("construct_validity projection missing artifact")
     if not isinstance(projection.get("pointer"), str) or not projection["pointer"]:
@@ -61,6 +65,78 @@ def _require_construct_validity_projection(projection: Mapping[str, Any]) -> Non
         raise ValueError("construct_validity projection missing failed_gates")
     if not isinstance(projection.get("owner_pointer"), str) or not projection["owner_pointer"]:
         raise ValueError("construct_validity projection missing owner_pointer")
+    base_exceeds_chance = projection.get("base_exceeds_chance")
+    if base_exceeds_chance is not None:
+        if not isinstance(base_exceeds_chance, Mapping):
+            raise ValueError("construct_validity base_exceeds_chance must be an object")
+        _require_base_exceeds_chance_cell(base_exceeds_chance)
+
+
+def _numeric_cell(cell: Mapping[str, Any], key: str) -> float:
+    value = cell.get(key)
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        raise ValueError(f"base_exceeds_chance {key} must be numeric")
+    return float(value)
+
+
+def _require_base_exceeds_chance_cell(cell: Mapping[str, Any], *, root: Path | None = None) -> None:
+    required = {
+        "claim",
+        "status",
+        "fair_control_id",
+        "required_fair_control_id",
+        "evidence_pointer",
+        "base_acc_ci95_low",
+        "chance_accuracy",
+        "margin",
+    }
+    missing = [key for key in required if key not in cell]
+    if missing:
+        raise ValueError(f"base_exceeds_chance missing cells: {', '.join(missing)}")
+    claim = cell.get("claim")
+    if not isinstance(claim, str) or not claim.strip():
+        raise ValueError("base_exceeds_chance claim missing")
+    status = cell.get("status")
+    if status not in {"pass", "fail"}:
+        raise ValueError("base_exceeds_chance status invalid")
+    fair_control_id = cell.get("fair_control_id")
+    required_fair_control_id = cell.get("required_fair_control_id")
+    if not isinstance(fair_control_id, str) or not fair_control_id.strip():
+        raise ValueError("base_exceeds_chance fair_control_id missing")
+    if fair_control_id != required_fair_control_id:
+        raise ValueError("base_exceeds_chance fair_control_id mismatch")
+    evidence_pointer = cell.get("evidence_pointer")
+    if not isinstance(evidence_pointer, str) or not evidence_pointer.strip():
+        raise ValueError("base_exceeds_chance evidence_pointer missing")
+    if root is not None and resolve_artifact_pointer(root, evidence_pointer) is None:
+        raise ValueError("base_exceeds_chance evidence_pointer does not resolve")
+    base = _numeric_cell(cell, "base_acc_ci95_low")
+    chance = _numeric_cell(cell, "chance_accuracy")
+    margin = _numeric_cell(cell, "margin")
+    if round(base - chance, 6) != round(margin, 6):
+        raise ValueError("base_exceeds_chance margin mismatch")
+    if status == "pass" and base <= chance:
+        raise ValueError("base_exceeds_chance status contradicts base/chance values")
+    if status == "fail" and base > chance:
+        raise ValueError("base_exceeds_chance status contradicts base/chance values")
+    if status == "fail" and not isinstance(cell.get("failed_gate"), str):
+        raise ValueError("base_exceeds_chance failed_gate missing")
+
+
+def require_base_exceeds_chance_claim_capsule(
+    payload: Mapping[str, Any],
+    *,
+    root: Path | None = None,
+) -> ClaimCapsule:
+    capsule = ClaimCapsule.from_payload(payload)
+    construct_validity = _construct_validity_projection(capsule.payload)
+    if construct_validity is None:
+        raise ValueError("claim capsule missing construct_validity.base_exceeds_chance")
+    cell = construct_validity.get("base_exceeds_chance")
+    if not isinstance(cell, Mapping):
+        raise ValueError("claim capsule missing construct_validity.base_exceeds_chance")
+    _require_base_exceeds_chance_cell(cell, root=root)
+    return capsule
 
 
 def normalize_claim_capsule_schema_id(payload: Mapping[str, Any]) -> dict[str, Any]:
@@ -88,6 +164,12 @@ class ClaimCapsule:
         missing = [key for key in required if not isinstance(normalized.get(key), str) or not str(normalized.get(key)).strip()]
         if missing:
             raise ValueError(f"claim capsule missing required cells: {', '.join(missing)}")
+        construct_validity = _construct_validity_projection(normalized)
+        if isinstance(construct_validity, Mapping) and "base_exceeds_chance" in construct_validity:
+            cell = construct_validity["base_exceeds_chance"]
+            if not isinstance(cell, Mapping):
+                raise ValueError("construct_validity base_exceeds_chance must be an object")
+            _require_base_exceeds_chance_cell(cell)
         return cls(
             claim_id=str(normalized["claim_id"]),
             report=str(normalized["report"]),
