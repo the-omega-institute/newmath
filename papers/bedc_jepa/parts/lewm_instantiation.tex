@@ -606,6 +606,14 @@ allocation-native baseline, but worse than both the exact-budget episode
 objective and the dual-price row.  The boundary is therefore not merely the lack
 of a combinatorial loss on training episodes; it is transfer of the budgeted
 assignment structure to held-out episodes.
+Seed aggregation confirms that this is not ordinary seed variance.  Averaging
+the three episode-objective seed scores gives allocation delta $-0.00280$
+$[-0.00915,\ 0.00407]$, and normalized or median seed aggregation remains open.
+The best row is still a single seed, with seed~617 at $-0.00359$
+$[-0.00932,\ 0.00157]$.  The seeds agree on a majority choice for $91.3\%$ of
+eval anchors, but the majority choice matches the exact-budget oracle on only
+$35.8\%$.  Thus the failure mode is stable held-out assignment error, not
+unstable optimization noise removable by ensembling.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
