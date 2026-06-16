@@ -1696,6 +1696,26 @@ def self_test() -> int:
             file=sys.stderr,
         )
         return 1
+    probe_id_normalization_examples = probe_schema.get("properties", {}).get("probe_id", {}).get("x-normalizationExamples", [])
+    if not any(
+        isinstance(example, dict)
+        and example.get("invalid") == "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu"
+        and example.get("normalized") == "cross-organism.cun-uur-sign-correlates-with-trna-leu"
+        for example in probe_id_normalization_examples
+    ):
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "probe_id.x-normalizationExamples",
+                    "expected": "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu -> cross-organism.cun-uur-sign-correlates-with-trna-leu",
+                    "actual": probe_id_normalization_examples,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
     conjecture_ref_pattern = probe_schema.get("properties", {}).get("conjecture_ref", {}).get("pattern")
     if conjecture_ref_pattern != ID_PATTERN:
         print(
@@ -1720,6 +1740,28 @@ def self_test() -> int:
                     "field": "required_contacts.items",
                     "expected_pattern": ID_PATTERN,
                     "actual_pattern": required_contacts_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    required_contact_normalization_examples = (
+        probe_schema.get("properties", {}).get("required_contacts", {}).get("items", {}).get("x-normalizationExamples", [])
+    )
+    if not any(
+        isinstance(example, dict)
+        and example.get("invalid") == "matched_mRNA_abundance_control"
+        and example.get("normalized") == "matched-mrna-abundance-control"
+        for example in required_contact_normalization_examples
+    ):
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "required_contacts.items.x-normalizationExamples",
+                    "expected": "matched_mRNA_abundance_control -> matched-mrna-abundance-control",
+                    "actual": required_contact_normalization_examples,
                 },
                 indent=2,
             ),
