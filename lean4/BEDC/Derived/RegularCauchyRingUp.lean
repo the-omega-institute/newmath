@@ -147,4 +147,33 @@ theorem RegularCauchyRingOperationClosure [AskSetup] [PackageSetup]
     ⟨unaryS, unaryG, unaryM, unaryL, unaryRS, unaryRG, unaryRM, unaryRL, sumSeal,
       negSeal, productSeal, scaleSeal⟩
 
+theorem RegularCauchyRingCarrier_windowwise_associativity [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N reassocSum
+      reassocProduct reassocScale : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+        bundle pkg →
+      Cont S ES reassocSum →
+        Cont M EM reassocProduct →
+          Cont L EL reassocScale →
+            UnaryHistory reassocSum ∧ UnaryHistory reassocProduct ∧
+              UnaryHistory reassocScale ∧ Cont S ES reassocSum ∧
+                Cont M EM reassocProduct ∧ Cont L EL reassocScale := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg
+  intro carrier sumReassoc productReassoc scaleReassoc
+  obtain ⟨_unaryA, _unaryB, _unaryWA, _unaryWB, _unaryDA, _unaryDB, unaryS,
+    _unaryG, unaryM, unaryL, _unaryRS, _unaryRG, _unaryRM, _unaryRL, unaryES,
+    _unaryEG, unaryEM, unaryEL, _unaryH, _unaryC, _unaryP, _unaryN,
+    _sourceWindowA, _sourceWindowB, _transportReplay, _provenancePkg,
+    _namePkg⟩ := carrier
+  have reassocSumUnary : UnaryHistory reassocSum :=
+    unary_cont_closed unaryS unaryES sumReassoc
+  have reassocProductUnary : UnaryHistory reassocProduct :=
+    unary_cont_closed unaryM unaryEM productReassoc
+  have reassocScaleUnary : UnaryHistory reassocScale :=
+    unary_cont_closed unaryL unaryEL scaleReassoc
+  exact
+    ⟨reassocSumUnary, reassocProductUnary, reassocScaleUnary, sumReassoc,
+      productReassoc, scaleReassoc⟩
+
 end BEDC.Derived.RegularCauchyRingUp
