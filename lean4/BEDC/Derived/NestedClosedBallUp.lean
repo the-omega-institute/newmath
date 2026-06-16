@@ -72,6 +72,44 @@ theorem NestedClosedBallCauchyCenterRoute
     ⟨centerWindowUnary, readbackWindowUnary, dyadicSealUnary, realSealUnary,
       filterStreamRoute, streamReadbackRoute, readbackDyadicRoute, dyadicRealRoute, rfl⟩
 
+theorem NestedClosedBallCarrier_diameter_tail_stability
+    {M K F S R D E H C P N centerWindow readbackWindow diameterRead laterWindow
+      replayRead : BHist} :
+    Cont F S centerWindow ->
+      Cont centerWindow R readbackWindow ->
+        Cont readbackWindow D diameterRead ->
+          Cont diameterRead S laterWindow ->
+            Cont H C replayRead ->
+              UnaryHistory F ->
+                UnaryHistory S ->
+                  UnaryHistory R ->
+                    UnaryHistory D ->
+                      UnaryHistory H ->
+                        UnaryHistory C ->
+                          UnaryHistory centerWindow ∧ UnaryHistory readbackWindow ∧
+                            UnaryHistory diameterRead ∧ UnaryHistory laterWindow ∧
+                              UnaryHistory replayRead ∧ Cont readbackWindow D diameterRead ∧
+                                Cont diameterRead S laterWindow ∧
+                                  TasteGate.NestedClosedBallTasteGate_single_carrier_alignment_fields
+                                      (TasteGate.NestedClosedBallUp.mk M K F S R D E H C P N) =
+                                    [M, K, F, S, R, D, E, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro filterStreamRoute streamReadbackRoute readbackDiameterRoute diameterLaterRoute
+    replayRoute filterUnary streamUnary readbackUnary diameterUnary transportUnary replayUnary
+  have centerWindowUnary : UnaryHistory centerWindow :=
+    unary_cont_closed filterUnary streamUnary filterStreamRoute
+  have readbackWindowUnary : UnaryHistory readbackWindow :=
+    unary_cont_closed centerWindowUnary readbackUnary streamReadbackRoute
+  have diameterReadUnary : UnaryHistory diameterRead :=
+    unary_cont_closed readbackWindowUnary diameterUnary readbackDiameterRoute
+  have laterWindowUnary : UnaryHistory laterWindow :=
+    unary_cont_closed diameterReadUnary streamUnary diameterLaterRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportUnary replayUnary replayRoute
+  exact
+    ⟨centerWindowUnary, readbackWindowUnary, diameterReadUnary, laterWindowUnary,
+      replayReadUnary, readbackDiameterRoute, diameterLaterRoute, rfl⟩
+
 theorem NestedClosedBallNameCertObligations
     {M K F S R D E H C P N filterRead windowRead readbackRead diameterRead sealRead :
       BHist} :
