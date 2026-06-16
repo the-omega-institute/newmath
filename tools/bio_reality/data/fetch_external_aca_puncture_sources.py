@@ -57,8 +57,18 @@ def fetch_bytes(url: str) -> tuple[bytes, str]:
         return payload, str(response.headers.get("Content-Type") or "")
 
 
+def require_json_object(payload: bytes, source_url: str) -> None:
+    try:
+        parsed = json.loads(payload.decode("utf-8"))
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"non-JSON response from {source_url}") from exc
+    if not isinstance(parsed, dict):
+        raise RuntimeError(f"JSON response from {source_url} is not an object")
+
+
 def write_raw_and_manifest(source: dict[str, str]) -> dict[str, Any]:
     payload, content_type = fetch_bytes(source["source_url"])
+    require_json_object(payload, source["source_url"])
     basename = source["basename"]
     raw_path = DATA_DIR / f"{basename}.json"
     manifest_path = MANIFEST_DIR / f"{basename}.json"
