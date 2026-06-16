@@ -439,6 +439,7 @@ Finally use the root extension ledger above. The Real, stream-name, and regular-
 \label{thm:totally-bounded-completion-obligation-ledger}
 Let $K=(X,T,N,F,E,C,S,U,H,P,L)$ be an accepted $\TotallyBoundedCompletionUp$ packet. Its obligation ledger is exhausted by six rows of work: carrier admission; finite-net persistence; $\CauchyFilterBasisUp$ generation; completion embedding; constructive completion route; and separated equality plus uniformly continuous extension handoff. The ledger exports no open-cover compactness, selected subnet, quotient completion, countable choice, ambient completeness, or detached $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.TotallyBoundedCompletionUp.TotallyBoundedCompletionCarrier\_obligation\_ledger}
 \begin{proof}
 Carrier admission is the first row of work. It is supplied by the carrier definition and by \autoref{thm:totally-bounded-completion-namecert-obligations}, which display $X,T,N,F,E,C,S,U,H,P,L$ as the local NameCert surface.
 
@@ -453,12 +454,26 @@ The sixth row is the separated and uniform-extension handoff. The extension none
 Finally apply ledger nonescape, \autoref{thm:totally-bounded-completion-no-escape}. Since open-cover compactness, selected subnets, quotient completion, countable choice, ambient completeness, and detached Real completeness have no coordinate in the accepted packet, the six rows exhaust the obligation ledger.
 \end{proof}
 
+\begin{theorem}[TotallyBoundedCompletion obligation-closure route]
+\label{thm:totally-bounded-completion-obligation-closure-route}
+Let $K=(X,T,N,F,E,C,S,U,H,P,L)$ be an accepted $\TotallyBoundedCompletionUp$ packet. The six rows of \autoref{thm:totally-bounded-completion-obligation-ledger}, together with carrier admission, finite-net persistence, $\CauchyFilterBasisUp$ generation, $\CompletionEmbeddingUp$, $\ConstructiveMetricCompletionUp$, separated equality, and $\UniformContinuousExtensionUp$ handoff, exhaust the obligation surface for $K$.
+
+The route is exactly the finite-net completion surface displayed by the same packet. It does not claim open-cover compactness, quotient completion, selected limit points, countable choice, detached $\RealUp$ completeness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and the obligation ledger. The carrier definition and \autoref{thm:totally-bounded-completion-namecert-obligations} display exactly the rows $X,T,N,F,E,C,S,U,H,P,L$, and \autoref{thm:totally-bounded-completion-obligation-ledger} organizes the accepted work into the six listed obligation rows.
+
+Next apply the finite-net handoff and persistence theorems. The net handoff \autoref{thm:totally-bounded-completion-net-handoff}, the Cauchy-filter-basis handoff \autoref{thm:totally-bounded-completion-cauchy-filter-basis-handoff}, and the completion route exactness theorem \autoref{thm:totally-bounded-completion-completion-route-exactness} force every completion-facing read through $T,N,F,E,C$ before separated equality or extension data can be consumed.
+
+Finally use the extension consumer boundary and ledger non-escape. The extension boundary \autoref{thm:totally-bounded-completion-extension-consumer-boundary} keeps uniformly continuous consumers on the same displayed route, while \autoref{thm:totally-bounded-completion-no-escape} excludes open-cover compactness, quotient completion, selected limit points, countable choice, detached $\RealUp$ completeness, and ambient completeness as absent carrier coordinates. No further obligation row remains outside the packet.
+\end{proof}
+
 \begin{closurestatus}{\TotallyBoundedCompletionUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:totally-bounded-completion-carrier}, \autoref{thm:totally-bounded-completion-namecert-obligations}, \autoref{thm:totally-bounded-completion-net-handoff}, and \autoref{thm:totally-bounded-completion-no-escape} seed the finite route from explicit total-bounded net ledgers through constructive completion.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:totally-bounded-completion-carrier}, \autoref{thm:totally-bounded-completion-namecert-obligations}, \autoref{thm:totally-bounded-completion-obligation-ledger}, and \autoref{thm:totally-bounded-completion-obligation-closure-route} bind the obligation surface from explicit total-bounded net ledgers through constructive completion.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, quotient completion, selected limit points, countable choice, full $\RealUp$ completeness, or Lean verification.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite-net persistence, basis and embedding replay, separated equality handoff, uniformly continuous handoff, and ledger non-escape for the same packet.}
+  \upgradepath{Scoped closure requires checked consumer coverage for the finite-net completion route and Lean-side verification of the displayed obligation surface.}
   \constructivestory{A $\TotallyBoundedCompletionUp$ packet is generated from a metric source, a total-bounded finite-net ledger, a net-refinement row, a CauchyFilterBasis row, a CompletionEmbedding row, a ConstructiveMetricCompletion route, separated completion equality, a UniformContinuousExtension handoff, componentwise transport, provenance, and a local NameCert row.}
 \end{closurestatus}

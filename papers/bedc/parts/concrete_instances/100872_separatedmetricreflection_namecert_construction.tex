@@ -78,6 +78,28 @@ The metric source row $X$ supplies distance witnesses, and $S$ turns the relevan
 
 The real-name seal and the local NameCert row are read only after this route has been preserved. Because $P$ names no quotient, host-equality, trichotomy, open-cover compactness, choice, or ambient-completeness field, every accepted completion-facing read factors through the displayed chain before reaching $Z$.
 \end{proof}
+
+\begin{theorem}[SeparatedMetricReflection Cauchy uniqueness]
+\label{thm:separated-metric-reflection-cauchy-uniqueness}
+Let
+$$
+R=(X,S,A,U,Z,H,C,P,N)
+$$
+be an accepted $\SeparatedMetricReflectionUp$ packet. Suppose two completion-facing reads of $R$ agree on the separated zero-distance classifier row $Z$ and on the completion adjunction and universal rows $A,U$. Then the two reads have the same reflected classifier output along the displayed route
+$$
+H,C,P,N .
+$$
+Equivalently, the packet supplies Cauchy uniqueness only through its separated zero-distance classifier, adjunction route, universal route, componentwise transport, replay, provenance, and local naming rows; it supplies no quotient metric-space equality or host equality coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier $R=(X,S,A,U,Z,H,C,P,N)$ from \autoref{def:separated-metric-reflection-carrier}. The relevant completion-facing rows are the zero-distance classifier route through $S,Z$ and the adjunction and universal rows $A,U$.
+
+Apply \autoref{thm:separated-metric-reflection-zero-distance-exactness}. Agreement on the separated zero-distance classifier row forces both reads to pass through the same $X,S,Z$ classifier route before any completion-facing output is available.
+
+Next apply \autoref{thm:separated-metric-reflection-universal-route}. Agreement on $A,U$ keeps the completion adjunction and universal extension segment fixed, so the two reads reach the reflected classifier through the same displayed completion route.
+
+Finally transport componentwise through $H$ and replay the same displayed continuation through $C$, with provenance and local naming supplied by $P,N$. Since the packet contains no quotient metric-space row and no host equality coordinate, the common reflected classifier output is the only uniqueness conclusion available.
+\end{proof}
 \leanchecked{BEDC.Derived.SeparatedMetricReflectionUp.SeparatedMetricReflectionCarrier\_universal\_route}
 
 \begin{theorem}[SeparatedMetricReflection obligation-closure package]
@@ -116,6 +138,7 @@ Now apply the universal route theorem \autoref{thm:separated-metric-reflection-u
 
 It remains only to read the structural rows. The history, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates are exactly $R$'s finite support rows, and ledger non-escape from $P$ excludes quotient metric spaces, host equality, trichotomy, choice, open-cover compactness, and ambient $\RealUp$ completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.SeparatedMetricReflectionUp.SeparatedMetricReflectionCarrier\_scoped\_dependency\_route}
 
 \begin{closurestatus}{\SeparatedMetricReflectionUp}
   \constructivestory{A $\SeparatedMetricReflectionUp$ packet is generated from a $\MetricUp$ source row, a $\SeparatedMetricUp$ zero-distance classifier row, a $\CauchyCompletionAdjunctionUp$ completion route, a $\CompletionUniversalPropertyUp$ extension row, a reflected classifier output, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
