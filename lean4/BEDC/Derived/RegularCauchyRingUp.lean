@@ -147,4 +147,41 @@ theorem RegularCauchyRingOperationClosure [AskSetup] [PackageSetup]
     ⟨unaryS, unaryG, unaryM, unaryL, unaryRS, unaryRG, unaryRM, unaryRL, sumSeal,
       negSeal, productSeal, scaleSeal⟩
 
+theorem RegularCauchyRingCarrier_componentwise_distributivity [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+      sumThenProduct leftProduct rightProduct distributedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+        bundle pkg →
+      Cont S M sumThenProduct →
+        Cont A M leftProduct →
+          Cont B M rightProduct →
+            Cont leftProduct rightProduct distributedRead →
+              PkgSig bundle distributedRead pkg →
+                UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory sumThenProduct ∧
+                  UnaryHistory leftProduct ∧ UnaryHistory rightProduct ∧
+                    UnaryHistory distributedRead ∧ Cont S M sumThenProduct ∧
+                      Cont A M leftProduct ∧ Cont B M rightProduct ∧
+                        Cont leftProduct rightProduct distributedRead ∧ PkgSig bundle P pkg ∧
+                          PkgSig bundle distributedRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg PkgSig
+  intro carrier sumProductRoute leftProductRoute rightProductRoute distributeRoute
+    distributedPkg
+  obtain ⟨unaryA, unaryB, _unaryWA, _unaryWB, _unaryDA, _unaryDB, unaryS, _unaryG,
+    unaryM, _unaryL, _unaryRS, _unaryRG, _unaryRM, _unaryRL, _unaryES, _unaryEG,
+    _unaryEM, _unaryEL, _unaryH, _unaryC, _unaryP, _unaryN, _sourceWindowA,
+    _sourceWindowB, _transportReplay, provenancePkg, _namePkg⟩ := carrier
+  have sumThenProductUnary : UnaryHistory sumThenProduct :=
+    unary_cont_closed unaryS unaryM sumProductRoute
+  have leftProductUnary : UnaryHistory leftProduct :=
+    unary_cont_closed unaryA unaryM leftProductRoute
+  have rightProductUnary : UnaryHistory rightProduct :=
+    unary_cont_closed unaryB unaryM rightProductRoute
+  have distributedUnary : UnaryHistory distributedRead :=
+    unary_cont_closed leftProductUnary rightProductUnary distributeRoute
+  exact
+    ⟨unaryS, unaryM, sumThenProductUnary, leftProductUnary, rightProductUnary,
+      distributedUnary, sumProductRoute, leftProductRoute, rightProductRoute, distributeRoute,
+      provenancePkg, distributedPkg⟩
+
 end BEDC.Derived.RegularCauchyRingUp
