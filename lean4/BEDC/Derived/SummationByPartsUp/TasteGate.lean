@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SummationByPartsUp
@@ -13,20 +14,20 @@ inductive SummationByPartsUp : Type where
   | mk (S A Delta P B T R D E H C Q N : BHist) : SummationByPartsUp
   deriving DecidableEq
 
-def summationByPartsEncodeBHist : BHist → RawEvent
+def summationByPartsEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: summationByPartsEncodeBHist h
   | BHist.e1 h => BMark.b1 :: summationByPartsEncodeBHist h
 
-def summationByPartsDecodeBHist : RawEvent → BHist
+def summationByPartsDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (summationByPartsDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (summationByPartsDecodeBHist tail)
 
 private theorem summationByParts_decode_encode :
-    ∀ h : BHist, summationByPartsDecodeBHist (summationByPartsEncodeBHist h) = h := by
+    forall h : BHist, summationByPartsDecodeBHist (summationByPartsEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,7 +35,7 @@ private theorem summationByParts_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def summationByPartsToEventFlow : SummationByPartsUp → EventFlow
+def summationByPartsToEventFlow : SummationByPartsUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | SummationByPartsUp.mk S A Delta P B T R D E H C Q N =>
       [summationByPartsEncodeBHist S, summationByPartsEncodeBHist A,
@@ -45,7 +46,7 @@ def summationByPartsToEventFlow : SummationByPartsUp → EventFlow
         summationByPartsEncodeBHist C, summationByPartsEncodeBHist Q,
         summationByPartsEncodeBHist N]
 
-def summationByPartsFromEventFlow : EventFlow → Option SummationByPartsUp
+def summationByPartsFromEventFlow : EventFlow -> Option SummationByPartsUp
   -- BEDC touchpoint anchor: BHist BMark
   | S :: restS =>
       match restS with
@@ -105,7 +106,7 @@ def summationByPartsFromEventFlow : EventFlow → Option SummationByPartsUp
   | [] => none
 
 private theorem summationByParts_round_trip :
-    ∀ x : SummationByPartsUp,
+    forall x : SummationByPartsUp,
       summationByPartsFromEventFlow (summationByPartsToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -121,7 +122,7 @@ private theorem summationByParts_round_trip :
         summationByParts_decode_encode N]
 
 private theorem summationByPartsToEventFlow_injective {x y : SummationByPartsUp} :
-    summationByPartsToEventFlow x = summationByPartsToEventFlow y → x = y := by
+    summationByPartsToEventFlow x = summationByPartsToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -152,11 +153,11 @@ def taste_gate : ChapterTasteGate SummationByPartsUp :=
   summationByPartsChapterTasteGate
 
 theorem SummationByPartsTasteGate_single_carrier_alignment :
-    (∀ h : BHist, summationByPartsDecodeBHist (summationByPartsEncodeBHist h) = h) ∧
-      (∀ x : SummationByPartsUp,
+    (forall h : BHist, summationByPartsDecodeBHist (summationByPartsEncodeBHist h) = h) ∧
+      (forall x : SummationByPartsUp,
         summationByPartsFromEventFlow (summationByPartsToEventFlow x) = some x) ∧
-      (∀ x y : SummationByPartsUp,
-        summationByPartsToEventFlow x = summationByPartsToEventFlow y → x = y) ∧
+      (forall x y : SummationByPartsUp,
+        summationByPartsToEventFlow x = summationByPartsToEventFlow y -> x = y) ∧
       summationByPartsEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
