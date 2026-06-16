@@ -62,6 +62,22 @@
       "evidence": "Compute ledger must be complete.",
       "status": "pass"
     },
+    "DRT-FC-HG1": {
+      "evidence": "DRT-local fair-control ledger must bind the four issue arms to one owner-local pair-rule surface.",
+      "status": "pass"
+    },
+    "DRT-FC-HG2": {
+      "evidence": "Base transformer accuracy must exceed the explicit chance baseline.",
+      "status": "pass"
+    },
+    "DRT-FC-HG3": {
+      "evidence": "The issue arms must match on parameter, compute, threshold, and metric-helper axes.",
+      "status": "pass"
+    },
+    "DRT-FC-HG4": {
+      "evidence": "DGT_full must carry a nondegenerate positive signal above matched controls.",
+      "status": "pass"
+    },
     "DRT-HG1": {
       "benefit_delta": 0.02,
       "debt_delta": -0.074,
@@ -158,6 +174,7 @@
     "production device authority"
   ],
   "positive_claim": {
+    "fair_control_ledger_pointer": "$.fair_control_ledger",
     "level_candidate": "D5-M",
     "scope": "canonical deterministic anchor with bounded optional PyTorch evidence",
     "scope_seal": {
@@ -172,6 +189,14 @@
   },
   "producer": "bedc_quality_lab.discovery_regularized_training.DiscoveryRegularizedTrainingProjection",
   "result_snapshot": {
+    "base_chance_gate": {
+      "base_above_chance": true,
+      "base_task_accuracy": 0.702267,
+      "chance_accuracy": 0.5,
+      "margin": 0.202267,
+      "schema_id": "bedc-quality-lab:discovery-regularized-training:base-chance-gate",
+      "status": "pass"
+    },
     "compute_ledger": {
       "backend_row_counts": {
         "deterministic-anchor": 2160,
@@ -203,6 +228,136 @@
       "reason": "training-mechanism-certificate-positive",
       "status": "d5-m-candidate",
       "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows"
+    },
+    "drt_nondegenerate_gate": {
+      "candidate_arm": "DGT_full",
+      "candidate_positive_signal": true,
+      "candidate_quality_q": 0.654767,
+      "candidate_shift": 1.0,
+      "control_quality_pointers": {
+        "base_transformer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.base_transformer.quality_q_mean",
+        "compute_matched": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.compute_matched.quality_q_mean",
+        "matched_random_structural_control": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control.quality_q_mean",
+        "parameter_matched": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.parameter_matched.quality_q_mean"
+      },
+      "schema_id": "bedc-quality-lab:discovery-regularized-training:nondegenerate-gate",
+      "status": "pass"
+    },
+    "fair_control_ledger": {
+      "arms": [
+        {
+          "arm_id": "base_transformer",
+          "base_accuracy_margin": 0.202267,
+          "candidate_quality_margin": 0.073,
+          "compute_budget": 1.0,
+          "parameter_count": 144000,
+          "quality_q_mean": 0.581767,
+          "role": "model-comparison:base_transformer",
+          "status": "present",
+          "structural_randomized": false,
+          "task_accuracy_mean": 0.702267
+        },
+        {
+          "arm_id": "parameter_matched",
+          "base_accuracy_margin": 0.202267,
+          "candidate_quality_margin": 0.055,
+          "compute_budget": 1.0,
+          "parameter_count": 144000,
+          "quality_q_mean": 0.599767,
+          "role": "parameter-matched control",
+          "status": "present",
+          "structural_randomized": false,
+          "task_accuracy_mean": 0.702267
+        },
+        {
+          "arm_id": "compute_matched",
+          "base_accuracy_margin": 0.202267,
+          "candidate_quality_margin": 0.069,
+          "compute_budget": 1.0,
+          "parameter_count": 144000,
+          "quality_q_mean": 0.585767,
+          "role": "compute-matched control",
+          "status": "present",
+          "structural_randomized": false,
+          "task_accuracy_mean": 0.702267
+        },
+        {
+          "arm_id": "matched_random_structural_control",
+          "base_accuracy_margin": 0.200267,
+          "candidate_quality_margin": 0.059,
+          "compute_budget": 1.0,
+          "parameter_count": 144000,
+          "quality_q_mean": 0.595767,
+          "role": "model-comparison:matched_random_structural_control",
+          "status": "present",
+          "structural_randomized": true,
+          "task_accuracy_mean": 0.700267
+        }
+      ],
+      "bounded_drt_capsule_pointers": {
+        "claim_capsule": "reports/runs/discovery-regularized-training/claim_capsule.json",
+        "discovery_map_signal": "$.discovery_map_signal",
+        "positive_claim": "$.positive_claim",
+        "promotion_gate": "$.hardgate.gates.DRT-HG9"
+      },
+      "candidate_arm": "DGT_full",
+      "gate_pointers": {
+        "base_chance_gate": "reports/canonical/discovery-regularized-training.json:$.base_chance_gate",
+        "drt_nondegenerate_gate": "reports/canonical/discovery-regularized-training.json:$.drt_nondegenerate_gate",
+        "four_axis_match_gate": "reports/canonical/discovery-regularized-training.json:$.four_axis_match_gate"
+      },
+      "issue_arms": [
+        "base_transformer",
+        "parameter_matched",
+        "compute_matched",
+        "matched_random_structural_control"
+      ],
+      "pair_rule_surface": {
+        "candidate_arm": "DGT_full",
+        "cell_keys": [
+          "discovery_lambda",
+          "rho",
+          "mixing",
+          "seed"
+        ],
+        "control_arms": [
+          "base_transformer",
+          "parameter_matched",
+          "compute_matched",
+          "matched_random_structural_control"
+        ],
+        "status": "pass"
+      },
+      "schema_id": "bedc-quality-lab:discovery-regularized-training:fair-control-ledger",
+      "status": "pass"
+    },
+    "four_axis_match_gate": {
+      "axes": {
+        "compute_match": {
+          "status": "pass",
+          "values": [
+            1.0
+          ]
+        },
+        "metric_helper_match": {
+          "metric": "quality_q",
+          "status": "pass"
+        },
+        "parameter_match": {
+          "status": "pass",
+          "values": [
+            144000
+          ]
+        },
+        "threshold_match": {
+          "status": "pass",
+          "values": [
+            180
+          ]
+        }
+      },
+      "schema_id": "bedc-quality-lab:discovery-regularized-training:four-axis-match-gate",
+      "status": "pass"
     },
     "lambda_summary": {
       "benefit_nondecreasing": true,

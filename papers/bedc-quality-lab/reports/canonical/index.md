@@ -27,6 +27,7 @@
 | `discovery-gated-transformer` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/discovery-gated-transformer.json` | `reports/canonical/discovery-gated-transformer.md` | `reports/canonical/discovery-gated-transformer.fingerprint.json` | `$.scaling_ladder` | `$.architecture_spec` | `$.scaling_ladder.not_claimed` | `$.scaling_ladder` | `$.d4_projection.matched_control` |
 | `order-k-benchmark` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/order-k-benchmark.json` | `reports/canonical/order-k-benchmark.md` | `reports/canonical/order-k-benchmark.fingerprint.json` | `$.task_specs` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_controls` |
 | `high-impact-review` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/high-impact-review.json` | `reports/canonical/high-impact-review.md` | `reports/canonical/high-impact-review.fingerprint.json` | `$.review_rows` | `$.hardgates` | `$.not_claimed` | `$.review_rows` | `$.hardgates` |
+| `gap-head-pair-rule-bounded-capsule` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/gap-head-pair-rule-bounded-capsule.json` | `reports/canonical/gap-head-pair-rule-bounded-capsule.md` | `reports/canonical/gap-head-pair-rule-bounded-capsule.fingerprint.json` | `$.pair_rule_surface` | `$.cost_protocol` | `$.not_claimed` | `$.positive_claim.status` | `$.prerequisite_checks` |
 
 ## Auxiliary reports
 
@@ -50,7 +51,6 @@
 | `dgt-model-card` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/dgt-model-card.json` | `reports/canonical/dgt-model-card.md` | `reports/canonical/dgt-model-card.fingerprint.json` | `$.intended_use` | `$.source_artifacts` | `$.not_claimed` | `$.card_hardgates.status` | `$.evaluation_boundaries` |
 | `transformer-derivative-atlas` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/transformer_derivative_atlas.json` | `reports/canonical/layerwise_jet_map.md` | `reports/canonical/transformer_derivative_atlas.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` |
 | `lejepa-theorem-ledger` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
-| `discovery-gated-transformer-jepa-world-model` | `pass` | `blocked` | `fail` | `not-applicable` | `blocked` | `not-applicable` | `True` | `` | `reports/canonical/discovery_gated_transformer_jepa_world_model.json` | `reports/canonical/discovery_gated_transformer_jepa_world_model.md` | `reports/canonical/discovery_gated_transformer_jepa_world_model.fingerprint.json` | `$.claim_boundary` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.claim_boundary` | `$.claim_boundary` |
 | `observed-debt-sweep` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/observed-debt-sweep.json` | `reports/canonical/observed-debt-sweep.md` | `reports/canonical/observed-debt-sweep.fingerprint.json` | `$.claim_boundary.C4` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate_evidence.C-HG5` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
 | `mechanism-dna` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/mechanism_dna.json` | `reports/canonical/mechanism_dna.md` | `reports/canonical/mechanism_dna.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate` | `$.not_claimed` |
@@ -58,6 +58,7 @@
 | `causal-patch-suite` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.dgt_mechanism_cert` | `$.matched_controls` |
 | `experiment-stack-cards` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/experiment_stack_cards.json` | `reports/canonical/experiment_stack_cards.md` | `reports/canonical/experiment_stack_cards.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.cards` | `$.claim_first_gate` |
 | `claim-complexity` | `pass` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `True` | `` | `reports/canonical/claim_complexity.json` | `reports/canonical/claim_complexity.md` | `reports/canonical/claim_complexity.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.rows` | `$.not_claimed` |
+| `discovery-gated-transformer-jepa-world-model` | `pass` | `blocked` | `fail` | `not-applicable` | `blocked` | `not-applicable` | `True` | `` | `reports/canonical/discovery_gated_transformer_jepa_world_model.json` | `reports/canonical/discovery_gated_transformer_jepa_world_model.md` | `reports/canonical/discovery_gated_transformer_jepa_world_model.fingerprint.json` | `$.claim_boundary` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.claim_boundary` | `$.claim_boundary` |
 
 ## Dashboard
 
@@ -393,6 +394,15 @@
 - D5-M: `blocked`
 - Mechanism case: `unresolved`
 
+## Gap-head pair-rule bounded capsule
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/gap-head-pair-rule-bounded-capsule.json`
+- Markdown: `reports/canonical/gap-head-pair-rule-bounded-capsule.md`
+- Capsule status: `blocked`
+- Capsule status pointer: `reports/canonical/gap-head-pair-rule-bounded-capsule.json:$.capsule_verdict.status`
+- Prerequisite checks: `reports/canonical/gap-head-pair-rule-bounded-capsule.json:$.prerequisite_checks`
+
 ## Release manifest sidecar
 
 - Status: `pointer-only`
@@ -470,8 +480,8 @@
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review`
-- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, dgt-l1-boundary-report, reproduction-package, reproduction-check-result, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, scaling-ladder, input-accessibility, fair-l1-decision, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, discovery-gated-transformer-jepa-world-model, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, experiment-stack-cards, claim-complexity`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-transformer, order-k-benchmark, high-impact-review, gap-head-pair-rule-bounded-capsule`
+- Auxiliary reports: `nongaussian-distribution-sweep, dgt-l0-controls, dgt-l1-controls, dgt-l1-boundary-report, reproduction-package, reproduction-check-result, winnability-certificates, structural-generalization-splits, dgt-base-undertraining-audit, scaling-ladder, input-accessibility, fair-l1-decision, dgt-neural-ablation, dgt-ablation-null-decomposition, dgt-component-redundancy-audit, dgt-model-card, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, mechanism-dna, model-comparison, causal-patch-suite, experiment-stack-cards, claim-complexity, discovery-gated-transformer-jepa-world-model`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -516,7 +526,6 @@
 | `order-k-benchmark` | `hg_p_core` | `$.positive_claim` | `$.matched_random_controls` | `None` |
 | `transformer-derivative-atlas` | `auxiliary` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
-| `discovery-gated-transformer-jepa-world-model` | `auxiliary` | `$.claim_boundary` | `None` | `$.claim_boundary` |
 | `observed-debt-sweep` | `auxiliary` | `$.hardgate_evidence.C-HG5` | `None` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
 | `mechanism-dna` | `auxiliary` | `$.hardgate` | `None` | `$.not_claimed` |
@@ -525,6 +534,8 @@
 | `experiment-stack-cards` | `auxiliary` | `$.cards` | `None` | `$.claim_first_gate` |
 | `high-impact-review` | `hg_p_core` | `$.review_rows` | `$.hardgates` | `None` |
 | `claim-complexity` | `auxiliary` | `$.rows` | `None` | `$.not_claimed` |
+| `discovery-gated-transformer-jepa-world-model` | `auxiliary` | `$.claim_boundary` | `None` | `$.claim_boundary` |
+| `gap-head-pair-rule-bounded-capsule` | `hg_p_core` | `$.positive_claim.status` | `$.prerequisite_checks` | `None` |
 
 | report | role | artifact role | eligible | exclusion pointer | block pointer |
 | --- | --- | --- | --- | --- | --- |
