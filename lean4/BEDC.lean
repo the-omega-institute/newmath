@@ -3141,6 +3141,7 @@ import BEDC.Derived.ConditionalTriggerEnsembleUp.TasteGate
 import BEDC.Derived.ConnectedIntervalUp
 import BEDC.Derived.ConnectedIntervalUp.DyadicNestingObligations
 import BEDC.Derived.ConnectedIntervalUp.NameCertObligations
+import BEDC.Derived.ConnectedIntervalUp.NestedBisectionLedger
 import BEDC.Derived.ConnectedIntervalUp.RealRoute
 import BEDC.Derived.ConnectedIntervalUp.TasteGate
 import BEDC.Derived.ConnectedSpaceUp.TasteGate
@@ -3672,6 +3673,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealFourFaceRouteExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealL10FaceStatusPullback
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealRegSeqRatRouteReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealRootReadbackCertificate
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorBudgetNonescape
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRoute
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRouteTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceBudgetReadiness
@@ -10244,6 +10246,7 @@ import BEDC.Derived.SumUp.StdBridge
 import BEDC.Derived.SumUp.VisibleBranchCases
 import BEDC.Derived.SummableSequenceUp.TasteGate
 import BEDC.Derived.SummableTailModulusUp.TasteGate
+import BEDC.Derived.SummationByPartsUp.TasteGate
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
 import BEDC.Derived.SupportNerveCensusUp.NameCertObligations
