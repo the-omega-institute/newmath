@@ -217,6 +217,20 @@ The handoff theorems identify the downstream boundary. By \autoref{thm:dyadicrou
 Since the carrier contains no coordinate for quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness, no scoped consumer can introduce one. The rounded observation remains a finite BEDC packet over the listed rows.
 \end{proof}
 
+\begin{theorem}[DyadicRoundingWindow scoped kernel dependencies]
+\label{thm:dyadic-rounding-window-scoped-kernel-dependencies}
+Every precision-window rounding consumer of an accepted $\DyadicRoundingWindowUp$ packet factors through the displayed $\BHist$ request rows, $\StreamNameUp$ window rows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance arithmetic, $\DyadicRoundingUp$ adjacent endpoint rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the terminal $\RealUp$ seal. These rows are the scoped kernel dependencies for the obligationClosure-to-scopedClosure step; no quotient real equality, selected limit, trichotomy, host rounding mode, or ambient completeness row is part of the factorization.
+\end{theorem}
+\begin{proof}
+Start with the precision-window obligation, \autoref{thm:dyadicroundingwindow-obligation-precision-window}. It places the request row and the $\StreamNameUp$ window in front of the adjacent endpoint packet.
+
+Apply the error-bound theorem \autoref{thm:dyadicroundingwindow-error-bound} and endpoint compatibility \autoref{thm:dyadicroundingwindow-adjacent-endpoint-compatibility}. Together they force the rounded observation to read the same $\DyadicRatCoreUp$ tolerance arithmetic and $\DyadicRoundingUp$ adjacent endpoint rows before any readback is exported.
+
+Next use the readback handoff and Real-seal factorization, \autoref{thm:dyadicroundingwindow-readback-handoff} and \autoref{thm:dyadicroundingwindow-real-seal-factorization}. They route the approximation through $\RegSeqRatUp$ and then through the terminal $\RealUp$ seal, with no bypass around the displayed finite packet.
+
+Finally combine ledger nonescape, \autoref{thm:dyadicroundingwindow-ledger-nonescape}, with the scoped consumer boundary of \autoref{thm:dyadicroundingwindow-scoped-consumer-boundary}. The structural rows $H,C,P,N$ supply transport, replay, provenance, and local naming for the same route, so the listed dependencies exhaust the scoped kernel surface.
+\end{proof}
+
 \falsifiablePrediction{Every $\RegSeqRatUp$ or $\RealUp$ read from a $\DyadicRoundingWindowUp$ packet factors through the displayed stream window, unary precision, adjacent $\DyadicRoundingUp$ endpoint packet, $\DyadicApproximationUp$ readback, regular rational handoff, real seal row, componentwise transport, continuation replay, provenance, and local naming before the rounded observation is consumed.}
 
 \independenceWitness{streamname, dyadicrounding, dyadicapproximation, regseqrat, real, dyadicratcore: $\DyadicRoundingWindowUp$ is not bijective to any listed sibling because it jointly carries a stream window, unary precision request, adjacent endpoint packet, dyadic readback, regular rational handoff, real seal, componentwise transport, continuation replay, provenance, and local naming.}
