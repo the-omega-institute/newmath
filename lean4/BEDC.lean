@@ -2318,6 +2318,7 @@ import BEDC.Derived.CauchyWitnessGluingUp
 import BEDC.Derived.CauchyWitnessGluingUp.ObligationLedger
 import BEDC.Derived.CauchyWitnessGluingUp.RealSealNonescape
 import BEDC.Derived.CauchyWitnessGluingUp.Route
+import BEDC.Derived.CauchyWitnessGluingUp.ScopedRouteTightening
 import BEDC.Derived.CauchyWitnessGluingUp.TasteGate
 import BEDC.Derived.CauchyWitnessGluingUp.WitnessLedgerExactness
 import BEDC.Derived.CauchyWitnessLedgerUp.BudgetFactorization
