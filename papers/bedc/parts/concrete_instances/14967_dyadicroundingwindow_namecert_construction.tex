@@ -87,6 +87,22 @@ The obligation theorem \autoref{thm:dyadicroundingwindow-namecert-obligations} t
 Now apply the error-bound theorem \autoref{thm:dyadicroundingwindow-error-bound}. The endpoint tolerance ledger bounds $A$ at the unary precision $q$, and $H$ transports this componentwise compatibility through the later rows. No carrier coordinate can replace that ledger by quotient real equality, host rounding, selected limits, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[DyadicRoundingWindow readback handoff]
+\label{thm:dyadicroundingwindow-readback-handoff}
+Every accepted $\DyadicRoundingWindowUp$ carrier hands the approximation row $A$ to later consumers only through the regular rational row $R$ and then through the real seal row $E$. The route is
+$$
+A\longmapsto R\longmapsto E
+$$
+inside the displayed packet $W=(S,q,D,A,R,E,H,C,P,N)$, so a consumer cannot bypass $R$ by invoking quotient real equality, a selected limit, host rounding, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project $W$ from \autoref{def:dyadic-rounding-window-carrier}. The row $A$ is the only dyadic approximation readback coordinate, while $R$ and $E$ are the only regular rational and real-facing rows.
+
+Use \autoref{thm:dyadicroundingwindow-error-bound}. It states that the bound on $A$ is preserved for $\RegSeqRatUp$ and $\RealUp$ consumers only through $R$ and $E$, with $H$ and $C$ transporting and replaying the same finite route.
+
+Finally apply \autoref{thm:dyadicroundingwindow-adjacent-endpoint-compatibility}. The endpoint packet $D$ and the readback row $A$ remain tied to the $\DyadicRatCoreUp$ tolerance ledger at the displayed precision $q$. Since no other readback or real-facing coordinate is present, the handoff cannot escape the $A\mapsto R\mapsto E$ route.
+\end{proof}
+
 \begin{theorem}[DyadicRoundingWindow Real-seal factorization]
 \label{thm:dyadicroundingwindow-real-seal-factorization}
 Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\DyadicRoundingWindowUp$ packet factors through $S,q,D,A,R,E,H,C,P,N$ before the rounded observation is consumed. The seal route cannot use quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
@@ -97,6 +113,20 @@ Begin with \autoref{def:dyadic-rounding-window-carrier}. The rows $R$ and $E$ ar
 Use \autoref{thm:dyadicroundingwindow-namecert-obligations}. Its regular rational handoff, Real seal factorization, and ledger non-escape clauses force every consumer to read the same finite route through the stream window, unary precision, adjacent endpoints, dyadic readback, handoff, and seal.
 
 Finally invoke \autoref{thm:dyadicroundingwindow-error-bound}. The error bound is preserved through $R,E,H,C,P,N$, so a consumer cannot bypass $S,q,D,A$ by citing quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[DyadicRoundingWindow ledger nonescape]
+\label{thm:dyadicroundingwindow-ledger-nonescape}
+In every accepted $\DyadicRoundingWindowUp$ carrier, the rows $H,C,P,N$ exhaust transport, replay, provenance, and local naming for $S,q,D,A,R,E$. Therefore the ledger exports no quotient real equality, selected limit, trichotomy, host rounding operation, ambient completeness theorem, or unnamed real-facing approximation row.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:dyadic-rounding-window-carrier}. Its structural rows are exactly $H,C,P,N$: $H$ transports the displayed coordinates componentwise, $C$ replays the continuation route, $P$ records the package provenance, and $N$ names the local packet.
+
+Apply \autoref{thm:dyadicroundingwindow-readback-handoff}. The only path from the approximation row to a later consumer is through $A\mapsto R\mapsto E$, and that path is already guarded by the same $H,C,P,N$ rows.
+
+Use \autoref{thm:dyadicroundingwindow-real-seal-factorization}. Real-facing consumers factor through the displayed stream window, precision request, adjacent endpoint packet, readback row, regular rational handoff, and real seal before any rounded observation is consumed.
+
+No remaining carrier coordinate can name quotient real equality, selected limits, trichotomy, host rounding, ambient completeness, or an extra approximation row. Thus the ledger is nonescaping by finite packet exhaustion.
 \end{proof}
 
 \falsifiablePrediction{Every $\RegSeqRatUp$ or $\RealUp$ read from a $\DyadicRoundingWindowUp$ packet factors through the displayed stream window, unary precision, adjacent $\DyadicRoundingUp$ endpoint packet, $\DyadicApproximationUp$ readback, regular rational handoff, real seal row, componentwise transport, continuation replay, provenance, and local naming before the rounded observation is consumed.}
