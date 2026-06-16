@@ -8,6 +8,7 @@ import base64
 import json
 import os
 import socket
+import shutil
 import subprocess
 import sys
 import time
@@ -20,6 +21,25 @@ from urllib.request import Request, urlopen
 
 
 DEFAULT_SERVER_URL = "http://127.0.0.1:8771"
+
+
+def _nyxid_executable() -> str:
+    configured = os.environ.get("FIBONACCI_REALITY_NYXID_BIN", "").strip()
+    if configured:
+        return configured
+    found = shutil.which("nyxid")
+    if found:
+        return found
+    home = Path.home()
+    for candidate in (
+        home / ".local" / "bin" / "nyxid",
+        home / ".cargo" / "bin" / "nyxid",
+        Path("/Users/lexa/.local/bin/nyxid"),
+        Path("/Users/lexa/.cargo/bin/nyxid"),
+    ):
+        if candidate.exists():
+            return str(candidate)
+    return "nyxid"
 
 
 def _server_url(server_url: str) -> str:
@@ -124,7 +144,7 @@ def _request_json_nyxid_oracle(
         if not prompt:
             return _error("invalid_prompt", "oracle prompt is empty")
         tag = str(payload.get("tag") or payload.get("intended_claim_id") or payload.get("intended_lane") or "fibonacci-oracle-query")
-        cmd = ["nyxid", "oracle", "ask", "--output", "json", "--no-wait", "--tag", tag]
+        cmd = [_nyxid_executable(), "oracle", "ask", "--output", "json", "--no-wait", "--tag", tag]
         conversation_id = str(payload.get("conversation_id") or "")
         if conversation_id:
             cmd.extend(["--conversation", conversation_id])
@@ -174,7 +194,7 @@ def _request_json_nyxid_oracle(
                 handle.write(prompt)
             return _run_nyxid_oracle(
                 [
-                    "nyxid",
+                    _nyxid_executable(),
                     "oracle",
                     "ask",
                     "--output",
@@ -200,7 +220,7 @@ def _request_json_nyxid_oracle(
                     pass
     if method == "GET" and normalized_path == "/health":
         data = _run_nyxid_oracle(
-            ["nyxid", "oracle", "status", "--output", "json", pool],
+            [_nyxid_executable(), "oracle", "status", "--output", "json", pool],
             timeout_seconds=timeout_seconds,
         )
         if data.get("status") == "error":
@@ -217,7 +237,7 @@ def _request_json_nyxid_oracle(
     if method == "GET" and normalized_path.startswith("/tasks/"):
         task_id = normalized_path.split("/", 2)[2]
         return _run_nyxid_oracle(
-            ["nyxid", "oracle", "result", "--output", "json", task_id],
+            [_nyxid_executable(), "oracle", "result", "--output", "json", task_id],
             timeout_seconds=timeout_seconds,
         )
     if method == "POST" and normalized_path == "/close":
@@ -225,7 +245,7 @@ def _request_json_nyxid_oracle(
         if not conversation_id:
             return _error("invalid_conversation_id", "conversation_id is empty")
         return _run_nyxid_oracle(
-            ["nyxid", "oracle", "close-session", "--output", "json", conversation_id],
+            [_nyxid_executable(), "oracle", "close-session", "--output", "json", conversation_id],
             timeout_seconds=timeout_seconds,
         )
     return _error("unsupported_nyxid_oracle_route", f"{method} {normalized_path}")
@@ -247,7 +267,7 @@ def _request_json_nyxid(method: str, server_url: str, path: str, payload: dict[s
         return _error("nyxid_config_missing", "nyxid server_url must be nyxid://<service>[/path-prefix]")
     service, request_path = target
     cmd = [
-        "nyxid",
+        _nyxid_executable(),
         "proxy",
         "request",
         "-m",
