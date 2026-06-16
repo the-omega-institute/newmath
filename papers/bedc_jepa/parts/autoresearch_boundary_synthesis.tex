@@ -63,10 +63,17 @@ and tail-weighted option-error targets, the best direct row is the
 uniform-relative-cost target with mean hard oracle-headroom capture $-0.1986$,
 budget-three capture $-0.3610$, budget-four capture $-0.1285$, and mean regret
 $0.0513$, worse than the best fixed-candidate mean capture $0.0242$.  The
-current pressure is therefore not another failure-score ranker, another
-selection rule over existing score families, or a simple oracle-target
-transform over the same carrier; it is held-out episode budget-magnitude
-transfer under explicit environment-state and option-conditioned mechanisms.
+predicted-rollout mechanism row is informative but still bounded: adding
+transition, curvature, validity, and option-interaction summaries moves the
+best mean hard oracle-headroom capture to $0.1119$, with budget-three capture
+$0.1234$, budget-four capture $0.0960$, and mean regret $0.0380$.  This
+improves over the direct target baseline and shows that rollout-internal
+mechanism information matters, but it still captures only a small part of the
+oracle ceiling.  The current pressure is therefore not another failure-score
+ranker, another selection rule over existing score families, a simple
+oracle-target transform over the same carrier, or feature appending alone; it
+is held-out episode budget-magnitude transfer under explicit environment-state
+and option-conditioned mechanisms.
 
 Fifth, the state-generation contract is a route constraint, not a completed
 model claim.  The aligned export and candidate packet close the data-substrate
@@ -76,4 +83,4 @@ the prediction-parity gate explicit while training internal variables that
 survive failure, claim, compute-value, and action/control readouts under the
 same budget-feasible selection rule.  The compute-value target must be a
 mechanism-bearing state variable, not merely a supervised transform of
-available option errors.
+available option errors or a passive rollout-feature descriptor.
