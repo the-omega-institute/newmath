@@ -714,7 +714,11 @@ within-anchor pair accuracy is $1.0$.  The hard-only oracle remains strongly
 beneficial ($-0.04565$), so the chosen assignment is $0.09002$ above oracle;
 oracle-match on hard anchors is only $0.215$.  The boundary is therefore not
 local option ranking.  It is budget-magnitude transfer across anchors and
-episodes under the exact-budget dynamic program.
+episodes under the exact-budget dynamic program.  A calibration-split
+transform diagnostic selects anchor-centering with $\gamma=0.5$ from affine,
+depth, centering, and train-regime transforms, but held-out assignment is unchanged
+(full $+0.000074$, non-hard $-0.00623$, hard-only $+0.04436$, CI high $+0.09064$);
+the hard slice is not a removable calibration artifact.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
