@@ -629,6 +629,17 @@ $81$, $145$, and $213$ shared by all rows.  The top harmful slice accounts for
 at least $88.9\%$ of positive episode damage in every row.  The boundary is
 therefore concentrated in recurring hard held-out episodes, which makes
 hard-episode or cluster-transfer objectives the next relevant route.
+A direct hard-episode contribution diagnostic sharpens this localization.
+Conditioning only after fixed score generation on the seven-episode union
+$\{81,115,145,193,201,213,277\}$ leaves $555$ non-hard anchors and $79$ hard
+anchors.  Across the best seed, original episode objective, seed mean,
+episode-balanced, direct-regret, and dual-price rows, every non-hard slice
+has allocation CI high below zero; the observed non-hard deltas range from
+$-0.00576$ to $-0.00859$.  The hard-only slice is harmful in every row, with
+observed deltas from $0.02685$ to $0.05657$.  This does not yield an
+allocation-native policy, because the slice is identified from held-out
+anatomy after fixed scores, but it localizes the remaining boundary to
+recurring episode regimes rather than average eval behavior.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
