@@ -132,14 +132,19 @@ def _request_json_nyxid_oracle(
             cmd.append("--new-conversation")
         pdf_base64 = str(payload.get("pdf_base64") or "")
         temp_path: Path | None = None
+        prompt_path: Path | None = None
         try:
+            with tempfile.NamedTemporaryFile(prefix="fibonacci-oracle-prompt-", suffix=".txt", mode="w", encoding="utf-8", delete=False) as handle:
+                prompt_path = Path(handle.name)
+                handle.write(prompt)
+            cmd.extend(["--file", str(prompt_path)])
             if pdf_base64:
                 suffix = Path(str(payload.get("pdf_name") or "main.pdf")).suffix or ".pdf"
                 with tempfile.NamedTemporaryFile(prefix="fibonacci-oracle-", suffix=suffix, delete=False) as handle:
                     temp_path = Path(handle.name)
                     handle.write(base64.b64decode(pdf_base64))
                 cmd.extend(["--pdf", str(temp_path)])
-            cmd.extend([pool, prompt])
+            cmd.append(pool)
             return _run_nyxid_oracle(cmd, timeout_seconds=timeout_seconds)
         except (OSError, ValueError) as exc:
             return _error("pdf_attach_failed", str(exc))
@@ -147,6 +152,11 @@ def _request_json_nyxid_oracle(
             if temp_path is not None:
                 try:
                     temp_path.unlink()
+                except OSError:
+                    pass
+            if prompt_path is not None:
+                try:
+                    prompt_path.unlink()
                 except OSError:
                     pass
     if method == "POST" and normalized_path == "/continue":
@@ -157,23 +167,37 @@ def _request_json_nyxid_oracle(
         if not prompt:
             return _error("invalid_prompt", "oracle prompt is empty")
         tag = str(payload.get("tag") or payload.get("intended_claim_id") or payload.get("intended_lane") or "fibonacci-oracle-followup")
-        return _run_nyxid_oracle(
-            [
-                "nyxid",
-                "oracle",
-                "ask",
-                "--output",
-                "json",
-                "--no-wait",
-                "--tag",
-                tag,
-                "--conversation",
-                conversation_id,
-                pool,
-                prompt,
-            ],
-            timeout_seconds=timeout_seconds,
-        )
+        prompt_path: Path | None = None
+        try:
+            with tempfile.NamedTemporaryFile(prefix="fibonacci-oracle-prompt-", suffix=".txt", mode="w", encoding="utf-8", delete=False) as handle:
+                prompt_path = Path(handle.name)
+                handle.write(prompt)
+            return _run_nyxid_oracle(
+                [
+                    "nyxid",
+                    "oracle",
+                    "ask",
+                    "--output",
+                    "json",
+                    "--no-wait",
+                    "--tag",
+                    tag,
+                    "--conversation",
+                    conversation_id,
+                    "--file",
+                    str(prompt_path),
+                    pool,
+                ],
+                timeout_seconds=timeout_seconds,
+            )
+        except OSError as exc:
+            return _error("prompt_file_failed", str(exc))
+        finally:
+            if prompt_path is not None:
+                try:
+                    prompt_path.unlink()
+                except OSError:
+                    pass
     if method == "GET" and normalized_path == "/health":
         data = _run_nyxid_oracle(
             ["nyxid", "oracle", "status", "--output", "json", pool],
