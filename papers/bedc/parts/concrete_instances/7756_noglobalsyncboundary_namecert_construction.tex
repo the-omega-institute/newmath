@@ -79,6 +79,18 @@ Apply the local NameCert obligations of \autoref{thm:no-global-sync-boundary-nam
 Finally apply \autoref{thm:no-global-sync-boundary-finite-packet-nonescape}. A consumer route that reads the cited siblings still factors through the finite packet $G=(H,L,R,S,C,P,N)$. Thus the sibling rows are provenance and consumer routes for the Inter-Hist locality lattice, not hidden synchronization data, causal-rate data, metric data, or a quotient of histories.
 \end{proof}
 
+\begin{theorem}[NoGlobalSyncBoundary public consumer theorem]
+\label{thm:noglobalsyncboundary-public-consumer-theorem}
+Any downstream consumer citing $\NoGlobalSyncBoundaryUp$ may export only the public refusal boundary over the displayed histories $H$, locality ledger $L$, refusal row $R$, componentwise $\hsame$ transport $S$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The consumer may not reinterpret the packet as a shared clock, privileged observer frame, total observer order, synchronization map, causal-rate route, invariant value, metric row, or quotient of histories.
+\end{theorem}
+\begin{proof}
+Begin with the finite-packet non-escape theorem \autoref{thm:no-global-sync-boundary-finite-packet-nonescape}. It says that every accepted consumer route factors through $H,L,R,S,C,P,N$ and that no admitted coordinate stores a shared synchronization object.
+
+Use the multi-Hist lattice link of \autoref{thm:no-global-sync-boundary-multihist-lattice-link}. The public consumer may cite sibling histories, invariant rows, causal-rate rows, and maximum-rate boundaries only through provenance and displayed consumer routes.
+
+Finally apply the NameCert obligations of \autoref{thm:no-global-sync-boundary-namecert-obligations}. They identify $R$ as the explicit refusal row and $S,C,P,N$ as the transport, replay, provenance, and naming rows for that refusal. Thus the public export is exactly the refusal boundary, not a synchronization map or hidden global observer structure.
+\end{proof}
+
 \begin{theorem}[NoGlobalSyncBoundary TasteGate obligation]
 \label{thm:no-global-sync-boundary-tastegate-obligation}
 The later Lean site \texttt{lean4/BEDC/Derived/NoGlobalSyncBoundaryUp/TasteGate.lean} will provide explicit $\mathsf{Nontrivial}\ \NoGlobalSyncBoundaryUp$ and $\mathsf{FieldFaithful}\ \NoGlobalSyncBoundaryUp$ instances. These instances must keep the displayed histories, locality rows, refusal row, $\hsame$ transport, $\Cont$ routes, package provenance, and local naming row as distinguishable fields.
@@ -97,15 +109,16 @@ Field faithfulness is the projection discipline for the displayed tuple. Each ro
 \closureat{NoGlobalSyncBoundaryUp}{seedStr}
 \closureat{NoGlobalSyncBoundaryUp}{obligationStr}[BEDC.Derived.NoGlobalSyncBoundaryUp.NoGlobalSyncBoundaryTasteGate\_single\_carrier\_alignment]
 \closureat{NoGlobalSyncBoundaryUp}{scopedStr}[BEDC.Derived.NoGlobalSyncBoundaryUp.NoGlobalSyncBoundaryTasteGate\_single\_carrier\_alignment]
+\closureat{NoGlobalSyncBoundaryUp}{publicStr}[BEDC.Derived.NoGlobalSyncBoundaryUp.NoGlobalSyncBoundaryTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\NoGlobalSyncBoundaryUp}
   \constructivestory{A $\NoGlobalSyncBoundaryUp$ packet is generated from displayed observer histories, locality ledgers, a no-global-synchronization refusal row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:no-global-sync-boundary-carrier}, \autoref{thm:no-global-sync-boundary-namecert-obligations}, \autoref{thm:no-global-sync-boundary-frame-refusal-handoff}, \autoref{thm:no-global-sync-boundary-finite-packet-nonescape}, \autoref{thm:no-global-sync-boundary-multihist-lattice-link}, and \leanchecked{BEDC.Derived.NoGlobalSyncBoundaryUp.taste\_gate} specify the finite refusal boundary for no-global-synchronization consumers.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:no-global-sync-boundary-carrier}, \autoref{thm:no-global-sync-boundary-namecert-obligations}, \autoref{thm:no-global-sync-boundary-frame-refusal-handoff}, \autoref{thm:no-global-sync-boundary-finite-packet-nonescape}, \autoref{thm:no-global-sync-boundary-multihist-lattice-link}, \autoref{thm:noglobalsyncboundary-public-consumer-theorem}, and \leanchecked{BEDC.Derived.NoGlobalSyncBoundaryUp.taste\_gate} specify the public finite refusal boundary for no-global-synchronization consumers.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.NoGlobalSyncBoundaryUp.NoGlobalSyncBoundaryTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not construct a shared clock, privileged frame, total observer order, synchronization map, causal-rate route, invariant value, Lean proof, or bridge checking for $\NoGlobalSyncBoundaryUp$.}
-  \upgradepath{Public closure requires a public consumer theorem for the no-global-synchronization boundary.}
+  \upgradepath{Bridged closure requires a standard bridge for the public no-global-synchronization refusal boundary.}
 \end{closurestatus}
