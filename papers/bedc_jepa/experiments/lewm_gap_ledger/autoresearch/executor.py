@@ -192,7 +192,7 @@ def execute_and_record(store: LeWMStore, hypotheses: list[dict[str, Any]], *, ma
             }
         )
     store.write_experiments(dedup_by_key(experiments, "experiment_id"))
-    store.write_contacts(dedup_by_key(contacts, "contact_id"))
+    store.write_contacts(upsert_by_key(contacts, "contact_id"))
     store.write_verdicts(upsert_by_key(verdicts, "verdict_id"))
     return summaries
 
