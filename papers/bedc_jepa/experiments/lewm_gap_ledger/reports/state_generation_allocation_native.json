@@ -1,0 +1,263 @@
+{
+  "config": {
+    "batch": 128,
+    "depth": 2,
+    "epochs": 180,
+    "hidden": 256,
+    "loss": "0.30*centered_smooth_l1 + 0.55*pairwise_order + 0.15*uniform_margin",
+    "lr": 0.0004
+  },
+  "counts": {
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55,
+    "train": 2043
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "allocation_closed": false,
+    "beats_raw_ci_high": true,
+    "beats_raw_observed": false,
+    "calibrated_allocation_closed": false,
+    "calibrated_beats_raw_ci_high": true,
+    "calibrated_beats_raw_observed": false,
+    "oracle_closed": true
+  },
+  "eval": {
+    "allocation_native": {
+      "allocation_delta": {
+        "high": 0.01338385989170838,
+        "low": -0.001465225647894591,
+        "observed": 0.0044036332341524514
+      },
+      "chosen_depth_counts": {
+        "1": 42,
+        "2": 349,
+        "3": 24,
+        "4": 5,
+        "5": 214
+      },
+      "pair_accuracy": 1.0,
+      "score_error_spearman": 0.8163159949023315
+    },
+    "calibrated_allocation_native": {
+      "allocation_delta": {
+        "high": 0.013335542513459033,
+        "low": -0.0012394612351363272,
+        "observed": 0.0044036332341524514
+      },
+      "chosen_depth_counts": {
+        "1": 42,
+        "2": 349,
+        "3": 24,
+        "4": 5,
+        "5": 214
+      },
+      "pair_accuracy": 1.0,
+      "score_error_spearman": 0.8163159949023315
+    },
+    "oracle_true_error": {
+      "allocation_delta": {
+        "high": -0.019075470793523286,
+        "low": -0.030810294473999432,
+        "observed": -0.024122137932078153
+      },
+      "chosen_depth_counts": {
+        "1": 148,
+        "2": 114,
+        "3": 117,
+        "4": 100,
+        "5": 155
+      },
+      "pair_accuracy": 1.0,
+      "score_error_spearman": 1.0
+    },
+    "raw_state_generation_candidate": {
+      "allocation_delta": {
+        "high": 0.013763379681009156,
+        "low": -0.003440655666756391,
+        "observed": 0.0039502130139403985
+      },
+      "chosen_depth_counts": {
+        "1": 157,
+        "2": 116,
+        "3": 101,
+        "4": 90,
+        "5": 170
+      },
+      "pair_accuracy": 0.894794952681388,
+      "score_error_spearman": 0.6686486114325585
+    }
+  },
+  "leakage_attestation": {
+    "baseline": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\state_generation_candidate_predictions.npz",
+    "features": "aligned export x only",
+    "selection": "calibration exact-budget allocation_delta CI high, then observed delta",
+    "slurm_or_ssh": "not used",
+    "targets": "option_error is used for allocation-native training; eval option_error is used only after score generation for metrics"
+  },
+  "not_claimed": [
+    "prediction parity",
+    "deployable policy",
+    "complete BEDC-native world model"
+  ],
+  "schema_id": "bedc_jepa.state_generation_allocation_native",
+  "score_calibration": {
+    "calibration": {
+      "depth_affine": {
+        "allocation_delta": {
+          "high": 0.0019822218990957472,
+          "low": -0.0017335756063114444,
+          "observed": 8.032195630365557e-05
+        },
+        "chosen_depth_counts": {
+          "2": 87,
+          "3": 512,
+          "4": 7,
+          "5": 40
+        },
+        "score_error_spearman": 0.8684348256557076
+      },
+      "raw": {
+        "allocation_delta": {
+          "high": -0.0004124757337780985,
+          "low": -0.008928529884768872,
+          "observed": -0.0043262972004604605
+        },
+        "chosen_depth_counts": {
+          "1": 43,
+          "2": 348,
+          "3": 36,
+          "4": 4,
+          "5": 215
+        },
+        "score_error_spearman": 0.8257311689384998
+      },
+      "ridge_0.0001": {
+        "allocation_delta": {
+          "high": 0.0,
+          "low": -0.0001307593208523309,
+          "observed": -4.115238984477021e-05
+        },
+        "chosen_depth_counts": {
+          "2": 1,
+          "3": 644,
+          "4": 1
+        },
+        "score_error_spearman": 0.8639401208532946
+      },
+      "ridge_0.001": {
+        "allocation_delta": {
+          "high": 0.0,
+          "low": -0.00012720337568797487,
+          "observed": -4.115238984477021e-05
+        },
+        "chosen_depth_counts": {
+          "2": 1,
+          "3": 644,
+          "4": 1
+        },
+        "score_error_spearman": 0.8639401208532946
+      },
+      "ridge_0.01": {
+        "allocation_delta": {
+          "high": 0.0,
+          "low": -0.0001303427372337976,
+          "observed": -4.115238984477021e-05
+        },
+        "chosen_depth_counts": {
+          "2": 1,
+          "3": 644,
+          "4": 1
+        },
+        "score_error_spearman": 0.8639401208532946
+      },
+      "ridge_0.1": {
+        "allocation_delta": {
+          "high": 0.0,
+          "low": -0.00012907171628009085,
+          "observed": -4.115238984477021e-05
+        },
+        "chosen_depth_counts": {
+          "2": 1,
+          "3": 644,
+          "4": 1
+        },
+        "score_error_spearman": 0.8639401208532946
+      },
+      "ridge_1": {
+        "allocation_delta": {
+          "high": 0.0,
+          "low": -0.000129061173145412,
+          "observed": -4.115238984477021e-05
+        },
+        "chosen_depth_counts": {
+          "2": 1,
+          "3": 644,
+          "4": 1
+        },
+        "score_error_spearman": 0.8639401208532946
+      },
+      "ridge_10": {
+        "allocation_delta": {
+          "high": 0.0,
+          "low": 0.0,
+          "observed": 0.0
+        },
+        "chosen_depth_counts": {
+          "3": 646
+        },
+        "score_error_spearman": 0.8639401208532946
+      }
+    },
+    "selected": "raw",
+    "selection_key": [
+      -0.0004124757337780985,
+      -0.0043262972004604605
+    ],
+    "selection_rule": "fit transforms on calibration split and choose the transform with lowest calibration exact-budget allocation_delta CI high, then observed delta"
+  },
+  "selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": -0.0005758982764125735,
+          "low": -0.008856656398064404,
+          "observed": -0.0043262972004604605
+        },
+        "chosen_depth_counts": {
+          "1": 43,
+          "2": 348,
+          "3": 36,
+          "4": 4,
+          "5": 215
+        },
+        "score_error_spearman": 0.8257311689384998
+      },
+      "epoch": 130,
+      "selection_key": [
+        -0.0005758982764125735,
+        -0.0043262972004604605,
+        0.0
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.01038233292802516,
+      "cal_delta_observed": 0.006807103093838557,
+      "cal_spearman": 0.7235711519270359,
+      "epoch": 1.0,
+      "train_loss": 0.4901755917817354
+    },
+    "history_last": {
+      "cal_delta_high": 0.0005465340825402596,
+      "cal_delta_observed": -0.0033324249453618865,
+      "cal_spearman": 0.8229159926835008,
+      "epoch": 180.0,
+      "train_loss": 0.27712715044617653
+    },
+    "params_count": 1336069,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta"
+  },
+  "status": "ok",
+  "wall_time_sec": 84.41324472427368
+}

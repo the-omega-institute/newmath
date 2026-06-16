@@ -551,6 +551,18 @@ allocation at $-0.02412$ $[-0.03015,\ -0.01915]$ with depth counts comparable
 to the candidate assignment.  Thus the substrate has allocation value, but
 global option-error readability is not enough: the candidate score still lacks
 the local option ranking and calibration needed for allocation-closed control.
+Training the score directly with an allocation-native centered-error,
+pairwise-order, and uniform-margin objective tightens this diagnosis without
+closing the gate.  The selected scorer closes the calibration exact-budget
+criterion, with calibration allocation delta $-0.00433$ and CI high
+$-0.00058$.  On held-out eval, however, its allocation delta is $0.00440$
+$[-0.00147,\ 0.01338]$; the calibration-selected score calibration leaves the
+same eval assignment, $0.00440$ $[-0.00124,\ 0.01334]$.  The scorer improves
+score/error Spearman to $0.81632$ and reaches pair accuracy $1.0$, but its depth
+counts concentrate on depths $2$ and $5$ rather than the oracle's more balanced
+assignment.  The remaining allocation boundary is therefore not single-anchor
+option ordering; it is cross-anchor magnitude calibration under the
+episode-level exact-budget constraint.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
