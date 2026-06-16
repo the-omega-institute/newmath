@@ -921,6 +921,7 @@ import BEDC.Derived.BishopLocatedCompletionBoundaryUp.ScopedRoute
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.WindowExhaustion
 import BEDC.Derived.BishopLocatedCompletionComparisonUp.TasteGate
+import BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
@@ -4517,6 +4518,7 @@ import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
 import BEDC.Derived.DyadicCauchyCriterionUp
 import BEDC.Derived.DyadicCauchyModulusLatticeUp.TasteGate
 import BEDC.Derived.DyadicCauchyStaircaseUp.TasteGate
+import BEDC.Derived.DyadicCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.DyadicCeilingUp.FloorDualRoute
 import BEDC.Derived.DyadicCeilingUp.TasteGate
 import BEDC.Derived.DyadicClosedIntervalEndpointGridUp.TasteGate
