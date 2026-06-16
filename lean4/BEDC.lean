@@ -926,6 +926,7 @@ import BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
+import BEDC.Derived.BishopLocatedIntervalRefinementMapUp.TasteGate
 import BEDC.Derived.BishopLocatedLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedMaximumUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletenessUp.TasteGate
@@ -3566,6 +3567,7 @@ import BEDC.Derived.CriticalLineWitnessUp
 import BEDC.Derived.CriticalLineWitnessUp.AnalyticContinuationNonescape
 import BEDC.Derived.CriticalLineWitnessUp.BoundaryObligationSurface
 import BEDC.Derived.CriticalLineWitnessUp.CandidateClosedRoute
+import BEDC.Derived.CriticalLineWitnessUp.CarrierAdmissionObligation
 import BEDC.Derived.CriticalLineWitnessUp.CarrierRouteExactness
 import BEDC.Derived.CriticalLineWitnessUp.ClassifierExactness
 import BEDC.Derived.CriticalLineWitnessUp.ComparisonLedgerAdmission
