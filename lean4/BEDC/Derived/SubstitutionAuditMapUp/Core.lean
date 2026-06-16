@@ -141,4 +141,25 @@ theorem SubstitutionAuditMapCarrier_boundary_nonescape [AskSetup] [PackageSetup]
     hsame_trans rowName nameGenerator
   exact ⟨rowUnary, rowGenerator, provenancePkg, namePkg⟩
 
+theorem SubstitutionAuditMapCarrier_obstruction_row_exactness [AskSetup] [PackageSetup]
+    {term closed shift substitute composition generator transport route provenance name row :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionAuditMapCarrier term closed shift substitute composition generator transport route
+        provenance name bundle pkg ->
+      hsame row transport ->
+        UnaryHistory row ∧ hsame row route ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame UnaryHistory
+  intro carrier rowTransport
+  obtain ⟨_termUnary, _closedUnary, _shiftUnary, _substituteUnary, _compositionUnary,
+    _generatorUnary, transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _termClosed, _shiftSubstitute, _compositionGenerator, transportRoute, _provenanceName,
+    _nameGenerator, provenancePkg, namePkg⟩ := carrier
+  have rowUnary : UnaryHistory row :=
+    unary_transport transportUnary (hsame_symm rowTransport)
+  have rowRoute : hsame row route :=
+    hsame_trans rowTransport transportRoute
+  exact ⟨rowUnary, rowRoute, provenancePkg, namePkg⟩
+
 end BEDC.Derived.SubstitutionAuditMapUp
