@@ -30,6 +30,7 @@ except ModuleNotFoundError:  # pragma: no cover
 SCRIPT_DIR = Path(__file__).resolve().parent
 FINDINGS_DIR = SCRIPT_DIR / "findings"
 ADVERSARIAL_VERDICTS = FINDINGS_DIR / "adversarial_verdicts.jsonl"
+PAPER_BOUNDARY_COVERAGE = FINDINGS_DIR / "paper_boundary_coverage.json"
 
 RESEARCH_AXES = {
     "detection": "Can the ledger read future failure without label leakage?",
@@ -184,6 +185,25 @@ def load_adversarial_verdicts() -> dict[str, dict[str, Any]]:
     return {str(row.get("hypothesis_id") or ""): row for row in rows if row.get("hypothesis_id")}
 
 
+def load_paper_boundary_coverage() -> dict[str, Any]:
+    if not PAPER_BOUNDARY_COVERAGE.exists():
+        return {}
+    with PAPER_BOUNDARY_COVERAGE.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+    if not isinstance(data, dict):
+        raise ValueError(f"{PAPER_BOUNDARY_COVERAGE}: expected object")
+    return data
+
+
+def _paper_boundary_covers(hypothesis_id: str, coverage: dict[str, Any]) -> bool:
+    if str(coverage.get("status") or "active") != "active":
+        return False
+    covered = coverage.get("covered_hypothesis_ids", [])
+    if not isinstance(covered, list):
+        return False
+    return hypothesis_id in {str(item) for item in covered}
+
+
 def _is_missing_remote_artifact(verdict: dict[str, Any]) -> bool:
     claim = str(verdict.get("reported_claim") or "").lower()
     return str(verdict.get("status") or "") == "fail-closed" and "missing a100" in claim
@@ -209,7 +229,9 @@ def plan_deepening_tasks(
     gate_results: list[dict[str, Any]],
     findings: list[dict[str, Any]],
     adversarial_verdicts: dict[str, dict[str, Any]],
+    paper_boundary_coverage: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
+    paper_boundary_coverage = paper_boundary_coverage or {}
     contact_ids = _ids(contacts, "contact_id")
     contacts_by_id = {str(contact.get("contact_id") or ""): contact for contact in contacts}
     experiments_for_hypothesis = _experiment_by_hypothesis(experiments)
@@ -222,10 +244,14 @@ def plan_deepening_tasks(
         axis = _axis_from_hypothesis(hypothesis)
         has_authority = _has_authoritative_finding(hypothesis_id, experiments, findings)
         if has_authority:
+            if _paper_boundary_covers(hypothesis_id, paper_boundary_coverage):
+                continue
             tasks.append(_task("hypothesis", hypothesis_id, "ready_for_paper_boundary_review", "authoritative finding is available", 30, "paper"))
             continue
         successor_id = _authoritative_successor_id(hypothesis, experiments, findings)
         if successor_id:
+            if _paper_boundary_covers(hypothesis_id, paper_boundary_coverage) or _paper_boundary_covers(successor_id, paper_boundary_coverage):
+                continue
             tasks.append(
                 _task(
                     "hypothesis",
@@ -530,7 +556,8 @@ def run_once(store: LeWMStore) -> dict[str, Any]:
     store.write_gate_results(gate_results)
     findings = load_research_findings(store)
     adversarial = load_adversarial_verdicts()
-    tasks = plan_deepening_tasks(hypotheses, experiments, contacts, verdicts, gate_results, findings, adversarial)
+    coverage = load_paper_boundary_coverage()
+    tasks = plan_deepening_tasks(hypotheses, experiments, contacts, verdicts, gate_results, findings, adversarial, coverage)
     review = plan_review_queue(gate_results, tasks)
     events = dedup_by_key(store.load_events() + [_event_from_task(task) for task in tasks], "event_id")
     agent_tasks = reconcile_agent_tasks(tasks, store.load_agent_tasks())
@@ -628,6 +655,40 @@ def self_test() -> int:
             return 1
         if not paths.lane_dashboard.exists():
             print("missing dashboard", file=sys.stderr)
+            return 1
+        covered_hypothesis = {
+            "hypothesis_id": "fi-test.covered",
+            "predicate": "allocation score has authoritative boundary prose",
+            "failure_surface": "allocation_delta",
+            "perturbation_family": "allocation",
+            "reality_contact_refs": [],
+            "status": "open",
+        }
+        covered_tasks = plan_deepening_tasks(
+            [covered_hypothesis],
+            [],
+            [],
+            [],
+            [],
+            [{"finding_id": "finding.covered", "hypothesis_id": "fi-test.covered", "authoritative": True}],
+            {},
+            {"status": "active", "covered_hypothesis_ids": ["fi-test.covered"]},
+        )
+        if any(task.get("task_kind") == "ready_for_paper_boundary_review" for task in covered_tasks):
+            print(json.dumps(covered_tasks, indent=2), file=sys.stderr)
+            return 1
+        uncovered_tasks = plan_deepening_tasks(
+            [covered_hypothesis],
+            [],
+            [],
+            [],
+            [],
+            [{"finding_id": "finding.covered", "hypothesis_id": "fi-test.covered", "authoritative": True}],
+            {},
+            {"status": "active", "covered_hypothesis_ids": []},
+        )
+        if not any(task.get("task_kind") == "ready_for_paper_boundary_review" for task in uncovered_tasks):
+            print(json.dumps(uncovered_tasks, indent=2), file=sys.stderr)
             return 1
     print("[bedc-jepa-research-loop] self-test ok")
     return 0
