@@ -47,7 +47,7 @@ def main() -> int:
         survival_low = float(survival["ci"]["low"])
         closed_carriers = float(survival["metric_value"])
         a100_pending = bool(parity.get("diagnostics", {}).get("a100_pending", False))
-        boundary_closed = 1.0 if survival_low > 0.0 and parity_high < 0.0 and a100_pending else 0.0
+        boundary_closed = 1.0 if survival_low > 0.0 and parity_high < 0.0 and not a100_pending else 0.0
         payload = {
             "hypothesis_id": HYPOTHESIS_ID,
             "anchor": {"field": "anchor.metric", "value": boundary_closed},
