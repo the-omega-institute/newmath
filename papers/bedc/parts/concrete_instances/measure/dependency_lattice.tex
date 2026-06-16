@@ -13,3 +13,15 @@ The probability consumer is downstream of the same event-value boundary. Its nor
 
 Since the same finite structural rows bind all three consumers, the dependency lattice records one $\MeasureUp$ packet rather than three unrelated analysis interfaces.
 \end{proof}
+
+\begin{theorem}[Measure probability sigma Borel route]
+\label{thm:measure-probability-sigma-borel-route}
+Every probability, random-variable, distribution, or integral consumer of an accepted $\MeasureUp$ packet must read the sigma-algebra sibling, the $\BorelSetUp$ generated-event row, the $\RealUp$ value row, and the probability normalization row through the same finite event-value carrier before any countable-event closure or integration read is public. Consequently the consumer cannot detach measure values from the displayed event classifier, generated-event, and normalization rows.
+\end{theorem}
+\begin{proof}
+Project the accepted $\MeasureUp$ dependency lattice of \autoref{thm:measure-dependency-lattice}. Its value object is already read through the $\RealUp$ row, while its probability and integration consumers are attached to the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Use the sibling routes named in the opening paragraph. The measurable-event classifier reads the sigma-algebra surface of \autoref{ch:concrete-instances-sigma-algebra-namecert}, and the generated-event row is anchored by the $\BorelSetUp$ surface of \autoref{ch:concrete-instances-borel-set-namecert}. These rows enter before probability normalization, random-variable distribution reads, or integral formation can be exported.
+
+The probability row then supplies normalization over that same event-value boundary. Since the sigma-algebra classifier, Borel generated-event row, Real value row, and normalization row are all carried by the same structural transport, replay, provenance, and local naming data, any downstream consumer receives one displayed event-value carrier rather than a detached host-valued measure function.
+\end{proof}
