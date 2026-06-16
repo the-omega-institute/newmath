@@ -525,4 +525,68 @@ theorem DyadicRoundingWindowCarrier_error_envelope_monotonicity [AskSetup] [Pack
       ⟨endpointUnary', readbackUnary', streamEndpointReadback, streamEndpointReadback',
         provenancePkg'⟩
 
+theorem DyadicRoundingWindowCarrier_scoped_kernel_dependencies [AskSetup] [PackageSetup]
+    {stream precision endpoint readback regular realSeal transport route provenance localName
+      scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicRoundingWindowCarrier stream precision endpoint readback regular realSeal transport route
+        provenance localName bundle pkg ->
+      Cont realSeal provenance scopedRead ->
+        PkgSig bundle scopedRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row stream ∨ hsame row precision ∨ hsame row endpoint ∨
+                  hsame row readback ∨ hsame row regular ∨ hsame row realSeal ∨
+                    hsame row provenance ∨ hsame row scopedRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont readback regular realSeal ∧
+                  Cont realSeal provenance scopedRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle scopedRead pkg)
+              hsame ∧ UnaryHistory scopedRead ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle scopedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier realSealProvenanceScoped scopedPkg
+  obtain
+    ⟨streamUnary, _precisionUnary, _endpointUnary, _readbackUnary, _regularUnary,
+      realSealUnary, _precisionStreamEndpoint, _streamEndpointReadback,
+      readbackRegularRealSeal, provenancePkg, localNameStream, localNameProvenance⟩ :=
+        carrier
+  have streamProvenance : hsame stream provenance :=
+    hsame_trans (hsame_symm localNameStream) localNameProvenance
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_transport streamUnary streamProvenance
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed realSealUnary provenanceUnary realSealProvenanceScoped
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro scopedRead ⟨hsame_refl scopedRead, scopedUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact
+          ⟨sourceRow.right, readbackRegularRealSeal, realSealProvenanceScoped,
+            provenancePkg, scopedPkg⟩
+    }
+  · exact ⟨scopedUnary, provenancePkg, scopedPkg⟩
+
 end BEDC.Derived.DyadicRoundingWindowUp

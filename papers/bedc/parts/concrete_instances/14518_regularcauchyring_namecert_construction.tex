@@ -68,11 +68,13 @@ Use the sibling obligation surfaces for the four rows: \autoref{thm:regular-cauc
 
 Finally read the local NameCert obligation theorem \autoref{thm:regular-cauchy-ring-namecert-obligations}. It packages those sibling rows into one ring carrier but adds no fifth operation coordinate and no host arithmetic row, so admission of the operation rows is exactly sibling-row admission.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_operation\_row\_admission}
 
 \begin{theorem}[Regular Cauchy ring componentwise transport]
 \label{thm:regular-cauchy-ring-componentwise-transport}
 For every accepted $\RegularCauchyRingUp$ carrier $K$, classifier transport through $H$ preserves the two $\RegSeqRatUp$ sources, aligned $\StreamNameUp$ windows, $\DyadicRatCoreUp$ endpoint ledgers, four operation rows, four terminal $\RealUp$ seal rows, four finite budget ledgers, displayed replay, provenance, and local naming component by component. A transported ring packet therefore reads the same finite operation surface through $S,G,M,L$ and cannot detach an operation row from its displayed source, budget, or seal data.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_componentwise\_transport}
 \begin{proof}
 Begin with the carrier coordinates of \autoref{def:regular-cauchy-ring-carrier}. The transport row $H$ is explicitly componentwise over the two sources, the aligned windows, the dyadic ledgers, the four operation rows, the four terminal seal rows, the four finite budget ledgers, replay, provenance, and local naming.
 
@@ -85,6 +87,7 @@ The displayed replay row $C$ and provenance row $P$ preserve the same route for 
 \label{thm:regular-cauchy-ring-terminal-seal-discipline}
 Every terminal $\RealUp$ seal read from an accepted $\RegularCauchyRingUp$ carrier is one of $R_S,R_G,R_M,R_L$, and it is reachable only after the corresponding operation row $S$, $G$, $M$, or $L$ and its finite budget ledger $E_S$, $E_G$, $E_M$, or $E_L$ have been displayed. No $\RealUp$ consumer of the ring packet can bypass the sibling operation chapters, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ sources, the $\DyadicRatCoreUp$ ledgers, componentwise transport, replay, provenance, and local naming.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_terminal\_seal\_discipline}
 \begin{proof}
 Project the terminal coordinates of the carrier. The only $\RealUp$ seal rows present in $K$ are $R_S,R_G,R_M,R_L$, paired respectively with $S,G,M,L$ and with the finite budget ledgers $E_S,E_G,E_M,E_L$.
 
@@ -167,6 +170,20 @@ For the addition and additive-inverse cases, use the sibling non-escape clauses 
 For the product and rational-scalar cases, use \autoref{thm:regular-cauchy-product-real-algebra-boundary} for $M$ and \autoref{thm:regular-cauchy-scale-real-seal-handoff-obligation} for $L$. The componentwise distributivity theorem \autoref{thm:regular-cauchy-ring-componentwise-distributivity} supplies the mixed sum-product route, while the scale route remains a displayed rational-scalar handoff rather than host scalar multiplication on completed quotients.
 
 These four cases exhaust the carrier's algebraic coordinates. Since componentwise transport from \autoref{thm:regular-cauchy-ring-componentwise-transport} preserves only the displayed operation rows and their seal boundaries, every ring-law read is a finite BEDC packet route and not an imported law of ambient completed reals.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy ring finite operation induction]
+\label{thm:regular-cauchy-ring-finite-operation-induction}
+Every ring-law consumer of an accepted $\RegularCauchyRingUp$ carrier is exhausted by finite induction over the four operation coordinates $S,G,M,L$. The $S$ case reads only the $\RegularCauchySumUp$ sibling packet, the $G$ case reads only the $\RegularCauchyNegationUp$ sibling packet, the $M$ case reads only the $\RegularCauchyProductUp$ sibling packet, and the $L$ case reads only the $\RegularCauchyScaleUp$ sibling packet, together with their displayed source rows, budget rows, transport, replay, provenance, local naming, and terminal $\RealUp$ seals. No induction branch can route through host real algebra, quotient equality, selected limits, trichotomy, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-ring-carrier}. Its operation surface is the finite four-coordinate family $S,G,M,L$, so induction over possible ring-law reads has exactly four cases.
+
+In the $S$ and $G$ cases, use operation-row admission and operation closure, \autoref{thm:regular-cauchy-ring-operation-row-admission} and \autoref{thm:regular-cauchy-ring-operation-closure}. They keep addition and negation inside the $\RegularCauchySumUp$ and $\RegularCauchyNegationUp$ sibling rows with their displayed source, window, dyadic, budget, and seal data.
+
+In the $M$ and $L$ cases, use the same admission and closure results for the $\RegularCauchyProductUp$ and $\RegularCauchyScaleUp$ sibling rows. The componentwise distributivity theorem \autoref{thm:regular-cauchy-ring-componentwise-distributivity} supplies the mixed sum-product route without introducing an ambient multiplication or addition law.
+
+Finally apply the Real seal non-escape theorem \autoref{thm:regular-cauchy-ring-real-seal-nonescape}. Since each branch reaches a terminal seal only through its displayed sibling operation packet, the four induction cases exhaust all ring-law consumers and leave no route to host real algebra, quotient equality, selected limits, trichotomy, choice, or completeness.
 \end{proof}
 
 \closureat{RegularCauchyRingUp}{seedStr}
