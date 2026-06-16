@@ -1,0 +1,110 @@
+\chapter{A Concrete Naming Certificate for $\StreamInterleavingUp$}
+\label{ch:concrete-instances-stream-interleaving-namecert}
+\origin{human}
+
+Following Bishop and Bridges, an interleaving of two lawlike streams is useful only when the merge route keeps the two source windows, the parity selector, and the rational readback visible. The $\StreamInterleavingUp$ packet sits over the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. It names the finite merge certificate needed by later regular-Cauchy and Real-facing consumers; it does not identify host sequences, choose a hidden subsequence, or quotient Cauchy names.
+
+\begin{definition}[Stream interleaving carrier]
+\label{def:stream-interleaving-carrier}
+A $\StreamInterleavingUp$ carrier is a finite $\BHist$ packet
+$$
+I=(E,O,W,Q,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the even-window $\StreamNameUp$ row for the first source stream.
+\item $O$ is the odd-window $\StreamNameUp$ row for the second source stream.
+\item $W$ is the parity-window split row, recording which displayed output positions read from $E$ and which read from $O$.
+\item $Q$ is the $\RegSeqRatUp$ readback row for every displayed source and output window.
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic ledger used to compare the rational reads at the requested precision.
+\item $R$ is the $\RealUp$ seal row, available only after $E,O,W,Q,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for both stream windows, the parity split, rational readback, dyadic ledger, Real seal, provenance, replay, and local naming.
+\item $C$ records displayed $\Cont$ replay from source-window inspection through parity selection, regular rational readback, dyadic comparison, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\StreamInterleavingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StreamInterleavingUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for host sequence equality, countable choice over positions, quotient Cauchy names, or a Real value that bypasses the displayed parity split.
+\end{definition}
+
+\begin{definition}[Stream interleaving classifier]
+\label{def:stream-interleaving-classifier}
+The $\StreamInterleavingUp$ classifier compares accepted packets only through the rows $E,O,W,Q,D,R,H,C,P,N$. Two packets are classifier-same exactly when their even-window reads, odd-window reads, parity split, RegSeqRat readback, DyadicRatCore comparison rows, Real seal, componentwise transport, replay, provenance, and local naming agree through displayed $\hsame$ routes.
+\end{definition}
+
+\begin{theorem}[Stream interleaving NameCert obligations]
+\label{thm:stream-interleaving-namecert-obligations}
+For every accepted $\StreamInterleavingUp$ carrier
+$$
+I=(E,O,W,Q,D,R,H,C,P,N),
+$$
+the local $\NameCert_{\StreamInterleavingUp}$ surface consists exactly of even-source window exposure, odd-source window exposure, parity-window splitting, RegSeqRat readback, DyadicRatCore comparison, Real sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation row may erase a source stream, change the parity selector, compare through host sequence equality, or export a quotient Cauchy name.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-interleaving-carrier}. The source data are exactly the two StreamName rows $E$ and $O$, so a consumer cannot read an output window without naming which source supplied each displayed position.
+
+The parity selector is the row $W$. It records the finite split of the displayed output positions into even and odd reads, and it is the only route by which the two sources enter one output packet.
+
+The numeric readback rows are $Q$ and $D$. They expose regular rational reads and dyadic comparisons at the requested finite precision, without replacing the sources by host sequence equality or by a completed quotient object.
+
+Finally, $R,H,C,P,N$ seal, transport, replay, source, and name the same finite route. Since no excluded coordinate appears in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Stream interleaving parity window split]
+\label{thm:stream-interleaving-parity-window-split}
+Every finite output window read from an accepted $\StreamInterleavingUp$ packet factors through the displayed split row $W$. The even positions read through $E$, the odd positions read through $O$, and the packet keeps the same $Q,D,H,C,P,N$ rows attached to both source reads.
+\end{theorem}
+\begin{proof}
+Let an output consumer request a finite window. The carrier exposes only the rows $E,O,W,Q,D,R,H,C,P,N$, so the request first meets the parity split row $W$.
+
+The even part of the requested window is routed to $E$, and the odd part is routed to $O$. These are StreamName rows, so the consumer receives finite source-window data rather than a host sequence.
+
+The shared rows $Q,D,H,C,P,N$ then read, compare, transport, replay, source, and name the two branches as one packet. Thus the interleaved window is the displayed parity merge and nothing else.
+\end{proof}
+
+\begin{theorem}[Stream interleaving RegSeqRat readback]
+\label{thm:stream-interleaving-regseqrat-readback}
+Every regular-Cauchy consumer of an accepted $\StreamInterleavingUp$ packet must read
+$$
+\StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\DyadicRatCoreUp
+$$
+through the rows $E,O,W,Q,D$. The consumer may combine the two source reads only by the displayed parity route, and it may not invoke countable choice over source positions or host-level equality of streams.
+\end{theorem}
+\begin{proof}
+Begin with $E,O,W$. The parity row determines which source window supplies each requested output position, so a regular-Cauchy read cannot be detached from the two finite StreamName windows.
+
+Read $Q$ next. This row is the RegSeqRat readback surface for the source and output windows already selected by $W$.
+
+The row $D$ supplies the dyadic arithmetic checks needed by the finite precision request. It compares displayed rational data only, and therefore it cannot introduce countable choice over all later positions or host equality of streams.
+\end{proof}
+
+\begin{theorem}[Stream interleaving Real-seal nonescape]
+\label{thm:stream-interleaving-real-seal-nonescape}
+Every $\RealUp$ consumer of an accepted $\StreamInterleavingUp$ packet factors through $E,O,W,Q,D,H,C,P,N$ before reading the seal row $R$. The Real-facing handoff exports only the interleaved regular rational route and cannot hide a source stream, select a subsequence, or quotient the two Cauchy names.
+\end{theorem}
+\begin{proof}
+Project the carrier. The Real seal row $R$ is downstream of the source windows, parity split, regular rational readback, and dyadic comparison rows.
+
+A Real-facing consumer must therefore read $E,O,W,Q,D$ first. These rows expose finite stream windows and rational precision data, not host sequence equality or a completed quotient of Cauchy names.
+
+The structural rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. Since no hidden selector or quotient coordinate is present, the Real seal cannot escape the displayed interleaving route.
+\end{proof}
+
+\falsifiablePrediction{A $\StreamInterleavingUp$ consumer that reaches $\RealUp$ without displaying $E,O,W,Q,D,H,C,P,N$ refutes the carrier of \autoref{def:stream-interleaving-carrier}.}
+
+\independenceWitness{Nearest siblings: streamname, regseqrat, dyadicratcore, and real. $\StreamInterleavingUp$ is not bijective to any one of them because it jointly carries two source windows, a parity split, regular rational readback, dyadic comparison, Real sealing, transport, replay, provenance, and local naming as one finite packet.}
+
+\closureat{StreamInterleavingUp}{seedStr}
+
+\begin{closurestatus}{\StreamInterleavingUp}
+  \constructivestory{A $\StreamInterleavingUp$ packet is generated from two StreamName source windows, a parity-window split, RegSeqRat readback, DyadicRatCore comparison, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stream-interleaving-carrier}, \autoref{def:stream-interleaving-classifier}, \autoref{thm:stream-interleaving-namecert-obligations}, \autoref{thm:stream-interleaving-parity-window-split}, \autoref{thm:stream-interleaving-regseqrat-readback}, and \autoref{thm:stream-interleaving-real-seal-nonescape} seed the finite interleaving route between StreamName windows, regular rational readback, dyadic comparison, and Real-facing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host sequence equality, countable choice over positions, quotient Cauchy equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked parity splitting, RegSeqRat readback, DyadicRatCore comparison, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.StreamInterleavingUp.}
+\end{closurestatus}
