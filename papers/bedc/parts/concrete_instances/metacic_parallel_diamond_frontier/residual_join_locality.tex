@@ -84,6 +84,41 @@ Now apply the locality-scope theorem, \autoref{thm:metacic-parallel-diamond-fron
 Finally use residual-join locality exhaustion. Once the consumer has read $P,K,J,R,S,C,B,O,H,T,G,N$, there is no further coordinate for residual-substitution discharge, subject reduction, confluence, normalization, evaluator equality, quotient term equality, or kernel consistency. The obstruction budget is therefore retained as a carrier-local boundary.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual-premise exhaustion]
+\label{thm:metacic-parallel-diamond-frontier-residual-premise-exhaustion}
+Any accepted residual-join read of a $\MetaCICParallelDiamondFrontierUp$ packet
+that has consumed
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+has not discharged the retained premise row $P$. It has only made $P$ visible
+as part of the finite carrier-local grid for the residual join. Consequently
+the read cannot be used as premise-free residual substitution, subject
+reduction, global confluence, strong normalization, evaluator equality,
+quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with residual-join locality and the residual grid,
+\autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality} and
+\autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. These place every
+accepted join inside the displayed carrier-local rows and identify $P$ as a row
+of that grid, not as a premise erased by the join handoff.
+
+Apply the locality-scope theorem and the residual obstruction budget,
+\autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality-scope} and
+\autoref{thm:metacic-parallel-diamond-frontier-residual-obstruction-budget}.
+They keep the retained premise row and obstruction row visible through
+$H,T,G,N$ after the local join and bounded checker rows have been read.
+
+Finally use residual-join witness locality,
+\autoref{thm:metacic-parallel-diamond-residual-join-witness-locality}. The
+witness consumes finite residual data before exporting the local join, but it
+does not add any coordinate for premise-free residual substitution, subject
+reduction, global confluence, strong normalization, evaluator equality,
+quotient term equality, or kernel consistency. The consumed packet therefore
+exhausts visibility of the retained premise rather than discharging it.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond residual-join witness locality]
 \label{thm:metacic-parallel-diamond-residual-join-witness-locality}
 Every accepted residual-join witness for
