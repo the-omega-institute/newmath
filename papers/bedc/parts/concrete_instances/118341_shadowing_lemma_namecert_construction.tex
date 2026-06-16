@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\ShadowingLemmaUp$}
+\label{ch:concrete-instances-shadowing-lemma-namecert}
+\origin{human}
+
+Following Bowen's hyperbolic dynamics and Walters' formulation of shadowing for expansive systems, the $\ShadowingLemmaUp$ packet isolates the finite pseudo-orbit data needed to read a shadowing orbit inside BEDC. It sits downstream of \autoref{ch:concrete-instances-hyperbolic-shadowing-namecert}, \autoref{ch:concrete-instances-dynsystem-namecert}, \autoref{ch:concrete-instances-metric-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert}. The packet records a local certificate route; it does not assert a global hyperbolic decomposition, expansivity theorem, invariant measure, selected orbit, or host-level completeness principle.
+
+\begin{definition}[ShadowingLemma carrier]
+\label{def:shadowing-lemma-carrier}
+A $\ShadowingLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,T,W,E,Q,M,S,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\DynSystemUp$ row naming the finite system interface and the branch of the orbit map used by the certificate.
+\item $T$ is the $\HyperbolicShadowingUp$ dependency row that names the hyperbolic-shadowing sibling packet consumed by the local route.
+\item $W$ is the pseudo-orbit window schedule, read as finite $\StreamNameUp$ windows.
+\item $E$ is the error-modulus row assigning the displayed tolerance budget to each pseudo-orbit window.
+\item $Q$ is the pseudo-orbit row whose adjacent iterates are compared only through $W$ and $E$.
+\item $M$ is the $\MetricUp$ comparison row measuring the pseudo-orbit errors and the shadowing errors in the same displayed metric interface.
+\item $S$ is the shadowing-orbit row, storing the orbit read that shadows $Q$ over the windows $W$ under the modulus $E$.
+\item $R$ is the $\RegSeqRatUp$ readback row converting the window and error data into regular rational approximants.
+\item $A$ is the terminal $\RealUp$ seal for the metric-error bounds read from $M$ and $R$.
+\item $H$ records componentwise $\hsame$ transport for the system, dependency, window, modulus, pseudo-orbit, metric comparison, shadowing orbit, readback, and Real-seal rows.
+\item $C$ records displayed $\Cont$ replay from a shadowing query through $X,T,W,E,Q,M,S,R,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ShadowingLemmaUp$, $\HyperbolicShadowingUp$, $\DynSystemUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ShadowingLemmaUp}$ row.
+\end{enumerate}
+The carrier stores no selected host orbit, no ambient compactness theorem, no global stability theorem, no real-number trichotomy, and no quotient equality of orbit names.
+\end{definition}
+
+\begin{theorem}[ShadowingLemma NameCert obligations]
+\label{thm:shadowing-lemma-namecert-obligations}
+For every accepted $\ShadowingLemmaUp$ carrier
+$$
+L=(X,T,W,E,Q,M,S,R,A,H,C,P,N),
+$$
+the local $\NameCert_{\ShadowingLemmaUp}$ surface consists exactly of system admission through $X$, hyperbolic-shadowing dependency through $T$, pseudo-orbit windows through $W$, error-modulus exposure through $E$, pseudo-orbit readback through $Q$, metric comparison through $M$, shadowing-orbit exposure through $S$, regular-rational readback through $R$, terminal Real seal through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:shadowing-lemma-carrier}. Its dynamical rows are exactly $X,T,W,E,Q,M,S,R,A$, and its structural rows are exactly $H,C,P,N$.
+
+The pseudo-orbit part is finite. The window row $W$ determines which adjacent iterates can be inspected, and the modulus row $E$ determines which error budget is visible on each window.
+
+The shadowing part is then read through $M,S,R,A$. The metric row compares pseudo-orbit and shadowing-orbit errors, the regular-rational row gives the finite readback, and the Real row seals the resulting bounds.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite data. Since no omitted global theorem is a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ShadowingLemma pseudo-orbit handoff]
+\label{thm:shadowing-lemma-pseudo-orbit-handoff}
+Every consumer of an accepted $\ShadowingLemmaUp$ packet must expose the $\DynSystemUp$ row $X$, the $\HyperbolicShadowingUp$ sibling row $T$, the $\StreamNameUp$ window row $W$, the error-modulus row $E$, the pseudo-orbit row $Q$, and the $\MetricUp$ comparison row $M$ before reading the shadowing orbit row $S$. The resulting readback must pass through the $\RegSeqRatUp$ row $R$ and the $\RealUp$ seal $A$, with $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows preserving the same route.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:shadowing-lemma-namecert-obligations}. It makes $X,T,W,E,Q,M$ visible before the shadowing row can be consumed.
+
+The sibling dependencies keep the route local. The $\DynSystemUp$ row supplies the finite system interface, the $\HyperbolicShadowingUp$ row supplies the traditional shadowing dependency, and the $\MetricUp$ row supplies the only comparison surface for the pseudo-orbit and shadowing-orbit errors.
+
+The readback is then forced through $R,A,H,C,P,N$. The regular-rational row records the finite approximants, the Real row seals the displayed bounds, and the transport, replay, provenance, and naming rows preserve the same packet. Thus the handoff is a finite BEDC route rather than a selected-orbit or ambient-completeness claim.
+\end{proof}
+
+\closureat{ShadowingLemmaUp}{seedStr}
+
+\begin{closurestatus}{\ShadowingLemmaUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:shadowing-lemma-carrier}, \autoref{thm:shadowing-lemma-namecert-obligations}, and \autoref{thm:shadowing-lemma-pseudo-orbit-handoff} seed the finite pseudo-orbit, error-modulus, metric comparison, shadowing-orbit, regular-rational readback, Real-seal, transport, replay, provenance, and local naming route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global hyperbolic decomposition, expansivity, invariant measures, selected host orbits, quotient equality of orbit names, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked system admission, hyperbolic-shadowing dependency, pseudo-orbit window exactness, error-modulus exactness, Metric comparison, StreamName and RegSeqRat readback, Real seal, transport, replay, provenance, and local naming for BEDC.Derived.ShadowingLemmaUp.}
+  \constructivestory{A $\ShadowingLemmaUp$ packet is generated from a DynSystem row, HyperbolicShadowing dependency row, StreamName pseudo-orbit windows, an error-modulus row, a pseudo-orbit row, a Metric comparison row, a shadowing-orbit row, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
