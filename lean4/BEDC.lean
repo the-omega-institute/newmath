@@ -926,6 +926,7 @@ import BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
+import BEDC.Derived.BishopLocatedIntervalRefinementMapUp.TasteGate
 import BEDC.Derived.BishopLocatedLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedMaximumUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletenessUp.TasteGate
