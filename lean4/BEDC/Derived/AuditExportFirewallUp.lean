@@ -120,4 +120,38 @@ theorem AuditExportFirewallCarrier_namecert_obligations
   }
   exact ⟨cert, gateUnary, replayReadUnary⟩
 
+theorem AuditExportFirewallCarrier_sibling_independence
+    {claim positive audit failure registry consistency ledger transport replay provenance name
+      siblingRead : BHist} :
+    auditExportFirewallFields
+        (AuditExportFirewallUp.mk claim positive audit failure registry consistency ledger
+          transport replay provenance name) =
+      [claim, positive, audit, failure, registry, consistency, ledger, transport, replay,
+        provenance, name] ->
+      Cont ledger siblingRead name ->
+        UnaryHistory ledger ->
+          UnaryHistory siblingRead ->
+            UnaryHistory name ∧
+              List.Mem ledger
+                (auditExportFirewallFields
+                  (AuditExportFirewallUp.mk claim positive audit failure registry consistency
+                    ledger transport replay provenance name)) ∧
+              Cont ledger siblingRead name := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro fieldsExact ledgerSiblingName ledgerUnary siblingUnary
+  have nameUnary : UnaryHistory name :=
+    unary_cont_closed ledgerUnary siblingUnary ledgerSiblingName
+  constructor
+  · exact nameUnary
+  · constructor
+    · rw [fieldsExact]
+      exact
+        List.Mem.tail _ <|
+          List.Mem.tail _ <|
+            List.Mem.tail _ <|
+              List.Mem.tail _ <|
+                List.Mem.tail _ <|
+                  List.Mem.tail _ (List.Mem.head _)
+    · exact ledgerSiblingName
+
 end BEDC.Derived.AuditExportFirewallUp
