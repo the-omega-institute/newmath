@@ -1054,6 +1054,7 @@ import BEDC.Derived.BorelFunctionUp.TasteGate
 import BEDC.Derived.BorelHierarchyUp.TasteGate
 import BEDC.Derived.BorelSetUp.TasteGate
 import BEDC.Derived.BornologyUp.TasteGate
+import BEDC.Derived.BornologyUp.UnionStability
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
@@ -2323,6 +2324,7 @@ import BEDC.Derived.CauchyUp.ModulusSpaceDiagonal
 import BEDC.Derived.CauchyUp.ModulusSpaceFilterHandoff
 import BEDC.Derived.CauchyUp.ModulusSpaceTail
 import BEDC.Derived.CauchyUp.PublicL10Export
+import BEDC.Derived.CauchyUp.RegSeqRatRealCompletionLattice
 import BEDC.Derived.CauchyWindowComparisonPrincipleUp.TasteGate
 import BEDC.Derived.CauchyWindowStabilityBridgeUp.TasteGate
 import BEDC.Derived.CauchyWindowTransducerUp.NameCertObligations
