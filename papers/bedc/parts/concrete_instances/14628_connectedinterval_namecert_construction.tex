@@ -58,6 +58,38 @@ Apply the sign-route row. The row $T$ is the only coordinate that can turn oppos
 The resulting refusal is therefore internal to $L,R,W,B,S,T$ and their transport and continuation rows. No step reads a global topology on host intervals, a trichotomy oracle, quotient real equality, a selected separator, compactness, or Heine--Borel.
 \end{proof}
 
+\begin{theorem}[Connected interval dyadic nesting obligations]
+\label{thm:connectedinterval-dyadic-nesting-obligations}
+An accepted $\ConnectedIntervalUp$ packet may expose the $\NestedIntervalUp$ refinement row $S$ only after the $\DyadicBisectionUp$ branch ledger $B$ has displayed the retained midpoint decisions over endpoint rows $L,R$ and finite window row $W$. Every $\RealUp$-facing consumer then reads $S$ through $B,W$, $\StreamNameUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The route exports no host connectedness, trichotomy, selected separator, Heine--Borel, open-cover compactness, or quotient real equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:connected-interval-carrier}. The nested-refinement row $S$ is not a free coordinate: it is listed downstream of the endpoint rows $L,R$, the finite interval window $W$, and the dyadic branch ledger $B$.
+
+Read the branch ledger before reading $S$. The ledger $B$ displays the retained midpoint decisions over the same endpoints and window, so the nested row can only repack retained finite intervals already recorded by $B$.
+
+Use \autoref{thm:connected-interval-separation-refusal} to keep those branch decisions inside the displayed interval data. Any attempted separation read must pass through $L,R,W,B,S,T$, and therefore cannot supply an external separator or host connectedness proof.
+
+Finally read the consumer-facing rows. The $\StreamNameUp$ and $\RegSeqRatUp$ observations, together with $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence, keep the refinement route finite before the $\RealUp$ seal is consumed. No row remains for trichotomy, selected separators, Heine--Borel, open-cover compactness, quotient real equality, or ambient host connectedness.
+\end{proof}
+
+\begin{theorem}[Connected interval nested-bisection ledger]
+\label{thm:connected-interval-nested-bisection-ledger}
+Every accepted $\ConnectedIntervalUp$ packet that exposes a nested-bisection read routes its endpoint rows $L,R$ through finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, the $\DyadicBisectionUp$ branch ledger $B$, the $\NestedIntervalUp$ row $S$, the $\IntermediateValueUp$ sign-route row $T$, the $\RealUp$ seal $E$, and the structural rows $H,C,P,N$. In carrier coordinates the route is
+$$
+L,R,W,B,S,T,E,H,C,P,N .
+$$
+It exports no trichotomy, selected separator, quotient real equality, open-cover compactness, or Heine--Borel principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:connected-interval-carrier}. The endpoint rows $L,R$ are read only as closed $\RealUp$ names through finite $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks, and the nested-bisection read has no coordinate outside $W,B,S,T,E,H,C,P,N$.
+
+Use \autoref{thm:connected-interval-namecert-obligations} to order the rows. Endpoint admission and finite interval-window admission occur before the dyadic branch ledger, the nested-refinement row, the sign-route row, and the Real seal, while $H,C,P,N$ keep the same displayed packet under transport, replay, provenance, and local naming.
+
+Use \autoref{thm:connected-interval-separation-refusal} for the sign-route boundary. Any separating read must pass through $L,R,W,B,S,T$, so the packet cannot introduce trichotomy, a selected separator, host connectedness, or quotient equality of real names.
+
+Finally apply \autoref{thm:connectedinterval-dyadic-nesting-obligations}. It identifies the $B$-to-$S$ handoff as the only route by which retained midpoint decisions become a nested-refinement row. The Real-facing read therefore reaches $E$ only after the finite bisection and nested-interval ledger has been exposed.
+\end{proof}
+
 \begin{theorem}[Connected interval real route]
 \label{thm:connected-interval-real-route}
 Every $\RealUp$-facing consumer of an accepted $\ConnectedIntervalUp$ packet factors through the closed endpoint rows, finite observation windows, dyadic branch ledger, nested-refinement row, intermediate-value sign-route row, displayed $\BHist$ packet, $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ConnectedIntervalUp}$ row. The exported real route is a certificate boundary, not quotient equality or host connectedness.
@@ -76,7 +108,7 @@ Use \autoref{thm:connected-interval-separation-refusal} for the connectedness bo
 \begin{closurestatus}{\ConnectedIntervalUp}
   \constructivestory{A $\ConnectedIntervalUp$ packet is generated from closed Real endpoint rows, finite StreamName windows, RegSeqRat readbacks, DyadicBisection branch ledgers, NestedInterval refinements, IntermediateValue sign-route rows, a Real seal route, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:connected-interval-carrier}, \autoref{thm:connected-interval-namecert-obligations}, \autoref{thm:connected-interval-separation-refusal}, and \autoref{thm:connected-interval-real-route} bind the finite interval-connectedness packet and its real-facing route.}
+  \scopeclosed{\autoref{def:connected-interval-carrier}, \autoref{thm:connected-interval-namecert-obligations}, \autoref{thm:connected-interval-separation-refusal}, \autoref{thm:connectedinterval-dyadic-nesting-obligations}, and \autoref{thm:connected-interval-real-route} bind the finite interval-connectedness packet and its real-facing route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, Heine--Borel, trichotomy, host connectedness, quotient equality of real names, selected separators, Lean verification, or a standard bridge.}
