@@ -1,6 +1,7 @@
 import BEDC.Derived.SubstitutionAuditMapUp.TasteGate
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -10,6 +11,7 @@ namespace BEDC.Derived.SubstitutionAuditMapUp
 
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
@@ -140,5 +142,49 @@ theorem SubstitutionAuditMapCarrier_boundary_nonescape [AskSetup] [PackageSetup]
   have rowGenerator : hsame row generator :=
     hsame_trans rowName nameGenerator
   exact ⟨rowUnary, rowGenerator, provenancePkg, namePkg⟩
+
+theorem SubstitutionAuditMapCarrier_obstruction_row_exactness [AskSetup] [PackageSetup]
+    {term closed shift substitute composition generator transport route provenance name row :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionAuditMapCarrier term closed shift substitute composition generator transport route
+        provenance name bundle pkg ->
+      hsame row transport ->
+        UnaryHistory row ∧ hsame row route ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame UnaryHistory
+  intro carrier rowTransport
+  obtain ⟨_termUnary, _closedUnary, _shiftUnary, _substituteUnary, _compositionUnary,
+    _generatorUnary, transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _termClosed, _shiftSubstitute, _compositionGenerator, transportRoute, _provenanceName,
+    _nameGenerator, provenancePkg, namePkg⟩ := carrier
+  have rowUnary : UnaryHistory row :=
+    unary_transport transportUnary (hsame_symm rowTransport)
+  have rowRoute : hsame row route :=
+    hsame_trans rowTransport transportRoute
+  exact ⟨rowUnary, rowRoute, provenancePkg, namePkg⟩
+
+theorem SubstitutionAuditMapCarrier_frontier_route_nonescape [AskSetup] [PackageSetup]
+    {term closed shift substitute composition generator transport route provenance name
+      frontierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionAuditMapCarrier term closed shift substitute composition generator transport route
+        provenance name bundle pkg ->
+      Cont route name frontierRead ->
+        PkgSig bundle frontierRead pkg ->
+          UnaryHistory route ∧ UnaryHistory name ∧ UnaryHistory frontierRead ∧
+            hsame route transport ∧ hsame name generator ∧ Cont route name frontierRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle frontierRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory ProbeBundle Pkg PkgSig
+  intro carrier frontierRoute frontierPkg
+  obtain ⟨_termUnary, _closedUnary, _shiftUnary, _substituteUnary, _compositionUnary,
+    _generatorUnary, _transportUnary, routeUnary, _provenanceUnary, nameUnary,
+    _termClosed, _shiftSubstitute, _compositionGenerator, transportRoute, _provenanceName,
+    nameGenerator, provenancePkg, _namePkg⟩ := carrier
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed routeUnary nameUnary frontierRoute
+  exact
+    ⟨routeUnary, nameUnary, frontierUnary, hsame_symm transportRoute, nameGenerator,
+      frontierRoute, provenancePkg, frontierPkg⟩
 
 end BEDC.Derived.SubstitutionAuditMapUp
