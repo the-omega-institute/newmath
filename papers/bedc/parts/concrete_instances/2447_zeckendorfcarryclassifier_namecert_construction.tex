@@ -70,6 +70,7 @@ K=(u,v,c,s,t,h,r,p,n),
 $$
 the displayed carry row $c$ determines the local source and target windows up to the carrier's external $\HSame$ transports: $u$ is the rejected $\mathtt{word\_011}$ window and $v$ is the accepted $\mathtt{word\_100}$ window. Any consumer that asks for the carried window reads the same finite pair through $r$ and cannot choose a second target window inside the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfCarryClassifierUp.ZeckendorfCarryClassifier\_window\_determinacy}
 \begin{proof}
 Inspect the carry row $c$. The $\ZCarryUp$ carrier admits only the local generator from the source window $\mathtt{word\_011}$ to the target window $\mathtt{word\_100}$.
 
@@ -77,11 +78,13 @@ The source-normality and target-normality rows then fix the orientation. The row
 
 Transport can only occur through the external $\HSame$ comparisons named in \autoref{def:zeckendorf-carry-classifier-same}. These comparisons preserve each side of the window pair separately and never identify the source with the target. Therefore the finite window readback has a single displayed target inside the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.ZeckendorfCarryClassifierUp.ZeckendorfCarryClassifierCarrier\_window\_determinacy}
 
 \begin{theorem}[Zeckendorf carry non-escape boundary]
 \label{thm:zeckendorf-carry-classifier-nonescape-boundary}
 Every public read exported by an accepted $\ZCarryUp$ carrier factors through $u,v,c,s,t,h,r,p,n$. In particular, the carrier cannot be used as a kernel rewrite rule, an $\HSame(u,v)$ witness, a Fibonacci value-preservation theorem, an arithmetic equality, or a global normalization procedure.
 \end{theorem}
+\leanchecked{BEDC.Derived.ZeckendorfCarryClassifierUp.ZeckendorfCarryClassifierCarrier\_nonescape\_boundary}
 \begin{proof}
 Start with the carrier inventory. The packet contains exactly the source and target windows, the local carry row, the source and target normality rows, the negative $\HSame$ row, the readback ledger, package provenance, and the local naming row.
 
