@@ -57,10 +57,16 @@ mean regret $0.03744$, and budget-four capture can reverse to $-0.1519$.  A
 candidate-pool audit over $22$ fixed learned score artifacts does not change the
 boundary: the best mean hard oracle-headroom capture is only $0.0242$, its
 budget-three capture is $0.1216$, and budget-four remains negative at
-$-0.0629$.  The current pressure is not another failure-score ranker or another
-selection rule over existing score families; it is held-out episode
-budget-magnitude transfer under explicit environment-state and
-option-conditioned mechanisms.
+$-0.0629$.  Direct train/cal oracle-value target transforms also do not close
+the gap.  Across option-error, per-anchor oracle-regret, uniform-relative-cost,
+and tail-weighted option-error targets, the best direct row is the
+uniform-relative-cost target with mean hard oracle-headroom capture $-0.1986$,
+budget-three capture $-0.3610$, budget-four capture $-0.1285$, and mean regret
+$0.0513$, worse than the best fixed-candidate mean capture $0.0242$.  The
+current pressure is therefore not another failure-score ranker, another
+selection rule over existing score families, or a simple oracle-target
+transform over the same carrier; it is held-out episode budget-magnitude
+transfer under explicit environment-state and option-conditioned mechanisms.
 
 Fifth, the state-generation contract is a route constraint, not a completed
 model claim.  The aligned export and candidate packet close the data-substrate
@@ -68,4 +74,6 @@ and measurement-path checks, but the candidate still misses prediction parity
 and does not close allocation.  The next BEDC-native world-model step must keep
 the prediction-parity gate explicit while training internal variables that
 survive failure, claim, compute-value, and action/control readouts under the
-same budget-feasible selection rule.
+same budget-feasible selection rule.  The compute-value target must be a
+mechanism-bearing state variable, not merely a supervised transform of
+available option errors.
