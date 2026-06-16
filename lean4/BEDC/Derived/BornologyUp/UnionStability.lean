@@ -34,4 +34,31 @@ theorem BornologyCarrier_bounded_family_union_stability
     unary_cont_closed unionUnary subsetUnary subfamilyRoute
   exact ⟨unionUnary, subfamilyUnary, unionRoute, subfamilyRoute⟩
 
+theorem BornologyBoundedFamilyUnionStability
+    {F S U E D H C P N unionRead handoffRead subfamilyRead : BHist} :
+    Cont F E unionRead ->
+      Cont unionRead U handoffRead ->
+        Cont handoffRead S subfamilyRead ->
+          UnaryHistory F ->
+            UnaryHistory E ->
+              UnaryHistory U ->
+                UnaryHistory S ->
+                  UnaryHistory unionRead ∧ UnaryHistory handoffRead ∧
+                    UnaryHistory subfamilyRead ∧ Cont F E unionRead ∧
+                      Cont unionRead U handoffRead ∧ Cont handoffRead S subfamilyRead ∧
+                        BornologyTasteGate_single_carrier_alignment_fields
+                            (BornologyUp.mk F S U E D H C P N) =
+                          [F, S, U, E, D, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sourceExposure unionHandoff subfamilyHandoff unaryF unaryE unaryU unaryS
+  have unionUnary : UnaryHistory unionRead :=
+    unary_cont_closed unaryF unaryE sourceExposure
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed unionUnary unaryU unionHandoff
+  have subfamilyUnary : UnaryHistory subfamilyRead :=
+    unary_cont_closed handoffUnary unaryS subfamilyHandoff
+  exact
+    ⟨unionUnary, handoffUnary, subfamilyUnary, sourceExposure, unionHandoff, subfamilyHandoff,
+      rfl⟩
+
 end BEDC.Derived.BornologyUp

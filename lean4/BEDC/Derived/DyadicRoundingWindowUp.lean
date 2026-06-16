@@ -385,6 +385,37 @@ theorem DyadicRoundingWindowCarrier_ledger_nonescape [AskSetup] [PackageSetup]
     }
   · exact ⟨provenanceUnary, provenancePkg⟩
 
+theorem DyadicRoundingWindowCarrier_obligation_closure_package [AskSetup] [PackageSetup]
+    {stream precision endpoint readback regular realSeal transport route provenance localName
+      closureRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicRoundingWindowCarrier stream precision endpoint readback regular realSeal transport route
+        provenance localName bundle pkg ->
+      Cont realSeal provenance closureRead ->
+        PkgSig bundle closureRead pkg ->
+          UnaryHistory stream ∧ UnaryHistory precision ∧ UnaryHistory endpoint ∧
+            UnaryHistory readback ∧ UnaryHistory regular ∧ UnaryHistory realSeal ∧
+              UnaryHistory closureRead ∧ Cont precision stream endpoint ∧
+                Cont stream endpoint readback ∧ Cont readback regular realSeal ∧
+                  Cont realSeal provenance closureRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle closureRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame
+  intro carrier realSealProvenanceClosure closurePkg
+  obtain
+    ⟨streamUnary, precisionUnary, endpointUnary, readbackUnary, regularUnary, realSealUnary,
+      precisionStreamEndpoint, streamEndpointReadback, readbackRegularRealSeal, provenancePkg,
+      localNameStream, localNameProvenance⟩ := carrier
+  have streamProvenance : hsame stream provenance :=
+    hsame_trans (hsame_symm localNameStream) localNameProvenance
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_transport streamUnary streamProvenance
+  have closureUnary : UnaryHistory closureRead :=
+    unary_cont_closed realSealUnary provenanceUnary realSealProvenanceClosure
+  exact
+    ⟨streamUnary, precisionUnary, endpointUnary, readbackUnary, regularUnary, realSealUnary,
+      closureUnary, precisionStreamEndpoint, streamEndpointReadback, readbackRegularRealSeal,
+      realSealProvenanceClosure, provenancePkg, closurePkg⟩
+
 theorem DyadicRoundingWindowCarrier_scoped_consumer_boundary [AskSetup] [PackageSetup]
     {stream precision endpoint readback regular realSeal transport route provenance localName
       consumerRead : BHist}
