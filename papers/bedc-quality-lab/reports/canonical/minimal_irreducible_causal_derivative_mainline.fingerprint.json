@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-15T17:58:08.027224+00:00",
+    "generated_at": "2026-06-15T19:37:00.997010+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "cf586ad502ad338bb1c671374f8a0462cb6de27abc0c114159663dbceffc8478",
+  "input_fingerprint": "f730b539758faf077687bcb71733ff4bc2561e34b3ec43074f52fb138634fe39",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
@@ -156,7 +156,7 @@
       },
       {
         "path": "bedc_quality_lab/discovery_gated_transformer.py",
-        "sha256": "bfe866922eca571b7187bf0405ba639f72083b254e66c6c0729cc6989cf3b6a4"
+        "sha256": "6e8db7c1d3bfc2c6e3000daabaf422766c917a64d49a906fbab8491557a031df"
       },
       {
         "path": "bedc_quality_lab/discovery_gated_transformer_training.py",
@@ -292,7 +292,7 @@
       },
       {
         "path": "scripts/run_canonical_reports.py",
-        "sha256": "6bfe23fad3acad371851727c072493b217ab1328711309e514170361f6ead597"
+        "sha256": "00e2eef693809becc990572050fecd25f869f0da992713e14e8908da1d79e08a"
       },
       {
         "path": "scripts/run_causal_patch_suite.py",
@@ -379,7 +379,7 @@
         "sha256": "bc6ce57f684440b404d2638aeed96852c6f31eb2c74da0773e201a8a21fca022"
       }
     ],
-    "report_output_schema_id": "bedc-quality-lab:discovery-gated-transformer-jepa-world-model",
+    "report_output_schema_id": "bedc-quality-lab:minimal-irreducible-causal-derivative-mainline",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
@@ -392,40 +392,88 @@
     },
     "source_artifacts": [
       {
-        "path": "configs/default_cost_protocol.yaml",
-        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+        "path": "reports/canonical/boundary_causal_derivative_schema.json",
+        "sha256": "3aa83c03d671b5356ba853eb41c58c7bb6437754b9cc9504a4f6f41c50604c22"
       },
       {
-        "path": "docs/lit/literature_ledger.yaml",
-        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+        "path": "reports/canonical/causal_patch_suite.json",
+        "sha256": "8c9e63105c367799e5251860bb862c2654e961928f923ed774a05a10bac6f9a7"
       },
       {
-        "path": "reports/bedc_jepa_artifact_manifest.json",
-        "sha256": "edd6099f2809254437af833393650b757be2f5899675434e7bc8aa27180905c3"
+        "path": "reports/canonical/claim_graph.json",
+        "sha256": "e7fa683530baa7da0ef34a83c192d06679b5a3dd78004ae8b882e48f7dcee1fb"
       },
       {
-        "path": "reports/bedc_jepa_quality_packet.json",
-        "sha256": "8bc629cc7d5df2804a1d3fe889c62f1caa5d0eccf4e722af381ca370444a52cd"
+        "path": "reports/canonical/derivative_order_ledger.json",
+        "sha256": "44fc520dfc46953985ae75797f361bb9e6157533efe1522865ee3e2de003b490"
       },
       {
-        "path": "reports/bedc_jepa_risk_constrained_planning.json",
-        "sha256": "4f60c93c37a82b2d49acadae83f194b23244318cc5d0d11fe5059239667758b0"
+        "path": "reports/canonical/dgt-ablation-null-decomposition.json",
+        "sha256": "42e53c3078a9ef20cd5d5a5c02e9ab57e96a3742305596a06fc3190f216b89be"
       },
       {
-        "path": "reports/canonical/lejepa_theorem_ledger.json",
-        "sha256": "55af1d285ba820623613a1f78befd86c83d6d359c1f31730fa5192b72937300a"
+        "path": "reports/canonical/dgt-base-undertraining-audit.json",
+        "sha256": "41fe56009370c9af21066d257513a1778ff5442fd0fdfb4a45491e7b4861baf4"
+      },
+      {
+        "path": "reports/canonical/dgt-component-redundancy-audit.json",
+        "sha256": "a9a04a3b3f722b3f014b4bdfe26579d7887dcd3b985a591028644284646be75e"
+      },
+      {
+        "path": "reports/canonical/dgt-l0-controls.json",
+        "sha256": "7bce0250dfe79238d60eb47eb2c096aa818cfaa59a213e1410d571c34863a9e3"
+      },
+      {
+        "path": "reports/canonical/dgt-l1-controls.json",
+        "sha256": "13e72b88791ccbd23a8043eed0fdbb82afba7b3a660f2d5004bb90537514194a"
+      },
+      {
+        "path": "reports/canonical/dgt-neural-ablation.json",
+        "sha256": "e458525ebd7e0f6936bb945cc0f6fd667f48a8dc9fd3ca1ff735358c7c71af6c"
+      },
+      {
+        "path": "reports/canonical/discovery-gated-transformer.json",
+        "sha256": "547d3aeaa975febb7b0befc479de703948c72851d41e4d0052b1ee02c62b87c4"
+      },
+      {
+        "path": "reports/canonical/discovery_negative_witness_summary.json",
+        "sha256": "dbd7cd3cc27e02fdbb343201d2a7161e09f4e56a944e8cec82d017e26bbfcdc6"
+      },
+      {
+        "path": "reports/canonical/irreducibility_report.json",
+        "sha256": "7b19eca5fe1c84fc842b984c70f3e616e13cca3f8d87a01efdc04a51c5ad942a"
+      },
+      {
+        "path": "reports/canonical/mechanism_dna.json",
+        "sha256": "b4dbf693c406ee3faad8c1da52f60afcd7a2540a8cf6795fd5669c91ac11ab79"
+      },
+      {
+        "path": "reports/canonical/model-comparison.json",
+        "sha256": "e7b57c709d6188cac7b2dbf7838eaab79d840b45ed2952f6a3df7a1c3ee2835c"
+      },
+      {
+        "path": "reports/canonical/new_model_hardgates.json",
+        "sha256": "39f787b3bf56a4aa780b51c329777a6cb378126a329777f27fc5f851bbfb192d"
+      },
+      {
+        "path": "reports/runs/discovery-gated-transformer/claim_capsule.json",
+        "sha256": "e546186294d24c776ad3e649f20e38930805d0f6ba5f0600c29fd66b91ee1955"
+      },
+      {
+        "path": "reports/runs/discovery-gated-transformer/evidence_envelope.json",
+        "sha256": "e0450dab0b82b3496f3a4db4bf6e1b570c8aa87c08690bec895456156c82f826"
       }
     ],
     "spec": {
       "bundle_role": "auxiliary",
-      "claim_promotion_eligible": true,
+      "claim_promotion_eligible": false,
       "command": [
         "python3",
         "scripts/run_canonical_reports.py"
       ],
       "construct_validity_pointer": null,
       "control_pointer": null,
-      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "cost_pointer": "$.source_refs",
       "estimated_seconds": 1,
       "forbidden_claim_terms": [
         "full-lejepa",
@@ -437,47 +485,43 @@
         "LLM superiority",
         "production superiority"
       ],
-      "json_artifact": "reports/canonical/discovery_gated_transformer_jepa_world_model.json",
-      "literature_ref_ids": [
-        "lit-lejepa-theorem-ledger"
-      ],
-      "markdown_artifact": "reports/canonical/discovery_gated_transformer_jepa_world_model.md",
-      "name": "discovery-gated-transformer-jepa-world-model",
-      "no_control_rationale_pointer": "$.claim_boundary",
+      "json_artifact": "reports/canonical/minimal_irreducible_causal_derivative_mainline.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/minimal_irreducible_causal_derivative_mainline.md",
+      "name": "minimal-irreducible-causal-derivative-mainline",
+      "no_control_rationale_pointer": "$.not_claimed",
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.claim_boundary",
+      "positive_claim_pointer": "$.candidate_status",
       "reproducibility_mode": "exact_fixture",
       "required_json_keys": [
         "schema_id",
         "artifact_id",
+        "artifact_role",
         "generated_at",
         "producer",
-        "source_artifacts",
-        "component_refs",
-        "theorem_bridge",
-        "planning_head",
-        "mechanism_seeking",
-        "claim_boundary",
-        "hardgate",
-        "hardgate_ref",
-        "forbidden_claim_term_audit",
-        "not_claimed"
+        "source_refs",
+        "candidate_status",
+        "claim_authority",
+        "verdict_authority",
+        "not_claimed",
+        "negative_results",
+        "child_artifacts"
       ],
-      "scope_pointer": "$.claim_boundary"
+      "scope_pointer": "$.not_claimed"
     }
   },
-  "json_artifact": "reports/canonical/discovery_gated_transformer_jepa_world_model.json",
-  "markdown_artifact": "reports/canonical/discovery_gated_transformer_jepa_world_model.md",
+  "json_artifact": "reports/canonical/minimal_irreducible_causal_derivative_mainline.json",
+  "markdown_artifact": "reports/canonical/minimal_irreducible_causal_derivative_mainline.md",
   "producer_command": [
     "python3",
     "scripts/run_canonical_reports.py"
   ],
-  "report_name": "discovery-gated-transformer-jepa-world-model",
+  "report_name": "minimal-irreducible-causal-derivative-mainline",
   "reproducibility_contract": {
     "calibration": {
       "basis": "input-fingerprint-only fixture contract",
       "calibration_source": "exact-fixture-input-contract",
-      "owner": "discovery-gated-transformer-jepa-world-model"
+      "owner": "minimal-irreducible-causal-derivative-mainline"
     },
     "device_policy": {
       "backend_details": {
@@ -499,7 +543,7 @@
       {
         "calibration_source": "exact-fixture-input-contract",
         "comparison": "status_equal",
-        "owner": "discovery-gated-transformer-jepa-world-model",
+        "owner": "minimal-irreducible-causal-derivative-mainline",
         "pointer": "$",
         "reference_value": "fixture-schema-present",
         "seed_basis": {
@@ -515,7 +559,7 @@
       0
     ]
   },
-  "reproducibility_contract_digest": "f13bd1ca8ac4bbfc494b095c5a7d4413c5397887b28a244d2a253f4b36ddb4f4",
+  "reproducibility_contract_digest": "6c6e912d5dcf67e80d9279f48f7ae3a2e27d04db61eed12fd50dcb6fe17d44b8",
   "reproducibility_mode": "exact_fixture",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

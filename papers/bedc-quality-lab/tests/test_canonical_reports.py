@@ -390,17 +390,21 @@ def _payload_for_spec(spec):
         {
             "source_artifacts": {
                 "cost_protocol": "configs/default_cost_protocol.yaml",
+                "claim_capsule": "reports/runs/fixture/claim_capsule.json",
+                "run_artifacts": {
+                    "claim_capsule": "reports/runs/fixture/claim_capsule.json",
+                },
                 "canonical_runner": "scripts/run_gaussian_ou_lejepa.py",
                 "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
             },
             "applicability_boundary": {
                 "claimed_scope": "fixture scope",
-                "not_claimed": "fixture nonclaim",
+                "not_claimed": ["fixture nonclaim"],
                 "forbidden_inference_columns": ["z"],
             },
             "coverage_item": {"status": "fixture"},
             "transition_debt_by_grid": {"cell": {"status": "fixture"}},
-            "config": {"arm": "baseline-only"},
+            "config": {"arm": "baseline-only", "claim_capsule_artifact": "reports/runs/fixture/claim_capsule.json"},
             "control_protocol": {"status": "fixture", **_matched_random_audit_fixture()},
             "treatment_verdict": {"positive": spec.name == "gap-head-on-h"},
             "control_verdict": {"positive": False},
@@ -952,7 +956,10 @@ def _payload_for_spec(spec):
     if spec.name == "certificate-gated-attention":
         return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "gap-head-transfer-atlas":
-        payload["config"] = {"control_arm": "matched_random_gap_head"}
+        payload["config"] = {
+            "control_arm": "matched_random_gap_head",
+            "claim_capsule_artifact": "reports/runs/fixture/claim_capsule.json",
+        }
         payload.update(_atlas_fixture_rows())
         payload["forbidden_claim_term_audit"] = {"status": "pass", "hits": []}
     if spec.name == "transformer-derivative-atlas":
@@ -1067,6 +1074,34 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
             canonical_module._validate_discovery_regularized_training_payload(payload)
         json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
+    fixture_capsule = tmp_path / "reports/runs/fixture/claim_capsule.json"
+    fixture_capsule.parent.mkdir(parents=True, exist_ok=True)
+    fixture_capsule.write_text(
+        json.dumps(
+            {
+                "schema_id": "bedc.quality.claim_capsule",
+                "claim_id": "claim:fixture",
+                "report": "fixture",
+                "source": "reports/canonical/fixture.json",
+                "source_pointer": "$",
+                "status": "complete",
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    for artifact in (
+        "reports/runs/certificate-gated-attention/claim_capsule.json",
+        "reports/runs/sigreg-training-proxy/claim_capsule.json",
+        "reports/runs/sigreg-mini-grid/claim_capsule.json",
+        "reports/runs/discovery-regularized-training/claim_capsule.json",
+        "reports/runs/mechanism-seeking-network/claim_capsule.json",
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+    ):
+        path = tmp_path / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(fixture_capsule.read_text(encoding="utf-8"), encoding="utf-8")
     cmi_path = tmp_path / canonical_module.IRREDUCIBILITY_CMI_JSON_ARTIFACT
     cmi_path.parent.mkdir(parents=True, exist_ok=True)
     cmi_path.write_text(
@@ -1353,6 +1388,26 @@ def _write_release_pointer_fixture(root):
     (root / "docs" / "lit").mkdir(parents=True, exist_ok=True)
     canonical_dir = root / "reports" / "canonical"
     canonical_dir.mkdir(parents=True, exist_ok=True)
+    run_capsule_payload = {
+        "schema_id": "bedc.quality.claim_capsule",
+        "claim_id": "claim:fixture",
+        "report": "fixture",
+        "source": "reports/canonical/fixture.json",
+        "source_pointer": "$",
+        "status": "complete",
+    }
+    for artifact in (
+        "reports/runs/fixture/claim_capsule.json",
+        "reports/runs/certificate-gated-attention/claim_capsule.json",
+        "reports/runs/sigreg-training-proxy/claim_capsule.json",
+        "reports/runs/sigreg-mini-grid/claim_capsule.json",
+        "reports/runs/discovery-regularized-training/claim_capsule.json",
+        "reports/runs/mechanism-seeking-network/claim_capsule.json",
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+    ):
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(run_capsule_payload, sort_keys=True) + "\n", encoding="utf-8")
     (canonical_dir / "new_model_hardgates.json").write_text(json.dumps({"gates": {"status": "pass"}}) + "\n", encoding="utf-8")
     (canonical_dir / "mechanism_dna.json").write_text(json.dumps({"rows": [{"status": "pass"}]}) + "\n", encoding="utf-8")
     (canonical_dir / "discovery-gated-transformer-training.json").write_text(json.dumps({"hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
@@ -5395,6 +5450,51 @@ def test_discovery_regularized_training_drt2_negative_witness_sibling_pointers_r
         canonical._validate_discovery_regularized_training_payload(mutated)
 
 
+def test_discovery_regularized_training_fair_control_sections_are_required_and_owner_local():
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    payload = _payload_for_spec(spec)
+
+    canonical._validate_discovery_regularized_training_payload(payload)
+
+    assert spec.control_pointer == "$.fair_control_ledger"
+    assert set(spec.required_json_keys) >= {
+        "fair_control_ledger",
+        "base_chance_gate",
+        "four_axis_match_gate",
+        "drt_nondegenerate_gate",
+    }
+    assert payload["fair_control_ledger"]["owner_pointer"].endswith("$.fair_control_ledger")
+    assert payload["base_chance_gate"]["owner_pointer"].endswith("$.base_chance_gate")
+    assert payload["four_axis_match_gate"]["owner_pointer"].endswith("$.four_axis_match_gate")
+    assert payload["drt_nondegenerate_gate"]["owner_pointer"].endswith("$.drt_nondegenerate_gate")
+    assert tuple(
+        gate for gate in payload["hardgate"]["gates"] if gate.startswith("DRT-FC-HG")
+    ) == ("DRT-FC-HG1", "DRT-FC-HG2", "DRT-FC-HG3", "DRT-FC-HG4")
+    assert "fair-control-training" not in {item.name for item in canonical.CANONICAL_REPORTS}
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda item: item.update({"fair_control_ledger": {}}),
+        lambda item: item["fair_control_ledger"]["pair_rule_surface"].update({"status": "fail"}),
+        lambda item: item["base_chance_gate"].update({"status": "fail"}),
+        lambda item: item["four_axis_match_gate"]["axes"]["parameter_match"].update({"status": "fail"}),
+        lambda item: item["drt_nondegenerate_gate"].update({"status": "fail"}),
+        lambda item: item["drt_nondegenerate_gate"]["control_quality_pointers"].pop("compute_matched"),
+        lambda item: item["fair_control_ledger"]["arms"][1].update({"candidate_quality_margin": 0.0}),
+        lambda item: item["hardgate"]["gates"]["DRT-FC-HG1"].update({"status": "fail"}),
+    ],
+)
+def test_discovery_regularized_training_fair_control_validator_fails_closed(mutate):
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    mutated = json.loads(json.dumps(payload))
+    mutate(mutated)
+
+    with pytest.raises(ValueError):
+        canonical._validate_discovery_regularized_training_payload(mutated)
+
+
 def test_discovery_regularized_training_quality_boundary_index_disk_invalid_payload_falls_back(monkeypatch, tmp_path):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
@@ -9026,6 +9126,9 @@ def test_index_discipline_owns_reporting_hardgate_nested_object():
             "required_cells",
             "missing_required_cells",
             "cells",
+            "protocol_status",
+            "protocol_failed_gates",
+            "protocol_pointer_audit_status",
         }
         assert "construct_validity_pointer" in report["discipline"]
         assert "construct_validity_status" in report["discipline"]
@@ -9073,6 +9176,8 @@ def test_missing_cost_protocol_blocks_positive_promotion(tmp_path, monkeypatch):
         "source_artifact": "reports/canonical/fixture-report.json",
         "status": "missing",
     }
+    assert gate["protocol_status"] == "fail"
+    assert gate["protocol_failed_gates"] == ["U-HG2"]
 
 
 def test_missing_not_claimed_blocks_positive_promotion(tmp_path, monkeypatch):
@@ -9157,6 +9262,21 @@ def test_reporting_hardgate_cells_are_pointer_only(tmp_path, monkeypatch):
     assert "negative witness prose" not in serialized
     assert "\\formalstatus" not in serialized
     assert "theorem proof" not in serialized
+
+
+def test_reporting_hardgate_consumes_shared_claim_capsule_protocol(tmp_path, monkeypatch):
+    spec = _reporting_spec()
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec, not_claimed=False)
+
+    gate = canonical._discipline(spec)["reporting_hardgate"]
+
+    assert gate["status"] == "fail"
+    assert gate["protocol_status"] == "fail"
+    assert gate["protocol_failed_gates"] == ["U-HG3"]
+    assert gate["protocol_pointer_audit_status"] == "pass"
 
 
 def test_run_spec_consumes_reporting_hardgate_failure(tmp_path, monkeypatch):
