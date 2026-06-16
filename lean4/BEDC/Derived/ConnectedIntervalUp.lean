@@ -59,4 +59,25 @@ theorem ConnectedIntervalCarrier_separation_refusal
                                                   · exact routeT
                                                   · exact routeN
 
+theorem ConnectedIntervalObligationClosureRoute
+    {L R W B S T E H C P N «seal» : BHist} :
+    ConnectedIntervalCarrier L R W B S T E H C P N ->
+      Cont E N «seal» ->
+        UnaryHistory L ∧ UnaryHistory R ∧ UnaryHistory W ∧ UnaryHistory B ∧
+          UnaryHistory S ∧ UnaryHistory T ∧ UnaryHistory E ∧ UnaryHistory «seal» ∧
+            Cont L W B ∧ Cont B S T ∧ Cont T E N ∧ Cont E N «seal» := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro carrier endpointSeal
+  have exposure :=
+    ConnectedIntervalCarrier_separation_refusal
+      (L := L) (R := R) (W := W) (B := B) (S := S) (T := T) (E := E)
+      (H := H) (C := C) (P := P) (N := N) carrier
+  obtain ⟨unaryL, unaryR, unaryW, unaryB, unaryS, unaryT, unaryE, routeB, routeT,
+    routeN⟩ := exposure
+  have unarySeal : UnaryHistory «seal» :=
+    unary_cont_closed unaryE (unary_cont_closed unaryT unaryE routeN) endpointSeal
+  exact
+    ⟨unaryL, unaryR, unaryW, unaryB, unaryS, unaryT, unaryE, unarySeal, routeB,
+      routeT, routeN, endpointSeal⟩
+
 end BEDC.Derived.ConnectedIntervalUp
