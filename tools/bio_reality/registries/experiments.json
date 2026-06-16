@@ -682,8 +682,19 @@
       "dependencies": [],
       "external_preconditions": [],
       "acceptance": {
-        "required_checks": [],
-        "criteria": {}
+        "required_checks": [
+          "computed_organism_scope",
+          "b_star_q6_residuals_computed",
+          "greedy_basis_extraction_computed",
+          "dof_matched_null_computed",
+          "persistent_residual_negative_result",
+          "compressible_vs_persistent_labeled",
+          "boundary_no_promotion"
+        ],
+        "criteria": {
+          "statistical_strength": "requires deterministic dof-matched Gaussian null per selected step, at least four computed organisms, all computed organisms labeled persistent, and min final rho >= 0.97",
+          "scope_boundary": "descriptive residual compression audit only; no translation, mechanism, structure, function, or global biological-law promotion"
+        }
       }
     },
     {
