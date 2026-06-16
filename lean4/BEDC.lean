@@ -1063,6 +1063,7 @@ import BEDC.Derived.BoundedFunctionFamilyUp.NameCertObligations
 import BEDC.Derived.BoundedFunctionFamilyUp.TasteGate
 import BEDC.Derived.BoundedIntervalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedIntervalProjectionUp.TasteGate
+import BEDC.Derived.BoundedLinearFunctionalUp.TasteGate
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetCofinalReadback
@@ -1798,6 +1799,7 @@ import BEDC.Derived.CauchyModulusArithmeticUp.SumProductCarrierAdmission
 import BEDC.Derived.CauchyModulusArithmeticUp.SumProductSharedThreshold
 import BEDC.Derived.CauchyModulusArithmeticUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp.WindowedProductDistributivity
+import BEDC.Derived.CauchyModulusBridgeUp.TasteGate
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
@@ -5841,6 +5843,7 @@ import BEDC.Derived.HausdorffCompletionUp.UniformConsumerPackage
 import BEDC.Derived.HausdorffContentUp.TasteGate
 import BEDC.Derived.HausdorffDimensionUp.TasteGate
 import BEDC.Derived.HausdorffDistanceUp.TasteGate
+import BEDC.Derived.HausdorffMeasureUp.TasteGate
 import BEDC.Derived.HausdorffMetricUp.TasteGate
 import BEDC.Derived.HausdorffRealCompletionUp.TasteGate
 import BEDC.Derived.HausdorffReflectionCompletionCounitUp.TasteGate
@@ -10809,6 +10812,7 @@ import BEDC.Derived.VanDerCorputDifferenceEstimateUp.TasteGate
 import BEDC.Derived.VariationMeasureUp.TasteGate
 import BEDC.Derived.VariationNormUp.TasteGate
 import BEDC.Derived.VariationOfConstantsUp.TasteGate
+import BEDC.Derived.VariationSeminormUp.TasteGate
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
