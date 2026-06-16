@@ -397,6 +397,25 @@ def close_conversation(
     return data.get("status") != "error" and not data.get("error")
 
 
+def cancel_task(
+    task_id: str,
+    *,
+    server_url: str = DEFAULT_SERVER_URL,
+    timeout_seconds: int = 60,
+) -> bool:
+    """Cancel a queued or in-flight oracle task."""
+    if not task_id:
+        return False
+    if _is_nyxid_oracle_url(server_url):
+        data = _run_nyxid_oracle(
+            ["nyxid", "oracle", "cancel", "--output", "json", task_id],
+            timeout_seconds=timeout_seconds,
+        )
+    else:
+        data = _request_json("POST", server_url, "/cancel", {"task_id": task_id}, timeout_seconds)
+    return str(data.get("status") or "") == "cancelled" and not data.get("error")
+
+
 def poll_result(
     task_id: str,
     *,
@@ -418,6 +437,7 @@ def poll_result(
             return _error("not_found", f"oracle task not found: {task_id}")
         now = time.monotonic()
         if now >= deadline:
+            cancel_task(task_id, server_url=server_url, timeout_seconds=30)
             return _error("timeout", f"timed out waiting for oracle task {task_id}")
         time.sleep(min(interval, max(0.0, deadline - now)))
 
