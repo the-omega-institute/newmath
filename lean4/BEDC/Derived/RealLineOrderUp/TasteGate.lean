@@ -192,4 +192,27 @@ theorem RealLineOrderNameCertObligations (x : RealLineOrderUp) :
             exact source
         }
 
+theorem RealLineOrderTasteGate_single_carrier_alignment :
+    (∀ dyadicTolerance streamWindow regularReadback locatedComparison apartness realSeal
+        transport replay provenance name : BHist,
+      realLineOrderFields
+          (RealLineOrderUp.mk dyadicTolerance streamWindow regularReadback locatedComparison
+            apartness realSeal transport replay provenance name) =
+        [dyadicTolerance, streamWindow, regularReadback, locatedComparison, apartness, realSeal,
+          transport, replay, provenance, name]) ∧
+      (∀ h : BHist, realLineOrderDecodeBHist (realLineOrderEncodeBHist h) = h) ∧
+      realLineOrderEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro dyadicTolerance streamWindow regularReadback locatedComparison apartness realSeal
+      transport replay provenance name
+    rfl
+  · constructor
+    · intro h
+      induction h with
+      | Empty => rfl
+      | e0 h ih => exact congrArg BHist.e0 ih
+      | e1 h ih => exact congrArg BHist.e1 ih
+    · rfl
+
 end BEDC.Derived.RealLineOrderUp

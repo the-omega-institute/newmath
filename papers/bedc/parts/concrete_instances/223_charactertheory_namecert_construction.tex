@@ -120,10 +120,22 @@ Use the root carrier, classifier, and ledger obligations, \autoref{thm:character
 Finally apply source compatibility, trace transport, and the NameCert obligation surface, \autoref{thm:charactertheory-source-compatibility-obligation}, \autoref{thm:charactertheory-trace-transport-stability}, and \autoref{thm:charactertheory-namecert-obligation-surface}. These results repack all transported reads through $\hsame$, $\Cont$, $\Pkg$, and the local naming row, leaving no exported quotient conjugacy-class enumeration or ambient representation category.
 \end{proof}
 
+\begin{theorem}[CharacterTheoryUp scoped source induction]
+\label{thm:character-theory-scoped-source-induction}
+The root carrier, classifier, ledger, source compatibility, trace transport, NameCert obligation surface, and scoped source route jointly bind every $\CharacterTheoryUp$ read to the displayed $\GroupUp$, $\VecSpaceUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CharacterTheoryUp}$ rows. Induction over accepted reads therefore has no step that leaves the group source row, vector-space source row, representation-action row, trace readback row, class-function ledger, componentwise transport, replay, provenance, and local naming surface.
+\end{theorem}
+\begin{proof}
+Start with the root carrier of \autoref{def:charactertheory-root-bhist-surface}. Its rows display the group source, vector-space source, representation action, trace readback, class-function ledger, and provenance surface.
+
+Use the carrier, classifier, and ledger obligations, \autoref{thm:charactertheory-root-carrier-obligation}, \autoref{thm:charactertheory-root-classifier-obligation}, and \autoref{thm:charactertheory-root-ledger-obligation}. These bind every carrier read, classifier comparison, and ledger read to the displayed source rows and their finite transport data.
+
+Finally apply source compatibility, trace transport stability, the NameCert obligation surface, and the scoped source route. They close the induction step under $\hsame$, $\Cont$, $\Pkg$, and local naming, so no read can escape to a host trace operator, quotient conjugacy-class enumeration, or external representation category.
+\end{proof}
+
 \begin{closurestatus}{\CharacterTheoryUp}
   \constructivestory{A $\CharacterTheoryUp$ packet is generated from finite $\BHist$ rows for a representation source, class-function or trace readbacks, root or character ledgers, source-compatibility rows, and the local naming row. The trace-facing data are displayed histories transported by $\hsame$, so equality of characters is not imported as host class-function equality. The $\Cont$ rows replay how representation rows feed the trace and root ledgers, and $\Pkg$ records the representation-theoretic dependencies that the packet consumes. The public surface is therefore the finite character ledger and its stability obligations, with quotient classes and ambient representation objects left outside.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the finite carrier obligation surface, source compatibility, trace transport stability, root ledger obligation, and no-host-boundary statement for $\CharacterTheoryUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:character-theory-scoped-source-induction} binds the finite carrier, classifier, ledger, source compatibility, trace transport, NameCert obligation surface, and scoped source route to the displayed GroupUp, VecSpaceUp, hsame, Cont, Pkg, and local NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
