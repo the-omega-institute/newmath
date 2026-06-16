@@ -64,6 +64,22 @@ The modulus row $M$ then returns a stage bound for that request. This bound cont
 Finally the real-facing row $E$ is read only after $R$ is present. Componentwise $\hsame$ transport in $H$ moves the same stream, dyadic, modulus, regular-readback, and real-seal rows together, so the handoff remains a displayed finite route. The excluded host and quotient data are absent from the carrier inventory.
 \end{proof}
 
+\begin{theorem}[BishopModulusConvergence tail transport]
+\label{thm:bishop-modulus-convergence-tail-transport}
+For every accepted $\BishopModulusConvergenceUp$ packet $(S,D,M,R,E,H,C,P,N)$, each tail-bound supplied by the Bishop modulus row $M$ remains valid after componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay through $C$. Consequently the $\RegSeqRatUp$ readback $R$ and the $\RealUp$ seal $E$ receive the same tolerance-controlled tail that was certified before transport.
+
+No quotient stream, selected limit, countable-choice selector, trichotomy branch, or ambient completeness witness is introduced by this transport route.
+\end{theorem}
+\begin{proof}
+Project the transport and replay rows $H$ and $C$ from the accepted carrier. The transport row is componentwise, so it moves the stream schedule, dyadic tolerance row, modulus row, regular readback, and real seal together rather than replacing the tail certificate by an external equality.
+
+Read the analytic rows in the carrier order $S,D,M,R,E$. A tolerance request is first registered in $D$, then the modulus row $M$ supplies the finite tail-bound for all later windows of the stream schedule $S$.
+
+Replay through $C$ preserves the same request-to-bound route. Since $H$ transports the same rows componentwise, the tail-bound still controls the later scheduled windows after transport, and $R$ receives the identical controlled tail before $E$ is exposed.
+
+The carrier has no coordinate for quotient streams, selected limits, countable-choice selectors, trichotomy, or ambient completeness. The transported theorem therefore remains a finite tail handoff through $S,D,M,R,E,H,C$.
+\end{proof}
+
 \closureat{BishopModulusConvergenceUp}{seedStr}
 
 \begin{closurestatus}{\BishopModulusConvergenceUp}
