@@ -1604,6 +1604,7 @@ import BEDC.Derived.CauchyCondensationUp.TasteGate
 import BEDC.Derived.CauchyContinuityCalibrationUp.TasteGate
 import BEDC.Derived.CauchyContinuityPrincipleUp.RealSealBoundary
 import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
+import BEDC.Derived.CauchyContinuousExtensionUp.ChoiceFreeDensityRoute
 import BEDC.Derived.CauchyContinuousExtensionUp.CompletionConsumer
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularSourceHandoff
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularTailTransport
@@ -5207,6 +5208,7 @@ import BEDC.Derived.FilterRefinementUp.CauchyBaseDependency
 import BEDC.Derived.FilterRefinementUp.CauchyBasisConsumer
 import BEDC.Derived.FilterRefinementUp.CauchyPreservation
 import BEDC.Derived.FilterRefinementUp.CompletionRoute
+import BEDC.Derived.FilterRefinementUp.ReverseLedgerComparison
 import BEDC.Derived.FilterRefinementUp.TasteGate
 import BEDC.Derived.FilterSubbasisCofinalCompletionUp
 import BEDC.Derived.FilterUp
@@ -8696,6 +8698,7 @@ import BEDC.Derived.RealMetricUp
 import BEDC.Derived.RealMetricUp.LocatedDistanceHandoff
 import BEDC.Derived.RealMetricUp.NameCertObligations
 import BEDC.Derived.RealMetricUp.TasteGate
+import BEDC.Derived.RealMinMaxUp.FiniteComparisonHandoff
 import BEDC.Derived.RealMinMaxUp.TasteGate
 import BEDC.Derived.RealModulusCriterionUp.TasteGate
 import BEDC.Derived.RealModulusExtractionUp.TasteGate
