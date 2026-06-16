@@ -142,6 +142,36 @@ def _normalize_decision(parsed: dict[str, Any]) -> dict[str, Any] | None:
     return {"continue": False, "reason": reason, "useful_score": useful_score}
 
 
+_ORACLE_FOLLOWUP_BLOCKLIST = (
+    "json",
+    "schema",
+    "acceptance contract",
+    "contract",
+    "writeback",
+    "write back",
+    "repo",
+    "repository",
+    "local file",
+    "pdf",
+    "transcript",
+    "registry",
+    "pipeline",
+    "codex",
+    "implement",
+    "patch",
+)
+
+
+def _oracle_followup_is_research_question(text: str) -> bool:
+    lowered = text.lower()
+    if any(token in lowered for token in _ORACLE_FOLLOWUP_BLOCKLIST):
+        return False
+    if len(text) > 700:
+        return False
+    question_marks = text.count("?")
+    return question_marks <= 2
+
+
 def codex_judge_callback(
     repo_root: Path,
     lane: str,
@@ -168,9 +198,12 @@ def codex_judge_callback(
         prompt = "\n".join(
             [
                 "You are the Codex reasoning judge for a FibonacciReality ChatGPT oracle session.",
-                "Decide whether the same ChatGPT conversation can still produce useful content.",
+                "Decide whether the same ChatGPT conversation can still produce useful mathematical research content.",
                 "Ground only in the lane, topic brief, and summarized turn history below.",
-                "If continuing, ask one concrete follow-up question for the same conversation_id.",
+                "The oracle must not do local automation work or write structured deliverables.",
+                "If continuing, ask exactly one short mathematical follow-up question for the same conversation_id.",
+                "The follow-up must ask for a directional reasoning step, missing lemma, obstruction, counterexample, or boundary condition.",
+                "Do not ask it to implement, edit documents, inspect project state, or format a machine-readable deliverable.",
                 "Return exactly one JSON object matching one of these schemas:",
                 '{"continue": true, "next_prompt": "...", "rationale": "...", "useful_score": 0}',
                 '{"continue": false, "reason": "...", "useful_score": 0}',
@@ -207,6 +240,12 @@ def codex_judge_callback(
         decision = _normalize_decision(parsed or {})
         if decision is None:
             return {"continue": False, "reason": "codex judge returned invalid JSON", "useful_score": 0}
+        if decision.get("continue") and not _oracle_followup_is_research_question(str(decision.get("next_prompt") or "")):
+            return {
+                "continue": False,
+                "reason": "codex judge proposed a non-research or local-work follow-up",
+                "useful_score": int(decision.get("useful_score") or 0),
+            }
         return decision
 
     callback.judge_calls = 0
@@ -337,3 +376,27 @@ def run_oracle_consultation(
         result["transcript_jsonl"] = str(jsonl_path)
         result["transcript_md"] = str(md_path)
     return result
+
+
+def self_test() -> int:
+    if not _oracle_followup_is_research_question(
+        "What obstruction would show that the Smith factor and the modular collision are logically independent?"
+    ):
+        print("research follow-up rejected")
+        return 1
+    blocked = [
+        "Please return JSON for the acceptance contract.",
+        "Write back this result into the repository.",
+        "Use the attached PDF and transcript to build a schema.",
+        "Implement the pipeline patch.",
+    ]
+    for text in blocked:
+        if _oracle_followup_is_research_question(text):
+            print(f"blocked follow-up accepted: {text}")
+            return 1
+    print("[fibonacci-reality-oracle-consultation] self-test ok")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(self_test())
