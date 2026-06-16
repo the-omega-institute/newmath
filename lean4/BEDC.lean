@@ -2318,6 +2318,7 @@ import BEDC.Derived.CauchyWitnessGluingUp
 import BEDC.Derived.CauchyWitnessGluingUp.ObligationLedger
 import BEDC.Derived.CauchyWitnessGluingUp.RealSealNonescape
 import BEDC.Derived.CauchyWitnessGluingUp.Route
+import BEDC.Derived.CauchyWitnessGluingUp.ScopedRouteTightening
 import BEDC.Derived.CauchyWitnessGluingUp.TasteGate
 import BEDC.Derived.CauchyWitnessGluingUp.WitnessLedgerExactness
 import BEDC.Derived.CauchyWitnessLedgerUp.BudgetFactorization
@@ -10386,6 +10387,7 @@ import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TotalVariationFunctionUp.TasteGate
 import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedCompletionUp
+import BEDC.Derived.TotallyBoundedCompletionUp.CauchyFilterStability
 import BEDC.Derived.TotallyBoundedCompletionUp.CompletionRefinementStability
 import BEDC.Derived.TotallyBoundedCompletionUp.EffectiveNetCompletionConsumption
 import BEDC.Derived.TotallyBoundedCompletionUp.ExtensionHandoff
