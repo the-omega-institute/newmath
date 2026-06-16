@@ -1063,6 +1063,7 @@ import BEDC.Derived.BoundedFunctionFamilyUp.NameCertObligations
 import BEDC.Derived.BoundedFunctionFamilyUp.TasteGate
 import BEDC.Derived.BoundedIntervalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedIntervalProjectionUp.TasteGate
+import BEDC.Derived.BoundedLinearFunctionalUp.TasteGate
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetCofinalReadback
@@ -1574,6 +1575,7 @@ import BEDC.Derived.CauchyCompletionOrderEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionProductPreservationUp.TasteGate
 import BEDC.Derived.CauchyCompletionRecursorUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectionUp.TasteGate
+import BEDC.Derived.CauchyCompletionReflectiveLocalizationUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectiveSubcategoryUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectorComparisonUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectorUp
@@ -4596,6 +4598,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.UniformModulusBridgeConsumer
 import BEDC.Derived.DyadicIntervalCoverUp.WindowCoverageScope
 import BEDC.Derived.DyadicIntervalDiameterUp.TasteGate
 import BEDC.Derived.DyadicIntervalEnclosureUp
+import BEDC.Derived.DyadicIntervalHullUp.TasteGate
 import BEDC.Derived.DyadicIntervalNestingUp.TasteGate
 import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalTreeUp
