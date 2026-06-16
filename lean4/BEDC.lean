@@ -4066,6 +4066,7 @@ import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DenjoyIntegralUp.TasteGate
 import BEDC.Derived.DenjoyWolffBoundaryDynamicsUp.TasteGate
+import BEDC.Derived.DenjoyYoungSaksUp.TasteGate
 import BEDC.Derived.DenseCauchyEmbeddingUp.TasteGate
 import BEDC.Derived.DenseEmbeddingUp.TasteGate
 import BEDC.Derived.DenseExtensionMetricUp.TasteGate
@@ -5715,6 +5716,7 @@ import BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.NonEvidenceBoundary
 import BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.TasteGate
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.LosslessGate
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.NameCertObligations
+import BEDC.Derived.GroundCompilerEventFlowAuditUp.Nonescape
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.TasteGate
 import BEDC.Derived.GroundCompilerFlowLevelRoundTripUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognitionUp.ReportBoundaryExhaustion
@@ -7329,6 +7331,7 @@ import BEDC.Derived.MetaCICResidualSubstitutionCompatibilityUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.NameCertObligations
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
+import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TypedSubstitution
 import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineRealizerUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineUp.NameCertObligations
