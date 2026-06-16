@@ -5716,6 +5716,7 @@ import BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.NonEvidenceBoundary
 import BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.TasteGate
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.LosslessGate
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.NameCertObligations
+import BEDC.Derived.GroundCompilerEventFlowAuditUp.Nonescape
 import BEDC.Derived.GroundCompilerEventFlowAuditUp.TasteGate
 import BEDC.Derived.GroundCompilerFlowLevelRoundTripUp.TasteGate
 import BEDC.Derived.GroundCompilerRecognitionUp.ReportBoundaryExhaustion
@@ -5981,6 +5982,7 @@ import BEDC.Derived.HyperbolicHoroballShadowUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
+import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HyperfunctionUp
@@ -7330,6 +7332,7 @@ import BEDC.Derived.MetaCICResidualSubstitutionCompatibilityUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.NameCertObligations
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
+import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TypedSubstitution
 import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineRealizerUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineUp.NameCertObligations
@@ -10033,6 +10036,7 @@ import BEDC.Derived.SpeckerSequenceBoundaryUp.TasteGate
 import BEDC.Derived.SpeckerSequenceUp
 import BEDC.Derived.SpeckerSequenceUp.TasteGate
 import BEDC.Derived.SpectralAblationHingeLedgerUp.TasteGate
+import BEDC.Derived.SpectralAblationHingeUp.TasteGate
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.SpectralRadiusFormulaUp.TasteGate
 import BEDC.Derived.SpectralRadiusUp.TasteGate
@@ -10867,6 +10871,7 @@ import BEDC.Derived.WitnessedDescentLedgerUp.SiblingBoundary
 import BEDC.Derived.WitnessedDescentLedgerUp.TasteGate
 import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.WobbleQuotientSpectralTriggerUp.TasteGate
+import BEDC.Derived.WobbleSaturationSealUp.TasteGate
 import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
 import BEDC.Derived.WritingItemAuditUp.ObligationClosure
 import BEDC.Derived.WritingItemAuditUp.TasteGate
