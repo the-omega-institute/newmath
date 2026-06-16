@@ -1,4 +1,4 @@
-import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorRoute
+import BEDC.Derived.CriticalLineWitnessUp
 
 namespace BEDC.Derived.CriticalLineWitnessUp
 
@@ -9,72 +9,64 @@ open BEDC.FKernel.Unary
 
 theorem CriticalLineWitnessCarrier_phase_real_selector_budget_nonescape
     {Z S M R Q H C P N sourceWindow budgetRead regseqRoute realEndpoint refusalLedger
-      selectorRead : BHist} :
-    CriticalLineWitnessCarrier Z S M R Q H C P N →
-      Cont Z S sourceWindow →
-        Cont sourceWindow Q budgetRead →
-          Cont budgetRead R regseqRoute →
-            Cont regseqRoute H realEndpoint →
-              Cont realEndpoint N refusalLedger →
-                Cont refusalLedger C selectorRead →
-                  SemanticNameCert
-                      (fun row : BHist => hsame row selectorRead ∧ UnaryHistory row)
-                      (fun row : BHist =>
-                        hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨
-                          hsame row Q ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
-                            hsame row N ∨ hsame row sourceWindow ∨ hsame row budgetRead ∨
-                              hsame row regseqRoute ∨ hsame row realEndpoint ∨
-                                hsame row refusalLedger ∨ hsame row selectorRead)
-                      (fun row : BHist =>
-                        hsame row selectorRead ∧ Cont sourceWindow Q budgetRead ∧
-                          Cont budgetRead R regseqRoute ∧ Cont regseqRoute H realEndpoint ∧
-                            Cont realEndpoint N refusalLedger ∧
-                              Cont refusalLedger C selectorRead)
-                      hsame ∧
-                    UnaryHistory sourceWindow ∧ UnaryHistory budgetRead ∧
-                      UnaryHistory refusalLedger ∧ UnaryHistory selectorRead ∧
-                        hsame H (append Z S) := by
-  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
-  intro packet sourceRoute budgetRoute regseqRouteRow realRoute refusalRoute selectorRoute
+      selectorRead budgetLock : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S sourceWindow ->
+        Cont sourceWindow Q budgetRead ->
+          Cont budgetRead R regseqRoute ->
+            Cont regseqRoute H realEndpoint ->
+              Cont realEndpoint N refusalLedger ->
+                Cont refusalLedger C selectorRead ->
+                  Cont selectorRead P budgetLock ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row budgetLock ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row sourceWindow ∨ hsame row budgetRead ∨
+                            hsame row regseqRoute ∨ hsame row realEndpoint ∨
+                              hsame row refusalLedger ∨ hsame row selectorRead ∨
+                                hsame row budgetLock)
+                        (fun row : BHist => UnaryHistory row ∧ Cont selectorRead P budgetLock)
+                        hsame ∧ UnaryHistory budgetLock ∧ hsame H (append Z S) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory CriticalLineWitnessCarrier
+  intro carrier sourceRoute budgetRoute regseqRouteH realEndpointRoute refusalLedgerRoute
+    selectorRoute budgetLockRoute
   obtain ⟨unaryZ, unaryS, unaryM, unaryR, unaryP, sameH, routeQ, routeC, routeN⟩ :=
-    packet
+    carrier
   have unaryQ : UnaryHistory Q :=
     unary_cont_closed unaryM unaryR routeQ
-  have sourceUnary : UnaryHistory sourceWindow :=
-    unary_cont_closed unaryZ unaryS sourceRoute
+  have appendUnary : UnaryHistory (append Z S) :=
+    unary_cont_closed unaryZ unaryS (cont_intro rfl)
   have unaryH : UnaryHistory H :=
-    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+    unary_transport appendUnary (hsame_symm sameH)
   have unaryC : UnaryHistory C :=
     unary_cont_closed unaryQ unaryH routeC
   have unaryN : UnaryHistory N :=
     unary_cont_closed unaryC unaryP routeN
+  have sourceUnary : UnaryHistory sourceWindow :=
+    unary_cont_closed unaryZ unaryS sourceRoute
   have budgetUnary : UnaryHistory budgetRead :=
     unary_cont_closed sourceUnary unaryQ budgetRoute
   have regseqUnary : UnaryHistory regseqRoute :=
-    unary_cont_closed budgetUnary unaryR regseqRouteRow
+    unary_cont_closed budgetUnary unaryR regseqRouteH
   have realUnary : UnaryHistory realEndpoint :=
-    unary_cont_closed regseqUnary unaryH realRoute
+    unary_cont_closed regseqUnary unaryH realEndpointRoute
   have refusalUnary : UnaryHistory refusalLedger :=
-    unary_cont_closed realUnary unaryN refusalRoute
+    unary_cont_closed realUnary unaryN refusalLedgerRoute
   have selectorUnary : UnaryHistory selectorRead :=
     unary_cont_closed refusalUnary unaryC selectorRoute
-  have sourceAtSelector : hsame selectorRead selectorRead ∧ UnaryHistory selectorRead :=
-    ⟨hsame_refl selectorRead, selectorUnary⟩
+  have budgetLockUnary : UnaryHistory budgetLock :=
+    unary_cont_closed selectorUnary unaryP budgetLockRoute
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row selectorRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row budgetLock ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨
-              hsame row Q ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
-                hsame row sourceWindow ∨ hsame row budgetRead ∨ hsame row regseqRoute ∨
-                  hsame row realEndpoint ∨ hsame row refusalLedger ∨ hsame row selectorRead)
-          (fun row : BHist =>
-            hsame row selectorRead ∧ Cont sourceWindow Q budgetRead ∧
-              Cont budgetRead R regseqRoute ∧ Cont regseqRoute H realEndpoint ∧
-                Cont realEndpoint N refusalLedger ∧ Cont refusalLedger C selectorRead)
+            hsame row sourceWindow ∨ hsame row budgetRead ∨ hsame row regseqRoute ∨
+              hsame row realEndpoint ∨ hsame row refusalLedger ∨ hsame row selectorRead ∨
+                hsame row budgetLock)
+          (fun row : BHist => UnaryHistory row ∧ Cont selectorRead P budgetLock)
           hsame := {
     core := {
-      carrier_inhabited := Exists.intro selectorRead sourceAtSelector
+      carrier_inhabited := Exists.intro budgetLock ⟨hsame_refl budgetLock, budgetLockUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -92,25 +84,11 @@ theorem CriticalLineWitnessCarrier_phase_real_selector_budget_nonescape
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr
-        (Or.inr
-          (Or.inr
-            (Or.inr
-              (Or.inr
-                (Or.inr
-                  (Or.inr
-                    (Or.inr
-                      (Or.inr
-                        (Or.inr
-                          (Or.inr
-                            (Or.inr
-                              (Or.inr
-                                (Or.inr source.left)))))))))))))
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
     ledger_sound := by
       intro _row source
-      exact
-        ⟨source.left, budgetRoute, regseqRouteRow, realRoute, refusalRoute, selectorRoute⟩
+      exact ⟨source.right, budgetLockRoute⟩
   }
-  exact ⟨cert, sourceUnary, budgetUnary, refusalUnary, selectorUnary, sameH⟩
+  exact ⟨cert, budgetLockUnary, sameH⟩
 
 end BEDC.Derived.CriticalLineWitnessUp
