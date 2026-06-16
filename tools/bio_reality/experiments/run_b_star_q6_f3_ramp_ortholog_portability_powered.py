@@ -18,6 +18,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import datetime, timezone
 from typing import Any
 
 
@@ -46,6 +47,7 @@ RAMP_CODONS = 50
 ALPHA = 0.05
 EPS = 1e-12
 SEED = f"sha256:{hashlib.sha256(EXPERIMENT_ID.encode('utf-8')).hexdigest()}"
+STARTED_AT = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 STOP_CODONS = {"UAA", "UAG", "UGA"}
 Q9_FAMILIES = [
@@ -74,10 +76,30 @@ Q9_FAMILIES = [
 
 
 def emit(status: str, **kw: object) -> None:
-    payload = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
-    payload.update(kw)
+    checks = kw.pop("checks", [])
+    result = kw.pop("result", None)
+    if result is None:
+        result = kw
+    elif isinstance(result, dict) and kw:
+        result = {**result, **kw}
+    elif not isinstance(result, dict):
+        result = {"value": result, **kw}
+    if isinstance(result, dict):
+        result.setdefault("status", status)
+        result.setdefault("experiment_id", EXPERIMENT_ID)
+        result.setdefault("claim_id", CLAIM_ID)
+    output_status = "needs_data" if status == "needs_external" else status
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": output_status,
+        "checks": checks if isinstance(checks, list) else [],
+        "result": result if isinstance(result, dict) else {"value": result},
+        "started_at": STARTED_AT,
+        "completed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
     print(json.dumps(payload, sort_keys=False, separators=(",", ":")))
-    sys.exit(0 if status == "passed" else (2 if status == "failed" else 3))
+    sys.exit(0)
 
 
 def load_json(path: pathlib.Path) -> Any:
