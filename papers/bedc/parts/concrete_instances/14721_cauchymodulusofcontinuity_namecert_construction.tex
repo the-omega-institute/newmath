@@ -127,6 +127,20 @@ route by which to obtain $T$.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusOfContinuityUp.CauchyModulusOfContinuityCarrier\_cauchy\_continuous\_map\_threshold\_handoff}
 
+\begin{theorem}[Cauchy modulus of continuity scoped route]
+\label{thm:cauchy-modulus-of-continuity-scoped-route}
+Every accepted $\CauchyModulusOfContinuityUp$ read factors through the $\StreamNameUp$ source and target windows, the $\CauchyModulusUp$ threshold schedule, the $\CauchyContinuousMapUp$ transformer, the $\RegSeqRatUp$ readbacks, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any compact-uniform consumer may read it. The route exports exactly the pointwise Cauchy-name continuity surface over $S,T,\mu,F,R,E,H,C,P,N$, with no compactness coordinate, uniform modulus over all inputs, host function equality, quotient stream equality, selected-limit witness, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition \autoref{def:cauchy-modulus-of-continuity-carrier}. It fixes the finite rows $S,T,\mu,F,R,E,H,C,P,N$ and gives the packet no coordinate outside source windows, target windows, threshold schedule, transformer route, regular readbacks, real seal, transport, replay, provenance, and local naming.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-modulus-of-continuity-namecert-obligations}. They bind carrier admission, classifier transport, componentwise stability, threshold exactness, replay, provenance, seal factorization, and local naming to those same rows.
+
+Use the CauchyContinuousMap threshold handoff of \autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff}. Any target-window read must pass through $S,\mu,F,T,R$ before reaching the structural rows, so a compact-uniform consumer cannot bypass the displayed pointwise schedule.
+
+Finally read the $\RealUp$ seal through $E$ and the structural rows $H,C,P,N$. Since the route has no compactness, uniform-modulus, host-function, quotient-stream, selected-limit, or ambient-completeness coordinate, the listed rows form the scoped route for every accepted consumer read.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus of continuity finite-window monotonicity]
 \label{thm:cauchy-modulus-of-continuity-window-monotonicity}
 Let $K=(S,T,\mu,F,R,E,H,C,P,N)$ and
