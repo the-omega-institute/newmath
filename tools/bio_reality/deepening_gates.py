@@ -19,7 +19,10 @@ DEFAULT_MISMATCHES = SCRIPT_DIR / "inbox" / "mismatches.jsonl"
 DEFAULT_OUTPUT = SCRIPT_DIR / "out" / "gate_results.jsonl"
 
 ID_PATTERN = r"^[a-z0-9][a-z0-9.:-]*$"
-ID_SYNTAX = f"ids must match {ID_PATTERN}; use lowercase dotted/kebab tokens, not underscores or uppercase"
+ID_SYNTAX = (
+    f"ids must match {ID_PATTERN}; use lowercase dotted/kebab tokens, not underscores or uppercase; "
+    "normalize biological abbreviations before ids are submitted, for example tRNA Leu becomes trna-leu"
+)
 ID_RE = re.compile(ID_PATTERN)
 
 LAYERS = {
@@ -154,6 +157,13 @@ MISMATCH_KINDS = {
     "none",
 }
 INTERNAL_STRUCTURES = {"coordinate", "closure", "spectrum", "trigger", "rank", "homology", "relation", "none"}
+INTERNAL_STRUCTURE_OBJECT_TOKENS = {
+    "amino_acid_projection_P_tau",
+    "context_weight_asymmetry",
+    "pair_antisymmetric_decomposition",
+    "residual_operator_q_perp",
+    "survival_score_S_Q",
+}
 MECHANISM_WORDS = {
     "cause",
     "causes",
@@ -460,6 +470,11 @@ def validate_conjecture(
             _nonempty(f"bedc_minimal_form.{key}", form.get(key), issues)
         _array("bedc_minimal_form.distinctions", form.get("distinctions"), issues, min_items=1)
         internal = set(_array("bedc_minimal_form.internal_structure", form.get("internal_structure"), issues, allowed=INTERNAL_STRUCTURES))
+        for item in sorted(internal & INTERNAL_STRUCTURE_OBJECT_TOKENS):
+            issues.append(
+                "bedc_minimal_form.internal_structure accepts only coarse BEDC structure classes; "
+                f"{item} is an internal object/operator token and must not be used as a structure class"
+            )
         if "none" in internal and len(internal) > 1:
             issues.append("bedc_minimal_form.internal_structure cannot mix none with explicit structures")
         if evidence & {"bedc_coordinate", "bedc_closure", "bedc_spectrum"} and not (internal - {"none"}):
@@ -845,6 +860,46 @@ def self_test() -> int:
         "forbidden_claims": ["The assay does not establish system phenotype."],
         "null_reason": "",
     }
+    external_reality_without_contact = {
+        "conjecture_id": "external.reality.contact.missing",
+        "biological_object": "curated biological reality assertion",
+        "informal_statement": "The packet cites external reality evidence without a contact reference.",
+        "bedc_minimal_form": {
+            "carrier": "curated assertion carrier",
+            "distinctions": ["external contact boundary"],
+            "readback": "unattached external evidence",
+            "internal_structure": ["none"],
+        },
+        "claimed_layer": "code_read",
+        "evidence_basis": ["external_reality"],
+        "reality_contact_refs": [],
+        "probe_refs": [],
+        "forbidden_claims": ["External biological reality evidence must name a curated contact."],
+        "null_reason": "",
+    }
+    internal_object_as_structure = {
+        "conjecture_id": "residual.basis.object-token.structure-slot",
+        "biological_object": "residual basis packet",
+        "informal_statement": "Internal residual operators are listed as BEDC structure classes.",
+        "bedc_minimal_form": {
+            "carrier": "codon quotient carrier",
+            "distinctions": ["residual coordinate"],
+            "readback": "internal residual readback",
+            "internal_structure": [
+                "amino_acid_projection_P_tau",
+                "residual_operator_q_perp",
+                "survival_score_S_Q",
+                "pair_antisymmetric_decomposition",
+                "context_weight_asymmetry",
+            ],
+        },
+        "claimed_layer": "codon_usage_topology",
+        "evidence_basis": ["internal_structure"],
+        "reality_contact_refs": [],
+        "probe_refs": [],
+        "forbidden_claims": ["Internal object names are not translation realization."],
+        "null_reason": "",
+    }
     results = gate_all(
         [
             conjecture,
@@ -858,6 +913,8 @@ def self_test() -> int:
             proxy_objective_overclaim,
             mechanism_without_contact,
             mechanism_layer_matched,
+            external_reality_without_contact,
+            internal_object_as_structure,
         ],
         [contact, perturbation_contact, function_contact],
         [b3_probe],
@@ -1639,6 +1696,26 @@ def self_test() -> int:
             file=sys.stderr,
         )
         return 1
+    probe_id_normalization_examples = probe_schema.get("properties", {}).get("probe_id", {}).get("x-normalizationExamples", [])
+    if not any(
+        isinstance(example, dict)
+        and example.get("invalid") == "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu"
+        and example.get("normalized") == "cross-organism.cun-uur-sign-correlates-with-trna-leu"
+        for example in probe_id_normalization_examples
+    ):
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "probe_id.x-normalizationExamples",
+                    "expected": "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu -> cross-organism.cun-uur-sign-correlates-with-trna-leu",
+                    "actual": probe_id_normalization_examples,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
     conjecture_ref_pattern = probe_schema.get("properties", {}).get("conjecture_ref", {}).get("pattern")
     if conjecture_ref_pattern != ID_PATTERN:
         print(
@@ -1663,6 +1740,28 @@ def self_test() -> int:
                     "field": "required_contacts.items",
                     "expected_pattern": ID_PATTERN,
                     "actual_pattern": required_contacts_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    required_contact_normalization_examples = (
+        probe_schema.get("properties", {}).get("required_contacts", {}).get("items", {}).get("x-normalizationExamples", [])
+    )
+    if not any(
+        isinstance(example, dict)
+        and example.get("invalid") == "matched_mRNA_abundance_control"
+        and example.get("normalized") == "matched-mrna-abundance-control"
+        for example in required_contact_normalization_examples
+    ):
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "required_contacts.items.x-normalizationExamples",
+                    "expected": "matched_mRNA_abundance_control -> matched-mrna-abundance-control",
+                    "actual": required_contact_normalization_examples,
                 },
                 indent=2,
             ),
@@ -1717,6 +1816,42 @@ def self_test() -> int:
         return 1
     if by_id["mechanism.layer.matched"]["gate_status"] != "gate_passed":
         print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    external_without_contact_result = by_id["external.reality.contact.missing"]
+    if external_without_contact_result["gate_status"] != "gate_blocked" or not any(
+        issue == "external_reality evidence requires reality_contact_refs"
+        for issue in external_without_contact_result["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    object_token_result = by_id["residual.basis.object-token.structure-slot"]
+    if object_token_result["gate_status"] != "gate_blocked":
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    for token in INTERNAL_STRUCTURE_OBJECT_TOKENS:
+        if not any(token in issue and "internal object/operator token" in issue for issue in object_token_result["issues"]):
+            print(json.dumps(results, indent=2), file=sys.stderr)
+            return 1
+    pipeline_config = json.loads((SCRIPT_DIR / "pipeline_config.json").read_text(encoding="utf-8"))
+    default_gate_policy = pipeline_config.get("default_gate_policy", {})
+    id_normalization_rule = str(default_gate_policy.get("id_normalization_rule") or "")
+    if (
+        default_gate_policy.get("require_id_normalization") is not True
+        or "tRNA Leu" not in id_normalization_rule
+        or "trna-leu" not in id_normalization_rule
+    ):
+        print(
+            json.dumps(
+                {
+                    "config": "pipeline_config.json",
+                    "field": "default_gate_policy.require_id_normalization",
+                    "expected": "true with a biological-abbreviation normalization example mapping tRNA Leu to trna-leu",
+                    "actual": default_gate_policy.get("require_id_normalization"),
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
         return 1
     print("[bio-reality-gates] self-test ok")
     return 0
