@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RealArchimedeanWindowUp
+namespace BEDC.Derived.RealArchimedeanWindowUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -128,24 +128,17 @@ instance realArchimedeanWindowChapterTasteGate :
     intro x y hxy heq
     exact hxy (RealArchimedeanWindowTasteGate_single_carrier_alignment_injective heq)
 
-def taste_gate : ChapterTasteGate RealArchimedeanWindowUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  realArchimedeanWindowChapterTasteGate
-
 theorem RealArchimedeanWindowTasteGate_single_carrier_alignment :
     (∀ h : BHist, realArchimedeanWindowDecodeBHist
       (realArchimedeanWindowEncodeBHist h) = h) ∧
-      (∀ x : RealArchimedeanWindowUp,
-        realArchimedeanWindowFromEventFlow (realArchimedeanWindowToEventFlow x) = some x) ∧
-        (∀ x y : RealArchimedeanWindowUp,
-          realArchimedeanWindowToEventFlow x = realArchimedeanWindowToEventFlow y →
-            x = y) ∧
-          realArchimedeanWindowEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] := by
+      Nonempty (BHistCarrier RealArchimedeanWindowUp) ∧
+        Nonempty (ChapterTasteGate RealArchimedeanWindowUp) ∧
+          realArchimedeanWindowEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨RealArchimedeanWindowTasteGate_single_carrier_alignment_decode,
-      RealArchimedeanWindowTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => RealArchimedeanWindowTasteGate_single_carrier_alignment_injective heq),
+      ⟨realArchimedeanWindowBHistCarrier⟩,
+      ⟨realArchimedeanWindowChapterTasteGate⟩,
       rfl⟩
 
-end BEDC.Derived.RealArchimedeanWindowUp
+end BEDC.Derived.RealArchimedeanWindowUp.TasteGate
