@@ -519,6 +519,15 @@ anchors and $12$ episodes.  The existing artifacts therefore cannot be safely
 stitched into a state-generation training result; the next experiment must
 produce a single aligned export carrying prediction targets, compute-value
 option labels, and BEDC ledger variables on the same anchors.
+That aligned export is now generated as a training substrate.  It uses the
+existing train/calibration/eval label split and exports, on identical anchors,
+the current state features, next-latent target, predicted rollout trajectory and
+validity mask, LeWM one-step MSE, horizon labels, option errors, uniform error,
+and true marginal value.  The validation gate is positive with value $1$:
+train has $2043$ anchors over $167$ episodes, calibration has $646$ anchors
+over $56$ episodes, eval has $634$ anchors over $55$ episodes, and the feature
+dimension is $4952$.  This closes the data-substrate step for the
+state-generation route; it is not yet a trained state-generation model.
 
 \paragraph{Coverage certificate.}
 The split-conformal counting core used by the gap-ledger readout is
