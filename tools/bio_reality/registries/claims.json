@@ -871,6 +871,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-16T22:27:14+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-16T22:27:14+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "3a1f839556c9",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -959,7 +976,7 @@
         "Matched negative controls including nearest outgroups, ORF-ineligible windows, shuffled ORF-eligible windows, within-M non-puncture codons, and matched off-M codons",
         "Pre-registered thresholds for data sufficiency, ACA-specific ORF rescue, control specificity, artifact resistance, mechanism status, and final decision values"
       ],
-      "status": "open",
+      "status": "needs_external",
       "experiment_id": "orf_constrained_aca_puncture_challenge",
       "history": [
         {
@@ -967,6 +984,25 @@
           "status": "open",
           "reason": "proposed_by_oracle",
           "source_event_id": "event.427fd4c04f464564"
+        },
+        {
+          "ts": "2026-06-16T22:27:14+00:00",
+          "status": "needs_external",
+          "reason": "blocked on external preconditions",
+          "external_preconditions": [
+            "Frozen Phase 1/2 reassigned-codon set R13 = (WNA \\ ACA) union CUN union {UAG, AGG}",
+            "Frozen median closure M13 = WNR union CUN, with ACA absent from R13 but present in M13",
+            "Post-scoring geometry check that R14 = R13 union {ACA} preserves Med(R14) = M13",
+            "Externally supplied RAAP-2 / Acidimicrobiales nucleotide windows or assemblies",
+            "Nearest standard-code outgroups and standard-code controls",
+            "Phase 3 ORF eligibility classifier or fixed ORF eligibility rules applied before ACA->Asp scoring",
+            "Independent Codetta/KACI-style codon-inference outputs or equivalent reassignment inference",
+            "Conserved-protein alignment, Pfam, HMM, ortholog-group, or curated-alignment evidence for mapped ACA sites",
+            "Genome or assembly QC sufficient to identify primary-QC windows and exclude contamination, binning, coverage, ambiguity, GC-bias, and frame artifacts",
+            "tRNAUGU/TGT and aaRS annotations sufficient to classify decoding support as supportive, noncontradictory, contradictory, or missing",
+            "Matched negative controls including nearest outgroups, ORF-ineligible windows, shuffled ORF-eligible windows, within-M non-puncture codons, and matched off-M codons",
+            "Pre-registered thresholds for data sufficiency, ACA-specific ORF rescue, control specificity, artifact resistance, mechanism status, and final decision values"
+          ]
         }
       ],
       "phase": 2
