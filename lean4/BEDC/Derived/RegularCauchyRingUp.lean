@@ -1,9 +1,11 @@
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.RegularCauchyRingUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def RegularCauchyRingCarrier
@@ -45,5 +47,64 @@ theorem RegularCauchyRingOperationClosure
   exact
     ⟨unaryS, unaryG, unaryM, unaryL, unaryRS, unaryRG, unaryRM, unaryRL, sumSeal,
       negSeal, productSeal, scaleSeal⟩
+
+theorem RegularCauchyRingCarrier_namecert_obligations
+    {A B WA WB DA DB ES EG EM EL H C P N : BHist} :
+    RegularCauchyRingCarrier A B WA WB DA DB ES EG EM EL H C P N ->
+      SemanticNameCert
+          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row A ∨ hsame row B ∨ hsame row WA ∨ hsame row WB ∨ hsame row DA ∨
+              hsame row DB ∨ hsame row ES ∨ hsame row EG ∨ hsame row EM ∨ hsame row EL ∨
+                hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+          (fun row : BHist => UnaryHistory row ∧ Cont A WA DA ∧ Cont B WB DB ∧ Cont H C P)
+          hsame ∧ UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory WA ∧ UnaryHistory WB ∧
+        UnaryHistory DA ∧ UnaryHistory DB ∧ UnaryHistory ES ∧ UnaryHistory EG ∧
+          UnaryHistory EM ∧ UnaryHistory EL ∧ Cont A WA DA ∧ Cont B WB DB ∧ Cont H C P := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨unaryA, unaryB, unaryWA, unaryWB, unaryDA, unaryDB, unaryES, unaryEG, unaryEM,
+    unaryEL, _unaryH, _unaryC, _unaryP, unaryN, routeDA, routeDB, routeP⟩ := carrier
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro N ⟨hsame_refl N, unaryN⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr sourceRow.left))))))))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.right, routeDA, routeDB, routeP⟩
+    }
+  · exact
+      ⟨unaryA, unaryB, unaryWA, unaryWB, unaryDA, unaryDB, unaryES, unaryEG, unaryEM, unaryEL,
+        routeDA, routeDB, routeP⟩
 
 end BEDC.Derived.RegularCauchyRingUp
