@@ -166,37 +166,31 @@ instance bishopLocatedCompletionEmbeddingChapterTasteGate :
       (BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_toEventFlow_injective
         heq)
 
+def taste_gate : ChapterTasteGate BishopLocatedCompletionEmbeddingUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  bishopLocatedCompletionEmbeddingChapterTasteGate
+
 theorem BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier BishopLocatedCompletionEmbeddingUp) ∧
-      Nonempty (ChapterTasteGate BishopLocatedCompletionEmbeddingUp) ∧
-        ∃ metric located dense embedding readback transport replay provenance name : BHist,
-          BHistCarrier.fromEventFlow
-              (BHistCarrier.toEventFlow
-                (BishopLocatedCompletionEmbeddingUp.mk metric located dense embedding readback
-                  transport replay provenance name)) =
-            some
-              (BishopLocatedCompletionEmbeddingUp.mk metric located dense embedding readback
-                transport replay provenance name) := by
+    (∀ h : BHist,
+      bishopLocatedCompletionEmbeddingDecodeBHist
+          (bishopLocatedCompletionEmbeddingEncodeBHist h) =
+        h) ∧
+      (∀ x : BishopLocatedCompletionEmbeddingUp,
+        bishopLocatedCompletionEmbeddingFromEventFlow
+            (bishopLocatedCompletionEmbeddingToEventFlow x) =
+          some x) ∧
+        (∀ x y : BishopLocatedCompletionEmbeddingUp,
+          bishopLocatedCompletionEmbeddingToEventFlow x =
+              bishopLocatedCompletionEmbeddingToEventFlow y →
+            x = y) ∧
+          bishopLocatedCompletionEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact ⟨bishopLocatedCompletionEmbeddingBHistCarrier⟩
-  constructor
-  · exact ⟨bishopLocatedCompletionEmbeddingChapterTasteGate⟩
-  · exact
-      ⟨BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-        BHist.Empty, BHist.Empty, BHist.Empty, by
-          change
-            bishopLocatedCompletionEmbeddingFromEventFlow
-                (bishopLocatedCompletionEmbeddingToEventFlow
-                  (BishopLocatedCompletionEmbeddingUp.mk BHist.Empty BHist.Empty
-                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                    BHist.Empty)) =
-              some
-                (BishopLocatedCompletionEmbeddingUp.mk BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)
-          exact
-            BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip
-              (BishopLocatedCompletionEmbeddingUp.mk BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)⟩
+  exact
+    ⟨BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_decode_encode,
+      BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        BishopLocatedCompletionEmbeddingTasteGate_single_carrier_alignment_toEventFlow_injective
+          heq),
+      rfl⟩
 
 end BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
