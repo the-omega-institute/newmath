@@ -57,6 +57,24 @@ The dyadic row $D$ supplies the requested tolerance comparison for the shifted w
 Because the packet contains no coordinate for selected limits, quotient equality, host sequence equality, or ambient Real completeness, the stability conclusion is only the finite $\RegSeqRatUp$ tail-window stability just described.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail-shift window composition]
+\label{thm:regular-cauchy-tail-shift-window-composition}
+Let $T_0=(W_0,Q_0,D_0,L_0,H_0,C_0,P_0,N_0)$ and $T_1=(W_1,Q_1,D_1,L_1,H_1,C_1,P_1,N_1)$ be accepted $\RegularCauchyTailShiftUp$ packets whose shifted window of $T_0$ is the source window consumed by $T_1$. Then the composed tail-shift read still exposes only the $\StreamNameUp$ windows, $\RegSeqRatUp$ tail rows, $\DyadicRatCoreUp$ tolerance ledgers, $\RealUp$ seals, componentwise $\hsame$ transports, displayed $\Cont$ replays, $\Pkg$ provenance, and local $\NameCert$ rows of the two packets. The combined discard length is represented by the finite window row
+$$
+W_{01}=\mathsf{composeTailWindow}(W_0,W_1).
+$$
+Thus the composite exports a finite shifted-window route and not a selected limit, quotient representative, host sequence equality, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers. The only data available for composition are the source and shifted $\StreamNameUp$ rows, the regular rational tail rows, the dyadic tolerance ledgers, and the structural rows displayed by the two packets.
+
+Apply \autoref{thm:regular-cauchy-tail-shift-namecert-obligations} to both packets. The first certificate exposes the shifted window used as the source for the second, and the second certificate exposes the next shifted window over the same finite inventory.
+
+Use \autoref{thm:regular-cauchy-tail-shift-regseqrat-stability} on the first shifted read and then again on the second shifted read. The composed window row $W_{01}$ records only the finite discard-length calculation and the visible overlap witnesses.
+
+The Real seals remain downstream of their corresponding $W,Q,D$ rows, and the transport, replay, provenance, and naming rows only preserve the displayed route. Since neither packet contains a selected limit, quotient representative, host sequence equality, or ambient completeness coordinate, the composed route cannot export one.
+\end{proof}
+
 \falsifiablePrediction{Every $\RegularCauchyTailShiftUp$ read factors through StreamName windows, RegSeqRat tail data, a DyadicRatCore tolerance ledger, a Real seal, hsame transport, Cont replay, Pkg provenance, and local naming before a shifted regular-Cauchy tail can be consumed.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, real: $\RegularCauchyTailShiftUp$ is not bijective to any listed sibling because it binds a discarded-prefix window, regular-rational tail data, dyadic overlap tolerances, Real sealing, transport, replay, provenance, and local naming as one finite certificate.}
