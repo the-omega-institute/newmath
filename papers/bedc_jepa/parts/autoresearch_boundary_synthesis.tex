@@ -276,3 +276,18 @@ merely the episode-level budget-count ledger.  It must encode anchor--depth
 compatibility inside the count state: which anchors should receive which depths
 under the exact-budget constraint, rather than only how many anchors of each
 depth should be selected.
+
+A shallow anchor--depth compatibility learner does not recover that state from
+the current deployable features.  The learner is trained on train option-error
+compatibility costs using latent, environment, rollout-internal, episode-local
+set-context, depth, and budget features; calibration selects the ridge
+regularization and tail weight through exact-budget capture.  On the held-out
+hard slice, the selected learner has mean capture $-0.2288$, with budget-two
+capture $-0.5841$, budget-three capture $0.0333$, and budget-four capture
+$-0.1356$; hard label Spearman is $0.1427$.  This is better than the oracle
+depth-count-within-count audit but still worse than the scalar mechanism
+learner's hard mean capture $-0.0050$.  Thus the compatibility variable is the
+right level of missing mechanism, but the current shallow deployable feature
+map does not recover it under hard exact-budget transfer.  The next state model
+must represent anchor--depth compatibility as an internal assignment-bearing
+world-state variable, not as a linear readout over fixed rollout features.
