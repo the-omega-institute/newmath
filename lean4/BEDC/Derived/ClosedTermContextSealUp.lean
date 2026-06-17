@@ -87,4 +87,27 @@ theorem ClosedTermContextSeal_namecert_obligations [AskSetup] [PackageSetup]
       emptyClosedRoute, typedNormalRoute, obstructionRoute, auditRoute, provenancePkg,
       localNamePkg, auditPkg⟩
 
+theorem ClosedTermContextSeal_subject_reduction_handoff [AskSetup] [PackageSetup]
+    {E Q T B S O H C P N handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedTermContextSealCarrier E Q T B S O H C P N bundle pkg →
+      Cont S C handoffRead →
+        PkgSig bundle handoffRead pkg →
+          UnaryHistory E ∧ UnaryHistory Q ∧ UnaryHistory T ∧ UnaryHistory B ∧
+            UnaryHistory S ∧ UnaryHistory O ∧ UnaryHistory handoffRead ∧
+              Cont E Q T ∧ Cont T B S ∧ Cont S C handoffRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                  PkgSig bundle handoffRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier handoffRoute handoffPkg
+  obtain ⟨EUnary, QUnary, TUnary, BUnary, SUnary, OUnary, _HUnary, CUnary,
+    _PUnary, _NUnary, emptyClosedRoute, typedNormalRoute, _obstructionRoute,
+    provenancePkg, localNamePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed SUnary CUnary handoffRoute
+  exact
+    ⟨EUnary, QUnary, TUnary, BUnary, SUnary, OUnary, handoffUnary,
+      emptyClosedRoute, typedNormalRoute, handoffRoute, provenancePkg, localNamePkg,
+      handoffPkg⟩
+
 end BEDC.Derived.ClosedTermContextSealUp
