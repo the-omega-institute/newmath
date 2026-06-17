@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ConstructiveBolzanoWeierstrassUp.TasteGate
+namespace BEDC.Derived.ConstructiveBolzanoWeierstrassUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -12,21 +12,22 @@ open BEDC.Meta.TasteGate
 
 inductive ConstructiveBolzanoWeierstrassUp : Type where
   | mk (S B I T R Q E H C P N : BHist) : ConstructiveBolzanoWeierstrassUp
+  deriving DecidableEq
 
-def constructiveBolzanoWeierstrassEncodeBHist : BHist -> RawEvent
+def constructiveBolzanoWeierstrassEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: constructiveBolzanoWeierstrassEncodeBHist h
   | BHist.e1 h => BMark.b1 :: constructiveBolzanoWeierstrassEncodeBHist h
 
-def constructiveBolzanoWeierstrassDecodeBHist : RawEvent -> BHist
+def constructiveBolzanoWeierstrassDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (constructiveBolzanoWeierstrassDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (constructiveBolzanoWeierstrassDecodeBHist tail)
 
-private theorem constructiveBolzanoWeierstrassDecode_encode :
-    forall h : BHist,
+private theorem ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist,
       constructiveBolzanoWeierstrassDecodeBHist
         (constructiveBolzanoWeierstrassEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -36,38 +37,26 @@ private theorem constructiveBolzanoWeierstrassDecode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private theorem constructiveBolzanoWeierstrassEncode_injective {h k : BHist} :
-    constructiveBolzanoWeierstrassEncodeBHist h =
-      constructiveBolzanoWeierstrassEncodeBHist k -> h = k := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have decoded :
-      constructiveBolzanoWeierstrassDecodeBHist
-          (constructiveBolzanoWeierstrassEncodeBHist h) =
-        constructiveBolzanoWeierstrassDecodeBHist
-          (constructiveBolzanoWeierstrassEncodeBHist k) :=
-    congrArg constructiveBolzanoWeierstrassDecodeBHist heq
-  rw [constructiveBolzanoWeierstrassDecode_encode h,
-    constructiveBolzanoWeierstrassDecode_encode k] at decoded
-  exact decoded
-
 def constructiveBolzanoWeierstrassFields :
-    ConstructiveBolzanoWeierstrassUp -> List BHist
+    ConstructiveBolzanoWeierstrassUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | ConstructiveBolzanoWeierstrassUp.mk S B I T R Q E H C P N =>
       [S, B, I, T, R, Q, E, H, C, P, N]
 
 def constructiveBolzanoWeierstrassToEventFlow :
-    ConstructiveBolzanoWeierstrassUp -> EventFlow
+    ConstructiveBolzanoWeierstrassUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => constructiveBolzanoWeierstrassFields x |>.map constructiveBolzanoWeierstrassEncodeBHist
+  | x => (constructiveBolzanoWeierstrassFields x).map
+      constructiveBolzanoWeierstrassEncodeBHist
 
-private def constructiveBolzanoWeierstrassEventAtDefault : Nat -> EventFlow -> RawEvent
+private def constructiveBolzanoWeierstrassEventAtDefault :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => constructiveBolzanoWeierstrassEventAtDefault index rest
+  | Nat.succ index, _event :: rest =>
+      constructiveBolzanoWeierstrassEventAtDefault index rest
 
 def constructiveBolzanoWeierstrassFromEventFlow
     (ef : EventFlow) : Option ConstructiveBolzanoWeierstrassUp :=
@@ -97,7 +86,7 @@ def constructiveBolzanoWeierstrassFromEventFlow
       (constructiveBolzanoWeierstrassDecodeBHist
         (constructiveBolzanoWeierstrassEventAtDefault 10 ef)))
 
-private theorem constructiveBolzanoWeierstrass_round_trip
+private theorem ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_round_trip
     (x : ConstructiveBolzanoWeierstrassUp) :
     constructiveBolzanoWeierstrassFromEventFlow
       (constructiveBolzanoWeierstrassToEventFlow x) = some x := by
@@ -130,23 +119,22 @@ private theorem constructiveBolzanoWeierstrass_round_trip
             (constructiveBolzanoWeierstrassDecodeBHist
               (constructiveBolzanoWeierstrassEncodeBHist N))) =
           some (ConstructiveBolzanoWeierstrassUp.mk S B I T R Q E H C P N)
-      rw [constructiveBolzanoWeierstrassDecode_encode S,
-        constructiveBolzanoWeierstrassDecode_encode B,
-        constructiveBolzanoWeierstrassDecode_encode I,
-        constructiveBolzanoWeierstrassDecode_encode T,
-        constructiveBolzanoWeierstrassDecode_encode R,
-        constructiveBolzanoWeierstrassDecode_encode Q,
-        constructiveBolzanoWeierstrassDecode_encode E,
-        constructiveBolzanoWeierstrassDecode_encode H,
-        constructiveBolzanoWeierstrassDecode_encode C,
-        constructiveBolzanoWeierstrassDecode_encode P,
-        constructiveBolzanoWeierstrassDecode_encode N]
+      rw [ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode S,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode B,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode I,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode T,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode R,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode Q,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode E,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode H,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode C,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode P,
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem constructiveBolzanoWeierstrassToEventFlow_injective
+private theorem ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_injective
     {x y : ConstructiveBolzanoWeierstrassUp} :
     constructiveBolzanoWeierstrassToEventFlow x =
-        constructiveBolzanoWeierstrassToEventFlow y ->
-      x = y := by
+      constructiveBolzanoWeierstrassToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -156,8 +144,23 @@ private theorem constructiveBolzanoWeierstrassToEventFlow_injective
           (constructiveBolzanoWeierstrassToEventFlow y) :=
     congrArg constructiveBolzanoWeierstrassFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (constructiveBolzanoWeierstrass_round_trip x).symm
-      (Eq.trans hread (constructiveBolzanoWeierstrass_round_trip y)))
+    (Eq.trans
+      (ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_fields :
+    ∀ x y : ConstructiveBolzanoWeierstrassUp,
+      constructiveBolzanoWeierstrassFields x =
+        constructiveBolzanoWeierstrassFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S₁ B₁ I₁ T₁ R₁ Q₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk S₂ B₂ I₂ T₂ R₂ Q₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance constructiveBolzanoWeierstrassBHistCarrier :
     BHistCarrier ConstructiveBolzanoWeierstrassUp where
@@ -173,81 +176,49 @@ instance constructiveBolzanoWeierstrassChapterTasteGate :
     change
       constructiveBolzanoWeierstrassFromEventFlow
         (constructiveBolzanoWeierstrassToEventFlow x) = some x
-    exact constructiveBolzanoWeierstrass_round_trip x
+    exact ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (constructiveBolzanoWeierstrassToEventFlow_injective heq)
+    exact hxy
+      (ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_injective heq)
+
+instance constructiveBolzanoWeierstrassFieldFaithful :
+    FieldFaithful ConstructiveBolzanoWeierstrassUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := constructiveBolzanoWeierstrassFields
+  field_faithful := ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_fields
+
+instance constructiveBolzanoWeierstrassNontrivial :
+    Nontrivial ConstructiveBolzanoWeierstrassUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ConstructiveBolzanoWeierstrassUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      ConstructiveBolzanoWeierstrassUp.mk (BHist.e1 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment :
-    (forall h : BHist,
+    (∀ h : BHist,
       constructiveBolzanoWeierstrassDecodeBHist
         (constructiveBolzanoWeierstrassEncodeBHist h) = h) ∧
-      (forall x : ConstructiveBolzanoWeierstrassUp,
+      (∀ x : ConstructiveBolzanoWeierstrassUp,
         constructiveBolzanoWeierstrassFromEventFlow
           (constructiveBolzanoWeierstrassToEventFlow x) = some x) ∧
-      (forall x y : ConstructiveBolzanoWeierstrassUp,
-        constructiveBolzanoWeierstrassToEventFlow x =
-          constructiveBolzanoWeierstrassToEventFlow y -> x = y) ∧
-      constructiveBolzanoWeierstrassEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : ConstructiveBolzanoWeierstrassUp,
+          constructiveBolzanoWeierstrassToEventFlow x =
+            constructiveBolzanoWeierstrassToEventFlow y → x = y) ∧
+          constructiveBolzanoWeierstrassEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact constructiveBolzanoWeierstrassDecode_encode
-  · constructor
-    · exact constructiveBolzanoWeierstrass_round_trip
-    · constructor
-      · intro x y heq
-        cases x with
-        | mk sourceS sourceB sourceI sourceT sourceR sourceQ sourceE sourceH sourceC
-            sourceP sourceN =>
-            cases y with
-            | mk targetS targetB targetI targetT targetR targetQ targetE targetH targetC
-                targetP targetN =>
-                change
-                  [constructiveBolzanoWeierstrassEncodeBHist sourceS,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceB,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceI,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceT,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceR,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceQ,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceE,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceH,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceC,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceP,
-                    constructiveBolzanoWeierstrassEncodeBHist sourceN] =
-                  [constructiveBolzanoWeierstrassEncodeBHist targetS,
-                    constructiveBolzanoWeierstrassEncodeBHist targetB,
-                    constructiveBolzanoWeierstrassEncodeBHist targetI,
-                    constructiveBolzanoWeierstrassEncodeBHist targetT,
-                    constructiveBolzanoWeierstrassEncodeBHist targetR,
-                    constructiveBolzanoWeierstrassEncodeBHist targetQ,
-                    constructiveBolzanoWeierstrassEncodeBHist targetE,
-                    constructiveBolzanoWeierstrassEncodeBHist targetH,
-                    constructiveBolzanoWeierstrassEncodeBHist targetC,
-                    constructiveBolzanoWeierstrassEncodeBHist targetP,
-                    constructiveBolzanoWeierstrassEncodeBHist targetN] at heq
-                injection heq with hS rest1
-                injection rest1 with hB rest2
-                injection rest2 with hI rest3
-                injection rest3 with hT rest4
-                injection rest4 with hR rest5
-                injection rest5 with hQ rest6
-                injection rest6 with hE rest7
-                injection rest7 with hH rest8
-                injection rest8 with hC rest9
-                injection rest9 with hP rest10
-                injection rest10 with hN _
-                cases constructiveBolzanoWeierstrassEncode_injective hS
-                cases constructiveBolzanoWeierstrassEncode_injective hB
-                cases constructiveBolzanoWeierstrassEncode_injective hI
-                cases constructiveBolzanoWeierstrassEncode_injective hT
-                cases constructiveBolzanoWeierstrassEncode_injective hR
-                cases constructiveBolzanoWeierstrassEncode_injective hQ
-                cases constructiveBolzanoWeierstrassEncode_injective hE
-                cases constructiveBolzanoWeierstrassEncode_injective hH
-                cases constructiveBolzanoWeierstrassEncode_injective hC
-                cases constructiveBolzanoWeierstrassEncode_injective hP
-                cases constructiveBolzanoWeierstrassEncode_injective hN
-                rfl
-      · rfl
+  exact
+    ⟨ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_decode_encode,
+      ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        ConstructiveBolzanoWeierstrassTasteGate_single_carrier_alignment_injective heq),
+      rfl⟩
 
-end BEDC.Derived.ConstructiveBolzanoWeierstrassUp.TasteGate
+end BEDC.Derived.ConstructiveBolzanoWeierstrassUp

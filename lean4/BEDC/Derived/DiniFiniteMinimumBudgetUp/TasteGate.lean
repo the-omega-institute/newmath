@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DiniFiniteMinimumBudgetUp.TasteGate
+namespace BEDC.Derived.DiniFiniteMinimumBudgetUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -12,21 +12,22 @@ open BEDC.Meta.TasteGate
 
 inductive DiniFiniteMinimumBudgetUp : Type where
   | mk (K F D U Q E H C P N : BHist) : DiniFiniteMinimumBudgetUp
+  deriving DecidableEq
 
-def diniFiniteMinimumBudgetEncodeBHist : BHist -> RawEvent
+def diniFiniteMinimumBudgetEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: diniFiniteMinimumBudgetEncodeBHist h
   | BHist.e1 h => BMark.b1 :: diniFiniteMinimumBudgetEncodeBHist h
 
-def diniFiniteMinimumBudgetDecodeBHist : RawEvent -> BHist
+def diniFiniteMinimumBudgetDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (diniFiniteMinimumBudgetDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (diniFiniteMinimumBudgetDecodeBHist tail)
 
-private theorem diniFiniteMinimumBudgetDecode_encode :
-    forall h : BHist,
+private theorem DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist,
       diniFiniteMinimumBudgetDecodeBHist (diniFiniteMinimumBudgetEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -35,26 +36,15 @@ private theorem diniFiniteMinimumBudgetDecode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private theorem diniFiniteMinimumBudgetEncode_injective {h k : BHist} :
-    diniFiniteMinimumBudgetEncodeBHist h = diniFiniteMinimumBudgetEncodeBHist k -> h = k := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have decoded :
-      diniFiniteMinimumBudgetDecodeBHist (diniFiniteMinimumBudgetEncodeBHist h) =
-        diniFiniteMinimumBudgetDecodeBHist (diniFiniteMinimumBudgetEncodeBHist k) :=
-    congrArg diniFiniteMinimumBudgetDecodeBHist heq
-  rw [diniFiniteMinimumBudgetDecode_encode h, diniFiniteMinimumBudgetDecode_encode k] at decoded
-  exact decoded
-
-def diniFiniteMinimumBudgetFields : DiniFiniteMinimumBudgetUp -> List BHist
+def diniFiniteMinimumBudgetFields : DiniFiniteMinimumBudgetUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | DiniFiniteMinimumBudgetUp.mk K F D U Q E H C P N => [K, F, D, U, Q, E, H, C, P, N]
 
-def diniFiniteMinimumBudgetToEventFlow : DiniFiniteMinimumBudgetUp -> EventFlow
+def diniFiniteMinimumBudgetToEventFlow : DiniFiniteMinimumBudgetUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => diniFiniteMinimumBudgetFields x |>.map diniFiniteMinimumBudgetEncodeBHist
+  | x => (diniFiniteMinimumBudgetFields x).map diniFiniteMinimumBudgetEncodeBHist
 
-private def diniFiniteMinimumBudgetEventAtDefault : Nat -> EventFlow -> RawEvent
+private def diniFiniteMinimumBudgetEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -77,8 +67,10 @@ def diniFiniteMinimumBudgetFromEventFlow
       (diniFiniteMinimumBudgetDecodeBHist (diniFiniteMinimumBudgetEventAtDefault 8 ef))
       (diniFiniteMinimumBudgetDecodeBHist (diniFiniteMinimumBudgetEventAtDefault 9 ef)))
 
-private theorem diniFiniteMinimumBudget_round_trip (x : DiniFiniteMinimumBudgetUp) :
-    diniFiniteMinimumBudgetFromEventFlow (diniFiniteMinimumBudgetToEventFlow x) = some x := by
+private theorem DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_round_trip
+    (x : DiniFiniteMinimumBudgetUp) :
+    diniFiniteMinimumBudgetFromEventFlow (diniFiniteMinimumBudgetToEventFlow x) =
+      some x := by
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk K F D U Q E H C P N =>
@@ -96,15 +88,20 @@ private theorem diniFiniteMinimumBudget_round_trip (x : DiniFiniteMinimumBudgetU
             (diniFiniteMinimumBudgetDecodeBHist (diniFiniteMinimumBudgetEncodeBHist P))
             (diniFiniteMinimumBudgetDecodeBHist (diniFiniteMinimumBudgetEncodeBHist N))) =
           some (DiniFiniteMinimumBudgetUp.mk K F D U Q E H C P N)
-      rw [diniFiniteMinimumBudgetDecode_encode K, diniFiniteMinimumBudgetDecode_encode F,
-        diniFiniteMinimumBudgetDecode_encode D, diniFiniteMinimumBudgetDecode_encode U,
-        diniFiniteMinimumBudgetDecode_encode Q, diniFiniteMinimumBudgetDecode_encode E,
-        diniFiniteMinimumBudgetDecode_encode H, diniFiniteMinimumBudgetDecode_encode C,
-        diniFiniteMinimumBudgetDecode_encode P, diniFiniteMinimumBudgetDecode_encode N]
+      rw [DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode K,
+        DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode F,
+        DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode D,
+        DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode U,
+        DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode Q,
+        DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode E,
+        DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode H,
+        DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode C,
+        DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode P,
+        DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem diniFiniteMinimumBudgetToEventFlow_injective
+private theorem DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_injective
     {x y : DiniFiniteMinimumBudgetUp} :
-    diniFiniteMinimumBudgetToEventFlow x = diniFiniteMinimumBudgetToEventFlow y -> x = y := by
+    diniFiniteMinimumBudgetToEventFlow x = diniFiniteMinimumBudgetToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -112,10 +109,24 @@ private theorem diniFiniteMinimumBudgetToEventFlow_injective
         diniFiniteMinimumBudgetFromEventFlow (diniFiniteMinimumBudgetToEventFlow y) :=
     congrArg diniFiniteMinimumBudgetFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (diniFiniteMinimumBudget_round_trip x).symm
-      (Eq.trans hread (diniFiniteMinimumBudget_round_trip y)))
+    (Eq.trans (DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_round_trip y)))
 
-instance diniFiniteMinimumBudgetBHistCarrier : BHistCarrier DiniFiniteMinimumBudgetUp where
+private theorem DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_fields :
+    ∀ x y : DiniFiniteMinimumBudgetUp,
+      diniFiniteMinimumBudgetFields x = diniFiniteMinimumBudgetFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk K₁ F₁ D₁ U₁ Q₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk K₂ F₂ D₂ U₂ Q₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
+instance diniFiniteMinimumBudgetBHistCarrier :
+    BHistCarrier DiniFiniteMinimumBudgetUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := diniFiniteMinimumBudgetToEventFlow
   fromEventFlow := diniFiniteMinimumBudgetFromEventFlow
@@ -125,77 +136,47 @@ instance diniFiniteMinimumBudgetChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      diniFiniteMinimumBudgetFromEventFlow (diniFiniteMinimumBudgetToEventFlow x) = some x
-    exact diniFiniteMinimumBudget_round_trip x
+    change diniFiniteMinimumBudgetFromEventFlow (diniFiniteMinimumBudgetToEventFlow x) =
+      some x
+    exact DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (diniFiniteMinimumBudgetToEventFlow_injective heq)
+    exact hxy (DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_injective heq)
+
+instance diniFiniteMinimumBudgetFieldFaithful :
+    FieldFaithful DiniFiniteMinimumBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := diniFiniteMinimumBudgetFields
+  field_faithful := DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_fields
+
+instance diniFiniteMinimumBudgetNontrivial : Nontrivial DiniFiniteMinimumBudgetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨DiniFiniteMinimumBudgetUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      DiniFiniteMinimumBudgetUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment :
-    (forall h : BHist,
+    (∀ h : BHist,
       diniFiniteMinimumBudgetDecodeBHist (diniFiniteMinimumBudgetEncodeBHist h) = h) ∧
-      (forall x : DiniFiniteMinimumBudgetUp,
+      (∀ x : DiniFiniteMinimumBudgetUp,
         diniFiniteMinimumBudgetFromEventFlow (diniFiniteMinimumBudgetToEventFlow x) =
           some x) ∧
-      (forall x y : DiniFiniteMinimumBudgetUp,
-        diniFiniteMinimumBudgetToEventFlow x = diniFiniteMinimumBudgetToEventFlow y ->
-          x = y) ∧
-      diniFiniteMinimumBudgetEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : DiniFiniteMinimumBudgetUp,
+          diniFiniteMinimumBudgetToEventFlow x =
+            diniFiniteMinimumBudgetToEventFlow y → x = y) ∧
+          diniFiniteMinimumBudgetEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact diniFiniteMinimumBudgetDecode_encode
-  · constructor
-    · exact diniFiniteMinimumBudget_round_trip
-    · constructor
-      · intro x y heq
-        cases x with
-        | mk sourceK sourceF sourceD sourceU sourceQ sourceE sourceH sourceC sourceP sourceN =>
-            cases y with
-            | mk targetK targetF targetD targetU targetQ targetE targetH targetC targetP
-                targetN =>
-                change
-                  [diniFiniteMinimumBudgetEncodeBHist sourceK,
-                    diniFiniteMinimumBudgetEncodeBHist sourceF,
-                    diniFiniteMinimumBudgetEncodeBHist sourceD,
-                    diniFiniteMinimumBudgetEncodeBHist sourceU,
-                    diniFiniteMinimumBudgetEncodeBHist sourceQ,
-                    diniFiniteMinimumBudgetEncodeBHist sourceE,
-                    diniFiniteMinimumBudgetEncodeBHist sourceH,
-                    diniFiniteMinimumBudgetEncodeBHist sourceC,
-                    diniFiniteMinimumBudgetEncodeBHist sourceP,
-                    diniFiniteMinimumBudgetEncodeBHist sourceN] =
-                  [diniFiniteMinimumBudgetEncodeBHist targetK,
-                    diniFiniteMinimumBudgetEncodeBHist targetF,
-                    diniFiniteMinimumBudgetEncodeBHist targetD,
-                    diniFiniteMinimumBudgetEncodeBHist targetU,
-                    diniFiniteMinimumBudgetEncodeBHist targetQ,
-                    diniFiniteMinimumBudgetEncodeBHist targetE,
-                    diniFiniteMinimumBudgetEncodeBHist targetH,
-                    diniFiniteMinimumBudgetEncodeBHist targetC,
-                    diniFiniteMinimumBudgetEncodeBHist targetP,
-                    diniFiniteMinimumBudgetEncodeBHist targetN] at heq
-                injection heq with hK rest1
-                injection rest1 with hF rest2
-                injection rest2 with hD rest3
-                injection rest3 with hU rest4
-                injection rest4 with hQ rest5
-                injection rest5 with hE rest6
-                injection rest6 with hH rest7
-                injection rest7 with hC rest8
-                injection rest8 with hP rest9
-                injection rest9 with hN _
-                cases diniFiniteMinimumBudgetEncode_injective hK
-                cases diniFiniteMinimumBudgetEncode_injective hF
-                cases diniFiniteMinimumBudgetEncode_injective hD
-                cases diniFiniteMinimumBudgetEncode_injective hU
-                cases diniFiniteMinimumBudgetEncode_injective hQ
-                cases diniFiniteMinimumBudgetEncode_injective hE
-                cases diniFiniteMinimumBudgetEncode_injective hH
-                cases diniFiniteMinimumBudgetEncode_injective hC
-                cases diniFiniteMinimumBudgetEncode_injective hP
-                cases diniFiniteMinimumBudgetEncode_injective hN
-                rfl
-      · rfl
+  exact
+    ⟨DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_decode_encode,
+      DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => DiniFiniteMinimumBudgetTasteGate_single_carrier_alignment_injective heq),
+      rfl⟩
 
-end BEDC.Derived.DiniFiniteMinimumBudgetUp.TasteGate
+end BEDC.Derived.DiniFiniteMinimumBudgetUp
