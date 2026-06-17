@@ -495,6 +495,27 @@
       "phase": 1,
       "statement": "For the golden-mean subshift Sigma forbidding 11, let A_m be the length-m admissible local words and let f:A_m -> B be the local rule of a sliding-block factor map Phi_m. The length-1 image language is exactly L_1(Phi_m(Sigma))=f(A_m), so |L_1|=|f(A_m)|<=|A_m|=F_{m+2}, and equality holds exactly when f is injective on A_m. The executable finite witness gives an injective rule preserving the count and a non-injective rule with distinct admissible u,v in A_m and f(u)=f(v), both realized inside Sigma by periodic points, where the image count strictly drops. For length n, the corresponding block-label map pi_n:A_{n+m-1}->B^n preserves the input image-language count exactly when pi_n is injective; preservation at every n is the finite unique-decipherability condition, and n=1 is the first possible count-loss boundary. The m=2..7 baseline counts are cross-checked as |A_m|=F_{m+2}=3,5,8,13,21,34, matching the existing input-count anchor without reproving it. This was harvested from an autonomous bio-G oracle review of phi-m-factor.golden-mean-subshift and independently re-verified by local enumeration; it is a finite combinatorial count-preservation boundary, not about alpha.",
       "status": "open"
+    },
+    {
+      "claim_id": "window6.clock-gauge-invariant.c10-orbit-observables.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "window6.clock-coupling-cert.basepoint-free-gauge.certificate",
+        "window6.cyclic-golden-10-clock.phi10-forward-coupling-needs-external.certificate"
+      ],
+      "experiment_id": "verify-window6-gauge-invariant-orbit-observables",
+      "forbidden_claims": [
+        "The golden-clock necklace quotient-count certificate does not identify the fine-structure constant or any physical/external interpretation.",
+        "The certificate does not claim the basepoint residue itself as forward-determined; the no-go stands.",
+        "The certificate does not duplicate the cyclic-count anchor; |P_10|=123 is only the n=10 carrier check before quotienting.",
+        "The certificate does not duplicate the seamResidue gauge-orbit anchor; it records the C_n quotient orbit-count family law."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.clock-gauge-invariant.c10-orbit-observables",
+      "phase": 1,
+      "statement": "For cyclic no-adjacent-1 binary words P_n with |P_n|=L_n, quotienting by the C_n rotation gauge gives the basepoint-independent golden-clock necklace count |P_n/C_n|=(1/n) sum_{d|n} phi(n/d) L_d by Burnside orbit counting. The executable certificate verifies the closed form by exact enumeration for n=2..14. The Window6 clock n=10 is the instance |P_10/C_10|=15, with orbit-size spectrum {1:1,2:1,5:2,10:11}; Burnside's n=10 fixed-count sum is 150 and the spectrum sums back to |P_10|=123. This is the finite gauge-invariant content that survives the free-basepoint no-go: the seam residue/basepoint is not forward-determined, but the orbit-count family law is forward finite combinatorial content. Physical alpha is not claimed.",
+      "status": "open"
     }
   ],
   "version": "fibonacci-reality-claims-v1"

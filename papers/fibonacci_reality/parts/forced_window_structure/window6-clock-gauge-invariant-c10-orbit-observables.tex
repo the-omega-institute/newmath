@@ -1,0 +1,82 @@
+\origin{ai}
+
+\subsection{Finite cyclic window with rotation gauge}
+\label{sec:window6-clock-gauge-invariant-c10-orbit-observables}
+
+\paragraph{Carrier and local predicate.}
+Fix an integer $n \geq 2$. A length-$n$ binary word is a function from the cyclic index set with $n$ positions to $\{0,1\}$. Write such a word as $w=(w_0,\ldots,w_{n-1})$, with indices read modulo $n$. The finite carrier is
+$$
+\begin{aligned}
+P_n=\{w\in \{0,1\}^n : \text{there is no index } i \text{ with } w_i=1 \text{ and } w_{i+1}=1\}.
+\end{aligned}
+$$
+Thus the predicate is purely cyclic: the pair $(w_{n-1},w_0)$ is tested in the same way as every internal adjacent pair. The finite relation used to move inside the carrier is cyclic rotation. For $k\in \{0,\ldots,n-1\}$, let $r_k(w)$ be the word with
+$$
+\begin{aligned}
+(r_k(w))_i=w_{i-k},
+\end{aligned}
+$$
+where the subscript is reduced modulo $n$. These rotations preserve the no-adjacent-$1$ predicate, so they form an action of the cyclic group of order $n$ on $P_n$.
+
+\paragraph{Gauge-invariant quotient observable.}
+The observable recorded here is the partition of $P_n$ into rotation classes. Two words $u,v\in P_n$ are equivalent when $v=r_k(u)$ for at least one residue $k$ modulo $n$. The quotient set is therefore
+$$
+\begin{aligned}
+P_n/C_n=\{\text{rotation orbits in }P_n\}.
+\end{aligned}
+$$
+This quotient is the object of interest, not a preferred representative word, not a chosen starting position, and not a residue attached to a selected basepoint. The construction therefore keeps the finite necklace data and discards the gauge choice introduced by reading the same cycle from a marked position.
+
+\paragraph{Lucas carrier count.}
+The total number of cyclic binary words of length $n$ with no cyclic adjacent $11$ is the Lucas number $L_n$:
+$$
+\begin{aligned}
+|P_n|=L_n.
+\end{aligned}
+$$
+In the finite executable audit this equality is checked for every $n$ from $2$ through $14$. In particular, the tenth cyclic window has
+$$
+\begin{aligned}
+|P_{10}|=L_{10}=123.
+\end{aligned}
+$$
+This count is a carrier count before quotienting: it counts all admissible cyclic words with each starting position still present.
+
+\paragraph{Orbit count by fixed rotations.}
+For the rotation quotient, the finite class count is obtained by averaging the number of words fixed by each rotation. The resulting closed form is
+$$
+\begin{aligned}
+|P_n/C_n|=\frac{1}{n}\sum_{d\mid n}\varphi(n/d)L_d.
+\end{aligned}
+$$
+Here $d\mid n$ ranges over the positive divisors of $n$, and $\varphi$ is Euler's totient function. The term indexed by $d$ records the contribution from words whose rotational fixed structure is controlled by a cyclic block of length $d$. This identity is checked in the same finite range $2\leq n\leq 14$, so the formula is not being used as an asymptotic or fitted law; it is an exact finite orbit enumeration over the stated windows.
+
+\paragraph{The tenth-window instance.}
+For $n=10$, the quotient contains exactly fifteen rotation classes:
+$$
+\begin{aligned}
+|P_{10}/C_{10}|=15.
+\end{aligned}
+$$
+The orbit-size spectrum is
+$$
+\begin{aligned}
+\{1:1,\;2:1,\;5:2,\;10:11\}.
+\end{aligned}
+$$
+This means that among the fifteen orbits there is one fixed orbit of size $1$, one orbit of size $2$, two orbits of size $5$, and eleven full orbits of size $10$. The spectrum accounts for the whole carrier because
+$$
+\begin{aligned}
+1\cdot 1+2\cdot 1+5\cdot 2+10\cdot 11=123=|P_{10}|.
+\end{aligned}
+$$
+The allowed orbit sizes divide $10$, as expected for an action of a cyclic group of order $10$. The smaller orbits record words with nontrivial rotational symmetry, while the eleven size-$10$ classes have no stabilizer beyond the identity rotation.
+
+\paragraph{Basepoint separation.}
+If a basepoint is chosen on a tenth-window cycle, one may record a residue class modulo $10$ associated with that choice. Across all basepoint choices, the residue image is the full set of ten residues modulo $10$. This full residue image does not enlarge the quotient observable: the orbit count remains $15$. Consequently, the residue is a gauge-dependent reading coordinate, whereas the quotient family law and the tenth-window orbit spectrum are invariant under rotation.
+
+\paragraph{Witness extraction.}
+The finite certificate for this construction consists of five mutually checking pieces: the count $|P_{10}|=123$, the fixed-rotation sum yielding $|P_{10}/C_{10}|=15$, the orbit-size spectrum $\{1:1,2:1,5:2,10:11\}$, the spectrum sum back to $123$, and the separation between full basepoint-residue coverage and the unchanged quotient count. These pieces identify the finite observable without selecting a representative necklace or a marked seam.
+
+\paragraph{Boundary of the claim.}
+The construction proves only a finite combinatorial statement about cyclic no-adjacent-$1$ binary words and their rotation orbits. It does not identify a physical constant, does not assert a global flow law, does not compare against metrological data, and does not attach an interpretation beyond the finite quotient construction unless a separate certificate supplies that additional bridge. In particular, the basepoint or residue is not forward-determined by this packet; it is a free gauge coordinate, while the orbit-count family and the tenth-window orbit structure are the rotation-invariant data retained here.
