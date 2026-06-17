@@ -71,4 +71,33 @@ theorem DyadicCauchyTailEnvelopeNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, envelopeUnary, realSealUnary, provenancePkg⟩
 
+theorem DyadicCauchyTailEnvelopeRegSeqRatRealRoute [AskSetup] [PackageSetup]
+    {source tail envelope regseq realSeal replay provenance routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source ->
+      UnaryHistory tail ->
+        UnaryHistory regseq ->
+          UnaryHistory replay ->
+            Cont source tail envelope ->
+              Cont envelope regseq realSeal ->
+                Cont source replay routeRead ->
+                  PkgSig bundle provenance pkg ->
+                    PkgSig bundle routeRead pkg ->
+                      UnaryHistory envelope ∧ UnaryHistory realSeal ∧
+                        UnaryHistory routeRead ∧ Cont source tail envelope ∧
+                          Cont envelope regseq realSeal ∧ Cont source replay routeRead ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle routeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro sourceUnary tailUnary regseqUnary replayUnary sourceTailRoute envelopeRoute
+    replayRoute provenancePkg routePkg
+  have envelopeUnary : UnaryHistory envelope :=
+    unary_cont_closed sourceUnary tailUnary sourceTailRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed envelopeUnary regseqUnary envelopeRoute
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed sourceUnary replayUnary replayRoute
+  exact
+    ⟨envelopeUnary, realSealUnary, routeUnary, sourceTailRoute, envelopeRoute, replayRoute,
+      provenancePkg, routePkg⟩
+
 end BEDC.Derived.DyadicUp
