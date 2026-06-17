@@ -8,6 +8,7 @@ import base64
 import json
 import os
 import socket
+import shutil
 import subprocess
 import sys
 import time
@@ -20,6 +21,25 @@ from urllib.request import Request, urlopen
 
 
 DEFAULT_SERVER_URL = "http://127.0.0.1:8771"
+
+
+def _nyxid_executable() -> str:
+    configured = os.environ.get("FIBONACCI_REALITY_NYXID_BIN", "").strip()
+    if configured:
+        return configured
+    found = shutil.which("nyxid")
+    if found:
+        return found
+    home = Path.home()
+    for candidate in (
+        home / ".local" / "bin" / "nyxid",
+        home / ".cargo" / "bin" / "nyxid",
+        Path("/Users/lexa/.local/bin/nyxid"),
+        Path("/Users/lexa/.cargo/bin/nyxid"),
+    ):
+        if candidate.exists():
+            return str(candidate)
+    return "nyxid"
 
 
 def _server_url(server_url: str) -> str:
@@ -73,7 +93,17 @@ def _run_nyxid_oracle(cmd: list[str], *, timeout_seconds: float) -> dict[str, An
 
 def _nyxid_oracle_env() -> dict[str, str]:
     env = os.environ.copy()
-    if any(env.get(name) for name in ("HTTPS_PROXY", "https_proxy", "ALL_PROXY", "all_proxy")):
+    existing_proxy = next(
+        (env.get(name) for name in ("HTTPS_PROXY", "https_proxy", "HTTP_PROXY", "http_proxy", "ALL_PROXY", "all_proxy") if env.get(name)),
+        "",
+    )
+    parsed_existing = urlparse(existing_proxy) if existing_proxy else None
+    existing_points_at_raw_socks = bool(
+        parsed_existing
+        and parsed_existing.hostname in {"127.0.0.1", "localhost"}
+        and parsed_existing.port == 40000
+    )
+    if existing_proxy and not existing_points_at_raw_socks:
         return env
     host = env.get("FIBONACCI_REALITY_NYXID_HTTP_PROXY_HOST", "127.0.0.1")
     port_text = env.get("FIBONACCI_REALITY_NYXID_HTTP_PROXY_PORT", "8119")
@@ -87,10 +117,13 @@ def _nyxid_oracle_env() -> dict[str, str]:
     except OSError:
         return env
     proxy = f"http://{host}:{port}"
-    env.setdefault("HTTP_PROXY", proxy)
-    env.setdefault("HTTPS_PROXY", proxy)
-    env.setdefault("http_proxy", proxy)
-    env.setdefault("https_proxy", proxy)
+    env["HTTP_PROXY"] = proxy
+    env["HTTPS_PROXY"] = proxy
+    env["http_proxy"] = proxy
+    env["https_proxy"] = proxy
+    if existing_points_at_raw_socks:
+        env.pop("ALL_PROXY", None)
+        env.pop("all_proxy", None)
     return env
 
 
@@ -111,7 +144,7 @@ def _request_json_nyxid_oracle(
         if not prompt:
             return _error("invalid_prompt", "oracle prompt is empty")
         tag = str(payload.get("tag") or payload.get("intended_claim_id") or payload.get("intended_lane") or "fibonacci-oracle-query")
-        cmd = ["nyxid", "oracle", "ask", "--output", "json", "--no-wait", "--tag", tag]
+        cmd = [_nyxid_executable(), "oracle", "ask", "--output", "json", "--no-wait", "--tag", tag]
         conversation_id = str(payload.get("conversation_id") or "")
         if conversation_id:
             cmd.extend(["--conversation", conversation_id])
@@ -119,14 +152,19 @@ def _request_json_nyxid_oracle(
             cmd.append("--new-conversation")
         pdf_base64 = str(payload.get("pdf_base64") or "")
         temp_path: Path | None = None
+        prompt_path: Path | None = None
         try:
+            with tempfile.NamedTemporaryFile(prefix="fibonacci-oracle-prompt-", suffix=".txt", mode="w", encoding="utf-8", delete=False) as handle:
+                prompt_path = Path(handle.name)
+                handle.write(prompt)
+            cmd.extend(["--file", str(prompt_path)])
             if pdf_base64:
                 suffix = Path(str(payload.get("pdf_name") or "main.pdf")).suffix or ".pdf"
                 with tempfile.NamedTemporaryFile(prefix="fibonacci-oracle-", suffix=suffix, delete=False) as handle:
                     temp_path = Path(handle.name)
                     handle.write(base64.b64decode(pdf_base64))
                 cmd.extend(["--pdf", str(temp_path)])
-            cmd.extend([pool, prompt])
+            cmd.append(pool)
             return _run_nyxid_oracle(cmd, timeout_seconds=timeout_seconds)
         except (OSError, ValueError) as exc:
             return _error("pdf_attach_failed", str(exc))
@@ -134,6 +172,11 @@ def _request_json_nyxid_oracle(
             if temp_path is not None:
                 try:
                     temp_path.unlink()
+                except OSError:
+                    pass
+            if prompt_path is not None:
+                try:
+                    prompt_path.unlink()
                 except OSError:
                     pass
     if method == "POST" and normalized_path == "/continue":
@@ -144,26 +187,40 @@ def _request_json_nyxid_oracle(
         if not prompt:
             return _error("invalid_prompt", "oracle prompt is empty")
         tag = str(payload.get("tag") or payload.get("intended_claim_id") or payload.get("intended_lane") or "fibonacci-oracle-followup")
-        return _run_nyxid_oracle(
-            [
-                "nyxid",
-                "oracle",
-                "ask",
-                "--output",
-                "json",
-                "--no-wait",
-                "--tag",
-                tag,
-                "--conversation",
-                conversation_id,
-                pool,
-                prompt,
-            ],
-            timeout_seconds=timeout_seconds,
-        )
+        prompt_path: Path | None = None
+        try:
+            with tempfile.NamedTemporaryFile(prefix="fibonacci-oracle-prompt-", suffix=".txt", mode="w", encoding="utf-8", delete=False) as handle:
+                prompt_path = Path(handle.name)
+                handle.write(prompt)
+            return _run_nyxid_oracle(
+                [
+                    _nyxid_executable(),
+                    "oracle",
+                    "ask",
+                    "--output",
+                    "json",
+                    "--no-wait",
+                    "--tag",
+                    tag,
+                    "--conversation",
+                    conversation_id,
+                    "--file",
+                    str(prompt_path),
+                    pool,
+                ],
+                timeout_seconds=timeout_seconds,
+            )
+        except OSError as exc:
+            return _error("prompt_file_failed", str(exc))
+        finally:
+            if prompt_path is not None:
+                try:
+                    prompt_path.unlink()
+                except OSError:
+                    pass
     if method == "GET" and normalized_path == "/health":
         data = _run_nyxid_oracle(
-            ["nyxid", "oracle", "status", "--output", "json", pool],
+            [_nyxid_executable(), "oracle", "status", "--output", "json", pool],
             timeout_seconds=timeout_seconds,
         )
         if data.get("status") == "error":
@@ -180,7 +237,7 @@ def _request_json_nyxid_oracle(
     if method == "GET" and normalized_path.startswith("/tasks/"):
         task_id = normalized_path.split("/", 2)[2]
         return _run_nyxid_oracle(
-            ["nyxid", "oracle", "result", "--output", "json", task_id],
+            [_nyxid_executable(), "oracle", "result", "--output", "json", task_id],
             timeout_seconds=timeout_seconds,
         )
     if method == "POST" and normalized_path == "/close":
@@ -188,7 +245,7 @@ def _request_json_nyxid_oracle(
         if not conversation_id:
             return _error("invalid_conversation_id", "conversation_id is empty")
         return _run_nyxid_oracle(
-            ["nyxid", "oracle", "close-session", "--output", "json", conversation_id],
+            [_nyxid_executable(), "oracle", "close-session", "--output", "json", conversation_id],
             timeout_seconds=timeout_seconds,
         )
     return _error("unsupported_nyxid_oracle_route", f"{method} {normalized_path}")
@@ -210,7 +267,7 @@ def _request_json_nyxid(method: str, server_url: str, path: str, payload: dict[s
         return _error("nyxid_config_missing", "nyxid server_url must be nyxid://<service>[/path-prefix]")
     service, request_path = target
     cmd = [
-        "nyxid",
+        _nyxid_executable(),
         "proxy",
         "request",
         "-m",

@@ -83,12 +83,36 @@ The Real-facing handoff is $U$, and the terminal seal is $E$. These rows are dow
 The structural rows $H,C,P,N$ transport, replay, source, and name that same route. Therefore every modulus or Real-facing consumer factors through the displayed packet and receives none of the excluded escape objects.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy rate extraction finite-threshold induction]
+\label{thm:regular-cauchy-rate-extraction-finite-threshold-induction}
+Let
+$$
+X=(S,D,R,M,U,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyRateExtractionUp$ carrier. For any finite extension of displayed precision requests that preserves the $\StreamNameUp$ row $S$, $\DyadicRatCoreUp$ row $D$, and $\RegSeqRatUp$ row $R$, the extended consumer route adds only replay of the displayed chain
+$$
+S,D,R \longmapsto M \longmapsto U \longmapsto E \longmapsto H,C,P,N .
+$$
+No extension step introduces a selected limit, quotient stream equality, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge credential.
+\end{theorem}
+\begin{proof}
+Induct over the finite ledger of displayed precision requests.
+
+For the empty ledger, the claim is exactly the modulus readback theorem \autoref{thm:regular-cauchy-rate-extraction-modulus-readback}. The accepted packet exposes $S,D,R$ first, then routes the precision rate through $M,U,E,H,C,P,N$.
+
+For the successor ledger, append one displayed request while keeping the same $S,D,R$ rows. The appended request is sent to the finite threshold row $M$ because $M$ is the only carrier coordinate that answers precision-stage questions.
+
+After $M$ is read, the Real-facing transport is forced through $U$ and $E$. The structural rows $H,C,P,N$ replay, transport, source, and name the same route, so the extension step adds no coordinate outside the displayed packet.
+
+The induction therefore preserves the route invariant at every finite stage. Since every step is a replay of $S,D,R \mapsto M \mapsto U \mapsto E \mapsto H,C,P,N$, none of the excluded escape objects can enter the extended ledger.
+\end{proof}
+
 \closureat{RegularCauchyRateExtractionUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyRateExtractionUp}
   \constructivestory{A $\RegularCauchyRateExtractionUp$ packet is generated from StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a CauchyModulus threshold row, a RealCauchyModulus handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-rate-extraction-carrier}, \autoref{thm:regular-cauchy-rate-extraction-namecert-obligations}, and \autoref{thm:regular-cauchy-rate-extraction-modulus-readback} seed the finite rate-readback route from regular Cauchy rational data through displayed modulus thresholds, Real-facing modulus rows, and the terminal RealUp seal.}
+  \scopeclosed{\autoref{def:regular-cauchy-rate-extraction-carrier}, \autoref{thm:regular-cauchy-rate-extraction-namecert-obligations}, \autoref{thm:regular-cauchy-rate-extraction-modulus-readback}, and \autoref{thm:regular-cauchy-rate-extraction-finite-threshold-induction} seed the finite rate-readback route from regular Cauchy rational data through displayed modulus thresholds, Real-facing modulus rows, finite threshold ledgers, and the terminal RealUp seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close selected limits, quotient equality of Cauchy streams, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}

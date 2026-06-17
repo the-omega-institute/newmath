@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ExtendedMetricSpaceUp$}
+\label{ch:concrete-instances-extended-metric-space-namecert}
+\origin{human}
+
+Following Lawvere and Kelley-style extended metrics, the $\ExtendedMetricSpaceUp$ packet records a finite BEDC carrier for distances that may leave the finite-real window while still exposing every finite-radius read through the ordinary metric and real-number siblings. It sits beside $\MetricSpaceUp$ and $\LawvereMetricUp$ as the distance-interface packet for radius-bounded arguments, and it reads finite radii through \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}. The chapter supplies only the finite NameCert route for extended distances and truncations; it does not import quotient metrics, ambient infinity arithmetic, or a completeness theorem.
+
+\begin{definition}[Extended metric space carrier]
+\label{def:extended-metric-space-carrier}
+An $\ExtendedMetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+X=(P,D,F,T,M,L,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the point-name row, naming the finite observation surface on which distance probes are evaluated.
+\item $D$ is the extended-distance row, recording a nonnegative distance comparison that may be finite or declared outside the finite-radius window.
+\item $F$ is the finite-radius window row, naming the radii for which $D$ is read through $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$.
+\item $T$ is the finite truncation row, recording the bounded read $d_T(x,y)=\min(d(x,y),r)$ for a displayed finite radius $r$.
+\item $M$ is the ordinary metric handoff row, connecting every finite-radius truncation to the sibling $\MetricSpaceUp$ packet.
+\item $L$ is the Lawvere metric sibling row, recording that the extended-distance orientation is a Lawvere-style distance surface, not a quotient metric.
+\item $H$ stores componentwise $\hsame$ transport for point names, extended-distance reads, finite windows, truncations, sibling handoffs, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay for finite-radius reads and sibling handoffs.
+\item $G$ is the $\Pkg$ provenance over $\ExtendedMetricSpaceUp$, $\MetricSpaceUp$, $\LawvereMetricUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ExtendedMetricSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient metric identification, host-level infinity arithmetic, hidden completeness, selected limit points, or an ambient real-number object outside the displayed finite-radius route.
+\end{definition}
+
+\begin{theorem}[Extended metric space NameCert obligations]
+\label{thm:extended-metric-space-namecert-obligations}
+For the carrier of \autoref{def:extended-metric-space-carrier}, the local $\NameCert_{\ExtendedMetricSpaceUp}$ surface consists exactly of point-name admission through $P$, extended-distance admission through $D$, finite-radius admission through $F$, truncation admission through $T$, ordinary metric handoff through $M$, Lawvere sibling orientation through $L$, componentwise transport through $H$, displayed replay through $C$, provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $X=(P,D,F,T,M,L,H,C,G,N)$. Each listed obligation is one displayed coordinate of the carrier, and the carrier definition assigns no additional row to quotient metrics, completeness, host infinity arithmetic, selected limits, or ambient real equality.
+
+The finite-radius obligations are the only rows that read numerical distance data as finite. Row $F$ routes those reads through $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$, while $T$ records the radius-bounded truncation attached to the same finite window.
+
+The sibling rows preserve the intended interface. Row $M$ hands finite-radius truncations to $\MetricSpaceUp$, and row $L$ records the Lawvere-style extended-distance orientation. Transport, replay, provenance, and local naming then preserve the same displayed packet, so the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Extended metric space finite-radius truncation]
+\label{thm:extended-metric-space-finite-radius-truncation}
+Every accepted finite-radius read of an $\ExtendedMetricSpaceUp$ carrier factors through
+$$
+F,T,M,\RealUp,\RegSeqRatUp,\StreamNameUp,\DyadicRatCoreUp .
+$$
+The truncation may expose a bounded ordinary metric read, but it cannot use an unlisted infinity calculus, quotient completion witness, selected limit, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the finite-radius row $F$. By definition it is the only row that certifies a distance read as finite, and it routes the displayed radius through $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$.
+
+Next use the truncation row $T$. A bounded read is recorded as a finite-radius truncation of the extended-distance row $D$, so it remains tied to the same radius window rather than to host infinity arithmetic.
+
+Finally apply the ordinary metric handoff row $M$. It sends the bounded truncation to the sibling $\MetricSpaceUp$ surface. Since the carrier contains no coordinate for quotient completion, selected limits, or ambient completeness, the finite-radius truncation exports only the displayed route.
+\end{proof}
+
+\begin{theorem}[Extended metric space metric-space handoff]
+\label{thm:extended-metric-space-metricspace-handoff}
+Every $\MetricSpaceUp$ consumer of an $\ExtendedMetricSpaceUp$ packet must first restrict to a displayed finite-radius truncation. The consumer may read point names, the finite radius, the truncated distance, componentwise transport, replay, provenance, and local naming, but it may not read the raw extended-distance row as an ordinary metric without the $F,T,M$ handoff.
+\end{theorem}
+\begin{proof}
+Read the carrier $X=(P,D,F,T,M,L,H,C,G,N)$. The raw extended-distance row $D$ is allowed to sit outside the finite-radius window, so it is not by itself an ordinary metric-space distance.
+
+Apply the finite-radius truncation theorem. It supplies the route through $F,T,M$ and through the real, regular-rational, stream, and dyadic siblings before the bounded distance is exported.
+
+The $\MetricSpaceUp$ handoff is therefore exactly the row $M$ applied after $F$ and $T$. The structural rows $H,C,G,N$ preserve that same bounded route, while the Lawvere row $L$ records the sibling orientation. No consumer can bypass those rows and reread $D$ as an ordinary metric.
+\end{proof}
+
+\falsifiablePrediction{An ordinary metric consumer that reads an $\ExtendedMetricSpaceUp$ distance without exposing $F,T,M$ and the $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ route is not reading the local carrier.}
+
+\independenceWitness{metricspace, lawveremetric, real, regseqrat, streamname, dyadicratcore: no listed sibling jointly carries extended-distance admission, finite-radius truncation, ordinary metric handoff, Lawvere orientation, real and rational source rows, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{ExtendedMetricSpaceUp}{seedStr}
+
+\begin{closurestatus}{\ExtendedMetricSpaceUp}
+  \constructivestory{An $\ExtendedMetricSpaceUp$ packet is generated from point-name rows, extended-distance rows, finite-radius windows, truncation rows, MetricSpace and LawvereMetric sibling handoffs, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:extended-metric-space-carrier}, \autoref{thm:extended-metric-space-namecert-obligations}, \autoref{thm:extended-metric-space-finite-radius-truncation}, and \autoref{thm:extended-metric-space-metricspace-handoff} seed the finite-radius certificate for extended distances and ordinary metric consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, quotient metric identification, ambient infinity arithmetic, completeness, selected limits, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-radius truncation exactness, MetricSpace handoff exactness, Lawvere sibling separation, transport, replay, provenance, and local naming for BEDC.Derived.ExtendedMetricSpaceUp.}
+\end{closurestatus}

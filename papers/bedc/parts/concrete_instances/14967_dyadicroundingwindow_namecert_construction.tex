@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $S,q,D,A,R,E,H,C,P,N$. It has no coordinate for quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[DyadicRoundingWindow NameCert obligations]
 \label{thm:dyadicroundingwindow-namecert-obligations}
@@ -34,6 +35,7 @@ S\longmapsto q\longmapsto D\longmapsto A\longmapsto R\longmapsto E
 $$
 together with $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:dyadic-rounding-window-carrier}. The finite stream window, unary precision, adjacent endpoint packet, dyadic readback, regular rational handoff, real seal, transport rows, continuation routes, package provenance, and local naming row are exactly the coordinates available to the classifier.
 
@@ -44,10 +46,43 @@ Dyadic readback exactness and the two handoff clauses are route projections. The
 The non-escape obligation is packet inspection. Since no row records quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness, every accepted consumer remains inside the displayed finite route.
 \end{proof}
 
+\begin{theorem}[DyadicRoundingWindow precision-window obligation]
+\label{thm:dyadicroundingwindow-obligation-precision-window}
+Every accepted $\DyadicRoundingWindowUp$ packet
+$W=(S,q,D,A,R,E,H,C,P,N)$ must open the $\StreamNameUp$ row $S$ at unary
+precision $q$ before $D$ is read as the $\DyadicRoundingUp$ endpoint packet.
+Only after this displayed read may the $\DyadicApproximationUp$ row $A$, the
+$\RegSeqRatUp$ handoff $R$, and the $\RealUp$ seal $E$ be consumed, and then
+only through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$
+rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_precision\_window\_obligation}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-rounding-window-carrier}. Its
+ordered rows expose $S$ and $q$ before the endpoint packet $D$, so an accepted
+consumer has a finite stream window and a unary precision request before any
+rounded endpoint is inspected.
+
+Apply \autoref{thm:dyadicroundingwindow-namecert-obligations}. Its route order
+is
+$$
+S\longmapsto q\longmapsto D\longmapsto A\longmapsto R\longmapsto E
+$$
+together with $H,C,P,N$, so the precision-window obligation is a projection of
+the local $\NameCert_{\DyadicRoundingWindowUp}$ surface.
+
+Use \autoref{thm:dyadicroundingwindow-error-bound} for nonescape. The error
+bound follows the same endpoint and readback route into $\RegSeqRatUp$ and
+$\RealUp$, and the structural rows merely transport, replay, source, and name
+that route. No quotient equality, selected limit, trichotomy, host rounding, or
+ambient completeness row is introduced.
+\end{proof}
+
 \begin{theorem}[DyadicRoundingWindow error bound]
 \label{thm:dyadicroundingwindow-error-bound}
 Every accepted $\DyadicRoundingWindowUp$ carrier exports a finite error-bound route: the readback row $A$ is bounded by the adjacent endpoint packet $D$ at unary precision $q$, transported through $H$, replayed through $C$, and handed to $\RegSeqRatUp$ and $\RealUp$ only through $R$ and $E$. No exported bound may be replaced by quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_error\_bound}
 \begin{proof}
 Begin with the accepted carrier and project its displayed precision row $q$. The row $q$ fixes the only observation scale available to the packet, so an error-bound consumer must read the same finite window $S$ at that scale.
 
@@ -58,18 +93,161 @@ Now read the dyadic approximation row $A$. It is the only coordinate that expose
 Finally route the bound through $R,E,H,C,P,N$. These rows preserve, replay, source, and name the same finite packet for $\RegSeqRatUp$ and $\RealUp$ consumers. The carrier inventory contains no coordinate that can replace the bound by quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[DyadicRoundingWindow error-envelope monotonicity]
+\label{thm:dyadicroundingwindow-error-envelope-monotonicity}
+Let
+$$
+W=(S,q,D,A,R,E,H,C,P,N)
+$$
+and
+$$
+W'=(S',q',D',A',R',E',H',C',P',N')
+$$
+be accepted $\DyadicRoundingWindowUp$ packets. Suppose the two packets share the same $\StreamNameUp$ row, endpoint route, and readback route under the displayed $\hsame$ and $\Cont$ data, and suppose the unary precision $q'$ refines $q$. Then the exported error-bound route of $W'$ factors through the endpoint ledger of $W$ and cannot widen the tolerance envelope before the $\RegSeqRatUp$ and $\RealUp$ handoff. The comparison is made only through the displayed unary precisions and the $\DyadicRatCoreUp$ tolerance ledger.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:dyadic-rounding-window-carrier}. The only rows that can affect the error envelope are the stream rows $S,S'$, the unary precisions $q,q'$, the adjacent endpoint packets $D,D'$, and the readback rows $A,A'$.
+
+Apply \autoref{thm:dyadicroundingwindow-error-bound} to each packet. For $W$, the exported bound is the endpoint-and-tolerance surface carried by $D$ at precision $q$. For $W'$, the bound is the corresponding surface carried by $D'$ at precision $q'$.
+
+The shared StreamName row and shared endpoint/readback route force both bounds to read the same finite observation path. Since $q'$ refines $q$, the later $\DyadicRatCoreUp$ tolerance ledger is a subledger of the earlier endpoint ledger for the same route; it supplies a narrower observation budget, not an extra coordinate.
+
+Finally inspect the remaining rows $R,E,H,C,P,N$ and $R',E',H',C',P',N'$. They transport, replay, source, and name the already compared endpoint ledgers for the $\RegSeqRatUp$ and $\RealUp$ handoff. No quotient equality, host rounding mode, trichotomy row, selected limit, or completeness row is present to widen the envelope.
+\end{proof}
+
+\begin{theorem}[DyadicRoundingWindow precision classification]
+\label{thm:dyadicroundingwindow-precision-classification}
+Every accepted $\DyadicRoundingWindowUp$ carrier opens the same $\StreamNameUp$ row $S$ at the displayed unary precision $q$ before the adjacent endpoint packet $D$ is read as $\DyadicRoundingUp$ data. The precision classifier is therefore the finite route through $S,q,D,A,R,E,H,C,P,N$, not a host rounding mode, selected real approximation, trichotomy test, or ambient completeness argument.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:dyadic-rounding-window-carrier}. The rows $S$ and $q$ are displayed before the endpoint packet, so the classifier has a named stream window and a named unary precision before any rounded endpoint is consumed.
+
+Apply the NameCert obligations of \autoref{thm:dyadicroundingwindow-namecert-obligations}. The precision-window classification clause reads $q$ and then opens $S$ at that scale as part of the route
+$$
+S\longmapsto q\longmapsto D\longmapsto A\longmapsto R\longmapsto E .
+$$
+
+Finally use the error-bound surface of \autoref{thm:dyadicroundingwindow-error-bound}. Since the bound is attached to the same $q$ and the same $D$, the classifier cannot swap in a host rounding mode, selected approximation, trichotomy test, or ambient completeness row.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_precision\_classification}
+
+\begin{theorem}[DyadicRoundingWindow adjacent endpoint compatibility]
+\label{thm:dyadicroundingwindow-adjacent-endpoint-compatibility}
+In every accepted $\DyadicRoundingWindowUp$ carrier, the endpoint packet $D$ and the readback row $A$ share the $\DyadicRatCoreUp$ tolerance ledger at precision $q$, and their componentwise compatibility is transported only through the displayed $\hsame$ row $H$. Thus the adjacent endpoint readback cannot be replaced by quotient real equality, host rounding, selected limits, or an unstated metric-completeness witness.
+\end{theorem}
+\begin{proof}
+Project $W=(S,q,D,A,R,E,H,C,P,N)$ from \autoref{def:dyadic-rounding-window-carrier}. The row $D$ contains the adjacent endpoint packet and its dyadic tolerance ledger, while $A$ is the only dyadic readback coordinate produced from $S,q,D$.
+
+The obligation theorem \autoref{thm:dyadicroundingwindow-namecert-obligations} ties adjacent-endpoint compatibility and dyadic readback exactness to the same route. Therefore $D$ and $A$ are compared inside the displayed precision-window packet rather than through an external real-equality principle.
+
+Now apply the error-bound theorem \autoref{thm:dyadicroundingwindow-error-bound}. The endpoint tolerance ledger bounds $A$ at the unary precision $q$, and $H$ transports this componentwise compatibility through the later rows. No carrier coordinate can replace that ledger by quotient real equality, host rounding, selected limits, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_adjacent\_endpoint\_compatibility}
+
+\begin{theorem}[DyadicRoundingWindow readback handoff]
+\label{thm:dyadicroundingwindow-readback-handoff}
+Every accepted $\DyadicRoundingWindowUp$ carrier hands the approximation row $A$ to later consumers only through the regular rational row $R$ and then through the real seal row $E$. The route is
+$$
+A\longmapsto R\longmapsto E
+$$
+inside the displayed packet $W=(S,q,D,A,R,E,H,C,P,N)$, so a consumer cannot bypass $R$ by invoking quotient real equality, a selected limit, host rounding, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project $W$ from \autoref{def:dyadic-rounding-window-carrier}. The row $A$ is the only dyadic approximation readback coordinate, while $R$ and $E$ are the only regular rational and real-facing rows.
+
+Use \autoref{thm:dyadicroundingwindow-error-bound}. It states that the bound on $A$ is preserved for $\RegSeqRatUp$ and $\RealUp$ consumers only through $R$ and $E$, with $H$ and $C$ transporting and replaying the same finite route.
+
+Finally apply \autoref{thm:dyadicroundingwindow-adjacent-endpoint-compatibility}. The endpoint packet $D$ and the readback row $A$ remain tied to the $\DyadicRatCoreUp$ tolerance ledger at the displayed precision $q$. Since no other readback or real-facing coordinate is present, the handoff cannot escape the $A\mapsto R\mapsto E$ route.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_readback\_handoff}
+
+\begin{theorem}[DyadicRoundingWindow Real-seal factorization]
+\label{thm:dyadicroundingwindow-real-seal-factorization}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\DyadicRoundingWindowUp$ packet factors through $S,q,D,A,R,E,H,C,P,N$ before the rounded observation is consumed. The seal route cannot use quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:dyadic-rounding-window-carrier}. The rows $R$ and $E$ are downstream rows: $R$ repackages the rounded observation as regular rational data, and $E$ is the real-facing seal reached only after $S,q,D,A$ are displayed.
+
+Use \autoref{thm:dyadicroundingwindow-namecert-obligations}. Its regular rational handoff, Real seal factorization, and ledger non-escape clauses force every consumer to read the same finite route through the stream window, unary precision, adjacent endpoints, dyadic readback, handoff, and seal.
+
+Finally invoke \autoref{thm:dyadicroundingwindow-error-bound}. The error bound is preserved through $R,E,H,C,P,N$, so a consumer cannot bypass $S,q,D,A$ by citing quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_real\_seal\_factorization}
+
+\begin{theorem}[DyadicRoundingWindow ledger nonescape]
+\label{thm:dyadicroundingwindow-ledger-nonescape}
+In every accepted $\DyadicRoundingWindowUp$ carrier, the rows $H,C,P,N$ exhaust transport, replay, provenance, and local naming for $S,q,D,A,R,E$. Therefore the ledger exports no quotient real equality, selected limit, trichotomy, host rounding operation, ambient completeness theorem, or unnamed real-facing approximation row.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:dyadic-rounding-window-carrier}. Its structural rows are exactly $H,C,P,N$: $H$ transports the displayed coordinates componentwise, $C$ replays the continuation route, $P$ records the package provenance, and $N$ names the local packet.
+
+Apply \autoref{thm:dyadicroundingwindow-readback-handoff}. The only path from the approximation row to a later consumer is through $A\mapsto R\mapsto E$, and that path is already guarded by the same $H,C,P,N$ rows.
+
+Use \autoref{thm:dyadicroundingwindow-real-seal-factorization}. Real-facing consumers factor through the displayed stream window, precision request, adjacent endpoint packet, readback row, regular rational handoff, and real seal before any rounded observation is consumed.
+
+No remaining carrier coordinate can name quotient real equality, selected limits, trichotomy, host rounding, ambient completeness, or an extra approximation row. Thus the ledger is nonescaping by finite packet exhaustion.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_ledger\_nonescape}
+
+\begin{theorem}[DyadicRoundingWindow obligation-closure package]
+\label{thm:dyadicroundingwindow-obligation-closure-package}
+The carrier of \autoref{def:dyadic-rounding-window-carrier}, together with \autoref{thm:dyadicroundingwindow-namecert-obligations}, \autoref{thm:dyadicroundingwindow-error-bound}, \autoref{thm:dyadicroundingwindow-precision-classification}, \autoref{thm:dyadicroundingwindow-adjacent-endpoint-compatibility}, \autoref{thm:dyadicroundingwindow-readback-handoff}, \autoref{thm:dyadicroundingwindow-real-seal-factorization}, and \autoref{thm:dyadicroundingwindow-ledger-nonescape}, assembles the full obligationClosure surface for $\DyadicRoundingWindowUp$. The closed surface is exactly the displayed packet over $\StreamNameUp$, $\DyadicRoundingUp$, $\DyadicApproximationUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+First project the carrier. The rows $S,q,D,A,R,E,H,C,P,N$ give the only finite precision-window object available to the certificate, with $S$ naming the stream window, $q$ fixing the unary precision request, $D$ carrying the adjacent dyadic endpoint packet, $A$ exposing the dyadic readback, $R$ giving regular-rational readback, and $E$ giving the real-facing seal.
+
+Next apply the obligation and error-bound theorems. They identify carrier admission, precision-window classification, adjacent-endpoint compatibility, dyadic readback exactness, regular rational handoff, Real seal factorization, and ledger non-escape as obligations of the same route
+$$
+S\longmapsto q\longmapsto D\longmapsto A\longmapsto R\longmapsto E .
+$$
+
+Now read the remaining rows separately. Precision classification fixes the observation scale before endpoint data are consumed; adjacent endpoint compatibility ties $D$ and $A$ to the same $\DyadicRatCoreUp$ tolerance ledger; readback handoff forces $A$ through $R$ before $E$; and Real-seal factorization prevents a later consumer from bypassing those rows.
+
+Finally use ledger nonescape. The structural rows $H,C,P,N$ transport, replay, source, and name the same packet, and no coordinate records quotient real equality, selected limits, trichotomy, host rounding, ambient completeness, or an unnamed approximation row. This exhausts the obligationClosure surface over the listed BEDC rows.
+\end{proof}
+
+\begin{theorem}[DyadicRoundingWindow scoped consumer boundary]
+\label{thm:dyadicroundingwindow-scoped-consumer-boundary}
+Every consumer of an accepted $\DyadicRoundingWindowUp$ packet must scope the rounded observation through the displayed $\StreamNameUp$ window, $\DyadicRoundingUp$ adjacent endpoint packet, $\DyadicApproximationUp$ readback row, $\RegSeqRatUp$ handoff, $\RealUp$ seal, $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. No consumer may replace that packet by quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:dyadic-rounding-window-carrier}. Its visible rows $S,q,D,A,R,E,H,C,P,N$ are the only coordinates available to a rounded-observation consumer, so the consumer first receives a stream window, a unary precision request, adjacent dyadic endpoints, a readback row, regular-rational handoff, a real-facing seal, transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:dyadicroundingwindow-obligation-closure-package}. The obligation package assembles those rows together with precision classification, adjacent endpoint compatibility, readback handoff, Real-seal factorization, and ledger nonescape. Thus a consumer cannot separate the rounded observation from the displayed finite route.
+
+The handoff theorems identify the downstream boundary. By \autoref{thm:dyadicroundingwindow-readback-handoff}, the readback row passes only through $A\mapsto R\mapsto E$; by \autoref{thm:dyadicroundingwindow-real-seal-factorization}, any $\RegSeqRatUp$ or $\RealUp$ use factors through the same stream, endpoint, readback, handoff, and seal rows; and by \autoref{thm:dyadicroundingwindow-ledger-nonescape}, $H,C,P,N$ exhaust the structural ledger.
+
+Since the carrier contains no coordinate for quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness, no scoped consumer can introduce one. The rounded observation remains a finite BEDC packet over the listed rows.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_scoped\_consumer\_boundary}
+
+\begin{theorem}[DyadicRoundingWindow scoped kernel dependencies]
+\label{thm:dyadic-rounding-window-scoped-kernel-dependencies}
+Every precision-window rounding consumer of an accepted $\DyadicRoundingWindowUp$ packet factors through the displayed $\BHist$ request rows, $\StreamNameUp$ window rows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance arithmetic, $\DyadicRoundingUp$ adjacent endpoint rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the terminal $\RealUp$ seal. These rows are the scoped kernel dependencies for the obligationClosure-to-scopedClosure step; no quotient real equality, selected limit, trichotomy, host rounding mode, or ambient completeness row is part of the factorization.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_scoped\_kernel\_dependencies}
+\begin{proof}
+Start with the precision-window obligation, \autoref{thm:dyadicroundingwindow-obligation-precision-window}. It places the request row and the $\StreamNameUp$ window in front of the adjacent endpoint packet.
+
+Apply the error-bound theorem \autoref{thm:dyadicroundingwindow-error-bound} and endpoint compatibility \autoref{thm:dyadicroundingwindow-adjacent-endpoint-compatibility}. Together they force the rounded observation to read the same $\DyadicRatCoreUp$ tolerance arithmetic and $\DyadicRoundingUp$ adjacent endpoint rows before any readback is exported.
+
+Next use the readback handoff and Real-seal factorization, \autoref{thm:dyadicroundingwindow-readback-handoff} and \autoref{thm:dyadicroundingwindow-real-seal-factorization}. They route the approximation through $\RegSeqRatUp$ and then through the terminal $\RealUp$ seal, with no bypass around the displayed finite packet.
+
+Finally combine ledger nonescape, \autoref{thm:dyadicroundingwindow-ledger-nonescape}, with the scoped consumer boundary of \autoref{thm:dyadicroundingwindow-scoped-consumer-boundary}. The structural rows $H,C,P,N$ supply transport, replay, provenance, and local naming for the same route, so the listed dependencies exhaust the scoped kernel surface.
+\end{proof}
+
 \falsifiablePrediction{Every $\RegSeqRatUp$ or $\RealUp$ read from a $\DyadicRoundingWindowUp$ packet factors through the displayed stream window, unary precision, adjacent $\DyadicRoundingUp$ endpoint packet, $\DyadicApproximationUp$ readback, regular rational handoff, real seal row, componentwise transport, continuation replay, provenance, and local naming before the rounded observation is consumed.}
 
 \independenceWitness{streamname, dyadicrounding, dyadicapproximation, regseqrat, real, dyadicratcore: $\DyadicRoundingWindowUp$ is not bijective to any listed sibling because it jointly carries a stream window, unary precision request, adjacent endpoint packet, dyadic readback, regular rational handoff, real seal, componentwise transport, continuation replay, provenance, and local naming.}
 
-\closureat{DyadicRoundingWindowUp}{seedStr}
+\closureat{DyadicRoundingWindowUp}{scopedStr}
 
 \begin{closurestatus}{\DyadicRoundingWindowUp}
   \constructivestory{A $\DyadicRoundingWindowUp$ packet is generated from a StreamName window, a unary precision request, an adjacent DyadicRounding endpoint packet, a DyadicApproximation readback row, a RegSeqRat handoff, a RealUp seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-rounding-window-carrier}, \autoref{thm:dyadicroundingwindow-namecert-obligations}, and \autoref{thm:dyadicroundingwindow-error-bound} seed the finite precision-window rounding packet for one displayed real or regular rational observation.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:dyadicroundingwindow-obligation-closure-package} assembles the obligation surface, and \autoref{thm:dyadic-rounding-window-scoped-kernel-dependencies} binds every scoped consumer to the displayed StreamName, RegSeqRat, DyadicRatCore, DyadicRounding, transport, replay, provenance, local naming, and Real-seal rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient real equality, selected limits, trichotomy, host rounding, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, precision-window classification, adjacent-endpoint compatibility, dyadic readback exactness, regular rational handoff, real seal factorization, and ledger non-escape for BEDC.Derived.DyadicRoundingWindowUp.}
+  \upgradepath{Formal upgrade requires Lean verification for the scoped consumer boundary over precision-window classification, adjacent endpoint compatibility, readback handoff, Real seal factorization, ledger nonescape, transport, replay, provenance, and local naming.}
 \end{closurestatus}

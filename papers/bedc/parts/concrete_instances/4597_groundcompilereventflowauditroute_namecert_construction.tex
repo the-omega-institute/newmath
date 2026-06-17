@@ -55,6 +55,7 @@ E,C,L,G,A,H,K,P,N
 $$
 and cannot replace the displayed channel readback by source text, carried metadata, host compiler input, report counts, motif similarity, metric summaries, or proof evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.GroundCompilerEventFlowAuditRouteCarrier\_channel\_lossless\_boundary}
 \begin{proof}
 Start with the classifier of \autoref{def:groundcompiler-event-flow-audit-route-classifier}. It allows a route to reach the certificate gate only by replaying the displayed continuation from event-flow input through channel readback and generated recognition.
 
@@ -67,6 +68,7 @@ The omitted endpoints are precisely the objects named by the non-evidence row. B
 \label{thm:groundcompiler-event-flow-audit-route-non-evidence-boundary}
 For every accepted $\GroundCompilerEventFlowAuditRouteUp$ carrier, reports, motifs, metrics, address-analysis summaries, proof text, source text, carried metadata, and host compiler state can only be read through the displayed non-evidence boundary row $B$. They cannot be promoted to event-flow input, legal channel readback, generated recognition, certificate-gate evidence, or BEDC proof evidence by $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, or the local $\NameCert$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.GroundCompilerEventFlowAuditRouteCarrier\_non\_evidence\_boundary}
 \begin{proof}
 Inspect the carrier coordinates. The only row whose role is to classify reports, motifs, metrics, address-analysis summaries, proof text, source text, carried metadata, and host compiler state is $B$.
 
@@ -74,6 +76,7 @@ Use the channel lossless boundary theorem to account for every route that reache
 
 Finally read the structural rows $H,K,P,N$. They preserve and route displayed coordinates, but none of them supplies a constructor from $B$ to $E$, $C$, $L$, $G$, $A$, or BEDC proof evidence. Hence every non-evidence read remains at the boundary named by $B$.
 \end{proof}
+\leanchecked{BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.GroundCompilerEventFlowAuditRouteNonEvidenceBoundary}
 
 \closureat{GroundCompilerEventFlowAuditRouteUp}{seedStr}
 

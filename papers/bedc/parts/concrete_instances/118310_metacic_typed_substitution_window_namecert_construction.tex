@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICTypedSubstitutionWindowUp$}
+\label{ch:concrete-instances-metacic-typed-substitution-window-namecert}
+\origin{ai}
+
+The $\MetaCICTypedSubstitutionWindowUp$ packet realizes the MetaCIC substitution audit boundary of \autoref{ch:metacic-substitution-audit-map} as a finite typed-window certificate. It sits beside the substitution spine of \autoref{ch:concrete-instances-metacic-substitution-spine-namecert}, the audit packet of \autoref{ch:concrete-instances-metacic-substitution-audit-packet-namecert}, the closed audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, the route window of \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert}, the context audit of \autoref{ch:concrete-instances-substitutioncontextaudit-namecert}, the generator audit of \autoref{ch:concrete-instances-substitutiongeneratoraudit-namecert}, the boundary audit of \autoref{ch:concrete-instances-substitutionboundaryaudit-namecert}, the substitution spine realizer of \autoref{ch:concrete-instances-metacic-substitution-spine-realizer-namecert}, and the closed type-checker seal of \autoref{ch:concrete-instances-closed-type-checker-seal-namecert}. The packet records typed context, closedness, substitution, obstruction, transport, replay, provenance, and NameCert rows without claiming subject reduction, definitional equality, evaluator equality, quotient syntax equality, or kernel consistency.
+
+\begin{definition}[MetaCIC typed substitution window carrier]
+\label{def:metacic-typed-substitution-window-carrier}
+A $\MetaCICTypedSubstitutionWindowUp$ carrier is a finite $\BHist$ packet
+$$
+T=(\Gamma,A,U,V,C,S,O,B,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Gamma$ is the finite typed-context window, listing the context entries inspected by the substitution request.
+\item $A$ is the typed source-term row and target-type row inside that context window.
+\item $U$ is the substitute-in term row, carrying its typed boundary and the binder depth at which it is inserted.
+\item $V$ is the closedness row, recording the relevant \texttt{ClosedAt} boundaries for the source, inserted term, and substituted output.
+\item $C$ is the closed type-checker seal row consumed by the typed window.
+\item $S$ is the substitution audit route, recording shift, substitution, closed-composition, and generator-closure reads.
+\item $O$ is the obstruction row for missing subject reduction, beta preservation beyond the sealed window, evaluator equality, quotient syntax equality, and kernel consistency.
+\item $B$ is the binder-transport row that records how the typed context window advances across binders.
+\item $H$ is the componentwise $\hsame$ transport row for $\Gamma,A,U,V,C,S,O,B$ and for replay, provenance, and local naming.
+\item $R$ is the displayed $\Cont$ replay row for the same typed substitution route.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICTypedSubstitutionWindowUp$, $\MetaCICSubstitutionSpineUp$, $\MetaCICSubstitutionAuditPacketUp$, $\SubstitutionAuditMapUp$, $\SubstitutionAuditWindowRouteUp$, $\SubstitutionContextAuditUp$, $\SubstitutionGeneratorAuditUp$, $\SubstitutionBoundaryAuditUp$, $\ClosedTypeCheckerSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICTypedSubstitutionWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these twelve rows. It has no coordinate for an unrestricted subject-reduction theorem, definitional equality oracle, evaluator equality, quotient syntax equality, or kernel consistency theorem.
+\end{definition}
+
+\begin{theorem}[MetaCIC typed substitution window NameCert obligations]
+\label{thm:metacic-typed-substitution-window-namecert-obligations}
+For every accepted $\MetaCICTypedSubstitutionWindowUp$ carrier $T=(\Gamma,A,U,V,C,S,O,B,H,R,P,N)$, the local $\NameCert_{\MetaCICTypedSubstitutionWindowUp}$ surface consists exactly of typed-context admission through $\Gamma$; source and inserted-term typing through $A$ and $U$; closedness boundary exposure through $V$; closed type-checker sealing through $C$; shift, substitution, closed-composition, and generator-closure routing through $S$; obstruction retention through $O$; binder-window transport through $B$; componentwise $\hsame$ transport through $H$; displayed replay through $R$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typed-substitution-window-carrier}. The typed-window rows are $\Gamma,A,U,V,C,S,O,B$, and the structural certificate rows are $H,R,P,N$.
+
+Read the context rows first. The finite context window $\Gamma$, typed source data $A$, inserted-term data $U$, and closedness row $V$ determine the boundary at which substitution is inspected.
+
+Read the audit rows next. The closed type-checker seal $C$ scopes the window, while $S$ records the shift, substitution, closed-composition, and generator-closure route. The binder row $B$ is the only row that advances the typed window across binders.
+
+Finally $O,H,R,P,N$ retain refused endpoints and structural certificate data. Since the carrier has no row for full subject reduction, definitional equality, evaluator equality, quotient syntax equality, or kernel consistency, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed substitution window subject-reduction handoff]
+\label{thm:metacic-typed-substitution-window-subject-reduction-handoff}
+Every subject-reduction consumer of an accepted $\MetaCICTypedSubstitutionWindowUp$ packet must first read the typed context window, typed source and inserted-term rows, closedness row, closed type-checker seal, substitution audit route, binder-window transport, obstruction row, componentwise transport, replay, provenance, and local naming. The handoff exposes only a finite typed substitution window; it does not prove unrestricted subject reduction, beta preservation beyond the displayed window, definitional equality, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the obligation theorem \autoref{thm:metacic-typed-substitution-window-namecert-obligations}. It orders every accepted read through the typed context, source typing, inserted-term typing, closedness, closed checker, substitution audit, binder transport, and obstruction rows.
+
+The typed rows scope the handoff. A consumer cannot read the substitution route before the context window, term rows, and closedness boundary are visible, because those rows determine which substitution instance is under inspection.
+
+The audit and obstruction rows then delimit the result. The substitution route gives finite shift, substitution, closed-composition, and generator-closure evidence, while the obstruction row records the endpoints not discharged by the packet.
+
+The structural rows transport, replay, source, and name only that displayed route. Therefore the packet may feed a later subject-reduction proof, but it cannot itself be read as unrestricted subject reduction or as a kernel-consistency theorem.
+\end{proof}
+
+\falsifiablePrediction{A $\MetaCICTypedSubstitutionWindowUp$ consumer that exports a subject-reduction handoff without typed-context, source typing, inserted-term typing, closedness, closed checker, substitution audit, binder transport, obstruction, hsame, Cont, Pkg, and local NameCert rows refutes the carrier of \autoref{def:metacic-typed-substitution-window-carrier}.}
+
+\independenceWitness{metacic-substitution-spine, metacic-substitution-audit-packet, substitutionauditmap, substitutionauditwindowroute, substitutioncontextaudit, substitutiongeneratoraudit, substitutionboundaryaudit, closed-type-checker-seal: the typed substitution window is not bijective to any listed sibling because it jointly carries typed context rows, typed source and inserted-term rows, ClosedAt boundaries, closed checker sealing, substitution audit routing, binder-window transport, obstruction retention, replay, provenance, and local naming.}
+
+Lean TasteGate.lean must later provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for $\MetaCICTypedSubstitutionWindowUp$ so the typed-context, closedness, substitution, obstruction, transport, replay, provenance, and local naming fields remain distinguishable.
+
+\closureat{MetaCICTypedSubstitutionWindowUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICTypedSubstitutionWindowUp}
+  \constructivestory{A $\MetaCICTypedSubstitutionWindowUp$ packet is generated from typed-context rows, typed source and inserted-term rows, ClosedAt boundaries, a closed checker seal, substitution audit rows, binder-window transport, obstruction retention, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-typed-substitution-window-carrier}, \autoref{thm:metacic-typed-substitution-window-namecert-obligations}, and \autoref{thm:metacic-typed-substitution-window-subject-reduction-handoff} seed the finite typed substitution window for MetaCIC subject-reduction consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted subject reduction, beta preservation beyond the displayed window, definitional equality, evaluator equality, quotient syntax equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked typed-context admission, source and inserted-term typing, closedness exposure, closed checker sealing, substitution audit routing, binder transport, obstruction retention, transport, replay, provenance, Nontrivial, FieldFaithful, and local naming for BEDC.Derived.MetaCICTypedSubstitutionWindowUp.}
+\end{closurestatus}

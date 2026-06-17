@@ -472,5 +472,22 @@ Use the normal-form witness extraction theorem, \autoref{thm:metacic-candidate-f
 Finally apply the fairness-retention theorem, \autoref{thm:metacic-candidate-mediated-sn-frontier-fairness-retention}. It keeps the candidate and source rows visible when the frontier is consumed, while $H,C,P,L$ transport, replay, source, and name the same finite route. The budget extracted from the discharge is therefore only the finite budget certified by those rows, and it cannot expand into global SN, full confluence, subject reduction, quotient equality, or an ambient normal-form selector.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate-mediated SN normal-endpoint budget]
+\label{thm:metacic-candidate-mediated-sn-normal-endpoint-budget}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any closed normal endpoint consumed by the critical-path route must expose, in order, candidate evidence, the closed typed term row, the candidate-to-SN projection, the no-infinite-reduction projection, and the finished-normal endpoint row. This endpoint budget preserves the candidate premise as a visible row; it does not assert evidence-free strong normalization, closed consistency, global confluence, quotient term equality, host term equality, or a selected normal form detached from the candidate-mediated route.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated frontier of \autoref{thm:metacic-criticalpath-candidate-mediated-sn-route}. It places every strong-normalization-facing read behind the candidate row and the surrounding confluence-boundary, finite-observation, critical-pair, discharge-socket, and L10 source rows.
+
+Use the bounded discharge route and budget extraction, \autoref{thm:metacic-candidate-mediated-sn-bounded-discharge-route} and \autoref{thm:metacic-candidate-mediated-sn-budget-extraction}. These force a bounded request to keep the candidate, source-window, residual-frontier, witness, fairness-retention, transport, replay, provenance, and local naming rows visible before any finite budget is read.
+
+Finally read the normalization audit map through the existing MetaCIC frontier references, including \autoref{thm:metacic-candidate-frontier-normal-form-witness-extraction} and \autoref{thm:metacic-candidate-mediated-sn-frontier-fairness-retention}. The closed typed term row, candidate-to-SN projection, no-infinite-reduction projection, and finished-normal endpoint row are therefore endpoint data attached to the candidate evidence, not an unconditional normalization or consistency theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedSNNormalEndpointBudget}
+
 \input{parts/concrete_instances/metaciccriticalpath/candidate_frontier_socket_coproduct}
 \input{parts/concrete_instances/metaciccriticalpath/candidate_mediated_sn_residual_route}

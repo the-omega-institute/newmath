@@ -37,6 +37,8 @@ A'=(L',T',E',F',S',O',D',R',P',N')
 $$
 are classified by the componentwise $\hsame$ comparison of the displayed rows together with route replay through $R,R'$ and provenance comparison through $P,P'$. The classifier is undefined on any attempted comparison that omits $S$ or $O$, because the assembly route is a boundary certificate rather than a proof of closed subject reduction.
 \end{definition}
+\leandef{BEDC.Derived.ClosedConsistencyAssemblyUp.ClosedConsistencyAssemblyClassifier}
+\leanchecked{BEDC.Derived.ClosedConsistencyAssemblyUp.ClosedConsistencyAssemblyClassifier\_route\_obligations}
 
 \begin{theorem}[Closed-consistency assembly NameCert obligations]
 \label{thm:closed-consistency-assembly-namecert-obligations}
@@ -55,6 +57,7 @@ The boundary rows are equally part of the certificate. The subject-reduction row
 \label{thm:closed-consistency-assembly-boundary-nonescape}
 Every accepted $\ClosedConsistencyAssemblyUp$ carrier keeps full closed consistency outside the exported route. A consumer may read closedness, empty-context typing, the typed-normal endpoint, normal false-proof exclusion, the subject-reduction boundary, obstruction ledger, replay routes, provenance, and local naming, but it cannot export a closed subject-reduction theorem or an arbitrary closed proof contradiction detached from $S$ and $O$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedConsistencyAssemblyUp.ClosedConsistencyAssembly\_boundary\_nonescape}
 \begin{proof}
 Project the carrier $A=(L,T,E,F,S,O,D,R,P,N)$. The positive rows $L,T,E,F$ give the closed-normal endpoint route, while $S$ and $O$ remain displayed boundary rows rather than discharged theorems.
 
@@ -74,6 +77,7 @@ The closed-normal and normal-form siblings supply $L,T,E,F$ as finite rows. The 
 
 Therefore sibling routing is exhaustive for public reads of the assembly carrier. Any route that skips the sibling packet rows would have no carrier coordinate in $A$ and no local $\NameCert_{\ClosedConsistencyAssemblyUp}$ admission.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedConsistencyAssemblyUp.ClosedConsistencyAssemblySiblingRouting}
 
 \closureat{ClosedConsistencyAssemblyUp}{seedStr}
 

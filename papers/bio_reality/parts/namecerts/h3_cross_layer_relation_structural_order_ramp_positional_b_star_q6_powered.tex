@@ -1,0 +1,40 @@
+\subsection{Ramp-Window Test for the $B^{\ast}_{Q6}$ $f3$ Residual}\label{sec:b-star-q6-structural-order-ramp-positional}\origin{ai}
+
+\paragraph{Finite surface.} The tested object is the $f3\_stress$ coordinate inside the nine-dimensional $B^{\ast}_{Q6}$ synonymous residual basis, evaluated against a positional ribosome-dwell readout and a protein-abundance residual target on matched coding-sequence rows. The computation asks whether the abundance component already aligned with $f3\_stress$ is better predicted by dwell summaries from the translation ramp than by corresponding body-window summaries. The record is deliberately narrower than a structure claim: the observable layer is a finite held-out regression surface over positional ribosome occupancy windows, not a folded-protein assay.
+
+\paragraph{Target and row discipline.} The primary structural-order ramp experiment is registered as \texttt{b\_star\_q6\_structural\_order\_ramp\_positional\_powered} with run id \texttt{fd29bb46dde6}. It uses five held-out folds, requires at least $300$ joined rows for an organism to contribute, and takes the primary ramp width to be $50$ codons. The finite output is a ramp-versus-body comparison for three ramp widths, $30$, $50$, and $70$. At the primary width, two organisms pass the primary-row gate. The associated positional dwell experiment records the same organism key, \texttt{saccharomyces\_cerevisiae}, with $n_{\mathrm{join}}=1257$, base design size $1800$, five folds, and target
+$$\begin{aligned}
+P_{f3} &= \text{projection of Z-residualized }\log_{10}(\text{protein abundance})\\
+&\quad \text{onto the Z-residualized } f3\_stress \text{ coordinate on the active positional-dwell join.}
+\end{aligned}$$
+The control basis rank in that positional run is $24$, and the tested $f3$ rank is $1$.
+
+\paragraph{Primary numerical readback.} The primary $50$-codon ramp comparison gives a positive ramp increment and a nonpositive body increment:
+$$\begin{aligned}
+\Delta R^2_{\mathrm{ramp},50} &= 0.0011165640103326878,\\
+\Delta R^2_{\mathrm{body},50} &= -0.00026157313923957926,\\
+\Delta R^2_{\mathrm{ramp-body},50} &= 0.001378137149572267.
+\end{aligned}$$
+The sign-flip readback is likewise asymmetric. The ramp statistic has $p_{>0}=0.0478515625$, while the body statistic has $p_{>0}=0.54296875$. The paired ramp-minus-body statistic has $p_{>0}=0.05859375$. Thus the ramp itself clears the positive/sign-flip gate, but the paired localization comparison remains just outside the declared gate. The module-level conclusion is therefore \texttt{ramp\_positive\_but\_not\_localized}, not a localized structural-order call.
+
+\paragraph{Width sensitivity.} The width sweep is consistent with a small ramp-favored signal rather than a robust positional localization certificate. For a $30$-codon ramp, the weighted ramp and body held-out increments are $0.0007864264335388174$ and $0.00023737813475316197$. For the primary $50$-codon ramp they are $0.0011165640103326878$ and $-0.00026157313923957926$. For a $70$-codon ramp they are $0.0007157308766185055$ and $-0.0008384704154638841$. The ramp increment is positive at all three widths, whereas the body increment is positive only at width $30$ and negative at widths $50$ and $70$:
+$$\begin{aligned}
+(\Delta R^2_{\mathrm{ramp},30},\Delta R^2_{\mathrm{body},30}) &= (0.0007864264335388174,\ 0.00023737813475316197),\\
+(\Delta R^2_{\mathrm{ramp},50},\Delta R^2_{\mathrm{body},50}) &= (0.0011165640103326878,\ -0.00026157313923957926),\\
+(\Delta R^2_{\mathrm{ramp},70},\Delta R^2_{\mathrm{body},70}) &= (0.0007157308766185055,\ -0.0008384704154638841).
+\end{aligned}$$
+This is enough to record a ramp-positive finite pattern. It is not enough to assert that the relevant abundance component is specifically localized to the ramp rather than merely showing a weak ramp-favored association under the available joins.
+
+\paragraph{Relation to the dwell-mediated abundance component.} The same $f3\_stress$ abundance component has an independent dwell mediation readback in yeast. In that run, $n_{\mathrm{join}}=1257$, $P_{f3}$ accounts for $0.1999063916718794$ of the target component with $\|P_{f3}\|^2=44.20095750389323$, the base held-out $R^2$ is $0.1855578757644517$, the dwell-alone $R^2$ is $0.034336580953121976$, and the full held-out $R^2$ is $0.20412261520502883$. The held-out gain from adding dwell is
+$$\begin{aligned}
+\Delta R^2_{\mathrm{dwell}} &= 0.01856473944057712,\\
+\mathrm{Null}_{95} &= 0.0013115362189692937,\\
+\max(\mathrm{Null}) &= 0.005001350039772926.
+\end{aligned}$$
+With $120$ deterministic row-label permutations, the dwell gain exceeds the fixed-readout null envelope. The recorded $f3$--dwell correlation is $0.1615441450901653$ with approximate $p=7.873916057196935\times 10^{-9}$. These numbers support a real dwell-abundance relationship for this finite yeast surface, while the ramp-position module refines where the dwell signal appears and stops short of a localization claim.
+
+\paragraph{Dictionary and irreducibility context.} A separate partial-mediation certificate on the unified yeast context join reports $n_{\mathrm{join}}=1800$ out of $4758$ available rows, $\rho_{\mathrm{join}}=0.05$, $\lambda_{\mathrm{DL}}=0.01$, five folds, and $120$ permutations. The best selected readout dictionary covers $C^{\ast}=0.24538211439730545$ of the source signal using the family \texttt{measured\_te}, \texttt{mrna\_stability}, and \texttt{turnover}, leaving $0.7546178856026946$ unexplained; the selection-aware null $95$th percentile is $0.029149007242956115$. The irreducibility-certificate run uses the same $n_{\mathrm{join}}=1800$, $\rho_{\mathrm{join}}=0.05$, $\lambda_{\mathrm{DL}}=0.01$, five folds, and $120$ permutations, and explicitly classifies the current claim as a tested residual signal with at least one listed reduction family refuting the stronger primitive irreducibility hypothesis. Consequently, the ramp result should be read as one positional component inside a partially reducible abundance-residual system, not as a complete explanation of the $B^{\ast}_{Q6}$ residual basis.
+
+\paragraph{Four-case interpretation.} The finite readback is case-limited. The ramp gate is positive, since two primary organisms have positive ramp increments and the weighted ramp statistic is sign-flip significant. The body gate is negative, since the primary body increment is negative and the body sign-flip probability is $0.54296875$. The localization gate is also negative, because the paired ramp-minus-body probability $0.05859375$ does not pass the declared cutoff even though the paired difference is positive. The appropriate statement is therefore: $f3\_stress$ has a small, positive ramp-window dwell increment on the tested positional surface, but the available finite rows do not certify ramp localization.
+
+\paragraph{Local boundary.} No translation mechanism, folding state, physical admissibility, molecular function, phenotype, causal pathway, or universal biological rule follows from these numbers. The experiment observes held-out associations among residual codon coordinates, positional ribosome-dwell summaries, and protein-abundance residuals. A stronger claim would require a separate layer-matched contact: measured translation readouts for translation mechanism, structure-level data for folding or structural order, physical assays for admissibility, functional assays for molecular role, perturbation or rescue designs for mechanism, and a broader sampling design for any general biological law. The present record remains a finite ramp-positive but nonlocalized positional readback for the $B^{\ast}_{Q6}$ $f3\_stress$ coordinate.

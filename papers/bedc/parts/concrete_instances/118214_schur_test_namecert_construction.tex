@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\SchurTestUp$}
+\label{ch:concrete-instances-schur-test-namecert}
+\origin{human}
+
+Following Schur's operator-bound criterion in classical functional analysis, the $\SchurTestUp$ packet records the finite row-bound and column-bound data used to name a bounded matrix operator without importing an infinite measure kernel or an ambient completeness theorem. It sits between the finite matrix surface of \autoref{ch:concrete-instances-matrix-namecert}, the norm readback of \autoref{ch:concrete-instances-norm-namecert}, the operator seal of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the Hilbert source of \autoref{ch:concrete-instances-hilbert-namecert}, and the real tolerance interface of \autoref{ch:concrete-instances-real-namecert}.
+
+\section{Carrier and finite Schur packet}
+\label{sec:schur-test-carrier}
+
+\begin{definition}[Schur test carrier]
+\label{def:schur-test-carrier}
+A $\SchurTestUp$ carrier is a finite packet
+$(A,U,V,M,N,B,H,R,T,E,C,P,K)$ with the following displayed rows:
+\begin{enumerate}
+\item $A$, a finite $\MatrixUp$ window containing the matrix coefficients read by the test;
+\item $U$, the row-bound ledger for the displayed rows of $A$;
+\item $V$, the column-bound ledger for the displayed columns of $A$;
+\item $M$, the finite $\MatrixUp$ support window tying $U$ and $V$ to the same coefficient packet;
+\item $N$, a $\NormUp$ readback row for the source and target vector windows;
+\item $B$, a $\BoundedLinearOperatorUp$ seal reached only after the matrix window, norm readback, and two Schur ledgers have been displayed;
+\item $H$, the $\HilbertUp$ source row for the finite source and target vector windows;
+\item $R$, the $\RealUp$ tolerance row carrying the displayed bound budget;
+\item $T$, the componentwise $\hsame$ rows for the matrix window, row ledger, column ledger, norm readback, Hilbert source, real tolerance, and operator seal;
+\item $E$, the displayed $\Cont$ replay rows preserving the finite Schur packet under consumer reads;
+\item $C$, the $\mathsf{Pkg}$ provenance over $\SchurTestUp$, $\MatrixUp$, $\NormUp$, $\BoundedLinearOperatorUp$, $\HilbertUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $P$, a refusal ledger excluding infinite measure kernels, quotient operators, selected limits, choice, spectral-theorem data, and ambient Hilbert completeness;
+\item $K$, the local $\NameCert_{\SchurTestUp}$ row binding these displayed rows as one Schur-test certificate.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for an infinite kernel, a chosen summability representative, a quotient operator equality, a spectral decomposition, or a completeness proof for the ambient Hilbert space.
+\end{definition}
+
+\section{NameCert obligations}
+\label{sec:schur-test-namecert-obligations}
+
+\begin{theorem}[Schur test NameCert obligations]
+\label{thm:schur-test-namecert-obligations}
+The local $\NameCert_{\SchurTestUp}$ surface for \autoref{def:schur-test-carrier} consists exactly of carrier admission for the displayed packet $(A,U,V,M,N,B,H,R,T,E,C,P,K)$, row-bound exactness for $U$, column-bound exactness for $V$, finite matrix-window coherence for $A$ and $M$, norm readback through $N$, operator sealing through $B$, Hilbert-source visibility through $H$, real-tolerance visibility through $R$, componentwise transport through $T$, continuation replay through $E$, package provenance through $C$, and refusal of the excluded analytic and choice-theoretic rows through $P$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:schur-test-carrier}. The projection exposes the matrix window, the two Schur ledgers, the finite support window, the norm readback, the operator seal, the Hilbert source, the real tolerance, transport, replay, provenance, refusal, and local naming rows.
+
+The row-bound and column-bound obligations are read separately from $U$ and $V$. The finite matrix-window row $M$ is the common support that prevents either ledger from being reread as an infinite summability statement or as an unbounded host kernel.
+
+The operator-facing obligations then pass through $N,B,H,R$. These rows expose only the norm readback, bounded-operator seal, Hilbert source window, and real tolerance budget displayed by the packet. The transport, replay, provenance, refusal, and local naming rows keep the same finite support attached to every consumer read.
+\end{proof}
+
+\begin{theorem}[Schur test finite row-column bound]
+\label{thm:schur-test-finite-row-column-bound}
+For every accepted $\SchurTestUp$ carrier $(A,U,V,M,N,B,H,R,T,E,C,P,K)$, any bounded-operator read of $B$ must first preserve the finite row-bound ledger $U$, the finite column-bound ledger $V$, their shared $\MatrixUp$ support window $M$, the $\NormUp$ readback $N$, the $\HilbertUp$ source row $H$, and the $\RealUp$ tolerance row $R$. The resulting bound is a finite BEDC-visible row-column budget, not an infinite measure Schur kernel, a choice-selected representative, a quotient operator, a spectral theorem, or an ambient Hilbert-completeness claim.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier and isolate the bounded-operator seal $B$. By \autoref{thm:schur-test-namecert-obligations}, this seal is downstream from the matrix window, both row and column ledgers, the norm readback, the Hilbert source, and the real tolerance row.
+
+The row and column ledgers are tied to the same finite support by $M$. Thus a consumer cannot keep only the operator seal while replacing the displayed estimates by an infinite kernel, a quotient equality of operators, or a selected representative of the matrix coefficients.
+
+Finally replay the transport and provenance rows $T,E,C,K$. They preserve the same finite packet for every consumer read, while the refusal ledger $P$ records the excluded analytic principles. Hence the exported bound is exactly the finite row-column budget stated above.
+\end{proof}
+
+\closureat{SchurTestUp}{seedStr}
+
+\begin{closurestatus}{\SchurTestUp}
+  \constructivestory{A $\SchurTestUp$ packet is generated from finite MatrixUp coefficient windows, row-bound and column-bound ledgers, NormUp readback, a BoundedLinearOperatorUp seal, a HilbertUp source row, a RealUp tolerance row, componentwise hsame transport, Cont replay, Pkg provenance, refusal rows, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schur-test-carrier}, \autoref{thm:schur-test-namecert-obligations}, and \autoref{thm:schur-test-finite-row-column-bound} seed the Schur row-bound, column-bound, finite MatrixUp window, NormUp readback, BoundedLinearOperatorUp seal, HilbertUp source, RealUp tolerance, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim infinite measure Schur kernels, choice, quotient operators, spectral theorem data, or ambient Hilbert completeness.}
+  \upgradepath{To reach obligationClosure, the finite row-column packet must close classifier transport and operator-read exactness against a checked formal target.}
+\end{closurestatus}

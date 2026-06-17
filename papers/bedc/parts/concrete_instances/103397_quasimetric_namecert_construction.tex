@@ -50,6 +50,7 @@ the local $\NameCert_{\QuasiMetricUp}$ surface consists exactly of the following
 \end{enumerate}
 No quasi-metric NameCert obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:quasi-metric-carrier}. The tuple lists exactly the source, point carrier, directed distance, zero diagonal, forward triangle, directed-ball, Cauchy filter, Cauchy net, uniform-reflection, transport, replay, provenance, and local naming rows.
 
@@ -76,6 +77,7 @@ S,X,D,Z,T \longmapsto B \longmapsto F,R,E \longmapsto H,C,P,N .
 $$
 The handoff may reflect to quasi-uniform, uniform, Cauchy-filter, Cauchy-net, or completion-facing rows, but it receives no symmetry theorem, no separated point identity, no metric completeness, no open-cover compactness, no quotient distance, no quotient completion, and no standard bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier\_directed\_ball\_handoff}
 \begin{proof}
 Start with the accepted carrier. The consumer first reads the source and point rows $S,X$, then the directed distance ledger $D$.
 
@@ -90,6 +92,7 @@ The support rows $H,C,P,N$ transport, replay, package, and name the same finite 
 \label{thm:quasi-metric-nonescape}
 Every accepted $\QuasiMetricUp$ read used by $\MetricSpaceUp$, $\QuasiUniformSpaceUp$, $\UniformSpaceUp$, $\CauchyFilterUp$, $\CauchyNetUp$, or $\UniformCompletionUp$ factors through the displayed rows of \autoref{def:quasi-metric-carrier}. In particular, a metric or completion consumer cannot bypass the directed-distance row $D$, the forward triangle ledger $T$, the directed-ball row $B$, the Cauchy rows $F,R$, and the uniform-reflection row $E$ by importing symmetry, quotient completion, selected limits, host metric equality, \texttt{Classical.choice}, or \texttt{Quot.sound}.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier\_nonescape}
 \begin{proof}
 Apply \autoref{thm:quasi-metric-namecert-obligations}. The NameCert surface stores all quasi-metric obligations in $S,X,D,Z,T,B,F,R,E,H,C,P,N$ and stores none outside those rows.
 

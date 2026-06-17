@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusFanUp$}
+\label{ch:concrete-instances-cauchy-modulus-fan-namecert}
+\origin{human}
+
+Following Bishop and Bridges on explicit Cauchy moduli, the $\CauchyModulusFanUp$ packet names a finite family of modulus schedules under one shared tolerance ledger. It sits after the single-schedule certificate of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite meet discipline of \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}, the finite observation route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. Its arithmetic consumers read the same packet through \autoref{ch:concrete-instances-cauchymodulusarithmetic-namecert}; the chapter records a finite fan of schedules, not a selected limit, a countable family, quotient stream equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyModulusFan carrier]
+\label{def:cauchy-modulus-fan-carrier}
+A $\CauchyModulusFanUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,M,D,W,Q,A,R,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $I$ is the finite index ledger naming the source schedules in the fan.
+\item $M$ lists one accepted $\CauchyModulusUp$ schedule for each index in $I$.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger against which all schedules are compared.
+\item $W$ is the finite $\StreamNameUp$ window row, equivalently a finite $\ProbeBundle$ of observed index-window requests.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached componentwise to the schedules named by $M$.
+\item $A$ is the componentwise arithmetic and meet surface read through $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, and $\CauchyModulusArithmeticUp$.
+\item $R$ is the fan-coverage row, asserting that every displayed index in $I$ has its schedule, tolerance, observation window, and readback row present in the same finite packet.
+\item $E$ is the terminal $\RealUp$ seal row available only after $I,M,D,W,Q,A,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the index ledger, schedules, tolerance ledger, window rows, readback rows, arithmetic rows, fan coverage, Real seal, continuation rows, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay for a request that changes precision or index window without leaving the same finite fan.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusFanUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\CauchyModulusArithmeticUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ProbeBundle$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyModulusFanUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,M,D,W,Q,A,R,E,H,C,P,N$. It has no coordinate for an infinite family, a selected common limit, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyModulusFan NameCert obligations]
+\label{thm:cauchy-modulus-fan-namecert-obligations}
+For every accepted $\CauchyModulusFanUp$ carrier $F=(I,M,D,W,Q,A,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyModulusFanUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the finite index ledger $I$, component schedules $M$, shared tolerance ledger $D$, observation windows $W$, readback rows $Q$, arithmetic rows $A$, fan-coverage row $R$, Real seal $E$, and structural rows $H,C,P,N$;
+\item fan coverage, requiring each index named by $I$ to expose a $\CauchyModulusUp$ schedule, a shared dyadic tolerance read, a finite $\StreamNameUp$ or $\ProbeBundle$ window, and a $\RegSeqRatUp$ readback in the same packet;
+\item shared-threshold stability, requiring tolerance refinements in $D$ to replay componentwise through every schedule in $M$ and through the meet and arithmetic rows in $A$;
+\item RegSeqRat readback, requiring each component schedule to reach $Q$ before a Real-facing consumer can inspect the fan;
+\item Real-seal nonescape, requiring the terminal row $E$ to be read only after the finite fan rows $I,M,D,W,Q,A,R$ have been displayed.
+\end{enumerate}
+The obligation surface exports no selected common limit, no countable family of schedules, no quotient stream equality, no countable-choice selector, and no ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-fan-carrier}. The displayed rows already separate the finite index ledger, component schedules, shared tolerance ledger, observation windows, regular readbacks, arithmetic surface, coverage row, and Real seal.
+
+For carrier admission and fan coverage, read $I,M,D,W,Q,A,R$ in order. Each index in $I$ is accepted only when its schedule, tolerance request, finite window, and readback are present in the same $\BHist$ packet.
+
+For shared-threshold stability, replay a refinement of $D$ through $C$ and transport it through $H$. The meet and arithmetic rows in $A$ keep the request componentwise, so no schedule can leave the finite fan.
+
+For RegSeqRat readback and the Real seal, every component reaches $Q$ before $E$ is visible. Since $E$ is terminal and the carrier has no row for a selected common limit, countable family, quotient stream equality, choice selector, or ambient completeness, the five obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{closurestatus}{\CauchyModulusFanUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-fan-carrier} and \autoref{thm:cauchy-modulus-fan-namecert-obligations} seed the finite fan surface over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyModulusArithmeticUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite schedule families, selected common limits, quotient stream equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fan coverage, shared-threshold stability, RegSeqRat readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusFanUp.}
+  \constructivestory{A $\CauchyModulusFanUp$ packet is generated from a finite index ledger, component CauchyModulus schedules, a shared DyadicRatCore tolerance ledger, StreamName or ProbeBundle windows, RegSeqRat readbacks, meet and arithmetic rows, fan coverage, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

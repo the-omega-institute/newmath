@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\UniformlyDiscreteMetricUp$}
+\label{ch:concrete-instances-uniformly-discrete-metric-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive metric-space practice, the $\UniformlyDiscreteMetricUp$ packet records a metric carrier whose distinct points are separated by a displayed positive rational floor. It refines the $\MetricSpaceUp$ surface of \autoref{ch:concrete-instances-metric-namecert} and the $\LocatedMetricUp$ distance-comparison surface of \autoref{ch:concrete-instances-locatedmetric-namecert}, reads the dyadic lower-bound arithmetic through $\DyadicRatCoreUp$ and $\RatUp$, and exposes a $\StreamNameUp$ scheduling row for later Cauchy-stabilization consumers. The packet is a finite separation ledger; it is not a decidable equality principle, an excluded-middle split on points, a host discrete topology, or an ambient completeness theorem.
+
+\begin{definition}[Uniformly discrete metric carrier]
+\label{def:uniformly-discrete-metric-carrier}
+A $\UniformlyDiscreteMetricUp$ carrier is a finite $\BHist$ packet
+$$
+U=(X,L,D,R,W,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ row, including the point histories, distance-witness histories, symmetry, and triangle ledgers consumed by metric users.
+\item $L$ is the $\LocatedMetricUp$ row exposing located distance comparisons for the same source metric.
+\item $D$ is the $\DyadicRatCoreUp$ positive separation ledger. It stores a displayed dyadic rational $\eta>0$ and the finite comparisons used by lower-bound reads.
+\item $R$ is the $\RatUp$ positivity and order row associated to the same separation floor, so consumers can read the floor through rational order rather than through host arithmetic.
+\item $W$ is the $\StreamNameUp$ request schedule for distance observations. It records which finite distance windows are inspected before a separation claim is consumed.
+\item $H$ stores componentwise $\hsame$ transport for the metric source, located-distance row, dyadic floor, rational positivity row, request schedule, provenance, and local name.
+\item $C$ stores the displayed $\Cont$ routes for reading a distance request, comparing it with the dyadic floor, transporting the lower-bound row, and exposing the consumer handoff.
+\item $P$ is the $\Pkg$ provenance over $\UniformlyDiscreteMetricUp$, $\MetricSpaceUp$, $\LocatedMetricUp$, $\DyadicRatCoreUp$, $\RatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformlyDiscreteMetricUp}$ row.
+\end{enumerate}
+The classifier on such packets is componentwise replay through $H$ and $C$. A consumer may read the displayed positive separation floor and the scheduled metric-distance rows, but it receives no host-level point decision procedure and no completed-space datum.
+\end{definition}
+
+\begin{theorem}[Uniformly discrete metric NameCert obligations]
+\label{thm:uniformly-discrete-metric-namecert-obligations}
+For every accepted $\UniformlyDiscreteMetricUp$ carrier $U=(X,L,D,R,W,H,C,P,N)$, the local $\NameCert_{\UniformlyDiscreteMetricUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed metric source, located metric row, dyadic positive floor, rational order row, stream request schedule, transport rows, continuation routes, provenance, and local naming data;
+\item separation readability, requiring every distinct-point lower-bound read to consume $X,L,D,R,W$ before it exposes the positive floor;
+\item classifier stability, requiring replacement by classified point histories to transport the metric, locatedness, dyadic floor, rational order, and stream schedule componentwise through $H$ and $C$;
+\item finite ledger exactness, requiring the separation floor to be exactly the dyadic-rational ledger $D$ with its $\RatUp$ positivity row $R$;
+\item downstream handoff, requiring every $\RegSeqRatUp$, $\RealUp$, or completion-facing consumer to read the finite separation ledger before using the metric as a stabilized discrete source.
+\end{enumerate}
+No obligation exports decidable equality, excluded middle, a host discrete topology, selected representatives, quotient equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniformly-discrete-metric-carrier}. The packet lists the metric source, located comparison row, dyadic floor, rational positivity row, stream schedule, transport and continuation rows, provenance, and local name.
+
+Separation readability is the route order. A consumer first reads the metric distance witness in $X$, then the located comparison in $L$, then the positive dyadic floor in $D$ and its rational order row in $R$, with $W$ recording the finite observation window used by that read.
+
+Classifier stability is componentwise. The transport row $H$ identifies the source, located-distance, dyadic, rational, and stream rows after classifier replacement, while $C$ replays the same lower-bound comparison. The read therefore preserves the finite floor ledger rather than creating a point-decision principle.
+
+The downstream handoff is just the exposed ledger $X,L,D,R,W,H,C,P,N$. Since no coordinate stores decidable equality, a selected representative, quotient equality, or a completion witness, no consumer can obtain such data from the local $\NameCert$ surface.
+\end{proof}
+
+\begin{closurestatus}{\UniformlyDiscreteMetricUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniformly-discrete-metric-carrier} and \autoref{thm:uniformly-discrete-metric-namecert-obligations} seed the finite positive-separation ledger for metric sources.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim decidable equality, excluded middle, host discreteness, quotient equality, selected representatives, ambient completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, separation readability, classifier stability, floor exactness, and downstream handoff for the same packet.}
+  \constructivestory{A $\UniformlyDiscreteMetricUp$ packet is generated from a MetricSpace source, a LocatedMetric comparison row, a DyadicRatCore positive floor, a RatUp positivity row, a StreamName observation schedule, componentwise transport, displayed continuation replay, provenance, and a local NameCert row.}
+\end{closurestatus}

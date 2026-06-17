@@ -127,6 +127,21 @@ route by which to obtain $T$.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusOfContinuityUp.CauchyModulusOfContinuityCarrier\_cauchy\_continuous\_map\_threshold\_handoff}
 
+\begin{theorem}[Cauchy modulus of continuity scoped route]
+\label{thm:cauchy-modulus-of-continuity-scoped-route}
+Every accepted $\CauchyModulusOfContinuityUp$ read factors through the $\StreamNameUp$ source and target windows, the $\CauchyModulusUp$ threshold schedule, the $\CauchyContinuousMapUp$ transformer, the $\RegSeqRatUp$ readbacks, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any compact-uniform consumer may read it. The route exports exactly the pointwise Cauchy-name continuity surface over $S,T,\mu,F,R,E,H,C,P,N$, with no compactness coordinate, uniform modulus over all inputs, host function equality, quotient stream equality, selected-limit witness, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition \autoref{def:cauchy-modulus-of-continuity-carrier}. It fixes the finite rows $S,T,\mu,F,R,E,H,C,P,N$ and gives the packet no coordinate outside source windows, target windows, threshold schedule, transformer route, regular readbacks, real seal, transport, replay, provenance, and local naming.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-modulus-of-continuity-namecert-obligations}. They bind carrier admission, classifier transport, componentwise stability, threshold exactness, replay, provenance, seal factorization, and local naming to those same rows.
+
+Use the CauchyContinuousMap threshold handoff of \autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff}. Any target-window read must pass through $S,\mu,F,T,R$ before reaching the structural rows, so a compact-uniform consumer cannot bypass the displayed pointwise schedule.
+
+Finally read the $\RealUp$ seal through $E$ and the structural rows $H,C,P,N$. Since the route has no compactness, uniform-modulus, host-function, quotient-stream, selected-limit, or ambient-completeness coordinate, the listed rows form the scoped route for every accepted consumer read.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusOfContinuityUp.CauchyModulusOfContinuityCarrier\_scoped\_route}
+
 \begin{theorem}[Cauchy modulus of continuity finite-window monotonicity]
 \label{thm:cauchy-modulus-of-continuity-window-monotonicity}
 Let $K=(S,T,\mu,F,R,E,H,C,P,N)$ and
@@ -161,6 +176,44 @@ Finally transport through $H^+$ and attach $C^+,P^+,N^+$. These rows preserve
 the same continuation, provenance, and local NameCert route, so the enlarged
 schedule creates no alternate host function, quotient stream, selected limit,
 or ambient completeness coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusOfContinuityUp.CauchyModulusOfContinuityCarrier\_window\_monotonicity}
+
+\begin{theorem}[Cauchy modulus of continuity schedule stability]
+\label{thm:cauchy-modulus-of-continuity-schedule-stability}
+Let $K=(S,T,\mu,F,R,E,H,C,P,N)$ and
+$K'=(S',T',\mu',F',R',E',H',C',P',N')$ be accepted
+$\CauchyModulusOfContinuityUp$ carriers. Suppose the $S,T,F,R,E$ rows of $K$
+and the $S',T',F',R',E'$ rows of $K'$ are related componentwise by the
+displayed $H,H'$ $\hsame$ transports, and suppose $\mu$ and $\mu'$ answer the
+same target tolerance with transported finite source-window bounds. Then every
+target-window read admitted through $\mu$ is admitted through $\mu'$ after
+displayed $\Cont$ replay, with the same $\Pkg$ and local $\NameCert$ route.
+\end{theorem}
+\begin{proof}
+Project both carriers through
+\autoref{def:cauchy-modulus-of-continuity-carrier}. The displayed rows expose
+only the source windows, target windows, schedules, transformer rows, readback
+rows, Real seals, transport, replay, provenance, and local naming data.
+
+Use the componentwise transports $H$ and $H'$. They identify the $S,T,F,R,E$
+surface of $K$ with the $S',T',F',R',E'$ surface of $K'$ at the transported
+finite source-window and target-window bounds.
+
+Replay $C$ and $C'$ through the schedules before reading the transformer row.
+The schedule rows $\mu$ and $\mu'$ answer the same target tolerance, so the
+target-window request reaches the transformer surface only after the matching
+finite source-window inspection has been displayed.
+
+Apply the threshold handoff of
+\autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff} and the finite-window
+monotonicity of \autoref{thm:cauchy-modulus-of-continuity-window-monotonicity}.
+They keep the admitted target-window read inside the transported schedule route
+and allow the replay to use the transported finite source-window bound.
+
+Finally attach the same provenance and local naming route. No quotient stream,
+host function equality, selected limit, compactness, or completeness coordinate
+is introduced, so schedule transport preserves the accepted read.
 \end{proof}
 
 \begin{theorem}[Cauchy modulus of continuity Real consumer boundary]
@@ -232,15 +285,138 @@ continuity, compactness, quotient streams, host function equality, selected
 limits, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus of continuity obligation exactness]
+\label{thm:cauchy-modulus-of-continuity-obligation-exactness}
+For every accepted $\CauchyModulusOfContinuityUp$ carrier
+$K=(S,T,\mu,F,R,E,H,C,P,N)$, every $\CauchyContinuousMapUp$ or $\RealUp$
+consumer reads the same displayed threshold schedule $\mu$, source window
+$S$, transformer row $F$, $\RegSeqRatUp$ readback $R$, and $\RealUp$ seal
+$E$. The obligation surface has no alternate compactness coordinate, host
+function equality row, selected-limit witness, or second uniform-modulus
+coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:cauchy-modulus-of-continuity-carrier}. The rows
+$S,T,\mu,F,R,E,H,C,P,N$ are the only visible coordinates, so any consumer
+read begins with the displayed schedule, window, transformer, readback, and
+seal surface.
+
+Use
+\autoref{thm:cauchy-modulus-of-continuity-namecert-obligations}. Its local
+NameCert clauses bind carrier admission, classifier transport, threshold
+route exactness, replay, provenance, and local naming to those same rows.
+
+Apply the threshold handoff of
+\autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff}, the finite-window
+monotonicity of
+\autoref{thm:cauchy-modulus-of-continuity-window-monotonicity}, and the
+schedule stability of
+\autoref{thm:cauchy-modulus-of-continuity-schedule-stability}. Together they
+force every $\CauchyContinuousMapUp$ threshold read to pass through $\mu$,
+$S$, $F$, $T$, and $R$ with the same transported finite-window route.
+
+Finally apply
+\autoref{thm:cauchy-modulus-of-continuity-real-consumer-boundary}. The
+$\RealUp$ consumer can reach the seal only after the readback route has
+passed through the displayed threshold schedule, so no compactness, host
+function equality, selected-limit, or alternate uniform-modulus row is
+available.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus threshold transport]
+\label{thm:cauchy-modulus-of-continuity-threshold-transport}
+For every accepted $\CauchyModulusOfContinuityUp$ carrier
+$K=(S,T,\mu,F,R,E,H,C,P,N)$, the displayed threshold schedule $\mu$ is
+transported through the $\StreamNameUp$ source window $S$, the target
+$\StreamNameUp$ window $T$, the $\RegSeqRatUp$ readbacks $R$, the
+$\DyadicRatCoreUp$ tolerance discipline used by those readbacks, and the
+$\CauchyContinuousMapUp$ transformer row $F$ before any Real-facing consumer
+reads the seal row $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:cauchy-modulus-of-continuity-carrier}. The threshold schedule
+$\mu$ is displayed between the source and target finite-window rows and the
+transformer row, so it is visible before the regular rational readback and the
+Real seal.
+
+Apply the NameCert obligations of
+\autoref{thm:cauchy-modulus-of-continuity-namecert-obligations}. They bind
+carrier admission, classifier transport, componentwise stability, and
+threshold-route exactness to the same finite surface.
+
+Use the handoff theorem
+\autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff}. It forces each
+target-window read to pass through $S,\mu,F,T,R$ before the Real consumer can
+reach $E$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus Real seal nonescape]
+\label{thm:cauchy-modulus-of-continuity-real-seal-nonescape}
+For every accepted $\CauchyModulusOfContinuityUp$ carrier
+$K=(S,T,\mu,F,R,E,H,C,P,N)$, the $\RealUp$ seal row $E$ is reachable only
+after the modulus row $\mu$, threshold route, finite-window rows $S,T$,
+readback row $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$
+replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ have been
+displayed.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:cauchy-modulus-of-continuity-real-consumer-boundary}.
+It places every Real-facing read behind the $\RegSeqRatUp$ readbacks and the
+seal row of the same carrier.
+
+Now use threshold transport from
+\autoref{thm:cauchy-modulus-of-continuity-threshold-transport}. The target
+readback cannot appear before $S,\mu,F,T$ and the dyadic tolerance route used
+by $R$ are visible.
+
+Finally read the structural rows $H,C,P,N$. They transport, replay, source,
+and name the already displayed threshold route; none supplies a bypass around
+$\mu,F,R$ or a detached Real seal.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus local NameCert surface]
+\label{thm:cauchy-modulus-of-continuity-local-namecert-surface}
+The rows
+$$
+S,T,\mu,F,R,E,H,C,P,N
+$$
+exhaust the local $\NameCert_{\CauchyModulusOfContinuityUp}$ obligations for
+an accepted packet. The packet excludes host continuity, selected limits,
+quotient stream equality, countable choice, and ambient $\RealUp$
+completeness.
+\end{theorem}
+\begin{proof}
+Project the finite tuple in
+\autoref{def:cauchy-modulus-of-continuity-carrier}. Its coordinates are
+exactly the source and target windows, threshold schedule, transformer,
+readbacks, Real seal, transport, replay, provenance, and local naming rows.
+
+Apply
+\autoref{thm:cauchy-modulus-of-continuity-namecert-obligations},
+\autoref{thm:cauchy-modulus-of-continuity-threshold-transport}, and
+\autoref{thm:cauchy-modulus-of-continuity-real-seal-nonescape}. Together they
+show that carrier admission, classifier transport, threshold-route exactness,
+Real-seal factorization, transport, replay, provenance, and local naming are
+all read from the displayed rows.
+
+Since the carrier contains no host continuity predicate, selected limit,
+quotient stream, countable-choice schedule, or ambient completeness row, those
+objects are outside the local NameCert surface.
+\end{proof}
+
 \closureat{CauchyModulusOfContinuityUp}{seedStr}
+\closureat{CauchyModulusOfContinuityUp}{obligationStr}
+\closureat{CauchyModulusOfContinuityUp}{scopedStr}[BEDC.Derived.CauchyModulusOfContinuityUp.CauchyModulusOfContinuityCarrier\_cauchy\_continuous\_map\_threshold\_handoff]
 
 \begin{closurestatus}{\CauchyModulusOfContinuityUp}
   \constructivestory{A $\CauchyModulusOfContinuityUp$ packet is generated from source and target $\StreamNameUp$ windows, a $\CauchyModulusUp$ threshold schedule for each requested target tolerance, a $\CauchyContinuousMapUp$ transformer row, $\RegSeqRatUp$ readbacks, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-of-continuity-carrier}, \autoref{thm:cauchy-modulus-of-continuity-namecert-obligations}, \autoref{thm:cauchy-modulus-of-continuity-cauchy-handoff}, and \autoref{thm:cauchy-modulus-of-continuity-real-consumer-boundary} bind the pointwise Cauchy-name continuity schedule and Real-consumer boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-of-continuity-carrier}, \autoref{thm:cauchy-modulus-of-continuity-namecert-obligations}, \autoref{thm:cauchy-modulus-of-continuity-scoped-route}, and \autoref{thm:cauchy-modulus-of-continuity-local-namecert-surface} bind the local route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for the pointwise Cauchy-name continuity surface.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.CauchyModulusOfContinuityUp.CauchyModulusOfContinuityCarrier\_cauchy\_continuous\_map\_threshold\_handoff}
   \bridgestatus{none}
   \notclaimed{This chapter does not close uniform continuity, compactness, quotient stream equality, host function equality, selected limits, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, threshold-route exactness, Real-consumer factorization, and TasteGate nontriviality with field faithfulness for $S,T,\mu,F,R,E,H,C,P,N$.}
+  \upgradepath{Public closure requires a public-object surface for the same $S,T,\mu,F,R,E,H,C,P,N$ threshold handoff and its Real-consumer reads.}
 \end{closurestatus}

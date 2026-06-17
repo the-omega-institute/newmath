@@ -1,0 +1,36 @@
+\origin{ai}
+
+\subsection{Stress-dwell mediation of the $B^{\ast}_{Q6}$ protein-abundance component}
+\label{sec:bioreality-f3-stress-dwell-mediation}
+
+\paragraph{Finite row object.}
+This record tests a single residual coordinate, $f3\_stress$, inside the nine-coordinate $B^{\ast}_{Q6}$ synonymous residual surface.  The empirical row set is the Saccharomyces cerevisiae join on codon-derived residual coordinates, protein abundance, and local ribosome-occupancy dwell summaries.  The active dwell readout consists of per-gene relative A-site occupancy summaries from file-provided $5'$ and $3'$ windows.  The response is not total protein abundance itself, but the projection $P_{f3}$ of $Z$-residualized $\log_{10}$ protein abundance onto the $Z$-residualized $f3\_stress$ axis on the active base-plus-dwell join.  The control basis has rank $24$, and the tested $f3\_stress$ direction has rank $1$.
+
+\paragraph{Design and observed statistic.}
+The joined yeast table contains $n=1257$ active rows, with a base design size of $1800$ and $5$ held-out folds.  The base model reaches $R^2=0.1855578757644517$, the dwell-only model has $R^2=0.034336580953121976$, and the base-plus-dwell model reaches $R^2=0.20412261520502883$.  The held-out increment attributable to adding dwell summaries to the base design is therefore
+$$
+\begin{aligned}
+\Delta R^2_{\mathrm{held\ out}}
+  &= 0.20412261520502883 - 0.1855578757644517 \\
+  &= 0.01856473944057712.
+\end{aligned}
+$$
+The $f3\_stress$-dwell marginal correlation is $0.1615441450901653$, with approximate $p=7.873916057196935\times 10^{-9}$.  The projected abundance component has squared norm $\|P_{f3}\|^2=44.20095750389323$ and accounts for $0.1999063916718794$ of the target norm on this joined surface.
+
+\paragraph{Permutation boundary.}
+The null comparison keeps the base and full designs and the folds fixed, then deterministically permutes the row labels of $P_{f3}$.  Across $120$ permutations the null mean is $-0.0032911642620130563$, the null minimum is $-0.013799622026666476$, the null maximum is $0.005001350039772926$, and the $95$th percentile is $0.0013115362189692937$.  The observed held-out increment is well above that finite-row reference level:
+$$
+\begin{aligned}
+0.01856473944057712 &> 0.0013115362189692937.
+\end{aligned}
+$$
+Thus the finite test passes in the limited sense that local dwell summaries carry out-of-fold information about the $f3\_stress$-aligned protein-abundance component beyond the base covariates.
+
+\paragraph{Placement among neighboring readouts.}
+The same coordinate family is not being introduced as an isolated numerical coincidence.  In the direct protein-omics screen, Saccharomyces cerevisiae has a CDS-to-protein join hit rate of $0.9156038419146592$, $5815$ joined proteins, and $R^2_{QP}=0.29837624994140827$ with all $9$ $B^{\ast}_{Q6}$ coordinates surviving the positive partial-$R^2$ threshold.  In the measured ribosome-TE screen for the same organism, the TE join hit rate is $0.8818572656921754$, $5128$ genes are used, and $R^2_{QT,\mathrm{meas}}=0.13681931343730436$ with $9$ surviving coordinates.  The measured TE-to-protein mediation decomposition on yeast reports $S_{QP}=0.3146818503437042$, $S_{QT,\mathrm{meas}}=0.13681931343730436$, and a measured mediated fraction $0.4793069656345167$.  A broader measured-TE plus mRNA-stability partition on yeast gives $R^2_{QP}=0.2715520808117803$, $R^2_{QP\mid T}=0.1439989545940314$, $R^2_{QP\mid M}=0.25453612246767165$, $R^2_{QP\mid T,M}=0.13047582645538838$, and joint mediation fraction $0.5195182225621592$.  These neighboring rows show that the dwell result lies inside a measured translation and abundance neighborhood, while still remaining a separate finite-row statistic.
+
+\paragraph{Positional and reduction checks.}
+The paired positional dwell test uses the same yeast organism and the same $P_{f3}$ target norm, with $n=1257$, $5$ folds, $120$ permutations, rank $1$ for the $f3\_stress$ direction, and control-basis rank $24$.  Its leading segment is $5'$; the five-prime ramp gate passes, the three-prime body gate does not, and the dominant segment is reported as $5'$ rather than body.  A separate structural-order ramp check is weaker: at the primary ramp length $50$, the weighted $f3$ ramp held-out increment is $0.0011165640103326878$, the body increment is $-0.00026157313923957926$, and the paired ramp-minus-body sign-flip $p$-value is $0.05859375$, so the conclusion is ramp-positive but not localized as a structural-order claim.  The partial-mediation certificate on yeast reports coverage $C^{\ast}=0.24538211439730545$ for a selected dictionary of at most three measured readouts, a selection-aware null $95$th percentile $0.029149007242956115$, a raw best coverage $0.2745002077400602$, and an unexplained fraction $0.7546178856026946$.  The dwell result should therefore be read as a positive local translation-dwell increment on a projected abundance component, not as full reduction of the $B^{\ast}_{Q6}$ residual surface.
+
+\paragraph{Local conclusion.}
+The finite-row verdict is positive for the stated object: in Saccharomyces cerevisiae, local relative ribosome-occupancy dwell summaries improve held-out prediction of the $f3\_stress$-aligned abundance component by $\Delta R^2=0.01856473944057712$, exceeding the fixed-design permutation threshold $0.0013115362189692937$.  This supports a bounded statement that the $f3\_stress$ abundance component has measured dwell-associated mediation evidence on the joined yeast table.  It does not by itself establish translation causality, folded structural order, physical admissibility, molecular function, organismal phenotype, mechanistic direction, or a universal biological law.  Any such stronger assertion would require a distinct layer-matched contact and a separately reported statistic for that layer.
