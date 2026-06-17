@@ -1,53 +1,41 @@
+\subsection{The powered codon-pair exclusion for the fourth residual mechanism}
+\label{sec:h3-cross-layer-relation-fourth-mechanism-identity-b-star-q6-codon-pair-powered}
 \origin{ai}
 
-\subsection{Codon-pair refusal for the fourth $B^*_{Q6}$ mechanism}
-\label{sec:biorality-q6-codon-pair-fourth-mechanism-refusal}
-
-\paragraph{Finite carrier.}
-The object tested here is the finite coding-sequence residual surface restricted to the $f_3$-stress coordinate of $B^*_{Q6}$ and to translation-adjacent rows for which codon usage, synonymous design columns, and organism-level controls can be placed in the same assay.  The assay is not a free interpretation of codon syntax.  It asks whether the residual direction previously isolated as a fourth non-tRNA component is better explained by codon-pair structure.  The powered codon-pair experiment used $5$ folds, required at least $500$ proteins per organism, used $41$ synonymous design columns, and compared the learned signal against $50$ shuffle-null realizations.  Its recorded status is passed, and its finite conclusion is
+\paragraph{Finite surface.}
+The record concerns the finite CDS-by-organism residual surface obtained after amino-acid projection, with attention restricted to the $B^*_{Q6}$ $f_3$-stress coordinate and to translation-facing rows that can be matched to codon usage, tRNA or wobble weights, and explicitly bounded translation readouts. The finite $f_3$ saturation contact fixes the relevant codon support rather than leaving the coordinate as a symbolic axis. In the recorded run $76d3dc408a57$, the set $M=\operatorname{Med}_R\cup\{ACA\}$ was
 $$
 \begin{aligned}
-\operatorname{FourthMechanism}_{Q6,f_3} &\neq \operatorname{CodonPair},\\
-\operatorname{conclusion} &= \text{not\_codon\_pair}.
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
 \end{aligned}
 $$
-Thus the codon-pair route is excluded as the dominant identity of this particular fourth mechanism under the declared finite design.  The statement is deliberately narrower than saying that codon-pair effects do not exist in biology.  It says only that the tested $B^*_{Q6}$ fourth residual mechanism is not identified with the codon-pair axis in this controlled panel.
-
-\paragraph{The $f_3$ boundary being tested.}
-The coordinate is anchored by the finite $f_3$ saturation record.  The mediated $R$ union with the two $ACA/ACG$ boundary codons gives the $20$-codon set
+and the $f_3$-saturated $R$ support after removing $ACA$ and $ACG$ was
 $$
 \begin{aligned}
-M &= \{AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
-&\qquad UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\operatorname{Sat}_{f_3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-After $f_3$ saturation, the recorded set removes $ACA$ and $ACG$ and leaves the $18$-codon surface
+The same finite contact records an empty $f_3$ boundary, so the codon-pair question is not being asked at an unconstrained boundary of the coordinate. It is asked on a closed finite codon surface, after synonymous design has been reduced to $41$ design columns in the powered assay.
+
+\paragraph{Question tested.}
+The biological question is whether the residual direction left after the established three-axis explanation is best read as a codon-pair or adjacent-codon effect. The powered codon-pair assay is therefore not a claim about protein abundance, folding, localization, stability, molecular function, phenotype, or a universal translation law. It is a finite discrimination test inside the translation-facing residual basis: if codon-pair structure were the fourth mechanism, then the held-out residual direction should be recovered by codon-pair features more strongly than by the declared null shuffles under the same synonym-aware design.
+
+\paragraph{Powered finite-row result.}
+The codon-pair identity experiment $b\_star\_q6\_fourth\_mechanism\_codon\_pair\_powered$ was recorded as run $b519b5ebd34d$ and passed its execution gate. It used $5$ folds, required at least $500$ proteins per organism, retained $41$ synonymous design columns, and compared against $50$ shuffle-null replicates. Its recorded conclusion is
 $$
 \begin{aligned}
-\operatorname{Sat}_{f_3}(R) &= \{AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
-&\qquad UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\operatorname{conclusion}=\operatorname{not\_codon\_pair}.
 \end{aligned}
 $$
-The same finite record reports an empty $f_3$ boundary, $\partial_{f_3}=\varnothing$.  Consequently the codon-pair test is not being used to repair a missing boundary row.  It is a mechanism-identity test on a saturated residual coordinate: if codon-pair adjacency were the fourth mechanism, the codon-pair design should absorb the fourth residual direction after the amino-acid projection and the declared sequence controls.
+Thus the finite evidence does not identify the fourth residual mechanism with codon-pair structure in this assay. The negative call is a powered exclusion within the declared feature family, not a statement that codon-pair biology never matters. It says only that the fourth $B^*_{Q6}$ residual mechanism, as represented on this controlled finite surface, is not explained by the tested codon-pair feature family.
 
-\paragraph{Observed finite decision.}
-The codon-pair mechanism assay returned status passed with experiment id $\text{b\_star\_q6\_fourth\_mechanism\_codon\_pair\_powered}$ and run id $\text{b519b5ebd34d}$.  The finite decision is a refusal, not a promotion.  In the notation of the assay, let $d_4$ denote the fourth residual direction isolated after the lower-dimensional $B^*_{Q6}$ axes have been accounted for, and let $C_{pair}$ denote the codon-pair design family generated by the admissible synonymous rows.  The recorded result is read as
-$$
-\begin{aligned}
-\operatorname{Align}(d_4,C_{pair}\mid Z) &\text{ does not pass the identity gate},\\
-Z &= \{\text{amino-acid projection},\text{ organism},\text{ GC3},\text{ length},\text{ M-density},\text{ simpler codon baselines}\}.
-\end{aligned}
-$$
-The $50$ shuffle-null count matters because the tested alternative is not merely that codon pairs have nonzero descriptive content.  The tested alternative is that codon-pair structure is the stable identity of the residual fourth mechanism.  The assay rejects that identity in the available finite row.
+\paragraph{Placement among neighboring finite facts.}
+The codon-pair exclusion sits inside a larger rank-powered picture. The three-axis sufficiency assay, run $2436cae9d455$, concluded $\operatorname{fourth\_mechanism\_present}$ across $11$ computed organisms out of $16$ requested organisms, again with $5$ folds, at least $500$ proteins per organism, and $41$ synonymous design columns. The per-organism axis-strength spectrum, run $0146012d8909$, computed $11$ organisms and found that captured spectra were led by $d_{\mathrm{resid4}}$ on average, with per-organism dominant counts $\{d_{\mathrm{resid4}}:11\}$; its domain means were explicitly descriptive because the domain counts were imbalanced, with $1$ archaeal, $2$ bacterial, and $8$ eukaryotic organisms, and the largest GC3 rank effect reported there was $d_{\mathrm{usage}}$ with $\rho=0.136$. These facts justify asking for a fourth residual identity, while the codon-pair row supplies the local negative answer for one candidate identity.
 
-\paragraph{Relation to the surrounding $Q6$ spectrum.}
-The refusal is coherent with the broader powered record.  The optimality-axis sufficiency assay, run on $11$ computed organisms out of $16$ requested with $5$ folds, concluded that a fourth mechanism is present after the three-axis account.  The axis-strength spectrum on the same $11$ computed organisms found that captured spectra are led on average by $d_{resid4}$, with per-organism dominant counts reported as $\{d_{resid4}:11\}$; its largest GC3 rank effect was only $\rho=0.136$ for $d_{usage}$.  The third-axis identity assay identified $d_{\perp}$ with usage frequency within family at mean cosine $0.128$ and one-sided sign-test $p=0.000488$, while the third-axis mechanism assay recorded selection-not-GC and not-wobble-clustered.  Separately, the universal residual optimality assay named $f_3$ translation selection as the dominant non-tRNA residual axis across $11$ computed organisms.  These finite entries make the codon-pair conclusion more specific: the fourth mechanism is not absent, and the residual spectrum is not being collapsed into GC or a trivial codon-usage artifact; rather, codon-pair identity fails as the tested explanation for this fourth residual component.
+\paragraph{Discriminant context.}
+Other recorded fourth-mechanism probes help delimit what the negative codon-pair result does and does not say. The mRNA-stability assay, run $377abd67b8b3$, concluded $\operatorname{fourth\_axis\_not\_mrna\_stability}$ because the yeast $d_{\mathrm{opt\_halflife}}$ direction had low alignment with abundance $d_{\mathrm{resid4}}$ under the fixed gates. The translation-accuracy assay, run $0dc44df59ba7$, computed $11$ organisms out of $16$ requested organisms with $200$ permutations and concluded $\operatorname{not\_accuracy}$. By contrast, the elongation-dwell assay, run $e4edcde459b7$ in \emph{Saccharomyces cerevisiae}, concluded $\operatorname{partial}$ under $5$ folds. The residual optimality assay, run $2a526c9fb7f4$, identified the dominant non-tRNA residual optimality axis as $f_3\_translation\_selection$ across $11$ computed organisms out of $16$ requested organisms. Taken together, the codon-pair result is best read as a targeted exclusion: codon-pair structure is not the recorded identity of the fourth mechanism, while a translation-facing $f_3$ residual component remains the live finite direction.
 
-\paragraph{Mechanism exclusions.}
-The codon-pair refusal belongs to a small family of fourth-mechanism identity tests.  The mRNA-stability assay returned $\text{fourth\_axis\_not\_mrna\_stability}$ because yeast $d_{opt\_halflife}$ had low alignment with abundance $d_{resid4}$ under fixed gates.  The translation-accuracy assay returned $\text{not\_accuracy}$ on $11$ computed organisms out of $16$ requested, using $5$ folds, $41$ synonymous design columns, and $200$ permutations.  The elongation-dwell assay in $\textit{Saccharomyces cerevisiae}$ returned $\text{partial}$ rather than a complete identity.  The codon-pair assay therefore supplies one negative identity decision inside a larger mechanism search: codon-pair structure is not the fourth mechanism; mRNA stability and translation accuracy are also not dominant explanations in their respective tests; elongation dwell remains only partial in the recorded yeast row.
-
-\paragraph{Translation readout gate.}
-This chapter does not infer a protein, phenotype, structural, or universal claim from the codon-pair refusal.  A bounded translation statement would require a non-vacuous survival entry $S_{f3\text{-}stress,T_j}$ for a translation readout such as tAI, stAI, ribosome occupancy, or translation efficiency after amino-acid composition, organism, GC3, length, M-density, matched mRNA, and simpler-baseline controls.  A rank-degenerate all-$1.0$ surface on a three-organism panel is not survival; it is a null boundary caused by insufficient rank.  Likewise, modeled adaptation weights can serve as bounded translation-layer annotations, but they are not observed ribosome occupancy and they are not protein output.
-
-\paragraph{Local cannot-claim rule.}
-The finite conclusion is only that the powered codon-pair route is not the identity of the tested fourth $B^*_{Q6}$ mechanism.  No translation realization follows unless a separate translation contact supplies a controlled positive row.  No folded structure, physical admissibility, localization, stability, molecular function, phenotype, mechanism in the biochemical sense, or universal biological law follows from this assay.  Those stronger readings would each require their own layer-matched measurements and their own controlled statistics.  The present record keeps the finite mathematical decision and the biological readout boundary separate: $\text{not\_codon\_pair}$ is an identity refusal for the residual mechanism, not a downstream biological promotion.
+\paragraph{Readout boundary.}
+The bounded readback for this chapter is the controlled survival entry $S_{f3\text{-}stress,T_j}$ for a translation readout such as tAI, stAI, ribosome occupancy, or translation efficiency. A modelled tAI or stAI row can bound a translation-facing readout, but it is not by itself a measured ribosome-occupancy row. A ribosome-profiling or translation-efficiency row can test translation-layer survival only after same-organism and same-CDS joining to codon counts, wobble or tRNA weights, and matched mRNA controls. The three-organism all-$1.0$ rank-saturated surface is a null boundary, not positive survival. Therefore this codon-pair exclusion does not promote the $B^*_{Q6}$ coordinate to protein abundance, folded structure, physical admissibility, molecular function, cellular phenotype, mechanism, or universality. Those interpretations require separate layer-matched contacts and separately recorded statistics. The present finite result is narrower and stronger: on the powered synonymous residual surface with $5$-fold testing, $50$ shuffle nulls, $41$ synonymous design columns, and the recorded finite $f_3$ codon support, the fourth $B^*_{Q6}$ residual mechanism is not identified as codon-pair structure.

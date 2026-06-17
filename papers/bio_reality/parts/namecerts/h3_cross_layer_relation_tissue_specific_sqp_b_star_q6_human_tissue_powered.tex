@@ -1,38 +1,55 @@
-\subsection{Human tissue-specific protein-abundance survival for $B^{*}_{Q6}$}\label{sec:bioreality-human-tissue-specific-sqp}
 \origin{ai}
 
-\paragraph{Record.} This record tests whether the nine residual coordinates of $B^{*}_{Q6}$ retain descriptive power for human tissue protein abundance after codon-derived controls have been removed.  The finite table is built on \emph{Homo sapiens} Kim et al. 2014 SEQUEST adult-tissue PAXdb readouts, using $\log_{10}(\mathrm{abundance\_ppm})$ as the response.  The three usable tissue contacts are Adult Liver, Adult B cells, and Adult Heart, with joined row counts
+\subsection{Human Tissue Protein-Abundance Readback for $B^{\ast}_{Q6}$}
+\label{sec:bioreality-human-tissue-sqp-b-star-q6}
+
+\paragraph{Claim.}
+This chapter records a bounded human tissue contact for the nine-dimensional $B^{\ast}_{Q6}$ synonymous-residual coordinate system.  The tested object is the residual association between the coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f_3$-stress and a tissue-specific protein-abundance readout.  The biological row is confined to $\mathrm{Homo\ sapiens}$ and to adult tissue proteomics from Kim et al. 2014 SEQUEST PAXdb files.  The readout is $\log_{10}(\mathrm{abundance\_ppm})$, so the statistic is a protein-abundance projection, not a ribosome-occupancy, elongation-speed, folding, function, or phenotype assay.
+
+\paragraph{Controlled design.}
+For each loaded tissue, the regression residualizes both the protein-abundance readout and the nine $B^{\ast}_{Q6}$ coordinates against the same $24$-column control family.  The control family consists of an intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, the $20$ amino-acid composition proportions computed from real CDS codon counts, $GC3$, and the $M$-density baseline, where the baseline is the fraction of sense codons supported on the union of the nine projected coordinate supports.  In each tissue the control matrix has rank $23$, while the residual coordinate matrix has rank $9$.  Thus the reported $S^{QP}$ row is not a raw codon-count association; it is a protein-abundance residual after amino-acid composition, length, $GC3$, and the simpler coordinate-support baseline have already been removed.
+
 $$
 \begin{aligned}
- n_{\mathrm{Bcells}} &= 9244,\\
- n_{\mathrm{Heart}} &= 6468,\\
- n_{\mathrm{Liver}} &= 8664.
+Z &= (1,\log L,AA_1,\ldots,AA_{20},GC3,M),\\
+X_Q &= (q_{K},q_{Arg},q_{Ile},q_{Leu,CUN/UUR},q_{Leu,UUA/UUG},q_{Ser,UCR/AGY},q_{Ser,UCA/UCG},q_{Thr},q_{f_3}),\\
+S^{QP}(t) &= R^2\!\left(\Pi_{Z}^{\perp}y_t\; ;\; \Pi_Z^{\perp}X_Q\right).
 \end{aligned}
 $$
-The residual coordinate block contains the nine coordinates $K_{\mathrm{AAA}}$, $\mathrm{Arg}_{\mathrm{AGR}}$, $\mathrm{Ile}_{\mathrm{AUA}}$, $\mathrm{Leu}_{\mathrm{CUN/UUR}}$, $\mathrm{Leu}_{\mathrm{UUA/UUG}}$, $\mathrm{Ser}_{\mathrm{UCR/AGY}}$, $\mathrm{Ser}_{\mathrm{UCA/UCG}}$, $\mathrm{Thr}_{\mathrm{ACR/ACY}}$, and $f3\text{-}\mathrm{stress}$.  In each tissue the control matrix has $24$ columns and rank $23$, with controls consisting of an intercept, $\log(\mathrm{CDS\ length})$, the twenty amino-acid composition proportions from the real CDS codon counts, GC3, and the $M$-density baseline given by the fraction of sense codons lying on the union support of the nine projected $B^{*}_{Q6}$ vectors.
 
-\paragraph{Tissue-specific survival values.} Let $X_Q$ denote the nine-coordinate $B^{*}_{Q6}$ design and let $Z$ denote the control design just described.  For each tissue response $P_t$, the reported statistic is the residual $R^2$ of $P_t$ explained by $X_Q$ after projection away from $Z$.  The finite row gives
+\paragraph{Finite tissue rows.}
+Three adult tissues pass the join and rank checks.  Adult B cells have $n=9244$ joined proteins, residual degrees of freedom $9221$, explained energy $290.65227005813716$, residual readout energy $8015.52280842145$, and
+$R^2_{QP}=0.03626117434944674$; the dominant coordinate is $Arg_{AGR}$.  Adult heart has $n=6468$, residual degrees of freedom $6445$, explained energy $145.8210071220004$, residual readout energy $6282.960844944177$, and
+$R^2_{QP}=0.02320896321347296$; the dominant coordinate is $Ser_{UCR/AGY}$.  Adult liver has $n=8664$, residual degrees of freedom $8641$, explained energy $188.166380129298$, residual readout energy $7200.210277808799$, and
+$R^2_{QP}=0.026133456228248052$; the dominant coordinate is $Ile_{AUA}$.
+
 $$
 \begin{aligned}
- R^2_{QP}(\mathrm{Adult\ Bcells}) &= 0.03626117434944674,\\
- R^2_{QP}(\mathrm{Adult\ Heart}) &= 0.02320896321347296,\\
- R^2_{QP}(\mathrm{Adult\ Liver}) &= 0.026133456228248052.
+S^{QP}_{\mathrm{Bcells}} &= 0.03626117434944674,\\
+S^{QP}_{\mathrm{Heart}} &= 0.02320896321347296,\\
+S^{QP}_{\mathrm{Liver}} &= 0.026133456228248052.
 \end{aligned}
 $$
-The leading coordinates are tissue-dependent: Adult B cells are led by $\mathrm{Arg}_{\mathrm{AGR}}$, Adult Heart by $\mathrm{Ser}_{\mathrm{UCR/AGY}}$, and Adult Liver by $\mathrm{Ile}_{\mathrm{AUA}}$.  The rank diagnostics are nondegenerate in the recorded sense: $\mathrm{rank}(X_Q\mid Z)=9$ for all three tissues, while the residual degrees of freedom are $9221$, $6445$, and $8641$ for Adult B cells, Adult Heart, and Adult Liver.  The explained energies are respectively $290.65227005813716$, $145.8210071220004$, and $188.166380129298$, against residual response energies $8015.52280842145$, $6282.960844944177$, and $7200.210277808799$.
 
-\paragraph{Between-tissue geometry.} The three fitted $S^{QP}$ tissue profiles are not identical, but they occupy a common positive-alignment regime.  The pairwise cosine comparison, computed with $1000$ permutations in the finite run, reports
+All three entries are positive in the finite matrix sense used here: the residual $B^{\ast}_{Q6}$ coordinate block improves the description of tissue protein abundance beyond $Z$.  The largest of the three finite rows is Adult B cells.  The dominant coordinate is not stable across tissues: the largest coordinate is $Arg_{AGR}$ in B cells, $Ser_{UCR/AGY}$ in heart, and $Ile_{AUA}$ in liver.  This heterogeneity is part of the result rather than a defect; the row supports a tissue-dependent protein-abundance readback, not a universal codon rule.
+
+\paragraph{Tissue comparison.}
+The coordinate-score directions remain broadly aligned across the three tissue rows but are not identical.  The pairwise cosines, computed with $1000$ deterministic permutations in the comparison audit, are
 $$
 \begin{aligned}
- \cos(S^{QP}_{\mathrm{Bcells}},S^{QP}_{\mathrm{Heart}}) &= 0.6883655232187615,\\
- \cos(S^{QP}_{\mathrm{Liver}},S^{QP}_{\mathrm{Bcells}}) &= 0.8990093450963941,\\
- \cos(S^{QP}_{\mathrm{Liver}},S^{QP}_{\mathrm{Heart}}) &= 0.9176793373754919.
+\cos(\mathrm{Bcells},\mathrm{Heart}) &= 0.6883655232187615,\\
+\cos(\mathrm{Liver},\mathrm{Bcells}) &= 0.8990093450963941,\\
+\cos(\mathrm{Liver},\mathrm{Heart}) &= 0.9176793373754919.
 \end{aligned}
 $$
-Thus the finite result is neither a single universal tissue direction nor a null table.  It says that the human adult-tissue abundance readouts preserve a small but measurable $B^{*}_{Q6}$ residual component after amino-acid composition, GC3, length, and $M$-density have been accounted for, and that the coordinate carrying the largest share depends on the tissue contact.
+The liver and heart rows are the closest pair, while the B-cell and heart rows show the greatest separation.  Because the dominant coordinate also changes by tissue, the evidence is best read as a finite human tissue panel in which $B^{\ast}_{Q6}$ residuals survive as a small but nonzero abundance-associated subspace after the declared controls.
 
-\paragraph{Neighboring human readouts.} The tissue row is consistent with, but does not replace, other human cross-layer measurements.  In the human mRNA-stability row, the same nine-coordinate family gives $R^2_{QM}=0.010503670362051522$ for the Agarwal--Kelley consensus relative half-life contact over $16165$ joined rows, while the same-join protein-abundance comparison gives $R^2_{QP}=0.04095215557813418$.  The cosine between the human $S^{QM}$ and $S^{QP}$ profiles is $0.6351183883924848$, with $\mathrm{Leu}_{\mathrm{CUN/UUR}}$ dominant for the mRNA-stability statistic and $\mathrm{Arg}_{\mathrm{AGR}}$ dominant for the same-join protein-abundance statistic; the reported permutation count is $1000$ with right-tail value $0.000999000999000999$.  A separate human candidate-readout table over $19053$ joined rows records that $\mathrm{complex\_member}$ is the selected $H_o^*$ for the modeled-tAI-complement abundance component; in that row $A_H=0.007527199987780841$, $C_H=0.8723071163246565$, $A_HC_H=0.006566030115340095$, $DL_H=1.0$, $\mathrm{Score}=-0.0034339698846599055$, and the Bonferroni threshold is $0.0002646171322365322$.  The same ranking table also records the regularization choice $\lambda=0.01$ through the score rule using $DL=\log_2(1+n_{\mathrm{col}})$, with localization carrying $n_{\mathrm{col}}=12$ and $DL=3.700439718141092$.
+\paragraph{Relation to the human mRNA-stability row.}
+A separate human mRNA-stability row gives a useful boundary check.  In that row, the Agarwal and Kelley human consensus relative half-life contact joins $16165$ genes, with a reported CDS join hit rate of $0.9779294769799313$, and computes $R^2_{QM}=0.010503670362051522$ against the same nine-coordinate family after the same class of CDS-derived controls.  On the same human half-life join, the protein-abundance comparison reports $R^2_{QP}=0.04095215557813418$ and a positive cosine $0.6351183883924848$ between the mRNA-stability and protein-abundance directions.  That comparison says only that the human codon-residual directions for relative mRNA half-life and protein abundance are not orthogonal in that contact.  It does not convert the tissue proteomics row into an mRNA decay mechanism, nor does it make the tissue row mRNA-controlled.
 
-\paragraph{Local interpretation.} The supported statement is a bounded statistical one: in these three human adult-tissue protein-abundance contacts, the $B^{*}_{Q6}$ residual coordinate family has positive residual explanatory mass after the stated CDS-derived controls.  The row count scale is large enough to make the small $R^2$ values meaningful as finite descriptive entries, but the dominant coordinate changes across tissues, so the proper readback is tissue-specific residual survival rather than a single conserved direction.
+\paragraph{Relation to the translation-complement row.}
+A separate organism-level complement computation for $\mathrm{Homo\ sapiens}$ reports $n=19053$ joined proteins, $R^2_{QP}=0.04454565117192484$, complement fraction $d=0.9208949355679455$, mediated-modeled fraction $m=0.07910506443205445$, and $P_{Q\perp T}^2=1262.22376787716$ for the modeled-tAI complement of the abundance component.  This comparison helps locate the tissue result: the three tissue rows are protein-abundance projections inside a human proteomics contact, while the complement row asks how much of a broader human abundance component is left after a modeled translation-adaptation direction is removed.  The tissue chapter therefore should not be read as evidence that a ribosome-mediated step has been measured.  It only says that, after the declared sequence controls, the nine $B^{\ast}_{Q6}$ coordinates retain finite positive association with adult tissue protein abundance.
 
-\paragraph{Boundary.} No ribosome-level translation claim follows from this tissue protein-abundance table alone.  The contact is tissue-specific mass-spectrometry abundance, not ribosome profiling, not measured translation efficiency, and not a matched mRNA-controlled translation estimate.  It also does not establish folding, physical admissibility, biochemical function, causal mechanism, tissue regulation, phenotype, or a universal biological law.  Any such stronger conclusion would need its own layer-matched contact and its own controlled statistic.  Raw per-coordinate significance is also not promoted without multiplicity accounting; the finite record explicitly keeps uncorrected coordinate evidence separate from Bonferroni-level reporting.
+\paragraph{Local boundary.}
+The admissible conclusion is narrow.  The human tissue panel supports a descriptive cross-layer protein-abundance readback for $B^{\ast}_{Q6}$ residual coordinates in three adult tissues from one proteomics study.  It does not establish translation realization, ribosome dwell, tRNA charging, mRNA-controlled translation efficiency, protein folding, physical admissibility, molecular function, organismal phenotype, causal mechanism, or a universal biological law.  Any such statement would require its own layer-matched contact and its own controlled statistic.  In particular, a positive $S^{QP}$ entry cannot be promoted to a positive $S^{QT}$ entry, and a tissue-specific protein-abundance association cannot be promoted to folding or function without an independent measurement at that layer.
