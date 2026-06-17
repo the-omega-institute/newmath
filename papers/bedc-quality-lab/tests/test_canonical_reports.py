@@ -185,14 +185,6 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 def _payload_for_spec(spec):
     if spec.name == "order-k-benchmark":
         return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
-    if spec.name == "jepa-wm-l1-admission":
-        from bedc_quality_lab.tasks import jepa_wm_l1
-
-        return jepa_wm_l1.build_payload(
-            generated_at="fixture",
-            case_count=128,
-            bootstrap_resamples=32,
-        )
     if spec.name == "jepa-wm-l1-evaluator-calibration":
         from bedc_quality_lab.tasks import jepa_wm_l1_evaluator_calibration
 
@@ -2223,13 +2215,12 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
-            "discovery-gated-transformer-jepa-world-model",
-            "jepa-wm-l1-admission",
-            "jepa-wm-l1-evaluator-calibration",
-            "sti-admission",
-            "observed-debt-sweep",
-            "spectral-ablation-hinge",
-            "model-comparison",
+        "discovery-gated-transformer-jepa-world-model",
+        "jepa-wm-l1-evaluator-calibration",
+        "sti-admission",
+        "observed-debt-sweep",
+        "spectral-ablation-hinge",
+        "model-comparison",
         "high-impact-review",
         "causal-patch-suite",
         "claim-complexity",
@@ -10302,27 +10293,9 @@ def test_jepa_wm_l1_evaluator_calibration_canonical_spec_is_diagnostic_only():
     assert "jepa-wm-l1-evaluator-calibration" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
 
 
-def test_jepa_wm_l1_admission_canonical_spec_is_registered_owner():
-    spec = canonical._specs_by_name()["jepa-wm-l1-admission"]
-
-    assert spec.command == ("python3", "scripts/run_jepa_wm_l1.py")
-    assert spec.json_artifact == "reports/canonical/jepa-wm-l1-admission.json"
-    assert spec.markdown_artifact == "reports/canonical/jepa-wm-l1-admission.md"
-    assert canonical._relative(canonical._fingerprint_path(spec)) == (
-        "reports/canonical/jepa-wm-l1-admission.fingerprint.json"
-    )
-    assert spec.bundle_role == "auxiliary"
-    assert spec.claim_promotion_eligible is False
-    assert spec.scope_pointer == "$.claim_boundary"
-    assert spec.cost_pointer == "$.source_artifacts"
-    assert spec.not_claimed_pointer == "$.not_claimed"
-    assert spec.positive_claim_pointer == "$.positive_claim"
-    assert spec.control_pointer == "$.anti_triviality_controls"
-    assert spec.no_control_rationale_pointer is None
-    assert spec.hardgate_status_pointer == "$.hardgate.status"
-    assert spec.hardgate_scope == "owner-scientific"
-    assert spec.decision_status_pointer == "$.claim_boundary.status"
-    assert "jepa-wm-l1-admission" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
+def test_jepa_wm_l1_admission_has_no_no_input_canonical_spec():
+    assert "jepa-wm-l1-admission" not in canonical._specs_by_name()
+    assert "jepa-wm-l1-admission" not in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
 
 
 def test_sti_admission_canonical_spec_is_owner_local_and_excluded_from_discovery_map():
