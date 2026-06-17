@@ -11,7 +11,7 @@
 | arm | scorer | gate | mean |
 | --- | --- | --- | --- |
 | `raw` | `admission.evaluate_encoded_rank_cases` | `fail` | `0.171875` |
-| `frozen-probe` | `metadata-linear-probe-without-training` | `fail` | `0.1328125` |
+| `zero-index-baseline` | `always-index-zero-baseline` | `fail` | `0.1328125` |
 | `oracle` | `true-label-upper-bound` | `pass` | `1.0` |
 | `label-shuffle` | `shuffled-label-negative-control` | `fail` | `0.1328125` |
 
