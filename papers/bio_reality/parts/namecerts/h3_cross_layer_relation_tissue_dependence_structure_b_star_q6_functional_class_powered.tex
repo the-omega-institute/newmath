@@ -1,49 +1,34 @@
 \origin{ai}
-\subsection{Powered tissue dependence of $B^{*}_{Q6}$ residual coordinates}
-\label{sec:bioreality-q6-tissue-dependence-functional-class-powered}
+\subsection{Human tissue dependence of $B^*_{Q6}$ residual protein-readout projections}
+\label{sec:bioreality-q6-tissue-dependence-functional-class}
 
 \paragraph{Finite panel.}
-The record tests whether the nine projected $B^{*}_{Q6}$ synonymous residual coordinates leave a reproducible tissue-indexed trace in a human protein-abundance readout after controlling for elementary sequence composition.  The carrier is the finite panel of human coding sequences joined to the Kim et al. 2014 SEQUEST adult-tissue PAXdb files, with the response variable $\log_{10}(\mathrm{abundance\_ppm})$.  Thirteen adult tissues were loaded: B cells, CD4 T cells, CD8 T cells, NK cells, monocytes, liver, kidney, pancreas, frontal cortex, retina, colon, lung, and heart.  The usable joined row counts were $9244$, $7604$, $10914$, $8787$, $5179$, $8664$, $6726$, $9695$, $9301$, $10373$, $7948$, $6577$, and $6468$, respectively.  No tissue in the declared panel was skipped.
+This record evaluates whether the nine projected $B^*_{Q6}$ synonymous-residual coordinates have a reproducible tissue-level shape when they are compared with a bounded downstream protein-abundance readout.  The carrier is a human coding-sequence panel joined to tissue-specific PAXdb abundance rows from the Kim et al. 2014 SEQUEST adult tissue files.  The readout is $\log_{10}(\mathrm{abundance\_ppm})$, and the statistic reported here is a controlled $S^{QP}$ projection from residual codon coordinates $Q$ to a protein-abundance coordinate $P$.  The panel contains thirteen adult tissues: B cells, CD4 T cells, CD8 T cells, NK cells, monocytes, liver, kidney, pancreas, frontal cortex, retina, colon, lung, and heart.  No tissue was skipped.  The joined row counts were $9244$, $7604$, $10914$, $8787$, $5179$, $8664$, $6726$, $9695$, $9301$, $10373$, $7948$, $6577$, and $6468$, respectively.
 
-\paragraph{Residual coordinates and controls.}
-The tested residual basis consists of $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  In every tissue the design used twenty-four control columns: an intercept, $\log(\mathrm{cds\_len\_nt})$, twenty amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline formed from the union support of the nine projected $B^{*}_{Q6}$ vectors.  The residualized coordinate block retained rank $9$ in all tissues, while the control block had rank $23$ in all tissues.  Thus the finite row is not the degenerate $n=3$ surface: the residual degrees of freedom after controls ranged from $5156$ in monocytes to $10891$ in CD8 T cells.
+\paragraph{Coordinates and controls.}
+The residual coordinate block has nine columns: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  Each tissue fit used the same control family: an intercept, $\log(\mathrm{cds\_len\_nt})$, twenty amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline defined as the fraction of sense codons on the union support of the nine projected $B^*_{Q6}$ vectors.  The stored control-column count is $24$ in every tissue, while the numerical rank of the residualized control matrix is $23$ in every tissue.  After control residualization the $Q$ block has rank $9$ in every tissue, so the reported $S^{QP}$ values are not an all-ones rank-saturation surface.
 
-\paragraph{Tissue-level readout.}
-The controlled $S^{QP}$ projection against $\log_{10}(\mathrm{abundance\_ppm})$ was small in every tissue, but it was nonzero as a descriptive protein-abundance association.  The observed values were
+\paragraph{Per-tissue residual readout.}
+The controlled $R^2_{QP}$ values are small but nonzero across all thirteen tissues.  In the order listed above they are
 $$
 \begin{aligned}
-R^2_{QP}(\mathrm{kidney}) &= 0.0184999033,\\
-R^2_{QP}(\mathrm{monocytes}) &= 0.0213502996,\\
-R^2_{QP}(\mathrm{heart}) &= 0.0232089632,\\
-R^2_{QP}(\mathrm{lung}) &= 0.0232738640,\\
-R^2_{QP}(\mathrm{colon}) &= 0.0237325633,\\
-R^2_{QP}(\mathrm{frontal\ cortex}) &= 0.0258747988,\\
-R^2_{QP}(\mathrm{liver}) &= 0.0261334562,\\
-R^2_{QP}(\mathrm{NK\ cells}) &= 0.0270944474,\\
-R^2_{QP}(\mathrm{pancreas}) &= 0.0276161776,\\
-R^2_{QP}(\mathrm{CD4\ T\ cells}) &= 0.0335325270,\\
-R^2_{QP}(\mathrm{B\ cells}) &= 0.0362611743,\\
-R^2_{QP}(\mathrm{CD8\ T\ cells}) &= 0.0392854177,\\
-R^2_{QP}(\mathrm{retina}) &= 0.0480573011.
+&0.0362611743,\ 0.0335325270,\ 0.0392854177,\ 0.0270944474,\ 0.0213502996,\ 0.0261334562,\ 0.0184999033,\\
+&0.0276161776,\ 0.0258747988,\ 0.0480573011,\ 0.0237325633,\ 0.0232738640,\ 0.0232089632 .
 \end{aligned}
 $$
-The maximum value, $0.0480573011$, occurred in adult retina, and the minimum value, $0.0184999033$, occurred in adult kidney.  The dominant residual coordinate was $Arg\_AGR$ in B cells, CD8 T cells, colon, kidney, NK cells, pancreas, and retina; $Ile\_AUA$ in CD4 T cells, frontal cortex, liver, lung, and monocytes; and $Ser\_UCR\_vs\_AGY$ in heart.  The largest explained-energy entry was $491.7590959575$ in CD8 T cells, while the smallest was $57.0282547084$ in monocytes.
+Retina has the largest stored value, $R^2_{QP}=0.0480573011$ with $10373$ joined rows; kidney has the smallest stored value, $R^2_{QP}=0.0184999033$ with $6726$ joined rows.  The dominant residual coordinate is $Arg\_AGR$ in B cells, CD8 T cells, NK cells, pancreas, retina, colon, and kidney; $Ile\_AUA$ in CD4 T cells, monocytes, liver, frontal cortex, and lung; and $Ser\_UCR\_vs\_AGY$ in heart.  Thus the finite row does not collapse to a single codon-family explanation across tissues.
 
-\paragraph{Functional-class label check.}
-The panel also compared similarity of tissue coefficient profiles within and between the declared functional-class priors immune, metabolic, neural, and epithelial-or-other.  The cosine matrix had $78$ tissue pairs across $13$ tissues.  The observed within-class mean cosine was $0.9015393659$, the observed between-class mean cosine was $0.8936124027$, and the observed within-minus-between contrast was
+\paragraph{Functional-class comparison.}
+The tissue vectors were also compared through a cosine matrix with $13$ tissues and $78$ tissue pairs.  The prior tissue labels were immune, metabolic, neural, and epithelial-or-other; these labels are a human grouping imposed before the test, not a discovered module assignment.  There were $17$ within-class pairs and $61$ between-class pairs.  The observed within-class mean cosine was $0.9015393659$, the observed between-class mean cosine was $0.8936124027$, and the observed within-minus-between contrast was
 $$
 \begin{aligned}
-\Delta_{\mathrm{within-between}} &= 0.9015393659 - 0.8936124027 \\
-&= 0.0079269632.
+\Delta_{\mathrm{within-between}} = 0.0079269632 .
 \end{aligned}
 $$
-A class-size-preserving permutation test with $1000$ permutations gave one-sided $p=0.3006993007$ for within-class similarity exceeding the label-shuffle null.  The null distribution had mean $0.0007739570$, minimum $-0.0437879629$, and maximum $0.0885826259$.  This is therefore a weak descriptive tissue-shape observation rather than evidence for a functional-class law: the direction is positive, but the finite-row label test does not separate the declared tissue classes at conventional evidential strength.
+A class-size-preserving label-shuffle null with $1000$ permutations gave a one-sided within-greater $p$-value of $0.3006993007$.  The null contrast range observed in those permutations ran from $-0.0437879629$ to $0.0885826259$, with null mean $0.0007739570$.  This finite result is therefore descriptive and weak with respect to the functional-class prior: the tissue vectors are highly mutually similar, but the imposed class labels do not receive a statistically sharp separation in this row.
 
-\paragraph{Modeled translation contrast.}
-A separate rank-powered modeled tAI sweep supplies a useful boundary for interpretation.  That sweep used $41$ organisms, reached the target of $40$, and computed $S^{QT}$-style modeled translation-adaptation projections with $1000$ permutations.  Its $R^2_{QT}$ distribution had minimum $0.1579271837$, first quartile $0.2635395470$, median $0.3393484581$, mean $0.3846655544$, third quartile $0.5143951546$, and maximum $0.8213457221$.  These values are larger than the human tissue protein-abundance $R^2_{QP}$ range reported here, but the two panels do not measure the same layer.  Modeled tAI or stAI weights are adaptation annotations, whereas the tissue panel uses steady-state draft proteome abundance; neither panel by itself supplies measured ribosome occupancy, translation efficiency, folding, physical admissibility, molecular function, or phenotype.
+\paragraph{Relation to modeled translation-readout rows.}
+A separate rank-powered organism sweep for modeled tAI readouts computed $S^{QT}$-style quantities over $41$ organisms, reaching the target of $40$ organisms.  Its $R^2_{QT}$ distribution had minimum $0.1579271837$, first quartile $0.2635395470$, median $0.3393484581$, mean $0.3846655544$, third quartile $0.5143951546$, and maximum $0.8213457221$, with $1000$ permutations.  That organism sweep supports the existence of a bounded modeled-adaptation readout panel, but it is not the same object as the tissue $S^{QP}$ protein-abundance panel reported here.  The present tissue chapter therefore records a downstream descriptive protein-abundance projection, not a measured ribosome-occupancy or translation-efficiency calibration.
 
-\paragraph{Local conclusion.}
-The finite result supports the following bounded statement.  In the declared human tissue panel, the nine $B^{*}_{Q6}$ residual coordinates have small but computable controlled projections onto tissue-specific draft protein abundance, with $R^2_{QP}$ between $0.0184999033$ and $0.0480573011$ after length, amino-acid composition, GC3, and $M$-density controls.  The coefficient-shape comparison across functional-class priors is positive but not decisive under the $1000$-permutation label null.  The chapter therefore records an idiosyncratic or weakly organized tissue-abundance pattern, not a causal tissue program.
-
-\paragraph{Boundary.}
-No translation claim follows from this chapter, because the readout is not ribosome profiling and the panel is not mRNA-controlled.  No folding, physical admissibility, biological function, mechanism, phenotype, or universal rule follows from the controlled $S^{QP}$ values.  Those interpretations would require their own layer-matched measurements and a new controlled statistic on joined rows.  The present record is limited to the finite association between $B^{*}_{Q6}$ residual coordinates and human adult-tissue draft proteome abundance under the stated controls.
+\paragraph{Local boundary.}
+The finite row permits only the following statement: after amino-acid composition, CDS length, GC3, and $M$-density controls, the nine $B^*_{Q6}$ residual coordinates retain small tissue-specific associations with the Kim et al. 2014 PAXdb adult tissue abundance readout, and those tissue vectors show only a weak, non-significant alignment with the imposed functional-class labels.  It does not establish translation efficiency, ribosome occupancy, protein folding, physical admissibility, molecular function, mechanism, phenotype, or universality.  A translation claim would require same-organism and same-CDS ribosome-profiling rows, matched mRNA rows, and a controlled TE statistic.  A structure, physical, function, localization, stability, interaction, or phenotype claim would require a separate layer-matched assay and its own controlled statistic.  In particular, modeled tAI or stAI weights, codon-window geometry, $S^{QT}$ notation, and the presence of a protein-abundance table cannot be promoted into ribosome dynamics or biological mechanism by themselves.

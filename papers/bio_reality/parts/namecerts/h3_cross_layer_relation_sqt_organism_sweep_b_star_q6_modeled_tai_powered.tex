@@ -1,43 +1,38 @@
-\origin{ai}
+\subsection{Modeled-tAI organism sweep for the $B^*_{Q6}$ residual coordinates}\label{sec:bioreality-sqt-organism-sweep-b-star-q6-modeled-tai}\origin{ai}
 
-\subsection{Modeled tAI sweep for the $B^{*}_{Q6}$ residual coordinates}
-\label{sec:bioreality-sqt-organism-sweep-b-star-q6-modeled-tai}
+\paragraph{Claim tested.}
+This record tests a bounded cross-layer question: after quotienting away amino-acid composition and residualizing ordinary coding-sequence covariates, do the nine $B^*_{Q6}$ synonymous-residual coordinates retain predictive mass against modeled translation-adaptation readouts across a multi-organism panel?  The tested coordinate list is
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f3$-stress.  The control design contains $24$ columns, including the intercept, coding-sequence length, amino-acid composition, $GC3$, and an $M$-density baseline.  The finite-row run is not a protein-function claim; it asks only whether the residual codon coordinates remain visible to a modeled translation-adaptation layer.
 
-\paragraph{Finite object.}
-This record concerns a finite cross-organism modeled-translation readout for the nine $B^{*}_{Q6}$ synonymous-residual coordinates.  The coordinate list is
-$K\_{AAA}$, $Arg\_{AGR}$, $Ile\_{AUA}$, $Leu\_{CUN\,vs\,UUR}$, $Leu\_{UUA\,vs\,UUG}$, $Ser\_{UCR\,vs\,AGY}$, $Ser\_{UCA\,vs\,UCG}$, $Thr\_{ACR\,vs\,ACY}$, and $f3\_{stress}$.  For each organism passing the row gate, coding-sequence codon counts are projected to these residual coordinates after controlling for the declared covariate family $Z$: amino-acid composition, GC3, coding-sequence length, and the $M$-density baseline.  The recorded design uses $24$ control columns.  The readout is modeled per-codon tAI derived from GtRNAdb anticodon gene-copy counts and dos Reis wobble weights, then projected onto the same $B^{*}_{Q6}$ residual coordinate system.  This is a bounded translation-layer proxy, not a direct observation of ribosome motion.
-
-\paragraph{Sweep statistic.}
-The organism sweep was run under experiment id $4e3f5f36bd51$ and verified at $2026$-$06$-$12$ $11{:}06{:}10$ UTC.  It computed modeled tAI values for $41$ organisms, exceeding the declared target of $40$ organisms.  The per-organism statistic is the $S^{QT}$ residual survival surface for $B^{*}_{Q6}$ against modeled tAI, with $1000$ permutations recorded for the sweep.  Across the swept organisms, the $R^{2}_{QT}$ distribution was
+\paragraph{Finite-row statistic.}
+The organism sweep computed modeled tAI entries for $41$ organisms and exceeded the declared target of $40$ organisms.  For each organism with at least the required gene support, the residualized $B^*_{Q6}$ design was compared with modeled tAI readouts derived from tRNA gene-copy and wobble-weight information.  The sweep used $1000$ permutations for the per-organism statistic.  The observed $R^2_{QT}$ distribution over the accepted organisms was
 $$
 \begin{aligned}
-\min R^{2}_{QT} &= 0.1579271837024072,\\
-Q_{25}(R^{2}_{QT}) &= 0.26353954700074694,\\
-\operatorname{median}(R^{2}_{QT}) &= 0.33934845811598124,\\
-\operatorname{mean}(R^{2}_{QT}) &= 0.38466555440501393,\\
-Q_{75}(R^{2}_{QT}) &= 0.5143951545826744,\\
-\max R^{2}_{QT} &= 0.8213457220900503.
+\min R^2_{QT} &= 0.1579271837024072,\\
+Q_1(R^2_{QT}) &= 0.26353954700074694,\\
+\operatorname{median}(R^2_{QT}) &= 0.33934845811598124,\\
+\operatorname{mean}(R^2_{QT}) &= 0.38466555440501393,\\
+Q_3(R^2_{QT}) &= 0.5143951545826744,\\
+\max R^2_{QT} &= 0.8213457220900503.
 \end{aligned}
 $$
-Thus the modeled tAI contact is not a three-row saturation artefact: the statistic is evaluated on a cross-organism panel large enough to expose a distribution of survival strengths.  The finite conclusion is only that the $B^{*}_{Q6}$ residual coordinates retain positive modeled-tAI explanatory mass after the specified sequence-level controls in the swept panel.
+Thus every retained organism in this sweep had a positive modeled-tAI residual projection, with the weakest retained organism still at $R^2_{QT}=0.1579271837024072$ and the strongest at $R^2_{QT}=0.8213457220900503$.  The distribution is wide enough to rule out a single universal effect size, but it is not compatible with complete absorption of the tested $B^*_{Q6}$ residual basis by the listed controls inside this modeled readout design.
 
-\paragraph{Rank comparison with the powered modeled-tAI matrix.}
-A companion powered modeled-tAI computation used $40$ organisms, $9$ readout columns, the same nine residual coordinates, and $24$ control columns.  In that matrix the residualized control rank was $23$, the residual degrees of freedom after $Z$ were $17$, and the residualized $B^{*}_{Q6}$ coordinate rank was $9$.  The reported global statistic was
+\paragraph{Rank and calibration context.}
+A companion powered modeled-tAI calculation used $40$ organisms, the same nine residual coordinates, $24$ control columns, control-rank $23$, residual degrees of freedom $17$, and a full residual-coordinate rank of $9$.  Its joint modeled-tAI fit gave $R^2_{QT}=0.9003849000036579$, below the stated degeneracy threshold $0.999999$.  This calibration matters because the sweep is not being read as an $n=3$ saturated surface.  The earlier three-organism Leu CUN/UUR contact had Pearson and partial Pearson values equal to $1.0$ over $n=3$, with log-ratio signs $(1,-1,1)$ and therefore no uniform sign claim.  In contrast, the present sweep is a rank-powered modeled-readout scan over $41$ organisms, with sparse joins excluded rather than forced.
+
+\paragraph{Relation to coupling rather than survival.}
+The older proxy coupling matrix computed all nine $B^*_{Q6}$ synonymous residuals against a tRNA-Leu CUN-versus-UUR log-copy spectrum in $3$ organisms and found $9$ nonzero entries, with maximum absolute coupling $1882464.1106377328$ above the $0.01$ coupling threshold.  That result showed that the residual basis can couple to a translation-adjacent proxy, but it did not by itself supply a controlled survival score.  The organism sweep reported here is stronger in one respect and weaker in another: it has a broad modeled-tAI panel and positive modeled $R^2_{QT}$ values across retained organisms, but its readout is still modeled adaptation from tRNA gene-copy and wobble weights rather than directly measured ribosome occupancy, elongation speed, or translation efficiency.
+
+\paragraph{Interpretation.}
+The finite-row conclusion is that the $B^*_{Q6}$ residual basis survives as a modeled translation-adaptation signal under the declared controls in a $41$-organism sweep.  The statement supported here is
 $$
 \begin{aligned}
-R^{2}_{QT} &= 0.9003849000036579,\\
-\operatorname{rank}(Z) &= 23,\\
-\operatorname{rank}(\widetilde X) &= 9,\\
-\operatorname{df}_{resid} &= 17.
+\exists o\; R^2_{QT}(o) &> 0,\\
+\text{and in the retained sweep}\quad R^2_{QT}(o) &\in [0.1579271837024072,\,0.8213457220900503].
 \end{aligned}
 $$
-That run used a positive partial-$R^{2}$ threshold of $10^{-12}$ and a degeneracy guard at $0.999999$.  The present $41$-organism sweep should therefore be read as a cross-organism distributional extension of the modeled-tAI contact, while the powered matrix supplies the rank diagnostics showing that the nine-coordinate residual design is not collapsed by the control basis.
+Because the retained distribution is entirely positive and the target organism count was reached, the appropriate status is a ready modeled-readout support record for the cross-layer relation.  The phrase ``modeled-readout'' is essential: the statistic is about residual codon coordinates against a constructed tAI layer, not about direct ribosome measurements.
 
-\paragraph{Proxy coupling boundary.}
-The earlier codon-usage and tRNA-copy coupling matrix supplies a weaker contact: it computed all nine $B^{*}_{Q6}$ synonymous residuals and found that the break condition $|A_{ij}| < 0.01$ for all coordinates was not met.  The maximum absolute proxy coupling was $1882464.1106377328$, with $9$ nonzero entries against the tRNA-Leu CUN-versus-UUR log-copy proxy.  This proxy result is useful as a finite coordinate contact, but it is not itself an $S^{QT}$ survival result.  The modeled-tAI sweep is stronger because it estimates controlled residual survival after the $Z$ adjustment rather than merely reporting raw covariance coupling.
-
-\paragraph{Measured-ribosome boundary.}
-A separate ribosome-occupancy contact found position-bin-controlled local occupancy separation for $K\_{AAA}$, $Arg\_{AGR}$, and $f3\_{stress}$ after $200$ requested within-bin permutations, with a description-length penalty parameter $\lambda = 0.01$, $DL = 2$, and a $C_H > 0$ gate.  That result shows that some $B^{*}_{Q6}$ synonymous families can be read against local ribosome-occupancy windows under positional controls.  It is not the same object as this modeled-tAI sweep: here the panel-level readout is modeled tAI from tRNA gene-copy and wobble weights, not measured ribosome occupancy or measured translation efficiency.
-
-\paragraph{Verdict and boundary.}
-The finite verdict is that the modeled-tAI sweep is ready as a BioReality chapter record: $41$ organisms were swept, the declared $40$-organism target was reached, the statistic used the nine $B^{*}_{Q6}$ residual coordinates with $24$ controls, and the observed $R^{2}_{QT}$ distribution is bounded away from zero throughout the reported panel.  The scientific claim remains deliberately narrow.  Modeled tAI from gene-copy counts is not measured ribosome occupancy, not measured elongation speed, not ribosome-profiling translation efficiency, not proteomics, and not protein folding.  The $S^{QT}$ entries are statistical projections under the stated controls; they do not by themselves establish translation mechanism, mature protein output, folded structure, physical admissibility, biochemical function, phenotype, or a universal biological law.  Any such stronger statement would require its own layer-matched contact and its own controlled statistic.
+\paragraph{Local boundary.}
+No direct translation mechanism follows from this row.  Modeled tAI from GtRNAdb-style gene-copy information is not measured ribosome occupancy, not measured translation efficiency, not proteomics, and not protein folding.  The result does not assert physical admissibility, molecular function, pathway mechanism, organismal phenotype, or a universal biological law.  The organisms are not phylogenetically independent replicates, so the cross-organism pattern is descriptive rather than a population-level estimate.  Any claim about measured translation, protein abundance, folding, physical admissibility, function, mechanism, or universality requires its own matched contact and its own controlled statistic.
