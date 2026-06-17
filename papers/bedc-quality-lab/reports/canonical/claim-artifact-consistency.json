@@ -27,12 +27,12 @@
       "status": "pass"
     },
     {
-      "actual": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
-      "expected": "reports/canonical/claim_verdicts.jsonl:$.lines[28]",
+      "actual": "consistent",
+      "expected": "consistent",
       "gate_id": "CONS-HG4",
-      "pointer": "reports/canonical/claim_graph.json:$.nodes[119]",
-      "reason": "terminal node must point to claim verdict row",
-      "status": "fail"
+      "pointer": "reports/canonical/claim_graph.json:$.nodes[128]",
+      "reason": "terminal graph path uses Core claim verdict row",
+      "status": "pass"
     },
     {
       "actual": "consistent",
@@ -43,12 +43,12 @@
       "status": "pass"
     },
     {
-      "actual": "reports/canonical/discovery_map.json:b5c58182325933a7ef4fcc01a4ce2b19561406cfc21cc979037e2ad8158fedbf",
-      "expected": "reports/canonical/discovery_map.json:34badb6cced4f3fae77798c4afe669bbb2effdd4acf46690d543d48a0023ab7a",
+      "actual": "consistent",
+      "expected": "consistent",
       "gate_id": "CONS-HG6",
       "pointer": "reports/canonical/high-impact-review.fingerprint.json:$.inputs.source_artifacts",
-      "reason": "high-impact review source artifact hash is stale",
-      "status": "fail"
+      "reason": "artifact hashes are current",
+      "status": "pass"
     },
     {
       "actual": "not applicable",
@@ -120,7 +120,7 @@
       ]
     },
     {
-      "artifact_pointer": "reports/canonical/claim_graph.json:$.nodes[119]",
+      "artifact_pointer": "reports/canonical/claim_graph.json:$.nodes[128]",
       "claim_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[28]",
       "hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
       "not_claimed_pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
@@ -137,5 +137,5 @@
     }
   ],
   "schema_id": "bedc-quality-lab:claim-artifact-consistency",
-  "status": "fail"
+  "status": "pass"
 }
