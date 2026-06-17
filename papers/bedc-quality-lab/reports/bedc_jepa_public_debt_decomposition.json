@@ -1,4 +1,69 @@
 {
+  "analysis_contract": {
+    "claim_boundary": "public MiniGrid debt and planning accounting only; not public benchmark superiority or native V-JEPA2-AC reproduction",
+    "conformal_alphas": [
+      0.2,
+      0.1,
+      0.05,
+      0.02,
+      0.01
+    ],
+    "debt_component_weights": {
+      "coverage_debt": 0.1,
+      "false_claim_debt": 0.3,
+      "ranking_debt": 0.2,
+      "silent_debt": 0.4
+    },
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "gap_thresholds": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      0.95
+    ],
+    "planning_state_count": 32.0,
+    "predicate_surfaces": [
+      "door_key_context_visible",
+      "has_key",
+      "door_open_or_unlocked",
+      "goal_reachable_with_current_state",
+      "unsafe_transition"
+    ],
+    "risk_budgets": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      0.95
+    ],
+    "risk_constrained_planning_rule": "select the highest distinction score among candidate actions whose predicted gap is within the declared risk budget; if no action is within budget, emit no_certified_plan",
+    "run_command": "python scripts/build_public_minigrid_debt_closure.py",
+    "seed": 20260602.0,
+    "source_split": "train split fits readouts; test split reports debt, coverage, conformal rows, and planning states",
+    "systems": {
+      "S0": "public-minigrid-jepa-style-latent-only",
+      "S1": "public-minigrid-posthoc-probe",
+      "S2": "public-minigrid-posthoc-evidence-envelope",
+      "S3": "public-minigrid-trained-bedc-jepa-readout"
+    },
+    "test_count": 128.0,
+    "test_seed": 20260603.0,
+    "train_count": 128.0,
+    "train_seed": 20260602.0
+  },
   "cannot_claim": [
     "public benchmark superiority",
     "closed total debt on all public MiniGrid seeds",

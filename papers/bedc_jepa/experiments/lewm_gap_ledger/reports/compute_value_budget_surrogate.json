@@ -1,0 +1,757 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_budget_surrogate",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz",
+    "baseline_prediction": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy_stability_predictions.npz"
+  },
+  "grid": {
+    "seeds": [
+      3,
+      7,
+      11
+    ],
+    "epoch_budgets": [
+      5,
+      20,
+      60
+    ],
+    "hidden": 256,
+    "batch": 256,
+    "lr": 0.0008,
+    "tau": 0.25,
+    "tail_beta": 0.0,
+    "rank_weight": 0.1
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "selection_rule": "minimize calibration allocation_delta CI high, then observed delta",
+  "selected_run": {
+    "seed": 11,
+    "epochs": 60,
+    "health": {
+      "best": {
+        "epoch": 29,
+        "calibration": {
+          "allocation_delta": {
+            "observed": 0.0005946576172384949,
+            "low": -0.004647501096677022,
+            "high": 0.005082150498012646
+          },
+          "mv_spearman": 0.4362215414486885,
+          "chosen_depth_counts": {
+            "1": 317,
+            "3": 12,
+            "5": 317
+          }
+        },
+        "train_surrogate": 0.07396816568715232
+      },
+      "history_first": {
+        "epoch": 1.0,
+        "train_surrogate": 0.15506976275216966,
+        "cal_delta_high": 0.012181894818060264,
+        "cal_delta_observed": 0.007882932267323645
+      },
+      "history_last": {
+        "epoch": 60.0,
+        "train_surrogate": 0.07138738089374133,
+        "cal_delta_high": 0.013249484396289852,
+        "cal_delta_observed": 0.004601105252772408
+      },
+      "params_count": 1301761,
+      "surrogate": {
+        "tau": 0.25,
+        "tail_beta": 0.0,
+        "rank_weight": 0.1
+      }
+    },
+    "calibration": {
+      "allocation_delta": {
+        "observed": 0.0005946576172384949,
+        "low": -0.004624731377451754,
+        "high": 0.005267009630617238
+      },
+      "mv_spearman": 0.4362215414486885,
+      "chosen_depth_counts": {
+        "1": 317,
+        "3": 12,
+        "5": 317
+      }
+    },
+    "eval": {
+      "allocation_delta": {
+        "observed": 0.0035599786041556336,
+        "low": -0.0034194805175729033,
+        "high": 0.011770769072933838
+      },
+      "mv_spearman": 0.4446823641565414,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    }
+  },
+  "summary": {
+    "runs": 9,
+    "eval_delta_observed_min": 0.0019251352688892942,
+    "eval_delta_observed_median": 0.004424423895143775,
+    "eval_delta_observed_max": 0.008766263278981792,
+    "eval_delta_high_min": 0.00699846452605529,
+    "eval_delta_high_max": 0.02035835464777949,
+    "runs_with_eval_ci_high_below_zero": 0
+  },
+  "references": {
+    "oracle": {
+      "allocation_delta": {
+        "observed": -0.012902872670635557,
+        "low": -0.019575644159829077,
+        "high": -0.00796950157153612
+      },
+      "mv_spearman": 1.0,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    },
+    "episode_policy": {
+      "allocation_delta": {
+        "observed": 0.0018426589267671184,
+        "low": -0.0030597639049220397,
+        "high": 0.00686918929158164
+      },
+      "mv_spearman": 0.3963775077698914,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    }
+  },
+  "runs": [
+    {
+      "seed": 3,
+      "epochs": 5,
+      "health": {
+        "best": {
+          "epoch": 5,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005200594275927395,
+              "low": -0.0026704646898434684,
+              "high": 0.015531310154795717
+            },
+            "mv_spearman": 0.45368768920018654,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "train_surrogate": 0.09433993803603309
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train_surrogate": 0.16062651929401217,
+          "cal_delta_high": 0.01913828953029162,
+          "cal_delta_observed": 0.009342195290066038
+        },
+        "history_last": {
+          "epoch": 5.0,
+          "train_surrogate": 0.09433993803603309,
+          "cal_delta_high": 0.015531310154795717,
+          "cal_delta_observed": 0.005200594275927395
+        },
+        "params_count": 1301761,
+        "surrogate": {
+          "tau": 0.25,
+          "tail_beta": 0.0,
+          "rank_weight": 0.1
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005200594275927395,
+          "low": -0.003628483641253917,
+          "high": 0.015573951738818667
+        },
+        "mv_spearman": 0.45368768920018654,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.004607560987710119,
+          "low": -0.0026492904109604873,
+          "high": 0.012701301637859357
+        },
+        "mv_spearman": 0.4178480594077519,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "epochs": 20,
+      "health": {
+        "best": {
+          "epoch": 6,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005212619863734766,
+              "low": -0.0022208581758796603,
+              "high": 0.015462250166527589
+            },
+            "mv_spearman": 0.4438250812386082,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "train_surrogate": 0.09095584672121775
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train_surrogate": 0.16062651929401217,
+          "cal_delta_high": 0.01913828953029162,
+          "cal_delta_observed": 0.009342195290066038
+        },
+        "history_last": {
+          "epoch": 20.0,
+          "train_surrogate": 0.07675637695051375,
+          "cal_delta_high": 0.015574573805896648,
+          "cal_delta_observed": 0.005165276230992999
+        },
+        "params_count": 1301761,
+        "surrogate": {
+          "tau": 0.25,
+          "tail_beta": 0.0,
+          "rank_weight": 0.1
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005212619863734766,
+          "low": -0.0036572175850248306,
+          "high": 0.015606523472903982
+        },
+        "mv_spearman": 0.4438250812386082,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.003225074544927972,
+          "low": -0.0032988015367909776,
+          "high": 0.00942744049113315
+        },
+        "mv_spearman": 0.4281551597953017,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "epochs": 60,
+      "health": {
+        "best": {
+          "epoch": 60,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.004483538071112278,
+              "low": -0.0028175744154053054,
+              "high": 0.013869415168250252
+            },
+            "mv_spearman": 0.46637538986241434,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "train_surrogate": 0.07225277097452254
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train_surrogate": 0.16062651929401217,
+          "cal_delta_high": 0.01913828953029162,
+          "cal_delta_observed": 0.009342195290066038
+        },
+        "history_last": {
+          "epoch": 60.0,
+          "train_surrogate": 0.07225277097452254,
+          "cal_delta_high": 0.013869415168250252,
+          "cal_delta_observed": 0.004483538071112278
+        },
+        "params_count": 1301761,
+        "surrogate": {
+          "tau": 0.25,
+          "tail_beta": 0.0,
+          "rank_weight": 0.1
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.004483538071112278,
+          "low": -0.0033133787673088836,
+          "high": 0.01376635729213998
+        },
+        "mv_spearman": 0.46637538986241434,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.004424423895143775,
+          "low": -0.0032951014036910263,
+          "high": 0.012176010865240897
+        },
+        "mv_spearman": 0.4477456572955516,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 5,
+      "health": {
+        "best": {
+          "epoch": 4,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005034362299505352,
+              "low": -0.0016234949433263392,
+              "high": 0.01229060507728556
+            },
+            "mv_spearman": 0.3556068911572355,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "train_surrogate": 0.10278969683817454
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train_surrogate": 0.16988043274198258,
+          "cal_delta_high": 0.022932160881562833,
+          "cal_delta_observed": 0.015779193648051762
+        },
+        "history_last": {
+          "epoch": 5.0,
+          "train_surrogate": 0.10253396062623887,
+          "cal_delta_high": 0.01417961063402367,
+          "cal_delta_observed": 0.007129422055318399
+        },
+        "params_count": 1301761,
+        "surrogate": {
+          "tau": 0.25,
+          "tail_beta": 0.0,
+          "rank_weight": 0.1
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005034362299505352,
+          "low": -0.001809410977700314,
+          "high": 0.012613288342698146
+        },
+        "mv_spearman": 0.3556068911572355,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.00805054669891031,
+          "low": 0.0001229363076332049,
+          "high": 0.017110189051032468
+        },
+        "mv_spearman": 0.355425138813858,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 20,
+      "health": {
+        "best": {
+          "epoch": 8,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.00547706521853164,
+              "low": -0.0006904682782725273,
+              "high": 0.011757776900499837
+            },
+            "mv_spearman": 0.4011574881125835,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "train_surrogate": 0.08808543675002597
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train_surrogate": 0.16988043274198258,
+          "cal_delta_high": 0.022932160881562833,
+          "cal_delta_observed": 0.015779193648051762
+        },
+        "history_last": {
+          "epoch": 20.0,
+          "train_surrogate": 0.07710400472084682,
+          "cal_delta_high": 0.012385339575370332,
+          "cal_delta_observed": 0.0050240939881309316
+        },
+        "params_count": 1301761,
+        "surrogate": {
+          "tau": 0.25,
+          "tail_beta": 0.0,
+          "rank_weight": 0.1
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.00547706521853164,
+          "low": -0.00022633090183042716,
+          "high": 0.012627549945256855
+        },
+        "mv_spearman": 0.4011574881125835,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.008766263278981792,
+          "low": 0.00034594311816242085,
+          "high": 0.02035835464777949
+        },
+        "mv_spearman": 0.4132900841459135,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 60,
+      "health": {
+        "best": {
+          "epoch": 60,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.002414390782072992,
+              "low": -0.003937658744888018,
+              "high": 0.009212924827097917
+            },
+            "mv_spearman": 0.43572442270539113,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "train_surrogate": 0.07178058475255966
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train_surrogate": 0.16988043274198258,
+          "cal_delta_high": 0.022932160881562833,
+          "cal_delta_observed": 0.015779193648051762
+        },
+        "history_last": {
+          "epoch": 60.0,
+          "train_surrogate": 0.07178058475255966,
+          "cal_delta_high": 0.009212924827097917,
+          "cal_delta_observed": 0.002414390782072992
+        },
+        "params_count": 1301761,
+        "surrogate": {
+          "tau": 0.25,
+          "tail_beta": 0.0,
+          "rank_weight": 0.1
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.002414390782072992,
+          "low": -0.0036814807530625537,
+          "high": 0.00990492918562912
+        },
+        "mv_spearman": 0.43572442270539113,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.004185821094187983,
+          "low": -0.002946457468567657,
+          "high": 0.01251859084078456
+        },
+        "mv_spearman": 0.4107362411325059,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 5,
+      "health": {
+        "best": {
+          "epoch": 4,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.0038353450388267513,
+              "low": -0.0021737915359966754,
+              "high": 0.010857210485157526
+            },
+            "mv_spearman": 0.37709423455987934,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "train_surrogate": 0.10049357158797127
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train_surrogate": 0.15506976275216966,
+          "cal_delta_high": 0.012181894818060264,
+          "cal_delta_observed": 0.007882932267323645
+        },
+        "history_last": {
+          "epoch": 5.0,
+          "train_surrogate": 0.09399445816164925,
+          "cal_delta_high": 0.011630654187141255,
+          "cal_delta_observed": 0.004340411779596945
+        },
+        "params_count": 1301761,
+        "surrogate": {
+          "tau": 0.25,
+          "tail_beta": 0.0,
+          "rank_weight": 0.1
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.0038353450388267513,
+          "low": -0.0021032972058845404,
+          "high": 0.010843705095828715
+        },
+        "mv_spearman": 0.37709423455987934,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.00564815636247866,
+          "low": -0.0013929696898487983,
+          "high": 0.01328673921206318
+        },
+        "mv_spearman": 0.39776614666480037,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 20,
+      "health": {
+        "best": {
+          "epoch": 7,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.00020342201362499868,
+              "low": -0.005133404362266947,
+              "high": 0.005252295303845589
+            },
+            "mv_spearman": 0.41589299928568113,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "train_surrogate": 0.08761146842014222
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train_surrogate": 0.15506976275216966,
+          "cal_delta_high": 0.012181894818060264,
+          "cal_delta_observed": 0.007882932267323645
+        },
+        "history_last": {
+          "epoch": 20.0,
+          "train_surrogate": 0.07543559301467169,
+          "cal_delta_high": 0.008519378406656822,
+          "cal_delta_observed": 0.0033972348549220904
+        },
+        "params_count": 1301761,
+        "surrogate": {
+          "tau": 0.25,
+          "tail_beta": 0.0,
+          "rank_weight": 0.1
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.00020342201362499868,
+          "low": -0.00512038278560616,
+          "high": 0.005317249842187526
+        },
+        "mv_spearman": 0.41589299928568113,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0019251352688892942,
+          "low": -0.0035491040179980644,
+          "high": 0.00699846452605529
+        },
+        "mv_spearman": 0.4227240230879463,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 60,
+      "health": {
+        "best": {
+          "epoch": 29,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.0005946576172384949,
+              "low": -0.004647501096677022,
+              "high": 0.005082150498012646
+            },
+            "mv_spearman": 0.4362215414486885,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "train_surrogate": 0.07396816568715232
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train_surrogate": 0.15506976275216966,
+          "cal_delta_high": 0.012181894818060264,
+          "cal_delta_observed": 0.007882932267323645
+        },
+        "history_last": {
+          "epoch": 60.0,
+          "train_surrogate": 0.07138738089374133,
+          "cal_delta_high": 0.013249484396289852,
+          "cal_delta_observed": 0.004601105252772408
+        },
+        "params_count": 1301761,
+        "surrogate": {
+          "tau": 0.25,
+          "tail_beta": 0.0,
+          "rank_weight": 0.1
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.0005946576172384949,
+          "low": -0.004624731377451754,
+          "high": 0.005267009630617238
+        },
+        "mv_spearman": 0.4362215414486885,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0035599786041556336,
+          "low": -0.0034194805175729033,
+          "high": 0.011770769072933838
+        },
+        "mv_spearman": 0.4446823641565414,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    }
+  ],
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only",
+    "training_truth_usage": "train option errors used only inside train-split budget surrogate",
+    "run_selection": "calibration split only",
+    "eval_truth_usage": "eval option_error and true_mv used only after policy scores are produced",
+    "slurm_or_ssh": "not used"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_budget_surrogate_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_budget_surrogate.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_budget_surrogate.md"
+  },
+  "wall_time_sec": 452.94716715812683
+}

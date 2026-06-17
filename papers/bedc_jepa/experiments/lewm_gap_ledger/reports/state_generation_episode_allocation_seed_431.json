@@ -1,0 +1,156 @@
+{
+  "config": {
+    "batch": 128,
+    "depth": 2,
+    "epochs": 180,
+    "hidden": 256,
+    "loss": "0.50*oracle_choice_ce + 0.25*pairwise_order + 0.15*expected_depth + 0.10*centered_smooth_l1",
+    "lr": 0.0004
+  },
+  "counts": {
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55,
+    "train": 2043
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "allocation_closed": false,
+    "beats_allocation_native_ci_high": true,
+    "beats_allocation_native_observed": true,
+    "oracle_closed": true
+  },
+  "eval": {
+    "allocation_native": {
+      "allocation_delta": {
+        "high": 0.01225714407682055,
+        "low": -0.001524026809184778,
+        "observed": 0.0044036332341524514
+      },
+      "chosen_depth_counts": {
+        "1": 42,
+        "2": 349,
+        "3": 24,
+        "4": 5,
+        "5": 214
+      },
+      "oracle_match": 0.2334384858044164,
+      "pair_accuracy": 1.0,
+      "score_error_spearman": 0.8163159949023315
+    },
+    "episode_allocation": {
+      "allocation_delta": {
+        "high": 0.0033672730597241493,
+        "low": -0.006006234070784415,
+        "observed": -0.00129762487990992
+      },
+      "chosen_depth_counts": {
+        "1": 159,
+        "2": 110,
+        "3": 103,
+        "4": 96,
+        "5": 166
+      },
+      "oracle_match": 0.3186119873817035,
+      "pair_accuracy": 0.5610410094637224,
+      "score_error_spearman": 0.19282131365771424
+    },
+    "oracle_true_error": {
+      "allocation_delta": {
+        "high": -0.01929794212052048,
+        "low": -0.030350715073798974,
+        "observed": -0.024122137932078153
+      },
+      "chosen_depth_counts": {
+        "1": 148,
+        "2": 114,
+        "3": 117,
+        "4": 100,
+        "5": 155
+      },
+      "oracle_match": 0.2334384858044164,
+      "pair_accuracy": 1.0,
+      "score_error_spearman": 1.0
+    }
+  },
+  "leakage_attestation": {
+    "features": "aligned export x only",
+    "selection": "calibration exact-budget allocation_delta CI high, then observed delta",
+    "slurm_or_ssh": "not used",
+    "targets": "train option_error is converted to exact-budget oracle choices; eval option_error used only after score generation for metrics"
+  },
+  "not_claimed": [
+    "deployable policy",
+    "complete BEDC-native world model"
+  ],
+  "oracle_choice_counts": {
+    "calibration": {
+      "1": 141,
+      "2": 127,
+      "3": 120,
+      "4": 107,
+      "5": 151
+    },
+    "eval": {
+      "1": 148,
+      "2": 114,
+      "3": 117,
+      "4": 100,
+      "5": 155
+    },
+    "train": {
+      "1": 467,
+      "2": 390,
+      "3": 357,
+      "4": 334,
+      "5": 495
+    }
+  },
+  "schema_id": "bedc_jepa.state_generation_episode_allocation",
+  "selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": 0.000890135250779564,
+          "low": -0.008693615315783108,
+          "observed": -0.00368966965715449
+        },
+        "chosen_depth_counts": {
+          "1": 160,
+          "2": 110,
+          "3": 109,
+          "4": 104,
+          "5": 163
+        },
+        "oracle_match": 0.3188854489164087,
+        "pair_accuracy": 0.5750773993808049,
+        "score_error_spearman": 0.22502277475644555
+      },
+      "epoch": 1,
+      "selection_key": [
+        0.000890135250779564,
+        -0.00368966965715449
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.000890135250779564,
+      "cal_delta_observed": -0.00368966965715449,
+      "cal_oracle_match": 0.3188854489164087,
+      "cal_spearman": 0.22502277475644555,
+      "epoch": 1.0,
+      "train_loss": 1.1895714029669762
+    },
+    "history_last": {
+      "cal_delta_high": 0.0054484381280724015,
+      "cal_delta_observed": -0.0018068818603251546,
+      "cal_oracle_match": 0.3653250773993808,
+      "cal_spearman": 0.4488225314285977,
+      "epoch": 180.0,
+      "train_loss": 0.34767007641494274
+    },
+    "params_count": 1336069,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta"
+  },
+  "status": "ok",
+  "wall_time_sec": 107.61350631713867
+}

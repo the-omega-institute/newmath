@@ -1,0 +1,299 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.multistep_dynamics_parity",
+  "inputs": {
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "config": {
+    "epochs": 180,
+    "width": 512,
+    "depth": 3,
+    "batch": 384,
+    "lr": 0.0004,
+    "epsilon": 0.1,
+    "horizons": [
+      1,
+      3,
+      5
+    ],
+    "training_target": "teacher-forced multi-step latent rollout with action-conditioned recurrent residual dynamics"
+  },
+  "primary_horizon": 5,
+  "primary": {
+    "horizon": 5,
+    "device": "cuda",
+    "counts": {
+      "train": 2296,
+      "calibration": 779,
+      "eval": 804,
+      "eval_episodes": 55,
+      "params": 5464256
+    },
+    "metrics": {
+      "native_h1_mse": {
+        "observed": 0.8461704010709575,
+        "low": 0.8051123238613515,
+        "high": 0.8844342756319016
+      },
+      "lewm_h1_mse": {
+        "observed": 0.06711044864015496,
+        "low": 0.06466276201047728,
+        "high": 0.06988764288500822
+      },
+      "trivial_h1_mse": {
+        "observed": 1.4154244034351513,
+        "low": 1.332470410452953,
+        "high": 1.4919676628448442
+      },
+      "native_minus_lewm_h1": {
+        "observed": 0.7790599524308025,
+        "low": 0.7375182190145074,
+        "high": 0.8138458765577443
+      },
+      "native_minus_trivial_h1": {
+        "observed": -0.5692540023641942,
+        "low": -0.6123080315590362,
+        "high": -0.5273905089231075
+      },
+      "rollout_final_mse": {
+        "observed": 1.076255546507848,
+        "low": 1.0500472707878084,
+        "high": 1.1031093594953107
+      },
+      "rollout_mean_mse": {
+        "observed": 0.9952715957149255,
+        "low": 0.9699602552222713,
+        "high": 1.0184264375267023
+      }
+    },
+    "parity_gate": {
+      "threshold": 0.07382149350417046,
+      "margin": -0.7723489075667871,
+      "pass": false,
+      "native_to_lewm_ratio": 12.608623816659433
+    },
+    "health": {
+      "best_cal_h1_mse": 0.841768337297702,
+      "history_first": {
+        "epoch": 1.0,
+        "train": 0.3798294812440872,
+        "cal_h1_mse": 1.311814218732513
+      },
+      "history_last": {
+        "epoch": 180.0,
+        "train": 0.005485371919348836,
+        "cal_h1_mse": 0.9291390203751607
+      }
+    }
+  },
+  "rows": [
+    {
+      "horizon": 1,
+      "device": "cuda",
+      "counts": {
+        "train": 2998,
+        "calibration": 1027,
+        "eval": 966,
+        "eval_episodes": 55,
+        "params": 5464256
+      },
+      "metrics": {
+        "native_h1_mse": {
+          "observed": 0.8680726995743817,
+          "low": 0.8393398522177146,
+          "high": 0.899112750861238
+        },
+        "lewm_h1_mse": {
+          "observed": 0.07039377942110564,
+          "low": 0.06787059482029585,
+          "high": 0.07283148311407053
+        },
+        "trivial_h1_mse": {
+          "observed": 1.447805802976597,
+          "low": 1.3775275205063848,
+          "high": 1.5062042843315968
+        },
+        "native_minus_lewm_h1": {
+          "observed": 0.797678920153276,
+          "low": 0.7705814466386378,
+          "high": 0.821575399067005
+        },
+        "native_minus_trivial_h1": {
+          "observed": -0.5797331034022153,
+          "low": -0.6172044222124411,
+          "high": -0.5385853400585878
+        },
+        "rollout_final_mse": {
+          "observed": 0.8680726995743817,
+          "low": 0.839368230460954,
+          "high": 0.8962224971909587
+        },
+        "rollout_mean_mse": {
+          "observed": 0.8680726995743817,
+          "low": 0.8365087306939533,
+          "high": 0.8936022876878099
+        }
+      },
+      "parity_gate": {
+        "threshold": 0.07743315736321621,
+        "margin": -0.7906395422111655,
+        "pass": false,
+        "native_to_lewm_ratio": 12.33166775122908
+      },
+      "health": {
+        "best_cal_h1_mse": 0.8683291913164302,
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.541408583521843,
+          "cal_h1_mse": 1.2600847935922688
+        },
+        "history_last": {
+          "epoch": 180.0,
+          "train": 0.0025949487753678113,
+          "cal_h1_mse": 1.0608479180067851
+        }
+      }
+    },
+    {
+      "horizon": 3,
+      "device": "cuda",
+      "counts": {
+        "train": 2664,
+        "calibration": 886,
+        "eval": 885,
+        "eval_episodes": 55,
+        "params": 5464256
+      },
+      "metrics": {
+        "native_h1_mse": {
+          "observed": 0.8512689679317489,
+          "low": 0.818825567170102,
+          "high": 0.8801505958790724
+        },
+        "lewm_h1_mse": {
+          "observed": 0.06739997554381015,
+          "low": 0.06471239001362375,
+          "high": 0.07042137933383373
+        },
+        "trivial_h1_mse": {
+          "observed": 1.408732794669529,
+          "low": 1.336368401406434,
+          "high": 1.484146854493112
+        },
+        "native_minus_lewm_h1": {
+          "observed": 0.7838689923879387,
+          "low": 0.7529135935679012,
+          "high": 0.8110569230810376
+        },
+        "native_minus_trivial_h1": {
+          "observed": -0.5574638267377803,
+          "low": -0.5999025333758489,
+          "high": -0.5137908774855414
+        },
+        "rollout_final_mse": {
+          "observed": 1.0726204415059433,
+          "low": 1.0430382413576407,
+          "high": 1.1043936218134143
+        },
+        "rollout_mean_mse": {
+          "observed": 0.9752009624801852,
+          "low": 0.9494949334442402,
+          "high": 1.0031181030407539
+        }
+      },
+      "parity_gate": {
+        "threshold": 0.07413997309819118,
+        "margin": -0.7771289948335577,
+        "pass": false,
+        "native_to_lewm_ratio": 12.630107964630076
+      },
+      "health": {
+        "best_cal_h1_mse": 0.8475097051480439,
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.3993235571043832,
+          "cal_h1_mse": 1.2811389928613208
+        },
+        "history_last": {
+          "epoch": 180.0,
+          "train": 0.005055075577859368,
+          "cal_h1_mse": 0.9778208255428524
+        }
+      }
+    },
+    {
+      "horizon": 5,
+      "device": "cuda",
+      "counts": {
+        "train": 2296,
+        "calibration": 779,
+        "eval": 804,
+        "eval_episodes": 55,
+        "params": 5464256
+      },
+      "metrics": {
+        "native_h1_mse": {
+          "observed": 0.8461704010709575,
+          "low": 0.8051123238613515,
+          "high": 0.8844342756319016
+        },
+        "lewm_h1_mse": {
+          "observed": 0.06711044864015496,
+          "low": 0.06466276201047728,
+          "high": 0.06988764288500822
+        },
+        "trivial_h1_mse": {
+          "observed": 1.4154244034351513,
+          "low": 1.332470410452953,
+          "high": 1.4919676628448442
+        },
+        "native_minus_lewm_h1": {
+          "observed": 0.7790599524308025,
+          "low": 0.7375182190145074,
+          "high": 0.8138458765577443
+        },
+        "native_minus_trivial_h1": {
+          "observed": -0.5692540023641942,
+          "low": -0.6123080315590362,
+          "high": -0.5273905089231075
+        },
+        "rollout_final_mse": {
+          "observed": 1.076255546507848,
+          "low": 1.0500472707878084,
+          "high": 1.1031093594953107
+        },
+        "rollout_mean_mse": {
+          "observed": 0.9952715957149255,
+          "low": 0.9699602552222713,
+          "high": 1.0184264375267023
+        }
+      },
+      "parity_gate": {
+        "threshold": 0.07382149350417046,
+        "margin": -0.7723489075667871,
+        "pass": false,
+        "native_to_lewm_ratio": 12.608623816659433
+      },
+      "health": {
+        "best_cal_h1_mse": 0.841768337297702,
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.3798294812440872,
+          "cal_h1_mse": 1.311814218732513
+        },
+        "history_last": {
+          "epoch": 180.0,
+          "train": 0.005485371919348836,
+          "cal_h1_mse": 0.9291390203751607
+        }
+      }
+    }
+  ],
+  "leakage_attestation": {
+    "standardizers": "fit on train split only for each horizon",
+    "selection": "primary row selected by calibration-trained candidate's eval h1 MSE only after all rows are trained; each row reports its own split",
+    "eval_truth_usage": "eval target latents used only for final metrics and primary-row reporting",
+    "lewm_reference": "exported one-step pred-vs-emb next-latent MSE on the same eval transitions"
+  },
+  "wall_time_sec": 194.11333799362183
+}
