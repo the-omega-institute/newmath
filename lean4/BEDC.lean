@@ -3648,6 +3648,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedTupleStdbridgePremiseSurface
 import BEDC.Derived.CriticalLineWitnessUp.GapPolicyStability
 import BEDC.Derived.CriticalLineWitnessUp.LedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.LedgerNonescape
+import BEDC.Derived.CriticalLineWitnessUp.LedgerNonescapeObligation
 import BEDC.Derived.CriticalLineWitnessUp.LedgerRouteStability
 import BEDC.Derived.CriticalLineWitnessUp.LocalRHBoundary
 import BEDC.Derived.CriticalLineWitnessUp.ModulusBudgetRhRefusalExhaustion
