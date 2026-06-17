@@ -187,6 +187,24 @@ Apply monotone inclusion from \autoref{thm:dyadic-tail-ball-monotone-inclusion}.
 Finally route both regular-rational readbacks through the same displayed $\StreamNameUp$ window and consume the classifier surface of \autoref{ch:concrete-instances-real-equality-namecert}. The $\RealEqualityUp$ row receives the dyadic tolerance ledger already displayed by the $\DyadicTailBallUp$ packet; no quotient real equality, selected limit, or completeness datum is introduced.
 \end{proof}
 
+\begin{theorem}[Dyadic tail-ball RegSeqRat window consistency]
+\label{thm:dyadic-tail-ball-regseq-window-consistency}
+Let $T_0=(B_0,D,F_0,R,H_0,C_0,P_0,N_0)$ and $T_1=(B_1,D,F_1,R,H_1,C_1,P_1,N_1)$ be accepted $\DyadicTailBallUp$ packets feeding the same $\RegSeqRatUp$ late-tail consumer and sharing the displayed $\DyadicTailBoundUp$ ledger $D$. If both packets route their ball-containment rows through the same displayed late-tail window before the Real-facing equality consumer is read, then the exposed tolerance route is the same finite route
+$$
+\DyadicTailBoundUp \longmapsto \RegularCauchyTailFilterUp \longmapsto \DyadicBallUp \longmapsto \RegSeqRatUp .
+$$
+Thus the shared $\RegSeqRatUp$ window is determined by the finite dyadic tail-bound and ball-containment rows, not by quotient streams, selected limits, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the regular Cauchy consumer route of \autoref{thm:dyadic-tail-ball-regular-cauchy-consumer-route}. Both packets must first expose the same dyadic tail-bound ledger $D$ before their late-tail filters and ball-containment rows can be consumed.
+
+Use late-window stability from \autoref{thm:dyadic-tail-ball-window-stability}. Since the late-tail consumer is the same $\RegSeqRatUp$ read and the displayed tail-bound ledger is shared, both routes inspect the same finite window boundary before any Real-facing equality consumer appears.
+
+Apply monotone inclusion from \autoref{thm:dyadic-tail-ball-monotone-inclusion} and the threshold-refinement route of \autoref{thm:dyadic-tail-ball-threshold-refinement-route}. These keep accepted containment reads fixed by the displayed dyadic tail-bound and ball-containment rows, even when the threshold presentation is refined.
+
+Finally compare with \autoref{thm:dyadic-tail-ball-real-equality-consumer}. The Real-facing equality row can read only the already displayed tolerance ledger, so it cannot introduce quotient streams, selected limits, trichotomy, host real equality, or ambient completeness into the shared $\RegSeqRatUp$ window.
+\end{proof}
+
 \begin{closurestatus}{\DyadicTailBallUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:dyadic-tail-ball-carrier}, \autoref{thm:dyadic-tail-ball-namecert-obligations}, and \autoref{thm:dyadic-tail-ball-regular-cauchy-consumer-route} seed the finite route from dyadic tail bounds through regular Cauchy late-tail filters into dyadic ball containment and the Real Cauchy criterion consumer.}
