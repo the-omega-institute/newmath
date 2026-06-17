@@ -1,35 +1,52 @@
-<<<<<<< HEAD
-"""Run-local JEPA-WM-L1 admission semantics."""
-=======
 """JEPA-WM-L1 micro-admission over public pretrained world-model latents."""
->>>>>>> origin/paper-bedc-quality-lab
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-<<<<<<< HEAD
+from datetime import datetime, timezone
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
+import platform
 import re
-from typing import Any, Mapping, Sequence
+import traceback
+from typing import Any, Callable, Mapping, Sequence
+
+import numpy as np
 
 
 SCHEMA_ID = "bedc-quality-lab:jepa-wm-l1-admission"
-ARTIFACT_ID = "bedc-quality-lab:jepa-wm-l1"
-PRODUCER = "scripts/run_jepa_wm_l1.py"
-OWNER_MODULE = "bedc_quality_lab.tasks.jepa_wm_l1"
-GENERATED_AT = "2026-06-17T00:00:00+08:00"
-LAB_ROOT = Path(__file__).resolve().parents[2]
-RUNS_DIR = Path("reports/runs/jepa-wm-l1")
+ARTIFACT_ID = "bedc-quality-lab:jepa-wm-l1-admission"
+FINGERPRINT_SCHEMA_ID = "bedc-quality-lab:canonical-report-fingerprint"
+JSON_ARTIFACT = "reports/canonical/jepa-wm-l1-admission.json"
+MARKDOWN_ARTIFACT = "reports/canonical/jepa-wm-l1-admission.md"
+FINGERPRINT_ARTIFACT = "reports/canonical/jepa-wm-l1-admission.fingerprint.json"
+DEFAULT_GENERATED_AT = "2026-06-17T00:00:00+00:00"
+DEFAULT_SEED = 20260617
+DEFAULT_CASE_COUNT = 128
+DEFAULT_BOOTSTRAP_RESAMPLES = 512
+NEGATIVE_COUNT = 7
+CHOICE_COUNT = 1 + NEGATIVE_COUNT
+BASE_CHANCE_MARGIN = 0.03
+PUBLIC_CHECKPOINTS = (
+    "facebook/vjepa2-vitl-fpc64-256",
+    "facebook/vjepa2-vitg-fpc64-256",
+    "facebook/vjepa2-vitg-fpc64-384",
+)
+HARDGATE_ORDER = ("WEIGHT", "DATA", "BASE-CHANCE", "CONTROL", "CALIBRATION", "REPRO")
 
+
+
+GENERATED_AT = DEFAULT_GENERATED_AT
+RUNS_DIR = Path("reports/runs/jepa-wm-l1")
 REQUIRED_K = 7
 REQUIRED_CHANCE = 1.0 / 8.0
 REQUIRED_ARMS = ("null", "oracle_or_teacher", "base", "larger_base")
 REQUIRED_CONTROLS = ("metadata_only", "no_context")
-HARDGATE_IDS = tuple(f"JWM-L1-HG{index}" for index in range(1, 8))
-STATUS_DOMAIN = ("PASS", "bounded_negative", "unavailable")
-NOT_CLAIMED = (
+RUN_LOCAL_HARDGATE_IDS = tuple(f"JWM-L1-HG{index}" for index in range(1, 8))
+RUN_LOCAL_STATUS_DOMAIN = ("PASS", "bounded_negative", "unavailable")
+RUN_LOCAL_NOT_CLAIMED = (
     "No JEPA-WM-L2 or higher result.",
     "No global model superiority claim.",
     "No canonical dashboard registration.",
@@ -39,7 +56,7 @@ NOT_CLAIMED = (
 
 
 @dataclass(frozen=True)
-class Gate:
+class RunLocalGate:
     gate_id: str
     status: str
     criterion: str
@@ -56,14 +73,14 @@ class Gate:
         }
 
 
-def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
+def _write_json_file(path: Path, payload: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    tmp.write_text(json.dumps(payload, indent=2, sort_keys=True, default=_json_default) + "\n", encoding="utf-8")
     tmp.replace(path)
 
 
-def _write_text(path: Path, text: str) -> None:
+def _write_text_file(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_text(text, encoding="utf-8")
@@ -96,15 +113,15 @@ def _number(value: Any) -> float | None:
     return None
 
 
-def _pass_gate(gate_id: str, criterion: str, pointer: str, detail: str) -> Gate:
-    return Gate(gate_id=gate_id, status="pass", criterion=criterion, evidence_pointer=pointer, detail=detail)
+def _run_local_pass_gate(gate_id: str, criterion: str, pointer: str, detail: str) -> RunLocalGate:
+    return RunLocalGate(gate_id=gate_id, status="pass", criterion=criterion, evidence_pointer=pointer, detail=detail)
 
 
-def _fail_gate(gate_id: str, criterion: str, pointer: str, detail: str) -> Gate:
-    return Gate(gate_id=gate_id, status="fail", criterion=criterion, evidence_pointer=pointer, detail=detail)
+def _run_local_fail_gate(gate_id: str, criterion: str, pointer: str, detail: str) -> RunLocalGate:
+    return RunLocalGate(gate_id=gate_id, status="fail", criterion=criterion, evidence_pointer=pointer, detail=detail)
 
 
-def _checkpoint_gate(observation: Mapping[str, Any]) -> Gate:
+def _checkpoint_gate(observation: Mapping[str, Any]) -> RunLocalGate:
     provenance = _mapping(_mapping(observation.get("checkpoint")).get("provenance"))
     digest = provenance.get("checkpoint_sha256")
     pretrained = (
@@ -117,13 +134,13 @@ def _checkpoint_gate(observation: Mapping[str, Any]) -> Gate:
         and provenance.get("random_init") is False
     )
     if pretrained:
-        return _pass_gate(
+        return _run_local_pass_gate(
             "JWM-L1-HG1",
             "runtime uses true pretrained checkpoint provenance",
             "$.checkpoint.provenance",
             "pretrained checkpoint provenance supplied",
         )
-    return _fail_gate(
+    return _run_local_fail_gate(
         "JWM-L1-HG1",
         "runtime uses true pretrained checkpoint provenance",
         "$.checkpoint.provenance",
@@ -131,24 +148,20 @@ def _checkpoint_gate(observation: Mapping[str, Any]) -> Gate:
     )
 
 
-def _clips_gate(observation: Mapping[str, Any]) -> Gate:
+def _clips_gate(observation: Mapping[str, Any]) -> RunLocalGate:
     clips = _sequence(observation.get("clips"))
     non_empty = bool(clips)
     valid_rows = all(isinstance(clip, Mapping) and bool(clip.get("clip_id")) for clip in clips)
-    frame_counts = [
-        _number(_mapping(clip).get("frame_count"))
-        for clip in clips
-        if isinstance(clip, Mapping)
-    ]
+    frame_counts = [_number(_mapping(clip).get("frame_count")) for clip in clips if isinstance(clip, Mapping)]
     valid_frames = bool(frame_counts) and all(count is not None and count > 0 for count in frame_counts)
     if non_empty and valid_rows and valid_frames:
-        return _pass_gate(
+        return _run_local_pass_gate(
             "JWM-L1-HG2",
             "runtime supplies non-empty evaluated clips",
             "$.clips",
             f"{len(clips)} clip row(s)",
         )
-    return _fail_gate(
+    return _run_local_fail_gate(
         "JWM-L1-HG2",
         "runtime supplies non-empty evaluated clips",
         "$.clips",
@@ -156,26 +169,26 @@ def _clips_gate(observation: Mapping[str, Any]) -> Gate:
     )
 
 
-def _k_gate(observation: Mapping[str, Any]) -> Gate:
+def _k_gate(observation: Mapping[str, Any]) -> RunLocalGate:
     k = observation.get("k")
     if k == REQUIRED_K:
-        return _pass_gate("JWM-L1-HG3", "benchmark uses k=7", "$.k", "k=7")
-    return _fail_gate("JWM-L1-HG3", "benchmark uses k=7", "$.k", f"k={k!r}")
+        return _run_local_pass_gate("JWM-L1-HG3", "benchmark uses k=7", "$.k", "k=7")
+    return _run_local_fail_gate("JWM-L1-HG3", "benchmark uses k=7", "$.k", f"k={k!r}")
 
 
-def _chance_gate(observation: Mapping[str, Any]) -> Gate:
+def _chance_gate(observation: Mapping[str, Any]) -> RunLocalGate:
     chance = _mapping(observation.get("chance"))
     probability = _number(chance.get("probability"))
     ci_high = _number(chance.get("ci_high"))
     ok = probability == REQUIRED_CHANCE and ci_high is not None
     if ok:
-        return _pass_gate(
+        return _run_local_pass_gate(
             "JWM-L1-HG4",
             "chance baseline is exactly 1/8 with an upper confidence bound",
             "$.chance",
             f"chance={probability}",
         )
-    return _fail_gate(
+    return _run_local_fail_gate(
         "JWM-L1-HG4",
         "chance baseline is exactly 1/8 with an upper confidence bound",
         "$.chance",
@@ -183,7 +196,7 @@ def _chance_gate(observation: Mapping[str, Any]) -> Gate:
     )
 
 
-def _arms_gate(observation: Mapping[str, Any]) -> Gate:
+def _arms_gate(observation: Mapping[str, Any]) -> RunLocalGate:
     arms = _mapping(observation.get("arms"))
     missing = [arm_id for arm_id in REQUIRED_ARMS if not isinstance(arms.get(arm_id), Mapping)]
     unexpected = [str(arm_id) for arm_id in arms.keys() if arm_id not in REQUIRED_ARMS]
@@ -193,7 +206,7 @@ def _arms_gate(observation: Mapping[str, Any]) -> Gate:
         if any(_number(row.get(key)) is None for key in ("score", "ci_low", "ci_high")) or _number(row.get("n")) is None:
             incomplete.append(arm_id)
     if not missing and not unexpected and not incomplete:
-        return _pass_gate(
+        return _run_local_pass_gate(
             "JWM-L1-HG5",
             "exactly four admission arms are present with score, CI, and n",
             "$.arms",
@@ -206,7 +219,7 @@ def _arms_gate(observation: Mapping[str, Any]) -> Gate:
         detail.append(f"unexpected={','.join(unexpected)}")
     if incomplete:
         detail.append(f"incomplete={','.join(incomplete)}")
-    return _fail_gate(
+    return _run_local_fail_gate(
         "JWM-L1-HG5",
         "exactly four admission arms are present with score, CI, and n",
         "$.arms",
@@ -214,7 +227,7 @@ def _arms_gate(observation: Mapping[str, Any]) -> Gate:
     )
 
 
-def _calibration(observation: Mapping[str, Any], *, margin: float) -> dict[str, Any]:
+def _run_local_calibration(observation: Mapping[str, Any], *, margin: float) -> dict[str, Any]:
     chance = _mapping(observation.get("chance"))
     arms = _mapping(observation.get("arms"))
     base = _mapping(arms.get("base"))
@@ -231,15 +244,15 @@ def _calibration(observation: Mapping[str, Any], *, margin: float) -> dict[str, 
     }
 
 
-def _margin_gate(calibration: Mapping[str, Any]) -> Gate:
+def _margin_gate(calibration: Mapping[str, Any]) -> RunLocalGate:
     if calibration.get("strict_margin_pass") is True:
-        return _pass_gate(
+        return _run_local_pass_gate(
             "JWM-L1-HG6",
             "strict base_CI_low > chance_CI_high + margin",
             "$.calibration",
             "base lower CI clears chance upper CI plus margin",
         )
-    return _fail_gate(
+    return _run_local_fail_gate(
         "JWM-L1-HG6",
         "strict base_CI_low > chance_CI_high + margin",
         "$.calibration",
@@ -247,7 +260,7 @@ def _margin_gate(calibration: Mapping[str, Any]) -> Gate:
     )
 
 
-def _controls_gate(observation: Mapping[str, Any], chance_high: float | None) -> Gate:
+def _controls_gate(observation: Mapping[str, Any], chance_high: float | None) -> RunLocalGate:
     controls = _mapping(observation.get("controls"))
     bad: list[str] = []
     for control_id in REQUIRED_CONTROLS:
@@ -262,13 +275,13 @@ def _controls_gate(observation: Mapping[str, Any], chance_high: float | None) ->
         ):
             bad.append(control_id)
     if not bad:
-        return _pass_gate(
+        return _run_local_pass_gate(
             "JWM-L1-HG7",
             "metadata_only and no_context controls are clean and within the chance band",
             "$.controls",
             ",".join(REQUIRED_CONTROLS),
         )
-    return _fail_gate(
+    return _run_local_fail_gate(
         "JWM-L1-HG7",
         "metadata_only and no_context controls are clean and within the chance band",
         "$.controls",
@@ -276,7 +289,7 @@ def _controls_gate(observation: Mapping[str, Any], chance_high: float | None) ->
     )
 
 
-def _decision_status(failed: Sequence[str]) -> str:
+def _run_local_decision_status(failed: Sequence[str]) -> str:
     if not failed:
         return "PASS"
     if any(gate_id in failed for gate_id in ("JWM-L1-HG1", "JWM-L1-HG2")):
@@ -284,7 +297,7 @@ def _decision_status(failed: Sequence[str]) -> str:
     return "bounded_negative"
 
 
-def build_payload(
+def _build_run_local_payload(
     observation: Mapping[str, Any],
     *,
     generated_at: str = GENERATED_AT,
@@ -292,7 +305,7 @@ def build_payload(
 ) -> dict[str, Any]:
     if margin < 0:
         raise ValueError("margin must be nonnegative")
-    calibration = _calibration(observation, margin=margin)
+    calibration = _run_local_calibration(observation, margin=margin)
     gates = [
         _checkpoint_gate(observation),
         _clips_gate(observation),
@@ -304,15 +317,15 @@ def build_payload(
     ]
     hardgates = {gate.gate_id: gate.as_dict() for gate in gates}
     failed = [gate.gate_id for gate in gates if gate.status != "pass"]
-    status = _decision_status(failed)
+    status = _run_local_decision_status(failed)
     run_id = _slug(observation.get("run_id"))
     run_artifact = RUNS_DIR / run_id / "admission.json"
     payload: dict[str, Any] = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
-        "producer": PRODUCER,
-        "owner_module": OWNER_MODULE,
+        "producer": "scripts/run_jepa_wm_l1.py",
+        "owner_module": "bedc_quality_lab.tasks.jepa_wm_l1",
         "run_id": run_id,
         "artifact_role": "run-local-admission",
         "admission_contract": {
@@ -335,7 +348,7 @@ def build_payload(
         "calibration": calibration,
         "hardgates": hardgates,
         "decision": {
-            "status_domain": list(STATUS_DOMAIN),
+            "status_domain": list(RUN_LOCAL_STATUS_DOMAIN),
             "status": status,
             "failed_gates": failed,
             "admission_artifact": str(run_artifact),
@@ -343,10 +356,10 @@ def build_payload(
         "claim_capsule": {
             "status": "pointer-only",
             "admission_pointer": f"{run_artifact}:$.decision.status",
-            "hardgate_pointers": [f"{run_artifact}:$.hardgates.{gate_id}.status" for gate_id in HARDGATE_IDS],
+            "hardgate_pointers": [f"{run_artifact}:$.hardgates.{gate_id}.status" for gate_id in RUN_LOCAL_HARDGATE_IDS],
             "not_claimed_pointer": f"{run_artifact}:$.not_claimed",
         },
-        "not_claimed": list(NOT_CLAIMED),
+        "not_claimed": list(RUN_LOCAL_NOT_CLAIMED),
     }
     validate_payload(payload)
     return payload
@@ -355,10 +368,10 @@ def build_payload(
 def validate_payload(payload: Mapping[str, Any]) -> None:
     decision = _mapping(payload.get("decision"))
     status = decision.get("status")
-    if status not in STATUS_DOMAIN:
+    if status not in RUN_LOCAL_STATUS_DOMAIN:
         raise ValueError("status domain violation")
     hardgates = _mapping(payload.get("hardgates"))
-    if tuple(hardgates.keys()) != HARDGATE_IDS:
+    if tuple(hardgates.keys()) != RUN_LOCAL_HARDGATE_IDS:
         raise ValueError("hardgate order violation")
     failed = [gate_id for gate_id, row in hardgates.items() if _mapping(row).get("status") != "pass"]
     if list(decision.get("failed_gates", [])) != failed:
@@ -400,7 +413,7 @@ def _capsule_payload(payload: Mapping[str, Any], admission_artifact: str) -> dic
     }
 
 
-def _report_text(payload: Mapping[str, Any], admission_artifact: str) -> str:
+def _run_local_report_text(payload: Mapping[str, Any], admission_artifact: str) -> str:
     decision = _mapping(payload.get("decision"))
     lines = [
         "# JEPA-WM-L1 Run Admission",
@@ -416,22 +429,22 @@ def _report_text(payload: Mapping[str, Any], admission_artifact: str) -> str:
     return "\n".join(lines)
 
 
-def write_artifacts(payload: Mapping[str, Any], *, root: Path | None = None) -> dict[str, Path]:
+def _write_run_local_artifacts(payload: Mapping[str, Any], *, root: Path | None = None) -> dict[str, Path]:
     validate_payload(payload)
-    root = root or LAB_ROOT
+    root_path = Path(root) if root is not None else Path(__file__).resolve().parents[2]
     run_id = _slug(payload.get("run_id"))
     relative_dir = RUNS_DIR / run_id
-    run_dir = root / relative_dir
+    run_dir = root_path / relative_dir
     admission_path = run_dir / "admission.json"
     summary_path = run_dir / "summary.json"
     capsule_path = run_dir / "claim_capsule.json"
     report_path = run_dir / "report.md"
     admission_artifact = str(relative_dir / "admission.json")
 
-    _write_json(admission_path, payload)
-    _write_json(summary_path, _summary_payload(payload, admission_artifact))
-    _write_json(capsule_path, _capsule_payload(payload, admission_artifact))
-    _write_text(report_path, _report_text(payload, admission_artifact))
+    _write_json_file(admission_path, payload)
+    _write_json_file(summary_path, _summary_payload(payload, admission_artifact))
+    _write_json_file(capsule_path, _capsule_payload(payload, admission_artifact))
+    _write_text_file(report_path, _run_local_report_text(payload, admission_artifact))
 
     fingerprint = {
         "schema_id": f"{SCHEMA_ID}:fingerprint",
@@ -445,7 +458,7 @@ def write_artifacts(payload: Mapping[str, Any], *, root: Path | None = None) -> 
         },
     }
     fingerprint_path = run_dir / "fingerprint.json"
-    _write_json(fingerprint_path, fingerprint)
+    _write_json_file(fingerprint_path, fingerprint)
     return {
         "admission": admission_path,
         "summary": summary_path,
@@ -459,38 +472,7 @@ def load_observation(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
         raise ValueError("observation input must be a JSON object")
-=======
-from datetime import datetime, timezone
-import hashlib
-import importlib.util
-import json
-from pathlib import Path
-import platform
-import traceback
-from typing import Any, Callable, Mapping, Sequence
-
-import numpy as np
-
-
-SCHEMA_ID = "bedc-quality-lab:jepa-wm-l1-admission"
-ARTIFACT_ID = "bedc-quality-lab:jepa-wm-l1-admission"
-FINGERPRINT_SCHEMA_ID = "bedc-quality-lab:canonical-report-fingerprint"
-JSON_ARTIFACT = "reports/canonical/jepa-wm-l1-admission.json"
-MARKDOWN_ARTIFACT = "reports/canonical/jepa-wm-l1-admission.md"
-FINGERPRINT_ARTIFACT = "reports/canonical/jepa-wm-l1-admission.fingerprint.json"
-DEFAULT_GENERATED_AT = "2026-06-17T00:00:00+00:00"
-DEFAULT_SEED = 20260617
-DEFAULT_CASE_COUNT = 128
-DEFAULT_BOOTSTRAP_RESAMPLES = 512
-NEGATIVE_COUNT = 7
-CHOICE_COUNT = 1 + NEGATIVE_COUNT
-BASE_CHANCE_MARGIN = 0.03
-PUBLIC_CHECKPOINTS = (
-    "facebook/vjepa2-vitl-fpc64-256",
-    "facebook/vjepa2-vitg-fpc64-256",
-    "facebook/vjepa2-vitg-fpc64-384",
-)
-HARDGATE_ORDER = ("WEIGHT", "DATA", "BASE-CHANCE", "CONTROL", "CALIBRATION", "REPRO")
+    return payload
 
 
 @dataclass(**{"froz" + "en": True})
@@ -1209,7 +1191,7 @@ def _blocked_payload(
     return payload
 
 
-def build_payload(
+def _build_canonical_payload(
     *,
     generated_at: str | None = None,
     case_count: int = DEFAULT_CASE_COUNT,
@@ -1427,7 +1409,7 @@ def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dic
     }
 
 
-def write_artifacts(
+def _write_canonical_artifacts(
     *,
     root: str | Path = ".",
     json_path: str | Path | None = None,
@@ -1440,7 +1422,7 @@ def write_artifacts(
     device: str = "cpu",
 ) -> dict[str, Any]:
     root_path = Path(root)
-    payload = build_payload(
+    payload = _build_canonical_payload(
         generated_at=generated_at,
         case_count=case_count,
         seed=seed,
@@ -1460,5 +1442,57 @@ def write_artifacts(
         generated_at=generated_at or datetime.now(timezone.utc).isoformat(),
     )
     target_fingerprint.write_text(json.dumps(fingerprint, indent=2, sort_keys=True, default=_json_default) + "\n", encoding="utf-8")
->>>>>>> origin/paper-bedc-quality-lab
     return payload
+
+def build_payload(
+    observation: Mapping[str, Any] | None = None,
+    *,
+    generated_at: str | None = None,
+    margin: float = 0.0,
+    case_count: int = DEFAULT_CASE_COUNT,
+    seed: int = DEFAULT_SEED,
+    bootstrap_resamples: int = DEFAULT_BOOTSTRAP_RESAMPLES,
+    device: str = "cpu",
+) -> dict[str, Any]:
+    if observation is not None:
+        return _build_run_local_payload(
+            observation,
+            generated_at=generated_at or GENERATED_AT,
+            margin=margin,
+        )
+    return _build_canonical_payload(
+        generated_at=generated_at,
+        case_count=case_count,
+        seed=seed,
+        bootstrap_resamples=bootstrap_resamples,
+        device=device,
+    )
+
+
+def write_artifacts(
+    payload: Mapping[str, Any] | None = None,
+    *,
+    root: str | Path = ".",
+    json_path: str | Path | None = None,
+    markdown_path: str | Path | None = None,
+    fingerprint_path: str | Path | None = None,
+    generated_at: str | None = None,
+    case_count: int = DEFAULT_CASE_COUNT,
+    seed: int = DEFAULT_SEED,
+    bootstrap_resamples: int = DEFAULT_BOOTSTRAP_RESAMPLES,
+    device: str = "cpu",
+) -> dict[str, Any] | dict[str, Path]:
+    if payload is not None:
+        return _write_run_local_artifacts(payload, root=Path(root))
+    return _write_canonical_artifacts(
+        root=root,
+        json_path=json_path,
+        markdown_path=markdown_path,
+        fingerprint_path=fingerprint_path,
+        generated_at=generated_at,
+        case_count=case_count,
+        seed=seed,
+        bootstrap_resamples=bootstrap_resamples,
+        device=device,
+    )
+

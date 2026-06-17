@@ -1,10 +1,10 @@
-<<<<<<< HEAD
 from __future__ import annotations
 
 import copy
 import hashlib
 import json
 
+import numpy as np
 import pytest
 
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
@@ -290,12 +290,7 @@ def test_jepa_wm_l1_load_observation_rejects_json_scalar_input(tmp_path):
 
     with pytest.raises(ValueError, match="observation input must be a JSON object"):
         task.load_observation(input_path)
-=======
-import json
 
-import numpy as np
-
-from bedc_quality_lab.tasks import jepa_wm_l1 as task
 
 
 def _loaded_rank_batch(case_count=128):
@@ -652,4 +647,3 @@ def test_payload_writes_json_markdown_and_fingerprint(tmp_path):
     assert fingerprint["schema_id"] == task.FINGERPRINT_SCHEMA_ID
     assert fingerprint["json_artifact"] == task.JSON_ARTIFACT
     assert fingerprint["payload_sha256"] == task.canonical_digest(payload)
->>>>>>> origin/paper-bedc-quality-lab
