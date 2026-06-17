@@ -53577,9 +53577,11 @@
     },
     "framework_provenance": {
       "dependency_abi": {
-        "torch": "torch"
+        "cuda_available": true,
+        "mps_available": false,
+        "torch": "2.6.0+cu124"
       },
-      "python": "owner-runtime"
+      "python": "3.12.13"
     },
     "metric_bands": [
       {
@@ -53962,6 +53964,56 @@
     ]
   },
   "source_artifacts": {
+    "canonical_input_record": {
+      "cell_input_digest": "95926dcfd1cff1d59c8a04045d5212e4a22bdf7ad8107470124d13997662fbbd",
+      "config_digest": "203ddcd248c8a7b3fa9e8e4cbaf6d0f79f98622555e19d518c50d401380f429c",
+      "key_algorithm_id": "sha256:canonical-json:v1",
+      "producer_command": [
+        "python3",
+        "scripts/run_dgt_neural_ablation.py"
+      ],
+      "producer_id": "dgt-neural-ablation",
+      "producer_source_closure": [
+        {
+          "path": "bedc_quality_lab/dgt_neural_ablation.py",
+          "sha256": "28093a19a3cc1237ec536ab9c0057a2fc9d81cda04a68cb8668369b1a7902feb"
+        },
+        {
+          "path": "scripts/run_dgt_neural_ablation.py",
+          "sha256": "469cdeab4fbaa4b9df42ceb23a6bfb536efb2a028c9c0aee34d5238d0040e7ac"
+        },
+        {
+          "path": "bedc_quality_lab/model.py",
+          "sha256": "9520bc52ca49fae843e12da0c850abd0f1ff7465714d49bc7bfd8bb6b80128ba"
+        },
+        {
+          "path": "bedc_quality_lab/reproducibility.py",
+          "sha256": "b3a88717202d5c8c8f6a3ca9fb0c3fd27a33a97a723878905e76db880683a266"
+        },
+        {
+          "path": "bedc_quality_lab/discovery_gated_transformer.py",
+          "sha256": "bfe866922eca571b7187bf0405ba639f72083b254e66c6c0729cc6989cf3b6a4"
+        },
+        {
+          "path": "bedc_quality_lab/canonical_cell_cache.py",
+          "sha256": "7c6f1db39e5279faa891d8429d268a34fdf213e22e172e34a72000273224a292"
+        }
+      ],
+      "report_artifacts": {
+        "canonical_fingerprint": "reports/canonical/dgt-neural-ablation.fingerprint.json",
+        "canonical_json": "reports/canonical/dgt-neural-ablation.json",
+        "canonical_markdown": "reports/canonical/dgt-neural-ablation.md",
+        "claim_capsule": "reports/runs/dgt-neural-ablation/claim_capsule.json",
+        "raw_metrics": "reports/runs/dgt-neural-ablation/raw_metrics.jsonl",
+        "report": "reports/runs/dgt-neural-ablation/report.md",
+        "summary": "reports/runs/dgt-neural-ablation/summary.json"
+      },
+      "requested_device": "auto",
+      "resolved_device": "cuda",
+      "runtime_abi_digest": "369db89f3a0416a57cb0ca696d88f164211b262959ba58b742b68f45b79854a9",
+      "schema_id": "bedc-quality-lab:canonical-cell-cache-input",
+      "seed_protocol_digest": "db0e60e03465519da33621c0a1edbcee37c39a44bda43f22692f166959e91a07"
+    },
     "owner_module": "bedc_quality_lab/dgt_neural_ablation.py",
     "runner": "scripts/run_dgt_neural_ablation.py"
   },
