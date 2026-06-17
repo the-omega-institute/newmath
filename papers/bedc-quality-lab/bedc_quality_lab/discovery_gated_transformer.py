@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import json
 from pathlib import Path
+import re
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
@@ -115,6 +116,34 @@ FAMILY_DEFINITION_FORBIDDEN_TERMS = (
     "universal training recipe",
     "terminal verdict",
 )
+FAMILY_ROADMAP_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.family-roadmap"
+FAMILY_ROADMAP_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.family-roadmap"
+FAMILY_ROADMAP_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$"
+FAMILY_ROADMAP_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.family_roadmap"
+FAMILY_ROADMAP_REQUIRED_KEYS = (
+    "schema_id",
+    "artifact_id",
+    "owner_ref",
+    "roadmap_scope",
+    "scaling_ladder",
+    "family_invariants",
+    "training_objective_variants",
+    "backend_surfaces",
+    "cross_level_evidence",
+    "hardgate",
+    "family_level_discovery_status",
+    "not_claimed",
+    "forbidden_claim_term_audit",
+)
+FAMILY_ROADMAP_GATE_NAMES = tuple(f"DGT-FAMILY-ROADMAP-HG{index}" for index in range(1, 9))
+FAMILY_ROADMAP_FORBIDDEN_TERMS = (
+    "global superiority",
+    "architecture superiority",
+    "production authority",
+    "universal training recipe",
+    "terminal verdict",
+    "unbounded scaling law",
+)
 CLAIMED_POSITIVE_ROUTE_CLASSES = frozenset({"valid_positive_discovery"})
 BLOCKED_ROUTE_CLASSES = frozenset({"invalid_route", "unsafe_route"})
 TOOL_ROUTE_RECURSIVE_FORBIDDEN_TOKENS = (
@@ -190,15 +219,29 @@ D5O_REQUIRED_KEYS = (
 )
 D5O_REVIEW_PHRASE = "High-impact review accepted for bounded D5-O projection."
 HIGH_IMPACT_REVIEW_JSON_ARTIFACT = "reports/canonical/high-impact-review.json"
+MODEL_COMPARISON_CANONICAL_ARTIFACT = "reports/canonical/model-comparison.json"
 D5M_NOT_CLAIMED = (
     "Bounded D5-M mechanism claim over deterministic model-prototype evidence only.",
     "No production authority claim.",
     "No global superiority claim.",
     "No LLM replacement claim.",
     "No unbounded mechanism closure claim.",
+    "No trained-model evidence claim from projection artifacts.",
 )
 D5M_PROJECTION_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection"
+D5M_SCOPE_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_scope"
+MODEL_COMPARISON_SEMANTIC_POINTER = f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$.comparisons[0].semantic"
 D5M_DEFAULT_EVIDENCE_SCOPE = ("bounded-design", "toy-model", "theorem-backed", "production-forbidden")
+D5M_SCOPE_BASIS_VALUES = frozenset(
+    {
+        "protocol_projection",
+        "bounded_synthetic",
+        "training_evidence_clean",
+        "training_evidence_tainted",
+        "boundary",
+    }
+)
+D5M_SCOPE_GATE_NAMES = tuple(f"D5M-SCOPE-HG{index}" for index in range(1, 5))
 EVIDENCE_SCOPE_VALUES = frozenset(
     {
         "bounded-design",
@@ -234,6 +277,19 @@ D5M_REQUIRED_KEYS = (
     "anti_triviality_recommended_level",
     "anti_triviality_failed_gate",
     "anti_triviality_gate_evidence",
+)
+D5M_SCOPE_REQUIRED_KEYS = (
+    "status",
+    "basis",
+    "synthetic_bounded",
+    "aliases",
+    "scope_pointer",
+    "d5_m_projection_pointer",
+    "model_comparison_pointer",
+    "model_comparison_semantic_pointer",
+    "allowed_claim_kinds",
+    "not_claimed",
+    "hardgates",
 )
 SCALING_LADDER_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder"
 SCALING_LADDER_LEVEL_IDS = (
@@ -429,8 +485,6 @@ ROBUSTNESS_FORBIDDEN_TERM_LABELS = (
     "host-private env path",
 )
 LAT_CANONICAL_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
-MODEL_COMPARISON_CANONICAL_ARTIFACT = "reports/canonical/model-comparison.json"
-
 
 @dataclass(frozen=True)
 class EvidenceCell:
@@ -1070,6 +1124,289 @@ def validate_dgt_family_definition(payload: Mapping[str, Any]) -> None:
     found = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict"))
     if found is not None:
         raise ValueError(f"DGT family definition contains forbidden value: {found}")
+
+
+def _roadmap_pointer_group(pointer: str, *, required: bool = True) -> dict[str, Any]:
+    return {"pointer": pointer, "required": required}
+
+
+def _roadmap_pointer_list(pointers: Sequence[str], *, required: bool = True) -> dict[str, Any]:
+    return {"pointers": list(pointers), "required": required}
+
+
+def _roadmap_distinct_scaling_level_count(evidence_pointers: Sequence[str]) -> int:
+    level_indexes: set[int] = set()
+    pattern = re.compile(rf"^{re.escape(CANONICAL_JSON_ARTIFACT)}:\$\.scaling_ladder\.levels\[(\d+)\]\.claim_capsule(?:\.|$)")
+    for pointer in evidence_pointers:
+        if not isinstance(pointer, str):
+            continue
+        match = pattern.match(pointer)
+        if match is not None:
+            level_indexes.add(int(match.group(1)))
+    return len(level_indexes)
+
+
+def _roadmap_cross_level_comparison(
+    owner_payload: Mapping[str, Any],
+    evidence_pointers: Sequence[str],
+    *,
+    independent: bool,
+) -> dict[str, Any]:
+    scaling = owner_payload.get("scaling_ladder")
+    levels = scaling.get("levels") if isinstance(scaling, Mapping) else None
+    level_count = len(levels) if isinstance(levels, list) else 0
+    passed = (
+        independent
+        and len(evidence_pointers) >= 2
+        and _roadmap_distinct_scaling_level_count(evidence_pointers) >= 2
+        and level_count >= 2
+        and isinstance(scaling, Mapping)
+        and isinstance(scaling.get("hardgate"), Mapping)
+        and scaling["hardgate"].get("status") == "pass"
+    )
+    return {
+        "status": "pass" if passed else "blocked",
+        "level_count": level_count,
+        "comparison_pointer": f"{FAMILY_ROADMAP_POINTER}.cross_level_evidence.evidence_pointers",
+    }
+
+
+def _forbidden_family_roadmap_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
+    serialized = json.dumps(
+        {
+            "roadmap_scope": payload.get("roadmap_scope"),
+            "family_level_discovery_status": payload.get("family_level_discovery_status"),
+            "not_claimed": payload.get("not_claimed"),
+        },
+        sort_keys=True,
+    ).lower()
+    hits = [term for term in FAMILY_ROADMAP_FORBIDDEN_TERMS if term in serialized]
+    return {
+        "status": "pass" if not hits else "fail",
+        "hits": hits,
+        "forbidden_terms": list(FAMILY_ROADMAP_FORBIDDEN_TERMS),
+    }
+
+
+def _roadmap_pointer_passes(owner_payload: Mapping[str, Any], pointer: Any, *, canonical_only: bool = True) -> bool:
+    if not isinstance(pointer, str):
+        return False
+    if canonical_only and not pointer.startswith(f"{CANONICAL_JSON_ARTIFACT}:$"):
+        return False
+    if ":" in pointer:
+        artifact, local_pointer = pointer.split(":", 1)
+        if artifact != CANONICAL_JSON_ARTIFACT:
+            return bool(artifact and local_pointer.startswith("$"))
+        if local_pointer == "$":
+            return True
+        return pointer_value(owner_payload, local_pointer) is not None
+    return pointer_value(owner_payload, pointer) is not None
+
+
+def _roadmap_pointer_list_passes(owner_payload: Mapping[str, Any], value: Any) -> bool:
+    if not isinstance(value, Mapping) or value.get("required") is not True:
+        return False
+    pointers = value.get("pointers")
+    return (
+        isinstance(pointers, list)
+        and bool(pointers)
+        and all(_roadmap_pointer_passes(owner_payload, pointer) for pointer in pointers)
+    )
+
+
+def _roadmap_pointer_group_passes(owner_payload: Mapping[str, Any], value: Any, expected_pointer: str) -> bool:
+    return (
+        isinstance(value, Mapping)
+        and value.get("required") is True
+        and value.get("pointer") == expected_pointer
+        and _roadmap_pointer_passes(owner_payload, value.get("pointer"))
+    )
+
+
+def _family_roadmap_gate_rows(failed: Sequence[str]) -> dict[str, dict[str, Any]]:
+    failed_set = set(failed)
+    evidence_pointers = {
+        "DGT-FAMILY-ROADMAP-HG1": "$.family_roadmap.owner_ref",
+        "DGT-FAMILY-ROADMAP-HG2": "$.family_roadmap.scaling_ladder",
+        "DGT-FAMILY-ROADMAP-HG3": "$.family_roadmap.family_invariants",
+        "DGT-FAMILY-ROADMAP-HG4": "$.family_roadmap.training_objective_variants",
+        "DGT-FAMILY-ROADMAP-HG5": "$.family_roadmap.backend_surfaces",
+        "DGT-FAMILY-ROADMAP-HG6": "$.family_roadmap.cross_level_evidence.evidence_pointers",
+        "DGT-FAMILY-ROADMAP-HG7": "$.family_roadmap.cross_level_evidence.cross_level_comparison",
+        "DGT-FAMILY-ROADMAP-HG8": "$.family_roadmap.forbidden_claim_term_audit",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if gate_name in failed_set else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence_pointers[gate_name]),
+        }
+        for gate_name in FAMILY_ROADMAP_GATE_NAMES
+    }
+
+
+def evaluate_dgt_family_roadmap_hardgate(
+    payload: Mapping[str, Any],
+    owner_payload: Mapping[str, Any],
+) -> dict[str, Any]:
+    failed: list[str] = []
+    if (
+        payload.get("schema_id") != FAMILY_ROADMAP_SCHEMA_ID
+        or payload.get("artifact_id") != FAMILY_ROADMAP_ARTIFACT_ID
+        or payload.get("owner_ref") != FAMILY_ROADMAP_OWNER_REF
+        or not _roadmap_pointer_passes(owner_payload, payload.get("owner_ref"), canonical_only=False)
+    ):
+        failed.append("DGT-FAMILY-ROADMAP-HG1")
+    if not _roadmap_pointer_group_passes(owner_payload, payload.get("scaling_ladder"), f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder"):
+        failed.append("DGT-FAMILY-ROADMAP-HG2")
+    if not _roadmap_pointer_group_passes(
+        owner_payload,
+        payload.get("family_invariants"),
+        f"{CANONICAL_JSON_ARTIFACT}:$.family_definition.invariant_groups",
+    ):
+        failed.append("DGT-FAMILY-ROADMAP-HG3")
+    if not _roadmap_pointer_list_passes(owner_payload, payload.get("training_objective_variants")):
+        failed.append("DGT-FAMILY-ROADMAP-HG4")
+    if not _roadmap_pointer_list_passes(owner_payload, payload.get("backend_surfaces")):
+        failed.append("DGT-FAMILY-ROADMAP-HG5")
+    cross = payload.get("cross_level_evidence")
+    evidence_pointers = cross.get("evidence_pointers") if isinstance(cross, Mapping) else None
+    independent = isinstance(cross, Mapping) and cross.get("independent") is True
+    if (
+        not independent
+        or not isinstance(evidence_pointers, list)
+        or len(evidence_pointers) < 2
+        or len(set(evidence_pointers)) != len(evidence_pointers)
+        or _roadmap_distinct_scaling_level_count(evidence_pointers) < 2
+        or not all(_roadmap_pointer_passes(owner_payload, pointer) for pointer in evidence_pointers)
+    ):
+        failed.append("DGT-FAMILY-ROADMAP-HG6")
+    comparison = cross.get("cross_level_comparison") if isinstance(cross, Mapping) else None
+    expected_comparison = _roadmap_cross_level_comparison(
+        owner_payload,
+        evidence_pointers if isinstance(evidence_pointers, list) else [],
+        independent=independent,
+    )
+    if (
+        not isinstance(comparison, Mapping)
+        or dict(comparison) != expected_comparison
+        or expected_comparison.get("status") != "pass"
+    ):
+        failed.append("DGT-FAMILY-ROADMAP-HG7")
+    audit = payload.get("forbidden_claim_term_audit")
+    expected_audit = _forbidden_family_roadmap_claim_term_audit(payload)
+    if not isinstance(audit, Mapping) or dict(audit) != expected_audit or expected_audit["status"] != "pass":
+        failed.append("DGT-FAMILY-ROADMAP-HG8")
+    failed_gate = sorted(set(failed), key=FAMILY_ROADMAP_GATE_NAMES.index)
+    first_failed = failed_gate[0] if failed_gate else None
+    gates = _family_roadmap_gate_rows(failed_gate)
+    return {
+        "status": "pass" if first_failed is None else "fail",
+        "gate_names": list(FAMILY_ROADMAP_GATE_NAMES),
+        "gates": gates,
+        "failed_gate": first_failed,
+        "failed_gate_pointer": None if first_failed is None else artifact_pointer(gates[first_failed]["evidence"]),
+    }
+
+
+def _family_roadmap_status_from_hardgate(hardgate: Mapping[str, Any]) -> dict[str, Any]:
+    status = {
+        "status": "allowed" if hardgate.get("status") == "pass" else "blocked",
+        "allowed": hardgate.get("status") == "pass",
+        "claim_scope": "bounded DGT family-level roadmap claim",
+        "basis": f"{FAMILY_ROADMAP_POINTER}.hardgate",
+    }
+    if hardgate.get("status") != "pass":
+        status["blocked_by"] = [hardgate.get("failed_gate")] if hardgate.get("failed_gate") else []
+    return status
+
+
+def build_dgt_family_roadmap(
+    owner_payload: Mapping[str, Any],
+    *,
+    independent_cross_level_evidence: bool = False,
+) -> dict[str, Any]:
+    evidence_pointers = [
+        f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[0].claim_capsule",
+        f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder.levels[1].claim_capsule",
+    ]
+    payload: dict[str, Any] = {
+        "schema_id": FAMILY_ROADMAP_SCHEMA_ID,
+        "artifact_id": FAMILY_ROADMAP_ARTIFACT_ID,
+        "owner_ref": FAMILY_ROADMAP_OWNER_REF,
+        "roadmap_scope": {
+            "scope": "bounded DGT family-level roadmap claim gate",
+            "scope_ref": FAMILY_ROADMAP_POINTER,
+        },
+        "scaling_ladder": _roadmap_pointer_group(f"{CANONICAL_JSON_ARTIFACT}:$.scaling_ladder"),
+        "family_invariants": _roadmap_pointer_group(f"{CANONICAL_JSON_ARTIFACT}:$.family_definition.invariant_groups"),
+        "training_objective_variants": _roadmap_pointer_list(
+            [
+                f"{CANONICAL_JSON_ARTIFACT}:$.hardgate",
+                f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence",
+                f"{CANONICAL_JSON_ARTIFACT}:$.discovery_map_signal",
+            ]
+        ),
+        "backend_surfaces": _roadmap_pointer_list(
+            [
+                f"{CANONICAL_JSON_ARTIFACT}:$.component_refs",
+                f"{CANONICAL_JSON_ARTIFACT}:$.component_ablation",
+                f"{CANONICAL_JSON_ARTIFACT}:$.operational_robustness",
+                f"{CANONICAL_JSON_ARTIFACT}:$.d5_m_projection",
+            ]
+        ),
+        "cross_level_evidence": {
+            "independent": independent_cross_level_evidence,
+            "evidence_pointers": evidence_pointers,
+            "cross_level_comparison": _roadmap_cross_level_comparison(
+                owner_payload,
+                evidence_pointers,
+                independent=independent_cross_level_evidence,
+            ),
+        },
+        "hardgate": {},
+        "family_level_discovery_status": {},
+        "not_claimed": [
+            "No deployment or operational authority is claimed.",
+            "No global-best model-family ranking is admitted.",
+            "No architecture-best ranking is admitted.",
+            "No universal recipe for training is claimed.",
+            "No unbounded scale law is claimed.",
+        ],
+        "forbidden_claim_term_audit": {},
+    }
+    payload["forbidden_claim_term_audit"] = _forbidden_family_roadmap_claim_term_audit(payload)
+    payload["hardgate"] = evaluate_dgt_family_roadmap_hardgate(payload, owner_payload)
+    payload["family_level_discovery_status"] = _family_roadmap_status_from_hardgate(payload["hardgate"])
+    payload["forbidden_claim_term_audit"] = _forbidden_family_roadmap_claim_term_audit(payload)
+    payload["hardgate"] = evaluate_dgt_family_roadmap_hardgate(payload, owner_payload)
+    payload["family_level_discovery_status"] = _family_roadmap_status_from_hardgate(payload["hardgate"])
+    validate_dgt_family_roadmap(payload, {**owner_payload, "family_roadmap": payload})
+    return payload
+
+
+def validate_dgt_family_roadmap(payload: Mapping[str, Any], owner_payload: Mapping[str, Any]) -> None:
+    if set(payload) != set(FAMILY_ROADMAP_REQUIRED_KEYS):
+        raise ValueError("DGT family roadmap fields mismatch")
+    if payload["schema_id"] != FAMILY_ROADMAP_SCHEMA_ID or payload["artifact_id"] != FAMILY_ROADMAP_ARTIFACT_ID:
+        raise ValueError("DGT family roadmap identity mismatch")
+    if payload["owner_ref"] != FAMILY_ROADMAP_OWNER_REF:
+        raise ValueError("DGT family roadmap owner pointer mismatch")
+    expected_hardgate = evaluate_dgt_family_roadmap_hardgate(payload, owner_payload)
+    if payload["hardgate"] != expected_hardgate:
+        raise ValueError("DGT family roadmap hardgate mismatch")
+    expected_status = _family_roadmap_status_from_hardgate(expected_hardgate)
+    if payload["family_level_discovery_status"] != expected_status:
+        raise ValueError("DGT family roadmap family-level status mismatch")
+    if payload["forbidden_claim_term_audit"] != _forbidden_family_roadmap_claim_term_audit(payload):
+        raise ValueError("DGT family roadmap forbidden claim audit mismatch")
+    if not isinstance(payload["not_claimed"], list) or not payload["not_claimed"]:
+        raise ValueError("DGT family roadmap not_claimed missing")
+    found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
+    if found is not None:
+        raise ValueError(f"DGT family roadmap contains inline source body key: {found}")
+    found_token = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict"))
+    if found_token is not None:
+        raise ValueError(f"DGT family roadmap contains forbidden value: {found_token}")
 
 
 def sidecar_refs() -> dict[str, dict[str, str]]:
@@ -2713,6 +3050,157 @@ def validate_d5_m_projection(owner_payload: Mapping[str, Any]) -> list[str]:
     return errors
 
 
+def _load_model_comparison_semantic(root: Path) -> Mapping[str, Any] | None:
+    target = resolve_artifact_pointer(root, MODEL_COMPARISON_SEMANTIC_POINTER)
+    return target if isinstance(target, Mapping) else None
+
+
+def _d5_m_scope_basis(semantic: Mapping[str, Any] | None) -> str:
+    if not isinstance(semantic, Mapping):
+        semantic = {}
+    comparison_type = semantic.get("comparison_type")
+    evidence_type = semantic.get("evidence_type")
+    if comparison_type == "trained_vs_trained" and evidence_type == "empirical_training_clean":
+        return "training_evidence_clean"
+    if comparison_type == "trained_vs_trained":
+        return "training_evidence_tainted"
+    if comparison_type == "spec":
+        return "protocol_projection"
+    return "bounded_synthetic"
+
+
+def d5_m_scope_hardgate_rows(owner_payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    scope = owner_payload.get("d5_m_scope")
+    scope = scope if isinstance(scope, Mapping) else {}
+    d5_m = owner_payload.get("d5_m_projection")
+    d5_m = d5_m if isinstance(d5_m, Mapping) else {}
+    basis = scope.get("basis")
+    not_claimed_text = " ".join(str(item).lower() for item in scope.get("not_claimed", []))
+    synthetic_closed = basis in {"bounded_synthetic", "protocol_projection", "boundary"}
+    semantic_pointer = scope.get("model_comparison_semantic_pointer")
+    failed_conditions = {
+        "D5M-SCOPE-HG1": scope.get("scope_pointer") != D5M_SCOPE_POINTER,
+        "D5M-SCOPE-HG2": (
+            basis not in D5M_SCOPE_BASIS_VALUES
+            or (synthetic_closed and scope.get("synthetic_bounded") is not True)
+            or (synthetic_closed and scope.get("allowed_claim_kinds") != ["synthetic_boundary", "protocol_projection"])
+            or (
+                basis == "training_evidence_clean"
+                and (
+                    scope.get("synthetic_bounded") is not False
+                    or scope.get("allowed_claim_kinds") != ["training_evidence"]
+                )
+            )
+        ),
+        "D5M-SCOPE-HG3": not (
+            "no trained-model evidence claim from projection artifacts" in not_claimed_text
+            and "no production" in not_claimed_text
+            and "global superiority" in not_claimed_text
+            and "ood" in not_claimed_text
+        ),
+        "D5M-SCOPE-HG4": not (
+            semantic_pointer == MODEL_COMPARISON_SEMANTIC_POINTER
+            and scope.get("model_comparison_pointer") == f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$"
+            and scope.get("d5_m_projection_pointer") == D5M_PROJECTION_POINTER
+            and d5_m.get("evidence_scope") == list(D5M_DEFAULT_EVIDENCE_SCOPE)
+        ),
+    }
+    evidence = {
+        "D5M-SCOPE-HG1": "$.d5_m_scope.scope_pointer",
+        "D5M-SCOPE-HG2": "$.d5_m_scope.basis",
+        "D5M-SCOPE-HG3": "$.d5_m_scope.not_claimed",
+        "D5M-SCOPE-HG4": "$.d5_m_scope.model_comparison_semantic_pointer",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence[gate_name]),
+        }
+        for gate_name in D5M_SCOPE_GATE_NAMES
+    }
+
+
+def build_d5_m_scope(owner_payload: Mapping[str, Any], *, root: Path | None = None) -> dict[str, Any]:
+    basis = _d5_m_scope_basis(_load_model_comparison_semantic(root or Path(".")))
+    synthetic_bounded = basis in {"bounded_synthetic", "protocol_projection", "boundary"}
+    draft: dict[str, Any] = {
+        "status": "ready",
+        "basis": basis,
+        "synthetic_bounded": synthetic_bounded,
+        "aliases": ["discovery-gated-transformer"],
+        "scope_pointer": D5M_SCOPE_POINTER,
+        "d5_m_projection_pointer": D5M_PROJECTION_POINTER,
+        "model_comparison_pointer": f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$",
+        "model_comparison_semantic_pointer": MODEL_COMPARISON_SEMANTIC_POINTER,
+        "allowed_claim_kinds": ["synthetic_boundary", "protocol_projection"] if synthetic_bounded else ["training_evidence"],
+        "not_claimed": [
+            "No trained-model evidence claim from projection artifacts.",
+            "No production or deployment authority claim.",
+            "No global superiority claim.",
+            "No OOD superiority claim without measured OOD evidence.",
+            "No LLM replacement claim.",
+        ],
+        "hardgates": {},
+    }
+    draft["hardgates"] = d5_m_scope_hardgate_rows({**owner_payload, "d5_m_scope": draft})
+    if any(row["status"] != "pass" for row in draft["hardgates"].values()):
+        draft["status"] = "blocked"
+    errors = validate_d5_m_scope({**owner_payload, "d5_m_scope": draft})
+    if errors:
+        raise ValueError("; ".join(errors))
+    return draft
+
+
+def validate_d5_m_scope(owner_payload: Mapping[str, Any]) -> list[str]:
+    errors: list[str] = []
+    payload = owner_payload.get("d5_m_scope")
+    if not isinstance(payload, Mapping):
+        return ["DGT D5-M scope missing"]
+    if set(payload) != set(D5M_SCOPE_REQUIRED_KEYS):
+        errors.append("DGT D5-M scope fields mismatch")
+    gates = payload.get("hardgates")
+    if not isinstance(gates, Mapping) or set(gates) != set(D5M_SCOPE_GATE_NAMES):
+        errors.append("DGT D5-M scope hardgate names mismatch")
+        return errors
+    expected_gates = d5_m_scope_hardgate_rows(owner_payload)
+    if gates != expected_gates:
+        errors.append("DGT D5-M scope hardgate evaluation mismatch")
+    if payload.get("basis") not in D5M_SCOPE_BASIS_VALUES:
+        errors.append("DGT D5-M scope basis mismatch")
+    if payload.get("aliases") != ["discovery-gated-transformer"]:
+        errors.append("DGT D5-M scope alias mismatch")
+    if payload.get("scope_pointer") != D5M_SCOPE_POINTER:
+        errors.append("DGT D5-M scope pointer mismatch")
+    if payload.get("d5_m_projection_pointer") != D5M_PROJECTION_POINTER:
+        errors.append("DGT D5-M scope projection pointer mismatch")
+    if payload.get("model_comparison_pointer") != f"{MODEL_COMPARISON_CANONICAL_ARTIFACT}:$":
+        errors.append("DGT D5-M scope model-comparison pointer mismatch")
+    if payload.get("model_comparison_semantic_pointer") != MODEL_COMPARISON_SEMANTIC_POINTER:
+        errors.append("DGT D5-M scope semantic pointer mismatch")
+    failed = [gate_name for gate_name in D5M_SCOPE_GATE_NAMES if gates[gate_name].get("status") != "pass"]
+    if payload.get("status") != ("ready" if not failed else "blocked"):
+        errors.append("DGT D5-M scope status mismatch")
+    not_claimed = payload.get("not_claimed")
+    text = " ".join(str(item).lower() for item in not_claimed) if isinstance(not_claimed, list) else ""
+    for phrase in (
+        "no trained-model evidence claim from projection artifacts",
+        "no production",
+        "global superiority",
+        "ood superiority",
+        "llm replacement",
+    ):
+        if phrase not in text:
+            errors.append(f"DGT D5-M scope not_claimed missing boundary: {phrase}")
+    if payload.get("basis") != "training_evidence_clean" and payload.get("allowed_claim_kinds") != [
+        "synthetic_boundary",
+        "protocol_projection",
+    ]:
+        errors.append("DGT D5-M scope allowed claim kinds mismatch")
+    if payload.get("basis") == "training_evidence_clean" and payload.get("allowed_claim_kinds") != ["training_evidence"]:
+        errors.append("DGT D5-M scope allowed claim kinds mismatch")
+    return errors
+
+
 def _scaling_level_input_by_id(owner_payload: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
     source = owner_payload.get("scaling_ladder")
     levels = source.get("levels") if isinstance(source, Mapping) else None
@@ -3687,6 +4175,7 @@ class DiscoveryGatedTransformerProjector:
             surface_summary=self.d5_o_surface_summary,
         )
         payload["d5_m_projection"] = build_d5_m_projection(payload)
+        payload["d5_m_scope"] = build_d5_m_scope(payload, root=self.root)
         payload["scaling_ladder"] = {
             "levels": [
                 {"level_id": "L0_toy", "claim_capsule": _l0_capsule_from_projection(l0_projection)},
@@ -3697,6 +4186,7 @@ class DiscoveryGatedTransformerProjector:
             ]
         }
         payload["scaling_ladder"] = build_scaling_ladder_projection(payload)
+        payload["family_roadmap"] = build_dgt_family_roadmap(payload)
         if not _owner_refs_resolve(self.root, payload):
             raise ValueError("DGT owner refs do not resolve")
         validate_projection(payload)
@@ -3718,6 +4208,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
+        "family_roadmap",
         "component_ablation",
         "neural_ablation_ref",
         "operational_robustness",
@@ -3727,6 +4218,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "d4_projection",
         "d5_o_projection",
         "d5_m_projection",
+        "d5_m_scope",
         "scaling_ladder",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -3762,6 +4254,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         raise ValueError("DGT ladder consumption pointer co-presence mismatch")
     validate_dgt_tool_route_evidence(payload["tool_route_evidence"])
     validate_dgt_family_definition(payload["family_definition"])
+    validate_dgt_family_roadmap(payload["family_roadmap"], payload)
     validate_component_ablation(payload["component_ablation"])
     validate_operational_robustness(payload["operational_robustness"], payload)
     found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
@@ -3812,6 +4305,9 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     d5_m_errors = validate_d5_m_projection(payload)
     if d5_m_errors:
         raise ValueError("; ".join(d5_m_errors))
+    d5_m_scope_errors = validate_d5_m_scope(payload)
+    if d5_m_scope_errors:
+        raise ValueError("; ".join(d5_m_scope_errors))
     scaling_errors = validate_scaling_ladder_projection(payload)
     if scaling_errors:
         raise ValueError("; ".join(scaling_errors))
@@ -3903,6 +4399,25 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     )
     for group_name, group in family_definition["invariant_groups"].items():
         lines.append(f"| `{group_name}` | `{len(group['evidence_pointers'])}` |")
+    family_roadmap = payload["family_roadmap"]
+    lines.extend(
+        [
+            "",
+            "## Family Roadmap",
+            "",
+            f"- Schema: `{family_roadmap['schema_id']}`",
+            f"- Owner: `{family_roadmap['owner_ref']}`",
+            f"- Hardgate: `{family_roadmap['hardgate']['status']}`",
+            f"- Family status: `{family_roadmap['family_level_discovery_status']['status']}`",
+            f"- Scaling ladder: `{family_roadmap['scaling_ladder']['pointer']}`",
+            f"- Family invariants: `{family_roadmap['family_invariants']['pointer']}`",
+            "",
+            "| gate | status | evidence |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for gate_name, row in family_roadmap["hardgate"]["gates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
     component_ablation = payload["component_ablation"]
     lines.extend(
         [
@@ -3974,6 +4489,23 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         ]
     )
     for gate_name, row in d5_m_projection["hardgates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
+    d5_m_scope = payload["d5_m_scope"]
+    lines.extend(
+        [
+            "",
+            "## D5-M Scope",
+            "",
+            f"- Status: `{d5_m_scope['status']}`",
+            f"- Basis: `{d5_m_scope['basis']}`",
+            f"- Synthetic bounded: `{d5_m_scope['synthetic_bounded']}`",
+            f"- Model comparison semantic: `{d5_m_scope['model_comparison_semantic_pointer']}`",
+            "",
+            "| gate | status | evidence |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for gate_name, row in d5_m_scope["hardgates"].items():
         lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
     scaling_ladder = payload["scaling_ladder"]
     lines.extend(

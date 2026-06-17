@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-12T22:50:28.746960+00:00`
-- Rows: `40`
+- Generated at: `2026-06-16T00:19:52.227430+00:00`
+- Rows: `43`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -16,12 +16,15 @@
 | `gap-head-threshold-frontier` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `gap-head-transfer-atlas` | `D5-O` | `` | `` | `projected` | `valid` | `$.config.control_arm` |
 | `gap-head-attribution-capsule` | `D0` | `` | `` | `two-axis-recorded` | `invalid` | `$.mechanism_evidence` |
+| `gap-head-pair-rule-bounded-capsule` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `minigrid-doorkey-task-probe` | `DN` | `` | `` | `base-gated-boundary` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[1]` |
 | `nongaussian-distribution-sweep` | `D1` | `` | `` | `projected` | `valid` | `$.negative_result_ledger` |
-| `certificate-guided-training` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[1]` |
-| `certificate-guided-discovery` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[2]` |
+| `certificate-guided-training` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[2]` |
+| `certificate-guided-discovery` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `sigreg-training-proxy` | `D1` | `` | `` | `projected` | `valid` | `$.d1_evidence.debt_delta` |
 | `sigreg-mini-grid` | `D2` | `` | `` | `projected` | `valid` | `$.trend_summary.expected_trend` |
-| `discovery-regularized-training` | `D5-M` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
+| `discovery-regularized-training` | `D0` | `` | `` | `projected` | `invalid` | `$.matched_random_control` |
+| `fair-alignment-control-ledger` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-dna` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dgt-l0-controls` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
@@ -38,13 +41,13 @@
 | `order-k-benchmark` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
-| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
+| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
 | `model-comparison` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `causal-patch-suite` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `experiment-stack-cards` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
-| `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
-| `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
-| `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
+| `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
+| `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
+| `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
 
 ## D5 readiness
 

@@ -1,4 +1,4 @@
-"""Finite experiment-stack card contract and claim-first gate."""
+"""Finite experiment-stack card contract over delegated owner pointers."""
 
 from __future__ import annotations
 
@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab import claim_acceptance as _claim_acceptance_owner
+from bedc_quality_lab import claim_artifact_consistency as _claim_artifact_consistency_owner
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer, split_artifact_pointer
 
 
@@ -15,37 +17,45 @@ ARTIFACT_ID = "bedc-quality-lab:experiment-stack-cards"
 JSON_ARTIFACT = "reports/canonical/experiment_stack_cards.json"
 MARKDOWN_ARTIFACT = "reports/canonical/experiment_stack_cards.md"
 PRODUCER = "scripts/run_experiment_stack_cards.py"
-LAB_ROOT = Path(__file__).resolve().parents[1]
 
 STACK_HARDGATE_IDS = ("STACK-HG1", "STACK-HG2")
-REQUIRED_PREFLIGHT_CARD_IDS = (
-    "claim-card",
-    "task-target-card",
-    "feature-access-card",
-    "baseline-validity-card",
-    "ood-solvability-card",
-    "metric-provenance-card",
-)
-OWNER_BACKED_CARD_IDS = (
-    "feature-access-card",
-    "ood-solvability-card",
-    "metric-provenance-card",
-    "artifact-reproducibility-card",
-    "model-card",
-)
+CONSISTENCY_GATE_IDS = ("STACK-HG1", "STACK-HG2", "CLAIM-FIRST-HG1")
+ADMISSION_OWNER = f"{_claim_acceptance_owner.__name__}.claim_first_pointer_checks"
+POSITIVE_EVIDENCE_OWNER = f"{_claim_acceptance_owner.__name__}.validate_positive_claim_evidence"
+CONSISTENCY_GATES_POINTER = f"{_claim_artifact_consistency_owner.JSON_ARTIFACT}:$.gates"
 NOT_CLAIMED = (
     "The card report is an auxiliary contract and does not promote model quality.",
     "Blocked card rows are owner gaps, not negative empirical evidence.",
-    "Claim-first gating only controls training-result promotion ordering.",
+    "Claim-first admission is delegated to the claim acceptance and consistency owners.",
     "External standard alignment is pointer-only and carries no independent certification.",
 )
 
-
+BLOCKING_STATUS_VALUES = frozenset(
+    {
+        "blocked",
+        "fail",
+        "failed",
+        "forbidden",
+        "missing",
+        "not-eligible",
+        "not-ready",
+        "not-winnable-from-recorded-features",
+        "pending",
+        "projection-only",
+        "projection_only",
+        "tainted",
+        "training_evidence_absent",
+        "empirical_training_tainted",
+        "empirical-claim-forbidden",
+        "empirical_claim_forbidden",
+        "null_result",
+    }
+)
 @dataclass(**{"froz" + "en": True})
 class ExperimentStackCardSpec:
     card_id: str
     canonical_owner_issue: str
-    owner_artifact: str
+    owner_pointer: str
     schema_id: str
     hardgate_prefixes: tuple[str, ...]
     demotion_rule_pointer: str
@@ -53,11 +63,21 @@ class ExperimentStackCardSpec:
     summary_pointer: str
     phase: str
     depends_on_cards: tuple[str, ...]
+    pointer_through: bool = False
+    source_owner_field: str | None = None
+    summary_owner_fields: tuple[str, ...] = ()
+    demotion_owner_field: str | None = None
+
+    @property
+    def owner_artifact(self) -> str:
+        split = split_artifact_pointer(self.owner_pointer)
+        return split[0] if split is not None else self.owner_pointer
 
     def to_json(self) -> dict[str, Any]:
         return {
             "card_id": self.card_id,
             "canonical_owner_issue": self.canonical_owner_issue,
+            "owner_pointer": self.owner_pointer,
             "owner_artifact": self.owner_artifact,
             "schema_id": self.schema_id,
             "hardgate_prefixes": list(self.hardgate_prefixes),
@@ -69,71 +89,47 @@ class ExperimentStackCardSpec:
         }
 
 
-@dataclass(**{"froz" + "en": True})
-class ClaimFirstGateDecision:
-    status: str
-    failed_card_ids: tuple[str, ...]
-    blocked_training_result_refs: tuple[str, ...]
-    pointer_reasons: Mapping[str, str]
-
-    def to_json(self) -> dict[str, Any]:
-        return {
-            "status": self.status,
-            "failed_card_ids": list(self.failed_card_ids),
-            "blocked_training_result_refs": list(self.blocked_training_result_refs),
-            "pointer_reasons": dict(self.pointer_reasons),
-        }
-
-
-def _planned_artifact(card_id: str) -> str:
-    return f"reports/canonical/experiment_stack_{card_id.replace('-', '_')}.json"
-
-
-def _planned_pointer(card_id: str, pointer: str) -> str:
-    return f"{_planned_artifact(card_id)}:{pointer}"
-
-
 EXPERIMENT_STACK_CARDS: tuple[ExperimentStackCardSpec, ...] = (
     ExperimentStackCardSpec(
         card_id="claim-card",
-        canonical_owner_issue="child-of-1219:claim-card",
-        owner_artifact=_planned_artifact("claim-card"),
-        schema_id="bedc-quality-lab:experiment-stack-claim-card",
+        canonical_owner_issue="1207",
+        owner_pointer="reports/runs/discovery-gated-transformer/claim_capsule.json:$",
+        schema_id="bedc-quality-lab:dgt-claim-capsule",
         hardgate_prefixes=("CLAIM-HG",),
-        demotion_rule_pointer=_planned_pointer("claim-card", "$.demotion_rule"),
-        source_pointer=_planned_pointer("claim-card", "$.claim_surface"),
-        summary_pointer=_planned_pointer("claim-card", "$.summary"),
+        demotion_rule_pointer="reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+        source_pointer="reports/runs/discovery-gated-transformer/claim_capsule.json:$.owner_ref",
+        summary_pointer="reports/runs/discovery-gated-transformer/claim_capsule.json:$.claim_scope",
         phase="preflight",
         depends_on_cards=(),
     ),
     ExperimentStackCardSpec(
         card_id="task-target-card",
-        canonical_owner_issue="child-of-1219:task-target-card",
-        owner_artifact=_planned_artifact("task-target-card"),
-        schema_id="bedc-quality-lab:experiment-stack-task-target-card",
+        canonical_owner_issue="1207",
+        owner_pointer="reports/canonical/discovery-gated-transformer.json:$",
+        schema_id="bedc-quality-lab:discovery-gated-transformer",
         hardgate_prefixes=("TARGET-HG",),
-        demotion_rule_pointer=_planned_pointer("task-target-card", "$.demotion_rule"),
-        source_pointer=_planned_pointer("task-target-card", "$.label_function"),
-        summary_pointer=_planned_pointer("task-target-card", "$.summary"),
+        demotion_rule_pointer="reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.boundary_ledger",
+        source_pointer="reports/canonical/discovery-gated-transformer.json:$.d4_projection.matched_control",
+        summary_pointer="reports/canonical/discovery-gated-transformer.json:$.scaling_ladder.source_projection",
         phase="preflight",
         depends_on_cards=("claim-card",),
     ),
     ExperimentStackCardSpec(
         card_id="data-card",
-        canonical_owner_issue="child-of-1219:data-card",
-        owner_artifact=_planned_artifact("data-card"),
-        schema_id="bedc-quality-lab:experiment-stack-data-card",
+        canonical_owner_issue="1201",
+        owner_pointer="reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.discovery-gated-transformer",
+        schema_id="bedc-quality-lab:evidence-provenance-discovery-row",
         hardgate_prefixes=("DATA-HG",),
-        demotion_rule_pointer=_planned_pointer("data-card", "$.demotion_rule"),
-        source_pointer=_planned_pointer("data-card", "$.data_boundary"),
-        summary_pointer=_planned_pointer("data-card", "$.summary"),
+        demotion_rule_pointer="reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.discovery-gated-transformer.not_claimed",
+        source_pointer="reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.discovery-gated-transformer",
+        summary_pointer="reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.discovery-gated-transformer.evidence_type",
         phase="preflight",
         depends_on_cards=("task-target-card",),
     ),
     ExperimentStackCardSpec(
         card_id="feature-access-card",
         canonical_owner_issue="1209",
-        owner_artifact="reports/canonical/dgt-l1-controls.json",
+        owner_pointer="reports/canonical/dgt-l1-controls.json:$",
         schema_id="bedc-quality-lab:dgt-l1-controls",
         hardgate_prefixes=("L1-REVIEW-HG",),
         demotion_rule_pointer="reports/canonical/dgt-l1-controls.json:$.l1_tiny_sequence_projection",
@@ -144,80 +140,92 @@ EXPERIMENT_STACK_CARDS: tuple[ExperimentStackCardSpec, ...] = (
     ),
     ExperimentStackCardSpec(
         card_id="baseline-validity-card",
-        canonical_owner_issue="child-of-1219:baseline-validity-card",
-        owner_artifact=_planned_artifact("baseline-validity-card"),
-        schema_id="bedc-quality-lab:experiment-stack-baseline-validity-card",
+        canonical_owner_issue="1207",
+        owner_pointer="reports/canonical/dgt-l1-boundary-report.json:$",
+        schema_id="bedc-quality-lab:dgt-l1-boundary-report",
         hardgate_prefixes=("BASE-HG",),
-        demotion_rule_pointer=_planned_pointer("baseline-validity-card", "$.demotion_rule"),
-        source_pointer=_planned_pointer("baseline-validity-card", "$.baseline_contract"),
-        summary_pointer=_planned_pointer("baseline-validity-card", "$.summary"),
+        demotion_rule_pointer="reports/canonical/dgt-l1-boundary-report.json:$.claim_promotion_exclusion",
+        source_pointer="reports/canonical/dgt-l1-boundary-report.json:$.base_bayes_ceiling",
+        summary_pointer="reports/canonical/dgt-l1-boundary-report.json:$.feature_reachability",
         phase="preflight",
         depends_on_cards=("task-target-card", "feature-access-card"),
     ),
     ExperimentStackCardSpec(
         card_id="ood-solvability-card",
-        canonical_owner_issue="1209,1203",
-        owner_artifact="reports/canonical/model-comparison.json",
-        schema_id="bedc-quality-lab:model-comparison",
-        hardgate_prefixes=("MC-HG", "L1-REVIEW-HG"),
-        demotion_rule_pointer="reports/canonical/model-comparison.json:$.hardgates.MC-HG7",
-        source_pointer="reports/canonical/model-comparison.json:$.models[0].metrics.ood_accuracy",
-        summary_pointer="reports/canonical/model-comparison.json:$.models[0].metrics_by_surface.out_of_distribution",
+        canonical_owner_issue="1207",
+        owner_pointer="reports/canonical/dgt-l1-boundary-report.json:$",
+        schema_id="bedc-quality-lab:dgt-l1-boundary-report",
+        hardgate_prefixes=("L1-BOUNDARY-HG",),
+        demotion_rule_pointer="reports/canonical/dgt-l1-boundary-report.json:$.not_claimed",
+        source_pointer="reports/canonical/dgt-l1-boundary-report.json:$.ood_solvability",
+        summary_pointer="reports/canonical/dgt-l1-boundary-report.json:$.feature_reachability",
         phase="preflight",
         depends_on_cards=("task-target-card", "data-card"),
     ),
     ExperimentStackCardSpec(
         card_id="metric-provenance-card",
         canonical_owner_issue="1201",
-        owner_artifact="reports/canonical/model-comparison.json",
-        schema_id="bedc-quality-lab:model-comparison",
-        hardgate_prefixes=("MC-HG",),
-        demotion_rule_pointer="reports/canonical/model-comparison.json:$.hardgates.MC-HG3",
-        source_pointer="reports/canonical/model-comparison.json:$.models[0].metrics",
-        summary_pointer="reports/canonical/model-comparison.json:$.ranking_key",
+        owner_pointer="reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.discovery-gated-transformer.metric_provenance_pointers[0]",
+        schema_id="bedc-quality-lab:evidence-provenance-metric-row",
+        hardgate_prefixes=("EVIDENCE-HG",),
+        demotion_rule_pointer="$owner.not_claimed",
+        source_pointer="$owner",
+        summary_pointer="$owner.source_type",
         phase="preflight",
         depends_on_cards=("claim-card", "task-target-card"),
+        pointer_through=True,
+        source_owner_field=None,
+        summary_owner_fields=("source_type",),
+        demotion_owner_field="not_claimed",
     ),
     ExperimentStackCardSpec(
         card_id="training-authenticity-card",
-        canonical_owner_issue="child-of-1219:training-authenticity-card",
-        owner_artifact=_planned_artifact("training-authenticity-card"),
-        schema_id="bedc-quality-lab:experiment-stack-training-authenticity-card",
-        hardgate_prefixes=("TRAIN-HG",),
-        demotion_rule_pointer=_planned_pointer("training-authenticity-card", "$.demotion_rule"),
-        source_pointer=_planned_pointer("training-authenticity-card", "$.training_trace"),
-        summary_pointer=_planned_pointer("training-authenticity-card", "$.summary"),
+        canonical_owner_issue="1201",
+        owner_pointer="reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.discovery-gated-transformer.producer_training_audit_pointer",
+        schema_id="bedc-quality-lab:evidence-provenance-producer-audit",
+        hardgate_prefixes=("EVIDENCE-HG",),
+        demotion_rule_pointer="$owner.not_claimed",
+        source_pointer="$owner",
+        summary_pointer="$owner.training_evidence_status",
         phase="evidence",
         depends_on_cards=("baseline-validity-card", "metric-provenance-card"),
+        pointer_through=True,
+        source_owner_field=None,
+        summary_owner_fields=("training_evidence_status",),
+        demotion_owner_field="not_claimed",
     ),
     ExperimentStackCardSpec(
         card_id="statistical-evidence-card",
-        canonical_owner_issue="child-of-1219:statistical-evidence-card",
-        owner_artifact=_planned_artifact("statistical-evidence-card"),
-        schema_id="bedc-quality-lab:experiment-stack-statistical-evidence-card",
-        hardgate_prefixes=("STAT-HG",),
-        demotion_rule_pointer=_planned_pointer("statistical-evidence-card", "$.demotion_rule"),
-        source_pointer=_planned_pointer("statistical-evidence-card", "$.statistical_protocol"),
-        summary_pointer=_planned_pointer("statistical-evidence-card", "$.summary"),
+        canonical_owner_issue="1201",
+        owner_pointer="reports/canonical/index.json:$.evidence_provenance.discovery_rows_by_report.discovery-gated-transformer.metric_provenance_pointers[0]",
+        schema_id="bedc-quality-lab:evidence-provenance-metric-row",
+        hardgate_prefixes=("EVIDENCE-HG",),
+        demotion_rule_pointer="$owner.not_claimed",
+        source_pointer="$owner",
+        summary_pointer="$owner.allowed_for_empirical_claim",
         phase="evidence",
         depends_on_cards=("training-authenticity-card", "metric-provenance-card"),
+        pointer_through=True,
+        source_owner_field=None,
+        summary_owner_fields=("allowed_for_empirical_claim", "source_type"),
+        demotion_owner_field="not_claimed",
     ),
     ExperimentStackCardSpec(
         card_id="ablation-causal-evidence-card",
-        canonical_owner_issue="child-of-1219:ablation-causal-evidence-card",
-        owner_artifact=_planned_artifact("ablation-causal-evidence-card"),
-        schema_id="bedc-quality-lab:experiment-stack-ablation-causal-evidence-card",
-        hardgate_prefixes=("CAUSE-HG",),
-        demotion_rule_pointer=_planned_pointer("ablation-causal-evidence-card", "$.demotion_rule"),
-        source_pointer=_planned_pointer("ablation-causal-evidence-card", "$.causal_evidence"),
-        summary_pointer=_planned_pointer("ablation-causal-evidence-card", "$.summary"),
+        canonical_owner_issue="1207",
+        owner_pointer="reports/canonical/dgt-neural-ablation.json:$",
+        schema_id="bedc-quality-lab:dgt-neural-ablation",
+        hardgate_prefixes=("NABL-HG",),
+        demotion_rule_pointer="reports/canonical/dgt-neural-ablation.json:$.not_claimed",
+        source_pointer="reports/canonical/dgt-neural-ablation.json:$.boundary_ledger",
+        summary_pointer="reports/canonical/dgt-neural-ablation.json:$.nabl_hardgates.status",
         phase="evidence",
         depends_on_cards=("training-authenticity-card", "metric-provenance-card"),
     ),
     ExperimentStackCardSpec(
         card_id="artifact-reproducibility-card",
         canonical_owner_issue="1213",
-        owner_artifact="reports/release_manifest_sidecar.json",
+        owner_pointer="reports/release_manifest_sidecar.json:$",
         schema_id="bedc-quality-lab:release-manifest-sidecar",
         hardgate_prefixes=("REL-HG",),
         demotion_rule_pointer="reports/release_manifest_sidecar.json:$.revoke_if",
@@ -229,36 +237,36 @@ EXPERIMENT_STACK_CARDS: tuple[ExperimentStackCardSpec, ...] = (
     ExperimentStackCardSpec(
         card_id="model-card",
         canonical_owner_issue="1220",
-        owner_artifact="reports/canonical/model_design_suite.json",
-        schema_id="bedc-quality-lab:model-design-suite",
-        hardgate_prefixes=("SUITE-HG",),
-        demotion_rule_pointer="reports/canonical/model_design_suite.json:$.not_claimed",
-        source_pointer="reports/canonical/model_design_suite.json:$.rows",
-        summary_pointer="reports/canonical/model_design_suite.json:$.status",
+        owner_pointer="reports/canonical/dgt-model-card.json:$",
+        schema_id="bedc-quality-lab:dgt-model-card",
+        hardgate_prefixes=("CARD-HG",),
+        demotion_rule_pointer="reports/canonical/dgt-model-card.json:$.not_claimed",
+        source_pointer="reports/canonical/dgt-model-card.json:$.intended_use",
+        summary_pointer="reports/canonical/dgt-model-card.json:$.card_hardgates.status",
         phase="release",
         depends_on_cards=("claim-card", "metric-provenance-card"),
     ),
     ExperimentStackCardSpec(
         card_id="risk-scope-review-card",
-        canonical_owner_issue="child-of-1219:risk-scope-review-card",
-        owner_artifact=_planned_artifact("risk-scope-review-card"),
-        schema_id="bedc-quality-lab:experiment-stack-risk-scope-review-card",
-        hardgate_prefixes=("RISK-HG",),
-        demotion_rule_pointer=_planned_pointer("risk-scope-review-card", "$.demotion_rule"),
-        source_pointer=_planned_pointer("risk-scope-review-card", "$.scope_review"),
-        summary_pointer=_planned_pointer("risk-scope-review-card", "$.summary"),
+        canonical_owner_issue="1207",
+        owner_pointer="reports/canonical/dgt-l1-boundary-report.json:$",
+        schema_id="bedc-quality-lab:dgt-l1-boundary-report",
+        hardgate_prefixes=("L1-BOUNDARY-HG",),
+        demotion_rule_pointer="reports/canonical/dgt-l1-boundary-report.json:$.not_claimed",
+        source_pointer="reports/canonical/dgt-l1-boundary-report.json:$.claim_promotion_exclusion",
+        summary_pointer="reports/canonical/dgt-l1-boundary-report.json:$.boundary_decision",
         phase="release",
         depends_on_cards=("claim-card", "data-card", "metric-provenance-card"),
     ),
     ExperimentStackCardSpec(
         card_id="release-readiness-board",
-        canonical_owner_issue="child-of-1219:release-readiness-board",
-        owner_artifact=_planned_artifact("release-readiness-board"),
-        schema_id="bedc-quality-lab:experiment-stack-release-readiness-board",
-        hardgate_prefixes=("READY-HG",),
-        demotion_rule_pointer=_planned_pointer("release-readiness-board", "$.demotion_rule"),
-        source_pointer=_planned_pointer("release-readiness-board", "$.release_board"),
-        summary_pointer=_planned_pointer("release-readiness-board", "$.summary"),
+        canonical_owner_issue="1213",
+        owner_pointer="reports/canonical/reproduction-package.json:$",
+        schema_id="bedc-quality-lab:reproduction-package",
+        hardgate_prefixes=("REPRO-HG",),
+        demotion_rule_pointer="reports/canonical/reproduction-package.json:$.hardgates.REPRO-HG5",
+        source_pointer="reports/canonical/reproduction-package.json:$.reproduction_targets",
+        summary_pointer="reports/canonical/reproduction-package.json:$.hardgates",
         phase="release",
         depends_on_cards=(
             "claim-card",
@@ -329,16 +337,25 @@ def validate_experiment_stack_specs(
             errors.append(f"{spec.card_id}:card-id")
         if not spec.canonical_owner_issue:
             errors.append(f"{spec.card_id}:owner-issue")
+        if split_artifact_pointer(spec.owner_pointer) is None:
+            errors.append(f"{spec.card_id}:owner-pointer")
         if not spec.owner_artifact.endswith(".json"):
             errors.append(f"{spec.card_id}:owner-artifact")
-        if not spec.schema_id.startswith("bedc-quality-lab:"):
+        if not spec.schema_id or ":" not in spec.schema_id:
             errors.append(f"{spec.card_id}:schema-id")
         if not spec.hardgate_prefixes:
             errors.append(f"{spec.card_id}:hardgate-prefix")
         for pointer_name in ("demotion_rule_pointer", "source_pointer", "summary_pointer"):
             pointer = getattr(spec, pointer_name)
+            if spec.pointer_through and pointer.startswith("$owner"):
+                continue
             if split_artifact_pointer(pointer) is None:
                 errors.append(f"{spec.card_id}:{pointer_name}")
+        if spec.pointer_through:
+            if not spec.summary_owner_fields:
+                errors.append(f"{spec.card_id}:summary-owner-fields")
+            if spec.demotion_owner_field is None:
+                errors.append(f"{spec.card_id}:demotion-owner-field")
         for dependency in spec.depends_on_cards:
             if dependency == spec.card_id or dependency not in id_set:
                 errors.append(f"{spec.card_id}:depends-on:{dependency}")
@@ -355,21 +372,14 @@ def assert_valid_experiment_stack_specs() -> None:
         raise ValueError(f"experiment stack spec contract failed: {', '.join(errors)}")
 
 
-def _load_json_object(root: Path, artifact: str) -> Mapping[str, Any] | None:
-    path = root / artifact
-    if not path.exists():
-        return None
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return None
-    return payload if isinstance(payload, Mapping) else None
-
-
-def _schema_matches(payload: Mapping[str, Any] | None, schema_id: str) -> bool:
-    if payload is None:
+def _schema_matches(value: Any, schema_id: str) -> bool:
+    if not isinstance(value, Mapping):
         return False
-    return payload.get("schema_id") == schema_id or payload.get("artifact_id") == schema_id
+    if value.get("schema_id") == schema_id or value.get("artifact_id") == schema_id or value.get("card_id") == schema_id:
+        return True
+    if schema_id.startswith("bedc-quality-lab:evidence-provenance-"):
+        return value.get("report") == "discovery-gated-transformer"
+    return False
 
 
 def _pointer_resolves(root: Path, pointer: str) -> bool:
@@ -380,6 +390,139 @@ def _status(value: bool) -> str:
     return "pass" if value else "fail"
 
 
+def _owner_pointer_resolution(root: Path, spec: ExperimentStackCardSpec) -> tuple[str | None, Any]:
+    owner_cell = resolve_artifact_pointer(root, spec.owner_pointer)
+    if spec.pointer_through:
+        if not isinstance(owner_cell, str):
+            return None, None
+        resolved = resolve_artifact_pointer(root, owner_cell)
+        return owner_cell, resolved
+    return spec.owner_pointer, owner_cell
+
+
+def _owner_field_resolves(owner_payload: Any, field: str | None) -> bool:
+    if field is None:
+        return owner_payload is not None
+    return isinstance(owner_payload, Mapping) and owner_payload.get(field) is not None
+
+
+def _owner_pointer_resolves(root: Path, spec: ExperimentStackCardSpec, pointer: str, field: str | None = None) -> bool:
+    if not spec.pointer_through:
+        return _pointer_resolves(root, pointer)
+    _resolved_pointer, owner_payload = _owner_pointer_resolution(root, spec)
+    return _owner_field_resolves(owner_payload, field)
+
+
+def _owner_pointer_value(root: Path, spec: ExperimentStackCardSpec, pointer: str, field: str | None = None) -> Any:
+    if not spec.pointer_through:
+        return resolve_artifact_pointer(root, pointer)
+    _resolved_pointer, owner_payload = _owner_pointer_resolution(root, spec)
+    if field is None:
+        return owner_payload
+    if isinstance(owner_payload, Mapping):
+        return owner_payload.get(field)
+    return None
+
+
+def _owner_field_pointer(resolved_owner_pointer: str | None, field: str | None) -> str:
+    if resolved_owner_pointer is None:
+        return "$owner" if field is None else f"$owner.{field}"
+    if field is None:
+        return resolved_owner_pointer
+    return f"{resolved_owner_pointer}.{field}"
+
+
+def _projected_source_pointer(spec: ExperimentStackCardSpec, resolved_owner_pointer: str | None) -> str:
+    if spec.pointer_through:
+        return _owner_field_pointer(resolved_owner_pointer, spec.source_owner_field)
+    return spec.source_pointer
+
+
+def _projected_summary_pointer(spec: ExperimentStackCardSpec, resolved_owner_pointer: str | None) -> str:
+    if not spec.pointer_through:
+        return spec.summary_pointer
+    fields = spec.summary_owner_fields
+    if len(fields) == 1:
+        return _owner_field_pointer(resolved_owner_pointer, fields[0])
+    return ", ".join(_owner_field_pointer(resolved_owner_pointer, field) for field in fields)
+
+
+def _projected_demotion_pointer(spec: ExperimentStackCardSpec, resolved_owner_pointer: str | None) -> str:
+    if spec.pointer_through:
+        return _owner_field_pointer(resolved_owner_pointer, spec.demotion_owner_field)
+    return spec.demotion_rule_pointer
+
+
+def _status_value_blocks(value: str) -> bool:
+    normalized = value.strip().lower().replace(" ", "-")
+    return normalized in BLOCKING_STATUS_VALUES
+
+
+def _owner_cell_blocks(value: Any) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, str):
+        return _status_value_blocks(value)
+    if isinstance(value, bool):
+        return False
+    if isinstance(value, Mapping):
+        for key in (
+            "status",
+            "hardgate_status",
+            "review_status",
+            "promotion_status",
+            "promotion_readiness",
+            "training_evidence_status",
+            "source_type",
+            "taint_status",
+        ):
+            cell = value.get(key)
+            if isinstance(cell, str) and _status_value_blocks(cell):
+                return True
+        if value.get("allowed_for_empirical_claim") is False:
+            return True
+        allowed = value.get("allowed_claim_kinds")
+        if isinstance(allowed, Sequence) and not isinstance(allowed, (str, bytes)) and "projection_only" in allowed:
+            return True
+        for hardgate_key in ("hardgates", "gates", "card_hardgates", "nabl_hardgates", "hardgate"):
+            hardgates = value.get(hardgate_key)
+            if _hardgate_cells_block(hardgates):
+                return True
+        return False
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes)):
+        return any(_owner_cell_blocks(item) for item in value)
+    return False
+
+
+def _hardgate_cells_block(value: Any) -> bool:
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return value != "pass"
+    if isinstance(value, Mapping):
+        status = value.get("status")
+        if isinstance(status, str) and status != "pass":
+            return True
+        nested = value.get("gates")
+        if nested is not None and _hardgate_cells_block(nested):
+            return True
+        for key, cell in value.items():
+            if key in {"criterion", "evidence", "evidence_pointer", "reason"}:
+                continue
+            if isinstance(cell, Mapping):
+                cell_status = cell.get("status")
+                if isinstance(cell_status, str) and cell_status != "pass":
+                    return True
+            elif isinstance(cell, str) and key.startswith(("HG", "STACK", "REPRO", "SCALE", "NABL", "CARD", "L1", "MC")) and cell != "pass":
+                return True
+        return False
+    return False
+
+
+def _owner_status_ok(owner_payload: Any) -> bool:
+    return owner_payload is not None and not _owner_cell_blocks(owner_payload)
+
+
 def _card_failure_reasons(
     *,
     owner_exists: bool,
@@ -387,10 +530,11 @@ def _card_failure_reasons(
     source_resolves: bool,
     summary_resolves: bool,
     demotion_resolves: bool,
+    owner_status_ok: bool,
 ) -> list[str]:
     reasons: list[str] = []
     if not owner_exists:
-        reasons.append("owner-artifact-missing")
+        reasons.append("owner-pointer-unresolved")
     elif not schema_matches:
         reasons.append("owner-schema-mismatch")
     if not source_resolves:
@@ -399,47 +543,78 @@ def _card_failure_reasons(
         reasons.append("summary-pointer-unresolved")
     if not demotion_resolves:
         reasons.append("demotion-rule-pointer-unresolved")
+    if owner_exists and not owner_status_ok:
+        reasons.append("owner-status-or-hardgate-blocked")
     return reasons
 
 
 def project_card(spec: ExperimentStackCardSpec, *, root: Path) -> dict[str, Any]:
-    owner_payload = _load_json_object(root, spec.owner_artifact)
-    owner_exists = owner_payload is not None
+    resolved_owner_pointer, owner_payload = _owner_pointer_resolution(root, spec)
+    owner_exists = resolved_owner_pointer is not None and owner_payload is not None
     schema_ok = _schema_matches(owner_payload, spec.schema_id)
-    source_ok = _pointer_resolves(root, spec.source_pointer)
-    summary_ok = _pointer_resolves(root, spec.summary_pointer)
-    demotion_ok = _pointer_resolves(root, spec.demotion_rule_pointer)
+    source_ok = _owner_pointer_resolves(root, spec, spec.source_pointer, spec.source_owner_field)
+    if spec.pointer_through:
+        summary_ok = all(
+            _owner_pointer_resolves(root, spec, spec.summary_pointer, field)
+            for field in spec.summary_owner_fields
+        )
+    else:
+        summary_ok = _pointer_resolves(root, spec.summary_pointer)
+    demotion_ok = _owner_pointer_resolves(root, spec, spec.demotion_rule_pointer, spec.demotion_owner_field)
+    source_status_ok = not _owner_cell_blocks(_owner_pointer_value(root, spec, spec.source_pointer, spec.source_owner_field))
+    if spec.pointer_through:
+        summary_status_ok = all(
+            not _owner_cell_blocks(_owner_pointer_value(root, spec, spec.summary_pointer, field))
+            for field in spec.summary_owner_fields
+        )
+    else:
+        summary_status_ok = not _owner_cell_blocks(resolve_artifact_pointer(root, spec.summary_pointer))
+    demotion_status_ok = not _owner_cell_blocks(
+        _owner_pointer_value(root, spec, spec.demotion_rule_pointer, spec.demotion_owner_field)
+    )
+    owner_status_ok = _owner_status_ok(owner_payload) and source_status_ok and summary_status_ok and demotion_status_ok
     owner_gate_ok = owner_exists and schema_ok
-    pointer_gate_ok = source_ok and summary_ok and demotion_ok
+    pointer_gate_ok = source_ok and summary_ok and demotion_ok and owner_status_ok
     failures = _card_failure_reasons(
         owner_exists=owner_exists,
         schema_matches=schema_ok,
         source_resolves=source_ok,
         summary_resolves=summary_ok,
         demotion_resolves=demotion_ok,
+        owner_status_ok=owner_status_ok,
     )
+    projected_source_pointer = _projected_source_pointer(spec, resolved_owner_pointer)
+    projected_summary_pointer = _projected_summary_pointer(spec, resolved_owner_pointer)
+    projected_demotion_pointer = _projected_demotion_pointer(spec, resolved_owner_pointer)
     return {
         **spec.to_json(),
+        "source_pointer": projected_source_pointer,
+        "summary_pointer": projected_summary_pointer,
+        "demotion_rule_pointer": projected_demotion_pointer,
         "card_pointer": card_pointer(spec.card_id),
+        "resolved_owner_pointer": resolved_owner_pointer,
         "owner_artifact_status": "resolved" if owner_exists else "missing",
+        "owner_pointer_status": "resolved" if owner_exists else "missing",
         "owner_schema_status": "matched" if schema_ok else "unmatched",
         "source_pointer_status": "resolved" if source_ok else "missing",
         "summary_pointer_status": "resolved" if summary_ok else "missing",
         "demotion_rule_pointer_status": "resolved" if demotion_ok else "missing",
+        "owner_status": "pass" if owner_status_ok else "blocked",
         "hardgates": {
             "STACK-HG1": {
                 "status": _status(owner_gate_ok),
-                "evidence_pointer": f"{spec.owner_artifact}:$",
-                "reason": "owner artifact and schema resolve" if owner_gate_ok else "owner artifact or schema is not resolved",
+                "evidence_pointer": spec.owner_pointer,
+                "resolved_owner_pointer": resolved_owner_pointer,
+                "reason": "owner pointer and schema/artifact identity resolve" if owner_gate_ok else "owner pointer or schema/artifact identity is not resolved",
             },
             "STACK-HG2": {
                 "status": _status(pointer_gate_ok),
-                "source_pointer": spec.source_pointer,
-                "summary_pointer": spec.summary_pointer,
-                "demotion_rule_pointer": spec.demotion_rule_pointer,
-                "reason": "source, summary, and demotion pointers resolve"
+                "source_pointer": projected_source_pointer,
+                "summary_pointer": projected_summary_pointer,
+                "demotion_rule_pointer": projected_demotion_pointer,
+                "reason": "source, summary, demotion, and owner status cells pass"
                 if pointer_gate_ok
-                else "one or more required card pointers do not resolve",
+                else "one or more required owner pointers, status cells, or hardgates do not pass",
             },
         },
         "status": "pass" if owner_gate_ok and pointer_gate_ok else "blocked",
@@ -471,20 +646,20 @@ def build_experiment_stack_payload(*, root: Path, generated_at: str) -> dict[str
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "producer": PRODUCER,
-        "source_artifacts": {spec.card_id: spec.owner_artifact for spec in EXPERIMENT_STACK_CARDS},
+        "source_artifacts": {spec.card_id: spec.owner_pointer for spec in EXPERIMENT_STACK_CARDS},
         "card_count": len(cards),
         "card_ids": list(CARD_IDS),
         "hardgate_ids": list(STACK_HARDGATE_IDS),
         "status": "pass" if not blocked else "blocked",
         "blocked_card_ids": blocked,
-        "owner_backed_card_ids": list(OWNER_BACKED_CARD_IDS),
         "cards": cards,
         "claim_first_gate": {
-            "status": "active",
-            "required_preflight_cards": list(REQUIRED_PREFLIGHT_CARD_IDS),
-            "cards_pointer": f"{JSON_ARTIFACT}:$.cards",
-            "training_result_refs_pointer": "$.training_result_refs",
-            "decision_function": "bedc_quality_lab.experiment_stack.evaluate_claim_first_gate",
+            "kind": "pointer-only-metadata",
+            "status": "delegated",
+            "admission_owner": ADMISSION_OWNER,
+            "positive_evidence_owner": POSITIVE_EVIDENCE_OWNER,
+            "consistency_gates_pointer": CONSISTENCY_GATES_POINTER,
+            "consistency_gate_ids": list(CONSISTENCY_GATE_IDS),
         },
         "coverage_mapping": [
             {
@@ -510,154 +685,6 @@ def build_experiment_stack_payload(*, root: Path, generated_at: str) -> dict[str
         "standard_alignment_doc": "docs/experiment_stack_standard_alignment.md",
         "not_claimed": list(NOT_CLAIMED),
     }
-
-
-def _training_result_ref(row: Any, index: int) -> str:
-    if isinstance(row, str):
-        return row
-    if isinstance(row, Mapping):
-        for key in ("ref", "pointer", "artifact_pointer"):
-            value = row.get(key)
-            if isinstance(value, str):
-                return value
-    return f"$.training_result_refs[{index}]"
-
-
-def _rows_by_card_id(cards: Any) -> dict[str, Mapping[str, Any]]:
-    if not isinstance(cards, Sequence) or isinstance(cards, (str, bytes)):
-        return {}
-    rows: dict[str, Mapping[str, Any]] = {}
-    for row in cards:
-        if isinstance(row, Mapping):
-            card_id = row.get("card_id")
-            if isinstance(card_id, str):
-                rows[card_id] = row
-    return rows
-
-
-def _context_cards(context: Mapping[str, Any]) -> Any:
-    experiment_stack = context.get("experiment_stack")
-    if isinstance(experiment_stack, Mapping):
-        return experiment_stack.get("cards")
-    return context.get("cards")
-
-
-def _is_training_promotion_context(context: Mapping[str, Any], training_refs: Sequence[Any]) -> bool:
-    claim_kind = context.get("claim_kind")
-    return bool(training_refs) or claim_kind in {"promoted_training", "training_result_promotion"}
-
-
-def _card_reason(card_id: str, row: Mapping[str, Any] | None) -> str:
-    if row is None:
-        if card_id == "task-target-card":
-            return "missing label-function and target card before training-result promotion"
-        if card_id == "baseline-validity-card":
-            return "missing baseline-validity card before training-result promotion"
-        return "missing required preflight card before training-result promotion"
-    failures = row.get("failure_reasons")
-    if isinstance(failures, Sequence) and not isinstance(failures, (str, bytes)) and failures:
-        return ", ".join(str(item) for item in failures)
-    return f"card status is {row.get('status', 'missing')}"
-
-
-def _context_root(context: Mapping[str, Any]) -> Path:
-    value = context.get("root", context.get("artifact_root", context.get("lab_root")))
-    if isinstance(value, Path):
-        return value
-    if isinstance(value, str):
-        return Path(value)
-    return LAB_ROOT
-
-
-def _hardgate_status(row: Mapping[str, Any], hardgate_id: str) -> str | None:
-    hardgates = row.get("hardgates")
-    if not isinstance(hardgates, Mapping):
-        return None
-    hardgate = hardgates.get(hardgate_id)
-    if not isinstance(hardgate, Mapping):
-        return None
-    status = hardgate.get("status")
-    return status if isinstance(status, str) else None
-
-
-def _preflight_card_failures(spec: ExperimentStackCardSpec, row: Mapping[str, Any] | None, *, root: Path) -> tuple[str, ...]:
-    if row is None:
-        return (_card_reason(spec.card_id, None),)
-
-    failures: list[str] = []
-    projected = project_card(spec, root=root)
-    expected_fields = (
-        "owner_artifact",
-        "schema_id",
-        "source_pointer",
-        "summary_pointer",
-        "demotion_rule_pointer",
-        "card_pointer",
-    )
-    for field in expected_fields:
-        if row.get(field) != projected[field]:
-            failures.append(f"{field}-mismatch")
-
-    expected_statuses = {
-        "status": "pass",
-        "owner_artifact_status": "resolved",
-        "owner_schema_status": "matched",
-        "source_pointer_status": "resolved",
-        "summary_pointer_status": "resolved",
-        "demotion_rule_pointer_status": "resolved",
-    }
-    for field, expected in expected_statuses.items():
-        if row.get(field) != expected:
-            failures.append(f"{field}-not-{expected}")
-
-    for hardgate_id in STACK_HARDGATE_IDS:
-        if _hardgate_status(row, hardgate_id) != "pass":
-            failures.append(f"{hardgate_id}-not-pass")
-
-    if projected["status"] != "pass":
-        failures.extend(str(reason) for reason in projected["failure_reasons"])
-    for hardgate_id in STACK_HARDGATE_IDS:
-        if projected["hardgates"][hardgate_id]["status"] != "pass":
-            failures.append(f"{hardgate_id}-evidence-not-pass")
-
-    return tuple(dict.fromkeys(failures))
-
-
-def evaluate_claim_first_gate(context: Mapping[str, Any]) -> ClaimFirstGateDecision:
-    training_refs_value = context.get("training_result_refs")
-    training_refs = list(training_refs_value) if isinstance(training_refs_value, Sequence) and not isinstance(training_refs_value, (str, bytes)) else []
-    if not _is_training_promotion_context(context, training_refs):
-        return ClaimFirstGateDecision(
-            status="not-applicable",
-            failed_card_ids=(),
-            blocked_training_result_refs=(),
-            pointer_reasons={},
-        )
-    cards = _rows_by_card_id(_context_cards(context))
-    root = _context_root(context)
-    specs = spec_by_card_id()
-    failed: list[str] = []
-    reasons: dict[str, str] = {}
-    for card_id in REQUIRED_PREFLIGHT_CARD_IDS:
-        row = cards.get(card_id)
-        card_failures = _preflight_card_failures(specs[card_id], row, root=root)
-        if card_failures:
-            failed.append(card_id)
-            reasons[card_id] = ", ".join(card_failures)
-    blocked_refs = tuple(_training_result_ref(row, index) for index, row in enumerate(training_refs))
-    if failed:
-        return ClaimFirstGateDecision(
-            status="blocked",
-            failed_card_ids=tuple(failed),
-            blocked_training_result_refs=blocked_refs or ("$.training_result_refs",),
-            pointer_reasons=reasons,
-        )
-    return ClaimFirstGateDecision(
-        status="pass",
-        failed_card_ids=(),
-        blocked_training_result_refs=(),
-        pointer_reasons={},
-    )
 
 
 def render_experiment_stack_markdown(payload: Mapping[str, Any]) -> str:

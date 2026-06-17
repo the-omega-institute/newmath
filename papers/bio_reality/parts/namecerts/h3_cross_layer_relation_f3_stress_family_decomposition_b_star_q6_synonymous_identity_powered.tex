@@ -1,39 +1,46 @@
 \origin{ai}
+\subsection{Synonymous family decomposition of the $f_3$ stress coordinate}
+\label{subsec:bioreality-f3-stress-family-decomposition}
 
-\subsection{Family-resolved decomposition of the $f_3$ stress coordinate}
-\label{sec:bioreality-f3-stress-family-decomposition}
+\paragraph{Finite row under test.}
+This record isolates the $f_3$ stress member of the nine-coordinate $B^*_{Q6}$ synonymous residual panel and asks whether its abundance-facing signal is concentrated in a small number of synonymous-family subcoordinates or spread across the codon table.  The computation is a finite yeast-row analysis on \textit{Saccharomyces cerevisiae}, with $n=1800$ joined proteins after the minimum-protein gate and with a reported base pool of $4759$ candidate rows.  The target is residualized $\log_{10}$ protein abundance on the unified yeast context join.  The control basis has rank $24$ and includes the same sibling covariates used by the surrounding abundance-residual computations: coding-sequence length, amino-acid composition, GC3, and the $M$-density baseline.  The run identifier is \texttt{1e753e65044b}, and the deterministic seed is \texttt{sha256:b\_star\_q6\_f3\_stress\_family\_decomposition\_powered:deterministic}.
 
-\paragraph{Question.}
-The $B^*_{Q6}$ panel contains a single aggregate $f_3$ stress coordinate, but the aggregate coordinate can hide which synonymous families actually carry the observed abundance-aligned component.  The finite-row test therefore decomposes the aggregate $f_3$ direction into its synonymous-family subcoordinates and asks whether any family-level component survives as a real source for the same residual protein-abundance target.  The tested row is the claim
-$h3.cross\_layer\_relation.f3\_stress\_family\_decomposition.b\_star\_q6\_synonymous\_identity\_powered$.
-
-\paragraph{Finite design.}
-The computation was run as experiment $b\_star\_q6\_f3\_stress\_family\_decomposition\_powered$ with run id $1e753e65044b$.  The organism was $\mathrm{Saccharomyces\ cerevisiae}$, with organism key $saccharomyces\_cerevisiae$.  The starting finite table had $4759$ protein rows, and the unified yeast context join used $1800$ rows after the join and eligibility filters.  The minimum per-organism protein gate was $500$, so the yeast table is above the required row threshold.  The target was residualized $\log_{10}$ protein abundance on the unified yeast context join.  The nuisance-control basis had rank $24$ and used the same sibling controls as the surrounding $B^*_{Q6}$ abundance analyses: amino-acid composition, length, GC3, and the simpler codon-density baseline.
-
-\paragraph{Subcoordinate construction.}
-The aggregate $f_3$ coordinate was split into $21$ additive synonymous-family subcoordinates.  Each subcoordinate keeps only the projected $f_3$ weights inside one $Q9$ synonymous-family block, divides by the full projected $f_3$ norm, and is then residualized against the same control basis.  In this row the recorded $Q9$ family count is $21$, the family decomposition count is also $21$, and the aggregate $f_3$ direction has rank $1$.  The finite energy accounting uses
+\paragraph{Decomposition statistic.}
+The tested source design contains $21$ additive synonymous-family subcoordinates.  Each subcoordinate retains only one projected $Q9$ family block of the full $f_3$ stress vector, divides by the norm of the full projected $f_3$ coordinate, and then passes through the same residualization against the control basis.  The full residualized $f_3$ projection has rank $1$, squared norm $52.76911713166682$, and accounts for $0.12259712041843235$ of the residualized abundance target energy.  The total target squared norm is $430.42705205115925$.  In the notation of this chapter, the family energy score is
 $$
 \begin{aligned}
-E_{family} &= \frac{\|P_{family}\|^2}{\|P_{f_3}\|^2},\\
-\|P_{f_3}\|^2 &= 52.76911713166682,\\
-\|y\|^2 &= 430.42705205115925,\\
-\frac{\|P_{f_3}\|^2}{\|y\|^2} &= 0.12259712041843235.
+E_{\mathrm{family}}
+  &= \frac{\|P_{\mathrm{family}}\|^2}{\|P_{f_3}\|^2},\\
+\|P_{f_3}\|^2
+  &= 52.76911713166682,\\
+\frac{\|P_{f_3}\|^2}{\|y_Z\|^2}
+  &= 0.12259712041843235,\\
+\|y_Z\|^2
+  &= 430.42705205115925.
 \end{aligned}
 $$
-Thus the full residualized $f_3$ stress projection accounts for about $12.26\%$ of the residual target energy in this finite yeast abundance table before it is separated by family.
+The audit produced all $21$ family entries, so the decomposition is not a partial listing or a rank-only diagnostic.  The reported permutation count is $120$, and the cross-validation envelope uses $5$ folds.
 
-\paragraph{Family hits.}
-The held-out and permutation gate used $5$ folds and $120$ deterministic permutations.  The recorded source-design seed was $sha256:b\_star\_q6\_f3\_stress\_family\_decomposition\_powered:deterministic$.  Nineteen synonymous-family subcoordinates were reported as real-source families under this gate:
-$F\_UUU\_to\_UUC$, $L\_UUA\_to\_UUG$, $S\_UCU\_to\_UCG$, $Y\_UAU\_to\_UAC$, $C\_UGU\_to\_UGC$, $P\_CCU\_to\_CCG$, $H\_CAU\_to\_CAC$, $Q\_CAA\_to\_CAG$, $R\_CGU\_to\_CGG$, $I\_AUU\_to\_AUA$, $T\_ACU\_to\_ACG$, $N\_AAU\_to\_AAC$, $K\_AAA\_to\_AAG$, $R\_AGA\_to\_AGG$, $V\_GUU\_to\_GUG$, $A\_GCU\_to\_GCG$, $D\_GAU\_to\_GAC$, $E\_GAA\_to\_GAG$, and $G\_GGU\_to\_GGG$.  This is a family-level statement, not merely an aggregate-coordinate statement: the row says that the $21$-family decomposition is internally coherent and that at least one family subcoordinate passes the held-out/permutation source criterion.  In fact, the recorded hit list contains $19$ named families out of the $21$ decomposed families.
+\paragraph{Family support list.}
+The families passing the real-source gate are
+$$
+\begin{aligned}
+&F_{UUU\to UUC},\quad L_{UUA\to UUG},\quad S_{UCU\to UCG},\quad Y_{UAU\to UAC},\quad C_{UGU\to UGC},\\
+&P_{CCU\to CCG},\quad H_{CAU\to CAC},\quad Q_{CAA\to CAG},\quad R_{CGU\to CGG},\quad I_{AUU\to AUA},\\
+&T_{ACU\to ACG},\quad N_{AAU\to AAC},\quad K_{AAA\to AAG},\quad R_{AGA\to AGG},\quad V_{GUU\to GUG},\\
+&A_{GCU\to GCG},\quad D_{GAU\to GAC},\quad E_{GAA\to GAG},\quad G_{GGU\to GGG}.
+\end{aligned}
+$$
+Thus $19$ of the $21$ additive family components are explicitly listed as real-source families in this finite run.  The result is not merely that the aggregate $f_3$ coordinate contributes to the residualized abundance target; it also gives a family-level localization of the aggregate coordinate.  Two families are not in the reported real-source list, and the chapter does not infer a sign, biological cause, or absence of effect for them from omission alone.
 
-\paragraph{Relation to the coordinate-level yeast abundance row.}
-The surrounding single-coordinate decomposition row used $1258$ joined yeast rows, $5$ folds, $120$ permutations, a $24$-rank control basis, and reported that at least one of the nine $B^*_{Q6}$ coordinates is a real abundance source.  In that coordinate-level audit, the coordinates with real source support included $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Ser\_UCR\_vs\_AGY$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The present row refines the last item: it does not leave $f3\_stress$ as an opaque one-dimensional residue, but separates it into codon-family identities and records which family blocks survive the same style of residualized abundance test.
+\paragraph{Relation to the nine-coordinate abundance panel.}
+The family decomposition sits inside the broader nine-coordinate $B^*_{Q6}$ abundance analysis.  In the per-coordinate yeast decomposition, the same nine residual coordinates were tested against residualized $\log_{10}$ protein abundance on $n=1258$ joined proteins, using $5$ folds, $120$ permutations, and a control rank of $24$.  Eight of the nine coordinates were listed as having real-source support there: $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Thr_{ACR\,vs\,ACY}$, and $f_3\_stress$.  The present row refines only the last of these.  It does not replace the nine-coordinate table, and it does not claim that all abundance residual structure is synonymous-family structure.  It says that, after the declared controls, the $f_3$ component itself has a resolved family decomposition with at least one held-out, permutation-gated abundance source.
 
-\paragraph{Translation-adjacent context.}
-A separate ribosome-occupancy row gives a bounded translation-adjacent check in which the local occupancy analysis joined $5754$ genes after length checking, used $200$ requested within-position-bin permutations, and applied a $\lambda_{DL}=0.01$ description-length penalty with $DL=2$.  In that row, $K\_AAA$, $Arg\_AGR$, and $f3\_stress$ passed the local occupancy gates.  That result is useful context for why $f3\_stress$ is worth decomposing, but it is not part of the proof of protein-abundance family decomposition.  The chapter here rests on the yeast abundance family row with $1800$ joined rows, $21$ families, and the $5$-fold plus $120$-permutation gate.
+\paragraph{Adjacent translation and mRNA contacts.}
+Several nearby finite rows clarify what this chapter may and may not use.  A position-controlled ribosome-occupancy contact reported $9$ computable families, at least $200$ within-position-bin permutations, and a $\lambda_{DL}=0.01$ penalty with $DL=2$; $K_{AAA}$, $Arg_{AGR}$, and $f_3\_stress$ passed that local ribosome-occupancy gate.  This is relevant as a bounded translation-layer contact, but it is not the statistic computed in the family-decomposition row.  Separately, the yeast mRNA-stability row reported $R^2_{QM}=0.05179429044975085$, $R^2_{QP}=0.2761140373962526$ on the same half-life join, cosine $0.8040935468384264$, and permutation right-tail value $0.000999000999000999$ for the $R^2_{QM}$ comparison.  The mediation row reported $R^2_{QP\mid M}=0.24851799532219632$, absorbed abundance variance $0.027596042074056304$, mediation fraction $0.09994436477872035$, null mean $0.00019674487584783138$, null $95$th percentile $0.0014571003414947088$, and right-tail value $0.000999000999000999$.  These neighboring numbers show that the yeast abundance surface is not being read in isolation, but the present chapter uses them only as boundary context.  They do not convert the $f_3$ family decomposition into a causal mRNA-decay or translation mechanism.
 
 \paragraph{Verdict.}
-The finite-row verdict is positive for the stated family-decomposition claim.  The aggregate $f_3$ stress direction has nonzero abundance-aligned target projection, the aggregate projection contributes $0.12259712041843235$ of the target energy, and the family split resolves that aggregate into a $21$-family table with a large named hit set under the recorded held-out/permutation gate.  The correct scientific reading is narrow: in this yeast protein-abundance contact, after the declared residualization controls, synonymous-family identity inside the $f_3$ stress coordinate carries measurable abundance-aligned information.
+The finite-row verdict is ready for inclusion as an abundance-residual decomposition claim.  The recorded computation completed all $21$ synonymous-family subcoordinates of the $f_3$ stress coordinate, used $n=1800$ joined yeast proteins, retained a rank-$24$ control basis, used $5$ held-out folds and $120$ deterministic permutations, and reported a full $f_3$ projection with $\|P_{f_3}\|^2=52.76911713166682$ explaining $0.12259712041843235$ of the residualized target energy.  The chapter therefore supports the statement that the yeast $f_3$ stress abundance component is decomposable into synonymous-family sources, with a substantial real-source list across amino-acid families.
 
 \paragraph{Local boundary.}
-This chapter does not assert a translation mechanism, ribosome-mediated causation, protein folding, physical admissibility, molecular function, organismal phenotype, or a universal biological law.  A protein-abundance association is a downstream statistical readout, not a mechanism.  The family hit list does not prove tRNA abundance, tRNA charging, elongation dynamics, folding state, structural order, or biochemical function.  Any such statement would require a separate layer-matched contact and its own controlled statistic.  The only claim made here is the finite yeast-row decomposition: the $f_3$ stress component of $B^*_{Q6}$ can be resolved into synonymous-family subcoordinates, and at least one family subcoordinate survives the specified abundance-source gate.
+This result is deliberately narrower than a biological mechanism claim.  It does not establish translation realization by itself, because the row is an abundance-residual family decomposition rather than a same-row measured TE or ribosome-profiling survival matrix.  It does not establish folding, structural order, physical admissibility, molecular function, pathway membership, phenotype, or a universal biological rule.  It also does not treat tRNA gene copy, modeled adaptation weights, mRNA half-life, or steady-state protein abundance as interchangeable readouts.  Any claim at one of those layers would require its own matched contact and its own controlled statistic.  The supported object here is only the finite, controlled decomposition of the $f_3$ stress abundance-facing residual into synonymous-family components in the reported yeast row.

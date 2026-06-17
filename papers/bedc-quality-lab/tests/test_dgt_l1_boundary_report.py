@@ -81,4 +81,3 @@ def test_scaling_claim_block_is_only_runtime_key(tmp_path):
     mutated["scaling_claim_block"]["status"] = "unblocked"
     mutated["scaling_claim_block"]["fair_rebuild_status"] = "unresolved"
     assert boundary.scaling_claim_block_allows_l1_scaling(mutated) is False
-

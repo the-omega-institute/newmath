@@ -8,6 +8,7 @@ precheck: warn
 	@python3 scripts/check_up_macros.py
 	@python3 scripts/check_text_macro_underscores.py
 	@python3 scripts/check_external_provenance.py
+	@python3 scripts/check_paper_artifacts.py
 	@python3 ../../lean4/scripts/bedc_ci.py audit
 # Hard gate (was warn-only): convention checks for parts/concrete_instances/.
 # Promoted from advisory to blocking once the dashboard cleared to 0
