@@ -220,3 +220,17 @@ gap is not a simple rank normalization, depth offset, affine correction, or
 non-hard-selected mixture; it requires a learner whose internal state carries
 hard-regime assignment mechanism information before the exact-budget selection
 rule is applied.
+
+Adding deployable set context is still insufficient in a linear learner.  A
+set-context ridge learner uses random-projected latent state, environment
+features, rollout-internal features, episode-local z-scores and ranks, option
+depth, and budget tokens to predict the forced-delta mechanism target.  It
+improves over the base perturbation-value learner on hard mean capture
+($-0.0325$ versus $-0.0681$) and raises hard label Spearman to $0.2526$, but it
+does not beat the scalar mechanism learner's hard mean capture $-0.0050$ and
+does not close all budgets: budget-two capture is $0.0000$, budget-three is
+$-0.0552$, and budget-four is $-0.0423$.  The target ceiling remains $1.000$ on
+all hard budgets.  The hard boundary therefore requires more than deployable
+set-context featurization with ridge supervision; the missing object is a
+mechanism-bearing assignment state learned under the exact-budget combinatorial
+constraint itself.
