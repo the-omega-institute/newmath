@@ -1,80 +1,50 @@
 \origin{ai}
 
-\subsection{The $B^{\ast}_{Q6}$ boundary set and the tRNA-poverty row}
-\label{sec:bior reality-q6-boundary-set-trna-poverty}
+\subsection{The $B^{\ast}_{Q6}$ boundary set under tRNA poverty}
+\label{sec:bioreality-q6-boundary-set-trna-poverty}
 
-\paragraph{Finite coordinate being tested.}
-The record considered here is the $B^{\ast}_{Q6}$ third-position stress coordinate after amino-acid projection, restricted to a finite coding-sequence-by-organism residual surface and then paired with translation-side rows.  Its biological carrier is not a protein, a pathway, or a phenotype.  It is a finite residual coordinate on synonymous codon usage, together with organism-level codon usage, tRNA-copy, wobble-weight, and translation-readout contacts.  The specific claim is that the $R$ boundary of the $Q6$ surface is tRNA-poor under a rank-powered multi-organism panel, and that this supplies a bounded tRNA-supply explanation for avoidance of the $R$ sense region.
-
-\paragraph{Saturation rows.}
-The finite $f_3$ saturation certificate fixes the coordinate surface before any biological interpretation is attempted.  In the recorded run, the set $M = \operatorname{Med}(R) \cup \{\mathrm{ACA}\}$ is
+\paragraph{Finite coordinate surface.}
+This record concerns the $B^{\ast}_{Q6}$ residual coordinate surface after amino-acid projection, restricted to the $f_3$-stress coordinate and to the codon rows where a translation-layer readout could in principle be attached.  The finite seed for the coordinate side is explicit.  The set $M=\operatorname{Med}(R)\cup\{\mathrm{ACA},\mathrm{ACG}\}$ has the twenty codons
 $$
 \begin{aligned}
-M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
 &\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
 \end{aligned}
 $$
-The $f_3$-saturated $R$ row removes the two codons $\mathrm{ACA}$ and $\mathrm{ACG}$ and is
+The verified $f_3$-saturation of $R$ removes exactly $\mathrm{ACA}$ and $\mathrm{ACG}$ from this displayed set, giving the eighteen-codon saturated row
 $$
 \begin{aligned}
-\operatorname{Sat}_{f_3}(R) = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
+&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
 \end{aligned}
 $$
-The recorded $f_3$ boundary is empty:
-$$
-\begin{aligned}
-\partial_{f_3} R = \varnothing .
-\end{aligned}
-$$
-Thus the boundary question is not a claim that a missing codon boundary has been observed.  It is a question about whether the residual $R$-sense region, once placed into the $B^{\ast}_{Q6}$ coordinate basis, aligns with a finite tRNA-supply asymmetry.
+The recorded $f_3$ boundary complement is empty.  Thus the finite codon geometry does not ask for an additional unsaturated third-position edge before the biological-contact question is posed; the remaining question is whether the rows identified by this coordinate are poor in the relevant tRNA or wobble-weight supply and whether any later translation readout survives controls.
 
-\paragraph{Powered tRNA-poverty result.}
-The direct finite-row result for this packet is the run `d7728cc8768e`.  The experiment `b\_star\_q6\_boundary\_set\_trna\_poverty\_powered` requested $46$ organisms, computed $40$, and skipped $6$.  It used $1000$ permutations at $\alpha = 0.05$.  The recorded status is `passed`.  Its finite conclusion is that $R$ sense codons are systematically tRNA-poor under GtRNAdb tRNA gene-copy number together with dos Reis wobble weights.  In symbols, the accepted row is a one-sided supply asymmetry statement of the following form:
+\paragraph{Powered tRNA-poverty test.}
+The powered boundary-set experiment was run as \texttt{b\_star\_q6\_boundary\_set\_trna\_poverty\_powered}.  It requested $46$ organisms, computed $40$, skipped $6$, and used $1000$ permutations at $\alpha=0.05$.  The finite-row conclusion is that $R$ sense codons are systematically tRNA-poor when organism-level GtRNAdb tRNA gene copy number is combined with dos Reis wobble weights.  In formulas, the tested sign is a supply contrast of the form
 $$
 \begin{aligned}
 \Delta_R
-  &= \operatorname{Supply}(R\text{-sense codons})
-     - \operatorname{Supply}(\text{matched non-}R\text{ sense controls}),\\
-\Pr_{\pi}(\Delta_R^{\pi} \leq \Delta_R)
-  &< 0.05
+  &= \operatorname{Supply}(R\text{ sense rows})
+     -\operatorname{Supply}(\text{matched non-}R\text{ sense rows}),\\
+\Delta_R &< 0
 \end{aligned}
 $$
-where the permutation distribution ranges over the declared organism-matched codon and tRNA-weight rows.  The recorded table does not provide the numerical value of $\Delta_R$ or the exact empirical permutation $p$-value, so the paper-level statement must remain at the passed-threshold level rather than reporting an unrecorded scalar.
+under the declared permutation gate.  The experiment status is \texttt{passed}; the recorded seed is \texttt{sha256:b\_star\_q6\_boundary\_set\_trna\_poverty\_powered:R-sense-tRNA-poverty-permutation}.  The biological content of this pass is narrow: it supports a tRNA-supply explanation for avoidance of the $R$ sense boundary rows under the stated organism panel and wobble model.  It is not a statement about protein abundance, folded structure, localization, function, phenotype, or a global biological law.
 
-\paragraph{Relation to the surrounding $Q6$ spectrum.}
-The tRNA-poverty row sits inside a larger $B^{\ast}_{Q6}$ cross-layer spectrum.  The powered axis-strength experiment computed $11$ organisms out of $16$ requested, used $5$ folds, and required at least $500$ proteins per organism.  It reports $41$ synonymous-design columns.  In that spectrum, $d_{\mathrm{resid4}}$ leads on average, followed by $d_{\mathrm{tRNA}}$; the per-organism dominant-count summary is $\{d_{\mathrm{resid4}}:11\}$.  The domain counts are imbalanced, with $1$ archaeal, $2$ bacterial, and $8$ eukaryotic organisms, so those domain means are descriptive rather than inferential.  The largest recorded GC3 rank effect is for $d_{\mathrm{usage}}$ with $\rho = 0.136$.
+\paragraph{Relation to the residual spectrum.}
+The surrounding $B^{\ast}_{Q6}$ powered spectrum is consistent with treating the tRNA-poverty result as a boundary mechanism rather than as a complete translation-output theorem.  A separate axis-strength survey computed $11$ of $16$ requested organisms with $5$ folds, at least $500$ proteins per organism, and $41$ synonymous design columns.  Its captured spectra were led on average by $d_{\mathrm{resid4}}$ and then by $d_{\mathrm{tRNA}}$, with per-organism dominance count $\{d_{\mathrm{resid4}}:11\}$ and an imbalanced domain count $\{\mathrm{archaea}:1,\mathrm{bacteria}:2,\mathrm{eukaryote}:8\}$.  The largest recorded GC3 rank effect in that survey was $\rho=0.136$ for $d_{\mathrm{usage}}$.
 
-The same finite memory also records that the non-tRNA residual optimality axis is dominated by `f3\_translation\_selection` in an $11$-of-$16$ organism, $5$-fold, $41$-column powered run.  A third-axis identity row identifies $d_{\perp}$ provisionally with usage frequency within family, with mean cosine $0.128$ and one-sided sign-test $p = 0.000488$.  A companion third-axis mechanism row says that the GC-orthogonalized $d_{\perp}$ keeps significant cross-species alignment and held-out $R^2$, while the status line is `selection-not-GC; not-wobble-clustered; CSC/positional identity needs\_external`.  These rows matter because they prevent the $R$ tRNA-poverty result from being read as a complete explanation of the whole $Q6$ residual geometry: it is one supply-side row in a multi-axis surface.
+Additional powered rows place the boundary in a larger but still finite cross-layer picture.  The universal residual-axis test computed $11$ of $16$ organisms and identified the non-tRNA residual optimum with $f_3$ translation selection.  The two-axis closure test, again on $11$ computed organisms with $5$ folds and $41$ synonymous columns, concluded that a third axis is present because $d_{\perp}$ has systematically positive held-out $R^2$ and same-signed directions across organisms.  The third-axis identity row identified $d_{\perp}$ provisionally with usage frequency within family, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$.  The third-axis mechanism row reported selection-not-GC, not-wobble-clustered, and a CSC or positional identity still requiring external resolution.  The three-axis sufficiency row concluded that a fourth mechanism remains present.  These facts prevent the tRNA-poverty result from being read as a complete basis decomposition; it is a verified boundary pressure inside a larger residual spectrum.
 
-\paragraph{What the row licenses.}
-The valid conclusion is narrow.  Within the finite panel that was actually computed, $R$ sense codons show systematic tRNA poverty under GtRNAdb tGCN and dos Reis wobble weighting.  This supports a supply-pressure interpretation for $R$ avoidance at the codon-usage and tRNA-weight layer.  It also makes the $f_3$-stress coordinate a plausible candidate for a downstream translation-readout test, because third-position asymmetry becomes informative only where context tRNA or wobble weights break the $f_3$ symmetry:
+\paragraph{Readout gate.}
+The $f_3$-stress coordinate becomes a biological translation-readout claim only after a matched translation row is attached.  The admissible readout is a controlled survival entry $S_{f3\text{-stress},T_j}$ for a bounded translation measurement such as tAI, stAI, ribosome occupancy, or translation efficiency, with amino-acid composition, organism, GC3, CDS length, $M$-density, and mRNA controls present.  The intended support condition is
 $$
 \begin{aligned}
-w_c \neq w_{c^{f_3}}
-\quad \Longrightarrow \quad
-q_{f_3\text{-stress}} \text{ can be paired with a translation row.}
+S_{f3\text{-stress},T_j} &> 0
 \end{aligned}
 $$
-Here $w_c$ is the context tRNA or wobble weight of codon $c$, and $c^{f_3}$ denotes its third-position $f_3$ partner.  The pairing is only a test route.  It is not, by itself, a measured survival entry.
+under the declared controls and simpler-codon-baseline ablation.  The present chapter does not assert that inequality for ribosome profiling or translation efficiency.  The matched ribosome-profiling and mRNA contacts describe the kind of data needed for that test, but the same-organism and same-CDS joined matrix is not part of the finite row certified here.
 
-\paragraph{Translation-readout boundary.}
-The required downstream statistic is a controlled survival entry $S_{f3\text{-stress},T_j}$ for a translation readout $T_j$, such as tAI, stAI, ribosome occupancy, or translation efficiency.  A positive biological readout requires a non-vacuous, non-rank-degenerate statistic after amino-acid composition, organism, GC3, CDS length, $M$-density, matched mRNA, rank, and simpler-baseline controls:
-$$
-\begin{aligned}
-S_{f3\text{-stress},T_j} > 0.
-\end{aligned}
-$$
-The finite records supplied for this chapter do not contain same-organism and same-CDS joined codon-count, wobble-weight, ribosome-profiling or translation-efficiency, and matched mRNA-control rows for this exact $f_3$-stress packet.  Therefore the tRNA-poverty result cannot be promoted to measured translation survival.  It also cannot be promoted to ribosome occupancy, protein abundance, folded structure, physical admissibility, molecular function, phenotype, causal mechanism in the full biological sense, or a universal law.  Each such layer would require its own contact and its own controlled statistic.
-
-\paragraph{Local falsification rule.}
-The packet is broken as a translation-readout claim if the controlled surface remains non-positive or rank-degenerate across a powered panel:
-$$
-\begin{aligned}
-\forall T_j,\quad S_{f3\text{-stress},T_j} \leq 0,
-\end{aligned}
-$$
-or if the only apparent support comes from a rank-saturated small panel, such as an all-$1.0$ three-organism matrix.  Such a matrix is a null boundary, not survival.  Conversely, the present $40$-organism tRNA-poverty result is retained as a codon-supply asymmetry even if later translation rows fail.  Failure of $S_{f3\text{-stress},T_j}$ would constrain the readout interface; it would not erase the finite tRNA-supply row.
-
-\paragraph{Chapter verdict.}
-This chapter is ready as a bounded BioReality record.  The passed finite row is the $40$-computed-organism, $1000$-permutation, $\alpha=0.05$ tRNA-poverty result for $R$ sense codons under GtRNAdb tGCN plus dos Reis wobble weights.  The $f_3$ saturation rows and the surrounding $Q6$ spectrum fix the coordinate context.  The allowed scientific statement is a finite supply-asymmetry statement at the codon and tRNA-weight layer.  The forbidden promotion is equally explicit: no measured translation, protein output, folding, physical admissibility, function, full causal mechanism, phenotype, or universality follows until a separate layer-matched contact supplies a controlled positive row.
+\paragraph{Local refusal boundary.}
+The verified claim is therefore the following bounded statement.  On the finite $B^{\ast}_{Q6}$ codon surface, the $f_3$-saturated $R$ boundary has no remaining unsaturated $f_3$ complement, and the powered organism panel finds the $R$ sense rows systematically tRNA-poor under tGCN plus dos Reis wobble weighting.  This is enough to support a tRNA-supply account of $R$-row avoidance in the tested boundary set.  It is not enough to claim measured translation survival, protein output, folding, physical admissibility, molecular function, phenotype, universality, or any downstream mechanism beyond the stated tRNA-supply contrast.  Each such promotion requires its own layer-matched contact and its own controlled statistic.  In particular, a three-organism all-$1.0$ surface would be rank saturation rather than survival evidence, and a modeled tAI or stAI weight is not the same object as an observed ribosome-occupancy or translation-efficiency row.
