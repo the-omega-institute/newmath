@@ -1,0 +1,242 @@
+{
+  "artifact_id": "bedc-quality-lab:sti-admission",
+  "base_chance_gate": {
+    "base_margin": 0.05,
+    "base_score_mean": 0.726667,
+    "chance_score_mean": 0.61,
+    "criterion": "min_split(base_score - chance_score) >= base_margin",
+    "min_margin": 0.1,
+    "split_margins": [
+      0.12,
+      0.1,
+      0.13
+    ],
+    "status": "pass"
+  },
+  "canonical_role": "owner_local_task_admission",
+  "claim_boundary": {
+    "accepted": true,
+    "failed_gate": null,
+    "status": "pass"
+  },
+  "config": {
+    "base_margin": 0.05,
+    "control_ids": [
+      "metadata_only",
+      "label_shuffle",
+      "context_blind",
+      "surface_permutation"
+    ],
+    "control_margin": 0.02,
+    "verdicts": [
+      "accepted",
+      "bounded_negative"
+    ]
+  },
+  "controls": {
+    "control_margin": 0.02,
+    "controls": {
+      "context_blind": {
+        "max_delta_over_chance": 0.0,
+        "status": "pass"
+      },
+      "label_shuffle": {
+        "max_delta_over_chance": -0.01,
+        "status": "pass"
+      },
+      "metadata_only": {
+        "max_delta_over_chance": -0.02,
+        "status": "pass"
+      },
+      "surface_permutation": {
+        "max_delta_over_chance": -0.02,
+        "status": "pass"
+      }
+    },
+    "criterion": "max_control_score <= chance_score + control_margin",
+    "failed_controls": [],
+    "status": "pass"
+  },
+  "downstream_gate": {
+    "consumer_contract": "downstream consumers may only read the STI verdict through this owner-local gate pointer",
+    "pointer": "reports/canonical/sti-admission.json:$.downstream_gate",
+    "status": "ready"
+  },
+  "generated_at": "2026-06-17T20:11:14.194586+00:00",
+  "hardgate": {
+    "failed_gate": null,
+    "gates": {
+      "BASE-CHANCE": {
+        "criterion": "base clears owner-local chance by at least 0.05 on every split",
+        "evidence_pointer": "$.base_chance_gate",
+        "status": "pass"
+      },
+      "CONTROL": {
+        "criterion": "all four controls stay within chance plus 0.02",
+        "evidence_pointer": "$.controls",
+        "status": "pass"
+      },
+      "PAYLOAD": {
+        "criterion": "STI payload validates against owner-local required fields",
+        "evidence_pointer": "$",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "not_claimed": [
+    "No shared base/chance admission protocol is introduced.",
+    "No non-STI task producer is covered by this payload.",
+    "No downstream report may bypass the STI downstream gate pointer.",
+    "No public benchmark superiority claim is made."
+  ],
+  "observations": [
+    {
+      "base_score": 0.74,
+      "chance_score": 0.62,
+      "control_scores": {
+        "context_blind": 0.61,
+        "label_shuffle": 0.59,
+        "metadata_only": 0.6,
+        "surface_permutation": 0.58
+      },
+      "split": "heldout-a"
+    },
+    {
+      "base_score": 0.71,
+      "chance_score": 0.61,
+      "control_scores": {
+        "context_blind": 0.6,
+        "label_shuffle": 0.6,
+        "metadata_only": 0.59,
+        "surface_permutation": 0.59
+      },
+      "split": "heldout-b"
+    },
+    {
+      "base_score": 0.73,
+      "chance_score": 0.6,
+      "control_scores": {
+        "context_blind": 0.6,
+        "label_shuffle": 0.58,
+        "metadata_only": 0.58,
+        "surface_permutation": 0.57
+      },
+      "split": "heldout-c"
+    }
+  ],
+  "positive_claim": {
+    "claim": "STI clears owner-local base/chance and negative controls",
+    "positive_discovery": true,
+    "status": "accepted"
+  },
+  "preregistration": {
+    "base_chance_rule": {
+      "criterion": "min_split(base_score - chance_score) >= base_margin",
+      "margin": 0.05
+    },
+    "control_rule": {
+      "controls": [
+        "metadata_only",
+        "label_shuffle",
+        "context_blind",
+        "surface_permutation"
+      ],
+      "criterion": "max_control_score <= chance_score + control_margin for every split and control",
+      "margin": 0.02
+    },
+    "downstream_gate_pointer": "reports/canonical/sti-admission.json:$.downstream_gate",
+    "preregistration_digest": "4a59f696fb3dde827117594faad4686c6ae4fa873f3b68793be8b26e44de757f",
+    "schema_id": "bedc-quality-lab:sti-preregistration",
+    "source_issue": "#1533",
+    "task": {
+      "accepted_verdict": "accepted",
+      "base_margin": 0.05,
+      "control_ids": [
+        "metadata_only",
+        "label_shuffle",
+        "context_blind",
+        "surface_permutation"
+      ],
+      "control_margin": 0.02,
+      "evaluation_unit": "deterministic split-level STI admission row",
+      "fact_source": "owner-local",
+      "negative_verdict": "bounded_negative",
+      "owner": "bedc_quality_lab.tasks.sti",
+      "source_issue": "#1533",
+      "task_family": "structural-temporal-integration",
+      "task_id": "sti"
+    },
+    "verdict_rule": {
+      "accepted": "base_chance_gate and control_gate both pass",
+      "bounded_negative": "any owner-local STI admission gate fails"
+    }
+  },
+  "producer": "bedc_quality_lab.tasks.sti",
+  "raw_digest": "202b8ff8e295ac46c5c22b585d9f1a48a279663dabd3d07d9dbe7fdb37d4528c",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "fixed owner-local margins, controls, and deterministic observations",
+      "calibration_source": "$.preregistration",
+      "owner": "sti-admission"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "STI admission is an owner-local deterministic payload validation surface",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "python": "not-material-to-deterministic-fixture"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.preregistration",
+        "comparison": "status_equal",
+        "owner": "sti-admission",
+        "pointer": "$.verdict",
+        "reference_value": "accepted",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "owner-local deterministic rows"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "run_id": "sti-admission",
+  "schema_id": "bedc-quality-lab:sti-admission",
+  "source_artifacts": {
+    "preregistration_digest": "4a59f696fb3dde827117594faad4686c6ae4fa873f3b68793be8b26e44de757f",
+    "task_fact_owner": "bedc_quality_lab.tasks.sti"
+  },
+  "source_issue": "#1533",
+  "task_facts": {
+    "accepted_verdict": "accepted",
+    "base_margin": 0.05,
+    "control_ids": [
+      "metadata_only",
+      "label_shuffle",
+      "context_blind",
+      "surface_permutation"
+    ],
+    "control_margin": 0.02,
+    "evaluation_unit": "deterministic split-level STI admission row",
+    "fact_source": "owner-local",
+    "negative_verdict": "bounded_negative",
+    "owner": "bedc_quality_lab.tasks.sti",
+    "source_issue": "#1533",
+    "task_family": "structural-temporal-integration",
+    "task_id": "sti"
+  },
+  "verdict": "accepted",
+  "what_was_learned": "STI clears the preregistered owner-local admission margins and controls."
+}

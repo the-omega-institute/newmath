@@ -1,0 +1,146 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-17T20:11:14.194586+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "0c31de14cc94f2a72df574edcf4daa1f93a68ac4e21ee4e27d4c6cccbc016036",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "dependency_abi": {
+      "executable": "/home/aruic-wsl/newmath/.venv/bin/python",
+      "numpy": "2.4.4",
+      "python": "3.12.13",
+      "torch": "2.6.0+cu124"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/tasks/sti.py",
+        "sha256": "4c2cb761caddff7b26b1a85db5f5bd090fb6a08e64f5a80edabae5bdde91e27c"
+      },
+      {
+        "path": "scripts/run_sti_admission.py",
+        "sha256": "b39c6b7092f9fd1e850d662d2f374c2202ce9db67d229fe15fa50e52ff301dd5"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:sti-admission",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_sti_admission.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "claim_promotion_eligible": false,
+      "command": [
+        "python3",
+        "scripts/run_sti_admission.py"
+      ],
+      "construct_validity_pointer": null,
+      "control_pointer": "$.controls",
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior",
+        "trained empirical superiority over Transformer",
+        "training evidence beats Transformer",
+        "LLM superiority",
+        "production superiority"
+      ],
+      "json_artifact": "reports/canonical/sti-admission.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/sti-admission.md",
+      "name": "sti-admission",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "exact_fixture",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "run_id",
+        "source_issue",
+        "producer",
+        "source_artifacts",
+        "task_facts",
+        "preregistration",
+        "config",
+        "observations",
+        "base_chance_gate",
+        "controls",
+        "verdict",
+        "claim_boundary",
+        "positive_claim",
+        "downstream_gate",
+        "hardgate",
+        "not_claimed",
+        "what_was_learned",
+        "reproducibility_contract",
+        "raw_digest"
+      ],
+      "scope_pointer": "$.task_facts"
+    }
+  },
+  "json_artifact": "reports/canonical/sti-admission.json",
+  "markdown_artifact": "reports/canonical/sti-admission.md",
+  "producer_command": [
+    "python3",
+    "scripts/run_sti_admission.py"
+  ],
+  "report_name": "sti-admission",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "sti-admission"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.4.4",
+        "torch": "not-requested"
+      },
+      "python": "3.12.13"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "sti-admission",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "a3d8f410e50b1068fd11c4b6bd4425e0a515c510238d1e5b2bc84dd8ed27b006",
+  "reproducibility_mode": "exact_fixture",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

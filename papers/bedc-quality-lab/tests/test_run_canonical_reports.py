@@ -59,3 +59,21 @@ def test_fair_alignment_control_targeted_selection_includes_source_reports():
         "gap-head-on-h",
         "discovery-regularized-training",
     )
+
+
+def test_sti_admission_dispatch_writes_canonical_artifacts(monkeypatch, tmp_path):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["sti-admission"]
+
+    canonical._run_spec_producer(spec, generated_at="fixture-time")
+
+    payload = json.loads((tmp_path / spec.json_artifact).read_text(encoding="utf-8"))
+    markdown = (tmp_path / spec.markdown_artifact).read_text(encoding="utf-8")
+
+    assert payload["generated_at"] == "fixture-time"
+    assert payload["producer"] == "bedc_quality_lab.tasks.sti"
+    assert payload["task_facts"]["owner"] == "bedc_quality_lab.tasks.sti"
+    assert payload["verdict"] == "accepted"
+    assert payload["hardgate"]["status"] == "pass"
+    assert "- Downstream gate: `reports/canonical/sti-admission.json:$.downstream_gate`" in markdown
