@@ -34,6 +34,7 @@ DEFAULT_INTERVAL = 600.0
 sys.path.insert(0, str(SCRIPT_DIR))
 import runner  # noqa: E402
 import oracle_lane  # noqa: E402
+import derivation_lane  # noqa: E402
 
 
 def now_iso() -> str:
@@ -260,6 +261,7 @@ def main():
     ap.add_argument("--interval-seconds", type=float, default=DEFAULT_INTERVAL)
     ap.add_argument("--no-commit", action="store_true")
     ap.add_argument("--no-oracle", action="store_true")
+    ap.add_argument("--no-derive", action="store_true")
     args = ap.parse_args()
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     with LOCK.open("w", encoding="utf-8") as lock_fh:
@@ -275,10 +277,11 @@ def main():
             summary = run_cycle()
             oracle = {"ran": False, "reason": "disabled_by_flag"} if args.no_oracle else oracle_lane.run_oracle_lane()
             assimilation = assimilation_lane()
+            derivation = {"ran": False, "reason": "disabled_by_flag"} if args.no_derive else derivation_lane.run_derivation_lane()
             paper = paper_lane()
             keep = {} if args.no_commit else keep_lane()
             publish = {} if args.no_commit else publish_lane()
-            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} oracle={oracle} assimilation={assimilation} paper={paper} keep={keep} publish={publish}", flush=True)
+            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} oracle={oracle} assimilation={assimilation} derivation={derivation} paper={paper} keep={keep} publish={publish}", flush=True)
             if args.once:
                 break
             time.sleep(max(1.0, float(args.interval_seconds)))
