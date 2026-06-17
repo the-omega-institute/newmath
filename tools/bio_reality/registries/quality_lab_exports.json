@@ -628,7 +628,7 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 71,
+        "finite_row_count": 73,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
@@ -1103,6 +1103,22 @@
           "status": "open",
           "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.operator-review.position-resolved-readout-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.window-statistic-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         }
       ],
@@ -1190,22 +1206,24 @@
           "q6.f3-stress.wobble-broken.translation-readout.operator-review.same-row-statistic-gap",
           "q6.residual-basis-extraction.greedy-readout.operator-review.residual-blind-readout-gap",
           "q6.translation-survival.rank-admissibility-boundary.operator-review.measured-readout-gap",
-          "q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap"
+          "q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.operator-review.position-resolved-readout-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.window-statistic-gap"
         ],
         "gate_result_ref": "conjecture:q6.direct-protein-omics-survival.with-translation-boundary.cross-layer"
       }
     },
     {
-      "packet_id": "q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout",
-      "claim_id": "h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient",
+      "packet_id": "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.cross-layer",
+      "claim_id": "h0.f3.saturation",
       "claimed_layer": "cross_layer_relation",
-      "export_status": "gate_passed",
+      "export_status": "review_ready",
       "source_spec": {
         "reality_contacts": [
           "codon-usage-per-organism",
           "tai-or-stai-weights",
-          "position-resolved-ribosome-occupancy-window",
           "matched-mrna-abundance-control",
+          "position-resolved-ribosome-occupancy-window",
           "trna-gene-copy-numbers",
           "ribosome-profiling-translation-efficiency",
           "matched-proteomics-protein-abundance"
@@ -1215,9 +1233,9 @@
           "cross_layer_relation",
           "codon usage distribution",
           "codon adaptation weight readback",
+          "isolation of translation-layer signal from transcription-layer signal via TE residual",
           "position-resolved ribosome occupancy readback",
           "cross_layer_relation boundary for f_3-stress only after same-row codon counts, wobble-weight surface, matched mRNA control, rank checks, and position or amino-acid-bin controls are attached",
-          "isolation of translation-layer signal from transcription-layer signal via TE residual",
           "tRNA-Leu gene-copy spectrum",
           "B*_Q6 residual coordinate survival on translation efficiency under amino-acid composition + GC3 + length + M-density baseline controls",
           "downstream mediation chain Q_i -> T_j (translation readout) -> P_k (protein abundance) once both translation and protein contacts are attached"
@@ -1227,6 +1245,9 @@
           "physical admissibility",
           "function realization",
           "global biological law",
+          "translation realization from transcript abundance alone",
+          "CUN/UUR versus tRNA-Leu association without matched codon-usage and tRNA-copy contacts",
+          "protein folding, physical admissibility, function, or universality from transcript counts alone",
           "translation realization from codon or window geometry alone",
           "measured translation efficiency from modeled tAI or stAI alone",
           "protein abundance",
@@ -1234,9 +1255,6 @@
           "structural order",
           "system phenotype",
           "translation mechanism",
-          "translation realization from transcript abundance alone",
-          "CUN/UUR versus tRNA-Leu association without matched codon-usage and tRNA-copy contacts",
-          "protein folding, physical admissibility, function, or universality from transcript counts alone",
           "protein folding, mature protein abundance, function, mechanism, or universality from ribo-seq alone",
           "folding pathway dynamics",
           "physical admissibility from steady-state abundance alone"
@@ -1245,8 +1263,8 @@
       "pattern_spec": {
         "internal_surfaces": [
           "coordinate",
-          "trigger",
-          "relation"
+          "relation",
+          "trigger"
         ],
         "probe_refs": [
           "residual-basis.translation-readout-boundary.no-promotion",
@@ -1255,7 +1273,7 @@
       },
       "classifier_spec": {
         "gate_status": "gate_passed",
-        "review_decision": "",
+        "review_decision": "review_ready",
         "blocked_overclaim": false
       },
       "stability_spec": {
@@ -1264,7 +1282,7 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 72,
+        "finite_row_count": 74,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
@@ -1740,23 +1758,40 @@
           "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap",
           "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.operator-review.position-resolved-readout-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
         }
       ],
       "not_claimed": [
-        "Do not claim protein abundance, folding, stability, localization, function, or phenotype from f_3-stress unless the same rows first pass the translation-readout survival step.",
-        "Do not treat f_3-stress as dynamical when wobble weights are f_3-symmetric.",
-        "Do not report a population-level directionality claim without rank-powered multi-organism support and amino-acid-bin controls."
+        "Do not infer folded structural order, protein function, protein stability, localization, PTM state, or system phenotype from f_3-stress without a separate downstream readout after the translation-readout step.",
+        "Do not report f_3-stress as a dynamical translation variable when the attached wobble-weight surface is f_3-symmetric, i.e. when w_c = w_{c^{f_3}} on the tested fiber.",
+        "Do not treat a rank-degenerate or n=3 organism fit as survival; the entry remains needs_data unless rank sufficiency and simpler-baseline ablation pass.",
+        "Do not interpret raw codon-position enrichment as translation realization unless amino-acid composition or amino-acid-bin position, GC3, length, organism, M-density, codon usage, tAI or stAI, and matched mRNA controls are present."
       ],
       "artifacts": {
         "bedc_module": "papers/bedc/parts/concrete_instances/115313_bioreality_q_six_translation_complement_residual_namecert_construction.tex",
-        "bio_paper": "papers/bio_reality/parts/codon_window_reality_boundary/q6_f3_stress_position_resolved_ribosome_occupancy_translation_readout.tex"
+        "bio_paper": "papers/bio_reality/parts/namecerts/h3_cross_layer_relation_f3_stress_family_decomposition_b_star_q6_synonymous_identity_powered.tex"
       },
       "fact_owner": {
         "contact_refs": [
           "codon-usage-per-organism",
           "tai-or-stai-weights",
-          "position-resolved-ribosome-occupancy-window",
           "matched-mrna-abundance-control",
+          "position-resolved-ribosome-occupancy-window",
           "trna-gene-copy-numbers",
           "ribosome-profiling-translation-efficiency",
           "matched-proteomics-protein-abundance"
@@ -1826,9 +1861,11 @@
           "q6.f3-stress.wobble-broken.translation-readout.operator-review.same-row-statistic-gap",
           "q6.residual-basis-extraction.greedy-readout.operator-review.residual-blind-readout-gap",
           "q6.translation-survival.rank-admissibility-boundary.operator-review.measured-readout-gap",
-          "q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap"
+          "q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.operator-review.position-resolved-readout-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.window-statistic-gap"
         ],
-        "gate_result_ref": "conjecture:q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout"
+        "gate_result_ref": "conjecture:q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.cross-layer"
       }
     }
   ]

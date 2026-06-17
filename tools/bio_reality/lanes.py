@@ -1039,6 +1039,20 @@ def _bio_plan_direction_prompt(event_kind: str) -> str:
             "if the program must keep internal codon geometry separate from external "
             "biological reality contacts?"
         )
+    elif event_kind == "frontier_saturated":
+        focus = (
+            "a research program that has saturated one biological layer: synonymous "
+            "codon usage and its boundary onto translation efficiency, protein "
+            "abundance, and structural order, where the proposer keeps re-deriving "
+            "near-duplicate conjectures on that same layer"
+        )
+        question = (
+            "What is one genuinely different, still-falsifiable biological reality "
+            "contact or layer, outside synonymous-codon-to-translation readout, that "
+            "commonly available molecular sequence or expression data could test next, "
+            "while keeping internal sequence-coordinate geometry strictly separate from "
+            "any external biological mechanism claim?"
+        )
     else:
         focus = (
             "a frontier where a candidate biological claim is stuck because its null "
@@ -1465,6 +1479,36 @@ def _bio_plan_trigger(new_events: list[dict[str, Any]]) -> dict[str, Any] | None
     return None
 
 
+def _frontier_saturation_trigger(store: BioRealityStore) -> dict[str, Any] | None:
+    """Treat a stuck frontier proposer as a planning trigger.
+
+    When the previous frontier attempt was rejected as a duplicate or by the
+    gate there is no phase-advance or stuck-claim event, so bio-Plan would never
+    consult the oracle and the proposer keeps re-deriving near-duplicates. This
+    synthesises an ephemeral trigger (not persisted to the event log) so the
+    existing bio-Plan oracle path asks for a genuinely different direction. No
+    new lane: it only supplies a topic to the existing consultation when no
+    natural event fired.
+    """
+    state = _read_oracle_state(store)
+    lane_state = state.get("bio-Plan") if isinstance(state.get("bio-Plan"), dict) else {}
+    reason = str(lane_state.get("last_frontier_reason") or "")
+    if not (
+        reason.startswith("duplicate_conjecture_id")
+        or reason.startswith("gate_rejected")
+        or reason.startswith("codex_unparseable")
+    ):
+        return None
+    return agent_bus._event(
+        "frontier_saturated",
+        "bio-Plan",
+        "frontier",
+        "saturation",
+        f"frontier proposer saturated: {reason[:160]}",
+        {"last_frontier_reason": reason},
+    )
+
+
 def _bio_plan_prompt(
     claims: list[dict[str, Any]],
     phases_passed: list[int],
@@ -1475,6 +1519,9 @@ def _bio_plan_prompt(
     phase = _current_phase(claims, phases_passed)
     if event_kind == "phase_advance_proposed":
         topic = "bio-Plan.direction.phase-frontier"
+        return topic, "", _bio_plan_direction_prompt(event_kind)
+    if event_kind == "frontier_saturated":
+        topic = "bio-Plan.direction.new-frontier"
         return topic, "", _bio_plan_direction_prompt(event_kind)
     claim_id = str(payload.get("claim_id") or trigger_event.get("subject_id") or "")
     topic = "bio-Plan.direction.control-boundary"
@@ -1602,12 +1649,48 @@ def _frontier_vision_excerpt(store: BioRealityStore, limit: int = 10000) -> str:
     return excerpt[-limit:]
 
 
+def _latest_oracle_direction_excerpt(store: BioRealityStore, lane: str = "bio-Plan", limit: int = 1600) -> str:
+    """Most recent oracle direction answer for a lane, to ground the frontier proposer
+    in what the pipeline just asked the oracle. Empty string when none available."""
+    base = store.paths.root / "state" / "oracle_sessions" / lane
+    try:
+        files = sorted(base.glob("*.jsonl"), reverse=True)
+    except OSError:
+        return ""
+    for path in files:
+        try:
+            lines = path.read_text(encoding="utf-8").splitlines()
+        except OSError:
+            continue
+        last_response = ""
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(record, dict) or record.get("record_kind") != "turn":
+                continue
+            result = record.get("result") if isinstance(record.get("result"), dict) else {}
+            for key in ("response", "answer", "output", "text", "detail"):
+                value = result.get(key)
+                if isinstance(value, str) and value.strip():
+                    last_response = value.strip()
+                    break
+        if last_response:
+            return last_response[-limit:]
+    return ""
+
+
 def _frontier_prompt(
     vision_excerpt: str,
     conjectures: list[dict[str, Any]],
     contacts: list[dict[str, Any]],
     probes: list[dict[str, Any]],
     claims: list[dict[str, Any]],
+    oracle_direction: str = "",
 ) -> str:
     layer_order = [
         "code_read",
@@ -1669,6 +1752,7 @@ def _frontier_prompt(
             "- Use only existing contact_id and probe_id values if you reference reality_contact_refs or probe_refs.",
             "- If no existing contact/probe can support the layer, still output the best candidate with empty refs; the deterministic gate may reject it.",
             "- The conjecture must be the next uncovered cross-layer decomposition from the vision, not a duplicate of existing conjecture_id values.",
+            "- If an oracle-suggested unexplored direction is given below and the existing conjectures are saturating one biological layer, prefer the next genuinely distinct biological object or layer it points to (refs may be empty for the gate to judge) over a near-duplicate.",
             "- It must not skip the mandatory translation-readout step toward structure, function, or phenotype.",
             "",
             "ID syntax:",
@@ -1701,6 +1785,9 @@ def _frontier_prompt(
                 ensure_ascii=False,
                 sort_keys=True,
             ),
+            "",
+            "Oracle-suggested unexplored direction (hypothesis only; ground any claim in repo data or leave refs empty for the deterministic gate to judge):",
+            oracle_direction or "(none available yet)",
             "",
             "Vision excerpt:",
             vision_excerpt or "VISION FILE MISSING",
@@ -1825,7 +1912,8 @@ def _maybe_propose_frontier_conjecture(
     repo_root = _repo_root_from_store(store)
     contacts = store.load_contacts()
     probes = store.load_probes()
-    prompt = _frontier_prompt(vision_excerpt, conjectures, contacts, probes, claims)
+    oracle_direction = _latest_oracle_direction_excerpt(store)
+    prompt = _frontier_prompt(vision_excerpt, conjectures, contacts, probes, claims, oracle_direction=oracle_direction)
     parsed, raw_stdout, raw_stderr = _run_frontier_codex(prompt, repo_root, timeout_seconds=240)
     if parsed is None:
         _append_frontier_log(
@@ -1974,7 +2062,7 @@ def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
 
     phase_advance_events = sum(1 for event in new_events if event.get("event_kind") == "phase_advance_proposed")
     stuck_redesign_events = sum(1 for event in new_events if event.get("event_kind") == "claim_redesign_proposed")
-    trigger_event = _bio_plan_trigger(new_events)
+    trigger_event = _bio_plan_trigger(new_events) or _frontier_saturation_trigger(store)
     merged = agent_bus._dedup(existing_events + new_events, "event_id")
     store.write_events(merged)
     oracle_summary = _maybe_run_bio_plan_oracle(store, claims, phases_passed, trigger_event)

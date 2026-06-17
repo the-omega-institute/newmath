@@ -1,0 +1,54 @@
+\subsection{Position-resolved ribosome occupancy as a bounded readout for $f_3$-stress}
+\label{sec:q6-f3-stress-position-resolved-ribosome-occupancy-translation-readout}
+
+\paragraph{Finite carrier.}
+The finite object considered here is a table of coding-sequence windows.  Each row is keyed by organism, CDS or transcript identifier, codon position or fixed local window, amino-acid bin, codon counts, GC3, length, an $M$-density statistic, a bounded wobble-weight surface, matched mRNA abundance, and a position-resolved ribosome-footprint occupancy statistic.  The coordinate of interest is not a raw codon-composition direction.  It is an $f_3$-stress residual coordinate computed only after projection to amino-acid composition has already been removed.  Thus a row is eligible for the test only when the remaining synonymous codon geometry still carries a nonzero $f_3$-asymmetric component and when the wobble weights distinguish a codon $c$ from its $f_3$ mate $c^{f_3}$.
+
+\paragraph{Finite $f_3$ support.}
+The verified finite saturation data give the ambient $M$ list
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+The $f_3$ saturation of the residual seed removes exactly the two entries $\mathrm{ACA}$ and $\mathrm{ACG}$ from this list:
+$$
+\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
+&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+The corresponding recorded $f_3$ boundary is empty.  The quotient geometry records $20$ vertices, $38$ edges, $26$ two-faces, $8$ three-faces, and $1$ four-dimensional cell before quotienting, while the quotient has $10$ vertices, $14$ edges, $6$ two-faces, and $1$ three-dimensional cell.  The quotient image has size $10$, with representatives
+$$
+\begin{aligned}
+\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
+&(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned}
+$$
+These numbers determine only the finite residual coordinate system.  They do not by themselves measure translation, ribosome motion, protein output, folded structure, physical admissibility, biological function, or a general biological law.
+
+\paragraph{Trigger for a dynamical readout test.}
+The coordinate is treated as testable against ribosome occupancy only under a wobble-asymmetry trigger.  For a codon $c$ in an eligible synonymous context, the relevant comparison is
+$$
+\begin{aligned}
+w_c \neq w_{c^{f_3}}.
+\end{aligned}
+$$
+If this inequality fails, the row may still belong to the finite residual geometry, but it is not admitted as evidence that $f_3$-stress has a translation-layer readout.  If the inequality holds, the row enters a survival test in which position-resolved ribosome occupancy is the bounded response variable.  This occupancy is read as a local translation measurement only at the footprint or window level; it is not promoted to abundance, folding, localization, function, phenotype, mechanism, or universality.
+
+\paragraph{Survival statistic.}
+For each organism and amino-acid bin, let $Y$ denote the position-resolved ribosome-occupancy statistic and let $X_{f_3}$ denote the post-amino-acid-projection $f_3$-stress residual.  Let $Z$ collect the required controls: organism, amino-acid bin, GC3, length, $M$-density, mRNA abundance, codon-count baseline, wobble-weight surface, and position or local-window covariates.  The admissible comparison is the improvement of a controlled model after adding $X_{f_3}$:
+$$
+\begin{aligned}
+S_{f_3\text{-stress}}(Y\mid Z) &= \Delta\operatorname{score}(Y;Z,X_{f_3})-\Delta\operatorname{score}(Y;Z),\\
+\text{support} &\Longrightarrow S_{f_3\text{-stress}}(Y\mid Z)>0
+\end{aligned}
+$$
+with the additional requirement that the positive entry survive rank checks and simpler codon-baseline ablations across the organism panel being analyzed.  A single positive row is therefore not a population-level directionality result.  Conversely, a nonpositive result only breaks this readout route; it does not prove that the residual geometry is biologically irrelevant.
+
+\paragraph{Readout boundary.}
+The ribosome-footprint contact must be joined to the same organism, same CDS, and same ordered codon coordinates before the statistic is computed.  The matched mRNA contact is required so that occupancy can be separated from transcript abundance, for example by a translation-efficiency residual or an equivalent controlled readout.  Codon-usage tables and tAI or stAI weights may supply bounded sequence and adaptation annotations, but they are not observed ribosome-occupancy measurements.  The local conclusion, when the survival test passes, is only that the finite $f_3$-stress residual improves prediction of a position-resolved ribosome-occupancy readout under the stated controls.  No translation mechanism, protein abundance, folded structure, physical admissibility, function, phenotype, or universal biological rule follows unless an additional contact at that layer is separately supplied and passes its own finite-row test.
+
+\paragraph{Break condition.}
+The claim fails as a translation-readout claim if every controlled survival entry is nonpositive, if the wobble surface is $f_3$-symmetric on the tested rows, if the occupancy rows cannot be joined to same-CDS codon coordinates and matched mRNA abundance, or if the positive entries disappear after amino-acid-bin, organism, GC3, length, $M$-density, codon-count, position, and wobble-weight controls.  Under any of those outcomes, the remaining statement is only the finite residual geometry described above, together with an unpassed hypothesis about its possible relation to local ribosome occupancy.
