@@ -1,60 +1,63 @@
-\subsection{Window6 reduced Laplacian and the prime $571$}\label{sec:f-a2-window6-modpstar-571-spectral-collision}
 \origin{ai}
+\subsection{Finite Window6 Green singularity at the prime 571}
+\label{sec:window6-modpstar-571-spectral-collision}
 
-\paragraph{Finite carrier.}
-The object of this subsection is a finite audit system built from Window6 vertices.  Let $V$ be the finite set of audit vertices produced by the Window6 construction, and let $R$ be the finite row set obtained after one Laplacian row is removed for the usual reduced Kirchhoff calculation.  The reduced row set has three indexed positions, so the reduced Laplacian is a $3 \times 3$ integer matrix
+\paragraph{Carrier.}
+The finite object is a Window6 audit presentation. Its carrier consists of a finite set of audit vertices together with the reduced Laplacian rows obtained after one Kirchhoff row-and-column reduction. The reduced row set has three rows, so the Green/Kirchhoff matrix is an integer matrix
 $$
 \begin{aligned}
-L_{\mathrm{red}} \in \mathrm{Mat}_{3 \times 3}(\mathbb{Z}).
+L_{\mathrm{red}} \in \operatorname{Mat}_{3 \times 3}(\mathbb{Z}).
 \end{aligned}
 $$
-The finite predicates used here are only membership in $V$, membership in the reduced row set $R$, and incidence in the finite Window6 audit relation whose row-sum Laplacian gives $L_{\mathrm{red}}$ after the chosen row and column are deleted.  Thus the construction is completely finite: the carrier is $V$, the reduced calculation is carried by $R$, and every matrix entry is an integer count or signed count determined by the finite incidence relation.
+The predicates used here are only finite predicates on this presentation: a symbol is an audit vertex when it belongs to the selected Window6 vertex set; a row is admitted when it is one of the three reduced Laplacian rows; two row presentations are equivalent when they are related by left and right multiplication by unimodular integer matrices. The associated partition is the Smith partition of the finitely generated abelian cokernel of $L_{\mathrm{red}}$, namely the diagonal invariant-factor presentation.
 
-\paragraph{Smith calculation.}
-The exact integer normal form of the reduced Laplacian is
+\paragraph{Smith data.}
+The exact Smith normal form of the reduced Laplacian is
 $$
 \begin{aligned}
-\mathrm{SNF}(L_{\mathrm{red}}) &= \mathrm{diag}(1,1,123336).
+\operatorname{SNF}(L_{\mathrm{red}}) = \operatorname{diag}(1,1,123336).
 \end{aligned}
 $$
-Equivalently, there are unimodular integer matrices $U$ and $W$ such that
+Hence the determinantal factor is $123336$, and the finite cokernel has one nontrivial invariant factor of order $123336$. The factorization is
 $$
 \begin{aligned}
-U L_{\mathrm{red}} W &=
-\begin{pmatrix}
-1 & 0 & 0 \\
-0 & 1 & 0 \\
-0 & 0 & 123336
-\end{pmatrix}.
+123336 = 8 \cdot 27 \cdot 571 = 2^3 \cdot 3^3 \cdot 571.
 \end{aligned}
 $$
-This records the finite abelian cokernel of the reduced Laplacian as having two trivial invariant factors and one nontrivial invariant factor of order $123336$.  The determinantal factor is therefore exactly
-$$
-\begin{aligned}
-\det(L_{\mathrm{red}}) &= 123336.
-\end{aligned}
-$$
-The prime factorization is
-$$
-\begin{aligned}
-123336 &= 8 \cdot 27 \cdot 571 \\
-       &= 2^3 \cdot 3^3 \cdot 571.
-\end{aligned}
-$$
-Hence $571$ is not introduced as an outside parameter.  It is extracted from the finite integer matrix itself as a prime divisor of the nontrivial Smith factor.
+Thus the prime $571$ divides the nontrivial Smith factor. Equivalently, reducing the matrix modulo $571$ makes the determinant vanish, so the reduced matrix becomes singular over the finite field $\mathbb{F}_{571}$.
 
-\paragraph{Modular spectral collision.}
-Let $P(t) \in \mathbb{Z}[t]$ denote the associated finite Green--Kirchhoff spectral polynomial of this Window6 reduced audit.  Its coefficients are determined by the same finite matrix data as $L_{\mathrm{red}}$, so reduction modulo a prime is an ordinary coefficientwise map
+\paragraph{Characteristic polynomial.}
+The finite Green/Kirchhoff characteristic polynomial attached to the same reduced matrix is
 $$
 \begin{aligned}
-\mathbb{Z}[t] &\longrightarrow (\mathbb{Z}/571\mathbb{Z})[t], \\
-P(t) &\longmapsto \overline{P}(t).
+\chi_L(t) = t^3 - 246t^2 + 14401t - 123336.
 \end{aligned}
 $$
-Using the extracted prime $571$, the reduced polynomial has a repeated-root collision modulo $571$.  In purely algebraic terms, this means that $\overline{P}(t)$ and its formal derivative $\overline{P}'(t)$ have a nonconstant common divisor in $(\mathbb{Z}/571\mathbb{Z})[t]$; equivalently, at least one root of $\overline{P}(t)$ in an algebraic extension of $\mathbb{Z}/571\mathbb{Z}$ occurs with multiplicity greater than one.
+Evaluating at zero and reducing modulo $571$ gives
+$$
+\begin{aligned}
+\chi_L(0) = -123336 \equiv 0 \pmod{571}.
+\end{aligned}
+$$
+Therefore $0$ is an eigenvalue of the reduced matrix over $\mathbb{F}_{571}$. This is the finite spectral collision recorded by the Window6 audit: the same prime that appears in the Smith invariant also forces a zero eigenvalue after reduction modulo that prime.
+
+\paragraph{Multiplicity witness.}
+The zero eigenvalue modulo $571$ is simple. The derivative of the characteristic polynomial at zero has the exact value
+$$
+\begin{aligned}
+\chi_L'(0) = 14401 \equiv 126 \pmod{571}.
+\end{aligned}
+$$
+Since $126$ is nonzero in $\mathbb{F}_{571}$, the root $t=0$ is not repeated. The same conclusion is recorded by the polynomial common-divisor check
+$$
+\begin{aligned}
+\deg \gcd(\chi_L,\chi_L') = 0
+\end{aligned}
+$$
+over $\mathbb{F}_{571}$. Thus the singularity is not a repeated-root degeneracy of the characteristic polynomial; it is a simple modular zero forced by the finite Smith factor.
 
 \paragraph{Witness extraction.}
-The witness has two finite parts.  First, the Smith normal form gives the integer invariant factor $123336$ and the exact factorization $123336=2^3\cdot 3^3\cdot 571$.  Second, the same prime $571$ is used as the reduction prime for the finite Green--Kirchhoff spectral polynomial, where the repeated-root condition is detected by the common divisor of $\overline{P}(t)$ and $\overline{P}'(t)$.  The numerical witness is therefore internal to the finite audit calculation: the prime appears in the reduced Laplacian invariant factor and then reappears as the modulus at which the spectral polynomial ceases to be squarefree.
+The finite certificate has three arithmetic witnesses. First, $571$ divides $123336$, so it divides the determinant represented by the Smith invariant factor. Second, $\chi_L(0)$ vanishes modulo $571$, giving the zero eigenvalue over $\mathbb{F}_{571}$. Third, $\chi_L'(0) \equiv 126 \pmod{571}$ and the greatest common divisor of $\chi_L$ and $\chi_L'$ has degree zero over $\mathbb{F}_{571}$, excluding a repeated-root collision. These witnesses are entirely internal to the finite matrix calculation.
 
-\paragraph{Boundary of the assertion.}
-The assertion made here is only the finite algebraic one: the Window6 reduced Laplacian has Smith normal form $\mathrm{diag}(1,1,123336)$, the integer $123336$ factors as $2^3\cdot 3^3\cdot 571$, and the corresponding finite Green--Kirchhoff spectral polynomial has a repeated-root collision after reduction modulo $571$.  No physical-constant identification, global flow law, outside dependency, metrological comparison, or interpretation beyond this finite construction follows from the calculation unless a separate certificate supplies the additional bridge.
+\paragraph{Boundary.}
+No physical fine-structure constant identification is asserted. No global flow law, external dependency, metrological comparison, or interpretation beyond this finite Window6 Smith and Green/Kirchhoff construction follows from the calculation alone. Any proposed physical matching would require a separate certificate that is not part of this finite arithmetic statement.
