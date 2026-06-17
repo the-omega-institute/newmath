@@ -1,56 +1,32 @@
-\subsection{Coordinate-level reducibility of the $B^*_{Q6}$ protein-abundance residual}\label{subsec:b-star-q6-coordinate-reducibility}
 \origin{ai}
 
-\paragraph{Claim.}
-This record tests whether the nine synonymous residual coordinates in $B^*_{Q6}$ behave as a single opaque abundance predictor, or whether individual coordinates remain separately recoverable from a fixed measured-readout dictionary after the same control projection has been applied.  The tested object is the residualized yeast protein-abundance target
-$\log_{10}(\mathrm{abundance\_ppm})$ on a unified \emph{Saccharomyces cerevisiae} context join.  The control basis has rank $24$ and contains the sibling covariates used throughout the $B^*_{Q6}$ abundance tests: amino-acid composition, CDS length, GC3, and the $M$-density baseline.  The coordinate source is the $9$-dimensional $B^*_{Q6}$ synonymous residual design, with coordinates
-$$
-\begin{aligned}
-&K\_AAA,\ \mathrm{Arg}\_AGR,\ \mathrm{Ile}\_AUA,\ \mathrm{Leu}\_{CUN/UUR},\ \mathrm{Leu}\_{UUA/UUG},\\
-&\mathrm{Ser}\_{UCR/AGY},\ \mathrm{Ser}\_{UCA/UCG},\ \mathrm{Thr}\_{ACR/ACY},\ f3\_\mathrm{stress}.
-\end{aligned}
-$$
-For each coordinate $x_i$, the tested projection is the single-coordinate protein-abundance component $P_i=\operatorname{Proj}_{x_i}(\mathrm{target})$.  The reported coverage statistic asks how much of $P_i$ is recovered by the fixed $Z$-residualized measured-readout dictionary.  The finite run used $n=1258$ joined rows from a base pool of $1800$, required at least $500$ proteins per organism, used $5$ held-out folds, and compared each held-out $R^2$ to a deterministic target-label permutation null with $120$ permutations.
+\subsection{Per-coordinate reducibility of the $B^*_{Q6}$ abundance component}
+\label{sec:bioreality-b-star-q6-per-coordinate-reducibility}
 
-\paragraph{Finite-row result.}
-The decomposition was completed for all $9$ coordinates.  The measured-readout dictionary after residualization had rank $3$, so the test is not merely a restatement of the full $9$-coordinate source space.  The deterministic run identifier was \texttt{eee8859afc3f}, with seed \texttt{sha256:b\_star\_q6\_coordinate\_decomposition\_powered:deterministic}.  Eight of the nine coordinates passed the stated real-source gate under the held-out/permutation comparison:
-$$
-\begin{aligned}
-\mathcal R_{\mathrm{source}}=\{&K\_AAA,\ \mathrm{Arg}\_AGR,\ \mathrm{Ile}\_AUA,\ \mathrm{Leu}\_{CUN/UUR},\ \mathrm{Leu}\_{UUA/UUG},\\
-&\mathrm{Ser}\_{UCR/AGY},\ \mathrm{Thr}\_{ACR/ACY},\ f3\_\mathrm{stress}\}.
-\end{aligned}
-$$
-The only listed coordinate not in the passing set is $\mathrm{Ser}\_{UCA/UCG}$.  Thus the finite table does not only say that the joint $B^*_{Q6}$ abundance component is nonzero; it says that most individual residual coordinates can be read back through the measured dictionary after the shared $Z$ projection.  The completed table has row count $9$, and the status of the finite computation is \texttt{passed}.
+\paragraph{Question.}
+The powered per-coordinate experiment asks whether the nine synonymous residual coordinates of $B^*_{Q6}$ remain a single opaque block, or whether individual coordinates can be separately read against measured abundance after the same sibling controls are removed.  The source design is the nine-dimensional $B^*_{Q6}$ residual system, residualized against the control basis $Z$ consisting of coding-sequence length, amino-acid composition, $GC3$, and the $M$-density baseline.  The target is yeast $\log_{10}$ protein abundance, again residualized against the sibling $Z$ controls on the unified yeast context join.  The experiment is therefore not a statement about the genetic code in the abstract; it is a finite-row projection test on a particular joined yeast abundance table.
 
-\paragraph{Relation to the abundance and complement surfaces.}
-The coordinate-level result is consistent with the broader yeast abundance surface, where the measured-protein readout has substantial $B^*_{Q6}$ residual association under the same style of controls.  In the yeast translation-complement run, the abundance component explained by residualized $B^*_{Q6}$ coordinates had
+\paragraph{Finite design.}
+The run records $1800$ base rows and a joined analysis table of $n=1258$ proteins for \emph{Saccharomyces cerevisiae}.  The minimum protein-count gate was $500$ proteins per organism, the decomposition used $5$ held-out folds, and the deterministic null used $120$ target-label permutations with the same folds and design.  The residual control basis had rank $24$, while the measured readout dictionary used for reducibility had rank $3$.  For a single coordinate $x_i$, the statistic is the held-out coverage of the one-coordinate abundance projection $P_i=\operatorname{Proj}_{x_i}(\mathrm{target})$ by the fixed residualized dictionary $D_e$.  In the notation of the run, the coverage quantity is an orthogonal projection score, not a causal coefficient:
 $$
 \begin{aligned}
-R^2_{QP} &= 0.29837624987287115,\\
-d &= 0.21173219572706703,\\
-m &= 0.788267804272933,
+P_i &= \operatorname{Proj}_{x_i}(y_{\perp Z}),\\
+\operatorname{Cov}_i &= \frac{\|\operatorname{Proj}_{D_e}(P_i)\|^2}{\|P_i\|^2},
 \end{aligned}
 $$
-where $d$ is the modeled-translation-complement fraction and $m$ is its complementary mediated-alignment scalar for that projection definition.  In the independent abundance--mRNA stability decomposition on $5085$ yeast rows, the joint $9$-coordinate abundance association was
-$$
-\begin{aligned}
-R^2_{QP} &= 0.2761140373962526,\\
-R^2_{QP\mid M} &= 0.24851799532219632,\\
-R^2_{\mathrm{absorbed\ by}\ M} &= 0.027596042074056304,\\
-\frac{R^2_{\mathrm{absorbed\ by}\ M}}{R^2_{QP}} &= 0.09994436477872035.
-\end{aligned}
-$$
-The mediation null used $1000$ permutations and gave right-tail $p=0.000999000999000999$, with null mean $0.00019674487584783138$ and null $95$th percentile $0.0014571003414947088$.  These numbers do not prove a causal path through mRNA stability, but they show that the coordinate-resolved abundance signal is not isolated from independently measured yeast readouts.
+with the held-out value compared against the deterministic permutation boundary.  The audited table has exactly $9$ coordinate rows: $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f_3$-stress.
 
-\paragraph{Condition and subcoordinate checks.}
-A condition-specific yeast abundance check also supports the same coordinate family at finite scale.  On $2209$ shared yeast proteins, the $YEPD$ and $SD$ condition-specific protein-abundance fits gave
-$$
-\begin{aligned}
-R^2_{QP}(YEPD)&=0.3280825603424665,\\
-R^2_{QP}(SD)&=0.3050385538305022,
-\end{aligned}
-$$
-with $f3\_\mathrm{stress}$ dominant in both conditions.  The two condition vectors had Pearson correlation $0.9983880256003688$ and cosine $0.9993775935182967$ under $1000$ permutations.  A separate $f3\_\mathrm{stress}$ family decomposition used $1800$ yeast rows, $21$ synonymous-family subcoordinates, $5$ folds, and $120$ permutations.  It found $P_{f3}$ norm squared $52.76911713166682$, target norm squared $430.42705205115925$, and $P_{f3}$ fraction of target $0.12259712041843235$, with $19$ of the $21$ family subcoordinates listed as real abundance sources.  These auxiliary checks strengthen the coordinate interpretation: the abundance component has both a stable whole-coordinate signature and a finer synonymous-family structure.
+\paragraph{Observed coordinate split.}
+The decomposition completed all $9$ requested rows and classified eight coordinates as having a real measured-abundance source under the held-out/permutation gate: $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Thr_{ACR/ACY}$, and $f_3$-stress.  The only listed coordinate not in the real-source set is $Ser_{UCA/UCG}$.  Thus the finite result is stronger than a one-entry existence statement but still weaker than a universal rule: the $B^*_{Q6}$ abundance component separates into coordinate-level sources on this yeast join, with one coordinate failing the reported gate.
 
-\paragraph{Translation-layer caution.}
-This chapter is about coordinate-level reducibility of a controlled abundance residual.  It does not by itself establish ribosome-mediated translation, protein folding, physical admissibility, molecular function, a mechanism, or a universal biological law.  A separate ribosome-occupancy contact exists for a narrower local-dwell question: in that run, $9$ families were computed, all $9$ had at least $200$ within-position-bin permutations, and the families passing the $C_H>0$ and $\lambda_{DL}=0.01$ gate were $K\_AAA$, $\mathrm{Arg}\_AGR$, and $f3\_\mathrm{stress}$ with description-length term $DL=2$.  That occupancy result is descriptive and position-confound controlled, but it is not imported here as a causal mechanism.  The present claim remains limited to the finite yeast abundance decomposition: after the stated $Z$ controls, the measured dictionary recovers single-coordinate abundance projections for eight named $B^*_{Q6}$ residual coordinates, while $\mathrm{Ser}\_{UCA/UCG}$ is not listed among the passing real-source coordinates.
+\paragraph{Consistency with neighboring abundance rows.}
+The same yeast abundance layer is not isolated from the broader finite record.  In the condition-specific yeast protein-abundance comparison, $2209$ shared proteins were available across YEPD and SD, with $R^2_{QP}=0.3280825603424665$ in YEPD and $R^2_{QP}=0.3050385538305022$ in SD; both conditions reported $f_3$-stress as the dominant coordinate, and the two $S^{QP}$ vectors had Pearson $0.9983880256003688$ and cosine $0.9993775935182967$.  On the same general yeast abundance interface, the mRNA-stability mediation row used $n=5085$ joined records and decomposed $R^2_{QP}=0.2761140373962526$ to $R^2_{QP\mid M}=0.24851799532219632$, with an absorbed fraction $0.09994436477872035$ and a right-tail permutation value $p=0.000999000999000999$.  The yeast mRNA half-life row itself reported $R^2_{QM}=0.05179429044975085$, dominant coordinate $Leu_{CUN/UUR}$, and cosine $0.8040935468384264$ between the $S^{QM}$ and same-join $S^{QP}$ vectors.  These neighboring rows do not prove the per-coordinate result, but they show that the coordinate decomposition sits in a numerically populated abundance-and-stability neighborhood rather than in a single unmatched statistic.
+
+\paragraph{Coordinate substructure of $f_3$-stress.}
+The family-level $f_3$-stress split provides a sharper local check on the largest stress-style coordinate.  That run used $n=1800$ joined yeast rows, $5$ folds, $120$ permutations, and a rank-one $f_3$ source.  The full $f_3$ projection had norm squared $52.76911713166682$ and accounted for $0.12259712041843235$ of the target norm, with target norm squared $430.42705205115925$.  It decomposed $21$ synonymous-family subcoordinates and reported $19$ family sources passing the held-out/permutation gate, including $K_{AAA\to AAG}$, $R_{AGA\to AGG}$, $I_{AUU\to AUA}$, $L_{UUA\to UUG}$, $S_{UCU\to UCG}$, and $T_{ACU\to ACG}$.  This supports the interpretation that the per-coordinate abundance signal is not merely a naming artifact of the nine-coordinate basis; at least one aggregate coordinate also has a nontrivial family-level internal split.
+
+\paragraph{Readout boundaries.}
+The result is a measured protein-abundance reducibility statement, not a translation-realization theorem.  The H-candidate ranking row classifies the broader packet at the cross-layer relation level and reports, for example, a yeast $mRNA$ top candidate with $A_H=0.001897605472160837$, $C_H=0.6040571890503664$, score $-0.008853737772559931$, $n=5128$, and Bonferroni threshold $0.0013014749238591248$; the same ranking uses a description-length penalty $DL_H=1.0$ for one-column candidates and $DL_H=3.700439718141092$ for the localization dictionary.  Separately, the ribosome-occupancy row used a penalty parameter $\lambda_{DL}=0.01$, $DL=2$, and found the families $K_{AAA}$, $Arg_{AGR}$, and $f_3$-stress passing its local occupancy gates.  Those auxiliary rows help locate possible readout directions, but they do not convert the present abundance decomposition into a mechanism.
+
+\paragraph{Local conclusion.}
+For this finite yeast table, the verdict is that the per-coordinate decomposition is realized: all nine coordinates were evaluated, and eight have an audited real-source classification against residualized measured protein abundance under held-out and permutation controls.  The module assignment is cross-layer relation, because the source is codon-residual geometry and the target is measured protein abundance after covariate removal.  The claim remains deliberately bounded.  It does not establish ribosome-mediated translation, folding, physical admissibility, biochemical function, molecular mechanism, organismal phenotype, or a universal law.  Any such promotion would require a separate matched contact and its own controlled statistic.

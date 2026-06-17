@@ -1,43 +1,30 @@
+\subsection{Direction-aware reach of the yeast $f3\_stress$ residual coordinate}\label{sec:bioreality-q6-f3-stress-readout-reach}
 \origin{ai}
-\subsection{Finite readout reach for the yeast $f3\_stress$ coordinate}
-\label{sec:bior reality-f3-stress-readout-reach}
 
-\paragraph{Finite object.}
-This record isolates one coordinate-level question inside the $B^{\ast}\_{Q6}$ abundance residual: whether the $f3\_stress$ component in \emph{Saccharomyces cerevisiae} is reached by a finite panel of independently fetched readouts.  The response vector is not the whole abundance residual.  It is
+\paragraph{Finite record.}
+This record concerns the cross-layer relation claim `h3.cross\_layer\_relation.f3\_stress\_readout\_reach.b\_star\_q6\_dominant\_coordinate\_powered'.  The measured object is the Saccharomyces cerevisiae coordinate component
+$P_{f3}=\operatorname{Proj}_{x_{f3\_stress}}(Y_Z)$,
+where $Y_Z$ is the $Z$-residualized $\log_{10}$ protein-abundance vector and $x_{f3\_stress}$ is one coordinate in the nine-coordinate $B^*_{Q6}$ panel.  The full coordinate list used by the finite row is
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The control basis has unified rank $24$, including the intercept, $\log(\mathrm{cds\_len\_nt})$, twenty amino-acid composition proportions, GC3, and the $M$-density baseline.  The experiment enumerated all $512=2^9$ subsets of the nine requested independent readouts, including the empty subset, and replayed the same best-subset selection under a deterministic row-label permutation null.
+
+\paragraph{Measured reach.}
+The base dictionary used $n=1800$ joined rows, had rank $3$, and covered $0.1897720314893696$ of the $P_{f3}$ target.  The best selected readout subset used $n=1056$ joined rows, had rank $19$, and covered $0.22618445168998694$ of the target; the full independent-readout panel gives the same coverage, $0.22618445168998694$, on the same $n=1056$ rows.  Thus the selected independent readouts add
 $$
 \begin{aligned}
-P\_{f3} &= \operatorname{Proj}\_{x\_{f3\_stress}}\bigl(Z\text{-residualized }\log\_{10}\text{ protein abundance}\bigr),
+0.22618445168998694-0.1897720314893696
+  &=0.03641242020061733
 \end{aligned}
 $$
-where $Z$ is the stated control basis and the projection coordinate is the $f3\_stress$ coordinate from the nine-coordinate $B^{\ast}\_{Q6}$ frame.  The finite search considered all $512$ subsets of the nine requested independent readouts, including the empty subset.  The replayed null was selection-aware: each permutation relabelled $P\_{f3}$ and then repeated the same best-subset selection rule, so the reported threshold is not the easier fixed-subset threshold.
+over the base dictionary.  In norm-squared units, the base residual has $\|P_{f3}\|^2=43.831314029512704$, while the best selected subset leaves $\|P_{f3}-\widehat P_{f3}\|^2=38.18587535550906$.  Equivalently, the base row accounts for $0.19788872448081418$ of the target base quantity, while the best selected row accounts for $0.20738990828488693$ of the target best quantity.
 
-\paragraph{Numerical readback.}
-The base dictionary used $n=1800$ joined rows, had rank $3$, and covered $0.1897720314893696$ of the $f3\_stress$ target.  Its squared target norm was $43.831314029512704$, and the fraction of target carried by $P\_{f3}$ at the base step was $0.19788872448081418$.  The best selected readout subset used $n=1056$ joined rows and rank $19$; the full nine-readout panel also had $n=1056$ and rank $19$.  The best and full coverages agree at
-$$
-\begin{aligned}
-\operatorname{coverage}\_{\mathrm{best}} &= 0.22618445168998694,\\
-\operatorname{coverage}\_{\mathrm{full}} &= 0.22618445168998694.
-\end{aligned}
-$$
-The increment over the base dictionary is therefore
-$$
-\begin{aligned}
-0.22618445168998694 - 0.1897720314893696 &= 0.03641242020061733.
-\end{aligned}
-$$
-On the same best-subset join, the squared norm is $38.18587535550906$, the best fraction of target is $0.20738990828488693$, and the unexplained fraction after the full panel remains $0.7738155483100131$.
+\paragraph{Selection-aware null.}
+The comparison is not made against a fixed-subset null.  On each of $120$ deterministic permutations, the row labels of $P_{f3}$ were permuted and the full best-subset selection procedure was replayed.  The naive null mean and $95$th percentile were $0.017376213916576056$ and $0.028169169068843265$, respectively.  The selection-aware null mean, $95$th percentile, and maximum were $0.018736269159555625$, $0.02697141300639046$, and $0.03878006220013416$.  The observed increment over the base dictionary, $0.03641242020061733$, is above the selection-aware $95$th percentile but below the largest permuted value.  The finite conclusion is therefore a bounded excess-reach statement, not a discovery of a pathway: yeast $f3\_stress$ abundance mass is partially accessible to a larger independent readout panel, but $0.7738155483100131$ of the full target remains unexplained after the full panel.
 
-\paragraph{Null comparison.}
-The deterministic permutation audit used $120$ permutations.  The naive null mean was $0.017376213916576056$ and its $95\%$ cutoff was $0.028169169068843265$.  The selection-aware null mean was slightly larger, $0.018736269159555625$, with a $95\%$ cutoff of $0.02697141300639046$ and a maximum observed null value of $0.03878006220013416$.  The observed best-subset increment, $0.03641242020061733$, exceeds the selection-aware $95\%$ cutoff while remaining below the maximum null trial.  The finite conclusion is consequently directional and bounded: the added readout panel has measurable reach into the yeast $f3\_stress$ abundance component, but most of the target is still outside the panel.
+\paragraph{Relation to the direction-aware ranking table.}
+The surrounding finite ranking ledger treats each candidate readout $H$ by its absorbed energy $A_H$, support-alignment cosine $C_H$, raw product $A_HC_H$, and penalized score $A_HC_H-\lambda DL(H)$ with $\lambda=0.01$ and $DL(H)=\log_2(1+n_{\mathrm{columns}})$.  In the yeast non-translation residual table, the top single-column raw entry is mRNA with $A_H=0.001897605472160837$, $C_H=0.6040571890503664$, and $A_HC_H=0.0011462622274400686$, giving penalized score $-0.008853737772559931$.  The twelve-column localization readout absorbs more energy, $A_H=0.011225105608516642$, but its $DL=3.700439718141092$ penalty leaves score $-0.03223607310225219$.  None of these ranking rows licenses a shared universal absorber.  Across organisms, the table instead reports organism-specific leaders: danio has measured TE with raw product $0.011566051846174291$, human has complex membership with raw product $0.006566030115340095$, yeast has mRNA with raw product $0.0011462622274400686$, and several organisms have no computable ranked row in this ledger.
 
-\paragraph{Relation to the direction-aware $H$ table.}
-The same nine-coordinate vocabulary is used by the broader direction-aware $H$ ranking ledger: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  In that ledger, the residual support vector $a\_{\perp}$ has dimension $9$ for each computed organism.  For yeast, the modeled-translation-complement residual had $P\_Q$ squared norm $882.6526208776509$, complement squared norm $186.88597748267557$, and residual fraction $d=0.21173219572706714$.  The yeast direction-aware ranking was weak and organism-specific: $mRNA$ had $A\_H=0.001897605472160837$, $C\_H=0.6040571890503664$, and $A\_H C\_H=0.0011462622274400686$, while localization had larger raw absorption, $A\_H=0.011225105608516642$, but a description-length penalty with $DL=3.700439718141092$ and score $-0.03223607310225219$.  The scalar scoring convention used $\lambda=0.01$ with $DL(H)=\log\_2(1+n\_{\mathrm{columns}})$, so one-column readouts have $DL=1$.  Under that convention the yeast $mRNA$ score was $-0.008853737772559931$, and no shared universal absorber is obtained from the finite ranking table.
+\paragraph{Boundary and conservation context.}
+The same finite package records a Window6 boundary set $R$ with an avoided abundance-preference signature in all $15$ computed organisms: $15$ avoided, $0$ preferred, $0$ zero, one-sided binomial $p=3.0517578125\times 10^{-5}$ and two-sided binomial $p=6.103515625\times 10^{-5}$.  Among individually significant organisms, $6/6$ are avoided.  Separately, the optimal-codon direction comparison is classified as clustered, with $15$ computed organisms out of $16$ requested and mean pairwise cosine $0.2629282074265475$ over $41$ synonymous design columns.  These rows give finite biological contact to the codon-abundance geometry, but they do not turn the yeast $f3\_stress$ reach result into a mechanism.
 
-\paragraph{Coordinate context.}
-The translation-complement experiment gives the yeast residual support as concentrated on the dominant coordinates $Ser\_UCR\_vs\_AGY$, $Leu\_CUN\_vs\_UUR$, $Ser\_UCA\_vs\_UCG$, $Arg\_AGR$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$, with absolute support fractions summing to $1.0$.  This places the present readout-reach result in a concrete coordinate setting: $f3\_stress$ is not a free biological module name, but one member of a finite residual coordinate frame.  A separate boundary-signature assay found that the Window6 boundary $R$ set was avoided in all $15$ directional non-tie organisms, with one-sided binomial $p=3.0517578125\times 10^{-5}$ and two-sided $p=6.103515625\times 10^{-5}$.  That $R$ result is a separate finite association fact and is not used to infer the $f3\_stress$ readout reach; it only documents that the surrounding $B^{\ast}\_{Q6}$ coordinate system has independent finite contact with abundance preference.
-
-\paragraph{Local interpretation.}
-The ready result is narrow.  In yeast, a richer independent readout panel improves finite orthogonal coverage of the $f3\_stress$ abundance component from $0.1897720314893696$ to $0.22618445168998694$, beating the selection-aware $95\%$ permutation cutoff by about $0.00921300719422687$.  The remaining $0.7738155483100131$ unexplained fraction is the dominant fact.  Thus the row supports a partial-reach statement, not an explanation-complete statement.
-
-\paragraph{Boundary of the claim.}
-No translation realization, folding statement, physical admissibility statement, functional statement, mechanism, causal pathway, or universal biological law follows from these numbers.  The quantities $A\_H$, $C\_H$, $A\_H C\_H$, score, rank, selected subset, and coordinate name are finite projection readbacks.  They may order rows under the declared policy, but they do not identify a biological process.  Missing organisms or unavailable readouts remain unavailable data, not negative evidence.  Any future promotion to translation dynamics, protein state, localization mechanism, folded structure, organismal function, phenotype, or universal channel would require a separate matched contact and a separate statistic for that stronger layer.
+\paragraph{Local interpretation boundary.}
+The admissible statement is narrow.  The experiment shows that, for Saccharomyces cerevisiae, a best subset selected from nine independent readouts reaches more of the $f3\_stress$ abundance component than the base dictionary and clears the selection-aware $95$th-percentile null.  It also shows that most of the target remains unexplained.  The finite row does not establish translation realization, folding, physical admissibility, protein function, a causal regulatory route, a stress-response mechanism, a conserved pathway, or a universal biological law.  Any such stronger statement would require a separate matched contact with its own statistic, row join, null model, and failure boundary.

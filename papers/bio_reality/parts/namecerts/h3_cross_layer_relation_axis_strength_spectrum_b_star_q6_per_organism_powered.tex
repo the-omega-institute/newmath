@@ -1,43 +1,44 @@
 \origin{ai}
-
-\subsection{Per-organism strength spectrum for the $B^*_{Q6}$ $f_3$-stress axis}
-\label{sec:biorality-q6-f3-stress-axis-strength-spectrum}
+\subsection{Per-organism strength spectrum for the $B^*_{Q6}$ $f_3$-stress coordinate}
+\label{subsec:bioreality-q6-f3-stress-axis-strength-spectrum}
 
 \paragraph{Finite coordinate surface.}
-This record concerns the finite CDS-by-organism residual coordinate surface obtained after amino-acid projection, restricted to the $B^*_{Q6}$ coordinate family and, more narrowly, to the $f_3$-stress direction.  The finite codon support used here is not a free biological interpretation; it is a named residual surface on synonymous coding rows.  The saturated $f_3$ row is recorded by
+This record fixes a finite coding-sequence surface in which the only admissible coordinate of interest is the $B^*_{Q6}$ residual direction associated with third-position $f_3$ stress, paired with organism-matched codon-usage, tRNA or wobble-weight, and translation-readout rows. The amino-acid quotient is part of the definition: the relevant distinction is not raw codon frequency, but the residual imbalance between synonymous codons after the amino-acid projection has removed composition effects. The finite $f_3$ saturation row gives the concrete boundary. The set
 $$
 \begin{aligned}
-M &= \{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\qquad \mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
-\operatorname{Sat}_{f_3}(R) &= \{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\qquad \mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
-\partial_{f_3}R &= \varnothing.
+M &= \{AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&\qquad UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
 \end{aligned}
 $$
-Thus the finite row separates the two codons $\mathrm{ACA}$ and $\mathrm{ACG}$ from the $f_3$-saturated residual support, while the recorded $f_3$ boundary is empty.  This is the codon-coordinate fact that the chapter uses; it is not yet a statement about ribosome occupancy, protein output, or phenotype.
-
-\paragraph{Spectrum statistic.}
-The powered axis-strength computation used a deterministic seed, five folds, a minimum of $500$ proteins per organism, and $41$ synonymous-design columns.  It computed $11$ organisms out of $16$ requested organisms.  Within this computed panel the captured spectra were led on average by $d_{\mathrm{resid4}}$, followed by $d_{\mathrm{tRNA}}$.  The per-organism dominant-axis count was
+whereas the saturated $f_3$ row removes only $ACA$ and $ACG$:
 $$
 \begin{aligned}
-\#\{\hbox{organisms dominated by }d_{\mathrm{resid4}}\} &= 11,
+\operatorname{Sat}_{f_3}(R) &= \{AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&\qquad UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-so every computed organism in the panel selected $d_{\mathrm{resid4}}$ as the dominant captured axis.  The domain counts were imbalanced, with $1$ archaeal, $2$ bacterial, and $8$ eukaryotic organisms, so domain-mean comparisons are descriptive rather than a balanced-domain inference.  The largest recorded GC3 rank effect was small, $\rho=0.136$, and is treated as a covariate pressure rather than as a sufficient explanation of the spectrum.
+The recorded $f_3$ boundary set is empty, so the test is not a missing-boundary search. It is a controlled readout question: whether the residual $f_3$ coordinate has any positive survival against translation-layer observations once the usual sequence covariates have been paid for.
 
-\paragraph{Interpretation of the leading direction.}
-The result says that the per-organism residual spectrum is not exhausted by the tRNA direction.  In the computed panel the strongest captured direction is $d_{\mathrm{resid4}}$, while $d_{\mathrm{tRNA}}$ remains the next named direction.  This matters for the $f_3$-stress question because the coordinate becomes biologically readable only when the codon-pairing symmetry at third position is broken by an organism- or context-specific readout, such as tRNA availability, wobble weights, or a measured translation-efficiency row.  The finite spectrum therefore supports a bounded claim: after amino-acid quotienting and the declared baseline controls, the $B^*_{Q6}$ residual surface has a reproducible per-organism direction whose leading axis is not simply the named tRNA axis.
-
-The surrounding finite facts sharpen that statement.  A related third-axis identity computation identified $d_\perp$ with usage frequency within synonymous family, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$.  A related mechanism check reported that the GC-orthogonalized $d_\perp$ kept significant cross-species alignment and held-out $R^2$, yielding the finite classification ``selection-not-GC; not-wobble-clustered; CSC/positional identity needs external data.''  A further residual-axis computation classified the non-tRNA residual optimality direction as most aligned with $f_3$ translation selection, and the three-axis sufficiency check concluded that a fourth mechanism is present.  These rows make the spectrum a ranked residual-coordinate statement, not a downstream biological conclusion.
-
-\paragraph{Readout gate.}
-The admissible readback for this chapter is a controlled entry $S_{f_3\hbox{-}\mathrm{stress},T_j}$ where $T_j$ is a bounded translation-layer readout, for example tAI, stAI, ribosome occupancy, or translation efficiency.  The statistic must be evaluated after amino-acid composition, organism, GC3, CDS length, $M$-density, and matched mRNA controls when such controls are part of the readout.  A positive spectrum entry by itself is not enough.  The necessary form is
+\paragraph{Powered spectrum row.}
+The powered finite-row experiment used $5$ folds, at least $500$ proteins per organism, $41$ synonymous design columns, and computed $11$ organisms out of $16$ requested organisms. Across these rows the captured spectra were led by $d_{\mathrm{resid4}}$ on average, followed by $d_{\mathrm{tRNA}}$. The per-organism dominance count was concentrated entirely on $d_{\mathrm{resid4}}$, with
 $$
 \begin{aligned}
-S_{f_3\hbox{-}\mathrm{stress},T_j} &> 0
+\#\{\text{organisms dominated by } d_{\mathrm{resid4}}\}=11.
 \end{aligned}
 $$
-under the declared controls and under simpler-codon-baseline ablation.  Conversely, if the powered panel remains non-positive or rank-degenerate for every such $T_j$, the translation-readout interpretation of the $f_3$-stress row fails for this packet even though the residual coordinate itself remains a valid finite construction.
+The domain split is descriptive rather than a domain-level law, because the computed panel is imbalanced: $n_{\mathrm{archaea}}=1$, $n_{\mathrm{bacteria}}=2$, and $n_{\mathrm{eukaryote}}=8$. The largest GC3 rank effect in this row is small, with $d_{\mathrm{usage}}$ attaining $\rho=0.136$. Thus the finite-row conclusion is not that GC3 explains the spectrum. The stronger finite statement is that, in the computed panel, the residual fourth direction is the leading per-organism strength coordinate, while the tRNA-weighted direction remains the next named translation-adaptation axis.
 
-\paragraph{Local boundary.}
-The chapter does not infer observed translation realization from codon topology alone, and it does not infer folding, physical admissibility, protein function, localization, stability, organismal phenotype, mechanism, or universality from the spectrum.  A modeled tAI or stAI weight may serve as a bounded codon-adaptation readout, but it is not the same thing as measured ribosome occupancy.  A ribosome-profiling or translation-efficiency row may test the translation layer only after same-organism or same-CDS joining and the declared controls.  Matched mRNA abundance is a control row for separating transcriptional and translational signal, not a translation observation by itself.  Protein abundance, localization, stability, structural order, physical admissibility, function, phenotype, and universal biological law each require their own layer-matched contact and statistic.  The present finite result is therefore a per-organism residual-spectrum record: $d_{\mathrm{resid4}}$ dominates the computed $11$-organism panel, the GC3 rank effect is recorded as $\rho=0.136$, and the $f_3$-stress axis remains a translation-readout conjecture until a non-vacuous controlled $S_{f_3\hbox{-}\mathrm{stress},T_j}$ row is supplied.
+\paragraph{Relation to neighboring mechanism rows.}
+The nearby powered rows constrain how this spectrum may be read. The tRNA-poverty row computed $40$ organisms out of $46$ requested organisms, used $1000$ permutations at $\alpha=0.05$, and recorded systematic tRNA poverty for the $R$ sense codons under GtRNAdb tGCN plus dos Reis wobble weights. The universal-core row used the same $5$-fold, $500$-protein, $11/16$-organism, $41$-column design class and passed the claim that the core optimal direction is tRNA adaptation. At the same time, the non-tRNA residual optimality row identified $f_3$ translation selection as the dominant residual axis. The two-axis closure row did not close the surface: it reported a third-axis-present outcome, with positive held-out $R^2$ and mutually same-signed $d_\perp$ directions across organisms. The third-axis identity row then aligned $d_\perp$ to usage frequency within family, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$. After GC orthogonalization, the third-axis mechanism row retained significant cross-species alignment and held-out $R^2$, recording the status as selection-not-GC and not-wobble-clustered while leaving the CSC or positional identity in need of a separate contact.
+
+\paragraph{Translation-readout gate.}
+The admissible cross-layer statistic is a bounded survival entry $S_{f3\text{-}stress,T_j}$, where $T_j$ is a tAI, stAI, ribosome-occupancy, or translation-efficiency readout. The support condition is strictly row-based: at least one controlled entry must satisfy
+$$
+\begin{aligned}
+S_{f3\text{-}stress,T_j} > 0
+\end{aligned}
+$$
+after amino-acid composition, organism, GC3, coding-sequence length, $M$-density, matched mRNA, rank, and simpler-codon-baseline controls where those controls are available. A modeled tAI or stAI weight may supply a bounded codon-adaptation readback, but it is not the same thing as observed ribosome occupancy. A three-organism all-$1.0$ controlled matrix is therefore a rank-degenerate boundary, not survival evidence. Likewise, codon topology and wobble-weight asymmetry can nominate where the coordinate might become dynamic, but they do not by themselves produce the survival entry.
+
+\paragraph{Local no-promotion rule.}
+This chapter asserts only a finite per-organism spectrum and a conditional translation-readout test. It does not infer protein abundance, folded structure, physical admissibility, localization, stability, molecular function, phenotype, mechanism, or universality from the $B^*_{Q6}$ coordinate, from the $S$ notation, from codon-window geometry, or from modeled adaptation weights. Those layers require their own matched empirical rows and their own controlled statistics. If all controlled $S_{f3\text{-}stress,T_j}$ entries remain non-positive, or if the available readout matrix is rank-degenerate, the $f_3$-stress translation-readout conjecture is null at this boundary even though the finite codon-coordinate spectrum remains well defined.
