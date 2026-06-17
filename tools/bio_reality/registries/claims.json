@@ -1585,6 +1585,57 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-17T21:18:26+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-17T21:18:27+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "1f393df91ef9",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-17T21:23:15+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-17T21:23:15+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "c4149bddb8af",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-17T21:31:30+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-17T21:31:30+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "32a388dfc84c",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -3576,17 +3627,8 @@
       "hypothesis_level": "H1",
       "phase": 4,
       "statement": "A frozen internal codon-coordinate, used only to design matched synonymous Q+/Q− coding-region variants around a candidate editable adenosine or local double-stranded-RNA-forming window, prospectively predicts a site-specific A-to-I RNA-editing fraction through measured local ADAR occupancy and ADAR-dependent catalytic activity.",
-      "depends_on": [
-        "Freeze the internal codon-coordinate before outcome measurement and use it only as a design axis.",
-        "Construct matched synonymous Q+/Q− coding-region variants around a candidate editable adenosine or local dsRNA-forming window.",
-        "Preserve amino-acid sequence unless the editing event itself is explicitly tested as an RNA recoding event.",
-        "Match local RNA structure, editing-complementary sequence strength, GC/dinucleotide content, codon-pair context, motif density, splice context, transcript abundance, and batch.",
-        "Measure the primary external contact as site-specific A-to-I editing fraction at the RNA level.",
-        "Measure the bridge contact as local ADAR occupancy and ADAR-dependent editing.",
-        "Test ADAR-present, ADAR-loss or catalytic-inhibition, wild-type ADAR rescue, and catalytic-dead or binding-defective ADAR rescue conditions.",
-        "Include structure-matched and sequence-composition controls that should not reproduce the same loss/rescue pattern unless they restore the ADAR substrate itself."
-      ],
-      "status": "open",
+      "depends_on": [],
+      "status": "needs_data",
       "experiment_id": "matched-synonymous-ADAR-A-to-I-editing-loss-rescue",
       "history": [
         {
@@ -3594,8 +3636,75 @@
           "status": "open",
           "reason": "proposed_by_oracle",
           "source_event_id": "event.30713d23ee35d2db"
+        },
+        {
+          "ts": "2026-06-17T21:18:27+00:00",
+          "status": "needs_external",
+          "reason": "blocked on external preconditions",
+          "external_preconditions": [
+            "Freeze the internal codon-coordinate before outcome measurement and use it only as a design axis.",
+            "Construct matched synonymous Q+/Q− coding-region variants around a candidate editable adenosine or local dsRNA-forming window.",
+            "Preserve amino-acid sequence unless the editing event itself is explicitly tested as an RNA recoding event.",
+            "Match local RNA structure, editing-complementary sequence strength, GC/dinucleotide content, codon-pair context, motif density, splice context, transcript abundance, and batch.",
+            "Measure the primary external contact as site-specific A-to-I editing fraction at the RNA level.",
+            "Measure the bridge contact as local ADAR occupancy and ADAR-dependent editing.",
+            "Test ADAR-present, ADAR-loss or catalytic-inhibition, wild-type ADAR rescue, and catalytic-dead or binding-defective ADAR rescue conditions.",
+            "Include structure-matched and sequence-composition controls that should not reproduce the same loss/rescue pattern unless they restore the ADAR substrate itself."
+          ]
+        },
+        {
+          "ts": "2026-06-17T21:18:51+00:00",
+          "status": "needs_data",
+          "reason": "materialized as executable external-data experiment skeleton",
+          "required_data": [
+            "tools/bio_reality/data/matched_synonymous_adar_a_to_i_editing_loss_rescue.json"
+          ],
+          "source_event_id": "event.bf3463951ddbfa9d"
+        },
+        {
+          "ts": "2026-06-17T21:23:16+00:00",
+          "status": "needs_rerun",
+          "reason": "freshly materialized, no prior experiment_run - kicking off"
+        },
+        {
+          "ts": "2026-06-17T21:23:16+00:00",
+          "status": "needs_data",
+          "reason": "missing required_data",
+          "missing_data": [
+            "tools/bio_reality/data/matched_synonymous_adar_a_to_i_editing_loss_rescue.json"
+          ]
         }
-      ]
+      ],
+      "claimed_layer": "cross_layer_relation",
+      "bedc_minimal_form": {
+        "carrier": "matched synonymous coding-region variant pairs around a candidate editable adenosine or local dsRNA-forming window",
+        "distinctions": [
+          "q_plus_design_axis",
+          "q_minus_matched_control",
+          "site_specific_a_to_i_editing_fraction",
+          "local_adar_occupancy",
+          "adar_loss_or_catalytic_inhibition",
+          "wild_type_rescue",
+          "catalytic_dead_or_binding_defective_rescue",
+          "structure_composition_control"
+        ],
+        "readback": "Read the external packet only as a site-level ADAR A-to-I RNA-editing loss/rescue bridge over matched synonymous variants; the frozen codon coordinate is a design axis, not an outcome explanation by itself.",
+        "internal_structure": [
+          "frozen_coordinate_design_axis",
+          "matched_synonymous_pair_partition",
+          "site_level_editing_fraction_endpoint",
+          "adar_occupancy_bridge_endpoint",
+          "loss_rescue_condition_lattice",
+          "exact_sign_test"
+        ],
+        "forbidden_claims": [
+          "Does not derive ADAR editing from BEDC codon/window geometry alone.",
+          "Does not claim translation realization, protein structure, physical admissibility, biological function, or global biological law.",
+          "Does not claim that codon-coordinate membership is sufficient for editing without measured ADAR substrate contact.",
+          "Does not generalize beyond the supplied matched synonymous variants, ADAR perturbation conditions, and controls.",
+          "Does not treat amino-acid sequence preservation as proof of RNA-level editing mechanism."
+        ]
+      }
     }
   ]
 }
