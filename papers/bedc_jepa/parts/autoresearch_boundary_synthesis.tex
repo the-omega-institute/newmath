@@ -78,12 +78,17 @@ single scorer with budget multiplier tokens has mean capture $-0.5408$,
 budget-three capture $-0.4282$, budget-four capture $-0.2151$, and mean regret
 $0.0613$.  Budget-aware supervision is therefore useful evidence, not
 allocation closure, and budget conditioning must be more structured than a
-pooled token.  The current pressure is therefore not another failure-score
-ranker, another selection rule over existing score families, a simple
-oracle-target transform over the same carrier, feature appending alone, a
-single-budget replacement target, or naive budget-token pooling; it is held-out
-episode budget-magnitude transfer under explicit environment-state and
-option-conditioned mechanisms.
+pooled token.  A shared mechanism trunk with budget-specific heads makes this
+stress boundary more precise: it improves over pooled budget-token conditioning
+in mean capture and repairs the budget-four sign to $0.0959$, but its mean
+hard oracle-headroom capture remains $-0.3271$, budget-three capture remains
+$-0.4197$, budget-two capture is $-0.6576$, and mean regret is $0.0523$.  The
+current pressure is therefore not another failure-score ranker, another
+selection rule over existing score families, a simple oracle-target transform
+over the same carrier, feature appending alone, a single-budget replacement
+target, naive budget-token pooling, or a simple shared-trunk budget-head
+factorization; it is held-out episode budget-magnitude transfer under explicit
+environment-state and option-conditioned mechanisms.
 
 Fifth, the state-generation contract is a route constraint, not a completed
 model claim.  The aligned export and candidate packet close the data-substrate
@@ -95,4 +100,6 @@ same budget-feasible selection rule.  The compute-value target must be a
 mechanism-bearing state variable, not merely a supervised transform of
 available option errors, a passive rollout-feature descriptor, or a
 single-budget replacement surrogate that fails budget-stress transfer.  It also
-cannot be a single pooled scorer that treats budget as another passive token.
+cannot be a single pooled scorer that treats budget as another passive token, or
+a shared-trunk budget-head factorization that repairs one stress slice while
+losing mean and budget-three oracle-headroom capture.
