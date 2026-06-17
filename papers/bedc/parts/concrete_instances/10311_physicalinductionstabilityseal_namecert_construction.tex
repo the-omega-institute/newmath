@@ -62,21 +62,33 @@ Apply \autoref{thm:physical-induction-stability-seal-namecert-obligations}. It m
 The TasteGate-aligned carrier marker fixes the consumer-facing packet to this row inventory. Since no coordinate supplies an unbounded oracle, hidden future history, final physical law, or extra continuation source, the scoped route is exhausted by the displayed carrier.
 \end{proof}
 
+\begin{theorem}[PhysicalInductionStabilitySeal public export]
+\label{thm:physical-induction-stability-seal-public-export}
+The public export of $\PhysicalInductionStabilitySealUp$ is exactly the finite route through observation prefix $H$, finite fit $F$, continuation class $C$, stability basis $S$, failure surface $L$, predictive-reuse route $R$, componentwise $\hsame$ transport $T$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. A public consumer may read predictive reuse only through that displayed route and only over the named continuation class; it receives no unbounded future oracle, hidden continuation source, final physical law, or host-law identity.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:physical-induction-stability-seal-carrier}. The tuple $K=(H,F,C,S,L,R,T,P,N)$ is the full public inventory, so the observation prefix, fit row, continuation class, stability basis, failure surface, predictive route, transport, provenance, and local name are all visible before reuse is consumed.
+
+Apply the NameCert obligations of \autoref{thm:physical-induction-stability-seal-namecert-obligations}. They bind classifier laws to $C$, stability transport to $F,S,T$, failure-surface exactness to $L$, and predictive-reuse non-escape to $R,P,N$.
+
+Finally use the scoped route of \autoref{thm:physical-induction-stability-seal-scoped-route}. The public export is the same finite route made object-facing: it can be cited by later physical-induction consumers, but it still refuses unbounded prediction, hidden future histories, final physical laws, and reuse outside the displayed continuation class.
+\end{proof}
+
 \falsifiablePrediction{Removing the failure-surface row or the continuation-class row makes predictive reuse indistinguishable from an unbounded oracle claim and invalidates the seal.}
 
 \independenceWitness{Nearest siblings: realityconstrainedopenfit, physicalmodelaudit, realityconstrainedobjectivity, observationreflectionhandoff, inscriptiongapledger. The seal has a continuation-class plus failure-surface pair none of those siblings has as a single carrier, while each sibling has audit, objectivity, handoff, or residue rows absent from this seal; no row-preserving bijection exists.}
 
 The Lean target family \texttt{BEDC.Derived.PhysicalInductionStabilitySealUp} must provide explicit $\mathsf{Nontrivial}\ \PhysicalInductionStabilitySealUp$ and $\mathsf{FieldFaithful}\ \PhysicalInductionStabilitySealUp$ instances in \texttt{Derived/PhysicalInductionStabilitySealUp/TasteGate.lean}.
 
-\closureat{PhysicalInductionStabilitySealUp}{scopedStr}
+\closureat{PhysicalInductionStabilitySealUp}{publicStr}
 
 \begin{closurestatus}{\PhysicalInductionStabilitySealUp}
   \constructivestory{A $\PhysicalInductionStabilitySealUp$ packet is generated from a finite observation prefix, finite fit, continuation class, stability basis, failure surface, predictive-reuse route, componentwise transport, provenance, and local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:physical-induction-stability-seal-carrier}, \autoref{thm:physical-induction-stability-seal-namecert-obligations}, and \autoref{thm:physical-induction-stability-seal-scoped-route} bind the finite certificate-relative physical induction packet, its local NameCert surface, and its scoped consumer route.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:physical-induction-stability-seal-carrier}, \autoref{thm:physical-induction-stability-seal-namecert-obligations}, \autoref{thm:physical-induction-stability-seal-scoped-route}, and \autoref{thm:physical-induction-stability-seal-public-export} bind the finite certificate-relative physical induction packet, its local NameCert surface, scoped consumer route, and public export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, unbounded future prediction, total physical law, host-law identity, or continuations outside the displayed class.}
-  \upgradepath{The next step is a Lean carrier and TasteGate surface for the displayed packet, including Nontrivial and FieldFaithful instances.}
+  \upgradepath{Bridged closure next requires a bridge from this public export route to the abstract physical-induction interface.}
 \end{closurestatus}
