@@ -263,3 +263,16 @@ direct pair-swap contact with the exact-budget combinatorics does not by itself
 produce a usable assignment state.  The remaining object is not a post-hoc
 pairwise reranker but a richer assignment-bearing world state whose internal
 variables survive prediction, failure, and compute-value readouts jointly.
+
+An oracle depth-count state is also not sufficient.  This ceiling audit supplies
+the hard episode's oracle depth-count template for each budget, then asks whether
+deployable within-count scores can choose the anchors for those counts.  The
+source selected on non-hard episodes is the base perturbation-value scorer.  On
+the held-out hard slice, oracle counts plus that scorer reach mean capture
+$-0.5178$, with budget-two capture $-0.7532$, budget-three capture $-0.5602$,
+and budget-four capture $-0.2398$; this is worse than the scalar mechanism
+learner's hard mean capture $-0.0050$.  Therefore the missing state is not
+merely the episode-level budget-count ledger.  It must encode anchor--depth
+compatibility inside the count state: which anchors should receive which depths
+under the exact-budget constraint, rather than only how many anchors of each
+depth should be selected.
