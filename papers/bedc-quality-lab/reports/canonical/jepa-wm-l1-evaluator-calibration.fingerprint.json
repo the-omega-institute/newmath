@@ -1,0 +1,151 @@
+{
+  "generated_by": {
+    "generated_at": "fixture",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "10bdf5335b4735d456ddac39a73ee8873cfe657068975510046b606109dac5d7",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.12.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/tasks/__init__.py",
+        "sha256": "19c998742d9ab27612e3d0a88187ccb2b14a237ed0acf45a6405677ffed27ba1"
+      },
+      {
+        "path": "bedc_quality_lab/tasks/jepa_wm_l1_evaluator_calibration.py",
+        "sha256": "48ab9cfc17fbbb719697ce006922da193ffeaa7e6b614680b294de926089f0d9"
+      },
+      {
+        "path": "scripts/run_jepa_wm_l1_evaluator_calibration.py",
+        "sha256": "2aaa7e5ac09112012f8c6ea0288d9f7e564bee90cf12624dfded4d9c3ff10179"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:jepa-wm-l1-evaluator-calibration",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_jepa_wm_l1_evaluator_calibration.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "reports/canonical/jepa-wm-l1-admission.json",
+        "sha256": "missing"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "claim_promotion_eligible": false,
+      "command": [
+        "python3",
+        "scripts/run_jepa_wm_l1_evaluator_calibration.py"
+      ],
+      "construct_validity_pointer": null,
+      "control_pointer": "$.calibration_arms",
+      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "estimated_seconds": 2,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior",
+        "trained empirical superiority over Transformer",
+        "training evidence beats Transformer",
+        "LLM superiority",
+        "production superiority"
+      ],
+      "json_artifact": "reports/canonical/jepa-wm-l1-evaluator-calibration.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/jepa-wm-l1-evaluator-calibration.md",
+      "name": "jepa-wm-l1-evaluator-calibration",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.diagnostic_next_step",
+      "reproducibility_mode": "exact_fixture",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifacts",
+        "admission_owner",
+        "config",
+        "calibration_inputs",
+        "raw_admission",
+        "calibration_arms",
+        "hardgate",
+        "claim_boundary",
+        "diagnostic_next_step",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.claim_boundary"
+    }
+  },
+  "json_artifact": "reports/canonical/jepa-wm-l1-evaluator-calibration.json",
+  "markdown_artifact": "reports/canonical/jepa-wm-l1-evaluator-calibration.md",
+  "producer_command": [
+    "python3",
+    "scripts/run_jepa_wm_l1_evaluator_calibration.py"
+  ],
+  "report_name": "jepa-wm-l1-evaluator-calibration",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "jepa-wm-l1-evaluator-calibration"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "jepa-wm-l1-evaluator-calibration",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "84305828ea1099f98bc64a0d53e5478abe4da6414f4abf8b360cc602e3b9bc7d",
+  "reproducibility_mode": "exact_fixture",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

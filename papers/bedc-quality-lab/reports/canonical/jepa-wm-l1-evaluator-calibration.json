@@ -1,0 +1,304 @@
+{
+  "admission_owner": {
+    "json_artifact": "reports/canonical/jepa-wm-l1-admission.json",
+    "markdown_artifact": "reports/canonical/jepa-wm-l1-admission.md",
+    "owned_semantics": [
+      "rank_cases",
+      "k=7",
+      "empirical_chance",
+      "base_chance_gate",
+      "controls",
+      "weight_acquisition",
+      "raw_admission_verdict"
+    ],
+    "producer": "bedc_quality_lab.tasks.jepa_wm_l1"
+  },
+  "artifact_id": "bedc-quality-lab:jepa-wm-l1-evaluator-calibration",
+  "calibration_arms": [
+    {
+      "arm_id": "raw",
+      "claim_allowed": false,
+      "input_pointer": "$.raw_admission",
+      "interpretation": "diagnostic calibration only",
+      "mean": 0.171875,
+      "n": 128,
+      "scorer": "admission.evaluate_encoded_rank_cases",
+      "validation_gate": {
+        "base": {
+          "ci95_high": 0.203125,
+          "ci95_low": 0.1171875,
+          "mean": 0.171875,
+          "n": 128
+        },
+        "chance_components": {
+          "majority": 0.140625,
+          "random": 0.171875
+        },
+        "chance_selected_baseline": "random",
+        "ci_margin_delta": -0.11640624999999993,
+        "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+        "empirical_chance": {
+          "ci95_high": 0.23359374999999993,
+          "ci95_low": 0.109375,
+          "mean": 0.171875,
+          "n": 128
+        },
+        "margin": 0.03,
+        "status": "fail"
+      }
+    },
+    {
+      "arm_id": "frozen-probe",
+      "claim_allowed": false,
+      "input_pointer": "$.calibration_inputs.frozen_probe",
+      "interpretation": "diagnostic calibration only",
+      "mean": 0.1328125,
+      "n": 128,
+      "scorer": "metadata-linear-probe-without-training",
+      "validation_gate": {
+        "base": {
+          "ci95_high": 0.18144531249999998,
+          "ci95_low": 0.078125,
+          "mean": 0.1328125,
+          "n": 128
+        },
+        "chance_components": {
+          "majority": 0.140625,
+          "random": 0.171875
+        },
+        "chance_selected_baseline": "random",
+        "ci_margin_delta": -0.1589843749999999,
+        "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+        "empirical_chance": {
+          "ci95_high": 0.2371093749999999,
+          "ci95_low": 0.1076171875,
+          "mean": 0.171875,
+          "n": 128
+        },
+        "margin": 0.03,
+        "status": "fail"
+      }
+    },
+    {
+      "arm_id": "oracle",
+      "claim_allowed": false,
+      "input_pointer": "$.calibration_inputs.oracle",
+      "interpretation": "diagnostic calibration only",
+      "mean": 1.0,
+      "n": 128,
+      "scorer": "true-label-upper-bound",
+      "validation_gate": {
+        "base": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n": 128
+        },
+        "chance_components": {
+          "majority": 0.140625,
+          "random": 0.171875
+        },
+        "chance_selected_baseline": "random",
+        "ci_margin_delta": 0.7638671875,
+        "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+        "empirical_chance": {
+          "ci95_high": 0.23613281249999998,
+          "ci95_low": 0.1310546875,
+          "mean": 0.171875,
+          "n": 128
+        },
+        "margin": 0.03,
+        "status": "pass"
+      }
+    },
+    {
+      "arm_id": "label-shuffle",
+      "claim_allowed": false,
+      "input_pointer": "$.calibration_inputs.label_shuffle",
+      "interpretation": "diagnostic calibration only",
+      "mean": 0.1328125,
+      "n": 128,
+      "scorer": "shuffled-label-negative-control",
+      "validation_gate": {
+        "base": {
+          "ci95_high": 0.18925781249999998,
+          "ci95_low": 0.074609375,
+          "mean": 0.1328125,
+          "n": 128
+        },
+        "chance_components": {
+          "majority": 0.140625,
+          "random": 0.171875
+        },
+        "chance_selected_baseline": "random",
+        "ci_margin_delta": -0.16152343749999998,
+        "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+        "empirical_chance": {
+          "ci95_high": 0.23613281249999998,
+          "ci95_low": 0.11015625,
+          "mean": 0.171875,
+          "n": 128
+        },
+        "margin": 0.03,
+        "status": "fail"
+      }
+    }
+  ],
+  "calibration_inputs": {
+    "encoded_surface_source": "fixture_encoded_surface",
+    "frozen_probe": {
+      "status": "deterministic",
+      "training": "none"
+    },
+    "label_shuffle": {
+      "seed": 20262159,
+      "status": "deterministic"
+    },
+    "oracle": {
+      "label_access": "true_index",
+      "status": "deterministic"
+    },
+    "rank_case_source": "admission.make_rank_cases"
+  },
+  "canonical_role": "diagnostic_evaluator_calibration",
+  "claim_boundary": {
+    "claim_allowed": false,
+    "diagnostic_status": "diagnostic-only",
+    "scope": "four-arm evaluator calibration over admission-owned rank cases",
+    "status": "not-applicable"
+  },
+  "config": {
+    "base_chance_margin": 0.03,
+    "bootstrap_resamples": 32,
+    "case_count": 128,
+    "choice_count": 8,
+    "negative_count": 7,
+    "seed": 20260617,
+    "seeds": [
+      20260617
+    ]
+  },
+  "diagnostic_next_step": {
+    "cascade_triggered": false,
+    "claim_allowed": false,
+    "route": "inspect evaluator scorer separation before any admission rerun",
+    "routing_status": "diagnostic-routing-recorded",
+    "status": "not-applicable"
+  },
+  "generated_at": "fixture",
+  "hardgate": {
+    "claim_allowed": false,
+    "gate_shape": [
+      "status",
+      "criterion",
+      "margin",
+      "base",
+      "empirical_chance",
+      "chance_selected_baseline",
+      "chance_components",
+      "ci_margin_delta"
+    ],
+    "gates": {
+      "CAL-1": {
+        "arm_id": "raw",
+        "claim_allowed": false,
+        "evidence_pointer": "$.calibration_arms[0].validation_gate",
+        "status": "diagnostic-only",
+        "validation_status": "fail"
+      },
+      "CAL-2": {
+        "arm_id": "frozen-probe",
+        "claim_allowed": false,
+        "evidence_pointer": "$.calibration_arms[1].validation_gate",
+        "status": "diagnostic-only",
+        "validation_status": "fail"
+      },
+      "CAL-3": {
+        "arm_id": "oracle",
+        "claim_allowed": false,
+        "evidence_pointer": "$.calibration_arms[2].validation_gate",
+        "status": "diagnostic-only",
+        "validation_status": "pass"
+      },
+      "CAL-4": {
+        "arm_id": "label-shuffle",
+        "claim_allowed": false,
+        "evidence_pointer": "$.calibration_arms[3].validation_gate",
+        "status": "diagnostic-only",
+        "validation_status": "fail"
+      }
+    },
+    "status": "diagnostic-only",
+    "status_cell": "fail"
+  },
+  "not_claimed": [
+    "No DRT or DGT cascade is triggered by this evaluator calibration.",
+    "No downstream capability claim is produced.",
+    "No admission verdict is changed by this evaluator calibration.",
+    "No second owner is created for k, chance, controls, weight acquisition, or raw admission semantics."
+  ],
+  "positive_claim": {
+    "level": "not-applicable",
+    "positive_discovery": false,
+    "status": "not-applicable"
+  },
+  "producer": "bedc_quality_lab.tasks.jepa_wm_l1_evaluator_calibration",
+  "raw_admission": {
+    "mean_rank": 2.9296875,
+    "sample_count": 128,
+    "score_source": "admission.evaluate_encoded_rank_cases",
+    "top1_accuracy": 0.171875
+  },
+  "raw_digest": "8dd160fafdd621118b4ce94085f78cadb535f72a9e5cfb01a3964ae323bd7ca1",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "four scorer arms over the admission owner rank cases",
+      "calibration_source": "$.calibration_arms",
+      "owner": "jepa-wm-l1-evaluator-calibration"
+    },
+    "device_policy": {
+      "backend_details": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "fixture calibration uses deterministic numpy surfaces",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.calibration_arms",
+        "comparison": "status_equal",
+        "owner": "jepa-wm-l1-evaluator-calibration",
+        "pointer": "$.diagnostic_next_step.status",
+        "reference_value": "diagnostic-routing-recorded",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      20260617
+    ]
+  },
+  "run_id": "jepa-wm-l1-evaluator-calibration",
+  "schema_id": "bedc-quality-lab:jepa-wm-l1-evaluator-calibration",
+  "source_artifacts": {
+    "admission_module": "bedc_quality_lab.tasks.jepa_wm_l1",
+    "admission_owner": "reports/canonical/jepa-wm-l1-admission.json",
+    "cost_protocol": "configs/default_cost_protocol.yaml"
+  },
+  "source_issue": "#1542"
+}

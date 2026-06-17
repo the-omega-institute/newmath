@@ -185,6 +185,14 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 def _payload_for_spec(spec):
     if spec.name == "order-k-benchmark":
         return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
+    if spec.name == "jepa-wm-l1-evaluator-calibration":
+        from bedc_quality_lab.tasks import jepa_wm_l1_evaluator_calibration
+
+        return jepa_wm_l1_evaluator_calibration.build_payload(
+            generated_at="fixture",
+            case_count=128,
+            bootstrap_resamples=32,
+        )
     if spec.name == "discovery-gated-transformer-jepa-world-model":
         return canonical._build_dgt_jepa_world_model_payload(generated_at="fixture")
     if spec.name == "lejepa-theorem-ledger":
@@ -2204,6 +2212,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
         "discovery-gated-transformer-jepa-world-model",
+        "jepa-wm-l1-evaluator-calibration",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
         "model-comparison",
@@ -10255,6 +10264,28 @@ def test_jepa_world_model_canonical_spec_is_owner_only():
     assert spec.no_control_rationale_pointer == "$.claim_boundary"
     assert "reports/canonical/theorem_bridge.md" not in canonical_artifacts
     assert "reports/canonical/planning_report.md" not in canonical_artifacts
+
+
+def test_jepa_wm_l1_evaluator_calibration_canonical_spec_is_diagnostic_only():
+    spec = canonical._specs_by_name()["jepa-wm-l1-evaluator-calibration"]
+
+    assert spec.command == ("python3", "scripts/run_jepa_wm_l1_evaluator_calibration.py")
+    assert spec.json_artifact == "reports/canonical/jepa-wm-l1-evaluator-calibration.json"
+    assert spec.markdown_artifact == "reports/canonical/jepa-wm-l1-evaluator-calibration.md"
+    assert canonical._relative(canonical._fingerprint_path(spec)) == (
+        "reports/canonical/jepa-wm-l1-evaluator-calibration.fingerprint.json"
+    )
+    assert spec.bundle_role == "auxiliary"
+    assert spec.claim_promotion_eligible is False
+    assert spec.scope_pointer == "$.claim_boundary"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.diagnostic_next_step"
+    assert spec.control_pointer == "$.calibration_arms"
+    assert spec.no_control_rationale_pointer is None
+    assert spec.hardgate_status_pointer == "$.hardgate.status_cell"
+    assert spec.hardgate_scope == "owner-scientific"
+    assert "jepa-wm-l1-evaluator-calibration" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
 
 
 def test_jepa_world_model_payload_shape_and_sidecar_absence():

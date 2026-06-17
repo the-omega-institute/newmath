@@ -229,6 +229,18 @@ DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT = "reports/canonical/discovery_gated_transfor
 DGT_JEPA_WORLD_MODEL_MARKDOWN_ARTIFACT = "reports/canonical/discovery_gated_transformer_jepa_world_model.md"
 DGT_JEPA_WORLD_MODEL_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer-jepa-world-model"
 DGT_JEPA_WORLD_MODEL_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer-jepa-world-model"
+JEPA_WM_L1_EVALUATOR_CALIBRATION_JSON_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-evaluator-calibration.json"
+)
+JEPA_WM_L1_EVALUATOR_CALIBRATION_MARKDOWN_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-evaluator-calibration.md"
+)
+JEPA_WM_L1_EVALUATOR_CALIBRATION_ARTIFACT_ID = (
+    "bedc-quality-lab:jepa-wm-l1-evaluator-calibration"
+)
+JEPA_WM_L1_EVALUATOR_CALIBRATION_SCHEMA_ID = (
+    "bedc-quality-lab:jepa-wm-l1-evaluator-calibration"
+)
 LEJEPA_THEOREM_LEDGER_JSON_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
 BEDC_JEPA_QUALITY_PACKET_ARTIFACT = "reports/bedc_jepa_quality_packet.json"
 BEDC_JEPA_PLANNING_ARTIFACT = "reports/bedc_jepa_risk_constrained_planning.json"
@@ -276,6 +288,7 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "reproduction-check-result",
         "dgt-l1-boundary-report",
         "discovery-gated-transformer-jepa-world-model",
+        "jepa-wm-l1-evaluator-calibration",
     }
 )
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
@@ -2230,6 +2243,41 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         hardgate_scope="owner-scientific",
         decision_status_pointer="$.claim_boundary.status",
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
+    ),
+    CanonicalReportSpec(
+        name="jepa-wm-l1-evaluator-calibration",
+        command=("python3", "scripts/run_jepa_wm_l1_evaluator_calibration.py"),
+        json_artifact=JEPA_WM_L1_EVALUATOR_CALIBRATION_JSON_ARTIFACT,
+        markdown_artifact=JEPA_WM_L1_EVALUATOR_CALIBRATION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "admission_owner",
+            "config",
+            "calibration_inputs",
+            "raw_admission",
+            "calibration_arms",
+            "hardgate",
+            "claim_boundary",
+            "diagnostic_next_step",
+            "not_claimed",
+        ),
+        estimated_seconds=2,
+        bundle_role="auxiliary",
+        scope_pointer="$.claim_boundary",
+        cost_pointer="$.source_artifacts.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.diagnostic_next_step",
+        control_pointer="$.calibration_arms",
+        no_control_rationale_pointer=None,
+        claim_promotion_eligible=False,
+        scientific_claim_status_pointer="$.claim_boundary.status",
+        hardgate_status_pointer="$.hardgate.status_cell",
+        hardgate_scope="owner-scientific",
+        decision_status_pointer="$.diagnostic_next_step.status",
     ),
     CanonicalReportSpec(
         name="observed-debt-sweep",
