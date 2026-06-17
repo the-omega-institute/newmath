@@ -20,6 +20,32 @@ Only $S_3$ changes the learning objective.  $S_1$ and $S_2$ are necessary
 controls because they test whether the result is merely a better report over
 the same representation.
 
+\paragraph{Capability-promotion gate.}
+Gap AUROC, gap readback, and confidence on a declared failure surface are
+diagnostic quantities.  They may define a predicate and triage a substrate, but
+they do not by themselves establish a world-model capability.  A row can be
+promoted beyond diagnostic status only against non-information-starved fair
+baselines: the comparison must match available inputs, label access, head
+supervision, capacity, training budget, rollout budget, and action or compute
+budget.  A blind latent-only row is useful as a sanity check, but it is not a
+fair baseline for a trained gap head.  Symmetric controls with the same labels
+and heads are required before any architecture-level statement.
+
+BEDC-native world-model status also requires prediction parity with the named
+reference predictor:
+$$
+\mathcal L_{\mathrm{pred}}^{\mathrm{BEDC}}
+\le
+(1+\epsilon)\mathcal L_{\mathrm{pred}}^{\mathrm{ref}}.
+$$
+If this gate fails, the system is a monitor, readout, or diagnostic ledger, not
+a comparable world model.  The claim must also keep label construction,
+calibration or selection, and final evaluation split apart; no feature may
+contain the label-defining future residual.  Finally, failure probability is
+not compute value.  Allocation or control claims require option-conditioned
+marginal value, or an exact-budget allocation improvement whose confidence
+interval has high endpoint below zero.
+
 \paragraph{Primary outcome.}
 The primary metric is unlogged error:
 $$

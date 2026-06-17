@@ -87,6 +87,22 @@ SAFE_GAP_BOUNDARY_RE = re.compile(
     r"superiority)|tradeoff|confidence\s+on|declared\s+failure[- ]readback)\b",
     re.IGNORECASE,
 )
+CLAIM_SURFACE_RE = re.compile(
+    r"\\(?:title|section|subsection|subsubsection|paragraph|caption)\b|"
+    r"\\begin\{abstract\}|\\end\{abstract\}",
+    re.IGNORECASE,
+)
+GAP_RESULT_RE = re.compile(
+    r"\b(?:gap\s*(?:auc|auroc)|gap[- ]?AUC|gap[- ]?AUROC|"
+    r"failure[- ]?readback|gap[- ]?readback)\b",
+    re.IGNORECASE,
+)
+PROMOTIONAL_ENDPOINT_RE = re.compile(
+    r"\b(?:capability|world[- ]model|architecture[- ]level|superiority|"
+    r"planning|control|allocation|benchmark\s+superiority|"
+    r"improves?|improvement|beats?|wins?|outperform|positive\s+result)\b",
+    re.IGNORECASE,
+)
 
 AI_NAMES = ("ChatGPT", "Claude", "OpenAI", "Anthropic")
 ABS_PATH_MARKERS = ("/Users/", "/private/", "/tmp/", "/var/", "/opt/", "/home/", "C:\\")
@@ -294,6 +310,57 @@ def check_gap_readback_claim_boundary(files: list[Path]) -> list[str]:
     return errors
 
 
+def claim_surfaces(path: Path, text: str) -> list[tuple[int, str]]:
+    surfaces: list[tuple[int, str]] = []
+    lines = text.splitlines()
+    in_abstract = False
+    abstract_start = 1
+    abstract_lines: list[str] = []
+    for line_no, line in enumerate(lines, 1):
+        if "\\begin{abstract}" in line:
+            in_abstract = True
+            abstract_start = line_no
+            abstract_lines = []
+            continue
+        if "\\end{abstract}" in line:
+            surfaces.append((abstract_start, " ".join(abstract_lines)))
+            in_abstract = False
+            abstract_lines = []
+            continue
+        if in_abstract:
+            abstract_lines.append(line.strip())
+        if CLAIM_SURFACE_RE.search(line):
+            surfaces.append((line_no, line.strip()))
+
+    paragraphs = re.split(r"\n\s*\n", text)
+    line_base = 1
+    for paragraph in paragraphs:
+        clean = " ".join(
+            line.strip()
+            for line in paragraph.splitlines()
+            if line.strip() and not line.lstrip().startswith("%")
+        )
+        if re.search(r"\\paragraph\{(?:Current result|Recorded measurements|Secondary outcomes)\}", clean):
+            surfaces.append((line_base, clean))
+        line_base += paragraph.count("\n") + 2
+    return surfaces
+
+
+def check_gap_auc_claim_surfaces(files: list[Path]) -> list[str]:
+    errors = []
+    for path in files:
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        for line_no, surface in claim_surfaces(path, text):
+            clean = re.sub(r"\s+", " ", surface)
+            if GAP_RESULT_RE.search(clean) and PROMOTIONAL_ENDPOINT_RE.search(clean):
+                if not SAFE_GAP_BOUNDARY_RE.search(clean):
+                    errors.append(
+                        f"{rel(path)}:{line_no}: gap-AUROC/readback claim surface lacks "
+                        f"diagnostic or cannot-claim boundary: {clean[:180]}"
+                    )
+    return errors
+
+
 def check_references(files: list[Path]) -> list[str]:
     text_by_path = {path: strip_comments(path.read_text(encoding="utf-8", errors="ignore")) for path in files}
     all_text = "\n".join(text_by_path.values())
@@ -356,6 +423,26 @@ def check_lewm_evidence_pointer(files: list[Path]) -> list[str]:
     for escaped, path in required:
         if escaped not in text and path not in text:
             errors.append(f"parts/lewm_instantiation.tex: missing evidence pointer {path}")
+    return errors
+
+
+def check_capability_promotion_contract(files: list[Path]) -> list[str]:
+    text = "\n".join(path.read_text(encoding="utf-8", errors="ignore") for path in files)
+    normalized = re.sub(r"\s+", " ", text.lower())
+    required = (
+        ("gap AUROC diagnostic boundary", r"gap\s+auroc.*diagnostic|diagnostic.*gap\s+auroc"),
+        ("information-starved baseline boundary", r"information-starved"),
+        ("fair or matched baseline", r"fair\s+baselines?|matched\s+(?:head|supervision|control|baseline)"),
+        ("prediction parity gate", r"prediction\s+parity"),
+        ("failure probability is not compute value", r"failure\s+probability\s+is\s+not\s+compute\s+value"),
+        ("option-conditioned marginal value", r"option-conditioned\s+marginal\s+value"),
+        ("exact-budget allocation gate", r"exact-budget\s+allocation"),
+        ("nonleaky feature contract", r"nonleaky|label-defining\s+future\s+residual"),
+    )
+    errors = []
+    for label, pattern in required:
+        if not re.search(pattern, normalized):
+            errors.append(f"missing capability-promotion contract term: {label}")
     return errors
 
 
@@ -430,9 +517,11 @@ def main() -> int:
         ("check_external_provenance", check_external_provenance(files), None),
         ("check_no_iteration_narrative", check_no_iteration_narrative(files), None),
         ("check_gap_readback_claim_boundary", check_gap_readback_claim_boundary(files), None),
+        ("check_gap_auc_claim_surfaces", check_gap_auc_claim_surfaces(files), None),
         ("check_no_undefined_refs_or_cites", check_references(files), None),
         ("check_environment_balance", check_env_balance(files), None),
         ("check_lewm_evidence_pointer", check_lewm_evidence_pointer(files), None),
+        ("check_capability_promotion_contract", check_capability_promotion_contract(files), None),
         ("check_evidence_files_exist", check_evidence_files_exist(files), None),
         ("check_lean_markers", check_not_applicable_markers(files), "not applicable to this article, no markers present"),
         ("check_closurestatus", check_closurestatus(files), "not applicable to this article, no blocks present"),
