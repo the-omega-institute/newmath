@@ -4442,6 +4442,244 @@ def _render_math_fallback_section(
     return "\n".join(lines).rstrip() + "\n"
 
 
+def _raw_claim_facts(verified_facts: dict[str, Any], claim_id: str) -> dict[str, Any]:
+    if not isinstance(verified_facts, dict):
+        return {}
+    direct = verified_facts.get(claim_id)
+    if isinstance(direct, dict):
+        return direct
+    for value in verified_facts.values():
+        if isinstance(value, dict) and (
+            "certificate_stack" in value
+            or "local_lemmas" in value
+            or "refinement_diff" in value
+        ):
+            return value
+    return {}
+
+
+def _has_certificate_completion_facts(facts: dict[str, Any]) -> bool:
+    return isinstance(facts, dict) and (
+        isinstance(facts.get("certificate_stack"), list)
+        or isinstance(facts.get("local_lemmas"), list)
+        or isinstance(facts.get("refinement_diff"), list)
+    )
+
+
+def _render_window6_alpha_certificate_completion_section(
+    conjecture: dict[str, Any],
+    verified_facts: dict[str, Any],
+    *,
+    title: str,
+    label: str,
+) -> str:
+    claim_id = str(conjecture.get("conjecture_id") or "")
+    facts = _raw_claim_facts(verified_facts, claim_id)
+    stack = [
+        item
+        for item in facts.get("certificate_stack", [])
+        if isinstance(item, str) and item.strip()
+    ]
+    if not stack:
+        stack = [
+            "FiniteWitness_W6",
+            "ClockCouplingCert",
+            "ResponseFunctorCert",
+            "CoefficientUseCert",
+            "PhysReadoutCert_alpha",
+            "MetrologicalGaugeSelectionCert",
+            "StableAlphaReadoutCompose_W6",
+            "CertRelNoConverse_W6_alpha",
+        ]
+    stack_text = ", ".join(rf"\texttt{{{_tex_escape_ascii(item)}}}" for item in stack)
+    not_claimed = [
+        item
+        for item in facts.get("not_claimed", conjecture.get("forbidden_claims", []))
+        if isinstance(item, str) and item.strip()
+    ]
+    if not_claimed:
+        boundary_text = (
+            r"The chapter does not claim that the Window6 recurrence identity alone "
+            r"implies $\alpha^{-1}_{Z6}$; it does not claim that the $8/9$ "
+            r"boundary-escape witness is a response coefficient theorem without "
+            r"$\mathrm{CoefficientUseCert}$; it does not identify "
+            r"$\varphi^{-27}$ recoil-scale terms with Green $\varphi^{-37}$ or "
+            r"$571$-certificate effects; and it does not authorize BEDC writeback."
+        )
+    else:
+        boundary_text = (
+            r"The chapter does not claim that Window6 alone implies a physical "
+            r"fine-structure constant, that the boundary-escape witness is already "
+            r"a response coefficient, or that a separate BEDC theorem has been "
+            r"authorized."
+        )
+    lines = [
+        rf"\subsection{{{_tex_escape_ascii(title)}}}",
+        rf"\label{{sec:{_ascii_text(label)}}}",
+        r"\origin{ai}",
+        "",
+        r"\paragraph{Certificate-relative statement.}",
+        (
+            r"The Window6 alpha route is represented as a certificate-completion theorem. "
+            r"The finite recurrence and Binet data supply an algebraic witness, while the "
+            r"clock, response, coefficient-use, physical-calibration, and metrological "
+            r"branch data are external certificates.  The target statement is therefore "
+            r"the forward implication"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"&\mathrm{FiniteWitness}_{W6}+\mathrm{ClockCouplingCert}+\mathrm{ResponseFunctorCert}",
+        r"+\mathrm{CoefficientUseCert}\\",
+        r"&\quad+\mathrm{PhysReadoutCert}_{\alpha}+\mathrm{MetrologicalGaugeSelectionCert}",
+        r"+\mathrm{StableAlphaReadoutCompose}_{W6}\\",
+        r"&\quad+\mathrm{CertRelNoConverse}_{W6,\alpha}",
+        r"\Longrightarrow",
+        r"\mathrm{Readout}_{\alpha}(\Gamma_{\alpha})=\{\alpha^{-1}_{Z6}\}.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"Here $\Gamma_{\alpha}$ denotes the supplied certificate stack, and the "
+            r"readout value is the certificate-relative singleton "
+            r"$\alpha^{-1}_{Z6}=137.035999177006279\ldots$.  The implication is not a "
+            r"rule for dropping $\Gamma_{\alpha}$ and is not a reconstruction theorem "
+            r"for the certificates from the displayed number."
+        ),
+        "",
+        r"\paragraph{Algebraic carrier.}",
+        (
+            r"The minimal carrier $A_{W6}$ contains only the finite Window6 arithmetic: "
+            r"$D_0=47$, $s_6=7$, $\rho_6=10$, the polynomial "
+            r"$Q_{6,\alpha}(u)=1-\frac{1}{2}u+\frac{8}{9}u^2$, and the displayed "
+            r"Binet element"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"D_6^{*}=47+\varphi^{-7}-\frac{1}{2}\varphi^{-17}+\frac{8}{9}\varphi^{-27}.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"The same carrier records the exponent-shift family"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"D_6^{(a)}=47+\varphi^{-(7+a)}-\frac{1}{2}\varphi^{-(17+a)}+\frac{8}{9}\varphi^{-(27+a)},",
+        r"\qquad a\in \mathrm{Z}/10\mathrm{Z}.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"The residue clock modulo $10$ records that the exponents are in one "
+            r"ten-step grading.  It does not choose an integer lift, a real embedding, "
+            r"a numerical branch, or a physical clock origin.  Those choices enter only "
+            r"through the external certificate layer."
+        ),
+        "",
+        r"\paragraph{Branch selection and readout margin.}",
+        (
+            r"A branch-selection certificate supplies a real embedding and an admissible "
+            r"exponent-shift representative.  For a readout interval $J$, the stable "
+            r"margin condition is local rather than global: the selected branch value "
+            r"lies in $J$, and every competitor stays at positive distance from $J$."
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"y_b\in J,\qquad",
+        r"\delta_J=\min_{a\neq b}\operatorname{dist}(y_a,J)>0.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"This $\mathrm{ReadoutMargin}_{W6}(J)$ condition is enough for the certified "
+            r"window to be single-valued at the readout layer.  It does not say that "
+            r"the finite recurrence internally chooses the branch; it says that the "
+            r"external metrological readout excludes the competing branches within the "
+            r"declared interval."
+        ),
+        "",
+        r"\paragraph{Coefficient-use compatibility.}",
+        (
+            r"The coefficient witnesses are separated from the coefficient theorem.  The "
+            r"value $q_1=-1/2$ is witnessed by the alternating Jordan mode, and the value "
+            r"$q_2=8/9$ is witnessed by the right-boundary escape count.  A "
+            r"$\mathrm{CoefficientUseCert}$ is still required before these witnesses may "
+            r"be used as coefficients of the response polynomial.  The compatibility "
+            r"condition"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"\mathrm{CoeffUseMarginCompat}_{W6}",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"asserts that coefficient admissibility does not enlarge, shift, or rebranch "
+            r"the singleton already selected by the readout margin.  Without this "
+            r"condition, a branch-unique readout could still become a larger coefficient "
+            r"fiber at the next layer."
+        ),
+        "",
+        r"\paragraph{Physical calibration and clock phase.}",
+        (
+            r"The physical readout certificate is a calibration-preserving bridge from "
+            r"the selected response scale to the external alpha scale.  It is not implied "
+            r"by coefficient uniqueness: a calibration map unconstrained by "
+            r"$\mathrm{PhysReadoutCert}_{\alpha}$ could send the same selected coefficient "
+            r"to another target value.  The clock-coupling certificate and the "
+            r"metrological branch-selection certificate must also preserve phase.  The "
+            r"clock phase used to name the exponent representative must match the phase "
+            r"used by the external alpha readout, unless a separate phase-insensitivity "
+            r"certificate is supplied."
+        ),
+        "",
+        r"\paragraph{Stable composition.}",
+        (
+            r"The completed theorem composes the certificates as a singleton-pullback "
+            r"argument.  Each stage carries both a selected singleton and an exclusion "
+            r"margin for the competitors that could otherwise enter the final alpha band. "
+            r"The role of $\mathrm{StableAlphaReadoutCompose}_{W6}$ is to preserve that "
+            r"singleton through branch selection, coefficient interpretation, calibration, "
+            r"and clock-phase transport."
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"B_{\mathrm{alg}} \longleftarrow B_{\mathrm{branch}}",
+        r"\longleftarrow B_{\mathrm{coeff}}",
+        r"\longleftarrow B_{\mathrm{phys}}",
+        r"\longleftarrow \{\alpha^{-1}_{Z6}\}.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"If the final fiber is not a singleton, the excess-fiber diagnostic assigns "
+            r"the failure to the first external compatibility square that does not factor "
+            r"through the preceding equality.  Algebraic equality inside $A_{W6}$ is then "
+            r"treated as algebraic equality or label redundancy, not as a failure of the "
+            r"Window6 recurrence identity."
+        ),
+        "",
+        r"\paragraph{Experiment path ledger.}",
+        (
+            r"Experiment paths are recorded by a ledger rather than folded into the finite "
+            r"witness.  For a low-energy non-running readout one may write"
+        ),
+        r"$$",
+        r"\begin{aligned}",
+        r"D_E=D_{Z6}+N_E\varphi^{-27}+\mu_E\varphi^{-37}+\cdots.",
+        r"\end{aligned}",
+        r"$$",
+        (
+            r"The static-impedance path has $N_E=0$ by definition of the certificate target. "
+            r"Magnetic-moment and recoil paths are separate readout ledgers, and their "
+            r"$\varphi^{-27}$-scale offsets are not identified with the Green layer.  The "
+            r"Green susceptibility scale is a $\varphi^{-37}$ layer and must carry its own "
+            r"$571$ certificate."
+        ),
+        "",
+        r"\paragraph{Certificate inventory.}",
+        f"The local inventory for this theorem is {stack_text}.",
+        "",
+        r"\paragraph{Boundary of the result.}",
+        boundary_text,
+    ]
+    return "\n".join(lines).rstrip() + "\n"
+
+
 _NAMECERT_TITLE_REMAP = {
     "loning-format chapter slug": "NameCert chapter slug",
     "internal newmath/bedc derivation": "Derivation from coordinate, closure, spectrum, and relation",
@@ -4495,6 +4733,14 @@ def _render_conjecture_section(
     verified_facts = _all_verified_facts(conjecture)
     title = _title_from_slug(conjecture_id, prefix="Forced Window")
     slug = re.sub(r"[^a-z0-9]+", "-", _ascii_text(conjecture_id).lower()).strip("-") or "forced-window"
+    raw_facts = _raw_claim_facts(verified_facts, conjecture_id)
+    if conjecture_id == "window6.alpha-certificate-completion.external-readout-theorem" or _has_certificate_completion_facts(raw_facts):
+        return _render_window6_alpha_certificate_completion_section(
+            conjecture,
+            verified_facts,
+            title=title,
+            label=slug,
+        ).splitlines()
     return _render_math_fallback_section(
         title=title,
         label=slug,
@@ -5215,23 +5461,33 @@ def run_writeback_lane(store: FibonacciRealityStore) -> dict[str, Any]:
         linked_mismatches = deduped_mismatches
         verified_facts = _all_verified_facts(conjecture)
         conjecture_id = str(conjecture.get("conjecture_id") or "unnamed")
-        codex_text = _codex_written_content(
-            render_conjecture_with_codex,
-            (conjecture, verified_facts, linked_contacts, linked_probes, linked_mismatches),
-            verified_facts,
-            conjecture_id,
-            repo_root,
-            writer_config,
+        raw_facts = _raw_claim_facts(verified_facts, conjecture_id)
+        deterministic_certificate_completion = (
+            conjecture_id == "window6.alpha-certificate-completion.external-readout-theorem"
+            or _has_certificate_completion_facts(raw_facts)
         )
-        if codex_text:
-            chapter_text = codex_text.rstrip()
+        if deterministic_certificate_completion:
+            chapter_text = "\n".join(
+                _render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe)
+            ).rstrip()
         else:
-            # codex 本 cycle 失败: 优先复用上次缓存的 rich 章节, 不让 thin 模板覆盖 (防 rich→thin 降级).
-            cached_rich = _bio_w_cached_chapter(repo_root, str(writer_config["log_dir"]), conjecture_id)
-            if cached_rich:
-                chapter_text = cached_rich.rstrip()
+            codex_text = _codex_written_content(
+                render_conjecture_with_codex,
+                (conjecture, verified_facts, linked_contacts, linked_probes, linked_mismatches),
+                verified_facts,
+                conjecture_id,
+                repo_root,
+                writer_config,
+            )
+            if codex_text:
+                chapter_text = codex_text.rstrip()
             else:
-                chapter_text = "\n".join(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe)).rstrip()
+                # codex 本 cycle 失败: 优先复用上次缓存的 rich 章节, 不让 thin 模板覆盖 (防 rich→thin 降级).
+                cached_rich = _bio_w_cached_chapter(repo_root, str(writer_config["log_dir"]), conjecture_id)
+                if cached_rich:
+                    chapter_text = cached_rich.rstrip()
+                else:
+                    chapter_text = "\n".join(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe)).rstrip()
         chapter_entries.append((_forced_window_conjecture_slug(conjecture_id), chapter_text))
 
     paths = store.paths
