@@ -193,3 +193,16 @@ allocation policy, because the target is oracle-derived from forced-option
 mechanism labels.  The next closure step is a non-leaky predictor of the same
 mechanism target, evaluated under the same hard-slice budget transfer gate and
 then repeated on an independent export.
+
+A non-leaky mechanism-target learner narrows but does not close that step.  The
+learner is trained from train/calibration forced-delta mechanism labels, while
+its inputs are latent, environment, rollout-internal, option-depth, and budget
+features rather than held-out evaluation option errors.  On the held-out hard
+slice it raises mean capture from the perturbation-value learner baseline
+$-0.0681$ to $-0.0050$, with budget-three capture improving from $0.0787$ to
+$0.1081$.  The all-budget gate still fails: budget-two capture is $-0.1022$,
+budget-four capture is $-0.0209$, and hard mean label Spearman drops from
+$0.2635$ to $0.1922$.  The boundary is therefore no longer target definition.
+The target ceiling is known; the open problem is learning that mechanism target
+from deployable BEDC-native state features without leaking the forced-option
+oracle.
