@@ -14,11 +14,11 @@ from typing import Any
 
 try:
     import gates
-    from store import LeWMPaths, LeWMStore, dedup_by_key, read_jsonl, write_jsonl
+    from store import LeWMPaths, LeWMStore, dedup_by_key, read_jsonl, upsert_by_key, write_jsonl
 except ModuleNotFoundError:  # pragma: no cover
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import gates
-    from store import LeWMPaths, LeWMStore, dedup_by_key, read_jsonl, write_jsonl
+    from store import LeWMPaths, LeWMStore, dedup_by_key, read_jsonl, upsert_by_key, write_jsonl
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -275,14 +275,23 @@ def run_writeback_lane(store: LeWMStore) -> dict[str, Any]:
     non_authoritative_added = 0
     for result in gate_results:
         verdict_id = str(result.get("verdict_id") or "")
-        if verdict_id in existing_ids:
-            continue
         verdict = verdicts.get(verdict_id)
         if verdict is None:
             continue
         provenance = str(verdict.get("provenance") or "unknown")
         authoritative = result.get("gate_status") == "gate_passed" and provenance == "executed"
         if result.get("gate_status") != "gate_passed" and provenance == "executed":
+            continue
+        if verdict_id in existing_ids:
+            for finding in existing:
+                if str(finding.get("verdict_id") or "") == verdict_id:
+                    finding["experiment_ref"] = verdict.get("experiment_ref")
+                    finding["status"] = verdict.get("status")
+                    finding["reported_claim"] = verdict.get("reported_claim")
+                    finding["provenance"] = provenance
+                    finding["authoritative"] = authoritative
+                    finding["gate_status"] = result.get("gate_status")
+                    break
             continue
         if authoritative:
             authoritative_added += 1
@@ -301,7 +310,7 @@ def run_writeback_lane(store: LeWMStore) -> dict[str, Any]:
                 "gate_status": result.get("gate_status"),
             }
         )
-    records = dedup_by_key(existing + additions, "finding_id")
+    records = upsert_by_key(existing + additions, "finding_id")
     store.write_verified_findings(records)
     authoritative_total = sum(1 for item in records if item.get("authoritative") is True)
     return {

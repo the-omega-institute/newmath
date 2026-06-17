@@ -1,0 +1,112 @@
+{
+  "accepted_import_status": "executed only when every required execution field is present",
+  "cannot_claim": [
+    "official V-JEPA2-AC benchmark reproduction",
+    "public benchmark superiority",
+    "native external baseline comparison without an executed result import"
+  ],
+  "current_status": {
+    "fixed_checkpoint_metric_import": "executed",
+    "near_native_fixed_checkpoint_record": "evaluated_near_native",
+    "near_native_metric_import_gap": "none",
+    "near_native_metric_importable": "yes",
+    "near_native_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+    "official_protocol_execution": "not_evaluated",
+    "public_baseline_comparison": "reports/bedc_jepa_public_baseline_comparison.json"
+  },
+  "execution_template": {
+    "bedc_readback_metrics": {
+      "certified_coverage": "<float>",
+      "debt": "<float>",
+      "distinction_accuracy": "<float>",
+      "gap_detection_auc": "<float>",
+      "unlogged_error": "<float>"
+    },
+    "candidate_id": "vjepa2-ac",
+    "cannot_claim_boundary": [
+      "public benchmark superiority unless comparative acceptance rule passes",
+      "official reproduction unless the official protocol is executed"
+    ],
+    "checkpoint_identity": "<checkpoint URL, hash, or model card identity>",
+    "dataset_identity": "<dataset or environment stream identity>",
+    "environment_or_benchmark_name": "<public benchmark name>",
+    "execution_command": "<exact command used to run the baseline>",
+    "latent_prediction_score": "<float>",
+    "lccp_certificate_metrics": {
+      "alpha_grid": "<value>",
+      "certified_claim_count": "<value>",
+      "gap_claim_count": "<value>",
+      "mean_certified_coverage": "<value>",
+      "mean_conformal_miscoverage": "<value>",
+      "mean_unlogged_error": "<value>"
+    },
+    "native_metric_contract": {
+      "latent_prediction_score": "<score name, direction, and aggregation>",
+      "rollout_or_planning_score": "<score name, direction, and aggregation>"
+    },
+    "observation_action_stream_contract": {
+      "action_encoding": "<action token or action vector contract>",
+      "observation_preprocessing": "<image or video preprocessing contract>",
+      "split": "<train/cal/test or declared split mapping>"
+    },
+    "repository_commit": "<git commit or release tag>",
+    "rollout_or_planning_score": "<float>"
+  },
+  "native_metric_contract": {
+    "bedc_readback_fields": [
+      "distinction_accuracy",
+      "gap_detection_auc",
+      "unlogged_error",
+      "certified_coverage",
+      "debt"
+    ],
+    "lccp_certificate_fields": [
+      "alpha_grid",
+      "certified_claim_count",
+      "gap_claim_count",
+      "mean_certified_coverage",
+      "mean_unlogged_error",
+      "mean_conformal_miscoverage"
+    ],
+    "native_result_requirements": [
+      "repository commit is recorded",
+      "checkpoint identity is recorded",
+      "dataset identity is recorded",
+      "execution command is recorded",
+      "native metric names and score directions are recorded",
+      "cannot-claim boundary is recorded"
+    ],
+    "same_protocol_requirements": [
+      "same public observation/action stream",
+      "same split or declared split mapping",
+      "same predicate set",
+      "same alpha grid for LCCP",
+      "same BEDC gap and debt definitions",
+      "declared preprocessing and action encoding"
+    ],
+    "score_fields": [
+      "latent_prediction_score",
+      "rollout_or_planning_score"
+    ]
+  },
+  "repository_url": "https://github.com/facebookresearch/vjepa2",
+  "required_execution_fields": [
+    "candidate_id",
+    "repository_commit",
+    "checkpoint_identity",
+    "dataset_identity",
+    "environment_or_benchmark_name",
+    "execution_command",
+    "observation_action_stream_contract",
+    "native_metric_contract",
+    "latent_prediction_score",
+    "rollout_or_planning_score",
+    "bedc_readback_metrics",
+    "lccp_certificate_metrics",
+    "cannot_claim_boundary"
+  ],
+  "schema_id": "bedc-jepa-public-baseline-native-metric-contract",
+  "selected_candidate_id": "vjepa2-ac",
+  "selected_candidate_name": "V-JEPA 2-AC",
+  "status": "contract_ready"
+}

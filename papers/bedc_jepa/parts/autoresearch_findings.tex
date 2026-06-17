@@ -54,6 +54,106 @@ narrows that gap by only $0.011$.  The signal is therefore that closing the
 prediction-axis gap is not a matter of scale alone for this recipe: the
 objective or architecture is the binding factor, which bounds what a larger
 compute budget alone would buy.
+This is now exposed as a hard world-model gate,
+\texttt{fi-026.prediction-parity-gate}.  With tolerance $\epsilon=0.10$, the
+LeWM mean next-latent MSE is $0.06662$, the parity threshold is $0.07328$, and
+the native mean MSE is $0.87870$.  The parity margin is therefore $-0.80542$,
+so the gate is negative.  These rows may support monitors, ledgers, and
+survival analyses, but they do not yet promote a BEDC-native predictor to a
+world model.
+A direct native-parity candidate trained on the local GPU gives the same
+boundary in a stronger form.  The model uses a latent window, future action
+window, action-validity mask, historical gap proxy, and time features.  It
+improves over trivial persistence on the same evaluation transitions, with
+native MSE $1.04610$ against trivial MSE $1.26587$ and paired difference
+$-0.21977$ $[-0.27464,\ -0.16797]$.  It remains far outside the
+world-model gate: the LeWM reference MSE is $0.06586$, the parity threshold
+is $0.07244$, the native-to-LeWM ratio is $15.88$, and the parity margin is
+$-0.97366$ with interval $[-1.03679,\ -0.91201]$.  Thus the direct run closes
+as a negative result for this architecture, not as an argument for further
+head scaling.
+Two targeted parity checks make the boundary sharper.  Training the same
+native residual class against the LeWM next-latent transition target, while
+still evaluating against the true next latent, gives native MSE $1.05803$,
+teacher-imitation MSE $1.08923$, native-to-LeWM ratio $15.72$, and parity
+margin $-0.98398$ $[-1.04988,\ -0.91685]$.  The parity failure is therefore
+not removed by replacing the direct target with a LeWM transition teacher.
+A sequence-native candidate with recurrent latent-history, future-action, and
+gap-proxy encoders improves the local predictor to native MSE $0.95181$ and
+ratio $14.11$, but its parity margin remains $-0.87763$
+$[-0.95362,\ -0.80311]$.  Sequence inductive bias moves the row in the right
+direction without changing the order-of-magnitude prediction gap; the next
+prediction-parity attempt must change the dynamics architecture or training
+regime rather than continue small local readout sweeps.
+A capacity-matched ledger-conditioning control also fails to rescue the
+head-conditioning route.  Four arms share the same trunk, FiLM module, ledger
+head, split, and next-latent target: plain, constant-ledger FiLM, learned
+ledger FiLM, and shuffled-ledger FiLM.  The learned conditioned arm gives
+conditioned-minus-constant MSE $-0.00148$ with interval
+$[-0.01664,\ +0.01105]$, and it does not beat the shuffled-ledger control.
+This closes the original ledger-conditioned predictor caveat as a scoped
+architecture boundary: extra conditioning structure is not enough evidence for
+a BEDC-native world model unless the state objective itself changes.
+The action-conditioned multi-step dynamics row supplies that stronger local
+test.  It trains recurrent residual dynamics with teacher-forced rollout
+losses at horizons $1$, $3$, and $5$, then evaluates the one-step parity gate
+and the multi-step rollout error.  The best local row is the $h=5$ candidate:
+native one-step MSE $0.84617$ against LeWM $0.06711$, native-to-LeWM ratio
+$12.61$, rollout-final MSE $1.07626$, and parity margin $-0.77235$
+$[-0.81061,\ -0.73129]$.  This is the strongest local prediction row in the
+current parity series and it beats trivial persistence by $-0.56925$
+$[-0.61231,\ -0.52739]$, but it still does not promote the native state to a
+world model.  The A100-scale follow-up is therefore a scaling test for this
+multi-step dynamics recipe, not a continuation of head-only probing.
+The local scaling diagnostic for the same recipe is directionally positive but
+still fail-closed.  Restricting to the best $h=5$ row and increasing the local
+model to $13.31$M parameters gives native one-step MSE $0.76720$, rollout-final
+MSE $0.99348$, native-to-LeWM ratio $11.43$, and parity margin $-0.69338$
+$[-0.74168,\ -0.63541]$.  The gain over the base multi-step row is $0.07897$
+MSE, so scale is not irrelevant; the remaining gap is still too large for a
+local run to justify a world-model claim.  This is the concrete A100 target:
+test whether the same multi-step action-conditioned objective continues the
+improvement curve or saturates far above the LeWM parity threshold.
+The transition-level upper-bound diagnostic separates fit from
+episode-heldout generalization.  With the same scaled $h=5$ model and a
+transition split, episodes may appear in multiple splits, so the row is not a
+population claim.  Under that easier split the native one-step MSE drops to
+$0.51243$, rollout-final MSE to $0.24327$, and native-to-LeWM ratio to $7.65$,
+with parity margin $-0.43876$ $[-0.46536,\ -0.40961]$.  The gap is therefore
+partly a heldout-episode generalization problem, but even the transition-level
+upper bound is still far from LeWM prediction parity; the next dynamics model
+must improve both fit and generalization rather than only increasing the
+parameter count.  The explicit gap decomposition records a heldout
+generalization gap of $0.25477$ MSE between the scaled episode-heldout and
+transition-split rows, while the transition-split residual parity gap remains
+$0.43876$ with interval $[0.40961,\ 0.46536]$.
+The one-step-focused loss control rules out a simpler explanation.  Training
+the same scaled $h=5$ architecture with loss only on the first rollout step
+gives native one-step MSE $0.87164$, rollout-final MSE $2.47129$, and
+native-to-LeWM ratio $12.99$, worse than the decay-weighted multi-step row's
+native one-step MSE $0.76720$.  The one-step gate is therefore not being held
+back by later rollout losses.  A uniform multi-step loss gives the best
+observed local loss-profile row among the checked scaled objectives, with
+native one-step MSE $0.74727$, rollout-final MSE $0.97184$,
+native-to-LeWM ratio $11.13$, and parity margin $-0.67345$.  The improvement
+over the decay-weighted row is $0.01993$ MSE, but the row remains far outside
+the LeWM prediction-parity gate.  A matched alternate-seed replication does
+not stabilize that advantage: at seed $123$, decay gives native one-step MSE
+$0.83417$ while uniform gives $0.84405$, so the uniform-minus-decay gap is
+$0.00988$ in the wrong direction.  The loss-profile synthesis therefore treats
+the uniform-loss A100 row as exploratory rather than as scaling an already
+validated stronger local recipe.
+The A100 computation queue therefore tracks both the decay-weighted scaled row
+and the uniform-loss scaled row; the uniform-loss verdict remains fail-closed
+until its A100 report is present in the local evidence directory, and the same
+fail-closed ingest contract is used for the decay-weighted A100 row.  A remote
+one-epoch CPU smoke run verifies that the multi-step runner and latent export
+path can write the expected report schema, but it is not an A100 scaling row
+and does not enter the parity evidence.
+The prediction-parity boundary synthesis records this as a bounded local
+state: completed local rows are still outside parity, the transition split is
+only an upper-bound diagnostic, the loss-profile advantage is not stable, and
+A100 rows remain pending evidence rather than completed claims.
 
 \paragraph{Three-tier BEDC-native readout evaluation.}
 Across the verified findings the BEDC-native ledger separates into three tiers
@@ -97,20 +197,263 @@ $\rho=0.421$ $[0.321,\ 0.513]$; its selective admission risk is $0.1165$ at
 $\alpha=0.10$, so neither selective admission nor allocation passes its
 criterion.  Detection is therefore an internalization that hardens past the
 strongest-probe scalar under the integrated row, selective prediction is a
-conservative-coverage result, and allocation is a capacity-invariant bounded
-frontier.
+conservative-coverage result, and allocation remains bounded when it is treated
+as a downstream failure-score or integrated-detector ranking problem.
 
-The registered closure checks for the integrated A100 row are intentionally
-kept outside the verified-findings ledger until their finite artifacts exist.
-The score-dump row records the per-anchor quantities needed to replace the
-scalar strongest-probe comparison by a direct episode-bootstrap paired
-comparison.  The calibration-only selective sweep reuses those same scores to
-test whether a more conservative admission threshold can satisfy the risk
-criterion without changing the model.  The repaired shuffled-label row supplies
-the missing capacity-artifact guard for the full integrated configuration.
-These checks can tighten or weaken the scoped detection reading, but they are
-not evidence records until their outputs pass the same mechanical and
-adversarial gates as the accepted findings.
+The bounded allocation frontier is not treated as a request for another
+failure-score ranker.  The research loop carries a separate compute-value axis:
+a valid evidence packet must name candidate compute options $b$ and provide
+direct option-level labels
+$$
+MV(t,b) = E_{\mathrm{uniform}}(t) - E_b(t),
+$$
+with the allocation head trained and evaluated against that marginal value
+rather than against $P(e_{t,h}>\tau_{h,q})$.  The corresponding runner accepts
+only an artifact with episode ids, option errors, uniform errors, and predicted
+marginal values; absent those arrays it emits a fail-closed verdict.  Thus the
+automation continues the BEDC-native world-model program by asking for
+intervention-value evidence, not by retrieving one named experiment or
+relabeling detection as planning.
+The first artifact for this axis is deliberately an oracle readback: it writes
+the option-level label matrix for rollout depths $1$, $3$, and $5$ on $634$
+evaluation anchors from $55$ episodes, and fills \texttt{predicted\_mv} with
+the true per-step marginal value only to test whether the target itself can
+drive the balanced allocation gate.  That readback gives allocation delta
+$-0.01290$ $[-0.01851,\ -0.00806]$ with $MV$ Spearman $1.0$.  It is therefore
+evidence that the missing variable is allocation-relevant, while the trained
+compute-value model remains unclaimed until \texttt{predicted\_mv} is produced
+by a model that has not read evaluation errors.
+The local 4060 readout supplies that stricter test for a small model family.
+Ridge, MLP, and scalar RankNet readers are trained without evaluation labels
+and selected on calibration.  RankNet is selected, reaches evaluation
+$MV$ Spearman $0.4499$ $[0.3651,\ 0.5272]$, but remains wrong-side on
+allocation: $+0.00822$ $[+0.00053,\ +0.01738]$.  The signal is therefore
+partly readable, but the readout still does not supply an allocation-native
+policy.
+A policy-oriented local RTX~4060 run trains the scorer directly on the
+episode-balanced top/bottom assignment induced by the same marginal-value
+labels.  It slightly improves the allocation delta relative to the scalar
+RankNet row, $+0.00675$ $[+0.00179,\ +0.01146]$ versus $+0.00822$
+$[+0.00065,\ +0.01656]$, but it remains on the wrong side.  Its global
+$MV$ Spearman is lower ($0.3413$), even though the allocation delta is better,
+so global marginal-value rank correlation is not a sufficient model-selection
+statistic for the balanced budget gate.  The oracle under the identical gate
+still gives $-0.01290$ $[-0.01922,\ -0.00830]$, while a random reference gives
+$+0.02094$ $[+0.01211,\ +0.03207]$ and an inverted oracle gives $+0.05886$
+$[+0.04546,\ +0.07605]$.  The target has usable intervention signal; the open
+model problem is stable episode-local assignment, not merely per-anchor
+compute-value readability.
+A stability grid over seeds $3,7,11$ and epoch budgets $1,5,20,100$ keeps that
+reading.  Selecting by calibration allocation delta chooses seed $3$ at $20$
+epochs and gives evaluation allocation delta $+0.00184$
+$[-0.00297,\ +0.00687]$, close to the decision boundary but still fail-closed.
+Across all $12$ runs, no evaluation interval has upper endpoint below zero; the
+observed deltas range from $+0.00162$ to $+0.01024$, with median $+0.00734$.
+This supports episode-local policy training as the right pressure point, but
+also shows that the present scorer is not stable enough to claim
+allocation-native control.
+An episode decomposition of the selected stability scorer localizes the
+remaining gap.  Averaged by episode, the policy has delta $+0.00137$ against
+$+0.00698$ for the scalar RankNet and $-0.01280$ for the oracle.  The policy
+improves the scalar RankNet episode mean by $0.00560$, but it still misses the
+oracle by $0.01417$ on average.  The missed-oracle mass is tail concentrated:
+the worst episode accounts for $13.94\%$ of the positive missed mass, the worst
+five for $41.62\%$, and the worst ten for $61.78\%$.  Thus the next allocation
+objective should be tail-episode-aware, not only globally listwise.
+The direct tail-episode weighting test is negative.  It weights train episodes
+by their train-split oracle gain before fitting the same policy scorer, using a
+$3\times 3$ seed/epoch grid and calibration allocation selection.  The selected
+row evaluates at $+0.00878$ $[+0.00322,\ +0.01536]$, worse than the unweighted
+episode-policy reference $+0.00184$ $[-0.00309,\ +0.00651]$; the best observed
+tail-weighted row is still $+0.00431$ $[-0.00080,\ +0.01012]$.  This rejects
+naive train-oracle episode weighting as the missing step.  The tail signal must
+enter through a budget-feasible objective or a transferable hard-episode state,
+not through simple episode reweighting alone.
+A soft budget-feasible surrogate is also bounded.  The surrogate uses
+train-split option errors inside a differentiable balanced-depth objective and
+keeps calibration-only model selection.  It improves over the naive
+tail-weighted row but does not close allocation: the selected run gives
+$+0.00356$ $[-0.00342,\ +0.01177]$, and the best observed run gives $+0.00193$
+$[-0.00355,\ +0.00700]$.  The unweighted episode-policy reference remains
+$+0.00184$ $[-0.00306,\ +0.00687]$.  This suggests that a soft surrogate is not
+enough; the missing step is likely a sharper discrete/listwise assignment
+objective or additional state that predicts transferable hard episodes.
+A hard-episode state probe tests the second possibility directly.  A linear
+episode-level probe over aggregated rollout/internal features fits
+train-split oracle-gain tail labels perfectly, but it does not transfer:
+calibration AUROC is $0.5265$ and evaluation AUROC against the top missed
+episodes is $0.5053$.  The top missed episodes have mean score $-0.656$,
+essentially the same as non-top episodes at $-0.622$.  Thus the hard-episode
+state is not linearly readable from this aggregate feature view; allocation
+progress likely requires richer episode-state features or a genuinely
+structured assignment model, not just a better scalar probe on the same
+aggregates.
+A richer sequence-summary probe gives only a small movement.  It augments the
+episode aggregates with per-episode quantiles, adjacent-change summaries, and
+score-distribution summaries.  Calibration AUROC rises to $0.5985$, but
+evaluation AUROC against the top missed episodes is only $0.5479$, and the top
+missed episodes still receive lower mean score ($-0.846$) than non-top episodes
+($-0.728$).  The hard-episode state is therefore not recovered by simple
+sequence summaries either; the next useful experiment should change the state
+view or the option set rather than add another scalar probe.
+The option-set diagnostic identifies the first clear allocation-side lever.
+Using the same precomputed policy score and only changing the balanced option
+grid, the coarse $\{1,3,5\}$ grid gives policy-ranked allocation delta
+$-0.00181$ $[-0.00705,\ +0.00345]$, while the refined $\{1,2,3,4,5\}$ grid
+gives $-0.00330$ $[-0.00676,\ +0.00015]$.  The refined-grid oracle is also
+slightly stronger, $-0.03059$ $[-0.03839,\ -0.02495]$ versus $-0.02930$
+$[-0.03704,\ -0.02333]$.  This is not yet a closed allocation claim, but it is
+the strongest sign that the hard boundary is partly an option-space problem:
+the score is more useful when the budget allocator has intermediate depths
+rather than only the hard $1/3/5$ split.
+A direct refined-option readout does not yet turn that diagnostic into a
+learned improvement.  Ridge and MLP readers are trained to predict
+five-option marginal values for depths $\{1,2,3,4,5\}$ and selected on
+calibration.  The selected MLP has evaluation allocation delta $+0.00184$
+$[-0.00199,\ +0.00656]$ with score Spearman $0.3315$, while the reused
+episode-policy score on the same refined grid remains better at $-0.00330$
+$[-0.00679,\ +0.00020]$.  Thus the refined option space is useful, but a
+small direct per-option value readout has not learned the right assignment
+signal.  The next step is option-conditioned or structured assignment learning,
+not just a wider output head.
+A structured assignment row gives the compute-value axis its first closed
+allocation-side model result on this fixed export.  The model reads the same
+rollout-internal features plus an explicit depth option, predicts option error
+for each depth in $\{1,2,3,4,5\}$, and then uses an exact per-episode dynamic
+program with budget $\sum b = 3n$ before any evaluation errors are read.  The
+learned structured row evaluates at allocation delta $-0.00604$
+$[-0.01045,\ -0.00168]$ with score/error Spearman $0.8899$.  The exact-budget
+oracle is still lower at $-0.02412$ $[-0.03045,\ -0.01944]$, while the direct
+refined-value DP row remains $+0.00182$ $[-0.00279,\ +0.00629]$ and the reused
+policy-score balanced row is $-0.00330$ $[-0.00697,\ +0.00024]$.  The positive
+reading is therefore not that failure detection solved allocation, but that
+allocation becomes learnable when the model predicts option-conditioned
+compute cost and the allocator enforces the budget as a discrete assignment
+constraint.
+A seed/epoch stability grid keeps this positive row as calibration-selectable
+but not yet uniformly stable.  Across seeds $29,41,53$ and epoch budgets
+$160,280,420$, all calibration rows are below zero, the selected run is again
+seed $41$ at $420$ epochs, and its evaluation delta is $-0.00604$
+$[-0.01081,\ -0.00187]$.  Three of the nine evaluation rows have upper
+confidence endpoint below zero; the median observed evaluation delta is
+$-0.00355$, while the weakest row is $+0.00095$ with upper endpoint
+$+0.01040$.  This supports option-conditioned exact-budget assignment as the
+right allocation-native direction, but it also makes stability and independent
+export replication the next claim boundary.
+An ablation localizes the lever.  With the same seed and epoch budget, the full
+state-plus-depth row remains closed at $-0.00604$ $[-0.01080,\ -0.00130]$.
+Removing explicit depth conditioning while keeping the state gives a wrong-side
+row, $+0.02756$ $[+0.01436,\ +0.04333]$.  Removing the state while keeping only
+depth information collapses to the uniform-depth assignment, $0.00000$
+$[0.00000,\ 0.00000]$; a ridge reader over the full feature set also collapses
+to the same zero row.  Thus the positive allocation result is not created by
+the dynamic program alone, by a depth prior, or by a linear readout.  It
+requires a nonlinear state--option interaction that predicts option-conditioned
+compute cost before the exact-budget assignment is applied.
+The feature-group ablation then asks which part of the state view carries this
+interaction.  At seed $41$ and $280$ epochs, the full feature set remains
+closed with allocation delta $-0.00474$ $[-0.00862,\ -0.00154]$ and
+score/error $\rho=0.8839$.  The base latent/action window alone is wrong-side
+at $+0.00331$ $[-0.00351,\ +0.01285]$; the rollout trajectory alone moves in
+the useful direction but stays fail-closed at $-0.00259$
+$[-0.00703,\ +0.00272]$; norm/gap summaries alone are near zero at $+0.00076$
+$[-0.00477,\ +0.00558]$.  Partial combinations with the base state also stay
+fail-closed.  The closed row is therefore not a single-feature discovery.  It
+uses distributed rollout-internal information together with the state and the
+explicit option token.
+The structured-assignment row is also exposed as an executable autoresearch
+hypothesis, \texttt{fi-022.compute-value-structured-assignment}.  The runner
+requires \texttt{episode}, \texttt{option\_depths}, \texttt{option\_error},
+\texttt{uniform\_error}, and \texttt{predicted\_option\_score}; otherwise it
+returns a fail-closed payload.  On the fixed-export artifact it measures
+allocation delta $-0.00604$ $[-0.01074,\ -0.00163]$ with score/error
+$\rho=0.8899$.  The adversarial gate audits this as sound but scoped: the
+fixed-export row is an authoritative model result for option-conditioned
+exact-budget assignment, but it is not an independent replication,
+prediction-parity result, selective-risk result, or universal-control claim.
+The independent-readiness scan then moves one step further without removing
+the full-replication boundary.  It inspects local \texttt{npz} artifacts for
+the structured compute-value schema and now finds one usable independent-export
+artifact: a PushT rollout-only row built from the independent horizon export's
+predicted rollout trajectory, rollout deltas, norms, validity masks, and timing
+features.  This row has no base latent/action features, so it is not the
+full-feature structured-assignment replication.  Under the same exact-budget
+runner it gives allocation delta $-0.18572$ $[-0.18804,\ -0.18328]$ with
+score/error $\rho=0.9947$ on $416$ anchors from $30$ episodes.  The result is
+therefore a positive independent rollout-only replication of the compute-value
+assignment mechanism, adversarially sound but scoped because the base
+latent/action features are absent.  The full state-plus-rollout independent
+export is tested as a separate boundary.  On the aligned independent PushT carrier,
+the full-feature row reads the base latent/action window together with the
+predicted rollout-internal features and produces allocation delta $-0.18572$
+$[-0.18804,\ -0.18306]$ with score/error $\rho=0.9962$ on the same $416$
+anchors from $30$ episodes; its exact-budget oracle is numerically matched at
+$-0.18572$ $[-0.18805,\ -0.18318]$.  The corresponding autoresearch
+hypothesis, \texttt{fi-025.compute-value-independent-full-feature}, is
+adversarially audited as sound but scoped.  The shortcut audit rejects the
+simple depth-prior and shuffled-score explanations on PushT: depth-only is
+wrong-side at $+0.10746$ $[+0.10431,\ +0.11046]$, and shuffled learned scores
+are wrong-side at $+0.04216$ $[+0.01868,\ +0.06494]$.  The same full-feature
+runner also closes a small reacher row, $-0.00046$
+$[-0.00080,\ -0.00008]$, while cube remains unclosed at $+0.00060$
+$[-0.00039,\ +0.00186]$.  Thus independent compute-value assignment is real
+on at least two carriers under this protocol, but it is not universal and does
+not promote the row into a selective-risk or population-level control claim.
+The same artifacts instantiate a first survival matrix rather than another
+head comparison.  For a candidate distinction $q$, the row computes
+$S_q(r\mid Z)=J_0(r\mid Z)-J_q(r\mid Z,q)$ as held-out option-error MSE
+reduction after base controls for time and candidate depth, and separately
+reports exact-budget allocation.  The learned option score has positive
+option-error survival on PushT, reacher, and cube: $1.2052$, $0.0001005$, and
+$0.0000164$, respectively.  But allocation closes only on PushT and reacher;
+cube remains unclosed.  Conversely, true marginal value has large cube
+option-error survival, $0.00247$, while its direct allocation score is
+wrong-side.  The matrix therefore records the central BEDC-world-model lesson:
+a distinction can survive a readout without becoming a budget-feasible control
+variable unless its sign, mediation layer, and selection rule are themselves
+certified.
+This audit is wired into the autoresearch gate as
+\texttt{fi-041.compute-value-survival-matrix}: the learned option score closes
+the exact-budget allocation criterion on two independent carriers while keeping
+the cube non-closure explicit, so the positive finding is scoped to a
+compute/control distinction and not promoted to prediction parity or universal
+control.
+The paired synthesis gate \texttt{fi-042.survival-control-boundary} makes that
+boundary executable: it combines the scoped compute/control closure with the
+current prediction-parity boundary, whose best completed margin is still
+$-0.438757278$ with CI high $-0.409611073$, and records the A100 parity rows as
+pending rather than completed evidence.  The automated conclusion is therefore
+not that the BEDC-native state is already a full world model, but that the next
+model objective must preserve prediction parity while internalizing the
+surviving compute/control distinction.
+A joint horizon-option row tests whether simply adding detection supervision to
+the option-conditioned compute-value model supplies the missing control
+variable.  It does not.  On the fixed export, the option-only joint-trunk row
+selected by calibration is nearly neutral at allocation delta $+0.00017$
+$[-0.00014,\ +0.00050]$ with score/error $\rho=0.8371$.  Adding a horizon-q75
+head raises mean horizon AUROC to $0.7517$ and score/error $\rho$ to $0.8737$,
+but worsens allocation to $+0.00466$ $[+0.0000003,\ +0.01128]$.  Using the
+horizon-risk logits themselves as the exact-budget option score is plainly
+wrong-side at $+0.00703$ $[+0.00227,\ +0.01192]$.  This separates
+horizon-failure readability from compute-value control: better detection and
+better global option-error rank are not sufficient unless the training target
+and selection rule directly optimize budget-feasible intervention value.  The
+corresponding autoresearch hypothesis,
+\texttt{fi-024.compute-value-joint-horizon-option}, is therefore an
+authoritative negative boundary rather than a positive allocation row.
+
+The integrated A100 closure checks are now finite and keep the same bounded
+reading.  The direct paired comparison against the strongest post-hoc scalar
+has native $h=1$ AUROC $0.78165$ against $0.74399$, but the paired delta
+$+0.03767$ has interval $[-0.01262,\ 0.08607]$, so direct strongest-probe
+superiority remains fail-closed.  The calibration-only selective sweep has no
+threshold with realized eval risk at or below its $\alpha$ value: at
+$\alpha=0.10$ it admits $16.25\%$ of anchors with risk $0.1165$, and at larger
+coverage the risk rises further.  The shuffled-label permutation guard is
+healthy and collapses detection to $h=1$ AUROC $0.50918$, supporting that the
+finite detection row is not a simple shuffled-label capacity artifact.  These
+closures therefore strengthen the boundary rather than promote the row into an
+allocation or high-coverage selective claim.
 
 This loop is the continuation mechanism for the article: each hypothesis it
 clears is appended to the verified-findings record above, and nothing reaches

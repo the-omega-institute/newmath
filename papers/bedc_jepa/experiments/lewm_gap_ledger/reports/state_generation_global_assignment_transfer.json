@@ -1,0 +1,413 @@
+{
+  "candidate_count": 19,
+  "config": {
+    "bootstrap_samples": 500,
+    "budget_multipliers": [
+      2,
+      3,
+      4
+    ],
+    "seed": 1811,
+    "selection": "rank candidates by non-hard mean oracle-headroom capture; evaluate selected candidate on held-out hard episodes"
+  },
+  "diagnosis": {
+    "global_assignment_transfer_closes": false,
+    "global_assignment_transfer_positive": false,
+    "selected_candidate": "state_generation_minimax_budget_policy",
+    "selected_hard_budget2_capture_ratio": -0.3995732363892423,
+    "selected_hard_budget3_capture_ratio": -0.8183496751405086,
+    "selected_hard_budget4_capture_ratio": -0.24275631406311451,
+    "selected_hard_mean_capture_ratio": -0.48689307519762187,
+    "selected_hard_mean_regret_to_oracle": 0.06257875971624664,
+    "selected_non_hard_mean_capture_ratio": 0.408096420283621
+  },
+  "hard_episode_union": [
+    81,
+    115,
+    145,
+    193,
+    201,
+    213,
+    277
+  ],
+  "heldout_hard": {
+    "budgets": {
+      "budget_2": {
+        "headroom_capture_ratio": -0.3995732363892423,
+        "oracle_delta": {
+          "episode_count": 7,
+          "high": -0.012569509008258112,
+          "low": -0.03910390336047432,
+          "observed": -0.02512420623115628,
+          "samples": 500
+        },
+        "regret_to_oracle": {
+          "episode_count": 7,
+          "high": 0.07151923650577453,
+          "low": 0.01289634481152474,
+          "observed": 0.035163166626650165,
+          "samples": 500
+        },
+        "score_delta": {
+          "episode_count": 7,
+          "high": 0.03432920609203354,
+          "low": -0.010216212113848707,
+          "observed": 0.010038960395493884,
+          "samples": 500
+        }
+      },
+      "budget_3": {
+        "headroom_capture_ratio": -0.8183496751405086,
+        "oracle_delta": {
+          "episode_count": 7,
+          "high": -0.02372348150505638,
+          "low": -0.07033468313290672,
+          "observed": -0.042996253248490435,
+          "samples": 500
+        },
+        "regret_to_oracle": {
+          "episode_count": 7,
+          "high": 0.16080541743179158,
+          "low": 0.030458253568669637,
+          "observed": 0.0781822231266516,
+          "samples": 500
+        },
+        "score_delta": {
+          "episode_count": 7,
+          "high": 0.08915456063211515,
+          "low": -0.0025921783107607285,
+          "observed": 0.03518596987816119,
+          "samples": 500
+        }
+      },
+      "budget_4": {
+        "headroom_capture_ratio": -0.24275631406311451,
+        "oracle_delta": {
+          "episode_count": 7,
+          "high": -0.02995464687353902,
+          "low": -0.10285408623514686,
+          "observed": -0.05985959480038509,
+          "samples": 500
+        },
+        "regret_to_oracle": {
+          "episode_count": 7,
+          "high": 0.14234195118291645,
+          "low": 0.033882056840559505,
+          "observed": 0.07439088939543813,
+          "samples": 500
+        },
+        "score_delta": {
+          "episode_count": 7,
+          "high": 0.046573146899273436,
+          "low": -0.013940745849285905,
+          "observed": 0.014531294595053059,
+          "samples": 500
+        }
+      }
+    },
+    "summary": {
+      "budget2_capture_ratio": -0.3995732363892423,
+      "budget3_capture_ratio": -0.8183496751405086,
+      "budget4_capture_ratio": -0.24275631406311451,
+      "legacy_budget3_summary": -0.8183496751405086,
+      "max_capture_ratio": -0.24275631406311451,
+      "mean_capture_ratio": -0.48689307519762187,
+      "mean_regret_to_oracle": 0.06257875971624664,
+      "min_capture_ratio": -0.8183496751405086
+    }
+  },
+  "leakage_attestation": {
+    "candidate_scores": "fixed eval score artifacts only; no network retraining",
+    "oracle_scope": "eval option_error is used for non-hard selection and hard evaluation after fixed score generation",
+    "selection": "non-hard eval episodes select the candidate family; hard episodes are held out from selection",
+    "slurm_or_ssh": "not used"
+  },
+  "not_claimed": [
+    "deployable allocation policy",
+    "independent export validation",
+    "complete BEDC-native world model",
+    "training-free proof of allocation closure"
+  ],
+  "ranking_top": [
+    {
+      "budget2_capture_ratio": 0.4580310092874598,
+      "budget3_capture_ratio": 0.38696398213913674,
+      "budget4_capture_ratio": 0.3792942694242662,
+      "candidate": "state_generation_minimax_budget_policy",
+      "max_capture_ratio": 0.4580310092874598,
+      "mean_capture_ratio": 0.408096420283621,
+      "mean_regret_to_oracle": 0.011742302241464215,
+      "min_capture_ratio": 0.3792942694242662
+    },
+    {
+      "budget2_capture_ratio": 0.425592109002086,
+      "budget3_capture_ratio": 0.4384760280600462,
+      "budget4_capture_ratio": 0.35277378141225885,
+      "candidate": "mix:episode_assignment_value:episode_allocation:0.50",
+      "max_capture_ratio": 0.4384760280600462,
+      "mean_capture_ratio": 0.405613972824797,
+      "mean_regret_to_oracle": 0.011727473869386327,
+      "min_capture_ratio": 0.35277378141225885
+    },
+    {
+      "budget2_capture_ratio": 0.3543354234008207,
+      "budget3_capture_ratio": 0.4134102141411673,
+      "budget4_capture_ratio": 0.40244319024655506,
+      "candidate": "state_generation_episode_coupled_budget_policy",
+      "max_capture_ratio": 0.4134102141411673,
+      "mean_capture_ratio": 0.390062942596181,
+      "mean_regret_to_oracle": 0.012018365986190294,
+      "min_capture_ratio": 0.3543354234008207
+    },
+    {
+      "budget2_capture_ratio": 0.3156821042953897,
+      "budget3_capture_ratio": 0.40023032526429686,
+      "budget4_capture_ratio": 0.34991365453732803,
+      "candidate": "state_generation_budget_conditioned_value",
+      "max_capture_ratio": 0.40023032526429686,
+      "mean_capture_ratio": 0.35527536136567156,
+      "mean_regret_to_oracle": 0.012684123231915735,
+      "min_capture_ratio": 0.3156821042953897
+    },
+    {
+      "budget2_capture_ratio": 0.3048412163309058,
+      "budget3_capture_ratio": 0.439180419999388,
+      "budget4_capture_ratio": 0.3182973447237465,
+      "candidate": "mix:episode_assignment_value:geometry_option_conditioned:0.50",
+      "max_capture_ratio": 0.439180419999388,
+      "mean_capture_ratio": 0.3541063270180134,
+      "mean_regret_to_oracle": 0.01266548246759801,
+      "min_capture_ratio": 0.3048412163309058
+    },
+    {
+      "budget2_capture_ratio": 0.33327711614563854,
+      "budget3_capture_ratio": 0.42524326080901614,
+      "budget4_capture_ratio": 0.2856134533396145,
+      "candidate": "mix:episode_assignment_value:episode_regret:0.50",
+      "max_capture_ratio": 0.42524326080901614,
+      "mean_capture_ratio": 0.3480446100980898,
+      "mean_regret_to_oracle": 0.0128083351814985,
+      "min_capture_ratio": 0.2856134533396145
+    },
+    {
+      "budget2_capture_ratio": 0.35315812373768735,
+      "budget3_capture_ratio": 0.32415398298471215,
+      "budget4_capture_ratio": 0.359194030677384,
+      "candidate": "state_generation_budget_head_value",
+      "max_capture_ratio": 0.359194030677384,
+      "mean_capture_ratio": 0.3455020457999278,
+      "mean_regret_to_oracle": 0.012960534964450371,
+      "min_capture_ratio": 0.32415398298471215
+    },
+    {
+      "budget2_capture_ratio": 0.3172633601726303,
+      "budget3_capture_ratio": 0.45129258629830243,
+      "budget4_capture_ratio": 0.26273208853211444,
+      "candidate": "episode_assignment_value",
+      "max_capture_ratio": 0.45129258629830243,
+      "mean_capture_ratio": 0.34376267833434904,
+      "mean_regret_to_oracle": 0.012859399442788832,
+      "min_capture_ratio": 0.26273208853211444
+    },
+    {
+      "budget2_capture_ratio": 0.3257411469470865,
+      "budget3_capture_ratio": 0.4328406298383591,
+      "budget4_capture_ratio": 0.23406126426638765,
+      "candidate": "mix:episode_assignment_value:allocation_native:0.50",
+      "max_capture_ratio": 0.4328406298383591,
+      "mean_capture_ratio": 0.3308810136839444,
+      "mean_regret_to_oracle": 0.01312893319144681,
+      "min_capture_ratio": 0.23406126426638765
+    },
+    {
+      "budget2_capture_ratio": 0.32770618095958715,
+      "budget3_capture_ratio": 0.3221700818667746,
+      "budget4_capture_ratio": 0.26842944212966796,
+      "candidate": "geometry_option_conditioned",
+      "max_capture_ratio": 0.32770618095958715,
+      "mean_capture_ratio": 0.3061019016520099,
+      "mean_regret_to_oracle": 0.013710859189855975,
+      "min_capture_ratio": 0.26842944212966796
+    },
+    {
+      "budget2_capture_ratio": 0.2770708715815481,
+      "budget3_capture_ratio": 0.32825410846802133,
+      "budget4_capture_ratio": 0.28881260264986264,
+      "candidate": "mix:assignment_priority_residual:episode_regret:0.50",
+      "max_capture_ratio": 0.32825410846802133,
+      "mean_capture_ratio": 0.2980458608998107,
+      "mean_regret_to_oracle": 0.013837555921069887,
+      "min_capture_ratio": 0.2770708715815481
+    },
+    {
+      "budget2_capture_ratio": 0.29136058856435476,
+      "budget3_capture_ratio": 0.3666100299525095,
+      "budget4_capture_ratio": 0.22270012223629893,
+      "candidate": "mix:assignment_priority_residual:episode_allocation:0.50",
+      "max_capture_ratio": 0.3666100299525095,
+      "mean_capture_ratio": 0.2935569135843878,
+      "mean_regret_to_oracle": 0.013894950901189978,
+      "min_capture_ratio": 0.22270012223629893
+    },
+    {
+      "budget2_capture_ratio": 0.27585816942930563,
+      "budget3_capture_ratio": 0.28994006582997134,
+      "budget4_capture_ratio": 0.27736153510004374,
+      "candidate": "episode_regret",
+      "max_capture_ratio": 0.28994006582997134,
+      "mean_capture_ratio": 0.2810532567864403,
+      "mean_regret_to_oracle": 0.01420047166821898,
+      "min_capture_ratio": 0.27585816942930563
+    },
+    {
+      "budget2_capture_ratio": 0.2980758295003696,
+      "budget3_capture_ratio": 0.3485661950126028,
+      "budget4_capture_ratio": 0.18931730138070024,
+      "candidate": "episode_allocation",
+      "max_capture_ratio": 0.3485661950126028,
+      "mean_capture_ratio": 0.2786531086312242,
+      "mean_regret_to_oracle": 0.014202311290768382,
+      "min_capture_ratio": 0.18931730138070024
+    },
+    {
+      "budget2_capture_ratio": 0.2207325778299157,
+      "budget3_capture_ratio": 0.28830632001240347,
+      "budget4_capture_ratio": 0.2464159951185547,
+      "candidate": "mix:assignment_priority_residual:geometry_option_conditioned:0.50",
+      "max_capture_ratio": 0.28830632001240347,
+      "mean_capture_ratio": 0.2518182976536246,
+      "mean_regret_to_oracle": 0.014740868308814528,
+      "min_capture_ratio": 0.2207325778299157
+    },
+    {
+      "budget2_capture_ratio": 0.07374230105696616,
+      "budget3_capture_ratio": 0.19143796221365827,
+      "budget4_capture_ratio": 0.279270992892217,
+      "candidate": "assignment_priority_residual",
+      "max_capture_ratio": 0.279270992892217,
+      "mean_capture_ratio": 0.18148375205428047,
+      "mean_regret_to_oracle": 0.01612094934074779,
+      "min_capture_ratio": 0.07374230105696616
+    },
+    {
+      "budget2_capture_ratio": 0.07374230105696616,
+      "budget3_capture_ratio": 0.19143796221365827,
+      "budget4_capture_ratio": 0.279270992892217,
+      "candidate": "benefit_selector",
+      "max_capture_ratio": 0.279270992892217,
+      "mean_capture_ratio": 0.18148375205428047,
+      "mean_regret_to_oracle": 0.01612094934074779,
+      "min_capture_ratio": 0.07374230105696616
+    },
+    {
+      "budget2_capture_ratio": 0.10255805099199951,
+      "budget3_capture_ratio": 0.21173654195621872,
+      "budget4_capture_ratio": 0.18479583952333759,
+      "candidate": "mix:assignment_priority_residual:allocation_native:0.50",
+      "max_capture_ratio": 0.21173654195621872,
+      "mean_capture_ratio": 0.1663634774905186,
+      "mean_regret_to_oracle": 0.01640685277824188,
+      "min_capture_ratio": 0.10255805099199951
+    },
+    {
+      "budget2_capture_ratio": 0.05296116917552007,
+      "budget3_capture_ratio": 0.09542616786139181,
+      "budget4_capture_ratio": 0.13766226241943205,
+      "candidate": "allocation_native",
+      "max_capture_ratio": 0.13766226241943205,
+      "mean_capture_ratio": 0.09534986648544796,
+      "mean_regret_to_oracle": 0.017862462313025084,
+      "min_capture_ratio": 0.05296116917552007
+    }
+  ],
+  "schema_id": "bedc_jepa.state_generation_global_assignment_transfer",
+  "selection_non_hard": {
+    "budgets": {
+      "budget_2": {
+        "headroom_capture_ratio": 0.4580310092874598,
+        "oracle_delta": {
+          "episode_count": 48,
+          "high": -0.014936253050598812,
+          "low": -0.021813675350771493,
+          "observed": -0.01792534458627747,
+          "samples": 500
+        },
+        "regret_to_oracle": {
+          "episode_count": 48,
+          "high": 0.011656126478578199,
+          "low": 0.007683216886728233,
+          "observed": 0.009714980913599293,
+          "samples": 500
+        },
+        "score_delta": {
+          "episode_count": 48,
+          "high": -0.004117654193478088,
+          "low": -0.011854883172137546,
+          "observed": -0.008210363672678174,
+          "samples": 500
+        }
+      },
+      "budget_3": {
+        "headroom_capture_ratio": 0.38696398213913674,
+        "oracle_delta": {
+          "episode_count": 48,
+          "high": -0.01752933653991496,
+          "low": -0.027698471740374753,
+          "observed": -0.022083502997244323,
+          "samples": 500
+        },
+        "regret_to_oracle": {
+          "episode_count": 48,
+          "high": 0.016908480547144965,
+          "low": 0.01060142994316775,
+          "observed": 0.0135379827378491,
+          "samples": 500
+        },
+        "score_delta": {
+          "episode_count": 48,
+          "high": -0.00502564438385866,
+          "low": -0.014101616202996284,
+          "observed": -0.008545520259395225,
+          "samples": 500
+        }
+      },
+      "budget_4": {
+        "headroom_capture_ratio": 0.3792942694242662,
+        "oracle_delta": {
+          "episode_count": 48,
+          "high": -0.014728254941037884,
+          "low": -0.025271262026295014,
+          "observed": -0.019290853109794646,
+          "samples": 500
+        },
+        "regret_to_oracle": {
+          "episode_count": 48,
+          "high": 0.015184027671292719,
+          "low": 0.009414114947445545,
+          "observed": 0.011973943072944254,
+          "samples": 500
+        },
+        "score_delta": {
+          "episode_count": 48,
+          "high": -0.0030429975734313545,
+          "low": -0.01254661005588214,
+          "observed": -0.007316910036850394,
+          "samples": 500
+        }
+      }
+    },
+    "summary": {
+      "budget2_capture_ratio": 0.4580310092874598,
+      "budget3_capture_ratio": 0.38696398213913674,
+      "budget4_capture_ratio": 0.3792942694242662,
+      "legacy_budget3_summary": 0.38696398213913674,
+      "max_capture_ratio": 0.4580310092874598,
+      "mean_capture_ratio": 0.408096420283621,
+      "mean_regret_to_oracle": 0.011742302241464215,
+      "min_capture_ratio": 0.3792942694242662
+    }
+  },
+  "status": "ok",
+  "verdict": "Non-hard selected global assignment calibration does not transfer to the hard exact-budget boundary; allocation remains open.",
+  "wall_time_sec": 27.44424796104431
+}

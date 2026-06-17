@@ -1,0 +1,168 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.multistep_dynamics_parity",
+  "inputs": {
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "config": {
+    "epochs": 180,
+    "width": 512,
+    "depth": 3,
+    "batch": 384,
+    "lr": 0.0004,
+    "epsilon": 0.1,
+    "horizons": [
+      5
+    ],
+    "split_mode": "episode",
+    "loss_profile": "uniform",
+    "training_target": "teacher-forced multi-step latent rollout with action-conditioned recurrent residual dynamics"
+  },
+  "primary_horizon": 5,
+  "primary": {
+    "horizon": 5,
+    "device": "cuda",
+    "counts": {
+      "train": 2294,
+      "calibration": 792,
+      "eval": 793,
+      "eval_episodes": 55,
+      "split_mode": "episode",
+      "params": 5464256
+    },
+    "metrics": {
+      "native_h1_mse": {
+        "observed": 0.8440477696581506,
+        "low": 0.7995340460378503,
+        "high": 0.8862062593422372
+      },
+      "lewm_h1_mse": {
+        "observed": 0.06703702938210919,
+        "low": 0.06485997348964208,
+        "high": 0.06974008782740646
+      },
+      "trivial_h1_mse": {
+        "observed": 1.377475064277678,
+        "low": 1.2947269539887543,
+        "high": 1.4610268490880982
+      },
+      "native_minus_lewm_h1": {
+        "observed": 0.7770107402760414,
+        "low": 0.7361792943321533,
+        "high": 0.8156681981823977
+      },
+      "native_minus_trivial_h1": {
+        "observed": -0.5334272946195273,
+        "low": -0.58766495120325,
+        "high": -0.4823598438329567
+      },
+      "rollout_final_mse": {
+        "observed": 1.1436776517364924,
+        "low": 1.110527057295639,
+        "high": 1.1778699322953716
+      },
+      "rollout_mean_mse": {
+        "observed": 1.0222920892121328,
+        "low": 0.9894650228770253,
+        "high": 1.0493973413278532
+      }
+    },
+    "parity_gate": {
+      "threshold": 0.07374073232032012,
+      "margin": -0.7703070373378306,
+      "pass": false,
+      "native_to_lewm_ratio": 12.590769272413638
+    },
+    "health": {
+      "best_cal_h1_mse": 0.8668784727691317,
+      "history_first": {
+        "epoch": 1.0,
+        "train": 0.6694555083910624,
+        "cal_h1_mse": 1.3362208208571464
+      },
+      "history_last": {
+        "epoch": 180.0,
+        "train": 0.011703517753630877,
+        "cal_h1_mse": 0.9263159894517172
+      }
+    }
+  },
+  "rows": [
+    {
+      "horizon": 5,
+      "device": "cuda",
+      "counts": {
+        "train": 2294,
+        "calibration": 792,
+        "eval": 793,
+        "eval_episodes": 55,
+        "split_mode": "episode",
+        "params": 5464256
+      },
+      "metrics": {
+        "native_h1_mse": {
+          "observed": 0.8440477696581506,
+          "low": 0.7995340460378503,
+          "high": 0.8862062593422372
+        },
+        "lewm_h1_mse": {
+          "observed": 0.06703702938210919,
+          "low": 0.06485997348964208,
+          "high": 0.06974008782740646
+        },
+        "trivial_h1_mse": {
+          "observed": 1.377475064277678,
+          "low": 1.2947269539887543,
+          "high": 1.4610268490880982
+        },
+        "native_minus_lewm_h1": {
+          "observed": 0.7770107402760414,
+          "low": 0.7361792943321533,
+          "high": 0.8156681981823977
+        },
+        "native_minus_trivial_h1": {
+          "observed": -0.5334272946195273,
+          "low": -0.58766495120325,
+          "high": -0.4823598438329567
+        },
+        "rollout_final_mse": {
+          "observed": 1.1436776517364924,
+          "low": 1.110527057295639,
+          "high": 1.1778699322953716
+        },
+        "rollout_mean_mse": {
+          "observed": 1.0222920892121328,
+          "low": 0.9894650228770253,
+          "high": 1.0493973413278532
+        }
+      },
+      "parity_gate": {
+        "threshold": 0.07374073232032012,
+        "margin": -0.7703070373378306,
+        "pass": false,
+        "native_to_lewm_ratio": 12.590769272413638
+      },
+      "health": {
+        "best_cal_h1_mse": 0.8668784727691317,
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.6694555083910624,
+          "cal_h1_mse": 1.3362208208571464
+        },
+        "history_last": {
+          "epoch": 180.0,
+          "train": 0.011703517753630877,
+          "cal_h1_mse": 0.9263159894517172
+        }
+      }
+    }
+  ],
+  "leakage_attestation": {
+    "standardizers": "fit on train split only for each horizon",
+    "split_scope": "episode-heldout population diagnostic",
+    "selection": "primary row selected by calibration-trained candidate's eval h1 MSE only after all rows are trained; each row reports its own split",
+    "eval_truth_usage": "eval target latents used only for final metrics and primary-row reporting",
+    "lewm_reference": "exported one-step pred-vs-emb next-latent MSE on the same eval transitions"
+  },
+  "wall_time_sec": 105.05223536491394
+}

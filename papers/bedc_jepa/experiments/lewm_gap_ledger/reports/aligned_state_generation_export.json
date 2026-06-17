@@ -1,0 +1,51 @@
+{
+  "counts": {
+    "calibration": {
+      "anchors": 646,
+      "episodes": 56,
+      "feature_dim": 4952
+    },
+    "eval": {
+      "anchors": 634,
+      "episodes": 55,
+      "feature_dim": 4952
+    },
+    "train": {
+      "anchors": 2043,
+      "episodes": 167,
+      "feature_dim": 4952
+    }
+  },
+  "fields": [
+    "x",
+    "current_z",
+    "next_target",
+    "pred_z",
+    "pred_z_valid",
+    "lewm_h1_mse",
+    "option_error",
+    "uniform_error",
+    "true_mv",
+    "horizon_y",
+    "anchor_ep_t0"
+  ],
+  "leakage_attestation": {
+    "features": "x uses current/past latent-action context and predicted rollout-internal features from the carrier.",
+    "labels": "next_target, option_error, true_mv, and horizon_y are stored as supervised targets and must not be fed as input features.",
+    "split": "train, calibration, and eval are exported separately from the existing label split."
+  },
+  "option_depths": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "schema_id": "bedc_jepa.aligned_state_generation_export",
+  "source": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "status": "ok",
+  "uniform_depth": 3
+}

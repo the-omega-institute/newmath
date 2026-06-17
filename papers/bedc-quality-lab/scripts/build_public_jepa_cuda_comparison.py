@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the public V-JEPA2-AC Giant CUDA comparison artifact."""
+"""Build the public V-JEPA2-AC Giant CUDA comparison record."""
 
 from __future__ import annotations
 
