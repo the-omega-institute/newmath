@@ -158,3 +158,13 @@ becomes positive at $0.0787$, but budget-two and budget-four remain negative,
 and the hard mean label Spearman is only $0.2635$ compared with the fixed-score
 baseline $0.1719$.  The value-label route is therefore useful, but this learner
 is still not an allocation-closed policy.
+
+Non-hard episode/depth calibration also fails to explain the remaining hard
+gap.  Among $34$ fixed transforms of the perturbation-value learner and the
+minimax score, non-hard selection chooses a half mixture with mean capture
+$0.4167$ and positive budget-two, -three, and -four capture on non-hard
+episodes.  The same transform falls to hard mean capture $-0.3809$, hard
+budget-three capture $-0.8038$, and hard mean regret $0.0581$, worse than the
+base perturbation-value learner's hard mean capture $-0.0681$.  Thus the
+remaining missing variable is not generic episode/depth calibration; it is a
+hard-regime assignment mechanism.
