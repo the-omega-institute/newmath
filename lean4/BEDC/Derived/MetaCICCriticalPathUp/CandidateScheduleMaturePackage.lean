@@ -12,64 +12,49 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem MetaCICCriticalPathCandidateScheduleMaturePackage [AskSetup] [PackageSetup]
-    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
-      localName dyadic stream regseq realSeal schedule residual frontier l10 endpoint : BHist}
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName scheduleRead matureRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
-        discharge handoff continuation provenance localName dyadic stream regseq realSeal
-        bundle pkg →
-      Cont continuation localName schedule →
-        Cont schedule discharge residual →
-          Cont residual obstruction frontier →
-            Cont frontier realSeal l10 →
-              Cont l10 provenance endpoint →
-                PkgSig bundle endpoint pkg →
-                  SemanticNameCert
-                      (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
-                      (fun row : BHist =>
-                        hsame row schedule ∨ hsame row residual ∨ hsame row frontier ∨
-                          hsame row l10 ∨ hsame row endpoint)
-                      (fun row : BHist =>
-                        UnaryHistory row ∧ Cont schedule discharge residual ∧
-                          Cont residual obstruction frontier ∧ Cont frontier realSeal l10 ∧
-                            Cont l10 provenance endpoint ∧ PkgSig bundle endpoint pkg)
-                      hsame ∧
-                    UnaryHistory endpoint := by
-  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
-  intro ledger continuationLocalSchedule scheduleDischargeResidual residualObstructionFrontier
-    frontierRealSealL10 l10ProvenanceEndpoint endpointPkg
-  obtain ⟨packet, _dyadicUnary, _streamUnary, _regseqUnary, realSealUnary,
-    _dyadicStreamRegseq, _regseqRealSealHandoff, _realSealPkg⟩ := ledger
-  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, _unblockUnary,
-    dischargeUnary, _handoffUnary, continuationUnary, provenanceUnary, localNameUnary,
-    _strongNormNormalFormContinuation, _unblockObstructionDischarge,
-    _handoffLocalName, _provenancePkg⟩ := packet
-  have scheduleUnary : UnaryHistory schedule :=
-    unary_cont_closed continuationUnary localNameUnary continuationLocalSchedule
-  have residualUnary : UnaryHistory residual :=
-    unary_cont_closed scheduleUnary dischargeUnary scheduleDischargeResidual
-  have frontierUnary : UnaryHistory frontier :=
-    unary_cont_closed residualUnary obstructionUnary residualObstructionFrontier
-  have l10Unary : UnaryHistory l10 :=
-    unary_cont_closed frontierUnary realSealUnary frontierRealSealL10
-  have endpointUnary : UnaryHistory endpoint :=
-    unary_cont_closed l10Unary provenanceUnary l10ProvenanceEndpoint
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont route localName scheduleRead →
+        Cont scheduleRead provenance matureRead →
+          PkgSig bundle matureRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row matureRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row route ∨ hsame row localName ∨ hsame row scheduleRead ∨
+                    hsame row provenance ∨ hsame row matureRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont route localName scheduleRead ∧
+                    Cont scheduleRead provenance matureRead ∧ PkgSig bundle matureRead pkg)
+                hsame ∧
+              UnaryHistory scheduleRead ∧ UnaryHistory matureRead := by
+  -- BEDC touchpoint anchor: MetaCICCriticalPathPacket BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro packet routeLocalNameSchedule scheduleProvenanceMature maturePkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _handoffUnary,
+    _socketUnary, _transportUnary, routeUnary, provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    _provenancePkg⟩ := packet
+  have scheduleUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameSchedule
+  have matureUnary : UnaryHistory matureRead :=
+    unary_cont_closed scheduleUnary provenanceUnary scheduleProvenanceMature
   have sourceEndpoint :
-      (fun row : BHist => hsame row endpoint ∧ UnaryHistory row) endpoint := by
-    exact ⟨hsame_refl endpoint, endpointUnary⟩
+      (fun row : BHist => hsame row matureRead ∧ UnaryHistory row) matureRead := by
+    exact ⟨hsame_refl matureRead, matureUnary⟩
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+          (fun row : BHist => hsame row matureRead ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row schedule ∨ hsame row residual ∨ hsame row frontier ∨
-              hsame row l10 ∨ hsame row endpoint)
+            hsame row route ∨ hsame row localName ∨ hsame row scheduleRead ∨
+              hsame row provenance ∨ hsame row matureRead)
           (fun row : BHist =>
-            UnaryHistory row ∧ Cont schedule discharge residual ∧
-              Cont residual obstruction frontier ∧ Cont frontier realSeal l10 ∧
-                Cont l10 provenance endpoint ∧ PkgSig bundle endpoint pkg)
+            UnaryHistory row ∧ Cont route localName scheduleRead ∧
+              Cont scheduleRead provenance matureRead ∧ PkgSig bundle matureRead pkg)
           hsame := {
     core := {
-      carrier_inhabited := Exists.intro endpoint sourceEndpoint
+      carrier_inhabited := Exists.intro matureRead sourceEndpoint
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -91,10 +76,9 @@ theorem MetaCICCriticalPathCandidateScheduleMaturePackage [AskSetup] [PackageSet
     ledger_sound := by
       intro _row source
       exact
-        ⟨source.right, scheduleDischargeResidual, residualObstructionFrontier,
-          frontierRealSealL10, l10ProvenanceEndpoint, endpointPkg⟩
+        ⟨source.right, routeLocalNameSchedule, scheduleProvenanceMature, maturePkg⟩
   }
-  exact ⟨cert, endpointUnary⟩
+  exact ⟨cert, scheduleUnary, matureUnary⟩
 
 theorem MetaCICCriticalPathL10ResidualDiamondSourceExhaustion [AskSetup] [PackageSetup]
     {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
