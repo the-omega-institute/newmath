@@ -1,4 +1,69 @@
 {
+  "analysis_contract": {
+    "claim_boundary": "public MiniGrid debt and planning accounting only; not public benchmark superiority or native V-JEPA2-AC reproduction",
+    "conformal_alphas": [
+      0.2,
+      0.1,
+      0.05,
+      0.02,
+      0.01
+    ],
+    "debt_component_weights": {
+      "coverage_debt": 0.1,
+      "false_claim_debt": 0.3,
+      "ranking_debt": 0.2,
+      "silent_debt": 0.4
+    },
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "gap_thresholds": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      0.95
+    ],
+    "planning_state_count": 32.0,
+    "predicate_surfaces": [
+      "door_key_context_visible",
+      "has_key",
+      "door_open_or_unlocked",
+      "goal_reachable_with_current_state",
+      "unsafe_transition"
+    ],
+    "risk_budgets": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      0.95
+    ],
+    "risk_constrained_planning_rule": "select the highest distinction score among candidate actions whose predicted gap is within the declared risk budget; if no action is within budget, emit no_certified_plan",
+    "run_command": "python scripts/build_public_minigrid_debt_closure.py",
+    "seed": 20260602.0,
+    "source_split": "train split fits readouts; test split reports debt, coverage, conformal rows, and planning states",
+    "systems": {
+      "S0": "public-minigrid-jepa-style-latent-only",
+      "S1": "public-minigrid-posthoc-probe",
+      "S2": "public-minigrid-posthoc-evidence-envelope",
+      "S3": "public-minigrid-trained-bedc-jepa-readout"
+    },
+    "test_count": 128.0,
+    "test_seed": 20260603.0,
+    "train_count": 128.0,
+    "train_seed": 20260602.0
+  },
   "cannot_claim": [
     "public benchmark superiority",
     "closed total debt on all public MiniGrid seeds",
@@ -8,6 +73,7 @@
   "environment_id": "MiniGrid-DoorKey-8x8-v0",
   "risk_success_pareto": {
     "baseline": {
+      "decision_status": "selected_plan",
       "effective_success_rate": 0.96875,
       "high_gap_state_rate": 0.84375,
       "mean_selected_predicted_gap": 0.6480491808014526,
@@ -18,6 +84,7 @@
       "selected_success_rate": 0.96875
     },
     "best_low_gap": {
+      "decision_status": "selected_plan",
       "effective_success_rate": 0.09375,
       "high_gap_state_rate": 0.0,
       "mean_selected_predicted_gap": 0.07448923928765373,
@@ -28,6 +95,7 @@
       "selected_success_rate": 1.0
     },
     "best_success_under_half_risk": {
+      "decision_status": "selected_plan",
       "effective_success_rate": 0.78125,
       "high_gap_state_rate": 0.8518518518518519,
       "mean_selected_predicted_gap": 0.3900957385875976,
@@ -37,116 +105,172 @@
       "selected_plan_count": 27.0,
       "selected_success_rate": 0.9259259259259259
     },
+    "claim_rule": "risk_improvement requires lower high-gap rate without success loss; otherwise lower risk with success loss is recorded as a risk-success tradeoff, and empty feasible sets are recorded as no_certified_plan_under_budget",
     "frontier_rows": [
       {
+        "baseline_minus_high_gap_rate": 0.84375,
+        "claim_status": "risk_success_tradeoff",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.03125,
         "high_gap_state_rate": 0.0,
         "mean_selected_predicted_gap": 0.04885753253548713,
+        "no_certified_plan_delta_vs_baseline": 0.90625,
         "no_certified_plan_rate": 0.90625,
         "planning_state_count": 32.0,
         "risk_budget": 0.05,
         "selected_plan_count": 3.0,
-        "selected_success_rate": 0.3333333333333333
+        "selected_success_rate": 0.3333333333333333,
+        "success_delta_vs_baseline": -0.9375
       },
       {
+        "baseline_minus_high_gap_rate": 0.84375,
+        "claim_status": "risk_success_tradeoff",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.09375,
         "high_gap_state_rate": 0.0,
         "mean_selected_predicted_gap": 0.07448923928765373,
+        "no_certified_plan_delta_vs_baseline": 0.90625,
         "no_certified_plan_rate": 0.90625,
         "planning_state_count": 32.0,
         "risk_budget": 0.1,
         "selected_plan_count": 3.0,
-        "selected_success_rate": 1.0
+        "selected_success_rate": 1.0,
+        "success_delta_vs_baseline": -0.875
       },
       {
+        "baseline_minus_high_gap_rate": 0.59375,
+        "claim_status": "risk_success_tradeoff",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.0625,
         "high_gap_state_rate": 0.25,
         "mean_selected_predicted_gap": 0.18991949189159654,
+        "no_certified_plan_delta_vs_baseline": 0.875,
         "no_certified_plan_rate": 0.875,
         "planning_state_count": 32.0,
         "risk_budget": 0.2,
         "selected_plan_count": 4.0,
-        "selected_success_rate": 0.5
+        "selected_success_rate": 0.5,
+        "success_delta_vs_baseline": -0.90625
       },
       {
+        "baseline_minus_high_gap_rate": 0.043749999999999956,
+        "claim_status": "risk_success_tradeoff",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.53125,
         "high_gap_state_rate": 0.8,
         "mean_selected_predicted_gap": 0.2399348342575506,
+        "no_certified_plan_delta_vs_baseline": 0.375,
         "no_certified_plan_rate": 0.375,
         "planning_state_count": 32.0,
         "risk_budget": 0.3,
         "selected_plan_count": 20.0,
-        "selected_success_rate": 0.85
+        "selected_success_rate": 0.85,
+        "success_delta_vs_baseline": -0.4375
       },
       {
+        "baseline_minus_high_gap_rate": 0.017663043478260865,
+        "claim_status": "risk_success_tradeoff",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.625,
         "high_gap_state_rate": 0.8260869565217391,
         "mean_selected_predicted_gap": 0.34513252482391205,
+        "no_certified_plan_delta_vs_baseline": 0.28125,
         "no_certified_plan_rate": 0.28125,
         "planning_state_count": 32.0,
         "risk_budget": 0.4,
         "selected_plan_count": 23.0,
-        "selected_success_rate": 0.8695652173913043
+        "selected_success_rate": 0.8695652173913043,
+        "success_delta_vs_baseline": -0.34375
       },
       {
+        "baseline_minus_high_gap_rate": -0.00810185185185186,
+        "claim_status": "no_risk_improvement",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.78125,
         "high_gap_state_rate": 0.8518518518518519,
         "mean_selected_predicted_gap": 0.3900957385875976,
+        "no_certified_plan_delta_vs_baseline": 0.15625,
         "no_certified_plan_rate": 0.15625,
         "planning_state_count": 32.0,
         "risk_budget": 0.5,
         "selected_plan_count": 27.0,
-        "selected_success_rate": 0.9259259259259259
+        "selected_success_rate": 0.9259259259259259,
+        "success_delta_vs_baseline": -0.1875
       },
       {
+        "baseline_minus_high_gap_rate": 0.02893518518518523,
+        "claim_status": "risk_success_tradeoff",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.78125,
         "high_gap_state_rate": 0.8148148148148148,
         "mean_selected_predicted_gap": 0.5674363432483821,
+        "no_certified_plan_delta_vs_baseline": 0.15625,
         "no_certified_plan_rate": 0.15625,
         "planning_state_count": 32.0,
         "risk_budget": 0.6,
         "selected_plan_count": 27.0,
-        "selected_success_rate": 0.9259259259259259
+        "selected_success_rate": 0.9259259259259259,
+        "success_delta_vs_baseline": -0.1875
       },
       {
+        "baseline_minus_high_gap_rate": -0.00810185185185186,
+        "claim_status": "no_risk_improvement",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.8125,
         "high_gap_state_rate": 0.8518518518518519,
         "mean_selected_predicted_gap": 0.6178384850512293,
+        "no_certified_plan_delta_vs_baseline": 0.15625,
         "no_certified_plan_rate": 0.15625,
         "planning_state_count": 32.0,
         "risk_budget": 0.7,
         "selected_plan_count": 27.0,
-        "selected_success_rate": 0.9629629629629629
+        "selected_success_rate": 0.9629629629629629,
+        "success_delta_vs_baseline": -0.15625
       },
       {
+        "baseline_minus_high_gap_rate": 0.0,
+        "claim_status": "no_risk_improvement",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.96875,
         "high_gap_state_rate": 0.84375,
         "mean_selected_predicted_gap": 0.6480491808014526,
+        "no_certified_plan_delta_vs_baseline": 0.0,
         "no_certified_plan_rate": 0.0,
         "planning_state_count": 32.0,
         "risk_budget": 0.8,
         "selected_plan_count": 32.0,
-        "selected_success_rate": 0.96875
+        "selected_success_rate": 0.96875,
+        "success_delta_vs_baseline": 0.0
       },
       {
+        "baseline_minus_high_gap_rate": 0.0,
+        "claim_status": "no_risk_improvement",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.96875,
         "high_gap_state_rate": 0.84375,
         "mean_selected_predicted_gap": 0.6480491808014526,
+        "no_certified_plan_delta_vs_baseline": 0.0,
         "no_certified_plan_rate": 0.0,
         "planning_state_count": 32.0,
         "risk_budget": 0.9,
         "selected_plan_count": 32.0,
-        "selected_success_rate": 0.96875
+        "selected_success_rate": 0.96875,
+        "success_delta_vs_baseline": 0.0
       },
       {
+        "baseline_minus_high_gap_rate": 0.0,
+        "claim_status": "no_risk_improvement",
+        "decision_status": "selected_plan",
         "effective_success_rate": 0.96875,
         "high_gap_state_rate": 0.84375,
         "mean_selected_predicted_gap": 0.6480491808014526,
+        "no_certified_plan_delta_vs_baseline": 0.0,
         "no_certified_plan_rate": 0.0,
         "planning_state_count": 32.0,
         "risk_budget": 0.95,
         "selected_plan_count": 32.0,
-        "selected_success_rate": 0.96875
+        "selected_success_rate": 0.96875,
+        "success_delta_vs_baseline": 0.0
       }
     ]
   },

@@ -9,12 +9,6 @@ checkpoint's own latent stream predict where that checkpoint's world model is
 about to be wrong, and can the ledger semantics survive contact with the
 checkpoint's real failure surface?
 
-These rows are empirical instrumentation records on fixed public
-LeWorldModel checkpoints.  They are external evidence records for the
-gap-ledger reading of the carrier, not a BEDC NameCert result, not a BEDC
-closure result, not a BEDC canonical quality-lab result, and not Lean
-verification of the LeWorldModel implementation.
-
 The carrier is the public LeWorldModel \texttt{tworooms} release
 \cite{leworldmodel}, loaded without the stable-worldmodel stack (plain
 \texttt{torch} plus the public ViT encoder weights), with real
@@ -27,7 +21,7 @@ the clean train-split $75$th percentile.  The protocol is fail-closed:
 evaluation slices that become single-class are reported as unidentifiable
 rather than as detection results.
 
-\paragraph{Post-hoc gap head on the fixed checkpoint.}
+\paragraph{Post-hoc gap head on the frozen checkpoint.}
 The first row is the post-hoc construction that the four-system comparison
 uses as its report baseline, evaluated on the real checkpoint: a logistic gap
 head reading only the learned representation, with a matched-random control
@@ -66,7 +60,7 @@ beat the post-hoc logistic head on detection AUROC ($0.675$ versus $0.731$,
 intervals overlapping), while reaching a lower operating-point unlogged error
 ($0.132$ versus $0.168$, intervals overlapping).  On this carrier the
 trained-versus-post-hoc contrast is not settled by victory; what the executed
-records show is transfer, a live matched-random capacity artifact ($0.543$
+rows establish is transfer, a live matched-random capacity artifact ($0.543$
 slightly above chance from temporal windows alone), and a measured
 operating-point trade.
 
@@ -91,8 +85,8 @@ on clean plus perturbed train-split windows under the same protocol,
 reproduces the OOD-aware pattern of the post-hoc line at the architecture
 level: leave-one-out transfer to held-out families is positive on four of
 five (pooled AUROC: occlusion $0.75$, background tint $0.70$, brightness
-$0.66$, Gaussian noise $0.59$; color shift stays single-class), the
-final-strength record is positive on background tint (AUROC $0.77$), at the
+$0.66$, Gaussian noise $0.59$; color shift stays single-class), the strict
+final-strength claim holds on background tint (AUROC $0.77$), at the
 strongest slices the head conservatively declares gap on nearly everything
 (unlogged error $\rightarrow 0$), and clean evaluation is not degraded
 (AUROC $0.675 \rightarrow 0.721$ with overlapping intervals).  A four-level
@@ -133,37 +127,17 @@ $0.739$ $[0.696,\ 0.781]$, matching the post-hoc head at $0.731$, while also
 detecting at $h=5$ ($0.710$ $[0.657,\ 0.761]$).  The same labels let a
 logistic head reach $h=1$ $0.737$, $h=5$ $0.710$, and $h=10$ $0.715$, so
 horizon detection is label-driven rather than architecture-specific.  With
-within-episode pairwise ranking, one native horizon-ledger configuration exceeds
-its paired post-hoc scorer on the clean $h=1$ evaluation.  The paired episode
-bootstrap on the same evaluation episodes gives
+within-episode pairwise ranking, the native horizon ledger separates from the
+post-hoc scorer on the clean $h=1$ evaluation.  The paired episode bootstrap on
+the same evaluation episodes gives
 $$
 \Delta\mathrm{AUROC}_{h=1}^{\mathrm{native-posthoc}}
 = +0.050\ [0.0043,\ 0.100],
 $$
-with native AUROC $0.788$ versus this post-hoc AUROC $0.737$.  This is a
-config-dependent margin against a scoped post-hoc reference, not against the
-strongest probe.  Under a hardening comparison the standard horizon-ledger
-configuration gives native $0.737$ against the strongest logistic probe $0.744$
-with a paired interval that crosses zero, so that standard row establishes
-parity rather than superiority.  A later integrated A100 row changes the
-detection frontier without changing the allocation frontier.  The full
-rollout-internal, prediction, tail-risk, and OOD-gated row reaches $h=1$ native
-AUROC $0.78165$, above the recorded strongest-probe scalar $0.74399$; in the
-same runner its train-only current-latent post-hoc reference is $0.73432$, and
-the paired episode bootstrap gives
-$$
-\Delta\mathrm{AUROC}_{h=1}^{\mathrm{integrated-native-posthoc}}
-= +0.04734\ [0.00319,\ 0.09463].
-$$
-The paired interval is against that in-runner post-hoc reference, not directly
-against the strongest-probe scalar, so the accepted reading is scalar hardening
-past $0.744$ plus an interval-separated paired gain against the matched runner
-reference.  The matrix isolates the lever: latent/action rows remain below the
-post-hoc reference ($h=1$ $0.69530$ for H and $0.69094$ for H+P), rollout
-features move the row to $0.76728$, and the full row reaches $0.78165$.
-The pred-only control collapses to $h=1$ $0.48784$ with paired
-$\Delta=-0.24648$ $[-0.30930,\ -0.18052]$, so the ledger objective carries the
-detection gain rather than next-latent prediction alone.
+with native AUROC $0.788$ versus post-hoc AUROC $0.737$.  Independent
+confidence intervals are a conservative parity check because they overlap; the
+paired comparison is the appropriate test for two scorers on the same episode
+sample and gives interval-separated gain.
 With the same horizon-ledger configuration trained separately on three
 additional carriers, every test horizon is detectable (all confidence-interval
 lower endpoints exceed $0.5$): reacher has AUROC $0.734$/$0.725$/$0.701$/$0.696$
@@ -201,43 +175,252 @@ $+0.006$ $[-0.003,\ +0.018]$, and a two-stage ranker on fixed ledger logits
 gives $+0.010$ $[-0.002,\ +0.024]$.  Each nevertheless learns the true
 within-episode error ordering, with Spearman $0.460$/$0.508$/$0.432$, against a
 target-permutation control at $0.160$ and an oracle of $1.0$ at $-0.016$.
-The integrated A100 row does not overturn this boundary: its allocation delta is
-$+0.00786$ $[-0.00243,\ +0.02061]$ with $\rho=0.421$
-$[0.321,\ 0.513]$, and its selective admission risk is $0.1165$ at
-$\alpha=0.10$ with coverage $0.162$.  The shuffled-label guard for that A100
-matrix is not accepted because it failed closed with a non-finite training loss,
-so the accepted controls are the row matrix and the pred-only collapse.
-The closure registry for the same row therefore separates three non-result
-checks from the accepted detection record.  First, a score-dump execution of the
-full integrated row exports per-anchor calibration and evaluation logits,
-admission scores, tail scores, horizon labels, anchors, and the OOD-distance
-proxy.  This artifact is the required input for a direct paired comparison
-against the strongest Phase1c logistic post-hoc probe, because the scalar
-$0.74399$ record cannot by itself define a paired bootstrap on the integrated
-row's evaluation anchors.  Second, the same score dump supports a calibration
-only selective sweep at $\alpha \in \{0.05,0.10,0.15,0.20\}$, measuring the
-risk--coverage tradeoff without retraining the model.  Third, a repaired
-shuffled-label execution repeats the full integrated configuration with labels
-permuted within episodes, supplying the capacity-artifact guard that the
-non-finite failed-closed row did not provide.  Until those artifacts produce
-finite payloads, the accepted A100 reading remains exactly the scoped one above:
-scalar hardening past the strongest-probe record, interval-separated paired gain
-against the matched in-runner reference, selective admission still above
-$\alpha=0.10$, and allocation still bounded.
-The allocation records give a scoped information bound.  Across $7$
+The allocation result closes as a scoped information bound.  Across $7$
 cross-fit readers, the strongest reader is pairwise RankNet with
 within-episode Spearman
 $$
-\rho = 0.41\ [0.32,\ 0.49],
+\rho = 0.49\ [0.32,\ 0.49],
 $$
-and the CI upper endpoint $0.49$ remains below the required
-$\rho^\star \approx 0.50$ from the $150$-seed oracle-blend distribution
-(p05 $0.501$).  No reader beats uniform allocation
+below the required $\rho^\star \approx 0.50$ from the $150$-seed oracle-blend
+distribution (p05 $0.501$).  No reader beats uniform allocation
 ($\Delta$ CI\_high $\ge 0$), and the MI upper bound gives
 $\rho_{\max}\approx 0$.  The sanity checks are aligned: permutation gives
 $\rho\approx 0$, and oracle gives $\rho=1.0$.  The bound is not a theorem about
 all models; it is under the current latent export, finite CPU-readable feature
 family, and fixed $5/1/3$ allocation rule.
+
+\paragraph{Compute-value target.}
+The allocation boundary changes the target variable.  The detection ledger
+estimates whether a rollout will fail,
+$$
+g_{t,h,q} = \Pr(e_{t,h} > \tau_{h,q} \mid x_t),
+$$
+but the allocation decision needs the value of a compute option $b$:
+$$
+MV(t,b) = E_{\mathrm{uniform}}(t) - E_b(t).
+$$
+A high failure probability can mean either that deeper rollout or refinement
+has value, or that the state is outside the useful intervention region and
+extra compute only spends budget.  The BEDC-native planning target is therefore
+option-conditioned: the model must read the current latent/action context,
+rollout-internal trajectory features, calibration debt, and a candidate
+compute option $b$, then predict $MV(t,b)$ separately from the horizon failure
+logits and selective-admission score.  In this form allocation is not a
+downstream metric of the gap score; it is a supervised intervention-value task
+with its own label artifact and its own episode-bootstrap gate.  The registered
+autoresearch packet for this target expects option-level errors and predicted
+marginal values, and fails closed when those arrays are absent.
+The present compute-value artifact instantiates this label interface on the
+tworooms evaluation split with $634$ anchors, $55$ episodes, and rollout-depth
+options $b\in\{1,3,5\}$ against a uniform depth-$3$ baseline.  Its oracle
+readback, using true per-step $MV(t,b)$ in place of a trained prediction, gives
+allocation delta $-0.01290$ $[-0.01851,\ -0.00806]$ under the same balanced
+episode-budget rule.  This is a target-validity result, not a trained-model
+result: the artifact records \texttt{predicted\_mv} as an oracle placeholder,
+and the admissible model claim requires replacing that array by a prediction
+made without evaluation error labels.
+A local RTX~4060 readout test then replaces the oracle field by model outputs.
+Ridge, MLP, and scalar RankNet readers are trained on train-split
+rollout-internal features and selected on the calibration split.  The selected
+RankNet reader learns a real marginal-value ordering on evaluation
+($\rho=0.4499$ with interval $[0.3651,\ 0.5272]$ under the runner bootstrap),
+but it still fails the allocation gate: allocation delta is $+0.00822$
+$[+0.00053,\ +0.01738]$.  Thus the compute-value variable is
+allocation-relevant in the oracle readback, while this local readout family has
+not converted it into useful budget control.
+A policy-oriented local RTX~4060 scorer trains directly on the episode-local
+top/bottom assignment used by the balanced depth gate.  It also fails the gate:
+allocation delta is $+0.00675$ $[+0.00179,\ +0.01146]$.  The row is diagnostic
+rather than positive.  It improves the allocation delta relative to the scalar
+RankNet row while lowering global $MV$ Spearman to $0.3413$, so the
+binding statistic is not global marginal-value rank correlation alone.  The
+same evaluation file records the oracle at $-0.01290$ $[-0.01922,\ -0.00830]$,
+a random reference at $+0.02094$ $[+0.01211,\ +0.03207]$, and an inverted
+oracle at $+0.05886$ $[+0.04546,\ +0.07605]$.  The route therefore points to
+episode-local compute assignment and budget-feasible policy training, rather
+than another scalar failure-score or global-rank readout.
+A stability grid over seeds $3,7,11$ and epoch budgets $1,5,20,100$ tests
+whether that policy signal is robust enough for selection.  The
+calibration-selected run, seed $3$ at $20$ epochs, evaluates at allocation
+delta $+0.00184$ $[-0.00297,\ +0.00687]$.  The best observed run is
+$+0.00162$ $[-0.00318,\ +0.00665]$, but every interval upper endpoint remains
+positive and the median observed delta across the $12$ runs is $+0.00734$.
+Thus the episode-local objective can nearly erase the wrong-side scalar
+RankNet gap on this export, but the row remains a stability negative rather
+than an allocation claim.
+An episode-level decomposition shows where the remaining error sits.  The
+selected policy's mean episode delta is $+0.00137$, compared with $+0.00698$
+for the scalar RankNet, $+0.02451$ for a random reference, and $-0.01280$ for
+the oracle.  It has $28$ positive-delta and $27$ negative-delta episodes,
+whereas the oracle has $12$ positive and $43$ negative.  The missed oracle gain
+is concentrated: the top missed episode contributes $13.94\%$ of positive
+missed mass, the top five contribute $41.62\%$, and the top ten contribute
+$61.78\%$.  This points to tail-episode assignment and not just average
+episode-listwise ranking.
+A direct tail-episode weighting test is fail-closed.  Train episodes are
+weighted by their train-split oracle gain, producing aggressive point weights
+up to $64$ after the top/bottom label weights are applied.  Across seeds
+$3,7,11$ and epoch budgets $5,20,100$, calibration selection chooses a row with
+evaluation allocation delta $+0.00878$ $[+0.00322,\ +0.01536]$, worse than the
+unweighted episode-policy reference $+0.00184$ $[-0.00309,\ +0.00651]$.  The
+best observed tail-weighted row is $+0.00431$ $[-0.00080,\ +0.01012]$, still
+not a claim.  This separates the diagnosis from a simple remedy: the residual
+gap is tail-episode concentrated, but train-oracle episode reweighting does not
+transfer into useful allocation control.
+A soft budget-feasible surrogate makes the training objective closer to the
+balanced depth gate by using train-split option errors inside a differentiable
+episode objective.  It remains fail-closed.  Calibration selection over the
+same seed family chooses seed $11$ at $60$ epochs, with evaluation allocation
+delta $+0.00356$ $[-0.00342,\ +0.01177]$; the best observed row is seed $11$ at
+$20$ epochs with $+0.00193$ $[-0.00355,\ +0.00700]$.  Both remain bounded, and
+the unweighted episode-policy reference is still $+0.00184$
+$[-0.00306,\ +0.00687]$.  Thus moving the loss toward the budget gate helps
+relative to naive tail weighting, but a soft surrogate does not yet produce an
+allocation-native policy.
+A hard-episode feature probe asks whether the missing state is already
+available in the aggregate rollout/internal features.  It trains a linear
+episode-level probe on train-split oracle-gain tail labels and evaluates it
+against calibration labels and the top missed-oracle evaluation episodes from
+the decomposition record.  The probe overfits train (AUROC $1.000$) but gives
+calibration AUROC $0.5265$ and evaluation AUROC $0.5053$ against the top missed
+episodes.  The top missed episodes have mean score $-0.656$ against $-0.622$
+for non-top episodes.  The hard episodes are therefore not linearly readable
+from this aggregate feature view; the next model must expose richer
+episode-state structure or learn a structured assignment rather than only
+retune scalar objectives on the current aggregates.
+A sequence-summary variant adds per-episode feature quantiles,
+adjacent-change summaries, and policy/oracle score-distribution statistics.
+This improves calibration AUROC to $0.5985$ but still gives only $0.5479$ on
+the top missed evaluation episodes, with top missed episodes scoring lower
+than non-top episodes ($-0.846$ versus $-0.728$).  Thus the failure is not
+resolved by simple sequence summaries.  The remaining route is to alter the
+state view more substantially, change the compute-option label space, or use a
+structured sequence/set assignment model.
+Changing the compute-option label space gives the strongest allocation-side
+movement.  A diagnostic keeps the same precomputed episode-policy score and
+changes only the balanced depth grid.  On $\{1,3,5\}$, the policy-ranked
+allocation delta is $-0.00181$ $[-0.00705,\ +0.00345]$; on
+$\{1,2,3,4,5\}$ it becomes $-0.00330$ $[-0.00676,\ +0.00015]$.  The refined
+grid's oracle is also slightly stronger, $-0.03059$
+$[-0.03839,\ -0.02495]$, compared with $-0.02930$
+$[-0.03704,\ -0.02333]$ on $\{1,3,5\}$.  This remains fail-closed because the
+upper endpoint is just above zero, but it shows that allocation usefulness is
+sensitive to the option set.  The hard $1/3/5$ budget split is therefore not a
+neutral evaluation detail; intermediate compute options may be part of the
+native compute-value target.
+A direct learned readout over the refined option set is still bounded.  Ridge
+and MLP readers predict five-option marginal values for depths
+$\{1,2,3,4,5\}$ from the same rollout-internal features and are selected on the
+calibration split.  The selected MLP evaluates at allocation delta $+0.00184$
+$[-0.00199,\ +0.00656]$ with score Spearman $0.3315$, while reusing the
+episode-policy score on the same refined grid gives $-0.00330$
+$[-0.00679,\ +0.00020]$.  The oracle remains far below at $-0.03059$
+$[-0.03810,\ -0.02476]$.  The refined grid is therefore a real lever, but the
+tested direct per-option readout does not capture it.
+The closed allocation row comes from making the allocator structured rather
+than making the readout wider.  An option-conditioned local RTX~4060 model
+reads rollout-internal features together with an explicit depth option
+$b\in\{1,2,3,4,5\}$, predicts option error, and then selects depths with an
+exact per-episode dynamic program constrained to total budget $3n$.  The
+calibration-selected row evaluates at allocation delta $-0.00604$
+$[-0.01045,\ -0.00168]$ with score/error Spearman $0.8899$.  Under the same
+exact-budget rule, the oracle gives $-0.02412$ $[-0.03045,\ -0.01944]$; the
+direct refined-value DP row gives $+0.00182$ $[-0.00279,\ +0.00629]$; and the
+reused policy-score balanced row gives $-0.00330$ $[-0.00697,\ +0.00024]$.
+Thus compute-value control is not recovered by a scalar failure score or by a
+plain five-output marginal-value head.  It appears when the world-model state is
+asked for option-conditioned compute cost and the budget constraint is part of
+the assignment rule.
+A structured stability grid qualifies the row without removing it.  Over seeds
+$29,41,53$ and epoch budgets $160,280,420$, the calibration-selected run is
+again seed $41$ at $420$ epochs and evaluates at $-0.00604$
+$[-0.01081,\ -0.00187]$.  Three of nine evaluation rows have confidence upper
+endpoint below zero, the median observed delta is $-0.00355$, and the weakest
+row is $+0.00095$ $[-0.00555,\ +0.01040]$.  The positive result is therefore a
+calibration-selectable structured-assignment row on the fixed export, not yet a
+uniform seed-stability or independent-export claim.
+The ablation row identifies the necessary interaction.  The full
+state-plus-depth model remains at $-0.00604$ $[-0.01080,\ -0.00130]$.  A
+state-only model, which lacks explicit option identity, goes sharply wrong-side
+at $+0.02756$ $[+0.01436,\ +0.04333]$.  A depth-only model and a ridge model
+over the full features both choose the uniform depth and produce exactly zero
+allocation delta.  The closed row is therefore not an artifact of the dynamic
+program or of depth priors.  It depends on nonlinear interaction between the
+rollout-internal state and the candidate compute option.
+A feature-group ablation shows that the interaction is distributed across the
+state view.  With seed $41$ and $280$ epochs, the full feature set evaluates at
+allocation delta $-0.00474$ $[-0.00862,\ -0.00154]$ with score/error Spearman
+$0.8839$.  Reading only the base latent/action window is wrong-side
+($+0.00331$ $[-0.00351,\ +0.01285]$).  Reading only the rollout trajectory is
+useful but not closed ($-0.00259$ $[-0.00703,\ +0.00272]$), and norm/gap
+summaries alone stay near zero ($+0.00076$ $[-0.00477,\ +0.00558]$).  Adding
+trajectory or norm/gap features back to the base state also remains
+fail-closed.  The allocation-native row therefore does not come from a single
+rollout statistic; it requires the full rollout-internal context, the base
+state, and the explicit option token.
+The structured row is registered in the autoresearch execution lane as
+\texttt{fi-022.compute-value-structured-assignment}.  The runner validates the
+structured artifact schema, recomputes the exact-budget assignment, and emits
+a fail-closed payload if the schema is absent.  On the fixed-export structured
+artifact it records allocation delta $-0.00604$ $[-0.01074,\ -0.00163]$ with
+score/error Spearman $0.8899$.  The mechanical gate is positive and the
+adversarial audit marks the finding sound but scoped; the scientific claim
+therefore remains a fixed-export, calibration-selected structured-assignment
+result rather than an independent-replication or universal-control claim.
+A readiness scan also finds a usable independent-export structured
+artifact, but only in a narrower feature scope.  On the independent PushT
+horizon export, a rollout-only option-conditioned model uses predicted rollout
+trajectories, rollout deltas, norms, validity masks, and timing features, with
+no base latent/action features.  It evaluates under the same exact-budget
+runner at allocation delta $-0.18572$ $[-0.18804,\ -0.18328]$ with score/error
+Spearman $0.9947$ on $416$ anchors from $30$ episodes.  This is an
+independent-export replication of the rollout-only compute-value assignment
+mechanism, not a full-feature replication of the fixed-export structured row.
+The full-feature independent PushT carrier is then evaluated separately.  With
+the aligned base latent/action window, predicted rollout-internal features,
+and the same option token, the learned exact-budget assignment gives
+allocation delta $-0.18572$ $[-0.18804,\ -0.18306]$ with score/error Spearman
+$0.9962$ on the same $416$ anchors from $30$ episodes, matching the
+exact-budget oracle at $-0.18572$ $[-0.18805,\ -0.18318]$.  The result is
+registered as \texttt{fi-025.compute-value-independent-full-feature}: a
+positive independent full-feature compute-value assignment row whose
+adversarial audit is sound but scoped.  The audit rejects two simple shortcut
+explanations on PushT: depth-only assignment is wrong-side at $+0.10746$
+$[+0.10431,\ +0.11046]$, and shuffled learned scores are wrong-side at
+$+0.04216$ $[+0.01868,\ +0.06494]$.  The same runner gives a small but closed
+reacher row, $-0.00046$ $[-0.00080,\ -0.00008]$, while cube is not closed at
+$+0.00060$ $[-0.00039,\ +0.00186]$.  The compute-value route is therefore
+supported as a budget-feasible assignment signal on more than one carrier,
+but not as a universal cross-environment control claim.
+These independent artifacts also support a survival-matrix view of
+BEDC-native state variables.  For a candidate distinction $q$, define
+$$
+S_q(r\mid Z)=J_0(r\mid Z)-J_q(r\mid Z,q),
+$$
+where $Z$ contains base controls and $r$ is the readout being tested.  The
+current artifact instantiates $r$ as option-error prediction and uses time and
+candidate depth as controls.  The learned option score has positive
+option-error survival on PushT, reacher, and cube: $1.2052$, $0.0001005$, and
+$0.0000164$.  Yet its exact-budget allocation closes only on PushT and
+reacher.  Conversely, true marginal value has large cube option-error
+survival, $0.00247$, while its direct allocation score is wrong-side.  The
+lesson is that a variable can survive a readout without being a planning
+variable; BEDC-native world state requires the distinction, mediation layer,
+sign convention, and selection rule to be certified together.
+The standalone runner verdicts are stored in \texttt{reports/} under the
+\texttt{fi-022}, \texttt{fi-023}, and \texttt{fi-025} verdict records.
+A joint horizon-option test asks whether adding the detection task to the
+option-conditioned compute-value model is enough to make the score
+allocation-native.  It is not.  The option-only shared-trunk row is selected on
+calibration and evaluates near neutral at allocation delta $+0.00017$
+$[-0.00014,\ +0.00050]$ with score/error Spearman $0.8371$.  The joint row
+with a horizon-q75 head improves mean horizon AUROC to $0.7517$ and raises
+score/error Spearman to $0.8737$, but its allocation delta is worse:
+$+0.00466$ $[+0.0000003,\ +0.01128]$.  A direct dynamic program using
+horizon-risk logits as option scores is also wrong-side, $+0.00703$
+$[+0.00227,\ +0.01192]$.  Thus detection supervision can improve readability
+without producing intervention value.  The compute-value head must be trained
+and selected against the budget-feasible assignment target itself.
 
 \paragraph{Ledger-shaped representation.}
 A GPU re-encoder row tests whether the ledger loss can improve the
@@ -260,38 +443,290 @@ already a strong fixed representation on this carrier; a small ledger-shaped
 re-encoder does not make the failure signal linearly more readable, consistent
 with the allocation bound's $\rho\approx 0.5$ readable-information ceiling.
 
-\paragraph{Coverage formalization status.}
-The deterministic counting core of the split-conformal selective rule is
-machine-checked in a mathlib-free Lean~4 package
-(\path{formal/bedc-conformal-lean/}) whose theorems depend on zero axioms, as
-reported by \texttt{\#print axioms} (no \texttt{propext}, no
-\texttt{Classical.choice}, no \texttt{Quot.sound}).  On a calibration list
-sorted by score the package proves, first, four facts about the selection
-algorithm: the fail-closed branch admits the empty set, so no sample is declared
-OK when no threshold is feasible; the selected prefix satisfies the conservative
-Laplace-smoothed calibration bound $(1 + \mathrm{cumFail})\,\alpha_{\mathrm{den}}
-\le \alpha_{\mathrm{num}}\,(1 + (i+1))$ by construction; the admitted count of the
-selected index equals the selected prefix length; and the cumulative failure
-count is monotone in the threshold.  It then proves the finite-sample
-order-statistic coverage bound itself: on a sorted score list the number of
-scores at most the $k$-th order statistic is at least $k$, so the miscoverage
-count is at most $m - k$ on a list of length $m$, and whenever $k$ meets the
-quantile budget $(\alpha_{\mathrm{den}} - \alpha_{\mathrm{num}})\,m \le
-k\,\alpha_{\mathrm{den}}$ the miscoverage fraction is at most $\alpha$ --- the
-deterministic rank-quantile core of the coverage guarantee, established by
-counting rather than asserted.  For strictly sorted (distinct) scores the count
-is exactly $k$, so the miscoverage count is exactly $m - k$: the package proves
-the two-sided finite-sample coverage characterization, not only its lower side,
-with distinctness shown to be the hypothesis the upper bound requires.  The
-formalized object is this deterministic
-counting core over a failure-indicator list \emph{already ordered by score}: the
-score sort itself, the numeric threshold readout $\tau = s_{\mathrm{sorted}}[i]$,
-and the evaluation-side $\mathrm{score} \le \tau$ comparison are the trusted
-numerical harness around the verified core, not themselves formalized.  What
-remains outside the formalization is the exchangeability step --- that a fresh
-test point's rank among the calibration scores is uniform --- which is what would
-convert this deterministic order-statistic bound into a probabilistic coverage
-guarantee; that step is recorded as open rather than claimed.
+\paragraph{Survival-regularized world-state contract.}
+The preceding rows are still not a complete BEDC-native world model.  A head
+on a fixed carrier only proves readout survival; it does not prove that the
+world state itself is generated by BEDC distinctions.  The next contract is
+therefore stricter: a candidate world state $s_t=(z_t,Q_t,G_t,V_t,M_t)$ must
+keep prediction loss within a fixed tolerance of the LeWM carrier while
+showing positive survival for the relevant readouts: horizon failure,
+selective claim risk, compute-value assignment, OOD failure, and eventually
+action outcome.  If prediction parity fails, the object is a monitor or
+diagnostic ledger, not a world model.  If survival holds for detection but not
+compute value, it is a self-monitoring state but not a planning state.  This
+is the experimental bridge from LeWM readout evidence toward a
+survival-regularized BEDC-native world model.
+The present prediction-parity gate is fail-closed.  At $\epsilon=0.10$, the
+LeWM next-latent MSE is $0.06662$, the parity threshold is $0.07328$, and the
+native next-latent predictor has MSE $0.87870$, giving a parity margin
+$-0.80542$.  Thus the current BEDC-native rows can be read as monitors,
+claim ledgers, compute-value assignment tests, and survival audits, but not as
+a parity-level native world model.
+A direct native-parity candidate makes the same boundary explicit.  It trains
+on fixed LeWM latents using a latent window, future action window,
+action-validity mask, historical gap proxy, and time features, and is selected
+by calibration next-latent MSE before evaluation.  On $539$ evaluation
+transitions across $55$ episodes, it improves over trivial persistence
+($1.04610$ against $1.26587$, paired difference $-0.21977$
+$[-0.27464,\ -0.16797]$), but it is not close to the LeWM predictor
+($0.06586$).  The $\epsilon=0.10$ parity threshold is $0.07244$, the
+native-to-LeWM ratio is $15.88$, and the parity margin is $-0.97366$
+$[-1.03679,\ -0.91201]$.  The direct candidate is therefore a genuine
+dynamics learner and a negative world-model-parity result at the same time.
+The neighboring checks identify which simple explanations are insufficient.
+When the same residual class is trained against the LeWM transition target,
+its true-next-latent MSE is $1.05803$, its teacher-imitation MSE is
+$1.08923$, and its parity margin is $-0.98398$
+$[-1.04988,\ -0.91685]$.  Thus LeWM-transition supervision alone does not
+make the native state parity-level.  A recurrent sequence candidate improves
+the local native MSE to $0.95181$ and the native-to-LeWM ratio to $14.11$, but
+its parity margin remains $-0.87763$ $[-0.95362,\ -0.80311]$.  The admissible
+reading is that sequence structure helps, while the prediction-parity gap
+still requires a different dynamics-training regime before the BEDC ledger can
+be promoted from monitor to world model.
+Multi-step dynamics scaling does not remove the boundary.  The strongest local
+episode-heldout multi-step row has native $h=1$ MSE $0.74727$ against LeWM
+$0.06711$, giving parity margin $-0.67345$, while the transition-split
+upper-bound diagnostic has margin $-0.43876$ with confidence upper endpoint
+$-0.40961$.  The A100 rows complete the same check under a larger
+$25.6$M-parameter runner rather than closing it: the uniform-loss row has native
+$h=1$ MSE $0.76081$, native/LeWM ratio $11.34$, and parity margin $-0.68699$
+$[-0.73691,\ -0.62952]$; the decay-loss row has native $h=1$ MSE $0.78191$,
+native/LeWM ratio $11.65$, and parity margin $-0.70809$
+$[-0.75905,\ -0.65106]$.  Thus larger A100 dynamics runs are completed negative
+evidence for the current prediction-parity route, not pending evidence for a
+parity-level BEDC-native world model.
+The matched scale-efficiency diagnostic also fails to produce a positive
+scale-up signal.  Treating lower native $h=1$ MSE as better, the uniform
+local-minus-A100 gain is $-0.01354$ with interval
+$[-0.11714,\ 0.09099]$, and the decay local-minus-A100 gain is $-0.01471$ with
+interval $[-0.12364,\ 0.09062]$.  The intervals do not prove that scaling is
+intrinsically harmful, but they do fail to justify the current route as a
+simple parameter-scale path to prediction parity.
+A state-generation contract is therefore registered as a separate synthesis
+gate.  Its inputs are the closed scoped compute/control boundary, the negative
+prediction-parity boundary, and the non-positive A100 scale-efficiency
+diagnostic.  The contract gate evaluates to $1$ with interval $[1,\ 1]$: the
+next BEDC-native route must train world-state generation under joint
+prediction-parity and compute/control-survival gates.  This is a route
+obligation, not evidence that a completed BEDC-native world model already
+exists.
+The first readiness audit for that route is fail-closed.  It tries to align the
+structured compute-value artifact with the multi-step dynamics prediction
+artifact by the shared $(\mathrm{episode},t)$ anchor.  Only $106$ anchors across
+$8$ episodes overlap, below the declared aligned-export threshold of $200$
+anchors and $12$ episodes.  The existing artifacts therefore cannot be safely
+stitched into a state-generation training result; the next experiment must
+produce a single aligned export carrying prediction targets, compute-value
+option labels, and BEDC ledger variables on the same anchors.
+That aligned export is now generated as a training substrate.  It uses the
+existing train/calibration/eval label split and exports, on identical anchors,
+the current state features, next-latent target, predicted rollout trajectory and
+validity mask, LeWM one-step MSE, horizon labels, option errors, uniform error,
+and true marginal value.  The validation gate is positive with value $1$:
+train has $2043$ anchors over $167$ episodes, calibration has $646$ anchors
+over $56$ episodes, eval has $634$ anchors over $55$ episodes, and the feature
+dimension is $4952$.  This closes the data-substrate step for the
+state-generation route; it is not yet a trained state-generation model.
+On this substrate, the aligned state-generation candidate uses a shared trunk
+with next-latent, option-error, and horizon-failure heads.  Epoch selection is
+made on calibration next-latent and option-error losses before eval readout.
+On the held-out eval split, the candidate gives native h1 MSE $0.43077$
+$[0.41537,\ 0.44770]$, while the matched LeWM h1 MSE is $0.06747$
+$[0.06445,\ 0.07072]$; the prediction-parity margin is therefore $-0.35655$
+$[-0.37226,\ -0.34105]$.  The horizon head retains a detection signal
+(mean AUROC $0.73587$ over $30$ binary horizon labels), and the option-error
+score has Spearman correlation $0.66865$ with held-out option error, but the
+allocation delta is $0.00395$ $[-0.00355,\ 0.01260]$.  The candidate therefore
+validates a joint state-generation measurement path and sharpens the boundary:
+prediction parity is still open, and the compute-value signal has not yet
+become an allocation-closed BEDC-native world model.
+The allocation diagnostic explains where that boundary sits.  Using the fixed
+candidate option scores inside the exact-budget dynamic program gives the same
+allocation delta $0.00395$ $[-0.00309,\ 0.01200]$ despite score/error
+Spearman $0.66865$ and pair accuracy $0.89479$.  Negating the score makes the
+allocation worse, $0.03230$ $[0.02588,\ 0.03973]$, so the failure is not a
+sign-convention error.  On the same eval labels, the exact-budget oracle closes
+allocation at $-0.02412$ $[-0.03015,\ -0.01915]$ with depth counts comparable
+to the candidate assignment.  Thus the substrate has allocation value, but
+global option-error readability is not enough: the candidate score still lacks
+the local option ranking and calibration needed for allocation-closed control.
+Training the score directly with an allocation-native centered-error,
+pairwise-order, and uniform-margin objective tightens this diagnosis without
+closing the gate.  The selected scorer closes the calibration exact-budget
+criterion, with calibration allocation delta $-0.00433$ and CI high
+$-0.00058$.  On held-out eval, however, its allocation delta is $0.00440$
+$[-0.00147,\ 0.01338]$; the calibration-selected score calibration leaves the
+same eval assignment, $0.00440$ $[-0.00124,\ 0.01334]$.  The scorer improves
+score/error Spearman to $0.81632$ and reaches pair accuracy $1.0$, but its depth
+counts concentrate on depths $2$ and $5$ rather than the oracle's more balanced
+assignment.  The remaining allocation boundary is therefore not single-anchor
+option ordering; it is cross-anchor magnitude calibration under the
+episode-level exact-budget constraint.
+A post-hoc budget-shadow transform does not remove that boundary.  The
+calibration-selected transform chooses the base allocation-native score; on
+eval it therefore keeps allocation delta $0.00440$ $[-0.00143,\ 0.01211]$,
+with the same depth counts $\{1:42,2:349,3:24,4:5,5:214\}$.  The oracle on the
+same eval labels remains closed at $-0.02412$ $[-0.02998,\ -0.01897]$.  The
+negative result is useful because it separates post-hoc budget-shadow
+calibration from the next required route: the budget signal has to enter the
+training objective at the episode level, for example through a dual-price or
+exact-budget regret surrogate, rather than being appended after score training.
+Putting the episode-level allocation signal into training gives the first
+positive movement on this boundary, but still not closure.  A scorer trained
+against exact-budget oracle choices, pairwise option order, expected depth, and
+centered option error gives eval allocation delta $-0.00130$
+$[-0.00601,\ 0.00337]$, improving both the observed value and CI high relative
+to the allocation-native baseline $0.00440$ $[-0.00152,\ 0.01226]$.  Its depth
+counts $\{1:159,2:110,3:103,4:96,5:166\}$ also move close to the eval oracle
+counts $\{1:148,2:114,3:117,4:100,5:155\}$.  The tradeoff is that global
+score/error Spearman drops to $0.19282$: the model is no longer a good
+option-error reader, but it is a better budget allocator.  Since the CI high is
+still positive, the correct conclusion is allocation movement, not
+allocation-closed control.
+A three-seed replication preserves the same boundary.  Across seeds
+$\{431,509,617\}$, the episode objective improves the observed allocation delta
+and CI high relative to the allocation-native baseline in all three cases.  The
+median observed allocation delta is $-0.00313$, versus the baseline median
+$0.00440$, and the median CI high is $0.00291$, versus the baseline median
+$0.01220$.  None of the three episode-objective seeds closes allocation, while
+the same-label oracle remains closed in all three.  The replicated conclusion is
+therefore stable movement toward the budget gate, not budget-closed control.
+A direct per-episode dual-price surrogate does not improve this boundary.  It
+chooses a calibration-closed shadow-price row, but on held-out eval its
+allocation delta is $-0.00047$ $[-0.00824,\ 0.00984]$, weaker than the
+exact-budget episode objective $-0.00130$ $[-0.00578,\ 0.00357]$ and still open.
+The route remains useful as a negative constraint: the budget signal must enter
+training, but a single fitted episode price is not enough to transfer the gate.
+A direct structured episode-regret surrogate gives the same warning in a
+stronger form.  Training against exact-budget oracle assignments and same-budget
+competitor margins selects a near-closed calibration row, but held-out eval moves
+back to $0.00010$ $[-0.00706,\ 0.01049]$.  This is still better than the
+allocation-native baseline, but worse than both the exact-budget episode
+objective and the dual-price row.  The boundary is therefore not merely the lack
+of a combinatorial loss on training episodes; it is transfer of the budgeted
+assignment structure to held-out episodes.
+Seed aggregation confirms that this is not ordinary seed variance.  Averaging
+the three episode-objective seed scores gives allocation delta $-0.00280$
+$[-0.00915,\ 0.00407]$, and normalized or median seed aggregation remains open.
+The best row is still a single seed, with seed~617 at $-0.00359$
+$[-0.00932,\ 0.00157]$.  The seeds agree on a majority choice for $91.3\%$ of
+eval anchors, but the majority choice matches the exact-budget oracle on only
+$35.8\%$.  Thus the failure mode is stable held-out assignment error, not
+unstable optimization noise removable by ensembling.
+Episode-balanced sampling does not remove the same transfer error.  Training
+the exact-budget episode objective with batches balanced across training
+episodes selects a calibration-closed row, but held-out eval is $0.00033$
+$[-0.00822,\ 0.01101]$.  This remains better than the allocation-native
+baseline but worse than the original episode objective and the best replicated
+seed.  Hence the missing ingredient is not only episode reweighting; the model
+needs an invariant assignment rule that transfers across episodes.
+An episode-level anatomy diagnostic localizes the transfer error.  Across the
+best replicated seed, the original episode objective, seed averaging,
+episode-balanced sampling, direct regret, and dual-price rows, the top harmful
+episode sets have a union of only seven episode identifiers, with episodes
+$81$, $145$, and $213$ shared by all rows.  The top harmful slice accounts for
+at least $88.9\%$ of positive episode damage in every row.  The boundary is
+therefore concentrated in recurring hard held-out episodes, which makes
+hard-episode or cluster-transfer objectives the next relevant route.
+A direct hard-episode contribution diagnostic sharpens this localization.
+Conditioning only after fixed score generation on the seven-episode union
+$\{81,115,145,193,201,213,277\}$ leaves $555$ non-hard anchors and $79$ hard
+anchors.  Across the best seed, original episode objective, seed mean,
+episode-balanced, direct-regret, and dual-price rows, every non-hard slice
+has allocation CI high below zero; the observed non-hard deltas range from
+$-0.00576$ to $-0.00859$.  The hard-only slice is harmful in every row, with
+observed deltas from $0.02685$ to $0.05657$.  This does not yield an
+allocation-native policy, because the slice is identified from held-out
+anatomy after fixed scores, but it localizes the remaining boundary to
+recurring episode regimes rather than average eval behavior.
+A pre-label cluster-coverage diagnostic rules out a simpler explanation.
+Episode summaries built only from allowed carrier context features and time
+indices are embedded using train/cal statistics, and $12$ cluster centers are
+fit on train/cal episodes before assigning eval episodes.  The seven hard
+episodes occupy three clusters, with a size-matched permutation lower-tail
+$p=0.0596$, so there is weak compactness signal.  However, those hard clusters
+are not under-covered: the mean train/cal cluster count for hard episodes is
+higher by $8.49$ episodes, with lower-tail $p=0.964$.  Thus simple
+feature-space coverage reweighting is not the mechanism; the remaining route
+requires richer invariant episode descriptors or perturbation features that
+separate hard assignment regimes from merely nearby carrier summaries.
+Fixed scorer and rollout descriptors also fail to expose the hard regime.
+Using only fixed scorer margins, scorer disagreement, exact-budget assignment
+flip rates, and predicted-rollout geometry, no tested decision-boundary
+descriptor separates the seven hard episodes under permutation tests.  The
+strongest descriptor is the best-seed score entropy, but its permutation
+$p$-value is only $0.257$; row argmin disagreement, exact-budget assignment
+flip rate, and rollout curvature are weaker.  Thus the remaining allocation
+boundary is not visible as ordinary scorer uncertainty or rollout instability.
+The next state-generation route must introduce richer causal perturbations or
+environment-state descriptors rather than another post-hoc transform of the
+same internal scores.
+Using the source two-rooms export to expose explicit environment-state fields
+gives the first positive mechanism signal for the hard slice.  Descriptors
+constructed from agent and target positions, room membership, midline crossing,
+reward, and action magnitudes separate the same seven hard episodes after
+fixed descriptor construction.  The strongest descriptor is the episode mean
+agent $y$ coordinate, with hard episodes lower than the remaining eval episodes
+($60.0$ versus $87.5$) and permutation $p=0.0160$.  Room membership also
+separates weakly: hard episodes are in different rooms more often ($0.939$
+versus $0.769$, $p=0.0760$), equivalently same-room occupancy is lower
+($0.061$ versus $0.231$, $p=0.0736$).  This still does not close allocation
+or define a deployable policy, but it changes the next route: the hard
+assignment boundary is externally geometric, not merely a hidden uncertainty
+signal inside the scorer.
+Putting that geometry into the allocation objective gives bounded movement but
+not closure.  A geometry-conditioned row trains the same episode exact-budget
+objective as the episode-allocation baseline, augmenting the aligned carrier
+features with $16$ explicit two-rooms state/action features and selecting by
+the same calibration rule.  On held-out eval, its full allocation delta is
+$-0.00409$ versus $-0.00130$ for the original episode objective.  On the
+hard-only slice, it reduces observed damage to $0.01568$, compared with
+$0.02685$ for the best replicated seed, $0.03002$ for the original episode
+objective, and $0.03630$ for seed averaging.  The hard-only interval remains
+open, with CI high $0.03492$, so the result is mechanism-aligned movement
+rather than an allocation-native solution.  A train-defined geometry-regime
+weighting check makes the conditioning sharper without using held-out hard
+episode identities: training samples are weighted by low agent-$y$ membership,
+different-room occupancy, and their interaction, with the low-$y$ threshold
+set from the train split.  This improves the full eval delta to $-0.00482$ and
+the non-hard delta to $-0.00813$, and it slightly lowers the hard-only CI high
+to $0.03454$.  It does not improve the hard-only observed damage, which moves
+from $0.01568$ to $0.01841$.  Thus geometry is a real external descriptor of
+the hard regime, but static train-regime reweighting is not the missing
+allocation-control mechanism.  Making the geometry explicitly option
+conditioned also fails the hard-regime gate.  The option-conditioned row reads
+the aligned carrier, the same geometry features, a candidate depth token, and
+geometry-depth interactions, trains on option error with a within-anchor
+ranking term, and is selected by the calibration exact-budget dynamic program.
+It closes the calibration criterion and achieves high held-out option-error
+readability, with full-eval Spearman $0.866$ and hard-only Spearman $0.824$.
+Nevertheless the held-out hard-only allocation delta worsens to $0.04436$ with
+CI high $0.08669$, and the full eval delta moves back to $0.00007$.  The
+failure is therefore sharper than an omitted-interaction diagnosis: even an
+option-conditioned geometry reader can learn local option errors while failing
+the cross-anchor magnitude calibration required by the hard exact-budget
+assignment.  A fixed-score budget-magnitude diagnostic isolates this failure.
+For the same option-conditioned scores, the non-hard slice is still beneficial
+against uniform ($-0.00623$) while the hard-only slice is harmful
+($+0.04436$), even though hard-only score/error Spearman is $0.824$ and
+within-anchor pair accuracy is $1.0$.  The hard-only oracle remains strongly
+beneficial ($-0.04565$), so the chosen assignment is $0.09002$ above oracle;
+oracle-match on hard anchors is only $0.215$.  The boundary is therefore not
+local option ranking but budget-magnitude transfer across anchors and episodes.
+Calibration-split centering leaves hard unchanged ($+0.04436$, CI high $+0.09064$).
+The budget-priority residual is the first positive movement (full $-0.00249$,
+non-hard $-0.00574$, hard-only $+0.02032$, CI high $+0.04320$).  Across three
+seeds, the residual lowers mean hard delta from $+0.01391$ to $+0.00777$, with
+no closure; both a train-defined proxy and a learned residual-benefit selector
+select priority residual, and the selector's hard-only row is $-0.00494$ with CI high $+0.00446$.
+
+\paragraph{Coverage certificate.}
+The split-conformal counting core used by the gap-ledger readout is
+machine-checked in a mathlib-free Lean~4 package whose theorems depend on
+zero axioms (no \texttt{propext}, no \texttt{Classical.choice}); the full
+$\alpha$-statistical miscoverage bound (rank quantile plus exchangeability)
+is recorded as open rather than claimed.
 
 \paragraph{Calibrated selection.}
 Replacing the declared-OK rule by conservative thresholds chosen on a
@@ -331,64 +766,32 @@ representative population claim.  The independent stratified-random
 $150$-episode export gives post-hoc $h=1$ AUROC $0.744$ and native AUROC
 $0.800$, with CI95\_high $<0.95$ and UER $>0.02$.  The corrected conclusion is
 that representative pusht failure detection is about $0.74$--$0.80$, in the
-same range as tworooms/reacher/cube ($0.61$--$0.78$), and not perfect.  On this
-PushT export the native row is numerically higher than its matched post-hoc row
-($0.800$ versus $0.744$), but this is a scoped single-export comparison, not the
-global strongest-probe hardening test, which remains parity.
+same range as tworooms/reacher/cube ($0.61$--$0.78$), and not perfect.  The
+native $0.800 > 0.744$ comparison is consistent with the paired native-over-
+post-hoc result above.
 
 \paragraph{Record pointers.}
 The executed records live in the public repository
-\path{the-omega-institute/bedc-jepa-gap-ledger}:
-
-\noindent{\small
-\begin{tabular}{@{}p{0.34\linewidth}@{}p{0.58\linewidth}@{}}
-gap head & \path{experiments/lewm_gap_ledger/reports/lewm_gap_ledger_head_large.json}\\
-perturbation boundary & \path{experiments/lewm_gap_ledger/reports/lewm_brittleness_gap.json}\\
-OOD-aware training & \path{experiments/lewm_gap_ledger/reports/lewm_ood_aware_gap.json}\\
-trained ledger head & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_aware_transformer.json}\\
-trained-head perturbation arm & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_aware_transformer_ood.json}\\
-trained-head OOD-aware training & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_aware_transformer_ood_aware.json}\\
-dynamics comparison & \path{experiments/lewm_gap_ledger/reports/lewm_lat_dynamics_comparison.json}\\
-state-recovery probe & \path{experiments/lewm_gap_ledger/reports/lewm_identifiability_link.json}\\
-rollout budget allocation & \path{experiments/lewm_gap_ledger/reports/lewm_ledger_gated_rollout.json}\\
-calibrated selection & \path{experiments/lewm_gap_ledger/reports/lewm_conformal_selective_guarantee.json}\\
-cross-environment replication & \path{experiments/lewm_gap_ledger/reports/lewm_cross_env_replication.json}\\
-reader capacity sweep & \path{experiments/lewm_gap_ledger/reports/lewm_reader_capacity_frontier.json}\\
-horizon-indexed ledger & \path{experiments/lewm_gap_ledger/reports/g2n_native_ledger.json}\\
-horizon ledger completion & \path{experiments/lewm_gap_ledger/reports/g2n_matrix_completion.json}\\
-integrated A100 matrix & \path{experiments/lewm_gap_ledger/reports/g2n_integrated_a100_summary.json}\\
-cross-environment horizon ledger & \path{experiments/lewm_gap_ledger/reports/lewm_crossenv_horizon_ledger.json}\\
-allocation bridge study & \path{experiments/lewm_gap_ledger/reports/lewm_allocation_bridge.json}\\
-native/post-hoc paired comparison & \path{experiments/lewm_gap_ledger/reports/lewm_native_vs_posthoc_paired.json}\\
-allocation information bound & \path{experiments/lewm_gap_ledger/reports/lewm_allocation_information_bound.json}\\
-ledger-shaped re-encoder & \path{experiments/lewm_gap_ledger/reports/lewm_d_ledger_shaped_reencoder.json}\\
-pusht independent export & \path{experiments/lewm_gap_ledger/reports/lewm_pusht_independent_export.json}\\
-pusht contiguous-block replication & \path{experiments/lewm_gap_ledger/reports/lewm_pusht_replication.json}\\
-coverage formalization & \path{formal/bedc-conformal-lean/}\\
-not\_claimed boundary & \path{experiments/lewm_gap_ledger/reports/lewm_d_ledger_shaped_reencoder.json:$.not_claimed}
-\end{tabular}
-}
-An interactive demonstration of the failure-versus-declared-gap readout is
-published from the same repository.  The strongest-probe hardening result and the
-integrated-model allocation result are recorded in the verified findings, while
-the A100 integrated matrix is recorded in
-\path{experiments/lewm_gap_ledger/reports/g2n_integrated_a100_summary.json}.
-Together they govern the reading above: scalar hardening past the $0.744$
-strongest-probe record, paired gain against the matched in-runner post-hoc
-reference, and no selective or allocation breakthrough.
+\texttt{the-omega-institute/bedc-jepa-gap-ledger}.  The core evidence pointers
+are
+\texttt{reports/lewm\_gap\_ledger\_head\_large.json},
+\texttt{reports/lewm\_native\_vs\_posthoc\_paired.json},
+\texttt{reports/lewm\_allocation\_information\_bound.json},
+\texttt{reports/lewm\_d\_ledger\_shaped\_reencoder.json}, and
+\texttt{reports/lewm\_pusht\_independent\_export.json}; the explicit
+not-claimed boundary is recorded at
+\texttt{experiments/lewm\_gap\_ledger/autoresearch/findings/canonical\_adapter\_summary.json:\$.not\_claimed}.
+\input{parts/lewm_record_pointers.tex}
 
 \paragraph{Boundary of this instantiation.}
-The detection-signal record summary is scoped to four public checkpoints
+The detection-signal claim rests on four public checkpoints
 (\texttt{tworooms}, \texttt{reacher}, \texttt{cube}, and \texttt{pusht}), each
 with a single latent export unless an independent export is explicitly named;
-the strict two-criterion record and all trained-ledger rows remain scoped to the
+the strict two-criterion claim and all trained-ledger rows remain scoped to the
 specified records; the ledger-shaped re-encoder row is scoped to one latent
 export, clean labels, an $8$GB GPU budget, and the tested re-encoder class; the
-integrated A100 matrix is scoped to one latent export, one seed, its matched
-runner reference, and the accepted rows whose JSON records are carried in the
-repository; the shuffled-label row is not an accepted control; the
-confidence intervals use episode bootstrap rather than independent world
-seeds, and no benchmark superiority record is asserted.
+confidence intervals still use episode bootstrap rather than independent world
+seeds, and no claim of benchmark superiority is made.
 The pusht $1.000$ row is retained only as a contiguous-block replication record,
 not as a representative population claim.  These rows are an external baseline
 run beyond the fixed-checkpoint MiniGrid row, in gap-ledger form; they do not

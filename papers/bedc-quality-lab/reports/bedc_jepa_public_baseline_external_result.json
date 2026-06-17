@@ -1,15 +1,84 @@
 {
-  "candidate_id": "vjepa2-ac",
-  "cannot_export": [
-    "public JEPA-family baseline was not executed in this workspace"
-  ],
-  "dependency_status": {
-    "einops": "missing",
-    "timm": "missing",
-    "torch": "installed",
-    "torchvision": "installed"
+  "bedc_readback_metrics": {
+    "certified_coverage": 0.4375,
+    "debt": 0.75,
+    "distinction_accuracy": 0.55,
+    "gap_detection_auc": 0.0,
+    "unlogged_error": 0.1875
   },
-  "repository_head": "204698b45b3712590f06245fbfba32d3be539812",
+  "candidate_id": "vjepa2-ac",
+  "cannot_claim_boundary": [
+    "official V-JEPA2-AC benchmark reproduction",
+    "public benchmark superiority",
+    "checkpoint native evaluation parity",
+    "end-to-end V-JEPA2-AC retraining",
+    "certified natural-language semantic grounding"
+  ],
+  "cannot_export": [],
+  "checkpoint_identity": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2-ac-vitg.pt",
+  "dataset_identity": "MiniGrid-DoorKey-8x8-v0",
+  "environment_or_benchmark_name": "MiniGrid-DoorKey-8x8-v0",
+  "execution_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py && python scripts/run_vjepa2_ac_minigrid_claim_certificate.py && python scripts/build_vjepa2_ac_near_native_reproduction.py",
+  "latent_prediction_score": 0.9812458076166543,
+  "lccp_certificate_metrics": {
+    "alpha_grid": [
+      0.2,
+      0.1,
+      0.05,
+      0.02,
+      0.01
+    ],
+    "certified_claim_count": 0.0,
+    "gap_claim_count": 5.0,
+    "mean_certified_coverage": 0.4375,
+    "mean_conformal_miscoverage": 0.1875,
+    "mean_unlogged_error": 0.1875
+  },
+  "native_metric_contract": {
+    "latent_prediction_score": "fixed-checkpoint latent prediction score, higher is better",
+    "rollout_or_planning_score": "fixed-checkpoint latent prediction score used as near-native score; official rollout score not evaluated"
+  },
+  "near_native_candidate_id": "vjepa2-ac-vit-giant",
+  "observation_action_stream_contract": {
+    "action_encoding": "one-hot MiniGrid action contracts",
+    "observation_preprocessing": "MiniGrid two-frame 256x256 RGB video contracts",
+    "split": {
+      "latent_prediction": {
+        "batch_size": 1.0,
+        "device": "cuda",
+        "environment_id": "MiniGrid-DoorKey-8x8-v0",
+        "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+        "sample_count": 96.0,
+        "seed": 20260610.0,
+        "split_rule": "single seeded transition stream; first train_count rows fit the linear alignment; remaining rows are held out for reporting",
+        "test_count": 32.0,
+        "train_count": 64.0,
+        "use_amp": true
+      },
+      "lccp_certificate": {
+        "batch_size": 1.0,
+        "calibration_count": 16.0,
+        "calibration_seed": 20260609.0,
+        "device": "cuda",
+        "environment_id": "MiniGrid-DoorKey-8x8-v0",
+        "run_command": "python scripts/run_vjepa2_ac_minigrid_claim_certificate.py",
+        "seed": 20260608.0,
+        "split_rule": "disjoint seeded transition streams; train fits readouts, calibration sets conformal thresholds, test reports claims and gaps",
+        "test_count": 16.0,
+        "test_seed": 20260610.0,
+        "train_count": 16.0,
+        "train_seed": 20260608.0,
+        "use_amp": true
+      }
+    }
+  },
+  "repository_commit": "204698b45b3712590f06245fbfba32d3be539812",
   "repository_url": "https://github.com/facebookresearch/vjepa2",
-  "status": "unavailable"
+  "rollout_or_planning_score": 0.9812458076166543,
+  "scope_boundary": [
+    "official V-JEPA2-AC benchmark protocol was not executed",
+    "gap detection AUROC is not separately evaluated in the near-native candidate"
+  ],
+  "source_record": "reports/bedc_vjepa2_ac_native_reproduction.json",
+  "status": "available"
 }

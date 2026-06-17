@@ -1,0 +1,271 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_survival_matrix",
+  "definition": "S_q(r|Z)=J_0(r|Z)-J_q(r|Z,q), instantiated with held-out option-error MSE after base controls",
+  "rows": {
+    "pusht": {
+      "status": "ok",
+      "artifact": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_independent_full_feature_predictions.npz",
+      "anchors": 416,
+      "episodes": 30,
+      "base_controls": [
+        "constant",
+        "anchor_t0",
+        "candidate_depth"
+      ],
+      "readouts": [
+        "option_error_mse",
+        "exact_budget_allocation_delta"
+      ],
+      "survival": {
+        "learned_option_score": {
+          "option_error_base_mse": 1.2121313320177525,
+          "option_error_with_q_mse": 0.006922251420783108,
+          "option_error_survival": 1.2052090805969693,
+          "option_error_relative_survival": 0.994289190256917,
+          "allocation_delta": {
+            "observed": -0.185719436946437,
+            "low": -0.1880449038501244,
+            "high": -0.18341679954413923
+          },
+          "allocation_closed": true
+        },
+        "true_marginal_value": {
+          "option_error_base_mse": 1.2121313320177525,
+          "option_error_with_q_mse": 1.2110618721677846,
+          "option_error_survival": 0.0010694598499678687,
+          "option_error_relative_survival": 0.0008822970100010629,
+          "allocation_delta": {
+            "observed": 0.11736153037679065,
+            "low": 0.10148408502742225,
+            "high": 0.1328721999362963
+          },
+          "allocation_closed": false
+        },
+        "depth_only": {
+          "option_error_base_mse": 1.2121313320177525,
+          "option_error_with_q_mse": 1.2121311941105115,
+          "option_error_survival": 1.3790724096018891e-07,
+          "option_error_relative_survival": 1.1377252391506465e-07,
+          "allocation_delta": {
+            "observed": 0.1074552699000555,
+            "low": 0.10438625448658749,
+            "high": 0.11044770938483382
+          },
+          "allocation_closed": false
+        },
+        "episode_mean_oracle": {
+          "option_error_base_mse": 1.2121313320177525,
+          "option_error_with_q_mse": 1.2015640630107343,
+          "option_error_survival": 0.01056726900701821,
+          "option_error_relative_survival": 0.008717924145585443,
+          "allocation_delta": {
+            "observed": 0.0,
+            "low": 0.0,
+            "high": 0.0
+          },
+          "allocation_closed": false
+        },
+        "shuffled_learned_score": {
+          "option_error_base_mse": 1.2121313320177525,
+          "option_error_with_q_mse": 1.2090784112906723,
+          "option_error_survival": 0.0030529207270801884,
+          "option_error_relative_survival": 0.0025186385719426947,
+          "allocation_delta": {
+            "observed": 0.03546012693331524,
+            "low": 0.016487756422117687,
+            "high": 0.05654082311479765
+          },
+          "allocation_closed": false
+        }
+      }
+    },
+    "reacher": {
+      "status": "ok",
+      "artifact": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_independent_full_feature_reacher_predictions.npz",
+      "anchors": 1020,
+      "episodes": 30,
+      "base_controls": [
+        "constant",
+        "anchor_t0",
+        "candidate_depth"
+      ],
+      "readouts": [
+        "option_error_mse",
+        "exact_budget_allocation_delta"
+      ],
+      "survival": {
+        "learned_option_score": {
+          "option_error_base_mse": 0.00040243646970479345,
+          "option_error_with_q_mse": 0.0003019151278968824,
+          "option_error_survival": 0.00010052134180791103,
+          "option_error_relative_survival": 0.24978188950332528,
+          "allocation_delta": {
+            "observed": -0.0004595990318091714,
+            "low": -0.0008080402484116817,
+            "high": -9.941878634957828e-05
+          },
+          "allocation_closed": true
+        },
+        "true_marginal_value": {
+          "option_error_base_mse": 0.00040243646970479345,
+          "option_error_with_q_mse": 0.00034188978839228684,
+          "option_error_survival": 6.05466813125066e-05,
+          "option_error_relative_survival": 0.15045028438133481,
+          "allocation_delta": {
+            "observed": 0.004408067326450601,
+            "low": 0.0038754855719549636,
+            "high": 0.004953782846991071
+          },
+          "allocation_closed": false
+        },
+        "depth_only": {
+          "option_error_base_mse": 0.00040243646970479345,
+          "option_error_with_q_mse": 0.0004024364748856,
+          "option_error_survival": -5.180806575844771e-12,
+          "option_error_relative_survival": -1.2873601091981406e-08,
+          "allocation_delta": {
+            "observed": 0.001970350004950147,
+            "low": 0.0013729974406684942,
+            "high": 0.002582764583659385
+          },
+          "allocation_closed": false
+        },
+        "episode_mean_oracle": {
+          "option_error_base_mse": 0.00040243646970479345,
+          "option_error_with_q_mse": 0.0003648617480027177,
+          "option_error_survival": 3.757472170207572e-05,
+          "option_error_relative_survival": 0.09336808299118267,
+          "allocation_delta": {
+            "observed": 0.0,
+            "low": 0.0,
+            "high": 0.0
+          },
+          "allocation_closed": false
+        },
+        "shuffled_learned_score": {
+          "option_error_base_mse": 0.00040243646970479345,
+          "option_error_with_q_mse": 0.0004029562097703825,
+          "option_error_survival": -5.19740065589038e-07,
+          "option_error_relative_survival": -0.0012914835128394113,
+          "allocation_delta": {
+            "observed": 0.0011003101084121527,
+            "low": 0.0008897413032016359,
+            "high": 0.0013154211529269725
+          },
+          "allocation_closed": false
+        }
+      }
+    },
+    "cube": {
+      "status": "ok",
+      "artifact": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_independent_full_feature_cube_predictions.npz",
+      "anchors": 1020,
+      "episodes": 30,
+      "base_controls": [
+        "constant",
+        "anchor_t0",
+        "candidate_depth"
+      ],
+      "readouts": [
+        "option_error_mse",
+        "exact_budget_allocation_delta"
+      ],
+      "survival": {
+        "learned_option_score": {
+          "option_error_base_mse": 0.00438269219786025,
+          "option_error_with_q_mse": 0.004366313783508878,
+          "option_error_survival": 1.637841435137271e-05,
+          "option_error_relative_survival": 0.003737066992605389,
+          "allocation_delta": {
+            "observed": 0.0005964721074797532,
+            "low": -0.00039736205369962126,
+            "high": 0.0017107710759144234
+          },
+          "allocation_closed": false
+        },
+        "true_marginal_value": {
+          "option_error_base_mse": 0.00438269219786025,
+          "option_error_with_q_mse": 0.0019112975056825164,
+          "option_error_survival": 0.002471394692177734,
+          "option_error_relative_survival": 0.5638987591655047,
+          "allocation_delta": {
+            "observed": 0.011351072741246113,
+            "low": 0.008430416607528565,
+            "high": 0.014374193045856049
+          },
+          "allocation_closed": false
+        },
+        "depth_only": {
+          "option_error_base_mse": 0.00438269219786025,
+          "option_error_with_q_mse": 0.004382692199497879,
+          "option_error_survival": -1.6376284009411712e-12,
+          "option_error_relative_survival": -3.736580911935148e-10,
+          "allocation_delta": {
+            "observed": 0.0012399779970811448,
+            "low": 0.00010954661835859012,
+            "high": 0.002404353268292274
+          },
+          "allocation_closed": false
+        },
+        "episode_mean_oracle": {
+          "option_error_base_mse": 0.00438269219786025,
+          "option_error_with_q_mse": 0.00400138737946026,
+          "option_error_survival": 0.00038130481839999085,
+          "option_error_relative_survival": 0.08700241796267469,
+          "allocation_delta": {
+            "observed": 0.0,
+            "low": 0.0,
+            "high": 0.0
+          },
+          "allocation_closed": false
+        },
+        "shuffled_learned_score": {
+          "option_error_base_mse": 0.00438269219786025,
+          "option_error_with_q_mse": 0.004384694644591784,
+          "option_error_survival": -2.00244673153379e-06,
+          "option_error_relative_survival": -0.0004568987830154805,
+          "allocation_delta": {
+            "observed": 0.0024437926218001133,
+            "low": 0.0017167936831636971,
+            "high": 0.0031708049069373748
+          },
+          "allocation_closed": false
+        }
+      }
+    }
+  },
+  "summary": {
+    "positive_option_error_survival": {
+      "learned_option_score": [
+        "pusht",
+        "reacher",
+        "cube"
+      ],
+      "true_marginal_value": [
+        "pusht",
+        "reacher",
+        "cube"
+      ],
+      "depth_only": [
+        "pusht"
+      ],
+      "episode_mean_oracle": [
+        "pusht",
+        "reacher",
+        "cube"
+      ],
+      "shuffled_learned_score": [
+        "pusht"
+      ]
+    },
+    "closed_allocation_delta": {
+      "learned_option_score": [
+        "pusht",
+        "reacher"
+      ]
+    },
+    "interpretation": "A candidate survives a readout when it reduces held-out option-error MSE beyond base controls; allocation closure is reported separately because readability and budget-feasible intervention value can diverge."
+  },
+  "not_claimed": "This matrix audits candidate distinctions on existing artifacts; it is not a survival-regularized training result or a prediction-parity claim."
+}

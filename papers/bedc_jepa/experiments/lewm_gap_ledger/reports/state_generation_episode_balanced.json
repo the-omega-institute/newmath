@@ -1,0 +1,176 @@
+{
+  "config": {
+    "anchors_per_episode": 8,
+    "depth": 2,
+    "episodes_per_batch": 16,
+    "epochs": 180,
+    "hidden": 256,
+    "loss": "episode-balanced sampling with 0.50*oracle_choice_ce + 0.25*pairwise_order + 0.15*expected_depth + 0.10*centered_smooth_l1",
+    "lr": 0.0004
+  },
+  "counts": {
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55,
+    "train": 2043,
+    "train_episodes": 167
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "allocation_closed": false,
+    "beats_allocation_native_ci_high": true,
+    "beats_allocation_native_observed": true,
+    "beats_best_seed_ci_high": false,
+    "beats_best_seed_observed": false,
+    "beats_episode_objective_ci_high": false,
+    "beats_episode_objective_observed": false,
+    "oracle_closed": true
+  },
+  "eval": {
+    "allocation_native": {
+      "allocation_delta": {
+        "high": 0.012744289820077815,
+        "low": -0.0012933576051595097,
+        "observed": 0.0044036332341524514
+      },
+      "chosen_depth_counts": {
+        "1": 42,
+        "2": 349,
+        "3": 24,
+        "4": 5,
+        "5": 214
+      },
+      "oracle_match": 0.2334384858044164,
+      "pair_accuracy": 1.0,
+      "score_error_spearman": 0.8163159949023315
+    },
+    "best_seed": {
+      "allocation_delta": {
+        "high": 0.0014803158345908594,
+        "low": -0.008969953833916156,
+        "observed": -0.003591294507923462
+      },
+      "chosen_depth_counts": {
+        "1": 153,
+        "2": 116,
+        "3": 109,
+        "4": 90,
+        "5": 166
+      },
+      "oracle_match": 0.3470031545741325,
+      "pair_accuracy": 0.6714511041009463,
+      "score_error_spearman": 0.4450989694138167
+    },
+    "episode_allocation": {
+      "allocation_delta": {
+        "high": 0.0032255840767367,
+        "low": -0.006133030453661913,
+        "observed": -0.00129762487990992
+      },
+      "chosen_depth_counts": {
+        "1": 159,
+        "2": 110,
+        "3": 103,
+        "4": 96,
+        "5": 166
+      },
+      "oracle_match": 0.3186119873817035,
+      "pair_accuracy": 0.5610410094637224,
+      "score_error_spearman": 0.19282131365771424
+    },
+    "episode_balanced": {
+      "allocation_delta": {
+        "high": 0.011005703763291819,
+        "low": -0.00822085098913449,
+        "observed": 0.0003277092917721436
+      },
+      "chosen_depth_counts": {
+        "1": 163,
+        "2": 104,
+        "3": 106,
+        "4": 92,
+        "5": 169
+      },
+      "oracle_match": 0.3659305993690852,
+      "pair_accuracy": 0.6313880126182966,
+      "score_error_spearman": 0.3556786486500053
+    },
+    "oracle_true_error": {
+      "allocation_delta": {
+        "high": -0.019502458213215747,
+        "low": -0.03049726878069935,
+        "observed": -0.024122137932078153
+      },
+      "chosen_depth_counts": {
+        "1": 148,
+        "2": 114,
+        "3": 117,
+        "4": 100,
+        "5": 155
+      },
+      "oracle_match": 0.2334384858044164,
+      "pair_accuracy": 1.0,
+      "score_error_spearman": 1.0
+    }
+  },
+  "leakage_attestation": {
+    "features": "aligned export x only",
+    "selection": "calibration exact-budget allocation_delta CI high, then observed delta",
+    "slurm_or_ssh": "not used",
+    "targets": "train option_error is converted to exact-budget oracle choices; eval option_error used only after score generation for metrics"
+  },
+  "not_claimed": [
+    "allocation closure",
+    "deployable policy",
+    "complete BEDC-native world model"
+  ],
+  "schema_id": "bedc_jepa.state_generation_episode_balanced",
+  "selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": -0.001515558590202323,
+          "low": -0.010393411862658348,
+          "observed": -0.005570466986453193
+        },
+        "chosen_depth_counts": {
+          "1": 145,
+          "2": 124,
+          "3": 122,
+          "4": 96,
+          "5": 159
+        },
+        "oracle_match": 0.35294117647058826,
+        "pair_accuracy": 0.6458204334365325,
+        "score_error_spearman": 0.38098842698921637
+      },
+      "epoch": 5,
+      "selection_key": [
+        -0.001515558590202323,
+        -0.005570466986453193
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.0025354524752072426,
+      "cal_delta_observed": -0.001958107759880784,
+      "cal_oracle_match": 0.3080495356037152,
+      "cal_spearman": 0.16706238589692182,
+      "epoch": 1.0,
+      "train_loss": 0.959674060344696
+    },
+    "history_last": {
+      "cal_delta_high": 0.004043672272284932,
+      "cal_delta_observed": -0.0025293916600178795,
+      "cal_oracle_match": 0.3668730650154799,
+      "cal_spearman": 0.47305310798212674,
+      "epoch": 180.0,
+      "train_loss": 0.34513735584914684
+    },
+    "params_count": 1336069,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta",
+    "steps_per_epoch": 16,
+    "train_episode_count": 167
+  },
+  "status": "ok",
+  "wall_time_sec": 110.49992275238037
+}

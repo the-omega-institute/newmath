@@ -1,0 +1,78 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.native_parity_candidate",
+  "device": "cuda",
+  "inputs": {
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "config": {
+    "epochs": 260,
+    "width": 768,
+    "depth": 4,
+    "batch": 512,
+    "lr": 0.0004,
+    "epsilon": 0.1,
+    "features": "latent window t-4:t, future action window, action validity, past LeWM gap proxy, time features"
+  },
+  "counts": {
+    "train": 1460,
+    "calibration": 494,
+    "eval": 539,
+    "eval_episodes": 55,
+    "input_dim": 1082,
+    "params": 2757312
+  },
+  "metrics": {
+    "native_mse": {
+      "observed": 1.0460990797136387,
+      "low": 0.9844564128082597,
+      "high": 1.1092287439312116
+    },
+    "lewm_mse": {
+      "observed": 0.06585754970423809,
+      "low": 0.06271866728089773,
+      "high": 0.06974159073259216
+    },
+    "trivial_mse": {
+      "observed": 1.2658700023302523,
+      "low": 1.1602208577627189,
+      "high": 1.362944540455937
+    },
+    "native_minus_lewm": {
+      "observed": 0.9802415300094005,
+      "low": 0.9150571166003879,
+      "high": 1.0439001295477315
+    },
+    "native_minus_trivial": {
+      "observed": -0.2197709226166139,
+      "low": -0.27463850065729295,
+      "high": -0.16797298039531833
+    }
+  },
+  "parity_gate": {
+    "threshold": 0.0724433046746619,
+    "margin": -0.9736557750389768,
+    "pass": false,
+    "native_to_lewm_ratio": 15.884269676166221
+  },
+  "health": {
+    "best_cal_mse": 1.082960386775275,
+    "history_first": {
+      "epoch": 1.0,
+      "train": 0.4947200119495392,
+      "cal_mse": 1.4992362039007716
+    },
+    "history_last": {
+      "epoch": 260.0,
+      "train": 0.012926353452106317,
+      "cal_mse": 1.0838174417880044
+    }
+  },
+  "leakage_attestation": {
+    "standardizers": "fit on train split only",
+    "selection": "best epoch selected by calibration next-latent MSE",
+    "eval_truth_usage": "eval target latent used only after model selection",
+    "lewm_reference": "exported pred-vs-emb next-latent MSE on the same eval transitions"
+  },
+  "wall_time_sec": 17.042612314224243
+}

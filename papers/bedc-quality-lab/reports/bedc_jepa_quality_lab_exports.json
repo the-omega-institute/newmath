@@ -1,0 +1,157 @@
+{
+  "exports": [
+    {
+      "artifacts": {
+        "manifest": "reports/bedc_jepa_artifact_manifest.json",
+        "native_metric_contract": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+        "native_metric_template": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+        "paper": "papers/bedc_jepa/main.pdf",
+        "paper_source": "papers/bedc_jepa/main.tex",
+        "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
+        "readiness": "reports/bedc_jepa_readiness.json",
+        "review_bundle": "reports/bedc_jepa_review_bundle.json"
+      },
+      "claim_id": "bedc-jepa.ledgered-world-state-learning",
+      "claimed_layer": "world_model_readback",
+      "classifier_spec": {
+        "native_metric_contract_status": "contract_ready",
+        "native_metric_template_status": "recorded",
+        "official_vjepa2_ac_status": "not_evaluated",
+        "readiness_decision": "external_bundle_ready",
+        "review_status": "review_ready"
+      },
+      "export_status": "review_ready",
+      "fact_owner": {
+        "owner": "bedc_quality_lab.bedc_jepa_quality_lab_export",
+        "source_records": [
+          "reports/bedc_jepa_review_bundle.json",
+          "reports/bedc_jepa_readiness.json"
+        ]
+      },
+      "ledger_rows": [
+        {
+          "evidence_pointer": "reports/bedc_jepa_readiness.json:$.remaining_evidence_contracts.vjepa2_ac_native_reproduction",
+          "kind": "mechanism",
+          "owner": "bedc_quality_lab.bedc_jepa_quality_lab_export",
+          "residue": "official-vjepa2-ac-benchmark-reproduction",
+          "severity": "boundary",
+          "status": "open"
+        },
+        {
+          "evidence_pointer": "reports/bedc_jepa_public_baseline_native_metric_contract.json",
+          "kind": "mechanism",
+          "owner": "bedc_quality_lab.bedc_jepa_quality_lab_export",
+          "residue": "public-baseline-native-metric-contract",
+          "severity": "none",
+          "status": "closed"
+        },
+        {
+          "evidence_pointer": "reports/bedc_jepa_public_baseline_native_metric_template.json",
+          "kind": "mechanism",
+          "owner": "bedc_quality_lab.bedc_jepa_quality_lab_export",
+          "residue": "public-baseline-native-metric-template",
+          "severity": "none",
+          "status": "closed"
+        },
+        {
+          "evidence_pointer": "reports/bedc_jepa_retraining_loss_ablation.json",
+          "kind": "mechanism",
+          "owner": "bedc_quality_lab.bedc_jepa_quality_lab_export",
+          "residue": "true-retraining-loss-ablation",
+          "severity": "none",
+          "status": "closed"
+        },
+        {
+          "evidence_pointer": "reports/bedc_jepa_public_minigrid_calibration_extension.json:$.summary.total_debt_direction_win_rate",
+          "kind": "calibration",
+          "owner": "bedc_quality_lab.bedc_jepa_quality_lab_export",
+          "residue": "public-minigrid-total-debt-direction",
+          "severity": "boundary",
+          "status": "open"
+        },
+        {
+          "evidence_pointer": "reports/bedc_jepa_public_minigrid_calibration_extension.json:$.summary.risk_reduction_win_rate",
+          "kind": "planning",
+          "owner": "bedc_quality_lab.bedc_jepa_quality_lab_export",
+          "residue": "public-minigrid-risk-success-tradeoff",
+          "severity": "boundary",
+          "status": "partial"
+        },
+        {
+          "evidence_pointer": "reports/bedc_jepa_public_minigrid_calibration_extension.json:$.summary.silent_debt_direction_win_rate",
+          "kind": "calibration",
+          "owner": "bedc_quality_lab.bedc_jepa_quality_lab_export",
+          "residue": "public-minigrid-silent-debt-direction",
+          "severity": "boundary",
+          "status": "partial"
+        }
+      ],
+      "metrics": {
+        "full_retraining_loss_ablation_closed": 1.0,
+        "native_minigrid_sample_count": 256.0,
+        "native_planning_high_gap_reduction": 0.6875,
+        "native_unlogged_error_reduction": 0.125,
+        "public_baseline_native_metric_contract_recorded": 1.0,
+        "public_baseline_native_metric_template_recorded": 1.0,
+        "public_minigrid_calibration_executed_row_count": 75.0,
+        "public_minigrid_calibration_risk_reduction_mean": 0.4828479853479854,
+        "public_minigrid_calibration_row_count": 75.0,
+        "public_minigrid_calibration_source_gap_row_count": 0.0,
+        "public_minigrid_calibration_total_debt_direction_win_rate": 0.28,
+        "seed_sweep_unlogged_error_win_rate": 0.6,
+        "vjepa2_ac_latent_prediction_score": 0.9812458076166543,
+        "vjepa2_ac_lccp_claim_count": 5.0
+      },
+      "not_claimed": [
+        "public benchmark superiority",
+        "official V-JEPA2-AC benchmark reproduction",
+        "robotics benchmark result",
+        "large-scale real-world conclusion",
+        "formal neural-network proof",
+        "natural-language semantic grounding"
+      ],
+      "packet_id": "bedc-jepa-ledgered-world-state",
+      "pattern_spec": {
+        "planning": "risk-constrained and gap-aware planning accounting",
+        "readback": "distinction and gap ledger readout",
+        "systems": [
+          "S0",
+          "S1",
+          "S2",
+          "S3"
+        ],
+        "world_state_contract": "continuous latent state plus operational distinctions plus gap ledger"
+      },
+      "source_spec": {
+        "can_test": [
+          "boundary-gated latent recovery",
+          "operational distinction readback",
+          "gap-ledger readback",
+          "public MiniGrid DoorKey readback",
+          "fixed-checkpoint V-JEPA2-AC MiniGrid readback"
+        ],
+        "cannot_test": [
+          "official V-JEPA2-AC benchmark reproduction",
+          "public benchmark superiority",
+          "robotics-scale control",
+          "natural-language grounding",
+          "global latent interpretability"
+        ],
+        "evidence_records": [
+          "reports/bedc_jepa_review_bundle.json",
+          "reports/bedc_jepa_readiness.json",
+          "reports/bedc_jepa_artifact_manifest.json",
+          "reports/bedc_jepa_quality_backend_candidate.json"
+        ]
+      },
+      "stability_spec": {
+        "native_public_benchmark": "closed",
+        "population_claim": false,
+        "sample_scope": "bounded evidence packet",
+        "seed_sweep_count": 5.0
+      }
+    }
+  ],
+  "generated_at": "pipeline-generated",
+  "schema_id": "bedc-jepa:quality-lab-exports"
+}
