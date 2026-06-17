@@ -168,3 +168,13 @@ budget-three capture $-0.8038$, and hard mean regret $0.0581$, worse than the
 base perturbation-value learner's hard mean capture $-0.0681$.  Thus the
 remaining missing variable is not generic episode/depth calibration; it is a
 hard-regime assignment mechanism.
+
+The assignment-mechanism label audit identifies that mechanism more directly.
+Held-out hard episodes have higher forced-delta concentration than non-hard
+episodes: the top-decile forced-delta mass fraction shifts by $+0.1519$, and
+the forced-delta IQR shifts by $+0.0713$.  The perturbation-value learner also
+selects higher-cost forced options on hard episodes, with selected forced-delta
+mean shifted by $+0.1149$, while selected-minus-oracle regret shifts by
+$+0.0318$.  Depth-count mismatch alone is not the hard signature; concentrated
+forced replacement value and costly selected forced options are.  This supplies
+a concrete mechanism-label target for the next allocation learner.
