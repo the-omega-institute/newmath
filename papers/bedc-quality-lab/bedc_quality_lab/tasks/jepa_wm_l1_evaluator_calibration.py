@@ -23,7 +23,7 @@ DEFAULT_GENERATED_AT = admission.DEFAULT_GENERATED_AT
 DEFAULT_SEED = admission.DEFAULT_SEED
 DEFAULT_CASE_COUNT = admission.DEFAULT_CASE_COUNT
 DEFAULT_BOOTSTRAP_RESAMPLES = admission.DEFAULT_BOOTSTRAP_RESAMPLES
-CALIBRATION_ARM_ORDER = ("raw", "frozen-probe", "oracle", "label-shuffle")
+CALIBRATION_ARM_ORDER = ("raw", "zero-index-baseline", "oracle", "label-shuffle")
 VALIDATION_GATE_KEYS = (
     "status",
     "criterion",
@@ -43,7 +43,7 @@ def fixture_encoded_surface(batch: admission.RankCaseBatch) -> admission.Encoded
     return admission.EncodedRankSurface(contexts=contexts, candidates=candidates)
 
 
-def frozen_probe_cells(batch: admission.RankCaseBatch) -> np.ndarray:
+def zero_index_baseline_cells(batch: admission.RankCaseBatch) -> np.ndarray:
     predicted = np.zeros_like(batch.true_indices)
     return (predicted == batch.true_indices).astype(np.float64)
 
@@ -101,19 +101,19 @@ def evaluate_calibration_arms(
     raw_cells = np.asarray(raw_rank["correct"], dtype=np.float64)
     arm_cells = {
         "raw": raw_cells,
-        "frozen-probe": frozen_probe_cells(batch),
+        "zero-index-baseline": zero_index_baseline_cells(batch),
         "oracle": oracle_cells(batch),
         "label-shuffle": label_shuffle_cells(batch, seed=seed),
     }
     scorers = {
         "raw": "admission.evaluate_encoded_rank_cases",
-        "frozen-probe": "metadata-linear-probe-without-training",
+        "zero-index-baseline": "always-index-zero-baseline",
         "oracle": "true-label-upper-bound",
         "label-shuffle": "shuffled-label-negative-control",
     }
     pointers = {
         "raw": "$.raw_admission",
-        "frozen-probe": "$.calibration_inputs.frozen_probe",
+        "zero-index-baseline": "$.calibration_inputs.zero_index_baseline",
         "oracle": "$.calibration_inputs.oracle",
         "label-shuffle": "$.calibration_inputs.label_shuffle",
     }
@@ -248,7 +248,7 @@ def build_payload(
         "calibration_inputs": {
             "rank_case_source": "admission.make_rank_cases",
             "encoded_surface_source": "fixture_encoded_surface",
-            "frozen_probe": {"status": "deterministic", "training": "none"},
+            "zero_index_baseline": {"status": "deterministic", "prediction_rule": "always index zero"},
             "oracle": {"status": "deterministic", "label_access": "true_index"},
             "label_shuffle": {"status": "deterministic", "seed": int(seed + 1542)},
         },

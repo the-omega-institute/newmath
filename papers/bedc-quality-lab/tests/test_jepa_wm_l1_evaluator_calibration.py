@@ -46,7 +46,7 @@ def test_four_arm_calibration_has_one_gate_shape_for_every_scorer():
 
     assert [arm["arm_id"] for arm in payload["calibration_arms"]] == [
         "raw",
-        "frozen-probe",
+        "zero-index-baseline",
         "oracle",
         "label-shuffle",
     ]
@@ -64,6 +64,7 @@ def test_four_arm_calibration_has_one_gate_shape_for_every_scorer():
         )
     }
     by_arm = {arm["arm_id"]: arm for arm in payload["calibration_arms"]}
+    assert by_arm["zero-index-baseline"]["scorer"] == "always-index-zero-baseline"
     assert by_arm["oracle"]["validation_gate"]["status"] == "pass"
     assert by_arm["label-shuffle"]["validation_gate"]["status"] == "fail"
     assert payload["hardgate"]["status"] == "diagnostic-only"

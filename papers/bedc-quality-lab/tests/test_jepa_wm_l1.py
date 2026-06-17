@@ -116,6 +116,36 @@ def test_loaded_encoder_payload_records_candidate_pass_when_rank_and_controls_cl
     assert payload["hardgate"]["gates"]["CONTROL"]["status"] == "pass"
 
 
+def test_loaded_encoder_payload_records_control_failure_after_base_chance_pass(monkeypatch):
+    failing_controls = {
+        "status": "fail",
+        "failure_rule": "any control above empirical chance band fails the hardgate",
+        "failed_controls": ["metadata_only"],
+        "controls": {
+            "metadata_only": {"status": "pass"},
+            "no_context": {"status": "fail"},
+            "shuffled_demo": {"status": "fail"},
+        },
+    }
+    monkeypatch.setattr(task, "evaluate_controls", lambda *_args, **_kwargs: failing_controls)
+
+    payload = _loaded_payload(monkeypatch, context_mode="aligned")
+
+    assert payload["weight_acquisition"]["status"] == "loaded"
+    assert payload["rank_eval"]["sample_count"] == 128
+    assert payload["rank_eval"]["top1_accuracy"] == 1.0
+    assert payload["base_chance_gate"]["status"] == "pass"
+    assert payload["anti_triviality_controls"] == failing_controls
+    assert payload["execution_status"] == "bounded_negative"
+    assert payload["failed_gate"] == "CONTROL"
+    assert payload["claim_boundary"] == {"status": "bounded_negative", "failed_gate": "CONTROL"}
+    assert payload["positive_claim"] == {"status": "bounded-negative", "positive_discovery": False, "level": "DN"}
+    assert payload["hardgate"]["status"] == "fail"
+    assert payload["hardgate"]["gates"]["WEIGHT"]["status"] == "pass"
+    assert payload["hardgate"]["gates"]["BASE-CHANCE"]["status"] == "pass"
+    assert payload["hardgate"]["gates"]["CONTROL"]["status"] == "fail"
+
+
 def test_gate_uses_ci_low_against_empirical_chance_ci_high_plus_margin():
     gate = task.base_chance_gate(
         base_cells=np.asarray([1.0] * 90 + [0.0] * 10),
