@@ -56,6 +56,24 @@ The finite NameCert surface of \autoref{thm:approximation-tower-finite-namecert-
 Finally the structural rows $H,C,P,N$ preserve that same route for downstream consumers. The source vision supplies orientation for the packet, but it does not replace the concrete sibling rows; hence any read that skips $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ leaves the accepted $\ApproximationTowerUp$ surface.
 \end{proof}
 
+\begin{theorem}[ApproximationTower obligation closure]
+\label{thm:approximation-tower-obligation-closure}
+For every accepted $\ApproximationTowerUp$ carrier $A=(L,W,D,R,E,H,C,P,N)$, the packet supplies the five required NameCert obligation rows for the tower route: carrier admission for finite levels, window exposure through $\StreamNameUp$, dyadic tolerance exactness through $\DyadicRatCoreUp$, $\RegSeqRatUp$ readback, $\RealUp$ seal handoff, and structural transport, replay, provenance, and naming nonescape through $H,C,P,N$.
+
+The obligations are exactly the visible rows of the carrier. They do not add a hidden source, quotient stream equality, selected limit point, ambient completeness theorem, physical-adequacy classifier, or external approximation oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:approximation-tower-carrier}. The finite level ledger $L$ supplies carrier admission for displayed stages, and the window row $W$ exposes only the finite $\StreamNameUp$ observations available at those stages.
+
+The dyadic row $D$ supplies tolerance exactness, while $R$ supplies the regular rational readback attached to the same displayed windows. The real seal $E$ is downstream from those rows by \autoref{thm:approximation-tower-l10-sibling-route}.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the same finite surface. By \autoref{thm:approximation-tower-finite-namecert-surface}, the carrier has no additional coordinate, so the listed obligations exhaust the accepted $\ApproximationTowerUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ApproximationTowerUp$ read exposes finite level admission, StreamNameUp windows, DyadicRatCoreUp tolerances, RegSeqRatUp readback, RealUp sealing, transport, replay, provenance, and local NameCert before any tower level is consumed.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, approximationtowerresidue: $\ApproximationTowerUp$ is not bijective to any listed sibling because it jointly carries finite level admission, windows, tolerances, readback, Real sealing, transport, replay, provenance, and local naming as one tower packet.}
+
 \closureat{ApproximationTowerUp}{seedStr}
 
 \begin{closurestatus}{\ApproximationTowerUp}
