@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCoverUniformModulusEnvelopeUp$}
+\label{ch:concrete-instances-finite-cover-uniform-modulus-envelope-namecert}
+\origin{human}
+
+Following Bishop-style finite-cover proofs of uniform continuity on compact metric data, the $\FiniteCoverUniformModulusEnvelopeUp$ packet records the finite envelope needed by constructive compact-continuous consumers. It reads compact metric finite-net data from \autoref{ch:concrete-instances-compactmetric-namecert}, total-bounded schedules from \autoref{ch:concrete-instances-totallybounded-namecert}, continuous-map pointwise rows from \autoref{ch:concrete-instances-continuousmap-namecert}, and formal-ball tolerances from \autoref{ch:concrete-instances-formalball-namecert}. The envelope is a displayed finite cover and modulus route, not an open-cover compactness theorem and not a host continuity principle.
+
+\begin{definition}[Finite-cover uniform modulus envelope carrier]
+\label{def:finite-cover-uniform-modulus-envelope-carrier}
+A $\FiniteCoverUniformModulusEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+U=(K,T,F,B,M,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ finite compact source row.
+\item $T$ is the $\TotallyBoundedUp$ finite schedule row selecting the inspected cover cells.
+\item $F$ is the $\ContinuousMapUp$ pointwise continuity row read at the selected cells.
+\item $B$ is the $\FormalBallUp$ tolerance and containment row for the cover cells.
+\item $M$ is the displayed uniform modulus envelope extracted from $K,T,F,B$.
+\item $W$ is the finite window ledger tying the cover cells, pointwise moduli, and output modulus to one read.
+\item $H$ records componentwise $\hsame$ transport for the displayed rows.
+\item $C$ records the $\Cont$ replay from compact source to finite cover, pointwise continuity, formal-ball tolerance, and modulus envelope.
+\item $P$ is the $\Pkg$ provenance over $\CompactMetricUp$, $\TotallyBoundedUp$, $\ContinuousMapUp$, $\FormalBallUp$, $\BHist$, $\hsame$, $\Cont$, and the local naming row.
+\item $N$ is the local $\NameCert_{\FiniteCoverUniformModulusEnvelopeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, countable choice, selected subsequences, host semantic continuity, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite-cover uniform modulus envelope NameCert obligations]
+\label{thm:finite-cover-uniform-modulus-envelope-namecert-obligations}
+For the carrier of \autoref{def:finite-cover-uniform-modulus-envelope-carrier}, the local $\NameCert_{\FiniteCoverUniformModulusEnvelopeUp}$ surface consists of carrier admission for $U$; finite cover visibility through $\CompactMetricUp$ and $\TotallyBoundedUp$ rows; pointwise continuity and formal-ball tolerance visibility through $\ContinuousMapUp$ and $\FormalBallUp$ rows; componentwise transport and replay stability through $H,C,P$; and nonescape from open-cover compactness, countable choice, selected-subsequence, host-continuity, and completeness routes.
+\end{theorem}
+\begin{proof}
+Carrier admission exposes the finite packet $U=(K,T,F,B,M,W,H,C,P,N)$. The compact and total-bounded rows supply only displayed finite cover data, and the continuous-map and formal-ball rows supply only pointwise and tolerance reads.
+
+The modulus envelope $M$ is read through the window ledger $W$ and replay row $C$. Transport in $H$ and provenance in $P$ keep that read attached to the same finite packet and local name.
+
+No excluded principle has a carrier coordinate. Thus open-cover compactness, countable choice, selected subsequences, host semantic continuity, and $\RealUp$ completeness are outside the exported NameCert surface.
+\end{proof}
+\leandef{BEDC.Derived.FiniteCoverUniformModulusEnvelopeUp}
+
+\begin{theorem}[Finite-cover uniform modulus consumer route]
+\label{thm:finite-cover-uniform-modulus-envelope-consumer-route}
+Every constructive compact-continuous consumer of an accepted $\FiniteCoverUniformModulusEnvelopeUp$ packet must read the compact source row $K$, total-bounded schedule $T$, continuous-map row $F$, formal-ball tolerance $B$, modulus envelope $M$, finite window ledger $W$, transport $H$, replay $C$, provenance $P$, and local name $N$ before treating the packet as a uniform-modulus source.
+\end{theorem}
+\begin{proof}
+Read the carrier rows of \autoref{def:finite-cover-uniform-modulus-envelope-carrier}. The compact source, total-bounded schedule, continuous-map row, and formal-ball tolerance are the only inputs to the displayed envelope.
+
+Apply \autoref{thm:finite-cover-uniform-modulus-envelope-namecert-obligations}. It binds those rows to $M,W,H,C,P,N$ as one local NameCert route.
+
+Therefore a consumer can use the packet as a uniform-modulus source only by following the displayed route. Any appeal to open-cover compactness, countable choice, selected subsequences, host semantic continuity, or completeness has no exported row.
+\end{proof}
+
+\closureat{FiniteCoverUniformModulusEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCoverUniformModulusEnvelopeUp}
+  \constructivestory{A $\FiniteCoverUniformModulusEnvelopeUp$ packet is generated from CompactMetricUp finite cover data, TotallyBoundedUp schedules, ContinuousMapUp pointwise rows, FormalBallUp tolerances, a displayed modulus envelope, finite window ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cover-uniform-modulus-envelope-carrier}, \autoref{thm:finite-cover-uniform-modulus-envelope-namecert-obligations}, and \autoref{thm:finite-cover-uniform-modulus-envelope-consumer-route} seed the finite cover uniform modulus envelope.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.FiniteCoverUniformModulusEnvelopeUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, countable choice, selected subsequences, host semantic continuity, Real completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission and consumer-route exactness for the displayed $\CompactMetricUp$, $\TotallyBoundedUp$, $\ContinuousMapUp$, $\FormalBallUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.}
+\end{closurestatus}
