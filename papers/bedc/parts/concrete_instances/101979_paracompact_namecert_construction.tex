@@ -121,6 +121,7 @@ Concretely, every refinement consumer must read:
 \end{enumerate}
 No NameCert obligation for locally finite paracompact refinement is stored outside these displayed rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ParacompactUp.ParacompactCarrier\_refinement\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:paracompact-locally-finite-refinement-carrier}. The tuple displays the topology source, observation window, cover request, refinement family, local-finiteness ledger, coverage and containment ledger, normal-space and Urysohn rows, metric handoff, transport, replay, provenance, and local name.
 
@@ -141,6 +142,7 @@ $$
 $$
 whenever a finite-radius ledger is present, and the normal-space row remains mandatory for every separation-compatible export.
 \end{theorem}
+\leanchecked{BEDC.Derived.ParacompactUp.ParacompactCarrier\_metric\_normal\_route}
 \begin{proof}
 Start with $Q_{\mathrm{lf}}=(T,G,A,R,F,L,N,U,M,H,C,P,Z)$. The metric information available to the packet is exactly the handoff row $M$, so a metric consumer reads the displayed $\MetricUp$ source and any available $\FiniteLebesgueNumberUp$ finite-radius ledger before it can use a refinement export.
 
@@ -156,7 +158,8 @@ The replay and naming rows $H,C,P,Z$ preserve this order componentwise. With no 
 \begin{closurestatus}{\ParacompactUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:paracompact-carrier}, \autoref{thm:paracompact-namecert-obligations}, and \autoref{thm:paracompact-refinement-consumer-route} seed the finite L10 route from displayed open-cover requests through locally finite refinement ledgers into normal-space and metric consumer handoffs.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ParacompactUp.ParacompactCarrier\_refinement\_namecert\_obligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not close selected subcovers, arbitrary open-cover compactness, partition-of-unity closure, host complement selection, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, open-cover exposure, locally finite refinement exactness, coverage and containment exactness, normal-space compatibility, metric-or-finite-radius handoff, transport stability, and non-escape proofs for BEDC.Derived.ParacompactUp.}

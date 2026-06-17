@@ -6189,6 +6189,7 @@ import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
 import BEDC.Derived.IntervalHalvingUp
 import BEDC.Derived.IntervalHalvingUp.DyadicNestedHandoff
 import BEDC.Derived.IntervalHalvingUp.TasteGate
+import BEDC.Derived.IntervalImageConnectedUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
@@ -8079,6 +8080,8 @@ import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
+import BEDC.Derived.ParacompactUp.LocallyFiniteRefinement
+import BEDC.Derived.ParacompactUp.MetricNormalRoute
 import BEDC.Derived.ParacompactUp.NameCertObligations
 import BEDC.Derived.ParacompactUp.RefinementConsumerRoute
 import BEDC.Derived.ParacompactUp.TasteGate
@@ -9388,6 +9391,7 @@ import BEDC.Derived.RegularCauchyRepletionBoundaryUp
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
 import BEDC.Derived.RegularCauchyRingUp
 import BEDC.Derived.RegularCauchyRingUp.FiniteOperationInduction
+import BEDC.Derived.RegularCauchyRingUp.TasteGate
 import BEDC.Derived.RegularCauchyRingUp.TerminalSealDiscipline
 import BEDC.Derived.RegularCauchyRoundingProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
