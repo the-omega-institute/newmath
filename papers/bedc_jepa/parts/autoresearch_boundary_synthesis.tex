@@ -333,3 +333,26 @@ is not checked, and the target ceiling remains $1.000$.  Thus assignment-state
 summaries carry real signal relative to a symmetric non-mechanism control, but
 they remain a fail-closed learner audit rather than allocation closure or a
 complete BEDC-native world-model claim.
+
+Explicit per-budget bottlenecking does not repair that boundary.  A
+budget-conditioned assignment-bottleneck diagnostic trains separate non-leaky
+assignment-bottleneck learners for budgets two, three, and four, and compares
+them with a matched budget-conditioned non-mechanism control that sees the same
+projected inputs, budget exposure, target labels, ridge family, lambdas,
+calibration rule, and per-budget training schedule but omits learned
+assignment-state summaries.  Exact-budget cardinality is enforced for every
+row.  On the held-out hard slice, the budget-conditioned bottleneck has mean
+capture $-0.8344$, with budget-two, budget-three, and budget-four captures
+$-1.6711$, $-0.6113$, and $-0.2207$.  The matched budget-conditioned control
+has mean capture $-0.3072$, with captures $0.2380$, $-0.7388$, and $-0.4208$.
+Thus the bottleneck-control mean difference is $-0.5272$, not a repair.  The
+forced-delta label-prediction parity audit is also bounded: the mean
+bottleneck/control MSE ratio is $1.0358$, but budget four reaches $1.0959$ and
+fails the noninferiority tolerance, while hard label Spearman is lower for the
+bottleneck than for the control, $0.2273$ versus $0.3048$.  This negative audit
+sharpens the lesson from the partial bottleneck row: assignment-state summaries
+can be signal-bearing relative to one symmetric control, but the current
+budget-specific bottleneck factorization is not a deployable allocation repair.
+It is not allocation closure, not LeWorldModel next-latent prediction parity,
+not independent-export generalization, and not BEDC-native world-model
+capability.

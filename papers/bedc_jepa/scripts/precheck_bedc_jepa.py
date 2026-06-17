@@ -107,7 +107,8 @@ MECHANISM_TARGET_RE = re.compile(
     r"\b(?:mechanism[- ]aware\s+target|mechanism[- ]aware\s+assignment\s+target|"
     r"mechanism[- ]forced[- ]delta|oracle[- ]derived\s+target|"
     r"target\s+audit|target\s+ceiling|forced[- ]option\s+mechanism\s+labels|"
-    r"assignment[- ]bearing\s+bottleneck|assignment[- ]bottleneck\s+learner)\b",
+    r"assignment[- ]bearing\s+bottleneck|assignment[- ]bottleneck\s+learner|"
+    r"budget[- ]conditioned\s+bottleneck|budget[- ]conditioned\s+assignment\s+bottleneck)\b",
     re.IGNORECASE,
 )
 DEPLOYABLE_PROMOTION_RE = re.compile(
@@ -482,6 +483,7 @@ def check_mechanism_target_claim_boundary(files: list[Path]) -> list[str]:
         ("fi-091 claim grade", r"fi-091.*non-leaky\s+learner\s+partial.*not\s+all-budget\s+closed"),
         ("fi-099 claim grade", r"fi-099.*state-generation\s+fail-closed"),
         ("fi-100 claim grade", r"fi-100.*assignment-bearing\s+bottleneck\s+partial.*not\s+all-budget\s+closed"),
+        ("fi-101 claim grade", r"fi-101.*budget-conditioned\s+bottleneck\s+negative\s+repair\s+audit.*fail-closed"),
     )
     for label, pattern in required:
         if not re.search(pattern, normalized):
