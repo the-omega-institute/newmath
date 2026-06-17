@@ -170,6 +170,34 @@ theorem PaperLeanDriftWitness_resolution_exactness [AskSetup] [PackageSetup]
     ⟨mUnary, aUnary, lUnary, iUnary, exactUnary, replayUnary, exactRoute, replayRoute,
       namePkg, replayPkg⟩
 
+theorem PaperLeanDriftWitness_duplicate_label_priority [AskSetup] [PackageSetup]
+    {M A L I R H C P N duplicateRead verdictRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PaperLeanDriftWitnessCarrier M A L I R H C P N bundle pkg ->
+      Cont M L duplicateRead ->
+        Cont L I R ->
+          Cont duplicateRead R verdictRead ->
+            Cont verdictRead C auditRead ->
+              PkgSig bundle auditRead pkg ->
+                UnaryHistory duplicateRead ∧ UnaryHistory verdictRead ∧
+                  UnaryHistory auditRead ∧ Cont M L duplicateRead ∧ Cont L I R ∧
+                    Cont duplicateRead R verdictRead ∧ Cont verdictRead C auditRead ∧
+                      PkgSig bundle N pkg ∧ PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier duplicateRoute ledgerInventoryRoute verdictRoute auditRoute auditPkg
+  obtain ⟨mUnary, _aUnary, lUnary, iUnary, rUnary, _hUnary, cUnary, _pUnary, _nUnary,
+    _markerNameLedger, _ledgerInventoryVerdict, _verdictTransportConsumer, namePkg⟩ :=
+    carrier
+  have duplicateUnary : UnaryHistory duplicateRead :=
+    unary_cont_closed mUnary lUnary duplicateRoute
+  have verdictUnary : UnaryHistory verdictRead :=
+    unary_cont_closed duplicateUnary rUnary verdictRoute
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed verdictUnary cUnary auditRoute
+  exact
+    ⟨duplicateUnary, verdictUnary, auditUnary, duplicateRoute, ledgerInventoryRoute,
+      verdictRoute, auditRoute, namePkg, auditPkg⟩
+
 theorem PaperLeanDriftWitness_public_resolution_export [AskSetup] [PackageSetup]
     {M A L I R H C P N verdictRead auditRead publicRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
