@@ -626,7 +626,28 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
         parsed = result.get("response_json")
         task_status = str(parsed.get("status") or "") if isinstance(parsed, dict) else ""
         task_response = str(parsed.get("response") or "") if isinstance(parsed, dict) else ""
+        terminal_failure_statuses = {
+            "failed", "error", "errored", "cancelled", "canceled",
+            "extraction_failure", "dead", "timeout", "timed_out",
+        }
         if result.get("status") == "transport_success" and task_status != "completed":
+            if task_status.lower() in terminal_failure_statuses:
+                # Dead task -> clear pending_task_id so the lane self-recovers and
+                # submits a fresh query next cooldown (instead of polling it forever).
+                write_json(
+                    STATE_PATH,
+                    {
+                        **{k: v for k, v in state.items() if k != "pending_task_id"},
+                        "last_status": f"oracle_task_failed:{task_status}",
+                        "last_failed_task_id": pending_task_id,
+                        "last_check_ts": now_iso(),
+                    },
+                )
+                return {
+                    "ran": True,
+                    "reason": f"cleared_failed_task:{task_status}",
+                    "cleared_task_id": pending_task_id,
+                }
             write_json(
                 STATE_PATH,
                 {
