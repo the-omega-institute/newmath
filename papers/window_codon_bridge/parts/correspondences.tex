@@ -59,8 +59,8 @@ Edge Defect Axis Cert & The standard genetic code's local-edge-hiding deficit is
 Edge Defect Projection Harness & The SerSplit edge-defect projection audit has a deterministic 61-sense-codon harness: it builds forbidden controls from available codon-Q6 selection and codon-chemistry columns, residualizes candidate axes and the SerSplit contrast through the same matrix, detects only the forbidden positive control, and does not promote oracle output or local controls into biological evidence. & \texttt{certified} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.ser_island_fidelity_cost status=coincidence
 Ser Island Fidelity Cost & The Ser UCN/AGY split creates a code-table near-cognate error-cost asymmetry: UCN and AGY have different one-step missense/stop neighborhoods, and this asymmetry could seed a translation-fidelity selection route only if it is exceptional beyond matched codon-family nulls and later survives site-level expression/mistranslation tests. & \texttt{coincidence} \\
-% CLAIM_STATUS claim_id=bridge.genetic_code.synthetic.negative.control.axis.pack status=needs_rerun
-Pack & Use only in-repo deterministic codon features and seeded synthetic vectors to audit the common projection harness before any external candidate axis is attempted. This autonomous bridge claim is evaluated only by its registered deterministic experiment. & \texttt{needs\_rerun} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.synthetic.negative.control.axis.pack status=needs_derivation
+Pack & Use only in-repo deterministic codon features and seeded synthetic vectors to audit the common projection harness before any external candidate axis is attempted. This autonomous bridge claim is evaluated only by its registered deterministic experiment. & \texttt{needs\_derivation} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -453,13 +453,14 @@ certificate.
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_ser\_island\_fidelity\_cost.py
 
 \subsection{Pack}\label{sec:bridge-pack}
-% CLAIM_DETAIL claim_id=bridge.genetic_code.synthetic.negative.control.axis.pack status=needs_rerun
+% CLAIM_DETAIL claim_id=bridge.genetic_code.synthetic.negative.control.axis.pack status=needs_derivation
 \textbf{Statement.} Use only in-repo deterministic codon features and seeded synthetic vectors to audit the common
 projection harness before any external candidate axis is attempted. This autonomous bridge claim is
 evaluated only by its registered deterministic experiment.
 
-\textbf{Verdict.} \texttt{needs\_rerun}.
+\textbf{Verdict.} \texttt{needs\_derivation}.
 
-\textbf{Why.} autonomous derivation registered after verify-before-merge.
+\textbf{Why.} the forbidden-control matrix makes the SerSplit contrast non-testable, so this negative-control pack
+cannot audit projection selectivity.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_synthetic\_negative\_control\_axis\_pack.py
