@@ -2689,6 +2689,7 @@ import BEDC.Derived.ClosedSubstitutionBoundaryUp.SubstituteInertnessRoute
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
+import BEDC.Derived.ClosedTermContextSealUp
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditBoundaryFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditNonescape
