@@ -514,7 +514,29 @@
       "hypothesis_level": "H0",
       "linked_conjecture_id": "window6.clock-gauge-invariant.c10-orbit-observables",
       "phase": 1,
-      "statement": "For cyclic no-adjacent-1 binary words P_n with |P_n|=L_n, quotienting by the C_n rotation gauge gives the basepoint-independent golden-clock necklace count |P_n/C_n|=(1/n) sum_{d|n} phi(n/d) L_d by Burnside orbit counting. The executable certificate verifies the closed form by exact enumeration for n=2..14. The Window6 clock n=10 is the instance |P_10/C_10|=15, with orbit-size spectrum {1:1,2:1,5:2,10:11}; Burnside's n=10 fixed-count sum is 150 and the spectrum sums back to |P_10|=123. This is the finite gauge-invariant content that survives the free-basepoint no-go: the seam residue/basepoint is not forward-determined, but the orbit-count family law is forward finite combinatorial content. Physical alpha is not claimed.",
+      "statement": "For cyclic no-adjacent-1 binary words P_n with |P_n|=L_n, quotienting by the C_n rotation gauge gives the basepoint-independent golden-clock necklace count |P_n/C_n|=(1/n) sum_{d|n} phi(n/d) L_d by Burnside orbit counting. Moreover the orbit-size spectrum, counting orbits of each exact size d|n, is the primitive/aperiodic golden-necklace count a(d)=(1/d) sum_{e|d} mu(d/e) L_e, the Mobius inversion of Lucas. The executable certificate verifies both formulas by exact enumeration for n=2..14, with the dual identities orbit_count=sum_{d|n} a(d) and L_n=sum_{d|n} d*a(d). The Window6 clock n=10 is the instance |P_10/C_10|=15, with spectrum {1:1,2:1,5:2,10:11}=a(d); Burnside's n=10 fixed-count sum is 150 and the spectrum sums back to |P_10|=123. Together these give the complete gauge-invariant golden-necklace structure: total count by Burnside-Lucas and primitive decomposition by Mobius-Lucas. Physical alpha is not claimed.",
+      "status": "open"
+    },
+    {
+      "claim_id": "window6.clock-gauge-invariant.weight-refined-necklace-polynomial.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "window6.clock-gauge-invariant.c10-orbit-observables.certificate",
+        "window6.clock-coupling-cert.basepoint-free-gauge.certificate",
+        "window6.cyclic-golden-10-clock.phi10-forward-coupling-needs-external.certificate"
+      ],
+      "experiment_id": "verify-window6-weight-refined-necklace-polynomial",
+      "forbidden_claims": [
+        "The weight-refined golden-necklace polynomial certificate does not identify the fine-structure constant or any physical/external interpretation.",
+        "The certificate does not claim the basepoint residue itself as forward-determined; the no-go stands.",
+        "The certificate does not duplicate the unweighted Burnside-Lucas orbit count; N_n(1) is only the specialization.",
+        "The certificate does not duplicate the Mobius-Lucas orbit-size spectrum; it grades quotient orbits by Hamming weight rather than by orbit size."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.clock-gauge-invariant.weight-refined-necklace-polynomial",
+      "phase": 1,
+      "statement": "For cyclic no-adjacent-1 binary words P_n with |P_n|=L_n under the C_n rotation gauge, the weight-refined golden-necklace polynomial N_n(y)=sum_w #{rotation orbits in P_n with Hamming weight w} y^w is a gauge-invariant weight-graded refinement of the golden-necklace quotient. It satisfies N_n(1)=|P_n/C_n|, uses the cyclic weight enumerator W(g,0)=1 and W(g,s)=g/(g-s) C(g-s,s) for s>=1, with sum_s W(g,s)=L_g as a weight-refinement of Lucas, and obeys the Burnside formula N_n(y)=(1/n) sum_{g|n} phi(n/g) sum_s W(g,s) y^((n/g)s). Exact local enumeration verifies the brute orbit-by-weight polynomial, the W(g,s) formula, the Lucas weight sums, and the Burnside polynomial identity for n<=12. The Window6 clock instance is N_10(y)=1+y+4y^2+5y^3+3y^4+y^5, so N_10(1)=15, with W(10,*)=[1,10,35,50,25,2] and sum_s W(10,s)=123=L_10. This is gauge-invariant weight-graded forward content distinct from the unweighted Burnside-Lucas orbit count and from the Mobius-Lucas orbit-size spectrum. Physical alpha is not claimed.",
       "status": "open"
     }
   ],
