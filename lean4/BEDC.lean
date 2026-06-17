@@ -3947,6 +3947,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaRhDependencyCertificate
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRouteCarrierSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ZetaSiblingRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZetaStripModulusTotality
+import BEDC.Derived.CriticalLineWitnessUp.ZetaZeroBoundary
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.BoundaryLedgerNonescape
