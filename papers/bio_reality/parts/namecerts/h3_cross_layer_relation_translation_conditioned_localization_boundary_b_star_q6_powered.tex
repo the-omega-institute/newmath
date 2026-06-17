@@ -1,40 +1,85 @@
 \origin{ai}
-\subsection{Translation-conditioned localization boundary for $B^{\ast}_{Q6}$ residuals}
-\label{sec:bioreality-q6-translation-conditioned-localization-boundary}
 
-\paragraph{Finite row carrier.}
-This record studies a finite coding-sequence surface whose coordinates combine synonymous $B^{\ast}_{Q6}$ residuals, matched translation readouts, mRNA controls, and a downstream protein-localization slot.  The residual coordinate is not treated as a localization measurement.  It is first required to survive the amino-acid quotient and then to pass through a translation-readout boundary before any localization readback is interpreted.  The intended local relation is therefore the gated chain $q_i \to T_j \to L_k$, where $q_i$ is a synonymous residual coordinate, $T_j$ is a translation-layer readout or explicitly bounded translation proxy, and $L_k$ is a matched localization label or measurement.  In the absence of a matched localization contact, the chain is read as a null boundary rather than as a biological localization assertion.
+\subsection{Translation-conditioned protein-localization boundary for $B^{\ast}_{Q6}$ residuals}
+\label{subsec:biorreality-q6-translation-conditioned-localization-boundary}
 
-\paragraph{Observed finite matrix.}
-The powered row for this claim is experiment run \texttt{ab861f8b1269}, with status \texttt{passed}, seed \texttt{sha256:93467a1602ce6c3d589b8b5452f233689fb87fa1bbc0f686694db4bb01da7b1f}, and a five-fold held-out design.  The classifier is a standard-library linear discriminant analysis with train-fold z-scoring and a ridge shared covariance estimate.  Localization rows were joined for three organisms:
+\paragraph{Finite surface.}
+This record studies a finite CDS-indexed surface in which the coordinate side is a family of $B^{\ast}_{Q6}$ synonymous residual coordinates and the readout side is split into three non-interchangeable layers: matched translation readouts, matched mRNA controls, and a downstream protein-localization slot. The intended readback is not a direct arrow from codon residual geometry to localization. It is the gated chain
 $$
 \begin{aligned}
-N_{\mathrm{Danio\ rerio}} &= 1908,\\
-N_{\mathrm{Homo\ sapiens}} &= 10187,\\
-N_{\mathrm{Saccharomyces\ cerevisiae}} &= 4304.
+q_i \longrightarrow T_j \longrightarrow L_k,
 \end{aligned}
 $$
-Across the three organism rows, the direct $B^{\ast}_{Q6}$ localization discrimination surface has positive macro-AUC increments in all three cases and positive accuracy increments in two of three cases.  Its accuracy increment ranges from $-0.008385744234800874$ to $0.045548247766761585$, with mean $0.022068418153776248$ and median $0.029042750929368033$.  Its macro-AUC increment ranges from $0.073410178078059$ to $0.08299262296923093$, with mean $0.07848683797295208$ and median $0.07905771287156632$.
+where $q_i$ is a surviving $B^{\ast}_{Q6}$ residual coordinate, $T_j$ is a translation-layer readout or an explicitly bounded translation proxy, and $L_k$ is a matched protein-localization readout. The amino-acid quotient is imposed before the higher-layer question is asked: a synonymous residual coordinate is considered only after amino-acid composition has been separated from the codon-level residue. The translation leg and the localization leg are therefore different tests, not two names for the same association.
 
-\paragraph{Translation-conditioned readback.}
-The translation-conditioned boundary verdict is \texttt{partial}.  The organism-level calls contain one row classified as crossing to the localization layer and two rows classified as partial.  The translation-conditioned increment is consistently positive across the three organism rows: accuracy has minimum $0.017295597484276726$, median $0.02257779522921366$, mean $0.023049495216764453$, and maximum $0.02927509293680297$, while macro-AUC has minimum $0.015494311048138809$, median $0.021959648901327622$, mean $0.021063283115180725$, and maximum $0.02573588939607574$.  Thus the finite row supports a bounded statement: after a translation-readout conditioning step, the residual surface retains a small but nonzero held-out localization signal in this joined panel.
+\paragraph{Observed finite rows.}
+The powered run attached to this record has run identifier \texttt{ab861f8b1269} and was verified at \texttt{2026-06-17T15:54:50+00:00}. It used a standard-library linear discriminant classifier with train-fold z-scoring and ridge shared covariance, evaluated with $5$ folds. The joined localization rows were $1908$ CDS records for \textit{Danio rerio}, $10187$ for \textit{Homo sapiens}, and $4304$ for \textit{Saccharomyces cerevisiae}. Thus the surface is not an abstract promise of a future assay: it contains a concrete three-organism finite panel, but the panel remains small at the organism level, with $n=3$ organism summaries for the cross-organism verdict.
 
-\paragraph{Control-sensitive refusal.}
-The stronger control surface blocks promotion to a stable localization claim.  After translation, length, amino-acid, and GC conditioning, the accuracy increment ranges from $-0.010482180293501064$ to $0.010455390334572545$, with mean $-0.000008929986309506402$ and median $0$.  The macro-AUC increment is negative in all three organism rows, with maximum $-0.0008777321759119161$, median $-0.000877887947320577$, mean $-0.001407768101771234$, and minimum $-0.002467684182081209$.  Only one of three rows has positive accuracy under this stronger conditioning, and zero of three rows have positive macro-AUC.  The finite result is therefore not a direct localization law.  It is a localization-boundary readback whose positive signal is visible before the strongest conditioning surface, but not stable enough to license a mechanism or compartment-level interpretation.
-
-\paragraph{Local mathematical form.}
-Let $Z$ denote the control block containing amino-acid composition, organism, GC3, coding-sequence length, $M$-density, and matched mRNA control when available.  The admissible test is the conditional comparison
+\paragraph{Direct localization discrimination.}
+When $B^{\ast}_{Q6}$ residual coordinates are used to discriminate localization labels on held-out folds, the finite summary is positive for macro-AUC in all three organism summaries and positive for accuracy in two of three. The accuracy increment range is
 $$
 \begin{aligned}
-q_i &\rightsquigarrow T_j \mid Z,\\
-(q_i,T_j) &\rightsquigarrow L_k \mid Z,\\
-q_i &\not\rightsquigarrow L_k \quad \hbox{unless the translation boundary is first retained or explicitly conditioned.}
+\Delta\mathrm{Acc}_{\min} &= -0.008385744234800874,\\
+\Delta\mathrm{Acc}_{\mathrm{mean}} &= 0.022068418153776248,\\
+\Delta\mathrm{Acc}_{\mathrm{median}} &= 0.029042750929368033,\\
+\Delta\mathrm{Acc}_{\max} &= 0.045548247766761585,
 \end{aligned}
 $$
-The observed run gives partial support for the middle line only in the restricted sense of a held-out classifier increment on joined localization rows.  It does not show that $q_i$ by itself is a localization determinant, and it does not show that the translation readout mechanistically causes localization.
+and the macro-AUC increment range is
+$$
+\begin{aligned}
+\Delta\mathrm{AUC}_{\min} &= 0.073410178078059,\\
+\Delta\mathrm{AUC}_{\mathrm{mean}} &= 0.07848683797295208,\\
+\Delta\mathrm{AUC}_{\mathrm{median}} &= 0.07905771287156632,\\
+\Delta\mathrm{AUC}_{\max} &= 0.08299262296923093.
+\end{aligned}
+$$
+These numbers support a bounded statement: the residual coordinates carry some held-out information about localization labels in this finite panel. They do not by themselves identify a trafficking route, a compartment-selection mechanism, a folding pathway, or a universal codon-to-localization law.
 
-\paragraph{Boundary of interpretation.}
-The contact classes used here separate codon-usage summaries, modeled codon-adaptation weights, ribosome-profiling or translation-efficiency routes, and matched mRNA controls from the localization endpoint.  Modeled tAI or stAI weights are not ribosome footprints.  mRNA abundance is a transcription-layer control, not a translation measurement.  Bulk protein abundance is not a localization readout.  The present finite row also does not establish protein trafficking, compartment identity, folding, physical admissibility, molecular function, system phenotype, mechanism, universality, or any general biological law.  Each such statement would require its own layer-matched contact and a recorded statistic after the $q_i \to T_j$ boundary has been evaluated.
+\paragraph{Translation-conditioned boundary.}
+The required cross-layer question is stricter than direct discrimination. It asks whether the residual coordinate can pass through a translation-readout boundary before being interpreted against localization. Under the translation-conditioned increment summary, all three organism summaries are positive for accuracy and macro-AUC. The accuracy increments are
+$$
+\begin{aligned}
+\Delta\mathrm{Acc}_{\min} &= 0.017295597484276726,\\
+\Delta\mathrm{Acc}_{\mathrm{mean}} &= 0.023049495216764453,\\
+\Delta\mathrm{Acc}_{\mathrm{median}} &= 0.02257779522921366,\\
+\Delta\mathrm{Acc}_{\max} &= 0.02927509293680297,
+\end{aligned}
+$$
+and the macro-AUC increments are
+$$
+\begin{aligned}
+\Delta\mathrm{AUC}_{\min} &= 0.015494311048138809,\\
+\Delta\mathrm{AUC}_{\mathrm{mean}} &= 0.021063283115180725,\\
+\Delta\mathrm{AUC}_{\mathrm{median}} &= 0.021959648901327622,\\
+\Delta\mathrm{AUC}_{\max} &= 0.02573588939607574.
+\end{aligned}
+$$
+The organism-level calls were split: one organism crossed to the localization layer and two remained partial. This is the central reason for the chapter verdict. The finite run supports a translation-conditioned boundary signal, but it does not support treating the boundary as a completed biological mechanism.
 
-\paragraph{Chapter verdict.}
-The appropriate conclusion is partial and boundary-valued.  The powered finite row shows that $B^{\ast}_{Q6}$ residuals carry some held-out information about localization labels in the joined organisms, and that a translation-conditioned increment is positive across the three rows.  The same evidence also shows that the signal weakens or disappears under the stricter translation-length-amino-acid-GC conditioning surface.  The chapter therefore records a translation-conditioned localization boundary: $B^{\ast}_{Q6}$ may be carried forward as a candidate coordinate for a $q_i \to T_j \to L_k$ analysis, but localization itself remains unclaimed until same-organism and same-CDS localization rows, translation readouts, mRNA controls, and protein-abundance controls are jointly available and survive the declared conditioning.
+\paragraph{Control-conditioned refusal.}
+The stronger control surface adds translation, length, amino-acid, and GC conditioning. On that surface the localization increment no longer remains stable across the organism panel. The accuracy increment summary is
+$$
+\begin{aligned}
+\Delta\mathrm{Acc}_{\min} &= -0.010482180293501064,\\
+\Delta\mathrm{Acc}_{\mathrm{mean}} &= -0.000008929986309506402,\\
+\Delta\mathrm{Acc}_{\mathrm{median}} &= 0.0,\\
+\Delta\mathrm{Acc}_{\max} &= 0.010455390334572545,
+\end{aligned}
+$$
+with only one positive accuracy count among three organism summaries. The macro-AUC increments are all negative:
+$$
+\begin{aligned}
+\Delta\mathrm{AUC}_{\min} &= -0.002467684182081209,\\
+\Delta\mathrm{AUC}_{\mathrm{mean}} &= -0.001407768101771234,\\
+\Delta\mathrm{AUC}_{\mathrm{median}} &= -0.000877887947320577,\\
+\Delta\mathrm{AUC}_{\max} &= -0.0008777321759119161.
+\end{aligned}
+$$
+This control-conditioned surface blocks promotion from a useful classifier signal to a robust localization claim. The residual coordinates have partial held-out localization information, and the translation-conditioned increment is positive in the finite summary, but the length, amino-acid, and GC-conditioned increment is not stable enough to certify a localization-layer conclusion across organisms.
+
+\paragraph{Permitted conclusion.}
+The valid statement is therefore narrow. In the finite three-organism panel, $B^{\ast}_{Q6}$ residuals show partial held-out localization information, and the translation-conditioned increment is positive before the stricter control surface is imposed. The correct readback is a boundary statement: a localization interpretation may be considered only after the same coordinate has been tested through a translation-readout leg and after a matched localization row is present. The observed verdict is \texttt{partial}, not a positive mechanism call.
+
+\paragraph{Local refusal boundary.}
+No translation realization follows from codon residual geometry alone. No protein folding, physical admissibility, biological function, trafficking mechanism, compartment-identity mechanism, system phenotype, or universal biological law follows from the localization classifier deltas. Modeled tAI or stAI weights may be used only as bounded translation-layer annotations unless organism-matched measured translation rows support them. Bulk protein abundance cannot substitute for a localization readout. A direct $q_i \to L_k$ association is not admissible as a biological interpretation unless the same finite surface also supplies the required $q_i \to T_j$ survival or conditioning step and keeps mRNA, length, GC3, amino-acid composition, $M$-density, and simpler-baseline controls visible.
