@@ -15,12 +15,7 @@ if str(ROOT) not in sys.path:
 
 from bedc_quality_lab.tasks.jepa_wm_l1 import (  # noqa: E402
     ARTIFACT_ID,
-    DEFAULT_BOOTSTRAP_RESAMPLES,
-    DEFAULT_CASE_COUNT,
-    FINGERPRINT_ARTIFACT,
     GENERATED_AT,
-    JSON_ARTIFACT,
-    MARKDOWN_ARTIFACT,
     build_payload,
     load_observation,
     write_artifacts,
@@ -37,47 +32,31 @@ def _relative(root: Path, path: Path) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
-    parser.add_argument("--input", type=Path, default=None, help="runtime observation JSON")
+    parser.add_argument("--input", type=Path, required=True, help="runtime observation JSON")
     parser.add_argument("--generated-at", default=None)
     parser.add_argument("--margin", type=float, default=0.0)
-    parser.add_argument("--case-count", type=int, default=DEFAULT_CASE_COUNT)
-    parser.add_argument("--bootstrap-resamples", type=int, default=DEFAULT_BOOTSTRAP_RESAMPLES)
-    parser.add_argument("--device", default="cpu")
     args = parser.parse_args(argv)
 
-    if args.input is not None:
-        observation = load_observation(args.input)
-        payload = build_payload(
-            observation,
-            generated_at=args.generated_at or GENERATED_AT,
-            margin=args.margin,
-        )
-        artifacts = write_artifacts(payload, root=args.root)
-        print(
-            json.dumps(
-                {
-                    "artifact_id": ARTIFACT_ID,
-                    "run_id": payload["run_id"],
-                    "status": payload["decision"]["status"],
-                    "failed_gates": payload["decision"]["failed_gates"],
-                    "admission_artifact": _relative(args.root, artifacts["admission"]),
-                },
-                sort_keys=True,
-            )
-        )
-        return 0
-
-    payload = write_artifacts(
-        root=args.root,
-        json_path=args.root / JSON_ARTIFACT,
-        markdown_path=args.root / MARKDOWN_ARTIFACT,
-        fingerprint_path=args.root / FINGERPRINT_ARTIFACT,
+    observation = load_observation(args.input, root=args.root)
+    payload = build_payload(
+        observation,
         generated_at=args.generated_at,
-        case_count=args.case_count,
-        bootstrap_resamples=args.bootstrap_resamples,
-        device=args.device,
+        margin=args.margin,
     )
-    print(f"wrote {JSON_ARTIFACT} status={payload['execution_status']}")
+    artifacts = write_artifacts(payload, root=args.root)
+    print(
+        json.dumps(
+            {
+                "artifact_id": ARTIFACT_ID,
+                "run_id": payload["run_id"],
+                "status": payload["decision"]["status"],
+                "failed_gates": payload["decision"]["failed_gates"],
+                "admission_artifact": _relative(args.root, artifacts["admission"]),
+                "source_observation": payload["source_observation"],
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 

@@ -37,9 +37,9 @@ PUBLIC_CHECKPOINTS = (
 HARDGATE_ORDER = ("WEIGHT", "DATA", "BASE-CHANCE", "CONTROL", "CALIBRATION", "REPRO")
 
 
-
 GENERATED_AT = DEFAULT_GENERATED_AT
 RUNS_DIR = Path("reports/runs/jepa-wm-l1")
+SOURCE_OBSERVATION_KEY = "_source_observation"
 REQUIRED_K = 7
 REQUIRED_CHANCE = 1.0 / 8.0
 REQUIRED_ARMS = ("null", "oracle_or_teacher", "base", "larger_base")
@@ -91,6 +91,15 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _relative_path(root: Path | None, path: Path) -> str:
+    if root is None:
+        return str(path)
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return str(path)
+
+
 def _slug(value: Any) -> str:
     text = str(value or "run").strip().lower()
     slug = re.sub(r"[^a-z0-9._-]+", "-", text).strip("-._")
@@ -121,11 +130,30 @@ def _run_local_fail_gate(gate_id: str, criterion: str, pointer: str, detail: str
     return RunLocalGate(gate_id=gate_id, status="fail", criterion=criterion, evidence_pointer=pointer, detail=detail)
 
 
+def _source_observation(observation: Mapping[str, Any]) -> Mapping[str, Any]:
+    return _mapping(observation.get(SOURCE_OBSERVATION_KEY))
+
+
+def _has_file_observation_source(observation: Mapping[str, Any]) -> bool:
+    source = _source_observation(observation)
+    digest = source.get("sha256")
+    chain = _sequence(source.get("provenance_chain"))
+    return (
+        source.get("status") == "file-runtime-observation"
+        and isinstance(source.get("path"), str)
+        and bool(source.get("path"))
+        and isinstance(digest, str)
+        and re.fullmatch(r"[0-9a-fA-F]{64}", digest) is not None
+        and bool(chain)
+    )
+
+
 def _checkpoint_gate(observation: Mapping[str, Any]) -> RunLocalGate:
     provenance = _mapping(_mapping(observation.get("checkpoint")).get("provenance"))
     digest = provenance.get("checkpoint_sha256")
     pretrained = (
-        provenance.get("status") == "pretrained"
+        _has_file_observation_source(observation)
+        and provenance.get("status") == "pretrained"
         and isinstance(provenance.get("source"), str)
         and bool(provenance.get("source"))
         and isinstance(digest, str)
@@ -144,7 +172,7 @@ def _checkpoint_gate(observation: Mapping[str, Any]) -> RunLocalGate:
         "JWM-L1-HG1",
         "runtime uses true pretrained checkpoint provenance",
         "$.checkpoint.provenance",
-        "missing pretrained source, digest, loaded weights, or random-init exclusion",
+        "missing observation source, pretrained source, digest, loaded weights, or random-init exclusion",
     )
 
 
@@ -337,7 +365,11 @@ def _build_run_local_payload(
             "runtime_pass_margin_rule": "base_CI_low > chance_CI_high + margin",
         },
         "source_observation": {
-            "status": "inline-runtime-observation",
+            **(
+                dict(_source_observation(observation))
+                if _source_observation(observation)
+                else {"status": "missing-source-observation"}
+            ),
             "run_id": observation.get("run_id"),
         },
         "checkpoint": _mapping(observation.get("checkpoint")),
@@ -385,6 +417,19 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     capsule = _mapping(payload.get("claim_capsule"))
     if capsule.get("status") != "pointer-only":
         raise ValueError("claim capsule must be pointer-only")
+    source = _mapping(payload.get("source_observation"))
+    source_digest = source.get("sha256")
+    source_chain = _sequence(source.get("provenance_chain"))
+    valid_source = (
+        source.get("status") == "file-runtime-observation"
+        and isinstance(source.get("path"), str)
+        and bool(source.get("path"))
+        and isinstance(source_digest, str)
+        and re.fullmatch(r"[0-9a-fA-F]{64}", source_digest) is not None
+        and bool(source_chain)
+    )
+    if status == "PASS" and not valid_source:
+        raise ValueError("source observation provenance mismatch")
 
 
 def _summary_payload(payload: Mapping[str, Any], admission_artifact: str) -> dict[str, Any]:
@@ -468,11 +513,27 @@ def _write_run_local_artifacts(payload: Mapping[str, Any], *, root: Path | None 
     }
 
 
-def load_observation(path: Path) -> dict[str, Any]:
-    payload = json.loads(path.read_text(encoding="utf-8"))
+def load_observation(path: Path, *, root: Path | None = None) -> dict[str, Any]:
+    input_path = Path(path)
+    payload = json.loads(input_path.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
         raise ValueError("observation input must be a JSON object")
-    return payload
+    source_path = _relative_path(root, input_path)
+    digest = _sha256(input_path)
+    observation = dict(payload)
+    observation[SOURCE_OBSERVATION_KEY] = {
+        "status": "file-runtime-observation",
+        "path": source_path,
+        "sha256": digest,
+        "provenance_chain": [
+            {
+                "artifact": source_path,
+                "role": "runtime-observation-input",
+                "sha256": digest,
+            }
+        ],
+    }
+    return observation
 
 
 @dataclass(**{"froz" + "en": True})
@@ -1445,54 +1506,21 @@ def _write_canonical_artifacts(
     return payload
 
 def build_payload(
-    observation: Mapping[str, Any] | None = None,
+    observation: Mapping[str, Any],
     *,
     generated_at: str | None = None,
     margin: float = 0.0,
-    case_count: int = DEFAULT_CASE_COUNT,
-    seed: int = DEFAULT_SEED,
-    bootstrap_resamples: int = DEFAULT_BOOTSTRAP_RESAMPLES,
-    device: str = "cpu",
 ) -> dict[str, Any]:
-    if observation is not None:
-        return _build_run_local_payload(
-            observation,
-            generated_at=generated_at or GENERATED_AT,
-            margin=margin,
-        )
-    return _build_canonical_payload(
-        generated_at=generated_at,
-        case_count=case_count,
-        seed=seed,
-        bootstrap_resamples=bootstrap_resamples,
-        device=device,
+    return _build_run_local_payload(
+        observation,
+        generated_at=generated_at or GENERATED_AT,
+        margin=margin,
     )
 
 
 def write_artifacts(
-    payload: Mapping[str, Any] | None = None,
+    payload: Mapping[str, Any],
     *,
     root: str | Path = ".",
-    json_path: str | Path | None = None,
-    markdown_path: str | Path | None = None,
-    fingerprint_path: str | Path | None = None,
-    generated_at: str | None = None,
-    case_count: int = DEFAULT_CASE_COUNT,
-    seed: int = DEFAULT_SEED,
-    bootstrap_resamples: int = DEFAULT_BOOTSTRAP_RESAMPLES,
-    device: str = "cpu",
-) -> dict[str, Any] | dict[str, Path]:
-    if payload is not None:
-        return _write_run_local_artifacts(payload, root=Path(root))
-    return _write_canonical_artifacts(
-        root=root,
-        json_path=json_path,
-        markdown_path=markdown_path,
-        fingerprint_path=fingerprint_path,
-        generated_at=generated_at,
-        case_count=case_count,
-        seed=seed,
-        bootstrap_resamples=bootstrap_resamples,
-        device=device,
-    )
-
+) -> dict[str, Path]:
+    return _write_run_local_artifacts(payload, root=Path(root))
