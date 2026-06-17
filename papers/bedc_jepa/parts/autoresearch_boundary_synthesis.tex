@@ -87,13 +87,18 @@ matching assignment-aware minimax policy row tests a stronger policy-level
 failure mode: direct exact-budget oracle-assignment supervision with
 worst-budget calibration has mean capture $-0.4869$, budget-two capture
 $-0.3996$, budget-three capture $-0.8183$, budget-four capture $-0.2428$, and
-mean regret $0.0626$.  The current pressure is therefore not another
-failure-score ranker, another selection rule over existing score families, a
-simple oracle-target transform over the same carrier, feature appending alone,
-a single-budget replacement target, naive budget-token pooling, a simple
-shared-trunk budget-head factorization, or local oracle-assignment imitation
-with worst-budget selection; it is held-out episode budget-magnitude transfer
-under explicit environment-state and option-conditioned mechanisms.
+mean regret $0.0626$.  Adding shallow episode-coupled context does not repair
+the boundary: non-label episode rank, size, position, and budget-depth
+competition features with episode-batched training give mean capture $-0.5590$,
+budget-two capture $-1.3448$, budget-three capture $-0.4180$, budget-four
+capture $0.0859$, and mean regret $0.0582$.  The current pressure is therefore
+not another failure-score ranker, another selection rule over existing score
+families, a simple oracle-target transform over the same carrier, feature
+appending alone, a single-budget replacement target, naive budget-token pooling,
+a simple shared-trunk budget-head factorization, local oracle-assignment
+imitation with worst-budget selection, or shallow episode-coupled context; it
+is held-out episode budget-magnitude transfer under explicit environment-state
+and option-conditioned mechanisms.
 
 Fifth, the state-generation contract is a route constraint, not a completed
 model claim.  The aligned export and candidate packet close the data-substrate
@@ -109,4 +114,5 @@ cannot be a single pooled scorer that treats budget as another passive token, or
 a shared-trunk budget-head factorization that repairs one stress slice while
 losing mean and budget-three oracle-headroom capture.  It also cannot be local
 exact-budget oracle-assignment imitation unless that imitation survives the
-hard-slice budget transfer gate.
+hard-slice budget transfer gate, nor can it be shallow set-context scoring that
+repairs budget-four while losing the mean and budget-two hard slices.
