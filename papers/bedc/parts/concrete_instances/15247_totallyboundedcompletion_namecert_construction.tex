@@ -69,6 +69,24 @@ Apply the basis and embedding replay clause. The row $F$ consumes the finite-net
 Finally use the separated and extension handoff clause. The rows $S$ and $U$ are downstream of $F,E,C$, while $H,P,L$ only transport, source, and name the same packet. Thus no completion-facing consumer can bypass the finite-net-to-Cauchy-filter handoff.
 \end{proof}
 
+\begin{theorem}[TotallyBoundedCompletion scope dependency seal]
+\label{thm:totally-bounded-completion-scope-dependency-seal}
+Every accepted scoped consumer of $\TotallyBoundedCompletionUp$ must expose the full route
+$$
+X,T,N,F,E,C,S,U,H,P,L
+$$
+with $\TotallyBoundedUp$ read first through the finite-net ledger $T$, $\CauchyFilterBasisUp$ read next through $F$, $\CompletionEmbeddingUp$ read through $E$, $\ConstructiveMetricCompletionUp$ read through $C$, and $\UniformContinuousExtensionUp$ read through $U$. The route is sealed only when the carrier definition, NameCert obligation surface, finite-net Cauchy handoff, and net-refinement stability all remain visible. No scoped read may replace this route by open-cover compactness, selected limits, quotient completion, countable choice, or detached Real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:totally-bounded-completion-carrier}. The rows $X,T,N,F,E,C,S,U,H,P,L$ are the complete packet inventory, so a scoped consumer cannot name a completion-facing read without exposing the finite-net, basis, embedding, constructive-completion, extension, transport, provenance, and local NameCert rows.
+
+Apply the obligation surface of \autoref{thm:totally-bounded-completion-namecert-obligations}. It forces carrier admission, finite-net persistence, basis-and-embedding replay, separated and extension handoff, and ledger non-escape on the same tuple.
+
+Use the finite-net Cauchy handoff of \autoref{thm:totally-bounded-completion-finite-net-cauchy-handoff}. That theorem places $T,N,F,E,C$ before any separated comparison in $S$ or uniformly continuous handoff in $U$ can be read.
+
+Finally apply net-refinement stability from \autoref{thm:totally-bounded-completion-net-refinement-stability}. Refinement preserves the displayed finite-net route through $T,N,F,E,C$ rather than replacing it by compactness, a selected limit, a quotient-completion representative, countable choice, or detached Real completeness. Thus the scoped dependency route is sealed exactly by the displayed L10 rows.
+\end{proof}
+
 \begin{definition}[TotallyBoundedCompletion carrier admission obligation]
 \label{def:totally-bounded-completion-carrier-admission-obligation}
 The carrier admission obligation for $\TotallyBoundedCompletionUp$ is the requirement that every accepted $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$ display all eleven rows before its local $\NameCert_{\TotallyBoundedCompletionUp}$ row is read. The source metric row $X$ feeds the $\TotallyBoundedUp$ finite-net ledger $T$; the refinement row $N$ feeds the $\CauchyFilterBasisUp$ row $F$; the dense $\CompletionEmbeddingUp$ row $E$ and $\ConstructiveMetricCompletionUp$ route $C$ precede the separated equality row $S$ and the $\UniformContinuousExtensionUp$ handoff $U$; and $H,P,L$ record componentwise $\hsame$ transport, package provenance, and local naming. The displayed $\Cont$ replay may follow only this row order.
@@ -488,12 +506,30 @@ Next apply the finite-net handoff and persistence theorems. The net handoff \aut
 Finally use the extension consumer boundary and ledger non-escape. The extension boundary \autoref{thm:totally-bounded-completion-extension-consumer-boundary} keeps uniformly continuous consumers on the same displayed route, while \autoref{thm:totally-bounded-completion-no-escape} excludes open-cover compactness, quotient completion, selected limit points, countable choice, detached $\RealUp$ completeness, and ambient completeness as absent carrier coordinates. No further obligation row remains outside the packet.
 \end{proof}
 
+\begin{theorem}[TotallyBoundedCompletion scoped consumer coverage]
+\label{thm:totally-bounded-completion-scoped-consumer-coverage}
+Every completion-facing or uniform-extension consumer of an accepted $\TotallyBoundedCompletionUp$ packet factors through the same finite rows
+$$
+X,T,N,F,E,C,S,U,H,P,L .
+$$
+The rows are read as the source metric row $X$, the $\TotallyBoundedUp$ finite-net rows $T,N$, the $\CauchyFilterBasisUp$ row $F$, the $\CompletionEmbeddingUp$ row $E$, the $\ConstructiveMetricCompletionUp$ route $C$, separated equality $S$, the $\UniformContinuousExtensionUp$ consumer row $U$, componentwise transport $H$, provenance $P$, and local naming $L$. Thus the scoped surface covers finite-net completion, Cauchy-filter stability, completion embedding, constructive completion, separated equality, uniform continuous extension, transport, replay, provenance, and local $\NameCert$; it exports no open-cover compactness, quotient completion, selected limit, countable-choice schedule, detached $\RealUp$ completeness, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the obligation ledger and obligation-closure route, \autoref{thm:totally-bounded-completion-obligation-ledger} and \autoref{thm:totally-bounded-completion-obligation-closure-route}. They enumerate carrier admission, finite-net persistence, Cauchy-filter-basis generation, completion embedding, constructive completion, separated equality, and uniformly continuous extension handoff as rows of the same packet.
+
+Apply the finite-net completion route and Cauchy-filter stability theorems, \autoref{thm:totally-bounded-completion-finite-net-completion-route} and \autoref{thm:totally-bounded-completion-cauchy-filter-stability}. These force every completion-facing read through $T,N,F,E,C$ before a downstream completion or extension consumer can inspect the result.
+
+Use the extension consumer boundary, \autoref{thm:totally-bounded-completion-extension-consumer-boundary}, to place uniformly continuous extension reads after the same separated and constructive completion route. The rows $S,U,H,P,L$ only compare, extend, transport, source, and name that route.
+
+Finally apply the ledger non-escape theorem \autoref{thm:totally-bounded-completion-no-escape}. Since the excluded completion principles have no coordinate in $X,T,N,F,E,C,S,U,H,P,L$, the displayed rows give the whole scoped consumer surface.
+\end{proof}
+
 \begin{closurestatus}{\TotallyBoundedCompletionUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:totally-bounded-completion-carrier}, \autoref{thm:totally-bounded-completion-namecert-obligations}, \autoref{thm:totally-bounded-completion-obligation-ledger}, and \autoref{thm:totally-bounded-completion-obligation-closure-route} bind the obligation surface from explicit total-bounded net ledgers through constructive completion.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:totally-bounded-completion-carrier}, \autoref{thm:totally-bounded-completion-namecert-obligations}, \autoref{thm:totally-bounded-completion-obligation-ledger}, \autoref{thm:totally-bounded-completion-obligation-closure-route}, and \autoref{thm:totally-bounded-completion-scoped-consumer-coverage} bind every completion-facing and uniform-extension consumer to the finite rows $X,T,N,F,E,C,S,U,H,P,L$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, quotient completion, selected limit points, countable choice, full $\RealUp$ completeness, or Lean verification.}
-  \upgradepath{Scoped closure requires checked consumer coverage for the finite-net completion route and Lean-side verification of the displayed obligation surface.}
+  \upgradepath{Public closure requires Lean-side verification of the scoped finite-net consumer surface and a public-object handoff for the displayed completion route.}
   \constructivestory{A $\TotallyBoundedCompletionUp$ packet is generated from a metric source, a total-bounded finite-net ledger, a net-refinement row, a CauchyFilterBasis row, a CompletionEmbedding row, a ConstructiveMetricCompletion route, separated completion equality, a UniformContinuousExtension handoff, componentwise transport, provenance, and a local NameCert row.}
 \end{closurestatus}

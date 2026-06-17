@@ -43,6 +43,9 @@ The structural rows do not add analytic coordinates. They transport, replay, pac
 \label{thm:metric-embedding-graph-distance-control}
 Let $E=(X,Y,F,D,R,S,H,C,P,N)$ be an accepted $\MetricEmbeddingUp$ packet. Every distance-control request first reads a source metric observation in $X$, then the displayed graph row $F$, then the target metric observation in $Y$, and only then the comparison row $D$ with its $\RealUp$ seal $R$. The request receives the named graph-distance control data, not an isometric equality of source and target distances and not a detached continuous map.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier\_graph\_distance\_control}
+\leanvariant{BEDC.Derived.MetricEmbeddingUp.GraphDistanceControl.MetricEmbeddingGraphDistance\_control}
+\leanvariant{BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingGraphDistanceControl}
 \begin{proof}
 Start with a distance-control request. Carrier projection forces the request to pass through the source metric row $X$ and the graph row $F$ before it can identify the corresponding target metric row $Y$.
 
@@ -59,6 +62,7 @@ X \longmapsto F \longmapsto Y \longmapsto D \longmapsto R \longmapsto S
 $$
 with the stored transport, replay, provenance, and local naming rows. The handoff may use graph-distance control to supply separated metric data, but it does not export quotient completion classes, selected representatives, ambient completion existence, or isometric distance preservation.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier\_separated\_completion\_handoff}
 \begin{proof}
 Project the separated handoff row $S$. It is downstream from the displayed source metric row, graph row, target metric row, graph-distance control row, and real seal, so a separated consumer cannot read it before those rows have been exhibited.
 
