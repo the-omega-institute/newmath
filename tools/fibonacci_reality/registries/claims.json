@@ -449,6 +449,31 @@
       "phase": 1,
       "statement": "The External-Gauge Readout Program anchor defines the exponent-shift clock-gauge family D_6^(a)=47+phi^{-(7+a)}-(1/2)phi^{-(17+a)}+(8/9)phi^{-(27+a)} for a in Z/10Z and verifies by exact symbolic arithmetic that the ten values are pairwise distinct, with a=0 reproducing the displayed D*_6 expression. Residue-only gauge relabels the absolute residue of the coupling while keeping the exponent display (7,17,27) fixed, so the displayed D expression is invariant; exponent-shift gauge applies the origin action to the displayed exponents and gives a ten-value family. Theorem A packages the no-go: Window6/P_10 does not determine physical alpha because the C_10 clock origin is irreducibly free gauge, so alpha-candidate=rho_alpha(Window6,g,Q,R) requires external ClockCouplingCert(g), ResponseFunctorCert, CoefficientUseCert, and PhysReadoutCert. The certificate records G_10 as the Z/10Z torsor of clock origins and M_alpha=G_10 x Q_space x R_space, and it downgrades D*_6 to D_6^(g), residue 7 to a gauge-chosen seam, q_2=8/9 to a boundary-count witnessed coefficient candidate, q_1=-1/2 to A_0-Jordan witnessed with A_0 external, and the alpha formula to AlphaCandidate_6^ext. Physical alpha is not claimed.",
       "status": "open"
+    },
+    {
+      "claim_id": "window6.alpha-external-gauge.metrological-gauge-selection.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "window6.alpha-external-gauge.d6-family-theorem-a.certificate",
+        "window6.clock-coupling-cert.basepoint-free-gauge.certificate",
+        "window6.clock-coupling-cert.c10-torsor-origin-irreducible.certificate",
+        "window6.cyclic-golden-10-clock.phi10-forward-coupling-needs-external.certificate",
+        "window6.functor-embedding.golden-shell-form-needs-external.certificate"
+      ],
+      "experiment_id": "verify-window6-metrological-gauge-selection",
+      "forbidden_claims": [
+        "The MetrologicalGaugeSelection certificate does not identify the fine-structure constant as forward-derived.",
+        "The certificate does not treat R^(0)=137.03599917700627901 as a Window6-forward equality; the value is recorded only inside the reverse-fit diagnosis.",
+        "The certificate does not claim that the readout constants C_0=1/2+1/4 cos^2(pi/phi) or the 21/34 weights are Window6-forward-derived; they are external PhysReadoutCert content.",
+        "The certificate does not prove any single exponent-shift branch as a Window6-internal alpha theorem.",
+        "The certificate does not duplicate the D_6^(a) family theorem; its forward content is the readout-layer monotone inversion and readout-image branch separation."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.alpha-external-gauge.metrological-gauge-selection",
+      "phase": 1,
+      "statement": "The MetrologicalGaugeSelection anchor verifies two forward readout-layer facts by exact symbolic arithmetic and records the absolute a=0 fit as conditional external readout content. For R(D)=2*pi(21+34C(D))/(21*phi^-6+34*C(D)*phi^-7), C(D)=C_0+1/(D*phi^5), and C_0=1/2+1/4 cos^2(pi/phi), symbolic differentiation gives dR/dC=2*pi*21*34*(phi^-6-phi^-7)/(21*phi^-6+34*C*phi^-7)^2>0 and dC/dD=-1/(D^2*phi^5)<0, hence dR/dD<0 on the positive-D readout domain and any readout value in the branch image has a unique D_eff preimage. Applying this readout to the ten exponent-shift branches D_6^(a)=47+phi^{-(7+a)}-(1/2)phi^{-(17+a)}+(8/9)phi^{-(27+a)} gives pairwise separated R^(a); the leading adjacent separation is about 1.58e-5 and even the smallest adjacent separation is about 3.37e-7, roughly 16 public-sigma units at CODATA alpha-inverse uncertainty scale. These are forward calculus and phi-arithmetic facts that do not use alpha as an input. The absolute value R^(0)=137.03599917700627901 matches the CODATA center to 12 digits, but this is recorded as a reverse-fit signature because the readout R, C_0, and the 21/34 weights are PhysReadoutCert content rather than Window6-forward-derived constants. Therefore metrological a=0 selection is conditional on an external reverse-fit-suspect readout certificate, not a forward derivation of physical alpha; metrological fit selects a representation branch only.",
+      "status": "open"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
