@@ -291,3 +291,17 @@ right level of missing mechanism, but the current shallow deployable feature
 map does not recover it under hard exact-budget transfer.  The next state model
 must represent anchor--depth compatibility as an internal assignment-bearing
 world-state variable, not as a linear readout over fixed rollout features.
+
+Assignment-level hinge contact is still insufficient with the same fixed
+features.  A structured assignment-energy learner constructs train rows from
+whole exact-budget assignments: the oracle assignment is contrasted against
+feasible uniform-depth, shallow-depth, deep-depth, and random-depth competitors,
+and the linear energy is trained so that the oracle assignment has lower total
+energy.  Calibration selects the regularization through exact-budget capture.
+On the held-out hard slice, the selected energy model has mean capture
+$-0.2458$, with budget-two capture $-0.5717$, budget-three capture $-0.3041$,
+and budget-four capture $0.1383$; hard label Spearman is $-0.1197$.  This does
+not improve over the scalar mechanism learner and does not improve over the
+shallow compatibility learner.  The negative result separates assignment-level
+loss contact from assignment-bearing state: exposing the exact-budget hinge is
+not enough if the representation remains a fixed shallow rollout feature map.
