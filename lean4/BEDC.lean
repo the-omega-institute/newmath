@@ -922,6 +922,7 @@ import BEDC.Derived.BishopLocatedCompletionBoundaryUp.ScopedRoute
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.WindowExhaustion
 import BEDC.Derived.BishopLocatedCompletionComparisonUp.TasteGate
+import BEDC.Derived.BishopLocatedCompletionEmbeddingUp
 import BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
@@ -3948,6 +3949,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZetaRhDependencyCertificate
 import BEDC.Derived.CriticalLineWitnessUp.ZetaRouteCarrierSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ZetaSiblingRoute
 import BEDC.Derived.CriticalLineWitnessUp.ZetaStripModulusTotality
+import BEDC.Derived.CriticalLineWitnessUp.ZetaZeroBoundary
 import BEDC.Derived.CriticalStripBarrierUp.TasteGate
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp.BoundaryLedgerNonescape
@@ -6012,6 +6014,7 @@ import BEDC.Derived.HyperbolicExpansionLedgerUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicBoundaryUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicFlowUp
 import BEDC.Derived.HyperbolicGeodesicFlowUp.TasteGate
+import BEDC.Derived.HyperbolicHoroballShadowUp
 import BEDC.Derived.HyperbolicHoroballShadowUp.BoundaryHandoff
 import BEDC.Derived.HyperbolicHoroballShadowUp.NameCertObligations
 import BEDC.Derived.HyperbolicHoroballShadowUp.TasteGate
@@ -9116,6 +9119,9 @@ import BEDC.Derived.RefusalRegistryUp.RefusalRegistryNonescape
 import BEDC.Derived.RefusalRegistryUp.TasteGate
 import BEDC.Derived.RefutationBoundaryUp
 import BEDC.Derived.RefutationBoundaryUp.TasteGate
+import BEDC.Derived.RefutationGateUp
+import BEDC.Derived.RefutationGateUp.NameCertObligations
+import BEDC.Derived.RefutationGateUp.TasteGate
 import BEDC.Derived.RefutationWitnessUp
 import BEDC.Derived.RefuterTraceUp.PermittedRefutationRoute
 import BEDC.Derived.RefuterTraceUp.TasteGate
@@ -9386,6 +9392,7 @@ import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularizationUp.TasteGate
 import BEDC.Derived.RegularCauchyReindexInvarianceUp.TasteGate
 import BEDC.Derived.RegularCauchyRepletionBoundaryUp
+import BEDC.Derived.RegularCauchyRepletionBoundaryUp.NameCertObligations
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
 import BEDC.Derived.RegularCauchyRingUp
 import BEDC.Derived.RegularCauchyRingUp.FiniteOperationInduction
