@@ -122,6 +122,7 @@ Finally apply \autoref{thm:substitutionauditmap-obstruction-row-exactness}. The 
 \label{thm:substitution-audit-map-replay-determinacy}
 For an accepted $\SubstitutionAuditMapUp$ carrier $A=(T,C,R,S,K,G,H,Q,P,N)$, any transported consumer read of the audit map must replay the same displayed rows through the componentwise transport row $H$ and the continuation route row $Q$ before reaching the provenance row $P$ and the local naming row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubstitutionAuditMapUp.SubstitutionAuditMapCarrier\_replay\_determinacy}
 \begin{proof}
 Begin with \autoref{thm:substitutionauditmap-positive-row-coverage}. Any positive consumer read is already confined to the displayed rows $T,C,R,S,K,G$.
 
@@ -134,6 +135,7 @@ The provenance and naming rows $P,N$ therefore receive the same packet after tra
 \label{thm:substitution-audit-map-ledger-nonescape}
 For an accepted $\SubstitutionAuditMapUp$ carrier $A=(T,C,R,S,K,G,H,Q,P,N)$, the provenance row $P$ and the local $\NameCert$ row $N$ can name only the closed substitution audit packet $T,C,R,S,K,G,H,Q$. They cannot promote obstruction rows absent from $A$ into public theorems.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubstitutionAuditMapUp.SubstitutionAuditMapCarrier\_ledger\_nonescape}
 \begin{proof}
 Read the ledger surface from the obligation package of \autoref{thm:substitution-audit-map-obligation-closure-package}. The provenance row and local name are attached to the finite packet already displayed by $T,C,R,S,K,G,H,Q$.
 
