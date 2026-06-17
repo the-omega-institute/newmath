@@ -1,6 +1,7 @@
+import hashlib
 import json
 
-from bedc_quality_lab.artifact_freshness import load_scorecard_snapshot
+from bedc_quality_lab.artifact_freshness import load_artifact_snapshot, load_scorecard_snapshot
 from scripts import run_canonical_reports as canonical
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 
@@ -53,3 +54,23 @@ def test_checked_in_claim_verdicts_match_current_scorecard_snapshot_before_rewri
         assert row["scorecard_hash"] == snapshot.scorecard_hash
         assert row["scorecard_ready"] is snapshot.scorecard_ready
         assert row["formal_hardening_ready"] is snapshot.formal_hardening_ready
+
+
+def test_generic_artifact_snapshot_reports_generated_at_and_hash(tmp_path):
+    path = tmp_path / "reports/canonical/demo.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text('{"generated_at":"fixture-time","value":1}\n', encoding="utf-8")
+
+    snapshot = load_artifact_snapshot(tmp_path, "reports/canonical/demo.json")
+
+    assert snapshot.path == "reports/canonical/demo.json"
+    assert snapshot.generated_at == "fixture-time"
+    assert snapshot.sha256 == hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_generic_artifact_snapshot_missing_file_is_empty(tmp_path):
+    snapshot = load_artifact_snapshot(tmp_path, "reports/canonical/missing.json")
+
+    assert snapshot.path == "reports/canonical/missing.json"
+    assert snapshot.generated_at is None
+    assert snapshot.sha256 == ""

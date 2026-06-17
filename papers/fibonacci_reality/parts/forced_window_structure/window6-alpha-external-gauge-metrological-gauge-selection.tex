@@ -1,0 +1,110 @@
+\origin{ai}
+
+\subsection{Metrological Gauge Selection for the Window-Six Readout Layer}
+\label{sec:window6-alpha-external-gauge-metrological-gauge-selection}
+
+\paragraph{Carrier.}
+The carrier of this finite record is the ten-element index set $A=\{0,1,2,3,4,5,6,7,8,9\}$.  The golden ratio parameter is denoted by $\phi$, and the readout offset is the externally supplied quantity
+$$
+\begin{aligned}
+C_0=\frac{1}{2}+\frac{1}{4}\cos^2\left(\frac{\pi}{\phi}\right).
+\end{aligned}
+$$
+For each positive real value $D$, define
+$$
+\begin{aligned}
+C(D)&=C_0+\frac{1}{D\phi^5},\\
+R(D)&=\frac{2\pi(21+34C(D))}{21\phi^{-6}+34C(D)\phi^{-7}}.
+\end{aligned}
+$$
+The finite branch family used by this packet is
+$$
+\begin{aligned}
+D_6^{(a)}=47+\phi^{-(7+a)}-\frac{1}{2}\phi^{-(17+a)}+\frac{8}{9}\phi^{-(27+a)}
+\end{aligned}
+$$
+for $a\in A$.  Thus the complete finite readout carrier is the graph
+$$
+\begin{aligned}
+G=\{(a,D_6^{(a)},R(D_6^{(a)})):a\in A\}.
+\end{aligned}
+$$
+No physical constant is part of the carrier.  The finite data consist only of the ten symbolic branch values, their image under the displayed readout map, and the metadata recording which parts are forward arithmetic and which parts require an external certificate.
+
+\paragraph{Predicates and finite relations.}
+The positive-domain predicate is $P(D)$, meaning $D>0$ and the displayed denominator $21\phi^{-6}+34C(D)\phi^{-7}$ is in the positive readout domain.  The branch relation is the finite relation
+$$
+\begin{aligned}
+B(a,D)\quad\Longleftrightarrow\quad a\in A\text{ and }D=D_6^{(a)}.
+\end{aligned}
+$$
+The readout relation is
+$$
+\begin{aligned}
+Q(a,y)\quad\Longleftrightarrow\quad a\in A\text{ and }y=R(D_6^{(a)}).
+\end{aligned}
+$$
+The separation predicate on two branches is
+$$
+\begin{aligned}
+S(a,b)\quad\Longleftrightarrow\quad a,b\in A\text{ and }a\ne b\text{ and }R(D_6^{(a)})\ne R(D_6^{(b)}).
+\end{aligned}
+$$
+The finite separation certificate is the statement that $S(a,b)$ holds for every unordered pair $\{a,b\}\subseteq A$ with $a\ne b$.  There are exactly $10$ branch records and exactly $45$ unordered branch pairs.  The induced partition of $A$ by equality of readout values is therefore the singleton partition
+$$
+\begin{aligned}
+\{\{0\},\{1\},\{2\},\{3\},\{4\},\{5\},\{6\},\{7\},\{8\},\{9\}\}.
+\end{aligned}
+$$
+Equivalently, the $10\times 10$ comparison matrix $M$ with entries
+$$
+\begin{aligned}
+M_{ab}=R(D_6^{(a)})-R(D_6^{(b)})
+\end{aligned}
+$$
+has zero diagonal and nonzero off-diagonal entries by exact symbolic arithmetic.  The corresponding equality kernel on $A$ is precisely the diagonal relation $a=b$.
+
+\paragraph{Forward calculus.}
+The monotone inversion component is a forward calculation on the positive-$D$ domain.  Differentiating the readout first with respect to $C$ gives
+$$
+\begin{aligned}
+\frac{dR}{dC}=\frac{2\pi\cdot 21\cdot 34\cdot(\phi^{-6}-\phi^{-7})}{(21\phi^{-6}+34C\phi^{-7})^2}.
+\end{aligned}
+$$
+The dependence of $C$ on $D$ is
+$$
+\begin{aligned}
+\frac{dC}{dD}=-\frac{1}{D^2\phi^5}.
+\end{aligned}
+$$
+On the positive readout domain, these identities imply
+$$
+\begin{aligned}
+\frac{dR}{dD}<0\quad\text{for }D>0.
+\end{aligned}
+$$
+Thus $R$ is strictly decreasing on the stated positive branch domain.  Consequently, within that domain, equality of readout values forces equality of the corresponding $D$ values, and a measured readout value, if admitted as an exact member of the image of this finite family, selects at most one branch.  This is an inversion statement about the displayed map; it is not a derivation of a physical measurement.
+
+\paragraph{Branch separation.}
+The ten values $R(D_6^{(a)})$ are pairwise separated by exact symbolic arithmetic.  This computation uses only the exponent-shift formulas for $D_6^{(a)}$, the definition of $C(D)$, the displayed expression for $R(D)$, and algebra over $\phi$.  No decimal target and no physical constant enter the separation proof.  The finite witness extracted from the computation is the complete off-diagonal list
+$$
+\begin{aligned}
+\{(a,b,M_{ab}):a,b\in A,\ a<b,\ M_{ab}\ne 0\},
+\end{aligned}
+$$
+which has exactly $45$ entries.  This witness proves that the readout image of the ten branch family has exactly ten distinct elements.
+
+\paragraph{Selection metadata.}
+The branch $a=0$ may be singled out only after an external absolute readout pinning certificate is supplied.  Under that conditional certificate, the decimal value
+$$
+\begin{aligned}
+R(D_6^{(0)})=137.03599917700627901
+\end{aligned}
+$$
+is recorded as a reverse-fit diagnostic rather than as a forward conclusion of the finite construction.  The construction therefore has two logically separate layers.  The first layer proves monotone inversion and finite branch separation from the displayed formulas.  The second layer, if separately certified, uses an external pinning of the absolute readout scale to choose the $a=0$ representation branch.  The second layer does not upgrade the first layer into a physical derivation.
+
+\paragraph{Witness extraction.}
+The executable witness consists of the ten symbolic branch records, the $10\times 10$ comparison matrix, the strict monotonicity calculation, and the singleton equality-kernel partition.  The numerical coincidence associated with the $a=0$ branch is stored only as a diagnostic entry attached to the external pinning condition.  It is not an input to the branch separation calculation and is not an input to the derivative calculation.
+
+\paragraph{Local boundary.}
+This section proves only the finite readout arithmetic stated above: the positive-domain monotone inversion of $R(D)$ and the exact separation of the ten readout images $R(D_6^{(a)})$.  It does not prove any physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond this finite construction.  It also does not prove that the readout offset $C_0$, the weights $21$ and $34$, or the absolute branch pinning are forced by the window-six family.  Those items require a separate certificate and remain outside the forward finite argument.

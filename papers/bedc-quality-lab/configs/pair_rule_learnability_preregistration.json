@@ -1,0 +1,27 @@
+{
+  "artifact_id": "bedc-quality-lab:pair-rule-learnability-preregistration",
+  "base_arm_id": "parameter_matched_attention",
+  "candidate_arm_id": "dgt_l1",
+  "chance_accuracy": 0.0625,
+  "config_pointer": "configs/pair_rule_learnability_preregistration.json:$",
+  "heldout_pair_rule": "balanced_label_stratified_pairs_via_seeded_enumeration",
+  "heldout_pair_split_seed": 7049,
+  "minimum_seed_count": 16,
+  "owner": "dgt-l1-controls",
+  "pair_key": [
+    "x_last_1",
+    "x_last_2"
+  ],
+  "required_positive_metrics": [
+    "loss_decrease_ci95_low",
+    "parameter_l2_delta_ci95_low"
+  ],
+  "required_visibility": [
+    "x_minus_1",
+    "x_minus_2"
+  ],
+  "schema_id": "bedc-quality-lab:pair-rule-learnability-preregistration",
+  "task_family": "bounded_tiny_sequence_order_k",
+  "task_id": "dgt_l1_order2_pair_rule",
+  "training_steps": 36
+}

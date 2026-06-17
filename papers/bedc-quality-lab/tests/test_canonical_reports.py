@@ -1,3 +1,4 @@
+import dataclasses
 import json
 import os
 from pathlib import Path
@@ -7,6 +8,7 @@ import types
 
 import pytest
 
+from bedc_quality_lab import status_taxonomy
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
     certificate_guided_dn_preservation,
@@ -29,11 +31,14 @@ from scripts import run_canonical_reports as canonical
 from scripts import run_certificate_gated_attention as cga_runner
 from scripts import run_certificate_guided_constraint_training as cgt_runner
 from scripts import run_gap_head_attribution_capsule as attribution_capsule
+from scripts import run_gap_head_pair_rule_bounded_capsule as pair_rule_capsule
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
+from scripts import run_lejepa_theorem_ledger as lejepa_theorem_ledger
 from scripts import run_mechanism_seeking_network as msn_runner
 from scripts import run_sigreg_mini_grid as sigreg_grid_runner
 from scripts import run_sigreg_training_proxy as sigreg_proxy_runner
+from bedc_quality_lab.aggregation_consistency import validate_aggregation_consistency
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
@@ -53,11 +58,14 @@ HG_P_CORE = {
     "gap-head-threshold-frontier",
     "gap-head-transfer-atlas",
     "gap-head-attribution-capsule",
+    "gap-head-pair-rule-bounded-capsule",
+    "minigrid-doorkey-task-probe",
     "certificate-guided-training",
     "certificate-guided-discovery",
     "sigreg-training-proxy",
     "sigreg-mini-grid",
     "discovery-regularized-training",
+    "fair-alignment-control-ledger",
     "mechanism-seeking-network",
     "discovery-gated-transformer",
     "high-impact-review",
@@ -177,6 +185,26 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 def _payload_for_spec(spec):
     if spec.name == "order-k-benchmark":
         return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
+    if spec.name == "jepa-wm-l1-admission":
+        from bedc_quality_lab.tasks import jepa_wm_l1
+
+        return jepa_wm_l1.build_payload(
+            generated_at="fixture",
+            case_count=128,
+            bootstrap_resamples=32,
+        )
+    if spec.name == "jepa-wm-l1-evaluator-calibration":
+        from bedc_quality_lab.tasks import jepa_wm_l1_evaluator_calibration
+
+        return jepa_wm_l1_evaluator_calibration.build_payload(
+            generated_at="fixture",
+            case_count=128,
+            bootstrap_resamples=32,
+        )
+    if spec.name == "discovery-gated-transformer-jepa-world-model":
+        return canonical._build_dgt_jepa_world_model_payload(generated_at="fixture")
+    if spec.name == "lejepa-theorem-ledger":
+        return lejepa_theorem_ledger.build_payload(generated_at="fixture")
     if spec.name == "dgt-l0-controls":
         from bedc_quality_lab import dgt_l0_controls
         from bedc_quality_lab.construct_validity import ConstructValidityEvidence, construct_validity_projection
@@ -247,6 +275,19 @@ def _payload_for_spec(spec):
         from bedc_quality_lab import dgt_neural_ablation
 
         return dgt_neural_ablation.build_payload(generated_at="fixture", requested_device="cpu")
+    if spec.name == "gap-head-pair-rule-bounded-capsule":
+        return pair_rule_capsule.build_payload(generated_at="fixture")
+    if spec.name == "minigrid-doorkey-task-probe":
+        from bedc_quality_lab import minigrid_doorkey_task_probe as probe
+
+        prereg = probe.preregistration_capsule(sample_budget=64)
+        return probe._dependency_abstain_payload(
+            prereg=prereg,
+            generated_at="fixture",
+            deps={"gymnasium": "missing", "minigrid": "missing", "torch": "missing"},
+            sample_budget=64,
+            seed=probe.DEFAULT_SEED,
+        )
     if spec.name == "dgt-ablation-null-decomposition":
         from bedc_quality_lab import dgt_ablation_null_decomposition
 
@@ -382,17 +423,21 @@ def _payload_for_spec(spec):
         {
             "source_artifacts": {
                 "cost_protocol": "configs/default_cost_protocol.yaml",
+                "claim_capsule": "reports/runs/fixture/claim_capsule.json",
+                "run_artifacts": {
+                    "claim_capsule": "reports/runs/fixture/claim_capsule.json",
+                },
                 "canonical_runner": "scripts/run_gaussian_ou_lejepa.py",
                 "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
             },
             "applicability_boundary": {
                 "claimed_scope": "fixture scope",
-                "not_claimed": "fixture nonclaim",
+                "not_claimed": ["fixture nonclaim"],
                 "forbidden_inference_columns": ["z"],
             },
             "coverage_item": {"status": "fixture"},
             "transition_debt_by_grid": {"cell": {"status": "fixture"}},
-            "config": {"arm": "baseline-only"},
+            "config": {"arm": "baseline-only", "claim_capsule_artifact": "reports/runs/fixture/claim_capsule.json"},
             "control_protocol": {"status": "fixture", **_matched_random_audit_fixture()},
             "treatment_verdict": {"positive": spec.name == "gap-head-on-h"},
             "control_verdict": {"positive": False},
@@ -944,7 +989,10 @@ def _payload_for_spec(spec):
     if spec.name == "certificate-gated-attention":
         return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "gap-head-transfer-atlas":
-        payload["config"] = {"control_arm": "matched_random_gap_head"}
+        payload["config"] = {
+            "control_arm": "matched_random_gap_head",
+            "claim_capsule_artifact": "reports/runs/fixture/claim_capsule.json",
+        }
         payload.update(_atlas_fixture_rows())
         payload["forbidden_claim_term_audit"] = {"status": "pass", "hits": []}
     if spec.name == "transformer-derivative-atlas":
@@ -1027,6 +1075,22 @@ def _payload_for_spec(spec):
     return payload
 
 
+def _write_schema_admission_report_fixture(tmp_path, monkeypatch, spec, schema_id=None):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = _payload_for_spec(spec)
+    if schema_id is None:
+        payload.pop("schema_id", None)
+    else:
+        payload["schema_id"] = schema_id
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+    return payload
+
+
 def _walk_keys(value):
     if isinstance(value, dict):
         for key, cell in value.items():
@@ -1049,6 +1113,7 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
     canonical_module.ROOT = tmp_path
     canonical_module.CANONICAL_DIR = tmp_path / "reports" / "canonical"
     canonical_module.INDEX_ARTIFACT = tmp_path / "reports" / "canonical" / "index.json"
+    _write_pair_rule_prerequisite_fixtures(tmp_path)
     for spec in canonical_module.CANONICAL_REPORTS:
         json_path = canonical_module._artifact_path(spec.json_artifact)
         md_path = canonical_module._artifact_path(spec.markdown_artifact)
@@ -1059,6 +1124,34 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
             canonical_module._validate_discovery_regularized_training_payload(payload)
         json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
+    fixture_capsule = tmp_path / "reports/runs/fixture/claim_capsule.json"
+    fixture_capsule.parent.mkdir(parents=True, exist_ok=True)
+    fixture_capsule.write_text(
+        json.dumps(
+            {
+                "schema_id": "bedc.quality.claim_capsule",
+                "claim_id": "claim:fixture",
+                "report": "fixture",
+                "source": "reports/canonical/fixture.json",
+                "source_pointer": "$",
+                "status": "complete",
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    for artifact in (
+        "reports/runs/certificate-gated-attention/claim_capsule.json",
+        "reports/runs/sigreg-training-proxy/claim_capsule.json",
+        "reports/runs/sigreg-mini-grid/claim_capsule.json",
+        "reports/runs/discovery-regularized-training/claim_capsule.json",
+        "reports/runs/mechanism-seeking-network/claim_capsule.json",
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+    ):
+        path = tmp_path / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(fixture_capsule.read_text(encoding="utf-8"), encoding="utf-8")
     cmi_path = tmp_path / canonical_module.IRREDUCIBILITY_CMI_JSON_ARTIFACT
     cmi_path.parent.mkdir(parents=True, exist_ok=True)
     cmi_path.write_text(
@@ -1076,22 +1169,78 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
     )
 
 
+def _write_pair_rule_prerequisite_fixtures(root):
+    payloads = {
+        pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT_ID,
+            "downstream_admission": {
+                "status": "pass",
+                "owner_pointer": pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_OWNER_POINTER,
+            },
+            "claim_capsule": {"status": "pass"},
+            "source_artifacts": {
+                "selected_l1_evidence": pair_rule_capsule.PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+            },
+        },
+        pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT_ID,
+            "claim_gate": {
+                "status": "pass",
+                "owner_pointer": pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_STATUS_OWNER_POINTER,
+            },
+        },
+        pair_rule_capsule.PAIR_RULE_CLAIM_CAPSULE_ARTIFACT: {
+            "schema_id": "bedc.quality.claim_capsule",
+            "artifact_id": pair_rule_capsule.PAIR_RULE_CLAIM_CAPSULE_ARTIFACT_ID,
+            "claim_capsule_ref": {
+                "construct_validity": {
+                    "base_exceeds_chance": {
+                        "task_id": "dgt_l1_order2_pair_rule",
+                        "chance": 0.0625,
+                        "base_acc_mean": 0.25,
+                        "base_acc_ci95_low": 0.125,
+                        "margin_min": 0.0,
+                        "gate_status": "pass",
+                        "evidence_pointer": (
+                            pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_STATUS_OWNER_POINTER
+                        ),
+                        "fair_control_id": "base_transformer_l1",
+                    }
+                }
+            },
+        },
+        pair_rule_capsule.PAIR_RULE_ATTRIBUTION_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.PAIR_RULE_ATTRIBUTION_ARTIFACT_ID,
+            "d5_m": {
+                "status": "pass",
+                "source_surface_owner_pointer": pair_rule_capsule.PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+            },
+        },
+        pair_rule_capsule.PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT: {
+            "artifact_id": pair_rule_capsule.PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT_ID,
+            "observed_debt_transfer": {
+                "status": "pass",
+                "source_surface_owner_pointer": pair_rule_capsule.PAIR_RULE_SOURCE_SURFACE_OWNER_POINTER,
+            },
+        },
+    }
+    for artifact, payload in payloads.items():
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def _patch_scaling_ladder_pass_run_spec(monkeypatch):
     real_run_spec = canonical._run_spec
 
     def fake_run_spec(spec, *args, **kwargs):
         if spec.name == "scaling-ladder":
-            return {
-                "name": spec.name,
-                "status": "pass",
-                "bundle_role": spec.bundle_role,
-                "json_artifact": spec.json_artifact,
-                "markdown_artifact": spec.markdown_artifact,
-                "fingerprint_sidecar": canonical._fingerprint_path(spec).relative_to(canonical.ROOT).as_posix(),
+            return _index_row_for_spec(spec) | {
                 "discipline": canonical._discipline(spec),
                 "fingerprint_status": "match",
+                "fingerprint_reason": "match",
                 "producer_status": "skipped",
-                "artifact_validation": {"status": "pass"},
+                "validation": {"status": "pass"},
             }
         return real_run_spec(spec, *args, **kwargs)
 
@@ -1206,6 +1355,77 @@ def test_input_accessibility_validation_fails_closed_without_rows(tmp_path):
     assert validation["status"] == "fail"
     assert validation["required_key_validation"]["status"] == "fail"
     assert set(validation["required_key_validation"]["missing_keys"]) == {"rows", "row_count"}
+
+
+def test_artifact_validation_embeds_schema_admission_as_helper_only_contract(tmp_path, monkeypatch):
+    spec = canonical._specs_by_name()["claim-complexity"]
+    _write_schema_admission_report_fixture(tmp_path, monkeypatch, spec, canonical.CLAIM_COMPLEXITY_SCHEMA_ID)
+
+    validation = canonical._artifact_validation(spec)
+
+    admission = validation["schema_admission"]
+    assert admission["status"] == "pass"
+    assert list(admission) == ["status", "rows", "hardgates"]
+    assert admission["rows"] == [
+        {
+            "schema_id": canonical.CLAIM_COMPLEXITY_SCHEMA_ID,
+            "primitive_basis": True,
+            "owner_pointer": f"{canonical.CLAIM_COMPLEXITY_JSON_ARTIFACT}:$",
+            "validator_ref": "bedc_quality_lab.claim_complexity.validate_claim_complexity_payload",
+            "downgrade_policy": "fail-closed",
+            "status": "pass",
+            "reason": "schema admission fields are present",
+        }
+    ]
+    assert "hardgates" not in admission["rows"][0]
+    assert all(gate["status"] == "pass" for gate in admission["hardgates"].values())
+
+
+def test_artifact_validation_uses_required_key_validator_as_minimum_schema_binding(tmp_path, monkeypatch):
+    spec = canonical._specs_by_name()["input-accessibility"]
+    _write_schema_admission_report_fixture(tmp_path, monkeypatch, spec, canonical.INPUT_ACCESSIBILITY_SCHEMA_ID)
+
+    validation = canonical._artifact_validation(spec)
+
+    admission = validation["schema_admission"]
+    assert admission["status"] == "pass"
+    assert admission["rows"][0]["schema_id"] == canonical.INPUT_ACCESSIBILITY_SCHEMA_ID
+    assert admission["rows"][0]["validator_ref"] == "scripts.run_canonical_reports._validate_json"
+    assert admission["rows"][0]["downgrade_policy"] == "fail-closed"
+
+
+def test_artifact_validation_fails_schema_admission_when_validator_binding_is_not_callable(tmp_path, monkeypatch):
+    spec = canonical._specs_by_name()["input-accessibility"]
+    _write_schema_admission_report_fixture(tmp_path, monkeypatch, spec, canonical.INPUT_ACCESSIBILITY_SCHEMA_ID)
+    monkeypatch.setattr(canonical, "_schema_validator_ref_for_spec", lambda _spec, _schema_id: "scripts.run_canonical_reports.MISSING")
+
+    validation = canonical._artifact_validation(spec)
+
+    assert validation["status"] == "fail"
+    admission = validation["schema_admission"]
+    assert admission["status"] == "fail"
+    assert admission["rows"][0]["status"] == "fail"
+    assert admission["hardgates"]["SCHEMA-MIN-HG3-validator-binding"]["row_indexes"] == [0]
+
+
+def test_artifact_validation_fails_schema_admission_without_schema_id(tmp_path, monkeypatch):
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    assert "schema_id" not in spec.required_json_keys
+    _write_schema_admission_report_fixture(tmp_path, monkeypatch, spec, schema_id=None)
+
+    validation = canonical._artifact_validation(spec)
+
+    assert validation["required_key_validation"]["status"] == "pass"
+    assert validation["status"] == "fail"
+    admission = validation["schema_admission"]
+    assert admission["status"] == "fail"
+    assert admission["rows"][0]["schema_id"] == ""
+    assert admission["rows"][0]["status"] == "fail"
+    assert admission["hardgates"]["SCHEMA-MIN-HG1-primitive-basis"]["row_indexes"] == []
+    assert admission["hardgates"]["SCHEMA-MIN-HG2-owner-pointer"]["row_indexes"] == []
+    assert admission["hardgates"]["SCHEMA-MIN-HG3-validator-binding"]["row_indexes"] == []
+    assert admission["hardgates"]["SCHEMA-MIN-HG4-downgrade-policy"]["row_indexes"] == []
+    assert admission["hardgates"]["SCHEMA-MIN-HG5-public-pointer-only"]["row_indexes"] == []
 
 
 def test_order_k_benchmark_fingerprint_closure_has_runner_and_projector(tmp_path, monkeypatch):
@@ -1350,6 +1570,26 @@ def _write_release_pointer_fixture(root):
     (root / "docs" / "lit").mkdir(parents=True, exist_ok=True)
     canonical_dir = root / "reports" / "canonical"
     canonical_dir.mkdir(parents=True, exist_ok=True)
+    run_capsule_payload = {
+        "schema_id": "bedc.quality.claim_capsule",
+        "claim_id": "claim:fixture",
+        "report": "fixture",
+        "source": "reports/canonical/fixture.json",
+        "source_pointer": "$",
+        "status": "complete",
+    }
+    for artifact in (
+        "reports/runs/fixture/claim_capsule.json",
+        "reports/runs/certificate-gated-attention/claim_capsule.json",
+        "reports/runs/sigreg-training-proxy/claim_capsule.json",
+        "reports/runs/sigreg-mini-grid/claim_capsule.json",
+        "reports/runs/discovery-regularized-training/claim_capsule.json",
+        "reports/runs/mechanism-seeking-network/claim_capsule.json",
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+    ):
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(run_capsule_payload, sort_keys=True) + "\n", encoding="utf-8")
     (canonical_dir / "new_model_hardgates.json").write_text(json.dumps({"gates": {"status": "pass"}}) + "\n", encoding="utf-8")
     (canonical_dir / "mechanism_dna.json").write_text(json.dumps({"rows": [{"status": "pass"}]}) + "\n", encoding="utf-8")
     (canonical_dir / "discovery-gated-transformer-training.json").write_text(json.dumps({"hardgates": {"status": "pass"}}) + "\n", encoding="utf-8")
@@ -1689,6 +1929,19 @@ def _patch_lightweight_run_reports(monkeypatch):
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
     monkeypatch.setattr(canonical, "_run_metric_purity_preflight", lambda report_artifacts=None: {"status": "pass"})
+    def fake_aggregation_consistency_status(payload, *, generated_at, require_pass=True):
+        return payload | {
+            "aggregation_consistency": {
+                "schema_id": "bedc-quality-lab:aggregation-consistency",
+                "status": "pass",
+                "hardgate_status": {},
+                "binding_count": 0,
+                "doc_scan_count": 0,
+                "generated_at": generated_at,
+            }
+        }
+
+    monkeypatch.setattr(canonical, "_write_aggregation_consistency_status", fake_aggregation_consistency_status)
 
 
 def _file_digest_map(root):
@@ -1700,10 +1953,15 @@ def _file_digest_map(root):
 
 
 def _index_row_for_spec(spec):
-    return {
+    row = {
         "name": spec.name,
         "bundle_role": spec.bundle_role,
         "status": "pass",
+        "report_build_status": status_taxonomy.status_cell("report_build_status", "pass", source_pointer=f"{spec.json_artifact}:$"),
+        "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "not-applicable"),
+        "hardgate_status": status_taxonomy.status_cell("hardgate_status", "not-applicable", hardgate_scope="not-applicable"),
+        "ladder_state": status_taxonomy.status_cell("ladder_state", "not-applicable"),
+        "decision_status": status_taxonomy.status_cell("decision_status", "not-applicable"),
         "json_artifact": spec.json_artifact,
         "markdown_artifact": spec.markdown_artifact,
         "fingerprint_sidecar": canonical._artifact_path(spec.json_artifact).with_suffix(".fingerprint.json").relative_to(canonical.ROOT).as_posix(),
@@ -1717,6 +1975,12 @@ def _index_row_for_spec(spec):
             "no_control_rationale_pointer": spec.no_control_rationale_pointer,
         },
     }
+    row["status_taxonomy"] = {
+        "status": "pass",
+        "errors": [],
+        "axes": sorted(status_taxonomy.STATUS_AXIS_DOMAINS),
+    }
+    return row
 
 
 def _patch_dgt_owner_fixture(monkeypatch, calls):
@@ -1757,6 +2021,32 @@ def _write_discovery_gated_transformer_owner_for_index(tmp_path):
         generated_at="2030-01-01T00:00:00+00:00",
     )
     return owner
+
+
+def _write_jepa_world_model_source_fixtures(root):
+    canonical_dir = root / "reports" / "canonical"
+    canonical_dir.mkdir(parents=True, exist_ok=True)
+    (root / canonical.LEJEPA_THEOREM_LEDGER_JSON_ARTIFACT).write_text(
+        json.dumps(lejepa_theorem_ledger.build_payload(generated_at="fixture-time"), sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    for relative, payload in {
+        canonical.BEDC_JEPA_QUALITY_PACKET_ARTIFACT: {
+            "namecert": {
+                "source_spec": "fixture-source",
+                "classifier_spec": "fixture-classifier",
+            },
+            "ledger": [],
+            "quality_gate": {"status": "pass"},
+        },
+        canonical.BEDC_JEPA_PLANNING_ARTIFACT: {
+            "risk_constrained_planning": {"status": "bounded"}
+        },
+        canonical.BEDC_JEPA_ARTIFACT_MANIFEST: {"status": "present"},
+    }.items():
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def _write_observed_debt_projection_fixtures(root):
@@ -1855,6 +2145,16 @@ def _assert_dgt_discovery_map_row_uses_l0_consumption(row):
     assert row["scaling_ladder_pointer"] == "reports/canonical/scaling-ladder.json:$.levels[0]"
 
 
+def _index_with_aggregation_consistency(generated_index, *, generated_at):
+    return {
+        **generated_index,
+        "aggregation_consistency": validate_aggregation_consistency(
+            canonical.ROOT,
+            index_payload=generated_index,
+        ).compact_status(generated_at=generated_at),
+    }
+
+
 def _drop_dgt_l0_from_manifest(monkeypatch):
     monkeypatch.setattr(
         canonical,
@@ -1862,7 +2162,7 @@ def _drop_dgt_l0_from_manifest(monkeypatch):
         tuple(
             spec
             for spec in canonical.CANONICAL_REPORTS
-            if spec.name != "dgt-l0-controls"
+            if spec.name not in {"dgt-l0-controls", "discovery-gated-transformer-jepa-world-model"}
         ),
     )
 
@@ -1888,12 +2188,15 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-threshold-frontier",
         "gap-head-transfer-atlas",
         "gap-head-attribution-capsule",
+        "gap-head-pair-rule-bounded-capsule",
+        "minigrid-doorkey-task-probe",
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
         "certificate-guided-discovery",
         "sigreg-training-proxy",
         "sigreg-mini-grid",
         "discovery-regularized-training",
+        "fair-alignment-control-ledger",
         "mechanism-seeking-network",
         "mechanism-dna",
         "dgt-l0-controls",
@@ -1908,6 +2211,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "input-accessibility",
         "fair-l1-decision",
         "discovery-gated-transformer",
+        "minimal-irreducible-causal-derivative-mainline",
         "dgt-neural-ablation",
         "dgt-ablation-null-decomposition",
         "dgt-component-redundancy-audit",
@@ -1915,6 +2219,9 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
+        "discovery-gated-transformer-jepa-world-model",
+        "jepa-wm-l1-admission",
+        "jepa-wm-l1-evaluator-calibration",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
         "model-comparison",
@@ -1973,6 +2280,7 @@ def test_dgt_owner_path_is_hyphen_only():
     assert "d5_o_projection" in spec.required_json_keys
     assert "d5_m_projection" in spec.required_json_keys
     assert "scaling_ladder" in spec.required_json_keys
+    assert "family_roadmap" in spec.required_json_keys
     assert spec.positive_claim_pointer == "$.scaling_ladder"
     assert spec.not_claimed_pointer == "$.scaling_ladder.not_claimed"
     assert spec.scope_pointer == "$.scaling_ladder"
@@ -2291,16 +2599,21 @@ def test_reproduction_package_validation_rejects_copied_owner_fact(tmp_path):
     assert validation["reproduction_errors"]
 
 
-def _write_fair_l1_decision_fixture(root: Path, *, comparison_id: str = "equal-validation-loss", gate_id: str = "FAIR-L1-HG2") -> None:
+def _fair_l1_owner_gate_id() -> str:
+    return str(canonical.FAIR_L1_BLOCKED_REASON["owner_gate_ref"]).rsplit(".", 1)[-1]
+
+
+def _write_fair_l1_decision_fixture(root: Path, *, gate_id: str | None = None, gate_status: str = "fail") -> None:
     path = root / "reports/canonical/fair-l1-decision.json"
     path.parent.mkdir(parents=True, exist_ok=True)
+    owner_gate_id = _fair_l1_owner_gate_id()
     comparison_rows = [
         {"comparison_id": "equal-step", "decision": "resolved", "status": "pass"},
         {"comparison_id": "equal-compute", "decision": "resolved", "status": "pass"},
         {"comparison_id": "equal-loss-decrease", "decision": "resolved", "status": "pass"},
         {
-            "comparison_id": comparison_id,
-            "decision": "validation-loss-cell-missing",
+            "comparison_id": "equal-validation-loss",
+            "decision": "validation-loss-owner-cell-missing",
             "status": "missing",
         },
     ]
@@ -2309,9 +2622,9 @@ def _write_fair_l1_decision_fixture(root: Path, *, comparison_id: str = "equal-v
         "artifact_id": "bedc-quality-lab:fair-l1-decision",
         "fair_alignment": {"comparison_rows": comparison_rows},
         "hardgates": {
-            "FAIR-L1-HG2": {
-                "gate_id": gate_id,
-                "status": "fail",
+            owner_gate_id: {
+                "gate_id": gate_id or owner_gate_id,
+                "status": gate_status,
             }
         },
     }
@@ -2482,7 +2795,7 @@ def test_reproduction_check_result_validation_treats_failure_reasons_as_non_auth
 
 def test_reproduction_check_result_validation_rejects_fair_l1_evidence_drift(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path, comparison_id="equal-loss-decrease")
+    _write_fair_l1_decision_fixture(tmp_path, gate_status="pass")
     payload = _reproduction_check_payload()
 
     validation = _write_reproduction_check_fixture(tmp_path, payload)
@@ -2490,13 +2803,13 @@ def test_reproduction_check_result_validation_rejects_fair_l1_evidence_drift(tmp
     assert validation["status"] == "fail"
     assert {
         "path": "$.target_results[1].blocked_reason.evidence_ref",
-        "message": "fair-l1 evidence row does not match equal-validation-loss",
+        "message": f"fair-l1 evidence gate does not match {_fair_l1_owner_gate_id()}",
     } in validation["reproduction_errors"]
 
 
 def test_reproduction_check_result_validation_rejects_fair_l1_owner_gate_drift(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
-    _write_fair_l1_decision_fixture(tmp_path, gate_id="FAIR-L1-HG3")
+    _write_fair_l1_decision_fixture(tmp_path, gate_id="FAIR-L1-HG2")
     payload = _reproduction_check_payload()
 
     validation = _write_reproduction_check_fixture(tmp_path, payload)
@@ -2504,7 +2817,7 @@ def test_reproduction_check_result_validation_rejects_fair_l1_owner_gate_drift(t
     assert validation["status"] == "fail"
     assert {
         "path": "$.target_results[1].blocked_reason.owner_gate_ref",
-        "message": "fair-l1 owner gate does not match FAIR-L1-HG2",
+        "message": f"fair-l1 owner gate does not match {_fair_l1_owner_gate_id()}",
     } in validation["reproduction_errors"]
 
 
@@ -3020,7 +3333,10 @@ def test_committed_canonical_bundle_matches_generation_chain():
         discovery_timestamp=discovery_payload["generated_at"],
     )
 
-    assert index_payload == generated_index
+    assert index_payload == _index_with_aggregation_consistency(
+        generated_index,
+        generated_at=index_payload["generated_at"],
+    )
     assert discovery_payload == generated_discovery
     _assert_dgt_discovery_map_row_uses_l0_consumption(
         next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
@@ -3115,11 +3431,17 @@ def test_model_comparison_sidecar_is_indexed_pointer_only():
     assert section["json_artifact"] == canonical.MODEL_COMPARISON_JSON_ARTIFACT
     assert section["markdown_artifact"] == canonical.MODEL_COMPARISON_MARKDOWN_ARTIFACT
     assert section["models_pointer"] == "reports/canonical/model-comparison.json:$.models"
+    assert section["semantic_pointer"] == "reports/canonical/model-comparison.json:$.comparisons[*].semantic"
+    assert section["dgt_control_semantic_pointer"] == "reports/canonical/model-comparison.json:$.comparisons[0].semantic"
     assert "models" not in section
     assert "rows" not in section
     assert index_payload["model_comparison"]["models_pointer"] == section["models_pointer"]
+    assert index_payload["model_comparison"]["semantic_pointer"] == section["semantic_pointer"]
     assert "## Model Comparison" in markdown
     assert "| `base_transformer` |" not in markdown
+    serialized = json.dumps(index_payload, sort_keys=True)
+    assert "model_comparison_semantics.json" not in serialized
+    assert "d5m_scope.json" not in serialized
 
 
 def test_model_comparison_rows_cover_issue_model_set_fail_closed():
@@ -3147,6 +3469,14 @@ def test_model_comparison_rejects_accuracy_only_ranking():
 
     assert keys.isdisjoint({"rank", "total_score", "accuracy_rank", "winner", "global_winner"})
     assert payload["ranking_key"] == ["quality_q", "JetCoverage"]
+
+
+def test_dgt_index_exposes_d5_m_scope_pointer():
+    payload = canonical._build_discovery_gated_transformer_payload(generated_at="2030-01-01T00:00:00+00:00")
+    section = canonical._discovery_gated_transformer_index_section(payload)
+
+    assert section["d5_m_scope_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope"
+    assert section["d5_m_scope_basis_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.d5_m_scope.basis"
 
 
 def test_model_comparison_ranking_key_is_claim_specific(monkeypatch):
@@ -4398,6 +4728,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
+        "family_roadmap",
         "component_ablation",
         "neural_ablation_ref",
         "operational_robustness",
@@ -4407,6 +4738,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "d4_projection",
         "d5_o_projection",
         "d5_m_projection",
+        "d5_m_scope",
         "scaling_ladder",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -4442,6 +4774,13 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert set(payload["family_definition"]["invariant_groups"]) == {"architecture", "objective", "certificate"}
     assert payload["family_definition"]["hardgate"]["status"] == "pass"
     assert payload["family_definition"]["model_family_claim_status"]["claim_allowed"] is False
+    assert payload["family_roadmap"]["owner_ref"] == (
+        "reports/canonical/discovery-gated-transformer.json:$"
+    )
+    assert set(payload["family_roadmap"]["hardgate"]["gates"]) == {
+        f"DGT-FAMILY-ROADMAP-HG{index}" for index in range(1, 9)
+    }
+    assert payload["family_roadmap"]["family_level_discovery_status"]["allowed"] is False
     assert payload["component_ablation"]["owner_ref"] == (
         "reports/canonical/discovery-gated-transformer.json:$.component_ablation"
     )
@@ -4662,25 +5001,43 @@ def test_fair_l1_decision_canonical_spec_projects_ladder_state():
     }
 
 
-def test_fair_l1_changed_run_allows_nonpass_when_committed_status_is_bounded_negative(monkeypatch):
-    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", lambda _root, _pointer: "bounded-negative")
-
-    assert canonical._result_blocks_changed_run({"name": "fair-l1-decision", "status": "fail"}) is False
-
-
-def test_fair_l1_changed_run_blocks_nonpass_when_committed_status_is_not_bounded_negative(monkeypatch):
-    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", lambda _root, _pointer: "blocked")
-
-    assert canonical._result_blocks_changed_run({"name": "fair-l1-decision", "status": "fail"}) is True
-
-
-def test_changed_run_blocks_non_fair_nonpass_without_committed_decision_lookup(monkeypatch):
+def test_fair_l1_changed_run_uses_generic_report_build_gate(monkeypatch):
     def unexpected_lookup(_root, _pointer):
-        raise AssertionError("non-fair changed result must not read the fair L1 decision")
+        raise AssertionError("changed gate must not read the committed fair L1 decision")
 
     monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
 
-    assert canonical._result_blocks_changed_run({"name": "dgt-l1-controls", "status": "fail"}) is True
+    assert canonical._result_blocks_changed_run(
+        {
+            "name": "fair-l1-decision",
+            "status": "pass",
+            "report_build_status": status_taxonomy.status_cell("report_build_status", "pass"),
+            "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "bounded-negative"),
+            "hardgate_status": status_taxonomy.status_cell("hardgate_status", "fail", hardgate_scope="owner-scientific"),
+            "ladder_state": status_taxonomy.status_cell("ladder_state", "l1-bounded-negative"),
+            "decision_status": status_taxonomy.status_cell("decision_status", "bounded-negative"),
+            "status_taxonomy": {"status": "pass", "errors": []},
+            "producer_status": "completed",
+            "fingerprint_status": "written",
+        }
+    ) is False
+
+
+def test_changed_run_blocks_report_build_failure_without_committed_decision_lookup(monkeypatch):
+    def unexpected_lookup(_root, _pointer):
+        raise AssertionError("changed gate must not read the fair L1 decision")
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", unexpected_lookup)
+
+    assert canonical._result_blocks_changed_run(
+        {
+            "name": "fair-l1-decision",
+            "status": "fail",
+            "report_build_status": status_taxonomy.status_cell("report_build_status", "fail"),
+            "producer_status": "completed",
+            "fingerprint_status": "written",
+        }
+    ) is True
 
 
 def test_changed_run_allows_dgt_l0_cv_hg4_boundary_without_committed_lookup(monkeypatch):
@@ -4784,6 +5141,10 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "family_definition_pointer",
         "family_definition_hardgate_pointer",
         "model_family_claim_status_pointer",
+        "family_roadmap_pointer",
+        "family_roadmap_hardgate_pointer",
+        "family_roadmap_cross_level_evidence_pointer",
+        "family_level_discovery_status_pointer",
         "component_ablation_pointer",
         "component_ablation_hardgate_pointer",
         "component_ablation_arm_catalog_pointer",
@@ -4805,6 +5166,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "d5_m_projection_pointer",
         "d5_m_projection_discovery_level_pointer",
         "d5_m_projection_hardgate_pointer",
+        "d5_m_scope_pointer",
+        "d5_m_scope_basis_pointer",
+        "d5_m_scope_hardgate_pointer",
         "scaling_ladder_pointer",
         "scaling_ladder_discovery_level_pointer",
         "scaling_ladder_status_pointer",
@@ -5223,6 +5587,102 @@ def test_discovery_regularized_training_quality_boundary_index_is_pointer_only()
         assert forbidden not in lowered
 
 
+def test_discovery_regularized_training_drt2_semantic_hardgates_are_owner_local():
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+
+    canonical._validate_discovery_regularized_training_payload(payload)
+    semantic = payload["drt2_semantic_hardgates"]
+
+    assert set(canonical._specs_by_name()["discovery-regularized-training"].required_json_keys) >= {
+        "drt2_semantic_hardgates",
+        "negative_witness_penalty",
+    }
+    assert tuple(semantic["gates"]) == tuple(f"DRT2-HG{index}" for index in range(1, 7))
+    assert all(row["evidence_pointer"].startswith(canonical.DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT) for row in semantic["gates"].values())
+    assert "DRT2-HG1" not in canonical.CANONICAL_REPORTS
+    lowered = json.dumps(canonical._discovery_regularized_training_quality_boundary_index_section(payload), sort_keys=True)
+    assert "DRT2-HG" not in lowered
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda item: item["drt2_semantic_hardgates"]["gates"]["DRT2-HG1"].update({"status": "fail"}),
+        lambda item: item["drt2_semantic_hardgates"]["gates"]["DRT2-HG2"].update({"evidence_pointer": "$.loss_family"}),
+        lambda item: item["training_method_comparison"]["rows"]["DGT+DRT"].update({"metric": 0.4}),
+        lambda item: item["negative_witness_penalty"].update({"terminal_verdict": "accepted"}),
+    ],
+)
+def test_discovery_regularized_training_drt2_semantic_hardgates_reject_copied_authority(mutate):
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    mutated = json.loads(json.dumps(payload))
+    mutate(mutated)
+
+    with pytest.raises(ValueError):
+        canonical._validate_discovery_regularized_training_payload(mutated)
+
+
+def test_discovery_regularized_training_drt2_negative_witness_sibling_pointers_resolve():
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    pointers = payload["negative_witness_penalty"]["evidence_pointers"]
+
+    assert resolve_artifact_pointer(canonical.ROOT, pointers["mutation_ledger"]) is not None
+    assert resolve_artifact_pointer(canonical.ROOT, pointers["negative_witness_summary"]) is not None
+
+    mutated = json.loads(json.dumps(payload))
+    mutated["negative_witness_penalty"]["evidence_pointers"]["negative_witness_summary"] = (
+        "reports/canonical/discovery_negative_witness_summary.json:$.missing"
+    )
+
+    with pytest.raises(ValueError):
+        canonical._validate_discovery_regularized_training_payload(mutated)
+
+
+def test_discovery_regularized_training_fair_control_sections_are_required_and_owner_local():
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    payload = _payload_for_spec(spec)
+
+    canonical._validate_discovery_regularized_training_payload(payload)
+
+    assert spec.control_pointer == "$.fair_control_ledger"
+    assert set(spec.required_json_keys) >= {
+        "fair_control_ledger",
+        "base_chance_gate",
+        "four_axis_match_gate",
+        "drt_nondegenerate_gate",
+    }
+    assert payload["fair_control_ledger"]["owner_pointer"].endswith("$.fair_control_ledger")
+    assert payload["base_chance_gate"]["owner_pointer"].endswith("$.base_chance_gate")
+    assert payload["four_axis_match_gate"]["owner_pointer"].endswith("$.four_axis_match_gate")
+    assert payload["drt_nondegenerate_gate"]["owner_pointer"].endswith("$.drt_nondegenerate_gate")
+    assert tuple(
+        gate for gate in payload["hardgate"]["gates"] if gate.startswith("DRT-FC-HG")
+    ) == ("DRT-FC-HG1", "DRT-FC-HG2", "DRT-FC-HG3", "DRT-FC-HG4")
+    assert "fair-control-training" not in {item.name for item in canonical.CANONICAL_REPORTS}
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda item: item.update({"fair_control_ledger": {}}),
+        lambda item: item["fair_control_ledger"]["pair_rule_surface"].update({"status": "fail"}),
+        lambda item: item["base_chance_gate"].update({"status": "fail"}),
+        lambda item: item["four_axis_match_gate"]["axes"]["parameter_match"].update({"status": "fail"}),
+        lambda item: item["drt_nondegenerate_gate"].update({"status": "fail"}),
+        lambda item: item["drt_nondegenerate_gate"]["control_quality_pointers"].pop("compute_matched"),
+        lambda item: item["fair_control_ledger"]["arms"][1].update({"candidate_quality_margin": 0.0}),
+        lambda item: item["hardgate"]["gates"]["DRT-FC-HG1"].update({"status": "fail"}),
+    ],
+)
+def test_discovery_regularized_training_fair_control_validator_fails_closed(mutate):
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    mutated = json.loads(json.dumps(payload))
+    mutate(mutated)
+
+    with pytest.raises(ValueError):
+        canonical._validate_discovery_regularized_training_payload(mutated)
+
+
 def test_discovery_regularized_training_quality_boundary_index_disk_invalid_payload_falls_back(monkeypatch, tmp_path):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
@@ -5383,6 +5843,79 @@ def test_run_spec_can_reuse_existing_artifacts_without_producer(tmp_path, monkey
     assert result["status"] == "pass"
     assert result["producer_status"] == "skipped"
     assert result["validation"]["status"] == "pass"
+
+
+def test_run_spec_status_alias_is_report_build_status(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["status"] == result["report_build_status"]["value"]
+    assert result["status"] == "pass"
+    assert result["status_taxonomy"]["status"] == "pass"
+
+
+def test_changed_run_uses_report_build_status_only():
+    result = {
+        "name": "fair-l1-decision",
+        "status": "pass",
+        "report_build_status": status_taxonomy.status_cell("report_build_status", "pass"),
+        "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "bounded-negative"),
+        "hardgate_status": status_taxonomy.status_cell("hardgate_status", "fail", hardgate_scope="owner-scientific"),
+        "ladder_state": status_taxonomy.status_cell("ladder_state", "l1-bounded-negative"),
+        "decision_status": status_taxonomy.status_cell("decision_status", "bounded-negative"),
+        "status_taxonomy": {"status": "pass", "errors": []},
+        "producer_status": "completed",
+        "fingerprint_status": "written",
+    }
+
+    assert canonical._result_blocks_changed_run(result) is False
+
+
+def test_unknown_status_value_fails_report_build(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical.CanonicalReportSpec(
+        name="fixture-status",
+        command=("python3", "scripts/run_fixture.py"),
+        json_artifact="reports/canonical/fixture-status.json",
+        markdown_artifact="reports/canonical/fixture-status.md",
+        required_json_keys=("source_artifacts", "applicability_boundary", "positive_claim", "owner_status"),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.applicability_boundary",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.applicability_boundary.not_claimed",
+        positive_claim_pointer="$.positive_claim",
+        control_pointer=None,
+        no_control_rationale_pointer=None,
+        scientific_claim_status_pointer="$.owner_status",
+    )
+    payload = {
+        "source_artifacts": {},
+        "applicability_boundary": {"not_claimed": ["fixture"]},
+        "positive_claim": {"status": "pointer-only"},
+        "owner_status": "unknown-boundary",
+    }
+    json_path = canonical._artifact_path(spec.json_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    canonical._artifact_path(spec.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["validation"]["status"] == "pass"
+    assert result["scientific_claim_status"]["value"] == "unknown-boundary"
+    assert result["status_taxonomy"]["status"] == "fail"
+    assert result["report_build_status"]["value"] == "fail"
+    assert result["status"] == "fail"
 
 
 def test_matching_fingerprint_skips_producer_but_validates(tmp_path, monkeypatch):
@@ -5701,6 +6234,30 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     assert "gap-head-on-h" in index_markdown
     assert (canonical_dir / "quality-scorecard.json").exists()
     assert (canonical_dir / "quality-scorecard.md").exists()
+    assert "status_summary" in payload
+    assert {"report_build_status", "scientific_claim_status", "ladder_state"} <= set(payload["status_summary"]["axes"])
+
+
+def test_cli_summary_contains_report_claim_ladder(monkeypatch, capsys):
+    summary = {
+        "axes": {
+            "report_build_status": {"pass": 1},
+            "scientific_claim_status": {"bounded-negative": 1},
+            "hardgate_status": {"fail": 1},
+            "ladder_state": {"l1-bounded-negative": 1},
+            "decision_status": {"bounded-negative": 1},
+        },
+        "reports": [],
+    }
+
+    monkeypatch.setattr(canonical, "run_reports", lambda **_kwargs: {"status_summary": summary})
+
+    canonical.main([])
+
+    stdout = capsys.readouterr().out
+    assert "report_build_status" in stdout
+    assert "scientific_claim_status" in stdout
+    assert "ladder_state" in stdout
 
 
 def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monkeypatch):
@@ -5717,6 +6274,85 @@ def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monke
     assert calls == []
     assert payload["reports"][0]["fingerprint_status"] == "match"
     assert payload["reports"][0]["producer_status"] == "skipped"
+
+
+def test_claim_first_consistency_section_and_verify_fingerprints_fail_closed(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    payload = {
+        "schema_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_SCHEMA_ID,
+        "artifact_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID,
+        "generated_at": "fixture-time",
+        "claim_id": "claim:discovery-gated-transformer",
+        "status": "pass",
+        "json_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT,
+        "markdown_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT,
+        "paper_surfaces": [],
+        "gates": [
+            {"gate_id": "CONS-HG1", "status": "pass"},
+            {"gate_id": "STACK-HG1", "status": "pass"},
+            {"gate_id": "STACK-HG2", "status": "fail"},
+            {"gate_id": "CLAIM-FIRST-HG1", "status": "fail"},
+        ],
+    }
+    path = tmp_path / canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._claim_artifact_consistency_index_section(generated_at="fixture-time")
+
+    assert section["hardgate_status"] == {
+        "STACK-HG1": "pass",
+        "STACK-HG2": "fail",
+        "CLAIM-FIRST-HG1": "fail",
+    }
+    assert section["paper_surfaces_pointer"] == "reports/canonical/claim-artifact-consistency.json:$.paper_surfaces"
+    existing_index = canonical._index([], generated_at="fixture-time")
+    canonical._write_json_atomic(canonical.INDEX_ARTIFACT, existing_index)
+    canonical._refresh_claim_artifact_consistency_index_section(generated_at="fixture-time")
+    markdown = (tmp_path / "reports/canonical/index.md").read_text(encoding="utf-8")
+    assert "STACK-HG1=pass" in markdown
+    assert "STACK-HG2=fail" in markdown
+    assert "CLAIM-FIRST-HG1=fail" in markdown
+
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    monkeypatch.setattr(canonical, "_claim_artifact_consistency_required", lambda selected_specs=None: True)
+    monkeypatch.setattr(
+        canonical,
+        "_claim_artifact_consistency_payload",
+        lambda generated_at=None: {"status": "fail", "gates": payload["gates"]},
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert excinfo.value.code == 1
+
+
+def test_claim_artifact_consistency_section_omits_pointer_when_owner_has_no_paper_surfaces(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    payload = {
+        "schema_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_SCHEMA_ID,
+        "artifact_id": canonical.CLAIM_ARTIFACT_CONSISTENCY_ARTIFACT_ID,
+        "generated_at": "fixture-time",
+        "claim_id": "claim:discovery-gated-transformer",
+        "status": "pass",
+        "json_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT,
+        "markdown_artifact": canonical.CLAIM_ARTIFACT_CONSISTENCY_MARKDOWN_ARTIFACT,
+        "gates": [{"gate_id": "STACK-HG1", "status": "pass"}],
+    }
+    path = tmp_path / canonical.CLAIM_ARTIFACT_CONSISTENCY_JSON_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._claim_artifact_consistency_index_section(generated_at="fixture-time")
+
+    assert "paper_surfaces_pointer" not in section
+    index_payload = canonical._index([], generated_at="fixture-time")
+    markdown = canonical._render_index_markdown(index_payload)
+    assert "Paper surfaces:" not in markdown
 
 
 def test_run_reports_preflight_runs_before_fingerprint_acceptance(tmp_path, monkeypatch):
@@ -5801,7 +6437,9 @@ def test_run_reports_verify_fingerprints_allows_matching_fail_closed_auxiliary(t
 
     result = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
 
-    assert result["reports"][0]["status"] == "fail"
+    assert result["reports"][0]["status"] == "pass"
+    assert result["reports"][0]["report_build_status"]["value"] == "pass"
+    assert result["reports"][0]["construct_validity"]["status"] == "fail"
     assert result["reports"][0]["fingerprint_status"] == "match"
     assert result["reports"][0]["producer_status"] == "skipped"
 
@@ -5815,7 +6453,9 @@ def test_verify_fingerprints_allows_fail_closed_report_status(tmp_path, monkeypa
 
     def fake_run_spec(called, mode="changed", generated_at=None):
         row = _index_row_for_spec(called)
-        row["status"] = "fail"
+        row["report_build_status"] = status_taxonomy.status_cell("report_build_status", "fail")
+        row["status"] = row["report_build_status"]["value"]
+        row["status_taxonomy"] = canonical._status_taxonomy_block(row)
         row["fingerprint_status"] = "match"
         row["fingerprint_reason"] = "match"
         return row
@@ -5909,6 +6549,202 @@ def test_experiment_stack_cards_run_after_release_sidecar_inputs(tmp_path, monke
     assert "experiment-stack-cards" in canonical.RELEASE_INPUT_REPORTS
     assert calls.index(("write-release", None)) < calls.index(("run-spec", "experiment-stack-cards"))
     assert [report["name"] for report in payload["reports"]] == ["mixing-family-sweep", "experiment-stack-cards"]
+
+
+def test_experiment_stack_cards_schema_index_and_fingerprint_inputs():
+    spec = canonical._specs_by_name()["experiment-stack-cards"]
+
+    assert "claim_first_gate" in spec.required_json_keys
+    assert "claim_first_admission" not in spec.required_json_keys
+    assert "claim_first_admission_pointer" not in spec.required_json_keys
+
+    section = canonical._experiment_stack_cards_index_section()
+    assert section["claim_first_gate_pointer"] == "reports/canonical/experiment_stack_cards.json:$.claim_first_gate"
+    assert "claim_first_admission_pointer" not in section
+
+    input_paths = {row["path"] for row in canonical._source_artifact_inputs(spec)}
+    assert {
+        "reports/canonical/discovery-gated-transformer.json",
+        "reports/canonical/dgt-l1-controls.json",
+        "reports/canonical/dgt-l1-boundary-report.json",
+        "reports/canonical/dgt-neural-ablation.json",
+        "reports/canonical/dgt-model-card.json",
+        "reports/canonical/reproduction-package.json",
+        "reports/canonical/index.json",
+        "reports/release_manifest_sidecar.json",
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+    }.issubset(input_paths)
+
+
+def test_run_reports_index_only_rewrites_summary_from_existing_reports(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    summary_path = tmp_path / "summary.json"
+    calls = []
+    expected = {
+        "schema_id": canonical.INDEX_SCHEMA_ID,
+        "generated_at": "2030-01-01T00:00:00+00:00",
+        "root": canonical.INDEX_ROOT,
+        "reports": [_index_row_for_spec(canonical._specs_by_name()["mixing-family-sweep"])],
+    }
+
+    def fake_write_index(*, generated_at, replacements=()):
+        calls.append(("index", generated_at, tuple(replacement["name"] for replacement in replacements)))
+        return expected | {"generated_at": generated_at}
+
+    monkeypatch.setattr(
+        canonical,
+        "_run_spec",
+        lambda spec, **_kwargs: (_ for _ in ()).throw(AssertionError(f"unexpected producer path: {spec.name}")),
+    )
+    monkeypatch.setattr(canonical, "_write_index_from_existing_reports", fake_write_index)
+
+    payload = canonical.run_reports(
+        only="index",
+        json_summary=str(summary_path),
+        generated_at="2030-01-01T00:00:00+00:00",
+    )
+
+    assert calls == [("index", "2030-01-01T00:00:00+00:00", ())]
+    assert payload == expected
+    assert json.loads(summary_path.read_text(encoding="utf-8")) == expected
+
+
+def test_run_reports_claim_artifact_consistency_only_accepts_alias_and_refreshes_index(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    summary_path = tmp_path / "summary.json"
+    calls = []
+    expected = {
+        "schema_id": canonical.INDEX_SCHEMA_ID,
+        "generated_at": "2030-01-01T00:00:00+00:00",
+        "reports": [],
+    }
+
+    def fake_consistency(*, root, generated_at, report_spec):
+        calls.append(("claim-artifact-consistency", root, generated_at, report_spec.name))
+        return {"status": "pass"}
+
+    def fake_write_index(*, generated_at, replacements=()):
+        calls.append(("index", generated_at, tuple(replacement["name"] for replacement in replacements)))
+        return expected | {"generated_at": generated_at}
+
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_claim_artifact_consistency",
+        types.SimpleNamespace(write_claim_artifact_consistency=fake_consistency),
+    )
+    monkeypatch.setattr(canonical, "_write_index_from_existing_reports", fake_write_index)
+
+    payload = canonical.run_reports(
+        only="claim_artifact_consistency",
+        json_summary=str(summary_path),
+        generated_at="2030-01-01T00:00:00+00:00",
+    )
+
+    assert calls == [
+        (
+            "claim-artifact-consistency",
+            tmp_path,
+            "2030-01-01T00:00:00+00:00",
+            "discovery-gated-transformer",
+        ),
+        ("index", "2030-01-01T00:00:00+00:00", ()),
+    ]
+    assert payload == expected
+    assert json.loads(summary_path.read_text(encoding="utf-8")) == expected
+
+
+def test_run_reports_claim_artifact_consistency_only_fails_closed_on_non_pass(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    calls = []
+
+    def fake_consistency(*, root, generated_at, report_spec):
+        calls.append(("claim-artifact-consistency", report_spec.name))
+        return {"status": "fail"}
+
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_claim_artifact_consistency",
+        types.SimpleNamespace(write_claim_artifact_consistency=fake_consistency),
+    )
+    monkeypatch.setattr(
+        canonical,
+        "_write_index_from_existing_reports",
+        lambda **_kwargs: (_ for _ in ()).throw(AssertionError("index must not refresh after failed consistency")),
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="claim-artifact-consistency",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
+    assert calls == [("claim-artifact-consistency", "discovery-gated-transformer")]
+
+
+@pytest.mark.parametrize("only", ["experiment-stack-cards", "experiment_stack_cards"])
+def test_run_reports_experiment_stack_cards_only_replaces_index_row(tmp_path, monkeypatch, only):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    calls = []
+    spec = canonical._specs_by_name()["experiment-stack-cards"]
+    result = _index_row_for_spec(spec)
+
+    def fake_run_spec(called, mode="changed", generated_at=None):
+        calls.append(("run-spec", called.name, mode, generated_at))
+        return result
+
+    def fake_write_index(*, generated_at, replacements=()):
+        calls.append(("index", generated_at, tuple(replacement["name"] for replacement in replacements)))
+        return {
+            "schema_id": canonical.INDEX_SCHEMA_ID,
+            "generated_at": generated_at,
+            "reports": list(replacements),
+        }
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setattr(canonical, "_write_index_from_existing_reports", fake_write_index)
+
+    payload = canonical.run_reports(only=only, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == [
+        ("run-spec", "experiment-stack-cards", "changed", "2030-01-01T00:00:00+00:00"),
+        ("index", "2030-01-01T00:00:00+00:00", ("experiment-stack-cards",)),
+    ]
+    assert payload["reports"] == [result]
+
+
+def test_run_reports_experiment_stack_cards_only_fails_closed_on_non_pass(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["experiment-stack-cards"]
+    result = _index_row_for_spec(spec)
+    result["status"] = "fail"
+
+    monkeypatch.setattr(canonical, "_run_spec", lambda called, **_kwargs: result)
+    monkeypatch.setattr(
+        canonical,
+        "_write_index_from_existing_reports",
+        lambda **_kwargs: (_ for _ in ()).throw(AssertionError("index must not refresh after failed report")),
+    )
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="experiment-stack-cards",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
+
+
+def test_run_reports_only_unknown_report_fails_closed_without_running_producers(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    monkeypatch.setattr(
+        canonical,
+        "_run_spec",
+        lambda spec, **_kwargs: (_ for _ in ()).throw(AssertionError(f"unexpected producer path: {spec.name}")),
+    )
+
+    with pytest.raises(ValueError, match="unknown canonical report 'missing-report'"):
+        canonical.run_reports(only="missing-report", generated_at="2030-01-01T00:00:00+00:00")
 
 
 def test_run_reports_verify_fingerprints_does_not_cold_write_claim_graph_prerequisites(tmp_path, monkeypatch):
@@ -6783,7 +7619,10 @@ def test_committed_canonical_bundle_matches_registered_reports():
         next(row for row in discovery_payload["rows"] if row["report"] == "discovery-gated-transformer")
     )
     assert claim_rows == regenerated_claim_rows
-    assert index_payload == regenerated_index
+    assert index_payload == _index_with_aggregation_consistency(
+        regenerated_index,
+        generated_at=index_payload["generated_at"],
+    )
 
 
 def test_canonical_dgt_report_exposes_jet_certificate_pointer_only():
@@ -6814,7 +7653,12 @@ def test_canonical_dgt_report_exposes_jet_certificate_pointer_only():
 
 
 def test_dgt_canonical_index_uses_artifact_qualified_jet_pointers():
-    payload = canonical._index([], generated_at="fixture-generated-at")
+    dgt_payload = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-generated-at")
+    payload = canonical._index(
+        [],
+        generated_at="fixture-generated-at",
+        discovery_gated_transformer_payload=dgt_payload,
+    )
     section = payload["discovery-gated-transformer"]
 
     assert section["jet_certificate_pointer"] == "reports/runs/discovery-gated-transformer/jet_certificate.json:$"
@@ -6828,6 +7672,64 @@ def test_dgt_canonical_index_uses_artifact_qualified_jet_pointers():
     assert "surface_rows" not in serialized
     assert "matched_random_gain" not in serialized
     assert "dgt-boundary-causal-jet" not in serialized
+
+
+def test_dgt_canonical_index_exposes_family_roadmap_pointers():
+    dgt_payload = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-generated-at")
+    payload = canonical._index(
+        [],
+        generated_at="fixture-generated-at",
+        discovery_gated_transformer_payload=dgt_payload,
+    )
+    section = payload["discovery-gated-transformer"]
+
+    assert section["family_roadmap_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.family_roadmap"
+    assert section["family_roadmap_hardgate_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate"
+    )
+    assert section["family_level_discovery_status_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.family_level_discovery_status"
+    )
+    assert section["family_roadmap_cross_level_evidence_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.cross_level_evidence"
+    )
+    serialized = json.dumps(section, sort_keys=True)
+    assert "records" not in serialized
+    assert "raw_metrics" not in serialized
+
+
+def test_dgt_canonical_validation_rejects_forged_family_roadmap_allowed_status():
+    payload = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-generated-at")
+    payload["family_roadmap"]["family_level_discovery_status"] = {
+        "status": "allowed",
+        "allowed": True,
+        "claim_scope": "bounded DGT family-level roadmap claim",
+        "basis": "reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate",
+    }
+
+    with pytest.raises(ValueError, match="family roadmap"):
+        canonical._validate_discovery_gated_transformer_payload(payload)
+
+
+def test_dgt_canonical_index_markdown_lists_family_roadmap_pointers():
+    dgt_payload = canonical._build_discovery_gated_transformer_payload(generated_at="fixture-generated-at")
+    payload = canonical._index(
+        [],
+        generated_at="fixture-generated-at",
+        discovery_gated_transformer_payload=dgt_payload,
+    )
+    markdown = canonical._render_index_markdown(payload)
+
+    assert "- Family roadmap: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap`" in markdown
+    assert (
+        "- Family roadmap hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_roadmap.hardgate`"
+        in markdown
+    )
+    assert (
+        "- Family level discovery status: "
+        "`reports/canonical/discovery-gated-transformer.json:$.family_roadmap.family_level_discovery_status`"
+        in markdown
+    )
 
 
 def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, monkeypatch):
@@ -7765,11 +8667,14 @@ def test_quality_scorecard_markdown_contains_baseline_pointers(tmp_path):
 def test_run_spec_producer_exception_fails_closed_even_with_valid_stale_artifact(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
-    spec = canonical._specs_by_name()["gap-head-on-h"]
+    base_spec = canonical._specs_by_name()["gap-head-on-h"]
+    spec = dataclasses.replace(base_spec, scientific_claim_status_pointer="$.owner_status")
     json_path = canonical._artifact_path(spec.json_artifact)
     md_path = canonical._artifact_path(spec.markdown_artifact)
     json_path.parent.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    payload = _payload_for_spec(spec)
+    payload["owner_status"] = "unknown-boundary"
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
     md_path.write_text("# fixture\n", encoding="utf-8")
 
     def broken_producer(_spec):
@@ -7784,6 +8689,9 @@ def test_run_spec_producer_exception_fails_closed_even_with_valid_stale_artifact
     assert result["producer_status"] == "error"
     assert result["validation"]["status"] == "pass"
     assert result["validation"]["required_key_validation"]["status"] == "pass"
+    assert result["report_build_status"]["value"] == "error"
+    assert result["scientific_claim_status"]["value"] == "not-applicable"
+    assert result["status_taxonomy"]["status"] == "pass"
     assert result["error"] == "producer stopped"
 
 
@@ -8023,6 +8931,7 @@ def test_index_markdown_lists_gap_head_reports():
             _index_row_for_spec(canonical._specs_by_name()["gap-head-on-h"]),
             _index_row_for_spec(canonical._specs_by_name()["nongaussian-distribution-sweep"]),
             _index_row_for_spec(canonical._specs_by_name()["gap-head-discovery"]),
+            _index_row_for_spec(canonical._specs_by_name()["gap-head-pair-rule-bounded-capsule"]),
             _index_row_for_spec(canonical._specs_by_name()["certificate-guided-discovery"]),
         ]
     )
@@ -8030,8 +8939,62 @@ def test_index_markdown_lists_gap_head_reports():
 
     assert "gap-head-on-h" in markdown
     assert "gap-head-discovery" in markdown
+    assert "gap-head-pair-rule-bounded-capsule" in markdown
     assert "nongaussian-distribution-sweep" in markdown
     assert "certificate-guided-discovery" in markdown
+
+
+def test_index_rows_expose_five_status_axes():
+    payload = canonical._index([
+        _index_row_for_spec(canonical._specs_by_name()["mixing-family-sweep"]),
+        _index_row_for_spec(canonical._specs_by_name()["fair-l1-decision"]),
+    ])
+
+    for report in payload["reports"]:
+        assert report["status"] == report["report_build_status"]["value"]
+        assert {"report_build_status", "scientific_claim_status", "hardgate_status", "ladder_state", "decision_status"} <= set(report)
+        assert report["status_taxonomy"]["status"] == "pass"
+        for axis in ("report_build_status", "scientific_claim_status", "hardgate_status", "ladder_state", "decision_status"):
+            assert report[axis]["axis"] == axis
+            assert status_taxonomy.validate_status_cell(report[axis])["status"] == "pass"
+
+
+def _markdown_report_row(markdown: str, report_name: str) -> list[str]:
+    for line in markdown.splitlines():
+        if line.startswith(f"| `{report_name}` |"):
+            return [cell.strip().strip("`") for cell in line.strip("|").split("|")]
+    raise AssertionError(f"missing Markdown row for {report_name}")
+
+
+def test_index_markdown_status_cells_match_index_json():
+    fair_l1 = _index_row_for_spec(canonical._specs_by_name()["fair-l1-decision"])
+    fair_l1.update(
+        {
+            "scientific_claim_status": status_taxonomy.status_cell("scientific_claim_status", "bounded-negative"),
+            "hardgate_status": status_taxonomy.status_cell("hardgate_status", "fail", hardgate_scope="owner-scientific"),
+            "ladder_state": status_taxonomy.status_cell("ladder_state", "l1-bounded-negative"),
+            "decision_status": status_taxonomy.status_cell("decision_status", "bounded-negative"),
+        }
+    )
+    payload = canonical._index([fair_l1], generated_at="fixture", claim_verdict_rows=[])
+    markdown = canonical._render_index_markdown(payload)
+    row = _markdown_report_row(markdown, "fair-l1-decision")
+    by_name = {report["name"]: report for report in payload["reports"]}
+    report = by_name["fair-l1-decision"]
+
+    assert row[:6] == [
+        "fair-l1-decision",
+        status_taxonomy.render_status_cell(report["report_build_status"]),
+        status_taxonomy.render_status_cell(report["scientific_claim_status"]),
+        status_taxonomy.render_status_cell(report["hardgate_status"]),
+        status_taxonomy.render_status_cell(report["ladder_state"]),
+        status_taxonomy.render_status_cell(report["decision_status"]),
+    ]
+    assert row[1] == "pass"
+    assert row[2] == "bounded-negative"
+    assert row[3] == "fail"
+    assert row[4] == "l1-bounded-negative"
+    assert row[5] == "bounded-negative"
 
 
 def test_release_manifest_sidecar_index_summary_is_pointer_only(tmp_path, monkeypatch):
@@ -8235,6 +9198,24 @@ def test_high_impact_claim_review_stays_absent_from_canonical_surfaces():
         assert artifact not in index_text
 
 
+def test_schema_admission_stays_absent_from_canonical_surfaces():
+    forbidden_artifacts = {
+        "reports/canonical/schema_admission.json",
+        "reports/canonical/schema_admission.md",
+    }
+    specs = canonical.CANONICAL_REPORTS
+    index_payload = json.loads((canonical.ROOT / "reports/canonical/index.json").read_text(encoding="utf-8"))
+    index_text = json.dumps(index_payload, sort_keys=True)
+
+    assert "schema-admission" not in {spec.name for spec in specs}
+    assert forbidden_artifacts.isdisjoint({spec.json_artifact for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
+    assert "schema_admission" not in index_payload
+    for artifact in forbidden_artifacts:
+        assert artifact not in index_text
+        assert not (canonical.ROOT / artifact).exists()
+
+
 def test_high_impact_review_canonical_spec_uses_hyphen_path_and_core_role():
     spec = canonical._specs_by_name()["high-impact-review"]
 
@@ -8379,6 +9360,9 @@ def test_index_discipline_owns_reporting_hardgate_nested_object():
             "required_cells",
             "missing_required_cells",
             "cells",
+            "protocol_status",
+            "protocol_failed_gates",
+            "protocol_pointer_audit_status",
         }
         assert "construct_validity_pointer" in report["discipline"]
         assert "construct_validity_status" in report["discipline"]
@@ -8426,6 +9410,8 @@ def test_missing_cost_protocol_blocks_positive_promotion(tmp_path, monkeypatch):
         "source_artifact": "reports/canonical/fixture-report.json",
         "status": "missing",
     }
+    assert gate["protocol_status"] == "fail"
+    assert gate["protocol_failed_gates"] == ["U-HG2"]
 
 
 def test_missing_not_claimed_blocks_positive_promotion(tmp_path, monkeypatch):
@@ -8512,6 +9498,21 @@ def test_reporting_hardgate_cells_are_pointer_only(tmp_path, monkeypatch):
     assert "theorem proof" not in serialized
 
 
+def test_reporting_hardgate_consumes_shared_claim_capsule_protocol(tmp_path, monkeypatch):
+    spec = _reporting_spec()
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec, not_claimed=False)
+
+    gate = canonical._discipline(spec)["reporting_hardgate"]
+
+    assert gate["status"] == "fail"
+    assert gate["protocol_status"] == "fail"
+    assert gate["protocol_failed_gates"] == ["U-HG3"]
+    assert gate["protocol_pointer_audit_status"] == "pass"
+
+
 def test_run_spec_consumes_reporting_hardgate_failure(tmp_path, monkeypatch):
     spec = _reporting_spec(claim_capsule_pointer="$.missing_claim_capsule")
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
@@ -8553,7 +9554,8 @@ def test_run_spec_consumes_construct_validity_failure(tmp_path, monkeypatch):
     assert result["discipline"]["reporting_hardgate"]["status"] == "pass"
     assert result["construct_validity"]["status"] == "fail"
     assert result["construct_validity"]["failed_gates"] == ["CV-HG2"]
-    assert result["status"] == "fail"
+    assert result["report_build_status"]["value"] == "pass"
+    assert result["status"] == "pass"
 
 
 def test_run_spec_treats_missing_construct_validity_pointer_as_failure(tmp_path, monkeypatch):
@@ -8571,6 +9573,34 @@ def test_run_spec_treats_missing_construct_validity_pointer_as_failure(tmp_path,
     assert result["validation"]["status"] == "pass"
     assert result["construct_validity"]["status"] == "missing"
     assert result["status"] == "fail"
+
+
+def test_fair_l1_decision_owner_statuses_do_not_fail_report_build(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["fair-l1-decision"]
+    payload = json.loads((canonical.SOURCE_ROOT / spec.json_artifact).read_text(encoding="utf-8"))
+    json_path = canonical._artifact_path(spec.json_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    canonical._artifact_path(spec.markdown_artifact).write_text(
+        (canonical.SOURCE_ROOT / spec.markdown_artifact).read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["report_build_status"]["value"] == "pass"
+    assert result["status"] == "pass"
+    assert result["scientific_claim_status"]["value"] == "bounded-negative"
+    assert result["hardgate_status"]["value"] == "fail"
+    assert result["hardgate_status"]["hardgate_scope"] == "owner-scientific"
+    assert result["hardgate_status"]["blocks_report"] is False
+    assert result["hardgate_status"]["blocks_promotion"] is True
+    assert result["ladder_state"]["value"] == "l1-bounded-negative"
+    assert result["decision_status"]["value"] == "bounded-negative"
+    assert result["construct_validity"]["status"] == "pass"
+    assert result["status_taxonomy"]["status"] == "pass"
 
 
 def test_host_env_is_ignored_by_reporting_hardgate(tmp_path, monkeypatch):
@@ -9132,3 +10162,285 @@ def test_structural_generalization_splits_only_regen_is_idempotent(tmp_path, mon
     assert first == second
     assert first_payload["reports"][0]["name"] == "structural-generalization-splits"
     assert second_payload["reports"][0]["name"] == "structural-generalization-splits"
+
+
+def test_jepa_world_model_only_route_replaces_index_row_and_writes_summary(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_jepa_world_model_source_fixtures(tmp_path)
+    spec = canonical._specs_by_name()["discovery-gated-transformer-jepa-world-model"]
+    canonical.INDEX_ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
+    existing_index = json.loads(
+        (canonical.SOURCE_ROOT / "reports" / "canonical" / "index.json").read_text(encoding="utf-8")
+    )
+    old_row = _index_row_for_spec(spec) | {"status": "fail", "stale": True}
+    other_spec = canonical._specs_by_name()["mixing-family-sweep"]
+    existing_index["reports"] = [
+        old_row if row.get("name") == spec.name else row
+        for row in existing_index["reports"]
+    ]
+    canonical.INDEX_ARTIFACT.write_text(json.dumps(existing_index, sort_keys=True) + "\n", encoding="utf-8")
+    owner = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+    canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), owner)
+    canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# JEPA owner\n")
+    summary_path = tmp_path / "summary.json"
+    calls = []
+
+    def fake_run_spec(route_spec, mode="changed", generated_at=None):
+        calls.append((route_spec.name, mode, generated_at))
+        assert route_spec is spec
+        return _index_row_for_spec(route_spec) | {"status": "pass", "producer_status": "completed"}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    payload = canonical.run_reports(
+        only="discovery-gated-transformer-jepa-world-model",
+        generated_at="2030-01-01T00:00:00+00:00",
+        json_summary=str(summary_path),
+    )
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    rows = {row["name"]: row for row in payload["reports"]}
+
+    assert calls == [("discovery-gated-transformer-jepa-world-model", "changed", "2030-01-01T00:00:00+00:00")]
+    assert rows[spec.name]["producer_status"] == "completed"
+    assert "stale" not in rows[spec.name]
+    assert rows[other_spec.name]["name"] == other_spec.name
+    assert payload["discovery_gated_transformer_jepa_world_model"]["status"] == "pointer-only"
+    assert payload["discovery_gated_transformer_jepa_world_model"]["owner_pointer"] == (
+        f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$"
+    )
+    pass_count = payload["status_summary"]["axes"]["report_build_status"]["pass"]
+    assert pass_count == sum(
+        1
+        for row in payload["reports"]
+        if row["report_build_status"]["value"] == "pass"
+    )
+    assert pass_count >= 2
+    assert spec.name in payload["paper_outline"]["auxiliary_reports"]
+    assert "not full LeJEPA" in payload["claims_nonclaims"]["nonclaims"]
+    assert payload["evidence_provenance"]["generated_at"] == "2030-01-01T00:00:00+00:00"
+    assert payload["aggregation_consistency"]["status"] in {"pass", "fail"}
+    assert summary["discovery_gated_transformer_jepa_world_model"] == payload["discovery_gated_transformer_jepa_world_model"]
+    assert summary["reports"] == payload["reports"]
+
+
+def test_jepa_world_model_only_route_raises_on_failed_report(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_jepa_world_model_source_fixtures(tmp_path)
+    spec = canonical._specs_by_name()["discovery-gated-transformer-jepa-world-model"]
+    canonical.INDEX_ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
+    canonical.INDEX_ARTIFACT.write_bytes(
+        (canonical.SOURCE_ROOT / "reports" / "canonical" / "index.json").read_bytes()
+    )
+    owner = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+    canonical._write_json_atomic(canonical._artifact_path(spec.json_artifact), owner)
+    canonical._write_text_atomic(canonical._artifact_path(spec.markdown_artifact), "# JEPA owner\n")
+
+    def fake_run_spec(route_spec, mode="changed", generated_at=None):
+        assert route_spec is spec
+        return _index_row_for_spec(route_spec) | {"status": "fail"}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="discovery-gated-transformer-jepa-world-model",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
+
+
+def test_jepa_world_model_canonical_spec_is_owner_only():
+    spec = canonical._specs_by_name()["discovery-gated-transformer-jepa-world-model"]
+    canonical_artifacts = {
+        artifact
+        for registered in canonical.CANONICAL_REPORTS
+        for artifact in (registered.json_artifact, registered.markdown_artifact)
+    }
+
+    assert spec.command == ("python3", "scripts/run_canonical_reports.py")
+    assert spec.json_artifact == canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.DGT_JEPA_WORLD_MODEL_MARKDOWN_ARTIFACT
+    assert canonical._relative(canonical._fingerprint_path(spec)) == (
+        "reports/canonical/discovery_gated_transformer_jepa_world_model.fingerprint.json"
+    )
+    assert spec.bundle_role == "auxiliary"
+    assert spec.scope_pointer == "$.claim_boundary"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.claim_boundary"
+    assert spec.control_pointer is None
+    assert spec.no_control_rationale_pointer == "$.claim_boundary"
+    assert "reports/canonical/theorem_bridge.md" not in canonical_artifacts
+    assert "reports/canonical/planning_report.md" not in canonical_artifacts
+
+
+def test_jepa_wm_l1_evaluator_calibration_canonical_spec_is_diagnostic_only():
+    spec = canonical._specs_by_name()["jepa-wm-l1-evaluator-calibration"]
+
+    assert spec.command == ("python3", "scripts/run_jepa_wm_l1_evaluator_calibration.py")
+    assert spec.json_artifact == "reports/canonical/jepa-wm-l1-evaluator-calibration.json"
+    assert spec.markdown_artifact == "reports/canonical/jepa-wm-l1-evaluator-calibration.md"
+    assert canonical._relative(canonical._fingerprint_path(spec)) == (
+        "reports/canonical/jepa-wm-l1-evaluator-calibration.fingerprint.json"
+    )
+    assert spec.bundle_role == "auxiliary"
+    assert spec.claim_promotion_eligible is False
+    assert spec.scope_pointer == "$.claim_boundary"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.diagnostic_next_step"
+    assert spec.control_pointer == "$.calibration_arms"
+    assert spec.no_control_rationale_pointer is None
+    assert spec.hardgate_status_pointer == "$.hardgate.status_cell"
+    assert spec.hardgate_scope == "owner-scientific"
+    assert "jepa-wm-l1-evaluator-calibration" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
+
+
+def test_jepa_wm_l1_admission_canonical_spec_is_registered_owner():
+    spec = canonical._specs_by_name()["jepa-wm-l1-admission"]
+
+    assert spec.command == ("python3", "scripts/run_jepa_wm_l1.py")
+    assert spec.json_artifact == "reports/canonical/jepa-wm-l1-admission.json"
+    assert spec.markdown_artifact == "reports/canonical/jepa-wm-l1-admission.md"
+    assert canonical._relative(canonical._fingerprint_path(spec)) == (
+        "reports/canonical/jepa-wm-l1-admission.fingerprint.json"
+    )
+    assert spec.bundle_role == "auxiliary"
+    assert spec.claim_promotion_eligible is False
+    assert spec.scope_pointer == "$.claim_boundary"
+    assert spec.cost_pointer == "$.source_artifacts"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.positive_claim"
+    assert spec.control_pointer == "$.anti_triviality_controls"
+    assert spec.no_control_rationale_pointer is None
+    assert spec.hardgate_status_pointer == "$.hardgate.status"
+    assert spec.hardgate_scope == "owner-scientific"
+    assert spec.decision_status_pointer == "$.claim_boundary.status"
+    assert "jepa-wm-l1-admission" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
+
+
+def test_jepa_world_model_payload_shape_and_sidecar_absence():
+    payload = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+
+    assert set(payload) == {
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifacts",
+        "component_refs",
+        "theorem_bridge",
+        "planning_head",
+        "mechanism_seeking",
+        "claim_boundary",
+        "hardgate",
+        "hardgate_ref",
+        "forbidden_claim_term_audit",
+        "not_claimed",
+    }
+    assert "sidecar_views" not in payload
+    assert "planning_projection" not in payload
+    assert "mechanism_projection" not in payload
+    assert "hardgates" not in payload
+
+
+def test_jepa_world_model_theorem_and_planning_pointers_resolve():
+    payload = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+
+    theorem = payload["theorem_bridge"]
+    assert theorem["theorem_3_pointer"] == "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows[2]"
+    assert theorem["theorem_4_pointer"] == "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows[3]"
+    assert theorem["theorem_3"]["theorem"] == "theorem-3"
+    assert theorem["theorem_4"]["theorem"] == "theorem-4"
+    assert theorem["theorem_3"]["evidence_pointer"] == "$.backend_theorem_rows[0]"
+    assert theorem["theorem_4"]["evidence_pointer"] == "$.backend_ledger_rows"
+
+    planning = payload["planning_head"]
+    assert planning["source_pointer"] == "reports/bedc_jepa_risk_constrained_planning.json:$"
+    assert planning["status"] in {"fail-closed", "blocked"}
+    assert planning["claim_allowed"] is False
+    assert "not full world-model planning" in " ".join(planning["not_claimed"]).lower()
+
+
+def test_jepa_world_model_hardgate_fail_closed_semantics():
+    payload = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+    gates = payload["hardgate"]["gates"]
+
+    assert set(gates) == {f"JEPA-DGT-HG{index}" for index in range(1, 6)}
+    assert payload["hardgate"]["status"] == "fail"
+    for gate in gates.values():
+        assert gate["status"] in {"pass", "fail-closed"}
+        assert gate["claim_allowed"] is (gate["status"] == "pass")
+        assert gate["owner_pointer"].startswith(f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$.")
+    assert any(gate["status"] == "fail-closed" for gate in gates.values())
+    assert payload["hardgate_ref"] == {
+        "artifact": canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT,
+        "pointer": "$.hardgate",
+    }
+    serialized = json.dumps(payload, sort_keys=True)
+    for forbidden in (
+        "reports/canonical/theorem_bridge.md",
+        "reports/canonical/planning_report.md",
+        "sidecar_views",
+        "planning_projection",
+        "mechanism_projection",
+        "JepaWorldModelPointerContract",
+    ):
+        assert forbidden not in serialized
+
+
+def test_gap_head_pair_rule_bounded_capsule_canonical_spec_and_filtered_run(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_pair_rule_prerequisite_fixtures(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-pair-rule-bounded-capsule"]
+
+    assert spec.command == ("python3", "scripts/run_gap_head_pair_rule_bounded_capsule.py")
+    assert spec.json_artifact == pair_rule_capsule.JSON_ARTIFACT
+    assert spec.markdown_artifact == pair_rule_capsule.REPORT_ARTIFACT
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.positive_claim_pointer == "$.positive_claim.status"
+    assert spec.control_pointer == "$.prerequisite_checks"
+
+    result = canonical._run_spec(spec, mode="cold", generated_at="fixture-time")
+
+    payload = json.loads((tmp_path / spec.json_artifact).read_text(encoding="utf-8"))
+    markdown = (tmp_path / spec.markdown_artifact).read_text(encoding="utf-8")
+    fingerprint = json.loads((tmp_path / "reports/canonical/gap-head-pair-rule-bounded-capsule.fingerprint.json").read_text(encoding="utf-8"))
+    assert result["status"] == "pass"
+    assert result["producer_status"] == "completed"
+    assert payload["capsule_verdict"]["status"] == "pass"
+    assert payload["artifact_id"] == pair_rule_capsule.ARTIFACT_ID
+    assert "raw payload" not in markdown.lower()
+    assert fingerprint["report_name"] == "gap-head-pair-rule-bounded-capsule"
+    source_paths = {row["path"] for row in fingerprint["inputs"]["source_artifacts"]}
+    assert pair_rule_capsule.PAIR_RULE_CONSTRUCT_VALIDITY_ARTIFACT in source_paths
+    assert pair_rule_capsule.FAIR_ALIGNMENT_CONTROL_LEDGER_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_CLAIM_CAPSULE_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_ATTRIBUTION_ARTIFACT in source_paths
+    assert pair_rule_capsule.PAIR_RULE_OBSERVED_DEBT_TRANSFER_ARTIFACT in source_paths
+
+
+def test_jepa_world_model_markdown_and_index_are_pointer_only():
+    payload = canonical._build_dgt_jepa_world_model_payload(generated_at="fixture-time")
+    markdown = canonical._render_dgt_jepa_world_model_markdown(payload)
+    index_section = canonical._dgt_jepa_world_model_index_section(payload)
+
+    assert canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT in markdown
+    assert "| cell | pointer |" in markdown
+    assert "Recovery bound certificate" not in markdown
+    assert "world state = continuous latent state" not in markdown
+    assert "theorem_bridge.md" not in markdown
+    assert "planning_report.md" not in markdown
+
+    assert index_section["status"] == "pointer-only"
+    assert index_section["owner_pointer"] == f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$"
+    assert index_section["theorem_bridge_pointer"] == (
+        f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$.theorem_bridge"
+    )
+    assert index_section["planning_head_pointer"] == (
+        f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$.planning_head"
+    )
+    assert index_section["hardgate_pointer"] == f"{canonical.DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT}:$.hardgate"
+    assert "sidecar_views" not in index_section
+    assert "planning_projection" not in index_section

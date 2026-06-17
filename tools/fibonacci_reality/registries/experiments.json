@@ -27,7 +27,12 @@
       "acceptance": {
         "required_checks": [
           "automath_certificate_present_sorry_free",
-          "automath_certificate_ref_matches"
+          "automath_certificate_ref_matches",
+          "reduced_laplacian_matches_window6_edge_matrix",
+          "smith_normal_form_factorization",
+          "characteristic_polynomial",
+          "mod571_singularity",
+          "simple_not_repeated"
         ]
       }
     },
@@ -407,6 +412,38 @@
           "theorem_A_nogo",
           "coefficient_witness_status",
           "gauge_moduli_M_alpha"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-metrological-gauge-selection",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_metrological_gauge_selection.py",
+      "claim_id": "window6.alpha-external-gauge.metrological-gauge-selection.certificate",
+      "required_data": [],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "monotone_inversion_dR_dD_negative",
+          "branch_separation_resolvable",
+          "branch_separation_decreasing",
+          "reverse_fit_diagnosis",
+          "conditional_selection_if_readout_pinned"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-phi-m-factor-image-count-decipherability",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_phi_m_factor_image_count_decipherability.py",
+      "claim_id": "phi-m-factor.image-language-count-decipherability.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "am_count_fibonacci",
+          "image_count_le_fibonacci",
+          "injective_preserves_count",
+          "noninjective_drops_count",
+          "decipherability_lemma"
         ]
       }
     }

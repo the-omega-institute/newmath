@@ -12,12 +12,15 @@ from bedc_quality_lab.claim_artifact_consistency import (
     DISCOVERY_MAP_ARTIFACT,
     HIGH_IMPACT_REVIEW_FINGERPRINT_ARTIFACT,
     HIGH_IMPACT_REVIEW_ARTIFACT,
+    PaperSurface,
+    PaperSurfaceValue,
     QUALITY_SCORECARD_ARTIFACT,
     audit_claim_artifact_consistency,
 )
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
 from scripts import run_discovery_map as discovery_map
+from scripts.run_canonical_reports import CanonicalReportSpec
 from bedc_quality_lab.verdict import QUALITY_SCORECARD_METRICS
 from scripts.run_claim_artifact_consistency import write_claim_artifact_consistency
 
@@ -38,7 +41,7 @@ def _scorecard():
     return {
         "artifact_id": "bedc-quality-lab:quality-scorecard",
         "rows": [
-            {"metric": metric, "status": "ready", "value": index}
+            {"metric": metric, "status": "ready", "value": 1.0 if metric == "CertCov" else index}
             for index, metric in enumerate(QUALITY_SCORECARD_METRICS)
         ],
     }
@@ -62,6 +65,24 @@ def _anti_triviality_contract():
     )
 
 
+def _dgt_spec() -> CanonicalReportSpec:
+    return CanonicalReportSpec(
+        name="discovery-gated-transformer",
+        command=("python3", "scripts/run_fixture.py"),
+        json_artifact=DGT_ARTIFACT,
+        markdown_artifact="reports/canonical/discovery-gated-transformer.md",
+        required_json_keys=("schema_id",),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        scope_pointer="$.d4_projection",
+        cost_pointer="$.architecture_spec",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.d4_projection",
+        control_pointer="$.d4_projection.matched_control",
+        no_control_rationale_pointer=None,
+    )
+
+
 def _fixture_root(tmp_path: Path) -> Path:
     root = tmp_path
     _write_json(root, QUALITY_SCORECARD_ARTIFACT, _scorecard())
@@ -71,9 +92,11 @@ def _fixture_root(tmp_path: Path) -> Path:
         DGT_ARTIFACT,
         {
             "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+            "claim_capsule_ref": "reports/runs/discovery-gated-transformer/claim_capsule.json",
             "d4_projection_ref": {"artifact": DGT_ARTIFACT, "pointer": "$.d4_projection"},
             "d4_projection": {
                 "discovery_level": "D4",
+                "matched_control": {"status": "pass"},
                 "core_contracts": {
                     "claim_graph_owner": "Core",
                     "claim_verdict_owner": "Core",
@@ -83,8 +106,15 @@ def _fixture_root(tmp_path: Path) -> Path:
                 **_anti_triviality_contract(),
             },
             "hardgate": {"status": "pass"},
+            "scaling_ladder": {"not_claimed": ["bounded deterministic toy evidence only"]},
             "not_claimed": ["bounded deterministic toy evidence only"],
+            "scaling_ladder": {"not_claimed": ["bounded scaling ladder only"]},
         },
+    )
+    _write_json(
+        root,
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+        {"schema_id": "bedc.quality.claim_capsule", "not_claimed": ["fixture"], "what_was_learned": "fixture"},
     )
     scorecard_hash = canonical_artifact_hash(root / QUALITY_SCORECARD_ARTIFACT)
     _write_jsonl(
@@ -116,7 +146,7 @@ def _fixture_root(tmp_path: Path) -> Path:
                     "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
                     "discovery_level": "D4",
                     "evidence_pointer": "$.d4_projection",
-                    "evidence_type": "deterministic_projection",
+                    "evidence_type": "empirical_training_clean",
                     "evidence_provenance_pointer": evidence_provenance_pointer_for_report("discovery-gated-transformer"),
                     "scorecard_pointer": f"{QUALITY_SCORECARD_ARTIFACT}:$.rows",
                     "projection_status": "projected",
@@ -181,11 +211,75 @@ def _fixture_root(tmp_path: Path) -> Path:
     _write_json(root, HIGH_IMPACT_REVIEW_ARTIFACT, {"review_rows": [{"claim_id": DGT_CLAIM_ID}], "not_claimed": ["bounded"]})
     _write_json(
         root,
+        "reports/canonical/index.json",
+        {
+            "evidence_provenance": {
+                "schema_id": "bedc-quality-lab:evidence-provenance",
+                "owner": "bedc_quality_lab.evidence_provenance",
+                "producer_audits": [
+                    {
+                        "report": "discovery-gated-transformer",
+                        "producer_command": ["python3", "scripts/run_fixture.py"],
+                        "producer_source_pointer": "scripts/run_fixture.py",
+                        "backward_pointers": ["scripts/run_fixture.py:L1"],
+                        "optimizer_step_pointers": ["scripts/run_fixture.py:L2"],
+                        "parameter_update_pointers": [],
+                        "training_evidence_status": "empirical_training_clean",
+                        "not_claimed": [],
+                    }
+                ],
+                "metric_rows": [
+                    {
+                        "report": "discovery-gated-transformer",
+                        "metric_name": "headline",
+                        "source_type": "measured_training",
+                        "source_code_pointer": "scripts/run_fixture.py",
+                        "source_artifact_pointer": f"{DGT_ARTIFACT}:$.d4_projection",
+                        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                        "allowed_for_empirical_claim": True,
+                        "value": {"status": "pass"},
+                        "not_claimed": [],
+                        "not_measurable_reason": None,
+                    }
+                ],
+                "discovery_rows": [
+                    {
+                        "report": "discovery-gated-transformer",
+                        "evidence_type": "empirical_training_clean",
+                        "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[0]",
+                        "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+                        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                        "allowed_claim_kinds": ["empirical_superiority"],
+                        "not_claimed": [],
+                    }
+                ],
+                "discovery_rows_by_report": {
+                    "discovery-gated-transformer": {
+                        "report": "discovery-gated-transformer",
+                        "evidence_type": "empirical_training_clean",
+                        "discovery_map_pointer": "reports/canonical/discovery_map.json:$.rows[0]",
+                        "metric_provenance_pointers": ["reports/canonical/index.json:$.evidence_provenance.metric_rows[0]"],
+                        "producer_training_audit_pointer": "reports/canonical/index.json:$.evidence_provenance.producer_audits[0]",
+                        "allowed_claim_kinds": ["empirical_superiority"],
+                        "not_claimed": [],
+                    }
+                },
+                "hardgate_status": {},
+                "artifact_pointers": {"owner_pointer": "reports/canonical/index.json:$.evidence_provenance"},
+            }
+        },
+    )
+    source = root / "scripts" / "run_fixture.py"
+    source.parent.mkdir(parents=True, exist_ok=True)
+    source.write_text("def train(loss, optimizer):\n    loss.backward()\n    optimizer.step()\n", encoding="utf-8")
+    _write_json(
+        root,
         HIGH_IMPACT_REVIEW_FINGERPRINT_ARTIFACT,
         {
             "inputs": {
                 "source_artifacts": [
                     {"path": DGT_ARTIFACT, "sha256": canonical_artifact_hash(root / DGT_ARTIFACT)},
+                    {"path": DISCOVERY_MAP_ARTIFACT, "sha256": canonical_artifact_hash(root / DISCOVERY_MAP_ARTIFACT)},
                     {"path": CLAIM_GRAPH_ARTIFACT, "sha256": canonical_artifact_hash(root / CLAIM_GRAPH_ARTIFACT)},
                 ]
             }
@@ -196,6 +290,46 @@ def _fixture_root(tmp_path: Path) -> Path:
 
 def _gate(report, gate_id):
     return next(gate for gate in report.gates if gate.gate_id == gate_id)
+
+
+def _release_surface() -> PaperSurface:
+    return PaperSurface(
+        surface_id="bedc-jepa-evidence-table",
+        surface_type="table",
+        artifact_pointer=f"{DGT_ARTIFACT}:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(
+            PaperSurfaceValue(
+                value_id="scorecard-row-zero",
+                artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
+                transform="number",
+                tolerance=0.0,
+            ),
+        ),
+    )
+
+
+def _release_surface_with_value(value: PaperSurfaceValue) -> PaperSurface:
+    return PaperSurface(
+        surface_id="bedc-jepa-evidence-table",
+        surface_type="table",
+        artifact_pointer=f"{DGT_ARTIFACT}:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(value,),
+    )
+
+
+def _scorecard_metric_value_pointer(root: Path, metric: str) -> str:
+    payload = json.loads((root / QUALITY_SCORECARD_ARTIFACT).read_text(encoding="utf-8"))
+    rows = payload.get("rows", [])
+    for index, row in enumerate(rows):
+        if isinstance(row, dict) and row.get("metric") == metric:
+            return f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[{index}].value"
+    raise AssertionError(f"missing scorecard metric: {metric}")
 
 
 def test_cons_hg1_dgt_level_and_verdict_are_coherent(tmp_path):
@@ -223,6 +357,117 @@ def test_default_api_audits_dgt_claim(tmp_path):
 
     assert report.claim_id == DGT_CLAIM_ID
     assert report.status == "pass"
+    assert {surface.surface_type for surface in report.paper_surfaces} == {
+        "table",
+        "figure",
+        "main_claim_chain",
+    }
+
+
+def test_default_paper_surface_rows_have_resolving_value_contracts(tmp_path):
+    root = _fixture_root(tmp_path)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time")
+    payload = report.to_json()
+
+    assert report.status == "pass"
+    assert _gate(report, "PAPER-HG1").status == "pass"
+    assert [surface["surface_id"] for surface in payload["paper_surfaces"]] == [
+        "quality-scorecard-release-table",
+        "discovery-gated-transformer-evidence-figure",
+        "discovery-gated-transformer-main-claim-chain",
+    ]
+    assert payload["paper_surfaces"][0]["values"][0] == {
+        "value_id": "certcov-value",
+        "artifact_pointer": _scorecard_metric_value_pointer(root, "CertCov"),
+        "transform": "number",
+        "tolerance": 0.0,
+    }
+
+
+def test_claim_first_all_pass_cards_emit_three_passing_gates(tmp_path):
+    root = _fixture_root(tmp_path)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
+
+    assert _gate(report, "STACK-HG1").status == "pass"
+    assert _gate(report, "STACK-HG2").status == "pass"
+    assert _gate(report, "CLAIM-FIRST-HG1").status == "pass"
+
+
+def test_claim_first_unresolved_pointer_fails_stack_hg1(tmp_path):
+    root = _fixture_root(tmp_path)
+    (root / "reports/runs/discovery-gated-transformer/claim_capsule.json").unlink()
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
+
+    assert _gate(report, "STACK-HG1").status == "fail"
+    assert _gate(report, "STACK-HG1").pointer == "reports/runs/discovery-gated-transformer/claim_capsule.json:$"
+
+
+@pytest.mark.parametrize(
+    ("mutate", "expected_card_id"),
+    [
+        (
+            lambda payload: payload["evidence_provenance"]["producer_audits"][0].update(
+                {"training_evidence_status": "training_evidence_absent"}
+            ),
+            "training-authenticity-card",
+        ),
+        (
+            lambda payload: payload["evidence_provenance"]["producer_audits"][0].update(
+                {
+                    "training_evidence_status": "training_evidence_absent",
+                    "allowed_claim_kinds": ["projection_only"],
+                }
+            ),
+            "training-authenticity-card",
+        ),
+        (
+            lambda payload: payload["evidence_provenance"]["metric_rows"][0].update(
+                {"allowed_for_empirical_claim": False}
+            ),
+            "statistical-evidence-card",
+        ),
+        (
+            lambda payload: payload["evidence_provenance"]["producer_audits"][0].update(
+                {"taint_status": "tainted"}
+            ),
+            "training-authenticity-card",
+        ),
+    ],
+)
+def test_claim_first_blocked_owner_status_fails_stack_hg2_and_claim_first(tmp_path, mutate, expected_card_id):
+    root = _fixture_root(tmp_path)
+    index_path = root / "reports/canonical/index.json"
+    payload = json.loads(index_path.read_text(encoding="utf-8"))
+    mutate(payload)
+    _write_json(root, "reports/canonical/index.json", payload)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
+
+    assert _gate(report, "STACK-HG2").status == "fail"
+    assert _gate(report, "CLAIM-FIRST-HG1").status == "fail"
+    assert expected_card_id in _gate(report, "STACK-HG2").actual
+    assert expected_card_id in _gate(report, "CLAIM-FIRST-HG1").actual
+
+
+def test_claim_first_bounded_negative_row_is_not_applicable(tmp_path):
+    root = _fixture_root(tmp_path)
+    rows = [json.loads(line) for line in (root / CLAIM_VERDICTS_ARTIFACT).read_text(encoding="utf-8").splitlines()]
+    rows[0]["claim_verdict"] = "bounded_negative"
+    rows[0]["reason"] = "model-comparison-not-ready"
+    rows[0]["source"] = f"{DGT_ARTIFACT}:$.not_claimed"
+    _write_jsonl(root, CLAIM_VERDICTS_ARTIFACT, rows)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time", report_spec=_dgt_spec())
+
+    assert _gate(report, "STACK-HG1").status == "pass"
+    assert _gate(report, "STACK-HG1").expected == "not applicable"
+    assert _gate(report, "STACK-HG2").status == "pass"
+    assert _gate(report, "STACK-HG2").expected == "not applicable"
+    assert _gate(report, "CLAIM-FIRST-HG1").status == "pass"
+    assert _gate(report, "CLAIM-FIRST-HG1").expected == "not applicable"
 
 
 def test_cons_hg2_positive_verdict_requires_current_scorecard_hash(tmp_path):
@@ -279,6 +524,7 @@ def test_cons_hg4_terminal_node_points_to_dgt_d4_projection(tmp_path):
             "inputs": {
                 "source_artifacts": [
                     {"path": DGT_ARTIFACT, "sha256": canonical_artifact_hash(root / DGT_ARTIFACT)},
+                    {"path": DISCOVERY_MAP_ARTIFACT, "sha256": canonical_artifact_hash(root / DISCOVERY_MAP_ARTIFACT)},
                     {"path": CLAIM_GRAPH_ARTIFACT, "sha256": canonical_artifact_hash(root / CLAIM_GRAPH_ARTIFACT)},
                 ]
             }
@@ -339,6 +585,17 @@ def test_cons_hg6_stale_artifact_hash_fails_closed(tmp_path):
     assert _gate(report, "CONS-HG6").status == "fail"
 
 
+def test_cons_hg6_stale_discovery_map_hash_fails_closed(tmp_path):
+    root = _fixture_root(tmp_path)
+    discovery_map = json.loads((root / DISCOVERY_MAP_ARTIFACT).read_text(encoding="utf-8"))
+    discovery_map["rows"][0]["audit_reason"] = "hash changed"
+    _write_json(root, DISCOVERY_MAP_ARTIFACT, discovery_map)
+
+    report = audit_claim_artifact_consistency(root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time")
+
+    assert _gate(report, "CONS-HG6").status == "fail"
+
+
 def test_runner_is_idempotent(tmp_path):
     root = _fixture_root(tmp_path)
 
@@ -349,3 +606,363 @@ def test_runner_is_idempotent(tmp_path):
 
     assert first == second
     assert first_bytes == second_bytes
+
+
+def test_runner_writes_default_paper_surface_rows(tmp_path):
+    root = _fixture_root(tmp_path)
+
+    payload = write_claim_artifact_consistency(root=root, claim_id=DGT_CLAIM_ID, generated_at="fixture-time")
+
+    assert [surface["surface_type"] for surface in payload["paper_surfaces"]] == [
+        "table",
+        "figure",
+        "main_claim_chain",
+    ]
+
+
+def test_runner_writes_registered_paper_surface_rows(tmp_path):
+    root = _fixture_root(tmp_path)
+
+    payload = write_claim_artifact_consistency(
+        root=root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface(),),
+    )
+
+    assert payload["paper_surfaces"][0]["surface_id"] == "bedc-jepa-evidence-table"
+    assert payload["gates"][-1]["gate_id"] == "PAPER-HG1"
+    assert payload["gates"][-1]["status"] == "pass"
+    markdown = (root / "reports/canonical/claim-artifact-consistency.md").read_text(encoding="utf-8")
+    assert "bedc-jepa-evidence-table" in markdown
+
+
+def test_paper_surface_rows_are_owned_by_claim_artifact_consistency(tmp_path):
+    root = _fixture_root(tmp_path)
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface(),),
+    )
+    payload = report.to_json()
+
+    assert report.status == "pass"
+    assert _gate(report, "PAPER-HG1").status == "pass"
+    assert payload["paper_surfaces"] == [
+        {
+            "surface_id": "bedc-jepa-evidence-table",
+            "surface_type": "table",
+            "artifact_pointer": f"{DGT_ARTIFACT}:$",
+            "claim_pointer": f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+            "hardgate_pointer": f"{DGT_ARTIFACT}:$.hardgate.status",
+            "not_claimed_pointer": f"{DGT_ARTIFACT}:$.not_claimed",
+            "values": [
+                {
+                    "value_id": "scorecard-row-zero",
+                    "artifact_pointer": f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
+                    "transform": "number",
+                    "tolerance": 0.0,
+                }
+            ],
+        }
+    ]
+
+
+def test_paper_surface_duplicate_rows_fail_closed(tmp_path):
+    root = _fixture_root(tmp_path)
+    surface = _release_surface()
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(surface, surface),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface ids must be unique"
+
+
+def test_paper_surface_rejects_invalid_surface_type(tmp_path):
+    root = _fixture_root(tmp_path)
+    surface = PaperSurface(
+        surface_id="bad-type-surface",
+        surface_type="appendix",
+        artifact_pointer=f"{DGT_ARTIFACT}:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(_release_surface().values[0],),
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(surface,),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface type is invalid"
+
+
+def test_paper_surface_rejects_unresolved_surface_pointer(tmp_path):
+    root = _fixture_root(tmp_path)
+    surface = PaperSurface(
+        surface_id="missing-surface-pointer",
+        surface_type="figure",
+        artifact_pointer="reports/canonical/missing.json:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(_release_surface().values[0],),
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(surface,),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface artifact_pointer must resolve"
+
+
+def test_paper_surface_rejects_duplicate_value_identity(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = _release_surface().values[0]
+    surface = PaperSurface(
+        surface_id="duplicate-value-surface",
+        surface_type="table",
+        artifact_pointer=f"{DGT_ARTIFACT}:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(value, value),
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(surface,),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value ids must be unique"
+
+
+def test_paper_surface_rejects_invalid_value_transform(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = PaperSurfaceValue(
+        value_id="bad-transform",
+        artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
+        transform="percent",
+        tolerance=0.0,
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value transform is invalid"
+
+
+def test_paper_surface_values_resolve_artifact_pointer_without_literal_copy(tmp_path):
+    root = _fixture_root(tmp_path)
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface(),),
+    )
+    payload = report.to_json()
+
+    assert report.status == "pass"
+    assert _gate(report, "PAPER-HG1").status == "pass"
+    assert "paper_literal" not in payload["paper_surfaces"][0]["values"][0]
+
+
+def test_paper_surface_rejects_empty_values(tmp_path):
+    root = _fixture_root(tmp_path)
+    surface = PaperSurface(
+        surface_id="empty-value-surface",
+        surface_type="table",
+        artifact_pointer=f"{DGT_ARTIFACT}:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(),
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(surface,),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface must register at least one value"
+
+
+def test_paper_surface_integer_transform_requires_integral_match(tmp_path):
+    root = _fixture_root(tmp_path)
+    scorecard = json.loads((root / QUALITY_SCORECARD_ARTIFACT).read_text(encoding="utf-8"))
+    scorecard["rows"][0]["value"] = 7
+    _write_json(root, QUALITY_SCORECARD_ARTIFACT, scorecard)
+    verdict_rows = [
+        json.loads(line)
+        for line in (root / CLAIM_VERDICTS_ARTIFACT).read_text(encoding="utf-8").splitlines()
+        if line
+    ]
+    verdict_rows[0]["scorecard_hash"] = canonical_artifact_hash(root / QUALITY_SCORECARD_ARTIFACT)
+    _write_jsonl(root, CLAIM_VERDICTS_ARTIFACT, verdict_rows)
+    value = PaperSurfaceValue(
+        value_id="integer-row",
+        artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
+        transform="integer",
+        tolerance=0.0,
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "pass"
+    assert _gate(report, "PAPER-HG1").status == "pass"
+
+
+def test_paper_surface_rejects_negative_tolerance(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = PaperSurfaceValue(
+        value_id="bad-tolerance",
+        artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
+        transform="number",
+        tolerance=-0.1,
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value tolerance must be nonnegative"
+
+
+def test_paper_surface_rejects_nonnumeric_tolerance(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = PaperSurfaceValue(
+        value_id="bad-tolerance",
+        artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
+        transform="number",
+        tolerance="wide",  # type: ignore[arg-type]
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value tolerance must be nonnegative"
+
+
+def test_paper_surface_rejects_empty_value_identity(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = PaperSurfaceValue(
+        value_id="",
+        artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[0].value",
+        transform="number",
+        tolerance=0.0,
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value id is required"
+
+
+def test_paper_surface_rejects_non_repo_local_pointers(tmp_path):
+    root = _fixture_root(tmp_path)
+    surface = PaperSurface(
+        surface_id="bad-pointer-surface",
+        surface_type="figure",
+        artifact_pointer="https://example.test/report.json:$",
+        claim_pointer=f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]",
+        hardgate_pointer=f"{DGT_ARTIFACT}:$.hardgate.status",
+        not_claimed_pointer=f"{DGT_ARTIFACT}:$.not_claimed",
+        values=(),
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(surface,),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface pointer must be repo-local"
+
+
+def test_paper_surface_rejects_non_repo_local_value_pointer(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = PaperSurfaceValue(
+        value_id="bad-pointer",
+        artifact_pointer="https://example.test/value.json:$",
+        transform="number",
+        tolerance=0.0,
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value pointer must be repo-local"
+
+
+def test_paper_surface_rejects_unresolved_value_pointer(tmp_path):
+    root = _fixture_root(tmp_path)
+    value = PaperSurfaceValue(
+        value_id="missing-pointer",
+        artifact_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:$.rows[999].value",
+        transform="number",
+        tolerance=0.0,
+    )
+
+    report = audit_claim_artifact_consistency(
+        root,
+        claim_id=DGT_CLAIM_ID,
+        generated_at="fixture-time",
+        paper_surfaces=(_release_surface_with_value(value),),
+    )
+
+    assert report.status == "fail"
+    assert _gate(report, "PAPER-HG1").reason == "paper surface value pointer must resolve"

@@ -47,20 +47,98 @@ def _write_eligible_sources(root):
     l1["l1_tiny_sequence_projection"]["ood_generalization_claim"] = "bounded-mechanism-evidence"
     l1["l1_step_ladder"]["status"] = "pass"
     l1["l1_step_ladder"]["verdict"] = "information-starved-catches-up"
-    l1["l1_step_ladder"]["step_rows"][0].setdefault("metrics", {})["validation_loss_mean"] = 0.25
     l1["l1_ood_mechanism"]["verdict"] = "partial-rule"
     _write_json(root, fair.DGT_L1_CONTROLS_ARTIFACT, l1)
 
     base = _read_json(root, fair.DGT_BASE_UNDERTRAINING_ARTIFACT)
     construct = base["base_undertraining_audit"]["construct_validity"]
-    construct["status"] = "pass"
+    construct["status"] = "construct-valid"
     construct["baseline_input_order"] = construct["label_dependency_order"]
-    for row in base["base_undertraining_audit"]["comparison_rows"]:
+    construct["fair_baseline_contract"] = {
+        "status": "pass",
+        "information_starved": False,
+        "missing_variables": [],
+    }
+    base["base_undertraining_audit"]["source_contract"]["fair_baseline_contract"] = {
+        "status": "pass",
+        "information_starved": False,
+        "missing_variables": [],
+    }
+    rows = base["base_undertraining_audit"]["comparison_rows"]
+    by_id = {row["comparison_id"]: row for row in rows}
+    if "equal_validation_loss" not in by_id:
+        rows.append(
+            {
+                "comparison_id": "equal_validation_loss",
+                "status": "resolved",
+                "source_artifact": fair.DGT_L1_CONTROLS_ARTIFACT,
+                "source_pointer": (
+                    f"{fair.DGT_L1_CONTROLS_ARTIFACT}:"
+                    "$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean"
+                ),
+                "match_axis": "validation_loss",
+                "match_value": 1.0,
+                "base_metric": 0.4,
+                "dgt_metric": 0.8,
+                "ci_overlap": False,
+                "ci_low_separation": 0.4,
+                "decision": "noninformative-dgt-separated",
+            }
+        )
+    for row in rows:
         row["status"] = "resolved"
+    construct.setdefault("input_accessibility_preconditions", {})["baseline_row"] = {
+        "status": "pass",
+        "row_pointer": "reports/canonical/input-accessibility.json#row_id=6001d70d815f574b",
+        "missing_variables": [],
+        "information_starved": False,
+    }
     _write_json(root, fair.DGT_BASE_UNDERTRAINING_ARTIFACT, base)
 
     accessibility = _read_json(root, fair.INPUT_ACCESSIBILITY_ARTIFACT)
-    accessibility["consumer_pointers"]["information_starved_arms_ref"] = []
+    baseline_row = {
+        "row_id": "6001d70d815f574b",
+        "experiment": "dgt_l1_tiny_sequence",
+        "split": "in_distribution",
+        "arm": fair.INPUT_ABLATION_ARM_ID,
+        "role": fair.INPUT_ABLATION_ROLE,
+        "visible_variables": ["x_minus_1", "x_minus_2", "full_sequence"],
+        "required_variables": ["x_minus_1", "x_minus_2"],
+        "missing_variables": [],
+        "information_starved": False,
+        "coverage_status": "pass",
+        "supports_architecture_claim": True,
+        "feature_extraction": {"status": "pass"},
+        "label_extraction": {"status": "pass"},
+    }
+    accessibility["rows"] = [
+        row
+        for row in accessibility["rows"]
+        if not (
+            row.get("experiment") == baseline_row["experiment"]
+            and row.get("split") == baseline_row["split"]
+            and row.get("arm") == baseline_row["arm"]
+            and row.get("role") == baseline_row["role"]
+        )
+    ]
+    accessibility["rows"].append(baseline_row)
+    for row in accessibility["rows"]:
+        if (
+            row["experiment"] == "dgt_l1_tiny_sequence"
+            and row["split"] == "in_distribution"
+            and row["arm"] == fair.INPUT_ABLATION_ARM_ID
+            and row["role"] == fair.INPUT_ABLATION_ROLE
+        ):
+            row["visible_variables"] = list(row["required_variables"])
+            row["missing_variables"] = []
+            row["coverage_status"] = "pass"
+            row["information_starved"] = False
+            row["supports_architecture_claim"] = True
+    accessibility["consumer_pointers"]["information_starved_arms_ref"] = [
+        pointer
+        for pointer in accessibility["consumer_pointers"]["information_starved_arms_ref"]
+        if not pointer.endswith("6001d70d815f574b")
+    ]
     _write_json(root, fair.INPUT_ACCESSIBILITY_ARTIFACT, accessibility)
 
 
@@ -76,12 +154,16 @@ def test_fair_l1_decision_projects_bounded_negative_from_current_l1_evidence(tmp
     ]
     assert payload["ladder_state_projection"]["state"] == "l1-bounded-negative"
     assert payload["hardgates"]["FAIR-L1-HG1"]["status"] == "pass"
-    assert payload["hardgates"]["FAIR-L1-HG2"]["status"] == "fail"
-    assert payload["hardgates"]["FAIR-L1-HG3"]["status"] == "fail"
+    assert payload["hardgates"]["FAIR-L1-HG3"]["status"] == "pass"
+    assert payload["hardgates"]["FAIR-L1-HG7"]["status"] == "pass"
+    assert payload["hardgates"]["FAIR-L1-HG5"]["status"] == "fail"
     assert payload["hardgates"]["FAIR-L1-HG6"]["status"] == "fail"
     assert [row["comparison_id"] for row in payload["fair_alignment"]["comparison_rows"]] == list(fair.REQUIRED_COMPARISONS)
-    assert payload["fair_alignment"]["comparison_rows"][-1]["status"] == "missing"
-    assert any(row["gate_id"] == "FAIR-L1-HG3" for row in payload["boundary_ledger"])
+    validation = payload["fair_alignment"]["comparison_rows"][-1]
+    assert validation["comparison_id"] == "equal-validation-loss"
+    assert validation["match_axis"] == "validation_loss"
+    assert validation["owner_row_pointer"].startswith(fair.BASE_AUDIT_POINTER)
+    assert any(row["gate_id"] == "FAIR-L1-HG5" for row in payload["boundary_ledger"])
     assert "unblocked" not in json.dumps(payload, sort_keys=True)
     assert "scoped-boundary" not in json.dumps(payload, sort_keys=True)
 
@@ -98,6 +180,9 @@ def test_fair_l1_decision_projects_scaling_evidence_eligible_from_resolved_sourc
     assert payload["decision"]["hardgate_status"] == "pass"
     assert payload["ladder_state_projection"]["state"] == "l1-scaling-evidence-eligible"
     assert payload["boundary_ledger"] == []
+    assert payload["fair_alignment"]["comparison_rows"][-1]["source_pointer"].startswith(
+        "reports/runs/discovery-gated-transformer/l1-tiny-sequence-controls/non_starved_fair_baseline_summary.json"
+    )
 
     fair.write_artifacts(payload, root=tmp_path, generated_at="fixture-time")
     capsule = payload["decision"]["claim_capsule"]
@@ -115,6 +200,42 @@ def test_fair_l1_decision_missing_source_blocks_instead_of_stub(tmp_path):
     assert payload["ladder_state_projection"]["state"] == "l1-scaling-blocked"
     assert payload["hardgates"]["FAIR-L1-HG1"]["status"] == "fail"
     assert payload["source_artifacts"]["l1_projection"]["status"] == "missing"
+
+
+def test_fair_l1_comparison_rows_project_from_base_undertraining_owner(tmp_path):
+    _write_sources(tmp_path)
+    base = _read_json(tmp_path, fair.DGT_BASE_UNDERTRAINING_ARTIFACT)
+    rows = base["base_undertraining_audit"]["comparison_rows"]
+    rows[:] = [
+        {
+            "comparison_id": "equal_validation_loss",
+            "status": "resolved",
+            "source_artifact": fair.DGT_L1_CONTROLS_ARTIFACT,
+            "source_pointer": (
+                f"{fair.DGT_L1_CONTROLS_ARTIFACT}:"
+                "$.l1_step_ladder.per_step[0].metrics.information_starved_validation_loss_mean"
+            ),
+            "match_axis": "validation_loss",
+            "match_value": 1.0,
+            "base_metric": 0.4,
+            "dgt_metric": 0.8,
+            "ci_overlap": False,
+            "ci_low_separation": 0.4,
+            "decision": "owner-row",
+        }
+    ]
+    _write_json(tmp_path, fair.DGT_BASE_UNDERTRAINING_ARTIFACT, base)
+
+    payload = fair.build_payload(root=tmp_path, generated_at="fixture-time")
+    rows = payload["fair_alignment"]["comparison_rows"]
+
+    assert [row["comparison_id"] for row in rows] == list(fair.REQUIRED_COMPARISONS)
+    assert rows[-1]["comparison_id"] == "equal-validation-loss"
+    assert rows[-1]["status"] == "resolved"
+    assert rows[-1]["decision"] == "owner-row"
+    assert rows[-1]["owner_row_pointer"] == f"{fair.BASE_AUDIT_POINTER}.comparison_rows[0]"
+    assert rows[-1]["source_pointer"].endswith(".metrics.information_starved_validation_loss_mean")
+    assert rows[0]["status"] == "missing"
 
 
 def test_fair_l1_claim_capsule_is_pointer_only(tmp_path):
