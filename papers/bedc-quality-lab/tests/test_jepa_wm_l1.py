@@ -55,6 +55,130 @@ def _loaded_payload(monkeypatch, *, context_mode):
     return task.build_payload(generated_at="fixture", case_count=128, bootstrap_resamples=64)
 
 
+def test_public_encoder_loader_records_dependency_preflight_failure(monkeypatch):
+    monkeypatch.setattr(
+        task,
+        "dependency_status",
+        lambda: {
+            "torch": "installed",
+            "transformers": "missing",
+            "huggingface_hub": "installed",
+            "torchvision": "installed",
+            "PIL": "missing",
+            "numpy": "installed",
+        },
+    )
+    monkeypatch.setattr(
+        task,
+        "dependency_versions",
+        lambda: {
+            "python": "fixture",
+            "torch": "fixture",
+            "transformers": "not-installed",
+            "huggingface_hub": "fixture",
+            "torchvision": "fixture",
+            "PIL": "not-installed",
+            "numpy": "fixture",
+        },
+    )
+
+    result = task.try_load_public_encoder(checkpoints=("first", "second"))
+
+    assert result.encoder is None
+    assert len(result.attempts) == 1
+    attempt = result.attempts[0]
+    assert attempt.checkpoint == "dependency-preflight"
+    assert attempt.status == "failed"
+    assert attempt.stage == "dependency_check"
+    assert attempt.reason == "missing dependencies: transformers, PIL"
+    assert attempt.details == {
+        "dependency_status": {
+            "torch": "installed",
+            "transformers": "missing",
+            "huggingface_hub": "installed",
+            "torchvision": "installed",
+            "PIL": "missing",
+            "numpy": "installed",
+        },
+        "dependency_versions": {
+            "python": "fixture",
+            "torch": "fixture",
+            "transformers": "not-installed",
+            "huggingface_hub": "fixture",
+            "torchvision": "fixture",
+            "PIL": "not-installed",
+            "numpy": "fixture",
+        },
+    }
+
+
+def test_public_encoder_loader_aggregates_attempts_and_stops_at_first_success(monkeypatch):
+    calls = []
+    loaded = task.LoadedEncoder(
+        checkpoint="second",
+        encode=lambda videos: np.zeros((int(videos.shape[0]), 1), dtype=np.float64),
+        metadata={"checkpoint": "second"},
+    )
+
+    def fake_load(checkpoint, *, device):
+        calls.append((checkpoint, device))
+        if checkpoint == "first":
+            return task.WeightLoadResult(
+                None,
+                (
+                    task.WeightAttempt(
+                        checkpoint="first",
+                        status="failed",
+                        stage="from_pretrained",
+                        reason="fixture miss",
+                    ),
+                ),
+            )
+        if checkpoint == "second":
+            return task.WeightLoadResult(
+                loaded,
+                (
+                    task.WeightAttempt(
+                        checkpoint="second",
+                        status="contacted",
+                        stage="config",
+                        reason="fixture config",
+                    ),
+                    task.WeightAttempt(
+                        checkpoint="second",
+                        status="loaded",
+                        stage="from_pretrained",
+                        reason="fixture loaded",
+                    ),
+                ),
+            )
+        raise AssertionError("loader should stop before the third checkpoint")
+
+    monkeypatch.setattr(
+        task,
+        "dependency_status",
+        lambda: {
+            "torch": "installed",
+            "transformers": "installed",
+            "huggingface_hub": "installed",
+            "torchvision": "installed",
+            "PIL": "installed",
+            "numpy": "installed",
+        },
+    )
+    monkeypatch.setattr(task, "_try_load_hf_vjepa2_encoder", fake_load)
+
+    result = task.try_load_public_encoder(checkpoints=("first", "second", "third"), device="fixture-device")
+
+    assert result.encoder is loaded
+    assert calls == [("first", "fixture-device"), ("second", "fixture-device")]
+    assert [(attempt.checkpoint, attempt.status, attempt.stage) for attempt in result.attempts] == [
+        ("first", "failed", "from_pretrained"),
+        ("second", "contacted", "config"),
+        ("second", "loaded", "from_pretrained"),
+    ]
+
+
 def test_blocked_capsule_records_weight_acquisition_attempts():
     attempts = [
         task.WeightAttempt(
