@@ -79,9 +79,11 @@ def _train_variant(
     train: BoundaryGatedBatch,
     *,
     seed: int,
-    bedc_objective: bool,
+    variant: str,
     epochs: int = 220,
 ) -> dict[str, Any]:
+    if variant not in {"bedc_objective", "vanilla_matched_gap_head", "latent_only"}:
+        raise ValueError(f"unknown torch BEDC-JEPA variant: {variant}")
     torch = require_torch()
     set_deterministic_seed(seed)
     device_resolution = choose_device()
@@ -102,7 +104,7 @@ def _train_variant(
     bce = torch.nn.BCEWithLogitsLoss()
     mse = torch.nn.MSELoss()
     pretrain_epochs = epochs
-    bedc_epochs = 320 if bedc_objective else 0
+    supervised_head_epochs = 320 if variant in {"bedc_objective", "vanilla_matched_gap_head"} else 0
     for _ in range(pretrain_epochs):
         optimizer.zero_grad(set_to_none=True)
         z = encoder(x)
@@ -111,7 +113,7 @@ def _train_variant(
         latent_loss = mse(pred_pair, z_pair) + 0.25 * mse(z, z_target) + 0.15 * covariance_loss(z) + 0.05 * mean_loss(z)
         latent_loss.backward()
         optimizer.step()
-    if bedc_objective:
+    if supervised_head_epochs:
         head_optimizer = torch.optim.AdamW(
             list(distinction_head.parameters()) + list(gap_head.parameters()),
             lr=2e-3,
@@ -119,7 +121,7 @@ def _train_variant(
         )
         with torch.no_grad():
             z_fixed = encoder(x).detach()
-    for _ in range(bedc_epochs):
+    for _ in range(supervised_head_epochs):
         head_optimizer.zero_grad(set_to_none=True)
         z = z_fixed
         d_logits = distinction_head(_distinction_features(torch, z))
@@ -127,14 +129,16 @@ def _train_variant(
         g_logits = gap_head(_gap_features(torch, z, d_prob))
         d_loss = bce(d_logits, distinction)
         g_loss = bce(g_logits, gap)
-        wrong_soft = torch.abs(d_prob - distinction)
-        gap_prob = torch.sigmoid(g_logits)
-        unlogged_loss = torch.mean(wrong_soft * (1.0 - gap_prob) ** 2)
-        boundary_caution = torch.mean(gap * (1.0 - gap_prob) ** 2)
-        loss = 1.2 * d_loss + 1.8 * g_loss + 2.4 * unlogged_loss + 0.8 * boundary_caution
+        loss = 1.2 * d_loss + 1.8 * g_loss
+        if variant == "bedc_objective":
+            wrong_soft = torch.abs(d_prob - distinction)
+            gap_prob = torch.sigmoid(g_logits)
+            unlogged_loss = torch.mean(wrong_soft * (1.0 - gap_prob) ** 2)
+            boundary_caution = torch.mean(gap * (1.0 - gap_prob) ** 2)
+            loss = loss + 2.4 * unlogged_loss + 0.8 * boundary_caution
         loss.backward()
         head_optimizer.step()
-    if not bedc_objective:
+    if variant == "latent_only":
         for _ in range(80):
             optimizer.zero_grad(set_to_none=True)
             with torch.no_grad():
@@ -206,9 +210,11 @@ def _evaluate(
 def run_torch_bedc_jepa_benchmark(*, seed: int = 4242) -> dict[str, object]:
     train = make_boundary_gated_batch(1536, rho=0.84, radius=1.0, gap_width=0.14, seed=seed)
     test = make_boundary_gated_batch(768, rho=0.84, radius=1.0, gap_width=0.14, seed=seed + 1)
-    latent_model = _train_variant(train, seed=seed, bedc_objective=False)
-    bedc_model = _train_variant(train, seed=seed, bedc_objective=True)
+    latent_model = _train_variant(train, seed=seed, variant="latent_only")
+    matched_model = _train_variant(train, seed=seed, variant="vanilla_matched_gap_head")
+    bedc_model = _train_variant(train, seed=seed, variant="bedc_objective")
     latent_scores = _scores(latent_model, test)
+    matched_scores = _scores(matched_model, test)
     bedc_scores = _scores(bedc_model, test)
     systems = {
         "latent_only": _evaluate(
@@ -217,9 +223,11 @@ def run_torch_bedc_jepa_benchmark(*, seed: int = 4242) -> dict[str, object]:
             test,
             gap_override=np.zeros(test.gap.shape[0], dtype=np.float64),
         ),
+        "vanilla_matched_gap_head": _evaluate("torch-vanilla-matched-gap-head", matched_scores, test),
         "bedc_objective": _evaluate("torch-bedc-jepa-objective", bedc_scores, test),
     }
     latent = systems["latent_only"]
+    matched = systems["vanilla_matched_gap_head"]
     bedc = systems["bedc_objective"]
     return {
         "source": {
@@ -234,6 +242,16 @@ def run_torch_bedc_jepa_benchmark(*, seed: int = 4242) -> dict[str, object]:
             "distinction_bce",
             "gap_bce",
             "unlogged_error_penalty",
+            "boundary_caution_penalty",
+        ],
+        "bedc_only_terms": [
+            "unlogged_error_penalty",
+            "boundary_caution_penalty",
+        ],
+        "matched_control_terms": [
+            "latent_prediction",
+            "distinction_bce",
+            "gap_bce",
         ],
         "systems": systems,
         "deltas": {
@@ -243,6 +261,14 @@ def run_torch_bedc_jepa_benchmark(*, seed: int = 4242) -> dict[str, object]:
             "outside_gap_accuracy_gain": float(bedc["distinction_accuracy_outside_gap"])
             - float(latent["distinction_accuracy_outside_gap"]),
             "latent_r2_delta": float(bedc["linear_identifiability_r2"]) - float(latent["linear_identifiability_r2"]),
+            "gap_auc_gain_vs_matched": float(bedc["gap_detection_auc"]) - float(matched["gap_detection_auc"]),
+            "latent_r2_delta_vs_matched": float(bedc["linear_identifiability_r2"])
+            - float(matched["linear_identifiability_r2"]),
+            "outside_gap_accuracy_gain_vs_matched": float(bedc["distinction_accuracy_outside_gap"])
+            - float(matched["distinction_accuracy_outside_gap"]),
+            "debt_reduction_vs_matched": float(matched["bedc_debt_score"]) - float(bedc["bedc_debt_score"]),
+            "unlogged_error_reduction_vs_matched": float(matched["unlogged_error_rate"])
+            - float(bedc["unlogged_error_rate"]),
         },
     }
 
@@ -254,6 +280,11 @@ def run_torch_bedc_jepa_sweep(*, seeds: Sequence[int] = (4242, 4259, 4276)) -> d
     debt_reductions = [float(run["deltas"]["debt_reduction"]) for run in runs]
     outside_gap_gains = [float(run["deltas"]["outside_gap_accuracy_gain"]) for run in runs]
     latent_r2_deltas = [float(run["deltas"]["latent_r2_delta"]) for run in runs]
+    matched_gap_auc_gains = [float(run["deltas"]["gap_auc_gain_vs_matched"]) for run in runs]
+    matched_unlogged_reductions = [float(run["deltas"]["unlogged_error_reduction_vs_matched"]) for run in runs]
+    matched_debt_reductions = [float(run["deltas"]["debt_reduction_vs_matched"]) for run in runs]
+    matched_outside_gap_gains = [float(run["deltas"]["outside_gap_accuracy_gain_vs_matched"]) for run in runs]
+    matched_latent_r2_deltas = [float(run["deltas"]["latent_r2_delta_vs_matched"]) for run in runs]
     compact_runs = [
         {
             "seed": float(run["source"]["seed"]),
@@ -262,6 +293,11 @@ def run_torch_bedc_jepa_sweep(*, seeds: Sequence[int] = (4242, 4259, 4276)) -> d
             "debt_reduction": float(run["deltas"]["debt_reduction"]),
             "outside_gap_accuracy_gain": float(run["deltas"]["outside_gap_accuracy_gain"]),
             "latent_r2_delta": float(run["deltas"]["latent_r2_delta"]),
+            "gap_auc_gain_vs_matched": float(run["deltas"]["gap_auc_gain_vs_matched"]),
+            "unlogged_error_reduction_vs_matched": float(run["deltas"]["unlogged_error_reduction_vs_matched"]),
+            "debt_reduction_vs_matched": float(run["deltas"]["debt_reduction_vs_matched"]),
+            "outside_gap_accuracy_gain_vs_matched": float(run["deltas"]["outside_gap_accuracy_gain_vs_matched"]),
+            "latent_r2_delta_vs_matched": float(run["deltas"]["latent_r2_delta_vs_matched"]),
         }
         for run in runs
     ]
@@ -282,4 +318,19 @@ def run_torch_bedc_jepa_sweep(*, seeds: Sequence[int] = (4242, 4259, 4276)) -> d
         "gap_auc_win_rate": _win_rate(gap_auc_gains),
         "unlogged_error_win_rate": _win_rate(unlogged_reductions, threshold=-1e-12),
         "debt_win_rate": _win_rate(debt_reductions),
+        "gap_auc_gain_vs_matched_mean": float(np.mean(matched_gap_auc_gains)),
+        "gap_auc_gain_vs_matched_ci95": _ci95(matched_gap_auc_gains),
+        "unlogged_error_reduction_vs_matched_mean": float(np.mean(matched_unlogged_reductions)),
+        "unlogged_error_reduction_vs_matched_ci95": _ci95(matched_unlogged_reductions),
+        "debt_reduction_vs_matched_mean": float(np.mean(matched_debt_reductions)),
+        "debt_reduction_vs_matched_ci95": _ci95(matched_debt_reductions),
+        "outside_gap_accuracy_gain_vs_matched_mean": float(np.mean(matched_outside_gap_gains)),
+        "outside_gap_accuracy_gain_vs_matched_ci95": _ci95(matched_outside_gap_gains),
+        "latent_r2_delta_vs_matched_mean": float(np.mean(matched_latent_r2_deltas)),
+        "latent_r2_delta_vs_matched_abs_max": float(
+            np.max(np.abs(np.asarray(matched_latent_r2_deltas, dtype=np.float64)))
+        ),
+        "gap_auc_win_rate_vs_matched": _win_rate(matched_gap_auc_gains),
+        "unlogged_error_win_rate_vs_matched": _win_rate(matched_unlogged_reductions, threshold=-1e-12),
+        "debt_win_rate_vs_matched": _win_rate(matched_debt_reductions),
     }

@@ -16,10 +16,12 @@ def test_torch_bedc_jepa_objective_trains_gap_and_distinction_heads():
 
     latent = summary["systems"]["latent_only"]
     bedc = summary["systems"]["bedc_objective"]
+    matched = summary["systems"]["vanilla_matched_gap_head"]
     deltas = summary["deltas"]
 
     assert latent["system_name"] == "torch-latent-only"
     assert bedc["system_name"] == "torch-bedc-jepa-objective"
+    assert matched["system_name"] == "torch-vanilla-matched-gap-head"
     assert bedc["gap_detection_auc"] > latent["gap_detection_auc"]
     assert bedc["unlogged_error_rate"] <= latent["unlogged_error_rate"]
     assert bedc["unlogged_error_rate"] == 0.0
@@ -28,6 +30,21 @@ def test_torch_bedc_jepa_objective_trains_gap_and_distinction_heads():
     assert deltas["unlogged_error_reduction"] >= 0.0
     assert deltas["debt_reduction"] > 0.05
     assert abs(deltas["latent_r2_delta"]) < 1e-8
+    assert deltas["gap_auc_gain_vs_matched"] == pytest.approx(
+        bedc["gap_detection_auc"] - matched["gap_detection_auc"]
+    )
+    assert deltas["latent_r2_delta_vs_matched"] == pytest.approx(
+        bedc["linear_identifiability_r2"] - matched["linear_identifiability_r2"]
+    )
+    assert deltas["outside_gap_accuracy_gain_vs_matched"] == pytest.approx(
+        bedc["distinction_accuracy_outside_gap"] - matched["distinction_accuracy_outside_gap"]
+    )
+    assert deltas["debt_reduction_vs_matched"] == pytest.approx(
+        matched["bedc_debt_score"] - bedc["bedc_debt_score"]
+    )
+    assert deltas["unlogged_error_reduction_vs_matched"] == pytest.approx(
+        matched["unlogged_error_rate"] - bedc["unlogged_error_rate"]
+    )
 
 
 def test_torch_bedc_jepa_sweep_aggregates_gradient_objective_gains():
@@ -46,3 +63,14 @@ def test_torch_bedc_jepa_sweep_aggregates_gradient_objective_gains():
     assert sweep["debt_win_rate"] >= 0.75
     assert sweep["unlogged_error_win_rate"] >= 0.75
     assert len(sweep["runs"]) == 3
+    assert "gap_auc_gain_vs_matched_mean" in sweep
+    assert "latent_r2_delta_vs_matched_mean" in sweep
+    assert "outside_gap_accuracy_gain_vs_matched_mean" in sweep
+    assert "debt_reduction_vs_matched_mean" in sweep
+    assert "unlogged_error_reduction_vs_matched_mean" in sweep
+    for run in sweep["runs"]:
+        assert "gap_auc_gain_vs_matched" in run
+        assert "latent_r2_delta_vs_matched" in run
+        assert "outside_gap_accuracy_gain_vs_matched" in run
+        assert "debt_reduction_vs_matched" in run
+        assert "unlogged_error_reduction_vs_matched" in run
