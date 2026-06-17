@@ -61,6 +61,8 @@ Edge Defect Projection Harness & The SerSplit edge-defect projection audit has a
 Ser Island Fidelity Cost & The Ser UCN/AGY split creates a code-table near-cognate error-cost asymmetry: UCN and AGY have different one-step missense/stop neighborhoods, and this asymmetry could seed a translation-fidelity selection route only if it is exceptional beyond matched codon-family nulls and later survives site-level expression/mistranslation tests. & \texttt{coincidence} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.synthetic.negative.control.axis.pack status=needs_derivation
 Pack & Use only in-repo deterministic codon features and seeded synthetic vectors to audit the common projection harness before any external candidate axis is attempted. This autonomous bridge claim is evaluated only by its registered deterministic experiment. & \texttt{needs\_derivation} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.sersplit.edge_defect.nonestimability.certificate status=certified
+Certificate & The Ser-split edge-defect contrast (within-Ser 4-vs-2: \{UCU,UCC,UCA,UCG\} vs \{AGU,AGC\}) lies exactly in the column span of the registered forbidden-control matrix C (verified against the actual registered z-scored columns to 1e-9), so its residual is algebraically zero, v\_SerSplit is undefined, and no real-data biological axis can yield a certified independent projection onto this target. On the Ser support, sqrt(12)*u = 1 - 3*indicator(first base is purine), so the edge defect IS a registered composition control. The 5-dim within-Ser zero-sum contrast subspace is NOT fully absorbed, so the 15-way within-Ser permutation null is non-degenerate. This autonomous bridge claim is evaluated only by its registered deterministic experiment. & \texttt{certified} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -464,3 +466,21 @@ evaluated only by its registered deterministic experiment.
 cannot audit projection selectivity.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_synthetic\_negative\_control\_axis\_pack.py
+
+\subsection{Certificate}\label{sec:bridge-certificate}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.sersplit.edge_defect.nonestimability.certificate status=certified
+\textbf{Statement.} The Ser-split edge-defect contrast (within-Ser 4-vs-2: \{UCU,UCC,UCA,UCG\} vs \{AGU,AGC\}) lies
+exactly in the column span of the registered forbidden-control matrix C (verified against the actual
+registered z-scored columns to 1e-9), so its residual is algebraically zero, v\_SerSplit is
+undefined, and no real-data biological axis can yield a certified independent projection onto this
+target. On the Ser support, sqrt(12)*u = 1 - 3*indicator(first base is purine), so the edge defect
+IS a registered composition control. The 5-dim within-Ser zero-sum contrast subspace is NOT fully
+absorbed, so the 15-way within-Ser permutation null is non-degenerate. This autonomous bridge claim
+is evaluated only by its registered deterministic experiment.
+
+\textbf{Verdict.} \texttt{certified}.
+
+\textbf{Why.} Exact rational elimination proves sqrt(12) times the Ser-split edge-defect contrast lies in the span
+of registered forbidden-control columns.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_sersplit\_edge\_defect\_nonestimability\_certificate.py
