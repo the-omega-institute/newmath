@@ -216,6 +216,22 @@
    "status": "open",
    "timeout_seconds": 600,
    "note": "Enumerates the standard-code internal synonymous Hamming-1 edge deficit by family, verifies whether the whole 72-69 deficit is Stop:1 plus Ser:2, constructs SerSplitDefect and sense family-defect vectors, and tests their projection onto delivered codon-Q6 selection axes. If no independent d_resid4 axis is present, the in-packet optimal residual is reported only as a candidate."
+  },
+  {
+   "experiment_id": "edge_defect_projection_harness",
+   "claim_id": "bridge.genetic_code.edge_defect_projection_harness",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_defect_projection_harness.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Local audit harness for oracle-proposed edge-defect axes. It constructs SerSplit, forbidden controls, residualization, within-Ser exact null, sixfold-family exact null, and matched-support null. It certifies only harness behavior, not a biological SerSplit axis."
+  },
+  {
+   "experiment_id": "ser_island_fidelity_cost",
+   "claim_id": "bridge.genetic_code.ser_island_fidelity_cost",
+   "script_path": "tools/window_codon_bridge/experiments/run_ser_island_fidelity_cost.py",
+   "status": "coincidence",
+   "timeout_seconds": 600,
+   "note": "Ser UCN has higher mean visible near-cognate cost than AGY in the deterministic amino-acid-property audit, but the delta is not exceptional under matched random codon partitions and is comparable to other sixfold-family four-versus-two splits; this remains a mechanistic candidate rather than a certificate."
   }
  ]
 }

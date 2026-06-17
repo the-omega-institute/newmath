@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.omega.nyxid.oracle.tab2</string>
+
+  <key>WorkingDirectory</key>
+  <string>/tmp/nyxid-src/integrations/oracle/cdp-worker</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/node</string>
+    <string>worker-tab2.mjs</string>
+  </array>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>NYXID_BASE_URL</key>
+    <string>https://nyx-api.chrono-ai.fun</string>
+    <key>NYXID_WORKER_TOKEN_FILE</key>
+    <string>/Users/lexa/.nyxid-oracle-omega-token</string>
+    <key>NYXID_WORKER_LABEL</key>
+    <string>tab_2</string>
+    <key>CHROME_CDP_URL</key>
+    <string>http://localhost:9222</string>
+    <key>NYXID_POLL_MS</key>
+    <string>5000</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/nyxid-omega-worker-tab2.launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/nyxid-omega-worker-tab2.launchd.log</string>
+</dict>
+</plist>

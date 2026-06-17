@@ -2,22 +2,30 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key><string>window.codon.bridge.supervisor.20260613143849</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>/opt/homebrew/bin/python3</string>
-    <string>tools/window_codon_bridge/supervisor.py</string>
-    <string>--interval-seconds</string>
-    <string>600</string>
-  </array>
-  <key>WorkingDirectory</key><string>/Users/lexa/Desktop/lexa/omega/newmath-window-bridge</string>
-  <key>EnvironmentVariables</key>
-  <dict>
-    <key>WINDOW_CODON_ALLOW_NYXID_ORACLE</key><string>1</string>
-  </dict>
-  <key>RunAtLoad</key><true/>
-  <key>KeepAlive</key><true/>
-  <key>StandardOutPath</key><string>/Users/lexa/Desktop/lexa/omega/newmath-window-bridge/tools/window_codon_bridge/state/daemon.stdout.log</string>
-  <key>StandardErrorPath</key><string>/Users/lexa/Desktop/lexa/omega/newmath-window-bridge/tools/window_codon_bridge/state/daemon.stderr.log</string>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>WINDOW_CODON_ALLOW_NYXID_ORACLE</key>
+		<string>1</string>
+	</dict>
+	<key>KeepAlive</key>
+	<true/>
+	<key>Label</key>
+	<string>window.codon.bridge.supervisor.20260613143849</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/opt/homebrew/bin/python3</string>
+		<string>tools/window_codon_bridge/supervisor.py</string>
+		<string>--interval-seconds</string>
+		<string>600</string>
+		<string>--no-commit</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/Users/lexa/Desktop/lexa/omega/newmath-window-bridge/tools/window_codon_bridge/state/daemon.stderr.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/lexa/Desktop/lexa/omega/newmath-window-bridge/tools/window_codon_bridge/state/daemon.stdout.log</string>
+	<key>WorkingDirectory</key>
+	<string>/Users/lexa/Desktop/lexa/omega/newmath-window-bridge</string>
 </dict>
 </plist>

@@ -55,6 +55,10 @@ Halfbox Fibonacci Tower & The genetic-code halfbox and family-meet layers create
 Fold Tower Separating Extremality & The Window fold tower is edge-separating at each tested finite width under the same value-window convention that reproduces the Window6 certificate, yielding a cross-width revealing endpoint dual to the genetic-code hiding tower. & \texttt{refuted} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.edge_defect_axis_cert status=coincidence
 Edge Defect Axis Cert & The standard genetic code's local-edge-hiding deficit is exactly e\_max-e\_in=3, supported only on Stop and Ser, with Stop contributing one punctuation defect and Ser contributing two sense split defects. The sense-side SerSplitDefect vector should project onto an available codon-Q6 selection axis, especially an independent fourth residual axis if present. & \texttt{coincidence} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.edge_defect_projection_harness status=certified
+Edge Defect Projection Harness & The SerSplit edge-defect projection audit has a deterministic 61-sense-codon harness: it builds forbidden controls from available codon-Q6 selection and codon-chemistry columns, residualizes candidate axes and the SerSplit contrast through the same matrix, detects only the forbidden positive control, and does not promote oracle output or local controls into biological evidence. & \texttt{certified} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.ser_island_fidelity_cost status=coincidence
+Ser Island Fidelity Cost & The Ser UCN/AGY split creates a code-table near-cognate error-cost asymmetry: UCN and AGY have different one-step missense/stop neighborhoods, and this asymmetry could seed a translation-fidelity selection route only if it is exceptional beyond matched codon-family nulls and later survives site-level expression/mistranslation tests. & \texttt{coincidence} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -415,3 +419,33 @@ delivered selection-vector packet has no independent d\_resid4 axis and the Ser 
 not certify a projection onto the available axes.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_edge\_defect\_axis\_cert.py
+
+\subsection{Edge Defect Projection Harness}\label{sec:bridge-edge-defect-projection-harness}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.edge_defect_projection_harness status=certified
+\textbf{Statement.} The SerSplit edge-defect projection audit has a deterministic 61-sense-codon harness: it builds
+forbidden controls from available codon-Q6 selection and codon-chemistry columns, residualizes
+candidate axes and the SerSplit contrast through the same matrix, detects only the forbidden
+positive control, and does not promote oracle output or local controls into biological evidence.
+
+\textbf{Verdict.} \texttt{certified}.
+
+\textbf{Why.} Projection harness is operational: forbidden negative controls collapse or do not pass, and the
+forbidden SerSplit positive control is detected.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_edge\_defect\_projection\_harness.py
+
+\subsection{Ser Island Fidelity Cost}\label{sec:bridge-ser-island-fidelity-cost}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.ser_island_fidelity_cost status=coincidence
+\textbf{Statement.} The Ser UCN/AGY split creates a code-table near-cognate error-cost asymmetry: UCN and AGY have
+different one-step missense/stop neighborhoods, and this asymmetry could seed a translation-fidelity
+selection route only if it is exceptional beyond matched codon-family nulls and later survives
+site-level expression/mistranslation tests.
+
+\textbf{Verdict.} \texttt{coincidence}.
+
+\textbf{Why.} Ser UCN has higher mean visible near-cognate cost than AGY in the deterministic amino-acid-property
+audit, but the delta is not exceptional under matched random codon partitions and is comparable to
+other sixfold-family four-versus-two splits; this remains a mechanistic candidate rather than a
+certificate.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_ser\_island\_fidelity\_cost.py

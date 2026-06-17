@@ -177,27 +177,58 @@ def run_cycle() -> dict:
 
 
 def paper_lane() -> dict:
-    gen = subprocess.run(
-        [sys.executable, str(SCRIPT_DIR / "paper_gen.py")],
-        cwd=str(REPO_ROOT),
+    paper_dir = REPO_ROOT / "papers" / "window_codon_bridge"
+    env = os.environ.copy()
+    env["PATH"] = ":".join([
+        "/Library/TeX/texbin",
+        "/opt/homebrew/bin",
+        "/usr/local/bin",
+        env.get("PATH", "/usr/bin:/bin:/usr/sbin:/sbin"),
+    ])
+    build = subprocess.run(
+        ["make"],
+        cwd=str(paper_dir),
+        env=env,
         capture_output=True,
         text=True,
     )
-    gate = subprocess.run(
-        [sys.executable, str(SCRIPT_DIR / "paper_gate.py")],
-        cwd=str(REPO_ROOT),
-        capture_output=True,
-        text=True,
-    )
+    ok = build.returncode == 0
     result = {
-        "generated": gen.returncode == 0,
-        "gate_ok": gate.returncode == 0,
+        "generated": ok,
+        "gate_ok": ok,
+        "pdf_ok": ok,
     }
-    if gen.returncode != 0:
-        result["gen_error"] = ((gen.stderr or gen.stdout) or "")[-300:]
-    if gate.returncode != 0:
-        result["gate_error"] = ((gate.stderr or gate.stdout) or "")[-300:]
-    print(f"[paper] generated={result['generated']} gate_ok={result['gate_ok']}", flush=True)
+    if not ok:
+        result["build_error"] = ((build.stderr or build.stdout) or "")[-500:]
+    print(
+        f"[paper] generated={result['generated']} gate_ok={result['gate_ok']} pdf_ok={result['pdf_ok']}",
+        flush=True,
+    )
+    return result
+
+
+def assimilation_lane() -> dict:
+    proc = subprocess.run(
+        [sys.executable, str(SCRIPT_DIR / "oracle_assimilator.py")],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+    )
+    result = {"ran": proc.returncode == 0}
+    parsed = None
+    for line in reversed((proc.stdout or "").strip().splitlines()):
+        if not line.strip().startswith("{"):
+            continue
+        try:
+            parsed = json.loads(line)
+            break
+        except json.JSONDecodeError:
+            continue
+    if parsed:
+        result.update(parsed)
+    if proc.returncode != 0:
+        result["error"] = ((proc.stderr or proc.stdout) or "")[-300:]
+    print(f"[assimilation] {result}", flush=True)
     return result
 
 
@@ -207,6 +238,7 @@ def keep_lane():
         "tools/window_codon_bridge/registries",
         "tools/window_codon_bridge/experiments",
         "tools/window_codon_bridge/oracle_inbox",
+        "tools/window_codon_bridge/state/oracle_assimilation",
         "tools/window_codon_bridge/state/oracle_sessions",
         "papers/window_codon_bridge",
     )
@@ -242,10 +274,11 @@ def main():
             sync = sync_lane()
             summary = run_cycle()
             oracle = {"ran": False, "reason": "disabled_by_flag"} if args.no_oracle else oracle_lane.run_oracle_lane()
+            assimilation = assimilation_lane()
             paper = paper_lane()
             keep = {} if args.no_commit else keep_lane()
             publish = {} if args.no_commit else publish_lane()
-            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} oracle={oracle} paper={paper} keep={keep} publish={publish}", flush=True)
+            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} oracle={oracle} assimilation={assimilation} paper={paper} keep={keep} publish={publish}", flush=True)
             if args.once:
                 break
             time.sleep(max(1.0, float(args.interval_seconds)))

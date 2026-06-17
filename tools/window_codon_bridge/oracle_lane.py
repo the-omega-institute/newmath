@@ -131,35 +131,20 @@ def claim_by_id(claims_doc: dict[str, Any], claim_id: str) -> dict[str, Any] | N
 
 
 def build_prompt(topic: dict[str, Any], claims_doc: dict[str, Any]) -> str:
-    trigger_claim_id = str(topic.get("trigger_claim_id") or "")
-    trigger = claim_by_id(claims_doc, trigger_claim_id) or {}
-    packet = selection_packet_summary()
-    reason = latest_history_reason(trigger)
-    packet_json = json.dumps(packet, ensure_ascii=False, sort_keys=True)
+    question = str(topic.get("question") or "").strip()
+    if question:
+        return (
+            "You are a deep-reasoning research oracle. Answer only the research "
+            "question below. Do not ask for local files, do not design local "
+            "automation, and do not format as JSON. Reason freely, challenge weak "
+            "assumptions, and end with the sharpest next question to ask.\n\n"
+            f"Research question:\n{question}"
+        )
+
     return (
-        "You are a ChatGPT deep-reasoning oracle candidate generator for the "
-        "Window6--Codon-Q6 bridge. You are not a truth source, and you must not "
-        "assert scientific verdicts.\n\n"
-        "Current local hard result: the standard-code local-edge-hiding defect "
-        "is exact: e_in=69, e_max=72, defect_support={Ser:2, Stop:1}. "
-        "The Stop/Ser decomposition is a graph-theoretic fact, but the current "
-        "local verdict is not a biological-axis certificate.\n\n"
-        f"Trigger claim: {trigger_claim_id}\n"
-        f"Trigger status: {trigger.get('status')}\n"
-        f"Latest local reason: {reason}\n"
-        f"Selection packet summary: {packet_json}\n\n"
-        "Task: propose concrete, finite, auditable routes to construct an "
-        "independent codon-level fourth residual axis d_resid4 for the 61 sense "
-        "codons. The route must be explicitly not explained by tRNA supply, "
-        "f3/ramp, d_perp, GC, wobble, codon-pair effects, mRNA stability, or "
-        "ribosome dwell. Include finite data sources, required fields, "
-        "normalization, exclusion controls, and the exact projection test for "
-        "u_SerSplit.\n\n"
-        "Return only JSON with this shape: "
-        "{\"candidate_axes\":[{\"name\":\"...\",\"data_sources\":[\"...\"],"
-        "\"construction\":\"...\",\"controls\":[\"...\"],\"audit_test\":\"...\","
-        "\"failure_mode\":\"...\"}],\"data_requests\":[\"...\"],\"tests\":[\"...\"]}. "
-        "Do not include prose outside JSON."
+        "You are a deep-reasoning research oracle. The local pipeline did not "
+        "provide a specific question, so give one concise research direction for "
+        "the Window6--Codon-Q6 edge-defect program. Do not format as JSON."
     )
 
 
@@ -177,6 +162,16 @@ def due_for_topic(state: dict[str, Any], topic_hash: str, cooldown_seconds: int)
 def response_tail(text: str, limit: int = 4000) -> str:
     text = text or ""
     return text[-limit:]
+
+
+def response_fields(text: str, payload: Any = None) -> dict[str, Any]:
+    return {
+        "oracle_response": text or "",
+        "oracle_response_chars": len(text or ""),
+        "response_tail": response_tail(text or ""),
+        "structured_payload_present": payload is not None,
+        "structured_payload": payload,
+    }
 
 
 def first_json_payload(value: Any) -> Any:
@@ -250,6 +245,17 @@ def candidate_fields(payload: Any) -> dict[str, Any]:
     }
 
 
+def inbox_summary(record: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "ran": True,
+        "status": record.get("status"),
+        "topic_id": record.get("topic_id"),
+        "inbox": str(INBOX_PATH.relative_to(REPO_ROOT)),
+        "oracle_response_chars": record.get("oracle_response_chars", 0),
+        "structured_payload_present": bool(record.get("structured_payload_present")),
+    }
+
+
 def oracle_error_code(payload: Any) -> str:
     if not isinstance(payload, dict):
         return ""
@@ -276,11 +282,6 @@ def nyxid_payload(prompt: str, model: str) -> dict[str, Any]:
                 ],
             }
         ],
-        "text": {
-            "format": {
-                "type": "json_object",
-            }
-        },
     }
 
 
@@ -432,10 +433,15 @@ def run_nyxid_oracle_cli(prompt: str, transport: dict[str, Any]) -> dict[str, An
     ]
     if model:
         cmd.extend(["--model", model])
-    if conversation_id:
-        cmd.extend(["--conversation", conversation_id])
-    else:
-        cmd.append("--new-conversation")
+    if not conversation_id:
+        return {
+            "status": "transport_failed",
+            "pool": pool,
+            "error": "conversation_id is required; refusing to create a new oracle conversation",
+            "response_text": "",
+            "response_json": None,
+        }
+    cmd.extend(["--conversation", conversation_id])
     try:
         proc = subprocess.run(
             cmd,
@@ -658,10 +664,9 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
             "task_id": pending_task_id,
             "conversation_id": result.get("conversation_id"),
             "chatgpt_url": result.get("chatgpt_url"),
-            "response_tail": response_tail(task_response),
-            "oracle_json": payload,
             "error": "",
         }
+        record.update(response_fields(task_response, payload))
         record.update(candidate_fields(payload))
         append_jsonl(INBOX_PATH, record)
         write_oracle_pin(
@@ -682,15 +687,7 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
                 "chatgpt_url": result.get("chatgpt_url") or state.get("chatgpt_url"),
             },
         )
-        return {
-            "ran": True,
-            "status": record.get("status"),
-            "topic_id": state.get("pending_topic_id"),
-            "inbox": str(INBOX_PATH.relative_to(REPO_ROOT)),
-            "candidate_axes": len(record.get("candidate_axes") or []),
-            "data_requests": len(record.get("data_requests") or []),
-            "tests": len(record.get("tests") or []),
-        }
+        return inbox_summary(record)
     due, due_reason = due_for_topic(state, topic_hash, cooldown_seconds)
     if not due:
         return {"ran": False, "reason": due_reason}
@@ -746,9 +743,11 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
                     "topic_id": topic.get("topic_id"),
                     "pool": transport.get("pool"),
                 }
+            response_text = ""
             response_payload = None
             if isinstance(transport_payload, dict) and transport_payload.get("response"):
-                response_payload = first_json_payload(transport_payload.get("response"))
+                response_text = str(transport_payload.get("response") or "")
+                response_payload = first_json_payload(response_text)
             payload = response_payload or first_json_payload(transport_payload)
             if payload is None:
                 payload = first_json_payload(result.get("response_text"))
@@ -760,14 +759,13 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
                     "transport_kind": transport.get("kind"),
                     "pool": result.get("pool") or transport.get("pool"),
                     "returncode": result.get("returncode"),
-                    "response_tail": response_tail(str(result.get("response_text") or "")),
-                    "oracle_json": payload,
                     "error": result.get("error") or "",
                     "task_id": result.get("task_id"),
                     "conversation_id": result.get("conversation_id"),
                     "chatgpt_url": result.get("chatgpt_url"),
                 }
             )
+            record.update(response_fields(response_text or str(result.get("response_text") or ""), payload))
             record.update(candidate_fields(payload))
     if record.get("status") != "submitted":
         append_jsonl(INBOX_PATH, record)
@@ -792,15 +790,7 @@ def run_oracle_lane(*, dry_run: bool = False) -> dict[str, Any]:
                 "pending_topic_id": topic.get("topic_id") if record.get("status") == "submitted" else None,
             },
         )
-    return {
-        "ran": True,
-        "status": record.get("status"),
-        "topic_id": topic.get("topic_id"),
-        "inbox": str(INBOX_PATH.relative_to(REPO_ROOT)),
-        "candidate_axes": len(record.get("candidate_axes") or []),
-        "data_requests": len(record.get("data_requests") or []),
-        "tests": len(record.get("tests") or []),
-    }
+    return inbox_summary(record)
 
 
 def main() -> int:
