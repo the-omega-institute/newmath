@@ -247,3 +247,19 @@ drops to $0.1531$.  Thus direct contact with the exact-budget assignment rule
 is necessary but not sufficient when applied as a post-hoc shallow offset; the
 assignment mechanism must be learned inside the state/scoring model rather than
 recovered after the fact by depth penalties.
+
+An exact-budget pair-swap contrastive learner also fails as a shallow state
+model.  The learner constructs train-time contrastive rows from oracle
+exact-budget assignments: within a single episode and budget, two-anchor
+replacements are sampled only when they preserve total depth, and the model is
+trained to score the oracle pair below the feasible replacement.  Calibration
+selects the regularization strength through exact-budget capture before any
+hard-slice readout.  On the held-out hard slice, the selected contrastive model
+has mean capture $-1.0873$, with budget-two capture $-2.0326$, budget-three
+capture $-0.7923$, and budget-four capture $-0.4370$; hard label Spearman is
+$0.0443$.  This is worse than the scalar mechanism learner's mean capture
+$-0.0050$ and worse than the perturbation-value baseline's $-0.0681$.  Thus
+direct pair-swap contact with the exact-budget combinatorics does not by itself
+produce a usable assignment state.  The remaining object is not a post-hoc
+pairwise reranker but a richer assignment-bearing world state whose internal
+variables survive prediction, failure, and compute-value readouts jointly.
