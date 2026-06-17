@@ -58,12 +58,28 @@ def orbit_count_for_words(words: list[tuple[int, ...]]) -> int:
     return len({orbit_representative(word) for word in words})
 
 
+def orbit_size_spectrum_for_words(words: list[tuple[int, ...]]) -> Counter[int]:
+    representatives = {orbit_representative(word) for word in words}
+    return Counter(len(orbit(rep)) for rep in representatives)
+
+
 def burnside_closed_form(length: int) -> sp.Rational:
     numerator = sum(
         sp.totient(length // divisor) * lucas_number(divisor)
         for divisor in sp.divisors(length)
     )
     return sp.Rational(numerator, length)
+
+
+def primitive_aperiodic_count(length: int) -> int:
+    numerator = sum(
+        sp.mobius(length // divisor) * lucas_number(divisor)
+        for divisor in sp.divisors(length)
+    )
+    value = sp.Rational(numerator, length)
+    if value.q != 1:
+        raise ValueError(f"primitive count is not integral for length {length}: {value}")
+    return int(value)
 
 
 def seam_residue(basepoint: int) -> int:
@@ -93,17 +109,44 @@ def main() -> None:
     )
     basepoint_residues = [seam_residue(basepoint) for basepoint in range(GAUGE_ORDER)]
     general_table: dict[str, dict[str, Any]] = {}
+    aperiodic_table: dict[str, dict[str, int]] = {}
     for length in range(GENERAL_N_MIN, GENERAL_N_MAX + 1):
         words = words_no_cyclic_adjacent(length)
         lucas = lucas_number(length)
         count = orbit_count_for_words(words)
+        brute_spectrum = orbit_size_spectrum_for_words(words)
+        primitive_spectrum = {
+            int(divisor): primitive_aperiodic_count(int(divisor))
+            for divisor in sp.divisors(length)
+        }
+        positive_primitive_spectrum = Counter(
+            {
+                divisor: primitive_count
+                for divisor, primitive_count in primitive_spectrum.items()
+                if primitive_count > 0
+            }
+        )
+        primitive_orbit_count = sum(primitive_spectrum.values())
+        primitive_point_count = sum(
+            divisor * primitive_count
+            for divisor, primitive_count in primitive_spectrum.items()
+        )
         closed_form_value = burnside_closed_form(length)
+        aperiodic_table[str(length)] = {
+            str(divisor): int(primitive_count)
+            for divisor, primitive_count in sorted(primitive_spectrum.items())
+        }
         general_table[str(length)] = {
             "P_n": len(words),
             "lucas_n": lucas,
             "orbit_count": count,
             "closed_form_value": int(closed_form_value) if closed_form_value.q == 1 else str(closed_form_value),
             "closed_form_match": len(words) == lucas and closed_form_value == count,
+            "orbit_size_spectrum": {str(size): int(total) for size, total in sorted(brute_spectrum.items())},
+            "aperiodic_spectrum_match": brute_spectrum == positive_primitive_spectrum,
+            "primitive_orbit_count_sum": int(primitive_orbit_count),
+            "primitive_point_count_sum": int(primitive_point_count),
+            "primitive_duality_match": count == primitive_orbit_count and lucas == primitive_point_count,
         }
 
     not_claimed = [
@@ -148,6 +191,12 @@ def main() -> None:
             and general_table[str(GAUGE_ORDER)]["orbit_count"] == 15,
             "For n=2..14, exact enumeration gives |P_n|=L_n and |P_n/C_n|=(1/n) sum_{d|n} phi(n/d) L_d; n=10 gives 15.",
         ),
+        check(
+            "aperiodic_primitive_spectrum",
+            all(row["aperiodic_spectrum_match"] and row["primitive_duality_match"] for row in general_table.values())
+            and aperiodic_table[str(GAUGE_ORDER)] == {"1": 1, "2": 1, "5": 2, "10": 11},
+            "For n=2..14, brute orbit-size spectra match a(d)=(1/d) sum_{e|d} mu(d/e) L_e for d|n, with orbit_count=sum_{d|n} a(d) and L_n=sum_{d|n} d*a(d); n=10 gives {1:1, 2:1, 5:2, 10:11}.",
+        ),
     ]
 
     result: dict[str, Any] = {
@@ -163,10 +212,12 @@ def main() -> None:
         "basepoint_residue_image": basepoint_residues,
         "basepoint_residue_image_size": len(set(basepoint_residues)),
         "closed_form": "|P_n/C_n| = (1/n) sum_{d|n} phi(n/d) L_d for cyclic no-adjacent-1 binary words P_n with |P_n|=L_n under C_n rotation",
+        "mobius_formula": "a(d) = (1/d) sum_{e|d} mu(d/e) L_e; for n, the orbit-size spectrum is {d: a(d) for d|n and a(d)>0}, orbit_count=sum_{d|n} a(d), and L_n=sum_{d|n} d*a(d)",
+        "aperiodic_table": aperiodic_table,
         "general_necklace_closed_form_range": [GENERAL_N_MIN, GENERAL_N_MAX],
         "general_necklace_closed_form_table": general_table,
         "verdict": {
-            "gauge_invariant_observable": "The golden-clock necklace family has |P_n/C_n| = (1/n) sum_{d|n} phi(n/d) L_d; the n=10 instance has 15 rotation orbits with size spectrum {1:1, 2:1, 5:2, 10:11}.",
+            "gauge_invariant_observable": "The golden-clock necklace family has |P_n/C_n| = (1/n) sum_{d|n} phi(n/d) L_d and orbit-size spectrum a(d) = (1/d) sum_{e|d} mu(d/e) L_e; the n=10 instance has 15 rotation orbits with size spectrum {1:1, 2:1, 5:2, 10:11}.",
             "productive_constraint": "The free-basepoint no-go removes residue 7 as a forward observable, but the C_10-quotient orbit structure survives as basepoint-independent forward content.",
             "not_about_alpha": True,
         },
