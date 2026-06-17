@@ -2548,6 +2548,7 @@ import BEDC.Derived.ChernWeilUp.EnvelopeClassifier
 import BEDC.Derived.ChernWeilUp.NameCertObligationSurface
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
+import BEDC.Derived.ChoiceFreeRealSealUp
 import BEDC.Derived.ChoiceFreeRegularCauchyModulusUp.TasteGate
 import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.ChoiceRecipeLedgerUp.MaturePackage
@@ -5267,6 +5268,7 @@ import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverRefinementUp.TasteGate
+import BEDC.Derived.FiniteCoverUniformModulusEnvelopeUp
 import BEDC.Derived.FiniteDifferenceTableUp.TasteGate
 import BEDC.Derived.FiniteDifferenceUp.TasteGate
 import BEDC.Derived.FiniteDimensionalCompactnessUp.TasteGate
@@ -9388,6 +9390,7 @@ import BEDC.Derived.RegularCauchyRepletionBoundaryUp
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
 import BEDC.Derived.RegularCauchyRingUp
 import BEDC.Derived.RegularCauchyRingUp.FiniteOperationInduction
+import BEDC.Derived.RegularCauchyRingUp.TasteGate
 import BEDC.Derived.RegularCauchyRingUp.TerminalSealDiscipline
 import BEDC.Derived.RegularCauchyRoundingProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
