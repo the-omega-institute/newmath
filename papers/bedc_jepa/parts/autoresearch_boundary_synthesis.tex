@@ -73,12 +73,17 @@ oracle ceiling.  A forced-replacement exact-budget target pushes this direction
 slightly further: the best replacement row has mean hard oracle-headroom
 capture $0.1261$ and budget-three capture $0.1741$, improving the passive
 mechanism row, but budget-four capture reverses to $-0.0744$ and mean regret is
-$0.0393$.  Budget-aware supervision is therefore useful evidence, not
-allocation closure.  The current pressure is therefore not another
-failure-score ranker, another selection rule over existing score families, a
-simple oracle-target transform over the same carrier, feature appending alone,
-or a single-budget replacement target; it is held-out episode budget-magnitude
-transfer under explicit environment-state and option-conditioned mechanisms.
+$0.0393$.  Naive multi-budget pooling does not repair this stress failure: a
+single scorer with budget multiplier tokens has mean capture $-0.5408$,
+budget-three capture $-0.4282$, budget-four capture $-0.2151$, and mean regret
+$0.0613$.  Budget-aware supervision is therefore useful evidence, not
+allocation closure, and budget conditioning must be more structured than a
+pooled token.  The current pressure is therefore not another failure-score
+ranker, another selection rule over existing score families, a simple
+oracle-target transform over the same carrier, feature appending alone, a
+single-budget replacement target, or naive budget-token pooling; it is held-out
+episode budget-magnitude transfer under explicit environment-state and
+option-conditioned mechanisms.
 
 Fifth, the state-generation contract is a route constraint, not a completed
 model claim.  The aligned export and candidate packet close the data-substrate
@@ -89,4 +94,5 @@ survive failure, claim, compute-value, and action/control readouts under the
 same budget-feasible selection rule.  The compute-value target must be a
 mechanism-bearing state variable, not merely a supervised transform of
 available option errors, a passive rollout-feature descriptor, or a
-single-budget replacement surrogate that fails budget-stress transfer.
+single-budget replacement surrogate that fails budget-stress transfer.  It also
+cannot be a single pooled scorer that treats budget as another passive token.
