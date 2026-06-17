@@ -345,7 +345,7 @@ codex session 没对话上下文, prompt 必须自洽包含:
 
 ## Bash 跨 call 陷阱
 
-`cd` 跨 Bash call **持久**. `cd lean4 && lake build` 之后下一个 Bash 还在 `lean4/`, 相对路径 `lean4/scripts/X.py` 解析成 `lean4/lean4/scripts/X.py` 出错. 复位: 绝对路径 (`/Users/auric/newmath/...`) 或 `cd /Users/auric/newmath && ...`.
+`cd` 跨 Bash call **持久**. `cd lean4 && lake build` 之后下一个 Bash 还在 `lean4/`, 相对路径 `lean4/scripts/X.py` 解析成 `lean4/lean4/scripts/X.py` 出错. 复位: 绝对路径 (`/home/aruic-wsl/newmath/...`) 或 `cd /home/aruic-wsl/newmath && ...`.
 
 ## 安静窗口
 
