@@ -417,4 +417,43 @@ theorem RegularCauchyRingCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
     }
   · exact ⟨rsUnary, rgUnary, rmUnary, rlUnary⟩
 
+theorem RegularCauchyRingCarrier_operation_inversion [AskSetup] [PackageSetup]
+    {A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N selected read : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRingCarrier A B WA WB DA DB S G M L RS RG RM RL ES EG EM EL H C P N
+        bundle pkg →
+      (hsame selected S ∨ hsame selected G ∨ hsame selected M ∨ hsame selected L) →
+        Cont selected ES read →
+          PkgSig bundle read pkg →
+            UnaryHistory selected ∧ UnaryHistory read ∧
+              (hsame selected S ∨ hsame selected G ∨ hsame selected M ∨
+                hsame selected L) ∧
+                Cont selected ES read ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory ProbeBundle Pkg PkgSig
+  intro carrier selectedBranch selectedRead _readPkg
+  obtain ⟨_unaryA, _unaryB, _unaryWA, _unaryWB, _unaryDA, _unaryDB, sUnary,
+    gUnary, mUnary, lUnary, _rsUnary, _rgUnary, _rmUnary, _rlUnary, esUnary,
+    _egUnary, _emUnary, _elUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    _sourceWindowA, _sourceWindowB, _transportReplay, provenancePkg, namePkg⟩ :=
+    carrier
+  have selectedUnary : UnaryHistory selected := by
+    cases selectedBranch with
+    | inl sameS =>
+        exact unary_transport sUnary (hsame_symm sameS)
+    | inr rest =>
+        cases rest with
+        | inl sameG =>
+            exact unary_transport gUnary (hsame_symm sameG)
+        | inr rest =>
+            cases rest with
+            | inl sameM =>
+                exact unary_transport mUnary (hsame_symm sameM)
+            | inr sameL =>
+                exact unary_transport lUnary (hsame_symm sameL)
+  have readUnary : UnaryHistory read :=
+    unary_cont_closed selectedUnary esUnary selectedRead
+  exact
+    ⟨selectedUnary, readUnary, selectedBranch, selectedRead, provenancePkg, namePkg⟩
+
 end BEDC.Derived.RegularCauchyRingUp
