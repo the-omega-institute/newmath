@@ -43,6 +43,16 @@ def _passing_observation() -> dict[str, object]:
     }
 
 
+def _observation_path(tmp_path, observation: dict[str, object] | None = None):
+    input_path = tmp_path / "observation.json"
+    input_path.write_text(json.dumps(observation or _passing_observation()), encoding="utf-8")
+    return input_path
+
+
+def _file_observation(tmp_path, observation: dict[str, object] | None = None) -> dict[str, object]:
+    return task.load_observation(_observation_path(tmp_path, observation), root=tmp_path)
+
+
 def _mutated_observation(path: tuple[str, ...], value: object) -> dict[str, object]:
     observation = copy.deepcopy(_passing_observation())
     cursor = observation
@@ -52,13 +62,13 @@ def _mutated_observation(path: tuple[str, ...], value: object) -> dict[str, obje
     return observation
 
 
-def _passing_payload() -> dict[str, object]:
-    return task.build_payload(_passing_observation(), generated_at="fixture-time", margin=0.05)
+def _passing_payload(tmp_path) -> dict[str, object]:
+    return task.build_payload(_file_observation(tmp_path), generated_at="fixture-time", margin=0.05)
 
 
-def test_jepa_wm_l1_pass_requires_complete_runtime_contract():
+def test_jepa_wm_l1_pass_requires_complete_runtime_contract(tmp_path):
     payload = task.build_payload(
-        _passing_observation(),
+        _file_observation(tmp_path),
         generated_at="fixture-time",
         margin=0.05,
     )
@@ -78,20 +88,40 @@ def test_jepa_wm_l1_pass_requires_complete_runtime_contract():
     assert payload["calibration"]["base_CI_low"] == 0.26
     assert payload["calibration"]["chance_CI_high_plus_margin"] == 0.25
     assert all(row["status"] == "pass" for row in payload["hardgates"].values())
+    assert payload["source_observation"]["status"] == "file-runtime-observation"
+    assert payload["source_observation"]["path"] == "observation.json"
+    assert payload["source_observation"]["sha256"] == hashlib.sha256(
+        (tmp_path / "observation.json").read_bytes()
+    ).hexdigest()
+    assert payload["source_observation"]["provenance_chain"] == [
+        {
+            "artifact": "observation.json",
+            "role": "runtime-observation-input",
+            "sha256": payload["source_observation"]["sha256"],
+        }
+    ]
     assert "reports/canonical" not in json.dumps(payload, sort_keys=True)
 
 
-def test_jepa_wm_l1_strict_margin_blocks_boundary_equality():
+def test_jepa_wm_l1_inline_observation_cannot_mint_pass():
+    payload = task.build_payload(_passing_observation(), generated_at="fixture-time", margin=0.05)
+
+    assert payload["decision"]["status"] == "unavailable"
+    assert payload["source_observation"]["status"] == "missing-source-observation"
+    assert payload["hardgates"]["JWM-L1-HG1"]["status"] == "fail"
+
+
+def test_jepa_wm_l1_strict_margin_blocks_boundary_equality(tmp_path):
     observation = _passing_observation()
     observation["arms"]["base"]["ci_low"] = 0.25  # type: ignore[index]
-    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+    payload = task.build_payload(_file_observation(tmp_path, observation), generated_at="fixture-time", margin=0.05)
 
     assert payload["decision"]["status"] == "bounded_negative"
     assert payload["hardgates"]["JWM-L1-HG6"]["status"] == "fail"
     assert "JWM-L1-HG6" in payload["decision"]["failed_gates"]
 
 
-def test_jepa_wm_l1_unavailable_when_runtime_inputs_are_absent():
+def test_jepa_wm_l1_unavailable_when_runtime_inputs_are_absent(tmp_path):
     cases = [
         (
             _mutated_observation(("checkpoint", "provenance", "checkpoint_sha256"), "not-a-digest"),
@@ -101,13 +131,13 @@ def test_jepa_wm_l1_unavailable_when_runtime_inputs_are_absent():
     ]
 
     for observation, failed_gate in cases:
-        payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+        payload = task.build_payload(_file_observation(tmp_path, observation), generated_at="fixture-time", margin=0.05)
         assert payload["decision"]["status"] == "unavailable"
         assert payload["hardgates"][failed_gate]["status"] == "fail"
         assert failed_gate in payload["decision"]["failed_gates"]
 
 
-def test_jepa_wm_l1_completed_non_pass_admissions_are_bounded_negative():
+def test_jepa_wm_l1_completed_non_pass_admissions_are_bounded_negative(tmp_path):
     cases = [
         (_mutated_observation(("k",), 5), "JWM-L1-HG3"),
         (_mutated_observation(("chance", "probability"), 0.20), "JWM-L1-HG4"),
@@ -116,33 +146,33 @@ def test_jepa_wm_l1_completed_non_pass_admissions_are_bounded_negative():
     ]
 
     for observation, failed_gate in cases:
-        payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+        payload = task.build_payload(_file_observation(tmp_path, observation), generated_at="fixture-time", margin=0.05)
         assert payload["decision"]["status"] == "bounded_negative"
         assert payload["hardgates"][failed_gate]["status"] == "fail"
         assert failed_gate in payload["decision"]["failed_gates"]
 
 
-def test_jepa_wm_l1_controls_must_not_exceed_chance_band():
+def test_jepa_wm_l1_controls_must_not_exceed_chance_band(tmp_path):
     observation = _passing_observation()
     observation["controls"]["metadata_only"]["ci_high"] = 0.21  # type: ignore[index]
-    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+    payload = task.build_payload(_file_observation(tmp_path, observation), generated_at="fixture-time", margin=0.05)
 
     assert payload["decision"]["status"] == "bounded_negative"
     assert payload["hardgates"]["JWM-L1-HG7"]["status"] == "fail"
     assert "metadata_only" in payload["hardgates"]["JWM-L1-HG7"]["detail"]
 
 
-def test_jepa_wm_l1_control_chance_band_equality_is_clean():
+def test_jepa_wm_l1_control_chance_band_equality_is_clean(tmp_path):
     observation = _passing_observation()
     observation["controls"]["metadata_only"]["ci_high"] = 0.20  # type: ignore[index]
     observation["controls"]["no_context"]["ci_high"] = 0.20  # type: ignore[index]
-    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+    payload = task.build_payload(_file_observation(tmp_path, observation), generated_at="fixture-time", margin=0.05)
 
     assert payload["decision"]["status"] == "PASS"
     assert payload["hardgates"]["JWM-L1-HG7"]["status"] == "pass"
 
 
-def test_jepa_wm_l1_rejects_extra_admission_arm():
+def test_jepa_wm_l1_rejects_extra_admission_arm(tmp_path):
     observation = _passing_observation()
     observation["arms"]["teacher_hint"] = {  # type: ignore[index]
         "score": 0.50,
@@ -150,28 +180,42 @@ def test_jepa_wm_l1_rejects_extra_admission_arm():
         "ci_high": 0.55,
         "n": 64,
     }
-    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+    payload = task.build_payload(_file_observation(tmp_path, observation), generated_at="fixture-time", margin=0.05)
 
     assert payload["decision"]["status"] == "bounded_negative"
     assert payload["hardgates"]["JWM-L1-HG5"]["status"] == "fail"
     assert "unexpected=teacher_hint" in payload["hardgates"]["JWM-L1-HG5"]["detail"]
 
 
-def test_jepa_wm_l1_build_payload_rejects_negative_margin():
+def test_jepa_wm_l1_build_payload_rejects_negative_margin(tmp_path):
     with pytest.raises(ValueError, match="margin must be nonnegative"):
-        task.build_payload(_passing_observation(), generated_at="fixture-time", margin=-0.01)
+        task.build_payload(_file_observation(tmp_path), generated_at="fixture-time", margin=-0.01)
 
 
-def test_jepa_wm_l1_validate_payload_rejects_invalid_status_domain():
-    payload = _passing_payload()
+def test_jepa_wm_l1_public_api_requires_run_local_payload(tmp_path):
+    with pytest.raises(TypeError):
+        task.build_payload(generated_at="fixture-time")
+    with pytest.raises(TypeError):
+        task.write_artifacts(root=tmp_path)
+
+
+def test_jepa_wm_l1_cli_requires_input_file():
+    with pytest.raises(SystemExit) as excinfo:
+        runner.main([])
+
+    assert excinfo.value.code == 2
+
+
+def test_jepa_wm_l1_validate_payload_rejects_invalid_status_domain(tmp_path):
+    payload = _passing_payload(tmp_path)
     payload["decision"]["status"] = "maybe"  # type: ignore[index]
 
     with pytest.raises(ValueError, match="status domain violation"):
         task.validate_payload(payload)
 
 
-def test_jepa_wm_l1_validate_payload_rejects_hardgate_order_mismatch():
-    payload = _passing_payload()
+def test_jepa_wm_l1_validate_payload_rejects_hardgate_order_mismatch(tmp_path):
+    payload = _passing_payload(tmp_path)
     hardgates = payload["hardgates"]  # type: ignore[index]
     payload["hardgates"] = dict(reversed(list(hardgates.items())))  # type: ignore[union-attr]
 
@@ -179,8 +223,8 @@ def test_jepa_wm_l1_validate_payload_rejects_hardgate_order_mismatch():
         task.validate_payload(payload)
 
 
-def test_jepa_wm_l1_validate_payload_rejects_failed_gate_projection_mismatch():
-    payload = _passing_payload()
+def test_jepa_wm_l1_validate_payload_rejects_failed_gate_projection_mismatch(tmp_path):
+    payload = _passing_payload(tmp_path)
     hardgates = payload["hardgates"]  # type: ignore[index]
     hardgates["JWM-L1-HG6"]["status"] = "fail"  # type: ignore[index]
 
@@ -188,42 +232,50 @@ def test_jepa_wm_l1_validate_payload_rejects_failed_gate_projection_mismatch():
         task.validate_payload(payload)
 
 
-def test_jepa_wm_l1_validate_payload_rejects_pass_with_failed_gate():
+def test_jepa_wm_l1_validate_payload_rejects_pass_with_failed_gate(tmp_path):
     observation = _mutated_observation(("k",), 5)
-    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+    payload = task.build_payload(_file_observation(tmp_path, observation), generated_at="fixture-time", margin=0.05)
     payload["decision"]["status"] = "PASS"  # type: ignore[index]
 
     with pytest.raises(ValueError, match="decision status mismatch"):
         task.validate_payload(payload)
 
 
-def test_jepa_wm_l1_validate_payload_rejects_non_pass_without_failed_gate():
-    payload = _passing_payload()
+def test_jepa_wm_l1_validate_payload_rejects_non_pass_without_failed_gate(tmp_path):
+    payload = _passing_payload(tmp_path)
     payload["decision"]["status"] = "bounded_negative"  # type: ignore[index]
 
     with pytest.raises(ValueError, match="decision status mismatch"):
         task.validate_payload(payload)
 
 
-def test_jepa_wm_l1_validate_payload_rejects_unavailable_without_runtime_input_failure():
+def test_jepa_wm_l1_validate_payload_rejects_unavailable_without_runtime_input_failure(tmp_path):
     observation = _mutated_observation(("k",), 5)
-    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+    payload = task.build_payload(_file_observation(tmp_path, observation), generated_at="fixture-time", margin=0.05)
     payload["decision"]["status"] = "unavailable"  # type: ignore[index]
 
     with pytest.raises(ValueError, match="unavailable status mismatch"):
         task.validate_payload(payload)
 
 
-def test_jepa_wm_l1_validate_payload_rejects_non_pointer_claim_capsule():
-    payload = _passing_payload()
+def test_jepa_wm_l1_validate_payload_rejects_non_pointer_claim_capsule(tmp_path):
+    payload = _passing_payload(tmp_path)
     payload["claim_capsule"]["status"] = "inline"  # type: ignore[index]
 
     with pytest.raises(ValueError, match="claim capsule must be pointer-only"):
         task.validate_payload(payload)
 
 
+def test_jepa_wm_l1_validate_payload_rejects_pass_without_file_source(tmp_path):
+    payload = _passing_payload(tmp_path)
+    payload["source_observation"] = {"status": "inline-runtime-observation"}  # type: ignore[index]
+
+    with pytest.raises(ValueError, match="source observation provenance mismatch"):
+        task.validate_payload(payload)
+
+
 def test_jepa_wm_l1_writes_run_local_pointer_artifacts(tmp_path):
-    payload = task.build_payload(_passing_observation(), generated_at="fixture-time", margin=0.05)
+    payload = task.build_payload(_file_observation(tmp_path), generated_at="fixture-time", margin=0.05)
     artifacts = task.write_artifacts(payload, root=tmp_path)
 
     expected_base = tmp_path / "reports" / "runs" / "jepa-wm-l1" / "fixture-pass"
@@ -252,8 +304,7 @@ def test_jepa_wm_l1_writes_run_local_pointer_artifacts(tmp_path):
 
 
 def test_jepa_wm_l1_cli_writes_run_local_artifacts(tmp_path, capsys):
-    input_path = tmp_path / "observation.json"
-    input_path.write_text(json.dumps(_passing_observation()), encoding="utf-8")
+    input_path = _observation_path(tmp_path)
 
     assert runner.main(
         [
@@ -273,6 +324,7 @@ def test_jepa_wm_l1_cli_writes_run_local_artifacts(tmp_path, capsys):
     assert summary["run_id"] == "fixture-pass"
     assert summary["status"] == "PASS"
     assert summary["admission_artifact"] == "reports/runs/jepa-wm-l1/fixture-pass/admission.json"
+    assert summary["source_observation"]["path"] == "observation.json"
     assert (tmp_path / summary["admission_artifact"]).exists()
 
 
@@ -282,6 +334,16 @@ def test_jepa_wm_l1_load_observation_rejects_json_array_input(tmp_path):
 
     with pytest.raises(ValueError, match="observation input must be a JSON object"):
         task.load_observation(input_path)
+
+
+def test_jepa_wm_l1_load_observation_records_source_digest(tmp_path):
+    input_path = _observation_path(tmp_path)
+    observation = task.load_observation(input_path, root=tmp_path)
+
+    source = observation[task.SOURCE_OBSERVATION_KEY]
+    assert source["status"] == "file-runtime-observation"
+    assert source["path"] == "observation.json"
+    assert source["sha256"] == hashlib.sha256(input_path.read_bytes()).hexdigest()
 
 
 def test_jepa_wm_l1_load_observation_rejects_json_scalar_input(tmp_path):
@@ -340,7 +402,7 @@ def _loaded_payload(monkeypatch, *, context_mode):
         "try_load_public_encoder",
         lambda *_args, **_kwargs: task.WeightLoadResult(encoder, attempts),
     )
-    return task.build_payload(generated_at="fixture", case_count=128, bootstrap_resamples=64)
+    return task._build_canonical_payload(generated_at="fixture", case_count=128, bootstrap_resamples=64)
 
 
 def test_public_encoder_loader_records_dependency_preflight_failure(monkeypatch):
@@ -478,7 +540,7 @@ def test_blocked_capsule_records_weight_acquisition_attempts():
     original = task.try_load_public_encoder
     task.try_load_public_encoder = lambda *_args, **_kwargs: task.WeightLoadResult(None, attempts)
     try:
-        payload = task.build_payload(generated_at="fixture", case_count=128, bootstrap_resamples=32)
+        payload = task._build_canonical_payload(generated_at="fixture", case_count=128, bootstrap_resamples=32)
     finally:
         task.try_load_public_encoder = original
 
@@ -629,7 +691,7 @@ def test_payload_writes_json_markdown_and_fingerprint(tmp_path):
     original = task.try_load_public_encoder
     task.try_load_public_encoder = lambda *_args, **_kwargs: task.WeightLoadResult(None, attempts)
     try:
-        payload = task.write_artifacts(
+        payload = task._write_canonical_artifacts(
             root=tmp_path,
             json_path=json_path,
             markdown_path=markdown_path,
