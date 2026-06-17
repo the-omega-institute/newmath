@@ -1,76 +1,59 @@
-\subsection{Window6 Modular Spectral Collision Certificate}\label{sec:f-a2-window6-modpstar-571-spectral-collision-certificate}
 \origin{ai}
 
+\subsection{Forced Window6 arithmetic certificate at the prime $571$}
+\label{subsec:f-a2-window6-modpstar-571-spectral-collision-certificate}
+
 \paragraph{Finite carrier.}
-The construction is a finite audit over a Window6 carrier. Its vertex set is a finite set $V$ of audit vertices, and its row set is a finite set $R$ of reduced Laplacian rows. The reduction has three rows and three columns, so the matrix under audit is an integer matrix
-$$
-\begin{aligned}
-L_{\mathrm{red}} &\in M_{3}(\mathbb{Z}).
-\end{aligned}
-$$
-No ambient infinite graph, limiting process, or external analytic model is part of the data. The only structural input is the finite integer matrix $L_{\mathrm{red}}$ obtained from the Window6 audit vertices after one Laplacian row and column have been removed in the usual reduced-Laplacian sense. Thus every predicate in the certificate is a finite predicate: membership in $V$, membership in $R$, equality of integer matrix entries, integer divisibility, and polynomial congruence modulo a stated prime.
+The certificate is a finite audit object. Its carrier consists of the Window6 audit vertices together with the reduced Laplacian rows obtained after deleting the distinguished Kirchhoff row and column. The reduced coordinate set has three row coordinates, because the Smith normal form has three invariant factors and the characteristic polynomial is cubic. Thus the finite linear part is a $3 \times 3$ integer matrix denoted $L_{\mathrm{red}}$. The row predicate is simply membership in the three reduced Laplacian rows, and the column predicate is membership in the same reduced coordinate set. The finite incidence relation used by the matrix is the relation encoded by the integer entries of $L_{\mathrm{red}}$: a row-coordinate and a column-coordinate are related exactly when the corresponding matrix entry contributes to the reduced Kirchhoff operator. No limiting process, analytic spectrum, or external measurement is part of this carrier.
 
-\paragraph{Smith data.}
-The certified normal form of the reduced Laplacian is
+\paragraph{Matrix invariant.}
+The complete arithmetic invariant used here is the Smith normal form of the reduced integer matrix:
 $$
 \begin{aligned}
-\operatorname{SNF}(L_{\mathrm{red}}) &= \operatorname{diag}(1,1,123336).
+\operatorname{SNF}(L_{\mathrm{red}}) = \operatorname{diag}(1,1,123336).
 \end{aligned}
 $$
-Equivalently, there are unimodular integer matrices $U,V \in \operatorname{GL}_{3}(\mathbb{Z})$ such that
+Consequently the determinantal factor of the reduced Kirchhoff operator is $123336$. The relevant integer factorization is
 $$
 \begin{aligned}
-U L_{\mathrm{red}} V &=
-\begin{pmatrix}
-1&0&0\\
-0&1&0\\
-0&0&123336
-\end{pmatrix}.
+123336 &= 8 \cdot 27 \cdot 571 \\
+       &= 2^3 \cdot 3^3 \cdot 571.
 \end{aligned}
 $$
-This gives the finite cokernel decomposition
-$$
-\begin{aligned}
-\mathbb{Z}^{3}/L_{\mathrm{red}}\mathbb{Z}^{3}
-&\cong \mathbb{Z}/1\mathbb{Z}\oplus \mathbb{Z}/1\mathbb{Z}\oplus \mathbb{Z}/123336\mathbb{Z}.
-\end{aligned}
-$$
-The first two invariant factors are trivial, and the only nontrivial invariant factor has exact order $123336$. The same number is the determinantal factor recorded by the finite audit.
+The prime $571$ therefore divides the nontrivial Smith factor and hence divides $\det(L_{\mathrm{red}})$. Reducing the same finite matrix modulo $571$ gives a linear operator over $\mathbb{F}_{571}$ whose determinant is zero. This proves that the reduced Kirchhoff operator is singular over $\mathbb{F}_{571}$.
 
-\paragraph{Exact arithmetic witness.}
-The integer factorization used by the certificate is
+\paragraph{Characteristic polynomial.}
+The finite Green/Kirchhoff characteristic polynomial attached to the same reduced matrix is
 $$
 \begin{aligned}
-123336 &= 8\cdot 27\cdot 571 \\
-       &= 2^{3}\cdot 3^{3}\cdot 571.
+\chi_L(t)=t^3-246t^2+14401t-123336.
 \end{aligned}
 $$
-Therefore $571$ is a prime divisor of the nontrivial Smith factor. The witness extracted from the Smith data is not a decimal approximation and not a comparison with any measured quantity. It is the exact divisibility statement
+Evaluating at $t=0$ gives
 $$
 \begin{aligned}
-571 \mid 123336.
+\chi_L(0)=-123336 \equiv 0 \pmod{571},
 \end{aligned}
 $$
-The role of $571$ in the certificate is then fixed internally: it is the prime used for modular reduction of the associated finite Green/Kirchhoff spectral polynomial.
+which is the characteristic-polynomial form of the same singularity statement: $0$ is an eigenvalue of the reduction of $L_{\mathrm{red}}$ over $\mathbb{F}_{571}$. The derivative at the origin is
+$$
+\begin{aligned}
+\chi_L'(0)=14401 \equiv 126 \pmod{571}.
+\end{aligned}
+$$
+Since $126$ is nonzero in $\mathbb{F}_{571}$, the zero root is not repeated at the origin. The independent polynomial check is
+$$
+\begin{aligned}
+\deg\bigl(\gcd(\chi_L,\chi_L') \text{ over } \mathbb{F}_{571}\bigr)=0.
+\end{aligned}
+$$
+This excludes any repeated-root collision for the reduced characteristic polynomial modulo $571$.
 
-\paragraph{Spectral collision.}
-Let $P(t) \in \mathbb{Z}[t]$ denote the finite Green/Kirchhoff spectral polynomial associated with the same Window6 reduced-Laplacian audit. Reduction modulo $571$ gives a polynomial
-$$
-\begin{aligned}
-\overline{P}(t) \in \mathbb{F}_{571}[t].
-\end{aligned}
-$$
-The collision assertion is that $\overline{P}(t)$ has a repeated root over the residue field modulo $571$. In first-principles finite algebraic form, this means that there is an element $a \in \mathbb{F}_{571}$ such that
-$$
-\begin{aligned}
-\overline{P}(a) &= 0,\\
-\overline{P}'(a) &= 0.
-\end{aligned}
-$$
-Equivalently, the greatest common divisor of $\overline{P}(t)$ and its formal derivative $\overline{P}'(t)$ has positive degree in $\mathbb{F}_{571}[t]$. This is a finite check over $571$ residue classes and a finite polynomial ring operation. The certificate therefore binds the same prime $571$ in two places: first as an exact prime divisor of the nontrivial Smith invariant, and second as the modulus at which the spectral polynomial exhibits a repeated-root collision.
+\paragraph{Witness extraction.}
+The finite certificate has three explicit witnesses. First, the Smith witness is the diagonal form $\operatorname{diag}(1,1,123336)$, whose last invariant factor contains the prime $571$. Second, the determinant witness is the equality $123336=2^3\cdot 3^3\cdot 571$, which forces singularity of the reduced matrix after reduction modulo $571$. Third, the simplicity witness is the nonzero derivative value $\chi_L'(0)=14401\equiv126\pmod{571}$, reinforced by the squarefreeness check that the greatest common divisor of $\chi_L$ and $\chi_L'$ over $\mathbb{F}_{571}$ has degree $0$.
 
 \paragraph{Local conclusion.}
-The finite Window6 Green/Kirchhoff audit certifies the following closed statement: the reduced Laplacian has Smith normal form $\operatorname{diag}(1,1,123336)$; the nontrivial invariant factor satisfies $123336=2^{3}\cdot 3^{3}\cdot 571$; and, after reducing the associated finite Green/Kirchhoff spectral polynomial modulo $571$, a repeated-root collision occurs. All assertions are internal to the finite carrier, the integer reduced Laplacian, the Smith normal form computation, the exact factorization, and the modular polynomial collision.
+The finite Window6 Green/Kirchhoff audit therefore proves the following bounded arithmetic statement. The reduced Laplacian $L_{\mathrm{red}}$ has Smith normal form $\operatorname{diag}(1,1,123336)$, and the integer $123336$ factors as $2^3\cdot 3^3\cdot 571$. Hence the reduction of $L_{\mathrm{red}}$ modulo $571$ is singular, so $0$ is an eigenvalue over $\mathbb{F}_{571}$. This eigenvalue is simple rather than repeated, because $\chi_L'(0)$ is nonzero modulo $571$ and $\gcd(\chi_L,\chi_L')$ has degree $0$ over $\mathbb{F}_{571}$.
 
-\paragraph{Boundary of the certificate.}
-This chapter asserts no identification with a physical constant, no global flow law, no metrological comparison, no external dependency, and no interpretation beyond the finite construction described above. Any numerical resemblance to an outside quantity would require a separate certificate giving its own finite data, admissible comparison rule, uncertainty model, and independence conditions; none of that is part of the present statement.
+\paragraph{Boundary.}
+This chapter asserts only the finite Smith, determinant, and characteristic-polynomial facts stated above. It does not identify $571$ with any physical constant, does not derive a global flow law, does not import an external dependency, does not perform a metrological comparison, and does not attach an interpretation beyond the finite Window6 construction without a separate certificate.
