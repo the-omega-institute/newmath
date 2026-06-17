@@ -67,6 +67,20 @@ Finally apply the half-scale row $Q$ and expose the readback $R$. Since $R$ is d
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxCarrier\_sum\_abs\_factorization}
 
+\begin{theorem}[RegularCauchyMax lattice absorption]
+\label{thm:regular-cauchy-max-lattice-absorption}
+For every accepted $\RegularCauchyMaxUp$ carrier $M=(A,B,W_A,W_B,D_A,D_B,S,\Delta,V,T,Q,R,E,H,C,P,N)$, a consumer reading $max(A,max(A,B))$ factors through the same displayed source rows $A,B$, source-sum row $S$, difference and absolute-value rows $\Delta,V$, post-absolute-value sum row $T$, half-scale row $Q$, $\RegSeqRatUp$ readback row $R$, and $\RealUp$ seal row $E$ as the consumer reading $max(A,B)$. The absorbed read has no additional trichotomy branch, selected host maximum, quotient stream equality, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-max-sum-abs-factorization} to the inner read $max(A,B)$. The inner consumer is forced through the displayed route from the shared source rows $A,B$ and aligned windows to $S,\Delta,V,T,Q$, and then to the readback row $R$.
+
+Apply \autoref{thm:regular-cauchy-max-sum-abs-factorization} again to the outer read $max(A,max(A,B))$. The first input is the same row $A$, while the second input is available only through the inner readback route already displayed in $M$.
+
+The repeated $A$ route is therefore identified by componentwise transport rather than by a host-level equality test. The $\RegularCauchyAbsUp$ row keeps the difference read inside $\Delta,V$, and the $\RegularCauchyScaleUp$ row keeps the one-half read inside $Q$, so both the inner and outer reads remain in the same finite packet.
+
+Finally the $\RegSeqRatUp$ readback row and the $\RealUp$ seal boundary close the consumer route at $R$ and $E$. Since \autoref{def:regular-cauchy-max-carrier} has no coordinate for trichotomy, selected host maxima, quotient streams, selected limits, or ambient completeness, the absorbed read cannot escape the displayed maximum packet.
+\end{proof}
+
 \begin{theorem}[RegularCauchyMax Real seal boundary]
 \label{thm:regular-cauchy-max-real-seal-boundary}
 Every $\RealUp$ consumer of an accepted $\RegularCauchyMaxUp$ carrier reaches the seal row $E$ only after the $\RegSeqRatUp$ readback $R$ has been assembled from the aligned source windows, dyadic endpoint rows, $\RegularCauchySumUp$ rows, $\RegularCauchyAbsUp$ difference row, and $\RegularCauchyScaleUp$ half-scale row. The real-facing boundary exposes no trichotomy witness, host real order, quotient stream equality, selected limit, or ambient completeness principle.
