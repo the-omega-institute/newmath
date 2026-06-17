@@ -1,64 +1,40 @@
-\origin{ai}
+\subsection{Human consensus mRNA half-life as a B$^*_{{Q6}}$ residual readout}\label{sec:bioreality-human-mrna-stability-q6}\origin{ai}
 
-\subsection{Human mRNA-stability survival of the $B^*_{Q6}$ codon residual}
-\label{sec:bioreality-human-mrna-stability-bstar-q6}
+\paragraph{Empirical question.}
+This record asks whether the nine synonymous-residual coordinates of B$^*_{{Q6}}$ retain measurable association with human mRNA stability after the usual coding-sequence controls have already been removed.  The response variable is not raw decay time in minutes.  It is the unlogged mean normalized relative mRNA half-life consensus assembled across 54 human dataset columns in the Agarwal--Kelley table.  The tested biological layer is therefore a cross-layer association between codon residual geometry and a transcript-stability readout, not a direct translation, protein, structure, or function statement.
 
-\paragraph{Object and row set.}
-This record tests whether the nine-coordinate $B^*_{Q6}$ synonymous residual system retains measurable information about human mRNA stability after the ordinary sequence-level covariates have already been removed.  The response variable is the unlogged mean normalized relative mRNA half-life consensus assembled across $54$ human dataset columns from the Agarwal--Kelley panel.  The join uses Ensembl gene identifiers with version suffixes removed, with a unique gene-symbol fallback only where needed.  The resulting finite row set contains $16165$ joined CDS/readout rows, with $16150$ matches through Ensembl gene identifiers and $15$ through the symbol fallback.  The source panel reports $19480$ consensus records, and the CDS-side hit rate is $0.9779294769799313$.  No ambiguous symbol fallback keys are used.  On the CDS side, $2876$ records fail to find a half-life match and $12$ duplicate genes are skipped; the half-life table contributes no skipped records for missing identifiers, duplicate Ensembl identifiers, non-numeric consensus values, or non-object rows.
+\paragraph{Joined human row set.}
+The human computation joins coding-sequence codon counts to the consensus half-life table by Ensembl gene identifier after removing version suffixes, with a unique gene-symbol fallback.  The finite row audit reports 19,480 valid consensus records by Ensembl identifier, 19,053 joined CDS records before the half-life join, and 16,165 rows in the final regression table.  The source split is 16,150 rows through Ensembl gene identifiers and 15 rows through the symbol fallback.  There are no ambiguous symbol-fallback keys.  The reported CDS join hit rate is 0.9779294769799313, and the skipped CDS records are concentrated in 2,876 rows with no half-life match, with 12 duplicate-gene skips and no skips from empty sense-codon counts, invalid length, missing CDS header, missing gene keys, or nonpositive abundance.  On the consensus side, the audit records no duplicate Ensembl identifiers, no missing Ensembl identifiers, no nonnumeric consensus entries, and no non-object records.
 
 \paragraph{Residual design.}
-The fitted coordinate block is the ordered list
-$$
-\begin{aligned}
-Q=(&K_{AAA},\ Arg_{AGR},\ Ile_{AUA},\ Leu_{CUN/UUR},\ Leu_{UUA/UUG},\\
-&Ser_{UCR/AGY},\ Ser_{UCA/UCG},\ Thr_{ACR/ACY},\ f3\text{-}stress).
-\end{aligned}
-$$
-The control matrix $Z$ has $24$ columns and rank $23$.  It contains an intercept, $\log(\mathrm{CDS\ length})$, the $20$ amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3 computed from the real CDS codon counts, and the $M$-density baseline given by the fraction of sense codons on the union support of the nine projected $B^*_{Q6}$ coordinate vectors.  After residualization, the available degrees of freedom are $16142$, and the $Q$ block has residualized rank $9$.  Thus the positive statistic is not a three-row or rank-saturated artifact; it is a high-row-count human CDS panel with the amino-acid quotient, GC3, length, and simpler support-density baseline already imposed.
+The tested coordinate block has nine columns:
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f_3$-stress.  The control design has 24 columns: an intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, the 20 amino-acid composition proportions A, C, D, E, F, G, H, I, K, L, M, N, P, Q, R, S, T, V, W, Y computed from real CDS codon counts, GC3, and the M-density baseline defined as the fraction of sense codons on the union support of the nine projected B$^*_{{Q6}}$ vectors.  The human row has $\operatorname{rank}(Z)=23$ and residual degrees of freedom 16,142 after control removal.  Thus the statistic is not an amino-acid-composition proxy and is not a raw codon-usage correlation.
 
-\paragraph{Human $S^{QM}$ statistic.}
-For the human mRNA-stability readout $M$, the residualized nine-coordinate block explains
+\paragraph{Human survival statistic.}
+Let $M$ denote the human consensus relative mRNA half-life readout and let $Q$ denote the nine-dimensional B$^*_{{Q6}}$ residual coordinate matrix after projecting away $Z$.  The finite row reports
 $$
 \begin{aligned}
-R^2_{QM} &= 0.010503670362051522,\\
-\mathrm{explained\ energy} &= 14.936525062963877,\\
-\mathrm{residual\ response\ energy} &= 1422.0291144063049.
+ n &= 16165,\\
+ \operatorname{rank}(Z) &= 23,\\
+ \operatorname{rank}(\widetilde Q) &= 9,\\
+ \|\widetilde M\|^2 &= 1422.0291144063049,\\
+ \|\operatorname{Proj}_{\widetilde Q}\widetilde M\|^2 &= 14.936525062963877,\\
+ R^2_{QM} &= 0.010503670362051522.
 \end{aligned}
 $$
-The dominant coordinate in the $S^{QM}$ vector is $Leu_{CUN/UUR}$.  The permutation audit uses $1000$ permutations and gives a right-tail value
+The dominant coordinate in the human $S^{QM}$ profile is $Leu_{CUN/UUR}$.  A 1000-permutation comparison gives right-tail value $p=0.000999000999000999$, so the finite row is not treated as a null fluctuation under that permutation design.  The same joined human row set gives $R^2_{QP}=0.04095215557813418$ for protein abundance, and the angle comparison between the mRNA-stability and protein-abundance residual profiles has positive cosine
 $$
 \begin{aligned}
-p_{\mathrm{perm}} = 0.000999000999000999.
+\cos(S^{QM}_{human},S^{QP}_{human})=0.6351183883924848.
 \end{aligned}
 $$
-The statistic is therefore retained as a finite positive cross-layer association between $B^*_{Q6}$ synonymous residual coordinates and the human consensus relative half-life readout, not merely as an identifier join or a codon-count restatement.
+The dominant coordinate differs across the two profiles on the same join: $Leu_{CUN/UUR}$ for mRNA stability and $Arg_{AGR}$ for protein abundance.
 
-\paragraph{Comparison with matched protein abundance.}
-On the same human join, the paired protein-abundance residual statistic is
-$$
-\begin{aligned}
-R^2_{QP} &= 0.04095215557813418.
-\end{aligned}
-$$
-The protein-side dominant coordinate on this join is $Arg_{AGR}$, while the mRNA-stability dominant coordinate is $Leu_{CUN/UUR}$.  The cosine between the human $S^{QM}$ and $S^{QP}$ directions is positive:
-$$
-\begin{aligned}
-\cos(S^{QM},S^{QP}) = 0.6351183883924848.
-\end{aligned}
-$$
-This is a directional comparison of two residual association vectors on a matched human context.  It does not say that mRNA stability mediates protein abundance, nor that the codon residual causes either readout.  It says that the human mRNA-stability residual vector is not orthogonal to the same-join protein-abundance residual vector, while still having a different leading coordinate.
+\paragraph{Cross-organism orientation rows.}
+Two companion finite rows give scale and sign context without being recomputed inside the human experiment.  In Saccharomyces cerevisiae, the analogous mRNA half-life row has $n=5085$, $R^2_{QM}=0.05179429044975085$, $R^2_{QP}=0.2761140373962526$ on the same join, dominant $Leu_{CUN/UUR}$, and cosine $0.8040935468384264$ between $S^{QM}$ and $S^{QP}$.  In Escherichia coli K-12 MG1655, the corresponding row has $n=2720$, $R^2_{QM}=0.02298556640056076$, $R^2_{QP}=0.11632311854858134$, dominant $Arg_{AGR}$, and cosine $-0.7784923375569599$.  These rows show that the human association is smaller in explained fraction than the yeast and E. coli anchors, while its mRNA--protein profile orientation is positive like yeast and unlike the E. coli sign.  They do not establish a phylogenetic law; they only locate the human row in a finite three-row comparison.
 
-\paragraph{Cross-organism anchors.}
-The human row is best read beside the already computed yeast and \emph{E. coli} mRNA-stability panels.  In the yeast half-life panel, $R^2_{QM}=0.05179429044975085$, the dominant coordinate is again $Leu_{CUN/UUR}$, and the same-join protein comparison reports $R^2_{QP}=0.2761140373962526$ with cosine $0.8040935468384264$.  In the \emph{E. coli} panel at growth rate $0.40\,h^{-1}$, $R^2_{QM}=0.02298556640056076$, the dominant coordinate is $Arg_{AGR}$, and the comparison with the same-join protein statistic has cosine $-0.7784923375569599$.  The human statistic therefore occupies an intermediate descriptive position: its mRNA-stability association is smaller than the yeast and \emph{E. coli} mRNA-stability associations in $R^2$ magnitude, but its direction is positively aligned with the human protein-abundance vector and shares the yeast $Leu_{CUN/UUR}$ mRNA-stability leader.
+\paragraph{Interpretation.}
+The human result supports a bounded statistical statement: after amino-acid composition, CDS length, GC3, and M-density controls, B$^*_{{Q6}}$ residual coordinates explain a small but permutation-supported fraction of variance in a normalized human mRNA half-life consensus.  The strongest coordinate is the $Leu_{CUN/UUR}$ residual, and the human $S^{QM}$ direction is positively aligned with the same-row protein-abundance direction even though their dominant coordinates differ.  The association is therefore a transcript-stability readout attached to codon residuals, not a claim that codons cause mRNA decay.
 
-\paragraph{Local interpretation.}
-The finite conclusion is that the human consensus relative half-life readout leaves a positive residual trace of the $B^*_{Q6}$ synonymous coordinate system after amino-acid composition, GC3, length, and $M$-density controls.  In compact form,
-$$
-\begin{aligned}
-S^{QM}_{\mathrm{human}}(B^*_{Q6}\mid Z) &> 0,\\
-R^2_{QM} &= 0.010503670362051522,\\
-p_{\mathrm{perm}} &= 0.000999000999000999,\\
-\operatorname*{argmax}_{q_i}|S^{QM}_{i}| &= Leu_{CUN/UUR}.
-\end{aligned}
-$$
-The claim is deliberately narrow.  It is a controlled residual association between codon-choice geometry and a normalized human mRNA half-life consensus.  It is not a direct translation-efficiency measurement, not ribosome occupancy, not tRNA charging, not protein folding, not physical admissibility, not biological function, not a mechanistic decay model, and not a universal law.  Any assertion about translation, folding, biochemical function, organismal phenotype, or mechanism would require a separate layer-matched measurement and its own controlled statistic.
+\paragraph{Local boundary.}
+This chapter does not infer ribosome-mediated translation from the mRNA-stability row.  It also does not infer protein folding, physical admissibility, biochemical function, mechanism, phenotype, or a universal biological rule.  The readout is a normalized cross-dataset relative half-life consensus, not raw minutes and not a direct decay-rate perturbation.  Any translation, protein-output, structure, physical-assay, functional, mechanistic, or universal claim would require its own matched contact and its own controlled statistic beyond the finite row reported here.

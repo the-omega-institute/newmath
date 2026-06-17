@@ -1,34 +1,42 @@
-\subsection{A Translation-Mediated Boundary for Protein-Function Claims}\label{subsec:q6-translation-mediated-protein-function-boundary}
 \origin{ai}
 
-\paragraph{Finite carrier.}
-This record treats the $B^{\ast}_{Q6}$ synonymous-residual coordinates as finite row variables attached to coding sequences, not as biological causes by themselves.  The carrier consists of cells $(q_i,T_j,P_k,F_l)$ in which $q_i$ is one of nine residual coordinates, $T_j$ is a translation-layer readout, $P_k$ is a protein-omics readout, and $F_l$ is admitted only after a separate function or phenotype measurement has been joined.  The nine computed coordinates are
+\subsection{A Powered B-star Q6 Boundary Test Against Essentiality}
+\label{sec:b-star-q6-essentiality-boundary}
+
+\paragraph{Finite rows.}
+The record considered here is a cross-layer test for the conjecture $q6.translation\text{-}mediated.protein\text{-}function\text{-}boundary.cross\text{-}layer$. Its carrier is the finite table whose rows are genes with real CDS codon counts, measured protein abundance, amino-acid composition, and a laboratory knockout essentiality label. The $q$-coordinates are the nine projected $B^{*}_{Q6}$ residual directions
+$K\_{AAA}$, $Arg\_{AGR}$, $Ile\_{AUA}$, $Leu\_{CUN\_vs\_UUR}$, $Leu\_{UUA\_vs\_UUG}$, $Ser\_{UCR\_vs\_AGY}$, $Ser\_{UCA\_vs\_UCG}$, $Thr\_{ACR\_vs\_ACY}$, and $f3\_stress$. These coordinates are treated as amino-acid-quotient residual coordinates: their role is not to restate amino-acid composition, but to ask whether synonymous residual structure retains association after the amino-acid composition controls have already been included.
+
+\paragraph{Readout and controls.}
+The attached finite readout is a binary laboratory knockout essentiality phenotype joined by protein identifier to real CDS codon counts and measured protein abundance. The fitted control family $Z$ contains an intercept, $\log(cds\_len\_nt)$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, $GC3$, the $M$-density baseline defined as the fraction of sense codons on the union support of the nine projected $B^{*}_{Q6}$ vectors, and $\log\_{10}(abundance\_ppm)$. Thus the tested residual signal is beyond both amino-acid composition and measured protein abundance. The positive partial-$R^{2}$ threshold used by the finite run is $10^{-12}$.
+
+\paragraph{Rank and sample support.}
+Two organisms contribute powered rows. For $Escherichia\ coli$ K-12 MG1655, the joined table uses $3737$ genes after abundance and essentiality matching, with $285$ essential genes and $3452$ nonessential genes. The essential fraction is $0.07626438319507627$. The control matrix has $25$ declared control columns, rank $24$, residual degrees of freedom $3713$, and the residualized $B^{*}_{Q6}$ design has rank $9$ across $9$ coordinates. The recorded residual-response energy is $232.13814987247684$, the $q$-explained energy is $2.243840654793728$, and the powered-rank flag is true. For $Saccharomyces\ cerevisiae$, the joined table uses $5511$ genes, with $1168$ essential genes and $4343$ nonessential genes. The essential fraction is $0.2119397568499365$. The control matrix again has $25$ declared control columns, rank $24$, residual degrees of freedom $5487$, and the residualized $B^{*}_{Q6}$ design again has rank $9$ across $9$ coordinates. The recorded residual-response energy is $826.488384003322$, the $q$-explained energy is $2.741892921952373$, and the powered-rank flag is true. In both organisms the degenerate-$R^{2}$ guard is $0.999999$, and both organisms contain both essentiality classes.
+
+\paragraph{Numerical readback.}
+The finite run computes a linear-probability residual association between the nine $B^{*}_{Q6}$ residual coordinates and the knockout essentiality label after the stated controls. The resulting essentiality readback is positive but small in both organisms. In $E.\ coli$ K-12 MG1655, all nine residual coordinates are counted as surviving at the declared positive threshold, with
 $$
 \begin{aligned}
-R_{Q6}=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+R^{2}_{FE} &= 0.00966597112980509,\\
+n &= 3737,\\
+\#\{q\text{-coordinates surviving}\} &= 9.
 \end{aligned}
 $$
-The coordinate count is therefore $|R_{Q6}|=9$.  These rows were imported from the powered $B^{\ast}_{Q6}$ translation-survival computation, but the finite experiment reported here is not yet a translation-mechanism result.  It is a residual association test against a lab knockout essentiality readout after amino-acid composition and measured protein abundance have been controlled.
-
-\paragraph{Controls and rank.}
-The control matrix $Z$ contains an intercept, log CDS length in nucleotides, twenty amino-acid composition proportions, GC3, an $M$-density baseline on the union support of the nine projected $B^{\ast}_{Q6}$ vectors, and $\log_{10}$ protein abundance in ppm.  Thus the declared control family has $25$ columns before rank loss.  For \emph{Escherichia coli} K-12 MG1655 the fitted control rank is $\operatorname{rank}(Z)=24$, the residualized coordinate rank is $\operatorname{rank}(\widetilde X)=9$, the residual degrees of freedom after $Z$ are $3713$, the residual response energy is $232.13814987247684$, and the coordinate-explained energy is $2.243840654793728$.  For \emph{Saccharomyces cerevisiae} the corresponding values are $\operatorname{rank}(Z)=24$, $\operatorname{rank}(\widetilde X)=9$, residual degrees of freedom $5487$, residual response energy $826.488384003322$, and coordinate-explained energy $2.741892921952373$.  Both organisms pass the stated nondegenerate rank condition under the threshold $0.999999$ and both retain all nine residual coordinates after the controls.
-
-\paragraph{Observed finite rows.}
-The bacterial table joins $3737$ genes after the abundance and essentiality merge, with $285$ essential genes, $3452$ nonessential genes, and essential fraction $0.07626438319507627$.  The yeast table joins $5511$ genes, with $1168$ essential genes, $4343$ nonessential genes, and essential fraction $0.2119397568499365$.  In both organisms the binary essentiality response has both classes present, so the readout is not a constant-label artifact.  The reported positive partial-$R^2$ threshold is $10^{-12}$, and the finite readback is
+In $S.\ cerevisiae$, all nine residual coordinates are likewise counted as surviving at the declared positive threshold, with
 $$
 \begin{aligned}
-R^2_{FE}(\textit{E. coli}) &= 0.00966597112980509,\\
-R^2_{FE}(\textit{S. cerevisiae}) &= 0.003317521425614316.
+R^{2}_{FE} &= 0.003317521425614316,\\
+n &= 5511,\\
+\#\{q\text{-coordinates surviving}\} &= 9.
 \end{aligned}
 $$
-The positive values are small, but they are not zero under the declared numerical rule.  Their interpretation is deliberately narrow: they report beyond-abundance codon-residual association with lab knockout essentiality after the listed controls, using an ordinary least-squares linear-probability residualization of a binary phenotype.
+These values say that the finite rows detect a nonzero residual association between the $B^{*}_{Q6}$ coordinate block and the essentiality label after amino-acid composition, length, $GC3$, $M$-density, and measured protein abundance have been accounted for. The readout is therefore a bounded essentiality-association readback, not a direct biological mechanism.
 
-\paragraph{Mediation order.}
-The admissible biological path is ordered.  A residual coordinate $q_i$ must first be tested against a matched translation readout $T_j$, such as a measured ribosome-profiling or translation-efficiency surface, before any downstream protein-omics quantity $P_k$ can be treated as translation-conditioned.  A direct $q_i\to P_k$ association is not enough.  The mediation claim becomes stronger only if conditioning on $T_j$ reduces the direct $q_i\to P_k$ contribution while the $q_i\to T_j$ step survives the amino-acid, GC3, length, $M$-density, organism, mRNA, and abundance controls.  The present finite table does not contain that joined $(q_i,T_j,P_k)$ matrix.  It contains an essentiality readout with measured abundance in the control set, so it is a bounded cross-layer association table rather than a completed translation-mediated protein-omics mechanism.
+\paragraph{Layer interpretation.}
+The result is deliberately weaker than a translation-mediated protein-function claim. The measured table contains a protein-abundance control, but it does not contain a matched translation readout $T_j$ that survives on the same $q_i$ coordinates, nor a demonstrated mediation chain $q_i \to T_j \to P_k$. The run therefore cannot certify the four-case discriminant in which a translation-only signal, a protein-omics signal independent of measured translation, and a translation-mediated protein-omics signal are separated. What is supported is narrower: after abundance is already in $Z$, the $B^{*}_{Q6}$ block still has a small positive association with a knockout essentiality phenotype in two rank-sufficient organism-level matrices. The protein-abundance column is a confounding control in this analysis, not a protein-output mediation surface.
 
-\paragraph{Four-case readback.}
-The local readback has four mutually exclusive cases.  Case $0$ is no residual survival after controls.  Case $T$ is survival only at a translation readout.  Case $P$ is protein-omics survival that is not absorbed by measured translation.  Case $T\!	o\!P$ is translation-mediated protein-omics survival, where the measured translation readout carries the downstream association.  The current rows do not assign a function case, because no separate function assay, phenotype perturbation, physical assay, folding measurement, or structure contact is attached.  Essentiality is a laboratory knockout binary phenotype in this table, but the model used here treats it as a residualized association endpoint; it does not establish synonymous-edit causality, expression causality, ribosome mechanism, pathway mechanism, or organism-general law.
+\paragraph{No-promotion boundary.}
+The finite rows do not establish synonymous-edit causality, ribosome dynamics, expression causality, pathway causality, folding, physical admissibility, molecular function, mechanism, or universality. The binary essentiality phenotype is a laboratory knockout readout, and the fitted model is an ordinary least-squares linear-probability residualization. A positive $S^{FE}$ entry means only that codon residual coordinates retain association with the essentiality label after the stated covariates, including measured protein abundance. Translation realization would require a separate measured translation contact, such as matched ribosome-profiling or translation-efficiency rows with matched mRNA controls. Protein mediation would require a same-row $q_i \to T_j \to P_k$ attenuation test. Folding, physical admissibility, molecular function, organismal phenotype interpretation beyond the knockout label, mechanism, and any organism-general law each require their own layer-matched contact and statistic.
 
-\paragraph{Local boundary.}
-The result may be cited as a powered finite association between nine $B^{\ast}_{Q6}$ residual coordinates and lab knockout essentiality after amino-acid composition and measured protein-abundance controls in two organisms.  It may not be cited as direct translation realization, protein folding, physical admissibility, biological function, mechanism, or universality.  Those claims require their own layer-matched measured contacts and their own controlled statistics.  In particular, modeled tAI or stAI weights do not become observed ribosome occupancy, protein abundance does not become a mechanism, and the positive $R^2_{FE}$ values do not promote the residual coordinates into function realization without a later external function or phenotype readout.
+\paragraph{Finite conclusion.}
+Experiment $beb31e9e1742$ gives a powered two-organism boundary result for the $B^{*}_{Q6}$ residual block. The coordinate block has full residual rank $9$ in both organism matrices, both matrices have nondegenerate essentiality labels, and the essentiality association remains positive at the declared threshold after the full control set. The strength of the result is its finite separation discipline: it records a small beyond-abundance essentiality association while refusing to turn that association into translation mediation, protein-function realization, physical admissibility, mechanism, or a universal biological rule without additional contacts.

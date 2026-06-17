@@ -1,52 +1,48 @@
+\subsection{Three-axis insufficiency for the $B^{\ast}_{Q6}$ optimality surface}\label{sec:bioreality-q6-three-axis-insufficiency}
 \origin{ai}
 
-\subsection{Three-axis insufficiency of the $B^*_{Q6}$ translation surface}
-\label{sec:biorreality-q6-three-axis-insufficiency}
+\paragraph{Finite coordinate surface.}
+This record concerns the finite CDS-by-organism residual coordinate surface obtained after amino-acid projection, restricted to the $f_3$-stress component of the $B^{\ast}_{Q6}$ coordinate system and to matched translation-readout rows.  The coordinate is not read as a protein, phenotype, or universal law.  It is a row-wise residual descriptor whose biological question is narrower: after ordinary sequence controls are removed, does the $f_3$-paired synonymous imbalance retain measurable association with a bounded translation readout, and is the standard three-axis model sufficient for that association?
 
-\paragraph{Finite carrier.}
-The record considered here is the finite coding-sequence surface obtained after amino-acid projection, organism matching, and restriction to the $f_3$-stress coordinate of $B^*_{Q6}$.  Its biological rows are not protein rows, structural rows, localization rows, or phenotype rows.  They are codon-usage, tRNA or wobble-weight, and bounded translation-readout rows.  The claim tested in this section is narrower than a universal codon law: it asks whether the three-axis description formed from the core tRNA direction, the $f_3$ translation-selection residual direction, and the previously detected third residual direction is sufficient for the powered multi-organism surface.
-
-The saturated $f_3$ row is finite.  The ambient set used for the saturation computation is
-$$\begin{aligned}
-M={}&\{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+The finite $f_3$ saturation calculation fixes the relevant codon support.  The set $M=\operatorname{Med}(R)\cup\{\mathrm{ACA}\}$ contains the 20 codons
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
 &\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}$$
-The $f_3$-saturated residual subset removes the two $\mathrm{AC}$ boundary codons and is
-$$\begin{aligned}
-\operatorname{Sat}_{f_3}(R)={}&\{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}$$
-The finite boundary list is empty, $\partial_{f_3}R=\varnothing$.  Thus the tested object is not a loose codon narrative: it is a residual coordinate surface with a declared twenty-codon ambient list, an eighteen-codon saturated list, and a zero boundary entry for the $f_3$ saturation check.
+\end{aligned}
+$$
+Its $f_3$ saturation removes only the two $A C N$ boundary points, giving the 18-codon set
+$$
+\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
+&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}
+$$
+while the recorded $f_3$ boundary outside this saturation is empty.  Thus the finite object under test is not an unbounded codon universe.  It is a closed finite row surface in which the $f_3$ stress coordinate is available only where the synonymous codon geometry survives amino-acid quotienting.
 
-\paragraph{Powered three-axis test.}
-The direct optimality-axis sufficiency assay was run as \texttt{b\_star\_q6\_optimality\_axis\_sufficiency\_powered}.  It used $5$ folds, required at least $500$ proteins per organism, computed $11$ organisms out of $16$ requested organisms, and used $41$ synonymous-design columns.  The deterministic seed was \texttt{sha256:b\_star\_q6\_optimality\_axis\_sufficiency\_powered:deterministic}.  The row status was \texttt{passed}, and the finite conclusion was
-$$\begin{aligned}
-\text{three-axis sufficiency call} &= \texttt{fourth\_mechanism\_present}.
-\end{aligned}$$
-This is a negative sufficiency statement for the three-axis model, not a positive identification of a downstream biological layer.  The assay says that, in the powered panel actually computed, the three declared axes do not exhaust the surviving residual structure.  It does not say that the remaining structure is protein abundance, folding, localization, molecular function, physical admissibility, phenotype, or a general biological principle.
+\paragraph{Powered row test.}
+The optimality-axis sufficiency experiment was run as a powered finite-row assay with 5 folds, at least 500 proteins per organism, 41 synonymous design columns, and 11 computed organisms out of 16 requested organisms.  Its recorded status is passed, and the conclusion is that a fourth explanatory component is present: the three-axis surface is insufficient for the observed residual optimality pattern.  In symbols, if $d_{\mathrm{tRNA}}$, $d_{f_3}$, and $d_{\perp}$ denote the first three candidate directions, the finite result rejects the claim that the observed residual surface is exhausted by their span:
+$$
+\begin{aligned}
+Q_{\mathrm{resid}} \not\subseteq \operatorname{span}(d_{\mathrm{tRNA}},d_{f_3},d_{\perp})
+\end{aligned}
+$$
+for the tested design matrix and organism panel.  The statement is deliberately finite: it says that the assayed coordinate table requires another axis under the fixed row construction, not that biology has a unique universal fourth mechanism.
 
-\paragraph{Relation to the lower-dimensional axes.}
-The insufficiency call is coherent with the surrounding finite rows.  The two-axis closure assay \texttt{b\_star\_q6\_universal\_optimal\_two\_axis\_closure\_powered} used the same $5$ folds, $500$-protein minimum, $11/16$ organism computation, and $41$ synonymous-design columns, and returned \texttt{third\_axis\_present}.  Its stated reason was that $d_{\perp}$ had systematically positive held-out $R^2$ and that the $d_{\perp}$ directions were mutually same-signed across organisms.  The third-axis identity assay then provisionally aligned $d_{\perp}$ with usage frequency within family, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$.  A separate mechanism row classified the same third direction as selection-not-GC, not wobble-clustered, with the CSC or positional identity still requiring an additional contact.
-
-These rows give the following finite progression:
-$$\begin{aligned}
-\text{two-axis span} &\longrightarrow \texttt{third\_axis\_present},\\
-\text{third-axis identity} &\longrightarrow \text{usage-frequency-within-family alignment},\\
-\text{three-axis span} &\longrightarrow \texttt{fourth\_mechanism\_present}.
-\end{aligned}$$
-The progression is not a hierarchy of biological realization.  It is a sequence of residual-coordinate failures of sufficiency under the declared organism and design gates.
+The surrounding powered records locate why the conclusion is not an artifact of a missing second or third axis.  A two-axis closure test over the same 5-fold, 41-column design and 11 computed organisms concluded that a third axis is present, with systematically positive held-out $R^2$ and mutually same-signed $d_{\perp}$ directions across organisms.  A residual-axis assay identified the dominant non-tRNA residual direction as $f_3$ translation selection.  The third-axis identity assay then aligned $d_{\perp}$ to usage frequency within synonymous family, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$.  The corresponding mechanism-separation assay reported that the third axis remains selection-like after GC orthogonalization, is not wobble-clustered, and still needs a separate external positional or CSC contact before any stronger mechanistic interpretation is made.
 
 \paragraph{Axis spectrum.}
-The per-organism axis-strength spectrum further constrains the interpretation.  In the powered spectrum run, $11$ organisms were computed out of $16$ requested, using $5$ folds, a $500$-protein minimum, and $41$ synonymous-design columns.  The captured spectra were led on average by $d_{\mathrm{resid4}}$, followed by $d_{\mathrm{tRNA}}$, and the per-organism dominant-count summary was $\{\texttt{d\_resid4}:11\}$.  Domain means were explicitly descriptive under the imbalanced domain counts $\{\texttt{archaea}:1,\texttt{bacteria}:2,\texttt{eukaryote}:8\}$.  The largest reported GC3 rank effect was small, with $d_{\mathrm{usage}}$ having $\rho=0.136$.
+The per-organism axis-strength spectrum supplies a consistency check on the finite row geometry.  It was also computed on 11 organisms out of 16 requested organisms with 5 folds, at least 500 proteins per organism, and 41 synonymous design columns.  The captured spectra were led by $d_{\mathrm{resid4}}$ on average, followed by $d_{\mathrm{tRNA}}$, and the per-organism dominant-count table assigned all 11 computed organisms to $d_{\mathrm{resid4}}$.  Domain means were marked descriptive only because the domain counts were imbalanced, with $n=1$ archaeal organism, $n=2$ bacterial organisms, and $n=8$ eukaryotic organisms.  The largest GC3 rank effect in this spectrum was small, $\rho=0.136$ for $d_{\mathrm{usage}}$, so the result should not be paraphrased as a GC3-only separation.
 
-This spectrum supports the local reading of the sufficiency failure.  The finite surface is not merely rediscovering a single GC3 axis, nor is it licensed to report a universal domain contrast from the imbalanced domain counts.  The data instead say that, among the computed organisms, the residual fourth direction is repeatedly dominant in the captured spectrum while the GC3 rank effect is bounded by the reported $0.136$ value.
+The boundary-set tRNA-poverty assay supplies a separate finite contact for the $R$-sense part of the same codon region.  Across 40 computed organisms out of 46 requested organisms, using 1000 permutations and $\alpha=0.05$, $R$ sense codons were systematically tRNA-poor under GtRNAdb tGCN together with dos Reis wobble weights.  This supports a tRNA-supply interpretation for $R$ avoidance in that bounded assay.  It does not by itself identify the fourth axis, and it does not turn the $f_3$ residual coordinate into a measured ribosome-occupancy row.
 
-\paragraph{Translation readout boundary.}
-The $f_3$-stress coordinate becomes biologically testable only where the translation row is present and nondegenerate.  A modeled tAI or stAI weight can be used as a bounded codon-adaptation readback; a ribosome-profiling or translation-efficiency row can test a measured translation surface only after same-organism and same-CDS joining with codon counts and matched mRNA controls.  The controlled survival entry has the form
-$$\begin{aligned}
-S_{f_3\text{-stress},T_j}>0
-\end{aligned}$$
-after amino-acid composition, organism, GC3, coding-sequence length, $M$-density, matched mRNA, rank, and simpler-baseline controls.  Without that row, there is no assertion of translation realization beyond the bounded modeled readback.  In particular, the three-organism all-$1.0$ rank-degenerate surface is a null boundary rather than survival evidence.
+\paragraph{Fourth-axis exclusions.}
+The fourth-axis follow-up records constrain several candidate interpretations.  The mRNA-stability assay passed with the conclusion that the fourth axis is not mRNA stability in the yeast half-life alignment test, because the yeast $d_{\mathrm{opt\_halflife}}$ direction had low alignment with abundance $d_{\mathrm{resid4}}$ under the fixed gates.  The codon-pair assay passed with conclusion \emph{not codon pair}, using 5 folds, at least 500 proteins per organism, 41 synonymous design columns, and 50 shuffle-null samples.  The translation-accuracy assay passed with conclusion \emph{not accuracy}, using 11 computed organisms out of 16 requested organisms, 5 folds, 41 synonymous design columns, and 200 permutations.  The elongation-dwell assay passed with a partial conclusion in \emph{Saccharomyces cerevisiae}.  Taken together, these rows make the fourth component a real finite-model demand while keeping its identity bounded: it is not licensed as mRNA stability, codon-pair structure, or translation accuracy, and elongation dwell supplies only partial organism-specific support.
 
-\paragraph{Local no-promotion rule.}
-The finite conclusion \texttt{fourth\_mechanism\_present} is therefore a residual-coordinate statement.  It is compatible with the tRNA-poverty row for $R$ sense codons, which was tested across $40$ computed organisms out of $46$ requested with $1000$ permutations at $\alpha=0.05$, and it is compatible with the non-tRNA residual optimality row whose dominant axis was \texttt{f3\_translation\_selection}.  But compatibility is not promotion.  No claim about ribosome occupancy, protein abundance, folded structure, physical admissibility, molecular function, localization, stability, phenotype, mechanism, or universality follows from this section unless a separate layer-matched contact supplies the corresponding rows and statistic.  The present record only establishes that, on the finite powered coordinate surface with $11$ computed organisms and $41$ synonymous-design columns, the declared three-axis span is insufficient and a fourth residual direction remains to be explained.
+\paragraph{Readout boundary.}
+The allowed readback is the controlled survival entry $S_{f_3\text{-stress},T_j}$ for a translation-layer row such as tAI, stAI, ribosome occupancy, or translation efficiency.  The row is meaningful only after amino-acid composition, organism, GC3, CDS length, $M$-density, matched mRNA, rank, and simpler-baseline controls have been applied.  A modeled tAI or stAI surface can be used as a bounded codon-adaptation readout; it is not the same thing as observed ribosome occupancy.  Likewise, mRNA abundance is a control covariate for translation-efficiency residualization, not a translation-output measurement.
+
+The present finite evidence therefore supports the following chapter-local statement.  The $B^{\ast}_{Q6}$ optimality surface, restricted to the $f_3$-stress coordinate and the powered multi-organism panel, is not exhausted by the three named axes already isolated in the preceding finite assays.  The powered optimality-sufficiency run records a passed fourth-axis demand on 11 computed organisms, 5 folds, and 41 synonymous design columns.  This is a finite residual-geometry result plus bounded translation-readout routing.  It does not, without an additional layer-matched contact and statistic, assert realized translation output, protein abundance, folded structure, physical admissibility, molecular function, cellular mechanism, organismal phenotype, or universality.
+
+\paragraph{Local falsifier.}
+The relevant falsifier is not a failure to name the fourth component.  The local falsifier is a controlled readout failure.  If every admissible $S_{f_3\text{-stress},T_j}$ entry remains non-positive after the declared controls, or if the apparent survival surface is rank-degenerate, then the $f_3$-stress coordinate remains a finite residual coordinate without positive translation-readout survival.  In particular, an all-$1.0$ matrix on a three-organism panel is treated as a saturated null boundary rather than as biological support.  A positive finite-row fourth-axis demand may guide the next assay, but it cannot replace the same-row translation statistic.

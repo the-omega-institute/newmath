@@ -1,42 +1,50 @@
-\subsection{Local ribosome-occupancy dwell separation for the $B^*_{Q6}$ residual family}\label{subsec:bioreality-wobble-dwell-coupling-b-star-q6-ribosome-occupancy}\origin{ai}
+\origin{ai}
+
+\subsection{Position-controlled ribosome-occupancy separation for the $B^*_{Q6}$ wobble families}
+\label{sec:bioreality-wobble-dwell-coupling-ribosome-occupancy}
 
 \paragraph{Claim tested.}
-This record tests a bounded translation-layer question: whether synonymous choices inside the nine $B^*_{Q6}$ residual families co-vary with local relative ribosome occupancy after the obvious positional confound is removed.  The row under consideration is not a global codon-usage statistic and is not a protein-output statistic.  It is a within-window, within-position readback: codons are compared only against synonymous alternatives that occur in the same supplied ribosome-occupancy window and the same codon-index bin, with amino-acid identity retained in the binning.  The tested family list is
-$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
+This chapter records a finite ribosome-occupancy contact for the $B^*_{Q6}$ residual coordinates at the codon-window scale.  The tested object is not a genome-wide law and not a protein-level mechanism.  It is the following narrower question: after holding fixed the supplied codon-window position and amino-acid bin, do synonymous labels aligned with the $B^*_{Q6}$ families separate local relative ribosome occupancy more than a within-bin label shuffle would normally allow?  The finite row answers this question for the ordered coding sequences and occupancy arrays available in the run with identifier \texttt{ca41f897d026}.
 
-\paragraph{Finite row and join.}
-The occupancy file supplied both $5'$ and $3'$ codon-window arrays, and these arrays were joined to ordered coding sequences by gene identifier.  The finite join had $5754$ overlapping genes, all $5754$ of which survived the length check, with $0$ length mismatches.  The ribosome-occupancy side contained $5754$ genes and the ordered-CDS side contained $6013$ genes.  Thus the tested matrix is not a synthetic organism-level summary: it is a same-gene codon-window table in which local codon labels and local relative occupancy can be compared after positional demeaning.
-
-\paragraph{Position-controlled statistic.}
-For each synonymous family, local occupancy was first centered inside the exact file-provided window/codon-index and amino-acid bin.  The null model then shuffled synonymous labels only within that same bin.  This keeps the tested effect from being a trivial consequence of where a codon appears in a transcript window.  In the notation of the chapter, the observed family statistic is a bin-residual separation score $R_f$, and the permutation reference is the within-bin $95\%$ threshold $N_{95,f}$.  The support gate is not merely $R_f>N_{95,f}$; it also applies a description-length penalty and a direction filter:
+\paragraph{Rows and join discipline.}
+The ribosome-occupancy file supplied $5754$ genes, and the ordered-CDS table supplied $6013$ genes.  The identifier intersection contained $5754$ genes, and all $5754$ survived the ordered-length check, with length-mismatch count equal to $0$.  Thus the tested window statistic was computed on the full overlap rather than on a repaired or partially discarded overlap.  The row accounting is
 $$
 \begin{aligned}
-R_f &> N_{95,f},\\
-C_H(f) &> 0,\\
-R_f - \lambda\,DL &> N_{95,f},\\
-\lambda &= 0.01,\\
-DL &= 2.
+N_{\mathrm{occ}} &= 5754,\\
+N_{\mathrm{cds}} &= 6013,\\
+N_{\mathrm{overlap}} &= 5754,\\
+N_{\mathrm{joined}} &= 5754,\\
+N_{\mathrm{length\ mismatch}} &= 0.
 \end{aligned}
 $$
-The requested permutation budget was $200$ within-bin shuffles per family.  All $9$ families were computed, and all $9$ had at least $200$ permutations available for the null summary.
+The windows were the file-provided $5'$ and $3'$ arrays.  No window was promoted to a protein-level output; the statistic remains a local occupancy readout tied to the supplied codon indices.
 
-\paragraph{Observed support.}
-Three families passed all gates: $K\_AAA$, $Arg\_AGR$, and $f3\_stress$.  The reported gate was the joint condition $C_H>0$ with $\lambda=0.01$ and $DL=2$, after comparison to the within-position-bin permutation $N_{95}$ value.  This supplies a concrete positive row for local ribosome-occupancy separation: at least one, and in this run three, $B^*_{Q6}$ synonymous families exhibit occupancy separation that is larger than the same-bin label-shuffle reference after the stated penalty.
+\paragraph{Position and amino-acid controls.}
+The separation statistic used the exact file-provided window and codon-index bins together with amino-acid bins.  Within each such bin, occupancy was demeaned before effect estimation.  The null distribution shuffled synonymous labels only inside the same bin.  This makes the comparison insensitive to a simple positional explanation such as one codon family being overrepresented near a window edge, and it also prevents amino-acid identity from being silently reintroduced as a synonymous effect.  In symbols, the tested contrast has the schematic form
+$$
+\begin{aligned}
+\Delta_f
+  &= \operatorname{effect}\bigl(\operatorname{occ}-\operatorname{mean}_{b}(\operatorname{occ})\,\bigm|\,f,b\bigr),\\
+\Delta_f^{\mathrm{null}}
+  &= \operatorname{effect}\bigl(\operatorname{occ}-\operatorname{mean}_{b}(\operatorname{occ})\,\bigm|\,\pi_b(f),b\bigr),
+\end{aligned}
+$$
+where $f$ ranges over the tested $B^*_{Q6}$ synonymous families, $b$ is the joint position/amino-acid bin, and $\pi_b$ denotes a permutation constrained to stay inside $b$.
 
-\paragraph{Relation to modeled translation readouts.}
-This row is narrower than the modeled tAI survival matrix, but it is compatible with the broader translation-readout pattern already measured for the same nine-coordinate residual family.  In the modeled per-codon tAI calculation, $40$ organisms were loaded, the $B^*_{Q6}$ design had $9$ residual coordinates, the control matrix had $24$ columns with rank $23$, and the residual degrees of freedom after controls were $17$.  The modeled translation-readout matrix had shape $9\times 9$, rank $9$ after residualization, and total $R^2_{QT}=0.9003849000036579$.  A wider modeled-tAI organism sweep covered $41$ organisms; its per-organism $R^2_{QT}$ distribution had minimum $0.1579271837024072$, first quartile $0.26353954700074694$, median $0.33934845811598124$, mean $0.38466555440501393$, third quartile $0.5143951545826744$, and maximum $0.8213457220900503$.  Those modeled rows do not substitute for measured ribosome occupancy, but they explain why the present local dwell-style test is placed in the translation-readout layer rather than in a folding or function layer.
+\paragraph{Finite-row result.}
+All nine $B^*_{Q6}$ families were computed, and all nine had at least $200$ within-bin permutations available for the reported null summary.  The requested permutation count was $200$.  The decision gate combined three finite requirements: exceeding the within-position-bin permutation $\operatorname{Null95}$, satisfying the direction-support condition $C_H>0$, and passing the description-length penalty with $\lambda=0.01$ and $DL=2$.  The families passing all gates were exactly
+$$
+\begin{aligned}
+\mathcal{F}_{\mathrm{pass}}=\{\mathrm{K\_AAA},\ \mathrm{Arg\_AGR},\ f3\_\mathrm{stress}\}.
+\end{aligned}
+$$
+The chapter-level conclusion is therefore positive in the bounded sense: at least one $B^*_{Q6}$ synonymous family, and in this run exactly three named families, showed local ribosome-occupancy separation beyond the within-bin label-permutation $95\%$ reference level while also satisfying the stated $C_H$ and description-length gates.
 
-\paragraph{Relation to downstream abundance decompositions.}
-Separate abundance-side rows show that $B^*_{Q6}$ coordinates also carry protein-abundance residual components in several organisms, but those rows are not used here as proof of ribosome dwell.  For example, the complement-support calculation reported $R^2_{QP}=0.29837624987287115$ in $Saccharomyces\ cerevisiae$, with modeled-tAI complement fraction $d=0.21173219572706703$ and modeled-tAI-aligned fraction $m=0.788267804272933$.  In the same complement table, $Homo\ sapiens$ had $R^2_{QP}=0.04454565117192484$, $d=0.9208949355679455$, and $m=0.07910506443205445$, while $Escherichia\ coli\ K$-$12$ MG1655 had $R^2_{QP}=0.10767526667768725$, $d=0.6629960038578532$, and $m=0.3370039961421468$.  Direction-aware candidate ranking likewise treated measured translation efficiency, mRNA, modeled tRNA-tAI, localization, and other readouts as separate $H$ candidates rather than as interchangeable biological causes.  In that ranking, $Danio\ rerio$ selected measured translation efficiency as $H_o^*$ with $A_H=0.017594290015070787$, $C_H=0.6573753096184687$, $A_HC_H=0.011566051846174291$, and Bonferroni threshold $0.000719994971498518$ on $13140$ joined rows; $Homo\ sapiens$ selected complex membership as $H_o^*$, while $Saccharomyces\ cerevisiae$ selected mRNA.  These contrasts matter because the present row is specifically a ribosome-occupancy window test, not a general declaration that every abundance or candidate-$H$ signal is translationally mediated.
+\paragraph{Relation to nearby translation readouts.}
+This occupancy contact is consistent with, but logically separate from, the earlier codon-usage/tRNA-copy coupling and modeled-adaptation contacts.  In the finite coupling-matrix run \texttt{4a783972e74b}, the nine $B^*_{Q6}$ synonymous residuals were all computed against a proxy tRNA-Leu CUN-versus-UUR log-copy spectrum; the break condition $|A_{ij}|<0.01$ for all nine entries was not met, with $9$ nonzero entries and maximum absolute coupling $1882464.1106377328$.  That earlier object was a proxy coupling matrix, not a survival matrix and not a ribosome measurement.  In the modeled-tAI run \texttt{09209aa516a0}, the readout matrix was $9\times 9$ across $40$ organisms, with $\operatorname{rank}(Z)=23$, residual degrees of freedom $17$, $\operatorname{rank}(\widetilde X)=9$, and $R^2_{QT}=0.9003849000036579$.  That object was modeled from tRNA gene-copy and wobble weights, not from ribosome footprints.  The present occupancy row supplies a different kind of contact: same-window ribosome-occupancy separation under position-bin and amino-acid-bin control.
 
 \paragraph{Interpretation.}
-The finite conclusion is that the same-gene occupancy table contains a position-controlled synonymous-label signal for the $B^*_{Q6}$ family.  The strongest local statement is therefore:
-$$
-\begin{aligned}
-\exists f\in B^*_{Q6}\quad R_f>N_{95,f}\quad\text{and}\quad C_H(f)>0\quad\text{after}\quad \lambda=0.01,\ DL=2.
-\end{aligned}
-$$
-The computed passing set is $\{K\_AAA, Arg\_AGR, f3\_stress\}$.  This supports a bounded dwell-coupling reading: synonymous residual choices in those families are not fully absorbed by local position bins in the supplied ribosome-occupancy windows.
+The supported statement is descriptive and local.  The finite data say that the $B^*_{Q6}$ wobble-family labels are not invisible to this position-controlled ribosome-occupancy statistic: $\mathrm{K\_AAA}$, $\mathrm{Arg\_AGR}$, and $f3\_\mathrm{stress}$ pass the declared finite gates.  The result does not say that every $B^*_{Q6}$ coordinate survives every translation readout, and it does not replace a full $S_{ij}$ survival matrix with amino-acid composition, organism, GC3, length, and $M$-density controls.  The result is best read as a ribosome-window contact showing that a subset of the synonymous residual families has measurable local occupancy separation after the strongest position confound available in the file has been neutralized by exact within-bin comparison.
 
-\paragraph{Local boundary.}
-No stronger biological layer follows from this row alone.  The calculation does not establish a causal translation mechanism, does not measure tRNA abundance or charging, does not prove mature protein abundance, and does not imply folding, structural order, physical admissibility, molecular function, phenotype, or a universal biological rule.  It also does not turn modeled tAI or stAI rows into observed ribosome occupancy.  Any such stronger claim would require its own matched contact and its own statistic.  The present record is limited to a finite, position-confound-controlled ribosome-occupancy separation for three named $B^*_{Q6}$ synonymous families in a $5754$-gene joined table.
+\paragraph{Local cannot-claim boundary.}
+No general translation-realization claim follows from this row by itself.  In particular, the row does not establish elongation mechanism, codon-optimality causation, protein abundance, protein folding, physical admissibility, molecular function, phenotype, or universality.  It also does not turn tRNA gene-copy counts, modeled tAI/stAI weights, or proxy couplings into observed ribosome dynamics.  Any one of those stronger readings would require its own matched contact and its own finite statistic.  The only positive assertion made here is the bounded one: in the joined $5754$-gene ribosome-occupancy table, with position and amino-acid bins fixed and synonymous labels shuffled only within the same bins, at least one $B^*_{Q6}$ family exceeds the finite null gate and passes the stated $\lambda=0.01$, $DL=2$, and $C_H>0$ criteria.

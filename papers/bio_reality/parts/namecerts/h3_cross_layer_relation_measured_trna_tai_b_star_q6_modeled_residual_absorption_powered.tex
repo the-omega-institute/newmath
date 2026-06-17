@@ -1,45 +1,50 @@
 \origin{ai}
-
-\subsection{Measured tRNA-gene-copy tAI as a bounded absorber of the $B^*_{Q6}$ modeled residual}
-\label{sec:biorreality-q6-measured-trna-tai-modeled-residual-absorption}
+\subsection{Measured tRNA-copy tAI absorption of the $B^*_{Q6}$ modeled-residual component}
+\label{sec:bioreality-q6-measured-trna-tai-absorption}
 
 \paragraph{Finite readout surface.}
-This record tests whether a tRNA-gene-copy-derived tAI surface absorbs the modeled-tAI-complement component of the $B^*_{Q6}$ residual signal. The coordinate side is the same nine-dimensional quotient residual basis used throughout the $Q6$ packet:
+This record tests whether an organism-matched tRNA gene-copy tAI surface absorbs the component of the $B^*_{Q6}$ abundance residual that remains after the modeled-tAI projection has been removed. The finite surface contains three organisms: \emph{Danio rerio}, \emph{Homo sapiens}, and \emph{Saccharomyces cerevisiae}. The residual coordinate list has nine entries,
+$K\_{AAA}$, $Arg\_{AGR}$, $Ile\_{AUA}$, $Leu\_{CUN\_vs\_UUR}$, $Leu\_{UUA\_vs\_UUG}$, $Ser\_{UCR\_vs\_AGY}$, $Ser\_{UCA\_vs\_UCG}$, $Thr\_{ACR\_vs\_ACY}$, and $f3\_stress$.
+The control design has $24$ columns and rank $23$ in every organism. Its columns are the intercept, $\log(\mathrm{CDS\ length})$, the $20$ amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline, where $M$-density is the fraction of sense codons lying on the union support of the nine projected $B^*_{Q6}$ coordinate vectors.
+
+\paragraph{Matched rows and tRNA tables.}
+The full CDS join is preserved for this measured tRNA-copy tAI contact. In \emph{Danio rerio}, the joined panel has $14{,}410$ CDS rows, $8{,}846$ parsed tRNA genes, an anticodon gene-copy table of size $57$, and $8{,}607$ usable measured-tAI records. In \emph{Homo sapiens}, the joined panel has $19{,}053$ CDS rows, $431$ parsed tRNA genes, an anticodon table of size $47$, and $422$ usable measured-tAI records. In \emph{Saccharomyces cerevisiae}, the joined panel has $5{,}815$ CDS rows, $273$ parsed tRNA genes, an anticodon table of size $41$, and $268$ usable measured-tAI records. No raw codon weight was filled by a geometric mean in any of the three organisms: the zero-fill count is $0$ for each table.
+
+\paragraph{Rank and complement self-check.}
+The modeled-complement target is stable on the tRNA-copy join. The current join size equals the complement-reference join size in all three organisms, so the absolute difference between the current $d_{\mathrm{modeled}}$ and the complement-reference value is exactly $0.0$ in each case. The checked values are
 $$
 \begin{aligned}
-Q=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+ d_{\mathrm{modeled}}(\emph{D. rerio}) &= 0.874628721049266,\\
+ d_{\mathrm{modeled}}(\emph{H. sapiens}) &= 0.9208949355679455,\\
+ d_{\mathrm{modeled}}(\emph{S. cerevisiae}) &= 0.21173219572706703.
 \end{aligned}
 $$
-For each organism, CDS codon counts are projected against controls consisting of an intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3, and the $M$-density baseline defined on the union support of the nine projected $B^*_{Q6}$ vectors. The resulting control design has $24$ columns and rank $23$ in each organism used here. The tested readout is not direct tRNA-seq abundance and not ribosome occupancy; it is a gene-copy tAI construction from parsed genomic tRNA records with dos Reis-style wobble weights.
+Thus the tRNA-copy calculation is not changing the residual target by losing CDS rows. It measures absorption against the same modeled-complement component already present on the abundance-CDS join.
 
-\paragraph{Joined rows and rank condition.}
-The full-CDS joins are rank-powered for the three organisms in the measured-tRNA contact. In \emph{Danio rerio}, $n=14410$ CDS rows are joined, the parsed tRNA table has $8846$ tRNA genes and $57$ anticodon-GCN entries, and $8607$ measured-tAI records are usable. In \emph{Homo sapiens}, $n=19053$ CDS rows are joined, the parsed tRNA table has $431$ tRNA genes and $47$ anticodon-GCN entries, and $422$ measured-tAI records are usable. In \emph{Saccharomyces cerevisiae}, $n=5815$ CDS rows are joined, the parsed tRNA table has $273$ tRNA genes and $41$ anticodon-GCN entries, and $268$ measured-tAI records are usable. No zero raw $W$ value required geometric-mean filling in any of the three organisms. The header exclusions are organism-specific: zebrafish excludes $3$ selenocysteine, $25$ suppressor, and $5$ undetermined-anticodon records; human excludes $1$ selenocysteine record; yeast excludes $2$ undetermined-anticodon records.
-
-\paragraph{Full-join stability check.}
-The modeled residual target is stable under this contact because the current full join exactly matches the complement-experiment reference join in all three organisms. The modeled-complement distances are
+\paragraph{Absorption readback.}
+Let $P_{Q\perp T_{\mathrm{mod}}}$ denote the component of the $B^*_{Q6}$ abundance projection orthogonal to the modeled-tAI readout after the stated controls. The tRNA-copy tAI contact is evaluated by projecting this component against the measured gene-copy tAI surface. The observed absorbed fractions are
 $$
 \begin{aligned}
-d_{\mathrm{model}}(\mathrm{Danio}) &= 0.874628721049266,\\
-d_{\mathrm{model}}(\mathrm{human}) &= 0.9208949355679455,\\
-d_{\mathrm{model}}(\mathrm{yeast}) &= 0.21173219572706703.
+ A_{\mathrm{tRNA}}(\emph{D. rerio}) &= 0.020817102845637092,\\
+ A_{\mathrm{tRNA}}(\emph{H. sapiens}) &= 0.00005426229300865148,\\
+ A_{\mathrm{tRNA}}(\emph{S. cerevisiae}) &= 0.001530747712165342.
 \end{aligned}
 $$
-For each of these, the absolute difference from the reference complement experiment is $0.0$, with current join sizes $14410$, $19053$, and $5815$ respectively. This matters because an absorption calculation on a shifted join would test a different residual target. Here the tRNA-gene-copy contact preserves the full modeled-complement surface before the additional readout is projected.
-
-\paragraph{Absorption result.}
-Let $d_{Q\perp T_{\mathrm{mod}}}$ denote the modeled-tAI-complement residual distance before adding the measured tRNA-gene-copy tAI readout, and let $d_{\mathrm{combined}}$ denote the distance after the tRNA-derived tAI projection is included. The descriptive absorbed fractions are
+The corresponding combined residual levels are
 $$
 \begin{aligned}
-\mathrm{absorb}_{\mathrm{tRNA}}(\mathrm{Danio}) &= 0.020817102845637092, & d_{\mathrm{combined}} &= 0.835657382343872,\\
-\mathrm{absorb}_{\mathrm{tRNA}}(\mathrm{human}) &= 0.00005426229300865148, & d_{\mathrm{combined}} &= 0.92041342656924,\\
-\mathrm{absorb}_{\mathrm{tRNA}}(\mathrm{yeast}) &= 0.001530747712165342, & d_{\mathrm{combined}} &= 0.20648621019305421.
+ d_{\mathrm{combined}}(\emph{D. rerio}) &= 0.835657382343872,\\
+ d_{\mathrm{combined}}(\emph{H. sapiens}) &= 0.92041342656924,\\
+ d_{\mathrm{combined}}(\emph{S. cerevisiae}) &= 0.20648621019305421.
 \end{aligned}
 $$
-The largest measured-tRNA absorption occurs in zebrafish, where the tRNA-derived projection accounts for about $2.08\%$ of the modeled-complement component. Yeast has a small but nonzero descriptive absorption, about $0.153\%$. Human is essentially unchanged at this readout, with absorption near $5.43\times 10^{-5}$. Thus the finite table does not support a uniform cross-organism collapse of the $B^*_{Q6}$ modeled residual into tRNA gene-copy tAI. It supports a bounded readout: the tRNA-gene-copy tAI surface can absorb a small fraction of the residual in some organisms, while most of the modeled-complement residual remains outside this readout.
+The largest absorption is therefore the \emph{D. rerio} value, about $2.08\%$ of the modeled-complement residual component. The human value is effectively negligible at this scale, and the yeast value is small but nonzero. These values support only a descriptive projection statement: measured tRNA gene-copy tAI removes a small part of the modeled-complement abundance residual in this finite panel, with organism-specific magnitude.
 
 \paragraph{Relation to measured translation efficiency.}
-A separate ribosome-profiling translation-efficiency calculation with matched mRNA abundance controls gives a different contact boundary. On the all-readout TE join, the row counts are $13140$ for zebrafish, $3415$ for \emph{E. coli} K-12 MG1655, $11554$ for human, and $5128$ for yeast, each again using $24$ control columns with rank $23$. The measured-TE absorption values are $0.01759429001506974$ for zebrafish, $0.0010982956489726373$ for \emph{E. coli}, $0.0028947149257963897$ for human, and $0.0002762783754375593$ for yeast. Those entries show that measured TE is a distinct bounded readout with its own join and mRNA-control condition. They do not turn the tRNA-gene-copy tAI result into observed ribosome motion, and the tRNA result does not replace the TE-plus-mRNA calculation.
+A companion ribosome-profiling TE run on the same nine-coordinate residual basis gives a stricter readout boundary. The measured-TE joined panels contain $13{,}140$ rows for \emph{D. rerio}, $3{,}415$ rows for \emph{E. coli} K-12 MG1655, $11{,}554$ rows for \emph{H. sapiens}, and $5{,}128$ rows for \emph{S. cerevisiae}, again with control rank $23$. Its measured-TE absorptions are $0.01759429001506974$, $0.0010982956489726373$, $0.0028947149257963897$, and $0.0002762783754375593$, respectively. The tRNA-copy contact and the measured-TE contact are therefore not interchangeable: one is a gene-copy adaptation proxy, while the other is a matched ribosome-profiling translation-efficiency readout. The fact that the largest tRNA-copy absorption occurs in \emph{D. rerio} does not by itself identify a ribosome-level mechanism, because the TE contact changes row availability in several organisms and supplies a separate measured layer.
 
-\paragraph{Local interpretation.}
-The finite result is a descriptive projection statement. It says that, after amino-acid composition, CDS length, GC3, and $M$-density controls, a tRNA-gene-copy tAI coordinate surface absorbs only a small part of the modeled-tAI-complement $B^*_{Q6}$ abundance residual: strongest in zebrafish, weak in yeast, and nearly absent in human. The computation is therefore compatible with a residual component that remains open after this tRNA proxy is supplied. It is not evidence for a causal mediator, because tRNA gene copy number is only a proxy for tRNA abundance and the wobble coefficients are a modeling choice. It is also not a protein-abundance result, not a folding result, not a physical-admissibility assay, not a function assay, not a mechanism proof, and not a universal biological law. Any such stronger statement would require a separate layer-matched contact and its own controlled finite-row statistic.
+\paragraph{Cross-organism caution.}
+The broader organism-specificity survey contains $16$ assembled rows, of which $12$ have the complete feature set used for the domain and continuous covariate tests. On those $12$ complete rows, the $M^{QTP}$ fraction versus GC3 test has Pearson $r=-0.3062616500469447$ with two-sided permutation $p=0.35264735264735264$ over $1000$ trials. The same response versus $\log$ tRNA gene count has $r=0.06029405206037823$ with $p=0.8621378621378621$, and versus $\log$ proteome size has $r=-0.033628115789504955$ with $p=0.913086913086913$. The domain test reports a variance ratio $0.8889980452277374$ with right-tail permutation $p=0.4155844155844156$. The dominant-coordinate-by-domain contingency has Pearson chi-square $9.399999999999999$, Cramer $V=0.6258327785172862$, and right-tail permutation $p=0.5814185814185814$. These finite-row tests do not resolve a domain-wide law for the tRNA-copy absorption pattern; they keep the readout at the level of measured organism-specific projection summaries.
+
+\paragraph{Local verdict.}
+The finite calculation is ready as a bounded cross-layer relation. It establishes that the measured tRNA gene-copy tAI surface can be joined without changing the modeled-complement residual target in the three reported organisms, and that its absorption of $P_{Q\perp T_{\mathrm{mod}}}$ is small: approximately $0.0208$ in \emph{D. rerio}, $0.000054$ in \emph{H. sapiens}, and $0.00153$ in \emph{S. cerevisiae}. The result is not a causal mediator test. tRNA gene copy number is a proxy for tRNA abundance, the wobble parameters used by tAI are modeling choices, and the absorbed fraction is a descriptive projection quantity. No claim about realized translation dynamics, protein abundance, folding, physical admissibility, molecular function, mechanism, phenotype, or universality follows from this entry unless a separate layer-matched contact supplies the corresponding observations and statistic.

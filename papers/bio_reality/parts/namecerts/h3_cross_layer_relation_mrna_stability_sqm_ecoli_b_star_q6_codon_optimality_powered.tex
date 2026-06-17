@@ -1,42 +1,37 @@
 \origin{ai}
+\subsection{Escherichia coli mRNA-stability survival of the $B^{*}_{Q6}$ residual coordinates}
+\label{sec:bioreality-ecoli-mrna-stability-sqm-bstar-q6}
 
-\subsection{Escherichia coli mRNA-stability projection of the B$^*_{Q6}$ residual panel}
-\label{sec:bioreality-ecoli-mrna-stability-bstar-q6}
+\paragraph{Finite row and readout.}
+This record tests whether the nine synonymous residual coordinates of $B^{*}_{Q6}$ retain predictive content for an $E.\ coli$ mRNA-stability readout after the usual coding-sequence controls have already been removed.  The biological row is restricted to $E.\ coli$ K-12 MG1655 and uses the Esquerr\'e et al. mRNA half-life table at growth rate $0.40\,h^{-1}$.  The readout is $\log_{10}$ mRNA half-life in minutes.  The join is keyed by matching the Esquerr\'e gene identifier, in b-number form, to the CDS locus tag or matched CDS identifier.  The loaded table contains $2947$ valid half-life records, $3739$ CDS records in the organism-level coding-sequence panel, and $2720$ joined rows for the regression surface.  The reported CDS join hit rate is $0.9978649586335735$.  The half-life payload hash recorded for the row is \texttt{87499a22f8699b15d2daf96f826e3345b1707a8360be122f1ec0114dc934469b}.  A second growth-rate column, $0.10\,h^{-1}$, is available as a robustness direction but is not the selected row used in the statistic below.
 
-\paragraph{Claim under test.}
-This record evaluates whether the nine-coordinate B$^*_{Q6}$ synonymous-residual panel carries a measurable association with mRNA stability in \emph{Escherichia coli} K-12 MG1655 after removing the sequence-level background used throughout the protein-abundance and codon-optimality analyses.  The readout is $\log_{10}$ mRNA half-life in minutes from the Esquerr\'{e} et al. 2015 table at growth rate $0.40\,\mathrm{h}^{-1}$.  The tested statement is deliberately narrow: B$^*_{Q6}$ codon residuals are statistical predictors of residualized bacterial mRNA half-life under the same CDS-derived controls used for the corresponding protein-abundance surface.  It is not a statement about translation realization, decay mechanism, folding, physical admissibility, biological function, or a cross-species law.
+\paragraph{Residual design.}
+The design matrix consists of the nine $B^{*}_{Q6}$ coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f3$-stress.  These coordinates are tested only after residualizing against a $24$-column control family consisting of an intercept, $\log$ CDS length, the $20$ amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline defined as the fraction of sense codons lying on the union support of the nine projected $B^{*}_{Q6}$ vectors.  The control matrix has rank $23$, leaving residual degrees of freedom $2697$.  The residualized coordinate block has rank $9$, so the statistic is not a saturated or rank-trivial fit.
 
-\paragraph{Finite row set and controls.}
-The joined bacterial table contains $2720$ usable CDS--half-life rows.  The half-life source contains $2947$ valid records keyed by GeneId, while $3739$ CDS records were available for the organism-level coding-sequence side; the reported CDS join hit rate is $0.9978649586335735$.  The join key identifies the Esquerr\'{e} GeneId b-number with the E. coli CDS match identifier or locus tag.  The skipped CDS rows are accounted for explicitly: $1019$ have no half-life match, while duplicate locus tags, empty sense-codon counts, invalid lengths, missing locus tags, non-object records, and nonpositive abundance records are all reported as $0$.  The skipped half-life side is likewise clean for duplicate GeneId, missing GeneId, missing growth rate, non-object records, and nonpositive half-life, each with count $0$.
-
-\paragraph{Residual coordinate design.}
-The source coordinate block has nine B$^*_{Q6}$ residual coordinates:
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f_3$-stress.  The control matrix has $24$ columns and rank $23$, leaving $2697$ residual degrees of freedom after control removal.  The controls are an intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3 computed from the real CDS codon counts, and the M-density baseline defined as the fraction of sense codons lying on the union support of the nine projected B$^*_{Q6}$ vectors.  Thus the claim is tested only after amino-acid composition, GC3, CDS length, and the simpler support-density baseline have been absorbed.
-
-\paragraph{Observed survival statistic.}
-For the E. coli half-life readout, the residualized nine-coordinate regression gives
+\paragraph{Survival statistic.}
+Let $M$ denote the residualized mRNA-stability readout and let $Q$ denote the residualized nine-coordinate $B^{*}_{Q6}$ block after the stated controls.  The finite-row statistic is the controlled coefficient of determination
 $$
 \begin{aligned}
-R^2_{QM} &= 0.02298556640056076,\\
-\operatorname{rank}(X_{\perp Z}) &= 9,\\
-\|\widehat{y}_{Q}\|^2 &= 4.951800341206348,\\
-\|y_{\perp Z}\|^2 &= 215.43086017169205.
+S^{QM}_{E.\ coli} &= R^{2}(M \mid Q, Z) \\
+&= 0.02298556640056076.
 \end{aligned}
 $$
-The dominant coordinate in this bacterial mRNA-stability surface is $Arg_{AGR}$.  A permutation audit with $1000$ permutations reports a right-tail value $p = 0.000999000999000999$ for $R^2_{QM}$, so the finite row is not being read from an untested fitted coefficient alone.  On the same E. coli join, the corresponding protein-abundance residual surface has
+The explained residual energy is $4.951800341206348$ against readout residual energy $215.43086017169205$.  The permutation comparison used $1000$ permutations and reports right-tail value $p=0.000999000999000999$, so the row is treated as a positive statistical survival entry for the $E.\ coli$ mRNA-stability surface, not as a mechanistic explanation of decay.  The dominant coordinate in this row is $Arg_{AGR}$.
+
+\paragraph{Relation to the same-row abundance surface.}
+On the same joined row set, the protein-abundance surface gives
 $$
 \begin{aligned}
-R^2_{QP} &= 0.11632311854858134,\\
-\cos(S^{QM}_{\mathrm{E.coli}},S^{QP}_{\mathrm{E.coli}}) &= -0.7784923375569599.
+R^{2}_{QP,\ same\ join} &= 0.11632311854858134,\\
+R^{2}_{QM} &= 0.02298556640056076,\\
+\cos(S^{QM}_{E.\ coli},S^{QP}_{E.\ coli}) &= -0.7784923375569599.
 \end{aligned}
 $$
-The protein-abundance surface on that same join is also dominated by $Arg_{AGR}$, but the negative cosine shows that the mRNA-stability and protein-abundance projection directions are not aligned as a single positive propagation direction.
+The same coordinate, $Arg_{AGR}$, is dominant for both the mRNA-stability row and the same-join abundance row, but the negative cosine records that the two nine-coordinate directions are opposed as vectors.  This is a cross-layer relation in the narrow statistical sense: a codon-residual direction survives in an mRNA half-life readout, and the corresponding abundance direction on the same join is not aligned with it.  It is not a statement that mRNA half-life causes the abundance signal, nor that $Arg_{AGR}$ is a biochemical mechanism.
 
-\paragraph{Comparison anchor.}
-A yeast half-life row gives a useful descriptive contrast without turning the bacterial result into a phylogenetic claim.  In \emph{Saccharomyces cerevisiae}, the analogous mRNA-stability statistic is $R^2_{QM}=0.05179429044975085$ on $5085$ joined rows, with dominant coordinate $Leu_{CUN/UUR}$ and same-join protein-abundance statistic $R^2_{QP}=0.2761140373962526$.  The yeast comparison reports $\cos(S^{QM},S^{QP})=0.8040935468384264$, whereas the E. coli comparison reports $-0.7784923375569599$.  The contrast is therefore qualitative and organism-specific: yeast shows a positive alignment between the mRNA-stability and protein-abundance projection surfaces, while the bacterial row shows a strong negative alignment, even though both rows pass the same nominal permutation resolution $p=0.000999000999000999$ for the mRNA-stability statistic.
-
-\paragraph{Interpretation.}
-The finite E. coli result supports a bounded cross-layer association between B$^*_{Q6}$ synonymous residuals and residualized mRNA half-life.  The supported numerical content is the controlled $R^2_{QM}=0.02298556640056076$, the $Arg_{AGR}$ dominant coordinate, the $2720$-row joined table, the $24$-column rank-$23$ control design, the $1000$-permutation value $p=0.000999000999000999$, and the negative same-join alignment with the protein-abundance projection.  This does not identify a codon-optimality cause of half-life, does not prove an mRNA decay mechanism, and does not say that codon residuals realize translation.  The half-life measurement is growth-rate specific, the organism is a single bacterial strain, and the cross-organism comparison with yeast is descriptive rather than phylogenetically controlled.
+\paragraph{Comparison rows.}
+The yeast mRNA-stability row supplies a useful contrast: $R^{2}_{QM}=0.05179429044975085$, $R^{2}_{QP,\ same\ join}=0.2761140373962526$, permutation value $p=0.000999000999000999$, dominant coordinate $Leu_{CUN/UUR}$, and cosine $0.8040935468384264$ between the mRNA-stability and abundance surfaces.  The human consensus mRNA-stability row reports $R^{2}_{QM}=0.010503670362051522$, $R^{2}_{QP,\ same\ join}=0.04095215557813418$, permutation value $p=0.000999000999000999$, dominant coordinate $Leu_{CUN/UUR}$, and positive cosine $0.6351183883924848$.  Against those comparison rows, the $E.\ coli$ result is neither a universal sign rule nor a conserved dominant-coordinate claim: it is a finite organism-specific survival row with a different dominant coordinate and an opposite relation to the abundance surface.
 
 \paragraph{Local boundary.}
-No translation, ribosome occupancy, protein folding, physical admissibility, biological function, biochemical mechanism, phenotype, or universal biological law follows from this row.  A separate layer-matched contact would be needed for any of those claims.  In particular, the E. coli $S^{QM}$ row is an mRNA-stability projection under explicit sequence controls; it cannot be promoted into a translation-readout entry, a protein-output mediation result, or a functional interpretation without additional joined measurements and their own controlled statistics.
+This chapter only records a controlled association between $B^{*}_{Q6}$ synonymous residual coordinates and a growth-rate-specific $E.\ coli$ mRNA half-life measurement.  It does not report a ribosome-profiling translation-efficiency measurement, does not infer translation realization, does not identify a decay mechanism, does not establish codon-optimality causation, and does not support protein folding, physical admissibility, molecular function, organismal phenotype, or a universal biological law.  Any such stronger claim would require a separate matched contact and its own controlled statistic.  The row is therefore ready as an $S^{QM}$ cross-layer finite statistic, while downstream translation, mechanism, structure, function, and universality remain outside the asserted content.
