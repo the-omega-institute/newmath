@@ -65,3 +65,92 @@ Then apply \autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. The gr
 
 Finally use the carrier-local NameCert obligation theorem \autoref{thm:metacic-parallel-diamond-frontier-obligations}. Since that obligation surface admits no coordinate for global confluence, subject reduction, unbounded normalization, evaluator equality, quotient term equality, or kernel consistency, a consumer that has read the grid has no further join row to project.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual obstruction budget]
+\label{thm:metacic-parallel-diamond-frontier-residual-obstruction-budget}
+Any candidate-mediated residual join in an accepted $\MetaCICParallelDiamondFrontierUp$ packet that consumes the local join row $J$ and bounded checker rows must keep both the retained premise row $P$ and the obstruction row $O$ visible through the structural rows $H,T,G,N$. The handoff is only a bounded residual-join locality budget for
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+It cannot be read as residual-substitution discharge, subject reduction, global confluence, strong normalization, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with residual-join locality, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. It forces every candidate-mediated join to read the displayed frontier rows and keeps the obstruction coordinate inside the same packet.
+
+Use the residual grid theorem, \autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. The grid separates the retained premise, critical-pair, local join, residual witness, bounded checker, and obstruction rows from the transport, replay, provenance, and local naming rows.
+
+Now apply the locality-scope theorem, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality-scope}. It identifies $P$ and $O$ as visible rows of the residual-join surface rather than side conditions that can be discharged after $J$ is consumed.
+
+Finally use residual-join locality exhaustion. Once the consumer has read $P,K,J,R,S,C,B,O,H,T,G,N$, there is no further coordinate for residual-substitution discharge, subject reduction, confluence, normalization, evaluator equality, quotient term equality, or kernel consistency. The obstruction budget is therefore retained as a carrier-local boundary.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-premise exhaustion]
+\label{thm:metacic-parallel-diamond-frontier-residual-premise-exhaustion}
+Any accepted residual-join read of a $\MetaCICParallelDiamondFrontierUp$ packet
+that has consumed
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+has not discharged the retained premise row $P$. It has only made $P$ visible
+as part of the finite carrier-local grid for the residual join. Consequently
+the read cannot be used as premise-free residual substitution, subject
+reduction, global confluence, strong normalization, evaluator equality,
+quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with residual-join locality and the residual grid,
+\autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality} and
+\autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. These place every
+accepted join inside the displayed carrier-local rows and identify $P$ as a row
+of that grid, not as a premise erased by the join handoff.
+
+Apply the locality-scope theorem and the residual obstruction budget,
+\autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality-scope} and
+\autoref{thm:metacic-parallel-diamond-frontier-residual-obstruction-budget}.
+They keep the retained premise row and obstruction row visible through
+$H,T,G,N$ after the local join and bounded checker rows have been read.
+
+Finally use residual-join witness locality,
+\autoref{thm:metacic-parallel-diamond-residual-join-witness-locality}. The
+witness consumes finite residual data before exporting the local join, but it
+does not add any coordinate for premise-free residual substitution, subject
+reduction, global confluence, strong normalization, evaluator equality,
+quotient term equality, or kernel consistency. The consumed packet therefore
+exhausts visibility of the retained premise rather than discharging it.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-join witness locality]
+\label{thm:metacic-parallel-diamond-residual-join-witness-locality}
+Every accepted residual-join witness for
+$\MetaCICParallelDiamondFrontierUp$ must read the finite residual witness row
+and the bounded checker rows before exporting the local join row. The read
+retains both the premise row $P$ and the obstruction row $O$ through the
+structural rows $H,T,G,N$, so its carrier surface is still
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+It does not discharge residual substitution, subject reduction, global
+confluence, strong normalization, evaluator equality, quotient term equality,
+or kernel consistency.
+\end{theorem}
+\begin{proof}
+First apply finite residual witness consumption,
+\autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}.
+The witness read is forced through typed windows, residual witness data,
+bounded checker rows, transport, replay, provenance, and local naming before
+any local join row is exported.
+
+Next apply residual-join locality and the residual grid,
+\autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality} and
+\autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. These results
+place the join in the displayed finite route and keep the premise row $P$
+inside the same carrier-local grid as the critical-pair, witness, checker, and
+obstruction rows.
+
+Finally apply the residual obstruction budget,
+\autoref{thm:metacic-parallel-diamond-frontier-residual-obstruction-budget}.
+It keeps $O$ visible through $H,T,G,N$ and prevents the local join witness from
+being read as residual-substitution discharge, subject reduction, global
+confluence, strong normalization, evaluator equality, quotient term equality,
+or kernel consistency.
+\end{proof}

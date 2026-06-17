@@ -8,6 +8,7 @@ The $\WritingItemAuditUp$ packet realizes the writing-item discipline of \autore
 \label{thm:writing-item-audit-sibling-dependency}
 Every accepted $\WritingItemAuditUp$ packet consumes $\AuditWritingDisciplineUp$ from \autoref{ch:concrete-instances-audit-writing-discipline-namecert} for legal writing discipline and $\WritingItemAuditPacketUp$ from \autoref{ch:concrete-instances-writing-item-audit-packet-namecert} for packet export shape. The former supplies the rule surface for claim legality, while the latter supplies the export packet read by registries.
 \end{theorem}
+\leanchecked{BEDC.Derived.WritingItemAuditUp.WritingItemAudit\_sibling\_dependency}
 \begin{proof}
 Read the opening carrier role of $\WritingItemAuditUp$. Its item kind, claim text, status rows, and gap row are legal only against a writing-discipline surface, so the rule side is supplied by $\AuditWritingDisciplineUp$.
 
@@ -116,6 +117,7 @@ Apply \autoref{thm:writing-item-audit-namecert-obligations} to expose the NameCe
 
 Finally read \autoref{thm:writing-item-audit-tastegate-obligation}. Its visible TasteGate requirement keeps the same carrier under nontriviality and field-faithfulness checks. The listed rows therefore exhaust the obligation surface without producing public closure, scoped closure, bridge checking, or verification beyond the existing Lean marker.
 \end{proof}
+\leanchecked{BEDC.Derived.WritingItemAuditUp.WritingItemAudit\_obligation\_closure\_route}
 
 \begin{theorem}[Writing item audit scoped kernel route]
 \label{thm:writing-item-audit-scoped-kernel-route}
@@ -140,6 +142,7 @@ Finally read \autoref{thm:writing-item-audit-tastegate-obligation}. It attaches 
 \label{thm:writing-item-audit-public-axis-export}
 Every registry or export consumer of an accepted $\WritingItemAuditUp$ packet receives the paper-closure row $T$ and the formal-verification row $F$ as separate public audit fields. The export may display the two rows together with $K,C,R,L,G,Q,H,U,P,N$, but it cannot derive either audit row from the other, discharge the gap row $G$, prove the claim row $Q$, or publish a stronger status than the displayed rows carry.
 \end{theorem}
+\leanchecked{BEDC.Derived.WritingItemAuditUp.WritingItemAudit\_public\_axis\_export}
 \begin{proof}
 Begin with the scoped kernel route of \autoref{thm:writing-item-audit-scoped-kernel-route}. A public registry or export consumer must read the same finite packet $K,C,R,L,T,F,G,Q,H,U,P,N$, so both audit rows are visible before the consumer may publish the item.
 

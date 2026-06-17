@@ -1,0 +1,53 @@
+\begin{theorem}[MetaCIC critical-path diamond-frontier consumer]
+\label{thm:metacic-critical-path-diamond-frontier-consumer}
+Any $\MetaCICCriticalPathUp$ read that consumes
+$\MetaCICParallelDiamondFrontierUp$ must keep the residual-substitution
+premise, critical-pair, candidate-join, bounded-check, obstruction,
+discharge-socket, transport, replay, provenance, and local naming rows
+visible before the normal-form consistency consumer may inspect the
+handoff. The read is therefore a candidate-mediated frontier consumer,
+not a proof of subject reduction, full Church--Rosser, evaluator
+equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathDiamondFrontierConsumer}
+\begin{proof}
+First keep the critical-path boundary visible. Apply
+\autoref{thm:metacic-critical-path-consistency-handoff} together with
+\autoref{thm:metacic-critical-path-obstruction-boundary} and
+\autoref{thm:metacic-critical-path-discharge-socket-nonescape}. These
+theorems route a consistency-facing consumer through the displayed
+critical-path packet while preserving the obstruction row and the
+discharge socket before the normal-form endpoint can be read.
+
+Next attach the parallel-diamond frontier. Use
+\autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope},
+\autoref{thm:metacic-parallel-diamond-critical-pair-exhaustion},
+\autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}, and
+\autoref{thm:metacic-parallel-diamond-closed-checker-retention}. These
+results keep the residual-substitution premise, critical pair,
+candidate join, and bounded checker rows inside the
+$\MetaCICParallelDiamondFrontierUp$ packet.
+
+Finally compose the two consumer routes. The frontier handoff of
+\autoref{thm:metacic-critical-path-parallel-diamond-frontier-handoff}
+and the candidate-mediated strong-normalization socket of
+\autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket}
+place the frontier rows on the same critical-path read before the
+normal-form consistency consumer inspects the handoff. Since neither
+component route supplies subject reduction, full Church--Rosser,
+evaluator equality, quotient term equality, or kernel consistency, the
+composed consumer exports none of those claims.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path frontier consumer nonescape]
+\label{thm:metacic-critical-path-frontier-consumer-nonescape}
+Any normal-form, confluence, or normalization consumer of the $\MetaCICParallelDiamondFrontierUp$ frontier inside a $\MetaCICCriticalPathUp$ read must first expose the residual-substitution, critical-pair, candidate-join, bounded-check, obstruction, discharge-socket, L10 source ledger, transport, replay, provenance, and local naming rows. Consequently the frontier exports no subject reduction, global Church--Rosser theorem, evaluator equality, quotient term equality, kernel consistency, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathFrontierConsumerNonescape}
+\begin{proof}
+Start from \autoref{thm:metacic-critical-path-diamond-frontier-consumer}. It places the parallel-diamond frontier on the critical-path read before any normal-form consistency consumer can inspect the handoff.
+
+Use the parallel-diamond handoff theorems cited there. The residual-substitution, critical-pair, candidate-join, and bounded-check rows remain visible as finite frontier data rather than becoming a global confluence theorem.
+
+Then combine the mature L10 source package already named by the critical-path route with the obstruction, discharge-socket, transport, replay, provenance, and local naming rows. This is a carrier inventory: each downstream consumer receives only the displayed rows, so none of the refused global metatheoretic or Real-completeness endpoints can escape the packet boundary.
+\end{proof}

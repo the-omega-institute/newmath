@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\VoronoiCellLedgerUp$}
+\label{ch:concrete-instances-voronoi-cell-ledger-namecert}
+\origin{human}
+
+Following Aurenhammer and the de Berg--van Kreveld--Overmars--Schwarzkopf treatment of Voronoi diagrams, the $\VoronoiCellLedgerUp$ packet records the finite ledger by which nearest-site cells are read from displayed metric comparisons before any host planar subdivision or selected closest-point theorem is available. It sits after the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the finite-net routes represented by $\FiniteNetUp$ and \autoref{ch:concrete-instances-dyadic-closed-interval-finite-net-namecert}, the convex-set carrier of \autoref{ch:concrete-instances-convexset-namecert}, the polytope carrier of \autoref{ch:concrete-instances-polytope-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names finite site, distance-comparison, bisector, halfspace, cell-boundary, real-comparison, transport, replay, provenance, and local NameCert rows; it does not claim a global Delaunay dual, a host Euclidean order theorem, selected nearest points, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Voronoi cell ledger carrier]
+\label{def:voronoi-cell-ledger-carrier}
+A $\VoronoiCellLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+V=(S,M,D,B,A,C,R,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite site-set row, listing the site names and the finite-net address from which every inspected site is read.
+\item $M$ is the $\MetricUp$ metric source row for the displayed distance comparisons.
+\item $D$ is the distance-comparison ledger, recording for each inspected query row the finite comparison between the chosen site and every competing site in $S$.
+\item $B$ is the bisector ledger, naming the equal-distance boundary rows induced by pairs of displayed sites.
+\item $A$ is the halfspace ledger, recording which side of each bisector keeps the selected site no farther than the competitor.
+\item $C$ is the $\ConvexSetUp$ and $\PolytopeUp$ cell-boundary row obtained by intersecting the listed halfspace rows.
+\item $R$ is the $\RealUp$ comparison seal for the distance and boundary inequalities after the finite comparison ledger is visible.
+\item $H$ records componentwise $\hsame$ transport for the site set, metric row, comparison ledger, bisector rows, halfspace rows, cell boundary, real seal, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from a nearest-site request through $S,M,D,B,A,C,R$.
+\item $P$ is the $\Pkg$ provenance over $\VoronoiCellLedgerUp$, $\FiniteNetUp$, $\MetricUp$, $\ConvexSetUp$, $\PolytopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VoronoiCellLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $S,M,D,B,A,C,R,H,T,P,N$. It has no coordinate for an infinite site family, a host nearest-neighbor selector, a completed Euclidean diagram, quotient real equality, trichotomy, countable choice, Delaunay duality, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Voronoi cell ledger NameCert obligations]
+\label{thm:voronoi-cell-ledger-namecert-obligations}
+For every accepted $\VoronoiCellLedgerUp$ carrier $V=(S,M,D,B,A,C,R,H,T,P,N)$, the local $\NameCert_{\VoronoiCellLedgerUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item site admission for the displayed finite site set and finite-net address row $S$;
+\item metric comparison admission for the $\MetricUp$ source row $M$ and the distance-comparison ledger $D$;
+\item bisector exposure, requiring every equal-distance boundary row to be named in $B$ from a displayed pair of sites;
+\item halfspace exposure, requiring every selected-site inequality to be read through the corresponding row of $A$;
+\item convex and polytope boundary exposure, requiring the cell boundary row $C$ to be the listed intersection of the accepted halfspace rows;
+\item real-comparison sealing, requiring every exported distance or boundary comparison to pass through the $\RealUp$ seal $R$;
+\item transport, replay, provenance, and local naming stability through $H,T,P,N$;
+\item ledger non-escape, excluding selected nearest points, host diagram completion, quotient real equality, trichotomy, countable choice, Delaunay duality, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:voronoi-cell-ledger-carrier}. The finite site row $S$ and metric row $M$ are the only sources for the distance comparisons listed in $D$.
+
+The boundary rows are downstream of those comparisons. A bisector row in $B$ is attached to a displayed pair of sites, and a halfspace row in $A$ records the selected-site side of that same comparison before the convex cell row $C$ can be read.
+
+The real-facing route is sealed only after the finite comparison and boundary rows are visible. Thus $R$ can export distance and boundary inequalities, but cannot add a nearest-neighbor selector or a completed host diagram.
+
+Finally, $H,T,P,N$ transport, replay, source, and name the same displayed packet. Since the carrier has no coordinate for the excluded selector, quotient, choice, duality, trichotomy, or completeness data, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Voronoi cell nearest-site route]
+\label{thm:voronoi-cell-ledger-nearest-site-route}
+Every nearest-site or cell-boundary consumer of an accepted $\VoronoiCellLedgerUp$ packet factors through the finite route
+$$
+\FiniteNetUp \longmapsto \MetricUp \longmapsto D \longmapsto B \longmapsto A \longmapsto \ConvexSetUp/\PolytopeUp \longmapsto \RealUp .
+$$
+The consumer receives a displayed ledger of site comparisons, bisectors, halfspaces, convex-cell boundaries, and real-comparison seals; it receives no selected nearest point, host planar subdivision, quotient real equality, countable-choice schedule, Delaunay dual, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the site and metric rows. The finite-net source bounds the site inventory, and the metric row supplies the only distance readings used by the ledger.
+
+Read the comparison and boundary rows next. The ledger $D$ compares the chosen site against the finite competitors, the bisector row $B$ records equal-distance boundaries, and the halfspace row $A$ records the side that keeps the chosen site no farther than each competitor.
+
+The convex-cell row $C$ is read after those halfspaces, as a $\ConvexSetUp$ and $\PolytopeUp$ boundary assembled from the finite ledger. The real seal $R$ exports only the displayed comparisons already present in $D,B,A,C$.
+
+Transport, replay, provenance, and local naming preserve the same route. Therefore any nearest-site consumer remains inside the finite ledger and cannot obtain the excluded selector, host diagram, quotient, choice, duality, or completeness data from the packet.
+\end{proof}
+
+\closureat{VoronoiCellLedgerUp}{seedStr}
+
+\begin{closurestatus}{\VoronoiCellLedgerUp}
+  \constructivestory{A $\VoronoiCellLedgerUp$ packet is generated from a finite site set, a MetricUp distance row, distance-comparison rows, bisector rows, halfspace rows, ConvexSet and Polytope cell-boundary rows, a RealUp comparison seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:voronoi-cell-ledger-carrier}, \autoref{thm:voronoi-cell-ledger-namecert-obligations}, and \autoref{thm:voronoi-cell-ledger-nearest-site-route} seed the finite Voronoi cell ledger over metric, finite-net, convex, polytope, real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global Voronoi diagram construction, Delaunay duality, selected nearest points, quotient real equality, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked site admission, metric-comparison admission, bisector exposure, halfspace exposure, convex-cell boundary exposure, Real-seal routing, transport, replay, provenance, and local naming for BEDC.Derived.VoronoiCellLedgerUp.}
+\end{closurestatus}

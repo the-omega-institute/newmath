@@ -728,16 +728,40 @@ For the step, append one displayed residual pair. The residual-substitution depe
 Finally apply the critical-path consumer route of \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff}. It passes the extended finite readback through $H,T,G,N$ without changing the refused endpoints, so the induction preserves the local-diamond route claimed above.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond public export]
+\label{thm:metacic-parallel-diamond-frontier-public-export}
+For an accepted $\MetaCICParallelDiamondFrontierUp$ carrier $F=(P,K,J,R,S,C,B,O,H,T,G,N)$, the public confluence-facing export is exactly the route through residual-substitution premise $P$, critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, closed-checker row $S$, closed-normal fragment row $C$, bounded-check row $B$, obstruction row $O$, and structural rows $H,T,G,N$. The export may feed MetaCIC critical-path and confluence-audit consumers, but it does not prove full Church--Rosser, subject reduction, evaluator equality, quotient equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It admits the carrier only through the displayed rows $P,K,J,R,S,C,B,O,H,T,G,N$.
+
+Use critical-pair exhaustion, obstruction retention, and local-join scope: \autoref{thm:metacic-parallel-diamond-critical-pair-exhaustion}, \autoref{thm:metacic-parallel-diamond-frontier-obstruction-triad}, and \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}. These keep the critical pair, candidate join, residual frontier, bounded check, and obstruction rows visible before any confluence-facing read.
+
+Next apply the normalization handoff and candidate-mediated socket, \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff} and \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket}. They route normalization-facing consumers through the same finite packet without exporting global normalization or confluence.
+
+Finally invoke residual-join induction, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-induction}. The structural rows $H,T,G,N$ transport, replay, source, and name the same packet, so the public export is the listed route and none of the refused endpoints follows.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
-\closureat{MetaCICParallelDiamondFrontierUp}{scopedStr}
+\begin{theorem}[MetaCIC parallel-diamond scoped closure status]
+\label{thm:metacic-parallel-diamond-frontier-scoped-closure-status}
+The seed-readiness surface, retained-premise handoff, obstruction row, residual-substitution premise, critical-path consumer route, and normalization-confluence handoff of an accepted $\MetaCICParallelDiamondFrontierUp$ packet together scope the chapter to finite candidate-mediated local-diamond evidence. The scoped surface is exactly the displayed route through $P,K,J,R,S,C,B,O,H,T,G,N$ and does not assert subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, residual-substitution discharge, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Read the seed surface through \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness} and \autoref{thm:metacic-parallel-diamond-frontier-seed-closure-status}. These results expose the carrier rows and keep the finite local-diamond evidence inside the displayed packet.
+
+Apply the retained-premise handoff and residual-substitution scope, \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff} and \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}. They keep the premise row $P$ visible for every critical-path read instead of discharging it as a substitution theorem.
+
+Finally use the obstruction, public export, and normalization-frontier handoff rows of \autoref{thm:metacic-parallel-diamond-frontier-obstruction-triad}, \autoref{thm:metacic-parallel-diamond-frontier-public-export}, and \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. The resulting scope is finite, candidate-mediated, and local to $P,K,J,R,S,C,B,O,H,T,G,N$, so none of the refused global endpoints is exported.
+\end{proof}
 
 \begin{closurestatus}{\MetaCICParallelDiamondFrontierUp}
   \constructivestory{A $\MetaCICParallelDiamondFrontierUp$ packet is generated from residual-substitution premise rows, critical-pair rows, candidate-join rows, residual-frontier rows, closed checker seal rows, closed-normal fragment rows, bounded-check rows, obstruction rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:metacic-parallel-diamond-frontier-carrier}, \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}, \autoref{thm:metacic-parallel-diamond-critical-pair-exhaustion}, \autoref{thm:metacic-parallel-diamond-frontier-obstruction-triad}, \autoref{thm:metacic-parallel-diamond-frontier-residual-peak-scope}, \autoref{thm:metacic-parallel-diamond-closed-checker-retention}, \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}, \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}, \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-sn-socket}, and \autoref{thm:metacic-parallel-diamond-frontier-residual-join-induction} delimit the residual-premise, critical-pair, candidate-join, residual-frontier, closed-checker, closed-normal, bounded-check, obstruction, residual-join induction, and candidate-mediated strong-normalization rows for MetaCIC confluence consumers.}
+  \scopeclosed{\autoref{thm:metacic-parallel-diamond-frontier-scoped-closure-status} delimits the residual-premise, critical-pair, candidate-join, residual-frontier, closed-checker, closed-normal, bounded-check, obstruction, residual-join induction, and candidate-mediated strong-normalization rows for finite MetaCIC confluence consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close residual-substitution compatibility, full parallel diamond, subject reduction, arbitrary closed Church--Rosser, evaluator equality, quotient equality of terms, kernel consistency, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, residual-substitution premise retention, critical-pair exposure, candidate-join exactness, residual-frontier coverage, closed-checker handoff, closed-normal fragment routing, bounded-check exactness, obstruction retention, TasteGate nontriviality, FieldFaithful coverage, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICParallelDiamondFrontierUp.}
+  \upgradepath{Public closure requires checked carrier admission, residual-substitution premise retention, critical-pair exposure, candidate-join exactness, residual-frontier coverage, closed-checker handoff, closed-normal fragment routing, bounded-check exactness, obstruction retention, TasteGate nontriviality, FieldFaithful coverage, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICParallelDiamondFrontierUp.}
 \end{closurestatus}

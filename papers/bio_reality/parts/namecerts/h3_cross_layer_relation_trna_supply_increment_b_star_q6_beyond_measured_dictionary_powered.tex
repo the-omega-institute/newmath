@@ -1,0 +1,47 @@
+\origin{ai}
+
+\subsection{Yeast tRNA-supply increment beyond the measured translation dictionary}
+\label{sec:bioreality-q6-trna-supply-increment-beyond-measured-dictionary}
+
+\paragraph{Finite row object.}
+This record tests whether a yeast per-gene tRNA-supply summary still carries held-out protein-abundance signal after the measured readout dictionary has already been included.  The target is log-scaled protein abundance after residualization against the sibling sequence controls, and the active join contains $3290$ yeast protein rows.  The base design consists of three measured dictionary columns, each residualized and standardized after the same sequence-control removal: $\log_{10}$ measured translation efficiency, $\log_{10}$ mRNA stability, and turnover.  The full design appends one additional residualized and standardized column, the per-gene tAI geometric mean computed from codon weights.  The tRNA-supply construction used $61$ codon weights, joined tAI values for $3290$ genes, used $268$ usable tAI records, and required no geometric-mean filling for zero raw weights.
+
+\paragraph{Statistic.}
+Let $Y$ denote the residualized protein-abundance target, let $D$ denote the measured dictionary design, and let $A$ denote the residualized per-gene tAI geometric mean.  The reported comparison is the five-fold held-out increment obtained from the fixed deterministic fold rule, namely sorted active protein identifiers assigned by index modulo $5$.  With ridge parameter $10^{-8}$, the measured dictionary alone gives
+$$
+\begin{aligned}
+R^2(D \to Y) &= 0.4579960005021211,
+\end{aligned}
+$$
+whereas the dictionary plus tRNA-supply column gives
+$$
+\begin{aligned}
+R^2(D,A \to Y) &= 0.5186044342149576.
+\end{aligned}
+$$
+Thus the held-out increment is
+$$
+\begin{aligned}
+\Delta R^2_{\mathrm{held\ out}} &= 0.5186044342149576 - 0.4579960005021211 \\
+&= 0.06060843371283653.
+\end{aligned}
+$$
+The corresponding in-sample contextual increment is $0.06016972939113374$, and the tAI column alone has $R^2=0.33369275999817194$ against the same residualized target.  The finite-row conclusion is therefore not that tAI replaces the measured dictionary, but that the tRNA-supply summary retains a positive held-out increment after measured TE, mRNA stability, and turnover are already in the predictor set.
+
+\paragraph{Permutation boundary.}
+The null distribution keeps the readouts and folds fixed and applies deterministic SHA256 permutations of gene-to-target labels.  The seed is $\texttt{sha256:b\_star\_q6\_trna\_supply\_increment\_powered:fixed-readout-target-permutation}$, with $120$ permutations.  The null mean is $-0.0004019510944510909$, the null minimum is $-0.00510268312590334$, the null maximum is $0.0010291561244795133$, and the $95$th percentile is $0.0007222485676979806$.  The observed held-out increment satisfies
+$$
+\begin{aligned}
+0.06060843371283653 &> 0.0007222485676979806,
+\end{aligned}
+$$
+so the observed improvement lies far above the permutation $95$th percentile for this finite design.  Because the run reports a fixed permutation count rather than a separate right-tail $p$-value, the inferential statement is kept at the level of the observed statistic and its deterministic null envelope.
+
+\paragraph{Relation to the measured translation and stability rows.}
+The same $B^*_{Q6}$ coordinate family has a measured translation-protein decomposition in yeast in which the measured-TE protein-abundance run reports $S^{QP}=0.3146818503437042$, $S^{QT}_{\mathrm{measured}}=0.13681931343730436$, and a measured mediated fraction $0.4793069656345167$ on $5128$ joined yeast three-way rows.  A separate yeast joint TE--mRNA-stability decomposition reports $R^2_{QP}=0.2715520808117803$, $R^2_{QP\mid T}=0.1439989545940314$, $R^2_{QP\mid M}=0.25453612246767165$, and $R^2_{QP\mid T,M}=0.13047582645538838$ on $4759$ joined rows, with joint mediation fraction $0.5195182225621592$ and right-tail permutation value $0.000999000999000999$.  Those rows justify treating measured TE, mRNA stability, and turnover as an already substantial measured dictionary; the present row then asks whether tRNA supply adds anything after that dictionary is fixed.  It does: the held-out increment is $0.06060843371283653$.
+
+\paragraph{Case assignment.}
+For the four-case translation-protein discriminant, this row is best read as a bounded cross-layer increment rather than as a new direct mechanism.  It does not by itself assign every coordinate-level triple $(q_i,T_j,P_k)$ to cases A--D, since the present statistic is a single held-out design increment over the yeast join, not a per-coordinate table of $S^{QT}$, $S^{QP}$, and a coordinate-level $Q\to T\to P$ attenuation.  However, because the appended tAI column improves held-out protein-abundance prediction after measured TE, mRNA stability, and turnover are already present, the row supports the narrower claim that tRNA-supply information is not exhausted by that measured dictionary in this yeast panel.  The support is finite-row and design-specific: $n=3290$, five deterministic folds, ridge $10^{-8}$, and a fixed-label-permutation null.
+
+\paragraph{Local claim boundary.}
+The admissible conclusion is a predictive residual statement about yeast protein abundance under the declared finite design.  It is not evidence that tAI is observed ribosome occupancy, and it is not a proof of translation mechanism, protein folding, physical admissibility, molecular function, phenotype, localization, PTM, stability, or universality.  Any such higher-layer statement would require its own matched contact and statistic.  In particular, a positive held-out increment beyond measured TE, mRNA stability, and turnover does not identify which molecular process carries the remaining signal; it only states that the tRNA-supply column has non-null held-out predictive content after the measured dictionary and sequence controls have been accounted for.

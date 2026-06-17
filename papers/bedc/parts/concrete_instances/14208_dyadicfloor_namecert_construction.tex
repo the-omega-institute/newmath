@@ -34,6 +34,8 @@ The carrier has no coordinate for host floor, integer trichotomy, quotient real 
 \label{def:dyadic-floor-classifier}
 The local $\DyadicFloorUp$ classifier accepts exactly those carrier rows $F=(x,k,d,s,\ell,u,M,R,E,H,C,P,N)$ for which the displayed successor row $s$ is the one-step dyadic successor of $d$ at scale $k$, the lower evidence $\ell$ reads $d$ as a lower bound for the request at that scale, the upper evidence $u$ reads $s$ as the strict upper bounding row at that scale, and the modulus schedule $M$ supplies the finite regular-rational window through $R$ used by both comparisons. Transport by $H$ and replay by $C$ preserve the same rows componentwise; they do not add a second classifier, host comparison, or detached real equality test.
 \end{definition}
+\leandef{BEDC.Derived.DyadicFloorUp.DyadicFloorClassifier}
+\leanchecked{BEDC.Derived.DyadicFloorUp.DyadicFloorClassifier\_window\_obligations}
 
 \begin{theorem}[DyadicFloor NameCert obligations]
 \label{thm:dyadic-floor-namecert-obligations}
@@ -97,6 +99,7 @@ The bounding interval theorem then consumes exactly those rows. The lower read u
 
 Thus a consumer cannot reach the floor-bounding interval through a hidden host operation. Omitting any listed row removes the finite observation route required by the accepted packet.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicFloorUp.DyadicFloorCarrier\_window\_obligations}
 
 \begin{theorem}[DyadicFloor Real-seal nonescape]
 \label{thm:dyadic-floor-real-seal-nonescape}
@@ -109,6 +112,7 @@ The terminal seal $E$ comes after this readback. Since the carrier has no earlie
 
 The transport, replay, provenance, and local naming rows preserve that order. They name the same finite route rather than adding a quotient Real equality, selected representative, or Archimedean search.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicFloorUp.DyadicFloorCarrier\_real\_seal\_nonescape}
 
 \falsifiablePrediction{An accepted $\DyadicFloorUp$ consumer that reads a floor-bounding interval without the displayed scale $k$, lower dyadic row $d$, successor row $s$, lower evidence $\ell$, upper evidence $u$, modulus schedule $M$, and regular readback row $R$ refutes the carrier surface.}
 
