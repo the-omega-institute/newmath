@@ -234,3 +234,16 @@ all hard budgets.  The hard boundary therefore requires more than deployable
 set-context featurization with ridge supervision; the missing object is a
 mechanism-bearing assignment state learned under the exact-budget combinatorial
 constraint itself.
+
+A shallow exact-budget surrogate does not supply that state.  The surrogate
+uses non-hard exact-budget assignment regret to select among the scalar and
+set-context mechanism sources and to fit small depth-offset templates before
+held-out hard evaluation.  It selects the scalar mechanism source and learns
+only a budget-two depth-offset template.  On the hard slice, mean capture stays
+at $-0.0050$, with budget-two capture $-0.1022$, budget-three capture
+$0.1081$, and budget-four capture $-0.0209$, identical to the scalar mechanism
+learner and still below the all-budget gate.  The hard label Spearman also
+drops to $0.1531$.  Thus direct contact with the exact-budget assignment rule
+is necessary but not sufficient when applied as a post-hoc shallow offset; the
+assignment mechanism must be learned inside the state/scoring model rather than
+recovered after the fact by depth penalties.
