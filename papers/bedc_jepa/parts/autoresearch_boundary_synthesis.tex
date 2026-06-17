@@ -318,3 +318,18 @@ structured energy learner.  Thus merely appending aggregate episode statistics
 is not a substitute for a learned set/assignment state.  The state must be
 generated jointly with the anchor--depth compatibility variables, rather than
 constructed as a post-hoc calibration layer over fixed scores.
+
+A symmetric assignment-bottleneck learner gives a sharper partial result but
+still does not close the gate.  The learner first trains a non-leaky
+forced-delta scorer from train split labels, then exposes episode-local score
+summaries and ranks as an assignment-bearing bottleneck; the matched control
+keeps the same projected inputs, target labels, ridge family, lambdas, and
+calibration rule, but omits the learned assignment-state summaries.  On the
+held-out hard slice, the bottleneck arm has mean capture $-0.4447$, with
+budget-two, budget-three, and budget-four captures $-0.3942$, $-0.8027$, and
+$-0.1371$.  This is better than the matched non-mechanism control's mean
+capture $-1.1102$, but every hard budget remains negative, prediction parity
+is not checked, and the target ceiling remains $1.000$.  Thus assignment-state
+summaries carry real signal relative to a symmetric non-mechanism control, but
+they remain a fail-closed learner audit rather than allocation closure or a
+complete BEDC-native world-model claim.

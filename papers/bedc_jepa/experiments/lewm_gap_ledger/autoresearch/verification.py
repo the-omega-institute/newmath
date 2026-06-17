@@ -32,18 +32,20 @@ SOUND_VERDICTS = {"sound", "sound-but-scoped"}
 
 
 def load_adversarial_verdicts(store: LeWMStore) -> dict[str, dict[str, Any]]:
-    path = store.paths.root / "state" / "adversarial_verdicts.jsonl"
-    if not path.exists():
-        path = store.paths.root / "findings" / "adversarial_verdicts.jsonl"
     out: dict[str, dict[str, Any]] = {}
-    if not path.exists():
-        return out
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line:
+    paths = (
+        store.paths.root / "findings" / "adversarial_verdicts.jsonl",
+        store.paths.root / "state" / "adversarial_verdicts.jsonl",
+    )
+    for path in paths:
+        if not path.exists():
             continue
-        record = json.loads(line)
-        out[str(record.get("hypothesis_id"))] = record
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            record = json.loads(line)
+            out[str(record.get("hypothesis_id"))] = record
     return out
 
 

@@ -9,6 +9,7 @@ from typing import Any
 
 
 FINDINGS_DIR = Path(__file__).resolve().parent / "findings"
+STATE_VERIFIED_FINDINGS_JSONL = Path(__file__).resolve().parent / "state" / "verified_findings.jsonl"
 VERIFIED_FINDINGS_JSONL = FINDINGS_DIR / "verified_findings.jsonl"
 VERIFIED_FINDINGS_MD = FINDINGS_DIR / "verified_findings.md"
 
@@ -49,7 +50,8 @@ def clean_cell(value: Any) -> str:
 
 
 def main() -> int:
-    rows = [row for row in read_jsonl(VERIFIED_FINDINGS_JSONL) if row.get("authoritative") is True]
+    source = STATE_VERIFIED_FINDINGS_JSONL if STATE_VERIFIED_FINDINGS_JSONL.exists() else VERIFIED_FINDINGS_JSONL
+    rows = [row for row in read_jsonl(source) if row.get("authoritative") is True]
     lines = [
         "# Verified autoresearch findings",
         "",
@@ -79,6 +81,7 @@ def main() -> int:
             + " |"
         )
     VERIFIED_FINDINGS_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    VERIFIED_FINDINGS_JSONL.write_text("".join(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n" for row in rows), encoding="utf-8")
     print(f"wrote {len(rows)} rows to {VERIFIED_FINDINGS_MD}")
     return 0
 

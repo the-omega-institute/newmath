@@ -106,7 +106,8 @@ PROMOTIONAL_ENDPOINT_RE = re.compile(
 MECHANISM_TARGET_RE = re.compile(
     r"\b(?:mechanism[- ]aware\s+target|mechanism[- ]aware\s+assignment\s+target|"
     r"mechanism[- ]forced[- ]delta|oracle[- ]derived\s+target|"
-    r"target\s+audit|target\s+ceiling|forced[- ]option\s+mechanism\s+labels)\b",
+    r"target\s+audit|target\s+ceiling|forced[- ]option\s+mechanism\s+labels|"
+    r"assignment[- ]bearing\s+bottleneck|assignment[- ]bottleneck\s+learner)\b",
     re.IGNORECASE,
 )
 DEPLOYABLE_PROMOTION_RE = re.compile(
@@ -476,9 +477,11 @@ def check_mechanism_target_claim_boundary(files: list[Path]) -> list[str]:
         ("mechanism target is scoped as oracle-derived", r"oracle-derived"),
         ("next step requires a non-leaky predictor", r"non-leaky\s+predictor"),
         ("independent export validation remains required", r"independent\s+export"),
+        ("assignment bottleneck uses a matched non-mechanism control", r"matched\s+non-mechanism\s+control"),
         ("fi-090 claim grade", r"fi-090.*target\s+ceiling.*oracle\s+audit.*not\s+deployable"),
         ("fi-091 claim grade", r"fi-091.*non-leaky\s+learner\s+partial.*not\s+all-budget\s+closed"),
         ("fi-099 claim grade", r"fi-099.*state-generation\s+fail-closed"),
+        ("fi-100 claim grade", r"fi-100.*assignment-bearing\s+bottleneck\s+partial.*not\s+all-budget\s+closed"),
     )
     for label, pattern in required:
         if not re.search(pattern, normalized):
