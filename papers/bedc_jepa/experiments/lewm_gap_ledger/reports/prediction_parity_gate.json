@@ -1,0 +1,28 @@
+{
+  "status": "fail-closed",
+  "schema_id": "bedc_jepa.prediction_parity_gate",
+  "inputs": {
+    "dynamics": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\lewm_lat_dynamics_comparison.json"
+  },
+  "gate": {
+    "epsilon": 0.1,
+    "lewm_mean_mse": 0.06661752103321021,
+    "native_mean_mse": 0.8786996616905055,
+    "parity_threshold": 0.07327927313653124,
+    "native_to_lewm_ratio": 13.190218550048652,
+    "native_ci_low_to_threshold_ci_high_ratio": 11.25322213388997,
+    "pass_gate": false,
+    "conservative_fail": true,
+    "decision": "fail-closed"
+  },
+  "contract": {
+    "world_model_requirement": "PredLoss_BEDC <= (1 + epsilon) PredLoss_LeWM on the same target scale and evaluation transitions",
+    "failure_interpretation": "if the gate fails, detection/survival/allocation rows describe a monitor or diagnostic ledger rather than a BEDC-native world model",
+    "scale_guard": "rows with different prediction-loss definitions are not mixed into this gate"
+  },
+  "source_scope": [
+    "LAT trained on ~3k transitions of this single export; LeWM predictor trained at full scale by its authors",
+    "single checkpoint, single export, episode bootstrap",
+    "next-step latent prediction only; no rollout-horizon or control comparison"
+  ]
+}

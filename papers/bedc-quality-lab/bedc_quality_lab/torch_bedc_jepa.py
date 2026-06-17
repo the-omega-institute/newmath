@@ -82,6 +82,49 @@ def _train_variant(
     bedc_objective: bool,
     epochs: int = 220,
 ) -> dict[str, Any]:
+    return _train_weighted_variant(
+        train,
+        seed=seed,
+        epochs=epochs,
+        weights=_variant_weights(bedc_objective=bedc_objective),
+    )
+
+
+def _variant_weights(*, bedc_objective: bool = True, remove: str | None = None) -> dict[str, float]:
+    weights = {
+        "distinction_bce": 1.2,
+        "gap_bce": 1.8,
+        "unlogged_error_penalty": 2.4,
+        "boundary_caution": 0.8,
+        "stability_consistency": 0.6,
+        "intervention_bce": 0.9,
+    }
+    if not bedc_objective:
+        return {
+            "distinction_bce": 0.0,
+            "gap_bce": 0.0,
+            "unlogged_error_penalty": 0.0,
+            "boundary_caution": 0.0,
+        }
+    if remove == "gap_bce":
+        weights["gap_bce"] = 0.0
+        weights["boundary_caution"] = 0.0
+    elif remove == "unlogged_error_penalty":
+        weights["unlogged_error_penalty"] = 0.0
+    elif remove == "stability_consistency":
+        weights["stability_consistency"] = 0.0
+    elif remove == "intervention_bce":
+        weights["intervention_bce"] = 0.0
+    return weights
+
+
+def _train_weighted_variant(
+    train: BoundaryGatedBatch,
+    *,
+    seed: int,
+    epochs: int = 220,
+    weights: dict[str, float],
+) -> dict[str, Any]:
     torch = require_torch()
     set_deterministic_seed(seed)
     device_resolution = choose_device()
@@ -98,11 +141,20 @@ def _train_variant(
     x_pair = _tensor(torch, train.x_pair, device=device)
     z_target = _tensor(torch, train.z, device=device)
     distinction = _tensor(torch, train.distinction.astype(np.float32)[:, None], device=device)
+    distinction_pair = _tensor(torch, train.distinction_pair.astype(np.float32)[:, None], device=device)
     gap = _tensor(torch, train.gap.astype(np.float32)[:, None], device=device)
+    gap_pair = _tensor(torch, train.gap_pair.astype(np.float32)[:, None], device=device)
+    stability_mask_np = (
+        (~train.gap)
+        & (~train.gap_pair)
+        & (train.distinction == train.distinction_pair)
+    ).astype(np.float32)[:, None]
+    stability_mask = _tensor(torch, stability_mask_np, device=device)
     bce = torch.nn.BCEWithLogitsLoss()
     mse = torch.nn.MSELoss()
     pretrain_epochs = epochs
-    bedc_epochs = 320 if bedc_objective else 0
+    trains_bedc_heads = any(float(value) > 0.0 for value in weights.values())
+    bedc_epochs = 320 if trains_bedc_heads else 0
     for _ in range(pretrain_epochs):
         optimizer.zero_grad(set_to_none=True)
         z = encoder(x)
@@ -111,7 +163,7 @@ def _train_variant(
         latent_loss = mse(pred_pair, z_pair) + 0.25 * mse(z, z_target) + 0.15 * covariance_loss(z) + 0.05 * mean_loss(z)
         latent_loss.backward()
         optimizer.step()
-    if bedc_objective:
+    if trains_bedc_heads:
         head_optimizer = torch.optim.AdamW(
             list(distinction_head.parameters()) + list(gap_head.parameters()),
             lr=2e-3,
@@ -119,6 +171,8 @@ def _train_variant(
         )
         with torch.no_grad():
             z_fixed = encoder(x).detach()
+            z_pair_fixed = encoder(x_pair).detach()
+            pred_pair_fixed = predictor(z_fixed).detach()
     for _ in range(bedc_epochs):
         head_optimizer.zero_grad(set_to_none=True)
         z = z_fixed
@@ -131,10 +185,24 @@ def _train_variant(
         gap_prob = torch.sigmoid(g_logits)
         unlogged_loss = torch.mean(wrong_soft * (1.0 - gap_prob) ** 2)
         boundary_caution = torch.mean(gap * (1.0 - gap_prob) ** 2)
-        loss = 1.2 * d_loss + 1.8 * g_loss + 2.4 * unlogged_loss + 0.8 * boundary_caution
+        d_pair_logits = distinction_head(_distinction_features(torch, z_pair_fixed))
+        d_pair_prob = torch.sigmoid(d_pair_logits)
+        d_pred_pair_logits = distinction_head(_distinction_features(torch, pred_pair_fixed))
+        stability_numer = torch.sum(stability_mask * (d_prob - d_pair_prob) ** 2)
+        stability_denom = torch.clamp(torch.sum(stability_mask), min=1.0)
+        stability_loss = stability_numer / stability_denom
+        intervention_loss = bce(d_pred_pair_logits, distinction_pair)
+        loss = (
+            float(weights["distinction_bce"]) * d_loss
+            + float(weights["gap_bce"]) * g_loss
+            + float(weights["unlogged_error_penalty"]) * unlogged_loss
+            + float(weights["boundary_caution"]) * boundary_caution
+            + float(weights["stability_consistency"]) * stability_loss
+            + float(weights["intervention_bce"]) * intervention_loss
+        )
         loss.backward()
         head_optimizer.step()
-    if not bedc_objective:
+    if not trains_bedc_heads:
         for _ in range(80):
             optimizer.zero_grad(set_to_none=True)
             with torch.no_grad():
@@ -149,6 +217,190 @@ def _train_variant(
         "distinction_head": distinction_head,
         "gap_head": gap_head,
         "device": device,
+    }
+
+
+def _summarize_rows(rows: list[dict[str, Any]]) -> dict[str, float]:
+    if not rows:
+        return {}
+    keys = (
+        "distinction_accuracy",
+        "distinction_accuracy_outside_gap",
+        "gap_detection_auc",
+        "unlogged_error_rate",
+        "certified_coverage",
+        "bedc_debt_score",
+        "linear_identifiability_r2",
+    )
+    return {
+        f"{key}_mean": float(np.mean([float(row[key]) for row in rows]))
+        for key in keys
+    } | {
+        f"{key}_ci95": _ci95([float(row[key]) for row in rows])
+        for key in keys
+    }
+
+
+def run_torch_retraining_loss_ablation(
+    *,
+    seeds: Sequence[int] = (4242, 4259, 4276),
+    train_count: int = 1536,
+    test_count: int = 768,
+    epochs: int = 220,
+) -> dict[str, Any]:
+    torch = require_torch()
+    supervision_surface_contract = {
+        "stability_consistency": {
+            "source_surface": "OU transition pairs whose pre/post states keep the same outside-gap distinction",
+            "fields": [
+                "stability_source_split",
+                "paired_observations_or_augmentations",
+                "stability_label_or_invariance_target",
+                "same_train_cal_test_split",
+            ],
+            "implemented_as": "mean squared distinction-probability change over outside-gap OU pairs with unchanged distinction label",
+        },
+        "intervention_bce": {
+            "source_surface": "OU action/transition pair with post-transition operational distinction label",
+            "fields": [
+                "intervention_source_split",
+                "pre_intervention_observation",
+                "intervention_or_action",
+                "post_intervention_label",
+                "same_train_cal_test_split",
+            ],
+            "implemented_as": "binary cross-entropy on predicted-pair distinction logits against distinction_pair",
+        },
+    }
+    systems = {
+        "full_s3": {
+            "objective_terms": [
+                "latent_prediction",
+                "distinction_bce",
+                "gap_bce",
+                "unlogged_error_penalty",
+                "boundary_caution",
+                "stability_consistency",
+                "intervention_bce",
+            ],
+            "weights": _variant_weights(),
+            "status": "executed",
+            "supervision_surface_contract": supervision_surface_contract,
+        },
+        "minus_l_unlogged": {
+            "objective_terms": [
+                "latent_prediction",
+                "distinction_bce",
+                "gap_bce",
+                "boundary_caution",
+                "stability_consistency",
+                "intervention_bce",
+            ],
+            "weights": _variant_weights(remove="unlogged_error_penalty"),
+            "status": "executed",
+            "supervision_surface_contract": supervision_surface_contract,
+        },
+        "minus_l_gap": {
+            "objective_terms": [
+                "latent_prediction",
+                "distinction_bce",
+                "unlogged_error_penalty",
+                "stability_consistency",
+                "intervention_bce",
+            ],
+            "weights": _variant_weights(remove="gap_bce"),
+            "status": "executed",
+            "supervision_surface_contract": supervision_surface_contract,
+        },
+        "minus_l_stab": {
+            "objective_terms": [
+                "latent_prediction",
+                "distinction_bce",
+                "gap_bce",
+                "unlogged_error_penalty",
+                "boundary_caution",
+                "intervention_bce",
+            ],
+            "weights": _variant_weights(remove="stability_consistency"),
+            "status": "executed",
+            "removed_term": "stability_consistency",
+            "supervision_surface_contract": supervision_surface_contract,
+        },
+        "minus_l_intervention": {
+            "objective_terms": [
+                "latent_prediction",
+                "distinction_bce",
+                "gap_bce",
+                "unlogged_error_penalty",
+                "boundary_caution",
+                "stability_consistency",
+            ],
+            "weights": _variant_weights(remove="intervention_bce"),
+            "status": "executed",
+            "removed_term": "intervention_bce",
+            "supervision_surface_contract": supervision_surface_contract,
+        },
+    }
+    run_rows: list[dict[str, Any]] = []
+    by_system: dict[str, list[dict[str, Any]]] = {name: [] for name in systems if systems[name]["status"] == "executed"}
+    for seed in seeds:
+        train = make_boundary_gated_batch(train_count, rho=0.84, radius=1.0, gap_width=0.14, seed=int(seed))
+        test = make_boundary_gated_batch(test_count, rho=0.84, radius=1.0, gap_width=0.14, seed=int(seed) + 1)
+        for name, spec in systems.items():
+            if spec["status"] != "executed":
+                continue
+            model = _train_weighted_variant(
+                train,
+                seed=int(seed),
+                epochs=epochs,
+                weights=dict(spec["weights"]),
+            )
+            metrics = _evaluate(name, _scores(model, test), test)
+            row = {"seed": float(seed), "system": name, **metrics}
+            run_rows.append(row)
+            by_system[name].append(row)
+    summary = {name: _summarize_rows(rows) for name, rows in by_system.items()}
+    full = summary.get("full_s3", {})
+    comparisons = {}
+    for name in ("minus_l_unlogged", "minus_l_gap", "minus_l_stab", "minus_l_intervention"):
+        other = summary.get(name, {})
+        if not full or not other:
+            continue
+        comparisons[f"full_s3_minus_{name}"] = {
+            "gap_auc_gain": float(full["gap_detection_auc_mean"]) - float(other["gap_detection_auc_mean"]),
+            "unlogged_error_reduction": float(other["unlogged_error_rate_mean"]) - float(full["unlogged_error_rate_mean"]),
+            "debt_reduction": float(other["bedc_debt_score_mean"]) - float(full["bedc_debt_score_mean"]),
+            "certified_coverage_delta": float(full["certified_coverage_mean"]) - float(other["certified_coverage_mean"]),
+            "latent_r2_delta": float(full["linear_identifiability_r2_mean"]) - float(other["linear_identifiability_r2_mean"]),
+        }
+    return {
+        "schema_id": "bedc-jepa-retraining-loss-ablation",
+        "status": "executed",
+        "source": {
+            "name": "boundary-gated-ou-world",
+            "training": "torch-gradient-retraining",
+            "train_count": float(train_count),
+            "test_count": float(test_count),
+            "epochs": float(epochs),
+        },
+        "torch_environment": {
+            "torch_version": str(getattr(torch, "__version__", "unknown")),
+            "cuda_available": bool(torch.cuda.is_available()),
+            "device": choose_device(),
+            "cuda_device_name": str(torch.cuda.get_device_name(0)) if torch.cuda.is_available() else "",
+        },
+        "seeds": [float(seed) for seed in seeds],
+        "systems": systems,
+        "supervision_surface_contract": supervision_surface_contract,
+        "runs": run_rows,
+        "summary": summary,
+        "comparisons": comparisons,
+        "cannot_claim": [
+            "public MiniGrid retraining ablation",
+            "native V-JEPA2-AC retraining ablation",
+            "natural-video stability ablation",
+            "robot-control intervention ablation",
+        ],
     }
 
 

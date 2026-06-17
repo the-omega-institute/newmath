@@ -44,7 +44,7 @@ CLAIM_VERDICTS = {
 
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for line_index, line in enumerate(path.read_text(encoding="utf-8").splitlines()):
+    for line_index, line in enumerate(path.read_text(encoding="utf-8-sig").splitlines()):
         if not line.strip():
             continue
         payload = json.loads(line)

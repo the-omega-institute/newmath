@@ -1,0 +1,135 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_independent_full_feature",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\crossenv_horizon_labels_cube.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\cube_latent_large.npz"
+  },
+  "counts": {
+    "train": 3060,
+    "calibration": 1020,
+    "eval": 1020,
+    "eval_episodes": 30,
+    "feature_dim": 5102
+  },
+  "target": {
+    "option_depths": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "assignment_rule": "exact per-episode budget sum(depth)=3*episode_anchor_count using dynamic programming",
+    "feature_scope": "independent export base latent/action window plus predicted rollout-internal features"
+  },
+  "calibration": {
+    "learned_full_feature": {
+      "allocation_delta": {
+        "observed": -0.0005062024538383982,
+        "low": -0.0009508103861754062,
+        "high": -4.5021093311013486e-05
+      },
+      "chosen_depth_counts": {
+        "2": 524,
+        "3": 234,
+        "5": 262
+      },
+      "score_error_spearman": 0.704945364416562
+    }
+  },
+  "eval": {
+    "learned_full_feature": {
+      "allocation_delta": {
+        "observed": 0.0005964721074797532,
+        "low": -0.00037540706252331223,
+        "high": 0.0018944565488953733
+      },
+      "chosen_depth_counts": {
+        "2": 516,
+        "3": 246,
+        "5": 258
+      },
+      "score_error_spearman": 0.6379090697940459
+    },
+    "exact_budget_oracle": {
+      "allocation_delta": {
+        "observed": -0.0036635894273979834,
+        "low": -0.004484072454953123,
+        "high": -0.002966588098989808
+      },
+      "chosen_depth_counts": {
+        "1": 235,
+        "2": 202,
+        "3": 171,
+        "4": 152,
+        "5": 260
+      },
+      "score_error_spearman": 1.0
+    },
+    "per_step_oracle": {
+      "allocation_delta": {
+        "observed": -0.0047432136153606735,
+        "low": -0.00565079177410519,
+        "high": -0.004001108526416233
+      },
+      "chosen_depth_counts": {
+        "1": 874,
+        "2": 89,
+        "3": 22,
+        "4": 23,
+        "5": 12
+      },
+      "score_error_spearman": 1.0
+    }
+  },
+  "health": {
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+    "best": {
+      "epoch": 11,
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.0005062024538383982,
+          "low": -0.0009508103861754062,
+          "high": -4.5021093311013486e-05
+        },
+        "chosen_depth_counts": {
+          "2": 524,
+          "3": 234,
+          "5": 262
+        },
+        "score_error_spearman": 0.704945364416562
+      },
+      "cal_smooth_l1": 0.0874803364276886
+    },
+    "history_first": {
+      "epoch": 1.0,
+      "train": 0.4002632876237234,
+      "cal_smooth_l1": 0.08509282022714615,
+      "cal_delta_high": 0.002043228908356819,
+      "cal_delta_observed": 0.001471398530883506
+    },
+    "history_last": {
+      "epoch": 320.0,
+      "train": 0.1388527234395345,
+      "cal_smooth_l1": 0.08994334191083908,
+      "cal_delta_high": 0.00032279692452237004,
+      "cal_delta_observed": -0.00023085853467370507
+    },
+    "params_count": 2036737
+  },
+  "leakage_attestation": {
+    "features": "built from aligned emb/action/pred carrier, split pred_z, valid masks, and anchor timing",
+    "labels": "err_at_h is used only for option_error targets and final evaluation",
+    "feature_standardizer": "fit on train full features only",
+    "target_standardizer": "fit on train option_error only",
+    "model_selection": "calibration split exact-budget allocation only"
+  },
+  "outputs": {
+    "predictions_npz": "reports\\compute_value_independent_full_feature_cube_predictions.npz",
+    "json": "reports\\compute_value_independent_full_feature_cube.json",
+    "md": "reports\\compute_value_independent_full_feature_cube.md"
+  },
+  "wall_time_sec": 791.8429446220398
+}
