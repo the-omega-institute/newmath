@@ -23,7 +23,7 @@ DEFAULT_GENERATED_AT = admission.DEFAULT_GENERATED_AT
 DEFAULT_SEED = admission.DEFAULT_SEED
 DEFAULT_CASE_COUNT = admission.DEFAULT_CASE_COUNT
 DEFAULT_BOOTSTRAP_RESAMPLES = admission.DEFAULT_BOOTSTRAP_RESAMPLES
-CALIBRATION_ARM_ORDER = ("raw", "zero-index-baseline", "oracle", "label-shuffle")
+CALIBRATION_ARM_ORDER = ("raw", "frozen-probe", "oracle", "label-shuffle")
 VALIDATION_GATE_KEYS = (
     "status",
     "criterion",
@@ -43,9 +43,51 @@ def fixture_encoded_surface(batch: admission.RankCaseBatch) -> admission.Encoded
     return admission.EncodedRankSurface(contexts=contexts, candidates=candidates)
 
 
-def zero_index_baseline_cells(batch: admission.RankCaseBatch) -> np.ndarray:
-    predicted = np.zeros_like(batch.true_indices)
-    return (predicted == batch.true_indices).astype(np.float64)
+def validation_indices(batch: admission.RankCaseBatch, *, seed: int) -> np.ndarray:
+    count = int(batch.true_indices.shape[0])
+    permutation = np.random.default_rng(seed + 1542).permutation(count)
+    validation_count = max(1, count // 2)
+    return np.sort(permutation[-validation_count:])
+
+
+def _train_indices(batch: admission.RankCaseBatch, validation: np.ndarray) -> np.ndarray:
+    mask = np.ones(int(batch.true_indices.shape[0]), dtype=bool)
+    mask[np.asarray(validation, dtype=np.int64)] = False
+    return np.flatnonzero(mask)
+
+
+def _subset_batch(batch: admission.RankCaseBatch, indices: np.ndarray) -> admission.RankCaseBatch:
+    selected = np.asarray(indices, dtype=np.int64)
+    return admission.RankCaseBatch(
+        context_videos=batch.context_videos[selected],
+        candidate_videos=batch.candidate_videos[selected],
+        true_indices=batch.true_indices[selected],
+        metadata=[batch.metadata[int(index)] for index in selected],
+    )
+
+
+def frozen_probe_cells(
+    batch: admission.RankCaseBatch,
+    encoded_surface: admission.EncodedRankSurface,
+    *,
+    train_indices: np.ndarray,
+    validation_indices_: np.ndarray,
+) -> np.ndarray:
+    train = np.asarray(train_indices, dtype=np.int64)
+    validation = np.asarray(validation_indices_, dtype=np.int64)
+    if train.size == 0:
+        train = validation
+    x_train = admission._l2_normalize(encoded_surface.contexts[train])
+    candidate_train = encoded_surface.candidates[train]
+    y_train = admission._l2_normalize(candidate_train[np.arange(train.size), batch.true_indices[train]])
+    ridge = 1e-3
+    dual_gram = x_train @ x_train.T + ridge * np.eye(train.size, dtype=np.float64)
+    alpha = np.linalg.solve(dual_gram, y_train)
+    projected = admission._l2_normalize(encoded_surface.contexts[validation] @ x_train.T @ alpha)
+    candidates = admission._l2_normalize(encoded_surface.candidates[validation])
+    scores = np.einsum("nd,nkd->nk", projected, candidates)
+    predictions = np.argmax(scores, axis=1)
+    return (predictions == batch.true_indices[validation]).astype(np.float64)
 
 
 def oracle_cells(batch: admission.RankCaseBatch) -> np.ndarray:
@@ -97,23 +139,31 @@ def evaluate_calibration_arms(
     seed: int,
     bootstrap_resamples: int,
 ) -> list[dict[str, Any]]:
-    chance = admission.chance_eval(batch.true_indices, seed=seed + 1000)
+    validation = validation_indices(batch, seed=seed)
+    train = _train_indices(batch, validation)
+    validation_batch = _subset_batch(batch, validation)
+    chance = admission.chance_eval(validation_batch.true_indices, seed=seed + 1000)
     raw_cells = np.asarray(raw_rank["correct"], dtype=np.float64)
     arm_cells = {
-        "raw": raw_cells,
-        "zero-index-baseline": zero_index_baseline_cells(batch),
-        "oracle": oracle_cells(batch),
-        "label-shuffle": label_shuffle_cells(batch, seed=seed),
+        "raw": raw_cells[validation],
+        "frozen-probe": frozen_probe_cells(
+            batch,
+            encoded_surface,
+            train_indices=train,
+            validation_indices_=validation,
+        ),
+        "oracle": oracle_cells(validation_batch),
+        "label-shuffle": label_shuffle_cells(validation_batch, seed=seed),
     }
     scorers = {
         "raw": "admission.evaluate_encoded_rank_cases",
-        "zero-index-baseline": "always-index-zero-baseline",
+        "frozen-probe": "frozen-ridge-probe",
         "oracle": "true-label-upper-bound",
         "label-shuffle": "shuffled-label-negative-control",
     }
     pointers = {
         "raw": "$.raw_admission",
-        "zero-index-baseline": "$.calibration_inputs.zero_index_baseline",
+        "frozen-probe": "$.calibration_inputs.frozen_probe",
         "oracle": "$.calibration_inputs.oracle",
         "label-shuffle": "$.calibration_inputs.label_shuffle",
     }
@@ -248,7 +298,17 @@ def build_payload(
         "calibration_inputs": {
             "rank_case_source": "admission.make_rank_cases",
             "encoded_surface_source": "fixture_encoded_surface",
-            "zero_index_baseline": {"status": "deterministic", "prediction_rule": "always index zero"},
+            "split": {
+                "status": "deterministic",
+                "train_fraction": 0.5,
+                "validation_fraction": 0.5,
+                "seed": int(seed + 1542),
+            },
+            "frozen_probe": {
+                "status": "deterministic",
+                "training_rule": "ridge projection from frozen context features to true candidate features",
+                "feature_owner": "admission.EncodedRankSurface",
+            },
             "oracle": {"status": "deterministic", "label_access": "true_index"},
             "label_shuffle": {"status": "deterministic", "seed": int(seed + 1542)},
         },

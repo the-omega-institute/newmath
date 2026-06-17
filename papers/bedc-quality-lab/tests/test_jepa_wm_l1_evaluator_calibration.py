@@ -64,7 +64,7 @@ def test_four_arm_calibration_has_one_gate_shape_for_every_scorer():
         )
     }
     by_arm = {arm["arm_id"]: arm for arm in payload["calibration_arms"]}
-    assert by_arm["frozen-probe"]["scorer"] == "frozen-centroid-linear-probe"
+    assert by_arm["frozen-probe"]["scorer"] == "frozen-ridge-probe"
     assert by_arm["frozen-probe"]["input_pointer"] == "$.calibration_inputs.frozen_probe"
     assert by_arm["oracle"]["validation_gate"]["status"] == "pass"
     assert by_arm["label-shuffle"]["validation_gate"]["status"] == "fail"

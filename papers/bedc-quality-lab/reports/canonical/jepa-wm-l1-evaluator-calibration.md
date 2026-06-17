@@ -10,10 +10,10 @@
 
 | arm | scorer | gate | mean |
 | --- | --- | --- | --- |
-| `raw` | `admission.evaluate_encoded_rank_cases` | `fail` | `0.171875` |
-| `zero-index-baseline` | `always-index-zero-baseline` | `fail` | `0.1328125` |
+| `raw` | `admission.evaluate_encoded_rank_cases` | `fail` | `0.234375` |
+| `frozen-probe` | `frozen-ridge-probe` | `pass` | `0.375` |
 | `oracle` | `true-label-upper-bound` | `pass` | `1.0` |
-| `label-shuffle` | `shuffled-label-negative-control` | `fail` | `0.1328125` |
+| `label-shuffle` | `shuffled-label-negative-control` | `fail` | `0.140625` |
 
 ## Not Claimed
 

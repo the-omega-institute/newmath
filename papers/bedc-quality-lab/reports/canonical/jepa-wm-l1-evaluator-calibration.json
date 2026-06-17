@@ -20,63 +20,63 @@
       "claim_allowed": false,
       "input_pointer": "$.raw_admission",
       "interpretation": "diagnostic calibration only",
-      "mean": 0.171875,
-      "n": 128,
+      "mean": 0.234375,
+      "n": 64,
       "scorer": "admission.evaluate_encoded_rank_cases",
       "validation_gate": {
         "base": {
-          "ci95_high": 0.203125,
-          "ci95_low": 0.1171875,
-          "mean": 0.171875,
-          "n": 128
+          "ci95_high": 0.328125,
+          "ci95_low": 0.121484375,
+          "mean": 0.234375,
+          "n": 64
         },
         "chance_components": {
-          "majority": 0.140625,
-          "random": 0.171875
+          "majority": 0.171875,
+          "random": 0.15625
         },
-        "chance_selected_baseline": "random",
-        "ci_margin_delta": -0.11640624999999993,
+        "chance_selected_baseline": "majority",
+        "ci_margin_delta": -0.13554687499999993,
         "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
         "empirical_chance": {
-          "ci95_high": 0.23359374999999993,
-          "ci95_low": 0.109375,
+          "ci95_high": 0.25703124999999993,
+          "ci95_low": 0.09375,
           "mean": 0.171875,
-          "n": 128
+          "n": 64
         },
         "margin": 0.03,
         "status": "fail"
       }
     },
     {
-      "arm_id": "zero-index-baseline",
+      "arm_id": "frozen-probe",
       "claim_allowed": false,
-      "input_pointer": "$.calibration_inputs.zero_index_baseline",
+      "input_pointer": "$.calibration_inputs.frozen_probe",
       "interpretation": "diagnostic calibration only",
-      "mean": 0.1328125,
-      "n": 128,
-      "scorer": "always-index-zero-baseline",
+      "mean": 0.375,
+      "n": 64,
+      "scorer": "frozen-ridge-probe",
       "validation_gate": {
         "base": {
-          "ci95_high": 0.18144531249999998,
-          "ci95_low": 0.078125,
-          "mean": 0.1328125,
-          "n": 128
+          "ci95_high": 0.4792968749999999,
+          "ci95_low": 0.286328125,
+          "mean": 0.375,
+          "n": 64
         },
         "chance_components": {
-          "majority": 0.140625,
-          "random": 0.171875
+          "majority": 0.171875,
+          "random": 0.15625
         },
-        "chance_selected_baseline": "random",
-        "ci_margin_delta": -0.1589843749999999,
+        "chance_selected_baseline": "majority",
+        "ci_margin_delta": 0.04140625000000009,
         "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
         "empirical_chance": {
-          "ci95_high": 0.2371093749999999,
-          "ci95_low": 0.1076171875,
+          "ci95_high": 0.2449218749999999,
+          "ci95_low": 0.078125,
           "mean": 0.171875,
-          "n": 128
+          "n": 64
         },
         "margin": 0.03,
-        "status": "fail"
+        "status": "pass"
       }
     },
     {
@@ -85,27 +85,27 @@
       "input_pointer": "$.calibration_inputs.oracle",
       "interpretation": "diagnostic calibration only",
       "mean": 1.0,
-      "n": 128,
+      "n": 64,
       "scorer": "true-label-upper-bound",
       "validation_gate": {
         "base": {
           "ci95_high": 1.0,
           "ci95_low": 1.0,
           "mean": 1.0,
-          "n": 128
+          "n": 64
         },
         "chance_components": {
-          "majority": 0.140625,
-          "random": 0.171875
+          "majority": 0.171875,
+          "random": 0.15625
         },
-        "chance_selected_baseline": "random",
-        "ci_margin_delta": 0.7638671875,
+        "chance_selected_baseline": "majority",
+        "ci_margin_delta": 0.703125,
         "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
         "empirical_chance": {
-          "ci95_high": 0.23613281249999998,
-          "ci95_low": 0.1310546875,
+          "ci95_high": 0.296875,
+          "ci95_low": 0.105859375,
           "mean": 0.171875,
-          "n": 128
+          "n": 64
         },
         "margin": 0.03,
         "status": "pass"
@@ -116,28 +116,28 @@
       "claim_allowed": false,
       "input_pointer": "$.calibration_inputs.label_shuffle",
       "interpretation": "diagnostic calibration only",
-      "mean": 0.1328125,
-      "n": 128,
+      "mean": 0.140625,
+      "n": 64,
       "scorer": "shuffled-label-negative-control",
       "validation_gate": {
         "base": {
-          "ci95_high": 0.18925781249999998,
+          "ci95_high": 0.22226562499999997,
           "ci95_low": 0.074609375,
-          "mean": 0.1328125,
-          "n": 128
+          "mean": 0.140625,
+          "n": 64
         },
         "chance_components": {
-          "majority": 0.140625,
-          "random": 0.171875
+          "majority": 0.171875,
+          "random": 0.15625
         },
-        "chance_selected_baseline": "random",
-        "ci_margin_delta": -0.16152343749999998,
+        "chance_selected_baseline": "majority",
+        "ci_margin_delta": -0.191015625,
         "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
         "empirical_chance": {
-          "ci95_high": 0.23613281249999998,
-          "ci95_low": 0.11015625,
+          "ci95_high": 0.265625,
+          "ci95_low": 0.090234375,
           "mean": 0.171875,
-          "n": 128
+          "n": 64
         },
         "margin": 0.03,
         "status": "fail"
@@ -146,6 +146,11 @@
   ],
   "calibration_inputs": {
     "encoded_surface_source": "fixture_encoded_surface",
+    "frozen_probe": {
+      "feature_owner": "admission.EncodedRankSurface",
+      "status": "deterministic",
+      "training_rule": "ridge projection from frozen context features to true candidate features"
+    },
     "label_shuffle": {
       "seed": 20262159,
       "status": "deterministic"
@@ -155,9 +160,11 @@
       "status": "deterministic"
     },
     "rank_case_source": "admission.make_rank_cases",
-    "zero_index_baseline": {
-      "prediction_rule": "always index zero",
-      "status": "deterministic"
+    "split": {
+      "seed": 20262159,
+      "status": "deterministic",
+      "train_fraction": 0.5,
+      "validation_fraction": 0.5
     }
   },
   "canonical_role": "diagnostic_evaluator_calibration",
@@ -207,11 +214,11 @@
         "validation_status": "fail"
       },
       "CAL-2": {
-        "arm_id": "zero-index-baseline",
+        "arm_id": "frozen-probe",
         "claim_allowed": false,
         "evidence_pointer": "$.calibration_arms[1].validation_gate",
         "status": "diagnostic-only",
-        "validation_status": "fail"
+        "validation_status": "pass"
       },
       "CAL-3": {
         "arm_id": "oracle",
@@ -249,7 +256,7 @@
     "score_source": "admission.evaluate_encoded_rank_cases",
     "top1_accuracy": 0.171875
   },
-  "raw_digest": "eff795429ef033862c0318e6e1d4c4ac09e35fd806962dc780d8d1413665cea8",
+  "raw_digest": "35dec46ae3c5e30d6f7d2e264a98e42d0d7c4bc66b7608dea7d3aa7ad6e45223",
   "reproducibility_contract": {
     "calibration": {
       "basis": "four scorer arms over the admission owner rank cases",
