@@ -305,3 +305,16 @@ not improve over the scalar mechanism learner and does not improve over the
 shallow compatibility learner.  The negative result separates assignment-level
 loss contact from assignment-bearing state: exposing the exact-budget hinge is
 not enough if the representation remains a fixed shallow rollout feature map.
+
+A lightweight aggregate assignment-state adapter also fails.  This audit avoids
+another expensive feature encoder and instead appends episode-level aggregate
+score-state summaries, fitted on non-hard episodes, to the existing scalar,
+set-context, compatibility, energy, and perturbation-value scores.  On the
+held-out hard slice, the selected adapter has mean capture $-0.2857$, with
+budget-two capture $-0.4056$, budget-three capture $-0.2787$, and budget-four
+capture $-0.1729$; hard label Spearman is $0.1500$.  It does not improve over
+the scalar mechanism learner, the shallow compatibility learner, or the
+structured energy learner.  Thus merely appending aggregate episode statistics
+is not a substitute for a learned set/assignment state.  The state must be
+generated jointly with the anchor--depth compatibility variables, rather than
+constructed as a post-hoc calibration layer over fixed scores.
