@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 import http from "node:http";
-import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { readFile, stat } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
 const DEFAULT_CDP = "http://127.0.0.1:9222";
@@ -13,6 +14,10 @@ const ASK_WAIT_FLOORS = {
   minResponseChars: 80,
   minWaitAfterFirstMs: 15000,
   stableMs: 5000,
+};
+const ATTACH_WAIT_FLOORS = {
+  waitMs: 120000,
+  stableMs: 3000,
 };
 
 function parseArgs(argv) {
@@ -78,6 +83,30 @@ export function assertLoopbackUrl(rawUrl, label) {
   }
 }
 
+export function normalizePdfAttachOptions(options = {}) {
+  return {
+    pdfPath: typeof options.pdfPath === "string" && options.pdfPath.trim() ? options.pdfPath.trim() : "",
+    attachWaitMs: floorNumber(options.attachWaitMs, ATTACH_WAIT_FLOORS.waitMs, ATTACH_WAIT_FLOORS.waitMs),
+    attachStableMs: floorNumber(options.attachStableMs, ATTACH_WAIT_FLOORS.stableMs, ATTACH_WAIT_FLOORS.stableMs),
+  };
+}
+
+export async function resolveLocalPdfPath(rawPath) {
+  if (!rawPath || typeof rawPath !== "string") return "";
+  const resolved = path.resolve(rawPath);
+  if (!resolved.toLowerCase().endsWith(".pdf")) {
+    throw new Error(`PDF attachment must have .pdf extension: ${rawPath}`);
+  }
+  const info = await stat(resolved);
+  if (!info.isFile()) {
+    throw new Error(`PDF attachment path is not a file: ${resolved}`);
+  }
+  if (info.size <= 0) {
+    throw new Error(`PDF attachment is empty: ${resolved}`);
+  }
+  return resolved;
+}
+
 async function findPage({ cdp = DEFAULT_CDP } = {}) {
   assertLoopbackUrl(cdp, "CDP endpoint");
   const targets = await jsonFetch(`${cdp}/json/list`);
@@ -113,6 +142,7 @@ async function withPage(fn, options = {}) {
   try {
     await call("Runtime.enable");
     await call("Page.enable");
+    await call("DOM.enable");
     return await fn({ page, call });
   } finally {
     ws.close();
@@ -218,12 +248,143 @@ export async function waitForStableAssistant(call, beforeCount, waitMs, options 
   throw new Error(`Timed out waiting for assistant response after ${waitMs}ms`);
 }
 
+function composerStateExpression() {
+  return `(() => {
+    const box = document.querySelector("#prompt-textarea, textarea[data-testid='prompt-textarea'], div[contenteditable='true'][role='textbox']");
+    const buttons = Array.from(document.querySelectorAll("button"));
+    const send = document.querySelector("button[data-testid='send-button']") ||
+      buttons.find((button) => /send|发送/i.test(button.getAttribute("aria-label") || "")) ||
+      buttons.find((button) => (button.innerText || "").trim() === "Send");
+    const stop = document.querySelector("button[data-testid='stop-button'], button[aria-label*='Stop'], button[aria-label*='停止']");
+    const turns = Array.from(document.querySelectorAll("[data-message-author-role]")).map((el) => ({
+      role: el.getAttribute("data-message-author-role"),
+      text: el.innerText || ""
+    }));
+    return {
+      userCount: turns.filter((turn) => turn.role === "user").length,
+      assistantCount: turns.filter((turn) => turn.role === "assistant").length,
+      promptText: box ? (box.value || box.innerText || "").trim().slice(0, 1000) : "",
+      sendExists: !!send,
+      sendEnabled: !!send && !send.disabled && send.getAttribute("aria-disabled") !== "true",
+      stopVisible: !!stop
+    };
+  })()`;
+}
+
+export async function waitForPromptSubmitted(call, beforeUserCount, sentState, waitMs = 15000) {
+  const deadline = Date.now() + waitMs;
+  let lastState = null;
+  while (Date.now() < deadline) {
+    const state = await evaluate(call, composerStateExpression(), 5000);
+    lastState = state;
+    if (Number(state.userCount || 0) > Number(beforeUserCount || 0)) return state;
+    if (!state.promptText && state.stopVisible) return state;
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  throw new Error(`Prompt was not submitted: sent=${JSON.stringify(sentState)} composer=${JSON.stringify(lastState)}`);
+}
+
+function attachmentStateExpression() {
+  return `(() => {
+    const bodyText = document.body ? document.body.innerText : "";
+    const attachmentNodes = Array.from(document.querySelectorAll(
+      "[data-testid*='attachment'], [class*='attachment'], [class*='uploaded'], [aria-label*='attachment'], [aria-label*='file']"
+    ));
+    const uploading = !!(
+      document.querySelector("[class*='uploading'], [data-testid*='uploading'], [aria-label*='uploading']") ||
+      /uploading|processing file|attaching|正在上传|上传中/i.test(bodyText)
+    );
+    const send = document.querySelector("button[data-testid='send-button']") ||
+      Array.from(document.querySelectorAll("button")).find((button) => /send|发送/i.test(button.getAttribute("aria-label") || ""));
+    return {
+      attachmentCount: attachmentNodes.length,
+      attachmentText: attachmentNodes.map((node) => (node.innerText || node.getAttribute("aria-label") || "")).join("\\n").slice(0, 1000),
+      uploading,
+      sendEnabled: !!send && !send.disabled && send.getAttribute("aria-disabled") !== "true"
+    };
+  })()`;
+}
+
+async function queryFileInputNodeId(call) {
+  const documentResult = await call("DOM.getDocument", { depth: -1, pierce: true });
+  const rootId = documentResult.result?.root?.nodeId;
+  if (!rootId) throw new Error("Cannot inspect DOM root for file input");
+  for (const selector of ["input[type='file'][accept*='pdf']", "input[type='file']"]) {
+    const found = await call("DOM.querySelectorAll", { nodeId: rootId, selector });
+    const nodeIds = found.result?.nodeIds || [];
+    if (nodeIds.length > 0) return nodeIds[nodeIds.length - 1];
+  }
+  return 0;
+}
+
+async function clickAttachButton(call) {
+  return evaluate(
+    call,
+    `(() => {
+      const buttons = Array.from(document.querySelectorAll("button"));
+      const attach = document.querySelector("button[data-testid='composer-attach-button']") ||
+        buttons.find((button) => /attach|file|添加|文件|plus|上传/i.test(
+          [button.getAttribute("aria-label") || "", button.innerText || "", button.title || ""].join(" ")
+        ));
+      if (!attach) return { ok: false, reason: "no_attach_button" };
+      if (attach.disabled || attach.getAttribute("aria-disabled") === "true") {
+        return { ok: false, reason: "attach_disabled" };
+      }
+      attach.click();
+      return { ok: true };
+    })()`,
+    5000,
+  );
+}
+
+async function waitForAttachmentReady(call, beforeState, waitMs, stableMs) {
+  const deadline = Date.now() + waitMs;
+  let last = "";
+  let stableSince = 0;
+  while (Date.now() < deadline) {
+    const state = await evaluate(call, attachmentStateExpression(), 5000);
+    const grew = Number(state.attachmentCount || 0) > Number(beforeState.attachmentCount || 0);
+    const ready = grew && !state.uploading && state.sendEnabled;
+    const signature = JSON.stringify(state);
+    if (ready && signature === last) {
+      if (!stableSince) stableSince = Date.now();
+      if (Date.now() - stableSince >= stableMs) return state;
+    } else {
+      last = signature;
+      stableSince = 0;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  }
+  throw new Error(`Timed out waiting for PDF attachment after ${waitMs}ms`);
+}
+
+async function attachLocalPdf(call, rawPath, options = {}) {
+  const pdfPath = await resolveLocalPdfPath(rawPath);
+  if (!pdfPath) return { attached: false };
+  const before = await evaluate(call, attachmentStateExpression(), 5000);
+  let nodeId = await queryFileInputNodeId(call);
+  if (!nodeId) {
+    const clicked = await clickAttachButton(call);
+    if (!clicked?.ok) throw new Error(`Cannot open ChatGPT attach control: ${JSON.stringify(clicked)}`);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    nodeId = await queryFileInputNodeId(call);
+  }
+  if (!nodeId) throw new Error("Cannot find ChatGPT file input after opening attach control");
+  const setResult = await call("DOM.setFileInputFiles", { nodeId, files: [pdfPath] });
+  if (setResult.error) throw new Error(`DOM.setFileInputFiles failed: ${JSON.stringify(setResult.error)}`);
+  const ready = await waitForAttachmentReady(call, before, options.attachWaitMs, options.attachStableMs);
+  return { attached: true, pdfPath, ready };
+}
+
 async function askChat(prompt, options = {}) {
   const { waitMs, minResponseChars, minWaitAfterFirstMs, stableMs } = normalizeAskWaitOptions(options);
+  const attachOptions = normalizePdfAttachOptions(options);
   return withPage(async ({ call }) => {
     const before = await evaluate(call, readExpression());
+    const beforeUserCount = before.turns.filter((turn) => turn.role === "user").length;
     const beforeAssistantCount = before.turns.filter((turn) => turn.role === "assistant").length;
     const promptJson = JSON.stringify(prompt);
+    const attachment = attachOptions.pdfPath ? await attachLocalPdf(call, attachOptions.pdfPath, attachOptions) : { attached: false };
 
     const prepared = await evaluate(
       call,
@@ -282,6 +443,7 @@ async function askChat(prompt, options = {}) {
       });
     }
 
+    const submitted = await waitForPromptSubmitted(call, beforeUserCount, sent);
     const after = await waitForStableAssistant(call, beforeAssistantCount, waitMs, {
       minResponseChars,
       minWaitAfterFirstMs,
@@ -297,6 +459,8 @@ async function askChat(prompt, options = {}) {
     return {
       ok: true,
       promptChars: promptJson.length - 2,
+      attachment,
+      submitted,
       response,
       state: after,
     };
@@ -344,6 +508,9 @@ async function serve(args) {
           minResponseChars: body.minResponseChars,
           minWaitAfterFirstMs: body.minWaitAfterFirstMs,
           stableMs: body.stableMs,
+          pdfPath: body.pdfPath,
+          attachWaitMs: body.attachWaitMs,
+          attachStableMs: body.attachStableMs,
         });
         response.writeHead(200, { "content-type": "application/json" });
         response.end(JSON.stringify(payload));

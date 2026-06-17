@@ -356,3 +356,21 @@ budget-specific bottleneck factorization is not a deployable allocation repair.
 It is not allocation closure, not LeWorldModel next-latent prediction parity,
 not independent-export generalization, and not BEDC-native world-model
 capability.
+
+The matched assignment-state recoverability check is also negative.  This
+diagnostic keeps the same target labels, budgets, ridge family, lambda grid,
+calibration rule, and per-budget training schedule, then compares a real
+learned assignment-state channel with a shuffled assignment-state channel and a
+no-assignment control.  Exact-budget cardinality passes for every row.  On the
+held-out hard slice, the real channel has mean capture $-0.5327$, with
+budget-two, budget-three, and budget-four captures $-0.6643$, $-0.7925$, and
+$-0.1414$.  This is slightly better in mean capture than the shuffled channel
+$-0.6468$ and the no-assignment control $-0.5695$, but it does not pass the
+recoverability gate: hard-label Spearman is lower for the real channel than
+for both controls, $0.1634$ versus $0.2084$ and $0.1886$, forced-delta
+label-prediction noninferiority fails, and a swapped-state readout is not worse
+than the real-state readout.  The result closes off a weaker interpretation of
+the partial bottleneck signal.  Current assignment-state summaries can move
+some hard capture metrics, but they are not a stable recoverable mechanism
+state and cannot be promoted into allocation closure, independent-export
+generalization, or BEDC-native world-model capability.

@@ -4,10 +4,16 @@ import assert from "node:assert/strict";
 import {
   assertLoopbackUrl,
   isAuthorizedChatUrl,
+  normalizePdfAttachOptions,
+  resolveLocalPdfPath,
   normalizeAskWaitOptions,
   selectAuthorizedPage,
+  waitForPromptSubmitted,
   waitForStableAssistant,
 } from "./nyxid_local_profile_service.mjs";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 
 const fragment = "6a32835f-e560-83ee-a061-8fe3b0ddfbb9";
 const authorized = {
@@ -146,6 +152,47 @@ assert.throws(
   );
 }
 
+{
+  async function fakeCall(_method, _params) {
+    return {
+      result: {
+        result: {
+          value: {
+            userCount: 2,
+            assistantCount: 1,
+            promptText: "",
+            sendExists: true,
+            sendEnabled: false,
+            stopVisible: true,
+          },
+        },
+      },
+    };
+  }
+  const state = await waitForPromptSubmitted(fakeCall, 1, { ok: true }, 50);
+  assert.equal(state.userCount, 2);
+}
+
+{
+  async function fakeCall(_method, _params) {
+    return {
+      result: {
+        result: {
+          value: {
+            userCount: 1,
+            assistantCount: 1,
+            promptText: "still in composer",
+            sendExists: true,
+            sendEnabled: true,
+            stopVisible: false,
+          },
+        },
+      },
+    };
+  }
+  await assert.rejects(waitForPromptSubmitted(fakeCall, 1, { ok: false, reason: "send_disabled" }, 50), /Prompt was not submitted/);
+}
+
 assert.deepEqual(normalizeAskWaitOptions({
   waitMs: 1200,
   minResponseChars: 1,
@@ -157,5 +204,29 @@ assert.deepEqual(normalizeAskWaitOptions({
   minWaitAfterFirstMs: 15000,
   stableMs: 5000,
 });
+
+assert.deepEqual(normalizePdfAttachOptions({
+  pdfPath: " main.pdf ",
+  attachWaitMs: 1,
+  attachStableMs: 1,
+}), {
+  pdfPath: "main.pdf",
+  attachWaitMs: 120000,
+  attachStableMs: 3000,
+});
+
+{
+  const tmp = await mkdtemp(path.join(os.tmpdir(), "nyxid-pdf-"));
+  try {
+    const pdf = path.join(tmp, "sample.pdf");
+    const txt = path.join(tmp, "sample.txt");
+    await writeFile(pdf, "%PDF-1.4\n");
+    await writeFile(txt, "not pdf\n");
+    assert.equal(await resolveLocalPdfPath(pdf), path.resolve(pdf));
+    await assert.rejects(resolveLocalPdfPath(txt), /must have \.pdf extension/);
+  } finally {
+    await rm(tmp, { recursive: true, force: true });
+  }
+}
 
 console.log("nyxid_local_profile_service single-chat tests passed");

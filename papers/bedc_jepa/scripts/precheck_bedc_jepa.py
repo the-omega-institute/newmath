@@ -484,6 +484,7 @@ def check_mechanism_target_claim_boundary(files: list[Path]) -> list[str]:
         ("fi-099 claim grade", r"fi-099.*state-generation\s+fail-closed"),
         ("fi-100 claim grade", r"fi-100.*assignment-bearing\s+bottleneck\s+partial.*not\s+all-budget\s+closed"),
         ("fi-101 claim grade", r"fi-101.*budget-conditioned\s+bottleneck\s+negative\s+repair\s+audit.*fail-closed"),
+        ("fi-102 claim grade", r"fi-102.*assignment-state\s+recoverability\s+negative\s+control\s+audit.*fail-closed"),
     )
     for label, pattern in required:
         if not re.search(pattern, normalized):
