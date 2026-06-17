@@ -222,6 +222,42 @@ is also absent from the carrier inventory, the strong-normalization-window
 consumer receives only the displayed finite candidate packet.
 \end{proof}
 
+\begin{theorem}[MetaCICRedexFrontier SN obstruction retention]
+\label{thm:metacic-redex-frontier-sn-obstruction-retention}
+A strong-normalization-window consumer over an accepted
+$\MetaCICRedexFrontierUp$ packet must retain the obstruction row $O$ through
+the beta-boundary route and the normalization-window handoff. The consumer may
+pass only the finite candidate packet formed from $B,A,L,P,O,E,H,C,G,N$; it may
+not erase $O$ into a global strong-normalization theorem, subject-reduction
+theorem, confluence theorem, substitution oracle, or dependent-codomain
+readback.
+\end{theorem}
+\begin{proof}
+Start with obstruction non-escape,
+\autoref{thm:metacic-redex-frontier-nonescape}. It forces the obstruction row
+$O$ to remain visible whenever the redex-frontier packet is exposed to a
+consumer.
+
+Use the scoped package theorem,
+\autoref{thm:metacic-redex-frontier-scope-package}. The accepted packet is
+exactly the finite row family $B,A,L,P,O,E,H,C,G,N$, so retaining the
+obstruction is part of reading the primitive package rather than an external
+side condition.
+
+Apply the normalization-window handoff and candidate normalization,
+\autoref{thm:metacic-redex-frontier-normalization-window-handoff} and
+\autoref{thm:metacic-redex-frontier-candidate-normalization}. These results
+carry the beta-boundary row $E$ and the finite candidate surface to the
+downstream normalization-window route without replacing $O$ by an ambient
+normalization claim.
+
+Finally apply the candidate SN-window theorem,
+\autoref{thm:metacic-redex-frontier-candidate-sn-window}. It restricts the
+strong-normalization-window consumer to the displayed finite candidate packet,
+so subject reduction, confluence, substitution, global strong normalization,
+and dependent-codomain readback remain outside the exported surface.
+\end{proof}
+
 \begin{theorem}[MetaCICRedexFrontier obstruction retention]
 \label{thm:metacic-redex-frontier-obstruction-retention}
 Every candidate-mediated strong-normalization or normalization-window consumer
