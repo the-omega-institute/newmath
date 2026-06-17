@@ -100,4 +100,47 @@ theorem DyadicCauchyTailEnvelopeRegSeqRatRealRoute [AskSetup] [PackageSetup]
     ⟨envelopeUnary, realSealUnary, routeUnary, sourceTailRoute, envelopeRoute, replayRoute,
       provenancePkg, routePkg⟩
 
+theorem DyadicCauchyTailEnvelopeCommonRefinement [AskSetup] [PackageSetup]
+    {source tail tail' envelope envelope' commonTail commonBudget regseq realSeal
+      provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source →
+      UnaryHistory tail →
+        UnaryHistory tail' →
+          UnaryHistory regseq →
+            Cont source tail envelope →
+              Cont source tail' envelope' →
+                Cont envelope envelope' commonTail →
+                  Cont commonTail regseq commonBudget →
+                    Cont commonBudget regseq realSeal →
+                      PkgSig bundle provenance pkg →
+                        PkgSig bundle commonBudget pkg →
+                          UnaryHistory envelope ∧ UnaryHistory envelope' ∧
+                            UnaryHistory commonTail ∧ UnaryHistory commonBudget ∧
+                              UnaryHistory realSeal ∧ Cont source tail envelope ∧
+                                Cont source tail' envelope' ∧
+                                  Cont envelope envelope' commonTail ∧
+                                    Cont commonTail regseq commonBudget ∧
+                                      Cont commonBudget regseq realSeal ∧
+                                        PkgSig bundle provenance pkg ∧
+                                          PkgSig bundle commonBudget pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro sourceUnary tailUnary tailPrimeUnary regseqUnary sourceTailRoute
+    sourceTailPrimeRoute commonTailRoute commonBudgetRoute realSealRoute provenancePkg
+    commonBudgetPkg
+  have envelopeUnary : UnaryHistory envelope :=
+    unary_cont_closed sourceUnary tailUnary sourceTailRoute
+  have envelopePrimeUnary : UnaryHistory envelope' :=
+    unary_cont_closed sourceUnary tailPrimeUnary sourceTailPrimeRoute
+  have commonTailUnary : UnaryHistory commonTail :=
+    unary_cont_closed envelopeUnary envelopePrimeUnary commonTailRoute
+  have commonBudgetUnary : UnaryHistory commonBudget :=
+    unary_cont_closed commonTailUnary regseqUnary commonBudgetRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed commonBudgetUnary regseqUnary realSealRoute
+  exact
+    ⟨envelopeUnary, envelopePrimeUnary, commonTailUnary, commonBudgetUnary,
+      realSealUnary, sourceTailRoute, sourceTailPrimeRoute, commonTailRoute,
+      commonBudgetRoute, realSealRoute, provenancePkg, commonBudgetPkg⟩
+
 end BEDC.Derived.DyadicUp
