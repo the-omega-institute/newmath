@@ -1,6 +1,6 @@
 # JEPA-WM-L1 Evaluator Calibration
 
-- Generated at: `fixture`
+- Generated at: `2026-06-17T00:00:00+00:00`
 - Producer: `bedc_quality_lab.tasks.jepa_wm_l1_evaluator_calibration`
 - Admission owner: `bedc_quality_lab.tasks.jepa_wm_l1`
 - Diagnostic route: `inspect evaluator scorer separation before any admission rerun`
@@ -11,7 +11,7 @@
 | arm | scorer | gate | mean |
 | --- | --- | --- | --- |
 | `raw` | `admission.evaluate_encoded_rank_cases` | `fail` | `0.234375` |
-| `frozen-probe` | `frozen-ridge-probe` | `pass` | `0.375` |
+| `frozen-probe` | `frozen-ridge-probe` | `fail` | `0.375` |
 | `oracle` | `true-label-upper-bound` | `pass` | `1.0` |
 | `label-shuffle` | `shuffled-label-negative-control` | `fail` | `0.140625` |
 

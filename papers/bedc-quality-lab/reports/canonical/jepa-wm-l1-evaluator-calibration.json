@@ -25,8 +25,8 @@
       "scorer": "admission.evaluate_encoded_rank_cases",
       "validation_gate": {
         "base": {
-          "ci95_high": 0.328125,
-          "ci95_low": 0.121484375,
+          "ci95_high": 0.34375,
+          "ci95_low": 0.140625,
           "mean": 0.234375,
           "n": 64
         },
@@ -35,11 +35,11 @@
           "random": 0.15625
         },
         "chance_selected_baseline": "majority",
-        "ci_margin_delta": -0.13554687499999993,
+        "ci_margin_delta": -0.125,
         "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
         "empirical_chance": {
-          "ci95_high": 0.25703124999999993,
-          "ci95_low": 0.09375,
+          "ci95_high": 0.265625,
+          "ci95_low": 0.078125,
           "mean": 0.171875,
           "n": 64
         },
@@ -57,8 +57,8 @@
       "scorer": "frozen-ridge-probe",
       "validation_gate": {
         "base": {
-          "ci95_high": 0.4792968749999999,
-          "ci95_low": 0.286328125,
+          "ci95_high": 0.5035156249999995,
+          "ci95_low": 0.25,
           "mean": 0.375,
           "n": 64
         },
@@ -67,16 +67,16 @@
           "random": 0.15625
         },
         "chance_selected_baseline": "majority",
-        "ci_margin_delta": 0.04140625000000009,
+        "ci_margin_delta": -0.03125,
         "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
         "empirical_chance": {
-          "ci95_high": 0.2449218749999999,
+          "ci95_high": 0.28125,
           "ci95_low": 0.078125,
           "mean": 0.171875,
           "n": 64
         },
         "margin": 0.03,
-        "status": "pass"
+        "status": "fail"
       }
     },
     {
@@ -99,11 +99,11 @@
           "random": 0.15625
         },
         "chance_selected_baseline": "majority",
-        "ci_margin_delta": 0.703125,
+        "ci_margin_delta": 0.734375,
         "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
         "empirical_chance": {
-          "ci95_high": 0.296875,
-          "ci95_low": 0.105859375,
+          "ci95_high": 0.265625,
+          "ci95_low": 0.078125,
           "mean": 0.171875,
           "n": 64
         },
@@ -121,8 +121,8 @@
       "scorer": "shuffled-label-negative-control",
       "validation_gate": {
         "base": {
-          "ci95_high": 0.22226562499999997,
-          "ci95_low": 0.074609375,
+          "ci95_high": 0.21875,
+          "ci95_low": 0.0625,
           "mean": 0.140625,
           "n": 64
         },
@@ -131,11 +131,11 @@
           "random": 0.15625
         },
         "chance_selected_baseline": "majority",
-        "ci_margin_delta": -0.191015625,
+        "ci_margin_delta": -0.203125,
         "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
         "empirical_chance": {
           "ci95_high": 0.265625,
-          "ci95_low": 0.090234375,
+          "ci95_low": 0.09375,
           "mean": 0.171875,
           "n": 64
         },
@@ -176,7 +176,7 @@
   },
   "config": {
     "base_chance_margin": 0.03,
-    "bootstrap_resamples": 32,
+    "bootstrap_resamples": 512,
     "case_count": 128,
     "choice_count": 8,
     "negative_count": 7,
@@ -192,7 +192,7 @@
     "routing_status": "diagnostic-routing-recorded",
     "status": "not-applicable"
   },
-  "generated_at": "fixture",
+  "generated_at": "2026-06-17T00:00:00+00:00",
   "hardgate": {
     "claim_allowed": false,
     "gate_shape": [
@@ -218,7 +218,7 @@
         "claim_allowed": false,
         "evidence_pointer": "$.calibration_arms[1].validation_gate",
         "status": "diagnostic-only",
-        "validation_status": "pass"
+        "validation_status": "fail"
       },
       "CAL-3": {
         "arm_id": "oracle",
@@ -256,7 +256,7 @@
     "score_source": "admission.evaluate_encoded_rank_cases",
     "top1_accuracy": 0.171875
   },
-  "raw_digest": "35dec46ae3c5e30d6f7d2e264a98e42d0d7c4bc66b7608dea7d3aa7ad6e45223",
+  "raw_digest": "6d72ac6f6145e34722fde16ba4e63dffef767093e0d5e655eaec8406099b9d0d",
   "reproducibility_contract": {
     "calibration": {
       "basis": "four scorer arms over the admission owner rank cases",
