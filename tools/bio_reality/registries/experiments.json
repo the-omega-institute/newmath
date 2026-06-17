@@ -1662,9 +1662,18 @@
     {
       "claim_id": "bio-Plan.direction.new-frontier.ADAR-mediated-editing-bridge",
       "hypothesis_level": "H1",
-      "statement": "A frozen internal codon-coordinate, used only to design matched synonymous Q+/Q− coding-region variants around a candidate editable adenosine or local double-stranded-RNA-forming window, prospectively predicts a site-specific A-to-I RNA-editing fraction through measured local ADAR occupancy and ADAR-dependent catalytic activity.",
+      "statement": "A frozen internal codon-coordinate used only as a design axis is tested against matched synonymous ADAR A-to-I editing loss/rescue data at the RNA level.",
       "experiment_id": "matched-synonymous-ADAR-A-to-I-editing-loss-rescue",
-      "dependencies": [
+      "dependencies": [],
+      "rationale": "Across the consultation, several external layers were proposed, but the strongest clean failure test was explicitly identified as the ADAR-mediated A-to-I RNA-editing bridge. It offers a sharp collapse criterion: if ADAR loss or catalytic inhibition removes the Q-associated editing difference and wild-type ADAR rescue restores it, while catalytic-dead or binding-defective rescue fails, the external readout is tied to a measured, perturbable biological bridge. If the editing effect instead follows RNA structure or local dsRNA substrate strength better than ADAR occupancy, the mechanism claim fails and must be rescoped.",
+      "status": "open",
+      "proposal_rationale": "Across the consultation, several external layers were proposed, but the strongest clean failure test was explicitly identified as the ADAR-mediated A-to-I RNA-editing bridge. It offers a sharp collapse criterion: if ADAR loss or catalytic inhibition removes the Q-associated editing difference and wild-type ADAR rescue restores it, while catalytic-dead or binding-defective rescue fails, the external readout is tied to a measured, perturbable biological bridge. If the editing effect instead follows RNA structure or local dsRNA substrate strength better than ADAR occupancy, the mechanism claim fails and must be rescoped.",
+      "proposed_by": "bio-planner",
+      "source_event_id": "event.30713d23ee35d2db",
+      "created_at": "2026-06-17T21:18:51+00:00",
+      "script_path": "tools/bio_reality/experiments/run_matched_synonymous_adar_a_to_i_editing_loss_rescue.py",
+      "timeout_seconds": 600,
+      "external_preconditions": [
         "Freeze the internal codon-coordinate before outcome measurement and use it only as a design axis.",
         "Construct matched synonymous Q+/Q− coding-region variants around a candidate editable adenosine or local dsRNA-forming window.",
         "Preserve amino-acid sequence unless the editing event itself is explicitly tested as an RNA recoding event.",
@@ -1674,12 +1683,82 @@
         "Test ADAR-present, ADAR-loss or catalytic-inhibition, wild-type ADAR rescue, and catalytic-dead or binding-defective ADAR rescue conditions.",
         "Include structure-matched and sequence-composition controls that should not reproduce the same loss/rescue pattern unless they restore the ADAR substrate itself."
       ],
-      "rationale": "Across the consultation, several external layers were proposed, but the strongest clean failure test was explicitly identified as the ADAR-mediated A-to-I RNA-editing bridge. It offers a sharp collapse criterion: if ADAR loss or catalytic inhibition removes the Q-associated editing difference and wild-type ADAR rescue restores it, while catalytic-dead or binding-defective rescue fails, the external readout is tied to a measured, perturbable biological bridge. If the editing effect instead follows RNA structure or local dsRNA substrate strength better than ADAR occupancy, the mechanism claim fails and must be rescoped.",
-      "status": "proposed_by_oracle",
-      "proposal_rationale": "Across the consultation, several external layers were proposed, but the strongest clean failure test was explicitly identified as the ADAR-mediated A-to-I RNA-editing bridge. It offers a sharp collapse criterion: if ADAR loss or catalytic inhibition removes the Q-associated editing difference and wild-type ADAR rescue restores it, while catalytic-dead or binding-defective rescue fails, the external readout is tied to a measured, perturbable biological bridge. If the editing effect instead follows RNA structure or local dsRNA substrate strength better than ADAR occupancy, the mechanism claim fails and must be rescoped.",
-      "proposed_by": "bio-oracle-consumer",
-      "source_event_id": "event.30713d23ee35d2db",
-      "created_at": "2026-06-17T21:00:02+00:00"
+      "required_data": [
+        "tools/bio_reality/data/matched_synonymous_adar_a_to_i_editing_loss_rescue.json"
+      ],
+      "required_data_contract": {
+        "dataset": "tools/bio_reality/data/matched_synonymous_adar_a_to_i_editing_loss_rescue.json",
+        "required_top_level_fields": [
+          "protocol_frozen_at",
+          "outcome_measurement_started_at",
+          "internal_coordinate_frozen_before_outcome",
+          "q_partition_frozen_before_outcome",
+          "matched_design_preregistered",
+          "analysis_thresholds_preregistered",
+          "coordinate_used_only_as_design_axis",
+          "matched_variant_pairs",
+          "structure_composition_controls",
+          "cannot_claim"
+        ],
+        "matched_variant_pair_required_fields": [
+          "q_plus",
+          "q_minus",
+          "amino_acid_sequence_preserved",
+          "local_rna_structure_matched",
+          "editing_complementary_strength_matched",
+          "gc_dinucleotide_matched",
+          "codon_pair_context_matched",
+          "motif_density_matched",
+          "splice_context_matched",
+          "transcript_abundance_matched",
+          "batch_matched",
+          "adar_present_q_plus_editing_fraction",
+          "adar_present_q_minus_editing_fraction",
+          "adar_loss_q_plus_editing_fraction",
+          "adar_loss_q_minus_editing_fraction",
+          "catalytic_inhibition_q_plus_editing_fraction",
+          "catalytic_inhibition_q_minus_editing_fraction",
+          "wild_type_rescue_q_plus_editing_fraction",
+          "wild_type_rescue_q_minus_editing_fraction",
+          "catalytic_dead_rescue_q_plus_editing_fraction",
+          "catalytic_dead_rescue_q_minus_editing_fraction",
+          "binding_defective_rescue_q_plus_editing_fraction",
+          "binding_defective_rescue_q_minus_editing_fraction",
+          "adar_present_q_plus_occupancy",
+          "adar_present_q_minus_occupancy"
+        ]
+      },
+      "acceptance": {
+        "required_checks": [
+          "matched_synonymous_dataset_loaded",
+          "protocol_frozen_before_measurement",
+          "matched_pair_count",
+          "adar_present_q_plus_advantage",
+          "adar_loss_collapses_q_association",
+          "catalytic_inhibition_collapses_q_association",
+          "wild_type_rescue_restores_association",
+          "catalytic_dead_rescue_fails",
+          "binding_defective_rescue_fails",
+          "occupancy_tracks_editing_delta",
+          "structure_composition_controls_do_not_reproduce",
+          "no_geometry_to_higher_layer_promotion"
+        ],
+        "criteria": {
+          "min_matched_pairs": 48,
+          "min_adar_present_mean_delta": 0.1,
+          "min_adar_present_win_rate": 0.75,
+          "max_adar_present_sign_test_p": 0.001,
+          "max_adar_loss_abs_mean_delta": 0.03,
+          "max_adar_loss_win_rate": 0.6,
+          "max_catalytic_inhibition_abs_mean_delta": 0.03,
+          "max_catalytic_inhibition_win_rate": 0.6,
+          "min_wild_type_rescue_fraction": 0.75,
+          "max_catalytic_dead_rescue_fraction": 0.25,
+          "max_binding_defective_rescue_fraction": 0.25,
+          "min_occupancy_editing_correlation": 0.45,
+          "max_control_reproduction_fraction": 0.25
+        }
+      }
     }
   ]
 }
