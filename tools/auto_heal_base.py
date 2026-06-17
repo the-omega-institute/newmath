@@ -1728,13 +1728,36 @@ run is stale and the defect was already fixed) do you make no commit.
 2. Make the minimal fix. Do NOT bundle unrelated cleanups, do NOT add new
    theorems, do NOT mass-rewrite proofs.
 
-3. Verify the fix locally before committing:
-   - For Lean-side: `cd lean4 && lake build` exits 0; `python3
-     tools/check-axioms.py` exits 0.
-   - For paper-side static gates: `cd papers/bedc && make precheck` exits 0.
-   - If the failed run was a PDF/LaTeX job, `cd papers/bedc && make` exits 0.
-   - For audit: `python3 lean4/scripts/bedc_ci.py audit` exits 0.
-   Run `python3 lean4/scripts/bedc_ci.py axiom-purity --strict` AND `python3 lean4/scripts/bedc_ci.py audit`; both must exit 0 before commit.
+3. Verify the fix locally before committing — run ONLY the gate(s) that match
+   the failure class, NOT the full suite. The auto-heal daemon re-runs the
+   complete verification suite (make precheck + lake build + audit +
+   axiom-purity --strict) after you commit and before it pushes, so that is the
+   authoritative safety net; your job is to land the minimal fix plus a fast
+   class-matched sanity check and commit well within the timeout.
+   - **Paper static-gate failure** — failing gate is `make precheck` (unresolved
+     Lean marker, duplicate label, undefined macro, oversized `.tex`, math-env
+     violation): verify with `cd papers/bedc && make precheck` AND `python3
+     lean4/scripts/bedc_ci.py audit` ONLY. Do NOT run `axiom-purity --strict`
+     and do NOT run a full `make` (pdflatex): a paper-text / marker fix cannot
+     affect the Lean build, axiom purity, or PDF rendering, and under system
+     load those gates exhaust the heal timeout (observed rc=124, heal never
+     commits).
+   - **Lean build / type error** — failing gate is `lake build`: `cd lean4 &&
+     lake build` exits 0 AND `python3 tools/check-axioms.py` exits 0.
+   - **Axiom-purity failure** — failing gate names `propext` /
+     `Classical.choice` / `Quot.sound`: `python3 lean4/scripts/bedc_ci.py
+     axiom-purity --strict` exits 0.
+   - **pdflatex render failure** — `Undefined control sequence` / `Missing $`
+     raised by pdflatex itself (not by precheck): verify with `cd papers/bedc &&
+     make precheck` AND a SINGLE `pdflatex -interaction=nonstopmode -halt-on-error
+     -file-line-error main.tex` pass. A pdflatex *fatal* surfaces on the first
+     pass, so one halt-on-error pass confirms the fix. Do NOT run the full
+     double-pass `make` here — under system load the double pdflatex pass
+     exhausts the heal timeout (observed rc=124, heal never commits). The
+     auto-heal daemon re-runs the full `make` in verify_ci_heal before pushing,
+     so that double-pass is the authoritative gate.
+   Do NOT run verification gates outside the failure class. Commit as soon as
+   the class-matched gate(s) pass.
 
 4. Commit with subject `auto-heal: CI 修复 <one-line failure>` and a 1-line
    body identifying the failing workflow + run ID.

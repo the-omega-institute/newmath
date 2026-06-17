@@ -32,6 +32,7 @@ The carrier has no coordinate for exporting a claim outside the displayed claim,
 \label{thm:audit-export-firewall-namecert-obligations}
 For the carrier of \autoref{def:audit-export-firewall-carrier}, the local $\NameCert_{\AuditExportFirewallUp}$ surface consists exactly of carrier admission for $F=(C,P,A,E,R,G,L,H,K,Q,N)$, claim-site exposure through $C$, positive-certificate exposure through $P$, audit-system handoff through $A$, failure-certificate exposure through $E$, claim-registry exposure through $R$, registry-export consistency through $G$, firewall-ledger decision through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, package provenance through $Q$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditExportFirewallUp.AuditExportFirewallCarrier\_namecert\_obligations}
 \begin{proof}
 Project the finite packet $F=(C,P,A,E,R,G,L,H,K,Q,N)$. The claim-site row $C$ and positive-certificate row $P$ are visible before any export decision is read.
 
@@ -44,6 +45,7 @@ Finally read $L,H,K,Q,N$. The firewall-ledger row records the export, refusal, o
 \label{thm:audit-export-firewall-nonescape}
 If an accepted $\AuditExportFirewallUp$ packet has the positive-certificate row $P$ and an active failure-certificate row $E$ addressing the same claim site $C$, then the firewall-ledger row $L$ records refusal or certificate conflict. It does not produce an admitted exportable claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditExportFirewallUp.AuditExportFirewallCarrier\_nonescape}
 \begin{proof}
 Assume an accepted packet $F=(C,P,A,E,R,G,L,H,K,Q,N)$ and suppose $P$ and $E$ address the same claim site $C$. The claim row is therefore read with both a positive certificate and an active negative certificate.
 
@@ -61,6 +63,7 @@ Compare the displayed rows. $\AuditSystemUp$ binds positive and negative audit d
 
 The firewall carrier contains all those handoff roles together with the firewall-ledger row $L$ that decides export, refusal, or certificate conflict for the same claim site. A NameCert-row-preserving bijection would have to preserve that joint conflict-blocking coordinate, but no listed sibling has it as a local row. Therefore no such bijection exists.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditExportFirewallUp.AuditExportFirewallCarrier\_sibling\_independence}
 
 The Lean $\mathsf{TasteGate.lean}$ surface must provide $\mathsf{Nontrivial}\ \AuditExportFirewallUp$ and $\mathsf{FieldFaithful}\ \AuditExportFirewallUp$ instances. The field-faithfulness witness must preserve $C,P,A,E,R,G,L,H,K,Q,N$ as distinct rows so positive certification, active failure, registry admission, consistency checking, firewall decision, and local naming cannot be merged.
 

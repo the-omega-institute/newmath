@@ -947,43 +947,124 @@ def _namecert_proposal_text(store: BioRealityStore, claim_id: str) -> str:
     return text[:4000]
 
 
+def _bio_g_direction_focus(candidate: dict[str, Any], conjecture: dict[str, Any], form: dict[str, Any]) -> str:
+    local_shape = json.dumps(
+        {
+            "candidate": candidate,
+            "claimed_layer": conjecture.get("claimed_layer"),
+            "evidence_basis": conjecture.get("evidence_basis"),
+            "internal_structure": form.get("internal_structure") if isinstance(form, dict) else [],
+            "readback": form.get("readback") if isinstance(form, dict) else "",
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    ).lower()
+    if "reality_contact" in local_shape or "external_reality" in local_shape:
+        return (
+            "the boundary between an internal codon-coordinate readback and the external "
+            "biological contact needed before the readback can support a cross-layer claim"
+        )
+    if "mechanism" in local_shape or "translation_realization" in local_shape:
+        return (
+            "the bridge between code-layer or codon-usage evidence and actual translation "
+            "realization, without treating coordinate structure as a mechanism"
+        )
+    if "rank" in local_shape or "spectrum" in local_shape or "residual" in local_shape:
+        return (
+            "whether a finite residual, rank, or spectrum table should remain a descriptive "
+            "readback or can justify a stronger biological direction"
+        )
+    return (
+        "the scientific boundary between finite BEDC-style internal structure and an "
+        "externally testable biological claim"
+    )
+
+
 def _bio_g_initial_prompt(store: BioRealityStore, candidate: dict[str, Any]) -> tuple[str, str]:
     claim_id = str(candidate.get("claim_id") or candidate.get("packet_id") or "")
     conjecture = _conjecture_by_id(store, claim_id) if str(candidate.get("packet_kind") or "") == "conjecture" else {}
     form = conjecture.get("bedc_minimal_form") if isinstance(conjecture.get("bedc_minimal_form"), dict) else {}
-    verified_facts = {
-        "gate_result": candidate,
-        "conjecture": conjecture,
-    }
-    linked = _oracle_linked_records_for_conjecture(store, conjecture) if conjecture else {"reality_contacts": [], "probes": [], "mismatches": []}
-    minimal_form = {
-        "carrier": form.get("carrier") if isinstance(form, dict) else "",
-        "distinctions": form.get("distinctions") if isinstance(form, dict) else [],
-        "readback": form.get("readback") if isinstance(form, dict) else "",
-        "internal_structure": form.get("internal_structure") if isinstance(form, dict) else [],
-    }
+    focus = _bio_g_direction_focus(candidate, conjecture, form)
     prompt = "\n".join(
         [
-            "Review the BEDC minimal form for this BioReality gate candidate.",
-            f"claim_id: {claim_id}",
+            "BioReality direction question.",
             "",
-            "current verified_facts compact JSON:",
-            _compact_json(verified_facts),
+            "We are studying one specific research direction:",
+            focus + ".",
             "",
-            "bio-namer markdown proposal if present:",
-            _namecert_proposal_text(store, claim_id) or "none",
+            "Reason at the level of scientific strategy, not local implementation. "
+            "Do not assume access to local files, code, IDs, registries, gate outputs, "
+            "PDFs, or JSON records.",
             "",
-            "BEDC minimal-form summary:",
-            _compact_json(minimal_form),
+            "Question: what is the strongest next scientific move for this direction? "
+            "Focus on when a finite internal coordinate or readback object may be promoted "
+            "beyond bounded description, and what external reality contact, null test, or "
+            "mechanism bridge would be required before making that promotion.",
             "",
-            "reality contacts and probes:",
-            _compact_json(linked),
-            "",
-            "Question: Is the carrier truly minimal? Are there dependency leaks or unjustified internal structure? "
-            "Is the closure boundary correct? Propose concrete refinement steps if any.",
+            "Do not produce JSON. Give one concrete follow-up research direction, the "
+            "falsifiable boundary that prevents overclaiming, and one concise question "
+            "we should ask next in this same conversation.",
         ]
     )
     return claim_id, prompt
+
+
+def _bio_g_oracle_topic(candidate: dict[str, Any], conjecture: dict[str, Any]) -> str:
+    local_shape = json.dumps(
+        {
+            "candidate": candidate,
+            "claimed_layer": conjecture.get("claimed_layer"),
+            "evidence_basis": conjecture.get("evidence_basis"),
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    ).lower()
+    if "mechanism" in local_shape or "translation_realization" in local_shape:
+        return "bio-G.direction.translation-boundary"
+    if "reality_contact" in local_shape or "external_reality" in local_shape:
+        return "bio-G.direction.reality-contact"
+    if "rank" in local_shape or "spectrum" in local_shape or "residual" in local_shape:
+        return "bio-G.direction.residual-readback"
+    return "bio-G.direction.boundary"
+
+
+def _bio_plan_direction_prompt(event_kind: str) -> str:
+    if event_kind == "phase_advance_proposed":
+        focus = (
+            "a frontier where the current bounded claims appear to have opened the next "
+            "research phase"
+        )
+        question = (
+            "What is the single strongest next research direction after that opening, "
+            "if the program must keep internal codon geometry separate from external "
+            "biological reality contacts?"
+        )
+    else:
+        focus = (
+            "a frontier where a candidate biological claim is stuck because its null "
+            "model, control, or cross-layer boundary is not yet sharp enough"
+        )
+        question = (
+            "What is the single strongest way to refine the null model or strengthen "
+            "the control, without promoting an internal coordinate pattern into a "
+            "biological mechanism too early?"
+        )
+    return "\n".join(
+        [
+            "BioReality planning question.",
+            "",
+            "We are considering " + focus + ".",
+            "",
+            "Reason at the level of scientific direction only. Do not assume access to "
+            "local files, code, IDs, registries, gate outputs, PDFs, or JSON records.",
+            "",
+            question,
+            "",
+            "Do not produce JSON. Give the conceptual next direction, the key "
+            "falsifiable boundary, and one concise follow-up question for this same "
+            "conversation.",
+        ]
+    )
 
 
 def _select_bio_g_rotation_candidate(
@@ -1046,9 +1127,7 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
     if min_seconds > 0 and last_at > 0 and time.time() - last_at < min_seconds:
         return _oracle_skip("rate_limited")
     repo_root = _repo_root_from_store(store)
-    pdf_path = _resolve_repo_path(repo_root, config.get("pdf_attach_path") or "")
-    if not pdf_path.exists():
-        pdf_path = None
+    pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/bio_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
     if not _oracle_uses_nyxid(server_url):
@@ -1058,7 +1137,8 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
     if not _network_available():
         return _oracle_skip("network_unreachable")
     claim_id, prompt = _bio_g_initial_prompt(store, candidate)
-    topic = f"bio-G.review.{claim_id}"
+    conjecture = _conjecture_by_id(store, claim_id) if str(candidate.get("packet_kind") or "") == "conjecture" else {}
+    topic = _bio_g_oracle_topic(candidate, conjecture)
     forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
     existing_conv_id = forced_conv_id or str(topic_conversations.get(topic) or "")
@@ -1393,21 +1473,12 @@ def _bio_plan_prompt(
     event_kind = str(trigger_event.get("event_kind") or "")
     payload = trigger_event.get("payload") if isinstance(trigger_event.get("payload"), dict) else {}
     phase = _current_phase(claims, phases_passed)
-    common = {
-        "passed_claims": _passed_claim_summary(claims),
-        "current_phase": phase,
-    }
     if event_kind == "phase_advance_proposed":
-        subject_id = str(trigger_event.get("subject_id") or payload.get("phase") or phase)
-        topic = f"bio-Plan.phase.{subject_id}.next"
-        question = "What's the strongest next experiment for the newly opened phase?"
-        body = {"trigger": trigger_event, **common}
-        return topic, "", "\n".join([question, "", "Planning context:", _compact_json(body)])
+        topic = "bio-Plan.direction.phase-frontier"
+        return topic, "", _bio_plan_direction_prompt(event_kind)
     claim_id = str(payload.get("claim_id") or trigger_event.get("subject_id") or "")
-    topic = f"bio-Plan.stuck.{claim_id or trigger_event.get('subject_id')}"
-    question = f"How to refine null model / strengthen control for stuck claim {claim_id or 'unknown'}?"
-    body = {"trigger": trigger_event, "stuck_claim_record": payload, **common}
-    return topic, claim_id, "\n".join([question, "", "Planning context:", _compact_json(body)])
+    topic = "bio-Plan.direction.control-boundary"
+    return topic, claim_id, _bio_plan_direction_prompt(event_kind)
 
 
 def _maybe_run_bio_plan_oracle(
@@ -1433,9 +1504,7 @@ def _maybe_run_bio_plan_oracle(
     if min_cycles > 0 and last_cycle > 0 and cycle - last_cycle < min_cycles:
         return _oracle_skip("rate_limited")
     repo_root = _repo_root_from_store(store)
-    pdf_path = _resolve_repo_path(repo_root, config.get("pdf_attach_path") or "")
-    if not pdf_path.exists():
-        pdf_path = None
+    pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/bio_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
     if not _oracle_uses_nyxid(server_url):
@@ -2783,8 +2852,6 @@ def _bios_codex_resolve_merge(
 
 def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
     """Fetch origin/auto-dev, extract Loning's recent biology-related work, attempt fast-forward / no-ff merge."""
-    if not _network_available():
-        return {"lane": "bio-S", "skipped": "network_unreachable", "host": _NETWORK_PROBE_HOST, "port": _NETWORK_PROBE_PORT}
     try:
         config = _load_sync_lane_config()
     except (OSError, json.JSONDecodeError) as exc:
@@ -2792,6 +2859,8 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
         return {"lane": "bio-S", "error": "config_error"}
     if not config.get("enabled"):
         return {"lane": "bio-S", "skipped": "disabled"}
+    if not _network_available():
+        return {"lane": "bio-S", "skipped": "network_unreachable", "host": _NETWORK_PROBE_HOST, "port": _NETWORK_PROBE_PORT}
 
     state = _read_json_object(store.paths.sync_lane_state)
     now_ts = time.time()
@@ -4326,7 +4395,6 @@ def _run_writeback_make_check(paper_dir: Path) -> tuple[int, str]:
             ["make", "check"],
             cwd=paper_dir,
             env=_tex_env(),
-            text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=300.0,
@@ -4334,7 +4402,9 @@ def _run_writeback_make_check(paper_dir: Path) -> tuple[int, str]:
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 124, str(exc)
-    return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
+    stdout = (completed.stdout or b"").decode("utf-8", errors="replace")
+    stderr = (completed.stderr or b"").decode("utf-8", errors="replace")
+    return completed.returncode, stdout + stderr
 
 
 def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
@@ -4343,7 +4413,6 @@ def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
             ["make", "-s"],
             cwd=paper_dir,
             env=_tex_env(),
-            text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=300.0,
@@ -4351,7 +4420,9 @@ def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 1, str(exc)
-    return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
+    stdout = (completed.stdout or b"").decode("utf-8", errors="replace")
+    stderr = (completed.stderr or b"").decode("utf-8", errors="replace")
+    return completed.returncode, stdout + stderr
 
 
 def _writeback_heal_state_path(store: BioRealityStore) -> Path:
@@ -7096,7 +7167,17 @@ def self_test() -> int:
                 if not decision.get("continue"):
                     break
                 prompt = str(decision.get("next_prompt") or "")
-            oracle_call_log.append({"topic": topic, "lane": intended_lane, "claim_id": intended_claim_id, "turns": len(turns)})
+            oracle_call_log.append(
+                {
+                    "topic": topic,
+                    "lane": intended_lane,
+                    "claim_id": intended_claim_id,
+                    "turns": len(turns),
+                    "initial_prompt": initial_prompt,
+                    "pdf_attached": bool(pdf_base64),
+                    "pdf_name": pdf_name,
+                }
+            )
             return {
                 "topic": topic,
                 "conversation_id": f"conv-{topic}",
@@ -7169,6 +7250,29 @@ def self_test() -> int:
             if oracle_gate_summary.get("oracle_consultations") != 1 or oracle_gate_summary.get("oracle_turns_total") != 3:
                 print(json.dumps(oracle_gate_summary, indent=2), file=sys.stderr)
                 return 1
+            oracle_gate_call = next((call for call in oracle_call_log if call.get("lane") == "bio-G"), {})
+            oracle_gate_prompt = str(oracle_gate_call.get("initial_prompt") or "")
+            forbidden_gate_fragments = [
+                "claim_id",
+                "conjecture_id",
+                "current verified_facts",
+                "BEDC minimal-form summary",
+                "reality contacts and probes",
+                "oracle.review.claim",
+                "curated.standard.code.table",
+                "Carrier proposal",
+                "Planning context",
+                "{",
+                "}",
+            ]
+            if (
+                oracle_gate_call.get("topic")
+                not in {"bio-G.direction.reality-contact", "bio-G.direction.translation-boundary"}
+                or oracle_gate_call.get("pdf_attached")
+                or any(fragment in oracle_gate_prompt for fragment in forbidden_gate_fragments)
+            ):
+                print(json.dumps(oracle_gate_call, indent=2), file=sys.stderr)
+                return 1
             if oracle_gate_repeat.get("oracle_consultations") != 0 or oracle_gate_repeat.get("oracle_skipped_reason") != "rate_limited":
                 print(json.dumps(oracle_gate_repeat, indent=2), file=sys.stderr)
                 return 1
@@ -7205,6 +7309,25 @@ def self_test() -> int:
             oracle_plan_events = oracle_plan_store.load_events()
             if oracle_plan_summary.get("oracle_consultations") != 1 or oracle_plan_summary.get("oracle_turns_total") != 3:
                 print(json.dumps(oracle_plan_summary, indent=2), file=sys.stderr)
+                return 1
+            oracle_plan_call = next((call for call in oracle_call_log if call.get("lane") == "bio-Plan"), {})
+            oracle_plan_prompt = str(oracle_plan_call.get("initial_prompt") or "")
+            forbidden_plan_fragments = [
+                "claim_id",
+                "oracle.phase",
+                "Planning context",
+                "passed_claims",
+                "trigger",
+                "payload",
+                "{",
+                "}",
+            ]
+            if (
+                oracle_plan_call.get("topic") != "bio-Plan.direction.phase-frontier"
+                or oracle_plan_call.get("pdf_attached")
+                or any(fragment in oracle_plan_prompt for fragment in forbidden_plan_fragments)
+            ):
+                print(json.dumps(oracle_plan_call, indent=2), file=sys.stderr)
                 return 1
             if oracle_plan_repeat.get("oracle_consultations") != 0:
                 print(json.dumps(oracle_plan_repeat, indent=2), file=sys.stderr)

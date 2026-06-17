@@ -43,4 +43,21 @@ theorem GroundLoopBoundaryCarrier_public_interface
   -- BEDC touchpoint anchor: BHist BMark Cont hsame msame
   exact GroundLoopBoundaryCarrier_scoped_kernel_route carrier
 
+theorem GroundLoopBoundaryCarrier_mature_consumer_exhaustion
+    {M S X R H C P N L B consumer : BHist}
+    (carrier : GroundLoopBoundaryCarrier M S X R H C P N)
+    (sibling : Cont R L B)
+    (extended : Cont C L consumer) :
+    Cont M (append S B) consumer ∧ hsame P N ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · cases carrier.right.right.left
+    cases carrier.right.right.right.left
+    cases sibling
+    cases extended
+    exact (append_assoc (append M S) R L).trans (append_assoc M S (append R L))
+  · constructor
+    · exact carrier.right.right.right.right.left
+    · exact carrier.right.right.right.right.right.right
+
 end BEDC.Derived.GroundLoopBoundaryUp

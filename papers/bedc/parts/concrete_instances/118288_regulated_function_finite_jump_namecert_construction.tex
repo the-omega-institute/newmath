@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedFunctionFiniteJumpUp$}
+\label{ch:concrete-instances-regulated-function-finite-jump-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regulated functions, the $\RegulatedFunctionFiniteJumpUp$ packet records the finite-jump subclass as a bounded local NameCert surface rather than as host-level function equality. It sits beside the regulated-function carrier of \autoref{ch:concrete-instances-regulated-function-namecert}, the step-function endpoint rows of \autoref{ch:concrete-instances-step-function-namecert}, the uniform-limit route of \autoref{ch:concrete-instances-uniformlimit-namecert}, and the dyadic mesh-gauge schedule of \autoref{ch:concrete-instances-dyadic-mesh-gauge-namecert}. The packet names only finite source intervals, jump partitions, one-sided windows, step approximants, uniform-limit seals, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[Finite-jump regulated-function carrier]
+\label{def:regulated-function-finite-jump-carrier}
+A $\RegulatedFunctionFiniteJumpUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,J,W,A,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source interval row, naming the displayed closed interval, endpoint order, and observation windows read by the regulated-function consumer.
+\item $J$ is the finite jump partition row, listing the finitely many jump sites and the adjacent cells on which one-sided data is inspected.
+\item $W$ is the one-sided window ledger, recording the left and right window rows at each jump site together with ordinary interior windows away from $J$.
+\item $A$ is the step approximant ledger, read through the $\StepFunctionUp$ sibling surface and indexed by the finite partition and requested tolerance.
+\item $U$ is the $\UniformLimitUp$ seal row, consuming the step approximant ledger and the dyadic mesh-gauge schedule before any regulated-function or integration-facing consumer reads the packet.
+\item $H$ records componentwise $\hsame$ transport for intervals, finite jump partitions, one-sided windows, step approximants, uniform-limit seals, replay, provenance, and naming.
+\item $C$ records displayed $\Cont$ replay from a source-window request through the partition, one-sided window, step approximant, mesh-gauge, and uniform-limit rows.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedFunctionFiniteJumpUp$, $\RegulatedFunctionUp$, $\StepFunctionUp$, $\UniformLimitUp$, $\DyadicMeshGaugeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedFunctionFiniteJumpUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $I,J,W,A,U,H,C,P,N$. It has no coordinate for arbitrary discontinuity classification, Lebesgue differentiation, quotient equality of host functions, countable choice, selected point values, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Finite-jump regulated-function NameCert obligations]
+\label{thm:regulated-function-finite-jump-namecert-obligations}
+For every accepted $\RegulatedFunctionFiniteJumpUp$ carrier $F=(I,J,W,A,U,H,C,P,N)$, the local $\NameCert_{\RegulatedFunctionFiniteJumpUp}$ surface consists exactly of carrier admission, finite jump-row stability, the step approximation route through $\StepFunctionUp$, the uniform-limit consumer route through $\UniformLimitUp$ and $\DyadicMeshGaugeUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and ledger non-escape from undisplayed analytic principles.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-function-finite-jump-carrier}. The rows $I,J,W,A,U,H,C,P,N$ are the whole visible packet.
+
+The finite jump-row stability clause is read from $J$ and $W$. A consumer may inspect only the displayed finite partition, the adjacent one-sided windows at each listed jump, and the ordinary interior windows away from the listed jump sites.
+
+The approximation route is read from $A$. Each approximation passes through the sibling $\StepFunctionUp$ pattern, while $C$ replays the same source-window request through the selected step row.
+
+The limiting route is read from $U$. It consumes the displayed approximant ledger together with the dyadic mesh-gauge schedule before exposing a $\RegulatedFunctionUp$ or integration-facing handoff.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no carrier row stores arbitrary discontinuity classification, Lebesgue differentiation, host function equality, selected point values, countable choice, or ambient completeness, none of those endpoints belongs to the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Finite-jump regulated-function UniformLimit consumer]
+\label{thm:regulated-function-finite-jump-uniform-limit-consumer}
+An accepted $\RegulatedFunctionFiniteJumpUp$ packet supplies a finite-window consumer route for $\UniformLimitUp$ and later regulated-integration chapters:
+$$
+I,J,W,A \longmapsto U
+$$
+with transport, replay, provenance, and local naming carried by $H,C,P,N$. The route exposes finite jump partitions, one-sided windows, step approximant rows, and the dyadic mesh-gauge handoff, but it exports no host function equality, arbitrary discontinuity classifier, Lebesgue differentiation theorem, selected countable family, or quotient function-space endpoint.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier. A source request first reads the interval row $I$ and the finite jump partition row $J$, so every later window is attached to a displayed cell or a displayed one-sided jump window.
+
+Use the window ledger $W$ and the step approximant ledger $A$. The one-sided windows and ordinary interior windows determine which step approximant rows may be inspected, and those rows use the finite-data pattern supplied by $\StepFunctionUp$.
+
+Next read the uniform-limit seal $U$. The seal consumes the step approximant ledger and the dyadic mesh-gauge schedule before a $\UniformLimitUp$ or regulated-integration consumer may use the packet.
+
+Finally apply the structural rows $H,C,P,N$. They preserve the same finite-window route under transport, replay, provenance, and naming, so no host function equality, countable choice, arbitrary discontinuity classification, Lebesgue differentiation, or quotient function-space endpoint is exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegulatedFunctionFiniteJumpUp$ consumer displays a source interval, finite jump partition, one-sided window ledger, step approximant ledger, $\UniformLimitUp$ seal, $\DyadicMeshGaugeUp$ schedule, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before any regulated-function or integration-facing handoff is read.}
+
+\independenceWitness{regulated-function, step-function, uniformlimit, dyadic-mesh-gauge: $\RegulatedFunctionFiniteJumpUp$ is not bijective to any listed sibling because it jointly carries a finite jump partition, one-sided window ledger, step approximant route, uniform-limit seal, dyadic mesh-gauge schedule, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{RegulatedFunctionFiniteJumpUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedFunctionFiniteJumpUp}
+  \constructivestory{A $\RegulatedFunctionFiniteJumpUp$ packet is generated from a source interval, finite jump partition, one-sided window rows, step approximant rows, a UniformLimit seal, a DyadicMeshGauge schedule, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-function-finite-jump-carrier}, \autoref{thm:regulated-function-finite-jump-namecert-obligations}, and \autoref{thm:regulated-function-finite-jump-uniform-limit-consumer} seed the finite-jump regulated-function interface over $\RegulatedFunctionUp$, $\StepFunctionUp$, $\UniformLimitUp$, and $\DyadicMeshGaugeUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary discontinuity classification, Lebesgue differentiation, host-level function extensionality, quotient function-space equality, countable choice, selected point values, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite jump-row stability, step approximation routing, UniformLimit consumer routing, DyadicMeshGauge scheduling, transport, replay, provenance, local naming, and ledger non-escape for BEDC.Derived.RegulatedFunctionFiniteJumpUp.}
+\end{closurestatus}

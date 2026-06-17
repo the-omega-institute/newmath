@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\CompactChoiceSequenceUp$}
+\label{ch:concrete-instances-compact-choice-sequence-namecert}
+\origin{human}
+
+Following Brouwer's choice sequences, Troelstra--van Dalen's fan and bar practice, and Bishop--Bridges constructive analysis, the $\CompactChoiceSequenceUp$ packet records the finite-prefix compactness surface used when a choice sequence is read through a fan bound and then handed to Real-facing consumers. It sits beside the located prefix route of \autoref{ch:concrete-instances-located-choice-sequence-namecert}, the finite bar packet of \autoref{ch:concrete-instances-fantheorem-namecert}, the schedule discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only displayed prefixes, finite fan bounds, tolerance rows, readback rows, and local naming data; it does not select an infinite branch or import host compactness.
+
+\begin{definition}[Compact choice-sequence carrier]
+\label{def:compact-choice-sequence-carrier}
+A $\CompactChoiceSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(Q,F,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the accepted $\ChoiceSequenceUp$ prefix row whose visible answers are available to this packet.
+\item $F$ is the fan and bar finite-bound row, read through $\FanTheoremUp$, naming the bounded prefix depth and the decidable bar data used by compact consumers.
+\item $W$ is the $\StreamNameUp$ schedule listing exactly the finite prefix positions inspected under the bound $F$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached to the inspected prefixes and to the finite bar depth.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained only after $Q,F,W,D$ have been displayed.
+\item $E$ is the $\RealUp$ seal row reached only through the regular rational readback $R$.
+\item $H$ stores componentwise $\hsame$ transport for the prefix row, fan bound, schedule, tolerance row, readback, seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a compactness request through the finite prefix bound, the scheduled windows, the dyadic tolerance row, the regular rational readback, and the real seal.
+\item $P$ is the $\Pkg$ provenance over $\CompactChoiceSequenceUp$, $\ChoiceSequenceUp$, $\FanTheoremUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactChoiceSequenceUp}$ row.
+\end{enumerate}
+The dependency route is the finite handoff
+$$
+\begin{aligned}
+Q,F
+&\longmapsto W\\
+&\longmapsto D\\
+&\longmapsto R\\
+&\longmapsto E .
+\end{aligned}
+$$
+Thus a compact choice-sequence consumer receives a finite prefix and fan-bound interface before any regular rational or real-seal row can be read.
+\end{definition}
+
+\begin{theorem}[Compact choice-sequence NameCert obligations]
+\label{thm:compact-choice-sequence-namecert-obligations}
+The packet of \autoref{def:compact-choice-sequence-carrier} satisfies the seed local $\NameCert_{\CompactChoiceSequenceUp}$ obligation surface. Carrier admission is the displayed ten-row packet $K$; stability is componentwise $\hsame$ transport of $Q,F,W,D,R,E,H,C,P,N$; exactness says that every accepted read factors through the finite route from choice-sequence prefix and fan bound to stream schedule, dyadic tolerance, regular rational readback, real seal, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-choice-sequence-carrier}. The rows $Q,F,W,D,R,E,H,C,P,N$ are all displayed coordinates of one finite $\BHist$ packet.
+
+For stability, transport each coordinate through $H$. The transported packet keeps the same order of dependence: the choice prefix and fan bound determine the scheduled prefix window, the scheduled window carries the dyadic tolerance row, and the readback and seal are reached only after those rows have been displayed.
+
+For exactness, replay the consumer request through $C$ and then repack the projected rows with $P$ and $N$. Coordinate exhaustion gives the local naming surface and leaves no row for selected infinite branches, countable choice, quotient stream equality, open-cover compactness, real trichotomy, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Compact choice-sequence fan-prefix handoff]
+\label{thm:compact-choice-sequence-fan-prefix-handoff}
+Every compactness-facing read of an accepted $\CompactChoiceSequenceUp$ packet must pass through the fan/bar row $F$ and the finite $\StreamNameUp$ schedule $W$ before it can inspect the $\DyadicRatCoreUp$ tolerance row $D$ or the $\RegSeqRatUp$ readback row $R$. The handoff is a finite route from $\ChoiceSequenceUp$ prefixes and $\FanTheoremUp$ bounds to scheduled regular rational data, not a selected branch, countable-choice functional, open-cover compactness theorem, quotient stream equality, or ambient real-completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of $K$. The carrier exposes $Q$ as the only choice-sequence source and $F$ as the only fan/bar finite-bound row, so the request has no route to a tail value outside the displayed prefix surface.
+
+Next read the schedule $W$. It names exactly the prefix positions inspected under $F$, and the dyadic row $D$ is attached only to those scheduled positions.
+
+Finally read $R$ and then any real-facing seal $E$. Since both rows occur after $Q,F,W,D$ in the carrier route, the handoff factors through finite prefix and fan data. None of the excluded branch-selection, choice, quotient, open-cover, or completeness principles is a coordinate of the packet.
+\end{proof}
+
+\begin{theorem}[Compact choice-sequence Real-seal nonescape]
+\label{thm:compact-choice-sequence-real-seal-nonescape}
+Any $\RealUp$ consumer of an accepted $\CompactChoiceSequenceUp$ packet can read the seal row $E$ only after the route
+$$
+Q,F,W,D,R
+$$
+has been displayed. The seal exports the finite regular rational readback obtained from the compact prefix surface, but it cannot be used to recover selected infinite branches, countable choice, quotient stream equality, open-cover compactness, real trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the fan-prefix handoff of \autoref{thm:compact-choice-sequence-fan-prefix-handoff}. It forces every compactness-facing read through the choice prefix, fan bound, schedule, dyadic tolerance row, and regular rational readback before any real-facing row is available.
+
+Now project the seal coordinate $E$ from \autoref{def:compact-choice-sequence-carrier}. The seal is terminal in the displayed route and records only the real-facing presentation of the already exposed regular rational readback.
+
+The structural rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. Because the carrier has no selected branch row, countable-choice row, quotient stream equality row, open-cover compactness row, trichotomy row, or ambient-completeness row, the $\RealUp$ seal cannot escape the finite compact choice-sequence packet.
+\end{proof}
+
+\closureat{CompactChoiceSequenceUp}{seedStr}
+
+\begin{closurestatus}{\CompactChoiceSequenceUp}
+  \constructivestory{A $\CompactChoiceSequenceUp$ packet is generated from a displayed ChoiceSequence prefix row, a FanTheorem finite bar-bound row, a StreamName schedule, a DyadicRatCore tolerance row, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-choice-sequence-carrier}, \autoref{thm:compact-choice-sequence-namecert-obligations}, \autoref{thm:compact-choice-sequence-fan-prefix-handoff}, and \autoref{thm:compact-choice-sequence-real-seal-nonescape} seed the finite compact choice-sequence route from displayed prefixes and fan bounds through regular rational readback to a Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite branches, countable choice, quotient stream equality, open-cover compactness, real trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fan-prefix handoff, Real-seal nonescape, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}

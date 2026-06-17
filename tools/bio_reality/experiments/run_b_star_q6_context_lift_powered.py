@@ -8,6 +8,7 @@ import json
 import math
 import pathlib
 import sys
+from datetime import datetime, timezone
 from typing import Any
 
 import run_b_star_q6_residual_dictionary_consistency_powered as residual_dictionary
@@ -32,11 +33,28 @@ EPS = 1e-12
 SEED = "sha256:b_star_q6_context_lift_powered:deterministic"
 LAMBDA_DL = residual_dictionary.LAMBDA_DL
 RHO_JOIN = residual_dictionary.RHO_JOIN
+STARTED_AT = datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
 def emit(status: str, **kw: object) -> None:
-    payload = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
-    payload.update(kw)
+    checks = kw.get("checks")
+    if not isinstance(checks, list):
+        checks = []
+    result = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
+    result.update(kw)
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": status,
+        "checks": checks,
+        "result": result,
+        "started_at": STARTED_AT,
+        "completed_at": now_iso(),
+    }
     print(json.dumps(payload, sort_keys=False))
     sys.exit(0 if status == "passed" else (2 if status == "failed" else 3))
 

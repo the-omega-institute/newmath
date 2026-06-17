@@ -1,0 +1,63 @@
+\origin{ai}
+\subsection{Translation-conditioned localization boundary for $B^*_{Q6}$ residuals}
+\label{subsec:bioreality-q6-translation-conditioned-localization-boundary}
+
+\paragraph{Finite row surface.}
+This record treats a $B^*_{Q6}$ synonymous residual coordinate as a candidate signal only after the amino-acid quotient has already been applied.  The finite surface has four separated slots: residual coordinates $q_i$, translation readouts $T_j$, transcriptional and sequence controls, and a downstream protein-localization readout $L_k$.  The scientific question is therefore not whether a residual coordinate may be associated with localization in isolation, but whether the same coordinate can be read through a gated chain
+$$
+\begin{aligned}
+q_i \longrightarrow T_j \longrightarrow L_k,
+\end{aligned}
+$$
+where the first arrow is tested at the translation layer and the second arrow is interpreted only after translation conditioning.  The run used standard-library LDA with train-fold z-scoring and ridge shared covariance, five folds, and deterministic seed \texttt{sha256:93467a1602ce6c3d589b8b5452f233689fb87fa1bbc0f686694db4bb01da7b1f}.  The joined localization rows were $1908$ for \textit{Danio rerio}, $10187$ for \textit{Homo sapiens}, and $4304$ for \textit{Saccharomyces cerevisiae}.  Thus the finite row count was not merely a named contact route: it supplied an organism-indexed held-out localization table on which the residual and conditioned contrasts were actually evaluated.
+
+\paragraph{Residual localization contrast.}
+The first readout asks whether $B^*_{Q6}$ residual coordinates carry any held-out localization information before the stricter translation-conditioned interpretation is imposed.  Across the three organism panels, the residual localization contrast had positive macro-AUC increment in all three cases and positive accuracy increment in two of the three cases.  The finite summaries were
+$$
+\begin{aligned}
+\Delta \mathrm{Acc}_{\min} &= -0.008385744234800874, &
+\Delta \mathrm{Acc}_{\mathrm{mean}} &= 0.022068418153776248, \\
+\Delta \mathrm{Acc}_{\mathrm{median}} &= 0.029042750929368033, &
+\Delta \mathrm{Acc}_{\max} &= 0.045548247766761585, \\
+\Delta \mathrm{AUC}_{\min} &= 0.073410178078059, &
+\Delta \mathrm{AUC}_{\mathrm{mean}} &= 0.07848683797295208, \\
+\Delta \mathrm{AUC}_{\mathrm{median}} &= 0.07905771287156632, &
+\Delta \mathrm{AUC}_{\max} &= 0.08299262296923093.
+\end{aligned}
+$$
+This supports a bounded empirical statement: the residual coordinates retained partial held-out information about localization labels in the joined panels.  It does not by itself identify a localization mechanism, a compartment-routing rule, or a direct causal route from codon residuals to protein placement.
+
+\paragraph{Translation-conditioned boundary.}
+The stricter boundary asks whether the localization readout remains visible through the declared translation-conditioned route.  For the translation-conditioned increment, all three organism panels had positive accuracy increments and all three had positive macro-AUC increments.  The summary was
+$$
+\begin{aligned}
+\Delta \mathrm{Acc}_{\min} &= 0.017295597484276726, &
+\Delta \mathrm{Acc}_{\mathrm{mean}} &= 0.023049495216764453, \\
+\Delta \mathrm{Acc}_{\mathrm{median}} &= 0.02257779522921366, &
+\Delta \mathrm{Acc}_{\max} &= 0.02927509293680297, \\
+\Delta \mathrm{AUC}_{\min} &= 0.015494311048138809, &
+\Delta \mathrm{AUC}_{\mathrm{mean}} &= 0.021063283115180725, \\
+\Delta \mathrm{AUC}_{\mathrm{median}} &= 0.021959648901327622, &
+\Delta \mathrm{AUC}_{\max} &= 0.02573588939607574.
+\end{aligned}
+$$
+The organism calls were one panel crossing to the localization layer and two panels classified as partial.  The run-level verdict is therefore partial, not universal: the finite data are strong enough to keep the translation-conditioned localization boundary alive, but not strong enough to promote it to a general biological law.
+
+\paragraph{Control-conditioned attenuation.}
+The key refusal comes from the stricter control surface.  After translation, length, amino-acid, and GC conditioning, the held-out increment nearly vanishes in accuracy and becomes negative in macro-AUC.  The control-conditioned summaries were
+$$
+\begin{aligned}
+\Delta \mathrm{Acc}_{\min} &= -0.010482180293501064, &
+\Delta \mathrm{Acc}_{\mathrm{mean}} &= -0.000008929986309506402, \\
+\Delta \mathrm{Acc}_{\mathrm{median}} &= 0.0, &
+\Delta \mathrm{Acc}_{\max} &= 0.010455390334572545, \\
+\Delta \mathrm{AUC}_{\min} &= -0.002467684182081209, &
+\Delta \mathrm{AUC}_{\mathrm{mean}} &= -0.001407768101771234, \\
+\Delta \mathrm{AUC}_{\mathrm{median}} &= -0.000877887947320577, &
+\Delta \mathrm{AUC}_{\max} &= -0.0008777321759119161.
+\end{aligned}
+$$
+Only one of the three panels retained a positive accuracy increment under this stricter conditioning, and none retained a positive macro-AUC increment.  This is the decisive finite-row shape: $B^*_{Q6}$ residuals show partial localization information, and the translation-conditioned increment is positive at the weaker boundary, but the signal is not stable once the stronger control set is imposed.
+
+\paragraph{Local interpretation.}
+The appropriate reading is a bounded cross-layer boundary result.  A residual coordinate $q_i$ may be discussed with respect to localization only through the conditioned chain $q_i \to T_j \to L_k$, and the current finite run reports partial support for that chain rather than a direct residual-to-localization claim.  Protein abundance contacts cannot substitute for localization rows, modeled tAI or stAI weights cannot substitute for measured translation survival in an underpowered or rank-degenerate panel, and a residual coordinate cannot be promoted directly into trafficking, compartment identity, folding, physical admissibility, function, mechanism, phenotype, or universality.  Those stronger claims require their own matched contacts and their own controlled statistics.  The finite conclusion is therefore: $B^*_{Q6}$ residuals partially discriminate localization labels in held-out prediction, a translation-conditioned boundary remains empirically non-null, and the stricter control-conditioned surface blocks any stronger biological interpretation.

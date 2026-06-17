@@ -70,6 +70,21 @@ Apply \autoref{thm:regular-cauchy-uniform-modulus-tail-stability}. The tail-stab
 Finally inspect the carrier inventory. There is no quotient stream row, selected limit row, host real equality row, countable-choice row, or ambient completeness row, and $H,C,P,N$ only transport, replay, source, and name the already displayed packet. Hence the exposed tail budget is exact for every downstream read.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy uniform modulus tail composition]
+\label{thm:regular-cauchy-uniform-modulus-tail-composition}
+Let $U=(S,D,M,T,H,C,P,N)$ be an accepted
+$\RegularCauchyUniformModulusUp$ carrier. Suppose its $\StreamNameUp$ windows replay through the $\DyadicRatCoreUp$ tolerance rows in $D$ and through the $\RegSeqRatUp$ readback boundary carried by $T$. Then every admitted unary precision row composes to the terminal $\RealUp$ seal without selecting a limit: the modulus tail bound in $M$ supplies the $\RegSeqRatUp$ closeness witness consumed by the seal route recorded in $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-uniform-modulus-namecert-obligations}. It requires every regular rational or real consumer to expose stream-window, dyadic tolerance, modulus-row, and tail-ledger data before the terminal seal is read.
+
+Apply \autoref{thm:regular-cauchy-uniform-modulus-tail-stability}. The admitted precision row first opens the $\StreamNameUp$ window and the $\DyadicRatCoreUp$ tolerance row, and the modulus row $M$ supplies the finite tail bound used by the regular readback.
+
+Now apply \autoref{thm:regular-cauchy-uniform-modulus-tail-budget-exactness}. The same displayed budget is preserved through $S,D,M,T$, so the $\RegSeqRatUp$ closeness witness consumed by the terminal $\RealUp$ route is the witness supplied by the accepted packet.
+
+The sibling chapters \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-cauchymodulus-namecert} provide the named row surfaces. Since the carrier has no selected-limit coordinate, the composition remains a finite handoff rather than a limit-selection principle.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy uniform modulus dyadic locator handoff]
 \label{thm:regular-cauchy-uniform-modulus-dyadic-locator-handoff}
 Let $U=(S,D,M,T,H,C,P,N)$ be an accepted
@@ -101,6 +116,28 @@ Apply \autoref{thm:regular-cauchy-uniform-modulus-namecert-obligations}. Its obl
 Apply \autoref{thm:regular-cauchy-uniform-modulus-tail-budget-exactness}. The tail budget exposed to a completion-facing read is the same displayed BEDC row throughout the route, so it cannot be replaced by a quotient stream, selected Cauchy limit, host real equality, choice schedule, or ambient completeness theorem.
 
 The sibling completion-facing window route is the one named in \autoref{ch:concrete-instances-cauchysequencespace-namecert}. Therefore the accepted carrier supplies exactly the $S,D,M,T,H,C,P,N$ lattice crosslink used by $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchySequenceSpaceUp$ consumers.
+
+The displayed modulus row is read through the sibling certificate of \autoref{ch:concrete-instances-cauchymodulus-namecert} before tail-budget replay reaches the $\RegSeqRatUp$ readback boundary and the terminal $\RealUp$ seal.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy uniform modulus window refinement]
+\label{thm:regular-cauchy-uniform-modulus-window-refinement}
+Let
+$$
+U_0=(S,D,M_0,T_0,H_0,C_0,P_0,N_0)
+\quad\text{and}\quad
+U_1=(S,D,M_1,T_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\RegularCauchyUniformModulusUp$ carriers sharing the same $\RegSeqRatUp$ readback row, $\StreamNameUp$ window row, $\DyadicRatCoreUp$ tolerance row, and displayed $\Cont$ replay route. If the unary precision displayed by $U_1$ refines the unary precision displayed by $U_0$, then the later tail-budget route factors through the earlier uniform-modulus ledger and cannot widen the exported $\RealUp$ handoff.
+\end{theorem}
+\begin{proof}
+Project both carriers using \autoref{def:regular-cauchy-uniform-modulus-carrier}. The shared rows $S,D$ and shared replay route in $C_0,C_1$ place both packets on the same stream-window and dyadic-tolerance surface before either tail ledger is read.
+
+Apply the NameCert obligations, \autoref{thm:regular-cauchy-uniform-modulus-namecert-obligations}, and tail stability, \autoref{thm:regular-cauchy-uniform-modulus-tail-stability}. The finer unary window may only ask for a later displayed tail budget along the same $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ route.
+
+Use tail-budget exactness, \autoref{thm:regular-cauchy-uniform-modulus-tail-budget-exactness}, and tail composition, \autoref{thm:regular-cauchy-uniform-modulus-tail-composition}. Exactness keeps each budget as a displayed BEDC row, while composition routes the later tail request through the earlier uniform-modulus ledger instead of replacing it.
+
+Finally apply the dyadic-locator handoff, \autoref{thm:regular-cauchy-uniform-modulus-dyadic-locator-handoff}, and the lattice crosslink, \autoref{thm:regular-cauchy-uniform-modulus-lattice-crosslink}. Since the carrier inventory has no selected limit, quotient equality, trichotomy, or ambient completeness row, the refined window cannot widen the terminal $\RealUp$ handoff.
 \end{proof}
 
 \falsifiablePrediction{Every accepted $\RegularCauchyUniformModulusUp$ consumer displays a $\StreamNameUp$ row, a $\DyadicRatCoreUp$ observation row, a regular modulus row, a finite tail ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row before any $\RegSeqRatUp$ readback or terminal $\RealUp$ seal is consumed.}

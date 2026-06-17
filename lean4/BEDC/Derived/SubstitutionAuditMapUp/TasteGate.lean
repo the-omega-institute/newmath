@@ -248,7 +248,39 @@ instance substitutionAuditMapChapterTasteGate :
     intro x y hxy heq
     exact hxy (SubstitutionAuditMapTasteGate_single_carrier_alignment_injective heq)
 
+instance substitutionAuditMapFieldFaithful :
+    FieldFaithful SubstitutionAuditMapUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | SubstitutionAuditMapUp.mk term closed shift substitute composition generator transport
+        route provenance name =>
+        [term, closed, shift, substitute, composition, generator, transport, route, provenance,
+          name]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk term closed shift substitute composition generator transport route provenance name =>
+        cases y with
+        | mk term' closed' shift' substitute' composition' generator' transport' route'
+            provenance' name' =>
+            cases hfields
+            rfl
+
+instance substitutionAuditMapNontrivial :
+    Nontrivial SubstitutionAuditMapUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨SubstitutionAuditMapUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      SubstitutionAuditMapUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem taste_gate : ChapterTasteGate SubstitutionAuditMapUp := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact inferInstance
 
 theorem SubstitutionAuditMapTasteGate_single_carrier_alignment :
