@@ -326,6 +326,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 
 - 2026-06-16T09:41:21Z: `resolved` `delete_theorem` for `BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_stability` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier_filter_stability:42e7c050`). Rationale: The target had no downstream Lean consumers, and repo search after the edit found no remaining references to it. Its conclusion is only a weak projection of the CauchySpace carrier surface already covered by the stronger CauchySpaceCarrier_uniform_regseq_interface, so deleting the declaration and its paper marker removes an isolated verification target without losing the active CauchySpace interface content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-17T20:33:53Z: `resolved` `delete_theorem` for `BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_public_interface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_public_interface:4e2b5593`). Rationale: The declaration was an unconsumed wrapper with the same statement as GroundLoopBoundaryCarrier_scoped_kernel_route and its proof was only exact GroundLoopBoundaryCarrier_scoped_kernel_route carrier. Repo search showed no Lean downstream users; the only source-level paper reference was the removable \leanchecked marker in the GroundLoopBoundary chapter. The surrounding chapter still retains the public-interface prose, backed by the scoped kernel route and mature consumer exhaustion theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
