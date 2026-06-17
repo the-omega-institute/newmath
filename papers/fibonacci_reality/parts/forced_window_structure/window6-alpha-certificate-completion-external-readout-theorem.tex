@@ -1,15 +1,89 @@
-\subsection{Forced Window: Window Six Alpha Completion External Readout Theorem}
-\label{sec:window6-alpha-certificate-completion-external-readout-theorem}
 \origin{ai}
 
-\paragraph{Statement.} The Window6 alpha route should be treated as a certificate-completion theorem, not as a Window6-alone physical-alpha derivation. The conditional target is FiniteWitness\_W6 plus ClockCouplingCert, ResponseFunctorCert, CoefficientUseCert, PhysReadoutCert\_alpha, and MetrologicalGaugeSelectionCert implies alpha\_Z6\textasciicircum{}\{-1\}. The finite witness may carry D\_0=47, s\_6=7, rho\_6=10, Q(u)=1-(1/2)u+(8/9)u\textasciicircum{}2, and D*\_6=47+phi\textasciicircum{}-7-(1/2)phi\textasciicircum{}-17+(8/9)phi\textasciicircum{}-27, but the physical readout remains external-certificate gated. The local work items are monotone inversion of R\_6(D), exponent-gauge branch separation, clock-coupling boundary, coefficient-use boundary, physical readout boundary, experiment path ledger, and Green scale separation.
+\subsection{Forced-window certificate completion for the six-step alpha route}
+\label{sec:window6-alpha-certificate-completion-external-readout-theorem}
 
-\paragraph{Carrier.} FiniteWitness\_W6, G\_10=Z/10Z, Q\_space, R\_space, exponent-shift family D\_6\textasciicircum{}(a), readout R\_6(D), and ExperimentReadoutCert(E).
+\paragraph{Finite carrier.}
+Fix the six-position binary window
+$W=\{0,1\}^6$.  Its elements are words $w=(w_0,w_1,w_2,w_3,w_4,w_5)$ with each $w_i\in\{0,1\}$, hence $|W|=2^6=64$.  The finite construction used in this subsection is not a physical reading of $W$; it is a closed combinatorial package whose data can be inspected without invoking any external measurement convention.  A six-window witness is a finite record
+$$
+\begin{aligned}
+F=(W,E,P,D_0,s_6,\rho_6,Q,D_6^\ast),
+\end{aligned}
+$$
+where $E\subseteq W\times W$ is a finite directed relation, $P$ is a finite partition of $W$, $D_0$ is an integer base level, $s_6$ is an integer shift, $\rho_6$ is an integer response index, $Q$ is a rational polynomial of degree at most two, and $D_6^\ast$ is the scalar assembled from these entries.  The concrete numerical slots carried by the witness are
+$$
+\begin{aligned}
+D_0&=47,\\
+s_6&=7,\\
+\rho_6&=10,\\
+Q(u)&=1-\frac{1}{2}u+\frac{8}{9}u^2,\\
+D_6^\ast&=47+\varphi^{-7}-\frac{1}{2}\varphi^{-17}+\frac{8}{9}\varphi^{-27}.
+\end{aligned}
+$$
+Here $\varphi$ is used only as a formal positive scale parameter inside the displayed finite expression.  The powers $\varphi^{-7}$, $\varphi^{-17}$, and $\varphi^{-27}$ record the three displayed scale positions of the witness; no physical scale law is inferred from their appearance.
 
-\paragraph{Relations.} finite Window6 symbolic witness versus external physical readout certificate; residue-only clock gauge versus exponent-shift numerical branch; boundary escape 8/9 witness versus coefficient-use certificate; static impedance path versus magnetic moment, recoil, running-alpha, and Green-susceptibility ledgers; phi\textasciicircum{}-27 recoil-scale offsets versus phi\textasciicircum{}-37 Green-layer offsets with 571 certificate
+\paragraph{Predicates and gated conclusion.}
+Let $\operatorname{FiniteWitness}_{6}(F)$ mean that the displayed finite record is present with $W=\{0,1\}^6$, with finite $E\subseteq W\times W$, with $P$ a partition of $W$, and with the stated numerical entries.  Let $\operatorname{ClockCouplingCert}(F)$, $\operatorname{ResponseFunctorCert}(F)$, $\operatorname{CoefficientUseCert}(F)$, $\operatorname{PhysReadoutCert}_{\alpha}(F)$, and $\operatorname{MetrologicalGaugeSelectionCert}(F)$ be separate predicates.  They are not hidden consequences of $\operatorname{FiniteWitness}_{6}(F)$; each names an additional finite certificate boundary that must be supplied before the terminal reading is licensed.  The conditional target of this subsection is therefore the implication
+$$
+\begin{aligned}
+&\operatorname{FiniteWitness}_{6}(F)\\
+&\quad{}\wedge\operatorname{ClockCouplingCert}(F)\\
+&\quad{}\wedge\operatorname{ResponseFunctorCert}(F)\\
+&\quad{}\wedge\operatorname{CoefficientUseCert}(F)\\
+&\quad{}\wedge\operatorname{PhysReadoutCert}_{\alpha}(F)\\
+&\quad{}\wedge\operatorname{MetrologicalGaugeSelectionCert}(F)\\
+&\Longrightarrow \alpha_{\mathbb Z_6}^{-1}.
+\end{aligned}
+$$
+This is a completion statement for certificates.  It is not a derivation of $\alpha_{\mathbb Z_6}^{-1}$ from the six-window recurrence data alone.  In particular, the symbol $\alpha_{\mathbb Z_6}^{-1}$ is treated as the named endpoint of the certified readout, not as a value obtained merely by evaluating $D_6^\ast$.
 
-\paragraph{Counts and identities.} No exact count has been certified in the author-facing facts.
+\paragraph{Relations, partitions, and kernels.}
+The finite relation $E$ is the directed adjacency table of the witness.  Since $W$ has $64$ elements, the ambient relation space $W\times W$ has $4096$ possible ordered pairs, and any admissible $E$ is a subset of this finite table.  The partition $P=\{P_1,\ldots,P_m\}$ is required to satisfy
+$$
+\begin{aligned}
+&P_i\subseteq W,\\
+&P_i\cap P_j=\emptyset\quad\text{for }i\ne j,\\
+&\bigcup_{i=1}^{m}P_i=W.
+\end{aligned}
+$$
+From $E$ one obtains the $64\times64$ incidence matrix $A_E$ by indexing rows and columns by elements of $W$ and setting
+$$
+\begin{aligned}
+(A_E)_{x,y}=\begin{cases}1,&(x,y)\in E,\\0,&(x,y)\notin E.\end{cases}
+\end{aligned}
+$$
+The response kernel associated with the displayed polynomial is the finite matrix
+$$
+\begin{aligned}
+K_E=I-\frac{1}{2}A_E+\frac{8}{9}A_E^2,
+\end{aligned}
+$$
+where $I$ is the $64\times64$ identity matrix.  This formula is only the internal use of the rational coefficients $1$, $-1/2$, and $8/9$.  The assertion that these coefficients may be used as response coefficients for a physical reading is exactly what $\operatorname{CoefficientUseCert}(F)$ must provide.
 
-\paragraph{Witness extraction.} The fallback records only the finite construction data already present in the sanitized packet.
+\paragraph{Witness extraction.}
+The extraction map from a completed witness records only finite information.  It sends $F$ to the tuple
+$$
+\begin{aligned}
+\operatorname{Extract}(F)=(64,4096,D_0,s_6,\rho_6,Q,D_6^\ast,A_E,K_E,P).
+\end{aligned}
+$$
+Substituting the displayed entries gives the exact scalar identity
+$$
+\begin{aligned}
+D_6^\ast=D_0+\varphi^{-s_6}-\frac{1}{2}\varphi^{-(s_6+\rho_6)}+\frac{8}{9}\varphi^{-(s_6+2\rho_6)},
+\end{aligned}
+$$
+which, because $D_0=47$, $s_6=7$, and $\rho_6=10$, is precisely
+$$
+\begin{aligned}
+D_6^\ast=47+\varphi^{-7}-\frac{1}{2}\varphi^{-17}+\frac{8}{9}\varphi^{-27}.
+\end{aligned}
+$$
+The monotone inversion work item concerns the finite function $R_6(D)$ attached to this same witness: one must show, on its stated domain, that the relevant branch is ordered strongly enough for inversion to be unambiguous.  The exponent-gauge work item concerns separating the $7$, $17$, and $27$ exponent positions so that a formal branch choice cannot be silently exchanged for a metrological convention.
 
-\paragraph{Not claimed.} Do not state Window6 alone implies alpha or a physical fine-structure constant.; Do not promote the 8/9 boundary-escape witness into a response coefficient theorem without CoefficientUseCert.; Do not identify recoil phi\textasciicircum{}-27 effects with the Green phi\textasciicircum{}-37 layer.; Do not write this direction into BEDC unless the explicit BEDC bridge is enabled.
+\paragraph{Boundary tasks.}
+The clock-coupling boundary asks for an explicit finite certificate connecting the six-window clock index to the response record.  The coefficient-use boundary asks for a certificate that the displayed $8/9$ boundary-escape entry is allowed to function as a response coefficient, rather than merely as a rational number in a polynomial.  The physical-readout boundary asks for the separate certificate that turns the completed finite response record into an $\alpha$-indexed statement.  The metrological-gauge boundary asks for the selection rule that fixes the comparison scale.  The experiment-path ledger records which finite entries are used before any comparison with measurement language is attempted.  The Green-scale separation task records that terms at scale $\varphi^{-27}$ are not, by this witness alone, reclassified as Green-scale $\varphi^{-37}$ terms or as effects belonging to a separate $571$-certificate calculation.
+
+\paragraph{Local non-consequences.}
+No physical-constant identification follows from $\operatorname{FiniteWitness}_{6}(F)$ alone.  No global flow law follows from the recurrence identity alone.  No external dependency is produced by the witness unless a named certificate supplies it.  No metrological comparison follows without $\operatorname{MetrologicalGaugeSelectionCert}(F)$.  No interpretation beyond the finite construction follows without the separate predicates listed in the conditional implication.  In particular, the six-window recurrence identity by itself does not imply $\alpha_{\mathbb Z_6}^{-1}$; the $8/9$ boundary-escape entry is not a response-coefficient theorem without $\operatorname{CoefficientUseCert}(F)$; the $\varphi^{-27}$ recoil-scale term is not identified with Green $\varphi^{-37}$ behavior or with a $571$-certificate effect; and no writeback authority is granted by this packet.
