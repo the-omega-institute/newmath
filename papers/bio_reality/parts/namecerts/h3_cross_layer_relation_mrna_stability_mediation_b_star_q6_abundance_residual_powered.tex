@@ -1,62 +1,40 @@
 \origin{ai}
-\subsection{A residual mRNA-stability mediation readback for $B^{\ast}_{Q6}$ abundance power}
-\label{sec:biorality-q6-mrna-stability-mediation-abundance-residual}
 
-\paragraph{Object of measurement.}
-This record isolates the yeast cross-layer relation in which the nine $B^{\ast}_{Q6}$ synonymous residual coordinates are first tested against measured protein abundance and then re-tested after conditioning on an mRNA-stability mediator. The biological row set is the three-way join among real yeast CDS codon counts, measured PAXdb protein abundance, and the Neymotin et al. 4tU mRNA half-life table. The joined sample contains $5085$ rows; the CDS-to-half-life join reports a hit rate of $0.9156038419146592$, with $5815$ CDS rows already joined to protein abundance, $5379$ valid half-life records by systematic gene identifier, and $730$ CDS records skipped for absence of a half-life match. The mediator is $M=\log_{10}(t_{1/2}\ \mathrm{minutes})$ and the abundance target is $P=\log_{10}(\mathrm{abundance\ ppm})$.
+\subsection{B exorpdfstring{$^*_{Q6}$}{*Q6} abundance residual after an mRNA half-life mediator}
+\label{subsec:bioreality-bstar-q6-mrna-stability-mediation-abundance-residual}
 
-\paragraph{Residual design.}
-Let $X$ denote the $5085 \times 9$ matrix of $B^{\ast}_{Q6}$ residual coordinates after the amino-acid quotient has been imposed. Its columns are
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f_3\text{-stress}$. The control block $Z$ has $24$ columns before rank reduction: an intercept, $\log(\mathrm{CDS\ length})$, the $20$ amino-acid composition proportions from real CDS counts, $GC3$, and the $M$-density baseline formed from the union support of the nine projected $q$-vectors. Its numerical rank on this join is $23$, leaving $5062$ residual degrees of freedom. The relevant ranks after residualization are
+\paragraph{Finite row.}
+This record tests whether the yeast protein-abundance association carried by the nine B exorpdfstring{$^*_{Q6}$}{*Q6} synonymous residual coordinates is absorbed when a measured mRNA-stability readout is added as a one-dimensional mediator.  The coordinate block is
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f_3$-stress.  The joined table is a three-way Saccharomyces cerevisiae contact among real CDS codon counts, PAXdb protein abundance, and Neymotin mRNA half-life rows.  The usable intersection contains $5085$ rows.  The CDS-to-half-life hit rate reported by the join is $0.9156038419146592$, with $5815$ CDS rows already joined to abundance, $5379$ valid half-life records by Syst identifier, and $730$ CDS records skipped for lack of a half-life match.  The half-life payload is identified by SHA256 digest \texttt{cee1ee9a816f0ec1e351bc2d63d4838ae603ea20566fc3ff529514a6ba6cf7d2}.
+
+\paragraph{Controls and residual space.}
+The regression is not a raw codon-to-abundance comparison.  Before the B exorpdfstring{$^*_{Q6}$}{*Q6} block is evaluated, the design removes an intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3, and the M-density baseline defined as the fraction of sense codons lying in the union support of the nine projected B exorpdfstring{$^*_{Q6}$}{*Q6} vectors.  This gives $24$ control columns, rank $23$, and $5062$ residual degrees of freedom after the control projection.  The mediator $M$ is $\log_{10}$ mRNA half-life in minutes from the Neymotin yeast 4tU metabolic-labeling table.  The protein readout $P$ is $\log_{10}$ abundance in ppm from the matched PAXdb abundance contact.
+
+\paragraph{Mediation statistic.}
+Let $X$ denote the nine-dimensional residual B exorpdfstring{$^*_{Q6}$}{*Q6} design after the same control projection, let $M$ be the residualized half-life column, and let $P$ be residualized protein abundance.  The observed direct abundance surface is
 $$
 \begin{aligned}
-\operatorname{rank}(\widetilde X)&=9,\\
-\operatorname{rank}(\widetilde M)&=1,\\
-\operatorname{rank}(\widetilde X,\widetilde M)&=10.
-\end{aligned}
-$$
-These ranks make the mediation calculation non-saturated under the stated degeneracy threshold $0.999999$.
-
-\paragraph{Direct and conditioned abundance association.}
-Before conditioning on mRNA half-life, the $B^{\ast}_{Q6}$ residual block explains a finite abundance component
-$$
-\begin{aligned}
-R^2_{QP} &= 0.2761140373962526.
-\end{aligned}
-$$
-After adding residualized mRNA half-life as the mediator, the remaining direct association is
-$$
-\begin{aligned}
+R^2_{QP} &= 0.2761140373962526,\\
 R^2_{QP\mid M} &= 0.24851799532219632,\\
 R^2_{\mathrm{absorbed\ by}\ M} &= 0.027596042074056304.
 \end{aligned}
 $$
-Equivalently, about one tenth of the original $Q\to P$ residual association is accounted for by the half-life coordinate:
+The absorbed share is therefore not the whole B exorpdfstring{$^*_{Q6}$}{*Q6} abundance association.  It is a finite variance partition in which conditioning on mRNA half-life removes about ten percent of the B exorpdfstring{$^*_{Q6}$}{*Q6}-associated abundance component:
 $$
 \begin{aligned}
-\frac{R^2_{QP}-R^2_{QP\mid M}}{R^2_{QP}} &= 0.09994436477872035.
+\mathrm{mediation\ fraction} &= 0.09994436477872035,\\
+\mathrm{permutation\ null\ mean} &= 0.00019674487584783138,\\
+\mathrm{permutation\ null}_{95} &= 0.0014571003414947088,\\
+ p_{\mathrm{right}} &= 0.000999000999000999.
 \end{aligned}
 $$
-The same calculation reports $563.6712471096034$ units of $P$-energy explained by $X$, $507.335482373205$ units of direct $X$ improvement after $M$, $66.5878075095855$ units of $M$ energy on $P$, $11.909960434207074$ units of $X$ energy on $M$, and $10.2520427731871$ units of incremental mediator improvement after $X$. The residual energies are $2041.4436456219576$ for abundance and $229.94736158731112$ for half-life.
+The finite-row interpretation is that residualized yeast mRNA half-life explains a small but non-null part of the B exorpdfstring{$^*_{Q6}$}{*Q6} protein-abundance residual, while most of the abundance association remains after the half-life column is included.
 
-\paragraph{Permutation scale.}
-The mediation fraction is far above the deterministic residual-mediator permutation baseline used for this finite row set. With $1000$ effective right-tail resolution, the reported null mean is $0.00019674487584783138$, the null $95$th percentile is $0.0014571003414947088$, and the right-tail probability is $0.000999000999000999$. Thus the observed fraction $0.09994436477872035$ is not a small random fluctuation of the mediator labels under this design. The statement remains a variance decomposition: it says that residualized mRNA half-life absorbs a measurable part of the $B^{\ast}_{Q6}$ abundance component in this yeast dataset.
+\paragraph{Rank and energy audit.}
+The rank diagnostics rule out a vacuous saturated fit for this row.  The residualized B exorpdfstring{$^*_{Q6}$}{*Q6} block has rank $9$, the mediator block has rank $1$, and the joint $X,M$ block has rank $10$.  The abundance residual energy is $2041.4436456219576$, and the half-life residual energy is $229.94736158731112$.  In the same residual space, $X$ explains $563.6712471096034$ energy on $P$, the direct $X$ improvement after adding $M$ is $507.335482373205$, and the mediator improvement after adding $X$ is $10.2520427731871$.  The cross-readout audit also records $X$ explaining $11.909960434207074$ energy on $M$, matching the separately computed B exorpdfstring{$^*_{Q6}$}{*Q6}-to-half-life survival row where $R^2_{QM}=0.05179429044975085$.
 
-\paragraph{Relation to the standalone mRNA-stability surface.}
-The same yeast join also gives a direct $Q\to M$ surface. On the identical $5085$ rows and the same control basis, $R^2_{QM}=0.05179429044975085$, while the abundance association on the same join is again $R^2_{QP}=0.2761140373962526$. The dominant mRNA-stability coordinate is $Leu_{CUN/UUR}$, whereas the abundance-side dominant coordinate on that same join is $f_3\text{-stress}$. The cosine between the mRNA-stability and abundance surfaces is $0.8040935468384264$, with permutation probability $0.000999000999000999$. These numbers support a nontrivial alignment, but not identity, between the mRNA-half-life readout and the abundance readout.
+\paragraph{Coordinate context.}
+The matching B exorpdfstring{$^*_{Q6}$}{*Q6} mRNA-stability row on this same yeast join reports $R^2_{QM}=0.05179429044975085$ for residualized $\log_{10}$ half-life, with dominant coordinate $Leu_{CUN/UUR}$.  On the same joined rows, the protein-abundance surface has $R^2_{QP}=0.2761140373962526$ and dominant coordinate $f_3$-stress; the cosine between the $S^{QM}$ and same-join $S^{QP}$ coordinate profiles is $0.8040935468384264$.  Thus the mediator is aligned with the abundance residual profile, but it is not identical to it.  The evidence is strongest as a controlled statistical decomposition: B exorpdfstring{$^*_{Q6}$}{*Q6} has a measurable yeast half-life component, and that component accounts for a finite minority of the protein-abundance association.
 
-\paragraph{Coordinate localization.}
-Independent coordinate audits sharpen the interpretation. In the per-coordinate reducibility table, all nine coordinates are decomposed on the unified yeast abundance context, with $n=1258$ rows in the held-out table, five folds, $120$ target-label permutations, and $z$-basis rank $24$. Real abundance-source support is reported for $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Thr_{ACR/ACY}$, and $f_3\text{-stress}$, while $Ser_{UCA/UCG}$ is not listed among the coordinates with real-source support in that audit. For the $f_3\text{-stress}$ family decomposition, the full $f_3$ projection has norm squared $52.76911713166682$ and accounts for fraction $0.12259712041843235$ of the target energy, with $21$ synonymous-family subcoordinates, five folds, and $120$ permutations. Nineteen family subcoordinates pass the reported real-source gate, including $K_{AAA\to AAG}$, $L_{UUA\to UUG}$, $R_{AGA\to AGG}$, $S_{UCU\to UCG}$, and $T_{ACU\to ACG}$.
-
-\paragraph{Neighboring readout classification.}
-The broader candidate-readout ranking classifies this item as a cross-layer relation rather than as a translation-realization measurement. In the yeast ranking, the top candidate is mRNA with $A_H=0.001897605472160837$, $C_H=0.6040571890503664$, $A_H C_H=0.0011462622274400686$, description-length penalty $DL_H=1.0$, score $-0.008853737772559931$, Bonferroni threshold $0.0013014749238591248$, null $95$th percentile $0.0004745820831535835$, and $5128$ joined rows. The same ranking uses a regularization coefficient $\lambda=0.01$. Measured tRNA-tAI, turnover, complex membership, protein-localization columns, and measured translation efficiency appear as separate candidate readouts with their own scores; they are not substituted for the mRNA-stability mediator used here.
-
-\paragraph{Local conclusion.}
-For this finite yeast row set, $B^{\ast}_{Q6}$ retains a sizeable residual association with protein abundance after the amino-acid, $GC3$, length, and $M$-density controls, and residualized mRNA half-life absorbs a reproducible fraction of that association. The strongest numerical statement is the pair
-$$
-\begin{aligned}
-R^2_{QP} &= 0.2761140373962526,\\
-R^2_{QP\mid M} &= 0.24851799532219632,
-\end{aligned}
-$$
-together with the mediation fraction $0.09994436477872035$ and the permutation right-tail probability $0.000999000999000999$. This is evidence for a statistical mRNA-stability mediation component in the yeast abundance residual. It is not, by itself, evidence for ribosome-mediated translation realization, protein folding, physical admissibility, molecular function, a biochemical mechanism, or a universal biological law. Any one of those stronger readings would require its own layer-matched measurement and its own controlled statistic.
+\paragraph{Local boundary.}
+This chapter does not infer a biochemical pathway from codon choice to mRNA half-life to protein output.  The row is observational, single-organism, and based on a steady-state 4tU half-life estimate; reverse direction, shared upstream regulation, growth-condition effects, transcript handling, and other confounding explanations are not eliminated.  The result also does not establish translation realization, ribosome occupancy, protein folding, physical admissibility, molecular function, phenotype, mechanism, or a universal biological rule.  Any such claim would require its own layer-matched contact and its own controlled statistic.  The supported statement is narrower: after amino-acid composition, CDS length, GC3, and M-density controls, the measured yeast half-life column absorbs a statistically non-null but incomplete share of the nine-coordinate B exorpdfstring{$^*_{Q6}$}{*Q6} residual association with measured yeast protein abundance.

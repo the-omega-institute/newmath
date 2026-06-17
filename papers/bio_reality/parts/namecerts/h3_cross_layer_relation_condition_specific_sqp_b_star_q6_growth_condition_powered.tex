@@ -1,39 +1,89 @@
-\subsection{Condition-specific protein-abundance survival for the $B^{*}_{Q6}$ residual coordinates}\label{sec:bioreality-q6-condition-specific-sqp-growth-condition}\origin{ai}
+\origin{ai}
 
-\paragraph{Finite row and readout.}
-This record tests whether the nine $B^{*}_{Q6}$ synonymous residual coordinates retain protein-abundance explanatory power in \emph{Saccharomyces cerevisiae} when the readout is separated by growth condition.  The measured response is $\log_{10}(\mathrm{abundance\_ppm})$ from Newman GFP-tagged yeast abundance files as served through the PAXdb condition tables.  The two condition labels are YEPD, a rich-medium condition, and SD, a minimal-medium condition.  The downloaded table headers identify the source as Newman, Nature, 2006 with \texttt{paxdb\_publication\_year=2006}, while the experiment label attached to the task names Newman et al. 2009; this chapter therefore treats the provenance as the finite downloaded PAXdb condition row rather than as a bibliographic assertion beyond that row.
+\subsection{Condition-specific survival of the $B^*_{Q6}$ protein-abundance projection}
+\label{sec:bioreality-q6-condition-specific-sqp}
 
-\paragraph{Design matrix.}
-For each joined yeast coding sequence, the source design uses the nine residual coordinates
-$\texttt{K\_AAA}$, $\texttt{Arg\_AGR}$, $\texttt{Ile\_AUA}$, $\texttt{Leu\_CUN\_vs\_UUR}$, $\texttt{Leu\_UUA\_vs\_UUG}$, $\texttt{Ser\_UCR\_vs\_AGY}$, $\texttt{Ser\_UCA\_vs\_UCG}$, $\texttt{Thr\_ACR\_vs\_ACY}$, and $\texttt{f3\_stress}$.  The nuisance design $Z$ has 24 columns in both SD and YEPD before rank reduction, consisting of an intercept, $\log(\mathrm{cds\_len\_nt})$, the 20 amino-acid composition proportions computed from real CDS codon counts, GC3, and an $M$-density baseline equal to the fraction of sense codons lying on the union support of the nine projected $B^{*}_{Q6}$ vectors.  The fitted control rank is 23 in both condition-specific models, and the residual degrees of freedom on the shared condition join are 2186.
-
-\paragraph{Condition-specific survival statistics.}
-The finite join contains 2442 SD condition hits and 2517 YEPD condition hits before restricting to the paired comparison.  The shared condition table has 2209 proteins.  On that shared row set, the residual $B^{*}_{Q6}$ block explains a substantial fraction of the residual protein-abundance energy in both conditions:
+\paragraph{Finite object under test.}
+This record tests whether the nine synonymous-residual coordinates collected as $B^*_{Q6}$ retain a condition-stable protein-abundance association in one measured yeast study.  The organism is \emph{Saccharomyces cerevisiae}.  The response variable is $\log_{10}(\mathrm{abundance\_ppm})$ from GFP-tagged yeast protein-abundance tables, compared between the rich-medium condition YEPD and the minimal-medium condition SD.  The computation uses the same nine coordinate names in both conditions:
 $$
 \begin{aligned}
-R^{2}_{QP}(\mathrm{SD}) &= 0.3050385538305022,\\
-R^{2}_{QP}(\mathrm{YEPD}) &= 0.3280825603424665.
+Q=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
 \end{aligned}
 $$
-The SD fit has explained energy $131.4599852310053$ against residual response energy $430.9618688529857$.  The YEPD fit has explained energy $149.3320327478236$ against residual response energy $455.16601855320954$.  In both cases the residualized $B^{*}_{Q6}$ coordinate block has rank 9, so the positive values are not a rank-zero or collapsed-design artifact.  The dominant coordinate is $\texttt{f3\_stress}$ in both growth conditions.
+The control design has $24$ columns in each condition: an intercept, $\log(\mathrm{cds\_len\_nt})$, the $20$ amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline defined as the fraction of sense codons lying on the union support of the nine projected $B^*_{Q6}$ vectors.  The fitted control rank is $23$ in each condition, and after the shared join the residual degrees of freedom are $2186$.
+
+\paragraph{Joined rows and survival statistic.}
+The condition-specific input tables contain $2517$ joined YEPD rows and $2442$ joined SD rows before enforcing the common protein set.  The comparison is then made on $2209$ shared proteins.  For each condition $c\in\{\mathrm{YEPD},\mathrm{SD}\}$, the reported scalar is the $Z$-controlled projection fraction
+$$
+\begin{aligned}
+R^2_{QP}(c)
+  = \frac{\|\operatorname{Proj}_{\widetilde Q_c}(\widetilde P_c)\|^2}
+         {\|\widetilde P_c\|^2},
+\end{aligned}
+$$
+where $\widetilde Q_c$ and $\widetilde P_c$ denote the residualized $B^*_{Q6}$ coordinate matrix and residualized protein-abundance vector after the declared controls.  The finite values are
+$$
+\begin{aligned}
+R^2_{QP}(\mathrm{SD}) &= 0.3050385538305022,\\
+R^2_{QP}(\mathrm{YEPD}) &= 0.3280825603424665.
+\end{aligned}
+$$
+The SD fit has explained energy $131.4599852310053$ against response residual energy $430.9618688529857$.  The YEPD fit has explained energy $149.3320327478236$ against response residual energy $455.16601855320954$.  In both conditions the residualized coordinate rank is $9$, so the nine-coordinate comparison is not a collapsed one-dimensional fit.
 
 \paragraph{Condition comparison.}
-The two condition-specific $S^{QP}$ profiles are nearly collinear on this finite yeast table.  The cosine similarity between the two profile vectors is
+The survival-vector comparison is sharply stable across the two growth conditions.  The coordinatewise $S^{QP}$ vectors have cosine
 $$
 \begin{aligned}
-\cos\bigl(S^{QP}_{\mathrm{SD}},S^{QP}_{\mathrm{YEPD}}\bigr) &= 0.9993775935182967,
+\cos(S^{QP}_{\mathrm{SD}},S^{QP}_{\mathrm{YEPD}})=0.9993775935182967
 \end{aligned}
 $$
-and the Pearson correlation is $0.9983880256003688$.  The condition comparison used 1000 permutations and retained the same dominant coordinate in both conditions.  Thus the finite result is not merely that each condition has a positive residual abundance association; it is that the direction of the nine-coordinate abundance profile is almost unchanged between the rich-medium and minimal-medium condition rows used here.
+and Pearson correlation
+$$
+\begin{aligned}
+\rho(S^{QP}_{\mathrm{SD}},S^{QP}_{\mathrm{YEPD}})=0.9983880256003688.
+\end{aligned}
+$$
+The dominant coordinate is $f3\_stress$ in both SD and YEPD, and the comparison used $1000$ permutations for the reported condition-contrast diagnostic.  The finite-row verdict is therefore not merely that each condition has a positive projection fraction; it is that the direction of the nine-coordinate abundance projection is almost unchanged between the two media on the common $2209$-protein panel.
 
-\paragraph{Coordinate-level anchoring.}
-A neighboring yeast decomposition row gives a narrower coordinate audit on a unified yeast context join.  There, a 5-fold held-out design with 120 deterministic target-label permutations tested the nine single-coordinate projections against the same style of $Z$ residualization.  The decomposition table has 9 rows, base size 1800, joined size 1258, $Z$-basis rank 24, and reports real-source support for $\texttt{K\_AAA}$, $\texttt{Arg\_AGR}$, $\texttt{Ile\_AUA}$, $\texttt{Leu\_CUN\_vs\_UUR}$, $\texttt{Leu\_UUA\_vs\_UUG}$, $\texttt{Ser\_UCR\_vs\_AGY}$, $\texttt{Thr\_ACR\_vs\_ACY}$, and $\texttt{f3\_stress}$.  This does not replace the condition-specific $S^{QP}$ test, but it shows that the yeast abundance signal is not treated solely as an opaque nine-dimensional aggregate.
+\paragraph{Coordinate-level support.}
+A separate per-coordinate decomposition on the unified yeast context join gives $n=1258$ with $5$ held-out folds, $120$ deterministic target-label permutations, and a $24$-rank $Z$ basis.  It reports all $9$ coordinate rows and identifies real abundance-source support for eight named coordinates: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The missing coordinate from that real-source list is $Ser\_UCA\_vs\_UCG$, while the condition-specific full-vector fits still keep all nine coordinates in the design.  This matters because the condition result is not only a whole-block statistic; it is compatible with a coordinate audit in which most individual axes have held-out support against permutation.
 
-\paragraph{$f3$ stress decomposition.}
-Because $\texttt{f3\_stress}$ is the dominant coordinate in both SD and YEPD, the family-level $f3$ audit is relevant to interpreting the finite row.  In the yeast family decomposition, $P_{f3}^{2}=52.76911713166682$, the $f3$ projection accounts for $0.12259712041843235$ of the target projection, and the full target norm is $430.42705205115925$.  The decomposition covers 21 synonymous-family subcoordinates with 5 folds and 120 permutations on $n=1800$ joined rows.  Nineteen family subcoordinates pass the real-source gate: $\texttt{F\_UUU\_to\_UUC}$, $\texttt{L\_UUA\_to\_UUG}$, $\texttt{S\_UCU\_to\_UCG}$, $\texttt{Y\_UAU\_to\_UAC}$, $\texttt{C\_UGU\_to\_UGC}$, $\texttt{P\_CCU\_to\_CCG}$, $\texttt{H\_CAU\_to\_CAC}$, $\texttt{Q\_CAA\_to\_CAG}$, $\texttt{R\_CGU\_to\_CGG}$, $\texttt{I\_AUU\_to\_AUA}$, $\texttt{T\_ACU\_to\_ACG}$, $\texttt{N\_AAU\_to\_AAC}$, $\texttt{K\_AAA\_to\_AAG}$, $\texttt{R\_AGA\_to\_AGG}$, $\texttt{V\_GUU\_to\_GUG}$, $\texttt{A\_GCU\_to\_GCG}$, $\texttt{D\_GAU\_to\_GAC}$, $\texttt{E\_GAA\_to\_GAG}$, and $\texttt{G\_GGU\_to\_GGG}$.  The condition-specific result therefore has a concrete internal support pattern: the stable dominant $f3$ coordinate is itself decomposed into many synonymous-family contributions under a related yeast abundance target.
+\paragraph{Why $f3\_stress$ is singled out.}
+The dominant coordinate in the condition comparison is $f3\_stress$, and the family decomposition refines what that label contains.  In the yeast family run, the target is the same kind of residualized $\log_{10}$ protein abundance on a unified yeast context join.  The run uses $n=1800$, $5$ folds, $120$ permutations, $21$ synonymous-family subcoordinates, and a $24$-rank $Z$ basis.  The full $f3\_stress$ projection has
+$$
+\begin{aligned}
+\|P_{f3}\|^2 &= 52.76911713166682,\\
+\|P_{f3}\|^2/\|P\|^2 &= 0.12259712041843235,
+\end{aligned}
+$$
+with target norm squared $430.42705205115925$.  Nineteen family subcoordinates are listed as real-source families under the held-out/permutation gate, including $K\_AAA\_to\_AAG$, $R\_AGA\_to\_AGG$, $I\_AUU\_to\_AUA$, $T\_ACU\_to\_ACG$, $S\_UCU\_to\_UCG$, and $L\_UUA\_to\_UUG$.  Thus the condition-stable $f3\_stress$ dominance is not read as a single codon anecdote; it is backed by a finite decomposition over synonymous-family components.
 
-\paragraph{Interpretation.}
-The finite conclusion is a descriptive cross-layer abundance relation: after controlling for amino-acid composition, CDS length, GC3, and the $M$-density baseline, the $B^{*}_{Q6}$ residual coordinate block retains positive protein-abundance explanatory power in both SD and YEPD yeast condition rows, with a nearly identical nine-coordinate profile and $\texttt{f3\_stress}$ as the shared dominant coordinate.  The row supports condition-stability of the $S^{QP}$ profile within one organism, one abundance technology class, and one paired condition comparison.
+\paragraph{Relation to mRNA-stability controls.}
+The same yeast abundance layer has a separate mRNA-half-life analysis on $5085$ joined rows.  For the mRNA-stability response $M$, the $B^*_{Q6}$ block gives
+$$
+\begin{aligned}
+R^2_{QM} &= 0.05179429044975085,
+\end{aligned}
+$$
+with dominant coordinate $Leu\_CUN\_vs\_UUR$, permutation count $1000$, and right-tail permutation value $p=0.000999000999000999$.  On the same join, the abundance statistic is
+$$
+\begin{aligned}
+R^2_{QP} &= 0.2761140373962526,
+\end{aligned}
+$$
+and the cosine between the $S^{QM}$ and same-join $S^{QP}$ vectors is $0.8040935468384264$.  A mediation-style variance partition on the same yeast half-life table gives
+$$
+\begin{aligned}
+R^2_{QP\mid M} &= 0.24851799532219632,\\
+R^2_{\mathrm{absorbed\ by}\ M} &= 0.027596042074056304,\\
+\mathrm{mediation\ fraction} &= 0.09994436477872035,
+\end{aligned}
+$$
+again with permutation value $p=0.000999000999000999$ for the mediation fraction against its deterministic null.  These numbers do not replace the condition-specific result, but they locate it: the yeast protein-abundance projection is only partly aligned with the mRNA-half-life surface, and the condition-stable abundance direction remains largely present after conditioning on that single mRNA-stability readout.
 
-\paragraph{Local boundary.}
-Nothing in this finite row by itself establishes ribosome-mediated translation, protein folding, physical admissibility, molecular function, cellular mechanism, phenotype, or a universal biological rule.  The readout is GFP-based protein abundance, not ribosome profiling and not a matched mRNA-controlled translation-efficiency statistic.  The quantities above are residual projection and partial-explanation statistics on joined finite tables.  Any claim about translation dynamics, folding, biochemical function, causality, or cross-organism universality would require a separate layer-appropriate contact and its own controlled statistic.
+\paragraph{Local ribosome-contact context.}
+A distinct ribosome-occupancy contact tests synonymous choices in supplied $5'$ and $3'$ codon-window arrays using position-bin and amino-acid-bin control.  That run joins $5754$ genes after length checking, has no length mismatches, requests $200$ within-bin permutations, and obtains computable nulls for all $9$ families.  Under the stated $C_H>0$ rule and the description-length penalty with $\lambda_{DL}=0.01$ and $DL=2$, the families passing all gates are $K\_AAA$, $Arg\_AGR$, and $f3\_stress$.  This supports a local occupancy separation for some synonymous families, but it is not the same statistic as the condition-specific protein-abundance $S^{QP}$ comparison.  It is included here only to delimit the nearby translation-readout contact: the abundance comparison above is not converted into ribosome-mediated causality by the existence of a separate occupancy statistic.
+
+\paragraph{Boundary of the claim.}
+The finite conclusion is restricted to a measured yeast protein-abundance comparison across two growth conditions.  The result says that, after amino-acid composition, GC3, CDS length, and $M$-density controls, the nine-dimensional $B^*_{Q6}$ residual block explains a positive fraction of residual protein-abundance variance in both SD and YEPD, with $f3\_stress$ dominant in both and with nearly identical coordinate direction across conditions.  It does not establish a ribosome mechanism, a translation-efficiency mechanism, protein folding, physical admissibility, molecular function, phenotype, or a universal biological law.  Such stronger statements would require their own layer-matched measurements and their own controlled statistics.  The source provenance is also finite: the task labels the contrast as Newman et al. 2009, while the downloaded PAXdb condition-file headers report Newman, Nature, 2006 and $\mathrm{paxdb\_publication\_year}=2006$; the mathematical record therefore relies on the downloaded condition rows and reports that provenance discrepancy without upgrading it into a biological interpretation.

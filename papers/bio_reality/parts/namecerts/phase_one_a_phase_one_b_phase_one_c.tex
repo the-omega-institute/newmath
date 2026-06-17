@@ -1,64 +1,60 @@
-\subsection{Phase-One Genetic-Code Contact and Translation-Mediated Protein-Abundance Boundary}
-\label{sec:bioreality-phase-one-q6-translation-protein-boundary}
 \origin{ai}
+\subsection{Phase-One Confirmatory Contact and Translation-Mediated Protein-Abundance Boundary}
+\label{sec:bioreality-phase-one-q6-translation-mediated-protein-abundance}
 
-\paragraph{Finite claim surface.}
-This record concerns the finite mediation surface whose rows are triples $(q_i,t_j,p_k)$.  The $q_i$ coordinates are the nine $B^*_{Q6}$ synonymous residual coordinates
-$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The translation readout $t_j$ is allowed to be a bounded codon-adaptation or translation-efficiency readout, including modeled tAI, stAI, ribosome occupancy, or translation efficiency, and the protein readout $p_k$ is matched protein abundance.  The admissible readback is therefore not a direct residual-to-protein assertion, but a controlled matrix of the form
-$$
-\begin{aligned}
-q_i \longrightarrow t_j \longrightarrow p_k,
-\end{aligned}
-$$
-where amino-acid composition, organism, GC3, coding-sequence length, the $M$-density baseline, and matched mRNA abundance remain controls rather than promoted coordinates.  A residual-to-protein association is counted only after the corresponding residual-to-translation step has a non-null finite statistic.
-
-\paragraph{Phase-one table contact.}
-The locked confirmatory contact against the NCBI genetic-code table $gc.prt$ represented all three declared target families: $h0.null.model.aa\_class\_preserving$, $h1.leave\_one\_code\_out.by\_family$, and $h1.leave\_one\_codon\_out.module\_classification$.  The independent replication statistic had $40$ successes in $40$ trials, with rate $1.0$ and exact one-sided binomial upper-tail value
-$$
-\begin{aligned}
- p &= 9.094947017729282\times 10^{-13}.
-\end{aligned}
-$$
-The boundary-probe statistic had the same finite count, again $40$ successes in $40$ trials with rate $1.0$ and the same upper-tail value $9.094947017729282\times 10^{-13}$.  Negative controls had $20$ rows and $0$ unexpected successes, and the critical ablation table also had $20$ rows and $0$ unexpected successes.  The observation snapshot is dated $2026$-$06$-$16$ $18{:}30{:}05+00{:}00$, with preregistration before observation at $2026$-$05$-$29$ $20{:}11{:}31+00{:}00$.  These numbers support the finite codon-table contact only; they do not by themselves establish translation, protein structure, physical admissibility, biological function, mechanism, or a universal biological rule.
-
-\paragraph{Modeled translation readout.}
-A bounded modeled-tAI surface was computed from GtRNAdb tRNA gene-copy counts and dos Reis wobble weights for three organisms: $Escherichia\ coli$ K-12, $Homo\ sapiens$, and $Saccharomyces\ cerevisiae$.  The contact covered $61$ sense codons.  The local tRNA payload contained all $20$ standard amino-acid families for each organism, with $89$ FASTA headers in $E.\ coli$ K-12, $432$ in human, and $275$ in yeast; the matched header counts were $87$, $432$, and $275$, respectively.  Zero raw-weight fallback counts were $0$ for all three modeled-tAI codon tables.  The bounded coupling surface had $81$ entries above threshold $0.01$, and the largest absolute entry was
-$$
-\begin{aligned}
-\max_{i,j}|S_{ij}| &= 3801961.031607896 .
-\end{aligned}
-$$
-This finite matrix is useful as a bounded translation-layer readout, but the organism count was $3$, below the stated powered-survival requirement of at least $40$ matched species.  Consequently it is not ribosome profiling, not proteomics validation, and not a measured translation-realization claim.
-
-\paragraph{Protein-abundance mediation rows.}
-The protein-abundance mediation run joined real coding sequences, modeled per-protein tAI, and PAXdb protein abundance for $12$ organisms.  The joined row counts were $4042$ for $Bacillus\ subtilis$ strain $168$, $11661$ for $Caenorhabditis\ elegans$, $14410$ for $Danio\ rerio$, $13295$ for $Drosophila\ melanogaster$, $3739$ for $Escherichia\ coli$ K-12 MG1655, $12418$ for $Gallus\ gallus$, $19053$ for $Homo\ sapiens$, $19395$ for $Mus\ musculus$, $4129$ for $Mycobacterium\ smegmatis$ MC2 155, $13322$ for $Rattus\ norvegicus$, $5815$ for $Saccharomyces\ cerevisiae$, and $1656$ for $Sulfolobus\ solfataricus$.  Each organism had rank-sufficient residualized design matrices with $9$ $q$ coordinates, $24$ control columns, and a residualized $T$ rank of $1$.  The modeled tAI readout used per-protein means
+\paragraph{Finite row carrier.}
+The record is a finite surface of triples $(q_i,t_j,p_k)$.  The first coordinate $q_i$ ranges over the nine $B^{\ast}_{Q6}$ synonymous residual coordinates
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The middle coordinate $t_j$ is a translation readout, here represented by bounded modeled tAI weights and by per-protein mean modeled tAI where each protein receives
 $$
 \begin{aligned}
 T &= \frac{\sum_c n_c w_c}{\sum_c n_c},
 \end{aligned}
 $$
-where $n_c$ is the codon count and $w_c$ is the tAI weight.
+with $n_c$ the codon count and $w_c$ the organism-specific tAI weight obtained from tRNA gene-copy counts and dos Reis wobble weights.  The third coordinate $p_k$ is matched protein abundance, specifically $\log_{10}(\mathrm{abundance\_ppm})$ after joining measured PAXdb abundance to real CDS codon-count rows.  Amino-acid composition, organism, GC3, CDS length, and the M-density baseline are covariates, not promoted coordinates; matched mRNA abundance is a control separating transcription-layer variation from the translation-mediated chain.
 
-\paragraph{Mediation magnitudes.}
-The joint nine-coordinate mediation scalar was positive and inside the unit interval in every organism.  The mediated fractions $M^{QTP}$ were $0.6084594553474505$ in $B.\ subtilis$, $0.4872268357227724$ in $C.\ elegans$, $0.3157053953614641$ in $D.\ rerio$, $0.6165167748739756$ in $D.\ melanogaster$, $0.612922252793667$ in $E.\ coli$, $0.1976903964724546$ in chicken, $0.27206289160119157$ in human, $0.15488799907323988$ in mouse, $0.08397602919861291$ in $M.\ smegmatis$, $0.17489681798543982$ in rat, $0.9491551041216973$ in yeast, and $0.01850668564589326$ in $S.\ solfataricus$.  The corresponding total residual-to-protein $R^2$ values $c$ and direct-after-translation values $c'$ satisfy
+\paragraph{Locked Phase-One table contact.}
+The Phase-One contact is confirmatory only.  It uses the NCBI genetic-code table readback against locked codon-geometry claims, with the protocol declared before observation at 2026-05-29T20:11:31+00:00 and the finite snapshot dated 2026-06-16T18:30:05+00:00.  The represented target claims are $h0.null.model.aa\_class\_preserving$, $h1.leave\_one\_code\_out.by\_family$, and $h1.leave\_one\_codon\_out.module\_classification$.  Both the independent replication statistic and the boundary-probe statistic are exact one-sided binomial tests with $40$ successes out of $40$ trials, rate $1.0$, and upper-tail probability
 $$
 \begin{aligned}
-M^{QTP} &= \frac{c-c'}{c}
+P(X \geq 40 \mid n=40,p=1/2) &= 9.094947017729282\times 10^{-13}.
 \end{aligned}
 $$
-for the reported finite decomposition.  In yeast, for example, $c=0.29837624994140827$, $c'=0.0151709093608293$, and $c-c'=0.28320534058057895$; in human, $c=0.04454565118019448$, $c'=0.03242643251185274$, and $c-c'=0.012119218668341744$.
+The negative-control table has $20$ rows and $0$ unexpected successes, and the critical-ablation table has $20$ rows and $0$ unexpected successes.  This is strong contact with the curated genetic-code table, but it remains bounded to that contact: it does not by itself establish translation, protein structure, physical admissibility, biological function, mechanism, universality, or any organism-level law.
 
-\paragraph{Yeast structure-control audit.}
-The yeast five-way join used $4759$ rows after matching CDS codon counts, protein abundance, measured translation efficiency, mRNA half-life, and a $5'$ coding-region RNA-folding proxy.  The reported CDS join hit rate was $0.9156038419146592$, and the overall join hit rate was $0.8818572656921754$.  The residualized direct $B^*_{Q6}$ to protein-abundance value was
+\paragraph{Modeled translation readout.}
+A preliminary translation-readout surface was computed for three organisms from GtRNAdb tRNA-copy payloads and dos Reis wobble weights.  The standard amino-acid family count was $20$ for Escherichia coli K12, Homo sapiens, and Saccharomyces cerevisiae.  The corresponding FASTA header counts were $89$, $432$, and $275$, with matched header counts $87$, $432$, and $275$ respectively.  The modeled tAI readout covered all $61$ sense codons in each organism, with zero raw-weight fallback counts $0$, $0$, and $0$.  The finite modeled coupling matrix had $81$ entries above the $0.01$ bounded-contact threshold, with maximum absolute entry
 $$
 \begin{aligned}
-R^2_{QP} &= 0.2715520808117803,
+\max |S_{ij}| &= 3801961.031607896.
 \end{aligned}
 $$
-with $R^2_{QP\mid S}=0.2706601505000995$, $R^2_{QP\mid T,M}=0.13773967696311287$, and $R^2_{QP\mid T,M,S}=0.13759011208318542$.  The structure-only fraction was $0.003284564452662019$, the structure-incremental fraction was $0.0005507778820193332$, and $R^2(S\sim Q)=0.003774248455422586$ with right-tail permutation value $0.027972027972027972$.  The right-tail permutation value for the structure-incremental fraction was $0.1258741258741259$.  This is a variance-partition check with a sequence-derived $5'$ CDS MFE proxy; it is not a causal structure pathway, not a measured folding experiment, and not a physical-admissibility result.
+This is not powered measured translation survival: the organism count is $3$, and the row explicitly records that a powered survival claim would require at least $40$ matched species or an organism-matched measured translation panel.  The result is therefore a bounded modeled-tAI coupling contact, not a ribosome-profiling, proteomics, or causal translation measurement.
 
-\paragraph{Axis identity.}
-The structural-order axis audit computed the same nine coordinates and found exactly one coordinate passing the fold-level sign-flip gate.  The dominant loading and dominant increment coordinate was $f3\_stress$, with weighted absolute unit loading $0.5109586606724208$, weighted held-out increment $R^2$ of $0.0031744502294756994$, and sign-flip value $0.03125$.  The other reported weighted held-out increments were $0.0020139270616115154$ for $Arg\_AGR$, $0.0013067592718559024$ for $Ile\_AUA$, $0.0005307046179682497$ for $K\_AAA$, $-0.0003205780368125179$ for $Leu\_CUN\_vs\_UUR$, $0.00017615626369389472$ for $Leu\_UUA\_vs\_UUG$, $4.390882136492317\times 10^{-5}$ for $Ser\_UCA\_vs\_UCG$, $0.0010134090056701938$ for $Ser\_UCR\_vs\_AGY$, and $-0.00045340330387383447$ for $Thr\_ACR\_vs\_ACY$.  This identifies a finite residual axis in the available structural-order statistic; it does not promote the residual axis to protein folding, molecular function, phenotype, mechanism, or universality.
+\paragraph{Protein-abundance mediation matrix.}
+The powered cross-layer computation joined real CDS codon counts, modeled tAI, and measured protein abundance for $12$ organisms.  The joined protein counts were $4042$ for Bacillus subtilis subsp. subtilis str. 168, $11661$ for Caenorhabditis elegans, $14410$ for Danio rerio, $13295$ for Drosophila melanogaster, $3739$ for Escherichia coli K12 MG1655, $12418$ for Gallus gallus, $19053$ for Homo sapiens, $19395$ for Mus musculus, $4129$ for Mycobacterium smegmatis str. mc2 155, $13322$ for Rattus norvegicus, $5815$ for Saccharomyces cerevisiae, and $1656$ for Sulfolobus solfataricus.  After residualization against the $24$-column control design, each organism retained rank $9$ for the $B^{\ast}_{Q6}$ coordinate block and rank $1$ for the modeled-tAI readout, with $M^{QTP}$ fractions in $[0,1]$ for every organism.
 
-\paragraph{Local boundary.}
-The chapter therefore permits the following narrow conclusion: within the finite matched rows described above, the nine-coordinate $B^*_{Q6}$ residual system has a controlled statistical decomposition through modeled translation readout into matched protein abundance, and the strongest reported structural-order axis is $f3\_stress$.  The conclusion remains bounded by its contacts.  A modeled tAI value is not observed ribosome occupancy.  A protein-abundance row is not a folding, localization, function, phenotype, or physical assay.  A positive mediated fraction is not a causal mechanism.  A direct $q_i\to p_k$ association is not admissible as protein realization when the $q_i\to t_j$ step is absent, null, rank-degenerate, or untested.  Any translation-efficiency, folding, physical-admissibility, function, mechanism, or universal-law assertion requires a separate layer-matched measurement and its own controlled statistic.
+The total $Q\to P$ association and the direct association after conditioning on $T$ define the finite mediated fraction
+$$
+\begin{aligned}
+M^{QTP} &= \frac{R^2_{QP}-R^2_{QP\mid T}}{R^2_{QP}}.
+\end{aligned}
+$$
+The computed mediation fractions were $0.6084594553474505$ for Bacillus subtilis, $0.4872268357227724$ for Caenorhabditis elegans, $0.3157053953614641$ for Danio rerio, $0.6165167748739756$ for Drosophila melanogaster, $0.612922252793667$ for Escherichia coli K12 MG1655, $0.1976903964724546$ for Gallus gallus, $0.27206289160119157$ for Homo sapiens, $0.15488799907323988$ for Mus musculus, $0.08397602919861291$ for Mycobacterium smegmatis, $0.17489681798543982$ for Rattus norvegicus, $0.9491551041216973$ for Saccharomyces cerevisiae, and $0.01850668564589326$ for Sulfolobus solfataricus.  The largest mediated fraction is the yeast value $0.9491551041216973$, with $R^2_{QP}=0.29837624994140827$, $R^2_{QP\mid T}=0.0151709093608293$, and indirect component $0.28320534058057895$.  The smallest mediated fraction is the Sulfolobus value $0.01850668564589326$, with $R^2_{QP}=0.06397514251295629$, $R^2_{QP\mid T}=0.06279117466131778$, and indirect component $0.0011839678516385038$.  Thus the record supports a finite statistical mediation matrix for modeled translation readout and matched protein abundance, not a universal sign law.
+
+\paragraph{Structural-order side audit.}
+The structural-order audit identifies which residual coordinate carries the held-out structural-order signal in the available finite surface.  Among the nine axes, exactly one passed the fold-level sign-flip gate: $f3\_stress$.  Its weighted held-out $R^2$ increment was $0.0031744502294756994$, its weighted absolute unit loading was $0.5109586606724208$, and its sign-flip probability for a positive increment was $0.03125$.  The remaining coordinate increments were smaller or nonpositive: $Arg\_AGR$ had $0.0020139270616115154$ with $p=0.142578125$, $Ile\_AUA$ had $0.0013067592718559024$ with $p=0.0693359375$, $K\_AAA$ had $0.0005307046179682497$ with $p=0.2294921875$, $Leu\_CUN\_vs\_UUR$ had $-0.0003205780368125179$ with $p=0.779296875$, $Leu\_UUA\_vs\_UUG$ had $0.00017615626369389472$ with $p=0.24609375$, $Ser\_UCA\_vs\_UCG$ had $0.00004390882136492317$ with $p=0.4873046875$, $Ser\_UCR\_vs\_AGY$ had $0.0010134090056701938$ with $p=0.2158203125$, and $Thr\_ACR\_vs\_ACY$ had $-0.00045340330387383447$ with $p=0.529296875$.  This axis identity is a rank-level statistical readback and must not be read as folded-structure evidence.
+
+\paragraph{Yeast structure and mRNA-control check.}
+A yeast five-way join supplied $4759$ rows linking CDS codon counts, protein abundance, measured translation efficiency, mRNA half-life, and a sequence-derived 5-prime CDS MFE proxy.  The reported CDS join hit rate was $0.9156038419146592$, and the full join hit rate was $0.8818572656921754$.  The structure source contained $6027$ valid MFE entries, the TE source contained $5128$ valid protein-keyed entries, and the mRNA half-life source contained $5379$ valid systematic-gene entries.  In this yeast variance partition, the residualized $B^{\ast}_{Q6}$ block gave
+$$
+\begin{aligned}
+R^2_{QP} &= 0.2715520808117803,\\
+R^2_{QP\mid S} &= 0.2706601505000995,\\
+R^2_{QP\mid T,M} &= 0.13773967696311287,\\
+R^2_{QP\mid T,M,S} &= 0.13759011208318542.
+\end{aligned}
+$$
+The structure-only fraction was $0.003284564452662019$, the structure-incremental fraction beyond measured TE and mRNA stability was $0.0005507778820193332$, and $R^2(S\sim Q)$ was $0.003774248455422586$ with right-tail permutation probability $0.027972027972027972$.  The structure-incremental permutation probability was $0.1258741258741259$.  These numbers are useful as a control audit, but they do not turn the protein-abundance mediation matrix into folding, initiation-rate, or causal pathway evidence.
+
+\paragraph{Local no-promotion rule.}
+The admissible conclusion is narrow.  At finite row level, there is a computed $Q_i\to T_j\to P_k$ matrix in which the $Q$ block consists of nine $B^{\ast}_{Q6}$ residual coordinates, $T$ is a modeled translation-readout scalar, and $P$ is matched measured protein abundance.  Direct $Q_i\to P_k$ associations are not interpreted as protein realization unless the translation readout is explicitly present and conditioned in the same row design.  Even then, the result is a statistical decomposition under controls, not a causal mechanism.  No claim about measured ribosome occupancy, folding, physical admissibility, molecular function, phenotype, selection, perturbational rescue, or universality follows from these rows unless a separate layer-matched contact supplies that measurement and a controlled statistic is computed for it.

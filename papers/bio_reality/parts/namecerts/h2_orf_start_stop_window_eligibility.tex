@@ -1,90 +1,47 @@
 \origin{ai}
 
-\subsection{Positional dwell readback for the $f_3$ stress abundance component}
-\label{sec:bioreality-f3-stress-dwell-positional-ramp-body}
+\subsection{Per-coordinate reducibility of the $B^{\ast}_{Q6}$ abundance projection}
+\label{sec:b-star-q6-per-coordinate-reducibility}
 
-\paragraph{Claim.}
-The record tests whether the $f_3$ stress coordinate in the $B^{\ast}_{Q6}$ residual family has a positionally localized ribosome-dwell readback for the part of protein abundance carried by that coordinate. The tested response is not total protein abundance itself. It is
+\paragraph{Question.}
+The object tested here is the nine-coordinate synonymous residual system $B^{\ast}_{Q6}$ after quotienting by amino-acid composition and after applying the shared covariate basis $Z$.  The finite question is not whether codon geometry is biologically universal, nor whether it realizes a biochemical mechanism.  It is narrower: after the common controls have been applied, can the abundance component carried by each one-dimensional residual coordinate be recovered from a fixed measured-readout dictionary on held-out yeast rows?  For each coordinate $x_i$, the target component is the orthogonal projection $P_i=\operatorname{Proj}_{x_i}(P)$ of the residualized protein-abundance target onto that coordinate.  The reported coverage statistic asks whether the fixed dictionary spans enough of $P_i$ to beat a deterministic target-label permutation boundary.
+
+\paragraph{Finite design.}
+The run used the Saccharomyces cerevisiae unified context join.  The base table contained $1800$ proteins, and the decomposition table was evaluated on $n=1258$ joined rows after the shared row restrictions.  The organism gate required at least $500$ proteins per organism.  The control basis had rank $24$ and used the same sibling covariates as the surrounding abundance computations: amino-acid composition, CDS length, GC3, and the $M$-density baseline.  The measured-readout dictionary had residual rank $\operatorname{rank}(D_e)=3$.  The source side was the nine-dimensional $B^{\ast}_{Q6}$ synonymous residual design
 $$
 \begin{aligned}
-P_{f_3} &= \operatorname{proj}_{\widetilde f_3}\bigl(\widetilde{\log_{10} P}\bigr),
+Q=&\{\mathrm{K\_AAA},\mathrm{Arg\_AGR},\mathrm{Ile\_AUA},\mathrm{Leu\_CUN/UUR},\mathrm{Leu\_UUA/UUG},\\
+&\mathrm{Ser\_UCR/AGY},\mathrm{Ser\_UCA/UCG},\mathrm{Thr\_ACR/ACY},f_3\text{-}\mathrm{stress}\}.
 \end{aligned}
 $$
-where both $\widetilde f_3$ and $\widetilde{\log_{10} P}$ are residualized against the shared control basis $Z$. The experiment therefore asks a narrower question: after the ordinary codon-composition and sequence controls are removed, does a per-gene positional dwell summary explain held-out variation in the abundance component aligned with $f_3$ stress, and is that explanation concentrated in the 5-prime/head window or in the 3-prime/tail window?
+The audit records $9$ computed rows in the per-coordinate table, with $5$ held-out folds and $120$ deterministic permutations.  The seed was fixed as \texttt{sha256:b\_star\_q6\_coordinate\_decomposition\_powered:deterministic}, so the fold and null construction are part of the finite row, not an informal description.
 
-\paragraph{Finite rows and fitted surface.}
-The positive finite-row witness is the run `6db78e1bf746` for Saccharomyces cerevisiae. The active positional-dwell join contains $n=1257$ genes inside a base design size of $1800$ rows. The fitted object has $\operatorname{rank}(f_3)=1$ and a residual control basis of rank $24$. The target component has squared norm
+\paragraph{Test statistic.}
+For each coordinate $x_i$, the single-coordinate projection $P_i$ was compared with its reconstruction from the residualized dictionary $D_e$.  The positive-source decision used held-out $R^2$ against a deterministic target-label permutation Null95 boundary with fixed folds and fixed design.  In compact form, the statistic is
 $$
 \begin{aligned}
-\|P_{f_3}\|^2 &= 44.20095750389323,
+P_i &= \operatorname{Proj}_{x_i}(P),\\
+\widehat P_i &= \operatorname{Proj}_{D_e}(P_i),\\
+\operatorname{Surv}_i &= \mathbf{1}\{R^2_{\mathrm{heldout}}(P_i,\widehat P_i)>\operatorname{Null95}_i\}.
 \end{aligned}
 $$
-and accounts for
+The supplied row states that the full $9$-coordinate decomposition was produced and that at least one coordinate crossed this held-out/permutation gate as a real abundance source.  The coordinates listed as having a real source were
 $$
 \begin{aligned}
-0.1999063916718794
+&\mathrm{K\_AAA},\ \mathrm{Arg\_AGR},\ \mathrm{Ile\_AUA},\ \mathrm{Leu\_CUN/UUR},\ \mathrm{Leu\_UUA/UUG},\\
+&\mathrm{Ser\_UCR/AGY},\ \mathrm{Thr\_ACR/ACY},\ f_3\text{-}\mathrm{stress}.
 \end{aligned}
 $$
-of the abundance target used in this readback. The validation used five folds and $120$ deterministic row-label permutations of $P_{f_3}$, with the base and full designs held fixed separately for each segment and for the joint segment design. The seed was `sha256:b\_star\_q6\_f3\_stress\_dwell\_positional\_powered:deterministic`.
+The coordinate $\mathrm{Ser\_UCA/UCG}$ is present in the nine-row table but is not in the recorded positive-source list.  Thus the finite result is a coordinate-resolved separation: the abundance-side $B^{\ast}_{Q6}$ signal is not merely a single pooled projection, and the positive dictionary coverage is not uniformly assigned to every coordinate.
 
-\paragraph{Positional decision.}
-The positional classification is asymmetric. The 5-prime/head segment passed the held-out dwell criterion, while the 3-prime/tail segment did not:
-$$
-\begin{aligned}
-\text{five-prime ramp passed} &= \mathrm{true},\\
-\text{three-prime body passed} &= \mathrm{false},\\
-\text{leading segment by } \Delta R^2 &= \text{5prime},\\
-\text{dominant segment} &= \text{5prime}.
-\end{aligned}
-$$
-Thus the finite row surface supports a localized statement: the $f_3$-aligned abundance component has detectable dwell-associated held-out prediction in the 5-prime/head window under the registered null, but the same record does not support a body/tail-dominant call. This is a positional readback of a residual component, not a claim that the codon coordinate directly causes abundance.
+\paragraph{Relation to the surrounding abundance rows.}
+The per-coordinate decomposition is consistent with the broader yeast abundance surface.  In the yeast translation-complement row, the same organism has $n=5815$ proteins, $\operatorname{rank}(Z)=23$, $R^2_{QP}=0.29837624987287115$, complement fraction $d=0.21173219572706703$, and modeled-translation-aligned fraction $m=0.788267804272933$.  The complementary support vector in that row is spread across $\mathrm{Ser\_UCR/AGY}$, $\mathrm{Leu\_CUN/UUR}$, $\mathrm{Ser\_UCA/UCG}$, $\mathrm{Arg\_AGR}$, $\mathrm{Thr\_ACR/ACY}$, and $f_3$-stress, with absolute support fractions summing to $1.0$.  The growth-condition abundance row also gives the same dominant coordinate in rich and minimal media: in Saccharomyces cerevisiae, $R^2_{QP}=0.3280825603424665$ in YEPD and $R^2_{QP}=0.3050385538305022$ in SD, with $f_3$-stress dominant in both and condition-vector similarity $0.9983880256003688$ by Pearson correlation and $0.9993775935182967$ by cosine.  These numbers do not prove the present held-out dictionary result, but they give a finite consistency check: the coordinate-level decomposition sits inside a nontrivial yeast abundance surface rather than inside a rank-empty design.
 
-\paragraph{Connection with the non-positional dwell fit.}
-The companion dwell fit `946f33083caf` gives the scale of the same readout family before splitting the dwell summaries by position. On the same yeast organismal context, it used $n=1257$ joined rows, five folds, $120$ permutations, $\operatorname{rank}(f_3)=1$, and $\operatorname{rank}(Z)=24$. Its base and full held-out coefficients were
-$$
-\begin{aligned}
-R^2_{\mathrm{base}} &= 0.1855578757644517,\\
-R^2_{\mathrm{full}} &= 0.20412261520502883,\\
-\Delta R^2_{\mathrm{dwell}} &= 0.01856473944057712.
-\end{aligned}
-$$
-The fixed-readout permutation boundary was
-$$
-\begin{aligned}
-\mathrm{Null}_{95} &= 0.0013115362189692937,\\
-\mathrm{Null}_{\max} &= 0.005001350039772926,\\
-\mathrm{Null}_{\mathrm{mean}} &= -0.0032911642620130563,\\
-\mathrm{Null}_{\min} &= -0.013799622026666476.
-\end{aligned}
-$$
-The observed dwell gain therefore sits well above the null envelope. The measured correlation between the residual $f_3$ coordinate and the dwell summary was $0.1615441450901653$, with an approximate $p$-value of $7.873916057196935\times 10^{-9}$. These numbers support the narrower positional question by showing that the dwell readout is not merely a named covariate: it already carries detectable held-out information about $P_{f_3}$ before the segment split, and the segment split assigns the leading contribution to the 5-prime window.
+\paragraph{mRNA and local-occupancy contacts.}
+The same yeast context also contains a separate mRNA-half-life row.  On the Neymotin yeast join, $n=5085$, $\operatorname{rank}(Z)=23$, residual degrees of freedom $5062$, and the $B^{\ast}_{Q6}$ residual design has $9$ coordinates.  The mRNA stability association has $R^2_{QM}=0.05179429044975085$, while the same-row protein abundance association has $R^2_{QP}=0.2761140373962526$ and cosine $0.8040935468384264$ between the $S^{QM}$ and $S^{QP}$ coordinate profiles.  The mediation audit reports $R^2_{QP\mid M}=0.24851799532219632$, absorbed component $0.027596042074056304$, mediation fraction $0.09994436477872035$, permutation mean $0.00019674487584783138$, permutation Null95 $0.0014571003414947088$, and right-tail permutation $p=0.000999000999000999$.  A separate ribosome-occupancy contact is local rather than global: with $5754$ joined genes, $9$ computed synonymous families, and $200$ requested within-bin permutations, the families passing the stated $\lambda_{DL}=0.01$, $DL=2$, and $C_H>0$ gate were $\mathrm{K\_AAA}$, $\mathrm{Arg\_AGR}$, and $f_3$-stress.  These rows are not substituted for the per-coordinate dictionary test; they show that several coordinate names appearing in the positive-source list also recur in independently bounded yeast readouts.
 
-\paragraph{Relation to ramp-versus-body structural-order readback.}
-A separate structural-order ramp/body analysis, run as `fd29bb46dde6`, supplies a useful boundary rather than a promotion. In that record the primary ramp size was $50$ codons, with five folds and a minimum joined-row requirement of $300$. The $f_3$ ramp term was positive and sign-flip significant, while the body term was not:
-$$
-\begin{aligned}
-\Delta R^2_{f_3,\mathrm{ramp}} &= 0.0011165640103326878,\\
-\Delta R^2_{f_3,\mathrm{body}} &= -0.00026157313923957926,\\
-\Delta R^2_{\mathrm{ramp}-\mathrm{body}} &= 0.001378137149572267,\\
-p_{\mathrm{ramp}>0} &= 0.0478515625,\\
-p_{\mathrm{body}>0} &= 0.54296875,\\
-p_{\mathrm{ramp}-\mathrm{body}>0} &= 0.05859375.
-\end{aligned}
-$$
-The registered conclusion there was `ramp\_positive\_but\_not\_localized`, because the paired ramp-body localization gate did not pass even though both primary organisms had positive ramp values and the body signal was absent. This matters here because the dwell-position result is stronger for the ribosome-dwell readout than for structural-order localization: the present claim may say that the dwell association is 5-prime leading, but it must not be rewritten as a folded-structure statement.
+\paragraph{Stress-coordinate refinement.}
+The $f_3$-stress coordinate is not treated as a featureless scalar in the attached finite rows.  Its family decomposition used a base table of $4759$ rows, an evaluated join of $1800$ rows, $5$ folds, $120$ permutations, and the same rank-$24$ control basis.  The full $f_3$ projection had norm squared $52.76911713166682$, accounting for $0.12259712041843235$ of the target norm.  The decomposition produced $21$ synonymous-family subcoordinates, with $19$ families listed as real sources under the held-out/permutation gate.  The positive families included $\mathrm{K\_AAA\to K\_AAG}$, $\mathrm{R\_AGA\to R\_AGG}$, $\mathrm{I\_AUU\to I\_AUA}$, $\mathrm{T\_ACU\to T\_ACG}$, and multiple two-codon terminal-position contrasts.  This supports reading the $f_3$ entry in the per-coordinate result as an internally decomposable abundance source, not as a label attached only to the aggregate coordinate.
 
-\paragraph{Translation and protein-abundance context.}
-The same coordinate family has measured translation-efficiency survival in yeast, but that background remains a readout context rather than a mechanism proof. In the measured TE run `58611670ec19`, Saccharomyces cerevisiae contributed $5128$ genes with measured TE, a ribosome-TE join hit rate of $0.8818572656921754$, and $R^2_{QT,\mathrm{measured}}=0.13681931343730436$ after the shared controls. In the measured TE-to-abundance decomposition `d71384d16e71`, yeast had $5128$ three-way joined rows, $S_{QP}=0.3146818503437042$, $S_{QT,\mathrm{measured}}=0.13681931343730436$, and a measured mediation fraction of $0.4793069656345167$. These values show that the organism has a live measured-translation context for $B^{\ast}_{Q6}$ residuals, but the positional dwell claim remains only the specific $P_{f_3}$ dwell-window statement above.
-
-\paragraph{Compression and remaining residual.}
-The yeast readout-dictionary certificate `a4dc9b09533a` places the result in a broader residual-decomposition scale. It used $n=1800$ joined rows from $4758$ available rows, five folds, $120$ permutations, $\rho_{\mathrm{join}}=0.05$, and $\lambda_{\mathrm{DL}}=0.01$. The best selected coverage after selection-aware correction was
-$$
-\begin{aligned}
-C^{\ast} &= 0.24538211439730545,\\
-1-C^{\ast} &= 0.7546178856026946,
-\end{aligned}
-$$
-with raw best coverage $0.2745002077400602$, a fixed-subset null $95$th percentile of $0.00598374993486675$, and a selection-aware null $95$th percentile of $0.029149007242956115$. The selected readout family contains measured TE, mRNA stability, and turnover. This places the 5-prime dwell call inside a partially reducible but still substantially unexplained residual landscape.
-
-\paragraph{Local boundary.}
-The admissible conclusion is finite and layer-specific: in the yeast matched row set, the $f_3$ stress-aligned abundance component has a positive positional dwell readback, and the passing segment is the 5-prime/head window rather than the 3-prime/tail window. No translation mechanism, folded structure, physical admissibility, molecular function, organismal phenotype, causal pathway, or universal biological rule follows from this result. Any such stronger statement would need its own layer-matched contact and its own controlled statistic. In particular, the positive 5-prime dwell result does not by itself identify elongation kinetics, folding order, protein localization, stability, function, or evolutionary direction; it only records where the measured dwell summary carries held-out information about the residual abundance component aligned with $f_3$ stress.
+\paragraph{Conclusion.}
+The finite verdict is that the per-coordinate reducibility packet is positive at the stated bounded level.  The run produced all $9$ coordinate rows, used $5$ held-out folds and $120$ deterministic permutations, worked on a yeast join with $n=1258$ and a rank-$24$ covariate basis, and reported a positive-source list containing $8$ of the $9$ coordinates.  The result is therefore a coordinate-level abundance decomposition for $B^{\ast}_{Q6}$ under the declared controls.  It does not assert that any coordinate directly causes translation, folding, physical admissibility, molecular function, a biological mechanism, or a universal law.  Those stronger readings would require separate layer-matched contacts and their own controlled statistics.  Here the established claim is only that, in the supplied yeast finite row, the residual abundance projection contains coordinate-resolved components that survive the held-out measured-dictionary and permutation check.

@@ -1,42 +1,44 @@
-\subsection{Yeast mRNA-Stability Survival of the $B^{\ast}_{Q6}$ Codon-Residual Coordinates}
-\label{sec:bioreality-q6-mrna-stability-sqm-yeast}
 \origin{ai}
 
-\paragraph{Question.}
-This chapter records a bounded cross-layer test in which the nine $B^{\ast}_{Q6}$ synonymous residual coordinates are evaluated against a yeast mRNA-stability readout. The target is not translation efficiency and not protein function. It is the residual association between codon-choice coordinates and $\log_{10}$ mRNA half-life after the same CDS-derived control block used in the sibling protein-abundance calculation. The tested coordinate list is
-$$
-\begin{aligned}
-&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress.
-\end{aligned}
-$$
-The readout is $\log_{10}(t_{1/2}\ \mathrm{minutes})$ from the Neymotin yeast 4tU metabolic-labeling half-life table, joined to real yeast CDS codon counts by stripping the $4932.$ prefix from the CDS protein identifier and matching it to the Neymotin Syst key.
+\subsection{Yeast mRNA half-life as a controlled $B^{\ast}_{Q6}$ readout}
+\label{sec:bioreality-q6-mrna-stability-yeast}
 
-\paragraph{Finite row set and controls.}
-The joined table contains $5085$ valid rows. The source half-life table contributes $5379$ valid Syst-keyed records, while the CDS side reports $5815$ joined coding-sequence records before the half-life intersection; the reported CDS join hit rate is $0.9156038419146592$. The half-life payload hash is \texttt{cee1ee9a816f0ec1e351bc2d63d4838ae603ea20566fc3ff529514a6ba6cf7d2}. The skipped CDS records are concentrated in the no-half-life-match bucket: $730$ CDS records have no matched half-life entry, and the other listed CDS skip modes are zero. On the half-life side, missing Syst, duplicate Syst, non-object rows, and nonpositive half-lives are all zero.
+\paragraph{Finite row.}
+This record tests whether the nine synonymous-residual coordinates of $B^{\ast}_{Q6}$ retain predictive mass on a measured yeast mRNA-stability readout after the usual coding-sequence covariates are removed.  The readout is $\log_{10}(t_{1/2}\,\mathrm{minutes})$ from the Neymotin 4tU metabolic-labeling half-life table, joined to real Saccharomyces cerevisiae coding sequences by stripping the $4932.$ prefix from the CDS protein identifier and matching it to the Neymotin Syst key.  The finite join contains $5085$ rows, with $5379$ valid half-life records and $5815$ coding-sequence rows available before the half-life join; the reported CDS join hit rate is $0.9156038419146592$.  The source payload is fixed by the digest \texttt{cee1ee9a816f0ec1e351bc2d63d4838ae603ea20566fc3ff529514a6ba6cf7d2}.
 
-The control matrix $Z$ has $24$ columns and rank $23$, leaving residual degrees of freedom $5062$. Its columns consist of an intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$ computed from real CDS codon counts, GC3, and the $M$-density baseline, defined as the fraction of sense codons lying on the union support of the nine projected $B^{\ast}_{Q6}$ coordinate vectors. Thus the mRNA-stability statistic is not a raw codon-usage correlation; it is measured only after amino-acid sequence composition, CDS length, GC3, and the simpler union-support density have already been removed.
+\paragraph{Residual design.}
+The tested $Q$ block has nine columns: $\mathrm{K\_AAA}$, $\mathrm{Arg\_AGR}$, $\mathrm{Ile\_AUA}$, $\mathrm{Leu\_CUN\_vs\_UUR}$, $\mathrm{Leu\_UUA\_vs\_UUG}$, $\mathrm{Ser\_UCR\_vs\_AGY}$, $\mathrm{Ser\_UCA\_vs\_UCG}$, $\mathrm{Thr\_ACR\_vs\_ACY}$, and $f3\_\mathrm{stress}$.  The nuisance block $Z$ has $24$ columns before rank reduction: an intercept, $\log(\mathrm{cds\_len\_nt})$, the $20$ amino-acid composition proportions computed from the real CDS codon counts, GC3, and the $M$-density baseline defined as the fraction of sense codons lying on the union support of the nine projected $B^{\ast}_{Q6}$ vectors.  Its numerical rank is $23$, leaving $5062$ residual degrees of freedom.  The residualized $Q$ block has rank $9$, so the mRNA-stability statistic is not a saturated fit.
 
-\paragraph{Survival statistic.}
-Let $X$ be the $5085\times 9$ matrix of the nine residual codon coordinates and let $y$ be the joined $\log_{10}$ half-life vector. Both are residualized against $Z$ before estimating the codon-coordinate contribution. The finite-row calculation gives
+\paragraph{Measured statistic.}
+Let $M$ denote the residualized yeast mRNA half-life vector and let $Q$ denote the residualized nine-column coordinate block.  The reported survival statistic is the partial coefficient of determination for $M$ after conditioning on $Z$:
 $$
 \begin{aligned}
 R^2_{QM} &= 0.05179429044975085,\\
-\mathrm{rank}(\widetilde X) &= 9,\\
-\|\widehat y_{QM}\|^2 &= 11.909960434207074,\\
-\|\widetilde y\|^2 &= 229.94736158731112.
+\mathrm{explained\ energy} &= 11.909960434207074,\\
+\lVert M_{\perp Z}\rVert^2 &= 229.94736158731112.
 \end{aligned}
 $$
-The dominant coordinate for the mRNA-stability surface is $Leu\_CUN\_vs\_UUR$. A $1000$-permutation comparison reports right-tail $p=0.000999000999000999$ for the $R^2_{QM}$ statistic, so the finite row does not collapse to the permutation null under the declared controls. The associated protein-abundance computation on the same join gives $R^2_{QP}=0.2761140373962526$, with dominant coordinate $f3\_stress$. The cosine between the mRNA-stability surface $S^{QM}$ and the same-join abundance surface $S^{QP}$ is $0.8040935468384264$, indicating that the two residual surfaces are aligned but not identical.
+The dominant entry of the $S^{QM}$ vector is $\mathrm{Leu\_CUN\_vs\_UUR}$.  Against $1000$ label permutations, the reported right-tail value is $p=0.000999000999000999$, so the finite row supports a positive controlled association between the $B^{\ast}_{Q6}$ residual coordinate block and yeast mRNA half-life.  This is a statistical readout of residual half-life, not a decay mechanism.
 
-\paragraph{Mediation comparison.}
-The related abundance-residual mediation calculation uses the same $5085$-row yeast three-way join and the same nine-coordinate design. It reports $R^2_{QP}=0.2761140373962526$ before conditioning on the mRNA half-life mediator and $R^2_{QP\mid M}=0.24851799532219632$ after conditioning on it. The absorbed component is therefore $0.027596042074056304$, and the reported mediation fraction is $0.09994436477872035$. Its residual-mediator permutation audit gives null mean $0.00019674487584783138$, null $95$th percentile $0.0014571003414947088$, and right-tail $p=0.000999000999000999$. This comparison supports only a variance-partition statement: part of the yeast protein-abundance residual association is shared with residualized mRNA half-life, but the calculation does not establish a causal route from codon choice through decay to abundance.
+\paragraph{Protein-abundance comparison on the same join.}
+The same joined yeast rows also carry a protein-abundance comparison.  On that matched surface, the reported abundance statistic is
+$$
+\begin{aligned}
+R^2_{QP} &= 0.2761140373962526,\\
+\cos(S^{QM},S^{QP}) &= 0.8040935468384264,\\
+\mathrm{dominant}(S^{QP}) &= f3\_\mathrm{stress}.
+\end{aligned}
+$$
+Thus the mRNA-stability direction is not identical to the protein-abundance direction: half-life is led by $\mathrm{Leu\_CUN\_vs\_UUR}$, while abundance on the same rows is led by $f3\_\mathrm{stress}$.  The positive cosine says that the two nine-dimensional summaries are aligned in aggregate, while the distinct dominant coordinate prevents collapsing the two readouts into a single biological explanation.
 
-\paragraph{Cross-organism orientation.}
-The yeast result is not being promoted to a universal direction. Two companion mRNA-stability rows show that the same family of tests is organism-dependent. In \emph{Escherichia coli} K-12 MG1655, the comparable half-life row has $n=2720$, $R^2_{QM}=0.02298556640056076$, dominant coordinate $Arg\_AGR$, same-join $R^2_{QP}=0.11632311854858134$, and cosine $-0.7784923375569599$ against the abundance surface. In the human consensus relative-half-life row, the comparable calculation has $n=16165$, $R^2_{QM}=0.010503670362051522$, dominant coordinate $Leu\_CUN\_vs\_UUR$, same-join $R^2_{QP}=0.04095215557813418$, and positive cosine $0.6351183883924848$. These rows make the yeast observation sharper rather than broader: the $B^{\ast}_{Q6}$ mRNA-stability signal survives in the yeast table, but its coordinate emphasis and relation to abundance are not invariant across organisms.
+\paragraph{Mediation check.}
+A companion variance partition on the same yeast half-life and abundance rows reports $R^2_{QP}=0.2761140373962526$ before conditioning on the half-life readout and $R^2_{QP\mid M}=0.24851799532219632$ after conditioning on it.  The absorbed part is $0.027596042074056304$, giving a mediation fraction of $0.09994436477872035$.  The permutation reference for that fraction has mean $0.00019674487584783138$, $95$th percentile $0.0014571003414947088$, and right-tail value $0.000999000999000999$.  This supports a finite statistical decomposition in which residualized mRNA half-life accounts for about ten percent of the yeast $B^{\ast}_{Q6}$ abundance association, but it does not establish the direction of causation.
 
-\paragraph{Local interpretation.}
-The finite conclusion is that, in the Neymotin yeast half-life join, the nine $B^{\ast}_{Q6}$ residual coordinates retain a positive residual mRNA-stability association after the declared $Z$ controls and the $M$-density baseline. Numerically, this is the statement $R^2_{QM}=0.05179429044975085$ with full-rank residualized coordinate design, dominant $Leu\_CUN\_vs\_UUR$, and permutation $p=0.000999000999000999$. The chapter also records that the mRNA-stability surface is aligned with, but distinct from, the same-join protein-abundance surface, whose dominant coordinate is $f3\_stress$.
+\paragraph{Cross-organism anchors.}
+The yeast row is not treated as a universal sign rule.  The same $S^{QM}$ style computation gives $R^2_{QM}=0.02298556640056076$ for Escherichia coli K-12 MG1655 at growth rate $0.40\,\mathrm{h}^{-1}$, with $2720$ joined rows, $2697$ residual degrees of freedom, dominant coordinate $\mathrm{Arg\_AGR}$, and $\cos(S^{QM},S^{QP})=-0.7784923375569599$.  For the human consensus relative half-life table, the corresponding values are $R^2_{QM}=0.010503670362051522$, $16165$ joined rows, $16142$ residual degrees of freedom, dominant coordinate $\mathrm{Leu\_CUN\_vs\_UUR}$, and $\cos(S^{QM},S^{QP})=0.6351183883924848$.  These anchors show that the yeast result is one organism-specific controlled row inside a broader, sign-sensitive family of readbacks.
 
-\paragraph{Boundary.}
-No translation, folding, physical admissibility, biochemical function, molecular mechanism, phenotype, or universal biological rule follows from this row. The readout is a single-organism yeast mRNA half-life table from a 4tU metabolic-labeling experiment, and the statistic is a residual projection. It is not ribosome profiling, not measured elongation, not direct decay-rate biophysics, not matched translation control, and not a perturbation experiment. A separate ribosome-occupancy row exists for local codon-window analysis, where the families $K\_AAA$, $Arg\_AGR$, and $f3\_stress$ pass a position-bin-controlled occupancy gate under $\lambda_{DL}=0.01$ and $C_H>0$; that row is descriptive and does not convert the mRNA-stability result into a translation mechanism. Likewise, the protein-abundance mediation row remains a statistical partition and does not prove codon-to-stability-to-abundance causation. The only supported statement here is the finite controlled survival of $B^{\ast}_{Q6}$ codon-residual information in the yeast mRNA half-life readout.
+\paragraph{Module status and ranking context.}
+The record is classified as a cross-layer relation, because it compares codon-residual coordinates with a measured molecular readout after coding-sequence controls.  It remains below translation realization: the half-life row is not ribosome profiling, not translation efficiency, and not a matched translation-controlled statistic.  In a separate direction-aware ranking table, yeast mRNA has $A_H=0.001897605472160837$, $C_H=0.6040571890503664$, $A_H C_H=0.0011462622274400686$, $\mathrm{DL}_H=1.0$, score $-0.008853737772559931$, Bonferroni threshold $0.0013014749238591248$, null $95$th percentile $0.0004745820831535835$, and $5128$ joined rows; in that ranking it is the selected yeast $H_o^{\ast}$ entry.  The same ranking formalism uses the stated regularizer scale $\lambda=0.01$ through its description-length penalty, so the mRNA row is reported as a bounded support component rather than as a mechanism.
+
+\paragraph{Local boundary.}
+This chapter supports the following narrow statement: on $5085$ joined yeast CDS and half-life rows, the nine-dimensional $B^{\ast}_{Q6}$ residual block explains a positive, permutation-supported fraction of residualized $\log_{10}$ mRNA half-life after amino-acid composition, coding length, GC3, and $M$-density controls.  No translation, ribosome-mediated process, protein folding, physical admissibility, molecular function, pathway mechanism, phenotype, or universal biological law follows from this row.  Any such assertion would require its own layer-matched contact and its own controlled statistic.
