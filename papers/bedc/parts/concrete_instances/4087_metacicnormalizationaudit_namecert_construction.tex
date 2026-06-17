@@ -301,6 +301,20 @@ Use the residual-budget obligation \autoref{thm:metacic-normalization-audit-resi
 Finally apply the confluence socket of \autoref{thm:metacic-normalization-audit-confluence-socket}. The socket permits comparison with sibling confluence rows only as finite audit-surface compatibility. Since the carrier has no row for subject reduction, arbitrary substitution compatibility, full closed Church--Rosser, quotient equality, or a host evaluator, a route missing the displayed rows remains local.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit residual-substitution compatibility]
+\label{thm:metacic-normalization-audit-residual-substitution-compatibility}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. If the candidate frontier is extended by displayed candidate evidence and the residual-fuel ledger decreases along the accepted replay, then every substitution-shaped read remains inside the same candidate ledger $R,C,S,A$ before any confluence-socket read through $N$ is exported. The packet may therefore compare the resulting finite audit surface with its confluence siblings, but it cannot export arbitrary substitution compatibility, subject reduction, full closed Church--Rosser, quotient reduction equality, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Begin with the candidate frontier extension of \autoref{thm:metacic-normalization-audit-candidate-frontier-extension}. The new frontier item is admitted only with displayed candidate-set evidence in $R$ and a matching closed-term projection in $C$, so the enlarged finite scope remains a candidate-ledger entry rather than a syntax-only substitution claim.
+
+Next apply the residual-fuel decrease theorem \autoref{thm:metacic-normalization-audit-residual-fuel-decreases}. Each accepted replay spends a named residual entry before the next candidate read is consulted, and the rows $F,H,T,P,L$ transport and replay that same finite route.
+
+Now use the candidate-substitution boundary of \autoref{thm:metacic-normalization-audit-candidate-substitution-boundary}. It keeps substitution-shaped normalization exports inside $R,C,S,A,N,F,H,T,P,L$ and blocks any route that omits the candidate ledger, closed projection, finite scope, or application boundary.
+
+Finally read the confluence socket of \autoref{thm:metacic-normalization-audit-confluence-socket}. The socket can be exported only after the residual-fuel and candidate-frontier obligations have been displayed, so the compatibility result is a finite audit-surface route and not a global substitution, subject-reduction, confluence, quotient, or evaluator theorem.
+\end{proof}
+
 \closureat{MetacicNormalizationAuditUp}{seedStr}
 
 \begin{closurestatus}{\MetacicNormalizationAuditUp}
