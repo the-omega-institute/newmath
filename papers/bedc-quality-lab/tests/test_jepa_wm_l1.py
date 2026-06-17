@@ -4,6 +4,8 @@ import copy
 import hashlib
 import json
 
+import pytest
+
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.tasks import jepa_wm_l1 as task
 from scripts import run_jepa_wm_l1 as runner
@@ -47,6 +49,10 @@ def _mutated_observation(path: tuple[str, ...], value: object) -> dict[str, obje
         cursor = cursor[key]  # type: ignore[index]
     cursor[path[-1]] = value  # type: ignore[index]
     return observation
+
+
+def _passing_payload() -> dict[str, object]:
+    return task.build_payload(_passing_observation(), generated_at="fixture-time", margin=0.05)
 
 
 def test_jepa_wm_l1_pass_requires_complete_runtime_contract():
@@ -150,6 +156,71 @@ def test_jepa_wm_l1_rejects_extra_admission_arm():
     assert "unexpected=teacher_hint" in payload["hardgates"]["JWM-L1-HG5"]["detail"]
 
 
+def test_jepa_wm_l1_build_payload_rejects_negative_margin():
+    with pytest.raises(ValueError, match="margin must be nonnegative"):
+        task.build_payload(_passing_observation(), generated_at="fixture-time", margin=-0.01)
+
+
+def test_jepa_wm_l1_validate_payload_rejects_invalid_status_domain():
+    payload = _passing_payload()
+    payload["decision"]["status"] = "maybe"  # type: ignore[index]
+
+    with pytest.raises(ValueError, match="status domain violation"):
+        task.validate_payload(payload)
+
+
+def test_jepa_wm_l1_validate_payload_rejects_hardgate_order_mismatch():
+    payload = _passing_payload()
+    hardgates = payload["hardgates"]  # type: ignore[index]
+    payload["hardgates"] = dict(reversed(list(hardgates.items())))  # type: ignore[union-attr]
+
+    with pytest.raises(ValueError, match="hardgate order violation"):
+        task.validate_payload(payload)
+
+
+def test_jepa_wm_l1_validate_payload_rejects_failed_gate_projection_mismatch():
+    payload = _passing_payload()
+    hardgates = payload["hardgates"]  # type: ignore[index]
+    hardgates["JWM-L1-HG6"]["status"] = "fail"  # type: ignore[index]
+
+    with pytest.raises(ValueError, match="failed gate projection mismatch"):
+        task.validate_payload(payload)
+
+
+def test_jepa_wm_l1_validate_payload_rejects_pass_with_failed_gate():
+    observation = _mutated_observation(("k",), 5)
+    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+    payload["decision"]["status"] = "PASS"  # type: ignore[index]
+
+    with pytest.raises(ValueError, match="decision status mismatch"):
+        task.validate_payload(payload)
+
+
+def test_jepa_wm_l1_validate_payload_rejects_non_pass_without_failed_gate():
+    payload = _passing_payload()
+    payload["decision"]["status"] = "bounded_negative"  # type: ignore[index]
+
+    with pytest.raises(ValueError, match="decision status mismatch"):
+        task.validate_payload(payload)
+
+
+def test_jepa_wm_l1_validate_payload_rejects_unavailable_without_runtime_input_failure():
+    observation = _mutated_observation(("k",), 5)
+    payload = task.build_payload(observation, generated_at="fixture-time", margin=0.05)
+    payload["decision"]["status"] = "unavailable"  # type: ignore[index]
+
+    with pytest.raises(ValueError, match="unavailable status mismatch"):
+        task.validate_payload(payload)
+
+
+def test_jepa_wm_l1_validate_payload_rejects_non_pointer_claim_capsule():
+    payload = _passing_payload()
+    payload["claim_capsule"]["status"] = "inline"  # type: ignore[index]
+
+    with pytest.raises(ValueError, match="claim capsule must be pointer-only"):
+        task.validate_payload(payload)
+
+
 def test_jepa_wm_l1_writes_run_local_pointer_artifacts(tmp_path):
     payload = task.build_payload(_passing_observation(), generated_at="fixture-time", margin=0.05)
     artifacts = task.write_artifacts(payload, root=tmp_path)
@@ -202,3 +273,19 @@ def test_jepa_wm_l1_cli_writes_run_local_artifacts(tmp_path, capsys):
     assert summary["status"] == "PASS"
     assert summary["admission_artifact"] == "reports/runs/jepa-wm-l1/fixture-pass/admission.json"
     assert (tmp_path / summary["admission_artifact"]).exists()
+
+
+def test_jepa_wm_l1_load_observation_rejects_json_array_input(tmp_path):
+    input_path = tmp_path / "observation.json"
+    input_path.write_text(json.dumps([_passing_observation()]), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="observation input must be a JSON object"):
+        task.load_observation(input_path)
+
+
+def test_jepa_wm_l1_load_observation_rejects_json_scalar_input(tmp_path):
+    input_path = tmp_path / "observation.json"
+    input_path.write_text(json.dumps("fixture"), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="observation input must be a JSON object"):
+        task.load_observation(input_path)
