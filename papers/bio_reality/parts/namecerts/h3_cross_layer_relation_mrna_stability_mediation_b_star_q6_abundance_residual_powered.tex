@@ -1,0 +1,44 @@
+\origin{ai}
+\subsection{Residual mRNA-stability mediation of the $B^*_{Q6}$ abundance component}
+\label{sec:bioreality-q6-mrna-stability-mediation-abundance-residual}
+
+\paragraph{Object tested.}
+This record tests whether the nine-dimensional $B^*_{Q6}$ synonymous residual block carries a protein-abundance association in yeast that is partly absorbed after conditioning on a measured mRNA-stability readout. The data object is not a mechanistic pathway diagram. It is a finite joined table over $n=5085$ Saccharomyces cerevisiae coding sequences in which three quantities are present on the same row: real CDS codon counts, measured protein abundance, and a measured mRNA half-life proxy. The protein readout is $P=\log_{10}(\mathrm{abundance\_ppm})$ from PAXdb abundance rows joined to real yeast CDS codon counts. The mediator readout is $M=\log_{10}(t_{1/2}\;\mathrm{minutes})$ from the Neymotin et al. 2014 yeast 4tU metabolic-labeling mRNA half-life table. The join key strips the CDS prefix $4932.$ and matches the remaining protein identifier to the Neymotin Syst field. The join reports $5815$ CDS rows, $5379$ valid half-life records, $5085$ three-way joined rows, and a CDS join hit rate of $0.9156038419146592$.
+
+\paragraph{Residual coordinates and controls.}
+The predictor block $X_Q$ consists of the nine $B^*_{Q6}$ residual coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f3$-stress. These coordinates are evaluated only after removing the declared CDS-level controls. The control matrix has $24$ columns and rank $23$ on this join: an intercept, $\log(\mathrm{cds\_len\_nt})$, the $20$ amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline given by the fraction of sense codons lying on the union support of the nine projected $B^*_{Q6}$ vectors. After this residualization the remaining degrees of freedom are $5062$.
+
+\paragraph{Finite statistic.}
+Let $Z$ denote the control matrix, $\widetilde X_Q=(I-\Pi_Z)X_Q$, $\widetilde P=(I-\Pi_Z)P$, and $\widetilde M=(I-\Pi_Z)M$. The statistic compares the abundance variance explained by $\widetilde X_Q$ before and after adding the mRNA-stability mediator. In the recorded run, the residualized $Q\to P$ association has
+$$
+\begin{aligned}
+R^2_{QP} &= 0.2761140373962526,\\
+R^2_{QP\mid M} &= 0.24851799532219632,\\
+R^2_{\mathrm{absorbed\ by}\ M} &= 0.027596042074056304.
+\end{aligned}
+$$
+The reported mediation fraction is therefore
+$$
+\begin{aligned}
+\mu_M
+  &= \frac{R^2_{QP}-R^2_{QP\mid M}}{R^2_{QP}}\\
+  &= 0.09994436477872035.
+\end{aligned}
+$$
+The associated deterministic residual-mediator permutation audit gives a null mean $0.00019674487584783138$, a null $95$th percentile $0.0014571003414947088$, and a right-tail permutation value $p=0.000999000999000999$. Thus the observed absorption by $M$ is far above the finite-row permutation background used in the run.
+
+\paragraph{Rank and energy audit.}
+The linear-algebra diagnostics are nondegenerate for the intended finite-row calculation. The rank of the residualized $Q$ block is $9$, the rank of the residualized mediator block is $1$, and the rank of the joint $Q+M$ design is $10$. The run records residual mediator energy $229.94736158731112$ and residual protein-abundance energy $2041.4436456219576$. The $Q$ block explains $563.6712471096034$ units of protein-abundance energy before conditioning on $M$, while its direct improvement after $M$ is $507.335482373205$. Conversely, the mediator explains $66.5878075095855$ units of protein-abundance energy, and its incremental improvement after $Q$ is $10.2520427731871$. The same $Q$ block explains $11.909960434207074$ units of the residualized mRNA-stability readout. These numbers support the narrow statement that a measured mRNA-stability axis absorbs a reproducible part, about ten percent, of the yeast $B^*_{Q6}$ protein-abundance residual association in this joined table.
+
+\paragraph{Relation to the direct mRNA-stability readout.}
+A companion mRNA-stability calculation on the same $5085$ yeast rows reports $R^2_{QM}=0.05179429044975085$ for residualized $\log_{10}(t_{1/2})$ and $R^2_{QP}=0.2761140373962526$ on the same join. Its dominant coordinate for $Q\to M$ is $Leu_{CUN/UUR}$, whereas the same-join protein-abundance direction is dominated by $f3$-stress. The cosine between the $S^{QM}$ and $S^{QP}$ coordinate profiles is $0.8040935468384264$, with permutation value $p=0.000999000999000999$ for the $R^2_{QM}$ calculation. This companion row is consistent with partial overlap between the mRNA-stability and abundance directions, while also showing that the mediator is not merely the same coordinate profile renamed.
+
+\paragraph{Condition context.}
+The abundance side of the packet is also compatible with the yeast condition comparison in which the same nine coordinates and the same control design were tested against GFP-tagged yeast abundance under YEPD and SD conditions. On the shared $2209$-protein condition join, the reported abundance scores were $R^2_{QP}=0.3280825603424665$ in YEPD and $R^2_{QP}=0.3050385538305022$ in SD, with $f3$-stress dominant in both conditions and profile cosine $0.9993775935182967$. That comparison does not supply the mRNA mediator, but it helps delimit the abundance signal as a stable yeast abundance projection rather than a one-condition artifact in the neighboring finite-row evidence.
+
+\paragraph{Local conclusion.}
+The finite-row conclusion is that, in this yeast three-way join, the $B^*_{Q6}$ residual block retains a substantial protein-abundance association after amino-acid composition, length, GC3, and $M$-density controls, and measured mRNA half-life absorbs a statistically nontrivial but incomplete part of that association. Numerically, the controlled abundance association decreases from $0.2761140373962526$ to $0.24851799532219632$ after conditioning on the residualized half-life readout, leaving most of the abundance association unabsorbed and assigning $0.09994436477872035$ of the original $Q\to P$ association to this mediator in the declared variance-partitioning sense.
+
+\paragraph{Boundary of interpretation.}
+This chapter does not claim a causal codon-to-mRNA-stability-to-protein pathway. It uses one organism and one mRNA half-life dataset, and the half-life values are steady-state 4tU estimates rather than direct elementary decay events. The statistic does not exclude reverse dependence, shared upstream confounding, dataset-specific normalization effects, or other codon-linked processes. It also does not establish translation realization, ribosome occupancy, protein folding, physical admissibility, molecular function, biological mechanism, phenotype, or any universal biological law. Those claims would require separate layer-matched measurements and their own controlled finite-row statistics.

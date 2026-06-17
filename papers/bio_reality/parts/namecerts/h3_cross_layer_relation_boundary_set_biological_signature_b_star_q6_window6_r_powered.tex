@@ -1,0 +1,51 @@
+\origin{ai}
+
+\subsection{Window6 boundary $R$ as an avoided abundance signature}
+\label{subsec:bri-q6-window6-boundary-r}
+
+\paragraph{Finite record.}
+This record fixes a single boundary test for the $B^{\ast}_{Q6}$ Window6 codon geometry.  The internal geometry supplies a finite set $R$ of ten sense codons among the $61$ sense codons, and the biological readout asks only whether those $R$ codons are abundance-preferred or abundance-avoided in organism-scoped codon-abundance rows.  The computation was replayed for $15$ requested organisms with at least $500$ proteins per organism, and all $15$ requested organisms were computed.  The finite row therefore has the form of a signed cross-organism association table, not a pathway model: for each organism the $R$ set is held fixed by the Window6 construction and is then compared against externally measured abundance preference.
+
+The all-computed direction table is maximally one-sided.  Across the $15$ computed organisms, the counts are $15$ avoided, $0$ preferred, and $0$ zero.  Equivalently,
+$$
+\begin{aligned}
+ n_{\mathrm{directional}} &= 15,\\
+ n_{\mathrm{avoided}} &= 15,\\
+ n_{\mathrm{preferred}} &= 0,\\
+ n_{\mathrm{zero}} &= 0,\\
+ \widehat p_{\mathrm{majority}} &= 1.000 .
+\end{aligned}
+$$
+The one-sided binomial probability for the avoided direction is $3.0517578125\times 10^{-5}$, and the two-sided binomial probability is $6.103515625\times 10^{-5}$ at the stated two-sided level $\alpha=0.05$.  The deterministic permutation diagnostic used $1000$ permutations; $6$ organisms were individually significant under the finite organism-level threshold, while the cross-organism sign call uses the non-tie direction count.
+
+\paragraph{Organism lists.}
+The full avoided list is
+$$
+\begin{aligned}
+R_{\mathrm{avoided}}=\{&\mathrm{escherichia\_coli\_k12\_mg1655},\ \mathrm{mycobacterium\_smegmatis\_str\_mc2\_155},\\
+&\mathrm{saccharomyces\_cerevisiae},\ \mathrm{homo\_sapiens},\ \mathrm{danio\_rerio},\ \mathrm{gallus\_gallus},\\
+&\mathrm{pseudomonas\_aeruginosa\_pao1},\ \mathrm{bacillus\_subtilis\_subsp\_subtilis\_str\_168},\\
+&\mathrm{mus\_musculus},\ \mathrm{caenorhabditis\_elegans},\ \mathrm{drosophila\_melanogaster},\\
+&\mathrm{halobacterium\_salinarum},\ \mathrm{sulfolobus\_solfataricus},\ \mathrm{dictyostelium\_discoideum},\\
+&\mathrm{rattus\_norvegicus}\} .
+\end{aligned}
+$$
+The individually significant avoided sublist is
+$$
+\begin{aligned}
+R_{\mathrm{sig}}=\{&\mathrm{homo\_sapiens},\ \mathrm{danio\_rerio},\ \mathrm{gallus\_gallus},\\
+&\mathrm{pseudomonas\_aeruginosa\_pao1},\ \mathrm{mus\_musculus},\ \mathrm{rattus\_norvegicus}\} .
+\end{aligned}
+$$
+No organism is assigned to the preferred or zero list in either summary.  The row-level call is therefore: Window6 boundary $R$ has a cross-organism avoided abundance-preference signature.  The layer label is $\mathrm{cross\_layer\_relation}$, but the finite observation itself is narrower: it is a signed abundance-preference association for a fixed codon subset.
+
+\paragraph{Relation to translation and residual readouts.}
+This boundary signature sits next to several measured or modeled translation readouts, and the numbers show why it must remain a boundary result rather than a biological mechanism.  In the measured-TE mediation table, the measured mediated fractions $M^{QTP,\mathrm{meas}}$ are heterogeneous: yeast has $0.4793069656345167$, E. coli has $0.04091158340950673$, human has $0.0027966485036786744$, and danio is truncated to $0$ from a raw suppressive value $-0.04801486048721136$.  The modeled-translation complement is also organism-specific: the remaining fractions $d$ after modeled tAI are $0.21173219572706703$ for yeast, $0.6629960038578532$ for E. coli, $0.874628721049266$ for danio, $0.9208949355679455$ for human, $0.9400341806302775$ for gallus, and $0.8972672018746489$ for mycobacterium.  Thus the $R$ boundary sign is coherent as an avoided codon-abundance signature, but it does not collapse the translation layer, abundance residual, and downstream protein state into one common mechanism.
+
+The direction-aware $H$ ranking reinforces that restraint.  The declared score uses $\lambda=0.01$ with $DL(H)=\log_2(1+n_{\mathrm{columns}})$, so one-column readouts have $DL=1$ and localization has $DL=3.700439718141092$.  The best raw alignment products remain small: danio measured TE gives $A_H C_H=0.011566051846174291$ with $A_H=0.017594290015070787$ and $C_H=0.6573753096184687$; human complex membership gives $0.006566030115340095$ with $A_H=0.007527199987780841$ and $C_H=0.8723071163246565$; yeast mRNA gives $0.0011462622274400686$ with $A_H=0.001897605472160837$ and $C_H=0.6040571890503664$; gallus complex membership gives $0.004241514781443171$ with $A_H=0.0074424743012025205$ and $C_H=0.5699065404576333$.  Human PTM density has larger absorbed energy, $A_H=0.014884825920744861$, but its direction cosine is only $0.3604440741749213$, giving $A_H C_H=0.0053651472982577525$; human measured TE even points in the wrong coordinate-support direction, with $C_H=-0.10813537216189718$ and $A_H C_H=-0.00031302107580362116$.  The per-organism best absorbers are not universal: danio selects measured TE, human and gallus select complex membership, yeast selects mRNA, while several organisms have no available ranking row in this finite table.
+
+\paragraph{Compression and organism-specificity.}
+The same negative lesson appears in the direction-aware ordered dictionary.  The unexplained fractions remain high after the fixed measured-TE, mRNA-stability, and scored $H$ readout sequence: yeast has residual $U=0.8676586345294415$, E. coli has $U=0.9942823785118229$, human has $U=0.9798666209022441$, and danio has $U=0.9756319042010854$.  In the cross-organism meta table, the complete-feature row count is $12$ out of $16$ assembled organism rows, with $4$ organisms needing data for the measured $M^{QTP}$ comparison.  Domain and continuous covariate checks are descriptive and weak in this finite pass: the domain test for $M^{QTP}$ has permutation right-tail probability $0.4155844155844156$, $M^{QTP}$ versus GC3 has two-sided permutation probability $0.35264735264735264$, and the dominant-coordinate-versus-domain contingency has right-tail probability $0.5814185814185814$.  The optimal-codon direction audit over $15$ computed organisms reports mean pairwise cosine $0.2629282074265475$ over $41$ synonymous design columns and is classified as clustered, not as a universal law.
+
+\paragraph{Local boundary.}
+The admissible conclusion is deliberately narrow.  A fixed internally defined Window6 $R$ set, containing $10$ sense codons, is consistently abundance-avoided across all $15$ computed organisms, with $15/15$ avoided signs and a two-sided binomial probability $6.103515625\times 10^{-5}$.  This is a robust finite association signature for the boundary set.  It does not by itself establish translation realization, folding, structural order, physical admissibility, biological function, phenotype, causal regulation, a conserved pathway, phylogenetic independence, a shared universal absorber $H$, or a global biological law.  Any such stronger statement would require a separate layer-matched contact and a statistic designed for that layer.  In this chapter the Window6 $R$ result remains an externally tested abundance-preference boundary for a fixed codon subset, coupled to an explicit refusal to promote the sign pattern into mechanism.
