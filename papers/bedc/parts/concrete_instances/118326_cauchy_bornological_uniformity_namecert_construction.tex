@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\CauchyBornologicalUniformityUp$}
+\label{ch:concrete-instances-cauchy-bornological-uniformity-namecert}
+\origin{human}
+
+Following Bourbaki on uniform structures and bornologies, and Bishop--Bridges on constructive Cauchy data, the $\CauchyBornologicalUniformityUp$ packet records the finite interface where Cauchy filters, bounded sets, metric-bornological control, and uniform entourages are read as one NameCert surface. It sits after the Cauchy-filter carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the bornology carrier of \autoref{ch:concrete-instances-bornology-namecert}, the metric-bornology comparison of \autoref{ch:concrete-instances-metric-bornology-namecert}, the uniform-space entourage discipline of \autoref{ch:concrete-instances-uniformspace-namecert}, and the complete-metric handoff of \autoref{ch:concrete-instances-completemetric-namecert}. The packet gives Real and Completion consumers a bounded-uniform Cauchy interface without quotient completions, selected limits, countable choice, trichotomy, or ambient completeness outside the displayed rows.
+
+\begin{definition}[Cauchy bornological uniformity carrier]
+\label{def:cauchy-bornological-uniformity-carrier}
+A $\CauchyBornologicalUniformityUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(F,B,M,U,C,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the accepted $\CauchyFilterUp$ request row, including the finite filter-base and Cauchy-eventuality data consumed from \autoref{ch:concrete-instances-cauchyfilter-namecert};
+\item $B$ is the $\BornologyUp$ bounded-family row, recording the bounded subsets or bounded events that may be inspected by the filter;
+\item $M$ is the $\MetricBornologyUp$ comparison row, tying metric balls and boundedness requests to the same displayed source;
+\item $U$ is the $\UniformSpaceUp$ entourage row, carrying the finite entourage requests through which Cauchy behavior is read;
+\item $C$ is the compatibility row asserting that every bounded Cauchy-filter read requested by $F$ remains contained in the bornological row $B$, is measured by $M$, and is stable under the entourage route $U$;
+\item $H$ stores componentwise $\hsame$ transport for $F,B,M,U,C$, replay, provenance, and local naming rows;
+\item $R$ records the displayed $\Cont$ replay routes used by bounded-filter, bornological-containment, metric-bornology, and entourage-stability consumers;
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterUp$, $\BornologyUp$, $\MetricBornologyUp$, $\UniformSpaceUp$, $\CompleteMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CauchyBornologicalUniformityUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for quotient completion, selected Cauchy limit, countable-choice schedule, trichotomy over distances, host equality of filters, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Cauchy bornological uniformity NameCert obligations]
+\label{thm:cauchy-bornological-uniformity-namecert-obligations}
+For every accepted $\CauchyBornologicalUniformityUp$ carrier
+$$
+Q=(F,B,M,U,C,H,R,P,N),
+$$
+the local $\NameCert_{\CauchyBornologicalUniformityUp}$ surface consists exactly of carrier admission, bounded Cauchy-filter compatibility, bornological containment, metric-bornology comparison, uniform entourage stability, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every Real or Completion consumer that asks for a bounded-uniform Cauchy handoff must read these rows before it can consume a completion-facing seal.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-bornological-uniformity-carrier}. The accepted packet exposes exactly $F,B,M,U,C,H,R,P,N$, so the Cauchy-filter, bornology, metric-bornology, uniform-space, compatibility, transport, replay, provenance, and naming rows are all finite BEDC data.
+
+Bounded Cauchy-filter compatibility is read from $F$ together with $C$. The Cauchy-filter row supplies the finite eventuality requests, while the compatibility row records that these requests remain bounded by $B$ and measurable through $M$ before any completion consumer can read them.
+
+Bornological containment and uniform entourage stability are read from $B,U,C$, and $R$. The bornology row supplies the bounded family, the uniform row supplies entourage requests, and the replay row preserves the displayed route through bounded-filter and entourage consumers.
+
+Finally inspect $H,P,N$. Componentwise transport, provenance, and local naming preserve the same finite packet. Since no coordinate stores a quotient completion, selected limit, countable-choice schedule, trichotomy row, host filter equality, or ambient completeness theorem, the NameCert obligations are exhausted by the displayed bounded-uniform Cauchy ledger.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyBornologicalUniformityUp$ consumer displays a $\CauchyFilterUp$ row, a $\BornologyUp$ row, a $\MetricBornologyUp$ row, a $\UniformSpaceUp$ row, a bounded-compatibility row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row before any completion-facing seal is consumed.}
+
+\independenceWitness{cauchyfilter, bornology, metric-bornology, uniformspace, completemetric: $\CauchyBornologicalUniformityUp$ is not bijective to any listed sibling because it packages bounded Cauchy-filter compatibility, bornological containment, metric-bornology comparison, and uniform entourage stability as one finite NameCert surface.}
+
+\closureat{CauchyBornologicalUniformityUp}{seedStr}
+
+\begin{closurestatus}{\CauchyBornologicalUniformityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-bornological-uniformity-carrier} and \autoref{thm:cauchy-bornological-uniformity-namecert-obligations} seed the bounded-uniform Cauchy interface over $\CauchyFilterUp$, $\BornologyUp$, $\MetricBornologyUp$, $\UniformSpaceUp$, $\CompleteMetricUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, quotient completion, selected limits, countable choice, trichotomy, host equality of filters, bridge checking, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded Cauchy-filter compatibility, bornological containment, metric-bornology comparison, uniform entourage stability, transport replay, and ledger non-escape for BEDC.Derived.CauchyBornologicalUniformityUp.}
+  \constructivestory{A $\CauchyBornologicalUniformityUp$ packet is generated from Cauchy-filter requests, bornological bounded-family rows, metric-bornology comparisons, uniform entourage rows, bounded compatibility, componentwise transport, displayed continuation replay, package provenance, and local naming evidence.}
+\end{closurestatus}
