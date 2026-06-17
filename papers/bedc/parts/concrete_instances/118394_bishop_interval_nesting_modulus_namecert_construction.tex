@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalNestingModulusUp$}
+\label{ch:concrete-instances-bishop-interval-nesting-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopIntervalNestingModulusUp$ packet records the finite modulus data needed to read a nested interval construction as Real-facing and Completion-facing evidence. It sits after the dyadic interval rows of \autoref{ch:concrete-instances-bishop-located-dyadic-interval-namecert}, the subdivision ledger of \autoref{ch:concrete-instances-dyadic-interval-subdivision-namecert}, the regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite nested-interval schedule and does not claim open-cover compactness, ambient $\RealUp$ completeness, a selected limit, countable choice, trichotomy, or host equality of real numbers.
+
+\begin{definition}[Bishop interval nesting modulus carrier]
+\label{def:bishop-interval-nesting-modulus-carrier}
+A $\BishopIntervalNestingModulusUp$ carrier is a finite $\BHist$ packet
+$$
+J=(D,L,U,M,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and radius ledger for the displayed nested intervals.
+\item $L$ is the lower-endpoint row, read as a finite dyadic list over $D$.
+\item $U$ is the upper-endpoint row, read as a finite dyadic list over $D$.
+\item $M$ is the modulus row assigning each requested precision a finite depth after which the interval width is inside the requested dyadic tolerance.
+\item $S$ is the $\StreamNameUp$ finite observation schedule for the interval endpoints and widths.
+\item $R$ is the $\RegSeqRatUp$ readback row exposed on the windows named by $S$.
+\item $H$ records componentwise $\hsame$ transport for $D,L,U,M,S,R$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the same endpoint, width, modulus, stream, and regular-rational reads.
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalNestingModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalNestingModulusUp}$ row binding the displayed interval-nesting surface.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, ambient real completeness, selected limits, countable choice, trichotomy, or host real equality.
+\end{definition}
+
+\begin{theorem}[BishopIntervalNestingModulus NameCert obligations]
+\label{thm:bishop-interval-nesting-modulus-namecert-obligations}
+For every accepted $\BishopIntervalNestingModulusUp$ carrier $J=(D,L,U,M,S,R,H,C,P,N)$, the local $\NameCert_{\BishopIntervalNestingModulusUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the dyadic endpoint ledger, lower endpoint row, upper endpoint row, modulus row, stream schedule, regular rational readback, transport, replay, provenance, and local naming rows;
+\item nestedness admission, requiring each displayed interval row to read the same dyadic ledger $D$ and to place the next lower and upper endpoints inside the previous endpoints;
+\item width-modulus admission, requiring every request in $M$ to consume a positive tolerance row already displayed in $D$;
+\item finite-window admission, requiring the stream schedule $S$ to expose the endpoint and width windows before the regular rational row $R$ is read;
+\item Real-facing replay stability, requiring $H$ and $C$ to preserve the same endpoint, modulus, stream, and readback rows componentwise;
+\item provenance and local naming through $P$ and $N$;
+\item nonescape from open-cover compactness, ambient $\RealUp$ completeness, selected limits, countable choice, trichotomy, and host real equality.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-interval-nesting-modulus-carrier}. The only available rows are $D,L,U,M,S,R,H,C,P,N$.
+
+Nestedness, width-modulus admission, and finite-window admission are row-local. The lower and upper endpoint rows are read over the same dyadic ledger $D$, the modulus row $M$ consumes tolerances from $D$, and the stream row $S$ exposes the finite windows before $R$ is available.
+
+Transport, replay, provenance, and naming are exactly the structural rows $H,C,P,N$. Since the carrier has no coordinate for open-cover compactness, selected limits, countable choice, trichotomy, host equality, or ambient completeness, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[BishopIntervalNestingModulus Real handoff]
+\label{thm:bishop-interval-nesting-modulus-real-handoff}
+Every $\RealUp$ or Completion-facing consumer of an accepted $\BishopIntervalNestingModulusUp$ packet must first read the finite route
+$$
+D,\ L,\ U,\ M,\ S,\ R
+$$
+and then the structural rows $H,C,P,N$. The handoff exposes a nested dyadic interval schedule together with a width modulus and regular-rational readback, but it does not expose open-cover compactness, ambient $\RealUp$ completeness, a selected limit, countable choice, trichotomy, or host real equality.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $J=(D,L,U,M,S,R,H,C,P,N)$. The endpoint and width information is displayed only through the dyadic ledger $D$ and the lower and upper endpoint rows $L,U$.
+
+Apply \autoref{thm:bishop-interval-nesting-modulus-namecert-obligations}. The width-modulus row $M$ and stream row $S$ must be read before the regular rational row $R$, so the Real-facing consumer receives the nested interval data as a finite schedule.
+
+Finally use the structural rows $H,C,P,N$. They transport, replay, source, and locally name the same route, leaving no coordinate through which a consumer could import open-cover compactness, ambient completeness, a selected limit, countable choice, trichotomy, or host real equality.
+\end{proof}
+
+\closureat{BishopIntervalNestingModulusUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalNestingModulusUp}
+  \constructivestory{A $\BishopIntervalNestingModulusUp$ packet is generated from a dyadic endpoint ledger, lower and upper endpoint rows, a width modulus, a finite stream schedule, a regular rational readback, componentwise transport, displayed replay, provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-nesting-modulus-carrier}, \autoref{thm:bishop-interval-nesting-modulus-namecert-obligations}, and \autoref{thm:bishop-interval-nesting-modulus-real-handoff} name the seed carrier, finite obligation surface, and Real-facing nested-interval handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, ambient Real completeness, selected limits, countable choice, trichotomy, host real equality, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, nestedness admission, width-modulus admission, finite-window admission, Real-facing replay stability, provenance, local naming, and nonescape for BEDC.Derived.BishopIntervalNestingModulusUp.}
+\end{closurestatus}
