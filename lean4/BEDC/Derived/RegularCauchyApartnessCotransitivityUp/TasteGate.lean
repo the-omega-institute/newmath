@@ -42,6 +42,54 @@ private theorem regularCauchyApartnessCotransitivityDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+private theorem regularCauchyApartnessCotransitivity_mk_congr
+    {sourceLeft₁ sourceRight₁ thirdName₁ sourceApartness₁ locatedOrder₁ leftBranch₁
+      rightBranch₁ window₁ dyadic₁ readback₁ realSeal₁ transport₁ replay₁ provenance₁
+      localName₁ sourceLeft₂ sourceRight₂ thirdName₂ sourceApartness₂ locatedOrder₂
+      leftBranch₂ rightBranch₂ window₂ dyadic₂ readback₂ realSeal₂ transport₂ replay₂
+      provenance₂ localName₂ : BHist} :
+    sourceLeft₁ = sourceLeft₂ ->
+      sourceRight₁ = sourceRight₂ ->
+        thirdName₁ = thirdName₂ ->
+          sourceApartness₁ = sourceApartness₂ ->
+            locatedOrder₁ = locatedOrder₂ ->
+              leftBranch₁ = leftBranch₂ ->
+                rightBranch₁ = rightBranch₂ ->
+                  window₁ = window₂ ->
+                    dyadic₁ = dyadic₂ ->
+                      readback₁ = readback₂ ->
+                        realSeal₁ = realSeal₂ ->
+                          transport₁ = transport₂ ->
+                            replay₁ = replay₂ ->
+                              provenance₁ = provenance₂ ->
+                                localName₁ = localName₂ ->
+                                  RegularCauchyApartnessCotransitivityUp.mk sourceLeft₁
+                                      sourceRight₁ thirdName₁ sourceApartness₁ locatedOrder₁
+                                      leftBranch₁ rightBranch₁ window₁ dyadic₁ readback₁ realSeal₁
+                                      transport₁ replay₁ provenance₁ localName₁ =
+                                    RegularCauchyApartnessCotransitivityUp.mk sourceLeft₂
+                                      sourceRight₂ thirdName₂ sourceApartness₂ locatedOrder₂
+                                      leftBranch₂ rightBranch₂ window₂ dyadic₂ readback₂ realSeal₂
+                                      transport₂ replay₂ provenance₂ localName₂ := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h0 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14
+  cases h0
+  cases h1
+  cases h2
+  cases h3
+  cases h4
+  cases h5
+  cases h6
+  cases h7
+  cases h8
+  cases h9
+  cases h10
+  cases h11
+  cases h12
+  cases h13
+  cases h14
+  rfl
+
 private def regularCauchyApartnessCotransitivityToEventFlow :
     RegularCauchyApartnessCotransitivityUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -85,34 +133,53 @@ private def regularCauchyApartnessCotransitivityToEventFlow :
         regularCauchyApartnessCotransitivityEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
+        BMark.b0],
         regularCauchyApartnessCotransitivityEncodeBHist localName]
+
+private def regularCauchyApartnessCotransitivityEventAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      regularCauchyApartnessCotransitivityEventAt index rest
 
 private def regularCauchyApartnessCotransitivityFromEventFlow :
     EventFlow → Option RegularCauchyApartnessCotransitivityUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [_tag0, sourceLeft, _tag1, sourceRight, _tag2, thirdName, _tag3,
-      sourceApartness, _tag4, locatedOrder, _tag5, leftBranch, _tag6, rightBranch,
-      _tag7, window, _tag8, dyadic, _tag9, readback, _tag10, realSeal, _tag11,
-      transport, _tag12, replay, _tag13, provenance, _tag14, localName] =>
+  | ef =>
       some
         (RegularCauchyApartnessCotransitivityUp.mk
-          (regularCauchyApartnessCotransitivityDecodeBHist sourceLeft)
-          (regularCauchyApartnessCotransitivityDecodeBHist sourceRight)
-          (regularCauchyApartnessCotransitivityDecodeBHist thirdName)
-          (regularCauchyApartnessCotransitivityDecodeBHist sourceApartness)
-          (regularCauchyApartnessCotransitivityDecodeBHist locatedOrder)
-          (regularCauchyApartnessCotransitivityDecodeBHist leftBranch)
-          (regularCauchyApartnessCotransitivityDecodeBHist rightBranch)
-          (regularCauchyApartnessCotransitivityDecodeBHist window)
-          (regularCauchyApartnessCotransitivityDecodeBHist dyadic)
-          (regularCauchyApartnessCotransitivityDecodeBHist readback)
-          (regularCauchyApartnessCotransitivityDecodeBHist realSeal)
-          (regularCauchyApartnessCotransitivityDecodeBHist transport)
-          (regularCauchyApartnessCotransitivityDecodeBHist replay)
-          (regularCauchyApartnessCotransitivityDecodeBHist provenance)
-          (regularCauchyApartnessCotransitivityDecodeBHist localName))
-  | _ => none
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 1 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 3 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 5 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 7 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 9 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 11 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 13 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 15 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 17 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 19 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 21 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 23 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 25 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 27 ef))
+          (regularCauchyApartnessCotransitivityDecodeBHist
+            (regularCauchyApartnessCotransitivityEventAt 29 ef)))
 
 private theorem regularCauchyApartnessCotransitivity_round_trip :
     ∀ x : RegularCauchyApartnessCotransitivityUp,
@@ -123,58 +190,24 @@ private theorem regularCauchyApartnessCotransitivity_round_trip :
   cases x with
   | mk sourceLeft sourceRight thirdName sourceApartness locatedOrder leftBranch rightBranch
       window dyadic readback realSeal transport replay provenance localName =>
-      change
-        some
-            (RegularCauchyApartnessCotransitivityUp.mk
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist sourceLeft))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist sourceRight))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist thirdName))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist sourceApartness))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist locatedOrder))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist leftBranch))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist rightBranch))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist window))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist dyadic))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist readback))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist realSeal))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist transport))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist replay))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist provenance))
-              (regularCauchyApartnessCotransitivityDecodeBHist
-                (regularCauchyApartnessCotransitivityEncodeBHist localName))) =
-          some
-            (RegularCauchyApartnessCotransitivityUp.mk sourceLeft sourceRight thirdName
-              sourceApartness locatedOrder leftBranch rightBranch window dyadic readback
-              realSeal transport replay provenance localName)
-      rw [regularCauchyApartnessCotransitivityDecode_encode_bhist sourceLeft,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist sourceRight,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist thirdName,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist sourceApartness,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist locatedOrder,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist leftBranch,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist rightBranch,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist window,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist dyadic,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist readback,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist realSeal,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist transport,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist replay,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist provenance,
-        regularCauchyApartnessCotransitivityDecode_encode_bhist localName]
+      exact
+        congrArg some
+          (regularCauchyApartnessCotransitivity_mk_congr
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist sourceLeft)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist sourceRight)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist thirdName)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist sourceApartness)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist locatedOrder)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist leftBranch)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist rightBranch)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist window)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist dyadic)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist readback)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist realSeal)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist transport)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist replay)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist provenance)
+            (regularCauchyApartnessCotransitivityDecode_encode_bhist localName))
 
 private theorem regularCauchyApartnessCotransitivityToEventFlow_injective
     {x y : RegularCauchyApartnessCotransitivityUp} :
@@ -265,26 +298,38 @@ def taste_gate : ChapterTasteGate RegularCauchyApartnessCotransitivityUp :=
   regularCauchyApartnessCotransitivityChapterTasteGate
 
 theorem RegularCauchyApartnessCotransitivityTasteGate_single_carrier_alignment :
-    ∃ x : RegularCauchyApartnessCotransitivityUp,
-      regularCauchyApartnessCotransitivityFields x =
-          [BHist.e0 BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-            BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-            BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
-        Nonempty (ChapterTasteGate RegularCauchyApartnessCotransitivityUp) ∧
-          Nonempty (FieldFaithful RegularCauchyApartnessCotransitivityUp) ∧
-            Nonempty (Nontrivial RegularCauchyApartnessCotransitivityUp) := by
+    (∀ h : BHist,
+      regularCauchyApartnessCotransitivityDecodeBHist
+        (regularCauchyApartnessCotransitivityEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyApartnessCotransitivityUp,
+        regularCauchyApartnessCotransitivityFromEventFlow
+          (regularCauchyApartnessCotransitivityToEventFlow x) = some x) ∧
+        (∀ x y : RegularCauchyApartnessCotransitivityUp,
+          regularCauchyApartnessCotransitivityToEventFlow x =
+              regularCauchyApartnessCotransitivityToEventFlow y →
+            x = y) ∧
+          (∀ x y : RegularCauchyApartnessCotransitivityUp,
+            regularCauchyApartnessCotransitivityFields x =
+                regularCauchyApartnessCotransitivityFields y →
+              x = y) ∧
+            ∃ x y : RegularCauchyApartnessCotransitivityUp, x ≠ y := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate Nontrivial
   refine
-    ⟨RegularCauchyApartnessCotransitivityUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty, ?_⟩
-  constructor
-  · rfl
-  · constructor
-    · exact ⟨regularCauchyApartnessCotransitivityChapterTasteGate⟩
-    · constructor
-      · exact ⟨regularCauchyApartnessCotransitivityFieldFaithful⟩
-      · exact ⟨regularCauchyApartnessCotransitivityNontrivial⟩
+    ⟨regularCauchyApartnessCotransitivityDecode_encode_bhist,
+      regularCauchyApartnessCotransitivity_round_trip,
+      ?injective, regularCauchyApartnessCotransitivity_field_faithful, ?nontrivial⟩
+  · intro x y heq
+    exact regularCauchyApartnessCotransitivityToEventFlow_injective heq
+  · exact
+      ⟨RegularCauchyApartnessCotransitivityUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty,
+        RegularCauchyApartnessCotransitivityUp.mk BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩
 
 end BEDC.Derived.RegularCauchyApartnessCotransitivityUp
