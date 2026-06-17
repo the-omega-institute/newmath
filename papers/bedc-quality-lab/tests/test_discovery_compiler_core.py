@@ -4,9 +4,14 @@ from typing import Any, Mapping, Sequence
 
 import pytest
 
+from bedc_quality_lab.backends.current_lab import projection as current_projection
 from bedc_quality_lab.backends.current_lab.adapter import CurrentLabBackendEvidenceAdapter
 from bedc_quality_lab.discovery_compiler.backend import BackendEvidenceAdapter, TheoryBackend
-from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule, build_claim_capsule_payload
+from bedc_quality_lab.discovery_compiler.capsule import (
+    ClaimCapsule,
+    build_claim_capsule_payload,
+    require_base_exceeds_chance_claim_capsule,
+)
 from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.map import (
@@ -17,6 +22,7 @@ from bedc_quality_lab.discovery_compiler.map import (
 from bedc_quality_lab.evidence_provenance import evidence_provenance_pointer_for_report
 from bedc_quality_lab.evidence_provenance import OWNER as EVIDENCE_PROVENANCE_OWNER
 from bedc_quality_lab.evidence_provenance import SCHEMA_ID as EVIDENCE_PROVENANCE_SCHEMA_ID
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT,
     validate_negative_report_row,
@@ -353,6 +359,72 @@ def test_claim_capsule_payload_preserves_run_local_contract():
     assert capsule.payload["run_local"] == run_local
 
 
+def test_base_exceeds_chance_claim_capsule_cell_is_optional_but_strict_when_present(tmp_path):
+    base_payload = {
+        "schema_id": "bedc.quality.claim_capsule",
+        "claim_id": "claim:fixture",
+        "report": "fixture-report",
+        "source": "reports/canonical/fixture.json",
+        "source_pointer": "$.claim",
+        "status": "complete",
+    }
+    canonical = tmp_path / "reports" / "canonical" / "fixture.json"
+    canonical.parent.mkdir(parents=True, exist_ok=True)
+    owner_gate = {
+        "status": "pass",
+        "base_arm_id": "parameter_matched_attention",
+        "base_acc_ci95_low": 0.51,
+        "chance_accuracy": 0.0625,
+        "margin": 0.4475,
+        "failed_gate": None,
+    }
+    canonical.write_text(json.dumps({"fair_base_learnability_gate": owner_gate}) + "\n", encoding="utf-8")
+
+    generic = ClaimCapsule.from_payload(base_payload)
+    assert generic.payload["schema_id"] == "bedc.quality.claim_capsule"
+
+    payload = {
+        **base_payload,
+        "construct_validity": {
+            "base_exceeds_chance": {
+                "claim": "base control lower confidence bound exceeds chance",
+                "status": "pass",
+                "fair_control_id": "parameter_matched_attention",
+                "required_fair_control_id": "parameter_matched_attention",
+                "evidence_pointer": "reports/canonical/fixture.json:$.fair_base_learnability_gate.base_acc_ci95_low",
+                "base_acc_ci95_low": 0.51,
+                "chance_accuracy": 0.0625,
+                "margin": 0.4475,
+            }
+        },
+    }
+
+    capsule = require_base_exceeds_chance_claim_capsule(payload, root=tmp_path)
+
+    assert capsule.claim_id == "claim:fixture"
+    assert capsule.payload["construct_validity"]["base_exceeds_chance"]["margin"] == 0.4475
+
+    bad_pointer = json.loads(json.dumps(payload))
+    bad_pointer["construct_validity"]["base_exceeds_chance"]["evidence_pointer"] = "reports/canonical/fixture.json:$.missing"
+    with pytest.raises(ValueError, match="evidence_pointer"):
+        require_base_exceeds_chance_claim_capsule(bad_pointer, root=tmp_path)
+
+    bad_owner_value = {
+        **owner_gate,
+        "base_acc_ci95_low": 0.01,
+        "margin": -0.0525,
+    }
+    canonical.write_text(json.dumps({"fair_base_learnability_gate": bad_owner_value}) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="resolved evidence"):
+        require_base_exceeds_chance_claim_capsule(payload, root=tmp_path)
+
+    canonical.write_text(json.dumps({"fair_base_learnability_gate": owner_gate}) + "\n", encoding="utf-8")
+    bad_control = json.loads(json.dumps(payload))
+    bad_control["construct_validity"]["base_exceeds_chance"]["fair_control_id"] = "compute_matched_attention"
+    with pytest.raises(ValueError, match="fair_control_id"):
+        require_base_exceeds_chance_claim_capsule(bad_control, root=tmp_path)
+
+
 def test_discovery_map_row_rejects_dn_fact_cells_and_accepts_pointer_only():
     row = {
         "report": "fixture-report",
@@ -443,8 +515,24 @@ def test_build_discovery_map_payload_validates_rows():
 def _positive_owner_payload(contract=None):
     payload = {
         "positive": True,
+        "main_verdict": {
+            "positive_discovery": True,
+            "surface_delta_count": 1,
+            "shift_information": 1,
+            "structural_discovery": True,
+        },
+        "positive_discovery": True,
+        "net_positive_signal": True,
+        "evidence_basis": {"scorecard_ready": True, "audit_status": "pass"},
+        "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
+        "matched_random_control": {"control_positive": False},
         "metadata": {"owner": "fixture"},
         "control": {"positive": False},
+        "claim_capsule_ref": {"claim_id": "claim:positive-fixture"},
+        "source_artifacts": {"cost_protocol": "configs/default_cost_protocol.yaml"},
+        "not_claimed": ["fixture boundary"],
+        "revocation": {"rows": [{"condition": "fixture", "status": "armed"}]},
+        "what_was_learned": "fixture positive boundary",
         "forbidden": {"status": "pass"},
     }
     payload.update(
@@ -522,6 +610,32 @@ def test_positive_row_rejects_malformed_owner_anti_triviality_contract(tmp_path,
     assert reason == "anti-triviality-owner-contract-not-pass"
     with pytest.raises(ValueError, match="positive discovery map row lacks owner anti-triviality support"):
         build_discovery_map_payload(rows=[_positive_row()], generated_at="fixture-time", root=tmp_path)
+
+
+def test_discovery_row_fail_closes_positive_without_claim_capsule_protocol():
+    spec = current_projection.CanonicalReportSpec(
+        name="positive-fixture",
+        command=("python3", "scripts/run_fixture.py"),
+        json_artifact="reports/canonical/positive.json",
+        markdown_artifact="reports/canonical/positive.md",
+        required_json_keys=("positive",),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive",
+        control_pointer="$.control",
+        no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.missing_claim_capsule",
+    )
+    payload = _positive_owner_payload()
+
+    row = current_projection.discovery_row(spec, payload)
+
+    assert row["discovery_level"] == "D0"
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "claim-capsule-protocol:U-HG1"
 
 
 def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):

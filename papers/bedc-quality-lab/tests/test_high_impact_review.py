@@ -122,6 +122,7 @@ def test_high_impact_review_pass_payload_has_owner_schema(tmp_path):
     assert payload["review_rows"][0]["claim_id"] == "claim:discovery-gated-transformer"
     assert payload["review_rows"][0]["status"] == "pass"
     assert payload["review_rows"][0]["reason"] == "positive-discovery-gates-pass"
+    assert payload["source_artifacts"]["discovery_map"] == "reports/canonical/discovery_map.json"
     assert list(payload["hardgates"]) == [f"HIR-HG{index}" for index in range(1, 11)]
     assert hir.validate_high_impact_review_payload(payload, root) == []
 
@@ -246,3 +247,13 @@ def test_hir_reason_field_inconsistent_fails_validation(tmp_path):
     errors = hir.validate_high_impact_review_payload(payload, root)
 
     assert any("review row reason mismatch" in error for error in errors)
+
+
+def test_hir_source_artifact_path_mismatch_fails_validation(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = deepcopy(_payload(root))
+    payload["source_artifacts"]["discovery_map"] = "reports/canonical/missing-discovery-map.json"
+
+    errors = hir.validate_high_impact_review_payload(payload, root)
+
+    assert "source_artifacts mismatch" in errors
