@@ -46,4 +46,59 @@ theorem ClassifierBoundaryCarrier_sigrel_consumer_determinacy [AskSetup] [Packag
     hsame_trans readSameSig (hsame_symm read'SameSig)
   exact ⟨readSameRead', provenancePkg, nameCertPkg⟩
 
+theorem ClassifierBoundaryCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source accepted refused preserved sig transport route provenance nameCert publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierBoundaryCarrier source accepted refused preserved sig transport route provenance
+        nameCert bundle pkg ->
+      SigRel bundle source sig ->
+        Cont accepted route preserved ->
+          Cont sig route publicRead ->
+            PkgSig bundle publicRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row publicRead)
+                  (fun row : BHist => hsame row publicRead)
+                  (fun row : BHist => hsame row publicRead ∧ PkgSig bundle publicRead pkg)
+                  hsame ∧
+                Ext source BMark.b0 accepted ∧ Ext source BMark.b1 refused ∧
+                  SigRel bundle source sig ∧ Cont accepted route preserved ∧
+                    Cont sig route publicRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle nameCert pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel PkgSig hsame SemanticNameCert
+  intro carrier sigRead acceptedRoute publicRoute publicPkg
+  obtain ⟨acceptedExt, refusedExt, _preservedRoute, _transportSelf, _sigSelf,
+    provenancePkg, nameCertPkg⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead)
+          (fun row : BHist => hsame row publicRead)
+          (fun row : BHist => hsame row publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead (hsame_refl publicRead)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, publicPkg⟩
+  }
+  exact
+    ⟨cert, acceptedExt, refusedExt, sigRead, acceptedRoute, publicRoute, provenancePkg,
+      nameCertPkg, publicPkg⟩
+
 end BEDC.Derived.ClassifierBoundaryUp
