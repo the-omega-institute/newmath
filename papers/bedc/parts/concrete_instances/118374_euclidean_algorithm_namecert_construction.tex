@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\EuclideanAlgorithmUp$}
+\label{ch:concrete-instances-euclidean-algorithm-namecert}
+\origin{human}
+
+Following Euclid and Knuth, the $\EuclideanAlgorithmUp$ packet records the finite descent trace behind a greatest-common-divisor computation as displayed BEDC data. It consumes the unary natural-number surface of \autoref{ch:concrete-instances-nat-namecert}, the signed coefficient rows of \autoref{ch:concrete-instances-int-namecert}, the multiplication-witness divisibility boundary of \autoref{ch:concrete-instances-divisibility-namecert}, the backtracking route of \autoref{ch:concrete-instances-bezout-identity-namecert}, and the division-with-remainder interface of \autoref{ch:concrete-instances-euclidean-domain-namecert}. The chapter names the algorithm only as a finite history packet: input rows, quotient and remainder rows, a strict natural-valued descent budget, terminal divisor data, Bezout backtracking, transport, replay, provenance, and local naming all remain visible.
+
+\begin{definition}[Euclidean algorithm carrier]
+\label{def:euclidean-algorithm-carrier}
+A $\EuclideanAlgorithmUp$ carrier is a finite $\BHist$ packet
+$$
+A=(I,S,B,T,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the input row, naming the two displayed arithmetic inputs through $\NatUp$ rows, with signed readback through $\IntUp$ only when coefficient consumers ask for it.
+\item $S$ is the finite step ledger. Each row of $S$ records one quotient-and-remainder step, its dividend and divisor rows, the quotient row, the remainder row, and the local division-with-remainder evidence read through $\EuclideanDomainUp$.
+\item $B$ is the strict $\NatUp$-valued descent budget. It assigns a displayed natural value to every nonterminal divisor row and records that each nonzero remainder row in $S$ has strictly smaller budget.
+\item $T$ is the terminal divisor row. It records the first step whose remainder row is the displayed zero row and stores the terminal divisor as the candidate gcd row.
+\item $Z$ is the Bezout backtracking route. It reads the terminal divisor and the reversed finite step ledger through $\BezoutIdentityUp$ and the $\DivisibilityUp$ boundary.
+\item $H$ records componentwise $\hsame$ transport for input rows, step rows, budget rows, terminal divisor rows, Bezout backtracking, continuation replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from the input row through the step ledger, descent budget, terminal divisor, and Bezout backtracking route.
+\item $P$ is the $\Pkg$ provenance over $\EuclideanAlgorithmUp$, $\NatUp$, $\IntUp$, $\DivisibilityUp$, $\BezoutIdentityUp$, $\EuclideanDomainUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EuclideanAlgorithmUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by replaying these displayed coordinates. It has no coordinate for a hidden host gcd routine, a selected quotient stream, quotient equality of ideals, a normalized gcd convention, global well-ordering, or an off-packet Euclidean-domain theorem.
+\end{definition}
+
+\begin{theorem}[Euclidean algorithm NameCert obligations]
+\label{thm:euclidean-algorithm-namecert-obligations}
+For every accepted $\EuclideanAlgorithmUp$ carrier
+$$
+A=(I,S,B,T,Z,H,C,P,N),
+$$
+the local $\NameCert_{\EuclideanAlgorithmUp}$ surface consists exactly of input-row admission, quotient-and-remainder step admission through $S$, strict $\NatUp$-budget admission through $B$, terminal divisor admission through $T$, Bezout and divisibility backtracking through $Z$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:euclidean-algorithm-carrier}. The input row $I$ supplies the two displayed arithmetic inputs, while the step ledger $S$ supplies every quotient-and-remainder row consumed by the computation.
+
+Read the budget and terminal rows next. The row $B$ is the only coordinate that records strict descent, and the row $T$ is the only coordinate that records the terminal zero-remainder step and its divisor output.
+
+Finally read the backtracking and structural rows. The row $Z$ routes the reversed finite trace through $\BezoutIdentityUp$ and $\DivisibilityUp$, while $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no carrier coordinate stores a host gcd routine, quotient stream, ideal quotient equality, normalized-gcd convention, global well-ordering, or detached Euclidean-domain theorem, none of those objects belongs to the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Euclidean algorithm descent budget]
+\label{thm:euclidean-algorithm-descent-budget}
+Every accepted $\EuclideanAlgorithmUp$ carrier exposes termination only through the finite budget row $B$. If a nonterminal step of $S$ has divisor row $d$ and nonzero remainder row $r$, then the budget ledger records a strict $\NatUp$ comparison from the value attached to $r$ below the value attached to $d$. The terminal row $T$ may be read only after this finite descent ledger reaches a displayed zero-remainder step.
+\end{theorem}
+\begin{proof}
+Induct over the finite step ledger $S$. In the base case, the first displayed step is read with its divisor, quotient, remainder, and local division evidence, and the budget row $B$ supplies the comparison attached to that step.
+
+For the induction step, assume the current nonterminal row exposes a nonzero remainder. The next row of $S$ uses that remainder as the new divisor row, and $B$ records the strict $\NatUp$ descent from the old divisor budget to the new divisor budget.
+
+Because the induction ranges only over the displayed finite ledger, it cannot appeal to a host well-ordering or to an unlisted search procedure. The terminal divisor row $T$ is available exactly when the next inspected remainder is the displayed zero row, and the Bezout row $Z$ can then replay the reversed finite ledger without adding another termination principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\EuclideanAlgorithmUp$ read must expose the input row, every quotient-and-remainder step row, the strict $\NatUp$ descent budget, the terminal divisor row, the Bezout backtracking row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence before it may be consumed as a gcd or Bezout computation.}
+
+\independenceWitness{nat, int, divisibility, bezout-identity, euclidean-domain: $\EuclideanAlgorithmUp$ is not bijective to any listed sibling because it jointly stores the input rows, the whole finite quotient-and-remainder trace, a strict natural-valued descent budget, the terminal divisor row, and the Bezout backtracking route as one algorithm packet.}
+
+\closureat{EuclideanAlgorithmUp}{seedStr}
+
+\begin{closurestatus}{\EuclideanAlgorithmUp}
+  \constructivestory{A $\EuclideanAlgorithmUp$ packet is generated from input rows, finite quotient-and-remainder step rows, a strict NatUp-valued descent budget, a terminal divisor row, Bezout backtracking, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euclidean-algorithm-carrier}, \autoref{thm:euclidean-algorithm-namecert-obligations}, and \autoref{thm:euclidean-algorithm-descent-budget} seed the finite Euclidean descent trace over NatUp, IntUp, DivisibilityUp, BezoutIdentityUp, and EuclideanDomainUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unique gcd normalization, ideal quotient equality, a selected host algorithm, global well-ordering, or a Euclidean-domain theorem beyond the displayed finite trace.}
+  \upgradepath{Obligation closure requires checked input admission, step-ledger exactness, strict descent, terminal divisor exposure, Bezout backtracking, transport, replay, provenance, and local naming for BEDC.Derived.EuclideanAlgorithmUp.}
+\end{closurestatus}
