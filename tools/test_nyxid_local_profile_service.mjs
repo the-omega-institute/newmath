@@ -121,6 +121,31 @@ assert.throws(
   assert.ok(calls.length > 0);
 }
 
+{
+  const shortAssistantState = {
+    turns: [
+      { role: "user", text: "question" },
+      { role: "assistant", text: "I" },
+    ],
+  };
+  async function fakeCall(_method, params) {
+    const expression = params.expression || "";
+    if (expression.includes("stop-button")) {
+      return { result: { result: { value: false } } };
+    }
+    return { result: { result: { value: shortAssistantState } } };
+  }
+
+  await assert.rejects(
+    waitForStableAssistant(fakeCall, 0, 1800, {
+      minResponseChars: 80,
+      minWaitAfterFirstMs: 1,
+      stableMs: 100,
+    }),
+    /Timed out waiting for assistant response/,
+  );
+}
+
 assert.deepEqual(normalizeAskWaitOptions({
   waitMs: 1200,
   minResponseChars: 1,

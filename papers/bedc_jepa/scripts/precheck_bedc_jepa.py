@@ -103,6 +103,27 @@ PROMOTIONAL_ENDPOINT_RE = re.compile(
     r"improves?|improvement|beats?|wins?|outperform|positive\s+result)\b",
     re.IGNORECASE,
 )
+MECHANISM_TARGET_RE = re.compile(
+    r"\b(?:mechanism[- ]aware\s+target|mechanism[- ]aware\s+assignment\s+target|"
+    r"mechanism[- ]forced[- ]delta|oracle[- ]derived\s+target|"
+    r"target\s+audit|target\s+ceiling|forced[- ]option\s+mechanism\s+labels)\b",
+    re.IGNORECASE,
+)
+DEPLOYABLE_PROMOTION_RE = re.compile(
+    r"\b(?:deployable\s+(?:policy|score|learner|allocation)|"
+    r"allocation[- ]closed\s+(?:policy|control|learner)|"
+    r"complete\s+BEDC[- ]native\s+world\s+model|"
+    r"BEDC[- ]native\s+world[- ]model\s+capability|"
+    r"learned\s+(?:policy|allocation\s+policy|control\s+policy))\b",
+    re.IGNORECASE,
+)
+SAFE_MECHANISM_BOUNDARY_RE = re.compile(
+    r"\b(?:target\s+audit|oracle[- ]derived|not\s+(?:a|an|the)?\s*deployable|"
+    r"not\s+(?:a|an|the)?\s*allocation[- ]closed|not\s+(?:a|an|the)?\s*complete|"
+    r"does\s+not\s+(?:close|supply|establish|promote)|cannot|fail[- ]closed|"
+    r"next\s+closure\s+step|non[- ]leaky\s+predictor|independent\s+export)\b",
+    re.IGNORECASE,
+)
 
 AI_NAMES = ("ChatGPT", "Claude", "OpenAI", "Anthropic")
 ABS_PATH_MARKERS = ("/Users/", "/private/", "/tmp/", "/var/", "/opt/", "/home/", "C:\\")
@@ -446,6 +467,47 @@ def check_capability_promotion_contract(files: list[Path]) -> list[str]:
     return errors
 
 
+def check_mechanism_target_claim_boundary(files: list[Path]) -> list[str]:
+    errors = []
+    text = "\n".join(path.read_text(encoding="utf-8", errors="ignore") for path in files)
+    normalized = re.sub(r"\s+", " ", text.lower())
+    required = (
+        ("mechanism target is identified as a target audit", r"target\s+audit"),
+        ("mechanism target is scoped as oracle-derived", r"oracle-derived"),
+        ("next step requires a non-leaky predictor", r"non-leaky\s+predictor"),
+        ("independent export validation remains required", r"independent\s+export"),
+        ("fi-090 claim grade", r"fi-090.*target\s+ceiling.*oracle\s+audit.*not\s+deployable"),
+        ("fi-091 claim grade", r"fi-091.*non-leaky\s+learner\s+partial.*not\s+all-budget\s+closed"),
+        ("fi-099 claim grade", r"fi-099.*state-generation\s+fail-closed"),
+    )
+    for label, pattern in required:
+        if not re.search(pattern, normalized):
+            errors.append(f"missing mechanism-target boundary term: {label}")
+
+    for path in files:
+        file_text = path.read_text(encoding="utf-8", errors="ignore")
+        paragraphs = re.split(r"\n\s*\n", file_text)
+        line_base = 1
+        for paragraph in paragraphs:
+            clean = " ".join(
+                line.strip()
+                for line in paragraph.splitlines()
+                if line.strip() and not line.lstrip().startswith("%")
+            )
+            if (
+                clean
+                and MECHANISM_TARGET_RE.search(clean)
+                and DEPLOYABLE_PROMOTION_RE.search(clean)
+                and not SAFE_MECHANISM_BOUNDARY_RE.search(clean)
+            ):
+                errors.append(
+                    f"{rel(path)}:{line_base}: mechanism target appears promoted "
+                    f"beyond target-audit scope: {clean[:180]}"
+                )
+            line_base += paragraph.count("\n") + 2
+    return errors
+
+
 def check_not_applicable_markers(files: list[Path]) -> list[str]:
     all_text = "\n".join(path.read_text(encoding="utf-8", errors="ignore") for path in files)
     markers = [macro for macro in LEAN_MARKER_MACROS if "\\" + macro + "{" in all_text]
@@ -522,6 +584,7 @@ def main() -> int:
         ("check_environment_balance", check_env_balance(files), None),
         ("check_lewm_evidence_pointer", check_lewm_evidence_pointer(files), None),
         ("check_capability_promotion_contract", check_capability_promotion_contract(files), None),
+        ("check_mechanism_target_claim_boundary", check_mechanism_target_claim_boundary(files), None),
         ("check_evidence_files_exist", check_evidence_files_exist(files), None),
         ("check_lean_markers", check_not_applicable_markers(files), "not applicable to this article, no markers present"),
         ("check_closurestatus", check_closurestatus(files), "not applicable to this article, no blocks present"),

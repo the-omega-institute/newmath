@@ -206,7 +206,7 @@ export async function waitForStableAssistant(call, beforeCount, waitMs, options 
         if (!stableSince) stableSince = Date.now();
         const longEnough = lastAssistant.text.trim().length >= minResponseChars;
         const waitedAfterFirst = Date.now() - firstTextAt >= minWaitAfterFirstMs;
-        if (Date.now() - stableSince > stableMs && (longEnough || waitedAfterFirst)) return state;
+        if (Date.now() - stableSince > stableMs && longEnough && waitedAfterFirst) return state;
       } else {
         last = lastAssistant.text;
         stableSince = 0;
@@ -287,10 +287,17 @@ async function askChat(prompt, options = {}) {
       minWaitAfterFirstMs,
       stableMs,
     });
+    const response = [...after.turns].reverse().find((turn) => turn.role === "assistant")?.text || "";
+    if (response.trim().length < minResponseChars) {
+      throw new Error(
+        `Assistant response remained shorter than minResponseChars ` +
+          `(${response.trim().length} < ${minResponseChars})`,
+      );
+    }
     return {
       ok: true,
       promptChars: promptJson.length - 2,
-      response: [...after.turns].reverse().find((turn) => turn.role === "assistant")?.text || "",
+      response,
       state: after,
     };
   }, options);
