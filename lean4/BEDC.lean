@@ -10914,6 +10914,7 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
 import BEDC.Derived.Window6CyclicCount
 import BEDC.Derived.Window6Doubling
+import BEDC.Derived.Window6FactorImageCount
 import BEDC.Derived.Window6FibonacciCount
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GaugeOrbit
