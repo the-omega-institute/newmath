@@ -178,3 +178,18 @@ mean shifted by $+0.1149$, while selected-minus-oracle regret shifts by
 $+0.0318$.  Depth-count mismatch alone is not the hard signature; concentrated
 forced replacement value and costly selected forced options are.  This supplies
 a concrete mechanism-label target for the next allocation learner.
+
+The mechanism-aware target audit tests whether that target is strong enough in
+principle.  Among $17$ candidate target families, the selected
+mechanism-forced-delta target reaches hard mean oracle-headroom capture $1.000$,
+with budget-two, budget-three, and budget-four capture all $1.000$, zero hard
+regret, and label Spearman $1.000$.  The perturbation-value learner baseline is
+still negative on mean hard capture at $-0.0681$, with budget-two capture
+$-0.1556$, budget-three capture $0.0787$, and budget-four capture $-0.1275$.
+The target therefore closes the hard exact-budget target gate on this export:
+the missing state variable is not generic calibration but the assignment
+mechanism carried by forced replacement value.  This is not a deployable
+allocation policy, because the target is oracle-derived from forced-option
+mechanism labels.  The next closure step is a non-leaky predictor of the same
+mechanism target, evaluated under the same hard-slice budget transfer gate and
+then repeated on an independent export.
