@@ -107,6 +107,19 @@ def test_every_canonical_report_gets_one_producer_audit_and_metric_row(tmp_path)
     assert all(row["evidence_type"] != "empirical_training_clean" for row in payload["discovery_rows"])
 
 
+def test_model_comparison_owner_class_is_deterministic_projection(tmp_path):
+    spec = _spec("model-comparison", "reports/canonical/model-comparison.json", command=("python3", "scripts/run_model_comparison.py"))
+    _write_source(tmp_path, "scripts/run_model_comparison.py")
+    _write_json(tmp_path, spec.json_artifact, {"positive": 1, "scope": {}, "cost": {}, "not_claimed": [], "control": {}})
+    _write_discovery_map(tmp_path, [_discovery_map_row(spec.name)])
+
+    payload = build_evidence_provenance(root=tmp_path, canonical_reports=(spec,), generated_at="fixture")
+
+    assert payload["metric_rows"][0]["source_type"] == "deterministic_projection"
+    assert payload["discovery_rows"][0]["evidence_type"] == "deterministic_projection"
+    assert payload["discovery_rows"][0]["allowed_claim_kinds"] == ["projection_only"]
+
+
 def test_clean_training_requires_backward_and_optimizer_step(tmp_path):
     spec = _spec("training-report", "reports/canonical/training-report.json")
     _write_source(

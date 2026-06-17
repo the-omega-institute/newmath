@@ -53,7 +53,12 @@ REQUIRED_SUMMARY_KEYS = {
     "negative_witness_mutations",
     "training_loop_trace",
     "matched_random_control",
+    "fair_alignment_control_ledger",
     "quality_promotion_boundary",
+    "fair_control_ledger",
+    "base_chance_gate",
+    "four_axis_match_gate",
+    "drt_nondegenerate_gate",
     "certificate_guided_dn_preservation",
     "mechanism_ablation",
     "training_mechanism_cert",
@@ -61,6 +66,8 @@ REQUIRED_SUMMARY_KEYS = {
     "component_ablation",
     "training_method_comparison",
     "drt_extension_hardgates",
+    "negative_witness_penalty",
+    "drt2_semantic_hardgates",
     "jet_loss_protocol",
     "jet_loss_surface",
     "jet_ablation",
@@ -210,6 +217,23 @@ def test_deterministic_replay_and_required_keys():
     assert first["summary_payload"]["grid"]["record_count"] == 2160
     assert first["summary_payload"]["grid"]["expected_record_count"] == 2160
     assert first["summary_payload"]["run_artifacts"]["raw_metrics"] == first["summary_payload"]["records"]["raw_rows_pointer"]
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["adapter_role"] == "pointer-only"
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["ledger_row_pointer"] == (
+        "reports/canonical/fair-alignment-control-ledger.json:$.rows[?producer_id=discovery-regularized-training]"
+    )
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["fair_control_identity"] == (
+        "matched-random-structural-control"
+    )
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["claim_id"] == (
+        "discovery-regularized-training:positive-claim"
+    )
+    assert first["summary_payload"]["fair_alignment_control_ledger"]["task_identity"] == (
+        "gaussian-ou:discovery-regularized-replay"
+    )
+    assert first["summary_payload"]["fair_control_protocol"]["parameter_match"] is True
+    assert first["summary_payload"]["fair_control_protocol"]["compute_match"] is True
+    assert first["summary_payload"]["fair_control_protocol"]["threshold_match"] is True
+    assert first["summary_payload"]["fair_control_protocol"]["surface_distribution_match"] is True
 
 
 def test_formal_replay_arms_and_gate_summary_are_canonical(monkeypatch):
@@ -230,6 +254,101 @@ def test_formal_replay_arms_and_gate_summary_are_canonical(monkeypatch):
     ]
     assert summary["dgt_replay_gate_summary"]["status"] == "pass"
     assert summary["dgt_replay_claim_status"]["level_candidate"] == "D5-M"
+
+
+def test_drt_fair_control_sections_are_owner_local_and_gate_backed(monkeypatch):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    projection = runner.build_projection(generated_at="fixture-time", requested_device="mps")
+    summary = projection["summary_payload"]
+    capsule = projection["claim_capsule_payload"]
+    expected_issue_arms = [
+        "base_transformer",
+        "parameter_matched",
+        "compute_matched",
+        "matched_random_structural_control",
+    ]
+
+    ledger = summary["fair_control_ledger"]
+    assert ledger["status"] == "pass"
+    assert ledger["issue_arms"] == expected_issue_arms
+    assert ledger["candidate_arm"] == "DGT_full"
+    assert ledger["pair_rule_surface"]["status"] == "pass"
+    assert ledger["pair_rule_surface"]["cell_keys"] == [
+        "discovery_lambda",
+        "rho",
+        "mixing",
+        "seed",
+    ]
+    assert ledger["bounded_drt_capsule_pointers"] == {
+        "claim_capsule": summary["run_artifacts"]["claim_capsule"],
+        "positive_claim": "$.positive_claim",
+        "promotion_gate": "$.hardgate.gates.DRT-HG9",
+        "discovery_map_signal": "$.discovery_map_signal",
+    }
+    assert summary["base_chance_gate"]["status"] == "pass"
+    assert summary["base_chance_gate"]["base_above_chance"] is True
+    assert summary["four_axis_match_gate"]["status"] == "pass"
+    assert set(summary["four_axis_match_gate"]["axes"]) == {
+        "parameter_match",
+        "compute_match",
+        "threshold_match",
+        "metric_helper_match",
+    }
+    assert summary["drt_nondegenerate_gate"]["status"] == "pass"
+    assert summary["drt_nondegenerate_gate"]["candidate_positive_signal"] is True
+    assert summary["hardgate"]["gates"]["DRT-FC-HG1"]["status"] == "pass"
+    assert summary["hardgate"]["gates"]["DRT-FC-HG2"]["evidence_pointer"] == "$.base_chance_gate"
+    assert summary["hardgate"]["gates"]["DRT-FC-HG3"]["evidence_pointer"] == "$.four_axis_match_gate"
+    assert summary["hardgate"]["gates"]["DRT-FC-HG4"]["evidence_pointer"] == "$.drt_nondegenerate_gate"
+    assert summary["discovery_map_signal"]["control_pointer"] == "$.fair_control_ledger"
+    assert summary["positive_claim"]["fair_control_ledger_pointer"] == "$.fair_control_ledger"
+    assert capsule["result_snapshot"]["fair_control_ledger"]["status"] == "pass"
+    assert capsule["result_snapshot"]["base_chance_gate"]["status"] == "pass"
+    assert capsule["result_snapshot"]["four_axis_match_gate"]["status"] == "pass"
+    assert capsule["result_snapshot"]["drt_nondegenerate_gate"]["status"] == "pass"
+
+    pointers = [
+        ledger["owner_pointer"],
+        ledger["pair_rule_surface"]["owner_pointer"],
+        summary["base_chance_gate"]["owner_pointer"],
+        summary["four_axis_match_gate"]["owner_pointer"],
+        summary["drt_nondegenerate_gate"]["owner_pointer"],
+        *[row["evidence_pointer"] for row in ledger["arms"]],
+    ]
+    unresolved = [
+        pointer
+        for pointer in pointers
+        if pointer.startswith("reports/canonical/discovery-regularized-training.json:")
+        and discovery_map.pointer_value(summary, pointer.split(":", 1)[1]) is None
+    ]
+    assert unresolved == []
+
+
+@pytest.mark.parametrize(
+    ("mutate", "gate"),
+    [
+        (lambda item: item.update({"fair_control_ledger": {}}), "DRT-FC-HG1"),
+        (lambda item: item["base_chance_gate"].update({"base_above_chance": False}), "DRT-FC-HG2"),
+        (lambda item: item["four_axis_match_gate"]["axes"]["compute_match"].update({"status": "fail"}), "DRT-FC-HG3"),
+        (lambda item: item["drt_nondegenerate_gate"].update({"candidate_positive_signal": False}), "DRT-FC-HG4"),
+    ],
+)
+def test_drt_fair_control_gates_fail_closed(monkeypatch, mutate, gate):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
+    mutated = deepcopy(summary)
+    mutate(mutated)
+    projection = DiscoveryRegularizedTrainingProjection(
+        config=mutated["config"],
+        records=_fixture_records(),
+        generated_at="fixture-time",
+        run_artifacts=mutated["run_artifacts"],
+    )
+    hardgates = projection.hardgate_verdicts(mutated, mutated["quality_promotion_boundary"])
+
+    assert hardgates[gate]["status"] == "fail"
+    assert projection.failed_gate(hardgates) == gate
+    assert projection.discovery_map_signal(hardgates)["level_candidate"] == "DN"
 
 
 def _dgt_replay_summary_after_mutation(summary, mutate, monkeypatch):
@@ -410,6 +529,52 @@ def test_torch_available_fixture_promotes_d5m_and_records_payload_sections(monke
     assert len(summary["component_ablation"]["rows"]) == 7
     assert summary["training_method_comparison"]["metric_pointers"]["uer"].endswith("$.records.extension_metrics.uer_mean")
     assert "terminal_verdict" not in json.dumps(summary, sort_keys=True)
+
+
+def test_drt2_semantic_hardgates_are_pointer_only_and_resolve(monkeypatch):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
+    gates = summary["drt2_semantic_hardgates"]["gates"]
+
+    assert tuple(gates) == tuple(f"DRT2-HG{index}" for index in range(1, 7))
+    assert summary["drt2_semantic_hardgates"]["status"] == "pass"
+    assert summary["drt2_semantic_hardgates"]["owner_pointer"].endswith("$.drt2_semantic_hardgates")
+    assert summary["drt2_semantic_hardgates"]["failed_gate"] is None
+    assert set(summary["training_method_comparison"]["rows"]) == {
+        "DGT+DRT",
+        "DGT-without-DRT",
+        "Transformer+DRT",
+        "component+DRT",
+    }
+    assert summary["negative_witness_penalty"]["status"] == "pointer-only"
+    assert "terminal_verdict" not in json.dumps(summary["drt2_semantic_hardgates"], sort_keys=True)
+    assert "terminal_verdict" not in json.dumps(summary["training_method_comparison"], sort_keys=True)
+    for gate in gates.values():
+        pointer = gate["evidence_pointer"]
+        assert pointer.startswith("reports/canonical/discovery-regularized-training.json:")
+        assert discovery_map.pointer_value(summary, pointer.split(":", 1)[1]) is not None
+
+
+@pytest.mark.parametrize(
+    ("mutate", "gate"),
+    [
+        (lambda item: item["certificate_guided_dn_preservation"]["required_refs"].pop(), "DRT2-HG1"),
+        (lambda item: item["loss_family"]["terms"]["cost"].update({"evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.missing"}), "DRT2-HG2"),
+        (lambda item: item["component_ablation"]["rows"][1].update({"pointer_state": "missing"}), "DRT2-HG3"),
+        (lambda item: item["negative_witness_penalty"].update({"candidate_measurement_body": {"verdict": "accepted"}}), "DRT2-HG4"),
+        (lambda item: item["training_method_comparison"]["rows"].pop("Transformer+DRT"), "DRT2-HG5"),
+        (lambda item: item["not_claimed"].remove("global architecture superiority"), "DRT2-HG6"),
+    ],
+)
+def test_drt2_semantic_hardgates_fail_closed(monkeypatch, mutate, gate):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
+    mutated = deepcopy(summary)
+    mutate(mutated)
+    gates = drt.drt2_semantic_hardgate_verdicts(mutated)
+
+    assert gates[gate]["status"] == "fail"
+    assert drt.drt2_semantic_hardgate_summary(mutated)["failed_gate"] == gate
 
 
 def test_drt_compute_ledger_is_required_summary(monkeypatch):

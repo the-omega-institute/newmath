@@ -27,6 +27,10 @@
 - `DRT-HG7`: `pass`
 - `DRT-HG8`: `pass`
 - `DRT-HG9`: `pass`
+- `DRT-FC-HG1`: `pass`
+- `DRT-FC-HG2`: `pass`
+- `DRT-FC-HG3`: `pass`
+- `DRT-FC-HG4`: `pass`
 - `DRTJ-HG1`: `pass`
 - `DRTJ-HG2`: `pass`
 - `DRTJ-HG3`: `pass`
@@ -70,6 +74,22 @@
 | 3 | `DGT_full` | `0.654767` | `0.607767` | `above-task-only` | `clears-boundary` | `reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.DGT_full` |
 | 4 | `matched_random_structural_control` | `0.595767` | `0.595767` | `above-task-only` | `comparison-only` | `reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random_structural_control` |
 | 5 | `old_certificate_guided` | `None` | `None` | `missing-evidence-fail-closed` | `fail-closed` | `reports/canonical/discovery-regularized-training.json:$.config.arms` |
+
+## Fair Control Ledger
+
+- status: `pass`
+- owner pointer: `reports/canonical/discovery-regularized-training.json:$.fair_control_ledger`
+- pair-rule surface: `pass`
+- base chance gate: `pass`
+- four-axis match gate: `pass`
+- nondegenerate gate: `pass`
+
+| arm | role | accuracy | quality_q | base margin | DRT quality margin | evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| `base_transformer` | `model-comparison:base_transformer` | `0.702267` | `0.581767` | `0.202267` | `0.073` | `reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.rows_by_arm.base_transformer` |
+| `parameter_matched` | `parameter-matched control` | `0.702267` | `0.599767` | `0.202267` | `0.055` | `reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.rows_by_arm.parameter_matched` |
+| `compute_matched` | `compute-matched control` | `0.702267` | `0.585767` | `0.202267` | `0.069` | `reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.rows_by_arm.compute_matched` |
+| `matched_random_structural_control` | `model-comparison:matched_random_structural_control` | `0.700267` | `0.595767` | `0.200267` | `0.059` | `reports/canonical/discovery-regularized-training.json:$.training_replay_bridge.rows_by_arm.matched_random_structural_control` |
 
 ## Mechanism Ablation
 
@@ -140,6 +160,7 @@
 
 - full model training
 - global architecture superiority
+- standalone model superiority
 - full LeJEPA reproduction
 - mechanism closure
 - production device authority

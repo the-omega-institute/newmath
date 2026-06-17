@@ -17,6 +17,13 @@ FORMAL_HARDENING_ARTIFACT = "reports/canonical/formal_hardening.json"
 
 
 @dataclass(frozen=True)
+class ArtifactSnapshot:
+    path: str
+    generated_at: str | None
+    sha256: str
+
+
+@dataclass(frozen=True)
 class ScorecardSnapshot:
     scorecard_pointer: str
     scorecard_hash: str
@@ -26,6 +33,17 @@ class ScorecardSnapshot:
 
 def canonical_artifact_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load_artifact_snapshot(root: Path, artifact: str) -> ArtifactSnapshot:
+    path = root / artifact
+    payload = _load_json_object(path)
+    generated_at = payload.get("generated_at") if payload is not None and isinstance(payload.get("generated_at"), str) else None
+    return ArtifactSnapshot(
+        path=artifact,
+        generated_at=generated_at,
+        sha256=canonical_artifact_hash(path) if path.exists() else "",
+    )
 
 
 def _load_json_object(path: Path) -> Mapping[str, Any] | None:
