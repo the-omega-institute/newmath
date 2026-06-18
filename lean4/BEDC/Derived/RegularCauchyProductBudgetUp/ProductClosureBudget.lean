@@ -111,4 +111,88 @@ theorem RegularCauchyProductBudget_product_closure_budget [AskSetup] [PackageSet
     ⟨cert, windowAUnary, windowBUnary, dyadicAUnary, dyadicBUnary, rUnary,
       publicUnary⟩
 
+theorem RegularCauchyProductBudget_checked_obligation_readiness [AskSetup] [PackageSetup]
+    {A B WA WB DA DB D E R S H C P N windowA windowB dyadicA dyadicB publicRead
+      obligationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductBudgetCarrier A B WA WB DA DB D E R S H C P N bundle pkg ->
+      Cont A WA windowA ->
+        Cont B WB windowB ->
+          Cont windowA DA dyadicA ->
+            Cont windowB DB dyadicB ->
+              Cont D E R ->
+                Cont R S publicRead ->
+                  Cont publicRead H obligationRead ->
+                    PkgSig bundle obligationRead pkg ->
+                      SemanticNameCert
+                          (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row windowA ∨ hsame row windowB ∨
+                              hsame row dyadicA ∨ hsame row dyadicB ∨ hsame row R ∨
+                                hsame row publicRead ∨ hsame row obligationRead)
+                          (fun row : BHist =>
+                            PkgSig bundle obligationRead pkg ∧ hsame row obligationRead)
+                          hsame ∧
+                        UnaryHistory windowA ∧ UnaryHistory windowB ∧
+                          UnaryHistory dyadicA ∧ UnaryHistory dyadicB ∧
+                            UnaryHistory publicRead ∧ UnaryHistory obligationRead ∧
+                              Cont publicRead H obligationRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert UnaryHistory
+  intro carrier windowARoute windowBRoute dyadicARoute dyadicBRoute readbackRoute
+    publicRoute obligationRoute obligationPkg
+  obtain ⟨aUnary, bUnary, waUnary, wbUnary, daUnary, dbUnary, dUnary, eUnary, _rUnary,
+    sUnary, hUnary, _cUnary, _pUnary, _nUnary, _provenancePkg, _namePkg⟩ := carrier
+  have windowAUnary : UnaryHistory windowA :=
+    unary_cont_closed aUnary waUnary windowARoute
+  have windowBUnary : UnaryHistory windowB :=
+    unary_cont_closed bUnary wbUnary windowBRoute
+  have dyadicAUnary : UnaryHistory dyadicA :=
+    unary_cont_closed windowAUnary daUnary dyadicARoute
+  have dyadicBUnary : UnaryHistory dyadicB :=
+    unary_cont_closed windowBUnary dbUnary dyadicBRoute
+  have rUnary : UnaryHistory R :=
+    unary_cont_closed dUnary eUnary readbackRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed rUnary sUnary publicRoute
+  have obligationUnary : UnaryHistory obligationRead :=
+    unary_cont_closed publicUnary hUnary obligationRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row windowA ∨ hsame row windowB ∨ hsame row dyadicA ∨
+              hsame row dyadicB ∨ hsame row R ∨ hsame row publicRead ∨
+                hsame row obligationRead)
+          (fun row : BHist => PkgSig bundle obligationRead pkg ∧
+            hsame row obligationRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro obligationRead ⟨hsame_refl obligationRead, obligationUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨obligationPkg, source.left⟩
+  }
+  exact
+    ⟨cert, windowAUnary, windowBUnary, dyadicAUnary, dyadicBUnary, publicUnary,
+      obligationUnary, obligationRoute⟩
+
 end BEDC.Derived.RegularCauchyProductBudgetUp
