@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CompactRealSubsequenceModulusUp
+namespace BEDC.Derived.CompactRealSubsequenceModulusUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,7 +11,11 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CompactRealSubsequenceModulusUp : Type where
-  | mk (K S B W D R E H C P N : BHist) : CompactRealSubsequenceModulusUp
+  | mk
+      (compactSource streamWindow bolzanoRoute modulus tolerance readback realSeal transport replay
+        provenance localName : BHist) :
+      CompactRealSubsequenceModulusUp
+  deriving DecidableEq
 
 def compactRealSubsequenceModulusEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -25,10 +29,11 @@ def compactRealSubsequenceModulusDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (compactRealSubsequenceModulusDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (compactRealSubsequenceModulusDecodeBHist tail)
 
-private theorem compactRealSubsequenceModulusDecodeEncodeBHist :
+private theorem CompactRealSubsequenceModulusTasteGate_decode_encode :
     ∀ h : BHist,
       compactRealSubsequenceModulusDecodeBHist
-        (compactRealSubsequenceModulusEncodeBHist h) = h := by
+          (compactRealSubsequenceModulusEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,225 +44,156 @@ private theorem compactRealSubsequenceModulusDecodeEncodeBHist :
 def compactRealSubsequenceModulusFields :
     CompactRealSubsequenceModulusUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CompactRealSubsequenceModulusUp.mk K S B W D R E H C P N =>
-      [K, S, B, W, D, R, E, H, C, P, N]
+  | CompactRealSubsequenceModulusUp.mk compactSource streamWindow bolzanoRoute modulus
+      tolerance readback realSeal transport replay provenance localName =>
+      [compactSource, streamWindow, bolzanoRoute, modulus, tolerance, readback, realSeal,
+        transport, replay, provenance, localName]
 
 def compactRealSubsequenceModulusToEventFlow :
-    CompactRealSubsequenceModulusUp → EventFlow
+    CompactRealSubsequenceModulusUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | CompactRealSubsequenceModulusUp.mk K S B W D R E H C P N =>
-      [compactRealSubsequenceModulusEncodeBHist K,
-        compactRealSubsequenceModulusEncodeBHist S,
-        compactRealSubsequenceModulusEncodeBHist B,
-        compactRealSubsequenceModulusEncodeBHist W,
-        compactRealSubsequenceModulusEncodeBHist D,
-        compactRealSubsequenceModulusEncodeBHist R,
-        compactRealSubsequenceModulusEncodeBHist E,
-        compactRealSubsequenceModulusEncodeBHist H,
-        compactRealSubsequenceModulusEncodeBHist C,
-        compactRealSubsequenceModulusEncodeBHist P,
-        compactRealSubsequenceModulusEncodeBHist N]
+  fun x => (compactRealSubsequenceModulusFields x).map compactRealSubsequenceModulusEncodeBHist
 
 def compactRealSubsequenceModulusFromEventFlow :
-    EventFlow → Option CompactRealSubsequenceModulusUp
+    EventFlow → Option CompactRealSubsequenceModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | K :: rest =>
-      match rest with
-      | [] => none
-      | S :: rest =>
-          match rest with
-          | [] => none
-          | B :: rest =>
-              match rest with
-              | [] => none
-              | W :: rest =>
-                  match rest with
-                  | [] => none
-                  | D :: rest =>
-                      match rest with
-                      | [] => none
-                      | R :: rest =>
-                          match rest with
-                          | [] => none
-                          | E :: rest =>
-                              match rest with
-                              | [] => none
-                              | H :: rest =>
-                                  match rest with
-                                  | [] => none
-                                  | C :: rest =>
-                                      match rest with
-                                      | [] => none
-                                      | P :: rest =>
-                                          match rest with
-                                          | [] => none
-                                          | N :: rest =>
-                                              match rest with
-                                              | [] =>
-                                                  some
-                                                    (CompactRealSubsequenceModulusUp.mk
-                                                      (compactRealSubsequenceModulusDecodeBHist K)
-                                                      (compactRealSubsequenceModulusDecodeBHist S)
-                                                      (compactRealSubsequenceModulusDecodeBHist B)
-                                                      (compactRealSubsequenceModulusDecodeBHist W)
-                                                      (compactRealSubsequenceModulusDecodeBHist D)
-                                                      (compactRealSubsequenceModulusDecodeBHist R)
-                                                      (compactRealSubsequenceModulusDecodeBHist E)
-                                                      (compactRealSubsequenceModulusDecodeBHist H)
-                                                      (compactRealSubsequenceModulusDecodeBHist C)
-                                                      (compactRealSubsequenceModulusDecodeBHist P)
-                                                      (compactRealSubsequenceModulusDecodeBHist N))
-                                              | _ :: _ => none
-
-private theorem compactRealSubsequenceModulusRoundTrip
-    (x : CompactRealSubsequenceModulusUp) :
-    compactRealSubsequenceModulusFromEventFlow
-      (compactRealSubsequenceModulusToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases x with
-  | mk K S B W D R E H C P N =>
-      change
+  fun eventFlow =>
+    match eventFlow with
+    | [] => none
+    | _ :: [] => none
+    | _ :: _ :: [] => none
+    | _ :: _ :: _ :: [] => none
+    | _ :: _ :: _ :: _ :: [] => none
+    | _ :: _ :: _ :: _ :: _ :: [] => none
+    | _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+    | _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+    | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+    | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+    | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+    | compactSource :: streamWindow :: bolzanoRoute :: modulus :: tolerance :: readback ::
+        realSeal :: transport :: replay :: provenance :: localName :: [] =>
         some
           (CompactRealSubsequenceModulusUp.mk
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist K))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist S))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist B))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist W))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist D))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist R))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist E))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist H))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist C))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist P))
-            (compactRealSubsequenceModulusDecodeBHist
-              (compactRealSubsequenceModulusEncodeBHist N))) =
-          some (CompactRealSubsequenceModulusUp.mk K S B W D R E H C P N)
-      rw [compactRealSubsequenceModulusDecodeEncodeBHist K,
-        compactRealSubsequenceModulusDecodeEncodeBHist S,
-        compactRealSubsequenceModulusDecodeEncodeBHist B,
-        compactRealSubsequenceModulusDecodeEncodeBHist W,
-        compactRealSubsequenceModulusDecodeEncodeBHist D,
-        compactRealSubsequenceModulusDecodeEncodeBHist R,
-        compactRealSubsequenceModulusDecodeEncodeBHist E,
-        compactRealSubsequenceModulusDecodeEncodeBHist H,
-        compactRealSubsequenceModulusDecodeEncodeBHist C,
-        compactRealSubsequenceModulusDecodeEncodeBHist P,
-        compactRealSubsequenceModulusDecodeEncodeBHist N]
+            (compactRealSubsequenceModulusDecodeBHist compactSource)
+            (compactRealSubsequenceModulusDecodeBHist streamWindow)
+            (compactRealSubsequenceModulusDecodeBHist bolzanoRoute)
+            (compactRealSubsequenceModulusDecodeBHist modulus)
+            (compactRealSubsequenceModulusDecodeBHist tolerance)
+            (compactRealSubsequenceModulusDecodeBHist readback)
+            (compactRealSubsequenceModulusDecodeBHist realSeal)
+            (compactRealSubsequenceModulusDecodeBHist transport)
+            (compactRealSubsequenceModulusDecodeBHist replay)
+            (compactRealSubsequenceModulusDecodeBHist provenance)
+            (compactRealSubsequenceModulusDecodeBHist localName))
+    | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ => none
 
-private theorem compactRealSubsequenceModulusToEventFlow_injective
-    {x y : CompactRealSubsequenceModulusUp} :
-    compactRealSubsequenceModulusToEventFlow x =
-        compactRealSubsequenceModulusToEventFlow y →
-      x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      compactRealSubsequenceModulusFromEventFlow
-          (compactRealSubsequenceModulusToEventFlow x) =
-        compactRealSubsequenceModulusFromEventFlow
-          (compactRealSubsequenceModulusToEventFlow y) :=
-    congrArg compactRealSubsequenceModulusFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (compactRealSubsequenceModulusRoundTrip x).symm
-      (Eq.trans hread (compactRealSubsequenceModulusRoundTrip y)))
-
-private theorem compactRealSubsequenceModulusFieldsFaithful :
-    ∀ x y : CompactRealSubsequenceModulusUp,
-      compactRealSubsequenceModulusFields x =
-          compactRealSubsequenceModulusFields y →
-        x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk K₁ S₁ B₁ W₁ D₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk K₂ S₂ B₂ W₂ D₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
-          injection hfields with hK tail0
-          injection tail0 with hS tail1
-          injection tail1 with hB tail2
-          injection tail2 with hW tail3
-          injection tail3 with hD tail4
-          injection tail4 with hR tail5
-          injection tail5 with hE tail6
-          injection tail6 with hH tail7
-          injection tail7 with hC tail8
-          injection tail8 with hP tail9
-          injection tail9 with hN _
-          subst hK
-          subst hS
-          subst hB
-          subst hW
-          subst hD
-          subst hR
-          subst hE
-          subst hH
-          subst hC
-          subst hP
-          subst hN
-          rfl
-
-instance compactRealSubsequenceModulusBHistCarrier :
+def compactRealSubsequenceModulusBHistCarrier :
     BHistCarrier CompactRealSubsequenceModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := compactRealSubsequenceModulusToEventFlow
   fromEventFlow := compactRealSubsequenceModulusFromEventFlow
 
-instance compactRealSubsequenceModulusChapterTasteGate :
-    ChapterTasteGate CompactRealSubsequenceModulusUp where
+instance compactRealSubsequenceModulusBHistCarrierInstance :
+    BHistCarrier CompactRealSubsequenceModulusUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  compactRealSubsequenceModulusBHistCarrier
+
+private theorem CompactRealSubsequenceModulusTasteGate_round_trip :
+    ∀ x : CompactRealSubsequenceModulusUp,
+      compactRealSubsequenceModulusFromEventFlow
+          (compactRealSubsequenceModulusToEventFlow x) =
+        some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro token
+  cases token with
+  | mk compactSource streamWindow bolzanoRoute modulus tolerance readback realSeal transport
+      replay provenance localName =>
+      change
+        some
+            (CompactRealSubsequenceModulusUp.mk
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist compactSource))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist streamWindow))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist bolzanoRoute))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist modulus))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist tolerance))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist readback))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist realSeal))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist transport))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist replay))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist provenance))
+              (compactRealSubsequenceModulusDecodeBHist
+                (compactRealSubsequenceModulusEncodeBHist localName))) =
+          some
+            (CompactRealSubsequenceModulusUp.mk compactSource streamWindow bolzanoRoute modulus
+              tolerance readback realSeal transport replay provenance localName)
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode compactSource]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode streamWindow]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode bolzanoRoute]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode modulus]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode tolerance]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode readback]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode realSeal]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode transport]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode replay]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode provenance]
+      rw [CompactRealSubsequenceModulusTasteGate_decode_encode localName]
+
+private theorem CompactRealSubsequenceModulusTasteGate_toEventFlow_injective
+    {x y : CompactRealSubsequenceModulusUp} :
+    compactRealSubsequenceModulusToEventFlow x =
+      compactRealSubsequenceModulusToEventFlow y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro hxy
+  have optionEq : some x = some y := by
+    calc
+      some x =
+          compactRealSubsequenceModulusFromEventFlow
+            (compactRealSubsequenceModulusToEventFlow x) :=
+        (CompactRealSubsequenceModulusTasteGate_round_trip x).symm
+      _ =
+          compactRealSubsequenceModulusFromEventFlow
+            (compactRealSubsequenceModulusToEventFlow y) :=
+        congrArg compactRealSubsequenceModulusFromEventFlow hxy
+      _ = some y := CompactRealSubsequenceModulusTasteGate_round_trip y
+  exact Option.some.inj optionEq
+
+def compactRealSubsequenceModulusChapterTasteGate :
+    @ChapterTasteGate CompactRealSubsequenceModulusUp
+      compactRealSubsequenceModulusBHistCarrier where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change
       compactRealSubsequenceModulusFromEventFlow
-        (compactRealSubsequenceModulusToEventFlow x) = some x
-    exact compactRealSubsequenceModulusRoundTrip x
+          (compactRealSubsequenceModulusToEventFlow x) =
+        some x
+    exact CompactRealSubsequenceModulusTasteGate_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (compactRealSubsequenceModulusToEventFlow_injective heq)
+    change compactRealSubsequenceModulusToEventFlow x =
+      compactRealSubsequenceModulusToEventFlow y at heq
+    exact hxy (CompactRealSubsequenceModulusTasteGate_toEventFlow_injective heq)
 
-instance compactRealSubsequenceModulusFieldFaithful :
-    FieldFaithful CompactRealSubsequenceModulusUp where
+instance compactRealSubsequenceModulusChapterTasteGateInstance :
+    ChapterTasteGate CompactRealSubsequenceModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fields := compactRealSubsequenceModulusFields
-  field_faithful := compactRealSubsequenceModulusFieldsFaithful
-
-instance compactRealSubsequenceModulusNontrivial :
-    Nontrivial CompactRealSubsequenceModulusUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CompactRealSubsequenceModulusUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      CompactRealSubsequenceModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+  compactRealSubsequenceModulusChapterTasteGate
 
 theorem CompactRealSubsequenceModulusTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       compactRealSubsequenceModulusDecodeBHist (compactRealSubsequenceModulusEncodeBHist h) =
         h) ∧
-      (∀ x : CompactRealSubsequenceModulusUp,
-        compactRealSubsequenceModulusFromEventFlow
-            (compactRealSubsequenceModulusToEventFlow x) =
-          some x) ∧
-      (∀ x y : CompactRealSubsequenceModulusUp,
-        compactRealSubsequenceModulusToEventFlow x =
-            compactRealSubsequenceModulusToEventFlow y →
-          x = y) ∧
       compactRealSubsequenceModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
@@ -266,58 +202,6 @@ theorem CompactRealSubsequenceModulusTasteGate_single_carrier_alignment :
     | Empty => rfl
     | e0 h ih => exact congrArg BHist.e0 ih
     | e1 h ih => exact congrArg BHist.e1 ih
-  · constructor
-    · intro x
-      cases x with
-      | mk K S B W D R E H C P N =>
-          change
-            some
-              (CompactRealSubsequenceModulusUp.mk
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist K))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist S))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist B))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist W))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist D))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist R))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist E))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist H))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist C))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist P))
-                (compactRealSubsequenceModulusDecodeBHist
-                  (compactRealSubsequenceModulusEncodeBHist N))) =
-              some (CompactRealSubsequenceModulusUp.mk K S B W D R E H C P N)
-          rw [compactRealSubsequenceModulusDecodeEncodeBHist K,
-            compactRealSubsequenceModulusDecodeEncodeBHist S,
-            compactRealSubsequenceModulusDecodeEncodeBHist B,
-            compactRealSubsequenceModulusDecodeEncodeBHist W,
-            compactRealSubsequenceModulusDecodeEncodeBHist D,
-            compactRealSubsequenceModulusDecodeEncodeBHist R,
-            compactRealSubsequenceModulusDecodeEncodeBHist E,
-            compactRealSubsequenceModulusDecodeEncodeBHist H,
-            compactRealSubsequenceModulusDecodeEncodeBHist C,
-            compactRealSubsequenceModulusDecodeEncodeBHist P,
-            compactRealSubsequenceModulusDecodeEncodeBHist N]
-    · constructor
-      · intro x y heq
-        have hread :
-            compactRealSubsequenceModulusFromEventFlow
-                (compactRealSubsequenceModulusToEventFlow x) =
-              compactRealSubsequenceModulusFromEventFlow
-                (compactRealSubsequenceModulusToEventFlow y) :=
-          congrArg compactRealSubsequenceModulusFromEventFlow heq
-        exact Option.some.inj
-          (Eq.trans (compactRealSubsequenceModulusRoundTrip x).symm
-            (Eq.trans hread (compactRealSubsequenceModulusRoundTrip y)))
-      · rfl
+  · rfl
 
-end BEDC.Derived.CompactRealSubsequenceModulusUp
+end BEDC.Derived.CompactRealSubsequenceModulusUp.TasteGate
