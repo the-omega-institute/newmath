@@ -412,4 +412,59 @@ theorem FiniteHistLocalityPacketConsumerHandoff
     ⟨localityUnary, symmetryReplayUnary, localityReplayUnary, handoffUnary,
       localityRoute, symmetryRoute, localityReplayRoute, handoffRoute, hsame_refl N⟩
 
+theorem FiniteHistLocalityPacketCarrier_obligation_closure_package
+    {H0 H1 L I S T C Q N localityRead invariantRead replayRead : BHist} :
+    finiteHistLocalityPacketFields (FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N) =
+        [H0, H1, L, I, S, T, C, Q, N] →
+      Cont H0 H1 localityRead →
+        Cont L I invariantRead →
+          Cont T C replayRead →
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row replayRead ∧
+                    ∃ packet : FiniteHistLocalityPacketUp,
+                      packet = FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N ∧
+                        finiteHistLocalityPacketFields packet =
+                          [H0, H1, L, I, S, T, C, Q, N])
+                (fun row : BHist =>
+                  Cont H0 H1 localityRead ∧ Cont L I invariantRead ∧ Cont T C row)
+                (fun row : BHist =>
+                  hsame row replayRead ∧ Cont T C replayRead ∧ hsame Q Q)
+                hsame ∧
+              Cont H0 H1 localityRead ∧ Cont L I invariantRead ∧ Cont T C replayRead := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  intro fieldsExact localityRoute invariantRoute replayRoute
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := by
+          exact
+            ⟨replayRead, hsame_refl replayRead,
+              FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N, rfl, fieldsExact⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _row' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              source.right⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact
+          ⟨localityRoute, invariantRoute,
+            cont_result_hsame_transport replayRoute (hsame_symm source.left)⟩
+      ledger_sound := by
+        intro row source
+        exact ⟨source.left, replayRoute, hsame_refl Q⟩
+    }
+  · exact ⟨localityRoute, invariantRoute, replayRoute⟩
+
 end BEDC.Derived.FiniteHistLocalityPacketUp
