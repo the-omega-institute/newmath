@@ -394,4 +394,76 @@ theorem PaperLeanDriftWitness_marker_kind_separation [AskSetup] [PackageSetup]
     ⟨kindUnary, normalizedUnary, verdictUnary, replayUnary, markerKindRoute,
       normalizedRoute, verdictRoute, replayRoute, namePkg, replayPkg⟩
 
+theorem PaperLeanDriftWitness_inventory_verdict_totality [AskSetup] [PackageSetup]
+    {M A L I R H C P N exactRead duplicateRead verdictRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PaperLeanDriftWitnessCarrier M A L I R H C P N bundle pkg →
+      Cont L I exactRead →
+        Cont M L duplicateRead →
+          Cont exactRead duplicateRead verdictRead →
+            Cont verdictRead C auditRead →
+              PkgSig bundle auditRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row verdictRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row L ∨ hsame row I ∨ hsame row exactRead ∨
+                        hsame row duplicateRead ∨ hsame row verdictRead)
+                    (fun row : BHist =>
+                      hsame row verdictRead ∧ Cont L I exactRead ∧
+                        Cont M L duplicateRead ∧ PkgSig bundle auditRead pkg)
+                    hsame ∧
+                  UnaryHistory exactRead ∧ UnaryHistory duplicateRead ∧
+                    UnaryHistory verdictRead ∧ UnaryHistory auditRead ∧
+                      PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert UnaryHistory
+  intro carrier exactRoute duplicateRoute verdictRoute auditRoute auditPkg
+  obtain ⟨mUnary, _aUnary, lUnary, iUnary, _rUnary, _hUnary, cUnary, _pUnary,
+    _nUnary, _markerNameLedger, _ledgerInventoryVerdict, _verdictTransportConsumer,
+    namePkg⟩ := carrier
+  have exactUnary : UnaryHistory exactRead :=
+    unary_cont_closed lUnary iUnary exactRoute
+  have duplicateUnary : UnaryHistory duplicateRead :=
+    unary_cont_closed mUnary lUnary duplicateRoute
+  have verdictUnary : UnaryHistory verdictRead :=
+    unary_cont_closed exactUnary duplicateUnary verdictRoute
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed verdictUnary cUnary auditRoute
+  have sourceAtVerdict : hsame verdictRead verdictRead ∧ UnaryHistory verdictRead :=
+    ⟨hsame_refl verdictRead, verdictUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row verdictRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row L ∨ hsame row I ∨ hsame row exactRead ∨
+              hsame row duplicateRead ∨ hsame row verdictRead)
+          (fun row : BHist =>
+            hsame row verdictRead ∧ Cont L I exactRead ∧ Cont M L duplicateRead ∧
+              PkgSig bundle auditRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro verdictRead sourceAtVerdict
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, exactRoute, duplicateRoute, auditPkg⟩
+  }
+  exact ⟨cert, exactUnary, duplicateUnary, verdictUnary, auditUnary, namePkg⟩
+
 end BEDC.Derived.PaperLeanDriftWitnessUp
