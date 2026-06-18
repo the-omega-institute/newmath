@@ -292,4 +292,89 @@ theorem DyadicCauchyTailEnvelopeNonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, replayUnary, tailUnary, sealUnary, consumerUnary, provenancePkg⟩
 
+theorem DyadicCauchyTailEnvelopeObligationCompleteness [AskSetup] [PackageSetup]
+    {source tail envelope regseq realSeal replay provenance routeRead windowRead budgetRead
+      localName consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source ->
+      UnaryHistory tail ->
+        UnaryHistory regseq ->
+          UnaryHistory replay ->
+            UnaryHistory localName ->
+              Cont source tail envelope ->
+                Cont envelope regseq realSeal ->
+                  Cont source replay routeRead ->
+                    Cont routeRead envelope windowRead ->
+                      Cont windowRead realSeal budgetRead ->
+                        Cont realSeal localName consumerRead ->
+                          PkgSig bundle provenance pkg ->
+                            PkgSig bundle budgetRead pkg ->
+                              PkgSig bundle consumerRead pkg ->
+                                SemanticNameCert
+                                    (fun row : BHist =>
+                                      hsame row consumerRead ∧ UnaryHistory row)
+                                    (fun row : BHist =>
+                                      hsame row source ∨ hsame row tail ∨
+                                        hsame row envelope ∨ hsame row regseq ∨
+                                          hsame row realSeal ∨ hsame row budgetRead ∨
+                                            hsame row consumerRead)
+                                    (fun row : BHist =>
+                                      UnaryHistory row ∧ PkgSig bundle consumerRead pkg)
+                                    hsame ∧
+                                  UnaryHistory envelope ∧ UnaryHistory realSeal ∧
+                                    UnaryHistory routeRead ∧ UnaryHistory windowRead ∧
+                                      UnaryHistory budgetRead ∧ UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro sourceUnary tailUnary regseqUnary replayUnary localNameUnary sourceTailRoute
+    envelopeRoute replayRoute windowRoute budgetRoute consumerRoute _provenancePkg
+    _budgetPkg consumerPkg
+  have envelopeUnary : UnaryHistory envelope :=
+    unary_cont_closed sourceUnary tailUnary sourceTailRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed envelopeUnary regseqUnary envelopeRoute
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed sourceUnary replayUnary replayRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed routeUnary envelopeUnary windowRoute
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed windowUnary realSealUnary budgetRoute
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed realSealUnary localNameUnary consumerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row tail ∨ hsame row envelope ∨ hsame row regseq ∨
+              hsame row realSeal ∨ hsame row budgetRead ∨ hsame row consumerRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, consumerPkg⟩
+  }
+  exact
+    ⟨cert, envelopeUnary, realSealUnary, routeUnary, windowUnary, budgetUnary,
+      consumerUnary⟩
+
 end BEDC.Derived.DyadicUp
