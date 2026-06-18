@@ -886,6 +886,7 @@ import BEDC.Derived.BishopCompletionComparisonUp
 import BEDC.Derived.BishopCompletionComparisonUp.BoundaryTransport
 import BEDC.Derived.BishopCompletionComparisonUp.RealRoute
 import BEDC.Derived.BishopCompletionComparisonUp.RegularLocatedRoute
+import BEDC.Derived.BishopCompletionComparisonUp.RegularSeal
 import BEDC.Derived.BishopCompletionComparisonUp.TasteGate
 import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
@@ -2016,6 +2017,7 @@ import BEDC.Derived.CauchyNameUniformityUp
 import BEDC.Derived.CauchyNameUniformityUp.TasteGate
 import BEDC.Derived.CauchyNetCompletionUp.ChoiceFreeLimitBoundary
 import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowCofinalRestriction
+import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowRefinementFunctoriality
 import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowTerminality
 import BEDC.Derived.CauchyNetCompletionUp.MooreSmithHandoff
 import BEDC.Derived.CauchyNetCompletionUp.NameCertObligations
@@ -4192,6 +4194,7 @@ import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.DerivedFunctorUp
 import BEDC.Derived.DetachableSubsetUp
 import BEDC.Derived.DeterminantUp
+import BEDC.Derived.DeterministicPushdownAutomatonUp.TasteGate
 import BEDC.Derived.DiagonalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp
 import BEDC.Derived.DiagonalCofinalTailUp.CompatibilityHandoff
@@ -8233,6 +8236,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.AuditMapWeaveConsumerExactness
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.BridgeReadyDependencySurface
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
+import BEDC.Derived.PaperLeanDriftWitnessUp.UnresolvedMarkerRefusal
 import BEDC.Derived.ParacompactUp.LocallyFiniteRefinement
 import BEDC.Derived.ParacompactUp.MetricNormalRoute
 import BEDC.Derived.ParacompactUp.NameCertObligations
