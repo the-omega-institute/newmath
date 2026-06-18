@@ -2999,6 +2999,7 @@ import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
 import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.CompactPolishSpaceUp.TasteGate
+import BEDC.Derived.CompactRealIntervalMinimumUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
@@ -5558,6 +5559,7 @@ import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditNonclosure
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.FiniteOpenCoverNerveUp.TasteGate
 import BEDC.Derived.FiniteOrthonormalBasisUp.TasteGate
+import BEDC.Derived.FiniteOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteOscillationPartitionUp.TasteGate
 import BEDC.Derived.FiniteOscillationRadiusLedgerUp.TasteGate
 import BEDC.Derived.FiniteOscillationUniformModulusUp.NameCertObligations
