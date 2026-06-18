@@ -58,6 +58,22 @@ The displayed $\Cont$ replay row $C$ then fixes the request coordinate used by t
 The componentwise $\hsame$ transport row $H$ preserves the same coordinate rather than identifying it with an unlisted sibling. Thus any $\RealUp$-facing read that reaches $W,R,D$ or a Real seal remains locked to the original $Q,L$ route named by $P,N$.
 \end{proof}
 
+\begin{theorem}[FiniteStream StreamName dependency route]
+\label{thm:finite-stream-streamname-dependency-route}
+Every accepted $\FiniteStreamUp$ packet consumed by a $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ reader must expose the finite request row $Q$, the $\ListUp$ prefix spine $L$, and the $\StreamNameUp$ window $W$ before the read can reach the downstream rows
+$$
+R,D,H,C,P,N.
+$$
+The substantive dependency edge is therefore the finite request/list route into the StreamName window of \autoref{ch:concrete-instances-streamname-namecert}, as displayed by the carrier of \autoref{def:finite-stream-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-stream-carrier}. Its first exposed consumer rows are $Q,L,W$, and the remaining rows $R,D,H,C,P,N$ are displayed only as downstream readback, tolerance, transport, replay, provenance, and naming data.
+
+Use \autoref{thm:finite-stream-section-sibling-lock}. A Real-facing read that reaches $W,R,D$ or a Real seal remains locked to the original $Q,L$ route, so a StreamName, RegSeqRat, DyadicRatCore, or Real reader cannot replace the finite request/list surface with an unlisted sibling.
+
+Thus the dependency is not an ambient infinite-stream dependency. It is the displayed finite route from $Q$ and $L$ into the $\StreamNameUp$ window $W$, after which the downstream rows may be consumed.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\FiniteStreamUp$ read is refuted if it reaches a $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer without displaying the finite request row, $\ListUp$ prefix spine, finite-window handoff, regular-rational readback boundary, dyadic tolerance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
 
 \independenceWitness{list, streamname, regseqrat, dyadicratcore, real: $\FiniteStreamUp$ is not bijective to any listed sibling because it jointly carries a finite request row, a List prefix spine, a StreamName window handoff, RegSeqRat readback boundary, DyadicRatCore tolerance row, transport, replay, provenance, and local naming as one finite schedule packet.}
@@ -67,7 +83,7 @@ The componentwise $\hsame$ transport row $H$ preserves the same coordinate rathe
 \begin{closurestatus}{\FiniteStreamUp}
   \constructivestory{A $\FiniteStreamUp$ packet is generated from finite BHist request rows, a ListUp prefix spine, a StreamName finite-window handoff, a RegSeqRat readback boundary, a DyadicRatCore tolerance row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-stream-carrier}, \autoref{thm:finite-stream-namecert-obligations}, and \autoref{thm:finite-stream-section-sibling-lock} seed the finite observation-schedule route between List spines and StreamName finite windows.}
+  \scopeclosed{\autoref{def:finite-stream-carrier}, \autoref{thm:finite-stream-namecert-obligations}, \autoref{thm:finite-stream-section-sibling-lock}, and \autoref{thm:finite-stream-streamname-dependency-route} seed the finite observation-schedule route between List spines and StreamName finite windows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close infinite stream equality, selected limits, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}

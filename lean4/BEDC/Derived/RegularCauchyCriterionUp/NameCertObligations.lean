@@ -1,5 +1,7 @@
+import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -9,12 +11,13 @@ namespace BEDC.Derived.RegularCauchyCriterionUp
 
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def RegularCauchyCriterionCarrier [AskSetup] [PackageSetup]
+def regular_cauchy_criterion_carrier_namecert_obligations_carrier [AskSetup] [PackageSetup]
     (stream readback modulus dyadic criterion convergence realBoundary transport replay provenance
       localName : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -29,7 +32,8 @@ theorem RegularCauchyCriterionCarrier_namecert_obligations [AskSetup] [PackageSe
     {stream readback modulus dyadic criterion convergence realBoundary transport replay provenance
       localName : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    RegularCauchyCriterionCarrier stream readback modulus dyadic criterion convergence
+    regular_cauchy_criterion_carrier_namecert_obligations_carrier
+        stream readback modulus dyadic criterion convergence
         realBoundary transport replay provenance localName bundle pkg →
       SemanticNameCert
           (fun row : BHist => hsame row localName ∧ UnaryHistory row)
