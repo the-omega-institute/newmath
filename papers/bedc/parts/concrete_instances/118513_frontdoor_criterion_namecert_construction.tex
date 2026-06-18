@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FrontdoorCriterionUp$}
+\label{ch:concrete-instances-frontdoor-criterion-namecert}
+\origin{human}
+
+Following Pearl's front-door criterion, the $\FrontdoorCriterionUp$ packet records the finite mediation certificate used to identify an intervention-facing query through observed mediator rows. It sits after the intervention-row packet of \autoref{ch:concrete-instances-causal-intervention-namecert}, the normalized probability surface of \autoref{ch:concrete-instances-probspace-namecert}, and the carried random-variable rows of \autoref{ch:concrete-instances-randomvar-namecert}. The packet names the front-door surface as BEDC data; it does not claim full do-calculus, back-door completeness, counterfactual semantics, or probability-space completion.
+
+\begin{definition}[Front-door criterion carrier]
+\label{def:frontdoor-criterion-carrier}
+A $\FrontdoorCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,M,Y,I,B,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the treatment $\RandomVarUp$ row whose intervention-facing value is read by the query.
+\item $M$ is the mediator $\RandomVarUp$ row through which the treatment effect must pass.
+\item $Y$ is the outcome $\RandomVarUp$ row whose response is queried.
+\item $I$ is the $\CausalInterventionUp$ row that names the finite intervention on $T$.
+\item $B$ is the observed-blocking ledger, recording that the mediator row blocks every displayed directed treatment-to-outcome path admitted by the packet.
+\item $A$ is the adjustment ledger, recording the observed rows used to read the treatment-to-mediator and mediator-to-outcome probability factors.
+\item $H$ records componentwise $\hsame$ transport for the treatment, mediator, outcome, intervention, blocking, adjustment, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+T,I \longmapsto M \longmapsto Y
+$$
+together with the blocking and adjustment ledgers.
+\item $P$ is the $\Pkg$ provenance over $\FrontdoorCriterionUp$, $\CausalInterventionUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrontdoorCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host structural causal model, selected counterfactual universe, unbounded graph search, hidden back-door completeness proof, or completed probability space.
+\end{definition}
+
+\begin{theorem}[Front-door criterion NameCert obligations]
+\label{thm:frontdoor-criterion-namecert-obligations}
+For every accepted $\FrontdoorCriterionUp$ carrier $F=(T,M,Y,I,B,A,H,C,P,N)$, the local $\NameCert_{\FrontdoorCriterionUp}$ surface consists exactly of carrier admission for the displayed treatment, mediator, outcome, intervention, observed-blocking, adjustment, transport, replay, provenance, and local naming rows. Any consumer that reads a front-door claim must display the treatment-to-mediator route, the mediator-to-outcome route, the observed blocking ledger, the adjustment ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local name before the claim is public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frontdoor-criterion-carrier}. Its rows expose $T,M,Y,I,B,A,H,C,P,N$ and no other coordinate.
+
+Read the causal route first. The intervention row $I$ is attached to the treatment row $T$, the mediator row $M$ is the only displayed handoff between treatment and outcome, and the outcome row $Y$ is consumed only after that handoff is visible.
+
+Read the two ledgers next. The blocking row $B$ records the displayed path-blocking surface, while the adjustment row $A$ records the observed probability-facing rows used by the two front-door factors. These rows are supported by the $\ProbSpaceUp$ and $\RandomVarUp$ siblings rather than by a host model.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier has no coordinate for full do-calculus, back-door completeness, counterfactual semantics, or probability-space completion, those objects are not local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Front-door criterion causal handoff]
+\label{thm:frontdoor-criterion-causal-handoff}
+Every intervention-facing consumer of an accepted $\FrontdoorCriterionUp$ packet reaches its causal query only after reading the finite route
+$$
+T,I,B,A,H,C,P,N \longmapsto M \longmapsto Y .
+$$
+The handoff is a displayed mediator route from $\CausalInterventionUp$ through $\ProbSpaceUp$ and $\RandomVarUp$ rows. It exports no host causal graph, full do-calculus derivation, back-door completeness theorem, selected counterfactual, or completed probability space.
+\end{theorem}
+\begin{proof}
+Start with the intervention row $I$ and treatment row $T$. The carrier supplies no intervention-facing conclusion until the blocking ledger $B$ and adjustment ledger $A$ have been inspected with the same transport, replay, provenance, and naming rows.
+
+The mediator row $M$ is then the only displayed bridge to the outcome row $Y$. Thus the consumer can reach the outcome-facing query only through the finite mediator handoff and not by projecting a hidden causal graph or back-door theorem.
+
+Because the probability-facing rows are cited through $\ProbSpaceUp$ and $\RandomVarUp$, the route stays inside existing NameCert siblings. The absence of any counterfactual or probability-completion coordinate gives the claimed nonescape boundary.
+\end{proof}
+
+\closureat{FrontdoorCriterionUp}{seedStr}
+
+\begin{closurestatus}{\FrontdoorCriterionUp}
+  \constructivestory{A $\FrontdoorCriterionUp$ packet is generated from treatment, mediator, and outcome random-variable rows; a finite intervention row; observed blocking and adjustment ledgers; componentwise $\hsame$ transport; displayed $\Cont$ replay; $\Pkg$ provenance; and local $\NameCert$ data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frontdoor-criterion-carrier}, \autoref{thm:frontdoor-criterion-namecert-obligations}, and \autoref{thm:frontdoor-criterion-causal-handoff} seed the finite front-door mediation packet over CausalIntervention, ProbSpace, RandomVar, hsame, Cont, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full do-calculus, back-door completeness, counterfactual semantics, probability-space completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mediator blocking, adjustment route, causal handoff, transport, replay, provenance, and local naming for BEDC.Derived.FrontdoorCriterionUp.}
+\end{closurestatus}
