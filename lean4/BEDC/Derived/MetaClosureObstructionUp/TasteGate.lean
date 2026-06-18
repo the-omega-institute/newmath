@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaClosureObstructionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -267,5 +277,54 @@ theorem MetaClosureObstructionTasteGate_single_carrier_alignment :
       · intro x y heq
         exact metaClosureObstructionToEventFlow_injective heq
       · rfl
+
+theorem MetaClosureObstructionCarrier_truth_branch_obligation [AskSetup] [PackageSetup]
+    {refutation schema refusal truthBranch metaLoop transport continuations provenance nameCert
+      truthRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont refutation schema refusal ->
+      Cont refusal truthBranch truthRead ->
+        Cont truthBranch metaLoop continuations ->
+          PkgSig bundle provenance pkg ->
+            PkgSig bundle nameCert pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row truthRead ∧ Cont refusal truthBranch truthRead)
+                  (fun row : BHist =>
+                    hsame row truthRead ∧ Cont refutation schema refusal ∧
+                      Cont refusal truthBranch truthRead ∧
+                        Cont truthBranch metaLoop continuations)
+                  (fun row : BHist =>
+                    hsame row truthRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle nameCert pkg)
+                  hsame ∧
+                Cont refusal truthBranch truthRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro refutationRoute truthBranchRoute continuationRoute provenancePkg nameCertPkg
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := by
+          exact ⟨truthRead, hsame_refl truthRead, truthBranchRoute⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _row' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' sameRows source
+          exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact ⟨source.left, refutationRoute, source.right, continuationRoute⟩
+      ledger_sound := by
+        intro row source
+        exact ⟨source.left, provenancePkg, nameCertPkg⟩
+    }
+  · exact truthBranchRoute
 
 end BEDC.Derived.MetaClosureObstructionUp

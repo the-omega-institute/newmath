@@ -4801,6 +4801,7 @@ import BEDC.Derived.EilenbergMooreCompletionAlgebraUp.TasteGate
 import BEDC.Derived.EkelandVariationalPrincipleUp.TasteGate
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EllipticCurveUp.TasteGate
+import BEDC.Derived.EmpiricalRegularityPersistenceUp.Nonescape
 import BEDC.Derived.EmpiricalRegularityPersistenceUp.TasteGate
 import BEDC.Derived.EmptyBoundarySelectorLedgerUp.TasteGate
 import BEDC.Derived.EmptyBoundaryStepUp
@@ -6409,6 +6410,7 @@ import BEDC.Derived.LatticeUp.OneSidedDistributiveInequality
 import BEDC.Derived.LatticeUp.OppositeAbsorption
 import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
+import BEDC.Derived.LawCertificateUp.CarrierAdmission
 import BEDC.Derived.LawCertificateUp.ClassifierStability
 import BEDC.Derived.LawCertificateUp.ContinuationScope
 import BEDC.Derived.LawCertificateUp.NameCert
