@@ -3864,6 +3864,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootVisibleModulusConsumerTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroLocalizationScope
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroLocalizationSelectorExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.RootZeroModulusCarrier
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripCarrierRow
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripExclusion
 import BEDC.Derived.CriticalLineWitnessUp.RootZeroStripHandoff
@@ -6731,6 +6732,7 @@ import BEDC.Derived.LocatedSupremumUp.StandardBridgeRoute
 import BEDC.Derived.LocatedSupremumUp.StreamNameCutScope
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.WindowTransport
+import BEDC.Derived.LocatedUniformCauchyPrincipleUp.TasteGate
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
 import BEDC.Derived.LocatedUniformContinuityUp.TasteGate
 import BEDC.Derived.LocatedUniformExtremeValueUp
