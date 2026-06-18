@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RiemannStieltjesSumUp$}
+\label{ch:concrete-instances-riemann-stieltjes-sum-namecert}
+\origin{human}
+
+Following Riemann and Stieltjes, the $\RiemannStieltjesSumUp$ packet records the finite product-sum ledger used when a displayed integrand window is read against displayed integrator differences. It sits beside the tagged finite-sum surface of \autoref{ch:concrete-instances-riemannsum-namecert}, the upper and lower Stieltjes-sum boundary of \autoref{ch:concrete-instances-darboux-stieltjes-sum-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real-facing finite integration consumers a named row for one displayed Riemann--Stieltjes sum; it does not assert an integral value, bounded-variation completeness, a refinement limit, a quotient of functions, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann--Stieltjes sum carrier]
+\label{def:riemann-stieltjes-sum-carrier}
+A $\RiemannStieltjesSumUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,F,G,L,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the tagged partition row, exposing ordered cells, endpoints, tags, and tag-containment witnesses through the finite $\RiemannSumUp$ surface.
+\item $F$ is the integrand window row, recording exactly the finitely many displayed integrand reads required at the carried tags.
+\item $G$ is the integrator-difference row, recording for each carried cell the displayed endpoint difference of the integrator between the cell endpoints.
+\item $L$ is the finite product-sum ledger, pairing each integrand read in $F$ with the matching integrator difference in $G$ and recording the carried arithmetic sum over $T$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, fixing the dyadic budget used to compare the product-sum ledger with later regulated-integral or Darboux--Stieltjes consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed finite product-sum and tolerance ledger.
+\item $E$ is the $\RealUp$ seal row, exposed only after the tagged partition, integrand window, integrator differences, product-sum ledger, dyadic budget, and regular readback are displayed.
+\item $H$ records componentwise $\hsame$ transport for the tagged partition, integrand window, integrator differences, product-sum ledger, tolerance row, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the tagged partition through
+$$
+T,F,G \longmapsto L \longmapsto D \longmapsto R \longmapsto E
+$$
+and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\RiemannStieltjesSumUp$, $\RiemannSumUp$, $\DarbouxStieltjesSumUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannStieltjesSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,F,G,L,D,R,E,H,C,P,N$. It has no coordinate for a completed integral, a limit over all refinements, bounded-variation completeness, quotient function equality, a selected tag family outside $T$, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Riemann--Stieltjes sum NameCert obligations]
+\label{thm:riemann-stieltjes-sum-namecert-obligations}
+For every accepted $\RiemannStieltjesSumUp$ carrier $S=(T,F,G,L,D,R,E,H,C,P,N)$, the local $\NameCert_{\RiemannStieltjesSumUp}$ surface consists exactly of carrier admission for the tagged partition, integrand window, integrator-difference row, finite product-sum ledger, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows. Every accepted read follows the finite route
+$$
+T,F,G \longmapsto L \longmapsto D \longmapsto R \longmapsto E
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-stieltjes-sum-carrier}. Its displayed rows are exactly the tagged partition, integrand reads, integrator differences, finite product-sum ledger, dyadic tolerance, regular readback, Real seal, and structural rows.
+
+The arithmetic route is cellwise. Each summand is admitted only when the tag comes from $T$, the value comes from $F$, and the matching integrator difference comes from $G$ on the same displayed cell.
+
+The ledger $L$ records only the finite product-sum built from those rows. The tolerance row $D$ and readback row $R$ make the numerical comparison visible before the terminal seal $E$ can be consumed.
+
+Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same route. Since no carrier coordinate names a completed integral, refinement limit, quotient function, hidden tag selector, countable-choice principle, or ambient completeness theorem, the listed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[Riemann--Stieltjes sum Real-seal nonescape]
+\label{thm:riemann-stieltjes-sum-real-seal-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\RiemannStieltjesSumUp$ packet must read the tagged partition row, integrand window, integrator-difference row, finite product-sum ledger, $\DyadicRatCoreUp$ tolerance row, and $\RegSeqRatUp$ readback row before the terminal seal is inspected. The seal exports only the displayed finite Riemann--Stieltjes sum route, not an integral value, a refinement limit, bounded-variation completeness, quotient function equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:riemann-stieltjes-sum-namecert-obligations}. It orders the visible route through $T,F,G,L,D,R,E$, with the structural rows attached afterward.
+
+The $\RealUp$ seal row $E$ is downstream from the regular readback row $R$. Thus a consumer cannot inspect the seal until the finite product-sum ledger and dyadic tolerance row have already been displayed.
+
+The sibling $\RiemannSumUp$ surface supplies the finite tagged-partition reading, and the $\DarbouxStieltjesSumUp$ surface supplies a comparison boundary for upper and lower Stieltjes rows. Neither sibling adds a completed integral coordinate to this carrier.
+
+Therefore the terminal seal is only a Real-facing seal for the displayed finite sum route. All completed integration, refinement-limit, quotient-function, choice, and ambient-completeness readings remain outside the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RiemannStieltjesSumUp$ read exposes tagged partition, integrand window, integrator-difference, finite product-sum, $\DyadicRatCoreUp$ tolerance, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows before any Real-facing consumer inspects the seal.}
+
+\independenceWitness{riemannsum, darboux-stieltjes-sum, real: $\RiemannSumUp$ supplies tagged finite-sum rows without integrator differences, $\DarbouxStieltjesSumUp$ supplies upper and lower Stieltjes comparison rows rather than one tagged product-sum ledger, and $\RealUp$ supplies only the terminal seal. None is bijective with the complete tagged partition, integrand-window, integrator-difference, finite product-sum, tolerance, readback, transport, replay, provenance, and local NameCert packet.}
+
+\closureat{RiemannStieltjesSumUp}{seedStr}
+
+\begin{closurestatus}{\RiemannStieltjesSumUp}
+  \constructivestory{A $\RiemannStieltjesSumUp$ packet is generated from a tagged partition row, integrand window, integrator differences, finite product-sum ledger, DyadicRatCore tolerance row, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-stieltjes-sum-carrier}, \autoref{thm:riemann-stieltjes-sum-namecert-obligations}, and \autoref{thm:riemann-stieltjes-sum-real-seal-nonescape} seed the finite Riemann--Stieltjes product-sum route over tagged partition, integrand-window, integrator-difference, tolerance, readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Riemann--Stieltjes integration, bounded-variation completeness, refinement limits, quotient function equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tagged partition exposure, integrand-window readback, integrator-difference exposure, finite product-sum exactness, DyadicRatCore tolerance control, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannStieltjesSumUp.}
+\end{closurestatus}
