@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\LayeredRelationCertificateUp$}
+\label{ch:concrete-instances-layered-relation-certificate-namecert}
+\origin{ai}
+
+The $\LayeredRelationCertificateUp$ packet realizes the relation-before-identity discipline of \autoref{ch:visions-layered-relation-certificate} as finite NameCert data. It sits beside the compact same-schema packet of \autoref{ch:concrete-instances-layeredrelationcert-namecert}, the gate verdict of \autoref{ch:concrete-instances-layered-relation-gate-namecert}, the open-problem ledger of \autoref{ch:concrete-instances-metacicopenproblemledger-namecert}, and the observer-history identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert}. The packet is deliberately larger than a same-schema row: it stores source, carrier, classifier, preserved, not-preserved, exactness, failure-boundary, refusal, and local naming data in one auditable surface.
+
+\begin{definition}[Layered relation certificate carrier]
+\label{def:layered-relation-certificate-carrier}
+A $\LayeredRelationCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,B,K,M,V,W,E,F,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two source-domain rows being compared.
+\item $K$ is the finite carrier ledger for the layers read from both sources.
+\item $M$ is the classifier row assigning each layer to its displayed relation role.
+\item $V$ is the preserved-structure row.
+\item $W$ is the not-preserved row.
+\item $E$ is the exactness row stating the admitted same-schema strength.
+\item $F$ is the failure-boundary row naming when the relation weakens or is rejected.
+\item $Q$ is the refusal row excluding object identity, empirical transfer, subject-substance transfer, global-frame transfer, hidden axioms, and unlisted bridge evidence.
+\item $H$ records componentwise $\hsame$ transport for all source, carrier, classifier, preservation, refusal, exactness, boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same rows.
+\item $P$ is the $\Pkg$ provenance over $\LayeredRelationCertificateUp$, $\LayeredRelationCertUp$, $\LayeredRelationGateUp$, $\MetaCICOpenProblemLedgerUp$, $\ObserverHistIdentityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LayeredRelationCertificateUp}$ row.
+\end{enumerate}
+The classifier admits a relation read only when $W$ is present with $V$, $F$ is present with $E$, and $Q$ is present with $A,B,K,M$. It has no coordinate for identity collapse or unrecorded bridge transfer.
+\end{definition}
+
+\begin{theorem}[Layered relation certificate gate obligations]
+\label{thm:layered-relation-certificate-gate-obligations}
+For every accepted $\LayeredRelationCertificateUp$ carrier $R=(A,B,K,M,V,W,E,F,Q,H,C,P,N)$, the local $\NameCert_{\LayeredRelationCertificateUp}$ surface consists exactly of finite source admission, carrier ledger admission, classifier exposure, preserved-row exposure, not-preserved-row exposure, exactness exposure, failure-boundary exposure, refusal exposure, componentwise transport, displayed replay, provenance, and local naming. A packet without the not-preserved row $W$ is rejected by the gate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:layered-relation-certificate-carrier}. The source rows $A,B$, carrier ledger $K$, and classifier row $M$ determine which relation is being read.
+
+The gate then reads preservation and refusal together. The row $V$ can be consumed only with the not-preserved row $W$, and the exactness row $E$ can be consumed only with the failure-boundary row $F$. The refusal row $Q$ blocks identity collapse and hidden bridge transfer.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. If $W$ is absent, the preserved-row read lacks its refusal boundary, so the packet is not an accepted layered relation certificate.
+\end{proof}
+
+\begin{theorem}[Layered relation certificate exactness boundary]
+\label{thm:layered-relation-certificate-exactness-boundary}
+Every downstream consumer of an accepted $\LayeredRelationCertificateUp$ packet reads same-schema exactness only through
+$$
+A,B,K,M,V,W,E,F,Q,H,C,P,N .
+$$
+The consumer may reuse the packet as relation evidence, but it may not replace either source by the other, infer preservation of a row listed in $W$, ignore the failure boundary $F$, bypass the refusal row $Q$, or treat the certificate as bridge-checked data.
+\end{theorem}
+\begin{proof}
+Start from the gate obligations. They force the consumer to read the two sources, carrier ledger, classifier, preserved row, not-preserved row, exactness row, failure boundary, and refusal row before any relation evidence is exported.
+
+The exactness row is therefore bounded by the not-preserved and failure rows. If a consumer asks for object identity, empirical transfer, subject-substance transfer, global-frame transfer, hidden axiom support, or bridge evidence, the request is routed to $Q$ rather than to $E$.
+
+The transport and replay rows preserve this boundary. Provenance and local naming record the packet as relation evidence only, so the exactness read cannot become an unlisted bridge or identity claim.
+\end{proof}
+
+\begin{theorem}[Layered relation certificate sibling independence]
+\label{thm:layered-relation-certificate-sibling-independence}
+The $\LayeredRelationCertificateUp$ carrier is not bijective, under NameCert-row preservation, to $\LayeredRelationCertUp$, $\LayeredRelationGateUp$, $\MetaCICOpenProblemLedgerUp$, or $\ObserverHistIdentityUp$. The simultaneous presence of two source rows, a carrier ledger, a classifier row, preserved and not-preserved rows, exactness, failure boundary, refusal, transport, replay, provenance, and local naming is required for this packet.
+\end{theorem}
+\begin{proof}
+The compact $\LayeredRelationCertUp$ sibling supplies same-schema relation scope, but it does not by itself store the full gate refusal and open-ledger boundary used here.
+
+The $\LayeredRelationGateUp$ sibling supplies a verdict route, while $\MetaCICOpenProblemLedgerUp$ supplies unresolved-boundary ledgers and $\ObserverHistIdentityUp$ supplies observer-history identity discipline. Each omits at least one of $A,B,K,M,V,W,E,F,Q,H,C,P,N$.
+
+Therefore no listed sibling is bijective to the packet while preserving all NameCert rows. The independence witness is the combined surface named by the carrier.
+\end{proof}
+
+\falsifiablePrediction{Any proposed $\LayeredRelationCertificateUp$ packet without a displayed not-preserved row $W$ fails the gate and must be routed to the refusal row rather than consumed as same-schema relation evidence.}
+
+\independenceWitness{layeredrelationcert, layered-relation-gate, metacicopenproblemledger, observerhistidentity: none is bijective to $\LayeredRelationCertificateUp$ because none carries the simultaneous source, carrier, classifier, preserved, not-preserved, exactness, failure-boundary, refusal, transport, replay, provenance, and local NameCert rows.}
+
+Future Lean work should provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for $\LayeredRelationCertificateUp$ inside $\mathsf{BEDC.Derived.LayeredRelationCertificateUp.TasteGate}$.
+
+\closureat{LayeredRelationCertificateUp}{seedStr}
+
+\begin{closurestatus}{\LayeredRelationCertificateUp}
+  \constructivestory{A $\LayeredRelationCertificateUp$ packet is generated from two source rows, a carrier ledger, a classifier row, preserved and not-preserved rows, exactness, failure-boundary, refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:layered-relation-certificate-carrier}, \autoref{thm:layered-relation-certificate-gate-obligations}, \autoref{thm:layered-relation-certificate-exactness-boundary}, and \autoref{thm:layered-relation-certificate-sibling-independence} seed the finite relation-certificate surface that separates same-schema evidence from identity and hidden bridge transfer.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close object identity, empirical transfer, subject-substance transfer, global-frame transfer, hidden axiom support, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, preserved and not-preserved row pairing, exactness and failure-boundary pairing, refusal, transport, replay, provenance, and local naming for BEDC.Derived.LayeredRelationCertificateUp.}
+\end{closurestatus}
