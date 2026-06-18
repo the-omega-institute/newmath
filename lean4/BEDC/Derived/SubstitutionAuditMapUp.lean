@@ -213,4 +213,76 @@ theorem SubstitutionAuditMapCarrier_public_export [AskSetup] [PackageSetup]
   }
   exact ⟨cert, publicUnary⟩
 
+theorem SubstitutionAuditMapCarrier_downstream_reader_boundary [AskSetup] [PackageSetup]
+    {term closed shift substitute composition generator transport route provenance name
+      downstreamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionAuditMapCarrier term closed shift substitute composition generator transport route
+        provenance name bundle pkg ->
+      Cont transport route downstreamRead ->
+        PkgSig bundle downstreamRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row downstreamRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row term ∨ hsame row closed ∨ hsame row shift ∨
+                  hsame row substitute ∨ hsame row composition ∨ hsame row generator ∨
+                    hsame row transport ∨ hsame row route ∨ hsame row downstreamRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle downstreamRead pkg)
+              hsame ∧ UnaryHistory downstreamRead ∧ Cont transport route downstreamRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame UnaryHistory
+  intro carrier downstreamRoute downstreamPkg
+  obtain ⟨_termUnary, _closedUnary, _shiftUnary, _substituteUnary, _compositionUnary,
+    _generatorUnary, transportUnary, routeUnary, _provenanceUnary, _nameUnary,
+    _termClosed, _shiftSubstitute, _compositionGenerator, _transportRoute, _provenanceName,
+    _nameGenerator, provenancePkg, _namePkg⟩ := carrier
+  have downstreamUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed transportUnary routeUnary downstreamRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row downstreamRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row term ∨ hsame row closed ∨ hsame row shift ∨
+              hsame row substitute ∨ hsame row composition ∨ hsame row generator ∨
+                hsame row transport ∨ hsame row route ∨ hsame row downstreamRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle downstreamRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro downstreamRead
+        ⟨hsame_refl downstreamRead, downstreamUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, downstreamPkg⟩
+  }
+  exact ⟨cert, downstreamUnary, downstreamRoute⟩
+
 end BEDC.Derived.SubstitutionAuditMapUp
