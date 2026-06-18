@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\DeterministicPushdownAutomatonUp$}
+\label{ch:concrete-instances-deterministic-pushdown-automaton-namecert}
+\origin{human}
+
+Following Hopcroft--Ullman and Sipser, the
+$\DeterministicPushdownAutomatonUp$ packet records the deterministic
+finite-control stack recognizer surface as displayed BEDC data. It refines
+the stack-recognizer carrier of
+\autoref{ch:concrete-instances-pushdown-automaton-namecert}, reads terminal
+words through the $\ListUp$ spine of \autoref{ch:concrete-instances-list-namecert},
+uses the $\NatUp$ cursor discipline of \autoref{ch:concrete-instances-nat-namecert},
+and sits beside the $\ContextFreeGrammarUp$ and $\RegularLanguageUp$ language
+interfaces of \autoref{ch:concrete-instances-contextfreegrammar-namecert} and
+\autoref{ch:concrete-instances-regularlanguage-namecert}. The packet names a
+single deterministic accepting computation; it does not import a host
+language set, an ambiguity quotient, or an infinite trace.
+
+\begin{definition}[Deterministic pushdown automaton carrier]
+\label{def:deterministic-pushdown-automaton-carrier}
+A $\DeterministicPushdownAutomatonUp$ carrier is a finite $\BHist$ packet
+$$
+D=(Q,\Sigma,\Gamma,\delta,q_0,Z_0,F,w,\rho,\sigma,e,\chi,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite control-state carrier row.
+\item $\Sigma$ is the finite input alphabet row.
+\item $\Gamma$ is the finite stack alphabet row.
+\item $\delta$ is the deterministic transition ledger. Each row reads one
+control state, either one input symbol or $\varepsilon$, and one top
+stack-symbol row, then returns one next-state row and one finite stack-word
+replacement row.
+\item $q_0$ is the start-state row inside $Q$.
+\item $Z_0$ is the initial-stack row inside $\Gamma$.
+\item $F$ is the accepting-state row inside $Q$.
+\item $w$ is the finite input word as a $\ListUp$ row over $\Sigma$.
+\item $\rho$ is the finite run ledger beginning at $(q_0,Z_0)$ and consuming
+$w$ through the displayed deterministic transition rows.
+\item $\sigma$ is the stack-history ledger whose entries are finite
+$\ListUp$ rows over $\Gamma$.
+\item $e$ is the endpoint readback for the run ledger.
+\item $\chi$ is the acceptance readback, by final state or by the displayed
+empty-stack convention named by the packet.
+\item $H$ stores componentwise $\hsame$ transports for state, input, stack,
+transition, run, stack-history, endpoint, acceptance, and classifier rows.
+\item $C$ stores the $\Cont$ replay routes for reading input symbols,
+$\varepsilon$ choices, stack-top rows, transition entries, and the finite run
+ledger.
+\item $P$ stores the $\Pkg$ provenance over $\PushdownAutomatonUp$,
+$\ContextFreeGrammarUp$, $\RegularLanguageUp$, $\ListUp$, $\NatUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ stores the local $\NameCert_{\DeterministicPushdownAutomatonUp}$
+rows.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{DeterministicPushdownAutomatonPacket}(D)$. It contains no coordinate
+for a host language set, nondeterministic branch choice, ambiguity witness,
+selected parse tree, or infinite accepting trace.
+\end{definition}
+
+\begin{theorem}[Deterministic pushdown automaton NameCert obligations]
+\label{thm:deterministic-pushdown-automaton-namecert-obligations}
+For every accepted $\DeterministicPushdownAutomatonUp$ carrier
+$$
+D=(Q,\Sigma,\Gamma,\delta,q_0,Z_0,F,w,\rho,\sigma,e,\chi,H,C,P,N),
+$$
+the local $\NameCert_{\DeterministicPushdownAutomatonUp}$ surface consists
+exactly of carrier admission, deterministic transition uniqueness for each
+state/input-or-$\varepsilon$/stack-top row, stack-row stability, run replay
+exactness, acceptance readback, componentwise $\hsame$ transport, displayed
+$\Cont$ replay, $\Pkg$ provenance, and local naming. Every consumer must read
+through the finite rows in
+\autoref{def:deterministic-pushdown-automaton-carrier}; no consumer obtains a
+host language set, a nondeterministic branch selector, a selected parse tree,
+or an infinite trace.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $D$. The rows $Q,\Sigma,\Gamma,\delta,q_0,Z_0,F$
+name the finite control, input alphabet, stack alphabet, deterministic
+transition table, start state, initial stack, and accepting states. The rows
+$w,\rho,\sigma,e,\chi$ name the inspected input, the unique run ledger, the
+stack-history ledger, the endpoint, and the acceptance readback.
+
+For transition uniqueness, fix a displayed state, either an input-symbol row
+or $\varepsilon$, and a top stack-symbol row. The ledger $\delta$ has at most
+one matching entry, and the run row $\rho$ records only that entry at the
+corresponding cursor and stack position.
+
+Stack-row stability follows by reading each step of $\rho$ together with the
+matching stack row of $\sigma$. The next stack row is obtained by popping the
+displayed top symbol and pushing the finite $\ListUp$ replacement named by
+the unique transition entry.
+
+Run replay exactness is the finite induction over the displayed word and
+$\varepsilon$-step cursor ledger. At the endpoint, $\chi$ reads only the final
+control state or the displayed empty-stack row named by the carrier.
+
+The rows $H,C,P,N$ transport, replay, source, and locally name exactly these
+coordinates. Since the carrier has no coordinate for a host language set,
+branch selector, parse-tree choice, or infinite trace, the listed obligations
+exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{DeterministicPushdownAutomatonUp}{seedStr}
+
+\begin{closurestatus}{\DeterministicPushdownAutomatonUp}
+  \constructivestory{A $\DeterministicPushdownAutomatonUp$ packet is generated from finite control rows, input alphabet rows, stack alphabet rows, a deterministic transition ledger, start and initial-stack rows, accepting rows, a finite input word, a finite run ledger, a stack-history ledger, an endpoint readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:deterministic-pushdown-automaton-carrier} and \autoref{thm:deterministic-pushdown-automaton-namecert-obligations} seed the deterministic finite stack-recognizer route over PushdownAutomatonUp, ContextFreeGrammarUp, RegularLanguageUp, ListUp, NatUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, equivalence with all context-free grammars, language-set semantics, ambiguity analysis, selected parse trees, nondeterministic branch choice, or infinite trace semantics.}
+  \upgradepath{Obligation closure requires checked carrier admission, deterministic transition uniqueness, stack-row stability, run replay exactness, acceptance readback, and ledger nonescape for BEDC.Derived.DeterministicPushdownAutomatonUp.}
+\end{closurestatus}
