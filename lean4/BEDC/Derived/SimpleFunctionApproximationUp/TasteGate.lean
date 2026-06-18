@@ -28,57 +28,65 @@ def simpleFunctionApproximationDecodeBHist : RawEvent → BHist
 
 private theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      simpleFunctionApproximationDecodeBHist (simpleFunctionApproximationEncodeBHist h) =
-        h := by
+      simpleFunctionApproximationDecodeBHist
+        (simpleFunctionApproximationEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
-def simpleFunctionApproximationToEventFlow : SimpleFunctionApproximationUp → EventFlow
+def simpleFunctionApproximationFields :
+    SimpleFunctionApproximationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | SimpleFunctionApproximationUp.mk M F R E T O H C P N =>
-      [simpleFunctionApproximationEncodeBHist M,
-        simpleFunctionApproximationEncodeBHist F,
-        simpleFunctionApproximationEncodeBHist R,
-        simpleFunctionApproximationEncodeBHist E,
-        simpleFunctionApproximationEncodeBHist T,
-        simpleFunctionApproximationEncodeBHist O,
-        simpleFunctionApproximationEncodeBHist H,
-        simpleFunctionApproximationEncodeBHist C,
-        simpleFunctionApproximationEncodeBHist P,
-        simpleFunctionApproximationEncodeBHist N]
+  | SimpleFunctionApproximationUp.mk M F R E T O H C P N => [M, F, R, E, T, O, H, C, P, N]
 
-def simpleFunctionApproximationFromEventFlow :
-    EventFlow → Option SimpleFunctionApproximationUp
+def simpleFunctionApproximationToEventFlow :
+    SimpleFunctionApproximationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | M :: F :: R :: E :: T :: O :: H :: C :: P :: N :: [] =>
-      some
-        (SimpleFunctionApproximationUp.mk
-          (simpleFunctionApproximationDecodeBHist M)
-          (simpleFunctionApproximationDecodeBHist F)
-          (simpleFunctionApproximationDecodeBHist R)
-          (simpleFunctionApproximationDecodeBHist E)
-          (simpleFunctionApproximationDecodeBHist T)
-          (simpleFunctionApproximationDecodeBHist O)
-          (simpleFunctionApproximationDecodeBHist H)
-          (simpleFunctionApproximationDecodeBHist C)
-          (simpleFunctionApproximationDecodeBHist P)
-          (simpleFunctionApproximationDecodeBHist N))
-  | _ => none
+  | x => (simpleFunctionApproximationFields x).map simpleFunctionApproximationEncodeBHist
 
-private theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : SimpleFunctionApproximationUp,
-      simpleFunctionApproximationFromEventFlow
-          (simpleFunctionApproximationToEventFlow x) =
-        some x := by
+private def SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt index rest
+
+def simpleFunctionApproximationFromEventFlow
+    (ef : EventFlow) : Option SimpleFunctionApproximationUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (SimpleFunctionApproximationUp.mk
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 0 ef))
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 1 ef))
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 2 ef))
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 3 ef))
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 4 ef))
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 5 ef))
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 6 ef))
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 7 ef))
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 8 ef))
+      (simpleFunctionApproximationDecodeBHist
+        (SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt 9 ef)))
+
+private theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment_round_trip
+    (x : SimpleFunctionApproximationUp) :
+    simpleFunctionApproximationFromEventFlow
+      (simpleFunctionApproximationToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk M F R E T O H C P N =>
       change
@@ -116,11 +124,10 @@ private theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment_ro
         SimpleFunctionApproximationTasteGate_single_carrier_alignment_decode P,
         SimpleFunctionApproximationTasteGate_single_carrier_alignment_decode N]
 
-private theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment_injective
     {x y : SimpleFunctionApproximationUp} :
     simpleFunctionApproximationToEventFlow x =
-        simpleFunctionApproximationToEventFlow y →
-      x = y := by
+      simpleFunctionApproximationToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -154,24 +161,25 @@ instance simpleFunctionApproximationChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (SimpleFunctionApproximationTasteGate_single_carrier_alignment_toEventFlow_injective
-        heq)
+      (SimpleFunctionApproximationTasteGate_single_carrier_alignment_injective heq)
 
 theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       simpleFunctionApproximationDecodeBHist
-            (simpleFunctionApproximationEncodeBHist h) =
-          h) ∧
+        (simpleFunctionApproximationEncodeBHist h) = h) ∧
       simpleFunctionApproximationToEventFlow
           (SimpleFunctionApproximationUp.mk
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
         ([[], [], [], [], [], [], [], [], [], []] : EventFlow) ∧
+      Nonempty (BHistCarrier SimpleFunctionApproximationUp) ∧
+        Nonempty (ChapterTasteGate SimpleFunctionApproximationUp) ∧
           simpleFunctionApproximationEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨SimpleFunctionApproximationTasteGate_single_carrier_alignment_decode,
-      rfl,
-      rfl⟩
+      ⟨rfl,
+        ⟨⟨simpleFunctionApproximationBHistCarrier⟩,
+          ⟨⟨simpleFunctionApproximationChapterTasteGate⟩, rfl⟩⟩⟩⟩
 
 end BEDC.Derived.SimpleFunctionApproximationUp
