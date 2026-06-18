@@ -133,4 +133,12 @@ theorem MetricCompletionFiniteTasteGate_single_carrier_alignment :
       ⟨metricCompletionFiniteBHistCarrier⟩,
       ⟨metricCompletionFiniteChapterTasteGate⟩⟩
 
+theorem MetricCompletionFiniteNameCertObligations (M B W E R S H C P N : BHist) :
+    metricCompletionFiniteFields (MetricCompletionFiniteUp.mk M B W E R S H C P N) =
+        [M, B, W, E, R, S, H, C, P, N] ∧
+      metricCompletionFiniteEncodeBHist BHist.Empty = ([] : List BMark) ∧
+        metricCompletionFiniteDecodeBHist (metricCompletionFiniteEncodeBHist M) = M := by
+  -- BEDC touchpoint anchor: BHist BMark NameCert
+  exact ⟨rfl, rfl, metricCompletionFiniteDecodeEncode M⟩
+
 end BEDC.Derived.MetricCompletionFiniteUp
