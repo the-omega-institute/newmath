@@ -2373,6 +2373,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.StreamnameRegseqFactorization
 import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.TerminalObserverExactness
 import BEDC.Derived.CauchyWitnessPullbackUp.TasteGate
+import BEDC.Derived.Cauchy_completion_monad_lawUp
 import BEDC.Derived.CauchyfiltercompletionUp
 import BEDC.Derived.CauchyfiltercompletionUp.BasisLedgerRoute
 import BEDC.Derived.CauchyfiltercompletionUp.BasisRealSeal
@@ -9873,6 +9874,7 @@ import BEDC.Derived.SequentialCompactUp.StandardBridgeScope
 import BEDC.Derived.SequentialCompactUp.StreamNameSubsequenceRoute
 import BEDC.Derived.SequentialCompactUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.WindowExtractionScope
+import BEDC.Derived.SequentialCompactnessModulusUp
 import BEDC.Derived.SequentialCompactnessUp.BolzanoWeierstrassWindow
 import BEDC.Derived.SequentialCompactnessUp.CompactMetricRoute
 import BEDC.Derived.SequentialCompactnessUp.NameCertObligations
