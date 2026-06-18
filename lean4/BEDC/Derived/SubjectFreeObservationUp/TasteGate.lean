@@ -212,4 +212,58 @@ theorem SubjectFreeObservationTasteGate_single_carrier_alignment :
         exact subjectFreeObservationToEventFlow_injective heq
       · rfl
 
+theorem SubjectFreeObservationCarrier_no_subject_parameter :
+    (∀ (ef : EventFlow) (x : SubjectFreeObservationUp),
+      subjectFreeObservationFromEventFlow ef = some x →
+        subjectFreeObservationFromEventFlow
+          (List.append ef ([[BMark.b0]] : EventFlow)) = none) ∧
+      (∀ O H K D L C P N extra : BHist,
+        subjectFreeObservationFromEventFlow
+          (List.append
+            (subjectFreeObservationToEventFlow
+              (SubjectFreeObservationUp.mk O H K D L C P N))
+            [subjectFreeObservationEncodeBHist extra]) = none) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro ef x hread
+    cases ef with
+    | nil =>
+        cases hread
+    | cons O rest0 =>
+        cases rest0 with
+        | nil =>
+            cases hread
+        | cons H rest1 =>
+            cases rest1 with
+            | nil =>
+                cases hread
+            | cons K rest2 =>
+                cases rest2 with
+                | nil =>
+                    cases hread
+                | cons D rest3 =>
+                    cases rest3 with
+                    | nil =>
+                        cases hread
+                    | cons L rest4 =>
+                        cases rest4 with
+                        | nil =>
+                            cases hread
+                        | cons C rest5 =>
+                            cases rest5 with
+                            | nil =>
+                                cases hread
+                            | cons P rest6 =>
+                                cases rest6 with
+                                | nil =>
+                                    cases hread
+                                | cons N rest7 =>
+                                    cases rest7 with
+                                    | nil =>
+                                        rfl
+                                    | cons extra rest8 =>
+                                        cases hread
+  · intro O H K D L C P N extra
+    rfl
+
 end BEDC.Derived.SubjectFreeObservationUp

@@ -317,23 +317,118 @@ theorem CrossHistCausalRouteTasteGate_single_carrier_alignment :
         exact crossHistCausalRouteToEventFlow_injective heq
       · rfl
 
-theorem CrossHistCausalRouteMaximumRateGate
-    (A B D M S G T H C P N : BHist) :
-    crossHistCausalRouteFields
-        (CrossHistCausalRouteUp.mk A B D M S G T H C P N) =
-      [A, B, D, M, S, G, T, H, C, P, N] ∧
-      crossHistCausalRouteFromEventFlow
-          (crossHistCausalRouteToEventFlow
-            (CrossHistCausalRouteUp.mk A B D M S G T H C P N)) =
-        some (CrossHistCausalRouteUp.mk A B D M S G T H C P N) ∧
-        crossHistCausalRouteEncodeBHist BHist.Empty = ([] : RawEvent) := by
+theorem CrossHistCausalRouteCarrier_maximum_rate_gate :
+    (∀ (ef : EventFlow) (x : CrossHistCausalRouteUp),
+      crossHistCausalRouteFromEventFlow ef = some x →
+        crossHistCausalRouteFromEventFlow
+          (List.append ef ([[BMark.b0]] : EventFlow)) = none) ∧
+      (∀ observerA observerB causalRoute maxRate observerSource observerGate continuation
+          transport accessRoutes provenance localName extra : BHist,
+        crossHistCausalRouteFromEventFlow
+          (List.append
+            (crossHistCausalRouteToEventFlow
+              (CrossHistCausalRouteUp.mk observerA observerB causalRoute maxRate
+                observerSource observerGate continuation transport accessRoutes provenance
+                localName))
+            [crossHistCausalRouteEncodeBHist extra]) = none) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · rfl
-  constructor
-  · exact
-      crossHistCausalRoute_round_trip
-        (CrossHistCausalRouteUp.mk A B D M S G T H C P N)
-  · rfl
+  · intro ef x hread
+    cases ef with
+    | nil =>
+        cases hread
+    | cons tag0 rest0 =>
+        cases rest0 with
+        | nil =>
+            cases hread
+        | cons observerA rest1 =>
+            cases rest1 with
+            | nil =>
+                cases hread
+            | cons tag1 rest2 =>
+                cases rest2 with
+                | nil =>
+                    cases hread
+                | cons observerB rest3 =>
+                    cases rest3 with
+                    | nil =>
+                        cases hread
+                    | cons tag2 rest4 =>
+                        cases rest4 with
+                        | nil =>
+                            cases hread
+                        | cons causalRoute rest5 =>
+                            cases rest5 with
+                            | nil =>
+                                cases hread
+                            | cons tag3 rest6 =>
+                                cases rest6 with
+                                | nil =>
+                                    cases hread
+                                | cons maxRate rest7 =>
+                                    cases rest7 with
+                                    | nil =>
+                                        cases hread
+                                    | cons tag4 rest8 =>
+                                        cases rest8 with
+                                        | nil =>
+                                            cases hread
+                                        | cons observerSource rest9 =>
+                                            cases rest9 with
+                                            | nil =>
+                                                cases hread
+                                            | cons tag5 rest10 =>
+                                                cases rest10 with
+                                                | nil =>
+                                                    cases hread
+                                                | cons observerGate rest11 =>
+                                                    cases rest11 with
+                                                    | nil =>
+                                                        cases hread
+                                                    | cons tag6 rest12 =>
+                                                        cases rest12 with
+                                                        | nil =>
+                                                            cases hread
+                                                        | cons continuation rest13 =>
+                                                            cases rest13 with
+                                                            | nil =>
+                                                                cases hread
+                                                            | cons tag7 rest14 =>
+                                                                cases rest14 with
+                                                                | nil =>
+                                                                    cases hread
+                                                                | cons transport rest15 =>
+                                                                    cases rest15 with
+                                                                    | nil =>
+                                                                        cases hread
+                                                                    | cons tag8 rest16 =>
+                                                                        cases rest16 with
+                                                                        | nil =>
+                                                                            cases hread
+                                                                        | cons accessRoutes rest17 =>
+                                                                            cases rest17 with
+                                                                            | nil =>
+                                                                                cases hread
+                                                                            | cons tag9 rest18 =>
+                                                                                cases rest18 with
+                                                                                | nil =>
+                                                                                    cases hread
+                                                                                | cons provenance rest19 =>
+                                                                                    cases rest19 with
+                                                                                    | nil =>
+                                                                                        cases hread
+                                                                                    | cons tag10 rest20 =>
+                                                                                        cases rest20 with
+                                                                                        | nil =>
+                                                                                            cases hread
+                                                                                        | cons localName rest21 =>
+                                                                                            cases rest21 with
+                                                                                            | nil =>
+                                                                                                rfl
+                                                                                            | cons extra rest22 =>
+                                                                                                cases hread
+  · intro observerA observerB causalRoute maxRate observerSource observerGate continuation
+      transport accessRoutes provenance localName extra
+    rfl
 
 end BEDC.Derived.CrossHistCausalRouteUp
