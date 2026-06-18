@@ -138,6 +138,30 @@ The structural rows are unchanged. Componentwise transport $H$, displayed replay
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyNetCompletionUp.CauchyNetCompletionDirectedWindowCofinalRestriction}
 
+\begin{theorem}[CauchyNetCompletion directed-window refinement functoriality]
+\label{thm:cauchy-net-completion-directed-window-refinement-functoriality}
+Let $K=(D,W,Q,M,U,S,R,A,H,C,P,N)$ be an accepted $\CauchyNetCompletionUp$ carrier. Suppose a first displayed cofinal restriction replaces $D,W$ by $D_{\mathrm{cof}},W_{\mathrm{cof}}$, and a second displayed cofinal restriction replaces those rows by
+$$
+D_{\mathrm{ref}},W_{\mathrm{ref}} .
+$$
+If each restricted window retains the common-upper witnesses needed for the same completion-boundary request $Q$, then the composite restricted route preserves the same CauchyNetCompletion surface:
+$$
+D,W,Q,M,U,S,R,A,H,C,P,N
+\quad\leadsto\quad
+D_{\mathrm{ref}},W_{\mathrm{ref}},Q,M,U,S,R,A,H,C,P,N .
+$$
+The composite route exports no selected limit, quotient net, countable-choice schedule, host equality of completion points, ambient completion object, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with directed-window terminality, \autoref{thm:cauchy-net-completion-directed-window-terminality}. It makes the displayed directed-window rows the source of every completion-facing read, so the first cofinal restriction can replace $D,W$ only by another displayed terminal source row for the same request.
+
+Apply cofinal restriction, \autoref{thm:cauchy-net-completion-directed-window-cofinal-restriction}, to the first restriction and then to the second. The retained common-upper witnesses keep the completion-boundary request $Q$ and the handoff rows $M,U,S,R,A,H,C,P,N$ on the same route.
+
+Use the Moore--Smith handoff theorem to read the composite as one completion-facing package. The sibling Moore--Smith, metric, uniform, separated, regular-rational, and Real rows are not recomputed; they are transported and replayed through the final restricted window.
+
+The carrier has no coordinate for selected limits, quotient nets, countable choice, host equality, ambient completion, or $\RealUp$ completeness. Thus composing two displayed cofinal restrictions is functorial only for the visible directed-window route, and it cannot export any excluded completion principle.
+\end{proof}
+
 \begin{theorem}[CauchyNetCompletion separated-comparison exhaustion]
 \label{thm:cauchy-net-completion-separated-comparison-exhaustion}
 For an accepted $\CauchyNetCompletionUp$ carrier $K=(D,W,Q,M,U,S,R,A,H,C,P,N)$, every comparison between two displayed completion-boundary reads is exhausted by the separated row $S$. The comparison may use $H,C,P,N$ to preserve, replay, source, and name the row, but it exports no quotient-net equality, host equality, ambient completion equality, selected limit, countable-choice schedule, or $\RealUp$ completeness principle.
@@ -229,6 +253,27 @@ Use the Moore--Smith handoff and choice-free limit boundary. These theorems forc
 Apply directed-window terminality, cofinal restriction, root eventual stability, and root seal nonescape. They make the directed-window source reusable under retained windows and cofinal restriction while keeping the terminal Real seal behind the displayed completion route.
 
 Thus the named rows assemble a public handoff surface: a downstream consumer can cite the package as completion-facing data, but cannot replace it by selected limits, quotient nets, or an ambient Real-completeness principle.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyNetCompletionUp.CauchyNetCompletionPublicHandoff}
+
+\begin{theorem}[CauchyNetCompletion regular-sequence public bridge]
+\label{thm:cauchy-net-completion-regular-sequence-public-bridge}
+Suppose an accepted $\CauchyNetCompletionUp$ carrier $K=(D,W,Q,M,U,S,R,A,H,C,P,N)$ factors its directed Cauchy-net packet through a cofinal unary $\StreamNameUp$ schedule. If the reads along that schedule satisfy the $\RegSeqRatUp$ regularity predicate and the separated comparison exhausted by $S$ is the displayed $\RealUp$ seal $A$, then the $\CauchyNetCompletionUp$ public handoff exports only the same regular-sequence completion data
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ S,\ A,\ H,\ C,\ P,\ N .
+$$
+It exports no additional directed-net limit, quotient net, selected representative, countable-choice schedule, host equality of completed points, ambient completion object, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the public handoff theorem. The public surface is the displayed route through $D,W,Q,M,U,S,R,A,H,C,P,N$, with no selected limit, quotient net, countable choice, host equality, ambient completion, or Real-completeness row.
+
+Use directed-window terminality and cofinal restriction. The cofinal unary $\StreamNameUp$ schedule may replace the displayed directed-window source only as a retained terminal source for the same completion-boundary request $Q$; it does not add a new limit coordinate.
+
+Read the regularity assumption through the existing readback row $R$. Since the schedule reads satisfy the $\RegSeqRatUp$ regularity predicate, the numerical exit of the restricted route is the regular-sequence readback already named by $R$.
+
+Apply separated-comparison exhaustion. The row $S$ exhausts comparisons between displayed boundary reads, and by hypothesis its separated comparison is precisely the displayed $\RealUp$ seal $A$.
+
+Finally use uniform-handoff nonescape and the Moore--Smith handoff. They keep every completion consumer on the same displayed route, so the public packet can export only the regular-sequence completion data carried by $\StreamNameUp$, $\RegSeqRatUp$, $S,A,H,C,P,N$ and none of the excluded completion principles.
 \end{proof}
 
 \closureat{CauchyNetCompletionUp}{obligationStr}

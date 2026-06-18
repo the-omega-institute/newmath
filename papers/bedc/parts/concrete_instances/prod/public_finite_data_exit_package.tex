@@ -112,6 +112,41 @@ Thus all public consumer reads are exhausted by the rows of
 through that package.
 \end{proof}
 
+\begin{theorem}[Prod finite-data sibling route]
+\label{thm:prod-public-finite-data-exit-sibling-route}
+Every public finite-data consumer that spans $\ProdUp$, $\SumUp$, and
+$\ListUp$ must read the product component through the displayed-pair ledger of
+\autoref{thm:prod-public-finite-data-exit-package}. The same consumer must
+separately respect the tagged-envelope route of
+\autoref{ch:concrete-instances-sum-namecert} and the spine route of
+\autoref{ch:concrete-instances-list-namecert}. Thus the three constructor
+surfaces remain sibling finite-data envelopes: product reads expose pair
+display and componentwise classification, sum reads expose visible tags and
+branch classification, and list reads expose spine display and prefix
+classification.
+
+Consequently no such consumer may collapse the product, sum, and list
+envelopes into host tuple equality, host list equality, a common untagged
+carrier, or a generic finite-data quotient.
+\end{theorem}
+\begin{proof}
+Project the product package rows. By
+\autoref{thm:prod-public-finite-data-exit-package}, a public product read sees
+the source certificate rows, componentwise classifier certificate,
+displayed-pair ledger endpoints, descent to the product history envelope,
+$\hsame$ transport, $\Cont$ replay, and $\mathsf{Pkg}$ provenance.
+
+Now read the sibling constructor routes. The sum chapter supplies a visible
+tagged-envelope route, while the list chapter supplies a spine route; these
+routes carry tag and spine ledger rows that are not product displayed-pair
+rows.
+
+The consumer therefore has three distinct finite-data boundaries available at
+once. Since pair display, tag display, and spine display are different ledger
+coordinates, replacing them by host tuple/list equality or by a common quotient
+would erase the route by which each constructor was admitted.
+\end{proof}
+
 \begin{theorem}[Finite-data product, sum, and list envelope separation]
 \label{thm:finite-data-product-sum-list-envelope-separation}
 Any public finite-data consumer spanning $\ProdUp$, $\SumUp$, and $\ListUp$

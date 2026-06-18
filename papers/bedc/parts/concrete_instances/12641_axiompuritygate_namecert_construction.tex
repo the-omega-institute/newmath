@@ -84,6 +84,43 @@ Finally apply $H,C,P,N$. These rows preserve stability, continuation replay, pac
 \end{proof}
 \leanchecked{BEDC.Derived.AxiomPurityGateUp.AxiomPurityGateWitnessPreservingConsumer}
 
+\begin{theorem}[AxiomPurityGate bridged handoff]
+\label{thm:axiom-purity-gate-bridged-handoff}
+The public $\AxiomPurityGateUp$ surface has a bridge-facing handoff whose
+visible rows are the theorem target $T$, dependency report $D$,
+forbidden-dependency refusals $F$, replay route $R$, constructive replacement
+route $L$, transport row $S$, stability row $H$, continuation row $C$,
+provenance row $P$, and local naming row $N$. The handoff packages the
+forbidden-dependency refusal rows of
+\autoref{thm:axiom-purity-gate-nonescape}, the witness-preserving consumer of
+\autoref{thm:axiom-purity-gate-witness-preserving-consumer}, and the
+TasteGate carrier alignment recorded at
+\autoref{def:axiom-purity-gate-carrier}.
+
+Consequently any bridge-facing consumer must preserve the displayed refusal
+boundary: accepted theorem reads may replay the finite dependency report and
+constructive replacement route, while rejected reads remain blocked by $F$.
+The handoff does not assert Lean bridge checking, global axiom-purity for every
+BEDC theorem, a selector for witnesses, a quotient of dependency reports,
+proposition-equality transport, or meta closure.
+\end{theorem}
+\begin{proof}
+First read the carrier and TasteGate row. The accepted packet has exactly the
+displayed coordinates $T,D,F,R,L,S,H,C,P,N$, and the carrier alignment binds
+the local gate to those coordinates rather than to an external audit oracle.
+
+Next apply \autoref{thm:axiom-purity-gate-nonescape}. The forbidden-dependency
+refusal row $F$ is part of carrier admission, so a bridge-facing read cannot
+erase a refusal for $\mathsf{Classical.choice}$, quotient soundness, or
+propositional extensionality.
+
+Finally apply \autoref{thm:axiom-purity-gate-witness-preserving-consumer}.
+The downstream consumer must read report, refusal, replay, replacement,
+transport, stability, continuation, provenance, and naming rows through the
+same packet. This repackages the public surface for bridge-facing use without
+adding a Lean bridge theorem or any of the excluded escape routes.
+\end{proof}
+
 \falsifiablePrediction{A packet missing any forbidden-dependency refusal row cannot be accepted as an AxiomPurityGateUp carrier.}
 
 \independenceWitness{MetaClosureObstruction, UnwitnessedExistenceClosure, ChoiceRecipeLedger, QuotientSoundnessBoundary, PropextTransportBoundary: the axiom-purity gate packet contains a theorem-target row, dependency-report row, forbidden-dependency refusal row, replay row, replacement row, transport row, provenance row, and local NameCert row. MetaClosureObstruction carries forbidden-schema refusal without dependency-report replay; UnwitnessedExistenceClosure carries the positive-content closure family without a gate-local theorem target; ChoiceRecipeLedger records term-stratum recipe refusal without quotient or propext dependency rows; QuotientSoundnessBoundary isolates quotient soundness without choice and propext refusal as one audit packet; PropextTransportBoundary isolates proposition transport without a theorem-target dependency report. Hence none is bijective to $\AxiomPurityGateUp$ while preserving all displayed NameCert rows.}
@@ -92,14 +129,15 @@ The future Lean target \texttt{BEDC.Derived.AxiomPurityGateUp} must place the $\
 
 \closureat{AxiomPurityGateUp}{scopedStr}
 \closureat{AxiomPurityGateUp}{publicStr}[BEDC.Derived.AxiomPurityGateUp.AxiomPurityGateWitnessPreservingConsumer]
+\closureat{AxiomPurityGateUp}{bridgedStr}[BEDC.Derived.AxiomPurityGateUp.AxiomPurityGateWitnessPreservingConsumer]
 
 \begin{closurestatus}{\AxiomPurityGateUp}
   \constructivestory{An $\AxiomPurityGateUp$ packet is generated from a theorem target, finite dependency report, forbidden-dependency refusals, replay route, replacement route, transport row, componentwise $\hsame$ stability, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:axiom-purity-gate-carrier}, \autoref{thm:axiom-purity-gate-namecert-obligations}, \autoref{thm:axiom-purity-gate-nonescape}, and the witness-preserving consumer of \autoref{thm:axiom-purity-gate-witness-preserving-consumer} bind the public-facing scope to the forbidden-dependency refusal rows $T,D,F,R,L,S,H,C,P,N$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:axiom-purity-gate-carrier}, \autoref{thm:axiom-purity-gate-namecert-obligations}, \autoref{thm:axiom-purity-gate-nonescape}, the witness-preserving consumer of \autoref{thm:axiom-purity-gate-witness-preserving-consumer}, and the bridge-facing handoff of \autoref{thm:axiom-purity-gate-bridged-handoff} bind the public-facing and bridge-facing scope to the forbidden-dependency refusal rows $T,D,F,R,L,S,H,C,P,N$.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not prove a Lean implementation, a standard bridge, global axiom-purity for every BEDC theorem, or a replacement proof for any particular refused dependency.}
-  \upgradepath{Scoped closure requires the displayed forbidden-dependency refusal rows and checked TasteGate carrier fields to be bound as the chapter's consumer-facing scope.}
+  \upgradepath{Mature closure requires a consumer-facing completeness and examples package plus Lean-side axiom-purity and bridge checking for the displayed refusal handoff.}
 \end{closurestatus}
