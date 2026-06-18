@@ -6,6 +6,8 @@ The $\ContinuationMonadUp$ packet packages the continuation-as-small-step readin
 
 The packet consumes the authorized generator-boundary discipline of \autoref{ch:concrete-instances-generatorclosure-namecert} and the continuation hom-carrier surface of \autoref{ch:concrete-instances-category-namecert}. Generator closure supplies the refusal of unlisted continuation rules, while $\CategoryUp$ supplies the $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ reading used in the ledger row.
 
+The dependency route is explicit: $\ContinuationMonadUp$ reads \autoref{ch:concrete-instances-generatorclosure-namecert} for the refusal of unlisted continuation generators and \autoref{ch:concrete-instances-category-namecert} for the hom-carrier reading. Downstream unit and bind consumers must cite both sibling routes before treating the continuation packet as a monad surface.
+
 \begin{definition}[ContinuationMonad NameCert source]
 \label{def:continuation-monad-namecert-source}
 A $\ContinuationMonadUp$ source is a finite $\BHist$ packet

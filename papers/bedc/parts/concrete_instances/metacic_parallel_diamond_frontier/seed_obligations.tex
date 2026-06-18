@@ -65,3 +65,21 @@ Apply \autoref{thm:metacic-parallel-diamond-frontier-seed-obligations}. That obl
 
 Use \autoref{thm:metacic-parallel-diamond-frontier-retained-obstruction-obligation} for the retained boundary. The rows $P$ and $O$ remain visible as load-bearing premises, so the handoff cannot be read as residual-substitution discharge, full Church--Rosser, subject reduction, evaluator equality, or kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond critical-pair join]
+\label{thm:metacic-parallel-diamond-frontier-critical-pair-join}
+Every accepted finite critical-pair envelope for $\MetaCICParallelDiamondFrontierUp$ whose residual rows pass the candidate diamond budget admits a displayed join route through the finite surface
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The route reads residual substitution from $P$, residual-row visibility from $K$ and $R$, candidate-normalization from $J$, checker and bounded-budget rows from $S,C,B$, the retained obstruction from $O$, and then transport, replay, provenance, and local naming from $H,T,G,N$. The conclusion is a candidate-mediated local join for that displayed envelope, not a global confluence assumption, subject-reduction theorem, evaluator equality, quotient term equality, or kernel-consistency claim.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:metacic-parallel-diamond-frontier-carrier}. The finite critical-pair envelope is visible only through $P,K,J,R,S,C,B,O,H,T,G,N$, so the candidate diamond budget is read as a condition on the displayed residual rows, not as a global confluence premise.
+
+Split by the displayed residual envelope. In the cases where the residual rows fail the candidate budget, the theorem has no accepted join route to export. In the cases where the budget passes, the critical-pair row $K$ and residual-frontier row $R$ expose the two residual branches, while $P$ keeps the residual-substitution premise visible.
+
+Read the candidate-normalization and checker rows next. The candidate-join row $J$ supplies the named local join proposal, and the rows $S,C,B$ verify that the proposal stays inside the closed checker, closed-normal, and bounded-budget surface.
+
+Finally apply the obstruction and structural rows. The retained obstruction $O$ prevents the local join from being reread as Church--Rosser, subject reduction, evaluator equality, quotient equality, or kernel consistency, while $H,T,G,N$ transport, replay, source, and name the same finite route. Thus the accepted envelope admits a displayed local join exactly through the candidate-mediated surface.
+\end{proof}

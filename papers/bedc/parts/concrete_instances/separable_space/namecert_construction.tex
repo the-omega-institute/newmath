@@ -111,6 +111,37 @@ schedule rows, but the carrier contains no coordinate for selected dense
 points, quotient equality, host enumeration, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Separable-space finite dense-schedule induction]
+\label{thm:separable-space-finite-dense-schedule-induction}
+Let $Q=(M,S,R,D,W,H,C,P,N)$ be an accepted $\SeparableSpaceUp$ carrier. Any
+finite list of dense-readback requests over $Q$ is discharged by induction
+through the same $\StreamNameUp$ schedule row $S$, $\RegSeqRatUp$ row $R$,
+observation ledger $W$, density ledger $D$, and common $\MetricSpaceUp$ row
+$M$. The induction exports only the displayed finite schedule route and no
+selected dense point, host enumeration, quotient equality, or countable-choice
+selector.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite list of dense-readback requests.
+
+For the empty list, no dense point is selected and no host enumeration is
+opened. The carrier projection of \autoref{def:separable-space-carrier} leaves
+only the common rows $M,S,R,D,W,H,C,P,N$, so the empty schedule is discharged
+by the displayed packet itself.
+
+For a cons list, apply
+\autoref{thm:separable-space-streamname-dense-readback} to the head request.
+The head is routed through $S,R,W,D$ over the fixed metric row $M$, and any
+Real-facing read remains behind the already displayed regular rational
+observations.
+
+Apply the induction hypothesis to the tail list using the same accepted carrier.
+Componentwise transport through $H$ and replay through $C$ keep every tail
+request on the same $S,R,W,D,M$ route. Since no step introduces a selected
+dense point, host enumeration, quotient equality, or countable-choice selector,
+the whole finite list is discharged inside the finite dense-schedule packet.
+\end{proof}
+
 \begin{theorem}[Separable-space RealSeparability forward route]
 \label{thm:separable-space-real-separability-forward-route}
 Any $\RealSeparabilityUp$ consumer reading a $\SeparableSpaceUp$ dense schedule must factor the read through the $\MetricSpaceUp$ row $M$, the $\StreamNameUp$ row $S$, the $\RegSeqRatUp$ row $R$, the terminal $\RealUp$ seal displayed by $R,W$, and the countable-density ledger $D$ before the $\RealSeparabilityUp$ row of \autoref{ch:concrete-instances-real-separability-namecert} is consumed. The route exports a finite dense-readback dependency, not a selected dense point, quotient point equality, host enumeration, countable-choice selector, or ambient completeness principle.

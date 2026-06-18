@@ -4,6 +4,8 @@
 
 Following Mac Lane's monad-law ledger and Bishop--Bridges constructive completion, the $\CauchyCompletionMonadLawUp$ packet records the finite BEDC rows by which the Cauchy-completion transformer exposes its unit and associativity laws. It reads the completion monad of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the unit route of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the bind ledger of \autoref{ch:concrete-instances-cauchy-completion-bind-namecert}, the idempotence packet of \autoref{ch:concrete-instances-completion-idempotence-namecert}, and the real-and-completion readbacks of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The unit and multiplication law rows consume the functorial completion surface of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert} and the universal-property witness of \autoref{ch:concrete-instances-completionuniversalproperty-namecert} before associativity is read as law data. The chapter names a law surface for finite completion packets only; it does not assert quotient completion equality, selected limits, host equality of completed objects, countable choice, or ambient completeness of $\RealUp$.
 
+As a dependency relation, the monad-law packet consumes the CauchyCompletionAssociativity route in \autoref{ch:concrete-instances-cauchy-completion-associativity-namecert} and the regular completion route in \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert} before exporting unit and bind compatibility.
+
 \begin{definition}[CauchyCompletionMonadLaw carrier]
 \label{def:cauchy-completion-monad-law-carrier}
 A $\CauchyCompletionMonadLawUp$ carrier is a finite $\BHist$ packet
@@ -26,6 +28,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through these displayed rows and never through quotient completions, selected representatives, host equality, or an ambient limit object.
 \end{definition}
+\leandef{BEDC.Derived.Cauchy\_completion\_monad\_lawUp.CauchyCompletionMonadLawCarrier}
 
 \begin{theorem}[CauchyCompletionMonadLaw NameCert obligations]
 \label{thm:cauchy-completion-monad-law-namecert-obligations}
@@ -40,6 +43,8 @@ For every accepted $\CauchyCompletionMonadLawUp$ carrier $L=(M,U,I,B,S,D,R,H,C,P
 \end{enumerate}
 No monad-law obligation is stored outside this finite carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionMonadLawUp.CauchyCompletionMonadLawCarrier\_namecert\_obligations}
+\leanvariant{BEDC.Derived.Cauchy\_completion\_monad\_lawUp.CauchyCompletionMonadLawNamecertObligations}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-completion-monad-law-carrier}. Carrier admission and classifier transport are exactly the displayed rows $M,U,I,B,S,D,R,H,C,P,N$.
 
@@ -76,6 +81,22 @@ Apply the NameCert obligations of \autoref{thm:cauchy-completion-monad-law-namec
 The completion-reflection route supplies the required sibling boundary before those law rows are exported. The completion functor gives the functorial completion surface, the universal-property chapter gives the reflection witness, and the metric-completion chapter gives the completion admission surface consumed by both.
 
 Apply \autoref{thm:cauchy-completion-monad-law-unit-associativity-boundary}. It rules out quotient completion, selected limits, host equality, hidden representatives, and ambient completeness as alternate witnesses, so the completion-reflection route remains a dependency theorem about finite rows only.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonadLaw L10 forward consumer]
+\label{thm:cauchy-completion-monad-law-l10-forward-consumer}
+Any $\BoundedCauchyIntervalUp$, $\RegularCauchyKleisliExtensionUp$, or $\CauchyCompletionIntersectionUp$ consumer of the $\CauchyCompletionMonadLawUp$ packet must read the functorial completion, unit, bind, idempotence, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows before using unit or associativity law data. The downstream chapters \autoref{ch:concrete-instances-bounded-cauchy-interval-namecert}, \autoref{ch:concrete-instances-regular-cauchy-kleisli-extension-namecert}, and \autoref{ch:concrete-instances-cauchy-completion-intersection-namecert} therefore consume $L=(M,U,I,B,S,D,R,H,C,P,N)$ as a finite L10 completion-law surface.
+
+This theorem is a consumer-facing dependency route. It does not import quotient completions, selected representatives, selected limits, host equality of completed objects, countable choice, hidden stream witnesses, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-monad-law-carrier}. The rows $M,U,I,B,S,D,R,H,C,P,N$ expose the monad transformer, unit, idempotence, bind ledger, finite windows, dyadic observations, regular-rational readback, transport, replay, provenance, and local name.
+
+Apply \autoref{thm:cauchy-completion-monad-law-namecert-obligations}. It supplies the carrier admission, unit exactness, idempotence exactness, associativity exactness, classifier transport, and nonescape clauses for the law surface.
+
+Apply \autoref{thm:cauchy-completion-monad-law-unit-associativity-boundary} and \autoref{thm:cauchy-completion-monad-law-completion-reflection-route}. Together they force every law-facing consumer through the completion reflection siblings and through the finite $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ readback rows before unit or associativity data are consumed.
+
+The bounded interval, Kleisli extension, and completion-intersection chapters already read this chapter as a downstream completion-law dependency. Since the local carrier contains no quotient, selector, choice, hidden-stream, or ambient-completeness coordinate, those consumers receive only the finite L10 route stated above.
 \end{proof}
 
 \closureat{CauchyCompletionMonadLawUp}{seedStr}

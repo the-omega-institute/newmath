@@ -61,14 +61,42 @@ The dyadic ledger $D$, stream windows $S$, regular rational readback $Q$, and te
 \end{proof}
 \leanchecked{BEDC.Derived.LocatedIntervalFanBarrierUp.LocatedIntervalFanBarrierFiniteCoverHandoff}
 
-\closureat{LocatedIntervalFanBarrierUp}{seedStr}
+\begin{theorem}[Located interval fan barrier obligation package]
+\label{thm:located-interval-fan-barrier-obligation-package}
+For every accepted $\LocatedIntervalFanBarrierUp$ carrier
+$$
+B=(I,K,F,D,S,Q,E,H,C,P,N),
+$$
+the rows $I,K,F,D,S,Q,E,H,C,P,N$ project the full local $\NameCert_{\LocatedIntervalFanBarrierUp}$ obligation surface. The surface contains carrier admission, located-interval admission, fan-barrier admission, finite-cover handoff, dyadic tolerance, StreamName window, regular-rational readback, terminal Real seal, componentwise transport, displayed replay, provenance, and local naming obligations, and it contains no open-cover compactness, branch selector, quotient stream, countable-choice, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:located-interval-fan-barrier-carrier}. The first seven rows $I,K,F,D,S,Q,E$ are the only mathematical rows available to a cover-facing consumer: located interval data, closed bounded interval fan data, finite fan compactness data, dyadic tolerance data, stream-window data, regular rational readback, and terminal real sealing.
+
+The structural rows then exhaust the remaining NameCert clauses. The row $H$ supplies componentwise transport, $C$ supplies displayed replay, $P$ supplies provenance, and $N$ supplies local naming for exactly the same packet.
+
+Since every obligation is attached to one of the displayed rows, there is no residual coordinate from which open-cover compactness, a selected branch, quotient stream equality, countable choice, or ambient completeness could be read. Thus the carrier rows project the stated obligation package.
+\end{proof}
+
+\begin{theorem}[Located interval fan barrier dyadic-window induction]
+\label{thm:located-interval-fan-barrier-dyadic-window-induction}
+Every finite consumer induction over an accepted $\LocatedIntervalFanBarrierUp$ packet reads dyadic tolerance, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and the terminal $\RealUp$ seal only after the located interval row $I$ and finite fan rows $K,F$ have been exposed. In particular, no induction step may consume $D,S,Q,E$ as an initial cover premise independent of the located interval and finite barrier rows.
+\end{theorem}
+\begin{proof}
+Use induction over the displayed finite row list of the carrier. The base segment consists of $I,K,F$: first the located interval row supplies endpoint and membership data, then the closed bounded interval fan row and finite fan compactness row expose the finite barrier boundary.
+
+For the downstream segment, the next rows $D,S,Q,E$ are introduced only after that base segment has been displayed. The dyadic row $D$ compares barrier prefixes and endpoints, the window row $S$ names the finite observations, the readback row $Q$ records the regular rational values, and the seal row $E$ closes the real-facing boundary.
+
+The structural rows $H,C,P,N$ preserve the same order because they transport, replay, source, and name the already displayed packet. Hence every finite row induction consumes dyadic tolerance, window, readback, and seal data downstream of $I,K,F$, and the finite-cover consumer cannot treat them as independent initial cover premises.
+\end{proof}
+
+\closureat{LocatedIntervalFanBarrierUp}{obligationStr}
 
 \begin{closurestatus}{\LocatedIntervalFanBarrierUp}
   \constructivestory{A $\LocatedIntervalFanBarrierUp$ packet is generated from a located interval row, closed bounded interval fan row, finite fan compactness row, dyadic tolerance ledger, finite StreamName windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-interval-fan-barrier-carrier}, \autoref{thm:located-interval-fan-barrier-namecert-obligations}, and \autoref{thm:located-interval-fan-barrier-finite-cover-handoff} seed the finite barrier route for L10 located-interval finite-cover consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:located-interval-fan-barrier-carrier}, \autoref{thm:located-interval-fan-barrier-namecert-obligations}, \autoref{thm:located-interval-fan-barrier-finite-cover-handoff}, \autoref{thm:located-interval-fan-barrier-obligation-package}, and \autoref{thm:located-interval-fan-barrier-dyadic-window-induction} bind the carrier, full NameCert obligation package, finite-cover handoff, and dyadic-window induction order for L10 located-interval finite-cover consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close open-cover compactness, selected branches, quotient streams, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, fan-barrier admission, finite-cover handoff, dyadic tolerance, stream-window, regular-rational, real-seal, transport, replay, provenance, and local naming obligations for BEDC.Derived.LocatedIntervalFanBarrierUp.}
+  \upgradepath{Scoped closure requires checked carrier admission, fan-barrier admission, finite-cover handoff, dyadic tolerance, stream-window, regular-rational, real-seal, transport, replay, provenance, and local naming obligations for BEDC.Derived.LocatedIntervalFanBarrierUp.}
 \end{closurestatus}
