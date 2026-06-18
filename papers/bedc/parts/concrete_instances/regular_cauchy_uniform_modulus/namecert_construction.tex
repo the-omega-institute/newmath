@@ -100,6 +100,44 @@ Now use \autoref{thm:regular-cauchy-uniform-modulus-tail-budget-exactness}. The 
 Finally inspect the carrier inventory. The rows $H,C,P,N$ transport, replay, source, and name the same handoff, while the carrier has no coordinate for quotient streams, selected limits, countable choice, host equality, or ambient completeness.
 \end{proof}
 
+\begin{definition}[Located real comparison aperture carrier]
+\label{def:located-real-comparison-aperture-carrier}
+A located real comparison aperture over an accepted $\RegularCauchyUniformModulusUp$ packet is a finite $\BHist$ packet
+$$
+A_{\mathrm{loc}}=(S,D,M,T,R,A,H,C,P,N)
+$$
+whose rows refine the carrier of \autoref{def:regular-cauchy-uniform-modulus-carrier}. The rows $S,D,M,T,H,C,P,N$ are the stream-window, dyadic-tolerance, uniform-modulus, finite tail-ledger, transport, replay, provenance, and local naming rows already displayed by the uniform-modulus packet. The row $R$ is the $\RegSeqRatUp$ readback boundary exposed by the tail ledger, and $A$ is a $\LocatedRealComparisonUp$ or $\RealUp$-facing comparison boundary. Any route to $A$ must expose the $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerances, $\RegSeqRatUp$ readback, and uniform modulus before any comparison read is consumed.
+\end{definition}
+
+\begin{theorem}[Located real comparison aperture NameCert obligations]
+\label{thm:located-real-comparison-aperture-namecert-obligations}
+For every accepted located real comparison aperture
+$A_{\mathrm{loc}}=(S,D,M,T,R,A,H,C,P,N)$, the local comparison-facing obligation surface consists of carrier admission for the displayed aperture, stream-window exposure through $S$, dyadic tolerance accounting through $D$, uniform-modulus admission through $M$, tail-ledger exactness through $T$, readback boundary exposure through $R$, comparison-boundary exposure through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the aperture carrier of \autoref{def:located-real-comparison-aperture-carrier}. Its coordinates display exactly the rows named in the statement, with $R$ and $A$ added as the readback and comparison-facing boundary rows over the existing uniform-modulus packet.
+
+Apply \autoref{thm:regular-cauchy-uniform-modulus-tail-stability}. Every tail-stability request first opens the stream window and dyadic tolerance rows, then reads the displayed modulus and the finite tail ledger.
+
+Apply \autoref{thm:regular-cauchy-uniform-modulus-tail-budget-exactness}. The budget exposed to the comparison boundary is the same displayed $S,D,M,T$ route, so $R$ and $A$ cannot introduce quotient stream equality, selected limits, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Located real comparison aperture gap route]
+\label{thm:located-real-comparison-aperture-gap-route}
+Every positive-gap, overlap, or comparison-read consumer of an accepted aperture $A_{\mathrm{loc}}=(S,D,M,T,R,A,H,C,P,N)$ factors through
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RegularCauchyUniformModulusUp,\ \LocatedRealComparisonUp,\ \RealUp .
+$$
+In particular, the comparison boundary $A$ is visible only after the stream windows $S$, dyadic tolerances $D$, uniform modulus $M$, tail ledger $T$, and readback boundary $R$ have been displayed.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-uniform-modulus-dyadic-locator-handoff}. It places the dyadic locator row before the uniform modulus, finite tail ledger, regular readback route, and terminal real seal.
+
+Now apply \autoref{thm:located-real-comparison-aperture-namecert-obligations}. The comparison boundary row $A$ is a coordinate of the aperture, but its obligation surface requires the preceding $S,D,M,T,R$ rows to be exposed before $A$ is read.
+
+Finally use the sibling comparison surface of \autoref{ch:concrete-instances-located-real-comparison-namecert}. The gap or overlap consumer receives a finite located-comparison route over the already displayed regular-Cauchy readback, not a host comparison or an ambient completeness principle.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy uniform modulus lattice crosslink]
 \label{thm:regular-cauchy-uniform-modulus-lattice-crosslink}
 Every accepted $\RegularCauchyUniformModulusUp$ carrier presents the same
