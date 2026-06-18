@@ -81,6 +81,18 @@ When the extended observed and model-generated signatures pass $C$, the same fin
 When the extended signatures fail $C$, the refutation row $F$ is the only row that can receive the displayed mismatch. The packet therefore separates stable continuation from refutation and never hides a classifier failure inside the open ledger.
 \end{proof}
 
+\begin{theorem}[OpenPhysicalFit public certificate]
+\label{thm:open-physical-fit-public-certificate}
+The finite trace row, observation bundle, classifier, refutation row, open-continuation ledger, replay route, provenance row, and local $\NameCert_{\OpenPhysicalFitUp}$ row form the public $\OpenPhysicalFitUp$ certificate. The certificate exports undefeated finite-fit status for the displayed trace and classifier while making no total-fit, model-reality identity, final-theory, or final-fit claim.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:open-physical-fit-carrier}. The visible public rows are exactly the finite trace $H$, observation bundle $\Pi$, observed and model-generated signatures $O,M$, classifier $C$, refutation row $F$, open-continuation row $E$, ledger $L$, replay row $R$, and local name $N$.
+
+Apply the semantic certificate of \autoref{thm:open-physical-fit-namecert-obligations}, the refutation boundary of \autoref{thm:open-physical-fit-refutation-boundary}, and the observation-extension stability theorem of \autoref{thm:open-physical-fit-observation-extension-stability}. These rows expose the finite-fit status, the displayed defeating observations, and the admissible continuations as one public packet.
+
+The carrier contains no coordinate for total fit, model-reality identity, a final theory, or a final-fit oracle. Therefore the public certificate exports only undefeated finite-fit status at the displayed boundary.
+\end{proof}
+
 \falsifiablePrediction{An accepted OpenPhysicalFitUp packet is refuted by a displayed finite observation whose observed and model-generated signatures fail the packet classifier.}
 
 \independenceWitness{physicalfittower, observerapproximationtower, realityconstrainedmodelaudit, observationreflectionpacket, onticstate: none is bijective because $\OpenPhysicalFitUp$ carries the finite open-fit certificate, refutation row, and open-continuation ledger in one packet. $\PhysicalFitTowerUp$ packages tower descent and hidden-source residue, $\ObserverApproximationTowerUp$ packages observer-side approximation routes, $\RealityConstrainedModelAuditUp$ packages audit strength and failure surfaces, $\ObservationReflectionPacketUp$ packages observation--reflection role correspondence, and $\OnticStateUp$ names state rows; none of them alone gives the exact finite-fit classifier with both refutation and open-continuation rows.}
@@ -92,8 +104,8 @@ The Lean follow-up in \texttt{lean4/BEDC/Derived/OpenPhysicalFitUp/TasteGate.lea
 
 \begin{closurestatus}{\OpenPhysicalFitUp}
   \constructivestory{An $\OpenPhysicalFitUp$ packet is generated from a finite trace, observation bundle, observed signature, model-generated signature, classifier, refutation row, open-continuation row, ledger, replay route, and local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:open-physical-fit-carrier}, \autoref{thm:open-physical-fit-namecert-obligations}, \autoref{thm:open-physical-fit-refutation-boundary}, and \autoref{thm:open-physical-fit-observation-extension-stability}, together with the existing TasteGate single-carrier marker, bind the finite open-fit carrier, semantic certificate, refutation boundary, observation-extension stability surface, and nontrivial field-alignment witness.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:open-physical-fit-carrier}, \autoref{thm:open-physical-fit-namecert-obligations}, \autoref{thm:open-physical-fit-refutation-boundary}, \autoref{thm:open-physical-fit-observation-extension-stability}, and \autoref{thm:open-physical-fit-public-certificate}, together with the existing TasteGate single-carrier marker, bind the finite open-fit carrier, semantic certificate, refutation boundary, observation-extension stability surface, public certificate, and nontrivial field-alignment witness.}
   \formalstatus{\unformalizedV}
   \closureledger{BEDC.Meta.DiscoveryDeltaLedger.openPhysicalFitDeltaLedger}
   \bridgestatus{none}
