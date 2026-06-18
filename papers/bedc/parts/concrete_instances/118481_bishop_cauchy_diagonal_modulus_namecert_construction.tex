@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyDiagonalModulusUp$}
+\label{ch:concrete-instances-bishop-cauchy-diagonal-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopCauchyDiagonalModulusUp$ packet records the finite diagonal modulus that lets a regular Cauchy comparison read pass from displayed dyadic windows to a terminal real-name seal. It sits over the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the diagonal selector budget of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the inspected diagonal modulus only; it does not quotient streams, select a completed limit, use trichotomy, invoke countable choice, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop Cauchy diagonal modulus carrier]
+\label{def:bishop-cauchy-diagonal-modulus-carrier}
+A $\BishopCauchyDiagonalModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,W,R,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that records the requested precision, dyadic radius, and comparison budget.
+\item $W$ is the $\StreamNameUp$ window row inspected at the same precision request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed window and tolerance data.
+\item $B$ is the $\CauchyDiagonalBudgetUp$ row that fixes the diagonal observation budget consumed by the same readback route.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after $D,W,R,B$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tolerance, window, readback, diagonal-budget, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D \longmapsto W \longmapsto R \longmapsto B \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyDiagonalModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyDiagonalBudgetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopCauchyDiagonalModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,R,B,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy diagonal modulus NameCert obligations]
+\label{thm:bishop-cauchy-diagonal-modulus-namecert-obligations}
+For every accepted $\BishopCauchyDiagonalModulusUp$ carrier
+$$
+M=(D,W,R,B,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopCauchyDiagonalModulusUp}$ surface consists exactly of carrier admission for the displayed dyadic tolerance, stream window, regular rational readback, diagonal budget, Real seal, transport, replay, provenance, and local naming rows; diagonal-modulus exactness tying $D,W,R,B$ to the same precision request; Real seal handoff through $E$; componentwise $\hsame$ stability through $H$; displayed $\Cont$ replay through $C$; $\Pkg$ provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-cauchy-diagonal-modulus-carrier}. The packet displays exactly the tolerance row, stream window row, regular rational readback row, diagonal-budget row, Real seal row, transport row, replay row, provenance row, and local naming row.
+
+The diagonal-modulus obligations are the rows $D,W,R,B,E$. A precision request first exposes the dyadic budget $D$, then the inspected window $W$, then the regular rational readback $R$, and then the diagonal-budget row $B$ before the terminal seal $E$ is visible.
+
+The structural rows are $H,C,P,N$. They transport, replay, source, and name the same finite route, so no obligation can be supplied by quotient stream equality, a selected limit, trichotomy, countable choice, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy diagonal modulus Real seal handoff]
+\label{thm:bishop-cauchy-diagonal-modulus-real-seal-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BishopCauchyDiagonalModulusUp$ carrier reaches the terminal seal only through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \CauchyDiagonalBudgetUp \longmapsto \RealUp
+$$
+implemented by $D,W,R,B,E,H,C,P,N$. The handoff exports a displayed diagonal modulus for regular Cauchy readback; it exports no quotient stream, selected representative, trichotomy branch, countable-choice schedule, host equality, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bishop-cauchy-diagonal-modulus-namecert-obligations}. A seal-facing consumer must first read the dyadic tolerance row and the stream window, then the regular rational readback, and then the diagonal-budget row.
+
+The terminal seal is $E$. Since $E$ is downstream of $D,W,R,B$ and the rows $H,C,P,N$ preserve only that displayed route, every accepted Real or completion-facing handoff passes through the stated finite sequence.
+\end{proof}
+
+\closureat{BishopCauchyDiagonalModulusUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyDiagonalModulusUp}
+  \constructivestory{A $\BishopCauchyDiagonalModulusUp$ packet is generated from a DyadicRatCore tolerance row, StreamName window row, RegSeqRat readback row, CauchyDiagonalBudget selector row, RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-diagonal-modulus-carrier}, \autoref{thm:bishop-cauchy-diagonal-modulus-namecert-obligations}, and \autoref{thm:bishop-cauchy-diagonal-modulus-real-seal-handoff} seed the finite diagonal-modulus route from dyadic precision requests and stream windows to regular rational readback, diagonal budget, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, trichotomy, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal-modulus exactness, regular readback handoff, RealUp seal nonescape, hsame transport, Cont replay, Pkg provenance, and local naming for BEDC.Derived.BishopCauchyDiagonalModulusUp.}
+\end{closurestatus}
