@@ -90,6 +90,22 @@ The readback row $R$ is listed after $E$ and is routed through the same package 
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_ledger\_exactness}
 
+\begin{theorem}[RegularCauchyProductBudget bilinear finite-window route]
+\label{thm:regular-cauchy-product-budget-bilinear-window}
+Every accepted $\RegularCauchyProductBudgetUp$ carrier reads both source windows $W_A,W_B$, both dyadic source rows $D_A,D_B$, the product row $D$, and the finite ledger $E$ as one bilinear finite window before exporting the $\RegSeqRatUp$ readback row $R$ or the $\RealUp$ seal row $S$. In particular, neither source window may be consumed alone, and no product-budget consumer may reach $R$ or $S$ before the symmetric route through
+$$
+A,B,W_A,W_B,D_A,D_B,D,E
+$$
+has been assembled.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-product-budget-window-admission}. It exposes the two source packets together with the paired windows $W_A,W_B$, and it reads the dyadic source rows $D_A,D_B$ only after both finite windows are visible.
+
+Next apply \autoref{thm:regular-cauchy-product-budget-ledger-exactness}. The dyadic product row $D$ and the finite ledger $E$ are bound to the two dyadic source rows in the same carrier, so the product budget consumes the two windows symmetrically rather than as independent one-sided reads.
+
+The later $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff} and the $\RealUp$ seal boundary of \autoref{thm:regular-cauchy-product-budget-real-seal-boundary} both occur after this assembled window. Hence the carrier exports no readback or seal that bypasses the bilinear finite-window route.
+\end{proof}
+
 \begin{theorem}[RegularCauchyProductBudget product-closure budget]
 \label{thm:regular-cauchy-product-budget-product-closure-budget}
 Every accepted $\RegularCauchyProductBudgetUp$ carrier closes the finite product budget needed for a $\RegSeqRatUp$ product readback and the terminal $\RealUp$ seal. More precisely, the paired source windows $W_A,W_B$, the dyadic product row $D$, and the $\FiniteErrorBudgetUp$ ledger $E$ force the readback row $R$ and seal row $S$ to use the same finite product budget carried by
@@ -136,6 +152,7 @@ Apply \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff}. The readbac
 
 The carrier contains no coordinate for host multiplication, quotient stream equality, ambient completeness, hidden rounding, or selected host limits. Therefore the $\RealUp$ seal is a boundary around the displayed finite packet and exports no additional real object.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_real\_seal\_boundary}
 
 \begin{theorem}[RegularCauchyProductBudget NameCert obligations]
 \label{thm:regular-cauchy-product-budget-namecert-obligations}
