@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCardinalUp$}
+\label{ch:concrete-instances-finite-cardinal-namecert}
+\origin{human}
+
+Following Dedekind and Cantor on finite equipotence, the $\FiniteCardinalUp$ packet records cardinal comparison only through displayed finite bijection and counting ledgers. It sits after the membership discipline of \autoref{ch:concrete-instances-setlike-namecert}, the natural-number endpoint of \autoref{ch:concrete-instances-nat-namecert}, the Kuratowski finite-set presentation of \autoref{ch:concrete-instances-kuratowski-finite-set-namecert}, and the finite-net consumer route of \autoref{ch:concrete-instances-compact-hyperspace-finite-net-namecert}. The packet names finite cardinality without importing unrestricted cardinal arithmetic, quotient sets, chosen representatives, powersets, or choice.
+
+\begin{definition}[Finite cardinal carrier]
+\label{def:finite-cardinal-carrier}
+A $\FiniteCardinalUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,T,n,L,R,B,Q,\Gamma,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source finite-object row, read through $\SetLikeUp$ and $\KuratowskiFiniteSetUp$, exposing membership, finite generation, and the inspected element names.
+\item $T$ is the target initial-segment row over $\NatUp$, naming the displayed positions $0,\ldots,n-1$ as finite endpoints rather than as a host ordinal quotient.
+\item $n$ is the cardinality readback row, a named natural-number endpoint whose only public meaning is the length of the displayed target segment $T$.
+\item $L$ is the forward ledger, listing for each displayed source element its target position in $T$.
+\item $R$ is the reverse ledger, listing for each displayed target position the source element in $S$ that occupies it.
+\item $B$ is the bijection ledger, recording the two finite round-trip checks $R(L(s))=s$ for displayed source entries and $L(R(i))=i$ for displayed target entries.
+\item $Q$ is the cardinality-use ledger, forcing every consumer of the number $n$ to pass through $S,T,L,R,B$ before citing the cardinality row.
+\item $\Gamma$ is the local classifier, comparing accepted packets only by source membership rows, target segment rows, the named natural endpoint, the two ledgers, the round-trip checks, and the consumer route.
+\item $H$ records componentwise $\hsame$ transport for $S,T,n,L,R,B,Q,\Gamma,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through
+$$
+S,T,n \longrightarrow L,R,B \longrightarrow Q,\Gamma .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteCardinalUp$, $\SetLikeUp$, $\KuratowskiFiniteSetUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteCardinalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unrestricted cardinal arithmetic, quotient extensionality of subsets, selected representatives, host powersets, or choice-based enumeration.
+\end{definition}
+
+\begin{theorem}[Finite cardinal NameCert obligations]
+\label{thm:finite-cardinal-namecert-obligations}
+For every accepted $\FiniteCardinalUp$ carrier
+$$
+F=(S,T,n,L,R,B,Q,\Gamma,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteCardinalUp}$ surface consists exactly of source finite-object admission, initial-segment admission, natural-number cardinality readback, forward ledger exposure, reverse ledger exposure, finite round-trip verification, cardinality-use routing, classifier stability, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. A consumer receives the public cardinality only along the route
+$$
+S,T,n \longrightarrow L,R,B \longrightarrow Q,\Gamma,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier $F$. The rows $S,T,n$ are the only entries that name the source finite object, the target initial segment, and the natural-number readback.
+
+The rows $L$ and $R$ display the two directions of the finite comparison. The row $B$ records the two round-trip checks on exactly the displayed source entries and target positions, so no ambient quotient or selected enumeration is available outside the packet.
+
+The consumer route $Q$ and classifier $\Gamma$ force every cardinality read to preserve the same finite ledgers. The structural rows $H,C,P,N$ transport, replay, source, and name only those rows, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite cardinal classifier stability]
+\label{thm:finite-cardinal-classifier-stability}
+Let $F=(S,T,n,L,R,B,Q,\Gamma,H,C,P,N)$ and $F'=(S',T',n',L',R',B',Q',\Gamma',H',C',P',N')$ be accepted $\FiniteCardinalUp$ carriers. If the source rows, target segment rows, named natural endpoints, forward ledgers, reverse ledgers, round-trip ledgers, and consumer routes are componentwise $\hsame$, then $\Gamma$ and $\Gamma'$ classify the same finite cardinality packet. Conversely, a classifier agreement for $\FiniteCardinalUp$ exposes precisely those displayed rows as its comparison surface.
+\end{theorem}
+\begin{proof}
+In the forward direction, read the componentwise $\hsame$ data through $H$ and $H'$. The classifier rows are defined over the source row, target segment, natural endpoint, both ledger directions, their round-trip checks, and the consumer route, so agreement on those coordinates gives the same classifier read.
+
+For the reverse direction, open the classifier rows $\Gamma$ and $\Gamma'$. By the carrier definition, they have no coordinates other than $S,T,n,L,R,B,Q$ and their primed counterparts. Therefore classifier agreement can expose only those displayed rows, together with the structural transport and replay rows that preserve them.
+\end{proof}
+
+\begin{theorem}[Finite cardinal bijection ledger]
+\label{thm:finite-cardinal-bijection-ledger}
+Every accepted $\FiniteCardinalUp$ carrier exports cardinality as a finite bijection ledger. The number $n$ may be cited only after the packet displays the forward assignments $L$, reverse assignments $R$, and the round-trip row $B$ over the finite source row $S$ and the initial segment $T$. Thus the packet supplies a constructive finite-cardinality interface for finite-net, compactness, and bounded-family consumers, but it does not supply unrestricted cardinal arithmetic, quotient-set equality, selected representatives, host powersets, or choice.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and use \autoref{thm:finite-cardinal-namecert-obligations}. The public route to $n$ passes through $S,T,L,R,B$ before it reaches any consumer ledger.
+
+The bijection row $B$ contains both finite round-trip checks, so each source element and each target position is accounted for inside the displayed packet. A compact finite-net consumer such as \autoref{ch:concrete-instances-compact-hyperspace-finite-net-namecert} can therefore cite the finite count as a ledger-backed size row.
+
+Since the carrier omits unrestricted cardinal arithmetic, quotient extensionality, selected representatives, powersets, and choice, the exported statement is exactly the finite bijection ledger, not an ambient cardinal theory.
+\end{proof}
+
+\closureat{FiniteCardinalUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCardinalUp}
+  \constructivestory{A $\FiniteCardinalUp$ packet is generated from a displayed finite source row, an initial-segment row over NatUp, a natural-number readback, forward and reverse finite ledgers, two round-trip checks, a consumer route, classifier data, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cardinal-carrier}, \autoref{thm:finite-cardinal-namecert-obligations}, \autoref{thm:finite-cardinal-classifier-stability}, and \autoref{thm:finite-cardinal-bijection-ledger} seed the finite bijection and cardinality-ledger surface for $\FiniteCardinalUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted cardinal arithmetic, quotient sets, selected representatives, host powersets, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-object admission, initial-segment admission, forward and reverse ledger exposure, round-trip verification, classifier stability, transport, replay, provenance, and local naming for BEDC.Derived.FiniteCardinalUp.}
+\end{closurestatus}
