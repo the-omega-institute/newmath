@@ -335,6 +335,7 @@ import BEDC.Derived.AuditMapFrontierPacketUp
 import BEDC.Derived.AuditMapInterfaceUp
 import BEDC.Derived.AuditMapInterfaceUp.TasteGate
 import BEDC.Derived.AuditMapMethodologyUp.TasteGate
+import BEDC.Derived.AuditMapObstructionSocketUp.FrontierHandoff
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.AuditMapRouteBudgetUp.TasteGate
 import BEDC.Derived.AuditMapRouteCompilerUp
@@ -2321,6 +2322,7 @@ import BEDC.Derived.CauchyStabilityModulusUp
 import BEDC.Derived.CauchyStabilityUp.TasteGate
 import BEDC.Derived.CauchyStructureUp.TasteGate
 import BEDC.Derived.CauchySubnetUp
+import BEDC.Derived.CauchySubnetUp.TasteGate
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchySumLimitUp.NameCertObligations
 import BEDC.Derived.CauchySumLimitUp.TasteGate
@@ -4195,6 +4197,7 @@ import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.DerivedFunctorUp
 import BEDC.Derived.DetachableSubsetUp
 import BEDC.Derived.DeterminantUp
+import BEDC.Derived.DeterministicPushdownAutomatonUp.TasteGate
 import BEDC.Derived.DiagonalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp
 import BEDC.Derived.DiagonalCofinalTailUp.CompatibilityHandoff
@@ -4862,6 +4865,7 @@ import BEDC.Derived.EffectiveModulusUp.TasteGate
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveRegularRealExtensionalityUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
+import BEDC.Derived.EgorovUp.FiniteWindowUniformity
 import BEDC.Derived.EgorovUp.TasteGate
 import BEDC.Derived.EigenUp
 import BEDC.Derived.EilenbergMooreCompletionAlgebraUp.TasteGate
@@ -9575,6 +9579,7 @@ import BEDC.Derived.RegularCauchyReciprocalUp.TailStability
 import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyReciprocalUp.WindowComposition
 import BEDC.Derived.RegularCauchyReflectionLedgerUp.TasteGate
+import BEDC.Derived.RegularCauchyRegularityWitnessUp.NameCertObligations
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularizationUp.TasteGate
 import BEDC.Derived.RegularCauchyReindexInvarianceUp.TasteGate
