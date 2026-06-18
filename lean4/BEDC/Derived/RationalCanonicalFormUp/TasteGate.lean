@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RationalCanonicalFormUp
+namespace BEDC.Derived.RationalCanonicalFormUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,8 +25,9 @@ def rationalCanonicalFormDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (rationalCanonicalFormDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (rationalCanonicalFormDecodeBHist tail)
 
-private theorem RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist, rationalCanonicalFormDecodeBHist (rationalCanonicalFormEncodeBHist h) = h := by
+private theorem RationalCanonicalFormTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist,
+      rationalCanonicalFormDecodeBHist (rationalCanonicalFormEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,35 +35,14 @@ private theorem RationalCanonicalFormTasteGate_single_carrier_alignment_decode_e
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def rationalCanonicalFormToEventFlow : RationalCanonicalFormUp → EventFlow
+def rationalCanonicalFormFields : RationalCanonicalFormUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RationalCanonicalFormUp.mk V L M S I B A H C P N =>
-      [[BMark.b0],
-        rationalCanonicalFormEncodeBHist V,
-        [BMark.b1, BMark.b0],
-        rationalCanonicalFormEncodeBHist L,
-        [BMark.b1, BMark.b1, BMark.b0],
-        rationalCanonicalFormEncodeBHist M,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        rationalCanonicalFormEncodeBHist S,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        rationalCanonicalFormEncodeBHist I,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        rationalCanonicalFormEncodeBHist B,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        rationalCanonicalFormEncodeBHist A,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        rationalCanonicalFormEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        rationalCanonicalFormEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        rationalCanonicalFormEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        rationalCanonicalFormEncodeBHist N]
+      [V, L, M, S, I, B, A, H, C, P, N]
+
+def rationalCanonicalFormToEventFlow : RationalCanonicalFormUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | x => (rationalCanonicalFormFields x).map rationalCanonicalFormEncodeBHist
 
 private def rationalCanonicalFormEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -71,21 +51,22 @@ private def rationalCanonicalFormEventAtDefault : Nat → EventFlow → RawEvent
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => rationalCanonicalFormEventAtDefault index rest
 
-def rationalCanonicalFormFromEventFlow (ef : EventFlow) : Option RationalCanonicalFormUp :=
+def rationalCanonicalFormFromEventFlow (ef : EventFlow) :
+    Option RationalCanonicalFormUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (RationalCanonicalFormUp.mk
+      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 0 ef))
       (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 1 ef))
+      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 2 ef))
       (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 3 ef))
+      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 4 ef))
       (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 5 ef))
+      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 6 ef))
       (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 7 ef))
+      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 8 ef))
       (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 9 ef))
-      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 11 ef))
-      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 13 ef))
-      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 15 ef))
-      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 17 ef))
-      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 19 ef))
-      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 21 ef)))
+      (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEventAtDefault 10 ef)))
 
 private theorem RationalCanonicalFormTasteGate_single_carrier_alignment_round_trip :
     ∀ x : RationalCanonicalFormUp,
@@ -109,17 +90,17 @@ private theorem RationalCanonicalFormTasteGate_single_carrier_alignment_round_tr
             (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEncodeBHist P))
             (rationalCanonicalFormDecodeBHist (rationalCanonicalFormEncodeBHist N))) =
           some (RationalCanonicalFormUp.mk V L M S I B A H C P N)
-      rw [RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode V,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode L,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode M,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode S,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode I,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode B,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode A,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode H,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode C,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode P,
-        RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode N]
+      rw [RationalCanonicalFormTasteGate_single_carrier_alignment_decode V,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode L,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode M,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode S,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode I,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode B,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode A,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode H,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode C,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode P,
+        RationalCanonicalFormTasteGate_single_carrier_alignment_decode N]
 
 private theorem RationalCanonicalFormTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RationalCanonicalFormUp} :
@@ -133,27 +114,20 @@ private theorem RationalCanonicalFormTasteGate_single_carrier_alignment_toEventF
   exact Option.some.inj
     (Eq.trans
       (RationalCanonicalFormTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (RationalCanonicalFormTasteGate_single_carrier_alignment_round_trip y)))
-
-private def rationalCanonicalFormFields :
-    RationalCanonicalFormUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | RationalCanonicalFormUp.mk V L M S I B A H C P N => [V, L, M, S, I, B, A, H, C, P, N]
+      (Eq.trans hread
+        (RationalCanonicalFormTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem RationalCanonicalFormTasteGate_single_carrier_alignment_fields :
     ∀ x y : RationalCanonicalFormUp,
       rationalCanonicalFormFields x = rationalCanonicalFormFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
-  cases x with
-  | mk V1 L1 M1 S1 I1 B1 A1 H1 C1 P1 N1 =>
-      cases y with
-      | mk V2 L2 M2 S2 I2 B2 A2 H2 C2 P2 N2 =>
-          cases hfields
-          rfl
+  cases x
+  cases y
+  cases hfields
+  rfl
 
-instance rationalCanonicalFormBHistCarrier :
-    BHistCarrier RationalCanonicalFormUp where
+instance rationalCanonicalFormBHistCarrier : BHistCarrier RationalCanonicalFormUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := rationalCanonicalFormToEventFlow
   fromEventFlow := rationalCanonicalFormFromEventFlow
@@ -167,7 +141,8 @@ instance rationalCanonicalFormChapterTasteGate :
     exact RationalCanonicalFormTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (RationalCanonicalFormTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy
+      (RationalCanonicalFormTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance rationalCanonicalFormFieldFaithful :
     FieldFaithful RationalCanonicalFormUp where
@@ -187,23 +162,17 @@ instance rationalCanonicalFormNontrivial :
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate RationalCanonicalFormUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  rationalCanonicalFormChapterTasteGate
-
 theorem RationalCanonicalFormTasteGate_single_carrier_alignment :
-    (forall h : BHist, rationalCanonicalFormDecodeBHist (rationalCanonicalFormEncodeBHist h) = h) ∧
-      (forall x : RationalCanonicalFormUp,
-        rationalCanonicalFormFromEventFlow (rationalCanonicalFormToEventFlow x) = some x) ∧
-        (forall x y : RationalCanonicalFormUp,
-          rationalCanonicalFormToEventFlow x = rationalCanonicalFormToEventFlow y -> x = y) ∧
-          rationalCanonicalFormEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+    Nonempty (ChapterTasteGate RationalCanonicalFormUp) ∧
+      Nonempty (FieldFaithful RationalCanonicalFormUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial RationalCanonicalFormUp) ∧
+      (∀ h : BHist,
+        rationalCanonicalFormDecodeBHist (rationalCanonicalFormEncodeBHist h) = h) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨RationalCanonicalFormTasteGate_single_carrier_alignment_decode_encode,
-      RationalCanonicalFormTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        RationalCanonicalFormTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+    ⟨⟨rationalCanonicalFormChapterTasteGate⟩,
+      ⟨rationalCanonicalFormFieldFaithful⟩,
+      ⟨rationalCanonicalFormNontrivial⟩,
+      RationalCanonicalFormTasteGate_single_carrier_alignment_decode⟩
 
-end BEDC.Derived.RationalCanonicalFormUp
+end BEDC.Derived.RationalCanonicalFormUp.TasteGate
