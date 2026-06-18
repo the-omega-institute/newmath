@@ -6752,6 +6752,7 @@ import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedMonotoneConvergenceUp
 import BEDC.Derived.LocatedMonotoneConvergenceUp.TasteGate
 import BEDC.Derived.LocatedNestedIntervalLimitUp.TasteGate
+import BEDC.Derived.LocatedOpenUp.TasteGate
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
@@ -7488,6 +7489,7 @@ import BEDC.Derived.MetaCICNormalizationSubstitutionBoundaryUp
 import BEDC.Derived.MetaCICNormalizationWindowConfluenceUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemLedgerUp
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.BlockerSeparation
+import BEDC.Derived.MetaCICOpenProblemLedgerUp.ExportSurface
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.FamilyCoverage
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.NameCertObligations
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.Nonescape
@@ -8309,6 +8311,8 @@ import BEDC.Derived.PhysicalInductionGateUp.TasteGate
 import BEDC.Derived.PhysicalInductionStabilitySealUp.NameCert
 import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.PhysicalInductionUp.TasteGate
+import BEDC.Derived.PhysicalLawBridgeUp.FalsificationBoundary
+import BEDC.Derived.PhysicalLawBridgeUp.NameCertSurface
 import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
@@ -9370,6 +9374,7 @@ import BEDC.Derived.RegularCauchyCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalUp.TasteGate
 import BEDC.Derived.RegularCauchyCompositionUp.TasteGate
 import BEDC.Derived.RegularCauchyCriterionUp
+import BEDC.Derived.RegularCauchyCriterionUp.CauchyEquivalence
 import BEDC.Derived.RegularCauchyCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCriterionUp.RouteScope
 import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
