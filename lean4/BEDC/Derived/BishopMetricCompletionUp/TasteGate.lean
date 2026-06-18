@@ -1,13 +1,80 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BishopMetricCompletionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
+
+theorem BishopMetricCompletionCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {M E Q W S R T H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory M ∧ UnaryHistory E ∧ UnaryHistory Q ∧ UnaryHistory W ∧
+      UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory T ∧ UnaryHistory H ∧
+        UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧ Cont M E Q ∧
+          Cont Q W S ∧ Cont S R T ∧ Cont H C P ∧ PkgSig bundle P pkg ∧
+            PkgSig bundle N pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row N ∧ UnaryHistory M ∧ UnaryHistory E ∧ UnaryHistory Q ∧
+            UnaryHistory W ∧ UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory T ∧
+              UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+                Cont M E Q ∧ Cont Q W S ∧ Cont S R T ∧ Cont H C P ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+        (fun row : BHist =>
+          hsame row N ∧ Cont M E Q ∧ Cont Q W S ∧ Cont S R T)
+        (fun row : BHist =>
+          UnaryHistory row ∧ PkgSig bundle N pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro obligations
+  obtain ⟨hM, hE, hQ, hW, hS, hR, hT, hH, hC, hP, hN, hMEQ, hQWS, hSRT, hHCP,
+    hPpkg, hNpkg⟩ := obligations
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro N
+          ⟨hsame_refl N, hM, hE, hQ, hW, hS, hR, hT, hH, hC, hP, hN, hMEQ,
+            hQWS, hSRT, hHCP, hPpkg, hNpkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      obtain ⟨same, _hM, _hE, _hQ, _hW, _hS, _hR, _hT, _hH, _hC, _hP, _hN, hMEQ,
+        hQWS, hSRT, _hHCP, _hPpkg, _hNpkg⟩ := source
+      exact ⟨same, hMEQ, hQWS, hSRT⟩
+    ledger_sound := by
+      intro _row source
+      obtain ⟨same, _hM, _hE, _hQ, _hW, _hS, _hR, _hT, _hH, _hC, _hP, hN, _hMEQ,
+        _hQWS, _hSRT, _hHCP, _hPpkg, hNpkg⟩ := source
+      exact ⟨unary_transport hN (hsame_symm same), hNpkg⟩
+  }
 
 inductive BishopMetricCompletionUp : Type where
   | mk (M E Q W S R T H C P N : BHist) : BishopMetricCompletionUp
