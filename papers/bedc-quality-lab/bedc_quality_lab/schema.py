@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import MISSING, asdict, dataclass, field, fields
 import json
 from pathlib import Path
 from typing import Any, Mapping
+import warnings
 
 
 SCHEMA_ID = "bedc-quality-lab:evidence-envelope"
@@ -21,6 +22,23 @@ _REQUIRED_MAPPING_FIELDS = (
     "claim_capsule_pointer",
     "cost_protocol_pointer",
     "negative_witness_sweep_pointer",
+)
+
+_HARD_REQUIRED_FIELDS = frozenset(
+    (
+        "schema_id",
+        "run_id",
+        "source_spec",
+        "pattern_spec",
+        "classifier_spec",
+        "stability_spec",
+        "metrics",
+        "artifacts",
+        "source_artifact_hash",
+        "claim_capsule_pointer",
+        "cost_protocol_pointer",
+        "negative_witness_sweep_pointer",
+    )
 )
 
 _PROHIBITED_BEDC_PROSE_MARKERS = (
@@ -209,6 +227,28 @@ class QualityEvidenceEnvelope:
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> "QualityEvidenceEnvelope":
         kwargs = dict(data)
+        missing_hard = sorted(_HARD_REQUIRED_FIELDS - set(kwargs))
+        if missing_hard:
+            raise ValueError(
+                "missing required evidence envelope field(s): "
+                + ", ".join(missing_hard)
+            )
+        defaulted_fields: list[str] = []
+        for dataclass_field in fields(cls):
+            if dataclass_field.name in kwargs:
+                continue
+            has_default = dataclass_field.default is not MISSING
+            has_default_factory = dataclass_field.default_factory is not MISSING
+            if has_default or has_default_factory:
+                defaulted_fields.append(dataclass_field.name)
+        if defaulted_fields:
+            warnings.warn(
+                "QualityEvidenceEnvelope.from_dict defaulted compatible missing "
+                "field(s): "
+                + ", ".join(defaulted_fields),
+                UserWarning,
+                stacklevel=2,
+            )
         return cls(**kwargs)
 
     @classmethod
