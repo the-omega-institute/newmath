@@ -189,8 +189,7 @@ theorem TotallyBoundedCompletionCarrier_public_finite_net_route [AskSetup] [Pack
   }
   exact ⟨cert, finiteNetUnary, publicUnary, localNamePkg⟩
 
-theorem totally_bounded_completion_public_finite_net_route_refinement_basis_extension_chain
-    [AskSetup] [PackageSetup]
+theorem totally_bounded_completion_refinement_basis_public_finite_net_route [AskSetup] [PackageSetup]
     {source net refinement basis embedding completion separated extension transport provenance
       localName completionRead extensionRead publicRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
