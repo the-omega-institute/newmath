@@ -133,6 +133,25 @@ theorem DiniUniformConvergenceCarrier_namecert_obligations [AskSetup] [PackageSe
     }
   exact ⟨cert, modulusUnary⟩
 
+theorem DiniUniformConvergence_monotone_window_obligation [AskSetup] [PackageSetup]
+    {compact finiteNet family modulus windows readback sealRow transportRow replayRow provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiniUniformConvergenceCarrier compact finiteNet family modulus windows readback sealRow
+        transportRow replayRow provenance localName bundle pkg →
+      Cont compact finiteNet family →
+        Cont family windows readback →
+          UnaryHistory family ∧ UnaryHistory windows ∧ UnaryHistory readback ∧
+            Cont compact finiteNet family ∧ Cont family windows readback := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro carrier compactFiniteNet familyWindows
+  obtain ⟨compactUnary, finiteNetUnary, windowsUnary, _sealUnary, _provenancePkg⟩ := carrier
+  have familyUnary : UnaryHistory family :=
+    unary_cont_closed compactUnary finiteNetUnary compactFiniteNet
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed familyUnary windowsUnary familyWindows
+  exact ⟨familyUnary, windowsUnary, readbackUnary, compactFiniteNet, familyWindows⟩
+
 theorem DiniUniformConvergenceCarrier_monotone_window [AskSetup] [PackageSetup]
     {compact finiteNet family modulus windows readback sealRow transportRow replayRow provenance
       localName : BHist}
