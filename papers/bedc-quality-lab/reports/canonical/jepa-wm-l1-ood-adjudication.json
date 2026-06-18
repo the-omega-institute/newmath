@@ -1,0 +1,427 @@
+{
+  "artifact_id": "bedc-quality-lab:jepa-wm-l1-ood-adjudication",
+  "canonical_role": "task_local_ood_adjudication",
+  "claim_boundary": {
+    "claim_allowed": true,
+    "positive_discovery": true,
+    "scope": "JEPA-WM-L1 OOD adjudication over the fixed owner-local arms and splits only",
+    "status": "pass",
+    "verdict_pointer": "$.verdict.status"
+  },
+  "claim_capsule": {
+    "hardgate_pointer": "reports/canonical/jepa-wm-l1-ood-adjudication.json:$.hardgate",
+    "owner": "jepa-wm-l1-ood-adjudication",
+    "split_adjudication_pointer": "reports/canonical/jepa-wm-l1-ood-adjudication.json:$.split_adjudications",
+    "status": "pointer-only",
+    "verdict_pointer": "reports/canonical/jepa-wm-l1-ood-adjudication.json:$.verdict.status"
+  },
+  "config": {
+    "bootstrap_resamples": 512,
+    "control_margin": 0.01,
+    "fixed_arms": [
+      "null",
+      "base",
+      "larger_base",
+      "oracle_or_teacher"
+    ],
+    "fixed_ood_splits": [
+      "heldout-dynamics",
+      "goal-remap",
+      "temporal-gap",
+      "distractor-clutter"
+    ],
+    "kill_margin": 0.02,
+    "metrics": [
+      "top1_accuracy",
+      "mean_rank",
+      "calibration_error"
+    ],
+    "sample_budget": 384,
+    "success_margin": 0.05
+  },
+  "generated_at": "2026-06-18T00:00:00+00:00",
+  "hardgate": {
+    "failed_gates": [],
+    "gates": {
+      "ARMS": {
+        "criterion": "each fixed OOD split has exactly the preregistered arm set",
+        "missing": [],
+        "required_arms": [
+          "null",
+          "base",
+          "larger_base",
+          "oracle_or_teacher"
+        ],
+        "status": "pass",
+        "unexpected": []
+      },
+      "BUDGET": {
+        "criterion": "base arm has preregistered minimum samples on every OOD split",
+        "failed_budget_items": [],
+        "min_split_sample_budget": 64,
+        "min_total_sample_budget": 256,
+        "sample_budget": 384,
+        "split_counts": {
+          "distractor-clutter": 96,
+          "goal-remap": 96,
+          "heldout-dynamics": 96,
+          "temporal-gap": 96
+        },
+        "status": "pass",
+        "total_base_samples": 384
+      },
+      "CONTROLS": {
+        "control_margin": 0.01,
+        "criterion": "null remains inside the chance band and oracle_or_teacher stays above base",
+        "failures": [],
+        "status": "pass",
+        "teacher_margins": {
+          "distractor-clutter": 0.449,
+          "goal-remap": 0.474,
+          "heldout-dynamics": 0.463,
+          "temporal-gap": 0.451
+        }
+      },
+      "METRICS": {
+        "criterion": "top1, mean-rank, calibration-error, and paired confidence bounds are present",
+        "metrics": [
+          "top1_accuracy",
+          "mean_rank",
+          "calibration_error"
+        ],
+        "missing": [],
+        "status": "pass"
+      },
+      "SPLITS": {
+        "criterion": "all fixed OOD splits are represented",
+        "missing": [],
+        "required_splits": [
+          "heldout-dynamics",
+          "goal-remap",
+          "temporal-gap",
+          "distractor-clutter"
+        ],
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "not_claimed": [
+    "No JEPA-WM-L2 or higher OOD result.",
+    "No global world-model superiority claim.",
+    "No DGT tiny-sequence control extension.",
+    "No package-root task ownership claim.",
+    "No production deployment claim."
+  ],
+  "observations": [
+    {
+      "arm_id": "null",
+      "calibration_error": 0.182,
+      "ci_high": 0.146,
+      "ci_low": 0.105,
+      "mean_rank": 4.42,
+      "n": 96,
+      "split_id": "heldout-dynamics",
+      "top1_accuracy": 0.125
+    },
+    {
+      "arm_id": "base",
+      "calibration_error": 0.096,
+      "ci_high": 0.313,
+      "ci_low": 0.232,
+      "mean_rank": 3.44,
+      "n": 96,
+      "split_id": "heldout-dynamics",
+      "top1_accuracy": 0.272
+    },
+    {
+      "arm_id": "larger_base",
+      "calibration_error": 0.083,
+      "ci_high": 0.348,
+      "ci_low": 0.264,
+      "mean_rank": 3.19,
+      "n": 96,
+      "split_id": "heldout-dynamics",
+      "top1_accuracy": 0.306
+    },
+    {
+      "arm_id": "oracle_or_teacher",
+      "calibration_error": 0.021,
+      "ci_high": 0.848,
+      "ci_low": 0.776,
+      "mean_rank": 1.28,
+      "n": 96,
+      "split_id": "heldout-dynamics",
+      "top1_accuracy": 0.812
+    },
+    {
+      "arm_id": "null",
+      "calibration_error": 0.176,
+      "ci_high": 0.147,
+      "ci_low": 0.106,
+      "mean_rank": 4.39,
+      "n": 96,
+      "split_id": "goal-remap",
+      "top1_accuracy": 0.126
+    },
+    {
+      "arm_id": "base",
+      "calibration_error": 0.109,
+      "ci_high": 0.286,
+      "ci_low": 0.207,
+      "mean_rank": 3.63,
+      "n": 96,
+      "split_id": "goal-remap",
+      "top1_accuracy": 0.246
+    },
+    {
+      "arm_id": "larger_base",
+      "calibration_error": 0.092,
+      "ci_high": 0.331,
+      "ci_low": 0.248,
+      "mean_rank": 3.31,
+      "n": 96,
+      "split_id": "goal-remap",
+      "top1_accuracy": 0.289
+    },
+    {
+      "arm_id": "oracle_or_teacher",
+      "calibration_error": 0.024,
+      "ci_high": 0.836,
+      "ci_low": 0.76,
+      "mean_rank": 1.34,
+      "n": 96,
+      "split_id": "goal-remap",
+      "top1_accuracy": 0.798
+    },
+    {
+      "arm_id": "null",
+      "calibration_error": 0.185,
+      "ci_high": 0.145,
+      "ci_low": 0.104,
+      "mean_rank": 4.45,
+      "n": 96,
+      "split_id": "temporal-gap",
+      "top1_accuracy": 0.124
+    },
+    {
+      "arm_id": "base",
+      "calibration_error": 0.108,
+      "ci_high": 0.296,
+      "ci_low": 0.206,
+      "mean_rank": 3.58,
+      "n": 96,
+      "split_id": "temporal-gap",
+      "top1_accuracy": 0.256
+    },
+    {
+      "arm_id": "larger_base",
+      "calibration_error": 0.096,
+      "ci_high": 0.333,
+      "ci_low": 0.244,
+      "mean_rank": 3.32,
+      "n": 96,
+      "split_id": "temporal-gap",
+      "top1_accuracy": 0.291
+    },
+    {
+      "arm_id": "oracle_or_teacher",
+      "calibration_error": 0.026,
+      "ci_high": 0.824,
+      "ci_low": 0.747,
+      "mean_rank": 1.39,
+      "n": 96,
+      "split_id": "temporal-gap",
+      "top1_accuracy": 0.786
+    },
+    {
+      "arm_id": "null",
+      "calibration_error": 0.188,
+      "ci_high": 0.146,
+      "ci_low": 0.105,
+      "mean_rank": 4.41,
+      "n": 96,
+      "split_id": "distractor-clutter",
+      "top1_accuracy": 0.125
+    },
+    {
+      "arm_id": "base",
+      "calibration_error": 0.119,
+      "ci_high": 0.286,
+      "ci_low": 0.201,
+      "mean_rank": 3.68,
+      "n": 96,
+      "split_id": "distractor-clutter",
+      "top1_accuracy": 0.244
+    },
+    {
+      "arm_id": "larger_base",
+      "calibration_error": 0.103,
+      "ci_high": 0.319,
+      "ci_low": 0.239,
+      "mean_rank": 3.39,
+      "n": 96,
+      "split_id": "distractor-clutter",
+      "top1_accuracy": 0.278
+    },
+    {
+      "arm_id": "oracle_or_teacher",
+      "calibration_error": 0.029,
+      "ci_high": 0.813,
+      "ci_low": 0.735,
+      "mean_rank": 1.44,
+      "n": 96,
+      "split_id": "distractor-clutter",
+      "top1_accuracy": 0.774
+    }
+  ],
+  "positive_claim": {
+    "positive_discovery": true,
+    "status": "pass",
+    "verdict_pointer": "$.verdict.status"
+  },
+  "preregistration_card": {
+    "abstain_rule": "abstain when evidence is budget-valid but neither success nor kill is established",
+    "budget_gates": {
+      "bootstrap_resamples": 512,
+      "min_split_sample_budget": 64,
+      "min_total_sample_budget": 256,
+      "sample_budget": 384
+    },
+    "card_digest": "1dfa8b7b0fd7fc0ed06f7fc65174ab23cf14795b10a85978828d5fdaf5a0ef9b",
+    "fixed_arms": [
+      "null",
+      "base",
+      "larger_base",
+      "oracle_or_teacher"
+    ],
+    "fixed_ood_splits": [
+      "heldout-dynamics",
+      "goal-remap",
+      "temporal-gap",
+      "distractor-clutter"
+    ],
+    "kill_rule": "kill when every OOD split has base ci_high at or below null ci_high plus kill_margin",
+    "metrics": [
+      "top1_accuracy",
+      "mean_rank",
+      "calibration_error"
+    ],
+    "not_ready_rule": "not_ready when any owner-local budget, arm, split, metric, or control gate fails",
+    "owner": "bedc_quality_lab.tasks.jepa_wm_l1_ood_adjudication",
+    "schema_id": "bedc-quality-lab:jepa-wm-l1-ood-adjudication:preregistration-card",
+    "source_issue": "#1553",
+    "success_rule": "success when every OOD split has base ci_low above null ci_high plus success_margin, controls stay inside the null band, and the teacher arm dominates base"
+  },
+  "producer": "bedc_quality_lab.tasks.jepa_wm_l1_ood_adjudication",
+  "raw_digest": "09ae04b2f309122b4fed9efe0bd32ce7e818cb0b29c3e63dae180b2b0baaad38",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "fixed arms and fixed OOD splits in the preregistration card",
+      "calibration_source": "$.split_adjudications",
+      "owner": "jepa-wm-l1-ood-adjudication"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "fixture OOD adjudication uses committed owner-local rows",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "not-requested"
+      },
+      "python": "3.12.13"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.preregistration_card",
+        "comparison": "status_equal",
+        "owner": "jepa-wm-l1-ood-adjudication",
+        "pointer": "$.verdict.status",
+        "reference_value": "success",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      1553
+    ]
+  },
+  "schema_id": "bedc-quality-lab:jepa-wm-l1-ood-adjudication",
+  "source_artifacts": {
+    "admission_owner": "reports/canonical/jepa-wm-l1-admission.json",
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "evaluator_calibration": "reports/canonical/jepa-wm-l1-evaluator-calibration.json"
+  },
+  "source_issue": "#1553",
+  "split_adjudications": [
+    {
+      "base_high_over_null_high": 0.167,
+      "base_over_null_low_margin": 0.086,
+      "evidence_pointers": {
+        "base": "$.observations[split=heldout-dynamics,arm=base]",
+        "larger_base": "$.observations[split=heldout-dynamics,arm=larger_base]",
+        "null": "$.observations[split=heldout-dynamics,arm=null]"
+      },
+      "larger_base_low_minus_base_low": 0.032,
+      "split_id": "heldout-dynamics",
+      "status": "success_candidate"
+    },
+    {
+      "base_high_over_null_high": 0.139,
+      "base_over_null_low_margin": 0.06,
+      "evidence_pointers": {
+        "base": "$.observations[split=goal-remap,arm=base]",
+        "larger_base": "$.observations[split=goal-remap,arm=larger_base]",
+        "null": "$.observations[split=goal-remap,arm=null]"
+      },
+      "larger_base_low_minus_base_low": 0.041,
+      "split_id": "goal-remap",
+      "status": "success_candidate"
+    },
+    {
+      "base_high_over_null_high": 0.151,
+      "base_over_null_low_margin": 0.061,
+      "evidence_pointers": {
+        "base": "$.observations[split=temporal-gap,arm=base]",
+        "larger_base": "$.observations[split=temporal-gap,arm=larger_base]",
+        "null": "$.observations[split=temporal-gap,arm=null]"
+      },
+      "larger_base_low_minus_base_low": 0.038,
+      "split_id": "temporal-gap",
+      "status": "success_candidate"
+    },
+    {
+      "base_high_over_null_high": 0.14,
+      "base_over_null_low_margin": 0.055,
+      "evidence_pointers": {
+        "base": "$.observations[split=distractor-clutter,arm=base]",
+        "larger_base": "$.observations[split=distractor-clutter,arm=larger_base]",
+        "null": "$.observations[split=distractor-clutter,arm=null]"
+      },
+      "larger_base_low_minus_base_low": 0.038,
+      "split_id": "distractor-clutter",
+      "status": "success_candidate"
+    }
+  ],
+  "verdict": {
+    "failed_gates": [],
+    "reason": "base arm clears null by the preregistered success margin on every OOD split",
+    "status": "success",
+    "status_domain": [
+      "success",
+      "kill",
+      "abstain",
+      "not_ready"
+    ]
+  }
+}
