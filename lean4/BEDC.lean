@@ -8265,6 +8265,7 @@ import BEDC.Derived.ParsevalUp.SoneOrthogonalityHandoff
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionBasinPolynomialUp.TasteGate
 import BEDC.Derived.PartitionBasinUp.TasteGate
+import BEDC.Derived.PartitionCoreIncidenceUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PathConnectedSpaceUp.TasteGate
