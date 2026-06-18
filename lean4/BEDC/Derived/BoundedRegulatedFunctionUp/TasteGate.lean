@@ -13,20 +13,20 @@ inductive BoundedRegulatedFunctionUp : Type where
   | mk (F B E H C P N : BHist) : BoundedRegulatedFunctionUp
   deriving DecidableEq
 
-def boundedRegulatedFunctionEncodeBHist : BHist → RawEvent
+def boundedRegulatedFunctionEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: boundedRegulatedFunctionEncodeBHist h
   | BHist.e1 h => BMark.b1 :: boundedRegulatedFunctionEncodeBHist h
 
-def boundedRegulatedFunctionDecodeBHist : RawEvent → BHist
+def boundedRegulatedFunctionDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (boundedRegulatedFunctionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (boundedRegulatedFunctionDecodeBHist tail)
 
 private theorem BoundedRegulatedFunctionTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
+    forall h : BHist,
       boundedRegulatedFunctionDecodeBHist (boundedRegulatedFunctionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -35,15 +35,15 @@ private theorem BoundedRegulatedFunctionTasteGate_single_carrier_alignment_decod
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def boundedRegulatedFunctionFields : BoundedRegulatedFunctionUp → List BHist
+def boundedRegulatedFunctionFields : BoundedRegulatedFunctionUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | BoundedRegulatedFunctionUp.mk F B E H C P N => [F, B, E, H, C, P, N]
 
-def boundedRegulatedFunctionToEventFlow : BoundedRegulatedFunctionUp → EventFlow
+def boundedRegulatedFunctionToEventFlow : BoundedRegulatedFunctionUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (boundedRegulatedFunctionFields x).map boundedRegulatedFunctionEncodeBHist
 
-private def boundedRegulatedFunctionEventAt : Nat → EventFlow → RawEvent
+private def boundedRegulatedFunctionEventAt : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -91,7 +91,7 @@ private theorem BoundedRegulatedFunctionTasteGate_single_carrier_alignment_round
 
 private theorem BoundedRegulatedFunctionTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : BoundedRegulatedFunctionUp} :
-    boundedRegulatedFunctionToEventFlow x = boundedRegulatedFunctionToEventFlow y →
+    boundedRegulatedFunctionToEventFlow x = boundedRegulatedFunctionToEventFlow y ->
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -104,6 +104,18 @@ private theorem BoundedRegulatedFunctionTasteGate_single_carrier_alignment_toEve
       (BoundedRegulatedFunctionTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (BoundedRegulatedFunctionTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem boundedRegulatedFunction_field_faithful :
+    forall x y : BoundedRegulatedFunctionUp,
+      boundedRegulatedFunctionFields x = boundedRegulatedFunctionFields y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk F1 B1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk F2 B2 E2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance boundedRegulatedFunctionBHistCarrier :
     BHistCarrier BoundedRegulatedFunctionUp where
@@ -124,19 +136,42 @@ instance boundedRegulatedFunctionChapterTasteGate :
     exact hxy
       (BoundedRegulatedFunctionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+instance boundedRegulatedFunctionFieldFaithful :
+    FieldFaithful BoundedRegulatedFunctionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := boundedRegulatedFunctionFields
+  field_faithful := boundedRegulatedFunction_field_faithful
+
+instance boundedRegulatedFunctionNontrivial :
+    Nontrivial BoundedRegulatedFunctionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BoundedRegulatedFunctionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      BoundedRegulatedFunctionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate BoundedRegulatedFunctionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  boundedRegulatedFunctionChapterTasteGate
+
 theorem BoundedRegulatedFunctionTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
+    (forall h : BHist,
       boundedRegulatedFunctionDecodeBHist (boundedRegulatedFunctionEncodeBHist h) = h) ∧
       Nonempty (BHistCarrier BoundedRegulatedFunctionUp) ∧
         Nonempty (ChapterTasteGate BoundedRegulatedFunctionUp) ∧
-          boundedRegulatedFunctionEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact BoundedRegulatedFunctionTasteGate_single_carrier_alignment_decode_encode
-  constructor
-  · exact ⟨boundedRegulatedFunctionBHistCarrier⟩
-  constructor
-  · exact ⟨boundedRegulatedFunctionChapterTasteGate⟩
-  · rfl
+          Nonempty (FieldFaithful BoundedRegulatedFunctionUp) ∧
+            Nonempty (Nontrivial BoundedRegulatedFunctionUp) ∧
+              boundedRegulatedFunctionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨BoundedRegulatedFunctionTasteGate_single_carrier_alignment_decode_encode,
+      ⟨⟨boundedRegulatedFunctionBHistCarrier⟩,
+        ⟨⟨boundedRegulatedFunctionChapterTasteGate⟩,
+          ⟨⟨boundedRegulatedFunctionFieldFaithful⟩,
+            ⟨⟨boundedRegulatedFunctionNontrivial⟩, rfl⟩⟩⟩⟩⟩
 
 end BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
