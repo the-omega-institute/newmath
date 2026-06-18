@@ -14,7 +14,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def RegularCauchyCriterionCarrier [AskSetup] [PackageSetup]
+private def RegularCauchyCriterionCarrier [AskSetup] [PackageSetup]
     (stream readback modulus dyadic criterion convergence realBoundary transport replay provenance
       localName : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
