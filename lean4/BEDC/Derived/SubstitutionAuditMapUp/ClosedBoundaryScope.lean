@@ -9,7 +9,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 
-theorem SubstitutionAuditMapCarrier_closed_boundary_scope [AskSetup] [PackageSetup]
+theorem substitutionauditmap_closed_boundary_scope_boundary_namecert [AskSetup] [PackageSetup]
     {T C R S K G H Q P N boundaryRead routeRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     SubstitutionAuditMapCarrier T C R S K G H Q P N bundle pkg →
