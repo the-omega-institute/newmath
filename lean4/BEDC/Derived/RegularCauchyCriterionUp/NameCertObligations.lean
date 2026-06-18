@@ -1,5 +1,7 @@
+import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -9,6 +11,7 @@ namespace BEDC.Derived.RegularCauchyCriterionUp
 
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
