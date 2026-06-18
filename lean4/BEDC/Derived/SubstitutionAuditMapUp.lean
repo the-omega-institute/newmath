@@ -285,4 +285,55 @@ theorem SubstitutionAuditMapCarrier_downstream_reader_boundary [AskSetup] [Packa
   }
   exact ⟨cert, downstreamUnary, downstreamRoute⟩
 
+theorem SubstitutionAuditMapCarrier_scoped_closure_package [AskSetup] [PackageSetup]
+    {term closed shift substitute composition generator transport route provenance name replayRead
+      namedRead ledgerRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionAuditMapCarrier term closed shift substitute composition generator transport route
+        provenance name bundle pkg ->
+      Cont transport route replayRead ->
+        Cont replayRead name namedRead ->
+          Cont provenance name ledgerRead ->
+            Cont route name consumerRead ->
+              PkgSig bundle namedRead pkg ->
+                PkgSig bundle ledgerRead pkg ->
+                  PkgSig bundle consumerRead pkg ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row transport ∨ hsame row route ∨ hsame row replayRead ∨
+                            hsame row name ∨ hsame row namedRead)
+                        (fun row : BHist =>
+                          hsame row namedRead ∧ Cont transport route replayRead ∧
+                            Cont replayRead name namedRead ∧ PkgSig bundle namedRead pkg)
+                        hsame ∧
+                      SemanticNameCert
+                          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row term ∨ hsame row closed ∨ hsame row shift ∨
+                              hsame row substitute ∨ hsame row composition ∨
+                                hsame row generator ∨ hsame row transport ∨ hsame row route ∨
+                                  hsame row consumerRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                              PkgSig bundle consumerRead pkg)
+                          hsame ∧
+                        UnaryHistory term ∧ UnaryHistory closed ∧ UnaryHistory generator ∧
+                          UnaryHistory consumerRead ∧ Cont route name consumerRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert ProbeBundle Pkg PkgSig
+  intro carrier replayRoute namedRoute ledgerRoute consumerRoute namedPkg ledgerPkg consumerPkg
+  have obligation :=
+    SubstitutionAuditMapCarrier_obligation_closure_package carrier replayRoute namedRoute
+      ledgerRoute namedPkg ledgerPkg
+  have consumerScope :=
+    SubstitutionAuditMapCarrier_consumer_obstruction_scope carrier consumerRoute consumerPkg
+  obtain ⟨namedCert, _ledgerCert, termUnary, closedUnary, _shiftUnary, _substituteUnary,
+    _compositionUnary, generatorUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary⟩ := obligation
+  obtain ⟨consumerCert, consumerUnary, consumerRouteKept, _provenancePkg, _consumerPkg⟩ :=
+    consumerScope
+  exact
+    ⟨namedCert, consumerCert, termUnary, closedUnary, generatorUnary, consumerUnary,
+      consumerRouteKept⟩
+
 end BEDC.Derived.SubstitutionAuditMapUp
