@@ -234,7 +234,23 @@ def assimilation_lane() -> dict:
 
 
 def keep_lane():
-    """Lean commit lane: commit changed bridge files on this branch."""
+    """Lean commit lane: commit changed bridge files on this branch.
+
+    Only commits when there is a real SCIENCE content delta (new/changed claim
+    verdicts, registered experiments, ledger entries, or oracle plans). PDF/aux
+    rebuild churn and oracle-session timestamps never trigger a commit on their
+    own -- a no-output cycle must not push (that would be pollution).
+    """
+    # Science content whose change is a real research output.
+    science_paths = (
+        "tools/window_codon_bridge/registries/claims.json",
+        "tools/window_codon_bridge/registries/experiments.json",
+        "tools/window_codon_bridge/oracle_inbox/candidates.jsonl",
+        "tools/window_codon_bridge/state/oracle_assimilation",
+        "papers/window_codon_bridge/bridge_ledger.jsonl",
+    )
+    # Everything committed alongside when (and only when) science changed; the
+    # rebuilt PDF then reflects the new science. These paths alone are churn.
     tracked_paths = (
         "tools/window_codon_bridge/registries",
         "tools/window_codon_bridge/experiments",
@@ -243,9 +259,9 @@ def keep_lane():
         "tools/window_codon_bridge/state/oracle_sessions",
         "papers/window_codon_bridge",
     )
-    st = git("status", "--porcelain", *tracked_paths).stdout.strip()
-    if not st:
-        return {"committed": False}
+    science_delta = git("status", "--porcelain", *science_paths).stdout.strip()
+    if not science_delta:
+        return {"committed": False, "reason": "no_science_delta"}
     git("add", *tracked_paths)
     r = git("commit", "-m", f"Bridge cycle {now_iso()}: derivation verdicts + ledger")
     return {"committed": r.returncode == 0, "out": (r.stdout or r.stderr)[-200:]}
