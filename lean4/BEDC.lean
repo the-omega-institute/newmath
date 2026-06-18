@@ -945,6 +945,7 @@ import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
 import BEDC.Derived.BishopMonotoneRealConvergenceUp.TasteGate
 import BEDC.Derived.BishopMonotoneRealLimitUp.TasteGate
+import BEDC.Derived.BishopNestedClosedSetPrincipleUp
 import BEDC.Derived.BishopOrderCompletionUp.TasteGate
 import BEDC.Derived.BishopRealApartnessTopologyUp.TasteGate
 import BEDC.Derived.BishopRealComparisonModulusUp.TasteGate
@@ -1441,6 +1442,7 @@ import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
+import BEDC.Derived.CartanAngularBoundaryInvariantUp
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CategoryFunctorIndex
@@ -6731,6 +6733,7 @@ import BEDC.Derived.LocatedSupremumUp.StandardBridgeRoute
 import BEDC.Derived.LocatedSupremumUp.StreamNameCutScope
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.WindowTransport
+import BEDC.Derived.LocatedUniformCauchyPrincipleUp.TasteGate
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
 import BEDC.Derived.LocatedUniformContinuityUp.TasteGate
 import BEDC.Derived.LocatedUniformExtremeValueUp
