@@ -11061,6 +11061,7 @@ import BEDC.Derived.Window6NecklaceOrbitCount
 import BEDC.Derived.Window6TraceLucas
 import BEDC.Derived.Window6TransferMatrix
 import BEDC.Derived.Window6WeightedNecklace
+import BEDC.Derived.Window6JointNecklace
 import BEDC.Derived.Window6Zeckendorf
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
 import BEDC.Derived.WitnessedDescentLedgerUp
