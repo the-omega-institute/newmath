@@ -337,4 +337,35 @@ theorem PaperLeanDriftWitness_unresolved_marker_refusal [AskSetup] [PackageSetup
     ⟨unresolvedUnary, refusalUnary, auditUnary, unresolvedRoute, refusalRoute, auditRoute,
       namePkg, auditPkg⟩
 
+theorem PaperLeanDriftWitness_marker_kind_separation [AskSetup] [PackageSetup]
+    {M A L I R H C P N kindRead normalizedRead verdictRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PaperLeanDriftWitnessCarrier M A L I R H C P N bundle pkg →
+      Cont M A kindRead →
+        Cont kindRead I normalizedRead →
+          Cont normalizedRead R verdictRead →
+            Cont verdictRead C replayRead →
+              PkgSig bundle replayRead pkg →
+                UnaryHistory kindRead ∧ UnaryHistory normalizedRead ∧
+                  UnaryHistory verdictRead ∧ UnaryHistory replayRead ∧ Cont M A kindRead ∧
+                    Cont kindRead I normalizedRead ∧ Cont normalizedRead R verdictRead ∧
+                      Cont verdictRead C replayRead ∧ PkgSig bundle N pkg ∧
+                        PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier markerKindRoute normalizedRoute verdictRoute replayRoute replayPkg
+  obtain ⟨mUnary, aUnary, _lUnary, iUnary, rUnary, _hUnary, cUnary, _pUnary, _nUnary,
+    _markerNameLedger, _ledgerInventoryVerdict, _verdictTransportConsumer, namePkg⟩ :=
+    carrier
+  have kindUnary : UnaryHistory kindRead :=
+    unary_cont_closed mUnary aUnary markerKindRoute
+  have normalizedUnary : UnaryHistory normalizedRead :=
+    unary_cont_closed kindUnary iUnary normalizedRoute
+  have verdictUnary : UnaryHistory verdictRead :=
+    unary_cont_closed normalizedUnary rUnary verdictRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed verdictUnary cUnary replayRoute
+  exact
+    ⟨kindUnary, normalizedUnary, verdictUnary, replayUnary, markerKindRoute,
+      normalizedRoute, verdictRoute, replayRoute, namePkg, replayPkg⟩
+
 end BEDC.Derived.PaperLeanDriftWitnessUp
