@@ -267,6 +267,7 @@ import BEDC.Derived.ApproximationTowerResidueUp.HiddenSourceNonescape
 import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationTowerUp
 import BEDC.Derived.ApproximationUp
+import BEDC.Derived.ArchimedeanApproximationUp.TasteGate
 import BEDC.Derived.ArchimedeanBracketUp.TasteGate
 import BEDC.Derived.ArchimedeanCauchyCompleteFieldUp.TasteGate
 import BEDC.Derived.ArchimedeanCauchyTailModulusUp
@@ -2597,6 +2598,7 @@ import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.ClassFieldUp.TasteGate
 import BEDC.Derived.ClassifierBoundaryUp
+import BEDC.Derived.ClassifierBoundaryUp.TasteGate
 import BEDC.Derived.ClassifierMorphismUp.Packet
 import BEDC.Derived.ClassifierMorphismUp.TasteGate
 import BEDC.Derived.ClassifierTypingUp
@@ -5804,6 +5806,7 @@ import BEDC.Derived.GaussTestUp.TasteGate
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeneratingFunctionUp.TasteGate
 import BEDC.Derived.GeneratorAuditClosureUp
+import BEDC.Derived.GeneratorAuditClosureUp.TasteGate
 import BEDC.Derived.GeneratorClosureUp
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp
