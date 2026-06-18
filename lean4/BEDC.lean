@@ -2344,6 +2344,7 @@ import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
 import BEDC.Derived.CauchyTailRequestUp
 import BEDC.Derived.CauchyTailRequestUp.TasteGate
 import BEDC.Derived.CauchyTailSupremumUp.TasteGate
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyTightnessUp.TasteGate
@@ -6689,6 +6690,7 @@ import BEDC.Derived.LocatedCompletionUp.NameCertObligations
 import BEDC.Derived.LocatedCoveringNumberUp.Carrier
 import BEDC.Derived.LocatedCoveringNumberUp.TasteGate
 import BEDC.Derived.LocatedCutApproximationUp.TasteGate
+import BEDC.Derived.LocatedCutCompletionUp.TasteGate
 import BEDC.Derived.LocatedCutRealUp.TasteGate
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.LocatedCutUp.BridgeBoundaryPackage
@@ -7550,6 +7552,7 @@ import BEDC.Derived.MetricCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.MetricCompletionComparisonUp.TasteGate
 import BEDC.Derived.MetricCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.MetricCompletionFiniteCoproductUp.TasteGate
+import BEDC.Derived.MetricCompletionFiniteUp.NameCertObligations
 import BEDC.Derived.MetricCompletionFiniteUp.TasteGate
 import BEDC.Derived.MetricCompletionFunctorUp
 import BEDC.Derived.MetricCompletionFunctorUp.TasteGate
@@ -9338,6 +9341,7 @@ import BEDC.Derived.RegularCauchyCompletionUnitUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalUp.TasteGate
 import BEDC.Derived.RegularCauchyCompositionUp.TasteGate
+import BEDC.Derived.RegularCauchyCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyDensityUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
