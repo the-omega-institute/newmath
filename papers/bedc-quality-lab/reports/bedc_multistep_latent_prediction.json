@@ -1,0 +1,266 @@
+{
+  "cannot_claim": [
+    "MiniGrid planning success",
+    "public benchmark superiority",
+    "native V-JEPA2-AC rollout reproduction",
+    "quality backend full-sweep admission"
+  ],
+  "claim_scope": {
+    "full_4090_sweep": "not_claimed",
+    "local_latent_rollout_smoke": "pass",
+    "minigrid_planning_success": "not_claimed",
+    "native_vjepa2_ac_rollout": "not_claimed"
+  },
+  "evidence_chain": {
+    "manifest_key": "multistep_latent_prediction",
+    "owner_module": "bedc_quality_lab.bedc_multistep_latent_prediction",
+    "readiness_contract": "multistep_latent_prediction"
+  },
+  "execution_contract": {
+    "default_command": "python scripts/run_bedc_multistep_latent_prediction.py",
+    "default_report": "reports/bedc_multistep_latent_prediction.json",
+    "saves_per_example_latents": false
+  },
+  "experiment_contract": {
+    "execution_scope": "deterministic CPU smoke record",
+    "nonblocking_readiness": true,
+    "objective": "compare action-conditioned one-step and K-step latent rollout predictors on one local evidence surface"
+  },
+  "gate_spec": {
+    "gate_id": "latent-rollout-smoke-nonblocking",
+    "observed": {
+      "max_unlogged_error_rate": 0.041666666666666664,
+      "min_certified_coverage": 0.9895833333333334,
+      "min_gap_detection_auc": 0.5
+    },
+    "required_record_fields": [
+      "rollout_contract",
+      "predictor_specs",
+      "hardgate",
+      "runs",
+      "summary",
+      "metrics",
+      "cannot_claim"
+    ],
+    "status": "pass",
+    "thresholds": {
+      "max_unlogged_error_rate": 0.2,
+      "min_certified_coverage": 0.5,
+      "min_coverage": 0.5,
+      "min_gap_detection_auc": 0.45
+    }
+  },
+  "hardgate": {
+    "gate_id": "latent-rollout-smoke-nonblocking",
+    "observed": {
+      "max_unlogged_error_rate": 0.041666666666666664,
+      "min_certified_coverage": 0.9895833333333334,
+      "min_gap_detection_auc": 0.5
+    },
+    "required_record_fields": [
+      "rollout_contract",
+      "predictor_specs",
+      "hardgate",
+      "runs",
+      "summary",
+      "metrics",
+      "cannot_claim"
+    ],
+    "status": "pass",
+    "thresholds": {
+      "max_unlogged_error_rate": 0.2,
+      "min_certified_coverage": 0.5,
+      "min_coverage": 0.5,
+      "min_gap_detection_auc": 0.45
+    }
+  },
+  "metrics": {
+    "certified_coverage": 0.9895833333333334,
+    "gap_detection_auc": 0.5,
+    "latent_prediction_score": 0.8527564966812776,
+    "rollout_mse": 0.03602126586901318,
+    "unlogged_error_rate": 0.041666666666666664
+  },
+  "predictor_spec": {
+    "action_conditioned": true,
+    "action_dim": 2,
+    "family": "jepa_mlp",
+    "fit_method": "closed local action-conditioned projection",
+    "horizon": 1,
+    "lambda_gap": 0.5,
+    "lambda_latent": 1.0,
+    "latent_dim": 3,
+    "predictor_id": "one_step_jepa_mlp_smoke",
+    "training_status": "deterministic_smoke_baseline"
+  },
+  "predictor_specs": [
+    {
+      "action_conditioned": true,
+      "action_dim": 2,
+      "family": "jepa_mlp",
+      "fit_method": "closed local action-conditioned projection",
+      "horizon": 1,
+      "lambda_gap": 0.5,
+      "lambda_latent": 1.0,
+      "latent_dim": 3,
+      "predictor_id": "one_step_jepa_mlp_smoke",
+      "training_status": "deterministic_smoke_baseline"
+    },
+    {
+      "action_conditioned": true,
+      "action_dim": 2,
+      "family": "jepa_mlp",
+      "fit_method": "closed local action-conditioned projection",
+      "horizon": 4,
+      "lambda_gap": 0.5,
+      "lambda_latent": 1.0,
+      "latent_dim": 3,
+      "predictor_id": "k_step_jepa_mlp_smoke",
+      "training_status": "deterministic_smoke_baseline"
+    },
+    {
+      "action_conditioned": true,
+      "action_dim": 2,
+      "family": "gru",
+      "fit_method": "closed local recurrent surrogate",
+      "horizon": 4,
+      "lambda_gap": 1.0,
+      "lambda_latent": 1.0,
+      "latent_dim": 3,
+      "predictor_id": "gru_rollout_smoke",
+      "training_status": "deterministic_smoke_baseline"
+    },
+    {
+      "action_conditioned": true,
+      "action_dim": 2,
+      "family": "rssm",
+      "fit_method": "closed local state-space surrogate",
+      "horizon": 4,
+      "lambda_gap": 1.0,
+      "lambda_latent": 0.75,
+      "latent_dim": 3,
+      "predictor_id": "rssm_rollout_smoke",
+      "training_status": "deterministic_smoke_baseline"
+    },
+    {
+      "action_conditioned": true,
+      "action_dim": 2,
+      "family": "transformer",
+      "fit_method": "closed local sequence surrogate",
+      "horizon": 4,
+      "lambda_gap": 0.75,
+      "lambda_latent": 1.0,
+      "latent_dim": 3,
+      "predictor_id": "transformer_rollout_smoke",
+      "training_status": "deterministic_smoke_baseline"
+    }
+  ],
+  "record_scope": "local_smoke_contract",
+  "rollout_batch": {
+    "action_dim": 2,
+    "environment_id": "boundary-gated-ou-latent-rollout",
+    "horizon": 4,
+    "latent_dim": 3,
+    "sample_count": 96,
+    "split": "smoke",
+    "unsafe_transition_rate": 0.010416666666666666
+  },
+  "rollout_contract": {
+    "action_dim": 2,
+    "environment_id": "boundary-gated-ou-latent-rollout",
+    "horizon": 4,
+    "latent_dim": 3,
+    "sample_count": 96,
+    "split": "smoke",
+    "unsafe_transition_rate": 0.010416666666666666
+  },
+  "runs": [
+    {
+      "action_conditioned": true,
+      "certified_coverage": 0.9895833333333334,
+      "family": "jepa_mlp",
+      "gap_detection_auc": 0.5,
+      "horizon": 1,
+      "lambda_gap": 0.5,
+      "lambda_latent": 1.0,
+      "latent_r2_1step": 0.9691018375430144,
+      "latent_r2_kstep": 0.5118268266880819,
+      "planning_success": null,
+      "predictor_id": "one_step_jepa_mlp_smoke",
+      "rollout_mse": 0.07348503398078228,
+      "unlogged_error_rate": 0.041666666666666664
+    },
+    {
+      "action_conditioned": true,
+      "certified_coverage": 0.9895833333333334,
+      "family": "jepa_mlp",
+      "gap_detection_auc": 0.5,
+      "horizon": 4,
+      "lambda_gap": 0.5,
+      "lambda_latent": 1.0,
+      "latent_r2_1step": 0.9691018375430144,
+      "latent_r2_kstep": 0.8527564966812776,
+      "planning_success": null,
+      "predictor_id": "k_step_jepa_mlp_smoke",
+      "rollout_mse": 0.022164662944131473,
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "action_conditioned": true,
+      "certified_coverage": 0.9895833333333334,
+      "family": "gru",
+      "gap_detection_auc": 0.5,
+      "horizon": 4,
+      "lambda_gap": 1.0,
+      "lambda_latent": 1.0,
+      "latent_r2_1step": 0.9693074923325729,
+      "latent_r2_kstep": 0.8504701061575004,
+      "planning_success": null,
+      "predictor_id": "gru_rollout_smoke",
+      "rollout_mse": 0.022508834837464395,
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "action_conditioned": true,
+      "certified_coverage": 0.9895833333333334,
+      "family": "rssm",
+      "gap_detection_auc": 0.5,
+      "horizon": 4,
+      "lambda_gap": 1.0,
+      "lambda_latent": 0.75,
+      "latent_r2_1step": 0.9522838110123869,
+      "latent_r2_kstep": 0.7369738315637739,
+      "planning_success": null,
+      "predictor_id": "rssm_rollout_smoke",
+      "rollout_mse": 0.03959350489139048,
+      "unlogged_error_rate": 0.010416666666666666
+    },
+    {
+      "action_conditioned": true,
+      "certified_coverage": 0.9895833333333334,
+      "family": "transformer",
+      "gap_detection_auc": 0.5,
+      "horizon": 4,
+      "lambda_gap": 0.75,
+      "lambda_latent": 1.0,
+      "latent_r2_1step": 0.9692946347313345,
+      "latent_r2_kstep": 0.8514967550656927,
+      "planning_success": null,
+      "predictor_id": "transformer_rollout_smoke",
+      "rollout_mse": 0.02235429269129727,
+      "unlogged_error_rate": 0.0
+    }
+  ],
+  "schema_id": "bedc-multistep-latent-prediction",
+  "status": "executed",
+  "summary": {
+    "best_latent_r2_kstep": 0.8527564966812776,
+    "family_count": 4,
+    "max_unlogged_error_rate": 0.041666666666666664,
+    "mean_rollout_mse": 0.03602126586901318,
+    "min_certified_coverage": 0.9895833333333334,
+    "min_gap_detection_auc": 0.5,
+    "planning_success_claimed": false,
+    "run_count": 5
+  }
+}
