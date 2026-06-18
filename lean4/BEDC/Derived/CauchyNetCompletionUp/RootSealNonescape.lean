@@ -123,4 +123,101 @@ theorem CauchyNetCompletionRootSealNonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, sealUnary⟩
 
+theorem CauchyNetCompletionPublicHandoff [AskSetup] [PackageSetup]
+    {D W Q M U S R A H C P N boundaryRead requestRead mooreRead metricRead
+      uniformRead readbackRead sealRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyNetCompletionCarrier D W Q M U S R A H C P N bundle pkg ->
+      Cont D W boundaryRead ->
+        Cont boundaryRead Q requestRead ->
+          Cont requestRead M mooreRead ->
+            Cont mooreRead U metricRead ->
+              Cont metricRead S uniformRead ->
+                Cont uniformRead R readbackRead ->
+                  Cont readbackRead A sealRead ->
+                    Cont sealRead N publicRead ->
+                      PkgSig bundle P pkg ->
+                        PkgSig bundle N pkg ->
+                          SemanticNameCert
+                              (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row D ∨ hsame row W ∨ hsame row Q ∨
+                                  hsame row M ∨ hsame row U ∨ hsame row S ∨
+                                    hsame row R ∨ hsame row A ∨ hsame row publicRead)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ Cont D W boundaryRead ∧
+                                  Cont boundaryRead Q requestRead ∧
+                                    Cont sealRead N publicRead ∧
+                                      PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                              hsame ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: CauchyNetCompletionCarrier BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier boundaryRoute requestRoute mooreRoute metricRoute uniformRoute readbackRoute
+    sealRoute publicRoute provenancePkg localNamePkg
+  obtain ⟨unaryD, unaryW, unaryQ, unaryM, unaryU, unaryS, unaryR, unaryA,
+    _unaryH, _unaryC, _unaryP, unaryN, _carrierBoundaryRoute, _carrierMooreRoute,
+      _carrierUniformRoute, _carrierSealRoute, _carrierProvenancePkg,
+        _carrierLocalNamePkg⟩ := carrier
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed unaryD unaryW boundaryRoute
+  have requestUnary : UnaryHistory requestRead :=
+    unary_cont_closed boundaryUnary unaryQ requestRoute
+  have mooreUnary : UnaryHistory mooreRead :=
+    unary_cont_closed requestUnary unaryM mooreRoute
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed mooreUnary unaryU metricRoute
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed metricUnary unaryS uniformRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed uniformUnary unaryR readbackRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary unaryA sealRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealUnary unaryN publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row W ∨ hsame row Q ∨ hsame row M ∨ hsame row U ∨
+              hsame row S ∨ hsame row R ∨ hsame row A ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont D W boundaryRead ∧ Cont boundaryRead Q requestRead ∧
+              Cont sealRead N publicRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, boundaryRoute, requestRoute, publicRoute, provenancePkg,
+          localNamePkg⟩
+  }
+  exact ⟨cert, publicUnary⟩
+
 end BEDC.Derived.CauchyNetCompletionUp
