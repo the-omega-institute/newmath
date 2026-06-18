@@ -1,13 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteHistLocalityPacketUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -291,6 +299,80 @@ theorem FiniteHistLocalityPacketNoGlobalSyncRefusal
   exact
     ⟨localityUnary, symmetryReplayUnary, localityReplayUnary, localityRoute,
       symmetryRoute, localityReplayRoute, hsame_refl Q⟩
+
+theorem FiniteHistLocalityPacket_consumer_handoff [AskSetup] [PackageSetup]
+    {H0 H1 L I S T C Q N localityReplay consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    finiteHistLocalityPacketFields (FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N) =
+      [H0, H1, L, I, S, T, C, Q, N] →
+      Cont H0 H1 L →
+        Cont L T localityReplay →
+          Cont localityReplay C consumerRead →
+            PkgSig bundle consumerRead pkg →
+              UnaryHistory H0 →
+                UnaryHistory H1 →
+                  UnaryHistory T →
+                    UnaryHistory C →
+                      SemanticNameCert
+                          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                          (fun row : BHist => hsame row L ∨ hsame row localityReplay ∨
+                            hsame row consumerRead)
+                          (fun row : BHist =>
+                            hsame row consumerRead ∧ PkgSig bundle consumerRead pkg)
+                          hsame ∧
+                        UnaryHistory L ∧ UnaryHistory localityReplay ∧
+                          UnaryHistory consumerRead ∧ Cont H0 H1 L ∧
+                            Cont L T localityReplay ∧
+                              Cont localityReplay C consumerRead ∧
+                                PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert UnaryHistory
+  intro hfields localityRoute replayRoute consumerRoute consumerPkg h0Unary h1Unary
+    transportUnary consumerUnary
+  cases hfields
+  have localityUnary : UnaryHistory L :=
+    unary_cont_closed h0Unary h1Unary localityRoute
+  have replayUnary : UnaryHistory localityReplay :=
+    unary_cont_closed localityUnary transportUnary replayRoute
+  have readUnary : UnaryHistory consumerRead :=
+    unary_cont_closed replayUnary consumerUnary consumerRoute
+  have sourceAtRead : hsame consumerRead consumerRead ∧ UnaryHistory consumerRead :=
+    ⟨hsame_refl consumerRead, readUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row L ∨ hsame row localityReplay ∨
+            hsame row consumerRead)
+          (fun row : BHist => hsame row consumerRead ∧ PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumerRead sourceAtRead
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, consumerPkg⟩
+  }
+  exact
+    ⟨cert, localityUnary, replayUnary, readUnary, localityRoute, replayRoute,
+      consumerRoute, consumerPkg⟩
 
 theorem FiniteHistLocalityPacketConsumerHandoff
     {H0 H1 L I S T C Q N localityReplay symmetryReplay handoff : BHist} :
