@@ -10195,6 +10195,7 @@ import BEDC.Derived.SignedDyadicExpansionUp.NameCertObligations
 import BEDC.Derived.SignedDyadicExpansionUp.TasteGate
 import BEDC.Derived.SignedDyadicNormalFormUp.TasteGate
 import BEDC.Derived.SilvermanToeplitzUp.TasteGate
+import BEDC.Derived.SimpleFunctionApproximationUp.TasteGate
 import BEDC.Derived.SimplicialApproximationUp.TasteGate
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
