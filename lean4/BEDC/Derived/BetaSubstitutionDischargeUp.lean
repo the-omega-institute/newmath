@@ -91,4 +91,26 @@ theorem BetaSubstitutionDischarge_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, betaUnary⟩
 
+theorem BetaSubstitutionDischargeCarrier_binder_boundary [AskSetup] [PackageSetup]
+    {context domain body argument codomain subst transport replay provenance localName
+      binderRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BetaSubstitutionDischargeCarrier context domain body argument codomain subst transport
+        replay provenance localName bundle pkg →
+      Cont subst replay binderRead →
+        UnaryHistory context ∧ UnaryHistory domain ∧ UnaryHistory body ∧
+          UnaryHistory argument ∧ UnaryHistory codomain ∧ UnaryHistory subst ∧
+            UnaryHistory binderRead ∧ Cont body argument subst ∧
+              Cont subst replay binderRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BetaSubstitutionDischargeCarrier BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier substReplayBinder
+  obtain ⟨contextUnary, domainUnary, bodyUnary, argumentUnary, codomainUnary, substUnary,
+    _transportUnary, replayUnary, _provenanceUnary, _localNameUnary, bodyArgumentSubst,
+    _substTransportReplay, provenancePkg⟩ := carrier
+  have binderUnary : UnaryHistory binderRead :=
+    unary_cont_closed substUnary replayUnary substReplayBinder
+  exact
+    ⟨contextUnary, domainUnary, bodyUnary, argumentUnary, codomainUnary, substUnary,
+      binderUnary, bodyArgumentSubst, substReplayBinder, provenancePkg⟩
+
 end BEDC.Derived.BetaSubstitutionDischargeUp
