@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\DoldKanUp$}
+\label{ch:concrete-instances-dold-kan-namecert}
+\origin{human}
+
+Following Dold and Kan on the equivalence between simplicial abelian groups and nonnegatively graded chain complexes, the $\DoldKanUp$ packet records the finite BEDC naming surface for the normalized-chain handoff. It sits after the face-and-degeneracy ledger of \autoref{ch:concrete-instances-simplicialset-namecert}, the chain comparison route of \autoref{ch:concrete-instances-eilenberg-zilber-namecert}, the cycle-boundary consumer of \autoref{ch:concrete-instances-homology-namecert}, and the additive exactness rows of \autoref{ch:concrete-instances-abeliancat-namecert}. The packet names only displayed simplicial-object rows, normalized-chain rows, abelian-category rows, homology readback, componentwise transport, replay, provenance, and a local naming row; it does not select quotient representatives, assert a host categorical equivalence, import ambient derived-category machinery, or choose an unbounded normalization procedure.
+
+\begin{definition}[Dold-Kan carrier]
+\label{def:dold-kan-carrier}
+A $\DoldKanUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,A,N,C,H,E,R,T,Q,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SimplicialSetUp$ source row, specialized to the visible simplicial abelian-object window inspected by the packet.
+\item $A$ is the $\AbelianCatUp$ ambient additive row in which kernels, cokernels, sums, and zero morphisms are read.
+\item $N$ is the normalized-chain row, recording the finite intersection of displayed degeneracy kernels and the quotient-free normalized endpoint used by the consumer.
+\item $C$ is the chain-complex row whose differential is read from the displayed face maps and whose square-zero check is routed through the same finite window.
+\item $H$ is the $\HomologyUp$ readback row reached only after the normalized-chain and differential rows have been displayed.
+\item $E$ records the Eilenberg-Zilber compatibility row consumed from \autoref{ch:concrete-instances-eilenberg-zilber-namecert} when tensor or product consumers ask for a chain-level comparison.
+\item $R$ stores componentwise $\hsame$ transport for the simplicial-object, abelian-category, normalized-chain, differential, homology, comparison, provenance, and local naming rows.
+\item $T$ stores displayed $\Cont$ replay from a finite simplicial window through normalization, differential readback, homology handoff, and comparison rows.
+\item $Q$ is the $\Pkg$ provenance row over $\DoldKanUp$, $\SimplicialSetUp$, $\AbelianCatUp$, $\HomologyUp$, $\EilenbergZilberUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $P$ records the public dependency boundary: every accepted read passes through the sibling chapters named above before a consumer may inspect the normalized-chain handoff.
+\item $L$ is the local $\NameCert_{\DoldKanUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the displayed tuple $S,A,N,C,H,E,R,T,Q,P,L$.
+\end{definition}
+
+\begin{theorem}[Dold-Kan NameCert obligations]
+\label{thm:dold-kan-namecert-obligations}
+For every accepted $\DoldKanUp$ carrier $D=(S,A,N,C,H,E,R,T,Q,P,L)$, the local $\NameCert_{\DoldKanUp}$ surface consists exactly of simplicial-object admission, abelian-category source admission, normalized-chain row admission, differential readback, homology handoff, Eilenberg-Zilber compatibility, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, dependency-boundary exposure, and local naming. A consumer cannot read the normalized-chain handoff without first exposing the $\SimplicialSetUp$, $\AbelianCatUp$, $\HomologyUp$, and $\EilenbergZilberUp$ sibling surfaces named by the carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:dold-kan-carrier}. The source rows $S$ and $A$ expose the finite simplicial-object window and the additive ambient rows before any normalized chain row is reachable.
+
+Next read $N$ and $C$. The normalized-chain endpoint is tied to the displayed degeneracy-kernel window, and the differential row is tied to the displayed face maps in the same packet. The homology row $H$ can therefore be consumed only after those rows have been displayed.
+
+Finally inspect $E,R,T,Q,P,L$. The comparison row $E$ supplies the Eilenberg-Zilber sibling route, while transport, replay, provenance, dependency boundary, and local naming keep all reads on the same finite carrier. Since no coordinate supplies host equivalence, quotient representative choice, derived-category machinery, or unbounded normalization, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dold-Kan normalized-chain handoff]
+\label{thm:dold-kan-normalized-chain-handoff}
+Every accepted $\DoldKanUp$ packet exports its normalized-chain handoff through the finite route
+$$
+\SimplicialSetUp,\ \AbelianCatUp \longmapsto N,C \longmapsto \HomologyUp \longmapsto \EilenbergZilberUp \longmapsto R,T,Q,P,L .
+$$
+The route reads finite face and degeneracy rows, additive kernel and zero rows, the normalized-chain endpoint, the differential row, homology readback, Eilenberg-Zilber comparison, componentwise transport, replay, provenance, and local naming before any downstream chain or homology consumer receives the handoff.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows $S$ and $A$. They are the only source rows for the simplicial object and abelian ambient data, so a normalized-chain request first opens those finite windows.
+
+Use the normalized-chain and chain rows $N$ and $C$. These rows display the degeneracy-kernel intersection and the differential readback before the homology row $H$ can be inspected.
+
+Attach the comparison and structural rows. The Eilenberg-Zilber row $E$ is downstream of the chain window, and $R,T,Q,P,L$ transport, replay, source, bound, and name the same packet. Thus the handoff remains finite and cannot be replaced by a host Dold-Kan equivalence, a quotient-chain representative, or an unbounded normalization oracle.
+\end{proof}
+
+\closureat{DoldKanUp}{seedStr}
+
+\begin{closurestatus}{\DoldKanUp}
+  \constructivestory{A $\DoldKanUp$ packet is generated from displayed SimplicialSetUp face-and-degeneracy rows, AbelianCatUp additive rows, normalized-chain rows, chain differential rows, HomologyUp readback, EilenbergZilberUp comparison, componentwise hsame transport, Cont replay, Pkg provenance, a dependency boundary, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dold-kan-carrier}, \autoref{thm:dold-kan-namecert-obligations}, and \autoref{thm:dold-kan-normalized-chain-handoff} seed the finite normalized-chain handoff over $\SimplicialSetUp$, $\AbelianCatUp$, $\HomologyUp$, and $\EilenbergZilberUp$ sibling surfaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, a host categorical equivalence, quotient chain equality, selected chain representatives, derived-category exactness, ambient homological algebra, unbounded normalization, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, normalized-chain row exactness, differential readback, homology handoff, Eilenberg-Zilber compatibility, transport, replay, provenance, dependency-boundary exposure, and local naming for BEDC.Derived.DoldKanUp.}
+\end{closurestatus}
