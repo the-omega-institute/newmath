@@ -58,6 +58,20 @@ Ledger-continuity and observer support are visible rows of the carrier, and the 
 \end{proof}
 \leanchecked{BEDC.Derived.OnticTowerUp.OnticTower\_namecert\_obligation\_surface}
 
+\begin{theorem}[OnticTower observer-budget separation]
+\label{thm:ontic-tower-observer-budget-separation}
+Let $T=(O,A,S,R,B,L,H,C,P,N)$ be an accepted $\OnticTowerUp$ packet. Any accepted stage-refinement read of $T$ must expose the $\ObserverBudgetSupportUp$ row $B$ together with the $\OnticStateUp$ source row $O$, approximation-tower row $A$, signature-fit row $S$, residue row $R$, ledger-continuity row $L$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. If the observer-budget coordinate is removed, the remaining rows do not form a valid $\NameCert_{\OnticTowerUp}$ route to observer-independent stage access.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:ontic-tower-carrier}. The observer-budget coordinate is a named carrier row, not explanatory prose outside the packet.
+
+Use the classifier of \autoref{def:ontic-tower-classifier}. It compares accepted tower packets through the shared observer-facing reads as well as through source, stage, signature-fit, residue, continuity, and structural rows, so a comparison that omits $B$ is not the same classifier route.
+
+Apply the stage-refinement theorem \autoref{thm:ontic-tower-stage-refinement}. Every accepted transition factors through $A,S,R,B,L$ before it is read as preserving or refining tower stage data.
+
+Finally apply the NameCert obligation surface of \autoref{thm:ontic-tower-namecert-obligation-surface}. That surface lists observer-budget support among the local obligations and explicitly excludes observer-independent access. Without a separate TasteGate marker, the closurestatus axis remains the existing seed-level report rather than a promotion to a stronger closure grade.
+\end{proof}
+
 The Lean follow-up path is \texttt{lean4/BEDC/Derived/OnticTowerUp/TasteGate.lean}. It must provide explicit $\mathsf{Nontrivial}\ \OnticTowerUp$ and $\mathsf{FieldFaithful}\ \OnticTowerUp$ instances preserving the source, stage, signature-fit, residue, observer-budget, ledger-continuity, transport, replay, provenance, and local naming rows.
 
 \falsifiablePrediction{An accepted $\OnticTowerUp$ packet cannot collapse to $\OnticStateUp$ without losing either a refinement transition or a ledger-continuity row.}
@@ -69,7 +83,7 @@ The Lean follow-up path is \texttt{lean4/BEDC/Derived/OnticTowerUp/TasteGate.lea
 \begin{closurestatus}{\OnticTowerUp}
   \constructivestory{An $\OnticTowerUp$ packet is generated from OnticState source, approximation-stage, signature-fit, residue-ledger, observer-budget, ledger-continuity, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:ontic-tower-carrier}, \autoref{def:ontic-tower-classifier}, \autoref{thm:ontic-tower-stage-refinement}, and \autoref{thm:ontic-tower-namecert-obligation-surface} bind the finite tower carrier, classifier, stage-refinement route, and NameCert obligation surface.}
+  \scopeclosed{\autoref{def:ontic-tower-carrier}, \autoref{def:ontic-tower-classifier}, \autoref{thm:ontic-tower-stage-refinement}, \autoref{thm:ontic-tower-namecert-obligation-surface}, and \autoref{thm:ontic-tower-observer-budget-separation} bind the finite tower carrier, classifier, stage-refinement route, NameCert obligation surface, and observer-budget separation.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, final total ontology, imported tower limits, quotient streams, selected host limits, host equality, countable-choice selectors, or observer-independent access.}

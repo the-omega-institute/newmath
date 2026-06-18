@@ -105,6 +105,18 @@ Finally pass that displayed spine to \autoref{ch:concrete-instances-add-namecert
 \end{proof}
 \leanchecked{BEDC.Derived.NatUp.NatAddSourceSpine\_forward\_link}
 
+\begin{theorem}[Nat unary chain for addition and integer balance]
+\label{thm:nat-add-int-unary-chain-orphan-link}
+Every $\AddUp$ continuation read and every $\IntUp$ signed-pair balance read consumes the same $\NatUp$ unary source chain before it can be interpreted as addition or signed balancing. The shared chain consists of the unary carrier judgment of \autoref{def:unary-history-judgment}, closure under one-extension from \autoref{lem:unary-closure-under-one-extension}, prefix totality from \autoref{thm:nat-unary-prefix-total}, and the directed common-upper row of \autoref{thm:nat-unary-prefix-directed-common-upper}.
+\end{theorem}
+\begin{proof}
+For an $\AddUp$ read, apply \autoref{thm:nat-add-source-spine-forward-link}. The continuation may be consumed by \autoref{ch:concrete-instances-add-namecert} only after the unary carrier, one-extension closure, prefix totality, and common-upper rows have been displayed.
+
+For an $\IntUp$ read, use the signed-pair presentation of \autoref{ch:concrete-instances-int-namecert}. Each positive and negative side is a $\NatUp$ unary component, so the same carrier judgment and closure rows license the two components before balancing is inspected.
+
+The prefix totality and common-upper rows are still shared after the signed-pair packaging. Thus addition and signed balancing both enter through the same finite unary chain, and their difference is only the downstream consumer that reads the displayed $\NatUp$ rows.
+\end{proof}
+
 \begin{definition}[Strict unary prefix]
 \label{def:nat-unary-strict-prefix}
 A strict unary prefix from $h$ to $k$ is a unary tail $t$ such that $t$ is not
