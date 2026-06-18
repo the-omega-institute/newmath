@@ -7479,6 +7479,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactor
 import BEDC.Derived.MetaCICNormalizationSubstitutionBoundaryUp
 import BEDC.Derived.MetaCICNormalizationWindowConfluenceUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemLedgerUp
+import BEDC.Derived.MetaCICOpenProblemLedgerUp.BlockerSeparation
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.NameCertObligations
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.Nonescape
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.TasteGate
@@ -7985,6 +7986,7 @@ import BEDC.Derived.ObjectConstitutionLedgerUp.TasteGate
 import BEDC.Derived.ObjectKnowledgeCertificateUp.TasteGate
 import BEDC.Derived.ObjectivityRefutationBoundaryUp.SiblingIndependence
 import BEDC.Derived.ObjectivityRefutationBoundaryUp.TasteGate
+import BEDC.Derived.ObservabilityGramianUp.TasteGate
 import BEDC.Derived.ObservableCauchySealUp.TasteGate
 import BEDC.Derived.ObservableDiameterDecayUp.CompactUniformRoute
 import BEDC.Derived.ObservableDiameterDecayUp.NameCertObligations
@@ -8283,6 +8285,7 @@ import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.StatusExactness
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.TasteGate
+import BEDC.Derived.PhilosophyFormalTargetLedgerUp.NameCertObligations
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.TasteGate
 import BEDC.Derived.PhilosophyGapMapLedgerUp.TasteGate
 import BEDC.Derived.PhilosophyGovernanceExportUp.NoOverride
@@ -9523,6 +9526,7 @@ import BEDC.Derived.RegularCauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
 import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
+import BEDC.Derived.RegularCauchyProductBudgetUp.BilinearWindow
 import BEDC.Derived.RegularCauchyProductBudgetUp.NameCertObligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.Obligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.ProductClosureBudget
@@ -10701,6 +10705,7 @@ import BEDC.Derived.TranscendentalSupplyTaxonomyUp.BridgePrecondition
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.NameCertObligations
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.TasteGate
 import BEDC.Derived.TransferOperatorUp.NameCertObligations
+import BEDC.Derived.TransferOperatorUp.SymbolicSourceLattice
 import BEDC.Derived.TransferOperatorUp.TasteGate
 import BEDC.Derived.TransportedStationaryWindowSealUp
 import BEDC.Derived.TreeUp
