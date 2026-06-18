@@ -4523,6 +4523,7 @@ import BEDC.Derived.DirectedCofinalSubsetUp
 import BEDC.Derived.DirectedFilterUp.TasteGate
 import BEDC.Derived.DirectedSetUp
 import BEDC.Derived.DirectedSetUp.TasteGate
+import BEDC.Derived.DirectedSubnetUp
 import BEDC.Derived.DirichletAbelSummabilityUp
 import BEDC.Derived.DirichletApproximationUp.TasteGate
 import BEDC.Derived.DirichletKernelUp
@@ -7487,6 +7488,7 @@ import BEDC.Derived.MetaCICOpenProblemLedgerUp.BlockerSeparation
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.FamilyCoverage
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.NameCertObligations
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.Nonescape
+import BEDC.Derived.MetaCICOpenProblemLedgerUp.SourceRowScope
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp
@@ -9366,6 +9368,7 @@ import BEDC.Derived.RegularCauchyCompletionUniversalUp.TasteGate
 import BEDC.Derived.RegularCauchyCompositionUp.TasteGate
 import BEDC.Derived.RegularCauchyCriterionUp
 import BEDC.Derived.RegularCauchyCriterionUp.NameCertObligations
+import BEDC.Derived.RegularCauchyCriterionUp.RouteScope
 import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyDensityUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
