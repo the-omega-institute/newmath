@@ -159,6 +159,22 @@ Finally use ledger nonescape and continuation scope, \autoref{thm:law-certificat
 \end{proof}
 \leanchecked{BEDC.Derived.LawCertificateUp.LawCertificateCarrier\_public\_export\_route}
 
+\begin{theorem}[Law certificate bridge-carrier route]
+\label{thm:law-certificate-bridge-carrier-route}
+Every bridge-facing consumer of an accepted $\LawCertificateUp$ packet must preserve
+$$
+F,P,C,S,E,Ld,H,R,Q,N
+$$
+through the same source-fit, classifier, continuation-stability, failure-surface, ledger, transport, replay, provenance, and local $\NameCert$ rows before any abstract law-certificate interface can consume it. A bridge read that drops one of these rows has not transported the public $\LawCertificateUp$ carrier.
+\end{theorem}
+\begin{proof}
+Project the public export route of \autoref{thm:law-certificate-public-export-route}. It already makes $F,P,C,S,E,Ld,H,R,Q,N$ the complete public surface for source fit, equation pattern, classifier comparison, continuation stability, failure exposure, ledger accountability, transport, replay, provenance, and local naming.
+
+Apply scope transport and ledger nonescape. The bridge-facing consumer must keep the accepted carrier inside the same componentwise $\hsame$ and displayed $\Cont$ route, and it cannot replace the ledger row $Ld$ by an equation-only or stability-only law read.
+
+Finally read the taste-gate marker as the carrier-side field-faithfulness witness for the same displayed rows. The abstract law-certificate interface therefore consumes only the preserved packet, not a detached equation token, hidden continuation premise, ledger-free law status, final-fit oracle, or unbounded natural-law claim.
+\end{proof}
+
 The Lean follow-up file \texttt{lean4/BEDC/Derived/LawCertificateUp/TasteGate.lean} must provide explicit $\Nontrivial\ \LawCertificateUp$ and $\FieldFaithful\ \LawCertificateUp$ instances, with witness-pair and field-projection proofs preserving $F,P,C,S,E,Ld,H,R,Q,N$ as separate displayed fields.
 
 \falsifiablePrediction{A packet that presents an equation and finite fit but omits either the continuation-stability row or the failure-surface row is rejected by the LawCertificateUp classifier.}
