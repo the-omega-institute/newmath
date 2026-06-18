@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\EpsilonDeltaContinuityUp$}
+\label{ch:concrete-instances-epsilon-delta-continuity-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\EpsilonDeltaContinuityUp$ packet records local epsilon-delta continuity as finite BEDC data. It sits beside the source and target metric rows of \autoref{ch:concrete-instances-metric-namecert}, the displayed $\RealUp$ distance seals, the graph row of \autoref{ch:concrete-instances-continuousmap-namecert}, the modulus surface of \autoref{ch:concrete-instances-moduluscontinuity-namecert}, and the limit-facing packet of \autoref{ch:concrete-instances-epsilon-delta-limit-namecert}. The packet names only a displayed point, an epsilon request, a delta witness, finite metric-window reads, continuity transport, replay, provenance, and local naming; it does not assert classical open-cover compactness, host function equality, quotient real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Epsilon-delta continuity carrier]
+\label{def:epsilon-delta-continuity-carrier}
+An $\EpsilonDeltaContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,Y,F,a,E,D,W,R,M,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ row, including the point classifier and source-distance witness surface.
+\item $Y$ is the target $\MetricSpaceUp$ row, including the target-distance witness surface and its terminal $\RealUp$ distance seal.
+\item $F$ is the $\ContinuousMapUp$ graph row for the named map, exposing only the finite graph and target-window reads used by the continuity certificate.
+\item $a$ is the displayed source point at which the continuity read is taken.
+\item $E$ is the positive target-tolerance row, read through the dyadic or regular rational tolerance ledger before any target-distance request is made.
+\item $D$ is the positive source-radius witness row attached to $E$ and to the point $a$.
+\item $W$ is the finite window row that inspects source points within the displayed $D$-neighbourhood and the corresponding target graph cells of $F$.
+\item $R$ is the $\RegSeqRatUp$ readback row for the source and target distance windows.
+\item $M$ is the $\ModulusContinuityUp$ handoff row when the local continuity read is consumed by a modulus-facing route.
+\item $L$ is the $\EpsilonDeltaLimitUp$ boundary row witnessing that the local read is compatible with the limit packet at $a$ without replacing continuity by a selected limit.
+\item $H$ records componentwise $\hsame$ transport for the metric rows, graph row, point row, tolerance rows, windows, readback, modulus handoff, limit boundary, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from tolerance requests through source-radius witnesses, metric-distance windows, graph reads, regular-rational readback, the modulus handoff, and the limit boundary.
+\item $P$ is the $\Pkg$ provenance over $\EpsilonDeltaContinuityUp$, $\MetricSpaceUp$, $\RealUp$, $\ContinuousMapUp$, $\ModulusContinuityUp$, $\EpsilonDeltaLimitUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EpsilonDeltaContinuityUp}$ row.
+\end{enumerate}
+The classifier accepts the packet only when every tolerance read factors through the same finite route $X,Y,F,a,E,D,W,R,M,L,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Epsilon-delta continuity NameCert obligations]
+\label{thm:epsilon-delta-continuity-namecert-obligations}
+For the carrier of \autoref{def:epsilon-delta-continuity-carrier}, the local $\NameCert_{\EpsilonDeltaContinuityUp}$ surface consists exactly of source and target metric admission through $X$ and $Y$, Real-valued distance readback through the target metric seal, continuous graph admission through $F$, point admission through $a$, positive tolerance and radius admission through $E$ and $D$, finite-window admission through $W$, regular readback through $R$, modulus-continuity handoff through $M$, epsilon-delta limit compatibility through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:epsilon-delta-continuity-carrier}. The source metric row $X$, target metric row $Y$, displayed graph row $F$, and point row $a$ are explicit coordinates, so a continuity consumer cannot begin from an ambient function or an unshown host point.
+
+The tolerance part is local. The target request $E$ and source-radius witness $D$ are paired before the finite window row $W$ is consumed. Thus the target-distance read reaches the $\RealUp$ seal of $Y$ only after the source-neighbourhood window and the graph cells of $F$ have been displayed.
+
+The two sibling handoffs keep the packet connected to the surrounding metric route. The $\ModulusContinuityUp$ row $M$ exposes the same tolerance-to-window data to modulus-facing consumers, while the $\EpsilonDeltaLimitUp$ row $L$ records compatibility with the limit packet at $a$ without adding a selected limit or quotient real equality.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for classical open-cover compactness, host function equality, quotient real equality, countable choice, trichotomy, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Epsilon-delta continuity local route]
+\label{thm:epsilon-delta-continuity-local-route}
+Every local continuity read of an accepted $\EpsilonDeltaContinuityUp$ carrier factors through the finite route
+$$
+\MetricSpaceUp,\quad \RealUp,\quad \ContinuousMapUp,\quad \ModulusContinuityUp,\quad \EpsilonDeltaLimitUp,\quad \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+The consumer receives a displayed tolerance request, a displayed source-radius witness, finite source and target windows, regular readback, a modulus handoff, and an epsilon-delta limit boundary. It receives no classical open-cover compactness, host function equality, quotient real equality, global uniform-continuity claim, countable choice, trichotomy, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:epsilon-delta-continuity-namecert-obligations}. They force the local read to begin with $X,Y,F,a,E,D,W,R$ before either handoff row is inspected.
+
+Read the $\ModulusContinuityUp$ coordinate $M$ only after the finite tolerance-to-window data have been displayed. This supplies the modulus-facing consumer with the same local budget, not a detached global uniform-continuity object.
+
+Read the $\EpsilonDeltaLimitUp$ coordinate $L$ only as a boundary row tied to the same point $a$ and graph row $F$. It records limit compatibility for the local route and does not insert a chosen limit, quotient representative, or host real equality.
+
+The structural rows $H,C,P,N$ preserve this order under transport and replay. Since no excluded external coordinate appears in the carrier, every accepted continuity read is confined to the listed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every epsilon-delta continuity read of an $\EpsilonDeltaContinuityUp$ packet factors through displayed MetricSpace rows, a ContinuousMap graph row, finite tolerance and radius rows, RegSeqRat readback, a ModulusContinuity handoff, and an EpsilonDeltaLimit boundary.}
+
+\independenceWitness{metricspace, real, continuousmap, moduluscontinuity, epsilondeltalimit: $\EpsilonDeltaContinuityUp$ is not bijective to any listed sibling because it jointly carries source and target metric rows, a graph row, a point row, paired tolerance and radius rows, finite windows, regular readback, modulus handoff, limit boundary, transport, replay, provenance, and local naming.}
+
+\closureat{EpsilonDeltaContinuityUp}{seedStr}
+
+\begin{closurestatus}{\EpsilonDeltaContinuityUp}
+  \constructivestory{An $\EpsilonDeltaContinuityUp$ packet is generated from source and target MetricSpace rows, a Real-valued target-distance seal, a ContinuousMap graph row, a displayed source point, target-tolerance and source-radius rows, finite windows, RegSeqRat readback, ModulusContinuity handoff, EpsilonDeltaLimit boundary, hsame transport, Cont replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:epsilon-delta-continuity-carrier}, \autoref{thm:epsilon-delta-continuity-namecert-obligations}, and \autoref{thm:epsilon-delta-continuity-local-route} seed the local epsilon-delta continuity interface for metric and continuous-map consumers.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close classical open-cover compactness, host function equality, quotient real equality, global uniform continuity, countable choice, trichotomy, ambient Real completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance-radius routing, finite-window readback, modulus handoff, limit-boundary compatibility, transport, replay, provenance, and local naming for BEDC.Derived.EpsilonDeltaContinuityUp.}
+\end{closurestatus}
