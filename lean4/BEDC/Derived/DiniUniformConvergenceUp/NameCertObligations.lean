@@ -16,12 +16,19 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def DiniUniformConvergenceCarrier [AskSetup] [PackageSetup]
-    (compact finiteNet _family _modulus windows _readback sealRow _transportRow _replayRow provenance
+    (compact finiteNet family modulus windows readback sealRow transportRow replayRow provenance
       _localName : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
-  UnaryHistory compact ∧ UnaryHistory finiteNet ∧ UnaryHistory windows ∧
-    UnaryHistory sealRow ∧ PkgSig bundle provenance pkg
+  UnaryHistory compact ∧
+    (UnaryHistory finiteNet ∧
+      (UnaryHistory family ∧
+        (UnaryHistory modulus ∧
+          (UnaryHistory windows ∧
+            (UnaryHistory readback ∧
+              (UnaryHistory sealRow ∧
+                (UnaryHistory transportRow ∧
+                  (UnaryHistory replayRow ∧ PkgSig bundle provenance pkg))))))))
 
 theorem DiniUniformConvergenceCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {compact finiteNet family modulus windows readback sealRow transportRow replayRow provenance
@@ -48,7 +55,12 @@ theorem DiniUniformConvergenceCarrier_namecert_obligations [AskSetup] [PackageSe
                   hsame ∧ UnaryHistory modulus := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory SemanticNameCert hsame
   intro carrier compactFiniteNet familyWindows readbackSeal localNamePkg
-  obtain ⟨compactUnary, finiteNetUnary, windowsUnary, sealUnary, provenancePkg⟩ := carrier
+  have compactUnary : UnaryHistory compact := carrier.left
+  have finiteNetUnary : UnaryHistory finiteNet := carrier.right.left
+  have windowsUnary : UnaryHistory windows := carrier.right.right.right.right.left
+  have sealUnary : UnaryHistory sealRow := carrier.right.right.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
   have familyUnary : UnaryHistory family :=
     unary_cont_closed compactUnary finiteNetUnary compactFiniteNet
   have readbackUnary : UnaryHistory readback :=
@@ -145,7 +157,9 @@ theorem DiniUniformConvergence_monotone_window_obligation [AskSetup] [PackageSet
             Cont compact finiteNet family ∧ Cont family windows readback := by
   -- BEDC touchpoint anchor: BHist Cont UnaryHistory
   intro carrier compactFiniteNet familyWindows
-  obtain ⟨compactUnary, finiteNetUnary, windowsUnary, _sealUnary, _provenancePkg⟩ := carrier
+  have compactUnary : UnaryHistory compact := carrier.left
+  have finiteNetUnary : UnaryHistory finiteNet := carrier.right.left
+  have windowsUnary : UnaryHistory windows := carrier.right.right.right.right.left
   have familyUnary : UnaryHistory family :=
     unary_cont_closed compactUnary finiteNetUnary compactFiniteNet
   have readbackUnary : UnaryHistory readback :=
@@ -164,11 +178,16 @@ theorem DiniUniformConvergenceCarrier_monotone_window [AskSetup] [PackageSetup]
             UnaryHistory windows ∧ UnaryHistory readback ∧ PkgSig bundle provenance pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
   intro carrier compactFiniteNet familyWindows
-  obtain ⟨compactUnary, finiteNetUnary, windowsUnary, _sealUnary, provenancePkg⟩ := carrier
+  have compactUnary : UnaryHistory compact := carrier.left
+  have finiteNetUnary : UnaryHistory finiteNet := carrier.right.left
+  have windowsUnary : UnaryHistory windows := carrier.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
   have familyUnary : UnaryHistory family :=
     unary_cont_closed compactUnary finiteNetUnary compactFiniteNet
   have readbackUnary : UnaryHistory readback :=
     unary_cont_closed familyUnary windowsUnary familyWindows
-  exact ⟨compactUnary, finiteNetUnary, familyUnary, windowsUnary, readbackUnary, provenancePkg⟩
+  exact
+    ⟨compactUnary, finiteNetUnary, familyUnary, windowsUnary, readbackUnary, provenancePkg⟩
 
 end BEDC.Derived.DiniUniformConvergenceUp

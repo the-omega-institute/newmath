@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\EilenbergZilberUp$}
+\label{ch:concrete-instances-eilenberg-zilber-namecert}
+\origin{human}
+
+Following Eilenberg and Zilber, the $\EilenbergZilberUp$ packet records the finite chain-level comparison between the product of simplicial objects and the tensor product of their chain rows. It sits after the categorical source surface of \autoref{ch:concrete-instances-category-namecert}, the functorial transport surface of \autoref{ch:concrete-instances-functor-namecert}, the face-and-degeneracy ledger of \autoref{ch:concrete-instances-simplicialset-namecert}, the homology consumer of \autoref{ch:concrete-instances-homology-namecert}, the bilinear source row of \autoref{ch:concrete-instances-tensorproduct-namecert}, and the finite product carrier of \autoref{ch:concrete-instances-prod-namecert}. The packet names shuffle, Alexander--Whitney, boundary, chain-homotopy, transport, replay, provenance, and local naming rows; it does not choose simplices, quotient chain representatives, a host homotopy equivalence, unrestricted naturality, or ambient homological algebra.
+
+\begin{definition}[Eilenberg-Zilber carrier]
+\label{def:eilenberg-zilber-carrier}
+An $\EilenbergZilberUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(C,F,S,H,T,P,B,A,W,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CategoryUp$ source row naming the finite chain-category and product-category readings used by the packet.
+\item $F$ is the $\FunctorUp$ transport row carrying the chain functor readings from simplicial data to chain data.
+\item $S$ is the $\SimplicialSetUp$ row recording the finite face, degeneracy, and product-simplex windows inspected by the consumer.
+\item $H$ is the $\HomologyUp$ boundary-consumer row that may be read only after the chain-level comparison rows have been displayed.
+\item $T$ is the $\TensorProductUp$ row naming the tensor product of the two displayed chain rows.
+\item $P$ is the $\ProdUp$ row naming the product simplicial source before any tensor comparison is exported.
+\item $B$ records the boundary-compatibility ledger for the displayed shuffle and Alexander--Whitney rows.
+\item $A$ records the Alexander--Whitney projection row from the product-chain window to the tensor-chain window.
+\item $W$ records the shuffle row from the tensor-chain window back to the product-chain window.
+\item $R$ records componentwise $\hsame$ transport for categorical, functorial, simplicial, homology, tensor, product, boundary, comparison, provenance, and local naming rows.
+\item $Q$ records displayed $\Cont$ replay from a product-simplex request through the product, simplicial, functorial, tensor, boundary, and homology rows.
+\item $N$ is the local $\NameCert_{\EilenbergZilberUp}$ row.
+\end{enumerate}
+No coordinate stores a selected simplex representative, quotient chain equality, host chain-homotopy equivalence, unrestricted naturality theorem, or ambient homological-algebra principle.
+\end{definition}
+
+\leanstmt{BEDC.Derived.EilenbergZilberUp}
+
+\begin{theorem}[Eilenberg-Zilber NameCert obligations]
+\label{thm:eilenberg-zilber-namecert-obligations}
+For every accepted $\EilenbergZilberUp$ carrier $Z=(C,F,S,H,T,P,B,A,W,R,Q,N)$, the local $\NameCert_{\EilenbergZilberUp}$ surface consists exactly of carrier admission, product-source display, simplicial face-and-degeneracy display, functorial chain transport, tensor readback, boundary compatibility, Alexander--Whitney route, shuffle route, chain-homotopy ledger, componentwise transport, displayed replay, and local naming. Every homology-facing consumer reads the $\HomologyUp$ row only through these finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eilenberg-zilber-carrier}. The displayed tuple lists the categorical, functorial, simplicial, homology, tensor, product, boundary, comparison, transport, replay, and local naming rows.
+
+The product-source display is forced by $P$ and $S$. A consumer first reads the finite product and simplicial windows before the functor row $F$ can expose chain data.
+
+The tensor readback then passes through $T$, while $A$ and $W$ record the two comparison directions. Boundary compatibility is confined to $B$, and chain-homotopy evidence is read only as a ledger row attached to the displayed comparison data.
+
+Finally $R,Q,N$ transport, replay, and name the same packet. Since the carrier has no coordinate for selected simplices, quotient chain equality, host equivalence, unrestricted naturality, or ambient homological algebra, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Eilenberg-Zilber chain-homotopy route]
+\label{thm:eilenberg-zilber-chain-homotopy-route}
+Let $Z=(C,F,S,H,T,P,B,A,W,R,Q,N)$ be an accepted $\EilenbergZilberUp$ carrier. Every chain-homotopy-facing consumer of $Z$ factors through the finite route
+$$
+P \longmapsto S \longmapsto F \longmapsto T \longmapsto A,W \longmapsto B \longmapsto H \longmapsto R,Q,N .
+$$
+Consequently the consumer receives the product-simplex row, the simplicial face-and-degeneracy row, the functorial chain row, the tensor row, the comparison rows, and the boundary ledger before any homology-facing reading is exported.
+\end{theorem}
+\begin{proof}
+Begin with a chain-homotopy-facing request. Carrier admission exposes $H$ only as a downstream row of the finite packet, not as a detached homology assertion.
+
+Replay $Q$. The request first reads the product row $P$ and the simplicial row $S$, then uses the functorial transport row $F$ to reach the chain surface.
+
+The tensor row $T$ is consumed before the comparison rows $A,W$. Boundary compatibility is then checked by $B$, so the chain-homotopy ledger is attached to displayed chain data rather than to an ambient quotient object.
+
+Only after these rows have been replayed can the consumer read $H$. The transport and naming rows $R,Q,N$ preserve the same route, so no host chain-homotopy equivalence or unrestricted naturality theorem is exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\EilenbergZilberUp$ read displays CategoryUp, FunctorUp, SimplicialSetUp, TensorProductUp, ProdUp, boundary, Alexander--Whitney, shuffle, transport, replay, and local naming rows before a HomologyUp consumer obtains a chain-homotopy-facing row.}
+
+\independenceWitness{category, functor, simplicialset, homology, tensorproduct, prod: $\EilenbergZilberUp$ is not bijective to any listed sibling because it packages the finite comparison route between product simplicial chains and tensor chains, while each sibling supplies only one source, transport, consumer, tensor, or product surface.}
+
+\closureat{EilenbergZilberUp}{seedStr}
+
+\begin{closurestatus}{\EilenbergZilberUp}
+  \constructivestory{An $\EilenbergZilberUp$ packet is generated from displayed CategoryUp and FunctorUp rows, finite SimplicialSetUp product windows, TensorProductUp and ProdUp source rows, boundary compatibility, Alexander--Whitney and shuffle comparison rows, chain-homotopy ledger data, componentwise hsame transport, displayed Cont replay, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eilenberg-zilber-carrier}, \autoref{thm:eilenberg-zilber-namecert-obligations}, and \autoref{thm:eilenberg-zilber-chain-homotopy-route} seed the finite chain-homotopy comparison surface between product simplicial data and tensor-chain homology consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected simplex representatives, quotient chain equality, host chain-homotopy equivalence, unrestricted naturality, ambient homological algebra, bridge checking, or Lean theorem verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, product-source display, tensor readback, boundary compatibility, Alexander--Whitney and shuffle route exactness, chain-homotopy ledger, and local NameCert proofs for BEDC.Derived.EilenbergZilberUp.}
+\end{closurestatus}
