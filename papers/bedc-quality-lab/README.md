@@ -29,6 +29,8 @@ The BEDC-JEPA evidence packet contains:
 - true torch retraining loss-term ablation for `full_s3`,
   `minus_l_unlogged`, `minus_l_gap`, `minus_l_stab`, and
   `minus_l_intervention`;
+- CUDA-gated K-step action-conditioned latent-prediction record on the shared
+  torch BEDC-JEPA train/eval surface;
 - public baseline native-metric contract for importing an official or external
   V-JEPA2-AC / JEPA-family baseline result;
 - fillable public baseline native-metric template for the same import
@@ -113,6 +115,7 @@ Important generated records live under `reports/`:
 
 - `bedc_jepa_four_system_experiment.json`
 - `bedc_jepa_torch_objective.json`
+- `bedc_multistep_latent_prediction.json`
 - `bedc_jepa_retraining_loss_ablation.json`
 - `bedc_multistep_latent_prediction.json`
 - `bedc_latent_claim_certificates.json`

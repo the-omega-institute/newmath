@@ -21,6 +21,7 @@ class BoundaryGatedBatch:
     gap_pair: np.ndarray
     radius: float
     gap_width: float
+    action: np.ndarray | None = None
 
 
 def _radius_squared(z: np.ndarray) -> np.ndarray:
@@ -53,6 +54,7 @@ def make_boundary_gated_batch(
     """Create a small world with continuous state, distinction, and gap labels."""
     z = make_latents(n, seed=seed)
     z_pair = make_ou_pair(z, rho=rho, seed=seed + 1)
+    action = z_pair - rho * z
     distinction = boundary_distinction(z, radius=radius)
     distinction_pair = boundary_distinction(z_pair, radius=radius)
     gap = boundary_gap(z, radius=radius, gap_width=gap_width)
@@ -68,6 +70,7 @@ def make_boundary_gated_batch(
         gap_pair=gap_pair,
         radius=radius,
         gap_width=gap_width,
+        action=action.astype(np.float64),
     )
 
 
