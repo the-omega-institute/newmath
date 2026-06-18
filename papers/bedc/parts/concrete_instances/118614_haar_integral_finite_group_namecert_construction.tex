@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\HaarIntegralFiniteGroupUp$}
+\label{ch:concrete-instances-haar-integral-finite-group-namecert}
+\origin{human}
+
+Following Haar's invariant integration principle in the finite-group case, the $\HaarIntegralFiniteGroupUp$ packet records normalized averaging over a displayed finite group action as finite NameCert data. It consumes the finite action rows of \autoref{ch:concrete-instances-group-namecert}, the probability-mass interface of \autoref{ch:concrete-instances-probspace-namecert}, and the finite measure ledger of \autoref{ch:concrete-instances-measure-namecert}. The packet names only the finite invariant average; it does not import sigma-additive Haar measure, a choice of representatives, quotient orbit equality, host sums, or ambient locally compact groups.
+
+\begin{definition}[HaarIntegralFiniteGroup averaging carrier]
+\label{def:haar-integral-finite-group-averaging-carrier}
+A $\HaarIntegralFiniteGroupUp$ carrier is a finite $\BHist$ packet
+$$
+A=(G,X,F,Q,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed $\GroupUp$ action row, including the finite multiplication, unit, inverse, and action table entries needed to translate samples.
+\item $X$ is the finite support enumeration row listing exactly the points whose values are averaged.
+\item $F$ is the value row assigning a named scalar or probability-readable value to each enumerated support point.
+\item $Q$ is the normalized averaging row, recording the finite numerator ledger and denominator schedule read through the $\ProbSpaceUp$ and $\MeasureUp$ interfaces.
+\item $L$ and $R$ are the left- and right-translation rows, showing how the finite action table permutes the support enumeration before the same average row is read again.
+\item $H$ records componentwise $\hsame$ transport for the group action, support enumeration, value, normalized average, translation, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the group action and support enumeration through finite averaging and both translation checks.
+\item $P$ is the $\Pkg$ provenance over $\GroupUp$, $\ProbSpaceUp$, $\MeasureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HaarIntegralFiniteGroupUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for sigma-additive Haar measure, selected orbit representatives, quotient orbit equality, host summation operators, or ambient locally compact groups.
+\end{definition}
+
+\begin{theorem}[HaarIntegralFiniteGroup finite invariance]
+\label{thm:haar-integral-finite-group-invariance}
+For every accepted $\HaarIntegralFiniteGroupUp$ carrier $A=(G,X,F,Q,L,R,H,C,P,N)$, the finite average row $Q$ is invariant under the displayed left- and right-translation rows $L$ and $R$. The comparison is made only by replaying the finite support enumeration $X$, the action table in $G$, and the componentwise $\hsame$ transport row $H$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:haar-integral-finite-group-averaging-carrier}. The support row $X$ is finite and displayed, so a translation row can only reorder named support entries already present in the packet.
+
+Read the normalized average row $Q$. Its numerator ledger and denominator schedule are tied to the displayed support enumeration and to the probability and measure rows consumed by the packet.
+
+Replay the continuation row $C$ first through the left-translation row and then through the right-translation row. In both cases the action table from $G$ permutes the same finite entries, and the transport row $H$ carries the value and average rows componentwise. Hence the translated readback is the same finite average row, without invoking any ambient Haar measure or host summation theorem.
+\end{proof}
+
+\begin{theorem}[HaarIntegralFiniteGroup NameCert obligations]
+\label{thm:haar-integral-finite-group-namecert-obligations}
+For every accepted $\HaarIntegralFiniteGroupUp$ carrier, the local $\NameCert_{\HaarIntegralFiniteGroupUp}$ surface consists exactly of these five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed group action, support enumeration, value, normalized average, translation, transport, continuation, provenance, and local naming rows;
+\item finite support exposure, requiring the support enumeration $X$ to be public before any average or translation row is consumed;
+\item averaging normalization, requiring $Q$ to display the numerator ledger and denominator schedule read through the finite probability and measure interfaces;
+\item translation invariance, requiring $L$ and $R$ to replay the same finite support through the action table of $G$;
+\item ledger non-escape, excluding sigma-additive Haar measure, choice of representatives, quotient orbit equality, host sums, and ambient locally compact groups.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple of \autoref{def:haar-integral-finite-group-averaging-carrier}; no row outside $G,X,F,Q,L,R,H,C,P,N$ is admitted.
+
+Finite support exposure and averaging normalization are the two rows that make the average readable. The support enumeration fixes the entries, while the normalized average row records the finite ledger and denominator schedule.
+
+Translation invariance is \autoref{thm:haar-integral-finite-group-invariance}. The final ledger row is exact because the carrier contains no sigma-additive, representative-choice, quotient-orbit, host-sum, or locally compact group coordinate.
+\end{proof}
+
+\begin{theorem}[HaarIntegralFiniteGroup non-escape]
+\label{thm:haar-integral-finite-group-nonescape}
+An accepted $\HaarIntegralFiniteGroupUp$ packet exports no sigma-additive Haar measure, no choice of orbit representatives, no quotient orbit equality, no host summation operator, and no ambient locally compact group. Every invariant-average consumer must read only the displayed rows $G,X,F,Q,L,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:haar-integral-finite-group-averaging-carrier} lists the complete public packet. The only average row is the finite normalized row $Q$, and the only invariance rows are the displayed left and right translation rows.
+
+The obligation theorem \autoref{thm:haar-integral-finite-group-namecert-obligations} requires every consumer to pass through support exposure, normalization, and translation replay. Since no further coordinate is present, the excluded measure-theoretic, quotient, representative, host-sum, and locally compact group data cannot be projected from the packet.
+\end{proof}
+
+\begin{closurestatus}{\HaarIntegralFiniteGroupUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:haar-integral-finite-group-averaging-carrier}, \autoref{thm:haar-integral-finite-group-invariance}, and \autoref{thm:haar-integral-finite-group-namecert-obligations} seed the finite invariant-averaging packet over displayed group, probability, and measure rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close sigma-additive Haar measure, representative choice, quotient orbit equality, host summation, ambient locally compact groups, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite support exposure, averaging normalization, left and right translation invariance, transport, replay, provenance, local NameCert coverage, and ledger non-escape for the same packet.}
+  \constructivestory{A $\HaarIntegralFiniteGroupUp$ packet is generated from a finite GroupUp action row, a finite support enumeration row, a value row, a normalized averaging row, left and right translation rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
