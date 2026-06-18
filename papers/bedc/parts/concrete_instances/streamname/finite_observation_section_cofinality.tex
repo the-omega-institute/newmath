@@ -58,3 +58,17 @@ For two successor choices at the same finite stage, use diagonal coherence, \aut
 
 Finally use public cofinality, \autoref{thm:streamname-finite-observation-section-public-cofinality}, to pass the finished finite chain to a $\RegSeqRatUp$ or $\RealUp$ consumer. The consumer reads only the finite section trace just generated, so the construction never introduces quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness.
 \end{proof}
+
+\begin{theorem}[StreamName finite observation section monotone extension]
+\label{thm:streamname-finite-observation-section-monotone-extension}
+Let an accepted finite observation section over a certified $\StreamNameUp$ source be enlarged by additional certified unary indices. Then every window, bundle-membership row, $\hsame$ comparison, $\Cont$ replay, $\Pkg$ provenance row, and local $\NameCert$ row already admitted on the old section remains unchanged on that old section. The enlarged section only appends finite request rows; it does not reinterpret earlier observations, replace the source classifier, or introduce quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Induct over the appended finite request spine. In the empty case the enlarged section is the original section, so the old windows, membership rows, transports, replays, provenance rows, and local naming rows are identical by carrier projection.
+
+For the successor step, add one certified unary index to the already enlarged section. Finite observation section cofinality, \autoref{thm:streamname-finite-observation-section-cofinality}, keeps the appended request inside a finite section window over the same certified StreamName source.
+
+Use diagonal coherence, \autoref{thm:streamname-finite-observation-diagonal-coherence}, to compare the old section with the one-step enlargement. The common refinement restricts back to the old window rows and preserves the same pointwise classifier, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows there.
+
+Finally apply section induction, \autoref{thm:streamname-finite-observation-section-induction}, to iterate this argument over the whole appended spine. Each step changes only the newly appended finite request row, so every previously admitted row remains fixed on the old section.
+\end{proof}
