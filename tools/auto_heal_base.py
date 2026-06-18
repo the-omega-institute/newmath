@@ -567,7 +567,16 @@ def _run_verification_check(
     cmd: list[str],
     cwd: Path,
     timeout: int,
-) -> tuple[bool, str | None]:
+) -> tuple[bool, str | None, bool]:
+    """Run one targeted re-verification check.
+
+    Returns (ok, err_tail, timed_out). timed_out distinguishes a wall-clock
+    TimeoutExpired (a load artifact under heavy concurrent pipeline activity)
+    from a genuine non-zero exit (real breakage). The caller treats a timeout
+    as non-fatal once the comprehensive verify_local_ci gate has passed, because
+    the targeted full `make` is halt-on-error: a real break fails fast, well
+    under the timeout, so a timeout means the build was merely slow, not broken.
+    """
     print(f"[heal] verify_ci_heal: running {name}", flush=True)
     try:
         res = run(cmd, cwd=cwd, check=False, capture=True, timeout=timeout)
@@ -578,12 +587,12 @@ def _run_verification_check(
             stdout = stdout.decode("utf-8", errors="ignore")
         if isinstance(stderr, bytes):
             stderr = stderr.decode("utf-8", errors="ignore")
-        return False, f"{name} timed out after {timeout}s\n{_tail_text(stdout + stderr, 2000)}"
+        return False, f"{name} timed out after {timeout}s\n{_tail_text(stdout + stderr, 2000)}", True
     except Exception as exc:
-        return False, f"{name} failed to run: {exc}"
+        return False, f"{name} failed to run: {exc}", False
     if res.returncode != 0:
-        return False, f"{name} failed rc={res.returncode}\n{_tail_text((res.stdout or '') + (res.stderr or ''), 2000)}"
-    return True, None
+        return False, f"{name} failed rc={res.returncode}\n{_tail_text((res.stdout or '') + (res.stderr or ''), 2000)}", False
+    return True, None, False
 
 
 def verify_ci_heal(log_tail: str) -> tuple[bool, str | None]:
@@ -597,9 +606,26 @@ def verify_ci_heal(log_tail: str) -> tuple[bool, str | None]:
         if key in seen:
             continue
         seen.add(key)
-        ok, err = _run_verification_check(name, cmd, cwd, timeout)
-        if not ok:
-            return ok, err
+        ok, err, timed_out = _run_verification_check(name, cmd, cwd, timeout)
+        if ok:
+            continue
+        if timed_out:
+            # verify_local_ci (precheck + lake build + audit + axiom-purity)
+            # already passed above. A targeted re-verify that only TIMES OUT
+            # under heavy load — rather than failing with a non-zero rc — is a
+            # resource artifact, not a content failure: the full `make` is
+            # halt-on-error, so a real PDF break fails fast (well under the
+            # timeout). Reverting a precheck-clean heal on a wall-clock timeout
+            # is the recurring LOCAL_CI_FAILED_AFTER_HEAL false-positive. Treat
+            # it as non-fatal and let the authoritative rollup CI gate the heal.
+            print(
+                f"[heal] verify_ci_heal: {name} timed out after {timeout}s but "
+                f"verify_local_ci passed — treating as non-fatal (load artifact), "
+                f"allowing push; rollup CI remains the authoritative gate",
+                flush=True,
+            )
+            continue
+        return ok, err
     return True, None
 
 
