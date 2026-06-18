@@ -412,4 +412,54 @@ theorem FiniteHistLocalityPacketConsumerHandoff
     ⟨localityUnary, symmetryReplayUnary, localityReplayUnary, handoffUnary,
       localityRoute, symmetryRoute, localityReplayRoute, handoffRoute, hsame_refl N⟩
 
+theorem FiniteHistLocalityPacketCarrier_scoped_kernel_scope [AskSetup] [PackageSetup]
+    {H0 H1 L I S T C Q N symmetryReplay localityReplay consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    finiteHistLocalityPacketFields (FiniteHistLocalityPacketUp.mk H0 H1 L I S T C Q N) =
+      [H0, H1, L, I, S, T, C, Q, N] →
+      Cont H0 H1 L →
+        Cont I S symmetryReplay →
+          Cont L T localityReplay →
+            Cont localityReplay C consumerRead →
+              PkgSig bundle consumerRead pkg →
+                UnaryHistory H0 →
+                  UnaryHistory H1 →
+                    UnaryHistory I →
+                      UnaryHistory S →
+                        UnaryHistory T →
+                          UnaryHistory C →
+                            SemanticNameCert
+                                (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row L ∨ hsame row localityReplay ∨
+                                    hsame row consumerRead)
+                                (fun row : BHist =>
+                                  hsame row consumerRead ∧ PkgSig bundle consumerRead pkg)
+                                hsame ∧
+                              UnaryHistory L ∧ UnaryHistory symmetryReplay ∧
+                                UnaryHistory localityReplay ∧ UnaryHistory consumerRead ∧
+                                  Cont H0 H1 L ∧ Cont I S symmetryReplay ∧
+                                    Cont L T localityReplay ∧
+                                      Cont localityReplay C consumerRead ∧
+                                        PkgSig bundle consumerRead pkg ∧ hsame Q Q ∧
+                                          hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert ProbeBundle PkgSig
+  intro hfields localityRoute symmetryRoute localityReplayRoute consumerRoute consumerPkg
+    h0Unary h1Unary invariantUnary symmetryUnary transportUnary consumerUnary
+  have refusal :=
+    FiniteHistLocalityPacketNoGlobalSyncRefusal hfields localityRoute symmetryRoute
+      localityReplayRoute h0Unary h1Unary invariantUnary symmetryUnary transportUnary
+  have handoff :=
+    FiniteHistLocalityPacket_consumer_handoff hfields localityRoute localityReplayRoute
+      consumerRoute consumerPkg h0Unary h1Unary transportUnary consumerUnary
+  obtain ⟨_localityUnaryFromRefusal, symmetryReplayUnary, _localityReplayUnaryFromRefusal,
+    _localityRouteFromRefusal, symmetryRouteKept, _localityReplayRouteFromRefusal, qSame⟩ :=
+    refusal
+  obtain ⟨cert, localityUnary, localityReplayUnary, consumerReadUnary, localityRouteKept,
+    localityReplayRouteKept, consumerRouteKept, consumerPkgKept⟩ := handoff
+  exact
+    ⟨cert, localityUnary, symmetryReplayUnary, localityReplayUnary, consumerReadUnary,
+      localityRouteKept, symmetryRouteKept, localityReplayRouteKept, consumerRouteKept,
+      consumerPkgKept, qSame, hsame_refl N⟩
+
 end BEDC.Derived.FiniteHistLocalityPacketUp
