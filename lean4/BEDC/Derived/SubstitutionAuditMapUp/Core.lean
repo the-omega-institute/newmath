@@ -328,6 +328,81 @@ theorem SubstitutionAuditMapCarrier_ledger_nonescape [AskSetup] [PackageSetup]
     ⟨cert, provenanceUnary, nameUnary, ledgerUnary, provenanceName, nameGenerator,
       ledgerRoute, provenancePkg, namePkg, ledgerPkg⟩
 
+theorem SubstitutionAuditMapCarrier_closed_boundary_scope [AskSetup] [PackageSetup]
+    {term closed shift substitute composition generator transport route provenance name
+      closedRead movementRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionAuditMapCarrier term closed shift substitute composition generator transport route
+        provenance name bundle pkg ->
+      Cont term closed closedRead ->
+        Cont shift substitute movementRead ->
+          Cont movementRead generator namedRead ->
+            PkgSig bundle namedRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row term ∨ hsame row closed ∨ hsame row shift ∨
+                      hsame row substitute ∨ hsame row composition ∨ hsame row generator ∨
+                        hsame row namedRead)
+                  (fun row : BHist =>
+                    hsame row namedRead ∧ Cont term closed closedRead ∧
+                      Cont shift substitute movementRead ∧
+                        Cont movementRead generator namedRead ∧ PkgSig bundle namedRead pkg)
+                  hsame ∧
+                UnaryHistory closedRead ∧ UnaryHistory movementRead ∧
+                  UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert ProbeBundle Pkg PkgSig
+  intro carrier closedRoute movementRoute namedRoute namedPkg
+  obtain ⟨termUnary, closedUnary, shiftUnary, substituteUnary, _compositionUnary,
+    generatorUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _termClosed, _shiftSubstitute, _compositionGenerator, _transportRoute, _provenanceName,
+    _nameGenerator, _provenancePkg, _namePkg⟩ := carrier
+  have closedReadUnary : UnaryHistory closedRead :=
+    unary_cont_closed termUnary closedUnary closedRoute
+  have movementReadUnary : UnaryHistory movementRead :=
+    unary_cont_closed shiftUnary substituteUnary movementRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed movementReadUnary generatorUnary namedRoute
+  have sourceAtNamed : hsame namedRead namedRead ∧ UnaryHistory namedRead :=
+    ⟨hsame_refl namedRead, namedReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row term ∨ hsame row closed ∨ hsame row shift ∨
+              hsame row substitute ∨ hsame row composition ∨ hsame row generator ∨
+                hsame row namedRead)
+          (fun row : BHist =>
+            hsame row namedRead ∧ Cont term closed closedRead ∧
+              Cont shift substitute movementRead ∧
+                Cont movementRead generator namedRead ∧ PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead sourceAtNamed
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, closedRoute, movementRoute, namedRoute, namedPkg⟩
+  }
+  exact ⟨cert, closedReadUnary, movementReadUnary, namedReadUnary⟩
+
 theorem SubstitutionAuditMapCarrier_domain_codomain_exposure [AskSetup] [PackageSetup]
     {term closed shift substitute composition generator transport route provenance name : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
