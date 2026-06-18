@@ -143,6 +143,42 @@ theorem DyadicCauchyTailEnvelopeCommonRefinement [AskSetup] [PackageSetup]
       realSealUnary, sourceTailRoute, sourceTailPrimeRoute, commonTailRoute,
       commonBudgetRoute, realSealRoute, provenancePkg, commonBudgetPkg⟩
 
+theorem DyadicCauchyTailEnvelopeWindowHandoff [AskSetup] [PackageSetup]
+    {reindex stream regseq dyadic tail realSeal windowRead routeRead provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory reindex →
+      UnaryHistory stream →
+        UnaryHistory regseq →
+          UnaryHistory dyadic →
+            Cont reindex stream windowRead →
+              Cont windowRead regseq routeRead →
+                Cont routeRead dyadic tail →
+                  Cont tail regseq realSeal →
+                    PkgSig bundle provenance pkg →
+                      PkgSig bundle realSeal pkg →
+                        UnaryHistory windowRead ∧ UnaryHistory routeRead ∧
+                          UnaryHistory tail ∧ UnaryHistory realSeal ∧
+                            Cont reindex stream windowRead ∧
+                              Cont windowRead regseq routeRead ∧
+                                Cont routeRead dyadic tail ∧
+                                  Cont tail regseq realSeal ∧
+                                    PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro reindexUnary streamUnary regseqUnary dyadicUnary windowRoute routeReadRoute
+    tailRoute realSealRoute provenancePkg realSealPkg
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed reindexUnary streamUnary windowRoute
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed windowUnary regseqUnary routeReadRoute
+  have tailUnary : UnaryHistory tail :=
+    unary_cont_closed routeUnary dyadicUnary tailRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed tailUnary regseqUnary realSealRoute
+  exact
+    ⟨windowUnary, routeUnary, tailUnary, realSealUnary, windowRoute, routeReadRoute,
+      tailRoute, realSealRoute, provenancePkg, realSealPkg⟩
+
 theorem DyadicCauchyTailEnvelopeBudgetExhaustion [AskSetup] [PackageSetup]
     {source tail envelope regseq realSeal replay provenance routeRead windowRead budgetRead :
       BHist}
