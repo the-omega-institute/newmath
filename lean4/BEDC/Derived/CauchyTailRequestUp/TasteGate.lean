@@ -180,7 +180,7 @@ def taste_gate : ChapterTasteGate CauchyTailRequestUp :=
   cauchyTailRequestChapterTasteGate
 
 theorem CauchyTailRequestTasteGate_single_carrier_alignment :
-    forall W Q D R E H C P N : BHist,
+    ∀ W Q D R E H C P N : BHist,
       cauchyTailRequestToEventFlow (CauchyTailRequestUp.mk W Q D R E H C P N) =
         [[BMark.b1, BMark.b0, BMark.b0],
           cauchyTailRequestEncodeBHist W,
