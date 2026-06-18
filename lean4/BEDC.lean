@@ -815,7 +815,6 @@ import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.NameCertObligations
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
-import BEDC.Derived.BetaSubstitutionDischargeUp
 import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
 import BEDC.Derived.BetaSubstitutionPreservationUp.ContextTransport
@@ -2007,6 +2006,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.WindowSelectorThresholdExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.WindowToleranceExactness
 import BEDC.Derived.CauchyModulusSelectionUp.TasteGate
 import BEDC.Derived.CauchyModulusSpaceUp.TasteGate
+import BEDC.Derived.CauchyModulusSubsequenceUp.TasteGate
 import BEDC.Derived.CauchyModulusThinningUp
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
@@ -2316,7 +2316,6 @@ import BEDC.Derived.CauchySpeedupUp.TasteGate
 import BEDC.Derived.CauchyStabilityModulusUp
 import BEDC.Derived.CauchyStabilityUp.TasteGate
 import BEDC.Derived.CauchyStructureUp.TasteGate
-import BEDC.Derived.CauchySubnetUp
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchySumLimitUp.NameCertObligations
 import BEDC.Derived.CauchySumLimitUp.TasteGate
@@ -9357,7 +9356,6 @@ import BEDC.Derived.RegularCauchyCompletionUnitUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalUp.TasteGate
 import BEDC.Derived.RegularCauchyCompositionUp.TasteGate
-import BEDC.Derived.RegularCauchyCriterionUp
 import BEDC.Derived.RegularCauchyCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyDensityUp
@@ -10230,7 +10228,6 @@ import BEDC.Derived.SobolevUp.CompletionConsumerExport
 import BEDC.Derived.SobolevUp.CompletionFacingRootScope
 import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.EnergyTraceBoundaryCertificate
-import BEDC.Derived.SobolevUp.FiniteDerivativeWindowBridge
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteEnergyInductionRoute
 import BEDC.Derived.SobolevUp.FiniteEnergyNameCertObligation
@@ -10279,7 +10276,6 @@ import BEDC.Derived.SolipsismGapRefusalUp.TasteGate
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SorgenfreyLineUp.TasteGate
 import BEDC.Derived.SpanningTreeUp
-import BEDC.Derived.SpecializationOrderUp.TasteGate
 import BEDC.Derived.SpeckerSequenceBoundaryUp.TasteGate
 import BEDC.Derived.SpeckerSequenceUp
 import BEDC.Derived.SpeckerSequenceUp.TasteGate
