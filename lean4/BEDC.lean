@@ -3024,6 +3024,7 @@ import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteCoverSelectorUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteNetRealizationUp.TasteGate
 import BEDC.Derived.CompactUniformLocalToGlobalModulusUp.TasteGate
+import BEDC.Derived.CompactUniformModulusCertificateUp.TasteGate
 import BEDC.Derived.CompactUniformModulusExtractorUp.TasteGate
 import BEDC.Derived.CompactUniformModulusStabilityUp.TasteGate
 import BEDC.Derived.CompactUniformModulusTransferUp.TasteGate
@@ -4621,6 +4622,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.BridgeBudgetChildWitness
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeExport
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeExportCofinality
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeFiniteRoute
+import BEDC.Derived.DyadicIntervalCoverUp.BridgeReadbackFactorization
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeRefinementBoundary
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeWindow
 import BEDC.Derived.DyadicIntervalCoverUp.CellRefinementExhaustion
@@ -4651,6 +4653,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.RootCompactHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RootFiniteCoverBoundary
 import BEDC.Derived.DyadicIntervalCoverUp.RootLedgerObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RootNonescape
+import BEDC.Derived.DyadicIntervalCoverUp.RootObligationSurfaceCertificate
 import BEDC.Derived.DyadicIntervalCoverUp.RootRealSealHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RootRefinementCoverage
 import BEDC.Derived.DyadicIntervalCoverUp.RootRefinementObligations
@@ -5499,6 +5502,7 @@ import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditHandoff
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditNonclosure
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
+import BEDC.Derived.FiniteOpenCoverNerveUp.TasteGate
 import BEDC.Derived.FiniteOrthonormalBasisUp.TasteGate
 import BEDC.Derived.FiniteOscillationPartitionUp.TasteGate
 import BEDC.Derived.FiniteOscillationRadiusLedgerUp.TasteGate
@@ -6421,6 +6425,7 @@ import BEDC.Derived.LatticeUp.OneSidedDistributiveInequality
 import BEDC.Derived.LatticeUp.OppositeAbsorption
 import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
+import BEDC.Derived.LawCertificateUp.CarrierAdmission
 import BEDC.Derived.LawCertificateUp.ClassifierStability
 import BEDC.Derived.LawCertificateUp.ContinuationScope
 import BEDC.Derived.LawCertificateUp.NameCert
