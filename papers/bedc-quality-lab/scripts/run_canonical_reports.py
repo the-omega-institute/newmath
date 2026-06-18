@@ -229,10 +229,6 @@ DGT_JEPA_WORLD_MODEL_JSON_ARTIFACT = "reports/canonical/discovery_gated_transfor
 DGT_JEPA_WORLD_MODEL_MARKDOWN_ARTIFACT = "reports/canonical/discovery_gated_transformer_jepa_world_model.md"
 DGT_JEPA_WORLD_MODEL_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer-jepa-world-model"
 DGT_JEPA_WORLD_MODEL_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer-jepa-world-model"
-JEPA_WM_L1_ADMISSION_JSON_ARTIFACT = "reports/canonical/jepa-wm-l1-admission.json"
-JEPA_WM_L1_ADMISSION_MARKDOWN_ARTIFACT = "reports/canonical/jepa-wm-l1-admission.md"
-JEPA_WM_L1_ADMISSION_ARTIFACT_ID = "bedc-quality-lab:jepa-wm-l1-admission"
-JEPA_WM_L1_ADMISSION_SCHEMA_ID = "bedc-quality-lab:jepa-wm-l1-admission"
 JEPA_WM_L1_EVALUATOR_CALIBRATION_JSON_ARTIFACT = (
     "reports/canonical/jepa-wm-l1-evaluator-calibration.json"
 )
@@ -292,7 +288,6 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "reproduction-check-result",
         "dgt-l1-boundary-report",
         "discovery-gated-transformer-jepa-world-model",
-        "jepa-wm-l1-admission",
         "jepa-wm-l1-evaluator-calibration",
     }
 )
@@ -2248,52 +2243,6 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         hardgate_scope="owner-scientific",
         decision_status_pointer="$.claim_boundary.status",
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
-    ),
-    CanonicalReportSpec(
-        name="jepa-wm-l1-admission",
-        command=("python3", "scripts/run_jepa_wm_l1.py"),
-        json_artifact=JEPA_WM_L1_ADMISSION_JSON_ARTIFACT,
-        markdown_artifact=JEPA_WM_L1_ADMISSION_MARKDOWN_ARTIFACT,
-        required_json_keys=(
-            "schema_id",
-            "artifact_id",
-            "generated_at",
-            "run_id",
-            "source_issue",
-            "producer",
-            "source_artifacts",
-            "preregistration",
-            "execution_status",
-            "dependency_status",
-            "weight_acquisition",
-            "config",
-            "data_surface",
-            "base_chance_gate",
-            "calibration",
-            "anti_triviality_controls",
-            "claim_boundary",
-            "positive_claim",
-            "verdict",
-            "failed_gate",
-            "not_claimed",
-            "what_was_learned",
-            "reproducibility_contract",
-            "hardgate",
-            "raw_digest",
-        ),
-        estimated_seconds=2,
-        bundle_role="auxiliary",
-        scope_pointer="$.claim_boundary",
-        cost_pointer="$.source_artifacts",
-        not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.positive_claim",
-        control_pointer="$.anti_triviality_controls",
-        no_control_rationale_pointer=None,
-        claim_promotion_eligible=False,
-        scientific_claim_status_pointer="$.claim_boundary.status",
-        hardgate_status_pointer="$.hardgate.status",
-        hardgate_scope="owner-scientific",
-        decision_status_pointer="$.claim_boundary.status",
     ),
     CanonicalReportSpec(
         name="jepa-wm-l1-evaluator-calibration",
