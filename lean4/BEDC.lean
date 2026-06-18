@@ -2345,6 +2345,7 @@ import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
 import BEDC.Derived.CauchyTailRequestUp
 import BEDC.Derived.CauchyTailRequestUp.TasteGate
 import BEDC.Derived.CauchyTailSupremumUp.TasteGate
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyTightnessUp.TasteGate
@@ -2995,6 +2996,7 @@ import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
 import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.CompactPolishSpaceUp.TasteGate
+import BEDC.Derived.CompactRealIntervalMinimumUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
@@ -3243,6 +3245,7 @@ import BEDC.Derived.ConstructiveCompletionEquivalenceUp.TasteGate
 import BEDC.Derived.ConstructiveCompletionModulusUp
 import BEDC.Derived.ConstructiveCompletionModulusUp.FiniteRoute
 import BEDC.Derived.ConstructiveCompletionModulusUp.TasteGate
+import BEDC.Derived.ConstructiveContractionModulusUp.TasteGate
 import BEDC.Derived.ConstructiveDiniModulusUp.TasteGate
 import BEDC.Derived.ConstructiveDiniTheoremUp.Routes
 import BEDC.Derived.ConstructiveDiniTheoremUp.TasteGate
@@ -10168,6 +10171,7 @@ import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SierpinskiCarpetUp.TasteGate
 import BEDC.Derived.SierpinskiContinuityClassifierUp
+import BEDC.Derived.SierpinskiGasketUp.TasteGate
 import BEDC.Derived.SierpinskiSpaceUp.TasteGate
 import BEDC.Derived.SigmaCompactUp.CompactExhaustionSiblingRoute
 import BEDC.Derived.SigmaCompactUp.ProperMetricExhaustion
@@ -10189,6 +10193,7 @@ import BEDC.Derived.SignedDyadicExpansionUp.NameCertObligations
 import BEDC.Derived.SignedDyadicExpansionUp.TasteGate
 import BEDC.Derived.SignedDyadicNormalFormUp.TasteGate
 import BEDC.Derived.SilvermanToeplitzUp.TasteGate
+import BEDC.Derived.SimpleFunctionApproximationUp.TasteGate
 import BEDC.Derived.SimplicialApproximationUp.TasteGate
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
