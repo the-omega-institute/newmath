@@ -216,4 +216,27 @@ theorem RegularCauchyCriterion_modulus_route [AskSetup] [PackageSetup]
       streamReadbackModulus, dyadicRoute, criterionRoute, convergenceRoute, namePkg,
       convergencePkg⟩
 
+theorem RegularCauchyCriterion_regseqrat_route [AskSetup] [PackageSetup]
+    {S R M D Q V A H C P N regRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyCriterionCarrier S R M D Q V A H C P N bundle pkg ->
+      Cont S R regRead ->
+        Cont D regRead realRead ->
+          hsame realRead A ->
+            UnaryHistory D /\ UnaryHistory S /\ UnaryHistory R /\ UnaryHistory regRead /\
+              UnaryHistory realRead /\ Cont S R regRead /\ Cont D regRead realRead /\
+                hsame realRead A /\ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame UnaryHistory
+  intro carrier regseqRoute realRoute realBoundary
+  obtain ⟨sUnary, rUnary, _mUnary, dUnary, _qUnary, _vUnary, _aUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary, _streamReadbackModulus, _modulusToleranceCriterion,
+    namePkg⟩ := carrier
+  have regReadUnary : UnaryHistory regRead :=
+    unary_cont_closed sUnary rUnary regseqRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed dUnary regReadUnary realRoute
+  exact
+    ⟨dUnary, sUnary, rUnary, regReadUnary, realReadUnary, regseqRoute, realRoute,
+      realBoundary, namePkg⟩
+
 end BEDC.Derived.RegularCauchyCriterionUp
