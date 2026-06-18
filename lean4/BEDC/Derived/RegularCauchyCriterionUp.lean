@@ -186,4 +186,34 @@ theorem RegularCauchyCriterion_window_obligations [AskSetup] [PackageSetup]
     ⟨sUnary, rUnary, mUnary, dUnary, windowUnary, toleranceUnary, criterionUnary,
       windowRoute, toleranceRoute, criterionRoute, namePkg, criterionPkg⟩
 
+theorem RegularCauchyCriterion_modulus_route [AskSetup] [PackageSetup]
+    {S R M D Q V A H C P N dyadicRead criterionRead convergenceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyCriterionCarrier S R M D Q V A H C P N bundle pkg ->
+      Cont M D dyadicRead ->
+        Cont dyadicRead Q criterionRead ->
+          Cont criterionRead V convergenceRead ->
+            PkgSig bundle convergenceRead pkg ->
+              UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory M ∧ UnaryHistory D ∧
+                UnaryHistory dyadicRead ∧ UnaryHistory criterionRead ∧
+                  UnaryHistory convergenceRead ∧ Cont S R M ∧
+                    Cont M D dyadicRead ∧ Cont dyadicRead Q criterionRead ∧
+                      Cont criterionRead V convergenceRead ∧ PkgSig bundle N pkg ∧
+                        PkgSig bundle convergenceRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier dyadicRoute criterionRoute convergenceRoute convergencePkg
+  obtain ⟨sUnary, rUnary, mUnary, dUnary, qUnary, vUnary, _aUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, streamReadbackModulus, _modulusToleranceCriterion, namePkg⟩ :=
+    carrier
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed mUnary dUnary dyadicRoute
+  have criterionUnary : UnaryHistory criterionRead :=
+    unary_cont_closed dyadicUnary qUnary criterionRoute
+  have convergenceUnary : UnaryHistory convergenceRead :=
+    unary_cont_closed criterionUnary vUnary convergenceRoute
+  exact
+    ⟨sUnary, rUnary, mUnary, dUnary, dyadicUnary, criterionUnary, convergenceUnary,
+      streamReadbackModulus, dyadicRoute, criterionRoute, convergenceRoute, namePkg,
+      convergencePkg⟩
+
 end BEDC.Derived.RegularCauchyCriterionUp
