@@ -7175,6 +7175,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseConsumerTotality
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseExactBoundaryHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseFrontier
+import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceLedgerDischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierHandoff
@@ -10555,6 +10556,7 @@ import BEDC.Derived.TotallyBoundedCompletionUp.EffectiveNetCompletionConsumption
 import BEDC.Derived.TotallyBoundedCompletionUp.ExtensionHandoff
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCauchyHandoff
 import BEDC.Derived.TotallyBoundedCompletionUp.FiniteNetCompletionRoute
+import BEDC.Derived.TotallyBoundedCompletionUp.NetCompletionImage
 import BEDC.Derived.TotallyBoundedCompletionUp.NetFilterCarrierAdmission
 import BEDC.Derived.TotallyBoundedCompletionUp.NoEscape
 import BEDC.Derived.TotallyBoundedCompletionUp.ObligationClosureRoute
