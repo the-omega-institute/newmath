@@ -1,0 +1,13 @@
+\begin{theorem}[GapClosureBoundary finite trace evaluator route]
+\label{thm:gap-closure-boundary-finite-trace-evaluator-route}
+Any $\GapClosureBoundaryUp$ consumer that evaluates a finite refusal trace or finite acceptance trace must pass through the $\FiniteTraceEvaluatorUp$ checkpoint and runtime route of \autoref{ch:concrete-instances-finitetraceevaluator-namecert} before declaring source-gap closure. The boundary read therefore factors through the displayed request row, trace-evaluator checkpoint, supported or refused branch, componentwise transport, displayed replay, provenance, and local naming rows; it cannot declare closure from an unevaluated trace, hidden runtime verdict, or off-packet source-gap assertion.
+\end{theorem}
+\begin{proof}
+Start with the accepted boundary packet and the consumer bridge admission of \autoref{thm:gap-closure-boundary-consumer-bridge-admission}. The consumer receives only the displayed request, branch, transport, replay, provenance, and local naming rows.
+
+The finite trace is then evaluated through the $\FiniteTraceEvaluatorUp$ sibling surface. Its checkpoint fixes the runtime read before the supported branch or refused branch can be consumed as a source-gap boundary result.
+
+Apply the source-route and refusal-route exactness results for the two possible branches. A supported trace remains on the source branch, while a refused trace remains on the refusal branch, and both branches keep the same structural rows.
+
+Thus a consumer that skips the finite trace evaluator has not read the same $\GapClosureBoundaryUp$ packet. It may report a separate runtime observation, but it cannot declare source-gap closure from this boundary certificate.
+\end{proof}
