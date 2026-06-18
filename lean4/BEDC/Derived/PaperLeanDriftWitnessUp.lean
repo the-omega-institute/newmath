@@ -337,6 +337,32 @@ theorem PaperLeanDriftWitness_unresolved_marker_refusal [AskSetup] [PackageSetup
     ⟨unresolvedUnary, refusalUnary, auditUnary, unresolvedRoute, refusalRoute, auditRoute,
       namePkg, auditPkg⟩
 
+theorem PaperLeanDriftWitness_resolution_stability [AskSetup] [PackageSetup]
+    {M A L I R H C P N exactRead transportedExact auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PaperLeanDriftWitnessCarrier M A L I R H C P N bundle pkg ->
+      Cont L I exactRead ->
+        hsame exactRead transportedExact ->
+          Cont transportedExact C auditRead ->
+            PkgSig bundle auditRead pkg ->
+              UnaryHistory exactRead ∧ UnaryHistory transportedExact ∧
+                UnaryHistory auditRead ∧ Cont L I exactRead ∧
+                  Cont transportedExact C auditRead ∧ PkgSig bundle N pkg ∧
+                    PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory hsame
+  intro carrier exactRoute transportedSame auditRoute auditPkg
+  obtain ⟨_mUnary, _aUnary, lUnary, iUnary, _rUnary, _hUnary, cUnary, _pUnary,
+    _nUnary, _markerNameLedger, _ledgerInventoryVerdict, _verdictTransportConsumer,
+    namePkg⟩ := carrier
+  have exactUnary : UnaryHistory exactRead :=
+    unary_cont_closed lUnary iUnary exactRoute
+  have transportedUnary : UnaryHistory transportedExact :=
+    unary_transport exactUnary transportedSame
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed transportedUnary cUnary auditRoute
+  exact
+    ⟨exactUnary, transportedUnary, auditUnary, exactRoute, auditRoute, namePkg, auditPkg⟩
+
 theorem PaperLeanDriftWitness_marker_kind_separation [AskSetup] [PackageSetup]
     {M A L I R H C P N kindRead normalizedRead verdictRead replayRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
