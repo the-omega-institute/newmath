@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICClosureSubstitutionFrontierUp$}
+\label{ch:concrete-instances-metacic-closure-substitution-frontier-namecert}
+\origin{ai}
+
+The $\MetaCICClosureSubstitutionFrontierUp$ packet realizes the beta-audit obstruction route of \autoref{sec:metacic-beta-audit-map-sr-connection} as finite beta-trigger, closedness, substitution-boundary, and subject-reduction frontier rows. It sits between the beta audit packet of \autoref{ch:concrete-instances-metacicbetaaudit-namecert}, the closure-preservation audit packet of \autoref{ch:concrete-instances-metacicclosurepreservationaudit-namecert}, the subject-reduction discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the confluence substitution boundary of \autoref{ch:concrete-instances-metacic-confluence-substitution-boundary-namecert}, and the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}. The packet records the finite frontier where beta movement remains closed but still has to cross typed substitution and subject-reduction boundaries; it does not assert subject reduction, confluence, normalization, conversion typing, quotient syntax equality, or kernel consistency.
+
+\begin{definition}[MetaCIC closure-substitution frontier carrier]
+\label{def:metacic-closure-substitution-frontier-carrier}
+A $\MetaCICClosureSubstitutionFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,K,S,O,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-trigger row, exposing the direct beta contraction, application-argument congruence, lambda-domain congruence, and Pi-domain congruence triggers named by the beta audit map.
+\item $K$ is the $\mathsf{ClosedAt}$ preservation row, recording the closedness-preservation route through shift, substitution, one-step beta, and finite beta-chain audit rows.
+\item $S$ is the substitution-boundary row, retaining the point where substitution through binders must be inspected before a typed preservation consumer may proceed.
+\item $O$ is the obstruction row, recording dependent-codomain, lambda-domain, Pi-domain, and beta-substitution typing boundaries that are not discharged by closedness alone.
+\item $R$ is the subject-reduction frontier row, exposing the discharge socket route before any subject-reduction consumer may inspect the packet.
+\item $H$ records componentwise $\hsame$ transport for beta-trigger, closedness, substitution-boundary, obstruction, subject-reduction, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+B,K,S,O \longmapsto R \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetaCICClosureSubstitutionFrontierUp$, $\MetaCICBetaAuditUp$, \autoref{ch:concrete-instances-metacicclosurepreservationaudit-namecert}, $\SubjectReductionDischargeSocketUp$, $\MetaCICConfluenceSubstitutionBoundaryUp$, $\NormalFormConsistencySealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICClosureSubstitutionFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,K,S,O,R,H,C,P,N$. It has no coordinate for closed subject reduction, full confluence, normalization, conversion typing, quotient equality of terms, hidden substitution admissibility, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC closure-substitution frontier NameCert obligations]
+\label{thm:metacic-closure-substitution-frontier-namecert-obligations}
+For every accepted $\MetaCICClosureSubstitutionFrontierUp$ carrier $F=(B,K,S,O,R,H,C,P,N)$, the local $\NameCert_{\MetaCICClosureSubstitutionFrontierUp}$ surface consists exactly of carrier admission for beta triggers, $\mathsf{ClosedAt}$ preservation, substitution-boundary retention, obstruction retention, subject-reduction frontier exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any subject-reduction consumer must read the route
+$$
+B,K,S,O \longmapsto R
+$$
+before it may consume the socket-facing row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closure-substitution-frontier-carrier}. The displayed rows are exactly the beta triggers, closedness-preservation row, substitution-boundary row, obstruction row, subject-reduction frontier row, and structural rows.
+
+The beta audit contributes $B$. Its direct beta trigger and binder-domain triggers identify where reduction starts, but they do not by themselves provide typed preservation.
+
+The closure-preservation audit contributes $K$. It keeps $\mathsf{ClosedAt}$ stable through shift, substitution, one-step beta, and finite beta chains, while leaving the typed substitution boundary $S$ visible.
+
+The obstruction row $O$ records the dependent-codomain and binder-domain typing boundaries. The subject-reduction frontier row $R$ can therefore be read only after $B,K,S,O$ are displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no carrier coordinate stores subject reduction, confluence, normalization, conversion typing, quotient equality, hidden substitution admissibility, or kernel consistency, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC closure-substitution frontier subject-reduction boundary]
+\label{thm:metacic-closure-substitution-frontier-subject-reduction-boundary}
+Every subject-reduction-facing consumer of an accepted $\MetaCICClosureSubstitutionFrontierUp$ packet must expose the beta-trigger row $B$, the $\mathsf{ClosedAt}$ preservation row $K$, the substitution-boundary row $S$, and the obstruction row $O$ before the discharge socket row $R$ is available. The packet may hand closed beta-trigger data to the subject-reduction socket, confluence substitution boundary, or normal-form consistency seal, but it does not discharge beta-substitution preservation, application-argument stability, lambda-domain preservation, Pi-domain preservation, confluence, normalization, or consistency.
+\end{theorem}
+\begin{proof}
+Begin with the beta-trigger row $B$. It names the syntactic redex and congruence sources from the beta audit map, so it fixes where the consumer is allowed to inspect reduction.
+
+Read the closedness row $K$ next. This row supplies $\mathsf{ClosedAt}$ preservation through the closure-preservation audit route, but the row is still a closedness statement rather than a typed preservation statement.
+
+The substitution-boundary row $S$ and obstruction row $O$ retain the typed interfaces touched by substitution through binders, dependent codomains, lambda domains, and Pi domains. They must remain visible before $R$ can be read.
+
+The discharge socket row $R$ is therefore only a frontier exposure. It may feed the sibling socket and boundary chapters, but none of the missing preservation, confluence, normalization, or consistency claims is a coordinate of the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICClosureSubstitutionFrontierUp$ read exposes BetaStep trigger, $\mathsf{ClosedAt}$ preservation, substitution-boundary, obstruction, transport, replay, provenance, and local NameCert rows before any subject-reduction consumer inspects the socket-facing row.}
+
+\independenceWitness{metacicbetaaudit, metacicclosurepreservationaudit, subject-reduction-discharge-socket, metacic-confluence-substitution-boundary, normal-form-consistency-seal: the beta audit records reduction triggers without the closedness-to-substitution frontier, the closure-preservation audit records $\mathsf{ClosedAt}$ stability without typed discharge, the subject-reduction socket records discharge rows without beta-trigger provenance, the confluence substitution boundary records residual substitution premises without the subject-reduction frontier row, and the normal-form consistency seal records endpoint consistency boundaries without the substitution-frontier carrier. None is bijective with the complete beta-trigger, closedness, substitution-boundary, obstruction, subject-reduction, transport, replay, provenance, and local NameCert packet.}
+
+The later Lean TasteGate file for this route must include explicit $\mathsf{Nontrivial}\ \MetaCICClosureSubstitutionFrontierUp$ and $\mathsf{FieldFaithful}\ \MetaCICClosureSubstitutionFrontierUp$ instances whose fields project $B,K,S,O,R,H,C,P,N$ separately.
+
+\closureat{MetaCICClosureSubstitutionFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICClosureSubstitutionFrontierUp}
+  \constructivestory{A $\MetaCICClosureSubstitutionFrontierUp$ packet is generated from beta-trigger rows, ClosedAt preservation rows, substitution-boundary rows, obstruction rows, subject-reduction frontier rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-closure-substitution-frontier-carrier}, \autoref{thm:metacic-closure-substitution-frontier-namecert-obligations}, and \autoref{thm:metacic-closure-substitution-frontier-subject-reduction-boundary} seed the finite closure-substitution frontier over beta-trigger, ClosedAt, substitution-boundary, obstruction, subject-reduction, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close beta-substitution preservation, application-argument stability, lambda-domain preservation, Pi-domain preservation, subject reduction, confluence, normalization, conversion typing, quotient syntax equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, BetaStep trigger exposure, ClosedAt preservation, substitution-boundary retention, obstruction retention, subject-reduction frontier exposure, transport, replay, provenance, local naming, and TasteGate Nontrivial and FieldFaithful instances for BEDC.Derived.MetaCICClosureSubstitutionFrontierUp.}
+\end{closurestatus}
