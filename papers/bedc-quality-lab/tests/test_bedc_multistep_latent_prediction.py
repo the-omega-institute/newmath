@@ -165,3 +165,20 @@ def test_multistep_report_does_not_train_when_cuda_evidence_is_missing(monkeypat
 def test_multistep_report_requires_nonempty_seed_set():
     with pytest.raises(ValueError, match="seeds"):
         mlp.run_bedc_multistep_latent_prediction(seeds=(), gpu_evidence=_passing_gpu_evidence())
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"train_count": 0}, "train_count and test_count"),
+        ({"test_count": 0}, "train_count and test_count"),
+        ({"steps": 0}, "steps"),
+    ],
+)
+def test_multistep_report_rejects_nonpositive_counts_and_steps(kwargs, message):
+    with pytest.raises(ValueError, match=message):
+        mlp.run_bedc_multistep_latent_prediction(
+            seeds=(1,),
+            gpu_evidence=_passing_gpu_evidence(),
+            **kwargs,
+        )

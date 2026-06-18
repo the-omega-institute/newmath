@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from bedc_quality_lab import torch_bedc_jepa
-from bedc_quality_lab.bedc_jepa_world import make_boundary_gated_batch
+from bedc_quality_lab.bedc_jepa_world import BoundaryGatedBatch, make_boundary_gated_batch
 from bedc_quality_lab.torch_bedc_jepa import (
     boundary_batch_action_array,
     run_torch_bedc_jepa_benchmark,
@@ -97,3 +97,46 @@ def test_boundary_gated_surface_exposes_action_conditioning():
     assert action.shape == batch.z.shape
     assert action.dtype == batch.z.dtype
     assert np.allclose(batch.z_pair, 0.84 * batch.z + action)
+
+
+def test_boundary_batch_action_array_defaults_to_zero_action_when_absent():
+    generated = make_boundary_gated_batch(5, rho=0.84, seed=12)
+    batch = BoundaryGatedBatch(
+        z=generated.z,
+        z_pair=generated.z_pair,
+        x=generated.x,
+        x_pair=generated.x_pair,
+        distinction=generated.distinction,
+        distinction_pair=generated.distinction_pair,
+        gap=generated.gap,
+        gap_pair=generated.gap_pair,
+        radius=generated.radius,
+        gap_width=generated.gap_width,
+        action=None,
+    )
+
+    action = boundary_batch_action_array(batch)
+
+    assert action.shape == batch.z.shape
+    assert action.dtype == np.float64
+    assert np.array_equal(action, np.zeros_like(batch.z, dtype=np.float64))
+
+
+def test_boundary_batch_action_array_rejects_malformed_action_shape():
+    generated = make_boundary_gated_batch(5, rho=0.84, seed=13)
+    batch = BoundaryGatedBatch(
+        z=generated.z,
+        z_pair=generated.z_pair,
+        x=generated.x,
+        x_pair=generated.x_pair,
+        distinction=generated.distinction,
+        distinction_pair=generated.distinction_pair,
+        gap=generated.gap,
+        gap_pair=generated.gap_pair,
+        radius=generated.radius,
+        gap_width=generated.gap_width,
+        action=np.zeros((generated.z.shape[0], 1), dtype=np.float64),
+    )
+
+    with pytest.raises(ValueError, match="same shape"):
+        boundary_batch_action_array(batch)

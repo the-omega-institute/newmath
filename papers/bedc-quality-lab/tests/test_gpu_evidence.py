@@ -74,3 +74,31 @@ def test_collect_gpu_evidence_fails_closed_when_nvidia_smi_is_missing(monkeypatc
     assert evidence["torch"]["cuda_available"] is True
     assert evidence["nvidia_smi"]["available"] is False
     assert gpu_evidence.gpu_evidence_passes(evidence) is False
+
+
+def test_collect_gpu_evidence_fails_closed_when_device_resolution_fails(monkeypatch):
+    monkeypatch.setattr(gpu_evidence, "require_torch", lambda: _FakeTorch())
+
+    def choose_device(_requested):
+        raise RuntimeError("CUDA backend is unavailable")
+
+    monkeypatch.setattr(gpu_evidence, "choose_device", choose_device)
+
+    def runner(command, **kwargs):
+        return subprocess.CompletedProcess(
+            command,
+            0,
+            stdout="Test CUDA, 555.12, 8192 MiB\n",
+            stderr="",
+        )
+
+    evidence = gpu_evidence.collect_gpu_evidence(requested_device="cuda", runner=runner)
+    resolution = evidence["torch"]["device_resolution"]
+
+    assert evidence["torch"]["cuda_available"] is True
+    assert evidence["nvidia_smi"]["available"] is True
+    assert resolution["requested_device"] == "cuda"
+    assert resolution["resolved_device"] == ""
+    assert resolution["resolution_status"] == "unavailable"
+    assert "CUDA backend is unavailable" in resolution["resolution_reason"]
+    assert gpu_evidence.gpu_evidence_passes(evidence) is False
