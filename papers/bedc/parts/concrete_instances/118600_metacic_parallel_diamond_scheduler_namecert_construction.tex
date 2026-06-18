@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetacicParallelDiamondSchedulerUp$}
+\label{ch:concrete-instances-metacic-parallel-diamond-scheduler-namecert}
+\origin{ai}
+
+The $\MetacicParallelDiamondSchedulerUp$ packet realizes the conditional MetaCIC confluence audit frontier of \autoref{ch:metacic-confluence-audit-map} as a finite scheduler carrier. It consumes the audit rows of \autoref{ch:concrete-instances-metacic-confluence-audit-namecert}, the normal-fragment rows of \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}, the closed-normal seal of \autoref{ch:concrete-instances-closednormalconfluenceseal-namecert}, classifier boundary rows of \autoref{ch:concrete-instances-classifierboundary-namecert}, and subject-reduction rows of \autoref{ch:concrete-instances-subjectreduction-namecert}. The packet separates component diamonds, residual boundaries, atom joins, closed-source guards, and star-confluence handoff rows without exporting closed star confluence as an unconditional theorem.
+
+\begin{definition}[MetaCIC parallel-diamond scheduler carrier]
+\label{def:metacic-parallel-diamond-scheduler-carrier}
+A $\MetacicParallelDiamondSchedulerUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,B,A,G,T,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $D$ is the component-diamond row listing the checked local parallel-diamond fragments available to the scheduler.
+\item $B$ is the residual-substitution boundary row retained from the confluence audit map.
+\item $A$ is the atom-join row for closed atom fragments already accepted by the normal-fragment and closed-normal seal packets.
+\item $G$ is the closed-source guard row, ensuring that a star-confluence request is made only after the closed-source hypotheses have been displayed.
+\item $T$ is the star-confluence handoff row, exposed as a conditional target whose residual-substitution boundary is still visible.
+\item $H$ records componentwise $\hsame$ transport for the component-diamond, residual-boundary, atom-join, closed-guard, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an audit request through the scheduler rows.
+\item $P$ is the $\Pkg$ provenance over $\MetacicParallelDiamondSchedulerUp$, the MetaCIC confluence audit packet, the MetaCIC confluence normal-fragment packet, $\ClosedNormalConfluenceSealUp$, $\ClassifierBoundaryUp$, $\SubjectReductionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetacicParallelDiamondSchedulerUp}$ row.
+\end{enumerate}
+The classifier compares accepted schedulers only through $D,B,A,G,T,H,C,P,N$. It has no coordinate for unconditional closed star confluence, global substitution compatibility, erased residual data, or a host confluence theorem.
+\end{definition}
+
+\begin{theorem}[MetaCIC parallel-diamond scheduler NameCert obligations]
+\label{thm:metacic-parallel-diamond-scheduler-namecert-obligations}
+For every accepted $\MetacicParallelDiamondSchedulerUp$ carrier $S=(D,B,A,G,T,H,C,P,N)$, the local $\NameCert_{\MetacicParallelDiamondSchedulerUp}$ surface consists exactly of component-diamond exposure through $D$, residual-boundary exposure through $B$, atom-join exposure through $A$, closed-source guarding through $G$, star-confluence handoff through $T$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the scheduler carrier. The displayed rows are precisely the component-diamond, residual-boundary, atom-join, closed-source guard, conditional handoff, transport, replay, provenance, and local naming rows.
+
+Read the audit route. Component diamonds in $D$ and atom joins in $A$ may be scheduled only with the residual boundary $B$ still present, and the closed-source guard $G$ controls when the star-confluence handoff $T$ is exposed.
+
+Transport, replay, provenance, and naming preserve those same rows. Since no carrier coordinate erases $B$ or replaces it by a global substitution theorem, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual boundary]
+\label{thm:metacic-parallel-diamond-scheduler-residual-boundary}
+No $\MetacicParallelDiamondSchedulerUp$ consumer may export closed star confluence unless its route displays an explicit residual-substitution boundary row. The visible handoff is
+$$
+D,B,A,G \longmapsto T,
+$$
+and the row $B$ remains part of the exported scheduler packet.
+\end{theorem}
+\begin{proof}
+Start from an accepted scheduler $S=(D,B,A,G,T,H,C,P,N)$. The only star-confluence-facing coordinate is $T$.
+
+The carrier definition places $T$ downstream of the component-diamond row $D$, residual-boundary row $B$, atom-join row $A$, and closed-source guard $G$. Thus the handoff cannot be read without $B$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. They do not add a substitution-compatibility theorem or remove the residual row, so closed star confluence is never exported without the displayed boundary.
+\end{proof}
+
+\falsifiablePrediction{No $\MetacicParallelDiamondSchedulerUp$ scheduler may export closed star confluence without an explicit residual-substitution boundary row.}
+
+\independenceWitness{metacic-confluence-audit, metacicconfluencenormalfragment, closednormalconfluenceseal, classifierboundary, subjectreduction: $\MetacicParallelDiamondSchedulerUp$ is not bijective to any listed sibling because it jointly carries component-diamond rows, residual-substitution boundary rows, atom-join rows, closed-source guards, star-confluence handoff, transport, replay, provenance, and local NameCert data.}
+
+Lean development for this route must later supply $\mathsf{Nontrivial}\ \MetacicParallelDiamondSchedulerUp$ and $\mathsf{FieldFaithful}\ \MetacicParallelDiamondSchedulerUp$ TasteGate instances after the residual-substitution boundary is represented as a displayed scheduler row.
+
+\closureat{MetacicParallelDiamondSchedulerUp}{seedStr}
+
+\begin{closurestatus}{\MetacicParallelDiamondSchedulerUp}
+  \constructivestory{A $\MetacicParallelDiamondSchedulerUp$ packet is generated from component-diamond rows, residual-substitution boundary rows, atom-join rows, closed-source guards, star-confluence handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-parallel-diamond-scheduler-carrier}, \autoref{thm:metacic-parallel-diamond-scheduler-namecert-obligations}, and \autoref{thm:metacic-parallel-diamond-scheduler-residual-boundary} seed the finite scheduler surface for the conditional MetaCIC confluence audit map.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global substitution compatibility, unconditional closed star confluence, host confluence, Lean theorem coverage, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, component-diamond exposure, residual-boundary retention, atom-join exposure, closed-source guarding, star-confluence handoff, transport, replay, provenance, and local naming for BEDC.Derived.MetacicParallelDiamondSchedulerUp.}
+\end{closurestatus}
