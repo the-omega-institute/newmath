@@ -88,6 +88,24 @@ Thus the later TasteGate file may certify alignment only for this finite field s
 \end{proof}
 \leanchecked{BEDC.Derived.LayeredRelationCertUp.LayeredRelationCertTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[LayeredRelationCert scoped row discipline]
+\label{thm:layeredrelationcert-scope-closure}
+Every accepted $\LayeredRelationCertUp$ same-schema read factors through the concrete rows
+$$
+S,A,B,L,M,P,Q,V,W,E,F,H,C,K,N
+$$
+of \autoref{def:layered-relation-namecert-carrier} and through the sibling anchors $\MetaCICNormalizationFrontierUp$, $\InterHistInvariantUp$, $\AuditMapInterfaceUp$, and $\ApophaticNameUp$ named in the carrier provenance. Such a read may expose a same-schema relation certificate, but it cannot turn the source domains $A,B$ into object identity, erase the not-preserved row $Q$, or erase the failure-boundary row $E$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The visible packet is exactly the displayed tuple $R=(S,A,B,L,M,P,Q,V,W,E,F,H,C,K,N)$, so every same-schema read starts from those rows rather than from an ambient relation object.
+
+Apply the NameCert surface of \autoref{thm:layered-relation-namecert-surface}. It exposes the request row, source rows, layer map, classifier readback, preservation row, non-preservation row, ledger, exactness, failure, strength, transport, replay, provenance, and local name as one finite surface.
+
+Apply the preservation boundary, failure boundary, and TasteGate contract of \autoref{thm:layered-relation-preservation-boundary}, \autoref{thm:layered-relation-failure-boundary}, and \autoref{thm:layered-relation-namecert-tastegate-contract}. Preservation is bounded by $P$, failed or overstrong reads remain routed to $E$, and the checked carrier alignment must preserve the no-identity boundary.
+
+Finally read the sibling anchors already named in the chapter introduction and in the provenance row $K$: \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, \autoref{ch:concrete-instances-interhistinvariant-namecert}, \autoref{ch:concrete-instances-auditmapinterface-namecert}, and \autoref{ch:concrete-instances-apophaticname-namecert}. They supply normalization-frontier, inter-Hist, audit-map, and apophatic rows only as scoped dependencies, not as permissions to identify $A$ with $B$ or to drop $Q$ and $E$.
+\end{proof}
+
 \falsifiablePrediction{If the not-preserved row is removed, same-schema relation certificates collapse into object-identity claims and cannot pass the failure-boundary readback.}
 
 \independenceWitness{metacicnormalizationfrontier, interhistinvariant, auditmapinterface, apophaticname, consciousobserverstate: none is bijective because LayeredRelationCertUp carries the same-schema request, paired source rows, layer map, preserved row, not-preserved row, exactness row, failure boundary, and strength row together, while those siblings separately supply frontier evidence, inter-Hist invariants, audit-map inventory, apophatic refusal, or observer-state surfaces without this full relation-certificate packet.}
@@ -96,8 +114,8 @@ Thus the later TasteGate file may certify alignment only for this finite field s
 
 \begin{closurestatus}{\LayeredRelationCertUp}
   \constructivestory{A $\LayeredRelationCertUp$ packet is generated from a same-schema request row, paired source-domain rows, a finite layer map, classifier rows, preserved and not-preserved rows, provenance and exactness ledgers, failure and strength rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:layered-relation-namecert-carrier}, \autoref{thm:layered-relation-namecert-surface}, \autoref{thm:layered-relation-preservation-boundary}, \autoref{thm:layered-relation-failure-boundary}, and \autoref{thm:layered-relation-namecert-tastegate-contract} close the displayed obligation surface on rows $S,A,B,L,M,P,Q,V,W,E,F,H,C,K,N$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:layered-relation-namecert-carrier}, \autoref{thm:layered-relation-namecert-surface}, \autoref{thm:layered-relation-preservation-boundary}, \autoref{thm:layered-relation-failure-boundary}, \autoref{thm:layered-relation-namecert-tastegate-contract}, and \autoref{thm:layeredrelationcert-scope-closure} close the same-schema scope on rows $S,A,B,L,M,P,Q,V,W,E,F,H,C,K,N$ and the MetaCICNormalizationFrontierUp, InterHistInvariantUp, AuditMapInterfaceUp, and ApophaticNameUp sibling anchors.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.LayeredRelationCertUp.LayeredRelationCertTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
