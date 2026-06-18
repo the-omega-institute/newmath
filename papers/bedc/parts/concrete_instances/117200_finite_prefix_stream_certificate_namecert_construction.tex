@@ -70,6 +70,30 @@ For the successor step, extend the already-read finite route by one displayed ob
 Thus every index $i \leq k$ is read by finite induction on the displayed spine. Since no excluded object is a carrier coordinate or a product of the induction, the observation proof remains a finite StreamName-to-RegSeqRat handoff.
 \end{proof}
 
+\begin{theorem}[Finite prefix stream certificate prefix concatenation]
+\label{thm:finite-prefix-stream-certificate-prefix-concatenation}
+Let
+$$
+F_0=(k_0,W_0,D_0,R_0,H_0,C_0,P_0,N_0)
+$$
+and
+$$
+F_1=(k_1,W_1,D_1,R_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\FinitePrefixStreamUp$ carriers whose unary-depth rows are adjacent. Suppose the shared boundary observation is classified by the same $\StreamNameUp$ and $\RegSeqRatUp$ rows, and suppose both prefixes use the same displayed dyadic tolerance ledger shape and compatible structural rows. Then the two prefixes concatenate to a larger finite prefix certificate whose visible rows are exactly the merged $W,D,R,H,C,P,N$ rows. The concatenated certificate exports no infinite tail, selected limit, quotient stream equality, host real equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project both carriers using \autoref{def:finite-prefix-stream-certificate-carrier}. The only analytic rows available for concatenation are the unary depths, StreamName windows, dyadic ledgers, and RegSeqRat handoff rows.
+
+Apply observation induction on the left prefix. This reads every displayed observation up to the boundary through $W_0,D_0,R_0$ and the structural rows $H_0,C_0,P_0,N_0$.
+
+Use one successor step for the right boundary. The shared boundary hypothesis identifies the boundary observation through the same $\StreamNameUp$ and $\RegSeqRatUp$ rows, so the first row of the right prefix attaches to the already-read left prefix without changing the classifier route.
+
+Merge only the displayed window, dyadic, regular-rational, transport, replay, provenance, and local naming rows. Because both carriers expose the same ledger shape and compatible structural rows, the merged packet is again a finite prefix certificate.
+
+No carrier coordinate in either prefix stores an infinite tail, selected limit, quotient stream equality, host real equality, choice schedule, or ambient completeness. The concatenation therefore preserves the finite StreamName-to-RegSeqRat boundary and exports none of the excluded objects.
+\end{proof}
+
 \begin{theorem}[Finite prefix stream nonescape]
 \label{thm:finite-prefix-stream-certificate-nonescape}
 Every Real or Completion-facing use of an accepted $\FinitePrefixStreamUp$ carrier remains downstream of the displayed prefix window and the RegSeqRat handoff. Thus the packet may be used by the real-name and Bishop regular Cauchy completion routes only as finite prefix evidence; it does not export quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
