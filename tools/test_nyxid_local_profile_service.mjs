@@ -200,6 +200,13 @@ assert.deepEqual(normalizeAskWaitOptions({
   stableMs: 1,
 }), {
   waitMs: 1200,
+  minResponseChars: 1,
+  minWaitAfterFirstMs: 1,
+  stableMs: 250,
+});
+
+assert.deepEqual(normalizeAskWaitOptions({}), {
+  waitMs: 600000,
   minResponseChars: 80,
   minWaitAfterFirstMs: 15000,
   stableMs: 5000,

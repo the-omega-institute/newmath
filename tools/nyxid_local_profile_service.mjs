@@ -11,6 +11,11 @@ const DEFAULT_PORT = 8765;
 const DEFAULT_CHAT_URL_FRAGMENT = "6a32835f-e560-83ee-a061-8fe3b0ddfbb9";
 const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost", "::1", "[::1]"]);
 const ASK_WAIT_FLOORS = {
+  minResponseChars: 1,
+  minWaitAfterFirstMs: 0,
+  stableMs: 250,
+};
+const ASK_WAIT_DEFAULTS = {
   minResponseChars: 80,
   minWaitAfterFirstMs: 15000,
   stableMs: 5000,
@@ -143,6 +148,7 @@ async function withPage(fn, options = {}) {
     await call("Runtime.enable");
     await call("Page.enable");
     await call("DOM.enable");
+    await call("Page.bringToFront");
     return await fn({ page, call });
   } finally {
     ws.close();
@@ -201,13 +207,17 @@ function floorNumber(value, fallback, floor) {
 export function normalizeAskWaitOptions(options = {}) {
   return {
     waitMs: Number(options.waitMs || 600000),
-    minResponseChars: floorNumber(options.minResponseChars, ASK_WAIT_FLOORS.minResponseChars, ASK_WAIT_FLOORS.minResponseChars),
+    minResponseChars: floorNumber(
+      options.minResponseChars,
+      ASK_WAIT_DEFAULTS.minResponseChars,
+      ASK_WAIT_FLOORS.minResponseChars,
+    ),
     minWaitAfterFirstMs: floorNumber(
       options.minWaitAfterFirstMs,
-      ASK_WAIT_FLOORS.minWaitAfterFirstMs,
+      ASK_WAIT_DEFAULTS.minWaitAfterFirstMs,
       ASK_WAIT_FLOORS.minWaitAfterFirstMs,
     ),
-    stableMs: floorNumber(options.stableMs, ASK_WAIT_FLOORS.stableMs, ASK_WAIT_FLOORS.stableMs),
+    stableMs: floorNumber(options.stableMs, ASK_WAIT_DEFAULTS.stableMs, ASK_WAIT_FLOORS.stableMs),
   };
 }
 
@@ -216,6 +226,7 @@ export async function waitForStableAssistant(call, beforeCount, waitMs, options 
   const minResponseChars = Number(options.minResponseChars || 80);
   const minWaitAfterFirstMs = Number(options.minWaitAfterFirstMs || 15000);
   const stableMs = Number(options.stableMs || 5000);
+  const afterTurnIndex = Number.isFinite(Number(options.afterTurnIndex)) ? Number(options.afterTurnIndex) : -1;
   let last = null;
   let stableSince = 0;
   let firstTextAt = 0;
@@ -223,14 +234,20 @@ export async function waitForStableAssistant(call, beforeCount, waitMs, options 
   while (Date.now() < deadline) {
     const state = await evaluate(call, readExpression());
     const assistantCount = state.turns.filter((turn) => turn.role === "assistant").length;
-    const lastAssistant = [...state.turns].reverse().find((turn) => turn.role === "assistant");
+    const indexedTurns = state.turns.map((turn, index) => ({
+      ...turn,
+      _index: Number.isFinite(Number(turn.i)) ? Number(turn.i) : index,
+    }));
+    const lastAssistant = [...indexedTurns]
+      .reverse()
+      .find((turn) => turn.role === "assistant" && turn._index > afterTurnIndex);
     const stopVisible = await evaluate(
       call,
-      `(() => !!document.querySelector("button[data-testid='stop-button'], button[aria-label*='Stop'], button[aria-label*='停止']"))()`,
+      `(() => !!document.querySelector("button[data-testid='stop-button'], button[aria-label*='Stop']"))()`,
       5000,
     );
 
-    if (assistantCount > beforeCount && lastAssistant?.text) {
+    if ((assistantCount > beforeCount || afterTurnIndex >= 0) && lastAssistant?.text) {
       if (!firstTextAt) firstTextAt = Date.now();
       if (lastAssistant.text === last && !stopVisible) {
         if (!stableSince) stableSince = Date.now();
@@ -252,10 +269,13 @@ function composerStateExpression() {
   return `(() => {
     const box = document.querySelector("#prompt-textarea, textarea[data-testid='prompt-textarea'], div[contenteditable='true'][role='textbox']");
     const buttons = Array.from(document.querySelectorAll("button"));
+    const removeFileCount = buttons.filter((button) =>
+      /remove file/i.test(button.getAttribute("aria-label") || "")
+    ).length;
     const send = document.querySelector("button[data-testid='send-button']") ||
-      buttons.find((button) => /send|发送/i.test(button.getAttribute("aria-label") || "")) ||
+      buttons.find((button) => /send/i.test(button.getAttribute("aria-label") || "")) ||
       buttons.find((button) => (button.innerText || "").trim() === "Send");
-    const stop = document.querySelector("button[data-testid='stop-button'], button[aria-label*='Stop'], button[aria-label*='停止']");
+    const stop = document.querySelector("button[data-testid='stop-button'], button[aria-label*='Stop']");
     const turns = Array.from(document.querySelectorAll("[data-message-author-role]")).map((el) => ({
       role: el.getAttribute("data-message-author-role"),
       text: el.innerText || ""
@@ -264,6 +284,7 @@ function composerStateExpression() {
       userCount: turns.filter((turn) => turn.role === "user").length,
       assistantCount: turns.filter((turn) => turn.role === "assistant").length,
       promptText: box ? (box.value || box.innerText || "").trim().slice(0, 1000) : "",
+      removeFileCount,
       sendExists: !!send,
       sendEnabled: !!send && !send.disabled && send.getAttribute("aria-disabled") !== "true",
       stopVisible: !!stop
@@ -271,35 +292,146 @@ function composerStateExpression() {
   })()`;
 }
 
+async function clearComposer(call) {
+  const focused = await evaluate(
+    call,
+    `(() => {
+      const removeButtons = Array.from(document.querySelectorAll("button"))
+        .filter((button) => /remove file/i.test(button.getAttribute("aria-label") || ""));
+      for (const button of removeButtons) button.click();
+      const box = document.querySelector("#prompt-textarea, textarea[data-testid='prompt-textarea'], div[contenteditable='true'][role='textbox']");
+      if (!box) return { ok: false, reason: "no_prompt_box", removedFiles: removeButtons.length };
+      box.focus();
+      if (box.tagName === "TEXTAREA") {
+        box.value = "";
+      } else {
+        const range = document.createRange();
+        range.selectNodeContents(box);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand("delete", false, null);
+      }
+      box.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "deleteContentBackward", data: null }));
+      return { ok: true, removedFiles: removeButtons.length, textAfterDomClear: (box.value || box.innerText || "").trim().slice(0, 200) };
+    })()`,
+    10000,
+  );
+  if (!focused?.ok) return focused;
+  let state = null;
+  const deadline = Date.now() + 10000;
+  while (Date.now() < deadline) {
+    state = await evaluate(call, composerStateExpression(), 5000);
+    if (!state.promptText && Number(state.removeFileCount || 0) === 0) {
+      return { ...focused, promptText: state.promptText, removeFileCount: state.removeFileCount };
+    }
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  return { ...focused, promptText: state?.promptText || "", removeFileCount: state?.removeFileCount || 0 };
+}
+
+async function clickSend(call) {
+  const target = await evaluate(
+    call,
+    `(() => {
+      const box = document.querySelector("#prompt-textarea, textarea[data-testid='prompt-textarea'], div[contenteditable='true'][role='textbox']");
+      const root = box ? (box.closest("form") || box.closest("main") || document.body) : document.body;
+      const buttons = Array.from((root || document).querySelectorAll("button"));
+      const send = (root || document).querySelector("button[data-testid='send-button']") ||
+        buttons.find((button) => /send/i.test(button.getAttribute("aria-label") || "")) ||
+        buttons.find((button) => (button.innerText || "").trim() === "Send");
+      const removeButtons = buttons.filter((button) =>
+        /remove file|click to remove/i.test(button.getAttribute("aria-label") || "")
+      );
+      if (!send) return { ok: false, reason: "no_send_button" };
+      if (send.disabled || send.getAttribute("aria-disabled") === "true") {
+        return {
+          ok: false,
+          reason: "send_disabled",
+          removeFileCount: removeButtons.length,
+          removeFileText: removeButtons.map((button) => button.getAttribute("aria-label") || button.innerText || "").join("\\n").slice(0, 500),
+          html: send.outerHTML.slice(0, 300)
+        };
+      }
+      const form = send.closest("form");
+      if (form && typeof form.requestSubmit === "function") {
+        form.requestSubmit(send);
+        return {
+          ok: true,
+          submittedBy: "requestSubmit",
+          html: send.outerHTML.slice(0, 300)
+        };
+      }
+      const rect = send.getBoundingClientRect();
+      return {
+        ok: true,
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+        html: send.outerHTML.slice(0, 300)
+      };
+    })()`,
+    5000,
+  );
+  if (!target?.ok) return target;
+  if (target.submittedBy === "requestSubmit") return target;
+  if (Number.isFinite(target.x) && Number.isFinite(target.y)) {
+    await call("Input.dispatchMouseEvent", { type: "mouseMoved", x: target.x, y: target.y, button: "none" });
+    await call("Input.dispatchMouseEvent", { type: "mousePressed", x: target.x, y: target.y, button: "left", clickCount: 1 });
+    await call("Input.dispatchMouseEvent", { type: "mouseReleased", x: target.x, y: target.y, button: "left", clickCount: 1 });
+    return { ...target, clickedBy: "cdp_mouse" };
+  }
+  const fallback = await evaluate(
+    call,
+    `(() => {
+      const send = document.querySelector("button[data-testid='send-button']");
+      if (!send) return { ok: false, reason: "no_send_button_fallback" };
+      send.click();
+      return { ok: true, clickedBy: "dom_click" };
+    })()`,
+    5000,
+  );
+  return { ...target, fallback };
+}
+
 export async function waitForPromptSubmitted(call, beforeUserCount, sentState, waitMs = 15000) {
   const deadline = Date.now() + waitMs;
   let lastState = null;
+  let lastSentState = sentState;
   while (Date.now() < deadline) {
     const state = await evaluate(call, composerStateExpression(), 5000);
     lastState = state;
     if (Number(state.userCount || 0) > Number(beforeUserCount || 0)) return state;
     if (!state.promptText && state.stopVisible) return state;
+    if (state.promptText && state.sendEnabled) {
+      lastSentState = await clickSend(call);
+    }
     await new Promise((resolve) => setTimeout(resolve, 500));
   }
-  throw new Error(`Prompt was not submitted: sent=${JSON.stringify(sentState)} composer=${JSON.stringify(lastState)}`);
+  throw new Error(`Prompt was not submitted: sent=${JSON.stringify(lastSentState)} composer=${JSON.stringify(lastState)}`);
 }
 
-function attachmentStateExpression() {
+function attachmentStateExpression(targetFileName = "") {
+  const targetJson = JSON.stringify(String(targetFileName || "").toLowerCase());
   return `(() => {
-    const bodyText = document.body ? document.body.innerText : "";
-    const attachmentNodes = Array.from(document.querySelectorAll(
-      "[data-testid*='attachment'], [class*='attachment'], [class*='uploaded'], [aria-label*='attachment'], [aria-label*='file']"
-    ));
+    const targetFileName = ${targetJson};
+    const composer = document.querySelector("#prompt-textarea, textarea[data-testid='prompt-textarea'], div[contenteditable='true'][role='textbox']");
+    const root = composer ? (composer.closest("form") || composer.closest("main") || document.body) : document.body;
+    const bodyText = root ? root.innerText : "";
+    const attachmentNodes = Array.from((root || document).querySelectorAll("button[aria-label^='Remove file'], [data-testid*='attachment'], [class*='attachment'], [class*='uploaded']"));
+    const attachmentText = attachmentNodes.map((node) => (node.innerText || node.getAttribute("aria-label") || "")).join("\\n").slice(0, 1000);
     const uploading = !!(
       document.querySelector("[class*='uploading'], [data-testid*='uploading'], [aria-label*='uploading']") ||
-      /uploading|processing file|attaching|正在上传|上传中/i.test(bodyText)
+      /uploading|processing file|attaching/i.test(bodyText)
     );
-    const send = document.querySelector("button[data-testid='send-button']") ||
-      Array.from(document.querySelectorAll("button")).find((button) => /send|发送/i.test(button.getAttribute("aria-label") || ""));
+    const uploadError = /failed upload|files\\.oaiusercontent\\.com|network settings allow access/i.test(bodyText);
+    const send = (root || document).querySelector("button[data-testid='send-button']") ||
+      Array.from((root || document).querySelectorAll("button")).find((button) => /send/i.test(button.getAttribute("aria-label") || ""));
     return {
       attachmentCount: attachmentNodes.length,
-      attachmentText: attachmentNodes.map((node) => (node.innerText || node.getAttribute("aria-label") || "")).join("\\n").slice(0, 1000),
+      attachmentText,
+      targetPresent: targetFileName ? attachmentText.toLowerCase().includes(targetFileName) : attachmentNodes.length > 0,
       uploading,
+      uploadError,
       sendEnabled: !!send && !send.disabled && send.getAttribute("aria-disabled") !== "true"
     };
   })()`;
@@ -323,7 +455,7 @@ async function clickAttachButton(call) {
     `(() => {
       const buttons = Array.from(document.querySelectorAll("button"));
       const attach = document.querySelector("button[data-testid='composer-attach-button']") ||
-        buttons.find((button) => /attach|file|添加|文件|plus|上传/i.test(
+        buttons.find((button) => /attach|file|plus|upload|add/i.test(
           [button.getAttribute("aria-label") || "", button.innerText || "", button.title || ""].join(" ")
         ));
       if (!attach) return { ok: false, reason: "no_attach_button" };
@@ -337,14 +469,16 @@ async function clickAttachButton(call) {
   );
 }
 
-async function waitForAttachmentReady(call, beforeState, waitMs, stableMs) {
+async function waitForAttachmentReady(call, targetFileName, waitMs, stableMs) {
   const deadline = Date.now() + waitMs;
   let last = "";
   let stableSince = 0;
   while (Date.now() < deadline) {
-    const state = await evaluate(call, attachmentStateExpression(), 5000);
-    const grew = Number(state.attachmentCount || 0) > Number(beforeState.attachmentCount || 0);
-    const ready = grew && !state.uploading && state.sendEnabled;
+    const state = await evaluate(call, attachmentStateExpression(targetFileName), 5000);
+    if (state.uploadError) {
+      throw new Error(`PDF upload failed in ChatGPT composer: ${JSON.stringify(state)}`);
+    }
+    const ready = state.targetPresent && !state.uploading && state.sendEnabled;
     const signature = JSON.stringify(state);
     if (ready && signature === last) {
       if (!stableSince) stableSince = Date.now();
@@ -361,7 +495,6 @@ async function waitForAttachmentReady(call, beforeState, waitMs, stableMs) {
 async function attachLocalPdf(call, rawPath, options = {}) {
   const pdfPath = await resolveLocalPdfPath(rawPath);
   if (!pdfPath) return { attached: false };
-  const before = await evaluate(call, attachmentStateExpression(), 5000);
   let nodeId = await queryFileInputNodeId(call);
   if (!nodeId) {
     const clicked = await clickAttachButton(call);
@@ -372,7 +505,7 @@ async function attachLocalPdf(call, rawPath, options = {}) {
   if (!nodeId) throw new Error("Cannot find ChatGPT file input after opening attach control");
   const setResult = await call("DOM.setFileInputFiles", { nodeId, files: [pdfPath] });
   if (setResult.error) throw new Error(`DOM.setFileInputFiles failed: ${JSON.stringify(setResult.error)}`);
-  const ready = await waitForAttachmentReady(call, before, options.attachWaitMs, options.attachStableMs);
+  const ready = await waitForAttachmentReady(call, path.basename(pdfPath), options.attachWaitMs, options.attachStableMs);
   return { attached: true, pdfPath, ready };
 }
 
@@ -384,8 +517,10 @@ async function askChat(prompt, options = {}) {
     const beforeUserCount = before.turns.filter((turn) => turn.role === "user").length;
     const beforeAssistantCount = before.turns.filter((turn) => turn.role === "assistant").length;
     const promptJson = JSON.stringify(prompt);
-    const attachment = attachOptions.pdfPath ? await attachLocalPdf(call, attachOptions.pdfPath, attachOptions) : { attached: false };
-
+    const cleared = await clearComposer(call);
+    if (!cleared?.ok) {
+      throw new Error(`Cannot clear ChatGPT composer: ${JSON.stringify(cleared)}`);
+    }
     const prepared = await evaluate(
       call,
       `(() => {
@@ -394,13 +529,6 @@ async function askChat(prompt, options = {}) {
         const box = document.querySelector("#prompt-textarea, textarea[data-testid='prompt-textarea'], div[contenteditable='true'][role='textbox']");
         if (!box) return { ok: false, reason: "no_prompt_box" };
         box.focus();
-        if (box.tagName === "TEXTAREA") {
-          box.value = "";
-          box.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "deleteContentBackward" }));
-        } else {
-          box.innerHTML = "";
-          box.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "deleteContentBackward" }));
-        }
         return { ok: true };
       })()`,
     );
@@ -410,22 +538,9 @@ async function askChat(prompt, options = {}) {
 
     await call("Input.insertText", { text: prompt });
     await new Promise((resolve) => setTimeout(resolve, 700));
+    const attachment = attachOptions.pdfPath ? await attachLocalPdf(call, attachOptions.pdfPath, attachOptions) : { attached: false };
 
-    const sent = await evaluate(
-      call,
-      `(() => {
-        const buttons = Array.from(document.querySelectorAll("button"));
-        const send = document.querySelector("button[data-testid='send-button']") ||
-          buttons.find((button) => /send|发送/i.test(button.getAttribute("aria-label") || "")) ||
-          buttons.find((button) => (button.innerText || "").trim() === "Send");
-        if (!send) return { ok: false, reason: "no_send_button" };
-        if (send.disabled || send.getAttribute("aria-disabled") === "true") {
-          return { ok: false, reason: "send_disabled", html: send.outerHTML.slice(0, 300) };
-        }
-        send.click();
-        return { ok: true };
-      })()`,
-    );
+    const sent = await clickSend(call);
     if (!sent?.ok) {
       await call("Input.dispatchKeyEvent", {
         type: "keyDown",
@@ -443,11 +558,17 @@ async function askChat(prompt, options = {}) {
       });
     }
 
-    const submitted = await waitForPromptSubmitted(call, beforeUserCount, sent);
+    const submitWaitMs = attachOptions.pdfPath ? Math.max(120000, attachOptions.attachWaitMs) : 60000;
+    const submitted = await waitForPromptSubmitted(call, beforeUserCount, sent, submitWaitMs);
+    const submittedRead = await evaluate(call, readExpression());
+    const submittedUserIndex = [...submittedRead.turns]
+      .reverse()
+      .find((turn) => turn.role === "user")?.i;
     const after = await waitForStableAssistant(call, beforeAssistantCount, waitMs, {
       minResponseChars,
       minWaitAfterFirstMs,
       stableMs,
+      afterTurnIndex: submittedUserIndex,
     });
     const response = [...after.turns].reverse().find((turn) => turn.role === "assistant")?.text || "";
     if (response.trim().length < minResponseChars) {
