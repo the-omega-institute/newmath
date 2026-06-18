@@ -317,4 +317,23 @@ theorem CrossHistCausalRouteTasteGate_single_carrier_alignment :
         exact crossHistCausalRouteToEventFlow_injective heq
       · rfl
 
+theorem CrossHistCausalRouteMaximumRateGate
+    (A B D M S G T H C P N : BHist) :
+    crossHistCausalRouteFields
+        (CrossHistCausalRouteUp.mk A B D M S G T H C P N) =
+      [A, B, D, M, S, G, T, H, C, P, N] ∧
+      crossHistCausalRouteFromEventFlow
+          (crossHistCausalRouteToEventFlow
+            (CrossHistCausalRouteUp.mk A B D M S G T H C P N)) =
+        some (CrossHistCausalRouteUp.mk A B D M S G T H C P N) ∧
+        crossHistCausalRouteEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  constructor
+  · exact
+      crossHistCausalRoute_round_trip
+        (CrossHistCausalRouteUp.mk A B D M S G T H C P N)
+  · rfl
+
 end BEDC.Derived.CrossHistCausalRouteUp

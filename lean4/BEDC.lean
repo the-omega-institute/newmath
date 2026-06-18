@@ -8475,6 +8475,7 @@ import BEDC.Derived.PredictiveDescentUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
 import BEDC.Derived.PrefixObserverUp.NameCertObligations
 import BEDC.Derived.PrefixObserverUp.TasteGate
+import BEDC.Derived.PrefixTreeUp.TasteGate
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
 import BEDC.Derived.PrimeUp
