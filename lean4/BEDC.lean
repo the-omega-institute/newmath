@@ -5321,6 +5321,7 @@ import BEDC.Derived.FiniteCauchyNetExtractionUp.TasteGate
 import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
+import BEDC.Derived.FiniteCoverNerveUp.TasteGate
 import BEDC.Derived.FiniteCoverRefinementUp.TasteGate
 import BEDC.Derived.FiniteCoverUniformModulusEnvelopeUp
 import BEDC.Derived.FiniteDifferenceTableUp.TasteGate
@@ -5699,6 +5700,7 @@ import BEDC.Derived.FreeTopologicalGroupUp
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.FrinkMetrizationUp.TasteGate
 import BEDC.Derived.FrobeniusCoinUp.TasteGate
+import BEDC.Derived.FrontdoorCriterionUp.TasteGate
 import BEDC.Derived.FubiniFiniteRectangleUp.NameCertObligations
 import BEDC.Derived.FubiniFiniteRectangleUp.TasteGate
 import BEDC.Derived.FuchsianGroupActionUp
@@ -9798,6 +9800,7 @@ import BEDC.Derived.SchurOrthogonalityUp.CharacterPairingRoute
 import BEDC.Derived.SchurOrthogonalityUp.GroupAveragingLedger
 import BEDC.Derived.SchurOrthogonalityUp.RowColumnOrthogonalityLedger
 import BEDC.Derived.SchurOrthogonalityUp.TasteGate
+import BEDC.Derived.SchwartzDistributionUp.TasteGate
 import BEDC.Derived.SchwartzFunctionUp.TasteGate
 import BEDC.Derived.SchwartzKernelUp.TasteGate
 import BEDC.Derived.SchwarzLemmaUp.TasteGate
