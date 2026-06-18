@@ -5,6 +5,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.EmpiricalRegularityPersistenceUp
@@ -14,6 +15,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -345,5 +347,70 @@ theorem EmpiricalRegularityPersistenceCarrier_nonescape [AskSetup] [PackageSetup
     ⟨mUnary, rUnary, kUnary, lUnary, gUnary, aUnary, sUnary, fUnary, hUnary,
       cUnary, pUnary, nUnary, lawUnary, mrk, klg, gas, sfh, lawRoute, pPkg,
       nPkg, lawPkg⟩
+
+theorem EmpiricalRegularityPersistenceCarrier_public_interface [AskSetup] [PackageSetup]
+    {M R K L G A S F H C P N lawRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EmpiricalRegularityPersistenceCarrier M R K L G A S F H C P N bundle pkg ->
+      Cont A S lawRead -> Cont lawRead N publicRead -> PkgSig bundle lawRead pkg ->
+        PkgSig bundle publicRead pkg ->
+          SemanticNameCert
+            (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row M ∨ hsame row R ∨ hsame row K ∨ hsame row G ∨
+                hsame row A ∨ hsame row S ∨ hsame row F ∨ hsame row H ∨
+                  hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row publicRead)
+            (fun row : BHist => UnaryHistory row ∧ PkgSig bundle publicRead pkg)
+            hsame ∧
+            UnaryHistory publicRead ∧ Cont lawRead N publicRead ∧
+              PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame SemanticNameCert
+  intro carrier lawRoute publicRoute lawPkg publicPkg
+  have nonescape :=
+    EmpiricalRegularityPersistenceCarrier_nonescape
+      (M := M) (R := R) (K := K) (L := L) (G := G) (A := A) (S := S)
+      (F := F) (H := H) (C := C) (P := P) (N := N) (lawRead := lawRead)
+      (bundle := bundle) (pkg := pkg) carrier lawRoute lawPkg
+  obtain ⟨_mUnary, _rUnary, _kUnary, _lUnary, _gUnary, _aUnary, _sUnary,
+    _fUnary, _hUnary, _cUnary, _pUnary, nUnary, lawUnary, _mrk, _klg, _gas,
+    _sfh, _lawRoute, _pPkg, _nPkg, _lawPkg⟩ := nonescape
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed lawUnary nUnary publicRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row M ∨ hsame row R ∨ hsame row K ∨ hsame row G ∨ hsame row A ∨
+            hsame row S ∨ hsame row F ∨ hsame row H ∨ hsame row C ∨
+              hsame row P ∨ hsame row N ∨ hsame row publicRead)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle publicRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead
+        ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, publicPkg⟩
+  }
+  exact ⟨cert, publicUnary, publicRoute, publicPkg⟩
 
 end BEDC.Derived.EmpiricalRegularityPersistenceUp
