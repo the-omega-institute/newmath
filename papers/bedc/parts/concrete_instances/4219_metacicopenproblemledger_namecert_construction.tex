@@ -68,6 +68,18 @@ Read $S$ and $N$ as separate coordinates. Subject-reduction discharge and candid
 Componentwise $\hsame$ transport preserves this separation. The downstream packet can report the blocker and the positive closed-normal branch together, but it cannot identify them as a completed full-consistency route.
 \end{proof}
 
+\begin{theorem}[MetaCIC open-problem ledger family coverage]
+\label{thm:metacic-open-problem-ledger-family-coverage}
+Every accepted $\MetaCICOpenProblemLedgerUp$ packet exposes exactly seven open-family rows: subject reduction, confluence, normalization, substitution, decidability, typed examples, and blocker. Each downstream MetaCIC consumer must read those rows before any claim about arbitrary closed subject reduction, arbitrary Church--Rosser, global strong normalization, unrestricted beta-conversion decidability, exhaustive examples, or full consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-open-problem-ledger-carrier}. The seven open-family coordinates are precisely $S,C,N,U,D,E,B$, while $H,R,P,Q$ transport, replay, source, and name those rows.
+
+Apply \autoref{thm:metacic-open-problem-ledger-nonescape}. A downstream consumer factors through the displayed tuple before it can mention any of the closed MetaCIC endpoints excluded from the packet.
+
+Finally apply \autoref{thm:metacic-open-problem-ledger-blocker-separation}. The blocker row remains a distinct boundary row, so the family coverage statement records an open ledger rather than a hidden proof of arbitrary closed consistency.
+\end{proof}
+
 \closureat{MetaCICOpenProblemLedgerUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICOpenProblemLedgerUp}
