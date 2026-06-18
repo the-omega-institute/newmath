@@ -37,12 +37,12 @@ private theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment_de
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private def simpleFunctionApproximationFields :
+def simpleFunctionApproximationFields :
     SimpleFunctionApproximationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | SimpleFunctionApproximationUp.mk M F R E T O H C P N => [M, F, R, E, T, O, H, C, P, N]
 
-private def simpleFunctionApproximationToEventFlow :
+def simpleFunctionApproximationToEventFlow :
     SimpleFunctionApproximationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (simpleFunctionApproximationFields x).map simpleFunctionApproximationEncodeBHist
@@ -56,7 +56,7 @@ private def SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventA
   | Nat.succ index, _event :: rest =>
       SimpleFunctionApproximationTasteGate_single_carrier_alignment_eventAt index rest
 
-private def simpleFunctionApproximationFromEventFlow
+def simpleFunctionApproximationFromEventFlow
     (ef : EventFlow) : Option SimpleFunctionApproximationUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
@@ -167,13 +167,19 @@ theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       simpleFunctionApproximationDecodeBHist
         (simpleFunctionApproximationEncodeBHist h) = h) ∧
+      simpleFunctionApproximationToEventFlow
+          (SimpleFunctionApproximationUp.mk
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        ([[], [], [], [], [], [], [], [], [], []] : EventFlow) ∧
       Nonempty (BHistCarrier SimpleFunctionApproximationUp) ∧
         Nonempty (ChapterTasteGate SimpleFunctionApproximationUp) ∧
           simpleFunctionApproximationEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨SimpleFunctionApproximationTasteGate_single_carrier_alignment_decode,
-      ⟨⟨simpleFunctionApproximationBHistCarrier⟩,
-        ⟨⟨simpleFunctionApproximationChapterTasteGate⟩, rfl⟩⟩⟩
+      ⟨rfl,
+        ⟨⟨simpleFunctionApproximationBHistCarrier⟩,
+          ⟨⟨simpleFunctionApproximationChapterTasteGate⟩, rfl⟩⟩⟩⟩
 
 end BEDC.Derived.SimpleFunctionApproximationUp

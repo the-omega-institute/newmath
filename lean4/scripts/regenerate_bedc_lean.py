@@ -18,7 +18,6 @@ AGGREGATE_IMPORT_OMIT = {
     "BEDC.Derived.AnalogyCertificateGateUp.FalsifiablePrediction",
     "BEDC.Derived.DyadicIntervalCoverUp",
     "BEDC.Derived.LocatedCompletionUp.TasteGate",
-    "BEDC.Derived.RegularCauchyCriterionUp",
 }
 
 
