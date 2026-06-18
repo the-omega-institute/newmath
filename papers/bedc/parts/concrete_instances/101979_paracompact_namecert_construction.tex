@@ -153,15 +153,30 @@ For separation-compatible use, the route must pass through $N$ and then $U$. Thu
 The replay and naming rows $H,C,P,Z$ preserve this order componentwise. With no coordinate for selected subcovers, partition-of-unity weights, host complement selection, open-cover compactness, or ambient normality, every metric paracompact read passes through the displayed metric and normal-space rows before refinement export.
 \end{proof}
 
+\begin{theorem}[Paracompact obligation closure package]
+\label{thm:paracompact-obligation-closure-package}
+Every accepted $\ParacompactUp$ packet has its obligation-closure surface given exactly by \autoref{def:paracompact-carrier}, \autoref{thm:paracompact-namecert-obligations}, \autoref{thm:paracompact-refinement-consumer-route}, \autoref{def:paracompact-locally-finite-refinement-carrier}, \autoref{thm:paracompact-refinement-namecert-obligations}, and \autoref{thm:paracompact-metric-normal-route}. The package exposes displayed cover requests, locally finite refinement ledgers, coverage and containment rows, normal-space and Urysohn-facing separation routes, metric finite-radius handoffs, componentwise transport, replay, provenance, and local naming. It exports no selected subcovers, arbitrary open-cover compactness, partition-of-unity closure, or host complement selection.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:paracompact-carrier}. Its rows expose the topology source, open-cover request, locally finite refinement ledger, coverage ledger, normal-space compatibility row, metric-or-finite-radius handoff, transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:paracompact-namecert-obligations} and \autoref{thm:paracompact-refinement-consumer-route}. These obligations force every refinement consumer to read the cover request, refinement exactness, coverage and containment rows, separation-compatible handoff, and metric finite-radius route in the displayed order.
+
+For the locally finite surface, project \autoref{def:paracompact-locally-finite-refinement-carrier} and apply \autoref{thm:paracompact-refinement-namecert-obligations}. The local-finiteness ledger is a named row, and it is transported only with the same topology, cover, refinement, separation, metric, replay, provenance, and naming rows.
+
+Finally apply \autoref{thm:paracompact-metric-normal-route}. The metric-normal consumer route remains downstream of the displayed metric finite-radius source and the normal-space separation row, so the package has no coordinate from which selected subcovers, arbitrary open-cover compactness, partition-of-unity closure, or host complement selection could be read.
+\end{proof}
+
 \closureat{ParacompactUp}{seedStr}
+\closureat{ParacompactUp}{obligationStr}[BEDC.Derived.ParacompactUp.ParacompactCarrier\_refinement\_namecert\_obligations]
 
 \begin{closurestatus}{\ParacompactUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:paracompact-carrier}, \autoref{thm:paracompact-namecert-obligations}, and \autoref{thm:paracompact-refinement-consumer-route} seed the finite L10 route from displayed open-cover requests through locally finite refinement ledgers into normal-space and metric consumer handoffs.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:paracompact-carrier}, \autoref{thm:paracompact-namecert-obligations}, \autoref{thm:paracompact-refinement-consumer-route}, \autoref{def:paracompact-locally-finite-refinement-carrier}, \autoref{thm:paracompact-refinement-namecert-obligations}, \autoref{thm:paracompact-metric-normal-route}, and \autoref{thm:paracompact-obligation-closure-package} close the finite obligation route from displayed open-cover requests through locally finite refinement ledgers into normal-space and metric consumer handoffs.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.ParacompactUp.ParacompactCarrier\_refinement\_namecert\_obligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not close selected subcovers, arbitrary open-cover compactness, partition-of-unity closure, host complement selection, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, open-cover exposure, locally finite refinement exactness, coverage and containment exactness, normal-space compatibility, metric-or-finite-radius handoff, transport stability, and non-escape proofs for BEDC.Derived.ParacompactUp.}
+  \upgradepath{Scoped closure requires a public consumer theorem binding the refinement package to a named downstream paracompact-space route.}
   \constructivestory{A $\ParacompactUp$ packet is generated from a $\TopologyUp$ source row, an open-cover request row, a locally finite open-refinement ledger, a coverage ledger, a $\NormalSpaceUp$ compatibility row, a $\MetricUp$ or $\FiniteLebesgueNumberUp$ handoff row when available, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
 \end{closurestatus}
