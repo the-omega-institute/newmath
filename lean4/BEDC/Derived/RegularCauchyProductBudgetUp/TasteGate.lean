@@ -192,6 +192,30 @@ private theorem regularCauchyProductBudgetUpToEventFlow_injective
     (Eq.trans (regularCauchyProductBudgetUp_round_trip x).symm
       (Eq.trans hread (regularCauchyProductBudgetUp_round_trip y)))
 
+private def regularCauchyProductBudgetUpFields :
+    RegularCauchyProductBudgetUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchyProductBudgetUp.mk sourceA sourceB windowA windowB dyadicA dyadicB
+      product budget readback sealRow transport routes provenance name =>
+      [sourceA, sourceB, windowA, windowB, dyadicA, dyadicB, product, budget,
+        readback, sealRow, transport, routes, provenance, name]
+
+private theorem regularCauchyProductBudgetUpFields_faithful :
+    ∀ x y : RegularCauchyProductBudgetUp,
+      regularCauchyProductBudgetUpFields x =
+          regularCauchyProductBudgetUpFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk sourceA₁ sourceB₁ windowA₁ windowB₁ dyadicA₁ dyadicB₁ product₁ budget₁
+      readback₁ sealRow₁ transport₁ routes₁ provenance₁ name₁ =>
+      cases y with
+      | mk sourceA₂ sourceB₂ windowA₂ windowB₂ dyadicA₂ dyadicB₂ product₂ budget₂
+          readback₂ sealRow₂ transport₂ routes₂ provenance₂ name₂ =>
+          cases hfields
+          rfl
+
 instance regularCauchyProductBudgetUpBHistCarrier :
     BHistCarrier RegularCauchyProductBudgetUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -214,52 +238,11 @@ instance regularCauchyProductBudgetUpChapterTasteGate :
 instance regularCauchyProductBudgetUpFieldFaithful :
     FieldFaithful RegularCauchyProductBudgetUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | RegularCauchyProductBudgetUp.mk sourceA sourceB windowA windowB dyadicA dyadicB
-        product budget readback sealRow transport routes provenance name =>
-        [sourceA, sourceB, windowA, windowB, dyadicA, dyadicB, product, budget, readback,
-          sealRow, transport, routes, provenance, name]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk sourceA₁ sourceB₁ windowA₁ windowB₁ dyadicA₁ dyadicB₁ product₁ budget₁
-        readback₁ sealRow₁ transport₁ routes₁ provenance₁ name₁ =>
-      cases y with
-      | mk sourceA₂ sourceB₂ windowA₂ windowB₂ dyadicA₂ dyadicB₂ product₂ budget₂
-          readback₂ sealRow₂ transport₂ routes₂ provenance₂ name₂ =>
-        injection h with hSourceA t1
-        injection t1 with hSourceB t2
-        injection t2 with hWindowA t3
-        injection t3 with hWindowB t4
-        injection t4 with hDyadicA t5
-        injection t5 with hDyadicB t6
-        injection t6 with hProduct t7
-        injection t7 with hBudget t8
-        injection t8 with hReadback t9
-        injection t9 with hSealRow t10
-        injection t10 with hTransport t11
-        injection t11 with hRoutes t12
-        injection t12 with hProvenance t13
-        injection t13 with hName _
-        subst hSourceA
-        subst hSourceB
-        subst hWindowA
-        subst hWindowB
-        subst hDyadicA
-        subst hDyadicB
-        subst hProduct
-        subst hBudget
-        subst hReadback
-        subst hSealRow
-        subst hTransport
-        subst hRoutes
-        subst hProvenance
-        subst hName
-        rfl
+  fields := regularCauchyProductBudgetUpFields
+  field_faithful := regularCauchyProductBudgetUpFields_faithful
 
 instance regularCauchyProductBudgetUpNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial RegularCauchyProductBudgetUp where
+    Nontrivial RegularCauchyProductBudgetUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨RegularCauchyProductBudgetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
