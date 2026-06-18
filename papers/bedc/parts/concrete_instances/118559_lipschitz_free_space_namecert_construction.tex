@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\LipschitzFreeSpaceUp$}
+\label{ch:concrete-instances-lipschitz-free-space-namecert}
+\origin{human}
+
+Following Weaver and Arens--Eells, the $\LipschitzFreeSpaceUp$ packet records the finite molecule-and-norm surface used when pointed metric data is linearized into a normed space. It reads the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the Lipschitz seminorm surface of \autoref{ch:concrete-instances-lipschitz-space-namecert}, the function-action route of \autoref{ch:concrete-instances-lipschitz-function-namecert}, and the Arens--Eells norm carrier of \autoref{ch:concrete-instances-arens-eells-space-namecert}. The packet names only the displayed finite molecule ledger and its universal linearization route; it does not assert Banach completion, dual-space representation, quotient completion equality, selected representatives, or a host free Banach space.
+
+\begin{definition}[Lipschitz free space carrier]
+\label{def:lipschitz-free-space-carrier}
+A $\LipschitzFreeSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,B,U,D,Z,L,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the pointed $\MetricUp$ row, including the finite point list and the distinguished basepoint row.
+\item $B$ records the basepoint anchor used to interpret molecule sums as pointed metric data.
+\item $U$ is the finitely supported molecule row, listing formal point generators and their support.
+\item $D$ is the signed dyadic coefficient row for the finite molecule support.
+\item $Z$ is the zero-sum ledger, recording that the signed dyadic coefficients sum to zero before the molecule is admitted.
+\item $L$ is the $\LipschitzSpaceUp$ seminorm-budget row for scalar Lipschitz tests on the pointed metric rows.
+\item $A$ is the $\ArensEellsSpaceUp$ norm-witness row, exposing the finite decomposition budget used to read the Arens--Eells norm.
+\item $E$ is the evaluation row through $\LipschitzFunctionUp$, recording how a Lipschitz function reads a molecule by the displayed finite coefficient ledger.
+\item $H$ records componentwise $\hsame$ transport for $M,B,U,D,Z,L,A,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from pointed metric rows through molecules, zero-sum admission, Lipschitz seminorm budgets, Arens--Eells norm witnesses, and evaluation by Lipschitz functions.
+\item $P$ is the $\Pkg$ provenance over $\LipschitzFreeSpaceUp$, $\MetricUp$, $\LipschitzSpaceUp$, $\LipschitzFunctionUp$, $\ArensEellsSpaceUp$, $\NormedSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LipschitzFreeSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Banach completion, a selected completion representative, a dual-space equality theorem, an ambient quotient of measures, or an unrestricted extension principle.
+\end{definition}
+
+\begin{theorem}[Lipschitz free space NameCert obligations]
+\label{thm:lipschitz-free-space-namecert-obligations}
+For every accepted $\LipschitzFreeSpaceUp$ carrier
+$$
+F=(M,B,U,D,Z,L,A,E,H,C,P,N),
+$$
+the local $\NameCert_{\LipschitzFreeSpaceUp}$ surface consists exactly of pointed metric exposure through $M,B$; finitely supported molecule exposure through $U$; signed dyadic coefficient exposure through $D$; zero-sum admission through $Z$; Lipschitz seminorm budgeting through $L$; Arens--Eells norm witnessing through $A$; Lipschitz-function evaluation through $E$; componentwise transport and replay through $H,C$; and provenance with local naming through $P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lipschitz-free-space-carrier}. The visible mathematical rows are the pointed metric rows, the molecule support rows, the signed dyadic coefficient row, the zero-sum ledger, the seminorm budget, the Arens--Eells norm witness, and the Lipschitz-function evaluation row.
+
+The molecule side is read first. A consumer opens $M,B,U,D$ and may admit a molecule only after the zero-sum ledger $Z$ has displayed the signed dyadic coefficient balance.
+
+The norm and evaluation reads are then forced through $L,A,E$. The Lipschitz seminorm budget supplies the scalar test boundary, the Arens--Eells row supplies the finite norm witness, and the Lipschitz-function row records the evaluation of the same molecule support.
+
+Finally $H,C,P,N$ only transport, replay, source, and name this displayed route. Since the carrier contains no completion, quotient-measure, dual-space, or representative-selection coordinate, those objects are not local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Lipschitz free space universal linearization]
+\label{thm:lipschitz-free-space-universal-linearization}
+Every accepted $\LipschitzFreeSpaceUp$ packet exports a universal linearization route only through the finite spine
+$$
+\MetricUp \longmapsto
+\LipschitzSpaceUp \longmapsto
+\LipschitzFunctionUp \longmapsto
+\ArensEellsSpaceUp \longmapsto
+\NormedSpaceUp .
+$$
+For a carrier $F=(M,B,U,D,Z,L,A,E,H,C,P,N)$, any linear read must preserve the pointed metric rows, the finitely supported molecule row, the signed dyadic coefficient row, the zero-sum ledger, the Lipschitz seminorm budget, the Arens--Eells norm witness, and componentwise $\hsame$ transport. It may treat the resulting packet as a normed-space-facing molecule certificate, but it may not claim Banach completion, dual identification, quotient-measure equality, or a selected free-space representative.
+\end{theorem}
+\begin{proof}
+Begin with the sibling dependency rows named in the chapter introduction. The metric chapter supplies pointed distance data, the Lipschitz space and Lipschitz function chapters supply seminorm and evaluation reads, and the Arens--Eells chapter supplies the finite molecule norm witness.
+
+Next read the carrier rows $M,B,U,D,Z,L,A,E$. The zero-sum ledger turns signed dyadic coefficients into admitted molecules, while the seminorm and Arens--Eells rows keep the norm read tied to finite tests and finite decompositions.
+
+The structural rows $H,C,P,N$ preserve that same route under componentwise transport, displayed replay, provenance, and local naming. Therefore the exported universal property is only the finite BEDC linearization spine shown above, not a completed Banach-space or dual-space theorem.
+\end{proof}
+
+\falsifiablePrediction{If an accepted $\LipschitzFreeSpaceUp$ packet changes its pointed metric row, signed dyadic coefficient row, zero-sum ledger, Lipschitz seminorm budget, or Arens--Eells norm witness while retaining the same local name, then it is not the same finite NameCert packet.}
+
+\independenceWitness{metric, lipschitz-space, lipschitz-function, arens-eells-space, normed-space: the metric packet supplies pointed distance rows without molecules; the Lipschitz-space packet supplies seminorm budgets without zero-sum molecules; the Lipschitz-function packet supplies evaluation rows without the free carrier; the Arens--Eells packet supplies norm witnesses without this universal linearization route; and the normed-space packet supplies linear norm rows without pointed metric provenance. None is bijective to $\LipschitzFreeSpaceUp$ under NameCert-row preservation.}
+
+\closureat{LipschitzFreeSpaceUp}{seedStr}
+
+\begin{closurestatus}{\LipschitzFreeSpaceUp}
+  \constructivestory{A $\LipschitzFreeSpaceUp$ packet is generated from pointed Metric rows, basepoint rows, finitely supported molecule rows, signed dyadic coefficient rows, a zero-sum ledger, Lipschitz seminorm budgets, Arens--Eells norm witnesses, Lipschitz-function evaluation rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lipschitz-free-space-carrier}, \autoref{thm:lipschitz-free-space-namecert-obligations}, \autoref{thm:lipschitz-free-space-universal-linearization}, the falsifiable prediction, and the independence witness seed the finite pointed-molecule carrier and universal linearization route over Metric, LipschitzSpace, LipschitzFunction, ArensEellsSpace, NormedSpace, hsame, Cont, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Banach completion, dual-space representation, quotient-measure equality, selected free-space representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, zero-sum molecule admission, signed dyadic coefficient routing, Lipschitz seminorm budgeting, Arens--Eells norm witnessing, evaluation readback, transport, replay, provenance, and local naming for BEDC.Derived.LipschitzFreeSpaceUp.}
+\end{closurestatus}
