@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\RiemannIntegrabilityDiscontinuityUp$}
+\label{ch:concrete-instances-riemann-integrability-discontinuity-namecert}
+\origin{human}
+
+Following Riemann and Darboux, the $\RiemannIntegrabilityDiscontinuityUp$ packet records the finite discontinuity ledger by which a bounded real function on a displayed compact interval is admitted to the Riemann-integrability route. It sits beside the Riemann integral readback of \autoref{ch:concrete-instances-riemannintegral-namecert}, the Darboux finite-sum surface of \autoref{ch:concrete-instances-darboux-sum-namecert}, the regulated Darboux ledger of \autoref{ch:concrete-instances-regulated-darboux-sum-namecert}, and the regular rational seal of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only a finite discontinuity ledger and its Darboux cover; it does not import measure-zero sets, a Lebesgue criterion, quotient function equality, selected partitions, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann integrability discontinuity carrier]
+\label{def:riemann-integrability-discontinuity-carrier}
+A $\RiemannIntegrabilityDiscontinuityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(I,F,L,C,U,V,G,R,E,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ interval-domain row, naming the endpoints, orientation, and compact interval on which the read is made.
+\item $F$ is the bounded-function window row, exposing only the finitely many function observations requested by the surrounding Riemann and Darboux consumers.
+\item $L$ is the finite discontinuity ledger, listing the displayed discontinuity names and the local interval windows assigned to them.
+\item $C$ is the continuity-off-ledger cover row, recording that every cell outside the windows carried by $L$ is read through a displayed continuity certificate.
+\item $U$ is the upper-window row, carrying the Darboux upper estimates over the ledger windows and the continuity cells.
+\item $V$ is the lower-window row, carrying the Darboux lower estimates over the same displayed partition cells.
+\item $G$ is the finite gap row, comparing the upper and lower Darboux rows against a requested dyadic tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed finite gap budget.
+\item $E$ is the $\RiemannIntegralUp$ handoff row, exposed only after $I,F,L,C,U,V,G,R$ are visible.
+\item $H$ records componentwise $\hsame$ transport for the interval, bounded-function window, discontinuity ledger, cover, Darboux rows, gap, readback, handoff, replay, provenance, and local naming rows.
+\item $Q$ records displayed $\Cont$ replay from the interval and bounded-function request through the discontinuity ledger, continuity cover, Darboux finite sums, gap readback, and Riemann handoff.
+\item $P$ is the $\Pkg$ provenance over $\RiemannIntegrabilityDiscontinuityUp$, $\RealUp$, $\RegSeqRatUp$, $\DarbouxSumUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannIntegrabilityDiscontinuityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,F,L,C,U,V,G,R,E,H,Q,P,N$. It has no coordinate for measure completion, a countable discontinuity set, selected refinement limits, quotient function equality, a host integral operator, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Riemann integrability discontinuity NameCert obligations]
+\label{thm:riemann-integrability-discontinuity-namecert-obligations}
+For every accepted $\RiemannIntegrabilityDiscontinuityUp$ carrier
+$$
+D=(I,F,L,C,U,V,G,R,E,H,Q,P,N),
+$$
+the local $\NameCert_{\RiemannIntegrabilityDiscontinuityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the interval-domain, bounded-function window, finite discontinuity ledger, continuity-off-ledger cover, upper and lower Darboux rows, gap row, regular readback, Riemann handoff, transport, replay, provenance, and local naming rows;
+\item ledger finiteness, requiring $L$ to list only finitely many displayed discontinuity windows over the interval row $I$;
+\item continuity cover exactness, requiring $C$ to cover every displayed partition cell not assigned to a row of $L$;
+\item Darboux gap control, requiring $U,V,G$ to compare lower and upper finite sums only over the displayed ledger windows and continuity cells;
+\item Riemann handoff nonescape, requiring $E$ to be read only after the finite ledger, cover, Darboux gap, and regular readback rows are visible.
+\end{enumerate}
+Thus the packet supplies a finite discontinuity route into Riemann integrability, not a measure-theoretic criterion, quotient-function theorem, selected partition limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-integrability-discontinuity-carrier}. The only analytic rows are $I,F,L,C,U,V,G,R,E$; the remaining rows $H,Q,P,N$ transport, replay, source, and name that same packet.
+
+First read the discontinuity ledger. The row $L$ is finite and names exactly the discontinuity windows that may contribute exceptional oscillation. The row $C$ covers the complement of those displayed windows by local continuity data, so no hidden discontinuity set is available.
+
+Next read the Darboux comparison. The rows $U$ and $V$ compute upper and lower finite sums over the same displayed cells, and $G$ compares their gap against the requested dyadic budget. The regular readback row $R$ makes that comparison visible before any Riemann-facing handoff can be consumed.
+
+Finally read $E,H,Q,P,N$. The handoff $E$ is downstream of the ledger, cover, Darboux gap, and readback rows, while the structural rows preserve only the same finite route. Since the carrier has no coordinate for measure-zero reasoning, quotient functions, selected limits, countable choice, or ambient completeness, the listed obligations exhaust the local $\NameCert_{\RiemannIntegrabilityDiscontinuityUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Riemann integrability finite-discontinuity cover]
+\label{thm:riemann-integrability-finite-discontinuity-cover}
+Every accepted $\RiemannIntegrabilityDiscontinuityUp$ packet that exposes a finite discontinuity ledger $L$ and continuity-off-ledger cover $C$ routes any $\RiemannIntegralUp$ consumer through the finite Darboux comparison
+$$
+I,F,L,C \longmapsto U,V \longmapsto G \longmapsto R \longmapsto E .
+$$
+Consequently a finite discontinuity ledger over a displayed compact interval is enough BEDC data for the Riemann handoff row, while measure-zero sets, countable exceptional families, selected mesh limits, quotient function equality, host integration, and ambient $\RealUp$ completeness remain outside the packet.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:riemann-integrability-discontinuity-namecert-obligations}. They force the ledger row $L$ and the continuity cover row $C$ to be visible before the Darboux upper and lower rows are read.
+
+The Darboux rows $U,V$ are finite rows over the same displayed interval and partition cells. Their comparison row $G$ is therefore a finite upper-minus-lower budget, and the regular readback $R$ exposes that budget to the Riemann-facing row.
+
+Apply the Riemann handoff nonescape clause. The row $E$ can be inspected only after $I,F,L,C,U,V,G,R$ have been displayed, with $H,Q,P,N$ preserving the same packet. This proves the stated finite cover route and blocks all measure, quotient, choice, host-integration, and ambient-completeness readings.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RiemannIntegrabilityDiscontinuityUp$ read that reaches a $\RiemannIntegralUp$ handoff without displaying the interval row, bounded-function window, finite discontinuity ledger, continuity-off-ledger cover, Darboux upper and lower rows, finite gap row, $\RegSeqRatUp$ readback, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows refutes the carrier of \autoref{def:riemann-integrability-discontinuity-carrier}.}
+
+\independenceWitness{riemannintegral, darbouxsum, regulated-darboux-sum, regseqrat: $\RiemannIntegrabilityDiscontinuityUp$ is not bijective with any listed sibling because it jointly carries a finite discontinuity ledger, an off-ledger continuity cover, paired Darboux rows, a finite gap readback, a Riemann handoff, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{RiemannIntegrabilityDiscontinuityUp}{seedStr}
+
+\begin{closurestatus}{\RiemannIntegrabilityDiscontinuityUp}
+  \constructivestory{A $\RiemannIntegrabilityDiscontinuityUp$ packet is generated from a Real interval-domain row, bounded-function window, finite discontinuity ledger, continuity-off-ledger cover, Darboux upper and lower rows, finite gap row, RegSeqRat readback, RiemannIntegral handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-integrability-discontinuity-carrier}, \autoref{thm:riemann-integrability-discontinuity-namecert-obligations}, and \autoref{thm:riemann-integrability-finite-discontinuity-cover} seed the finite discontinuity-ledger route into Riemann integrability over interval, Darboux, regular readback, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure-zero criteria, countable exceptional families, quotient function equality, selected refinement limits, host integration, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite ledger finiteness, continuity-off-ledger cover exactness, Darboux gap control, Riemann handoff nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannIntegrabilityDiscontinuityUp.}
+\end{closurestatus}
