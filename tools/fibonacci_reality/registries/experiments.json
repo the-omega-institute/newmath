@@ -446,6 +446,59 @@
           "decipherability_lemma"
         ]
       }
+    },
+    {
+      "experiment_id": "verify-window6-gauge-invariant-orbit-observables",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_gauge_invariant_orbit_observables.py",
+      "claim_id": "window6.clock-gauge-invariant.c10-orbit-observables.certificate",
+      "required_data": [],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "p10_count_lucas",
+          "c10_orbit_count",
+          "orbit_size_spectrum",
+          "burnside_consistency",
+          "spectrum_sums_to_p10",
+          "gauge_invariant_not_basepoint",
+          "general_necklace_closed_form",
+          "aperiodic_primitive_spectrum"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-weight-refined-necklace-polynomial",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_weight_refined_necklace_polynomial.py",
+      "claim_id": "window6.clock-gauge-invariant.weight-refined-necklace-polynomial.certificate",
+      "required_data": [],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "weight_refined_brute",
+          "N_n_at_1_equals_orbit_count",
+          "cyclic_weight_enumerator",
+          "lucas_weight_sum",
+          "burnside_weight_refined_matches",
+          "n10_witness"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-joint-necklace-spectrum",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_joint_necklace_spectrum.py",
+      "claim_id": "window6.clock-gauge-invariant.joint-necklace-spectrum.certificate",
+      "required_data": [],
+      "timeout_seconds": 180,
+      "acceptance": {
+        "required_checks": [
+          "joint_brute",
+          "size_marginal_recovers_a_d",
+          "weight_marginal_recovers_N_n",
+          "joint_strictly_finer",
+          "closed_form_matches",
+          "n10_witness"
+        ]
+      }
     }
   ]
 }

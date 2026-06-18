@@ -96,6 +96,20 @@ The comparison-sensitive rows are $T,H,C,P,N$. The tail ledger records the finit
 Since no accepted coordinate stores a quotient stream equality, selected limit, choice selector, host real equality, ambient Real-completeness datum, or bridge credential, no exported comparison or replay can use such a row. The packet therefore remains a boundary interface rather than a completeness assertion.
 \end{proof}
 
+\begin{theorem}[Cauchy real completion interface tail-ledger determinacy]
+\label{thm:cauchy-real-completion-interface-tail-ledger-determinacy}
+Let $I=(D,S,R,B,T,H,C,P,N)$ and $I'=(D',S',R',B',T',H',C',P',N')$ be accepted $\CauchyRealCompletionInterfaceUp$ carriers. If the two packets expose matching $\DyadicRatCoreUp$ rows $D,D'$, matching $\StreamNameUp$ window rows $S,S'$, matching $\RegSeqRatUp$ readback rows $R,R'$, and matching terminal $\RealUp$ seal rows $B,B'$, then every completion-boundary read through $I$ and every matching read through $I'$ is forced onto the same tail-ledger route through $T,H,C,P,N$ and $T',H',C',P',N'$. The comparison exports no second Real seal, quotient stream equality, selected limit, host real equality, ambient completeness datum, or bridge credential.
+\end{theorem}
+\begin{proof}
+Project both carriers to the displayed rows of \autoref{def:cauchy-real-completion-interface-carrier}. The assumptions identify the four analytic faces $D,S,R,B$ and $D',S',R',B'$ as matching dyadic, stream, regular-rational, and terminal Real-seal data.
+
+Apply the four-face handoff theorem, \autoref{thm:cauchy-real-completion-interface-four-face-handoff}, to each packet. A completion-boundary read cannot inspect $T,H,C,P,N$ or $T',H',C',P',N'$ until the matched faces have already been displayed in order.
+
+Use Real-seal route determinacy, \autoref{thm:cauchy-real-completion-interface-real-seal-determinacy}. The terminal seal route is already fixed by the matched four faces, so any remaining comparison can only replay the tail ledger, componentwise transport, continuation, provenance, and local naming rows.
+
+Finally invoke non-escape, \autoref{thm:cauchy-real-completion-interface-nonescape}. Those residual rows contain no second seal coordinate, quotient stream equality, selected limit, host real equality, ambient completeness datum, or bridge credential. Hence the tail-ledger route is determined by the matching $D,S,R,B$ faces.
+\end{proof}
+
 \closureat{CauchyRealCompletionInterfaceUp}{seedStr}
 
 \begin{closurestatus}{\CauchyRealCompletionInterfaceUp}

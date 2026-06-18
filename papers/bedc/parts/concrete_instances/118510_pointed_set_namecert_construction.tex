@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\PointedSetUp$}
+\label{ch:concrete-instances-pointed-set-namecert}
+\origin{human}
+
+Following Bourbaki and standard category-theoretic usage of pointed sets, the $\PointedSetUp$ packet names a finite carrier together with a displayed basepoint row. It sits after the finite Boolean tag discipline of \autoref{ch:concrete-instances-bool-namecert}, the nullable constructor route of \autoref{ch:concrete-instances-option-namecert}, the coproduct sibling surface of \autoref{ch:concrete-instances-sum-namecert}, the product sibling surface of \autoref{ch:concrete-instances-prod-namecert}, and the finite list observation route of \autoref{ch:concrete-instances-list-namecert}. The packet records basepoint admission, option-style absence routing, product and wedge handoff rows, transport, replay, provenance, and local naming; it is not a host pointed type, a selected global element oracle, a quotient of carriers, or a completed algebraic structure.
+
+\begin{definition}[Pointed set carrier]
+\label{def:pointed-set-carrier}
+A $\PointedSetUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,b,O,P,W,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the finite carrier row, read as BEDC data rather than as a host set.
+\item $b$ is the distinguished basepoint row, displayed before any pointed consumer may read a map, product, or wedge route.
+\item $O$ is the $\OptionUp$ basepoint route, recording whether a consumer reads the distinguished point directly or reads an optional payload after the basepoint boundary is fixed.
+\item $P$ is the $\ProdUp$ handoff row, recording the ordered pair of carrier and basepoint data consumed by product-facing routes.
+\item $W$ is the wedge handoff row, built from $\SumUp$ and $\BoolUp$ branch marks together with the common basepoint row.
+\item $H$ records componentwise $\hsame$ transport for carrier, basepoint, option, product, wedge, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each pointed consumer through $b,O,P,W,H$.
+\item $Q$ is the $\Pkg$ provenance over $\PointedSetUp$, $\BoolUp$, $\OptionUp$, $\SumUp$, $\ProdUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PointedSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,b,O,P,W,H,C,Q,N$. It has no coordinate for a host pointed type, global element choice, quotient carrier equality, selected coproduct representative, or ambient algebraic structure.
+\end{definition}
+
+\begin{theorem}[Pointed set NameCert obligations]
+\label{thm:pointed-set-namecert-obligations}
+For every accepted $\PointedSetUp$ carrier $S=(X,b,O,P,W,H,C,Q,N)$, the local $\NameCert_{\PointedSetUp}$ surface consists exactly of carrier admission, basepoint admission, option-basepoint routing, product handoff, wedge handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through the displayed rows of $S$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pointed-set-carrier}. The rows $X$ and $b$ expose the finite carrier and distinguished point before any consumer can read pointed structure.
+
+The option, product, and wedge obligations are the rows $O,P,W$. The option row uses the nullable sibling only after the basepoint row is visible; the product row packages carrier and basepoint data together; the wedge row uses sum and Boolean branch marks while retaining the common basepoint.
+
+The structural rows add no hidden object. Componentwise $\hsame$ transport in $H$, displayed $\Cont$ replay in $C$, provenance in $Q$, and the local naming row $N$ carry the same finite packet. Since the excluded host pointed type, choice, quotient, selected representative, and ambient algebraic coordinates are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Pointed set option basepoint route]
+\label{thm:pointed-set-option-basepoint-route}
+Every $\OptionUp$ consumer of an accepted $\PointedSetUp$ packet must read the displayed basepoint row $b$ before it may distinguish an absent optional value from a present payload. The route passes through $X,b,O,H,C,Q,N$ and exports no host default element, selected payload representative, quotient carrier equality, or global choice of basepoint.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The optional route is not a detached nullable object; it is the row $O$ of the displayed packet $S=(X,b,O,P,W,H,C,Q,N)$.
+
+Read the basepoint first. The row $b$ supplies the distinguished point against which the absent optional case is interpreted, while the finite carrier row $X$ supplies the payload boundary for present cases.
+
+Transport and replay preserve that order. The rows $H,C,Q,N$ carry the basepointed option route without adding a host default element, selected representative, quotient equality, or global choice coordinate.
+\end{proof}
+
+\begin{theorem}[Pointed set product and wedge handoff]
+\label{thm:pointed-set-product-wedge-handoff}
+Every product-facing or wedge-facing consumer of an accepted $\PointedSetUp$ carrier reads the finite route
+$$
+X,b \longmapsto P,W \longmapsto H,C,Q,N .
+$$
+The $\ProdUp$ handoff may package the carrier and basepoint rows together, and the wedge handoff may read $\SumUp$ and $\BoolUp$ branch marks, but neither route identifies carriers by quotient equality, chooses a coproduct representative, imports a host pointed type, or exports an ambient algebraic structure.
+\end{theorem}
+\begin{proof}
+Project $S$ through \autoref{def:pointed-set-carrier}. The product route is the row $P$, and the wedge route is the row $W$; both rows are downstream of the carrier row $X$ and the distinguished basepoint row $b$.
+
+For product consumers, $P$ packages the finite carrier and basepoint data without introducing a new equality principle. For wedge consumers, $W$ uses the $\SumUp$ branch surface and $\BoolUp$ marks while keeping the same basepoint row visible across the branches.
+
+The rows $H,C,Q,N$ transport, replay, source, and name the same finite handoff. Since no quotient carrier equality, selected coproduct representative, host pointed type, or ambient algebraic structure appears in the packet, neither product nor wedge consumption can export one.
+\end{proof}
+
+\closureat{PointedSetUp}{seedStr}
+
+\begin{closurestatus}{\PointedSetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pointed-set-carrier}, \autoref{thm:pointed-set-namecert-obligations}, \autoref{thm:pointed-set-option-basepoint-route}, and \autoref{thm:pointed-set-product-wedge-handoff} seed the finite basepoint certificate over Bool, Option, Sum, Prod, List, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.PointedSetUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host pointed types, selected global elements, quotient carrier equality, selected coproduct representatives, ambient algebraic structure, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, basepoint admission, option-basepoint routing, product and wedge handoff exactness, transport, replay, provenance, and local naming for BEDC.Derived.PointedSetUp.}
+  \constructivestory{A $\PointedSetUp$ packet is generated from a finite carrier row, a displayed basepoint row, Option, Prod, Sum, and Bool handoff rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

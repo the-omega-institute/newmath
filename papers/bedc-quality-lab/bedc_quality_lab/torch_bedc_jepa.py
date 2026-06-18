@@ -93,18 +93,29 @@ def _tensor(torch: Any, array: np.ndarray, *, device: str) -> Any:
     return torch.as_tensor(array, dtype=torch.float32, device=device)
 
 
+def boundary_batch_action_array(batch: BoundaryGatedBatch) -> np.ndarray:
+    if batch.action is None:
+        return np.zeros_like(batch.z, dtype=np.float64)
+    action = np.asarray(batch.action, dtype=np.float64)
+    if action.shape != batch.z.shape:
+        raise ValueError("batch action must have the same shape as latent states")
+    return action
+
+
 def _train_variant(
     train: BoundaryGatedBatch,
     *,
     seed: int,
     bedc_objective: bool,
     epochs: int = 220,
+    requested_device: str = "auto",
 ) -> dict[str, Any]:
     return _train_weighted_variant(
         train,
         seed=seed,
         epochs=epochs,
         weights=_variant_weights(bedc_objective=bedc_objective),
+        requested_device=requested_device,
     )
 
 
@@ -142,13 +153,15 @@ def _train_weighted_variant(
     seed: int,
     epochs: int = 220,
     weights: dict[str, float],
+    requested_device: str = "auto",
 ) -> dict[str, Any]:
     torch = require_torch()
     set_deterministic_seed(seed)
-    device_resolution = choose_device()
+    device_resolution = choose_device(requested_device)
     device = device_resolution.resolved_device
+    action_dim = boundary_batch_action_array(train).shape[1]
     encoder = _make_mlp(torch, train.x.shape[1], 2).to(device)
-    predictor = _make_mlp(torch, 2, 2).to(device)
+    predictor = _make_mlp(torch, 2 + action_dim, 2).to(device)
     distinction_head = _make_mlp(torch, 3, 1).to(device)
     gap_head = _make_mlp(torch, 4, 1).to(device)
     params = list(encoder.parameters()) + list(predictor.parameters())
@@ -157,6 +170,7 @@ def _train_weighted_variant(
     optimizer = torch.optim.AdamW(params, lr=2e-3, weight_decay=1e-4)
     x = _tensor(torch, train.x, device=device)
     x_pair = _tensor(torch, train.x_pair, device=device)
+    action = _tensor(torch, boundary_batch_action_array(train), device=device)
     z_target = _tensor(torch, train.z, device=device)
     distinction = _tensor(torch, train.distinction.astype(np.float32)[:, None], device=device)
     distinction_pair = _tensor(torch, train.distinction_pair.astype(np.float32)[:, None], device=device)
@@ -177,7 +191,7 @@ def _train_weighted_variant(
         optimizer.zero_grad(set_to_none=True)
         z = encoder(x)
         z_pair = encoder(x_pair).detach()
-        pred_pair = predictor(z)
+        pred_pair = predictor(torch.cat([z, action], dim=1))
         latent_loss = mse(pred_pair, z_pair) + 0.25 * mse(z, z_target) + 0.15 * covariance_loss(z) + 0.05 * mean_loss(z)
         latent_loss.backward()
         optimizer.step()
@@ -190,7 +204,7 @@ def _train_weighted_variant(
         with torch.no_grad():
             z_fixed = encoder(x).detach()
             z_pair_fixed = encoder(x_pair).detach()
-            pred_pair_fixed = predictor(z_fixed).detach()
+            pred_pair_fixed = predictor(torch.cat([z_fixed, action], dim=1)).detach()
     for _ in range(bedc_epochs):
         head_optimizer.zero_grad(set_to_none=True)
         z = z_fixed
@@ -235,9 +249,12 @@ def _train_weighted_variant(
         "distinction_head": distinction_head,
         "gap_head": gap_head,
         "device": device,
+        "device_resolution": device_resolution.to_dict(),
+        "objective_weights": dict(weights),
     }
 
 
+<<<<<<< HEAD
 def _take_boundary_batch(batch: BoundaryGatedBatch, indices: np.ndarray) -> BoundaryGatedBatch:
     idx = np.asarray(indices, dtype=np.int64)
     return BoundaryGatedBatch(
@@ -381,6 +398,40 @@ def _active_gap_guardrail(
         "coverage_expansion_reported": coverage_expansion_reported,
         "reported_coverage_delta": coverage_delta if coverage_expansion_reported else 0.0,
     }
+=======
+def train_torch_bedc_jepa_surface(
+    train: BoundaryGatedBatch,
+    *,
+    seed: int,
+    bedc_objective: bool = True,
+    epochs: int = 220,
+    requested_device: str = "auto",
+) -> dict[str, Any]:
+    return _train_variant(
+        train,
+        seed=seed,
+        bedc_objective=bedc_objective,
+        epochs=epochs,
+        requested_device=requested_device,
+    )
+
+
+def score_torch_bedc_jepa_surface(
+    model: dict[str, Any],
+    batch: BoundaryGatedBatch,
+) -> dict[str, np.ndarray]:
+    return _scores(model, batch)
+
+
+def evaluate_torch_bedc_jepa_surface(
+    name: str,
+    scores: dict[str, np.ndarray],
+    batch: BoundaryGatedBatch,
+    *,
+    gap_override: np.ndarray | None = None,
+) -> dict[str, float | str]:
+    return _evaluate(name, scores, batch, gap_override=gap_override)
+>>>>>>> origin/paper-bedc-quality-lab
 
 
 def _summarize_rows(rows: list[dict[str, Any]]) -> dict[str, float]:
@@ -571,13 +622,16 @@ def _scores(model: dict[str, Any], batch: BoundaryGatedBatch) -> dict[str, np.nd
     torch = require_torch()
     device = model["device"]
     x = _tensor(torch, batch.x, device=device)
+    action = _tensor(torch, boundary_batch_action_array(batch), device=device)
     with torch.no_grad():
         z = model["encoder"](x)
+        pred = model["predictor"](torch.cat([z, action], dim=1))
         d_logits = model["distinction_head"](_distinction_features(torch, z))
         d_prob = torch.sigmoid(d_logits)
         g_prob = torch.sigmoid(model["gap_head"](_gap_features(torch, z, d_prob)))
     return {
         "latent": z.detach().cpu().numpy(),
+        "predicted_latent": pred.detach().cpu().numpy(),
         "distinction": d_prob.detach().cpu().numpy().reshape(-1),
         "gap": g_prob.detach().cpu().numpy().reshape(-1),
     }

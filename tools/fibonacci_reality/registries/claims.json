@@ -495,6 +495,72 @@
       "phase": 1,
       "statement": "For the golden-mean subshift Sigma forbidding 11, let A_m be the length-m admissible local words and let f:A_m -> B be the local rule of a sliding-block factor map Phi_m. The length-1 image language is exactly L_1(Phi_m(Sigma))=f(A_m), so |L_1|=|f(A_m)|<=|A_m|=F_{m+2}, and equality holds exactly when f is injective on A_m. The executable finite witness gives an injective rule preserving the count and a non-injective rule with distinct admissible u,v in A_m and f(u)=f(v), both realized inside Sigma by periodic points, where the image count strictly drops. For length n, the corresponding block-label map pi_n:A_{n+m-1}->B^n preserves the input image-language count exactly when pi_n is injective; preservation at every n is the finite unique-decipherability condition, and n=1 is the first possible count-loss boundary. The m=2..7 baseline counts are cross-checked as |A_m|=F_{m+2}=3,5,8,13,21,34, matching the existing input-count anchor without reproving it. This was harvested from an autonomous bio-G oracle review of phi-m-factor.golden-mean-subshift and independently re-verified by local enumeration; it is a finite combinatorial count-preservation boundary, not about alpha.",
       "status": "open"
+    },
+    {
+      "claim_id": "window6.clock-gauge-invariant.c10-orbit-observables.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "window6.clock-coupling-cert.basepoint-free-gauge.certificate",
+        "window6.cyclic-golden-10-clock.phi10-forward-coupling-needs-external.certificate"
+      ],
+      "experiment_id": "verify-window6-gauge-invariant-orbit-observables",
+      "forbidden_claims": [
+        "The golden-clock necklace quotient-count certificate does not identify the fine-structure constant or any physical/external interpretation.",
+        "The certificate does not claim the basepoint residue itself as forward-determined; the no-go stands.",
+        "The certificate does not duplicate the cyclic-count anchor; |P_10|=123 is only the n=10 carrier check before quotienting.",
+        "The certificate does not duplicate the seamResidue gauge-orbit anchor; it records the C_n quotient orbit-count family law."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.clock-gauge-invariant.c10-orbit-observables",
+      "phase": 1,
+      "statement": "For cyclic no-adjacent-1 binary words P_n with |P_n|=L_n, quotienting by the C_n rotation gauge gives the basepoint-independent golden-clock necklace count |P_n/C_n|=(1/n) sum_{d|n} phi(n/d) L_d by Burnside orbit counting. Moreover the orbit-size spectrum, counting orbits of each exact size d|n, is the primitive/aperiodic golden-necklace count a(d)=(1/d) sum_{e|d} mu(d/e) L_e, the Mobius inversion of Lucas. The executable certificate verifies both formulas by exact enumeration for n=2..14, with the dual identities orbit_count=sum_{d|n} a(d) and L_n=sum_{d|n} d*a(d). The Window6 clock n=10 is the instance |P_10/C_10|=15, with spectrum {1:1,2:1,5:2,10:11}=a(d); Burnside's n=10 fixed-count sum is 150 and the spectrum sums back to |P_10|=123. Together these give the complete gauge-invariant golden-necklace structure: total count by Burnside-Lucas and primitive decomposition by Mobius-Lucas. Physical alpha is not claimed.",
+      "status": "open"
+    },
+    {
+      "claim_id": "window6.clock-gauge-invariant.weight-refined-necklace-polynomial.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "window6.clock-gauge-invariant.c10-orbit-observables.certificate",
+        "window6.clock-coupling-cert.basepoint-free-gauge.certificate",
+        "window6.cyclic-golden-10-clock.phi10-forward-coupling-needs-external.certificate"
+      ],
+      "experiment_id": "verify-window6-weight-refined-necklace-polynomial",
+      "forbidden_claims": [
+        "The weight-refined golden-necklace polynomial certificate does not identify the fine-structure constant or any physical/external interpretation.",
+        "The certificate does not claim the basepoint residue itself as forward-determined; the no-go stands.",
+        "The certificate does not duplicate the unweighted Burnside-Lucas orbit count; N_n(1) is only the specialization.",
+        "The certificate does not duplicate the Mobius-Lucas orbit-size spectrum; it grades quotient orbits by Hamming weight rather than by orbit size."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.clock-gauge-invariant.weight-refined-necklace-polynomial",
+      "phase": 1,
+      "statement": "For cyclic no-adjacent-1 binary words P_n with |P_n|=L_n under the C_n rotation gauge, the weight-refined golden-necklace polynomial N_n(y)=sum_w #{rotation orbits in P_n with Hamming weight w} y^w is a gauge-invariant weight-graded refinement of the golden-necklace quotient. It satisfies N_n(1)=|P_n/C_n|, uses the cyclic weight enumerator W(g,0)=1 and W(g,s)=g/(g-s) C(g-s,s) for s>=1, with sum_s W(g,s)=L_g as a weight-refinement of Lucas, and obeys the Burnside formula N_n(y)=(1/n) sum_{g|n} phi(n/g) sum_s W(g,s) y^((n/g)s). Exact local enumeration verifies the brute orbit-by-weight polynomial, the W(g,s) formula, the Lucas weight sums, and the Burnside polynomial identity for n<=12. The Window6 clock instance is N_10(y)=1+y+4y^2+5y^3+3y^4+y^5, so N_10(1)=15, with W(10,*)=[1,10,35,50,25,2] and sum_s W(10,s)=123=L_10. This is gauge-invariant weight-graded forward content distinct from the unweighted Burnside-Lucas orbit count and from the Mobius-Lucas orbit-size spectrum. Physical alpha is not claimed.",
+      "status": "open"
+    },
+    {
+      "claim_id": "window6.clock-gauge-invariant.joint-necklace-spectrum.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "window6.clock-gauge-invariant.weight-refined-necklace-polynomial.certificate",
+        "window6.clock-gauge-invariant.c10-orbit-observables.certificate",
+        "window6.clock-coupling-cert.basepoint-free-gauge.certificate"
+      ],
+      "experiment_id": "verify-window6-joint-necklace-spectrum",
+      "forbidden_claims": [
+        "The joint golden-necklace spectrum certificate does not identify the fine-structure constant or any physical/external interpretation.",
+        "The certificate does not claim the basepoint residue itself as forward-determined; the no-go stands.",
+        "The certificate does not duplicate the Mobius-Lucas orbit-size spectrum; that spectrum is only the size marginal.",
+        "The certificate does not duplicate the weight-refined polynomial N_n(y); that polynomial is only the weight marginal.",
+        "The certificate records the bivariate orbit-size x Hamming-weight correlation that neither single grading determines."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.clock-gauge-invariant.joint-necklace-spectrum",
+      "phase": 1,
+      "statement": "For cyclic no-adjacent-1 binary words P_n with |P_n|=L_n under the C_n rotation gauge, the joint golden-necklace spectrum J_n(d,k)=#{rotation orbits in P_n with exact orbit size d and Hamming weight k} is a basepoint-free bivariate refinement of the two existing single gradings. The size marginal sum_k J_n(d,k) recovers the Mobius primitive orbit-size spectrum a(d), and the weight marginal sum_d J_n(d,k) recovers the coefficients of N_n(y). The joint table is strictly finer: for Window6 n=10 the size-10 row splits by weight as {1:1,2:3,3:5,4:2}, and a distinct nonnegative table with the same size and weight marginals exists, so the orbit-size x weight correlation is not recoverable from either marginal alone. The closed form is J_n(d,k)=A(d,kd/n) when n divides k*d, and 0 otherwise, where A(d,s) is the exact-period d primitive golden-necklace count with s ones; equivalently A(d,s)=(1/d) sum_{r|gcd(d,s)} mu(r) W(d/r,s/r), with W(g,0)=1 and W(g,t)=g/(g-t) C(g-t,t) for t>=1. Exact local enumeration verifies the brute joint spectrum, both marginals, the closed form, and primitive weighted formula for n<=12. The Window6 witness is J_10={(1,0):1,(2,5):1,(5,2):1,(5,4):1,(10,1):1,(10,2):3,(10,3):5,(10,4):2}, with size marginal {1:1,2:1,5:2,10:11} and weight marginal [1,1,4,5,3,1]. This is a genuine-new joint refinement unifying the two single gradings of the gauge-invariant golden-necklace; it is not about alpha.",
+      "status": "open"
     }
   ],
   "version": "fibonacci-reality-claims-v1"

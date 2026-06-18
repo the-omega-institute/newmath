@@ -85,6 +85,7 @@ Apply \autoref{thm:finite-hist-locality-packet-transport-stability} to preserve 
 
 The refusal theorem, \autoref{thm:finite-hist-locality-packet-no-global-sync-refusal}, excludes every route through global synchronization, selected global clocks, privileged frames, ambient metric tensors, or host-valued equality. Hence the handoff is exactly the finite two-history locality packet.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteHistLocalityPacketUp.FiniteHistLocalityPacketConsumerHandoff}
 
 \begin{theorem}[Finite Hist locality packet TasteGate handoff]
 \label{thm:finite-hist-locality-packet-tastegate-handoff}
@@ -116,13 +117,36 @@ Use \autoref{thm:finite-hist-locality-packet-transport-stability} and \autoref{t
 
 Finally apply \autoref{thm:finite-hist-locality-packet-no-global-sync-refusal} and the TasteGate handoff of \autoref{thm:finite-hist-locality-packet-tastegate-handoff}. They exclude global synchronization and require later Nontrivial and FieldFaithful reads to use the same displayed carrier, so the listed rows exhaust the obligationClosure package.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteHistLocalityPacketUp.FiniteHistLocalityPacketCarrier\_obligation\_closure\_package}
 
-\closureat{FiniteHistLocalityPacketUp}{obligationStr}
+\begin{theorem}[FiniteHistLocalityPacket scoped kernel scope]
+\label{thm:finitehist-locality-scoped-kernel-scope}
+For every accepted $\FiniteHistLocalityPacketUp$ carrier
+$$
+P=(H_0,H_1,L,I,S,T,C,Q,N),
+$$
+every cross-Hist causal, maximum-rate, observer-locality, and TasteGate consumer factors through the displayed rows $H_0,H_1,L,I,S,T,C,Q,N$. The closed scope is limited to the two $\BHist$ rows, $H_0,H_1$, the locality witness $L$, the inter-Hist invariant row $I$, observer symmetry $S$, $\hsame/\psame$ transport through $T$, $\Cont$ replay through $C$, $\Pkg$ provenance through $Q$, the local $\NameCert_{\FiniteHistLocalityPacketUp}$ row $N$, and the sibling routes cited by this chapter.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteHistLocalityPacketUp.FiniteHistLocalityPacketScopedKernelScope}
+\begin{proof}
+Project the carrier in \autoref{def:finite-hist-locality-packet-carrier}. The only available rows are the displayed tuple $H_0,H_1,L,I,S,T,C,Q,N$, with no global synchronization coordinate and no hidden host-clock row.
+
+Apply the obligation package of \autoref{thm:finite-hist-locality-packet-obligation-closure-package}. It binds carrier admission, both displayed Hist rows, locality, invariant exposure, observer symmetry, transport, replay, provenance, and local naming into one obligationClosure surface.
+
+Use the refusal and stability theorems next. \autoref{thm:finite-hist-locality-packet-no-global-sync-refusal} blocks any route through global synchronization, while \autoref{thm:finite-hist-locality-packet-transport-stability} keeps $T$ as componentwise $\hsame/\psame$ transport rather than a host equality.
+
+Now read the consumer handoff. \autoref{thm:finite-hist-locality-packet-consumer-handoff} sends cross-Hist causal, maximum-rate, and observer-locality consumers only through the displayed two-history packet, and \autoref{thm:finite-hist-locality-packet-tastegate-handoff} requires the TasteGate surface to use the same carrier inventory.
+
+The cited sibling chapters supply observer-history identity, local time streams, inter-Hist invariants, cross-Hist causal dependence, and the no-global-synchronization boundary. Since the carrier, obligations, refusal, transport, consumer handoff, and TasteGate handoff all name the same finite rows, the scoped kernel dependency theorem closes exactly that displayed scope.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteHistLocalityPacketUp.FiniteHistLocalityPacketCarrier\_scoped\_kernel\_scope}
+
+\closureat{FiniteHistLocalityPacketUp}{scopedStr}
 
 \begin{closurestatus}{\FiniteHistLocalityPacketUp}
   \constructivestory{A $\FiniteHistLocalityPacketUp$ packet is generated from two displayed Hist rows, a locality witness, inter-Hist invariant row, observer-symmetry row, componentwise transport, displayed replay, package provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:finite-hist-locality-packet-obligation-closure-package} packages carrier admission, both displayed Hist rows, locality, invariant, observer symmetry, hsame/psame transport, Cont replay, provenance, local naming, and TasteGate handoff as the obligationClosure surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:finitehist-locality-scoped-kernel-scope} closes the cross-Hist causal, maximum-rate, observer-locality, and TasteGate dependency scope over the displayed two-history packet rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

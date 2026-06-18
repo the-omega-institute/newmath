@@ -30,6 +30,7 @@ with the following displayed coordinates:
 \end{enumerate}
 The carrier is a finite algebraic operation packet over regular Cauchy real names. It stores no quotient stream, no host real equality, no selected completed limit, no trichotomy, no countable-choice row, and no $\RealUp$ completeness principle.
 \end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Regular Cauchy ring NameCert obligations]
 \label{thm:regular-cauchy-ring-namecert-obligations}
@@ -87,6 +88,7 @@ The displayed replay row $C$ and provenance row $P$ preserve the same route for 
 \label{thm:regular-cauchy-ring-terminal-seal-discipline}
 Every terminal $\RealUp$ seal read from an accepted $\RegularCauchyRingUp$ carrier is one of $R_S,R_G,R_M,R_L$, and it is reachable only after the corresponding operation row $S$, $G$, $M$, or $L$ and its finite budget ledger $E_S$, $E_G$, $E_M$, or $E_L$ have been displayed. No $\RealUp$ consumer of the ring packet can bypass the sibling operation chapters, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ sources, the $\DyadicRatCoreUp$ ledgers, componentwise transport, replay, provenance, and local naming.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_terminal\_seal\_discipline}
 \begin{proof}
 Project the terminal coordinates of the carrier. The only $\RealUp$ seal rows present in $K$ are $R_S,R_G,R_M,R_L$, paired respectively with $S,G,M,L$ and with the finite budget ledgers $E_S,E_G,E_M,E_L$.
 
@@ -170,11 +172,13 @@ For the product and rational-scalar cases, use \autoref{thm:regular-cauchy-produ
 
 These four cases exhaust the carrier's algebraic coordinates. Since componentwise transport from \autoref{thm:regular-cauchy-ring-componentwise-transport} preserves only the displayed operation rows and their seal boundaries, every ring-law read is a finite BEDC packet route and not an imported law of ambient completed reals.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_componentwise\_ring\_laws}
 
 \begin{theorem}[Regular Cauchy ring finite operation induction]
 \label{thm:regular-cauchy-ring-finite-operation-induction}
 Every ring-law consumer of an accepted $\RegularCauchyRingUp$ carrier is exhausted by finite induction over the four operation coordinates $S,G,M,L$. The $S$ case reads only the $\RegularCauchySumUp$ sibling packet, the $G$ case reads only the $\RegularCauchyNegationUp$ sibling packet, the $M$ case reads only the $\RegularCauchyProductUp$ sibling packet, and the $L$ case reads only the $\RegularCauchyScaleUp$ sibling packet, together with their displayed source rows, budget rows, transport, replay, provenance, local naming, and terminal $\RealUp$ seals. No induction branch can route through host real algebra, quotient equality, selected limits, trichotomy, countable choice, or $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_finite\_operation\_induction}
 \begin{proof}
 Project the carrier of \autoref{def:regular-cauchy-ring-carrier}. Its operation surface is the finite four-coordinate family $S,G,M,L$, so induction over possible ring-law reads has exactly four cases.
 
@@ -185,12 +189,74 @@ In the $M$ and $L$ cases, use the same admission and closure results for the $\R
 Finally apply the Real seal non-escape theorem \autoref{thm:regular-cauchy-ring-real-seal-nonescape}. Since each branch reaches a terminal seal only through its displayed sibling operation packet, the four induction cases exhaust all ring-law consumers and leave no route to host real algebra, quotient equality, selected limits, trichotomy, choice, or completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy ring obligation surface]
+\label{thm:regular-cauchy-ring-obligation-surface}
+Every ring consumer of an accepted $\RegularCauchyRingUp$ carrier
+$$
+K=(A,B,W_A,W_B,D_A,D_B,S,G,M,L,R_S,R_G,R_M,R_L,E_S,E_G,E_M,E_L,H,C,P,N)
+$$
+must read exactly the four displayed operation rows $S,G,M,L$ together with the $\RegSeqRatUp$ source rows, $\StreamNameUp$ window rows, $\DyadicRatCoreUp$ endpoint ledgers, terminal $\RealUp$ seal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchyRingUp}$ row before the ring packet can be consumed as algebraic data.
+
+The operation rows are the addition, negation, product, and rational-scale surfaces already supplied by the sibling $\RegularCauchySumUp$, $\RegularCauchyNegationUp$, $\RegularCauchyProductUp$, and $\RegularCauchyScaleUp$ chapters. No consumer may substitute a host real operation, quotient equality branch, selected limit, trichotomy, countable-choice branch, or ambient $\RealUp$ completeness row for any part of this displayed surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_obligation\_surface}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-ring-carrier}. The only algebraic operation coordinates are $S,G,M,L$, and each is paired with displayed source rows, aligned windows, dyadic ledgers, finite budget rows, a terminal seal, transport, replay, provenance, and local naming.
+
+Apply operation-row admission \autoref{thm:regular-cauchy-ring-operation-row-admission} and operation closure \autoref{thm:regular-cauchy-ring-operation-closure}. They identify the four rows as the complete operation surface and keep the readback inside the same finite regular-Cauchy packet.
+
+Use finite operation induction \autoref{thm:regular-cauchy-ring-finite-operation-induction}. The $S$, $G$, $M$, and $L$ cases cite the sibling handoffs for sum, negation, product, and scale, so every consumer reads the same L10 completion-facing rows before any algebraic conclusion is public.
+
+Finally combine the terminal-seal discipline and Real seal non-escape theorems, \autoref{thm:regular-cauchy-ring-terminal-seal-discipline} and \autoref{thm:regular-cauchy-ring-real-seal-nonescape}. They force every terminal $\RealUp$ read to pass through one of $R_S,R_G,R_M,R_L$ with its operation and budget row still visible, which is exactly the obligation surface stated above.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy ring operation inversion]
+\label{thm:regular-cauchy-ring-operation-inversion}
+Let $K$ be an accepted $\RegularCauchyRingUp$ carrier. Any attempted algebraic read from $K$ inverts by finite case split on the operation row that licenses it:
+\begin{enumerate}
+\item an addition read is the $S$ branch through $\RegularCauchySumUp$ and $R_S$;
+\item an additive-inverse read is the $G$ branch through $\RegularCauchyNegationUp$ and $R_G$;
+\item a product read is the $M$ branch through $\RegularCauchyProductUp$ and $R_M$;
+\item a rational-scale read is the $L$ branch through $\RegularCauchyScaleUp$ and $R_L$.
+\end{enumerate}
+These four cases exhaust the carrier's operation surface. There is no fifth branch through host real algebra, quotient equality, selected limits, trichotomy, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from finite operation induction, \autoref{thm:regular-cauchy-ring-finite-operation-induction}. It reduces every ring-law consumer to exactly one of the four operation coordinates $S,G,M,L$.
+
+In the $S$ case, apply operation-row admission and operation closure, \autoref{thm:regular-cauchy-ring-operation-row-admission} and \autoref{thm:regular-cauchy-ring-operation-closure}. The sum read is therefore a $\RegularCauchySumUp$ sibling handoff with its source, window, dyadic, budget, transport, replay, provenance, naming, and terminal $R_S$ rows attached.
+
+In the $G$ case, the same two theorems identify the negation read as the $\RegularCauchyNegationUp$ sibling handoff with terminal $R_G$. The selected source row and its displayed finite budget remain attached, so the branch cannot become host additive inverse on completed reals.
+
+In the $M$ and $L$ cases, the product and rational-scale handoffs are read through $\RegularCauchyProductUp$ and $\RegularCauchyScaleUp$, with terminal seals $R_M$ and $R_L$. Componentwise distributivity, terminal-seal discipline, and Real seal non-escape keep the mixed algebraic reads behind the same displayed sibling routes.
+
+Since the carrier contains no operation coordinate other than $S,G,M,L$, the case split has no residual branch. The inversion therefore refuses host real algebra, quotient equality, selected limits, trichotomy, countable choice, and ambient completeness as unavailable endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingCarrier\_operation\_inversion}
+
+\begin{theorem}[Regular Cauchy ring obligation upgrade]
+\label{thm:regular-cauchy-ring-obligation-upgrade}
+For every accepted $\RegularCauchyRingUp$ carrier, the carrier admission of \autoref{def:regular-cauchy-ring-carrier}, operation-row admission, componentwise transport, terminal-seal discipline, operation closure, componentwise distributivity, finite operation induction, obligation surface, and operation inversion together enumerate the full finite $\NameCert_{\RegularCauchyRingUp}$ obligation surface over $\RegularCauchySumUp$, $\RegularCauchyNegationUp$, $\RegularCauchyProductUp$, $\RegularCauchyScaleUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$.
+
+The enumeration is exactly the four operation cases $S,G,M,L$ with their displayed source rows, aligned windows, dyadic ledgers, finite budget rows, terminal seal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. It contains no branch through host ring laws, quotient real equality, trichotomy, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-ring-carrier}. The only algebraic coordinates are the four operation rows $S,G,M,L$, and every structural row is attached to those coordinates through the displayed source, window, dyadic, budget, seal, transport, replay, provenance, and naming data.
+
+Split over the four operation rows. The $S$ branch is admitted by \autoref{thm:regular-cauchy-ring-operation-row-admission} and closes by \autoref{thm:regular-cauchy-ring-operation-closure} through $\RegularCauchySumUp$ and $R_S$. The $G$ branch uses the same theorems through $\RegularCauchyNegationUp$ and $R_G$.
+
+The $M$ branch is the product branch through $\RegularCauchyProductUp$ and $R_M$, and the $L$ branch is the rational-scale branch through $\RegularCauchyScaleUp$ and $R_L$. Componentwise distributivity is supplied by \autoref{thm:regular-cauchy-ring-componentwise-distributivity}, while finite operation induction in \autoref{thm:regular-cauchy-ring-finite-operation-induction} says these four branches exhaust every ring-law consumer.
+
+Finally apply the obligation surface and inversion theorems, \autoref{thm:regular-cauchy-ring-obligation-surface} and \autoref{thm:regular-cauchy-ring-operation-inversion}. They repack the four case routes into one NameCert surface and rule out a residual branch through host real algebra, quotient equality, selected limits, trichotomy, choice, or completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyRingUp.RegularCauchyRingObligationUpgrade}
+
 \closureat{RegularCauchyRingUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyRingUp}
   \constructivestory{A $\RegularCauchyRingUp$ packet is generated from two RegSeqRat source rows, aligned StreamName windows, DyadicRatCore endpoint ledgers, RegularCauchySum, RegularCauchyNegation, RegularCauchyProduct, and RegularCauchyScale operation rows, terminal RealUp seal rows, finite budget ledgers, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-ring-carrier}, \autoref{thm:regular-cauchy-ring-namecert-obligations}, \autoref{thm:regular-cauchy-ring-operation-closure}, and \autoref{thm:regular-cauchy-ring-real-seal-nonescape} declare the finite algebraic operation packet and its Real seal boundary over regular Cauchy names.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-ring-carrier}, \autoref{thm:regular-cauchy-ring-namecert-obligations}, \autoref{thm:regular-cauchy-ring-operation-closure}, \autoref{thm:regular-cauchy-ring-real-seal-nonescape}, and \autoref{thm:regular-cauchy-ring-obligation-upgrade} declare the finite algebraic operation packet, its four operation routes, and its full obligationClosure surface over regular Cauchy names.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient real equality, host real arithmetic laws, trichotomy, countable choice, selected completed limits, RealUp completeness, Lean verification, or bridge checking.}
