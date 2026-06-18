@@ -165,17 +165,19 @@ instance compactRealIntervalMinimumChapterTasteGate :
 
 theorem CompactRealIntervalMinimumTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-        compactRealIntervalMinimumDecodeBHist
+      compactRealIntervalMinimumDecodeBHist
             (compactRealIntervalMinimumEncodeBHist h) =
           h) ∧
-      Nonempty (BHistCarrier CompactRealIntervalMinimumUp) ∧
-        Nonempty (ChapterTasteGate CompactRealIntervalMinimumUp) ∧
+      compactRealIntervalMinimumToEventFlow
+          (CompactRealIntervalMinimumUp.mk
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        ([[], [], [], [], [], [], [], [], [], [], []] : EventFlow) ∧
           compactRealIntervalMinimumEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨CompactRealIntervalMinimumTasteGate_single_carrier_alignment_decode,
-      ⟨compactRealIntervalMinimumBHistCarrier⟩,
-      ⟨compactRealIntervalMinimumChapterTasteGate⟩,
+      rfl,
       rfl⟩
 
 end BEDC.Derived.CompactRealIntervalMinimumUp

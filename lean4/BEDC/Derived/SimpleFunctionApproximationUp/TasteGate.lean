@@ -159,17 +159,19 @@ instance simpleFunctionApproximationChapterTasteGate :
 
 theorem SimpleFunctionApproximationTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-        simpleFunctionApproximationDecodeBHist
+      simpleFunctionApproximationDecodeBHist
             (simpleFunctionApproximationEncodeBHist h) =
           h) ∧
-      Nonempty (BHistCarrier SimpleFunctionApproximationUp) ∧
-        Nonempty (ChapterTasteGate SimpleFunctionApproximationUp) ∧
+      simpleFunctionApproximationToEventFlow
+          (SimpleFunctionApproximationUp.mk
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        ([[], [], [], [], [], [], [], [], [], []] : EventFlow) ∧
           simpleFunctionApproximationEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨SimpleFunctionApproximationTasteGate_single_carrier_alignment_decode,
-      ⟨simpleFunctionApproximationBHistCarrier⟩,
-      ⟨simpleFunctionApproximationChapterTasteGate⟩,
+      rfl,
       rfl⟩
 
 end BEDC.Derived.SimpleFunctionApproximationUp
