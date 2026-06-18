@@ -73,6 +73,7 @@ Apply \autoref{def:empirical-regularity-persistence-classifier}. The classifier 
 
 Apply \autoref{thm:empirical-regularity-lawcertificate-consumption}. Even the law-certificate consumer must pass through both sides of the packet: finite measurement and error evidence on the records side, and GAP, stability, and failure exposure on the future-facing side. Hence no accepted consumer escapes to physical-law status outside the displayed carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.EmpiricalRegularityPersistenceUp.EmpiricalRegularityPersistenceCarrier\_nonescape}
 
 The standard five-row NameCert surface is carrier admission for $E$, classifier exactness through $K$, stability and failure exposure through $S,F$, displayed route and provenance readback through $H,C,P,N$, and non-escape for bare equations, hidden measurement, omitted error ledgers, all-future truth, host physical necessity, and final-fit oracles.
 
@@ -84,12 +85,26 @@ The Lean \texttt{TasteGate.lean} boundary for $\EmpiricalRegularityPersistenceUp
 
 \independenceWitness{lawcertificate, realityconstrainedphysicalinduction, openfitpacket, realityconstrainedmodelaudit, physicalinductionstabilityseal: none is bijective because $\EmpiricalRegularityPersistenceUp$ stores finite measurement, records-side regularity, classifier, error ledger, future-persistence GAP, LawCertificate consumption, stability, failure, transport, replay, provenance, and local NameCert rows in one carrier. LawCertificateUp consumes a law surface but does not isolate records-side empirical regularity; RealityConstrainedPhysicalInductionUp binds induction continuation but not the measurement/error ledger as a physical-law precursor; OpenFitPacketUp records open fit without a law-consumption row; RealityConstrainedModelAuditUp audits model comparison without the Type IV persistence GAP; PhysicalInductionStabilitySealUp stores stability but not the empirical regularity and LawCertificate consumption pair.}
 
-\closureat{EmpiricalRegularityPersistenceUp}{scopedStr}
+\begin{theorem}[Empirical regularity persistence public interface]
+\label{thm:empirical-regularity-public-interface}
+The public read exported by an accepted $\EmpiricalRegularityPersistenceUp$ packet is exactly the finite measurement row $M$, observed regularity row $R$, classifier row $K$, Type IV GAP row $G$, $\LawCertificateUp$ consumption row $A$, stability row $S$, failure row $F$, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local $\NameCert$ row $N$. A public consumer may not replace this interface by a bare equation, records-only regularity claim, model syntax, hidden calibration assumption, omitted error ledger, all-future truth, or law status detached from the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:empirical-regularity-persistence-carrier}. The rows $M,R,K,L,G,A,S,F,H,C,P,N$ are the full packet inventory, with $M,R,L$ supplying observed evidence, $G,S,F$ supplying the future-facing GAP boundary, and $A,H,C,P,N$ supplying consumption, transport, replay, provenance, and local naming.
+
+Apply the classifier of \autoref{def:empirical-regularity-persistence-classifier}. It identifies accepted packets only through the displayed rows, so a public read cannot drop the classifier, transport, replay, provenance, or local name while preserving the packet.
+
+Use GAP exposure and LawCertificate consumption, \autoref{thm:empirical-regularity-persistence-gap-exposure} and \autoref{thm:empirical-regularity-lawcertificate-consumption}. These results keep records-side regularity separate from future persistence and require the law-certificate consumer to pass through measurement, regularity, classifier, error ledger, GAP, consumption, stability, failure, transport, replay, provenance, and local naming rows.
+
+Finally apply nonescape, \autoref{thm:empirical-regularity-persistence-nonescape}. It excludes bare equations, records-only reads, model syntax, hidden calibration, omitted ledgers, unlisted continuations, and off-packet future-persistence assertions, leaving exactly the stated public interface.
+\end{proof}
+
+\closureat{EmpiricalRegularityPersistenceUp}{publicStr}
 
 \begin{closurestatus}{\EmpiricalRegularityPersistenceUp}
   \constructivestory{An $\EmpiricalRegularityPersistenceUp$ packet is generated from finite measurement rows, observed regularity rows, classifier exposure, error-ledger rows, a Type IV future-persistence GAP, LawCertificate consumption, stability, failure, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:empirical-regularity-persistence-carrier}, \autoref{def:empirical-regularity-persistence-classifier}, \autoref{thm:empirical-regularity-persistence-gap-exposure}, \autoref{thm:empirical-regularity-lawcertificate-consumption}, and \autoref{thm:empirical-regularity-persistence-nonescape} bind the finite observed-regularity and future-persistence packet exactly to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:empirical-regularity-persistence-carrier}, \autoref{def:empirical-regularity-persistence-classifier}, \autoref{thm:empirical-regularity-persistence-gap-exposure}, \autoref{thm:empirical-regularity-lawcertificate-consumption}, \autoref{thm:empirical-regularity-persistence-nonescape}, and \autoref{thm:empirical-regularity-public-interface} bind the finite observed-regularity and future-persistence packet exactly to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
