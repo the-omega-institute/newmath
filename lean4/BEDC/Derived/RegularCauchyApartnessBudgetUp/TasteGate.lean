@@ -326,4 +326,19 @@ theorem RegularCauchyApartnessBudget_nonescape
       exact
         ⟨X, A, M, W, D, R, E, H, C, P, N, rfl, rfl, rfl, rfl, rfl⟩
 
+theorem RegularCauchyApartnessBudget_transport_stability
+    (x : RegularCauchyApartnessBudgetUp) :
+    ∃ X A M W D R E H C P N : BHist,
+      x = RegularCauchyApartnessBudgetUp.mk X A M W D R E H C P N ∧
+        regularCauchyApartnessBudgetFields x = [X, A, M, W, D, R, E, H, C, P, N] ∧
+          Cont M W (append M W) ∧
+            Cont W D (append W D) ∧
+              Cont W R (append W R) ∧
+                Cont R E (append R E) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk X A M W D R E H C P N =>
+      exact
+        ⟨X, A, M, W, D, R, E, H, C, P, N, rfl, rfl, rfl, rfl, rfl, rfl⟩
+
 end BEDC.Derived.RegularCauchyApartnessBudgetUp
