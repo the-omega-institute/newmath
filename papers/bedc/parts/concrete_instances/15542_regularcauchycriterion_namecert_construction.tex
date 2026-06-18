@@ -103,6 +103,7 @@ The NameCert obligations of \autoref{thm:regular-cauchy-criterion-namecert-oblig
 
 The modulus route of \autoref{thm:regular-cauchy-criterion-modulus-route} places the Real-facing boundary after the criterion and convergence-criterion rows. Since those rows are reached only after $D,S,R$ have been displayed, every Real-facing route passes through the DyadicRatCore, StreamName, RegSeqRat, and Real rows in the stated order.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyCriterionUp.RegularCauchyCriterionRegSeqRatRoute}
 
 \begin{theorem}[Regular Cauchy criterion StreamName-RegSeqRat scope]
 \label{thm:regular-cauchy-criterion-streamname-regseqrat-scope}
@@ -161,6 +162,7 @@ Since neither $H$ nor $C$ contains a quotient stream, selected limit, or ambient
 \label{thm:regular-cauchy-criterion-cauchy-equivalence}
 Let $K=(S,R,M,D,Q,V,A,H,C,P,N)$ be an accepted $\RegularCauchyCriterionUp$ carrier. The only exported equivalence surface between Cauchy-facing and convergence-facing reads is the pair of rows $Q$ and $V$, namely the $\CauchyCriterionUp$ row and the $\CauchyConvergenceCriterionUp$ row. The carrier exports no selected limit, quotient stream equality, host real equality, or ambient $\RealUp$ completeness as part of this equivalence surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyCriterionUp.RegularCauchyCriterionCauchyEquivalence\_encode\_append}
 \begin{proof}
 Inspect the carrier coordinates. The Cauchy-facing test is stored in $Q$, and the convergence-facing repacking of that same finite test is stored in $V$.
 
@@ -169,12 +171,30 @@ Apply criterion exactness from the NameCert obligations. It states that $Q$ is t
 The Real seal nonescape theorem excludes selected limits, quotient streams, host equality, choice, and ambient completeness from the Real boundary. Hence the exported equivalence surface is exactly $Q,V$ and not an external completion principle.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy criterion public route]
+\label{thm:regular-cauchy-criterion-public-route}
+Every public $\RegularCauchyCriterionUp$ consumer reads the displayed rows in the order
+$$
+S \longmapsto R \longmapsto M \longmapsto D \longmapsto Q \longmapsto V \longmapsto A \longmapsto H \longmapsto C \longmapsto P \longmapsto N .
+$$
+The route packages the finite window obligations, tail transport, Cauchy equivalence surface, Real seal nonescape, and ledger refusal rows already exposed by the chapter. It cannot export quotient streams, selected limits, host equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window surface. Apply \autoref{thm:regular-cauchy-criterion-window-obligations} to expose the StreamName window, RegSeqRat readback, and DyadicRatCore tolerance row before any criterion-facing read proceeds.
+
+Next apply \autoref{thm:regular-cauchy-criterion-tail-transport}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same ordered tail route through $S,R,M,D,Q,V,A$ and add no quotient-stream or selected-limit coordinate.
+
+The Cauchy-facing and convergence-facing sides meet through \autoref{thm:regular-cauchy-criterion-cauchy-equivalence}. The only equivalence surface is $Q,V$, and the Real-facing boundary is kept behind the same route by \autoref{thm:regular-cauchy-criterion-real-seal-nonescape}.
+
+Finally use the obligation inventory of \autoref{thm:regular-cauchy-criterion-namecert-obligations}. The structural rows $H,C,P,N$ transport, replay, source, and name the public route, while the ledger refusal clauses leave quotient streams, selected limits, host equality, trichotomy, countable choice, and ambient Real completeness outside the exported surface.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyCriterionUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-criterion-carrier}, \autoref{thm:regular-cauchy-criterion-namecert-obligations}, \autoref{thm:regular-cauchy-criterion-modulus-route}, \autoref{thm:regular-cauchy-criterion-streamname-regseqrat-scope}, \autoref{thm:regular-cauchy-criterion-real-seal-nonescape}, \autoref{thm:regular-cauchy-criterion-window-obligations}, \autoref{thm:regular-cauchy-criterion-tail-transport}, and \autoref{thm:regular-cauchy-criterion-cauchy-equivalence} bind the finite route from StreamName windows through RegSeqRat readback, CauchyModulus bounds, DyadicRatCore tolerances, CauchyCriterion testing, CauchyConvergenceCriterion repacking, transport, and the Real boundary.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-criterion-carrier}, \autoref{thm:regular-cauchy-criterion-namecert-obligations}, \autoref{thm:regular-cauchy-criterion-modulus-route}, \autoref{thm:regular-cauchy-criterion-streamname-regseqrat-scope}, \autoref{thm:regular-cauchy-criterion-real-seal-nonescape}, \autoref{thm:regular-cauchy-criterion-window-obligations}, \autoref{thm:regular-cauchy-criterion-tail-transport}, \autoref{thm:regular-cauchy-criterion-cauchy-equivalence}, and \autoref{thm:regular-cauchy-criterion-public-route} bind the finite route from StreamName windows through RegSeqRat readback, CauchyModulus bounds, DyadicRatCore tolerances, CauchyCriterion testing, CauchyConvergenceCriterion repacking, transport, and the Real boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Public closure requires a public consumer theorem packaging the window obligations, tail transport, Cauchy equivalence surface, Real seal nonescape, and ledger refusal rows for BEDC.Derived.RegularCauchyCriterionUp.}
+  \upgradepath{Bridged closure requires a standard bridge from the public RegularCauchyCriterion route to a downstream Real-and-completion consumer.}
   \constructivestory{A $\RegularCauchyCriterionUp$ packet is generated from StreamName windows, RegSeqRat readback, a CauchyModulus row, DyadicRatCore tolerances, CauchyCriterion testing, CauchyConvergenceCriterion repacking, a RealCauchyCriterion and RealUp boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
 \end{closurestatus}
