@@ -320,4 +320,30 @@ theorem EmpiricalRegularityPersistenceCarrier_lawcertificate_consumption
     ⟨mUnary, rUnary, kUnary, lUnary, gUnary, aUnary, sUnary, fUnary, lawUnary,
       mrk, klg, gas, lawRoute, pPkg, lawPkg⟩
 
+theorem EmpiricalRegularityPersistenceCarrier_nonescape [AskSetup] [PackageSetup]
+    {M R K L G A S F H C P N lawRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EmpiricalRegularityPersistenceCarrier M R K L G A S F H C P N bundle pkg ->
+      Cont A S lawRead ->
+        PkgSig bundle lawRead pkg ->
+          UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory K ∧ UnaryHistory L ∧
+            UnaryHistory G ∧ UnaryHistory A ∧ UnaryHistory S ∧ UnaryHistory F ∧
+              UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+                UnaryHistory lawRead ∧ Cont M R K ∧ Cont K L G ∧ Cont G A S ∧
+                  Cont S F H ∧ Cont A S lawRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle N pkg ∧ PkgSig bundle lawRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier lawRoute lawPkg
+  obtain ⟨mUnary, rUnary, mrk, lUnary, klg, aUnary, gas, fUnary, sfh, cUnary,
+    pUnary, nUnary, pPkg, nPkg⟩ := carrier
+  have kUnary : UnaryHistory K := unary_cont_closed mUnary rUnary mrk
+  have gUnary : UnaryHistory G := unary_cont_closed kUnary lUnary klg
+  have sUnary : UnaryHistory S := unary_cont_closed gUnary aUnary gas
+  have hUnary : UnaryHistory H := unary_cont_closed sUnary fUnary sfh
+  have lawUnary : UnaryHistory lawRead := unary_cont_closed aUnary sUnary lawRoute
+  exact
+    ⟨mUnary, rUnary, kUnary, lUnary, gUnary, aUnary, sUnary, fUnary, hUnary,
+      cUnary, pUnary, nUnary, lawUnary, mrk, klg, gas, sfh, lawRoute, pPkg,
+      nPkg, lawPkg⟩
+
 end BEDC.Derived.EmpiricalRegularityPersistenceUp
