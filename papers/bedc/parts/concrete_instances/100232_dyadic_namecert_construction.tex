@@ -55,6 +55,18 @@ Finally inspect $P$ and $N$. Provenance and local naming mention only $Q,S,R,E,H
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicUp.DyadicNameCertObligations}
 
+\begin{theorem}[DyadicUp obligation-closure route]
+\label{thm:dyadic-up-obligation-closure-route}
+For every accepted $\DyadicUp$ carrier $D=(Q,S,R,E,H,C,P,N)$, the rows $Q,S,R,E,H,C,P,N$ listed in \autoref{def:dyadic-up-carrier} and certified by \autoref{thm:dyadic-up-namecert-obligations} are sufficient to witness the $\obligationClosure$ surface consumed by downstream $\DyadicUp$ readers. The route binds $Q$ to $\DyadicRatCoreUp$, $S$ to $\StreamNameUp$, $R$ to $\RegSeqRatUp$, $E$ to $\RealUp$, and $H,C,P,N$ to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before any Real-facing or Completion-facing read can inspect the dyadic packet.
+\end{theorem}
+\begin{proof}
+Start from the carrier and NameCert obligations. The carrier displays exactly the dyadic core, stream window, regular rational readback, Real seal, transport, replay, provenance, and local naming rows, while the obligation theorem states that no local naming obligation is stored outside those rows.
+
+Read the mathematical rows first. The dyadic tolerance ledger $Q$, the finite stream window $S$, the regular rational row $R$, and the terminal Real seal $E$ appear before any Real-facing or Completion-facing consumer can use the packet.
+
+The structural rows $H,C,P,N$ then preserve, replay, source, and name the same route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since every obligation row is displayed before the consumer-facing reads and no excluded analytic or quotient object is a carrier coordinate, the displayed rows witness the obligation-closure surface for $\DyadicUp$ consumers.
+\end{proof}
+
 \begin{theorem}[DyadicUp obligation-closure dependency surface]
 \label{thm:dyadic-up-obligation-closure-dependency-surface}
 For every accepted $\DyadicUp$ obligation read, the dependency surface factors through exactly the displayed rows
