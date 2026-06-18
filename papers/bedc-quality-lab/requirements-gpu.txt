@@ -1,0 +1,11 @@
+# GPU (CUDA) torch stack for the BEDC-JEPA torch experiments on RTX 4090.
+# Rebuild the in-repo env from the repo root:
+#   uv venv --python 3.12 .venv
+#   VIRTUAL_ENV=$PWD/.venv uv pip install -r papers/bedc-quality-lab/requirements-gpu.txt \
+#       --index-url https://download.pytorch.org/whl/cu124 \
+#       --extra-index-url https://pypi.org/simple
+# Then run, e.g.:
+#   .venv/bin/python papers/bedc-quality-lab/scripts/run_torch_bedc_jepa.py
+torch==2.6.0
+torchvision==0.21.0
+numpy==2.4.4
