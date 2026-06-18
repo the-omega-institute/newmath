@@ -162,6 +162,20 @@ Use residual progress and the guarded rectangle from \autoref{thm:metacic-candid
 Finally apply the handoff decider boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}. The bounded comparison passes through $D$ after the displayed endpoint and residual rows, so no consumer can read the certificate as one of the excluded global endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit-map realization]
+\label{thm:metacic-candidate-normalization-handoff-vision-concretization}
+The $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet is the concrete finite $\NameCert$ realization of the normalization audit-map route of \autoref{ch:metacic-normalization-audit-map}. Its carrier displays candidate evidence $K$, bounded endpoint row $N$, frontier row $F$, residual-envelope row $C$, decidable-boundary row $D$, blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$ as one guarded handoff. The realization does not assert unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. The audit anchor $A$ binds the packet to \autoref{ch:metacic-normalization-audit-map}, and the rows $K,N,F,C,D,B,T,R,P,L$ display the finite candidate, endpoint, frontier, residual-envelope, decidable-boundary, blocked-edge, transport, replay, provenance, and local naming data.
+
+Apply the handoff boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. Candidate-gate exactness forces $K,F,N$ to appear before any endpoint read, confluence handoff discipline keeps $C$ and $B$ visible, and decidable-boundary discipline routes bounded comparison through $D$.
+
+Use the consumer boundary and endpoint handoff from \autoref{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary} and \autoref{thm:metacic-finite-conversion-endpoint-handoff}. Together they show that every public read of the audit-map route remains inside the displayed finite conversion certificate and its residual-envelope boundary.
+
+Thus the vision route has a concrete finite packet: candidate evidence, bounded endpoint, frontier, residual envelope, decidable boundary, blocked edge, transport, replay, provenance, and naming are all carrier rows. Since none of the excluded global endpoints is a carrier coordinate, the realization stays a guarded NameCert handoff.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ read that exports a normal endpoint, residual-envelope row, or bounded conversion comparison without first exposing candidate evidence, the normalization frontier, the confluence residual envelope, the decidable boundary, blocked-edge retention, transport, replay, provenance, and local naming is outside the carrier surface.}
 
 \independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacic-confluence-residual-envelope, metacicdecidableboundary, metacic-normalization-confluence-bridge: no listed sibling supplies the joint handoff containing candidate evidence, bounded normal endpoint data, residual-envelope visibility, decidable-boundary routing, blocked-edge retention, transport, replay, provenance, and local NameCert rows while refusing unconditional SN and Church--Rosser.}
