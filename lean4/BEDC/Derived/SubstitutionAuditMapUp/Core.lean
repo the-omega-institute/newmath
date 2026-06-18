@@ -328,4 +328,29 @@ theorem SubstitutionAuditMapCarrier_ledger_nonescape [AskSetup] [PackageSetup]
     ⟨cert, provenanceUnary, nameUnary, ledgerUnary, provenanceName, nameGenerator,
       ledgerRoute, provenancePkg, namePkg, ledgerPkg⟩
 
+theorem SubstitutionAuditMapCarrier_domain_codomain_exposure [AskSetup] [PackageSetup]
+    {term closed shift substitute composition generator transport route provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionAuditMapCarrier term closed shift substitute composition generator transport route
+        provenance name bundle pkg ->
+      (UnaryHistory term ∧ UnaryHistory closed ∧ hsame term closed) ∧
+        (UnaryHistory shift ∧ UnaryHistory substitute ∧ UnaryHistory composition ∧
+          UnaryHistory generator ∧ hsame shift substitute ∧ hsame composition generator) ∧
+          (UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+            UnaryHistory name ∧ hsame transport route ∧ hsame provenance name ∧
+              hsame name generator ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame UnaryHistory
+  intro carrier
+  obtain ⟨termUnary, closedUnary, shiftUnary, substituteUnary, compositionUnary,
+    generatorUnary, transportUnary, routeUnary, provenanceUnary, nameUnary, termClosed,
+    shiftSubstitute, compositionGenerator, transportRoute, provenanceName, nameGenerator,
+    provenancePkg, namePkg⟩ := carrier
+  exact
+    ⟨⟨termUnary, closedUnary, termClosed⟩,
+      ⟨shiftUnary, substituteUnary, compositionUnary, generatorUnary, shiftSubstitute,
+        compositionGenerator⟩,
+      ⟨transportUnary, routeUnary, provenanceUnary, nameUnary, transportRoute, provenanceName,
+        nameGenerator, provenancePkg, namePkg⟩⟩
+
 end BEDC.Derived.SubstitutionAuditMapUp
