@@ -335,7 +335,7 @@ import BEDC.Derived.AuditMapFrontierPacketUp
 import BEDC.Derived.AuditMapInterfaceUp
 import BEDC.Derived.AuditMapInterfaceUp.TasteGate
 import BEDC.Derived.AuditMapMethodologyUp.TasteGate
-import BEDC.Derived.AuditMapObstructionSocketUp
+import BEDC.Derived.AuditMapObstructionSocketUp.FrontierHandoff
 import BEDC.Derived.AuditMapObstructionSocketUp.NameCertObligations
 import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.AuditMapRouteBudgetUp.TasteGate
@@ -3757,7 +3757,6 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealConsumerDeterminacy
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealDependencyTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealFourFaceRouteExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealL10FaceStatusPullback
-import BEDC.Derived.CriticalLineWitnessUp.PhaseRealReadbackBoundary
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealRegSeqRatRouteReadiness
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealRootReadbackCertificate
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSelectorBudgetNonescape
@@ -4867,7 +4866,7 @@ import BEDC.Derived.EffectiveModulusUp.TasteGate
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveRegularRealExtensionalityUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
-import BEDC.Derived.EgorovUp
+import BEDC.Derived.EgorovUp.FiniteWindowUniformity
 import BEDC.Derived.EgorovUp.TasteGate
 import BEDC.Derived.EigenUp
 import BEDC.Derived.EilenbergMooreCompletionAlgebraUp.TasteGate
