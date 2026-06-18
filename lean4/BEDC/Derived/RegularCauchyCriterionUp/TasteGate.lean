@@ -140,4 +140,12 @@ theorem RegularCauchyCriterionTasteGate_single_carrier_alignment :
       ⟨regularCauchyCriterionBHistCarrier⟩,
       ⟨regularCauchyCriterionChapterTasteGate⟩⟩
 
+theorem RegularCauchyCriterionNameCertObligations (S R M D Q V A H C P N : BHist) :
+    regularCauchyCriterionFields (RegularCauchyCriterionUp.mk S R M D Q V A H C P N) =
+        [S, R, M, D, Q, V, A, H, C, P, N] ∧
+      regularCauchyCriterionEncodeBHist BHist.Empty = ([] : List BMark) ∧
+        regularCauchyCriterionDecodeBHist (regularCauchyCriterionEncodeBHist S) = S := by
+  -- BEDC touchpoint anchor: BHist BMark NameCert
+  exact ⟨rfl, rfl, regularCauchyCriterionDecodeEncode S⟩
+
 end BEDC.Derived.RegularCauchyCriterionUp
