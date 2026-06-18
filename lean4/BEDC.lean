@@ -878,6 +878,7 @@ import BEDC.Derived.BishopCompactnessCriterionUp.TasteGate
 import BEDC.Derived.BishopCompleteMetricUp.TasteGate
 import BEDC.Derived.BishopCompleteRealUp.NameCertObligations
 import BEDC.Derived.BishopCompleteRealUp.TasteGate
+import BEDC.Derived.BishopCompletionComparisonUp.RegularLocatedRoute
 import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusSelectionUp.NameCertObligations
@@ -6141,6 +6142,7 @@ import BEDC.Derived.HyperspaceUp.HitMissCoverageTotality
 import BEDC.Derived.HyperspaceUp.HitMissDirectedRefinement
 import BEDC.Derived.HyperspaceUp.MetricCompactnessUnblock
 import BEDC.Derived.HyperspaceUp.NameCertObligationSurface
+import BEDC.Derived.HyperspaceUp.PublicCertificate
 import BEDC.Derived.HyperspaceUp.RealSeparabilityForwardRoute
 import BEDC.Derived.HyperspaceUp.RootCompactSourceTotality
 import BEDC.Derived.HyperspaceUp.RootCompleteTotallyBoundedHandoff
@@ -6453,6 +6455,7 @@ import BEDC.Derived.LatticeUp.OneSidedDistributiveInequality
 import BEDC.Derived.LatticeUp.OppositeAbsorption
 import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
+import BEDC.Derived.LawCertificateUp.BridgeCarrierRoute
 import BEDC.Derived.LawCertificateUp.CarrierAdmission
 import BEDC.Derived.LawCertificateUp.ClassifierStability
 import BEDC.Derived.LawCertificateUp.ContinuationScope
@@ -8314,6 +8317,7 @@ import BEDC.Derived.PoincareBoundaryFixedTransportUp.TasteGate
 import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
 import BEDC.Derived.PoincareInequalityUp
 import BEDC.Derived.PoincareInequalityUp.TasteGate
+import BEDC.Derived.PoincareTriangleDefectUp.TasteGate
 import BEDC.Derived.PointedCompleteMetricSpaceUp
 import BEDC.Derived.PointedCompleteMetricSpaceUp.CauchyBasepointRoute
 import BEDC.Derived.PointedCompleteMetricSpaceUp.TasteGate
