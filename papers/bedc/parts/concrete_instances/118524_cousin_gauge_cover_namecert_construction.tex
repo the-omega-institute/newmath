@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\CousinGaugeCoverUp$}
+\label{ch:concrete-instances-cousin-gauge-cover-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive integration and the Henstock gauge-cover route, the $\CousinGaugeCoverUp$ packet records the finite gauge-cover data that sits between the local gauge rows of \autoref{ch:concrete-instances-cousin-cover-namecert}, the finite gauge cells of \autoref{ch:concrete-instances-finite-gauge-cover-namecert}, and the tagged partition handoff of \autoref{ch:concrete-instances-cousin-finite-cover-namecert}. It keeps the traditional Cousin argument as displayed NameCert data: a gauge assignment is inspected through finitely many tagged cells, each cell has a finite refinement witness, the Cousin cover selection is replayed by $\Cont$, and every exported row remains attached to its $\Pkg$ provenance and local naming row. The packet is not an open-cover compactness principle, a hidden subcover selector, a quotient equality of covers, or an ambient real-completeness assertion.
+
+\begin{definition}[Cousin gauge-cover carrier]
+\label{def:cousin-gauge-cover-carrier}
+A $\CousinGaugeCoverUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,T,F,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the gauge-assignment row over the displayed interval or compact interval source.
+\item $T$ is the finite tagged-cell row; each entry records its tag, cell boundary, and local gauge-admission witness.
+\item $F$ is the finite-refinement row, recording subdivisions or shrinkages used to make each tagged cell subordinate to $D$.
+\item $S$ is the Cousin cover-selection row, read through the finite cover surfaces of $\CousinCoverUp$, $\CousinFiniteCoverUp$, and $\FiniteGaugeCoverUp$.
+\item $H$ records componentwise $\hsame$ transport for $D,T,F,S$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a gauge-cover request through $D,T,F,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CousinGaugeCoverUp$, $\CousinCoverUp$, $\CousinFiniteCoverUp$, $\FiniteGaugeCoverUp$, $\CousinLemmaUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CousinGaugeCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,T,F,S,H,C,P,N$. It contains no coordinate for arbitrary open covers, selected subcovers outside the displayed finite cells, quotient cover equality, countable choice, host interval equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cousin gauge-cover finite refinement]
+\label{thm:cousin-gauge-cover-finite-refinement}
+Let $G=(D,T,F,S,H,C,P,N)$ be an accepted $\CousinGaugeCoverUp$ carrier. Every finite cover row exported by $G$ factors through the displayed refinement route
+$$
+D,T \longmapsto F \longmapsto S,H,C,P,N .
+$$
+Thus the cover is assembled from gauge-assigned tagged cells and finite refinement rows before the Cousin selection row is consumed. It exports no open-cover compactness theorem, no selected subcover outside $T,F$, no quotient equality of covers, no countable choice, and no ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $D,T,F,S,H,C,P,N$. The gauge row and tagged-cell row expose the only local cover data available to a consumer.
+
+The refinement row $F$ records the finite step that makes the tagged cells subordinate to the gauge assignment. Since $F$ is a displayed row of the same packet, the consumer cannot replace it by an external compactness or subcover principle.
+
+Finally the Cousin selection row $S$ is replayed through $H,C,P,N$. Transport, replay, provenance, and local naming keep the exported cover attached to the same finite tagged cells, so every accepted cover read follows the displayed route.
+\end{proof}
+
+\begin{theorem}[Cousin gauge-cover NameCert obligations]
+\label{thm:cousin-gauge-cover-namecert-obligations}
+For every accepted $\CousinGaugeCoverUp$ carrier
+$$
+G=(D,T,F,S,H,C,P,N),
+$$
+the local $\NameCert_{\CousinGaugeCoverUp}$ surface consists exactly of gauge-assignment admission through $D$, tagged-cell exposure through $T$, finite-refinement exactness through $F$, Cousin cover-selection exposure through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. No local obligation is discharged by open-cover compactness, hidden subcover choice, quotient cover equality, host interval equality, countable choice, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cousin-gauge-cover-carrier}. The accepted packet displays the gauge assignment, tagged cells, finite refinement, Cousin selection, and structural rows.
+
+The cover-facing obligations are exhausted by $D,T,F,S$. Gauge admission is read from $D$, the finite cell witnesses are read from $T$, refinement is read from $F$, and the Cousin-facing finite cover is read from $S$.
+
+The structural obligations are exhausted by $H,C,P,N$. Componentwise transport preserves the displayed rows, replay follows the finite route, provenance names the source packets, and the local NameCert row admits only the listed data.
+\end{proof}
+
+\closureat{CousinGaugeCoverUp}{seedStr}
+
+\begin{closurestatus}{\CousinGaugeCoverUp}
+  \constructivestory{A $\CousinGaugeCoverUp$ packet is generated from gauge-assignment rows, finite tagged-cell rows, finite-refinement rows, Cousin cover-selection rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cousin-gauge-cover-carrier}, \autoref{thm:cousin-gauge-cover-finite-refinement}, and \autoref{thm:cousin-gauge-cover-namecert-obligations} seed the finite Bishop--Bridges and Henstock gauge-cover route over CousinCoverUp, CousinFiniteCoverUp, FiniteGaugeCoverUp, CousinLemmaUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers outside the displayed finite cells, quotient cover equality, host interval equality, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, gauge-assignment exposure, tagged-cell exactness, finite-refinement exactness, Cousin cover-selection exposure, structural replay, provenance exhaustion, and local naming for BEDC.Derived.CousinGaugeCoverUp.}
+\end{closurestatus}
