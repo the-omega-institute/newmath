@@ -146,6 +146,65 @@ theorem PaperLeanDriftWitness_namecert_obligations [AskSetup] [PackageSetup]
     ⟨cert, mUnary, aUnary, lUnary, iUnary, rUnary, hUnary, auditUnary,
       markerNameLedger, ledgerInventoryVerdict, auditRoute, namePkg, auditPkg⟩
 
+theorem PaperLeanDriftWitness_consumer_boundary [AskSetup] [PackageSetup]
+    {M A L I R H C P N consumerRead : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    PaperLeanDriftWitnessCarrier M A L I R H C P N bundle pkg ->
+      Cont C P consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row M ∨ hsame row A ∨ hsame row L ∨ hsame row I ∨
+                  hsame row R ∨ hsame row C ∨ hsame row consumerRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ PkgSig bundle N pkg ∧ PkgSig bundle consumerRead pkg)
+              hsame ∧
+            UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert UnaryHistory
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨_mUnary, _aUnary, _lUnary, _iUnary, _rUnary, _hUnary, cUnary, pUnary,
+    _nUnary, _markerNameLedger, _ledgerInventoryVerdict, _verdictTransportConsumer,
+    namePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed cUnary pUnary consumerRoute
+  have sourceAtConsumer : hsame consumerRead consumerRead ∧ UnaryHistory consumerRead :=
+    ⟨hsame_refl consumerRead, consumerUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row A ∨ hsame row L ∨ hsame row I ∨
+              hsame row R ∨ hsame row C ∨ hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle N pkg ∧ PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumerRead sourceAtConsumer
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, namePkg, consumerPkg⟩
+  }
+  exact ⟨cert, consumerUnary⟩
+
 theorem PaperLeanDriftWitness_resolution_exactness [AskSetup] [PackageSetup]
     {M A L I R H C P N exactRead replayRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
