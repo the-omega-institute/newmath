@@ -70,6 +70,34 @@ The modulus row $M$ is consumed next, followed by the dyadic tolerance row $D$. 
 Only after those reads can the consumer reach $Q$ and then $V$. Transport and provenance through $H,C,P,N$ preserve the same order, so no detached criterion route exists.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy criterion window extraction]
+\label{thm:regular-cauchy-criterion-window-extraction}
+Let $K=(S,R,M,D,Q,V,A,H,C,P,N)$ be an accepted $\RegularCauchyCriterionUp$ carrier. Every accepted criterion request extracts the finite $\DyadicRatCoreUp$ tolerance window and the finite $\StreamNameUp$ stream window before it inspects the completion-facing row $V$ or the Real boundary row $A$.
+\end{theorem}
+\begin{proof}
+Use the carrier inventory of \autoref{def:regular-cauchy-criterion-carrier}. The only stream-facing coordinate is $S$, and the only dyadic tolerance coordinate is $D$.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-criterion-namecert-obligations}. Stream-readback alignment requires the request to display $S$ before the regular rational row $R$ is used, while modulus-tolerance exposure requires the requested radius to pass through $D$.
+
+Finally apply the route of \autoref{thm:regular-cauchy-criterion-modulus-route}. The completion-facing row $V$ and the Real boundary row $A$ occur downstream of $S,R,M,D,Q$, so both finite windows are extracted before either downstream row is inspected.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy criterion RegSeqRat route]
+\label{thm:regular-cauchy-criterion-regseqrat-route}
+Let $K=(S,R,M,D,Q,V,A,H,C,P,N)$ be an accepted $\RegularCauchyCriterionUp$ carrier. Every Real-facing criterion route factors through the ordered rows
+$$
+D \longmapsto S \longmapsto R \longmapsto A .
+$$
+Here $D$ is the $\DyadicRatCoreUp$ tolerance row, $S$ is the $\StreamNameUp$ finite-window row, $R$ is the $\RegSeqRatUp$ readback row, and $A$ is the $\RealUp$ boundary row served by the $\RealCauchyCriterionUp$ entry.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:regular-cauchy-criterion-carrier}. The packet exposes the dyadic tolerance row $D$, stream window row $S$, regular rational readback row $R$, and Real-facing boundary row $A$ as distinct coordinates.
+
+The NameCert obligations of \autoref{thm:regular-cauchy-criterion-namecert-obligations} force stream-readback alignment and modulus-tolerance exposure. Thus the dyadic tolerance row names the requested radius, the stream window row fixes the inspected finite segment, and the RegSeqRat row reads that segment as regular rational data.
+
+The modulus route of \autoref{thm:regular-cauchy-criterion-modulus-route} places the Real-facing boundary after the criterion and convergence-criterion rows. Since those rows are reached only after $D,S,R$ have been displayed, every Real-facing route passes through the DyadicRatCore, StreamName, RegSeqRat, and Real rows in the stated order.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy criterion Real seal nonescape]
 \label{thm:regular-cauchy-criterion-real-seal-nonescape}
 Let $K=(S,R,M,D,Q,V,A,H,C,P,N)$ be an accepted $\RegularCauchyCriterionUp$ carrier. Every Real-facing read of $K$ reaches the $\RealCauchyCriterionUp$ and $\RealUp$ boundary only after the route through $S,R,M,D,Q,V$ has been replayed. The exported surface contains no quotient stream, selected limit, host real equality, trichotomy, countable-choice selector, or ambient Real completeness assertion.
