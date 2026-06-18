@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedDarbouxSumUp$}
+\label{ch:concrete-instances-regulated-darboux-sum-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegulatedDarbouxSumUp$ packet records finite lower and upper Darboux-sum data for a displayed regulated real function without importing host-level real equality, selected suprema, or measure completion. It sits beside the regulated-function carrier of \autoref{ch:concrete-instances-regulated-function-namecert}, the bounded-variation ledger of \autoref{ch:concrete-instances-boundedvariation-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite integration ledger for later Riemann and Darboux consumers; it names no quotient integral and chooses no ambient completion principle.
+
+\begin{definition}[Regulated Darboux-sum carrier]
+\label{def:regulated-darboux-sum-carrier}
+A $\RegulatedDarbouxSumUp$ carrier is a finite $\BHist$ packet
+$$
+D=(F,T,L,U,M,O,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\RegulatedFunctionUp$ source row, exposing the regulated real function only through its displayed finite window and regulated-approximation interface.
+\item $T$ is the tagged partition row, listing finitely many subintervals, tags, endpoint order data, and the cell incidence relation read by the Darboux consumer.
+\item $L$ is the lower-sum row, storing the finite cellwise lower estimates and the displayed addition route by which they are accumulated.
+\item $U$ is the upper-sum row, storing the finite cellwise upper estimates and the displayed addition route by which they are accumulated.
+\item $M$ is the $\DyadicRatCoreUp$ mesh row, carrying cell widths, requested dyadic tolerance, refinement radius, and endpoint comparison budget.
+\item $O$ is the oscillation row, recording for each cell the finite readback that bounds the gap between the corresponding upper and lower estimates.
+\item $R$ is the refinement row, comparing the partition $T$ with a displayed common refinement and transporting the lower, upper, mesh, and oscillation ledgers along the refinement map.
+\item $H$ records componentwise $\hsame$ transport for $F,T,L,U,M,O,R$ and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an integration request through the regulated-function source, tagged partition, lower and upper sums, dyadic mesh, oscillation ledger, and refinement row.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedDarbouxSumUp$, $\RegulatedFunctionUp$, $\BoundedVariationUp$, $\DarbouxSumUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedDarbouxSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $F,T,L,U,M,O,R,H,C,P,N$. It has no coordinate for selected suprema, Lebesgue measure, host real equality, quotient integration, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regulated Darboux-sum NameCert obligations]
+\label{thm:regulated-darboux-sum-obligations}
+For every accepted $\RegulatedDarbouxSumUp$ carrier $D=(F,T,L,U,M,O,R,H,C,P,N)$, the local $\NameCert_{\RegulatedDarbouxSumUp}$ surface consists exactly of the following five obligations:
+\begin{enumerate}
+\item carrier admission for the regulated-function source, tagged partition, lower-sum row, upper-sum row, dyadic mesh row, oscillation row, refinement row, transport, replay, provenance, and local naming;
+\item common-refinement stability, requiring every refinement consumer to read the partition row $T$ and refinement row $R$ before comparing lower and upper sums;
+\item oscillation-ledger confinement, requiring the gap between the lower and upper rows to be witnessed only by the displayed cellwise oscillation row $O$;
+\item dyadic tolerance readback, requiring all mesh widths, slack comparisons, and requested tolerances to pass through the $\DyadicRatCoreUp$ row $M$;
+\item $\RealUp$ seal nonescape, requiring every real-facing value read to pass through $F,T,L,U,M,O,R,H,C,P,N$ and exporting no selected supremum, measure completion, host real equality, quotient integral, or choice principle.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-darboux-sum-carrier}. The analytic rows are the regulated-function source $F$, the tagged partition $T$, the lower and upper sums $L,U$, the dyadic mesh $M$, the oscillation ledger $O$, and the refinement row $R$; the structural rows are $H,C,P,N$.
+
+Carrier admission is therefore finite. Each admitted packet exposes exactly the listed rows, so the local NameCert surface has no hidden coordinate from which a selected supremum, measure object, quotient integral, or host equality test could be read.
+
+Common-refinement stability is read through $T$ and $R$. The refinement row compares two displayed finite partitions and transports only the lower, upper, mesh, and oscillation ledgers already present in the carrier.
+
+The oscillation and tolerance clauses are separate ledger checks. The row $O$ bounds the cellwise upper-lower gap, while the row $M$ carries the dyadic mesh widths, slack, and comparison budget used by that check.
+
+Finally the structural rows $H,C,P,N$ preserve the same order under transport, replay, provenance, and local naming. Any $\RealUp$-facing consumer can therefore see only the displayed finite Darboux-sum route and cannot project selected suprema, Lebesgue measure, host real equality, quotient integration, or countable choice from the packet.
+\end{proof}
+
+\begin{theorem}[Regulated Darboux-sum finite route]
+\label{thm:regulated-darboux-sum-finite-route}
+Every accepted $\RegulatedDarbouxSumUp$ read that reaches a real-facing lower or upper value factors through the finite route
+$$
+\RegulatedFunctionUp,\quad
+T,\quad
+L,\quad
+U,\quad
+\DyadicRatCoreUp,\quad
+O,\quad
+R,\quad
+\RealUp .
+$$
+Thus the handoff to later Darboux or Riemann integration chapters is only a finite ledger over displayed regulated-function, partition, mesh, oscillation, refinement, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start from an accepted consumer read. By \autoref{def:regulated-darboux-sum-carrier}, the only source for real-facing lower and upper values is the pair of finite rows $L,U$ attached to the displayed tagged partition $T$.
+
+The mesh and oscillation controls are forced before the value rows can be used. The dyadic row $M$ records cell widths and tolerance data, while $O$ records the displayed oscillation gap on each cell.
+
+Apply \autoref{thm:regulated-darboux-sum-obligations}. It makes common refinement pass through $R$ and makes the real-facing seal pass through the same finite rows.
+
+The transport, replay, provenance, and naming rows add no analytic coordinates. Hence the consumer receives exactly the finite route stated in the theorem and receives no selected supremum, Lebesgue measure, quotient integral, host real equality, countable choice, or ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegulatedDarbouxSumUp$ consumer that reaches a lower or upper real-facing value without displaying the regulated-function source, tagged partition, lower sum, upper sum, dyadic mesh, oscillation ledger, refinement row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row refutes the carrier surface.}
+
+\independenceWitness{regulated-function, boundedvariation, dyadicratcore, real: $\RegulatedDarbouxSumUp$ is not bijective with any listed sibling because it jointly carries tagged partition data, lower and upper sum rows, a dyadic mesh, an oscillation ledger, a common-refinement row, transport, replay, provenance, and local naming in one finite packet.}
+
+\closureat{RegulatedDarbouxSumUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedDarbouxSumUp}
+  \constructivestory{A $\RegulatedDarbouxSumUp$ packet is generated from a RegulatedFunction source row, a tagged partition row, lower and upper finite-sum rows, a DyadicRatCore mesh and tolerance row, a cellwise oscillation ledger, a common-refinement row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-darboux-sum-carrier}, \autoref{thm:regulated-darboux-sum-obligations}, and \autoref{thm:regulated-darboux-sum-finite-route} seed the finite regulated Darboux-sum ledger over regulated-function, dyadic-mesh, oscillation, refinement, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected suprema, Lebesgue measure, host real equality, quotient integration, choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-refinement stability, oscillation-ledger confinement, dyadic tolerance readback, RealUp seal nonescape, componentwise transport, displayed replay, provenance, and local naming for BEDC.Derived.RegulatedDarbouxSumUp.}
+\end{closurestatus}
