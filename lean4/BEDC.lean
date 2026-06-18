@@ -4734,6 +4734,7 @@ import BEDC.Derived.DyadicMidpointUp.FiniteWindowConsumerRoute
 import BEDC.Derived.DyadicMidpointUp.RadiusHalvingWindow
 import BEDC.Derived.DyadicMidpointUp.SelectedWindowDenominatorSeal
 import BEDC.Derived.DyadicMidpointUp.WindowPackage
+import BEDC.Derived.DyadicModulusUp.TasteGate
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NameCertObligations
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NestedChainDependency
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.PrefixSeal
