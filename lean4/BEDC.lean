@@ -733,6 +733,7 @@ import BEDC.Derived.BaireOneFunctionUp
 import BEDC.Derived.BaireOneFunctionUp.Classifier
 import BEDC.Derived.BaireOneFunctionUp.OscillationLocality
 import BEDC.Derived.BaireOneFunctionUp.TasteGate
+import BEDC.Derived.BaireSpaceCompactOpenUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BaireSteinhausUp.TasteGate
@@ -2560,6 +2561,7 @@ import BEDC.Derived.CertifiedUseProcessUp.TasteGate
 import BEDC.Derived.CesaroConvergenceUp.TasteGate
 import BEDC.Derived.CevaUp.TasteGate
 import BEDC.Derived.ChainConnectedMetricUp.TasteGate
+import BEDC.Derived.ChannelTerminationHaltingBoundaryUp.TasteGate
 import BEDC.Derived.CharacterTableUp.TasteGate
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ChebyshevCenterUp.TasteGate
@@ -3021,6 +3023,7 @@ import BEDC.Derived.CompactUniformContinuityUp.RootProbeBundleCenterSelection
 import BEDC.Derived.CompactUniformContinuityUp.RootRationalFoldConsumer
 import BEDC.Derived.CompactUniformContinuityUp.StandardBridgeObligationPackage
 import BEDC.Derived.CompactUniformContinuityUp.UniformPrecisionConsumerRoute
+import BEDC.Derived.CompactUniformDyadicRadiusLadderUp.TasteGate
 import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
 import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteCoverSelectorUp.TasteGate
@@ -6932,6 +6935,7 @@ import BEDC.Derived.MeasureUp.RootPublicSurface
 import BEDC.Derived.MeasureUp.RootRealStreamRegularity
 import BEDC.Derived.MedianClosureSpectrumUp.TasteGate
 import BEDC.Derived.MedianClosureUp.TasteGate
+import BEDC.Derived.MedianDepthSealingUp.TasteGate
 import BEDC.Derived.MedianLeakageSpectrumUp.TasteGate
 import BEDC.Derived.MeirKeelerContractionUp.TasteGate
 import BEDC.Derived.MengerNobelingEmbeddingUp.TasteGate
@@ -8129,6 +8133,7 @@ import BEDC.Derived.OscillationFunctionUp.TasteGate
 import BEDC.Derived.OscillationModulusUp.TasteGate
 import BEDC.Derived.OsgoodCriterionUp.TasteGate
 import BEDC.Derived.OsgoodModulusUp.TasteGate
+import BEDC.Derived.OstrowskiInequalityUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.Packet
 import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
 import BEDC.Derived.OuterMeasureUp.TasteGate
@@ -9387,6 +9392,7 @@ import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedSplitUp
 import BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyMapUp.TasteGate
+import BEDC.Derived.RegularCauchyMaxUp.LatticeAbsorption
 import BEDC.Derived.RegularCauchyMaxUp.SumAbsFactorization
 import BEDC.Derived.RegularCauchyMaxUp.TasteGate
 import BEDC.Derived.RegularCauchyMaximumUp.TasteGate
