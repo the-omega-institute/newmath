@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\SequentialMetricSpaceUp$}
+\label{ch:concrete-instances-sequential-metric-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley, the $\SequentialMetricSpaceUp$ packet records a sequence-indexed metric interface as finite BEDC NameCert data. It sits between the $\MetricUp$ carrier of \autoref{ch:concrete-instances-metric-namecert}, the stream naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\RealUp$ completion seal of \autoref{ch:concrete-instances-real-namecert}, and the filter-side completion route of \autoref{ch:concrete-instances-cauchyfilter-namecert}. The packet names sequential Cauchy observations without importing host sequences, quotient completions, or an ambient completeness theorem.
+
+\begin{definition}[SequentialMetricSpace carrier]
+\label{def:sequential-metric-space-carrier}
+A $\SequentialMetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,M,U,O,C,S,R,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the named point carrier read from the underlying $\MetricUp$ surface;
+\item $M$ is the metric observation row, recording only displayed distance comparisons and no host metric library object;
+\item $U$ is the finite $\mathrm{UnaryHistory}$ index row used to address the observed sequence windows;
+\item $O$ is the observation table pairing each displayed unary index window with metric reads in $M$;
+\item $C$ is the sequential Cauchy ledger, expressed as finite tolerance-to-window data over $U,O$;
+\item $S$ is the stream-name handoff row consumed by $\StreamNameUp$ and $\RegSeqRatUp$ readers;
+\item $R$ is the real-readback row consumed by $\RealUp$ and by the $\CauchyFilterUp$ comparison route;
+\item $H$ records componentwise $\hsame$ transport for point, metric, index, observation, Cauchy, stream, real-readback, continuation, provenance, and naming rows;
+\item $Q$ records the displayed $\Cont$ routes from metric observations to stream, regular rational, real, and Cauchy-filter consumers;
+\item $P$ is the $\Pkg$ provenance over $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyFilterUp$, $\BHist$, $\hsame$, $\Cont$, and the local certificate;
+\item $N$ is the local $\NameCert_{\SequentialMetricSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host infinite sequence, quotient completion, selected representative of a Cauchy class, classical choice principle, or ambient theorem asserting that every sequential Cauchy object has a limit.
+\end{definition}
+
+\begin{theorem}[SequentialMetricSpace NameCert obligations]
+\label{thm:sequential-metric-space-namecert-obligations}
+For an accepted $\SequentialMetricSpaceUp$ carrier $B=(X,M,U,O,C,S,R,H,Q,P,N)$, the local $\NameCert$ surface exposes exactly the point carrier $X$, metric observation row $M$, unary history index row $U$, observation table $O$, sequential Cauchy ledger $C$, stream-name handoff $S$, real-readback row $R$, componentwise transport $H$, displayed continuation routes $Q$, provenance $P$, and local naming $N$. Every $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\CauchyFilterUp$ consumer must read through those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $X,M,U,O,C$ give the finite metric and sequential observation surface, while $S$ and $R$ are the only rows that export the sequence-indexed data to downstream completion readers.
+
+The transport and continuation rows preserve the same inventory. Componentwise $\hsame$ movement through $H$ can move an accepted packet only row by row, and every $\Cont$ route in $Q$ begins with the displayed metric observations and sequential Cauchy ledger.
+
+Finally inspect $P$ and $N$. Provenance names the metric, stream, regular rational, real, and Cauchy-filter consumers, and local naming records that no host sequence, quotient completion, selected representative, or ambient completeness theorem is part of the certificate.
+\end{proof}
+
+\begin{theorem}[SequentialMetricSpace Cauchy readback]
+\label{thm:sequential-metric-space-cauchy-readback}
+For an accepted $\SequentialMetricSpaceUp$ carrier $B=(X,M,U,O,C,S,R,H,Q,P,N)$, every Cauchy readback consumed by $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\CauchyFilterUp$ factors through the finite ledger
+$$
+U,O,C,S,R.
+$$
+The readback may use the displayed metric observations and the sequential Cauchy ledger, but it cannot replace them by a host sequence, quotient class, unindexed filter, or a completed real supplied outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the index and observation rows. The row $U$ supplies the displayed unary windows, and $O$ attaches the finite metric observations used by the Cauchy ledger $C$.
+
+The handoff rows then determine the downstream reads. Stream and regular rational consumers read through $S$, while real and Cauchy-filter consumers read through $R$ together with the same ledger data.
+
+The support rows $H,Q,P,N$ transport, replay, package, and name that finite route. Since the carrier lists no host sequence, quotient completion, unindexed filter, or external completed real coordinate, every accepted Cauchy readback remains inside $U,O,C,S,R$.
+\end{proof}
+
+\closureat{SequentialMetricSpaceUp}{seedStr}
+
+\begin{closurestatus}{\SequentialMetricSpaceUp}
+  \constructivestory{A $\SequentialMetricSpaceUp$ packet is generated from a point carrier row, metric observation row, finite unary history index row, observation table, sequential Cauchy ledger, stream-name handoff, real-readback row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-metric-space-carrier}, \autoref{thm:sequential-metric-space-namecert-obligations}, and \autoref{thm:sequential-metric-space-cauchy-readback} bind the finite sequence-indexed metric carrier and its Cauchy readback route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove metric completion, quotient completion, selected limits for all Cauchy sequences, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric observation stability, sequential Cauchy ledger exactness, stream and regular rational handoff, real and Cauchy-filter readback, and non-escape for the displayed finite packet.}
+\end{closurestatus}
