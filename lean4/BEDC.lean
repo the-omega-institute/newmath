@@ -994,6 +994,7 @@ import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.CofinalWindowStability
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.FiniteNestedWindowInduction
+import BEDC.Derived.BolzanoWeierstrassSelectorUp.InductionBudget
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.MonotoneSubsequenceObligations
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.NestedIntervalObligation
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.PublicExport
@@ -1589,6 +1590,7 @@ import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.CauchyCompletionMonadicityUp.TasteGate
 import BEDC.Derived.CauchyCompletionMultiplicationUp
 import BEDC.Derived.CauchyCompletionMultiplicationUp.NameCertObligations
+import BEDC.Derived.CauchyCompletionMultiplicationUp.ProvenanceExhaustion
 import BEDC.Derived.CauchyCompletionMultiplicationUp.RealSealNonescape
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
 import BEDC.Derived.CauchyCompletionOperatorUp.TasteGate
@@ -3171,6 +3173,7 @@ import BEDC.Derived.CondExpUp
 import BEDC.Derived.CondensationTailSelectorUp.TasteGate
 import BEDC.Derived.ConditionalTriggerEnsembleUp.TasteGate
 import BEDC.Derived.ConnectedIntervalUp
+import BEDC.Derived.ConnectedIntervalUp.CarrierRows
 import BEDC.Derived.ConnectedIntervalUp.DyadicNestingObligations
 import BEDC.Derived.ConnectedIntervalUp.NameCertObligations
 import BEDC.Derived.ConnectedIntervalUp.NestedBisectionLedger
@@ -5670,6 +5673,7 @@ import BEDC.Derived.FredholmAlternativeUp.TasteGate
 import BEDC.Derived.FreeGroupUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FreeMonoidUp.TasteGate
+import BEDC.Derived.FreeTopologicalGroupUp
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.FrinkMetrizationUp.TasteGate
 import BEDC.Derived.FrobeniusCoinUp.TasteGate
