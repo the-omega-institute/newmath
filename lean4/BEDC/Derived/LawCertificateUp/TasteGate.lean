@@ -7,6 +7,7 @@ namespace BEDC.Derived.LawCertificateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -41,6 +42,21 @@ private theorem lawCertificateDecode_encode :
 def lawCertificateFields : LawCertificateUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | LawCertificateUp.mk F P C S E Ld H R Q N => [F, P, C, S, E, Ld, H, R, Q, N]
+
+def lawCertificateClassifier (x y : LawCertificateUp) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  ∃ F P C S E Ld H R Q N F' P' C' S' E' Ld' H' R' Q' N' : BHist,
+    x = LawCertificateUp.mk F P C S E Ld H R Q N ∧
+      y = LawCertificateUp.mk F' P' C' S' E' Ld' H' R' Q' N' ∧
+        Cont H R Q ∧
+          Cont H' R' Q' ∧
+            hsame F F' ∧
+              hsame P P' ∧
+                hsame C C' ∧
+                  hsame S S' ∧
+                    hsame E E' ∧
+                      hsame Ld Ld' ∧
+                        hsame H H' ∧ hsame R R' ∧ hsame Q Q' ∧ hsame N N'
 
 def lawCertificateToEventFlow : LawCertificateUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
