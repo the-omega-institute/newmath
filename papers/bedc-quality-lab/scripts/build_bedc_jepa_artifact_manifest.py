@@ -71,6 +71,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "generate": "python scripts/run_bedc_jepa_experiment.py",
             "torch_objective": "python scripts/run_torch_bedc_jepa.py",
             "torch_retraining_loss_ablation": "python scripts/run_torch_retraining_loss_ablation.py",
+            "multistep_latent_prediction": "python scripts/run_bedc_multistep_latent_prediction.py",
             "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
             "public_minigrid_native_benchmark": "python scripts/run_public_minigrid_native_benchmark.py",
             "public_minigrid_native_seed_sweep": "python scripts/run_public_minigrid_native_seed_sweep.py",
@@ -136,6 +137,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "boundary_envelope": "reports/bedc_jepa_boundary_envelope.json",
             "torch": "reports/bedc_jepa_torch_objective.json",
             "torch_retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
+            "multistep_latent_prediction": "reports/bedc_multistep_latent_prediction.json",
         },
         "public_adapters": {
             "minigrid_benchmark_packet": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
@@ -164,6 +166,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
             "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
             "vjepa2_ac_minigrid_claim_certificate": "reports/bedc_vjepa2_ac_minigrid_claim_certificate.json",
+            "multistep_latent_prediction": "reports/bedc_multistep_latent_prediction.json",
         },
         "public_baselines": {
             "public_benchmark_scope_contracts": "reports/bedc_jepa_public_benchmark_scope_contracts.json",

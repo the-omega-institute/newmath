@@ -307,6 +307,41 @@ def _public_baseline_native_metric_template_gate(packet: dict[str, Any] | None) 
     )
 
 
+def _multistep_latent_prediction_contract(packet: dict[str, Any] | None) -> dict[str, Any]:
+    evidence = "reports/bedc_multistep_latent_prediction.json"
+    if packet is None:
+        return {
+            "status": "missing",
+            "evidence": evidence,
+            "required_record": "local multi-step latent rollout contract, predictor specs, hardgate, runs, summary, metrics, and cannot-claim boundary",
+        }
+    cannot_claim = set(packet.get("cannot_claim", []))
+    closed = (
+        packet.get("schema_id") == "bedc-multistep-latent-prediction"
+        and packet.get("status") == "executed"
+        and packet.get("evidence_chain", {}).get("owner_module")
+        == "bedc_quality_lab.bedc_multistep_latent_prediction"
+        and isinstance(packet.get("rollout_contract"), dict)
+        and isinstance(packet.get("predictor_specs"), list)
+        and isinstance(packet.get("runs"), list)
+        and isinstance(packet.get("summary"), dict)
+        and isinstance(packet.get("hardgate"), dict)
+        and "MiniGrid planning success" in cannot_claim
+        and "native V-JEPA2-AC rollout reproduction" in cannot_claim
+    )
+    return {
+        "status": "closed" if closed else "source_debt",
+        "evidence": evidence,
+        "gate_status": packet.get("hardgate", packet.get("gate_spec", {})).get("status", "missing"),
+        "owner_module": packet.get("evidence_chain", {}).get("owner_module", ""),
+        "latent_prediction_score": float(packet.get("metrics", {}).get("latent_prediction_score", 0.0)),
+        "minigrid_planning_claim": packet.get("claim_scope", {}).get("minigrid_planning_success", ""),
+        "predictor_family_count": float(packet.get("summary", {}).get("family_count", 0.0)),
+        "run_count": float(packet.get("summary", {}).get("run_count", 0.0)),
+        "required_record": "local multi-step latent rollout contract, predictor specs, hardgate, runs, summary, metrics, and cannot-claim boundary",
+    }
+
+
 def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, str]:
     evidence = "reports/bedc_jepa_review_bundle.json"
     if run_kit is not None and run_kit.get("status") == "review_ready":
@@ -316,6 +351,7 @@ def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, st
 
 def _remaining_evidence_contracts(
     retraining_ablation: dict[str, Any] | None,
+    multistep_latent_prediction: dict[str, Any] | None,
     native_boundary: dict[str, Any] | None,
     near_native_reproduction: dict[str, Any] | None,
     native_metric_contract: dict[str, Any] | None,
@@ -367,6 +403,7 @@ def _remaining_evidence_contracts(
 
     return {
         "true_retraining_loss_ablation": retraining_contract,
+        "multistep_latent_prediction": _multistep_latent_prediction_contract(multistep_latent_prediction),
         "vjepa2_ac_native_reproduction": native_contract,
     }
 
@@ -406,6 +443,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     public_pareto = _load_optional_json("bedc_jepa_risk_success_pareto.json")
     public_calibration_extension = _load_optional_json("bedc_jepa_public_minigrid_calibration_extension.json")
     retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
+    multistep_latent_prediction = _load_optional_json("bedc_multistep_latent_prediction.json")
     vjepa2_native_boundary = _load_optional_json("bedc_jepa_vjepa2_ac_native_boundary.json")
     public_baseline_native_metric_contract = _load_optional_json(
         "bedc_jepa_public_baseline_native_metric_contract.json"
@@ -470,6 +508,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         },
         "remaining_evidence_contracts": _remaining_evidence_contracts(
             retraining_ablation,
+            multistep_latent_prediction,
             vjepa2_native_boundary,
             vjepa2_near_native,
             public_baseline_native_metric_contract,
