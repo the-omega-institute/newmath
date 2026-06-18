@@ -558,4 +558,67 @@ theorem PaperLeanDriftWitness_inventory_verdict_totality [AskSetup] [PackageSetu
   }
   exact ⟨cert, exactUnary, duplicateUnary, verdictUnary, auditUnary, namePkg⟩
 
+theorem PaperLeanDriftWitness_token_objectwise_audit [AskSetup] [PackageSetup]
+    {M A L I R H C P N tokenRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PaperLeanDriftWitnessCarrier M A L I R H C P N bundle pkg ->
+      Cont M R tokenRead ->
+        Cont tokenRead C auditRead ->
+          PkgSig bundle auditRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row auditRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row M ∨ hsame row A ∨ hsame row L ∨ hsame row I ∨
+                    hsame row R ∨ hsame row tokenRead ∨ hsame row auditRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont M R tokenRead ∧
+                    Cont tokenRead C auditRead ∧ PkgSig bundle auditRead pkg)
+                hsame ∧
+              UnaryHistory tokenRead ∧ UnaryHistory auditRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert UnaryHistory
+  intro carrier tokenRoute auditRoute auditPkg
+  obtain ⟨mUnary, _aUnary, _lUnary, _iUnary, rUnary, _hUnary, cUnary, _pUnary,
+    _nUnary, _markerNameLedger, _ledgerInventoryVerdict, _verdictTransportConsumer,
+    _namePkg⟩ := carrier
+  have tokenUnary : UnaryHistory tokenRead :=
+    unary_cont_closed mUnary rUnary tokenRoute
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed tokenUnary cUnary auditRoute
+  have sourceAtAudit : hsame auditRead auditRead ∧ UnaryHistory auditRead :=
+    ⟨hsame_refl auditRead, auditUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row auditRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row A ∨ hsame row L ∨ hsame row I ∨
+              hsame row R ∨ hsame row tokenRead ∨ hsame row auditRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M R tokenRead ∧ Cont tokenRead C auditRead ∧
+              PkgSig bundle auditRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro auditRead sourceAtAudit
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, tokenRoute, auditRoute, auditPkg⟩
+  }
+  exact ⟨cert, tokenUnary, auditUnary⟩
 end BEDC.Derived.PaperLeanDriftWitnessUp
