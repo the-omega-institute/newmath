@@ -205,12 +205,56 @@ Next apply the regular-seal handoff of \autoref{thm:dyadic-cauchy-tail-regular-s
 Finally use nonescape and the scoped dependency package, \autoref{thm:dyadic-cauchy-tail-envelope-nonescape} and \autoref{thm:dyadic-cauchy-tail-envelope-scoped-dependency-package}. These results attach the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows to the same route and exclude quotient streams, selected limits, countable choice, trichotomy rows, host real equality, and ambient Real completeness from the obligation scope.
 \end{proof}
 
+\begin{theorem}[DyadicCauchyTailEnvelope obligation route]
+\label{thm:dyadic-cauchy-tail-envelope-obligation-route}
+Every accepted $\DyadicCauchyTailEnvelopeUp$ packet exposes its obligation route in the order
+$$
+\StreamNameUp,\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad T,\quad \CauchyReindexingUp,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+Equivalently, a consumer first opens the finite stream window, reads the regular rational row, displays the dyadic tolerance, records the tail-envelope ledger, fixes the common reindexing route, and only then consumes transport, replay, provenance, and local naming. The route contains no quotient stream, selected limit, countable-choice schedule, trichotomy row, host real equality, or ambient Real-completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier and the NameCert obligations. The carrier exposes only $S,R,D,T,I,H,C,P,N$, and the obligation list assigns these rows to window admission, tolerance admission, reindexing admission, tail containment, transport, replay, provenance, and local naming.
+
+Use common refinement and nonescape. Common refinement keeps paired tail reads on one displayed finite route, while nonescape excludes every row outside the carrier inventory.
+
+Finally apply budget exhaustion and the scoped dependency package. They force the structural rows $H,C,P,N$ to be consumed with $I,S,R,D,T$, so the displayed route exhausts the obligation surface before any Real-facing seal can be read.
+\end{proof}
+
+\begin{theorem}[DyadicCauchyTailEnvelope radius stability]
+\label{thm:dyadic-cauchy-tail-envelope-radius-stability}
+Let $E=(S,R,D,T,I,H,C,P,N)$ be an accepted $\DyadicCauchyTailEnvelopeUp$ packet. If a displayed tail refinement replaces the stream window $S$ by a later finite window along the same reindexing route $I$, then the dyadic radius row $D$ remains the controlling tolerance for the refined tail ledger. The refined read still factors through
+$$
+I \longrightarrow S \longrightarrow R \longrightarrow D \longrightarrow T
+$$
+with structural rows $H,C,P,N$, and no new radius, quotient stream, selected limit, or Real-completeness row is introduced.
+\end{theorem}
+\begin{proof}
+Start with the common refinement theorem. It supplies a single finite tail window and a single dyadic tolerance row for paired reads serving the same displayed precision request.
+
+Apply the window handoff and regular-seal handoff. They keep every refined consumer path behind the ordered route $I \longrightarrow S \longrightarrow R \longrightarrow D \longrightarrow T$, so the tolerance row is read before the tail ledger and remains the only dyadic budget available.
+
+Use nonescape and budget exhaustion. Since the carrier has no coordinate for an additional radius row or completed stream object, displayed tail refinement preserves the original dyadic radius control.
+\end{proof}
+
+\begin{theorem}[DyadicCauchyTailEnvelope Real-seal handoff]
+\label{thm:dyadic-cauchy-tail-envelope-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\DyadicCauchyTailEnvelopeUp$ packet reads the terminal seal only after the $\RegSeqRatUp$ row and the dyadic tail rows have been displayed. In carrier notation, the consumer path must pass through $R,D,T$ after the finite window and reindexing rows, then through $H,C,P,N$, before a Real-facing seal is available.
+\end{theorem}
+\begin{proof}
+Read the RegSeqRat Real route. It orders the consumer path from the reindexing row to the stream window, regular rational readback, dyadic tolerance, and tail ledger.
+
+Apply the regular-seal handoff. The seal is reached only after the route $I \longrightarrow S \longrightarrow R \longrightarrow D \longrightarrow T$ has been displayed.
+
+Finally use obligation completeness and the scoped dependency package. They attach transport, replay, provenance, and local naming to the same route, so a $\RealUp$ consumer cannot inspect the terminal seal before the RegSeqRat and dyadic tail rows have already been read.
+\end{proof}
+
 \closureat{DyadicCauchyTailEnvelopeUp}{scopedStr}
 
 \begin{closurestatus}{\DyadicCauchyTailEnvelopeUp}
   \constructivestory{A $\DyadicCauchyTailEnvelopeUp$ packet is generated from a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ tolerance row, a tail-envelope ledger, a $\CauchyReindexingUp$ route row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:dyadic-cauchy-tail-envelope-carrier}, \autoref{thm:dyadic-cauchy-tail-envelope-namecert-obligations}, \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}, \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement}, \autoref{thm:dyadic-cauchy-tail-envelope-window-handoff}, \autoref{thm:dyadic-cauchy-tail-envelope-nonescape}, \autoref{thm:dyadic-cauchy-tail-regular-seal}, \autoref{thm:dyadic-cauchy-tail-envelope-budget-exhaustion}, \autoref{thm:dyadic-cauchy-tail-envelope-obligation-completeness}, \autoref{thm:dyadic-cauchy-tail-envelope-scoped-dependency-package}, and \autoref{thm:dyadic-cauchy-tail-obligation-scope} bind carrier admission, window admission, tolerance admission, reindexing admission, tail containment, common-tail refinement, RegSeqRat-to-Real handoff, window handoff, transport and replay stability, nonescape, obligation completeness, regular-seal handoff, and obligation scope to the displayed BEDC primitive rows.}
+  \scopeclosed{\autoref{def:dyadic-cauchy-tail-envelope-carrier}, \autoref{thm:dyadic-cauchy-tail-envelope-namecert-obligations}, \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}, \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement}, \autoref{thm:dyadic-cauchy-tail-envelope-window-handoff}, \autoref{thm:dyadic-cauchy-tail-envelope-nonescape}, \autoref{thm:dyadic-cauchy-tail-regular-seal}, \autoref{thm:dyadic-cauchy-tail-envelope-budget-exhaustion}, \autoref{thm:dyadic-cauchy-tail-envelope-obligation-completeness}, \autoref{thm:dyadic-cauchy-tail-envelope-scoped-dependency-package}, \autoref{thm:dyadic-cauchy-tail-obligation-scope}, \autoref{thm:dyadic-cauchy-tail-envelope-obligation-route}, \autoref{thm:dyadic-cauchy-tail-envelope-radius-stability}, and \autoref{thm:dyadic-cauchy-tail-envelope-real-seal-handoff} bind carrier admission, window admission, tolerance admission, reindexing admission, tail containment, common-tail refinement, RegSeqRat-to-Real handoff, window handoff, transport and replay stability, nonescape, obligation completeness, regular-seal handoff, obligation route, radius stability, Real-seal handoff, and obligation scope to the displayed BEDC primitive rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient streams, selected limits, countable choice, trichotomy, host real equality, Real completeness, Lean verification, or bridge checking.}
