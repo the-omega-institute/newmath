@@ -2017,9 +2017,11 @@ import BEDC.Derived.CauchyNameUniformityUp
 import BEDC.Derived.CauchyNameUniformityUp.TasteGate
 import BEDC.Derived.CauchyNetCompletionUp.ChoiceFreeLimitBoundary
 import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowCofinalRestriction
+import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowRefinementFunctoriality
 import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowTerminality
 import BEDC.Derived.CauchyNetCompletionUp.MooreSmithHandoff
 import BEDC.Derived.CauchyNetCompletionUp.NameCertObligations
+import BEDC.Derived.CauchyNetCompletionUp.RegularSequencePublicBridge
 import BEDC.Derived.CauchyNetCompletionUp.RootEventualStability
 import BEDC.Derived.CauchyNetCompletionUp.RootFilterAdmission
 import BEDC.Derived.CauchyNetCompletionUp.RootSealNonescape
@@ -6753,6 +6755,7 @@ import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedMonotoneConvergenceUp
 import BEDC.Derived.LocatedMonotoneConvergenceUp.TasteGate
 import BEDC.Derived.LocatedNestedIntervalLimitUp.TasteGate
+import BEDC.Derived.LocatedOpenUp.TasteGate
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
@@ -8301,6 +8304,7 @@ import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.StatusExactness
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.TasteGate
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.NameCertObligations
+import BEDC.Derived.PhilosophyFormalTargetLedgerUp.Nonescape
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.TasteGate
 import BEDC.Derived.PhilosophyGapMapLedgerUp.TasteGate
 import BEDC.Derived.PhilosophyGovernanceExportUp.NoOverride
@@ -8313,6 +8317,7 @@ import BEDC.Derived.PhysicalInductionStabilitySealUp.NameCert
 import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.PhysicalInductionUp.TasteGate
 import BEDC.Derived.PhysicalLawBridgeUp.FalsificationBoundary
+import BEDC.Derived.PhysicalLawBridgeUp.NameCertSurface
 import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
