@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\HamiltonJacobiUp$}
+\label{ch:concrete-instances-hamilton-jacobi-namecert}
+\origin{human}
+
+Following Evans and Fleming, the $\HamiltonJacobiUp$ packet records a finite dynamic-programming and variational-control surface for Hamilton-Jacobi readback. It sits beside the $\OdeUp$ flow rows of \autoref{ch:concrete-instances-ode-namecert}, the $\DynSystemUp$ transition rows of \autoref{ch:concrete-instances-dynsystem-namecert}, the finite quadratic-control ledger of \autoref{ch:concrete-instances-lqr-namecert}, the Riccati dependency row of \autoref{ch:concrete-instances-riccati-namecert}, the $\RealUp$ scalar surface of \autoref{ch:concrete-instances-real-namecert}, the $\MatrixUp$ coefficient rows of \autoref{ch:concrete-instances-matrix-namecert}, and the $\VecSpaceUp$ state rows of \autoref{ch:concrete-instances-vecspace-namecert}. The packet names the finite carrier through which later optimal-control consumers may request a Hamiltonian row, value-slope row, and dynamic-programming replay without importing analytic viscosity solutions, global PDE existence, selected optimal controls, host differentiability, or ambient completeness.
+
+\begin{definition}[Hamilton-Jacobi carrier]
+\label{def:hamilton-jacobi-carrier}
+A $\HamiltonJacobiUp$ carrier is a finite $\BHist$ packet
+$$
+J=(X,U,F,L,H,V,D,R,Q,A,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\VecSpaceUp$ state row and $U$ is the control-row domain visible to the finite dynamic-programming request.
+\item $F$ is the $\DynSystemUp$ or $\OdeUp$ transition row tying a state-control pair to the displayed successor row.
+\item $L$ is the $\RealUp$ running-cost row, and $H$ is the Hamiltonian row computed from the displayed transition and cost rows.
+\item $V$ is the value-row name and $D$ is the finite slope or subgradient witness row used only as packet data.
+\item $R$ is the $\RiccatiUp$ comparison row available when the displayed data come from a quadratic linear-control packet.
+\item $Q$ is the $\LQRUp$ dependency row recording the finite dynamic-programming route for the quadratic specialization.
+\item $A$ is the $\MatrixUp$ coefficient row used by the linear and quadratic control fragments.
+\item $T$ records componentwise $\hsame$ transport for $X,U,F,L,H,V,D,R,Q,A,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\HamiltonJacobiUp$, $\OdeUp$, $\DynSystemUp$, $\LQRUp$, $\RiccatiUp$, $\RealUp$, $\MatrixUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HamiltonJacobiUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $X,U,F,L,H,V,D,R,Q,A,T,P,N$ and has no coordinate for analytic viscosity solutions, global PDE existence, selected optimal controls, host differentiability, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Hamilton-Jacobi NameCert obligations]
+\label{thm:hamilton-jacobi-namecert-obligations}
+For every accepted $\HamiltonJacobiUp$ carrier $J=(X,U,F,L,H,V,D,R,Q,A,T,P,N)$, the local $\NameCert_{\HamiltonJacobiUp}$ surface consists exactly of carrier admission, state-control exposure, transition or ODE route admission, running-cost and Hamiltonian row exposure, value and slope-row readback, Riccati and LQR dependency availability, matrix-coefficient exposure, componentwise $\hsame$ transport, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hamilton-jacobi-carrier}. The state-control rows are $X,U$, the transition side is $F$, the scalar cost and Hamiltonian rows are $L,H$, and the value-readback rows are $V,D$.
+
+The finite control dependencies are displayed separately. Rows $R$ and $Q$ expose the Riccati and LQR routes only when a quadratic linear-control packet is being read, while $A$ records the matrix coefficients used by that comparison.
+
+The structural rows $T,P,N$ transport, source, and name the same packet. Since the carrier contains no additional coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hamilton-Jacobi LQR-Riccati route]
+\label{thm:hamilton-jacobi-lqr-riccati-route}
+Every downstream $\LQRUp$ or $\RiccatiUp$ consumer of an accepted $\HamiltonJacobiUp$ packet must pass through the displayed state row $X$, control row $U$, transition row $F$, cost row $L$, Hamiltonian row $H$, value row $V$, slope row $D$, matrix row $A$, transport row $T$, provenance row $P$, and local naming row $N$ before it can read the quadratic-control rows $Q$ and $R$. The route exports no analytic viscosity solution, global PDE existence theorem, selected optimal controller, host differentiability, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:hamilton-jacobi-namecert-obligations}. They require the state-control, transition, cost, Hamiltonian, value, slope, matrix, transport, provenance, and local naming rows to be visible in the same finite packet.
+
+The LQR and Riccati rows are dependency rows of that packet, not external solvers. A consumer that wants the quadratic-control face must therefore read $Q$ and $R$ through the displayed Hamilton-Jacobi carrier rather than through a host optimal-control theorem.
+
+Because no carrier coordinate stores analytic viscosity solutions, global PDE existence, selected optimal controls, host differentiability, or ambient completeness, the only available LQR-Riccati route is the finite route displayed by $X,U,F,L,H,V,D,R,Q,A,T,P,N$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HamiltonJacobiUp$ read reaching an $\LQRUp$ or $\RiccatiUp$ dependency must display the state row, control row, transition or ODE row, cost row, Hamiltonian row, value row, slope row, matrix row, componentwise $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ row.}
+
+\independenceWitness{ode, dynsystem, lqr, riccati, real, matrix, vecspace: $\HamiltonJacobiUp$ is not bijective to any listed sibling because it jointly carries a finite state-control row, transition route, Hamiltonian readback, value and slope rows, LQR and Riccati dependency rows, matrix coefficient row, transport, provenance, and local naming as one variational-control packet.}
+
+\closureat{HamiltonJacobiUp}{seedStr}
+
+\begin{closurestatus}{\HamiltonJacobiUp}
+  \constructivestory{A $\HamiltonJacobiUp$ packet is generated from finite state-control rows, an Ode or DynSystem transition row, a RealUp running-cost row, a Hamiltonian row, value and slope rows, Riccati and LQR dependency rows, a MatrixUp coefficient row, componentwise hsame transport, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hamilton-jacobi-carrier}, \autoref{thm:hamilton-jacobi-namecert-obligations}, and \autoref{thm:hamilton-jacobi-lqr-riccati-route} seed the finite variational-control carrier, NameCert obligation surface, and LQR-Riccati dependency route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic viscosity solutions, global PDE existence, selected optimal controls, host differentiability, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, state-control exposure, transition route admission, running-cost and Hamiltonian row exposure, value and slope-row readback, Riccati and LQR dependency availability, matrix-coefficient exposure, transport, provenance, and local naming for BEDC.Derived.HamiltonJacobiUp.}
+\end{closurestatus}
