@@ -8,6 +8,7 @@ import types
 
 import pytest
 
+from bedc_quality_lab import l1_admissibility_audit
 from bedc_quality_lab import status_taxonomy
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
@@ -197,6 +198,8 @@ def _payload_for_spec(spec):
         from bedc_quality_lab.tasks import sti
 
         return sti.build_payload(generated_at="fixture")
+    if spec.name == "l1-admissibility-audit":
+        return l1_admissibility_audit.build_payload(generated_at="fixture")
     if spec.name == "discovery-gated-transformer-jepa-world-model":
         return canonical._build_dgt_jepa_world_model_payload(generated_at="fixture")
     if spec.name == "lejepa-theorem-ledger":
@@ -2218,6 +2221,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "discovery-gated-transformer-jepa-world-model",
         "jepa-wm-l1-evaluator-calibration",
         "sti-admission",
+        "l1-admissibility-audit",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
         "model-comparison",
