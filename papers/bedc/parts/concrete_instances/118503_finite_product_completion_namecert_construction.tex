@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\FiniteProductCompletionUp$}
+\label{ch:concrete-instances-finite-product-completion-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on finite products and completions, the $\FiniteProductCompletionUp$ packet records the finite route by which a displayed finite family of metric or uniform sources is completed componentwise and read back as one product-completion object. It sits after the product naming surface of \autoref{ch:concrete-instances-prod-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, the completeness boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the product-uniform route of \autoref{ch:concrete-instances-product-uniform-space-namecert}, the Cauchy product-completion carrier of \autoref{ch:concrete-instances-cauchy-product-completion-namecert}, and the completion universal property of \autoref{ch:concrete-instances-completionuniversalproperty-namecert}. The packet names only the finite componentwise completion surface; it does not import quotient completion equality, selected representatives, countable products, arbitrary limits, choice, or ambient real completeness.
+
+\begin{definition}[Finite product completion carrier]
+\label{def:finite-product-completion-carrier}
+A $\FiniteProductCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,X,M,U,Q,\Pi,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index packet. It records the finite list of component names and the admissible projection indices, with no coordinate for countable or dependent products.
+\item $X$ is the product carrier row. It reads the $\ProductUp$ surface componentwise and exposes only tuples whose entries are named by $I$.
+\item $M$ and $U$ are the product metric and product uniformity rows. They record the finite maximum, finite sum, or finite entourage route chosen for the displayed sources, as mediated by $\MetricSpaceUp$ and $\ProductUniformSpaceUp$.
+\item $Q$ is the component completion row. For each index in $I$, it records the completion-facing packet, the local completeness certificate, and the componentwise terminal seal.
+\item $\Pi$ is the projection readback row. Every component projection out of the completed product first reads $I$, then $X$, then the corresponding component of $Q$.
+\item $L$ is the universal route row. A map into the completed finite product is accepted only by giving all component maps and their completion-compatible routes before the terminal product read.
+\item $H$ records componentwise $\hsame$ transport for the index packet, product carrier, metric or uniformity rows, component completions, projections, and universal route.
+\item $C$ records displayed $\Cont$ replay from finite source data through product formation, component completion, projection readback, and universal routing.
+\item $P$ is the $\Pkg$ provenance over $\FiniteProductCompletionUp$, $\ProductUp$, $\MetricSpaceUp$, $\CompleteMetricUp$, $\ProductUniformSpaceUp$, $\CauchyProductCompletionUp$, $\CompletionUniversalPropertyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteProductCompletionUp}$ row.
+\end{enumerate}
+The accepted carrier contains no coordinate for countable products, quotient completions, selected limits, choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Finite product completion NameCert obligations]
+\label{thm:finite-product-completion-namecert-obligations}
+For every accepted $\FiniteProductCompletionUp$ carrier $F=(I,X,M,U,Q,\Pi,L,H,C,P,N)$, the local $\NameCert_{\FiniteProductCompletionUp}$ surface consists exactly of the finite index admission, product carrier admission, product metric or uniformity admission, component completion admission, projection readback coverage, universal route coverage, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows displayed in \autoref{def:finite-product-completion-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $I,X,M,U,Q,\Pi,L,H,C,P,N$ are the only rows available to the local naming surface, so every accepted obligation must be read through this finite inventory.
+
+The index row $I$ and product carrier row $X$ force product formation to be finite and componentwise. The product metric or uniformity rows $M,U$ then supply the only admissible product structure before completion data can be read.
+
+Component completion is confined to $Q$. Projection reads use $\Pi$, and maps into the product use $L$; both rows refer back to the same finite index packet and component completion rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly this route. Since the carrier has no coordinate for countable products, quotient completions, selected limits, choice, or ambient real completeness, the listed obligations exhaust the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[Finite product completion projection and universal route]
+\label{thm:finite-product-completion-projection-universal-route}
+Every projection read or completion-universal-property read exported by an accepted $\FiniteProductCompletionUp$ packet factors through the displayed product, completion, and projection rows before the terminal completion seal. More explicitly, the read first consumes the finite index packet $I$, the product carrier $X$, the product metric or uniformity rows $M,U$, and the component completion row $Q$; it then reaches the projection row $\Pi$ or universal route row $L$, and only afterward uses $H,C,P,N$ for transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $F=(I,X,M,U,Q,\Pi,L,H,C,P,N)$. The carrier definition makes $I$ and $X$ prior to every product-facing read, so a consumer cannot inspect a projection or universal route before the finite product data are displayed.
+
+The metric or uniformity rows $M,U$ and the component completion row $Q$ provide the completion-facing surface. Thus a projection read reaches $\Pi$ only after the component completion row has named the relevant coordinate, and a universal-property read reaches $L$ only after all component routes have been displayed.
+
+The remaining rows preserve the same route. Componentwise $\hsame$ transport is recorded in $H$, replay in $C$, provenance in $P$, and local naming in $N$.
+
+No row supplies countable product formation, quotient completion equality, selected limits or representatives, choice, or ambient $\RealUp$ completeness. Hence every accepted projection or universal-property read factors through the displayed finite product-completion route before the terminal seal.
+\end{proof}
+
+\begin{closurestatus}{\FiniteProductCompletionUp}
+  \constructivestory{A $\FiniteProductCompletionUp$ packet is generated from a finite index packet, product carrier row, product metric or uniformity rows, component completion rows, projection readback rows, a universal route row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-product-completion-carrier}, \autoref{thm:finite-product-completion-namecert-obligations}, and \autoref{thm:finite-product-completion-projection-universal-route} seed the finite product-completion route used by completion-product consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable products, quotient completions, selected limits or representatives, choice, ambient completeness of $\RealUp$, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification can encode finite index admission, product carrier admission, component completion admission, projection readback coverage, universal route coverage, componentwise transport, replay, provenance, and local naming for BEDC.Derived.FiniteProductCompletionUp.}
+\end{closurestatus}
