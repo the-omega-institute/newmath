@@ -215,6 +215,20 @@ Finally read the structural rows $H,P,L$. Transport preserves the displayed fini
 \end{proof}
 \leanchecked{BEDC.Derived.TotallyBoundedCompletionUp.TotallyBoundedCompletionCarrier\_compact\_metric\_scope}
 
+\begin{theorem}[TotallyBoundedCompletion net-completion image]
+\label{thm:totally-bounded-completion-net-completion-image}
+Every public completion-facing image of an accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$ factors through $T,N,F,E,C,S,U$ before the structural rows $H,P,L$ can be read. Consequently the image exports only finite-net completion data: total-bounded net ledgers, refinement, Cauchy-filter-basis handoff, completion embedding, constructive completion route, separated comparison, and uniform-extension handoff. It does not export open-cover compactness, selected subnet convergence, quotient completion, countable choice, detached $\RealUp$ completeness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the net handoff theorem, \autoref{thm:totally-bounded-completion-net-handoff}. It places every completion-facing read behind the finite-net ledger $T$, refinement row $N$, Cauchy-filter basis $F$, completion embedding $E$, and constructive completion route $C$.
+
+Use the Cauchy-filter-basis handoff and uniform-extension ledger, \autoref{thm:totally-bounded-completion-cauchy-filter-basis-handoff} and \autoref{thm:totally-bounded-completion-uniform-extension-ledger}. These keep $F,E,C,S,U$ attached to the same finite-net data before a public completion consumer can receive an image.
+
+Apply the CompactMetric scope theorem above. A $\CompactMetricUp$-facing read sees the finite-net completion scope only through $T,N,F,E,C,S,U,H,P,L$, so $H,P,L$ are structural transport, provenance, and naming rows rather than image-forming data.
+
+Finally invoke ledger non-escape, \autoref{thm:totally-bounded-completion-no-escape}. Since the excluded open-cover, selected-subnet, quotient, choice, detached-Real, and ambient-completeness objects have no carrier row, the public image is exactly the finite-net completion data exported by $T,N,F,E,C,S,U$.
+\end{proof}
+
 \begin{theorem}[TotallyBoundedCompletion root finite-net ledger]
 \label{thm:totally-bounded-completion-root-net-ledger}
 For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the root finite-net ledger exposed to completion consumers is exactly the pair $T,N$. The row $T$ records the $\TotallyBoundedUp$ centers, membership constructors, distance witnesses, and rational bounds for each displayed positive tolerance, while $N$ records permitted refinement between such displayed ledgers. No root consumer may replace $T,N$ by an open cover, a host finite subset, a selected subnet, or a compactness theorem.
