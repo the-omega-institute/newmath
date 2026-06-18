@@ -39,6 +39,7 @@ Read the structural rows separately. Transport through $H$ preserves the row tag
 
 The local name $Q$ certifies this packet as a NameCert surface. Since the carrier has no further coordinate, the listed rows exhaust the obligation surface.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICOpenProblemLedgerUp.MetaCICOpenProblemLedger\_namecert\_obligations}
 
 \begin{theorem}[MetaCIC open-problem ledger non-escape]
 \label{thm:metacic-open-problem-ledger-nonescape}
@@ -80,15 +81,29 @@ Apply \autoref{thm:metacic-open-problem-ledger-nonescape}. A downstream consumer
 Finally apply \autoref{thm:metacic-open-problem-ledger-blocker-separation}. The blocker row remains a distinct boundary row, so the family coverage statement records an open ledger rather than a hidden proof of arbitrary closed consistency.
 \end{proof}
 
-\closureat{MetaCICOpenProblemLedgerUp}{obligationStr}
+\begin{theorem}[MetaCIC open-problem ledger source-row scope]
+\label{thm:metacic-open-problem-ledger-source-row-scope}
+For every accepted $\MetaCICOpenProblemLedgerUp$ carrier $L=(S,C,N,U,D,E,B,H,R,P,Q)$, the seven ledger rows $S,C,N,U,D,E,B$ are scoped by the source open-problem chapter, the audit synthesis packet, the closed-normal consistency packet, and the normal-false exclusion packet. The rows $H,R,P,Q$ supply componentwise transport, displayed replay, provenance, and local naming only. Consequently the packet does not export arbitrary subject reduction, Church--Rosser, global normalization, beta-conversion decidability, exhaustive examples, or full consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-open-problem-ledger-carrier}. The open-family coordinates are exactly $S,C,N,U,D,E,B$, while $H,R,P,Q$ are structural rows attached to those coordinates.
+
+Use \autoref{thm:metacic-open-problem-ledger-nonescape}. The downstream route factors through the source ledger and the cited sibling packets before it can mention any closed MetaCIC endpoint.
+
+Apply \autoref{thm:metacic-open-problem-ledger-blocker-separation}. The blocker row remains distinct from the positive closed-normal branch exposed through provenance, so the packet cannot identify source-row scope with a full-consistency theorem.
+
+Finally use \autoref{thm:metacic-open-problem-ledger-family-coverage}. The seven rows cover the named open families as ledger entries, while arbitrary subject reduction, Church--Rosser, global normalization, beta-conversion decidability, exhaustive examples, and full consistency remain outside the finite packet.
+\end{proof}
+
+\closureat{MetaCICOpenProblemLedgerUp}{scopedStr}
 
 \begin{closurestatus}{\MetaCICOpenProblemLedgerUp}
   \constructivestory{A $\MetaCICOpenProblemLedgerUp$ packet is generated from subject-reduction, confluence, normalization, substitution, decidability, typed-example, blocker, transport, route, provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metacic-open-problem-ledger-carrier}, \autoref{thm:metacic-open-problem-ledger-namecert-obligations}, \autoref{thm:metacic-open-problem-ledger-nonescape}, \autoref{thm:metacic-open-problem-ledger-blocker-separation}, and \autoref{thm:metacic-open-problem-ledger-family-coverage} bind the finite open-problem ledger and its non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:metacic-open-problem-ledger-carrier}, \autoref{thm:metacic-open-problem-ledger-namecert-obligations}, \autoref{thm:metacic-open-problem-ledger-nonescape}, \autoref{thm:metacic-open-problem-ledger-blocker-separation}, \autoref{thm:metacic-open-problem-ledger-family-coverage}, and \autoref{thm:metacic-open-problem-ledger-source-row-scope} bind the finite open-problem ledger, its non-escape boundary, and the exact source-row scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close arbitrary closed subject reduction, arbitrary closed Church--Rosser, evidence-free global strong normalization, unrestricted closed beta-conversion decidability, exhaustive typed-example coverage, full closed consistency, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires exact source binding for the seven open-family rows, transport row, replay route, provenance row, and local naming row over the same finite packet.}
+  \upgradepath{Public closure requires a reusable public ledger interface for the seven open-family rows, transport row, replay route, provenance row, and local naming row over the same finite packet.}
 \end{closurestatus}
