@@ -2311,6 +2311,7 @@ import BEDC.Derived.CauchyTailModulusSealUp.PublicClassifierRoute
 import BEDC.Derived.CauchyTailModulusSealUp.StdBridge
 import BEDC.Derived.CauchyTailModulusSealUp.TasteGate
 import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
+import BEDC.Derived.CauchyTailRequestUp
 import BEDC.Derived.CauchyTailSupremumUp.TasteGate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
@@ -3648,6 +3649,7 @@ import BEDC.Derived.CriticalLineWitnessUp.FixedTupleStdbridgePremiseSurface
 import BEDC.Derived.CriticalLineWitnessUp.GapPolicyStability
 import BEDC.Derived.CriticalLineWitnessUp.LedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.LedgerNonescape
+import BEDC.Derived.CriticalLineWitnessUp.LedgerNonescapeObligation
 import BEDC.Derived.CriticalLineWitnessUp.LedgerRouteStability
 import BEDC.Derived.CriticalLineWitnessUp.LocalRHBoundary
 import BEDC.Derived.CriticalLineWitnessUp.ModulusBudgetRhRefusalExhaustion
@@ -9412,6 +9414,7 @@ import BEDC.Derived.RegularCauchyRepletionBoundaryUp.NameCertObligations
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
 import BEDC.Derived.RegularCauchyRingUp
 import BEDC.Derived.RegularCauchyRingUp.FiniteOperationInduction
+import BEDC.Derived.RegularCauchyRingUp.ObligationSurface
 import BEDC.Derived.RegularCauchyRingUp.TasteGate
 import BEDC.Derived.RegularCauchyRingUp.TerminalSealDiscipline
 import BEDC.Derived.RegularCauchyRoundingProjectionUp.TasteGate
