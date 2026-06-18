@@ -82,12 +82,26 @@ The $\Cont$ routes in $r$ can therefore replay exactly the substituted-body read
 Since the carrier lists no such coordinate, replay exactness is confined to the beta-redex reads named by the substitution ledger. The provenance and naming rows record that same confinement for downstream MetaCIC consumers.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionDischarge context induction]
+\label{thm:beta-substitution-discharge-context-induction}
+For an accepted $\BetaSubstitutionDischargeUp$ carrier $B=(G,d,b,a,c,s,h,r,p,n)$, every beta-substitution discharge read is obtained by induction over the displayed source context row $G$ and the single substitution ledger $s$. The induction preserves the displayed domain, body, argument, and codomain rows $d,b,a,c$ through the componentwise transport row $h$, and exposes only the substituted-body and substituted-codomain reads through the replay row $r$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:beta-substitution-discharge-carrier}. The only context data are the source row $G$, the domain row $d$, the body row $b$, the argument row $a$, the codomain row $c$, and the substitution ledger $s$.
+
+Induct over the displayed context-extension window named by $G$. At the binder-crossing step, use \autoref{thm:beta-substitution-discharge-binder-boundary}; the step can cross the body and codomain boundary only through $s$, not through host substitution or a closed subject-reduction theorem.
+
+For stability of the induction data, use component transport, \autoref{thm:beta-substitution-discharge-component-transport}. It keeps $d,b,a,c,s$ on the same displayed packet under $h$.
+
+Finally apply replay exactness, \autoref{thm:beta-substitution-discharge-replay-exactness}. The replay row $r$ exposes precisely the substituted-body and substituted-codomain reads, so the induction has no remaining route to an application, lambda, Pi, conversion, quotient, or non-beta discharge coordinate.
+\end{proof}
+
 \closureat{BetaSubstitutionDischargeUp}{seedStr}
 
 \begin{closurestatus}{\BetaSubstitutionDischargeUp}
   \constructivestory{A $\BetaSubstitutionDischargeUp$ packet is generated from a displayed source context row, domain row, body typing row, argument typing row, codomain row, substitution ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:beta-substitution-discharge-carrier}, \autoref{thm:beta-substitution-discharge-namecert-obligations}, \autoref{thm:beta-substitution-discharge-binder-boundary}, \autoref{thm:beta-substitution-discharge-component-transport}, and \autoref{thm:beta-substitution-discharge-replay-exactness} bind the finite beta-substitution discharge carrier, local NameCert obligation surface, binder-boundary non-escape statement, componentwise transport stability, and replay exactness.}
+  \scopeclosed{\autoref{def:beta-substitution-discharge-carrier}, \autoref{thm:beta-substitution-discharge-namecert-obligations}, \autoref{thm:beta-substitution-discharge-binder-boundary}, \autoref{thm:beta-substitution-discharge-component-transport}, \autoref{thm:beta-substitution-discharge-replay-exactness}, and \autoref{thm:beta-substitution-discharge-context-induction} bind the finite beta-substitution discharge carrier, local NameCert obligation surface, binder-boundary non-escape statement, componentwise transport stability, replay exactness, and context induction.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
