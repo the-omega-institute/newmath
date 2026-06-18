@@ -21,7 +21,7 @@ SOURCE_ISSUE = "#1533"
 BASE_MARGIN = 0.05
 CONTROL_MARGIN = 0.02
 DOWNSTREAM_GATE_POINTER = "reports/canonical/sti-admission.json:$.downstream_gate"
-CONTROL_IDS = ("metadata_only", "label_shuffle", "context_blind", "surface_permutation")
+CONTROL_IDS = ("metadata_only", "no_support", "query_only", "shuffled_support")
 VERDICTS = ("accepted", "bounded_negative")
 
 
@@ -30,15 +30,19 @@ class STIObservation:
     """One deterministic STI evaluation row."""
 
     split: str
-    base_score: float
-    chance_score: float
+    base_acc: float
+    base_acc_L95: float
+    empirical_chance: float
+    empirical_chance_U95: float
     control_scores: Mapping[str, float]
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "split": self.split,
-            "base_score": round(float(self.base_score), 6),
-            "chance_score": round(float(self.chance_score), 6),
+            "base_acc": round(float(self.base_acc), 6),
+            "base_acc_L95": round(float(self.base_acc_L95), 6),
+            "empirical_chance": round(float(self.empirical_chance), 6),
+            "empirical_chance_U95": round(float(self.empirical_chance_U95), 6),
             "control_scores": {key: round(float(value), 6) for key, value in self.control_scores.items()},
         }
 
@@ -51,35 +55,41 @@ def default_observations() -> tuple[STIObservation, ...]:
     return (
         STIObservation(
             split="heldout-a",
-            base_score=0.74,
-            chance_score=0.62,
+            base_acc=0.74,
+            base_acc_L95=0.70,
+            empirical_chance=0.62,
+            empirical_chance_U95=0.64,
             control_scores={
                 "metadata_only": 0.60,
-                "label_shuffle": 0.59,
-                "context_blind": 0.61,
-                "surface_permutation": 0.58,
+                "no_support": 0.61,
+                "query_only": 0.62,
+                "shuffled_support": 0.59,
             },
         ),
         STIObservation(
             split="heldout-b",
-            base_score=0.71,
-            chance_score=0.61,
+            base_acc=0.71,
+            base_acc_L95=0.68,
+            empirical_chance=0.61,
+            empirical_chance_U95=0.62,
             control_scores={
                 "metadata_only": 0.59,
-                "label_shuffle": 0.60,
-                "context_blind": 0.60,
-                "surface_permutation": 0.59,
+                "no_support": 0.60,
+                "query_only": 0.61,
+                "shuffled_support": 0.59,
             },
         ),
         STIObservation(
             split="heldout-c",
-            base_score=0.73,
-            chance_score=0.60,
+            base_acc=0.73,
+            base_acc_L95=0.69,
+            empirical_chance=0.60,
+            empirical_chance_U95=0.62,
             control_scores={
                 "metadata_only": 0.58,
-                "label_shuffle": 0.58,
-                "context_blind": 0.60,
-                "surface_permutation": 0.57,
+                "no_support": 0.58,
+                "query_only": 0.60,
+                "shuffled_support": 0.57,
             },
         ),
     )
@@ -92,7 +102,7 @@ def task_facts() -> dict[str, Any]:
         "owner": "bedc_quality_lab.tasks.sti",
         "source_issue": SOURCE_ISSUE,
         "fact_source": "owner-local",
-        "evaluation_unit": "deterministic split-level STI admission row",
+        "evaluation_unit": "deterministic split-level STI admission row with empirical confidence bounds",
         "base_margin": BASE_MARGIN,
         "control_margin": CONTROL_MARGIN,
         "control_ids": list(CONTROL_IDS),
@@ -108,11 +118,11 @@ def preregistration_capsule() -> dict[str, Any]:
         "task": task_facts(),
         "base_chance_rule": {
             "margin": BASE_MARGIN,
-            "criterion": "min_split(base_score - chance_score) >= base_margin",
+            "criterion": "base_acc_L95 > empirical_chance_U95 + base_margin for every split",
         },
         "control_rule": {
             "margin": CONTROL_MARGIN,
-            "criterion": "max_control_score <= chance_score + control_margin for every split and control",
+            "criterion": "max_control_score <= empirical_chance_U95 + control_margin for every split and control",
             "controls": list(CONTROL_IDS),
         },
         "verdict_rule": {
@@ -129,25 +139,27 @@ def _mean(values: Sequence[float]) -> float:
     return round(sum(float(value) for value in values) / len(values), 6) if values else 0.0
 
 
-def _observation_rows(observations: Sequence[STIObservation]) -> list[dict[str, Any]]:
-    return [observation.to_dict() for observation in observations]
+def _observation_rows(observations: Sequence[STIObservation] | Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    return [item.to_dict() if isinstance(item, STIObservation) else dict(item) for item in observations]
 
 
 def _base_chance_gate(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     margins = [
-        round(float(row["base_score"]) - float(row["chance_score"]), 6)
+        round(float(row["base_acc_L95"]) - float(row["empirical_chance_U95"]), 6)
         for row in rows
     ]
     min_margin = min(margins) if margins else 0.0
-    status = "pass" if margins and min_margin >= BASE_MARGIN else "fail"
+    status = "pass" if margins and min_margin > BASE_MARGIN else "fail"
     return {
         "status": status,
-        "criterion": "min_split(base_score - chance_score) >= base_margin",
+        "criterion": "base_acc_L95 > empirical_chance_U95 + base_margin",
         "base_margin": BASE_MARGIN,
         "min_margin": round(min_margin, 6),
         "split_margins": margins,
-        "base_score_mean": _mean([float(row["base_score"]) for row in rows]),
-        "chance_score_mean": _mean([float(row["chance_score"]) for row in rows]),
+        "base_acc_mean": _mean([float(row["base_acc"]) for row in rows]),
+        "base_acc_L95_mean": _mean([float(row["base_acc_L95"]) for row in rows]),
+        "empirical_chance_mean": _mean([float(row["empirical_chance"]) for row in rows]),
+        "empirical_chance_U95_mean": _mean([float(row["empirical_chance_U95"]) for row in rows]),
     }
 
 
@@ -161,7 +173,7 @@ def _control_gate(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
             if not isinstance(controls, Mapping) or control_id not in controls:
                 failures.append({"split": row.get("split"), "control_id": control_id, "reason": "missing_control"})
                 continue
-            delta = round(float(controls[control_id]) - float(row["chance_score"]), 6)
+            delta = round(float(controls[control_id]) - float(row["empirical_chance_U95"]), 6)
             deltas.append(delta)
             if delta > CONTROL_MARGIN:
                 failures.append(
@@ -177,7 +189,7 @@ def _control_gate(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         }
     return {
         "status": "fail" if failures else "pass",
-        "criterion": "max_control_score <= chance_score + control_margin",
+        "criterion": "max_control_score <= empirical_chance_U95 + control_margin",
         "control_margin": CONTROL_MARGIN,
         "controls": by_control,
         "failed_controls": failures,
@@ -188,12 +200,12 @@ def _hardgate(base_chance: Mapping[str, Any], controls: Mapping[str, Any]) -> di
     gates = {
         "BASE-CHANCE": {
             "status": "pass" if base_chance.get("status") == "pass" else "fail",
-            "criterion": "base clears owner-local chance by at least 0.05 on every split",
+            "criterion": "base_acc_L95 clears empirical_chance_U95 by more than 0.05 on every split",
             "evidence_pointer": "$.base_chance_gate",
         },
         "CONTROL": {
             "status": "pass" if controls.get("status") == "pass" else "fail",
-            "criterion": "all four controls stay within chance plus 0.02",
+            "criterion": "all four authorized probes stay within empirical_chance_U95 plus 0.02",
             "evidence_pointer": "$.controls",
         },
         "PAYLOAD": {
@@ -217,15 +229,15 @@ def build_payload(
 ) -> dict[str, Any]:
     timestamp = generated_at or DEFAULT_GENERATED_AT
     source_observations = default_observations() if observations is None else observations
-    rows = [
-        item.to_dict() if isinstance(item, STIObservation) else dict(item)
-        for item in source_observations
-    ]
+    rows = _observation_rows(source_observations)
     prereg = preregistration_capsule()
     base_chance = _base_chance_gate(rows)
     controls = _control_gate(rows)
     hardgate = _hardgate(base_chance, controls)
     verdict = "accepted" if hardgate["status"] == "pass" else "bounded_negative"
+    claim_boundary = _claim_boundary(verdict, hardgate)
+    downstream_gate = _downstream_gate(verdict)
+    reproducibility_contract = _reproducibility_contract(verdict)
     payload = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
@@ -250,21 +262,9 @@ def build_payload(
         "base_chance_gate": base_chance,
         "controls": controls,
         "verdict": verdict,
-        "claim_boundary": {
-            "status": "pass" if verdict == "accepted" else "bounded-negative",
-            "accepted": verdict == "accepted",
-            "failed_gate": hardgate["failed_gate"],
-        },
-        "positive_claim": {
-            "status": "accepted" if verdict == "accepted" else "bounded-negative",
-            "positive_discovery": verdict == "accepted",
-            "claim": "STI clears owner-local base/chance and negative controls" if verdict == "accepted" else None,
-        },
-        "downstream_gate": {
-            "status": "ready" if verdict == "accepted" else "blocked",
-            "pointer": DOWNSTREAM_GATE_POINTER,
-            "consumer_contract": "downstream consumers may only read the STI verdict through this owner-local gate pointer",
-        },
+        "claim_boundary": claim_boundary,
+        "positive_claim": _positive_claim(verdict),
+        "downstream_gate": downstream_gate,
         "hardgate": hardgate,
         "not_claimed": [
             "No shared base/chance admission protocol is introduced.",
@@ -277,35 +277,7 @@ def build_payload(
             if verdict == "accepted"
             else "STI remains bounded by a failed owner-local admission gate."
         ),
-        "reproducibility_contract": {
-            "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
-            "mode": "exact_fixture",
-            "seed_list": [0],
-            "metric_bands": [
-                {
-                    "pointer": "$.verdict",
-                    "reference_value": verdict,
-                    "tolerance": 0,
-                    "comparison": "status_equal",
-                    "owner": "sti-admission",
-                    "calibration_source": "$.preregistration",
-                    "seed_basis": {"seed_count": 1, "source": "owner-local deterministic rows"},
-                }
-            ],
-            "device_policy": {
-                "requested_device": "cpu",
-                "resolved_device": "cpu",
-                "resolution_status": "available",
-                "resolution_reason": "STI admission is an owner-local deterministic payload validation surface",
-                "backend_details": {"torch": "not-requested"},
-            },
-            "framework_provenance": {"python": "not-material-to-deterministic-fixture"},
-            "calibration": {
-                "calibration_source": "$.preregistration",
-                "owner": "sti-admission",
-                "basis": "fixed owner-local margins, controls, and deterministic observations",
-            },
-        },
+        "reproducibility_contract": reproducibility_contract,
     }
     payload["raw_digest"] = canonical_digest(
         {
@@ -317,6 +289,71 @@ def build_payload(
     )
     validate_sti_payload(payload)
     return payload
+
+
+def _claim_boundary(verdict: str, hardgate: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "status": "pass" if verdict == "accepted" else "bounded-negative",
+        "accepted": verdict == "accepted",
+        "failed_gate": hardgate["failed_gate"],
+    }
+
+
+def _positive_claim(verdict: str) -> dict[str, Any]:
+    return {
+        "status": "accepted" if verdict == "accepted" else "bounded-negative",
+        "positive_discovery": verdict == "accepted",
+        "claim": "STI clears owner-local empirical confidence and negative-control gates" if verdict == "accepted" else None,
+    }
+
+
+def _downstream_gate(verdict: str) -> dict[str, Any]:
+    return {
+        "status": "ready" if verdict == "accepted" else "blocked",
+        "pointer": DOWNSTREAM_GATE_POINTER,
+        "consumer_contract": "downstream consumers may only read the STI verdict through this owner-local gate pointer",
+    }
+
+
+def _reproducibility_contract(verdict: str) -> dict[str, Any]:
+    return {
+        "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+        "mode": "exact_fixture",
+        "seed_list": [0],
+        "metric_bands": [
+            {
+                "pointer": "$.verdict",
+                "reference_value": verdict,
+                "tolerance": 0,
+                "comparison": "status_equal",
+                "owner": "sti-admission",
+                "calibration_source": "$.preregistration",
+                "seed_basis": {"seed_count": 1, "source": "owner-local deterministic rows"},
+            },
+            {
+                "pointer": "$.base_chance_gate.min_margin",
+                "reference_value": BASE_MARGIN,
+                "tolerance": 0,
+                "comparison": "greater_than",
+                "owner": "sti-admission",
+                "calibration_source": "$.preregistration.base_chance_rule",
+                "seed_basis": {"seed_count": 1, "source": "owner-local deterministic rows"},
+            },
+        ],
+        "device_policy": {
+            "requested_device": "cpu",
+            "resolved_device": "cpu",
+            "resolution_status": "available",
+            "resolution_reason": "STI admission is an owner-local deterministic payload validation surface",
+            "backend_details": {"torch": "not-requested"},
+        },
+        "framework_provenance": {"python": "not-material-to-deterministic-fixture"},
+        "calibration": {
+            "calibration_source": "$.preregistration",
+            "owner": "sti-admission",
+            "basis": "fixed owner-local margins, authorized controls, and empirical confidence-bound rows",
+        },
+    }
 
 
 def validate_sti_payload(payload: Mapping[str, Any]) -> None:
@@ -354,6 +391,11 @@ def validate_sti_payload(payload: Mapping[str, Any]) -> None:
     expected_verdict = "accepted" if isinstance(hardgate, Mapping) and hardgate.get("status") == "pass" else "bounded_negative"
     if verdict != expected_verdict:
         raise ValueError("STI verdict does not match hardgate status")
+    base_chance = payload.get("base_chance_gate", {})
+    if not isinstance(base_chance, Mapping) or base_chance.get("criterion") != "base_acc_L95 > empirical_chance_U95 + base_margin":
+        raise ValueError("STI base/chance gate must use empirical confidence bounds")
+    if base_chance.get("status") == "pass" and float(base_chance.get("min_margin", 0.0)) <= BASE_MARGIN:
+        raise ValueError("STI accepted base/chance margin must be strictly above the configured margin")
     downstream = payload.get("downstream_gate", {})
     if not isinstance(downstream, Mapping) or downstream.get("pointer") != DOWNSTREAM_GATE_POINTER:
         raise ValueError("STI downstream gate pointer mismatch")
@@ -363,6 +405,9 @@ def validate_sti_payload(payload: Mapping[str, Any]) -> None:
     for index, row in enumerate(rows):
         if not isinstance(row, Mapping):
             raise ValueError(f"STI observation {index} must be an object")
+        for key in ("base_acc", "base_acc_L95", "empirical_chance", "empirical_chance_U95"):
+            if key not in row:
+                raise ValueError(f"STI observation {index} missing {key}")
         controls = row.get("control_scores")
         if not isinstance(controls, Mapping) or tuple(sorted(controls)) != tuple(sorted(CONTROL_IDS)):
             raise ValueError(f"STI observation {index} control set mismatch")
@@ -376,6 +421,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Verdict: `{payload.get('verdict')}`",
         f"- Base margin: `{payload.get('config', {}).get('base_margin')}`",
         f"- Control margin: `{payload.get('config', {}).get('control_margin')}`",
+        f"- Base/chance gate: `{payload.get('base_chance_gate', {}).get('criterion')}`",
+        f"- Control gate: `{payload.get('controls', {}).get('criterion')}`",
         f"- Downstream gate: `{payload.get('downstream_gate', {}).get('pointer')}`",
         "",
         "## Hardgates",

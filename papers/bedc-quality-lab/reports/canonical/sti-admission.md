@@ -1,9 +1,11 @@
 # STI Admission
 
-- Generated at: `2026-06-17T20:11:14.194586+00:00`
+- Generated at: `2026-06-18T15:15:12.952427+00:00`
 - Verdict: `accepted`
 - Base margin: `0.05`
 - Control margin: `0.02`
+- Base/chance gate: `base_acc_L95 > empirical_chance_U95 + base_margin`
+- Control gate: `max_control_score <= empirical_chance_U95 + control_margin`
 - Downstream gate: `reports/canonical/sti-admission.json:$.downstream_gate`
 
 ## Hardgates
@@ -18,10 +20,10 @@
 
 | control | status | max delta over chance |
 | --- | --- | --- |
-| `metadata_only` | `pass` | `-0.02` |
-| `label_shuffle` | `pass` | `-0.01` |
-| `context_blind` | `pass` | `0.0` |
-| `surface_permutation` | `pass` | `-0.02` |
+| `metadata_only` | `pass` | `-0.03` |
+| `no_support` | `pass` | `-0.02` |
+| `query_only` | `pass` | `-0.01` |
+| `shuffled_support` | `pass` | `-0.03` |
 
 ## Not Claimed
 
