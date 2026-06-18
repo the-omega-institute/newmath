@@ -261,6 +261,21 @@ instance metaClosureObstructionFieldFaithful : FieldFaithful MetaClosureObstruct
             cases hfields
             rfl
 
+instance metaClosureObstructionNontrivial : Nontrivial MetaClosureObstructionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨MetaClosureObstructionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      MetaClosureObstructionUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate MetaClosureObstructionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  metaClosureObstructionChapterTasteGate
+
 theorem MetaClosureObstructionTasteGate_single_carrier_alignment :
     (∀ h : BHist, metaClosureObstructionDecodeBHist (metaClosureObstructionEncodeBHist h) = h) ∧
       (∀ x : MetaClosureObstructionUp,
@@ -362,6 +377,46 @@ theorem MetaClosureObstructionNameCertObligations [AskSetup] [PackageSetup]
     exact And.intro source.left (And.intro contRSC contFTM)
   · intro _row source
     exact And.intro source.left (And.intro sameTransport (And.intro pkgP source.right))
+
+theorem MetaClosureObstructionPublicExport [AskSetup] [PackageSetup]
+    {R S F T M H C P N publicRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont R S C -> Cont F T M -> Cont T C publicRead -> PkgSig bundle P pkg ->
+      PkgSig bundle N pkg -> PkgSig bundle publicRead pkg -> hsame H (append publicRead P) ->
+        SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ PkgSig bundle publicRead pkg)
+          (fun row : BHist =>
+            hsame row publicRead ∧ Cont R S C ∧ Cont F T M ∧ Cont T C publicRead)
+          (fun row : BHist =>
+            hsame row publicRead ∧ hsame H (append publicRead P) ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                PkgSig bundle publicRead pkg)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro contRSC contFTM contTCPublic pkgP pkgN pkgPublic sameExport
+  refine
+    { core :=
+        { carrier_inhabited := ?_
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · exact Exists.intro publicRead (And.intro (hsame_refl publicRead) pkgPublic)
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro row other sameRows source
+    exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+  · intro _row source
+    exact And.intro source.left (And.intro contRSC (And.intro contFTM contTCPublic))
+  · intro _row source
+    exact
+      And.intro source.left
+        (And.intro sameExport (And.intro pkgP (And.intro pkgN source.right)))
 
 theorem MetaClosureObstructionTruthBranchObligation {S F T M H P truthRead : BHist} :
     Cont S F T -> Cont T M truthRead -> hsame H (append truthRead P) ->
