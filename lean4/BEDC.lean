@@ -2367,6 +2367,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.StreamnameRegseqFactorization
 import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.TerminalObserverExactness
 import BEDC.Derived.CauchyWitnessPullbackUp.TasteGate
+import BEDC.Derived.Cauchy_completion_monad_lawUp
 import BEDC.Derived.CauchyfiltercompletionUp
 import BEDC.Derived.CauchyfiltercompletionUp.BasisLedgerRoute
 import BEDC.Derived.CauchyfiltercompletionUp.BasisRealSeal
@@ -10303,6 +10304,7 @@ import BEDC.Derived.SubsequenceLimitUp.TasteGate
 import BEDC.Derived.SubshiftOfFiniteTypeUp.TasteGate
 import BEDC.Derived.SubshiftUp.TasteGate
 import BEDC.Derived.SubshiftfinitetypeUp
+import BEDC.Derived.SubstitutionAuditMapUp
 import BEDC.Derived.SubstitutionAuditMapUp.Core
 import BEDC.Derived.SubstitutionAuditMapUp.TasteGate
 import BEDC.Derived.SubstitutionAuditWindowRouteUp.TasteGate
