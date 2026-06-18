@@ -208,6 +208,17 @@ Next apply the regular-seal handoff of \autoref{thm:dyadic-cauchy-tail-regular-s
 Finally use nonescape and the scoped dependency package, \autoref{thm:dyadic-cauchy-tail-envelope-nonescape} and \autoref{thm:dyadic-cauchy-tail-envelope-scoped-dependency-package}. These results attach the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows to the same route and exclude quotient streams, selected limits, countable choice, trichotomy rows, host real equality, and ambient Real completeness from the obligation scope.
 \end{proof}
 
+\begin{theorem}[DyadicCauchyTailEnvelope obligation closure]\label{thm:dyadic-cauchy-tail-envelope-obligation-closure}
+Every accepted $\DyadicCauchyTailEnvelopeUp$ packet $E=(S,R,D,T,I,H,C,P,N)$ carries all rows required for obligation closure: the $\StreamNameUp$ finite window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance row, $\CauchyReindexingUp$ route, $\RealUp$ seal handoff, componentwise transport, displayed replay, $\Pkg$ provenance, local $\NameCert$ row, nonescape from excluded principles, and budget exhaustion before any Real-facing or $\CauchyLimitSealUp$ consumer can inspect the seal.
+\end{theorem}
+\begin{proof}
+Carrier projection and the NameCert obligations, \autoref{def:dyadic-cauchy-tail-envelope-carrier} and \autoref{thm:dyadic-cauchy-tail-envelope-namecert-obligations}, list the finite window, readback, tolerance, reindexing, transport, replay, provenance, and local naming rows.
+
+Obligation completeness and the scoped dependency package, \autoref{thm:dyadic-cauchy-tail-envelope-obligation-completeness} and \autoref{thm:dyadic-cauchy-tail-envelope-scoped-dependency-package}, identify those rows as the whole dependency surface over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyReindexingUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Finally apply nonescape and budget exhaustion, \autoref{thm:dyadic-cauchy-tail-envelope-nonescape} and \autoref{thm:dyadic-cauchy-tail-envelope-budget-exhaustion}. Nonescape excludes quotient streams, selected limits, countable choice, trichotomy rows, host real equality, and ambient Real completeness, while budget exhaustion forces every consumer to display $I,S,R,D,T,H,C,P,N$ before any seal read. These clauses give precisely the obligation-closure surface for the accepted envelope.
+\end{proof}
+
 \begin{theorem}[DyadicCauchyTailEnvelope obligation route]
 \label{thm:dyadic-cauchy-tail-envelope-obligation-route}
 Every accepted $\DyadicCauchyTailEnvelopeUp$ packet exposes its obligation route in the order
