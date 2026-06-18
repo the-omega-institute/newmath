@@ -92,6 +92,7 @@ The seal row $E$ is downstream of $R$. The continuation rows first replay the al
 
 Since \autoref{def:regular-cauchy-max-carrier} contains no coordinate for trichotomy, host real order, quotient stream equality, selected limits, or completeness, the real-facing boundary is exhausted by the displayed finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxCarrier\_real\_seal\_boundary}
 
 \begin{theorem}[RegularCauchyMax scoped lattice route]
 \label{thm:regular-cauchy-max-scoped-lattice-route}
@@ -111,6 +112,22 @@ Apply \autoref{thm:regular-cauchy-max-sum-abs-factorization}. Every maximum-faci
 Next apply \autoref{thm:regular-cauchy-max-lattice-absorption}. Lattice reads such as repeated maximum consumption reuse the same displayed source rows and operation rows, so no extra branch for real trichotomy or a selected host maximum can enter the packet.
 
 Finally apply \autoref{thm:regular-cauchy-max-real-seal-boundary}. Any Real-facing consumer reaches $\RealUp$ only after the $\RegSeqRatUp$ readback row assembled from $\RegularCauchySumUp$, $\RegularCauchyAbsUp$, and $\RegularCauchyScaleUp$ has been displayed. This composes the stated scoped lattice route and excludes quotient streams, selected limits, and ambient completeness coordinates.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMax scoped dependency package]
+\label{thm:regular-cauchy-max-scoped-dependency-package}
+Every consumer route for an accepted $\RegularCauchyMaxUp$ carrier is scoped exactly by $\RegularCauchySumUp$, $\RegularCauchyAbsUp$, $\RegularCauchyScaleUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. In carrier notation, the only available dependency package is
+$$
+(S,\Delta,V,T,Q,R,E,H,C,P,N),
+$$
+together with the two source rows $A,B$ and their displayed windows and dyadic endpoint observations. The package exposes no real trichotomy, selected host maximum, quotient stream equality, selected limit, or ambient completeness assumption.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-max-sum-abs-factorization}. It forces every maximum-facing read to pass through the source sum, difference, absolute-value, second-sum, and half-scale rows before the regular readback row $R$ is visible.
+
+Next use \autoref{thm:regular-cauchy-max-lattice-absorption}. Lattice-facing reads reuse the same rows rather than adding a branch for host comparison or a selected maximum.
+
+Finally apply \autoref{thm:regular-cauchy-max-real-seal-boundary}. The $\RealUp$ seal row $E$ is downstream of the same $\RegSeqRatUp$ readback, and the structural rows $H,C,P,N$ only transport, replay, source, and name that displayed dependency package.
 \end{proof}
 
 \closureat{RegularCauchyMaxUp}{scopedStr}[BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxTasteGate\_single\_carrier\_alignment]
