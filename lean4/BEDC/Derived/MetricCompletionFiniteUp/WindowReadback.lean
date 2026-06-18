@@ -76,4 +76,60 @@ theorem MetricCompletionFiniteWindowReadback [AskSetup] [PackageSetup]
       readbackUnary, finalReadUnary, metricBasisRoute, windowEmbeddingRoute, selectorReadRoute,
       provenancePkg, finalReadPkg⟩
 
+theorem MetricCompletionFiniteCarrier_stability_transport [AskSetup] [PackageSetup]
+    {M B W E R S H C P N M' B' W' E' R' S' H' C' P' N' sourceRead readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricCompletionFiniteCarrier M B W E R S H C P N bundle pkg →
+      hsame M M' →
+        hsame B B' →
+          hsame W W' →
+            hsame E E' →
+              hsame R R' →
+                hsame S S' →
+                  hsame H H' →
+                    hsame C C' →
+                      hsame P P' →
+                        hsame N N' →
+                          Cont M' B' sourceRead →
+                            Cont W' E' readback →
+                              PkgSig bundle P' pkg →
+                                PkgSig bundle N' pkg →
+                                  MetricCompletionFiniteCarrier M' B' W' E' R' S' H' C' P' N'
+                                      bundle pkg ∧
+                                    UnaryHistory sourceRead ∧ UnaryHistory readback := by
+  -- BEDC touchpoint anchor: BHist hsame Cont PkgSig UnaryHistory
+  intro carrier sameM sameB sameW sameE sameR sameS sameH sameC sameP sameN
+    sourceRoute readbackRoute provenancePkg localNamePkg
+  obtain ⟨metricUnary, basisUnary, windowUnary, embeddingUnary, readbackUnary,
+    selectorUnary, transportUnary, replayUnary, provenanceUnary, localNameUnary,
+    _provenancePkg, _localNamePkg⟩ := carrier
+  have metricUnary' : UnaryHistory M' :=
+    unary_transport metricUnary sameM
+  have basisUnary' : UnaryHistory B' :=
+    unary_transport basisUnary sameB
+  have windowUnary' : UnaryHistory W' :=
+    unary_transport windowUnary sameW
+  have embeddingUnary' : UnaryHistory E' :=
+    unary_transport embeddingUnary sameE
+  have readbackUnary' : UnaryHistory R' :=
+    unary_transport readbackUnary sameR
+  have selectorUnary' : UnaryHistory S' :=
+    unary_transport selectorUnary sameS
+  have transportUnary' : UnaryHistory H' :=
+    unary_transport transportUnary sameH
+  have replayUnary' : UnaryHistory C' :=
+    unary_transport replayUnary sameC
+  have provenanceUnary' : UnaryHistory P' :=
+    unary_transport provenanceUnary sameP
+  have localNameUnary' : UnaryHistory N' :=
+    unary_transport localNameUnary sameN
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed metricUnary' basisUnary' sourceRoute
+  have readbackRouteUnary : UnaryHistory readback :=
+    unary_cont_closed windowUnary' embeddingUnary' readbackRoute
+  exact
+    ⟨⟨metricUnary', basisUnary', windowUnary', embeddingUnary', readbackUnary',
+      selectorUnary', transportUnary', replayUnary', provenanceUnary', localNameUnary',
+      provenancePkg, localNamePkg⟩, sourceUnary, readbackRouteUnary⟩
+
 end BEDC.Derived.MetricCompletionFiniteUp

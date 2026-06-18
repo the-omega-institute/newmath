@@ -394,4 +394,23 @@ theorem NetConvergenceCarrier_sequentialcompact_dependency
   }
   exact ⟨cert, sameD, sameT, sameE, sameF, sameS, sameR, sameL⟩
 
+theorem NetConvergenceCarrier_sequentialcompact_bridge
+    {D T E A F S R L H C P M seqRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D T E ->
+        Cont E F S ->
+          Cont S R L ->
+            hsame seqRead D ->
+              Cont D T E ∧ Cont E F S ∧ Cont S R L ∧ hsame seqRead D ∧
+                hsame H H ∧ hsame C C ∧ hsame P P ∧ hsame M M ∧
+                  netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                    [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont NetConvergenceCarrier
+  intro carrier directedRoute filterRoute realRoute seqSame
+  obtain ⟨_sameD, _sameT, _sameE, _sameA, _sameF, _sameS, _sameR, _sameL, sameH,
+    sameC, sameP, sameM, fields⟩ := carrier
+  exact
+    ⟨directedRoute, filterRoute, realRoute, seqSame, sameH, sameC, sameP, sameM,
+      fields⟩
+
 end BEDC.Derived.NetConvergenceUp
