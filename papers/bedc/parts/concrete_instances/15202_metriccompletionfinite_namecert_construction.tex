@@ -39,12 +39,29 @@ For every accepted $\MetricCompletionFiniteUp$ carrier $F=(M,B,W,E,R,S,H,C,P,N)$
 \end{enumerate}
 No local NameCert row is stored outside those five obligations and the structural rows $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetricCompletionFiniteUp.MetricCompletionFiniteNameCertObligations}
 \begin{proof}
 Project the carrier of \autoref{def:metric-completion-finite-carrier}. Its public rows are exactly $M,B,W,E,R,S,H,C,P,N$, so carrier admission cannot expose a second completion object, representative selector, cover datum, host equality, or ambient completeness witness.
 
 The generated source and window obligations come from the order of the displayed continuation. A completion-facing request first reads the metric-completion row $M$ and the Cauchy basis row $B$, then the dyadic precision row $W$ and local selector $S$.
 
 The embedding and readback handoff is the remaining public route. The row $E$ carries the source into the completion-facing interface, and $R$ is readable only after $E$ and the finite window rows have been replayed through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFinite obligation boundary]
+\label{thm:metric-completion-finite-obligation-boundary}
+Every accepted $\MetricCompletionFiniteUp$ packet exposes carrier admission, generated-Cauchy source exposure, finite-window precision exposure, embedding and readback handoff, and ledger refusal before any $\RegSeqRatUp$ or $\RealUp$ seal consumer can read completion-facing data. The boundary is the displayed tuple
+$$
+F=(M,B,W,E,R,S,H,C,P,N),
+$$
+and no consumer may replace it by quotient completion equality, selected representatives, countable choice, open-cover compactness, host equality, or an ambient complete metric space.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-completion-finite-carrier}. The rows $M,B,W,E,R,S,H,C,P,N$ are the only available coordinates, so carrier admission and ledger refusal are already fixed by the displayed packet.
+
+Apply the NameCert obligations of \autoref{thm:metric-completion-finite-namecert-obligations}. They require the generated-Cauchy source row $B$, the finite dyadic window $W$, the local selector $S$, and the embedding row $E$ to be exposed before a readback row can be public.
+
+Finally use the window readback theorem \autoref{thm:metric-completion-finite-window-readback}. It forces every $\RegSeqRatUp$ or $\RealUp$ consumer through the finite route $M,B,W,E,S \longmapsto R \longmapsto H,C,P,N$, so none of the excluded quotient, representative, choice, compactness, host-equality, or ambient-completeness data can be read from the packet.
 \end{proof}
 
 \begin{theorem}[MetricCompletionFinite window readback]
