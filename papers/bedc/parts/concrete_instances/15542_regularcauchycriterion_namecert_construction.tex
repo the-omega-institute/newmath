@@ -95,6 +95,7 @@ D \longmapsto S \longmapsto R \longmapsto A .
 $$
 Here $D$ is the $\DyadicRatCoreUp$ tolerance row, $S$ is the $\StreamNameUp$ finite-window row, $R$ is the $\RegSeqRatUp$ readback row, and $A$ is the $\RealUp$ boundary row served by the $\RealCauchyCriterionUp$ entry.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyCriterionUp.RegularCauchyCriterion\_regseqrat\_route}
 \begin{proof}
 Project the carrier in \autoref{def:regular-cauchy-criterion-carrier}. The packet exposes the dyadic tolerance row $D$, stream window row $S$, regular rational readback row $R$, and Real-facing boundary row $A$ as distinct coordinates.
 
@@ -102,6 +103,7 @@ The NameCert obligations of \autoref{thm:regular-cauchy-criterion-namecert-oblig
 
 The modulus route of \autoref{thm:regular-cauchy-criterion-modulus-route} places the Real-facing boundary after the criterion and convergence-criterion rows. Since those rows are reached only after $D,S,R$ have been displayed, every Real-facing route passes through the DyadicRatCore, StreamName, RegSeqRat, and Real rows in the stated order.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyCriterionUp.RegularCauchyCriterionRegSeqRatRoute}
 
 \begin{theorem}[Regular Cauchy criterion StreamName-RegSeqRat scope]
 \label{thm:regular-cauchy-criterion-streamname-regseqrat-scope}
@@ -160,6 +162,7 @@ Since neither $H$ nor $C$ contains a quotient stream, selected limit, or ambient
 \label{thm:regular-cauchy-criterion-cauchy-equivalence}
 Let $K=(S,R,M,D,Q,V,A,H,C,P,N)$ be an accepted $\RegularCauchyCriterionUp$ carrier. The only exported equivalence surface between Cauchy-facing and convergence-facing reads is the pair of rows $Q$ and $V$, namely the $\CauchyCriterionUp$ row and the $\CauchyConvergenceCriterionUp$ row. The carrier exports no selected limit, quotient stream equality, host real equality, or ambient $\RealUp$ completeness as part of this equivalence surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyCriterionUp.RegularCauchyCriterionCauchyEquivalence\_encode\_append}
 \begin{proof}
 Inspect the carrier coordinates. The Cauchy-facing test is stored in $Q$, and the convergence-facing repacking of that same finite test is stored in $V$.
 
