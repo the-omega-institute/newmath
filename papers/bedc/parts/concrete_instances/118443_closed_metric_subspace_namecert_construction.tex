@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\ClosedMetricSubspaceUp$}
+\label{ch:concrete-instances-closed-metric-subspace-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges metric-space practice, the $\ClosedMetricSubspaceUp$ packet records the finite closed-subspace route by which a displayed subspace admission row inherits convergence from a parent metric carrier. It refines the subspace surface of \autoref{ch:concrete-instances-metric-subspace-namecert}, reads the parent metric packet of \autoref{ch:concrete-instances-metric-namecert}, consumes the complete-metric limit boundary of \autoref{ch:concrete-instances-completemetric-namecert}, and keeps its convergence data visible through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The resulting carrier is a closed-subspace certificate, not a host-subset quotient, selected-representative principle, arbitrary completeness theorem, or compactness assertion.
+
+\begin{definition}[ClosedMetricSubspace carrier]
+\label{def:closed-metric-subspace-carrier}
+A $\ClosedMetricSubspaceUp$ carrier is a finite $\BHist$ packet
+$$
+C=(M,A,D,L,S,R,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the parent $\MetricUp$ row, including its point classifier, distance witness, metric-law ledger, and finite observation histories.
+\item $A$ is the displayed subspace admission row. A point is readable by the closed-subspace packet only after the parent point classifier of $M$ and the admission row $A$ both accept it.
+\item $D$ is the inherited-distance row. It exports no independent distance; each closed-subspace distance read is the parent distance row of $M$ applied to two admitted points.
+\item $L$ is the closed-under-limit witness. It states that a parent limit witness for an admitted Cauchy stream is admitted again by $A$.
+\item $S$ is the $\StreamNameUp$ Cauchy witness row naming the finite observation windows used by the convergence consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row recording the regular rational comparison data attached to the stream.
+\item $E$ is the terminal $\RealUp$ seal read only after the stream, regular-rational, inherited-distance, and closed-limit rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the parent metric row, admission row, inherited distance, closed-limit witness, stream witness, regular-rational readback, Real seal, replay row, provenance row, and local naming row.
+\item $K$ records the displayed $\Cont$ route replaying point admission, subspace distance restriction, Cauchy-window admission, parent limit handoff, closedness admission, and Real-seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\ClosedMetricSubspaceUp$, $\MetricSubspaceUp$, $\MetricUp$, $\CompleteMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedMetricSubspaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $M,A,D,L,S,R,E,H,K,P,N$ and their replay paths. It has no coordinate for host subset equality, quotient membership, selected representatives, arbitrary completeness, open-cover compactness, countable choice, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[ClosedMetricSubspace NameCert obligations]
+\label{thm:closed-metric-subspace-namecert-obligations}
+For every accepted $\ClosedMetricSubspaceUp$ carrier $C=(M,A,D,L,S,R,E,H,K,P,N)$, the local $\NameCert_{\ClosedMetricSubspaceUp}$ surface consists exactly of carrier admission, inherited metric restriction, closure under parent limit witnesses, convergence handoff through StreamName windows and RegSeqRat readback, transport, replay, provenance, and local naming.
+
+Equivalently, every completion-facing or Real-facing consumer must read
+$$
+M,\quad A,\quad D,\quad L,\quad S,\quad R,\quad E,\quad H,\quad K,\quad P,\quad N
+$$
+before it can use a closed-subspace conclusion, and no consumer can import host subsets, quotient equality, selected representatives, arbitrary completeness, open-cover compactness, or bridge data.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:closed-metric-subspace-carrier}. The tuple lists the parent metric, displayed admission, inherited distance, closed-limit witness, StreamName Cauchy witness, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows.
+
+The inherited metric restriction is forced by $D$ and $K$. A distance read first admits both endpoints through $M$ and $A$, then reads the parent distance row of $M$; the carrier contains no second metric coordinate.
+
+Closure under parent limits is the role of $L$. A convergence consumer opens the finite StreamName row $S$, reads the RegSeqRat comparisons in $R$, uses the parent metric and complete-metric boundary named by $M$, and then applies $L$ to admit the parent limit back into $A$.
+
+Finally $E,H,K,P,N$ seal, transport, replay, source, and name the same route. Since the carrier has no row outside $M,A,D,L,S,R,E,H,K,P,N$, host subset equality, quotient equality, selected representatives, arbitrary completeness, open-cover compactness, and bridge checking cannot be exported by the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ClosedMetricSubspaceUp$ convergence read exposes a parent Metric row, displayed admission row, inherited-distance row, closed-under-limit witness, StreamName Cauchy witness, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming before any closed-subspace conclusion is consumed.}
+
+\independenceWitness{metric-subspace, metric, complete-metric, streamname, regseqrat, real: $\ClosedMetricSubspaceUp$ is not bijective to any listed sibling because it jointly carries displayed subspace admission, inherited distance, closed-limit admission, Cauchy-window data, regular-rational readback, terminal Real seal, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{ClosedMetricSubspaceUp}{seedStr}
+
+\begin{closurestatus}{\ClosedMetricSubspaceUp}
+  \constructivestory{A $\ClosedMetricSubspaceUp$ packet is generated from a parent Metric row, displayed subspace admission row, inherited distance row, closed-under-limit witness, StreamName Cauchy witness, RegSeqRat readback, Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-metric-subspace-carrier} and \autoref{thm:closed-metric-subspace-namecert-obligations} seed the finite L10 closed-subspace route from admitted Cauchy-window data through inherited distance, parent limit witnessing, closedness admission, Real seal handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host subsets, quotient equality, selected representatives, arbitrary completeness, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, inherited metric restriction, closure under parent limit witnesses, convergence handoff, transport replay, provenance non-escape, and classifier faithfulness for BEDC.Derived.ClosedMetricSubspaceUp.}
+\end{closurestatus}
