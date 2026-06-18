@@ -61,3 +61,18 @@ Apply \autoref{thm:metacic-normalization-frontier-seal-boundary}. The seal row $
 
 Finally apply \autoref{thm:metacic-normalization-frontier-normal-route-nonescape}. Normal-form consumers remain inside $C,K,E,N,S,H,R,P,L$, so a confluence-facing consumer has no route that identifies candidate evidence with finished-normal evidence, erases $S$, or imports the excluded host normalization and quotient-equality principles.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier candidate SN consumer route]
+\label{thm:metacic-normalization-frontier-candidate-sn-consumer-route}
+Any $\MetaCICCandidateStrongNormalizationUp$ consumer of a $\MetaCICNormalizationFrontierUp$ packet must read candidate evidence, finite fuel, endpoint normal-form rows, the normalization-audit route, the closed-normal route certificate, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before exporting an SN-facing boundary. The export is candidate-mediated: it does not assert unrestricted strong normalization, closed subject reduction, global confluence, quotient syntax equality, or a hidden normalizer.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierCarrier\_candidate\_sn\_consumer\_route}
+\begin{proof}
+Project the frontier carrier of \autoref{def:metacic-normalization-frontier-carrier}. The candidate rows $C,K$, endpoint rows $E,N$, obstruction seal $S$, transport rows $H$, replay rows $R$, provenance row $P$, and local naming row $L$ are the only coordinates available to the consumer.
+
+Use the candidate evidence boundary already established in this file. \autoref{thm:metacic-normalization-frontier-candidate-evidence-totality} confines candidate evidence to $C,K$ inside the same displayed packet, while \autoref{thm:metacic-normalization-frontier-candidate-confluence-budget} keeps candidate use separate from finished-normal evidence until the normal endpoint rows are exposed.
+
+Route the SN-facing read through the sibling normalization surfaces. The candidate strong-normalization chapters provide only candidate-mediated SN rows, and the closed-normal route chapters provide only displayed closed-normal certificates; neither sibling supplies an unrestricted normalization theorem.
+
+Finally apply normal-route non-escape from \autoref{thm:metacic-normalization-frontier-normal-route-nonescape}. The consumer remains inside the finite candidate, fuel, endpoint, audit, closed-normal, transport, replay, provenance, and NameCert route, so no global strong-normalization, subject-reduction, confluence, quotient-equality, or hidden-normalizer row can be exported.
+\end{proof}
