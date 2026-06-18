@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DeterministicPushdownAutomatonUp
+namespace BEDC.Derived.DeterministicPushdownAutomatonUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -172,6 +172,19 @@ private theorem deterministicPushdownAutomatonToEventFlow_injective
     (Eq.trans (deterministicPushdownAutomaton_round_trip x).symm
       (Eq.trans hread (deterministicPushdownAutomaton_round_trip y)))
 
+private theorem deterministicPushdownAutomaton_field_faithful :
+    ∀ x y : DeterministicPushdownAutomatonUp,
+      deterministicPushdownAutomatonFields x =
+        deterministicPushdownAutomatonFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk Q Sigma Gamma delta q0 Z0 F w rho sigma e chi H C P N =>
+      cases y with
+      | mk Q' Sigma' Gamma' delta' q0' Z0' F' w' rho' sigma' e' chi' H' C' P' N' =>
+          cases hfields
+          rfl
+
 instance deterministicPushdownAutomatonBHistCarrier :
     BHistCarrier DeterministicPushdownAutomatonUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -191,22 +204,45 @@ instance deterministicPushdownAutomatonChapterTasteGate :
     intro x y hxy heq
     exact hxy (deterministicPushdownAutomatonToEventFlow_injective heq)
 
+instance deterministicPushdownAutomatonFieldFaithful :
+    FieldFaithful DeterministicPushdownAutomatonUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := deterministicPushdownAutomatonFields
+  field_faithful := deterministicPushdownAutomaton_field_faithful
+
+instance deterministicPushdownAutomatonNontrivial :
+    Nontrivial DeterministicPushdownAutomatonUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨DeterministicPushdownAutomatonUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      DeterministicPushdownAutomatonUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate DeterministicPushdownAutomatonUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  deterministicPushdownAutomatonChapterTasteGate
+
 theorem DeterministicPushdownAutomatonTasteGate_single_carrier_alignment :
-    deterministicPushdownAutomatonEncodeBHist BHist.Empty = ([] : List BMark) ∧
-      (∀ h : BHist,
-        deterministicPushdownAutomatonDecodeBHist
-          (deterministicPushdownAutomatonEncodeBHist h) = h) ∧
+    (∀ h : BHist,
+      deterministicPushdownAutomatonDecodeBHist
+        (deterministicPushdownAutomatonEncodeBHist h) = h) ∧
       (∀ x : DeterministicPushdownAutomatonUp,
         deterministicPushdownAutomatonFromEventFlow
           (deterministicPushdownAutomatonToEventFlow x) = some x) ∧
-      Nonempty (BHistCarrier DeterministicPushdownAutomatonUp) ∧
-        Nonempty (ChapterTasteGate DeterministicPushdownAutomatonUp) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+        (∀ x y : DeterministicPushdownAutomatonUp,
+          deterministicPushdownAutomatonToEventFlow x =
+            deterministicPushdownAutomatonToEventFlow y → x = y) ∧
+          deterministicPushdownAutomatonEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
-    ⟨rfl,
-      deterministicPushdownAutomaton_decode_encode,
+    ⟨deterministicPushdownAutomaton_decode_encode,
       deterministicPushdownAutomaton_round_trip,
-      ⟨deterministicPushdownAutomatonBHistCarrier⟩,
-      ⟨deterministicPushdownAutomatonChapterTasteGate⟩⟩
+      (fun _ _ heq => deterministicPushdownAutomatonToEventFlow_injective heq), rfl⟩
 
-end BEDC.Derived.DeterministicPushdownAutomatonUp
+end BEDC.Derived.DeterministicPushdownAutomatonUp.TasteGate
