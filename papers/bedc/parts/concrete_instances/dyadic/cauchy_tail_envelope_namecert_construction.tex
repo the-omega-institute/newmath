@@ -110,6 +110,7 @@ Apply \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}. It orders 
 
 Apply \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement} for paired consumers. The same ordering survives common refinement, so the window handoff remains a finite route through $\CauchyReindexingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicCauchyTailEnvelopeWindowHandoff}
 
 \begin{theorem}[DyadicCauchyTailEnvelope nonescape]
 \label{thm:dyadic-cauchy-tail-envelope-nonescape}
@@ -220,6 +221,22 @@ Project the carrier and the NameCert obligations. The carrier exposes only $S,R,
 Use common refinement and nonescape. Common refinement keeps paired tail reads on one displayed finite route, while nonescape excludes every row outside the carrier inventory.
 
 Finally apply budget exhaustion and the scoped dependency package. They force the structural rows $H,C,P,N$ to be consumed with $I,S,R,D,T$, so the displayed route exhausts the obligation surface before any Real-facing seal can be read.
+\end{proof}
+
+\begin{theorem}[DyadicCauchyTailEnvelope public boundary]
+\label{thm:dyadic-cauchy-tail-envelope-public-boundary}
+The public reader of an accepted $\DyadicCauchyTailEnvelopeUp$ packet receives exactly the finite path
+$$
+I \longrightarrow S \longrightarrow R \longrightarrow D \longrightarrow T
+$$
+with structural rows $H,C,P,N$, before any $\RealUp$ or $\CauchyLimitSealUp$ boundary is available. Thus the public surface is the reindexing route, finite stream window, regular rational readback, dyadic tolerance, tail ledger, transport, replay, provenance, and local naming, and it excludes quotient streams, selected limits, countable-choice schedules, trichotomy rows, host real equality, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the RegSeqRat Real route and common refinement, \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route} and \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement}. They order each public read through the reindexing row, finite window, and regular rational readback before the dyadic budget is consumed.
+
+Next apply nonescape and budget exhaustion, \autoref{thm:dyadic-cauchy-tail-envelope-nonescape} and \autoref{thm:dyadic-cauchy-tail-envelope-budget-exhaustion}. These results keep every visible read inside the rows $I,S,R,D,T$ and attach no extra quotient, selected-limit, choice, trichotomy, host-equality, or completeness coordinate.
+
+Finally use \autoref{thm:dyadic-cauchy-tail-envelope-obligation-route}. It attaches $H,C,P,N$ to the same route and exhausts the public obligation surface before a $\RealUp$ or $\CauchyLimitSealUp$ consumer can inspect a terminal seal.
 \end{proof}
 
 \begin{theorem}[DyadicCauchyTailEnvelope radius stability]
