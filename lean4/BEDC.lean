@@ -10,6 +10,7 @@ import BEDC.BaseReflection.PackageReflection
 import BEDC.BaseReflection.Psame
 import BEDC.BaseReflection.Token
 import BEDC.Derived.AbGroupUp
+import BEDC.Derived.AbGroupUp.ForgetGroupCertificate
 import BEDC.Derived.AbGroupUp.TasteGate
 import BEDC.Derived.AbelDirichletComparisonUp.TasteGate
 import BEDC.Derived.AbelLimitTheoremUp.TasteGate
@@ -4037,6 +4038,7 @@ import BEDC.Derived.DarbouxOscillationUp
 import BEDC.Derived.DarbouxPropertyUp.TasteGate
 import BEDC.Derived.DarbouxSumUp.TasteGate
 import BEDC.Derived.DarbouxTheoremUp.TasteGate
+import BEDC.Derived.DeGiorgiIterationUp.NameCertObligations
 import BEDC.Derived.DeGiorgiIterationUp.TasteGate
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
@@ -5309,6 +5311,7 @@ import BEDC.Derived.FiniteFanBarModulusUp.TasteGate
 import BEDC.Derived.FiniteFanCompactnessUp
 import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
+import BEDC.Derived.FiniteGroupRepresentationUp.NameCertBridge
 import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteIntersectionPropertyUp.TasteGate
@@ -5682,6 +5685,7 @@ import BEDC.Derived.FunctorUp.CompEmptyMiddleInversion
 import BEDC.Derived.FunctorUp.CompEndpointCycleBoundaryComponents
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
 import BEDC.Derived.FunctorUp.CompNonemptyResultTargetVisible
+import BEDC.Derived.FunctorUp.CompositePreservationWitnesses
 import BEDC.Derived.FunctorUp.CompositionIdentityRespect
 import BEDC.Derived.FunctorUp.CompositionSamenessRespect
 import BEDC.Derived.FunctorUp.CycleEmptyComponents
