@@ -815,6 +815,7 @@ import BEDC.Derived.BetaCriticalPairUp.TasteGate
 import BEDC.Derived.BetaReductionAuditTrailUp.NameCertObligations
 import BEDC.Derived.BetaReductionAuditTrailUp.TasteGate
 import BEDC.Derived.BetaStepBoundaryUp.TasteGate
+import BEDC.Derived.BetaSubstitutionDischargeUp
 import BEDC.Derived.BetaSubstitutionPreservationFrontierUp.TasteGate
 import BEDC.Derived.BetaSubstitutionPreservationUp
 import BEDC.Derived.BetaSubstitutionPreservationUp.ContextTransport
@@ -2315,6 +2316,7 @@ import BEDC.Derived.CauchySpeedupUp.TasteGate
 import BEDC.Derived.CauchyStabilityModulusUp
 import BEDC.Derived.CauchyStabilityUp.TasteGate
 import BEDC.Derived.CauchyStructureUp.TasteGate
+import BEDC.Derived.CauchySubnetUp
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchySumLimitUp.NameCertObligations
 import BEDC.Derived.CauchySumLimitUp.TasteGate
@@ -7479,6 +7481,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactor
 import BEDC.Derived.MetaCICNormalizationSubstitutionBoundaryUp
 import BEDC.Derived.MetaCICNormalizationWindowConfluenceUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemLedgerUp
+import BEDC.Derived.MetaCICOpenProblemLedgerUp.BlockerSeparation
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.NameCertObligations
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.Nonescape
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.TasteGate
@@ -9523,6 +9526,7 @@ import BEDC.Derived.RegularCauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
 import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
+import BEDC.Derived.RegularCauchyProductBudgetUp.BilinearWindow
 import BEDC.Derived.RegularCauchyProductBudgetUp.NameCertObligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.Obligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.ProductClosureBudget
@@ -10226,6 +10230,7 @@ import BEDC.Derived.SobolevUp.CompletionConsumerExport
 import BEDC.Derived.SobolevUp.CompletionFacingRootScope
 import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.EnergyTraceBoundaryCertificate
+import BEDC.Derived.SobolevUp.FiniteDerivativeWindowBridge
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteEnergyInductionRoute
 import BEDC.Derived.SobolevUp.FiniteEnergyNameCertObligation
@@ -10701,6 +10706,7 @@ import BEDC.Derived.TranscendentalSupplyTaxonomyUp.BridgePrecondition
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.NameCertObligations
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.TasteGate
 import BEDC.Derived.TransferOperatorUp.NameCertObligations
+import BEDC.Derived.TransferOperatorUp.SymbolicSourceLattice
 import BEDC.Derived.TransferOperatorUp.TasteGate
 import BEDC.Derived.TransportedStationaryWindowSealUp
 import BEDC.Derived.TreeUp
