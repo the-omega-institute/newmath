@@ -16,7 +16,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def MetaCICOpenProblemLedgerCarrier [AskSetup] [PackageSetup]
+def meta_cic_open_problem_ledger_name_cert_obligations_carrier [AskSetup] [PackageSetup]
     (S C N U D E B H R P Q : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig Cont
@@ -29,7 +29,7 @@ def MetaCICOpenProblemLedgerCarrier [AskSetup] [PackageSetup]
 theorem MetaCICOpenProblemLedgerNameCertObligations [AskSetup] [PackageSetup]
     {S C N U D E B H R P Q : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    MetaCICOpenProblemLedgerCarrier S C N U D E B H R P Q bundle pkg →
+    meta_cic_open_problem_ledger_name_cert_obligations_carrier S C N U D E B H R P Q bundle pkg →
       SemanticNameCert
           (fun row : BHist => hsame row Q ∧ UnaryHistory row)
           (fun row : BHist =>
