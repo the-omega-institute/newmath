@@ -3618,6 +3618,7 @@ import BEDC.Derived.CriticalLineWitnessUp.CarrierAdmissionObligation
 import BEDC.Derived.CriticalLineWitnessUp.CarrierRouteExactness
 import BEDC.Derived.CriticalLineWitnessUp.CarrierSource
 import BEDC.Derived.CriticalLineWitnessUp.ClassifierExactness
+import BEDC.Derived.CriticalLineWitnessUp.ClassifierSeparation
 import BEDC.Derived.CriticalLineWitnessUp.ComparisonLedgerAdmission
 import BEDC.Derived.CriticalLineWitnessUp.ComparisonWindowTotality
 import BEDC.Derived.CriticalLineWitnessUp.ComponentwiseStdbridgeTransport
