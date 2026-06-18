@@ -189,6 +189,20 @@ Apply the transport obligation in \autoref{thm:located-limit-namecert-obligation
 \end{proof}
 \leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimitCarrier\_regseqrat\_readback\_stability}
 
+\begin{theorem}[LocatedLimit source-row scope]
+\label{thm:located-limit-source-row-scope}
+For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, every limit-facing consumer binds the finite-window schedule $T$, modulus ledger $M$, $\RegSeqRatUp$ readback $Q$, and $\RealUp$ seal $E$ to the source rows named by $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before the seal can be read. The binding is exactly the source-row route of the carrier, classifier, NameCert obligations, window schedule exactness, Real seal route, and RegSeqRat readback stability.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-limit-carrier}. Its consumer-facing rows are $S,M,T,Q,E,H,C,P,N$, so the schedule, modulus, readback, and seal are already stored with their transport, replay, provenance, and local naming rows.
+
+Use the classifier of \autoref{def:located-limit-classifier}. It compares accepted packets only through transported finite windows, dyadic budgets, regular readbacks, and Real seals; hence $T,M,Q,E$ cannot be detached from the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ source rows that classify them.
+
+Apply \autoref{thm:located-limit-namecert-obligations}, \autoref{thm:located-limit-window-schedule-exactness}, and \autoref{thm:located-limit-real-seal-route}. These rows force every tolerance request through $T$ and $M$ before $Q$ and $E$ are consumed.
+
+Finally use \autoref{thm:located-limit-regseqrat-readback-stability}. The readback row $Q$ is stable only under the same $\hsame$ and $\Cont$ rows that preserve $S,M,T,E$, and $P,N$ record the same source route. Therefore no consumer can read the seal before these BEDC source rows are bound.
+\end{proof}
+
 \begin{theorem}[LocatedLimit Real seal nonescape]
 \label{thm:located-limit-real-seal-nonescape}
 For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, the $\RealUp$ seal row $E$ exports no selected host limit, no quotient stream equality, no countable-choice schedule, no trichotomy, and no ambient completeness principle. This nonescape is the carrier exclusion of \autoref{def:located-limit-carrier}, the classifier exclusion of \autoref{def:located-limit-classifier}, the Real-seal obligation of \autoref{thm:located-limit-namecert-obligations}, and the terminal factorization of \autoref{thm:located-limit-real-seal-route}.
