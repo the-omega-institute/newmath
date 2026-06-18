@@ -878,6 +878,7 @@ import BEDC.Derived.BishopCompactnessCriterionUp.TasteGate
 import BEDC.Derived.BishopCompleteMetricUp.TasteGate
 import BEDC.Derived.BishopCompleteRealUp.NameCertObligations
 import BEDC.Derived.BishopCompleteRealUp.TasteGate
+import BEDC.Derived.BishopCompletionComparisonUp.TasteGate
 import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusSelectionUp.NameCertObligations
@@ -4491,6 +4492,7 @@ import BEDC.Derived.DiniDerivativeUp.TasteGate
 import BEDC.Derived.DiniFiniteMinimumBudgetUp.TasteGate
 import BEDC.Derived.DiniMonotoneCompactUniformUp.TasteGate
 import BEDC.Derived.DiniTheoremUp.TasteGate
+import BEDC.Derived.DiniUniformConvergenceUp.MonotoneWindowObligation
 import BEDC.Derived.DiniUniformConvergenceUp.NameCertObligations
 import BEDC.Derived.DiniUniformConvergenceUp.TasteGate
 import BEDC.Derived.DiniUniformLimitModulusUp.TasteGate
