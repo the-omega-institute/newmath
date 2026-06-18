@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\HadamardDirectionalDerivativeUp$}
+\label{ch:concrete-instances-hadamard-directional-derivative-namecert}
+\origin{human}
+
+Following Hadamard and later constructive analysis, the $\HadamardDirectionalDerivativeUp$ packet records the directional derivative surface in which the direction itself may be approached through a finite perturbation window. It sits between the point-direction interface of \autoref{ch:concrete-instances-gateaux-derivative-namecert} and the full linear approximation interface of \autoref{ch:concrete-instances-frechet-derivative-namecert}. Its displayed route consumes the map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the linear direction and response rows of \autoref{ch:concrete-instances-linearmap-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a stable directional read along finite approach windows; it is not a host function-space derivative, a quotient germ equality, a selected limit, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Hadamard directional derivative carrier]
+\label{def:hadamard-directional-derivative-carrier}
+A $\HadamardDirectionalDerivativeUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,A,V,Q,L,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the accepted source map row read through $\ContinuousMapUp$ and the surrounding local domain data;
+\item $A$ is the base-point and neighbourhood window over which the directional approach is inspected;
+\item $V$ is the displayed direction row, including the finite perturbation window through which nearby directions are compared;
+\item $Q$ is the finite difference-quotient schedule, listing the inspected step sizes and perturbed directions;
+\item $L$ is the $\LinearMapUp$ response row that records the candidate directional linear value on the displayed direction surface;
+\item $S$ is the stability row requiring the quotient reads along perturbed directions to agree with the same response row over the finite schedule;
+\item $R$ is the $\RealUp$ tolerance seal through which the quotient comparison is read;
+\item $H$ records componentwise $\hsame$ transport for the source, base window, direction window, quotient schedule, linear response, stability row, Real seal, provenance, and local name;
+\item $C$ records the displayed $\Cont$ replay routes for source inspection, direction exposure, quotient readback, stability comparison, linear-response handoff, and Real-seal consumption;
+\item $P$ is the $\Pkg$ provenance over $\HadamardDirectionalDerivativeUp$, $\GateauxDerivativeUp$, $\FrechetDerivativeUp$, $\ContinuousMapUp$, $\LinearMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\HadamardDirectionalDerivativeUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through the displayed rows $X,A,V,Q,L,S,R,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Hadamard directional derivative NameCert obligations]
+\label{thm:hadamard-directional-derivative-namecert-obligations}
+For the carrier of \autoref{def:hadamard-directional-derivative-carrier}, the local $\NameCert_{\HadamardDirectionalDerivativeUp}$ surface consists of carrier admission, direction-window exposure, finite quotient scheduling, perturbation stability, linear-response handoff, classifier stability, and non-escape for the same finite packet $D=(X,A,V,Q,L,S,R,H,C,P,N)$. Direction-window exposure requires $V$ before any quotient read. Finite quotient scheduling requires every inspected step and perturbed direction to be listed in $Q$. Perturbation stability requires the comparison row $S$ to keep the quotient reads attached to $L$ and $R$. The non-escape clause excludes host function equality, quotient germs, selected limits, unrestricted Frechet differentiability, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the displayed packet. Carrier admission exposes exactly the rows $X,A,V,Q,L,S,R,H,C,P,N$, so there is no hidden coordinate for a host derivative or a selected limiting value.
+
+The direction-window and quotient clauses follow from the order of the carrier. The direction row $V$ is displayed before $Q$, and $Q$ is the only finite schedule from which quotient reads may be taken.
+
+The stability and handoff clauses use $S,L,R$. The row $S$ compares all listed perturbation reads against the same $\LinearMapUp$ response $L$ through the $\RealUp$ tolerance seal $R$.
+
+Finally, $H$ and $C$ transport and replay only those rows. Thus a consumer asking for host function equality, quotient-germ equality, an unrestricted Frechet derivative, a selected limit, or ambient $\RealUp$ completeness leaves the accepted packet.
+\end{proof}
+
+\begin{theorem}[Hadamard directional derivative finite-step stability]
+\label{thm:hadamard-directional-derivative-finite-step-stability}
+For every accepted $\HadamardDirectionalDerivativeUp$ carrier
+$$
+D=(X,A,V,Q,L,S,R,H,C,P,N),
+$$
+each finite quotient read selected by $Q$ is stable only along the displayed direction-window route
+$$
+A,V,Q,L,S,R,H,C,P,N .
+$$
+A $\GateauxDerivativeUp$-facing consumer may read the displayed directional value through $V,Q,L,S,R$, while a $\FrechetDerivativeUp$-facing consumer must still supply a separate full linear-approximation packet. The Hadamard carrier itself exports no host derivative operator, no quotient germ, no selected limit, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the finite quotient schedule $Q$. Its entries are admitted only after the base window $A$ and the direction window $V$ have been displayed.
+
+Apply the NameCert obligations. They attach every quotient read to the stability row $S$, the linear response $L$, and the Real tolerance seal $R$.
+
+The transport and replay rows $H$ and $C$ preserve that same finite route under accepted consumer motion. Provenance and local naming, $P$ and $N$, record the route without adding derivative data.
+
+Therefore the packet supplies a stable Hadamard directional read for $\GateauxDerivativeUp$-style consumers, but it does not by itself provide the global linear approximation required by $\FrechetDerivativeUp$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HadamardDirectionalDerivativeUp$ packet must expose a direction window, a finite quotient schedule, a perturbation-stability row, and a $\RealUp$ tolerance seal before any directional derivative read is public.}
+
+\independenceWitness{Nearest siblings: gateaux-derivative, frechet-derivative, continuousmap, linearmap, real. The carrier is not bijective to GateauxDerivativeUp because it carries a perturbation-stability window; not to FrechetDerivativeUp because it does not require a full norm-linear approximation over all directions; not to ContinuousMapUp because it adds quotient and derivative rows; not to LinearMapUp because it is a directional derivative certificate; not to RealUp because it keeps the source, direction, quotient, transport, replay, provenance, and naming rows visible.}
+
+\closureat{HadamardDirectionalDerivativeUp}{seedStr}
+
+\begin{closurestatus}{\HadamardDirectionalDerivativeUp}
+  \constructivestory{A $\HadamardDirectionalDerivativeUp$ packet is generated from a continuous-map source row, a base-point window, a displayed direction window, finite quotient schedules, a LinearMap response row, a perturbation-stability row, a RealUp tolerance seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hadamard-directional-derivative-carrier}, \autoref{thm:hadamard-directional-derivative-namecert-obligations}, \autoref{thm:hadamard-directional-derivative-finite-step-stability}, the falsifiable prediction, and the independence witness bind the seed surface for Hadamard directional derivative reads between Gateaux and Frechet derivative packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, host function equality, quotient germs, selected limits, unrestricted Frechet differentiability, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, direction-window exposure, finite quotient scheduling, perturbation stability, linear-response handoff, classifier stability, non-escape, provenance, and TasteGate alignment for the same finite packet.}
+\end{closurestatus}
