@@ -96,6 +96,20 @@ Use the classifier of \autoref{def:located-limit-classifier} to see that compari
 Finally apply the route of \autoref{thm:located-limit-real-seal-route}. Since $E$ is reached only after $S,M,T,Q$, every tolerance request has already passed through $T$ and $M$ before any regular readback or real seal can be exported.
 \end{proof}
 
+\begin{theorem}[LocatedLimit finite-window scope]
+\label{thm:located-limit-finite-window-scope}
+For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, each finite-window tolerance request is scoped exactly by the $\StreamNameUp$ window surface $S,T$, the $\DyadicRatCoreUp$ tolerance ledger $M$, the $\RegSeqRatUp$ readback row $Q$, the terminal $\RealUp$ seal row $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\LocatedLimitUp}$ row $N$. The scope is the source-row route named by the carrier, classifier, NameCert obligations, window-schedule exactness, and Real-seal route; it excludes quotient streams, countable choice, trichotomy, selected host limits, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-limit-carrier}. Its source rows are precisely $S,M,T,Q,E,H,C,P,N$, so a tolerance request has no access to any row outside that finite packet.
+
+Use the classifier of \autoref{def:located-limit-classifier}. It compares accepted packets only through transported finite windows and dyadic budgets, and therefore binds the request to the $\StreamNameUp$ surface $S,T$ and the $\DyadicRatCoreUp$ ledger $M$ before any readback is visible.
+
+Apply \autoref{thm:located-limit-namecert-obligations} and \autoref{thm:located-limit-window-schedule-exactness}. The obligation rows require modulus exactness and route every tolerance request through $T$ and $M$ before it reaches the $\RegSeqRatUp$ row $Q$ or the $\RealUp$ seal $E$.
+
+Finally use \autoref{thm:located-limit-real-seal-route}. The terminal route is $S,M,T,Q,E,H,C,P,N$, with $H,C,P,N$ supplying componentwise transport, replay, provenance, and local naming. Quotient streams, countable choice, trichotomy, selected host limits, and ambient completeness have no coordinate in that route, so they are outside the finite-window scope.
+\end{proof}
+
 \begin{theorem}[LocatedLimit schedule monotonicity]
 \label{thm:located-limit-schedule-monotonicity}
 For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, enlarging a displayed precision request refines the stored finite-window schedule through the same modulus ledger $M$ and schedule row $T$. The refined request may expose later sequence windows, stronger dyadic tolerances, and a downstream $\RegSeqRatUp$ readback row, but it may not replace $M$, allocate a new schedule row, or bypass the Real-seal route of \autoref{thm:located-limit-real-seal-route}.
