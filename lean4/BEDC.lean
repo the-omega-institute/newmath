@@ -736,6 +736,7 @@ import BEDC.Derived.BaireOneFunctionUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BaireSteinhausUp.TasteGate
+import BEDC.Derived.BaireTreeModulusUp.TasteGate
 import BEDC.Derived.BaireTwoFunctionUp.TasteGate
 import BEDC.Derived.BaireUltrametricUp.Carrier
 import BEDC.Derived.BaireUltrametricUp.CompletionHandoff
@@ -3229,6 +3230,7 @@ import BEDC.Derived.ConstructiveLocatedRealUp
 import BEDC.Derived.ConstructiveMeanValueUp.TasteGate
 import BEDC.Derived.ConstructivePolishSpaceUp.TasteGate
 import BEDC.Derived.ConstructiveRealLineUp.TasteGate
+import BEDC.Derived.ConstructiveRealModulusUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ConstructiveUniformLimitUp.TasteGate
 import BEDC.Derived.ContactUp
@@ -9720,6 +9722,7 @@ import BEDC.Derived.RoundedIntervalDomainUp.TasteGate
 import BEDC.Derived.RoundedIntervalUp
 import BEDC.Derived.RoundedIntervalUp.RouteObligations
 import BEDC.Derived.RoundedIntervalUp.TasteGate
+import BEDC.Derived.RuleOneTenCausalConeUp.TasteGate
 import BEDC.Derived.RuleOneTenGliderCatalogUp.TasteGate
 import BEDC.Derived.RuleOneTenGliderPhaseClassifierUp.MarkHandoff
 import BEDC.Derived.RuleOneTenGliderPhaseClassifierUp.TasteGate
