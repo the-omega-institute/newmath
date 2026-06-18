@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyTailRequestUp.TasteGate
+namespace BEDC.Derived.CauchyTailRequestUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,41 +11,55 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CauchyTailRequestUp : Type where
-  | mk (W Q D R E H C P N : BHist) : CauchyTailRequestUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | mk : (W Q D R E H C P N : BHist) → CauchyTailRequestUp
   deriving DecidableEq
 
-def cauchyTailRequestEncodeBHist : BHist -> RawEvent
+def cauchyTailRequestEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: cauchyTailRequestEncodeBHist h
   | BHist.e1 h => BMark.b1 :: cauchyTailRequestEncodeBHist h
 
-def cauchyTailRequestDecodeBHist : RawEvent -> BHist
+def cauchyTailRequestDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cauchyTailRequestDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyTailRequestDecodeBHist tail)
 
-private theorem CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode :
+private theorem cauchyTailRequest_decode_encode_bhist :
     ∀ h : BHist, cauchyTailRequestDecodeBHist (cauchyTailRequestEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def cauchyTailRequestFields : CauchyTailRequestUp -> List BHist
+def cauchyTailRequestFields : CauchyTailRequestUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CauchyTailRequestUp.mk W Q D R E H C P N => [W, Q, D, R, E, H, C, P, N]
 
-def cauchyTailRequestToEventFlow : CauchyTailRequestUp -> EventFlow
+def cauchyTailRequestToEventFlow : CauchyTailRequestUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (cauchyTailRequestFields x).map cauchyTailRequestEncodeBHist
+  | CauchyTailRequestUp.mk W Q D R E H C P N =>
+      [[BMark.b1, BMark.b0, BMark.b0],
+        cauchyTailRequestEncodeBHist W,
+        cauchyTailRequestEncodeBHist Q,
+        cauchyTailRequestEncodeBHist D,
+        cauchyTailRequestEncodeBHist R,
+        cauchyTailRequestEncodeBHist E,
+        cauchyTailRequestEncodeBHist H,
+        cauchyTailRequestEncodeBHist C,
+        cauchyTailRequestEncodeBHist P,
+        cauchyTailRequestEncodeBHist N]
 
-def cauchyTailRequestFromEventFlow : EventFlow -> Option CauchyTailRequestUp
+def cauchyTailRequestFromEventFlow : EventFlow → Option CauchyTailRequestUp
   -- BEDC touchpoint anchor: BHist BMark
-  | W :: Q :: D :: R :: E :: H :: C :: P :: N :: [] =>
+  | [[BMark.b1, BMark.b0, BMark.b0], W, Q, D, R, E, H, C, P, N] =>
       some
         (CauchyTailRequestUp.mk
           (cauchyTailRequestDecodeBHist W)
@@ -58,7 +73,7 @@ def cauchyTailRequestFromEventFlow : EventFlow -> Option CauchyTailRequestUp
           (cauchyTailRequestDecodeBHist N))
   | _ => none
 
-private theorem CauchyTailRequestTasteGate_single_carrier_alignment_round_trip :
+private theorem cauchyTailRequest_round_trip :
     ∀ x : CauchyTailRequestUp,
       cauchyTailRequestFromEventFlow (cauchyTailRequestToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -78,19 +93,18 @@ private theorem CauchyTailRequestTasteGate_single_carrier_alignment_round_trip :
             (cauchyTailRequestDecodeBHist (cauchyTailRequestEncodeBHist P))
             (cauchyTailRequestDecodeBHist (cauchyTailRequestEncodeBHist N))) =
           some (CauchyTailRequestUp.mk W Q D R E H C P N)
-      rw [CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode W,
-        CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode Q,
-        CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode D,
-        CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode R,
-        CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode E,
-        CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode H,
-        CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode C,
-        CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode P,
-        CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode N]
+      rw [cauchyTailRequest_decode_encode_bhist W,
+        cauchyTailRequest_decode_encode_bhist Q,
+        cauchyTailRequest_decode_encode_bhist D,
+        cauchyTailRequest_decode_encode_bhist R,
+        cauchyTailRequest_decode_encode_bhist E,
+        cauchyTailRequest_decode_encode_bhist H,
+        cauchyTailRequest_decode_encode_bhist C,
+        cauchyTailRequest_decode_encode_bhist P,
+        cauchyTailRequest_decode_encode_bhist N]
 
-private theorem CauchyTailRequestTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : CauchyTailRequestUp} :
-    cauchyTailRequestToEventFlow x = cauchyTailRequestToEventFlow y -> x = y := by
+private theorem cauchyTailRequestToEventFlow_injective {x y : CauchyTailRequestUp} :
+    cauchyTailRequestToEventFlow x = cauchyTailRequestToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -98,17 +112,37 @@ private theorem CauchyTailRequestTasteGate_single_carrier_alignment_toEventFlow_
         cauchyTailRequestFromEventFlow (cauchyTailRequestToEventFlow y) :=
     congrArg cauchyTailRequestFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (CauchyTailRequestTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (CauchyTailRequestTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (cauchyTailRequest_round_trip x).symm
+      (Eq.trans hread (cauchyTailRequest_round_trip y)))
 
-private theorem CauchyTailRequestTasteGate_single_carrier_alignment_fields :
-    ∀ x y : CauchyTailRequestUp, cauchyTailRequestFields x = cauchyTailRequestFields y -> x = y := by
+private theorem cauchyTailRequest_field_faithful :
+    ∀ x y : CauchyTailRequestUp,
+      cauchyTailRequestFields x = cauchyTailRequestFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
-  cases x
-  cases y
-  cases hfields
-  rfl
+  cases x with
+  | mk Wa Qa Da Ra Ea Ha Ca Pa Na =>
+      cases y with
+      | mk Wb Qb Db Rb Eb Hb Cb Pb Nb =>
+          injection hfields with hW t1
+          injection t1 with hQ t2
+          injection t2 with hD t3
+          injection t3 with hR t4
+          injection t4 with hE t5
+          injection t5 with hH t6
+          injection t6 with hC t7
+          injection t7 with hP t8
+          injection t8 with hN _
+          cases hW
+          cases hQ
+          cases hD
+          cases hR
+          cases hE
+          cases hH
+          cases hC
+          cases hP
+          cases hN
+          rfl
 
 instance cauchyTailRequestBHistCarrier : BHistCarrier CauchyTailRequestUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -120,35 +154,46 @@ instance cauchyTailRequestChapterTasteGate : ChapterTasteGate CauchyTailRequestU
   round_trip := by
     intro x
     change cauchyTailRequestFromEventFlow (cauchyTailRequestToEventFlow x) = some x
-    exact CauchyTailRequestTasteGate_single_carrier_alignment_round_trip x
+    exact cauchyTailRequest_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CauchyTailRequestTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (cauchyTailRequestToEventFlow_injective heq)
 
 instance cauchyTailRequestFieldFaithful : FieldFaithful CauchyTailRequestUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := cauchyTailRequestFields
-  field_faithful := CauchyTailRequestTasteGate_single_carrier_alignment_fields
+  field_faithful := cauchyTailRequest_field_faithful
 
 instance cauchyTailRequestNontrivial : Nontrivial CauchyTailRequestUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CauchyTailRequestUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨CauchyTailRequestUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CauchyTailRequestUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CauchyTailRequestUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-theorem CauchyTailRequestTasteGate_single_carrier_alignment :
-    (∀ h : BHist, cauchyTailRequestDecodeBHist (cauchyTailRequestEncodeBHist h) = h) ∧
-      cauchyTailRequestEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-      cauchyTailRequestEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+def taste_gate : ChapterTasteGate CauchyTailRequestUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨CauchyTailRequestTasteGate_single_carrier_alignment_decode_encode,
-      rfl,
-      rfl⟩
+  cauchyTailRequestChapterTasteGate
 
-end BEDC.Derived.CauchyTailRequestUp.TasteGate
+theorem CauchyTailRequestTasteGate_single_carrier_alignment :
+    ∀ W Q D R E H C P N : BHist,
+      cauchyTailRequestToEventFlow (CauchyTailRequestUp.mk W Q D R E H C P N) =
+        [[BMark.b1, BMark.b0, BMark.b0],
+          cauchyTailRequestEncodeBHist W,
+          cauchyTailRequestEncodeBHist Q,
+          cauchyTailRequestEncodeBHist D,
+          cauchyTailRequestEncodeBHist R,
+          cauchyTailRequestEncodeBHist E,
+          cauchyTailRequestEncodeBHist H,
+          cauchyTailRequestEncodeBHist C,
+          cauchyTailRequestEncodeBHist P,
+          cauchyTailRequestEncodeBHist N] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro W Q D R E H C P N
+  rfl
+
+end BEDC.Derived.CauchyTailRequestUp
