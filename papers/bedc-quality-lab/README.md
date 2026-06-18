@@ -117,7 +117,6 @@ Important generated records live under `reports/`:
 - `bedc_jepa_torch_objective.json`
 - `bedc_multistep_latent_prediction.json`
 - `bedc_jepa_retraining_loss_ablation.json`
-- `bedc_multistep_latent_prediction.json`
 - `bedc_latent_claim_certificates.json`
 - `bedc_conformal_gap_sweep.json`
 - `bedc_claim_boundary_audit.json`
