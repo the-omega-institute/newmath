@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.EmpiricalRegularityPersistenceUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -257,5 +267,57 @@ theorem EmpiricalRegularityPersistenceTasteGate_single_carrier_alignment :
         intro x y heq
         exact empiricalRegularityPersistenceToEventFlow_injective heq),
       rfl⟩
+
+def EmpiricalRegularityPersistenceCarrier [AskSetup] [PackageSetup]
+    (M R K L G A S F H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  UnaryHistory M ∧ UnaryHistory R ∧ Cont M R K ∧ UnaryHistory L ∧ Cont K L G ∧
+    UnaryHistory A ∧ Cont G A S ∧ UnaryHistory F ∧ Cont S F H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem EmpiricalRegularityPersistenceCarrier_gap_exposure [AskSetup] [PackageSetup]
+    {M R K L G A S F H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EmpiricalRegularityPersistenceCarrier M R K L G A S F H C P N bundle pkg ->
+      UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory K ∧ UnaryHistory L ∧
+        UnaryHistory G ∧ UnaryHistory S ∧ UnaryHistory F ∧ UnaryHistory C ∧
+          UnaryHistory P ∧ UnaryHistory N ∧ Cont M R K ∧ Cont K L G ∧
+            Cont G A S ∧ Cont S F H ∧ PkgSig bundle P pkg ∧
+              PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier
+  obtain ⟨mUnary, rUnary, mrk, lUnary, klg, aUnary, gas, fUnary, sfh, cUnary,
+    pUnary, nUnary, pPkg, nPkg⟩ := carrier
+  have kUnary : UnaryHistory K := unary_cont_closed mUnary rUnary mrk
+  have gUnary : UnaryHistory G := unary_cont_closed kUnary lUnary klg
+  have sUnary : UnaryHistory S := unary_cont_closed gUnary aUnary gas
+  exact
+    ⟨mUnary, rUnary, kUnary, lUnary, gUnary, sUnary, fUnary, cUnary, pUnary,
+      nUnary, mrk, klg, gas, sfh, pPkg, nPkg⟩
+
+theorem EmpiricalRegularityPersistenceCarrier_lawcertificate_consumption
+    [AskSetup] [PackageSetup]
+    {M R K L G A S F H C P N lawRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EmpiricalRegularityPersistenceCarrier M R K L G A S F H C P N bundle pkg ->
+      Cont A S lawRead ->
+        PkgSig bundle lawRead pkg ->
+          UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory K ∧ UnaryHistory L ∧
+            UnaryHistory G ∧ UnaryHistory A ∧ UnaryHistory S ∧ UnaryHistory F ∧
+              UnaryHistory lawRead ∧ Cont M R K ∧ Cont K L G ∧ Cont G A S ∧
+                Cont A S lawRead ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle lawRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier lawRoute lawPkg
+  obtain ⟨mUnary, rUnary, mrk, lUnary, klg, aUnary, gas, fUnary, _sfh, _cUnary,
+    _pUnary, _nUnary, pPkg, _nPkg⟩ := carrier
+  have kUnary : UnaryHistory K := unary_cont_closed mUnary rUnary mrk
+  have gUnary : UnaryHistory G := unary_cont_closed kUnary lUnary klg
+  have sUnary : UnaryHistory S := unary_cont_closed gUnary aUnary gas
+  have lawUnary : UnaryHistory lawRead := unary_cont_closed aUnary sUnary lawRoute
+  exact
+    ⟨mUnary, rUnary, kUnary, lUnary, gUnary, aUnary, sUnary, fUnary, lawUnary,
+      mrk, klg, gas, lawRoute, pPkg, lawPkg⟩
 
 end BEDC.Derived.EmpiricalRegularityPersistenceUp
