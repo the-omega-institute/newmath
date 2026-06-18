@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ClosedIntervalCompactnessUp$}
+\label{ch:concrete-instances-closed-interval-compactness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\ClosedIntervalCompactnessUp$ packet records the finite dyadic-net test object used by closed real intervals before any open-cover or sequential compactness principle is available. It reads dyadic mesh data from \autoref{ch:concrete-instances-dyadicratcore-namecert}, finite name observations from \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, endpoint seals from \autoref{ch:concrete-instances-real-namecert}, and completion-facing finite windows from \autoref{ch:concrete-instances-metriccompletionfinite-namecert}. The packet names only a finite interval-net route; it is not general Heine--Borel compactness, not open-cover compactness, not sequential compactness, and not $\RealUp$ completeness.
+
+\begin{definition}[Closed interval compactness carrier]
+\label{def:closed-interval-compactness-carrier}
+A $\ClosedIntervalCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,B,O,D,M,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the lower and upper endpoint rows, each sealed through $\RealUp$ after finite name inspection.
+\item $O$ is the endpoint-order row binding the displayed closed interval boundary.
+\item $D$ is the $\DyadicRatCoreUp$ mesh ledger for the requested tolerance and the finite subdivision cells.
+\item $M$ is the finite dyadic-net row listing the displayed mesh points and cell radii.
+\item $S$ is the $\StreamNameUp$ observation row used to inspect endpoint and mesh-point names.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the observed rational windows.
+\item $E$ is the $\MetricCompletionFiniteUp$ handoff row for completion-facing consumers that ask for finite coverage data.
+\item $H$ records componentwise $\hsame$ transport for endpoint, order, mesh, window, readback, handoff, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $A,B,O,D,M,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ClosedIntervalCompactnessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricCompletionFiniteUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedIntervalCompactnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for arbitrary open covers, selected subcovers, convergent subsequences, countable choice, quotient real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Closed interval compactness NameCert obligations]
+\label{thm:closed-interval-compactness-namecert-obligations}
+For every accepted $\ClosedIntervalCompactnessUp$ carrier
+$$
+K=(A,B,O,D,M,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\ClosedIntervalCompactnessUp}$ surface consists exactly of endpoint admission through $A,B,O$; dyadic mesh admission through $D,M$; finite observation and regular-rational readback through $S,R$; completion-facing finite-window handoff through $E$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-interval-compactness-carrier}. The endpoint rows $A,B,O$ are the only interval-boundary data available to the local classifier.
+
+Next read the finite mesh route. The dyadic ledger $D$ fixes the inspected tolerance and subdivision cells, while $M$ lists the displayed mesh points and radii. The window and readback rows $S,R$ are the only way those finite observations reach rational data.
+
+Finally read $E,H,C,P,N$. The completion-facing handoff is finite because it consumes the same displayed mesh and window rows before any downstream completion read. The structural rows transport, replay, source, and name that route, so no open-cover, subsequence, choice, quotient, or ambient-completeness obligation remains outside the packet.
+\end{proof}
+
+\begin{theorem}[Closed interval compactness dyadic-net route]
+\label{thm:closed-interval-compactness-dyadic-net-route}
+Every Real or Completion consumer of an accepted $\ClosedIntervalCompactnessUp$ packet must read the finite route
+$$
+A,B,O \longmapsto D,M \longmapsto S,R,E \longmapsto H,C,P,N
+$$
+before using the interval as compact finite data. The route exports finite dyadic mesh coverage and readback rows only; it exports no general Heine--Borel theorem, no open-cover compactness, no sequential compactness, no selected subcover, and no $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with endpoint admission. The lower endpoint, upper endpoint, and order row fix the closed interval boundary through displayed $\RealUp$ name seals.
+
+Read the mesh route next. The $\DyadicRatCoreUp$ ledger supplies the tolerance cells, and the finite net row records the mesh points inspected by the consumer. The $\StreamNameUp$ and $\RegSeqRatUp$ rows expose only the finite observation windows and rational readbacks attached to those cells.
+
+The $\MetricCompletionFiniteUp$ row then repacks the same finite data for completion-facing reads. The transport, continuation, provenance, and local naming rows preserve the displayed route, so the consumer receives a finite dyadic-net packet rather than any excluded compactness or completeness principle.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ClosedIntervalCompactnessUp$ consumer is refuted if it reaches compact interval data without first displaying endpoint rows, a DyadicRatCore mesh ledger, finite StreamName observations, RegSeqRat readback, and a MetricCompletionFinite handoff.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, metriccompletionfinite: none is bijective to the closed-interval compactness packet because only $\ClosedIntervalCompactnessUp$ binds endpoint Real rows, dyadic mesh coverage, finite observation windows, regular readback, completion-facing handoff, transport, replay, provenance, and local naming as one finite NameCert route.}
+
+\closureat{ClosedIntervalCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\ClosedIntervalCompactnessUp}
+  \constructivestory{A $\ClosedIntervalCompactnessUp$ packet is generated from Real endpoint rows, endpoint order, DyadicRatCore mesh ledgers, finite dyadic-net rows, StreamName observations, RegSeqRat readback, MetricCompletionFinite handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-interval-compactness-carrier}, \autoref{thm:closed-interval-compactness-namecert-obligations}, and \autoref{thm:closed-interval-compactness-dyadic-net-route} seed the finite closed-interval dyadic-net compactness test object.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general Heine--Borel compactness, open-cover compactness, sequential compactness, selected subcovers, countable choice, quotient real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-order admission, dyadic mesh coverage, finite observation readback, completion-facing handoff, transport, replay, provenance, and local naming for BEDC.Derived.ClosedIntervalCompactnessUp.}
+\end{closurestatus}
