@@ -117,6 +117,40 @@ private theorem FreeGroupTasteGate_single_carrier_alignment_toEventFlow_injectiv
     (Eq.trans (FreeGroupTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (FreeGroupTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem FreeGroup_field_faithful :
+    ∀ x y : FreeGroupUp, freeGroupFields x = freeGroupFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk G₁ S₁ W₁ R₁ M₁ I₁ U₁ J₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk G₂ S₂ W₂ R₂ M₂ I₂ U₂ J₂ H₂ C₂ P₂ N₂ =>
+          injection hfields with hG t1
+          injection t1 with hS t2
+          injection t2 with hW t3
+          injection t3 with hR t4
+          injection t4 with hM t5
+          injection t5 with hI t6
+          injection t6 with hU t7
+          injection t7 with hJ t8
+          injection t8 with hH t9
+          injection t9 with hC t10
+          injection t10 with hP t11
+          injection t11 with hN _
+          cases hG
+          cases hS
+          cases hW
+          cases hR
+          cases hM
+          cases hI
+          cases hU
+          cases hJ
+          cases hH
+          cases hC
+          cases hP
+          cases hN
+          rfl
+
 instance freeGroupBHistCarrier : BHistCarrier FreeGroupUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := freeGroupToEventFlow
@@ -133,6 +167,26 @@ instance freeGroupChapterTasteGate : ChapterTasteGate FreeGroupUp where
     exact hxy (FreeGroupTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 def FreeGroupTasteGate_single_carrier_alignment_taste_gate : ChapterTasteGate FreeGroupUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  freeGroupChapterTasteGate
+
+instance freeGroupFieldFaithful : FieldFaithful FreeGroupUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := freeGroupFields
+  field_faithful := FreeGroup_field_faithful
+
+instance freeGroupNontrivial : Nontrivial FreeGroupUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨FreeGroupUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FreeGroupUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate FreeGroupUp :=
   -- BEDC touchpoint anchor: BHist BMark
   freeGroupChapterTasteGate
 

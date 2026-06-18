@@ -99,4 +99,70 @@ theorem CauchyCompletionMultiplicationCarrier_outer_inner_replay [AskSetup] [Pac
   }
   exact ⟨cert, replayUnary, replayRoute⟩
 
+theorem CauchyCompletionMultiplicationCarrier_obligation_closure_package [AskSetup]
+    [PackageSetup] {M O I A S R D E H C P N flattenRead sealRead replayRead realRead :
+      BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMultiplicationCarrier M O I A S R D E H C P N bundle pkg ->
+      Cont M O flattenRead ->
+        Cont S R sealRead ->
+          Cont flattenRead sealRead replayRead ->
+            Cont replayRead E realRead ->
+              PkgSig bundle replayRead pkg ->
+                PkgSig bundle realRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row flattenRead ∨ hsame row sealRead ∨
+                          hsame row replayRead)
+                      (fun row : BHist => UnaryHistory row ∧ PkgSig bundle replayRead pkg)
+                      hsame ∧
+                    SemanticNameCert
+                        (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row replayRead ∨ hsame row E ∨ hsame row realRead)
+                        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle realRead pkg)
+                        hsame ∧
+                      UnaryHistory realRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame UnaryHistory
+  intro carrier flattenRoute sealRoute replayRoute realRoute replayPkg realPkg
+  obtain ⟨replayCert, replayUnary, _replayRoute⟩ :=
+    CauchyCompletionMultiplicationCarrier_outer_inner_replay
+      carrier flattenRoute sealRoute replayRoute replayPkg
+  obtain ⟨_mUnary, _oUnary, _iUnary, _aUnary, _sUnary, _rUnary, _dUnary, eUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _hM, _cP, _provenancePkg, _namePkg⟩ := carrier
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed replayUnary eUnary realRoute
+  have realCert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row replayRead ∨ hsame row E ∨ hsame row realRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle realRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro realRead ⟨hsame_refl realRead, realUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, realPkg⟩
+  }
+  exact ⟨replayCert, realCert, realUnary⟩
+
 end BEDC.Derived.CauchyCompletionMultiplicationUp

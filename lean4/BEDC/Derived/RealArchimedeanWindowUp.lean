@@ -83,4 +83,70 @@ theorem RealArchimedeanWindowNameCertObligations [AskSetup] [PackageSetup]
     }
   · exact ⟨lUnary, uUnary, replay⟩
 
+theorem RealArchimedeanWindowCarrier_dyadic_bracket_handoff [AskSetup] [PackageSetup]
+    {R S Q D L U H C P N lowerRead upperRead bracketRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealArchimedeanWindowCarrier R S Q D L U H C P N bundle pkg ->
+      Cont D L lowerRead ->
+        Cont D U upperRead ->
+          Cont lowerRead upperRead bracketRead ->
+            PkgSig bundle bracketRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row bracketRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row D ∨ hsame row L ∨ hsame row U ∨ hsame row lowerRead ∨
+                      hsame row upperRead ∨ hsame row bracketRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont D L lowerRead ∧ Cont D U upperRead ∧
+                      Cont lowerRead upperRead bracketRead ∧ PkgSig bundle bracketRead pkg)
+                  hsame ∧
+                UnaryHistory lowerRead ∧ UnaryHistory upperRead ∧
+                  UnaryHistory bracketRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: RealArchimedeanWindowCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier lowerRoute upperRoute bracketRoute bracketPkg
+  obtain ⟨_rUnary, _sUnary, _qUnary, dUnary, lUnary, uUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, _replay, provenancePkg, namePkg⟩ := carrier
+  have lowerReadUnary : UnaryHistory lowerRead :=
+    unary_cont_closed dUnary lUnary lowerRoute
+  have upperReadUnary : UnaryHistory upperRead :=
+    unary_cont_closed dUnary uUnary upperRoute
+  have bracketReadUnary : UnaryHistory bracketRead :=
+    unary_cont_closed lowerReadUnary upperReadUnary bracketRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bracketRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row L ∨ hsame row U ∨ hsame row lowerRead ∨
+              hsame row upperRead ∨ hsame row bracketRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont D L lowerRead ∧ Cont D U upperRead ∧
+              Cont lowerRead upperRead bracketRead ∧ PkgSig bundle bracketRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro bracketRead ⟨hsame_refl bracketRead, bracketReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, lowerRoute, upperRoute, bracketRoute, bracketPkg⟩
+  }
+  exact ⟨cert, lowerReadUnary, upperReadUnary, bracketReadUnary, provenancePkg, namePkg⟩
+
 end BEDC.Derived.RealArchimedeanWindowUp
