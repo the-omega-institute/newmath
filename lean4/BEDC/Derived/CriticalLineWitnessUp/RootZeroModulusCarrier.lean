@@ -22,7 +22,7 @@ theorem CriticalLineWitnessCarrier_root_zero_modulus_carrier {Z S M R Q H C P N 
     ⟨unaryZ, unaryS, unaryM, unaryR, routeClosure.left, routeClosure.right.left,
       routeClosure.right.right.left, sameH, routeQ, routeC, routeN⟩
 
-theorem CriticalLineWitnessCarrier_root_consumer_threshold
+theorem CriticalLineWitnessCarrier_root_zero_modulus_carrier_consumer_threshold
     {Z S M R Q H C P N thresholdRead : BHist} :
     CriticalLineWitnessCarrier Z S M R Q H C P N ->
       Cont M R thresholdRead ->
