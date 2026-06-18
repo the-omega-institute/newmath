@@ -90,4 +90,72 @@ theorem RegularCauchyCriterion_namecert_obligations [AskSetup] [PackageSetup]
       streamReadbackModulus, modulusToleranceCriterion, criterionRoute, namePkg,
       criterionPkg⟩
 
+theorem RegularCauchyCriterion_tail_transport [AskSetup] [PackageSetup]
+    {S R M D Q V A H C P N tailRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyCriterionCarrier S R M D Q V A H C P N bundle pkg ->
+      Cont Q V tailRead ->
+        Cont tailRead A realRead ->
+          PkgSig bundle realRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row S ∨ hsame row R ∨ hsame row M ∨ hsame row D ∨
+                    hsame row Q ∨ hsame row V ∨ hsame row A ∨
+                      hsame row tailRead ∨ hsame row realRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont Q V tailRead ∧ Cont tailRead A realRead ∧
+                    PkgSig bundle realRead pkg)
+                hsame ∧
+              UnaryHistory tailRead ∧ UnaryHistory realRead ∧ Cont Q V tailRead ∧
+                Cont tailRead A realRead ∧ PkgSig bundle N pkg ∧
+                  PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert UnaryHistory
+  intro carrier tailRoute realRoute realPkg
+  obtain ⟨_sUnary, _rUnary, _mUnary, _dUnary, qUnary, vUnary, aUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary, _streamReadbackModulus, _modulusToleranceCriterion,
+    namePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed qUnary vUnary tailRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary aUnary realRoute
+  have sourceAtReal : hsame realRead realRead ∧ UnaryHistory realRead :=
+    ⟨hsame_refl realRead, realUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row R ∨ hsame row M ∨ hsame row D ∨
+              hsame row Q ∨ hsame row V ∨ hsame row A ∨ hsame row tailRead ∨
+                hsame row realRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont Q V tailRead ∧ Cont tailRead A realRead ∧
+              PkgSig bundle realRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro realRead sourceAtReal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, tailRoute, realRoute, realPkg⟩
+  }
+  exact ⟨cert, tailUnary, realUnary, tailRoute, realRoute, namePkg, realPkg⟩
+
 end BEDC.Derived.RegularCauchyCriterionUp
