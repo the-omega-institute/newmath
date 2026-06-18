@@ -2080,6 +2080,7 @@ import BEDC.Derived.CauchyProductCommutativityUp.NameCertObligations
 import BEDC.Derived.CauchyProductCommutativityUp.TasteGate
 import BEDC.Derived.CauchyProductCompletionFusionUp.Laws
 import BEDC.Derived.CauchyProductCompletionFusionUp.TasteGate
+import BEDC.Derived.CauchyProductCompletionProjectionUp.TasteGate
 import BEDC.Derived.CauchyProductCompletionUp.TasteGate
 import BEDC.Derived.CauchyProductConvergenceUp.TasteGate
 import BEDC.Derived.CauchyProductLimitUp.TasteGate
@@ -4738,6 +4739,7 @@ import BEDC.Derived.DyadicMidpointUp.FiniteWindowConsumerRoute
 import BEDC.Derived.DyadicMidpointUp.RadiusHalvingWindow
 import BEDC.Derived.DyadicMidpointUp.SelectedWindowDenominatorSeal
 import BEDC.Derived.DyadicMidpointUp.WindowPackage
+import BEDC.Derived.DyadicModulusUp.TasteGate
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NameCertObligations
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NestedChainDependency
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.PrefixSeal
@@ -6636,6 +6638,7 @@ import BEDC.Derived.LocallyConnectedContinuumUp
 import BEDC.Derived.LocallyConnectedUp.TasteGate
 import BEDC.Derived.LocallyFiniteCoverUp
 import BEDC.Derived.LocallyUniformConvergenceUp.TasteGate
+import BEDC.Derived.LocatedApartnessCompletionUp.TasteGate
 import BEDC.Derived.LocatedApartnessUp.TasteGate
 import BEDC.Derived.LocatedArchimedeanUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSequenceUp.TasteGate
