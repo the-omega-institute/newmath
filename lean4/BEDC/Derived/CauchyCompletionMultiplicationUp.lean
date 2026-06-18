@@ -1,4 +1,5 @@
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
+import BEDC.Derived.CauchyCompletionMultiplicationUp.RealSealNonescape
 import BEDC.FKernel.Cont.Assoc
 
 namespace BEDC.Derived.CauchyCompletionMultiplicationUp
