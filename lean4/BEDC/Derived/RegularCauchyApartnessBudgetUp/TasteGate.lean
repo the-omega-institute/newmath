@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -5,6 +6,7 @@ import BEDC.Meta.TasteGate
 namespace BEDC.Derived.RegularCauchyApartnessBudgetUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -309,5 +311,19 @@ theorem RegularCauchyApartnessBudgetTasteGate_single_carrier_alignment :
       · intro x y heq
         exact regularCauchyApartnessBudgetToEventFlow_injective heq
       · rfl
+
+theorem RegularCauchyApartnessBudget_nonescape
+    (x : RegularCauchyApartnessBudgetUp) :
+    ∃ X A M W D R E H C P N : BHist,
+      x = RegularCauchyApartnessBudgetUp.mk X A M W D R E H C P N ∧
+        regularCauchyApartnessBudgetFields x = [X, A, M, W, D, R, E, H, C, P, N] ∧
+          Cont A M (append A M) ∧
+            Cont W D (append W D) ∧
+              Cont R E (append R E) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk X A M W D R E H C P N =>
+      exact
+        ⟨X, A, M, W, D, R, E, H, C, P, N, rfl, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.RegularCauchyApartnessBudgetUp
