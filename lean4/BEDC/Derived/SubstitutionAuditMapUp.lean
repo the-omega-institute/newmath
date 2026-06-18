@@ -138,4 +138,79 @@ theorem SubstitutionAuditMapCarrier_consumer_obstruction_scope [AskSetup] [Packa
   }
   exact ⟨cert, consumerUnary, consumerRoute, provenancePkg, consumerPkg⟩
 
+theorem SubstitutionAuditMapCarrier_public_export [AskSetup] [PackageSetup]
+    {term closed shift substitute composition generator transport route provenance name replayRead
+      namedRead ledgerRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionAuditMapCarrier term closed shift substitute composition generator transport route
+        provenance name bundle pkg ->
+      Cont transport route replayRead ->
+        Cont replayRead name namedRead ->
+          Cont provenance name ledgerRead ->
+            Cont namedRead ledgerRead publicRead ->
+              PkgSig bundle namedRead pkg ->
+                PkgSig bundle ledgerRead pkg ->
+                  PkgSig bundle publicRead pkg ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row namedRead ∨ hsame row ledgerRead ∨
+                            hsame row publicRead)
+                        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle publicRead pkg)
+                        hsame ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert ProbeBundle Pkg PkgSig
+  intro carrier replayRoute namedRoute ledgerRoute publicRoute namedPkg ledgerPkg publicPkg
+  have obligation :=
+    SubstitutionAuditMapCarrier_obligation_closure_package carrier replayRoute namedRoute
+      ledgerRoute namedPkg ledgerPkg
+  obtain ⟨_namedCert, _ledgerCert, _termUnary, _closedUnary, _shiftUnary, _substituteUnary,
+    _compositionUnary, _generatorUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary⟩ := obligation
+  have replayPackage :=
+    SubstitutionAuditMapCarrier_replay_determinacy carrier replayRoute namedRoute namedPkg
+  have ledgerPackage :=
+    SubstitutionAuditMapCarrier_ledger_nonescape carrier ledgerRoute ledgerPkg
+  obtain ⟨_replayCert, _transportUnaryFromReplay, _routeUnaryFromReplay, _replayUnary,
+    _nameUnaryFromReplay, namedUnary, _transportRoute, _nameGeneratorFromReplay,
+    _provenancePkgFromReplay, _namePkgFromReplay, _namedPkg⟩ := replayPackage
+  obtain ⟨_ledgerCert, _provenanceUnary, _nameUnaryFromLedger, ledgerUnary,
+    _provenanceName, _nameGeneratorFromLedger, _ledgerRoute, _provenancePkg,
+    _namePkgFromLedger, _ledgerPkg⟩ := ledgerPackage
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed namedUnary ledgerUnary publicRoute
+  have sourceAtPublic : hsame publicRead publicRead ∧ UnaryHistory publicRead :=
+    ⟨hsame_refl publicRead, publicUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row namedRead ∨ hsame row ledgerRead ∨ hsame row publicRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourceAtPublic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, publicPkg⟩
+  }
+  exact ⟨cert, publicUnary⟩
+
 end BEDC.Derived.SubstitutionAuditMapUp

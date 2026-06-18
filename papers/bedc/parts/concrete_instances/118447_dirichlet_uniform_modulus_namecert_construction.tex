@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\DirichletUniformModulusUp$}
+\label{ch:concrete-instances-dirichlet-uniform-modulus-namecert}
+\origin{human}
+
+Following Dirichlet and Abel summation-by-parts, the $\DirichletUniformModulusUp$ packet records the finite uniform-tail budget obtained from bounded partial sums and monotone coefficient windows before any Real-or-Completion consumer reads a series endpoint. It sits beside the summation-by-parts certificate of \autoref{ch:concrete-instances-abel-summation-namecert}, the Dirichlet convergence-test certificate of \autoref{ch:concrete-instances-dirichlet-test-namecert}, the shared uniform-tail route of \autoref{ch:concrete-instances-uniform-cauchy-series-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a constructive modulus object for displayed tails; it is not a host convergence theorem, a selected infinite sum, quotient series equality, countable choice, or ambient $\RealUp$ completeness principle.
+
+\begin{definition}[Dirichlet uniform modulus carrier]
+\label{def:dirichlet-uniform-modulus-carrier}
+A $\DirichletUniformModulusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,A,M,D,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the bounded-partial-sum row, exposing the inspected partial sums and one displayed uniform bound for the relevant source windows.
+\item $A$ is the Abel summation-by-parts row, carrying the finite boundary and difference-window data used to rewrite the inspected tail.
+\item $M$ is the monotone coefficient-window row, naming the finite comparisons and endpoint coefficient values visible on each requested tail.
+\item $D$ is the $\DyadicRatCoreUp$ tail-budget row, recording the dyadic radius, comparison slack, and arithmetic loss used by the displayed estimate.
+\item $T$ is the exported uniform-tail modulus row, assigning to each displayed dyadic request a named tail window whose later reads must pass through $S,A,M,D$.
+\item $H$ records componentwise $\hsame$ transport for the bounded-sum, summation-by-parts, monotone-window, dyadic-budget, modulus, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of a precision request through
+$$
+S \longmapsto A \longmapsto M \longmapsto D \longmapsto T.
+$$
+\item $P$ is the $\Pkg$ provenance over $\DirichletUniformModulusUp$, $\AbelSummationUp$, $\DirichletTestUp$, $\UniformCauchySeriesUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DirichletUniformModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for a selected limit, quotient series, countable-choice threshold, host series equality, or ambient real-completeness witness.
+\end{definition}
+
+\begin{theorem}[Dirichlet uniform modulus tail budget]
+\label{thm:dirichlet-uniform-modulus-tail-budget}
+For every accepted $\DirichletUniformModulusUp$ carrier $K=(S,A,M,D,T,H,C,P,N)$, the exported row $T$ is a uniform tail modulus only through the displayed summation-by-parts route
+$$
+\begin{aligned}
+\sum_{k=m}^{n} a_k b_k
+  &= A_m B_m - A_n B_{n+1}
+     + \sum_{k=m}^{n-1} A_k(b_k-b_{k+1})
+\end{aligned}
+$$
+and the dyadic-budget rows $S,M,D$. Thus any Real-or-Completion consumer reading the modulus must first display the bounded partial-sum bound, the monotone coefficient window, and the dyadic loss ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dirichlet-uniform-modulus-carrier}. The only analytic rows upstream of $T$ are $S,A,M,D$, so every tail request reaches the modulus through those displayed coordinates.
+
+The row $A$ supplies the summation-by-parts identity on the inspected finite window. The row $S$ bounds the partial sums that occur in the boundary and difference terms, while $M$ names the monotone coefficient comparisons that make the boundary and variation terms readable on the same window.
+
+The dyadic budget row $D$ records the requested radius and the arithmetic slack assigned to the boundary and difference contributions. Reading $T$ therefore amounts to reading the same finite estimate after the dyadic losses have been allocated.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this route. Since the carrier contains no selected-limit, quotient-series, choice, host-equality, or ambient-completeness coordinate, no consumer can export a uniform tail modulus except through the displayed rows.
+\end{proof}
+
+\begin{theorem}[Dirichlet uniform modulus NameCert obligations]
+\label{thm:dirichlet-uniform-modulus-namecert-obligations}
+For every accepted $\DirichletUniformModulusUp$ carrier $K=(S,A,M,D,T,H,C,P,N)$, the local $\NameCert_{\DirichletUniformModulusUp}$ surface consists exactly of the following five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $K$ and its displayed $\BHist$ rows;
+\item bounded-partial-sum and Abel summation-by-parts exposure through $S$ and $A$;
+\item monotone coefficient-window and dyadic tail-budget exactness through $M$ and $D$;
+\item uniform-tail modulus export through $T$, with every readback to $\UniformCauchySeriesUp$, $\RegSeqRatUp$, or $\RealUp$ downstream of $S,A,M,D$;
+\item componentwise transport, displayed replay, provenance, and local naming through exactly $H,C,P,N$.
+\end{enumerate}
+No NameCert obligation is stored outside those five groups.
+\end{theorem}
+\begin{proof}
+Carrier admission is the direct read of the tuple $K$. The accepted packet exposes exactly the nine rows listed in \autoref{def:dirichlet-uniform-modulus-carrier}.
+
+The analytic evidence is split into two displayed groups. Rows $S$ and $A$ provide the bounded partial-sum data and finite summation-by-parts rewrite, while rows $M$ and $D$ provide the monotone coefficient window and dyadic loss accounting.
+
+The public modulus obligation is row $T$. By \autoref{thm:dirichlet-uniform-modulus-tail-budget}, a read of $T$ factors through $S,A,M,D$ before any uniform Cauchy, regular readback, or Real-facing consumer can inspect the tail bound.
+
+Finally read $H,C,P,N$. These rows transport, replay, source, and name the same finite route, and the carrier supplies no further coordinate. The five listed groups therefore exhaust the local certificate surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DirichletUniformModulusUp$ read is refuted if a uniform Cauchy, regular readback, Real, or Completion consumer reaches the exported modulus row without first displaying the bounded partial-sum row, summation-by-parts row, monotone coefficient window, dyadic budget, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{abel-summation, dirichlet-test, uniform-cauchy-series, dyadicratcore, regseqrat, real: $\DirichletUniformModulusUp$ is not bijective to any listed sibling because it jointly carries bounded partial sums, summation-by-parts data, monotone coefficient windows, dyadic tail budgets, a named uniform-tail modulus, transport, replay, provenance, and local naming in one finite packet.}
+
+\closureat{DirichletUniformModulusUp}{seedStr}
+
+\begin{closurestatus}{\DirichletUniformModulusUp}
+  \constructivestory{A $\DirichletUniformModulusUp$ packet is generated from bounded partial-sum rows, Abel summation-by-parts windows, monotone coefficient windows, dyadic tail budgets, an exported uniform-tail modulus, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dirichlet-uniform-modulus-carrier}, \autoref{thm:dirichlet-uniform-modulus-tail-budget}, and \autoref{thm:dirichlet-uniform-modulus-namecert-obligations} seed the finite constructive uniform-tail budget route over bounded partial sums, summation-by-parts rows, monotone coefficient windows, dyadic budgets, uniform Cauchy series readback, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient series, countable choice, ambient $\RealUp$ completeness, host series equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded partial-sum exposure, summation-by-parts exposure, monotone coefficient-window exactness, dyadic tail-budget exactness, uniform-tail modulus export, transport, replay, provenance, and local naming for BEDC.Derived.DirichletUniformModulusUp.}
+\end{closurestatus}
