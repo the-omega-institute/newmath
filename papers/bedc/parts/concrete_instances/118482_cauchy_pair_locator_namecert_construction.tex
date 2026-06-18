@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\CauchyPairLocatorUp$}
+\label{ch:concrete-instances-cauchy-pair-locator-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy data, the $\CauchyPairLocatorUp$ packet records the finite locator surface for a paired regular Cauchy read before any Real or Completion consumer may treat the pair as separated, equal, or ready for a downstream handoff. It sits after the dyadic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the paired-modulus surface of \autoref{ch:concrete-instances-regular-cauchy-pair-modulus-namecert}. The packet is a located pair witness over displayed finite rows; it is not quotient equality, a selected representative pair, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy pair locator carrier]
+\label{def:cauchy-pair-locator-carrier}
+A $\CauchyPairLocatorUp$ carrier is a finite $\BHist$ packet
+$$
+L=(A,B,S,D,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the first $\RegSeqRatUp$ readback row, carrying the regular rational observations read from the first name.
+\item $B$ is the second $\RegSeqRatUp$ readback row, carrying the regular rational observations read from the second name.
+\item $S$ is the shared $\StreamNameUp$ window row, recording the finite windows inspected from both names before a locator request is answered.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, displaying the dyadic radius, split tolerance, comparison budget, and endpoint accounting used by the pair read.
+\item $R$ is the $\RegularCauchyPairModulusUp$ row, recording the finite pair-modulus budget that synchronizes $A$ and $B$ at the tolerance named by $D$.
+\item $Q$ is the locator decision and witness row, storing the displayed comparison branch, its finite witness data, and the exact tolerance at which the branch is read.
+\item $H$ records componentwise $\hsame$ transport for $A,B,S,D,R,Q,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,D \longmapsto A,B \longmapsto R \longmapsto Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyPairLocatorUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyPairModulusUp$, $\RealUp$, $\CompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyPairLocatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,S,D,R,Q,H,C,P,N$. It has no coordinate for quotient real equality, selected representatives, countable choice, trichotomy, host equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy pair locator NameCert obligations]
+\label{thm:cauchy-pair-locator-namecert-obligations}
+For every accepted $\CauchyPairLocatorUp$ carrier
+$$
+L=(A,B,S,D,R,Q,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyPairLocatorUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two regular readback rows, shared stream windows, dyadic tolerance ledger, pair-modulus row, locator row, transport row, replay row, provenance row, and local naming row;
+\item two-sided regular readback, requiring $A$ and $B$ to be read from the same displayed windows $S$ and the same dyadic budget $D$ before the pair modulus is consumed;
+\item dyadic locator exactness, requiring $Q$ to name its comparison branch and witness at the exact tolerance displayed by $D$ and synchronized by $R$;
+\item Real seal nonescape, requiring every Real-facing or Completion-facing handoff to keep the two readback rows, window row, tolerance ledger, pair modulus, and locator row visible before any seal is read;
+\item structural stability through $H,C,P,N$, requiring componentwise transport, displayed replay, provenance, and local naming to preserve the same finite packet.
+\end{enumerate}
+No locator obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-pair-locator-carrier}. The accepted packet displays exactly the two regular readback rows, shared StreamName windows, DyadicRatCore tolerance ledger, pair-modulus row, locator row, transport, replay, provenance, and local naming.
+
+The two-sided regular readback is read from $A,B,S,D,R$. Both regular sequences are inspected through the same finite window and tolerance ledger before the pair modulus row synchronizes them for a locator request.
+
+Dyadic locator exactness is the role of $Q$. Its branch and witness are tied to the tolerance ledger $D$ and to the synchronized pair-modulus row $R$, so the locator cannot appeal to an external trichotomy, quotient equality, selected representative, or hidden host comparison.
+
+The Real seal nonescape and structural clauses are carried by $H,C,P,N$. These rows transport, replay, source, and name the same packet for Real and Completion consumers without adding quotient equality, countable choice, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy pair locator L10 handoff]
+\label{thm:cauchy-pair-locator-l10-handoff}
+Every Real-facing or Completion-facing consumer of an accepted $\CauchyPairLocatorUp$ carrier must read the two $\RegSeqRatUp$ rows, the $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegularCauchyPairModulusUp$ row, and the locator row before any equality or separation handoff. The handoff exports only the displayed finite locator packet and its structural rows $H,C,P,N$; it does not claim quotient equality, selected representatives, countable choice, trichotomy, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-pair-locator-namecert-obligations}. The obligation rows force a consumer to expose $A$ and $B$ as regular readbacks over the shared windows $S$ and dyadic ledger $D$ before the pair-modulus row $R$ and locator row $Q$ can be consumed.
+
+The equality or separation handoff is downstream of $Q$. Since the locator row records only the displayed comparison branch and finite witness at the named tolerance, it cannot supply quotient equality, a selected representative pair, countable choice, trichotomy, or ambient Real completeness.
+
+The rows $H,C,P,N$ preserve the same route. Componentwise transport, displayed replay, provenance, and local naming do not add a second access path to Real or Completion consumers, so every handoff remains confined to the finite locator packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyPairLocatorUp$ consumer that reaches an equality or separation handoff without displaying both RegSeqRat readback rows, the StreamName windows, the DyadicRatCore tolerance ledger, the RegularCauchyPairModulus row, the locator row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row refutes the packet.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, regular-cauchy-pair-modulus: no listed sibling is bijective to $\CauchyPairLocatorUp$ because this packet jointly carries two regular readbacks, shared finite windows, dyadic tolerance accounting, a pair-modulus synchronizer, a locator decision and witness row, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyPairLocatorUp}{seedStr}
+
+\begin{closurestatus}{\CauchyPairLocatorUp}
+  \constructivestory{A $\CauchyPairLocatorUp$ packet is generated from two RegSeqRat readback rows, shared StreamName windows, a DyadicRatCore tolerance ledger, a RegularCauchyPairModulus row, a locator decision and witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-pair-locator-carrier}, \autoref{thm:cauchy-pair-locator-namecert-obligations}, and \autoref{thm:cauchy-pair-locator-l10-handoff} seed the finite paired regular Cauchy locator route over readback, window, tolerance, pair-modulus, locator, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CauchyPairLocatorUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient equality, selected representatives, countable choice, trichotomy, Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-sided regular readback, dyadic locator exactness, Real seal nonescape, structural stability, provenance, and local naming for BEDC.Derived.CauchyPairLocatorUp.}
+\end{closurestatus}
