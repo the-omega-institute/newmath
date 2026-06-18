@@ -1,4 +1,5 @@
 import BEDC.Derived.SubstitutionAuditMapUp.Core
+import BEDC.Derived.SubstitutionAuditMapUp.FormalTargetPackage
 import BEDC.Derived.SubstitutionAuditMapUp.GeneratorRouteScope
 
 namespace BEDC.Derived.SubstitutionAuditMapUp
