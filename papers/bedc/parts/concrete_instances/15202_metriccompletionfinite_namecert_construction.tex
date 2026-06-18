@@ -81,6 +81,46 @@ Replay the continuation row $C$. The request passes through $M$ for the completi
 Only after those rows are replayed can the consumer read $R$. The transport, provenance, and local naming rows preserve that dependency order, so the visible route factors through the finite window before any $\RealUp$ seal is public.
 \end{proof}
 
+\begin{theorem}[MetricCompletionFinite classifier exactness]
+\label{thm:metric-completion-finite-classifier-exactness}
+Let $F=(M,B,W,E,R,S,H,C,P,N)$ and $F'=(M',B',W',E',R',S',H',C',P',N')$ be accepted $\MetricCompletionFiniteUp$ packets. The local classifier identifies $F$ with $F'$ exactly when the metric-completion, Cauchy-source, dyadic-window, embedding, readback, seal-selector, transport, continuation, provenance, and local naming rows are componentwise equal along the displayed $\hsame$ route:
+$$
+M \hsame M',\quad B \hsame B',\quad W \hsame W',\quad E \hsame E',\quad R \hsame R',\quad S \hsame S',\quad H \hsame H',\quad C \hsame C',\quad P \hsame P',\quad N \hsame N' .
+$$
+There is no additional classifier coordinate for quotient completion equality, selected representatives, countable choice, open-cover compactness, host equality, or ambient complete metric spaces.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:metric-completion-finite-carrier}. Both accepted packets have exactly the rows $M,B,W,E,R,S,H,C,P,N$ and their primed counterparts, so the classifier can inspect only those coordinates.
+
+Apply the NameCert obligations of \autoref{thm:metric-completion-finite-namecert-obligations}. They force carrier admission, source exposure, precision exposure, embedding handoff, and ledger refusal to be read through the same displayed rows.
+
+Finally use the readback route of \autoref{thm:metric-completion-finite-window-readback}. A classifier equality that survives the readback must therefore be componentwise $\hsame$ on those rows, and componentwise $\hsame$ supplies the same finite route in the reverse direction.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFinite stability transport]
+\label{thm:metric-completion-finite-stability-transport}
+If accepted $\MetricCompletionFiniteUp$ packets $F=(M,B,W,E,R,S,H,C,P,N)$ and $F'=(M',B',W',E',R',S',H',C',P',N')$ are classifier-equal in the sense of \autoref{thm:metric-completion-finite-classifier-exactness}, then carrier admission and readback eligibility transport from $F$ to $F'$ and from $F'$ to $F$. In particular, every consumer allowed to read $R$ through $M,B,W,E,S$ is allowed to read $R'$ through $M',B',W',E',S'$ after the componentwise $\hsame$ transport.
+\end{theorem}
+\begin{proof}
+Start with the componentwise classifier supplied by \autoref{thm:metric-completion-finite-classifier-exactness}. It gives transport for each carrier coordinate, including the Cauchy-source row, dyadic-window row, completion-embedding row, seal selector, and readback row.
+
+Carrier admission is one of the obligations of \autoref{thm:metric-completion-finite-namecert-obligations}, so it is preserved by the displayed transport row $H$ and the local naming row $N$.
+
+Readback eligibility is the route of \autoref{thm:metric-completion-finite-window-readback}. Transport each row in the route $M,B,W,E,S \longmapsto R$ to the primed route and repeat the same argument in the opposite direction.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFinite ledger exactness]
+\label{thm:metric-completion-finite-ledger-exactness}
+The refusal ledger of an accepted $\MetricCompletionFiniteUp$ packet is exact: it excludes quotient completion equality, selected representatives, countable choice, open-cover compactness, host equality, and ambient complete metric spaces, and it excludes no displayed coordinate of the carrier $F=(M,B,W,E,R,S,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:metric-completion-finite-carrier} lists every available coordinate. The rows $M,B,W,E,R,S,H,C,P,N$ are admitted by the packet and therefore cannot be part of the refusal ledger.
+
+The obligation theorem \autoref{thm:metric-completion-finite-namecert-obligations} names the ledger refusal row. Its excluded objects are exactly the quotient, representative, choice, compactness, host-equality, and ambient-completeness data.
+
+The readback theorem \autoref{thm:metric-completion-finite-window-readback} confirms that every completion-facing read stays inside the displayed finite route. Hence the ledger refuses precisely the non-displayed completion principles and leaves the admitted carrier coordinates available.
+\end{proof}
+
 \begin{theorem}[MetricCompletionFinite non-escape]
 \label{thm:metric-completion-finite-nonescape}
 An accepted $\MetricCompletionFiniteUp$ packet exports no quotient completion equality, no selected representative, no countable-choice selector, no open-cover compactness row, no host equality, and no ambient complete metric space. Every completion-facing consumer of the packet must read only the displayed rows $M,B,W,E,R,S,H,C,P,N$.
