@@ -1,19 +1,23 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-15T17:58:08.027224+00:00",
+    "generated_at": "2026-06-10T00:00:00+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "8ee353b770ef314aadf4415d10c6b3109c29118003a589fdd943114a13429637",
+  "input_fingerprint": "071509061c2fbabc3e511ee3ef48002101fab906ca9263852a0520cd4cd07dc1",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "dependency_abi": {
-      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
-      "numpy": "2.2.5",
-      "python": "3.13.2",
-      "torch": "2.7.0"
+      "executable": "/home/aruic-wsl/newmath/.venv/bin/python",
+      "numpy": "2.4.4",
+      "python": "3.12.13",
+      "torch": "2.6.0+cu124"
     },
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
+      {
+        "path": "bedc_quality_lab/canonical_cell_cache.py",
+        "sha256": "7c6f1db39e5279faa891d8429d268a34fdf213e22e172e34a72000273224a292"
+      },
       {
         "path": "bedc_quality_lab/canonical_digest.py",
         "sha256": "8eed097f6a5996ef2484eff9e7d2975292d1dc47eaeb28e06b1f86399ec6c5d5"
@@ -28,7 +32,7 @@
       },
       {
         "path": "bedc_quality_lab/dgt_neural_ablation.py",
-        "sha256": "cfb82c5b9dbf6d9516c53d5203352ea95bd05095ae5574a8c447053cd932c607"
+        "sha256": "28093a19a3cc1237ec536ab9c0057a2fc9d81cda04a68cb8668369b1a7902feb"
       },
       {
         "path": "bedc_quality_lab/discovery_compiler/anti_triviality.py",
@@ -60,7 +64,7 @@
       },
       {
         "path": "bedc_quality_lab/model.py",
-        "sha256": "f0ef1b3ae9be24285549cfba05ac3fc45209bf73d0e8b95f4f27c09e6a77b423"
+        "sha256": "9520bc52ca49fae843e12da0c850abd0f1ff7465714d49bc7bfd8bb6b80128ba"
       },
       {
         "path": "bedc_quality_lab/reproducibility.py",
@@ -94,6 +98,18 @@
       {
         "path": "reports/runs/dgt-neural-ablation/claim_capsule.json",
         "sha256": "af2d2195c20a64ec566aece1acc739e7d73b2057458f4df60a1bbd4719d86e07"
+      },
+      {
+        "path": "reports/runs/dgt-neural-ablation/raw_metrics.jsonl",
+        "sha256": "382305759f4984b1619af2b6091ef0e661b76aded0bc1d0f98493973aa86be9f"
+      },
+      {
+        "path": "reports/runs/dgt-neural-ablation/report.md",
+        "sha256": "dea2ff150294e15c8fada476afcb167b6ee9422e5d899d9daf6db948eb4606ed"
+      },
+      {
+        "path": "reports/runs/dgt-neural-ablation/summary.json",
+        "sha256": "648b209f025015927cff544408d37e1f2d8dff8aac5a226f6e6b8fa9aaea142c"
       }
     ],
     "spec": {
@@ -181,22 +197,22 @@
     },
     "device_policy": {
       "backend_details": {
-        "cuda_available": false,
-        "mps_available": true,
-        "torch": "2.7.0"
+        "cuda_available": true,
+        "mps_available": false,
+        "torch": "2.6.0+cu124"
       },
       "requested_device": "auto",
-      "resolution_reason": "auto-mps-available",
+      "resolution_reason": "auto-cuda-available",
       "resolution_status": "available",
-      "resolved_device": "mps"
+      "resolved_device": "cuda"
     },
     "framework_provenance": {
       "dependency_abi": {
-        "cuda_available": false,
-        "mps_available": true,
-        "torch": "2.7.0"
+        "cuda_available": true,
+        "mps_available": false,
+        "torch": "2.6.0+cu124"
       },
-      "python": "3.13.2"
+      "python": "3.12.13"
     },
     "metric_bands": [
       {
@@ -225,7 +241,7 @@
       1140
     ]
   },
-  "reproducibility_contract_digest": "6707289f9d5b481189e6ce3ebbd0961ab521a685008080ad92b12b47166d1cdf",
+  "reproducibility_contract_digest": "92f5dbc78e4b1b293a1ea44adfed11f693e73ce74380bda0bde1d4301cf0a5f3",
   "reproducibility_mode": "true_training",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }
