@@ -148,6 +148,20 @@ Use the consumer boundary, residual progress, decider boundary, and finite conve
 Therefore collapsing any one of $K,N,F,C,D,B,T,R,P,L$ would remove a row required by the carrier and by the displayed boundary theorems. Since the excluded global endpoints are not carrier coordinates, the obligation rows remain non-collapsible without promoting the packet beyond the finite handoff surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC finite conversion endpoint handoff]
+\label{thm:metacic-finite-conversion-endpoint-handoff}
+Every finite conversion certificate exposed by an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet reaches residual confluence consumers only through the candidate-normalization row $K$, the residual-envelope row $C$, the blocked-edge row $B$, and the decidable-boundary row $D$. In particular, a consumer of the certificate must read the endpoint route through \autoref{def:metacic-finite-conversion-certificate-carrier}, \autoref{thm:metacic-finite-conversion-certificate-boundary}, \autoref{thm:metacic-candidate-normalization-residual-progress}, and \autoref{thm:metacic-candidate-normalization-confluence-rectangle}. The handoff does not assert full Church--Rosser, unrestricted subject reduction, unconditional strong normalization, global conversion decidability, quotient syntax equality, host evaluator soundness, or consistency.
+\end{theorem}
+\begin{proof}
+Project the finite certificate from the carrier. By \autoref{def:metacic-finite-conversion-certificate-carrier}, the exposed endpoint is the displayed subroute through $N,F,C,D,B,T,R,P,L$, with $K$ retained as the candidate-evidence entry condition.
+
+Apply \autoref{thm:metacic-finite-conversion-certificate-boundary}. The bounded conversion read is not detached from the handoff packet: it must display the normal endpoint, frontier, residual-envelope, decidable-boundary, blocked-edge, transport, replay, provenance, and local naming rows in one route.
+
+Use residual progress and the guarded rectangle from \autoref{thm:metacic-candidate-normalization-residual-progress} and \autoref{thm:metacic-candidate-normalization-confluence-rectangle}. A residual confluence consumer either receives the bounded endpoint row through the candidate-mediated route or receives an obstruction row through $C$ and $B$.
+
+Finally apply the handoff decider boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}. The bounded comparison passes through $D$ after the displayed endpoint and residual rows, so no consumer can read the certificate as one of the excluded global endpoints.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ read that exports a normal endpoint, residual-envelope row, or bounded conversion comparison without first exposing candidate evidence, the normalization frontier, the confluence residual envelope, the decidable boundary, blocked-edge retention, transport, replay, provenance, and local naming is outside the carrier surface.}
 
 \independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacic-confluence-residual-envelope, metacicdecidableboundary, metacic-normalization-confluence-bridge: no listed sibling supplies the joint handoff containing candidate evidence, bounded normal endpoint data, residual-envelope visibility, decidable-boundary routing, blocked-edge retention, transport, replay, provenance, and local NameCert rows while refusing unconditional SN and Church--Rosser.}
