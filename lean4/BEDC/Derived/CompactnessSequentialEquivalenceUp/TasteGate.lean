@@ -1,13 +1,21 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CompactnessSequentialEquivalenceUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -40,6 +48,12 @@ private theorem compactnessSequentialEquivalenceDecode_encode_bhist :
   | Empty => rfl
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
+
+def compactnessSequentialEquivalenceFields :
+    CompactnessSequentialEquivalenceUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | CompactnessSequentialEquivalenceUp.mk K F B S W R D Q H C P N =>
+      [K, F, B, S, W, R, D, Q, H, C, P, N]
 
 def compactnessSequentialEquivalenceToEventFlow :
     CompactnessSequentialEquivalenceUp → EventFlow
@@ -201,6 +215,69 @@ instance compactnessSequentialEquivalenceChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (compactnessSequentialEquivalenceToEventFlow_injective heq)
+
+theorem CompactnessSequentialEquivalenceCarrier_namecert_obligations
+    [AskSetup] [PackageSetup]
+    {K F B S W R D Q H C P N coverRead sequenceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    compactnessSequentialEquivalenceFields
+        (CompactnessSequentialEquivalenceUp.mk K F B S W R D Q H C P N) =
+        [K, F, B, S, W, R, D, Q, H, C, P, N] →
+      Cont K F coverRead →
+        Cont B S sequenceRead →
+          Cont D Q sealRead →
+            Cont H C P →
+              PkgSig bundle N pkg →
+                SemanticNameCert
+                    (fun row : BHist =>
+                      hsame row sealRead ∧
+                        ∃ packet : CompactnessSequentialEquivalenceUp,
+                          packet =
+                              CompactnessSequentialEquivalenceUp.mk
+                                K F B S W R D Q H C P N ∧
+                            compactnessSequentialEquivalenceFields packet =
+                              [K, F, B, S, W, R, D, Q, H, C, P, N])
+                    (fun row : BHist =>
+                      hsame row sealRead ∧ Cont K F coverRead ∧
+                        Cont B S sequenceRead)
+                    (fun row : BHist =>
+                      hsame row sealRead ∧ Cont D Q sealRead ∧ Cont H C P ∧
+                        PkgSig bundle N pkg)
+                    hsame ∧
+                  compactnessSequentialEquivalenceFields
+                      (CompactnessSequentialEquivalenceUp.mk K F B S W R D Q H C P N) =
+                    [K, F, B, S, W, R, D, Q, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro fieldsExact coverRoute sequenceRoute sealRoute replayRoute packageName
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := by
+          exact
+            ⟨sealRead, hsame_refl sealRead,
+              CompactnessSequentialEquivalenceUp.mk K F B S W R D Q H C P N,
+              rfl, fieldsExact⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _row' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _row' sameRows source
+          exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact ⟨source.left, coverRoute, sequenceRoute⟩
+      ledger_sound := by
+        intro row source
+        exact ⟨source.left, sealRoute, replayRoute, packageName⟩
+    }
+  · exact fieldsExact
 
 namespace TasteGate
 
