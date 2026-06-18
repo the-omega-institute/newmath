@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\CapProductUp$}
+\label{ch:concrete-instances-cap-product-namecert}
+\origin{human}
+
+Following Eilenberg--Steenrod and the chain-level treatments in Hatcher, the $\CapProductUp$ packet records the finite action route by which a displayed cochain row acts on a displayed chain row before the resulting chain class is read. It sits between the homology carrier of \autoref{ch:concrete-instances-homology-namecert} and the cohomology carrier of \autoref{ch:concrete-instances-cohomology-namecert}. The packet names chain, cochain, degree-window, boundary/coboundary compatibility, transport, replay, provenance, and local naming rows; it is not a full homology operation calculus, not a cup-product theory, not quotient chain equality, and not an ambient algebraic-topology theorem.
+
+\begin{definition}[Cap product carrier]\label{def:cap-product-carrier}
+A $\CapProductUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,B,D,E,H,G,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the chain row, recording the finite chain window on which the action is evaluated.
+\item $B$ is the cochain row, recording the finite cochain window and coefficient readback used by the action.
+\item $D$ is the degree-window row, naming the source chain degree, cochain degree, and output chain degree inspected by the packet.
+\item $E$ is the boundary/coboundary compatibility row, recording the displayed sign and face-boundary ledger used by the action check.
+\item $H$ is the $\HomologyUp$ row read only after the chain row and compatibility row have been displayed.
+\item $G$ is the $\CohomologyUp$ row read only through the cochain row and coboundary side of $E$.
+\item $T$ records componentwise $\hsame$ transport for chain, cochain, degree-window, compatibility, homology, cohomology, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a cap-product request through $A,B,D,E,H,G,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CapProductUp$, $\HomologyUp$, $\CohomologyUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CapProductUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,D,E,H,G,T,R,P,N$. It has no coordinate for chosen chain representatives, quotient chain equality, unrestricted naturality, a cup-product algebra, or ambient homological algebra.
+\end{definition}
+
+\begin{theorem}[Cap product NameCert obligations]\label{thm:cap-product-namecert-obligations}
+For every accepted $\CapProductUp$ carrier $Q=(A,B,D,E,H,G,T,R,P,N)$, the local $\NameCert_{\CapProductUp}$ surface consists exactly of chain-row admission, cochain-row admission, degree-window admission, boundary/coboundary compatibility, the downstream $\HomologyUp$ read, the downstream $\CohomologyUp$ read, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cap-product-carrier}. The displayed tuple is the complete inventory of rows available to a cap-product consumer.
+
+The chain and cochain sides are separated by $A$ and $B$, while $D$ fixes the degree window in which the action is inspected. The compatibility row $E$ is the only place where the boundary and coboundary ledgers meet.
+
+The rows $H$ and $G$ can be read only after those finite rows have been displayed. Finally $T,R,P,N$ transport, replay, source, and name the same route, so no chosen representative, quotient equality, unrestricted naturality, cup-product algebra, or ambient homological-algebra principle is introduced.
+\end{proof}
+
+\begin{theorem}[Cap product chain-cochain handoff]\label{thm:cap-product-chain-cochain-handoff}
+Every accepted $\CapProductUp$ consumer that hands a cohomology-facing row to a homology-facing row factors through
+$$
+A,B,D,E,T,R,P,N .
+$$
+The exported handoff reads $\CohomologyUp$ through the displayed cochain and coboundary side, reads $\HomologyUp$ through the displayed chain and boundary side, and exposes only the finite compatibility route named by the carrier.
+\end{theorem}
+\begin{proof}
+Begin with a chain-cochain handoff request. Carrier admission exposes the chain row $A$, cochain row $B$, degree-window row $D$, and compatibility row $E$ before either downstream algebraic-topology row may be consumed.
+
+Read $\CohomologyUp$ through $B$ and the coboundary side of $E$. Read $\HomologyUp$ through $A$ and the boundary side of $E$.
+
+The structural rows $T,R,P,N$ then preserve and replay this finite route. Since the carrier contains no selected representative, quotient equality, full operation calculus, or unrestricted naturality coordinate, the handoff is exactly the displayed chain-cochain route.
+\end{proof}
+
+\closureat{CapProductUp}{seedStr}
+
+\begin{closurestatus}{\CapProductUp}
+  \constructivestory{A $\CapProductUp$ packet is generated from chain rows, cochain rows, degree-window rows, boundary/coboundary compatibility rows, HomologyUp and CohomologyUp consumer rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cap-product-carrier}, \autoref{thm:cap-product-namecert-obligations}, and \autoref{thm:cap-product-chain-cochain-handoff} seed the finite chain-cochain action route between displayed HomologyUp and CohomologyUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full homology operations, cup-product theory, quotient chain equality, unrestricted naturality, ambient homological algebra, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, chain-row and cochain-row exposure, degree-window exposure, boundary/coboundary compatibility, homology and cohomology handoff exactness, transport, replay, provenance, and local naming for BEDC.Derived.CapProductUp.}
+\end{closurestatus}
