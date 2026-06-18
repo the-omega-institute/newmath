@@ -158,4 +158,62 @@ theorem RegularCauchyCriterion_tail_transport [AskSetup] [PackageSetup]
   }
   exact ⟨cert, tailUnary, realUnary, tailRoute, realRoute, namePkg, realPkg⟩
 
+theorem RegularCauchyCriterion_window_obligations [AskSetup] [PackageSetup]
+    {S R M D Q V A H C P N windowRead toleranceRead criterionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyCriterionCarrier S R M D Q V A H C P N bundle pkg →
+      Cont S R windowRead →
+        Cont M D toleranceRead →
+          Cont windowRead toleranceRead criterionRead →
+            PkgSig bundle criterionRead pkg →
+              UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory M ∧ UnaryHistory D ∧
+                UnaryHistory windowRead ∧ UnaryHistory toleranceRead ∧
+                  UnaryHistory criterionRead ∧ Cont S R windowRead ∧
+                    Cont M D toleranceRead ∧ Cont windowRead toleranceRead criterionRead ∧
+                      PkgSig bundle N pkg ∧ PkgSig bundle criterionRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier windowRoute toleranceRoute criterionRoute criterionPkg
+  obtain ⟨sUnary, rUnary, mUnary, dUnary, _qUnary, _vUnary, _aUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary, _streamReadbackModulus, _modulusToleranceCriterion,
+    namePkg⟩ := carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed sUnary rUnary windowRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed mUnary dUnary toleranceRoute
+  have criterionUnary : UnaryHistory criterionRead :=
+    unary_cont_closed windowUnary toleranceUnary criterionRoute
+  exact
+    ⟨sUnary, rUnary, mUnary, dUnary, windowUnary, toleranceUnary, criterionUnary,
+      windowRoute, toleranceRoute, criterionRoute, namePkg, criterionPkg⟩
+
+theorem RegularCauchyCriterion_modulus_route [AskSetup] [PackageSetup]
+    {S R M D Q V A H C P N dyadicRead criterionRead convergenceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyCriterionCarrier S R M D Q V A H C P N bundle pkg ->
+      Cont M D dyadicRead ->
+        Cont dyadicRead Q criterionRead ->
+          Cont criterionRead V convergenceRead ->
+            PkgSig bundle convergenceRead pkg ->
+              UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory M ∧ UnaryHistory D ∧
+                UnaryHistory dyadicRead ∧ UnaryHistory criterionRead ∧
+                  UnaryHistory convergenceRead ∧ Cont S R M ∧
+                    Cont M D dyadicRead ∧ Cont dyadicRead Q criterionRead ∧
+                      Cont criterionRead V convergenceRead ∧ PkgSig bundle N pkg ∧
+                        PkgSig bundle convergenceRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier dyadicRoute criterionRoute convergenceRoute convergencePkg
+  obtain ⟨sUnary, rUnary, mUnary, dUnary, qUnary, vUnary, _aUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, streamReadbackModulus, _modulusToleranceCriterion, namePkg⟩ :=
+    carrier
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed mUnary dUnary dyadicRoute
+  have criterionUnary : UnaryHistory criterionRead :=
+    unary_cont_closed dyadicUnary qUnary criterionRoute
+  have convergenceUnary : UnaryHistory convergenceRead :=
+    unary_cont_closed criterionUnary vUnary convergenceRoute
+  exact
+    ⟨sUnary, rUnary, mUnary, dUnary, dyadicUnary, criterionUnary, convergenceUnary,
+      streamReadbackModulus, dyadicRoute, criterionRoute, convergenceRoute, namePkg,
+      convergencePkg⟩
+
 end BEDC.Derived.RegularCauchyCriterionUp
