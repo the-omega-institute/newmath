@@ -108,10 +108,24 @@ Thus the public export is only the visible obstruction packet. It preserves the 
 \end{proof}
 \leanchecked{BEDC.Derived.MetaClosureObstructionUp.MetaClosureObstructionPublicExport}
 
+\begin{theorem}[MetaClosureObstruction mature refusal completeness]
+\label{thm:metaclosure-obstruction-mature-refusal-completeness}
+Let $O=(R,S,F,T,M,H,C,P,N)$ be an accepted $\MetaClosureObstructionUp$ carrier. The mature obstruction surface is exhausted by the permitted refutation route $R$, forbidden-schema request $S$, schema refusal $F$, truth-branch refusal $T$, meta-loop boundary $M$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. It exports no contradiction-schema closure and no certificate-indexed truth predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:meta-closure-obstruction-carrier}. Its displayed rows are exactly $R,S,F,T,M,H,C,P,N$, so any mature obstruction read starts inside that finite inventory.
+
+Apply \autoref{thm:meta-closure-obstruction-namecert-obligations} and \autoref{thm:metaclosure-obstruction-public-export}. The NameCert surface and public export both require the same route through the refutation, request, refusal, transport, replay, provenance, and local naming rows.
+
+Finally use \autoref{thm:meta-closure-obstruction-nonescape} and \autoref{thm:metaclosure-obstruction-scoped-refusal-route}. They rule out contradiction-schema closure and certificate-indexed truth predicates as carrier-external requests, so no further mature row remains.
+\end{proof}
+
+\closureat{MetaClosureObstructionUp}{matureStr}[BEDC.Derived.MetaClosureObstructionUp.MetaClosureObstructionPublicExport]
+
 \begin{closurestatus}{\MetaClosureObstructionUp}
   \constructivestory{A $\MetaClosureObstructionUp$ packet is generated from a permitted refutation route, a forbidden contradiction-schema request, schema and truth-branch refusal rows, a meta-loop boundary row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:meta-closure-obstruction-carrier}, \autoref{thm:meta-closure-obstruction-namecert-obligations}, \autoref{thm:meta-closure-obstruction-nonescape}, \autoref{thm:metaclosure-obstruction-truth-branch-obligation}, and \autoref{thm:metaclosure-obstruction-public-export} bind the finite public obstruction packet separating permitted refutation from meta-loop truth closure.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:meta-closure-obstruction-carrier}, \autoref{thm:meta-closure-obstruction-namecert-obligations}, \autoref{thm:meta-closure-obstruction-nonescape}, \autoref{thm:metaclosure-obstruction-truth-branch-obligation}, \autoref{thm:metaclosure-obstruction-public-export}, and \autoref{thm:metaclosure-obstruction-mature-refusal-completeness} bind the finite mature obstruction packet separating permitted refutation from meta-loop truth closure.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.MetaClosureObstructionUp.MetaClosureObstructionTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}

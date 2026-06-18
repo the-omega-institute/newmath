@@ -267,6 +267,7 @@ import BEDC.Derived.ApproximationTowerResidueUp.HiddenSourceNonescape
 import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationTowerUp
 import BEDC.Derived.ApproximationUp
+import BEDC.Derived.ArchimedeanApproximationUp.TasteGate
 import BEDC.Derived.ArchimedeanBracketUp.TasteGate
 import BEDC.Derived.ArchimedeanCauchyCompleteFieldUp.TasteGate
 import BEDC.Derived.ArchimedeanCauchyTailModulusUp
@@ -2597,6 +2598,7 @@ import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.ClassFieldUp.TasteGate
 import BEDC.Derived.ClassifierBoundaryUp
+import BEDC.Derived.ClassifierBoundaryUp.TasteGate
 import BEDC.Derived.ClassifierMorphismUp.Packet
 import BEDC.Derived.ClassifierMorphismUp.TasteGate
 import BEDC.Derived.ClassifierTypingUp
@@ -4076,6 +4078,7 @@ import BEDC.Derived.DarbouxPropertyUp.TasteGate
 import BEDC.Derived.DarbouxSumUp.TasteGate
 import BEDC.Derived.DarbouxTheoremUp.TasteGate
 import BEDC.Derived.DcpoUp
+import BEDC.Derived.DcpoUp.TasteGate
 import BEDC.Derived.DeGiorgiIterationUp.NameCertObligations
 import BEDC.Derived.DeGiorgiIterationUp.TasteGate
 import BEDC.Derived.DeRhamUp
@@ -5804,6 +5807,7 @@ import BEDC.Derived.GaussTestUp.TasteGate
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeneratingFunctionUp.TasteGate
 import BEDC.Derived.GeneratorAuditClosureUp
+import BEDC.Derived.GeneratorAuditClosureUp.TasteGate
 import BEDC.Derived.GeneratorClosureUp
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp
@@ -7459,6 +7463,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionPacket
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactorization
 import BEDC.Derived.MetaCICNormalizationSubstitutionBoundaryUp
 import BEDC.Derived.MetaCICNormalizationWindowConfluenceUp.TasteGate
+import BEDC.Derived.MetaCICOpenProblemLedgerUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.TasteGate
