@@ -60,4 +60,26 @@ theorem RegularCauchyProductBudgetCarrier_window_admission [AskSetup] [PackageSe
       dyadicBUnary, windowARoute, windowBRoute, dyadicARoute, dyadicBRoute, namePkg,
       dyadicAPkg, dyadicBPkg⟩
 
+theorem RegularCauchyProductBudget_ledger_exactness [AskSetup] [PackageSetup]
+    {A B WA WB DA DB D E R S H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductBudgetCarrier A B WA WB DA DB D E R S H C P N bundle pkg →
+      Cont DA DB D →
+        Cont D E R →
+          PkgSig bundle D pkg →
+            PkgSig bundle E pkg →
+              PkgSig bundle R pkg →
+                UnaryHistory D ∧ UnaryHistory E ∧ UnaryHistory R ∧
+                  Cont DA DB D ∧ Cont D E R ∧
+                    PkgSig bundle D pkg ∧ PkgSig bundle E pkg ∧
+                      PkgSig bundle R pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier productRow ledgerRow productPkg ledgerPkg readbackPkg
+  obtain ⟨_aUnary, _bUnary, _waUnary, _wbUnary, _daUnary, _dbUnary, dUnary, eUnary,
+    rUnary, _sUnary, _hUnary, _cUnary, _pUnary, _nUnary, _provenancePkg,
+    _namePkg⟩ := carrier
+  exact
+    ⟨dUnary, eUnary, rUnary, productRow, ledgerRow, productPkg, ledgerPkg,
+      readbackPkg⟩
+
 end BEDC.Derived.RegularCauchyProductBudgetUp
