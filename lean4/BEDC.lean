@@ -65,6 +65,7 @@ import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AlgClosureUp.TasteGate
 import BEDC.Derived.AlgebraicRealUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
+import BEDC.Derived.AlternatingHarmonicUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
 import BEDC.Derived.AnalogyCertificateGateUp.NameCertObligations
@@ -8316,6 +8317,7 @@ import BEDC.Derived.PhilosophyCannotClaimRegistryUp.StatusExactness
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.TasteGate
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.NameCertObligations
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.Nonescape
+import BEDC.Derived.PhilosophyFormalTargetLedgerUp.SiblingDependency
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.TasteGate
 import BEDC.Derived.PhilosophyGapMapLedgerUp.TasteGate
 import BEDC.Derived.PhilosophyGovernanceExportUp.NoOverride
@@ -9563,6 +9565,7 @@ import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.BilinearWindow
 import BEDC.Derived.RegularCauchyProductBudgetUp.NameCertObligations
+import BEDC.Derived.RegularCauchyProductBudgetUp.ObligationScope
 import BEDC.Derived.RegularCauchyProductBudgetUp.Obligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.ProductClosureBudget
 import BEDC.Derived.RegularCauchyProductBudgetUp.RealSealBoundary
