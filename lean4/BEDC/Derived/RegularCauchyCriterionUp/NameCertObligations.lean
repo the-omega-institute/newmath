@@ -14,7 +14,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-private def RegularCauchyCriterionCarrier [AskSetup] [PackageSetup]
+def regular_cauchy_criterion_carrier_namecert_obligations_carrier [AskSetup] [PackageSetup]
     (stream readback modulus dyadic criterion convergence realBoundary transport replay provenance
       localName : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -29,7 +29,8 @@ theorem RegularCauchyCriterionCarrier_namecert_obligations [AskSetup] [PackageSe
     {stream readback modulus dyadic criterion convergence realBoundary transport replay provenance
       localName : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    RegularCauchyCriterionCarrier stream readback modulus dyadic criterion convergence
+    regular_cauchy_criterion_carrier_namecert_obligations_carrier
+        stream readback modulus dyadic criterion convergence
         realBoundary transport replay provenance localName bundle pkg →
       SemanticNameCert
           (fun row : BHist => hsame row localName ∧ UnaryHistory row)
