@@ -405,4 +405,87 @@ theorem RegularCauchyCriterion_window_extraction [AskSetup] [PackageSetup]
   }
   exact ⟨cert, sUnary, dUnary, realUnary⟩
 
+theorem RegularCauchyCriterion_real_seal_nonescape [AskSetup] [PackageSetup]
+    {S R M D Q V A H C P N dyadicRead criterionRead convergenceRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyCriterionCarrier S R M D Q V A H C P N bundle pkg ->
+      Cont M D dyadicRead ->
+        Cont dyadicRead Q criterionRead ->
+          Cont criterionRead V convergenceRead ->
+            Cont convergenceRead A realRead ->
+              PkgSig bundle realRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row S ∨ hsame row R ∨ hsame row M ∨ hsame row D ∨
+                        hsame row Q ∨ hsame row V ∨ hsame row A ∨ hsame row realRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont M D dyadicRead ∧
+                        Cont dyadicRead Q criterionRead ∧
+                          Cont criterionRead V convergenceRead ∧
+                            Cont convergenceRead A realRead ∧
+                              PkgSig bundle realRead pkg)
+                    hsame ∧ UnaryHistory realRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier dyadicRoute criterionRoute convergenceRoute realRoute realPkg
+  obtain ⟨_sUnary, _rUnary, mUnary, dUnary, qUnary, vUnary, aUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary, _streamReadbackModulus, _modulusToleranceCriterion,
+    _namePkg⟩ := carrier
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed mUnary dUnary dyadicRoute
+  have criterionUnary : UnaryHistory criterionRead :=
+    unary_cont_closed dyadicUnary qUnary criterionRoute
+  have convergenceUnary : UnaryHistory convergenceRead :=
+    unary_cont_closed criterionUnary vUnary convergenceRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed convergenceUnary aUnary realRoute
+  have realSource :
+      (fun row : BHist => hsame row realRead ∧ UnaryHistory row) realRead := by
+    exact ⟨hsame_refl realRead, realUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row R ∨ hsame row M ∨ hsame row D ∨
+              hsame row Q ∨ hsame row V ∨ hsame row A ∨ hsame row realRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M D dyadicRead ∧
+              Cont dyadicRead Q criterionRead ∧ Cont criterionRead V convergenceRead ∧
+                Cont convergenceRead A realRead ∧ PkgSig bundle realRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro realRead realSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, dyadicRoute, criterionRoute, convergenceRoute, realRoute,
+          realPkg⟩
+  }
+  exact ⟨cert, realUnary⟩
+
 end BEDC.Derived.RegularCauchyCriterionUp
