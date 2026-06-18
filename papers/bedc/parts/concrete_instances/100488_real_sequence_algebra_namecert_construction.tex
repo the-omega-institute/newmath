@@ -121,6 +121,22 @@ operation-row read is exactly the displayed finite ledger.
 \end{proof}
 \leanchecked{BEDC.Derived.RealSequenceAlgebraUp.RealSequenceAlgebraCarrier\_operation\_row\_exactness}
 
+\begin{theorem}[Real sequence algebra pointwise zero unit]
+\label{thm:real-sequence-algebra-pointwise-zero-unit}
+Let $A=(S_X,S_Y,W_X,W_Y,R_X,R_Y,D,O,E,H,C,P,N)$ be an accepted $\RealSequenceAlgebraUp$ carrier. Suppose the second source row $S_Y$ is the displayed zero $\RealUp$ sequence row and the operation row $O$ is the pointwise sum row. Then the public output read exports the first source sequence through the same finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ budget, output $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The route identifies the zero source only by displayed $\RealUp$ zero rows, not by host sequence equality, and it exports no quotient stream, selected limit, trichotomy branch, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The first source route is $S_X,W_X,R_X$, while the second source route is $S_Y,W_Y,R_Y$.
+
+Use the displayed zero hypothesis only on $S_Y$. It says that the second source is read through zero $\RealUp$ rows inside the carrier; it does not identify host sequences or supply an ambient equality of functions.
+
+Apply operation-row exactness, \autoref{thm:real-sequence-algebra-operation-row-exactness}. Since $O$ is the pointwise sum row, the output seal can be opened only after the dyadic ledger $D$ has compared the first source route with the displayed zero route.
+
+The dyadic budget and output seal therefore replay the first source finite windows through the same $W_X,R_X,D,E$ path, with $H,C,P,N$ transporting, replaying, sourcing, and naming that path. The zero row contributes no additional quotient, limit, trichotomy, or completeness coordinate.
+
+Thus every consumer of the pointwise zero-unit read sees the first source sequence through the original finite StreamName and RegSeqRat rows together with the same dyadic ledger and output seal. No host sequence equality or ambient completeness principle is introduced.
+\end{proof}
+
 \closureat{RealSequenceAlgebraUp}{seedStr}
 
 \begin{closurestatus}{\RealSequenceAlgebraUp}

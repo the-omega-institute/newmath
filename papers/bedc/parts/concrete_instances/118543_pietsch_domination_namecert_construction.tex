@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\PietschDominationUp$}
+\label{ch:concrete-instances-pietsch-domination-namecert}
+\origin{human}
+
+Following Pietsch, the $\PietschDominationUp$ packet records the finite domination surface through which an absolutely summing operator request may be read inside BEDC. It sits over displayed Banach rows of \autoref{ch:concrete-instances-banach-namecert}, bounded operator and norm rows of \autoref{ch:concrete-instances-boundedlinearoperator-namecert} and \autoref{ch:concrete-instances-operator-norm-namecert}, finite measure rows of \autoref{ch:concrete-instances-measure-namecert}, normalized probability rows of \autoref{ch:concrete-instances-probspace-namecert}, and terminal scalar rows of \autoref{ch:concrete-instances-real-namecert}. The packet names only the BEDC carrier rows and their NameCert obligation surface; it does not assert Hahn--Banach separation, choice of a representing probability measure, or the full Pietsch domination theorem.
+
+\begin{definition}[PietschDomination carrier]
+\label{def:pietsch-domination-carrier}
+A $\PietschDominationUp$ carrier is a finite $\BHist$ packet
+$$
+(X,Y,T,N,A,M,P,R,H,C,Q,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are source and target $\BanachUp$ rows;
+\item $T$ is a $\BoundedLinearOperatorUp$ row from $X$ to $Y$;
+\item $N$ is the associated $\OperatorNormUp$ bound row for $T$;
+\item $A$ is a finite absolutely-summing test ledger, listing only displayed finite families of carried source endpoints and their target norm reads;
+\item $M$ is a $\MeasureUp$ row exposing the finite event and value windows used by the domination read;
+\item $P$ is a $\ProbSpaceUp$ normalization row over the same measure surface;
+\item $R$ is the $\RealUp$ scalar-bound row through which the domination constant and all endpoint comparisons are read;
+\item $H$ records componentwise $\hsame$ transport for the Banach, operator, norm, measure, probability, and Real rows;
+\item $C$ records displayed $\Cont$ replay of the finite domination request;
+\item $Q$ is the $\Pkg$ provenance over $\PietschDominationUp$, $\BanachUp$, $\BoundedLinearOperatorUp$, $\OperatorNormUp$, $\MeasureUp$, $\ProbSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $L$ is the local $\NameCert_{\PietschDominationUp}$ row.
+\end{enumerate}
+
+The classifier compares accepted packets only through these displayed coordinates. It has no coordinate for a selected Hahn--Banach functional, an external probability measure chosen by choice, quotient equality of operators, a host domination theorem, or bridge checking.
+\end{definition}
+
+\begin{theorem}[PietschDomination NameCert obligations]
+\label{thm:pietsch-domination-namecert-obligations}
+For every accepted $\PietschDominationUp$ carrier $(X,Y,T,N,A,M,P,R,H,C,Q,L)$, the local $\NameCert_{\PietschDominationUp}$ surface consists exactly of carrier admission, Banach endpoint exposure, bounded-operator exposure, operator-norm bound exposure, finite absolutely-summing test-window coverage, measure-window coverage, probability-normalization coverage, Real scalar-bound readback, componentwise transport, displayed replay, provenance, and local naming.
+
+Every domination read by a consumer must factor through
+$$
+\BanachUp,\ \BoundedLinearOperatorUp,\ \OperatorNormUp,\ \MeasureUp,\ \ProbSpaceUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The certificate does not export Hahn--Banach separation, countable or dependent choice, a full domination theorem, selected representing measures, quotient operator equality, ambient Banach-space completeness beyond the displayed input rows, or bridge checking data.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The source, target, operator, and norm data are the rows $X,Y,T,N$, so any operator-facing read is already routed through the existing Banach and bounded-operator packets.
+
+The finite absolutely-summing tests are the entries of $A$. The measure and probability rows $M,P$ expose only their displayed event, value, and normalization windows, while the scalar endpoint $R$ supplies the Real-facing comparison data.
+
+Transport, replay, provenance, and local naming are exactly $H,C,Q,L$. Since the carrier has no further field, a consumer cannot recover a selected Hahn--Banach witness, a choice-selected probability measure, a quotient operator equality, or a completed domination theorem from the packet.
+\end{proof}
+
+\closureat{PietschDominationUp}{seedStr}
+\begin{closurestatus}{\PietschDominationUp}
+  \constructivestory{A $\PietschDominationUp$ packet is generated from displayed Banach source and target rows, a bounded-operator row, an operator-norm row, finite absolutely-summing test windows, measure and probability rows, a Real scalar-bound row, componentwise transport, displayed replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pietsch-domination-carrier} and \autoref{thm:pietsch-domination-namecert-obligations} seed the finite domination packet through Banach, bounded-operator, operator-norm, MeasureUp, ProbSpaceUp, RealUp, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Hahn--Banach separation, choice of a representing probability measure, the full Pietsch domination theorem, quotient operator equality, Lean verification, or bridge checking.}
+  \upgradepath{A stronger grade requires Lean definitions and checked obligations for the displayed finite domination carrier and its NameCert surface.}
+\end{closurestatus}

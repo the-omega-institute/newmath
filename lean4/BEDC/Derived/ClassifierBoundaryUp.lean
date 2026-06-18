@@ -144,4 +144,73 @@ theorem ClassifierBoundaryCarrier_public_boundary [AskSetup] [PackageSetup]
     ⟨acceptedExt, refusedExt, acceptedRoute, sigRead, publicRoute, provenancePkg,
       nameCertPkg, publicPkg⟩
 
+theorem ClassifierBoundaryCarrier_scoped_dependency_route [AskSetup] [PackageSetup]
+    {source accepted refused preserved sig transport route provenance nameCert acceptedRead
+      refusedRead sigRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierBoundaryCarrier source accepted refused preserved sig transport route provenance
+        nameCert bundle pkg ->
+      Ext source BMark.b0 accepted ->
+        Ext source BMark.b1 refused ->
+          Cont accepted route acceptedRead ->
+            Cont refused route refusedRead ->
+              SigRel bundle source sig ->
+                Cont sig route sigRead ->
+                  Cont sigRead provenance publicRead ->
+                    PkgSig bundle publicRead pkg ->
+                      SemanticNameCert
+                          (fun row : BHist => hsame row publicRead)
+                          (fun row : BHist =>
+                            hsame row acceptedRead ∨ hsame row refusedRead ∨
+                              hsame row sigRead ∨ hsame row publicRead)
+                          (fun row : BHist =>
+                            hsame row publicRead ∧ PkgSig bundle publicRead pkg)
+                          hsame ∧
+                        Ext source BMark.b0 accepted ∧ Ext source BMark.b1 refused ∧
+                          Cont accepted route acceptedRead ∧
+                            Cont refused route refusedRead ∧ SigRel bundle source sig ∧
+                              Cont sig route sigRead ∧
+                                Cont sigRead provenance publicRead ∧
+                                  PkgSig bundle provenance pkg ∧
+                                    PkgSig bundle nameCert pkg ∧
+                                      PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel PkgSig SemanticNameCert hsame
+  intro carrier acceptedExt refusedExt acceptedRoute refusedRoute sigRel sigRoute
+    publicRoute publicPkg
+  obtain ⟨_carrierAcceptedExt, _carrierRefusedExt, _preservedRoute, _transportSelf,
+    _sigSelf, provenancePkg, nameCertPkg⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead)
+          (fun row : BHist =>
+            hsame row acceptedRead ∨ hsame row refusedRead ∨ hsame row sigRead ∨
+              hsame row publicRead)
+          (fun row : BHist => hsame row publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead (hsame_refl publicRead)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, publicPkg⟩
+  }
+  exact
+    ⟨cert, acceptedExt, refusedExt, acceptedRoute, refusedRoute, sigRel, sigRoute,
+      publicRoute, provenancePkg, nameCertPkg, publicPkg⟩
+
 end BEDC.Derived.ClassifierBoundaryUp
