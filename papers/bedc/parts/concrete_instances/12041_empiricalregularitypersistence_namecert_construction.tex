@@ -39,6 +39,7 @@ The $\EmpiricalRegularityPersistenceUp$ classifier identifies two accepted packe
 \label{thm:empirical-regularity-persistence-gap-exposure}
 For every accepted $\EmpiricalRegularityPersistenceUp$ carrier $E=(M,R,K,L,G,A,S,F,H,C,P,N)$, the future-facing part of the packet is exposed exactly by the Type IV GAP row $G$ together with stability row $S$, failure row $F$, continuation replay $C$, provenance $P$, and local name $N$. The records-side rows $M,R,K,L$ certify observed regularity only; they do not by themselves license future persistence.
 \end{theorem}
+\leanchecked{BEDC.Derived.EmpiricalRegularityPersistenceUp.EmpiricalRegularityPersistenceCarrier\_gap\_exposure}
 \begin{proof}
 Project the carrier of \autoref{def:empirical-regularity-persistence-carrier}. The observed side is listed as $M,R,K,L$, while the persistence side is listed as $G,S,F$ and is replayed through $C,P,N$.
 
@@ -51,6 +52,7 @@ Thus records-side regularity is a finite observation claim, while future persist
 \label{thm:empirical-regularity-lawcertificate-consumption}
 Every $\LawCertificateUp$ consumer read of an accepted $\EmpiricalRegularityPersistenceUp$ packet factors through the measurement row $M$, regularity row $R$, classifier row $K$, error-ledger row $L$, future-persistence GAP row $G$, law-certificate consumption row $A$, stability row $S$, failure row $F$, transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $N$. The consumer may not read an equation-like law packet when either the finite measurement and error rows or the explicit future-persistence GAP are absent.
 \end{theorem}
+\leanchecked{BEDC.Derived.EmpiricalRegularityPersistenceUp.EmpiricalRegularityPersistenceCarrier\_lawcertificate\_consumption}
 \begin{proof}
 Start from the consumption row $A$. It names the $\LawCertificateUp$ surface that may read the empirical packet, but $A$ is itself only one coordinate of $E=(M,R,K,L,G,A,S,F,H,C,P,N)$.
 
