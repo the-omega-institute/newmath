@@ -148,6 +148,10 @@ instance euclideanAlgorithmNontrivial : Nontrivial EuclideanAlgorithmUp where
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate EuclideanAlgorithmUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  euclideanAlgorithmChapterTasteGate
+
 theorem EuclideanAlgorithmTasteGate_single_carrier_alignment :
     (∀ h : BHist, euclideanAlgorithmDecodeBHist (euclideanAlgorithmEncodeBHist h) = h) ∧
       (∀ x : EuclideanAlgorithmUp,
