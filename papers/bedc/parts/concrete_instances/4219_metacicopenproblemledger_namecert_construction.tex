@@ -70,6 +70,7 @@ Read $S$ and $N$ as separate coordinates. Subject-reduction discharge and candid
 
 Componentwise $\hsame$ transport preserves this separation. The downstream packet can report the blocker and the positive closed-normal branch together, but it cannot identify them as a completed full-consistency route.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICOpenProblemLedgerUp.MetaCICOpenProblemLedger\_blocker\_separation}
 
 \begin{theorem}[MetaCIC open-problem ledger family coverage]
 \label{thm:metacic-open-problem-ledger-family-coverage}
@@ -82,6 +83,7 @@ Apply \autoref{thm:metacic-open-problem-ledger-nonescape}. A downstream consumer
 
 Finally apply \autoref{thm:metacic-open-problem-ledger-blocker-separation}. The blocker row remains a distinct boundary row, so the family coverage statement records an open ledger rather than a hidden proof of arbitrary closed consistency.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICOpenProblemLedgerUp.MetaCICOpenProblemLedger\_family\_coverage}
 
 \begin{theorem}[MetaCIC open-problem ledger source-row scope]
 \label{thm:metacic-open-problem-ledger-source-row-scope}
@@ -95,6 +97,29 @@ Use \autoref{thm:metacic-open-problem-ledger-nonescape}. The downstream route fa
 Apply \autoref{thm:metacic-open-problem-ledger-blocker-separation}. The blocker row remains distinct from the positive closed-normal branch exposed through provenance, so the packet cannot identify source-row scope with a full-consistency theorem.
 
 Finally use \autoref{thm:metacic-open-problem-ledger-family-coverage}. The seven rows cover the named open families as ledger entries, while arbitrary subject reduction, Church--Rosser, global normalization, beta-conversion decidability, exhaustive examples, and full consistency remain outside the finite packet.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICOpenProblemLedgerUp.MetaCICOpenProblemLedger\_source\_row\_scope}
+
+\begin{theorem}[MetaCIC open-problem ledger export surface]
+\label{thm:metacic-open-problem-ledger-export-surface}
+Every accepted $\MetaCICOpenProblemLedgerUp$ packet exports exactly the seven open-family rows
+$$
+S,C,N,U,D,E,B
+$$
+and the structural rows
+$$
+H,R,P,Q
+$$
+as its reusable public ledger surface. A consumer may read subject-reduction, confluence, normalization, substitution, decidability, typed-example, and blocker entries as displayed ledger rows, with componentwise transport, replay, provenance, and local naming. No consumer obtains arbitrary subject reduction, Church--Rosser, global normalization, unrestricted beta-conversion decidability, exhaustive examples, or full consistency from this packet.
+\end{theorem}
+\begin{proof}
+Project the carrier $L=(S,C,N,U,D,E,B,H,R,P,Q)$ of \autoref{def:metacic-open-problem-ledger-carrier}. The first seven coordinates are the open-family ledger rows, and the last four coordinates are structural rows attached to those families.
+
+Apply \autoref{thm:metacic-open-problem-ledger-namecert-obligations}. It identifies carrier admission, row visibility, componentwise transport, replay, provenance, and local naming as the complete NameCert surface for the displayed tuple.
+
+Use \autoref{thm:metacic-open-problem-ledger-nonescape} and \autoref{thm:metacic-open-problem-ledger-blocker-separation}. These theorems keep the closed endpoints outside the packet and keep the blocker row distinct from the positive closed-normal branch exposed through provenance.
+
+Finally apply \autoref{thm:metacic-open-problem-ledger-family-coverage} and \autoref{thm:metacic-open-problem-ledger-source-row-scope}. The seven families are exactly the exported public rows, while $H,R,P,Q$ only transport, replay, source, and name those rows.
 \end{proof}
 
 \closureat{MetaCICOpenProblemLedgerUp}{scopedStr}
