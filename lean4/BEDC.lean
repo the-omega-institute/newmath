@@ -11090,6 +11090,7 @@ import BEDC.Derived.Window6FibonacciCount
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GaugeOrbit
 import BEDC.Derived.Window6JointNecklace
+import BEDC.Derived.Window6TraceCycleIndexNecklace
 import BEDC.Derived.Window6LucasCount
 import BEDC.Derived.Window6ModP571Singularity
 import BEDC.Derived.Window6NecklaceOrbitCount
