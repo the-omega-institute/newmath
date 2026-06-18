@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\FiniteOscillationEnvelopeUp$}
+\label{ch:concrete-instances-finite-oscillation-envelope-namecert}
+\origin{human}
+
+Following Heine--Cantor and Bishop compact-uniform-continuity, the $\FiniteOscillationEnvelopeUp$ packet records a finite oscillation envelope extracted from compact finite-cover data, pointwise continuity moduli, and rational lower-bound folds. It consumes the compact source rows of \autoref{ch:concrete-instances-compact-namecert}, the metric rows of \autoref{ch:concrete-instances-metric-namecert}, the continuous-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the uniform-modulus handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the numerical readback routes of \autoref{ch:concrete-instances-rat-namecert} and \autoref{ch:concrete-instances-real-namecert}. The packet names finite ProbeBundle radii and oscillation bounds without selecting an external modulus function, invoking open-cover compactness, importing host function equality, or asserting an ambient completed metric object.
+
+\begin{definition}[Finite oscillation-envelope carrier]
+\label{def:finite-oscillation-envelope-carrier}
+A $\FiniteOscillationEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+O=(K,X,Y,F,B,R,Q,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactUp$ or $\CompactMetricUp$ finite cover row for the source object.
+\item $X$ is the source $\MetricSpaceUp$ row, and $Y$ is the target metric row used to read oscillation bounds.
+\item $F$ is the $\ContinuousMapUp$ graph row whose local pointwise modulus data are consumed on the compact finite cover.
+\item $B$ is the finite $\mathsf{ProbeBundle}$ of source centers and radius rows read from the compact witness.
+\item $R$ is the finite $\RatUp$ lower-bound fold over the positive local radius histories carried by $B$.
+\item $Q$ is the oscillation-bound ledger, assigning each displayed probe center a target-distance bound read through $F$, $X$, $Y$, and $R$.
+\item $U$ is the $\UniformModulusUp$ handoff row produced from the finite envelope after the rational fold has been replayed.
+\item $H$ records componentwise $\hsame$ transport for compact, metric, continuous-map, ProbeBundle, rational-fold, oscillation-bound, uniform-modulus, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the compact finite-cover row through local modulus reads, rational lower-bound folds, oscillation estimates, and uniform-modulus handoff.
+\item $P$ is the $\Pkg$ provenance over $\FiniteOscillationEnvelopeUp$, $\CompactUp$, $\CompactMetricUp$, $\MetricSpaceUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteOscillationEnvelopeUp}$ row.
+\end{enumerate}
+The carrier contains no external modulus selector, no open-cover compactness row, no host function equality, no countable-choice schedule, no quotient metric equality, and no ambient complete metric object.
+\end{definition}
+
+\begin{theorem}[FiniteOscillationEnvelope NameCert obligations]
+\label{thm:finite-oscillation-envelope-namecert-obligations}
+For every accepted $\FiniteOscillationEnvelopeUp$ carrier $O=(K,X,Y,F,B,R,Q,U,H,C,P,N)$, the local $\NameCert_{\FiniteOscillationEnvelopeUp}$ surface consists exactly of carrier admission, compact finite-cover exposure, source and target metric reads, continuous-map pointwise modulus reads, finite ProbeBundle radius rows, $\RatUp$ lower-bound fold exposure, oscillation-bound ledger rows, $\UniformModulusUp$ handoff, transport, replay, provenance, and local naming.
+
+Every uniform-modulus consumer must read the finite route
+$$
+K,X,Y,F,B,R,Q \longmapsto U \longmapsto H,C,P,N
+$$
+before a tolerance-only modulus row is public. The packet exports no external modulus selector, open-cover compactness, host function equality, countable-choice schedule, quotient metric equality, or ambient complete metric object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-oscillation-envelope-carrier}. The rows $K,X,Y,F,B,R,Q,U,H,C,P,N$ are the complete public inventory.
+
+The compact and continuous rows provide the local data. The finite cover row $K$ supplies the displayed ProbeBundle $B$, while the continuous-map row $F$ supplies pointwise modulus reads over the source and target metric rows $X,Y$.
+
+The rational fold and oscillation ledger are the finite envelope. The row $R$ folds the positive radius histories through $\RatUp$, and $Q$ records the resulting oscillation bounds at the displayed probe centers.
+
+Finally the uniform-modulus row $U$ is readable only after the finite envelope has been replayed. The transport, continuation, provenance, and naming rows preserve that dependency order, and the missing coordinates exclude external selectors, open-cover compactness, host function equality, choice schedules, quotient metric equality, and ambient completion objects.
+\end{proof}
+
+\falsifiablePrediction{A compact-uniform-continuity consumer that reads a $\UniformModulusUp$ row without displaying compact finite-cover data, ContinuousMap pointwise modulus rows, finite ProbeBundle radii, RatUp folds, and oscillation-bound ledgers is not a $\FiniteOscillationEnvelopeUp$ packet.}
+
+\independenceWitness{compact, continuousmap, uniformmodulus, metricspace, rat, real: $\FiniteOscillationEnvelopeUp$ is not bijective to any listed sibling because it jointly carries finite compact-cover centers, local oscillation bounds, rational lower-bound folds, a uniform-modulus handoff, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{FiniteOscillationEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\FiniteOscillationEnvelopeUp}
+  \constructivestory{A $\FiniteOscillationEnvelopeUp$ packet is generated from compact finite-cover data, source and target MetricSpace rows, a ContinuousMap pointwise-modulus row, finite ProbeBundle radius rows, RatUp lower-bound folds, oscillation-bound ledger rows, a UniformModulus handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-oscillation-envelope-carrier} and \autoref{thm:finite-oscillation-envelope-namecert-obligations} seed the finite oscillation-envelope carrier and NameCert obligation surface over displayed CompactUp, ContinuousMapUp, UniformModulusUp, MetricSpaceUp, RatUp, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, open-cover compactness, host function equality, external modulus selection, countable choice, quotient metric equality, ambient complete metric spaces, or Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite compact-cover exposure, pointwise modulus reads, ProbeBundle radius rows, RatUp lower-bound folds, oscillation-bound ledgers, UniformModulus handoff, transport, replay, provenance, and local naming for the same packet.}
+\end{closurestatus}
