@@ -1,11 +1,16 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ExtremeValueUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -193,5 +198,48 @@ theorem ExtremeValueTasteGate_single_carrier_alignment :
         intro x y heq
         exact extremeValueToEventFlow_injective heq,
       rfl⟩
+
+def ExtremeValuePacket (X F U M S R H C P N attainment : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  UnaryHistory X ∧ UnaryHistory F ∧ UnaryHistory U ∧ UnaryHistory M ∧
+    UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont X F U ∧ Cont U M S ∧
+        Cont M S R ∧ Cont R N attainment
+
+theorem ExtremeValueNameCertObligations {X F U M S R H C P N attainment : BHist} :
+    ExtremeValuePacket X F U M S R H C P N attainment →
+      SemanticNameCert
+        (fun row : BHist => ExtremeValuePacket X F U M S R H C P N attainment ∧
+          hsame row N)
+        (fun row : BHist => ExtremeValuePacket X F U M S R H C P N attainment ∧
+          hsame row N)
+        (fun row : BHist => ExtremeValuePacket X F U M S R H C P N attainment ∧
+          hsame row N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro N (And.intro packet (hsame_refl N))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row col same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row col out sameRow sameCol
+        exact hsame_trans sameRow sameCol
+      carrier_respects_equiv := by
+        intro row col same sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm same) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.ExtremeValueUp
