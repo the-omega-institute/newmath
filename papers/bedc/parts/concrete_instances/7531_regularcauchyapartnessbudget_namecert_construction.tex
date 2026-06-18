@@ -78,6 +78,22 @@ Use the NameCert obligations. They make classifier stability componentwise throu
 The non-escape theorem then blocks any transported read that asks for a detached lower bound. Such a read would require a lower-bound coordinate outside $X,A,M,W,D,R,E,H,C,P,N$, which the accepted packet does not contain.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy apartness-budget lower-bound scope]
+\label{thm:regular-cauchy-apartness-budget-lower-bound-scope}
+Every accepted $\RegularCauchyApartnessBudgetUp$ packet exposes its dyadic lower-bound row only through the finite route
+$$
+A,M,W,D,R,H,C,P,N .
+$$
+Here $A$ is the apartness budget, $M$ is the modulus row, $W$ is the $\StreamNameUp$ window, $D$ is the $\DyadicRatCoreUp$ lower-bound read, and $R$ is the $\RegSeqRatUp$ readback. A $\RealUp$ or reciprocal-window consumer may therefore read $D$ only after the displayed route has fixed those rows, and cannot read $D$ outside the finite packet $X,A,M,W,D,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The lower-bound coordinate is the single displayed row $D$, and the rows immediately controlling it are the apartness budget $A$, modulus $M$, finite window $W$, and regular readback $R$.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-apartness-budget-namecert-obligations}. They require apartness-budget exposure before the lower-bound read, force $D$ to be read from the selected finite window, and keep the regular readback on the same displayed packet.
+
+Apply transport stability, \autoref{thm:regular-cauchy-apartness-budget-transport-stability}. The rows $H$ and $C$ preserve the lower-bound route componentwise and replay only the displayed continuations. Thus any $\RealUp$ or reciprocal-window consumer that tries to read $D$ without $A,M,W,R,H,C,P,N$ leaves the accepted packet.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy apartness-budget Real seal refusal]
 \label{thm:regular-cauchy-apartness-budget-real-seal-refusal}
 No $\RealUp$ seal or reciprocal-window read is public from a $\RegularCauchyApartnessBudgetUp$ packet unless the apartness-budget row $A$ has already been read. A route that exposes $E$ or a reciprocal lower-bound consumer while omitting $A$ is not a carrier read of the accepted packet.
