@@ -483,4 +483,32 @@ theorem RealUniformStructureCarrier_basis_refinement_uniqueness [AskSetup] [Pack
       filterUnary, windowUnary, readbackUnary, basisCont, refinedCont, filterCont,
       windowCont, readbackCont, pPkg, readbackPkg⟩
 
+theorem RealUniformStructureCarrier_subbasis_refinement_envelope [AskSetup] [PackageSetup]
+    {source subbasis refinement entourage stream dyadic realSeal transport route provenance
+      localName refinedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealUniformStructureCarrier source subbasis refinement entourage stream dyadic realSeal
+        transport route provenance localName bundle pkg ->
+      Cont subbasis refinement refinedRead ->
+        Cont refinement entourage stream ->
+          Cont stream dyadic realSeal ->
+            hsame transport (append subbasis refinement) ->
+              UnaryHistory source ∧ UnaryHistory subbasis ∧ UnaryHistory refinement ∧
+                UnaryHistory refinedRead ∧ Cont subbasis refinement refinedRead ∧
+                  Cont refinement entourage stream ∧ Cont stream dyadic realSeal ∧
+                    hsame transport (append subbasis refinement) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier refinedRoute streamRoute realSealRoute transportSame
+  have sourceUnary : UnaryHistory source :=
+    carrier.left
+  have subbasisUnary : UnaryHistory subbasis :=
+    carrier.right.left
+  have refinementUnary : UnaryHistory refinement :=
+    carrier.right.right.left
+  have refinedUnary : UnaryHistory refinedRead :=
+    unary_cont_closed subbasisUnary refinementUnary refinedRoute
+  exact
+    ⟨sourceUnary, subbasisUnary, refinementUnary, refinedUnary, refinedRoute, streamRoute,
+      realSealRoute, transportSame⟩
+
 end BEDC.Derived.RealUniformStructureUp
