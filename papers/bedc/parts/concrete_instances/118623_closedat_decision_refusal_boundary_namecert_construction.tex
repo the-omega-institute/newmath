@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\ClosedAtDecisionRefusalBoundaryUp$}
+\label{ch:concrete-instances-closedat-decision-refusal-boundary-namecert}
+\origin{ai}
+
+The $\ClosedAtDecisionRefusalBoundaryUp$ packet realizes the Closed-MetaCIC decidability frontier of \autoref{sec:metacic-open-problems-decidability} as finite NameCert data. It sits beside the decidability witness of \autoref{ch:concrete-instances-metacicdecidabilitywitness-namecert}, the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the finite beta closedness route of \autoref{ch:concrete-instances-finite-beta-closedness-iteration-namecert}, and the subject-reduction obstruction of \autoref{ch:metacic-subject-reduction-obstruction}. The packet names checker input, bounded normal output, explicit refusal, transport, replay, provenance, and local naming; it does not turn bounded normal equality into a standalone $\mathsf{ClosedAt}$ decider or a global closed beta-conversion oracle.
+
+\begin{definition}[ClosedAt decision refusal boundary carrier]
+\label{def:closedat-decision-refusal-boundary-carrier}
+A $\ClosedAtDecisionRefusalBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(Q,K,N_b,R,T,C,P,G,H,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $Q$ is the request row, recording whether the consumer asked for standalone $\mathsf{ClosedAt}$ decision, global closed beta-conversion, or bounded normal comparison.
+\item $K$ is the finite checker row. It exposes the closed typing, structural equality, and represented-term checks available in the existing MetaCIC decidability surface.
+\item $N_b$ is the bounded-normal row, carrying only displayed fuel, bounded normalizer outputs, and finished-normal witnesses when those witnesses are explicitly present.
+\item $R$ is the refusal row. It rejects standalone $\mathsf{ClosedAt}$ decision and unrestricted closed beta-conversion requests before any bounded checker row is consumed.
+\item $T$ is the transport row from accepted bounded evidence to downstream normal-form or decidability packets, with the refusal row still visible.
+\item $C$ records displayed $\Cont$ replay through the request, refusal, checker, bounded-normal, and transport rows.
+\item $P$ is the $\Pkg$ provenance over $\ClosedAtDecisionRefusalBoundaryUp$, $\MetacicDecidabilityWitnessUp$, $\BoundedNormalEqualityCheckerUp$, $\FiniteBetaClosednessIterationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $G$ records the later Lean TasteGate surface for $\Nontrivial\ \ClosedAtDecisionRefusalBoundaryUp$ and $\FieldFaithful\ \ClosedAtDecisionRefusalBoundaryUp$ instances.
+\item $H$ records componentwise $\hsame$ transport for $Q,K,N_b,R,T,C,P,G,N$.
+\item $N$ is the local $\NameCert_{\ClosedAtDecisionRefusalBoundaryUp}$ row.
+\end{enumerate}
+The classifier accepts a packet only through $Q,K,N_b,R,T,C,P,G,H,N$. It has no coordinate for a total closedness decider, fuel-erased normalizer, unrestricted conversion oracle, quotient equality of terms, subject-reduction discharge, or kernel-consistency theorem.
+\end{definition}
+
+\begin{theorem}[ClosedAt decision refusal boundary obligations]
+\label{thm:closedat-decision-refusal-boundary-obligations}
+For every accepted $\ClosedAtDecisionRefusalBoundaryUp$ carrier
+$$
+B=(Q,K,N_b,R,T,C,P,G,H,N),
+$$
+the local $\NameCert_{\ClosedAtDecisionRefusalBoundaryUp}$ surface consists exactly of checker request admission through $Q$; finite checker exposure through $K$; bounded-normal exposure through $N_b$; refusal of standalone $\mathsf{ClosedAt}$ decision and global closed beta-conversion through $R$; transport through $T$; replay through $C$; provenance through $P$; later $\Nontrivial$ and $\FieldFaithful$ instance obligations through $G$; componentwise transport through $H$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closedat-decision-refusal-boundary-carrier}. The visible rows are exactly $Q,K,N_b,R,T,C,P,G,H,N$, and the classifier compares only those rows componentwise.
+
+The boundary row $R$ is part of the accepted packet, not an external warning. Therefore a request for standalone $\mathsf{ClosedAt}$ decision or unrestricted closed beta-conversion is classified before $K$ or $N_b$ can be consumed as positive evidence.
+
+Rows $K$ and $N_b$ still expose the bounded checks that the existing MetaCIC decidability surface permits. Rows $T,C,P,G,H,N$ transport, replay, source, record the later Lean instance obligations, and name the same finite packet. None adds a total decider or fuel-erased conversion oracle.
+\end{proof}
+
+\begin{theorem}[ClosedAt decision refusal first]
+\label{thm:closedat-decision-refusal-boundary-refusal-first}
+Every accepted $\ClosedAtDecisionRefusalBoundaryUp$ read routes standalone $\mathsf{ClosedAt}$-decision and global closed beta-conversion requests to $R$ before any bounded checker row $K$ or bounded-normal row $N_b$ is consumed. Bounded checker evidence may be read only after the request row has not been classified as one of those global requests.
+\end{theorem}
+\begin{proof}
+Read the request component $Q$ of the accepted carrier in \autoref{def:closedat-decision-refusal-boundary-carrier}. The only row that classifies a standalone closedness decision or unrestricted conversion request is $R$.
+
+Apply \autoref{thm:closedat-decision-refusal-boundary-obligations}. It places the refusal row in the local NameCert surface together with, but logically before use of, the checker and bounded-normal rows for requests that ask for global decision power.
+
+Thus a bounded checker read is available only for bounded requests. A consumer that skips $R$ and reads $K$ or $N_b$ as a total closedness or conversion oracle is outside the packet.
+\end{proof}
+
+\begin{theorem}[ClosedAt decision refusal nonescape]
+\label{thm:closedat-decision-refusal-boundary-nonescape}
+An accepted $\ClosedAtDecisionRefusalBoundaryUp$ packet cannot export a standalone $\mathsf{ClosedAt}$ decider, global closed beta-conversion oracle, or fuel-erased normalizer. Any downstream use of $K$ or $N_b$ remains bounded by the displayed request, fuel, finished-normal evidence, refusal row, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:closedat-decision-refusal-boundary-refusal-first}. Global requests are routed to $R$, while bounded reads proceed only through the displayed checker and bounded-normal rows.
+
+The transport row $T$ keeps $R$ visible when bounded evidence is forwarded to sibling packets. The replay and provenance rows $C$ and $P$ record the same route, and $G,H,N$ only record later Lean instance obligations, componentwise transport, and local naming.
+
+Since the carrier has no total-decision coordinate and no fuel-erased normalizer coordinate, no accepted read can escape from bounded evidence into a global theorem.
+\end{proof}
+
+The later Lean side must provide explicit $\Nontrivial\ \ClosedAtDecisionRefusalBoundaryUp$ and $\FieldFaithful\ \ClosedAtDecisionRefusalBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/ClosedAtDecisionRefusalBoundaryUp/TasteGate.lean}. These instances must preserve $Q,K,N_b,R,T,C,P,G,H,N$ as distinct rows before any checked marker can cite the packet as a TasteGate witness.
+
+\falsifiablePrediction{Every accepted $\ClosedAtDecisionRefusalBoundaryUp$ read routes standalone ClosedAt-decision and global beta-conversion requests to the refusal row before any bounded checker row is consumed.}
+
+\independenceWitness{metacicdecidableboundary, normalfalseexclusion, closednormalconfluenceseal, metacic-subject-reduction-obstruction: no listed sibling supplies the whole $\ClosedAtDecisionRefusalBoundaryUp$ packet, because the refusal boundary binds checker request, bounded-normal output, refusal, transport, replay, provenance, later Lean instance obligations, componentwise transport, and local naming as one carrier.}
+
+\closureat{ClosedAtDecisionRefusalBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ClosedAtDecisionRefusalBoundaryUp}
+  \constructivestory{A $\ClosedAtDecisionRefusalBoundaryUp$ packet is generated from checker request data, finite MetaCIC checker rows, bounded-normal rows, an explicit refusal row, transport, replay, provenance, later Nontrivial and FieldFaithful instance obligations, componentwise hsame transport, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closedat-decision-refusal-boundary-carrier}, \autoref{thm:closedat-decision-refusal-boundary-obligations}, \autoref{thm:closedat-decision-refusal-boundary-refusal-first}, and \autoref{thm:closedat-decision-refusal-boundary-nonescape} seed the finite refusal boundary for standalone ClosedAt decision and global closed beta-conversion requests.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close standalone ClosedAt decidability, unrestricted closed beta-conversion decidability, fuel-erased normalization, subject reduction, confluence, kernel consistency, Lean theorem coverage, or bridge checking.}
+  \upgradepath{Obligation closure requires a Lean-side ClosedAtDecisionRefusalBoundaryUp carrier with checked request classification, refusal-first routing, bounded checker exposure, bounded-normal exposure, transport, replay, provenance, Nontrivial and FieldFaithful instances, componentwise transport, and local naming.}
+\end{closurestatus}
