@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaClosureObstructionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -267,5 +277,73 @@ theorem MetaClosureObstructionTasteGate_single_carrier_alignment :
       · intro x y heq
         exact metaClosureObstructionToEventFlow_injective heq
       · rfl
+
+theorem MetaClosureObstructionNameCertObligations [AskSetup] [PackageSetup]
+    {R S F T M H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont R S C -> Cont F T M -> PkgSig bundle P pkg -> PkgSig bundle N pkg ->
+      hsame H (append C P) ->
+        SemanticNameCert
+          (fun row : BHist => hsame row N ∧ PkgSig bundle N pkg)
+          (fun row : BHist => hsame row N ∧ Cont R S C ∧ Cont F T M)
+          (fun row : BHist =>
+            hsame row N ∧ hsame H (append C P) ∧ PkgSig bundle P pkg ∧
+              PkgSig bundle N pkg)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro contRSC contFTM pkgP pkgN sameTransport
+  refine
+    { core :=
+        { carrier_inhabited := ?_
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · exact Exists.intro N (And.intro (hsame_refl N) pkgN)
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro row other sameRows source
+    exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+  · intro _row source
+    exact And.intro source.left (And.intro contRSC contFTM)
+  · intro _row source
+    exact And.intro source.left (And.intro sameTransport (And.intro pkgP source.right))
+
+theorem MetaClosureObstructionTruthBranchObligation {S F T M H P truthRead : BHist} :
+    Cont S F T -> Cont T M truthRead -> hsame H (append truthRead P) ->
+      SemanticNameCert
+        (fun row : BHist => hsame row T ∧ Cont S F T ∧ Cont T M truthRead)
+        (fun row : BHist => hsame row T ∧ Cont S F T ∧ Cont T M truthRead)
+        (fun row : BHist => hsame row T ∧ hsame H (append truthRead P))
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro contSFT contTMTruth sameTransport
+  refine
+    { core :=
+        { carrier_inhabited := ?_
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · exact Exists.intro T (And.intro (hsame_refl T) (And.intro contSFT contTMTruth))
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other sameRows
+    exact hsame_symm sameRows
+  · intro _row _middle _other sameLeft sameRight
+    exact hsame_trans sameLeft sameRight
+  · intro row other sameRows source
+    exact And.intro (hsame_trans (hsame_symm sameRows) source.left) source.right
+  · intro _row source
+    exact source
+  · intro _row source
+    exact And.intro source.left sameTransport
 
 end BEDC.Derived.MetaClosureObstructionUp
