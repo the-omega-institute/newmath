@@ -1,0 +1,53 @@
+\subsection{Position-resolved translation readout for the $f_3$-stress residual}\label{sec:q6-f3-stress-position-resolved-translation-readout-cross-layer}
+\origin{ai}
+
+\paragraph{Claim surface.}
+This record isolates a bounded cross-layer test for the $f_3$-stress component of the $B^*_{Q6}$ synonymous residual coordinates.  The finite row is indexed by organism, coding sequence, codon position, residual coordinate, local wobble-weight context, and a position-resolved translation readout.  The coordinate is not a protein-level assertion.  It is a codon-window statistic whose admissible biological promotion requires a same-row ribosome-occupancy or translation-efficiency window after amino-acid projection has been removed and after the usual compositional controls have been attached.
+
+The intended row therefore has the form
+$$
+\begin{aligned}
+&({\rm organism}, {\rm CDS}, k, q_{f_3}, c, w_c, w_{c^{f_3}}, Y_k, Z_k),\\
+&q_{f_3}\in B^*_{Q6},\qquad Y_k\in\{\text{codon-index occupancy},\text{local-window occupancy},\text{translation-efficiency window}\},
+\end{aligned}
+$$
+where $k$ is the codon position, $c$ is the local codon context, $w_c$ and $w_{c^{f_3}}$ are the matched wobble-weight annotations before and after the third-position stress move, and $Z_k$ contains amino-acid-bin or position-bin controls, organism, GC3, CDS length, $M$-density, codon counts, mRNA abundance, coverage, mappability, and simpler codon-baseline terms.  The asymmetry condition is local: a useful row must contain contexts in which $w_c\neq w_{c^{f_3}}$.  Without that asymmetry the third-position coordinate remains visible as codon topology, but the row has no reason to be read as a translation-layer effect.
+
+\paragraph{Finite coordinate facts.}
+The finite saturation contact used here records a twenty-codon surface
+$$
+\begin{aligned}
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
+&CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+The corresponding $f_3$-saturated residual set contains eighteen codons,
+$$
+\begin{aligned}
+{\rm Sat}_{f_3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+Thus the recorded difference between the displayed $M$ surface and the displayed saturated residual row is exactly the two-codon pair $\{ACA,ACG\}$.  The same finite record reports an empty $f_3$ boundary list, so the boundary count available to this chapter is $0$.  These are the only concrete numerical entries carried by the row: $|M|=20$, $|{\rm Sat}_{f_3}(R)|=18$, $|M\setminus {\rm Sat}_{f_3}(R)|=2$, and $|\partial_{f_3}|=0$.  No lambda estimate, p-value, module class, hit rate, or empirical row count is present in the supplied finite data.
+
+\paragraph{Survival statistic.}
+The admissible statistic is a bounded per-window survival entry $S_{f_3}(T_{\rm position}\mid Z)$.  It is computed only after the codon coordinate, wobble-weight surface, ribosome-footprint or translation-efficiency window, and matched mRNA control occupy the same organism, same CDS, and same codon-window row.  A schematic residual comparison is
+$$
+\begin{aligned}
+S_{f_3}(T_{\rm position}\mid Z)
+  &= {\rm score}(T_{\rm position}\mid Z,q_{f_3},w_c,w_{c^{f_3}})
+     - {\rm score}(T_{\rm position}\mid Z,\text{simpler codon baselines}).
+\end{aligned}
+$$
+The exact scoring scale may be rank-powered residual association, partial-$R^2$, description-length improvement, or a predeclared equivalent, but the sign and break rule must be fixed before looking at the result.  A positive entry is admissible only when it survives amino-acid composition, organism, GC3, CDS length, $M$-density, mRNA abundance, coverage, mappability, codon-count, wobble-weight, and position or amino-acid-bin controls.  The break condition is equally important: if every controlled entry is nonpositive, or if the apparent signal disappears under the simpler-codon-baseline ablation, the coordinate is not promoted to a translation-readout claim.
+
+\paragraph{Reality contacts.}
+Per-organism codon-usage tables can supply sequence composition and codon-frequency rows, but they do not observe ribosome movement.  tAI or stAI weights can supply organism-scoped codon-adaptation annotations, but those modelled weights are not themselves ribosome-footprint evidence.  The required translation readout is a position-resolved ribosome-occupancy or translation-efficiency surface keyed to organism, transcript or CDS identifier, codon position, and profiling sample.  The matched mRNA row is needed to separate translation-layer signal from transcript abundance, for instance through a controlled TE-style residual when the study design supports it.
+
+This contact design prevents a common overread.  The $f_3$ coordinate may explain a local codon-topology contrast, and a wobble-weight asymmetry may suggest a plausible translation-facing stress, but neither fact is a measured translation realization.  The row becomes cross-layer only when the same CDS and same codon window carry the external readout and the survival statistic remains nonvacuous after controls.
+
+\paragraph{Local refusal boundary.}
+This chapter makes no claim about protein folding, physical admissibility, protein abundance, localization, stability, post-translational modification, molecular function, organism phenotype, mechanism, or universality.  It also makes no claim that tAI or stAI coupling alone is survival.  A codon-count asymmetry, a wobble-weight asymmetry, or the displayed finite saturation numbers $20$, $18$, $2$, and $0$ can motivate the row construction, but cannot by themselves infer translation output.  Any downstream claim must be supplied by a later matched contact at the appropriate layer and must be tested separately from the codon-window survival entry.
+
+\paragraph{Operational verdict.}
+The record is ready as a bounded conjectural chapter because it has a finite coordinate surface, a concrete residual saturation readback, named biological contacts, and an explicit break condition.  Its empirical status remains conditional: the position-resolved ribosome-occupancy or translation-efficiency rows have to be joined to same-organism, same-CDS codon windows before $S_{f_3}(T_{\rm position}\mid Z)$ can be evaluated.  Until that join is performed, the proper reading is narrow: the $f_3$-stress residual is a codon-topology candidate for a controlled translation-window test, not an already established biological mechanism.
