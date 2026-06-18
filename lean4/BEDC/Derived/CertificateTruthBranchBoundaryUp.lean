@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -125,5 +127,87 @@ theorem CertificateTruthBranchBoundaryPublicInterface [AskSetup] [PackageSetup]
       publicReadUnary, decisionReadUnary, transportReadUnary, queryAssumptionRefutation,
       refusalLedgerPublic, decisionRefusalRead, transportContinuationRead, localNamePkg,
       publicReadPkg, decisionReadPkg, transportReadPkg⟩
+
+theorem CertificateTruthBranchBoundaryBridgeInterface [AskSetup] [PackageSetup]
+    {query assumption refutation decision refusal ledger transport continuation provenance
+      localName bridgeRead decisionRead transportRead standardRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateTruthBranchBoundaryCarrier query assumption refutation decision refusal ledger
+        transport continuation provenance localName bundle pkg →
+      Cont refusal ledger bridgeRead →
+        Cont decision refusal decisionRead →
+          Cont transport continuation transportRead →
+            Cont bridgeRead provenance standardRead →
+              PkgSig bundle bridgeRead pkg →
+                PkgSig bundle decisionRead pkg →
+                  PkgSig bundle transportRead pkg →
+                    PkgSig bundle standardRead pkg →
+                      SemanticNameCert
+                          (fun row : BHist => hsame row standardRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row query ∨ hsame row assumption ∨
+                              hsame row refutation ∨ hsame row refusal ∨
+                                hsame row ledger ∨ hsame row bridgeRead ∨
+                                  hsame row standardRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont refusal ledger bridgeRead ∧
+                              Cont bridgeRead provenance standardRead ∧
+                                PkgSig bundle standardRead pkg)
+                          hsame ∧
+                        UnaryHistory bridgeRead ∧ UnaryHistory decisionRead ∧
+                          UnaryHistory transportRead ∧ UnaryHistory standardRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier refusalLedgerBridge decisionRefusalRead transportContinuationRead
+    bridgeProvenanceStandard _bridgeReadPkg _decisionReadPkg _transportReadPkg standardReadPkg
+  obtain ⟨queryUnary, _assumptionUnary, _refutationUnary, decisionUnary, refusalUnary,
+    ledgerUnary, transportUnary, continuationUnary, provenanceUnary, _localNameUnary,
+    _queryAssumptionRefutation, _decisionRefusalLedger, _transportContinuationProvenance,
+    _localNamePkg⟩ := carrier
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed refusalUnary ledgerUnary refusalLedgerBridge
+  have decisionReadUnary : UnaryHistory decisionRead :=
+    unary_cont_closed decisionUnary refusalUnary decisionRefusalRead
+  have transportReadUnary : UnaryHistory transportRead :=
+    unary_cont_closed transportUnary continuationUnary transportContinuationRead
+  have standardReadUnary : UnaryHistory standardRead :=
+    unary_cont_closed bridgeReadUnary provenanceUnary bridgeProvenanceStandard
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row standardRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row query ∨ hsame row assumption ∨ hsame row refutation ∨
+            hsame row refusal ∨ hsame row ledger ∨ hsame row bridgeRead ∨
+              hsame row standardRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont refusal ledger bridgeRead ∧
+            Cont bridgeRead provenance standardRead ∧ PkgSig bundle standardRead pkg)
+        hsame := {
+      core := {
+        carrier_inhabited := Exists.intro standardRead
+          ⟨hsame_refl standardRead, standardReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row row' same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row row' row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+      ledger_sound := by
+        intro row source
+        exact
+          ⟨source.right, refusalLedgerBridge, bridgeProvenanceStandard, standardReadPkg⟩
+    }
+  exact ⟨cert, bridgeReadUnary, decisionReadUnary, transportReadUnary, standardReadUnary⟩
 
 end BEDC.Derived.CertificateTruthBranchBoundaryUp
