@@ -33,7 +33,12 @@ theorem DiniUniformConvergenceCarrier_monotone_window_obligation [AskSetup] [Pac
                   UnaryHistory monotoneRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier compactFiniteNet familyWindows readbackSeal localNamePkg monotonePkg
-  obtain ⟨compactUnary, finiteNetUnary, windowsUnary, sealUnary, provenancePkg⟩ := carrier
+  have compactUnary : UnaryHistory compact := carrier.left
+  have finiteNetUnary : UnaryHistory finiteNet := carrier.right.left
+  have windowsUnary : UnaryHistory windows := carrier.right.right.right.right.left
+  have sealUnary : UnaryHistory sealRow := carrier.right.right.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
   have familyUnary : UnaryHistory family :=
     unary_cont_closed compactUnary finiteNetUnary compactFiniteNet
   have readbackUnary : UnaryHistory readback :=
