@@ -207,6 +207,20 @@ For an admitted request, \autoref{thm:propext-transport-boundary-context-replace
 For a refused request, inspect the same inventory. By \autoref{thm:propext-transport-boundary-non-escape} and \autoref{thm:propext-transport-boundary-ledger-exactness}, the packet has no equality row, propext row, host-rewrite row, or arbitrary context-transport row. The gate therefore refuses exactly those requests whose path needs one of the absent operations.
 \end{proof}
 
+\begin{theorem}[PropextTransportBoundary standard bridge route]
+\label{thm:propext-transport-boundary-std-bridge}
+Every accepted $\PropextTransportBoundaryUp$ packet exports its public boundary only through the displayed ThreeAxiomsOneClosure, $\NameCert$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\ChapterTasteGate$ rows. This route gives a paper bridge to the standard refusal of proposition-extensional transport without importing proposition equality, host rewrite through $P=Q$, or arbitrary proposition-valued context transport.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:propext-transport-boundary-carrier} and the NameCert obligations of \autoref{thm:propext-transport-boundary-namecert-obligations}. They force every accepted read through the displayed rows $B,D,R,H,C,P,N$ before any public boundary can be exported.
+
+Direction determinacy and ledger exactness then identify the bridge boundary. Apply \autoref{thm:propext-transport-boundary-direction-determinacy} to keep implication use direction-indexed, and \autoref{thm:propext-transport-boundary-ledger-exactness} to source the public ledger only from the ThreeAxiomsOneClosure, naming, transport, replay, and provenance rows.
+
+The sibling link and gate handoff supply the standard bridge face. By \autoref{thm:propext-transport-boundary-three-axioms-sibling-link}, the boundary is the proposition-stratum route of the three-axioms closure surface; by \autoref{thm:propext-transport-boundary-tastegate-handoff}, a $\ChapterTasteGate$ consumer receives exactly this finite handoff.
+
+Finally use context replacement locality and refusal exactness. Theorems \autoref{thm:propext-transport-boundary-context-replacement-locality} and \autoref{thm:propext-transport-boundary-tastegate-refusal-exactness} keep the context route local to $R,C$ and refuse equality, propext, host rewrite, and arbitrary proposition-valued transport. This is the stated paper bridge route.
+\end{proof}
+
 \closureat{PropextTransportBoundaryUp}{seedStr}
 \closureat{PropextTransportBoundaryUp}{obligationStr}
 \closureat{PropextTransportBoundaryUp}{scopedStr}
@@ -214,11 +228,11 @@ For a refused request, inspect the same inventory. By \autoref{thm:propext-trans
 
 \begin{closurestatus}{\PropextTransportBoundaryUp}
   \constructivestory{A $\PropextTransportBoundaryUp$ packet is generated from bidirectional implication evidence, chosen direction rows, context-read replacement routes, componentwise $\hsame$ and $\psame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:propext-transport-boundary-carrier} and the theorem rows of this chapter bind the displayed carrier $T=(B,D,R,H,C,P,N)$ to the ThreeAxiomsOneClosure provenance surface, core $\NameCert$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\ChapterTasteGate$ handoff routes, with proposition equality, propositional extensionality, host rewrite, and arbitrary proposition-valued context transport excluded from the scoped primitive boundary.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:propext-transport-boundary-carrier} and the theorem rows of this chapter bind the displayed carrier $T=(B,D,R,H,C,P,N)$ to the ThreeAxiomsOneClosure provenance surface, core $\NameCert$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, $\ChapterTasteGate$ handoff routes, and the paper bridge of \autoref{thm:propext-transport-boundary-std-bridge}, with proposition equality, propositional extensionality, host rewrite, and arbitrary proposition-valued context transport excluded from the scoped primitive boundary.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not claim proposition equality, propositional extensionality, host rewrite through $P=Q$, arbitrary proposition-valued context transport, Lean verification, or bridge checking.}
-  \upgradepath{Bridged closure requires a checked standard bridge route for the public ThreeAxiomsOneClosure, $\NameCert$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\ChapterTasteGate$ boundary.}
+  \upgradepath{Mature closure requires downstream examples and completeness of the ThreeAxiomsOneClosure, $\NameCert$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\ChapterTasteGate$ bridge boundary.}
 \end{closurestatus}
