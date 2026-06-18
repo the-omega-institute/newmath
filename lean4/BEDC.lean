@@ -3795,6 +3795,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootComponentwiseNamecertTransport
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootConsumerReadinessCertificate
+import BEDC.Derived.CriticalLineWitnessUp.RootConsumerThreshold
 import BEDC.Derived.CriticalLineWitnessUp.RootContinuationZeroStripCoherence
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamPackage
 import BEDC.Derived.CriticalLineWitnessUp.RootDownstreamTotality
@@ -4070,6 +4071,7 @@ import BEDC.Derived.DeRhamUp.RootCocycleLedgerThreshold
 import BEDC.Derived.DeRhamUp.RootLedgerExactness
 import BEDC.Derived.DeRhamUp.RootObligations
 import BEDC.Derived.DeRhamUp.TasteGate
+import BEDC.Derived.DecidableBarUp
 import BEDC.Derived.DecidableBetaFrontierUp.TasteGate
 import BEDC.Derived.DecidableRefutationBoundaryUp.NameCertObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
@@ -5319,6 +5321,7 @@ import BEDC.Derived.FiniteCauchyNetExtractionUp.TasteGate
 import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
+import BEDC.Derived.FiniteCoverNerveUp.TasteGate
 import BEDC.Derived.FiniteCoverRefinementUp.TasteGate
 import BEDC.Derived.FiniteCoverUniformModulusEnvelopeUp
 import BEDC.Derived.FiniteDifferenceTableUp.TasteGate
@@ -5697,6 +5700,7 @@ import BEDC.Derived.FreeTopologicalGroupUp
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.FrinkMetrizationUp.TasteGate
 import BEDC.Derived.FrobeniusCoinUp.TasteGate
+import BEDC.Derived.FrontdoorCriterionUp.TasteGate
 import BEDC.Derived.FubiniFiniteRectangleUp.NameCertObligations
 import BEDC.Derived.FubiniFiniteRectangleUp.TasteGate
 import BEDC.Derived.FuchsianGroupActionUp
@@ -9796,6 +9800,7 @@ import BEDC.Derived.SchurOrthogonalityUp.CharacterPairingRoute
 import BEDC.Derived.SchurOrthogonalityUp.GroupAveragingLedger
 import BEDC.Derived.SchurOrthogonalityUp.RowColumnOrthogonalityLedger
 import BEDC.Derived.SchurOrthogonalityUp.TasteGate
+import BEDC.Derived.SchwartzDistributionUp.TasteGate
 import BEDC.Derived.SchwartzFunctionUp.TasteGate
 import BEDC.Derived.SchwartzKernelUp.TasteGate
 import BEDC.Derived.SchwarzLemmaUp.TasteGate
