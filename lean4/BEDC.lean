@@ -9873,6 +9873,7 @@ import BEDC.Derived.SequentialCompactUp.StandardBridgeScope
 import BEDC.Derived.SequentialCompactUp.StreamNameSubsequenceRoute
 import BEDC.Derived.SequentialCompactUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.WindowExtractionScope
+import BEDC.Derived.SequentialCompactnessModulusUp
 import BEDC.Derived.SequentialCompactnessUp.BolzanoWeierstrassWindow
 import BEDC.Derived.SequentialCompactnessUp.CompactMetricRoute
 import BEDC.Derived.SequentialCompactnessUp.NameCertObligations
