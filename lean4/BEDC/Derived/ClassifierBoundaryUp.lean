@@ -101,4 +101,47 @@ theorem ClassifierBoundaryCarrier_namecert_obligations [AskSetup] [PackageSetup]
     ⟨cert, acceptedExt, refusedExt, sigRead, acceptedRoute, publicRoute, provenancePkg,
       nameCertPkg, publicPkg⟩
 
+theorem ClassifierBoundaryCarrier_ext_cont_preservation_scope [AskSetup] [PackageSetup]
+    {source accepted refused preserved sig transport route provenance nameCert publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierBoundaryCarrier source accepted refused preserved sig transport route provenance
+        nameCert bundle pkg ->
+      SigRel bundle source sig ->
+        Cont sig route publicRead ->
+          PkgSig bundle publicRead pkg ->
+            Ext source BMark.b0 accepted ∧ Ext source BMark.b1 refused ∧
+              SigRel bundle source sig ∧ Cont accepted route preserved ∧
+                Cont sig route publicRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle nameCert pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel PkgSig
+  intro carrier sigRead publicRoute publicPkg
+  obtain ⟨acceptedExt, refusedExt, preservedRoute, _transportSelf, _sigSelf,
+    provenancePkg, nameCertPkg⟩ := carrier
+  exact
+    ⟨acceptedExt, refusedExt, sigRead, preservedRoute, publicRoute, provenancePkg,
+      nameCertPkg, publicPkg⟩
+
+theorem ClassifierBoundaryCarrier_public_boundary [AskSetup] [PackageSetup]
+    {source accepted refused preserved sig transport route provenance nameCert publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierBoundaryCarrier source accepted refused preserved sig transport route provenance
+        nameCert bundle pkg →
+      Ext source BMark.b0 accepted →
+        Ext source BMark.b1 refused →
+          Cont accepted route preserved →
+            SigRel bundle source sig →
+              Cont sig route publicRead →
+                PkgSig bundle publicRead pkg →
+                  Ext source BMark.b0 accepted ∧ Ext source BMark.b1 refused ∧
+                    Cont accepted route preserved ∧ SigRel bundle source sig ∧
+                      Cont sig route publicRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle nameCert pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Ext Cont SigRel PkgSig
+  intro carrier acceptedExt refusedExt acceptedRoute sigRead publicRoute publicPkg
+  obtain ⟨_carrierAcceptedExt, _carrierRefusedExt, _carrierAcceptedRoute,
+    _transportSelf, _sigSelf, provenancePkg, nameCertPkg⟩ := carrier
+  exact
+    ⟨acceptedExt, refusedExt, acceptedRoute, sigRead, publicRoute, provenancePkg,
+      nameCertPkg, publicPkg⟩
+
 end BEDC.Derived.ClassifierBoundaryUp
