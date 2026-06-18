@@ -561,6 +561,31 @@
       "phase": 1,
       "statement": "For cyclic no-adjacent-1 binary words P_n with |P_n|=L_n under the C_n rotation gauge, the joint golden-necklace spectrum J_n(d,k)=#{rotation orbits in P_n with exact orbit size d and Hamming weight k} is a basepoint-free bivariate refinement of the two existing single gradings. The size marginal sum_k J_n(d,k) recovers the Mobius primitive orbit-size spectrum a(d), and the weight marginal sum_d J_n(d,k) recovers the coefficients of N_n(y). The joint table is strictly finer: for Window6 n=10 the size-10 row splits by weight as {1:1,2:3,3:5,4:2}, and a distinct nonnegative table with the same size and weight marginals exists, so the orbit-size x weight correlation is not recoverable from either marginal alone. The closed form is J_n(d,k)=A(d,kd/n) when n divides k*d, and 0 otherwise, where A(d,s) is the exact-period d primitive golden-necklace count with s ones; equivalently A(d,s)=(1/d) sum_{r|gcd(d,s)} mu(r) W(d/r,s/r), with W(g,0)=1 and W(g,t)=g/(g-t) C(g-t,t) for t>=1. Exact local enumeration verifies the brute joint spectrum, both marginals, the closed form, and primitive weighted formula for n<=12. The Window6 witness is J_10={(1,0):1,(2,5):1,(5,2):1,(5,4):1,(10,1):1,(10,2):3,(10,3):5,(10,4):2}, with size marginal {1:1,2:1,5:2,10:11} and weight marginal [1,1,4,5,3,1]. This is a genuine-new joint refinement unifying the two single gradings of the gauge-invariant golden-necklace; it is not about alpha.",
       "status": "open"
+    },
+    {
+      "claim_id": "window6.clock-gauge-invariant.trace-cycle-index-necklace-kernel.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "window6.clock-gauge-invariant.joint-necklace-spectrum.certificate",
+        "window6.clock-gauge-invariant.weight-refined-necklace-polynomial.certificate",
+        "window6.clock-gauge-invariant.c10-orbit-observables.certificate",
+        "window6.clock-coupling-cert.basepoint-free-gauge.certificate"
+      ],
+      "experiment_id": "verify-window6-trace-cycle-index-necklace-kernel",
+      "forbidden_claims": [
+        "The trace-cycle-index necklace kernel certificate does not identify the fine-structure constant or any physical/external/metrological interpretation.",
+        "The certificate does not claim the basepoint residue itself as forward-determined; the no-go stands.",
+        "The certificate does not duplicate Window6NecklaceOrbitCount; orbit count is only the specialization G_10(1,1).",
+        "The certificate does not duplicate the Mobius-Lucas orbit-size spectrum; a(d) is only the specialization [u^d]G_10(u,1).",
+        "The certificate does not duplicate Window6WeightedNecklace; N_10(y) is only the specialization G_10(1,y).",
+        "The certificate does not duplicate Window6JointNecklace; J_10 is only coefficient extraction from the single trace-cycle-index kernel."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.clock-gauge-invariant.trace-cycle-index-necklace-kernel",
+      "phase": 1,
+      "statement": "Let T(z)=[[1,z],[1,0]] be the weighted deformation of the core Fibonacci transfer matrix M=T(1). Exact symbolic matrix arithmetic verifies for g=1..10 that tr(T(z)^g)=sum_s W(g,s) z^s with W(g,0)=1 and W(g,s)=g/(g-s) binomial(g-s,s) for s>=1; specializing z=1 gives tr(M^g)=L_g=[1,3,4,7,11,18,29,47,76,123]. For d>=1 define P_d(z)=(1/d) sum_{r|d} mu(r) tr(T(z^r)^(d/r)) and G_n(u,y)=sum_{d|n} u^d P_d(y^(n/d)). For d|10 the primitive coefficient lists are P_1=[1], P_2=[0,1], P_5=[0,1,1], and P_10=[0,1,3,5,2]. The Window6 kernel is G_10(u,y)=u+u^2 y^5+u^5 y^2+u^5 y^4+u^10 y+3u^10 y^2+5u^10 y^3+2u^10 y^4. This single kernel generates all four gauge-invariant necklace observables: [u^d y^k]G_10 recovers J_10(d,k)={(1,0):1,(2,5):1,(5,2):1,(5,4):1,(10,1):1,(10,2):3,(10,3):5,(10,4):2}; G_10(1,y) has coefficients [1,1,4,5,3,1]; [u^d]G_10(u,1) gives {1:1,2:1,5:2,10:11}; and G_10(1,1)=15. The certificate is exact trace-cycle-index arithmetic over the golden no-adjacent-1 carrier, bridges the necklace theory back to M through z=1, and is not about alpha.",
+      "status": "open"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
