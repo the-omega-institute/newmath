@@ -72,6 +72,7 @@ The modulus row $M$ is consumed next, followed by the dyadic tolerance row $D$. 
 
 Only after those reads can the consumer reach $Q$ and then $V$. Transport and provenance through $H,C,P,N$ preserve the same order, so no detached criterion route exists.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyCriterionUp.RegularCauchyCriterion\_modulus\_route}
 
 \begin{theorem}[Regular Cauchy criterion window extraction]
 \label{thm:regular-cauchy-criterion-window-extraction}
@@ -100,6 +101,20 @@ Project the carrier in \autoref{def:regular-cauchy-criterion-carrier}. The packe
 The NameCert obligations of \autoref{thm:regular-cauchy-criterion-namecert-obligations} force stream-readback alignment and modulus-tolerance exposure. Thus the dyadic tolerance row names the requested radius, the stream window row fixes the inspected finite segment, and the RegSeqRat row reads that segment as regular rational data.
 
 The modulus route of \autoref{thm:regular-cauchy-criterion-modulus-route} places the Real-facing boundary after the criterion and convergence-criterion rows. Since those rows are reached only after $D,S,R$ have been displayed, every Real-facing route passes through the DyadicRatCore, StreamName, RegSeqRat, and Real rows in the stated order.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy criterion StreamName-RegSeqRat scope]
+\label{thm:regular-cauchy-criterion-streamname-regseqrat-scope}
+Let $K=(S,R,M,D,Q,V,A,H,C,P,N)$ be an accepted $\RegularCauchyCriterionUp$ carrier. Any criterion request must expose $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readback, $\CauchyModulusUp$ bounds, and $\DyadicRatCoreUp$ tolerance naming before it can reach the $\CauchyCriterionUp$ row $Q$, the $\CauchyConvergenceCriterionUp$ row $V$, or the $\RealUp$ boundary row $A$.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The rows $S,R,M,D$ are the only coordinates for finite stream windows, regular rational readback, modulus bounds, and dyadic tolerance naming.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-criterion-namecert-obligations}. They require stream-readback alignment and modulus-tolerance exposure, so a criterion request cannot inspect $R$ without first displaying $S$, and cannot export a Cauchy comparison without first displaying $M$ and $D$.
+
+The modulus route of \autoref{thm:regular-cauchy-criterion-modulus-route} and the RegSeqRat route of \autoref{thm:regular-cauchy-criterion-regseqrat-route} place $Q,V,A$ downstream of the displayed window, readback, modulus, and tolerance rows.
+
+Finally use the Real seal nonescape theorem. The Real boundary contributes no quotient stream, selected limit, host equality, trichotomy, choice schedule, or ambient completeness coordinate, so the scope of every criterion request remains the finite StreamName-to-RegSeqRat route through $S,R,M,D$ before $Q,V,A$.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy criterion Real seal nonescape]
@@ -153,7 +168,7 @@ The Real seal nonescape theorem excludes selected limits, quotient streams, host
 
 \begin{closurestatus}{\RegularCauchyCriterionUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-criterion-carrier}, \autoref{thm:regular-cauchy-criterion-namecert-obligations}, \autoref{thm:regular-cauchy-criterion-modulus-route}, \autoref{thm:regular-cauchy-criterion-real-seal-nonescape}, \autoref{thm:regular-cauchy-criterion-window-obligations}, \autoref{thm:regular-cauchy-criterion-tail-transport}, and \autoref{thm:regular-cauchy-criterion-cauchy-equivalence} bind the finite route from StreamName windows through RegSeqRat readback, CauchyModulus bounds, DyadicRatCore tolerances, CauchyCriterion testing, CauchyConvergenceCriterion repacking, transport, and the Real boundary.}
+  \scopeclosed{\autoref{def:regular-cauchy-criterion-carrier}, \autoref{thm:regular-cauchy-criterion-namecert-obligations}, \autoref{thm:regular-cauchy-criterion-modulus-route}, \autoref{thm:regular-cauchy-criterion-streamname-regseqrat-scope}, \autoref{thm:regular-cauchy-criterion-real-seal-nonescape}, \autoref{thm:regular-cauchy-criterion-window-obligations}, \autoref{thm:regular-cauchy-criterion-tail-transport}, and \autoref{thm:regular-cauchy-criterion-cauchy-equivalence} bind the finite route from StreamName windows through RegSeqRat readback, CauchyModulus bounds, DyadicRatCore tolerances, CauchyCriterion testing, CauchyConvergenceCriterion repacking, transport, and the Real boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
