@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceFreeRealSealUp$}
+\label{ch:concrete-instances-choice-free-real-seal-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real names, the $\ChoiceFreeRealSealUp$ packet records the terminal finite seal for a real-name route that stays inside displayed name data. It reads stream windows from \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerances from \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert seal for accepted real-name consumers, not a completeness theorem for $\RealUp$ and not a quotient stream presentation.
+
+\begin{definition}[Choice-free real seal carrier]
+\label{def:choice-free-real-seal-carrier}
+A $\ChoiceFreeRealSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,R,D,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite $\StreamNameUp$ window used by the consumer read.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback attached to that window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row controlling the inspected precision.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after $W,R,D$ have been read.
+\item $L$ is the nonescape ledger refusing countable-choice, quotient-stream, trichotomy, host-real-equality, and completeness routes.
+\item $H$ records componentwise $\hsame$ transport for $W,R,D,E,L,P,N$.
+\item $C$ records the displayed $\Cont$ replay from stream window to rational readback, dyadic tolerance, and terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and the local naming row.
+\item $N$ is the local $\NameCert_{\ChoiceFreeRealSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a countable-choice selector, quotient stream equality, trichotomy on real names, host real equality, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Choice-free real seal NameCert obligations]
+\label{thm:choice-free-real-seal-namecert-obligations}
+For the carrier of \autoref{def:choice-free-real-seal-carrier}, the local $\NameCert_{\ChoiceFreeRealSealUp}$ surface consists of five finite rows: carrier admission for $S$; stream-window, regular-rational, and dyadic-tolerance visibility before the terminal real seal; componentwise $\hsame$ transport for the displayed rows; $\Cont$ replay and $\Pkg$ provenance for the same route; and nonescape from countable-choice, quotient-stream, trichotomy, host-real-equality, and completeness routes.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed packet $S=(W,R,D,E,L,H,C,P,N)$. The first read exposes the stream window, regular rational readback, and dyadic tolerance rows before the terminal $\RealUp$ seal can be used.
+
+The transport, replay, and provenance rows are $H,C,P$. They keep every accepted read on the same finite packet and attach the local naming row $N$ to that route.
+
+The ledger row $L$ supplies the refusal boundary. Since the carrier lists no selector, quotient equality, trichotomy, host equality, or completeness coordinate, those principles cannot be exported by the local NameCert surface.
+\end{proof}
+\leandef{BEDC.Derived.ChoiceFreeRealSealUp}
+
+\begin{theorem}[Choice-free real seal no-choice route]
+\label{thm:choice-free-real-seal-no-countable-choice-route}
+An accepted $\ChoiceFreeRealSealUp$ packet exports no countable-choice selector, no quotient stream equality, no trichotomy row for real names, no host real equality, and no $\RealUp$ completeness row. Every real-facing consumer must read the finite stream window $W$, regular rational row $R$, dyadic tolerance row $D$, terminal real seal $E$, nonescape ledger $L$, transport $H$, replay $C$, provenance $P$, and local name $N$ as its complete surface.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows in \autoref{def:choice-free-real-seal-carrier}. The only real-facing rows are $W,R,D,E$ together with the ledger, transport, replay, provenance, and naming rows.
+
+Apply \autoref{thm:choice-free-real-seal-namecert-obligations}. It forces every local naming read to keep the same five-row obligation surface and the same nonescape ledger.
+
+The excluded principles have no row in $S$. A consumer asking for countable choice, quotient stream equality, trichotomy, host real equality, or $\RealUp$ completeness therefore leaves the accepted packet rather than reading an exported coordinate.
+\end{proof}
+
+\closureat{ChoiceFreeRealSealUp}{seedStr}
+
+\begin{closurestatus}{\ChoiceFreeRealSealUp}
+  \constructivestory{A $\ChoiceFreeRealSealUp$ packet is generated from a finite StreamNameUp window, RegSeqRatUp readback, DyadicRatCoreUp tolerance, terminal RealUp seal, nonescape ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-free-real-seal-carrier}, \autoref{thm:choice-free-real-seal-namecert-obligations}, and \autoref{thm:choice-free-real-seal-no-countable-choice-route} seed the finite choice-free real-name seal.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.ChoiceFreeRealSealUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, quotient stream equality, trichotomy, host real equality, Real completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission and nonescape exactness for the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.}
+\end{closurestatus}
