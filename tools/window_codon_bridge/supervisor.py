@@ -242,11 +242,15 @@ def keep_lane():
     own -- a no-output cycle must not push (that would be pollution).
     """
     # Science content whose change is a real research output.
+    # NOTE: state/oracle_assimilation is intentionally EXCLUDED -- the assimilation
+    # lane rewrites latest_*_plan.{json,md} every cycle with only a generated_ts
+    # timestamp bump (identical content), which is pure churn. New oracle content
+    # is already captured by oracle_inbox/candidates.jsonl (only appended on an
+    # actual oracle query), so the timestamp rewrite must not trigger a commit.
     science_paths = (
         "tools/window_codon_bridge/registries/claims.json",
         "tools/window_codon_bridge/registries/experiments.json",
         "tools/window_codon_bridge/oracle_inbox/candidates.jsonl",
-        "tools/window_codon_bridge/state/oracle_assimilation",
         "papers/window_codon_bridge/bridge_ledger.jsonl",
     )
     # Everything committed alongside when (and only when) science changed; the
