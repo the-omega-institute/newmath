@@ -3385,6 +3385,7 @@ import BEDC.Derived.ContinuousMapUp.SemanticCertificate
 import BEDC.Derived.ContinuousMapUp.TerminalModulusExtension
 import BEDC.Derived.ContinuousMapUp.TransportDepth
 import BEDC.Derived.ContinuousMapUp.VisibleContextCompositionCategoryMetricExactness
+import BEDC.Derived.ContinuousRiemannIntegrabilityUp.TasteGate
 import BEDC.Derived.ContinuousSupNormCompletionUp.TasteGate
 import BEDC.Derived.ContinuousSupNormUp.TasteGate
 import BEDC.Derived.ContinuousUp
@@ -5669,8 +5670,10 @@ import BEDC.Derived.FrechetFilterUp.TailNeighborhoodHandoff
 import BEDC.Derived.FrechetFilterUp.TasteGate
 import BEDC.Derived.FrechetUrysohnUp.TasteGate
 import BEDC.Derived.FredholmAlternativeUp.TasteGate
+import BEDC.Derived.FreeGroupUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FreeMonoidUp.TasteGate
+import BEDC.Derived.FreeTopologicalGroupUp
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.FrinkMetrizationUp.TasteGate
 import BEDC.Derived.FrobeniusCoinUp.TasteGate
@@ -9368,6 +9371,7 @@ import BEDC.Derived.RegularCauchyMapUp.TasteGate
 import BEDC.Derived.RegularCauchyMaxUp.SumAbsFactorization
 import BEDC.Derived.RegularCauchyMaxUp.TasteGate
 import BEDC.Derived.RegularCauchyMaximumUp.TasteGate
+import BEDC.Derived.RegularCauchyMeshCofinalityUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyMetricUp
 import BEDC.Derived.RegularCauchyMetricUp.ScopedKernelRoute
@@ -10092,7 +10096,6 @@ import BEDC.Derived.SimplicialSetUp.TasteGate
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.SixBoundaryTileCoverageUp.TasteGate
 import BEDC.Derived.SliceCategoryUp
-import BEDC.Derived.SliceCategoryUp.TasteGate
 import BEDC.Derived.SmithNormalFormUp.TasteGate
 import BEDC.Derived.SmoothManifoldUp.TasteGate
 import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
@@ -10374,7 +10377,6 @@ import BEDC.Derived.SupportNerveCensusUp.NameCertObligations
 import BEDC.Derived.SupportNerveCensusUp.TasteGate
 import BEDC.Derived.SupportNerveRealizationUp.TasteGate
 import BEDC.Derived.SylowUp
-import BEDC.Derived.SylowUp.TasteGate
 import BEDC.Derived.SylvesterInertiaUp.TasteGate
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.SymplecticUp
