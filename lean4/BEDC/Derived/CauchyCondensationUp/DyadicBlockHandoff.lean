@@ -118,4 +118,134 @@ theorem CauchyCondensationCarrier_dyadic_block_handoff [AskSetup] [PackageSetup]
     }
   exact ⟨cert, blockReadUnary, tailReadUnary, readbackUnary⟩
 
+theorem CauchyCondensationCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source windows blocks sums tails readback sealRow transportRow replayRow provenance localName :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCondensationCarrier source windows blocks sums tails readback sealRow transportRow replayRow
+        provenance localName bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row localName ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row windows ∨ hsame row blocks ∨ hsame row sums ∨
+              hsame row tails ∨ hsame row readback ∨ hsame row sealRow ∨
+                hsame row provenance ∨ hsame row localName)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+          hsame ∧ UnaryHistory source ∧ UnaryHistory windows ∧ UnaryHistory blocks ∧
+        UnaryHistory sums ∧ UnaryHistory tails ∧ UnaryHistory sealRow ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory SemanticNameCert hsame
+  intro carrier
+  obtain ⟨sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, sealUnary,
+    _transportUnary, _replayUnary, provenanceUnary, localNameUnary, provenancePkg,
+    localNamePkg⟩ := carrier
+  have localSource :
+      (fun row : BHist => hsame row localName ∧ UnaryHistory row) localName := by
+    exact ⟨hsame_refl localName, localNameUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row localName ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row windows ∨ hsame row blocks ∨ hsame row sums ∨
+              hsame row tails ∨ hsame row readback ∨ hsame row sealRow ∨
+                hsame row provenance ∨ hsame row localName)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro localName localSource
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          cases sameRows
+          exact sourceRow
+      }
+      pattern_sound := by
+        intro row sourceRow
+        exact Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr sourceRow.left)))))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.right, provenancePkg, localNamePkg⟩
+    }
+  exact ⟨cert, sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, sealUnary,
+    provenancePkg, localNamePkg⟩
+
+theorem CauchyCondensationCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
+    {source windows blocks sums tails readback sealRow transportRow replayRow provenance localName
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCondensationCarrier source windows blocks sums tails readback sealRow transportRow replayRow
+        provenance localName bundle pkg ->
+      UnaryHistory readback ->
+        Cont readback sealRow sealRead ->
+          PkgSig bundle sealRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row readback ∨ hsame row sealRow ∨ hsame row sealRead)
+                (fun row : BHist => hsame row sealRead ∧ PkgSig bundle sealRead pkg)
+                hsame ∧ UnaryHistory sealRow ∧ UnaryHistory sealRead ∧
+              Cont readback sealRow sealRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle localName pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory SemanticNameCert hsame
+  intro carrier readbackUnary readbackSeal sealReadPkg
+  obtain ⟨_sourceUnary, _windowsUnary, _blocksUnary, _sumsUnary, _tailsUnary, sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, provenancePkg,
+    localNamePkg⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary sealUnary readbackSeal
+  have sourceSeal :
+      (fun row : BHist => hsame row sealRead ∧ UnaryHistory row) sealRead := by
+    exact ⟨hsame_refl sealRead, sealReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row readback ∨ hsame row sealRow ∨ hsame row sealRead)
+          (fun row : BHist => hsame row sealRead ∧ PkgSig bundle sealRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro sealRead sourceSeal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          cases sameRows
+          exact sourceRow
+      }
+      pattern_sound := by
+        intro row sourceRow
+        exact Or.inr (Or.inr sourceRow.left)
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, sealReadPkg⟩
+    }
+  exact
+    ⟨cert, sealUnary, sealReadUnary, readbackSeal, provenancePkg, localNamePkg, sealReadPkg⟩
+
 end BEDC.Derived.CauchyCondensationUp
