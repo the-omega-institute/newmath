@@ -3977,6 +3977,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ZeroRowSourceScope
 import BEDC.Derived.CriticalLineWitnessUp.ZeroSourceLedgerExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.ZeroSourceRealReadbackFactorization
 import BEDC.Derived.CriticalLineWitnessUp.ZeroSourceRefusalReadback
+import BEDC.Derived.CriticalLineWitnessUp.ZeroSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBoundary
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBudgetFactorization
 import BEDC.Derived.CriticalLineWitnessUp.ZeroStripBudgetTransport
@@ -6721,6 +6722,7 @@ import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
 import BEDC.Derived.LocatedIntervalUp.StdBridge
 import BEDC.Derived.LocatedIntervalUp.TasteGate
 import BEDC.Derived.LocatedLimitUp.CauchyTailUniqueness
+import BEDC.Derived.LocatedLimitUp.FiniteWindowScope
 import BEDC.Derived.LocatedLimitUp.NameCertObligations
 import BEDC.Derived.LocatedLimitUp.RealSealComparison
 import BEDC.Derived.LocatedLimitUp.RealSealRoute
@@ -7473,6 +7475,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionPacket
 import BEDC.Derived.MetaCICNormalizationFrontierUp.VisibleObstructionRouteFactorization
 import BEDC.Derived.MetaCICNormalizationSubstitutionBoundaryUp
 import BEDC.Derived.MetaCICNormalizationWindowConfluenceUp.TasteGate
+import BEDC.Derived.MetaCICOpenProblemLedgerUp
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp
@@ -8206,6 +8209,7 @@ import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditMapConsumerTotality
+import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
 import BEDC.Derived.ParacompactUp.LocallyFiniteRefinement
 import BEDC.Derived.ParacompactUp.MetricNormalRoute
