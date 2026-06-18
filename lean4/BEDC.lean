@@ -6731,6 +6731,7 @@ import BEDC.Derived.LocatedLimitUp.RealSealRoute
 import BEDC.Derived.LocatedLimitUp.RegSeqRatReadbackStability
 import BEDC.Derived.LocatedLimitUp.ScheduleMonotonicity
 import BEDC.Derived.LocatedLimitUp.ScheduleTailCofinality
+import BEDC.Derived.LocatedLimitUp.SourceRowScope
 import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedLimitUp.WindowScheduleExactness
 import BEDC.Derived.LocatedLowerBoundUp
@@ -9521,6 +9522,7 @@ import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.NameCertObligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.Obligations
+import BEDC.Derived.RegularCauchyProductBudgetUp.ProductClosureBudget
 import BEDC.Derived.RegularCauchyProductBudgetUp.RealSealBoundary
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyProductCriterionUp.TasteGate
