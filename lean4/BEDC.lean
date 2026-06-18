@@ -1660,6 +1660,7 @@ import BEDC.Derived.CauchyConvergenceModulusUp
 import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyCriterionEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyCriterionForSeriesUp.TasteGate
+import BEDC.Derived.CauchyCriterionUniformUp.TasteGate
 import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyCriterionUp.BudgetSelectorTerminalRouteExhaustion
 import BEDC.Derived.CauchyCriterionUp.ClassifierStabilityScope
@@ -10853,6 +10854,7 @@ import BEDC.Derived.UniformEquicontinuityModulusUp.TasteGate
 import BEDC.Derived.UniformFixedPointUp.TasteGate
 import BEDC.Derived.UniformHomeomorphismUp.TasteGate
 import BEDC.Derived.UniformIntegralLimitUp.TasteGate
+import BEDC.Derived.UniformInverseModulusUp.TasteGate
 import BEDC.Derived.UniformLimitContinuityUp
 import BEDC.Derived.UniformLimitContinuityUp.TasteGate
 import BEDC.Derived.UniformLimitContinuousUp.TasteGate
@@ -10958,6 +10960,7 @@ import BEDC.Derived.WeakTopologyUp.FunctionalWindowStability
 import BEDC.Derived.WeakTopologyUp.NamecertObligations
 import BEDC.Derived.WeakTopologyUp.TasteGate
 import BEDC.Derived.WeaklyCauchySequenceUp.TasteGate
+import BEDC.Derived.WeaklyLocatedIntervalSelectionUp.TasteGate
 import BEDC.Derived.WeierstrassApproximationUp
 import BEDC.Derived.WeierstrassApproximationUp.PolynomialHandoff
 import BEDC.Derived.WeierstrassApproximationUp.TasteGate
