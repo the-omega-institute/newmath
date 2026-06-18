@@ -8258,6 +8258,7 @@ import BEDC.Derived.PinGroupUp
 import BEDC.Derived.PinGroupUp.CliffordConjugationLedger
 import BEDC.Derived.PinGroupUp.ReflectionExtension
 import BEDC.Derived.PinGroupUp.RootScopedObligationPackage
+import BEDC.Derived.PixleyRoySpaceUp.TasteGate
 import BEDC.Derived.PoincareBoundaryFixedTransportUp.TasteGate
 import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
 import BEDC.Derived.PoincareInequalityUp
