@@ -83,6 +83,120 @@ def test_schema_requires_explicit_evidence_provenance_fields():
                 QualityEvidenceEnvelope(**bad)
 
 
+def test_schema_from_dict_warns_when_compatible_defaults_are_used():
+    data = {
+        key: value
+        for key, value in envelope_kwargs().items()
+        if key not in {"ledger_gaps", "debt_items", "bedc_refs"}
+    }
+    data.update(
+        {
+            "source_artifact_hash": {
+                "algorithm": "sha256",
+                "value": "1" * 64,
+            },
+            "claim_capsule_pointer": {
+                "artifact": "reports/quality_report.json",
+                "pointer": "$.claims[0]",
+            },
+            "cost_protocol_pointer": {
+                "artifact": "reports/quality_report.json",
+                "pointer": "$.cost.protocol",
+            },
+            "negative_witness_sweep_pointer": {
+                "artifact": "reports/quality_report.json",
+                "pointer": "$.negative_witness_sweep",
+            },
+        }
+    )
+
+    with pytest.warns(UserWarning, match="defaulted compatible missing field"):
+        envelope = QualityEvidenceEnvelope.from_dict(data)
+
+    assert envelope.ledger_gaps == []
+    assert envelope.debt_items == []
+    assert envelope.bedc_refs == []
+    assert envelope.evidence_type == "unspecified"
+    assert envelope.evidence_scope == "unspecified"
+    assert envelope.backend_owner == "unspecified"
+
+
+@pytest.mark.parametrize(
+    "field_name",
+    [
+        "schema_id",
+        "run_id",
+        "source_spec",
+        "pattern_spec",
+        "classifier_spec",
+        "stability_spec",
+        "metrics",
+        "artifacts",
+        "source_artifact_hash",
+        "claim_capsule_pointer",
+        "cost_protocol_pointer",
+        "negative_witness_sweep_pointer",
+    ],
+)
+def test_schema_from_dict_hard_fails_missing_safety_boundary_fields(field_name):
+    data = envelope_kwargs()
+    data.update(
+        {
+            "source_artifact_hash": {
+                "algorithm": "sha256",
+                "value": "1" * 64,
+            },
+            "claim_capsule_pointer": {
+                "artifact": "reports/quality_report.json",
+                "pointer": "$.claims[0]",
+            },
+            "cost_protocol_pointer": {
+                "artifact": "reports/quality_report.json",
+                "pointer": "$.cost.protocol",
+            },
+            "negative_witness_sweep_pointer": {
+                "artifact": "reports/quality_report.json",
+                "pointer": "$.negative_witness_sweep",
+            },
+        }
+    )
+    data.pop(field_name)
+
+    with pytest.raises(ValueError, match=field_name):
+        QualityEvidenceEnvelope.from_dict(data)
+
+
+def test_schema_from_dict_does_not_default_artifact_authority_fields():
+    data = {
+        key: value
+        for key, value in envelope_kwargs().items()
+        if key != "artifacts"
+    }
+    data.update(
+        {
+            "source_artifact_hash": {
+                "algorithm": "sha256",
+                "value": "1" * 64,
+            },
+            "claim_capsule_pointer": {
+                "artifact": "reports/quality_report.json",
+                "pointer": "$.claims[0]",
+            },
+            "cost_protocol_pointer": {
+                "artifact": "reports/quality_report.json",
+                "pointer": "$.cost.protocol",
+            },
+            "negative_witness_sweep_pointer": {
+                "artifact": "reports/quality_report.json",
+                "pointer": "$.negative_witness_sweep",
+            },
+        }
+    )
+
+    with pytest.raises(ValueError, match="artifacts"):
+        QualityEvidenceEnvelope.from_dict(data)
+
+
 def test_schema_accepts_pointer_only_evidence_surfaces():
     kwargs = envelope_kwargs()
     kwargs.update(
