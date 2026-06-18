@@ -20,18 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-17T22:25:32Z
+> 最后刷新: 2026-06-18T03:46:12Z
 
-**Daemon 状态**: monitor (monitor cycle 43, adjust_since_research 2, round_counter 12143, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 46, adjust_since_research 2, round_counter 12379, last_adjust rule_evolution_completed)
 
-**待处理 queue** (378 条 finding):
-- isolated_theorem: 227 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (395 条 finding):
+- isolated_theorem: 244 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 23 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 15 次
-- TASTE ALERT category=low_entropy_template: 2 次
+- TASTE ALERT category=isolated_theorem: 34 次
+- TASTE ALERT category=low_entropy_template: 9 次
+- TASTE ALERT category=resolution_json_parse_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -327,6 +328,10 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-17T20:33:53Z: `resolved` `delete_theorem` for `BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_public_interface` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_public_interface:4e2b5593`). Rationale: The declaration was an unconsumed wrapper with the same statement as GroundLoopBoundaryCarrier_scoped_kernel_route and its proof was only exact GroundLoopBoundaryCarrier_scoped_kernel_route carrier. Repo search showed no Lean downstream users; the only source-level paper reference was the removable \leanchecked marker in the GroundLoopBoundary chapter. The surrounding chapter still retains the public-interface prose, backed by the scoped kernel route and mature consumer exhaustion theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-17T22:24:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_scoped_kernel_route` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_scoped_kernel_route:198b0f1a`). Rationale: The target has real BEDC content: it packages the carrier's primitive msame rows with the composed Cont route and hsame name rows, and the paper's scoped-kernel theorem relies on that surface. Repo search showed it was isolated except for the paper marker and its own proof chain, so I added a sibling TasteGate consumer theorem that constructs the concrete GroundLoopBoundaryUp carrier, uses GroundLoopBoundaryCarrier_scoped_kernel_route, ties it to FieldFaithful.fields, and closes the displayed mark conservativity through ChapterTasteGate.conservativity. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-18T00:21:17Z: `resolved` `delete_theorem` for `BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:groundloopboundary:BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryTasteGate_single_carrier_alignment:7ce439bb`). Rationale: The target was an isolated aggregate over existing local codec facts: BHist decode/encode, EventFlow round trip, injectivity, BMark exhaustiveness, and empty-history encoding. Repo search found no Lean downstream consumer, and the only paper reference was the removable NameCert-obligations \leanchecked marker. The surrounding GroundLoopBoundary chapter still retains the substantive checked surfaces through meta non-escape, scoped kernel routing, and the existing downstream scoped-kernel consumer, so deleting this wrapper removes unconsumed staging surface without losing BEDC content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-18T02:20:40Z: `resolved` `leave_with_rationale` for `BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_meta_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:groundloopboundary:BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_meta_nonescape:7ce439bb`). Rationale: The target is not a pure duplicate: it records the TasteGate/EventFlow mark non-escape surface for GroundLoopBoundaryUp, while the surrounding root carrier theorems cover scoped kernel routing, public interface, and mature consumer exhaustion. I attempted to add a downstream TasteGate/kernel consumer that used this theorem together with GroundLoopBoundaryCarrier_scoped_kernel_route, but the required lake build gate failed in the edited target file; per instruction I reverted the change and leave the theorem unchanged with this rationale. Gate results: lake_build=failed: Some required targets logged failures: BEDC.Derived.GroundLoopBoundaryUp.TasteGate; BEDC/Derived/GroundLoopBoundaryUp/TasteGate.lean:315:7: error: unexpected token 'meta'; expected '(', ':=', '|' or term, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
