@@ -1,0 +1,28 @@
+\subsection{Position-Resolved Translation Survival of the $f_3$-Stress Coordinate}\label{sec:q6-f3-stress-position-resolved-translation-survival-cross-layer}
+\origin{ai}
+
+\paragraph{Claim form.}
+The object considered here is a finite coding-sequence window table.  Each row is keyed by organism, coding sequence or transcript identifier, codon position, and local window, and carries an $f_3$-stress residual coordinate after quotienting by amino-acid identity.  The same row must also carry local synonymous codon counts, a bounded wobble-weight context, an mRNA abundance control matched to the ribosome-profiling condition, and controls for amino-acid class or position bin.  The proposed cross-layer claim is not that the $f_3$ coordinate is intrinsically translational.  The claim is narrower: an $f_3$-stress entry may be retained only when the same finite windows show a positive controlled improvement for a position-resolved ribosome-occupancy or translation-efficiency readout.
+
+\paragraph{Finite row statistic.}
+For a window table $T$, let $x_{f_3}$ denote the amino-acid-quotiented $f_3$-stress residual coordinate, let $Y_{\mathrm{pos}}$ be the matched local ribosome-occupancy or translation-efficiency response, and let $Z$ contain amino-acid composition, position bin, GC3, coding-sequence length, methionine density, mRNA abundance, coverage and mappability controls, and simpler codon-usage baselines.  The survival entry is the held-out controlled gain
+$$
+\begin{aligned}
+S_{f_3}(T_{\mathrm{pos}}\mid Z)
+  = R^2_{\mathrm{heldout}}(Y_{\mathrm{pos}}\sim Z+x_{f_3}+w)
+    -R^2_{\mathrm{heldout}}(Y_{\mathrm{pos}}\sim Z+\mathrm{baseline}),
+\end{aligned}
+$$
+where $w$ is the observed context-specific wobble-weight surface.  The admissible case requires a real asymmetry $w_c\neq w_c^{f_3}$ in the row data, not an assumed directional preference.  Rank checks are required before any positive entry is interpreted, so that a nominal gain is not produced by an underpowered or collapsed coordinate.
+
+\paragraph{Available powered contact.}
+The finite evidence already available is adjacent rather than identical to the requested position-resolved occupancy test.  In the verified powered boundary run with experiment id \texttt{b\_star\_q6\_translation\_conditioned\_structural\_order\_boundary\_powered}, two organisms were joined: \textit{Escherichia coli} K-12 MG1655 with $3412$ joined rows and \textit{Saccharomyces cerevisiae} with $5119$ joined rows.  The run used $5$ folds and reported status \texttt{passed}.  The $B^*_{Q6}$ predictor-to-order statistic was positive in both organisms, with $n=2$, minimum $0.03664544696481631$, maximum $0.1604655467663032$, mean and median both $0.09855549686555976$, and zero negative calls.  Under the full controls, the aggregate $\Delta R^2$ was again positive in both organisms: minimum $0.002688284523492457$, maximum $0.007880037229394898$, mean and median both $0.005284160876443678$.  The weighted full-control $\Delta R^2$ was $0.004764742175882462$, while the permuted full-control $\Delta R^2$ was negative in both organisms, with minimum $-0.003463794378680385$, maximum $-0.000779938262202795$, and mean and median both $-0.00212186632044159$.  The sign-flip probability for a positive full-control effect was $0.0029296875$, and the reported verdict was \texttt{crosses\_to\_structural\_order\_layer}.
+
+\paragraph{Why this does not settle the present claim.}
+Those numbers show that a translation-conditioned $B^*_{Q6}$ surface can retain a controlled positive signal in a finite two-organism joined panel.  They do not by themselves supply the local statistic needed here.  The present claim asks for the $f_3$-stress member specifically, resolved by codon position or local window, joined to same-CDS ribosome-footprint occupancy or translation-efficiency rows, and controlled by mRNA abundance in the same experimental condition.  A modeled tAI or stAI weight can define a bounded codon-adaptation annotation, and organism-level codon-usage tables can define sequence-composition controls, but neither source is an observed ribosome-occupancy array.  The current finite record is therefore a constrained conjectural route rather than a completed survival test for $S_{f_3}(T_{\mathrm{pos}}\mid Z)$.
+
+\paragraph{Break condition.}
+The proposed entry fails if every admissible window panel has $S_{f_3}(T_{\mathrm{pos}}\mid Z)\leq 0$ after the full controls and baseline ablations.  It also fails if the apparent effect disappears under held-out evaluation, rank checks, coverage and mappability filters, or matched mRNA correction.  A weaker failure occurs if the data contain codon counts and wobble weights but lack same-organism, same-CDS, same-window footprint rows; in that case the construction remains a request for a missing readout rather than a biological result.
+
+\paragraph{Local interpretation boundary.}
+No claim about translation realization, protein abundance, folding, physical admissibility, molecular function, mechanism, phenotype, or universality follows from the $f_3$-stress coordinate alone.  Even a positive $S_{f_3}$ entry would only license a bounded position-resolved translation-readout survival statement for the matched finite table under the stated controls.  Any downstream assertion about protein output, folded structure, function, or organism-level behavior requires a separate matched contact at that layer.
