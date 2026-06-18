@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailStabilityUp$}
+\label{ch:concrete-instances-cauchy-tail-stability-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\CauchyTailStabilityUp$ packet records the finite-tail stability surface needed before a regular rational stream is admitted to the $\RealUp$ seal. It sits over the regular rational classifier of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the regular Cauchy shift route of \autoref{ch:concrete-instances-regular-cauchy-shift-namecert}. The packet names only finite prefix erasure, tail-window replay, tolerance preservation, and seal handoff; it does not introduce quotient streams, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy tail stability carrier]
+\label{def:cauchy-tail-stability-carrier}
+A $\CauchyTailStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+T=(Q,k,W,R,D,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $Q$ is the source $\RegSeqRatUp$ row, read as a regular rational Cauchy name before any finite prefix is ignored.
+\item $k$ is the displayed finite prefix length whose removal is being certified.
+\item $W$ is the $\StreamNameUp$ tail-window row, sending each later window request to the source window beginning after $k$.
+\item $R$ is the replayed regular-rational classifier for the tail stream.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger witnessing that the tail replay preserves the same dyadic error budgets.
+\item $E$ is the exclusion ledger for quotient streams, selected limits, countable choice, trichotomy, and ambient $\RealUp$ completeness.
+\item $H$ records componentwise $\hsame$ transport for source, prefix length, tail window, classifier, dyadic ledger, exclusion ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail-stability request through $Q,k,W,R,D,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailStabilityUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyShiftUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailStabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,k,W,R,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, selected limits, countable-choice tail selectors, trichotomy, host real equality, or an ambient completeness proof for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Cauchy tail stability NameCert obligations]
+\label{thm:cauchy-tail-stability-namecert-obligations}
+For every accepted $\CauchyTailStabilityUp$ carrier $T=(Q,k,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyTailStabilityUp}$ surface consists exactly of carrier admission, finite-prefix exposure, tail-window replay, regular-rational classifier retention, dyadic tolerance preservation, exclusion-ledger nonescape, componentwise transport, displayed continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier. The source regular rational row, finite prefix length, tail-window row, replayed classifier, dyadic ledger, exclusion ledger, and structural rows are all displayed coordinates.
+
+The finite-prefix exposure and tail-window replay are read through $k$ and $W$. A consumer cannot inspect the tail before the prefix length is visible, and it cannot detach the replayed window from the source row $Q$.
+
+The regular-rational classifier and dyadic tolerance obligations are read through $R$ and $D$. They keep the tail stream attached to the same regular Cauchy route and the same dyadic budget surface.
+
+Finally, $E,H,C,P,N$ record nonescape, transport, replay, provenance, and naming. Since no row stores quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy tail stability Real-seal handoff]
+\label{thm:cauchy-tail-stability-real-seal-handoff}
+Every $\RealUp$-facing consumer of an accepted $\CauchyTailStabilityUp$ carrier receives the tail-stable regular Cauchy name only through the finite route
+$$
+\RegSeqRatUp,\StreamNameUp,\DyadicRatCoreUp,\RegularCauchyShiftUp,\RealUp
+$$
+as displayed by $Q,k,W,R,D,E,H,C,P,N$. Finite prefixes therefore cannot affect the admitted Real seal, and the handoff exports no quotient stream, selected representative, selected limit, countable-choice schedule, trichotomy principle, host real equality, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the source row $Q$ and prefix length $k$. The packet exposes the regular rational Cauchy name before it exposes the tail, so the removed prefix is finite and named.
+
+Read the tail-window row $W$ and the replayed classifier row $R$. Each requested tail window is a displayed source window after $k$, and the classifier remains the regular-rational classifier attached to that replay.
+
+Read the dyadic ledger $D$ before the real seal. It records the same tolerance budgets for the tail route, so the $\RealUp$ consumer sees a regular Cauchy readback with preserved dyadic control.
+
+The remaining rows transport, replay, source, and name the route, while the exclusion ledger blocks every non-displayed exit. Thus finite prefixes cannot change the admitted Real seal inside this packet.
+\end{proof}
+
+\falsifiablePrediction{Any consumer that deletes $k$ or $W$ can no longer distinguish a finite-prefix read from an unrecorded quotient-stream identification.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real, regular-cauchy-shift: $\CauchyTailStabilityUp$ is not bijective to any listed sibling because it jointly carries the source regular rational row, displayed prefix length, tail-window replay, dyadic tolerance ledger, exclusion ledger, transport, replay, provenance, and local NameCert row.}
+
+\closureat{CauchyTailStabilityUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailStabilityUp}
+  \constructivestory{A $\CauchyTailStabilityUp$ packet is generated from a source regular rational Cauchy row, a finite prefix length, StreamName tail windows, a replayed RegSeqRat classifier, a DyadicRatCore tolerance ledger, an exclusion ledger, componentwise transport, displayed replay, package provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-stability-carrier}, \autoref{thm:cauchy-tail-stability-namecert-obligations}, and \autoref{thm:cauchy-tail-stability-real-seal-handoff} seed the finite-tail stability route from regular rational names to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-prefix exposure, tail-window replay, dyadic tolerance preservation, Real-seal handoff, and exclusion-ledger nonescape for BEDC.Derived.CauchyTailStabilityUp.}
+\end{closurestatus}

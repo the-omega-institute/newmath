@@ -1,0 +1,13 @@
+\begin{theorem}[StreamName pointwise classifier induction]
+\label{thm:streamname-pointwise-classifier-induction}
+Let $W$ be an accepted finite unary window for a $\StreamNameUp$ packet. Suppose every displayed index in $W$ carries pointwise classifier evidence, and suppose the window, classifier rows, $\BHist$ observations, $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows are transported together through the existing finite-window handoff surface. Then the whole finite window has a classified $\StreamNameUp$ read. The classified read remains a finite observation packet; it exports no quotient stream equality, selected limit, host real equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct on the finite unary window $W$. In the initial case, the window contains only the first displayed observation, so the pointwise classifier evidence at that observation gives the classified StreamName read after the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are projected.
+
+For the successor step, assume the shorter window has already been classified. Add one displayed observation at the successor index, together with its pointwise classifier evidence.
+
+Apply the finite-window transport route to keep the previously classified prefix and the new observation in the same $\hsame$ and $\Cont$ packet. Then use the pointwise handoff rows to attach the new classifier evidence to the enlarged window without changing the source StreamName packet.
+
+The resulting packet classifies the enlarged finite window through exactly the displayed observations, classifier rows, transport rows, replay rows, provenance, and local naming data. Since the induction never introduces an infinite representative, quotient equality, a selected limit, countable choice, or ambient completeness coordinate, none is exported by the classified read.
+\end{proof}
