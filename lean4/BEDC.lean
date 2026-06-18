@@ -4523,6 +4523,7 @@ import BEDC.Derived.DirectedCofinalSubsetUp
 import BEDC.Derived.DirectedFilterUp.TasteGate
 import BEDC.Derived.DirectedSetUp
 import BEDC.Derived.DirectedSetUp.TasteGate
+import BEDC.Derived.DirectedSubnetUp
 import BEDC.Derived.DirichletAbelSummabilityUp
 import BEDC.Derived.DirichletApproximationUp.TasteGate
 import BEDC.Derived.DirichletKernelUp
@@ -8266,6 +8267,7 @@ import BEDC.Derived.ParsevalUp.SoneOrthogonalityHandoff
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionBasinPolynomialUp.TasteGate
 import BEDC.Derived.PartitionBasinUp.TasteGate
+import BEDC.Derived.PartitionCoreIncidenceUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PathConnectedSpaceUp.TasteGate
