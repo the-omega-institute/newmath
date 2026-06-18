@@ -82,4 +82,25 @@ theorem RegularCauchyProductBudget_ledger_exactness [AskSetup] [PackageSetup]
     ⟨dUnary, eUnary, rUnary, productRow, ledgerRow, productPkg, ledgerPkg,
       readbackPkg⟩
 
+theorem RegularCauchyProductBudget_regseqrat_handoff [AskSetup] [PackageSetup]
+    {A B WA WB DA DB D E R S H C P N handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductBudgetCarrier A B WA WB DA DB D E R S H C P N bundle pkg ->
+      Cont D E handoffRead ->
+        PkgSig bundle handoffRead pkg ->
+          UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory WA ∧ UnaryHistory WB ∧
+            UnaryHistory D ∧ UnaryHistory E ∧ UnaryHistory handoffRead ∧
+              Cont D E handoffRead ∧ PkgSig bundle N pkg ∧
+                PkgSig bundle handoffRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier handoffRoute handoffPkg
+  obtain ⟨aUnary, bUnary, waUnary, wbUnary, _daUnary, _dbUnary, dUnary, eUnary,
+    _rUnary, _sUnary, _hUnary, _cUnary, _pUnary, _nUnary, _provenancePkg,
+    namePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed dUnary eUnary handoffRoute
+  exact
+    ⟨aUnary, bUnary, waUnary, wbUnary, dUnary, eUnary, handoffUnary, handoffRoute,
+      namePkg, handoffPkg⟩
+
 end BEDC.Derived.RegularCauchyProductBudgetUp
