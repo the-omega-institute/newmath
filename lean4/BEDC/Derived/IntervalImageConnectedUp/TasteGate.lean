@@ -149,6 +149,18 @@ instance intervalImageConnectedFieldFaithful : FieldFaithful IntervalImageConnec
   fields := intervalImageConnectedFields
   field_faithful := IntervalImageConnectedTasteGate_single_carrier_alignment_fields
 
+instance intervalImageConnectedNontrivial : Nontrivial IntervalImageConnectedUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨IntervalImageConnectedUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      IntervalImageConnectedUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate IntervalImageConnectedUp :=
   -- BEDC touchpoint anchor: BHist BMark
   intervalImageConnectedChapterTasteGate
