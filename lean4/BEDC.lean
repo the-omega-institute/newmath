@@ -2321,6 +2321,7 @@ import BEDC.Derived.CauchyStabilityModulusUp
 import BEDC.Derived.CauchyStabilityUp.TasteGate
 import BEDC.Derived.CauchyStructureUp.TasteGate
 import BEDC.Derived.CauchySubnetUp
+import BEDC.Derived.CauchySubnetUp.TasteGate
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchySumLimitUp.NameCertObligations
 import BEDC.Derived.CauchySumLimitUp.TasteGate
@@ -4195,6 +4196,7 @@ import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.DerivedFunctorUp
 import BEDC.Derived.DetachableSubsetUp
 import BEDC.Derived.DeterminantUp
+import BEDC.Derived.DeterministicPushdownAutomatonUp.TasteGate
 import BEDC.Derived.DiagonalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp
 import BEDC.Derived.DiagonalCofinalTailUp.CompatibilityHandoff
@@ -8639,6 +8641,7 @@ import BEDC.Derived.PseudometricUp.ZeroDistanceSourceReflection
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.PublicLocalReflectiveCompilationUp.TasteGate
 import BEDC.Derived.PuncturedCubeSkeletonUp.TasteGate
+import BEDC.Derived.PushdownAutomatonUp.TasteGate
 import BEDC.Derived.QRDecompositionUp.TasteGate
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadratureUp
