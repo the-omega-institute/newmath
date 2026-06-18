@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\EulerianNumberUp$}
+\label{ch:concrete-instances-eulerian-number-namecert}
+\origin{human}
+
+Following Euler and standard enumerative combinatorics, the $\EulerianNumberUp$ packet records descent-count data for finite permutations as a displayed NameCert surface. It sits after the natural-number endpoint of \autoref{ch:concrete-instances-nat-namecert}, the finite spine discipline of \autoref{ch:concrete-instances-list-namecert}, the polynomial table surface of \autoref{ch:concrete-instances-polynomial-namecert}, and the Young-ledger partition interface of \autoref{ch:concrete-instances-partition-namecert}. The packet names Eulerian-number rows without importing host finite sets, quotient permutation equality, selected representatives, infinite generating functions, or ambient representation theory.
+
+\begin{definition}[Eulerian number carrier]
+\label{def:eulerian-number-carrier}
+An $\EulerianNumberUp$ carrier is a finite $\BHist$ packet
+$$
+E=(n,k,\Pi,D,A,R,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $n$ and $k$ are $\NatUp$ rows naming the permutation length and requested descent count.
+\item $\Pi$ is the finite permutation-window row, represented as a $\ListUp$ ledger of displayed one-line permutation names over the initial segment $0,\ldots,n-1$.
+\item $D$ is the descent-position row, listing for each displayed permutation the adjacent positions where the next entry is smaller.
+\item $A$ is the descent-count row, reading each displayed descent list through $\NatUp$ and comparing it with $k$.
+\item $R$ is the recurrence-table row, recording the finite Eulerian recurrence cells used to compute the entry indexed by $(n,k)$.
+\item $V$ is the polynomial and table provenance row, reading Eulerian polynomial coefficients through $\PolynomialUp$ and recording the compatible triangular table readback.
+\item $H$ records componentwise $\hsame$ transport for length, descent count, permutation window, descent positions, count row, recurrence table, provenance row, continuation row, package row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from $\Pi$ to $D$, from $D$ to $A$, from the table row $R$ to the polynomial row $V$, and from all public rows to the local certificate.
+\item $P$ is the $\Pkg$ provenance over $\EulerianNumberUp$, $\NatUp$, $\ListUp$, $\PolynomialUp$, $\PartitionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EulerianNumberUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host finite-set quotients, unbounded permutation spaces, selected representative permutations, analytic generating functions, or representation-ring equality.
+\end{definition}
+
+\begin{theorem}[Eulerian number NameCert obligations]
+\label{thm:eulerian-number-namecert-obligations}
+For every accepted $\EulerianNumberUp$ carrier
+$$
+E=(n,k,\Pi,D,A,R,V,H,C,P,N),
+$$
+the local $\NameCert_{\EulerianNumberUp}$ surface consists exactly of length and descent-count admission, finite permutation-window exposure, descent-position extraction, descent-count comparison, recurrence-table readback, polynomial and table provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Every consumer of the number $A(n,k)$ must read
+$$
+n,k,\Pi,D,A,R,V,H,C,P,N
+$$
+before citing the Eulerian entry.
+\end{theorem}
+\begin{proof}
+Project the carrier $E$. The rows $n,k,\Pi$ give the only admissible length, count, and finite permutation-window data.
+
+The rows $D$ and $A$ compute descent positions and descent counts inside the displayed window. The recurrence row $R$ and polynomial provenance row $V$ supply the table-facing and coefficient-facing readbacks for the same entry.
+
+Transport, replay, package provenance, and local naming are confined to $H,C,P,N$. Since no further coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Eulerian number descent recurrence]
+\label{thm:eulerian-number-descent-recurrence}
+Let $E=(n,k,\Pi,D,A,R,V,H,C,P,N)$ be an accepted $\EulerianNumberUp$ carrier. Every recurrence-facing read of the Eulerian entry indexed by $(n,k)$ factors through the finite table row $R$ and the descent ledger rows $\Pi,D,A$. The recurrence table may be replayed as the usual finite split by the last insertion position: entries preserving a descent are read from the cell indexed by $(n-1,k)$, and entries creating a descent are read from the cell indexed by $(n-1,k-1)$. The polynomial provenance row $V$ records the same table as coefficients of the Eulerian polynomial before any $\PartitionUp$ or representation-facing consumer may cite it.
+\end{theorem}
+\begin{proof}
+Start with the displayed permutation window $\Pi$. The descent rows $D$ and $A$ classify each listed permutation by the number of descents, so the requested entry is counted only through the finite window and the requested $\NatUp$ row $k$.
+
+Read the recurrence table $R$. The insertion-position split is a finite table operation over displayed rows: one branch preserves the descent count and reads $(n-1,k)$, while the other branch creates the displayed descent and reads $(n-1,k-1)$.
+
+Finally read $V,H,C,P,N$. The polynomial row records the same triangular table as coefficients, while transport, replay, provenance, and naming preserve the displayed recurrence route for downstream $\PolynomialUp$ and $\PartitionUp$ consumers.
+\end{proof}
+
+\closureat{EulerianNumberUp}{seedStr}
+
+\begin{closurestatus}{\EulerianNumberUp}
+  \constructivestory{An $\EulerianNumberUp$ packet is generated from NatUp length and descent-count rows, a ListUp finite permutation window, descent-position and descent-count ledgers, a finite recurrence table, polynomial/table provenance, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eulerian-number-carrier}, \autoref{thm:eulerian-number-namecert-obligations}, and \autoref{thm:eulerian-number-descent-recurrence} seed the finite Eulerian descent-count certificate over displayed permutation windows and recurrence-table rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host finite-set quotients, unrestricted permutation equality, selected representatives, infinite generating functions, representation-ring equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, permutation-window admission, descent-position extraction, descent-count comparison, recurrence-table readback, polynomial provenance, transport, replay, package provenance, and local naming for BEDC.Derived.EulerianNumberUp.}
+\end{closurestatus}
