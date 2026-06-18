@@ -89,6 +89,22 @@ Now attach the completion-facing route. \autoref{thm:real-cauchy-completion-fini
 Intersecting these two finite routes leaves exactly the handoff stated above. The regularity witness supplies the selected diagonal source, window, readback, dyadic ledger, Real seal, and support rows consumed by the Real-completion route, and the cited non-escape clauses leave no coordinate through which the completion-facing seal could bypass them.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy regularity witness tail-window regularity]
+\label{thm:regularcauchyregularitywitness-tail-window-regularity}
+Every accepted $\RegularCauchyRegularityWitnessUp$ packet consumed as a regularity witness exposes its $\StreamNameUp$ finite observation windows, $\RegSeqRatUp$ regularity rows, $\DyadicRatCoreUp$ tolerance rows, $\RealUp$ sealing row, and $\RealCauchyCompletionUp$ handoff before the witness can be consumed. Equivalently, a consumer of the packet must factor through the displayed tail-window route
+$$
+S,\mu,j,\Omega,R,Q,E,H,C,P,N
+$$
+with $\Omega$ read as the finite observation window, $R$ as the regular-rational regularity readback, $Q$ as the dyadic tolerance ledger, $E$ as the Real sealing row, and $H,C,P,N$ as the componentwise transport, continuation replay, provenance, and naming rows that carry the handoff into the completion-facing route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The coordinates of \autoref{def:regular-cauchy-regularity-witness-carrier} display the selected source row, modulus-index rows, finite observation window, regular-rational readback, dyadic tolerance ledger, Real seal, and structural support rows.
+
+The consumer order is forced by the preceding boundaries. \autoref{thm:regular-cauchy-regularity-witness-diagonal-consumer-boundary} places the window, readback, and tolerance ledger before the Real seal; \autoref{thm:regular-cauchy-regularity-witness-real-completion-handoff} then routes the same displayed rows into the $\RealCauchyCompletionUp$ diagonal surface.
+
+It remains to check that transport cannot alter the exposed rows. Replay the componentwise $\hsame$ row $H$ and the displayed $\Cont$ row $C$ along the packet coordinates; the $\Pkg$ row $P$ and local $\NameCert$ row $N$ only source and name the same finite data. Thus any accepted consumer sees the tail-window route before it can consume the regularity witness.
+\end{proof}
+
 \falsifiablePrediction{Every accepted RegularCauchyRegularityWitnessUp packet exposes a finite dyadic regularity-witness row and admits no route to a selected limit, host real equality, Quot.sound, or Classical.choice.}
 
 \independenceWitness{diagonallimit, regular-cauchy-triangle-bound, regseqrat, streamname, real: no listed sibling is bijective to $\RegularCauchyRegularityWitnessUp$ because this packet binds selected diagonal source, modulus index, finite window, regular-rational readback, dyadic tolerance ledger, Real seal handoff, transport, replay, provenance, and local NameCert rows in one consumer-facing regularity witness. The diagonal-limit sibling lacks the regularity-consumer tolerance ledger; the triangle-bound sibling lacks the selected representative seal handoff; RegSeqRatUp lacks the StreamName and Real route; StreamNameUp lacks regularity and dyadic ledger rows; RealUp lacks the finite witness route.}

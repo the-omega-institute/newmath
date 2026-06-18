@@ -68,12 +68,24 @@ If a consumer asks for normalization without $C$ or $E$, the request has no posi
 The remaining rows preserve the boundary. Componentwise $\hsame$ transport, continuation replay, package provenance, and local naming can carry the accepted packet to downstream chapters, but none of them adds a host evaluator, a subject-reduction theorem, a quotient conversion, compiler semantics, or an unconditional closed-term normalization coordinate.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization budget candidate SN boundary]
+\label{thm:metacic-normalization-budget-candidate-sn-boundary}
+Every accepted $\MetaCICNormalizationBudgetUp$ packet can export a strong-normalization read only when the displayed rows $T,C,E,S,A,P$ are read together. Dropping the candidate evidence row $C$ or the closed-candidate membership row $E$ routes the request to the refusal row $R$, and dropping the adequacy boundary row $A$ prevents application and Pi consumers from reading the route as closed subject reduction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-budget-carrier}. The positive read is not a single closed-term coordinate; it is the six-row route $T,C,E,S,A,P$ together with the structural rows that transport and replay it.
+
+Apply the candidate-route scope theorem, \autoref{thm:metacic-normalization-budget-candidate-route-scope}. It forces every positive normalization read through the candidate evidence and adequacy boundary before downstream confluence, subject-reduction, or closed-normal consistency consumers may inspect the packet.
+
+Finally apply non-escape, \autoref{thm:metacic-normalization-budget-nonescape}. Missing $C$ or $E$ has no positive continuation and is recorded by $R$, while missing $A$ leaves application and Pi reads at the boundary rather than turning the candidate route into closed subject reduction.
+\end{proof}
+
 \closureat{MetaCICNormalizationBudgetUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICNormalizationBudgetUp}
   \constructivestory{A $\MetaCICNormalizationBudgetUp$ packet is generated from a closed typed MetaCIC term row, reducibility-candidate evidence, closed-candidate or candidate-set membership, the candidate-to-strong-normalization row, adequacy-boundary data, proof-replay budget data, refusal data, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-normalization-budget-carrier}, \autoref{thm:metacic-normalization-budget-namecert-obligations}, \autoref{thm:metacic-normalization-budget-candidate-route-scope}, and \autoref{thm:metacic-normalization-budget-nonescape} bind the finite candidate-mediated normalization budget surface and its refusal boundary.}
+  \scopeclosed{\autoref{def:metacic-normalization-budget-carrier}, \autoref{thm:metacic-normalization-budget-namecert-obligations}, \autoref{thm:metacic-normalization-budget-candidate-route-scope}, \autoref{thm:metacic-normalization-budget-nonescape}, and \autoref{thm:metacic-normalization-budget-candidate-sn-boundary} bind the finite candidate-mediated normalization budget surface and its refusal boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
