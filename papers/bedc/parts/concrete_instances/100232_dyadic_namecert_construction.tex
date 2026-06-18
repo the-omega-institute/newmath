@@ -209,15 +209,28 @@ seal of \autoref{ch:concrete-instances-real-namecert}.
 \input{parts/concrete_instances/dyadic/dyadic_core_sibling_route}
 \input{parts/concrete_instances/dyadic/real_route_sibling_dependency}
 
+\begin{theorem}[DyadicUp obligation-closure scope]
+\label{thm:dyadic-up-obligation-closure-scope}
+Every accepted $\DyadicUp$ obligation read is exhausted by the dyadic core ledger, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\DyadicCauchyTailEnvelopeUp$ route, $\DyadicRatCoreUp$ sibling route, Real-route sibling dependency, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows. It exports no selected binary expansion, quotient stream, trichotomy, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadic-up-namecert-obligations}. The local NameCert surface already restricts the dyadic packet to the dyadic core, stream window, regular readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:dyadic-cauchy-tail-envelope-obligation-closure}, \autoref{thm:dyadic-core-sibling-route}, and \autoref{thm:dyadic-cauchy-real-route-sibling-dependency}. These sibling routes add the Cauchy tail-envelope obligation, DyadicRatCore dependency, and Real-facing handoff surface without introducing a second carrier coordinate.
+
+The remaining rows are exactly componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ data. Since none of the cited routes contains selected binary expansions, quotient streams, trichotomy, countable choice, host equality, or ambient completeness, the accepted obligation read is closed at the displayed obligation surface.
+\end{proof}
+
 \closureat{DyadicUp}{seedStr}
+\closureat{DyadicUp}{obligationStr}
 
 \begin{closurestatus}{\DyadicUp}
   \constructivestory{A $\DyadicUp$ packet is generated from a DyadicRatCore ledger, a finite StreamName window, a RegSeqRat readback row, a RealUp seal, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-up-carrier}, \autoref{thm:dyadic-up-namecert-obligations}, and \autoref{thm:dyadic-up-real-seal-factorization} seed the finite dyadic carrier, NameCert surface, and Real-seal factorization route over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:dyadic-up-carrier}, \autoref{thm:dyadic-up-namecert-obligations}, \autoref{thm:dyadic-up-real-seal-factorization}, and \autoref{thm:dyadic-up-obligation-closure-scope} exhaust the finite dyadic obligation surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicCauchyTailEnvelopeUp$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.DyadicUp.DyadicNameCertObligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient streams, selected binary expansions, trichotomy, host real equality, ambient Real completeness, or a completed bridge.}
-  \upgradepath{Obligation closure requires checked sibling routes for the dyadic Cauchy tail envelope, DyadicRatCore dependency, and Real-facing handoff surface.}
+  \upgradepath{Scoped closure requires a public consumer boundary over the same dyadic core, stream window, regular readback, Real seal, sibling routes, transport, replay, provenance, and local naming rows.}
 \end{closurestatus}

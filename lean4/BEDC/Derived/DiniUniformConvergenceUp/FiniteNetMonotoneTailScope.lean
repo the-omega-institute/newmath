@@ -36,12 +36,19 @@ theorem DiniUniformConvergenceCarrier_finite_net_monotone_tail_scope [AskSetup]
                     hsame ∧
                   UnaryHistory family ∧ UnaryHistory readback ∧ UnaryHistory modulus := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
-  intro carrier _compactFiniteNet _familyWindows _readbackSeal localNamePkg modulusPkg
-  have familyUnary : UnaryHistory family := carrier.right.right.left
-  have readbackUnary : UnaryHistory readback := carrier.right.right.right.right.right.left
-  have modulusUnary : UnaryHistory modulus := carrier.right.right.right.left
+  intro carrier compactFiniteNet familyWindows readbackSeal localNamePkg modulusPkg
+  have compactUnary : UnaryHistory compact := carrier.left
+  have finiteNetUnary : UnaryHistory finiteNet := carrier.right.left
+  have windowsUnary : UnaryHistory windows := carrier.right.right.right.right.left
+  have sealUnary : UnaryHistory sealRow := carrier.right.right.right.right.right.right.left
   have provenancePkg : PkgSig bundle provenance pkg :=
     carrier.right.right.right.right.right.right.right.right.right
+  have familyUnary : UnaryHistory family :=
+    unary_cont_closed compactUnary finiteNetUnary compactFiniteNet
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed familyUnary windowsUnary familyWindows
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed readbackUnary sealUnary readbackSeal
   have sourceModulus :
       (fun row : BHist =>
         (hsame row windows ∨ hsame row readback ∨ hsame row sealRow ∨ hsame row modulus) ∧
