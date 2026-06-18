@@ -100,6 +100,7 @@ Finally apply the route of \autoref{thm:located-limit-real-seal-route}. Since $E
 \label{thm:located-limit-finite-window-scope}
 For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, each finite-window tolerance request is scoped exactly by the $\StreamNameUp$ window surface $S,T$, the $\DyadicRatCoreUp$ tolerance ledger $M$, the $\RegSeqRatUp$ readback row $Q$, the terminal $\RealUp$ seal row $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\LocatedLimitUp}$ row $N$. The scope is the source-row route named by the carrier, classifier, NameCert obligations, window-schedule exactness, and Real-seal route; it excludes quotient streams, countable choice, trichotomy, selected host limits, and ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimitCarrier\_finite\_window\_scope}
 \begin{proof}
 Project the carrier of \autoref{def:located-limit-carrier}. Its source rows are precisely $S,M,T,Q,E,H,C,P,N$, so a tolerance request has no access to any row outside that finite packet.
 
@@ -216,12 +217,14 @@ Apply \autoref{thm:located-limit-namecert-obligations} to force every real-facin
 \end{proof}
 \leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimitRealSealNonescape}
 
+\closureat{LocatedLimitUp}{scopedStr}
+
 \begin{closurestatus}{\LocatedLimitUp}
   \constructivestory{A $\LocatedLimitUp$ packet is generated from a displayed $\RealUp$ sequence surface, an explicit Cauchy/modulus ledger, a located finite-window schedule, a $\RegSeqRatUp$ readback row, a $\RealUp$ limit seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:located-limit-carrier}, \autoref{def:located-limit-classifier}, \autoref{thm:located-limit-namecert-obligations}, and \autoref{thm:located-limit-real-seal-route} expose the displayed located-limit carrier, classifier, NameCert obligation surface, and Real-seal route for real-name sequences.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:located-limit-carrier}, \autoref{def:located-limit-classifier}, \autoref{thm:located-limit-namecert-obligations}, \autoref{thm:located-limit-real-seal-route}, and \autoref{thm:located-limit-source-row-scope} expose the displayed located-limit carrier, classifier, NameCert obligation surface, Real-seal route, and exact source-row binding for real-name sequences.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, selected host limits, quotient equality of streams, countable choice, trichotomy, or bridge checking.}
-  \upgradepath{Scoped closure requires binding the listed obligations to the exact BEDC source rows for the displayed finite-window schedule, modulus ledger, regular readback, and Real-seal route.}
+  \upgradepath{Public closure requires a reusable public surface for the displayed finite-window schedule, modulus ledger, regular readback, and Real-seal route.}
 \end{closurestatus}
