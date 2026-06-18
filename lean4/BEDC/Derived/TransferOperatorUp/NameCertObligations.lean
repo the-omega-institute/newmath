@@ -140,4 +140,44 @@ theorem TransferOperatorCarrier_namecert_obligations [AskSetup] [PackageSetup]
     }
   exact ⟨cert, supportRoute, entryRoute, entryPkg⟩
 
+theorem TransferOperator_golden_mean_matrix_boundary [AskSetup] [PackageSetup]
+    {adjacency golden subshift fibonacci matrix classifier route provenance localName supportRead
+      entryRead rejectedOneOne : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TransferOperatorCarrier adjacency golden subshift fibonacci matrix classifier route provenance
+        localName bundle pkg ->
+      Cont adjacency golden supportRead ->
+        Cont supportRead fibonacci entryRead ->
+          hsame rejectedOneOne (BHist.e1 (BHist.e1 BHist.Empty)) ->
+            PkgSig bundle entryRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row adjacency ∨ hsame row golden ∨ hsame row subshift ∨
+                      hsame row fibonacci ∨ hsame row matrix ∨ hsame row entryRead)
+                  (fun row : BHist =>
+                    hsame row classifier ∨ hsame row route ∨ hsame row provenance ∨
+                      hsame row localName)
+                  (fun _row : BHist =>
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg ∧
+                      PkgSig bundle entryRead pkg)
+                  hsame ∧
+                hsame golden BHist.Empty ∧ hsame matrix BHist.Empty ∧
+                  Cont adjacency golden supportRead ∧ Cont supportRead fibonacci entryRead ∧
+                    (hsame rejectedOneOne BHist.Empty -> False) ∧
+                      PkgSig bundle entryRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier supportRoute entryRoute rejectedBoundary entryPkg
+  obtain ⟨cert, _supportRoute, _entryRoute, _entryPkg⟩ :=
+    TransferOperatorCarrier_namecert_obligations carrier supportRoute entryRoute entryPkg
+  obtain ⟨_classifierSelf, matrixEmpty, goldenEmpty, _fibonacciEmpty, _routeEmpty,
+    _matrixRoute, _adjacencyGolden, _subshiftFibonacci, _provenancePkg, _localNamePkg⟩ :=
+    carrier
+  have rejectedOneOneNotEmpty : hsame rejectedOneOne BHist.Empty -> False := by
+    intro rejectedEmpty
+    have oneOneEmpty : hsame (BHist.e1 (BHist.e1 BHist.Empty)) BHist.Empty :=
+      hsame_trans (hsame_symm rejectedBoundary) rejectedEmpty
+    cases oneOneEmpty
+  exact
+    ⟨cert, goldenEmpty, matrixEmpty, supportRoute, entryRoute, rejectedOneOneNotEmpty, entryPkg⟩
+
 end BEDC.Derived.TransferOperatorUp
