@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ContinuityModulusLatticeUp$}
+\label{ch:concrete-instances-continuity-modulus-lattice-namecert}
+\origin{human}
+
+Following Bishop and Bridges on compact metric continuity and constructive moduli, the $\ContinuityModulusLatticeUp$ packet records the finite order surface on which displayed local moduli can be compared, combined by finite meet, and handed to a uniform-modulus consumer. It sits after the continuous-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the compact metric finite-net source of \autoref{ch:concrete-instances-compactmetric-namecert}, the metric source rows of \autoref{ch:concrete-instances-metric-namecert}, and rational tolerance data from \autoref{ch:concrete-instances-rat-namecert}. The packet names a finite lattice of modulus rows; it is not open-cover compactness, a selected modulus functional, quotient equality of functions, trichotomy, countable choice, or ambient completeness.
+
+\begin{definition}[Continuity modulus lattice carrier]
+\label{def:continuity-modulus-lattice-carrier}
+A $\ContinuityModulusLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,D,F,U,R,O,M,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the compact metric source row, read through $\CompactMetricUp$ over the same $\MetricSpaceUp$ carrier.
+\item $D$ is the metric-distance comparison row used to compare source balls and target tolerances.
+\item $F$ is the $\ContinuousMapUp$ row whose pointwise modulus histories are being ordered.
+\item $U$ is the downstream $\UniformModulusUp$ row that consumes a tolerance-only modulus history.
+\item $R$ is the $\RatUp$ tolerance and lower-bound comparison row.
+\item $O$ is the finite preorder row on displayed modulus histories.
+\item $M$ is the finite meet row, recording the common lower precision history for finitely many comparable modulus rows.
+\item $J$ is the join-readback row used only to report compatibility of already displayed modulus histories.
+\item $H$ records componentwise $\hsame$ transport for $X,D,F,U,R,O,M,J$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay through compact-source, metric, continuous-map, rational, order, meet, and uniform-modulus reads.
+\item $P$ is the $\Pkg$ provenance over $\ContinuityModulusLatticeUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\CompactMetricUp$, $\MetricSpaceUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ContinuityModulusLatticeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,D,F,U,R,O,M,J,H,C,P,N$. It has no coordinate for open-cover compactness, selected moduli, quotient equality, trichotomy, countable choice, host function equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Continuity modulus lattice NameCert obligations]
+\label{thm:continuity-modulus-lattice-namecert-obligations}
+For every accepted $\ContinuityModulusLatticeUp$ carrier
+$$
+L=(X,D,F,U,R,O,M,J,H,C,P,N),
+$$
+the local $\NameCert_{\ContinuityModulusLatticeUp}$ surface consists exactly of carrier admission, compact-metric source exposure through $X,D$, continuous-map modulus exposure through $F$, rational tolerance comparison through $R$, finite preorder readback through $O$, finite meet readback through $M$, compatibility readback through $J$, uniform-modulus handoff through $U$, and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:continuity-modulus-lattice-carrier}. The accepted packet displays the compact metric source, metric comparison row, continuous-map row, uniform-modulus consumer row, rational tolerance row, finite order rows, and structural rows.
+
+The order obligations are read through $O$ and $R$. A comparison between two modulus histories must expose the rational tolerance comparisons used by the preorder row, so the packet cannot replace finite order by an ambient order theorem.
+
+The meet obligations are read through $M$. The meet row records only a finite common lower precision history for already displayed modulus histories, and $J$ reports compatibility without adding an independent selector.
+
+Finally $U,H,C,P,N$ keep the handoff local. The uniform-modulus consumer receives only the displayed finite meet route, while the structural rows transport, replay, source, and name the same finite data.
+\end{proof}
+
+\begin{theorem}[Continuity modulus lattice finite-meet stability]
+\label{thm:continuity-modulus-lattice-finite-meet-stability}
+Every finite meet read exported by an accepted $\ContinuityModulusLatticeUp$ packet remains stable under $\hsame$ transport of the displayed rows $X,D,F,U,R,O,M,J,H,C,P,N$. A downstream compact-uniform or completion-modulus consumer may cite the meet as a finite order object over continuous-map and rational tolerance rows, but it may not read the meet as open-cover compactness, a selected global modulus, quotient equality, trichotomy, countable choice, host function equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The finite meet row $M$ is stored together with the rational comparison row $R$, the preorder row $O$, the compatibility row $J$, and the structural transport row $H$.
+
+Transport first acts componentwise on $X,D,F,U,R,O,M,J$. Since $M$ is not a detached selector, a transported meet read must carry along the same compact-source, metric, continuous-map, rational, order, and compatibility rows.
+
+The replay and provenance rows $C,P,N$ then repack the transported data as the same local NameCert surface. No refused object is introduced by this repacking, so finite-meet stability is exactly stability of the displayed carrier rows.
+\end{proof}
+
+\closureat{ContinuityModulusLatticeUp}{seedStr}
+
+\begin{closurestatus}{\ContinuityModulusLatticeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continuity-modulus-lattice-carrier}, \autoref{thm:continuity-modulus-lattice-namecert-obligations}, and \autoref{thm:continuity-modulus-lattice-finite-meet-stability} seed the finite order surface on compact metric, metric, continuous-map, rational tolerance, finite preorder, finite meet, compatibility, uniform-modulus, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected moduli, quotient equality, trichotomy, countable choice, host function equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite preorder exactness, finite meet stability, compatibility readback, uniform-modulus handoff, and nonescape proofs for BEDC.Derived.ContinuityModulusLatticeUp.}
+  \constructivestory{A $\ContinuityModulusLatticeUp$ packet is generated from compact metric source rows, metric comparison rows, continuous-map modulus rows, uniform-modulus handoff rows, rational tolerance comparisons, finite preorder and meet rows, compatibility readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
