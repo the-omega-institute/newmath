@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyCompletenessCriterionUp$}
+\label{ch:concrete-instances-bishop-cauchy-completeness-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopCauchyCompletenessCriterionUp$ packet records the finite criterion by which displayed Cauchy data becomes completion-facing $\RealUp$ data only after windows, dyadic tolerances, regular rational readback, and an explicit modulus row have all been exposed. It sits after the finite $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a Bishop-style completeness criterion for the L10 Real and Completion route; it is not quotient stream equality, a selected limit, countable choice over tail indices, trichotomy, host real equality, or ambient completeness for $\RealUp$.
+
+\begin{definition}[Bishop Cauchy completeness criterion carrier]
+\label{def:bishop-cauchy-completeness-criterion-carrier}
+A $\BishopCauchyCompletenessCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,D,R,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row, naming every observation window and precision request used by the Cauchy criterion.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording requested dyadic radii, split tolerances, slack cells, and comparison budgets for those windows.
+\item $R$ is the $\RegSeqRatUp$ regular readback row obtained from the displayed windows and dyadic tolerances.
+\item $M$ is the explicit Cauchy modulus row, recording a finite threshold schedule for the criterion before any completion-facing consumer reads $R$ as convergent data.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $S,D,R,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the window, tolerance, readback, modulus, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S \longmapsto D \longmapsto R \longmapsto M \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyCompletenessCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyCompletenessCriterionUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $S,D,R,M,E,H,C,P,N$. It has no coordinate for quotienting Cauchy streams, choosing a limiting representative, invoking countable choice, importing trichotomy, using host real equality, or asserting ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy completeness criterion obligations]
+\label{thm:bishop-cauchy-completeness-criterion-obligations}
+For every accepted $\BishopCauchyCompletenessCriterionUp$ carrier $K=(S,D,R,M,E,H,C,P,N)$, the local $\NameCert_{\BishopCauchyCompletenessCriterionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission, exposing the StreamName finite windows, DyadicRatCore tolerances, RegSeqRat regular readback, explicit Cauchy modulus, terminal Real seal, transport, replay, provenance, and local naming rows;
+\item criterion-to-modulus exposure, requiring the Cauchy criterion to display $M$ before any downstream consumer treats $R$ as completion-facing data;
+\item modulus-to-RegSeqRat readback, requiring each read of $M$ to be tied back to the regular rational observations in $R$ and to the finite windows and dyadic tolerances in $S,D$;
+\item terminal Real seal nonescape, requiring $E$ to be downstream of $S,D,R,M$ and to export no quotient stream equality, selected limit, countable choice, trichotomy, host equality, or ambient completeness;
+\item transport, replay, and provenance stability, requiring $H,C,P,N$ to preserve only the displayed criterion route and the local naming row.
+\end{enumerate}
+No Bishop Cauchy completeness criterion obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-cauchy-completeness-criterion-carrier}. The accepted packet displays exactly the window row, dyadic tolerance row, regular readback row, explicit modulus row, terminal seal, and the structural rows.
+
+Criterion-to-modulus exposure is the role of $M$. A completion-facing read cannot treat the regular rational row as complete before the threshold schedule has been displayed as finite data.
+
+The modulus-to-readback clause ties $M$ back to $R$ and then to $S,D$. Thus the criterion is read through finite StreamName windows and DyadicRatCore tolerances rather than through an unbounded host sequence predicate.
+
+The terminal seal row $E$ is downstream of the four analytic rows. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host equality, or ambient completeness, none of those objects can be exported by consuming the seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. They add no independent completion principle, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy completeness Real handoff]
+\label{thm:bishop-cauchy-completeness-criterion-real-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BishopCauchyCompletenessCriterionUp$ packet factors through the finite route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto M \longmapsto \RealUp \longmapsto H,C,P,N .
+$$
+The handoff exposes only finite windows, dyadic tolerances, regular rational readback, an explicit Cauchy modulus, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(S,D,R,M,E,H,C,P,N)$. The only observation rows available to a completion-facing consumer are the StreamName windows $S$ and the DyadicRatCore tolerance ledger $D$.
+
+The regular readback row $R$ is attached to those rows, and the explicit modulus row $M$ is displayed before the terminal seal can be read. This orders the criterion as finite Cauchy data rather than as quotient equality or a selected limit.
+
+The $\RealUp$ seal row $E$ is reached only after $S,D,R,M$. The structural rows preserve that route, so every Real or Completion consumer factors through the displayed handoff and receives no ambient completeness principle.
+\end{proof}
+
+\closureat{BishopCauchyCompletenessCriterionUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyCompletenessCriterionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-completeness-criterion-carrier}, \autoref{thm:bishop-cauchy-completeness-criterion-obligations}, and \autoref{thm:bishop-cauchy-completeness-criterion-real-handoff} seed the finite Bishop Cauchy completeness criterion through StreamName windows, DyadicRatCore tolerances, RegSeqRat regular readback, an explicit Cauchy modulus, a Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, criterion-to-modulus exposure, modulus-to-RegSeqRat readback, Real seal nonescape, transport stability, replay stability, and provenance stability for BEDC.Derived.BishopCauchyCompletenessCriterionUp.}
+  \constructivestory{A $\BishopCauchyCompletenessCriterionUp$ packet is generated from StreamName finite windows, DyadicRatCore tolerances, RegSeqRat regular readback, an explicit Cauchy modulus, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+\end{closurestatus}
