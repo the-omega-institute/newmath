@@ -3870,6 +3870,7 @@ import BEDC.Derived.CriticalLineWitnessUp.RootSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootStdBridgeRefusalSource
 import BEDC.Derived.CriticalLineWitnessUp.RootStripClassifierObligation
 import BEDC.Derived.CriticalLineWitnessUp.RootStripPublicTarget
+import BEDC.Derived.CriticalLineWitnessUp.RootStripReadback
 import BEDC.Derived.CriticalLineWitnessUp.RootStripRefusal
 import BEDC.Derived.CriticalLineWitnessUp.RootStripSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.RootStripWindowExhaustion
@@ -5787,7 +5788,6 @@ import BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
 import BEDC.Derived.GaussTestUp.TasteGate
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeneratingFunctionUp.TasteGate
-import BEDC.Derived.GeneratorAuditClosureUp
 import BEDC.Derived.GeneratorClosureUp
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp
@@ -10636,7 +10636,6 @@ import BEDC.Derived.TranscendentalSupplyLedgerUp.TaxonomyExhaustion
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.BridgePrecondition
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.NameCertObligations
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.TasteGate
-import BEDC.Derived.TransferOperatorUp.NameCertObligations
 import BEDC.Derived.TransferOperatorUp.TasteGate
 import BEDC.Derived.TransportedStationaryWindowSealUp
 import BEDC.Derived.TreeUp
