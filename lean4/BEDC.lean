@@ -6139,6 +6139,7 @@ import BEDC.Derived.HyperspaceUp.HitMissCoverageTotality
 import BEDC.Derived.HyperspaceUp.HitMissDirectedRefinement
 import BEDC.Derived.HyperspaceUp.MetricCompactnessUnblock
 import BEDC.Derived.HyperspaceUp.NameCertObligationSurface
+import BEDC.Derived.HyperspaceUp.PublicCertificate
 import BEDC.Derived.HyperspaceUp.RealSeparabilityForwardRoute
 import BEDC.Derived.HyperspaceUp.RootCompactSourceTotality
 import BEDC.Derived.HyperspaceUp.RootCompleteTotallyBoundedHandoff
@@ -6451,6 +6452,7 @@ import BEDC.Derived.LatticeUp.OneSidedDistributiveInequality
 import BEDC.Derived.LatticeUp.OppositeAbsorption
 import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
+import BEDC.Derived.LawCertificateUp.BridgeCarrierRoute
 import BEDC.Derived.LawCertificateUp.CarrierAdmission
 import BEDC.Derived.LawCertificateUp.ClassifierStability
 import BEDC.Derived.LawCertificateUp.ContinuationScope
