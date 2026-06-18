@@ -17,7 +17,7 @@ theorem DiniUniformConvergenceCarrier_finite_net_monotone_tail_scope [AskSetup]
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     DiniUniformConvergenceCarrier compact finiteNet family modulus windows readback sealRow
         transportRow replayRow provenance localName bundle pkg ->
-      Cont compact finiteNet family ->
+      Cont finiteNet modulus family ->
         Cont family windows readback ->
           Cont readback sealRow modulus ->
             PkgSig bundle localName pkg ->
@@ -36,20 +36,25 @@ theorem DiniUniformConvergenceCarrier_finite_net_monotone_tail_scope [AskSetup]
                     hsame ∧
                   UnaryHistory family ∧ UnaryHistory readback ∧ UnaryHistory modulus := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
-  intro carrier compactFiniteNet familyWindows readbackSeal localNamePkg modulusPkg
-  obtain ⟨compactUnary, finiteNetUnary, windowsUnary, sealUnary, provenancePkg⟩ := carrier
+  intro carrier finiteNetModulus familyWindows readbackSeal localNamePkg modulusPkg
+  have finiteNetUnary : UnaryHistory finiteNet := carrier.right.left
+  have modulusUnary : UnaryHistory modulus := carrier.right.right.right.left
+  have windowsUnary : UnaryHistory windows := carrier.right.right.right.right.left
+  have sealUnary : UnaryHistory sealRow := carrier.right.right.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right
   have familyUnary : UnaryHistory family :=
-    unary_cont_closed compactUnary finiteNetUnary compactFiniteNet
+    unary_cont_closed finiteNetUnary modulusUnary finiteNetModulus
   have readbackUnary : UnaryHistory readback :=
     unary_cont_closed familyUnary windowsUnary familyWindows
-  have modulusUnary : UnaryHistory modulus :=
+  have modulusTailUnary : UnaryHistory modulus :=
     unary_cont_closed readbackUnary sealUnary readbackSeal
   have sourceModulus :
       (fun row : BHist =>
         (hsame row windows ∨ hsame row readback ∨ hsame row sealRow ∨ hsame row modulus) ∧
           UnaryHistory row)
         modulus := by
-    exact ⟨Or.inr (Or.inr (Or.inr (hsame_refl modulus))), modulusUnary⟩
+    exact ⟨Or.inr (Or.inr (Or.inr (hsame_refl modulus))), modulusTailUnary⟩
   have cert :
       SemanticNameCert
           (fun row : BHist =>
@@ -109,6 +114,6 @@ theorem DiniUniformConvergenceCarrier_finite_net_monotone_tail_scope [AskSetup]
       intro _row source
       exact ⟨source.right, modulusPkg, provenancePkg, localNamePkg⟩
   }
-  exact ⟨cert, familyUnary, readbackUnary, modulusUnary⟩
+  exact ⟨cert, familyUnary, readbackUnary, modulusTailUnary⟩
 
 end BEDC.Derived.DiniUniformConvergenceUp
