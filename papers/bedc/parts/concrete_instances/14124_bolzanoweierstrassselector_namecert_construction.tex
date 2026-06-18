@@ -353,6 +353,59 @@ equality, or ambient $\RealUp$ completeness. The theorem therefore stabilizes
 only the displayed finite window.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass selector finite nested-window induction]
+\label{thm:bolzano-weierstrass-selector-finite-nested-window-induction}
+Let $T=(B,M,Q,W,D,R,E,H,C,P,N)$ be an accepted
+$\BolzanoWeierstrassSelectorUp$ packet. Suppose the bounded monotone route of
+\autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}, the
+nested-interval obligation of
+\autoref{thm:bolzano-weierstrass-selector-nested-interval-obligation}, the
+dyadic-window obligation of
+\autoref{thm:bolzano-weierstrass-selector-dyadic-window-obligation}, the
+$\StreamNameUp$ selected-window row $W$, the $\RegSeqRatUp$ readback row $R$,
+and the terminal $\RealUp$ seal row $E$ are all displayed in the same $\BHist$
+packet. Then the selector admits finite induction over the nested windows:
+each induction stage refines the current interval through the displayed
+nested-interval row, transports the matching dyadic tolerance through $D$,
+replays the same $\StreamNameUp$ window through $W$, and hands the resulting
+regular readback to $R$ before $E$ can be inspected. The cluster handoff is
+therefore the same handoff as in
+\autoref{thm:bolzano-weierstrass-selector-cluster-route}, and no stage exports
+a selected infinite subsequence, countable choice, quotient-stream equality,
+host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the finite-window stabilization rows from
+\autoref{thm:bolzano-weierstrass-selector-finite-window-stabilization}. They
+keep the route
+$$
+B,M,Q\longmapsto W\longmapsto D\longmapsto R\longmapsto E
+$$
+inside the accepted packet and leave $H,C,P,N$ as structural transport,
+replay, provenance, and local naming rows.
+
+Induct on the displayed nested-window budget. The base stage is the current
+selected window in $W$ together with its bounded monotone route, dyadic
+tolerance row, regular readback row, and Real seal row.
+
+For the successor step, use
+\autoref{thm:bolzano-weierstrass-selector-nested-interval-obligation} to refine
+the interval row and
+\autoref{thm:bolzano-weierstrass-selector-dyadic-window-obligation} to transport
+the matching dyadic tolerance through $D$. The selected $\StreamNameUp$ row
+remains the displayed window row $W$, so the successor step has no independent
+subsequence selector.
+
+Now replay the readback through $R$ and the Real seal through $E$. The cluster
+route of \autoref{thm:bolzano-weierstrass-selector-cluster-route} and the
+nonescape boundary of
+\autoref{thm:bolzano-weierstrass-selector-nonescape} close the handoff through
+the same rows. Since no carrier coordinate names a selected infinite
+subsequence, countable-choice schedule, quotient-stream equality, host real
+equality, or ambient completeness theorem, the finite induction preserves only
+the displayed cluster handoff.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass selector regular Cauchy cluster seal]
 \label{thm:bolzano-weierstrass-selector-regular-cauchy-cluster-seal}
 For every accepted $\BolzanoWeierstrassSelectorUp$ packet
