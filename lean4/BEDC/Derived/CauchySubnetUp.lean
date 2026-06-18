@@ -5,6 +5,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.CauchySubnetUp.TasteGate
 
 namespace BEDC.Derived.CauchySubnetUp
 
@@ -15,6 +16,70 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+
+theorem CauchySubnetCarrier_cofinal_ledger_coverage
+    {filter subnet window readback tolerance limit sealRow transport replay provenance
+      localName : BHist} :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row localName ∧
+          ∃ S : CauchySubnetUp,
+            cauchySubnetFields S =
+              [filter, subnet, window, readback, tolerance, limit, sealRow, transport,
+                replay, provenance, localName])
+      (fun row : BHist =>
+        hsame row filter ∨ hsame row subnet ∨ hsame row window ∨
+          hsame row readback ∨ hsame row tolerance ∨ hsame row limit ∨
+            hsame row sealRow ∨ hsame row localName)
+      (fun row : BHist =>
+        hsame row localName ∧
+          cauchySubnetToEventFlow
+              (CauchySubnetUp.mk filter subnet window readback tolerance limit sealRow
+                transport replay provenance localName) =
+            [cauchySubnetEncodeBHist filter, cauchySubnetEncodeBHist subnet,
+              cauchySubnetEncodeBHist window, cauchySubnetEncodeBHist readback,
+              cauchySubnetEncodeBHist tolerance, cauchySubnetEncodeBHist limit,
+              cauchySubnetEncodeBHist sealRow, cauchySubnetEncodeBHist transport,
+              cauchySubnetEncodeBHist replay, cauchySubnetEncodeBHist provenance,
+              cauchySubnetEncodeBHist localName])
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  let S :=
+    CauchySubnetUp.mk filter subnet window readback tolerance limit sealRow transport replay
+      provenance localName
+  have sourceLocal :
+      (fun row : BHist =>
+        hsame row localName ∧
+          ∃ S : CauchySubnetUp,
+            cauchySubnetFields S =
+              [filter, subnet, window, readback, tolerance, limit, sealRow, transport,
+                replay, provenance, localName]) localName := by
+    exact ⟨hsame_refl localName, Exists.intro S rfl⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro localName sourceLocal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      cases source.left
+      exact ⟨hsame_refl localName, rfl⟩
+  }
 
 def CauchySubnetCarrier [AskSetup] [PackageSetup]
     (filter subnet window readback tolerance limit sealRow transport replay provenance
