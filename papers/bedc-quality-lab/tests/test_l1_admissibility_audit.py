@@ -53,6 +53,15 @@ def test_leakage_or_memorization_failure_kills_admission():
     assert payload["hardgates"]["L1A-HG5-LEAKAGE"]["status"] == "fail"
 
 
+def test_memorization_failure_kills_admission():
+    payload = audit.build_payload(owner_metrics=_ready_metrics(memorization_score=0.1), generated_at="fixture")
+
+    assert payload["gate_card"]["status"] == "kill"
+    assert payload["gate_card"]["failed_gate"] == "L1A-HG6-MEMORIZATION"
+    assert payload["status_axes"]["decision_status"] == "bounded-negative"
+    assert payload["hardgates"]["L1A-HG6-MEMORIZATION"]["status"] == "fail"
+
+
 def test_base_margin_failure_abstains_without_tuning_threshold():
     payload = audit.build_payload(
         owner_metrics=_ready_metrics(base_accuracy_l95=0.52, chance_accuracy_u95=0.50),
@@ -70,6 +79,15 @@ def test_negative_control_or_order_failure_blocks_admission():
     assert payload["gate_card"]["status"] == "block"
     assert payload["gate_card"]["failed_gate"] == "L1A-HG4-NEGATIVE-CONTROL"
     assert payload["status_axes"]["decision_status"] == "blocked"
+
+
+def test_order_sentinel_failure_blocks_admission():
+    payload = audit.build_payload(owner_metrics=_ready_metrics(order_sentinel_margin=-0.01), generated_at="fixture")
+
+    assert payload["gate_card"]["status"] == "block"
+    assert payload["gate_card"]["failed_gate"] == "L1A-HG7-ORDER"
+    assert payload["status_axes"]["decision_status"] == "blocked"
+    assert payload["hardgates"]["L1A-HG7-ORDER"]["status"] == "fail"
 
 
 def test_incomplete_ready_metrics_block_at_schema_gate():
