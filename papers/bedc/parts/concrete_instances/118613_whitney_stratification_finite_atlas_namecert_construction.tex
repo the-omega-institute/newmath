@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\WhitneyStratificationFiniteAtlasUp$}
+\label{ch:concrete-instances-whitney-stratification-finite-atlas-namecert}
+\origin{human}
+
+Following Whitney's stratification conditions and the finite control viewpoint of Goresky--MacPherson stratified Morse theory, the $\WhitneyStratificationFiniteAtlasUp$ packet records a finite-atlas stratification surface as BEDC NameCert data. It sits over the manifold carrier of \autoref{ch:concrete-instances-manifold-namecert}, the finite jet compatibility rows of \autoref{ch:concrete-instances-whitney-extension-finite-jet-namecert}, the finite embedding-candidate rows of \autoref{ch:concrete-instances-whitney-embedding-finite-atlas-namecert}, and the filtration consumer boundary of \autoref{ch:concrete-instances-persistenthom-namecert}. The packet names the finite strata, frontier incidences, chart compatibility checks, transport, replay, provenance, and local naming visible to stratified-space consumers; it is not a host Whitney theorem, selected tubular-neighborhood system, quotient realization, global triangulation, or ambient transversality principle.
+
+\begin{definition}[Whitney stratification finite-atlas carrier]
+\label{def:whitney-stratification-finite-atlas-carrier}
+A $\WhitneyStratificationFiniteAtlasUp$ carrier is a finite $\BHist$ packet
+$$
+W=(M,A,S,F,Q,J,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\ManifoldUp$ source row, carrying the ambient finite-atlas manifold data read by local stratified charts;
+\item $A$ is the finite atlas row, listing the chart domains and coordinate windows used to inspect each stratum;
+\item $S$ is the finite stratum-list row, naming the displayed strata, their depth tags, and their admitted chart windows;
+\item $F$ is the frontier-incidence row, recording which stratum closures may meet lower-depth strata;
+\item $Q$ is the chart-compatibility row, checking that overlapping chart windows preserve the finite stratum labels and frontier incidences;
+\item $J$ is the $\WhitneyExtensionFiniteJetUp$ compatibility row, retaining finite jet comparisons as boundary data rather than as a selected smooth extension;
+\item $E$ is the $\WhitneyEmbeddingFiniteAtlasUp$ and $\PersistentHomUp$ consumer row, exposing embedding-candidate and filtration-facing reads only after $M,A,S,F,Q,J$ are displayed;
+\item $H$ is the componentwise $\hsame$ transport row for the manifold, atlas, stratum, frontier, chart, jet, and consumer rows;
+\item $C$ records displayed $\Cont$ replay from a stratification request through $M,A,S,F,Q,J,E,H$;
+\item $P$ is the $\Pkg$ provenance over $\WhitneyStratificationFiniteAtlasUp$, $\ManifoldUp$, $\WhitneyExtensionFiniteJetUp$, $\WhitneyEmbeddingFiniteAtlasUp$, $\PersistentHomUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\WhitneyStratificationFiniteAtlasUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,A,S,F,Q,J,E,H,C,P,N$. It has no coordinate for a host Whitney condition theorem, selected tubular neighborhoods, quotient strata, global triangulation choice, ambient transversality, or persistent-homology completeness.
+\end{definition}
+
+\begin{theorem}[Whitney stratification finite-atlas NameCert obligations]
+\label{thm:whitney-stratification-finite-atlas-namecert-obligations}
+For every accepted $\WhitneyStratificationFiniteAtlasUp$ carrier $W=(M,A,S,F,Q,J,E,H,C,P,N)$, the local $\NameCert_{\WhitneyStratificationFiniteAtlasUp}$ surface consists exactly of carrier admission for the ambient manifold row, finite atlas, finite stratum list, frontier incidence, chart compatibility, finite jet boundary, embedding and filtration consumer row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every stratified-space consumer must read those rows before it may treat the packet as a finite Whitney stratification certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:whitney-stratification-finite-atlas-carrier}. The manifold row $M$, atlas row $A$, stratum row $S$, and frontier row $F$ are displayed coordinates, so the packet exposes the ambient chart source, finite chart inventory, finite stratum list, and allowed closure incidences before any downstream read.
+
+Read the compatibility and consumer rows next. The chart row $Q$ keeps the stratum labels stable across overlaps, the finite jet row $J$ imports only the bounded compatibility surface of \autoref{ch:concrete-instances-whitney-extension-finite-jet-namecert}, and the consumer row $E$ routes embedding-candidate and filtration-facing reads through \autoref{ch:concrete-instances-whitney-embedding-finite-atlas-namecert} and \autoref{ch:concrete-instances-persistenthom-namecert}.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same finite route. Since the carrier contains no coordinates for host Whitney-condition theorems, selected tubular neighborhoods, quotient strata, global triangulation, ambient transversality, or persistent-homology completeness, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Whitney stratification frontier condition route]
+\label{thm:whitney-stratification-frontier-condition-route}
+Every frontier-condition read exported by an accepted $\WhitneyStratificationFiniteAtlasUp$ packet factors through
+$$
+\ManifoldUp \longmapsto A,S,F,Q \longmapsto \WhitneyExtensionFiniteJetUp,\WhitneyEmbeddingFiniteAtlasUp \longmapsto \PersistentHomUp .
+$$
+The route supplies a finite atlas, finite stratum list, displayed frontier incidence, chart compatibility, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data. It exports no quotient completion of strata, selected limit, choice schedule, host equality of stratified spaces, selected tubular neighborhood, ambient $\RealUp$ completeness principle, or global Whitney stratification theorem.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The frontier row $F$ is not available by itself: it is read after the ambient manifold row $M$, finite atlas row $A$, and finite stratum-list row $S$ have fixed the displayed chart windows and stratum names.
+
+Use the chart-compatibility row $Q$ to transport the frontier incidence across overlapping atlas windows. The finite jet row $J$ then supplies only the bounded Whitney-extension compatibility surface, while the consumer row $E$ keeps embedding-candidate and filtration reads downstream of the displayed stratification rows.
+
+The structural rows $H,C,P,N$ do not add a second frontier source. They preserve the same finite route by componentwise transport, replay it for consumers, record provenance, and name the packet locally. The absent quotient, selected-limit, choice, host-equality, tubular-neighborhood, ambient-completeness, and global Whitney-theorem endpoints therefore cannot be read from the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\WhitneyStratificationFiniteAtlasUp$ read exposes the ManifoldUp source, finite atlas, finite stratum list, frontier-incidence row, chart-compatibility row, WhitneyExtensionFiniteJetUp boundary, WhitneyEmbeddingFiniteAtlasUp consumer route, PersistentHomUp filtration-facing route, hsame transport, Cont replay, Pkg provenance, and local NameCert row before a frontier-condition consumer receives the packet.}
+
+\independenceWitness{manifold, whitney-extension-finite-jet, whitney-embedding-finite-atlas, persistenthom: no listed sibling supplies the joint finite-atlas stratification packet $W=(M,A,S,F,Q,J,E,H,C,P,N)$, because each sibling contributes only an ambient chart carrier, finite jet boundary, embedding-candidate route, or filtration-facing consumer surface while this chapter binds the finite stratum and frontier rows into one local NameCert surface.}
+
+\closureat{WhitneyStratificationFiniteAtlasUp}{seedStr}
+
+\begin{closurestatus}{\WhitneyStratificationFiniteAtlasUp}
+  \constructivestory{A $\WhitneyStratificationFiniteAtlasUp$ packet is generated from a ManifoldUp finite-atlas source, finite stratum list, frontier-incidence row, chart-compatibility row, WhitneyExtensionFiniteJetUp compatibility boundary, WhitneyEmbeddingFiniteAtlasUp and PersistentHomUp consumer route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:whitney-stratification-finite-atlas-carrier}, \autoref{thm:whitney-stratification-finite-atlas-namecert-obligations}, and \autoref{thm:whitney-stratification-frontier-condition-route} seed the finite Whitney stratification packet over displayed finite-atlas, stratum, frontier, chart-compatibility, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Whitney-condition theorems, selected tubular neighborhoods, quotient strata, global triangulation choice, ambient transversality, persistent-homology completeness, Lean verification, axiom purity, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, finite-atlas exposure, stratum inventory, frontier-incidence exactness, chart compatibility, finite jet boundary routing, embedding and filtration consumer routing, transport, replay, provenance, and local naming for BEDC.Derived.WhitneyStratificationFiniteAtlasUp.}
+\end{closurestatus}
