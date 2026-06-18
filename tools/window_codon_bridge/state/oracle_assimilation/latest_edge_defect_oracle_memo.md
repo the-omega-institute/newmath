@@ -1,14 +1,14 @@
 # Edge-Defect Oracle Memo
 
 - schema: `window_codon_oracle_memo.v1`
-- generated_ts: `2026-06-18T08:38:58Z`
-- source_task_id: `32fe7932-9fdc-47b2-a784-88d68c32e431`
+- generated_ts: `2026-06-18T08:49:04Z`
+- source_task_id: `f234d91b-d252-46a3-80c6-72b223bb039f`
 - source_conversation_id: `conv_6139d5d7cea7ab03`
-- oracle_response_chars: `5470`
+- oracle_response_chars: `9922`
 
 ## Strongest Mechanism
 
-The strongest mechanism is site-specific mistranslation-spectrum steering: UCN and AGY provide two synonymous ways to encode the intended Ser residue, but expose that residue to different sets of rare erroneous amino-acid outcomes. Selection would act not on translation speed or average Ser incorporation, but on the expression-weighted damage caused by the small fraction of mistranslated protein molecules. The mechanistic quantity is approximately
+Such an invariant can exist only if the box/wobble- and edge-profile-conditioned null contains more than one orbit under the automorphisms of  $Q_6$  that preserve the 16 boxes and wobble geometry. If that conditioned set is a single orbit, every label-free graph functional is constant, and there is structurally nothing left to discover. Assuming multiple orbits remain, the strongest next target is not another edge count but the higher-order incidence geometry of those fixed edges. Let  $\Pi=\{B_1,\ldots,B_{21}\}$  be the genetic-code partition. Let  $A_1,\ldots,A_{25}$  be the fixed within-box atoms obtained after the  $16\to25$  wobble-respecting split. Define the common null  $\Omega_{\mathrm{BW},E}$  as all unlabeled regroupings of these 25 fixed atoms into 21 fibers such that:
 
 ## Decisive Confounders
 
