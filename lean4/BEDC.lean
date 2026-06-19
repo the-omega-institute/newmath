@@ -793,6 +793,7 @@ import BEDC.Derived.BanachSpaceUp.VectorOperationTransportObligation
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
+import BEDC.Derived.BarTheoremUp.TasteGate
 import BEDC.Derived.BareObjectRefusalUp.TasteGate
 import BEDC.Derived.BareissFractionFreeEliminationUp.TasteGate
 import BEDC.Derived.BayesianUp
@@ -2379,6 +2380,7 @@ import BEDC.Derived.CauchyUp.CoreReadbackRoute
 import BEDC.Derived.CauchyUp.DisplayedRegSeqRatRoute
 import BEDC.Derived.CauchyUp.ForwardL10SumTailRoute
 import BEDC.Derived.CauchyUp.L10SiblingDependency
+import BEDC.Derived.CauchyUp.L10SiblingDependencyRoute
 import BEDC.Derived.CauchyUp.ModulusSpaceDiagonal
 import BEDC.Derived.CauchyUp.ModulusSpaceFilterHandoff
 import BEDC.Derived.CauchyUp.ModulusSpaceTail
@@ -5381,6 +5383,7 @@ import BEDC.Derived.FilterSubbasisCofinalCompletionUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.FilteredCauchyCompletionUp.TasteGate
 import BEDC.Derived.FiniteAutomatonUp.TasteGate
+import BEDC.Derived.FiniteBorelCantelliUp.TasteGate
 import BEDC.Derived.FiniteBracketingIntervalUp.TasteGate
 import BEDC.Derived.FiniteBranchingCauchyTreeUp.TasteGate
 import BEDC.Derived.FiniteCauchyApproximationUp
@@ -9444,6 +9447,7 @@ import BEDC.Derived.RegularCauchyCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCriterionUp.RouteScope
 import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyDensityUp
+import BEDC.Derived.RegularCauchyDiagonalArgumentUp.NameCertObligations
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
