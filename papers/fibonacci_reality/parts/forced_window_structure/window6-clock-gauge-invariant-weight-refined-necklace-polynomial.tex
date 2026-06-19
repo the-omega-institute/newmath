@@ -1,0 +1,86 @@
+\origin{ai}
+\subsection{Finite Forced-Window Weight Refinement for Cyclic Golden Necklaces}
+\label{sec:window6-clock-gauge-invariant-weight-refined-necklace-polynomial}
+
+\paragraph{Carrier and gauge action.}
+Fix a positive integer $n$.  The finite carrier is the set $P_n$ of cyclic binary words of length $n$ with no cyclic adjacent pair equal to $11$.  Concretely, an element is a function $x:\{0,1,\ldots,n-1\}\to \{0,1\}$ such that
+$$
+\begin{aligned}
+ x_i x_{i+1}=0
+\end{aligned}
+$$
+for every residue class $i$ modulo $n$.  The cyclic group $C_n$ acts by rotation: for $r\in C_n$, the rotated word $r\cdot x$ is the word with value at position $i$ equal to $x_{i-r}$.  This action is the gauge symmetry.  Two words are observationally identified when one is obtained from the other by such a rotation.  The quotient set is therefore the finite partition $P_n/C_n$ into rotation orbits.
+
+\paragraph{Weight observable.}
+The Hamming weight of $x\in P_n$ is
+$$
+\begin{aligned}
+ |x|=\sum_{i=0}^{n-1} x_i .
+\end{aligned}
+$$
+Rotation only permutes positions, so $|r\cdot x|=|x|$.  Hence weight is constant on every orbit of the gauge action.  The weight-refined necklace polynomial is
+$$
+\begin{aligned}
+ N_n(y)=\sum_w \#\{\text{$C_n$-orbits in $P_n$ with Hamming weight $w$}\}y^w .
+\end{aligned}
+$$
+The specialization at $y=1$ forgets the weight grading and recovers the orbit count:
+$$
+\begin{aligned}
+ N_n(1)=|P_n/C_n| .
+\end{aligned}
+$$
+Thus $N_n(y)$ is not an orbit-size spectrum.  It records how many gauge orbits have each Hamming weight, while the ungraded quotient only records the total number of gauge orbits.
+
+\paragraph{Cyclic weight enumerator.}
+For a cyclic length $g$, let $W(g,s)$ be the number of cyclic binary words of length $g$ with no cyclic adjacent pair equal to $11$ and with Hamming weight $s$.  The finite formula used here is
+$$
+\begin{aligned}
+ W(g,0)&=1,\\
+ W(g,s)&=\frac{g}{g-s}\binom{g-s}{s}\quad\text{for }s\geq 1.
+\end{aligned}
+$$
+The weight sum refines the unweighted cyclic count:
+$$
+\begin{aligned}
+ \sum_s W(g,s)=L_g,
+\end{aligned}
+$$
+where $L_g$ denotes the number of cyclic no-adjacent-one binary words of length $g$.  In particular, the carrier size satisfies $|P_n|=L_n$.
+
+\paragraph{Averaging formula for the quotient polynomial.}
+The rotation quotient can be counted by averaging fixed words over rotations.  If a rotation of length $n$ has fixed cyclic block length $g$ and repeats that block $n/g$ times, then a block of weight $s$ contributes total weight $(n/g)s$.  Therefore the weight-refined quotient polynomial is
+$$
+\begin{aligned}
+ N_n(y)=\frac{1}{n}\sum_{g\mid n}\varphi(n/g)\sum_s W(g,s)y^{(n/g)s}.
+\end{aligned}
+$$
+This formula is a finite kernel from fixed-block data to quotient-observable data: each divisor $g$ contributes block weights $s$, and the exponent records the repeated weight in the full cyclic word.  The factor $\varphi(n/g)$ counts rotations with that fixed-block length.  Because the output is averaged over the rotation action, it depends only on the orbit partition and not on any selected basepoint or residue.
+
+\paragraph{Witness extraction.}
+A witness for a coefficient of $N_n(y)$ is obtained by enumerating $P_n$, partitioning the resulting finite set into $C_n$-orbits, computing the common Hamming weight on each orbit, and then counting the number of orbits of each weight.  The same coefficient is obtained from the divisor formula above.  The finite checks cover four comparisons for $1\leq n\leq 12$: the specialization $N_n(1)$ equals the brute orbit count $|P_n/C_n|$; the closed formula for $W(g,s)$ agrees with direct cyclic enumeration for $1\leq g\leq 12$; the sums $\sum_s W(g,s)$ equal $L_g$ for $1\leq g\leq 12$; and the divisor-averaged polynomial agrees with the brute orbit-by-weight polynomial for $1\leq n\leq 12$.
+
+\paragraph{Clock instance.}
+For the forced-window clock instance $n=10$, the cyclic weight row is
+$$
+\begin{aligned}
+ W(10,*)&=[1,10,35,50,25,2],\\
+ \sum_s W(10,s)&=123=L_{10}.
+\end{aligned}
+$$
+The quotient polynomial is
+$$
+\begin{aligned}
+ N_{10}(y)=1+y+4y^2+5y^3+3y^4+y^5.
+\end{aligned}
+$$
+Consequently
+$$
+\begin{aligned}
+ N_{10}(1)=15.
+\end{aligned}
+$$
+The coefficient vector therefore gives a gauge-invariant, weight-graded refinement of the golden necklace quotient: one orbit has weight $0$, one has weight $1$, four have weight $2$, five have weight $3$, three have weight $4$, and one has weight $5$.  This information is strictly finer than the single unweighted count $15$, and it is different from a primitive orbit-size decomposition because the grading variable records Hamming weight rather than orbit length.
+
+\paragraph{Boundary of the construction.}
+The construction proves only the stated finite combinatorial facts: a cyclic no-adjacent-one carrier, its rotation quotient, a Hamming-weight grading invariant under that quotient, the cyclic weight enumerator, and the divisor-averaged polynomial.  It does not select a basepoint, does not select a residue class, and does not restore any basepoint-dependent observable.  It also does not imply a physical-constant identification, a global flow law, an external dependency, a metrological comparison, or any interpretation beyond this finite rotation-invariant polynomial unless a separate certificate supplies such additional content.

@@ -71,26 +71,14 @@ The manifest schema currently admits these bridge artifact kinds:
 - `blocked`: cannot move forward without a specific fix.
 - `needs_operator_review`: explicitly awaiting human approval.
 
-## Required fields
+## Manifest contract
 
-Every bridge manifest record must include source and destination fields:
-
-- `source_repo`
-- `source_branch_or_ref`
-- `source_path`
-- `source_commit`
-- `source_artifact_kind`
-- `destination_repo`
-- `destination_branch_or_ref`
-- `destination_path`
-- `destination_artifact_kind`
-- `bridge_direction`
-- `status`
-- `operator_review_required`
-- `taste_gate_required`
-- `audit_required`
-- `notes`
-- `next_action`
+The machine-readable authorities for manifest fields are
+`validate_bridge_manifest.py` and `bridge_manifest.schema.json`. The Python
+validator names the safety-critical hard-fail set; compatible commentary and
+operator-action fields may default with visible warnings. `notes` remains
+available to producers, and `next_action` defaults to operator review when a
+record omits it.
 
 The bridge direction is one of:
 

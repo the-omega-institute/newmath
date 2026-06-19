@@ -8,6 +8,7 @@ import types
 
 import pytest
 
+from bedc_quality_lab import l1_admissibility_audit
 from bedc_quality_lab import status_taxonomy
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
@@ -193,6 +194,16 @@ def _payload_for_spec(spec):
             case_count=128,
             bootstrap_resamples=32,
         )
+    if spec.name == "jepa-wm-l1-ood-adjudication":
+        from bedc_quality_lab.tasks import jepa_wm_l1_ood_adjudication
+
+        return jepa_wm_l1_ood_adjudication.build_payload(generated_at="fixture")
+    if spec.name == "sti-admission":
+        from bedc_quality_lab.tasks import sti
+
+        return sti.build_payload(generated_at="fixture")
+    if spec.name == "l1-admissibility-audit":
+        return l1_admissibility_audit.build_payload(generated_at="fixture")
     if spec.name == "discovery-gated-transformer-jepa-world-model":
         return canonical._build_dgt_jepa_world_model_payload(generated_at="fixture")
     if spec.name == "lejepa-theorem-ledger":
@@ -2213,6 +2224,9 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "lejepa-theorem-ledger",
         "discovery-gated-transformer-jepa-world-model",
         "jepa-wm-l1-evaluator-calibration",
+        "jepa-wm-l1-ood-adjudication",
+        "sti-admission",
+        "l1-admissibility-audit",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
         "model-comparison",
@@ -2302,6 +2316,30 @@ def test_scaling_ladder_canonical_spec_is_auxiliary_owner():
     assert spec.not_claimed_pointer == "$.not_claimed"
     assert spec.control_pointer is None
     assert "$.levels[*].owner_contracts" in spec.required_json_keys
+
+
+def test_jepa_wm_l1_ood_adjudication_registered_as_task_local_owner():
+    spec = canonical._specs_by_name()["jepa-wm-l1-ood-adjudication"]
+    payload = _payload_for_spec(spec)
+
+    assert spec.command == ("python3", "scripts/run_jepa_wm_l1_ood_adjudication.py")
+    assert spec.json_artifact == "reports/canonical/jepa-wm-l1-ood-adjudication.json"
+    assert spec.markdown_artifact == "reports/canonical/jepa-wm-l1-ood-adjudication.md"
+    assert spec.claim_promotion_eligible is False
+    assert payload["producer"] == "bedc_quality_lab.tasks.jepa_wm_l1_ood_adjudication"
+    assert payload["preregistration_card"]["owner"] == "bedc_quality_lab.tasks.jepa_wm_l1_ood_adjudication"
+    assert payload["config"]["fixed_arms"] == ["null", "base", "larger_base", "oracle_or_teacher"]
+    assert payload["config"]["fixed_ood_splits"] == [
+        "heldout-dynamics",
+        "goal-remap",
+        "temporal-gap",
+        "distractor-clutter",
+    ]
+    assert payload["config"]["metrics"] == ["top1_accuracy", "mean_rank", "calibration_error"]
+    assert payload["verdict"]["status_domain"] == ["success", "kill", "abstain", "not_ready"]
+    assert payload["hardgate"]["status"] == "pass"
+    assert payload["verdict"]["status"] == "success"
+    assert payload["claim_capsule"]["status"] == "pointer-only"
 
 
 def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
@@ -10241,6 +10279,53 @@ def test_jepa_world_model_only_route_raises_on_failed_report(tmp_path, monkeypat
     assert excinfo.value.code == 1
 
 
+def test_l1_admissibility_audit_only_route_writes_summary(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["l1-admissibility-audit"]
+    summary_path = tmp_path / "summary.json"
+    calls = []
+
+    def fake_run_spec(route_spec, mode="changed", generated_at=None):
+        calls.append((route_spec.name, mode, generated_at))
+        assert route_spec is spec
+        return _index_row_for_spec(route_spec) | {"status": "pass", "producer_status": "completed"}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    payload = canonical.run_reports(
+        only="l1-admissibility-audit",
+        generated_at="2030-01-01T00:00:00+00:00",
+        json_summary=str(summary_path),
+    )
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+    assert calls == [("l1-admissibility-audit", "changed", "2030-01-01T00:00:00+00:00")]
+    assert payload["schema_id"] == canonical.INDEX_SCHEMA_ID
+    assert payload["reports"][0]["name"] == "l1-admissibility-audit"
+    assert payload["reports"][0]["producer_status"] == "completed"
+    assert payload["status_summary"]["axes"]["report_build_status"]["pass"] == 1
+    assert summary == payload
+
+
+def test_l1_admissibility_audit_only_route_raises_on_failed_report(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["l1-admissibility-audit"]
+
+    def fake_run_spec(route_spec, mode="changed", generated_at=None):
+        assert route_spec is spec
+        return _index_row_for_spec(route_spec) | {"status": "fail", "producer_status": "failed"}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="l1-admissibility-audit",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
+
+
 def test_jepa_world_model_canonical_spec_is_owner_only():
     spec = canonical._specs_by_name()["discovery-gated-transformer-jepa-world-model"]
     canonical_artifacts = {
@@ -10291,6 +10376,27 @@ def test_jepa_wm_l1_evaluator_calibration_canonical_spec_is_diagnostic_only():
 def test_jepa_wm_l1_admission_has_no_no_input_canonical_spec():
     assert "jepa-wm-l1-admission" not in canonical._specs_by_name()
     assert "jepa-wm-l1-admission" not in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
+
+
+def test_sti_admission_canonical_spec_is_owner_local_and_excluded_from_discovery_map():
+    spec = canonical._specs_by_name()["sti-admission"]
+
+    assert spec.command == ("python3", "scripts/run_sti_admission.py")
+    assert spec.json_artifact == "reports/canonical/sti-admission.json"
+    assert spec.markdown_artifact == "reports/canonical/sti-admission.md"
+    assert canonical._relative(canonical._fingerprint_path(spec)) == "reports/canonical/sti-admission.fingerprint.json"
+    assert spec.bundle_role == "auxiliary"
+    assert spec.claim_promotion_eligible is False
+    assert spec.scope_pointer == "$.task_facts"
+    assert spec.cost_pointer == "$.source_artifacts"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.positive_claim"
+    assert spec.control_pointer == "$.controls"
+    assert spec.no_control_rationale_pointer is None
+    assert spec.hardgate_status_pointer == "$.hardgate.status"
+    assert spec.hardgate_scope == "owner-scientific"
+    assert spec.decision_status_pointer == "$.claim_boundary.status"
+    assert "sti-admission" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
 
 
 def test_jepa_world_model_payload_shape_and_sidecar_absence():

@@ -1,0 +1,91 @@
+\origin{ai}
+\subsection{Forced-window joint necklace spectrum}
+\label{sec:window6-clock-gauge-invariant-joint-necklace-spectrum}
+
+\paragraph{Finite carrier.}
+Fix a positive integer $n$. Let $\{0,1\}^n$ denote the set of binary words $w=(w_0,\ldots,w_{n-1})$ with indices read modulo $n$. The forced-window carrier is the finite set
+$$
+\begin{aligned}
+P_n=\{w\in \{0,1\}^n : \text{there is no } i\in\{0,\ldots,n-1\}\text{ with } w_i=w_{i+1}=1\}.
+\end{aligned}
+$$
+Thus the first and last coordinates are also adjacent. The cyclic group $C_n$ acts on $P_n$ by rotation: the rotation by $j$ sends $w$ to the word whose $i$-th coordinate is $w_{i-j}$, with the subscript reduced modulo $n$. The no-adjacent-$1$ condition is invariant under this action, so the action partitions $P_n$ into rotation orbits.
+
+\paragraph{Joint observable.}
+For $w\in P_n$, write $[w]$ for its orbit under $C_n$. The exact orbit size is the cardinality of $[w]$, and the Hamming weight is
+$$
+\begin{aligned}
+|w|_1=\sum_{i=0}^{n-1} w_i.
+\end{aligned}
+$$
+Both quantities are constant on the orbit $[w]$. For an exact orbit size $d$ and a weight $k$, define the bivariate quotient count
+$$
+\begin{aligned}
+J_n(d,k)=\#\{[w] : w\in P_n,\ |[w]|=d,\ |w|_1=k\}.
+\end{aligned}
+$$
+This is a finite matrix indexed by possible orbit sizes $d$ and weights $k$. Its row sum at $d$ is the primitive orbit-size spectrum, and its column sum at $k$ is the weight-refined golden-necklace count:
+$$
+\begin{aligned}
+\sum_k J_n(d,k)&=a(d),\\
+\sum_d J_n(d,k)&=[y^k]N_n(y).
+\end{aligned}
+$$
+The joint table keeps the correlation between the two gradings before either marginal is taken.
+
+\paragraph{Closed finite formula.}
+Let $A(d,s)$ count exact-period $d$ primitive cyclic binary necklaces with $s$ ones and no cyclic adjacent pair $11$. If a length-$n$ word has exact orbit size $d$, then it is obtained by repeating an exact-period block of length $d$ exactly $n/d$ times. Hence its total weight $k$ must satisfy $s=kd/n$. The joint count is therefore
+$$
+\begin{aligned}
+J_n(d,k)&=A(d,kd/n) &&\text{if } n \text{ divides } kd,\\
+J_n(d,k)&=0 &&\text{otherwise.}
+\end{aligned}
+$$
+The primitive weighted count can be written by finite inclusion-exclusion. For integers $g$ and $t$, set
+$$
+\begin{aligned}
+W(g,0)&=1,\\
+W(g,t)&=\frac{g}{g-t}\binom{g-t}{t} &&\text{for } t\geq 1.
+\end{aligned}
+$$
+Then
+$$
+\begin{aligned}
+A(d,s)=\frac{1}{d}\sum_{r\mid \gcd(d,s)} \mu(r)\, W(d/r,s/r),
+\end{aligned}
+$$
+where $\mu$ is the integer Möbius function. Every term in this expression is finite and depends only on the forced-window condition and the rotation quotient.
+
+\paragraph{Window-six numerical witness.}
+For the local witness $n=10$, the exact joint table is
+$$
+\begin{aligned}
+J_{10}=\{&(1,0):1,(2,5):1,(5,2):1,(5,4):1,\\
+&(10,1):1,(10,2):3,(10,3):5,(10,4):2\}.
+\end{aligned}
+$$
+The orbit-size marginal is
+$$
+\begin{aligned}
+\{1:1,2:1,5:2,10:11\},
+\end{aligned}
+$$
+and the weight marginal, ordered by weights $0,1,2,3,4,5$, is
+$$
+\begin{aligned}
+[1,1,4,5,3,1].
+\end{aligned}
+$$
+The row of exact orbit size $10$ splits by weight as
+$$
+\begin{aligned}
+\{1:1,2:3,3:5,4:2\}.
+\end{aligned}
+$$
+This row is not visible from the size marginal alone, and it is not forced by the weight marginal alone. More strongly, the two marginals do not determine the whole bivariate table. For example, the different nonnegative table obtained by keeping $(1,0):1$ and $(2,5):1$, replacing the size-$5$ row by $(5,2):2$, and replacing the size-$10$ row by $(10,1):1,(10,2):2,(10,3):5,(10,4):3$ has the same row sums and the same column sums as the displayed $J_{10}$, but it is not the same joint table. The genuine information is the orbit-size by weight correlation.
+
+\paragraph{Verification by enumeration.}
+For $1\leq n\leq 12$, direct enumeration of all words in $P_n$, quotienting by the rotation action of $C_n$, gives the same values of $J_n(d,k)$ as the closed formula above. The same finite enumeration verifies both marginal identities: summing over weights gives the primitive orbit-size spectrum $a(d)$, and summing over orbit sizes gives the coefficients of $N_n(y)$. It also checks the weighted primitive formula for $A(d,s)$ by exact arithmetic. Thus the construction is a basepoint-free bivariate refinement of the two single gradings already present in the finite golden-necklace quotient.
+
+\paragraph{Boundary of the claim.}
+No basepoint or residue is selected anywhere in the construction. The data are invariant under the rotation gauge because they are attached only to complete $C_n$-orbits. The chapter asserts only the finite forced-window quotient structure, its exact bivariate counts, its two marginal projections, and the displayed local witness. It does not assert a physical-constant identification, a global flow law, an external dependency, a metrological comparison, or any interpretation beyond this finite combinatorial construction unless a separate certificate supplies that additional content.

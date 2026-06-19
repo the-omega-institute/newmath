@@ -11,6 +11,14 @@
 - **Hub-only 索引文件**: hub-only 是结构分类, 不是 filename → role 映射. 只有自身正文只是结构性路由的 `.tex` 文件才按 hub-only 约束: 可放 1-2 句 orienting 段落、子文件 `\input{...}` 行、必要状态标注 (如 `\closureat`), 不放 `\begin{theorem}` / `\begin{definition}` / `\begin{lemma}` / `\begin{proof}` / `\begin{closurestatus}` 等正文环境. 持有 `\chapter` 与正文环境的文件是 content chapter, 受 800 行上限与正文检查约束.
 - 二进制运算使用原生实现, 不用二进制字符串
 
+## 旁路推理通道: nyxid oracle (ChatGPT Pro)
+
+`nyxid oracle` 把推理任务路由到浏览器端 ChatGPT Pro, 可作为 codex / Claude 之外的旁路推理通道 (例: 让 ChatGPT Pro 跑一段独立推理 / 复核). 子命令、参数、输出字段清单以 `nyxid oracle --help` / `nyxid oracle ask --help` 为准, 本文档只记非显然用法:
+
+- **两步异步 (省 token, 不轮询)**: `nyxid oracle ask company-chatgpt-pro "<问题>" --no-wait --output json` 拿 `task_id` (status=queued); 再 `nyxid oracle result <task_id> --output json` 取结果. status 走 `queued → dispatched(phase=sent) → completed`, `completed` 时 `response` 字段即答案 (附 `chatgpt_url`). 单次 `result` 即可, 未完成返回中间 status, 不要 busy-loop 轮询. 省 `--no-wait` 则 `ask` 同步阻塞最多 `--wait` 秒.
+- **pool 是 org-visibility**: `company-chatgpt-pro` 限该 pool 所属 org 成员; 非成员 `ask` 返回 403 (error_code 1002 forbidden), `status` 返回 404. 先 `nyxid org join <邀请码>` 加入该 org, 再 `nyxid oracle pool list` 应能看到该 pool. 当前账号 (`aloning@gmail.com`) 已可用.
+- 长 prompt 用 `--file -` 从 stdin 喂, 附件 `--pdf`, 多轮 `--new-conversation` / `--conversation <id>`; 配额与并发 (per-user inflight、worker tab 数) 以 `nyxid oracle pool list` / `nyxid oracle status <pool>` 实时读出, 不在此缓存数字.
+
 ## 语言与格式
 
 - 工作语言默认中文, 英文版文档以 `_en.md` / `_en.tex` 结尾
@@ -63,6 +71,8 @@
 - **规范 / 不变量 / 命名约定 / 工作流程** → 唯一源是本 `CLAUDE.md`. 任何其他文档若描述规范, 引这里, 不复述
 - **形式化事实** (定理状态、章节存在性、闭合等级、命名空间命中点、saturation 数字) → 唯一源是 `lean4/BEDC/` + `papers/bedc/parts/` 的实际内容, 通过 `bedc_ci.py` / `critical_path.py` / `grep` 实时读出, 任何文档不缓存这些数字
 - **工具能力** (脚本子命令、参数、输出格式) → 唯一源是脚本自身的 `--help` 与 `--json` 输出, 本文档不列子命令清单
+
+Schema field policy: artifact schema identity stays stable across additive field growth. Later non-safety fields must be reader-compatible: missing values produce a visible warning, default, or downgrade, not a hard failure. Only identity, owner, authority, provenance, gate, publication-risk, pointer, or trust-boundary fields may enter a named hard-fail required set.
 
 这条约束针对**理论事实 / 规范 / 命名**这类语义内容, **不针对 CI / 基础设施运维配置值** (容器镜像名、base image digest、版本 pin 等). 后者天然出现在多个 entry workflow, 小重复属运维常态, 不构成"同义说明漂移": 不要为消除这类重复引入 repo variable / 一致性守护测试 / sha256 验证等 over-engineering. 一个镜像名就是一个镜像名, 直接硬编码即可.
 

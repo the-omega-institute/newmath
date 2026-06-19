@@ -117,6 +117,10 @@ from bedc_quality_lab.high_impact_review import (
     MARKDOWN_ARTIFACT as HIGH_IMPACT_REVIEW_MARKDOWN_ARTIFACT,
     SCHEMA_ID as HIGH_IMPACT_REVIEW_SCHEMA_ID,
 )
+from bedc_quality_lab.l1_admissibility_audit import (
+    CANONICAL_JSON_ARTIFACT as L1_ADMISSIBILITY_AUDIT_JSON_ARTIFACT,
+    CANONICAL_MARKDOWN_ARTIFACT as L1_ADMISSIBILITY_AUDIT_MARKDOWN_ARTIFACT,
+)
 from bedc_quality_lab.experiment_stack import (
     ARTIFACT_ID as EXPERIMENT_STACK_CARDS_ARTIFACT_ID,
     JSON_ARTIFACT as EXPERIMENT_STACK_CARDS_JSON_ARTIFACT,
@@ -241,6 +245,22 @@ JEPA_WM_L1_EVALUATOR_CALIBRATION_ARTIFACT_ID = (
 JEPA_WM_L1_EVALUATOR_CALIBRATION_SCHEMA_ID = (
     "bedc-quality-lab:jepa-wm-l1-evaluator-calibration"
 )
+JEPA_WM_L1_OOD_ADJUDICATION_JSON_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-ood-adjudication.json"
+)
+JEPA_WM_L1_OOD_ADJUDICATION_MARKDOWN_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-ood-adjudication.md"
+)
+JEPA_WM_L1_OOD_ADJUDICATION_ARTIFACT_ID = (
+    "bedc-quality-lab:jepa-wm-l1-ood-adjudication"
+)
+JEPA_WM_L1_OOD_ADJUDICATION_SCHEMA_ID = (
+    "bedc-quality-lab:jepa-wm-l1-ood-adjudication"
+)
+STI_ADMISSION_JSON_ARTIFACT = "reports/canonical/sti-admission.json"
+STI_ADMISSION_MARKDOWN_ARTIFACT = "reports/canonical/sti-admission.md"
+STI_ADMISSION_ARTIFACT_ID = "bedc-quality-lab:sti-admission"
+STI_ADMISSION_SCHEMA_ID = "bedc-quality-lab:sti-admission"
 LEJEPA_THEOREM_LEDGER_JSON_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
 BEDC_JEPA_QUALITY_PACKET_ARTIFACT = "reports/bedc_jepa_quality_packet.json"
 BEDC_JEPA_PLANNING_ARTIFACT = "reports/bedc_jepa_risk_constrained_planning.json"
@@ -289,6 +309,8 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "dgt-l1-boundary-report",
         "discovery-gated-transformer-jepa-world-model",
         "jepa-wm-l1-evaluator-calibration",
+        "sti-admission",
+        "l1-admissibility-audit",
     }
 )
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
@@ -2280,6 +2302,120 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         decision_status_pointer="$.diagnostic_next_step.status",
     ),
     CanonicalReportSpec(
+        name="jepa-wm-l1-ood-adjudication",
+        command=("python3", "scripts/run_jepa_wm_l1_ood_adjudication.py"),
+        json_artifact=JEPA_WM_L1_OOD_ADJUDICATION_JSON_ARTIFACT,
+        markdown_artifact=JEPA_WM_L1_OOD_ADJUDICATION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "preregistration_card",
+            "config",
+            "observations",
+            "hardgate",
+            "split_adjudications",
+            "verdict",
+            "claim_boundary",
+            "claim_capsule",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.claim_boundary",
+        cost_pointer="$.source_artifacts.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.verdict",
+        control_pointer="$.hardgate.gates.CONTROLS",
+        no_control_rationale_pointer=None,
+        claim_promotion_eligible=False,
+        claim_capsule_pointer="$.claim_capsule",
+        scientific_claim_status_pointer="$.claim_boundary.status",
+        hardgate_status_pointer="$.hardgate.status",
+        hardgate_scope="owner-scientific",
+        decision_status_pointer="$.verdict.status",
+    ),
+    CanonicalReportSpec(
+        name="sti-admission",
+        command=("python3", "scripts/run_sti_admission.py"),
+        json_artifact=STI_ADMISSION_JSON_ARTIFACT,
+        markdown_artifact=STI_ADMISSION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "run_id",
+            "source_issue",
+            "producer",
+            "source_artifacts",
+            "task_facts",
+            "preregistration",
+            "config",
+            "observations",
+            "base_chance_gate",
+            "controls",
+            "verdict",
+            "claim_boundary",
+            "positive_claim",
+            "downstream_gate",
+            "hardgate",
+            "not_claimed",
+            "what_was_learned",
+            "reproducibility_contract",
+            "raw_digest",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.task_facts",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive_claim",
+        control_pointer="$.controls",
+        no_control_rationale_pointer=None,
+        claim_promotion_eligible=False,
+        scientific_claim_status_pointer="$.claim_boundary.status",
+        hardgate_status_pointer="$.hardgate.status",
+        hardgate_scope="owner-scientific",
+        decision_status_pointer="$.claim_boundary.status",
+    ),
+    CanonicalReportSpec(
+        name="l1-admissibility-audit",
+        command=("python3", "scripts/run_l1_admissibility_audit.py"),
+        json_artifact=L1_ADMISSIBILITY_AUDIT_JSON_ARTIFACT,
+        markdown_artifact=L1_ADMISSIBILITY_AUDIT_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "protocol",
+            "owner_metrics",
+            "dependency_statuses",
+            "hardgates",
+            "gate_card",
+            "claim_boundary",
+            "status_axes",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.claim_boundary",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.gate_card",
+        control_pointer="$.protocol.negative_controls",
+        no_control_rationale_pointer=None,
+        claim_promotion_eligible=False,
+        scientific_claim_status_pointer="$.status_axes.scientific_claim_status",
+        hardgate_status_pointer="$.status_axes.hardgate_status",
+        hardgate_scope="owner-scientific",
+        ladder_state_pointer="$.status_axes.ladder_state",
+        decision_status_pointer="$.status_axes.decision_status",
+    ),
+    CanonicalReportSpec(
         name="observed-debt-sweep",
         command=("python3", "scripts/run_observed_debt_sweep.py"),
         json_artifact="reports/canonical/observed-debt-sweep.json",
@@ -3273,6 +3409,7 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     _set_existing_attr(module, "JSON_ARTIFACT", spec.json_artifact)
     _set_existing_attr(module, "MARKDOWN_ARTIFACT", spec.markdown_artifact)
     _set_existing_attr(module, "REPORT_ARTIFACT", spec.markdown_artifact)
+    _set_existing_attr(module, "GENERATED_AT", None)
     if spec.reproducibility_mode == "exact_fixture":
         _set_existing_attr(module, "USE_TORCH", False)
     _configure_metric_aliases(module)
@@ -3364,6 +3501,7 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
+    _set_existing_attr(module, "GENERATED_AT", generated_at)
     if inspect.signature(module.main).parameters:
         module.main([])
     else:
@@ -8836,6 +8974,8 @@ def _schema_validator_ref_for_spec(spec: CanonicalReportSpec, schema_id: str) ->
         return "bedc_quality_lab.dgt_l1_boundary_report.validate_l1_boundary_report"
     if spec.name == "scaling-ladder" and schema_id == SCALING_LADDER_SCHEMA_ID:
         return "bedc_quality_lab.scaling_ladder.validate_scaling_ladder_payload"
+    if spec.name == "sti-admission" and schema_id == STI_ADMISSION_SCHEMA_ID:
+        return "bedc_quality_lab.tasks.sti.validate_sti_payload"
     return "scripts.run_canonical_reports._validate_json"
 
 
@@ -8925,6 +9065,22 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
             _validate_dgt_jepa_world_model_payload(_load_report_payload(spec))
         except ValueError as exc:
             jepa_world_model_errors = [str(exc)]
+    sti_errors: list[str] = []
+    if spec.name == "sti-admission" and key_validation["status"] == "pass" and not missing_artifacts:
+        try:
+            from bedc_quality_lab.tasks.sti import validate_sti_payload
+
+            validate_sti_payload(_load_report_payload(spec))
+        except ValueError as exc:
+            sti_errors = [str(exc)]
+    l1_admissibility_errors: list[str] = []
+    if spec.name == "l1-admissibility-audit" and key_validation["status"] == "pass" and not missing_artifacts:
+        try:
+            from bedc_quality_lab.l1_admissibility_audit import validate_payload as validate_l1_admissibility_payload
+
+            validate_l1_admissibility_payload(_load_report_payload(spec))
+        except ValueError as exc:
+            l1_admissibility_errors = [str(exc)]
     status = (
         "pass"
         if key_validation["status"] == "pass"
@@ -8936,6 +9092,8 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         and not boundary_report_errors
         and not minimal_mainline_errors
         and not jepa_world_model_errors
+        and not sti_errors
+        and not l1_admissibility_errors
         else "fail"
     )
     return {
@@ -8950,6 +9108,8 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         "boundary_report_errors": boundary_report_errors,
         "minimal_mainline_errors": minimal_mainline_errors,
         "jepa_world_model_errors": jepa_world_model_errors,
+        "sti_errors": sti_errors,
+        "l1_admissibility_errors": l1_admissibility_errors,
     }
 
 
@@ -10403,6 +10563,36 @@ def run_reports(
             generated_at=timestamp,
             require_pass=False,
         )
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        if result["status"] != "pass":
+            raise SystemExit(1)
+        return payload
+    if only == "sti-admission":
+        spec = _specs_by_name()[only]
+        result = _run_spec(spec, mode=mode, generated_at=timestamp)
+        payload = {
+            "schema_id": INDEX_SCHEMA_ID,
+            "generated_at": timestamp,
+            "root": INDEX_ROOT,
+            "reports": [_ensure_status_axes(result)],
+        }
+        payload["status_summary"] = _status_summary(payload["reports"])
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        if result["status"] != "pass":
+            raise SystemExit(1)
+        return payload
+    if only == "l1-admissibility-audit":
+        spec = _specs_by_name()[only]
+        result = _run_spec(spec, mode=mode, generated_at=timestamp)
+        payload = {
+            "schema_id": INDEX_SCHEMA_ID,
+            "generated_at": timestamp,
+            "root": INDEX_ROOT,
+            "reports": [_ensure_status_axes(result)],
+        }
+        payload["status_summary"] = _status_summary(payload["reports"])
         if json_summary is not None:
             _write_json_atomic(Path(json_summary), payload)
         if result["status"] != "pass":

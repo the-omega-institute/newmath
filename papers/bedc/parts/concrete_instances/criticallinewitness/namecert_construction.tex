@@ -24,6 +24,7 @@ with the following visible coordinates:
 \end{enumerate}
 The carrier exposes a witness packet for a supplied zero-in-strip input. It contains no proof that every zero in the critical strip has such a packet, no zero-producing search, no host complex equality, no quotient real equality, no selected representative of a Cauchy class, and no appeal to ambient analytic completeness.
 \end{definition}
+\leandef{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessUp}
 
 \begin{theorem}[Critical-line witness NameCert obligations]
 \label{thm:critical-line-witness-namecert-obligations}
@@ -586,6 +587,7 @@ W=(Z,S,M,R,Q,H,C,P,N).
 $$
 The rows $Z,S,M,R,Q$ supply the zero, strip, modulus, real-part, and rational comparison data, while $H,C,P,N$ supply the displayed transports, consumer routes, package provenance, and local $\NameCert$ row. No read starts from a host zero search, quotient representative, or ambient analytic-completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_carrier\_source}
 \begin{proof}
 Project the carrier from \autoref{def:critical-line-witness-carrier}. The tuple displays exactly the rows $Z,S,M,R,Q,H,C,P,N$.
 
@@ -598,6 +600,7 @@ The non-escape discipline in the same obligation list excludes host zero search,
 \label{thm:critical-line-witness-classifier-separation}
 The classifier-facing content of an accepted $\CriticalLineWitnessUp$ carrier separates the supplied zero row $Z$, the critical-strip row $S$, and the critical-line modulus row $M$. The displayed $\hsame$ and $\Cont$ rows may transport and replay their alignment, but the packet does not identify these rows by host equality, collapse them into an $\mathsf{RH}$ classifier, or turn the supplied witness into a global zero-set classification.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_classifier\_separation}
 \begin{proof}
 Read $Z$, $S$, and $M$ as separate coordinates of the carrier. The zero row, strip row, and modulus row have distinct jobs in the finite packet.
 
@@ -636,6 +639,7 @@ Then use \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}. Th
 \label{thm:critical-line-witness-zeta-zero-boundary}
 The supplied $\ZetaZerosUp$ row $Z$ in an accepted $\CriticalLineWitnessUp$ packet is a boundary row for the witness surface: downstream consumers may read it only together with $S,M,R,Q,H,C,P,N$ as the finite supplied-zero packet, and cannot extract a zero constructor, global zeta-zero enumeration, $\mathsf{RH}$ proof, or analytic-continuation certificate from it.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_zeta\_zero\_boundary}
 \begin{proof}
 Project the zero row $Z$ from the finite carrier. It is stored as supplied input, not as an output of a search or construction coordinate.
 
@@ -692,6 +696,7 @@ Finally apply \autoref{thm:critical-line-witness-obligation-closure-package}. Th
 \label{thm:critical-line-witness-root-zero-modulus-carrier}
 For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the rows $Z,S,M,R,Q,H,C,P,N$ are the only admitted zero/modulus packet available to root-facing consumers. The packet admits the supplied zero row, critical-strip row, finite modulus row, real-part row, rational comparison ledger, transport row, replay row, package row, and local naming row, and it admits no zero search, RH proof, host equality, quotient representative, analytic-continuation certificate, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_zero\_modulus\_carrier}
 \begin{proof}
 Project the carrier of \autoref{def:critical-line-witness-carrier}. The displayed coordinates are precisely $Z,S,M,R,Q,H,C,P,N$.
 
@@ -704,6 +709,7 @@ The nonproof and refusal rows rule out zero search, an RH proof, host equality, 
 \label{thm:critical-line-witness-root-strip-readback}
 Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every root-facing strip readback is bound to the supplied zero row $Z$ and the critical-strip row $S$, then replayed through $M,R,Q,H,C,P,N$. The readback does not compare host complex numbers, identify quotient representatives, or construct a global zero-set classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_strip\_readback}
 \begin{proof}
 Start with \autoref{thm:critical-line-witness-zero-source-totality}. It confines zero-facing reads to the supplied $\ZetaZerosUp$ and $\CritStripUp$ source coordinates and their visible routes.
 
@@ -716,6 +722,7 @@ Finally apply \autoref{thm:critical-line-witness-rh-consumer-boundary-package}. 
 \label{thm:critical-line-witness-root-consumer-threshold}
 Every downstream $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$ reads root information only through the finite modulus row $M$ and rational comparison threshold row $Q$, together with the supplied zero, strip, real-part, transport, replay, package, and naming rows $Z,S,R,H,C,P,N$. Such a consumer cannot read an $\mathsf{RH}$ proof, perform zero search, or import an ambient analytic classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_root\_consumer\_threshold}
 \begin{proof}
 Begin with the RH consumer boundary package. It states that downstream consumers receive a finite witness boundary and no RH-level conclusion.
 
@@ -765,6 +772,7 @@ Next use the transport replay obligation. It binds $H,C,P,N$ to that same zero-s
 
 Finally apply the downstream refusal package and downstream source obligation. These results exclude $\mathsf{RH}$ proof data, zero search, analytic continuation, quotient representatives, host equality, and ambient completeness from all downstream reads, so the displayed finite rows exhaust the local ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_ledger\_nonescape\_obligation}
 
 \input{parts/concrete_instances/criticallinewitness/scoped_strip_source_package.tex}
 

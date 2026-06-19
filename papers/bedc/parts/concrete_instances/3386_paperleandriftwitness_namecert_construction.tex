@@ -63,6 +63,7 @@ M,A,L,I,R,H,C,P,N.
 $$
 In particular, it exports no unresolved Lean target, no duplicate paper label, no marker-kind coercion, no approximate declaration match, and no host-side permission to treat paper prose as a resolving Lean declaration.
 \end{theorem}
+\leanchecked{BEDC.Derived.PaperLeanDriftWitnessUp.PaperLeanDriftWitness\_nonescape}
 \begin{proof}
 Inspect the carrier inventory. The rows record marker parsing, requested-name normalization, label-ledger comparison, Lean inventory lookup, resolution verdict, transport, replay, provenance, and local naming.
 
@@ -82,6 +83,7 @@ Resolution reads pass through the normalized name and Lean inventory rows. Dupli
 
 The provenance row $P$ and local name row $N$ package this finite read as a NameCert surface. Since the carrier contains no semantic-equivalence row between paper prose and Lean theorem meaning, the consumer obtains exact marker resolution only.
 \end{proof}
+\leanchecked{BEDC.Derived.PaperLeanDriftWitnessUp.PaperLeanDriftWitness\_consumer\_boundary}
 
 \begin{theorem}[Paper-Lean drift witness verdict determinism]
 \label{thm:paper-lean-drift-witness-verdict-determinism}
@@ -115,6 +117,7 @@ By \autoref{thm:paper-lean-drift-witness-resolution-exactness}, exact resolution
 
 The replay route $C$ keeps the label-ledger comparison on the path to $R$, and $H$ preserves that ledger row under transport. Therefore a duplicate-label refusal in $L$ has priority over the inventory hit and prevents export of an exact-resolution verdict for the refused marker site.
 \end{proof}
+\leanchecked{BEDC.Derived.PaperLeanDriftWitnessUp.PaperLeanDriftWitness\_duplicate\_label\_priority}
 
 \begin{theorem}[Paper-Lean drift witness unresolved marker refusal]
 \label{thm:paper-lean-drift-witness-unresolved-marker-refusal}
@@ -157,6 +160,7 @@ The transport rows in $H$ carry each of these coordinates to the corresponding p
 
 Therefore the transported verdict in $R'$ is still exact resolution for $M'$ precisely by the transported inventory hit for $A'$ in $I'$ and the transported non-refusal in $L'$.
 \end{proof}
+\leanchecked{BEDC.Derived.PaperLeanDriftWitnessUp.PaperLeanDriftWitness\_resolution\_stability}
 
 \begin{theorem}[Paper-Lean drift witness marker-kind separation]
 \label{thm:paper-lean-drift-witness-marker-kind-separation}
@@ -175,6 +179,7 @@ Non-escape rules out marker-kind coercion as exported content of the packet. The
 
 Thus no consumer can reinterpret a row for one of \texttt{\textbackslash leanchecked}, \texttt{\textbackslash leanvariant}, \texttt{\textbackslash leanstmt}, \texttt{\textbackslash leandef}, or \texttt{\textbackslash leantarget} as a row for another kind.
 \end{proof}
+\leanchecked{BEDC.Derived.PaperLeanDriftWitnessUp.PaperLeanDriftWitness\_marker\_kind\_separation}
 
 \begin{theorem}[Paper-Lean drift witness inventory verdict totality]
 \label{thm:paper-lean-drift-witness-inventory-verdict-totality}
@@ -193,6 +198,7 @@ For refusal cases, the non-escape theorem prevents unresolved names, duplicate l
 
 Hence every accepted verdict is total over the displayed inventory and duplicate-label ledger rows: it is either the exact inventory-and-ledger outcome or a refusal exposed by $R$, never an approximate or prose-only promotion.
 \end{proof}
+\leanchecked{BEDC.Derived.PaperLeanDriftWitnessUp.PaperLeanDriftWitness\_inventory\_verdict\_totality}
 
 \begin{theorem}[Paper-Lean drift witness token objectwise audit]
 \label{thm:paper-lean-drift-witness-token-objectwise-audit}
@@ -220,6 +226,7 @@ W=(M,A,L,I,R,H,C,P,N)
 $$
 be an accepted $\PaperLeanDriftWitnessUp$ carrier. Any $\AuditMapDependencyWeaveUp$ consumer using $W$ as a dependency source must read the same marker row $M$, normalized requested-name row $A$, duplicate-label ledger row $L$, Lean inventory row $I$, verdict row $R$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $N$. The consumer cannot replace those rows by approximate marker repair, an aggregate formalstatus token, a neighboring Lean name, or a route-level closure summary.
 \end{theorem}
+\leanchecked{BEDC.Derived.PaperLeanDriftWitnessUp.PaperLeanDriftWitness\_auditmap\_dependency\_source\_lock}
 \begin{proof}
 The carrier projection exposes exactly the rows $M,A,L,I,R,H,C,P,N$. The marker row, normalized request, ledger, inventory, and verdict are therefore read from the same accepted witness rather than from a neighboring audit route.
 
@@ -239,6 +246,7 @@ Duplicate-label priority keeps the ledger in the handoff. If $L$ refuses the sit
 
 Unresolved-marker refusal keeps absent inventory hits inside refusal rows. Verdict determinism and inventory verdict totality then make the exported row exhaustive over the displayed local outcomes, leaving only transport, replay, provenance, and naming through $H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.PaperLeanDriftWitnessUp.PaperLeanDriftWitness\_objectwise\_drift\_handoff}
 
 \begin{theorem}[Paper-Lean drift witness audit-map weave consumer exactness]
 \label{thm:paper-lean-drift-witness-auditmap-weave-consumer-exactness}
@@ -445,6 +453,7 @@ Resolution exactness from \autoref{thm:paper-lean-drift-witness-resolution-exact
 
 The non-escape theorem and the dependency-weave handoff theorem confine the exported material to finite marker-resolution rows. Hence replay, transport, provenance, and local naming preserve the unresolved-marker refusal rather than converting it into checked theorem content, semantic equivalence, bridge evidence, or closure-axis evidence.
 \end{proof}
+\leanchecked{BEDC.Derived.PaperLeanDriftWitnessUp.PaperLeanDriftWitness\_unresolved\_marker\_refusal}
 
 \begin{theorem}[Paper-Lean drift witness formalstatus sync readiness]
 \label{thm:paper-lean-drift-witness-formalstatus-sync-readiness}

@@ -37,7 +37,7 @@ SHA_RE = re.compile(r"^[0-9a-f]{7,40}$")
 ID_RE = re.compile(r"^[a-z0-9][a-z0-9._:-]*$")
 ISO_RE = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")
 
-REQUIRED = {
+SAFETY_CRITICAL_REQUIRED = {
     "id",
     "record_version",
     "created_at",
@@ -56,8 +56,11 @@ REQUIRED = {
     "taste_gate_required",
     "audit_required",
     "external_publication_risk",
-    "notes",
-    "next_action",
+}
+REQUIRED = SAFETY_CRITICAL_REQUIRED
+COMPATIBLE_DEFAULTS = {
+    "notes": "",
+    "next_action": "operator review",
 }
 
 
@@ -88,9 +91,20 @@ def _bad_path(value: str) -> bool:
     )
 
 
+def normalize_record(record: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
+    normalized = dict(record)
+    warnings: list[str] = []
+    for key, value in COMPATIBLE_DEFAULTS.items():
+        if key not in normalized:
+            normalized[key] = value
+            warnings.append(f"defaulted compatible missing field: {key}")
+    return normalized, warnings
+
+
 def validate_record(record: dict[str, Any]) -> list[str]:
     issues: list[str] = []
-    missing = sorted(REQUIRED - set(record))
+    record, _warnings = normalize_record(record)
+    missing = sorted(SAFETY_CRITICAL_REQUIRED - set(record))
     for key in missing:
         issues.append(f"missing required field: {key}")
     if missing:
@@ -133,9 +147,13 @@ def validate_record(record: dict[str, Any]) -> list[str]:
     for key in ("operator_review_required", "taste_gate_required", "audit_required"):
         if not isinstance(record.get(key), bool):
             issues.append(f"{key} must be boolean")
-    for key in ("source_branch_or_ref", "destination_branch_or_ref", "notes", "next_action"):
+    for key in ("source_branch_or_ref", "destination_branch_or_ref"):
         if not isinstance(record.get(key), str) or not record[key].strip():
             issues.append(f"{key} must be a nonempty string")
+    if not isinstance(record.get("notes"), str):
+        issues.append("notes must be a string")
+    if not isinstance(record.get("next_action"), str) or not record["next_action"].strip():
+        issues.append("next_action must be a nonempty string")
 
     direction = record.get("bridge_direction")
     if direction == "newmath_to_automath":
@@ -182,7 +200,10 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{path}:{line_no}: duplicate id: {record.get('id')}", file=sys.stderr)
             issue_count += 1
         seen_ids.add(str(record.get("id")))
-        issues = validate_record(record)
+        normalized, warnings = normalize_record(record)
+        for warning in warnings:
+            print(f"{path}:{line_no}: warning: {warning}", file=sys.stderr)
+        issues = validate_record(normalized)
         for issue in issues:
             print(f"{path}:{line_no}: {issue}", file=sys.stderr)
             issue_count += 1

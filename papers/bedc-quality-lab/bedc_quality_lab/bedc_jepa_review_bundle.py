@@ -53,6 +53,7 @@ def build_review_bundle() -> dict[str, Any]:
     conformal = _load_json("bedc_jepa_conformal_certified_coverage.json")
     ablation = _load_json("bedc_jepa_loss_ablation.json")
     retraining_ablation = _load_optional_json("bedc_jepa_retraining_loss_ablation.json")
+    multistep_latent_prediction = _load_optional_json("bedc_multistep_latent_prediction.json")
     public_baseline_native_metric_contract = _load_optional_json(
         "bedc_jepa_public_baseline_native_metric_contract.json"
     )
@@ -117,6 +118,28 @@ def build_review_bundle() -> dict[str, Any]:
         _check(
             retraining_ablation.get("schema_id") == "bedc-jepa-retraining-loss-ablation",
             "torch retraining ablation schema",
+            failures,
+        )
+    if multistep_latent_prediction is not None:
+        _check(
+            multistep_latent_prediction.get("schema_id") == "bedc-multistep-latent-prediction",
+            "multi-step latent prediction schema",
+            failures,
+        )
+        _check(
+            multistep_latent_prediction.get("status") == "executed",
+            "multi-step latent prediction executed",
+            failures,
+        )
+        _check(
+            multistep_latent_prediction.get("evidence_chain", {}).get("owner_module")
+            == "bedc_quality_lab.bedc_multistep_latent_prediction",
+            "multi-step latent prediction owner module",
+            failures,
+        )
+        _check(
+            "MiniGrid planning success" in multistep_latent_prediction.get("cannot_claim", []),
+            "multi-step latent prediction MiniGrid claim boundary",
             failures,
         )
     if public_baseline_native_metric_contract is not None:
@@ -337,6 +360,7 @@ def build_review_bundle() -> dict[str, Any]:
             ),
             "loss_ablation": "reports/bedc_jepa_loss_ablation.json",
             "retraining_loss_ablation": "reports/bedc_jepa_retraining_loss_ablation.json",
+            "multistep_latent_prediction": "reports/bedc_multistep_latent_prediction.json",
             "public_baseline_native_metric_contract": (
                 "reports/bedc_jepa_public_baseline_native_metric_contract.json"
             ),
@@ -366,6 +390,7 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/build_public_minigrid_debt_closure.py",
             "python scripts/build_public_minigrid_calibration_extension.py",
             "python scripts/run_torch_retraining_loss_ablation.py",
+            "python scripts/run_bedc_multistep_latent_prediction.py",
             "python scripts/build_public_baseline_native_metric_contract.py",
             "python scripts/build_public_baseline_native_metric_template.py",
             "python scripts/build_public_benchmark_scope_contracts.py",
@@ -428,6 +453,21 @@ def build_review_bundle() -> dict[str, Any]:
             ),
             "retraining_ablation_system_count": (
                 float(len(retraining_ablation.get("systems", {}))) if retraining_executed else 0.0
+            ),
+            "multistep_latent_prediction_status": (
+                multistep_latent_prediction.get("status")
+                if multistep_latent_prediction is not None
+                else "not recorded"
+            ),
+            "multistep_latent_prediction_score": (
+                float(multistep_latent_prediction.get("metrics", {}).get("latent_prediction_score", 0.0))
+                if multistep_latent_prediction is not None
+                else 0.0
+            ),
+            "multistep_latent_prediction_claim_boundary": (
+                multistep_latent_prediction.get("claim_scope", {}).get("minigrid_planning_success")
+                if multistep_latent_prediction is not None
+                else "not recorded"
             ),
             "public_baseline_native_metric_contract_status": (
                 public_baseline_native_metric_contract.get("status")

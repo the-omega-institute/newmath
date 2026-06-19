@@ -65,6 +65,22 @@ Next build the algebraic route. The row $S$ displays the source sum, $\Delta$ di
 
 Finally apply the half-scale row $Q$ and expose the readback $R$. Since $R$ is downstream of $Q$, and $Q$ is downstream of $S,\Delta,V,T$, the consumer route is exactly the stated sum-absolute-value factorization.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxCarrier\_sum\_abs\_factorization}
+
+\begin{theorem}[RegularCauchyMax lattice absorption]
+\label{thm:regular-cauchy-max-lattice-absorption}
+For every accepted $\RegularCauchyMaxUp$ carrier $M=(A,B,W_A,W_B,D_A,D_B,S,\Delta,V,T,Q,R,E,H,C,P,N)$, a consumer reading $max(A,max(A,B))$ factors through the same displayed source rows $A,B$, source-sum row $S$, difference and absolute-value rows $\Delta,V$, post-absolute-value sum row $T$, half-scale row $Q$, $\RegSeqRatUp$ readback row $R$, and $\RealUp$ seal row $E$ as the consumer reading $max(A,B)$. The absorbed read has no additional trichotomy branch, selected host maximum, quotient stream equality, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-max-sum-abs-factorization} to the inner read $max(A,B)$. The inner consumer is forced through the displayed route from the shared source rows $A,B$ and aligned windows to $S,\Delta,V,T,Q$, and then to the readback row $R$.
+
+Apply \autoref{thm:regular-cauchy-max-sum-abs-factorization} again to the outer read $max(A,max(A,B))$. The first input is the same row $A$, while the second input is available only through the inner readback route already displayed in $M$.
+
+The repeated $A$ route is therefore identified by componentwise transport rather than by a host-level equality test. The $\RegularCauchyAbsUp$ row keeps the difference read inside $\Delta,V$, and the $\RegularCauchyScaleUp$ row keeps the one-half read inside $Q$, so both the inner and outer reads remain in the same finite packet.
+
+Finally the $\RegSeqRatUp$ readback row and the $\RealUp$ seal boundary close the consumer route at $R$ and $E$. Since \autoref{def:regular-cauchy-max-carrier} has no coordinate for trichotomy, selected host maxima, quotient streams, selected limits, or ambient completeness, the absorbed read cannot escape the displayed maximum packet.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxCarrier\_lattice\_absorption}
 
 \begin{theorem}[RegularCauchyMax Real seal boundary]
 \label{thm:regular-cauchy-max-real-seal-boundary}
@@ -77,14 +93,53 @@ The seal row $E$ is downstream of $R$. The continuation rows first replay the al
 
 Since \autoref{def:regular-cauchy-max-carrier} contains no coordinate for trichotomy, host real order, quotient stream equality, selected limits, or completeness, the real-facing boundary is exhausted by the displayed finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxCarrier\_real\_seal\_boundary}
+
+\begin{theorem}[RegularCauchyMax scoped lattice route]
+\label{thm:regular-cauchy-max-scoped-lattice-route}
+Every lattice-facing or Real-facing consumer of an accepted $\RegularCauchyMaxUp$ carrier factors through the displayed concrete route
+$$
+\RegularCauchySumUp,\quad
+\RegularCauchyAbsUp,\quad
+\RegularCauchyScaleUp,\quad
+\RegSeqRatUp,\quad
+\RealUp .
+$$
+The scoped route is the sum-absolute-value maximum construction, its lattice absorption ledger, and the terminal Real seal boundary; it is not a trichotomy on completed reals, a host selected maximum, a quotient stream representative, or an ambient completeness argument.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-max-sum-abs-factorization}. Every maximum-facing read first passes from the two source names and aligned windows through the finite sum, difference, absolute-value, second-sum, and half-scale rows before any regular readback is exposed.
+
+Next apply \autoref{thm:regular-cauchy-max-lattice-absorption}. Lattice reads such as repeated maximum consumption reuse the same displayed source rows and operation rows, so no extra branch for real trichotomy or a selected host maximum can enter the packet.
+
+Finally apply \autoref{thm:regular-cauchy-max-real-seal-boundary}. Any Real-facing consumer reaches $\RealUp$ only after the $\RegSeqRatUp$ readback row assembled from $\RegularCauchySumUp$, $\RegularCauchyAbsUp$, and $\RegularCauchyScaleUp$ has been displayed. This composes the stated scoped lattice route and excludes quotient streams, selected limits, and ambient completeness coordinates.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMax scoped dependency package]
+\label{thm:regular-cauchy-max-scoped-dependency-package}
+Every consumer route for an accepted $\RegularCauchyMaxUp$ carrier is scoped exactly by $\RegularCauchySumUp$, $\RegularCauchyAbsUp$, $\RegularCauchyScaleUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. In carrier notation, the only available dependency package is
+$$
+(S,\Delta,V,T,Q,R,E,H,C,P,N),
+$$
+together with the two source rows $A,B$ and their displayed windows and dyadic endpoint observations. The package exposes no real trichotomy, selected host maximum, quotient stream equality, selected limit, or ambient completeness assumption.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-max-sum-abs-factorization}. It forces every maximum-facing read to pass through the source sum, difference, absolute-value, second-sum, and half-scale rows before the regular readback row $R$ is visible.
+
+Next use \autoref{thm:regular-cauchy-max-lattice-absorption}. Lattice-facing reads reuse the same rows rather than adding a branch for host comparison or a selected maximum.
+
+Finally apply \autoref{thm:regular-cauchy-max-real-seal-boundary}. The $\RealUp$ seal row $E$ is downstream of the same $\RegSeqRatUp$ readback, and the structural rows $H,C,P,N$ only transport, replay, source, and name that displayed dependency package.
+\end{proof}
+
+\closureat{RegularCauchyMaxUp}{scopedStr}[BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyMaxUp}
   \constructivestory{A $\RegularCauchyMaxUp$ packet is generated from two RegSeqRat source rows, aligned StreamName windows, DyadicRatCore endpoint observations, RegularCauchySum rows for sum and difference assembly, a RegularCauchyAbs difference row, a RegularCauchyScale half-scale row, a RegSeqRat readback row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-max-carrier}, \autoref{thm:regular-cauchy-max-namecert-obligations}, \autoref{thm:regular-cauchy-max-sum-abs-factorization}, and \autoref{thm:regular-cauchy-max-real-seal-boundary} seed the finite constructive maximum route through regular Cauchy sum, absolute value, one-half scaling, readback, and RealUp sealing.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-max-carrier}, \autoref{thm:regular-cauchy-max-namecert-obligations}, \autoref{thm:regular-cauchy-max-sum-abs-factorization}, \autoref{thm:regular-cauchy-max-lattice-absorption}, and \autoref{thm:regular-cauchy-max-real-seal-boundary} bind the finite constructive maximum route through $\RegularCauchySumUp$, $\RegularCauchyAbsUp$, $\RegularCauchyScaleUp$, $\RegSeqRatUp$, and $\RealUp$ as a scoped Real-name construction.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.RegularCauchyMaxUp.RegularCauchyMaxTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close Lean verification, trichotomy on real names, host real order, quotient stream equality, selected limits, ambient completeness, or a public standard bridge.}
-  \upgradepath{Obligation closure requires BEDC.Derived.RegularCauchyMaxUp to check carrier admission, the sum-absolute-value factorization, RealUp seal boundary, transport stability, provenance, and non-escape for the same finite packet.}
+  \notclaimed{This chapter does not close trichotomy on real names, host real order, quotient stream equality, selected limits, ambient completeness, or a public standard bridge.}
+  \upgradepath{Public closure requires a reusable consumer-facing maximum interface and bridge coverage for the same finite Real-name route.}
 \end{closurestatus}
