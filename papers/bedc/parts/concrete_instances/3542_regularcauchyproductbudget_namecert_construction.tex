@@ -109,6 +109,24 @@ The later $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-product-budget-r
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_bilinear\_window}
 
+\begin{theorem}[RegularCauchyProductBudget symmetric source-window inversion]
+\label{thm:regular-cauchy-product-budget-symmetric-source-window-inversion}
+Let
+$$
+B=(A,B,W_A,W_B,D_A,D_B,D,E,R,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyProductBudgetUp$ carrier. Any consumer that reaches the product row $D$ or the finite ledger row $E$ can recover that both source windows $W_A$ and $W_B$ were admitted through the paired $\RegSeqRatUp$ and $\StreamNameUp$ route. Neither one-sided source window suffices to license the dyadic product row, because the carrier has no coordinate for a product observation built from only $W_A$ or only $W_B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-product-budget-carrier}. The paired source windows $W_A,W_B$ and the dyadic source rows $D_A,D_B$ occur before the product row $D$ and the ledger row $E$, so a read of $D$ or $E$ also identifies the source-window coordinates from which they were assembled.
+
+Use window admission from \autoref{thm:regular-cauchy-product-budget-window-admission}. It admits $W_A$ and $W_B$ together through the $\RegSeqRatUp$ source rows and their $\StreamNameUp$ finite windows before either dyadic source row is consumed.
+
+Use ledger exactness from \autoref{thm:regular-cauchy-product-budget-ledger-exactness} and the bilinear route of \autoref{thm:regular-cauchy-product-budget-bilinear-window}. The product row $D$ and ledger row $E$ are bound to both $D_A$ and $D_B$, which in turn are bound to both $W_A$ and $W_B$.
+
+Thus any consumer at $D$ or $E$ inverts the route back to the paired source-window admission. Since no one-sided product coordinate appears in the carrier tuple, a single window alone cannot license the dyadic product row.
+\end{proof}
+
 \begin{theorem}[RegularCauchyProductBudget product-closure budget]
 \label{thm:regular-cauchy-product-budget-product-closure-budget}
 Every accepted $\RegularCauchyProductBudgetUp$ carrier closes the finite product budget needed for a $\RegSeqRatUp$ product readback and the terminal $\RealUp$ seal. More precisely, the paired source windows $W_A,W_B$, the dyadic product row $D$, and the $\FiniteErrorBudgetUp$ ledger $E$ force the readback row $R$ and seal row $S$ to use the same finite product budget carried by
