@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CofilteredLimitUp$}
+\label{ch:concrete-instances-cofiltered-limit-namecert}
+\origin{human}
+
+Following Mac Lane's categorical treatment of limits and the Bourbaki--Kelley filter language for directed refinement, the $\CofilteredLimitUp$ packet records a finite cofiltered-cone limit surface rather than a host inverse limit. It sits after the category carrier of \autoref{ch:concrete-instances-category-namecert}, the displayed base and cofinality routes of \autoref{ch:concrete-instances-filterbase-namecert} and \autoref{ch:concrete-instances-cofinal-filter-namecert}, and the generic finite limit packet of \autoref{ch:concrete-instances-limit-namecert}. The packet names only the finite cone rows that a consumer may inspect before a limit-shaped read is admitted.
+
+\begin{definition}[Cofiltered-limit carrier]
+\label{def:cofiltered-limit-carrier}
+A $\CofilteredLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,D,K,T,C,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is a finite cofiltered index row, listing the inspected objects, comparison arrows, and common-refinement witnesses.
+\item $D$ is the diagram row over $\CategoryUp$, naming the object and morphism data read from the finite portion of the diagram.
+\item $K$ is the cone-component row, assigning each inspected index a component arrow into the diagram row.
+\item $T$ is the transition and cofinality row, recording the finite common-refinement requests through $\FilterBaseUp$ and $\CofinalFilterUp$.
+\item $C$ is the cone-compatibility ledger, checking that every displayed transition square read by $I,D,K,T$ commutes inside the named category surface.
+\item $H$ stores componentwise $\hsame$ transport for the index, diagram, cone, transition, compatibility, replay, provenance, and local naming rows.
+\item $R$ stores the displayed $\Cont$ replay from a cofiltered-cone request through $I,D,K,T,C,H$.
+\item $P$ is the $\Pkg$ provenance over $\CofilteredLimitUp$, $\CategoryUp$, $\FilterBaseUp$, $\CofinalFilterUp$, $\LimitUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofilteredLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows, their transports, their displayed replay, package provenance, and local naming. The carrier has no coordinate for quotient limits, selected universal cones, full completeness, choice, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cofiltered-limit NameCert obligations]
+\label{thm:cofiltered-limit-namecert-obligations}
+For every accepted $\CofilteredLimitUp$ carrier $L=(I,D,K,T,C,H,R,P,N)$, the local $\NameCert_{\CofilteredLimitUp}$ surface consists exactly of carrier admission, finite cofiltered-index admission, diagram-row admission over $\CategoryUp$, cone-component exposure, transition and cofinality routing through $\FilterBaseUp$ and $\CofinalFilterUp$, cone-compatibility ledger coverage, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No NameCert obligation is stored outside $I,D,K,T,C,H,R,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The analytic rows are $I,D,K,T,C$, and the structural rows are $H,R,P,N$.
+
+The index side is finite. A cofiltered request first reads the displayed index row $I$, then obtains the diagram row $D$ and the cone components $K$ only for the inspected finite fragment.
+
+The refinement side is finite as well. The row $T$ records common-refinement and cofinality requests through the displayed filter-base routes, and the ledger $C$ checks the corresponding cone-compatibility squares. The structural rows $H,R,P,N$ transport, replay, source, and name exactly this same finite packet.
+
+Since the carrier contains no further coordinate, the listed rows exhaust the NameCert surface and cannot export quotient limits, selected universal cones, full completeness, choice, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Cofiltered-limit cone-ledger non-escape]
+\label{thm:cofiltered-limit-cone-ledger-nonescape}
+Every consumer of an accepted $\CofilteredLimitUp$ packet must read the finite route
+$$
+\CategoryUp,\ \FilterBaseUp,\ \CofinalFilterUp,\ \LimitUp
+\longmapsto
+I,D,K,T,C,H,R,P,N
+$$
+before any cofiltered-cone limit claim is public. The route exposes the inspected index, diagram, cone components, transition and cofinality data, cone-compatibility ledger, componentwise transport, continuation replay, provenance, and local naming; it does not expose quotient limits, selected universal cones, full completeness, choice, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the accepted packet. Carrier admission exposes the category diagram row $D$ and the cone row $K$ only after the finite cofiltered index row $I$ has been displayed.
+
+Next read the transition row $T$. Its common-refinement requests pass through the displayed filter-base and cofinal-filter routes, so the consumer cannot replace the finite cofiltered data by an ambient directed set or a hidden filter quotient.
+
+Finally replay the cone ledger $C$ through $R$ and transport the same rows through $H$. The provenance and local naming rows $P,N$ record the same dependency spine through $\CategoryUp$, $\FilterBaseUp$, $\CofinalFilterUp$, and $\LimitUp$. Because no other coordinate is present, quotient limits, selected universal cones, full completeness, choice, and bridge checking cannot be exported by the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CofilteredLimitUp$ read must expose a finite cofiltered index row, a CategoryUp diagram row, cone components, transition and cofinality rows through FilterBaseUp and CofinalFilterUp, a cone-compatibility ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+
+\independenceWitness{category, filterbase, cofinalfilter, limit: $\CofilteredLimitUp$ is not bijective to any listed sibling because it jointly carries the finite cofiltered index row, diagram row, cone-component row, transition and cofinality row, cone-compatibility ledger, transport, replay, provenance, and local naming.}
+
+\closureat{CofilteredLimitUp}{seedStr}
+
+\begin{closurestatus}{\CofilteredLimitUp}
+  \constructivestory{A $\CofilteredLimitUp$ packet is generated from a finite cofiltered index row, a CategoryUp diagram row, cone components, transition and cofinality rows through FilterBaseUp and CofinalFilterUp, a cone-compatibility ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofiltered-limit-carrier}, \autoref{thm:cofiltered-limit-namecert-obligations}, and \autoref{thm:cofiltered-limit-cone-ledger-nonescape} seed the finite cofiltered-cone route over CategoryUp, FilterBaseUp, CofinalFilterUp, LimitUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient limits, selected universal cones, full completeness, choice, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite cofiltered-index admission, diagram-row admission, cone-component exposure, transition cofinality, cone-compatibility ledger coverage, transport, replay, provenance, and local naming for BEDC.Derived.CofilteredLimitUp.}
+\end{closurestatus}
