@@ -159,4 +159,29 @@ theorem TowerEquivalence_obligation_scope
     ⟨rfl, endpointReadUnary, ledgerReadUnary, descentReadUnary, transportReadUnary,
       endpointRoute, ledgerRoute, descentRoute, transportRoute⟩
 
+theorem TowerEquivalenceCarrier_obligation_scope
+    {tower tower' approx approx' physical physical' openFit openFit' objectivity ledger descent
+      endpoint transport provenance name scopeRead endpointRead : BHist} :
+    UnaryHistory ledger ->
+      UnaryHistory descent ->
+        UnaryHistory endpoint ->
+          UnaryHistory transport ->
+            Cont ledger descent scopeRead ->
+              Cont endpoint transport endpointRead ->
+                towerEquivalenceFields
+                    (TowerEquivalenceUp.mk tower tower' approx approx' physical physical'
+                      openFit openFit' objectivity ledger descent endpoint transport
+                      provenance name) =
+                  [tower, tower', approx, approx', physical, physical', openFit, openFit',
+                    objectivity, ledger, descent, endpoint, transport, provenance, name] ∧
+                  UnaryHistory scopeRead ∧ UnaryHistory endpointRead ∧
+                    Cont ledger descent scopeRead ∧ Cont endpoint transport endpointRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro ledgerUnary descentUnary endpointUnary transportUnary scopeRoute endpointRoute
+  have scopeUnary : UnaryHistory scopeRead :=
+    unary_cont_closed ledgerUnary descentUnary scopeRoute
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed endpointUnary transportUnary endpointRoute
+  exact ⟨rfl, scopeUnary, endpointReadUnary, scopeRoute, endpointRoute⟩
+
 end BEDC.Derived.TowerEquivalenceUp
