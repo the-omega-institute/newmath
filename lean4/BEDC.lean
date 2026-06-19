@@ -2364,6 +2364,7 @@ import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
 import BEDC.Derived.CauchyTailRequestUp
 import BEDC.Derived.CauchyTailRequestUp.TasteGate
 import BEDC.Derived.CauchyTailSupremumUp.TasteGate
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.Classifier
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
@@ -7576,6 +7577,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.ConditionalBoundary
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedConversionNonescape
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedNormalFormSplit
+import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedSearchExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
@@ -9984,6 +9986,7 @@ import BEDC.Derived.SchurOrthogonalityUp.TasteGate
 import BEDC.Derived.SchwartzDistributionUp.TasteGate
 import BEDC.Derived.SchwartzFunctionUp.TasteGate
 import BEDC.Derived.SchwartzKernelUp.TasteGate
+import BEDC.Derived.SchwartzSpaceUp.TasteGate
 import BEDC.Derived.SchwarzLemmaUp.TasteGate
 import BEDC.Derived.SchwarzPickDiskContractionUp.TasteGate
 import BEDC.Derived.SchwarzReflectionRouteUp.TasteGate
