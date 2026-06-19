@@ -1656,6 +1656,7 @@ import BEDC.Derived.CauchyCondensationRealSeriesUp.TasteGate
 import BEDC.Derived.CauchyCondensationTestUp.TasteGate
 import BEDC.Derived.CauchyCondensationTheoremUp.TasteGate
 import BEDC.Derived.CauchyCondensationUp.DyadicBlockHandoff
+import BEDC.Derived.CauchyCondensationUp.DyadicBlockTailTransport
 import BEDC.Derived.CauchyCondensationUp.TasteGate
 import BEDC.Derived.CauchyContinuityCalibrationUp.TasteGate
 import BEDC.Derived.CauchyContinuityPrincipleUp.RealSealBoundary
@@ -3292,6 +3293,7 @@ import BEDC.Derived.ContextFreeGrammarUp.BHistForgetfulProjectionBoundary
 import BEDC.Derived.ContextFreeGrammarUp.PushdownHandoff
 import BEDC.Derived.ContextFreeGrammarUp.RegularLanguageInclusionCertificate
 import BEDC.Derived.ContextFreeGrammarUp.TasteGate
+import BEDC.Derived.ContextFreeLanguageUp
 import BEDC.Derived.ContextFreePumpingLemmaUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.NameCertObligations
 import BEDC.Derived.ContextWindowCommitmentUp.Nonescape
@@ -7435,6 +7437,7 @@ import BEDC.Derived.MetaCICNormalizationBudgetUp.FalsifiableBoundary
 import BEDC.Derived.MetaCICNormalizationBudgetUp.Nonescape
 import BEDC.Derived.MetaCICNormalizationBudgetUp.ObligationSurface
 import BEDC.Derived.MetaCICNormalizationBudgetUp.RefusalExactness
+import BEDC.Derived.MetaCICNormalizationBudgetUp.RefusalTransport
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.AdequacyChain
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.CriticalPairDischarge
@@ -8160,6 +8163,7 @@ import BEDC.Derived.OnticStateUp.TasteGate
 import BEDC.Derived.OnticStateUp.TasteGateFieldScope
 import BEDC.Derived.OnticStateUp.TransportScope
 import BEDC.Derived.OnticTowerUp.Classifier
+import BEDC.Derived.OnticTowerUp.ClosureSurface
 import BEDC.Derived.OnticTowerUp.TasteGate
 import BEDC.Derived.OpenBallUp.TasteGate
 import BEDC.Derived.OpenDenseSequenceUp
@@ -8294,6 +8298,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.AxisSeparation
 import BEDC.Derived.PaperLeanDriftWitnessUp.BridgeReadyDependencySurface
 import BEDC.Derived.PaperLeanDriftWitnessUp.ClosureTargetResolution
+import BEDC.Derived.PaperLeanDriftWitnessUp.DependencyRoutingScope
 import BEDC.Derived.PaperLeanDriftWitnessUp.DependencyWeaveHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.DuplicateLedgerReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.LeanInventoryHitExhaustion
