@@ -30,6 +30,9 @@ ARTIFACT_ID = "bedc-quality-lab:minigrid-doorkey-task-probe"
 PREREG_SCHEMA_ID = "bedc-quality-lab:minigrid-doorkey-preregistration"
 JSON_ARTIFACT = "reports/canonical/minigrid-doorkey-task-probe.json"
 MARKDOWN_ARTIFACT = "reports/canonical/minigrid-doorkey-task-probe.md"
+UNLOCK_BOUNDARY_POINTER = (
+    "reports/canonical/minigrid-doorkey-task-probe.json:$.unlock_boundary_construct_validity"
+)
 DEFAULT_GENERATED_AT = "2026-06-16T00:00:00+00:00"
 DEFAULT_SEED = 20260616
 DEFAULT_SAMPLE_BUDGET = 384
@@ -59,6 +62,22 @@ HARDGATE_ORDER = (
     "TRAIN",
     "STAT",
     "REPRO",
+)
+UNLOCK_BOUNDARY_NOT_CLAIMED = (
+    "No publishable strong DoorKey unlock-boundary metric is claimed from the AUROC/UBD diagnostic.",
+    "No positive discovery is claimed for the withdrawn unlock-boundary construct.",
+    "No second DoorKey canonical producer or owner is created.",
+)
+UNLOCK_BOUNDARY_HARD_FAIL_FIELDS = (
+    "owner_artifact_id",
+    "source_issue",
+    "protocol_id",
+    "status",
+    "claim_policy",
+    "failure_mode",
+    "claim_boundary.positive_discovery",
+    "repo_local_pointer",
+    "trust_boundary.single_canonical_owner",
 )
 
 
@@ -737,6 +756,42 @@ def _dependency_abstain_payload(
     )
 
 
+def unlock_boundary_construct_validity() -> dict[str, Any]:
+    return {
+        "owner_artifact_id": ARTIFACT_ID,
+        "source_issue": "#1691",
+        "protocol_id": "doorkey-unlock-boundary",
+        "status": "construct-validity-failed",
+        "claim_policy": "bounded-negative",
+        "failure_mode": "observable-trace-confound",
+        "repo_local_pointer": UNLOCK_BOUNDARY_POINTER,
+        "claim_boundary": {
+            "positive_discovery": False,
+            "terminal_verdict": "negative_discovery",
+            "status": "bounded-negative",
+        },
+        "publication_risk": {
+            "strong_metric_claim": False,
+            "allowed_use": "owner-local bounded-negative diagnostic",
+            "blocked_use": "publishable strong DoorKey unlock-boundary metric",
+        },
+        "trust_boundary": {
+            "single_canonical_owner": ARTIFACT_ID,
+            "second_doorkey_producer": False,
+            "external_lifecycle_authority": False,
+        },
+        "not_claimed": list(UNLOCK_BOUNDARY_NOT_CLAIMED),
+        "hard_fail_required_fields": list(UNLOCK_BOUNDARY_HARD_FAIL_FIELDS),
+        "diagnostics": {
+            "reader_compatible": True,
+            "auroc": 0.989,
+            "ubd": 0.489,
+            "pair_count_rows": [],
+            "interpretation": "diagnostic-only; not a promotion authority",
+        },
+    }
+
+
 def _base_payload(
     *,
     prereg: dict[str, Any],
@@ -858,6 +913,7 @@ def _base_payload(
         "verdict": "source_pass" if positive else "rejected",
         "discovery_level": "D4" if positive else "DN",
         "not_claimed": not_claimed,
+        "unlock_boundary_construct_validity": unlock_boundary_construct_validity(),
         "what_was_learned": _what_was_learned(execution_status, base_gate, arms),
         "reproducibility_contract": _local_reproducibility_contract(
             seed=seed,
@@ -1135,6 +1191,24 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     lines.extend(["", "## Not Claimed", ""])
     for item in payload.get("not_claimed", []):
         lines.append(f"- {item}")
+    unlock_boundary = payload.get("unlock_boundary_construct_validity")
+    if isinstance(unlock_boundary, Mapping):
+        lines.extend(
+            [
+                "",
+                "## Unlock Boundary Construct Validity",
+                "",
+                f"- Status: `{unlock_boundary.get('status')}`",
+                f"- Claim policy: `{unlock_boundary.get('claim_policy')}`",
+                f"- Failure mode: `{unlock_boundary.get('failure_mode')}`",
+                f"- Pointer: `{unlock_boundary.get('repo_local_pointer')}`",
+                "",
+                "### Unlock Boundary Not Claimed",
+                "",
+            ]
+        )
+        for item in unlock_boundary.get("not_claimed", []):
+            lines.append(f"- {item}")
     lines.append("")
     return "\n".join(lines)
 

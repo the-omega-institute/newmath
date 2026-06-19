@@ -1123,6 +1123,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "verdict",
             "discovery_level",
             "not_claimed",
+            "unlock_boundary_construct_validity",
             "what_was_learned",
             "reproducibility_contract",
         ),
