@@ -439,6 +439,55 @@ theorem RealUniformStructureCompletionEntourageBasis [AskSetup] [PackageSetup]
   }
   exact ⟨cert, refinedUnary, refinedCont, pPkg, refinedPkg⟩
 
+theorem RealUniformStructureCompletionEntourageSubbasis [AskSetup] [PackageSetup]
+    {R M U F D S Q H C P N distanceRead radiusRead subbasisRead cauchyRead windowRead
+      readbackRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealUniformStructureCarrier R M U F D S Q H C P N bundle pkg ->
+      Cont R M distanceRead ->
+        Cont distanceRead D radiusRead ->
+          Cont radiusRead U subbasisRead ->
+            Cont subbasisRead F cauchyRead ->
+              Cont cauchyRead S windowRead ->
+                Cont windowRead Q readbackRead ->
+                  Cont readbackRead H completionRead ->
+                    PkgSig bundle completionRead pkg ->
+                      UnaryHistory R ∧ UnaryHistory M ∧ UnaryHistory D ∧
+                        UnaryHistory U ∧ UnaryHistory F ∧ UnaryHistory S ∧
+                          UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory subbasisRead ∧
+                            UnaryHistory completionRead ∧ Cont readbackRead H completionRead ∧
+                              PkgSig bundle P pkg ∧ PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier distanceCont radiusCont subbasisCont cauchyCont windowCont readbackCont
+    completionCont completionPkg
+  have rUnary : UnaryHistory R := carrier.left
+  have mUnary : UnaryHistory M := carrier.right.left
+  have uUnary : UnaryHistory U := carrier.right.right.left
+  have fUnary : UnaryHistory F := carrier.right.right.right.left
+  have dUnary : UnaryHistory D := carrier.right.right.right.right.left
+  have sUnary : UnaryHistory S := carrier.right.right.right.right.right.left
+  have qUnary : UnaryHistory Q := carrier.right.right.right.right.right.right.left
+  have hUnary : UnaryHistory H := carrier.right.right.right.right.right.right.right.left
+  have pPkg : PkgSig bundle P pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right
+  have distanceUnary : UnaryHistory distanceRead :=
+    unary_cont_closed rUnary mUnary distanceCont
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed distanceUnary dUnary radiusCont
+  have subbasisUnary : UnaryHistory subbasisRead :=
+    unary_cont_closed radiusUnary uUnary subbasisCont
+  have cauchyUnary : UnaryHistory cauchyRead :=
+    unary_cont_closed subbasisUnary fUnary cauchyCont
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed cauchyUnary sUnary windowCont
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary qUnary readbackCont
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed readbackUnary hUnary completionCont
+  exact
+    ⟨rUnary, mUnary, dUnary, uUnary, fUnary, sUnary, qUnary, hUnary, subbasisUnary,
+      completionUnary, completionCont, pPkg, completionPkg⟩
+
 theorem RealUniformStructureCarrier_basis_refinement_uniqueness [AskSetup] [PackageSetup]
     {R M U F D S Q H C P N basisRead refinedRead filterRead windowRead readbackRead :
       BHist}
