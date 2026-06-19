@@ -310,6 +310,7 @@ import BEDC.Derived.AttentionLedgerUp
 import BEDC.Derived.AttentionLedgerUp.TasteGate
 import BEDC.Derived.AttouchWetsTopologyUp
 import BEDC.Derived.AttouchWetsTopologyUp.TasteGate
+import BEDC.Derived.AubinLionsUp.TasteGate
 import BEDC.Derived.AubinNitscheUp.TasteGate
 import BEDC.Derived.AuditAxisSeparationUp.TasteGate
 import BEDC.Derived.AuditExportFirewallUp
@@ -1426,6 +1427,7 @@ import BEDC.Derived.CantorFanBarrierUp.TasteGate
 import BEDC.Derived.CantorFunctionUp.TasteGate
 import BEDC.Derived.CantorIntersectionMetricUp.TasteGate
 import BEDC.Derived.CantorIntersectionModulusUp
+import BEDC.Derived.CantorIntersectionModulusUp.TasteGate
 import BEDC.Derived.CantorIntersectionTheoremUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp
 import BEDC.Derived.CantorIntersectionUp.DiagonalCofinalReadback
@@ -4550,6 +4552,7 @@ import BEDC.Derived.DiniFiniteMinimumBudgetUp.TasteGate
 import BEDC.Derived.DiniMonotoneCompactUniformUp.TasteGate
 import BEDC.Derived.DiniTheoremUp.TasteGate
 import BEDC.Derived.DiniUniformConvergenceUp.CompactUniformLimitRoute
+import BEDC.Derived.DiniUniformConvergenceUp.CoverSelectorNonescape
 import BEDC.Derived.DiniUniformConvergenceUp.FiniteNetMonotoneTailScope
 import BEDC.Derived.DiniUniformConvergenceUp.MonotoneFamilyExhaustion
 import BEDC.Derived.DiniUniformConvergenceUp.MonotoneWindowObligation
