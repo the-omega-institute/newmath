@@ -95,7 +95,7 @@ theorem ContourSumWindowCarrier_namecert_obligations [AskSetup] [PackageSetup]
       ledger_sound := by
         intro _row source
         exact ⟨source.right, provenancePkg, outputPkg⟩
-    }
+  }
   exact ⟨cert, ledgerUnary, outputReadUnary⟩
 
 end BEDC.Derived.ContourSumWindowUp
