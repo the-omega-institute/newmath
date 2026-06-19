@@ -130,6 +130,18 @@ The induction preserves the handoff under componentwise $\hsame$ transport and d
 \end{proof}
 \leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingFiniteLedgerHandoff}
 
+\begin{theorem}[Upcrossing scoped decision route]
+\label{thm:upcrossing-scoped-decision-route}
+Every boundary-decision read from an accepted $\UpcrossingUp$ carrier is scoped by $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, $\OptionalStoppingUp$, the finite lower and upper decision ledgers, and the structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The read has no route through an unbounded stopping index, a host stochastic process, almost-sure quotient equality, or a convergence theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:upcrossing-carrier}. Its probability context, martingale packet, finite endpoint rows, lower ledger, upper ledger, transport rows, continuation rows, provenance row, and local certificate are the only coordinates available to a boundary decision.
+
+Apply \autoref{thm:upcrossing-namecert-obligations}. Boundary-decision stability and ledger exactness force each lower or upper hit to be read from the displayed endpoint row against the displayed boundary endpoint, with transport and replay remaining componentwise.
+
+Apply \autoref{thm:upcrossing-martingale-route}, \autoref{thm:upcrossing-finite-ledger-induction-boundary}, and \autoref{thm:upcrossing-finite-ledger-handoff}. These route the endpoint rows through the finite martingale and optional-stopping windows, compute the completed count by the lower and upper decision ledgers, and expose only the finite handoff consumed downstream.
+\end{proof}
+
 \begin{theorem}[Upcrossing no-escape boundary]
 \label{thm:upcrossing-nonescape}
 The public boundary of $\UpcrossingUp$ exports only the finite crossing-count ledger for a displayed martingale window and fixed boundary pair $a<_R b$. It exports no martingale convergence theorem, no almost-sure quotient equality, no unbounded stopping principle, no measure completion, and no standard bridge beyond the finite rows explicitly carried by \autoref{def:upcrossing-carrier}.
@@ -150,7 +162,7 @@ None of the carrier coordinates names a limiting event, a quotient of almost-sur
 \begin{closurestatus}{\UpcrossingUp}
   \constructivestory{An $\UpcrossingUp$ packet is generated from a displayed probability row, a finite $\MartingaleUp$ adapted-sequence packet, fixed lower and upper $\RealUp$ boundary endpoints, finite endpoint rows, lower and upper boundary decision ledgers, componentwise transports, finite continuation routes, package provenance, and a local $\NameCert$ row. The completed crossing count is read from the alternating finite decision ledger only.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope names the finite carrier, NameCert obligations, martingale route, finite-ledger induction boundary, finite ledger handoff, and no-escape boundary for crossing counts over finite martingale windows.}
+  \scopeclosed{The obligation scope names the finite carrier, NameCert obligations, martingale route, finite-ledger induction boundary, finite ledger handoff, scoped decision route, and no-escape boundary for crossing counts over finite martingale windows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
