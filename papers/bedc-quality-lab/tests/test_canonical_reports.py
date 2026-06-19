@@ -771,7 +771,38 @@ def _payload_for_spec(spec):
         }
     )
     if spec.name == "gap-head-on-h":
-        payload["records"] = [{"matched_random_control": _matched_random_audit_fixture()}]
+        payload["decision_policy"] = {
+            "default_policy": "recall_calibrated_per_channel",
+            "threshold_lookup_keys": ["split_role", "channel"],
+            "fit_split_role": "calibration",
+            "flat_threshold_baseline_arm": "flat_threshold_baseline",
+            "matched_alert_budget_allowed_count_delta": 1,
+        }
+        payload["control_protocol"]["flat_threshold_baseline"] = {
+            "arm": "flat_threshold_baseline",
+            "matched_alert_budget_allowed_count_delta": 1,
+            "comparison_gate": "budget_match",
+            "surface_role": "baseline_control",
+        }
+        payload["records"] = [
+            {
+                "matched_random_control": _matched_random_audit_fixture(),
+                "decision_policy": {
+                    "default_policy": "recall_calibrated_per_channel",
+                    "threshold_lookup_keys": ["split_role", "channel"],
+                    "fit_split_role": "calibration",
+                    "threshold_rows": [
+                        {"split_role": "calibration", "channel": "prediction_error", "threshold": 0.5}
+                    ],
+                },
+                "arms": {
+                    "flat_threshold_baseline": {
+                        "budget_match": True,
+                        "alert_count_delta": 0,
+                    }
+                },
+            }
+        ]
     if spec.name == "irreducibility-report":
         payload.update(
             {
@@ -3791,6 +3822,11 @@ def test_gap_head_manifest_rows_are_canonical_and_keyed():
         "forbidden_column_audit",
         "aggregate_metrics",
         "treatment_comparison",
+        "decision_policy",
+        "$.records[*].decision_policy",
+        "$.records[*].arms.flat_threshold_baseline",
+        "$.records[*].arms.flat_threshold_baseline.budget_match",
+        "$.control_protocol.flat_threshold_baseline",
         "control_protocol",
         "$.control_protocol.parameter_match",
         "$.control_protocol.compute_match",
@@ -3845,6 +3881,28 @@ def test_gap_head_strengthened_control_required_paths_fail_closed(tmp_path):
 
     assert invalid["status"] == "fail"
     assert "$.records[*].matched_random_control.surface_distribution_match" in invalid["missing_keys"]
+
+
+def test_gap_head_on_h_requires_calibrated_decision_and_flat_baseline_paths(tmp_path):
+    spec = canonical._specs_by_name()["gap-head-on-h"]
+    payload = _payload_for_spec(spec)
+    json_path = tmp_path / "payload.json"
+    json_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    valid = canonical._validate_json(json_path, spec.required_json_keys)
+
+    assert valid["status"] == "pass"
+    required = set(spec.required_json_keys)
+    assert {
+        "decision_policy",
+        "$.records[*].decision_policy",
+        "$.records[*].arms.flat_threshold_baseline",
+        "$.records[*].arms.flat_threshold_baseline.budget_match",
+        "$.control_protocol.flat_threshold_baseline",
+    }.issubset(required)
+    assert payload["decision_policy"]["default_policy"] == "recall_calibrated_per_channel"
+    assert payload["decision_policy"]["threshold_lookup_keys"] == ["split_role", "channel"]
+    assert payload["records"][0]["arms"]["flat_threshold_baseline"]["budget_match"] is True
 
 
 def test_canonical_reports_manifest_includes_gap_head_ablation():
@@ -4399,7 +4457,7 @@ def test_manifest_required_keys_cover_linked_control_evidence():
             assert "source_registry" in keys
             continue
         assert "source_artifacts" in keys
-    assert {"control_protocol", "control_verdict"}.issubset(
+    assert {"control_protocol", "control_verdict", "decision_policy"}.issubset(
         set(canonical._specs_by_name()["gap-head-on-h"].required_json_keys)
     )
     assert {"matched_random_control", "main_claim_status"}.issubset(

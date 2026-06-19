@@ -566,6 +566,15 @@ def test_feature_builders_reject_forbidden_columns_and_controls_use_h_only():
     assert "config_metadata" not in text
 
 
+def test_score_plus_margin_remains_a1_hg3_control_without_default_decision_policy():
+    spec = next(item for item in runner.ARM_SPECS if item.name == "score_plus_margin")
+
+    assert spec.gate_role == "A1-HG3-control"
+    assert spec.control_role == "treatment"
+    assert not hasattr(spec, "decision_policy")
+    assert not hasattr(spec, "default_policy")
+
+
 @pytest.mark.parametrize("column", ["z", "label", "config_metadata.seed"])
 def test_forbidden_column_audit_delegates_to_source_vocabulary(column):
     audit = runner._forbidden_column_audit({"bad": ["h:0", column]})

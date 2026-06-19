@@ -209,7 +209,10 @@ def test_custom_config_flows_into_source_payload(monkeypatch):
     monkeypatch.setattr(
         runner,
         "_predict_gap_head",
-        lambda heads, features: np.array([[0.9, 0.1, 0.2, 0.3], [0.1, 0.8, 0.7, 0.6]]),
+        lambda heads, features: np.tile(
+            np.array([[0.9, 0.1, 0.2, 0.3]], dtype=np.float64),
+            (np.asarray(features).shape[0], 1),
+        ),
     )
 
     record = runner._run_record(seed=123, seed_index=0, config=config)
@@ -238,7 +241,10 @@ def test_matched_random_evidence_pointers_resolve_against_payload(monkeypatch):
     monkeypatch.setattr(
         runner,
         "_predict_gap_head",
-        lambda heads, features: np.array([[0.9, 0.1, 0.2, 0.3], [0.1, 0.8, 0.7, 0.6]]),
+        lambda heads, features: np.tile(
+            np.array([[0.9, 0.1, 0.2, 0.3]], dtype=np.float64),
+            (np.asarray(features).shape[0], 1),
+        ),
     )
 
     record = runner._run_record(seed=123, seed_index=0, config=_fixture_config())
@@ -348,13 +354,14 @@ def test_run_record_wires_three_arms_same_eval_error_and_no_z_leak(monkeypatch):
     fixture = _record_fixture(monkeypatch)
     captured = {"fit": 0, "predict": 0}
     learned_probabilities = np.array([[0.9, 0.1, 0.2, 0.3], [0.1, 0.8, 0.7, 0.6]])
+    calibration_probabilities = np.array([[0.8, 0.2, 0.2, 0.2]], dtype=np.float64)
 
     def fake_fit_gap_head(features, labels):
         captured["fit"] += 1
         captured["fit_features"] = np.array(features, copy=True)
         captured["fit_labels"] = np.array(labels, copy=True)
-        assert features.shape == (4, 15)
-        assert labels.shape == (4, 4)
+        assert features.shape == (3, 15)
+        assert labels.shape == (3, 4)
         assert not np.any(np.abs(features) == fixture["sentinel"])
         return {"heads": "fixture"}
 
@@ -362,8 +369,10 @@ def test_run_record_wires_three_arms_same_eval_error_and_no_z_leak(monkeypatch):
         captured["predict"] += 1
         captured["predict_features"] = np.array(features, copy=True)
         assert heads == {"heads": "fixture"}
-        assert features.shape == (2, 15)
+        assert features.shape in {(1, 15), (2, 15)}
         assert not np.any(np.abs(features) == fixture["sentinel"])
+        if features.shape[0] == 1:
+            return calibration_probabilities
         return learned_probabilities
 
     monkeypatch.setattr(runner, "_fit_gap_head", fake_fit_gap_head)
@@ -372,8 +381,12 @@ def test_run_record_wires_three_arms_same_eval_error_and_no_z_leak(monkeypatch):
     record = runner._run_record(seed=123, seed_index=7, config=_fixture_config())
 
     assert captured["fit"] == 2
-    assert captured["predict"] == 2
+    assert captured["predict"] == 3
     assert record["split"]["overlap_count"] == 0
+    assert record["split"]["gap_head_train_indices"] == [0, 1, 2]
+    assert record["split"]["calibration_indices"] == [3]
+    assert record["split"]["calibration_eval_overlap_count"] == 0
+    assert record["split"]["gap_head_train_calibration_overlap_count"] == 0
     assert record["representation_boundary"] == "learned_h"
     assert record["inference_no_ground_truth_z"] is True
     assert record["feature_columns"] == runner._feature_columns(2)
@@ -382,9 +395,18 @@ def test_run_record_wires_three_arms_same_eval_error_and_no_z_leak(monkeypatch):
         "vanilla",
         "posthoc_report_only",
         "learned_gap_head_on_h",
+        runner.FLAT_THRESHOLD_BASELINE_ARM,
         runner.MATCHED_RANDOM_ARM,
     }
+    assert record["decision_policy"]["default_policy"] == runner.DEFAULT_DECISION_POLICY
+    assert record["decision_policy"]["threshold_lookup_keys"] == ["split_role", "channel"]
+    for row in record["decision_policy"]["threshold_rows"]:
+        assert set(row) == {"split_role", "channel", "threshold"}
+        assert row["split_role"] == "calibration"
+        assert row["channel"] in runner.GAP_CHANNELS
     assert record["arms"]["posthoc_report_only"]["inference"] is False
+    assert record["arms"][runner.FLAT_THRESHOLD_BASELINE_ARM]["budget_match"] is True
+    assert record["arms"][runner.FLAT_THRESHOLD_BASELINE_ARM]["alert_count_delta"] <= 1
     assert record["matched_random_control"]["arm"] == runner.MATCHED_RANDOM_ARM
     assert record["matched_random_control"]["same_feature_columns"] is True
     assert record["matched_random_control"]["same_split"] is True
@@ -404,12 +426,16 @@ def test_run_record_wires_three_arms_same_eval_error_and_no_z_leak(monkeypatch):
     vanilla = record["arms"]["vanilla"]
     posthoc = record["arms"]["posthoc_report_only"]["oracle_diagnostics"]
     learned = record["arms"]["learned_gap_head_on_h"]
+    flat = record["arms"][runner.FLAT_THRESHOLD_BASELINE_ARM]
     control = record["arms"][runner.MATCHED_RANDOM_ARM]
     assert vanilla["prediction_error_rate"] == posthoc["prediction_error_rate"]
     assert vanilla["prediction_error_rate"] == learned["prediction_error_rate"]
+    assert vanilla["prediction_error_rate"] == flat["prediction_error_rate"]
     assert vanilla["prediction_error_rate"] == control["prediction_error_rate"]
     assert "unlogged_error_rate_delta_learned_minus_vanilla" in record["comparison"]
     assert "unlogged_error_rate_delta_matched_random_minus_vanilla" in record["comparison"]
+    assert record["comparison"]["flat_threshold_baseline_budget_match"] is True
+    assert record["comparison"]["flat_threshold_baseline_alert_count_delta"] <= 1
 
 
 def test_matched_random_labels_are_deterministic_and_permuted():
@@ -431,6 +457,117 @@ def test_matched_random_labels_are_deterministic_and_permuted():
     assert not np.array_equal(first, other)
     for index in range(labels.shape[1]):
         assert sorted(first[:, index].tolist()) == sorted(labels[:, index].tolist())
+
+
+def test_recall_calibrated_policy_uses_only_calibration_channel_keys():
+    probabilities = np.array(
+        [
+            [0.1, 0.3, 0.5, 0.7],
+            [0.2, 0.4, 0.6, 0.8],
+            [0.9, 0.1, 0.2, 0.3],
+        ],
+        dtype=np.float64,
+    )
+
+    policy = runner._fit_recall_calibrated_per_channel(
+        probabilities,
+        np.array(
+            [
+                [0.0, 1.0, 0.0, 1.0],
+                [1.0, 0.0, 1.0, 0.0],
+                [1.0, 0.0, 0.0, 0.0],
+            ],
+            dtype=np.float64,
+        ),
+        calibration_idx=np.array([0, 1], dtype=np.int64),
+    )
+    decisions = runner._apply_recall_calibrated_per_channel(probabilities, policy)
+
+    assert policy["policy"] == runner.DEFAULT_DECISION_POLICY
+    assert policy["threshold_lookup_keys"] == ("split_role", "channel")
+    for row in policy["threshold_rows"]:
+        assert set(row) == {"split_role", "channel", "threshold"}
+        assert row["split_role"] == "calibration"
+        assert row["channel"] in runner.GAP_CHANNELS
+    assert decisions.shape == probabilities.shape
+    assert decisions.dtype == np.float64
+
+
+def test_recall_calibrated_policy_quantile_fallback_for_channel_without_positives():
+    probabilities = np.array(
+        [
+            [0.2, 0.1, 0.2, 0.4],
+            [0.8, 0.5, 0.7, 0.6],
+            [0.3, 0.9, 0.4, 0.2],
+        ],
+        dtype=np.float64,
+    )
+    labels = np.array(
+        [
+            [0.0, 0.0, 1.0, 1.0],
+            [1.0, 0.0, 0.0, 0.0],
+            [1.0, 1.0, 1.0, 1.0],
+        ],
+        dtype=np.float64,
+    )
+    calibration_idx = np.array([0, 1], dtype=np.int64)
+    no_positive_channel = runner.GAP_CHANNELS.index("low_margin")
+    expected_threshold = float(
+        np.quantile(
+            probabilities[calibration_idx, no_positive_channel],
+            runner.CALIBRATION_ALERT_QUANTILE,
+        )
+    )
+
+    policy = runner._fit_recall_calibrated_per_channel(
+        probabilities,
+        labels,
+        calibration_idx=calibration_idx,
+    )
+    decisions = runner._apply_recall_calibrated_per_channel(probabilities, policy)
+
+    assert policy["threshold_lookup_keys"] == ("split_role", "channel")
+    assert policy["thresholds"]["low_margin"] == pytest.approx(expected_threshold)
+    fallback_row = next(
+        row for row in policy["threshold_rows"] if row["channel"] == "low_margin"
+    )
+    assert fallback_row == {
+        "split_role": "calibration",
+        "channel": "low_margin",
+        "threshold": pytest.approx(expected_threshold),
+    }
+    np.testing.assert_array_equal(
+        decisions[:, no_positive_channel],
+        (probabilities[:, no_positive_channel] >= expected_threshold).astype(np.float64),
+    )
+
+
+def test_flat_threshold_baseline_matches_alert_budget_with_allowed_delta():
+    probabilities = np.array(
+        [
+            [0.9, 0.1, 0.1, 0.1],
+            [0.7, 0.1, 0.1, 0.1],
+            [0.3, 0.2, 0.2, 0.2],
+            [0.1, 0.2, 0.2, 0.2],
+        ],
+        dtype=np.float64,
+    )
+    labels = np.zeros((4, 4), dtype=np.float64)
+    error = np.array([1.0, 1.0, 0.0, 0.0], dtype=np.float64)
+
+    baseline = runner._flat_threshold_baseline(
+        probabilities=probabilities,
+        labels=labels,
+        prediction_error=error,
+        target_alert_count=2,
+    )
+
+    assert baseline["arm"] == runner.FLAT_THRESHOLD_BASELINE_ARM
+    assert baseline["target_alert_count"] == 2
+    assert baseline["alert_count"] == 2
+    assert baseline["alert_count_delta"] == 0
+    assert baseline["allowed_count_delta"] == 1
+    assert baseline["budget_match"] is True
 
 
 def test_posthoc_report_only_does_not_train(monkeypatch):
@@ -471,6 +608,7 @@ def test_payload_and_markdown_share_boundary_fields():
         "arms": {
             "vanilla": arm(0.5),
             "learned_gap_head_on_h": arm(0.8),
+            runner.FLAT_THRESHOLD_BASELINE_ARM: arm(0.7),
             runner.MATCHED_RANDOM_ARM: arm(0.52),
         },
         "comparison": {
@@ -480,6 +618,9 @@ def test_payload_and_markdown_share_boundary_fields():
             "unlogged_error_rate_delta_matched_random_minus_vanilla": 0.0,
             "critical_unlogged_error_rate_delta_matched_random_minus_vanilla": 0.0,
             "failure_detection_auroc_delta_matched_random_minus_vanilla": 0.0,
+            "unlogged_error_rate_delta_learned_minus_flat_threshold_baseline": -0.1,
+            "flat_threshold_baseline_budget_match": True,
+            "flat_threshold_baseline_alert_count_delta": 0,
         },
     }
 
@@ -507,6 +648,10 @@ def test_payload_and_markdown_share_boundary_fields():
     assert payload["control_protocol"]["same_thresholds_as_treatment"] is True
     assert payload["control_protocol"]["same_budget_as_treatment"] is True
     assert payload["control_protocol"]["same_metric_helper_as_treatment"] is True
+    assert payload["decision_policy"]["default_policy"] == runner.DEFAULT_DECISION_POLICY
+    assert payload["decision_policy"]["threshold_lookup_keys"] == ["split_role", "channel"]
+    assert payload["control_protocol"]["flat_threshold_baseline"]["arm"] == runner.FLAT_THRESHOLD_BASELINE_ARM
+    assert payload["aggregate"]["comparison"]["flat_threshold_baseline_budget_match_all"] is True
     assert payload["control_verdict"]["arm"] == runner.MATCHED_RANDOM_ARM
     assert payload["fair_alignment_control_ledger"]["adapter_role"] == "pointer-only"
     assert payload["fair_alignment_control_ledger"]["ledger_row_pointer"] == (
@@ -541,7 +686,12 @@ def test_gap_head_run_config_preserves_default_payload_boundary(monkeypatch, tmp
                             "error_above_epsilon_implies_gap_at_least_tau": 0.8,
                         },
                     }
-                    for arm_name in ("vanilla", "learned_gap_head_on_h", runner.MATCHED_RANDOM_ARM)
+                    for arm_name in (
+                        "vanilla",
+                        "learned_gap_head_on_h",
+                        runner.FLAT_THRESHOLD_BASELINE_ARM,
+                        runner.MATCHED_RANDOM_ARM,
+                    )
                 },
                 "comparison": {
                     "unlogged_error_rate_delta_learned_minus_vanilla": 0.0,
@@ -550,6 +700,9 @@ def test_gap_head_run_config_preserves_default_payload_boundary(monkeypatch, tmp
                     "unlogged_error_rate_delta_matched_random_minus_vanilla": 0.0,
                     "critical_unlogged_error_rate_delta_matched_random_minus_vanilla": 0.0,
                     "failure_detection_auroc_delta_matched_random_minus_vanilla": 0.0,
+                    "unlogged_error_rate_delta_learned_minus_flat_threshold_baseline": 0.0,
+                    "flat_threshold_baseline_budget_match": True,
+                    "flat_threshold_baseline_alert_count_delta": 0,
                 },
             }
         ],
