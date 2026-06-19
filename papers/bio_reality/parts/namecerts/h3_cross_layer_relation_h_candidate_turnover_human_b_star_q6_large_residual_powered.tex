@@ -1,47 +1,39 @@
-\subsection{Human Turnover Against the Large Modeled-Translation Complement}\label{sec:bioreality-human-turnover-large-residual}
+\subsection{Human Turnover as a Residual H-Candidate}\label{sec:bioreality-human-turnover-h-candidate}
 \origin{ai}
 
-\paragraph{Finite row surface.}
-This record tests whether measured human protein turnover accounts for the part of the human $B^*_{Q6}$ protein-abundance signal that remains after a modeled translation readout has already been removed.  The finite surface is the human CDS--protein join with $n=8057$ rows simultaneously carrying real CDS codon counts, PAXdb protein abundance, and Mathieson 2018 protein half-life values.  The broader human CDS--abundance join contains $19053$ CDS rows, with reported CDS join hit rate $0.9779294769799313$ and $19483$ valid abundance proteins.  The turnover source reports $8164$ valid turnover proteins; the final matched panel loses $10996$ CDS rows only through missing turnover match, with no missing protein id, invalid length, empty sense-codon count, nonpositive abundance, duplicate turnover id, missing turnover id, or nonpositive half-life record reported.
+\paragraph{Question.} This chapter tests whether human protein half-life can account for the large human abundance component left after the $B^{*}_{Q6}$ synonymous residual coordinates are first related to a modeled translation readout. The finite table is not a causal experiment. Its carrier is the joined human CDS, abundance, and turnover surface: real CDS codon counts; nine $B^{*}_{Q6}$ residual coordinates; the control matrix $Z$; PAXdb whole-organism protein abundance; and Mathieson et al. human primary-cell protein half-lives, reduced to a median half-life readout across cell types and replicates. The tested object is the projection of the modeled-tAI-complement abundance residual $\widehat P_{Q\perp T_{\mathrm{mod}}}$ onto residualized $\log_{10}$ half-life.
 
-\paragraph{Coordinates and controls.}
-The design uses the nine residual coordinates
-$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The control block has $24$ columns and rank $23$: intercept, $\log(\mathrm{CDS\ length})$, the twenty amino-acid composition proportions from real CDS codon counts, GC3, and the M-density baseline on the union support of the nine projected coordinates.  On the full human abundance join, the $B^*_{Q6}$ projection has
-$$
-\begin{aligned}
-\|P_Q\|^2 &= 1370.6490492302532,\\
-\|P_{Q\perp T_{\mathrm{mod}}}\|^2 &= 1262.2237678771598,\\
-d_{\mathrm{modeled}} &= 0.9208949355679455.
-\end{aligned}
-$$
-The same modeled-complement value is recovered on the turnover computation as $d_{\mathrm{modeled}}=0.9208949355679455$, with absolute difference $0.0$ from the full-abundance reference.  A separate coverage diagnostic gives $0.7820306826175398$, so the row restriction is visible but does not change the registered modeled-complement scalar used in this certificate.
+\paragraph{Finite rows and controls.} The human abundance contact reported $19053$ CDS rows after codon-abundance joining, with a CDS join hit rate of $0.9779294769799313$ and $19483$ valid abundance proteins. The turnover contact reported $8164$ valid turnover proteins, and the all-readout join retained $8057$ human rows. The identifier route was Mathieson gene name to reviewed UniProt human primary gene name to STRING $9606.\mathrm{ENSP}$. The half-life column was the median half-life across cell types. The control surface used $24$ columns: an intercept, $\log(\mathrm{CDS\ length})$, the twenty amino-acid composition proportions, $GC3$, and the $M$-density baseline on the union support of the nine projected $B^{*}_{Q6}$ coordinates. The residualized control rank was $\operatorname{rank}(Z)=23$.
 
-\paragraph{Turnover projection.}
-The turnover readout is residualized $\log_{10}$ half-life, using the Mathieson human primary-cell protein half-life table, median across cell types and replicates.  The id route is gene name to reviewed UniProt primary gene name to STRING $9606.ENSP$.  Projecting the large modeled-translation complement $P_{Q\perp T_{\mathrm{mod}}}$ onto the residualized turnover column gives
-$$
-\begin{aligned}
+\paragraph{Residual coordinate surface.} The coordinate list was
+$$\begin{aligned}
+R=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+\end{aligned}$$
+On the full human abundance join, the $Q$-explained abundance component had squared norm $1370.6490492302532$. After removing the modeled tAI channel, the remaining complement had squared norm $1262.2237678771598$, so the modeled channel accounted for only a small part of the human $Q$-abundance component. The reported modeled fraction was
+$$\begin{aligned}
+d_{\mathrm{modeled}}=0.9208949355679455,
+\end{aligned}$$
+and the turnover-specific recomputation matched the full human complement value exactly, with absolute difference $0.0$ against the reference value on $19053$ rows. The current turnover join used $8057$ rows; the auxiliary coverage recomputation gave $0.7820306826175398$, marking the expected loss induced by requiring half-life coverage.
+
+\paragraph{Turnover projection.} The turnover readout was residualized against the same $Z$ controls and used as a rank-one H-candidate surface. Its direct relation to the modeled-complement residual was small:
+$$\begin{aligned}
 R^2_{Q,T_{\mathrm{turn}}} &= 0.004615408769189838,\\
-\mathrm{absorbed}_{\mathrm{turnover}} &= 0.0000035740764900116538,\\
-\mathrm{basis\ check} &= 0.0000035740764900125626,\\
+\operatorname{absorb}_{\mathrm{turnover}} &= 3.5740764900116538\times 10^{-6},\\
+\operatorname{absorb}_{\mathrm{basis\ check}} &= 3.5740764900125626\times 10^{-6},\\
 d_{\mathrm{combined}} &= 0.8901589776585174.
-\end{aligned}
-$$
-The two absorption computations agree to numerical precision, so the finite linear-algebra readback is internally stable.  However, the effect is tiny on the scale of the complement: turnover accounts for only about $3.57\times 10^{-6}$ of the registered residual target.
+\end{aligned}$$
+The degree-of-freedom matched null used $200$ trials and rank-one comparison surfaces. Its null mean was $0.0001262572958089998$, and its $95$th percentile was $0.0004342285066808464$. The observed turnover absorption did not exceed that threshold. Thus the finite row verdict is not that turnover explains the large human residual; it is that the turnover projection was computed, was positive only at a minute descriptive scale, and failed the local null comparison.
 
-\paragraph{Null comparison.}
-The degree-of-freedom matched null uses $200$ trials with rank one in every trial.  Its mean is $0.0001262572958089998$ and its $95$th percentile is $0.0004342285066808464$.  The observed turnover absorption $0.0000035740764900116538$ does not exceed that null envelope.  The finite-row conclusion is therefore negative for human turnover as an explanatory carrier of the large modeled-translation complement: the computation is admissible and stable, but the registered turnover readout does not carry excess absorption above the matched one-column null.
-
-\paragraph{Relation to the surrounding protein and translation readouts.}
-The negative turnover result should be read against the stronger human protein-abundance and translation surfaces.  On the direct human PAXdb abundance test, $B^*_{Q6}$ has $R^2_{QP}=0.04454565118019448$ with all nine coordinates surviving after the same family of length, amino-acid, GC3, and M-density controls.  On measured ribosome TE in human, the matched TE join uses $11554$ genes and reports $R^2_{QT,\mathrm{meas}}=0.018837911344127926$, again with nine surviving coordinates.  In the measured TE-to-abundance decomposition, human has $S_{QP}=0.04288464996165745$, $S_{QT,\mathrm{meas}}=0.018837911344127926$, and measured mediated fraction $0.0027966485036786744$.  In the joint TE and mRNA-stability variance partition, human has
-$$
-\begin{aligned}
+\paragraph{Relation to the surrounding cross-layer matrix.} The human protein-abundance survival contact is real but remains direct unless conditioned by an appropriate translation readout. In the broad direct protein-omics surface, human had $R^2_{QP}=0.04454565118019448$ with all $9$ residual coordinates surviving after the same control family; the human control residual degrees of freedom after $Z$ were $19030$. In the measured ribosome-TE surface, human had $R^2_{QT,\mathrm{meas}}=0.018837911344127926$ on $11554$ measured TE genes, with TE join hit rate $0.6064136881331024$. In the measured TE-to-abundance mediation surface, the human measured mediated fraction was only $0.0027966485036786744$, with $S_{QP}=0.04288464996165745$ and $S_{QT,\mathrm{meas}}=0.018837911344127926$. In the joint TE and mRNA-stability decomposition, human gave
+$$\begin{aligned}
 R^2_{QP} &= 0.04274178488511215,\\
 R^2_{QP\mid T} &= 0.04250692268197657,\\
 R^2_{QP\mid M} &= 0.036196017359154814,\\
-R^2_{QP\mid T,M} &= 0.0355223930537993.
-\end{aligned}
-$$
-The corresponding human joint mediation fraction is $0.16890712099923358$, with TE-only fraction $0.00549490864190343$, stability-only fraction $0.15314679870183337$, and right-tail permutation value $0.000999000999000999$.  Thus the broader human readout family contains reproducible abundance-side residual structure, but this particular half-life projection is not the readout that absorbs the large modeled-translation complement.
+R^2_{QP\mid T,M} &= 0.0355223930537993,
+\end{aligned}$$
+with joint mediation fraction $0.16890712099923358$, TE-only fraction $0.00549490864190343$, stability-only fraction $0.15314679870183337$, and right-tail permutation value $0.000999000999000999$. These numbers place human turnover in a broader finite-row pattern: measured TE alone is weak for human abundance mediation, mRNA-stability style readouts absorb more than TE in the available human table, and the separate half-life projection tested here does not cross its own null boundary.
 
-\paragraph{Local boundary.}
-This subsection asserts only a finite statistical projection on matched human rows.  It does not establish a causal mediator, a translation-rate mechanism, protein folding, physical admissibility, molecular function, phenotype, evolutionary direction, or a universal biological rule.  Modeled translation weights, bulk abundance, measured TE, mRNA stability, and half-life are distinct readout surfaces.  A stronger biological interpretation would require an additional layer-matched contact and a separate statistic showing that the relevant $q_i\to T_j$ step survives and that conditioning on that measured readout removes or reduces the downstream association.  In the present finite surface, human turnover is recorded as a tested but non-excess H-candidate for the large residual.
+\paragraph{H-candidate verdict.} The tested human turnover module is a negative H-candidate for explaining the large modeled-tAI-complement abundance residual. The positive direct abundance association is not promoted to a turnover mechanism, and the turnover projection is not large enough to explain the residual. The local module classification is therefore: computed, rank-one, null-bounded, and non-explanatory at the declared threshold. By comparison, a yeast partial readout dictionary achieved selection-aware coverage $C^{*}=0.24538211439730545$ with $\lambda_{DL}=0.01$, $\rho_{\mathrm{join}}=0.05$, $1800$ joined rows, and unexplained fraction $0.7546178856026946$; the yeast $f3\_stress$ dwell mediation run had held-out $\Delta R^2=0.01856473944057712$, null $95$th percentile $0.0013115362189692937$, and $f3$-dwell approximate $p=7.873916057196935\times 10^{-9}$. The positional dwell run classified the dominant segment as $5prime$, while the structural-order ramp run classified its conclusion as $\mathrm{ramp\_positive\_but\_not\_localized}$ with weighted ramp increment $0.0011165640103326878$ and weighted body increment $-0.00026157313923957926$. Those companion rows show that the table system can register positive finite signals when a measured readout carries them; the human turnover row simply does not supply such an explanation for the residual under its own null.
+
+\paragraph{Local non-promotion rule.} No measured translation process, folding property, physical admissibility statement, molecular function, biological mechanism, organismal phenotype, or universal biological rule follows from this chapter. The result is a controlled finite-row projection of a human abundance residual onto a half-life readout. A stronger claim would require a separate layer-matched contact with the relevant measurement and a statistic showing that the same $B^{*}_{Q6}$ coordinate first survives at the required readout layer and then loses or changes its downstream association after conditioning on that readout. Bulk abundance, modeled tAI complement, and median human half-life do not by themselves establish such a route.
