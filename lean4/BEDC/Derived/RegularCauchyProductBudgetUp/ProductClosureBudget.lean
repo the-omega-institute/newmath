@@ -258,4 +258,101 @@ theorem RegularCauchyProductBudget_public_export [AskSetup] [PackageSetup]
   }
   exact ⟨cert, publicUnary, publicRoute, provenancePkg, namePkg⟩
 
+theorem RegularCauchyProductBudgetCarrier_dyadic_multiplication_scope [AskSetup]
+    [PackageSetup]
+    {A B WA WB DA DB D E R S H C P N leftWindow rightWindow dyadicProduct budgetRead
+      handoffRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductBudgetCarrier A B WA WB DA DB D E R S H C P N bundle pkg →
+      Cont WA WB leftWindow →
+        Cont DA DB rightWindow →
+          Cont leftWindow rightWindow dyadicProduct →
+            Cont dyadicProduct E budgetRead →
+              Cont budgetRead R handoffRead →
+                Cont handoffRead S sealRead →
+                  PkgSig bundle P pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row WA ∨ hsame row WB ∨ hsame row DA ∨
+                            hsame row DB ∨ hsame row D ∨ hsame row E ∨
+                              hsame row R ∨ hsame row S ∨
+                                hsame row dyadicProduct ∨ hsame row sealRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont leftWindow rightWindow dyadicProduct ∧
+                            Cont dyadicProduct E budgetRead ∧
+                              Cont budgetRead R handoffRead ∧
+                                Cont handoffRead S sealRead ∧ PkgSig bundle P pkg)
+                        hsame ∧
+                      UnaryHistory leftWindow ∧ UnaryHistory rightWindow ∧
+                        UnaryHistory dyadicProduct ∧ UnaryHistory budgetRead ∧
+                          UnaryHistory handoffRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig Cont hsame SemanticNameCert UnaryHistory
+  intro carrier leftRoute rightRoute productRoute budgetRoute handoffRoute sealRoute
+    provenancePkg
+  obtain ⟨_aUnary, _bUnary, waUnary, wbUnary, daUnary, dbUnary, _dUnary, eUnary,
+    rUnary, sUnary, _hUnary, _cUnary, _pUnary, _nUnary, _carrierProvenancePkg,
+    _namePkg⟩ := carrier
+  have leftUnary : UnaryHistory leftWindow :=
+    unary_cont_closed waUnary wbUnary leftRoute
+  have rightUnary : UnaryHistory rightWindow :=
+    unary_cont_closed daUnary dbUnary rightRoute
+  have productUnary : UnaryHistory dyadicProduct :=
+    unary_cont_closed leftUnary rightUnary productRoute
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed productUnary eUnary budgetRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed budgetUnary rUnary handoffRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed handoffUnary sUnary sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row WA ∨ hsame row WB ∨ hsame row DA ∨ hsame row DB ∨
+              hsame row D ∨ hsame row E ∨ hsame row R ∨ hsame row S ∨
+                hsame row dyadicProduct ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont leftWindow rightWindow dyadicProduct ∧
+              Cont dyadicProduct E budgetRead ∧ Cont budgetRead R handoffRead ∧
+                Cont handoffRead S sealRead ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead ⟨hsame_refl sealRead, sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, productRoute, budgetRoute, handoffRoute, sealRoute,
+          provenancePkg⟩
+  }
+  exact
+    ⟨cert, leftUnary, rightUnary, productUnary, budgetUnary, handoffUnary,
+      sealUnary⟩
+
 end BEDC.Derived.RegularCauchyProductBudgetUp
