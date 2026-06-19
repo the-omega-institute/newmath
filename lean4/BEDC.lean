@@ -3008,6 +3008,7 @@ import BEDC.Derived.CompactNetModulusSelectorUp.PointwiseRadiusRoute
 import BEDC.Derived.CompactNetModulusSelectorUp.RootBudgetAdmission
 import BEDC.Derived.CompactNetModulusSelectorUp.RootObligationTriad
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
+import BEDC.Derived.CompactOpenCoverBoundaryUp
 import BEDC.Derived.CompactOpenExhaustionUp.TasteGate
 import BEDC.Derived.CompactOpenFunctionSpaceUp
 import BEDC.Derived.CompactOpenFunctionSpaceUp.TasteGate
@@ -4187,6 +4188,7 @@ import BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate
 import BEDC.Derived.DedekindCutCompletionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
+import BEDC.Derived.DedekindEtaCompletionUp.TasteGate
 import BEDC.Derived.DedekindGapLocatedCutUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.CutClosure
 import BEDC.Derived.DedekindMacNeilleCompletionUp.NameCertObligations
@@ -4546,6 +4548,7 @@ import BEDC.Derived.DiniDerivativeUp.TasteGate
 import BEDC.Derived.DiniFiniteMinimumBudgetUp.TasteGate
 import BEDC.Derived.DiniMonotoneCompactUniformUp.TasteGate
 import BEDC.Derived.DiniTheoremUp.TasteGate
+import BEDC.Derived.DiniUniformConvergenceUp.CompactUniformLimitRoute
 import BEDC.Derived.DiniUniformConvergenceUp.FiniteNetMonotoneTailScope
 import BEDC.Derived.DiniUniformConvergenceUp.MonotoneFamilyExhaustion
 import BEDC.Derived.DiniUniformConvergenceUp.MonotoneWindowObligation
@@ -7438,9 +7441,11 @@ import BEDC.Derived.MetaCICNormalizationAuditPacketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.CandidateRouteScope
 import BEDC.Derived.MetaCICNormalizationBudgetUp.CandidateSNBoundary
 import BEDC.Derived.MetaCICNormalizationBudgetUp.FalsifiableBoundary
+import BEDC.Derived.MetaCICNormalizationBudgetUp.IndependenceBoundary
 import BEDC.Derived.MetaCICNormalizationBudgetUp.Nonescape
 import BEDC.Derived.MetaCICNormalizationBudgetUp.ObligationSurface
 import BEDC.Derived.MetaCICNormalizationBudgetUp.RefusalExactness
+import BEDC.Derived.MetaCICNormalizationBudgetUp.RefusalIdempotence
 import BEDC.Derived.MetaCICNormalizationBudgetUp.RefusalTransport
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.AdequacyChain
@@ -9426,6 +9431,7 @@ import BEDC.Derived.RegularCauchyAffineCombinationUp.ObligationSurface
 import BEDC.Derived.RegularCauchyAffineCombinationUp.Stability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyAlgebraCoherenceUp.TasteGate
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundScope
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.RealSealRefusal
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.ReciprocalWindowBoundary
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
