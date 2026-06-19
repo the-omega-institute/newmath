@@ -3292,6 +3292,7 @@ import BEDC.Derived.ContextFreeGrammarUp.BHistForgetfulProjectionBoundary
 import BEDC.Derived.ContextFreeGrammarUp.PushdownHandoff
 import BEDC.Derived.ContextFreeGrammarUp.RegularLanguageInclusionCertificate
 import BEDC.Derived.ContextFreeGrammarUp.TasteGate
+import BEDC.Derived.ContextFreeLanguageUp
 import BEDC.Derived.ContextFreePumpingLemmaUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.NameCertObligations
 import BEDC.Derived.ContextWindowCommitmentUp.Nonescape
