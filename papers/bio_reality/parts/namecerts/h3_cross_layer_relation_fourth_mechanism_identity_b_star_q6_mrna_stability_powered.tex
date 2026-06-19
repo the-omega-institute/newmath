@@ -1,50 +1,41 @@
-\subsection{The fourth B*\_Q6 axis is not mRNA stability in the finite yeast half-life assay}\label{sec:bireality-q6-fourth-axis-not-mrna-stability}
+\subsection{The mRNA-stability refusal for the fourth $B^*_{Q6}$ axis}\label{sec:bioreality-q6-fourth-axis-mrna-stability-refusal}
 \origin{ai}
 
-\paragraph{Claim being tested.}
-This record concerns the finite residual coordinate surface obtained after amino-acid projection of coding-sequence codon counts.  The specific coordinate is the $f_3$-stress component inside the $B^*_{Q6}$ residual basis: it compares synonymous codon imbalance that remains visible after the amino-acid identity has been quotiented out.  The proposed fourth mechanism was mRNA stability.  The finite test asked whether the abundance-aligned fourth residual direction $d_{\mathrm{resid4}}$ is explained by a yeast mRNA half-life direction, denoted here by $d_{\mathrm{opt,halflife}}$, under the fixed powered gates.  The recorded conclusion is negative: the experiment classifies the fourth axis as $\mathrm{fourth\_axis\_not\_mrna\_stability}$.
+\paragraph{Finite object.}
+The record considered here is the finite residual-coordinate surface obtained from coding sequences after amino-acid projection, restricted to the $f_3$-stress component of the $B^*_{Q6}$ coordinate family and compared with matched readout rows.  The coordinate is not interpreted as a biological effect by itself.  Its admissible readback is a controlled survival entry $S_{f3\text{-}stress,T_j}$ against a translation-layer row $T_j$, such as a bounded tAI/stAI row or a ribosome-occupancy or translation-efficiency row.  The present finite row asks a narrower question: whether the empirically recovered fourth optimal residual direction is an mRNA-stability direction.
 
-\paragraph{Finite coordinate support.}
-The underlying $f_3$ saturation row is not empty.  The finite set $M=\operatorname{Med}(R)\cup\{\mathrm{ACA}\}$ contains $20$ codons,
-$$
-\begin{aligned}
-M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+The $f_3$ saturation seed fixes the codon-level boundary of the coordinate.  The finite set $M=\operatorname{Med}_R\cup\operatorname{ACA}$ used in the row consists of
+$$\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
 &\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-After $f_3$ saturation, the residual row has $18$ codons,
-$$
-\begin{aligned}
+\end{aligned}$$
+After $f_3$ saturation, the listed surface removes the two $\mathrm{AC}$ third-position alternatives and keeps
+$$\begin{aligned}
 \operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-Thus the two codons removed by this finite saturation comparison are $\mathrm{ACA}$ and $\mathrm{ACG}$, and the recorded $f_3$ boundary set is empty.  This matters because the fourth-axis test is not being run on an arbitrary transcript feature: it is attached to a concrete residual codon surface whose $f_3$ finite support is explicitly enumerated.
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}$$
+with empty $f_3$ boundary, recorded as $\partial_{f_3}R=\varnothing$.  This is a finite coordinate statement, not a claim about RNA decay, ribosome motion, or protein-level behavior.
 
-\paragraph{Powered mRNA-stability test.}
-The mRNA-stability assay was run as experiment $\mathrm{b\_star\_q6\_fourth\_mechanism\_mrna\_stability\_powered}$ with run id $377\mathrm{abd}67\mathrm{b}8\mathrm{b}3$.  The powered design used $5$ folds, a minimum of $500$ proteins per organism, and $41$ synonymous design columns.  The deterministic seed was $\mathrm{sha256{:}22c2c4dca83559af532a45fe2777c3c21afc8cd39d329c602491409752243209}$.  Under these gates the yeast half-life direction had low alignment with the abundance-side $d_{\mathrm{resid4}}$ direction, so the assay excludes mRNA stability as the dominant identity of the fourth residual axis in this setting.  In compact form, the finite decision is
-$$
-\begin{aligned}
-\operatorname{class}(d_{\mathrm{resid4}},d_{\mathrm{opt,halflife}})
-  &= \mathrm{fourth\_axis\_not\_mrna\_stability},\\
-\operatorname{folds} &= 5,\\
-\operatorname{design\ columns} &= 41,\\
-\operatorname{minimum\ proteins} &= 500.
-\end{aligned}
-$$
-This is a negative identity result, not a claim that mRNA decay has no biological role.  It only says that, in the finite half-life comparison used here, the fourth residual direction is not dominated by the mRNA-stability candidate.
+\paragraph{Tested stability identity.}
+The powered mRNA-stability assay has run id $377\mathrm{abd}67\mathrm{b}8\mathrm{b}3$ and status $\mathrm{passed}$.  It used $5$ folds, a minimum of $500$ proteins per organism, and $41$ synonymous design columns.  Its declared conclusion is
+$$\begin{aligned}
+\mathrm{fourth\_axis\_identity}\neq \mathrm{mRNA\ stability}
+\end{aligned}$$
+for this assay.  More specifically, the recorded reason is that the yeast $d_{\mathrm{opt\_halflife}}$ row has low alignment with the abundance-associated $d_{\mathrm{resid4}}$ direction under the fixed gates.  Thus the fourth residual direction should not be named as an mRNA-stability axis on the basis of this finite row.
 
-\paragraph{Position among the other finite rows.}
-The negative mRNA-stability call is coherent with the surrounding finite-row evidence.  The larger axis-strength spectrum computed $11$ organisms out of $16$ requested organisms, used $5$ folds and $41$ synonymous design columns, and found that $d_{\mathrm{resid4}}$ led the captured spectra on average; the per-organism dominant count was $11$ for $d_{\mathrm{resid4}}$.  Domain means were explicitly descriptive under the imbalanced domain sample $n=\{\mathrm{archaea}:1,\mathrm{bacteria}:2,\mathrm{eukaryote}:8\}$, and the largest GC3 rank effect recorded there was $\rho=0.136$ for $d_{\mathrm{usage}}$.  Separately, the two-axis closure test over $11$ computed organisms reported a third axis as present, while the three-axis sufficiency test over the same $11$ computed organisms reported a fourth mechanism as present.  The fourth mechanism therefore remains a real residual target in this finite panel, but the yeast half-life assay says that mRNA stability is not its dominant identity.
+This negative identity call sits inside a broader powered coordinate family.  The three-axis sufficiency row, computed on $11$ of $16$ requested organisms with $5$ folds, $500$ minimum proteins per organism, and $41$ synonymous design columns, concluded that a fourth mechanism is present.  The axis-strength spectrum row, also on $11$ of $16$ requested organisms with $5$ folds and $41$ synonymous columns, found that captured spectra are led on average by $d_{\mathrm{resid4}}$, with per-organism dominant counts $\{d_{\mathrm{resid4}}:11\}$, while domain means were marked descriptive under the imbalanced domain counts $\{\mathrm{archaea}:1,\mathrm{bacteria}:2,\mathrm{eukaryote}:8\}$ and the largest GC3 rank effect was $\rho=0.136$ for $d_{\mathrm{usage}}$.  These numbers support the existence of an additional residual direction in the finite panel, but they do not identify it with mRNA half-life.
 
-\paragraph{Mechanism discrimination.}
-The neighboring fourth-mechanism rows sharpen the interpretation.  The codon-pair assay, run with $5$ folds, $41$ synonymous design columns, $50$ shuffle-null draws, and a minimum of $500$ proteins per organism, concluded $\mathrm{not\_codon\_pair}$.  The translation-accuracy assay, also using $5$ folds and $41$ synonymous design columns over $11$ computed organisms out of $16$ requested, concluded $\mathrm{not\_accuracy}$ with $200$ permutations.  The elongation-dwell assay for $\mathrm{saccharomyces\_cerevisiae}$ concluded $\mathrm{partial}$.  Thus the finite discrimination landscape is not a simple promotion of the fourth axis to any convenient downstream mechanism: codon-pair identity is rejected, translation accuracy is rejected, mRNA stability is rejected in the yeast half-life comparison, and elongation dwell remains only partial in the yeast row.
+\paragraph{Nearby axes and separation from RNA decay.}
+The third-axis identity row gives a useful comparison.  It computed $11$ of $16$ requested organisms with $5$ folds, $500$ minimum proteins per organism, and $41$ synonymous columns, and provisionally identified $d_{\perp}$ with usage frequency within synonymous families, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$.  A separate third-axis mechanism row reported that the same direction remains GC-orthogonalized and is best read as selection-not-GC, not as a wobble-clustered axis; it also records that the CSC or positional identity still needs another observational row.  The boundary-set tRNA-poverty row supplies another nearby constraint: $40$ of $46$ requested organisms were computed, $6$ were skipped, the permutation count was $1000$, and the test used $\alpha=0.05$ to support systematic tRNA poverty for $R$ sense codons under GtRNAdb tGCN plus dos Reis wobble weights.  These finite results make the residual-coordinate landscape nontrivial, but none of them turns the fourth axis into an RNA-stability object.
 
-\paragraph{Translation-readout gate.}
-The coordinate becomes a biological translation claim only where a bounded translation readout is actually attached.  The allowed readouts are organism-matched codon adaptation weights such as tAI or stAI, or measured ribosome-occupancy or translation-efficiency rows, with amino-acid composition, organism, GC3, length, $M$-density, and mRNA controls kept in the model.  The finite facts already show a tRNA-oriented background: in the boundary-set assay, $40$ organisms were computed out of $46$ requested, $6$ organisms were skipped, $1000$ permutations were used at $\alpha=0.05$, and the recorded mechanism call says that $R$ sense codons are systematically tRNA-poor under GtRNAdb tGCN plus dos Reis wobble weights.  The universal core tRNA-adaptation and residual-axis rows were computed over $11$ of $16$ requested organisms with $5$ folds, $500$ minimum proteins per organism, and $41$ synonymous design columns.  The residual optimality row names $f_3$ translation selection as the dominant non-tRNA residual axis.  The third-axis identity row gives mean cosine $0.128$ with one-sided sign-test $p=0.000488$ for the usage-frequency-within-family candidate, and the third-axis mechanism row records selection-not-GC with significant cross-species alignment after GC orthogonalization.
+\paragraph{Readout rule.}
+The correct local interpretation is therefore a refusal of one candidate identity, not a demotion of the whole fourth direction.  The assay says that, under its fixed gates, yeast half-life alignment is too weak for mRNA stability to be the dominant fourth-axis identity.  It does not say that the fourth direction is absent, since the three-axis sufficiency and spectrum rows still record an additional residual direction.  It also does not say what the fourth direction is.  Candidate alternatives such as elongation dwell, codon-pair structure, or translation accuracy must be judged by their own finite rows and their own controls.
 
-\paragraph{Local cannot-claim boundary.}
-The present chapter does not assert that the $f_3$-stress coordinate changes protein abundance, folding, physical admissibility, molecular function, localization, organismal phenotype, or a universal biological law.  It also does not assert that mRNA stability is irrelevant in general.  The only finite conclusion licensed here is narrower: the powered yeast half-life comparison did not identify mRNA stability as the dominant fourth-axis mechanism.  Any positive translation claim still requires a non-vacuous controlled survival entry $S_{f3\text{-}\mathrm{stress},T_j}>0$ for a specified translation readout $T_j$.  Any claim above translation, including protein output, folded structure, physical feasibility, function, localization, stability, phenotype, or general biological mechanism, requires a separate layer-matched contact and its own finite statistic.  A rank-degenerate all-$1.0$ matrix in a three-organism surface is therefore a null boundary, not survival evidence.
+The formal boundary can be summarized as follows.  Let $Q_{f_3}$ denote the $f_3$-stress residual coordinate and let $H$ denote the mRNA half-life row used in the stability assay.  The powered row supports the local inequality
+$$\begin{aligned}
+\operatorname{align}(Q_{f_3},H)\ \text{is not sufficient to identify}\ d_{\mathrm{resid4}}\ \text{with mRNA stability}.
+\end{aligned}$$
+It does not authorize the stronger statement that $Q_{f_3}$ has no translation-layer relevance, nor the statement that it has a downstream protein consequence.  A positive translation claim would require a non-vacuous controlled entry $S_{f3\text{-}stress,T_j}>0$ after amino-acid composition, organism, GC3, CDS length, M-density baseline, matched mRNA, rank, and simpler-baseline controls.  The rank-degenerate all-$1.0$ three-organism surface is a null boundary, not evidence of survival.
 
-\paragraph{Scientific reading.}
-The finite result is best read as a mechanism-exclusion row inside a larger cross-layer search.  The $B^*_{Q6}$ fourth residual direction is strong enough to survive as a target in the powered axis tests, but its dominant identity is not supplied by the yeast mRNA half-life direction under the fixed gates.  The remaining admissible interpretation is that the fourth axis should be pursued through translation-layer rows where wobble or tRNA-context asymmetries break $f_3$ symmetry, and through measured ribosome or translation-efficiency contacts when those rows are organism- and CDS-matched.  Until such a row produces a positive controlled $S_{ij}$ value, the result remains a bounded negative identity statement for mRNA stability rather than a downstream biological mechanism claim.
+\paragraph{Local no-promotion boundary.}
+This chapter therefore records a finite negative identity result: the fourth $B^*_{Q6}$ residual direction is not identified with mRNA stability in the stated powered assay.  No translation realization, folded-structure statement, physical-admissibility statement, biological-function statement, mechanism claim, phenotype claim, or universal biological law follows from this row alone.  Codon topology, tRNA or wobble-weight asymmetry, modeled tAI/stAI coupling, and mRNA half-life alignment remain separate kinds of finite evidence.  Any promotion beyond this bounded refusal requires a separate layer-matched contact and an explicit controlled statistic at that layer.
