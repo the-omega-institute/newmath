@@ -1364,6 +1364,7 @@ import BEDC.Derived.CalculusUp.DerivativeContinuationObligation
 import BEDC.Derived.CalculusUp.DerivativeIntegralSeparationObligation
 import BEDC.Derived.CalculusUp.DerivativeIntegralSourceSeparation
 import BEDC.Derived.CalculusUp.DerivativeLimitObligation
+import BEDC.Derived.CalculusUp.FiniteLimitSealPublicHandoff
 import BEDC.Derived.CalculusUp.FiniteLimitSealRoute
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
 import BEDC.Derived.CalculusUp.IntegralSumObligation
@@ -8278,11 +8279,13 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.AxisSeparation
 import BEDC.Derived.PaperLeanDriftWitnessUp.BridgeReadyDependencySurface
 import BEDC.Derived.PaperLeanDriftWitnessUp.ClosureTargetResolution
+import BEDC.Derived.PaperLeanDriftWitnessUp.DuplicateLedgerReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.LeanInventoryHitExhaustion
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerFamilyResolutionReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerInventoryKindLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObligationClosurePackage
+import BEDC.Derived.PaperLeanDriftWitnessUp.ResolutionConsumerReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.UnresolvedMarkerRefusal
 import BEDC.Derived.ParacompactUp.LocallyFiniteRefinement
 import BEDC.Derived.ParacompactUp.MetricNormalRoute
@@ -9792,6 +9795,7 @@ import BEDC.Derived.RegulatedCauchyModulusUp.TasteGate
 import BEDC.Derived.RegulatedConvergenceUp.Core
 import BEDC.Derived.RegulatedConvergenceUp.TasteGate
 import BEDC.Derived.RegulatedFunctionCompactOscillationUp.TasteGate
+import BEDC.Derived.RegulatedFunctionFiniteJumpUp.TasteGate
 import BEDC.Derived.RegulatedFunctionUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.DarbouxRiemannCompatibility
 import BEDC.Derived.RegulatedIntegralUp.Nonescape
@@ -11159,6 +11163,7 @@ import BEDC.Derived.UpcrossingUp.BoundedOptionalStoppingRoute
 import BEDC.Derived.UpcrossingUp.FiniteLedgerHandoff
 import BEDC.Derived.UpcrossingUp.FiniteLedgerInduction
 import BEDC.Derived.UpcrossingUp.MartingaleConvergenceHandoff
+import BEDC.Derived.UpcrossingUp.ScopedDecisionRoute
 import BEDC.Derived.UpcrossingUp.TasteGate
 import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
 import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
