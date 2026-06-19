@@ -139,6 +139,20 @@ If the next entry is a structural transport or replay, use \autoref{thm:filter-l
 The carrier of \autoref{def:filter-limit-basis-carrier} has no row for quotient filters, ultrafilters, selected limits, choice schedules, host equality, or ambient completeness. Therefore the invariant holds for every finite ledger $\Lambda$.
 \end{proof}
 
+\begin{theorem}[FilterLimitBasis real-window exhaustion]
+\label{thm:filter-limit-basis-real-window-exhaustion}
+Let $B=(Q,F,L,W,R,D,E,H,C,P,N)$ be an accepted $\FilterLimitBasisUp$ carrier exposing the completion-basis row, limit-compatibility row, $\RealUp$ handoff-stability row, and finite-window induction row. Then every limit-basis consumer must expose a finite window tuple through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ before it may read terminal $\RealUp$ evidence. In particular, the consumer has no route through quotient filters, selected limits, ultrafilters, countable-choice schedules, host filter equality, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. It sends every completion-facing or Real-facing request through the displayed route $Q,F,L,W,R,D,E,H,C,P,N$, so the terminal seal is not available before the completion and filter rows have been read.
+
+Next apply \autoref{thm:filter-limit-basis-limit-compatibility}. The limit boundary $L$ remains tied to the same finite window row $W$, regular readback row $R$, and dyadic tolerance row $D$ exposed by $Q$ and $F$.
+
+Then use \autoref{thm:filter-limit-basis-real-handoff-stability} and \autoref{thm:filter-limit-basis-window-induction}. Transport and finite replay preserve the same route for every ledger prefix, so the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows exhaust the visible window before terminal Real evidence is read.
+
+The carrier definition has no row for quotient filters, selected limits, ultrafilters, countable-choice schedules, host equalities, or ambient completeness. Therefore any consumer using one of those objects has left the accepted $\FilterLimitBasisUp$ packet rather than reading its real-window exhaustion surface.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FilterLimitBasisUp$ read is refuted if a $\CauchyFilterCompletionUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the Cauchy-filter completion row, Cauchy-filter row, Cauchy-filter limit row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming.}
 
 \independenceWitness{cauchyfiltercompletion, cauchyfilter, cauchyfilterlimit, streamname, regseqrat, dyadicratcore, real: none alone is bijective with $\FilterLimitBasisUp$ because the packet jointly records completion-boundary, saturated-filter, limit-boundary, finite-window, readback, tolerance, seal, transport, replay, provenance, and local NameCert rows.}
