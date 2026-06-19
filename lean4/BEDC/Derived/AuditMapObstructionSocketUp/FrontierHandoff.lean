@@ -1,10 +1,4 @@
 import BEDC.Derived.AuditMapObstructionSocketUp
-import BEDC.FKernel.Ask
-import BEDC.FKernel.Bundle
-import BEDC.FKernel.Cont
-import BEDC.FKernel.NameCert
-import BEDC.FKernel.Package
-import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.AuditMapObstructionSocketUp
 
@@ -16,12 +10,22 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def audit_map_obstruction_socket_frontier_handoff_carrier [AskSetup] [PackageSetup]
+    (auditTag positive conditional obstruction frontier transport continuations provenance
+      nameCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory auditTag ∧ UnaryHistory positive ∧ UnaryHistory conditional ∧
+    UnaryHistory obstruction ∧ UnaryHistory frontier ∧ UnaryHistory transport ∧
+      UnaryHistory continuations ∧ UnaryHistory provenance ∧ UnaryHistory nameCert ∧
+        Cont frontier transport continuations ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle nameCert pkg
+
 theorem AuditMapObstructionSocket_frontier_handoff [AskSetup] [PackageSetup]
     {auditTag positive conditional obstruction frontier transport continuations provenance
       nameCert frontierRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    AuditMapObstructionSocketCarrier auditTag positive conditional obstruction frontier transport
-        continuations provenance nameCert bundle pkg →
+    audit_map_obstruction_socket_frontier_handoff_carrier auditTag positive conditional obstruction
+        frontier transport continuations provenance nameCert bundle pkg →
       Cont frontier transport frontierRead →
         SemanticNameCert
             (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
@@ -35,9 +39,9 @@ theorem AuditMapObstructionSocket_frontier_handoff [AskSetup] [PackageSetup]
           UnaryHistory frontierRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
   intro carrier frontierRoute
-  obtain ⟨_packet, _auditUnary, _positiveUnary, _conditionalUnary, _obstructionUnary,
-    frontierUnary, transportUnary, _continuationsUnary, _provenanceUnary, _nameCertUnary,
-    _sameAuditPositive, provenancePkg, nameCertPkg⟩ := carrier
+  obtain ⟨_auditUnary, _positiveUnary, _conditionalUnary, _obstructionUnary, frontierUnary,
+    transportUnary, _continuationsUnary, _provenanceUnary, _nameCertUnary,
+    _carrierFrontierRoute, provenancePkg, nameCertPkg⟩ := carrier
   have frontierReadUnary : UnaryHistory frontierRead :=
     unary_cont_closed frontierUnary transportUnary frontierRoute
   have cert :

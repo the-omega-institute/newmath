@@ -3010,6 +3010,7 @@ import BEDC.Derived.CompactOperatorUp.TasteGate
 import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealIntervalMinimumUp.TasteGate
+import BEDC.Derived.CompactRealSubsequenceModulusUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
@@ -4527,6 +4528,7 @@ import BEDC.Derived.DiniFiniteMinimumBudgetUp.TasteGate
 import BEDC.Derived.DiniMonotoneCompactUniformUp.TasteGate
 import BEDC.Derived.DiniTheoremUp.TasteGate
 import BEDC.Derived.DiniUniformConvergenceUp.FiniteNetMonotoneTailScope
+import BEDC.Derived.DiniUniformConvergenceUp.MonotoneFamilyExhaustion
 import BEDC.Derived.DiniUniformConvergenceUp.MonotoneWindowObligation
 import BEDC.Derived.DiniUniformConvergenceUp.NameCertObligations
 import BEDC.Derived.DiniUniformConvergenceUp.TasteGate
@@ -10287,6 +10289,7 @@ import BEDC.Derived.SobolevUp.HilbertNormRootWindow
 import BEDC.Derived.SobolevUp.IntegralDerivativeTransportStability
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
 import BEDC.Derived.SobolevUp.LocalPoincareLedger
+import BEDC.Derived.SobolevUp.MatureFiniteEnergyConsumer
 import BEDC.Derived.SobolevUp.MetricCompletionRootWindow
 import BEDC.Derived.SobolevUp.ObligationClosureExport
 import BEDC.Derived.SobolevUp.ObligationPackage
