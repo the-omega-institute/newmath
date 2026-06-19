@@ -123,6 +123,29 @@ unbounded strong normalisation, global confluence, and ambient decidability
 outside the exported surface.
 \end{proof}
 
+\begin{definition}[MetaCIC parallel-diamond fuel window]
+\label{def:metacic-parallel-diamond-fuel-window}
+A $\MetacicDecidabilityWitnessUp$ parallel-diamond fuel-window packet is a finite $\BHist$ row
+$$
+V=(T,S,B,F,R,H,C,P,N,D)
+$$
+where $T,S,B,F,R,H,C,P,N$ are the displayed rows of the carrier in \autoref{def:metacic-decidability-witness-carrier}, and $D$ is the confluence normal-fragment sibling row from \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}. The row $D$ is read only inside the same bounded fuel window as $B$ and $F$: it records bounded parallel-diamond evidence for the displayed normal fragments, not a global confluence theorem, unrestricted beta-conversion decision, quotient syntax equality, consistency theorem, or host evaluator.
+\end{definition}
+
+\begin{theorem}[MetaCIC parallel-diamond fuel monotonicity]
+\label{thm:metacic-parallel-diamond-fuel-monotonicity}
+Let $V=(T,S,B,F,R,H,C,P,N,D)$ be an accepted $\MetacicDecidabilityWitnessUp$ parallel-diamond fuel-window packet. Increasing the displayed bounded fuel window preserves only the bounded-normal evidence already routed through $B,F,D$ together with the typing, same-term, refusal, transport, replay, provenance, and naming rows $T,S,R,H,C,P,N$. The enlarged window does not export global $\mathsf{ClosedAt}$ decidability, unrestricted beta conversion, quotient syntax equality, consistency, fuel-erased normalisation, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Start with the TasteGate single-carrier marker recorded for the chapter. It fixes the MetaCIC decidability witness boundary at the displayed carrier rows $T,S,B,F,R,H,C,P,N$, so adding fuel cannot introduce a new decision coordinate.
+
+Use the bounded-search exhaustion theorem, \autoref{thm:metacic-decidability-witness-bounded-search-exhaustion}. It says that each request inside a finite depth bound is exhausted by the visible syntax window, bounded conversion ledger, normal-form split, typing-exactness route, transport, replay, provenance, and local naming rows.
+
+Now enlarge the finite fuel window. The bounded-conversion non-escape theorem, \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape}, keeps conversion evidence inside $B$ together with $F$, while the sibling row $D$ contributes only bounded confluence-normal-fragment evidence at the displayed window.
+
+Transport through $H$ and replay through $C$ preserve the same row inventory, and $P,N$ record provenance and naming. The refusal row $R$ therefore remains active after the enlargement, preventing the bounded parallel-diamond evidence from being reread as global $\mathsf{ClosedAt}$ decidability, unrestricted beta conversion, quotient syntax equality, consistency, fuel-erased normalisation, or a host evaluator.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidability witness obligation-closure package]
 \label{thm:metacic-decidability-witness-obligation-closure-package}
 For the carrier of \autoref{def:metacic-decidability-witness-carrier}, the $\MetacicDecidabilityWitnessUp$ obligation surface is closed by the carrier row, the NameCert obligations, bounded-conversion nonescape, bounded normal-form split, and typing-exactness route. Equivalently, every accepted packet $W=(T,S,B,F,R,H,C,P,N)$ exposes exactly inferTypeCtx exactness through $T$, checkSameTerm structural equality through $S$, bounded beta comparison through $B$, finished-normal side conditions through $F$, refusal rows through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\MetacicDecidabilityWitnessUp}$ row $N$.
