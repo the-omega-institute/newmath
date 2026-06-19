@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\DyadicSpreadUp$}
+\label{ch:concrete-instances-dyadic-spread-namecert}
+\origin{human}
+
+Following Bishop on located real approximations and Kleene on finite spread laws, the $\DyadicSpreadUp$ packet records a finite dyadic-prefix spread whose windows may be read by stream, regular-sequence, real, tree, and Cantor-space consumers. It is a finite-prefix sibling of $\RegularCauchySpreadUp$ in \autoref{ch:concrete-instances-regular-cauchy-spread-namecert}, the dyadic interval net of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, and the regular sequence space of \autoref{ch:concrete-instances-regular-sequence-space-namecert}. The packet names displayed prefix windows; it does not select an infinite branch, complete a real, decide bar coverage, or claim compactness.
+
+\begin{definition}[Dyadic spread finite-prefix carrier]
+\label{def:dyadic-spread-carrier}
+A $\DyadicSpreadUp$ carrier is a finite $\BHist$ packet
+$$
+D=(P,W,I,S,R,A,K,C,H,Q,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite prefix tree row, listing dyadic words closed under initial segment;
+\item $W$ is the finite window schedule, recording which prefix lengths are visible to a consumer;
+\item $I$ is the $\DyadicRatCoreUp$ interval row attached to each displayed prefix;
+\item $S$ is the $\StreamNameUp$ row that reads a prefix window as a finite name segment;
+\item $R$ is the $\RegSeqRatUp$ regular readback row for the dyadic windows whose moduli are displayed in $W$;
+\item $A$ is the $\RealUp$ seal row available only after the regular readback row has supplied the displayed tolerance data;
+\item $K$ is the $\KleeneTreeUp$ law row naming the finite spread-law closure under prefix extension and rejection;
+\item $C$ is the $\CantorSpaceUp$ cylinder row for binary-prefix consumers that read only the displayed branch window;
+\item $H$ stores componentwise $\hsame$ transport for prefix, window, dyadic interval, stream-name, regular readback, real-seal, tree-law, and cylinder rows;
+\item $Q$ stores the finite $\Cont$ replay routes from prefixes to dyadic intervals, stream windows, regular readback, real sealing, tree-law checks, and cylinder reads;
+\item $L$ is the $\Pkg$ provenance over $\DyadicSpreadUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\KleeneTreeUp$, $\CantorSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DyadicSpreadUp}$ row.
+\end{enumerate}
+The classifier compares two carriers only by transporting the displayed finite prefix tree, dyadic windows, consumer rows, replay routes, provenance, and local certificate. No coordinate stores an infinite choice sequence, a quotient of branch names, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Dyadic spread window stability]
+\label{thm:dyadic-spread-window-stability}
+For every accepted $\DyadicSpreadUp$ carrier $D=(P,W,I,S,R,A,K,C,H,Q,L,N)$, each finite window read used by the $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\KleeneTreeUp$, and $\CantorSpaceUp$ rows is stable under the displayed $\hsame$ transport and replays through the displayed $\Cont$ routes. Thus any consumer that reads a prefix window after transport receives the same finite dyadic interval data, the same regular readback obligation, the same real-seal boundary, the same tree-law decision, and the same Cantor cylinder row, with no route to an uncarried branch or completion principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-spread-carrier}. The only rows available to a window consumer are the finite prefix tree $P$, the window schedule $W$, the dyadic interval row $I$, the stream, regular, real, tree, and cylinder rows $S,R,A,K,C$, and the support rows $H,Q,L,N$.
+
+Use the transport row $H$ componentwise. A transported prefix remains a displayed prefix of the transported finite tree, a transported dyadic interval remains the corresponding $\DyadicRatCoreUp$ window, and the stream-name, regular readback, real-seal, tree-law, and Cantor-cylinder rows are transported with the same finite index in $W$.
+
+Use the continuation row $Q$ to replay the same read after transport. The replay starts from the displayed prefix window and reaches only the displayed rows $I,S,R,A,K,C$; it cannot create an infinite branch, select a representative stream, or insert a completion theorem.
+
+Therefore finite window transport preserves exactly the visible dyadic-prefix data and its consumer-facing obligations. The result is the window stability needed by $\RegularCauchySpreadUp$ and $\RegularSequenceSpaceUp$ consumers, while the chapter remains a finite NameCert packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicSpreadUp$ consumer read is determined by a displayed finite prefix window. A read that selects an infinite branch, imports countable choice, or uses ambient $\RealUp$ completeness is not a valid read of the carrier of \autoref{def:dyadic-spread-carrier}.}
+
+\independenceWitness{regular-cauchy-spread, regular-sequence-space, dyadic-interval-net, kleene-tree, cantor-space: $\DyadicSpreadUp$ is not bijective to any listed sibling because it stores the finite dyadic-prefix spread law together with stream-name, regular readback, real-seal, tree-law, and cylinder consumer rows in one packet.}
+
+\closureat{DyadicSpreadUp}{seedStr}
+
+\begin{closurestatus}{\DyadicSpreadUp}
+  \constructivestory{A $\DyadicSpreadUp$ packet is generated from a finite prefix tree, displayed dyadic windows, DyadicRatCore interval rows, StreamName windows, RegSeqRat readback, a Real seal boundary, KleeneTree spread-law checks, CantorSpace cylinders, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-spread-carrier} and \autoref{thm:dyadic-spread-window-stability} seed the finite dyadic-prefix spread route over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\KleeneTreeUp$, and $\CantorSpaceUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not select an infinite branch, prove bar induction, close compactness, assert ambient real completeness, or provide Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite prefix-law exactness, dyadic window replay, regular readback, real-seal boundary, cylinder stability, provenance accounting, and non-escape for the same packet.}
+\end{closurestatus}
