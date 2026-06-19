@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedSpaceUp$}
+\label{ch:concrete-instances-bishop-located-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a Bishop-style located space is a metric object whose topology-facing and set-facing locatedness reads are exposed by finite means before completion or real-name consumers can inspect them. The $\BishopLocatedSpaceUp$ packet records this interface on the L10 topology, metric, completion, and Real route of \autoref{sec:roadmap-l10-topology-metric-completion-real}. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the topology source of \autoref{ch:concrete-instances-topology-namecert}, the located-subset sibling \autoref{ch:concrete-instances-locatedset-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names only the displayed finite locatedness route; it does not add quotient completion, selected nearest points, open-cover compactness, real trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop located-space carrier]
+\label{def:bishop-located-space-carrier}
+A $\BishopLocatedSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,T,L,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row, including the point classifier, distance witness, and finite point-observation histories from which locatedness requests are opened.
+\item $T$ is the $\TopologyUp$ source row, recording the displayed open-neighbourhood interface consumed by topology-facing readers of the same point observations.
+\item $L$ is the $\LocatedSetUp$ locatedness row. It ties each admitted set or source family to the finite distance interface of \autoref{ch:concrete-instances-locatedset-namecert}.
+\item $Q$ is the $\RegSeqRatUp$ readback row, packaging the rational comparison windows for metric distances, located-set distances, and topology-neighbourhood radii.
+\item $E$ is the $\RealUp$ seal row exposed only after the metric, topology, located-set, and regular-rational rows have all been displayed.
+\item $H$ stores componentwise $\hsame$ transport for $M,T,L,Q,E$ and for the structural certificate rows.
+\item $C$ stores displayed $\Cont$ replay from metric point observations to topology neighbourhoods, located-set requests, regular rational readback, and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedSpaceUp$, $\MetricUp$, $\TopologyUp$, $\LocatedSetUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,T,L,Q,E,H,C,P,N$. It has no coordinate for quotient completion, selected nearest points, open-cover compactness, real trichotomy, countable choice, host equality of points, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BishopLocatedSpace NameCert obligations]
+\label{thm:bishop-located-space-namecert-obligations}
+For every accepted $\BishopLocatedSpaceUp$ carrier
+$$
+B=(M,T,L,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopLocatedSpaceUp}$ surface is exhausted by five obligation rows:
+\begin{enumerate}
+\item metric-source admission for the displayed $\MetricUp$ point classifier, distance witness, and finite observation histories in $M$;
+\item topology compatibility for the $\TopologyUp$ neighbourhood row $T$, requiring each topology-facing read to remain attached to the same metric observations;
+\item located-set exactness for $L$, requiring every locatedness request to pass through the $\LocatedSetUp$ distance interface before a set-facing distance is exported;
+\item regular-rational and Real readback for $Q$ and $E$, requiring every rational comparison window to be sealed as $\RealUp$ only after $\RegSeqRatUp$ readback is visible;
+\item structural replay for $H,C,P,N$, requiring componentwise transport, displayed continuation, package provenance, and local naming to preserve exactly the same rows.
+\end{enumerate}
+No obligation row may call on quotient completion, selected nearest points, open-cover compactness, trichotomy, countable choice, host point equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-located-space-carrier}. The metric row $M$, topology row $T$, located-set row $L$, regular rational row $Q$, Real seal row $E$, and structural rows $H,C,P,N$ are the only rows in the packet.
+
+The first three obligations bind the analytic source. A topology-facing read must use the neighbourhood interface $T$ over the same metric observations in $M$, and a set-facing locatedness read must use $L$ before any distance-to-set data are exported.
+
+The fourth obligation routes numerical data through $Q$ and $E$. Rational comparison windows become public only as regular rational readback, and the Real seal is exposed only after that readback is displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since the excluded completion, selection, compactness, trichotomy, choice, host-equality, and ambient-completeness principles have no coordinate in the carrier, the five rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BishopLocatedSpace metric-topology handoff]
+\label{thm:bishop-located-space-metric-topology-handoff}
+Every topology-facing or located-set-facing consumer of an accepted $\BishopLocatedSpaceUp$ carrier first reads the $\MetricUp$ row $M$, then the $\TopologyUp$ row $T$ or the $\LocatedSetUp$ row $L$, then the $\RegSeqRatUp$ row $Q$, and only then the $\RealUp$ seal row $E$. Thus the public handoff is the finite route
+$$
+M,T,L,Q \longmapsto E
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $B=(M,T,L,Q,E,H,C,P,N)$. The carrier definition gives no direct route from a topology or set consumer to $E$; every read begins with the metric observations in $M$.
+
+If the consumer asks for a neighbourhood read, the route uses $T$ over the same point observations. If it asks for a located-set distance, the route uses $L$, whose sibling interface is fixed by \autoref{ch:concrete-instances-locatedset-namecert}.
+
+Both cases then pass through $Q$. The regular rational row is the only row that packages the finite comparison windows used by the metric, topology, and located-set reads.
+
+The Real seal $E$ is therefore downstream of $M,T,L,Q$, and $H,C,P,N$ preserve this order under transport, replay, provenance, and naming. No host equality, quotient completion, or selected endpoint can bypass the displayed handoff.
+\end{proof}
+
+\begin{theorem}[BishopLocatedSpace Real readback nonescape]
+\label{thm:bishop-located-space-real-readback-nonescape}
+The $\RealUp$ readback exported by an accepted $\BishopLocatedSpaceUp$ packet is reachable only through $M,T,L,Q,E,H,C,P,N$. A Real-facing consumer receives the displayed metric source, topology interface, located-set distance route, regular rational readback, terminal Real seal, componentwise transport, displayed continuation, package provenance, and local NameCert row; it receives no quotient completion, selected nearest point, open-cover compactness, real trichotomy, countable choice, host point equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The only Real-facing coordinate is $E$. By \autoref{def:bishop-located-space-carrier}, $E$ is paired with $Q$, and $Q$ is paired with the metric row $M$, topology row $T$, and located-set row $L$.
+
+Apply \autoref{thm:bishop-located-space-namecert-obligations}. The five local obligation rows require metric-source admission, topology compatibility, located-set exactness, regular-rational and Real readback, and structural replay before the Real seal is public.
+
+Apply \autoref{thm:bishop-located-space-metric-topology-handoff}. It identifies $M,T,L,Q$ as the displayed handoff route to $E$.
+
+Thus every Real readback remains inside the finite carrier. Since the packet contains no excluded quotient, selection, compactness, trichotomy, choice, host-equality, or ambient-completeness coordinate, none of those principles can escape through the Real seal.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\BishopLocatedSpaceUp$ consumer that reaches a Real-facing locatedness read while bypassing the metric source, topology row, located-set row, RegSeqRat readback, Real seal, transport, replay, provenance, or local NameCert row refutes the carrier surface.}
+
+\independenceWitness{metric, topology, locatedset, regseqrat, real: $\BishopLocatedSpaceUp$ is not bijective to any listed sibling because it jointly carries a metric source, topology interface, located-set distance route, regular rational readback, Real seal, componentwise transport, continuation replay, package provenance, and local NameCert registration as one Bishop-style located-space packet.}
+
+\begin{closurestatus}{\BishopLocatedSpaceUp}
+  \constructivestory{A $\BishopLocatedSpaceUp$ packet is generated from a Metric source, Topology neighbourhood interface, LocatedSet distance route, RegSeqRat readback, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-space-carrier}, \autoref{thm:bishop-located-space-namecert-obligations}, \autoref{thm:bishop-located-space-metric-topology-handoff}, and \autoref{thm:bishop-located-space-real-readback-nonescape} seed the Bishop-style finite locatedness route over Metric, Topology, LocatedSet, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected nearest points, open-cover compactness, real trichotomy, countable choice, host point equality, ambient Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, topology compatibility, located-set exactness, regular rational readback, Real-seal nonescape, transport replay, and local NameCert coverage for BEDC.Derived.BishopLocatedSpaceUp.}
+\end{closurestatus}
