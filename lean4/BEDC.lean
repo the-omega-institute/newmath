@@ -2969,6 +2969,7 @@ import BEDC.Derived.CompactFunctionAlgebraUp
 import BEDC.Derived.CompactGraphContinuityUp.TasteGate
 import BEDC.Derived.CompactImageClosedUp.TasteGate
 import BEDC.Derived.CompactIntervalChoiceSequenceUp.TasteGate
+import BEDC.Derived.CompactIntervalFixedPointUp.NameCertObligations
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalIntermediateValueUp
 import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
@@ -5385,7 +5386,6 @@ import BEDC.Derived.FilterBaseUp.TasteGate
 import BEDC.Derived.FilterCompletionMonadUp.TasteGate
 import BEDC.Derived.FilterCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
-import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
 import BEDC.Derived.FilterLimitCriterionUp
 import BEDC.Derived.FilterRefinementUp.CauchyBaseDependency
