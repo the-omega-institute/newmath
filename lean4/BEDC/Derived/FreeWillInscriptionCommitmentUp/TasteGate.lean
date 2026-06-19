@@ -223,6 +223,64 @@ instance freeWillInscriptionCommitmentChapterTasteGate :
     intro x y hxy heq
     exact hxy (freeWillInscriptionCommitmentToEventFlow_injective heq)
 
+def freeWillInscriptionCommitmentFields :
+    FreeWillInscriptionCommitmentUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | FreeWillInscriptionCommitmentUp.mk priorBoundary inscriptionEvent gapProvenance
+      classifierTransport nonReduction transports routes package nameCert =>
+      [priorBoundary, inscriptionEvent, gapProvenance, classifierTransport, nonReduction,
+        transports, routes, package, nameCert]
+
+private theorem freeWillInscriptionCommitment_field_faithful :
+    ∀ x y : FreeWillInscriptionCommitmentUp,
+      freeWillInscriptionCommitmentFields x = freeWillInscriptionCommitmentFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk priorBoundary₁ inscriptionEvent₁ gapProvenance₁ classifierTransport₁ nonReduction₁
+      transports₁ routes₁ package₁ nameCert₁ =>
+      cases y with
+      | mk priorBoundary₂ inscriptionEvent₂ gapProvenance₂ classifierTransport₂ nonReduction₂
+          transports₂ routes₂ package₂ nameCert₂ =>
+          injection h with hPrior tail₁
+          injection tail₁ with hInscription tail₂
+          injection tail₂ with hGap tail₃
+          injection tail₃ with hClassifier tail₄
+          injection tail₄ with hNonReduction tail₅
+          injection tail₅ with hTransports tail₆
+          injection tail₆ with hRoutes tail₇
+          injection tail₇ with hPackage tail₈
+          injection tail₈ with hNameCert _
+          subst hPrior
+          subst hInscription
+          subst hGap
+          subst hClassifier
+          subst hNonReduction
+          subst hTransports
+          subst hRoutes
+          subst hPackage
+          subst hNameCert
+          rfl
+
+instance freeWillInscriptionCommitmentFieldFaithful :
+    FieldFaithful FreeWillInscriptionCommitmentUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := freeWillInscriptionCommitmentFields
+  field_faithful := freeWillInscriptionCommitment_field_faithful
+
+instance freeWillInscriptionCommitmentNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial FreeWillInscriptionCommitmentUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨FreeWillInscriptionCommitmentUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FreeWillInscriptionCommitmentUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        injection h with hPrior _ _ _ _ _ _ _ _
+        cases hPrior⟩
+
 theorem FreeWillInscriptionCommitmentTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       freeWillInscriptionCommitmentDecodeBHist
