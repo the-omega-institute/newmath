@@ -1,4 +1,4 @@
-import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
+import BEDC.Derived.AuditMapObstructionSocketUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
