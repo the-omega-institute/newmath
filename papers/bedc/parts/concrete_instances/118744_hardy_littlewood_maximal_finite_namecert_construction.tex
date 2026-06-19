@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\HardyLittlewoodMaximalFiniteUp$}
+\label{ch:concrete-instances-hardy-littlewood-maximal-finite-namecert}
+\origin{human}
+
+Following Hardy--Littlewood and Bishop--Bridges finite covering practice, the $\HardyLittlewoodMaximalFiniteUp$ packet records the weak-window maximal-function route in which every local average, threshold comparison, and covering handoff is displayed by finite data. It is a finite-window sibling of \autoref{ch:concrete-instances-hardy-littlewood-maximal-namecert}, with covering reads through \autoref{ch:concrete-instances-vitali-covering-lemma-namecert}, finite-net reads through \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, dyadic threshold reads through \autoref{ch:concrete-instances-dyadicratcore-namecert}, and terminal numerical sealing through \autoref{ch:concrete-instances-real-namecert}. The packet refuses sigma-measure, host measurable functions, choice-selected level sets, quotient level sets, ambient integration completeness, and any selected supremum outside the finite window ledger.
+
+\begin{definition}[Hardy-Littlewood finite weak-window carrier]
+\label{def:hardy-littlewood-maximal-finite-carrier}
+A $\HardyLittlewoodMaximalFiniteUp$ carrier is a finite $\BHist$ packet
+$$
+W=(X,I,B,D,A,T,V,F,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the finite metric-source row. It records the inspected points, displayed distance reads, and the finite ambient window in which all later probes live.
+\item $I$ is the finite interval-window row. It stores bounded interval names, endpoint comparisons, and the membership probes that allow an interval read to be replayed without a host measurable set.
+\item $B$ is the finite ball-window row. Each ball record stores a center, a positive radius witness, the inspected membership probes, and the inclusion comparisons with the interval windows in $I$.
+\item $D$ is the $\DyadicRatCoreUp$ threshold row. It stores the dyadic level $\lambda$, dyadic tolerance budgets, and the rational comparison witnesses used by the weak-level ledger.
+\item $A$ is the local-average row. For every displayed interval or ball window it records the finite summation route, denominator witness, and comparison against the dyadic threshold from $D$.
+\item $T$ is the weak-level trace row. It records exactly which displayed windows have local average above the dyadic threshold and keeps the witness tied to $A$ and $D$.
+\item $V$ is the $\VitaliCoveringLemmaUp$ finite cover row. It records the selected disjoint finite subfamily, the finite overlap budget, and the cover cells used to dominate the weak-level trace.
+\item $F$ is the $\FiniteEpsilonNetUp$ finite-net row. It records the tolerance-visible net cells that make the cover route compact and finite before any weak-level output is exported.
+\item $G$ is the weak-window ledger. It stores the finite list of covered threshold windows, their dyadic weight comparisons, and the resulting weak-type bound as a displayed ledger row rather than a measure-theoretic inequality.
+\item $E$ is the $\RealUp$ seal row. It exposes only the real-name windows reached from $A,D,G$.
+\item $H$ records componentwise $\hsame$ transport for source, interval, ball, threshold, average, weak trace, cover, finite-net, ledger, seal, replay, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\HardyLittlewoodMaximalUp,\ \VitaliCoveringLemmaUp,\ \FiniteEpsilonNetUp,\ \DyadicRatCoreUp,\ \RealUp,\ \BHist
+\longmapsto
+\HardyLittlewoodMaximalFiniteUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\HardyLittlewoodMaximalFiniteUp$, $\HardyLittlewoodMaximalUp$, $\VitaliCoveringLemmaUp$, $\FiniteEpsilonNetUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HardyLittlewoodMaximalFiniteUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these fourteen rows. Its classifier compares accepted packets only through $X,I,B,D,A,T,V,F,G,E,H,C,P,N$ and has no coordinate for sigma-measure, host measurable functions, choice, quotient level sets, ambient integration completeness, a selected supremum, or an infinite covering family.
+\end{definition}
+
+\begin{theorem}[Hardy-Littlewood finite weak-window NameCert obligations]
+\label{thm:hardy-littlewood-maximal-finite-namecert-obligations}
+For an accepted $\HardyLittlewoodMaximalFiniteUp$ carrier
+$$
+W=(X,I,B,D,A,T,V,F,G,E,H,C,P,N),
+$$
+the local $\NameCert_{\HardyLittlewoodMaximalFiniteUp}$ surface consists exactly of carrier admission for the finite metric source, finite interval windows, finite ball windows, dyadic thresholds, local-average rows, weak-level trace, Vitali finite-cover row, finite-net row, weak-window ledger, real seal, componentwise transport, displayed replay, package provenance, and local naming. Every weak-level read must inspect $D,A,T,V,F,G$ in that order, and no obligation is discharged by sigma-measure, host measurable functions, choice, quotient level sets, ambient integration completeness, selected suprema, or infinite covering families.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hardy-littlewood-maximal-finite-carrier}. The projection exposes exactly the source row $X$, interval row $I$, ball row $B$, threshold row $D$, average row $A$, weak trace $T$, cover row $V$, finite-net row $F$, ledger row $G$, seal row $E$, and structural rows $H,C,P,N$.
+
+The weak-level route is ordered by the rows themselves. A threshold comparison must first read the dyadic data in $D$ and the matching local-average record in $A$; only then can the trace row $T$ mark a displayed window as above the threshold.
+
+The cover step is also finite. The Vitali row $V$ supplies a selected disjoint finite subfamily, the finite-net row $F$ supplies the tolerance-visible compact handoff, and the weak-window ledger $G$ records the finite bound exported to consumers.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same finite route. Since the carrier contains no row for sigma-measure, host measurable functions, choice, quotient level sets, ambient integration completeness, selected suprema, or infinite covering families, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hardy-Littlewood finite weak-window bound]
+\label{thm:hardy-littlewood-maximal-finite-weak-window}
+Every accepted $\HardyLittlewoodMaximalFiniteUp$ packet exports a weak-window ledger only along the finite route
+$$
+\DyadicRatCoreUp,\ A,\ T,\ \VitaliCoveringLemmaUp,\ \FiniteEpsilonNetUp,\ G,\ \RealUp .
+$$
+Thus a consumer receives a finite dyadic threshold ledger for displayed interval and ball windows, not a sigma-measure statement, a host measurable-function theorem, a choice-selected level set, a quotient level-set object, or an ambient integration-completeness assertion.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for a weak-level read. By \autoref{thm:hardy-littlewood-maximal-finite-namecert-obligations}, the request must inspect the dyadic threshold row $D$, the local-average row $A$, and the weak trace $T$ before any cover ledger can be read.
+
+The cover route then passes through $V$ and $F$. The Vitali covering row supplies only a disjoint finite subfamily and finite overlap budget, while the finite-net row supplies only tolerance-visible compact cells.
+
+The output row $G$ records the weak-window ledger over those displayed cells, and $E$ seals the numerical read as a $\RealUp$ window. Componentwise transport, displayed replay, provenance, and local naming preserve that route without adding measure, choice, quotient, integration-completeness, selected-supremum, or infinite-family data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HardyLittlewoodMaximalFiniteUp$ read displays one finite metric-source row, one finite interval-window row, one finite ball-window row, one DyadicRatCoreUp threshold row, one local-average row, one weak-level trace, one VitaliCoveringLemmaUp finite-cover row, one FiniteEpsilonNetUp finite-net row, one weak-window ledger, one RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{hardy-littlewood-maximal, vitali-covering-lemma, finite-epsilon-net, dyadicratcore, real: $\HardyLittlewoodMaximalFiniteUp$ is not bijective to any listed sibling because it jointly carries finite interval and ball windows, dyadic thresholds, local averages, weak-level traces, finite cover rows, finite-net handoffs, weak-window ledger rows, real sealing, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{HardyLittlewoodMaximalFiniteUp}{seedStr}
+
+\begin{closurestatus}{\HardyLittlewoodMaximalFiniteUp}
+  \constructivestory{A $\HardyLittlewoodMaximalFiniteUp$ packet is generated from finite metric-source data, interval windows, ball windows, dyadic thresholds, local-average rows, weak-level traces, finite Vitali-cover rows, finite-net rows, a weak-window ledger, Real sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hardy-littlewood-maximal-finite-carrier}, \autoref{thm:hardy-littlewood-maximal-finite-namecert-obligations}, and \autoref{thm:hardy-littlewood-maximal-finite-weak-window} seed the finite weak-window maximal-function carrier and obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close sigma-measure, host measurable functions, choice-selected level sets, quotient level sets, ambient integration completeness, selected suprema, infinite covering families, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic-threshold exactness, local-average replay, weak-trace exactness, finite-cover discipline, finite-net handoff, ledger non-escape, real sealing, transport, replay, provenance, and local naming for BEDC.Derived.HardyLittlewoodMaximalFiniteUp.}
+\end{closurestatus}
