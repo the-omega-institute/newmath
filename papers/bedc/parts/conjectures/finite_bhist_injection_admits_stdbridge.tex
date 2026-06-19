@@ -152,6 +152,18 @@ Thus the packet refutes the overstrong landing form that omits readback from the
 A finite $\BHist$ injection readback gap is a recognizer-side packet that displays recognizer acceptance through $\GroundCompilerRecognizerFlowUp$, generated-recognizer mediation, certificate-gate admission, and finite tuple extraction through $\FiniteReflectionTupleUp$, but displays no $\BHist$ component readback row for the extracted tuple components. Such a packet has not displayed componentwise $\hsame$ or $\NameCert$ transport through component reads and has not reached the $\ChapterTasteGate$ row of the seven-row landing test.
 \end{definition}
 
+\begin{theorem}[Finite BHist injection open kernel sharp restatement]
+\label{thm:finite-bhist-injection-open-kernel-sharp-restatement}
+Mode: restate. Any proposed $\StdBridge$ for the finite $\BHist$ injection recognizer surface must expose a row-level map from recognizer evidence to carrier evidence: recognizer acceptance, generated-recognizer mediation, certificate-gate admission, finite tuple extraction, $\BHist$ component readback, componentwise $\hsame$ and $\NameCert$ transport, and the $\ChapterTasteGate$ row must all be displayed before the fixed tuple route is tested. If the packet is a readback gap in the sense of \autoref{def:finite-bhist-injection-readback-gap}, then the bridge request is refused at the kernel-row surface rather than evaluated as a $\StdBridge$ instance.
+\end{theorem}
+\begin{proof}
+Read the recognizer-side landing list in \autoref{conj:finite-bhist-injection-recognizer-to-carrier}. It is already a row-level map from recognizer evidence to carrier evidence: the recognizer-flow rows precede finite tuple extraction, and the extracted tuple becomes carrier-facing only after component readback and componentwise transport are displayed.
+
+Now apply the sharp obstruction theorem, \autoref{thm:finite-bhist-injection-recognizer-to-carrier-sharp-obstruction}. A packet with recognizer acceptance, certificate-gate admission, and tuple extraction but without component readback has not reached the fixed tuple route. The readback refutation row, \autoref{thm:finite-bhist-injection-readback-refutation}, assigns such a packet only to the omitted-readback failure surface.
+
+Finally unpack \autoref{def:finite-bhist-injection-readback-gap} and use \autoref{thm:finite-bhist-injection-readback-gap-refutes-bridge}. The gap displays exactly the missing-row obstruction: no $\BHist$ component readback, no componentwise $\hsame$ or $\NameCert$ transport through component reads, and no $\ChapterTasteGate$ landing. Therefore the proposed bridge is refused before the standard bridge comparison is formed, and the conjecture status is left unchanged.
+\end{proof}
+
 \begin{theorem}[Finite BHist injection readback gap refutes only omitted-readback bridges]
 \label{thm:finite-bhist-injection-readback-gap-refutes-bridge}
 Mode: refute. A finite $\BHist$ injection readback gap refutes only bridge requests that omit $\BHist$ component readback from the recognizer landing surface. It does not refute the weakened seven-row landing test of \autoref{conj:finite-bhist-injection-recognizer-to-carrier}, does not refute the fixed-tuple route of \autoref{conj:finite-bhist-injection-admits-stdbridge}, and does not prove a $\StdBridge$ theorem.
