@@ -950,6 +950,7 @@ import BEDC.Derived.BishopLocatedLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedMaximumUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
+import BEDC.Derived.BishopLocatedRealFilterUp.TasteGate
 import BEDC.Derived.BishopLocatedRootUp.TasteGate
 import BEDC.Derived.BishopLocatedUniformConvergenceUp.TasteGate
 import BEDC.Derived.BishopMetricCompletionUp.TasteGate
@@ -6092,6 +6093,7 @@ import BEDC.Derived.HistTimeStreamUp.TasteGate
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.HistoryPrefixUp.TasteGate
 import BEDC.Derived.HitMissConvergenceUp
+import BEDC.Derived.HoarePowerdomainUp
 import BEDC.Derived.HochsterNerveBettiReductionUp.NameCertObligations
 import BEDC.Derived.HochsterNerveBettiReductionUp.TasteGate
 import BEDC.Derived.HodgeBridgeUp
@@ -9585,6 +9587,7 @@ import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
 import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.BilinearWindow
+import BEDC.Derived.RegularCauchyProductBudgetUp.FalsifiablePrediction
 import BEDC.Derived.RegularCauchyProductBudgetUp.NameCertObligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.ObligationScope
 import BEDC.Derived.RegularCauchyProductBudgetUp.Obligations
