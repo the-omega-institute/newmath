@@ -116,12 +116,24 @@ Project the accepted carrier $K=(X,L,F,A,H,C,P,N)$. The carrier definition lists
 Use the obligation and handoff theorems cited above. They identify the finite-net, locatedness, Real-window, and structural support read by compact and Real-facing consumers. Since no additional row occurs in the carrier, the public export surface is exhausted by those displayed rows and none of the excluded compactness or completeness principles is exported.
 \end{proof}
 
-\closureat{LocatedCompactUp}{publicStr}[BEDC.Derived.LocatedCompactUp.LocatedCompactNameCertObligations]
+\begin{theorem}[LocatedCompact mature finite-net consumer boundary]
+\label{thm:located-compact-mature-consumer-boundary}
+The mature public consumer boundary of an accepted $\LocatedCompactUp$ carrier is exactly the finite $\mathsf{ProbeBundle}$ net row, locatedness comparison row, apartness and separatedness support, $\StreamNameUp$ windows, terminal $\RealUp$ seal handoff, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row displayed by \autoref{def:located-compact-carrier}. A mature consumer may compose these rows with the TotallyBounded, HausdorffCompletion, ApartnessReal, StreamName, and Real sibling routes, but it receives no open-cover compactness theorem, selected finite subcover, quotient compactum, host choice principle, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Combine the public finite-net boundary of \autoref{thm:located-compact-public-finite-net-boundary} with the public export surface of \autoref{thm:locatedcompact-public-export-surface}. These two surfaces expose the same rows $F,L,A,H,C,P,N$ together with the finite stream windows and terminal real seal route.
+
+The mature consumer has no additional carrier coordinate beyond those rows. Thus any compactness-facing or Real-facing read must pass through the displayed net, locatedness, apartness, separatedness, stream-window, seal, transport, replay, provenance, and local naming data before reaching a sibling route.
+
+Since the carrier has no row for open covers, selected subcovers, quotient compacta, host choice, or ambient completeness, none of those principles can be exported by the mature boundary.
+\end{proof}
+
+\closureat{LocatedCompactUp}{matureStr}[BEDC.Derived.LocatedCompactUp.LocatedCompactNameCertObligations]
 
 \begin{closurestatus}{\LocatedCompactUp}
   \constructivestory{A $\LocatedCompactUp$ packet is generated from a compact carrier row, a locatedness test row, a finite $\mathsf{ProbeBundle}$ net witness, an apartness and separatedness row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:located-compact-carrier}, \autoref{thm:located-compact-namecert-obligations}, \autoref{thm:located-compact-totally-bounded-handoff}, \autoref{thm:located-compact-net-obligation-package}, \autoref{thm:located-compact-real-window-handoff}, \autoref{thm:located-compact-public-finite-net-boundary}, and \autoref{thm:locatedcompact-public-export-surface} give the public finite-net boundary bridged through the TotallyBounded, HausdorffCompletion, ApartnessReal, StreamName, and Real sibling routes.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:located-compact-carrier}, \autoref{thm:located-compact-namecert-obligations}, \autoref{thm:located-compact-totally-bounded-handoff}, \autoref{thm:located-compact-net-obligation-package}, \autoref{thm:located-compact-real-window-handoff}, \autoref{thm:located-compact-public-finite-net-boundary}, \autoref{thm:locatedcompact-public-export-surface}, and \autoref{thm:located-compact-mature-consumer-boundary} give the mature finite-net consumer boundary through the TotallyBounded, HausdorffCompletion, ApartnessReal, StreamName, and Real sibling routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, Heine--Borel as a general theorem, quotient compacta, host choice, ambient completeness, Lean verification, or bridge checking.}
