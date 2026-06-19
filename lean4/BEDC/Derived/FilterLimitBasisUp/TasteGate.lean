@@ -406,4 +406,38 @@ theorem FilterLimitBasisCauchyFilterCompletionHandoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, completionUnary, limitUnary, realUnary, structuralUnary⟩
 
+theorem FilterLimitBasisCarrier_ledger_refusal [AskSetup] [PackageSetup]
+    {Q F L W R D E H C P N completionBasis limitRoute realRoute structuralRead
+      refusalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FilterLimitBasisCarrier Q F L W R D E H C P N bundle pkg →
+      Cont Q F completionBasis →
+        Cont completionBasis L limitRoute →
+          Cont limitRoute E realRoute →
+            Cont H C structuralRead →
+              Cont structuralRead N refusalRead →
+                UnaryHistory Q ∧ UnaryHistory F ∧ UnaryHistory L ∧ UnaryHistory E ∧
+                  UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory N ∧
+                    UnaryHistory completionBasis ∧ UnaryHistory limitRoute ∧
+                      UnaryHistory realRoute ∧ UnaryHistory structuralRead ∧
+                        UnaryHistory refusalRead ∧ hsame H N := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory hsame
+  intro carrier qf completionLimit limitReal hc refusalRoute
+  obtain
+    ⟨qUnary, fUnary, lUnary, _wUnary, _rUnary, _dUnary, eUnary, hUnary, cUnary,
+      _pUnary, nUnary, sameHN, _carrierPkg⟩ := carrier
+  have completionUnary : UnaryHistory completionBasis :=
+    unary_cont_closed qUnary fUnary qf
+  have limitUnary : UnaryHistory limitRoute :=
+    unary_cont_closed completionUnary lUnary completionLimit
+  have realUnary : UnaryHistory realRoute :=
+    unary_cont_closed limitUnary eUnary limitReal
+  have structuralUnary : UnaryHistory structuralRead :=
+    unary_cont_closed hUnary cUnary hc
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed structuralUnary nUnary refusalRoute
+  exact
+    ⟨qUnary, fUnary, lUnary, eUnary, hUnary, cUnary, nUnary, completionUnary,
+      limitUnary, realUnary, structuralUnary, refusalUnary, sameHN⟩
+
 end BEDC.Derived.FilterLimitBasisUp
