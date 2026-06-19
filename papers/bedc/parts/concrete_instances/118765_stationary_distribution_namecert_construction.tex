@@ -1,0 +1,153 @@
+\chapter{A Concrete Naming Certificate for $\StationaryDistributionUp$}
+\label{ch:concrete-instances-stationary-distribution-namecert}
+\origin{human}
+
+Following Kemeny--Snell finite Markov-chain terminology, the
+$\StationaryDistributionUp$ packet records an invariant law for a displayed
+finite transition matrix. It sits downstream of the transition-packet surface
+of \autoref{ch:concrete-instances-markovchain-namecert}, the probability
+measure rows of \autoref{ch:concrete-instances-probspace-namecert} and
+\autoref{ch:concrete-instances-distribution-namecert}, the finite matrix
+carrier of \autoref{ch:concrete-instances-matrix-namecert}, and the scalar
+seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the
+finite invariant-law surface only; it is not an ergodic theorem, limiting
+distribution theorem, Perron--Frobenius argument, or host stochastic-process
+construction.
+
+\begin{definition}[Stationary distribution carrier]
+\label{def:stationary-distribution-carrier}
+A $\StationaryDistributionUp$ carrier is a finite $\BHist$ packet
+$$
+\Pi=(S,M,\pi,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite state ledger over a displayed $\ProbSpaceUp$ source.
+\item $M$ is the $\MatrixUp$ transition row whose entries are nonnegative
+$\RealUp$ scalars and whose displayed rows sum to the probability unit.
+\item $\pi$ is the $\DistributionUp$ law row on the same finite state ledger.
+\item $L$ is the finite left-invariance ledger recording the row equations
+$$
+\pi_j=\sum_{i\in S}\pi_i M_{ij}
+$$
+for every displayed state $j$.
+\item $E$ records the endpoint compatibility between the transition row, the
+probability source, and the displayed law row.
+\item $H$ records componentwise $\hsame$ transport for $S,M,\pi,L,E$ and the
+local naming row.
+\item $C$ records displayed $\Cont$ replay from the Markov transition packet
+through the matrix row and invariant-law equations.
+\item $P$ is the $\Pkg$ provenance over $\StationaryDistributionUp$,
+$\MarkovChainUp$, $\ProbSpaceUp$, $\DistributionUp$, $\MatrixUp$, $\RealUp$,
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\StationaryDistributionUp}$ row.
+\end{enumerate}
+The carrier exports no convergence rate, recurrence classifier, irreducibility
+argument, uniqueness proof, host limiting law, countable-choice selector, or
+standard Markov-kernel bridge.
+\end{definition}
+
+\begin{theorem}[Stationary distribution NameCert obligations]
+\label{thm:stationary-distribution-namecert-obligations}
+For the carrier of \autoref{def:stationary-distribution-carrier}, the local
+$\NameCert_{\StationaryDistributionUp}$ surface consists exactly of carrier
+admission for $\Pi=(S,M,\pi,L,E,H,C,P,N)$, finite state exposure through $S$,
+transition-matrix admission through $M$, invariant-law admission through
+$\pi$, finite left-invariance equations through $L$, endpoint compatibility
+through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$
+replay through $C$, $\Pkg$ provenance through $P$, and local naming through
+$N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its coordinates display the finite state ledger, matrix
+transition row, law row, invariance equations, endpoint compatibility,
+transport, replay, provenance, and local name.
+
+The dependency certificates account for the data-bearing rows. The
+$\ProbSpaceUp$ row supplies the source ledger, $\MatrixUp$ supplies the finite
+transition entries, $\RealUp$ supplies the scalar seals, and
+$\DistributionUp$ supplies the law row $\pi$.
+
+The remaining rows transport, replay, source, and name the same finite data.
+Since the carrier contains no convergence, recurrence, uniqueness, limiting,
+choice, or standard-kernel coordinate, the listed rows exhaust the local
+NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Stationary distribution invariance scope]
+\label{thm:stationary-distribution-invariance-scope}
+Every invariant-law read of an accepted $\StationaryDistributionUp$ carrier
+factors through the finite route
+$$
+S,M,\pi,L,E,H,C,P,N.
+$$
+The read inspects the finite $\MatrixUp$ transition row and the
+$\DistributionUp$ law row before it can use the equations in $L$, and those
+equations are interpreted only through the displayed $\RealUp$ scalar seals
+and the shared $\ProbSpaceUp$ state ledger.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows $S,M,\pi$. They fix the finite state ledger, the
+transition matrix, and the law whose invariance is being certified.
+
+Next read the equation ledger $L$. Each displayed equation has endpoints in
+the same finite state ledger and uses only the transition entries and law
+weights already exposed by $M$ and $\pi$.
+
+Finally pass through $E,H,C,P,N$. These rows keep the endpoint compatibility,
+transport, replay, provenance, and naming attached to the same finite route.
+Thus an invariant-law consumer has no alternate path through a host chain,
+limiting distribution, or uniqueness theorem.
+\end{proof}
+
+\begin{theorem}[Stationary distribution Markov consumer handoff]
+\label{thm:stationary-distribution-markov-consumer-handoff}
+Whenever a $\MarkovChainUp$ transition packet consumes an accepted
+$\StationaryDistributionUp$ carrier, the handoff reads the displayed finite
+state ledger $S$, transition row $M$, invariant law $\pi$, invariance ledger
+$L$, endpoint row $E$, and structural rows $H,C,P,N$. The consumer may treat
+$\pi$ as a stationary law for the displayed finite transition packet, but it
+does not receive a convergence theorem, recurrence decomposition,
+irreducibility witness, uniqueness classifier, or standard Markov-kernel
+object.
+\end{theorem}
+\begin{proof}
+Use the Markov transition-packet source boundary from
+\autoref{thm:markovchain-probspace-randomvar-source-boundary}. It keeps the
+probability source, random-variable rows, distribution laws, and transition
+rows inside the displayed $\MarkovChainUp$ packet.
+
+Attach the stationary carrier along the common finite transition row. The
+matrix row $M$ supplies the finite transition entries, while $\pi$ and $L$
+record the invariant law and its finite equations over the same state ledger.
+
+The structural rows then replay the handoff without adding host stochastic
+process data. Since neither carrier contains a convergence, recurrence,
+irreducibility, uniqueness, or standard-kernel coordinate, the Markov consumer
+receives exactly the displayed stationary-law surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\StationaryDistributionUp$ packet
+exposes a finite invariant-law equation ledger over a displayed transition
+matrix and exports no convergence, recurrence, irreducibility, uniqueness, or
+host limiting-law coordinate.}
+
+\independenceWitness{markovchain, distribution, probspace, matrix, real: no
+listed sibling is bijective to $\StationaryDistributionUp$ because this packet
+binds one finite transition matrix, one law row, and one left-invariance
+equation ledger in a single Markov-consumer handoff. The MarkovChain sibling
+lacks a distinguished invariant law; DistributionUp lacks transition
+equations; ProbSpaceUp lacks matrix dynamics; MatrixUp lacks probability-law
+admission; RealUp lacks the finite invariant-law route.}
+
+\closureat{StationaryDistributionUp}{seedStr}
+
+\begin{closurestatus}{\StationaryDistributionUp}
+  \constructivestory{A $\StationaryDistributionUp$ packet is generated from a finite state ledger, a transition MatrixUp row, a DistributionUp law row, a finite left-invariance equation ledger, endpoint compatibility, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stationary-distribution-carrier}, \autoref{thm:stationary-distribution-namecert-obligations}, \autoref{thm:stationary-distribution-invariance-scope}, and \autoref{thm:stationary-distribution-markov-consumer-handoff} seed the finite invariant-law surface over MarkovChain, ProbSpace, Distribution, Matrix, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim convergence to stationarity, recurrence decomposition, irreducibility, uniqueness, limiting distributions, standard Markov kernels, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, matrix stochasticity, invariant-law equation coverage, endpoint compatibility, and local NameCert registration for BEDC.Derived.StationaryDistributionUp.}
+\end{closurestatus}
