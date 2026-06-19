@@ -2599,6 +2599,7 @@ import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.ChernWeilUp.EnvelopeClassifier
 import BEDC.Derived.ChernWeilUp.NameCertObligationSurface
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
+import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.WindowRoute
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
 import BEDC.Derived.ChoiceFreeRealSealUp
 import BEDC.Derived.ChoiceFreeRegularCauchyModulusUp.TasteGate
@@ -4993,6 +4994,7 @@ import BEDC.Derived.ExtremeValueTheoremUp.TasteGate
 import BEDC.Derived.ExtremeValueUp.TasteGate
 import BEDC.Derived.FSigmaSetUp
 import BEDC.Derived.FaberSchauderSystemUp
+import BEDC.Derived.FableBranchWitnessUp
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
 import BEDC.Derived.FableClockOrderUp
 import BEDC.Derived.FableMachineBoundaryUp.TasteGate
@@ -8399,6 +8401,7 @@ import BEDC.Derived.PinGroupUp.ReflectionExtension
 import BEDC.Derived.PinGroupUp.RootScopedObligationPackage
 import BEDC.Derived.PixleyRoySpaceUp.TasteGate
 import BEDC.Derived.PoincareBoundaryFixedTransportUp.TasteGate
+import BEDC.Derived.PoincareDiskGeodesicProjectionUp.TasteGate
 import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
 import BEDC.Derived.PoincareInequalityUp
 import BEDC.Derived.PoincareInequalityUp.TasteGate
@@ -9629,6 +9632,7 @@ import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.NameCertObligations
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
 import BEDC.Derived.RegularCauchySeparationUp.ZeroDistanceReflection
+import BEDC.Derived.RegularCauchySequenceComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceSpaceUp
 import BEDC.Derived.RegularCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceUp
