@@ -62,6 +62,30 @@ Only after that read does the residual bisection row $B$ become available. The r
 The transport, continuation, provenance, and local naming rows preserve this order. Thus every accepted fixed-point read factors through the displayed route and has no bypass through a host fixed point or external equality principle.
 \end{proof}
 
+\begin{theorem}[CompactIntervalFixedPoint residual-bisection handoff]
+\label{thm:compact-interval-fixed-point-residual-bisection-handoff}
+Every accepted $\CompactIntervalFixedPointUp$ fixed-point read must expose, in order, the $\LocatedIntervalUp$ endpoint packet $J$, the $\ContinuousMapUp$ graph and modulus row $G$, the interval-return row $R$, the $\IntermediateValueBisectionUp$ residual-bisection row $B$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, and the $\RealUp$ seal row $E$ before the endpoint seal is public. Thus the public fixed-point seal is a residual-bisection handoff over displayed finite rows, not a host fixed-point existence assertion.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:compact-interval-fixed-point-carrier} lists the only rows from which an accepted read can be assembled. The NameCert obligations of \autoref{thm:compact-interval-fixed-point-namecert-obligations} require carrier admission, interval-return exactness, residual bisection, stream-window exposure, regular-rational readback, and real-seal nonescape.
+
+The route theorem \autoref{thm:compact-interval-fixed-point-interval-return-route} forces every candidate read through $J,G,R$ before $B$ can be consumed. The bisection row then supplies retained finite windows $W$, and those windows are the source for the regular readback row $Q$.
+
+Finally, \autoref{thm:compact-interval-fixed-point-real-seal-nonescape} makes $E$ reachable only after the displayed bisection, window, and readback rows have been exposed. Since the packet has no coordinate for a host fixed point, the public endpoint seal is exactly the listed finite handoff.
+\end{proof}
+
+\begin{theorem}[CompactIntervalFixedPoint window regularity]
+\label{thm:compact-interval-fixed-point-window-regularity}
+For every accepted $\CompactIntervalFixedPointUp$ carrier $F=(J,G,R,B,W,Q,E,H,C,P,N)$, each retained bisection window exposed by $B$ is consumed by the $\StreamNameUp$ window row $W$ before the $\RegSeqRatUp$ readback row $Q$ can be read. Componentwise $\hsame$ transport preserves this window/readback pairing through $H$, and displayed $\Cont$ replay preserves the same order through $C$. Hence no selected limit, host fixed point, or ambient real-completeness principle can bypass the window/readback route.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:compact-interval-fixed-point-carrier}. The interval-return route of \autoref{thm:compact-interval-fixed-point-interval-return-route} forces every fixed-point read through $J,G,R$ before the residual bisection row $B$ is available.
+
+Once $B$ has displayed the retained bisection window, the carrier offers only the window row $W$ as the next finite observation surface. The regular-rational row $Q$ is therefore a readback from the already exposed window data, not an independent limit selector.
+
+Transport and replay do not change this order. The row $H$ carries componentwise $\hsame$ evidence for the same $B,W,Q$ pairing, and $C$ replays the displayed route without adding a host fixed point or completed real. Thus every accepted read reaches the public seal only through the window/readback surface.
+\end{proof}
+
 \begin{theorem}[CompactIntervalFixedPoint Real-seal nonescape]
 \label{thm:compact-interval-fixed-point-real-seal-nonescape}
 The $\RealUp$ seal exported by an accepted $\CompactIntervalFixedPointUp$ packet is reachable only through $J,G,R,B,W,Q,E,H,C,P,N$. The packet exports no host fixed point, no open-cover compactness, no general Brouwer fixed-point theorem, no real trichotomy, no quotient stream equality, no selected limit, and no ambient completeness principle for $\RealUp$.
