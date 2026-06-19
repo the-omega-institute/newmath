@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\KirchhoffMatrixTreeUp$}
+\label{ch:concrete-instances-kirchhoff-matrix-tree-namecert}
+\origin{human}
+
+Following Kirchhoff's matrix-tree theorem, the $\KirchhoffMatrixTreeUp$ packet records the finite route that turns a graph incidence ledger into a Laplacian matrix, deletes one row and one column, reads the determinant of the minor, and exposes the resulting spanning-tree count as a displayed certificate. It sits over the graph carrier of \autoref{ch:concrete-instances-graph-namecert}, the acyclic connected carrier of \autoref{ch:concrete-instances-tree-namecert}, the spanning-tree selection surface of \autoref{ch:concrete-instances-spanningtree-namecert}, the finite matrix row of \autoref{ch:concrete-instances-matrix-namecert}, and the determinant row of \autoref{ch:concrete-instances-determinant-namecert}. The packet is a finite combinatorics bridge; it does not import spectral graph theory, quotient graph isomorphism, host linear algebra, an infinite graph limit, or a selected external enumeration of all spanning trees.
+
+\begin{definition}[Kirchhoff matrix-tree carrier]
+\label{def:kirchhoff-matrix-tree-carrier}
+A $\KirchhoffMatrixTreeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(G,E,L,M,D,S,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GraphUp$ row naming the finite vertex and edge incidence data.
+\item $E$ is the edge-incidence ledger used to compute vertex degrees and adjacency counts from $G$.
+\item $L$ is the Laplacian ledger whose diagonal rows are degree counts and whose off-diagonal rows are the displayed negative adjacency counts.
+\item $M$ is the $\MatrixUp$ row storing a principal Laplacian minor after one displayed vertex row and column have been removed.
+\item $D$ is the $\DeterminantUp$ row reading $\det(M)$ by the finite determinant certificate.
+\item $S$ is the $\SpanningTreeUp$ row naming the finite family of admitted spanning-tree witnesses.
+\item $T$ is the $\TreeUp$ route used to certify that each admitted spanning-tree witness is connected, acyclic, and vertex-spanning inside $G$.
+\item $H$ records componentwise $\hsame$ transport for graph, incidence, Laplacian, minor, determinant, spanning-tree, tree, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the graph incidence row through the Laplacian ledger, matrix minor, determinant row, spanning-tree row, and tree route.
+\item $P$ is the $\Pkg$ provenance over $\KirchhoffMatrixTreeUp$, $\GraphUp$, $\TreeUp$, $\SpanningTreeUp$, $\MatrixUp$, $\DeterminantUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KirchhoffMatrixTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for host graph isomorphism, spectral eigenvalues, quotient linear algebra, an infinite graph limit, selected external tree enumeration, or ambient determinant algorithms outside the displayed $\MatrixUp$ and $\DeterminantUp$ routes.
+\end{definition}
+
+\begin{theorem}[Kirchhoff matrix-tree NameCert obligations]
+\label{thm:kirchhoff-matrix-tree-namecert-obligations}
+For every accepted $\KirchhoffMatrixTreeUp$ carrier $K=(G,E,L,M,D,S,T,H,C,P,N)$, the local $\NameCert_{\KirchhoffMatrixTreeUp}$ surface consists exactly of carrier admission for the displayed graph row, incidence ledger, Laplacian ledger, principal minor matrix, determinant row, spanning-tree family, tree-validity route, componentwise transport, displayed replay, package provenance, and local naming. No obligation is discharged by host spectral theory, graph isomorphism, quotient linear algebra, selected external enumeration of spanning trees, infinite graph limits, or determinant computations outside the displayed finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kirchhoff-matrix-tree-carrier}. The graph row is $G$, the incidence data are $E$, the Laplacian row is $L$, the principal minor is $M$, the determinant certificate is $D$, and the spanning-tree surface is $S$ together with the tree-validity route $T$.
+
+The determinant side is finite. The row $L$ is computed only from the displayed incidence ledger, the row $M$ removes one displayed vertex row and column from $L$, and $D$ reads the determinant of that minor through $\DeterminantUp$.
+
+The tree side is also finite. The row $S$ exposes only admitted spanning-tree witnesses over $G$, and $T$ checks connectedness, acyclicity, and vertex coverage through the $\TreeUp$ route.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier contains no row for host spectral theory, graph isomorphism, quotient linear algebra, selected external enumeration, infinite graph limits, or external determinant algorithms, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Kirchhoff matrix-tree Laplacian minor route]
+\label{thm:kirchhoff-matrix-tree-laplacian-minor-route}
+Every determinant-facing or spanning-tree-facing consumer of an accepted $\KirchhoffMatrixTreeUp$ packet must read the finite route
+$$
+\GraphUp
+\longmapsto
+E
+\longmapsto
+L
+\longmapsto
+\MatrixUp
+\longmapsto
+\DeterminantUp
+$$
+and the parallel spanning-tree route
+$$
+\GraphUp
+\longmapsto
+\SpanningTreeUp
+\longmapsto
+\TreeUp .
+$$
+The packet binds these two routes at the same graph row $G$, so the determinant read and the spanning-tree read cannot refer to different finite graphs or to an external enumeration.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the determinant side. Carrier admission forces the consumer to read $G$ and the incidence ledger $E$ before any Laplacian entry is available.
+
+The minor is downstream of the same graph. The Laplacian ledger $L$ is formed from $E$, the matrix row $M$ is a principal minor of $L$, and the determinant row $D$ reads only that displayed matrix.
+
+Now read the spanning-tree side. The row $S$ is indexed by the same graph row $G$, and $T$ checks each admitted witness through the $\TreeUp$ route over that graph.
+
+The transport and replay rows $H$ and $C$ preserve this shared source under classifier comparison. Thus a consumer cannot mix a determinant computed from one graph with spanning-tree witnesses from another graph, nor can it replace the displayed rows with a host enumeration.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\KirchhoffMatrixTreeUp$ consumer is refuted if it reaches a determinant row without first displaying the GraphUp incidence ledger, Laplacian ledger, principal MatrixUp minor, DeterminantUp row, SpanningTreeUp family, TreeUp validity route, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{graph, tree, spanningtree, matrix, determinant: no listed sibling supplies the full matrix-tree bridge, because only $\KirchhoffMatrixTreeUp$ binds one finite graph incidence ledger to both a Laplacian determinant minor and a spanning-tree family in the same NameCert packet.}
+
+\closureat{KirchhoffMatrixTreeUp}{seedStr}
+
+\begin{closurestatus}{\KirchhoffMatrixTreeUp}
+  \constructivestory{A $\KirchhoffMatrixTreeUp$ packet is generated from a finite GraphUp row, an incidence ledger, a Laplacian ledger, a principal MatrixUp minor, a DeterminantUp row, a SpanningTreeUp family, a TreeUp validity route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kirchhoff-matrix-tree-carrier}, \autoref{thm:kirchhoff-matrix-tree-namecert-obligations}, and \autoref{thm:kirchhoff-matrix-tree-laplacian-minor-route} seed the finite matrix-tree route over GraphUp, TreeUp, SpanningTreeUp, MatrixUp, DeterminantUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, spectral graph theory, quotient graph isomorphism, host linear algebra, infinite graph limits, selected external tree enumeration, or determinant algorithms outside displayed finite rows.}
+  \upgradepath{Obligation closure requires checked carrier admission, incidence exactness, Laplacian construction, principal minor routing, determinant readback, spanning-tree family validity, tree-route exactness, componentwise transport, displayed replay, provenance, and local naming for BEDC.Derived.KirchhoffMatrixTreeUp.}
+\end{closurestatus}
