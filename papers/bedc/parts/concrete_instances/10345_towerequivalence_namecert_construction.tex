@@ -98,6 +98,7 @@ If the refinement separates the candidates through $L$ or $D$, the result is exa
 \label{thm:tower-equivalence-obligation-scope}
 Every accepted $\TowerEquivalenceUp$ read is scoped by the two tower rows $T,T'$, the two approximation rows $A,A'$, physical-fit rows $P,P'$, open-fit rows $O,O'$, objectivity row $B$, paired ledger $L$, descent row $D$, endpoint row $R$, componentwise $\hsame$ transport $H$, provenance $Q$, and local $\NameCert_{\TowerEquivalenceUp}$ row $N$. Any consumer omitting $L$ or $D$ receives only endpoint comparison, not tower equivalence.
 \end{theorem}
+\leanchecked{BEDC.Derived.TowerEquivalenceUp.TowerEquivalence\_obligation\_scope}
 \begin{proof}
 Project the carrier of \autoref{def:tower-equivalence-carrier} and the local NameCert obligations of \autoref{thm:tower-equivalence-namecert-obligations}. The accepted packet displays both tower rows, both approximation rows, both physical-fit rows, both open-fit rows, objectivity, paired ledger, descent, endpoint, transport, provenance, and local naming before any equivalence read is exported.
 
@@ -116,8 +117,8 @@ The Lean development for this carrier must provide $\mathsf{Nontrivial}\ \TowerE
 
 \begin{closurestatus}{\TowerEquivalenceUp}
   \constructivestory{A $\TowerEquivalenceUp$ packet is generated from two tower packets, two approximation rows, two physical-fit rows, two open-fit rows, an objectivity row, paired ledger compatibility, descent compatibility, endpoint agreement, componentwise transport, provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:tower-equivalence-carrier}, \autoref{thm:tower-equivalence-namecert-obligations}, \autoref{thm:tower-equivalence-endpoint-refusal}, \autoref{thm:tower-equivalence-ledger-descent-stability}, \autoref{thm:tower-equivalence-refinement-separation}, and \autoref{thm:tower-equivalence-obligation-scope} bind endpoint agreement to ledger and descent compatibility for finite tower-equivalence packets.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:tower-equivalence-carrier}, \autoref{thm:tower-equivalence-namecert-obligations}, \autoref{thm:tower-equivalence-endpoint-refusal}, \autoref{thm:tower-equivalence-ledger-descent-stability}, \autoref{thm:tower-equivalence-refinement-separation}, and \autoref{thm:tower-equivalence-obligation-scope} close the paper-side obligation surface binding endpoint agreement to paired ledger, descent, objectivity, transport, provenance, and local naming rows for finite tower-equivalence packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
