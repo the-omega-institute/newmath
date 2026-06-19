@@ -11,7 +11,15 @@ def test_torch_retraining_loss_ablation_records_true_training_rows():
     assert packet["status"] == "executed"
     assert packet["source"]["training"] == "torch-gradient-retraining"
     assert isinstance(packet["torch_environment"]["device"], dict)
-    assert isinstance(packet["torch_environment"]["device"]["resolved_device"], str)
+    assert isinstance(packet["torch_environment"]["resolved_device"], str)
+    assert (
+        packet["torch_environment"]["device"]["resolved_device"]
+        == packet["torch_environment"]["resolved_device"]
+    )
+    assert (
+        packet["torch_environment"]["device_resolution"]["resolved_device"]
+        == packet["torch_environment"]["resolved_device"]
+    )
     assert set(packet["systems"]) == {
         "full_s3",
         "minus_l_unlogged",
