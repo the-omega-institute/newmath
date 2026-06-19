@@ -267,4 +267,228 @@ theorem MetacicDecidabilityWitness_bounded_search_exhaustion [AskSetup] [Package
   }
   exact ⟨cert, checkerUnary, conversionUnary, normalUnary, exhaustedUnary⟩
 
+theorem MetacicDecidabilityWitnessScopedClosurePackage [AskSetup] [PackageSetup]
+    {typing sameTerm bounded finished refusal transport route provenance localName checkerRead
+      conversionRead normalRead exhaustedRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory typing ->
+      UnaryHistory sameTerm ->
+        UnaryHistory bounded ->
+          UnaryHistory finished ->
+            UnaryHistory refusal ->
+              UnaryHistory route ->
+                UnaryHistory localName ->
+                  Cont typing sameTerm checkerRead ->
+                    Cont bounded finished conversionRead ->
+                      Cont checkerRead conversionRead normalRead ->
+                        Cont normalRead refusal transport ->
+                          Cont transport route exhaustedRead ->
+                            Cont exhaustedRead localName namedRead ->
+                              PkgSig bundle provenance pkg ->
+                                PkgSig bundle localName pkg ->
+                                SemanticNameCert
+                                    (fun row : BHist =>
+                                      (hsame row checkerRead ∨ hsame row conversionRead ∨
+                                        hsame row normalRead ∨ hsame row exhaustedRead ∨
+                                          hsame row namedRead) ∧ UnaryHistory row)
+                                    (fun row : BHist =>
+                                      hsame row typing ∨ hsame row sameTerm ∨
+                                        hsame row bounded ∨ hsame row finished ∨
+                                          hsame row refusal ∨ hsame row transport ∨
+                                            hsame row route ∨ hsame row provenance ∨
+                                              hsame row localName ∨ hsame row checkerRead ∨
+                                                hsame row conversionRead ∨
+                                                  hsame row normalRead ∨
+                                                    hsame row exhaustedRead ∨
+                                                      hsame row namedRead)
+                                    (fun row : BHist =>
+                                      UnaryHistory row ∧
+                                        Cont typing sameTerm checkerRead ∧
+                                          Cont bounded finished conversionRead ∧
+                                            Cont checkerRead conversionRead normalRead ∧
+                                              Cont normalRead refusal transport ∧
+                                                Cont transport route exhaustedRead ∧
+                                                  Cont exhaustedRead localName namedRead ∧
+                                                    PkgSig bundle provenance pkg ∧
+                                                      PkgSig bundle localName pkg)
+                                    hsame ∧
+                                  (exists w : MetacicDecidabilityWitnessUp,
+                                    w =
+                                      MetacicDecidabilityWitnessUp.mk typing sameTerm
+                                        bounded finished refusal transport route provenance
+                                          localName) ∧
+                                    UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame SemanticNameCert MetacicDecidabilityWitnessUp
+  intro typingUnary sameTermUnary boundedUnary finishedUnary refusalUnary routeUnary
+    localNameUnary checkerRoute conversionRoute normalRoute transportRoute exhaustedRoute
+    namedRoute provenancePkg localNamePkg
+  have checkerUnary : UnaryHistory checkerRead :=
+    unary_cont_closed typingUnary sameTermUnary checkerRoute
+  have conversionUnary : UnaryHistory conversionRead :=
+    unary_cont_closed boundedUnary finishedUnary conversionRoute
+  have normalUnary : UnaryHistory normalRead :=
+    unary_cont_closed checkerUnary conversionUnary normalRoute
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed normalUnary refusalUnary transportRoute
+  have exhaustedUnary : UnaryHistory exhaustedRead :=
+    unary_cont_closed transportUnary routeUnary exhaustedRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed exhaustedUnary localNameUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row checkerRead ∨ hsame row conversionRead ∨ hsame row normalRead ∨
+              hsame row exhaustedRead ∨ hsame row namedRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row typing ∨ hsame row sameTerm ∨ hsame row bounded ∨
+              hsame row finished ∨ hsame row refusal ∨ hsame row transport ∨
+                hsame row route ∨ hsame row provenance ∨ hsame row localName ∨
+                  hsame row checkerRead ∨ hsame row conversionRead ∨ hsame row normalRead ∨
+                    hsame row exhaustedRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont typing sameTerm checkerRead ∧
+              Cont bounded finished conversionRead ∧
+                Cont checkerRead conversionRead normalRead ∧
+                  Cont normalRead refusal transport ∧ Cont transport route exhaustedRead ∧
+                    Cont exhaustedRead localName namedRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro namedRead
+          ⟨Or.inr (Or.inr (Or.inr (Or.inr (hsame_refl namedRead)))), namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source.left with
+        | inl sameChecker =>
+            exact
+              ⟨Or.inl (hsame_trans (hsame_symm sameRows) sameChecker),
+                unary_transport source.right sameRows⟩
+        | inr rest =>
+            cases rest with
+            | inl sameConversion =>
+                exact
+                  ⟨Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameConversion)),
+                    unary_transport source.right sameRows⟩
+            | inr restTail =>
+                cases restTail with
+                | inl sameNormal =>
+                    exact
+                      ⟨Or.inr
+                          (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows)
+                            sameNormal))),
+                        unary_transport source.right sameRows⟩
+                | inr restEnd =>
+                    cases restEnd with
+                    | inl sameExhausted =>
+                        exact
+                          ⟨Or.inr
+                              (Or.inr
+                                (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows)
+                                  sameExhausted)))),
+                            unary_transport source.right sameRows⟩
+                    | inr sameNamed =>
+                        exact
+                          ⟨Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr (hsame_trans (hsame_symm sameRows) sameNamed)))),
+                            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameChecker =>
+          exact
+            Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr (Or.inl sameChecker)))))))))
+      | inr rest =>
+          cases rest with
+          | inl sameConversion =>
+              exact
+                Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr (Or.inl sameConversion))))))))))
+          | inr restTail =>
+              cases restTail with
+              | inl sameNormal =>
+                  exact
+                    Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr (Or.inl sameNormal)))))))))))
+              | inr restEnd =>
+                  cases restEnd with
+                  | inl sameExhausted =>
+                      exact
+                        Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr (Or.inl sameExhausted))))))))))))
+                  | inr sameNamed =>
+                      exact
+                        Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr (Or.inr sameNamed))))))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, checkerRoute, conversionRoute, normalRoute, transportRoute,
+          exhaustedRoute, namedRoute, provenancePkg, localNamePkg⟩
+  }
+  exact
+    ⟨cert,
+      Exists.intro
+        (MetacicDecidabilityWitnessUp.mk typing sameTerm bounded finished refusal transport
+          route provenance localName)
+        rfl,
+      namedUnary⟩
+
 end BEDC.Derived.MetacicDecidabilityWitnessUp
