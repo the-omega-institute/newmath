@@ -1,61 +1,47 @@
 \origin{ai}
-
-\subsection{Measured translation-efficiency contact for the $B^*_{Q6}$ residual complement}
-\label{sec:bioreality-q6-measured-te-residual-complement}
+\subsection{Measured Translation-Efficiency Contact for the $B^*_{Q6}$ Residual Basis}
+\label{sec:q6-mrna-controlled-measured-te-contact}
 
 \paragraph{Finite readout surface.}
-This record concerns the finite CDS-by-organism surface on which the nine $B^*_{Q6}$ residual coordinates are joined to ribosome-profiling translation-efficiency readouts.  The coordinate list is
+The contact studied here is a finite CDS-by-organism matrix in which nine $B^*_{Q6}$ residual coordinates are tested against matched ribosome-profiling translation-efficiency values after sequence and transcript controls. The coordinate list is
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f3\_stress$.
+The control design has 24 columns before rank reduction and uses an intercept, $\log(cds\_len\_nt)$, the 20 amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline given by the fraction of sense codons on the union support of the nine projected $B^*_{Q6}$ vectors. In all four measured-TE organisms the reported control rank is $23$, so the readout is not an under-rank three-row surface.
+
+\paragraph{Joined rows and control rank.}
+The measured translation-efficiency contact joins four organisms. For \emph{Danio rerio}, the TE-valid panel has $n=13140$ rows, compared with $14410$ CDS rows joined to abundance, and the rank of $Z$ is $23$. For \emph{Escherichia coli} K12 MG1655, the TE-valid panel has $n=3415$ rows, with $3739$ CDS rows joined to abundance and $3747$ abundance-valid protein records. For \emph{Homo sapiens}, the TE-valid panel has $n=11554$ rows, compared with $19053$ CDS rows joined to abundance and $19483$ abundance-valid proteins. For \emph{Saccharomyces cerevisiae}, the TE-valid panel has $n=5128$ rows, compared with $5815$ CDS rows joined to abundance and $6351$ abundance-valid proteins. These row counts make the contact an actual measured-readout test rather than a rank-saturated three-organism proxy.
+
+\paragraph{Projection quantities.}
+The measured-TE statistic is a descriptive projection of the modeled-tAI-complement abundance residual $\widehat P_{Q\perp Tmod}$ onto residualized measured TE. The modeled complement ratios on the all-readout join are
 $$
 \begin{aligned}
-Q=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+ d_{modeled}(Danio) &= 0.8424312412078521,\\
+ d_{modeled}(E.\ coli) &= 0.6628211177352172,\\
+ d_{modeled}(Homo) &= 0.8566190269974241,\\
+ d_{modeled}(Saccharomyces) &= 0.22386566043976477.
 \end{aligned}
 $$
-For each organism, the projection uses $24$ control columns with numerical rank $23$.  The controls are an intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, the $20$ amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3 computed from real CDS codon counts, and an $M$-density baseline defined as the fraction of sense codons on the union support of the nine projected $B^*_{Q6}$ vectors.  The measured translation-efficiency variable is the ribosome-footprint readout normalized by matched mRNA abundance, so the contact is treated as a bounded translation-efficiency surface rather than as raw transcript abundance or mature protein abundance.
-
-\paragraph{Joined rows and rank condition.}
-The powered rows are finite and organism-specific.  The joined translation-efficiency panels contain $n=13140$ CDS rows for \emph{Danio rerio}, $n=3415$ rows for \emph{Escherichia coli} K12 MG1655, $n=11554$ rows for \emph{Homo sapiens}, and $n=5128$ rows for \emph{Saccharomyces cerevisiae}.  The corresponding CDS joins before the measured-TE restriction are $14410$, $3739$, $19053$, and $5815$, respectively.  Valid translation-efficiency counts match the restricted panels: $13140$, $3415$, $11554$, and $5128$.  Valid abundance-by-protein counts are $14410$, $3747$, $19483$, and $6351$.  Thus the readout is not a rank-degenerate three-row surface: each organism has rank $23$ in the declared control design and thousands of same-organism joined observations.
-
-\paragraph{Modeled-complement target.}
-The target being tested is not a direct $Q_i$ to phenotype claim.  The computation first forms the modeled-tAI complement abundance residual, denoted here by $\widehat P_{Q\perp T_{\mathrm{mod}}}$, and then asks how much of that complement is descriptively absorbed by residualized measured translation efficiency.  On the measured-TE join, the finite squared norms and complement fractions are
-$$
-\begin{aligned}
-\mathrm{Danio\ rerio}:&\quad \|P_Q\|^2=1092.0114815505467,\quad
-\|P_{Q\perp T_{\mathrm{mod}}}\|^2=919.9445878158525,\\
-&\quad d_{\mathrm{modeled}}=0.8424312412078521,\\
-\mathrm{E.\ coli}:&\quad \|P_Q\|^2=393.78692095732885,\quad
-\|P_{Q\perp T_{\mathrm{mod}}}\|^2=261.0102870984463,\\
-&\quad d_{\mathrm{modeled}}=0.6628211177352172,\\
-\mathrm{H.\ sapiens}:&\quad \|P_Q\|^2=565.3850201235074,\quad
-\|P_{Q\perp T_{\mathrm{mod}}}\|^2=484.31956581711796,\\
-&\quad d_{\mathrm{modeled}}=0.8566190269974241,\\
-\mathrm{S.\ cerevisiae}:&\quad \|P_Q\|^2=675.3275479192903,\quad
-\|P_{Q\perp T_{\mathrm{mod}}}\|^2=151.18264752811882,\\
-&\quad d_{\mathrm{modeled}}=0.22386566043976477.
-\end{aligned}
-$$
-These numbers show that the residual complement is large in zebrafish, human, and \emph{E. coli}, but much smaller in yeast on this particular all-readout join.
+The corresponding squared-norm inputs are $1092.0114815505467$ and $919.9445878158525$ for \emph{Danio rerio}, $393.78692095732885$ and $261.0102870984463$ for \emph{E. coli}, $565.3850201235074$ and $484.31956581711796$ for human, and $675.3275479192903$ and $151.18264752811882$ for yeast. Thus the upstream residual target is large for vertebrate and bacterial panels, but substantially smaller in yeast before the measured-TE projection is considered.
 
 \paragraph{Measured-TE absorption.}
-The measured translation-efficiency projection absorbs only a small fraction of the modeled-tAI complement in every organism.  The computed absorption entries are
+Measured translation efficiency absorbs only a small part of the modeled-tAI-complement residual in this contact. The absorbed fractions are
 $$
 \begin{aligned}
-\mathrm{Danio\ rerio}:&\quad a_{\mathrm{measTE}}=0.01759429001506974,\quad d_{\mathrm{combined}}=0.8276090159036916,\\
-\mathrm{E.\ coli}:&\quad a_{\mathrm{measTE}}=0.0010982956489726373,\quad d_{\mathrm{combined}}=0.6620871850159149,\\
-\mathrm{H.\ sapiens}:&\quad a_{\mathrm{measTE}}=0.0028947149257963897,\quad d_{\mathrm{combined}}=0.854133502300174,\\
-\mathrm{S.\ cerevisiae}:&\quad a_{\mathrm{measTE}}=0.0002762783754375593,\quad d_{\mathrm{combined}}=0.2237928123367028.
+ A_{measTE}(Danio) &= 0.01759429001506974,\\
+ A_{measTE}(E.\ coli) &= 0.0010982956489726373,\\
+ A_{measTE}(Homo) &= 0.0028947149257963897,\\
+ A_{measTE}(Saccharomyces) &= 0.0002762783754375593.
 \end{aligned}
 $$
-Thus the strongest measured-TE absorption in this packet is the zebrafish value, about $1.76\%$ of the complement, while the other three values are near zero on the same descriptive scale.  The computation therefore supports a bounded statement: measured ribosome-profiling translation efficiency was tested as an $H$-candidate, the relevant projections were numerically evaluated, and the observed measured-TE absorption is small rather than closure-producing.
+After adding the measured-TE direction, the combined residual ratios are $0.8276090159036916$, $0.6620871850159149$, $0.854133502300174$, and $0.2237928123367028$ in the same organism order. The largest measured-TE absorption is therefore in zebrafish, about $1.76\%$ of the modeled-complement target, while the other three panels are near or below $0.3\%$. The finite-row conclusion is not that the $B^*_{Q6}$ basis realizes translation efficiency strongly; rather, measured TE is a weak descriptive absorber for this particular residual target.
 
-\paragraph{Join-stability self-check.}
-The measured-TE restriction changes the protein identifier join in two of the four organisms enough to alter the modeled-complement fraction relative to the full abundance-CDS complement reference.  The finite self-check compares the all-readout join against the complement reference join.  For \emph{Danio rerio}, $d_{\mathrm{modeled}}$ changes from $0.874628721049266$ on $14410$ reference rows to $0.8424312412078521$ on $13140$ measured-TE rows, an absolute difference of $0.03219747984141397$, which exceeds the $0.02$ tolerance.  For \emph{E. coli}, it changes from $0.6629960038578532$ on $3739$ reference rows to $0.6628211177352172$ on $3415$ rows, an absolute difference of $0.00017488612263594217$, within tolerance.  For human, it changes from $0.9208949355679455$ on $19053$ reference rows to $0.8566190269974241$ on $11554$ measured-TE rows, an absolute difference of $0.06427590857052146$, outside tolerance.  For yeast, it changes from $0.21173219572706703$ on $5815$ reference rows to $0.22386566043976477$ on $5128$ measured-TE rows, an absolute difference of $0.012133464712697745$, within tolerance.
+\paragraph{Join-stability check.}
+The self-check against the full abundance-CDS complement reference is mixed. In \emph{E. coli}, the current all-readout join gives $d_{modeled}=0.6628211177352172$ against the reference $0.6629960038578532$, an absolute difference of $0.00017488612263594217$, which is inside the $0.02$ tolerance. In yeast, the current value $0.22386566043976477$ differs from the reference $0.21173219572706703$ by $0.012133464712697745$, also inside tolerance. In zebrafish, the current value $0.8424312412078521$ differs from $0.874628721049266$ by $0.03219747984141397$, and in human the current value $0.8566190269974241$ differs from $0.9208949355679455$ by $0.06427590857052146$; both fail the $0.02$ join-stability band. The vertebrate TE availability filter therefore changes the protein-id join enough that their measured-TE absorptions should be read as all-readout-join projections, not as stable full-join complements.
 
-\paragraph{Relation to adjacent bounded contacts.}
-The neighboring measured-tRNA-gene-copy tAI packet uses full abundance-CDS joins in zebrafish, human, and yeast and therefore has exact complement-reference agreement in those three organisms: $0.874628721049266$, $0.9208949355679455$, and $0.21173219572706703$.  Its tRNA absorption values are still small: $0.020817102845637092$ in zebrafish, $0.00005426229300865148$ in human, and $0.001530747712165342$ in yeast.  The yeast turnover contact is also small, with $n=3640$ joined turnover proteins, complement difference $0.011538255214205373$ from the full reference, and turnover absorption $0.0009086031889966327$.  Protein-feature contacts remain descriptive and coverage-sensitive: zebrafish has only $2242$ joined feature rows from $3180$ feature records and a complement shift of $0.1384608720516286$, while human has $18335$ joined rows and yeast has $5682$ joined rows.  Some feature entries exceed their degree-of-freedom null Bonferroni thresholds, such as zebrafish PTM density with absorption $0.014211240113472575$ over threshold $0.003775603188484381$, human complex membership with absorption $0.0075271999877804495$ over threshold $0.0006605662314432479$, human PTM density with absorption $0.014884825920540636$ over threshold $0.00042094892238120357$, and human transmembrane count with absorption $0.0015569064882873212$ over threshold $0.0002697448894057371$.  These neighboring facts do not convert the measured-TE packet into a mechanism; they only show that the residual complement can be compared with several finite readout surfaces under explicit join and null restrictions.
+\paragraph{Comparison with neighboring bounded contacts.}
+The tRNA-gene-copy tAI contact uses the full abundance-CDS join in three organisms and has exact complement-match checks: $14410$ zebrafish rows, $19053$ human rows, and $5815$ yeast rows, all with absolute difference $0$ from the complement reference. Its absorbed fractions are $0.020817102845637092$ in zebrafish, $0.00005426229300865148$ in human, and $0.001530747712165342$ in yeast. The yeast turnover contact joins $3640$ half-life rows, has a complement difference $0.011538255214205373$ within tolerance, and absorbs $0.0009086031889966327$. Protein-feature readouts are much more availability-sensitive: zebrafish has only $2242$ joined feature rows and its feature-join complement differs from the full reference by $0.1384608720516286$, while human has $18335$ joined rows and yeast has $5682$. Bonferroni-excess feature absorptions appear for zebrafish PTM density, human complex membership, human PTM density, and human transmembrane count, but the sparse and uneven feature joins prevent those feature contacts from repairing the measured-TE boundary.
 
-\paragraph{Cross-organism caution.}
-The organism-specificity meta table supplies exploratory context rather than a universal law.  It assembled $16$ organism rows, with $12$ complete-feature organisms for the $M^{QTP}$ summaries.  The dominant-coordinate versus domain contingency has $n=12$, Pearson chi-square $9.399999999999999$, Cramer's $V=0.6258327785172862$, and right-tail permutation value $0.5814185814185814$ over $1000$ trials.  The $M^{QTP}$ fraction has weak finite correlations with GC3, tRNA gene count, and proteome size: $r=-0.3062616500469447$ with GC3 and two-sided permutation value $0.35264735264735264$; $r=0.06029405206037823$ with log tRNA gene count and value $0.8621378621378621$; and $r=-0.033628115789504955$ with log proteome size and value $0.913086913086913$.  The domain comparison reports a variance ratio $0.8889980452277374$ and right-tail permutation value $0.4155844155844156$.  These values are useful as finite diagnostics of heterogeneity, but they do not establish phylogenetically corrected, causal, or universal organism-level structure.
+\paragraph{Cross-organism context.}
+The broader organism-specific table contains $16$ assembled rows, of which $12$ have complete feature rows for the reported meta tests. The domain-by-dominant-coordinate contingency has $n=12$, Pearson chi-square $9.399999999999999$, Cramer's $V=0.6258327785172862$, and right-tail permutation $p=0.5814185814185814$ over $1000$ trials. The $M_{QTP}$ fraction correlations are also descriptive rather than resolved: against GC3, $r=-0.3062616500469447$ with two-sided permutation $p=0.35264735264735264$; against log protein count, $r=-0.033628115789504955$ with $p=0.913086913086913$; against log tRNA-gene count, $r=0.06029405206037823$ with $p=0.8621378621378621$. The domain variance-ratio test gives $0.8889980452277374$ with right-tail permutation $p=0.4155844155844156$. These finite numbers support heterogeneity bookkeeping, not a universal organism-level rule.
 
-\paragraph{Local verdict.}
-The finite-row computation is ready for the standalone BioReality paper as a bounded cross-layer relation.  It says that a measured ribosome-profiling translation-efficiency surface was joined to the nine-coordinate $B^*_{Q6}$ residual basis under a rank-$23$ control design, and that the descriptive measured-TE absorption of the modeled-tAI complement is small: $0.01759429001506974$, $0.0010982956489726373$, $0.0028947149257963897$, and $0.0002762783754375593$ across the four tested organisms.  The result is therefore a measured-contact boundary, not a promotion to downstream biology.  No translation mechanism, protein abundance, folding, structural order, physical admissibility, molecular function, phenotype, causation, or universality follows from these entries unless a separate layer-matched contact supplies the relevant rows and a separate statistic is computed for that layer.
+\paragraph{Local interpretation.}
+This chapter records a measured ribosome-profiling translation-efficiency contact for the $B^*_{Q6}$ residual basis under matched mRNA and sequence controls. The strongest local fact is that the computation was performed on rank-sufficient finite joins and that measured TE absorbs only small fractions of the modeled-tAI-complement abundance residual. The result is a bounded cross-layer relation: it measures how much a residualized TE direction accounts for a residual abundance component after the declared covariates. It does not license a claim that the residual coordinates cause translation, encode a ribosome mechanism, determine protein abundance, imply folding or structural order, establish physical admissibility, realize biological function, produce phenotype, or state a universal biological law. Any such higher-layer assertion would need its own layer-matched contact and its own finite statistic.
