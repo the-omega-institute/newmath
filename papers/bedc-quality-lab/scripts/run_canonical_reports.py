@@ -245,6 +245,18 @@ JEPA_WM_L1_EVALUATOR_CALIBRATION_ARTIFACT_ID = (
 JEPA_WM_L1_EVALUATOR_CALIBRATION_SCHEMA_ID = (
     "bedc-quality-lab:jepa-wm-l1-evaluator-calibration"
 )
+JEPA_WM_L1_OOD_ADJUDICATION_JSON_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-ood-adjudication.json"
+)
+JEPA_WM_L1_OOD_ADJUDICATION_MARKDOWN_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-ood-adjudication.md"
+)
+JEPA_WM_L1_OOD_ADJUDICATION_ARTIFACT_ID = (
+    "bedc-quality-lab:jepa-wm-l1-ood-adjudication"
+)
+JEPA_WM_L1_OOD_ADJUDICATION_SCHEMA_ID = (
+    "bedc-quality-lab:jepa-wm-l1-ood-adjudication"
+)
 STI_ADMISSION_JSON_ARTIFACT = "reports/canonical/sti-admission.json"
 STI_ADMISSION_MARKDOWN_ARTIFACT = "reports/canonical/sti-admission.md"
 STI_ADMISSION_ARTIFACT_ID = "bedc-quality-lab:sti-admission"
@@ -2293,6 +2305,42 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         hardgate_status_pointer="$.hardgate.status_cell",
         hardgate_scope="owner-scientific",
         decision_status_pointer="$.diagnostic_next_step.status",
+    ),
+    CanonicalReportSpec(
+        name="jepa-wm-l1-ood-adjudication",
+        command=("python3", "scripts/run_jepa_wm_l1_ood_adjudication.py"),
+        json_artifact=JEPA_WM_L1_OOD_ADJUDICATION_JSON_ARTIFACT,
+        markdown_artifact=JEPA_WM_L1_OOD_ADJUDICATION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "preregistration_card",
+            "config",
+            "observations",
+            "hardgate",
+            "split_adjudications",
+            "verdict",
+            "claim_boundary",
+            "claim_capsule",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.claim_boundary",
+        cost_pointer="$.source_artifacts.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.verdict",
+        control_pointer="$.hardgate.gates.CONTROLS",
+        no_control_rationale_pointer=None,
+        claim_promotion_eligible=False,
+        claim_capsule_pointer="$.claim_capsule",
+        scientific_claim_status_pointer="$.claim_boundary.status",
+        hardgate_status_pointer="$.hardgate.status",
+        hardgate_scope="owner-scientific",
+        decision_status_pointer="$.verdict.status",
     ),
     CanonicalReportSpec(
         name="sti-admission",
