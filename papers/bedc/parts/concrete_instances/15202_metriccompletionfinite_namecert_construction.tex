@@ -168,6 +168,18 @@ The finite-window readback and classifier surface are then fixed by \autoref{thm
 Finally apply stability transport, ledger exactness, and non-escape from \autoref{thm:metric-completion-finite-stability-transport}, \autoref{thm:metric-completion-finite-ledger-exactness}, and \autoref{thm:metric-completion-finite-nonescape}. These rows preserve the route under $\hsame$ transport, identify the refusal ledger exactly, and rule out quotient completion equality, selected representatives, countable choice, compactness, host equality, and ambient complete metric spaces.
 \end{proof}
 
+\begin{theorem}[MetricCompletionFinite obligation closure register]
+\label{thm:metric-completion-finite-obligation-closure-register}
+For every accepted $\MetricCompletionFiniteUp$ packet, the displayed carrier row of \autoref{def:metric-completion-finite-carrier}, the local NameCert obligations of \autoref{thm:metric-completion-finite-namecert-obligations}, classifier exactness from \autoref{thm:metric-completion-finite-classifier-exactness}, finite-window readback from \autoref{thm:metric-completion-finite-window-readback}, stability transport from \autoref{thm:metric-completion-finite-stability-transport}, ledger exactness from \autoref{thm:metric-completion-finite-ledger-exactness}, and non-escape from \autoref{thm:metric-completion-finite-nonescape} are exactly the obligationClosure packet for $\MetricCompletionFiniteUp$.
+\end{theorem}
+\begin{proof}
+Carrier admission is read from \autoref{def:metric-completion-finite-carrier}. The NameCert surface and the displayed completion-facing obligation boundary are supplied by \autoref{thm:metric-completion-finite-namecert-obligations} and \autoref{thm:metric-completion-finite-obligation-closure}.
+
+The reader-facing route is fixed by \autoref{thm:metric-completion-finite-window-readback}, while classifier comparison and transport are fixed by \autoref{thm:metric-completion-finite-classifier-exactness} and \autoref{thm:metric-completion-finite-stability-transport}.
+
+Finally, \autoref{thm:metric-completion-finite-ledger-exactness} and \autoref{thm:metric-completion-finite-nonescape} account for the refusal ledger and rule out non-displayed completion principles. These cited rows exhaust the required obligationClosure register, so no additional packet coordinate remains.
+\end{proof}
+
 \begin{theorem}[MetricCompletionFinite finite-net limit readback]
 \label{thm:metric-completion-finite-net-limit}
 Let $F=(M,B,W,E,R,S,H,C,P,N)$ be an accepted
@@ -197,9 +209,11 @@ readback on this displayed finite route under classifier comparison. Then use
 completion principles from the exported packet.
 \end{proof}
 
+\closureat{MetricCompletionFiniteUp}{obligationStr}
+
 \begin{closurestatus}{\MetricCompletionFiniteUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metric-completion-finite-carrier}, \autoref{thm:metric-completion-finite-namecert-obligations}, \autoref{thm:metric-completion-finite-window-readback}, and \autoref{thm:metric-completion-finite-nonescape} seed the finite-window completion witness between metric-completion rows and downstream regular-rational or Real seal reads.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:metric-completion-finite-carrier}, \autoref{thm:metric-completion-finite-namecert-obligations}, \autoref{thm:metric-completion-finite-classifier-exactness}, \autoref{thm:metric-completion-finite-window-readback}, \autoref{thm:metric-completion-finite-net-limit}, and \autoref{thm:metric-completion-finite-nonescape} bind carrier admission, classifier exactness, finite-window readback, completion embedding, and ledger non-escape for the displayed finite-window completion packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient completion equality, selected representatives, countable choice, open-cover compactness, host equality, ambient complete metric spaces, Lean verification, or bridge checking.}
