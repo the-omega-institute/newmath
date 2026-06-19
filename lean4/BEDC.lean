@@ -9948,6 +9948,7 @@ import BEDC.Derived.SelfTheoryReflectionLoopUp.TasteGate
 import BEDC.Derived.SemidecidableOpenUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemigroupUp
+import BEDC.Derived.SeminormedSpaceUp.TasteGate
 import BEDC.Derived.SemiringUp
 import BEDC.Derived.SemiringUp.TasteGate
 import BEDC.Derived.SeparableCompletionUp.TasteGate
