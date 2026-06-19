@@ -7,6 +7,28 @@ import pytest
 from bedc_quality_lab.tasks import jepa_wm_l1_ood_adjudication as ood
 
 
+def _default_rows():
+    return [row.as_dict() for row in ood.default_observations()]
+
+
+def _base_rows_inside_null_band():
+    rows = _default_rows()
+    null_high_by_split = {
+        row["split_id"]: row["ci_high"]
+        for row in rows
+        if row["arm_id"] == "null"
+    }
+    for row in rows:
+        if row["arm_id"] == "base":
+            null_high = null_high_by_split[row["split_id"]]
+            row["top1_accuracy"] = round(null_high - 0.005, 6)
+            row["ci_low"] = round(null_high - 0.02, 6)
+            row["ci_high"] = round(null_high + 0.015, 6)
+            row["mean_rank"] = 4.25
+            row["calibration_error"] = 0.17
+    return rows
+
+
 def test_preregistration_card_is_single_source_for_fixed_protocol():
     card = ood.preregistration_card()
 
@@ -48,7 +70,7 @@ def test_budget_failure_is_not_ready_without_adjudication_upgrade():
 
 
 def test_mixed_ood_evidence_abstains_when_gates_are_valid():
-    rows = [row.as_dict() for row in ood.default_observations()]
+    rows = _default_rows()
     for row in rows:
         if row["split_id"] == "distractor-clutter" and row["arm_id"] == "base":
             row["top1_accuracy"] = 0.151
@@ -64,8 +86,18 @@ def test_mixed_ood_evidence_abstains_when_gates_are_valid():
     assert payload["claim_boundary"]["claim_allowed"] is False
 
 
+def test_all_split_kill_evidence_blocks_positive_claim():
+    payload = ood.build_payload(generated_at="fixture", observations=_base_rows_inside_null_band())
+
+    assert payload["hardgate"]["status"] == "pass"
+    assert {row["status"] for row in payload["split_adjudications"]} == {"kill_candidate"}
+    assert payload["verdict"]["status"] == "kill"
+    assert payload["claim_boundary"]["claim_allowed"] is False
+    assert payload["positive_claim"]["positive_discovery"] is False
+
+
 def test_missing_metric_fails_closed():
-    rows = [row.as_dict() for row in ood.default_observations()]
+    rows = _default_rows()
     rows[0].pop("mean_rank")
 
     payload = ood.build_payload(generated_at="fixture", observations=rows)
@@ -73,6 +105,50 @@ def test_missing_metric_fails_closed():
     assert payload["hardgate"]["status"] == "fail"
     assert "METRICS" in payload["hardgate"]["failed_gates"]
     assert payload["verdict"]["status"] == "not_ready"
+
+
+def test_unexpected_arm_fails_closed():
+    rows = _default_rows()
+    for row in rows:
+        if row["split_id"] == "heldout-dynamics" and row["arm_id"] == "larger_base":
+            row["arm_id"] = "unregistered_arm"
+            break
+
+    payload = ood.build_payload(generated_at="fixture", observations=rows)
+
+    assert payload["hardgate"]["status"] == "fail"
+    assert "ARMS" in payload["hardgate"]["failed_gates"]
+    assert payload["verdict"]["status"] == "not_ready"
+    assert payload["claim_boundary"]["claim_allowed"] is False
+
+
+def test_missing_split_fails_closed():
+    rows = _default_rows()
+    for row in rows:
+        if row["split_id"] == "goal-remap":
+            row["split_id"] = "unregistered-split"
+
+    payload = ood.build_payload(generated_at="fixture", observations=rows)
+
+    assert payload["hardgate"]["status"] == "fail"
+    assert "SPLITS" in payload["hardgate"]["failed_gates"]
+    assert payload["verdict"]["status"] == "not_ready"
+    assert payload["claim_boundary"]["claim_allowed"] is False
+
+
+def test_control_failure_fails_closed():
+    rows = _default_rows()
+    for row in rows:
+        if row["split_id"] == "heldout-dynamics" and row["arm_id"] == "oracle_or_teacher":
+            row["ci_low"] = 0.3
+            break
+
+    payload = ood.build_payload(generated_at="fixture", observations=rows)
+
+    assert payload["hardgate"]["status"] == "fail"
+    assert "CONTROLS" in payload["hardgate"]["failed_gates"]
+    assert payload["verdict"]["status"] == "not_ready"
+    assert payload["claim_boundary"]["claim_allowed"] is False
 
 
 def test_write_artifacts_outputs_json_markdown_and_fingerprint(tmp_path):
