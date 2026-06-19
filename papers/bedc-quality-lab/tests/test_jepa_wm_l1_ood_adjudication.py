@@ -160,7 +160,9 @@ def test_write_artifacts_outputs_json_markdown_and_fingerprint(tmp_path):
     assert json_path.exists()
     assert markdown_path.exists()
     assert fingerprint_path.exists()
-    assert json.loads(json_path.read_text(encoding="utf-8"))["verdict"]["status"] == payload["verdict"]["status"]
+    persisted_payload = json.loads(json_path.read_text(encoding="utf-8"))
+    ood.validate_payload(persisted_payload)
+    assert persisted_payload["verdict"]["status"] == payload["verdict"]["status"]
     assert "# JEPA-WM-L1 OOD Adjudication" in markdown_path.read_text(encoding="utf-8")
     fingerprint = json.loads(fingerprint_path.read_text(encoding="utf-8"))
     assert fingerprint["report_name"] == "jepa-wm-l1-ood-adjudication"

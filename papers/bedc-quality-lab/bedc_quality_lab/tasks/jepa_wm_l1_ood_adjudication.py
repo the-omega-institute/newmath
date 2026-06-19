@@ -484,9 +484,13 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     if not isinstance(hardgate, Mapping):
         raise ValueError("missing hardgate")
     gates = hardgate.get("gates")
-    if not isinstance(gates, Mapping) or tuple(gates.keys()) != HARDGATE_IDS:
-        raise ValueError("hardgate order mismatch")
-    failed = [gate_id for gate_id, gate in gates.items() if isinstance(gate, Mapping) and gate.get("status") != "pass"]
+    if not isinstance(gates, Mapping) or set(gates) != set(HARDGATE_IDS):
+        raise ValueError("hardgate set mismatch")
+    failed = [
+        gate_id
+        for gate_id in HARDGATE_IDS
+        if isinstance(gates.get(gate_id), Mapping) and gates[gate_id].get("status") != "pass"
+    ]
     if list(hardgate.get("failed_gates", [])) != failed:
         raise ValueError("hardgate failed gate projection mismatch")
     verdict = payload.get("verdict")
