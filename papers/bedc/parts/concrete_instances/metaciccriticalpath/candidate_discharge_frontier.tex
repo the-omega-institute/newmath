@@ -161,3 +161,21 @@ Now read the L10 source side through \autoref{thm:metacic-critical-path-l10-four
 Finally apply the case split of \autoref{thm:metacic-critical-path-discharge-socket-case-split}. The socket is either filled by an explicit certificate row, blocked by the visible obstruction row, or carried as a residual socket. Since those are the only finite socket coordinates exposed by the packet, the cases exhaust the read while closed subject reduction remains unavailable without the displayed certificate.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathSubjectReductionSocketCaseExhaustion}
+
+\begin{theorem}[MetaCIC candidate-discharge frontier totality]
+\label{thm:metacic-critical-path-candidate-discharge-frontier-totality}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet whose candidate-discharge budget route is displayed. Every candidate-discharge read of $K$ is exhausted by bounded conversion, candidate-mediated strong normalization, confluence-facing rows, L10 readiness rows, and exactly one visible socket case. None of these rows closes subject reduction unless an explicit subject-reduction certificate row is displayed in the same packet route.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-discharge budget route, \autoref{thm:metacic-critical-path-candidate-discharge-budget-route}. It places bounded conversion, candidate-mediated strong normalization, confluence data, and the L10 readiness faces inside the same finite packet while keeping the discharge socket $D$ visible.
+
+Next apply the subject-reduction socket case exhaustion theorem, \autoref{thm:metacic-critical-path-subject-reduction-socket-case-exhaustion}. The read has exactly one visible socket status: filled by an explicit certificate row, blocked by the visible obstruction row $O$, or carried as the residual socket.
+
+Read the L10 source obligations through \autoref{thm:metacic-critical-path-phase-real-source-obligations}. Those rows supply dyadic, stream, regular-rational, and Real readiness for the Phase Real and Completion route, not a subject-reduction certificate.
+
+Finally use discharge-socket coverage, \autoref{thm:metacic-critical-path-discharge-socket-coverage}. Since coverage preserves the socket until the explicit subject-reduction row is displayed, the frontier is total for candidate-mediated reads without turning bounded conversion, confluence, or readiness evidence into closed subject reduction.
+\end{proof}
