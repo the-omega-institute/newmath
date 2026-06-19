@@ -74,6 +74,22 @@ The obstruction row $O$ is downstream of the same finite traversal. It records t
 The structural rows $H,C,P,N$ preserve and name that route. Therefore the finite data may be reused by CantorSpace, FanTheorem, RegSeqRat, or Real-facing consumers only as finite prefix information, never as quotient stream equality, an open-cover compactness principle, or a completeness theorem for $\RealUp$.
 \end{proof}
 
+\begin{theorem}[Kleene tree Cantor--Fan dependency route]
+\label{thm:kleene-tree-cantor-fan-dependency-route}
+Every branch-facing read of an accepted $\KleeneTreeUp$ packet first consumes the $\CantorSpaceUp$ finite-prefix rows of \autoref{ch:concrete-instances-cantorspace-namecert} and the $\FanTheoremUp$ finite-bar rows of \autoref{ch:concrete-instances-fantheorem-namecert} before it can interpret the obstruction row as a stream-name, regular-rational, or real-facing boundary. The visible route remains
+$$
+S,L,B,T,O,H,C,P,N,
+$$
+and no branch selector, selected Cantor point, countable-choice functional, quotient stream equality, open-cover compactness principle, or ambient $\RealUp$ completeness row is produced.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kleene-tree-carrier}. The only branch-facing data are the finite StreamName window $S$, the List prefix spine $L$, the Bool node ledger $B$, the finite tree ledger $T$, the obstruction row $O$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:kleene-tree-streamname-path-boundary}. It already forces any branch-facing read to remain inside the finite route and refuses infinite paths, selected Cantor points, and quotient stream equality.
+
+The $\CantorSpaceUp$ chapter supplies the finite prefix rows that a branch consumer may test, while the $\FanTheoremUp$ chapter supplies the finite-bar rows against which those prefixes are compared. Since both surfaces are read before the obstruction row is interpreted, the Kleene packet records a horizontal dependency through Cantor-space prefixes and fan-theorem bars rather than a free-standing path object.
+\end{proof}
+
 \begin{theorem}[Kleene tree Specker boundary route]
 \label{thm:kleene-tree-specker-boundary-route}
 Every $\SpeckerSequenceBoundaryUp$ consumer using a $\KleeneTreeUp$ obstruction must first read the $\CantorSpaceUp$ prefix rows, $\FanTheoremUp$ finite-bar rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and the terminal $\RealUp$ boundary before it can consume the obstruction as a Specker-style boundary row. The public route factors through the Kleene carrier rows $S,L,B,T,O,H,C,P,N$ together with the Specker boundary route of \autoref{ch:concrete-instances-specker-sequence-boundary-namecert}.
