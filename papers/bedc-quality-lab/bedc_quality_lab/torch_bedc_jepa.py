@@ -439,7 +439,6 @@ def run_torch_retraining_loss_ablation(
             "cuda_available": bool(torch.cuda.is_available()),
             "resolved_device": device_resolution.resolved_device,
             "device_resolution": device_resolution.to_dict(),
-            "device": device_resolution.to_dict(),
             "cuda_device_name": str(torch.cuda.get_device_name(0)) if torch.cuda.is_available() else "",
         },
         "seeds": [float(seed) for seed in seeds],
