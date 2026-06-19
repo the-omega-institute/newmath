@@ -586,6 +586,27 @@
       "phase": 1,
       "statement": "Let T(z)=[[1,z],[1,0]] be the weighted deformation of the core Fibonacci transfer matrix M=T(1). Exact symbolic matrix arithmetic verifies for g=1..10 that tr(T(z)^g)=sum_s W(g,s) z^s with W(g,0)=1 and W(g,s)=g/(g-s) binomial(g-s,s) for s>=1; specializing z=1 gives tr(M^g)=L_g=[1,3,4,7,11,18,29,47,76,123]. For d>=1 define P_d(z)=(1/d) sum_{r|d} mu(r) tr(T(z^r)^(d/r)) and G_n(u,y)=sum_{d|n} u^d P_d(y^(n/d)). For d|10 the primitive coefficient lists are P_1=[1], P_2=[0,1], P_5=[0,1,1], and P_10=[0,1,3,5,2]. The Window6 kernel is G_10(u,y)=u+u^2 y^5+u^5 y^2+u^5 y^4+u^10 y+3u^10 y^2+5u^10 y^3+2u^10 y^4. This single kernel generates all four gauge-invariant necklace observables: [u^d y^k]G_10 recovers J_10(d,k)={(1,0):1,(2,5):1,(5,2):1,(5,4):1,(10,1):1,(10,2):3,(10,3):5,(10,4):2}; G_10(1,y) has coefficients [1,1,4,5,3,1]; [u^d]G_10(u,1) gives {1:1,2:1,5:2,10:11}; and G_10(1,1)=15. The certificate is exact trace-cycle-index arithmetic over the golden no-adjacent-1 carrier, bridges the necklace theory back to M through z=1, and is not about alpha.",
       "status": "open"
+    },
+    {
+      "claim_id": "window6.clock-gauge-invariant.necklace-spectral-determinant-bridge.certificate",
+      "claimed_layer": "arithmetic_certificate",
+      "depends_on": [
+        "window6.clock-gauge-invariant.trace-cycle-index-necklace-kernel.certificate",
+        "window6.transfer-operator.golden-perron-spectrum.certificate"
+      ],
+      "experiment_id": "verify-window6-necklace-spectral-determinant-bridge",
+      "forbidden_claims": [
+        "The necklace spectral-determinant bridge does not identify the fine-structure constant or any physical/external/metrological interpretation.",
+        "The certificate does not use alpha/137 as input, target, proximity check, or readout.",
+        "The certificate does not claim an all-period full-SFT zeta theorem beyond the Window6/C_10 divisor sector and same-carrier formal envelope.",
+        "The certificate is not the four-cell Markov-kernel or torsion-prime resolvent; it uses the weighted two-state golden transfer carrier T(y)."
+      ],
+      "history": [],
+      "hypothesis_level": "H0",
+      "linked_conjecture_id": "window6.clock-gauge-invariant.necklace-spectral-determinant-bridge",
+      "phase": 1,
+      "statement": "Let T(y)=[[1,y],[1,0]]. Exact symbolic linear algebra gives det(I-xT(y))=1-x-y*x^2, and the x^<=10 formal power-series certificate verifies -log det(I-xT(y))=sum_{g=1}^{10} tr(T(y)^g)x^g/g. With P_d(y)=(1/d) sum_{r|d} mu(r) tr(T(y^r)^(d/r)), exact Mobius trace arithmetic verifies tr(T(y)^g)=sum_{d|g} d P_d(y^(g/d)) for g=1..10. Thus the primitive-necklace Euler product prod_d prod_s (1-x^d y^s)^-[y^s]P_d(y) has log equal to -log det(I-xT(y)) through x^10, so within this finite same-carrier envelope it is the inverse weighted transfer spectral determinant 1/(1-x-y*x^2). The Window6/C_10 divisor sector gives 1/[(1-x)(1-x^2*y)(1-x^5*y)(1-x^5*y^2)(1-x^10*y)(1-x^10*y^2)^3(1-x^10*y^3)^5(1-x^10*y^4)^2], and lifting its exponents recovers the trace-cycle-index G_10 data. At y=1 the determinant is 1-x-x^2, its inverse gives Fibonacci coefficients F_{g+1}, and its log gives Lucas power sums. The scope is the Window6/C_10 sector plus same-carrier formal determinant envelope; it is not about alpha.",
+      "status": "open"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
