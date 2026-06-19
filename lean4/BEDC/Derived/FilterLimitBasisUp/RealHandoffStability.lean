@@ -104,4 +104,89 @@ theorem FilterLimitBasisCarrier_real_handoff_stability [AskSetup] [PackageSetup]
   }
   exact ⟨cert, readbackUnary, toleranceUnary, realUnary, structuralUnary⟩
 
+theorem FilterLimitBasisRealHandoffStability [AskSetup] [PackageSetup]
+    {Q F L W R D E H C P N transportedSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FilterLimitBasisCarrier Q F L W R D E H C P N bundle pkg →
+      UnaryHistory Q →
+        UnaryHistory F →
+          UnaryHistory L →
+            UnaryHistory W →
+              UnaryHistory R →
+                UnaryHistory D →
+                  UnaryHistory E →
+                    UnaryHistory N →
+                      Cont Q F L →
+                        Cont W R D →
+                          Cont L D E →
+                            Cont E H transportedSeal →
+                              PkgSig bundle P pkg →
+                                PkgSig bundle N pkg →
+                                  SemanticNameCert
+                                      (fun row : BHist =>
+                                        hsame row transportedSeal ∧ UnaryHistory row)
+                                      (fun row : BHist =>
+                                        hsame row Q ∨ hsame row F ∨ hsame row L ∨
+                                          hsame row W ∨ hsame row R ∨ hsame row D ∨
+                                            hsame row E ∨ hsame row transportedSeal)
+                                      (fun row : BHist =>
+                                        UnaryHistory row ∧ Cont Q F L ∧ Cont W R D ∧
+                                          Cont L D E ∧ Cont E H transportedSeal ∧
+                                            PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                                      hsame ∧
+                                    UnaryHistory transportedSeal := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier qUnary fUnary lUnary wUnary rUnary dUnary eUnary _nUnary qf wr ld
+    sealRoute pkgP pkgN
+  obtain
+    ⟨_carrierQ, _carrierF, _carrierL, _carrierW, _carrierR, _carrierD, _carrierE,
+      hUnary, _carrierC, _carrierP, _carrierN, _sameHN, _carrierPkg⟩ := carrier
+  have transportedUnary : UnaryHistory transportedSeal :=
+    unary_cont_closed eUnary hUnary sealRoute
+  have sourceSeal :
+      (fun row : BHist => hsame row transportedSeal ∧ UnaryHistory row)
+        transportedSeal := by
+    exact ⟨hsame_refl transportedSeal, transportedUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row transportedSeal ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row Q ∨ hsame row F ∨ hsame row L ∨ hsame row W ∨
+              hsame row R ∨ hsame row D ∨ hsame row E ∨ hsame row transportedSeal)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont Q F L ∧ Cont W R D ∧ Cont L D E ∧
+              Cont E H transportedSeal ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro transportedSeal sourceSeal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr
+        (Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, qf, wr, ld, sealRoute, pkgP, pkgN⟩
+  }
+  exact ⟨cert, transportedUnary⟩
+
 end BEDC.Derived.FilterLimitBasisUp
