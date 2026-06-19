@@ -1,10 +1,4 @@
-import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
-import BEDC.FKernel.Ask
-import BEDC.FKernel.Bundle
-import BEDC.FKernel.Cont
-import BEDC.FKernel.NameCert
-import BEDC.FKernel.Package
-import BEDC.FKernel.Unary
+import BEDC.Derived.AuditMapObstructionSocketUp
 
 namespace BEDC.Derived.AuditMapObstructionSocketUp
 
