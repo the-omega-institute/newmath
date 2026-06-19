@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyNameNormalFormUp$}
+\label{ch:concrete-instances-regular-cauchy-name-normal-form-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy names, the $\RegularCauchyNameNormalFormUp$ packet records the finite normal-form surface by which a displayed rational name is read before the terminal $\RealUp$ seal is available. It sits over the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the sealing discipline of \autoref{ch:concrete-instances-bishop-cauchy-name-seal-namecert}, and the modulus ledger of \autoref{ch:concrete-instances-regular-sequence-modulus-namecert}. The packet names only the displayed normal-form rows; it does not assert $\RealUp$ completeness, quotient stream equality, selected limits, trichotomy, countable choice, or host real equality.
+
+\begin{definition}[Regular Cauchy name normal-form carrier]
+\label{def:regular-cauchy-name-normal-form-carrier}
+A $\RegularCauchyNameNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,S,R,M,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare rational observations at the requested precision.
+\item $S$ is the finite $\StreamNameUp$ window row exposing exactly the inspected rational-name observations.
+\item $R$ is the $\RegSeqRatUp$ regular readback row attached to the same finite windows.
+\item $M$ is the $\RegularSequenceModulusUp$ row that records the displayed regularity modulus for the rational name.
+\item $E$ is the $\RealUp$ seal row, available only after $D,S,R,M$ have been displayed.
+\item $B$ is the $\BishopCauchyNameSealUp$ row that records the Bishop-style Cauchy-name admission boundary for the same route.
+\item $H$ records componentwise $\hsame$ transport for the tolerance, window, readback, modulus, seal, Bishop admission, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a name-normalization request through $D,S,R,M,E,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyNameNormalFormUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularSequenceModulusUp$, $\RealUp$, $\BishopCauchyNameSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyNameNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $D,S,R,M,E,B,H,C,P,N$. It has no coordinate for quotient stream equality, a selected limit, host real equality, trichotomy, countable choice, or ambient completeness for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy name normal-form NameCert obligations]
+\label{thm:regular-cauchy-name-normal-form-namecert-obligations}
+For every accepted $\RegularCauchyNameNormalFormUp$ carrier $F=(D,S,R,M,E,B,H,C,P,N)$, the local $\NameCert_{\RegularCauchyNameNormalFormUp}$ surface consists exactly of carrier admission for the dyadic tolerance ledger, finite stream window, regular rational readback, regular-sequence modulus, real seal, Bishop Cauchy-name seal, componentwise transport, displayed replay, package provenance, and local naming rows. Every real-facing read from the packet must pass through
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RegularSequenceModulusUp \longmapsto \RealUp
+$$
+before the Bishop seal and structural rows can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(D,S,R,M,E,B,H,C,P,N)$. The visible analytic inventory is exactly the dyadic tolerance row, finite stream window, regular rational readback, regularity modulus, real seal, and Bishop Cauchy-name admission row.
+
+The replay row $C$ fixes the order of use. A name-normalization request first reads the tolerance ledger $D$, then the finite window $S$, then the regular readback $R$, then the regularity modulus $M$, and only then exposes the terminal real seal $E$ and the Bishop admission boundary $B$.
+
+Transport and provenance preserve the same packet. The rows $H,P,N$ move, source, and name the displayed normal-form surface, but they do not add quotient stream equality, a selected limit, host real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy normal-form route nonescape]
+\label{thm:regular-cauchy-name-normal-form-route-nonescape}
+Every $\RealUp$-facing or completion-facing consumer of an accepted $\RegularCauchyNameNormalFormUp$ packet receives a finite normal-form route through $D,S,R,M,E,B,H,C,P,N$. The consumer cannot bypass the $\DyadicRatCoreUp$ tolerance row, the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ readback, the $\RegularSequenceModulusUp$ modulus row, or the $\BishopCauchyNameSealUp$ admission boundary by appealing to quotient stream equality, selected limits, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a real-facing read of an accepted carrier. The only terminal real row is $E$, and the carrier places it after the displayed tolerance, stream, readback, and modulus rows.
+
+Read the continuation row $C$. It sends the request through $D,S,R,M$ before $E$ and $B$ are available. Componentwise transport through $H$ preserves those fields rather than replacing them by a host comparison or a quotient equality.
+
+The provenance and naming rows $P,N$ bind the same finite route to the local certificate. Since the carrier contains no coordinate for selected limits, trichotomy, countable choice, host real equality, quotient stream equality, or completeness of all $\RealUp$ names, no consumer can obtain such data from the packet.
+\end{proof}
+
+\closureat{RegularCauchyNameNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyNameNormalFormUp}
+  \constructivestory{A $\RegularCauchyNameNormalFormUp$ packet is generated from a DyadicRatCoreUp tolerance ledger, StreamNameUp finite windows, RegSeqRatUp readback, a RegularSequenceModulusUp row, a RealUp seal, a BishopCauchyNameSealUp admission row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-name-normal-form-carrier}, \autoref{thm:regular-cauchy-name-normal-form-namecert-obligations}, and \autoref{thm:regular-cauchy-name-normal-form-route-nonescape} seed the finite normal-form route over DyadicRatCoreUp, StreamNameUp, RegSeqRatUp, RegularSequenceModulusUp, RealUp, BishopCauchyNameSealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim RealUp completeness, quotient stream equality, selected limits, trichotomy, countable choice, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, route exactness, transport stability, Bishop admission stability, refusal rows, and provenance faithfulness for BEDC.Derived.RegularCauchyNameNormalFormUp.}
+\end{closurestatus}
