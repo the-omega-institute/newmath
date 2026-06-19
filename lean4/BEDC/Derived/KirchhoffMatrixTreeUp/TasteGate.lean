@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.KirchhoffMatrixTreeUp
+namespace BEDC.Derived.KirchhoffMatrixTreeUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,54 +25,59 @@ def kirchhoffMatrixTreeDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (kirchhoffMatrixTreeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (kirchhoffMatrixTreeDecodeBHist tail)
 
-private theorem KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode :
+private theorem kirchhoffMatrixTree_decode_encode_bhist :
     ∀ h : BHist, kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
-
-def kirchhoffMatrixTreeFields : KirchhoffMatrixTreeUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | KirchhoffMatrixTreeUp.mk G E L M D S T H C P N => [G, E, L, M, D, S, T, H, C, P, N]
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def kirchhoffMatrixTreeToEventFlow : KirchhoffMatrixTreeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (kirchhoffMatrixTreeFields x).map kirchhoffMatrixTreeEncodeBHist
+  | KirchhoffMatrixTreeUp.mk G E L M D S T H C P N =>
+      [kirchhoffMatrixTreeEncodeBHist G,
+        kirchhoffMatrixTreeEncodeBHist E,
+        kirchhoffMatrixTreeEncodeBHist L,
+        kirchhoffMatrixTreeEncodeBHist M,
+        kirchhoffMatrixTreeEncodeBHist D,
+        kirchhoffMatrixTreeEncodeBHist S,
+        kirchhoffMatrixTreeEncodeBHist T,
+        kirchhoffMatrixTreeEncodeBHist H,
+        kirchhoffMatrixTreeEncodeBHist C,
+        kirchhoffMatrixTreeEncodeBHist P,
+        kirchhoffMatrixTreeEncodeBHist N]
 
-private def kirchhoffMatrixTreeEventAt : Nat → EventFlow → RawEvent
+private def kirchhoffMatrixTreeEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => kirchhoffMatrixTreeEventAt index rest
+  | Nat.succ index, _event :: rest => kirchhoffMatrixTreeEventAtDefault index rest
 
 def kirchhoffMatrixTreeFromEventFlow (ef : EventFlow) :
     Option KirchhoffMatrixTreeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (KirchhoffMatrixTreeUp.mk
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 0 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 1 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 2 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 3 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 4 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 5 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 6 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 7 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 8 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 9 ef))
-      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAt 10 ef)))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 0 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 1 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 2 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 3 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 4 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 5 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 6 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 7 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 8 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 9 ef))
+      (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEventAtDefault 10 ef)))
 
-private theorem KirchhoffMatrixTreeTasteGate_single_carrier_alignment_round_trip
-    (x : KirchhoffMatrixTreeUp) :
-    kirchhoffMatrixTreeFromEventFlow (kirchhoffMatrixTreeToEventFlow x) = some x := by
+private theorem kirchhoffMatrixTree_round_trip :
+    ∀ x : KirchhoffMatrixTreeUp,
+      kirchhoffMatrixTreeFromEventFlow (kirchhoffMatrixTreeToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk G E L M D S T H C P N =>
       change
@@ -90,19 +95,19 @@ private theorem KirchhoffMatrixTreeTasteGate_single_carrier_alignment_round_trip
             (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEncodeBHist P))
             (kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEncodeBHist N))) =
           some (KirchhoffMatrixTreeUp.mk G E L M D S T H C P N)
-      rw [KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode G,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode E,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode L,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode M,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode D,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode S,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode T,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode H,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode C,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode P,
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode N]
+      rw [kirchhoffMatrixTree_decode_encode_bhist G,
+        kirchhoffMatrixTree_decode_encode_bhist E,
+        kirchhoffMatrixTree_decode_encode_bhist L,
+        kirchhoffMatrixTree_decode_encode_bhist M,
+        kirchhoffMatrixTree_decode_encode_bhist D,
+        kirchhoffMatrixTree_decode_encode_bhist S,
+        kirchhoffMatrixTree_decode_encode_bhist T,
+        kirchhoffMatrixTree_decode_encode_bhist H,
+        kirchhoffMatrixTree_decode_encode_bhist C,
+        kirchhoffMatrixTree_decode_encode_bhist P,
+        kirchhoffMatrixTree_decode_encode_bhist N]
 
-private theorem KirchhoffMatrixTreeTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem kirchhoffMatrixTreeToEventFlow_injective
     {x y : KirchhoffMatrixTreeUp} :
     kirchhoffMatrixTreeToEventFlow x = kirchhoffMatrixTreeToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -112,20 +117,8 @@ private theorem KirchhoffMatrixTreeTasteGate_single_carrier_alignment_toEventFlo
         kirchhoffMatrixTreeFromEventFlow (kirchhoffMatrixTreeToEventFlow y) :=
     congrArg kirchhoffMatrixTreeFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (KirchhoffMatrixTreeTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (KirchhoffMatrixTreeTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem KirchhoffMatrixTreeTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : KirchhoffMatrixTreeUp, kirchhoffMatrixTreeFields x = kirchhoffMatrixTreeFields y →
-      x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk G₁ E₁ L₁ M₁ D₁ S₁ T₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk G₂ E₂ L₂ M₂ D₂ S₂ T₂ H₂ C₂ P₂ N₂ =>
-          cases hfields
-          rfl
+    (Eq.trans (kirchhoffMatrixTree_round_trip x).symm
+      (Eq.trans hread (kirchhoffMatrixTree_round_trip y)))
 
 instance kirchhoffMatrixTreeBHistCarrier : BHistCarrier KirchhoffMatrixTreeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -137,47 +130,23 @@ instance kirchhoffMatrixTreeChapterTasteGate : ChapterTasteGate KirchhoffMatrixT
   round_trip := by
     intro x
     change kirchhoffMatrixTreeFromEventFlow (kirchhoffMatrixTreeToEventFlow x) = some x
-    exact KirchhoffMatrixTreeTasteGate_single_carrier_alignment_round_trip x
+    exact kirchhoffMatrixTree_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (KirchhoffMatrixTreeTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance kirchhoffMatrixTreeFieldFaithful : FieldFaithful KirchhoffMatrixTreeUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := kirchhoffMatrixTreeFields
-  field_faithful := KirchhoffMatrixTreeTasteGate_single_carrier_alignment_fields_faithful
-
-instance kirchhoffMatrixTreeNontrivial : Nontrivial KirchhoffMatrixTreeUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨KirchhoffMatrixTreeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      KirchhoffMatrixTreeUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def KirchhoffMatrixTreeTasteGate_single_carrier_alignment_taste_gate :
-    ChapterTasteGate KirchhoffMatrixTreeUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  kirchhoffMatrixTreeChapterTasteGate
+    exact hxy (kirchhoffMatrixTreeToEventFlow_injective heq)
 
 theorem KirchhoffMatrixTreeTasteGate_single_carrier_alignment :
     (∀ h : BHist, kirchhoffMatrixTreeDecodeBHist (kirchhoffMatrixTreeEncodeBHist h) = h) ∧
-      (∀ x : KirchhoffMatrixTreeUp,
-        kirchhoffMatrixTreeFromEventFlow (kirchhoffMatrixTreeToEventFlow x) = some x) ∧
-        (∀ x y : KirchhoffMatrixTreeUp,
-          kirchhoffMatrixTreeToEventFlow x = kirchhoffMatrixTreeToEventFlow y → x = y) ∧
+      Nonempty (BHistCarrier KirchhoffMatrixTreeUp) ∧
+        Nonempty (ChapterTasteGate KirchhoffMatrixTreeUp) ∧
           kirchhoffMatrixTreeEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨KirchhoffMatrixTreeTasteGate_single_carrier_alignment_decode_encode,
-      KirchhoffMatrixTreeTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        KirchhoffMatrixTreeTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact kirchhoffMatrixTree_decode_encode_bhist
+  · constructor
+    · exact Nonempty.intro kirchhoffMatrixTreeBHistCarrier
+    · constructor
+      · exact Nonempty.intro kirchhoffMatrixTreeChapterTasteGate
+      · rfl
 
-end BEDC.Derived.KirchhoffMatrixTreeUp
+end BEDC.Derived.KirchhoffMatrixTreeUp.TasteGate
