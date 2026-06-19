@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import json
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Mapping
 
 
 SCHEMA_ID = "bedc-quality-lab:l1-admissibility-audit"
@@ -62,13 +62,6 @@ NOT_CLAIMED = (
 
 def _now(generated_at: str | None) -> str:
     return generated_at or datetime.now(timezone.utc).isoformat()
-
-
-def _json_digest(payload: Any) -> str:
-    normalized = json.dumps(payload, sort_keys=True, separators=(",", ":"), default=str)
-    import hashlib
-
-    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
 def _pointer_value(payload: Mapping[str, Any], pointer: str) -> Any:

@@ -3,6 +3,7 @@ import json
 import pytest
 
 from bedc_quality_lab import l1_admissibility_audit as audit
+from scripts import run_l1_admissibility_audit as audit_runner
 
 
 def _ready_metrics(**overrides):
@@ -123,3 +124,41 @@ def test_write_artifacts_loads_owner_metrics_pointer(tmp_path):
     assert payload["gate_card"]["status"] == "pass"
     assert (tmp_path / audit.CANONICAL_JSON_ARTIFACT).exists()
     assert (tmp_path / audit.CANONICAL_MARKDOWN_ARTIFACT).exists()
+
+
+def test_cli_main_prints_compact_summary(tmp_path, capsys):
+    exit_code = audit_runner.main(["--root", str(tmp_path), "--generated-at", "fixture"])
+
+    summary = json.loads(capsys.readouterr().out)
+    payload = json.loads((tmp_path / audit.CANONICAL_JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    assert exit_code == 0
+    assert summary == {
+        "artifact_id": audit.ARTIFACT_ID,
+        "failed_gate": "L1A-HG1-READINESS",
+        "status": "not_ready",
+    }
+    assert payload["gate_card"]["status"] == summary["status"]
+
+
+def test_cli_main_writes_json_summary_without_stdout(tmp_path, capsys):
+    summary_path = tmp_path / "summary.json"
+
+    exit_code = audit_runner.main(
+        [
+            "--root",
+            str(tmp_path),
+            "--generated-at",
+            "fixture",
+            "--json-summary",
+            str(summary_path),
+        ]
+    )
+
+    assert exit_code == 0
+    assert capsys.readouterr().out == ""
+    assert json.loads(summary_path.read_text(encoding="utf-8")) == {
+        "artifact_id": audit.ARTIFACT_ID,
+        "failed_gate": "L1A-HG1-READINESS",
+        "status": "not_ready",
+    }
