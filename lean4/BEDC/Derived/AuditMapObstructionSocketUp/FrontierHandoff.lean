@@ -1,10 +1,4 @@
-import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
-import BEDC.FKernel.Ask
-import BEDC.FKernel.Bundle
-import BEDC.FKernel.Cont
-import BEDC.FKernel.NameCert
-import BEDC.FKernel.Package
-import BEDC.FKernel.Unary
+import BEDC.Derived.AuditMapObstructionSocketUp
 
 namespace BEDC.Derived.AuditMapObstructionSocketUp
 
@@ -16,7 +10,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def AuditMapObstructionSocketFrontierCarrier [AskSetup] [PackageSetup]
+def audit_map_obstruction_socket_frontier_handoff_carrier [AskSetup] [PackageSetup]
     (auditTag positive conditional obstruction frontier transport continuations provenance
       nameCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -30,7 +24,7 @@ theorem AuditMapObstructionSocket_frontier_handoff [AskSetup] [PackageSetup]
     {auditTag positive conditional obstruction frontier transport continuations provenance
       nameCert frontierRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    AuditMapObstructionSocketFrontierCarrier auditTag positive conditional obstruction frontier transport
+    audit_map_obstruction_socket_frontier_handoff_carrier auditTag positive conditional obstruction frontier transport
         continuations provenance nameCert bundle pkg →
       Cont frontier transport frontierRead →
         SemanticNameCert
