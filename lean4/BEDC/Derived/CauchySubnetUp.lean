@@ -96,6 +96,79 @@ theorem CauchySubnetNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, handoffUnary, sealUnary⟩
 
+theorem CauchySubnet_obligation_closure_package [AskSetup] [PackageSetup]
+    {F J W R D L E H C P N handoff sealRead endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySubnetCarrier F J W R D L E H C P N bundle pkg →
+      Cont D L handoff →
+        Cont handoff E sealRead →
+          Cont F J endpointRead →
+            PkgSig bundle N pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row F ∨ hsame row J ∨ hsame row W ∨ hsame row R ∨
+                      hsame row D ∨ hsame row L ∨ hsame row E ∨ hsame row N)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                  hsame ∧
+                UnaryHistory handoff ∧ UnaryHistory sealRead ∧
+                  UnaryHistory endpointRead := by
+  -- BEDC touchpoint anchor: CauchySubnetCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert
+  intro carrier routeHandoff routeSeal endpointRoute namePkg
+  obtain ⟨unaryF, unaryJ, _unaryW, _unaryR, unaryD, unaryL, unaryE, _unaryH,
+    _unaryC, _unaryP, unaryN, _fjw, _wrd, _dle, _ehc, provenancePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed unaryD unaryL routeHandoff
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed handoffUnary unaryE routeSeal
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed unaryF unaryJ endpointRoute
+  have sourceN :
+      (fun row : BHist => hsame row N ∧ UnaryHistory row) N := by
+    exact ⟨hsame_refl N, unaryN⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row F ∨ hsame row J ∨ hsame row W ∨ hsame row R ∨
+              hsame row D ∨ hsame row L ∨ hsame row E ∨ hsame row N)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N sourceN
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, handoffUnary, sealUnary, endpointUnary⟩
+
 theorem CauchySubnet_filter_limit_handoff [AskSetup] [PackageSetup]
     {filter subnet window readback tolerance limit sealRow transport replay provenance localName
       handoffRead : BHist}
