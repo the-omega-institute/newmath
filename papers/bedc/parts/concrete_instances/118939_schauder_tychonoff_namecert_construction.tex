@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\SchauderTychonoffUp$}
+\label{ch:concrete-instances-schauder-tychonoff-namecert}
+\origin{human}
+
+Following Schauder and Tychonoff, the $\SchauderTychonoffUp$ packet records the finite handoff surface used when a compact convex source, a continuous self-map, and an approximate fixed-point mesh are displayed together. It sits after the Schauder fixed-point route of \autoref{ch:concrete-instances-schauder-fixed-point-namecert}, the finite approximate fixed-point packet of \autoref{ch:concrete-instances-finite-approximate-fixed-point-namecert}, the compact-metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the convex membership surface of \autoref{ch:concrete-instances-convexset-namecert}, the locally convex ambient source of \autoref{ch:concrete-instances-locally-convex-space-namecert}, and the continuous-map graph row of \autoref{ch:concrete-instances-continuousmap-namecert}. The chapter names a compact-convex fixed-point handoff as finite NameCert data; it does not claim arbitrary product compactness, choice-selected fixed points, quotient equality, or a host Schauder--Tychonoff theorem.
+
+\begin{definition}[Schauder--Tychonoff handoff carrier]
+\label{def:schauder-tychonoff-carrier}
+A $\SchauderTychonoffUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,V,X,f,M,A,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ or compact-source row that supplies the finite inspection windows for the domain.
+\item $V$ is the $\LocallyConvexSpaceUp$ ambient row carrying the finite seminorm or weak-neighborhood windows available to the packet.
+\item $X$ is the $\ConvexSetUp$ row for the same displayed subset, including the affine-combination and membership reads used by fixed-point consumers.
+\item $f$ is the $\ContinuousMapUp$ self-map row whose graph reads stay inside the displayed compact convex source.
+\item $M$ is the finite mesh and radius ledger consumed from \autoref{ch:concrete-instances-finite-approximate-fixed-point-namecert}.
+\item $A$ is the approximate fixed-point displacement row, recording the inspected points and tolerance windows through which $f(x)$ is compared with $x$.
+\item $R$ is the fixed-point handoff row to \autoref{ch:concrete-instances-schauder-fixed-point-namecert}, naming only the finite compact-convex route exposed by the packet.
+\item $H$ records componentwise $\hsame$ transport for the compact source, locally convex source, convex-set membership, continuous-map graph, mesh, displacement, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from compact and convex source reads through $f,M,A,R$ to the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\SchauderTychonoffUp$, $\CompactMetricUp$, $\ConvexSetUp$, $\LocallyConvexSpaceUp$, $\ContinuousMapUp$, finite approximate fixed-point rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchauderTychonoffUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $K,V,X,f,M,A,R,H,C,P,N$. It has no coordinate for arbitrary product compactness, a choice-selected exact fixed point, quotient equality of maps or points, a completed locally convex dual, or a host Schauder--Tychonoff theorem.
+\end{definition}
+
+\begin{theorem}[Schauder--Tychonoff NameCert obligations]
+\label{thm:schauder-tychonoff-namecert-obligations}
+For every accepted $\SchauderTychonoffUp$ carrier
+$$
+S=(K,V,X,f,M,A,R,H,C,P,N),
+$$
+the local $\NameCert_{\SchauderTychonoffUp}$ surface consists exactly of compact-source admission for $K$, locally convex ambient admission for $V$, convex-set admission for $X$, continuous self-map visibility for $f$, finite mesh and radius admission for $M$, approximate displacement readback for $A$, fixed-point handoff through $R$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Every compact-convex fixed-point consumer must read the dependency route
+$$
+K,V,X,f \longmapsto M,A \longmapsto R \longmapsto H,C,P,N
+$$
+before using the packet as a Schauder--Tychonoff handoff. The route exports finite certificate rows only; it exports no arbitrary product compactness theorem, no selected fixed point, no quotient equality, and no host theorem beyond the displayed compact-convex fixed-point handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:schauder-tychonoff-carrier}. The compact source is $K$, the locally convex ambient source is $V$, the convex subset source is $X$, and the self-map graph is $f$.
+
+Read the finite approximation data next. The mesh and radius row $M$ is supplied by \autoref{ch:concrete-instances-finite-approximate-fixed-point-namecert}, and the displacement row $A$ records only the inspected point and tolerance comparisons needed for the handoff.
+
+Route the fixed-point-facing read through $R$ and \autoref{ch:concrete-instances-schauder-fixed-point-namecert}. Transport and replay through $H$ and $C$ preserve the same displayed rows, while $P$ and $N$ name the resulting packet.
+
+Since the carrier has no coordinate for product compactness, an exact selected fixed point, quotient equality, a completed dual, or a host Schauder--Tychonoff theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{SchauderTychonoffUp}{seedStr}
+
+\begin{closurestatus}{\SchauderTychonoffUp}
+  \constructivestory{A $\SchauderTychonoffUp$ packet is generated from compact-source, locally convex, convex-set, continuous-map, finite mesh, displacement, fixed-point handoff, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schauder-tychonoff-carrier} and \autoref{thm:schauder-tychonoff-namecert-obligations} seed the finite compact-convex fixed-point handoff over compact-metric, convex-set, locally convex, continuous-map, finite approximate fixed-point, and Schauder fixed-point rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary product compactness, choice-selected fixed points, quotient equality, completed locally convex duality, a host Schauder--Tychonoff theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-convex source routing, continuous-map visibility, finite mesh and displacement readback, fixed-point handoff, transport, replay, provenance, and local naming for the same packet.}
+\end{closurestatus}

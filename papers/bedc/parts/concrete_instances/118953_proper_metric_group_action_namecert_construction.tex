@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ProperMetricGroupActionUp$}
+\label{ch:concrete-instances-proper-metric-group-action-namecert}
+\origin{human}
+
+Following Bourbaki and Bridson--Haefliger on group actions on proper metric spaces, the $\ProperMetricGroupActionUp$ packet records a displayed group action by isometries on a proper metric carrier as finite BEDC NameCert data. It consumes the group source of \autoref{ch:concrete-instances-group-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, and the closed-ball compactness discipline of \autoref{ch:concrete-instances-propermetric-namecert}. The packet names only action rows, orbit-window rows, compact ball witnesses, transport, replay, provenance, and local naming; it does not assert a host quotient orbit space, a global choice of representatives, or a full geometric group theory package.
+
+\begin{definition}[Proper metric group action carrier]
+\label{def:proper-metric-group-action-carrier}
+A $\ProperMetricGroupActionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(G,M,P,\alpha,I,O,W,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed $\GroupUp$ source row, including the displayed carrier, multiplication, unit, inverse, and classifier rows used to index action words.
+\item $M$ is the consumed $\MetricUp$ source row for the acted-on points, distance observations, and metric-law ledger.
+\item $P$ is the consumed $\ProperMetricUp$ row, exposing compact closed-ball witnesses for the finite center-radius windows read by the action packet.
+\item $\alpha$ is the action endpoint ledger. For each displayed group row $g$ and point row $x$, it records the endpoint row $\alpha(g,x)$ as a carried metric point.
+\item $I$ is the isometry ledger, recording that each displayed action endpoint preserves the metric-distance rows inspected by the packet.
+\item $O$ is the finite orbit-window ledger, listing the displayed group words and point rows inspected by a downstream consumer.
+\item $W$ is the properness and cocompactness window ledger. It records compact closed-ball witnesses from $P$ and finite orbit-window coverage rows for the displayed windows only.
+\item $H$ records componentwise $\hsame$ transport for the group, metric, proper-metric, action, isometry, orbit-window, coverage-window, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from group multiplication and inverse rows through action endpoints, isometry comparisons, compact closed-ball witnesses, and finite coverage windows.
+\item $Q$ is the $\Pkg$ provenance over $\ProperMetricGroupActionUp$, $\GroupUp$, $\MetricUp$, $\ProperMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProperMetricGroupActionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the displayed rows $G,M,P,\alpha,I,O,W,H,C,Q,N$. It has no coordinate for quotient orbit-space equality, selected orbit representatives, an ambient isometry group, open-cover compactness, or a global geometric group theory structure.
+\end{definition}
+
+\begin{theorem}[Proper metric group action NameCert obligations]
+\label{thm:proper-metric-group-action-namecert-obligations}
+For every accepted $\ProperMetricGroupActionUp$ carrier $A=(G,M,P,\alpha,I,O,W,H,C,Q,N)$, the local $\NameCert_{\ProperMetricGroupActionUp}$ surface consists exactly of carrier admission, group-source exposure, metric-source exposure, proper-metric closed-ball exposure, action endpoint admission, isometry-ledger admission, finite orbit-window admission, properness and cocompactness window admission, componentwise transport, displayed replay, provenance, local naming, and refusal of quotient orbit spaces, global representative choice, and full geometric group theory.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proper-metric-group-action-carrier}. Its public rows are exactly $G,M,P,\alpha,I,O,W,H,C,Q,N$, with the group and metric inputs read before any action endpoint is accepted.
+
+The action endpoint and isometry ledgers are finite rows. The endpoint row $\alpha(g,x)$ is inspected only for displayed group rows and point rows, and $I$ compares only the metric-distance observations already exposed by $M$.
+
+The properness and cocompactness boundary is the window ledger $W$. It may read compact closed-ball witnesses from $P$ and the displayed orbit-window rows from $O$, but it has no field that selects orbit representatives or forms a host quotient space.
+
+Transport, replay, provenance, and local naming preserve the same finite surface. Since no other row is present in the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Proper and cocompact finite-window handoff]
+\label{thm:proper-metric-group-action-finite-window-handoff}
+Every properness-facing or cocompactness-facing consumer of an accepted $\ProperMetricGroupActionUp$ packet factors through
+$$
+G,\quad M,\quad P,\quad \alpha,\quad I,\quad O,\quad W,\quad H,\quad C,\quad Q,\quad N .
+$$
+For each displayed orbit window, the consumer first reads the $\GroupUp$ word rows, the $\MetricUp$ point and distance rows, the $\ProperMetricUp$ closed-ball compactness witness, the action endpoint ledger, and the isometry ledger; only then may it read the finite coverage row in $W$. The handoff therefore supplies finite window data for proper and cocompact action reads, not a quotient orbit space, a selected representative system, or a general geometric group theory theorem.
+\end{theorem}
+\begin{proof}
+Fix a displayed orbit window. The group rows in $G$ supply the finite words being tested, and the metric rows in $M$ supply the point and distance observations for the same window.
+
+Read the proper-metric row $P$ next. The compact closed-ball witness used by the window is one of the displayed proper-metric witnesses, so the route is inherited from \autoref{ch:concrete-instances-propermetric-namecert} and not from an open-cover compactness principle.
+
+The action ledger $\alpha$ and isometry ledger $I$ then attach the group words to the metric rows. The orbit-window ledger $O$ records which endpoint rows are inspected, and $W$ records the finite properness or cocompactness coverage row attached to that window.
+
+Finally use $H,C,Q,N$ to transport, replay, source, and name the same finite packet. None of these rows contains a quotient orbit-space carrier, a representative selector, or a global geometric group theory structure, so the consumer receives only the displayed finite-window handoff.
+\end{proof}
+
+\falsifiablePrediction{A $\ProperMetricGroupActionUp$ read is refuted whenever a properness-facing or cocompactness-facing consumer uses orbit coverage without first displaying the GroupUp source, MetricUp source, ProperMetricUp closed-ball witness, action endpoint ledger, isometry ledger, finite orbit-window ledger, componentwise transport, replay, provenance, and local NameCert rows.}
+
+\closureat{ProperMetricGroupActionUp}{seedStr}
+
+\begin{closurestatus}{\ProperMetricGroupActionUp}
+  \constructivestory{A $\ProperMetricGroupActionUp$ packet is generated from a Group source row, a Metric source row, a ProperMetric closed-ball compactness row, an action endpoint ledger, an isometry ledger, a finite orbit-window ledger, a properness and cocompactness window ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proper-metric-group-action-carrier}, \autoref{thm:proper-metric-group-action-namecert-obligations}, and \autoref{thm:proper-metric-group-action-finite-window-handoff} seed the finite action carrier, its NameCert obligation surface, and the properness and cocompactness finite-window handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host quotient orbit space, global representative choice, full geometric group theory, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, group and metric source exposure, proper-metric closed-ball exposure, action endpoint admission, isometry admission, orbit-window admission, coverage-window admission, transport, replay, provenance, local naming, and refusal of quotient-space and representative-choice principles for BEDC.Derived.ProperMetricGroupActionUp.}
+\end{closurestatus}
