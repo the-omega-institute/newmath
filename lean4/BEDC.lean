@@ -2364,6 +2364,7 @@ import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
 import BEDC.Derived.CauchyTailRequestUp
 import BEDC.Derived.CauchyTailRequestUp.TasteGate
 import BEDC.Derived.CauchyTailSupremumUp.TasteGate
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.Classifier
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
@@ -7048,6 +7049,7 @@ import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp
+import BEDC.Derived.MetaCICBetaAuditUp.ReductionConversionBoundary
 import BEDC.Derived.MetaCICBetaAuditUp.SubjectReductionObstructionLedger
 import BEDC.Derived.MetaCICBetaAuditUp.TasteGate
 import BEDC.Derived.MetaCICCandidateNormalizationWitnessUp
