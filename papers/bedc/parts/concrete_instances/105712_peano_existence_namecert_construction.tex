@@ -43,14 +43,33 @@ The approximation content is carried by $E,Q,M$. Euler polygons in $E$ provide f
 The structural rows $H,C,G,N$ transport, replay, package, and name exactly that finite route. Since the carrier has no coordinate for uniqueness, Lipschitz dependence, maximal-extension selection, host compactness, or choice, the NameCert surface cannot export any of those objects.
 \end{proof}
 
-\closureat{PeanoExistenceUp}{seedStr}
+\begin{definition}[Peano interval trap carrier]\label{def:peano-interval-trap-carrier}
+The Peano interval trap inside a $\PeanoExistenceUp$ carrier is the displayed subpacket
+$$
+(I,V,W,E,Q,M)
+$$
+consisting of the closed $\RealUp$ time-state window named by $I$ and $W$, the continuous vector-field row $V$, the Euler polygon ledger $E$, the compact-containment row $Q$, and the modulus comparison row $M$. It records only the finite data used to keep polygon approximants inside the source packet before a local solution row is exported.
+\end{definition}
+
+\begin{theorem}[Peano interval trap obligations]\label{thm:peano-interval-trap-obligations}
+Every accepted local-existence read of a $\PeanoExistenceUp$ packet must pass through the interval source $I$, the continuous vector-field row $V$, the closed $\RealUp$ time-state window $W$, the Euler polygon ledger $E$, the compact-containment row $Q$, and the modulus handoff $M$ before it can export a solution row. Thus the interval trap obligations are exactly the finite rows displayed in \autoref{def:peano-interval-trap-carrier}, together with the transport, replay, provenance, and local naming rows of \autoref{def:peano-existence-carrier}.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:peano-existence-carrier}. The interval source $I$ and vector-field row $V$ are the only rows that provide the ODE request and continuous slope reads, while $W$ is the only closed Real window in which the finite construction is inspected.
+
+The Euler polygon ledger $E$ gives the finite approximants. The compact-containment row $Q$ checks each displayed segment against the same source window, and the modulus row $M$ supplies the comparison handoff needed before a local solution read can be exported.
+
+Rows $H,C,G,N$ do not add another analytic source. They transport, replay, record provenance, and name the same interval trap. Therefore every accepted local-existence read must expose $I,V,W,E,Q,M$ before the solution row is public.
+\end{proof}
+
+\closureat{PeanoExistenceUp}{obligationStr}
 
 \begin{closurestatus}{\PeanoExistenceUp}
   \constructivestory{A $\PeanoExistenceUp$ packet is generated from an $\OdeUp$ interval source row, a $\ContinuousMapUp$ vector-field row, a closed $\RealUp$ time-state window, Euler polygon approximation ledgers, compact-containment and modulus rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:peano-existence-carrier} and \autoref{thm:peano-existence-namecert-obligations} seed the constructive local existence packet over displayed ODE, continuous-map, real-window, Euler-polygon, containment, modulus, transport, replay, provenance, and naming rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:peano-existence-carrier}, \autoref{thm:peano-existence-namecert-obligations}, \autoref{def:peano-interval-trap-carrier}, and \autoref{thm:peano-interval-trap-obligations} expose the constructive local existence obligations over displayed ODE, continuous-map, real-window, Euler-polygon, containment, modulus, transport, replay, provenance, and naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim uniqueness, Lipschitz dependence, selected maximal solutions, host compactness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, Euler-polygon approximation readback, compact-containment exactness, modulus handoff, consumer nonescape, and a Lean carrier/obligation formalization for BEDC.Derived.PeanoExistenceUp.}
+  \upgradepath{Scoped closure requires binding these obligations to their exact primitive routes for interval sources, continuous vector fields, closed Real windows, Euler polygon ledgers, compact-containment rows, modulus handoffs, transport, replay, provenance, and local naming.}
 \end{closurestatus}

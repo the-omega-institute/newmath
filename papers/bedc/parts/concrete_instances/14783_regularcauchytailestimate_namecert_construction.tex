@@ -309,6 +309,48 @@ choice, open-cover compactness, and a second terminal seal therefore cannot
 replace the finite window triangle.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail estimate window monotone nesting]
+\label{thm:regular-cauchy-tail-estimate-window-monotone-nesting}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$ with two displayed finite tail windows where the
+second refines the first, every consumer must route the coarser read through
+the same $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $R$,
+$\DyadicRatCoreUp$ tolerance ledger $D$, tail-envelope lock, and terminal
+$\RealUp$ seal route $E$ before reading the refined estimate. The refinement
+adds only visible tolerance rows and displayed finite-window rows inside the
+same packet.
+
+It cannot create a quotient stream, selected limit, host convergence
+predicate, second terminal seal, open-cover compactness coordinate, or ambient
+$\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:regular-cauchy-tail-estimate-carrier}. The displayed rows
+$M,W,D,R,E,H,C,P,N$ are the only rows available to both finite windows, and
+the refinement hypothesis only adds rows admitted by the same $W$ and $D$.
+
+Apply the tail-envelope lock of
+\autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}. The coarser
+read must expose the route through $\RegularCauchyTailEnvelopeUp$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ before the seal row
+$E$ is inspected.
+
+Use tail dominance and dyadic-modulus scope,
+\autoref{thm:regular-cauchy-tail-estimate-tail-dominance} and
+\autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}. These rows
+force both the coarser and refined reads to keep the same displayed window,
+tolerance ledger, readback, transport, replay, provenance, and local naming
+surface.
+
+Finally apply the window triangle theorem,
+\autoref{thm:regular-cauchy-tail-estimate-window-triangle}. Since the two
+reads share the same finite window route and dyadic tolerance ledger, the
+refined read composes after the coarser read through the same $R$ and $E$
+coordinates. The extra rows are visible finite refinements, not new quotient,
+choice, convergence, compactness, or completeness coordinates.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy tail estimate obligation scope]
 \label{thm:regular-cauchy-tail-estimate-obligation-scope}
 For every accepted $\RegularCauchyTailEstimateUp$ carrier $T=(M,W,D,R,E,H,C,P,N)$, the obligation-closure surface is exactly the displayed rows $M,W,D,R,E,H,C,P,N$ together with the routes already cited through $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyTailEnvelopeUp$, and $\RealUp$.
