@@ -100,6 +100,19 @@ Apply \autoref{thm:cauchy-subnet-namecert-obligations} to exhaust the local Name
 
 The two route theorems then identify the order of consumption. \autoref{thm:cauchy-subnet-filter-limit-handoff} forces every endpoint through $F,J,W,R,D,L,E,H,C,P,N$, while \autoref{thm:cauchy-subnet-cofinal-ledger-coverage} prevents a completion-facing read from bypassing the cofinal ledger. These clauses leave no further local obligation row for the $\CauchySubnetUp$ packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchySubnetUp.CauchySubnetCarrier\_obligation\_closure\_package}
+
+\begin{theorem}[Cauchy subnet scoped route]
+\label{thm:cauchy-subnet-scoped-route}
+Every accepted $\CauchySubnetUp$ read is scoped exactly by the displayed $\CauchyFilterUp$ source row, $\CauchyFilterLimitUp$ handoff row, $\MetricCompletionUp$ endpoint row, $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ rational readback row, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal row, the surrounding $\BHist$ packet, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CauchySubnetUp}$ row. A consumer that omits any one of these rows receives only a partial subnet restriction and cannot expose a completion-facing endpoint for the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with the local obligation inventory. \autoref{thm:cauchy-subnet-namecert-obligations} lists carrier admission, cofinal restriction coverage, finite-window and tolerance exactness, filter-limit handoff, and ledger refusal as the only local rows.
+
+Next read the endpoint route. \autoref{thm:cauchy-subnet-filter-limit-handoff} forces every completion-facing or Real-facing consumer through $F,J,W,R,D,L,E,H,C,P,N$, while \autoref{thm:cauchy-subnet-cofinal-ledger-coverage} prevents the cofinal ledger $J$ from being bypassed before the finite windows are inspected.
+
+Finally apply \autoref{thm:cauchy-subnet-obligation-closure-package}. It packages the carrier, handoff, cofinal coverage, and refusal clauses into the same displayed packet, so the exact scope of an accepted read is precisely the listed CauchyFilter, CauchyFilterLimit, MetricCompletion, StreamName, RegSeqRat, DyadicRatCore, Real, BHist, hsame, Cont, Pkg, and NameCert surface.
+\end{proof}
 
 \begin{closurestatus}{\CauchySubnetUp}
   \theoryclosure{\obligationClosure}
