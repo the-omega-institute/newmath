@@ -6773,6 +6773,7 @@ import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedMonotoneConvergenceUp
 import BEDC.Derived.LocatedMonotoneConvergenceUp.TasteGate
 import BEDC.Derived.LocatedNestedIntervalLimitUp.TasteGate
+import BEDC.Derived.LocatedOpenUp
 import BEDC.Derived.LocatedOpenUp.TasteGate
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
@@ -8957,6 +8958,7 @@ import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RealLineConnectedUp.TasteGate
 import BEDC.Derived.RealLineOrderUp.TasteGate
+import BEDC.Derived.RealLocallyCompactUp.TasteGate
 import BEDC.Derived.RealLocatedOrderUp
 import BEDC.Derived.RealLocatedOrderUp.TasteGate
 import BEDC.Derived.RealLocatorUp.NameCertObligations
