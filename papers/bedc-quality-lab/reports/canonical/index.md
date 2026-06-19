@@ -12,7 +12,7 @@
 
 | report | report build | claim | hardgate | ladder | decision | CV | claim promotion eligible | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `jepa-wm-l1-evaluator-calibration` | `error` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `False` | `` | `reports/canonical/jepa-wm-l1-evaluator-calibration.json` | `reports/canonical/jepa-wm-l1-evaluator-calibration.md` | `reports/canonical/jepa-wm-l1-evaluator-calibration.fingerprint.json` | `$.claim_boundary` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.diagnostic_next_step` | `$.calibration_arms` |
+| `jepa-wm-l1-three-arm-venue-binding` | `error` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `not-applicable` | `False` | `` | `reports/canonical/jepa-wm-l1-three-arm-venue-binding.json` | `reports/canonical/jepa-wm-l1-three-arm-venue-binding.md` | `reports/canonical/jepa-wm-l1-three-arm-venue-binding.fingerprint.json` | `$.claim_boundary` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.decision` | `$.leakage_gates` |
 
 ## Dashboard
 
@@ -306,7 +306,7 @@
 
 ## Claim artifact consistency
 
-- Status: `pass`
+- Status: `fail`
 - JSON: `reports/canonical/claim-artifact-consistency.json`
 - Markdown: `reports/canonical/claim-artifact-consistency.md`
 - Claim: `claim:discovery-gated-transformer`
@@ -445,7 +445,7 @@
 
 - Status: `pointer-only`
 - Core reports: ``
-- Auxiliary reports: `jepa-wm-l1-evaluator-calibration`
+- Auxiliary reports: `jepa-wm-l1-three-arm-venue-binding`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -457,7 +457,7 @@
 
 | report | role | artifact role | eligible | exclusion pointer | block pointer |
 | --- | --- | --- | --- | --- | --- |
-| `jepa-wm-l1-evaluator-calibration` | `auxiliary` | `None` | `False` | `$.diagnostic_next_step` | `None` |
+| `jepa-wm-l1-three-arm-venue-binding` | `auxiliary` | `None` | `False` | `$.decision` | `None` |
 
 ## Literature ledger pointer
 

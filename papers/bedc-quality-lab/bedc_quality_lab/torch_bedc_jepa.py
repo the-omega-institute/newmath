@@ -587,6 +587,8 @@ def run_torch_retraining_loss_ablation(
             "certified_coverage_delta": float(full["certified_coverage_mean"]) - float(other["certified_coverage_mean"]),
             "latent_r2_delta": float(full["linear_identifiability_r2_mean"]) - float(other["linear_identifiability_r2_mean"]),
         }
+    device_resolution = choose_device()
+    device_resolution_payload = device_resolution.to_dict()
     return {
         "schema_id": "bedc-jepa-retraining-loss-ablation",
         "status": "executed",
@@ -600,7 +602,9 @@ def run_torch_retraining_loss_ablation(
         "torch_environment": {
             "torch_version": str(getattr(torch, "__version__", "unknown")),
             "cuda_available": bool(torch.cuda.is_available()),
-            "device": choose_device().to_dict(),
+            "device": device_resolution_payload,
+            "resolved_device": device_resolution.resolved_device,
+            "device_resolution": device_resolution_payload,
             "cuda_device_name": str(torch.cuda.get_device_name(0)) if torch.cuda.is_available() else "",
         },
         "seeds": [float(seed) for seed in seeds],
