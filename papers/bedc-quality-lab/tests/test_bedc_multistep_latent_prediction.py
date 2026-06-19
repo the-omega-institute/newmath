@@ -281,6 +281,74 @@ def test_multistep_report_uses_paired_seeds_gpu_evidence_and_gap_hardgates(monke
     }
 
 
+def test_multistep_report_allows_rollout_when_gap_calibration_fails(monkeypatch):
+    _install_fake_surface(monkeypatch)
+
+    def evaluate_surface(name, scores, batch):
+        return {
+            "linear_identifiability_r2": 0.92 if name != "latent_only" else 0.86,
+            "gap_detection_auc": {
+                "latent_only": 0.70,
+                "bedc_objective": 0.82,
+                "bedc_shuffled_gap_placebo": 0.84,
+            }[name],
+            "certified_coverage": 0.83 if name != "latent_only" else 0.70,
+            "unlogged_error_rate": 0.01 if name != "latent_only" else 0.08,
+        }
+
+    monkeypatch.setattr(mlp, "evaluate_torch_bedc_jepa_surface", evaluate_surface)
+
+    report = mlp.run_bedc_multistep_latent_prediction(
+        seeds=(1, 2, 3, 4, 5),
+        train_count=12,
+        test_count=8,
+        epochs=2,
+        steps=3,
+        device="cuda",
+        gpu_evidence=_passing_gpu_evidence(),
+    )
+
+    assert report["claim_gates"]["rollout_precision"]["claim_allowed"] is True
+    assert report["claim_gates"]["gap_calibration"]["claim_allowed"] is False
+    assert report["claim_gates"]["gap_calibration"]["claim_block_reason"] == ["paired_bootstrap_ci"]
+    assert report["hardgates"]["claim_allowed"] is True
+    assert report["cannot_claim"] == []
+
+
+def test_multistep_report_keeps_gap_preservation_diagnostic(monkeypatch):
+    _install_fake_surface(monkeypatch)
+
+    def evaluate_surface(name, scores, batch):
+        return {
+            "linear_identifiability_r2": 0.92 if name != "latent_only" else 0.86,
+            "gap_detection_auc": {
+                "latent_only": 0.86,
+                "bedc_objective": 0.70,
+                "bedc_shuffled_gap_placebo": 0.68,
+            }[name],
+            "certified_coverage": 0.50 if name == "bedc_objective" else 0.80,
+            "unlogged_error_rate": 0.12 if name == "bedc_objective" else 0.02,
+        }
+
+    monkeypatch.setattr(mlp, "evaluate_torch_bedc_jepa_surface", evaluate_surface)
+
+    report = mlp.run_bedc_multistep_latent_prediction(
+        seeds=(1, 2, 3, 4, 5),
+        train_count=12,
+        test_count=8,
+        epochs=2,
+        steps=3,
+        device="cuda",
+        gpu_evidence=_passing_gpu_evidence(),
+    )
+
+    assert report["claim_gates"]["rollout_precision"]["claim_allowed"] is True
+    assert report["claim_gates"]["gap_calibration"]["claim_allowed"] is True
+    assert report["hardgates"]["diagnostic_gates"]["gap_preservation"] is False
+    assert report["hardgates"]["claim_allowed"] is True
+    assert report["cannot_claim"] == []
+
+
 def test_multistep_report_blocks_claim_when_device_is_not_cuda(monkeypatch):
     _install_fake_surface(monkeypatch)
 
