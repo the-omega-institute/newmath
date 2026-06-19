@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\UlmInvariantUp$}
+\label{ch:concrete-instances-ulm-invariant-namecert}
+\origin{human}
+
+Following Kaplansky and Fuchs, the $\UlmInvariantUp$ packet records the classical height-filtration invariant for countable reduced $p$-primary abelian groups as finite BEDC NameCert data. It sits over the commutative operation surface of \autoref{ch:concrete-instances-abgroup-namecert}, the filtered scalar bookkeeping of \autoref{ch:concrete-instances-module-namecert}, and the torsion-window route of \autoref{ch:concrete-instances-pruefer-group-namecert}. The packet names finite height slices, quotient multiplicity rows, transport, replay, provenance, and local naming evidence; it does not assert the full Ulm classification theorem, choose representatives of quotient slices, construct an ambient Prüfer envelope, or compare external groups by an isomorphism selector.
+
+\begin{definition}[Ulm invariant carrier]
+\label{def:ulm-invariant-carrier}
+An $\UlmInvariantUp$ carrier is a finite $\BHist$ packet
+$$
+U=(p,A,H,F,Q,M,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $p$ is the prime row naming the fixed $p$-primary torsion coordinate and its visible arithmetic ledger.
+\item $A$ is the $\AbGroupUp$ source row, exposing the abelian operation, unit, inverse, commutativity, and classifier rows read by the invariant.
+\item $H$ is the height-filtration row, listing the displayed finite height stages and the rowwise membership tests used at each stage.
+\item $F$ is the successor-filtration row, recording the displayed passage from a height stage to its next $p$-multiple boundary.
+\item $Q$ is the quotient-slice row, naming the finite comparison surface for height-stage elements modulo the next displayed boundary.
+\item $M$ is the multiplicity row, recording the finite cardinal ledger of independent quotient-slice generators inspected by the packet.
+\item $T$ records componentwise $\hsame$ transport for the prime, abelian source, height filtration, successor filtration, quotient slices, multiplicities, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a torsion-height query through $p,A,H,F,Q,M,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\UlmInvariantUp$, $\AbGroupUp$, $\ModuleUp$, $\PrueferGroupUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UlmInvariantUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a full external abelian group classification, a selected basis of quotient slices, a hidden completion of the height filtration, or an ambient Prüfer-group embedding.
+\end{definition}
+
+\begin{theorem}[Ulm invariant height-filtration obligation]
+\label{thm:ulm-invariant-height-filtration-obligation}
+For every accepted $\UlmInvariantUp$ carrier
+$$
+U=(p,A,H,F,Q,M,T,C,P,N),
+$$
+the local $\NameCert_{\UlmInvariantUp}$ surface first reads the $\AbGroupUp$ source row $A$, then the displayed height-filtration row $H$, then the successor-filtration row $F$, and only then the quotient-slice and multiplicity rows $Q,M$. Thus every invariant-facing consumer receives height data as a finite $\BHist$ filtration route rather than as an ambient ordinal-indexed subgroup lattice or a choice-selected basis.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ulm-invariant-carrier}. The only algebraic source row is $A$, and the only height-facing rows are $H,F,Q,M$.
+
+The abelian source is read first. It supplies the operation, inverse, unit, commutativity, and classifier surface needed to speak about $p$-multiples and torsion-height comparisons.
+
+The height filtration is then exposed through $H$ and $F$. Row $H$ lists the displayed stages, while $F$ records the successor boundary used to compare a height stage with its next $p$-multiple layer.
+
+Finally $Q$ and $M$ read quotient slices and multiplicities only after those boundaries are visible. The transport, replay, provenance, and local naming rows $T,C,P,N$ preserve this order, so no hidden subgroup lattice or selected quotient basis enters the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Ulm invariant Pruefer dependency route]
+\label{thm:ulm-invariant-pruefer-dependency-route}
+Every Prüfer-facing or classification-facing consumer of an accepted $\UlmInvariantUp$ packet must retain the displayed route through \autoref{ch:concrete-instances-abgroup-namecert}, \autoref{ch:concrete-instances-module-namecert}, and \autoref{ch:concrete-instances-pruefer-group-namecert}. The $\PrueferGroupUp$ dependency is read only as a torsion-window comparison surface for $p$-primary height behavior; it is not a construction of an ambient divisible hull, a selected compatible root chain, or the full Ulm classification isomorphism.
+\end{theorem}
+\begin{proof}
+Start with the provenance row $P$ of \autoref{def:ulm-invariant-carrier}. It lists the abelian-group, module-style filtration, and Prüfer torsion-window surfaces as named dependencies of the same packet.
+
+The abelian-group row supplies the operation and classifier. The module-style row supplies filtered scalar bookkeeping for the $p$-multiple boundary, and the Prüfer-group row supplies the finite torsion-window comparison surface used to keep height behavior visible.
+
+The quotient-slice and multiplicity rows remain downstream of those dependencies. Because $T,C,P,N$ only transport, replay, source, and name the same finite route, no consumer can replace it by a divisible hull, a compatible root selector, or an external classification isomorphism.
+\end{proof}
+
+\begin{closurestatus}{\UlmInvariantUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ulm-invariant-carrier}, \autoref{thm:ulm-invariant-height-filtration-obligation}, and \autoref{thm:ulm-invariant-pruefer-dependency-route} seed the finite prime, abelian-source, height-filtration, successor-filtration, quotient-slice, multiplicity, transport, replay, provenance, and local naming route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim the full Ulm classification theorem, selected quotient representatives, ambient Prüfer envelopes, external group isomorphism, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, height-filtration stability, quotient-slice multiplicity, Prüfer torsion-window dependency, transport, replay, provenance, and local naming for BEDC.Derived.UlmInvariantUp.}
+  \constructivestory{A $\UlmInvariantUp$ packet is generated from a fixed prime row, AbGroup source row, height-filtration row, successor-filtration boundary, quotient-slice row, multiplicity ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
