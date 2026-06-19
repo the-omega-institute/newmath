@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-convergence-filter-namecert}
 \origin{human}
 
-Following Kelley and Bourbaki on filter convergence, the $\ConvergenceFilterUp$ packet records the standard neighbourhood-eventuality reading of a displayed filter base as finite BEDC NameCert data. It sits after the generated-base interface of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a convergence-facing handoff without quotient filters, selected limits, countable choice, host equality of filters, or ambient $\RealUp$ completeness.
+Following Kelley and Bourbaki on filter convergence, the $\ConvergenceFilterUp$ packet records the standard neighbourhood-eventuality reading of a displayed filter base as finite BEDC NameCert data. It sits after the generated-base interface of \autoref{ch:concrete-instances-filterbase-namecert}, the neighbourhood-eventuality sibling of \autoref{ch:concrete-instances-neighborhood-filter-namecert}, the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a convergence-facing handoff without quotient filters, selected limits, countable choice, host equality of filters, or ambient $\RealUp$ completeness.
 
 \begin{definition}[Convergence filter carrier]\label{def:convergence-filter-carrier}
 A $\ConvergenceFilterUp$ carrier is a finite $\BHist$ packet
@@ -33,6 +33,8 @@ For every accepted $\ConvergenceFilterUp$ carrier $K=(F,Nb,x,W,R,E,H,C,P,N)$, th
 Project the carrier of \autoref{def:convergence-filter-carrier}. The accepted packet exposes exactly the rows $F,Nb,x,W,R,E,H,C,P,N$.
 
 The convergence-facing rows are upstream. Row $F$ supplies finite filter-base data, and $Nb$ records the neighbourhood-eventuality checks at the displayed point named by $x$.
+
+The $Nb$ row is read through the $\NeighborhoodFilterUp$ route before the Cauchy-filter and Real-completion handoff, so the eventuality consumer receives the local neighbourhood filter surface rather than an unbounded host filter.
 
 The completion-facing rows are downstream. Consumers read finite windows through $W$, regular rational readback through $R$, and the terminal Real seal through $E$ only after the filter-base and neighbourhood rows have been displayed.
 
