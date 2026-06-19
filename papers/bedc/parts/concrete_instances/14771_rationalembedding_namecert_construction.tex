@@ -55,6 +55,20 @@ Apply \autoref{thm:rational-embedding-constant-sequence-route}. It identifies th
 The remaining rows $H,C,P,N$ are transport, continuation, provenance, and local naming rows for the same finite route. Since the carrier contains no coordinate for a quotient stream, host real equality, selected limit, trichotomy, host rational equality oracle, or ambient completeness, the $\RealUp$ seal boundary is exactly the displayed finite dependency chain.
 \end{proof}
 
+\begin{theorem}[RationalEmbedding stationary readback exactness]
+\label{thm:rational-embedding-stationary-readback-exactness}
+For every accepted $\RationalEmbeddingUp$ carrier $K=(q,S,R,D,E,H,C,P,N)$, the stationary $\RegSeqRatUp$ row $R$ is exactly the finite readback of the constant $\StreamNameUp$ schedule $S$ sourced by the $\RatUp$ row $q$. The later $\DyadicRatCoreUp$ row $D$ may inspect only this stationary readback before the $\RealUp$ seal $E$ is exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier surface of \autoref{def:rational-embedding-carrier-surface}. The rows $q,S,R,D,E$ appear in dependency order, and the continuation row $C$ displays the route from the rational source to the constant schedule, then from the schedule to the stationary readback.
+
+Apply \autoref{thm:rational-embedding-constant-sequence-route}. It identifies $S$ as the constant finite-window schedule whose admitted windows all read $q$, and identifies $R$ as the stationary regular-rational readback of that schedule.
+
+Apply the seal-boundary theorem \autoref{thm:rational-embedding-real-seal-boundary}. It confines the real-facing route to $q,S,R,D,H,C,P,N$ and gives $D$ no coordinate other than the dyadic tolerance and observation row attached to the stationary readback.
+
+Therefore the finite readback seen by $D$ is exactly the stationary row $R$ generated from $S$ and $q$. No quotient stream, selected limit, host real equality, or ambient completeness coordinate can alter that readback before the seal is reached.
+\end{proof}
+
 \begin{closurestatus}{\RationalEmbeddingUp}
   \constructivestory{A $\RationalEmbeddingUp$ packet is generated from a RatUp source row, constant StreamName schedule, stationary RegSeqRat readback, DyadicRatCore tolerance and observation row, RealUp seal, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
