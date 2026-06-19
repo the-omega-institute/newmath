@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\CaratheodoryExtensionUp$}
+\label{ch:concrete-instances-caratheodory-extension-namecert}
+\origin{human}
+
+Following Caratheodory and Halmos, the $\CaratheodoryExtensionUp$ packet records the finite boundary by which a displayed premeasure read can be carried toward a measurable-hull value seal inside BEDC NameCert data. It sits beside the event-row discipline of \autoref{ch:concrete-instances-measure-namecert}, the set-presentation boundary of \autoref{ch:concrete-instances-setlike-namecert}, the distance-facing examples of \autoref{ch:concrete-instances-metric-namecert}, and the terminal value seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite rows inspected by a downstream measure consumer; it does not assume the full sigma-algebra extension theorem as a primitive.
+
+\begin{definition}[Caratheodory finite premeasure carrier]
+\label{def:caratheodory-extension-finite-premeasure-carrier}
+A $\CaratheodoryExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(M,S,\mu,U,V,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the consumed $\MeasureUp$ source row exposing the event boundary, finite additivity rows, and downstream measure-facing ledger already admitted by the measure packet.
+\item $S$ is the $\SetLikeUp$ source row naming the finite set presentation on which the inspected event rows are read.
+\item $\mu$ is the premeasure row. It assigns the displayed source events to value rows before any hull or value-seal request is accepted.
+\item $U$ is the finite cover ledger. It lists only the finite covers and finite refinements inspected by the packet.
+\item $V$ is the measurable-hull row. It records the displayed hull candidate generated from the source event rows and finite cover ledger.
+\item $R$ is the $\RealUp$ value seal for the inspected hull value, exposed only after $M,S,\mu,U,V$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the measure source, setlike source, premeasure row, finite cover ledger, measurable-hull row, real value seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through finite event inclusion, finite cover comparison, premeasure value reads, hull formation, and terminal value sealing.
+\item $P$ is the $\Pkg$ provenance over $\CaratheodoryExtensionUp$, $\MeasureUp$, $\SetLikeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CaratheodoryExtensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the rows $M,S,\mu,U,V,R,H,C,P,N$. It has no coordinate for a completed sigma-algebra, countable choice over covers, ambient measure completion, host set equality, or quotient equality of event presentations.
+\end{definition}
+
+\begin{theorem}[Caratheodory finite premeasure NameCert obligations]
+\label{thm:caratheodory-extension-finite-premeasure-obligations}
+For every accepted $\CaratheodoryExtensionUp$ carrier $E=(M,S,\mu,U,V,R,H,C,P,N)$, the local $\NameCert_{\CaratheodoryExtensionUp}$ surface consists exactly of carrier admission, $\MeasureUp$ source exposure, $\SetLikeUp$ source exposure, premeasure-row admission, finite cover-ledger admission, measurable-hull row admission, $\RealUp$ value sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and refusal of full sigma-algebra extension, countable choice over covers, ambient measure completion, and host set equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:caratheodory-extension-finite-premeasure-carrier}. Its public rows are exactly $M,S,\mu,U,V,R,H,C,P,N$, with the measure and setlike source rows read before any premeasure or hull value can be consumed.
+
+The premeasure row $\mu$ and the cover ledger $U$ are finite ledgers. They expose only displayed event-value assignments and displayed finite cover comparisons, so no countable cover selector or completed sigma-algebra can be recovered from them.
+
+The measurable-hull row $V$ and the value seal $R$ are downstream rows over the same displayed data. The value seal is a $\RealUp$ row reached after the finite cover ledger has been inspected, not an ambient measure-completion theorem.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no other coordinate exists in the carrier, the listed rows exhaust the NameCert surface and the stated refusals are forced by absence of fields.
+\end{proof}
+
+\falsifiablePrediction{A $\CaratheodoryExtensionUp$ read is refuted whenever a consumer reaches a measurable-hull RealUp value without first displaying the MeasureUp source, SetLikeUp source, premeasure row, finite cover ledger, measurable-hull row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\closureat{CaratheodoryExtensionUp}{seedStr}
+
+\begin{closurestatus}{\CaratheodoryExtensionUp}
+  \constructivestory{A $\CaratheodoryExtensionUp$ packet is generated from a Measure source row, a SetLike source row, a premeasure row, a finite cover ledger, a measurable-hull row, a RealUp value seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:caratheodory-extension-finite-premeasure-carrier} and \autoref{thm:caratheodory-extension-finite-premeasure-obligations} seed the finite premeasure carrier and its local NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim the full sigma-algebra extension theorem, countable choice over covers, ambient measure completion, host set equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Measure and SetLike source exposure, premeasure admission, finite cover admission, measurable-hull admission, Real value sealing, transport, replay, provenance, local naming, and refusal of full extension principles for BEDC.Derived.CaratheodoryExtensionUp.}
+\end{closurestatus}
