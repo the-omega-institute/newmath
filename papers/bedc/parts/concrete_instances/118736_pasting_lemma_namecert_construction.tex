@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\PastingLemmaUp$}
+\label{ch:concrete-instances-pasting-lemma-namecert}
+\origin{human}
+
+Following Kelley and Munkres on the topological pasting lemma, the $\PastingLemmaUp$ packet records the finite BEDC route by which a map is certified from local continuous rows on a finite closed cover. It sits after the indexed-open carrier of \autoref{ch:concrete-instances-topology-namecert}, the graph-and-modulus interface of \autoref{ch:concrete-instances-continuousmap-namecert}, and the generated-open discipline of \autoref{ch:concrete-instances-product-topology-namecert}. The packet names only the finite gluing certificate needed by continuous-map, sheaf, manifold, and bundle consumers; it is not host function extensionality, a selected representative theorem, a quotient-space construction, open-cover compactness, or ambient real completeness.
+
+\begin{definition}[PastingLemma carrier]
+\label{def:pasting-lemma-carrier}
+A $\PastingLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,Y,T_X,T_Y,I,U,F,A,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the source and target carrier histories, read only through their displayed classifiers.
+\item $T_X$ and $T_Y$ are the $\TopologyUp$ indexed-open rows on the source and target carriers.
+\item $I$ is a finite closed-cover index ledger for the source, with one displayed closed cover row for each $i\in I$ and a finite membership replay for every carried source observation.
+\item $U$ records the local domain row $U_i$ for each index $i$, including its inclusion route into $X$ and its induced $\TopologyUp$ row from $T_X$.
+\item $F$ records a local $\ContinuousMapUp$ row $f_i:U_i\to Y$ for each $i\in I$, read through $U_i,T_Y$ and the displayed continuity witness.
+\item $A$ records overlap-agreement rows: for every displayed pair $i,j\in I$, the two local maps agree on the carried overlap $U_i\cap U_j$ by componentwise observation transport.
+\item $L$ is the glued-map ledger whose source observation first chooses a cover row, then reads the corresponding local map, and whose well-definedness is certified only by $A$.
+\item $H$ records componentwise $\hsame$ transport for the source, target, topology rows, finite cover ledger, local domains, local maps, overlap rows, glued-map ledger, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a target-open request through the chosen local $\ContinuousMapUp$ row, the cover membership row, overlap agreement, and the glued-map ledger.
+\item $P$ is the $\Pkg$ provenance over $\PastingLemmaUp$, $\TopologyUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PastingLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,T_X,T_Y,I,U,F,A,L,H,C,P,N$. The carrier has no coordinate for host function extensionality, selected representatives, quotient spaces, open-cover compactness, ambient real completeness, or hidden point choice.
+\end{definition}
+
+\begin{theorem}[PastingLemma NameCert obligations]
+\label{thm:pasting-lemma-namecert-obligations}
+For every accepted $\PastingLemmaUp$ carrier
+$$
+G=(X,Y,T_X,T_Y,I,U,F,A,L,H,C,P,N),
+$$
+the local $\NameCert_{\PastingLemmaUp}$ surface consists exactly of carrier admission for the thirteen displayed rows; finite cover exposure through $I$; induced local-domain topology through $U$; local continuity through $F$; overlap agreement through $A$; glued-map well-definedness and continuity replay through $L$ and $C$; componentwise transport through $H$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The only available rows are the two carriers, the two topology rows, the finite cover ledger, the local domain rows, the local continuous maps, the overlap-agreement ledger, the glued-map ledger, and the structural rows.
+
+Carrier admission is therefore exhausted by those rows. The cover surface is read from $I$, and each local domain is read from $U$ together with its induced topology from $T_X$.
+
+Local continuity is read from $F$. Whenever two cover choices meet, the pairwise row in $A$ is the only available witness that the two local reads produce the same target observation on the carried overlap.
+
+The glued-map ledger $L$ uses that agreement to remove dependence on the displayed cover choice, while $C$ replays continuity by restricting a target-open request to each local map and then repacking the finite cover rows. Finally, $H,P,N$ transport, source, and name the same finite route, so the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[PastingLemma continuity gluing route]
+\label{thm:pasting-lemma-continuity-gluing-route}
+Every continuity read exported by an accepted $\PastingLemmaUp$ carrier factors through
+$$
+I,U,F,A,L,H,C,P,N.
+$$
+More explicitly, a target-open request is checked locally by the $\ContinuousMapUp$ rows in $F$, transported across overlaps by $A$, assembled by the finite cover ledger $I$, and exported by the glued-map ledger $L$. No consumer obtains a continuity witness for the glued map except through those displayed rows.
+\end{theorem}
+\begin{proof}
+Start with a target-open request against the glued map. The only global map coordinate is $L$, so the request must enter the glued-map ledger.
+
+The ledger first reads a finite cover row from $I$ and the corresponding local domain row from $U$. On that local domain, continuity is exactly the $\ContinuousMapUp$ row recorded in $F$.
+
+If two cover rows can account for the same source observation, the request is transported through the corresponding overlap row in $A$. This is the only row that compares local map outputs on overlaps.
+
+The replay row $C$ then repacks the local continuity reads into the global request, and $H,P,N$ preserve the same route under transport, provenance, and naming. Since no other continuity coordinate is present, every exported gluing route factors through the displayed finite ledger.
+\end{proof}
+
+\begin{theorem}[PastingLemma non-escape boundary]
+\label{thm:pasting-lemma-nonescape-boundary}
+An accepted $\PastingLemmaUp$ packet exports no host function extensionality principle, selected representative of a local map, quotient-space construction, open-cover compactness theorem, or ambient $\RealUp$ completeness theorem. Any downstream consumer of the glued continuity certificate receives only the finite rows
+$$
+X,Y,T_X,T_Y,I,U,F,A,L,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory of \autoref{def:pasting-lemma-carrier}. The packet contains source and target carriers, topology rows, finite cover data, local domains, local continuous maps, overlap agreement, a glued-map ledger, and the structural transport, replay, provenance, and naming rows.
+
+Host function extensionality is not among those coordinates. The only equality-like data are the displayed overlap-agreement rows in $A$, and they apply only on carried overlaps.
+
+Selected representatives and quotient spaces are also absent. The glued-map ledger records a cover-mediated readback, not a quotient representative or a choice of canonical local index.
+
+Open-cover compactness and ambient $\RealUp$ completeness are absent for the same reason: the cover is finite by construction, and no completeness row appears in $G$. Therefore the exported certificate cannot escape the stated finite route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\PastingLemmaUp$ consumer that obtains a global continuity read without first reading the finite cover ledger, a local $\ContinuousMapUp$ row, and the relevant overlap-agreement row refutes the carrier surface.}
+
+\independenceWitness{topology, continuousmap, product-topology: no listed sibling supplies the whole packet $G=(X,Y,T_X,T_Y,I,U,F,A,L,H,C,P,N)$, because Topology supplies indexed-open rows, ContinuousMap supplies local continuity rows, and ProductTopology supplies a separate binary generated-open route, while this chapter binds finite cover rows and overlap agreement into one pasting NameCert packet.}
+
+\closureat{PastingLemmaUp}{seedStr}
+
+\begin{closurestatus}{\PastingLemmaUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pasting-lemma-carrier}, \autoref{thm:pasting-lemma-namecert-obligations}, \autoref{thm:pasting-lemma-continuity-gluing-route}, and \autoref{thm:pasting-lemma-nonescape-boundary} seed the finite pasting route from local continuous rows and overlap agreement to a global continuity certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host function extensionality, selected representatives, quotient spaces, open-cover compactness, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires a BEDC.Derived.PastingLemmaUp carrier with checked carrier admission, finite cover exposure, local-domain topology, local continuity, overlap agreement, glued-map well-definedness, continuity replay, transport, provenance, and local naming.}
+  \constructivestory{A $\PastingLemmaUp$ packet is generated from source and target carrier histories, two $\TopologyUp$ rows, a finite cover ledger, local domain rows, local $\ContinuousMapUp$ rows, pairwise overlap-agreement rows, a glued-map ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
