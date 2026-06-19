@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetacicDecidabilityWitnessUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -281,5 +291,46 @@ theorem MetacicDecidabilityWitnessTasteGate_single_carrier_alignment :
       · intro x y heq
         exact metacicDecidabilityWitnessToEventFlow_injective heq
       · rfl
+
+theorem MetacicDecidabilityWitnessCarrier_obligation_closure_package [AskSetup]
+    [PackageSetup]
+    {typing sameTerm bounded finished refusal transport route provenance name checkerRead
+      conversionRead normalRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory typing →
+      UnaryHistory sameTerm →
+        UnaryHistory bounded →
+          UnaryHistory finished →
+            UnaryHistory refusal →
+              UnaryHistory route →
+                Cont typing sameTerm checkerRead →
+                  Cont bounded finished conversionRead →
+                    Cont checkerRead conversionRead normalRead →
+                      Cont normalRead route namedRead →
+                        PkgSig bundle provenance pkg →
+                          PkgSig bundle name pkg →
+                            (exists w : MetacicDecidabilityWitnessUp,
+                                w =
+                                  MetacicDecidabilityWitnessUp.mk typing sameTerm
+                                    bounded finished refusal transport route provenance name) ∧
+                              UnaryHistory checkerRead ∧ UnaryHistory conversionRead ∧
+                                UnaryHistory normalRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro unaryTyping unarySameTerm unaryBounded unaryFinished _unaryRefusal unaryRoute
+    checkerRoute conversionRoute normalRoute namedRoute _provenancePkg _namePkg
+  have checkerUnary : UnaryHistory checkerRead :=
+    unary_cont_closed unaryTyping unarySameTerm checkerRoute
+  have conversionUnary : UnaryHistory conversionRead :=
+    unary_cont_closed unaryBounded unaryFinished conversionRoute
+  have normalUnary : UnaryHistory normalRead :=
+    unary_cont_closed checkerUnary conversionUnary normalRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed normalUnary unaryRoute namedRoute
+  exact
+    ⟨Exists.intro
+        (MetacicDecidabilityWitnessUp.mk typing sameTerm bounded finished refusal
+          transport route provenance name)
+        rfl,
+      checkerUnary, conversionUnary, normalUnary, namedUnary⟩
 
 end BEDC.Derived.MetacicDecidabilityWitnessUp
