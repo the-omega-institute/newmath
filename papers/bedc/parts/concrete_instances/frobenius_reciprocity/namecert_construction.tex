@@ -63,11 +63,22 @@ For an $\InducedRepUp$ consumer, the handoff is through $I$ together with the Fr
 The replay and provenance rows preserve the same finite route. Thus a consumer cannot bypass the displayed packet through a host category, functor equality, semisimplicity theorem, or character-table computation.
 \end{proof}
 
+\begin{theorem}[FrobeniusReciprocityUp sibling lattice]\label{thm:frobenius-reciprocity-sibling-lattice}
+The $\FrobeniusReciprocityUp$ packet is a finite comparison consumer of the sibling carriers in \autoref{ch:concrete-instances-finite-group-representation-namecert}, \autoref{ch:concrete-instances-subgroup-namecert}, \autoref{ch:concrete-instances-representationring-namecert}, \autoref{ch:concrete-instances-inducedrep-namecert}, and \autoref{ch:concrete-instances-charactertheory-namecert}. Its local rows compare induction and restriction after those carriers are visible; they do not form an isolated kernel row and do not replace the representation, subgroup, ring, induced-representation, or character-theory certificates.
+\end{theorem}
+\begin{proof}
+Read the source tuple of \autoref{thm:frobenius-reciprocity-source-obligations}. The rows $G,H,R,I,Q$ are precisely the five sibling certificates named in the statement.
+
+The consumer handoff of \autoref{thm:frobenius-reciprocity-consumer-handoff} permits downstream reads only through those rows together with the Frobenius comparison, unit, counit, pairing boundary, ledger, replay, provenance, and local name rows.
+
+Therefore the packet sits inside the displayed representation-theory lattice. It is a comparison consumer over the sibling carriers, not a standalone kernel surface from which the sibling certificates can be reconstructed.
+\end{proof}
+
 \closureat{FrobeniusReciprocityUp}{seedStr}
 
 \begin{closurestatus}{\FrobeniusReciprocityUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{thm:frobenius-reciprocity-source-obligations}, \autoref{thm:frobenius-reciprocity-adjunction-ledger}, \autoref{thm:frobenius-reciprocity-character-pairing-boundary}, \autoref{thm:frobenius-reciprocity-namecert-surface}, and \autoref{thm:frobenius-reciprocity-consumer-handoff} seed the finite Frobenius reciprocity certificate over displayed finite-group representation, subgroup, representation-ring, induced-representation, and character-theory rows.}
+  \scopeclosed{\autoref{thm:frobenius-reciprocity-source-obligations}, \autoref{thm:frobenius-reciprocity-adjunction-ledger}, \autoref{thm:frobenius-reciprocity-character-pairing-boundary}, \autoref{thm:frobenius-reciprocity-namecert-surface}, \autoref{thm:frobenius-reciprocity-consumer-handoff}, and \autoref{thm:frobenius-reciprocity-sibling-lattice} seed the finite Frobenius reciprocity certificate over displayed finite-group representation, subgroup, representation-ring, induced-representation, and character-theory rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, semisimplicity, Schur orthogonality, irreducible decomposition, character-table computation, functor-category equality, or a host adjunction theorem.}
