@@ -127,6 +127,20 @@ Use ledger exactness from \autoref{thm:regular-cauchy-product-budget-ledger-exac
 Thus any consumer at $D$ or $E$ inverts the route back to the paired source-window admission. Since no one-sided product coordinate appears in the carrier tuple, a single window alone cannot license the dyadic product row.
 \end{proof}
 
+\begin{theorem}[RegularCauchyProductBudget source coverage]
+\label{thm:regular-cauchy-product-budget-source-coverage}
+Every accepted $\RegularCauchyProductBudgetUp$ carrier reaching either the $\RegSeqRatUp$ readback row $R$ or the $\RealUp$ seal row $S$ must expose both source packets $A,B$, both $\StreamNameUp$ windows $W_A,W_B$, both dyadic source rows $D_A,D_B$, and the shared $\FiniteErrorBudgetUp$ row $E$. No one-sided product read and no hidden host multiplication route covers the same exported seal.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-product-budget-window-admission}. It exposes the source packets $A,B$ together with the paired finite windows $W_A,W_B$ before either dyadic source row can be consumed.
+
+Apply \autoref{thm:regular-cauchy-product-budget-ledger-exactness}. The finite ledger $E$ is tied to both dyadic source rows $D_A,D_B$ and to the product row $D$, so a product read cannot cover only one source side.
+
+Use \autoref{thm:regular-cauchy-product-budget-symmetric-source-window-inversion}. Any consumer that has reached the downstream product route can invert the route back to the paired source-window admission.
+
+The rows $R,S,H,C,P,N$ add readback, seal, transport, replay, provenance, and local naming data only after the same paired source route is present. Since the carrier has no coordinate for one-sided multiplication or host multiplication, neither can cover the exported seal.
+\end{proof}
+
 \begin{theorem}[RegularCauchyProductBudget product-closure budget]
 \label{thm:regular-cauchy-product-budget-product-closure-budget}
 Every accepted $\RegularCauchyProductBudgetUp$ carrier closes the finite product budget needed for a $\RegSeqRatUp$ product readback and the terminal $\RealUp$ seal. More precisely, the paired source windows $W_A,W_B$, the dyadic product row $D$, and the $\FiniteErrorBudgetUp$ ledger $E$ force the readback row $R$ and seal row $S$ to use the same finite product budget carried by
