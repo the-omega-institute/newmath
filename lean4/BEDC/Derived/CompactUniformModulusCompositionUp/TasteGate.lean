@@ -40,42 +40,82 @@ def compactUniformModulusCompositionToEventFlow :
     CompactUniformModulusCompositionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | CompactUniformModulusCompositionUp.mk X Y Z F G MF MG A T U H C P N =>
-      [compactUniformModulusCompositionEncodeBHist X,
+      [[BMark.b0],
+        compactUniformModulusCompositionEncodeBHist X,
+        [BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist Y,
+        [BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist Z,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist F,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist G,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist MF,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist MG,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
         compactUniformModulusCompositionEncodeBHist A,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist T,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist U,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         compactUniformModulusCompositionEncodeBHist N]
 
-def compactUniformModulusCompositionFromEventFlow :
-    EventFlow → Option CompactUniformModulusCompositionUp
+private def compactUniformModulusCompositionEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | X :: Y :: Z :: F :: G :: MF :: MG :: A :: T :: U :: H :: C :: P :: N :: [] =>
-      some
-        (CompactUniformModulusCompositionUp.mk
-          (compactUniformModulusCompositionDecodeBHist X)
-          (compactUniformModulusCompositionDecodeBHist Y)
-          (compactUniformModulusCompositionDecodeBHist Z)
-          (compactUniformModulusCompositionDecodeBHist F)
-          (compactUniformModulusCompositionDecodeBHist G)
-          (compactUniformModulusCompositionDecodeBHist MF)
-          (compactUniformModulusCompositionDecodeBHist MG)
-          (compactUniformModulusCompositionDecodeBHist A)
-          (compactUniformModulusCompositionDecodeBHist T)
-          (compactUniformModulusCompositionDecodeBHist U)
-          (compactUniformModulusCompositionDecodeBHist H)
-          (compactUniformModulusCompositionDecodeBHist C)
-          (compactUniformModulusCompositionDecodeBHist P)
-          (compactUniformModulusCompositionDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => compactUniformModulusCompositionEventAtDefault index rest
+
+def compactUniformModulusCompositionFromEventFlow
+    (ef : EventFlow) : Option CompactUniformModulusCompositionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (CompactUniformModulusCompositionUp.mk
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 1 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 3 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 5 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 7 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 9 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 11 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 13 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 15 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 17 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 19 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 21 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 23 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 25 ef))
+      (compactUniformModulusCompositionDecodeBHist
+        (compactUniformModulusCompositionEventAtDefault 27 ef)))
 
 private theorem compactUniformModulusComposition_round_trip :
     ∀ x : CompactUniformModulusCompositionUp,

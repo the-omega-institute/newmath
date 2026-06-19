@@ -82,6 +82,44 @@ Use the bounded normal-form split of \autoref{thm:metacic-decidability-witness-b
 Thus any route skipping $T$ lacks the only row that carries inferTypeCtx exactness. Such a route may inspect bounded comparison evidence after the displayed side conditions, but it is not a $\mathsf{HasType}$ exactness route and does not close conversion for the packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidability witness bounded-search exhaustion]
+\label{thm:metacic-decidability-witness-bounded-search-exhaustion}
+For every accepted $\MetacicDecidabilityWitnessUp$ packet
+$W=(T,S,B,F,R,H,C,P,N)$, every bounded conversion or typing decision requested
+inside the displayed finite depth bound is exhausted by the rows already
+visible in the packet: the syntax window in $T$, the bounded conversion ledger
+$B$, the normal-form split through $F$, the typing-exactness route through
+$T$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay
+through $C$, $\Pkg$ provenance through $P$, and the local
+$\NameCert_{\MetacicDecidabilityWitnessUp}$ row $N$.
+
+The packet exports no unbounded strong-normalisation theorem, global
+confluence theorem, or ambient decision oracle.
+\end{theorem}
+\begin{proof}
+Proceed by induction over the displayed finite depth bound in the carrier
+row. At depth zero, the syntax window in $T$ and the structural row $S$ expose
+only the immediate inferTypeCtx and checkSameTerm reads, so the decision is
+already inside the displayed packet.
+
+For the successor depth, the induction hypothesis exhausts all smaller
+conversion and typing requests through the same finite rows. A bounded
+conversion request then reads $B$ and the finished-normal side-condition row
+$F$; a typing request reads the inferTypeCtx exactness row $T$ before it may
+combine $S,B,F$.
+
+Apply \autoref{thm:metacic-decidability-witness-bounded-normal-form-split} and
+\autoref{thm:metacic-decidability-witness-typing-exactness-route}. These
+results keep bounded normal-form evidence and typing exactness inside
+$T,S,B,F,R,H,C,P,N$.
+
+The remaining structural rows preserve the same finite search. Transport
+through $H$, replay through $C$, provenance through $P$, and local naming
+through $N$ do not add a decision oracle. The refusal row $R$ therefore keeps
+unbounded strong normalisation, global confluence, and ambient decidability
+outside the exported surface.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidability witness obligation-closure package]
 \label{thm:metacic-decidability-witness-obligation-closure-package}
 For the carrier of \autoref{def:metacic-decidability-witness-carrier}, the $\MetacicDecidabilityWitnessUp$ obligation surface is closed by the carrier row, the NameCert obligations, bounded-conversion nonescape, bounded normal-form split, and typing-exactness route. Equivalently, every accepted packet $W=(T,S,B,F,R,H,C,P,N)$ exposes exactly inferTypeCtx exactness through $T$, checkSameTerm structural equality through $S$, bounded beta comparison through $B$, finished-normal side conditions through $F$, refusal rows through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\MetacicDecidabilityWitnessUp}$ row $N$.
