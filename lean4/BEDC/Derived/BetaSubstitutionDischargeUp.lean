@@ -113,6 +113,29 @@ theorem BetaSubstitutionDischargeCarrier_binder_boundary [AskSetup] [PackageSetu
     ⟨contextUnary, domainUnary, bodyUnary, argumentUnary, codomainUnary, substUnary,
       binderUnary, bodyArgumentSubst, substReplayBinder, provenancePkg⟩
 
+theorem BetaSubstitutionDischargeCarrier_component_transport [AskSetup] [PackageSetup]
+    {context domain body argument codomain subst transport replay provenance localName
+      transportedSubst transportedReplay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BetaSubstitutionDischargeCarrier context domain body argument codomain subst transport
+        replay provenance localName bundle pkg →
+      hsame subst transportedSubst →
+        hsame replay transportedReplay →
+          UnaryHistory transportedSubst ∧ UnaryHistory transportedReplay ∧
+            PkgSig bundle provenance pkg ∧ hsame transportedSubst subst ∧
+              hsame transportedReplay replay := by
+  -- BEDC touchpoint anchor: BetaSubstitutionDischargeCarrier BHist hsame UnaryHistory PkgSig
+  intro carrier substSame replaySame
+  obtain ⟨_contextUnary, _domainUnary, _bodyUnary, _argumentUnary, _codomainUnary,
+    substUnary, _transportUnary, replayUnary, _provenanceUnary, _localNameUnary,
+    _bodyArgumentSubst, _substTransportReplay, provenancePkg⟩ := carrier
+  exact
+    ⟨unary_transport substUnary substSame,
+      unary_transport replayUnary replaySame,
+      provenancePkg,
+      hsame_symm substSame,
+      hsame_symm replaySame⟩
+
 theorem BetaSubstitutionDischargeCarrier_replay_exactness [AskSetup] [PackageSetup]
     {context domain body argument codomain subst transport replay provenance localName
       bodyRead codomainRead : BHist}

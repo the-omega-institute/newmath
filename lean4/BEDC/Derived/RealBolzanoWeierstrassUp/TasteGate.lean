@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RealBolzanoWeierstrassUp
+namespace BEDC.Derived.RealBolzanoWeierstrassUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -185,7 +185,7 @@ instance realBolzanoWeierstrassChapterTasteGate :
     exact hxy (realBolzanoWeierstrassToEventFlow_injective heq)
 
 instance realBolzanoWeierstrassNontrivial :
-    Nontrivial RealBolzanoWeierstrassUp where
+    BEDC.Meta.TasteGate.Nontrivial RealBolzanoWeierstrassUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨RealBolzanoWeierstrassUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -230,4 +230,4 @@ theorem RealBolzanoWeierstrassTasteGate_single_carrier_alignment :
           intro h
           cases h⟩⟩
 
-end BEDC.Derived.RealBolzanoWeierstrassUp
+end BEDC.Derived.RealBolzanoWeierstrassUp.TasteGate
