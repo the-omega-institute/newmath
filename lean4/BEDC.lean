@@ -4543,6 +4543,7 @@ import BEDC.Derived.DirectedFilterUp.TasteGate
 import BEDC.Derived.DirectedSetUp
 import BEDC.Derived.DirectedSetUp.TasteGate
 import BEDC.Derived.DirectedSubnetUp
+import BEDC.Derived.DirectedSubnetUp.TasteGate
 import BEDC.Derived.DirichletAbelSummabilityUp
 import BEDC.Derived.DirichletApproximationUp.TasteGate
 import BEDC.Derived.DirichletKernelUp
@@ -8792,6 +8793,7 @@ import BEDC.Derived.RationalCanonicalFormUp.TasteGate
 import BEDC.Derived.RationalCauchyCompletionUp.TasteGate
 import BEDC.Derived.RationalCauchyGapUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
+import BEDC.Derived.RationalEmbeddingUp
 import BEDC.Derived.RationalEmbeddingUp.ConstantSequenceRoute
 import BEDC.Derived.RationalEmbeddingUp.TasteGate
 import BEDC.Derived.RationalFastLimitUp.TasteGate
@@ -9710,6 +9712,7 @@ import BEDC.Derived.RegularCauchyTailCollapseUp.TasteGate
 import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCompositionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
+import BEDC.Derived.RegularCauchyTailEstimateUp
 import BEDC.Derived.RegularCauchyTailEstimateUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFiberUp
 import BEDC.Derived.RegularCauchyTailFiberUp.CompletionHandoffScope
@@ -9858,6 +9861,7 @@ import BEDC.Derived.RiemannLebesgueLemmaUp.OscillatoryHandoff
 import BEDC.Derived.RiemannLebesgueLemmaUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannRearrangementUp.TasteGate
+import BEDC.Derived.RiemannRefinementCriterionUp.TasteGate
 import BEDC.Derived.RiemannRemovableDiscontinuityUp
 import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate
 import BEDC.Derived.RiemannStieltjesUp.MeshHandoff
