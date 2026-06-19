@@ -165,6 +165,20 @@ Use the typing-exactness route of \autoref{thm:metacic-decidability-witness-typi
 Finally apply the scope assignment of \autoref{thm:metacic-decidability-witness-scope-assignment}. It identifies $S,R,H,C,P,N$ as structural equality, refusal, transport, replay, provenance, and local naming rows, and it leaves no coordinate for strong normalization, global confluence, subject reduction, evaluator equality, quotient syntax equality, or consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidability witness scope routes]
+\label{thm:metacic-decidability-witness-scope-routes}
+For every accepted $\MetacicDecidabilityWitnessUp$ packet $W=(T,S,B,F,R,H,C,P,N)$, each consumer route is assigned to the displayed row that owns it: typing-checker exactness routes through $T$, structural same-term equality routes through $S$, bounded conversion routes through $B$ together with the finished-normal side condition $F$, refusal routes through $R$, and transport, replay, provenance, and local naming route through $H,C,P,N$. No route exports $\mathsf{ClosedAt}$ decidability, unrestricted beta conversion, quotient syntax equality, consistency, fuel-erased normalisation, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidability-witness-carrier}. The displayed tuple has exactly the rows $T,S,B,F,R,H,C,P,N$, so every accepted route must be assigned to one of those coordinates.
+
+Apply the NameCert obligations of \autoref{thm:metacic-decidability-witness-namecert-obligations} and the scope assignment of \autoref{thm:metacic-decidability-witness-scope-assignment}. These identify $T$ with typing exactness, $S$ with same-term structural equality, $B$ with bounded beta comparison, $F$ with the finished-normal side condition, $R$ with refusal, and $H,C,P,N$ with transport, replay, provenance, and local naming.
+
+Use bounded-conversion non-escape, \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape}, together with the bounded normal-form split of \autoref{thm:metacic-decidability-witness-bounded-normal-form-split}. Conversion can therefore be read only through $B$ and $F$, and bounded normal-form evidence remains inside the displayed packet.
+
+Finally invoke the typing-exactness route of \autoref{thm:metacic-decidability-witness-typing-exactness-route} and the candidate-normalization scope of \autoref{thm:metacic-decidability-witness-candidate-normalization-scope}. They force typing reads through $T$ and keep candidate-normalization consumers inside the same finite rows. Since the carrier has no additional coordinate, none of the listed routes can export $\mathsf{ClosedAt}$ decidability, unrestricted beta conversion, quotient syntax equality, consistency, fuel-erased normalisation, or a host evaluator.
+\end{proof}
+
 \closureat{MetacicDecidabilityWitnessUp}{seedStr}
 \closureat{MetacicDecidabilityWitnessUp}{obligationStr}
 
