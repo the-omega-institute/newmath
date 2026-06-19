@@ -332,7 +332,7 @@ def _multistep_latent_prediction_contract(packet: dict[str, Any] | None) -> dict
     return {
         "status": "closed" if closed else "source_debt",
         "evidence": evidence,
-        "gate_status": packet.get("hardgate", packet.get("gate_spec", {})).get("status", "missing"),
+        "gate_status": packet.get("hardgate", {}).get("status", "missing"),
         "owner_module": packet.get("evidence_chain", {}).get("owner_module", ""),
         "latent_prediction_score": float(packet.get("metrics", {}).get("latent_prediction_score", 0.0)),
         "minigrid_planning_claim": packet.get("claim_scope", {}).get("minigrid_planning_success", ""),

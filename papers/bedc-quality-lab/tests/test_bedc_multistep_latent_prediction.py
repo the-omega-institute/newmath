@@ -26,7 +26,7 @@ def test_multistep_latent_prediction_packet_is_json_primitive_and_fail_closed():
     )
     assert packet["rollout_contract"]["sample_count"] == 16
     assert packet["rollout_contract"]["horizon"] == 3
-    assert packet["rollout_batch"] == packet["rollout_contract"]
+    assert "rollout_batch" not in packet
     assert {row["family"] for row in packet["predictor_specs"]} == {
         "jepa_mlp",
         "gru",
@@ -39,13 +39,12 @@ def test_multistep_latent_prediction_packet_is_json_primitive_and_fail_closed():
     assert packet["summary"]["run_count"] == len(packet["runs"])
     assert packet["summary"]["family_count"] == 4
     assert packet["summary"]["planning_success_claimed"] is False
-    assert packet["predictor_spec"]["predictor_id"] == packet["predictor_specs"][0]["predictor_id"]
-    assert packet["predictor_spec"]["training_status"] == "deterministic_smoke_baseline"
-    assert packet["gate_spec"]["status"] in {"pass", "source_debt"}
-    assert packet["hardgate"] == packet["gate_spec"]
-    assert "rollout_contract" in packet["gate_spec"]["required_record_fields"]
-    assert "predictor_specs" in packet["gate_spec"]["required_record_fields"]
-    assert "runs" in packet["gate_spec"]["required_record_fields"]
+    assert "predictor_spec" not in packet
+    assert packet["hardgate"]["status"] in {"pass", "source_debt"}
+    assert "gate_spec" not in packet
+    assert "rollout_contract" in packet["hardgate"]["required_record_fields"]
+    assert "predictor_specs" in packet["hardgate"]["required_record_fields"]
+    assert "runs" in packet["hardgate"]["required_record_fields"]
     assert packet["metrics"]["rollout_mse"] >= 0.0
     assert 0.0 <= packet["metrics"]["latent_prediction_score"] <= 1.0
     assert 0.0 <= packet["metrics"]["gap_detection_auc"] <= 1.0
@@ -63,6 +62,68 @@ def test_multistep_latent_prediction_schema_owner_types_are_local():
     assert LatentPredictionGateSpec.__module__ == (
         "bedc_quality_lab.bedc_multistep_latent_prediction"
     )
+
+
+def _latent_prediction_gate() -> LatentPredictionGateSpec:
+    return LatentPredictionGateSpec(
+        gate_id="test-gate",
+        min_gap_detection_auc=0.70,
+        min_certified_coverage=0.80,
+        max_unlogged_error_rate=0.05,
+        min_coverage=0.80,
+        required_record_fields=("rollout_contract", "predictor_specs", "runs"),
+    )
+
+
+def _gate_run(
+    *,
+    gap_detection_auc: float = 0.75,
+    certified_coverage: float = 0.85,
+    unlogged_error_rate: float = 0.03,
+) -> dict[str, float]:
+    return {
+        "gap_detection_auc": gap_detection_auc,
+        "certified_coverage": certified_coverage,
+        "unlogged_error_rate": unlogged_error_rate,
+    }
+
+
+def test_latent_prediction_gate_rejects_empty_runs():
+    result = _latent_prediction_gate().evaluate([])
+
+    assert result["status"] == "source_debt"
+    assert result["failure_reasons"] == ["no predictor runs recorded"]
+    assert result["required_record_fields"] == ["rollout_contract", "predictor_specs", "runs"]
+
+
+@pytest.mark.parametrize(
+    "run",
+    [
+        _gate_run(gap_detection_auc=0.69),
+        _gate_run(certified_coverage=0.79),
+        _gate_run(unlogged_error_rate=0.06),
+    ],
+)
+def test_latent_prediction_gate_rejects_threshold_failures(run):
+    result = _latent_prediction_gate().evaluate([run])
+
+    assert result["status"] == "source_debt"
+
+
+def test_latent_prediction_gate_accepts_rows_that_meet_thresholds():
+    result = _latent_prediction_gate().evaluate(
+        [
+            _gate_run(gap_detection_auc=0.74, certified_coverage=0.88, unlogged_error_rate=0.02),
+            _gate_run(gap_detection_auc=0.72, certified_coverage=0.84, unlogged_error_rate=0.04),
+        ]
+    )
+
+    assert result["status"] == "pass"
+    assert result["observed"] == {
+        "min_gap_detection_auc": 0.72,
+        "min_certified_coverage": 0.84,
+        "max_unlogged_error_rate": 0.04,
+    }
 
 
 def _passing_gpu_evidence() -> dict[str, object]:

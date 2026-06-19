@@ -26,30 +26,6 @@
     "nonblocking_readiness": true,
     "objective": "compare action-conditioned one-step and K-step latent rollout predictors on one local evidence surface"
   },
-  "gate_spec": {
-    "gate_id": "latent-rollout-smoke-nonblocking",
-    "observed": {
-      "max_unlogged_error_rate": 0.041666666666666664,
-      "min_certified_coverage": 0.9895833333333334,
-      "min_gap_detection_auc": 0.5
-    },
-    "required_record_fields": [
-      "rollout_contract",
-      "predictor_specs",
-      "hardgate",
-      "runs",
-      "summary",
-      "metrics",
-      "cannot_claim"
-    ],
-    "status": "pass",
-    "thresholds": {
-      "max_unlogged_error_rate": 0.2,
-      "min_certified_coverage": 0.5,
-      "min_coverage": 0.5,
-      "min_gap_detection_auc": 0.45
-    }
-  },
   "hardgate": {
     "gate_id": "latent-rollout-smoke-nonblocking",
     "observed": {
@@ -80,18 +56,6 @@
     "latent_prediction_score": 0.8527564966812776,
     "rollout_mse": 0.03602126586901318,
     "unlogged_error_rate": 0.041666666666666664
-  },
-  "predictor_spec": {
-    "action_conditioned": true,
-    "action_dim": 2,
-    "family": "jepa_mlp",
-    "fit_method": "closed local action-conditioned projection",
-    "horizon": 1,
-    "lambda_gap": 0.5,
-    "lambda_latent": 1.0,
-    "latent_dim": 3,
-    "predictor_id": "one_step_jepa_mlp_smoke",
-    "training_status": "deterministic_smoke_baseline"
   },
   "predictor_specs": [
     {
@@ -156,15 +120,6 @@
     }
   ],
   "record_scope": "local_smoke_contract",
-  "rollout_batch": {
-    "action_dim": 2,
-    "environment_id": "boundary-gated-ou-latent-rollout",
-    "horizon": 4,
-    "latent_dim": 3,
-    "sample_count": 96,
-    "split": "smoke",
-    "unsafe_transition_rate": 0.010416666666666666
-  },
   "rollout_contract": {
     "action_dim": 2,
     "environment_id": "boundary-gated-ou-latent-rollout",
