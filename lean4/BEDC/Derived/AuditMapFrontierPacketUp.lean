@@ -99,6 +99,96 @@ theorem AuditMapFrontierPacketCarrier_namecert_obligations [AskSetup] [PackageSe
     }
   exact ⟨cert, consumerReadUnary⟩
 
+theorem AuditMapFrontierPacketCarrier_namecert_obligation_scope [AskSetup] [PackageSetup]
+    {familyTag checked conditional obstruction frontier provenance route localName consumerRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory familyTag ->
+      UnaryHistory checked ->
+        UnaryHistory conditional ->
+          UnaryHistory frontier ->
+            UnaryHistory localName ->
+              Cont checked conditional route ->
+                Cont route frontier consumerRead ->
+                  PkgSig bundle provenance pkg ->
+                    PkgSig bundle localName pkg ->
+                      SemanticNameCert
+                          (fun row : BHist =>
+                            (hsame row familyTag ∨ hsame row localName) ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row familyTag ∨ hsame row checked ∨
+                              hsame row conditional ∨ hsame row obstruction ∨
+                                hsame row frontier ∨ hsame row provenance ∨
+                                  hsame row route ∨ hsame row localName)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont checked conditional route ∧
+                              PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+                          hsame ∧
+                        UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro familyTagUnary checkedUnary conditionalUnary frontierUnary localNameUnary
+    checkedRoute consumerRoute provenancePkg localNamePkg
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed checkedUnary conditionalUnary checkedRoute
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed routeUnary frontierUnary consumerRoute
+  have familyTagSource :
+      (fun row : BHist => (hsame row familyTag ∨ hsame row localName) ∧ UnaryHistory row)
+        familyTag := by
+    exact ⟨Or.inl (hsame_refl familyTag), familyTagUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => (hsame row familyTag ∨ hsame row localName) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row familyTag ∨ hsame row checked ∨ hsame row conditional ∨
+              hsame row obstruction ∨ hsame row frontier ∨ hsame row provenance ∨
+                hsame row route ∨ hsame row localName)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont checked conditional route ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro familyTag familyTagSource
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          constructor
+          · cases source.left with
+            | inl sameFamily =>
+                exact Or.inl (hsame_trans (hsame_symm sameRows) sameFamily)
+            | inr sameLocal =>
+                exact Or.inr (hsame_trans (hsame_symm sameRows) sameLocal)
+          · exact unary_transport source.right sameRows
+      }
+      pattern_sound := by
+        intro _row source
+        cases source.left with
+        | inl sameFamily =>
+            exact Or.inl sameFamily
+        | inr sameLocal =>
+            exact
+              Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr sameLocal))))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, checkedRoute, provenancePkg, localNamePkg⟩
+    }
+  exact ⟨cert, consumerReadUnary⟩
+
 theorem AuditMapFrontierPacketCarrier_nonescape [AskSetup] [PackageSetup]
     {familyTag checked conditional obstruction frontier provenance transport route localName
       consumerRead refusalRead : BHist}

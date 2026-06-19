@@ -44,6 +44,31 @@ The comparison route reads those rows in order. The two finite windows are inspe
 The Real seal $E$ is downstream of the displayed comparison surface. The rows $H,C,P,N$ transport, replay, source, and name that same finite route; none of them adds quotient stream equality, selected representatives, host real equality, choice, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence comparison transitive window]\label{thm:regular-cauchy-sequence-comparison-transitive-window}
+Let
+$$
+K_{01}=(S_0,S_1,R_0,R_1,D_{01},Q_{01},E_{01},H_{01},C_{01},P_{01},N_{01})
+$$
+and
+$$
+K_{12}=(S'_1,S_2,R'_1,R_2,D_{12},Q_{12},E_{12},H_{12},C_{12},P_{12},N_{12})
+$$
+be accepted $\RegularCauchySequenceComparisonUp$ packets. If the middle presentation rows $S_1,R_1$ and $S'_1,R'_1$ are linked by the displayed componentwise $\hsame$ transport, and the dyadic tolerance/readback rows $D_{01}$ and $D_{12}$ expose compatible comparison windows, then the composed comparison from the first presentation to the third is forced through the same finite route
+$$
+S_0,S_1,S_2,R_0,R_1,R_2,D_{01},D_{12},Q_{01},Q_{12},E_{01},E_{12},H_{01},H_{12},C_{01},C_{12},P_{01},P_{12},N_{01},N_{12}.
+$$
+In particular, a Real or Completion consumer of the composed read receives only finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and receives no quotient stream equality, selected representative, host real equality, countable choice, selected limit, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The first packet exposes the finite route from $S_0,R_0$ to $S_1,R_1$ through $D_{01},Q_{01},E_{01},H_{01},C_{01},P_{01},N_{01}$, and the second exposes the corresponding route from $S'_1,R'_1$ to $S_2,R_2$ through $D_{12},Q_{12},E_{12},H_{12},C_{12},P_{12},N_{12}$.
+
+Use the displayed componentwise $\hsame$ data on the shared middle presentation. It identifies only the carried StreamName and RegSeqRat rows needed to splice the two finite comparison windows; it does not create a quotient equality of streams or a host equality of real names.
+
+The compatible dyadic rows concatenate the displayed tolerance/readback windows. Therefore the composed read is still inspected through the listed StreamName, RegSeqRat, DyadicRatCore, classifier, Real seal, transport, replay, provenance, and local naming rows.
+
+Since neither carrier has a coordinate for selected representatives, host real equality, selected limits, choice, or ambient completeness, the composed comparison has no such coordinate either. The transitive window is exactly the finite route displayed above.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence comparison RegSeqRat handoff]
 \label{thm:regular-cauchy-sequence-comparison-regseqrat-handoff}
 Every completion-facing or Real-facing consumer of an accepted $\RegularCauchySequenceComparisonUp$ packet reads the $\RegSeqRatUp$ handoff before it reaches the $\CauchyEquivalenceSetoidUp$ classifier or the $\RealUp$ seal. More precisely, every exported comparison factors through
@@ -81,7 +106,7 @@ The structural rows $H,C,P,N$ preserve and name the same route. This is therefor
 \begin{closurestatus}{\RegularCauchySequenceComparisonUp}
   \constructivestory{A $\RegularCauchySequenceComparisonUp$ packet is generated from two StreamName finite-window rows, two RegSeqRat readback rows, a DyadicRatCore tolerance ledger, a CauchyEquivalenceSetoid classifier row, a Real seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-sequence-comparison-carrier}, \autoref{thm:regular-cauchy-sequence-comparison-namecert-obligations}, and \autoref{thm:regular-cauchy-sequence-comparison-regseqrat-handoff} seed the finite comparison route for regular Cauchy presentations.}
+  \scopeclosed{\autoref{def:regular-cauchy-sequence-comparison-carrier}, \autoref{thm:regular-cauchy-sequence-comparison-namecert-obligations}, \autoref{thm:regular-cauchy-sequence-comparison-transitive-window}, and \autoref{thm:regular-cauchy-sequence-comparison-regseqrat-handoff} seed the finite comparison route for regular Cauchy presentations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, host real equality, selected representatives, countable choice, selected limits, ambient completeness, Lean verification, or bridge checking.}
