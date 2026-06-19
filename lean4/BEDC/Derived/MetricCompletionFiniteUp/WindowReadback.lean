@@ -159,4 +159,112 @@ theorem MetricCompletionFiniteTotalBoundedWindow [AskSetup] [PackageSetup]
     ⟨sourceUnary, readbackRouteUnary, finalReadUnary, sourceRoute, readbackRoute,
       finalRoute, provenancePkg, finalPkg⟩
 
+theorem MetricCompletionFiniteFiniteNetLimit [AskSetup] [PackageSetup]
+    {M B W E R S H C P N sourceRead readback finalRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricCompletionFiniteCarrier M B W E R S H C P N bundle pkg ->
+      Cont M B sourceRead ->
+        Cont W E readback ->
+          Cont S R finalRead ->
+            Cont P N ledgerRead ->
+              PkgSig bundle P pkg ->
+                PkgSig bundle N pkg ->
+                  PkgSig bundle finalRead pkg ->
+                    SemanticNameCert
+                        (fun row : BHist =>
+                          (hsame row finalRead ∨ hsame row ledgerRead) ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row M ∨ hsame row B ∨ hsame row W ∨ hsame row E ∨
+                            hsame row S ∨ hsame row R ∨ hsame row P ∨ hsame row N ∨
+                              hsame row finalRead ∨ hsame row ledgerRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont M B sourceRead ∧ Cont W E readback ∧
+                            Cont S R finalRead ∧ Cont P N ledgerRead ∧
+                              PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                                PkgSig bundle finalRead pkg)
+                        hsame ∧
+                      UnaryHistory sourceRead ∧ UnaryHistory readback ∧
+                        UnaryHistory finalRead ∧ UnaryHistory ledgerRead := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle SemanticNameCert UnaryHistory hsame
+  intro carrier sourceRoute readbackRoute finalRoute ledgerRoute provenancePkg localNamePkg
+    finalPkg
+  obtain ⟨metricUnary, basisUnary, windowUnary, embeddingUnary, readbackUnary,
+    selectorUnary, _transportUnary, _replayUnary, provenanceUnary, localNameUnary,
+    _carrierProvenancePkg, _carrierLocalNamePkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed metricUnary basisUnary sourceRoute
+  have readbackRouteUnary : UnaryHistory readback :=
+    unary_cont_closed windowUnary embeddingUnary readbackRoute
+  have finalReadUnary : UnaryHistory finalRead :=
+    unary_cont_closed selectorUnary readbackUnary finalRoute
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed provenanceUnary localNameUnary ledgerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row finalRead ∨ hsame row ledgerRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row B ∨ hsame row W ∨ hsame row E ∨ hsame row S ∨
+              hsame row R ∨ hsame row P ∨ hsame row N ∨ hsame row finalRead ∨
+                hsame row ledgerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M B sourceRead ∧ Cont W E readback ∧
+              Cont S R finalRead ∧ Cont P N ledgerRead ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle N pkg ∧ PkgSig bundle finalRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro finalRead ⟨Or.inl (hsame_refl finalRead), finalReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source.left with
+        | inl sameFinal =>
+            exact
+              ⟨Or.inl (hsame_trans (hsame_symm sameRows) sameFinal),
+                unary_transport source.right sameRows⟩
+        | inr sameLedger =>
+            exact
+              ⟨Or.inr (hsame_trans (hsame_symm sameRows) sameLedger),
+                unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameFinal =>
+          exact
+            Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr (Or.inl sameFinal))))))))
+      | inr sameLedger =>
+          exact
+            Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr (Or.inr sameLedger))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, sourceRoute, readbackRoute, finalRoute, ledgerRoute,
+          provenancePkg, localNamePkg, finalPkg⟩
+  }
+  exact ⟨cert, sourceUnary, readbackRouteUnary, finalReadUnary, ledgerReadUnary⟩
+
 end BEDC.Derived.MetricCompletionFiniteUp
