@@ -289,4 +289,33 @@ theorem ArchimedeanApproximationCarrier_namecert_obligations [AskSetup] [Package
   }
   exact ⟨cert, realReadUnary⟩
 
+theorem ArchimedeanApproximationCarrier_real_seal_handoff [AskSetup] [PackageSetup]
+    {bound rational dyadic tolerance window readback sealRow transportRow replayRow provenance
+      localName realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanApproximationCarrier bound rational dyadic tolerance window readback sealRow
+        transportRow replayRow provenance localName bundle pkg →
+      Cont bound dyadic tolerance →
+        Cont tolerance window readback →
+          Cont readback sealRow realRead →
+            PkgSig bundle provenance pkg →
+              PkgSig bundle localName pkg →
+                UnaryHistory realRead ∧ Cont bound dyadic tolerance ∧
+                  Cont tolerance window readback ∧ Cont readback sealRow realRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier boundDyadic toleranceWindow readbackSeal provenancePkg namePkg
+  obtain ⟨boundUnary, _rationalUnary, dyadicUnary, _toleranceUnary, windowUnary,
+    _readbackUnary, sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _carrierBoundDyadic, _carrierToleranceWindow,
+    _carrierProvenancePkg, _carrierNamePkg⟩ := carrier
+  have toleranceUnary : UnaryHistory tolerance :=
+    unary_cont_closed boundUnary dyadicUnary boundDyadic
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed toleranceUnary windowUnary toleranceWindow
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed readbackUnary sealUnary readbackSeal
+  exact
+    ⟨realReadUnary, boundDyadic, toleranceWindow, readbackSeal, provenancePkg, namePkg⟩
+
 end BEDC.Derived.ArchimedeanApproximationUp

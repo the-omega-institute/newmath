@@ -109,4 +109,32 @@ theorem RegularCauchyRegularityWitness_tail_window_regularity [AskSetup] [Packag
   }
   exact ⟨cert, sourceToRegularity, regularityToConsumer⟩
 
+theorem RegularCauchyRegularityWitness_tail_window_synchronization
+    [AskSetup] [PackageSetup]
+    {S mu j Omega R Q E H C P N S' mu' j' Omega' R' Q' E' H' C' P' N' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRegularityWitnessCarrier S mu j Omega R Q E H C P N bundle pkg →
+      RegularCauchyRegularityWitnessCarrier S' mu' j' Omega' R' Q' E' H' C' P' N'
+        bundle pkg →
+        hsame S S' →
+          hsame mu mu' →
+            hsame Omega Omega' →
+              hsame Q Q' →
+                hsame R R' ∧ hsame E E' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier carrier' sameS sameMu sameOmega sameQ
+  obtain ⟨_unaryS, _unaryMu, _unaryJ, _unaryOmega, _unaryR, _unaryQ, _unaryE,
+    _unaryH, _unaryC, _unaryP, _unaryN, routeSMuJ, routeJOmegaR, routeRQE,
+    _routeEHC, _pkgP, _pkgN⟩ := carrier
+  obtain ⟨_unaryS', _unaryMu', _unaryJ', _unaryOmega', _unaryR', _unaryQ',
+    _unaryE', _unaryH', _unaryC', _unaryP', _unaryN', routeSMuJ',
+    routeJOmegaR', routeRQE', _routeEHC', _pkgP', _pkgN'⟩ := carrier'
+  have sameJ : hsame j j' :=
+    cont_respects_hsame sameS sameMu routeSMuJ routeSMuJ'
+  have sameR : hsame R R' :=
+    cont_respects_hsame sameJ sameOmega routeJOmegaR routeJOmegaR'
+  have sameE : hsame E E' :=
+    cont_respects_hsame sameR sameQ routeRQE routeRQE'
+  exact ⟨sameR, sameE⟩
+
 end BEDC.Derived.RegularCauchyRegularityWitnessUp

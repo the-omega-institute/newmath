@@ -492,6 +492,147 @@ def run_packet_lane(store: FibonacciRealityStore) -> dict[str, Any]:
     }
 
 
+def _oracle_response_text_from_result(result: Any) -> str:
+    if not isinstance(result, dict):
+        return str(result or "")
+    for key in ("response", "answer", "output", "text", "detail"):
+        value = result.get(key)
+        if isinstance(value, str) and value:
+            return value
+    return ""
+
+
+def _oracle_response_is_substantive(response: str) -> bool:
+    head = response[:120]
+    return bool(response) and len(response) >= 300 and "ERROR" not in head and "TIMEOUT" not in head
+
+
+def _oracle_int(value: Any, default: int = 0) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _parse_oracle_jsonl_transcript(path: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    header: dict[str, Any] = {}
+    turns: list[dict[str, Any]] = []
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return header, turns
+    for line in lines:
+        if not line.strip():
+            continue
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(record, dict):
+            continue
+        record_kind = str(record.get("record_kind") or "")
+        if record_kind == "session" and not header:
+            header = record
+        elif record_kind == "turn":
+            turns.append(record)
+    return header, turns
+
+
+def _oracle_jsonl_backfill_event(
+    jsonl_path: Path,
+    *,
+    lane: str,
+    topic: str,
+    header: dict[str, Any],
+    turns: list[dict[str, Any]],
+) -> dict[str, Any]:
+    md_path = jsonl_path.with_suffix(".md")
+    turn_count = _oracle_int(header.get("turn_count"), len(turns))
+    stable_suffix = f"{lane}.{topic}.t{turn_count}"
+    subject_id = f"{lane}.{hashlib.sha256(stable_suffix.encode()).hexdigest()[:12]}"
+    return {
+        "event_id": f"event.{hashlib.sha256(('oracle-jsonl-backfill:' + stable_suffix).encode()).hexdigest()[:16]}",
+        "event_kind": "oracle_consultation_completed",
+        "source": lane,
+        "subject_kind": "oracle_consultation",
+        "subject_id": subject_id,
+        "reason": str(header.get("closed_reason") or "oracle consultation transcript backfilled"),
+        "payload": {
+            "lane": lane,
+            "topic": topic,
+            "intended_claim_id": str(header.get("intended_claim_id") or ""),
+            "conversation_id": header.get("conversation_id"),
+            "turns": turn_count,
+            "closed_reason": header.get("closed_reason"),
+            "max_turns_reached": header.get("max_turns_reached"),
+            "pdf_attached": bool(header.get("pdf_attached")),
+            "pdf_skipped_reason": header.get("pdf_skipped_reason") or "",
+            "judge_calls": int(header.get("judge_calls") or 0),
+            "transcript_jsonl": str(jsonl_path),
+            "transcript_md": str(md_path) if md_path.exists() else "",
+            "backfilled": True,
+        },
+        "stable_event_key": f"oracle_consultation_completed::oracle_consultation::{subject_id}",
+        "status": "open",
+        "created_at": now_iso(),
+    }
+
+
+def _backfill_oracle_jsonl_sessions(store: FibonacciRealityStore, sessions_dir: Path) -> dict[str, int]:
+    summary = {"jsonl_scanned": 0, "jsonl_events_emitted": 0, "jsonl_skipped_thin": 0, "jsonl_skipped_present": 0}
+    existing_events = store.load_events()
+    existing_keys = {str(event.get("stable_event_key") or "") for event in existing_events}
+    existing_completed = {
+        (
+            str((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("lane") or event.get("source") or ""),
+            str((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("topic") or ""),
+            _oracle_int((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("turns")),
+        )
+        for event in existing_events
+        if str(event.get("event_kind") or "") == "oracle_consultation_completed"
+    }
+    new_events: list[dict[str, Any]] = []
+    for lane in ("bio-G", "bio-Plan"):
+        lane_dir = sessions_dir / lane
+        if not lane_dir.exists():
+            continue
+        for jsonl_path in sorted(lane_dir.glob("*.jsonl")):
+            summary["jsonl_scanned"] += 1
+            header, turns = _parse_oracle_jsonl_transcript(jsonl_path)
+            topic = str(header.get("topic") or "")
+            if not topic:
+                stem = jsonl_path.stem
+                topic = stem.split("__", 1)[1] if "__" in stem else stem
+            substantive_turns = [
+                turn
+                for turn in turns
+                if _oracle_response_is_substantive(_oracle_response_text_from_result(turn.get("result")))
+            ]
+            turn_count = _oracle_int(header.get("turn_count"), len(turns))
+            if turn_count < 1 or not substantive_turns:
+                summary["jsonl_skipped_thin"] += 1
+                continue
+            event = _oracle_jsonl_backfill_event(
+                jsonl_path,
+                lane=lane,
+                topic=topic,
+                header={**header, "turn_count": turn_count},
+                turns=turns,
+            )
+            completed_key = (lane, topic, turn_count)
+            stable_key = str(event.get("stable_event_key") or "")
+            if stable_key in existing_keys or completed_key in existing_completed:
+                summary["jsonl_skipped_present"] += 1
+                continue
+            existing_keys.add(stable_key)
+            existing_completed.add(completed_key)
+            new_events.append(event)
+    if new_events:
+        store.write_events(agent_bus._dedup(existing_events + new_events, "event_id"))
+        summary["jsonl_events_emitted"] = len(new_events)
+    return summary
+
+
 def _oracle_session_backfill_lane(store: FibonacciRealityStore) -> dict[str, Any]:
     """Scan oracle_sessions/conv_*.json for substantive ChatGPT responses that
     never made it into a lane transcript (because the Python client gave up
@@ -499,12 +640,21 @@ def _oracle_session_backfill_lane(store: FibonacciRealityStore) -> dict[str, Any
     and synthesize oracle_consultation_completed events so bio-oracle-consumer
     can ingest them on the next cycle. Idempotent — re-runs detect already-
     backfilled topics via the `.backfill` suffix."""
-    summary = {"lane": "bio-C", "scanned": 0, "backfilled": 0, "skipped_thin": 0, "skipped_present": 0}
+    summary = {
+        "lane": "bio-C",
+        "scanned": 0,
+        "backfilled": 0,
+        "skipped_thin": 0,
+        "skipped_present": 0,
+        "jsonl_scanned": 0,
+        "jsonl_events_emitted": 0,
+    }
     sessions_dir = store.paths.events.parent.parent / "state" / "oracle_sessions" if not (store.paths.events.parent.parent / "state" / "oracle_sessions").exists() else store.paths.events.parent.parent / "state" / "oracle_sessions"
     if not sessions_dir.exists():
         sessions_dir = Path(__file__).parent / "state" / "oracle_sessions"
     if not sessions_dir.exists():
         return summary
+    summary.update(_backfill_oracle_jsonl_sessions(store, sessions_dir))
     events_path = store.paths.events
     for conv_path in sorted(sessions_dir.glob("conv_*.json")):
         summary["scanned"] += 1
@@ -731,6 +881,14 @@ def _oracle_transport_name(server_url: str) -> str:
 
 def _oracle_forced_conversation_id(config: dict[str, Any]) -> str:
     return str(config.get("conversation_id") or "").strip()
+
+
+def _oracle_turn_cooldown_seconds(lane_config: dict[str, Any]) -> float:
+    try:
+        configured = float(lane_config.get("min_seconds_between_turns") or 60.0)
+    except (TypeError, ValueError):
+        configured = 60.0
+    return max(60.0, configured)
 
 
 def oracle_runtime_summary() -> dict[str, Any]:
@@ -970,7 +1128,26 @@ def _namecert_proposal_text(store: FibonacciRealityStore, claim_id: str) -> str:
     return text[:4000]
 
 
-def _bio_g_research_question(claim_id: str, conjecture: dict[str, Any], form: dict[str, Any]) -> str:
+def _bio_g_forward_frontier_question(claim_id: str, conjecture: dict[str, Any], form: dict[str, Any]) -> str:
+    return (
+        "This finite certificate is established. State the single nearest FORWARD lemma or obstruction "
+        "beyond it: a finite, locally re-verifiable arithmetic, recurrence, linear-algebra, mod-p, "
+        "descent, or finite-generalization statement that is NOT equivalent to the established claim. "
+        "Give the exact missing mathematical datum it would need, one refutation condition or minimal "
+        "counterexample search direction, and the stronger readings that remain unsupported. Do not "
+        "restate, confirm, close, review, package, anchor, or write back the existing claim."
+    )
+
+
+def _bio_g_research_question(
+    claim_id: str,
+    conjecture: dict[str, Any],
+    form: dict[str, Any],
+    *,
+    mode: str = "review",
+) -> str:
+    if mode == "frontier":
+        return _bio_g_forward_frontier_question(claim_id, conjecture, form)
     text = " ".join(
         [
             claim_id,
@@ -1008,7 +1185,7 @@ def _bio_g_research_question(claim_id: str, conjecture: dict[str, Any], form: di
     )
 
 
-def _bio_g_initial_prompt(store: FibonacciRealityStore, candidate: dict[str, Any]) -> tuple[str, str]:
+def _bio_g_initial_prompt(store: FibonacciRealityStore, candidate: dict[str, Any], *, mode: str = "review") -> tuple[str, str]:
     claim_id = str(candidate.get("claim_id") or candidate.get("packet_id") or "")
     conjecture = _conjecture_by_id(store, claim_id) if str(candidate.get("packet_kind") or "") == "conjecture" else {}
     form = conjecture.get("bedc_minimal_form") if isinstance(conjecture.get("bedc_minimal_form"), dict) else {}
@@ -1017,10 +1194,29 @@ def _bio_g_initial_prompt(store: FibonacciRealityStore, candidate: dict[str, Any
     distinctions = _compact_list(form.get("distinctions") if isinstance(form, dict) else [])
     readback = str(form.get("readback") or "").strip() if isinstance(form, dict) else ""
     boundary = _compact_list(conjecture.get("forbidden_claims"), limit=4)
-    question = _bio_g_research_question(claim_id, conjecture, form if isinstance(form, dict) else {})
-    prompt = "\n".join(
-        line
-        for line in [
+    question = _bio_g_research_question(claim_id, conjecture, form if isinstance(form, dict) else {}, mode=mode)
+    if mode == "frontier":
+        prompt_lines = [
+            "You are a mathematical research oracle for a FibonacciReality discussion.",
+            "Answer only the single forward-frontier research question below.",
+            "Treat the existing claim only as boundary context, not as an object to confirm, close, repair, or package.",
+            "Return one finite, locally re-verifiable mathematical lemma or obstruction beyond that boundary.",
+            "The proposed object must be non-equivalent to the existing claim and must be checkable by finite arithmetic, recurrence, linear algebra, mod-p, descent, or finite search.",
+            "Name the exact missing mathematical datum, give one refutation condition or minimal counterexample search direction, and list stronger readings that remain unsupported.",
+            "Do not write structured data, contracts, implementation plans, operational instructions, anchor text, writeback instructions, or document-editing text.",
+            "Do not rely on hidden project state.",
+            "",
+            f"Boundary claim label: {claim_id}",
+            f"Established boundary statement: {statement}" if statement else "",
+            f"Boundary carrier: {carrier}" if carrier else "",
+            f"Boundary distinctions: {distinctions}" if distinctions else "",
+            f"Boundary readback target: {readback}" if readback else "",
+            f"Forbidden stronger readings: {boundary}" if boundary else "",
+            "",
+            f"Single research question: {question}",
+        ]
+    else:
+        prompt_lines = [
             "You are a mathematical research oracle for a FibonacciReality discussion.",
             "Answer only the single research question below.",
             "Do not write structured data, contracts, implementation plans, operational instructions, or document-editing text.",
@@ -1036,6 +1232,9 @@ def _bio_g_initial_prompt(store: FibonacciRealityStore, candidate: dict[str, Any
             "",
             f"Single research question: {question}",
         ]
+    prompt = "\n".join(
+        line
+        for line in prompt_lines
         if line
     )
     return claim_id, prompt
@@ -1112,9 +1311,10 @@ def _maybe_run_bio_g_oracle(store: FibonacciRealityStore) -> dict[str, Any]:
             return _oracle_skip("oracle_server_unreachable")
     if not _network_available():
         return _oracle_skip("network_unreachable")
-    claim_id, prompt = _bio_g_initial_prompt(store, candidate)
+    mode = "frontier" if rotation_used else "review"
+    claim_id, prompt = _bio_g_initial_prompt(store, candidate, mode=mode)
     pdf_path = None
-    topic = f"bio-G.review.{claim_id}"
+    topic = f"bio-G.{mode}.{claim_id}"
     forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
     existing_conv_id = forced_conv_id
@@ -1133,6 +1333,7 @@ def _maybe_run_bio_g_oracle(store: FibonacciRealityStore) -> dict[str, Any]:
         existing_conversation_id=existing_conv_id,
         allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
+        min_seconds_between_turns=_oracle_turn_cooldown_seconds(lane_config),
     )
     completed_turn = _oracle_has_completed_turn(result)
     if completed_turn:
@@ -1148,7 +1349,7 @@ def _maybe_run_bio_g_oracle(store: FibonacciRealityStore) -> dict[str, Any]:
         lane_state["topic_conversations"] = topic_conversations
     state["bio-G"] = lane_state
     _write_oracle_state(store, state)
-    _append_oracle_event(store, "bio-G", topic, result, intended_claim_id=claim_id, reason=("rotation_deep_review" if rotation_used else ""))
+    _append_oracle_event(store, "bio-G", topic, result, intended_claim_id=claim_id, reason=("rotation_frontier" if rotation_used else ""))
     return {
         "oracle_consultations": 1,
         "oracle_turns_total": _turn_count(result),
@@ -1515,6 +1716,7 @@ def _maybe_run_bio_plan_oracle(
         existing_conversation_id=existing_conv_id,
         allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
+        min_seconds_between_turns=_oracle_turn_cooldown_seconds(lane_config),
     )
     completed_turn = _oracle_has_completed_turn(result)
     if completed_turn:
