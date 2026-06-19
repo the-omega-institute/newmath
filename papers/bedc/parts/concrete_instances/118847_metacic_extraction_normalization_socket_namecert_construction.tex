@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-metacic-extraction-normalization-socket-namecert}
 \origin{ai}
 
-The $\MetaCICExtractionNormalizationSocketUp$ packet realizes the confluence audit boundary of \autoref{ch:metacic-confluence-audit-map} as finite socket data between extraction, candidate normalization, and residual confluence. It does not assert a full parallel diamond. It records exactly the rows needed to keep the substitution-sensitive boundary visible while allowing checked fragments, candidate normal forms, and local joins to be handed to later MetaCIC consumers.
+The $\MetaCICExtractionNormalizationSocketUp$ packet realizes the confluence audit boundary of \autoref{ch:metacic-confluence-audit-map} as finite socket data between extraction, candidate normalization, and residual confluence. It is consumed by \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} through its candidate-mediated strong-normalization socket and by \autoref{ch:concrete-instances-metaciccriticalpath-namecert} through the retained residual-budget path. It does not assert a full parallel diamond. It records exactly the rows needed to keep the substitution-sensitive boundary visible while allowing checked fragments, candidate normal forms, and local joins to be handed to later MetaCIC consumers.
 
 \begin{definition}[MetaCIC extraction-normalization socket carrier]
 \label{def:metacic-extraction-normalization-socket-carrier}
@@ -49,6 +49,8 @@ Consequently the packet can hand extraction and candidate-normalization evidence
 Start with a confluence-audit consumer of the socket. The carrier exposes extraction data only through $X$ and candidate-normalization data only through $K$.
 
 Replay the socket through $C$. The replay reaches the residual-substitution row $R$, the local-join row $J$, and the obstruction row $O$ before any downstream residual-confluence consumer can read the packet.
+
+The sibling routes through \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} and \autoref{ch:concrete-instances-metaciccriticalpath-namecert} are consumers of the displayed $X,K,R,J,O,H,C,P,N$ route, not extra discharge evidence.
 
 Transport and provenance through $H,P,N$ keep the same rows attached. Since the carrier has no additional global-diamond coordinate, the handoff is a finite residual socket rather than a closed parallel-diamond proof.
 \end{proof}
