@@ -20,20 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-19T02:35:02Z
+> 最后刷新: 2026-06-19T04:21:11Z
 
-**Daemon 状态**: monitor (monitor cycle 66, adjust_since_research 2, round_counter 13808, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 67, adjust_since_research 2, round_counter 13860, last_adjust rule_evolution_completed)
 
-**待处理 queue** (474 条 finding):
-- isolated_theorem: 322 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (482 条 finding):
+- isolated_theorem: 329 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 24 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 25 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 85 次
-- TASTE ALERT category=low_entropy_template: 27 次
+- TASTE ALERT category=isolated_theorem: 80 次
+- TASTE ALERT category=low_entropy_template: 26 次
 - TASTE ALERT category=missing_origin: 1 次
-- TASTE ALERT category=resolution_json_parse_failed: 1 次
 - TASTE ALERT category=resolution_merge_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -336,6 +335,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-18T02:20:40Z: `resolved` `leave_with_rationale` for `BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_meta_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:groundloopboundary:BEDC.Derived.GroundLoopBoundaryUp.GroundLoopBoundaryCarrier_meta_nonescape:7ce439bb`). Rationale: The target is not a pure duplicate: it records the TasteGate/EventFlow mark non-escape surface for GroundLoopBoundaryUp, while the surrounding root carrier theorems cover scoped kernel routing, public interface, and mature consumer exhaustion. I attempted to add a downstream TasteGate/kernel consumer that used this theorem together with GroundLoopBoundaryCarrier_scoped_kernel_route, but the required lake build gate failed in the edited target file; per instruction I reverted the change and leave the theorem unchanged with this rationale. Gate results: lake_build=failed: Some required targets logged failures: BEDC.Derived.GroundLoopBoundaryUp.TasteGate; BEDC/Derived/GroundLoopBoundaryUp/TasteGate.lean:315:7: error: unexpected token 'meta'; expected '(', ':=', '|' or term, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-18T11:18:54Z: `resolved` `delete_theorem` for `BEDC.Derived.Arzela_ascoli_finite_modulusUp.ArzelaAscoliFiniteModulusCarrier_route_closure` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.Arzela_ascoli_finite_modulusUp.ArzelaAscoliFiniteModulusCarrier_route_closure:bc1c2873`). Rationale: The flagged theorem was an unconsumed route-closure wrapper over ArzelaAscoliFiniteModulusCarrier in the underscore-named Derived file. Full-repo grep found no references to the fully qualified target, the concrete chapter uses the canonical BEDC.Derived.ArzelaAscoliFiniteModulusUp markers plus the sibling CompactmetricForwardRoute marker, and the same file keeps the substantive downstream theorem BEDC.Derived.Arzela_ascoli_finite_modulusUp.ArzelaAscoliFiniteModulusCompactmetricForwardRoute. Removing the isolated wrapper leaves the carrier and consumed forward route intact. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-19T04:20:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.CalculusUp.CalculusRootDerivativeIntegralCarrier_admission` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CalculusUp.CalculusRootDerivativeIntegralCarrier_admission:ed392a37`). Rationale: The target has real BEDC content: it admits the root derivative-integral carrier by deriving a SemanticNameCert for derivative and integral read rows plus their UnaryHistory closure. Repo grep found no existing downstream Lean use and no paper marker for the full target, so deleting would discard a useful carrier admission. I added a sibling consumer theorem, CalculusRiemannIntegralRootCarrierDependencyRoute, in the Riemann integral dependency route file; it explicitly uses the admission to obtain derivative/integral read closure, then extends that into a shared read and Real-facing route certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
