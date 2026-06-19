@@ -254,6 +254,10 @@ def validate_prediction_stub(stub: Mapping[str, Any], *, venue_sha256: str) -> d
     }
 
 
+def _stub_results_pass(stub_results: Sequence[Mapping[str, Any]]) -> bool:
+    return all(isinstance(result, Mapping) and result.get("status") == "pass" for result in stub_results)
+
+
 def _hardgates(
     *,
     admission_ref: Mapping[str, Any],
@@ -315,7 +319,7 @@ def _hardgates(
             "evidence_pointer": "$.venue.ood_labels",
         },
         "JWM-L1-THREE-ARM-HG5": {
-            "status": "pass" if all(result.get("status") == "pass" for result in stub_results) else "fail",
+            "status": "pass" if _stub_results_pass(stub_results) else "fail",
             "criterion": "three stub predictions satisfy the prediction schema",
             "evidence_pointer": "$.stub_smoke",
         },
@@ -338,6 +342,31 @@ def _hardgates(
         "failed_gates": failed,
         "gates": gates,
     }
+
+
+def _refresh_stub_hardgate(
+    hardgate: Mapping[str, Any],
+    stub_results: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    source_gates = _mapping(hardgate.get("gates"))
+    gates = {
+        gate_id: dict(_mapping(source_gates.get(gate_id)))
+        for gate_id in FREEZE_HARDGATE_IDS
+    }
+    hg5 = gates["JWM-L1-THREE-ARM-HG5"]
+    hg5["status"] = "pass" if _stub_results_pass(stub_results) else "fail"
+    failed = [gate_id for gate_id in FREEZE_HARDGATE_IDS if gates[gate_id].get("status") != "pass"]
+    refreshed = dict(_mapping(hardgate))
+    refreshed.update(
+        {
+            "status": "pass" if not failed else "fail",
+            "status_cell": "pass" if not failed else "fail",
+            "gate_order": list(FREEZE_HARDGATE_IDS),
+            "failed_gates": failed,
+            "gates": gates,
+        }
+    )
+    return refreshed
 
 
 def build_payload(
@@ -501,36 +530,8 @@ def bind_payload_sha(payload: Mapping[str, Any]) -> dict[str, Any]:
     bound["stub_smoke"]["results"] = [
         validate_prediction_stub(stub, venue_sha256=sha) for stub in bound["stub_smoke"]["stub_predictions"]
     ]
-    bound["stub_smoke"]["status"] = "pass"
-    bound["hardgate"] = _hardgates(
-        admission_ref=bound["source_artifacts"]["admission"],
-        calibration_ref=bound["source_artifacts"]["evaluator_calibration"],
-        admission_payload={
-            "config": {"case_count": bound["venue"]["sample"]["case_count"]},
-            "preregistration": {
-                "negative_protocol": _mapping(
-                    _mapping(bound["venue"]["sample"].get("admission_snapshot")).get("negative_protocol")
-                )
-            },
-            "anti_triviality_controls": {
-                "controls": _mapping(
-                    _mapping(
-                        _mapping(bound["venue"]["sample"].get("admission_snapshot")).get("metrics")
-                    ).get("anti_triviality_controls")
-                ).get("controls")
-            },
-        },
-        calibration_payload={
-            "config": {
-                "case_count": bound["venue"]["sample"]["case_count"],
-                "bootstrap_resamples": bound["statistical_plan"].get("bootstrap_resamples"),
-                "seed": bound["statistical_plan"].get("bootstrap_seed"),
-            },
-            "calibration_inputs": {"split": bound["venue"]["split"]["snapshot"]},
-            "calibration_arms": [{"arm_id": "label-shuffle"}],
-        },
-        stub_results=bound["stub_smoke"]["results"],
-    )
+    bound["stub_smoke"]["status"] = "pass" if _stub_results_pass(bound["stub_smoke"]["results"]) else "fail"
+    bound["hardgate"] = _refresh_stub_hardgate(bound["hardgate"], bound["stub_smoke"]["results"])
     bound["decision"]["status"] = "ready_for_prediction" if bound["hardgate"]["status"] == "pass" else "blocked"
     bound["decision"]["status_axis"] = "ready" if bound["hardgate"]["status"] == "pass" else "blocked"
     bound["freeze_digest"] = _digest(
@@ -573,13 +574,19 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
     venue_sha = decision.get("venue_sha256")
     if not isinstance(venue_sha, str) or len(venue_sha) != 64:
         raise ValueError("venue sha mismatch")
+    stub_predictions = _sequence(stub_smoke.get("stub_predictions"))
+    if len(stub_predictions) != len(THREE_ARM_IDS) or any(not isinstance(stub, Mapping) for stub in stub_predictions):
+        raise ValueError("stub predictions mismatch")
     results = [
         validate_prediction_stub(stub, venue_sha256=venue_sha)
-        for stub in stub_smoke.get("stub_predictions", [])
+        for stub in stub_predictions
         if isinstance(stub, Mapping)
     ]
-    if len(results) != len(THREE_ARM_IDS) or any(result["status"] != "pass" for result in results):
-        raise ValueError("stub smoke failed")
+    if stub_smoke.get("results") != results:
+        raise ValueError("stub smoke results mismatch")
+    expected_stub_status = "pass" if _stub_results_pass(results) else "fail"
+    if stub_smoke.get("status") != expected_stub_status:
+        raise ValueError("stub smoke status mismatch")
     hardgate_status = _mapping(hardgate).get("status")
     decision_status = _mapping(decision).get("status")
     if (hardgate_status == "pass") != (decision_status == "ready_for_prediction"):

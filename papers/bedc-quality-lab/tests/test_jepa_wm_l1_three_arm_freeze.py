@@ -19,6 +19,20 @@ def _copy_inputs(tmp_path):
         shutil.copyfile(root / artifact, target)
 
 
+def _load_artifact(tmp_path, artifact):
+    return json.loads((tmp_path / artifact).read_text(encoding="utf-8"))
+
+
+def _write_artifact(tmp_path, artifact, payload):
+    (tmp_path / artifact).write_text(json.dumps(payload), encoding="utf-8")
+
+
+def _assert_blocked_gate(payload, gate_id):
+    assert payload["decision"]["status"] == "blocked"
+    assert payload["hardgate"]["gates"][gate_id]["status"] == "fail"
+    assert gate_id in payload["hardgate"]["failed_gates"]
+
+
 def test_three_arm_freeze_binds_single_venue_to_admission_and_evaluator_sha(tmp_path):
     _copy_inputs(tmp_path)
     payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
@@ -108,27 +122,80 @@ def test_three_arm_freeze_rejects_missing_or_wrong_input_owner(tmp_path):
 
 def test_three_arm_hardgates_fail_closed_on_missing_frozen_owner_facts(tmp_path):
     _copy_inputs(tmp_path)
-    missing_ood = json.loads((tmp_path / admission.JSON_ARTIFACT).read_text(encoding="utf-8"))
+    missing_ood = _load_artifact(tmp_path, admission.JSON_ARTIFACT)
     del missing_ood["preregistration"]["negative_protocol"]["goal_shuffle"]
-    (tmp_path / admission.JSON_ARTIFACT).write_text(json.dumps(missing_ood), encoding="utf-8")
+    _write_artifact(tmp_path, admission.JSON_ARTIFACT, missing_ood)
 
     payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
 
-    assert payload["decision"]["status"] == "blocked"
-    assert payload["hardgate"]["gates"]["JWM-L1-THREE-ARM-HG4"]["status"] == "fail"
-    assert "JWM-L1-THREE-ARM-HG4" in payload["hardgate"]["failed_gates"]
+    _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG4")
 
 
 def test_three_arm_hardgates_require_leakage_sources(tmp_path):
     _copy_inputs(tmp_path)
-    missing_control = json.loads((tmp_path / admission.JSON_ARTIFACT).read_text(encoding="utf-8"))
+    missing_control = _load_artifact(tmp_path, admission.JSON_ARTIFACT)
     del missing_control["anti_triviality_controls"]["controls"]["metadata_only"]
-    (tmp_path / admission.JSON_ARTIFACT).write_text(json.dumps(missing_control), encoding="utf-8")
+    _write_artifact(tmp_path, admission.JSON_ARTIFACT, missing_control)
 
     payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
 
-    assert payload["decision"]["status"] == "blocked"
-    assert payload["hardgate"]["gates"]["JWM-L1-THREE-ARM-HG7"]["status"] == "fail"
+    _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG7")
+
+
+def test_three_arm_hardgates_require_matching_sample_count(tmp_path):
+    _copy_inputs(tmp_path)
+    calibration_payload = _load_artifact(tmp_path, calibration.JSON_ARTIFACT)
+    calibration_payload["config"]["case_count"] += 1
+    _write_artifact(tmp_path, calibration.JSON_ARTIFACT, calibration_payload)
+
+    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+
+    _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG2")
+
+
+def test_three_arm_hardgates_require_deterministic_split(tmp_path):
+    _copy_inputs(tmp_path)
+    calibration_payload = _load_artifact(tmp_path, calibration.JSON_ARTIFACT)
+    calibration_payload["calibration_inputs"]["split"]["status"] = "runtime"
+    _write_artifact(tmp_path, calibration.JSON_ARTIFACT, calibration_payload)
+
+    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+
+    _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG3")
+
+
+def test_three_arm_hardgates_require_valid_stub_smoke(tmp_path, monkeypatch):
+    _copy_inputs(tmp_path)
+    original_stub_prediction = freeze._stub_prediction
+
+    def broken_stub_prediction(arm_id, *, venue_sha256):
+        stub = original_stub_prediction(arm_id, venue_sha256=venue_sha256)
+        if arm_id == freeze.THREE_ARM_IDS[0]:
+            stub["declared_no_training_on_eval"] = False
+        return stub
+
+    monkeypatch.setattr(freeze, "_stub_prediction", broken_stub_prediction)
+
+    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+
+    _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG5")
+    assert payload["stub_smoke"]["status"] == "fail"
+    assert any(
+        "declared_no_training_on_eval" in result["errors"]
+        for result in payload["stub_smoke"]["results"]
+    )
+
+
+def test_three_arm_hardgates_require_bootstrap_settings(tmp_path):
+    _copy_inputs(tmp_path)
+    calibration_payload = _load_artifact(tmp_path, calibration.JSON_ARTIFACT)
+    calibration_payload["config"]["bootstrap_resamples"] = 0
+    calibration_payload["config"]["seed"] = "fixture"
+    _write_artifact(tmp_path, calibration.JSON_ARTIFACT, calibration_payload)
+
+    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+
+    _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG6")
 
 
 def test_stub_eval_fails_on_non_mapping_result(tmp_path):
