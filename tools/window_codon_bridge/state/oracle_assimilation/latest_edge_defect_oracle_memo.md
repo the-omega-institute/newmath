@@ -1,18 +1,18 @@
 # Edge-Defect Oracle Memo
 
 - schema: `window_codon_oracle_memo.v1`
-- generated_ts: `2026-06-19T18:07:52Z`
-- source_task_id: `ab4246d4-fc5e-4406-8277-6f9e40a3fab7`
+- generated_ts: `2026-06-19T18:28:04Z`
+- source_task_id: `cd2500e2-ee17-4732-88db-e1f603b24827`
 - source_conversation_id: `conv_6139d5d7cea7ab03`
-- oracle_response_chars: `3130`
+- oracle_response_chars: `4219`
 
 ## Strongest Mechanism
 
-structural program complete There is no genuinely new, non-vacuous, label-free structural bridge direction still worth deriving inside the current Window6↔codon-Q6 frame. The reason is not that every conceivable invariant has been tried. The reason is that the admissible search space has collapsed under the correct equivalence relation. You have already conditioned on the biologically obvious composition carriers, the codon-box and wobble geometry, degeneracy, edge margins, boundary degrees, component structure, square faces, quotient topology, bypass conductance, spanning-tree compression, and finally the lone surviving edge-hiding statistic  $e_{\rm in}$ . At that point, any “new” invariant is almost certainly one of three things:
+Yes. There is one genuinely structural, bridge-doable step left, but it is narrow and should be treated as a final spectral sanity check, not as a new open-ended mining program. The single best step is: Test whether public genetic-code lability lives in the canonical  $H_3=E_3$  three-coordinate interaction subspace after all one- and two-coordinate composition structure is fixed. This uses only the 27 public NCBI genetic codes and the already certified  $V_4^3$  spectral structure. It does not need omics, translation parameters, private  $d_{\rm resid4}$ , or amino-acid property data. Exact object Let codon space be
 
 ## Decisive Confounders
 
 
 ## Sharpest Next Question
 
-
+After fixing all pairwise codon-coordinate marginals of the 13 public reassigned codons, is their  $E_3$  spectral energy still extreme, or does the apparent H3 signal collapse into box/wobble composition?
