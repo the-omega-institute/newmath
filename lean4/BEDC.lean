@@ -1675,6 +1675,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyContinuousMapUp.TasteGate
+import BEDC.Derived.CauchyContinuousMapUp.UniformWindowObligation
 import BEDC.Derived.CauchyContractionOrbitUp.TasteGate
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
 import BEDC.Derived.CauchyConvergenceCriterionUp.CofinalModulusExtraction
@@ -3010,6 +3011,7 @@ import BEDC.Derived.CompactNetModulusSelectorUp.PointwiseRadiusRoute
 import BEDC.Derived.CompactNetModulusSelectorUp.RootBudgetAdmission
 import BEDC.Derived.CompactNetModulusSelectorUp.RootObligationTriad
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
+import BEDC.Derived.CompactOpenCoverBoundaryUp
 import BEDC.Derived.CompactOpenExhaustionUp.TasteGate
 import BEDC.Derived.CompactOpenFunctionSpaceUp
 import BEDC.Derived.CompactOpenFunctionSpaceUp.TasteGate
@@ -5383,6 +5385,7 @@ import BEDC.Derived.FilterBaseUp.TasteGate
 import BEDC.Derived.FilterCompletionMonadUp.TasteGate
 import BEDC.Derived.FilterCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
+import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
 import BEDC.Derived.FilterLimitCriterionUp
 import BEDC.Derived.FilterRefinementUp.CauchyBaseDependency
@@ -8309,6 +8312,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.AxisSeparation
 import BEDC.Derived.PaperLeanDriftWitnessUp.BridgeReadyDependencySurface
 import BEDC.Derived.PaperLeanDriftWitnessUp.ClosureTargetResolution
+import BEDC.Derived.PaperLeanDriftWitnessUp.ConsumerRowScope
 import BEDC.Derived.PaperLeanDriftWitnessUp.DependencyRoutingScope
 import BEDC.Derived.PaperLeanDriftWitnessUp.DependencyWeaveHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.DuplicateLedgerReadiness
