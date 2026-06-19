@@ -137,18 +137,6 @@ def taste_gate : ChapterTasteGate FilterLimitBasisUp :=
   -- BEDC touchpoint anchor: BHist BMark
   filterLimitBasisChapterTasteGate
 
-theorem FilterLimitBasisTasteGate_single_carrier_alignment :
-    (∀ h : BHist, filterLimitBasisDecodeBHist (filterLimitBasisEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier FilterLimitBasisUp) ∧
-        Nonempty (ChapterTasteGate FilterLimitBasisUp) ∧
-          filterLimitBasisEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨filterLimitBasisDecode_encode_bhist,
-      Nonempty.intro filterLimitBasisBHistCarrier,
-      Nonempty.intro filterLimitBasisChapterTasteGate,
-      rfl⟩
-
 def FilterLimitBasisCarrier [AskSetup] [PackageSetup]
     (Q F L W R D E H C P N : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
