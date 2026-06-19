@@ -25,3 +25,19 @@ The endpoint or estimate then passes through the regular rational readback and t
 Those nonescape statements exclude host function spaces, selected antiderivatives, quotient function equality, host integration functionals, and ambient completeness. Hence no combined derivative-integral conclusion can expose an endpoint equality or estimate before the finite $\DerivativeUp$--$\RiemannIntegralUp$--$\RegSeqRatUp$--$\RealUp$ factorization has been consumed.
 \end{proof}
 \leanchecked{BEDC.Derived.CalculusUp.CalculusRiemannIntegralDependencyFactorization}
+
+\begin{theorem}[Calculus finite-limit seal dependency]
+\label{thm:calculus-finite-limit-seal-dependency}
+Every $\CalculusUp$ consumer that turns derivative or integral endpoint data into a limit-facing read must first pass through the finite $\FiniteLimitSealUp$ route
+$$
+M,W,R,D,E
+$$
+of \autoref{thm:finite-limit-seal-real-dependency-route}. The calculus consumer may read derivative windows through $\DerivativeUp$ and finite tagged sums through $\RiemannIntegralUp$, but its public endpoint handoff is limit-facing only after the displayed modulus, window, readback, tolerance, and terminal real-seal rows have been consumed.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{lem:calculus-riemann-integral-dependency-route}. It separates the derivative branch, the Riemann finite-sum branch, and the shared regular-rational and real-name readback before any calculus endpoint is public.
+
+Use \autoref{thm:calculus-riemann-integral-dependency-factorization} to combine the derivative and integral branches. The factorization leaves the endpoint read behind the same $\DerivativeUp$--$\RiemannIntegralUp$--$\RegSeqRatUp$--$\RealUp$ support, not behind a host function space or selected antiderivative.
+
+Finally apply \autoref{thm:finite-limit-seal-real-dependency-route}. Its finite route $M,W,R,D,E$ is the Real-facing limit seal. Therefore a calculus consumer that turns the endpoint into a limit-facing read must expose that seal before the endpoint can be consumed as public limit data.
+\end{proof}
