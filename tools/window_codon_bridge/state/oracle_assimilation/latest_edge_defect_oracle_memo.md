@@ -1,18 +1,18 @@
 # Edge-Defect Oracle Memo
 
 - schema: `window_codon_oracle_memo.v1`
-- generated_ts: `2026-06-19T18:28:04Z`
-- source_task_id: `cd2500e2-ee17-4732-88db-e1f603b24827`
+- generated_ts: `2026-06-19T18:47:34Z`
+- source_task_id: `23e42793-f895-4fb9-bab8-3cf6a85838aa`
 - source_conversation_id: `conv_6139d5d7cea7ab03`
-- oracle_response_chars: `4219`
+- oracle_response_chars: `7707`
 
 ## Strongest Mechanism
 
-Yes. There is one genuinely structural, bridge-doable step left, but it is narrow and should be treated as a final spectral sanity check, not as a new open-ended mining program. The single best step is: Test whether public genetic-code lability lives in the canonical  $H_3=E_3$  three-coordinate interaction subspace after all one- and two-coordinate composition structure is fixed. This uses only the 27 public NCBI genetic codes and the already certified  $V_4^3$  spectral structure. It does not need omics, translation parameters, private  $d_{\rm resid4}$ , or amino-acid property data. Exact object Let codon space be
+The test is non-circular in construction, but it is not automatically non-trivial. The critical worry is real: once you restrict to synonymous-family zero-sum contrasts, you have already removed the amino-acid means and much of the low-frequency content. A high  $E_3$  fraction may be generic for this carrier. So the raw statement
 
 ## Decisive Confounders
 
 
 ## Sharpest Next Question
 
-After fixing all pairwise codon-coordinate marginals of the 13 public reassigned codons, is their  $E_3$  spectral energy still extreme, or does the apparent H3 signal collapse into box/wobble composition?
+Is  $\operatorname{tr}(P_{B^*}P_{E_3})/9$  still extreme after conditioning on the full synonymous-zero-sum carrier, family-dimension profile, coefficient templates, and support sparsity, or is the apparent  $E_3$  concentration just the generic spectrum of amino-acid-residual codon contrasts?

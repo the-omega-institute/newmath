@@ -89,6 +89,8 @@ Edge Hiding Optimality & The standard genetic code's codon ASSIGNMENT is an edge
 Canonicity & Codon function space has the canonical V4\textasciicircum{}3 character / Hamming-association-scheme decomposition, and the bridge's H3 class is exactly its highest-frequency eigenspace. Bases = Klein four-group V4 with three chemical dichotomy characters chi\_R (purine/pyrimidine), chi\_W (weak/strong), chi\_K (keto/amino); EXACT: chi\_R(b)*chi\_W(b)*chi\_K(b) = -1 for every base, and \{1,chi\_R,chi\_W,chi\_K\} is an orthogonal character basis. The 64 character tensors Psi\_\{abc\}(c)=chi\_a(b1)chi\_b(b2)chi\_c(b3) form an orthogonal basis of R\textasciicircum{}64, grouped by level j into E\_0..E\_3 of dims 1/9/27/27 = C(3,j)3\textasciicircum{}j; each E\_j is EXACTLY an eigenspace of the H(3,4) single-base adjacency (64 codons, 288 edges) with Krawtchouk eigenvalue lambda\_j = 9-4j (9,5,1,-3) -- verified by applying the adjacency to each tensor in exact integer arithmetic (no float eigensolver). THE BRIDGE LINK: the H3 class (the 27 three-position R/Y,W/S,K/M interaction tensors used in run\_h3\_higherorder\_complement\_stresstest) equals E\_3, the lambda=-3 highest-frequency eigenspace, proved by exact ranks (h3\_rank=e3\_rank=combined\_rank=27). VERDICT CERTIFIED. This is the standard H(3,4) association-scheme spectral decomposition realized via the genetic code's chemical characters; the bridge-specific content is H3 = canonical E\_3 (not an arbitrary higher-order class) + the V4\textasciicircum{}3 group-algebra/Krawtchouk number-theory entry point for a future bio-validated translation operator (SNF/trace/zeta). Review (tests) independently verified the exact eigenspace check + the H3=E3 span equality. Evaluated only by its registered deterministic experiment. & \texttt{certified} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.altcode_edge_hiding.tau_conservation status=certified
 Tau Conservation & Edge-hiding is a CONSERVED constraint across the genetic-code family. For each of the 27 NCBI genetic code tables, the number of synonymous single-base (H(3,4)) codon edges e\_in(t) is compared to a degeneracy-profile-matched random null (random codes with t's exact amino-acid family-size multiset; 20000 draws, fixed seed; sense-to-sense, Stop retained in profile but Stop-Stop edges excluded). RESULT: all 27 codes' per-code profile-matched-null upper-tail p sit at the Monte-Carlo floor \textasciitilde{}5e-5 (all\_at\_floor=True); natural e\_in is far above the null (min e\_in minus null p99 = 43; minimum null z-score = 15.4). This survives a 9-cluster PHYLOGENETIC bootstrap (clusters by code-table reassignment similarity, resampling clusters NOT individual codes to avoid pseudo-replication of related mito variants): cluster\_bootstrap\_p = 5e-5. The union of codons reassigned across all tables vs the standard = exactly 13 (reproduces |R|=13). VERDICT CERTIFIED: natural genetic codes are systematically edge-hiding-extremal vs degeneracy-matched random codes, conserved across the family AND robust to phylogenetic non-independence -- extending the BC7 edge-hiding optimality from the standard code to the whole genetic-code family. EXPLICITLY NOT claimed: global maximality (no valid e\_max -- the broken pair-swap optimizer was removed after review; the claim rests purely on the natural-vs-degeneracy-matched-null contrast, which is independent of any maximum estimate) and NOT a causal/selection proof. Review (architecture+quality+tests, then re-review) verified e\_in, the profile-matched null, the per-code floor, and the cluster bootstrap, and caught+removed the optimizer over-claim. Evaluated only by its registered deterministic experiment. & \texttt{certified} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.bstar_q6_e3_spectral_concentration status=refuted
+Bstar Q6 E3 Spectral Concentration & REFUTED: the bio-intrinsic B*\_Q6 translation-residual basis does NOT concentrate in the canonical lambda=-3 Krawtchouk eigenspace E3 (=H3) of the codon Hamming graph H(3,4); it is significantly ANTI-concentrated there. Setup: the 9 B*\_Q6 within-synonymous zero-sum codon contrasts (K\_AAA, Arg\_AGR, Ile\_AUA, Leu CUN-vs-UUR, Leu UUA-vs-UUG, Ser UCR-vs-AGY, Ser UCA-vs-UCG, Thr ACR-vs-ACY, f3\_stress), defined purely from codon spelling + genetic-code synonymous degeneracy (NO q6/Foldbin/Zeckendorf labels -> non-circular against the pure-math E3), are embedded in R\textasciicircum{}64 (zero on the 3 stops), synonymous-mean-removed, orthonormalized (rank 9). The H(3,4) eigenspace projectors are built exactly via the minimal polynomial (eigenvalues 9,5,1,-3; dims 1,9,27,27; sum P\_Ej = I to max\_abs 0; idempotent; symmetric; matching the chemical-character tensor projectors exactly). Statistic T3 = (1/9) tr(Q\_B\textasciicircum{}T P\_E3 Q\_B) = mean squared cosine of principal angles span(B*\_Q6)<->E3. RESULT: the B*\_Q6 spectral fingerprint is (T0,T1,T2,T3)=(0.000, 0.185, 0.414, 0.401); T3=0.401 is FAR BELOW a triviality-controlled matched-synonymous null (random within-synonymous zero-sum contrasts preserving each template's support + per-fiber zero-sum + L2 norm, 20000 draws) whose mean is 0.528 (null\_z=-5.59, lower-tail p=5e-5); an independent all-family secondary null agrees (mean 0.531). VERDICT REFUTED: the spectral-redirect hypothesis that the highest-frequency canonical lambda=-3 eigenspace H3=E3 predicts/forces the translation-relevant synonymous residual is FALSE -- generic synonymous contrasts concentrate in E3 MORE than B*\_Q6 does, so B*\_Q6 carries a real structural signal but in the LOWER-frequency E1/E2 directions, not E3. SCOPE / not-claimed: this refutes only the E3-concentration hypothesis; the excess B*\_Q6 mass in E1(+0.x)/E2 vs null is a separately-pre-registerable follow-up (NOT claimed here, to avoid garden-of-forking-paths); no causal/selection claim. Verified: structural asserts exact, null fidelity manually audited + adversarially verified (no E2<->E3 mislabel, fair matched null). Evaluated only by its registered deterministic experiment. & \texttt{refuted} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -839,3 +841,36 @@ registered deterministic experiment.
 across the family and survives phylogenetic clustering; no global bound claim is made.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_altcode\_edge\_hiding\_tau.py
+
+\subsection{Bstar Q6 E3 Spectral Concentration}\label{sec:bridge-bstar-q6-e3-spectral-concentration}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.bstar_q6_e3_spectral_concentration status=refuted
+\textbf{Statement.} REFUTED: the bio-intrinsic B*\_Q6 translation-residual basis does NOT concentrate in the canonical
+lambda=-3 Krawtchouk eigenspace E3 (=H3) of the codon Hamming graph H(3,4); it is significantly
+ANTI-concentrated there. Setup: the 9 B*\_Q6 within-synonymous zero-sum codon contrasts (K\_AAA,
+Arg\_AGR, Ile\_AUA, Leu CUN-vs-UUR, Leu UUA-vs-UUG, Ser UCR-vs-AGY, Ser UCA-vs-UCG, Thr ACR-vs-ACY,
+f3\_stress), defined purely from codon spelling + genetic-code synonymous degeneracy (NO
+q6/Foldbin/Zeckendorf labels -> non-circular against the pure-math E3), are embedded in
+R\textasciicircum{}64 (zero on the 3 stops), synonymous-mean-removed, orthonormalized (rank 9). The
+H(3,4) eigenspace projectors are built exactly via the minimal polynomial (eigenvalues 9,5,1,-3;
+dims 1,9,27,27; sum P\_Ej = I to max\_abs 0; idempotent; symmetric; matching the chemical-character
+tensor projectors exactly). Statistic T3 = (1/9) tr(Q\_B\textasciicircum{}T P\_E3 Q\_B) = mean
+squared cosine of principal angles span(B*\_Q6)<->E3. RESULT: the B*\_Q6 spectral fingerprint is
+(T0,T1,T2,T3)=(0.000, 0.185, 0.414, 0.401); T3=0.401 is FAR BELOW a triviality-controlled
+matched-synonymous null (random within-synonymous zero-sum contrasts preserving each template's
+support + per-fiber zero-sum + L2 norm, 20000 draws) whose mean is 0.528 (null\_z=-5.59, lower-tail
+p=5e-5); an independent all-family secondary null agrees (mean 0.531). VERDICT REFUTED: the
+spectral-redirect hypothesis that the highest-frequency canonical lambda=-3 eigenspace H3=E3
+predicts/forces the translation-relevant synonymous residual is FALSE -- generic synonymous
+contrasts concentrate in E3 MORE than B*\_Q6 does, so B*\_Q6 carries a real structural signal but in
+the LOWER-frequency E1/E2 directions, not E3. SCOPE / not-claimed: this refutes only the
+E3-concentration hypothesis; the excess B*\_Q6 mass in E1(+0.x)/E2 vs null is a
+separately-pre-registerable follow-up (NOT claimed here, to avoid garden-of-forking-paths); no
+causal/selection claim. Verified: structural asserts exact, null fidelity manually audited +
+adversarially verified (no E2<->E3 mislabel, fair matched null). Evaluated only by its registered
+deterministic experiment.
+
+\textbf{Verdict.} \texttt{refuted}.
+
+\textbf{Why.} No derivation note is recorded yet.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_bstar\_q6\_e3\_spectral\_concentration.py
