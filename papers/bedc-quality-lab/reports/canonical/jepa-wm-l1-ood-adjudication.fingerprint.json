@@ -1,0 +1,98 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-18T00:00:00+00:00",
+    "runner": "scripts/run_jepa_wm_l1_ood_adjudication.py"
+  },
+  "input_fingerprint": "ea44acf820447575d43c4e0f4ea1a3972847cbafc96f3f987abc905440cf142b",
+  "inputs": {
+    "preregistration_card": {
+      "abstain_rule": "abstain when evidence is budget-valid but neither success nor kill is established",
+      "budget_gates": {
+        "bootstrap_resamples": 512,
+        "min_split_sample_budget": 64,
+        "min_total_sample_budget": 256,
+        "sample_budget": 384
+      },
+      "card_digest": "1dfa8b7b0fd7fc0ed06f7fc65174ab23cf14795b10a85978828d5fdaf5a0ef9b",
+      "fixed_arms": [
+        "null",
+        "base",
+        "larger_base",
+        "oracle_or_teacher"
+      ],
+      "fixed_ood_splits": [
+        "heldout-dynamics",
+        "goal-remap",
+        "temporal-gap",
+        "distractor-clutter"
+      ],
+      "kill_rule": "kill when every OOD split has base ci_high at or below null ci_high plus kill_margin",
+      "metrics": [
+        "top1_accuracy",
+        "mean_rank",
+        "calibration_error"
+      ],
+      "not_ready_rule": "not_ready when any owner-local budget, arm, split, metric, or control gate fails",
+      "owner": "bedc_quality_lab.tasks.jepa_wm_l1_ood_adjudication",
+      "schema_id": "bedc-quality-lab:jepa-wm-l1-ood-adjudication:preregistration-card",
+      "source_issue": "#1553",
+      "success_rule": "success when every OOD split has base ci_low above null ci_high plus success_margin, controls stay inside the null band, and the teacher arm dominates base"
+    },
+    "source_artifacts": {
+      "admission_owner": "reports/canonical/jepa-wm-l1-admission.json",
+      "cost_protocol": "configs/default_cost_protocol.yaml",
+      "evaluator_calibration": "reports/canonical/jepa-wm-l1-evaluator-calibration.json"
+    }
+  },
+  "json_artifact": "reports/canonical/jepa-wm-l1-ood-adjudication.json",
+  "markdown_artifact": "reports/canonical/jepa-wm-l1-ood-adjudication.md",
+  "producer_command": [
+    "python3",
+    "scripts/run_jepa_wm_l1_ood_adjudication.py"
+  ],
+  "report_name": "jepa-wm-l1-ood-adjudication",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "fixed arms and fixed OOD splits in the preregistration card",
+      "calibration_source": "$.split_adjudications",
+      "owner": "jepa-wm-l1-ood-adjudication"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "fixture OOD adjudication uses committed owner-local rows",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "torch": "not-requested"
+      },
+      "python": "3.12.13"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.preregistration_card",
+        "comparison": "status_equal",
+        "owner": "jepa-wm-l1-ood-adjudication",
+        "pointer": "$.verdict.status",
+        "reference_value": "success",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      1553
+    ]
+  },
+  "reproducibility_contract_digest": "e156c20716350af4ffe255c48b885dbf63389cd0fd37f3be8a897d3ec7a0bef1",
+  "reproducibility_mode": "exact_fixture",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

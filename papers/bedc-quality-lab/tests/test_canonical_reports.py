@@ -194,6 +194,10 @@ def _payload_for_spec(spec):
             case_count=128,
             bootstrap_resamples=32,
         )
+    if spec.name == "jepa-wm-l1-ood-adjudication":
+        from bedc_quality_lab.tasks import jepa_wm_l1_ood_adjudication
+
+        return jepa_wm_l1_ood_adjudication.build_payload(generated_at="fixture")
     if spec.name == "sti-admission":
         from bedc_quality_lab.tasks import sti
 
@@ -2220,6 +2224,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "lejepa-theorem-ledger",
         "discovery-gated-transformer-jepa-world-model",
         "jepa-wm-l1-evaluator-calibration",
+        "jepa-wm-l1-ood-adjudication",
         "sti-admission",
         "l1-admissibility-audit",
         "observed-debt-sweep",
@@ -2311,6 +2316,30 @@ def test_scaling_ladder_canonical_spec_is_auxiliary_owner():
     assert spec.not_claimed_pointer == "$.not_claimed"
     assert spec.control_pointer is None
     assert "$.levels[*].owner_contracts" in spec.required_json_keys
+
+
+def test_jepa_wm_l1_ood_adjudication_registered_as_task_local_owner():
+    spec = canonical._specs_by_name()["jepa-wm-l1-ood-adjudication"]
+    payload = _payload_for_spec(spec)
+
+    assert spec.command == ("python3", "scripts/run_jepa_wm_l1_ood_adjudication.py")
+    assert spec.json_artifact == "reports/canonical/jepa-wm-l1-ood-adjudication.json"
+    assert spec.markdown_artifact == "reports/canonical/jepa-wm-l1-ood-adjudication.md"
+    assert spec.claim_promotion_eligible is False
+    assert payload["producer"] == "bedc_quality_lab.tasks.jepa_wm_l1_ood_adjudication"
+    assert payload["preregistration_card"]["owner"] == "bedc_quality_lab.tasks.jepa_wm_l1_ood_adjudication"
+    assert payload["config"]["fixed_arms"] == ["null", "base", "larger_base", "oracle_or_teacher"]
+    assert payload["config"]["fixed_ood_splits"] == [
+        "heldout-dynamics",
+        "goal-remap",
+        "temporal-gap",
+        "distractor-clutter",
+    ]
+    assert payload["config"]["metrics"] == ["top1_accuracy", "mean_rank", "calibration_error"]
+    assert payload["verdict"]["status_domain"] == ["success", "kill", "abstain", "not_ready"]
+    assert payload["hardgate"]["status"] == "pass"
+    assert payload["verdict"]["status"] == "success"
+    assert payload["claim_capsule"]["status"] == "pointer-only"
 
 
 def test_dgt_l0_controls_canonical_spec_is_single_auxiliary_owner():
