@@ -40,6 +40,7 @@ The sibling surfaces account for the data-bearing rows. The diagonal representat
 
 The remaining rows do not add mathematical content. They transport, replay, source, and name the displayed rows, so the listed clauses exhaust the local NameCert obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyRegularityWitnessUp.RegularCauchyRegularityWitness\_namecert\_obligations}
 
 \begin{theorem}[Regular Cauchy regularity-witness diagonal-consumer boundary]
 \label{thm:regular-cauchy-regularity-witness-diagonal-consumer-boundary}
@@ -87,6 +88,36 @@ The diagonal-consumer boundary \autoref{thm:regular-cauchy-regularity-witness-di
 Now attach the completion-facing route. \autoref{thm:real-cauchy-completion-finite-window-completion-coverage} exhausts every accepted $\RealCauchyCompletionUp$ finite-window completion read by the displayed $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ ledgers, diagonal packet, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. \autoref{thm:real-cauchy-completion-current-phase-four-face-support-minimality} says that the Phase Real and Completion exit remains valid only when $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the displayed structural support rows are present.
 
 Intersecting these two finite routes leaves exactly the handoff stated above. The regularity witness supplies the selected diagonal source, window, readback, dyadic ledger, Real seal, and support rows consumed by the Real-completion route, and the cited non-escape clauses leave no coordinate through which the completion-facing seal could bypass them.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy regularity witness tail-window regularity]
+\label{thm:regularcauchyregularitywitness-tail-window-regularity}
+Every accepted $\RegularCauchyRegularityWitnessUp$ packet consumed as a regularity witness exposes its $\StreamNameUp$ finite observation windows, $\RegSeqRatUp$ regularity rows, $\DyadicRatCoreUp$ tolerance rows, $\RealUp$ sealing row, and $\RealCauchyCompletionUp$ handoff before the witness can be consumed. Equivalently, a consumer of the packet must factor through the displayed tail-window route
+$$
+S,\mu,j,\Omega,R,Q,E,H,C,P,N
+$$
+with $\Omega$ read as the finite observation window, $R$ as the regular-rational regularity readback, $Q$ as the dyadic tolerance ledger, $E$ as the Real sealing row, and $H,C,P,N$ as the componentwise transport, continuation replay, provenance, and naming rows that carry the handoff into the completion-facing route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The coordinates of \autoref{def:regular-cauchy-regularity-witness-carrier} display the selected source row, modulus-index rows, finite observation window, regular-rational readback, dyadic tolerance ledger, Real seal, and structural support rows.
+
+The consumer order is forced by the preceding boundaries. \autoref{thm:regular-cauchy-regularity-witness-diagonal-consumer-boundary} places the window, readback, and tolerance ledger before the Real seal; \autoref{thm:regular-cauchy-regularity-witness-real-completion-handoff} then routes the same displayed rows into the $\RealCauchyCompletionUp$ diagonal surface.
+
+It remains to check that transport cannot alter the exposed rows. Replay the componentwise $\hsame$ row $H$ and the displayed $\Cont$ row $C$ along the packet coordinates; the $\Pkg$ row $P$ and local $\NameCert$ row $N$ only source and name the same finite data. Thus any accepted consumer sees the tail-window route before it can consume the regularity witness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy regularity-witness obligation closure]
+\label{thm:regular-cauchy-regularity-witness-obligation-closure}
+For the carrier $W=(S,\mu,j,\Omega,R,Q,E,H,C,P,N)$ of \autoref{def:regular-cauchy-regularity-witness-carrier}, carrier admission, diagonal source exposure, modulus-index rows, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegularCauchyRegularityWitnessUp}$ row form the full obligation surface. Any accepted regularity-witness consumer factors through that finite surface before it can use the diagonal-regularity witness, and no selected host limit, host real equality, quotient-stream equality, $\mathsf{Quot.sound}$ row, $\mathsf{Classical.choice}$ row, or ambient $\RealUp$ completeness coordinate is part of the obligation closure.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $W$. The carrier definition displays exactly the source, modulus, index, finite window, readback, tolerance, Real seal, transport, replay, provenance, and naming rows, and \autoref{thm:regular-cauchy-regularity-witness-namecert-obligations} identifies those rows as the local NameCert obligations.
+
+Induct over the displayed finite window route. The base read exposes the selected diagonal source $S$ and the first window row in $\Omega$ through the modulus-index data $\mu,j$. The step extends the same route by one displayed observation, transports the previous rows through $H$, and replays the continuation row $C$ without adding a new carrier coordinate.
+
+The consumer boundaries close the remaining cases. \autoref{thm:regular-cauchy-regularity-witness-diagonal-consumer-boundary} forces any diagonal-regularity consumer through the listed rows; \autoref{thm:regular-cauchy-regularity-witness-no-hidden-limit} removes off-route limit and equality data; and \autoref{thm:regular-cauchy-regularity-witness-real-completion-handoff} places the $\RealUp$ seal after the window, readback, and dyadic ledger.
+
+Thus the finite route named in \autoref{thm:regularcauchyregularitywitness-tail-window-regularity} is not merely a handoff order. It is the whole obligation surface for the accepted packet, with $P$ and $N$ recording provenance and local naming for the same rows.
 \end{proof}
 
 \falsifiablePrediction{Every accepted RegularCauchyRegularityWitnessUp packet exposes a finite dyadic regularity-witness row and admits no route to a selected limit, host real equality, Quot.sound, or Classical.choice.}
