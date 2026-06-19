@@ -451,9 +451,10 @@ def write_artifacts(
     fingerprint_path: str | Path | None = None,
     generated_at: str | None = None,
     execution_mode: str = "fixture-smoke",
+    observations: Sequence[Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     root_path = Path(root)
-    payload = build_payload(generated_at=generated_at, execution_mode=execution_mode)
+    payload = build_payload(generated_at=generated_at, observations=observations, execution_mode=execution_mode)
     target_json = Path(json_path) if json_path is not None else root_path / JSON_ARTIFACT
     target_md = Path(markdown_path) if markdown_path is not None else root_path / MARKDOWN_ARTIFACT
     target_fingerprint = Path(fingerprint_path) if fingerprint_path is not None else root_path / FINGERPRINT_ARTIFACT

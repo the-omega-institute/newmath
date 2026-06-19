@@ -9,6 +9,31 @@ from pathlib import Path
 SCRIPT = Path("scripts/run_minigrid_doorkey_ood_adjudication.py")
 
 
+def _publication_rows() -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
+    seeds = (1101, 1102, 1103)
+    metrics = {
+        "base": (0.50, 0.70, 0.60),
+        "bedc": (0.72, 0.72, 0.78),
+        "bedc_shuffle_placebo": (0.48, 0.68, 0.55),
+    }
+    for arm_id, (success, id_success, gap_auc) in metrics.items():
+        for episode_index in range(500):
+            rows.append(
+                {
+                    "family_id": "F3",
+                    "fresh_env_id": f"doorkey-f3-fresh-{episode_index + 1}",
+                    "seed": seeds[episode_index % len(seeds)],
+                    "episode_index": episode_index,
+                    "arm_id": arm_id,
+                    "success": success,
+                    "id_success": id_success,
+                    "gap_auc": gap_auc,
+                }
+            )
+    return rows
+
+
 def _run_cli(tmp_path: Path, *args: object) -> subprocess.CompletedProcess[str]:
     script = tmp_path / "scripts" / SCRIPT.name
     script.parent.mkdir()
@@ -53,3 +78,26 @@ def test_cli_rejects_publication_bearing_fixture_without_writing_report(tmp_path
     assert result.returncode == 2
     assert "publication-bearing mode requires" in result.stderr
     assert not output.exists()
+
+
+def test_cli_writes_publication_bearing_report_for_passing_observations(tmp_path: Path) -> None:
+    output = tmp_path / "report.json"
+    observations = tmp_path / "observations.json"
+    observations.write_text(json.dumps(_publication_rows()), encoding="utf-8")
+
+    result = _run_cli(
+        tmp_path,
+        "--execution-mode",
+        "publication-bearing",
+        "--observations-json",
+        observations,
+        "--output",
+        output,
+    )
+
+    assert result.returncode == 0, result.stderr
+    packet = json.loads(output.read_text(encoding="utf-8"))
+    assert packet["hardgate"]["status"] == "pass"
+    assert packet["verdict"]["status"] == "success"
+    assert packet["claim_boundary"]["status"] == "publication-bearing"
+    assert packet["claim_boundary"]["claim_allowed"] is True

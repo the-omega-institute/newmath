@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 import sys
 
@@ -25,12 +26,16 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--output", type=Path, default=ROOT / JSON_ARTIFACT)
     parser.add_argument("--markdown-output", type=Path, default=None)
     parser.add_argument("--fingerprint-output", type=Path, default=None)
+    parser.add_argument("--observations-json", type=Path, default=None)
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    payload = build_payload(execution_mode=args.execution_mode)
+    observations = None
+    if args.observations_json is not None:
+        observations = json.loads(args.observations_json.read_text(encoding="utf-8"))
+    payload = build_payload(observations=observations, execution_mode=args.execution_mode)
     if args.execution_mode == "publication-bearing" and payload["claim_boundary"]["status"] != "publication-bearing":
         print(
             "publication-bearing mode requires 3 arms, 3 seeds per arm, and 500 fresh F3 episodes per arm",
@@ -43,6 +48,7 @@ def main(argv: list[str] | None = None) -> int:
         markdown_path=args.markdown_output,
         fingerprint_path=args.fingerprint_output,
         execution_mode=args.execution_mode,
+        observations=observations,
     )
     try:
         display_path = args.output.relative_to(ROOT)

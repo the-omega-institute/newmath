@@ -12,6 +12,31 @@ def _rows() -> list[dict[str, object]]:
     return [dict(row) for row in default_fresh_episode_rows()]
 
 
+def _publication_rows() -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
+    seeds = (1101, 1102, 1103)
+    metrics = {
+        "base": (0.50, 0.70, 0.60),
+        "bedc": (0.72, 0.72, 0.78),
+        "bedc_shuffle_placebo": (0.48, 0.68, 0.55),
+    }
+    for arm_id, (success, id_success, gap_auc) in metrics.items():
+        for episode_index in range(500):
+            rows.append(
+                {
+                    "family_id": "F3",
+                    "fresh_env_id": f"doorkey-f3-fresh-{episode_index + 1}",
+                    "seed": seeds[episode_index % len(seeds)],
+                    "episode_index": episode_index,
+                    "arm_id": arm_id,
+                    "success": success,
+                    "id_success": id_success,
+                    "gap_auc": gap_auc,
+                }
+            )
+    return rows
+
+
 def test_fixture_smoke_payload_is_not_publication_bearing() -> None:
     payload = ood.build_payload(generated_at="fixture")
 
@@ -63,6 +88,29 @@ def test_publication_bearing_mode_fails_closed_on_fixture_coverage() -> None:
     assert payload["hardgate"]["status"] == "fail"
     assert "F3_COVERAGE" in payload["hardgate"]["failed_gates"]
     assert payload["claim_boundary"]["status"] == "not-publication-bearing"
+
+
+def test_publication_bearing_success_authorizes_claim_boundary() -> None:
+    payload = ood.build_payload(
+        generated_at="fixture",
+        observations=_publication_rows(),
+        execution_mode="publication-bearing",
+    )
+
+    ood.validate_payload(payload)
+    assert payload["hardgate"]["status"] == "pass"
+    assert payload["hardgate"]["failed_gates"] == []
+    assert payload["verdict"]["status"] == "success"
+    assert payload["claim_boundary"]["status"] == "publication-bearing"
+    assert payload["claim_boundary"]["claim_allowed"] is True
+    assert {
+        row["arm_id"]: row["fresh_episode_count"]
+        for row in payload["arm_summaries"]
+    } == {
+        "base": 500,
+        "bedc": 500,
+        "bedc_shuffle_placebo": 500,
+    }
 
 
 def test_missing_arm_fails_closed() -> None:
