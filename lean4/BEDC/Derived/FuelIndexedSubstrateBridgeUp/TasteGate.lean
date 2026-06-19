@@ -516,4 +516,51 @@ theorem FuelIndexedSubstrateBridge_total_host_nonescape
       exact ⟨fuelHost, hostRefused, source⟩
   }
 
+theorem FuelIndexedSubstrateBridge_step_window_boundary
+    {fuel substrate evaluator window readback refusal transport route provenance name hostRead
+      substrateRead : BHist} :
+    Cont fuel substrate hostRead →
+      Cont window readback substrateRead →
+        fuelIndexedSubstrateBridgeToEventFlow
+            (FuelIndexedSubstrateBridgeUp.mk fuel substrate evaluator window readback refusal
+              transport route provenance name) =
+          [[BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist fuel,
+            [BMark.b1, BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist substrate,
+            [BMark.b1, BMark.b1, BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist evaluator,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist window,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist readback,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist refusal,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist transport,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist route,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b1, BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist provenance,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            fuelIndexedSubstrateBridgeEncodeBHist name] ∧
+          Cont fuel substrate hostRead ∧
+            Cont window readback substrateRead ∧
+              hsame window window ∧ hsame readback readback := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro hostCont substrateCont
+  constructor
+  · rfl
+  · constructor
+    · exact hostCont
+    · constructor
+      · exact substrateCont
+      · constructor
+        · exact hsame_refl window
+        · exact hsame_refl readback
+
 end BEDC.Derived.FuelIndexedSubstrateBridgeUp
