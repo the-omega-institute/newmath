@@ -1675,6 +1675,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyContinuousMapUp.TasteGate
+import BEDC.Derived.CauchyContinuousMapUp.UniformWindowObligation
 import BEDC.Derived.CauchyContractionOrbitUp.TasteGate
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
 import BEDC.Derived.CauchyConvergenceCriterionUp.CofinalModulusExtraction
@@ -3010,6 +3011,7 @@ import BEDC.Derived.CompactNetModulusSelectorUp.PointwiseRadiusRoute
 import BEDC.Derived.CompactNetModulusSelectorUp.RootBudgetAdmission
 import BEDC.Derived.CompactNetModulusSelectorUp.RootObligationTriad
 import BEDC.Derived.CompactNetModulusSelectorUp.TasteGate
+import BEDC.Derived.CompactOpenCoverBoundaryUp
 import BEDC.Derived.CompactOpenExhaustionUp.TasteGate
 import BEDC.Derived.CompactOpenFunctionSpaceUp
 import BEDC.Derived.CompactOpenFunctionSpaceUp.TasteGate
@@ -8309,9 +8311,11 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.AxisSeparation
 import BEDC.Derived.PaperLeanDriftWitnessUp.BridgeReadyDependencySurface
 import BEDC.Derived.PaperLeanDriftWitnessUp.ClosureTargetResolution
+import BEDC.Derived.PaperLeanDriftWitnessUp.ConsumerRowScope
 import BEDC.Derived.PaperLeanDriftWitnessUp.DependencyRoutingScope
 import BEDC.Derived.PaperLeanDriftWitnessUp.DependencyWeaveHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.DuplicateLedgerReadiness
+import BEDC.Derived.PaperLeanDriftWitnessUp.DuplicateObstructionRoutePreservation
 import BEDC.Derived.PaperLeanDriftWitnessUp.LeanInventoryHitExhaustion
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerFamilyResolutionReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerInventoryKindLock
@@ -9683,6 +9687,7 @@ import BEDC.Derived.RegularCauchyRegularityWitnessUp.DiagonalConsumerBoundary
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.FiniteWindowInduction
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.NameCertObligations
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.NoHiddenLimitBoundary
+import BEDC.Derived.RegularCauchyRegularityWitnessUp.ObligationClosure
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.RealCompletionHandoff
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.ScopedKernelRoute
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TailWindowRegularity
