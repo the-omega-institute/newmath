@@ -95,6 +95,18 @@ None of those siblings carries the simultaneous positive-certificate row $P$, fa
 \end{proof}
 \leanchecked{BEDC.Derived.AuditSystemUp.AuditSystemIndependenceWitness}
 
+\begin{theorem}[Audit system bridged handoff package]
+\label{thm:auditsystem-bridged-handoff-package}
+The admissible claim row, positive certificate row, failure certificate row, refusal row, export grade row, ledger-closure row, transport row, replay row, provenance row, and local name row of an accepted $\AuditSystemUp$ packet form the paper bridge handoff to the abstract audit interface. The handoff exposes exactly the finite audit surface needed by that interface, and it exports no additional registry, certificate, or ledger coordinate beyond those rows.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:audit-system-carrier} as $A=(C,P,F,R,E,L,H,K,Q,N)$. The rows $C,P,F,R,E,L$ provide the admissible claim, positive certificate, typed failure certificate, refusal boundary, export grade, and ledger closure.
+
+The structural rows $H,K,Q,N$ transport, replay, source, and name the same finite packet. By \autoref{thm:audit-system-namecert-surface}, \autoref{thm:audit-system-export-refusal}, and \autoref{thm:audit-system-ledger-closure}, those rows are exactly the public audit rows preserved by the abstract audit interface.
+
+The independence witness \autoref{thm:audit-system-independence-witness} excludes collapse to any one sibling registry or certificate packet. Hence the displayed rows form a bridge handoff package, not a hidden registry extension.
+\end{proof}
+
 The Lean follow-up file \texttt{lean4/BEDC/Derived/AuditSystemUp/TasteGate.lean} must provide explicit $\Nontrivial\ \AuditSystemUp$ and $\FieldFaithful\ \AuditSystemUp$ instances. The field-faithfulness witness must preserve $C,P,F,R,E,L,H,K,Q,N$ as distinct rows so positive certification, typed failure, cannot-claim refusal, export grade, and ledger closure cannot be merged.
 
 \falsifiablePrediction{If an AuditSystemUp packet accepts a claim while its failure-certificate row is active, the export-refusal theorem produces a certificate conflict rather than an exportable claim.}
@@ -105,10 +117,11 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/AuditSystemUp/TasteGate.lean}
 \closureat{AuditSystemUp}{obligationStr}
 \closureat{AuditSystemUp}{scopedStr}
 \closureat{AuditSystemUp}{publicStr}
+\closureat{AuditSystemUp}{bridgedStr}
 
 \begin{closurestatus}{\AuditSystemUp}
   \constructivestory{An $\AuditSystemUp$ packet is generated from admissible-claim, positive-certificate, failure-certificate, cannot-claim, export-grade, ledger-closure, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{def:audit-system-carrier}, \autoref{thm:audit-system-namecert-surface}, \autoref{thm:audit-system-export-refusal}, \autoref{thm:audit-system-certificate-conflict-determinacy}, \autoref{thm:audit-system-ledger-closure}, \autoref{thm:audit-system-independence-witness}, the falsifiable claim-conflict prediction, the independence witness, and the displayed TasteGate alignment marker bind the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\KernelAcceptanceAuditWitnessUp$, $\ClaimRegistryLayerUp$, $\FailureCertificateUp$, and $\RegistryExportConsistencyGateUp$ scope used by the public carrier, export-refusal, certificate-conflict, ledger, independence, and TasteGate rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
