@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\HahnSeriesUp$}
+\label{ch:concrete-instances-hahn-series-namecert}
+\origin{human}
+
+Following Hahn's ordered series construction and standard valuation-theory presentations, the $\HahnSeriesUp$ packet records only finite support windows, coefficient rows, ordered-support comparison rows, valuation-head rows, truncation rows, arithmetic rows, transport, replay, provenance, and local NameCert data. It sits beside the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the finite formal-power-series window of \autoref{ch:concrete-instances-fps-namecert}, and the scalar field source of \autoref{ch:concrete-instances-field-namecert}. The packet names the finite inspection surface used by Hahn-series algebra; it is not a host class of all well-ordered supports, an infinite summation oracle, an algebraic-closure theorem, a selected valuation field, or an ambient ordered-field completeness principle.
+
+\begin{definition}[Hahn series finite-window carrier]
+\label{def:hahn-series-carrier}
+A $\HahnSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+H=(K,G,W,C,O,V,T,A,S,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the coefficient-field row, read through the scalar $\FieldUp$ source.
+\item $G$ is the ordered-exponent row, recording the finite ordered abelian-group window currently inspected.
+\item $W$ is the finite support-window row, listing displayed exponents and their coefficient cells.
+\item $C$ is the coefficient row, assigning a $K$-coefficient to each exponent listed in $W$.
+\item $O$ is the ordered-support comparison row, recording the finite least-exponent and tie-breaking comparisons visible inside $W$.
+\item $V$ is the valuation-head row, naming the least displayed exponent and its coefficient when the inspected window is nonzero.
+\item $T$ is the truncation row, recording restriction of the displayed support to lower and upper finite cuts.
+\item $A$ is the finite addition, multiplication, and scalar-action row over displayed windows.
+\item $S$ is the stability row, recording that the displayed arithmetic output has finite support inside the requested window and preserves the ordered-support comparisons.
+\item $R$ records componentwise $\hsame$ transport for coefficient, exponent, support, comparison, valuation, truncation, arithmetic, stability, replay, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\HahnSeriesUp$, $\FieldUp$, $\PolynomialUp$, $\FpsUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HahnSeriesUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,G,W,C,O,V,T,A,S,R,P,N$. It has no coordinate for a completed support class, infinite coefficient summation, host well-order proof, algebraic closure, selected valuation field, or ambient ordered-field completeness.
+\end{definition}
+
+\begin{theorem}[Hahn series finite-window operation stability]
+\label{thm:hahn-series-finite-window-operations}
+For every accepted $\HahnSeriesUp$ carrier $H=(K,G,W,C,O,V,T,A,S,R,P,N)$, the finite operation row $A$ exports addition, multiplication, and scalar action only after the coefficient row $C$, ordered-support comparison row $O$, valuation-head row $V$, and truncation row $T$ have been displayed. The stability row $S$ records that every exported operation remains inside the requested finite support window and preserves the ordered-support comparison data.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:hahn-series-carrier}. The operation row $A$ is downstream from the coefficient field $K$, ordered-exponent row $G$, finite support window $W$, coefficient row $C$, comparison row $O$, valuation row $V$, and truncation row $T$.
+
+Addition is read coefficientwise over the displayed window. Multiplication is read through the finite convolution cells named by $W$ and checked against the displayed ordered-support comparisons in $O$.
+
+The stability row $S$ is the only row that can certify the output window. Since $S$ records finite support containment and preservation of comparison data, a consumer cannot turn the operation row into an infinite summation, host well-order proof, or ambient valuation-field theorem.
+\end{proof}
+
+\begin{theorem}[Hahn series NameCert obligations]
+\label{thm:hahn-series-namecert-obligations}
+The local $\NameCert_{\HahnSeriesUp}$ surface consists exactly of carrier admission for the coefficient field, ordered-exponent window, finite support window, coefficient row, ordered-support comparison row, valuation-head row, truncation row, finite arithmetic row, stability row, componentwise transport, provenance, and local naming rows. Every consumer route factors through the finite polynomial and formal-power-series neighbours of \autoref{ch:concrete-instances-polynomial-namecert} and \autoref{ch:concrete-instances-fps-namecert} when it reads coefficient lists or finite series windows, and through \autoref{ch:concrete-instances-field-namecert} when it reads scalar arithmetic.
+\end{theorem}
+\begin{proof}
+The carrier definition lists exactly $K,G,W,C,O,V,T,A,S,R,P,N$. Carrier admission and local naming therefore expose only those rows.
+
+The algebraic neighbours supply finite readback discipline. Polynomial rows give finite coefficient-list arithmetic, formal-power-series rows give finite truncation-window arithmetic, and the field row gives scalar addition, multiplication, and inverse-facing obligations when those are explicitly displayed.
+
+Transport and provenance preserve the same finite packet. Because no row stores a completed class of well-ordered supports, an infinite series operation, a host well-order theorem, algebraic closure, selected valuation field, or ordered-field completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{HahnSeriesUp}{seedStr}
+
+\begin{closurestatus}{\HahnSeriesUp}
+  \constructivestory{A $\HahnSeriesUp$ packet is generated from coefficient-field rows, ordered-exponent windows, finite support windows, coefficient rows, ordered-support comparisons, valuation-head rows, truncation rows, finite arithmetic rows, stability rows, componentwise hsame transport, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hahn-series-carrier}, \autoref{thm:hahn-series-finite-window-operations}, and \autoref{thm:hahn-series-namecert-obligations} seed the finite Hahn-series NameCert surface over coefficient, support-window, order-comparison, valuation, truncation, arithmetic, stability, transport, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host well-ordered supports, infinite series summation, algebraic closure, selected valuation fields, ordered-field completeness, Lean verification, or bridge checking for $\HahnSeriesUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-field exposure, ordered-support comparison, valuation-head exactness, truncation stability, finite arithmetic stability, transport, provenance, and local naming for BEDC.Derived.HahnSeriesUp.}
+\end{closurestatus}
