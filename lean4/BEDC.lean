@@ -3475,6 +3475,7 @@ import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ContourReparameterizationLedgerUp.TasteGate
 import BEDC.Derived.ContourResidueHandoffUp.TasteGate
 import BEDC.Derived.ContourReversalLedgerUp.TasteGate
+import BEDC.Derived.ContourSumWindowUp.NameCertObligations
 import BEDC.Derived.ContourSumWindowUp.TasteGate
 import BEDC.Derived.ContractionMappingTheoremUp.TasteGate
 import BEDC.Derived.ContractionMappingUp.FixedPointTailSeal
@@ -7407,6 +7408,7 @@ import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.CandidateRouteScope
+import BEDC.Derived.MetaCICNormalizationBudgetUp.CandidateSNBoundary
 import BEDC.Derived.MetaCICNormalizationBudgetUp.Nonescape
 import BEDC.Derived.MetaCICNormalizationBudgetUp.ObligationSurface
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
@@ -9619,6 +9621,7 @@ import BEDC.Derived.RegularCauchyRegularityWitnessUp.FiniteWindowInduction
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.NameCertObligations
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.NoHiddenLimitBoundary
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.RealCompletionHandoff
+import BEDC.Derived.RegularCauchyRegularityWitnessUp.TailWindowRegularity
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularizationUp.TasteGate
 import BEDC.Derived.RegularCauchyReindexInvarianceUp.TasteGate
@@ -10628,6 +10631,7 @@ import BEDC.Derived.TemperedDistributionUp.TasteGate
 import BEDC.Derived.TensorAlgebraUp.TasteGate
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.TermStratumChoiceClosureUp.TasteGate
+import BEDC.Derived.TerminationRefusalBoundaryUp.NameCertObligations
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TernaryExpansionUp.TasteGate
 import BEDC.Derived.TheoremGapRegistryUp.BridgeSurface
