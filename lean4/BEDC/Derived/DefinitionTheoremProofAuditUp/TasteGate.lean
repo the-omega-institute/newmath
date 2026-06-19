@@ -217,4 +217,23 @@ theorem DefinitionTheoremProofAuditUp_single_carrier_alignment :
   · intro x y heq
     exact DefinitionTheoremProofAuditUp_single_carrier_alignment_toEventFlow_injective heq
 
+theorem DefinitionTheoremProofAuditCarrier_namecert_obligations
+    (x : DefinitionTheoremProofAuditUp) :
+    ∃ D T R S F U H C P N : BHist,
+      x = DefinitionTheoremProofAuditUp.mk D T R S F U H C P N ∧
+        definitionTheoremProofAuditFields x = [D, T, R, S, F, U, H, C, P, N] ∧
+          Nonempty (BHistCarrier DefinitionTheoremProofAuditUp) ∧
+            Nonempty (ChapterTasteGate DefinitionTheoremProofAuditUp) ∧
+              Nonempty (FieldFaithful DefinitionTheoremProofAuditUp) ∧
+                Nonempty (Nontrivial DefinitionTheoremProofAuditUp) := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier ChapterTasteGate FieldFaithful
+  cases x with
+  | mk D T R S F U H C P N =>
+      exact
+        ⟨D, T, R, S, F, U, H, C, P, N, rfl, rfl,
+          ⟨definitionTheoremProofAuditBHistCarrier⟩,
+          ⟨definitionTheoremProofAuditChapterTasteGate⟩,
+          ⟨definitionTheoremProofAuditFieldFaithful⟩,
+          ⟨definitionTheoremProofAuditNontrivial⟩⟩
+
 end BEDC.Derived.DefinitionTheoremProofAuditUp
