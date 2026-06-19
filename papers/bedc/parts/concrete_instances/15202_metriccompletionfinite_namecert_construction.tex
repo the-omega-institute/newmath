@@ -156,6 +156,18 @@ The window readback theorem \autoref{thm:metric-completion-finite-window-readbac
 \end{proof}
 \leanchecked{BEDC.Derived.MetricCompletionFiniteUp.MetricCompletionFiniteNonescape}
 
+\begin{theorem}[MetricCompletionFinite obligation closure]
+\label{thm:metric-completion-finite-obligation-closure}
+The displayed packet rows $M,B,W,E,R,S,H,C,P,N$ close the $\MetricCompletionFiniteUp$ obligation surface: carrier admission, classifier exactness, finite-window readback, stability transport, ledger exactness, and non-escape are all accounted for inside the accepted finite-window completion packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is the NameCert obligation package of \autoref{thm:metric-completion-finite-namecert-obligations}. It exposes exactly the metric-completion row, basis row, finite precision window, embedding row, readback row, local seal row, transport, replay, provenance, and local naming row.
+
+The finite-window readback and classifier surface are then fixed by \autoref{thm:metric-completion-finite-window-readback} and \autoref{thm:metric-completion-finite-classifier-exactness}. Together they keep every completion-facing read on the displayed $M,B,W,E,R,S,H,C,P,N$ route.
+
+Finally apply stability transport, ledger exactness, and non-escape from \autoref{thm:metric-completion-finite-stability-transport}, \autoref{thm:metric-completion-finite-ledger-exactness}, and \autoref{thm:metric-completion-finite-nonescape}. These rows preserve the route under $\hsame$ transport, identify the refusal ledger exactly, and rule out quotient completion equality, selected representatives, countable choice, compactness, host equality, and ambient complete metric spaces.
+\end{proof}
+
 \begin{closurestatus}{\MetricCompletionFiniteUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:metric-completion-finite-carrier}, \autoref{thm:metric-completion-finite-namecert-obligations}, \autoref{thm:metric-completion-finite-window-readback}, and \autoref{thm:metric-completion-finite-nonescape} seed the finite-window completion witness between metric-completion rows and downstream regular-rational or Real seal reads.}
