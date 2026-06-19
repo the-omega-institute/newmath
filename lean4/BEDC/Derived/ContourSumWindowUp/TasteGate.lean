@@ -226,6 +226,35 @@ instance contourSumWindowChapterTasteGate : ChapterTasteGate ContourSumWindowUp 
     intro x y hxy heq
     exact hxy (contourSumWindowToEventFlow_injective heq)
 
+instance contourSumWindowFieldFaithful : FieldFaithful ContourSumWindowUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | ContourSumWindowUp.mk contour holomorphic subdivision riemann output transport
+        continuation provenance name =>
+        [contour, holomorphic, subdivision, riemann, output, transport, continuation,
+          provenance, name]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk contour holomorphic subdivision riemann output transport continuation provenance name =>
+        cases y with
+        | mk contour' holomorphic' subdivision' riemann' output' transport' continuation'
+            provenance' name' =>
+            cases hfields
+            rfl
+
+instance contourSumWindowNontrivial : Nontrivial ContourSumWindowUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ContourSumWindowUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ContourSumWindowUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem ContourSumWindowTasteGate_single_carrier_alignment :
     (∀ h : BHist, contourSumWindowDecodeBHist (contourSumWindowEncodeBHist h) = h) ∧
       (∀ x : ContourSumWindowUp,
