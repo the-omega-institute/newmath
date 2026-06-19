@@ -1467,6 +1467,7 @@ import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
+import BEDC.Derived.CaristiFixedPointUp.TasteGate
 import BEDC.Derived.CartanAngularBoundaryInvariantUp
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
@@ -4881,6 +4882,7 @@ import BEDC.Derived.DyadicValuationUp
 import BEDC.Derived.DyadicValuationUp.TasteGate
 import BEDC.Derived.DyadicWindowSealUp.TasteGate
 import BEDC.Derived.DynSystemUp
+import BEDC.Derived.DynamicProgrammingUp.TasteGate
 import BEDC.Derived.EberleinSmulianUp.TasteGate
 import BEDC.Derived.EdelsteinFixedPointUp
 import BEDC.Derived.EdelsteinFixedPointUp.TasteGate
