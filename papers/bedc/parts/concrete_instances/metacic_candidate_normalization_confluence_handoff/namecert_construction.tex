@@ -97,6 +97,20 @@ Apply residual progress from \autoref{thm:metacic-candidate-normalization-residu
 The residual side is read against \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}. Since the carrier contains no coordinates for unrestricted Church--Rosser, unconditional strong normalization, subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or consistency, the rectangle remains a guarded handoff packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate normalization confluence boundary]
+\label{thm:metacic-candidate-normalization-confluence-boundary}
+Let $H=(A,K,N,F,C,D,B,T,R,P,L)$ be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. If a bounded comparison exports a join row from $H$, then the read preserves candidate evidence $K$, the normalization frontier $F$, the residual envelope $C$, the decidable boundary $D$, the blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$. The exported join row is therefore a guarded candidate-normalization handoff. It cannot be read as unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. A bounded comparison can export a join row only through the displayed candidate, frontier, residual-envelope, decidable-boundary, blocked-edge, transport, replay, provenance, and naming coordinates of $H$.
+
+Apply the handoff boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. Candidate-gate exactness keeps $K$ and $F$ visible before endpoint data are consumed, confluence discipline keeps $C$ and $B$ visible for residual reads, and decidable-boundary discipline routes bounded comparison through $D$.
+
+Use residual progress and the rectangle theorem from \autoref{thm:metacic-candidate-normalization-residual-progress} and \autoref{thm:metacic-candidate-normalization-confluence-rectangle}. They allow the bounded comparison to display a guarded endpoint row or an obstruction row, but only while retaining the candidate and residual coordinates.
+
+Finally read the structural rows $T,R,P,L$. They transport, replay, source, and name the same finite route; none of them creates a coordinate for unconditional normalization, full Church--Rosser, unrestricted subject reduction, global decidability, quotient syntax equality, evaluator soundness, or closed consistency. Thus no excluded coordinate is available to the consumer.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate normalization confluence handoff decider boundary]
 \label{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}
 Any bounded conversion comparison exported through the decidable-boundary row $D$ of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier $H=(A,K,N,F,C,D,B,T,R,P,L)$ must first expose candidate evidence $K$, normal endpoint data $N$, the normalization frontier row $F$, the residual-envelope row $C$, the blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$. The exported comparison is only a bounded comparison boundary. It is not global conversion decidability, full Church--Rosser, unrestricted subject reduction, evaluator equality, quotient syntax equality, or closed consistency.
