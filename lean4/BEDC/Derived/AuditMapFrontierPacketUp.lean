@@ -99,4 +99,85 @@ theorem AuditMapFrontierPacketCarrier_namecert_obligations [AskSetup] [PackageSe
     }
   exact ⟨cert, consumerReadUnary⟩
 
+theorem AuditMapFrontierPacketCarrier_nonescape [AskSetup] [PackageSetup]
+    {familyTag checked conditional obstruction frontier provenance transport route localName
+      consumerRead refusalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory checked →
+      UnaryHistory conditional →
+        UnaryHistory obstruction →
+          UnaryHistory frontier →
+            UnaryHistory localName →
+              Cont checked conditional route →
+                Cont route obstruction refusalRead →
+                  PkgSig bundle provenance pkg →
+                    PkgSig bundle localName pkg →
+                      SemanticNameCert
+                          (fun row : BHist =>
+                            (hsame row refusalRead ∨ hsame row obstruction) ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row checked ∨ hsame row conditional ∨
+                              hsame row obstruction ∨ hsame row frontier ∨
+                                hsame row refusalRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont route obstruction refusalRead ∧
+                              PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+                          hsame ∧
+                        UnaryHistory refusalRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro checkedUnary conditionalUnary obstructionUnary _frontierUnary _localNameUnary
+    checkedConditional routeObstruction provenancePkg localNamePkg
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed checkedUnary conditionalUnary checkedConditional
+  have refusalReadUnary : UnaryHistory refusalRead :=
+    unary_cont_closed routeUnary obstructionUnary routeObstruction
+  have refusalSource :
+      (fun row : BHist => (hsame row refusalRead ∨ hsame row obstruction) ∧ UnaryHistory row)
+        refusalRead := by
+    exact ⟨Or.inl (hsame_refl refusalRead), refusalReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => (hsame row refusalRead ∨ hsame row obstruction) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row checked ∨ hsame row conditional ∨ hsame row obstruction ∨
+              hsame row frontier ∨ hsame row refusalRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont route obstruction refusalRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro refusalRead refusalSource
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          constructor
+          · cases source.left with
+            | inl sameRefusal =>
+                exact Or.inl (hsame_trans (hsame_symm sameRows) sameRefusal)
+            | inr sameObstruction =>
+                exact Or.inr (hsame_trans (hsame_symm sameRows) sameObstruction)
+          · exact unary_transport source.right sameRows
+      }
+      pattern_sound := by
+        intro _row source
+        cases source.left with
+        | inl sameRefusal =>
+            exact Or.inr (Or.inr (Or.inr (Or.inr sameRefusal)))
+        | inr sameObstruction =>
+            exact Or.inr (Or.inr (Or.inl sameObstruction))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, routeObstruction, provenancePkg, localNamePkg⟩
+    }
+  exact ⟨cert, refusalReadUnary⟩
+
 end BEDC.Derived.AuditMapFrontierPacketUp
