@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubstitutionDiamondFrontierUp$}
+\label{ch:concrete-instances-metacic-substitution-diamond-frontier-namecert}
+\origin{ai}
+
+The $\MetaCICSubstitutionDiamondFrontierUp$ packet realizes the substitution-sensitive boundary of the MetaCIC beta audit map of \autoref{ch:metacic-beta-audit-map} as finite NameCert data. It sits beside the residual checker of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}, the residual-diamond budget of \autoref{ch:concrete-instances-metacic-residual-diamond-budget-namecert}, the beta-step boundary of \autoref{ch:concrete-instances-betastepboundary-namecert}, and the subject-reduction packet of \autoref{ch:concrete-instances-subjectreduction-namecert}. The packet records a beta peak, residual rows, candidate joins, substitution-boundary rows, checker rows, obstruction rows, transport, replay, provenance, and local naming; it does not claim full confluence, subject reduction, unrestricted substitution compatibility, quotient syntax equality, or a hidden evaluator.
+
+\begin{definition}[MetaCIC substitution-diamond frontier carrier]
+\label{def:metacic-substitution-diamond-frontier-carrier}
+A $\MetaCICSubstitutionDiamondFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,P,R,J,S,K,O,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC term and context row naming the finite source of the beta peak.
+\item $P$ is the beta-peak row, read through the displayed $\mathrm{BetaStep}$ and $\mathrm{BetaConv}$ boundary of \autoref{ch:metacic-beta-audit-map}.
+\item $R$ is the residual row naming the branch residuals that remain after each beta step.
+\item $J$ is the candidate-join row listing the finite terms proposed as local joins for the displayed peak.
+\item $S$ is the substitution-boundary row, recording which substitution, shift, and closedness data must stay visible for the candidate join to be inspected.
+\item $K$ is the bounded checker row, read through the residual-checker and residual-diamond-budget sibling packets.
+\item $O$ is the obstruction row, keeping subject reduction, unrestricted substitution compatibility, and global confluence outside the carrier.
+\item $H$ stores componentwise $\hsame$ transport for $T,P,R,J,S,K,O,C,Q,N$.
+\item $C$ stores displayed $\Cont$ replay through the beta peak, residuals, candidate joins, substitution boundary, bounded checker, obstruction, provenance, and local naming.
+\item $Q$ is the $\Pkg$ provenance over $\MetaCICSubstitutionDiamondFrontierUp$, $\MetaCICConfluenceResidualCheckerUp$, $\MetaCICResidualDiamondBudgetUp$, $\BetaStepBoundaryUp$, $\SubjectReductionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICSubstitutionDiamondFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for global Church--Rosser, closed subject reduction, unrestricted substitution compatibility, quotient syntax equality, or an external evaluator.
+\end{definition}
+
+\begin{theorem}[MetaCIC substitution-diamond frontier obligations]
+\label{thm:metacic-substitution-diamond-frontier-obligations}
+For every accepted $\MetaCICSubstitutionDiamondFrontierUp$ carrier $F=(T,P,R,J,S,K,O,H,C,Q,N)$, the local $\NameCert_{\MetaCICSubstitutionDiamondFrontierUp}$ surface consists exactly of source-term admission, beta-peak admission, residual exposure, candidate-join exposure, substitution-boundary exposure, bounded-checker admission, obstruction retention, componentwise transport, displayed replay, package provenance, and local naming. Every displayed candidate join must retain the named substitution-boundary row $S$ before the checker row $K$ may inspect it.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-substitution-diamond-frontier-carrier}. The beta-facing rows are $T,P,R,J$, the substitution and checker rows are $S,K,O$, and the structural rows are $H,C,Q,N$.
+
+Read the peak and residual rows first. The term row $T$ and beta-peak row $P$ name the finite local peak, while $R$ records the residual data that remain visible on each branch.
+
+Next inspect the candidate joins through $J,S,K$. The candidate-join row $J$ is not accepted alone; it is paired with the substitution-boundary row $S$, and the bounded checker $K$ reads the pair only while the substitution, shift, and closedness data remain displayed.
+
+Finally retain the obstruction and structural rows. The row $O$ prevents the local frontier from becoming a proof of full confluence or subject reduction, while $H,C,Q,N$ transport, replay, source, and name the same finite packet. Since no coordinate stores global Church--Rosser, unrestricted substitution compatibility, quotient syntax equality, or an external evaluator, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\falsifiablePrediction{If the frontier is accepted, every displayed candidate join must retain a named substitution-boundary row; deleting that row invalidates the local diamond packet.}
+
+\independenceWitness{metacic-confluence-residual-checker, metacic-residual-diamond-budget, betastepboundary, subjectreduction: $\MetaCICSubstitutionDiamondFrontierUp$ is not bijective to these siblings because it jointly carries beta peaks, residual rows, candidate joins, substitution-boundary rows, bounded checker rows, obstruction retention, transport, replay, provenance, and local naming. The siblings supply checker, budget, beta-step, or preservation surfaces separately, while only this packet binds substitution visibility to each candidate local join.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \MetaCICSubstitutionDiamondFrontierUp$ and $\mathsf{FieldFaithful}\ \MetaCICSubstitutionDiamondFrontierUp$ instances in \texttt{BEDC/Derived/MetaCICSubstitutionDiamondFrontierUp/TasteGate.lean}, preserving the distinct rows $T,P,R,J,S,K,O,H,C,Q,N$.
+
+\closureat{MetaCICSubstitutionDiamondFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubstitutionDiamondFrontierUp}
+  \constructivestory{A $\MetaCICSubstitutionDiamondFrontierUp$ packet is generated from MetaCIC term and context rows, beta-peak rows, residual rows, candidate-join rows, substitution-boundary rows, bounded checker rows, obstruction rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-substitution-diamond-frontier-carrier} and \autoref{thm:metacic-substitution-diamond-frontier-obligations} seed the finite substitution-sensitive beta diamond frontier for the MetaCIC beta audit map.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full confluence, subject reduction, unrestricted substitution compatibility, quotient syntax equality, external evaluator soundness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-term admission, beta-peak admission, residual exposure, candidate-join exposure, substitution-boundary exposure, bounded-checker admission, obstruction retention, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICSubstitutionDiamondFrontierUp.}
+\end{closurestatus}
