@@ -183,6 +183,88 @@ def test_full_report_records_public_gate_failure_reasons_without_public_gpu(tmp_
     adjudication.validate_report(payload, root=tmp_path)
 
 
+@pytest.mark.parametrize(
+    ("kwargs", "expected_failure"),
+    [
+        ({"execution_mode": "smoke"}, "execution_mode_not_full"),
+        ({"seeds": (101, 102)}, "insufficient_seed_count"),
+        ({"eval_episodes": 99}, "insufficient_eval_episodes"),
+        ({"gpu_evidence": {"public_evidence": False}}, "gpu_evidence_not_public"),
+        ({"split_audit": {"status": "fail"}}, "split_audit_failed"),
+        ({"bootstrap": {"status": "fail", "ci95_low": 0.04, "ci95_high": 0.08}}, "paired_bootstrap_failed"),
+    ],
+)
+def test_raw_verdict_reports_each_public_evidence_gate_failure(kwargs, expected_failure):
+    args = {
+        "execution_mode": "full",
+        "seeds": (101, 102, 103),
+        "eval_episodes": 120,
+        "gpu_evidence": {"public_evidence": True},
+        "split_audit": {"status": "pass"},
+        "bootstrap": {"status": "pass", "ci95_low": 0.04, "ci95_high": 0.08},
+    }
+    args.update(kwargs)
+
+    verdict = adjudication._raw_verdict(**args)
+
+    assert verdict["status"] == adjudication.NON_PUBLIC_VERDICT
+    assert verdict["public_evidence"] is False
+    assert expected_failure in verdict["public_gate_failures"]
+
+
+def _public_report_payload(tmp_path, monkeypatch, run_id: str) -> dict[str, object]:
+    monkeypatch.setattr(
+        adjudication,
+        "_gpu_evidence_for_mode",
+        lambda *, device, smoke: {"schema_id": "bedc-gpu-evidence", "public_evidence": True},
+    )
+    monkeypatch.setattr(
+        adjudication,
+        "_paired_bootstrap",
+        lambda rows, *, resamples, seed: {
+            "status": "pass",
+            "metric": "paired_delta_success",
+            "mean_delta": 0.05,
+            "ci95_low": 0.04,
+            "ci95_high": 0.08,
+            "resamples": resamples,
+        },
+    )
+    payload = adjudication.write_report(
+        root=tmp_path,
+        report_path=tmp_path / f"{run_id}.json",
+        run_id=run_id,
+        seeds=(101, 102, 103),
+        updates=80000,
+        eval_episodes=120,
+        batch_size=256,
+        device="cuda",
+        generated_at="fixture",
+    )
+    assert payload["verdict"]["status"] == "win"
+    adjudication.validate_report(payload, root=tmp_path)
+    return payload
+
+
+@pytest.mark.parametrize(
+    ("field_update", "message"),
+    [
+        ({"execution_mode": "smoke"}, "public verdict requires full execution mode"),
+        ({"gpu_evidence": {"schema_id": "bedc-gpu-evidence", "public_evidence": False}}, "CUDA GPU evidence"),
+        ({"split_audit": {"status": "fail"}}, "passing split audit"),
+        ({"paired_bootstrap": {"status": "fail"}}, "passing paired bootstrap"),
+    ],
+)
+def test_validate_report_rejects_public_verdict_with_failed_public_gate(
+    tmp_path, monkeypatch, field_update, message
+):
+    payload = _public_report_payload(tmp_path, monkeypatch, run_id=f"public-gate-{len(message)}")
+    payload.update(field_update)
+
+    with pytest.raises(ValueError, match=message):
+        adjudication.validate_report(payload, root=tmp_path)
+
+
 def test_public_verdict_hard_fails_when_raw_digest_drifts(tmp_path):
     report_path = tmp_path / "public.json"
     payload = adjudication.write_report(
