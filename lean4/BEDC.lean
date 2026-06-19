@@ -1595,6 +1595,7 @@ import BEDC.Derived.CauchyCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionDenseReflectorUp.TasteGate
 import BEDC.Derived.CauchyCompletionDensitySourceUp.TasteGate
 import BEDC.Derived.CauchyCompletionEliminatorUp.TasteGate
+import BEDC.Derived.CauchyCompletionEmbeddingReflectionUp.TasteGate
 import BEDC.Derived.CauchyCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionFunctorUp.FiniteApproximationRoute
@@ -10834,6 +10835,7 @@ import BEDC.Derived.TranscendentalSupplyLedgerUp.TaxonomyExhaustion
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.BridgePrecondition
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.NameCertObligations
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.TasteGate
+import BEDC.Derived.TransferOperatorUp.FiniteWindowLedger
 import BEDC.Derived.TransferOperatorUp.NameCertObligations
 import BEDC.Derived.TransferOperatorUp.SymbolicSourceLattice
 import BEDC.Derived.TransferOperatorUp.TasteGate
