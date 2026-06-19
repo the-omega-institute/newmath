@@ -6780,6 +6780,7 @@ import BEDC.Derived.LocatedMonotoneConvergenceUp.TasteGate
 import BEDC.Derived.LocatedNestedIntervalLimitUp.TasteGate
 import BEDC.Derived.LocatedOpenUp
 import BEDC.Derived.LocatedOpenUp.TasteGate
+import BEDC.Derived.LocatedOpenUp.WindowStability
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
@@ -9595,6 +9596,7 @@ import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.BilinearWindow
 import BEDC.Derived.RegularCauchyProductBudgetUp.FalsifiablePrediction
+import BEDC.Derived.RegularCauchyProductBudgetUp.IndependenceWitness
 import BEDC.Derived.RegularCauchyProductBudgetUp.NameCertObligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.ObligationScope
 import BEDC.Derived.RegularCauchyProductBudgetUp.Obligations

@@ -75,4 +75,64 @@ theorem RegularCauchyRegularityWitnessRealCompletionHandoff [AskSetup] [PackageS
   }
   exact ⟨cert, completionUnary, sealUnary, completionRoute, sealRoute, namePkg, sealPkg⟩
 
+theorem RegularCauchyRegularityWitness_real_completion_handoff [AskSetup] [PackageSetup]
+    {S mu j Omega R Q E H C P N completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyRegularityWitnessCarrier S mu j Omega R Q E H C P N bundle pkg →
+      Cont E N completionRead →
+        PkgSig bundle completionRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row S ∨ hsame row Omega ∨ hsame row R ∨ hsame row Q ∨
+                  hsame row E ∨ hsame row completionRead)
+              (fun row : BHist => hsame row completionRead ∧ PkgSig bundle completionRead pkg)
+              hsame ∧
+            UnaryHistory completionRead ∧ Cont S mu j ∧ Cont j Omega R ∧ Cont R Q E ∧
+              Cont E H C ∧ PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier completionRoute completionPkg
+  obtain ⟨_unaryS, _unaryMu, _unaryJ, _unaryOmega, _unaryR, _unaryQ, eUnary, _hUnary,
+    _cUnary, _pUnary, nUnary, routeSMuJ, routeJOmegaR, routeRQE, routeEHC,
+    _pkgP, _pkgN⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed eUnary nUnary completionRoute
+  have sourceAtCompletion :
+      hsame completionRead completionRead ∧ UnaryHistory completionRead :=
+    ⟨hsame_refl completionRead, completionUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row Omega ∨ hsame row R ∨ hsame row Q ∨
+              hsame row E ∨ hsame row completionRead)
+          (fun row : BHist => hsame row completionRead ∧ PkgSig bundle completionRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro completionRead sourceAtCompletion
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, completionPkg⟩
+  }
+  exact
+    ⟨cert, completionUnary, routeSMuJ, routeJOmegaR, routeRQE, routeEHC, completionPkg⟩
+
 end BEDC.Derived.RegularCauchyRegularityWitnessUp
