@@ -1,78 +1,51 @@
 \origin{ai}
 
-\subsection{Protein-feature absorption of the $B^{*}_{Q6}$ non-translation residual}
-\label{subsec:bior-reality-q6-protein-feature-absorption}
+\subsection{Protein-feature absorption of the residual $B^{\ast}_{Q6}$ complement}
+\label{sec:bioreality-q6-protein-feature-absorption}
 
 \paragraph{Finite readout surface.}
-This chapter records a bounded protein-feature test for the $B^{*}_{Q6}$ residual coordinates after the modeled-translation complement has already been formed.  The finite carrier is the joined surface of coding-sequence residual coordinates, organism-matched protein identifiers, and fetchable UniProt or STRING-derived feature columns.  The coordinate list is
+This record tests whether fetchable protein-feature annotations account for the abundance residual component that remains after the $B^{\ast}_{Q6}$ synonymous-coordinate block is compared with the modeled translation-adaptation component.  The finite carrier is the all-readout join between coding-sequence rows, the nine residual coordinates
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$, and four one-dimensional protein-feature candidates: complex membership, domain count, post-translational-modification density, and transmembrane-helix count.  The control matrix has $24$ columns but rank $23$ in every organism after including the intercept, $\log({\rm cds\_len\_nt})$, the twenty amino-acid composition proportions, GC3, and the $M$-density baseline.  The finite joins are materially unequal across organisms: Danio rerio contributes $2242$ joined rows from $3180$ feature records and $14410$ reported CDS joins, Homo sapiens contributes $18335$ joined rows from $18842$ feature records and $19053$ reported CDS joins, and Saccharomyces cerevisiae contributes $5682$ joined rows from $6156$ feature records and $5815$ reported CDS joins.
+
+\paragraph{Residual target stability.}
+The protein-feature test is not run on the same target as the full abundance-CDS complement in every organism.  On the feature join, the modeled residual fractions are
 $$
 \begin{aligned}
-R_{Q6}=(&K_{AAA},\ Arg_{AGR},\ Ile_{AUA},\ Leu_{CUN\_vs\_UUR},\ Leu_{UUA\_vs\_UUG},\\
-&Ser_{UCR\_vs\_AGY},\ Ser_{UCA\_vs\_UCG},\ Thr_{ACR\_vs\_ACY},\ f3\_stress),
+ d_{\rm modeled}^{\rm feature}({\rm Danio}) &= 0.7361678489976374,\\
+ d_{\rm modeled}^{\rm feature}({\rm human}) &= 0.9188293375787641,\\
+ d_{\rm modeled}^{\rm feature}({\rm yeast}) &= 0.21235197749007645.
 \end{aligned}
 $$
-so the coordinate count is $9$.  The tested feature list is
-$$
-\begin{aligned}
-H=(complex\_member,\ domain\_count,\ ptm\_density,\ tm\_count),
-\end{aligned}
-$$
-with one fitted feature direction for each candidate in each organism, hence $K_c=1$ and $rank(H_c)=1$ for every candidate column actually tested.  The control matrix contains the intercept, $\log(cds\_len\_nt)$, the $20$ amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, $GC3$, and the $M$-density baseline defined as the fraction of sense codons on the union support of the nine projected $B^{*}_{Q6}$ vectors.  The reported control-column count is $24$ and the control rank is $23$ in each organismal joined surface.
-
-\paragraph{Joined rows and feature coverage.}
-The experiment used three organismal panels.  For \textit{Danio rerio}, $14410$ coding sequences were reported at the abundance/CDS join, $3180$ reviewed feature records were available, and $2242$ rows remained in the feature join.  For \textit{Homo sapiens}, the corresponding counts were $19053$, $18842$, and $18335$.  For \textit{Saccharomyces cerevisiae}, they were $5815$, $6156$, and $5682$.  Thus the finite readout is not a uniform full-CDS surface: the zebrafish feature join keeps only $2242/14410$ of the reported CDS-abundance rows, whereas the human and yeast joins are much closer to their corresponding feature inventories.  This coverage asymmetry is part of the mathematical object being reported, not a side condition that can be ignored.
-
-The joined feature distributions also differ sharply by organism.  In \textit{D. rerio}, the joined $domain\_count$ mean is $0.856378233719893$ with $847$ nonzero rows among $2242$, the joined $ptm\_density$ mean is $0.0012176949624096891$ with $211$ nonzero rows, and the joined $tm\_count$ mean is $0.7292595896520964$ with $443$ nonzero rows.  In human, the joined $domain\_count$ mean is $1.071284428688301$ with $8090$ nonzero rows among $18335$, $ptm\_density$ has mean $0.006473867757948575$ with $9210$ nonzero rows, and $tm\_count$ has mean $1.0721570766293973$ with $4792$ nonzero rows.  In yeast, the joined means are $0.4074269623372052$ for domains, $0.002774535811043876$ for PTM density, and $1.0007039774727209$ for transmembrane count, with nonzero counts $1574$, $2282$, and $1173$ out of $5682$ rows.  These numbers show that the feature matrix is a sparse annotation surface, especially for PTM density in zebrafish and for domain counts in yeast.
-
-\paragraph{Modeled-complement stability check.}
-The protein-feature test is applied to the modeled-translation-complement abundance residual, but that residual must be checked on the same rows used by the feature matrix.  The full abundance/CDS complement references are $0.874628721049266$ for \textit{D. rerio}, $0.9208949355679455$ for human, and $0.21173219572706703$ for yeast.  On the feature joins, the recomputed modeled-complement ratios are
-$$
-\begin{aligned}
-d_{feature}(D.\ rerio)&=0.7361678489976374,\\
-d_{feature}(H.\ sapiens)&=0.9188293375787641,\\
-d_{feature}(S.\ cerevisiae)&=0.21235197749007645.
-\end{aligned}
-$$
-The absolute shifts from the full-join references are $0.1384608720516286$, $0.002065597989181489$, and $0.0006197817630094193$, respectively.  With the declared tolerance $0.02$, human and yeast preserve the complement target, but zebrafish does not.  Consequently the cross-organism feature result cannot be read as a stable common $H$-closure: in zebrafish the available protein-feature rows change the residual target itself.
+Against the full abundance-CDS complement references, the absolute shifts are $0.1384608720516286$ for Danio rerio, $0.002065597989181489$ for Homo sapiens, and $0.0006197817630094193$ for Saccharomyces cerevisiae.  Thus only the human and yeast feature joins remain within the declared $0.02$ stability window.  The zebrafish feature rows alter the residual target too strongly to support a stable cross-organism closure, even though the descriptive projections themselves are computable.
 
 \paragraph{Candidate absorption values.}
-For \textit{D. rerio}, the per-candidate absorbed fractions are
+Each candidate contributes rank $1$ after residualization.  The absorbed fractions are finite and small, with the largest values concentrated in PTM density and human complex membership:
 $$
 \begin{aligned}
-complex\_member&=0.00039566384726157463,\\
-domain\_count&=0.0008268196005307971,\\
-ptm\_density&=0.014211240113472575,\\
-tm\_count&=0.001369142724157357.
+ A_{\rm Danio}({\rm complex}) &= 0.00039566384726157463, &
+ A_{\rm Danio}({\rm domain}) &= 0.0008268196005307971,\\
+ A_{\rm Danio}({\rm PTM}) &= 0.014211240113472575, &
+ A_{\rm Danio}({\rm TM}) &= 0.001369142724157357,\\
+ A_{\rm human}({\rm complex}) &= 0.0075271999877804495, &
+ A_{\rm human}({\rm domain}) &= 0.000011405527940317433,\\
+ A_{\rm human}({\rm PTM}) &= 0.014884825920540636, &
+ A_{\rm human}({\rm TM}) &= 0.0015569064882873212,\\
+ A_{\rm yeast}({\rm complex}) &= 0.00069212177545487, &
+ A_{\rm yeast}({\rm domain}) &= 0.00007029698692511431,\\
+ A_{\rm yeast}({\rm PTM}) &= 0.0005759336988655581, &
+ A_{\rm yeast}({\rm TM}) &= 0.00031741485098156394.
 \end{aligned}
 $$
-The largest zebrafish value is the PTM-density column, but it is computed on the same feature join where the modeled-complement target moved by $0.1384608720516286$.  For human, the absorption values are
-$$
-\begin{aligned}
-complex\_member&=0.0075271999877804495,\\
-domain\_count&=0.000011405527940317433,\\
-ptm\_density&=0.014884825920540636,\\
-tm\_count&=0.0015569064882873212.
-\end{aligned}
-$$
-For yeast, they are
-$$
-\begin{aligned}
-complex\_member&=0.00069212177545487,\\
-domain\_count&=0.00007029698692511431,\\
-ptm\_density&=0.0005759336988655581,\\
-tm\_count&=0.00031741485098156394.
-\end{aligned}
-$$
-The human and zebrafish maxima are both PTM-density absorptions near $1.4\%$ of the modeled-complement residual, while the yeast values remain below $0.001$ for every candidate.  This is a descriptive projection result: the fitted feature columns explain small parts of the remaining residual on the rows where the features are available.
+The degree-of-freedom matched nulls use $200$ trials for each organism-candidate pair.  Bonferroni excess is present for Danio PTM density only, with threshold $0.003775603188484381$ and null $95$th percentile $0.001788151234180097$; for human, complex membership, PTM density, and TM count exceed their thresholds $0.0006605662314432479$, $0.00042094892238120357$, and $0.0002697448894057371$, respectively.  No yeast candidate exceeds the Bonferroni boundary; its thresholds are $0.001015254045679051$, $0.0011639234792592378$, $0.001713645678402473$, and $0.0012579935618985945$ for complex membership, domain count, PTM density, and TM count.
 
-\paragraph{Degree-of-freedom null comparison.}
-Each one-dimensional candidate is compared against a degree-of-freedom matched null with $200$ trials and a Bonferroni-corrected threshold.  In zebrafish, the Bonferroni thresholds are $0.00275854608923269$ for complex membership, $0.005123577637652884$ for domain count, $0.003775603188484381$ for PTM density, and $0.0034780137133507$ for transmembrane count.  Only the PTM-density absorption exceeds its threshold.  In human, the thresholds are $0.0006605662314432479$, $0.0005934431422432757$, $0.00042094892238120357$, and $0.0002697448894057371$ for the same four candidates; complex membership, PTM density, and transmembrane count exceed threshold, while domain count does not.  In yeast, the thresholds are $0.001015254045679051$, $0.0011639234792592378$, $0.001713645678402473$, and $0.0012579935618985945$, and no candidate exceeds threshold.  The module-level classification is therefore not a single conserved feature module: zebrafish has a PTM-density excess on an unstable feature join, human has three excess columns on a stable feature join, and yeast has no Bonferroni excess on a stable feature join.
+\paragraph{Feature sparsity and empirical meaning.}
+The annotation surface is coarse and incomplete, especially for Danio rerio.  In the joined zebrafish rows, complex membership is nonzero in $696$ of $2242$ proteins, domain count is nonzero in $847$, PTM density is nonzero in $211$, and TM count is nonzero in $443$.  In human, the corresponding nonzero counts are $6650$, $8090$, $9210$, and $4792$ over $18335$ joined proteins.  In yeast, they are $1992$, $1574$, $2282$, and $1173$ over $5682$ joined proteins.  The feature distributions therefore measure availability-weighted annotations rather than a complete molecular state.  The strongest descriptive entries say that some residual abundance component is aligned with sparse annotation axes on the available joins; they do not establish that the synonymous residual causes the feature, that the feature mediates the residual, or that the same relation is stable under a denser annotation panel.
 
-\paragraph{Cross-organism context.}
-The broader organism-specificity diagnostics do not repair this instability.  In the cross-organism table with $12$ complete feature organisms, the dominant-coordinate versus domain contingency test reports $\chi^2=9.399999999999999$, Cramer's $V=0.6258327785172862$, and a right-tail permutation value $p=0.5814185814185814$ over $1000$ trials.  The continuous comparisons of $M_{QTP}$ fraction give $p=0.35264735264735264$ against $GC3$ with $r=-0.3062616500469447$, $p=0.913086913086913$ against $\log(n\_proteins)$ with $r=-0.033628115789504955$, and $p=0.8621378621378621$ against $\log(trna\_gene\_count)$ with $r=0.06029405206037823$.  The domain comparison of $M_{QTP}$ fraction has variance ratio $0.8889980452277374$ and right-tail permutation value $p=0.4155844155844156$.  These finite-row diagnostics are compatible with heterogeneous organism-specific behavior, but they do not supply a phylogenetically corrected or mechanism-level explanation for the protein-feature absorptions.
+\paragraph{Relation to measured translation and modeled adaptation contacts.}
+The measured-TE companion computation gives a separate bound on translation-efficiency absorption: $0.01759429001506974$ in Danio rerio, $0.0010982956489726373$ in Escherichia coli K-12 MG1655, $0.0028947149257963897$ in Homo sapiens, and $0.0002762783754375593$ in Saccharomyces cerevisiae.  The tRNA-gene-copy tAI contact gives similarly small absorbed fractions, namely $0.020817102845637092$ for Danio rerio, $0.00005426229300865148$ for Homo sapiens, and $0.001530747712165342$ for Saccharomyces cerevisiae.  In yeast, the turnover contact absorbs $0.0009086031889966327$ on $3640$ joined turnover rows.  These numbers are useful as neighboring finite controls: the protein-feature entries are not a replacement for measured translation, tRNA adaptation, or turnover contacts, and none of them licenses a path from codon-coordinate residuals to mechanism.
 
-\paragraph{Local verdict.}
-The ready result is a bounded negative-to-partial record.  The protein-feature columns were parsed, joined, projected, and compared against finite null surfaces.  Human shows Bonferroni excess for complex membership, PTM density, and transmembrane count; zebrafish shows PTM-density excess but fails the modeled-complement stability check; yeast shows no feature excess.  Therefore the chapter licenses the following statement and no stronger one: fetchable protein-feature annotations can absorb small fractions of the $B^{*}_{Q6}$ modeled-translation-complement residual on some organism-specific joins, but the finite evidence does not establish a stable cross-organism $H$ explanation of the non-translation residual.
+\paragraph{Cross-organism caution.}
+A broader organism-specific table contains $16$ assembled rows, with $12$ complete rows for the $M^{QTP}$ fraction tests.  The domain test has variance ratio $0.8889980452277374$ and right-tail permutation value $0.4155844155844156$ over $1000$ trials; the dominant-coordinate by domain contingency has chi-square $9.399999999999999$, Cramer's $V=0.6258327785172862$, and right-tail permutation value $0.5814185814185814$.  Continuous tests also remain descriptive: $M^{QTP}$ versus GC3 has $r=-0.3062616500469447$ with two-sided permutation value $0.35264735264735264$, versus log proteome size has $r=-0.033628115789504955$ with value $0.913086913086913$, and versus log tRNA-gene count has $r=0.06029405206037823$ with value $0.8621378621378621$.  These finite meta-results support heterogeneity reporting, not a universal organism-level rule.
 
-\paragraph{No-promotion boundary.}
-No translation claim follows from this protein-feature projection.  The feature matrix is downstream annotation data, not ribosome occupancy, not translation efficiency, and not a matched mRNA-controlled translation readout.  No folding, physical admissibility, molecular function, biological mechanism, phenotype, causation, or universal biological law follows from these absorbed fractions.  A claim at any of those layers would require a separate layer-matched contact with its own finite rows and its own controlled statistic.  Here the only supported content is the finite descriptive projection of the modeled-complement residual onto sparse protein-feature columns under the stated controls.
+\paragraph{Local claim boundary.}
+The ready result is a bounded descriptive record: protein-feature projections were computed on finite joined rows, their null comparisons were evaluated, and the instability of the Danio rerio feature join blocks a stable cross-organism protein-feature explanation of the residual complement.  A positive Bonferroni excess in a feature candidate is not a translation claim, not a folding claim, not a physical-admissibility claim, not a function claim, not a causal mechanism, and not a universal biological law.  Any such stronger interpretation requires a separate layer-matched contact with its own joined rows, controls, and finite statistic.
