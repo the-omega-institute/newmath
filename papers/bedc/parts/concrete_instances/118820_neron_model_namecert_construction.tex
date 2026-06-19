@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\NeronModelUp$}
+\label{ch:concrete-instances-neron-model-namecert}
+\origin{human}
+
+Following Neron and Bosch-Lutkebohmert-Raynaud, the $\NeronModelUp$ packet records the local arithmetic-geometric surface by which an abelian variety over the fraction field of a discrete valuation ring extends to a smooth separated group scheme with a local universal mapping property. The chapter packages only the finite BEDC rows that name this local surface: it does not assert global existence of Neron models, choose a minimal regular model, or import a host valuative criterion beyond the displayed local packet.
+
+The packet sits over the valued source of \autoref{ch:concrete-instances-localfield-namecert}, the arithmetic base row of \autoref{ch:concrete-instances-ringofintegers-namecert}, the scheme carrier of \autoref{ch:concrete-instances-scheme-namecert}, the algebraic group surface of \autoref{ch:concrete-instances-group-namecert}, and the elliptic-curve example source of \autoref{ch:concrete-instances-ellipticcurve-namecert}. These dependencies are read as BEDC rows and not as detached host structures.
+
+\section{Carrier definition}
+\label{sec:neron-model-carrier}
+
+\begin{definition}[NeronModel local carrier]
+\label{def:neron-model-carrier}
+A $\NeronModelUp$ carrier is a finite $\BHist$ packet
+$$
+\mathcal N=(K,\mathcal O,G,A,\eta,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is a $\LocalFieldUp$ or DVR fraction-field source row, carrying the valuation and residue boundary through a finite local-field certificate;
+\item $\mathcal O$ is the $\RingOfIntegersUp$ or valuation-ring base row over which the local model is read;
+\item $G$ is a smooth separated group-scheme row over $\mathcal O$, with the scheme part routed through $\SchemeUp$ and the group law routed through $\GroupUp$;
+\item $A$ is the generic-fiber abelian-variety row, with elliptic-curve inputs allowed through the $\EllipticCurveUp$ source when the generic fiber is one-dimensional;
+\item $\eta$ is the generic-fiber comparison row identifying the fraction-field fiber of $G$ with the displayed row $A$;
+\item $U$ is the extension-across-valuation ledger: every smooth test scheme over $\mathcal O$ that is read by the packet carries a generic-fiber map to $A$ and a displayed extension row to $G$;
+\item $H$ stores componentwise $\hsame$ transports for the local field, valuation ring, scheme, group law, generic fiber, extension ledger, provenance, and local naming rows;
+\item $C$ stores the $\Cont$ replay routes for source inspection, base change to the fraction field, group-scheme readback, extension-ledger readback, and local universal mapping readback;
+\item $P$ is the $\Pkg$ provenance over $\NeronModelUp$, $\LocalFieldUp$, $\RingOfIntegersUp$, $\SchemeUp$, $\GroupUp$, $\EllipticCurveUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\NeronModelUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the displayed rows $K,\mathcal O,G,A,\eta,U,H,C,P,N$.
+\end{definition}
+
+\section{The certificate}
+\label{sec:neron-model-certificate}
+
+\begin{theorem}[NeronModel NameCert obligations]
+\label{thm:neron-model-namecert-obligations}
+The local $\NameCert_{\NeronModelUp}$ obligation surface consists exactly of the carrier of \autoref{def:neron-model-carrier}, the inherited $\LocalFieldUp$ and $\RingOfIntegersUp$ source rows, the $\SchemeUp$ and $\GroupUp$ rows making $G$ a smooth separated group scheme, the generic-fiber row $A$, the comparison row $\eta$, the extension ledger $U$, the componentwise $\hsame$ transports, the $\Cont$ replay rows, and the $\Pkg$ provenance. No accepted carrier exports a detached host scheme, a chosen regular model, an ambient abelian-variety equality, a global existence theorem, or a choice-heavy valuative selection.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:neron-model-carrier}. The source rows $K$ and $\mathcal O$ bind the local valuation boundary, while the rows $G$ and $A$ bind the scheme, group, and generic-fiber data to displayed BEDC certificates.
+
+Next read the comparison and extension rows. The row $\eta$ names the generic-fiber comparison inside the finite packet, and $U$ lists only the local extension attempts already routed through a smooth test scheme and the same valuation boundary.
+
+The classifier and stability obligations are componentwise. The rows $H$ and $C$ transport and replay each visible coordinate, and $P$ keeps the dependency provenance attached to the same packet. Repacking these rows gives the listed $\NameCert_{\NeronModelUp}$ surface and leaves no coordinate for the excluded host data.
+\end{proof}
+
+\begin{theorem}[NeronModel local universal route]
+\label{thm:neron-model-local-universal-route}
+Every accepted $\NeronModelUp$ carrier that exports a local universal mapping readback must expose the local-field row $K$, the valuation-ring row $\mathcal O$, the smooth separated group-scheme row $G$, the generic-fiber row $A$, the comparison row $\eta$, and the extension ledger $U$. The readback is therefore a finite route
+$$
+K,\mathcal O,G,A,\eta,U,H,C,P,N
+$$
+through displayed BEDC data, not a hidden appeal to a host Neron model or to an unrecorded extension theorem.
+\end{theorem}
+\begin{proof}
+Start with the readback request. By the carrier definition, a universal mapping read can only enter through the extension ledger $U$, and that ledger is stored after the local field, valuation-ring base, group-scheme, generic-fiber, and comparison rows.
+
+Project the source rows. The local valuation boundary comes from $K$ and $\mathcal O$, while the target of the extension is the row $G$ whose generic fiber is compared to $A$ by $\eta$.
+
+Finally apply the replay and provenance rows. The rows $H,C,P,N$ transport, replay, and name the same finite packet; they add no further source of maps. Hence any accepted universal readback exposes the whole displayed route before the export is available.
+\end{proof}
+
+\closureat{NeronModelUp}{seedStr}
+
+\begin{closurestatus}{\NeronModelUp}
+  \constructivestory{A $\NeronModelUp$ packet is generated from a local-field or DVR source row, a valuation-ring base row, a smooth separated group-scheme row, a generic-fiber abelian-variety row, a comparison row, a local extension ledger, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:neron-model-carrier}, \autoref{thm:neron-model-namecert-obligations}, and \autoref{thm:neron-model-local-universal-route} bind the finite local carrier and its local universal-route surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global Neron-model existence, minimal regular models, selected extensions, bridge data, or any choice-heavy valuative theorem beyond the displayed finite local packet.}
+  \upgradepath{The next theory step is a scoped carrier theorem over the local extension ledger and its transport rows.}
+\end{closurestatus}
