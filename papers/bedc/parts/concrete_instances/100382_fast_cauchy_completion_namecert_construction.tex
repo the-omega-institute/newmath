@@ -70,6 +70,20 @@ The second part of the route is fixed by regular readback and the Real seal. The
 Finally, $H,C,P,N$ preserve and name the same dependency order. Because the excluded objects have no coordinate in the carrier and no replay edge in the displayed route, every Real-facing read factors through the modulus route shown in the statement.
 \end{proof}
 
+\begin{theorem}[Fast Cauchy completion finite induction]
+\label{thm:fast-cauchy-completion-induction}
+Let $M=(M_0,S,D,Q,E,H,C,P,N)$ be an accepted $\FastCauchyCompletionUp$ carrier. Every accepted precision-tail read of $M$ is obtained by finite induction on the displayed $\CauchyModulusUp$ threshold row $M_0$: the base read opens the first $\StreamNameUp$ window $S$ and the $\DyadicRatCoreUp$ tolerance ledger $D$; the successor step advances only by $\Cont$ replay through the same $S,D,Q$ route; and the terminal read reaches $E$ only through the $\RegSeqRatUp$ row $Q$ and the $\RealUp$ seal. No induction step uses quotient streams, selected limits, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:fast-cauchy-completion-carrier} to expose the ordered rows $M_0,S,D,Q,E,H,C,P,N$. The NameCert obligations of \autoref{thm:fast-cauchy-completion-namecert-obligations} make the threshold row the first row read by any completion-facing precision request.
+
+For the base threshold, read the first displayed stream window through $S$ and the dyadic tolerance ledger through $D$. These rows are already inside the accepted carrier, so the base read does not require a quotient stream, a selected limit, or host equality.
+
+For the successor threshold, replay the previous route through the $\Cont$ row $C$. The replay can advance only the displayed finite window and tolerance rows, and the readback row $Q$ remains downstream of the same $S,D$ data.
+
+The terminal step is the modulus Real-seal route of \autoref{thm:fast-cauchy-completion-modulus-real-seal}. It reaches $E$ through $Q$, then preserves the route through $H,C,P,N$. Since the excluded principles have no carrier coordinate and no replay edge, the displayed induction exhausts the accepted precision-tail reads.
+\end{proof}
+
 \falsifiablePrediction{Every $\FastCauchyCompletionUp$ Real-facing read factors through a CauchyModulus threshold, StreamName finite windows, DyadicRatCore tolerance arithmetic, RegSeqRat readback, a RealUp seal, transport, replay, provenance, and local naming.}
 
 \independenceWitness{real-cauchy-modulus, cauchy-modulus, streamname, dyadicratcore, regseqrat, cauchy-rate-comparison, real: $\FastCauchyCompletionUp$ is not bijective to any listed sibling because it jointly carries the modulus threshold, stream window, dyadic tolerance ledger, regular readback, terminal Real seal, transport, replay, provenance, and local naming in one packet.}
