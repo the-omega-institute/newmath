@@ -1,0 +1,156 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-19T07:27:48.531585+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "8190a1de608e6cad67adc651b8defd7dae17a95d7f3fbbd165fbfc1d082d4064",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "dependency_abi": {
+      "executable": "/home/aruic-wsl/newmath/.venv/bin/python",
+      "numpy": "2.4.4",
+      "python": "3.12.13",
+      "torch": "2.6.0+cu124"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/tasks/__init__.py",
+        "sha256": "aa90b3e23e60ce91502c1ae454f8a0782915456fb604401e4642ef498e29bd07"
+      },
+      {
+        "path": "bedc_quality_lab/tasks/jepa_wm_l1_three_arm_freeze.py",
+        "sha256": "9dd122623748ffe031c797f9add4e89ddd62471bef50bf1b4ffed9c82cb4e8ce"
+      },
+      {
+        "path": "scripts/run_jepa_wm_l1_three_arm_freeze.py",
+        "sha256": "216fb0fae8ae7556846f4e525fb85a17edd56bcfb91fda93e6ee960a5dccadab"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-freeze",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_jepa_wm_l1_three_arm_freeze.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      },
+      {
+        "path": "reports/canonical/jepa-wm-l1-admission.json",
+        "sha256": "f836b1463ac9ebc8d022c0c3a663b7fe352a2db1f71690cb3df820d5a61c88f6"
+      },
+      {
+        "path": "reports/canonical/jepa-wm-l1-evaluator-calibration.json",
+        "sha256": "a5a171bb7163f701e8b3b04a2f31ede5c568ac036e6ca845982c309320c16e11"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "claim_promotion_eligible": false,
+      "command": [
+        "python3",
+        "scripts/run_jepa_wm_l1_three_arm_freeze.py"
+      ],
+      "construct_validity_pointer": null,
+      "control_pointer": "$.leakage_gates",
+      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior",
+        "trained empirical superiority over Transformer",
+        "training evidence beats Transformer",
+        "LLM superiority",
+        "production superiority"
+      ],
+      "json_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.md",
+      "name": "jepa-wm-l1-three-arm-freeze",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.decision",
+      "reproducibility_mode": "exact_fixture",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifacts",
+        "venue",
+        "metrics",
+        "statistical_plan",
+        "leakage_gates",
+        "prediction_schema",
+        "stub_smoke",
+        "hardgate",
+        "claim_boundary",
+        "decision",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.claim_boundary"
+    }
+  },
+  "json_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
+  "markdown_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.md",
+  "producer_command": [
+    "python3",
+    "scripts/run_jepa_wm_l1_three_arm_freeze.py"
+  ],
+  "report_name": "jepa-wm-l1-three-arm-freeze",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "jepa-wm-l1-three-arm-freeze"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.4.4",
+        "torch": "not-requested"
+      },
+      "python": "3.12.13"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "jepa-wm-l1-three-arm-freeze",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "e8a8dc67ea202375212d0f0372cb3cae3e9762df4d95f082d68701520c5cbdec",
+  "reproducibility_mode": "exact_fixture",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

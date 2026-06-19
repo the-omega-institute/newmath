@@ -1,0 +1,479 @@
+{
+  "artifact_id": "bedc-quality-lab:jepa-wm-l1-three-arm-freeze",
+  "canonical_role": "three_arm_prediction_venue_freeze",
+  "claim_boundary": {
+    "claim_allowed": false,
+    "scope": "pre-prediction JEPA-WM-L1 three-arm venue freeze",
+    "status": "venue-only",
+    "status_axis": "scoped-boundary"
+  },
+  "decision": {
+    "prediction_schema_pointer": "reports/canonical/jepa-wm-l1-three-arm-freeze.json:$.prediction_schema",
+    "status": "ready_for_prediction",
+    "status_axis": "ready",
+    "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
+    "venue_sha256": "6ee413a9bfc155f974ad45cf1a54e55385da9610cd2360f681d348a77416a7d0"
+  },
+  "freeze_digest": "bdf44f05c0afd8d039165831aa50a547acc15de1e346041fb84254270f5c7ff0",
+  "generated_at": "2026-06-19T07:27:48.531585+00:00",
+  "hardgate": {
+    "failed_gates": [],
+    "gate_order": [
+      "JWM-L1-THREE-ARM-HG1",
+      "JWM-L1-THREE-ARM-HG2",
+      "JWM-L1-THREE-ARM-HG3",
+      "JWM-L1-THREE-ARM-HG4",
+      "JWM-L1-THREE-ARM-HG5",
+      "JWM-L1-THREE-ARM-HG6",
+      "JWM-L1-THREE-ARM-HG7"
+    ],
+    "gates": {
+      "JWM-L1-THREE-ARM-HG1": {
+        "criterion": "admission and evaluator inputs are SHA-addressed",
+        "evidence_pointer": "$.source_artifacts",
+        "status": "pass"
+      },
+      "JWM-L1-THREE-ARM-HG2": {
+        "criterion": "admission and evaluator agree on sample count",
+        "evidence_pointer": "$.venue.sample",
+        "status": "pass"
+      },
+      "JWM-L1-THREE-ARM-HG3": {
+        "criterion": "deterministic split is owned by the freeze venue",
+        "evidence_pointer": "$.venue.split",
+        "status": "pass"
+      },
+      "JWM-L1-THREE-ARM-HG4": {
+        "criterion": "OOD labels are fixed before prediction",
+        "evidence_pointer": "$.venue.ood_labels",
+        "status": "pass"
+      },
+      "JWM-L1-THREE-ARM-HG5": {
+        "criterion": "three stub predictions satisfy the prediction schema",
+        "evidence_pointer": "$.stub_smoke",
+        "status": "pass"
+      },
+      "JWM-L1-THREE-ARM-HG6": {
+        "criterion": "bootstrap and Holm settings are frozen in the venue",
+        "evidence_pointer": "$.statistical_plan",
+        "status": "pass"
+      },
+      "JWM-L1-THREE-ARM-HG7": {
+        "criterion": "leakage gates are represented as fail-closed controls",
+        "evidence_pointer": "$.leakage_gates",
+        "status": "pass"
+      }
+    },
+    "status": "pass",
+    "status_cell": "pass"
+  },
+  "leakage_gates": {
+    "label_shuffle": {
+      "source_pointer": "reports/canonical/jepa-wm-l1-evaluator-calibration.json:$.calibration_arms[3]",
+      "status": "fail-closed"
+    },
+    "metadata_only": {
+      "source_pointer": "reports/canonical/jepa-wm-l1-admission.json:$.anti_triviality_controls.controls.metadata_only",
+      "status": "fail-closed"
+    },
+    "no_context": {
+      "source_pointer": "reports/canonical/jepa-wm-l1-admission.json:$.anti_triviality_controls.controls.no_context",
+      "status": "fail-closed"
+    }
+  },
+  "metrics": {
+    "admission_metrics_pointer": "reports/canonical/jepa-wm-l1-admission.json:$.rank_eval",
+    "base_chance": {
+      "probability": 0.125,
+      "source_pointer": "reports/canonical/jepa-wm-l1-admission.json:$.preregistration.chance_eval"
+    },
+    "evaluator_metrics_pointer": "reports/canonical/jepa-wm-l1-evaluator-calibration.json:$.calibration_arms",
+    "primary_metric": "top1_accuracy"
+  },
+  "not_claimed": [
+    "No three-arm model result is claimed by this freeze.",
+    "No admission or evaluator owner semantics are changed by this freeze.",
+    "No downstream prediction may bypass the venue artifact and prediction schema."
+  ],
+  "prediction_schema": {
+    "arm_schema": {
+      "metric": "top1_accuracy",
+      "per_arm_required_keys": [
+        "arm_id",
+        "score",
+        "n",
+        "metric",
+        "input_schema"
+      ],
+      "required_arm_ids": [
+        "bedc_jepa",
+        "plain_jepa",
+        "chance_control"
+      ],
+      "score_range": [
+        0.0,
+        1.0
+      ]
+    },
+    "fail_closed_rules": [
+      "venue_sha256 must equal the canonical freeze content digest",
+      "all three arms must be present exactly once",
+      "declared_no_training_on_eval must be true",
+      "prediction must not point directly at admission or evaluator owner internals"
+    ],
+    "required_top_level_keys": [
+      "schema_id",
+      "venue_artifact",
+      "venue_sha256",
+      "prediction_id",
+      "arm_predictions",
+      "declared_no_training_on_eval"
+    ],
+    "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-prediction",
+    "venue_binding": {
+      "artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
+      "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-freeze",
+      "sha256_pointer": "$.venue_sha256",
+      "sha256_semantics": "canonical freeze content digest with self-reference fields zeroed"
+    }
+  },
+  "producer": "bedc_quality_lab.tasks.jepa_wm_l1_three_arm_freeze",
+  "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-freeze",
+  "source_artifacts": {
+    "admission": {
+      "artifact_id": "bedc-quality-lab:jepa-wm-l1-admission",
+      "path": "reports/canonical/jepa-wm-l1-admission.json",
+      "role": "admission-owner",
+      "schema_id": "bedc-quality-lab:jepa-wm-l1-admission",
+      "sha256": "f836b1463ac9ebc8d022c0c3a663b7fe352a2db1f71690cb3df820d5a61c88f6"
+    },
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "evaluator_calibration": {
+      "artifact_id": "bedc-quality-lab:jepa-wm-l1-evaluator-calibration",
+      "path": "reports/canonical/jepa-wm-l1-evaluator-calibration.json",
+      "role": "evaluator-calibration-owner",
+      "schema_id": "bedc-quality-lab:jepa-wm-l1-evaluator-calibration",
+      "sha256": "a5a171bb7163f701e8b3b04a2f31ede5c568ac036e6ca845982c309320c16e11"
+    }
+  },
+  "source_issue": "#1556",
+  "statistical_plan": {
+    "bootstrap_resamples": 512,
+    "bootstrap_seed": 20260617,
+    "discriminativity_gate": {
+      "criterion": "oracle calibration must separate from label-shuffle control",
+      "source_pointer": "reports/canonical/jepa-wm-l1-evaluator-calibration.json:$.calibration_arms",
+      "status": "predeclared"
+    },
+    "holm_family": [
+      "bedc_jepa",
+      "plain_jepa",
+      "chance_control"
+    ],
+    "power_gate": {
+      "criterion": "candidate must clear chance and baseline after family correction",
+      "status": "predeclared"
+    }
+  },
+  "stub_smoke": {
+    "results": [
+      {
+        "arm_ids": [
+          "bedc_jepa",
+          "plain_jepa",
+          "chance_control"
+        ],
+        "errors": [],
+        "prediction_id": "stub-bedc_jepa",
+        "status": "pass"
+      },
+      {
+        "arm_ids": [
+          "bedc_jepa",
+          "plain_jepa",
+          "chance_control"
+        ],
+        "errors": [],
+        "prediction_id": "stub-plain_jepa",
+        "status": "pass"
+      },
+      {
+        "arm_ids": [
+          "bedc_jepa",
+          "plain_jepa",
+          "chance_control"
+        ],
+        "errors": [],
+        "prediction_id": "stub-chance_control",
+        "status": "pass"
+      }
+    ],
+    "status": "pass",
+    "stub_predictions": [
+      {
+        "arm_predictions": [
+          {
+            "arm_id": "bedc_jepa",
+            "input_schema": "$.prediction_schema",
+            "metric": "top1_accuracy",
+            "n": 0,
+            "score": 0.125
+          },
+          {
+            "arm_id": "plain_jepa",
+            "input_schema": "$.prediction_schema",
+            "metric": "top1_accuracy",
+            "n": 0,
+            "score": 0.0
+          },
+          {
+            "arm_id": "chance_control",
+            "input_schema": "$.prediction_schema",
+            "metric": "top1_accuracy",
+            "n": 0,
+            "score": 0.0
+          }
+        ],
+        "declared_no_training_on_eval": true,
+        "prediction_id": "stub-bedc_jepa",
+        "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-prediction",
+        "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
+        "venue_sha256": "6ee413a9bfc155f974ad45cf1a54e55385da9610cd2360f681d348a77416a7d0"
+      },
+      {
+        "arm_predictions": [
+          {
+            "arm_id": "bedc_jepa",
+            "input_schema": "$.prediction_schema",
+            "metric": "top1_accuracy",
+            "n": 0,
+            "score": 0.0
+          },
+          {
+            "arm_id": "plain_jepa",
+            "input_schema": "$.prediction_schema",
+            "metric": "top1_accuracy",
+            "n": 0,
+            "score": 0.125
+          },
+          {
+            "arm_id": "chance_control",
+            "input_schema": "$.prediction_schema",
+            "metric": "top1_accuracy",
+            "n": 0,
+            "score": 0.0
+          }
+        ],
+        "declared_no_training_on_eval": true,
+        "prediction_id": "stub-plain_jepa",
+        "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-prediction",
+        "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
+        "venue_sha256": "6ee413a9bfc155f974ad45cf1a54e55385da9610cd2360f681d348a77416a7d0"
+      },
+      {
+        "arm_predictions": [
+          {
+            "arm_id": "bedc_jepa",
+            "input_schema": "$.prediction_schema",
+            "metric": "top1_accuracy",
+            "n": 0,
+            "score": 0.0
+          },
+          {
+            "arm_id": "plain_jepa",
+            "input_schema": "$.prediction_schema",
+            "metric": "top1_accuracy",
+            "n": 0,
+            "score": 0.0
+          },
+          {
+            "arm_id": "chance_control",
+            "input_schema": "$.prediction_schema",
+            "metric": "top1_accuracy",
+            "n": 0,
+            "score": 0.125
+          }
+        ],
+        "declared_no_training_on_eval": true,
+        "prediction_id": "stub-chance_control",
+        "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-prediction",
+        "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
+        "venue_sha256": "6ee413a9bfc155f974ad45cf1a54e55385da9610cd2360f681d348a77416a7d0"
+      }
+    ]
+  },
+  "venue": {
+    "arms": [
+      {
+        "arm_id": "bedc_jepa",
+        "input_owner": "future-prediction-only",
+        "role": "candidate"
+      },
+      {
+        "arm_id": "plain_jepa",
+        "input_owner": "future-prediction-only",
+        "role": "baseline"
+      },
+      {
+        "arm_id": "chance_control",
+        "input_owner": "venue",
+        "role": "negative-control"
+      }
+    ],
+    "ood_labels": [
+      {
+        "slice_id": "temporal_shuffle",
+        "source_pointer": "reports/canonical/jepa-wm-l1-admission.json:$.preregistration.negative_protocol.temporal_shuffle"
+      },
+      {
+        "slice_id": "action_shuffle",
+        "source_pointer": "reports/canonical/jepa-wm-l1-admission.json:$.preregistration.negative_protocol.action_shuffle"
+      },
+      {
+        "slice_id": "goal_shuffle",
+        "source_pointer": "reports/canonical/jepa-wm-l1-admission.json:$.preregistration.negative_protocol.goal_shuffle"
+      }
+    ],
+    "sample": {
+      "admission_snapshot": {
+        "case_count": 128,
+        "chance_eval": {
+          "ci_method": "bootstrap-ci95",
+          "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+          "definition": "pre-registered aggregate maximum over majority and random baselines",
+          "margin": 0.03
+        },
+        "chance_floor": 0.125,
+        "choice_count": 8,
+        "metrics": {
+          "anti_triviality_controls": {
+            "controls": {
+              "metadata_only": {
+                "base": {
+                  "ci95_high": 0.17539062499999997,
+                  "ci95_low": 0.091015625,
+                  "mean": 0.1328125,
+                  "n": 128
+                },
+                "chance_components": {
+                  "majority": 0.140625,
+                  "random": 0.15625
+                },
+                "chance_selected_baseline": "random",
+                "ci_margin_delta": -0.11386718749999998,
+                "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+                "empirical_chance": {
+                  "ci95_high": 0.20488281249999998,
+                  "ci95_low": 0.1015625,
+                  "mean": 0.15625,
+                  "n": 128
+                },
+                "margin": 0.03,
+                "status": "fail"
+              },
+              "no_context": {
+                "base": {
+                  "ci95_high": 0.2265625,
+                  "ci95_low": 0.113671875,
+                  "mean": 0.1796875,
+                  "n": 128
+                },
+                "chance_components": {
+                  "majority": 0.140625,
+                  "random": 0.15625
+                },
+                "chance_selected_baseline": "random",
+                "ci_margin_delta": -0.08339843749999998,
+                "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+                "empirical_chance": {
+                  "ci95_high": 0.19707031249999998,
+                  "ci95_low": 0.113671875,
+                  "mean": 0.15625,
+                  "n": 128
+                },
+                "margin": 0.03,
+                "status": "fail"
+              },
+              "shuffled_demo": {
+                "base": {
+                  "ci95_high": 0.2787109375,
+                  "ci95_low": 0.1353515625,
+                  "mean": 0.2109375,
+                  "n": 128
+                },
+                "chance_components": {
+                  "majority": 0.140625,
+                  "random": 0.15625
+                },
+                "chance_selected_baseline": "random",
+                "ci_margin_delta": -0.0939453124999999,
+                "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+                "empirical_chance": {
+                  "ci95_high": 0.2292968749999999,
+                  "ci95_low": 0.098046875,
+                  "mean": 0.15625,
+                  "n": 128
+                },
+                "margin": 0.03,
+                "status": "fail"
+              }
+            },
+            "failed_controls": [],
+            "failure_rule": "any control above empirical chance band fails the hardgate",
+            "status": "pass"
+          },
+          "base_chance_gate": {
+            "base": {
+              "ci95_high": 0.2578125,
+              "ci95_low": 0.1552734375,
+              "mean": 0.203125,
+              "n": 128
+            },
+            "chance_components": {
+              "majority": 0.140625,
+              "random": 0.125
+            },
+            "chance_selected_baseline": "majority",
+            "ci_margin_delta": -0.04960937499999998,
+            "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+            "empirical_chance": {
+              "ci95_high": 0.20488281249999998,
+              "ci95_low": 0.0919921875,
+              "mean": 0.140625,
+              "n": 128
+            },
+            "margin": 0.03,
+            "status": "fail"
+          },
+          "rank_eval": {
+            "mean_rank": 3.734375,
+            "sample_count": 128,
+            "top1_accuracy": 0.203125
+          }
+        },
+        "negative_count": 7,
+        "negative_protocol": {
+          "action_shuffle": "candidate applies a mismatched action delta",
+          "goal_shuffle": "candidate moves toward a mismatched goal",
+          "per_case_hard_negatives": 7,
+          "temporal_shuffle": "candidate uses an unrelated time step from the same trajectory family"
+        },
+        "seed": 20260617,
+        "status": "bounded_negative"
+      },
+      "case_count": 128,
+      "sample_source": "reports/canonical/jepa-wm-l1-admission.json:$.data_surface"
+    },
+    "split": {
+      "snapshot": {
+        "seed": 20262159,
+        "status": "deterministic",
+        "train_fraction": 0.5,
+        "validation_fraction": 0.5
+      },
+      "source": "reports/canonical/jepa-wm-l1-evaluator-calibration.json:$.calibration_inputs.split"
+    },
+    "status": "frozen",
+    "venue_id": "jepa-wm-l1-three-arm"
+  }
+}

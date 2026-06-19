@@ -193,6 +193,17 @@ def _payload_for_spec(spec):
             case_count=128,
             bootstrap_resamples=32,
         )
+    if spec.name == "jepa-wm-l1-three-arm-freeze":
+        from bedc_quality_lab.tasks import jepa_wm_l1_three_arm_freeze
+
+        root = canonical.ROOT
+        if not (root / "reports/canonical/jepa-wm-l1-admission.json").exists():
+            root = canonical.SOURCE_ROOT
+        payload = jepa_wm_l1_three_arm_freeze.bind_payload_sha(
+            jepa_wm_l1_three_arm_freeze.build_payload(root=root, generated_at="fixture")
+        )
+        assert payload["decision"]["venue_sha256"] == jepa_wm_l1_three_arm_freeze.venue_content_sha256(payload)
+        return payload
     if spec.name == "sti-admission":
         from bedc_quality_lab.tasks import sti
 
@@ -2217,6 +2228,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "lejepa-theorem-ledger",
         "discovery-gated-transformer-jepa-world-model",
         "jepa-wm-l1-evaluator-calibration",
+        "jepa-wm-l1-three-arm-freeze",
         "sti-admission",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
@@ -4340,6 +4352,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
         assert "generated_at" in keys
         if spec.name == "model-comparison":
             assert {"models", "hardgates", "not_claimed", "source_reports"}.issubset(keys)
+            continue
+        if spec.name == "minimal-irreducible-causal-derivative-mainline":
+            assert "source_refs" in keys
             continue
         if spec.name == "dgt-ablation-null-decomposition":
             assert "source_artifact" in keys
@@ -10291,6 +10306,30 @@ def test_jepa_wm_l1_evaluator_calibration_canonical_spec_is_diagnostic_only():
     assert spec.hardgate_status_pointer == "$.hardgate.status_cell"
     assert spec.hardgate_scope == "owner-scientific"
     assert "jepa-wm-l1-evaluator-calibration" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
+
+
+def test_jepa_wm_l1_three_arm_freeze_canonical_spec_is_prediction_venue_only():
+    spec = canonical._specs_by_name()["jepa-wm-l1-three-arm-freeze"]
+
+    assert spec.command == ("python3", "scripts/run_jepa_wm_l1_three_arm_freeze.py")
+    assert spec.json_artifact == "reports/canonical/jepa-wm-l1-three-arm-freeze.json"
+    assert spec.markdown_artifact == "reports/canonical/jepa-wm-l1-three-arm-freeze.md"
+    assert canonical._relative(canonical._fingerprint_path(spec)) == (
+        "reports/canonical/jepa-wm-l1-three-arm-freeze.fingerprint.json"
+    )
+    assert spec.bundle_role == "auxiliary"
+    assert spec.claim_promotion_eligible is False
+    assert spec.scope_pointer == "$.claim_boundary"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.decision"
+    assert spec.control_pointer == "$.leakage_gates"
+    assert spec.no_control_rationale_pointer is None
+    assert spec.hardgate_status_pointer == "$.hardgate.status_cell"
+    assert spec.hardgate_scope == "owner-scientific"
+    assert spec.scientific_claim_status_pointer == "$.claim_boundary.status_axis"
+    assert spec.decision_status_pointer == "$.decision.status_axis"
+    assert "jepa-wm-l1-three-arm-freeze" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
 
 
 def test_jepa_wm_l1_admission_has_no_no_input_canonical_spec():

@@ -241,6 +241,18 @@ JEPA_WM_L1_EVALUATOR_CALIBRATION_ARTIFACT_ID = (
 JEPA_WM_L1_EVALUATOR_CALIBRATION_SCHEMA_ID = (
     "bedc-quality-lab:jepa-wm-l1-evaluator-calibration"
 )
+JEPA_WM_L1_THREE_ARM_FREEZE_JSON_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-three-arm-freeze.json"
+)
+JEPA_WM_L1_THREE_ARM_FREEZE_MARKDOWN_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-three-arm-freeze.md"
+)
+JEPA_WM_L1_THREE_ARM_FREEZE_ARTIFACT_ID = (
+    "bedc-quality-lab:jepa-wm-l1-three-arm-freeze"
+)
+JEPA_WM_L1_THREE_ARM_FREEZE_SCHEMA_ID = (
+    "bedc-quality-lab:jepa-wm-l1-three-arm-freeze"
+)
 STI_ADMISSION_JSON_ARTIFACT = "reports/canonical/sti-admission.json"
 STI_ADMISSION_MARKDOWN_ARTIFACT = "reports/canonical/sti-admission.md"
 STI_ADMISSION_ARTIFACT_ID = "bedc-quality-lab:sti-admission"
@@ -293,6 +305,7 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "dgt-l1-boundary-report",
         "discovery-gated-transformer-jepa-world-model",
         "jepa-wm-l1-evaluator-calibration",
+        "jepa-wm-l1-three-arm-freeze",
         "sti-admission",
     }
 )
@@ -2285,6 +2298,42 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         decision_status_pointer="$.diagnostic_next_step.status",
     ),
     CanonicalReportSpec(
+        name="jepa-wm-l1-three-arm-freeze",
+        command=("python3", "scripts/run_jepa_wm_l1_three_arm_freeze.py"),
+        json_artifact=JEPA_WM_L1_THREE_ARM_FREEZE_JSON_ARTIFACT,
+        markdown_artifact=JEPA_WM_L1_THREE_ARM_FREEZE_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "venue",
+            "metrics",
+            "statistical_plan",
+            "leakage_gates",
+            "prediction_schema",
+            "stub_smoke",
+            "hardgate",
+            "claim_boundary",
+            "decision",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.claim_boundary",
+        cost_pointer="$.source_artifacts.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.decision",
+        control_pointer="$.leakage_gates",
+        no_control_rationale_pointer=None,
+        claim_promotion_eligible=False,
+        scientific_claim_status_pointer="$.claim_boundary.status_axis",
+        hardgate_status_pointer="$.hardgate.status_cell",
+        hardgate_scope="owner-scientific",
+        decision_status_pointer="$.decision.status_axis",
+    ),
+    CanonicalReportSpec(
         name="sti-admission",
         command=("python3", "scripts/run_sti_admission.py"),
         json_artifact=STI_ADMISSION_JSON_ARTIFACT,
@@ -3383,6 +3432,11 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
         from scripts.run_winnability_certificates import write_winnability_certificates
 
         write_winnability_certificates(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "jepa-wm-l1-three-arm-freeze":
+        from bedc_quality_lab.tasks.jepa_wm_l1_three_arm_freeze import write_artifacts
+
+        write_artifacts(root=ROOT, generated_at=generated_at)
         return
     if spec.name == "reproduction-package":
         from scripts.run_reproduction_package import write_check_result, write_package
