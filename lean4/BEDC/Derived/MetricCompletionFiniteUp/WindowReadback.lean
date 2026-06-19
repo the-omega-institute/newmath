@@ -132,4 +132,31 @@ theorem MetricCompletionFiniteCarrier_stability_transport [AskSetup] [PackageSet
       selectorUnary', transportUnary', replayUnary', provenanceUnary', localNameUnary',
       provenancePkg, localNamePkg⟩, sourceUnary, readbackRouteUnary⟩
 
+theorem MetricCompletionFiniteTotalBoundedWindow [AskSetup] [PackageSetup]
+    {M B W E R S H C P N sourceRead readback finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricCompletionFiniteCarrier M B W E R S H C P N bundle pkg →
+      Cont M B sourceRead →
+        Cont W E readback →
+          Cont S R finalRead →
+            PkgSig bundle P pkg →
+              PkgSig bundle finalRead pkg →
+                UnaryHistory sourceRead ∧ UnaryHistory readback ∧ UnaryHistory finalRead ∧
+                  Cont M B sourceRead ∧ Cont W E readback ∧ Cont S R finalRead ∧
+                    PkgSig bundle P pkg ∧ PkgSig bundle finalRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle UnaryHistory
+  intro carrier sourceRoute readbackRoute finalRoute provenancePkg finalPkg
+  obtain ⟨metricUnary, basisUnary, windowUnary, embeddingUnary, readbackUnary,
+    selectorUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _provenancePkg, _localNamePkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed metricUnary basisUnary sourceRoute
+  have readbackRouteUnary : UnaryHistory readback :=
+    unary_cont_closed windowUnary embeddingUnary readbackRoute
+  have finalReadUnary : UnaryHistory finalRead :=
+    unary_cont_closed selectorUnary readbackUnary finalRoute
+  exact
+    ⟨sourceUnary, readbackRouteUnary, finalReadUnary, sourceRoute, readbackRoute,
+      finalRoute, provenancePkg, finalPkg⟩
+
 end BEDC.Derived.MetricCompletionFiniteUp
