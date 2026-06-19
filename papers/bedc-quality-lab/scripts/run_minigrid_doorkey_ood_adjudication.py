@@ -1,40 +1,41 @@
 #!/usr/bin/env python3
-<<<<<<< HEAD
-"""Run or validate the bounded MiniGrid DoorKey OOD adjudication report."""
-=======
-"""Write the MiniGrid DoorKey OOD adjudication record."""
->>>>>>> origin/paper-bedc-quality-lab
+"""Write, run, or validate the MiniGrid DoorKey OOD adjudication records."""
 
 from __future__ import annotations
 
 import argparse
-<<<<<<< HEAD
-from pathlib import Path
-import sys
-
-
-=======
 import json
 from pathlib import Path
 import sys
 
->>>>>>> origin/paper-bedc-quality-lab
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-<<<<<<< HEAD
 from bedc_quality_lab.minigrid_doorkey_ood_adjudication import (  # noqa: E402
     DEFAULT_REPORT,
     DEFAULT_RUN_ID,
+    JSON_ARTIFACT,
+    build_payload,
     load_and_validate_report,
+    write_artifacts,
     write_report,
 )
 
 
-def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--report", default=DEFAULT_REPORT)
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--execution-mode",
+        choices=("fixture-smoke", "publication-bearing"),
+        default="fixture-smoke",
+        help="Evidence mode for the canonical emitted report.",
+    )
+    parser.add_argument("--output", type=Path, default=ROOT / JSON_ARTIFACT)
+    parser.add_argument("--markdown-output", type=Path, default=None)
+    parser.add_argument("--fingerprint-output", type=Path, default=None)
+    parser.add_argument("--observations-json", type=Path, default=None)
+    parser.add_argument("--report", default=None)
     parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
     parser.add_argument("--seeds", default="101,102,103")
     parser.add_argument("--updates", type=int, default=80000)
@@ -45,56 +46,50 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--validate-only", action="store_true")
     parser.add_argument("--generated-at", default=None)
-    return parser
-
-
-def main(argv: list[str] | None = None) -> None:
-    args = _parser().parse_args(argv)
-    report_path = Path(args.report)
-    if args.validate_only:
-        target = report_path if report_path.is_absolute() else ROOT / report_path
-        payload = load_and_validate_report(target, root=ROOT)
-        print(f"validated {args.report} status={payload['verdict']['status']}")
-        return
-    payload = write_report(
-        root=ROOT,
-        report_path=report_path,
-        run_id=args.run_id,
-        seeds=args.seeds,
-        updates=args.updates,
-        eval_episodes=args.eval_episodes,
-        batch_size=args.batch_size,
-        device=args.device,
-        amp=args.amp,
-        smoke=args.smoke,
-        generated_at=args.generated_at,
-    )
-    print(f"wrote {args.report} status={payload['verdict']['status']}")
-
-
-if __name__ == "__main__":
-    main()
-=======
-from bedc_quality_lab.minigrid_doorkey_ood_adjudication import JSON_ARTIFACT, build_payload, write_artifacts
-
-
-def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--execution-mode",
-        choices=("fixture-smoke", "publication-bearing"),
-        default="fixture-smoke",
-        help="Evidence mode for the emitted report.",
-    )
-    parser.add_argument("--output", type=Path, default=ROOT / JSON_ARTIFACT)
-    parser.add_argument("--markdown-output", type=Path, default=None)
-    parser.add_argument("--fingerprint-output", type=Path, default=None)
-    parser.add_argument("--observations-json", type=Path, default=None)
     return parser.parse_args(argv)
+
+
+def _uses_bounded_report(args: argparse.Namespace) -> bool:
+    return bool(
+        args.report is not None
+        or args.validate_only
+        or args.smoke
+        or args.run_id != DEFAULT_RUN_ID
+        or args.seeds != "101,102,103"
+        or args.updates != 80000
+        or args.eval_episodes != 500
+        or args.batch_size != 256
+        or args.device != "cuda"
+        or args.amp
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if _uses_bounded_report(args):
+        report_arg = args.report or DEFAULT_REPORT
+        report_path = Path(report_arg)
+        if args.validate_only:
+            target = report_path if report_path.is_absolute() else ROOT / report_path
+            payload = load_and_validate_report(target, root=ROOT)
+            print(f"validated {report_arg} status={payload['verdict']['status']}")
+            return 0
+        payload = write_report(
+            root=ROOT,
+            report_path=report_path,
+            run_id=args.run_id,
+            seeds=args.seeds,
+            updates=args.updates,
+            eval_episodes=args.eval_episodes,
+            batch_size=args.batch_size,
+            device=args.device,
+            amp=args.amp,
+            smoke=args.smoke,
+            generated_at=args.generated_at,
+        )
+        print(f"wrote {report_arg} status={payload['verdict']['status']}")
+        return 0
+
     observations = None
     if args.observations_json is not None:
         observations = json.loads(args.observations_json.read_text(encoding="utf-8"))
@@ -112,6 +107,7 @@ def main(argv: list[str] | None = None) -> int:
         fingerprint_path=args.fingerprint_output,
         execution_mode=args.execution_mode,
         observations=observations,
+        generated_at=args.generated_at,
     )
     try:
         display_path = args.output.relative_to(ROOT)
@@ -123,4 +119,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
->>>>>>> origin/paper-bedc-quality-lab

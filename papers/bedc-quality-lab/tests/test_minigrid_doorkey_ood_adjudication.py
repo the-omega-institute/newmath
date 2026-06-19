@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import json
 import shutil
 import subprocess
@@ -8,6 +7,8 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab import minigrid_doorkey_ood_adjudication as adjudication
+from bedc_quality_lab import minigrid_doorkey_ood_adjudication as ood
+from bedc_quality_lab.minigrid_doorkey_families import default_fresh_episode_rows
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -238,15 +239,6 @@ def test_validate_committed_report_if_present():
     if path.exists():
         payload = adjudication.load_and_validate_report(path, root=ROOT)
         assert payload["schema_id"] == adjudication.SCHEMA_ID
-=======
-from __future__ import annotations
-
-import json
-
-import pytest
-
-from bedc_quality_lab import minigrid_doorkey_ood_adjudication as ood
-from bedc_quality_lab.minigrid_doorkey_families import default_fresh_episode_rows
 
 
 def _rows() -> list[dict[str, object]]:
@@ -389,4 +381,3 @@ def test_write_artifacts_outputs_json_markdown_and_fingerprint(tmp_path) -> None
     assert fingerprint["report_name"] == "minigrid-doorkey-ood-adjudication"
     assert fingerprint["json_artifact"] == ood.JSON_ARTIFACT
     assert fingerprint["reproducibility_mode"] == "fixture-smoke"
->>>>>>> origin/paper-bedc-quality-lab
