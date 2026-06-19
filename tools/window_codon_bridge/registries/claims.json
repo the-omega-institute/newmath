@@ -562,8 +562,15 @@
   {
    "claim_id": "bridge.genetic_code.altcode_edge_hiding.tau_conservation",
    "statement": "Edge-hiding is a CONSERVED constraint across the genetic-code family. For each of the 27 NCBI genetic code tables, the number of synonymous single-base (H(3,4)) codon edges e_in(t) is compared to a degeneracy-profile-matched random null (random codes with t's exact amino-acid family-size multiset; 20000 draws, fixed seed; sense-to-sense, Stop retained in profile but Stop-Stop edges excluded). RESULT: all 27 codes' per-code profile-matched-null upper-tail p sit at the Monte-Carlo floor ~5e-5 (all_at_floor=True); natural e_in is far above the null (min e_in minus null p99 = 43; minimum null z-score = 15.4). This survives a 9-cluster PHYLOGENETIC bootstrap (clusters by code-table reassignment similarity, resampling clusters NOT individual codes to avoid pseudo-replication of related mito variants): cluster_bootstrap_p = 5e-5. The union of codons reassigned across all tables vs the standard = exactly 13 (reproduces |R|=13). VERDICT CERTIFIED: natural genetic codes are systematically edge-hiding-extremal vs degeneracy-matched random codes, conserved across the family AND robust to phylogenetic non-independence -- extending the BC7 edge-hiding optimality from the standard code to the whole genetic-code family. EXPLICITLY NOT claimed: global maximality (no valid e_max -- the broken pair-swap optimizer was removed after review; the claim rests purely on the natural-vs-degeneracy-matched-null contrast, which is independent of any maximum estimate) and NOT a causal/selection proof. Review (architecture+quality+tests, then re-review) verified e_in, the profile-matched null, the per-code floor, and the cluster bootstrap, and caught+removed the optimizer over-claim. Evaluated only by its registered deterministic experiment.",
-   "status": "open",
-   "experiment_id": "altcode_edge_hiding_tau"
+   "status": "certified",
+   "experiment_id": "altcode_edge_hiding_tau",
+   "history": [
+    {
+     "ts": "2026-06-19T18:07:44+00:00",
+     "status": "certified",
+     "reason": "natural codes' synonymous edge-hiding is systematically far above degeneracy-matched random codes across the family and survives phylogenetic clustering; no global bound claim is made"
+    }
+   ]
   }
  ]
 }
