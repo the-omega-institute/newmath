@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicLimitSetUp$}
+\label{ch:concrete-instances-hyperbolic-limit-set-namecert}
+\origin{human}
+
+Following Beardon and Bridson--Haefliger, the $\HyperbolicLimitSetUp$ packet records the finite boundary accumulation surface of a displayed hyperbolic action. It sits after the visual boundary route of \autoref{ch:concrete-instances-hyperbolic-visual-boundary-namecert}, the boundary-shadow route of \autoref{ch:concrete-instances-hyperbolic-boundary-shadow-namecert}, the Busemann boundary route of \autoref{ch:concrete-instances-hyperbolic-busemann-boundary-namecert}, the visual metric route of \autoref{ch:concrete-instances-hyperbolic-visual-metric-namecert}, the geodesic-flow route of \autoref{ch:concrete-instances-hyperbolic-geodesic-flow-namecert}, the Patterson--Sullivan shadow route of \autoref{ch:concrete-instances-hyperbolic-patterson-sullivan-shadow-namecert}, the axis-shadow route of \autoref{ch:concrete-instances-hyperbolic-axis-shadow-namecert}, and the terminal disk and real seals of \autoref{ch:concrete-instances-unitdisk-namecert} and \autoref{ch:concrete-instances-real-namecert}. The packet names a finite limit-set read; it does not complete the ideal boundary, quotient geodesic rays, select orbit representatives, or import host compactness.
+
+\begin{definition}[Hyperbolic limit set carrier]
+\label{def:hyperbolic-limit-set-carrier}
+A $\HyperbolicLimitSetUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,S,U,V,G,P,A,D,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\HyperbolicVisualBoundaryUp$ boundary readback row.
+\item $S$ is the $\HyperbolicBoundaryShadowUp$ shadow row recording the finite orbit-shadow observations.
+\item $U$ is the $\HyperbolicBusemannBoundaryUp$ row attaching the boundary read to Busemann-level comparison data.
+\item $V$ is the $\HyperbolicVisualMetricUp$ row comparing boundary observations by displayed visual metric windows.
+\item $G$ is the $\HyperbolicGeodesicFlowUp$ row naming the finite orbit or geodesic-flow observations whose accumulation is being read.
+\item $P$ is the Patterson--Sullivan shadow row, used only as a displayed weighting and shadow-support surface.
+\item $A$ is the $\HyperbolicAxisShadowUp$ row for axial shadow support when the orbit read comes from a displayed axis route.
+\item $D$ is the $\UnitDiskUp$ source row for disk-coordinate admission.
+\item $R$ is the terminal $\RealUp$ seal for the finite visual-radius and shadow-size reads.
+\item $H$ records componentwise $\hsame$ transport for boundary, shadow, Busemann, visual-metric, flow, Patterson--Sullivan, axis, disk, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the same boundary and shadow route.
+\item $Q$ is the $\Pkg$ provenance over $\HyperbolicLimitSetUp$, $\HyperbolicVisualBoundaryUp$, $\HyperbolicBoundaryShadowUp$, $\HyperbolicBusemannBoundaryUp$, $\HyperbolicVisualMetricUp$, $\HyperbolicGeodesicFlowUp$, $\HyperbolicAxisShadowUp$, $\UnitDiskUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicLimitSetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a completed boundary compactification, quotient boundary equality, selected orbit representative, global group action, host compactness theorem, or ambient hyperbolic space.
+\end{definition}
+
+\begin{theorem}[Hyperbolic limit set NameCert obligations]
+\label{thm:hyperbolic-limit-set-namecert-obligations}
+For every accepted $\HyperbolicLimitSetUp$ carrier
+$$
+L=(B,S,U,V,G,P,A,D,R,H,C,Q,N),
+$$
+the local $\NameCert_{\HyperbolicLimitSetUp}$ surface consists exactly of visual-boundary readback, boundary-shadow exposure, Busemann-boundary attachment, visual-metric comparison, geodesic-flow observation, Patterson--Sullivan shadow support, axis-shadow support, disk-coordinate admission, Real sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-limit-set-carrier}. Rows $B,S,U,V$ are the boundary-facing rows, while $G,P,A,D,R$ record the displayed source observations, shadow support, disk admission, and finite real-valued reads.
+
+The boundary route is read first. The visual boundary row supplies the boundary token, the boundary-shadow row supplies finite orbit-shadow observations, the Busemann row attaches the read to boundary comparison data, and the visual metric row supplies the displayed comparison window.
+
+The source and support rows then constrain the accumulation read. Geodesic-flow observations, Patterson--Sullivan shadow support, axis-shadow support, disk-coordinate admission, and the terminal Real seal remain finite fields of the same packet rather than a completed boundary object.
+
+Finally $H,C,Q,N$ transport, replay, source, and name exactly that packet. Since no completed compactification, quotient equality, selected representative, global action, host compactness theorem, or ambient hyperbolic space coordinate appears in $L$, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Hyperbolic limit set boundary non-escape]
+\label{thm:hyperbolic-limit-set-boundary-nonescape}
+Every accepted $\HyperbolicLimitSetUp$ read factors through
+$$
+\HyperbolicVisualBoundaryUp,\ \HyperbolicBoundaryShadowUp,\ \HyperbolicBusemannBoundaryUp,\ \HyperbolicVisualMetricUp,\ \HyperbolicGeodesicFlowUp,\ \HyperbolicAxisShadowUp,\ \UnitDiskUp,\ \RealUp
+$$
+before it exports a limit-set boundary token. The read may use Patterson--Sullivan shadow support as a displayed finite weighting row, but it cannot replace the packet by a completed ideal boundary, quotient of geodesic rays, selected orbit representative, global group action, host compactness theorem, or ambient hyperbolic space.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:hyperbolic-limit-set-namecert-obligations}. It orders the accepted read through the boundary, shadow, Busemann, visual-metric, flow, support, disk, real-seal, transport, replay, provenance, and local naming rows.
+
+The boundary rows $B,S,U,V$ keep the limit-set token attached to displayed finite boundary observations. The source rows $G,A,D$ keep the orbit or axis read tied to finite geodesic-flow, axis-shadow, and disk-coordinate data.
+
+The Patterson--Sullivan row $P$ and Real seal $R$ are downstream support rows. They can weight and seal the displayed shadow data, but they do not add quotient boundary equality, selected representatives, global action data, compactness, or ambient geometry.
+
+Thus the only exported token is the local $\NameCert_{\HyperbolicLimitSetUp}$ boundary read named by $N$ over the same packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HyperbolicLimitSetUp$ read exposes visual-boundary, boundary-shadow, Busemann-boundary, visual-metric, geodesic-flow, Patterson--Sullivan support, axis-shadow, disk, Real-seal, transport, replay, provenance, and local NameCert rows before any limit-set boundary token is exported.}
+
+\independenceWitness{Nearest siblings: hyperbolic-visual-boundary, hyperbolic-boundary-shadow, hyperbolic-busemann-boundary, hyperbolic-visual-metric, hyperbolic-geodesic-flow, hyperbolic-patterson-sullivan-shadow, and hyperbolic-axis-shadow. None is bijective to $\HyperbolicLimitSetUp$ because this packet jointly carries boundary readback, orbit-shadow support, Busemann comparison, visual metric comparison, flow observation, weighting support, axis support, disk admission, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{HyperbolicLimitSetUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicLimitSetUp}
+  \constructivestory{A $\HyperbolicLimitSetUp$ packet is generated from visual-boundary rows, boundary-shadow rows, Busemann-boundary rows, visual-metric rows, geodesic-flow observations, Patterson--Sullivan shadow support, axis-shadow support, UnitDisk admission, Real sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-limit-set-carrier}, \autoref{thm:hyperbolic-limit-set-namecert-obligations}, and \autoref{thm:hyperbolic-limit-set-boundary-nonescape} seed the finite limit-set boundary read over visual-boundary, shadow, Busemann, visual-metric, flow, support, disk, Real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed boundary compactification, quotient boundary equality, selected orbit representatives, global group actions, host compactness, ambient hyperbolic spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary readback, shadow exposure, Busemann attachment, visual-metric comparison, geodesic-flow observation, support rows, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicLimitSetUp.}
+\end{closurestatus}
