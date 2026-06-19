@@ -132,6 +132,20 @@ The bounded-conversion theorem \autoref{thm:metacic-decidability-witness-bounded
 Finally, the typing-exactness route of \autoref{thm:metacic-decidability-witness-typing-exactness-route} forces every $\mathsf{HasType}$ exactness read through $T$ before structural or bounded-normal evidence is combined. These cited rows cover every obligation named by the carrier and leave no additional coordinate for a separate decidability, transport, replay, provenance, or local naming obligation.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidability witness scope assignment]
+\label{thm:metacic-decidability-witness-scope-assignment}
+For every accepted $\MetacicDecidabilityWitnessUp$ packet $W=(T,S,B,F,R,H,C,P,N)$, the rows are scoped as follows: $T$ is the $\mathsf{inferTypeCtx}$ exactness row, $S$ is the $\mathsf{checkSameTerm}$ structural-equality row, $B$ is the bounded beta-comparison row, $F$ is the finished-normal side-condition row, $R$ is the refusal-boundary row, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $P$ is package provenance, and $N$ is local $\NameCert_{\MetacicDecidabilityWitnessUp}$ naming. No consumer may read these rows as $\mathsf{ClosedAt}$ decidability, unrestricted beta-conversion, quotient syntax equality, consistency, fuel-erased normalisation, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidability-witness-carrier}. The displayed tuple is exactly $T,S,B,F,R,H,C,P,N$, so every scoped assignment must be read from one of those coordinates.
+
+Apply the NameCert obligations of \autoref{thm:metacic-decidability-witness-namecert-obligations}. They assign typing exactness to $T$, structural equality to $S$, bounded comparison to $B$, finished-normal side conditions to $F$, refusal boundaries to $R$, transport to $H$, replay to $C$, provenance to $P$, and naming to $N$.
+
+Use bounded-conversion non-escape, \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape}, together with the bounded normal-form split of \autoref{thm:metacic-decidability-witness-bounded-normal-form-split}. These keep conversion reads inside $B,F$ and keep bounded normal-form evidence inside the displayed packet.
+
+Finally apply the typing-exactness route of \autoref{thm:metacic-decidability-witness-typing-exactness-route} and the TasteGate single-carrier alignment marker already recorded for the chapter. The accepted packet therefore has one finite scope assignment for the nine rows, with no coordinate from which a consumer can extract $\mathsf{ClosedAt}$ decidability, unrestricted beta-conversion, quotient syntax equality, consistency, or a host evaluator.
+\end{proof}
+
 \closureat{MetacicDecidabilityWitnessUp}{seedStr}
 \closureat{MetacicDecidabilityWitnessUp}{obligationStr}
 
