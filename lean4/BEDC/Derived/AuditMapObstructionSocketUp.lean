@@ -16,7 +16,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def AuditMapObstructionSocketCarrier [AskSetup] [PackageSetup]
+def audit_map_obstruction_socket_carrier_namecert_obligations_carrier [AskSetup] [PackageSetup]
     (audit positive conditional obstruction frontier transport replay provenance localName : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   (∃ packet : AuditMapObstructionSocketUp,
@@ -31,8 +31,8 @@ def AuditMapObstructionSocketCarrier [AskSetup] [PackageSetup]
 theorem AuditMapObstructionSocketCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {audit positive conditional obstruction frontier transport replay provenance localName : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    AuditMapObstructionSocketCarrier audit positive conditional obstruction frontier transport replay
-        provenance localName bundle pkg ->
+    audit_map_obstruction_socket_carrier_namecert_obligations_carrier audit positive conditional
+        obstruction frontier transport replay provenance localName bundle pkg ->
       Cont audit positive conditional ->
         Cont obstruction frontier replay ->
           PkgSig bundle provenance pkg ->
