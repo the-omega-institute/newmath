@@ -1,9 +1,168 @@
 from __future__ import annotations
 
+import json
+
 import numpy as np
 import pytest
 
 from bedc_quality_lab import bedc_multistep_latent_prediction as mlp
+from bedc_quality_lab.bedc_multistep_latent_prediction import (
+    LatentPredictionGateSpec,
+    LatentRolloutBatch,
+    PredictorSpec,
+    run_multistep_latent_prediction_smoke,
+)
+
+
+def test_multistep_latent_prediction_packet_is_json_primitive_and_fail_closed():
+    packet = run_multistep_latent_prediction_smoke(sample_count=16, horizon=3, seed=13)
+
+    json.dumps(packet)
+    assert packet["schema_id"] == "bedc-multistep-latent-prediction"
+    assert packet["status"] == "executed"
+    assert packet["record_scope"] == "local_smoke_contract"
+    assert packet["evidence_chain"]["owner_module"] == (
+        "bedc_quality_lab.bedc_multistep_latent_prediction"
+    )
+    assert packet["rollout_contract"]["sample_count"] == 16
+    assert packet["rollout_contract"]["horizon"] == 3
+    assert "rollout_batch" not in packet
+    assert {row["family"] for row in packet["predictor_specs"]} == {
+        "jepa_mlp",
+        "gru",
+        "rssm",
+        "transformer",
+    }
+    assert {row["horizon"] for row in packet["runs"]} == {1, 3}
+    assert any(row["action_conditioned"] for row in packet["runs"])
+    assert all(row["planning_success"] is None for row in packet["runs"])
+    assert packet["summary"]["run_count"] == len(packet["runs"])
+    assert packet["summary"]["family_count"] == 4
+    assert packet["summary"]["planning_success_claimed"] is False
+    assert "predictor_spec" not in packet
+    assert packet["hardgate"]["status"] in {"pass", "source_debt"}
+    assert "gate_spec" not in packet
+    assert "rollout_contract" in packet["hardgate"]["required_record_fields"]
+    assert "predictor_specs" in packet["hardgate"]["required_record_fields"]
+    assert "runs" in packet["hardgate"]["required_record_fields"]
+    assert packet["metrics"]["rollout_mse"] >= 0.0
+    assert 0.0 <= packet["metrics"]["latent_prediction_score"] <= 1.0
+    assert 0.0 <= packet["metrics"]["gap_detection_auc"] <= 1.0
+    assert 0.0 <= packet["metrics"]["certified_coverage"] <= 1.0
+    assert 0.0 <= packet["metrics"]["unlogged_error_rate"] <= 1.0
+    assert packet["claim_scope"]["minigrid_planning_success"] == "not_claimed"
+    assert packet["claim_scope"]["full_4090_sweep"] == "not_claimed"
+    assert "MiniGrid planning success" in packet["cannot_claim"]
+    assert "quality backend full-sweep admission" in packet["cannot_claim"]
+
+
+def test_multistep_latent_prediction_schema_owner_types_are_local():
+    assert LatentRolloutBatch.__module__ == "bedc_quality_lab.bedc_multistep_latent_prediction"
+    assert PredictorSpec.__module__ == "bedc_quality_lab.bedc_multistep_latent_prediction"
+    assert LatentPredictionGateSpec.__module__ == (
+        "bedc_quality_lab.bedc_multistep_latent_prediction"
+    )
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"sample_count": 0}, "sample_count"),
+        ({"horizon": 0}, "horizon"),
+    ],
+)
+def test_latent_rollout_batch_rejects_nonpositive_shape_controls(kwargs, message):
+    with pytest.raises(ValueError, match=message):
+        mlp.make_latent_rollout_batch(**kwargs)
+
+
+def test_latent_rollout_batch_supports_nondefault_latent_and_action_shapes():
+    batch = mlp.make_latent_rollout_batch(
+        sample_count=7,
+        horizon=5,
+        latent_dim=4,
+        action_dim=3,
+        seed=23,
+        split="alternate",
+    )
+
+    assert batch.initial_latents.shape == (7, 4)
+    assert batch.actions.shape == (7, 5, 3)
+    assert batch.target_latents.shape == (7, 5, 4)
+    assert batch.unsafe_transition.shape == (7, 5)
+    assert batch.unsafe_transition.dtype == np.bool_
+    assert np.isfinite(batch.target_latents).all()
+    assert batch.to_record() == {
+        "environment_id": "boundary-gated-ou-latent-rollout",
+        "split": "alternate",
+        "horizon": 5,
+        "sample_count": 7,
+        "latent_dim": 4,
+        "action_dim": 3,
+        "unsafe_transition_rate": float(np.mean(batch.unsafe_transition)),
+    }
+
+
+def _latent_prediction_gate() -> LatentPredictionGateSpec:
+    return LatentPredictionGateSpec(
+        gate_id="test-gate",
+        min_gap_detection_auc=0.70,
+        min_certified_coverage=0.80,
+        max_unlogged_error_rate=0.05,
+        min_coverage=0.80,
+        required_record_fields=("rollout_contract", "predictor_specs", "runs"),
+    )
+
+
+def _gate_run(
+    *,
+    gap_detection_auc: float = 0.75,
+    certified_coverage: float = 0.85,
+    unlogged_error_rate: float = 0.03,
+) -> dict[str, float]:
+    return {
+        "gap_detection_auc": gap_detection_auc,
+        "certified_coverage": certified_coverage,
+        "unlogged_error_rate": unlogged_error_rate,
+    }
+
+
+def test_latent_prediction_gate_rejects_empty_runs():
+    result = _latent_prediction_gate().evaluate([])
+
+    assert result["status"] == "source_debt"
+    assert result["failure_reasons"] == ["no predictor runs recorded"]
+    assert result["required_record_fields"] == ["rollout_contract", "predictor_specs", "runs"]
+
+
+@pytest.mark.parametrize(
+    "run",
+    [
+        _gate_run(gap_detection_auc=0.69),
+        _gate_run(certified_coverage=0.79),
+        _gate_run(unlogged_error_rate=0.06),
+    ],
+)
+def test_latent_prediction_gate_rejects_threshold_failures(run):
+    result = _latent_prediction_gate().evaluate([run])
+
+    assert result["status"] == "source_debt"
+
+
+def test_latent_prediction_gate_accepts_rows_that_meet_thresholds():
+    result = _latent_prediction_gate().evaluate(
+        [
+            _gate_run(gap_detection_auc=0.74, certified_coverage=0.88, unlogged_error_rate=0.02),
+            _gate_run(gap_detection_auc=0.72, certified_coverage=0.84, unlogged_error_rate=0.04),
+        ]
+    )
+
+    assert result["status"] == "pass"
+    assert result["observed"] == {
+        "min_gap_detection_auc": 0.72,
+        "min_certified_coverage": 0.84,
+        "max_unlogged_error_rate": 0.04,
+    }
 
 
 def _passing_gpu_evidence() -> dict[str, object]:

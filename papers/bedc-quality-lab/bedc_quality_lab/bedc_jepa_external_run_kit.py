@@ -136,6 +136,23 @@ def build_external_run_kit() -> dict[str, Any]:
                 },
                 "pass_condition": "target record status is executed and full S3, minus L_unlogged, minus L_gap, minus L_stab, and minus L_intervention are true retraining rows under the declared OU-pair stability and intervention surfaces",
             },
+            "multistep_latent_prediction": {
+                "readiness_gate": "multistep_latent_prediction",
+                "target_artifact": "reports/bedc_multistep_latent_prediction.json",
+                "run_command": "python scripts/run_bedc_multistep_latent_prediction.py",
+                "required_fields": [
+                    "experiment_contract",
+                    "rollout_contract",
+                    "predictor_specs",
+                    "hardgate",
+                    "runs",
+                    "summary",
+                    "metrics",
+                    "claim_scope",
+                    "cannot_claim",
+                ],
+                "pass_condition": "target record is JSON-primitive, owned by the local latent-prediction module, and does not claim MiniGrid planning success or native V-JEPA2-AC rollout reproduction",
+            },
             "vjepa2_ac_native_reproduction": {
                 "readiness_gate": "vjepa2_ac_native_reproduction",
                 "target_artifact": "reports/bedc_vjepa2_ac_native_reproduction.json",
@@ -236,6 +253,7 @@ def build_external_run_kit() -> dict[str, Any]:
         "quality_lab_export_command": "python scripts/build_bedc_jepa_quality_lab_export.py",
         "paper_writeback_packet_command": "python scripts/build_bedc_jepa_paper_writeback_packet.py",
         "latent_claim_certificate_command": "python scripts/run_bedc_latent_claim_certificate.py",
+        "multistep_latent_prediction_command": "python scripts/run_bedc_multistep_latent_prediction.py",
         "torch_retraining_loss_ablation_command": "python scripts/run_torch_retraining_loss_ablation.py",
         "public_baseline_native_metric_contract_command": (
             "python scripts/build_public_baseline_native_metric_contract.py"

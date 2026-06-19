@@ -59,6 +59,7 @@ def test_bedc_jepa_readiness_records_checkpoint_evaluation_and_open_native_gate(
     }
     remaining = readiness["remaining_evidence_contracts"]
     retraining = remaining["true_retraining_loss_ablation"]
+    multistep = remaining["multistep_latent_prediction"]
     native = remaining["vjepa2_ac_native_reproduction"]
     assert retraining["status"] == "closed"
     assert retraining["executed_rows"] == [
@@ -71,6 +72,15 @@ def test_bedc_jepa_readiness_records_checkpoint_evaluation_and_open_native_gate(
     assert retraining["source_debt_rows"] == []
     assert "stability_consistency" in retraining["supervision_surface_contract"]
     assert "intervention_bce" in retraining["supervision_surface_contract"]
+    assert multistep["status"] in {"closed", "missing", "source_debt"}
+    assert multistep["evidence"] == "reports/bedc_multistep_latent_prediction.json"
+    assert "rollout contract" in multistep["required_record"]
+    assert "predictor specs" in multistep["required_record"]
+    if multistep["status"] == "closed":
+        assert multistep["owner_module"] == "bedc_quality_lab.bedc_multistep_latent_prediction"
+        assert multistep["minigrid_planning_claim"] == "not_claimed"
+        assert multistep["predictor_family_count"] >= 1.0
+        assert multistep["run_count"] >= 1.0
     assert native["status"] == "not_evaluated"
     assert native["near_native_record_status"] == "evaluated_near_native"
     assert native["near_native_record"] == "reports/bedc_vjepa2_ac_native_reproduction.json"

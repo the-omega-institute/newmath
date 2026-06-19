@@ -24,6 +24,8 @@ The BEDC-JEPA evidence packet contains:
 - public V-JEPA2-AC Giant CUDA checkpoint-scope adapter evaluation;
 - fixed-checkpoint V-JEPA2-AC MiniGrid latent-prediction evaluation;
 - fixed-carrier V-JEPA2-AC latent-claim certificate record;
+- local multi-step latent-prediction smoke record with one rollout schema,
+  predictor spec, gate spec, and cannot-claim boundary;
 - true torch retraining loss-term ablation for `full_s3`,
   `minus_l_unlogged`, `minus_l_gap`, `minus_l_stab`, and
   `minus_l_intervention`;

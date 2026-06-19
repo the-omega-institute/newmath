@@ -1,12 +1,17 @@
+import json
+
 from bedc_quality_lab.torch_bedc_jepa import run_torch_retraining_loss_ablation
 
 
 def test_torch_retraining_loss_ablation_records_true_training_rows():
     packet = run_torch_retraining_loss_ablation(seeds=(101,), train_count=96, test_count=48, epochs=8)
 
+    json.dumps(packet)
     assert packet["schema_id"] == "bedc-jepa-retraining-loss-ablation"
     assert packet["status"] == "executed"
     assert packet["source"]["training"] == "torch-gradient-retraining"
+    assert isinstance(packet["torch_environment"]["device"], dict)
+    assert isinstance(packet["torch_environment"]["device"]["resolved_device"], str)
     assert set(packet["systems"]) == {
         "full_s3",
         "minus_l_unlogged",

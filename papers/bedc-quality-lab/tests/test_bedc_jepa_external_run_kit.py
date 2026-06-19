@@ -14,6 +14,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         "public_minigrid_calibration_extension",
         "public_benchmark_scope_contracts",
         "torch_retraining_loss_ablation",
+        "multistep_latent_prediction",
         "vjepa2_ac_native_reproduction",
         "vjepa2_ac_minigrid_claim_certificate",
         "vjepa2_ac_minigrid_latent_prediction",
@@ -27,6 +28,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     extension = kit["required_external_results"]["public_minigrid_calibration_extension"]
     benchmark_scope = kit["required_external_results"]["public_benchmark_scope_contracts"]
     retraining = kit["required_external_results"]["torch_retraining_loss_ablation"]
+    multistep = kit["required_external_results"]["multistep_latent_prediction"]
     native_reproduction = kit["required_external_results"]["vjepa2_ac_native_reproduction"]
     vjepa_lccp = kit["required_external_results"]["vjepa2_ac_minigrid_claim_certificate"]
     vjepa_latent = kit["required_external_results"]["vjepa2_ac_minigrid_latent_prediction"]
@@ -96,6 +98,15 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         in retraining["source_surface_contract"]["intervention_bce"]
     )
     assert "true retraining rows" in retraining["pass_condition"]
+    assert multistep["readiness_gate"] == "multistep_latent_prediction"
+    assert multistep["target_artifact"] == "reports/bedc_multistep_latent_prediction.json"
+    assert multistep["run_command"] == "python scripts/run_bedc_multistep_latent_prediction.py"
+    assert "rollout_contract" in multistep["required_fields"]
+    assert "predictor_specs" in multistep["required_fields"]
+    assert "hardgate" in multistep["required_fields"]
+    assert "runs" in multistep["required_fields"]
+    assert "summary" in multistep["required_fields"]
+    assert "MiniGrid planning success" in multistep["pass_condition"]
     assert native_reproduction["readiness_gate"] == "vjepa2_ac_native_reproduction"
     assert native_reproduction["target_artifact"] == "reports/bedc_vjepa2_ac_native_reproduction.json"
     assert native_reproduction["boundary_record"] == "reports/bedc_jepa_vjepa2_ac_native_boundary.json"
@@ -142,6 +153,10 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert (
         kit["latent_claim_certificate_command"]
         == "python scripts/run_bedc_latent_claim_certificate.py"
+    )
+    assert (
+        kit["multistep_latent_prediction_command"]
+        == "python scripts/run_bedc_multistep_latent_prediction.py"
     )
     assert (
         kit["torch_retraining_loss_ablation_command"]
