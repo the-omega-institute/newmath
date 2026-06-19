@@ -119,4 +119,20 @@ theorem MetricCompletionFiniteCarrier_namecert_obligations [AskSetup] [PackageSe
   }
   exact ⟨cert, provenancePkg, localNamePkg⟩
 
+theorem MetricCompletionFiniteCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {M B W E R S H C P N ledgerRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricCompletionFiniteCarrier M B W E R S H C P N bundle pkg →
+      Cont P N ledgerRead →
+        PkgSig bundle P pkg →
+          PkgSig bundle N pkg →
+            UnaryHistory ledgerRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier ledgerRoute provenancePkg localNamePkg
+  obtain ⟨_metricUnary, _basisUnary, _windowUnary, _embeddingUnary, _readbackUnary,
+    _selectorUnary, _transportUnary, _replayUnary, provenanceUnary, localNameUnary,
+    _carrierProvenancePkg, _carrierLocalNamePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed provenanceUnary localNameUnary ledgerRoute
+  exact ⟨ledgerUnary, provenancePkg, localNamePkg⟩
+
 end BEDC.Derived.MetricCompletionFiniteUp
