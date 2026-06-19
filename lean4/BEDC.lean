@@ -1373,6 +1373,7 @@ import BEDC.Derived.CalculusUp.IntegralSumObligation
 import BEDC.Derived.CalculusUp.LimitRealSealObligation
 import BEDC.Derived.CalculusUp.LocalLinearizationCarrier
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
+import BEDC.Derived.CalculusUp.LocatedCompactDependencyRoute
 import BEDC.Derived.CalculusUp.RealSealErrorBudget
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
 import BEDC.Derived.CalculusUp.RegSeqRatReadbackRootObligation
@@ -2521,6 +2522,7 @@ import BEDC.Derived.CausalCommitmentUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.RecordPredictionSeparation
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalInterventionUp
+import BEDC.Derived.CausalInterventionUp.NameCertObligations
 import BEDC.Derived.CausalInterventionUp.TasteGate
 import BEDC.Derived.CayleyHamiltonUp.TasteGate
 import BEDC.Derived.CayleyTheoremUp.TasteGate
@@ -3034,6 +3036,7 @@ import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
 import BEDC.Derived.CompactSubspaceModulusRestrictionUp.TasteGate
 import BEDC.Derived.CompactTotallyBoundedUp.TasteGate
+import BEDC.Derived.CompactUniformContinuityLedgerUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityModulusUp.TasteGate
 import BEDC.Derived.CompactUniformContinuitySchemeUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityUp
@@ -5391,6 +5394,7 @@ import BEDC.Derived.FilterCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
+import BEDC.Derived.FilterLimitBasisUp.WindowBasisExhaustion
 import BEDC.Derived.FilterLimitCriterionUp
 import BEDC.Derived.FilterRefinementUp.CauchyBaseDependency
 import BEDC.Derived.FilterRefinementUp.CauchyBasisConsumer
@@ -5712,6 +5716,7 @@ import BEDC.Derived.FiniteWitnessedRefutationUp
 import BEDC.Derived.FiniteWitnessedRefutationUp.CarrierAlignment
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.FirmNonexpansiveProjectionUp
+import BEDC.Derived.FirmNonexpansiveProjectionUp.TasteGate
 import BEDC.Derived.FirstCountableSequentialClosureUp.TasteGate
 import BEDC.Derived.FirstCountableSpaceUp
 import BEDC.Derived.FirstCountableSpaceUp.TasteGate
@@ -8329,6 +8334,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerInventoryKindLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObligationClosurePackage
 import BEDC.Derived.PaperLeanDriftWitnessUp.ResolutionConsumerReadiness
+import BEDC.Derived.PaperLeanDriftWitnessUp.StatusConsumerExactness
 import BEDC.Derived.PaperLeanDriftWitnessUp.UnresolvedMarkerRefusal
 import BEDC.Derived.PaperLeanDriftWitnessUp.VerdictLedgerTotality
 import BEDC.Derived.ParacompactUp.LocallyFiniteRefinement
