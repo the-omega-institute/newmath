@@ -65,6 +65,24 @@ The sibling $\HausdorffUniformCompletionUp$ consumer therefore reads the same se
 \end{proof}
 \leanchecked{BEDC.Derived.HausdorffCompletionEnvelopeUp.HausdorffCompletionEnvelopeCarrier\_sibling\_route}
 
+\begin{theorem}[Hausdorff completion envelope Cauchy-net consumer link]
+\label{thm:hausdorff-completion-envelope-forward-link}
+Every $\CauchyNetCompletionUp$ consumer of an accepted $\HausdorffCompletionEnvelopeUp$ carrier must read the same $\HausdorffSpaceUp$, $\SeparatedCompletionUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows before its directed-net completion route is consumed. The downstream sibling is \autoref{ch:concrete-instances-cauchynetcompletion-namecert}, and the handoff is the displayed route
+$$
+H,S,M,W,D,R,L \longmapsto \CauchyNetCompletionUp .
+$$
+It exports no quotient net, selected representative, host equality, countable-choice schedule, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(H,S,M,W,D,R,L,T,K,P,N)$ of \autoref{def:hausdorff-completion-envelope-carrier}. The only completion-facing rows available to a consumer are the Hausdorff row $H$, separated-completion row $S$, metric-completion route $M$, finite stream row $W$, dyadic tolerance row $D$, regular readback row $R$, and terminal Real row $L$.
+
+Apply \autoref{thm:hausdorff-completion-envelope-obligations}. It places $H,S,M,W,D,R,L$ inside one displayed packet before the structural rows $T,K,P,N$ are used for transport, replay, provenance, and local naming.
+
+Next use \autoref{thm:hausdorff-completion-envelope-separated-metric-route}. The separated boundary $H,S$ is already carried through the metric and Real-facing route $M,W,D,R,L$.
+
+Therefore a downstream $\CauchyNetCompletionUp$ read can only consume the envelope through the same separated metric route before its directed-net completion surface is inspected. Since the packet has no quotient-net, selected-representative, host-equality, countable-choice, or ambient-completeness row, none of those objects can enter the handoff.
+\end{proof}
+
 \begin{closurestatus}{\HausdorffCompletionEnvelopeUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:hausdorff-completion-envelope-carrier}, \autoref{thm:hausdorff-completion-envelope-obligations}, and \autoref{thm:hausdorff-completion-envelope-separated-metric-route} name the separated completion envelope surface for the L10 Real and Completion route.}

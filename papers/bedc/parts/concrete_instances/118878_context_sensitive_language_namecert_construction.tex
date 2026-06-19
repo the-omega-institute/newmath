@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ContextSensitiveLanguageUp$}
+\label{ch:concrete-instances-context-sensitive-language-namecert}
+\origin{human}
+
+Following Hopcroft--Ullman and the Chomsky hierarchy presentation of formal languages, the $\ContextSensitiveLanguageUp$ packet names accepted context-sensitive languages by finite noncontracting grammar rows and bounded acceptance ledgers before any consumer reads a host language set. It sits beside the accepted context-free language interface of \autoref{ch:concrete-instances-context-free-language-namecert}, the noncontracting grammar carrier of \autoref{ch:concrete-instances-context-sensitive-grammar-namecert}, and the context-free grammar syntax surface of \autoref{ch:concrete-instances-contextfreegrammar-namecert}. The packet records the accepted-language classifier induced by grammar production, length-nondecreasing derivation, and linear-bounded acceptance rows; it is not a host powerset of words, a grammar quotient, an unrestricted Turing-machine semantics, or an ambient decidability theorem.
+
+\begin{definition}[Context-sensitive language carrier]
+\label{def:context-sensitive-language-carrier}
+A $\ContextSensitiveLanguageUp$ carrier is a finite $\BHist$ packet
+$$
+L=(G,\Sigma,W,R,D,B,A,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the source $\ContextSensitiveGrammarUp$ row, exposing the noncontracting grammar packet of \autoref{ch:concrete-instances-context-sensitive-grammar-namecert}.
+\item $\Sigma$ is the finite terminal alphabet row and $W$ is the candidate word row, both read through finite list data before acceptance is inspected.
+\item $R$ is the grammar-production ledger, listing each production used by the acceptance certificate as a finite row over the displayed grammar.
+\item $D$ is the length-nondecreasing derivation ledger. Each derivation step records the predecessor word, successor word, occurrence window, production row from $R$, and the displayed length comparison.
+\item $B$ is the linear-bounded acceptance route, recording that the inspected sentential windows remain inside the finite bound determined by the input word and the displayed grammar rows.
+\item $A$ is the accepted-word row, available only after $G,\Sigma,W,R,D,B$ have been replayed.
+\item $M$ is the comparison row for $\ContextFreeLanguageUp$ and $\ContextFreeGrammarUp$ consumers that request weaker grammar-side or language-side surfaces.
+\item $H$ records componentwise $\hsame$ transport for the grammar source, terminal alphabet, word row, production ledger, derivation ledger, bounded route, accepted-word row, comparison row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a language-membership request through $G,\Sigma,W,R,D,B,A,M,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ContextSensitiveLanguageUp$, $\ContextSensitiveGrammarUp$, $\ContextFreeLanguageUp$, $\ContextFreeGrammarUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ContextSensitiveLanguageUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,\Sigma,W,R,D,B,A,M,H,C,P,N$. It has no coordinate for a host language set, a selected infinite derivation, a grammar quotient, unrestricted machine computation, complement closure, or global decidability.
+\end{definition}
+
+\begin{theorem}[Context-sensitive language NameCert obligations]
+\label{thm:context-sensitive-language-namecert-obligations}
+For every accepted $\ContextSensitiveLanguageUp$ carrier
+$$
+L=(G,\Sigma,W,R,D,B,A,M,H,C,P,N),
+$$
+the local $\NameCert_{\ContextSensitiveLanguageUp}$ surface consists exactly of source grammar admission through $G$, terminal and word admission through $\Sigma,W$, grammar-production admission through $R$, length-nondecreasing derivation replay through $D$, linear-bounded acceptance through $B$, accepted-word classification through $A$, sibling comparison through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+No accepted packet exports host language equality, an unrestricted machine semantics, a grammar quotient, a selected infinite derivation, complement closure, or ambient decidability.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:context-sensitive-language-carrier}. The source grammar row $G$, terminal alphabet row $\Sigma$, word row $W$, and production ledger $R$ are the only rows that can admit grammar syntax for the accepted-language read.
+
+The derivation and bounded-acceptance rows are downstream. The ledger $D$ records the applied production and the length comparison for each displayed step, while $B$ records that the inspected windows remain inside the linear bound attached to the input word and grammar rows.
+
+The accepted-word classifier $A$ is therefore available only after $G,\Sigma,W,R,D,B$ have been displayed. The comparison row $M$ may hand the finite surface to $\ContextFreeLanguageUp$ or $\ContextFreeGrammarUp$ consumers, but it cannot replace the local classifier by a host language set.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the refused objects are not carrier coordinates, no local NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[Grammar acceptance scope]
+\label{thm:context-sensitive-language-grammar-acceptance-scope}
+Every accepted-word read exported by a $\ContextSensitiveLanguageUp$ packet factors through the $\ContextSensitiveGrammarUp$ source row, the finite grammar-production ledger, the length-nondecreasing derivation ledger, and the linear-bounded acceptance route before any language-level consumer may inspect the accepted-word classifier. The handoff to $\ContextFreeLanguageUp$ and $\ContextFreeGrammarUp$ consumers preserves only that displayed grammar-and-acceptance route; it exports no host language set, unrestricted Turing-machine computation, quotient grammar equality, selected infinite derivation, or ambient decidability theorem.
+\end{theorem}
+\begin{proof}
+Start with the grammar source. By \autoref{def:context-sensitive-language-carrier}, every accepted-language packet reads $G$ before it reads a production ledger or accepted-word classifier.
+
+Apply \autoref{thm:context-sensitive-language-namecert-obligations}. The production ledger $R$, derivation ledger $D$, and bounded route $B$ are mandatory local obligations, so the accepted-word row $A$ cannot be inspected until the noncontracting grammar route and length-nondecreasing derivation route have been replayed.
+
+Now inspect the sibling comparison row $M$. It can expose the weaker context-free language or grammar-side surface only as a comparison of the displayed rows $G,\Sigma,W,R,D,B,A$; it has no coordinate for host language equality or a grammar quotient.
+
+Transport and replay through $H$ and $C$ preserve the same order, while $P$ and $N$ record provenance and local naming. Thus every consumer receives the finite grammar acceptance scope stated in the theorem and no unrestricted machine or semantic language object.
+\end{proof}
+
+\falsifiablePrediction{Every $\ContextSensitiveLanguageUp$ read factors through a $\ContextSensitiveGrammarUp$ source row, finite terminal and word rows, grammar-production ledger, length-nondecreasing derivation ledger, linear-bounded acceptance route, accepted-word classifier, sibling comparison row, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert_{\ContextSensitiveLanguageUp}$ rows.}
+
+\independenceWitness{contextfreelanguage, contextsensitivegrammar, contextfreegrammar: $\ContextSensitiveLanguageUp$ is not bijective to any listed sibling because it jointly carries an accepted-language classifier, noncontracting grammar source, length-nondecreasing derivation ledger, and linear-bounded acceptance route, while the siblings separately record context-free acceptance, grammar production syntax, or context-free grammar derivation rows.}
+
+\closureat{ContextSensitiveLanguageUp}{seedStr}
+
+\begin{closurestatus}{\ContextSensitiveLanguageUp}
+  \constructivestory{A $\ContextSensitiveLanguageUp$ packet is generated from a ContextSensitiveGrammarUp source row, finite terminal and word rows, grammar-production ledger, length-nondecreasing derivation ledger, linear-bounded acceptance route, accepted-word classifier, sibling comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:context-sensitive-language-carrier}, \autoref{thm:context-sensitive-language-namecert-obligations}, and \autoref{thm:context-sensitive-language-grammar-acceptance-scope} seed the accepted context-sensitive language surface over grammar production, length-nondecreasing derivation, linear-bounded acceptance, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unrestricted Turing-machine semantics, host language equality, complement closure, grammar quotient equality, selected infinite derivations, or global decidability.}
+  \upgradepath{Obligation closure requires checked source grammar admission, production-ledger exactness, derivation length monotonicity, linear-bounded acceptance replay, classifier transport, sibling comparison, provenance, and local naming for BEDC.Derived.ContextSensitiveLanguageUp.}
+\end{closurestatus}
