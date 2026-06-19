@@ -180,4 +180,116 @@ theorem TransferOperator_golden_mean_matrix_boundary [AskSetup] [PackageSetup]
   exact
     ⟨cert, goldenEmpty, matrixEmpty, supportRoute, entryRoute, rejectedOneOneNotEmpty, entryPkg⟩
 
+theorem TransferOperator_subshift_handoff [AskSetup] [PackageSetup]
+    {adjacency golden subshift fibonacci matrix classifier route provenance localName supportRead
+      entryRead transportedSubshift : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TransferOperatorCarrier adjacency golden subshift fibonacci matrix classifier route provenance
+        localName bundle pkg →
+      Cont adjacency golden supportRead →
+        Cont supportRead fibonacci entryRead →
+          hsame transportedSubshift subshift →
+            PkgSig bundle entryRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row transportedSubshift ∨ hsame row supportRead ∨
+                      hsame row entryRead)
+                  (fun row : BHist =>
+                    hsame row adjacency ∨ hsame row golden ∨ hsame row subshift ∨
+                      hsame row fibonacci ∨ hsame row matrix ∨ hsame row route ∨
+                        hsame row transportedSubshift ∨ hsame row entryRead)
+                  (fun _row : BHist =>
+                    Cont adjacency golden supportRead ∧ Cont supportRead fibonacci entryRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg ∧
+                        PkgSig bundle entryRead pkg)
+                  hsame ∧
+                hsame transportedSubshift route ∧ hsame supportRead route ∧
+                  hsame entryRead route ∧ Cont adjacency golden supportRead ∧
+                    Cont supportRead fibonacci entryRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle localName pkg ∧ PkgSig bundle entryRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier supportRoute entryRoute transportedSame entryPkg
+  obtain ⟨_classifierSelf, matrixEmpty, goldenEmpty, fibonacciEmpty, routeEmpty, matrixRoute,
+    adjacencyGolden, _subshiftFibonacci, provenancePkg, localNamePkg⟩ := carrier
+  have adjacencyRoute : hsame adjacency route := by
+    cases matrixEmpty
+    cases routeEmpty
+    exact matrixRoute
+  have subshiftRoute : hsame subshift route := by
+    have subshiftAdjacency : hsame subshift adjacency := by
+      cases goldenEmpty
+      exact adjacencyGolden.trans (append_empty_right adjacency)
+    exact hsame_trans subshiftAdjacency adjacencyRoute
+  have transportedRoute : hsame transportedSubshift route :=
+    hsame_trans transportedSame subshiftRoute
+  have supportReadRoute : hsame supportRead route := by
+    have supportReadAdjacency : hsame supportRead adjacency := by
+      cases goldenEmpty
+      exact supportRoute.trans (append_empty_right adjacency)
+    exact hsame_trans supportReadAdjacency adjacencyRoute
+  have entryReadRoute : hsame entryRead route := by
+    have entryReadSupport : hsame entryRead supportRead := by
+      cases fibonacciEmpty
+      exact entryRoute.trans (append_empty_right supportRead)
+    exact hsame_trans entryReadSupport supportReadRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row transportedSubshift ∨ hsame row supportRead ∨ hsame row entryRead)
+          (fun row : BHist =>
+            hsame row adjacency ∨ hsame row golden ∨ hsame row subshift ∨
+              hsame row fibonacci ∨ hsame row matrix ∨ hsame row route ∨
+                hsame row transportedSubshift ∨ hsame row entryRead)
+          (fun _row : BHist =>
+            Cont adjacency golden supportRead ∧ Cont supportRead fibonacci entryRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg ∧
+                PkgSig bundle entryRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro transportedSubshift (Or.inl (hsame_refl transportedSubshift))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          cases source with
+          | inl sameTransported =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameTransported)
+          | inr rest =>
+              cases rest with
+              | inl sameSupport =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameSupport))
+              | inr sameEntry =>
+                  exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameEntry))
+      }
+      pattern_sound := by
+        intro row source
+        cases source with
+        | inl sameTransported =>
+            exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+              (Or.inl sameTransported))))))
+        | inr rest =>
+            cases rest with
+            | inl sameSupport =>
+                exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                  (Or.inl (hsame_trans sameSupport supportReadRoute))))))
+            | inr sameEntry =>
+                exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                  (Or.inr sameEntry))))))
+      ledger_sound := by
+        intro _row _source
+        exact ⟨supportRoute, entryRoute, provenancePkg, localNamePkg, entryPkg⟩
+    }
+  exact
+    ⟨cert, transportedRoute, supportReadRoute, entryReadRoute, supportRoute, entryRoute,
+      provenancePkg, localNamePkg, entryPkg⟩
+
 end BEDC.Derived.TransferOperatorUp
