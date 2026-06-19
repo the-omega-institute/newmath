@@ -206,6 +206,23 @@ def ExtremeValuePacket (X F U M S R H C P N attainment : BHist) : Prop :=
       UnaryHistory P ∧ UnaryHistory N ∧ Cont X F U ∧ Cont U M S ∧
         Cont M S R ∧ Cont R N attainment
 
+theorem ExtremeValueCarrier_finite_net_attainment
+    {X F U M S R H C P N attainment valueRead : BHist} :
+    ExtremeValuePacket X F U M S R H C P N attainment →
+      Cont S R valueRead →
+        extremeValueFields (ExtremeValueUp.mk X F U M S R H C P N) =
+            [X, F, U, M, S, R, H, C, P, N] ∧
+          UnaryHistory U ∧ UnaryHistory S ∧ UnaryHistory valueRead ∧
+            Cont X F U ∧ Cont U M S ∧ Cont S R valueRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro packet valueRoute
+  obtain ⟨_sourceUnary, _mapUnary, modulusUnary, _foldUnary, supremumUnary, sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, sourceRoute, modulusRoute,
+    _sealRoute, _attainmentRoute⟩ := packet
+  have valueUnary : UnaryHistory valueRead :=
+    unary_cont_closed supremumUnary sealUnary valueRoute
+  exact ⟨rfl, modulusUnary, supremumUnary, valueUnary, sourceRoute, modulusRoute, valueRoute⟩
+
 theorem ExtremeValueNameCertObligations {X F U M S R H C P N attainment : BHist} :
     ExtremeValuePacket X F U M S R H C P N attainment →
       SemanticNameCert
