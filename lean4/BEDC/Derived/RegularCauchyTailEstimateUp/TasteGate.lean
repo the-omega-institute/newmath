@@ -1,12 +1,14 @@
 import BEDC.Derived.RegularCauchyTailEstimateUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyTailEstimateUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -222,5 +224,17 @@ theorem RegularCauchyTailEstimateTasteGate_single_carrier_alignment :
         intro x y heq
         exact regularCauchyTailEstimateToEventFlow_injective heq,
       rfl⟩
+
+theorem RegularCauchyTailEstimateCarrier_namecert_obligations
+    (M W D R E H C P N : BHist) (thresholdRoute : Cont M W D)
+    (sealRoute : Cont R E C) :
+    hsame D (append M W) ∧ hsame C (append R E) ∧
+      hsame (append (append M W) R) (append M (append W R)) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame append
+  constructor
+  · exact thresholdRoute
+  · constructor
+    · exact sealRoute
+    · exact append_assoc M W R
 
 end BEDC.Derived.RegularCauchyTailEstimateUp

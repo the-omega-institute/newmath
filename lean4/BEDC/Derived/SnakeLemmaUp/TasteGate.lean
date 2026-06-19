@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.SnakeLemmaUp
+namespace BEDC.Derived.SnakeLemmaUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,10 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive SnakeLemmaUp : Type where
-  | mk
-      (abelianSource upperExact lowerExact vertical kernel cokernel exactness boundary
-        transport replay provenance name : BHist) :
-      SnakeLemmaUp
+  | mk (A R0 R1 V K C E boundary H T P L : BHist) : SnakeLemmaUp
   deriving DecidableEq
 
 def snakeLemmaEncodeBHist : BHist → RawEvent
@@ -28,7 +25,7 @@ def snakeLemmaDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (snakeLemmaDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (snakeLemmaDecodeBHist tail)
 
-private theorem SnakeLemmaTasteGate_single_carrier_alignment_decode :
+private theorem snakeLemma_decode_encode_bhist :
     ∀ h : BHist, snakeLemmaDecodeBHist (snakeLemmaEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -37,16 +34,21 @@ private theorem SnakeLemmaTasteGate_single_carrier_alignment_decode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def snakeLemmaFields : SnakeLemmaUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | SnakeLemmaUp.mk abelianSource upperExact lowerExact vertical kernel cokernel exactness
-      boundary transport replay provenance name =>
-      [abelianSource, upperExact, lowerExact, vertical, kernel, cokernel, exactness,
-        boundary, transport, replay, provenance, name]
-
 def snakeLemmaToEventFlow : SnakeLemmaUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (snakeLemmaFields x).map snakeLemmaEncodeBHist
+  | SnakeLemmaUp.mk A R0 R1 V K C E boundary H T P L =>
+      [snakeLemmaEncodeBHist A,
+        snakeLemmaEncodeBHist R0,
+        snakeLemmaEncodeBHist R1,
+        snakeLemmaEncodeBHist V,
+        snakeLemmaEncodeBHist K,
+        snakeLemmaEncodeBHist C,
+        snakeLemmaEncodeBHist E,
+        snakeLemmaEncodeBHist boundary,
+        snakeLemmaEncodeBHist H,
+        snakeLemmaEncodeBHist T,
+        snakeLemmaEncodeBHist P,
+        snakeLemmaEncodeBHist L]
 
 private def snakeLemmaEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -55,63 +57,61 @@ private def snakeLemmaEventAt : Nat → EventFlow → RawEvent
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => snakeLemmaEventAt index rest
 
-def snakeLemmaFromEventFlow (eventFlow : EventFlow) : Option SnakeLemmaUp :=
+def snakeLemmaFromEventFlow : EventFlow → Option SnakeLemmaUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (SnakeLemmaUp.mk
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 0 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 1 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 2 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 3 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 4 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 5 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 6 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 7 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 8 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 9 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 10 eventFlow))
-      (snakeLemmaDecodeBHist (snakeLemmaEventAt 11 eventFlow)))
+  fun ef =>
+    some
+      (SnakeLemmaUp.mk
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 0 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 1 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 2 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 3 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 4 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 5 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 6 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 7 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 8 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 9 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 10 ef))
+        (snakeLemmaDecodeBHist (snakeLemmaEventAt 11 ef)))
 
-private theorem SnakeLemmaTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : SnakeLemmaUp, snakeLemmaFromEventFlow (snakeLemmaToEventFlow x) = some x := by
+private theorem snakeLemma_round_trip :
+    ∀ x : SnakeLemmaUp,
+      snakeLemmaFromEventFlow (snakeLemmaToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk abelianSource upperExact lowerExact vertical kernel cokernel exactness boundary
-      transport replay provenance name =>
+  | mk A R0 R1 V K C E boundary H T P L =>
       change
         some
             (SnakeLemmaUp.mk
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist abelianSource))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist upperExact))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist lowerExact))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist vertical))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist kernel))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist cokernel))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist exactness))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist A))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist R0))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist R1))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist V))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist K))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist C))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist E))
               (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist boundary))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist transport))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist replay))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist provenance))
-              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist name))) =
-          some
-            (SnakeLemmaUp.mk abelianSource upperExact lowerExact vertical kernel cokernel
-              exactness boundary transport replay provenance name)
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode abelianSource]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode upperExact]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode lowerExact]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode vertical]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode kernel]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode cokernel]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode exactness]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode boundary]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode transport]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode replay]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode provenance]
-      rw [SnakeLemmaTasteGate_single_carrier_alignment_decode name]
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist H))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist T))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist P))
+              (snakeLemmaDecodeBHist (snakeLemmaEncodeBHist L))) =
+          some (SnakeLemmaUp.mk A R0 R1 V K C E boundary H T P L)
+      rw [snakeLemma_decode_encode_bhist A,
+        snakeLemma_decode_encode_bhist R0,
+        snakeLemma_decode_encode_bhist R1,
+        snakeLemma_decode_encode_bhist V,
+        snakeLemma_decode_encode_bhist K,
+        snakeLemma_decode_encode_bhist C,
+        snakeLemma_decode_encode_bhist E,
+        snakeLemma_decode_encode_bhist boundary,
+        snakeLemma_decode_encode_bhist H,
+        snakeLemma_decode_encode_bhist T,
+        snakeLemma_decode_encode_bhist P,
+        snakeLemma_decode_encode_bhist L]
 
-private theorem SnakeLemmaTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : SnakeLemmaUp} :
+private theorem snakeLemmaToEventFlow_injective {x y : SnakeLemmaUp} :
     snakeLemmaToEventFlow x = snakeLemmaToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -120,21 +120,8 @@ private theorem SnakeLemmaTasteGate_single_carrier_alignment_toEventFlow_injecti
         snakeLemmaFromEventFlow (snakeLemmaToEventFlow y) :=
     congrArg snakeLemmaFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (SnakeLemmaTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (SnakeLemmaTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem SnakeLemmaTasteGate_single_carrier_alignment_fields :
-    ∀ x y : SnakeLemmaUp, snakeLemmaFields x = snakeLemmaFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk abelianSource1 upperExact1 lowerExact1 vertical1 kernel1 cokernel1 exactness1
-      boundary1 transport1 replay1 provenance1 name1 =>
-      cases y with
-      | mk abelianSource2 upperExact2 lowerExact2 vertical2 kernel2 cokernel2 exactness2
-          boundary2 transport2 replay2 provenance2 name2 =>
-          cases hfields
-          rfl
+    (Eq.trans (snakeLemma_round_trip x).symm
+      (Eq.trans hread (snakeLemma_round_trip y)))
 
 instance snakeLemmaBHistCarrier : BHistCarrier SnakeLemmaUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -146,42 +133,21 @@ instance snakeLemmaChapterTasteGate : ChapterTasteGate SnakeLemmaUp where
   round_trip := by
     intro x
     change snakeLemmaFromEventFlow (snakeLemmaToEventFlow x) = some x
-    exact SnakeLemmaTasteGate_single_carrier_alignment_round_trip x
+    exact snakeLemma_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (SnakeLemmaTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance snakeLemmaFieldFaithful : FieldFaithful SnakeLemmaUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := snakeLemmaFields
-  field_faithful := SnakeLemmaTasteGate_single_carrier_alignment_fields
-
-instance snakeLemmaNontrivial : Nontrivial SnakeLemmaUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨SnakeLemmaUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      SnakeLemmaUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def taste_gate : ChapterTasteGate SnakeLemmaUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  snakeLemmaChapterTasteGate
+    exact hxy (snakeLemmaToEventFlow_injective heq)
 
 theorem SnakeLemmaTasteGate_single_carrier_alignment :
     (∀ h : BHist, snakeLemmaDecodeBHist (snakeLemmaEncodeBHist h) = h) ∧
-      (∀ x : SnakeLemmaUp, snakeLemmaFromEventFlow (snakeLemmaToEventFlow x) = some x) ∧
-        (∀ x y : SnakeLemmaUp, snakeLemmaToEventFlow x = snakeLemmaToEventFlow y → x = y) ∧
+      Nonempty (BHistCarrier SnakeLemmaUp) ∧
+        Nonempty (ChapterTasteGate SnakeLemmaUp) ∧
           snakeLemmaEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨SnakeLemmaTasteGate_single_carrier_alignment_decode,
-      SnakeLemmaTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => SnakeLemmaTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+    ⟨snakeLemma_decode_encode_bhist,
+      ⟨snakeLemmaBHistCarrier⟩,
+      ⟨snakeLemmaChapterTasteGate⟩,
       rfl⟩
 
-end BEDC.Derived.SnakeLemmaUp
+end BEDC.Derived.SnakeLemmaUp.TasteGate

@@ -9102,6 +9102,7 @@ import BEDC.Derived.RealTailAgreementSealUp.TerminalRoute
 import BEDC.Derived.RealTailAgreementSealUp.WindowAgreementDeterminacy
 import BEDC.Derived.RealTailAgreementSealUp.WindowRoute
 import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
+import BEDC.Derived.RealTailDiameterGaugeUp.TasteGate
 import BEDC.Derived.RealTightnessUp.TasteGate
 import BEDC.Derived.RealTriangleInequalityUp.TasteGate
 import BEDC.Derived.RealUniformCauchyFilterCompletionUp
@@ -9778,6 +9779,7 @@ import BEDC.Derived.RegularityModulusUp.ObligationCompleteness
 import BEDC.Derived.RegulatedCauchyIntegralUp
 import BEDC.Derived.RegulatedCauchyIntegralUp.TasteGate
 import BEDC.Derived.RegulatedCauchyModulusUp
+import BEDC.Derived.RegulatedCauchyModulusUp.TasteGate
 import BEDC.Derived.RegulatedConvergenceUp.Core
 import BEDC.Derived.RegulatedConvergenceUp.TasteGate
 import BEDC.Derived.RegulatedFunctionCompactOscillationUp.TasteGate
@@ -9859,6 +9861,7 @@ import BEDC.Derived.RiemannLebesgueLemmaUp.OscillatoryHandoff
 import BEDC.Derived.RiemannLebesgueLemmaUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannRearrangementUp.TasteGate
+import BEDC.Derived.RiemannRefinementCriterionUp.TasteGate
 import BEDC.Derived.RiemannRemovableDiscontinuityUp
 import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate
 import BEDC.Derived.RiemannStieltjesUp.MeshHandoff
