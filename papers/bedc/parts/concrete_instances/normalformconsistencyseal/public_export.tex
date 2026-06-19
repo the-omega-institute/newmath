@@ -1,0 +1,17 @@
+\begin{theorem}[Normal-form consistency seal public export]
+\label{thm:normal-form-consistency-seal-public-export}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted $\NormalFormConsistencySealUp$ packet. Its public export is exactly the consumer-facing route through the candidate route, closed-normal frontier, residual schedule, componentwise transport, continuation replay, provenance, and local naming rows:
+$$
+T,F,N,K,X,H,C,P,L .
+$$
+Every MetaCIC critical-path or confluence-facing consumer may cite that route as a public seal surface only after the candidate evidence, closed-normal frontier rows, residual schedule rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row are displayed. The export supplies no closed subject reduction, hidden normalization transport, evaluator equality, quotient syntax equality, or host equality.
+\end{theorem}
+\begin{proof}
+Start with the candidate route and closed-normal frontier. Theorems~\ref{thm:normal-form-consistency-seal-candidate-route} and~\ref{thm:normal-form-consistency-seal-closed-normal-frontier} force every normal-endpoint read to pass through the displayed candidate evidence and the rows $T,F,N,K,X$ before it can be consumed.
+
+Next use the residual schedule and determinacy rows. Theorems~\ref{thm:normal-form-consistency-seal-residual-schedule-discharge} and~\ref{thm:normal-form-consistency-seal-finite-window-determinacy} keep strong-normalization and confluence-facing reads inside the same finite schedule and prevent a second residual route from being opened.
+
+The transport, replay, provenance, and local naming rows are fixed by \autoref{thm:normal-form-consistency-seal-continuation-replay}, \autoref{thm:normal-form-consistency-seal-provenance-exactness}, and \autoref{thm:normal-form-consistency-seal-local-naming-boundary}. These theorems identify the public support rows as $H,C,P,L$ and do not add any hidden normalization coordinate.
+
+Finally apply \autoref{thm:normal-form-consistency-seal-candidate-boundary} and \autoref{thm:normal-form-consistency-seal-metacic-critical-path-handoff}. They package the same rows for MetaCIC and confluence-facing consumers while keeping closed subject reduction, evaluator equality, quotient syntax equality, and host equality outside the packet. Thus the public export is exactly the displayed finite surface.
+\end{proof}

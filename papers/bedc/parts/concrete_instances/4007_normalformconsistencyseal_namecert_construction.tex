@@ -751,17 +751,19 @@ The residual schedule, candidate boundary, and MetaCIC handoff then repack the s
 \end{proof}
 \leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealObligationClosureRoute}
 
+\input{parts/concrete_instances/normalformconsistencyseal/public_export.tex}
+
 \closureat{NormalFormConsistencySealUp}{seedStr}
 \closureat{NormalFormConsistencySealUp}{obligationStr}
 \closureat{NormalFormConsistencySealUp}{scopedStr}
 
 \begin{closurestatus}{\NormalFormConsistencySealUp}
   \constructivestory{A $\NormalFormConsistencySealUp$ packet is generated from closed-context typing, false-type, beta-strong normality, closed-normal consistency, subject-reduction boundary, transport, continuation, provenance, and local naming rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:normal-form-consistency-seal-carrier}, \autoref{thm:normal-form-consistency-seal-obligations}, \autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}, \autoref{thm:normal-form-consistency-seal-nonescape}, \autoref{thm:normal-form-consistency-seal-continuation-replay}, \autoref{thm:normal-form-consistency-seal-provenance-exactness}, \autoref{thm:normal-form-consistency-seal-local-naming-boundary}, and \autoref{thm:normal-form-consistency-seal-obligation-closure-route} bind carrier admission, boundary routing, normal-form non-escape, continuation replay, provenance, local naming, and the finite obligation route for the same seal packet.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:normal-form-consistency-seal-carrier}, \autoref{thm:normal-form-consistency-seal-obligations}, \autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}, \autoref{thm:normal-form-consistency-seal-nonescape}, \autoref{thm:normal-form-consistency-seal-continuation-replay}, \autoref{thm:normal-form-consistency-seal-provenance-exactness}, \autoref{thm:normal-form-consistency-seal-local-naming-boundary}, \autoref{thm:normal-form-consistency-seal-obligation-closure-route}, and \autoref{thm:normal-form-consistency-seal-public-export} bind carrier admission, boundary routing, normal-form non-escape, continuation replay, provenance, local naming, the finite obligation route, and the public export surface for the same seal packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter keeps full closed consistency, closed subject reduction, hidden normalization transport, and host equality outside the finite seal.}
-  \upgradepath{Public closure would require a consumer-facing bridge that exports the scoped seal without adding closed subject reduction, hidden normalization transport, or host equality.}
+  \upgradepath{Bridged closure requires a bridge from this public export surface to the abstract MetaCIC consistency interface without adding closed subject reduction, hidden normalization transport, or host equality.}
 \end{closurestatus}
