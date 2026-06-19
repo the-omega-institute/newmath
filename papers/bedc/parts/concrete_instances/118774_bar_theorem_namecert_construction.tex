@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\BarTheoremUp$}
+\label{ch:concrete-instances-bar-theorem-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen, the $\BarTheoremUp$ packet records a constructive stream/bar boundary as finite NameCert data rather than as a selected infinite branch or a countable-choice principle. It sits after the fan-bar boundary of \autoref{ch:concrete-instances-fantheorem-namecert}, the inductive bar route of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-seal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a displayed finite bar interface before they read a stream boundary as a real endpoint.
+
+\begin{definition}[Bar theorem carrier]
+\label{def:bar-theorem-carrier}
+A $\BarTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+B=(F,T,M,U,S,R,D,A,H,C,P,N)
+$$
+over $\FanTheoremUp$, $\BrouwerBarInductionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite bar predicate row, naming the decidable prefix checks admitted by the packet.
+\item $T$ is the finite prefix tree row whose nodes are the stream prefixes inspected before a bar hit is claimed.
+\item $M$ records monotone coverage: once a displayed prefix is accepted by $F$, every displayed extension inside $T$ remains covered.
+\item $U$ is the fan-bound handoff row, exposing the finite bound supplied through the $\FanTheoremUp$ and $\BrouwerBarInductionUp$ surfaces.
+\item $S$ records the $\StreamNameUp$ windows inspected by the prefix tree.
+\item $R$ records the $\RegSeqRatUp$ readback associated with the displayed stream windows.
+\item $D$ records the $\DyadicRatCoreUp$ tolerance ledger used when the readback is compared across covered prefixes.
+\item $A$ is the downstream $\RealUp$ seal row, available only after the bar predicate, tree, coverage, fan-bound handoff, stream windows, regular readback, and dyadic tolerance rows have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the bar predicate, prefix tree, monotone coverage, bound, window, readback, tolerance, seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion request back through $A,D,R,S,U,M,T,F$.
+\item $P$ is the $\Pkg$ provenance over the listed constructive bar, stream, rational, dyadic, real, transport, continuation, package, and naming dependencies.
+\item $N$ is the local $\NameCert_{\BarTheoremUp}$ row.
+\end{enumerate}
+The carrier exports no selected infinite branch, no countable-choice functional, no quotient stream, and no ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Bar theorem NameCert obligations]
+\label{thm:bar-theorem-namecert-obligations}
+For every accepted $\BarTheoremUp$ carrier $B=(F,T,M,U,S,R,D,A,H,C,P,N)$, the local $\NameCert_{\BarTheoremUp}$ surface consists exactly of carrier admission for the finite bar predicate, prefix tree, monotone coverage, fan-bound handoff, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, componentwise transport, displayed replay, provenance, and local naming rows. A consumer may inspect the bar theorem boundary only through those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $F,T,M,U,S,R,D,A,H,C,P,N$ are the complete finite inventory available to a NameCert consumer.
+
+The constructive bar part is read through $F,T,M,U$. The predicate row names the accepted prefix checks, the tree row displays the inspected prefixes, the monotone row keeps coverage stable under displayed extension, and the handoff row exposes the finite bound through the fan and bar-induction siblings.
+
+The stream and Real-facing part is read through $S,R,D,A$. StreamName windows supply the inspected stream prefixes, RegSeqRat gives the regular rational readback, DyadicRatCore records the tolerance ledger, and the Real seal is downstream of those rows.
+
+Finally $H,C,P,N$ transport, replay, cite, and name only the same coordinates. Since the carrier has no selected branch, countable-choice, quotient-stream, or ambient-completeness coordinate, none of those objects is exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bar theorem Real and Completion boundary]
+\label{thm:bar-theorem-real-completion-boundary}
+Every Real or Completion consumer of an accepted $\BarTheoremUp$ packet must expose the displayed route
+$$
+F,T,M,U,S,R,D \longmapsto A .
+$$
+Thus a completion-facing read of the bar boundary passes through the finite bar predicate, prefix tree, monotone coverage, fan-bound handoff, StreamName windows, RegSeqRat readback, and DyadicRatCore tolerance ledger before it may read the $\RealUp$ seal. The route is finite NameCert replay, not a selected infinite branch, countable choice, quotient stream, or ambient Real completeness claim.
+\end{theorem}
+\begin{proof}
+Start with a consumer that asks for the Real seal row $A$. Carrier admission shows that $A$ is not standalone; it is a coordinate of the same packet as $F,T,M,U,S,R,D$.
+
+Replay the bar route first. The prefix request is checked against $T$, coverage is certified through $F$ and $M$, and the finite handoff bound is supplied by $U$ through the fan and bar-induction provenance rows.
+
+Replay the stream route next. The inspected prefixes are read through $S$, their regular rational data through $R$, and their dyadic tolerance comparisons through $D$.
+
+Transport by $H$ preserves this route componentwise, while $C,P,N$ only replay, cite, and name the displayed packet. Therefore a Real or Completion consumer receives the seal row only after the finite bar route has been exposed, and no hidden branch, choice functional, quotient stream, or ambient completeness theorem is introduced.
+\end{proof}
+
+\begin{closurestatus}{\BarTheoremUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bar-theorem-carrier}, \autoref{thm:bar-theorem-namecert-obligations}, and \autoref{thm:bar-theorem-real-completion-boundary} seed the finite constructive bar boundary consumed by Real and Completion chapters.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite branches, countable choice, quotient streams, ambient Real completeness, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone coverage, fan-bound handoff, Real-seal boundary replay, and refusal of hidden branch or choice data for the same packet.}
+  \constructivestory{A $\BarTheoremUp$ packet is generated from a finite bar predicate, prefix tree, monotone coverage row, fan-bound handoff, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+\end{closurestatus}
