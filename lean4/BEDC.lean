@@ -793,6 +793,7 @@ import BEDC.Derived.BanachSpaceUp.VectorOperationTransportObligation
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
+import BEDC.Derived.BarTheoremUp.TasteGate
 import BEDC.Derived.BareObjectRefusalUp.TasteGate
 import BEDC.Derived.BareissFractionFreeEliminationUp.TasteGate
 import BEDC.Derived.BayesianUp
@@ -5381,6 +5382,7 @@ import BEDC.Derived.FilterSubbasisCofinalCompletionUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.FilteredCauchyCompletionUp.TasteGate
 import BEDC.Derived.FiniteAutomatonUp.TasteGate
+import BEDC.Derived.FiniteBorelCantelliUp.TasteGate
 import BEDC.Derived.FiniteBracketingIntervalUp.TasteGate
 import BEDC.Derived.FiniteBranchingCauchyTreeUp.TasteGate
 import BEDC.Derived.FiniteCauchyApproximationUp
@@ -7042,6 +7044,7 @@ import BEDC.Derived.MercerTheoremUp.TasteGate
 import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
+import BEDC.Derived.MetaCICBetaAuditUp
 import BEDC.Derived.MetaCICBetaAuditUp.SubjectReductionObstructionLedger
 import BEDC.Derived.MetaCICBetaAuditUp.TasteGate
 import BEDC.Derived.MetaCICCandidateNormalizationWitnessUp
