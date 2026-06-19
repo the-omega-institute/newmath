@@ -79,12 +79,26 @@ Then apply \autoref{thm:convergent-net-cauchy-handoff}. A metric-completion or u
 Since the carrier omits selected host limits, quotient nets, choice operators, host equality, and ambient completeness, no completion consumer can bypass this order or turn the convergence packet into a selected limit object.
 \end{proof}
 
+\begin{theorem}[ConvergentNet limit handoff]
+\label{thm:convergent-net-limit-handoff}
+Let $G=(D,V,T,L,M,C,H,K,P,N)$ be an accepted $\ConvergentNetUp$ packet. Every accepted limit read of $G$ must expose the $\DirectedSetUp$ row $D$, the net-value row $V$, the convergence-test row $T$, the boundary row $L$, the $\MooreSmithConvergenceUp$ row $M$, the optional $\CauchyNetUp$ row $C$, componentwise transport $H$, continuation replay $K$, provenance $P$, and the local $\NameCert_{\ConvergentNetUp}$ row $N$ before any $\MetricCompletionUp$ or $\UniformCompletionUp$ consumer can read the packet as completion-facing data. The read exports the Moore--Smith boundary only through this finite row order and exports no quotient net, selected host limit, countable-choice selector, cofinal-choice operator, host equality of boundary points, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:convergent-net-namecert-obligations}. Its carrier admission and exposure clauses display exactly $D,V,T,L,M,C,H,K,P,N$, while its ledger refusal excludes quotient nets, selected limits, choice operators, host equality, and ambient completeness.
+
+The limit-facing part is the Moore--Smith boundary row. Boundary exposure and Moore--Smith packaging force a read through $D,V,T,L,M$ before the packet can be treated as a convergent-net boundary.
+
+For completion consumers, apply \autoref{thm:convergent-net-cauchy-handoff}. The optional Cauchy-tail row $C$ is the only displayed Cauchy-directed handoff, and it is read after the Moore--Smith route rather than as a separate completion object.
+
+Finally, use \autoref{thm:convergent-net-completion-consumer-boundary}. It states that $\MetricCompletionUp$ and $\UniformCompletionUp$ consumers receive only the finite route named by the carrier rows, so the accepted limit read is exactly the Moore--Smith boundary row plus the listed structural support before completion consumption.
+\end{proof}
+
 \closureat{ConvergentNetUp}{seedStr}
 
 \begin{closurestatus}{\ConvergentNetUp}
   \constructivestory{A $\ConvergentNetUp$ packet is generated from a DirectedSet index-window row, net values, convergence tests, a displayed boundary row, Moore--Smith convergence data, optional CauchyNet tail evidence, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:convergent-net-carrier}, \autoref{thm:convergent-net-namecert-obligations}, \autoref{thm:convergent-net-cauchy-handoff}, and \autoref{thm:convergent-net-completion-consumer-boundary} seed the finite convergent-net surface between directed index data, Moore--Smith convergence, and completion-consumer handoff.}
+  \scopeclosed{\autoref{def:convergent-net-carrier}, \autoref{thm:convergent-net-namecert-obligations}, \autoref{thm:convergent-net-cauchy-handoff}, \autoref{thm:convergent-net-completion-consumer-boundary}, and \autoref{thm:convergent-net-limit-handoff} seed the finite convergent-net surface between directed index data, Moore--Smith convergence, limit handoff, and completion-consumer handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient nets, selected host limits, countable choice, cofinal choice, host equality of boundary points, ambient completeness, Lean verification, or bridge checking.}
