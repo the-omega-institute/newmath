@@ -1,0 +1,123 @@
+{
+  "arms": {
+    "arm_ids": [
+      "control",
+      "bedc"
+    ],
+    "bedc": {
+      "mean": 0.48922,
+      "n": 4
+    },
+    "control": {
+      "mean": 0.449122,
+      "n": 4
+    },
+    "metric": "success",
+    "paired_delta": 0.040098
+  },
+  "artifact_id": "bedc-quality-lab:minigrid-doorkey-ood-adjudication",
+  "execution_mode": "smoke",
+  "generated_at": "2026-06-19T14:43:57.884120+00:00",
+  "gpu_evidence": {
+    "public_evidence": false,
+    "requested_device": "cpu",
+    "schema_id": "bedc-gpu-evidence",
+    "status": "not-required-for-smoke"
+  },
+  "not_claimed": [
+    "No public DoorKey OOD win or falsification claim unless verdict.status is win or falsify.",
+    "No claim that smoke execution is publication evidence.",
+    "No generic canonical dashboard refresh ownership."
+  ],
+  "paired_bootstrap": {
+    "ci95_high": 0.069373,
+    "ci95_low": 0.010823,
+    "mean_delta": 0.040098,
+    "metric": "paired_delta_success",
+    "resamples": 256,
+    "status": "pass"
+  },
+  "producer": "bedc_quality_lab.minigrid_doorkey_ood_adjudication",
+  "schema_id": "bedc-quality-lab:minigrid-doorkey-ood-adjudication",
+  "source_ref": "gh-issue-1683",
+  "spec": {
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "falsify_rule": "public falsify requires paired bootstrap ci95_high at or below zero",
+    "primary_metric": "success",
+    "public_evidence_minima": {
+      "device": "cuda",
+      "eval_episodes_per_seed": 100,
+      "seed_count": 3
+    },
+    "run_directory": "reports/runs/minigrid-doorkey-ood-adjudication/smoke-issue1553",
+    "run_id": "smoke-issue1553",
+    "success_rule": "public win requires paired bootstrap ci95_low above the predeclared margin"
+  },
+  "split_audit": {
+    "duplicate_episode_keys": false,
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "episode_count": 4,
+    "missing_splits": [],
+    "rows": [
+      {
+        "bedc_mean": 0.49246,
+        "control_mean": 0.482984,
+        "delta_mean": 0.009475,
+        "n": 1,
+        "seeds": [
+          101
+        ],
+        "split_id": "door-unlocked"
+      },
+      {
+        "bedc_mean": 0.606838,
+        "control_mean": 0.52444,
+        "delta_mean": 0.082398,
+        "n": 1,
+        "seeds": [
+          101
+        ],
+        "split_id": "door-locked"
+      },
+      {
+        "bedc_mean": 0.481089,
+        "control_mean": 0.424742,
+        "delta_mean": 0.056347,
+        "n": 1,
+        "seeds": [
+          101
+        ],
+        "split_id": "key-in-room"
+      },
+      {
+        "bedc_mean": 0.376493,
+        "control_mean": 0.364324,
+        "delta_mean": 0.01217,
+        "n": 1,
+        "seeds": [
+          101
+        ],
+        "split_id": "blocked-corridor"
+      }
+    ],
+    "seed_count": 1,
+    "split_ids": [
+      "door-unlocked",
+      "door-locked",
+      "key-in-room",
+      "blocked-corridor"
+    ],
+    "status": "pass"
+  },
+  "verdict": {
+    "public_evidence": false,
+    "public_gate_failures": [
+      "execution_mode_not_full",
+      "insufficient_seed_count",
+      "insufficient_eval_episodes",
+      "gpu_evidence_not_public"
+    ],
+    "reason": "report is structurally valid but not public adjudication evidence",
+    "status": "not_public_evidence"
+  }
+}

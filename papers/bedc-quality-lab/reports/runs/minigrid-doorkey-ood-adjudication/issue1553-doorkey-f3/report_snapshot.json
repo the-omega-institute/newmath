@@ -1,0 +1,151 @@
+{
+  "arms": {
+    "arm_ids": [
+      "control",
+      "bedc"
+    ],
+    "bedc": {
+      "mean": 0.482541,
+      "n": 1500
+    },
+    "control": {
+      "mean": 0.441357,
+      "n": 1500
+    },
+    "metric": "success",
+    "paired_delta": 0.041183
+  },
+  "artifact_id": "bedc-quality-lab:minigrid-doorkey-ood-adjudication",
+  "execution_mode": "full",
+  "generated_at": "2026-06-19T14:44:07.029554+00:00",
+  "gpu_evidence": {
+    "nvidia_smi": {
+      "available": false,
+      "command": "nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader",
+      "gpus": [],
+      "returncode": null,
+      "stderr": "[Errno 2] No such file or directory: 'nvidia-smi'",
+      "stdout": ""
+    },
+    "public_evidence": false,
+    "schema_id": "bedc-gpu-evidence",
+    "torch": {
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_device_name": "NVIDIA GeForce RTX 4090",
+      "device_resolution": {
+        "backend_details": {
+          "cuda_available": true,
+          "mps_available": false,
+          "torch": "2.6.0+cu124"
+        },
+        "requested_device": "cuda",
+        "resolution_reason": "explicit-cuda-available",
+        "resolution_status": "available",
+        "resolved_device": "cuda"
+      },
+      "version": "2.6.0+cu124"
+    }
+  },
+  "not_claimed": [
+    "No public DoorKey OOD win or falsification claim unless verdict.status is win or falsify.",
+    "No claim that smoke execution is publication evidence.",
+    "No generic canonical dashboard refresh ownership."
+  ],
+  "paired_bootstrap": {
+    "ci95_high": 0.042621,
+    "ci95_low": 0.039799,
+    "mean_delta": 0.041183,
+    "metric": "paired_delta_success",
+    "resamples": 256,
+    "status": "pass"
+  },
+  "producer": "bedc_quality_lab.minigrid_doorkey_ood_adjudication",
+  "schema_id": "bedc-quality-lab:minigrid-doorkey-ood-adjudication",
+  "source_ref": "gh-issue-1683",
+  "spec": {
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "falsify_rule": "public falsify requires paired bootstrap ci95_high at or below zero",
+    "primary_metric": "success",
+    "public_evidence_minima": {
+      "device": "cuda",
+      "eval_episodes_per_seed": 100,
+      "seed_count": 3
+    },
+    "run_directory": "reports/runs/minigrid-doorkey-ood-adjudication/issue1553-doorkey-f3",
+    "run_id": "issue1553-doorkey-f3",
+    "success_rule": "public win requires paired bootstrap ci95_low above the predeclared margin"
+  },
+  "split_audit": {
+    "duplicate_episode_keys": false,
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "episode_count": 1500,
+    "missing_splits": [],
+    "rows": [
+      {
+        "bedc_mean": 0.509429,
+        "control_mean": 0.468399,
+        "delta_mean": 0.04103,
+        "n": 375,
+        "seeds": [
+          101,
+          102,
+          103
+        ],
+        "split_id": "door-unlocked"
+      },
+      {
+        "bedc_mean": 0.498573,
+        "control_mean": 0.455334,
+        "delta_mean": 0.043239,
+        "n": 375,
+        "seeds": [
+          101,
+          102,
+          103
+        ],
+        "split_id": "door-locked"
+      },
+      {
+        "bedc_mean": 0.472285,
+        "control_mean": 0.431011,
+        "delta_mean": 0.041274,
+        "n": 375,
+        "seeds": [
+          101,
+          102,
+          103
+        ],
+        "split_id": "key-in-room"
+      },
+      {
+        "bedc_mean": 0.449877,
+        "control_mean": 0.410686,
+        "delta_mean": 0.039192,
+        "n": 375,
+        "seeds": [
+          101,
+          102,
+          103
+        ],
+        "split_id": "blocked-corridor"
+      }
+    ],
+    "seed_count": 3,
+    "split_ids": [
+      "door-unlocked",
+      "door-locked",
+      "key-in-room",
+      "blocked-corridor"
+    ],
+    "status": "pass"
+  },
+  "verdict": {
+    "public_evidence": false,
+    "public_gate_failures": [
+      "gpu_evidence_not_public"
+    ],
+    "reason": "report is structurally valid but not public adjudication evidence",
+    "status": "not_public_evidence"
+  }
+}
