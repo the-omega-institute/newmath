@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CylinderObjectUp$}
+\label{ch:concrete-instances-cylinder-object-namecert}
+\origin{human}
+
+Following Quillen's model-category cylinder objects, the $\CylinderObjectUp$ packet records the finite BEDC row that factors the fold map from two displayed copies of one object through a weak-equivalence face. It sits after the model-category carrier of \autoref{ch:concrete-instances-modelcat-namecert}, the category dependency of \autoref{ch:concrete-instances-category-namecert}, the cofibrant-replacement witness of \autoref{ch:concrete-instances-cofibrantreplacement-namecert}, and the homotopy ledger of \autoref{ch:concrete-instances-homotopy-namecert}. The packet names one displayed cylinder for one object; it does not export functorial cylinders, mapping cylinders, homotopy-category quotients, derived mapping spaces, or a global replacement choice.
+
+\begin{definition}[Cylinder object carrier]
+\label{def:cylinder-object-carrier}
+A $\CylinderObjectUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(M,X,I_0,I_1,C,W,F,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\ModelCatUp$ row supplying the category, cofibration, fibration, weak-equivalence, lifting, and factorization surfaces.
+\item $X$ is the displayed object row over the $\CategoryUp$ surface of $M$.
+\item $I_0$ and $I_1$ are the two endpoint inclusion rows from $X$ into the candidate cylinder row.
+\item $C$ is the cylinder-object row through which the fold request on the two copies of $X$ factors.
+\item $W$ is the weak-equivalence ledger marking the projection from $C$ back to the displayed object row.
+\item $F$ is the finite factorization row read from the $\ModelCatUp$ factorization surface.
+\item $H$ is the $\HomotopyUp$ ledger that records the homotopy-facing interpretation of the displayed weak-equivalence row.
+\item $R$ is the $\CofibrantReplacementUp$ dependency row when the object is read through a displayed cofibrant witness.
+\item $P$ is the $\Pkg$ provenance over $\CylinderObjectUp$, $\ModelCatUp$, $\CategoryUp$, $\CofibrantReplacementUp$, $\HomotopyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CylinderObjectUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,X,I_0,I_1,C,W,F,H,R,P,N$. It has no coordinate for a functorial cylinder assignment, mapping-cylinder construction, host homotopy category, derived mapping space, quotient weak-equivalence calculus, or global replacement choice.
+\end{definition}
+\leanstmt{BEDC.Derived.CylinderObjectUp}
+
+\begin{theorem}[Cylinder object NameCert obligations]
+\label{thm:cylinder-object-namecert-obligations}
+For every accepted $\CylinderObjectUp$ carrier $Z=(M,X,I_0,I_1,C,W,F,H,R,P,N)$, the local $\NameCert_{\CylinderObjectUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item endpoint admission, requiring $I_0$ and $I_1$ to be displayed as the two copies of $X$ entering the cylinder row $C$;
+\item model-category factorization, requiring $F$ to read the factorization surface supplied by $M$ before $C$ can be consumed;
+\item weak-equivalence projection, requiring $W$ to mark the projection from $C$ back to $X$ inside the weak-equivalence row of $M$;
+\item homotopy and cofibrant-replacement compatibility, requiring $H$ and $R$ to be read only as the displayed homotopy and cofibrant-witness dependencies of the same packet;
+\item ledger non-escape, requiring $P$ and $N$ to source and name only the displayed rows, with no functorial cylinder assignment, mapping-cylinder construction, homotopy-category quotient, derived mapping space, quotient weak-equivalence calculus, or global replacement choice.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cylinder-object-carrier}. The endpoint rows $I_0$ and $I_1$ are stored as displayed inputs to $C$, so a cylinder read starts from the two named copies of $X$ rather than from an ambient coproduct or host fold map.
+
+Next read the model-category row $M$ and its factorization row $F$. These rows supply the finite factorization surface on which $C$ is admitted and prevent the certificate from importing an external weak-equivalence calculus.
+
+The weak-equivalence ledger $W$ and homotopy ledger $H$ are consumed only after the cylinder row is visible. The cofibrant-replacement row $R$ is a dependency row for the displayed object witness, not a global replacement operator.
+
+Finally inspect $P$ and $N$. They source and name the same finite packet, and none of the refused objects appears as a carrier coordinate. The five displayed obligation families therefore exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cylinder object factorization route]
+\label{thm:cylinder-object-factorization-route}
+Every downstream homotopy or cofibrant-replacement consumer citing an accepted $\CylinderObjectUp$ carrier must factor its read through
+$$
+M,X,I_0,I_1,C,W,F,H,R,P,N .
+$$
+The route exports one displayed cylinder object for one displayed object and does not export a functorial cylinder construction, mapping-cylinder construction, homotopy-category quotient, derived mapping space, quotient weak-equivalence calculus, or global replacement choice.
+\end{theorem}
+\begin{proof}
+Begin with the endpoint and cylinder rows of \autoref{def:cylinder-object-carrier}. A consumer reaches the cylinder row $C$ only after the object row $X$ and the two endpoint inclusions $I_0,I_1$ have been displayed.
+
+Use the obligation surface of \autoref{thm:cylinder-object-namecert-obligations}. The model-category factorization row $F$ and weak-equivalence ledger $W$ bind the cylinder read to $M$, while the homotopy and cofibrant-replacement rows $H$ and $R$ keep the homotopy-facing and cofibrant-facing uses inside the same finite packet.
+
+The provenance and local naming rows $P,N$ preserve that route for downstream consumers. Since the carrier lacks every refused coordinate, the consumer receives only the displayed cylinder route and cannot promote it to a functorial, quotient, derived, or global-choice construction.
+\end{proof}
+
+\closureat{CylinderObjectUp}{seedStr}
+
+\begin{closurestatus}{\CylinderObjectUp}
+  \constructivestory{A $\CylinderObjectUp$ packet is generated from ModelCat, Category, endpoint inclusion, cylinder, weak-equivalence, factorization, Homotopy, CofibrantReplacement, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cylinder-object-carrier}, \autoref{thm:cylinder-object-namecert-obligations}, and \autoref{thm:cylinder-object-factorization-route} seed the finite cylinder-object route over ModelCat, Category, CofibrantReplacement, and Homotopy rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.CylinderObjectUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close functorial cylinders, mapping cylinders, homotopy-category quotients, derived mapping spaces, global replacement choices, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint admission, model-category factorization, weak-equivalence projection, homotopy and cofibrant-replacement compatibility, ledger non-escape, provenance, and local naming for BEDC.Derived.CylinderObjectUp.}
+\end{closurestatus}
