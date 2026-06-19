@@ -168,6 +168,43 @@ Since none of the excluded objects is a coordinate of the carrier, no bypass
 can replace the finite envelope route. The seal remains downstream of the
 displayed $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_tail\_envelope\_lock}
+
+\begin{theorem}[Regular Cauchy tail estimate tail dominance]
+\label{thm:regular-cauchy-tail-estimate-tail-dominance}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$ whose tail-envelope route is locked, every later
+$\RealUp$-facing comparison exposed by the packet is dominated by the displayed
+finite tail surface. The comparison can read only the $\StreamNameUp$ window
+$W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RegSeqRatUp$ readback
+$R$, the tail-envelope row, componentwise $\hsame$ transport through $H$,
+displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the
+local $\NameCert_{\RegularCauchyTailEstimateUp}$ row $N$.
+
+No later comparison exports a host limit, quotient stream equality, selected
+tail, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:regular-cauchy-tail-estimate-carrier}. The only Real-facing seal
+coordinate is $E$, and \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}
+places every read of $E$ downstream of the threshold, window, tolerance, and
+regular readback rows $M,W,D,R$.
+
+Apply \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}. The lock
+identifies that preceding route with the finite tail-envelope surface through
+$\RegularCauchyTailEnvelopeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and
+$\RegSeqRatUp$, so any later comparison must reuse the same displayed window,
+tolerance ledger, and readback.
+
+The structural rows do not loosen the dominance claim. The transport row $H$
+moves only the displayed coordinates, the replay row $C$ preserves the same
+route, and $P,N$ record provenance and local naming for that finite packet.
+
+Thus every later $\RealUp$-facing comparison remains dominated by the displayed
+tail surface. Since no host limit, quotient stream equality, selected tail, or
+ambient completeness coordinate occurs in the carrier, none can be exported.
+\end{proof}
 
 \begin{theorem}[Regular Cauchy tail estimate dyadic-modulus scope]
 \label{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}
