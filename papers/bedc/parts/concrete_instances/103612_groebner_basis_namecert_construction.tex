@@ -54,6 +54,51 @@ The terminal row $F$ records whether the inspected S-polynomial reduces to zero 
 Finally, componentwise transport in $H$, continuation replay in $C$, package provenance in $K$, and local naming in $N$ preserve exactly the rows already listed. Since the carrier has no coordinate for host quotient rings, hidden ordering oracles, algebraic closure, or selected normal forms outside $F$, no additional NameCert obligation can be read from the packet.
 \end{proof}
 
+\begin{definition}[Groebner basis finite reduction carrier]
+\label{def:groebner-basis-finite-reduction-carrier}
+A $\GroebnerBasisUp$ finite reduction carrier is a displayed refinement
+$$
+G_{\mathrm{red}}=(P,A,I,L,S,T,F,H,C,K,N)
+$$
+of the carrier in \autoref{def:groebner-basis-carrier}. The row $P$ is the finite $\PolynomialUp$ row over the coefficient $\RingUp$ and $\CommRingUp$ surfaces, $A$ records the finite polynomial list inspected by the packet, $I$ is the displayed $\IdealUp$ generator source, $L$ is the leading-term ledger for the inspected rows, $S$ is the finite S-polynomial ledger, $T$ is the reduction-trace ledger, and $F$ is the terminal normal-form or refusal ledger. The row $H$ transports $P,A,I,L,S,T,F$ by componentwise $\hsame$, $C$ replays the same finite trace by $\Cont$, $K$ records $\Pkg$ provenance over $\GroebnerBasisUp$, $\PolynomialUp$, $\IdealUp$, $\RingUp$, $\CommRingUp$, and $\HilbertBasisUp$, and $N$ is the local $\NameCert_{\GroebnerBasisUp}$ naming row.
+
+The classifier of $G_{\mathrm{red}}$ compares two accepted packets only by matching these rows and their displayed descent witnesses. It has no coordinate for quotient ideal equality, a selected infinite basis, a hidden term-order oracle, a completed ideal-membership decision procedure, or a normal form chosen outside $F$.
+\end{definition}
+
+\begin{theorem}[Groebner basis finite reduction NameCert obligations]
+\label{thm:groebner-basis-finite-reduction-namecert-obligations}
+For every accepted finite reduction carrier
+$$
+G_{\mathrm{red}}=(P,A,I,L,S,T,F,H,C,K,N),
+$$
+the local $\NameCert_{\GroebnerBasisUp}$ surface consists exactly of finite polynomial-row admission through $P$ and $A$, ideal-generator admission through $I$, leading-term exposure through $L$, S-polynomial construction through $S$, reduction-trace exactness through $T$, terminal normal-form or refusal exposure through $F$, componentwise transport through $H$, displayed replay through $C$, provenance through $K$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the refinement to the carrier of \autoref{def:groebner-basis-carrier}. The rows $P,A,I,L,S,T,F$ are the finite algebraic rows visible before transport or replay is applied, and every row is read through the existing $\PolynomialUp$, $\IdealUp$, $\RingUp$, and $\CommRingUp$ surfaces.
+
+Induct over the displayed reduction ledger $T$. The base row is the S-polynomial displayed in $S$ with its leading-term data from $L$. In the step case, the reducer, multiplier, subtraction, and descent witness are all rows of $T$, so the next polynomial remains inside the finite polynomial ledger and no hidden basis element is introduced.
+
+At the terminal row, $F$ records either a zero normal form or a visible refusal remainder. The zero case exports the finite reduction certificate; the refusal case blocks any stronger ideal-membership or completed-basis claim.
+
+The structural rows $H,C,K,N$ then transport, replay, source, and name the same finite ledger. Since none of these rows contains quotient ideal equality, an infinite basis selector, or a normal form outside $F$, the listed rows exhaust the finite reduction obligations.
+\end{proof}
+
+\begin{theorem}[Groebner basis Buchberger handoff]
+\label{thm:groebner-basis-buchberger-handoff}
+Every Buchberger-style read of an accepted $\GroebnerBasisUp$ finite reduction carrier factors through the finite handoff
+$$
+\PolynomialUp,\ \RingUp,\ \CommRingUp,\ \IdealUp,\ L,\ S,\ T,\ F,\ \NameCert_{\GroebnerBasisUp}.
+$$
+The handoff supplies the reduction rows that a downstream $\HilbertBasisUp$ or polynomial-normal-form consumer may inspect. It does not supply quotient ideal equality, a selected infinite basis, a global ideal-membership decision procedure, or a normal-form oracle outside the displayed terminal ledger.
+\end{theorem}
+\begin{proof}
+Start with the finite reduction carrier of \autoref{def:groebner-basis-finite-reduction-carrier}. The polynomial, coefficient-ring, commutative-ring, and ideal rows give the only algebraic sources available to the handoff.
+
+For each critical pair, the S-polynomial row $S$ points to the leading-term data in $L$ and to the ordered reduction ledger $T$. Induction over $T$ shows that every subtraction step is justified by a displayed reducer and a displayed descent witness, so the handoff remains finite.
+
+Finally read the terminal row $F$. A zero terminal row is the Buchberger reduction certificate exported to downstream consumers, while a nonzero terminal row is refusal data. The $\NameCert_{\GroebnerBasisUp}$ naming row, together with $H,C,K$, preserves that distinction and prevents the handoff from being read as a quotient equality or an infinite-basis selection.
+\end{proof}
+
 \begin{theorem}[Groebner basis reduction certificate]
 \label{thm:groebner-basis-reduction-certificate}
 Let $G=(P,I,O,L,S,R,F,H,C,K,N)$ be an accepted $\GroebnerBasisUp$ carrier. For every S-polynomial row displayed in $S$, the reduction certificate exported to downstream polynomial-normal-form and ideal-membership consumers factors through the finite route
@@ -80,7 +125,7 @@ The structural rows $H,C,K,N$ then transport, replay, source, and name the same 
 
 \begin{closurestatus}{\GroebnerBasisUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:groebner-basis-carrier}, \autoref{thm:groebner-basis-namecert-obligations}, and \autoref{thm:groebner-basis-reduction-certificate} seed the finite Groebner reduction packet over displayed $\PolynomialUp$ and $\IdealUp$ rows.}
+  \scopeclosed{\autoref{def:groebner-basis-carrier}, \autoref{def:groebner-basis-finite-reduction-carrier}, \autoref{thm:groebner-basis-namecert-obligations}, \autoref{thm:groebner-basis-finite-reduction-namecert-obligations}, \autoref{thm:groebner-basis-buchberger-handoff}, and \autoref{thm:groebner-basis-reduction-certificate} seed the finite Groebner reduction packet over displayed $\PolynomialUp$ and $\IdealUp$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a global ideal-membership decision procedure, a quotient-ring normal-form theorem, algebraic closure, a host monomial-order oracle, Lean verification, or bridge checking.}
