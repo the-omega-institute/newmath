@@ -1,5 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
@@ -7,6 +10,11 @@ namespace BEDC.Derived.SmoothManifoldUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -150,5 +158,75 @@ theorem SmoothManifoldTasteGate_single_carrier_alignment :
       ⟨smoothManifoldBHistCarrier⟩,
       ⟨smoothManifoldChapterTasteGate⟩,
       rfl⟩
+
+def SmoothManifoldCarrier [AskSetup] [PackageSetup]
+    (base topology model atlas overlap transition readiness transport replay provenance
+      localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg PkgSig UnaryHistory
+  UnaryHistory base ∧ UnaryHistory topology ∧ UnaryHistory model ∧ UnaryHistory atlas ∧
+    UnaryHistory overlap ∧ UnaryHistory transition ∧ UnaryHistory readiness ∧
+      UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+        UnaryHistory localName ∧ PkgSig bundle provenance pkg
+
+theorem SmoothManifoldNamecertObligations [AskSetup] [PackageSetup]
+    {base topology model atlas overlap transition readiness transport replay provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SmoothManifoldCarrier base topology model atlas overlap transition readiness transport
+        replay provenance localName bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row readiness ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row base ∨ hsame row topology ∨ hsame row model ∨ hsame row atlas ∨
+              hsame row overlap ∨ hsame row transition ∨ hsame row readiness)
+          (fun row : BHist => hsame row readiness ∧ PkgSig bundle provenance pkg)
+          hsame ∧
+        UnaryHistory base ∧ UnaryHistory topology ∧ UnaryHistory model ∧ UnaryHistory atlas ∧
+          UnaryHistory overlap ∧ UnaryHistory transition ∧ UnaryHistory readiness ∧
+            PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨baseUnary, topologyUnary, modelUnary, atlasUnary, overlapUnary, transitionUnary,
+    readinessUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    provenancePkg⟩ := carrier
+  have sourceReadiness :
+      (fun row : BHist => hsame row readiness ∧ UnaryHistory row) readiness := by
+    exact ⟨hsame_refl readiness, readinessUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row readiness ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row base ∨ hsame row topology ∨ hsame row model ∨ hsame row atlas ∨
+              hsame row overlap ∨ hsame row transition ∨ hsame row readiness)
+          (fun row : BHist => hsame row readiness ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro readiness sourceReadiness
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg⟩
+  }
+  exact
+    ⟨cert, baseUnary, topologyUnary, modelUnary, atlasUnary, overlapUnary, transitionUnary,
+      readinessUnary, provenancePkg⟩
 
 end BEDC.Derived.SmoothManifoldUp
