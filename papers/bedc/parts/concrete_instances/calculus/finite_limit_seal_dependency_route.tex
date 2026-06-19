@@ -1,0 +1,20 @@
+\begin{lemma}[Calculus finite-limit seal route]
+\label{lem:calculus-finite-limit-seal-route}
+Every $\CalculusUp$ endpoint consumer that turns derivative, integral, or root
+limit data into a limit-facing read must pass through
+\autoref{ch:concrete-instances-finite-limit-seal-namecert} and the finite
+$M,W,R,D,E$ route of \autoref{thm:finite-limit-seal-real-dependency-route}
+before the public $\RealUp$ endpoint is exposed.
+\end{lemma}
+\begin{proof}
+Start with the derivative and integral dependency route of
+\autoref{lem:calculus-riemann-integral-dependency-route}. It already forces
+calculus endpoint reads through the displayed $\DerivativeUp$,
+$\RiemannIntegralUp$, $\RegSeqRatUp$, and $\RealUp$ rows.
+
+Now read the finite-limit seal route. Theorem
+\autoref{thm:finite-limit-seal-real-dependency-route} supplies the
+$M,W,R,D,E$ handoff for real-facing limit reads, so the calculus endpoint
+consumer must expose that seal before treating the endpoint as public
+limit-facing data.
+\end{proof}
