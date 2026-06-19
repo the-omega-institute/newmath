@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\RadonTheoremUp$}
+\label{ch:concrete-instances-radon-theorem-namecert}
+\origin{human}
+
+Following Radon and the standard finite convexity theorem, the $\RadonTheoremUp$ packet records the finite certificate surface for a Radon partition of a point family in an affine space. It consumes the convex membership carrier of \autoref{ch:concrete-instances-convexset-namecert}, the affine-dependence and translation surface of \autoref{ch:concrete-instances-affinespace-namecert}, the finite face and hull ledger of \autoref{ch:concrete-instances-polytope-namecert}, and the finite simplex inventory of \autoref{ch:concrete-instances-simplicialcomplex-namecert}. The packet exposes only the displayed finite point family, the affine-dependence witness, the two-block partition, the convex-hull overlap row, transport, replay, provenance, and local naming; it does not export an ambient Euclidean topology, a selected separating hyperplane, Helly closure, or a Caratheodory reduction.
+
+\begin{definition}[Radon theorem finite convex-geometry carrier]
+\label{def:radon-theorem-finite-convex-geometry-carrier}
+A $\RadonTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,F,D,L,U,V,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+  \item $A$ is the finite-dimensional $\AffineSpaceUp$ ambient row that scopes point differences, affine combinations, and the displayed dependence witness.
+  \item $F$ is the finite point-family row, listing the inspected points as $\BHist$ entries and recording their finite index surface.
+  \item $D$ is the affine-dependence witness row, with coefficients read through the scalar and affine rows and with total coefficient sum classified as zero.
+  \item $L$ is the two-block partition row, splitting the finite index surface into the positive and negative coefficient blocks used by the Radon construction.
+  \item $U$ is the $\ConvexSetUp$ row reading the positive-block normalized affine combination as a convex-hull point.
+  \item $V$ is the $\ConvexSetUp$ row reading the negative-block normalized affine combination as the same convex-hull point after affine-dependence transport.
+  \item $H$ records componentwise $\hsame$ transport for $A,F,D,L,U,V,Q,P,N$.
+  \item $Q$ records displayed $\Cont$ replay of the affine-dependence calculation and of the two convex-hull membership reads.
+  \item $P$ is the $\Pkg$ provenance over $\RadonTheoremUp$, $\AffineSpaceUp$, $\ConvexSetUp$, $\PolytopeUp$, $\SimplicialComplexUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+  \item $N$ is the local $\NameCert_{\RadonTheoremUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host convex hull, a topological compactness assertion, a separating hyperplane, or a full Helly-family theorem.
+\end{definition}
+
+\begin{theorem}[Radon theorem NameCert obligations]
+\label{thm:radon-theorem-namecert-obligations}
+For the carrier of \autoref{def:radon-theorem-finite-convex-geometry-carrier}, the local $\NameCert_{\RadonTheoremUp}$ surface consists exactly of the finite point family row $F$, the affine-dependence witness row $D$, the two-block partition row $L$, the positive and negative convex-hull overlap rows $U,V$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $Q$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the packet $R=(A,F,D,L,U,V,H,Q,P,N)$. The finite point family $F$ gives the only inspected points, while the affine row $A$ is the only ambient structure available for dependence and affine-combination reads.
+
+Use the dependence witness $D$ to split the finite index surface into the two blocks recorded by $L$. The signs of the displayed coefficients determine the blocks, and the zero-sum affine-dependence row is the calculation that identifies the two normalized affine combinations.
+
+Read the positive block through $U$ and the negative block through $V$. Both rows are $\ConvexSetUp$ reads, while the finite face and simplex bookkeeping is supplied only through the $\PolytopeUp$ and $\SimplicialComplexUp$ provenance rows carried by $P$. Thus the overlap point is exposed as two convex-hull membership rows classified by the displayed affine-dependence calculation, not as a host geometric object.
+
+Finally transport and replay preserve the same surface. The $H$ row transports every displayed component by $\hsame$, the $Q$ row replays the affine-dependence calculation and convex-hull membership reads by $\Cont$, and $P,N$ bind those rows to the local name. No additional coordinate remains from which to read Helly, Caratheodory, topology, or separation data, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{RadonTheoremUp}{seedStr}
+
+\begin{closurestatus}{\RadonTheoremUp}
+  \constructivestory{A $\RadonTheoremUp$ packet is generated from a finite affine-space point family, an affine-dependence witness, a two-block partition of the finite index surface, positive and negative convex-hull membership rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:radon-theorem-finite-convex-geometry-carrier} and \autoref{thm:radon-theorem-namecert-obligations} seed the finite Radon partition NameCert surface over $\AffineSpaceUp$, $\ConvexSetUp$, $\PolytopeUp$, and $\SimplicialComplexUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not assert a Lean theorem, Helly closure, Caratheodory reduction, topological compactness, separating hyperplane, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier and NameCert rows for the finite point family, affine-dependence witness, two-block partition, convex-hull overlap, transport, replay, and provenance surface.}
+\end{closurestatus}
