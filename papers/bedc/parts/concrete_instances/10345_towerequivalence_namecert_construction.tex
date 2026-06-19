@@ -94,6 +94,18 @@ A refinement may inspect a source-history residue, omitted physical-signature ro
 If the refinement separates the candidates through $L$ or $D$, the result is exactly the refusal boundary: the endpoint comparison remains an endpoint comparison, while the full tower-equivalence carrier is not accepted.
 \end{proof}
 
+\begin{theorem}[TowerEquivalence obligation scope]
+\label{thm:tower-equivalence-obligation-scope}
+Every accepted $\TowerEquivalenceUp$ read is scoped by the two tower rows $T,T'$, the two approximation rows $A,A'$, physical-fit rows $P,P'$, open-fit rows $O,O'$, objectivity row $B$, paired ledger $L$, descent row $D$, endpoint row $R$, componentwise $\hsame$ transport $H$, provenance $Q$, and local $\NameCert_{\TowerEquivalenceUp}$ row $N$. Any consumer omitting $L$ or $D$ receives only endpoint comparison, not tower equivalence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tower-equivalence-carrier} and the local NameCert obligations of \autoref{thm:tower-equivalence-namecert-obligations}. The accepted packet displays both tower rows, both approximation rows, both physical-fit rows, both open-fit rows, objectivity, paired ledger, descent, endpoint, transport, provenance, and local naming before any equivalence read is exported.
+
+Use endpoint refusal, \autoref{thm:tower-equivalence-endpoint-refusal}. It says the endpoint row $R$ is not accepted as tower equivalence unless $L$, $D$, $B$, and $H$ travel with the same comparison, so an endpoint-only consumer remains outside the tower-equivalence surface.
+
+Finally apply ledger-descent stability, \autoref{thm:tower-equivalence-ledger-descent-stability}. The paired ledger and descent row are preserved componentwise under transport, so omitting either row cannot be repaired downstream by provenance, local naming, or endpoint agreement.
+\end{proof}
+
 \falsifiablePrediction{An accepted TowerEquivalenceUp classifier is refuted by any pair of endpoint-agreeing towers whose displayed refinement exposes a source-ledger mismatch or an operation that descends through one tower but not the other.}
 
 \independenceWitness{realityconstrainedtowerpacket, realityconstrainedapproximationtower, physicalfittower, realityconstrainedopenfit, realityconstrainedobjectivity: none is bijective because $\TowerEquivalenceUp$ carries two tower packets, two approximation rows, two physical-fit rows, two open-fit rows, observer-stable transport, paired ledger compatibility, descent compatibility, endpoint agreement, provenance, and local NameCert rows in one packet. Each sibling supplies a constituent surface, while only this packet binds endpoint agreement to ledger and descent compatibility.}
@@ -105,10 +117,10 @@ The Lean development for this carrier must provide $\mathsf{Nontrivial}\ \TowerE
 \begin{closurestatus}{\TowerEquivalenceUp}
   \constructivestory{A $\TowerEquivalenceUp$ packet is generated from two tower packets, two approximation rows, two physical-fit rows, two open-fit rows, an objectivity row, paired ledger compatibility, descent compatibility, endpoint agreement, componentwise transport, provenance, and local NameCert rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:tower-equivalence-carrier}, \autoref{thm:tower-equivalence-namecert-obligations}, \autoref{thm:tower-equivalence-endpoint-refusal}, \autoref{thm:tower-equivalence-ledger-descent-stability}, and \autoref{thm:tower-equivalence-refinement-separation} bind endpoint agreement to ledger and descent compatibility for finite tower-equivalence packets.}
+  \scopeclosed{\autoref{def:tower-equivalence-carrier}, \autoref{thm:tower-equivalence-namecert-obligations}, \autoref{thm:tower-equivalence-endpoint-refusal}, \autoref{thm:tower-equivalence-ledger-descent-stability}, \autoref{thm:tower-equivalence-refinement-separation}, and \autoref{thm:tower-equivalence-obligation-scope} bind endpoint agreement to ledger and descent compatibility for finite tower-equivalence packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not assert Lean verification, bridge checking, endpoint-only tower identity, host source equality, unrestricted descent, or observer-independent comparison outside the displayed objectivity row.}
-  \upgradepath{Obligation closure requires Lean encoding of carrier admission, endpoint refusal, ledger-descent stability, refinement separation, TasteGate nontriviality, and field faithfulness for $T,T',A,A',P,P',O,O',B,L,D,R,H,Q,N$.}
+  \upgradepath{Obligation closure requires Lean encoding of carrier admission, endpoint refusal, ledger-descent stability, refinement separation, obligation scope, TasteGate nontriviality, and field faithfulness for $T,T',A,A',P,P',O,O',B,L,D,R,H,Q,N$.}
 \end{closurestatus}
