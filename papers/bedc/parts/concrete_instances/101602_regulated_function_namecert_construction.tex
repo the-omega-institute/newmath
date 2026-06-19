@@ -116,6 +116,22 @@ The obligation closure package binds those analytic rows to the structural rows 
 Finally apply the step-approximation handoff. Any integration-facing consumer reaches $S$ only after reading $D,M,A,T$, and any structural consumer reaches those rows only through $H,C,P,N$. This exhausts the scoped kernel route and leaves no coordinate for the excluded host objects.
 \end{proof}
 
+\begin{theorem}[Regulated function left--right limit consumer]
+\label{thm:regulated-function-left-right-limit-consumer}
+Every accepted $\RegulatedFunctionUp$ consumer that reads paired one-sided limits must keep the source route
+$$
+D,M,A,T,S,H,C,P,N
+$$
+visible before any $\OneSidedLimitUp$ rows or terminal $\RealUp$ seals are consumed. Consequently a $\CadlagRealFunctionUp$ or side-window consumer may use the regulated source as the displayed step-approximation schedule of \autoref{ch:concrete-instances-one-sided-limit-namecert} and \autoref{ch:concrete-instances-cadlag-real-function-namecert}, but it cannot replace that source with host function quotients, selected limits, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-function-carrier}. The only source rows are the real-domain row $D$, dyadic mesh ledger $M$, dyadic step schedule $A$, tolerance-tail ledger $T$, finite-sum handoff $S$, and structural rows $H,C,P,N$.
+
+Apply \autoref{thm:regulated-function-scoped-kernel-route}. It keeps every accepted consumer read inside those rows and refuses host function quotients, measure-theoretic integration, open-cover compactness, selected limits, and ambient Real completeness.
+
+The one-sided-limit consumer can then read left and right side-window rows only downstream from that regulated source route. The cadlag chapter consumes the same paired side-window data after the regulated source has been displayed, so the paired limit handoff remains attached to $D,M,A,T,S,H,C,P,N$ rather than to an external function object.
+\end{proof}
+
 \closureat{RegulatedFunctionUp}{scopedStr}
 
 \begin{closurestatus}{\RegulatedFunctionUp}

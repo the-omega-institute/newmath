@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\ChannelTerminationBoundaryUp$}
+\label{ch:concrete-instances-channel-termination-boundary-namecert}
+\origin{ai}
+
+The $\ChannelTerminationBoundaryUp$ packet realizes the local delimiter boundary of \autoref{ch:visions-channel-termination-vs-halting-boundary} as finite NameCert data. It isolates the active-channel fact that a legal event ends at the first displayed $11$ while refusing any conversion of that local boundary into a global halting classifier. The packet sits beside the channel/halting separator of \autoref{ch:concrete-instances-channel-termination-halting-boundary-namecert}, the type-checking classifier membership surface of \autoref{ch:concrete-instances-type-checking-classifier-membership-namecert}, the MetaCIC parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the subject-reduction boundary of \autoref{ch:concrete-instances-subjectreduction-namecert}, and the classifier boundary of \autoref{ch:concrete-instances-classifierboundary-namecert}.
+
+\begin{definition}[Channel termination boundary carrier]
+\label{def:channel-termination-boundary-carrier}
+A $\ChannelTerminationBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,E,T,D,R,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the active binary alphabet row, recording the source fragments $0,1$ and channel fragments $0,10,11$;
+\item $E$ is the legal channel-event row, recording membership in $(0\mid 10)^{*}11$ for the inspected finite event;
+\item $T$ is the terminator row, recording that the first adjacent $11$ is the local endpoint;
+\item $D$ is the decoder-state row, recording the finite scan state before and after the local endpoint;
+\item $R$ is the refusal row separating local delimiter termination from certificate-level halting;
+\item $F$ is the finite trace row, recording the inspected event prefix and the endpoint witness;
+\item $H$ records componentwise $\hsame$ transport for $A,E,T,D,R,F,P,N$;
+\item $C$ records displayed $\Cont$ replay through the active alphabet, legal-event, terminator, decoder, refusal, finite trace, provenance, and local naming rows;
+\item $P$ is the $\Pkg$ provenance over $\ChannelTerminationBoundaryUp$, $\ChannelTerminationHaltingBoundaryUp$, $\TypeCheckingClassifierMembershipUp$, $\MetaCICParallelDiamondFrontierUp$, $\SubjectReductionUp$, $\ClassifierBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ChannelTerminationBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a total halting oracle, evaluator equality, subject-reduction discharge, residual-substitution discharge, quotient equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[Channel termination boundary NameCert obligations]
+\label{thm:channel-termination-boundary-namecert-obligations}
+For every accepted $\ChannelTerminationBoundaryUp$ carrier $B=(A,E,T,D,R,F,H,C,P,N)$, the local $\NameCert_{\ChannelTerminationBoundaryUp}$ surface consists exactly of active alphabet exposure through $A$; legal event exposure through $E$; first-terminator exposure through $T$; decoder-state exposure through $D$; local/global refusal exposure through $R$; finite trace exposure through $F$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+
+\begin{theorem}[Channel termination boundary local delimiter]
+\label{thm:channel-termination-boundary-local-delimiter}
+Every accepted $\ChannelTerminationBoundaryUp$ packet factors local event completion through the finite route
+$$
+A,\ E,\ T,\ D,\ F,\ H,\ C,\ P,\ N
+$$
+and factors refusal of global halting through $R$. A consumer may use the first displayed $11$ as the endpoint of the current legal channel event, but it may not treat that endpoint as type-checking classifier membership, MetaCIC parallel-diamond closure, subject reduction, classifier-boundary collapse, evaluator equality, quotient equality, or kernel consistency.
+\end{theorem}
+
+\falsifiablePrediction{A claimed $\ChannelTerminationBoundaryUp$ consumer that decides certificate-level halting while displaying only the local legal-event row $E$ and terminator row $T$ refutes the carrier of \autoref{def:channel-termination-boundary-carrier}.}
+
+\independenceWitness{type-checking-classifier-membership, metacic-parallel-diamond-frontier, subjectreduction, classifierboundary: $\ChannelTerminationBoundaryUp$ is not bijective to any listed sibling because it carries active alphabet, legal event, terminator, decoder-state, local/global refusal, finite trace, transport, replay, provenance, and local NameCert rows. Type-checking classifier membership lacks the local delimiter trace; the MetaCIC parallel-diamond frontier lacks the active-channel endpoint; subject reduction lacks the delimiter/refusal split; classifier boundary lacks the concrete first-$11$ event row.}
+
+The Lean follow-up must provide $\Nontrivial\ \ChannelTerminationBoundaryUp$ and $\FieldFaithful\ \ChannelTerminationBoundaryUp$ TasteGate instances. Those instances must preserve $A,E,T,D,R,F,H,C,P,N$ as distinct displayed fields before any checked theorem may cite $\ChannelTerminationBoundaryUp$ as a field-faithful local delimiter boundary.
+
+\closureat{ChannelTerminationBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ChannelTerminationBoundaryUp}
+  \constructivestory{A $\ChannelTerminationBoundaryUp$ packet is generated from active alphabet rows, legal event rows, first-terminator rows, decoder-state rows, local/global refusal rows, finite trace rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:channel-termination-boundary-carrier}, \autoref{thm:channel-termination-boundary-namecert-obligations}, and \autoref{thm:channel-termination-boundary-local-delimiter} seed the finite local delimiter boundary separating channel-event termination from global halting claims.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, global halting decidability, subject reduction, full parallel diamond, evaluator equality, quotient equality, kernel consistency, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, legal-event exposure, first-terminator exposure, decoder-state exposure, local/global refusal, finite trace exposure, transport, replay, provenance, local naming, Nontrivial TasteGate evidence, and FieldFaithful TasteGate evidence for BEDC.Derived.ChannelTerminationBoundaryUp.}
+\end{closurestatus}
