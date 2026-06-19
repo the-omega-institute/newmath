@@ -12,6 +12,20 @@ Finally combine \autoref{thm:continuation-monad-root-route-source-exposure}, \au
 \end{proof}
 \leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_kleisli\_associativity\_surface}
 
+\begin{theorem}[ContinuationMonad BHist bind associativity induction]
+\label{thm:continuation-monad-bhist-bind-associativity-induction}
+For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, nested bind replay over the displayed finite source rows is associative by induction on the finite continuation schedule. The induction uses only the $\BHist$ source rows $A,B,C$, the displayed bind schedule $f,g,K,L$, the unit row $u$, componentwise $\hsame$ transport $H$, $\Cont$ replay through $K$, $\Pkg$ provenance through $L$, and the local $\NameCert$ row $N$. It exports no quotient Kleisli arrow, host function composition, ambient category completion, or evaluator.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite continuation schedule. In the base case the schedule has only the source and unit rows, so \autoref{thm:continuation-monad-unit-laws} and the root unit-bind exhaustion identify the two nested bind replays through $u,H,K,L,N$.
+
+For the step, expose the next continuation row in the finite schedule. The existing associativity surface of \autoref{thm:continuation-monad-root-kleisli-associativity-surface} rewrites the two displayed nesting orders through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Transport preserves the induction hypothesis componentwise through $H$, and replay composes the displayed continuation rows through $K$ without leaving the packet. Provenance through $L$ and local naming through $N$ record the same finite schedule after each step.
+
+Thus the accepted packet proves associativity only as a BEDC finite replay induction. Since no induction step introduces a quotient Kleisli arrow, host function composition, ambient category completion, or evaluator, none of those objects is exported.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad root generator bind coverage]
 \label{thm:continuation-monad-root-generator-bind-coverage}
 Every root generator consumer of an accepted $\ContinuationMonadUp$ packet reads the source rows $A,B,C$, bind schedule $f,g,K,L$, unit row $u$, componentwise transport $H$, displayed route $K$, provenance through $\Pkg$, and local naming row $N$ before any $\CategoryUp$ or Kleisli surface is exported. The consumer receives no generator, bind evaluator, quotient Kleisli arrow, host function composition, ambient category object, or monad law outside the displayed packet.
