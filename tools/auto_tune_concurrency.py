@@ -103,12 +103,20 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 8  # 2026-06-07: dropped 20->16->8 over the session. On this 8-core
-               # box even 12/14 (autotune-settled under 16/14) drove load ~70 →
-               # bedc_ci.py audit timeouts (600s), ff-push herd (8 retries), and
-               # target saturation → repeating cooldowns. 8/6 is the box's
-               # sustainable point (skill cooldown-remedy: drop lean to 8).
-               # Stage-2 single-writer broker would let this go higher safely.
+LEAN_MAX = 4  # 2026-06-20 stop-bleed: 8/6 was NOT sustainable after all — a
+               # ~8h lean 0-SUCCESS stall (paper kept producing 9/2h) traced to
+               # load ~30 making lean's heavy pre-merge gates time out. The
+               # smoking gun: 12 concurrent bedc_ci.py audits (> 8 lean rounds)
+               # because the recovery consumer + auto_heal also run full-tree
+               # audits with NO audit serialization, so total heavy-gate
+               # concurrency far exceeds the lean round cap. LOAD_HIGH=30 sat
+               # exactly at the thrash load (load5=28.9 → cut never fired) and
+               # RAM_LOW_GB=1.5 missed because vm_stat free+inactive read ~2.7GB.
+               # Pin lean=4 to cap lean's audit contribution; raise back to 5
+               # once MemAvailable>=3GiB & load5<=10 & audit p95<=300s AND an
+               # audit_slots=1 host-level mutex (acquire_timeout separate from
+               # the 600s execution timeout) lands. Do NOT raise the 600s audit
+               # timeout — it is a resource-starvation signal, not too-short.
 LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # 47% of R FAILs are `ff update of codex-auto-dev failed`
                # and 23% are `Merge failed —` — cross-process race between
