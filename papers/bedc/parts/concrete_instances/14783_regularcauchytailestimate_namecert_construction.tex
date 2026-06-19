@@ -72,7 +72,7 @@ trichotomy, selected limits, open-cover compactness, and ambient completeness.
 \end{enumerate}
 No NameCert obligation is stored outside those rows.
 \end{theorem}
-\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateCarrier\_namecert\_obligations}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateNameCertObligations}
 \begin{proof}
 Project the carrier of
 \autoref{def:regular-cauchy-tail-estimate-carrier}. The projection exposes
@@ -123,6 +123,50 @@ Thus every $\RealUp$ seal consumer factors through $M,W,D,R,E$ before
 $H,C,P,N$. The carrier contains no coordinate from which a bypass route could
 obtain quotient streams, selected limits, host equality, choice, trichotomy,
 open-cover compactness, or completeness.
+\end{proof}
+
+\begin{definition}[Regular Cauchy tail estimate tail-envelope lock]
+\label{def:regular-cauchy-tail-estimate-tail-envelope-lock}
+The tail-envelope lock of an accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$ is the displayed route
+$$
+M,W,D,R \longmapsto \RegularCauchyTailEnvelopeUp
+$$
+that reads the modulus threshold, finite $\StreamNameUp$ window,
+$\DyadicRatCoreUp$ tolerance row, and $\RegSeqRatUp$ readback before the
+$\RealUp$ seal row is inspected. The lock records that the Real-seal route is
+available only after the finite tail-envelope surface has been exposed.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail estimate tail-envelope lock]
+\label{thm:regular-cauchy-tail-estimate-tail-envelope-lock}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, any consumer that exposes the $\RealUp$ seal row $E$
+must first expose the finite tail-envelope route through
+$\RegularCauchyTailEnvelopeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and
+$\RegSeqRatUp$. No selected limit, quotient stream, countable-choice schedule,
+host equality, open-cover compactness, or ambient completeness principle can
+replace that route.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:regular-cauchy-tail-estimate-carrier}. The rows $M,W,D,R,E$ are
+the displayed mathematical coordinates, and $E$ occurs only after the
+threshold, window, tolerance, and regular readback rows.
+
+Apply \autoref{thm:regular-cauchy-tail-estimate-namecert-obligations}. The
+local certificate forces classifier transport and stability for $M,W,D,R,E$
+componentwise, so the tail estimate cannot detach the seal row from the finite
+tail data.
+
+Now apply \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. Every
+real-facing read of $E$ factors through $M,W,D,R$ before the structural rows
+$H,C,P,N$ are inspected. The definition of the tail-envelope lock identifies
+that preceding route with the $\RegularCauchyTailEnvelopeUp$ handoff.
+
+Since none of the excluded objects is a coordinate of the carrier, no bypass
+can replace the finite envelope route. The seal remains downstream of the
+displayed $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows.
 \end{proof}
 
 \closureat{RegularCauchyTailEstimateUp}{seedStr}
