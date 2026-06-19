@@ -182,6 +182,28 @@ For the step case, append one displayed observation row of $\Omega$. The compone
 After the finite window has been displayed, \autoref{thm:regular-cauchy-regularity-witness-diagonal-consumer-boundary} and \autoref{thm:regular-cauchy-regularity-witness-real-completion-handoff} force the remaining order: the consumer reads the $\RegSeqRatUp$ row $R$, then the $\DyadicRatCoreUp$ ledger $Q$, and only then the $\RealUp$ seal handoff $E$. Thus the accepted witness is consumable by finite-window induction before any downstream readback, tolerance ledger, or Real seal is exposed.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy regularity-witness tail-window synchronization]
+\label{thm:regular-cauchy-regularity-witness-tail-window-synchronization}
+Let
+$$
+W=(S,\mu,j,\Omega,R,Q,E,H,C,P,N)
+\quad\text{and}\quad
+W'=(S',\mu',j',\Omega',R',Q',E',H',C',P',N')
+$$
+be accepted $\RegularCauchyRegularityWitnessUp$ packets. If their inspected finite tails agree through the displayed $\hsame$ transports and $\Cont$ rows on $S,\mu,j,\Omega$ and $S',\mu',j',\Omega'$, and if their $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows are read only after that shared finite-window route, then the two packets expose the same $\RegSeqRatUp$ readback surface and the same Real-completion handoff surface to every completion-facing consumer.
+
+The synchronization is a finite tail-window fact. It does not select a limit, identify host real values, prove quotient equality of regular sequences, or use ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers using \autoref{def:regular-cauchy-regularity-witness-carrier}. The only rows visible before readback are the selected source, modulus index, index arithmetic, and finite $\StreamNameUp$ window rows.
+
+Apply finite-window induction from \autoref{thm:regular-cauchy-regularity-witness-finite-window-induction} to both packets. The hypothesis that the inspected finite tails agree under the displayed $\hsame$ and $\Cont$ rows makes the induction expose the same finite window route before either packet can read $R,Q,E$ or $R',Q',E'$.
+
+Now use the diagonal-consumer boundary \autoref{thm:regular-cauchy-regularity-witness-diagonal-consumer-boundary}. It forces every diagonal-regularity consumer to read the $\RegSeqRatUp$ row only after the shared window route has been displayed. Hence $R$ and $R'$ present the same readback surface to such a consumer.
+
+Finally apply the Real-completion handoff \autoref{thm:regular-cauchy-regularity-witness-real-completion-handoff}. The handoff can inspect only the window, readback, dyadic ledger, Real seal, and structural rows already synchronized above. The no-hidden-limit boundary excludes selected limits, quotient equality, host real equality, and ambient completeness, so no off-route coordinate can distinguish the two completion-facing surfaces.
+\end{proof}
+
 \falsifiablePrediction{Every accepted RegularCauchyRegularityWitnessUp packet exposes a finite dyadic regularity-witness row and admits no route to a selected limit, host real equality, Quot.sound, or Classical.choice.}
 
 \independenceWitness{diagonallimit, regular-cauchy-triangle-bound, regseqrat, streamname, real: no listed sibling is bijective to $\RegularCauchyRegularityWitnessUp$ because this packet binds selected diagonal source, modulus index, finite window, regular-rational readback, dyadic tolerance ledger, Real seal handoff, transport, replay, provenance, and local NameCert rows in one consumer-facing regularity witness. The diagonal-limit sibling lacks the regularity-consumer tolerance ledger; the triangle-bound sibling lacks the selected representative seal handoff; RegSeqRatUp lacks the StreamName and Real route; StreamNameUp lacks regularity and dyadic ledger rows; RealUp lacks the finite witness route.}
