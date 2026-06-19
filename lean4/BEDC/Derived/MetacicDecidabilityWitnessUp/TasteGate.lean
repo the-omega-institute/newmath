@@ -272,7 +272,7 @@ theorem MetacicDecidabilityWitnessTasteGate_single_carrier_alignment :
               metacicDecidabilityWitnessToEventFlow y →
             x = y) ∧
           metacicDecidabilityWitnessEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   constructor
   · exact metacicDecidabilityWitnessDecode_encode_bhist
   · constructor
