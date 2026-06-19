@@ -1679,6 +1679,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyContinuousMapUp.TasteGate
+import BEDC.Derived.CauchyContinuousMapUp.UniformModulusFactorization
 import BEDC.Derived.CauchyContinuousMapUp.UniformWindowObligation
 import BEDC.Derived.CauchyContractionOrbitUp.TasteGate
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
@@ -2974,6 +2975,7 @@ import BEDC.Derived.CompactFunctionAlgebraUp
 import BEDC.Derived.CompactGraphContinuityUp.TasteGate
 import BEDC.Derived.CompactImageClosedUp.TasteGate
 import BEDC.Derived.CompactIntervalChoiceSequenceUp.TasteGate
+import BEDC.Derived.CompactIntervalFixedPointUp.IntervalReturnRoute
 import BEDC.Derived.CompactIntervalFixedPointUp.NameCertObligations
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalIntermediateValueUp
@@ -10957,6 +10959,7 @@ import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyBicompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionRealizerUp
 import BEDC.Derived.UniformCauchyCompletionUp.TasteGate
+import BEDC.Derived.UniformCauchyCriterionFunctionUp
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformCauchyCriterionUp.BudgetedRealSealFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.Carrier
