@@ -97,4 +97,17 @@ theorem DirectedSubnetNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, targetUnary, sealUnary⟩
 
+theorem DirectedSubnetCarrier_cauchynet_handoff [AskSetup] [PackageSetup]
+    {I J phi K L S R D A H C P N targetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DirectedSubnetCarrier I J phi K L S R D A H C P N bundle pkg →
+      Cont K phi targetRead →
+        UnaryHistory targetRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig
+  intro carrier route
+  obtain ⟨_unaryI, _unaryJ, unaryPhi, unaryK, _unaryL, _unaryS, _unaryR,
+    _unaryD, _unaryA, _unaryH, _unaryC, _unaryP, _unaryN, provenancePkg,
+    namePkg⟩ := carrier
+  exact ⟨unary_cont_closed unaryK unaryPhi route, provenancePkg, namePkg⟩
+
 end BEDC.Derived.DirectedSubnetUp
