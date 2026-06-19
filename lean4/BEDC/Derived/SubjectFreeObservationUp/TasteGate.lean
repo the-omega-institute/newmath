@@ -266,4 +266,23 @@ theorem SubjectFreeObservationCarrier_no_subject_parameter :
   · intro O H K D L C P N extra
     rfl
 
+theorem SubjectFreeObservationCarrier_ledger_event
+    {O H K D L C P N O' H' K' D' L' C' P' N' : BHist} :
+    SubjectFreeObservationUp.mk O H K D L C P N =
+      SubjectFreeObservationUp.mk O' H' K' D' L' C' P' N' →
+        hsame (BHist.e0 O) (BHist.e0 O') ∧
+          hsame (BHist.e0 K) (BHist.e0 K') ∧
+            hsame (BHist.e0 D) (BHist.e0 D') ∧
+              hsame (BHist.e0 L) (BHist.e0 L') := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  intro sameCarrier
+  cases sameCarrier
+  constructor
+  · exact hsame_refl (BHist.e0 O)
+  · constructor
+    · exact hsame_refl (BHist.e0 K)
+    · constructor
+      · exact hsame_refl (BHist.e0 D)
+      · exact hsame_refl (BHist.e0 L)
+
 end BEDC.Derived.SubjectFreeObservationUp
