@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\BareissFractionFreeEliminationUp$}
+\label{ch:concrete-instances-bareiss-fraction-free-elimination-namecert}
+\origin{human}
+
+Following Bareiss and standard fraction-free linear algebra, the $\BareissFractionFreeEliminationUp$ packet records determinant-preserving elimination as a finite pivot ledger over displayed matrix, ring, polynomial, and determinant rows. It consumes the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the determinant surface of \autoref{ch:concrete-instances-determinant-namecert}, the commutative ring source of \autoref{ch:concrete-instances-ring-namecert}, and the coefficient-polynomial route of \autoref{ch:concrete-instances-polynomial-namecert}. The packet names only finite pivot rows, fraction-free update rows, exact-divisibility witnesses, determinant handoff rows, transport, replay, provenance, and local naming; it exports no host field division, quotient matrix equality, row-equivalence theorem, or ambient Gaussian elimination algorithm.
+
+\begin{definition}[Bareiss fraction-free elimination carrier]
+\label{def:bareiss-fraction-free-elimination-carrier}
+A $\BareissFractionFreeEliminationUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,M,P,D,I,L,U,Q,X,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the consumed $\RingUp$ scalar row, naming the addition, multiplication, zero, one, and sign data used by the ledger.
+\item $M$ is the consumed $\MatrixUp$ row, including the finite row-column index set and the initial entry readbacks.
+\item $P$ is the optional $\PolynomialUp$ coefficient row when the matrix entries are read as displayed polynomial coefficients rather than as opaque ring elements.
+\item $D$ is the $\DeterminantUp$ handoff row for the input matrix and the terminal diagonal product read.
+\item $I$ lists the pivot indices selected by the ledger and the previous-pivot denominator row attached to each step.
+\item $L$ records the fraction-free update equation for every displayed entry:
+$$
+a^{(k+1)}_{ij}p_{k-1}=a^{(k)}_{kk}a^{(k)}_{ij}-a^{(k)}_{ik}a^{(k)}_{kj}.
+$$
+\item $U$ records the exact-divisibility witness that the right-hand side is divisible by the previous pivot row inside the displayed ring surface.
+\item $Q$ records the zero-pivot branch ledger: if a displayed pivot is absent, the packet stores the row or column swap evidence that precedes the next update row, rather than selecting an ambient inverse.
+\item $X$ is the determinant-scale exactness row tying the terminal pivot product and sign ledger to the consumed $\DeterminantUp$ route.
+\item $H$ records componentwise $\hsame$ transport for the ring, matrix, polynomial, determinant, pivot, update, divisibility, branch, exactness, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a linear-algebra consumer back through $X,Q,U,L,I,D,P,M,R$.
+\item $K$ is the $\Pkg$ provenance over $\BareissFractionFreeEliminationUp$, $\MatrixUp$, $\DeterminantUp$, $\RingUp$, $\PolynomialUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BareissFractionFreeEliminationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host field division, quotient matrix equality, a global row-equivalence theorem, an unlogged pivot inverse, or a selected elimination trace outside the finite ledger.
+\end{definition}
+
+\begin{theorem}[Bareiss fraction-free elimination NameCert obligations]
+\label{thm:bareiss-fraction-free-elimination-namecert-obligations}
+For every accepted $\BareissFractionFreeEliminationUp$ carrier $E=(R,M,P,D,I,L,U,Q,X,H,C,K,N)$, the local $\NameCert_{\BareissFractionFreeEliminationUp}$ surface consists exactly of carrier admission, ring and matrix exposure, polynomial-coefficient exposure when present, determinant-source exposure, pivot-index exposure, fraction-free update exposure, exact-divisibility exposure, zero-pivot branch exposure, determinant exactness handoff, componentwise transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bareiss-fraction-free-elimination-carrier}. The rows $R,M,P,D,I,L,U,Q,X,H,C,K,N$ are the complete finite inventory available to a NameCert consumer.
+
+The algebraic source is read through $R,M,P,D$. The update path is then read through $I,L,U,Q$: pivots and previous denominators are displayed, each update equation is logged, exact divisibility is witnessed inside the ring row, and a zero-pivot event is routed through displayed swap evidence.
+
+The consumer-facing surface is $X,H,C,K,N$. These rows hand the terminal determinant read to $\DeterminantUp$, transport the displayed ledger componentwise, replay the same route for downstream consumers, and record provenance and local naming. Since no row contains a host inverse, quotient matrix equality, or an unlogged row-equivalence theorem, none of those objects is exported.
+\end{proof}
+
+\begin{theorem}[Bareiss pivot ledger]
+\label{thm:bareiss-fraction-free-elimination-pivot-ledger}
+Every determinant, rank-sensitive, or finite linear-system consumer of an accepted $\BareissFractionFreeEliminationUp$ packet must first read the finite pivot ledger
+$$
+R,M,P,D,I,L,U,Q,X,H,C,K,N.
+$$
+In particular, each update step is available only after the displayed pivot row, previous-pivot denominator row, fraction-free numerator row, exact-divisibility witness, and zero-pivot branch row have been exposed.
+\end{theorem}
+\begin{proof}
+Let a downstream consumer route be given. Carrier projection exposes the ring, matrix, polynomial, and determinant source rows before any pivot update can be replayed.
+
+For each pivot step, the consumer reads $I$ for the chosen pivot and previous denominator, then $L$ for the displayed numerator equation, then $U$ for exact divisibility. If the pivot branch is not direct, $Q$ supplies the finite swap evidence before the next update is read.
+
+The route then passes through $X,H,C,K,N$. These rows preserve the same finite ledger and do not add a field of fractions, quotient matrix equality, a selected row-reduction theorem, or an ambient elimination algorithm.
+\end{proof}
+
+\begin{theorem}[Bareiss determinant handoff]
+\label{thm:bareiss-fraction-free-elimination-determinant-handoff}
+The determinant read exported by an accepted $\BareissFractionFreeEliminationUp$ packet factors through the displayed route
+$$
+\RingUp,\ \MatrixUp,\ \PolynomialUp,\ \DeterminantUp
+  \longmapsto I,L,U,Q,X
+  \longmapsto H,C,K,N.
+$$
+Thus the terminal determinant handoff is a finite fraction-free ledger over the consumed sibling rows, not a host Gaussian elimination theorem, field-division computation, or quotient matrix equality principle.
+\end{theorem}
+\begin{proof}
+Start with the determinant-facing row $X$. It is not standalone: by carrier admission it depends on the consumed ring, matrix, optional polynomial, determinant, pivot, update, divisibility, and branch rows.
+
+Replay the fraction-free ledger. The update equation in $L$ is meaningful only after the pivot data in $I$ is displayed, and its division step is allowed only through the exact-divisibility witness $U$ inside the ring row. The branch row $Q$ records any finite swap before the next pivot ledger is read.
+
+Finally use $H,C,K,N$ to transport, replay, cite, and name the same data. Therefore the determinant handoff reaches $\DeterminantUp$ through displayed finite rows, and no host field division, quotient matrix equality, or ambient Gaussian elimination theorem is introduced.
+\end{proof}
+
+\closureat{BareissFractionFreeEliminationUp}{seedStr}
+
+\begin{closurestatus}{\BareissFractionFreeEliminationUp}
+  \constructivestory{A $\BareissFractionFreeEliminationUp$ packet is generated from RingUp scalar rows, MatrixUp entry rows, optional PolynomialUp coefficient rows, DeterminantUp source rows, finite pivot indices, fraction-free update equations, exact-divisibility witnesses, zero-pivot branch rows, determinant exactness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bareiss-fraction-free-elimination-carrier}, \autoref{thm:bareiss-fraction-free-elimination-namecert-obligations}, \autoref{thm:bareiss-fraction-free-elimination-pivot-ledger}, and \autoref{thm:bareiss-fraction-free-elimination-determinant-handoff} seed the finite fraction-free elimination route over displayed matrix, determinant, ring, polynomial, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host field division, quotient matrix equality, arbitrary Gaussian elimination, rank theory, Smith normal form, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, pivot-ledger exactness, exact-divisibility replay, determinant handoff, transport stability, and consumer non-escape for BEDC.Derived.BareissFractionFreeEliminationUp.}
+\end{closurestatus}
