@@ -1,4 +1,4 @@
-import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
+import BEDC.Derived.AuditMapObstructionSocketUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -15,16 +15,6 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
-
-def AuditMapObstructionSocketCarrier [AskSetup] [PackageSetup]
-    (auditTag positive conditional obstruction frontier transport continuations provenance
-      nameCert : BHist)
-    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory auditTag ∧ UnaryHistory positive ∧ UnaryHistory conditional ∧
-    UnaryHistory obstruction ∧ UnaryHistory frontier ∧ UnaryHistory transport ∧
-      UnaryHistory continuations ∧ UnaryHistory provenance ∧ UnaryHistory nameCert ∧
-        Cont frontier transport continuations ∧ PkgSig bundle provenance pkg ∧
-          PkgSig bundle nameCert pkg
 
 theorem AuditMapObstructionSocket_frontier_handoff [AskSetup] [PackageSetup]
     {auditTag positive conditional obstruction frontier transport continuations provenance
@@ -45,9 +35,9 @@ theorem AuditMapObstructionSocket_frontier_handoff [AskSetup] [PackageSetup]
           UnaryHistory frontierRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
   intro carrier frontierRoute
-  obtain ⟨_auditUnary, _positiveUnary, _conditionalUnary, _obstructionUnary, frontierUnary,
-    transportUnary, _continuationsUnary, _provenanceUnary, _nameCertUnary,
-    _carrierFrontierRoute, provenancePkg, nameCertPkg⟩ := carrier
+  obtain ⟨_packetWitness, _auditUnary, _positiveUnary, _conditionalUnary, _obstructionUnary,
+    frontierUnary, transportUnary, _continuationsUnary, _provenanceUnary, _nameCertUnary,
+    _auditPositiveSame, provenancePkg, nameCertPkg⟩ := carrier
   have frontierReadUnary : UnaryHistory frontierRead :=
     unary_cont_closed frontierUnary transportUnary frontierRoute
   have cert :
