@@ -235,21 +235,39 @@ instance contourSumWindowFieldFaithful : FieldFaithful ContourSumWindowUp where
         [contour, holomorphic, subdivision, riemann, output, transport, continuation,
           provenance, name]
   field_faithful := by
-    intro x y hfields
+    intro x y h
     cases x with
-    | mk contour holomorphic subdivision riemann output transport continuation provenance name =>
+    | mk contour₁ holomorphic₁ subdivision₁ riemann₁ output₁ transport₁ continuation₁
+        provenance₁ name₁ =>
         cases y with
-        | mk contour' holomorphic' subdivision' riemann' output' transport' continuation'
-            provenance' name' =>
-            cases hfields
+        | mk contour₂ holomorphic₂ subdivision₂ riemann₂ output₂ transport₂ continuation₂
+            provenance₂ name₂ =>
+            injection h with hContour t1
+            injection t1 with hHolomorphic t2
+            injection t2 with hSubdivision t3
+            injection t3 with hRiemann t4
+            injection t4 with hOutput t5
+            injection t5 with hTransport t6
+            injection t6 with hContinuation t7
+            injection t7 with hProvenance t8
+            injection t8 with hName _
+            cases hContour
+            cases hHolomorphic
+            cases hSubdivision
+            cases hRiemann
+            cases hOutput
+            cases hTransport
+            cases hContinuation
+            cases hProvenance
+            cases hName
             rfl
 
 instance contourSumWindowNontrivial : Nontrivial ContourSumWindowUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨ContourSumWindowUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      ContourSumWindowUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+    ⟨ContourSumWindowUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ContourSumWindowUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h

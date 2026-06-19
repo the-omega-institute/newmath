@@ -52,12 +52,24 @@ The refusal row $R$ records the missing endpoints. It prevents the bounded compa
 Transport and replay do not add data. The rows $H$ and $C$ preserve the same displayed comparison and side-condition routes, while $P$ and $N$ only record provenance and local naming. Thus the conversion read stays inside the bounded witness packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidability witness bounded normal-form split]
+\label{thm:metacic-decidability-witness-bounded-normal-form-split}
+An accepted $\MetacicDecidabilityWitnessUp$ packet may expose bounded checker output and normal-form endpoint rows only through its displayed candidate row $T$, structural comparison row $S$, fuel and window row $B$, normal-form side-condition row $F$, refusal row $R$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local $\NameCert_{\MetacicDecidabilityWitnessUp}$ row $N$. A later confluence or decidability consumer may inspect those rows as bounded normal-form evidence, but the packet does not expose global closed-term conversion decidability, unrestricted subject reduction, quotient syntax equality, or consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidability-witness-carrier}. The checker candidate, structural comparison, bounded fuel and window, normal-form side condition, refusal, transport, replay, provenance, and naming rows are exactly $T,S,B,F,R,H,C,P,N$.
+
+Invoke the NameCert obligations of \autoref{thm:metacic-decidability-witness-namecert-obligations}. They identify the admissible checker and normal-form reads with the displayed rows and leave no additional coordinate for a global conversion decider or host syntax equality.
+
+Use the bounded-conversion non-escape theorem \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape}. It confines conversion evidence to $B$ together with $F$, while $R$ records the missing global endpoints. Thus a later consumer may inspect bounded normal-form evidence through the named rows only, and cannot reread it as unrestricted conversion decidability, subject reduction, quotient syntax equality, or consistency.
+\end{proof}
+
 \closureat{MetacicDecidabilityWitnessUp}{seedStr}
 
 \begin{closurestatus}{\MetacicDecidabilityWitnessUp}
   \constructivestory{A $\MetacicDecidabilityWitnessUp$ packet is generated from inferTypeCtx soundness and completeness, checkSameTerm structural equality, bounded beta comparison, finished-normal side conditions, refusal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-decidability-witness-carrier}, \autoref{thm:metacic-decidability-witness-namecert-obligations}, and \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape} bind typing exactness and bounded conversion non-escape as one finite NameCert witness.}
+  \scopeclosed{\autoref{def:metacic-decidability-witness-carrier}, \autoref{thm:metacic-decidability-witness-namecert-obligations}, \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape}, and \autoref{thm:metacic-decidability-witness-bounded-normal-form-split} bind typing exactness, bounded conversion non-escape, and bounded normal-form exposure as one finite NameCert witness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
