@@ -8,6 +8,7 @@ import types
 
 import pytest
 
+from bedc_quality_lab import l1_admissibility_audit
 from bedc_quality_lab import status_taxonomy
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
@@ -197,6 +198,8 @@ def _payload_for_spec(spec):
         from bedc_quality_lab.tasks import sti
 
         return sti.build_payload(generated_at="fixture")
+    if spec.name == "l1-admissibility-audit":
+        return l1_admissibility_audit.build_payload(generated_at="fixture")
     if spec.name == "discovery-gated-transformer-jepa-world-model":
         return canonical._build_dgt_jepa_world_model_payload(generated_at="fixture")
     if spec.name == "lejepa-theorem-ledger":
@@ -2249,6 +2252,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "discovery-gated-transformer-jepa-world-model",
         "jepa-wm-l1-evaluator-calibration",
         "sti-admission",
+        "l1-admissibility-audit",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
         "model-comparison",
@@ -10298,6 +10302,53 @@ def test_jepa_world_model_only_route_raises_on_failed_report(tmp_path, monkeypat
     with pytest.raises(SystemExit) as excinfo:
         canonical.run_reports(
             only="discovery-gated-transformer-jepa-world-model",
+            generated_at="2030-01-01T00:00:00+00:00",
+        )
+
+    assert excinfo.value.code == 1
+
+
+def test_l1_admissibility_audit_only_route_writes_summary(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["l1-admissibility-audit"]
+    summary_path = tmp_path / "summary.json"
+    calls = []
+
+    def fake_run_spec(route_spec, mode="changed", generated_at=None):
+        calls.append((route_spec.name, mode, generated_at))
+        assert route_spec is spec
+        return _index_row_for_spec(route_spec) | {"status": "pass", "producer_status": "completed"}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    payload = canonical.run_reports(
+        only="l1-admissibility-audit",
+        generated_at="2030-01-01T00:00:00+00:00",
+        json_summary=str(summary_path),
+    )
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+    assert calls == [("l1-admissibility-audit", "changed", "2030-01-01T00:00:00+00:00")]
+    assert payload["schema_id"] == canonical.INDEX_SCHEMA_ID
+    assert payload["reports"][0]["name"] == "l1-admissibility-audit"
+    assert payload["reports"][0]["producer_status"] == "completed"
+    assert payload["status_summary"]["axes"]["report_build_status"]["pass"] == 1
+    assert summary == payload
+
+
+def test_l1_admissibility_audit_only_route_raises_on_failed_report(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["l1-admissibility-audit"]
+
+    def fake_run_spec(route_spec, mode="changed", generated_at=None):
+        assert route_spec is spec
+        return _index_row_for_spec(route_spec) | {"status": "fail", "producer_status": "failed"}
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+
+    with pytest.raises(SystemExit) as excinfo:
+        canonical.run_reports(
+            only="l1-admissibility-audit",
             generated_at="2030-01-01T00:00:00+00:00",
         )
 
