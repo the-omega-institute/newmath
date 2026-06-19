@@ -7943,6 +7943,7 @@ import BEDC.Derived.NeighborhoodFilterUp.TasteGate
 import BEDC.Derived.NeighborhoodFunctionUp.TasteGate
 import BEDC.Derived.NemytskiiOperatorUp
 import BEDC.Derived.NemytskiiOperatorUp.TasteGate
+import BEDC.Derived.NeronModelUp.TasteGate
 import BEDC.Derived.NestedCauchyIntervalSelectionUp.TasteGate
 import BEDC.Derived.NestedCauchyRealSectionUp.TasteGate
 import BEDC.Derived.NestedClosedBallUp
