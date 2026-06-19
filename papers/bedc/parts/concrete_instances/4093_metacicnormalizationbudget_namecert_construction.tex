@@ -104,6 +104,7 @@ Finally apply non-escape, \autoref{thm:metacic-normalization-budget-nonescape}. 
 \label{thm:metacic-normalization-budget-falsifiable-boundary}
 Every accepted $\MetaCICNormalizationBudgetUp$ packet that is queried for a normalization read while missing the candidate evidence row $C$ or the closed-candidate membership row $E$ must route the query to the refusal row $R$. In particular, an accepted packet whose public read exports strong normalization without both $C$ and $E$ is not a valid instance of the carrier of \autoref{def:metacic-normalization-budget-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationBudgetUp.MetaCICNormalizationBudgetCarrier\_falsifiable\_boundary}
 \begin{proof}
 Inspect the carrier tuple. Its only positive normalization route is the displayed sequence $T,C,E,S,A,P$, while $R$ is the unique row assigned to requests that omit candidate evidence or closed-candidate membership.
 
@@ -140,6 +141,7 @@ Apply \autoref{thm:metacic-normalization-budget-nonescape}. Componentwise transp
 
 Finally read $L$ and $N$ as provenance and local naming rows. They source and name the transported refusal packet, but they do not add candidate evidence, membership evidence, a second refusal destination, or a positive normalization coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICNormalizationBudgetUp.MetaCICNormalizationBudgetCarrier\_refusal\_transport}
 
 \begin{theorem}[MetaCIC normalization budget refusal idempotence]
 \label{thm:metacic-normalization-budget-refusal-idempotence}
@@ -154,6 +156,7 @@ For the induction step, assume the finite prefix of the replay ledger still has 
 
 Induction over the finite replay ledger gives the claim for every finite sequence. The rows $L,N$ source and name the same refusal packet throughout the induction, so repeated replay records the original boundary rather than changing it.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICNormalizationBudgetUp.MetaCICNormalizationBudgetCarrier\_refusal\_idempotence}
 
 \begin{theorem}[MetaCIC normalization budget independence boundary]
 \label{thm:metacic-normalization-budget-independence-boundary}

@@ -20,19 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-19T06:24:40Z
+> 最后刷新: 2026-06-19T10:40:34Z
 
-**Daemon 状态**: monitor (monitor cycle 69, adjust_since_research 2, round_counter 14043, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 72, adjust_since_research 2, round_counter 14290, last_adjust rule_evolution_completed)
 
-**待处理 queue** (485 条 finding):
-- isolated_theorem: 331 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (510 条 finding):
+- isolated_theorem: 356 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 26 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 91 次
-- TASTE ALERT category=low_entropy_template: 24 次
-- TASTE ALERT category=missing_origin: 1 次
+- TASTE ALERT category=isolated_theorem: 73 次
+- TASTE ALERT category=low_entropy_template: 21 次
 - TASTE ALERT category=resolution_merge_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -337,6 +336,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-18T11:18:54Z: `resolved` `delete_theorem` for `BEDC.Derived.Arzela_ascoli_finite_modulusUp.ArzelaAscoliFiniteModulusCarrier_route_closure` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.Arzela_ascoli_finite_modulusUp.ArzelaAscoliFiniteModulusCarrier_route_closure:bc1c2873`). Rationale: The flagged theorem was an unconsumed route-closure wrapper over ArzelaAscoliFiniteModulusCarrier in the underscore-named Derived file. Full-repo grep found no references to the fully qualified target, the concrete chapter uses the canonical BEDC.Derived.ArzelaAscoliFiniteModulusUp markers plus the sibling CompactmetricForwardRoute marker, and the same file keeps the substantive downstream theorem BEDC.Derived.Arzela_ascoli_finite_modulusUp.ArzelaAscoliFiniteModulusCompactmetricForwardRoute. Removing the isolated wrapper leaves the carrier and consumed forward route intact. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-19T04:20:40Z: `resolved` `add_downstream_user` for `BEDC.Derived.CalculusUp.CalculusRootDerivativeIntegralCarrier_admission` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CalculusUp.CalculusRootDerivativeIntegralCarrier_admission:ed392a37`). Rationale: The target has real BEDC content: it admits the root derivative-integral carrier by deriving a SemanticNameCert for derivative and integral read rows plus their UnaryHistory closure. Repo grep found no existing downstream Lean use and no paper marker for the full target, so deleting would discard a useful carrier admission. I added a sibling consumer theorem, CalculusRiemannIntegralRootCarrierDependencyRoute, in the Riemann integral dependency route file; it explicitly uses the admission to obtain derivative/integral read closure, then extends that into a shared read and Real-facing route certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-19T08:34:40Z: `resolved` `delete_theorem` for `BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:filterlimitbasis:BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisTasteGate_single_carrier_alignment:dd551166`). Rationale: The declaration was an isolated public wrapper around existing local implementation facts: the BHist encode/decode round trip, existing BHistCarrier and ChapterTasteGate instances, and the empty encoding by rfl. Repository search found no Lean downstream consumers and only the removable paper marker, while the chapter already has substantive checked targets for NameCert obligations and CauchyFilterCompletion handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
