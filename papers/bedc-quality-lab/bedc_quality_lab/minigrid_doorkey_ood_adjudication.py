@@ -81,12 +81,6 @@ class RawPointer:
         }
 
 
-def canonical_digest(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    ).hexdigest()
-
-
 def _read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
