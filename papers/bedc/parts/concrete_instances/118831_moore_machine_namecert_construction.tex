@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\MooreMachineUp$}
+\label{ch:concrete-instances-moore-machine-namecert}
+\origin{human}
+
+Following Moore's finite-state machine tradition, the $\MooreMachineUp$ packet records a deterministic automaton with output attached to states as finite BEDC NameCert data. It sits beside the Myhill--Nerode classifier of \autoref{ch:concrete-instances-myhill-nerode-namecert} and the regular-language continuation surface of \autoref{ch:concrete-instances-regular-language-continuation-namecert}. The packet names state replay and output readout for finite input traces; it does not introduce infinite streams, nondeterministic branching, minimization uniqueness, quotient language equality, or a host evaluator.
+
+\begin{definition}[Moore-machine carrier]
+\label{def:moore-machine-carrier}
+A $\MooreMachineUp$ carrier is a finite $\BHist$ packet
+$$
+M=(Q,I,O,q_0,\delta,\omega,W,Y,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite state row.
+\item $I$ is the finite input-alphabet row.
+\item $O$ is the finite output-alphabet row.
+\item $q_0$ is the initial-state row.
+\item $\delta$ is the deterministic transition replay row, reading a current state and an input symbol into the next displayed state.
+\item $\omega$ is the output readout row, reading each displayed state into an output symbol.
+\item $W$ is the finite input-trace row.
+\item $Y$ is the finite output-trace row obtained by replaying $W$ from $q_0$ through $\delta$ and reading each visited state through $\omega$.
+\item $H$ records componentwise $\hsame$ transport for states, alphabets, initial state, transition replay, output readout, traces, continuation replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an input-trace request through $q_0,\delta,\omega,W,Y$.
+\item $P$ is the $\Pkg$ provenance over $\MooreMachineUp$, $\MyhillNerodeUp$, $\RegularLanguageContinuationUp$, finite $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MooreMachineUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows, their displayed transports, their continuation replay, package provenance, and local naming. It has no coordinate for nondeterministic choice, infinite input streams, quotient language equality, canonical minimization, or host evaluator soundness.
+\end{definition}
+
+\begin{theorem}[Moore-machine NameCert obligations]
+\label{thm:moore-machine-namecert-obligations}
+For every accepted $\MooreMachineUp$ carrier $M=(Q,I,O,q_0,\delta,\omega,W,Y,H,C,P,N)$, the local $\NameCert_{\MooreMachineUp}$ surface consists exactly of deterministic transition replay from $q_0$ along the finite input trace $W$, output trace stability through the state readout $\omega$, comparison with the Myhill--Nerode state classifier of \autoref{ch:concrete-instances-myhill-nerode-namecert}, and handoff to the regular-language continuation surface of \autoref{ch:concrete-instances-regular-language-continuation-namecert}. The packet exports finite state-output behavior only; it does not assert language quotient equality, minimal automaton uniqueness, infinite-stream acceptance, nondeterministic branching, or host evaluator soundness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:moore-machine-carrier}. The rows expose finite states, input and output alphabets, the initial state, deterministic transition replay, output readout, finite traces, transport, replay, provenance, and local naming.
+
+Deterministic replay is supplied by $\delta$ and $C$. Starting from $q_0$, each displayed input symbol in $W$ determines the next displayed state, so a trace consumer cannot branch outside the carrier rows.
+
+Output trace stability is supplied by $\omega,Y,H$. Transport preserves the same state readout under $\hsame$, and the output trace $Y$ is read only from the replayed finite state path.
+
+Finally compare the displayed state behavior with the Myhill--Nerode classifier and hand it to the regular-language continuation surface. Those sibling routes consume the same finite state and continuation data, while no row adds quotient language equality, canonical minimization, infinite-stream acceptance, nondeterminism, or host evaluator soundness.
+\end{proof}
+
+\closureat{MooreMachineUp}{seedStr}
+
+\begin{closurestatus}{\MooreMachineUp}
+  \constructivestory{A $\MooreMachineUp$ packet is generated from finite state, input alphabet, output alphabet, initial-state, deterministic transition replay, output readout, finite trace, output trace, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:moore-machine-carrier} and \autoref{thm:moore-machine-namecert-obligations} seed the finite Moore-machine surface over deterministic state replay, output readout, Myhill--Nerode comparison, regular-language continuation handoff, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close language quotient equality, minimal automaton uniqueness, infinite-stream acceptance, nondeterministic branching, host evaluator soundness, Lean proof obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, deterministic transition replay, output trace stability, Myhill--Nerode comparison, regular-language continuation handoff, transport, replay, provenance, and local naming for BEDC.Derived.MooreMachineUp.}
+\end{closurestatus}
