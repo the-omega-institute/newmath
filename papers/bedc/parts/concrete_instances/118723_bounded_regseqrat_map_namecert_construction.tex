@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BoundedRegSeqRatMapUp$}
+\label{ch:concrete-instances-bounded-regseqrat-map-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BoundedRegSeqRatMapUp$ packet records a bounded map on regular rational names by exposing finite source windows, regular-rational input and output readbacks, a dyadic bound ledger, and the terminal real-name seal before any completion-facing consumer reads the map. It sits over the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the graph replay route of \autoref{ch:concrete-instances-continuousmap-namecert}. The packet is a bounded regular-sequence map certificate; it is not an ambient function-space object, quotient equality of real names, selected modulus of continuity, countable-choice schedule, or global completeness theorem for $\RealUp$.
+
+\begin{definition}[Bounded RegSeqRat map carrier]
+\label{def:bounded-regseqrat-map-carrier}
+A $\BoundedRegSeqRatMapUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,I,O,B,T,R,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source-window row, listing exactly the input coordinates inspected before the map graph is replayed.
+\item $I$ is the $\RegSeqRatUp$ input readback row attached to the displayed source windows.
+\item $O$ is the $\RegSeqRatUp$ output readback row produced from the same inspected windows.
+\item $B$ is the $\DyadicRatCoreUp$ bound ledger, carrying the displayed dyadic radius that bounds every output row exposed by $O$.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the precision requests used to compare input windows, output windows, and the bound row.
+\item $R$ is the terminal $\RealUp$ seal row reached only after $S,I,O,B,T$ have been displayed.
+\item $G$ is the $\ContinuousMapUp$ graph replay row, exposing the finite graph route from source windows through regular-rational input and output readbacks.
+\item $H$ records componentwise $\hsame$ transport for source windows, input readback, output readback, bound ledger, tolerance ledger, real seal, graph replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from $\StreamNameUp$ windows through $\RegSeqRatUp$ input and output readbacks, $\DyadicRatCoreUp$ bound and tolerance ledgers, the $\ContinuousMapUp$ graph row, and the terminal $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\BoundedRegSeqRatMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedRegSeqRatMapUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for an ambient function space, quotient equality of real names, an externally selected continuity modulus, countable choice, host boundedness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bounded RegSeqRat map NameCert obligations]
+\label{thm:bounded-regseqrat-map-namecert-obligations}
+For every accepted $\BoundedRegSeqRatMapUp$ carrier $M=(S,I,O,B,T,R,G,H,C,P,N)$, the local $\NameCert_{\BoundedRegSeqRatMapUp}$ surface consists exactly of carrier admission for source windows, regular-rational input readback, regular-rational output readback, dyadic bound ledger, dyadic tolerance ledger, terminal real seal, ContinuousMap graph replay, componentwise transport, displayed replay, package provenance, and local naming. Every map-facing read must expose $S,I,O,B,T,G$ before $R$ can be consumed, and the ledger exports no ambient function space, quotient real-name equality, externally selected modulus of continuity, countable-choice schedule, host boundedness theorem, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bounded-regseqrat-map-carrier}. The source row is $S$, the input and output regular-rational readbacks are $I$ and $O$, and the dyadic boundedness data are exactly the rows $B$ and $T$.
+
+The graph route is finite. A map-facing consumer can replay the $\ContinuousMapUp$ row $G$ only after the inspected source windows and both $\RegSeqRatUp$ readbacks have been exposed. Thus the graph is tied to displayed windows rather than to a hidden function-space element.
+
+The terminal seal is downstream. The $\RealUp$ row $R$ is reached only after the bound and tolerance ledgers have been read, while $H,C,P,N$ transport, replay, source, and name the same packet. Since no carrier coordinate stores quotient equality, an external continuity modulus, a choice schedule, host boundedness, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bounded RegSeqRat map uniform bound handoff]
+\label{thm:bounded-regseqrat-map-uniform-bound-handoff}
+Every Real-facing or completion-facing consumer of an accepted $\BoundedRegSeqRatMapUp$ packet receives the finite route
+$$
+\StreamNameUp,\quad
+\RegSeqRatUp_{\mathrm{in}},\quad
+\RegSeqRatUp_{\mathrm{out}},\quad
+\DyadicRatCoreUp_{\mathrm{bound}},\quad
+\DyadicRatCoreUp_{\mathrm{tol}},\quad
+\ContinuousMapUp,\quad
+\RealUp .
+$$
+The bound handoff is the displayed dyadic ledger $B,T$ over the same source windows that produce the output readback. It is not an ambient bounded-function assumption, quotient equality of real names, selected continuity modulus, countable-choice schedule, or global completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the terminal seal or completion-facing route. Carrier admission forces the read to begin with the finite source-window row $S$ and the input regular-rational readback $I$.
+
+Open the map graph next. The $\ContinuousMapUp$ row $G$ replays the route from $S$ and $I$ to the output readback $O$, so the output cannot be inspected independently of the displayed source windows.
+
+The boundedness handoff is then forced by the dyadic rows. The ledger $B$ supplies the displayed bound and $T$ supplies the tolerance comparisons needed to read that bound against $O$. Only after these rows are exposed may the consumer reach the $\RealUp$ seal $R$.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BoundedRegSeqRatMapUp$ consumer is refuted if it reaches a RealUp seal or completion-facing output without first displaying the StreamName source windows, RegSeqRat input readback, RegSeqRat output readback, DyadicRatCore bound and tolerance ledgers, ContinuousMap graph replay, transport, displayed replay, provenance, and local naming rows.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, continuousmap: no listed sibling supplies the full bounded regular-sequence map packet, because only $\BoundedRegSeqRatMapUp$ binds source windows, input and output regular-rational readbacks, dyadic bound and tolerance ledgers, graph replay, Real seal, transport, replay, provenance, and local naming as one NameCert route.}
+
+\closureat{BoundedRegSeqRatMapUp}{seedStr}
+
+\begin{closurestatus}{\BoundedRegSeqRatMapUp}
+  \constructivestory{A $\BoundedRegSeqRatMapUp$ packet is generated from StreamName source windows, RegSeqRat input and output readbacks, DyadicRatCore bound and tolerance ledgers, a ContinuousMap graph replay row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-regseqrat-map-carrier}, \autoref{thm:bounded-regseqrat-map-namecert-obligations}, and \autoref{thm:bounded-regseqrat-map-uniform-bound-handoff} seed the finite bounded-map route over StreamName, RegSeqRat, DyadicRatCore, ContinuousMap, RealUp, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient function spaces, quotient real-name equality, selected continuity moduli, countable choice, host boundedness, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-window admission, input and output RegSeqRat readback, dyadic bound and tolerance exactness, ContinuousMap graph replay, Real seal nonescape, componentwise transport, displayed replay, provenance, and local naming for BEDC.Derived.BoundedRegSeqRatMapUp.}
+\end{closurestatus}
