@@ -12,7 +12,7 @@ Verification:
 
 Unresolved risk:
 - A direct runtime packet-shape check could not run in the current `python3` environment because `numpy` is unavailable.
-- Existing adjacent tests contain competing schema expectations around whether `torch_environment.device` is present. The resolved file keeps both the new base `device` field and the PR-side explicit resolution fields for reader compatibility.
+- The resolved file keeps both the `device` dictionary field and the explicit `resolved_device` / `device_resolution` fields for reader compatibility.
 
 ⟦AI:AUTO-LOOP⟧
 REBASE_RESOLVE_DONE:1632:resolved

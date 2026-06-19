@@ -10,8 +10,12 @@ def test_torch_retraining_loss_ablation_records_true_training_rows():
     assert packet["schema_id"] == "bedc-jepa-retraining-loss-ablation"
     assert packet["status"] == "executed"
     assert packet["source"]["training"] == "torch-gradient-retraining"
-    assert "device" not in packet["torch_environment"]
+    assert isinstance(packet["torch_environment"]["device"], dict)
     assert isinstance(packet["torch_environment"]["resolved_device"], str)
+    assert (
+        packet["torch_environment"]["device"]["resolved_device"]
+        == packet["torch_environment"]["resolved_device"]
+    )
     assert (
         packet["torch_environment"]["device_resolution"]["resolved_device"]
         == packet["torch_environment"]["resolved_device"]

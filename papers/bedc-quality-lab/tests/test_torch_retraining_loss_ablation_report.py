@@ -9,8 +9,9 @@ def test_retraining_loss_ablation_packet_is_json_ready():
     decoded = json.loads(json.dumps(packet, sort_keys=True))
 
     torch_environment = decoded["torch_environment"]
-    assert "device" not in torch_environment
+    assert isinstance(torch_environment["device"], dict)
     assert isinstance(torch_environment["resolved_device"], str)
     assert torch_environment["resolved_device"] in {"cpu", "cuda", "mps"}
+    assert torch_environment["device"]["resolved_device"] == torch_environment["resolved_device"]
     assert torch_environment["device_resolution"]["resolved_device"] == torch_environment["resolved_device"]
     assert isinstance(torch_environment["device_resolution"]["backend_details"], dict)
