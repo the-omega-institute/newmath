@@ -1373,6 +1373,7 @@ import BEDC.Derived.CalculusUp.IntegralSumObligation
 import BEDC.Derived.CalculusUp.LimitRealSealObligation
 import BEDC.Derived.CalculusUp.LocalLinearizationCarrier
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
+import BEDC.Derived.CalculusUp.LocatedCompactDependencyRoute
 import BEDC.Derived.CalculusUp.RealSealErrorBudget
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
 import BEDC.Derived.CalculusUp.RegSeqRatReadbackRootObligation
@@ -2521,6 +2522,7 @@ import BEDC.Derived.CausalCommitmentUp.TasteGate
 import BEDC.Derived.CausalContinuitySocketUp.RecordPredictionSeparation
 import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalInterventionUp
+import BEDC.Derived.CausalInterventionUp.NameCertObligations
 import BEDC.Derived.CausalInterventionUp.TasteGate
 import BEDC.Derived.CayleyHamiltonUp.TasteGate
 import BEDC.Derived.CayleyTheoremUp.TasteGate
@@ -4112,6 +4114,7 @@ import BEDC.Derived.CutRegularizationUp.TasteGate
 import BEDC.Derived.CyclicTagSystemUp.TasteGate
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.CyclotomicUp.SplittingPolynomial
+import BEDC.Derived.CylinderObjectUp
 import BEDC.Derived.DAlembertRatioTestUp
 import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
@@ -5391,6 +5394,7 @@ import BEDC.Derived.FilterCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
+import BEDC.Derived.FilterLimitBasisUp.WindowBasisExhaustion
 import BEDC.Derived.FilterLimitCriterionUp
 import BEDC.Derived.FilterRefinementUp.CauchyBaseDependency
 import BEDC.Derived.FilterRefinementUp.CauchyBasisConsumer
@@ -5712,6 +5716,7 @@ import BEDC.Derived.FiniteWitnessedRefutationUp
 import BEDC.Derived.FiniteWitnessedRefutationUp.CarrierAlignment
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.FirmNonexpansiveProjectionUp
+import BEDC.Derived.FirmNonexpansiveProjectionUp.TasteGate
 import BEDC.Derived.FirstCountableSequentialClosureUp.TasteGate
 import BEDC.Derived.FirstCountableSpaceUp
 import BEDC.Derived.FirstCountableSpaceUp.TasteGate
