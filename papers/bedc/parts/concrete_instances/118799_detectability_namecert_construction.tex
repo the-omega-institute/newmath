@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\DetectabilityUp$}
+\label{ch:concrete-instances-detectability-namecert}
+\origin{human}
+
+Following Kalman's finite-dimensional control theory, the $\DetectabilityUp$ packet records the finite boundary between full observation and estimator-consumable decay. It sits after the state-space carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, the observation surface of \autoref{ch:concrete-instances-controlobservability-namecert}, the reachability-side control surface of \autoref{ch:concrete-instances-controlcontrollability-namecert}, the finite dual readback of \autoref{ch:concrete-instances-observability-gramian-namecert}, the deterministic observer ledger of \autoref{ch:concrete-instances-luenberger-observer-namecert}, and the prediction-update surface of \autoref{ch:concrete-instances-kalman-filter-namecert}. The chapter names the finite rows that let observer and filter consumers read unobservable modes only through a displayed decay ledger; it does not import host spectral theory, quotient state spaces, or ambient asymptotic semantics.
+
+\begin{definition}[Detectability carrier]
+\label{def:detectability-carrier}
+A $\DetectabilityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,A,C,U,E,O,L,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the state-space source row consumed from $\StateSpaceModelUp$;
+\item $A$ is the transition-matrix row over the displayed state coordinates;
+\item $C$ is the output-map row consumed through $\ControlObservabilityUp$;
+\item $U$ is the unobservable-mode witness row naming the finite part of the state row not separated by the displayed observation surface;
+\item $E$ is the decay ledger for the $A$-evolution on the displayed unobservable-mode witness;
+\item $O$ is the observer/filter handoff row consumed by $\LuenbergerObserverUp$ and $\KalmanFilterUp$;
+\item $L$ is the componentwise $\hsame$ ledger for the state-space source, transition matrix, output map, unobservable-mode witness, decay ledger, and observer/filter handoff rows;
+\item $H$ is the displayed $\Cont$ route for observation readback, decay-ledger readback, and handoff replay;
+\item $T$ is the $\Pkg$ provenance over $\DetectabilityUp$, $\StateSpaceModelUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\ObservabilityGramianUp$, $\LuenbergerObserverUp$, $\KalmanFilterUp$, $\MatrixUp$, $\LinearMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $P$ records the local package replay for the same rows after representative change;
+\item $N$ is the local $\NameCert_{\DetectabilityUp}$ row.
+\end{enumerate}
+The classifier identifies two accepted packets only when the displayed state-space, transition, output, unobservable-mode, decay, and handoff rows match componentwise through $L$, with the same $\Cont$ and $\Pkg$ provenance.
+\end{definition}
+
+\begin{theorem}[Detectability NameCert obligations]
+\label{thm:detectability-namecert-obligations}
+For every accepted $\DetectabilityUp$ carrier $D=(S,A,C,U,E,O,L,H,T,P,N)$, the local $\NameCert_{\DetectabilityUp}$ surface has exactly five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed state-space source, transition matrix, output map, unobservable-mode witness, decay ledger, and observer/filter handoff rows;
+\item classifier admission through componentwise $\hsame$ transport over those displayed rows;
+\item observability and Gramian readback saying that $C,U,E$ are consumed only through $\ControlObservabilityUp$ and $\ObservabilityGramianUp$ rows;
+\item observer/filter boundary replay saying that $O$ is the sole route from detectability data to $\LuenbergerObserverUp$ or $\KalmanFilterUp$ consumers;
+\item provenance and local naming through the displayed $\Cont$, $\Pkg$, replay, and $\NameCert_{\DetectabilityUp}$ rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:detectability-carrier}. The rows $S,A,C,U,E,O$ are the only control-facing data, while $L,H,T,P,N$ transport, replay, source, and name the same finite packet.
+
+The classifier row is componentwise because the carrier has no coordinate for a quotient state space or hidden spectral decomposition. Any comparison of unobservable modes must therefore pass through the displayed $\hsame$ ledger $L$.
+
+The observation and handoff rows are already named as dependencies. The rows $C,U,E$ read through $\ControlObservabilityUp$ and $\ObservabilityGramianUp$, and the row $O$ is the only observer/filter handoff. Repacking these projections with $H,T,P,N$ gives the stated five-row surface.
+\end{proof}
+
+\begin{theorem}[Detectability observer/filter boundary]
+\label{thm:detectability-observer-boundary}
+Every $\LuenbergerObserverUp$ or $\KalmanFilterUp$ consumer of an accepted $\DetectabilityUp$ packet may read detectability only through the displayed observability rows $C,U$ and the decay ledger $E$, transported through $L$ and replayed through $H,T,P,N$. The handoff supplies no host spectral radius, no quotient unobservable subspace, no selected observer gain, no stochastic convergence theorem, and no ambient asymptotic stability claim outside the finite packet of \autoref{def:detectability-carrier}.
+\end{theorem}
+\begin{proof}
+Start with the NameCert surface of \autoref{thm:detectability-namecert-obligations}. It exposes the observer/filter handoff row only after the state-space, transition, output, unobservable-mode, and decay rows have been displayed.
+
+The observer consumer reads $O$ as a deterministic boundary for the $\LuenbergerObserverUp$ ledger, while the filter consumer reads the same handoff as finite provenance for the $\KalmanFilterUp$ observation branch. In both cases the rows $C,U,E$ remain attached to $\ControlObservabilityUp$ and $\ObservabilityGramianUp$ readback rather than to a host spectral object.
+
+Because the carrier contains no row for a spectral radius, quotient unobservable subspace, selected observer gain, stochastic convergence theorem, or ambient asymptotic stability claim, no such object can be exported by the detectability handoff.
+\end{proof}
+
+\falsifiablePrediction{Any observer or filter consumer that reads $\DetectabilityUp$ while bypassing the displayed observability rows $C,U$, the decay ledger $E$, or the handoff row $O$ violates the local certificate boundary.}
+
+\independenceWitness{statespacemodel, controlobservability, controlcontrollability, observability-gramian, luenberger-observer, kalman-filter: none is bijective to $\DetectabilityUp$ because the detectability packet jointly carries the state-space source, transition matrix, output map, unobservable-mode witness, decay ledger, observer/filter handoff, transport, replay, provenance, and local NameCert rows while excluding host spectral and quotient semantics.}
+
+\closureat{DetectabilityUp}{seedStr}
+
+\begin{closurestatus}{\DetectabilityUp}
+  \constructivestory{A $\DetectabilityUp$ packet is generated from a finite state-space source, transition matrix, output map, unobservable-mode witness, decay ledger, observer/filter handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, package replay, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:detectability-carrier}, \autoref{thm:detectability-namecert-obligations}, \autoref{thm:detectability-observer-boundary}, the displayed falsifiable prediction, and the displayed independence witness seed the finite detectability NameCert surface over state-space, observability, Gramian, observer, and filter rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host spectral criteria, quotient unobservable subspaces, selected observer gains, stochastic convergence theorems, or ambient asymptotic stability.}
+  \upgradepath{Obligation closure requires checked carrier admission, observability readback, unobservable-mode witness exactness, decay-ledger exactness, observer/filter handoff stability, transport, replay, provenance, and local naming for BEDC.Derived.DetectabilityUp.}
+\end{closurestatus}
