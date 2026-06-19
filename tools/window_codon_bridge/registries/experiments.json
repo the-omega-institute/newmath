@@ -376,6 +376,14 @@
    "status": "open",
    "timeout_seconds": 600,
    "note": "CERTIFIED. Decomposes the certified E1 (lambda=5 first-order) concentration of B*_Q6 into 9 single-position chemical-character components (3 codon positions x chi_R/chi_W/chi_K), vs the matched-synonymous null, Bonferroni alpha 0.001/6 over 3 positions + 3 characters. Significant excess carriers: position3/wobble (z=8.76, dominant), position1 (z=4.53, from cross-box contrasts), chi_W weak/strong (z=10.05, dominant), chi_R purine/pyrimidine (z=3.47). NOT significant: position2, chi_K keto/amino. Dominant single component p3_W (third-position weak/strong). E1-basis exact (sum e e^T = P_E1, max_abs 0; orthonormal rank 9); adversarially verified (apples-to-apples null, 3rd-position excess genuine not artifact)."
+  },
+  {
+   "experiment_id": "codon_e1_heldout_crossorganism_gate",
+   "claim_id": "bridge.genetic_code.codon_e1_heldout_crossorganism_conservation",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_heldout_crossorganism_gate.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "CERTIFIED held-out cross-organism gate (oracle frozen spec). Across 29 organisms / 18 genera (public NCBI codon counts, synced/codon_e1_heldout_panel.json), each organism's synonymous codon-usage residual d_resid4 puts T_heldout=0.571 of its norm^2 in the 6-dim codon-E1 subspace B1, vs matched-synonymous-relabel null mean 0.137 (z=8.75, one-sided p=5e-5; = chance projection onto 6 of 41 dims, independently confirmed 6/41=0.146), cluster-bootstrap (18 genera) lower-95% excess 0.352>0. Both gate conditions met. Clears the 26/41 chance-projection trap. Adversarially verified (null = fair chance baseline, B1 rank-6 exact, no trivial alignment, panel clean). Scoped: conserved codon-E1 component of d_resid4; NOT Window6; mostly-bacteria panel."
   }
  ]
 }
