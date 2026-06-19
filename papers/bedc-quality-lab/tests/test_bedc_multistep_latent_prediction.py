@@ -214,7 +214,7 @@ def _install_fake_surface(monkeypatch) -> None:
     def evaluate_surface(name, scores, batch):
         bedc = name == "bedc_objective"
         return {
-            "linear_identifiability_r2": 0.92 if bedc else 0.86,
+            "linear_identifiability_r2": 0.92 if name != "latent_only" else 0.86,
             "gap_detection_auc": 0.91 if bedc else 0.70,
             "certified_coverage": 0.83 if bedc else 0.70,
             "unlogged_error_rate": 0.01 if bedc else 0.08,
@@ -254,11 +254,31 @@ def test_multistep_report_uses_paired_seeds_gpu_evidence_and_gap_hardgates(monke
         "gpu_evidence": True,
         "seed_count": True,
         "paired_bootstrap_ci": True,
-        "gap_preservation": True,
     }
+    assert report["hardgates"]["diagnostic_gates"]["gap_preservation"] is True
+    assert report["claim_gates"]["rollout_precision"]["claim_allowed"] is True
+    assert report["claim_gates"]["rollout_precision"]["claim_allowed"] is report["hardgates"]["claim_allowed"]
+    assert report["claim_gates"]["gap_calibration"]["claim_allowed"] is True
+    assert report["claim_gates"]["gap_calibration"]["gates"] == {"paired_bootstrap_ci": True}
+    assert report["claim_gates"]["gap_calibration"]["paired_bootstrap_ci"][
+        "gap_detection_auc_delta"
+    ]["low"] > 0.0
+    assert "coverage_delta" in report["claim_gates"]["gap_calibration"]["diagnostics"]
+    assert "unlogged_error_reduction" in report["claim_gates"]["gap_calibration"]["diagnostics"]
     assert report["paired_deltas"]["rollout_mse_reduction"] == [1.0, 1.0, 1.0, 1.0, 1.0]
+    assert report["paired_deltas"]["gap_calibration_auc_delta"] == pytest.approx([0.21] * 5)
     assert "gap_detection_auc" in report["same_split_metrics"]
     assert len(report["runs"]) == 5
+    assert set(report["systems"]) == {
+        "latent_only",
+        "bedc_objective",
+        "bedc_shuffled_gap_placebo",
+    }
+    assert set(report["runs"][0]["systems"]) == {
+        "latent_only",
+        "bedc_objective",
+        "bedc_shuffled_gap_placebo",
+    }
 
 
 def test_multistep_report_blocks_claim_when_device_is_not_cuda(monkeypatch):
@@ -276,6 +296,7 @@ def test_multistep_report_blocks_claim_when_device_is_not_cuda(monkeypatch):
 
     assert report["hardgates"]["status"] == "failed"
     assert report["hardgates"]["gates"]["gpu_evidence"] is False
+    assert report["claim_gates"]["rollout_precision"]["gates"]["gpu_evidence"] is False
     assert report["cannot_claim"]
 
 
@@ -296,6 +317,8 @@ def test_multistep_report_blocks_claim_when_seed_count_is_too_small(monkeypatch)
     assert report["hardgates"]["status"] == "failed"
     assert report["hardgates"]["gates"]["seed_count"] is False
     assert report["hardgates"]["gates"]["paired_bootstrap_ci"] is False
+    assert report["claim_gates"]["rollout_precision"]["claim_allowed"] is False
+    assert report["claim_gates"]["gap_calibration"]["claim_allowed"] is False
     assert "seed_count" in report["hardgates"]["claim_block_reason"]
 
 
@@ -319,6 +342,8 @@ def test_multistep_report_does_not_train_when_cuda_evidence_is_missing(monkeypat
     assert report["runs"] == []
     assert report["hardgates"]["gates"]["gpu_evidence"] is False
     assert report["hardgates"]["claim_allowed"] is False
+    assert report["claim_gates"]["rollout_precision"]["claim_allowed"] is False
+    assert report["claim_gates"]["gap_calibration"]["claim_allowed"] is False
 
 
 def test_multistep_report_requires_nonempty_seed_set():
