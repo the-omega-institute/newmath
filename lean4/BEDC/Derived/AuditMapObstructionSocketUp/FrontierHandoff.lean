@@ -20,8 +20,8 @@ theorem AuditMapObstructionSocket_frontier_handoff [AskSetup] [PackageSetup]
     {auditTag positive conditional obstruction frontier transport continuations provenance
       nameCert frontierRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    AuditMapObstructionSocketCarrier auditTag positive conditional obstruction frontier transport
-        continuations provenance nameCert bundle pkg →
+    audit_map_obstruction_socket_carrier_namecert_obligations_carrier auditTag positive
+        conditional obstruction frontier transport continuations provenance nameCert bundle pkg →
       Cont frontier transport frontierRead →
         SemanticNameCert
             (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)

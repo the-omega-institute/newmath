@@ -50,6 +50,24 @@ Now apply the seed obligations and carrier obligations. The critical-pair envelo
 Therefore a consumer that has read $P,K,J,R,S,C,B,O,H,T,G,N$ has exhausted the residual-join locality surface. A request for global confluence, subject reduction, evaluator equality, quotient term equality, kernel consistency, or premise-free residual substitution would require a carrier coordinate that the packet does not contain.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond scoped residual locality]
+\label{thm:metacic-parallel-diamond-scoped-residual-locality}
+Any accepted residual join in a $\MetaCICParallelDiamondFrontierUp$ packet must expose, before a local diamond read is public, the residual-substitution premise row $P$, the critical-pair row $K$, the candidate-join row $J$, the residual-frontier row $R$, the bounded checker row $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $G$, and the local $\NameCert$ row $N$. The read is a scoped residual-locality certificate over
+$$
+P,K,J,R,S,C,B,O,H,T,G,N ,
+$$
+not full Church--Rosser, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with residual-join locality and the residual grid, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality} and \autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. These force the accepted join to pass through the displayed residual-substitution premise, critical-pair envelope, candidate join, finite residual witness, bounded checker, transport, replay, provenance, and local naming rows.
+
+Next use the locality-scope theorem, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality-scope}. It identifies the residual-frontier and obstruction rows as part of the same finite carrier-local surface rather than as hidden global assumptions.
+
+Finally apply finite residual witness consumption and residual-join witness locality, \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption} and \autoref{thm:metacic-parallel-diamond-residual-join-witness-locality}. They make the bounded checker rows visible before the local join can be exported and keep $P$ and $O$ inside the structural rows $H,T,G,N$.
+
+Since the carrier contains only the displayed finite rows, the public read remains a local diamond certificate. Full Church--Rosser, subject reduction, evaluator equality, quotient term equality, and kernel consistency would require coordinates not present in the packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond residual-join locality exhaustion]
 \label{thm:metacic-parallel-diamond-frontier-residual-join-locality-exhaustion}
 A residual-join consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet that has read
