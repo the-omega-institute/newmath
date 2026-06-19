@@ -25,9 +25,10 @@ def realBolzanoWeierstrassDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (realBolzanoWeierstrassDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realBolzanoWeierstrassDecodeBHist tail)
 
-private theorem realBolzanoWeierstrassDecodeEncode :
-    ∀ h : BHist, realBolzanoWeierstrassDecodeBHist
-      (realBolzanoWeierstrassEncodeBHist h) = h := by
+private theorem realBolzanoWeierstrassDecode_encode_bhist :
+    ∀ h : BHist,
+      realBolzanoWeierstrassDecodeBHist
+        (realBolzanoWeierstrassEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -35,39 +36,74 @@ private theorem realBolzanoWeierstrassDecodeEncode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def realBolzanoWeierstrassFields : RealBolzanoWeierstrassUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | RealBolzanoWeierstrassUp.mk S D I L R E Q H C P N => [S, D, I, L, R, E, Q, H, C, P, N]
-
 def realBolzanoWeierstrassToEventFlow : RealBolzanoWeierstrassUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (realBolzanoWeierstrassFields x).map realBolzanoWeierstrassEncodeBHist
+  | RealBolzanoWeierstrassUp.mk S D I L R E Q H C P N =>
+      [realBolzanoWeierstrassEncodeBHist S,
+        realBolzanoWeierstrassEncodeBHist D,
+        realBolzanoWeierstrassEncodeBHist I,
+        realBolzanoWeierstrassEncodeBHist L,
+        realBolzanoWeierstrassEncodeBHist R,
+        realBolzanoWeierstrassEncodeBHist E,
+        realBolzanoWeierstrassEncodeBHist Q,
+        realBolzanoWeierstrassEncodeBHist H,
+        realBolzanoWeierstrassEncodeBHist C,
+        realBolzanoWeierstrassEncodeBHist P,
+        realBolzanoWeierstrassEncodeBHist N]
 
-private def realBolzanoWeierstrassEventAtDefault : Nat → EventFlow → RawEvent
+def realBolzanoWeierstrassFromEventFlow :
+    EventFlow → Option RealBolzanoWeierstrassUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => realBolzanoWeierstrassEventAtDefault index rest
+  | [] => none
+  | S :: rest0 =>
+      match rest0 with
+      | [] => none
+      | D :: rest1 =>
+          match rest1 with
+          | [] => none
+          | I :: rest2 =>
+              match rest2 with
+              | [] => none
+              | L :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | R :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | E :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | Q :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | H :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | C :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | P :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | N :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (RealBolzanoWeierstrassUp.mk
+                                                      (realBolzanoWeierstrassDecodeBHist S)
+                                                      (realBolzanoWeierstrassDecodeBHist D)
+                                                      (realBolzanoWeierstrassDecodeBHist I)
+                                                      (realBolzanoWeierstrassDecodeBHist L)
+                                                      (realBolzanoWeierstrassDecodeBHist R)
+                                                      (realBolzanoWeierstrassDecodeBHist E)
+                                                      (realBolzanoWeierstrassDecodeBHist Q)
+                                                      (realBolzanoWeierstrassDecodeBHist H)
+                                                      (realBolzanoWeierstrassDecodeBHist C)
+                                                      (realBolzanoWeierstrassDecodeBHist P)
+                                                      (realBolzanoWeierstrassDecodeBHist N))
+                                              | _ :: _ => none
 
-def realBolzanoWeierstrassFromEventFlow : EventFlow → Option RealBolzanoWeierstrassUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (RealBolzanoWeierstrassUp.mk
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 0 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 1 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 2 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 3 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 4 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 5 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 6 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 7 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 8 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 9 ef))
-        (realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEventAtDefault 10 ef)))
-
-private theorem realBolzanoWeierstrassRoundTrip :
+private theorem realBolzanoWeierstrass_round_trip :
     ∀ x : RealBolzanoWeierstrassUp,
       realBolzanoWeierstrassFromEventFlow
         (realBolzanoWeierstrassToEventFlow x) = some x := by
@@ -101,17 +137,17 @@ private theorem realBolzanoWeierstrassRoundTrip :
             (realBolzanoWeierstrassDecodeBHist
               (realBolzanoWeierstrassEncodeBHist N))) =
           some (RealBolzanoWeierstrassUp.mk S D I L R E Q H C P N)
-      rw [realBolzanoWeierstrassDecodeEncode S,
-        realBolzanoWeierstrassDecodeEncode D,
-        realBolzanoWeierstrassDecodeEncode I,
-        realBolzanoWeierstrassDecodeEncode L,
-        realBolzanoWeierstrassDecodeEncode R,
-        realBolzanoWeierstrassDecodeEncode E,
-        realBolzanoWeierstrassDecodeEncode Q,
-        realBolzanoWeierstrassDecodeEncode H,
-        realBolzanoWeierstrassDecodeEncode C,
-        realBolzanoWeierstrassDecodeEncode P,
-        realBolzanoWeierstrassDecodeEncode N]
+      rw [realBolzanoWeierstrassDecode_encode_bhist S,
+        realBolzanoWeierstrassDecode_encode_bhist D,
+        realBolzanoWeierstrassDecode_encode_bhist I,
+        realBolzanoWeierstrassDecode_encode_bhist L,
+        realBolzanoWeierstrassDecode_encode_bhist R,
+        realBolzanoWeierstrassDecode_encode_bhist E,
+        realBolzanoWeierstrassDecode_encode_bhist Q,
+        realBolzanoWeierstrassDecode_encode_bhist H,
+        realBolzanoWeierstrassDecode_encode_bhist C,
+        realBolzanoWeierstrassDecode_encode_bhist P,
+        realBolzanoWeierstrassDecode_encode_bhist N]
 
 private theorem realBolzanoWeierstrassToEventFlow_injective
     {x y : RealBolzanoWeierstrassUp} :
@@ -126,8 +162,8 @@ private theorem realBolzanoWeierstrassToEventFlow_injective
           (realBolzanoWeierstrassToEventFlow y) :=
     congrArg realBolzanoWeierstrassFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (realBolzanoWeierstrassRoundTrip x).symm
-      (Eq.trans hread (realBolzanoWeierstrassRoundTrip y)))
+    (Eq.trans (realBolzanoWeierstrass_round_trip x).symm
+      (Eq.trans hread (realBolzanoWeierstrass_round_trip y)))
 
 instance realBolzanoWeierstrassBHistCarrier :
     BHistCarrier RealBolzanoWeierstrassUp where
@@ -140,26 +176,58 @@ instance realBolzanoWeierstrassChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change realBolzanoWeierstrassFromEventFlow
-      (realBolzanoWeierstrassToEventFlow x) = some x
-    exact realBolzanoWeierstrassRoundTrip x
+    change
+      realBolzanoWeierstrassFromEventFlow
+        (realBolzanoWeierstrassToEventFlow x) = some x
+    exact realBolzanoWeierstrass_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (realBolzanoWeierstrassToEventFlow_injective heq)
 
+instance realBolzanoWeierstrassNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial RealBolzanoWeierstrassUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RealBolzanoWeierstrassUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      RealBolzanoWeierstrassUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate RealBolzanoWeierstrassUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  realBolzanoWeierstrassChapterTasteGate
+
 theorem RealBolzanoWeierstrassTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-        realBolzanoWeierstrassDecodeBHist (realBolzanoWeierstrassEncodeBHist h) = h) ∧
+      realBolzanoWeierstrassDecodeBHist
+        (realBolzanoWeierstrassEncodeBHist h) = h) ∧
       (∀ x : RealBolzanoWeierstrassUp,
         realBolzanoWeierstrassFromEventFlow
           (realBolzanoWeierstrassToEventFlow x) = some x) ∧
-      Nonempty (BHistCarrier RealBolzanoWeierstrassUp) ∧
-        Nonempty (ChapterTasteGate RealBolzanoWeierstrassUp) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+        (∀ x y : RealBolzanoWeierstrassUp,
+          realBolzanoWeierstrassToEventFlow x =
+            realBolzanoWeierstrassToEventFlow y → x = y) ∧
+          realBolzanoWeierstrassEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∃ x y : RealBolzanoWeierstrassUp, x ≠ y) := by
+  -- BEDC touchpoint anchor: BHist BMark Nontrivial
   exact
-    ⟨realBolzanoWeierstrassDecodeEncode,
-      realBolzanoWeierstrassRoundTrip,
-      ⟨realBolzanoWeierstrassBHistCarrier⟩,
-      ⟨realBolzanoWeierstrassChapterTasteGate⟩⟩
+    ⟨realBolzanoWeierstrassDecode_encode_bhist,
+      realBolzanoWeierstrass_round_trip,
+      (fun _ _ heq => realBolzanoWeierstrassToEventFlow_injective heq),
+      rfl,
+      ⟨RealBolzanoWeierstrassUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty,
+        RealBolzanoWeierstrassUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty,
+        by
+          intro h
+          cases h⟩⟩
 
 end BEDC.Derived.RealBolzanoWeierstrassUp.TasteGate
