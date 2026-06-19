@@ -66,6 +66,12 @@ def metacicDecidabilityWitnessToEventFlow :
           BMark.b1, BMark.b0],
         metacicDecidabilityWitnessEncodeBHist name]
 
+def metacicDecidabilityWitnessFields : MetacicDecidabilityWitnessUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | MetacicDecidabilityWitnessUp.mk typing sameTerm bounded finished refusal transport
+      route provenance name =>
+      [typing, sameTerm, bounded, finished, refusal, transport, route, provenance, name]
+
 def metacicDecidabilityWitnessFromEventFlow :
     EventFlow → Option MetacicDecidabilityWitnessUp
   -- BEDC touchpoint anchor: BHist BMark
@@ -205,6 +211,18 @@ private theorem metacicDecidabilityWitnessToEventFlow_injective
     (Eq.trans (metacicDecidabilityWitness_round_trip x).symm
       (Eq.trans hread (metacicDecidabilityWitness_round_trip y)))
 
+private theorem metacicDecidabilityWitnessFieldFaithfulProof :
+    ∀ x y : MetacicDecidabilityWitnessUp,
+      metacicDecidabilityWitnessFields x = metacicDecidabilityWitnessFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk typing sameTerm bounded finished refusal transport route provenance name =>
+      cases y with
+      | mk typing' sameTerm' bounded' finished' refusal' transport' route' provenance' name' =>
+          cases hfields
+          rfl
+
 instance metacicDecidabilityWitnessBHistCarrier :
     BHistCarrier MetacicDecidabilityWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -227,19 +245,20 @@ instance metacicDecidabilityWitnessChapterTasteGate :
 instance metacicDecidabilityWitnessFieldFaithful :
     FieldFaithful MetacicDecidabilityWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | MetacicDecidabilityWitnessUp.mk typing sameTerm bounded finished refusal transport
-        route provenance name =>
-        [typing, sameTerm, bounded, finished, refusal, transport, route, provenance, name]
-  field_faithful := by
-    intro x y hfields
-    cases x with
-    | mk typing₁ sameTerm₁ bounded₁ finished₁ refusal₁ transport₁ route₁ provenance₁ name₁ =>
-      cases y with
-      | mk typing₂ sameTerm₂ bounded₂ finished₂ refusal₂ transport₂ route₂ provenance₂ name₂ =>
-          cases hfields
-          rfl
+  fields := metacicDecidabilityWitnessFields
+  field_faithful := metacicDecidabilityWitnessFieldFaithfulProof
+
+instance metacicDecidabilityWitnessNontrivial :
+    Nontrivial MetacicDecidabilityWitnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨MetacicDecidabilityWitnessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      MetacicDecidabilityWitnessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem MetacicDecidabilityWitnessTasteGate_single_carrier_alignment :
     (∀ h : BHist,
