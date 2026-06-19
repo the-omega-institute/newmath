@@ -66,6 +66,12 @@ def metacicDecidabilityWitnessToEventFlow :
           BMark.b1, BMark.b0],
         metacicDecidabilityWitnessEncodeBHist name]
 
+def metacicDecidabilityWitnessFields : MetacicDecidabilityWitnessUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | MetacicDecidabilityWitnessUp.mk typing sameTerm bounded finished refusal transport
+      route provenance name =>
+      [typing, sameTerm, bounded, finished, refusal, transport, route, provenance, name]
+
 def metacicDecidabilityWitnessFromEventFlow :
     EventFlow → Option MetacicDecidabilityWitnessUp
   -- BEDC touchpoint anchor: BHist BMark
@@ -205,21 +211,15 @@ private theorem metacicDecidabilityWitnessToEventFlow_injective
     (Eq.trans (metacicDecidabilityWitness_round_trip x).symm
       (Eq.trans hread (metacicDecidabilityWitness_round_trip y)))
 
-def metacicDecidabilityWitnessFields : MetacicDecidabilityWitnessUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | MetacicDecidabilityWitnessUp.mk typing sameTerm bounded finished refusal transport
-      route provenance name =>
-      [typing, sameTerm, bounded, finished, refusal, transport, route, provenance, name]
-
-private theorem metacicDecidabilityWitness_fields_faithful :
+private theorem metacicDecidabilityWitnessFieldFaithfulProof :
     ∀ x y : MetacicDecidabilityWitnessUp,
       metacicDecidabilityWitnessFields x = metacicDecidabilityWitnessFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk typing1 sameTerm1 bounded1 finished1 refusal1 transport1 route1 provenance1 name1 =>
+  | mk typing sameTerm bounded finished refusal transport route provenance name =>
       cases y with
-      | mk typing2 sameTerm2 bounded2 finished2 refusal2 transport2 route2 provenance2 name2 =>
+      | mk typing' sameTerm' bounded' finished' refusal' transport' route' provenance' name' =>
           cases hfields
           rfl
 
@@ -246,7 +246,7 @@ instance metacicDecidabilityWitnessFieldFaithful :
     FieldFaithful MetacicDecidabilityWitnessUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := metacicDecidabilityWitnessFields
-  field_faithful := metacicDecidabilityWitness_fields_faithful
+  field_faithful := metacicDecidabilityWitnessFieldFaithfulProof
 
 instance metacicDecidabilityWitnessNontrivial :
     Nontrivial MetacicDecidabilityWitnessUp where
