@@ -180,18 +180,24 @@ Use bounded-conversion non-escape, \autoref{thm:metacic-decidability-witness-bou
 Finally invoke the typing-exactness route of \autoref{thm:metacic-decidability-witness-typing-exactness-route} and the candidate-normalization scope of \autoref{thm:metacic-decidability-witness-candidate-normalization-scope}. They force typing reads through $T$ and keep candidate-normalization consumers inside the same finite rows. Since the carrier has no additional coordinate, none of the listed routes can export $\mathsf{ClosedAt}$ decidability, unrestricted beta conversion, quotient syntax equality, consistency, fuel-erased normalisation, or a host evaluator.
 \end{proof}
 
-\begin{theorem}[MetaCIC decidability witness scoped obligation assignment]
-\label{thm:metacic-decidability-witness-scoped-obligation-assignment}
-For every accepted $\MetacicDecidabilityWitnessUp$ packet $W=(T,S,B,F,R,H,C,P,N)$, the scoped obligation rows assign typing exactness to $T$, same-term checking to $S$, bounded beta comparison to $B$, finished-normal side conditions to $F$, refusal boundaries to $R$, componentwise transport to $H$, displayed replay to $C$, package provenance to $P$, and local naming to $N$. No route exports $\mathsf{ClosedAt}$ decidability, unrestricted beta conversion, quotient syntax equality, consistency, fuel-erased normalisation, or a host evaluator.
+\begin{theorem}[MetaCIC decidability witness scoped closure package]
+\label{thm:metacic-decidability-witness-scoped-closure-package}
+For every accepted $\MetacicDecidabilityWitnessUp$ packet $W=(T,S,B,F,R,H,C,P,N)$, the scope routes assign all nine rows to one finite MetaCIC decidability witness: $T$ to typing exactness, $S$ to same-term structural equality, $B$ to bounded beta comparison, $F$ to finished-normal side conditions, $R$ to refusal, $H$ to transport, $C$ to replay, $P$ to provenance, and $N$ to local naming. The existing TasteGate marker
+$$
+\mathsf{BEDC.Derived.MetacicDecidabilityWitnessUp.MetacicDecidabilityWitnessTasteGate\_single\_carrier\_alignment}
+$$
+fixes the AI chapter boundary at that single carrier surface.
+
+Thus the scoped closure package is the union of the NameCert obligations, bounded-conversion non-escape, bounded normal-form split, typing-exactness route, candidate-normalization scope, scope routes, and TasteGate single-carrier alignment. It exports no standalone $\mathsf{ClosedAt}$ decision theorem, unrestricted closed beta-conversion decider, quotient syntax equality, consistency theorem, fuel-erased normalisation theorem, or host evaluator.
 \end{theorem}
 \begin{proof}
-Start from the NameCert obligations of \autoref{thm:metacic-decidability-witness-namecert-obligations}. They identify the carrier rows $T,S,B,F,R,H,C,P,N$ with typing exactness, same-term checking, bounded beta comparison, finished-normal side conditions, refusal, transport, replay, provenance, and local naming.
+Begin with the TasteGate marker already recorded after \autoref{thm:metacic-decidability-witness-namecert-obligations}. It aligns the chapter with the single displayed carrier $W=(T,S,B,F,R,H,C,P,N)$, so any scoped package must be read through those rows.
 
-Use the bounded-conversion non-escape theorem \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape} and the bounded normal-form split of \autoref{thm:metacic-decidability-witness-bounded-normal-form-split}. These keep conversion and normal-form reads inside the rows $B,F$ and the displayed carrier surface.
+The NameCert obligations and scope routes assign the rows. They place typing exactness in $T$, same-term equality in $S$, bounded beta comparison in $B$, finished-normal side conditions in $F$, refusal in $R$, and the structural transport, replay, provenance, and local naming data in $H,C,P,N$.
 
-Apply the typing-exactness route of \autoref{thm:metacic-decidability-witness-typing-exactness-route} and the obligation-closure package of \autoref{thm:metacic-decidability-witness-obligation-closure-package}. Typing evidence must pass through $T$, and the finite package covers the refusal, transport, replay, provenance, and naming rows without adding another decidability endpoint.
+Use bounded-conversion non-escape and the bounded normal-form split to confine conversion and normal-form reads to $B,F$ together with the visible packet rows. Then use the typing-exactness route and candidate-normalization scope to force typing and finite candidate-normalization consumers through $T,S,B,F,R,H,C,P,N$.
 
-Finally invoke the scope assignment of \autoref{thm:metacic-decidability-witness-scope-assignment} and the scope routes of \autoref{thm:metacic-decidability-witness-scope-routes}. They assign each consumer route to its displayed owner row, so the packet has a scoped obligation assignment and still refuses $\mathsf{ClosedAt}$ decidability, unrestricted beta conversion, quotient syntax equality, consistency, fuel-erased normalisation, and host evaluation.
+These cited routes exhaust the accepted carrier surface fixed by TasteGate. Since the carrier has no further coordinate, the scoped closure package cannot export any of the refused global decidability, conversion, equality, consistency, normalisation, or evaluator objects.
 \end{proof}
 
 \closureat{MetacicDecidabilityWitnessUp}{seedStr}
@@ -201,7 +207,7 @@ Finally invoke the scope assignment of \autoref{thm:metacic-decidability-witness
 \begin{closurestatus}{\MetacicDecidabilityWitnessUp}
   \constructivestory{A $\MetacicDecidabilityWitnessUp$ packet is generated from inferTypeCtx soundness and completeness, checkSameTerm structural equality, bounded beta comparison, finished-normal side conditions, refusal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:metacic-decidability-witness-carrier}, \autoref{thm:metacic-decidability-witness-namecert-obligations}, \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape}, \autoref{thm:metacic-decidability-witness-bounded-normal-form-split}, \autoref{thm:metacic-decidability-witness-typing-exactness-route}, \autoref{thm:metacic-decidability-witness-obligation-closure-package}, \autoref{thm:metacic-decidability-witness-scope-assignment}, \autoref{thm:metacic-decidability-witness-scope-routes}, and \autoref{thm:metacic-decidability-witness-scoped-obligation-assignment} bind typing exactness, same-term checking, bounded conversion, finished-normal exposure, refusal rows, transport, replay, provenance, and local naming as one scoped finite NameCert witness.}
+  \scopeclosed{\autoref{def:metacic-decidability-witness-carrier}, \autoref{thm:metacic-decidability-witness-namecert-obligations}, \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape}, \autoref{thm:metacic-decidability-witness-bounded-normal-form-split}, \autoref{thm:metacic-decidability-witness-typing-exactness-route}, \autoref{thm:metacic-decidability-witness-obligation-closure-package}, \autoref{thm:metacic-decidability-witness-scope-assignment}, \autoref{thm:metacic-decidability-witness-scope-routes}, and \autoref{thm:metacic-decidability-witness-scoped-closure-package} bind typing exactness, same-term checking, bounded conversion, finished-normal exposure, refusal rows, transport, replay, provenance, and local naming as one scoped finite NameCert witness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
