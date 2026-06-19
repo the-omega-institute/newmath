@@ -60,6 +60,7 @@ J,\phi,I,K,S,R,D \longmapsto L .
 $$
 Thus the target CauchyNet packet is available only through the displayed cofinal map, the source CauchyNet row, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback, and the $\DyadicRatCoreUp$ tolerance ledger. The route is a projection and replay over finite rows, not a quotient-net construction and not a choice argument.
 \end{theorem}
+\leanchecked{BEDC.Derived.DirectedSubnetUp.DirectedSubnetCarrier\_cauchynet\_handoff}
 \begin{proof}
 Start with a consumer of the target row $L$. Carrier admission exposes $L$ only as a coordinate of the same packet that also contains $J,\phi,I,K,S,R,D$.
 
@@ -68,9 +69,21 @@ Replay the continuation row $C$. The consumer's target-window request first land
 Transport by $H$ preserves this route componentwise. The package and local NameCert rows record exactly the same coordinates, so the target row $L$ has no exported path through quotient-net equality, hidden cofinal choice, a selected limit, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[DirectedSubnet target Cauchy window]
+\label{thm:directed-subnet-target-cauchy-window}
+Every completion-facing consumer of an accepted $\DirectedSubnetUp$ packet must expose the target directed ledger $J$, the cofinal map $\phi$, the target $\CauchyNetUp$ row $L$, the $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RealUp$ seal $A$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local $\NameCert_{\DirectedSubnetUp}$ row $N$ before it may read a limit or completion endpoint. The target window is therefore a displayed finite CauchyNet route, not a quotient net, selected subnet representative, countable-choice functional, or ambient Real completeness claim.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple from \autoref{def:directed-subnet-carrier}. The target ledger $J$, cofinal map $\phi$, target row $L$, window row $S$, readback row $R$, tolerance row $D$, seal row $A$, and structural rows $H,C,P,N$ are all visible coordinates of the same finite packet.
+
+Apply the CauchyNet handoff of \autoref{thm:directed-subnet-cauchynet-handoff}. Any read of $L$ must already pass through the target request in $J$, the displayed map $\phi$, the source route, and the same $S,R,D$ evidence that makes the target row Cauchy-facing.
+
+It remains to inspect a completion endpoint. The seal row $A$ is downstream of the target CauchyNet route, while $H,C,P,N$ only transport, replay, cite, and name the displayed coordinates. Hence a completion consumer receives no quotient-net equality, selected subnet representative, countable-choice data, or ambient Real completeness row.
+\end{proof}
+
 \begin{closurestatus}{\DirectedSubnetUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:directed-subnet-carrier}, \autoref{thm:directed-subnet-namecert-obligations}, and \autoref{thm:directed-subnet-cauchynet-handoff} seed the finite cofinal-subnet packet between source $\CauchyNetUp$ rows and downstream $\CauchyNetLimitUp$ consumers.}
+  \scopeclosed{\autoref{def:directed-subnet-carrier}, \autoref{thm:directed-subnet-namecert-obligations}, \autoref{thm:directed-subnet-cauchynet-handoff}, and \autoref{thm:directed-subnet-target-cauchy-window} seed the finite cofinal-subnet packet between source $\CauchyNetUp$ rows and downstream $\CauchyNetLimitUp$ consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient nets, selected limits, cofinal choice outside the displayed map, host real equality, ambient completeness, or Lean verification.}
