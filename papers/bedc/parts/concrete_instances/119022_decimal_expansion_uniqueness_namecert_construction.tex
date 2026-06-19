@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\DecimalExpansionUniquenessUp$}
+\label{ch:concrete-instances-decimal-expansion-uniqueness-namecert}
+\origin{human}
+
+Following Bishop and Bridges together with the standard convention that decimal streams are read in normalized form, the $\DecimalExpansionUniquenessUp$ packet records the finite route by which a decimal real has at most one normalized decimal stream presentation. It sits after the decimal readback carrier of \autoref{ch:concrete-instances-decimal-real-namecert}, the dual-tail boundary of \autoref{ch:concrete-instances-decimal-endpoint-ambiguity-namecert}, the endpoint-normalization route of \autoref{ch:concrete-instances-decimal-endpoint-normalization-namecert}, and the real decimal normal-form route of \autoref{ch:concrete-instances-real-decimal-normal-form-namecert}. The packet names uniqueness for normalized tails only; it does not quotient all decimal streams, choose representatives at endpoints, or expose host equality of real numbers.
+
+\begin{definition}[Decimal expansion uniqueness carrier]
+\label{def:decimal-expansion-uniqueness-carrier}
+A $\DecimalExpansionUniquenessUp$ carrier is a finite $\BHist$ packet
+$$
+U=(D,E,N,W,Q,R,Y,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DecimalRealUp$ readback row whose signed decimal prefix, ambiguity boundary, finite window, dyadic tolerance, regular rational readback, and terminal real seal are being inspected.
+\item $E$ is the $\DecimalEndpointAmbiguityUp$ boundary row, exposing whether a displayed tail is ordinary, trailing-nine-facing, or trailing-zero-facing before any uniqueness consumer proceeds.
+\item $N$ is the $\DecimalEndpointNormalizationUp$ row, replacing an endpoint-facing tail by the displayed normalized tail convention without choosing a quotient representative for arbitrary streams.
+\item $W$ is the $\StreamNameUp$ finite-window row listing the decimal cells and precision requests actually read by the comparison.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same finite decimal windows and tolerance requests.
+\item $R$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare normalized decimal tails at the requested precision.
+\item $Y$ is the $\RealUp$ seal row reached only after $D,E,N,W,Q,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for decimal readback, endpoint ambiguity, endpoint normalization, stream windows, regular readback, dyadic tolerance, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the normalized comparison route
+$$
+D,E,N,W,Q,R \longmapsto Y .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DecimalExpansionUniquenessUp$, $\DecimalRealUp$, $\DecimalEndpointAmbiguityUp$, $\DecimalEndpointNormalizationUp$, $\RealDecimalNormalFormUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\DecimalExpansionUniquenessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,E,N,W,Q,R,Y,H,C,P,L$. It has no coordinate for quotient stream equality, selected endpoint representatives, arbitrary decimal-stream uniqueness, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Decimal expansion uniqueness NameCert obligations]
+\label{thm:decimal-expansion-uniqueness-namecert-obligations}
+For every accepted $\DecimalExpansionUniquenessUp$ carrier
+$$
+U=(D,E,N,W,Q,R,Y,H,C,P,L),
+$$
+the local $\NameCert_{\DecimalExpansionUniquenessUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for decimal readback, endpoint ambiguity, endpoint normalization, finite stream windows, regular rational readback, dyadic tolerance, real seal, transport, replay, provenance, and local naming;
+\item endpoint visibility, requiring $E$ to be read before a trailing-nine-facing or trailing-zero-facing tail is normalized;
+\item normalization exactness, requiring $N$ to display the normalized tail convention consumed by the uniqueness comparison;
+\item finite-window comparison, requiring $W,Q,R$ to expose the inspected decimal cells, regular rational readback, and dyadic tolerance ledger before the $\RealUp$ seal $Y$ is available;
+\item nonescape, requiring $H,C,P,L$ to transport, replay, source, and name only the displayed normalized-tail route and to export no quotient stream equality, selected endpoint representative, arbitrary decimal-stream uniqueness, trichotomy, countable choice, or ambient completeness row.
+\end{enumerate}
+No DecimalExpansionUniqueness obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:decimal-expansion-uniqueness-carrier}. The accepted packet displays the decimal readback, endpoint ambiguity, endpoint normalization, finite windows, regular readback, dyadic tolerance ledger, real seal, and structural rows.
+
+Endpoint visibility is the row $E$. It is inspected before normalization, so a dual-tail boundary is not silently treated as an equality of unnormalized streams.
+
+Normalization exactness is the row $N$. It records the standard normalized-tail convention as packet data, while refusing a selected representative for arbitrary decimal presentations.
+
+The comparison then passes through $W,Q,R$. These rows display the finite decimal cells, the regular rational readback, and the dyadic tolerance ledger before the real seal $Y$ can be consumed.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same route. Since the carrier contains no quotient stream equality, endpoint choice, arbitrary uniqueness, trichotomy, choice, or ambient completeness coordinate, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Decimal expansion uniqueness normal-form route]
+\label{thm:decimal-expansion-uniqueness-normal-form-route}
+Every uniqueness read exported by an accepted $\DecimalExpansionUniquenessUp$ carrier factors through
+$$
+\DecimalRealUp,\ \DecimalEndpointAmbiguityUp,\ \DecimalEndpointNormalizationUp,\ \RealDecimalNormalFormUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp
+$$
+as the displayed route $D,E,N,W,Q,R,Y,H,C,P,L$. Thus the comparison concerns normalized decimal tails reaching the same terminal real seal, not quotient equality of all decimal streams and not a choice of endpoint representative.
+\end{theorem}
+\begin{proof}
+Start with a uniqueness consumer of the carrier. Projection from \autoref{def:decimal-expansion-uniqueness-carrier} gives the route $D,E,N,W,Q,R,Y,H,C,P,L$ and no additional stream-equality object.
+
+Read $D$ first. This supplies the decimal real readback route through finite prefixes, ambiguity boundary data, dyadic tolerance, regular rational readback, and a terminal real seal.
+
+Read $E$ and $N$ next. The endpoint ambiguity row exposes the dual-tail boundary, and the endpoint normalization row records the normalized-tail convention used by the comparison.
+
+The finite comparison then runs through $W,Q,R$. The stream windows and regular rational readback are inspected at a displayed dyadic tolerance before the real seal $Y$ is reached.
+
+The structural rows $H,C,P,L$ keep the consumer on the same route. Therefore the packet exports uniqueness only for normalized decimal tails and cannot export quotient equality of all streams or selected endpoint representatives.
+\end{proof}
+
+\closureat{DecimalExpansionUniquenessUp}{seedStr}
+
+\begin{closurestatus}{\DecimalExpansionUniquenessUp}
+  \constructivestory{A $\DecimalExpansionUniquenessUp$ packet is generated from DecimalReal readback, endpoint ambiguity, endpoint normalization, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decimal-expansion-uniqueness-carrier}, \autoref{thm:decimal-expansion-uniqueness-namecert-obligations}, and \autoref{thm:decimal-expansion-uniqueness-normal-form-route} seed the normalized decimal-tail uniqueness route through decimal readback, endpoint ambiguity, endpoint normalization, normal-form reading, finite windows, regular readback, dyadic tolerance, Real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected endpoint representatives, arbitrary decimal-stream uniqueness, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier admission, endpoint visibility, normalization exactness, finite-window comparison, nonescape, and local naming for BEDC.Derived.DecimalExpansionUniquenessUp.}
+\end{closurestatus}
