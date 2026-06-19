@@ -1370,6 +1370,7 @@ import BEDC.Derived.CalculusUp.RealSealErrorBudget
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
 import BEDC.Derived.CalculusUp.RegSeqRatReadbackRootObligation
 import BEDC.Derived.CalculusUp.RiemannDerivativeSeparation
+import BEDC.Derived.CalculusUp.RiemannIntegralDependencyRoute
 import BEDC.Derived.CalculusUp.RootCarrier
 import BEDC.Derived.CalculusUp.RootChainRuleContinuousMapRegSeqRatScope
 import BEDC.Derived.CalculusUp.RootChainRuleWindowObligation
@@ -8249,6 +8250,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.AuditMapWeaveConsumerExactness
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.BridgeReadyDependencySurface
 import BEDC.Derived.PaperLeanDriftWitnessUp.ClosureTargetResolution
+import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerInventoryKindLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObligationClosurePackage
 import BEDC.Derived.PaperLeanDriftWitnessUp.UnresolvedMarkerRefusal
@@ -8395,6 +8397,7 @@ import BEDC.Derived.PinGroupUp.ReflectionExtension
 import BEDC.Derived.PinGroupUp.RootScopedObligationPackage
 import BEDC.Derived.PixleyRoySpaceUp.TasteGate
 import BEDC.Derived.PoincareBoundaryFixedTransportUp.TasteGate
+import BEDC.Derived.PoincareDiskGeodesicProjectionUp.TasteGate
 import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
 import BEDC.Derived.PoincareInequalityUp
 import BEDC.Derived.PoincareInequalityUp.TasteGate
@@ -9626,6 +9629,7 @@ import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.NameCertObligations
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
 import BEDC.Derived.RegularCauchySeparationUp.ZeroDistanceReflection
+import BEDC.Derived.RegularCauchySequenceComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceSpaceUp
 import BEDC.Derived.RegularCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceUp
