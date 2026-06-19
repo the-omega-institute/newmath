@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCantorIntersectionUp$}
+\label{ch:concrete-instances-regular-cauchy-cantor-intersection-namecert}
+\origin{human}
+
+Following Bishop and Bridges on nested intervals and regular Cauchy real names, the $\RegularCauchyCantorIntersectionUp$ packet records the finite route by which a descending sequence of closed dyadic windows with regular-Cauchy diameter control produces a named intersection witness before any terminal $\RealUp$ seal is consumed. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the tail-estimate packet of \autoref{ch:concrete-instances-regularcauchytailestimate-namecert}. The carrier stores nested-window evidence and a regular Cauchy witness route; it does not import choice, quotient streams, open-cover compactness, selected host limits, or ambient completeness of $\RealUp$.
+
+\begin{definition}[RegularCauchyCantorIntersection carrier]
+\label{def:regular-cauchy-cantor-intersection-carrier}
+A $\RegularCauchyCantorIntersectionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,W,D,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the nested closed-window ledger, listing the inspected lower and upper dyadic endpoints and the inclusion check from each visible window to its predecessor;
+\item $W$ is the $\StreamNameUp$ finite-window schedule that records which interval stages and precision requests the packet exposes;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for endpoint comparison, diameter bounds, and midpoint slack at each inspected stage;
+\item $T$ is the $\RegularCauchyTailEstimateUp$ tail-control row, stating that late windows have the displayed dyadic diameter bound for the requested precision;
+\item $R$ is the $\RegSeqRatUp$ regular-name readback obtained from the nested-window and tail-control rows;
+\item $E$ is the terminal $\RealUp$ seal, reachable only after $I,W,D,T,R$ have been replayed;
+\item $H$ records componentwise $\hsame$ transport for the nested-window, stream, dyadic, tail-estimate, regular-name, and real-seal rows;
+\item $C$ records displayed $\Cont$ replay for the nested-window route and downstream witness handoff;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCantorIntersectionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyTailEstimateUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyCantorIntersectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,W,D,T,R,E,H,C,P,N$. There is no coordinate for a countable-choice selector, quotient equality of streams, open-cover compactness, a host-level selected point, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RegularCauchyCantorIntersection NameCert obligations]
+\label{thm:regular-cauchy-cantor-intersection-namecert-obligations}
+For every accepted $\RegularCauchyCantorIntersectionUp$ carrier $K=(I,W,D,T,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyCantorIntersectionUp}$ surface consists exactly of carrier admission, nested-window inclusion, dyadic endpoint and diameter exactness, tail-estimate handoff, regular-Cauchy readback, real-seal nonescape, componentwise transport, displayed replay, package provenance, local naming, and refusal of choice selectors, quotient streams, open-cover compactness, host selected limits, trichotomy, and ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The only interval data are the nested ledger $I$, the visible stage schedule $W$, and the dyadic endpoint ledger $D$, so carrier admission and nested-window inclusion are read from those rows.
+
+The tail-control and regular-name obligations are $T$ and $R$. The tail-estimate row supplies the diameter budget for late windows, and the regular-name row reads that budget as the Cauchy witness consumed by $\RegSeqRatUp$.
+
+The real-seal row $E$ is downstream of the nested-window and regular-name rows. Componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same route and add no selector, quotient, compactness, host limit, trichotomy, or ambient-completeness coordinate.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCantorIntersection nested-window route]
+\label{thm:regular-cauchy-cantor-intersection-nested-window-route}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyCantorIntersectionUp$ carrier factors through the finite route
+$$
+I,W \longmapsto D \longmapsto T \longmapsto R \longmapsto E,H,C,P,N .
+$$
+Thus the intersection witness is read only after the nested closed-window ledger, finite stream schedule, dyadic endpoint and diameter checks, regular tail estimate, and regular rational name have been displayed. The route supplies a constructive regular-Cauchy witness and does not supply countable choice, quotient-stream equality, open-cover compactness, a selected host limit, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:regular-cauchy-cantor-intersection-carrier}. The rows $I$ and $W$ expose only the inspected closed windows and the finite schedule of stages visible to the request.
+
+Read the dyadic ledger $D$ next. It supplies endpoint comparison and diameter bounds for the same windows, so the consumer cannot bypass the dyadic layer and jump directly to a real point.
+
+Apply the tail-estimate row $T$ and the regular-name row $R$. Together they turn the shrinking-window evidence into a displayed regular Cauchy readback before the real seal $E$ is available.
+
+Finally inspect $H,C,P,N$. These structural rows transport, replay, source, and name the same finite route. Since the carrier has no selector, quotient, open-cover, host-limit, trichotomy, or ambient-completeness row, every accepted consumer remains inside the displayed nested-window route.
+\end{proof}
+
+\falsifiablePrediction{A $\RegularCauchyCantorIntersectionUp$ read is refuted whenever a $\RegSeqRatUp$ or $\RealUp$ consumer reaches the intersection witness without displaying the nested closed-window ledger, the finite StreamName schedule, the DyadicRatCore endpoint and diameter checks, the RegularCauchyTailEstimate row, the RegSeqRat readback, transport, replay, provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, regularcauchytailestimate: none alone is bijective with $\RegularCauchyCantorIntersectionUp$ because the packet jointly records nested closed-window inclusion, dyadic diameter control, finite stage scheduling, tail-estimate handoff, regular-name readback, real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyCantorIntersectionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCantorIntersectionUp}
+  \constructivestory{A $\RegularCauchyCantorIntersectionUp$ packet is generated from a nested closed-window ledger, a finite StreamName stage schedule, a DyadicRatCore endpoint and diameter ledger, a RegularCauchyTailEstimate row, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-cantor-intersection-carrier}, \autoref{thm:regular-cauchy-cantor-intersection-namecert-obligations}, and \autoref{thm:regular-cauchy-cantor-intersection-nested-window-route} seed the nested closed-window route from regular Cauchy tail control to Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, quotient streams, open-cover compactness, selected host limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nested-window inclusion, dyadic endpoint exactness, tail-estimate handoff, regular-name readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyCantorIntersectionUp.}
+\end{closurestatus}
