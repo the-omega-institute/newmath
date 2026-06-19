@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 import subprocess
 import sys
 
@@ -24,6 +25,16 @@ def positive_measured_result():
             "rotor_blind": {"score": 0.52, "upper_ci": 0.54, "sample_count": 128},
         },
     }
+
+
+def assert_ill_posed_payload_for_shape_error(measured_result, expected_error):
+    payload = hpr.build_payload(generated_at="fixture-time", measured_result=measured_result)
+
+    assert payload["verdict"] == "ill_posed"
+    assert payload["dependency_status"]["status"] == "blocked"
+    assert payload["hardgate"]["failed_gate"] == "MEASURED-RESULT"
+    assert payload["controls"]["failed_controls"] == [{"control_id": "shape", "reason": "measured_result_ill_posed"}]
+    assert expected_error in payload["measured_result_intake"]["shape_errors"]
 
 
 def test_hpr_default_payload_is_diagnostic_only_owner_local_packet():
@@ -83,6 +94,50 @@ def test_hpr_ill_posed_when_control_arms_are_not_authorized():
     assert "control set mismatch" in payload["measured_result_intake"]["shape_errors"]
 
 
+@pytest.mark.parametrize(
+    ("mutate", "expected_error"),
+    [
+        (
+            lambda measured: measured.update({"dependency_status": "available"}),
+            "dependency_status must be an object",
+        ),
+        (
+            lambda measured: measured["dependency_status"].update({"status": "blocked"}),
+            "dependency_status must be available, got blocked",
+        ),
+        (
+            lambda measured: measured.pop("effect"),
+            "effect shape invalid: 'effect'",
+        ),
+        (
+            lambda measured: measured.update({"controls": "phase_shuffle"}),
+            "controls must be an object",
+        ),
+        (
+            lambda measured: measured["controls"].update({"phase_shuffle": "not-an-object"}),
+            "control phase_shuffle must be an object",
+        ),
+        (
+            lambda measured: measured["effect"].update({"score": 1.25}),
+            "probability metrics must be between 0 and 1",
+        ),
+        (
+            lambda measured: measured["effect"].update({"sample_count": hpr.MIN_SAMPLE_COUNT - 1}),
+            "effect sample_count below minimum",
+        ),
+        (
+            lambda measured: measured["controls"]["phase_shuffle"].update({"sample_count": hpr.MIN_SAMPLE_COUNT - 1}),
+            "control sample_count below minimum",
+        ),
+    ],
+)
+def test_hpr_measured_result_intake_shape_errors_fail_closed(mutate, expected_error):
+    measured = positive_measured_result()
+    mutate(measured)
+
+    assert_ill_posed_payload_for_shape_error(measured, expected_error)
+
+
 def test_hpr_bounded_negative_when_control_exceeds_chance_envelope():
     measured = positive_measured_result()
     measured["controls"]["phase_shuffle"]["upper_ci"] = 0.61
@@ -99,6 +154,79 @@ def test_hpr_validator_rejects_claim_kind_outside_claim_boundary():
     payload["task_facts"]["claim_kind"] = hpr.CLAIM_KIND
 
     with pytest.raises(ValueError, match="claim_kind must only appear inside claim_boundary"):
+        hpr.validate_hpr_payload(payload)
+
+
+@pytest.mark.parametrize(
+    ("mutate", "expected_error"),
+    [
+        (
+            lambda payload: payload.pop("hardgate"),
+            "missing required keys: hardgate",
+        ),
+        (
+            lambda payload: payload.update({"schema_id": "bedc-quality-lab:other"}),
+            "schema_id mismatch",
+        ),
+        (
+            lambda payload: payload["task_facts"].update({"owner": "other.owner"}),
+            "task facts must be owner-local",
+        ),
+        (
+            lambda payload: payload["task_facts"].update({"control_ids": ["phase_shuffle"]}),
+            "control ids mismatch",
+        ),
+        (
+            lambda payload: payload.update({"verdict": "unknown"}),
+            "verdict outside the allowed four-value set",
+        ),
+        (
+            lambda payload: payload.update({"diagnostic_fixture": {"arms": [], "control_arm_ids": list(hpr.CONTROL_IDS)}}),
+            "diagnostic fixture must contain arms",
+        ),
+        (
+            lambda payload: payload["diagnostic_fixture"].update({"control_arm_ids": ["phase_shuffle"]}),
+            "fixture control arms mismatch",
+        ),
+        (
+            lambda payload: payload.update({"measured_result_intake": "not-an-object"}),
+            "measured_result_intake must be an object",
+        ),
+        (
+            lambda payload: payload.update({"verdict": "positive"}),
+            "positive verdict requires bounded claim kind inside claim_boundary",
+        ),
+        (
+            lambda payload: payload["claim_boundary"].update({"claim_kind": hpr.CLAIM_KIND}),
+            "non-positive verdict must not carry a claim kind",
+        ),
+        (
+            lambda payload: payload.update(
+                {
+                    "verdict": "positive",
+                    "claim_boundary": {
+                        **payload["claim_boundary"],
+                        "claim_kind": hpr.CLAIM_KIND,
+                    },
+                }
+            ),
+            "positive verdict requires passing hardgate",
+        ),
+        (
+            lambda payload: payload.update({"verdict": "bounded_negative"}),
+            "bounded_negative verdict requires a failed measured gate",
+        ),
+        (
+            lambda payload: payload.update({"controls": {"controls": {"phase_shuffle": {}}}}),
+            "control gate must report every authorized control",
+        ),
+    ],
+)
+def test_hpr_validator_rejects_representative_contract_inconsistencies(mutate, expected_error):
+    payload = deepcopy(hpr.build_payload(generated_at="fixture-time"))
+    mutate(payload)
+
+    with pytest.raises(ValueError, match=expected_error):
         hpr.validate_hpr_payload(payload)
 
 
