@@ -1,7 +1,7 @@
 # Edge-Defect Oracle Memo
 
 - schema: `window_codon_oracle_memo.v1`
-- generated_ts: `2026-06-19T12:18:12Z`
+- generated_ts: `2026-06-19T17:11:02Z`
 - source_task_id: `ab4246d4-fc5e-4406-8277-6f9e40a3fab7`
 - source_conversation_id: `conv_6139d5d7cea7ab03`
 - oracle_response_chars: `3130`
