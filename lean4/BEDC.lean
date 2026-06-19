@@ -8767,7 +8767,6 @@ import BEDC.Derived.RadialWobbleSpectrumUp.TasteGate
 import BEDC.Derived.RadonMeasureUp
 import BEDC.Derived.RadonMeasureUp.TasteGate
 import BEDC.Derived.RadonNikodymUp.TasteGate
-import BEDC.Derived.RadonTheoremUp.TasteGate
 import BEDC.Derived.RaikovCompletionUp.TasteGate
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
@@ -11158,6 +11157,7 @@ import BEDC.Derived.UpcrossingUp.BoundedOptionalStoppingRoute
 import BEDC.Derived.UpcrossingUp.FiniteLedgerHandoff
 import BEDC.Derived.UpcrossingUp.FiniteLedgerInduction
 import BEDC.Derived.UpcrossingUp.MartingaleConvergenceHandoff
+import BEDC.Derived.UpcrossingUp.ScopedDecisionRoute
 import BEDC.Derived.UpcrossingUp.TasteGate
 import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
 import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
