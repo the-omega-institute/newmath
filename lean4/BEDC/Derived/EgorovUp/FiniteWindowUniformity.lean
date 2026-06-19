@@ -16,7 +16,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def EgorovCarrier [AskSetup] [PackageSetup]
+def EgorovFiniteWindowCarrier [AskSetup] [PackageSetup]
     (M Omega F X S R A W U L H C P N : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory M ∧ UnaryHistory Omega ∧ UnaryHistory F ∧ UnaryHistory X ∧
@@ -28,7 +28,7 @@ def EgorovCarrier [AskSetup] [PackageSetup]
 theorem Egorov_finite_window_uniformity [AskSetup] [PackageSetup]
     {M Omega F X S R A W U L H C P N windowRead uniformRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    EgorovCarrier M Omega F X S R A W U L H C P N bundle pkg →
+    EgorovFiniteWindowCarrier M Omega F X S R A W U L H C P N bundle pkg →
       Cont W R windowRead →
         Cont windowRead U uniformRead →
           SemanticNameCert
