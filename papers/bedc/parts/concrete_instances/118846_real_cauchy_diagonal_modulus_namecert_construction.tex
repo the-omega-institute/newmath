@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchyDiagonalModulusUp$}
+\label{ch:concrete-instances-real-cauchy-diagonal-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real construction, the $\RealCauchyDiagonalModulusUp$ packet records the finite diagonal modulus row used when two regular rational names must be read together before a Real-facing seal is exposed. It sits between the $\RegSeqRatUp$ carriers of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite schedules of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the generic limit route of \autoref{ch:concrete-instances-limit-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite modulus selector, not quotient stream equality, selected representatives, host real equality, countable choice, or ambient completeness.
+
+\begin{definition}[Real Cauchy diagonal modulus carrier]
+\label{def:real-cauchy-diagonal-modulus-carrier}
+A $\RealCauchyDiagonalModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,B,S,D,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ name rows whose finite regular-rational readbacks are being compared.
+\item $S$ is the paired $\StreamNameUp$ schedule row exposing the visible prefixes of both names.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger containing the requested radius, slack, and dyadic comparison budget.
+\item $Q$ is the diagonal selector row, requiring a single finite window to answer both regular names at the displayed tolerance.
+\item $R$ is the $\RealUp$ seal handoff row, available only after $A,B,S,D,Q$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the two regular names, schedules, tolerance ledger, diagonal selector, seal handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a diagonal request through the schedules, tolerance ledger, selector, and seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\RealCauchyDiagonalModulusUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\LimitUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCauchyDiagonalModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,S,D,Q,R,H,C,P,N$. It has no coordinate for quotient equality of streams, selected representatives, host real equality, countable choice, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Real Cauchy diagonal modulus NameCert obligations]
+\label{thm:real-cauchy-diagonal-modulus-namecert-obligations}
+For every accepted $\RealCauchyDiagonalModulusUp$ carrier $M=(A,B,S,D,Q,R,H,C,P,N)$, the local $\NameCert_{\RealCauchyDiagonalModulusUp}$ surface consists exactly of carrier admission, two $\RegSeqRatUp$ name admissions, paired $\StreamNameUp$ schedule exposure, $\DyadicRatCoreUp$ tolerance-ledger exactness, diagonal selector exactness, $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and refusal of quotient stream equality, selected representatives, host real equality, countable choice, ambient completeness, Lean verification, and bridge checking.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-cauchy-diagonal-modulus-carrier}. The only input-name rows are $A$ and $B$, and the only finite schedules visible to a request are stored in $S$.
+
+Read the dyadic tolerance row $D$ and the diagonal selector $Q$. The selector binds both regular names to the same displayed finite window before the downstream seal row $R$ can be reached.
+
+The rows $H,C,P,N$ transport, replay, source, and name this same route. Since the carrier is exhausted by the displayed rows, it cannot export quotient stream equality, selected representatives, host real equality, countable choice, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Real Cauchy diagonal modulus window extraction]
+\label{thm:real-cauchy-diagonal-modulus-window-extraction}
+Every $\RealUp$, $\LimitUp$, or regular Cauchy comparison consumer of an accepted $\RealCauchyDiagonalModulusUp$ carrier must factor through the finite route
+$$
+A,B \longmapsto S \longmapsto D \longmapsto Q \longmapsto R,H,C,P,N .
+$$
+Thus the consumer receives two $\RegSeqRatUp$ names, a paired $\StreamNameUp$ schedule, a $\DyadicRatCoreUp$ tolerance ledger, a diagonal selector, a $\RealUp$ seal handoff, transport, replay, provenance, and local naming. It receives no quotient stream equality, selected representatives, host real equality, countable choice, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with a consumer of the accepted packet. The carrier exposes the two regular rational names $A,B$ before any schedule or seal row can be read.
+
+Replay the request through $C$. The paired schedule $S$ supplies the finite windows, the tolerance ledger $D$ supplies the dyadic budget, and the diagonal selector $Q$ records the single window that answers both sides.
+
+Only after that replay can the seal handoff $R$ be consumed. Componentwise transport, provenance, and local naming through $H,P,N$ preserve the same finite route and add no external equality, selector, choice, completeness, verification, or bridge coordinate.
+\end{proof}
+
+\closureat{RealCauchyDiagonalModulusUp}{seedStr}
+
+\begin{closurestatus}{\RealCauchyDiagonalModulusUp}
+  \constructivestory{A $\RealCauchyDiagonalModulusUp$ packet is generated from two RegSeqRat name rows, a paired StreamName schedule, a DyadicRatCore tolerance ledger, a diagonal selector, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-diagonal-modulus-carrier}, \autoref{thm:real-cauchy-diagonal-modulus-namecert-obligations}, and \autoref{thm:real-cauchy-diagonal-modulus-window-extraction} seed the finite diagonal-modulus packet used by Real and regular Cauchy comparison consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real equality, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired schedule exposure, tolerance-ledger exactness, diagonal selector exactness, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RealCauchyDiagonalModulusUp.}
+\end{closurestatus}
