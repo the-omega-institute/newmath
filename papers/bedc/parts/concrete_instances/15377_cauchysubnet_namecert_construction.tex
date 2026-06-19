@@ -66,6 +66,22 @@ Replay the continuation row $C$. The request first consumes the source Cauchy fi
 Only after that displayed route has been replayed can the packet expose $L$, and only after $L$ can it expose $E$. Componentwise transport through $H$ and provenance through $P,N$ preserve the same dependency order, so the handoff is a finite BEDC route rather than quotient filter equality, selected host subnet choice, countable choice, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Cauchy subnet cofinal ledger coverage]
+\label{thm:cauchy-subnet-cofinal-ledger-coverage}
+Let $S=(F,J,W,R,D,L,E,H,C,P,N)$ be an accepted $\CauchySubnetUp$ carrier. Every accepted subnet request admitted by the cofinal ledger row $J$ has a displayed source-filter request in $F$. Every completion-facing read must pass through
+$$
+F,J,W,R,D,L,E,H,C,P,N
+$$
+before it exposes a $\CauchyFilterLimitUp$, $\MetricCompletionUp$, or $\RealUp$ seal. Thus cofinal restriction is a finite ledger coverage route, not a quotient-filter equality, selected host subnet, countable-choice selector, host real equality, or ambient completeness assertion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-subnet-carrier}. The row $J$ is specified as the cofinal subnet-index ledger, and its accepted requests are backed by displayed source requests to the filter row $F$.
+
+Use \autoref{thm:cauchy-subnet-namecert-obligations} for row exhaustion. After $F$ and $J$, every admissible read proceeds through the finite-window row $W$, regular rational readback $R$, dyadic tolerance ledger $D$, handoff row $L$, seal row $E$, and structural rows $H,C,P,N$.
+
+Finally apply \autoref{thm:cauchy-subnet-filter-limit-handoff}. It identifies the only endpoint route to $\CauchyFilterLimitUp$, $\MetricCompletionUp$, or $\RealUp$, so no completion-facing consumer can bypass the cofinal ledger coverage.
+\end{proof}
+
 \begin{closurestatus}{\CauchySubnetUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:cauchy-subnet-carrier}, \autoref{thm:cauchy-subnet-namecert-obligations}, and \autoref{thm:cauchy-subnet-filter-limit-handoff} seed the finite cofinal subnet restriction surface between CauchyFilter sources, StreamName and RegSeqRat readback, CauchyFilterLimit handoff, and MetricCompletion or Real consumers.}
