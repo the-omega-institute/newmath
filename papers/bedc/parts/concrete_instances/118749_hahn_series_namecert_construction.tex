@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\HahnSeriesUp$}
+\label{ch:concrete-instances-hahn-series-namecert}
+\origin{human}
+
+Following Hahn and Kaplansky, the $\HahnSeriesUp$ packet records a Hahn-series name as finite BEDC rows: coefficient-field data, an ordered exponent carrier, an inspected support ledger, and a valuation readback. It sits after the field certificate of \autoref{ch:concrete-instances-field-namecert}, the total-order route of \autoref{ch:concrete-instances-totalorder-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the coefficient-only formal-power-series surface of \autoref{ch:concrete-instances-fps-namecert}, and the certificate transport discipline of \autoref{ch:concrete-instances-namecertmorphism-namecert}. The packet names the displayed non-Archimedean carrier surface; it does not import a host ordered group, a quotient field of fractions, a selected infinite summation, or an ambient completeness theorem.
+
+\begin{definition}[Hahn-series carrier]
+\label{def:hahn-series-carrier}
+A $\HahnSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+H=(F,G,S,W,V,R,T,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $F$ is the coefficient-field row, read through a displayed $\FieldUp$ certificate and its scalar classifier.
+\item $G$ is the ordered exponent row, read through a displayed $\TotalOrderUp$ comparison surface, with the additive-exponent operations kept as named BEDC data rather than as a host ordered group.
+\item $S$ is the support row, recording the finite inspected exponent cells and the coefficient cell attached to each inspected exponent.
+\item $W$ is the well-ordered-support ledger, recording that every finite downward query exposed by the carrier has a first occupied exponent among the inspected cells or is explicitly empty.
+\item $V$ is the valuation row, recording the least occupied exponent returned by $W$ when the support is nonempty and the formal infinity tag when the support is empty.
+\item $R$ is the coefficient readback row, recording the scalar returned at an inspected exponent and the displayed zero scalar returned outside the inspected support.
+\item $T$ records componentwise $\hsame$ transport for the field row, ordered exponent row, support ledger, valuation row, and coefficient readback.
+\item $C$ records displayed $\Cont$ replay from series admission through support inspection, valuation readback, coefficient readback, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\HahnSeriesUp$, $\FieldUp$, $\TotalOrderUp$, $\PolynomialUp$, $\FormalPowerSeriesUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HahnSeriesUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for an uninspected nonzero coefficient, a hidden support selector, a valuation outside the displayed ordered exponent row, or a coefficient comparison outside the scalar classifier of $F$.
+\end{definition}
+
+\begin{theorem}[Hahn-series NameCert obligations]
+\label{thm:hahn-series-namecert-obligations}
+For the carrier of \autoref{def:hahn-series-carrier}, the local $\NameCert_{\HahnSeriesUp}$ surface consists exactly of carrier admission for $H=(F,G,S,W,V,R,T,C,P,N)$, coefficient-field readback through $F$, ordered-exponent readback through $G$, inspected-support readback through $S$, well-ordered-support ledger exposure through $W$, valuation readback through $V$, coefficient readback through $R$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $H=(F,G,S,W,V,R,T,C,P,N)$. The first six rows expose the algebraic and order-facing data: a coefficient field, an ordered exponent surface, inspected support cells, the well-ordered-support ledger, the valuation endpoint, and coefficient readback.
+
+The structural rows are then forced. Transport $T$ preserves the rows componentwise under $\hsame$, replay $C$ orders the consumer read from admission to local naming, provenance $P$ records the sibling certificates, and $N$ supplies the local name. There is no additional row from which a consumer could read hidden support or an external summation operation, so the listed groups exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hahn-series support route]
+\label{thm:hahn-series-support-route}
+Every permitted consumer read of an accepted $\HahnSeriesUp$ carrier reaches a coefficient cell only through the ordered-exponent row $G$, inspected-support row $S$, well-ordered-support ledger $W$, and coefficient readback row $R$. In particular, support membership is a displayed BEDC ledger route, not a host subset of an ambient ordered group.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $H=(F,G,S,W,V,R,T,C,P,N)$. By \autoref{def:hahn-series-carrier}, all exponent comparisons are read through $G$, and all occupied cells available to the consumer are listed in $S$.
+
+The ledger $W$ controls support exposure. A finite downward query either returns the first occupied exponent among the displayed cells or records the query as empty, so the consumer cannot introduce an uninspected exponent while preserving the packet.
+
+Finally read $R$ through the replay row $C$. Coefficients are returned only from the inspected cells or as the displayed zero scalar outside the inspected support. Thus any support-dependent read factors through $G,S,W,R$ and cannot use an external subset predicate.
+\end{proof}
+
+\begin{theorem}[Hahn-series valuation nonescape]
+\label{thm:hahn-series-valuation-nonescape}
+For every accepted $\HahnSeriesUp$ carrier $H=(F,G,S,W,V,R,T,C,P,N)$, the valuation endpoint carried by $V$ is either the least occupied exponent certified by the well-ordered-support ledger $W$ or the formal infinity tag for empty support. No consumer read may replace $V$ by a smaller exponent, an uninspected support element, or a host valuation map while preserving the local $\NameCert_{\HahnSeriesUp}$ row.
+\end{theorem}
+\begin{proof}
+Inspect the two branches recorded by $W$. In the nonempty branch, $W$ supplies the first occupied exponent among the inspected cells and $V$ records exactly that endpoint. In the empty branch, $W$ exposes the absence of occupied inspected cells and $V$ records the formal infinity tag.
+
+Transport and replay do not add new valuation data. The row $T$ preserves the displayed field, order, support, ledger, valuation, and coefficient rows under $\hsame$, while $C$ replays the valuation read only after support inspection. Replacing $V$ by a smaller exponent or by a host valuation map would require a row absent from $H$, so the local name no longer certifies the read.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HahnSeriesUp$ consumer must expose $F,G,S,W,V,R,T,C,P,N$ before using any coefficient readback or valuation endpoint.}
+
+\independenceWitness{field, totalorder, polynomial, formalpowerseries, namecertmorphism: none is bijective to $\HahnSeriesUp$ because the field certificate lacks ordered support, the total-order certificate lacks coefficient rows, the polynomial carrier has finite ordinary exponent support, the formal-power-series carrier lacks well-ordered exponent support and valuation readback, and the certificate-morphism route transports certificates without supplying a Hahn-series carrier.}
+
+\closureat{HahnSeriesUp}{seedStr}
+
+\begin{closurestatus}{\HahnSeriesUp}
+  \constructivestory{The Hahn-series packet is generated from finite BEDC rows naming a coefficient field, an ordered exponent surface, inspected support cells, a well-ordered-support ledger, a valuation row, coefficient readback, transport, replay, provenance, and local naming. The construction records the classical Hahn-series carrier as a seed NameCert surface whose support and valuation reads are ledgered before any non-Archimedean consumer may use them.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope is exactly the carrier of \autoref{def:hahn-series-carrier}, the obligation surface of \autoref{thm:hahn-series-namecert-obligations}, the support route of \autoref{thm:hahn-series-support-route}, and the valuation nonescape boundary of \autoref{thm:hahn-series-valuation-nonescape}.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim field operations on all Hahn series, convergence, spherical completeness, algebraic closure, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier rows for coefficient readback, well-ordered support, valuation readback, and componentwise transport.}
+\end{closurestatus}
