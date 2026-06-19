@@ -440,4 +440,74 @@ theorem FilterLimitBasisCarrier_ledger_refusal [AskSetup] [PackageSetup]
     ⟨qUnary, fUnary, lUnary, eUnary, hUnary, cUnary, nUnary, completionUnary,
       limitUnary, realUnary, structuralUnary, refusalUnary, sameHN⟩
 
+theorem FilterLimitBasisCarrier_limit_compatibility [AskSetup] [PackageSetup]
+    {completion filter limit window readback tolerance realSeal transport replay provenance localName
+      basisRead limitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FilterLimitBasisCarrier completion filter limit window readback tolerance realSeal transport replay
+        provenance localName bundle pkg →
+      Cont completion filter basisRead →
+        Cont basisRead limit limitRead →
+          PkgSig bundle limitRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row limitRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row completion ∨ hsame row filter ∨ hsame row limit ∨
+                    hsame row window ∨ hsame row readback ∨ hsame row tolerance ∨
+                      hsame row limitRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont completion filter basisRead ∧
+                    Cont basisRead limit limitRead ∧ PkgSig bundle limitRead pkg)
+                hsame ∧
+              UnaryHistory basisRead ∧ UnaryHistory limitRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier completionFilter basisLimit pkgLimit
+  obtain
+    ⟨completionUnary, filterUnary, limitUnary, _windowUnary, _readbackUnary, _toleranceUnary,
+      _sealUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, _same,
+      _pkg⟩ := carrier
+  have basisUnary : UnaryHistory basisRead :=
+    unary_cont_closed completionUnary filterUnary completionFilter
+  have limitReadUnary : UnaryHistory limitRead :=
+    unary_cont_closed basisUnary limitUnary basisLimit
+  have sourceLimit :
+      (fun row : BHist => hsame row limitRead ∧ UnaryHistory row) limitRead := by
+    exact ⟨hsame_refl limitRead, limitReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row limitRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row completion ∨ hsame row filter ∨ hsame row limit ∨
+              hsame row window ∨ hsame row readback ∨ hsame row tolerance ∨
+                hsame row limitRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont completion filter basisRead ∧
+              Cont basisRead limit limitRead ∧ PkgSig bundle limitRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro limitRead sourceLimit
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, completionFilter, basisLimit, pkgLimit⟩
+  }
+  exact ⟨cert, basisUnary, limitReadUnary⟩
+
 end BEDC.Derived.FilterLimitBasisUp
