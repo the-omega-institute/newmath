@@ -8760,6 +8760,7 @@ import BEDC.Derived.RadialWobbleSpectrumUp.TasteGate
 import BEDC.Derived.RadonMeasureUp
 import BEDC.Derived.RadonMeasureUp.TasteGate
 import BEDC.Derived.RadonNikodymUp.TasteGate
+import BEDC.Derived.RadonTheoremUp.TasteGate
 import BEDC.Derived.RaikovCompletionUp.TasteGate
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
