@@ -64,6 +64,45 @@ def test_multistep_latent_prediction_schema_owner_types_are_local():
     )
 
 
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"sample_count": 0}, "sample_count"),
+        ({"horizon": 0}, "horizon"),
+    ],
+)
+def test_latent_rollout_batch_rejects_nonpositive_shape_controls(kwargs, message):
+    with pytest.raises(ValueError, match=message):
+        mlp.make_latent_rollout_batch(**kwargs)
+
+
+def test_latent_rollout_batch_supports_nondefault_latent_and_action_shapes():
+    batch = mlp.make_latent_rollout_batch(
+        sample_count=7,
+        horizon=5,
+        latent_dim=4,
+        action_dim=3,
+        seed=23,
+        split="alternate",
+    )
+
+    assert batch.initial_latents.shape == (7, 4)
+    assert batch.actions.shape == (7, 5, 3)
+    assert batch.target_latents.shape == (7, 5, 4)
+    assert batch.unsafe_transition.shape == (7, 5)
+    assert batch.unsafe_transition.dtype == np.bool_
+    assert np.isfinite(batch.target_latents).all()
+    assert batch.to_record() == {
+        "environment_id": "boundary-gated-ou-latent-rollout",
+        "split": "alternate",
+        "horizon": 5,
+        "sample_count": 7,
+        "latent_dim": 4,
+        "action_dim": 3,
+        "unsafe_transition_rate": float(np.mean(batch.unsafe_transition)),
+    }
+
+
 def _latent_prediction_gate() -> LatentPredictionGateSpec:
     return LatentPredictionGateSpec(
         gate_id="test-gate",
