@@ -32,7 +32,8 @@ The BEDC-JEPA evidence packet contains:
 - torch OU active gap-ledger curriculum with a train, score, sample, and
   retrain loop plus MiniGrid `not_executed` / `cannot_claim` boundary rows;
 - CUDA-gated K-step action-conditioned latent-prediction record on the shared
-  torch BEDC-JEPA train/eval surface;
+  torch BEDC-JEPA train/eval surface, with separate rollout-precision and
+  gap-calibration claim gates plus a shuffled-gap placebo comparator;
 - public baseline native-metric contract for importing an official or external
   V-JEPA2-AC / JEPA-family baseline result;
 - fillable public baseline native-metric template for the same import

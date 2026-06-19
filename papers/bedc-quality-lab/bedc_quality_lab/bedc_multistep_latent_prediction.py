@@ -446,6 +446,25 @@ def _paired_split(seed: int, train_count: int, test_count: int) -> tuple[Boundar
     return train, test
 
 
+def _shuffled_gap_placebo_batch(batch: BoundaryGatedBatch, *, seed: int) -> BoundaryGatedBatch:
+    rng = np.random.default_rng(int(seed) + 9173)
+    gap_order = rng.permutation(batch.gap.shape[0])
+    gap_pair_order = rng.permutation(batch.gap_pair.shape[0])
+    return BoundaryGatedBatch(
+        z=batch.z,
+        z_pair=batch.z_pair,
+        x=batch.x,
+        x_pair=batch.x_pair,
+        distinction=batch.distinction,
+        distinction_pair=batch.distinction_pair,
+        gap=batch.gap[gap_order],
+        gap_pair=batch.gap_pair[gap_pair_order],
+        radius=batch.radius,
+        gap_width=batch.gap_width,
+        action=batch.action,
+    )
+
+
 def _system_row(
     *,
     name: str,
@@ -488,6 +507,76 @@ def _summarize(rows: Sequence[dict[str, float | str]]) -> dict[str, float]:
     }
 
 
+def _paired_delta_cis(deltas: dict[str, Sequence[float]]) -> dict[str, dict[str, float]]:
+    return {
+        "rollout_mse_reduction": _bootstrap_ci(deltas["rollout_mse_reduction"]),
+        "latent_r2_delta": _bootstrap_ci(deltas["latent_r2_delta"]),
+        "gap_auc_delta": _bootstrap_ci(deltas["gap_auc_delta"]),
+        "coverage_delta": _bootstrap_ci(deltas["coverage_delta"]),
+        "unlogged_error_reduction": _bootstrap_ci(deltas["unlogged_error_reduction"]),
+        "gap_calibration_auc_delta": _bootstrap_ci(deltas["gap_calibration_auc_delta"]),
+        "gap_calibration_coverage_delta": _bootstrap_ci(deltas["gap_calibration_coverage_delta"]),
+        "gap_calibration_unlogged_error_reduction": _bootstrap_ci(
+            deltas["gap_calibration_unlogged_error_reduction"]
+        ),
+    }
+
+
+def _claim_gates(
+    *,
+    seeds: Sequence[int],
+    gpu_evidence: dict[str, Any],
+    device: str,
+    deltas: dict[str, Sequence[float]],
+) -> dict[str, Any]:
+    paired_cis = _paired_delta_cis(deltas)
+    rollout_rows = {
+        "gpu_evidence": device == "cuda" and gpu_evidence_passes(gpu_evidence),
+        "seed_count": len(seeds) >= 5,
+        "paired_bootstrap_ci": (
+            len(deltas["rollout_mse_reduction"]) >= 5
+            and paired_cis["rollout_mse_reduction"]["low"] > 0.0
+        ),
+    }
+    rollout_allowed = all(rollout_rows.values())
+    gap_calibration_rows = {
+        "paired_bootstrap_ci": (
+            len(deltas["gap_calibration_auc_delta"]) >= 5
+            and paired_cis["gap_calibration_auc_delta"]["low"] > 0.0
+        )
+    }
+    gap_calibration_allowed = all(gap_calibration_rows.values())
+    return {
+        "rollout_precision": {
+            "status": "passed" if rollout_allowed else "failed",
+            "claim_allowed": bool(rollout_allowed),
+            "gates": rollout_rows,
+            "paired_bootstrap_ci": {
+                "rollout_mse_reduction": paired_cis["rollout_mse_reduction"],
+                "latent_r2_delta": paired_cis["latent_r2_delta"],
+            },
+            "claim_block_reason": []
+            if rollout_allowed
+            else [name for name, passed in rollout_rows.items() if not passed],
+        },
+        "gap_calibration": {
+            "status": "passed" if gap_calibration_allowed else "failed",
+            "claim_allowed": bool(gap_calibration_allowed),
+            "gates": gap_calibration_rows,
+            "paired_bootstrap_ci": {
+                "gap_detection_auc_delta": paired_cis["gap_calibration_auc_delta"],
+            },
+            "diagnostics": {
+                "coverage_delta": paired_cis["gap_calibration_coverage_delta"],
+                "unlogged_error_reduction": paired_cis["gap_calibration_unlogged_error_reduction"],
+            },
+            "claim_block_reason": []
+            if gap_calibration_allowed
+            else [name for name, passed in gap_calibration_rows.items() if not passed],
+        },
+    }
+
+
 def _hardgates(
     *,
     seeds: Sequence[int],
@@ -496,36 +585,32 @@ def _hardgates(
     deltas: dict[str, Sequence[float]],
     gap_preservation_tolerance: float,
 ) -> dict[str, Any]:
-    rollout_improvement_ci = _bootstrap_ci(deltas["rollout_mse_reduction"])
-    latent_r2_delta_ci = _bootstrap_ci(deltas["latent_r2_delta"])
-    gap_auc_delta_ci = _bootstrap_ci(deltas["gap_auc_delta"])
-    coverage_delta_ci = _bootstrap_ci(deltas["coverage_delta"])
-    unlogged_delta_ci = _bootstrap_ci(deltas["unlogged_error_reduction"])
-    gate_rows = {
-        "gpu_evidence": device == "cuda" and gpu_evidence_passes(gpu_evidence),
-        "seed_count": len(seeds) >= 5,
-        "paired_bootstrap_ci": len(deltas["rollout_mse_reduction"]) >= 5 and rollout_improvement_ci["low"] > 0.0,
-        "gap_preservation": (
-            len(deltas["gap_auc_delta"]) >= 5
-            and gap_auc_delta_ci["low"] >= -gap_preservation_tolerance
-            and coverage_delta_ci["low"] >= -gap_preservation_tolerance
-            and unlogged_delta_ci["low"] >= -gap_preservation_tolerance
-        ),
-    }
+    claim_gates = _claim_gates(
+        seeds=seeds,
+        gpu_evidence=gpu_evidence,
+        device=device,
+        deltas=deltas,
+    )
+    paired_cis = _paired_delta_cis(deltas)
+    gap_preservation = (
+        len(deltas["gap_auc_delta"]) >= 5
+        and paired_cis["gap_auc_delta"]["low"] >= -gap_preservation_tolerance
+        and paired_cis["coverage_delta"]["low"] >= -gap_preservation_tolerance
+        and paired_cis["unlogged_error_reduction"]["low"] >= -gap_preservation_tolerance
+    )
+    rollout_precision = claim_gates["rollout_precision"]
+    gate_rows = dict(rollout_precision["gates"])
     return {
-        "status": "passed" if all(gate_rows.values()) else "failed",
+        "status": "passed" if rollout_precision["claim_allowed"] else "failed",
         "gates": gate_rows,
-        "paired_bootstrap_ci": {
-            "rollout_mse_reduction": rollout_improvement_ci,
-            "latent_r2_delta": latent_r2_delta_ci,
-            "gap_auc_delta": gap_auc_delta_ci,
-            "coverage_delta": coverage_delta_ci,
-            "unlogged_error_reduction": unlogged_delta_ci,
+        "diagnostic_gates": {
+            "gap_preservation": gap_preservation,
         },
-        "claim_allowed": bool(all(gate_rows.values())),
+        "paired_bootstrap_ci": paired_cis,
+        "claim_allowed": bool(rollout_precision["claim_allowed"]),
         "claim_block_reason": []
-        if all(gate_rows.values())
-        else [name for name, passed in gate_rows.items() if not passed],
+        if rollout_precision["claim_allowed"]
+        else list(rollout_precision["claim_block_reason"]),
     }
 
 
@@ -554,6 +639,9 @@ def run_bedc_multistep_latent_prediction(
         "gap_auc_delta": [],
         "coverage_delta": [],
         "unlogged_error_reduction": [],
+        "gap_calibration_auc_delta": [],
+        "gap_calibration_coverage_delta": [],
+        "gap_calibration_unlogged_error_reduction": [],
     }
     if device == "cuda" and not gpu_evidence_passes(evidence):
         hardgates = _hardgates(
@@ -582,6 +670,12 @@ def run_bedc_multistep_latent_prediction(
             "runs": [],
             "paired_deltas": empty_deltas,
             "hardgates": hardgates,
+            "claim_gates": _claim_gates(
+                seeds=[int(seed) for seed in seeds],
+                gpu_evidence=evidence,
+                device=device,
+                deltas=empty_deltas,
+            ),
             "same_split_metrics": [
                 "latent_r2",
                 "rollout_mse",
@@ -594,16 +688,24 @@ def run_bedc_multistep_latent_prediction(
             ],
         }
     run_rows: list[dict[str, Any]] = []
-    by_system: dict[str, list[dict[str, float | str]]] = {"latent_only": [], "bedc_objective": []}
+    by_system: dict[str, list[dict[str, float | str]]] = {
+        "latent_only": [],
+        "bedc_objective": [],
+        "bedc_shuffled_gap_placebo": [],
+    }
     deltas: dict[str, list[float]] = {
         "rollout_mse_reduction": [],
         "latent_r2_delta": [],
         "gap_auc_delta": [],
         "coverage_delta": [],
         "unlogged_error_reduction": [],
+        "gap_calibration_auc_delta": [],
+        "gap_calibration_coverage_delta": [],
+        "gap_calibration_unlogged_error_reduction": [],
     }
     for seed in seeds:
         train, test = _paired_split(int(seed), int(train_count), int(test_count))
+        placebo_train = _shuffled_gap_placebo_batch(train, seed=int(seed))
         latent_model = train_torch_bedc_jepa_surface(
             train,
             seed=int(seed),
@@ -618,16 +720,39 @@ def run_bedc_multistep_latent_prediction(
             epochs=int(epochs),
             requested_device=device,
         )
+        placebo_model = train_torch_bedc_jepa_surface(
+            placebo_train,
+            seed=int(seed),
+            bedc_objective=True,
+            epochs=int(epochs),
+            requested_device=device,
+        )
         latent_row = _system_row(name="latent_only", model=latent_model, test=test, steps=int(steps))
         bedc_row = _system_row(name="bedc_objective", model=bedc_model, test=test, steps=int(steps))
+        placebo_row = _system_row(
+            name="bedc_shuffled_gap_placebo",
+            model=placebo_model,
+            test=test,
+            steps=int(steps),
+        )
         by_system["latent_only"].append(latent_row)
         by_system["bedc_objective"].append(bedc_row)
+        by_system["bedc_shuffled_gap_placebo"].append(placebo_row)
         deltas["rollout_mse_reduction"].append(float(latent_row["rollout_mse"]) - float(bedc_row["rollout_mse"]))
         deltas["latent_r2_delta"].append(float(bedc_row["latent_r2"]) - float(latent_row["latent_r2"]))
         deltas["gap_auc_delta"].append(float(bedc_row["gap_detection_auc"]) - float(latent_row["gap_detection_auc"]))
         deltas["coverage_delta"].append(float(bedc_row["certified_coverage"]) - float(latent_row["certified_coverage"]))
         deltas["unlogged_error_reduction"].append(
             float(latent_row["unlogged_error_rate"]) - float(bedc_row["unlogged_error_rate"])
+        )
+        deltas["gap_calibration_auc_delta"].append(
+            float(bedc_row["gap_detection_auc"]) - float(placebo_row["gap_detection_auc"])
+        )
+        deltas["gap_calibration_coverage_delta"].append(
+            float(bedc_row["certified_coverage"]) - float(placebo_row["certified_coverage"])
+        )
+        deltas["gap_calibration_unlogged_error_reduction"].append(
+            float(placebo_row["unlogged_error_rate"]) - float(bedc_row["unlogged_error_rate"])
         )
         run_rows.append(
             {
@@ -636,6 +761,7 @@ def run_bedc_multistep_latent_prediction(
                 "systems": {
                     "latent_only": latent_row,
                     "bedc_objective": bedc_row,
+                    "bedc_shuffled_gap_placebo": placebo_row,
                 },
                 "deltas": {key: float(values[-1]) for key, values in deltas.items()},
             }
@@ -646,6 +772,12 @@ def run_bedc_multistep_latent_prediction(
         device=device,
         deltas=deltas,
         gap_preservation_tolerance=float(gap_preservation_tolerance),
+    )
+    claim_gates = _claim_gates(
+        seeds=[int(seed) for seed in seeds],
+        gpu_evidence=evidence,
+        device=device,
+        deltas=deltas,
     )
     return {
         "schema_id": "bedc-multistep-latent-prediction",
@@ -665,10 +797,12 @@ def run_bedc_multistep_latent_prediction(
         "systems": {
             "latent_only": _summarize(by_system["latent_only"]),
             "bedc_objective": _summarize(by_system["bedc_objective"]),
+            "bedc_shuffled_gap_placebo": _summarize(by_system["bedc_shuffled_gap_placebo"]),
         },
         "runs": run_rows,
         "paired_deltas": {key: [float(value) for value in values] for key, values in deltas.items()},
         "hardgates": hardgates,
+        "claim_gates": claim_gates,
         "same_split_metrics": [
             "latent_r2",
             "rollout_mse",
@@ -677,9 +811,9 @@ def run_bedc_multistep_latent_prediction(
             "unlogged_error_rate",
         ],
         "cannot_claim": []
-        if hardgates["claim_allowed"]
+        if claim_gates["rollout_precision"]["claim_allowed"]
         else [
-            "multistep latent-prediction capability improvement without passing GPU evidence, paired seeds, bootstrap CI, and gap-preservation gates"
+            "multistep latent-prediction capability improvement without passing GPU evidence, paired seeds, and rollout bootstrap CI"
         ],
     }
 
