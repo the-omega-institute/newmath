@@ -122,6 +122,24 @@ The consumer boundaries close the remaining cases. \autoref{thm:regular-cauchy-r
 Thus the finite route named in \autoref{thm:regularcauchyregularitywitness-tail-window-regularity} is not merely a handoff order. It is the whole obligation surface for the accepted packet, with $P$ and $N$ recording provenance and local naming for the same rows.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy regularity-witness finite-window induction]
+\label{thm:regular-cauchy-regularity-witness-finite-window-induction}
+Every accepted $\RegularCauchyRegularityWitnessUp$ packet
+$$
+W=(S,\mu,j,\Omega,R,Q,E,H,C,P,N)
+$$
+can be consumed by induction over the finite $\StreamNameUp$ windows displayed in $\Omega$ before the $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ tolerance ledger $Q$, and $\RealUp$ seal handoff $E$ are exposed. The induction base reads the selected diagonal source $S$ and the first window row named by $\mu,j$; each induction step appends one displayed window row, transports the prior window data through $H$, and replays the finite continuation route in $C$. Only after this finite induction has displayed the requested window may a consumer read $R$, then $Q$, and finally $E$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-regularity-witness-carrier}. The only window data available before readback is the finite $\StreamNameUp$ coordinate $\Omega$, with the selected source row $S$ and modulus-index rows $\mu,j$ determining which finite observations are requested.
+
+Induct over the displayed window spine. In the base case, the consumer reads $S$ and the first named observation through $\Omega$; no regular-rational readback, dyadic ledger, or Real seal coordinate is yet available.
+
+For the step case, append one displayed observation row of $\Omega$. The componentwise transport row $H$ preserves the prior selected source, modulus, index, and window rows, while the continuation row $C$ replays the finite route to the extended window without adding an off-carrier equality or choice row.
+
+After the finite window has been displayed, \autoref{thm:regular-cauchy-regularity-witness-diagonal-consumer-boundary} and \autoref{thm:regular-cauchy-regularity-witness-real-completion-handoff} force the remaining order: the consumer reads the $\RegSeqRatUp$ row $R$, then the $\DyadicRatCoreUp$ ledger $Q$, and only then the $\RealUp$ seal handoff $E$. Thus the accepted witness is consumable by finite-window induction before any downstream readback, tolerance ledger, or Real seal is exposed.
+\end{proof}
+
 \falsifiablePrediction{Every accepted RegularCauchyRegularityWitnessUp packet exposes a finite dyadic regularity-witness row and admits no route to a selected limit, host real equality, Quot.sound, or Classical.choice.}
 
 \independenceWitness{diagonallimit, regular-cauchy-triangle-bound, regseqrat, streamname, real: no listed sibling is bijective to $\RegularCauchyRegularityWitnessUp$ because this packet binds selected diagonal source, modulus index, finite window, regular-rational readback, dyadic tolerance ledger, Real seal handoff, transport, replay, provenance, and local NameCert rows in one consumer-facing regularity witness. The diagonal-limit sibling lacks the regularity-consumer tolerance ledger; the triangle-bound sibling lacks the selected representative seal handoff; RegSeqRatUp lacks the StreamName and Real route; StreamNameUp lacks regularity and dyadic ledger rows; RealUp lacks the finite witness route.}
