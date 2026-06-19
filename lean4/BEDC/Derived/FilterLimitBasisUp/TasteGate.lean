@@ -440,6 +440,99 @@ theorem FilterLimitBasisCarrier_ledger_refusal [AskSetup] [PackageSetup]
     ⟨qUnary, fUnary, lUnary, eUnary, hUnary, cUnary, nUnary, completionUnary,
       limitUnary, realUnary, structuralUnary, refusalUnary, sameHN⟩
 
+theorem FilterLimitBasis_limit_compatibility [AskSetup] [PackageSetup]
+    {Q F L W R D E H C P N completionBasis limitRoute windowRoute readbackRoute
+      toleranceRoute localRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FilterLimitBasisCarrier Q F L W R D E H C P N bundle pkg →
+      Cont Q F completionBasis →
+        Cont completionBasis L limitRoute →
+          Cont limitRoute W windowRoute →
+            Cont windowRoute R readbackRoute →
+              Cont readbackRoute D toleranceRoute →
+                Cont H C localRead →
+                  PkgSig bundle P pkg →
+                    PkgSig bundle localRead pkg →
+                      SemanticNameCert
+                          (fun row : BHist => hsame row toleranceRoute ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row Q ∨ hsame row F ∨ hsame row L ∨ hsame row W ∨
+                              hsame row R ∨ hsame row D ∨ hsame row limitRoute ∨
+                                hsame row windowRoute ∨ hsame row readbackRoute ∨
+                                  hsame row toleranceRoute)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont Q F completionBasis ∧
+                              Cont completionBasis L limitRoute ∧
+                                Cont limitRoute W windowRoute ∧
+                                  Cont windowRoute R readbackRoute ∧
+                                    Cont readbackRoute D toleranceRoute ∧
+                                      PkgSig bundle P pkg ∧
+                                        PkgSig bundle localRead pkg)
+                          hsame ∧
+                        UnaryHistory limitRoute ∧ UnaryHistory windowRoute ∧
+                          UnaryHistory readbackRoute ∧ UnaryHistory toleranceRoute := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier qf completionLimit limitWindow windowRead readTolerance _hc pkgP pkgLocal
+  obtain
+    ⟨qUnary, fUnary, lUnary, wUnary, rUnary, dUnary, _eUnary, _hUnary, _cUnary,
+      _pUnary, _nUnary, _sameHN, _carrierPkg⟩ := carrier
+  have completionUnary : UnaryHistory completionBasis :=
+    unary_cont_closed qUnary fUnary qf
+  have limitUnary : UnaryHistory limitRoute :=
+    unary_cont_closed completionUnary lUnary completionLimit
+  have windowUnary : UnaryHistory windowRoute :=
+    unary_cont_closed limitUnary wUnary limitWindow
+  have readbackUnary : UnaryHistory readbackRoute :=
+    unary_cont_closed windowUnary rUnary windowRead
+  have toleranceUnary : UnaryHistory toleranceRoute :=
+    unary_cont_closed readbackUnary dUnary readTolerance
+  have sourceTolerance :
+      (fun row : BHist => hsame row toleranceRoute ∧ UnaryHistory row)
+        toleranceRoute := by
+    exact ⟨hsame_refl toleranceRoute, toleranceUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row toleranceRoute ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row Q ∨ hsame row F ∨ hsame row L ∨ hsame row W ∨
+              hsame row R ∨ hsame row D ∨ hsame row limitRoute ∨
+                hsame row windowRoute ∨ hsame row readbackRoute ∨
+                  hsame row toleranceRoute)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont Q F completionBasis ∧
+              Cont completionBasis L limitRoute ∧ Cont limitRoute W windowRoute ∧
+                Cont windowRoute R readbackRoute ∧ Cont readbackRoute D toleranceRoute ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle localRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro toleranceRoute sourceTolerance
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, qf, completionLimit, limitWindow, windowRead, readTolerance,
+          pkgP, pkgLocal⟩
+  }
+  exact ⟨cert, limitUnary, windowUnary, readbackUnary, toleranceUnary⟩
+
 theorem FilterLimitBasisCarrier_limit_compatibility [AskSetup] [PackageSetup]
     {completion filter limit window readback tolerance realSeal transport replay provenance localName
       basisRead limitRead : BHist}
