@@ -9,3 +9,17 @@ The shared numerical readback is not supplied by a host analytic object. It pass
 
 The existing nonescape theorems in the chapter exclude host function spaces, host integration functionals, selected antiderivatives, quotient equality of functions, and ambient completeness. Hence the dependency route for calculus consumers is the finite $\DerivativeUp$--$\RiemannIntegralUp$--$\RegSeqRatUp$--$\RealUp$ route stated above.
 \end{proof}
+
+\begin{theorem}[Calculus derivative-integral dependency factorization]
+\label{thm:calculus-riemann-integral-dependency-factorization}
+Any $\CalculusUp$ consumer that combines a derivative conclusion with a Riemann-integral conclusion factors its public read through the $\DerivativeUp$, $\RiemannIntegralUp$, $\RegSeqRatUp$, and $\RealUp$ rows before exposing endpoint equality or an estimate. In the notation of \autoref{def:calculus-local-linearization-carrier} and \autoref{def:calculus-root-public-package}, the derivative branch consumes the displayed derivative rows, the integral branch consumes the displayed finite-sum rows, and the common endpoint readback consumes the regular rational and real-name rows before any equality or estimate is public.
+\end{theorem}
+\begin{proof}
+Start with the dependency route of \autoref{lem:calculus-riemann-integral-dependency-route}. It already separates derivative-facing reads through \autoref{ch:concrete-instances-derivative-namecert} from Riemann finite-sum reads through \autoref{ch:concrete-instances-riemannintegral-namecert}.
+
+The local-linearization carrier \autoref{def:calculus-local-linearization-carrier} supplies the derivative-side window, while the root public package \autoref{def:calculus-root-public-package} supplies the shared public rows. Thus a consumer combining the two conclusions must first read the derivative and integral branches as displayed BEDC rows.
+
+The endpoint or estimate then passes through the regular rational readback and terminal Real seal. This is the same nonescape boundary used by \autoref{thm:calculus-local-operation-nonescape}, \autoref{thm:calculus-root-package-nonescape}, and \autoref{thm:calculus-root-real-seal-nonescape}.
+
+Those nonescape statements exclude host function spaces, selected antiderivatives, quotient function equality, host integration functionals, and ambient completeness. Hence no combined derivative-integral conclusion can expose an endpoint equality or estimate before the finite $\DerivativeUp$--$\RiemannIntegralUp$--$\RegSeqRatUp$--$\RealUp$ factorization has been consumed.
+\end{proof}

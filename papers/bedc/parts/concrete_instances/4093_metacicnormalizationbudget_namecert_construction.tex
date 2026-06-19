@@ -48,6 +48,7 @@ T,C,E,S,A,P,
 $$
 the refusal row $R$, and the support rows $H,Q,L,N$. The positive rows are read only as the candidate-mediated normalization budget, while $R$ records requests for unconditional closed-term strong normalization or for normalization without the displayed candidate evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationBudgetUp.MetaCICNormalizationBudgetCarrier\_obligation\_surface}
 \begin{proof}
 Project the carrier of \autoref{def:metacic-normalization-budget-carrier}. Its tuple has the six positive coordinates $T,C,E,S,A,P$, the single refusal coordinate $R$, and the four structural support coordinates $H,Q,L,N$; no other row is present.
 
@@ -96,6 +97,36 @@ Apply the candidate-route scope theorem, \autoref{thm:metacic-normalization-budg
 
 Finally apply non-escape, \autoref{thm:metacic-normalization-budget-nonescape}. Missing $C$ or $E$ has no positive continuation and is recorded by $R$, while missing $A$ leaves application and Pi reads at the boundary rather than turning the candidate route into closed subject reduction.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization budget falsifiable boundary]
+\label{thm:metacic-normalization-budget-falsifiable-boundary}
+Every accepted $\MetaCICNormalizationBudgetUp$ packet that is queried for a normalization read while missing the candidate evidence row $C$ or the closed-candidate membership row $E$ must route the query to the refusal row $R$. In particular, an accepted packet whose public read exports strong normalization without both $C$ and $E$ is not a valid instance of the carrier of \autoref{def:metacic-normalization-budget-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier tuple. Its only positive normalization route is the displayed sequence $T,C,E,S,A,P$, while $R$ is the unique row assigned to requests that omit candidate evidence or closed-candidate membership.
+
+Apply \autoref{thm:metacic-normalization-budget-candidate-sn-boundary}. The theorem states that a strong-normalization read is exported only when $T,C,E,S,A,P$ are read together. Therefore a request missing $C$ or $E$ has no positive continuation.
+
+It remains to identify the public destination of such a request. By \autoref{thm:metacic-normalization-budget-nonescape}, missing candidate data is recorded by $R$ rather than supplied by a hidden evaluator, subject-reduction theorem, or unconditional closed-term normalization coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization budget independence boundary]
+\label{thm:metacic-normalization-budget-independence-boundary}
+The $\MetaCICNormalizationBudgetUp$ packet is not bijective to the confluence audit witness of \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}, the subject-reduction obligation packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}, the closed-normal consistency boundary of \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}, or the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The reason is row-level: this packet alone combines the closed term row $T$, candidate evidence $C$, closed-candidate membership $E$, candidate-to-strong-normalization row $S$, adequacy boundary $A$, replay budget $P$, refusal row $R$, transport row $H$, continuation row $Q$, provenance row $L$, and local naming row $N$ as one finite carrier.
+\end{theorem}
+\begin{proof}
+Compare the row inventory with the named siblings. The confluence audit witness records a confluence-facing route; the subject-reduction obligation packet records preservation-facing data; the closed-normal consistency boundary records consistency-facing data; and the normalization frontier records an open boundary for normalization claims.
+
+The carrier of \autoref{def:metacic-normalization-budget-carrier} has a different public signature. It jointly stores $T,C,E,S,A,P,R,H,Q,L,N$, so it contains both the positive candidate-mediated route and the refusal row in the same NameCert packet.
+
+A bijection to any listed sibling would have to preserve those rows and their route order. Since none of the siblings exposes exactly this combined candidate, adequacy, replay, refusal, transport, continuation, provenance, and naming surface, no listed sibling is the same packet under renaming.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICNormalizationBudgetUp$ query missing candidate evidence $C$ or closed-candidate membership $E$ routes to the refusal row $R$ and does not export a positive strong-normalization read.}
+
+\independenceWitness{metacicconfluenceauditwitness, metacic-subject-reduction-obligation, closed-normal-consistency-boundary, metacicnormalizationfrontier: $\MetaCICNormalizationBudgetUp$ is not bijective to any listed sibling because it alone combines $T,C,E,S,A,P,R,H,Q,L,N$ as one candidate-mediated normalization-budget carrier.}
+
+Lean Nontrivial and FieldFaithful TasteGate instances for the same $\MetaCICNormalizationBudgetUp$ carrier must inspect the rows $T,C,E,S,A,P,R,H,Q,L,N$ together, so the positive route and the refusal boundary are tested on the same accepted packet.
 
 \closureat{MetaCICNormalizationBudgetUp}{seedStr}
 
