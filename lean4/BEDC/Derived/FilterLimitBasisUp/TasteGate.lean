@@ -137,18 +137,6 @@ def taste_gate : ChapterTasteGate FilterLimitBasisUp :=
   -- BEDC touchpoint anchor: BHist BMark
   filterLimitBasisChapterTasteGate
 
-theorem FilterLimitBasisTasteGate_single_carrier_alignment :
-    (∀ h : BHist, filterLimitBasisDecodeBHist (filterLimitBasisEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier FilterLimitBasisUp) ∧
-        Nonempty (ChapterTasteGate FilterLimitBasisUp) ∧
-          filterLimitBasisEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨filterLimitBasisDecode_encode_bhist,
-      Nonempty.intro filterLimitBasisBHistCarrier,
-      Nonempty.intro filterLimitBasisChapterTasteGate,
-      rfl⟩
-
 def FilterLimitBasisCarrier [AskSetup] [PackageSetup]
     (Q F L W R D E H C P N : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -237,5 +225,80 @@ theorem FilterLimitBasisNameCertObligations [AskSetup] [PackageSetup]
       exact ⟨source.right, qf, completionLimit, limitReal, hc, pkgP, pkgLocal⟩
   }
   exact ⟨cert, completionUnary, limitUnary, realUnary, localUnary⟩
+
+theorem FilterLimitBasisCauchyFilterCompletionHandoff [AskSetup] [PackageSetup]
+    {Q F L W R D E H C P N completionBasis limitRoute realRoute structuralRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FilterLimitBasisCarrier Q F L W R D E H C P N bundle pkg →
+      Cont Q F completionBasis →
+        Cont completionBasis L limitRoute →
+          Cont limitRoute E realRoute →
+            Cont H C structuralRead →
+              PkgSig bundle P pkg →
+                PkgSig bundle structuralRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row realRoute)
+                      (fun row : BHist =>
+                        hsame row Q ∨ hsame row F ∨ hsame row L ∨ hsame row W ∨
+                          hsame row R ∨ hsame row D ∨ hsame row E ∨
+                            hsame row realRoute ∨ hsame row structuralRead)
+                      (fun row : BHist =>
+                        Cont Q F completionBasis ∧ Cont completionBasis L limitRoute ∧
+                          Cont limitRoute E realRoute ∧ Cont H C structuralRead ∧
+                            PkgSig bundle P pkg ∧ PkgSig bundle structuralRead pkg ∧
+                              hsame row realRoute)
+                      hsame ∧
+                    UnaryHistory completionBasis ∧ UnaryHistory limitRoute ∧
+                      UnaryHistory realRoute ∧ UnaryHistory structuralRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier qf completionLimit limitReal hc pkgP pkgStructural
+  obtain
+    ⟨qUnary, fUnary, lUnary, _wUnary, _rUnary, _dUnary, eUnary, hUnary, cUnary,
+      _pUnary, _nUnary, _sameHN, _carrierPkg⟩ := carrier
+  have completionUnary : UnaryHistory completionBasis :=
+    unary_cont_closed qUnary fUnary qf
+  have limitUnary : UnaryHistory limitRoute :=
+    unary_cont_closed completionUnary lUnary completionLimit
+  have realUnary : UnaryHistory realRoute :=
+    unary_cont_closed limitUnary eUnary limitReal
+  have structuralUnary : UnaryHistory structuralRead :=
+    unary_cont_closed hUnary cUnary hc
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realRoute)
+          (fun row : BHist =>
+            hsame row Q ∨ hsame row F ∨ hsame row L ∨ hsame row W ∨
+              hsame row R ∨ hsame row D ∨ hsame row E ∨
+                hsame row realRoute ∨ hsame row structuralRead)
+          (fun row : BHist =>
+            Cont Q F completionBasis ∧ Cont completionBasis L limitRoute ∧
+              Cont limitRoute E realRoute ∧ Cont H C structuralRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle structuralRead pkg ∧
+                  hsame row realRoute)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro realRoute (hsame_refl realRoute)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inl source)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨qf, completionLimit, limitReal, hc, pkgP, pkgStructural, source⟩
+  }
+  exact ⟨cert, completionUnary, limitUnary, realUnary, structuralUnary⟩
 
 end BEDC.Derived.FilterLimitBasisUp

@@ -26,7 +26,6 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $Q,F,L,W,R,D,E,H,C,P,N$. There is no coordinate for quotient filters, host filter equality, ultrafilters, selected limits, countable-choice schedules, or ambient $\RealUp$ completeness.
 \end{definition}
-\leanchecked{BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[FilterLimitBasis NameCert obligations]
 \label{thm:filter-limit-basis-namecert-obligations}
@@ -59,12 +58,37 @@ Q,F,L,W,R,D \longmapsto E \longmapsto H,C,P,N .
 $$
 Thus a completion-facing read receives the displayed Cauchy-filter completion boundary, the saturated filter surface, the limit boundary, finite stream windows, regular rational readback, dyadic tolerance accounting, the terminal real-name seal, componentwise transport, replay, provenance, and local naming. It receives no quotient filter, ultrafilter, selected limit, host real equality, countable-choice selector, ambient completeness theorem, or bridge certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisCauchyFilterCompletionHandoff}
 \begin{proof}
 Begin with a completion-facing consumer of $B$. The carrier admits the $\CauchyFilterCompletionUp$ row $Q$ only together with the finite filter and limit rows $F,L$.
 
 Replay the displayed continuation row $C$. The request consumes $Q$ and $F$, then passes through the limit row $L$, finite windows $W$, regular readback $R$, and dyadic tolerance ledger $D$ before the terminal seal $E$ is available.
 
 The structural rows do not create an additional completion object. Transport through $H$, provenance through $P$, and local naming through $N$ record the same finite route, so every $\CauchyFilterCompletionUp$ or $\RealUp$ consumer receives only that route.
+\end{proof}
+
+\begin{theorem}[FilterLimitBasis limit compatibility]
+\label{thm:filter-limit-basis-limit-compatibility}
+Let $B=(Q,F,L,W,R,D,E,H,C,P,N)$ be an accepted $\FilterLimitBasisUp$ carrier. The limit-boundary row $L$, finite-window row $W$, regular readback row $R$, and dyadic tolerance row $D$ are read from the same displayed filter-basis data exposed by $Q$ and $F$. In particular, a limit-facing consumer cannot replace the filter of $F$ with a second host filter, detach $W$ from the displayed basis request, or read $R,D$ as tolerance evidence for a different filter presentation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:filter-limit-basis-carrier}. Its only completion and filter coordinates are $Q$ and $F$, and its only limit-facing coordinates are $L,W,R,D$.
+
+Apply the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}. The limit-compatibility row requires $L$ to use the same displayed filter, window, readback, and dyadic tolerance route rather than a detached filter presentation.
+
+Finally read the handoff theorem \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. Every completion-facing consumer follows the finite route $Q,F,L,W,R,D$ before the terminal seal appears, so $L,W,R,D$ remain tied to the filter-basis data already exposed by $Q$ and $F$.
+\end{proof}
+
+\begin{theorem}[FilterLimitBasis ledger refusal]
+\label{thm:filter-limit-basis-ledger-refusal}
+For every accepted $\FilterLimitBasisUp$ carrier $B=(Q,F,L,W,R,D,E,H,C,P,N)$, the local ledger has no coordinate for quotient filters, host filter equality, ultrafilters, selected limits, countable-choice schedules, ambient completeness, or bridge certificates. Any request for one of those objects is therefore refused by the absence of a carrier row and cannot be recovered from $Q,F,L,W,R,D,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier definition. The displayed tuple contains completion, filter, limit, window, readback, tolerance, seal, transport, replay, provenance, and local naming rows, and no row with the requested quotient, ultrafilter, selected-limit, choice, completeness, or bridge role.
+
+Apply \autoref{thm:filter-limit-basis-namecert-obligations}. Its ledger-refusal clause lists exactly those excluded objects and states that the local NameCert surface stores no obligation outside the displayed rows.
+
+The handoff theorem \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff} then identifies every completion-facing and Real-facing read with the route through $Q,F,L,W,R,D,E,H,C,P,N$. Since the route has no additional ledger coordinate, the excluded objects remain refused for every accepted packet.
 \end{proof}
 
 \begin{theorem}[FilterLimitBasis Real handoff stability]
@@ -81,6 +105,18 @@ Start with the carrier definition \autoref{def:filter-limit-basis-carrier}. Its 
 Apply the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}. They require completion-basis exposure through $Q,F$, limit compatibility through $L,W,R,D$, Real handoff through $E$, and structural replay through $H,C,P,N$.
 
 Finally use the handoff theorem \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. Since the transported packet has the same displayed coordinates and no additional carrier row, the terminal $\RealUp$ handoff remains downstream of $Q,F,L,W,R,D$ and cannot acquire quotient filters, selected limits, ultrafilters, countable-choice schedules, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[FilterLimitBasis window-basis exhaustion]
+\label{thm:filter-limit-basis-window-basis-exhaustion}
+Every accepted $\FilterLimitBasisUp$ request must expose the completion row $Q$, the Cauchy-filter row $F$, the limit-boundary row $L$, the finite-window row $W$, the regular readback row $R$, and the dyadic tolerance row $D$ before it may read the terminal seal $E$. Only after that finite basis has been displayed may the request continue through $H,C,P,N$. Consequently the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyFilterUp$, and $\CauchyFilterLimitUp$ rows are all visible before any $\RealUp$ consumer can inspect the seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:filter-limit-basis-carrier}. Its visible order places $Q,F,L,W,R,D$ before the terminal seal row $E$, and then records transport, replay, provenance, and local naming as $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}. The completion-basis row forces $Q,F$ to be read first, the limit-compatibility row ties $L,W,R,D$ to that same request, and the Real handoff row keeps $E$ downstream of those finite rows.
+
+Finally use \autoref{thm:filter-limit-basis-limit-compatibility} and \autoref{thm:filter-limit-basis-real-handoff-stability}. They preserve the same displayed basis under limit-facing and transported Real-facing reads, so no $\RealUp$ consumer can reach the seal before the StreamName, RegSeqRat, DyadicRatCore, CauchyFilter, and CauchyFilterLimit rows are visible.
 \end{proof}
 
 \falsifiablePrediction{An accepted $\FilterLimitBasisUp$ read is refuted if a $\CauchyFilterCompletionUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the Cauchy-filter completion row, Cauchy-filter row, Cauchy-filter limit row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming.}

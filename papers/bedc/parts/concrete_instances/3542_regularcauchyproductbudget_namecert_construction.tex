@@ -126,11 +126,13 @@ Use ledger exactness from \autoref{thm:regular-cauchy-product-budget-ledger-exac
 
 Thus any consumer at $D$ or $E$ inverts the route back to the paired source-window admission. Since no one-sided product coordinate appears in the carrier tuple, a single window alone cannot license the dyadic product row.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudgetCarrier\_symmetric\_source\_window\_inversion}
 
 \begin{theorem}[RegularCauchyProductBudget source coverage]
 \label{thm:regular-cauchy-product-budget-source-coverage}
 Every accepted $\RegularCauchyProductBudgetUp$ carrier reaching either the $\RegSeqRatUp$ readback row $R$ or the $\RealUp$ seal row $S$ must expose both source packets $A,B$, both $\StreamNameUp$ windows $W_A,W_B$, both dyadic source rows $D_A,D_B$, and the shared $\FiniteErrorBudgetUp$ row $E$. No one-sided product read and no hidden host multiplication route covers the same exported seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyProductBudgetUp.RegularCauchyProductBudget\_source\_coverage}
 \begin{proof}
 Apply \autoref{thm:regular-cauchy-product-budget-window-admission}. It exposes the source packets $A,B$ together with the paired finite windows $W_A,W_B$ before either dyadic source row can be consumed.
 
@@ -283,15 +285,15 @@ Attach the consumer boundary through \autoref{thm:regular-cauchy-product-budget-
 Finally apply \autoref{thm:regular-cauchy-product-budget-obligation-scope}. The rows $H,C,P,N$ repack transport, continuation replay, package provenance, and local naming into the public $\NameCert_{\RegularCauchyProductBudgetUp}$ surface, with no extra coordinate through which host multiplication, quotient equality, completeness, hidden rounding, or selected limits could enter.
 \end{proof}
 
-\closureat{RegularCauchyProductBudgetUp}{scopedStr}
+\closureat{RegularCauchyProductBudgetUp}{publicStr}
 
 \begin{closurestatus}{\RegularCauchyProductBudgetUp}
   \constructivestory{A $\RegularCauchyProductBudgetUp$ packet is generated from two $\RegSeqRatUp$ source rows, paired $\StreamNameUp$ windows, dyadic source rows, a $\DyadicRatCoreUp$ product row, a $\FiniteErrorBudgetUp$ ledger, a $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-product-budget-carrier}, \autoref{thm:regular-cauchy-product-budget-falsifiable-prediction}, \autoref{thm:regular-cauchy-product-budget-independence-witness}, \autoref{thm:regular-cauchy-product-budget-window-admission}, \autoref{thm:regular-cauchy-product-budget-ledger-exactness}, \autoref{thm:regular-cauchy-product-budget-product-closure-budget}, \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-product-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-product-budget-namecert-obligations}, \autoref{thm:regular-cauchy-product-budget-checked-obligation-readiness}, and \autoref{thm:regular-cauchy-product-budget-obligation-scope} bind the finite product-budget route to StreamName, DyadicRatCore, FiniteErrorBudget, RegSeqRat, RealUp, BHist, hsame, Cont, Pkg, and NameCert source rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-product-budget-carrier}, \autoref{thm:regular-cauchy-product-budget-falsifiable-prediction}, \autoref{thm:regular-cauchy-product-budget-independence-witness}, \autoref{thm:regular-cauchy-product-budget-window-admission}, \autoref{thm:regular-cauchy-product-budget-ledger-exactness}, \autoref{thm:regular-cauchy-product-budget-product-closure-budget}, \autoref{thm:regular-cauchy-product-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-product-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-product-budget-namecert-obligations}, \autoref{thm:regular-cauchy-product-budget-checked-obligation-readiness}, \autoref{thm:regular-cauchy-product-budget-obligation-scope}, and \autoref{thm:regular-cauchy-product-budget-public-export} bind the finite product-budget route to StreamName, DyadicRatCore, FiniteErrorBudget, RegSeqRat, RealUp, BHist, hsame, Cont, Pkg, NameCert source rows, and the public consumer surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, RealUp completeness, host real multiplication, quotient stream equality, a hidden rounding oracle, selected host limits, or a public standard bridge.}
-  \upgradepath{Public closure records the consumer-facing export once its product-budget readback is reflected by the same StreamName, DyadicRatCore, FiniteErrorBudget, RegSeqRat, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \upgradepath{The next theory-axis step is a bridge from the public product-budget export to a standard or schema-facing multiplication interface.}
 \end{closurestatus}

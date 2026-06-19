@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\CauchyBicompletionUp$}
+\label{ch:concrete-instances-cauchy-bicompletion-namecert}
+\origin{human}
+
+Following Isbell on injective envelopes and Nachbin on ordered uniform completions, the $\CauchyBicompletionUp$ packet records a finite two-sided regular Cauchy completion corridor. It sits over the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real boundary of \autoref{ch:concrete-instances-real-namecert}, the uniform two-sided corridor of \autoref{ch:concrete-instances-uniform-cauchy-bicompletion-namecert}, and the completion coherence laws of \autoref{ch:concrete-instances-cauchy-completion-monad-law-namecert}. The packet keeps paired Cauchy windows, comparison transport, replay, provenance, and local naming finite before any real-completion consumer can read a bicompletion boundary.
+
+\begin{definition}[Cauchy bicompletion carrier]
+\label{def:cauchy-bicompletion-carrier}
+A $\CauchyBicompletionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,R,W,Q,E,U,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the left and right $\StreamNameUp$ Cauchy-window rows;
+\item $W$ is the paired finite-window row, recording the common precision request and the inspected left and right tails;
+\item $Q$ is the $\RegSeqRatUp$ readback row for the paired windows;
+\item $E$ is the terminal $\RealUp$ route reached only after the paired readback row has been displayed;
+\item $U$ is the $\UniformCauchyBicompletionUp$ comparison row, used only as the uniform two-sided corridor for the same finite pair;
+\item $M$ is the $\CauchyCompletionMonadLawUp$ coherence row, recording unit, bind, and associativity readback for the displayed completion route;
+\item $H$ records componentwise $\hsame$ transport for the two sides, paired window, readback, Real route, uniform corridor, coherence row, replay, provenance, and local naming;
+\item $C$ records displayed $\Cont$ replay of the finite bicompletion route;
+\item $P$ is the $\Pkg$ provenance over $\CauchyBicompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\UniformCauchyBicompletionUp$, $\CauchyCompletionMonadLawUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyBicompletionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion, selected completion representatives, ambient host equality, choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy bicompletion NameCert obligations]
+\label{thm:cauchy-bicompletion-namecert-obligations}
+For every accepted $\CauchyBicompletionUp$ carrier $B=(L,R,W,Q,E,U,M,H,C,P,N)$, the local $\NameCert_{\CauchyBicompletionUp}$ surface consists exactly of carrier admission, paired Cauchy-window discipline, $\RegSeqRatUp$ readback exactness, $\RealUp$ route nonescape, $\UniformCauchyBicompletionUp$ corridor compatibility, $\CauchyCompletionMonadLawUp$ coherence, componentwise transport, displayed replay, package provenance, local naming, and refusal of quotient completions, selected representatives, ambient host equality, choice, and ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-bicompletion-carrier}. The rows $L,R,W,Q,E,U,M,H,C,P,N$ are the whole local certificate surface, so every obligation must be assigned to one of those coordinates.
+
+The paired-window obligation is $W$ over the two source rows $L$ and $R$. It records the finite left and right tails inspected for the same precision request before readback can proceed.
+
+The readback and completion-facing obligations are $Q,E,U,M$. The row $Q$ supplies regular rational readback, $E$ is the downstream real route, $U$ records compatibility with the uniform two-sided corridor, and $M$ records the completion monad-law coherence visible to consumers.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite bicompletion packet. Since the carrier has no quotient-completion, selected-representative, host-equality, choice, or ambient-completeness coordinate, those objects cannot be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Cauchy bicompletion real-completion route]
+\label{thm:cauchy-bicompletion-real-completion-route}
+Every $\RealUp$ or regular Cauchy completion consumer of an accepted $\CauchyBicompletionUp$ packet factors through the finite route
+$$
+L,R,W \longmapsto Q \longmapsto E,U,M \longmapsto H,C,P,N .
+$$
+Thus the consumer receives paired Cauchy-window rows, $\RegSeqRatUp$ readback, the terminal $\RealUp$ route, the $\UniformCauchyBicompletionUp$ corridor, $\CauchyCompletionMonadLawUp$ coherence, transport, replay, provenance, and local naming. It receives no quotient completion, selected representative, ambient host equality, choice, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start from an accepted packet $B=(L,R,W,Q,E,U,M,H,C,P,N)$. The left and right source rows are only stream-window data, and the paired row $W$ forces them to answer the same finite precision request.
+
+The regular rational readback row $Q$ is then the only way to expose the paired Cauchy windows as completion data. The terminal real row $E$ remains downstream of $Q$, so a real-completion consumer cannot skip the finite readback.
+
+The uniform corridor $U$ and coherence row $M$ are parallel checks on the same displayed route. They record two-sided uniform compatibility and completion monad-law behavior without adding a quotient completion or selected representative.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the route. Once those rows are exhausted, the packet has no remaining coordinate for ambient host equality, choice, or ambient real completeness.
+\end{proof}
+
+\falsifiablePrediction{A $\CauchyBicompletionUp$ read is refuted whenever it reaches a $\RealUp$ or completion-facing boundary without paired Cauchy windows, RegSeqRat readback, the uniform corridor, and completion monad-law coherence.}
+
+\closureat{CauchyBicompletionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyBicompletionUp}
+  \constructivestory{A $\CauchyBicompletionUp$ packet is generated from left and right StreamName Cauchy-window rows, a paired finite-window row, RegSeqRat readback, a RealUp route, a UniformCauchyBicompletion corridor, CauchyCompletionMonadLaw coherence, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-bicompletion-carrier}, \autoref{thm:cauchy-bicompletion-namecert-obligations}, and \autoref{thm:cauchy-bicompletion-real-completion-route} seed the finite paired Cauchy-window bicompletion route into RegSeqRat and Real readback consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected representatives, ambient host equality, choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired-window discipline, RegSeqRat readback exactness, Real route nonescape, uniform corridor compatibility, completion monad-law coherence, transport, replay, provenance, and local naming for BEDC.Derived.CauchyBicompletionUp.}
+\end{closurestatus}
