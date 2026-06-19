@@ -224,6 +224,23 @@ instance metacicDecidabilityWitnessChapterTasteGate :
     intro x y hxy heq
     exact hxy (metacicDecidabilityWitnessToEventFlow_injective heq)
 
+instance metacicDecidabilityWitnessFieldFaithful :
+    FieldFaithful MetacicDecidabilityWitnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | MetacicDecidabilityWitnessUp.mk typing sameTerm bounded finished refusal transport
+        route provenance name =>
+        [typing, sameTerm, bounded, finished, refusal, transport, route, provenance, name]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk typing₁ sameTerm₁ bounded₁ finished₁ refusal₁ transport₁ route₁ provenance₁ name₁ =>
+      cases y with
+      | mk typing₂ sameTerm₂ bounded₂ finished₂ refusal₂ transport₂ route₂ provenance₂ name₂ =>
+          cases hfields
+          rfl
+
 theorem MetacicDecidabilityWitnessTasteGate_single_carrier_alignment :
     (∀ h : BHist,
         metacicDecidabilityWitnessDecodeBHist
