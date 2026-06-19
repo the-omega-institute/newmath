@@ -35,9 +35,9 @@ theorem Egorov_finite_window_uniformity [AskSetup] [PackageSetup]
             UnaryHistory uniformRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
   intro carrier windowRoute uniformRoute
-  obtain ⟨_packet, _unaryM, _unaryOmega, _unaryF, _unaryX, _unaryS, unaryR,
-    _unaryA, unaryW, unaryU, _unaryL, _unaryH, _unaryC, _unaryP, _unaryN,
-    pkgP, pkgN⟩ := carrier
+  obtain ⟨_packetWitness, _unaryM, _unaryOmega, _unaryF, _unaryX, _unaryS, unaryR,
+    _unaryA, unaryW, unaryU, _unaryL, _unaryH, _unaryC, _unaryP, _unaryN, pkgP,
+    pkgN⟩ := carrier
   have windowUnary : UnaryHistory windowRead :=
     unary_cont_closed unaryW unaryR windowRoute
   have uniformUnary : UnaryHistory uniformRead :=
