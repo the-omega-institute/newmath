@@ -413,4 +413,66 @@ theorem NetConvergenceCarrier_sequentialcompact_bridge
     ⟨directedRoute, filterRoute, realRoute, seqSame, sameH, sameC, sameP, sameM,
       fields⟩
 
+theorem NetConvergenceCarrier_mature_source_package
+    {D T E A F S R L H C P M sourceRead filterRead realRead packageRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D A sourceRead ->
+        Cont E F filterRead ->
+          Cont F S realRead ->
+            Cont realRead H packageRead ->
+              hsame packageRead D ->
+                SemanticNameCert
+                    (fun row : BHist =>
+                      hsame row packageRead ∧
+                        NetConvergenceCarrier D T E A F S R L H C P M)
+                    (fun row : BHist =>
+                      hsame row D ∨ hsame row E ∨ hsame row F ∨ hsame row S ∨
+                        hsame row R ∨ hsame row L ∨ hsame row packageRead)
+                    (fun row : BHist =>
+                      Cont D A sourceRead ∧ Cont E F filterRead ∧
+                        Cont F S realRead ∧ Cont realRead H packageRead ∧ hsame row D)
+                    hsame ∧
+                  hsame H H ∧ hsame C C ∧ hsame P P ∧ hsame M M := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert NetConvergenceCarrier
+  intro carrier sourceRoute filterRoute realRoute packageRoute packageSame
+  have carrierWitness : NetConvergenceCarrier D T E A F S R L H C P M := carrier
+  obtain ⟨_sameD, _sameT, _sameE, _sameA, _sameF, _sameS, _sameR, _sameL, sameH,
+    sameC, sameP, sameM, _fields⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row packageRead ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row E ∨ hsame row F ∨ hsame row S ∨ hsame row R ∨
+              hsame row L ∨ hsame row packageRead)
+          (fun row : BHist =>
+            Cont D A sourceRead ∧ Cont E F filterRead ∧ Cont F S realRead ∧
+              Cont realRead H packageRead ∧ hsame row D)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro packageRead ⟨hsame_refl packageRead, carrierWitness⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨sourceRoute, filterRoute, realRoute, packageRoute,
+          hsame_trans source.left packageSame⟩
+  }
+  exact ⟨cert, sameH, sameC, sameP, sameM⟩
+
 end BEDC.Derived.NetConvergenceUp
