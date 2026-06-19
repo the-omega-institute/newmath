@@ -112,6 +112,20 @@ Apply \autoref{thm:metacic-normalization-budget-candidate-sn-boundary}. The theo
 It remains to identify the public destination of such a request. By \autoref{thm:metacic-normalization-budget-nonescape}, missing candidate data is recorded by $R$ rather than supplied by a hidden evaluator, subject-reduction theorem, or unconditional closed-term normalization coordinate.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization budget refusal exactness]
+\label{thm:metacic-normalization-budget-refusal-exactness}
+Every accepted $\MetaCICNormalizationBudgetUp$ packet queried for a normalization read while missing $C$ or $E$ has exactly one public destination: the refusal row $R$. The request is transported by the componentwise row $H$ and replayed by the displayed continuation row $Q$, and it has no alternative route through $T,S,A,P$ or through any structural row outside $H,Q,L,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-budget-carrier}. Its visible rows are $T,C,E,S,A,P,R,H,Q,L,N$, so the packet contains one refusal coordinate and no hidden evaluator, subject-reduction coordinate, host normalization coordinate, or second structural destination.
+
+Apply \autoref{thm:metacic-normalization-budget-candidate-route-scope}. The positive route reaches a strong-normalization read only through the full candidate-mediated chain $T,C,E,S,A,P$. If $C$ or $E$ is missing, that route is not available as a public read.
+
+Apply \autoref{thm:metacic-normalization-budget-nonescape} and \autoref{thm:metacic-normalization-budget-falsifiable-boundary}. They identify the missing-candidate query with the refusal row $R$ rather than with a positive normalization row.
+
+Finally read the support rows. The row $H$ transports the same refusal judgment componentwise, while $Q$ replays the displayed refusal route to consumers and $L,N$ record provenance and local naming only. Hence the public destination is exactly $R$, with transport and replay but without an alternative positive or structural route.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization budget independence boundary]
 \label{thm:metacic-normalization-budget-independence-boundary}
 The $\MetaCICNormalizationBudgetUp$ packet is not bijective to the confluence audit witness of \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}, the subject-reduction obligation packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}, the closed-normal consistency boundary of \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}, or the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The reason is row-level: this packet alone combines the closed term row $T$, candidate evidence $C$, closed-candidate membership $E$, candidate-to-strong-normalization row $S$, adequacy boundary $A$, replay budget $P$, refusal row $R$, transport row $H$, continuation row $Q$, provenance row $L$, and local naming row $N$ as one finite carrier.
