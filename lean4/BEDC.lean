@@ -6337,6 +6337,7 @@ import BEDC.Derived.InverseMappingTheoremUp.TasteGate
 import BEDC.Derived.IrrationalWitnessUp.TasteGate
 import BEDC.Derived.IsaacsEquationUp
 import BEDC.Derived.IsaacsEquationUp.TasteGate
+import BEDC.Derived.IsbellMrowkaPsiSpaceUp.TasteGate
 import BEDC.Derived.IsbellTightSpanUp.TasteGate
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BoundedSequenceRoute
@@ -6776,6 +6777,7 @@ import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedMonotoneConvergenceUp
 import BEDC.Derived.LocatedMonotoneConvergenceUp.TasteGate
 import BEDC.Derived.LocatedNestedIntervalLimitUp.TasteGate
+import BEDC.Derived.LocatedOpenUp
 import BEDC.Derived.LocatedOpenUp.TasteGate
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
@@ -8259,6 +8261,7 @@ import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditMapConsumerTotality
+import BEDC.Derived.PaperLeanDriftWitnessUp.AuditMapHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditMapWeaveConsumerExactness
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.AxisSeparation
@@ -9094,6 +9097,7 @@ import BEDC.Derived.RealTailAgreementSealUp.TerminalRoute
 import BEDC.Derived.RealTailAgreementSealUp.WindowAgreementDeterminacy
 import BEDC.Derived.RealTailAgreementSealUp.WindowRoute
 import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
+import BEDC.Derived.RealTailDiameterGaugeUp.TasteGate
 import BEDC.Derived.RealTightnessUp.TasteGate
 import BEDC.Derived.RealTriangleInequalityUp.TasteGate
 import BEDC.Derived.RealUniformCauchyFilterCompletionUp
@@ -9768,6 +9772,7 @@ import BEDC.Derived.RegularityModulusUp.ObligationCompleteness
 import BEDC.Derived.RegulatedCauchyIntegralUp
 import BEDC.Derived.RegulatedCauchyIntegralUp.TasteGate
 import BEDC.Derived.RegulatedCauchyModulusUp
+import BEDC.Derived.RegulatedCauchyModulusUp.TasteGate
 import BEDC.Derived.RegulatedConvergenceUp.Core
 import BEDC.Derived.RegulatedConvergenceUp.TasteGate
 import BEDC.Derived.RegulatedFunctionCompactOscillationUp.TasteGate
@@ -10289,6 +10294,7 @@ import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SmythCompletionUp
 import BEDC.Derived.SmythCompletionUp.TasteGate
 import BEDC.Derived.SmythPowerdomainUp.TasteGate
+import BEDC.Derived.SnakeLemmaUp.TasteGate
 import BEDC.Derived.SobolevEmbeddingUp.TasteGate
 import BEDC.Derived.SobolevPoincareFiniteEnergyUp.TasteGate
 import BEDC.Derived.SobolevTraceBoundaryUp.TasteGate
