@@ -493,6 +493,55 @@ def test_recall_calibrated_policy_uses_only_calibration_channel_keys():
     assert decisions.dtype == np.float64
 
 
+def test_recall_calibrated_policy_quantile_fallback_for_channel_without_positives():
+    probabilities = np.array(
+        [
+            [0.2, 0.1, 0.2, 0.4],
+            [0.8, 0.5, 0.7, 0.6],
+            [0.3, 0.9, 0.4, 0.2],
+        ],
+        dtype=np.float64,
+    )
+    labels = np.array(
+        [
+            [0.0, 0.0, 1.0, 1.0],
+            [1.0, 0.0, 0.0, 0.0],
+            [1.0, 1.0, 1.0, 1.0],
+        ],
+        dtype=np.float64,
+    )
+    calibration_idx = np.array([0, 1], dtype=np.int64)
+    no_positive_channel = runner.GAP_CHANNELS.index("low_margin")
+    expected_threshold = float(
+        np.quantile(
+            probabilities[calibration_idx, no_positive_channel],
+            runner.CALIBRATION_ALERT_QUANTILE,
+        )
+    )
+
+    policy = runner._fit_recall_calibrated_per_channel(
+        probabilities,
+        labels,
+        calibration_idx=calibration_idx,
+    )
+    decisions = runner._apply_recall_calibrated_per_channel(probabilities, policy)
+
+    assert policy["threshold_lookup_keys"] == ("split_role", "channel")
+    assert policy["thresholds"]["low_margin"] == pytest.approx(expected_threshold)
+    fallback_row = next(
+        row for row in policy["threshold_rows"] if row["channel"] == "low_margin"
+    )
+    assert fallback_row == {
+        "split_role": "calibration",
+        "channel": "low_margin",
+        "threshold": pytest.approx(expected_threshold),
+    }
+    np.testing.assert_array_equal(
+        decisions[:, no_positive_channel],
+        (probabilities[:, no_positive_channel] >= expected_threshold).astype(np.float64),
+    )
+
+
 def test_flat_threshold_baseline_matches_alert_budget_with_allowed_delta():
     probabilities = np.array(
         [
