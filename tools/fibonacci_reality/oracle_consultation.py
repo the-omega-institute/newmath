@@ -325,6 +325,7 @@ def run_oracle_consultation(
     existing_conversation_id: str = "",
     allow_resume_fallback: bool = True,
     close_on_exit: bool = False,
+    min_seconds_between_turns: float = 60.0,
 ) -> dict[str, Any]:
     """Run a multi-turn oracle consultation and optionally persist its transcript."""
 
@@ -358,6 +359,7 @@ def run_oracle_consultation(
         close_on_exit=close_on_exit,
         server_url=server_url,
         poll_timeout=poll_timeout,
+        min_seconds_between_turns=min_seconds_between_turns,
     )
     if not isinstance(result, dict):
         result = {"topic": topic, "conversation_id": "", "turns": [], "closed_reason": "run_session returned non-dict"}
