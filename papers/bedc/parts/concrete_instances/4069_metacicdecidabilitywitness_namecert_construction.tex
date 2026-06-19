@@ -66,6 +66,20 @@ Invoke the NameCert obligations of \autoref{thm:metacic-decidability-witness-nam
 Use the bounded-conversion non-escape theorem \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape}. It confines conversion evidence to $B$ together with $F$, while $R$ records the missing global endpoints. Thus a later consumer may inspect bounded normal-form evidence through the named rows only, and cannot reread it as unrestricted conversion decidability, subject reduction, quotient syntax equality, or consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidability witness typing-exactness route]
+\label{thm:metacic-decidability-witness-typing-exactness-route}
+Every accepted $\MetacicDecidabilityWitnessUp$ packet routes typing-checker exactness through the inferTypeCtx row $T$ before any consumer may combine structural equality $S$, bounded beta comparison $B$, and finished-normal row $F$. A request that skips $T$ cannot be read as $\mathsf{HasType}$ exactness or as closed conversion evidence for the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidability-witness-carrier}. The row $T$ is the unique displayed coordinate that names inferTypeCtx soundness and completeness for the encoded $\mathsf{HasType}$ relation, while $S,B,F$ record structural equality, bounded comparison, and finished-normal side conditions.
+
+Apply the NameCert obligations of \autoref{thm:metacic-decidability-witness-namecert-obligations}. They bind typing-checker exactness to $T$ and leave $S,B,F$ as later consumer rows, so the structural and bounded-normal data cannot be promoted into a typing-exactness witness without first exposing $T$.
+
+Use the bounded normal-form split of \autoref{thm:metacic-decidability-witness-bounded-normal-form-split}. It permits bounded normal-form inspection only through the displayed rows and keeps the refusal row $R$ visible. Together with \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape}, this excludes a global $\mathsf{ClosedAt}$ decision theorem, unrestricted beta conversion, quotient syntax equality, and evaluator rows.
+
+Thus any route skipping $T$ lacks the only row that carries inferTypeCtx exactness. Such a route may inspect bounded comparison evidence after the displayed side conditions, but it is not a $\mathsf{HasType}$ exactness route and does not close conversion for the packet.
+\end{proof}
+
 \closureat{MetacicDecidabilityWitnessUp}{seedStr}
 
 \begin{closurestatus}{\MetacicDecidabilityWitnessUp}
