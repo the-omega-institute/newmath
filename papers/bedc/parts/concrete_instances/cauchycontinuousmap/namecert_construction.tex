@@ -189,6 +189,20 @@ Window composition \autoref{thm:cauchy-continuous-map-window-composition} and re
 Apply \autoref{thm:cauchy-continuous-map-uniform-window-obligation}. The same route is required for modulus-facing consumers, and a completion-facing consumer has no additional coordinate from which to select limits, quotient stream maps, all-points continuity, host functions, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyContinuousMap completion factorization]
+\label{thm:cauchy-continuous-map-completion-factorization}
+Every completion-facing consumer of an accepted $\CauchyContinuousMapUp$ packet factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, the $\ContinuousMapUp$ boundary row, and the finite $\MetricCompletionUp$ or $\MetricCompletionFiniteUp$ consumer route before any completion read is exposed. The factorization exports only the displayed Cauchy-name transformer rows $W,R,D,E,H,C,P,N$ and refuses host functions, quotient streams, selected limits, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:cauchy-continuous-map-carrier}. Its rows expose stream windows, regular rational readback, dyadic tolerance checks, the Real seal, componentwise transport, replay, provenance, and local naming.
+
+Use the continuous-map boundary theorem, \autoref{thm:cauchy-continuous-map-continuousmap-boundary}. It says that the map-facing side is already a finite Cauchy-name transformer boundary, not a host function or an all-points metric-continuity object.
+
+The uniform-window obligation and uniform-modulus factorization then force the same $W,R,D,E,H,C,P,N$ route before a downstream modulus or completion-facing reader can inspect the packet. In particular, the reader must pass through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and the $\ContinuousMapUp$ boundary before the completion route is visible.
+
+Finally apply \autoref{thm:cauchy-continuous-map-completion-consumer-scope}. Since the completion consumer has no coordinate for selected limits, quotient streams, host functions, or ambient completeness, its only remaining route is the displayed finite $\MetricCompletionUp$ or $\MetricCompletionFiniteUp$ consumer path attached to the Cauchy-name transformer rows.
+\end{proof}
+
 \begin{theorem}[CauchyContinuousMap scoped surface]
 \label{thm:cauchy-continuous-map-scoped-surface}
 For every accepted $\CauchyContinuousMapUp$ carrier $M=(W,R,D,E,H,C,P,N)$, the rows $W,R,D,E,H,C,P,N$ form one scoped Cauchy-name transformer surface consumed by $\ContinuousMapUp$ and $\UniformModulusUp$ readers. The surface is exactly the finite route that exposes StreamName windows, RegSeqRat readback, DyadicRatCore tolerance checks, Real-seal handoff, componentwise transport, replay, provenance, and local naming before any downstream consumer may inspect the packet. It exports no host function, quotient stream, full metric-continuity theorem, detached uniform-continuity modulus, or completeness claim.
