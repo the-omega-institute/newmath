@@ -4055,6 +4055,7 @@ import BEDC.Derived.CrossHistCausalConeUp.TasteGate
 import BEDC.Derived.CrossHistCausalRateUp.Carrier
 import BEDC.Derived.CrossHistCausalRateUp.TasteGate
 import BEDC.Derived.CrossHistCausalRouteUp.NameCertObligations
+import BEDC.Derived.CrossHistCausalRouteUp.SiblingIndependence
 import BEDC.Derived.CrossHistCausalRouteUp.TasteGate
 import BEDC.Derived.CrossHistCausalUp.TasteGate
 import BEDC.Derived.CrossHistoryCausalDependenceUp.TasteGate
@@ -7576,6 +7577,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedConversionNonescape
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedNormalFormSplit
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
+import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateBoundaryRoute
@@ -9451,6 +9453,7 @@ import BEDC.Derived.RegularCauchyCriterionUp.RouteScope
 import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyDensityUp
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.NameCertObligations
+import BEDC.Derived.RegularCauchyDiagonalArgumentUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
@@ -9732,6 +9735,7 @@ import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCompositionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp
+import BEDC.Derived.RegularCauchyTailEstimateUp.TailEnvelopeLock
 import BEDC.Derived.RegularCauchyTailEstimateUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFiberUp
 import BEDC.Derived.RegularCauchyTailFiberUp.CompletionHandoffScope
