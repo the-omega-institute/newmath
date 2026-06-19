@@ -10953,6 +10953,7 @@ import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyBicompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionRealizerUp
 import BEDC.Derived.UniformCauchyCompletionUp.TasteGate
+import BEDC.Derived.UniformCauchyCriterionFunctionUp
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformCauchyCriterionUp.BudgetedRealSealFactorization
 import BEDC.Derived.UniformCauchyCriterionUp.Carrier
