@@ -1,12 +1,24 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ArchimedeanApproximationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -186,5 +198,95 @@ theorem ArchimedeanApproximationTasteGate_single_carrier_alignment :
       ⟨archimedeanApproximationBHistCarrier⟩,
       ⟨archimedeanApproximationChapterTasteGate⟩,
       rfl⟩
+
+def ArchimedeanApproximationCarrier [AskSetup] [PackageSetup]
+    (bound rational dyadic tolerance window readback sealRow transportRow replayRow
+      provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory bound ∧ UnaryHistory rational ∧ UnaryHistory dyadic ∧
+    UnaryHistory tolerance ∧ UnaryHistory window ∧ UnaryHistory readback ∧
+      UnaryHistory sealRow ∧ UnaryHistory transportRow ∧ UnaryHistory replayRow ∧
+        UnaryHistory provenance ∧ UnaryHistory localName ∧
+          Cont bound dyadic tolerance ∧ Cont tolerance window readback ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
+theorem ArchimedeanApproximationCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {bound rational dyadic tolerance window readback sealRow transportRow replayRow provenance
+      localName realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanApproximationCarrier bound rational dyadic tolerance window readback sealRow
+        transportRow replayRow provenance localName bundle pkg →
+      Cont bound dyadic tolerance →
+        Cont tolerance window readback →
+          Cont readback sealRow realRead →
+            PkgSig bundle provenance pkg →
+              PkgSig bundle localName pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row bound ∨ hsame row rational ∨ hsame row dyadic ∨
+                        hsame row tolerance ∨ hsame row window ∨ hsame row readback ∨
+                          hsame row sealRow ∨ hsame row realRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont bound dyadic tolerance ∧
+                        Cont tolerance window readback ∧ Cont readback sealRow realRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+                    hsame ∧
+                  UnaryHistory realRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier boundDyadic toleranceWindow readbackSeal provenancePkg namePkg
+  obtain ⟨boundUnary, _rationalUnary, dyadicUnary, _toleranceUnary, windowUnary,
+    _readbackUnary, sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _carrierBoundDyadic, _carrierToleranceWindow,
+    _carrierProvenancePkg, _carrierNamePkg⟩ := carrier
+  have toleranceUnary : UnaryHistory tolerance :=
+    unary_cont_closed boundUnary dyadicUnary boundDyadic
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed toleranceUnary windowUnary toleranceWindow
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed readbackUnary sealUnary readbackSeal
+  have sourceReal :
+      (fun row : BHist => hsame row realRead ∧ UnaryHistory row) realRead := by
+    exact ⟨hsame_refl realRead, realReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row bound ∨ hsame row rational ∨ hsame row dyadic ∨
+              hsame row tolerance ∨ hsame row window ∨ hsame row readback ∨
+                hsame row sealRow ∨ hsame row realRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont bound dyadic tolerance ∧
+              Cont tolerance window readback ∧ Cont readback sealRow realRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro realRead sourceReal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, boundDyadic, toleranceWindow, readbackSeal, provenancePkg,
+          namePkg⟩
+  }
+  exact ⟨cert, realReadUnary⟩
 
 end BEDC.Derived.ArchimedeanApproximationUp
