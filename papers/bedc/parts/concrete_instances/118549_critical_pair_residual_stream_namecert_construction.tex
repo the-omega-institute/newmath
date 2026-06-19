@@ -65,6 +65,22 @@ The candidate joins in $J$ are read only over the displayed windows of $R$, and 
 Transport and replay through $H$ and $C$ preserve the same displayed route, while $P$ and $T$ preserve provenance and naming. No structural row adds a residual-substitution proof, subject-reduction proof, global confluence theorem, evaluator equality, quotient equality, or kernel endpoint.
 \end{proof}
 
+\begin{theorem}[Critical-pair residual stream frontier handoff]
+\label{thm:critical-pair-residual-stream-frontier-handoff}
+Every $\MetaCICParallelDiamondFrontierUp$ consumer of an accepted $\CriticalPairResidualStreamUp$ packet must first read the rows $D,N,L,I,R,J,W$. The consumer may export only the displayed candidate-mediated residual data carried by the frontier row, normalization row, same-schema relation row, inter-Hist invariant row, residual-window ledger, candidate-join ledger, and stream-order row.
+
+It cannot discharge residual substitution, subject reduction, unrestricted confluence, evaluator equality, quotient equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:critical-pair-residual-stream-carrier}. The rows $D,N,L,I,R,J,W$ are the only rows that expose a parallel-diamond frontier, normalization frontier, same-schema relation, inter-Hist invariant, residual-window ledger, candidate-join ledger, and stream order.
+
+Apply \autoref{thm:critical-pair-residual-stream-namecert-obligations}. The local certificate admits exactly those displayed rows together with the failure, transport, replay, provenance, and naming rows, so a frontier consumer cannot read a residual window before the frontier and normalization rows are exposed.
+
+Now use \autoref{thm:critical-pair-residual-stream-route}. The route factors any public residual-stream read through $D,N,L,I,R,J,W$ and exports only candidate-mediated residual data along that route.
+
+The refusal boundary is preserved because none of the carrier coordinates stores substitution discharge, subject reduction, unrestricted confluence, evaluator equality, quotient equality, or kernel consistency. Thus the AI chapter remains a residual-frontier handoff rather than a hidden MetaCIC metatheorem.
+\end{proof}
+
 \falsifiablePrediction{If the residual-window ledger $R$ is read without the displayed $\MetaCICParallelDiamondFrontierUp$, $\MetaCICNormalizationFrontierUp$, $\LayeredRelationCertUp$, and $\InterHistInvariantUp$ rows, the packet must route the request to the failure row $E$ rather than to a residual-stream certificate.}
 
 \independenceWitness{metacicparallel, metacicnormalization, layeredrelationcert, interhistinvariant: $\MetaCICParallelDiamondFrontierUp$ supplies conditional local-diamond rows without the residual stream ledger; $\MetaCICNormalizationFrontierUp$ supplies candidate-normalization rows without the critical-pair stream order; $\LayeredRelationCertUp$ supplies same-schema relation scope without residual joins; $\InterHistInvariantUp$ supplies history-invariance rows without the diamond and normalization handoff. None is bijective to $\CriticalPairResidualStreamUp$ under NameCert-row preservation.}
