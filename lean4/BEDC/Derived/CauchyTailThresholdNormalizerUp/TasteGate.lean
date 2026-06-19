@@ -279,4 +279,18 @@ theorem CauchyTailThresholdNormalizerCarrier_namecert_obligations
           exact source
       }
 
+theorem CauchyTailThresholdNormalizerCarrier_noninternalization
+    (T : CauchyTailThresholdNormalizerUp) :
+    (∃ S M Theta W0 W1 D R A E H C P L N : BHist,
+      T = CauchyTailThresholdNormalizerUp.mk S M Theta W0 W1 D R A E H C P L N ∧
+        cauchyTailThresholdNormalizerFields T =
+          [S, M, Theta, W0, W1, D, R, A, E, H, C, P, L, N] ∧ hsame H H) ∧
+      cauchyTailThresholdNormalizerEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  cases T with
+  | mk S M Theta W0 W1 D R A E H C P L N =>
+      exact
+        ⟨⟨S, M, Theta, W0, W1, D, R, A, E, H, C, P, L, N, rfl, rfl,
+          hsame_refl H⟩, rfl⟩
+
 end BEDC.Derived.CauchyTailThresholdNormalizerUp
