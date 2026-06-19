@@ -88,6 +88,10 @@ MATCHED_RANDOM_AUDIT_REQUIRED_KEYS = MATCHED_RANDOM_AUDIT_MATCH_KEYS + (
     "failure_reasons",
     "evidence_pointers",
 )
+DEFAULT_DECISION_POLICY = "recall_calibrated_per_channel"
+FLAT_THRESHOLD_BASELINE_ARM = "flat_threshold_baseline"
+CALIBRATION_ALERT_QUANTILE = 0.70
+ALERT_COUNT_DELTA_MAX = 1
 
 
 @dataclass(frozen=True)
@@ -379,6 +383,190 @@ def _matched_random_gap_labels(labels: np.ndarray, *, seed: int) -> np.ndarray:
     return randomized
 
 
+def _calibration_split(train_idx: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    idx = np.asarray(train_idx, dtype=np.int64)
+    if idx.ndim != 1 or idx.shape[0] < 2:
+        raise ValueError("train_idx must contain at least two rows for disjoint calibration")
+    calibration_count = max(1, int(math.ceil(float(idx.shape[0]) * 0.25)))
+    if calibration_count >= idx.shape[0]:
+        calibration_count = idx.shape[0] - 1
+    return idx[:-calibration_count], idx[-calibration_count:]
+
+
+def _score_from_probabilities(probabilities: np.ndarray) -> np.ndarray:
+    value = _require_finite("probabilities", probabilities, ndim=2)
+    return np.max(value, axis=1)
+
+
+def _critical_score_from_probabilities(probabilities: np.ndarray) -> np.ndarray:
+    value = _require_finite("probabilities", probabilities, ndim=2)
+    return value[:, GAP_CHANNELS.index("prediction_error")]
+
+
+def _threshold_for_alert_budget(score: np.ndarray, budget: int) -> float:
+    value = _require_finite("score", score, ndim=1)
+    count = int(value.shape[0])
+    bounded_budget = max(0, min(int(budget), count))
+    if bounded_budget <= 0:
+        return float(np.nextafter(np.max(value), math.inf))
+    if bounded_budget >= count:
+        return float(np.min(value))
+    descending = np.sort(value)[::-1]
+    return float(descending[bounded_budget - 1])
+
+
+def _alert_count(score: np.ndarray, *, threshold: float) -> int:
+    value = _require_finite("score", score, ndim=1)
+    return int(np.sum(value >= float(threshold)))
+
+
+def _fit_recall_calibrated_per_channel(
+    probabilities: np.ndarray,
+    labels: np.ndarray,
+    *,
+    calibration_idx: np.ndarray,
+) -> dict[str, Any]:
+    value = _require_finite("probabilities", probabilities, ndim=2)
+    label_value = _require_finite("labels", labels, ndim=2)
+    idx = np.asarray(calibration_idx, dtype=np.int64)
+    if value.shape[1] != len(GAP_CHANNELS):
+        raise ValueError("probabilities must align with gap channels")
+    if value.shape != label_value.shape:
+        raise ValueError("probabilities and labels must align")
+    if idx.ndim != 1 or idx.shape[0] == 0:
+        raise ValueError("calibration_idx must be non-empty")
+    thresholds: dict[str, float] = {}
+    rows: list[dict[str, Any]] = []
+    for channel_index, channel in enumerate(GAP_CHANNELS):
+        scores = value[idx, channel_index]
+        channel_labels = label_value[idx, channel_index] > 0.5
+        if np.any(channel_labels):
+            threshold = float(np.min(scores[channel_labels]))
+        else:
+            threshold = float(np.quantile(scores, CALIBRATION_ALERT_QUANTILE))
+        thresholds[channel] = threshold
+        rows.append(
+            {
+                "split_role": "calibration",
+                "channel": channel,
+                "threshold": threshold,
+            }
+        )
+    return {
+        "policy": DEFAULT_DECISION_POLICY,
+        "threshold_lookup_keys": ("split_role", "channel"),
+        "thresholds": thresholds,
+        "threshold_rows": rows,
+        "calibration_row_count": int(idx.shape[0]),
+        "alert_quantile": float(CALIBRATION_ALERT_QUANTILE),
+    }
+
+
+def _apply_recall_calibrated_per_channel(
+    probabilities: np.ndarray,
+    decision_policy: dict[str, Any],
+) -> np.ndarray:
+    value = _require_finite("probabilities", probabilities, ndim=2)
+    thresholds = decision_policy.get("thresholds")
+    if not isinstance(thresholds, dict):
+        raise ValueError("decision_policy thresholds must be a mapping")
+    columns = []
+    for channel_index, channel in enumerate(GAP_CHANNELS):
+        columns.append(value[:, channel_index] >= float(thresholds[channel]))
+    return np.column_stack(columns).astype(np.float64)
+
+
+def _decision_metrics_for_arm(
+    *,
+    arm: str,
+    probabilities: np.ndarray,
+    decisions: np.ndarray,
+    labels: np.ndarray,
+    prediction_error: np.ndarray,
+) -> dict[str, Any]:
+    probability_value = _require_finite("probabilities", probabilities, ndim=2)
+    decision_value = _require_finite("decisions", decisions, ndim=2)
+    label_value = _require_finite("labels", labels, ndim=2)
+    error = _require_finite("prediction_error", prediction_error, ndim=1)
+    if probability_value.shape != decision_value.shape or probability_value.shape != label_value.shape:
+        raise ValueError("probabilities, decisions, and labels must align")
+    if probability_value.shape[0] != error.shape[0]:
+        raise ValueError("prediction_error must align with probabilities")
+    probability_metrics = _metrics_for_arm(
+        arm=arm,
+        probabilities=probability_value,
+        labels=label_value,
+        prediction_error=error,
+    )
+    score = _score_from_probabilities(decision_value)
+    critical_score = _critical_score_from_probabilities(decision_value)
+    return {
+        "arm": arm,
+        "failure_detection_auroc": probability_metrics["failure_detection_auroc"],
+        "ece": probability_metrics["ece"],
+        "unlogged_error_rate": float(np.mean((error > PRIMARY_EPSILON) & (score < 0.5))),
+        "critical_unlogged_error_rate": float(
+            np.mean((error > PRIMARY_EPSILON) & (critical_score < 0.5))
+        ),
+        "prediction_error_rate": float(np.mean(error > PRIMARY_EPSILON)),
+        "gap_score_mean": float(np.mean(score)),
+        "critical_gap_score_mean": float(np.mean(critical_score)),
+        "gap_sound_scan": [
+            {
+                "tau": float(tau),
+                "epsilon": float(epsilon),
+                "low_gap_implies_error_within_epsilon": float(
+                    np.mean(error[score < float(tau)] <= float(epsilon))
+                    if np.sum(score < float(tau))
+                    else 1.0
+                ),
+                "error_above_epsilon_implies_gap_at_least_tau": float(
+                    np.mean(score[error > float(epsilon)] >= float(tau))
+                    if np.sum(error > float(epsilon))
+                    else 1.0
+                ),
+                "low_gap_count": int(np.sum(score < float(tau))),
+                "failure_count": int(np.sum(error > float(epsilon))),
+            }
+            for epsilon in EPSILON_GRID
+            for tau in TAU_GRID
+        ],
+        "loss": probability_metrics["loss"],
+    }
+
+
+def _flat_threshold_baseline(
+    *,
+    probabilities: np.ndarray,
+    labels: np.ndarray,
+    prediction_error: np.ndarray,
+    target_alert_count: int,
+) -> dict[str, Any]:
+    value = _require_finite("probabilities", probabilities, ndim=2)
+    flat_score = _score_from_probabilities(value)
+    threshold = _threshold_for_alert_budget(flat_score, int(target_alert_count))
+    alert_count = _alert_count(flat_score, threshold=threshold)
+    decisions = np.repeat((flat_score >= threshold).reshape(-1, 1), len(GAP_CHANNELS), axis=1)
+    metrics = _decision_metrics_for_arm(
+        arm=FLAT_THRESHOLD_BASELINE_ARM,
+        probabilities=value,
+        decisions=decisions.astype(np.float64),
+        labels=labels,
+        prediction_error=prediction_error,
+    )
+    delta = int(abs(alert_count - int(target_alert_count)))
+    return {
+        "arm": FLAT_THRESHOLD_BASELINE_ARM,
+        "threshold": float(threshold),
+        "target_alert_count": int(target_alert_count),
+        "alert_count": alert_count,
+        "allowed_count_delta": ALERT_COUNT_DELTA_MAX,
+        "alert_count_delta": delta,
+        "budget_match": delta <= ALERT_COUNT_DELTA_MAX,
+        "metrics": metrics,
+    }
+
+
 def _posthoc_report_only(*, eval_labels: np.ndarray, eval_error: np.ndarray) -> dict[str, Any]:
     oracle_metrics = _metrics_for_arm(
         arm="posthoc_report_only",
@@ -402,10 +590,23 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
     surface = _surface_for_seed(seed=seed, config=config)
     train_idx = surface["train_idx"]
     eval_idx = surface["eval_idx"]
-    heads = _fit_gap_head(surface["features"][train_idx], surface["gap_labels"][train_idx])
+    gap_head_train_idx, calibration_idx = _calibration_split(train_idx)
+    heads = _fit_gap_head(
+        surface["features"][gap_head_train_idx],
+        surface["gap_labels"][gap_head_train_idx],
+    )
+    calibration_probabilities = _predict_gap_head(heads, surface["features"][calibration_idx])
+    decision_policy = _fit_recall_calibrated_per_channel(
+        calibration_probabilities,
+        surface["gap_labels"][calibration_idx],
+        calibration_idx=np.arange(len(calibration_idx), dtype=np.int64),
+    )
     eval_probabilities = _predict_gap_head(heads, surface["features"][eval_idx])
     randomized_labels = _matched_random_gap_labels(surface["gap_labels"], seed=seed)
-    random_heads = _fit_gap_head(surface["features"][train_idx], randomized_labels[train_idx])
+    random_heads = _fit_gap_head(
+        surface["features"][gap_head_train_idx],
+        randomized_labels[gap_head_train_idx],
+    )
     random_eval_probabilities = _predict_gap_head(random_heads, surface["features"][eval_idx])
     eval_labels = surface["gap_labels"][eval_idx]
     eval_error = surface["prediction_error"][eval_idx]
@@ -416,11 +617,19 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
         labels=eval_labels,
         prediction_error=eval_error,
     )
-    learned_metrics = _metrics_for_arm(
+    learned_decisions = _apply_recall_calibrated_per_channel(eval_probabilities, decision_policy)
+    learned_metrics = _decision_metrics_for_arm(
         arm="learned_gap_head_on_h",
+        probabilities=eval_probabilities,
+        decisions=learned_decisions,
+        labels=eval_labels,
+        prediction_error=eval_error,
+    )
+    flat_baseline = _flat_threshold_baseline(
         probabilities=eval_probabilities,
         labels=eval_labels,
         prediction_error=eval_error,
+        target_alert_count=int(np.sum(_score_from_probabilities(learned_decisions) >= 0.5)),
     )
     random_metrics = _metrics_for_arm(
         arm=MATCHED_RANDOM_ARM,
@@ -445,6 +654,8 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
             "distinctions": list(DISTINCTIONS),
             "train_fraction": TRAIN_FRACTION,
             "train_count": int(len(train_idx)),
+            "gap_head_train_count": int(len(gap_head_train_idx)),
+            "calibration_count": int(len(calibration_idx)),
             "eval_count": int(len(eval_idx)),
             "gap_steps": GAP_STEPS,
             "gap_lr": GAP_LR,
@@ -457,8 +668,24 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
         },
         "split": {
             "train_indices": [int(index) for index in train_idx],
+            "gap_head_train_indices": [int(index) for index in gap_head_train_idx],
+            "calibration_indices": [int(index) for index in calibration_idx],
             "eval_indices": [int(index) for index in eval_idx],
             "overlap_count": int(len(set(train_idx.tolist()) & set(eval_idx.tolist()))),
+            "calibration_eval_overlap_count": int(
+                len(set(calibration_idx.tolist()) & set(eval_idx.tolist()))
+            ),
+            "gap_head_train_calibration_overlap_count": int(
+                len(set(gap_head_train_idx.tolist()) & set(calibration_idx.tolist()))
+            ),
+        },
+        "decision_policy": {
+            "default_policy": DEFAULT_DECISION_POLICY,
+            "threshold_lookup_keys": list(decision_policy["threshold_lookup_keys"]),
+            "fit_split_role": "calibration",
+            "threshold_rows": list(decision_policy["threshold_rows"]),
+            "calibration_row_count": int(decision_policy["calibration_row_count"]),
+            "alert_quantile": float(decision_policy["alert_quantile"]),
         },
         "representation": surface["representation"],
         "canonical_envelope_projection": surface["canonical_envelope_projection"],
@@ -490,6 +717,15 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
                 eval_error=eval_error,
             ),
             "learned_gap_head_on_h": _metric_projection(learned_metrics),
+            FLAT_THRESHOLD_BASELINE_ARM: {
+                **_metric_projection(flat_baseline["metrics"]),
+                "threshold": float(flat_baseline["threshold"]),
+                "target_alert_count": int(flat_baseline["target_alert_count"]),
+                "alert_count": int(flat_baseline["alert_count"]),
+                "allowed_count_delta": int(flat_baseline["allowed_count_delta"]),
+                "alert_count_delta": int(flat_baseline["alert_count_delta"]),
+                "budget_match": bool(flat_baseline["budget_match"]),
+            },
             MATCHED_RANDOM_ARM: _metric_projection(random_metrics),
         },
         "comparison": {
@@ -515,6 +751,12 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
                 random_metrics["failure_detection_auroc"]["value"]
                 - vanilla_metrics["failure_detection_auroc"]["value"]
             ),
+            "unlogged_error_rate_delta_learned_minus_flat_threshold_baseline": float(
+                learned_metrics["unlogged_error_rate"]
+                - flat_baseline["metrics"]["unlogged_error_rate"]
+            ),
+            "flat_threshold_baseline_budget_match": bool(flat_baseline["budget_match"]),
+            "flat_threshold_baseline_alert_count_delta": int(flat_baseline["alert_count_delta"]),
         },
     }
 
@@ -558,6 +800,7 @@ def _aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
         "by_arm": {
             "vanilla": _pooled_metrics(records, "vanilla"),
             "learned_gap_head_on_h": _pooled_metrics(records, "learned_gap_head_on_h"),
+            FLAT_THRESHOLD_BASELINE_ARM: _pooled_metrics(records, FLAT_THRESHOLD_BASELINE_ARM),
             MATCHED_RANDOM_ARM: _pooled_metrics(records, MATCHED_RANDOM_ARM),
         },
         "comparison": {
@@ -612,6 +855,26 @@ def _aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
                     )
                     for record in records
                 ]
+            ),
+            "unlogged_error_rate_delta_learned_minus_flat_threshold_baseline": metric_stats(
+                [
+                    float(
+                        record["comparison"][
+                            "unlogged_error_rate_delta_learned_minus_flat_threshold_baseline"
+                        ]
+                    )
+                    for record in records
+                ]
+            ),
+            "flat_threshold_baseline_alert_count_delta": metric_stats(
+                [
+                    float(record["comparison"]["flat_threshold_baseline_alert_count_delta"])
+                    for record in records
+                ]
+            ),
+            "flat_threshold_baseline_budget_match_all": all(
+                bool(record["comparison"]["flat_threshold_baseline_budget_match"])
+                for record in records
             ),
         },
     }
@@ -727,6 +990,12 @@ def _control_protocol(config: GapHeadRunConfig) -> dict[str, Any]:
         "same_budget_as_treatment": True,
         "same_thresholds_as_treatment": True,
         "same_metric_helper_as_treatment": True,
+        "flat_threshold_baseline": {
+            "arm": FLAT_THRESHOLD_BASELINE_ARM,
+            "matched_alert_budget_allowed_count_delta": ALERT_COUNT_DELTA_MAX,
+            "comparison_gate": "budget_match",
+            "surface_role": "baseline_control",
+        },
         "train_fraction": TRAIN_FRACTION,
         "gap_steps": GAP_STEPS,
         "gap_lr": GAP_LR,
@@ -934,6 +1203,13 @@ def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[st
         "source_artifacts": _source_artifacts(config),
         "applicability_boundary": _applicability_boundary(config),
         "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
+        "decision_policy": {
+            "default_policy": DEFAULT_DECISION_POLICY,
+            "threshold_lookup_keys": ["split_role", "channel"],
+            "fit_split_role": "calibration",
+            "flat_threshold_baseline_arm": FLAT_THRESHOLD_BASELINE_ARM,
+            "matched_alert_budget_allowed_count_delta": ALERT_COUNT_DELTA_MAX,
+        },
         "aggregate_metrics": aggregate,
         "treatment_comparison": aggregate["comparison"],
         "control_protocol": _control_protocol(config),
@@ -989,7 +1265,7 @@ def _render_report(payload: dict[str, Any]) -> str:
         ),
         "| --- | ---: | ---: | ---: | ---: | ---: |",
     ]
-    for arm in ("vanilla", "learned_gap_head_on_h", MATCHED_RANDOM_ARM):
+    for arm in ("vanilla", "learned_gap_head_on_h", FLAT_THRESHOLD_BASELINE_ARM, MATCHED_RANDOM_ARM):
         stats = aggregate["by_arm"][arm]
         lines.append(
             "| "
@@ -1030,10 +1306,19 @@ def _render_report(payload: dict[str, Any]) -> str:
                 "- Failure-detection AUROC delta matched-random minus vanilla: "
                 f"{_render_stats(comparison['failure_detection_auroc_delta_matched_random_minus_vanilla'])}"
             ),
+            (
+                "- UnloggedErrorRate delta learned minus flat-threshold baseline: "
+                f"{_render_stats(comparison['unlogged_error_rate_delta_learned_minus_flat_threshold_baseline'])}"
+            ),
+            (
+                "- Flat-threshold baseline alert-count delta: "
+                f"{_render_stats(comparison['flat_threshold_baseline_alert_count_delta'])}"
+            ),
             "",
             "## Matched-Random Control",
             "",
             f"- Control arm: `{payload['control_protocol']['control_arm']}`",
+            f"- Flat threshold baseline: `{payload['control_protocol']['flat_threshold_baseline']['arm']}`",
             f"- Label protocol: `{payload['control_protocol']['label_protocol']}`",
             f"- Control positive: `{str(payload['control_verdict']['positive']).lower()}`",
             f"- Main claim status: `{payload['main_claim_status']}`",
