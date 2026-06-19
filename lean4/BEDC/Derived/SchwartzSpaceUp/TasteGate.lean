@@ -188,3 +188,20 @@ theorem SchwartzSpaceTasteGate_single_carrier_alignment :
       · rfl
 
 end BEDC.Derived.SchwartzSpaceUp.TasteGate
+
+namespace BEDC.Derived.SchwartzSpaceUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.Derived.SchwartzSpaceUp.TasteGate
+
+theorem SchwartzSpaceTasteGate_single_carrier_alignment :
+    (∀ h : BHist, schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist h) = h) ∧
+      (∀ x : SchwartzSpaceUp,
+        schwartzSpaceFromEventFlow (schwartzSpaceToEventFlow x) = some x) ∧
+        (∀ x y : SchwartzSpaceUp,
+          schwartzSpaceToEventFlow x = schwartzSpaceToEventFlow y → x = y) ∧
+          schwartzSpaceEncodeBHist BHist.Empty = ([] : List BMark) :=
+  TasteGate.SchwartzSpaceTasteGate_single_carrier_alignment
+
+end BEDC.Derived.SchwartzSpaceUp
