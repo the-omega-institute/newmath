@@ -501,6 +501,7 @@ def run_session(
     server_url: str = DEFAULT_SERVER_URL,
     poll_timeout: int = 600,
     poll_interval: float = 5.0,
+    min_seconds_between_turns: float = 60.0,
 ) -> dict[str, Any]:
     """
     Run a multi-turn oracle session pinned to a single conversation_id.
@@ -529,9 +530,20 @@ def run_session(
     total_turns = max(0, int(max_turns))
     resumed = bool(conversation_id)
     resume_fallback = False
+    try:
+        # Hard floor: oracle follow-up turns must be spaced at least 60s regardless of
+        # caller, so a direct run_session() call cannot drop below the project minimum.
+        turn_cooldown = max(60.0, float(min_seconds_between_turns))
+    except (TypeError, ValueError):
+        turn_cooldown = 60.0
+    last_submitted_at = 0.0
 
     try:
         for turn_index in range(total_turns):
+            if turn_index >= 1 and turn_cooldown > 0 and last_submitted_at > 0:
+                elapsed = time.time() - last_submitted_at
+                if elapsed < turn_cooldown:
+                    time.sleep(turn_cooldown - elapsed)
             if turn_index == 0 and not conversation_id:
                 # Pass topic as tag so server-side conv files tag matches the
                 # client-side topic key; bio-C backfill can then write
@@ -587,6 +599,7 @@ def run_session(
                 turns.append({"turn": turn_index, "prompt": current_prompt, "result": result})
                 closed_reason = result["detail"]
                 break
+            last_submitted_at = time.time()
 
             result = poll_result(
                 task_id,
