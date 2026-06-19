@@ -1,0 +1,71 @@
+\chapter{Mankiewicz Extension NameCert Construction}
+\label{ch:concrete-instances-mankiewicz-extension-namecert}
+\origin{human}
+
+Following Mankiewicz, the $\MankiewiczExtensionUp$ packet records the finite BEDC surface on which an isometry defined on an open convex subset of a real normed space is inspected before it is handed to an affine isometry route. It is a standard neighbor of the Mazur--Ulam surface of \autoref{ch:concrete-instances-mazur-ulam-isometry-namecert}: Mazur--Ulam names the surjective whole-space route, while this chapter names the open-convex-domain route whose midpoint and affine ledgers are visible before any global function equality is read. The packet sits over $\NormUp$, $\MetricUp$, $\ConvexSetUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and a local $\NameCert$ row; it does not import host function extensionality, choice of an external extension, quotient point equality, or ambient completeness.
+
+\begin{definition}[Mankiewicz extension carrier]
+\label{def:mankiewicz-extension-carrier}
+A $\MankiewiczExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(E,F,U,V,I,J,A,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the source normed carrier row, exposing its $\NormUp$ read, induced $\MetricUp$ distance row, vector operations, $\RealUp$ scalar reads, transport, replay, provenance, and local naming.
+\item $F$ is the target normed carrier row with the same norm, metric, vector, scalar, transport, replay, provenance, and local naming surface.
+\item $U$ is the open convex source row: it records the displayed $\ConvexSetUp$ membership ledger, the open-ball witnesses used by local midpoint reads, and the source-domain inclusion into $E$.
+\item $V$ is the image-domain row in $F$, carrying the accepted target points reached from the source row and the displayed range membership used by later affine reads.
+\item $I$ is the isometry row over $U$ and $V$, storing accepted source histories, accepted target histories, and $\MetricUp$ distance equality through the rows of $E$ and $F$.
+\item $J$ is the local midpoint and segment ledger, recording when midpoint and dyadic convex reads remain inside the open convex source row and how their image rows are compared in the target.
+\item $A$ is the affine ledger, recording the local affine rule extracted from isometry, midpoint, dyadic convex, additive, and $\RealUp$ scalar readback rows.
+\item $Q$ is the $\ContinuousMapUp$ handoff row, exposing the displayed continuous-map route by which the affine ledger is consumed by downstream normed-geometry packets.
+\item $H$ records componentwise $\hsame$ transport for $E,F,U,V,I,J,A,Q$ and for the support rows.
+\item $C$ records displayed $\Cont$ replay for open-convex membership, distance comparison, midpoint inspection, affine readback, continuous-map handoff, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\MankiewiczExtensionUp$, $\MazurUlamIsometryUp$, $\NormUp$, $\MetricUp$, $\ConvexSetUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MankiewiczExtensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,F,U,V,I,J,A,Q,H,C,P,N$. It has no coordinate for host function extensionality, a selected extension outside the displayed rows, quotient equality of maps, external affine hulls, or ambient Banach completeness.
+\end{definition}
+
+\begin{theorem}[Mankiewicz extension NameCert obligations]
+\label{thm:mankiewicz-extension-namecert-obligations}
+For every accepted $\MankiewiczExtensionUp$ carrier $M=(E,F,U,V,I,J,A,Q,H,C,P,N)$, the local $\NameCert_{\MankiewiczExtensionUp}$ surface consists exactly of source and target normed-carrier admission, open convex source admission, image-domain admission, isometry-graph exactness, midpoint and segment stability inside the open convex row, affine-ledger readback, $\ContinuousMapUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mankiewicz-extension-carrier}. The normed and metric rows are $E,F$, the open convex and image-domain rows are $U,V$, the isometry row is $I$, and the geometric readback rows are $J,A,Q$.
+
+Open convex admission is read before any midpoint or affine claim. The row $U$ supplies the local ball and convex membership data needed to keep midpoint and segment reads inside the displayed source surface, while $V$ records the corresponding accepted target rows.
+
+The isometry and affine obligations then follow the displayed order. The row $I$ supplies $\MetricUp$ distance equality, the row $J$ records midpoint and dyadic convex stability, the row $A$ records affine readback through finite $\RealUp$ scalar data, and $Q$ hands the resulting route to $\ContinuousMapUp$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier has no host extension coordinate, quotient equality of maps, selected external affine map, or ambient completeness row, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Mankiewicz affine isometry route]
+\label{thm:mankiewicz-extension-affine-isometry-route}
+Every affine isometry read exported by an accepted $\MankiewiczExtensionUp$ carrier factors through the open convex source row $U$, the source and target $\NormUp$ and $\MetricUp$ rows $E,F$, the isometry row $I$, the midpoint and segment ledger $J$, the affine ledger $A$, the $\ContinuousMapUp$ handoff $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\MankiewiczExtensionUp}$ row $N$.
+
+Consequently the packet exposes only a local open-convex affine-isometry route over the displayed finite histories. It exports no host function extensionality, selected extension outside the packet, quotient map equality, hidden inverse, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with an affine isometry request. The carrier first exposes $U$, because the Mankiewicz route applies to an isometry on an open convex source surface rather than to a whole-space graph.
+
+Read the distance and isometry data through $E,F,I$. These rows give the $\NormUp$ and $\MetricUp$ distances and the displayed equality data for accepted source and target histories.
+
+Next use the midpoint and segment ledger $J$. It records the finite open-convex checks needed to keep midpoint and dyadic segment reads inside $U$, so the affine ledger $A$ receives only displayed source-domain data and $\RealUp$ scalar reads.
+
+The $\ContinuousMapUp$ row $Q$ is then a handoff, not a second extension principle. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same route and add no host function-extensionality coordinate. The excluded global objects are absent from the carrier, so they cannot be exported.
+\end{proof}
+
+\closureat{MankiewiczExtensionUp}{seedStr}
+
+\begin{closurestatus}{\MankiewiczExtensionUp}
+  \constructivestory{A $\MankiewiczExtensionUp$ packet is generated from source and target normed rows, an open convex source row, image-domain data, an isometry graph, midpoint and affine ledgers, a $\ContinuousMapUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mankiewicz-extension-carrier}, \autoref{thm:mankiewicz-extension-namecert-obligations}, and \autoref{thm:mankiewicz-extension-affine-isometry-route} seed the finite Mankiewicz open-convex isometry route over $\NormUp$, $\MetricUp$, $\ConvexSetUp$, $\ContinuousMapUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function extensionality, selected extensions outside the displayed packet, quotient equality of maps, hidden inverses, ambient Banach completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, open-convex domain admission, isometry exactness, midpoint and affine ledger stability, continuous-map handoff, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
