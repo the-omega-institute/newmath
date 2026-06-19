@@ -56,6 +56,20 @@ The finite readback rows keep the same route visible. A consumer reaches $W,R,D,
 The structural rows $H,C,P,N$ preserve the same compact-cover and oscillation-radius path. They add no selected Lebesgue number outside the ledger, quotient map equality, countable choice, or ambient Real-completeness coordinate.
 \end{proof}
 
+\begin{theorem}[Finite oscillation-radius compact-uniform sibling link]
+\label{thm:finite-oscillation-radius-ledger-compact-uniform-link}
+Every accepted $\FiniteOscillationRadiusLedgerUp$ compact-uniform reader factors through $\CompactUniformOscillationWindowUp$, $\CompactUniformOscillationUp$, $\FiniteLowerBoundFoldUp$, $\UniformModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ before the uniform handoff is read. For a carrier $O=(K,U,A,F,B,W,R,D,S,H,C,P,N)$, the rows $K,U,A,F,B,W,R,D,S,H,C,P,N$ display that route in the order required by the reader.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-oscillation-radius-ledger-carrier}. The compact source row $K$ and the center-radius candidate row $A$ provide the compact-cover side of the route, while $B$ is the oscillation-bound row read through \autoref{ch:concrete-instances-compact-uniform-oscillation-window-namecert} and \autoref{ch:concrete-instances-compact-uniform-oscillation-namecert}.
+
+The radius extraction is finite. Row $F$ is the $\FiniteLowerBoundFoldUp$ fold of \autoref{ch:concrete-instances-finite-lower-bound-fold-namecert}, and row $U$ is the $\UniformModulusUp$ consumer row of \autoref{ch:concrete-instances-uniformmodulus-namecert}; therefore the uniform handoff is read only after the finite lower-bound and oscillation rows have been displayed.
+
+The readback and seal rows keep the same path visible. Rows $W,R,D,S$ pass through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} before any compact-uniform consumer receives the final handoff.
+
+Finally $H,C,P,N$ transport, replay, source, and name the displayed route. These rows preserve the compact-uniform sibling dependency; they do not add host compactness, an external Lebesgue-number selector, quotient map equality, countable choice, or ambient Real completeness.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\FiniteOscillationRadiusLedgerUp$ reader that claims a uniform-modulus handoff while omitting compact finite-cover exposure, center-radius candidates, finite lower-bound folding, dyadic oscillation bounds, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, Real sealing, hsame transport, Cont replay, Pkg provenance, or local naming refutes the packet.}
 
 \independenceWitness{compact-uniform-oscillation-window, compact-uniform-oscillation, finite-lower-bound-fold, uniformmodulus, streamname, regseqrat, dyadicratcore, real: $\FiniteOscillationRadiusLedgerUp$ is not bijective with any listed sibling because it joins compact-cover radius candidates, dyadic oscillation checks, finite lower-bound folding, uniform-modulus handoff, readback, tolerance, Real sealing, transport, replay, provenance, and local naming as one ledger.}
@@ -65,7 +79,7 @@ The structural rows $H,C,P,N$ preserve the same compact-cover and oscillation-ra
 \begin{closurestatus}{\FiniteOscillationRadiusLedgerUp}
   \constructivestory{A $\FiniteOscillationRadiusLedgerUp$ packet is generated from compact finite-cover rows, UniformModulusUp consumer rows, displayed center-radius candidates, a FiniteLowerBoundFoldUp row, dyadic oscillation bounds, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance accounting, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-oscillation-radius-ledger-carrier}, \autoref{thm:finite-oscillation-radius-ledger-namecert-obligations}, and \autoref{thm:finite-oscillation-radius-ledger-uniform-handoff} seed the compact-cover radius, dyadic oscillation, and uniform-continuity handoff route.}
+  \scopeclosed{\autoref{def:finite-oscillation-radius-ledger-carrier}, \autoref{thm:finite-oscillation-radius-ledger-namecert-obligations}, \autoref{thm:finite-oscillation-radius-ledger-uniform-handoff}, and \autoref{thm:finite-oscillation-radius-ledger-compact-uniform-link} seed the compact-cover radius, dyadic oscillation, sibling dependency, and uniform-continuity handoff route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, open-cover compactness, selected Lebesgue numbers outside the packet, quotient map equality, countable choice, ambient $\RealUp$ completeness, or bridge checking.}
