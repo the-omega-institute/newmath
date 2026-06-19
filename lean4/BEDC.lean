@@ -950,6 +950,7 @@ import BEDC.Derived.BishopLocatedLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedMaximumUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
+import BEDC.Derived.BishopLocatedRealFilterUp.TasteGate
 import BEDC.Derived.BishopLocatedRootUp.TasteGate
 import BEDC.Derived.BishopLocatedUniformConvergenceUp.TasteGate
 import BEDC.Derived.BishopMetricCompletionUp.TasteGate
@@ -1098,6 +1099,7 @@ import BEDC.Derived.BoundedIntervalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedIntervalProjectionUp.TasteGate
 import BEDC.Derived.BoundedLinearFunctionalUp.TasteGate
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
+import BEDC.Derived.BoundedMetricSpaceUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetCofinalReadback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetRegularityLock
@@ -1781,6 +1783,7 @@ import BEDC.Derived.CauchyFilterMeetUp.TasteGate
 import BEDC.Derived.CauchyFilterModulusTransferUp.TasteGate
 import BEDC.Derived.CauchyFilterNetCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyFilterRegularizationUp.TasteGate
+import BEDC.Derived.CauchyFilterSelectorUp.TasteGate
 import BEDC.Derived.CauchyFilterSpaceUp
 import BEDC.Derived.CauchyFilterSubbasisUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
@@ -4764,6 +4767,7 @@ import BEDC.Derived.DyadicMidpointUp.FiniteWindowConsumerRoute
 import BEDC.Derived.DyadicMidpointUp.RadiusHalvingWindow
 import BEDC.Derived.DyadicMidpointUp.SelectedWindowDenominatorSeal
 import BEDC.Derived.DyadicMidpointUp.WindowPackage
+import BEDC.Derived.DyadicModulusRegularityUp
 import BEDC.Derived.DyadicModulusUp.TasteGate
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NameCertObligations
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NestedChainDependency
@@ -6089,6 +6093,7 @@ import BEDC.Derived.HistTimeStreamUp.TasteGate
 import BEDC.Derived.HistTimeStreamUp.TransportLock
 import BEDC.Derived.HistoryPrefixUp.TasteGate
 import BEDC.Derived.HitMissConvergenceUp
+import BEDC.Derived.HoarePowerdomainUp
 import BEDC.Derived.HochsterNerveBettiReductionUp.NameCertObligations
 import BEDC.Derived.HochsterNerveBettiReductionUp.TasteGate
 import BEDC.Derived.HodgeBridgeUp
@@ -8257,6 +8262,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.AxisSeparation
 import BEDC.Derived.PaperLeanDriftWitnessUp.BridgeReadyDependencySurface
 import BEDC.Derived.PaperLeanDriftWitnessUp.ClosureTargetResolution
+import BEDC.Derived.PaperLeanDriftWitnessUp.LeanInventoryHitExhaustion
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerFamilyResolutionReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerInventoryKindLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
@@ -8954,6 +8960,7 @@ import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RealLineConnectedUp.TasteGate
 import BEDC.Derived.RealLineOrderUp.TasteGate
+import BEDC.Derived.RealLocallyCompactUp.TasteGate
 import BEDC.Derived.RealLocatedOrderUp
 import BEDC.Derived.RealLocatedOrderUp.TasteGate
 import BEDC.Derived.RealLocatorUp.NameCertObligations
@@ -9580,6 +9587,7 @@ import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
 import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.BilinearWindow
+import BEDC.Derived.RegularCauchyProductBudgetUp.FalsifiablePrediction
 import BEDC.Derived.RegularCauchyProductBudgetUp.NameCertObligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.ObligationScope
 import BEDC.Derived.RegularCauchyProductBudgetUp.Obligations
@@ -9607,6 +9615,7 @@ import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyReciprocalUp.WindowComposition
 import BEDC.Derived.RegularCauchyReflectionLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.DiagonalConsumerBoundary
+import BEDC.Derived.RegularCauchyRegularityWitnessUp.FiniteWindowInduction
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.NameCertObligations
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.NoHiddenLimitBoundary
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.RealCompletionHandoff
