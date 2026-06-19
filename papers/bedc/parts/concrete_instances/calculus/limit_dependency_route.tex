@@ -1,0 +1,25 @@
+The $\CalculusUp$ packet consumes the shared finite limit route whenever a derivative or integral read exposes a limiting value. This route is the same public route recorded by \autoref{ch:concrete-instances-limit-namecert}, not a host limit operator or a selected real representative.
+
+\begin{theorem}[Calculus Limit dependency route]
+\label{thm:calculus-limit-dependency-route}
+Every $\CalculusUp$ finite derivative or integral read that consumes a limiting value must pass through the shared $\LimitUp$ route of \autoref{ch:concrete-instances-limit-namecert}, together with the $\RegSeqRatUp$ readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\StreamNameUp$ schedule rows of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance ledgers of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the downstream $\RealUp$ seal rows of \autoref{ch:concrete-instances-real-namecert}. The calculus carrier cannot replace that route by host limit operators, quotient stream equality, selected representatives, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project a calculus read that asks for a derivative or integral endpoint. The endpoint is not read as a host real value; it is routed through the finite limit consumer surface.
+
+Apply the public $\LimitUp$ handoff of \autoref{thm:limit-real-completion-handoff}, \autoref{thm:limit-regseqrat-bishop-handoff}, and \autoref{thm:limit-consumer-handoff-exactness}. These theorems force the same StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, transport, replay, provenance, and local naming route before a limiting value can be consumed.
+
+The surrounding calculus rows can then read derivative and integral data through that shared route. Since the route contains no host limit operator, quotient stream equality, selected representative, host real equality, countable-choice selector, or ambient-completeness coordinate, no calculus consumer can export one by bypassing $\LimitUp$.
+\end{proof}
+
+\begin{theorem}[Calculus Limit dependency refusal boundary]
+\label{thm:calculus-limit-dependency-refusal-boundary}
+Any $\CalculusUp$ derivative or integral endpoint read that omits one of the $\LimitUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, or $\RealUp$ seal rows is outside the BEDC calculus limit-consumer surface. Such a read cannot be retyped as an accepted calculus limit consumer by replacing the missing row with a host limit operator, quotient stream equality, a selected representative, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:calculus-limit-dependency-route}. It requires every finite derivative or integral endpoint read that consumes a limiting value to pass through the public $\LimitUp$ route and its RegSeqRat, StreamName, DyadicRatCore, and Real handoffs.
+
+If one of those seal rows is absent, the route supplied by \autoref{thm:limit-real-completion-handoff}, \autoref{thm:limit-regseqrat-bishop-handoff}, and \autoref{thm:limit-consumer-handoff-exactness} is not available. The attempted endpoint read therefore lacks the displayed finite limit source that the calculus carrier consumes.
+
+The omitted row cannot be supplied by the host side. The cited handoffs exclude host limit operators, quotient stream equality, selected representatives, countable-choice selectors, and ambient completeness rows from the accepted $\LimitUp$ route, so the calculus consumer has no alternate BEDC row through which to retype the missing dependency.
+\end{proof}
