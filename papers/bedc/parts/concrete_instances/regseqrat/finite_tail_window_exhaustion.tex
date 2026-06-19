@@ -33,3 +33,40 @@ Use the StreamName finite-section surface to keep the retained windows inside th
 
 Repack the shifted route as a finite tail-window ledger. Since the operation discards only the displayed finite prefix and preserves the retained request rows, it cannot add quotient stream equality, a selected subsequence, host equality, choice, metric completeness, completion points, or ambient Real completeness.
 \end{proof}
+
+\begin{definition}[RegSeqRat tail-refinement carrier]
+\label{def:regseqrat-tail-refinement-carrier}
+A finite $\RegSeqRatUp$ tail-refinement packet is a $\BHist$ row
+$$
+Q=(S,D,T,H,C,P,N)
+$$
+whose displayed components are: a $\StreamNameUp$ finite request row $S$, a $\DyadicRatCoreUp$ tolerance row $D$, a $\RegSeqRatUp$ tail-window row $T$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and a local $\NameCert$ row $N$. The classifier reads only these seven rows and exports no quotient stream equality, selected limit, host real equality, metric-completeness datum, completion point, or ambient $\RealUp$ completeness coordinate.
+\end{definition}
+
+\begin{theorem}[RegSeqRat tail-refinement stability]
+\label{thm:regseqrat-tail-refinement-stability}
+Let $Q=(S,D,T,H,C,P,N)$ be an accepted finite $\RegSeqRatUp$ tail-refinement packet. Any retained tail request transported by componentwise $\hsame$ and replayed by the displayed $\Cont$ row is represented by the same $\StreamNameUp$ request row, $\DyadicRatCoreUp$ tolerance row, and $\RegSeqRatUp$ tail-window row. Thus tail refinement is stable under the displayed transport and replay surface of $Q$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regseqrat-tail-refinement-carrier}. The mathematical data rows are exactly $S,D,T$, while $H$ records componentwise transport for those rows.
+
+Replay the retained request through $C$. Since $C$ is displayed as part of the same packet, it can only replay the finite request, tolerance, and tail-window rows already named by $S,D,T$.
+
+The provenance and naming rows $P,N$ do not add new tail data. Hence every transported retained request remains represented by the same finite tail-refinement surface.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-refinement Real handoff]
+\label{thm:regseqrat-tail-refinement-real-handoff}
+Every $\RealUp$ consumer of an accepted finite $\RegSeqRatUp$ tail-refinement packet
+$$
+Q=(S,D,T,H,C,P,N)
+$$
+may read only the finite $\RegSeqRatUp$ tail window $T$ together with the $\DyadicRatCoreUp$ tolerance row $D$ and the supporting $\StreamNameUp$ request row $S$. The handoff deliberately exposes finite tail-window and dyadic tolerance data, not quotient stream equality, a selected limit, host real equality, or a completion point.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing read. The request row $S$ displays the finite StreamName window being inspected, and the tolerance row $D$ gives the dyadic scale at which the retained tail request is compared.
+
+Read the tail-window row $T$. It is the only RegSeqRat row exported by the packet, so the Real-facing consumer receives a finite tail-window route rather than a quotient stream object or selected limit.
+
+Finally transport and replay through $H$ and $C$, with $P,N$ recording provenance and local naming. These rows preserve the finite handoff and do not add host real equality, completion points, or ambient Real completeness.
+\end{proof}
