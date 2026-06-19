@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\DyadicModulusRegularityUp$}
+\label{ch:concrete-instances-dyadic-modulus-regularity-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real moduli, the $\DyadicModulusRegularityUp$ packet records a finite dyadic-modulus regularity surface for Real-facing Cauchy reads. It sits over the dyadic tolerance data of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet binds those siblings into one displayed route from dyadic tolerance requests to finite windows, regular Cauchy readback, and Real sealing before any completion consumer reads a modulus claim.
+
+\begin{definition}[Dyadic modulus regularity carrier]
+\label{def:dyadic-modulus-regularity-carrier}
+A $\DyadicModulusRegularityUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance data, including the dyadic radius ledger and the comparison rows used by the modulus request.
+\item $W$ is the finite $\StreamNameUp$ window row listing exactly the inspected stream coordinates at the requested dyadic tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the displayed window into a regular rational Cauchy read.
+\item $E$ is the $\RealUp$ seal row available only after the dyadic tolerance, finite window, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $D,W,R,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from dyadic tolerance data through finite windows, regular readback, and the real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicModulusRegularityUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicModulusRegularityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient streams, selected representatives, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic modulus regularity NameCert obligations]
+\label{thm:dyadic-modulus-regularity-namecert-obligations}
+For every accepted $\DyadicModulusRegularityUp$ carrier $M=(D,W,R,E,H,C,P,N)$, the local $\NameCert_{\DyadicModulusRegularityUp}$ surface consists exactly of dyadic tolerance admission, finite stream-window exposure, regular rational readback, terminal Real sealing, componentwise transport, displayed replay, package provenance, and local naming. No consumer of the packet can read a modulus obligation without first exposing $D,W,R,E,H,C,P,N$ in that order.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-modulus-regularity-carrier}. The dyadic tolerance row $D$ is the only source of radius data, and the finite window row $W$ is the only schedule by which that radius is inspected.
+
+The regular readback row $R$ is downstream of $W$, so any Cauchy-facing read has already exposed the finite stream coordinates it uses. The real seal row $E$ is downstream of $D,W,R$, and therefore cannot be consumed as a host limit detached from the displayed modulus route.
+
+Transport, replay, provenance, and naming are carried only by $H,C,P,N$. These rows preserve the same finite route and do not add quotient streams, selected representatives, trichotomy, countable choice, host real equality, or ambient completeness. The listed rows therefore exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Dyadic modulus regularity stream handoff]
+\label{thm:dyadic-modulus-regularity-stream-handoff}
+Every accepted $\DyadicModulusRegularityUp$ packet hands a Real-facing regularity read to downstream consumers only through the finite route
+$$
+\DyadicRatCoreUp,\quad
+\StreamNameUp,\quad
+\RegSeqRatUp,\quad
+\RealUp .
+$$
+The handoff exports a displayed dyadic-modulus route for one finite regular Cauchy read; it does not export quotient-stream equality, a selected representative, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $M=(D,W,R,E,H,C,P,N)$. A downstream consumer sees the real seal only at $E$.
+
+The row $E$ is named after $D,W,R$ have been displayed. Thus the consumer must first read the dyadic tolerance ledger, then the finite stream window selected for that tolerance, and then the regular rational readback attached to the same window.
+
+The structural rows $H,C,P,N$ replay and name this route without adding another equality or completeness coordinate. Hence the public handoff is the finite dyadic-modulus regularity route stated above, not any of the excluded host or choice principles.
+\end{proof}
+
+\closureat{DyadicModulusRegularityUp}{seedStr}
+
+\begin{closurestatus}{\DyadicModulusRegularityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-modulus-regularity-carrier}, \autoref{thm:dyadic-modulus-regularity-namecert-obligations}, and \autoref{thm:dyadic-modulus-regularity-stream-handoff} seed the finite dyadic-modulus regularity route over DyadicRatCore, StreamName, RegSeqRat, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DyadicModulusRegularityUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected representatives, trichotomy, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance coverage, finite window readback, regular Cauchy handoff, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.DyadicModulusRegularityUp.}
+  \constructivestory{A $\DyadicModulusRegularityUp$ packet is generated from DyadicRatCore tolerance data, finite StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
