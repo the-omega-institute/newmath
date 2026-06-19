@@ -1,0 +1,50 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealRegularizationUp$}
+\label{ch:concrete-instances-cauchy-real-regularization-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\CauchyRealRegularizationUp$ packet records the finite BEDC route that turns a displayed Cauchy-real name into a regular rational sequence row before the terminal real seal is read. It sits after the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. For fast or modulus-indexed presentations it also aligns with \autoref{ch:concrete-instances-fast-cauchy-real-namecert} and \autoref{ch:concrete-instances-modulus-cauchy-real-namecert}, but it does not identify quotient classes or choose limits outside the displayed packet.
+
+\begin{definition}[CauchyRealRegularization carrier]
+\label{def:cauchy-real-regularization-carrier}
+A $\CauchyRealRegularizationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,S,D,R,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the source Cauchy-real name row, available only as finite precision requests and responses.
+\item $S$ is the finite $\StreamNameUp$ window row listing the inspected stages, requested tolerances, and replay addresses.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that accounts for every comparison made while regularizing the source name.
+\item $R$ is the $\RegSeqRatUp$ regularization row produced from the same windows and dyadic ledger.
+\item $E$ is the terminal $\RealUp$ seal read only after $S,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source name, windows, tolerances, regularization row, real seal, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay from a source precision request through $S,D,R,E$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealRegularizationUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealRegularizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these nine rows. It has no coordinate for quotient streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyRealRegularization NameCert obligations]
+\label{thm:cauchy-real-regularization-namecert-obligations}
+For every accepted $\CauchyRealRegularizationUp$ carrier $K=(C,S,D,R,E,H,T,P,N)$, the local $\NameCert_{\CauchyRealRegularizationUp}$ surface consists exactly of carrier admission for the source Cauchy-real name row; finite window exposure through $S$; dyadic tolerance accounting through $D$; handoff to the $\RegSeqRatUp$ row $R$; terminal $\RealUp$ seal boundary through $E$; componentwise $\hsame$ transport; displayed $\Cont$ replay; $\Pkg$ provenance; local naming; and non-escape from quotient streams, selected limits, countable choice, host real equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-real-regularization-carrier}. The only source-name, window, dyadic-ledger, regularization, and real-seal data available to a consumer are $C,S,D,R,E$.
+
+The regularization route first exposes the finite windows in $S$ and accounts for every tolerance comparison in $D$. The $\RegSeqRatUp$ row $R$ is downstream of those two rows, so no regular readback can be obtained from a detached Cauchy stream or a selected subsequence.
+
+The terminal seal is then read through $E$, with $H,T,P,N$ preserving, replaying, sourcing, and naming the same finite route. Since the carrier contains no quotient, selected-limit, choice, host-equality, or ambient-completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{CauchyRealRegularizationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRealRegularizationUp}
+  \constructivestory{A $\CauchyRealRegularizationUp$ packet is generated from a source Cauchy-real name row, finite StreamName windows, a DyadicRatCore tolerance ledger, a RegSeqRat regularization row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-regularization-carrier} and \autoref{thm:cauchy-real-regularization-namecert-obligations} seed the finite route from Cauchy-real names to regular rational readback and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completeness of RealUp, quotient stream equality, selected limits, countable choice, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exposure, dyadic tolerance accounting, RegSeqRat handoff, Real seal boundary, transport, replay, provenance, and local naming for BEDC.Derived.CauchyRealRegularizationUp.}
+\end{closurestatus}
