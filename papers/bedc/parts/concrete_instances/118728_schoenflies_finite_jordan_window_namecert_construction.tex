@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\SchoenfliesFiniteJordanWindowUp$}
+\label{ch:concrete-instances-schoenflies-finite-jordan-window-namecert}
+\origin{human}
+
+Following Schoenflies' planar extension theorem and Jordan's simple closed curve boundary theorem, the $\SchoenfliesFiniteJordanWindowUp$ packet records only the finite window in which a displayed Jordan curve, a bounded side ledger, and a compact planar support can be consumed as local planar-domain data. It sits after the side-classification surface of \autoref{ch:concrete-instances-jordan-curve-namecert}, the degree obstruction rows of \autoref{ch:concrete-instances-brouwer-degree-namecert}, the compact-metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, and the circle source of \autoref{ch:concrete-instances-s1-namecert}. The packet names a finite Jordan-window certificate; it does not assert the full classical Schoenflies extension theorem, a global homeomorphism of the plane, selected complementary components, quotient boundary equality, or open-cover compactness.
+
+\begin{definition}[Schoenflies finite Jordan-window carrier]
+\label{def:schoenflies-finite-jordan-window-carrier}
+A $\SchoenfliesFiniteJordanWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(J,D,K,T,S,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $J$ is the $\JordanCurveUp$ row naming the simple closed curve, its circle source, polygonal subdivision, winding ledger, orientation row, and side-classification boundary.
+\item $D$ is the $\BrouwerDegreeUp$ row used only as a finite obstruction ledger for the displayed boundary orientation.
+\item $K$ is the $\CompactMetricUp$ support window in which the curve, side ledger, and finite planar cells are inspected.
+\item $T$ is the $\TopologyUp$ neighbourhood row recording the finite open and closed windows visible to the local domain read.
+\item $S$ is the $\SOneUp$ source-boundary row whose parameter windows are consumed by $J$.
+\item $A$ is the finite annular collar ledger around the displayed curve, including inside-window, outside-window, and boundary-window rows.
+\item $E$ is the finite extension-obligation ledger; each row records a local cell correspondence required before a Schoenflies-style handoff may be read.
+\item $H$ records componentwise $\hsame$ transport for the Jordan curve, degree, compact-metric, topology, circle, collar, extension-obligation, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from the circle source through the Jordan curve row, the collar ledger, the compact support, and the local topology window before any extension-obligation row is exposed.
+\item $P$ is the $\Pkg$ provenance over $\SchoenfliesFiniteJordanWindowUp$, $\JordanCurveUp$, $\BrouwerDegreeUp$, $\CompactMetricUp$, $\TopologyUp$, $\SOneUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchoenfliesFiniteJordanWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for a host planar homeomorphism, selected complementary component, quotient boundary equality, open-cover compactness theorem, ambient plane completion, or unrestricted Schoenflies extension.
+\end{definition}
+
+\begin{theorem}[Schoenflies finite Jordan-window NameCert obligations]
+\label{thm:schoenflies-finite-jordan-window-namecert-obligations}
+For every accepted $\SchoenfliesFiniteJordanWindowUp$ carrier $W=(J,D,K,T,S,A,E,H,C,P,N)$, the local $\NameCert_{\SchoenfliesFiniteJordanWindowUp}$ surface consists exactly of carrier admission for the Jordan curve row, Brouwer-degree obstruction row, compact-metric support window, topology neighbourhood row, circle source row, finite annular collar ledger, finite extension-obligation ledger, componentwise transport, displayed replay, package provenance, and local naming. Every planar-domain consumer must read the $\JordanCurveUp$, $\BrouwerDegreeUp$, $\CompactMetricUp$, $\TopologyUp$, and $\SOneUp$ rows before it can inspect the collar or extension-obligation rows, and no obligation is discharged by a global Schoenflies theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:schoenflies-finite-jordan-window-carrier}. The projection exposes exactly the Jordan curve row $J$, degree row $D$, compact support $K$, topology window $T$, circle source $S$, collar ledger $A$, extension-obligation ledger $E$, and structural rows $H,C,P,N$.
+
+The continuation row $C$ fixes the inspection order. A local planar-domain read starts from the $\SOneUp$ source boundary, consumes the $\JordanCurveUp$ side-classification route, reads the $\BrouwerDegreeUp$ obstruction ledger and $\CompactMetricUp$ support, and only then inspects the $\TopologyUp$ neighbourhood windows, collar rows, and finite extension obligations.
+
+Since the carrier contains no row for a host planar homeomorphism, selected complementary component, quotient boundary equality, open-cover compactness theorem, ambient plane completion, or unrestricted Schoenflies extension, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SchoenfliesFiniteJordanWindowUp$ read displays one JordanCurveUp row, one BrouwerDegreeUp obstruction row, one CompactMetricUp support window, one TopologyUp neighbourhood row, one SOneUp source-boundary row, one finite annular collar ledger, one finite extension-obligation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{jordan-curve, brouwer-degree, compactmetric, topology, s1: $\SchoenfliesFiniteJordanWindowUp$ is not bijective to any listed sibling because it jointly carries side-classified Jordan boundary data, degree obstruction data, compact support, topology windows, circle source windows, collar rows, finite extension obligations, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{SchoenfliesFiniteJordanWindowUp}{seedStr}
+
+\begin{closurestatus}{\SchoenfliesFiniteJordanWindowUp}
+  \constructivestory{A $\SchoenfliesFiniteJordanWindowUp$ packet is generated from a JordanCurve row, BrouwerDegree obstruction row, CompactMetric support window, Topology neighbourhood row, SOne source-boundary row, finite annular collar ledger, finite extension-obligation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schoenflies-finite-jordan-window-carrier} and \autoref{thm:schoenflies-finite-jordan-window-namecert-obligations} seed the finite Jordan-window packet over JordanCurveUp, BrouwerDegreeUp, CompactMetricUp, TopologyUp, SOneUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full classical Schoenflies extension theorem, a global planar homeomorphism, selected complementary components, quotient boundary equality, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, side-classified Jordan boundary routing, degree-obstruction stability, compact support, topology-window exactness, circle-source readback, collar ledger exactness, finite extension obligations, transport, replay, provenance, and local naming for BEDC.Derived.SchoenfliesFiniteJordanWindowUp.}
+\end{closurestatus}
