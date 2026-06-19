@@ -16,10 +16,19 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def EgorovFiniteWindowUniformityCarrier [AskSetup] [PackageSetup]
+    (M Omega F X S R A W U L H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory M ∧ UnaryHistory Omega ∧ UnaryHistory F ∧ UnaryHistory X ∧
+    UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory A ∧ UnaryHistory W ∧
+      UnaryHistory U ∧ UnaryHistory L ∧ UnaryHistory H ∧ UnaryHistory C ∧
+        UnaryHistory P ∧ UnaryHistory N ∧ Cont W R A ∧ Cont A U L ∧
+          PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
 theorem Egorov_finite_window_uniformity [AskSetup] [PackageSetup]
     {M Omega F X S R A W U L H C P N windowRead uniformRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    EgorovCarrier M Omega F X S R A W U L H C P N bundle pkg →
+    EgorovFiniteWindowUniformityCarrier M Omega F X S R A W U L H C P N bundle pkg →
       Cont W R windowRead →
         Cont windowRead U uniformRead →
           SemanticNameCert
@@ -35,9 +44,9 @@ theorem Egorov_finite_window_uniformity [AskSetup] [PackageSetup]
             UnaryHistory uniformRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
   intro carrier windowRoute uniformRoute
-  obtain ⟨_packet, _unaryM, _unaryOmega, _unaryF, _unaryX, _unaryS, unaryR, _unaryA,
-    unaryW, unaryU, _unaryL, _unaryH, _unaryC, _unaryP, _unaryN, pkgP, pkgN⟩ :=
-    carrier
+  obtain ⟨_unaryM, _unaryOmega, _unaryF, _unaryX, _unaryS, unaryR, _unaryA, unaryW,
+    unaryU, _unaryL, _unaryH, _unaryC, _unaryP, _unaryN, _carrierWindowRoute,
+    _carrierUniformRoute, pkgP, pkgN⟩ := carrier
   have windowUnary : UnaryHistory windowRead :=
     unary_cont_closed unaryW unaryR windowRoute
   have uniformUnary : UnaryHistory uniformRead :=
