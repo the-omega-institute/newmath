@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the JEPA-WM-L1 three-arm freeze report."""
+"""Run the JEPA-WM-L1 three-arm venue binding report."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from bedc_quality_lab.tasks.jepa_wm_l1_three_arm_freeze import (  # noqa: E402
+from bedc_quality_lab.tasks.jepa_wm_l1_three_arm_venue_binding import (  # noqa: E402
     FINGERPRINT_ARTIFACT,
     JSON_ARTIFACT,
     MARKDOWN_ARTIFACT,

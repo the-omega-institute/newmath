@@ -245,17 +245,17 @@ JEPA_WM_L1_EVALUATOR_CALIBRATION_ARTIFACT_ID = (
 JEPA_WM_L1_EVALUATOR_CALIBRATION_SCHEMA_ID = (
     "bedc-quality-lab:jepa-wm-l1-evaluator-calibration"
 )
-JEPA_WM_L1_THREE_ARM_FREEZE_JSON_ARTIFACT = (
-    "reports/canonical/jepa-wm-l1-three-arm-freeze.json"
+JEPA_WM_L1_THREE_ARM_VENUE_BINDING_JSON_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json"
 )
-JEPA_WM_L1_THREE_ARM_FREEZE_MARKDOWN_ARTIFACT = (
-    "reports/canonical/jepa-wm-l1-three-arm-freeze.md"
+JEPA_WM_L1_THREE_ARM_VENUE_BINDING_MARKDOWN_ARTIFACT = (
+    "reports/canonical/jepa-wm-l1-three-arm-venue-binding.md"
 )
-JEPA_WM_L1_THREE_ARM_FREEZE_ARTIFACT_ID = (
-    "bedc-quality-lab:jepa-wm-l1-three-arm-freeze"
+JEPA_WM_L1_THREE_ARM_VENUE_BINDING_ARTIFACT_ID = (
+    "bedc-quality-lab:jepa-wm-l1-three-arm-venue-binding"
 )
-JEPA_WM_L1_THREE_ARM_FREEZE_SCHEMA_ID = (
-    "bedc-quality-lab:jepa-wm-l1-three-arm-freeze"
+JEPA_WM_L1_THREE_ARM_VENUE_BINDING_SCHEMA_ID = (
+    "bedc-quality-lab:jepa-wm-l1-three-arm-venue-binding"
 )
 JEPA_WM_L1_OOD_ADJUDICATION_JSON_ARTIFACT = (
     "reports/canonical/jepa-wm-l1-ood-adjudication.json"
@@ -309,7 +309,7 @@ DGT_TRAINING_HARDGATES_POINTER = f"{DGT_TRAINING_REPLAY_ARTIFACT}:$.hardgates"
 TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT = "reports/canonical/transformer_derivative_atlas.json"
 TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/layerwise_jet_map.md"
 TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT = "reports/canonical/attention_route_derivative_report.json"
-DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
+DISCOVERY_MAP_EXCLUDED_REPORTS = boundset(
     {
         "transformer-derivative-atlas",
         "claim-complexity",
@@ -321,7 +321,7 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "dgt-l1-boundary-report",
         "discovery-gated-transformer-jepa-world-model",
         "jepa-wm-l1-evaluator-calibration",
-        "jepa-wm-l1-three-arm-freeze",
+        "jepa-wm-l1-three-arm-venue-binding",
         "sti-admission",
         "l1-admissibility-audit",
     }
@@ -609,7 +609,7 @@ MATCHED_RANDOM_CONTROL_REQUIRED_PATHS = (
     "$.failure_reasons",
     "$.evidence_pointers",
 )
-REPRODUCTION_BLOCKED_REASON_KEYS = frozenset(
+REPRODUCTION_BLOCKED_REASON_KEYS = boundset(
     {
         "category",
         "detail",
@@ -619,7 +619,7 @@ REPRODUCTION_BLOCKED_REASON_KEYS = frozenset(
         "planning_context_ref",
     }
 )
-REPRODUCTION_BLOCKED_REASON_CATEGORIES = frozenset(
+REPRODUCTION_BLOCKED_REASON_CATEGORIES = boundset(
     {
         "source-blocked",
         "missing-validation-loss-cell",
@@ -628,14 +628,14 @@ REPRODUCTION_BLOCKED_REASON_CATEGORIES = frozenset(
         "full-replay-not-invoked",
     }
 )
-REPRODUCTION_BLOCKED_REASON_TOP_LEVEL_ALIASES = frozenset(
+REPRODUCTION_BLOCKED_REASON_TOP_LEVEL_ALIASES = boundset(
     {
         "blocked_reason_class",
         "blocked_evidence_ref",
         "dependency_ref",
     }
 )
-REPRODUCTION_BLOCKED_REASON_OBJECT_ALIASES = frozenset(
+REPRODUCTION_BLOCKED_REASON_OBJECT_ALIASES = boundset(
     {
         "evidence_pointer",
         "owner_gate_pointer",
@@ -2320,10 +2320,10 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         decision_status_pointer="$.diagnostic_next_step.status",
     ),
     CanonicalReportSpec(
-        name="jepa-wm-l1-three-arm-freeze",
-        command=("python3", "scripts/run_jepa_wm_l1_three_arm_freeze.py"),
-        json_artifact=JEPA_WM_L1_THREE_ARM_FREEZE_JSON_ARTIFACT,
-        markdown_artifact=JEPA_WM_L1_THREE_ARM_FREEZE_MARKDOWN_ARTIFACT,
+        name="jepa-wm-l1-three-arm-venue-binding",
+        command=("python3", "scripts/run_jepa_wm_l1_three_arm_venue_binding.py"),
+        json_artifact=JEPA_WM_L1_THREE_ARM_VENUE_BINDING_JSON_ARTIFACT,
+        markdown_artifact=JEPA_WM_L1_THREE_ARM_VENUE_BINDING_MARKDOWN_ARTIFACT,
         required_json_keys=(
             "schema_id",
             "artifact_id",
@@ -2662,16 +2662,16 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         no_control_rationale_pointer="$.claim_first_gate",
     ),
 )
-QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "high-impact-review"})
-POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
-RELEASE_INPUT_REPORTS = frozenset({"experiment-stack-cards"})
-CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite", "mechanism-dna"})
+QUALITY_SCORECARD_EXCLUDED_REPORTS = boundset({"transformer-derivative-atlas", "high-impact-review"})
+POST_VERDICT_REPORTS = boundset({"claim-complexity"})
+RELEASE_INPUT_REPORTS = boundset({"experiment-stack-cards"})
+CLAIM_GRAPH_PREREQUISITE_REPORTS = boundset({"model-comparison", "causal-patch-suite", "mechanism-dna"})
 REPORT_ALIASES = {
     "experiment_stack_cards": "experiment-stack-cards",
     "claim_artifact_consistency": "claim-artifact-consistency",
     "minimal_irreducible_causal_derivative_mainline": "minimal-irreducible-causal-derivative-mainline",
 }
-SPECIAL_ONLY_TARGETS = frozenset({"index", "claim-artifact-consistency"})
+SPECIAL_ONLY_TARGETS = boundset({"index", "claim-artifact-consistency"})
 
 
 def _artifact_path(relative_path: str) -> Path:
@@ -3162,7 +3162,7 @@ def _local_fingerprint_paths(value: Any) -> set[str]:
 
 
 def _structural_generalization_gate_artifact_paths(payload: Any) -> set[str]:
-    pointer_fields = frozenset({"visibility_pointer", "winnability_pointer", "performance_pointer"})
+    pointer_fields = boundset({"visibility_pointer", "winnability_pointer", "performance_pointer"})
     paths: set[str] = set()
     if isinstance(payload, Mapping):
         for key, value in payload.items():
@@ -3526,8 +3526,8 @@ def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None)
 
         write_winnability_certificates(root=ROOT, generated_at=generated_at)
         return
-    if spec.name == "jepa-wm-l1-three-arm-freeze":
-        from bedc_quality_lab.tasks.jepa_wm_l1_three_arm_freeze import write_artifacts
+    if spec.name == "jepa-wm-l1-three-arm-venue-binding":
+        from bedc_quality_lab.tasks.jepa_wm_l1_three_arm_venue_binding import write_artifacts
 
         write_artifacts(root=ROOT, generated_at=generated_at)
         return
@@ -6280,7 +6280,7 @@ MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_CHILD_ARTIFACTS = (
         "pointer": "$.not_claimed",
     },
 )
-MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_FORBIDDEN_KEYS = frozenset(
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_FORBIDDEN_KEYS = boundset(
     {
         "terminal_verdict",
         "terminal_verdict_body",

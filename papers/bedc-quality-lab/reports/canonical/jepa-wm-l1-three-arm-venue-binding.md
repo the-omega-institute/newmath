@@ -1,10 +1,10 @@
-# JEPA-WM-L1 Three-Arm Freeze
+# JEPA-WM-L1 Three-Arm Venue Binding
 
-- Generated at: `2026-06-19T07:27:48.531585+00:00`
-- Venue status: `frozen`
+- Generated at: `fixture`
+- Venue status: `bound`
 - Decision: `ready_for_prediction`
-- Prediction schema: `reports/canonical/jepa-wm-l1-three-arm-freeze.json:$.prediction_schema`
-- Venue SHA: `6ee413a9bfc155f974ad45cf1a54e55385da9610cd2360f681d348a77416a7d0`
+- Prediction schema: `reports/canonical/jepa-wm-l1-three-arm-venue-binding.json:$.prediction_schema`
+- Venue SHA: `bcbd0656c977fe6ceb797e8d9bbd8a051edcbb72e74a6b2ff21c383331fc740a`
 
 ## Source Artifacts
 
@@ -17,14 +17,14 @@
 | --- | --- | --- |
 | `JWM-L1-THREE-ARM-HG1` | `pass` | admission and evaluator inputs are SHA-addressed |
 | `JWM-L1-THREE-ARM-HG2` | `pass` | admission and evaluator agree on sample count |
-| `JWM-L1-THREE-ARM-HG3` | `pass` | deterministic split is owned by the freeze venue |
+| `JWM-L1-THREE-ARM-HG3` | `pass` | deterministic split is owned by the venue binding venue |
 | `JWM-L1-THREE-ARM-HG4` | `pass` | OOD labels are fixed before prediction |
 | `JWM-L1-THREE-ARM-HG5` | `pass` | three stub predictions satisfy the prediction schema |
-| `JWM-L1-THREE-ARM-HG6` | `pass` | bootstrap and Holm settings are frozen in the venue |
+| `JWM-L1-THREE-ARM-HG6` | `pass` | bootstrap and Holm settings are bound in the venue |
 | `JWM-L1-THREE-ARM-HG7` | `pass` | leakage gates are represented as fail-closed controls |
 
 ## Not Claimed
 
-- No three-arm model result is claimed by this freeze.
-- No admission or evaluator owner semantics are changed by this freeze.
+- No three-arm model result is claimed by this venue binding.
+- No admission or evaluator owner semantics are changed by this venue binding.
 - No downstream prediction may bypass the venue artifact and prediction schema.

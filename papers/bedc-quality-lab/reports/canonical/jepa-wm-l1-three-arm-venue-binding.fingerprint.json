@@ -1,0 +1,63 @@
+{
+  "generated_by": {
+    "generated_at": "fixture",
+    "runner": "scripts/run_jepa_wm_l1_three_arm_venue_binding.py"
+  },
+  "input_fingerprint": "33331fd4aa03f10f35fd7744ed0f08f5187021dd703aca87e3137151e5f4b1a2",
+  "inputs": {
+    "source_artifacts": {
+      "admission": {
+        "artifact_id": "bedc-quality-lab:jepa-wm-l1-admission",
+        "path": "reports/canonical/jepa-wm-l1-admission.json",
+        "role": "admission-owner",
+        "schema_id": "bedc-quality-lab:jepa-wm-l1-admission",
+        "sha256": "f836b1463ac9ebc8d022c0c3a663b7fe352a2db1f71690cb3df820d5a61c88f6"
+      },
+      "cost_protocol": "configs/default_cost_protocol.yaml",
+      "evaluator_calibration": {
+        "artifact_id": "bedc-quality-lab:jepa-wm-l1-evaluator-calibration",
+        "path": "reports/canonical/jepa-wm-l1-evaluator-calibration.json",
+        "role": "evaluator-calibration-owner",
+        "schema_id": "bedc-quality-lab:jepa-wm-l1-evaluator-calibration",
+        "sha256": "a5a171bb7163f701e8b3b04a2f31ede5c568ac036e6ca845982c309320c16e11"
+      }
+    },
+    "stub_eval_artifacts": {
+      "json": "reports/canonical/jepa-wm-l1-three-arm-stub-eval.json",
+      "markdown": "reports/canonical/jepa-wm-l1-three-arm-stub-eval.md"
+    },
+    "venue_artifact": {
+      "json": "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json",
+      "sha256": "bcbd0656c977fe6ceb797e8d9bbd8a051edcbb72e74a6b2ff21c383331fc740a",
+      "sha256_semantics": "canonical venue binding content digest with self-reference fields zeroed"
+    }
+  },
+  "json_artifact": "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json",
+  "markdown_artifact": "reports/canonical/jepa-wm-l1-three-arm-venue-binding.md",
+  "producer_command": [
+    "python3",
+    "scripts/run_jepa_wm_l1_three_arm_venue_binding.py"
+  ],
+  "report_name": "jepa-wm-l1-three-arm-venue-binding",
+  "reproducibility_contract": {
+    "bootstrap_resamples": 512,
+    "bootstrap_seed": 20260617,
+    "discriminativity_gate": {
+      "criterion": "oracle calibration must separate from label-shuffle control",
+      "source_pointer": "reports/canonical/jepa-wm-l1-evaluator-calibration.json:$.calibration_arms",
+      "status": "predeclared"
+    },
+    "holm_family": [
+      "bedc_jepa",
+      "plain_jepa",
+      "chance_control"
+    ],
+    "power_gate": {
+      "criterion": "candidate must clear chance and baseline after family correction",
+      "status": "predeclared"
+    }
+  },
+  "reproducibility_contract_digest": "3d6590af89fd38f1f846720d70b6f7a6fd26a749825693ea9c97cf422ab815f7",
+  "reproducibility_mode": "exact_fixture",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

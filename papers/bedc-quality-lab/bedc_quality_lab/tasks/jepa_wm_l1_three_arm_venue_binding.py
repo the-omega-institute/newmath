@@ -1,4 +1,4 @@
-"""SHA-addressed JEPA-WM-L1 three-arm venue freeze."""
+"""SHA-addressed JEPA-WM-L1 three-arm venue binding."""
 
 from __future__ import annotations
 
@@ -12,12 +12,12 @@ from bedc_quality_lab.tasks import jepa_wm_l1 as admission
 from bedc_quality_lab.tasks import jepa_wm_l1_evaluator_calibration as calibration
 
 
-SCHEMA_ID = "bedc-quality-lab:jepa-wm-l1-three-arm-freeze"
-ARTIFACT_ID = "bedc-quality-lab:jepa-wm-l1-three-arm-freeze"
+SCHEMA_ID = "bedc-quality-lab:jepa-wm-l1-three-arm-venue-binding"
+ARTIFACT_ID = "bedc-quality-lab:jepa-wm-l1-three-arm-venue-binding"
 FINGERPRINT_SCHEMA_ID = admission.FINGERPRINT_SCHEMA_ID
-JSON_ARTIFACT = "reports/canonical/jepa-wm-l1-three-arm-freeze.json"
-MARKDOWN_ARTIFACT = "reports/canonical/jepa-wm-l1-three-arm-freeze.md"
-FINGERPRINT_ARTIFACT = "reports/canonical/jepa-wm-l1-three-arm-freeze.fingerprint.json"
+JSON_ARTIFACT = "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json"
+MARKDOWN_ARTIFACT = "reports/canonical/jepa-wm-l1-three-arm-venue-binding.md"
+FINGERPRINT_ARTIFACT = "reports/canonical/jepa-wm-l1-three-arm-venue-binding.fingerprint.json"
 STUB_EVAL_JSON_ARTIFACT = "reports/canonical/jepa-wm-l1-three-arm-stub-eval.json"
 STUB_EVAL_MARKDOWN_ARTIFACT = "reports/canonical/jepa-wm-l1-three-arm-stub-eval.md"
 DEFAULT_GENERATED_AT = admission.DEFAULT_GENERATED_AT
@@ -25,7 +25,7 @@ DEFAULT_SEED = admission.DEFAULT_SEED
 THREE_ARM_IDS = ("bedc_jepa", "plain_jepa", "chance_control")
 PREDICTION_SCHEMA_ID = "bedc-quality-lab:jepa-wm-l1-three-arm-prediction"
 OOD_SLICE_IDS = ("temporal_shuffle", "action_shuffle", "goal_shuffle")
-FREEZE_HARDGATE_IDS = tuple(f"JWM-L1-THREE-ARM-HG{index}" for index in range(1, 8))
+VENUE_BINDING_HARDGATE_IDS = tuple(f"JWM-L1-THREE-ARM-HG{index}" for index in range(1, 8))
 PREDICTION_FORBIDDEN_OWNER_STRINGS = (
     admission.JSON_ARTIFACT,
     calibration.JSON_ARTIFACT,
@@ -154,7 +154,7 @@ def _prediction_schema() -> dict[str, Any]:
         "venue_binding": {
             "artifact": JSON_ARTIFACT,
             "sha256_pointer": "$.venue_sha256",
-            "sha256_semantics": "canonical freeze content digest with self-reference fields zeroed",
+            "sha256_semantics": "canonical venue binding content digest with self-reference fields zeroed",
             "schema_id": SCHEMA_ID,
         },
         "arm_schema": {
@@ -164,7 +164,7 @@ def _prediction_schema() -> dict[str, Any]:
             "score_range": [0.0, 1.0],
         },
         "fail_closed_rules": [
-            "venue_sha256 must equal the canonical freeze content digest",
+            "venue_sha256 must equal the canonical venue binding content digest",
             "all three arms must be present exactly once",
             "declared_no_training_on_eval must be true",
             "prediction must not point directly at admission or evaluator owner internals",
@@ -275,10 +275,10 @@ def _hardgates(
     )
     prereg = _mapping(admission_payload.get("preregistration"))
     negative_protocol = _mapping(prereg.get("negative_protocol"))
-    ood_labels_frozen = all(isinstance(negative_protocol.get(slice_id), str) and negative_protocol.get(slice_id) for slice_id in OOD_SLICE_IDS)
+    ood_labels_bound = all(isinstance(negative_protocol.get(slice_id), str) and negative_protocol.get(slice_id) for slice_id in OOD_SLICE_IDS)
     bootstrap_resamples = _mapping(calibration_config).get("bootstrap_resamples")
     bootstrap_seed = _mapping(calibration_config).get("seed")
-    bootstrap_holm_frozen = (
+    bootstrap_holm_bound = (
         isinstance(bootstrap_resamples, int)
         and not isinstance(bootstrap_resamples, bool)
         and bootstrap_resamples > 0
@@ -310,11 +310,11 @@ def _hardgates(
         },
         "JWM-L1-THREE-ARM-HG3": {
             "status": "pass" if isinstance(split, Mapping) and split.get("status") == "deterministic" else "fail",
-            "criterion": "deterministic split is owned by the freeze venue",
+            "criterion": "deterministic split is owned by the venue binding venue",
             "evidence_pointer": "$.venue.split",
         },
         "JWM-L1-THREE-ARM-HG4": {
-            "status": "pass" if ood_labels_frozen else "fail",
+            "status": "pass" if ood_labels_bound else "fail",
             "criterion": "OOD labels are fixed before prediction",
             "evidence_pointer": "$.venue.ood_labels",
         },
@@ -324,8 +324,8 @@ def _hardgates(
             "evidence_pointer": "$.stub_smoke",
         },
         "JWM-L1-THREE-ARM-HG6": {
-            "status": "pass" if bootstrap_holm_frozen else "fail",
-            "criterion": "bootstrap and Holm settings are frozen in the venue",
+            "status": "pass" if bootstrap_holm_bound else "fail",
+            "criterion": "bootstrap and Holm settings are bound in the venue",
             "evidence_pointer": "$.statistical_plan",
         },
         "JWM-L1-THREE-ARM-HG7": {
@@ -334,11 +334,11 @@ def _hardgates(
             "evidence_pointer": "$.leakage_gates",
         },
     }
-    failed = [gate_id for gate_id in FREEZE_HARDGATE_IDS if gates[gate_id]["status"] != "pass"]
+    failed = [gate_id for gate_id in VENUE_BINDING_HARDGATE_IDS if gates[gate_id]["status"] != "pass"]
     return {
         "status": "pass" if not failed else "fail",
         "status_cell": "pass" if not failed else "fail",
-        "gate_order": list(FREEZE_HARDGATE_IDS),
+        "gate_order": list(VENUE_BINDING_HARDGATE_IDS),
         "failed_gates": failed,
         "gates": gates,
     }
@@ -351,17 +351,17 @@ def _refresh_stub_hardgate(
     source_gates = _mapping(hardgate.get("gates"))
     gates = {
         gate_id: dict(_mapping(source_gates.get(gate_id)))
-        for gate_id in FREEZE_HARDGATE_IDS
+        for gate_id in VENUE_BINDING_HARDGATE_IDS
     }
     hg5 = gates["JWM-L1-THREE-ARM-HG5"]
     hg5["status"] = "pass" if _stub_results_pass(stub_results) else "fail"
-    failed = [gate_id for gate_id in FREEZE_HARDGATE_IDS if gates[gate_id].get("status") != "pass"]
+    failed = [gate_id for gate_id in VENUE_BINDING_HARDGATE_IDS if gates[gate_id].get("status") != "pass"]
     refreshed = dict(_mapping(hardgate))
     refreshed.update(
         {
             "status": "pass" if not failed else "fail",
             "status_cell": "pass" if not failed else "fail",
-            "gate_order": list(FREEZE_HARDGATE_IDS),
+            "gate_order": list(VENUE_BINDING_HARDGATE_IDS),
             "failed_gates": failed,
             "gates": gates,
         }
@@ -404,8 +404,8 @@ def build_payload(
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at or DEFAULT_GENERATED_AT,
-        "producer": "bedc_quality_lab.tasks.jepa_wm_l1_three_arm_freeze",
-        "canonical_role": "three_arm_prediction_venue_freeze",
+        "producer": "bedc_quality_lab.tasks.jepa_wm_l1_three_arm_venue_binding",
+        "canonical_role": "three_arm_prediction_venue_binding",
         "source_issue": "#1556",
         "source_artifacts": {
             "admission": admission_ref,
@@ -414,7 +414,7 @@ def build_payload(
         },
         "venue": {
             "venue_id": "jepa-wm-l1-three-arm",
-            "status": "frozen",
+            "status": "bound",
             "sample": {
                 "case_count": admission_payload.get("config", {}).get("case_count")
                 if isinstance(admission_payload.get("config"), Mapping)
@@ -491,7 +491,7 @@ def build_payload(
             "status": "venue-only",
             "status_axis": "scoped-boundary",
             "claim_allowed": False,
-            "scope": "pre-prediction JEPA-WM-L1 three-arm venue freeze",
+            "scope": "pre-prediction JEPA-WM-L1 three-arm venue binding",
         },
         "decision": {
             "status": "ready_for_prediction" if hardgate["status"] == "pass" else "blocked",
@@ -501,12 +501,12 @@ def build_payload(
             "venue_sha256": placeholder_sha,
         },
         "not_claimed": [
-            "No three-arm model result is claimed by this freeze.",
-            "No admission or evaluator owner semantics are changed by this freeze.",
+            "No three-arm model result is claimed by this venue binding.",
+            "No admission or evaluator owner semantics are changed by this venue binding.",
             "No downstream prediction may bypass the venue artifact and prediction schema.",
         ],
     }
-    payload["freeze_digest"] = _digest(
+    payload["venue_binding_digest"] = _digest(
         {
             "source_artifacts": payload["source_artifacts"],
             "venue": payload["venue"],
@@ -534,7 +534,7 @@ def bind_payload_sha(payload: Mapping[str, Any]) -> dict[str, Any]:
     bound["hardgate"] = _refresh_stub_hardgate(bound["hardgate"], bound["stub_smoke"]["results"])
     bound["decision"]["status"] = "ready_for_prediction" if bound["hardgate"]["status"] == "pass" else "blocked"
     bound["decision"]["status_axis"] = "ready" if bound["hardgate"]["status"] == "pass" else "blocked"
-    bound["freeze_digest"] = _digest(
+    bound["venue_binding_digest"] = _digest(
         {
             "source_artifacts": bound["source_artifacts"],
             "venue": bound["venue"],
@@ -560,7 +560,7 @@ def validate_payload(payload: Mapping[str, Any]) -> None:
         if not isinstance(digest, str) or len(digest) != 64:
             raise ValueError(f"invalid sha256 for {key}")
     hardgate = payload.get("hardgate")
-    if not isinstance(hardgate, Mapping) or tuple(hardgate.get("gate_order", ())) != FREEZE_HARDGATE_IDS:
+    if not isinstance(hardgate, Mapping) or tuple(hardgate.get("gate_order", ())) != VENUE_BINDING_HARDGATE_IDS:
         raise ValueError("hardgate order mismatch")
     prediction_schema = payload.get("prediction_schema")
     if not isinstance(prediction_schema, Mapping) or prediction_schema.get("schema_id") != PREDICTION_SCHEMA_ID:
@@ -604,7 +604,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     decision = payload.get("decision", {}) if isinstance(payload.get("decision"), Mapping) else {}
     hardgate = payload.get("hardgate", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
     lines = [
-        "# JEPA-WM-L1 Three-Arm Freeze",
+        "# JEPA-WM-L1 Three-Arm Venue Binding",
         "",
         f"- Generated at: `{payload.get('generated_at')}`",
         f"- Venue status: `{payload.get('venue', {}).get('status')}`",
@@ -676,10 +676,10 @@ def render_stub_eval_markdown(payload: Mapping[str, Any]) -> str:
 def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dict[str, Any]:
     return {
         "schema_id": FINGERPRINT_SCHEMA_ID,
-        "report_name": "jepa-wm-l1-three-arm-freeze",
+        "report_name": "jepa-wm-l1-three-arm-venue-binding",
         "json_artifact": JSON_ARTIFACT,
         "markdown_artifact": MARKDOWN_ARTIFACT,
-        "producer_command": ["python3", "scripts/run_jepa_wm_l1_three_arm_freeze.py"],
+        "producer_command": ["python3", "scripts/run_jepa_wm_l1_three_arm_venue_binding.py"],
         "input_fingerprint": _digest(
             {
                 "source_artifacts": payload.get("source_artifacts"),
@@ -708,7 +708,7 @@ def fingerprint_payload(payload: Mapping[str, Any], *, generated_at: str) -> dic
         "reproducibility_contract": payload.get("statistical_plan"),
         "reproducibility_contract_digest": _digest(payload.get("statistical_plan")),
         "generated_by": {
-            "runner": "scripts/run_jepa_wm_l1_three_arm_freeze.py",
+            "runner": "scripts/run_jepa_wm_l1_three_arm_venue_binding.py",
             "generated_at": generated_at,
         },
     }

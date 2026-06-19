@@ -1,21 +1,20 @@
 {
-  "artifact_id": "bedc-quality-lab:jepa-wm-l1-three-arm-freeze",
-  "canonical_role": "three_arm_prediction_venue_freeze",
+  "artifact_id": "bedc-quality-lab:jepa-wm-l1-three-arm-venue-binding",
+  "canonical_role": "three_arm_prediction_venue_binding",
   "claim_boundary": {
     "claim_allowed": false,
-    "scope": "pre-prediction JEPA-WM-L1 three-arm venue freeze",
+    "scope": "pre-prediction JEPA-WM-L1 three-arm venue binding",
     "status": "venue-only",
     "status_axis": "scoped-boundary"
   },
   "decision": {
-    "prediction_schema_pointer": "reports/canonical/jepa-wm-l1-three-arm-freeze.json:$.prediction_schema",
+    "prediction_schema_pointer": "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json:$.prediction_schema",
     "status": "ready_for_prediction",
     "status_axis": "ready",
-    "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
-    "venue_sha256": "6ee413a9bfc155f974ad45cf1a54e55385da9610cd2360f681d348a77416a7d0"
+    "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json",
+    "venue_sha256": "bcbd0656c977fe6ceb797e8d9bbd8a051edcbb72e74a6b2ff21c383331fc740a"
   },
-  "freeze_digest": "bdf44f05c0afd8d039165831aa50a547acc15de1e346041fb84254270f5c7ff0",
-  "generated_at": "2026-06-19T07:27:48.531585+00:00",
+  "generated_at": "fixture",
   "hardgate": {
     "failed_gates": [],
     "gate_order": [
@@ -39,7 +38,7 @@
         "status": "pass"
       },
       "JWM-L1-THREE-ARM-HG3": {
-        "criterion": "deterministic split is owned by the freeze venue",
+        "criterion": "deterministic split is owned by the venue binding venue",
         "evidence_pointer": "$.venue.split",
         "status": "pass"
       },
@@ -54,7 +53,7 @@
         "status": "pass"
       },
       "JWM-L1-THREE-ARM-HG6": {
-        "criterion": "bootstrap and Holm settings are frozen in the venue",
+        "criterion": "bootstrap and Holm settings are bound in the venue",
         "evidence_pointer": "$.statistical_plan",
         "status": "pass"
       },
@@ -91,8 +90,8 @@
     "primary_metric": "top1_accuracy"
   },
   "not_claimed": [
-    "No three-arm model result is claimed by this freeze.",
-    "No admission or evaluator owner semantics are changed by this freeze.",
+    "No three-arm model result is claimed by this venue binding.",
+    "No admission or evaluator owner semantics are changed by this venue binding.",
     "No downstream prediction may bypass the venue artifact and prediction schema."
   ],
   "prediction_schema": {
@@ -116,7 +115,7 @@
       ]
     },
     "fail_closed_rules": [
-      "venue_sha256 must equal the canonical freeze content digest",
+      "venue_sha256 must equal the canonical venue binding content digest",
       "all three arms must be present exactly once",
       "declared_no_training_on_eval must be true",
       "prediction must not point directly at admission or evaluator owner internals"
@@ -131,14 +130,14 @@
     ],
     "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-prediction",
     "venue_binding": {
-      "artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
-      "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-freeze",
+      "artifact": "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json",
+      "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-venue-binding",
       "sha256_pointer": "$.venue_sha256",
-      "sha256_semantics": "canonical freeze content digest with self-reference fields zeroed"
+      "sha256_semantics": "canonical venue binding content digest with self-reference fields zeroed"
     }
   },
-  "producer": "bedc_quality_lab.tasks.jepa_wm_l1_three_arm_freeze",
-  "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-freeze",
+  "producer": "bedc_quality_lab.tasks.jepa_wm_l1_three_arm_venue_binding",
+  "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-venue-binding",
   "source_artifacts": {
     "admission": {
       "artifact_id": "bedc-quality-lab:jepa-wm-l1-admission",
@@ -237,8 +236,8 @@
         "declared_no_training_on_eval": true,
         "prediction_id": "stub-bedc_jepa",
         "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-prediction",
-        "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
-        "venue_sha256": "6ee413a9bfc155f974ad45cf1a54e55385da9610cd2360f681d348a77416a7d0"
+        "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json",
+        "venue_sha256": "bcbd0656c977fe6ceb797e8d9bbd8a051edcbb72e74a6b2ff21c383331fc740a"
       },
       {
         "arm_predictions": [
@@ -267,8 +266,8 @@
         "declared_no_training_on_eval": true,
         "prediction_id": "stub-plain_jepa",
         "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-prediction",
-        "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
-        "venue_sha256": "6ee413a9bfc155f974ad45cf1a54e55385da9610cd2360f681d348a77416a7d0"
+        "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json",
+        "venue_sha256": "bcbd0656c977fe6ceb797e8d9bbd8a051edcbb72e74a6b2ff21c383331fc740a"
       },
       {
         "arm_predictions": [
@@ -297,8 +296,8 @@
         "declared_no_training_on_eval": true,
         "prediction_id": "stub-chance_control",
         "schema_id": "bedc-quality-lab:jepa-wm-l1-three-arm-prediction",
-        "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-freeze.json",
-        "venue_sha256": "6ee413a9bfc155f974ad45cf1a54e55385da9610cd2360f681d348a77416a7d0"
+        "venue_artifact": "reports/canonical/jepa-wm-l1-three-arm-venue-binding.json",
+        "venue_sha256": "bcbd0656c977fe6ceb797e8d9bbd8a051edcbb72e74a6b2ff21c383331fc740a"
       }
     ]
   },
@@ -473,7 +472,8 @@
       },
       "source": "reports/canonical/jepa-wm-l1-evaluator-calibration.json:$.calibration_inputs.split"
     },
-    "status": "frozen",
+    "status": "bound",
     "venue_id": "jepa-wm-l1-three-arm"
-  }
+  },
+  "venue_binding_digest": "dc2a7b212f4154dc2475096757635fb0d31aa26410305985eb1cdbbd1683d7e2"
 }

@@ -7,8 +7,8 @@ import pytest
 
 from bedc_quality_lab.tasks import jepa_wm_l1 as admission
 from bedc_quality_lab.tasks import jepa_wm_l1_evaluator_calibration as calibration
-from bedc_quality_lab.tasks import jepa_wm_l1_three_arm_freeze as freeze
-from scripts import run_jepa_wm_l1_three_arm_freeze as runner
+from bedc_quality_lab.tasks import jepa_wm_l1_three_arm_venue_binding as binding
+from scripts import run_jepa_wm_l1_three_arm_venue_binding as runner
 
 
 def _copy_inputs(tmp_path):
@@ -33,41 +33,41 @@ def _assert_blocked_gate(payload, gate_id):
     assert gate_id in payload["hardgate"]["failed_gates"]
 
 
-def test_three_arm_freeze_binds_single_venue_to_admission_and_evaluator_sha(tmp_path):
+def test_three_arm_binding_binds_single_venue_to_admission_and_evaluator_sha(tmp_path):
     _copy_inputs(tmp_path)
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
 
-    assert payload["schema_id"] == freeze.SCHEMA_ID
+    assert payload["schema_id"] == binding.SCHEMA_ID
     assert payload["decision"]["status"] == "ready_for_prediction"
-    assert payload["decision"]["prediction_schema_pointer"] == f"{freeze.JSON_ARTIFACT}:$.prediction_schema"
+    assert payload["decision"]["prediction_schema_pointer"] == f"{binding.JSON_ARTIFACT}:$.prediction_schema"
     assert payload["source_artifacts"]["admission"]["sha256"] == hashlib.sha256(
         (tmp_path / admission.JSON_ARTIFACT).read_bytes()
     ).hexdigest()
     assert payload["source_artifacts"]["evaluator_calibration"]["sha256"] == hashlib.sha256(
         (tmp_path / calibration.JSON_ARTIFACT).read_bytes()
     ).hexdigest()
-    assert [arm["arm_id"] for arm in payload["venue"]["arms"]] == list(freeze.THREE_ARM_IDS)
-    assert [row["slice_id"] for row in payload["venue"]["ood_labels"]] == list(freeze.OOD_SLICE_IDS)
+    assert [arm["arm_id"] for arm in payload["venue"]["arms"]] == list(binding.THREE_ARM_IDS)
+    assert [row["slice_id"] for row in payload["venue"]["ood_labels"]] == list(binding.OOD_SLICE_IDS)
     assert payload["metrics"]["base_chance"]["probability"] == admission.REQUIRED_CHANCE
     assert payload["hardgate"]["status"] == "pass"
     assert payload["stub_smoke"]["status"] == "pass"
-    assert payload["decision"]["venue_sha256"] == freeze.venue_content_sha256(payload)
+    assert payload["decision"]["venue_sha256"] == binding.venue_content_sha256(payload)
 
 
 def test_prediction_schema_and_stub_smoke_are_fail_closed(tmp_path):
     _copy_inputs(tmp_path)
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
     venue_sha = payload["decision"]["venue_sha256"]
     stub = payload["stub_smoke"]["stub_predictions"][0]
 
-    assert freeze.validate_prediction_stub(stub, venue_sha256=venue_sha)["status"] == "pass"
-    assert freeze.validate_prediction_stub({**stub, "venue_sha256": "0" * 64}, venue_sha256=venue_sha)["status"] == "fail"
+    assert binding.validate_prediction_stub(stub, venue_sha256=venue_sha)["status"] == "pass"
+    assert binding.validate_prediction_stub({**stub, "venue_sha256": "0" * 64}, venue_sha256=venue_sha)["status"] == "fail"
     broken = dict(stub)
     broken["arm_predictions"] = stub["arm_predictions"][:-1]
-    assert "arm_ids" in freeze.validate_prediction_stub(broken, venue_sha256=venue_sha)["errors"]
+    assert "arm_ids" in binding.validate_prediction_stub(broken, venue_sha256=venue_sha)["errors"]
     missing_key = dict(stub)
     missing_key.pop("prediction_id")
-    assert "missing:prediction_id" in freeze.validate_prediction_stub(missing_key, venue_sha256=venue_sha)["errors"]
+    assert "missing:prediction_id" in binding.validate_prediction_stub(missing_key, venue_sha256=venue_sha)["errors"]
     direct_ref = dict(stub)
     direct_ref["arm_predictions"] = [
         {**row, "input_schema": f"{admission.JSON_ARTIFACT}:$.rank_eval"}
@@ -75,58 +75,58 @@ def test_prediction_schema_and_stub_smoke_are_fail_closed(tmp_path):
         else row
         for row in stub["arm_predictions"]
     ]
-    direct_errors = freeze.validate_prediction_stub(direct_ref, venue_sha256=venue_sha)["errors"]
+    direct_errors = binding.validate_prediction_stub(direct_ref, venue_sha256=venue_sha)["errors"]
     assert any(error.startswith("forbidden_owner_ref:") for error in direct_errors)
     assert "directly at admission or evaluator" in " ".join(payload["prediction_schema"]["fail_closed_rules"])
 
 
 def test_write_artifacts_emits_markdown_fingerprint_and_stub_eval(tmp_path):
     _copy_inputs(tmp_path)
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
 
-    written = json.loads((tmp_path / freeze.JSON_ARTIFACT).read_text(encoding="utf-8"))
+    written = json.loads((tmp_path / binding.JSON_ARTIFACT).read_text(encoding="utf-8"))
     assert written == payload
-    assert (tmp_path / freeze.MARKDOWN_ARTIFACT).read_text(encoding="utf-8").startswith(
-        "# JEPA-WM-L1 Three-Arm Freeze"
+    assert (tmp_path / binding.MARKDOWN_ARTIFACT).read_text(encoding="utf-8").startswith(
+        "# JEPA-WM-L1 Three-Arm Venue Binding"
     )
-    fingerprint = json.loads((tmp_path / freeze.FINGERPRINT_ARTIFACT).read_text(encoding="utf-8"))
-    assert fingerprint["report_name"] == "jepa-wm-l1-three-arm-freeze"
+    fingerprint = json.loads((tmp_path / binding.FINGERPRINT_ARTIFACT).read_text(encoding="utf-8"))
+    assert fingerprint["report_name"] == "jepa-wm-l1-three-arm-venue-binding"
     assert fingerprint["inputs"]["source_artifacts"]["admission"]["path"] == admission.JSON_ARTIFACT
-    stub_eval = json.loads((tmp_path / freeze.STUB_EVAL_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    stub_eval = json.loads((tmp_path / binding.STUB_EVAL_JSON_ARTIFACT).read_text(encoding="utf-8"))
     assert stub_eval["status"] == "pass"
     assert stub_eval["source_sha256"] == payload["decision"]["venue_sha256"]
-    assert (tmp_path / freeze.STUB_EVAL_MARKDOWN_ARTIFACT).read_text(encoding="utf-8").startswith(
+    assert (tmp_path / binding.STUB_EVAL_MARKDOWN_ARTIFACT).read_text(encoding="utf-8").startswith(
         "# JEPA-WM-L1 Three-Arm Stub Eval"
     )
 
 
-def test_three_arm_freeze_is_deterministic(tmp_path):
+def test_three_arm_binding_is_deterministic(tmp_path):
     _copy_inputs(tmp_path)
-    first = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
-    second = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    first = binding.write_artifacts(root=tmp_path, generated_at="fixture")
+    second = binding.write_artifacts(root=tmp_path, generated_at="fixture")
 
     assert first == second
     assert first["decision"]["venue_sha256"] == second["decision"]["venue_sha256"]
-    assert first["decision"]["venue_sha256"] == freeze.venue_content_sha256(first)
+    assert first["decision"]["venue_sha256"] == binding.venue_content_sha256(first)
 
 
-def test_three_arm_freeze_rejects_missing_or_wrong_input_owner(tmp_path):
+def test_three_arm_binding_rejects_missing_or_wrong_input_owner(tmp_path):
     _copy_inputs(tmp_path)
     bad = json.loads((tmp_path / admission.JSON_ARTIFACT).read_text(encoding="utf-8"))
     bad["schema_id"] = "wrong"
     (tmp_path / admission.JSON_ARTIFACT).write_text(json.dumps(bad), encoding="utf-8")
 
     with pytest.raises(ValueError, match="schema_id mismatch"):
-        freeze.build_payload(root=tmp_path, generated_at="fixture")
+        binding.build_payload(root=tmp_path, generated_at="fixture")
 
 
-def test_three_arm_hardgates_fail_closed_on_missing_frozen_owner_facts(tmp_path):
+def test_three_arm_hardgates_fail_closed_on_missing_bound_owner_facts(tmp_path):
     _copy_inputs(tmp_path)
     missing_ood = _load_artifact(tmp_path, admission.JSON_ARTIFACT)
     del missing_ood["preregistration"]["negative_protocol"]["goal_shuffle"]
     _write_artifact(tmp_path, admission.JSON_ARTIFACT, missing_ood)
 
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
 
     _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG4")
 
@@ -137,7 +137,7 @@ def test_three_arm_hardgates_require_leakage_sources(tmp_path):
     del missing_control["anti_triviality_controls"]["controls"]["metadata_only"]
     _write_artifact(tmp_path, admission.JSON_ARTIFACT, missing_control)
 
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
 
     _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG7")
 
@@ -148,7 +148,7 @@ def test_three_arm_hardgates_require_matching_sample_count(tmp_path):
     calibration_payload["config"]["case_count"] += 1
     _write_artifact(tmp_path, calibration.JSON_ARTIFACT, calibration_payload)
 
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
 
     _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG2")
 
@@ -159,24 +159,24 @@ def test_three_arm_hardgates_require_deterministic_split(tmp_path):
     calibration_payload["calibration_inputs"]["split"]["status"] = "runtime"
     _write_artifact(tmp_path, calibration.JSON_ARTIFACT, calibration_payload)
 
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
 
     _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG3")
 
 
 def test_three_arm_hardgates_require_valid_stub_smoke(tmp_path, monkeypatch):
     _copy_inputs(tmp_path)
-    original_stub_prediction = freeze._stub_prediction
+    original_stub_prediction = binding._stub_prediction
 
     def broken_stub_prediction(arm_id, *, venue_sha256):
         stub = original_stub_prediction(arm_id, venue_sha256=venue_sha256)
-        if arm_id == freeze.THREE_ARM_IDS[0]:
+        if arm_id == binding.THREE_ARM_IDS[0]:
             stub["declared_no_training_on_eval"] = False
         return stub
 
-    monkeypatch.setattr(freeze, "_stub_prediction", broken_stub_prediction)
+    monkeypatch.setattr(binding, "_stub_prediction", broken_stub_prediction)
 
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
 
     _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG5")
     assert payload["stub_smoke"]["status"] == "fail"
@@ -193,24 +193,24 @@ def test_three_arm_hardgates_require_bootstrap_settings(tmp_path):
     calibration_payload["config"]["seed"] = "fixture"
     _write_artifact(tmp_path, calibration.JSON_ARTIFACT, calibration_payload)
 
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
 
     _assert_blocked_gate(payload, "JWM-L1-THREE-ARM-HG6")
 
 
 def test_stub_eval_fails_on_non_mapping_result(tmp_path):
     _copy_inputs(tmp_path)
-    payload = freeze.write_artifacts(root=tmp_path, generated_at="fixture")
+    payload = binding.write_artifacts(root=tmp_path, generated_at="fixture")
     payload["stub_smoke"]["results"] = ["bad"]
 
-    assert freeze.stub_eval_payload(payload)["status"] == "fail"
+    assert binding.stub_eval_payload(payload)["status"] == "fail"
 
 
-def test_three_arm_freeze_cli_writes_canonical_artifacts(tmp_path, monkeypatch):
+def test_three_arm_binding_cli_writes_canonical_artifacts(tmp_path, monkeypatch):
     _copy_inputs(tmp_path)
     monkeypatch.setattr(runner, "ROOT", tmp_path)
 
     runner.main(["--generated-at", "fixture"])
 
-    payload = json.loads((tmp_path / freeze.JSON_ARTIFACT).read_text(encoding="utf-8"))
+    payload = json.loads((tmp_path / binding.JSON_ARTIFACT).read_text(encoding="utf-8"))
     assert payload["decision"]["status"] == "ready_for_prediction"
