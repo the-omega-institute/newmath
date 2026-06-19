@@ -163,4 +163,72 @@ theorem CauchySubnet_filter_limit_handoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, handoffUnary⟩
 
+theorem CauchySubnet_cofinal_ledger_coverage [AskSetup] [PackageSetup]
+    {filter subnet window readback tolerance limit sealRow transport replay provenance
+      localName cofinalRead endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySubnetCarrier filter subnet window readback tolerance limit sealRow transport replay
+        provenance localName bundle pkg →
+      Cont filter subnet cofinalRead →
+        Cont cofinalRead limit endpointRead →
+          PkgSig bundle endpointRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row filter ∨ hsame row subnet ∨ hsame row cofinalRead ∨
+                    hsame row limit ∨ hsame row endpointRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont filter subnet cofinalRead ∧
+                    Cont cofinalRead limit endpointRead ∧ PkgSig bundle endpointRead pkg)
+                hsame ∧
+              UnaryHistory cofinalRead ∧ UnaryHistory endpointRead := by
+  -- BEDC touchpoint anchor: CauchySubnetCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert
+  intro carrier cofinalRoute endpointRoute endpointPkg
+  obtain ⟨filterUnary, subnetUnary, _windowUnary, _readbackUnary, _toleranceUnary,
+    limitUnary, _sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _filterSubnetWindow, _windowReadbackTolerance, _toleranceLimitSeal,
+    _sealTransportReplay, _provenancePkg⟩ := carrier
+  have cofinalUnary : UnaryHistory cofinalRead :=
+    unary_cont_closed filterUnary subnetUnary cofinalRoute
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed cofinalUnary limitUnary endpointRoute
+  have sourceEndpoint :
+      (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row) endpointRead := by
+    exact ⟨hsame_refl endpointRead, endpointUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row filter ∨ hsame row subnet ∨ hsame row cofinalRead ∨
+              hsame row limit ∨ hsame row endpointRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont filter subnet cofinalRead ∧
+              Cont cofinalRead limit endpointRead ∧ PkgSig bundle endpointRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpointRead sourceEndpoint
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, cofinalRoute, endpointRoute, endpointPkg⟩
+  }
+  exact ⟨cert, cofinalUnary, endpointUnary⟩
+
 end BEDC.Derived.CauchySubnetUp
