@@ -1355,6 +1355,7 @@ import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CUNSpectralAntennaUp.TasteGate
 import BEDC.Derived.CalculusUp
+import BEDC.Derived.CalculusUp.CauchyDependencyRoute
 import BEDC.Derived.CalculusUp.CompletionSourceEnvelope
 import BEDC.Derived.CalculusUp.CompletionSourceEnvelopeObligations
 import BEDC.Derived.CalculusUp.CompletionSourceRealReadback
@@ -1370,6 +1371,7 @@ import BEDC.Derived.CalculusUp.FiniteLimitSealPublicHandoff
 import BEDC.Derived.CalculusUp.FiniteLimitSealRoute
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
 import BEDC.Derived.CalculusUp.IntegralSumObligation
+import BEDC.Derived.CalculusUp.LimitDependencyRoute
 import BEDC.Derived.CalculusUp.LimitRealSealObligation
 import BEDC.Derived.CalculusUp.LocalLinearizationCarrier
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
@@ -3159,6 +3161,7 @@ import BEDC.Derived.CompletionLadderUp.TasteGate
 import BEDC.Derived.CompletionModulusCategoryUp.ModulusFunctoriality
 import BEDC.Derived.CompletionModulusCategoryUp.NameCertObligations
 import BEDC.Derived.CompletionModulusCategoryUp.TasteGate
+import BEDC.Derived.CompletionModulusExtractorUp
 import BEDC.Derived.CompletionPreservesSeparableUp.TasteGate
 import BEDC.Derived.CompletionReflectionUp
 import BEDC.Derived.CompletionReflectionUp.TasteGate
@@ -4115,6 +4118,7 @@ import BEDC.Derived.CutRegularizationUp.TasteGate
 import BEDC.Derived.CyclicTagSystemUp.TasteGate
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.CyclotomicUp.SplittingPolynomial
+import BEDC.Derived.CylinderObjectUp
 import BEDC.Derived.DAlembertRatioTestUp
 import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
