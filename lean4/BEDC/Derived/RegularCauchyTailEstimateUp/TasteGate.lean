@@ -1,3 +1,4 @@
+import BEDC.Derived.RegularCauchyTailEstimateUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
