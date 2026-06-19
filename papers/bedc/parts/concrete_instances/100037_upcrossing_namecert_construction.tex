@@ -142,6 +142,20 @@ Apply \autoref{thm:upcrossing-namecert-obligations}. Boundary-decision stability
 Apply \autoref{thm:upcrossing-martingale-route}, \autoref{thm:upcrossing-finite-ledger-induction-boundary}, and \autoref{thm:upcrossing-finite-ledger-handoff}. These route the endpoint rows through the finite martingale and optional-stopping windows, compute the completed count by the lower and upper decision ledgers, and expose only the finite handoff consumed downstream.
 \end{proof}
 
+\begin{theorem}[Upcrossing bounded optional-stopping route]
+\label{thm:upcrossing-bounded-optional-stopping-route}
+Every lower or upper boundary hit used by the crossing ledger of an accepted $\UpcrossingUp$ carrier factors through a bounded $\OptionalStoppingUp$ stopped-window row over the displayed finite $\MartingaleUp$ packet before the completed-count row is updated. Thus the lower ledger $L$ and upper ledger $S$ may update the count only after the corresponding finite endpoint row has been read through the displayed martingale-window route, with transport by $H$ and replay by $C$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:upcrossing-carrier}. The only data available to a boundary hit are the probability row, the finite $\MartingaleUp$ packet $M$, the boundary endpoints $a,b$, the endpoint family $V$, the lower and upper ledgers $L,S$, and the support rows $H,C,P,Q$.
+
+Apply \autoref{thm:upcrossing-martingale-route}. Every stopped-window read used by the chapter is bounded by the displayed finite horizon of $M$ and factors through the $\OptionalStoppingUp$ rows carried by that route.
+
+Apply \autoref{thm:upcrossing-finite-ledger-induction-boundary}. The completed-count row changes only in the finite induction step where a displayed lower row is followed by a displayed upper row; both rows are endpoint reads against the fixed boundaries.
+
+Finally use \autoref{thm:upcrossing-scoped-decision-route}. Boundary decisions are scoped by the same martingale packet, optional-stopping windows, transport rows, and continuation replay. Therefore each lower or upper hit must pass through the bounded stopped-window row before the ledger count is updated, and no unbounded stopping index or convergence theorem enters the route.
+\end{proof}
+
 \begin{theorem}[Upcrossing no-escape boundary]
 \label{thm:upcrossing-nonescape}
 The public boundary of $\UpcrossingUp$ exports only the finite crossing-count ledger for a displayed martingale window and fixed boundary pair $a<_R b$. It exports no martingale convergence theorem, no almost-sure quotient equality, no unbounded stopping principle, no measure completion, and no standard bridge beyond the finite rows explicitly carried by \autoref{def:upcrossing-carrier}.
