@@ -733,6 +733,11 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "aggregate",
             "aggregate_metrics",
             "treatment_comparison",
+            "decision_policy",
+            "$.records[*].decision_policy",
+            "$.records[*].arms.flat_threshold_baseline",
+            "$.records[*].arms.flat_threshold_baseline.budget_match",
+            "$.control_protocol.flat_threshold_baseline",
             "control_protocol",
             "fair_alignment_control_ledger",
             *(
