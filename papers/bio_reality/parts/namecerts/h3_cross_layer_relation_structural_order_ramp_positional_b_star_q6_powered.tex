@@ -1,34 +1,57 @@
-\subsection{Position-resolved ramp signal for $B^*_{Q6}$ structural-order readback}\label{subsec:bioq6-structural-order-ramp-positional}
+\subsection{Position-Resolved Ramp Signal for the $B^*_{Q6}$ Stress Coordinate}\label{sec:bioreality-q6-ramp-structural-order-positional}
 \origin{ai}
 
 \paragraph{Finite surface.}
-This record tests whether the $f_3$-stress coordinate inside the nine-coordinate $B^*_{Q6}$ residual surface has a position-resolved increment compatible with an N-terminal ramp readout rather than a body-wide structural-order readout.  The tested coordinates are $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  The finite rows come from the powered structural-order ramp experiment \texttt{b\_star\_q6\_structural\_order\_ramp\_positional\_powered}, run with five folds, a minimum joined-row threshold of $300$, and primary ramp length $n=50$.  The run identifier is \texttt{fd29bb46dde6}, and the deterministic seed is \texttt{sha256:c25e054a5a2a69b53948ecbba7d463ecbb745a4ebcd778739f689cef8074954f}.
+This record tests whether the $B^*_{Q6}$ synonymous residual surface contains a position-localized signal compatible with a structural-order ramp readout.  The finite carrier is the nine-coordinate residual design
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f_3\_stress$, after sequence-level controls for coding length, amino-acid composition, $GC3$, and the $M$-density baseline.  The structural-order packet does not use the full nine-dimensional surface as a black-box positive claim.  It asks a narrower finite-row question: whether the $f_3\_stress$ component gives a held-out increment in an N-terminal ramp window and whether that increment is localized relative to a body-window comparison.
 
-\paragraph{Ramp and body increments.}
-The position split compares held-out incremental $R^2$ for an N-terminal ramp window against the corresponding body window.  For ramp length $30$, the weighted $f_3$ ramp increment is $0.0007864264335388174$ and the weighted $f_3$ body increment is $0.00023737813475316197$, with two primary organisms contributing.  For the primary ramp length $50$, the ramp increment is $0.0011165640103326878$ and the body increment is $-0.00026157313923957926$.  For ramp length $70$, the ramp increment remains positive at $0.0007157308766185055$, while the body increment is $-0.0008384704154638841$.  Thus the observed finite-row pattern is not an all-position structural-order effect: the ramp coordinate is positive across the reported windows, while the body coordinate is weak or negative at the primary and longer windows.
-
-\paragraph{Primary gate.}
-At the primary $n=50$ window the finite-row classification is
+\paragraph{Primary ramp computation.}
+The run identifier is $fd29bb46dde6$, with experiment id $b\_star\_q6\_structural\_order\_ramp\_positional\_powered$.  The computation used $5$ folds, required at least $300$ joined rows per organism, and took $50$ codons as the primary ramp length.  At this primary window the weighted held-out increment for the ramp was positive,
 $$
 \begin{aligned}
-\Delta R^2_{ramp}(f_3) &= 0.0011165640103326878,\\
-\Delta R^2_{body}(f_3) &= -0.00026157313923957926,\\
-\Delta R^2_{ramp-body}(f_3) &= 0.001378137149572267.
+\Delta R^2_{\mathrm{ramp},50} &= 0.0011165640103326878,
 \end{aligned}
 $$
-The one-sided sign-flip value for the ramp being greater than zero is $0.0478515625$, while the corresponding body value is $0.54296875$.  The paired ramp-minus-body sign-flip value is $0.05859375$.  Both primary organisms have positive ramp increments and both have ramp increments larger than body increments; no primary organism has a positive body increment.  The local verdict is therefore \emph{ramp positive but not localized}: the ramp signal passes its positive-sign criterion, but the paired localization gate is not strict enough to certify a ramp-specific structural-order localization claim.
+whereas the corresponding body increment was negative,
+$$
+\begin{aligned}
+\Delta R^2_{\mathrm{body},50} &= -0.00026157313923957926.
+\end{aligned}
+$$
+The paired difference was therefore
+$$
+\begin{aligned}
+\Delta R^2_{\mathrm{ramp},50}-\Delta R^2_{\mathrm{body},50} &= 0.001378137149572267.
+\end{aligned}
+$$
+Across the two primary organisms, both had positive ramp increments, no primary organism had a positive body increment, and both had ramp greater than body.  The one-sided sign-flip probability for the ramp increment was $0.0478515625$, while the body-window probability was $0.54296875$ and the paired ramp-minus-body probability was $0.05859375$.
 
-\paragraph{Relation to dwell and abundance rows.}
-The same $f_3$ residual family has an abundance-linked dwell mediation row in yeast, but that row remains a measured-readout association rather than a structural mechanism.  In the dwell mediation run, the active join has $n=1257$ rows from a base pool of $1800$, five folds, $P_{f3}$ norm squared $44.20095750389323$, $P_{f3}$ fraction of target $0.1999063916718794$, base $R^2=0.1855578757644517$, full $R^2=0.20412261520502883$, dwell-alone $R^2=0.034336580953121976$, held-out $\Delta R^2=0.01856473944057712$, and fixed-readout permutation $Null95=0.0013115362189692937$ over $120$ permutations.  The positional dwell run on the same active scale reports the leading segment as $5prime$, with the three-prime body failing; this is consistent with an N-terminal positional signal, but it still reads as a positional ribosome-occupancy or abundance-associated statistic, not as a folded-structure measurement.
+\paragraph{Window sensitivity.}
+The same computation was repeated for $30$, $50$, and $70$ codon ramp windows.  For $30$ codons the weighted ramp increment was $0.0007864264335388174$ and the weighted body increment was $0.00023737813475316197$.  For $50$ codons the ramp and body values were $0.0011165640103326878$ and $-0.00026157313923957926$.  For $70$ codons the ramp and body values were $0.0007157308766185055$ and $-0.0008384704154638841$.  Thus the ramp side stayed positive at all three finite window lengths, while the body side did not supply a stable positive counterpart.  In compact form,
+$$
+\begin{aligned}
+(\Delta R^2_{\mathrm{ramp},30},\Delta R^2_{\mathrm{ramp},50},\Delta R^2_{\mathrm{ramp},70})
+&=(0.0007864264335388174,0.0011165640103326878,0.0007157308766185055),\\
+(\Delta R^2_{\mathrm{body},30},\Delta R^2_{\mathrm{body},50},\Delta R^2_{\mathrm{body},70})
+&=(0.00023737813475316197,-0.00026157313923957926,-0.0008384704154638841).
+\end{aligned}
+$$
+The finite module classification is therefore $\mathrm{ramp\_positive\_but\_not\_localized}$: the ramp readout is positive and sign-flip supported, but the stricter localization gate does not pass because the paired ramp-body test remains just above the declared boundary at $0.05859375$.
 
-\paragraph{Cross-layer context.}
-The direct protein-omics surface is powered and nonzero across the measured PAXdb abundance panel: for example, $R^2_{QP}=0.29837624994140827$ in \emph{Saccharomyces cerevisiae}, $0.10767526677985896$ in \emph{Escherichia coli} K12 MG1655, $0.04454565118019448$ in human, and $0.049827984062539195$ in mouse, with all nine coordinates surviving at the declared positive threshold in each listed organism.  The measured TE surface is also nonzero in the four ribosome-TE organisms, with $R^2_{QT,meas}=0.13681931343730436$ in yeast, $0.009394266754822262$ in \emph{E. coli}, $0.018837911344127926$ in human, and $0.04034217614654355$ in zebrafish.  The measured protein-abundance mediation row gives mediated fractions $0.4793069656345167$ in yeast, $0.04091158340950673$ in \emph{E. coli}, $0.0027966485036786744$ in human, and $0.0$ in zebrafish after suppressive raw sign clipping.  These rows explain why a ramp-position readback is worth testing, but they do not by themselves supply structural order.
+\paragraph{Relation to measured translation and abundance rows.}
+The ramp result sits inside a larger matched-readout surface.  The measured ribosome-TE survival computation used four joined organisms.  Its observed $S^{QT,\mathrm{meas}}$ values were $0.04034217614654355$ for danio, $0.009394266754822262$ for \emph{E. coli}, $0.018837911344127926$ for human, and $0.13681931343730436$ for yeast, with all nine coordinates surviving by the positive threshold in each case.  The corresponding joined TE row counts were $13140$, $3415$, $11554$, and $5128$, with reported TE join hit rates $0.9118667591950035$, $0.9133458143888741$, $0.6064136881331024$, and $0.8818572656921754$.  Direct protein-abundance survival was also computed on a broader proteomics panel: for example yeast had $5815$ joined proteins with join hit rate $0.9156038419146592$ and $R^2_{QP}=0.29837624994140827$, human had $19053$ joined proteins with join hit rate $0.9779294769799313$ and $R^2_{QP}=0.04454565118019448$, and \emph{E. coli} had $3739$ joined proteins with join hit rate $0.9978649586335735$ and $R^2_{QP}=0.10767526677985896$.  These rows show that the coordinate is not being read from a rank-degenerate toy matrix; the relevant organism joins are powered and the residual design has rank $9$ after the shared control basis in the cited survival computations.
 
-\paragraph{Dictionary and reduction boundary.}
-The reduction dictionary run uses $n_{join}=1800$ from $4758$ available yeast rows, five folds, $\lambda_{DL}=0.01$, $\rho_{join}=0.05$, and $120$ permutations.  Its best three-readout family covers $C^*=0.24538211439730545$ of the residual signal with selection-aware $Null95=0.029149007242956115$, leaving $0.7546178856026946$ unexplained.  The irreducibility-certificate run uses the same $n_{join}=1800$, $\lambda_{DL}=0.01$, $\rho_{join}=0.05$, five folds, and $120$ permutations.  These rows place the structural-order ramp result inside a partially reducible but still incomplete cross-layer readout dictionary: the $f_3$ ramp increment is a localized statistical trace, not a completed biological explanation.
+\paragraph{Mediation context.}
+The position result is also consistent with the measured-translation mediation surface but is not replaced by it.  In the measured $Q\rightarrow T\rightarrow P$ run, the mediated fractions were $0.0$ for danio, $0.04091158340950673$ for \emph{E. coli}, $0.0027966485036786744$ for human, and $0.4793069656345167$ for yeast.  The yeast value is the largest among those four organisms, and yeast is also the organism where the $f_3\_stress$ dwell analyses are most explicit.  In the dwell-abundance run, $n_{join}=1257$, $base\_n=1800$, $5$ folds were used, and the held-out dwell increment was
+$$
+\begin{aligned}
+\Delta R^2_{\mathrm{dwell}} &= 0.01856473944057712,
+\end{aligned}
+$$
+against a deterministic row-label permutation null with $120$ permutations and null $95$th percentile $0.0013115362189692937$.  The $f_3$ dwell correlation was $0.1615441450901653$ with approximate probability $7.873916057196935\times 10^{-9}$.  In the positional dwell run on the same yeast surface, the dominant segment was $5prime$, the $5prime$ ramp test passed, and the $3prime$ body test did not.  This independent dwell readout is compatible with a 5-prime positional component, but the structural-order ramp packet still keeps its own verdict: positive ramp signal, no completed localization certificate.
 
-\paragraph{Local conclusion.}
-The finite-row verdict is ready and deliberately narrow.  The structural-order ramp experiment supports a positive $f_3$ ramp increment at the primary $50$-codon window, with a positive ramp sign-flip value below $0.05$ and a negative body increment.  It does not certify ramp localization because the paired ramp-minus-body gate remains at $0.05859375$.  The correct current statement is therefore: $B^*_{Q6}$ has a measurable $f_3$-linked N-terminal ramp signal in the tested finite rows, but the signal is not strong enough to promote to a localized structural-order claim.
+\paragraph{Dictionary and irreducibility boundary.}
+The finite-row reduction checks prevent the ramp result from being overstated.  In the partial mediation certificate, the yeast surface used $base\_n=4759$, $n_{join}=1800$, $5$ folds, $120$ permutations, $\lambda_{DL}=0.01$, and $\rho_{join}=0.05$.  The selection-aware coverage by a readout dictionary of at most three measured readouts was $C^*=0.24538211439730545$, with unexplained fraction $0.7546178856026946$ and selection-aware null $95$th percentile $0.029149007242956115$.  The irreducibility-certificate run used the same $base\_n=4759$, $n_{join}=1800$, $\lambda_{DL}=0.01$, and $\rho_{join}=0.05$ surface, and its semantics are explicitly non-promotional: it reports the tested reduction family and source signal, not a proof of irreducibility, causality, translation, structure, function, or a global law.
 
-\paragraph{No-promotion rule.}
-No translation mechanism, folded structure, physical admissibility, molecular function, phenotype, causal pathway, or universal biological law follows from this chapter.  Such claims require a separate layer-matched contact and its own controlled statistic.  Protein abundance, measured TE, dwell, and positional ramp increments are useful finite readbacks, but none of them is a folding assay, a structural experiment, a perturbation rescue, or a mechanism proof.
+\paragraph{Local verdict.}
+The finite conclusion is therefore a bounded positional readout: $f_3\_stress$ carries a small but positive held-out ramp increment at the primary $50$-codon window, with sign-flip support at $p=0.0478515625$, while the stricter paired localization gate does not pass at $p=0.05859375$.  The correct classification is $\mathrm{ramp\_positive\_but\_not\_localized}$, not structural-order realization.  No translation mechanism, folded structure, physical admissibility, molecular function, phenotype, causal pathway, or universal biological rule follows from this section alone.  Such claims would require their own layer-matched measurements and a separate controlled statistic; the present chapter only records the finite ramp-versus-body behavior of the $f_3\_stress$ coordinate under the available matched rows.
