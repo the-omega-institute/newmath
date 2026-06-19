@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\DyadicTailComparisonUp$}
+\label{ch:concrete-instances-dyadic-tail-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges on explicit Cauchy moduli and rational tail estimates, the $\DyadicTailComparisonUp$ packet records the finite dyadic layer below the regular Cauchy tail-comparison route. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the common-tail comparison packet of \autoref{ch:concrete-instances-cauchy-tail-comparison-namecert}, and the terminal real boundary of \autoref{ch:concrete-instances-real-namecert}. The packet stores the inspected dyadic windows and comparison budgets before any regular Cauchy or Real-facing consumer can read a tail comparison.
+
+\begin{definition}[Dyadic tail-comparison carrier]
+\label{def:dyadic-tail-comparison-carrier}
+A $\DyadicTailComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,Y,W,E,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\StreamNameUp$ tail windows whose dyadic endpoints are compared;
+\item $W$ is the shared late-window selector, recording the finite indices inspected for both tails;
+\item $E$ is the $\DyadicRatCoreUp$ endpoint ledger, including the requested dyadic radius, slack, and lower and upper endpoint rows;
+\item $T$ is the dyadic tail-comparison row, recording that the two inspected windows satisfy the displayed dyadic comparison at the requested precision;
+\item $R$ is the downstream readback row for $\RegSeqRatUp$, $\CauchyTailComparisonUp$, and $\RealUp$ consumers;
+\item $H$ records componentwise $\hsame$ transport for the two windows, dyadic ledger, comparison row, downstream readback, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay for the finite dyadic comparison route;
+\item $P$ is the $\Pkg$ provenance over $\DyadicTailComparisonUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyTailComparisonUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DyadicTailComparisonUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected limits, host real equality, trichotomy, choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic tail-comparison NameCert obligations]
+\label{thm:dyadic-tail-comparison-namecert-obligations}
+For every accepted $\DyadicTailComparisonUp$ carrier $D=(X,Y,W,E,T,R,H,C,P,N)$, the local $\NameCert_{\DyadicTailComparisonUp}$ surface consists exactly of carrier admission, shared-window discipline, dyadic endpoint-ledger exactness, dyadic comparison readback, downstream nonescape to $\RegSeqRatUp$, $\CauchyTailComparisonUp$, and $\RealUp$, componentwise transport, displayed replay, package provenance, local naming, and refusal of quotient streams, selected limits, host real equality, trichotomy, choice, and ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-tail-comparison-carrier}. The rows $X,Y,W,E,T,R,H,C,P,N$ are the only available certificate coordinates, so carrier admission and local naming are read directly from the displayed packet.
+
+The shared-window obligation is the row $W$. It forces both tails to be inspected at the same finite late window before the dyadic endpoint ledger is read.
+
+The dyadic comparison obligations are $E$ and $T$. The endpoint ledger $E$ supplies the radius, slack, and endpoint rows, while $T$ records the finite comparison of the two displayed windows at that precision.
+
+The downstream and structural obligations are $R,H,C,P,N$. They transport, replay, source, and name the same finite dyadic comparison for $\RegSeqRatUp$, $\CauchyTailComparisonUp$, and $\RealUp$ consumers without adding a quotient, selected limit, host equality, trichotomy, choice, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[Dyadic tail-comparison regular Cauchy route]
+\label{thm:dyadic-tail-comparison-regular-cauchy-route}
+Every regular Cauchy or real-completion consumer of an accepted $\DyadicTailComparisonUp$ packet factors through the finite route
+$$
+X,Y,W \longmapsto E \longmapsto T \longmapsto R,H,C,P,N .
+$$
+Thus a $\RegSeqRatUp$, $\CauchyTailComparisonUp$, or $\RealUp$ read can consume the packet only after the common stream window and dyadic endpoint ledger have been displayed. The route supplies finite dyadic tail-comparison data, not quotient stream equality, selected limits, host real equality, trichotomy, choice, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $D=(X,Y,W,E,T,R,H,C,P,N)$. The source rows $X$ and $Y$ expose only stream windows, and $W$ records the shared late-window selector for both tails.
+
+The dyadic endpoint row $E$ is read next. It supplies the finite radius and endpoint ledger consumed by the comparison row $T$, so no consumer can bypass the dyadic layer and jump directly to a regular Cauchy or Real comparison.
+
+The readback row $R$ is downstream of $T$ and is the only row addressed to $\RegSeqRatUp$, $\CauchyTailComparisonUp$, and $\RealUp$ consumers. The structural rows $H,C,P,N$ preserve and name that same route.
+
+Since all rows have now been exhausted, the consumer has no coordinate from which to extract quotient stream equality, a selected limit, host real equality, trichotomy, choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{A $\DyadicTailComparisonUp$ read is refuted whenever it exports a regular Cauchy or Real-facing comparison without the shared StreamName window and DyadicRatCore endpoint ledger.}
+
+\closureat{DyadicTailComparisonUp}{seedStr}
+
+\begin{closurestatus}{\DyadicTailComparisonUp}
+  \constructivestory{A $\DyadicTailComparisonUp$ packet is generated from two StreamName tail-window rows, a shared late-window selector, a DyadicRatCore endpoint ledger, a dyadic comparison row, downstream readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-tail-comparison-carrier}, \autoref{thm:dyadic-tail-comparison-namecert-obligations}, and \autoref{thm:dyadic-tail-comparison-regular-cauchy-route} seed the finite dyadic tail-comparison layer below regular Cauchy and Real readback consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, host real equality, trichotomy, choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-window discipline, dyadic endpoint exactness, comparison readback, downstream nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicTailComparisonUp.}
+\end{closurestatus}
