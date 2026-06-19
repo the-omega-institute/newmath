@@ -116,6 +116,7 @@ It remains to identify the public destination of such a request. By \autoref{thm
 \label{thm:metacic-normalization-budget-refusal-exactness}
 Every accepted $\MetaCICNormalizationBudgetUp$ packet queried for a normalization read while missing $C$ or $E$ has exactly one public destination: the refusal row $R$. The request is transported by the componentwise row $H$ and replayed by the displayed continuation row $Q$, and it has no alternative route through $T,S,A,P$ or through any structural row outside $H,Q,L,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationBudgetUp.MetaCICNormalizationBudgetCarrier\_refusal\_exactness}
 \begin{proof}
 Project the carrier of \autoref{def:metacic-normalization-budget-carrier}. Its visible rows are $T,C,E,S,A,P,R,H,Q,L,N$, so the packet contains one refusal coordinate and no hidden evaluator, subject-reduction coordinate, host normalization coordinate, or second structural destination.
 
@@ -138,6 +139,20 @@ Apply \autoref{thm:metacic-normalization-budget-refusal-exactness}. A query miss
 Apply \autoref{thm:metacic-normalization-budget-nonescape}. Componentwise transport cannot supply the absent candidate evidence, and replay cannot manufacture an unconditional strong-normalization route. The rows $H$ and $Q$ therefore carry the same refusal judgment rather than changing its destination.
 
 Finally read $L$ and $N$ as provenance and local naming rows. They source and name the transported refusal packet, but they do not add candidate evidence, membership evidence, a second refusal destination, or a positive normalization coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization budget refusal idempotence]
+\label{thm:metacic-normalization-budget-refusal-idempotence}
+Let $B=(T,C,E,S,A,P,R,H,Q,L,N)$ be an accepted $\MetaCICNormalizationBudgetUp$ packet. If a normalization query is missing the candidate evidence row $C$ or the closed-candidate membership row $E$ and is routed to $R$, then any finite ledger of displayed $\Cont$ replays through $Q$ and componentwise transports through $H$ still has public destination $R$. Iterating the replay and transport rows never creates a positive route through $T,S,A,P$, and the provenance and naming rows $L,N$ continue to record only the same refusal boundary.
+\end{theorem}
+\begin{proof}
+Start with the initial missing-candidate query. By \autoref{thm:metacic-normalization-budget-refusal-exactness}, its only public destination is $R$; there is no alternative route through $T,S,A,P$ or through structural rows outside $H,Q,L,N$.
+
+For the base ledger with no replay or transport step, the destination is therefore $R$.
+
+For the induction step, assume the finite prefix of the replay ledger still has public destination $R$. If the next displayed move is a componentwise $\hsame$ transport through $H$ or a $\Cont$ replay through $Q$, apply \autoref{thm:metacic-normalization-budget-refusal-transport}. The next read preserves the same refusal destination and does not add candidate evidence, membership evidence, a second refusal destination, or a positive normalization coordinate.
+
+Induction over the finite replay ledger gives the claim for every finite sequence. The rows $L,N$ source and name the same refusal packet throughout the induction, so repeated replay records the original boundary rather than changing it.
 \end{proof}
 
 \begin{theorem}[MetaCIC normalization budget independence boundary]
