@@ -4548,6 +4548,7 @@ import BEDC.Derived.DiniDerivativeUp.TasteGate
 import BEDC.Derived.DiniFiniteMinimumBudgetUp.TasteGate
 import BEDC.Derived.DiniMonotoneCompactUniformUp.TasteGate
 import BEDC.Derived.DiniTheoremUp.TasteGate
+import BEDC.Derived.DiniUniformConvergenceUp.CompactUniformLimitRoute
 import BEDC.Derived.DiniUniformConvergenceUp.CoverSelectorNonescape
 import BEDC.Derived.DiniUniformConvergenceUp.FiniteNetMonotoneTailScope
 import BEDC.Derived.DiniUniformConvergenceUp.MonotoneFamilyExhaustion
@@ -7444,6 +7445,7 @@ import BEDC.Derived.MetaCICNormalizationBudgetUp.FalsifiableBoundary
 import BEDC.Derived.MetaCICNormalizationBudgetUp.Nonescape
 import BEDC.Derived.MetaCICNormalizationBudgetUp.ObligationSurface
 import BEDC.Derived.MetaCICNormalizationBudgetUp.RefusalExactness
+import BEDC.Derived.MetaCICNormalizationBudgetUp.RefusalIdempotence
 import BEDC.Derived.MetaCICNormalizationBudgetUp.RefusalTransport
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.AdequacyChain
@@ -8317,6 +8319,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObligationClosurePackage
 import BEDC.Derived.PaperLeanDriftWitnessUp.ResolutionConsumerReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.UnresolvedMarkerRefusal
+import BEDC.Derived.PaperLeanDriftWitnessUp.VerdictLedgerTotality
 import BEDC.Derived.ParacompactUp.LocallyFiniteRefinement
 import BEDC.Derived.ParacompactUp.MetricNormalRoute
 import BEDC.Derived.ParacompactUp.NameCertObligations
@@ -9428,6 +9431,7 @@ import BEDC.Derived.RegularCauchyAffineCombinationUp.ObligationSurface
 import BEDC.Derived.RegularCauchyAffineCombinationUp.Stability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyAlgebraCoherenceUp.TasteGate
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundScope
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.RealSealRefusal
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.ReciprocalWindowBoundary
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
