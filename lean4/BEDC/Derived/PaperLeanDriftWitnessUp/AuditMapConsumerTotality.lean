@@ -72,4 +72,67 @@ theorem PaperLeanDriftWitness_audit_map_consumer_totality [AskSetup] [PackageSet
   }
   exact ⟨cert, verdictUnary, auditUnary, verdictRoute, auditRoute, namePkg, auditPkg⟩
 
+theorem PaperLeanDriftWitness_public_token_consumer_totality [AskSetup] [PackageSetup]
+    {M A L I R H C P N exactRead duplicateRead statusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PaperLeanDriftWitnessCarrier M A L I R H C P N bundle pkg →
+      Cont M A exactRead →
+        Cont L I duplicateRead →
+          Cont R H statusRead →
+            PkgSig bundle statusRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row statusRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row exactRead ∨ hsame row duplicateRead ∨ hsame row statusRead)
+                  (fun row : BHist => UnaryHistory row ∧ PkgSig bundle statusRead pkg)
+                  hsame ∧
+                UnaryHistory exactRead ∧ UnaryHistory duplicateRead ∧
+                  UnaryHistory statusRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier exactRoute duplicateRoute statusRoute statusPkg
+  obtain ⟨mUnary, aUnary, lUnary, iUnary, rUnary, hUnary, _cUnary, _pUnary,
+    _nUnary, _markerNameLedger, _ledgerInventoryVerdict, _verdictTransportConsumer,
+    _namePkg⟩ := carrier
+  have exactUnary : UnaryHistory exactRead :=
+    unary_cont_closed mUnary aUnary exactRoute
+  have duplicateUnary : UnaryHistory duplicateRead :=
+    unary_cont_closed lUnary iUnary duplicateRoute
+  have statusUnary : UnaryHistory statusRead :=
+    unary_cont_closed rUnary hUnary statusRoute
+  have sourceAtStatus :
+      (fun row : BHist => hsame row statusRead ∧ UnaryHistory row) statusRead :=
+    ⟨hsame_refl statusRead, statusUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row statusRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row exactRead ∨ hsame row duplicateRead ∨ hsame row statusRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle statusRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro statusRead sourceAtStatus
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, statusPkg⟩
+  }
+  exact ⟨cert, exactUnary, duplicateUnary, statusUnary⟩
+
 end BEDC.Derived.PaperLeanDriftWitnessUp

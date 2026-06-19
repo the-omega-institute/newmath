@@ -1467,6 +1467,7 @@ import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
+import BEDC.Derived.CaristiFixedPointUp.TasteGate
 import BEDC.Derived.CartanAngularBoundaryInvariantUp
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
@@ -4881,6 +4882,7 @@ import BEDC.Derived.DyadicValuationUp
 import BEDC.Derived.DyadicValuationUp.TasteGate
 import BEDC.Derived.DyadicWindowSealUp.TasteGate
 import BEDC.Derived.DynSystemUp
+import BEDC.Derived.DynamicProgrammingUp.TasteGate
 import BEDC.Derived.EberleinSmulianUp.TasteGate
 import BEDC.Derived.EdelsteinFixedPointUp
 import BEDC.Derived.EdelsteinFixedPointUp.TasteGate
@@ -7601,6 +7603,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedConversionNonescape
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedNormalFormSplit
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedSearchExhaustion
+import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ScopeAssignment
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
@@ -10015,6 +10018,7 @@ import BEDC.Derived.SardTheoremFiniteJetUp.TasteGate
 import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
 import BEDC.Derived.SchemeUp
+import BEDC.Derived.SchurLemmaUp
 import BEDC.Derived.SchurMatrixSummabilityUp.TasteGate
 import BEDC.Derived.SchurOrthogonalityUp
 import BEDC.Derived.SchurOrthogonalityUp.CharacterInnerProduct
