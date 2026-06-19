@@ -117,6 +117,10 @@ from bedc_quality_lab.high_impact_review import (
     MARKDOWN_ARTIFACT as HIGH_IMPACT_REVIEW_MARKDOWN_ARTIFACT,
     SCHEMA_ID as HIGH_IMPACT_REVIEW_SCHEMA_ID,
 )
+from bedc_quality_lab.l1_admissibility_audit import (
+    CANONICAL_JSON_ARTIFACT as L1_ADMISSIBILITY_AUDIT_JSON_ARTIFACT,
+    CANONICAL_MARKDOWN_ARTIFACT as L1_ADMISSIBILITY_AUDIT_MARKDOWN_ARTIFACT,
+)
 from bedc_quality_lab.experiment_stack import (
     ARTIFACT_ID as EXPERIMENT_STACK_CARDS_ARTIFACT_ID,
     JSON_ARTIFACT as EXPERIMENT_STACK_CARDS_JSON_ARTIFACT,
@@ -306,6 +310,7 @@ DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
         "discovery-gated-transformer-jepa-world-model",
         "jepa-wm-l1-evaluator-calibration",
         "sti-admission",
+        "l1-admissibility-audit",
     }
 )
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
@@ -2374,6 +2379,41 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         hardgate_status_pointer="$.hardgate.status",
         hardgate_scope="owner-scientific",
         decision_status_pointer="$.claim_boundary.status",
+    ),
+    CanonicalReportSpec(
+        name="l1-admissibility-audit",
+        command=("python3", "scripts/run_l1_admissibility_audit.py"),
+        json_artifact=L1_ADMISSIBILITY_AUDIT_JSON_ARTIFACT,
+        markdown_artifact=L1_ADMISSIBILITY_AUDIT_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "protocol",
+            "owner_metrics",
+            "dependency_statuses",
+            "hardgates",
+            "gate_card",
+            "claim_boundary",
+            "status_axes",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.claim_boundary",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.gate_card",
+        control_pointer="$.protocol.negative_controls",
+        no_control_rationale_pointer=None,
+        claim_promotion_eligible=False,
+        scientific_claim_status_pointer="$.status_axes.scientific_claim_status",
+        hardgate_status_pointer="$.status_axes.hardgate_status",
+        hardgate_scope="owner-scientific",
+        ladder_state_pointer="$.status_axes.ladder_state",
+        decision_status_pointer="$.status_axes.decision_status",
     ),
     CanonicalReportSpec(
         name="observed-debt-sweep",
@@ -9033,6 +9073,14 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
             validate_sti_payload(_load_report_payload(spec))
         except ValueError as exc:
             sti_errors = [str(exc)]
+    l1_admissibility_errors: list[str] = []
+    if spec.name == "l1-admissibility-audit" and key_validation["status"] == "pass" and not missing_artifacts:
+        try:
+            from bedc_quality_lab.l1_admissibility_audit import validate_payload as validate_l1_admissibility_payload
+
+            validate_l1_admissibility_payload(_load_report_payload(spec))
+        except ValueError as exc:
+            l1_admissibility_errors = [str(exc)]
     status = (
         "pass"
         if key_validation["status"] == "pass"
@@ -9045,6 +9093,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         and not minimal_mainline_errors
         and not jepa_world_model_errors
         and not sti_errors
+        and not l1_admissibility_errors
         else "fail"
     )
     return {
@@ -9060,6 +9109,7 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
         "minimal_mainline_errors": minimal_mainline_errors,
         "jepa_world_model_errors": jepa_world_model_errors,
         "sti_errors": sti_errors,
+        "l1_admissibility_errors": l1_admissibility_errors,
     }
 
 
@@ -10519,6 +10569,21 @@ def run_reports(
             raise SystemExit(1)
         return payload
     if only == "sti-admission":
+        spec = _specs_by_name()[only]
+        result = _run_spec(spec, mode=mode, generated_at=timestamp)
+        payload = {
+            "schema_id": INDEX_SCHEMA_ID,
+            "generated_at": timestamp,
+            "root": INDEX_ROOT,
+            "reports": [_ensure_status_axes(result)],
+        }
+        payload["status_summary"] = _status_summary(payload["reports"])
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        if result["status"] != "pass":
+            raise SystemExit(1)
+        return payload
+    if only == "l1-admissibility-audit":
         spec = _specs_by_name()[only]
         result = _run_spec(spec, mode=mode, generated_at=timestamp)
         payload = {
