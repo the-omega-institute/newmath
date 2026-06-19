@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\BishopPremetricUp$}
+\label{ch:concrete-instances-bishop-premetric-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopPremetricUp$ packet isolates the premetric interface used before a constructive metric space asserts separated point identity. It sits after the distance-comparison surface of \autoref{ch:concrete-instances-premetric-namecert}, before the Real-facing metric presentation of \autoref{ch:concrete-instances-bishop-metric-space-namecert}, and beside the completion routes of \autoref{ch:concrete-instances-metriccompletion-namecert}, \autoref{ch:concrete-instances-located-metric-completion-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet records zero-distance evidence as displayed data, not as quotient equality, representative selection, host point equality, or a completed Real object.
+
+\begin{definition}[Bishop premetric carrier]
+\label{def:bishop-premetric-carrier}
+A $\BishopPremetricUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,D,Z,S,Q,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the displayed point-window row for the source carrier.
+\item $D$ is the Bishop premetric distance row, exposing finite positive-radius comparisons between displayed point windows.
+\item $Z$ is the zero-distance evidence row, recording when all displayed radius requests along $D$ are met.
+\item $S$ is the separation-boundary row, consumed by $\BishopMetricSpaceUp$ only after $Z$ has been displayed.
+\item $Q$ is the quotient-refusal row, retaining the fact that zero-distance evidence has not been collapsed into point equality.
+\item $M$ is the completion-facing row consumed by $\MetricCompletionUp$, $\LocatedMetricCompletionUp$, and $\RealUp$ only after $X,D,Z,S,Q$ have been read.
+\item $H$ records componentwise $\hsame$ transport for point windows, premetric distances, zero-distance evidence, separation boundary, quotient refusal, completion-facing rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite distance request through zero-distance evidence and the separation boundary.
+\item $P$ is the $\Pkg$ provenance over $\BishopPremetricUp$, $\PremetricUp$, $\BishopMetricSpaceUp$, $\MetricCompletionUp$, $\LocatedMetricCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopPremetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,D,Z,S,Q,M,H,C,P,N$. It has no coordinate for quotient point equality, selected representatives, host metric equality, completed points, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop premetric NameCert obligations]
+\label{thm:bishop-premetric-namecert-obligations}
+For every accepted $\BishopPremetricUp$ carrier $B=(X,D,Z,S,Q,M,H,C,P,N)$, the local $\NameCert_{\BishopPremetricUp}$ surface consists exactly of source point-window admission, Bishop premetric distance exposure, zero-distance evidence, separation-boundary handoff, quotient-refusal retention, completion-facing nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Each obligation is read through the finite route
+$$
+X,D,Z \longrightarrow S,Q,M \longrightarrow H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-premetric-carrier}. The source row $X$ and distance row $D$ are the only rows a consumer may inspect before asking whether two point windows have zero distance.
+
+The zero-distance row $Z$ records evidence from the displayed premetric comparisons. The separation row $S$ is downstream of $Z$, while $Q$ keeps the same evidence from being read as quotient equality.
+
+The completion-facing row $M$ can therefore expose only the finite premetric route $X,D,Z,S,Q$. Componentwise transport through $H$ and replay through $C$ preserve that order, and $P,N$ record provenance and local naming.
+
+Since quotient point equality, selected representatives, host metric equality, completed points, countable choice, trichotomy, and ambient Real completeness do not occur among the carrier coordinates, no NameCert obligation can be discharged outside the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Bishop premetric Cauchy route]
+\label{thm:bishop-premetric-cauchy-route}
+Every Cauchy, completion-facing, or Real-facing consumer of an accepted $\BishopPremetricUp$ packet reaches the premetric input only through
+$$
+\PremetricUp,\BishopPremetricUp \longmapsto \BishopMetricSpaceUp,\MetricCompletionUp,\RealUp .
+$$
+In particular, the completion-facing row $M$ exports finite zero-distance and separation-boundary data, not a selected Cauchy limit, quotient equality, host metric equality, or a detached completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier $B=(X,D,Z,S,Q,M,H,C,P,N)$. The row $M$ is downstream of the point-window, distance, zero-distance, separation, and quotient-refusal rows.
+
+Apply \autoref{thm:bishop-premetric-namecert-obligations}. The local certificate forces every Cauchy or completion-facing read to pass through $X,D,Z,S,Q$ before the completion row can be inspected.
+
+The downstream routes named by \autoref{ch:concrete-instances-bishop-metric-space-namecert}, \autoref{ch:concrete-instances-metriccompletion-namecert}, and \autoref{ch:concrete-instances-real-namecert} may consume that displayed premetric boundary. They do not receive a completed point, selected limit, quotient equality, host metric equality, or ambient completeness principle from this packet.
+\end{proof}
+
+\begin{theorem}[Bishop premetric metric-separation boundary]
+\label{thm:bishop-premetric-metric-separation-boundary}
+Let $B=(X,D,Z,S,Q,M,H,C,P,N)$ be an accepted $\BishopPremetricUp$ packet. A $\BishopMetricSpaceUp$ consumer can read metric separation from $B$ only through the displayed row $S$, and $S$ is available only after the zero-distance evidence $Z$ has been read together with the quotient-refusal row $Q$. Thus the passage from premetric data to metric separation is a finite NameCert handoff, not an implicit quotient of the source points.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:bishop-premetric-carrier}. The only row named as a separation boundary is $S$, and the only row that records refusal of quotient collapse is $Q$.
+
+Use \autoref{thm:bishop-premetric-namecert-obligations}. It orders the local obligations as distance exposure, zero-distance evidence, separation handoff, quotient-refusal retention, and completion-facing nonescape.
+
+Therefore a $\BishopMetricSpaceUp$ consumer reaches metric separation only by reading $D$ and $Z$ first, then $S$ with $Q$ still visible. The structural rows $H,C,P,N$ transport and name that same finite handoff; they do not add quotient equality, selected representatives, or host point equality.
+\end{proof}
+
+\closureat{BishopPremetricUp}{seedStr}
+
+\begin{closurestatus}{\BishopPremetricUp}
+  \constructivestory{A $\BishopPremetricUp$ packet is generated from displayed point windows, Bishop premetric distance comparisons, zero-distance evidence, a separation-boundary handoff, quotient-refusal retention, a completion-facing row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-premetric-carrier}, \autoref{thm:bishop-premetric-namecert-obligations}, \autoref{thm:bishop-premetric-cauchy-route}, and \autoref{thm:bishop-premetric-metric-separation-boundary} seed the constructive boundary between premetric evidence, Bishop metric separation, completion-facing reads, and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient point equality, selected representatives, host metric equality, completed points, countable choice, trichotomy, Lean verification, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked source admission, distance exposure, zero-distance evidence, separation-boundary handoff, quotient-refusal retention, completion-facing nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopPremetricUp.}
+\end{closurestatus}
