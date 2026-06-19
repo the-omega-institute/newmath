@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FiniteBorelCantelliUp$}
+\label{ch:concrete-instances-finite-borel-cantelli-namecert}
+\origin{human}
+
+Following Borel and constructive probability treatments, the $\FiniteBorelCantelliUp$ packet records the finite-union probability boundary that a bounded Borel--Cantelli window may consume before any countable almost-sure conclusion is visible. It sits after the probability-space surface of \autoref{ch:concrete-instances-probspace-namecert}, the measure event-value surface of \autoref{ch:concrete-instances-measure-namecert}, the finite union-bound ledger of \autoref{ch:concrete-instances-finite-union-bound-namecert}, and the first-lemma boundary of \autoref{ch:concrete-instances-borel-cantelli-namecert}. The packet names only finite event rows, finite union ledgers, and displayed probability bounds.
+
+\begin{definition}[Finite Borel--Cantelli carrier]
+\label{def:finite-borel-cantelli-carrier}
+A $\FiniteBorelCantelliUp$ carrier is a finite $\BHist$ packet
+$$
+F=(\Omega,M,E,W,U,B,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ source row naming the normalized probability carrier.
+\item $M$ is the $\MeasureUp$ event-value row through which each displayed probability read is exposed.
+\item $E$ is the finite event-row packet, listing the inspected event names, membership readbacks, and measurable-event witnesses.
+\item $W$ is the finite Borel--Cantelli window row, recording the bounded index set and the repeated-hit request restricted to that window.
+\item $U$ is the $\FiniteUnionBoundUp$ ledger row, exposing the finite union event and the corresponding probability-sum ledger.
+\item $B$ is the probability-bound row, recording that the finite repeated-hit event is bounded by the finite sum named by $U$.
+\item $T$ is the local tail-budget row for the same bounded window; it is a finite comparison row, not a countable summability assertion.
+\item $H$ records componentwise $\hsame$ transport for $\Omega,M,E,W,U,B,T,P,N$.
+\item $C$ records displayed $\Cont$ replay from $\Omega$ through $M,E,W,U,B,T$ before any consumer sees the finite Borel--Cantelli conclusion.
+\item $P$ is the $\Pkg$ provenance over $\FiniteBorelCantelliUp$, $\ProbSpaceUp$, $\MeasureUp$, $\FiniteUnionBoundUp$, $\BorelCantelliUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteBorelCantelliUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $\Omega,M,E,W,U,B,T,H,C,P,N$. It contains no coordinate for countable choice, host sigma-algebra completion, quotient almost-sure equality, a selected infinite tail, or the second Borel--Cantelli converse.
+\end{definition}
+
+\begin{theorem}[Finite Borel--Cantelli NameCert obligations]
+\label{thm:finite-borel-cantelli-namecert-obligations}
+For every accepted $\FiniteBorelCantelliUp$ carrier $F=(\Omega,M,E,W,U,B,T,H,C,P,N)$, the local $\NameCert_{\FiniteBorelCantelliUp}$ surface consists exactly of probability-source admission through $\Omega$, measure event-value exposure through $M$, finite event-row admission through $E$, bounded-window exposure through $W$, finite union-bound ledger exposure through $U$, probability-bound exactness through $B$, local tail-budget comparison through $T$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-borel-cantelli-carrier}. The displayed tuple exposes the probability source, measure event-value row, finite event rows, bounded window, union ledger, probability bound, local tail budget, transport, replay, provenance, and local naming.
+
+Read the event rows before the bound. The window $W$ restricts the repeated-hit request to the finite family $E$, while $M$ supplies the probability values over the same measurable-event surface named by $\Omega$.
+
+The union-bound ledger $U$ and probability-bound row $B$ provide the only estimate used by the packet, and $T$ records only the bounded tail comparison attached to that estimate. The rows $H,C,P,N$ transport, replay, source, and name the same finite data.
+
+Since the carrier has no further coordinate, the listed rows exhaust the NameCert obligations. In particular, no countable-choice tail selector, completed sigma-algebra, almost-sure quotient, infinite summability theorem, or converse independence route is exported.
+\end{proof}
+
+\begin{theorem}[Finite Borel--Cantelli union-bound route]
+\label{thm:finite-borel-cantelli-union-bound-route}
+Every finite Borel--Cantelli read of an accepted $\FiniteBorelCantelliUp$ packet factors through the route
+$$
+\ProbSpaceUp,\ \MeasureUp,\ \FiniteUnionBoundUp,\ \BorelCantelliUp .
+$$
+The finite event-row packet $E$ and bounded window $W$ must be exposed before the finite union ledger $U$ and probability-bound row $B$ are read, and the local tail-budget row $T$ can inspect only that finite union-bound estimate.
+\end{theorem}
+\begin{proof}
+Start with the probability and measure rows $\Omega$ and $M$. They provide the source probability carrier and the event-value reads used by the finite event packet $E$.
+
+Next expose the bounded window $W$. This fixes the finite repeated-hit request before any bound is available, so the estimate is attached to a displayed finite family rather than to an ambient countable event sequence.
+
+Apply the finite union-bound handoff of \autoref{thm:finite-union-bound-borel-cantelli-handoff}. The row $U$ supplies the finite union event and probability-sum ledger, while $B$ records the corresponding probability comparison for the window selected by $W$.
+
+The tail row $T$ can therefore read only the finite estimate just produced by $U$ and $B$. Componentwise transport, replay, provenance, and local naming through $H,C,P,N$ preserve that same route, so no countable choice, sigma-completion, almost-sure quotient, selected infinite tail, or second-lemma converse is introduced.
+\end{proof}
+
+\closureat{FiniteBorelCantelliUp}{seedStr}
+
+\begin{closurestatus}{\FiniteBorelCantelliUp}
+  \constructivestory{A $\FiniteBorelCantelliUp$ packet is generated from a ProbSpace source row, Measure event-value row, finite event rows, bounded window row, FiniteUnionBound ledger, probability-bound row, local tail-budget comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-borel-cantelli-carrier}, \autoref{thm:finite-borel-cantelli-namecert-obligations}, and \autoref{thm:finite-borel-cantelli-union-bound-route} seed the finite-union probability boundary for bounded Borel--Cantelli windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, host sigma-algebra completion, quotient almost-sure equality, selected infinite tails, the second Borel--Cantelli converse, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite event-row exactness, bounded-window routing, finite union-bound ledger exactness, probability-bound exposure, local tail-budget non-escape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteBorelCantelliUp.}
+\end{closurestatus}
