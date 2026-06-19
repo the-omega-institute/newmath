@@ -27,6 +27,9 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["required_artifacts"]["retraining_loss_ablation"] == (
         "reports/bedc_jepa_retraining_loss_ablation.json"
     )
+    assert bundle["required_artifacts"]["multistep_latent_prediction"] == (
+        "reports/bedc_multistep_latent_prediction.json"
+    )
     assert bundle["required_artifacts"]["public_baseline_native_metric_contract"] == (
         "reports/bedc_jepa_public_baseline_native_metric_contract.json"
     )
@@ -77,6 +80,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert "python scripts/build_public_minigrid_debt_closure.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_minigrid_calibration_extension.py" in bundle["reproduction_commands"]
     assert "python scripts/run_torch_retraining_loss_ablation.py" in bundle["reproduction_commands"]
+    assert "python scripts/run_bedc_multistep_latent_prediction.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_baseline_native_metric_contract.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_baseline_native_metric_template.py" in bundle["reproduction_commands"]
     assert "python scripts/build_public_benchmark_scope_contracts.py" in bundle["reproduction_commands"]
@@ -102,6 +106,12 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert 0.0 <= bundle["checks"]["public_minigrid_calibration_extension_risk_win_rate"] <= 1.0
     assert bundle["checks"]["public_ablation_unlogged_penalty_effect"] >= 0.0
     assert bundle["checks"]["retraining_ablation_system_count"] >= 0.0
+    assert bundle["checks"]["multistep_latent_prediction_status"] in {"executed", "not recorded"}
+    assert bundle["checks"]["multistep_latent_prediction_score"] >= 0.0
+    assert bundle["checks"]["multistep_latent_prediction_claim_boundary"] in {
+        "not_claimed",
+        "not recorded",
+    }
     assert bundle["checks"]["public_baseline_native_metric_contract_status"] in {
         "contract_ready",
         "not recorded",

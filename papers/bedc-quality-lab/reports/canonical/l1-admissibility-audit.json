@@ -1,0 +1,133 @@
+{
+  "artifact_id": "bedc-quality-lab:l1-admissibility-audit",
+  "claim_boundary": {
+    "scope": "shared L1 admissibility audit over owner-local canonical metrics only",
+    "source_status": "not_ready",
+    "status": "blocked"
+  },
+  "dependency_statuses": [
+    {
+      "dependency_id": "canonical-sha",
+      "description": "canonical metrics producer SHA is recorded by the owner surface",
+      "evidence_ref": "github:issue:1556",
+      "ready": false,
+      "source_issue": 1556,
+      "status": "missing"
+    },
+    {
+      "dependency_id": "claim-artifact-consistency",
+      "description": "claim-artifact consistency gate has resolved for the source metrics",
+      "evidence_ref": "github:issue:1547",
+      "ready": false,
+      "source_issue": 1547,
+      "status": "missing"
+    },
+    {
+      "dependency_id": "run-interface-freeze",
+      "description": "run-interface contract is stable before L1 admission is adjudicated",
+      "evidence_ref": "github:issue:1553",
+      "ready": false,
+      "source_issue": 1553,
+      "status": "missing"
+    }
+  ],
+  "gate_card": {
+    "allowed_statuses": [
+      "not_ready",
+      "pass",
+      "kill",
+      "abstain",
+      "block"
+    ],
+    "canonical_auxiliary_report": {
+      "artifact": "reports/canonical/l1-admissibility-audit.json",
+      "pointer": "$.gate_card",
+      "projection_role": "shared-l1-admissibility-gate-card"
+    },
+    "failed_gate": "L1A-HG1-READINESS",
+    "reason": "required upstream readiness dependency is missing",
+    "status": "not_ready"
+  },
+  "generated_at": "2026-06-16T00:19:52.227430+00:00",
+  "hardgates": {
+    "L1A-HG1-READINESS": {
+      "actual": [
+        "canonical-sha",
+        "claim-artifact-consistency",
+        "run-interface-freeze"
+      ],
+      "evidence_pointer": "$.dependency_statuses",
+      "gate_id": "L1A-HG1-READINESS",
+      "reason": "upstream dependency missing",
+      "status": "fail",
+      "threshold": "all dependencies ready"
+    }
+  },
+  "not_claimed": [
+    "The audit does not generate task data, train models, select splits, calibrate evaluators, or define per-surface semantics.",
+    "The audit does not tune thresholds from observed artifacts.",
+    "A not_ready gate card is an execution state, not a positive or negative L1 audit result."
+  ],
+  "owner_metrics": {
+    "base_accuracy_l95": null,
+    "canonical_sha": null,
+    "chance_accuracy_u95": null,
+    "claim_artifact_consistency_status": "missing",
+    "leakage_score": null,
+    "memorization_score": null,
+    "negative_control_delta": null,
+    "order_sentinel_margin": null,
+    "owner_metrics_ref": "not-ready:missing-owner-local-canonical-metrics",
+    "owner_surface": "unresolved",
+    "run_interface_frozen": false,
+    "schema_id": "bedc-quality-lab:l1-owner-metrics-packet"
+  },
+  "producer": "bedc_quality_lab.l1_admissibility_audit",
+  "protocol": {
+    "allowed_statuses": [
+      "not_ready",
+      "pass",
+      "kill",
+      "abstain",
+      "block"
+    ],
+    "gate_ids": [
+      "L1A-HG1-READINESS",
+      "L1A-HG2-SCHEMA",
+      "L1A-HG3-BASE",
+      "L1A-HG4-NEGATIVE-CONTROL",
+      "L1A-HG5-LEAKAGE",
+      "L1A-HG6-MEMORIZATION",
+      "L1A-HG7-ORDER"
+    ],
+    "negative_controls": [
+      "negative_control_delta"
+    ],
+    "schema_id": "bedc-quality-lab:l1-admissibility-audit",
+    "sentinels": [
+      "leakage_score",
+      "memorization_score",
+      "order_sentinel_margin"
+    ],
+    "thresholds": {
+      "base_margin_min": 0.05,
+      "leakage_score_max": 0.0,
+      "memorization_score_max": 0.0,
+      "negative_control_max": 0.02,
+      "order_sentinel_min": 0.0
+    }
+  },
+  "schema_id": "bedc-quality-lab:l1-admissibility-audit",
+  "source_artifacts": {
+    "canonical_sha_dependency": "github:issue:1556",
+    "claim_artifact_consistency_dependency": "github:issue:1547",
+    "owner_metrics": "not-ready:missing-owner-local-canonical-metrics",
+    "run_interface_freeze_dependency": "github:issue:1553"
+  },
+  "status_axes": {
+    "decision_status": "blocked",
+    "hardgate_status": "fail",
+    "ladder_state": "blocked",
+    "scientific_claim_status": "blocked"
+  }
+}
