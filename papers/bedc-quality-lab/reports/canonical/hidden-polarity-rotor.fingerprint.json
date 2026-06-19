@@ -1,0 +1,57 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-20T00:00:00+00:00",
+    "runner": "scripts/run_hidden_polarity_rotor.py"
+  },
+  "input_fingerprint": "9eac985116df7bb2f6badeb50f59d493c6f41904b054e3fb69db640cc8de4384",
+  "json_artifact": "reports/canonical/hidden-polarity-rotor.json",
+  "markdown_artifact": "reports/canonical/hidden-polarity-rotor.md",
+  "payload_sha256": "7f90ad463f0d6f12560b8fd224b6cccfb6cc63fca11a9f4e7e25fc046b1152ce",
+  "producer_command": [
+    "python3",
+    "scripts/run_hidden_polarity_rotor.py"
+  ],
+  "report_name": "hidden-polarity-rotor",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "fixed fixture rows, authorized controls, and measured confidence-bound intake",
+      "calibration_source": "$.preregistration",
+      "owner": "hidden-polarity-rotor"
+    },
+    "device_policy": {
+      "backend_details": {
+        "mujoco": "not-requested",
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "HPR admission consumes deterministic fixture data and optional JSON measurements",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "python": "not-material-to-deterministic-fixture"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.preregistration",
+        "comparison": "status_equal",
+        "owner": "hidden-polarity-rotor",
+        "pointer": "$.verdict",
+        "reference_value": "diagnostic_only",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "owner-local fixture or measured-result file"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "6d72bb9a5aa0518d701818411e9282eb84155b7ac17d2faeaf75e445a87bd304",
+  "reproducibility_mode": "exact_fixture",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}
