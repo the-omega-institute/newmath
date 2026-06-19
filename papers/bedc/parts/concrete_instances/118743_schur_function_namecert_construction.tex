@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\SchurFunctionUp$}
+\label{ch:concrete-instances-schur-function-namecert}
+\origin{human}
+
+Following Macdonald on symmetric functions and Fulton--Harris on representation theory, the $\SchurFunctionUp$ packet records the finite tableau-expansion interface for Schur functions as BEDC NameCert data. It sits after the Young-tableau carrier of \autoref{ch:concrete-instances-young-tableau-namecert}, the partition-shape surface of \autoref{ch:concrete-instances-partition-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the ring row of \autoref{ch:concrete-instances-ring-namecert}, and the representation-ring consumer of \autoref{ch:concrete-instances-representationring-namecert}. The packet names finite shape, tableau, monomial, coefficient, algebra, transport, replay, provenance, and local certificate rows; it does not import a host symmetric-function algebra, quotient polynomial equality, an infinite tableau enumeration, a selected basis theorem, or representation-theoretic semisimplicity.
+
+\begin{definition}[Schur function carrier]
+\label{def:schur-function-carrier}
+A $\SchurFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(\lambda,T,M,K,A,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\lambda$ is the $\PartitionUp$ row naming the finite Young shape.
+\item $T$ is the $\YoungTableauUp$ tableau ledger over $\lambda$, including the displayed row and column constraints used by semistandard reads.
+\item $M$ is the finite monomial ledger. It records the content vector read from each admitted tableau before any polynomial coefficient is exposed.
+\item $K$ is the coefficient ledger, storing the finite multiplicity count attached to each displayed content vector.
+\item $A$ is the $\PolynomialUp$ row that packages the finite monomial-coefficient data as a polynomial expression.
+\item $R$ is the $\RingUp$ row through which addition and multiplication of the displayed monomial terms are replayed.
+\item $H$ records componentwise $\hsame$ transport for partition, tableau, monomial, coefficient, polynomial, ring, representation-ring, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the partition shape through tableau rows, monomial content, coefficient rows, polynomial assembly, and ring operations.
+\item $P$ is the $\Pkg$ provenance over $\SchurFunctionUp$, $\YoungTableauUp$, $\PartitionUp$, $\PolynomialUp$, $\RingUp$, $\RepresentationRingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchurFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for a host symmetric-function algebra, quotient equality of polynomials, infinite tableau enumeration, selected basis theorem, Littlewood--Richardson multiplication rule, or semisimplicity theorem.
+\end{definition}
+
+\begin{theorem}[Schur function NameCert obligations]
+\label{thm:schur-function-namecert-obligations}
+For every accepted $\SchurFunctionUp$ carrier $S=(\lambda,T,M,K,A,R,H,C,P,N)$, the local $\NameCert_{\SchurFunctionUp}$ surface consists exactly of carrier admission for the displayed partition shape, Young-tableau ledger, monomial-content ledger, coefficient ledger, polynomial assembly row, ring-operation row, componentwise transport, displayed replay, package provenance, and local naming. Every representation-ring-facing read must consume the same rows before treating the carrier as a Schur-function row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:schur-function-carrier}. The partition shape, tableau ledger, monomial ledger, coefficient ledger, polynomial row, and ring row are the only mathematical rows available to the local certificate.
+
+The tableau expansion is finite. A read starts with the shape row $\lambda$, opens the tableau ledger $T$, extracts the content vector through $M$, records its displayed multiplicity in $K$, and only then assembles the polynomial row $A$ through the ring row $R$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route for downstream consumers. Since no carrier coordinate names a host symmetric-function algebra, quotient polynomial equality, infinite tableau enumeration, selected basis theorem, Littlewood--Richardson multiplication rule, or semisimplicity theorem, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Schur function tableau expansion handoff]
+\label{thm:schur-function-tableau-expansion-handoff}
+Every $\RepresentationRingUp$ or character-theory consumer of an accepted $\SchurFunctionUp$ carrier must read the finite tableau-expansion route
+$$
+\PartitionUp
+\longmapsto
+\YoungTableauUp
+\longmapsto
+M,K
+\longmapsto
+\PolynomialUp
+\longmapsto
+\RingUp
+\longmapsto
+\RepresentationRingUp .
+$$
+Thus the Schur-function row handed to representation-ring consumers is a displayed finite polynomial route over partition and tableau data, not a host symmetric-function basis theorem or an unrecorded representation-theoretic decomposition.
+\end{theorem}
+\begin{proof}
+Begin with a representation-ring-facing consumer. Carrier admission forces the consumer to read the partition shape and the Young-tableau ledger before any monomial content is available.
+
+The expansion rows are then fixed. The monomial ledger $M$ reads content from displayed tableaux, the coefficient ledger $K$ records finite multiplicities, and the polynomial row $A$ packages those cells through the ring row $R$.
+
+Finally $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. The $\RepresentationRingUp$ consumer therefore receives a finite Schur-function expansion over the displayed sibling rows, with no access to a host symmetric-function algebra, quotient polynomial equality, infinite tableau enumeration, selected basis theorem, Littlewood--Richardson multiplication rule, or semisimplicity theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SchurFunctionUp$ consumer is refuted if it reaches a RepresentationRingUp or character-theory row without first displaying the PartitionUp shape, YoungTableauUp tableau ledger, finite monomial-content ledger, coefficient ledger, PolynomialUp assembly row, RingUp replay row, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{youngtableau, partition, polynomial, ring, representationring: no listed sibling supplies the full Schur-function tableau-expansion carrier, because only $\SchurFunctionUp$ binds a partition shape, tableau ledger, monomial content, coefficient multiplicities, polynomial assembly, ring replay, and representation-ring handoff in one NameCert packet.}
+
+\closureat{SchurFunctionUp}{seedStr}
+
+\begin{closurestatus}{\SchurFunctionUp}
+  \constructivestory{A $\SchurFunctionUp$ packet is generated from a PartitionUp shape row, a YoungTableauUp tableau ledger, finite monomial-content rows, coefficient rows, a PolynomialUp assembly row, a RingUp replay row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schur-function-carrier}, \autoref{thm:schur-function-namecert-obligations}, and \autoref{thm:schur-function-tableau-expansion-handoff} seed the finite tableau-expansion route over YoungTableauUp, PartitionUp, PolynomialUp, RingUp, RepresentationRingUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host symmetric-function algebra, quotient polynomial equality, infinite tableau enumeration, selected basis theorems, Littlewood--Richardson multiplication, or representation-theoretic semisimplicity.}
+  \upgradepath{Obligation closure requires checked carrier admission, tableau-ledger exactness, monomial-content extraction, coefficient exactness, polynomial assembly, ring replay, representation-ring handoff, componentwise transport, displayed replay, provenance, and local naming for BEDC.Derived.SchurFunctionUp.}
+\end{closurestatus}
