@@ -134,6 +134,79 @@ theorem CalculusRootDerivativeIntegralCarrier_admission [AskSetup] [PackageSetup
   }
   exact ⟨cert, derivativeReadUnary, integralReadUnary⟩
 
+theorem CalculusRiemannIntegralDependencyFactorization [AskSetup] [PackageSetup]
+    {real limit continuous derivative integral readback transport replay provenance localName
+      derivativeRead integralRead endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CalculusRootDerivativeIntegralCarrier real limit continuous derivative integral readback
+        transport replay provenance localName bundle pkg →
+      Cont continuous derivative derivativeRead →
+        Cont integral readback integralRead →
+          Cont derivativeRead integralRead endpointRead →
+            SemanticNameCert
+                (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row derivative ∨ hsame row integral ∨ hsame row derivativeRead ∨
+                    hsame row integralRead ∨ hsame row endpointRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont continuous derivative derivativeRead ∧
+                    Cont integral readback integralRead ∧
+                      Cont derivativeRead integralRead endpointRead ∧
+                        PkgSig bundle provenance pkg)
+                hsame ∧
+              UnaryHistory endpointRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier derivativeRoute integralRoute endpointRoute
+  obtain ⟨_realUnary, _limitUnary, continuousUnary, derivativeUnary, integralUnary,
+    readbackUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _realLimitRoute, _continuousDerivativeRoute, _derivativeTransportRoute,
+    _transportReplayRoute, provenancePkg⟩ := carrier
+  have derivativeReadUnary : UnaryHistory derivativeRead :=
+    unary_cont_closed continuousUnary derivativeUnary derivativeRoute
+  have integralReadUnary : UnaryHistory integralRead :=
+    unary_cont_closed integralUnary readbackUnary integralRoute
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed derivativeReadUnary integralReadUnary endpointRoute
+  have endpointSource :
+      (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row) endpointRead := by
+    exact ⟨hsame_refl endpointRead, endpointReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row derivative ∨ hsame row integral ∨ hsame row derivativeRead ∨
+              hsame row integralRead ∨ hsame row endpointRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont continuous derivative derivativeRead ∧
+              Cont integral readback integralRead ∧
+                Cont derivativeRead integralRead endpointRead ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpointRead endpointSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, derivativeRoute, integralRoute, endpointRoute, provenancePkg⟩
+  }
+  exact ⟨cert, endpointReadUnary⟩
+
 theorem CalculusRootLimitDerivativeIntegralTriad [AskSetup] [PackageSetup]
     {C D I L Q Y R H T P N derivativeRead integralRead limitRead toleranceRead realRead :
       BHist}
