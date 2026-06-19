@@ -310,7 +310,7 @@ def _hardgates(
         },
         "JWM-L1-THREE-ARM-HG3": {
             "status": "pass" if isinstance(split, Mapping) and split.get("status") == "deterministic" else "fail",
-            "criterion": "deterministic split is owned by the venue binding venue",
+            "criterion": "deterministic split is owned by the venue binding",
             "evidence_pointer": "$.venue.split",
         },
         "JWM-L1-THREE-ARM-HG4": {

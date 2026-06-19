@@ -4,7 +4,7 @@
 - Venue status: `bound`
 - Decision: `ready_for_prediction`
 - Prediction schema: `reports/canonical/jepa-wm-l1-three-arm-venue-binding.json:$.prediction_schema`
-- Venue SHA: `bcbd0656c977fe6ceb797e8d9bbd8a051edcbb72e74a6b2ff21c383331fc740a`
+- Venue SHA: `c55186eaba74393fb46c0ed7fa8351264ee93315d96a3d83f3e0c26338e5c22d`
 
 ## Source Artifacts
 
@@ -17,7 +17,7 @@
 | --- | --- | --- |
 | `JWM-L1-THREE-ARM-HG1` | `pass` | admission and evaluator inputs are SHA-addressed |
 | `JWM-L1-THREE-ARM-HG2` | `pass` | admission and evaluator agree on sample count |
-| `JWM-L1-THREE-ARM-HG3` | `pass` | deterministic split is owned by the venue binding venue |
+| `JWM-L1-THREE-ARM-HG3` | `pass` | deterministic split is owned by the venue binding |
 | `JWM-L1-THREE-ARM-HG4` | `pass` | OOD labels are fixed before prediction |
 | `JWM-L1-THREE-ARM-HG5` | `pass` | three stub predictions satisfy the prediction schema |
 | `JWM-L1-THREE-ARM-HG6` | `pass` | bootstrap and Holm settings are bound in the venue |

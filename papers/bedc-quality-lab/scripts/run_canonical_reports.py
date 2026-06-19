@@ -309,7 +309,7 @@ DGT_TRAINING_HARDGATES_POINTER = f"{DGT_TRAINING_REPLAY_ARTIFACT}:$.hardgates"
 TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT = "reports/canonical/transformer_derivative_atlas.json"
 TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/layerwise_jet_map.md"
 TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT = "reports/canonical/attention_route_derivative_report.json"
-DISCOVERY_MAP_EXCLUDED_REPORTS = boundset(
+DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset(
     {
         "transformer-derivative-atlas",
         "claim-complexity",
@@ -609,7 +609,7 @@ MATCHED_RANDOM_CONTROL_REQUIRED_PATHS = (
     "$.failure_reasons",
     "$.evidence_pointers",
 )
-REPRODUCTION_BLOCKED_REASON_KEYS = boundset(
+REPRODUCTION_BLOCKED_REASON_KEYS = frozenset(
     {
         "category",
         "detail",
@@ -619,7 +619,7 @@ REPRODUCTION_BLOCKED_REASON_KEYS = boundset(
         "planning_context_ref",
     }
 )
-REPRODUCTION_BLOCKED_REASON_CATEGORIES = boundset(
+REPRODUCTION_BLOCKED_REASON_CATEGORIES = frozenset(
     {
         "source-blocked",
         "missing-validation-loss-cell",
@@ -628,14 +628,14 @@ REPRODUCTION_BLOCKED_REASON_CATEGORIES = boundset(
         "full-replay-not-invoked",
     }
 )
-REPRODUCTION_BLOCKED_REASON_TOP_LEVEL_ALIASES = boundset(
+REPRODUCTION_BLOCKED_REASON_TOP_LEVEL_ALIASES = frozenset(
     {
         "blocked_reason_class",
         "blocked_evidence_ref",
         "dependency_ref",
     }
 )
-REPRODUCTION_BLOCKED_REASON_OBJECT_ALIASES = boundset(
+REPRODUCTION_BLOCKED_REASON_OBJECT_ALIASES = frozenset(
     {
         "evidence_pointer",
         "owner_gate_pointer",
@@ -2662,16 +2662,16 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         no_control_rationale_pointer="$.claim_first_gate",
     ),
 )
-QUALITY_SCORECARD_EXCLUDED_REPORTS = boundset({"transformer-derivative-atlas", "high-impact-review"})
-POST_VERDICT_REPORTS = boundset({"claim-complexity"})
-RELEASE_INPUT_REPORTS = boundset({"experiment-stack-cards"})
-CLAIM_GRAPH_PREREQUISITE_REPORTS = boundset({"model-comparison", "causal-patch-suite", "mechanism-dna"})
+QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "high-impact-review"})
+POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
+RELEASE_INPUT_REPORTS = frozenset({"experiment-stack-cards"})
+CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite", "mechanism-dna"})
 REPORT_ALIASES = {
     "experiment_stack_cards": "experiment-stack-cards",
     "claim_artifact_consistency": "claim-artifact-consistency",
     "minimal_irreducible_causal_derivative_mainline": "minimal-irreducible-causal-derivative-mainline",
 }
-SPECIAL_ONLY_TARGETS = boundset({"index", "claim-artifact-consistency"})
+SPECIAL_ONLY_TARGETS = frozenset({"index", "claim-artifact-consistency"})
 
 
 def _artifact_path(relative_path: str) -> Path:
@@ -3162,7 +3162,7 @@ def _local_fingerprint_paths(value: Any) -> set[str]:
 
 
 def _structural_generalization_gate_artifact_paths(payload: Any) -> set[str]:
-    pointer_fields = boundset({"visibility_pointer", "winnability_pointer", "performance_pointer"})
+    pointer_fields = frozenset({"visibility_pointer", "winnability_pointer", "performance_pointer"})
     paths: set[str] = set()
     if isinstance(payload, Mapping):
         for key, value in payload.items():
@@ -6280,7 +6280,7 @@ MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_CHILD_ARTIFACTS = (
         "pointer": "$.not_claimed",
     },
 )
-MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_FORBIDDEN_KEYS = boundset(
+MINIMAL_IRREDUCIBLE_CAUSAL_DERIVATIVE_MAINLINE_FORBIDDEN_KEYS = frozenset(
     {
         "terminal_verdict",
         "terminal_verdict_body",
