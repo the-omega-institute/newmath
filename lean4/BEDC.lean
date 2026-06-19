@@ -1656,6 +1656,7 @@ import BEDC.Derived.CauchyCondensationRealSeriesUp.TasteGate
 import BEDC.Derived.CauchyCondensationTestUp.TasteGate
 import BEDC.Derived.CauchyCondensationTheoremUp.TasteGate
 import BEDC.Derived.CauchyCondensationUp.DyadicBlockHandoff
+import BEDC.Derived.CauchyCondensationUp.DyadicBlockTailTransport
 import BEDC.Derived.CauchyCondensationUp.TasteGate
 import BEDC.Derived.CauchyContinuityCalibrationUp.TasteGate
 import BEDC.Derived.CauchyContinuityPrincipleUp.RealSealBoundary
@@ -8161,6 +8162,7 @@ import BEDC.Derived.OnticStateUp.TasteGate
 import BEDC.Derived.OnticStateUp.TasteGateFieldScope
 import BEDC.Derived.OnticStateUp.TransportScope
 import BEDC.Derived.OnticTowerUp.Classifier
+import BEDC.Derived.OnticTowerUp.ClosureSurface
 import BEDC.Derived.OnticTowerUp.TasteGate
 import BEDC.Derived.OpenBallUp.TasteGate
 import BEDC.Derived.OpenDenseSequenceUp
