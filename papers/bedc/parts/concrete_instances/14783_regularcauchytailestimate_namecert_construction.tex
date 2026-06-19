@@ -242,6 +242,22 @@ Use \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}, \autoref{thm:reg
 No additional coordinate remains for selected limits, quotient streams, countable choice, host equality, open-cover compactness, or ambient completeness. Hence the obligation scope is exactly the displayed kernel surface and the named sibling routes.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail estimate finite precision induction]
+\label{thm:regular-cauchy-tail-estimate-finite-induction}
+Let $T=(M,W,D,R,E,H,C,P,N)$ be an accepted $\RegularCauchyTailEstimateUp$ carrier. Suppose $T$ exposes a tail estimate at a displayed unary precision window, and suppose the next precision window is admitted by the same $\StreamNameUp$ row $W$. Then the estimate refines through the same $\RealCauchyModulusUp$ threshold row $M$, $\DyadicRatCoreUp$ tolerance row $D$, $\RegSeqRatUp$ readback row $R$, $\RegularCauchyTailEnvelopeUp$ route, and terminal $\RealUp$ seal row $E$.
+
+The refinement is obtained by induction on the displayed finite precision-window extension. It does not use host $\Nat$ recursion, countable choice, a selected limit, quotient stream equality, host real equality, open-cover compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the displayed precision window already admitted by $W$. By \autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}, the corresponding tail estimate must read the dyadic tolerance row $D$, the stream window $W$, the regular readback row $R$, and the terminal seal row $E$ through the modulus data $M,D$.
+
+For the induction step, append one admitted finite precision window to the displayed StreamName row. The hypothesis says that the appended window is still a row of the same $W$, so the carrier is not replaced and no new consumer surface is introduced.
+
+Apply \autoref{thm:regular-cauchy-tail-estimate-obligation-scope}. The obligation surface remains exactly $M,W,D,R,E,H,C,P,N$ together with the named sibling routes through $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyTailEnvelopeUp$, and $\RealUp$.
+
+Thus each finite extension step refines the estimate through the same modulus, dyadic, readback, tail-envelope, and Real rows. Since the induction ranges only over the displayed finite extension, it never invokes host natural-number recursion, choice, selected limits, quotient streams, host equality, open-cover compactness, or ambient completeness.
+\end{proof}
+
 \closureat{RegularCauchyTailEstimateUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyTailEstimateUp}
