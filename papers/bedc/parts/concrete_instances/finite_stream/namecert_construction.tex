@@ -74,6 +74,22 @@ Use \autoref{thm:finite-stream-section-sibling-lock}. A Real-facing read that re
 Thus the dependency is not an ambient infinite-stream dependency. It is the displayed finite route from $Q$ and $L$ into the $\StreamNameUp$ window $W$, after which the downstream rows may be consumed.
 \end{proof}
 
+\begin{theorem}[FiniteStream StreamName route]
+\label{thm:finite-stream-streamname-route}
+Every $\StreamNameUp$ consumer of an accepted $\FiniteStreamUp$ packet must display the finite request row $Q$, the $\ListUp$ prefix spine $L$, and the finite-window row $W$ before it can reach any $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ row. The only admissible route is
+$$
+Q,L,W \longmapsto R,D,H,C,P,N,
+$$
+so the downstream regular-rational, dyadic-tolerance, and real-seal rows remain locked to the same finite request/list packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-stream-carrier}. The rows $Q,L,W$ are the finite request, list-spine, and StreamName-window data; the rows $R,D,H,C,P,N$ are downstream readback, tolerance, transport, replay, provenance, and naming data.
+
+Apply \autoref{thm:finite-stream-section-sibling-lock}. It prevents a downstream $\RealUp$-facing read from replacing $Q$ or $L$ while keeping the displayed route.
+
+Now apply \autoref{thm:finite-stream-streamname-dependency-route}. It forces any StreamName, RegSeqRat, DyadicRatCore, or Real reader to pass through $Q,L,W$ before the downstream rows are consumed. Therefore every StreamName consumer sees the finite route rather than an ambient infinite stream or an unlisted sibling packet.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\FiniteStreamUp$ read is refuted if it reaches a $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer without displaying the finite request row, $\ListUp$ prefix spine, finite-window handoff, regular-rational readback boundary, dyadic tolerance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
 
 \independenceWitness{list, streamname, regseqrat, dyadicratcore, real: $\FiniteStreamUp$ is not bijective to any listed sibling because it jointly carries a finite request row, a List prefix spine, a StreamName window handoff, RegSeqRat readback boundary, DyadicRatCore tolerance row, transport, replay, provenance, and local naming as one finite schedule packet.}
