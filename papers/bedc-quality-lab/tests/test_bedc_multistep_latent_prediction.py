@@ -281,6 +281,69 @@ def test_multistep_report_uses_paired_seeds_gpu_evidence_and_gap_hardgates(monke
     }
 
 
+def test_multistep_report_trains_placebo_on_shuffled_gap_labels(monkeypatch):
+    _install_fake_surface(monkeypatch)
+    train_calls = []
+
+    def train_surface(train, *, seed, bedc_objective, epochs, requested_device):
+        train_calls.append(
+            {
+                "seed": seed,
+                "bedc_objective": bedc_objective,
+                "z": train.z.copy(),
+                "z_pair": train.z_pair.copy(),
+                "x": train.x.copy(),
+                "x_pair": train.x_pair.copy(),
+                "distinction": train.distinction.copy(),
+                "distinction_pair": train.distinction_pair.copy(),
+                "gap": train.gap.copy(),
+                "gap_pair": train.gap_pair.copy(),
+                "radius": train.radius,
+                "gap_width": train.gap_width,
+                "action": None if train.action is None else train.action.copy(),
+            }
+        )
+        return {
+            "seed": seed,
+            "bedc_objective": bedc_objective,
+            "device": requested_device,
+            "train_rows": train.x.shape[0],
+            "epochs": epochs,
+        }
+
+    monkeypatch.setattr(mlp, "train_torch_bedc_jepa_surface", train_surface)
+
+    mlp.run_bedc_multistep_latent_prediction(
+        seeds=(2,),
+        train_count=12,
+        test_count=8,
+        epochs=2,
+        steps=3,
+        device="cuda",
+        gpu_evidence=_passing_gpu_evidence(),
+    )
+
+    assert [call["bedc_objective"] for call in train_calls] == [False, True, True]
+    original_train = train_calls[1]
+    placebo_train = train_calls[2]
+    for key in (
+        "z",
+        "z_pair",
+        "x",
+        "x_pair",
+        "distinction",
+        "distinction_pair",
+        "action",
+    ):
+        np.testing.assert_array_equal(placebo_train[key], original_train[key])
+    assert placebo_train["radius"] == original_train["radius"]
+    assert placebo_train["gap_width"] == original_train["gap_width"]
+    np.testing.assert_array_equal(np.sort(placebo_train["gap"]), np.sort(original_train["gap"]))
+    np.testing.assert_array_equal(np.sort(placebo_train["gap_pair"]), np.sort(original_train["gap_pair"]))
+    assert not np.array_equal(placebo_train["gap"], original_train["gap"])
+    assert not np.array_equal(placebo_train["gap_pair"], original_train["gap_pair"])
+
+
 def test_multistep_report_allows_rollout_when_gap_calibration_fails(monkeypatch):
     _install_fake_surface(monkeypatch)
 
