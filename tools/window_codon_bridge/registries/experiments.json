@@ -384,6 +384,14 @@
    "status": "open",
    "timeout_seconds": 900,
    "note": "CERTIFIED held-out cross-organism gate (oracle frozen spec). Across 29 organisms / 18 genera (public NCBI codon counts, synced/codon_e1_heldout_panel.json), each organism's synonymous codon-usage residual d_resid4 puts T_heldout=0.571 of its norm^2 in the 6-dim codon-E1 subspace B1, vs matched-synonymous-relabel null mean 0.137 (z=8.75, one-sided p=5e-5; = chance projection onto 6 of 41 dims, independently confirmed 6/41=0.146), cluster-bootstrap (18 genera) lower-95% excess 0.352>0. Both gate conditions met. Clears the 26/41 chance-projection trap. Adversarially verified (null = fair chance baseline, B1 rank-6 exact, no trivial alignment, panel clean). Scoped: conserved codon-E1 component of d_resid4; NOT Window6; mostly-bacteria panel."
+  },
+  {
+   "experiment_id": "window6_codon_e1_intertwiner_impossibility",
+   "claim_id": "bridge.window6_codon_q6.intertwiner_impossibility",
+   "script_path": "tools/window_codon_bridge/experiments/run_window6_codon_e1_intertwiner_impossibility.py",
+   "status": "closed",
+   "timeout_seconds": 300,
+   "note": "CERTIFIED impossibility. No nonzero intertwiner J:R^21->R^64 with A_H(3,4) J = J A_Gamma6 (Sylvester has nonzero solution iff shared eigenvalue). Gamma6 (Fibonacci cube, 21V/38E) char-poly evaluated at H(3,4) eigenvalues {9,5,1,-3} is nonzero everywhere (det(A-I)=144, det(A+3I)=-1.307e8, etc.; spectral radius 3.9); poly-gcd=1. So codon E1 (and every codon eigenspace) is provably NOT a Window6 adjacency-spectral image/quotient -> formally closes the Window6-spectral-order path. Independently cross-verified (worker char-poly + orchestrator Bareiss integer det, matching to the digit)."
   }
  ]
 }
