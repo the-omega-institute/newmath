@@ -626,8 +626,15 @@
   {
    "claim_id": "bridge.genetic_code.codon_e1_sense_restriction_positional_rank",
    "statement": "CERTIFIED (pure math, codon-side sharpening of the E1 results; no Window6, no biology beyond the dimensional statement): consider the first-order (lambda=5) eigenspace E1 of the codon Hamming graph H(3,4), spanned by the 9 single-position chemical-character functions e_{p,c}(codon)=chi_c(codon[p]) for codon position p in {1,2,3} and dichotomy c in {chi_R purine/pyrimidine, chi_W weak/strong, chi_K keto/amino}. Let R restrict to the 61 sense codons and Q_syn remove synonymous-family means (standard code). The composed map M = Q_syn R U1 (U1 = the 9 E1 columns) has RANK EXACTLY 6, with KERNEL exactly 3-dimensional spanned by { e_{1,R} - e_{1,W} + e_{1,K},  e_{2,W},  e_{2,R} - e_{2,K} } (each maps to the zero vector under M, verified by exact arithmetic). Decomposed by codon POSITION, the image ranks are (position1, position2, position3) = (2, 1, 3): the wobble position (3) retains all THREE first-order degrees of freedom after sense-restriction + synonymous-centering, while positions 1 and 2 collapse to ranks 2 and 1. Decomposed by CHARACTER, the ranks are (chi_R, chi_W, chi_K) = (3, 2, 3): the keto/amino character family chi_K retains FULL rank 3. CONSEQUENCE: the empirical non-enrichment of chi_K found in the E1-localization certificate (bridge.genetic_code.bstar_q6_first_order_position_character: chi_K not significant, z=1.32) is NOT a dimensional artifact -- chi_K has its full 3 first-order degrees of freedom available in the sense-restricted synonymous-centered space, so its empirical absence is a genuine biological non-enrichment, not a missing dimension. This also confirms the rank-6 reduction underlying the held-out gate's B1 (rank 6) is exactly the (2,1,3) positional / (3,2,3) character structure. ROBUSTNESS: exact (Fraction) arithmetic; kernel basis maps to zero exactly; cross-verified two independent ways (the experiment + an independent orchestrator recompute with its own standard-code table and character definitions, all ranks and kernel matching). Evaluated only by its registered deterministic experiment.",
-   "status": "open",
-   "experiment_id": "codon_e1_sense_restriction_kernel"
+   "status": "certified",
+   "experiment_id": "codon_e1_sense_restriction_kernel",
+   "history": [
+    {
+     "ts": "2026-06-19T21:03:41+00:00",
+     "status": "certified",
+     "reason": "The sense-restricted, synonymous-centered codon-E1 map has kernel exactly spanned by {e_{1,R}-e_{1,W}+e_{1,K}, e_{2,W}, e_{2,R}-e_{2,K}} with rank M=6 and dim ker=3. The positional rank profile is (2,1,3), so wobble position 3 retains all three first-order degrees of freedom while positions 1 and 2 collapse to ranks 2 and 1. The per-character ranks are R=3, W=2, K=3; chi_K therefore has full first-order rank available, so its empirical non-enrichment in the E1-localization certificate is not a dimensional artifact."
+    }
+   ]
   }
  ]
 }
