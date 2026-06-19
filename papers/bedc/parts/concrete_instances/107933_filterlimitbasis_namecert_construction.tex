@@ -110,6 +110,7 @@ Apply the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-oblig
 
 Finally use the handoff theorem \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. Since the transported packet has the same displayed coordinates and no additional carrier row, the terminal $\RealUp$ handoff remains downstream of $Q,F,L,W,R,D$ and cannot acquire quotient filters, selected limits, ultrafilters, countable-choice schedules, host equality, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisCarrier\_real\_handoff\_stability}
 
 \begin{theorem}[FilterLimitBasis window-basis exhaustion]
 \label{thm:filter-limit-basis-window-basis-exhaustion}
@@ -121,6 +122,20 @@ Project the carrier of \autoref{def:filter-limit-basis-carrier}. Its visible ord
 Apply the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}. The completion-basis row forces $Q,F$ to be read first, the limit-compatibility row ties $L,W,R,D$ to that same request, and the Real handoff row keeps $E$ downstream of those finite rows.
 
 Finally use \autoref{thm:filter-limit-basis-limit-compatibility} and \autoref{thm:filter-limit-basis-real-handoff-stability}. They preserve the same displayed basis under limit-facing and transported Real-facing reads, so no $\RealUp$ consumer can reach the seal before the StreamName, RegSeqRat, DyadicRatCore, CauchyFilter, and CauchyFilterLimit rows are visible.
+\end{proof}
+
+\begin{theorem}[FilterLimitBasis window induction]
+\label{thm:filter-limit-basis-window-induction}
+Let $B=(Q,F,L,W,R,D,E,H,C,P,N)$ be an accepted $\FilterLimitBasisUp$ carrier, and let $\Lambda$ be a finite replay ledger whose entries are finite window reads or structural transports of the displayed rows. Induction on $\Lambda$ preserves the following invariant: every $\RealUp$-facing consumer exposes $Q,F,L,W,R,D$ before $E$, and every later replay through $H,C,P,N$ preserves that same basis route. Thus no induction step can introduce a quotient filter, ultrafilter, selected limit, countable-choice schedule, host filter equality, host real equality, or ambient completeness premise.
+\end{theorem}
+\begin{proof}
+For the empty ledger, apply \autoref{thm:filter-limit-basis-window-basis-exhaustion}. The terminal seal is available only after $Q,F,L,W,R,D$ have been displayed, and the remaining rows are exactly the structural route $H,C,P,N$.
+
+For the induction step, assume the finite prefix of $\Lambda$ preserves the displayed basis route. If the next entry is a finite window read, use \autoref{thm:filter-limit-basis-limit-compatibility}: the rows $L,W,R,D$ remain tied to the same filter-basis data exposed by $Q$ and $F$.
+
+If the next entry is a structural transport or replay, use \autoref{thm:filter-limit-basis-real-handoff-stability}. Componentwise transport of $Q,F,L,W,R,D,E,H,C,P,N$ keeps the $\RealUp$ handoff downstream of the same finite basis and does not create an additional carrier coordinate.
+
+The carrier of \autoref{def:filter-limit-basis-carrier} has no row for quotient filters, ultrafilters, selected limits, choice schedules, host equality, or ambient completeness. Therefore the invariant holds for every finite ledger $\Lambda$.
 \end{proof}
 
 \falsifiablePrediction{An accepted $\FilterLimitBasisUp$ read is refuted if a $\CauchyFilterCompletionUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the Cauchy-filter completion row, Cauchy-filter row, Cauchy-filter limit row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming.}

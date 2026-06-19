@@ -2969,6 +2969,7 @@ import BEDC.Derived.CompactFunctionAlgebraUp
 import BEDC.Derived.CompactGraphContinuityUp.TasteGate
 import BEDC.Derived.CompactImageClosedUp.TasteGate
 import BEDC.Derived.CompactIntervalChoiceSequenceUp.TasteGate
+import BEDC.Derived.CompactIntervalFixedPointUp.NameCertObligations
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalIntermediateValueUp
 import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
@@ -5386,6 +5387,7 @@ import BEDC.Derived.FilterBaseUp.TasteGate
 import BEDC.Derived.FilterCompletionMonadUp.TasteGate
 import BEDC.Derived.FilterCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
+import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
 import BEDC.Derived.FilterLimitCriterionUp
 import BEDC.Derived.FilterRefinementUp.CauchyBaseDependency
@@ -8317,6 +8319,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.ConsumerRowScope
 import BEDC.Derived.PaperLeanDriftWitnessUp.DependencyRoutingScope
 import BEDC.Derived.PaperLeanDriftWitnessUp.DependencyWeaveHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.DuplicateLedgerReadiness
+import BEDC.Derived.PaperLeanDriftWitnessUp.DuplicateObstructionRoutePreservation
 import BEDC.Derived.PaperLeanDriftWitnessUp.LeanInventoryHitExhaustion
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerFamilyResolutionReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerInventoryKindLock
@@ -9688,6 +9691,7 @@ import BEDC.Derived.RegularCauchyRegularityWitnessUp.DiagonalConsumerBoundary
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.FiniteWindowInduction
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.NameCertObligations
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.NoHiddenLimitBoundary
+import BEDC.Derived.RegularCauchyRegularityWitnessUp.ObligationClosure
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.RealCompletionHandoff
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.ScopedKernelRoute
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TailWindowRegularity
