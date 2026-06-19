@@ -26,7 +26,6 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $Q,F,L,W,R,D,E,H,C,P,N$. There is no coordinate for quotient filters, host filter equality, ultrafilters, selected limits, countable-choice schedules, or ambient $\RealUp$ completeness.
 \end{definition}
-\leanchecked{BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[FilterLimitBasis NameCert obligations]
 \label{thm:filter-limit-basis-namecert-obligations}
@@ -106,6 +105,18 @@ Start with the carrier definition \autoref{def:filter-limit-basis-carrier}. Its 
 Apply the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}. They require completion-basis exposure through $Q,F$, limit compatibility through $L,W,R,D$, Real handoff through $E$, and structural replay through $H,C,P,N$.
 
 Finally use the handoff theorem \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. Since the transported packet has the same displayed coordinates and no additional carrier row, the terminal $\RealUp$ handoff remains downstream of $Q,F,L,W,R,D$ and cannot acquire quotient filters, selected limits, ultrafilters, countable-choice schedules, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[FilterLimitBasis window-basis exhaustion]
+\label{thm:filter-limit-basis-window-basis-exhaustion}
+Every accepted $\FilterLimitBasisUp$ request must expose the completion row $Q$, the Cauchy-filter row $F$, the limit-boundary row $L$, the finite-window row $W$, the regular readback row $R$, and the dyadic tolerance row $D$ before it may read the terminal seal $E$. Only after that finite basis has been displayed may the request continue through $H,C,P,N$. Consequently the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyFilterUp$, and $\CauchyFilterLimitUp$ rows are all visible before any $\RealUp$ consumer can inspect the seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:filter-limit-basis-carrier}. Its visible order places $Q,F,L,W,R,D$ before the terminal seal row $E$, and then records transport, replay, provenance, and local naming as $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}. The completion-basis row forces $Q,F$ to be read first, the limit-compatibility row ties $L,W,R,D$ to that same request, and the Real handoff row keeps $E$ downstream of those finite rows.
+
+Finally use \autoref{thm:filter-limit-basis-limit-compatibility} and \autoref{thm:filter-limit-basis-real-handoff-stability}. They preserve the same displayed basis under limit-facing and transported Real-facing reads, so no $\RealUp$ consumer can reach the seal before the StreamName, RegSeqRat, DyadicRatCore, CauchyFilter, and CauchyFilterLimit rows are visible.
 \end{proof}
 
 \falsifiablePrediction{An accepted $\FilterLimitBasisUp$ read is refuted if a $\CauchyFilterCompletionUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the Cauchy-filter completion row, Cauchy-filter row, Cauchy-filter limit row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming.}

@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.SchwartzSpaceUp
+namespace BEDC.Derived.SchwartzSpaceUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,10 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive SchwartzSpaceUp : Type where
-  | mk
-      (frechet seminormFamily schwartzFunction growthLedger weakDerivative realReadback
-        temperedDistribution transport continuation provenance nameCert : BHist) :
-      SchwartzSpaceUp
+  | mk (F V I G D R T H C P N : BHist) : SchwartzSpaceUp
   deriving DecidableEq
 
 def schwartzSpaceEncodeBHist : BHist → RawEvent
@@ -39,129 +36,41 @@ private theorem schwartzSpaceDecode_encode_bhist :
 
 def schwartzSpaceToEventFlow : SchwartzSpaceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | SchwartzSpaceUp.mk frechet seminormFamily schwartzFunction growthLedger weakDerivative
-      realReadback temperedDistribution transport continuation provenance nameCert =>
-      [[BMark.b0],
-        schwartzSpaceEncodeBHist frechet,
-        [BMark.b1, BMark.b0],
-        schwartzSpaceEncodeBHist seminormFamily,
-        [BMark.b1, BMark.b1, BMark.b0],
-        schwartzSpaceEncodeBHist schwartzFunction,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        schwartzSpaceEncodeBHist growthLedger,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        schwartzSpaceEncodeBHist weakDerivative,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        schwartzSpaceEncodeBHist realReadback,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        schwartzSpaceEncodeBHist temperedDistribution,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        schwartzSpaceEncodeBHist transport,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        schwartzSpaceEncodeBHist continuation,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        schwartzSpaceEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        schwartzSpaceEncodeBHist nameCert]
+  | SchwartzSpaceUp.mk F V I G D R T H C P N =>
+      [schwartzSpaceEncodeBHist F,
+        schwartzSpaceEncodeBHist V,
+        schwartzSpaceEncodeBHist I,
+        schwartzSpaceEncodeBHist G,
+        schwartzSpaceEncodeBHist D,
+        schwartzSpaceEncodeBHist R,
+        schwartzSpaceEncodeBHist T,
+        schwartzSpaceEncodeBHist H,
+        schwartzSpaceEncodeBHist C,
+        schwartzSpaceEncodeBHist P,
+        schwartzSpaceEncodeBHist N]
 
-def schwartzSpaceFromEventFlow : EventFlow → Option SchwartzSpaceUp
+private def schwartzSpaceEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tag0 :: rest0 =>
-      match rest0 with
-      | [] => none
-      | frechet :: rest1 =>
-          match rest1 with
-          | [] => none
-          | _tag1 :: rest2 =>
-              match rest2 with
-              | [] => none
-              | seminormFamily :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | _tag2 :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | schwartzFunction :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | _tag3 :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | growthLedger :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | _tag4 :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | weakDerivative :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | _tag5 :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | realReadback :: rest11 =>
-                                                  match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | temperedDistribution :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | transport :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 :: rest16 =>
-                                                                      match rest16 with
-                                                                      | [] => none
-                                                                      | continuation :: rest17 =>
-                                                                          match rest17 with
-                                                                          | [] => none
-                                                                          | _tag9 :: rest18 =>
-                                                                              match rest18 with
-                                                                              | [] => none
-                                                                              | provenance :: rest19 =>
-                                                                                  match rest19 with
-                                                                                  | [] => none
-                                                                                  | _tag10 :: rest20 =>
-                                                                                      match rest20 with
-                                                                                      | [] => none
-                                                                                      | nameCert :: rest21 =>
-                                                                                          match rest21 with
-                                                                                          | [] =>
-                                                                                              some
-                                                                                                (SchwartzSpaceUp.mk
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    frechet)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    seminormFamily)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    schwartzFunction)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    growthLedger)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    weakDerivative)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    realReadback)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    temperedDistribution)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    transport)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    continuation)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    provenance)
-                                                                                                  (schwartzSpaceDecodeBHist
-                                                                                                    nameCert))
-                                                                                          | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => schwartzSpaceEventAtDefault index rest
+
+def schwartzSpaceFromEventFlow (ef : EventFlow) : Option SchwartzSpaceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (SchwartzSpaceUp.mk
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 0 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 1 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 2 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 3 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 4 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 5 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 6 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 7 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 8 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 9 ef))
+      (schwartzSpaceDecodeBHist (schwartzSpaceEventAtDefault 10 ef)))
 
 private theorem schwartzSpace_round_trip :
     ∀ x : SchwartzSpaceUp,
@@ -169,37 +78,33 @@ private theorem schwartzSpace_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk frechet seminormFamily schwartzFunction growthLedger weakDerivative realReadback
-      temperedDistribution transport continuation provenance nameCert =>
+  | mk F V I G D R T H C P N =>
       change
         some
           (SchwartzSpaceUp.mk
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist frechet))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist seminormFamily))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist schwartzFunction))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist growthLedger))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist weakDerivative))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist realReadback))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist temperedDistribution))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist transport))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist continuation))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist provenance))
-            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist nameCert))) =
-          some
-            (SchwartzSpaceUp.mk frechet seminormFamily schwartzFunction growthLedger
-              weakDerivative realReadback temperedDistribution transport continuation provenance
-              nameCert)
-      rw [schwartzSpaceDecode_encode_bhist frechet,
-        schwartzSpaceDecode_encode_bhist seminormFamily,
-        schwartzSpaceDecode_encode_bhist schwartzFunction,
-        schwartzSpaceDecode_encode_bhist growthLedger,
-        schwartzSpaceDecode_encode_bhist weakDerivative,
-        schwartzSpaceDecode_encode_bhist realReadback,
-        schwartzSpaceDecode_encode_bhist temperedDistribution,
-        schwartzSpaceDecode_encode_bhist transport,
-        schwartzSpaceDecode_encode_bhist continuation,
-        schwartzSpaceDecode_encode_bhist provenance,
-        schwartzSpaceDecode_encode_bhist nameCert]
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist F))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist V))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist I))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist G))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist D))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist R))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist T))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist H))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist C))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist P))
+            (schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist N))) =
+          some (SchwartzSpaceUp.mk F V I G D R T H C P N)
+      rw [schwartzSpaceDecode_encode_bhist F,
+        schwartzSpaceDecode_encode_bhist V,
+        schwartzSpaceDecode_encode_bhist I,
+        schwartzSpaceDecode_encode_bhist G,
+        schwartzSpaceDecode_encode_bhist D,
+        schwartzSpaceDecode_encode_bhist R,
+        schwartzSpaceDecode_encode_bhist T,
+        schwartzSpaceDecode_encode_bhist H,
+        schwartzSpaceDecode_encode_bhist C,
+        schwartzSpaceDecode_encode_bhist P,
+        schwartzSpaceDecode_encode_bhist N]
 
 private theorem schwartzSpaceToEventFlow_injective {x y : SchwartzSpaceUp} :
     schwartzSpaceToEventFlow x = schwartzSpaceToEventFlow y → x = y := by
@@ -212,6 +117,21 @@ private theorem schwartzSpaceToEventFlow_injective {x y : SchwartzSpaceUp} :
   exact Option.some.inj
     (Eq.trans (schwartzSpace_round_trip x).symm
       (Eq.trans hread (schwartzSpace_round_trip y)))
+
+private def schwartzSpaceFields : SchwartzSpaceUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | SchwartzSpaceUp.mk F V I G D R T H C P N => [F, V, I, G, D, R, T, H, C, P, N]
+
+private theorem schwartzSpace_field_faithful :
+    ∀ x y : SchwartzSpaceUp, schwartzSpaceFields x = schwartzSpaceFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk F₁ V₁ I₁ G₁ D₁ R₁ T₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk F₂ V₂ I₂ G₂ D₂ R₂ T₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance schwartzSpaceBHistCarrier : BHistCarrier SchwartzSpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -228,18 +148,60 @@ instance schwartzSpaceChapterTasteGate : ChapterTasteGate SchwartzSpaceUp where
     intro x y hxy heq
     exact hxy (schwartzSpaceToEventFlow_injective heq)
 
+instance schwartzSpaceFieldFaithful : FieldFaithful SchwartzSpaceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := schwartzSpaceFields
+  field_faithful := schwartzSpace_field_faithful
+
+instance schwartzSpaceNontrivial : Nontrivial SchwartzSpaceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨SchwartzSpaceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      SchwartzSpaceUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate SchwartzSpaceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  schwartzSpaceChapterTasteGate
+
 theorem SchwartzSpaceTasteGate_single_carrier_alignment :
     (∀ h : BHist, schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier SchwartzSpaceUp) ∧
-        Nonempty (ChapterTasteGate SchwartzSpaceUp) ∧
+      (∀ x : SchwartzSpaceUp,
+        schwartzSpaceFromEventFlow (schwartzSpaceToEventFlow x) = some x) ∧
+        (∀ x y : SchwartzSpaceUp,
+          schwartzSpaceToEventFlow x = schwartzSpaceToEventFlow y → x = y) ∧
           schwartzSpaceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   constructor
   · exact schwartzSpaceDecode_encode_bhist
   · constructor
-    · exact Nonempty.intro inferInstance
+    · exact schwartzSpace_round_trip
     · constructor
-      · exact Nonempty.intro inferInstance
+      · intro x y heq
+        exact schwartzSpaceToEventFlow_injective heq
       · rfl
+
+end BEDC.Derived.SchwartzSpaceUp.TasteGate
+
+namespace BEDC.Derived.SchwartzSpaceUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.Derived.SchwartzSpaceUp.TasteGate
+
+theorem SchwartzSpaceTasteGate_single_carrier_alignment :
+    (∀ h : BHist, schwartzSpaceDecodeBHist (schwartzSpaceEncodeBHist h) = h) ∧
+      (∀ x : SchwartzSpaceUp,
+        schwartzSpaceFromEventFlow (schwartzSpaceToEventFlow x) = some x) ∧
+        (∀ x y : SchwartzSpaceUp,
+          schwartzSpaceToEventFlow x = schwartzSpaceToEventFlow y → x = y) ∧
+          schwartzSpaceEncodeBHist BHist.Empty = ([] : List BMark) :=
+  TasteGate.SchwartzSpaceTasteGate_single_carrier_alignment
 
 end BEDC.Derived.SchwartzSpaceUp
