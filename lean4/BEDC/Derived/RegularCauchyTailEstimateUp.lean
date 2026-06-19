@@ -180,4 +180,80 @@ theorem RegularCauchyTailEstimateNameCertObligations
     }
   exact ⟨cert, thresholdUnary, toleranceUnary, sealUnary⟩
 
+theorem RegularCauchyTailEstimateCarrier_tail_dominance [AskSetup] [PackageSetup]
+    {M W D R E H C P N thresholdRead toleranceRead sealRead laterRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailEstimateCarrier M W D R E H C P N bundle pkg ->
+      Cont M W thresholdRead ->
+        Cont thresholdRead D toleranceRead ->
+          Cont toleranceRead R sealRead ->
+            Cont sealRead H laterRead ->
+              PkgSig bundle P pkg ->
+                PkgSig bundle N pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row laterRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row M ∨ hsame row W ∨ hsame row D ∨ hsame row R ∨
+                          hsame row E ∨ hsame row sealRead ∨ hsame row laterRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont M W thresholdRead ∧
+                          Cont thresholdRead D toleranceRead ∧
+                            Cont toleranceRead R sealRead ∧ Cont sealRead H laterRead ∧
+                              PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                      hsame ∧
+                    UnaryHistory laterRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier routeThreshold routeTolerance routeSeal routeLater provenancePkg namePkg
+  obtain ⟨unaryM, unaryW, unaryD, unaryR, _unaryE, unaryH, _unaryC, _unaryP,
+    _unaryN, _carrierPkg, _carrierName⟩ := carrier
+  have thresholdUnary : UnaryHistory thresholdRead :=
+    unary_cont_closed unaryM unaryW routeThreshold
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed thresholdUnary unaryD routeTolerance
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed toleranceUnary unaryR routeSeal
+  have laterUnary : UnaryHistory laterRead :=
+    unary_cont_closed sealUnary unaryH routeLater
+  have sourceLater :
+      (fun row : BHist => hsame row laterRead ∧ UnaryHistory row) laterRead := by
+    exact ⟨hsame_refl laterRead, laterUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row laterRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row W ∨ hsame row D ∨ hsame row R ∨
+              hsame row E ∨ hsame row sealRead ∨ hsame row laterRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M W thresholdRead ∧
+              Cont thresholdRead D toleranceRead ∧ Cont toleranceRead R sealRead ∧
+                Cont sealRead H laterRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro laterRead sourceLater
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, routeThreshold, routeTolerance, routeSeal, routeLater,
+          provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, laterUnary⟩
+
 end BEDC.Derived.RegularCauchyTailEstimateUp

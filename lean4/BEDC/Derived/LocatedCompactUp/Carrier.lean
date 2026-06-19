@@ -20,8 +20,9 @@ open BEDC.FKernel.Unary
 def LocatedCompactCarrier [AskSetup] [PackageSetup]
     (X L F A H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist BMark
-  UnaryHistory X ∧ UnaryHistory L ∧ UnaryHistory F ∧ UnaryHistory A ∧ Cont L F C ∧
-    hsame H (append X A) ∧ PkgSig bundle P pkg ∧ hsame N (append C P)
+  UnaryHistory X ∧ UnaryHistory L ∧ UnaryHistory F ∧ UnaryHistory A ∧
+    UnaryHistory P ∧ UnaryHistory N ∧ Cont L F C ∧ hsame H (append X A) ∧
+      PkgSig bundle P pkg ∧ hsame N (append C P)
 
 theorem LocatedCompactCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {X L F A H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -58,16 +59,16 @@ theorem LocatedCompactCarrier_totally_bounded_handoff [AskSetup] [PackageSetup]
   intro carrier
   have cUnary : UnaryHistory C :=
     unary_cont_closed carrier.right.left carrier.right.right.left
-      carrier.right.right.right.right.left
+      carrier.right.right.right.right.right.right.left
   exact
     And.intro carrier.right.left
       (And.intro carrier.right.right.left
         (And.intro carrier.right.right.right.left
           (And.intro cUnary
-            (And.intro carrier.right.right.right.right.left
-              (And.intro carrier.right.right.right.right.right.left
-                (And.intro carrier.right.right.right.right.right.right.left
-                  carrier.right.right.right.right.right.right.right))))))
+            (And.intro carrier.right.right.right.right.right.right.left
+              (And.intro carrier.right.right.right.right.right.right.right.left
+                (And.intro carrier.right.right.right.right.right.right.right.right.left
+                  carrier.right.right.right.right.right.right.right.right.right))))))
 
 theorem LocatedCompactCarrier_public_finite_net_boundary [AskSetup] [PackageSetup]
     {X L F A H C P N finiteRead locatedRead publicRead : BHist}
@@ -91,7 +92,7 @@ theorem LocatedCompactCarrier_public_finite_net_boundary [AskSetup] [PackageSetu
                   UnaryHistory publicRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
   intro carrier finiteRoute locatedRoute publicRoute publicPkg
-  obtain ⟨_xUnary, lUnary, fUnary, aUnary, carrierCont, _transportRow,
+  obtain ⟨_xUnary, lUnary, fUnary, aUnary, _pUnary, _nUnary, carrierCont, _transportRow,
     provenancePkg, _nameRow⟩ := carrier
   have cUnary : UnaryHistory C :=
     unary_cont_closed lUnary fUnary carrierCont
@@ -160,7 +161,7 @@ theorem LocatedCompactCarrier_public_export_surface [AskSetup] [PackageSetup]
             UnaryHistory publicRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
   intro carrier publicRoute publicPkg
-  obtain ⟨_xUnary, lUnary, fUnary, _aUnary, carrierCont, _transportRow,
+  obtain ⟨_xUnary, lUnary, fUnary, _aUnary, _pUnary, _nUnary, carrierCont, _transportRow,
     provenancePkg, _nameRow⟩ := carrier
   have publicUnary : UnaryHistory publicRead :=
     unary_cont_closed fUnary lUnary publicRoute
@@ -203,5 +204,98 @@ theorem LocatedCompactCarrier_public_export_surface [AskSetup] [PackageSetup]
             (And.intro publicRoute (And.intro provenancePkg publicPkg)))
   }
   exact And.intro cert publicUnary
+
+theorem LocatedCompactCarrier_mature_consumer_boundary [AskSetup] [PackageSetup]
+    {X L F A H C P N finiteRead locatedRead publicRead realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCompactCarrier X L F A H C P N bundle pkg ->
+      Cont F L finiteRead ->
+        Cont finiteRead A locatedRead ->
+          Cont locatedRead C publicRead ->
+            Cont publicRead N realSeal ->
+              PkgSig bundle P pkg ->
+                PkgSig bundle realSeal pkg ->
+                  SemanticNameCert
+                        (fun row : BHist =>
+                          (hsame row publicRead ∨ hsame row realSeal) ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row F ∨ hsame row L ∨ hsame row A ∨ hsame row C ∨
+                            hsame row N ∨ hsame row publicRead ∨ hsame row realSeal)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont F L finiteRead ∧
+                            Cont finiteRead A locatedRead ∧
+                              Cont locatedRead C publicRead ∧
+                                Cont publicRead N realSeal ∧ PkgSig bundle P pkg ∧
+                                  PkgSig bundle realSeal pkg)
+                        hsame ∧
+                      UnaryHistory finiteRead ∧ UnaryHistory locatedRead ∧
+                        UnaryHistory publicRead ∧ UnaryHistory realSeal := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier finiteRoute locatedRoute publicRoute sealRoute provenancePkg realSealPkg
+  obtain ⟨_xUnary, lUnary, fUnary, aUnary, _pUnary, nameUnary, carrierCont, _transportRow,
+    _carrierPkg, _nameRow⟩ := carrier
+  have cUnary : UnaryHistory C :=
+    unary_cont_closed lUnary fUnary carrierCont
+  have finiteUnary : UnaryHistory finiteRead :=
+    unary_cont_closed fUnary lUnary finiteRoute
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed finiteUnary aUnary locatedRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed locatedUnary cUnary publicRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed publicUnary nameUnary sealRoute
+  have sourcePublic :
+      (fun row : BHist => (hsame row publicRead ∨ hsame row realSeal) ∧ UnaryHistory row)
+        publicRead := by
+    exact ⟨Or.inl (hsame_refl publicRead), publicUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => (hsame row publicRead ∨ hsame row realSeal) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row F ∨ hsame row L ∨ hsame row A ∨ hsame row C ∨
+              hsame row N ∨ hsame row publicRead ∨ hsame row realSeal)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont F L finiteRead ∧ Cont finiteRead A locatedRead ∧
+              Cont locatedRead C publicRead ∧ Cont publicRead N realSeal ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle realSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourcePublic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source.left with
+        | inl samePublic =>
+            exact
+              ⟨Or.inl (hsame_trans (hsame_symm sameRows) samePublic),
+                unary_transport source.right sameRows⟩
+        | inr sameSeal =>
+            exact
+              ⟨Or.inr (hsame_trans (hsame_symm sameRows) sameSeal),
+                unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl samePublic =>
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl samePublic)))))
+      | inr sameSeal =>
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sameSeal)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, finiteRoute, locatedRoute, publicRoute, sealRoute,
+          provenancePkg, realSealPkg⟩
+  }
+  exact
+    ⟨cert, finiteUnary, locatedUnary, publicUnary, realSealUnary⟩
 
 end BEDC.Derived.LocatedCompactUp
