@@ -3072,6 +3072,7 @@ import BEDC.Derived.CompactUniformFiniteCoverSelectorUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteNetRealizationUp.TasteGate
 import BEDC.Derived.CompactUniformLocalToGlobalModulusUp.TasteGate
 import BEDC.Derived.CompactUniformModulusCertificateUp.TasteGate
+import BEDC.Derived.CompactUniformModulusCompositionUp.TasteGate
 import BEDC.Derived.CompactUniformModulusExtractorUp.TasteGate
 import BEDC.Derived.CompactUniformModulusStabilityUp.TasteGate
 import BEDC.Derived.CompactUniformModulusTransferUp.TasteGate
@@ -3783,6 +3784,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceNonescape
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTotality
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealSourceWindowExhaustion
+import BEDC.Derived.CriticalLineWitnessUp.PhaseRealTerminalNocompletenessBoundary
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealZetaRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.PrimeZetaDependencyRoute
 import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
@@ -5603,6 +5605,7 @@ import BEDC.Derived.FinitePartitionMeshUp.TasteGate
 import BEDC.Derived.FinitePhaseCylinderUp
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.Determinacy
+import BEDC.Derived.FinitePrefixAutomatonUp.RegularLanguageSiblingBridge
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitStabilityUp.BudgetWindowLock
@@ -8289,6 +8292,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.AuditReplaySourceLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.AxisSeparation
 import BEDC.Derived.PaperLeanDriftWitnessUp.BridgeReadyDependencySurface
 import BEDC.Derived.PaperLeanDriftWitnessUp.ClosureTargetResolution
+import BEDC.Derived.PaperLeanDriftWitnessUp.DependencyWeaveHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.DuplicateLedgerReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.LeanInventoryHitExhaustion
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerFamilyResolutionReadiness
@@ -9629,6 +9633,7 @@ import BEDC.Derived.RegularCauchyProductBudgetUp.ObligationScope
 import BEDC.Derived.RegularCauchyProductBudgetUp.Obligations
 import BEDC.Derived.RegularCauchyProductBudgetUp.ProductClosureBudget
 import BEDC.Derived.RegularCauchyProductBudgetUp.RealSealBoundary
+import BEDC.Derived.RegularCauchyProductBudgetUp.SymmetricSourceWindowInversion
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyProductCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyProductCriterionUp.WindowBudgetExactness
