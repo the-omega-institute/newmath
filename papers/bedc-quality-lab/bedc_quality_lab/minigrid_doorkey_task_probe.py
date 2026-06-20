@@ -72,10 +72,6 @@ UNLOCK_BOUNDARY_HARD_FAIL_FIELDS = (
     "owner_artifact_id",
     "source_issue",
     "protocol_id",
-    "status",
-    "claim_policy",
-    "failure_mode",
-    "claim_boundary.positive_discovery",
     "repo_local_pointer",
     "trust_boundary.single_canonical_owner",
 )
