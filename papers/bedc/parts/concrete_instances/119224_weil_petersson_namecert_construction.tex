@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\WeilPeterssonUp$}
+\label{ch:concrete-instances-weil-petersson-namecert}
+\origin{human}
+
+Following Weil, Petersson, Ahlfors, and Wolpert, the $\WeilPeterssonUp$ packet records the finite metric-geometry surface obtained from the $L^2$ Hermitian pairing on Teichmuller tangent data. It sits next to the marked-surface packet of \autoref{ch:concrete-instances-teichmuller-space-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the symplectic carrier of \autoref{ch:concrete-instances-symplectic-namecert}, and the complex-structure carrier of \autoref{ch:concrete-instances-complex-namecert}. The packet is a finite NameCert surface over $\TeichmullerSpaceUp$, Riemann-surface coordinate windows, $\MetricSpaceUp$, $\SymplecticUp$, $\ComplexUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$; it is not a host construction of moduli space, a quotient complex structure, a selected geodesic family, or an ambient completeness theorem.
+
+\begin{definition}[Weil--Petersson carrier]
+\label{def:weil-petersson-carrier}
+A $\WeilPeterssonUp$ carrier is a finite $\BHist$ packet
+$$
+W=(T,R,Q,\Omega,D,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TeichmullerSpaceUp$ source row, including the marked-surface, complex-structure, hyperbolic-metric, deformation, and classifier rows that the metric read may inspect.
+\item $R$ is the Riemann-surface coordinate-window row, recording the finite chart, quadratic-differential, or Beltrami-window data used by the pairing route.
+\item $Q$ is the Hermitian pairing row. It records the finite $L^2$ pairing witness as $\ComplexUp$-linear data with $\RealUp$ readback for the positive metric part.
+\item $\Omega$ is the symplectic and Kahler-form row, read through $\SymplecticUp$ and the complex row of $T$ without adding a separate host quotient structure.
+\item $D$ is the metric-distance readback row. It exposes the local $\MetricSpaceUp$ distance interface obtained from $Q,\Omega$ and the displayed $\RealUp$ seal.
+\item $S$ is the $\RealUp$ and $\ComplexUp$ seal row, ensuring that scalar reads pass through the visible real and complex carriers before any metric or symplectic consumer receives them.
+\item $H$ records componentwise $\hsame$ transport for $T,R,Q,\Omega,D,S,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from Teichmuller source rows through coordinate windows, Hermitian pairing, symplectic/Kahler form, and metric-distance readback.
+\item $P$ is the $\Pkg$ provenance over $\WeilPeterssonUp$, $\TeichmullerSpaceUp$, Riemann-surface windows, $\MetricSpaceUp$, $\SymplecticUp$, $\ComplexUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WeilPeterssonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,R,Q,\Omega,D,S,H,C,P,N$. It has no coordinate for host moduli-space construction, quotient complex-structure equality, selected geodesics, metric completion, curvature formulae, or global analytic compactification.
+\end{definition}
+
+\begin{theorem}[Weil--Petersson NameCert obligations]
+\label{thm:weil-petersson-namecert-obligations}
+For every accepted $\WeilPeterssonUp$ carrier $W=(T,R,Q,\Omega,D,S,H,C,P,N)$, the local $\NameCert_{\WeilPeterssonUp}$ obligation surface consists exactly of Teichmuller-source exposure through $T$; Riemann-surface coordinate-window exposure through $R$; Hermitian pairing admission through $Q$; symplectic and Kahler-form readback through $\Omega$; metric-distance readback through $D$; $\RealUp$ and $\ComplexUp$ scalar sealing through $S$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; provenance through $P$; and local naming through $N$.
+
+Every consumer of the packet must therefore read the route
+$$
+\TeichmullerSpaceUp,\quad \MetricSpaceUp,\quad \SymplecticUp,\quad \ComplexUp,\quad \RealUp,\quad \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+through $T,R,Q,\Omega,D,S,H,C,P,N$, and no consumer receives host moduli space, quotient complex structure, selected geodesics, ambient completeness, global curvature identities, or analytic compactification data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:weil-petersson-carrier}. The rows $T,R,Q,\Omega,D,S$ display the only mathematical data visible to the local certificate: marked Teichmuller input, finite Riemann-surface windows, Hermitian pairing, symplectic/Kahler form, metric readback, and scalar seals.
+
+The transport and replay rows $H,C$ move only these displayed coordinates. Thus a metric or symplectic consumer can compare packets only by componentwise $\hsame$ transport and the recorded $\Cont$ route; it cannot introduce a host quotient of moduli points or select geodesics outside the packet.
+
+Finally $P$ names the provenance of the cited sibling packets and $N$ names the local $\WeilPeterssonUp$ surface. Since the carrier contains no coordinate for the excluded analytic structures, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\WeilPeterssonUp$ packet displays a TeichmullerSpaceUp source row, Riemann-surface coordinate windows, Hermitian pairing, symplectic/Kahler form, MetricSpaceUp distance readback, RealUp and ComplexUp scalar seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row before any metric-geometry consumer reads it.}
+
+\independenceWitness{teichmuller-space, metric, symplectic, complex: $\WeilPeterssonUp$ is not bijective to any listed sibling because it jointly carries Teichmuller source data, Riemann-surface coordinate windows, Hermitian pairing, symplectic/Kahler form, metric readback, scalar seals, transport, replay, provenance, and local naming in one finite metric-geometry packet.}
+
+\closureat{WeilPeterssonUp}{seedStr}
+
+\begin{closurestatus}{\WeilPeterssonUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:weil-petersson-carrier} and \autoref{thm:weil-petersson-namecert-obligations} seed the finite Weil--Petersson NameCert surface over Teichmuller source rows, Riemann-surface coordinate windows, Hermitian pairing, symplectic/Kahler form, metric readback, scalar seals, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{Host moduli-space construction, quotient complex-structure equality, selected geodesics, ambient completeness, global curvature identities, analytic compactification, Lean verification, and bridge checking are not claimed.}
+  \upgradepath{Obligation closure requires checked carrier admission, coordinate-window stability, Hermitian pairing exactness, symplectic/Kahler readback, metric-distance readback, scalar seals, transport, replay, provenance, and local NameCert rows.}
+  \constructivestory{A $\WeilPeterssonUp$ packet is generated from a TeichmullerSpaceUp source row, Riemann-surface coordinate windows, a Hermitian pairing row, a symplectic/Kahler-form row, a MetricSpaceUp distance readback row, RealUp and ComplexUp scalar seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
