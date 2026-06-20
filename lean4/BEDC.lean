@@ -288,6 +288,7 @@ import BEDC.Derived.ArensEellsSpaceUp.TasteGate
 import BEDC.Derived.ArensFortSpaceUp
 import BEDC.Derived.ArgumentPrincipleUp.TasteGate
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
+import BEDC.Derived.ArtinianRingUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFamilyCompactnessUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFiniteEquicontinuousUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFiniteModulusUp
@@ -6045,6 +6046,7 @@ import BEDC.Derived.HardyCesaroMeanUp.TasteGate
 import BEDC.Derived.HardyInequalityUp.TasteGate
 import BEDC.Derived.HardyLittlewoodMaximalUp.TasteGate
 import BEDC.Derived.HardyLittlewoodTauberianUp.TasteGate
+import BEDC.Derived.HardySpaceUp.TasteGate
 import BEDC.Derived.HarnackInequalityUp
 import BEDC.Derived.HashApophaticSealUp.TasteGate
 import BEDC.Derived.HashDigestFiberBoundaryUp.TasteGate
@@ -7029,6 +7031,7 @@ import BEDC.Derived.ManifoldUp.TransitionCoherenceLedger
 import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.MapperUp
 import BEDC.Derived.MarkedRealUp
+import BEDC.Derived.MarkedRealUp.TasteGate
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
@@ -7608,6 +7611,7 @@ import BEDC.Derived.MetaCICResidualDiamondWitnessUp
 import BEDC.Derived.MetaCICResidualSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICResidualSubstitutionComparisonUp
 import BEDC.Derived.MetaCICResidualSubstitutionCompatibilityUp.TasteGate
+import BEDC.Derived.MetaCICSnCandidateInterfaceUp.TasteGate
 import BEDC.Derived.MetaCICStrongNormalizationBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.NameCertObligations
@@ -8356,6 +8360,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerInventoryKindLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObligationClosurePackage
 import BEDC.Derived.PaperLeanDriftWitnessUp.ResolutionConsumerReadiness
+import BEDC.Derived.PaperLeanDriftWitnessUp.ScopedClosurePackage
 import BEDC.Derived.PaperLeanDriftWitnessUp.StatusConsumerExactness
 import BEDC.Derived.PaperLeanDriftWitnessUp.UnresolvedMarkerRefusal
 import BEDC.Derived.PaperLeanDriftWitnessUp.VerdictLedgerTotality
