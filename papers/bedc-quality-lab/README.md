@@ -61,6 +61,10 @@ Main record-building commands:
 .\.venv-cuda\Scripts\python.exe scripts\run_bedc_latent_claim_certificate.py
 .\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_claim_certificate.py
 .\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_latent_prediction.py
+.\.venv-cuda\Scripts\python.exe scripts\run_namecert_closure_routing.py
+.\.venv-cuda\Scripts\python.exe scripts\run_namecert_closure_verify.py
+.\.venv-cuda\Scripts\python.exe scripts\run_namecert_authswap.py
+.\.venv-cuda\Scripts\python.exe scripts\run_namecert_audit.py
 .\.venv-cuda\Scripts\python.exe scripts\build_vjepa2_ac_native_boundary.py
 .\.venv-cuda\Scripts\python.exe scripts\build_vjepa2_ac_near_native_reproduction.py
 .\.venv-cuda\Scripts\python.exe scripts\run_public_minigrid_native_benchmark.py
@@ -119,6 +123,10 @@ Important generated records live under `reports/`:
 - `bedc_multistep_latent_prediction.json`
 - `bedc_jepa_retraining_loss_ablation.json`
 - `bedc_latent_claim_certificates.json`
+- `namecert_closure_routing.json`
+- `namecert_closure_verify.json`
+- `namecert_authswap.json`
+- `namecert_audit.json`
 - `bedc_conformal_gap_sweep.json`
 - `bedc_claim_boundary_audit.json`
 - `bedc_jepa_public_native_minigrid_benchmark.json`
