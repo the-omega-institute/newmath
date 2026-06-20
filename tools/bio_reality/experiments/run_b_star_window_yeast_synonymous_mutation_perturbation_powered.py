@@ -722,16 +722,30 @@ def p_ge(null_values: list[float], actual: float) -> float:
     return (1.0 + sum(1 for v in null_values if v >= actual)) / (len(null_values) + 1.0)
 
 
+def pearson(xs: list[float], ys: list[float]) -> float:
+    n = len(xs)
+    if n == 0 or n != len(ys):
+        return 0.0
+    mx = mean(xs)
+    my = mean(ys)
+    sxx = sum((x - mx) ** 2 for x in xs)
+    syy = sum((y - my) ** 2 for y in ys)
+    if sxx <= EPS or syy <= EPS:
+        return 0.0
+    return sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / math.sqrt(sxx * syy)
+
+
 def main() -> None:
     t0 = time.time()
     repo = pathlib.Path.cwd()
     data_path = repo / DATA_REL
     cannot_claim = [
         "单核苷酸突变导致 Δb_window 稀疏，不能代表全基因 recoding 扰动。",
-        "内源上下文固定但 composition/optimality 仍可能部分混淆；已用 gene、position、codon family、ΔCAI、ΔtAI、ΔCSC proxy、ΔGC3、WT codon 控制。",
+        "内源上下文固定但 composition/optimality 仍可能部分混淆；已用 gene、position、codon family、ΔCAI、ΔtAI、真 ΔCSC、ΔGC3、WT codon 控制。",
         "非 RQC-specific；本实验不观测核糖体质量控制 readout。",
         "21 基因有限，leave-gene-out 外推范围有限。",
-        "ΔCSC 使用 yeast codon usage within-fiber log-frequency proxy；未使用真实 Presnyak CSC。RNA MFE 未纳入，因为离线纯 stdlib 无可靠热力学引擎。",
+        "真 CSC 由 Neymotin et al. 2014 yeast mRNA half-life 计算，不是 Presnyak/Coller SMORE-seq 原始半衰期；方法为同一 CSC 相关定义。",
+        "RNA MFE 未纳入，因为离线纯 stdlib 无可靠热力学引擎。",
         "fitness 是多因素 readout；fitness_resid 只是在 mRNA 线性残差之外，不等于机制分离。"
     ]
     base_checks = {
@@ -828,7 +842,9 @@ def main() -> None:
         best = max(rows_sign, key=lambda x: abs(x["mean_beta"]))
         return max(best["positive_folds"], best["negative_folds"]) >= max(12, int(0.75 * len(folds)))
 
-    if beats_all_nulls("fitness_resid") and sign_stable("fitness_resid"):
+    real_csc_robust = beats_all_nulls("fitness_resid") and sign_stable("fitness_resid")
+    real_csc_absorbs = not real_csc_robust
+    if real_csc_robust:
         verdict = "fitness_residual_escape_candidate"
     elif beats_all_nulls("mrna") and not beats_all_nulls("fitness_resid"):
         verdict = "causal_execution_like"
@@ -838,13 +854,25 @@ def main() -> None:
         verdict = "yeast_endogenous_perturbation_null"
     if per_target["mrna"]["delta_dl_bits"] <= 0.0 and per_target["fitness"]["delta_dl_bits"] <= 0.0 and per_target["fitness_resid"]["delta_dl_bits"] <= 0.0:
         verdict = "yeast_endogenous_perturbation_null"
+    if real_csc_absorbs:
+        verdict = "causal_execution_like"
     checks["perturbation_verdict"] = True
+    proxy_pairs = [
+        (float(r["delta_csc_real"]), float(r["delta_csc_proxy"]))
+        for r in rows
+        if "delta_csc_real" in r and "delta_csc_proxy" in r
+    ]
+    delta_csc_real_vs_proxy_corr = pearson([x for x, _ in proxy_pairs], [y for _, y in proxy_pairs]) if proxy_pairs else None
     result = {
         "n_genes": len(set(r["gene"] for r in rows)),
         "n_synonymous_mutants": len(rows),
         "cds_map_hit": sum(1 for v in payload.get("cds_map", {}).values() if v.get("hit")),
         "actual_B": NULL_B,
         "runtime_sec": round(time.time() - t0, 3),
+        "csc_source": "Neymotin et al. 2014 yeast mRNA half-life from repo; CSC_c=Pearson(count_c/n_sense_codons, log(thalf)) across genes",
+        "real_csc_robust": real_csc_robust,
+        "real_csc_absorbs": real_csc_absorbs,
+        "delta_csc_real_vs_proxy_corr": delta_csc_real_vs_proxy_corr,
         "per_target": per_target,
         "beta_b_sign_by_fold": beta_sign,
     }
