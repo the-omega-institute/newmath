@@ -420,7 +420,12 @@ def _ci_contains(metric: Mapping[str, Any], value: float) -> bool:
     ci = metric.get("ci")
     if not isinstance(ci, Sequence) or len(ci) != 2:
         return False
-    return float(ci[0]) <= value <= float(ci[1])
+    try:
+        low = float(ci[0])
+        high = float(ci[1])
+    except (TypeError, ValueError):
+        return False
+    return low <= value <= high
 
 
 def _gate(passed: bool, predicate: str, observed: Mapping[str, Any]) -> dict[str, Any]:
