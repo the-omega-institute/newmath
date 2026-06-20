@@ -154,6 +154,22 @@ Then use \autoref{thm:filter-limit-basis-real-handoff-stability} and \autoref{th
 The carrier definition has no row for quotient filters, selected limits, ultrafilters, countable-choice schedules, host equalities, or ambient completeness. Therefore any consumer using one of those objects has left the accepted $\FilterLimitBasisUp$ packet rather than reading its real-window exhaustion surface.
 \end{proof}
 
+\begin{theorem}[FilterLimitBasis obligation-closure readiness]
+\label{thm:filter-limit-basis-obligation-closure-readiness}
+Let $B=(Q,F,L,W,R,D,E,H,C,P,N)$ be an accepted $\FilterLimitBasisUp$ carrier. The carrier admission of \autoref{def:filter-limit-basis-carrier}, the local NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}, the CauchyFilterCompletion handoff of \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}, the limit-compatibility row of \autoref{thm:filter-limit-basis-limit-compatibility}, the ledger refusal of \autoref{thm:filter-limit-basis-ledger-refusal}, the Real handoff stability of \autoref{thm:filter-limit-basis-real-handoff-stability}, the window-basis exhaustion of \autoref{thm:filter-limit-basis-window-basis-exhaustion}, the window induction of \autoref{thm:filter-limit-basis-window-induction}, and the real-window exhaustion of \autoref{thm:filter-limit-basis-real-window-exhaustion} jointly provide the paper-side obligation surface needed to move the chapter from seed closure toward obligation closure.
+
+The readiness surface is still finite BEDC data: it records only the displayed completion row, Cauchy-filter row, limit-boundary row, StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, terminal Real seal, componentwise transport, replay, provenance, and local NameCert rows. It introduces no quotient filter, selected limit, ultrafilter, countable-choice schedule, host equality, ambient Real completeness, or bridge certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier row of \autoref{def:filter-limit-basis-carrier}. The only available coordinates are $Q,F,L,W,R,D,E,H,C,P,N$, so any obligation-closure package must be assembled from those finite rows.
+
+Apply \autoref{thm:filter-limit-basis-namecert-obligations}, \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}, and \autoref{thm:filter-limit-basis-limit-compatibility}. These rows supply carrier admission, the completion-facing route, and the condition that the limit boundary uses the same finite filter-basis data.
+
+Next apply \autoref{thm:filter-limit-basis-ledger-refusal}, \autoref{thm:filter-limit-basis-real-handoff-stability}, and \autoref{thm:filter-limit-basis-window-basis-exhaustion}. They keep the terminal Real seal downstream of the displayed basis and exclude quotient, choice, ultrafilter, host-equality, ambient-completeness, and bridge coordinates.
+
+Finally use \autoref{thm:filter-limit-basis-window-induction} and \autoref{thm:filter-limit-basis-real-window-exhaustion}. Finite replay preserves the same window route through every ledger prefix, so the chapter has the paper-side obligation surface required for the next closure step without adding any object outside the accepted $\FilterLimitBasisUp$ carrier.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FilterLimitBasisUp$ read is refuted if a $\CauchyFilterCompletionUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the Cauchy-filter completion row, Cauchy-filter row, Cauchy-filter limit row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming.}
 
 \independenceWitness{cauchyfiltercompletion, cauchyfilter, cauchyfilterlimit, streamname, regseqrat, dyadicratcore, real: none alone is bijective with $\FilterLimitBasisUp$ because the packet jointly records completion-boundary, saturated-filter, limit-boundary, finite-window, readback, tolerance, seal, transport, replay, provenance, and local NameCert rows.}
