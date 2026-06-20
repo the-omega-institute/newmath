@@ -88,15 +88,27 @@ The consumer reads the public certificate through those rows. The marker and res
 The non-escape claim is the carrier inventory plus the ledger row $L$. None of the excluded objects is stored in the tuple, and $L$ explicitly records that these objects are refused as exported substrate content.
 \end{proof}
 
-\closureat{HostDelegationSocketUp}{seedStr}
+\begin{theorem}[HostDelegationSocket primitive scope binding]
+\label{thm:host-delegation-socket-primitive-scope-binding}
+For an accepted $\HostDelegationSocketUp$ packet, marker exposure, audit-face separation, target-resolution exactness, host-kernel delegation visibility, transport replay, provenance, and boundary-ledger non-escape are scoped only by the finite $\BHist$ rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, the local $\NameCert_{\HostDelegationSocketUp}$ row, and the imported $\KernelAcceptanceTraceUp$ and $\InscribedRouteUp$ surfaces. No consumer may widen this scope to host truth predicates, global CIC completeness, source axioms, forbidden host dependencies, fuzzy marker matching, or bridge-checked status.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:host-delegation-socket-carrier}. Its rows expose the manuscript marker, audit face, host-kernel delegation, target resolution, transport, replay, provenance, ledger, and local naming surface as a single finite packet.
+
+Apply audit-face separation and the Lean marker boundary. These force audit evidence, delegated target, and exact resolution to remain visible as rows of the same packet rather than as ambient host predicates or spelling-based substitutions.
+
+Finally apply non-escape. The ledger row refuses every object outside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert_{\HostDelegationSocketUp}$, $\KernelAcceptanceTraceUp$, and $\InscribedRouteUp$, so the primitive socket scope is exactly the displayed carrier surface.
+\end{proof}
+
+\closureat{HostDelegationSocketUp}{scopedStr}
 
 \begin{closurestatus}{\HostDelegationSocketUp}
   \constructivestory{A $\HostDelegationSocketUp$ packet is generated from a manuscript marker row, audit-face row, host-kernel delegation row, displayed target-resolution row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, a boundary ledger, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:host-delegation-socket-carrier}, \autoref{thm:host-delegation-socket-namecert-obligations}, \autoref{thm:host-delegation-socket-audit-face-separation}, \autoref{thm:host-delegation-socket-lean-marker-boundary}, and \autoref{thm:host-delegation-socket-non-escape} specify the finite host delegation socket carrier, local naming obligations, audit separation, marker boundary, transport replay, provenance, and non-escape ledger.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:host-delegation-socket-carrier}, \autoref{thm:host-delegation-socket-namecert-obligations}, \autoref{thm:host-delegation-socket-audit-face-separation}, \autoref{thm:host-delegation-socket-lean-marker-boundary}, \autoref{thm:host-delegation-socket-non-escape}, and \autoref{thm:host-delegation-socket-primitive-scope-binding} specify the finite host delegation socket carrier, local naming obligations, audit separation, marker boundary, transport replay, provenance, primitive scope, and non-escape ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host truth predicates, global CIC completeness, bridge checking, source-axiom admission, forbidden host-dependency admission, fuzzy marker matching, or Lean-side formal verification for $\HostDelegationSocketUp$.}
-  \upgradepath{To reach scopedClosure, BEDC primitive scope must bind marker exposure, audit-face separation, target-resolution exactness, delegation visibility, transport replay, provenance, and boundary-ledger non-escape as one closed host-delegation socket surface.}
+  \upgradepath{Public export requires a consumer-facing socket interface whose marker, audit, delegation, target-resolution, transport, provenance, and ledger rows are stable under downstream reuse.}
 \end{closurestatus}
