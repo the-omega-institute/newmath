@@ -7693,6 +7693,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateBoundaryRoute
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateConfluenceBoundary
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateConfluenceHandoff
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierExtension
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusal
@@ -9253,6 +9254,7 @@ import BEDC.Derived.RealSeriesUp.TasteGate
 import BEDC.Derived.RealSineUp.TasteGate
 import BEDC.Derived.RealSpectrumUp
 import BEDC.Derived.RealSpectrumUp.TasteGate
+import BEDC.Derived.RealStepFunctionUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.DyadicWindowExactness
 import BEDC.Derived.RealTailAgreementSealUp.RealCompletionHandoff
 import BEDC.Derived.RealTailAgreementSealUp.RootBudget
@@ -10372,6 +10374,7 @@ import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
 import BEDC.Derived.SetlikeUp.ExtensionalityRoot
 import BEDC.Derived.SetlikeUp.FamilyFiberModelSatisfactionRoute
+import BEDC.Derived.SetlikeUp.FamilyHandoffObligation
 import BEDC.Derived.SetlikeUp.MembershipClassifierRootUnblock
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
