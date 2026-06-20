@@ -418,4 +418,31 @@ theorem HostDelegationSocketCarrier_semantic_name_certificate
       exact ⟨namePkg, sourceRow.right⟩
   }
 
+theorem HostDelegationSocket_primitive_scope_binding [AskSetup] [PackageSetup]
+    {marker audit kernel target transport continuation provenance ledger name consumer
+      auditEvidence kernelEvidence : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HostDelegationSocketCarrier marker audit kernel target transport continuation provenance ledger
+        name bundle pkg →
+      Cont audit transport auditEvidence →
+        Cont kernel target kernelEvidence →
+          Cont ledger name consumer →
+            PkgSig bundle provenance pkg →
+              UnaryHistory marker ∧ UnaryHistory audit ∧ UnaryHistory kernel ∧
+                UnaryHistory target ∧ UnaryHistory transport ∧ UnaryHistory continuation ∧
+                  UnaryHistory provenance ∧ UnaryHistory ledger ∧ UnaryHistory name ∧
+                    Cont marker target ledger ∧ Cont ledger name continuation ∧
+                      Cont audit transport auditEvidence ∧
+                        Cont kernel target kernelEvidence ∧ Cont ledger name consumer ∧
+                          PkgSig bundle name pkg ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier auditRoute kernelRoute consumerRoute provenancePkg
+  obtain ⟨markerUnary, auditUnary, kernelUnary, targetUnary, transportUnary,
+    continuationUnary, provenanceUnary, ledgerUnary, nameUnary, markerTargetLedger,
+    ledgerNameContinuation, namePkg⟩ := carrier
+  exact
+    ⟨markerUnary, auditUnary, kernelUnary, targetUnary, transportUnary, continuationUnary,
+      provenanceUnary, ledgerUnary, nameUnary, markerTargetLedger, ledgerNameContinuation,
+        auditRoute, kernelRoute, consumerRoute, namePkg, provenancePkg⟩
+
 end BEDC.Derived.HostDelegationSocketUp
