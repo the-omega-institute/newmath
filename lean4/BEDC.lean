@@ -1379,6 +1379,7 @@ import BEDC.Derived.CalculusUp.LimitRealSealObligation
 import BEDC.Derived.CalculusUp.LocalLinearizationCarrier
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
 import BEDC.Derived.CalculusUp.LocatedCompactDependencyRoute
+import BEDC.Derived.CalculusUp.PeanoDependencyRoute
 import BEDC.Derived.CalculusUp.RealSealErrorBudget
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
 import BEDC.Derived.CalculusUp.RegSeqRatReadbackRootObligation
@@ -2980,6 +2981,7 @@ import BEDC.Derived.CompactImageClosedUp.TasteGate
 import BEDC.Derived.CompactIntervalChoiceSequenceUp.TasteGate
 import BEDC.Derived.CompactIntervalFixedPointUp.IntervalReturnRoute
 import BEDC.Derived.CompactIntervalFixedPointUp.NameCertObligations
+import BEDC.Derived.CompactIntervalFixedPointUp.ScopedRoute
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalIntermediateValueUp
 import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
