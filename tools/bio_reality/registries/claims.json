@@ -6073,6 +6073,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T21:28:30+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T21:28:30+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "9b0fca5a52cc",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -8528,7 +8545,7 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Cross-dataset 9D B_window axis-transfer meta-analysis (capstone of the perturbation program; anti-post-hoc, all 4 perturbation datasets): asks whether a FIXED 9D synonymous-codon basis has a residual axis direction that transfers between the two positives (Shen yeast fitness|mRNA, Nieuwkoop E.coli protein|CAI) yet stays silent on the two predeclared negatives (Chen yeast GFP protein|mRNA, Niu human fitness|editing). Three-layer protocol: (1) per-dataset omnibus B9-beyond-controls (block-permutation null): Shen ΔR²=0.039 p=0.005 PASS, Nieuwkoop ΔR²=0.060 p=0.005 PASS, Chen ΔR²=0.0036 p=0.005 weak-pass, Niu ΔR²=-0.002 p=0.55 FAIL (clean negative). (2) frozen-direction transfer (single-scale projection, not relearned): Shen->Nieuwkoop IS significant (proj ΔLL=3.55, p=0.005, null95=0.50), but Nieuwkoop->Shen is NOT (p=0.80) -- one-directional. (3) negative falsification: the same frozen Shen direction ALSO fires in Chen (p=0.005, a predeclared NEGATIVE) -> over-generalization. VERDICT no_stable_axis: although a one-way Shen->Nieuwkoop transferable direction exists, it FAILS specificity (it also predicts the Chen negative), so there is NO clean cross-system single-9D-axis mechanism. Conclusion: B_window is a ROBUST perturbation predictor (both positives real-CSC/CAI-robust) but its predictive direction is a broad codon-composition residual, not a specific transferable axis -- the perturbation program resolves to 'beyond-optimality predictive signal, no resolved axis-level mechanism'. This is an honest negative result produced BY the anti-post-hoc gate (the apparent transferable axis was caught leaking into a negative). cannot_claim: 4 datasets are species/readout/scale heterogeneous; frozen-direction transfer is statistical not mechanistic; 9D basis predefined not exhaustive; Niu editing-confounded; Nieuwkoop no-mRNA (protein|CAI not beyond-mRNA); Chen 12-codon window.",
       "depends_on": [],
-      "status": "error",
+      "status": "passed",
       "experiment_id": "b_star_window_cross_dataset_axis_transfer_powered",
       "history": [
         {
@@ -8540,6 +8557,23 @@
           "status": "error",
           "reason": "experiment result",
           "experiment_run_id": "cb894109207b",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "46ba64e2ae0b7fe4"
+        },
+        {
+          "ts": "2026-06-20T20:58:46+00:00",
+          "status": "needs_rerun",
+          "reason": "timeout_seconds bumped 600->1800; rerun with longer in-situ budget"
+        },
+        {
+          "ts": "2026-06-20T21:44:46+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "2cd06dd54208",
           "checks": {
             "total": 0,
             "passed": 0,
