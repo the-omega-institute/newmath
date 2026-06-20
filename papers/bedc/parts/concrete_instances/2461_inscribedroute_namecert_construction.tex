@@ -85,15 +85,15 @@ Apply the acceptance-ledger exactness clause of \autoref{thm:inscribed-route-nam
 Now project the carrier. The rows $M,R,A,U,L$ occur together in $Q$, so the named statement, route, acceptance row, consumer row, and public ledger row are not separate host facts. The downstream consumer can therefore cite the route only through the single displayed packet.
 \end{proof}
 
-\closureat{InscribedRouteUp}{obligationStr}
+\closureat{InscribedRouteUp}{scopedStr}[BEDC.Derived.InscribedRouteUp.InscribedRouteNameCertObligations]
 
 \begin{closurestatus}{\InscribedRouteUp}
   \constructivestory{An $\InscribedRouteUp$ packet is generated from a prior source scope, visible gap row, named statement, proof route, acceptance row, downstream consumer, public GAP ledger, package provenance, and local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:inscribed-route-carrier}, \autoref{thm:inscribed-route-namecert-obligations}, \autoref{thm:inscribed-route-carrier-admission}, \autoref{thm:inscribed-route-continuation-obligation}, and \autoref{thm:inscribed-route-namecert-ledger-obligation} bind the finite carrier, route replay, acceptance row, and GAP ledger obligations for reusable inscribed routes.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:inscribed-route-carrier}, \autoref{thm:inscribed-route-namecert-obligations}, \autoref{thm:inscribed-route-carrier-admission}, \autoref{thm:inscribed-route-continuation-obligation}, and \autoref{thm:inscribed-route-namecert-ledger-obligation} bind source-scope, visible-gap, route-witness, acceptance-ledger, downstream-consumer, $\hsame/\Cont$ transport, and local NameCert scoping for reusable inscribed routes.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.InscribedRouteUp.InscribedRouteNameCertObligations}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close Lean verification, bridge checking, complete inscription semantics, or hidden host route semantics.}
-  \upgradepath{Scoped closure requires explicit source-scope, visible-gap, route-witness, acceptance-ledger, downstream-consumer, $\hsame/\Cont$ transport, and local NameCert scoping.}
+  \notclaimed{This chapter does not close public export, bridge checking, complete inscription semantics, or hidden host route semantics.}
+  \upgradepath{Public closure requires a public export theorem for the reusable route surface and its cited consumer boundary.}
 \end{closurestatus}
