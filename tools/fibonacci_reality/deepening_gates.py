@@ -65,6 +65,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "edge_flux_count_certificate",
     "green_kirchhoff_certificate",
     "automath_paper_section",
+    "integer_matrix_lucas_kernel_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -101,6 +102,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "green_kirchhoff_certificate",
         "lean_finite_certificate",
         "automath_paper_section",
+        "integer_matrix_lucas_kernel_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -115,7 +117,8 @@ EVIDENCE_BASIS = {
     "mismatch_ledger",
     "mechanism_bridge",
 }
-FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"}
+FORCED_WINDOW_ARITHMETIC_BASIS = {"integer_matrix_power", "lucas_recurrence"}
+FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
 CONTACT_KINDS = {
     "genetic_code_table",
     "sequence_database",
@@ -213,6 +216,7 @@ MISMATCH_KINDS = {
     "none",
 }
 INTERNAL_STRUCTURES = {"coordinate", "closure", "spectrum", "trigger", "rank", "homology", "relation", "none"}
+FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMETIC_BASIS
 MECHANISM_WORDS = {
     "cause",
     "causes",
@@ -389,7 +393,12 @@ def _has_content(value: Any) -> bool:
     return True
 
 
-def _bedc_minimal_form(record: dict[str, Any], issues: list[str]) -> set[str]:
+def _bedc_minimal_form(
+    record: dict[str, Any],
+    issues: list[str],
+    *,
+    allowed_structures: set[str] = INTERNAL_STRUCTURES,
+) -> set[str]:
     form = record.get("bedc_minimal_form")
     internal: set[str] = set()
     if not isinstance(form, dict):
@@ -403,7 +412,7 @@ def _bedc_minimal_form(record: dict[str, Any], issues: list[str]) -> set[str]:
             "bedc_minimal_form.internal_structure",
             form.get("internal_structure"),
             issues,
-            allowed=INTERNAL_STRUCTURES,
+            allowed=allowed_structures,
         )
     )
     if "none" in internal and len(internal) > 1:
@@ -743,13 +752,13 @@ def validate_forced_window_conjecture(record: dict[str, Any]) -> list[str]:
     )
     refs = _validate_certificate_refs(record, issues)
     _array("forbidden_claims", record.get("forbidden_claims"), issues, min_items=1)
-    _bedc_minimal_form(record, issues)
+    _bedc_minimal_form(record, issues, allowed_structures=FORCED_WINDOW_INTERNAL_STRUCTURES)
 
-    if "automath_certificate" not in evidence:
-        issues.append("forced_window_bedc evidence_basis requires automath_certificate")
     claimed_layer = str(record.get("claimed_layer") or "")
     allowed_kinds = FORCED_WINDOW_LAYER_CERTIFICATE_KINDS.get(claimed_layer, set())
     certificate_kinds = {str(ref.get("kind")) for ref in refs}
+    if "automath_certificate" not in evidence and not (certificate_kinds & FORCED_WINDOW_CERTIFICATE_KINDS):
+        issues.append("forced_window_bedc requires automath_certificate evidence or a recognized certificate_ref")
     if claimed_layer in FORCED_WINDOW_LAYERS and not (certificate_kinds & allowed_kinds):
         expected = ", ".join(sorted(allowed_kinds))
         issues.append(f"claimed_layer {claimed_layer} requires certificate kind in {{{expected}}}")
@@ -1990,8 +1999,35 @@ def self_test() -> int:
         "forbidden_claims": ["The arithmetic layer requires an independent certificate pointer."],
         "null_reason": "",
     }
+    lucas_kernel_conjecture = {
+        "conjecture_id": "window6.lucas-kernel.coefficient-gauge-obstruction",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Lucas-kernel coefficient-gauge obstruction over the golden companion matrix",
+        "informal_statement": "The companion matrix M=[[1,1],[1,0]] gives M^20-123*M^10+I=0 and M^27-123*M^17+M^7=0.",
+        "bedc_minimal_form": {
+            "carrier": "Integer companion matrix powers and Lucas recurrence value L_10.",
+            "distinctions": ["integer matrix powers", "Lucas recurrence", "coefficient-gauge quotient"],
+            "readback": "The Lucas-kernel direction (1,-123,1) annihilates the 7,17,27 slots.",
+            "internal_structure": ["integer_matrix_power", "lucas_recurrence"],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": ["integer_matrix_power", "lucas_recurrence"],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_lucas_kernel_obstruction.py",
+                "object": "verify-window6-lucas-kernel-obstruction",
+                "kind": "integer_matrix_lucas_kernel_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not identify alpha or any physical constant.",
+            "This packet does not infer coefficients from alpha, numerical proximity, or metrological data.",
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
-        [edge_flux_conjecture, alpha_fit_conjecture, missing_arithmetic_certificate],
+        [edge_flux_conjecture, alpha_fit_conjecture, missing_arithmetic_certificate, lucas_kernel_conjecture],
         [],
         [],
         [],
@@ -2012,6 +2048,9 @@ def self_test() -> int:
     if missing_arithmetic_result["gate_status"] != "gate_blocked" or not any(
         "requires certificate kind" in issue for issue in missing_arithmetic_result["issues"]
     ):
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.lucas-kernel.coefficient-gauge-obstruction"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
