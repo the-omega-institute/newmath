@@ -1,14 +1,14 @@
 # Edge-Defect Oracle Memo
 
 - schema: `window_codon_oracle_memo.v1`
-- generated_ts: `2026-06-20T08:02:41Z`
-- source_task_id: `6ecc1e24-d746-4656-a48b-6ff7e5347b5e`
+- generated_ts: `2026-06-20T14:14:57Z`
+- source_task_id: `2f9791a7-ab61-44e2-a4c1-d201e453cf9f`
 - source_conversation_id: `conv_6139d5d7cea7ab03`
-- oracle_response_chars: `3647`
+- oracle_response_chars: `3711`
 
 ## Strongest Mechanism
 
-A is ill-posed as a bridge test. You can compute Window6’s own spectral order, but it will not non-circularly connect back to the bio  $E_1$  result. The clean Window6 object would be:
+A is not well-posed as a non-circular bridge back to Window6/Fibonacci. It is only well-posed as a negative-control diagnostic on Window6 itself. The core obstruction is that the codon  $E_1$  result and the Window6/Fibonacci object do not live in a shared canonical spectral frame. On the codon side,
 
 ## Decisive Confounders
 
