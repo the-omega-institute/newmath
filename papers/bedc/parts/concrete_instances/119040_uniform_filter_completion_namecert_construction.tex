@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\UniformFilterCompletionUp$}
+\label{ch:concrete-instances-uniform-filter-completion-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on uniform spaces and filters, the $\UniformFilterCompletionUp$ packet records the L10 completion surface where a displayed Cauchy-filter base is read through a uniform-completion handoff before any completion consumer sees a real-facing seal. It sits beside the functorial completion route of \autoref{ch:concrete-instances-uniformcompletionfunctor-namecert}, the Cauchy-filter base route of \autoref{ch:concrete-instances-cauchy-filter-base-namecert}, the Cauchy-filter completion criterion of \autoref{ch:concrete-instances-cauchy-filter-completion-criterion-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a filter-based completion surface without quotient completions, selected limits, choice, host equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniform filter completion carrier]
+\label{def:uniform-filter-completion-carrier}
+A $\UniformFilterCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(F,B,Q,G,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\UniformCompletionFunctorUp$ route row, exposing the functorial completion handoff used by downstream completion consumers.
+\item $B$ is the $\CauchyFilterBaseUp$ basis row, listing the finite filter-base requests and directed refinements consumed by the completion route.
+\item $Q$ is the $\CauchyFilterCompletionCriterionUp$ criterion row, requiring the filter route to pass through displayed basis, window, readback, and seal data.
+\item $G$ is the $\UniformCompletionUp$ source row, binding the same uniform source to the functorial and criterion rows.
+\item $S$ is the $\StreamNameUp$ finite-window schedule for the filter-base and completion requests.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and tolerance requests.
+\item $E$ is the terminal $\RealUp$ seal, readable only after $F,B,Q,G,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the functorial, filter-base, criterion, uniform-source, window, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the same finite completion route.
+\item $P$ is the $\Pkg$ provenance over $\UniformFilterCompletionUp$, $\UniformCompletionFunctorUp$, $\CauchyFilterBaseUp$, $\CauchyFilterCompletionCriterionUp$, $\UniformCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformFilterCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $F,B,Q,G,S,R,E,H,C,P,N$. It has no coordinate for quotient filter equality, quotient completion equality, selected representatives, selected limits, countable choice, host equality of completed objects, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform filter completion NameCert obligations]
+\label{thm:uniform-filter-completion-namecert-obligations}
+For every accepted $\UniformFilterCompletionUp$ carrier $U=(F,B,Q,G,S,R,E,H,C,P,N)$, the local $\NameCert_{\UniformFilterCompletionUp}$ surface consists exactly of carrier admission for the functorial uniform-completion route, Cauchy-filter base, Cauchy-filter completion criterion, uniform source, StreamName windows, RegSeqRat readback, Real seal, componentwise transport, displayed replay, provenance, and local naming rows. Every completion-facing obligation is read through those rows before a consumer may inspect the terminal seal, and no obligation is stored in quotient filters, selected limits, choice, host equality, or ambient completion data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-filter-completion-carrier}. The tuple displays exactly the rows $F,B,Q,G,S,R,E,H,C,P,N$.
+
+Read the completion source first. The uniform source row $G$ and functorial handoff row $F$ fix the displayed uniform-completion route, while the Cauchy-filter base row $B$ supplies the finite basis data consumed by that route.
+
+Read the criterion and numerical rows next. The criterion row $Q$ requires the completion read to remain attached to the displayed basis route, the StreamName row $S$ schedules the finite observations, the RegSeqRat row $R$ reads back those windows, and the Real seal $E$ is exposed only after that readback.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since quotient completions, selected limits, choice, host equality, and ambient completeness are absent from the carrier, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Uniform filter completion handoff]
+\label{thm:uniform-filter-completion-handoff}
+Every completion-facing consumer of an accepted $\UniformFilterCompletionUp$ carrier reads the finite route
+$$
+\UniformCompletionFunctorUp \longmapsto \CauchyFilterBaseUp \longmapsto \CauchyFilterCompletionCriterionUp \longmapsto \UniformCompletionUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The route exports filter-based completion data only through displayed BEDC rows. It exports no quotient completion, quotient filter, selected representative, selected limit, countable-choice schedule, host equality of completed objects, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:uniform-filter-completion-namecert-obligations}. It confines every accepted read to the displayed functorial, filter-base, criterion, uniform-source, window, readback, seal, and structural rows.
+
+The filter route passes through $B$ before the criterion row $Q$ can be consumed. Thus a completion-facing consumer cannot replace the basis data by an unrecorded filter or a quotient-filter equality.
+
+The completion route passes through $F,G,S,R,E$ in the displayed order. The functorial and uniform-source rows precede the finite windows, the regular rational readback precedes the Real seal, and the structural rows preserve that same order.
+
+Therefore the accepted handoff is exactly the finite route in the statement. The excluded quotient, selector, choice, host-equality, and ambient-completeness objects are not coordinates of the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\UniformFilterCompletionUp$ consumer that reaches a $\RealUp$ seal without first reading the $\UniformCompletionFunctorUp$, $\CauchyFilterBaseUp$, $\CauchyFilterCompletionCriterionUp$, $\UniformCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows is outside the packet surface.}
+
+\independenceWitness{uniformcompletionfunctor, cauchy-filter-base, cauchy-filter-completion-criterion, regseqrat, streamname, real: no listed sibling is bijective to $\UniformFilterCompletionUp$ because this packet jointly carries the functorial uniform-completion handoff, finite Cauchy-filter base, completion criterion, uniform source, finite windows, regular rational readback, Real seal, transport, replay, provenance, and local naming as one filter-based completion surface.}
+
+\closureat{UniformFilterCompletionUp}{seedStr}
+
+\begin{closurestatus}{\UniformFilterCompletionUp}
+  \constructivestory{A $\UniformFilterCompletionUp$ packet is generated from a UniformCompletionFunctorUp route row, CauchyFilterBaseUp basis row, CauchyFilterCompletionCriterionUp criterion row, UniformCompletionUp source row, StreamNameUp windows, RegSeqRatUp readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-filter-completion-carrier}, \autoref{thm:uniform-filter-completion-namecert-obligations}, and \autoref{thm:uniform-filter-completion-handoff} seed the L10 filter-based uniform completion route over UniformCompletionFunctorUp, CauchyFilterBaseUp, CauchyFilterCompletionCriterionUp, UniformCompletionUp, StreamNameUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient completions, quotient filters, selected representatives, selected limits, countable choice, host equality, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, functorial uniform-completion handoff, Cauchy-filter base exposure, Cauchy-filter completion criterion routing, finite-window readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.UniformFilterCompletionUp.}
+\end{closurestatus}

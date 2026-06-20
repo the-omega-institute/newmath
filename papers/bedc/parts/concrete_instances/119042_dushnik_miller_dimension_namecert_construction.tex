@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\DushnikMillerDimensionUp$}
+\label{ch:concrete-instances-dushnik-miller-dimension-namecert}
+\origin{human}
+
+Following Dushnik and Miller on the dimension of partially ordered sets, the $\DushnikMillerDimensionUp$ packet records the finite order-theoretic certificate by which a displayed poset is represented as the intersection of a finite family of linear extensions. It sits after the separated order surface of \autoref{ch:concrete-instances-poset-namecert}, the inherited preorder route of \autoref{ch:concrete-instances-preorder-namecert}, the total-order comparison surface of \autoref{ch:concrete-instances-totalorder-namecert}, and the membership discipline of \autoref{ch:concrete-instances-setlike-namecert}. The packet names only finite extension rows, an intersection ledger, a minimal-cardinality witness, transport, replay, provenance, and local naming; it does not import a host powerset of orders, quotient posets, choice-selected extension families, or ambient set-theoretic dimension.
+
+\begin{definition}[Dushnik--Miller dimension carrier]
+\label{def:dushnik-miller-dimension-carrier}
+A $\DushnikMillerDimensionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(P,L,I,M,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\PosetUp$ source row, including the inherited $\PreorderUp$ comparison ledger and antisymmetry data for the displayed carrier.
+\item $L$ is a finite family of $\TotalOrderUp$ rows on the same displayed carrier, each row carrying a linear-extension ledger for the order named by $P$.
+\item $I$ is the intersection ledger: for any displayed pair of carried elements, the $\PosetUp$ comparison holds exactly when every row of $L$ compares the pair in that direction.
+\item $M$ is the minimal-cardinality witness, recording a displayed natural-number bound for the family $L$ and a local refusal ledger for smaller displayed families.
+\item $H$ records componentwise $\hsame$ transport for the poset source, total-order family, intersection ledger, minimality witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a dimension request through the poset source, the finite linear-extension family, the intersection ledger, and the minimality witness.
+\item $Q$ is the $\Pkg$ provenance over $\DushnikMillerDimensionUp$, $\PosetUp$, $\PreorderUp$, $\TotalOrderUp$, $\SetLikeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DushnikMillerDimensionUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a host powerset of all linear orders, quotient poset equality, a choice-selected extension family, or an ambient cardinal-invariant theorem.
+\end{definition}
+
+\begin{theorem}[Dushnik--Miller dimension NameCert obligations]
+\label{thm:dushnik-miller-dimension-namecert-obligations}
+For every accepted $\DushnikMillerDimensionUp$ carrier $D=(P,L,I,M,H,C,Q,N)$, the local $\NameCert_{\DushnikMillerDimensionUp}$ surface consists exactly of source admission for $P$, finite total-order family admission for $L$, linear-extension compatibility of each row of $L$ with the $\PosetUp$ comparison, intersection exactness through $I$, minimal-cardinality witnessing through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dushnik-miller-dimension-carrier}. The poset source is the displayed row $P$, and the only extension data are the finitely listed total-order rows in $L$.
+
+Read the compatibility and intersection rows next. Each total order in $L$ extends the comparison of $P$, while $I$ records the reverse read: a comparison belongs to $P$ precisely when all listed total orders compare the pair in that direction.
+
+Finally inspect the minimality, transport, replay, provenance, and naming rows $M,H,C,Q,N$. Since the carrier has no coordinate for all host linear orders, quotient posets, selected extension families, or ambient cardinal invariants, the NameCert obligations are exactly the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Dushnik--Miller linear-extension route]
+\label{thm:dushnik-miller-dimension-linear-extension-route}
+Every downstream consumer of an accepted $\DushnikMillerDimensionUp$ packet that reads order dimension must factor through
+$$
+P,L \longmapsto I,M \longmapsto H,C,Q,N .
+$$
+The consumer sees a $\PosetUp$ source, a finite family of $\TotalOrderUp$ linear-extension rows over the same carrier, the intersection ledger, and the minimal-cardinality witness before any dimension value is public. It receives no host powerset of orders, quotient poset, choice-selected family of extensions, or ambient set-theoretic dimension argument.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier $D=(P,L,I,M,H,C,Q,N)$. A dimension consumer can inspect the source order only through $P$, and it can inspect linear extensions only through the finite family $L$.
+
+The intersection ledger $I$ is then load-bearing: it states both that every row of $L$ extends $P$ and that the common comparison induced by all rows of $L$ recovers exactly the displayed poset comparison. The minimality row $M$ supplies the local cardinal witness and the refusal of smaller displayed families.
+
+The rows $H,C,Q,N$ transport, replay, source, and name the same finite route. Because no additional coordinate is present, the route cannot be replaced by a host powerset search, quotient-poset equality, a choice-selected family of extensions, or an ambient cardinal-invariant proof.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\DushnikMillerDimensionUp$ read that omits the PosetUp source row, finite TotalOrderUp extension family, intersection ledger, minimal-cardinality witness, $\hsame$, $\Cont$, $\Pkg$, or local $\NameCert$ row refutes the carrier of \autoref{def:dushnik-miller-dimension-carrier}.}
+
+\independenceWitness{poset, preorder, totalorder, setlike: $\DushnikMillerDimensionUp$ is not bijective to any listed sibling because it jointly carries a PosetUp source, a finite family of TotalOrderUp linear-extension rows, an intersection ledger, minimal-cardinality data, componentwise transport, replay, provenance, and local NameCert naming. PosetUp and PreorderUp supply comparison rows without finite extension families; TotalOrderUp supplies a single comparison surface without an intersection ledger; SetLikeUp supplies membership discipline without order-dimension minimality.}
+
+\closureat{DushnikMillerDimensionUp}{seedStr}
+
+\begin{closurestatus}{\DushnikMillerDimensionUp}
+  \constructivestory{A $\DushnikMillerDimensionUp$ packet is generated from a PosetUp source, inherited PreorderUp comparison data, a finite family of TotalOrderUp linear-extension rows, an intersection ledger, a minimal-cardinality witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dushnik-miller-dimension-carrier}, \autoref{thm:dushnik-miller-dimension-namecert-obligations}, and \autoref{thm:dushnik-miller-dimension-linear-extension-route} seed the finite Dushnik--Miller order-dimension carrier over displayed poset, preorder, total-order, set-like, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host powerset of orders, quotient poset equality, choice-selected extension families, ambient set-theoretic dimension, Lean verification, axiom purity, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source admission, finite linear-extension admission, intersection exactness, minimal-cardinality witnessing, transport, replay, provenance, and local naming for BEDC.Derived.DushnikMillerDimensionUp.}
+\end{closurestatus}
