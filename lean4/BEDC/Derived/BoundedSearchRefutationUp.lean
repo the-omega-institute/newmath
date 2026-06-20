@@ -168,4 +168,67 @@ theorem BoundedSearchRefutationDepthSoundness [AskSetup] [PackageSetup]
   }
   exact And.intro semantic (And.intro witnessUnary (And.intro depthUnary boundedUnary))
 
+theorem BoundedSearchRefutationNonEscape [AskSetup] [PackageSetup]
+    {proposition budget frontier refutation gap transport replay provenance name
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedSearchRefutationCarrier proposition budget frontier refutation gap transport replay
+        provenance name bundle pkg ->
+      Cont transport replay consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row proposition ∨ hsame row budget ∨ hsame row frontier ∨
+                  hsame row refutation ∨ hsame row gap ∨ hsame row consumerRead)
+              (fun row : BHist =>
+                hsame row consumerRead ∧ Cont transport replay consumerRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle consumerRead pkg)
+              hsame ∧ UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier transportReplayConsumer consumerPkg
+  obtain ⟨_propositionUnary, _budgetUnary, frontierUnary, refutationUnary, _gapUnary,
+    replayUnary, _nameUnary, _propositionBudgetFrontier, frontierRefutationTransport,
+    _transportReplayGap, provenancePkg, _namePkg⟩ := carrier
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed frontierUnary refutationUnary frontierRefutationTransport
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed transportUnary replayUnary transportReplayConsumer
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row proposition ∨ hsame row budget ∨ hsame row frontier ∨
+              hsame row refutation ∨ hsame row gap ∨ hsame row consumerRead)
+          (fun row : BHist =>
+            hsame row consumerRead ∧ Cont transport replay consumerRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumerRead
+        ⟨hsame_refl consumerRead, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, transportReplayConsumer, provenancePkg, consumerPkg⟩
+  }
+  exact ⟨cert, consumerUnary⟩
+
 end BEDC.Derived.BoundedSearchRefutationUp
