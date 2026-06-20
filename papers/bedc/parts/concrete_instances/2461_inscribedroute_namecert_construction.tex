@@ -49,12 +49,46 @@ Acceptance-ledger exactness follows because $A$ and $L$ are coordinates of the s
 The non-escape clause is immediate from the carrier inventory. No row stores hidden psychology, host trust, or an unrecorded choice, so none of these can be exported by the local $\NameCert_{\InscribedRouteUp}$ surface.
 \end{proof}
 
-\closureat{InscribedRouteUp}{seedStr}
+\begin{theorem}[InscribedRoute carrier admission]
+\label{thm:inscribed-route-carrier-admission}
+Every accepted $\InscribedRouteUp$ carrier exposes exactly the rows
+$$
+S,G,M,R,A,U,L,P,N
+$$
+before any route consumer can read it. No accepted carrier has an additional coordinate for hidden host trust, private route choice, or external proof memory.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscribed-route-carrier}. The tuple displayed there is exactly $Q=(S,G,M,R,A,U,L,P,N)$, so acceptance can expose only those nine rows.
+
+The classifier sentence following the row inventory confirms that public comparison is restricted to the same rows and their displayed $\hsame$ and $\Cont$ transports. Since the carrier lists no further coordinate, hidden host trust, private route choice, and external proof memory cannot be admitted as carrier data.
+\end{proof}
+
+\begin{theorem}[InscribedRoute continuation obligation]
+\label{thm:inscribed-route-continuation-obligation}
+For every accepted $\InscribedRouteUp$ packet, the route row $R$ reaches the named statement row $M$ through the displayed $\Cont$ path and the matching $\hsame$ rows recorded in the same carrier. The continuation obligation does not use an unrecorded route selector or a host-side proof search.
+\end{theorem}
+\begin{proof}
+Use the proof-route determinacy clause of \autoref{thm:inscribed-route-namecert-obligations}. It states that $R$ reaches $M$ from $S$ and $G$ only through the displayed $\Cont$ path and matching $\hsame$ rows.
+
+Carrier admission supplies the ambient packet $Q=(S,G,M,R,A,U,L,P,N)$. Because $R$, $M$, $P$, and the displayed transport data are all rows of the same packet, the continuation can be replayed by the recorded data before the downstream consumer $U$ reads it.
+\end{proof}
+
+\begin{theorem}[InscribedRoute NameCert ledger obligation]
+\label{thm:inscribed-route-namecert-ledger-obligation}
+For every accepted $\InscribedRouteUp$ packet, the acceptance row $A$ and the public $\mathsf{GAP}$ ledger row $L$ bind the same downstream consumer row $U$. A consumer may cite the route only when acceptance, ledger entry, named statement, and route row are displayed in the same finite packet.
+\end{theorem}
+\begin{proof}
+Apply the acceptance-ledger exactness clause of \autoref{thm:inscribed-route-namecert-obligations}. It identifies $A$ and $L$ as coordinates of the same route packet and requires them to record the admitted route and downstream consumer boundary.
+
+Now project the carrier. The rows $M,R,A,U,L$ occur together in $Q$, so the named statement, route, acceptance row, consumer row, and public ledger row are not separate host facts. The downstream consumer can therefore cite the route only through the single displayed packet.
+\end{proof}
+
+\closureat{InscribedRouteUp}{obligationStr}
 
 \begin{closurestatus}{\InscribedRouteUp}
   \constructivestory{An $\InscribedRouteUp$ packet is generated from a prior source scope, visible gap row, named statement, proof route, acceptance row, downstream consumer, public GAP ledger, package provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:inscribed-route-carrier} and \autoref{thm:inscribed-route-namecert-obligations} bind the finite carrier and local NameCert-obligation surface for reusable inscribed routes.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:inscribed-route-carrier}, \autoref{thm:inscribed-route-namecert-obligations}, \autoref{thm:inscribed-route-carrier-admission}, \autoref{thm:inscribed-route-continuation-obligation}, and \autoref{thm:inscribed-route-namecert-ledger-obligation} bind the finite carrier, route replay, acceptance row, and GAP ledger obligations for reusable inscribed routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
