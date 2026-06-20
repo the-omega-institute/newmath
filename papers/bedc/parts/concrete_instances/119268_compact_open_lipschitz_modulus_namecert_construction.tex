@@ -1,0 +1,56 @@
+\chapter{Compact Open Lipschitz Modulus NameCert Construction}
+\label{ch:concrete-instances-compact-open-lipschitz-modulus-namecert}
+\origin{human}
+
+Following Kelley and the Arzela--Ascoli compact-open tradition, the $\CompactOpenLipschitzModulusUp$ packet records the finite BEDC surface for reading Lipschitz control through compact-open tests. It sits between the compact-open topology carrier of \autoref{ch:concrete-instances-compact-open-topology-namecert}, the extension boundary of \autoref{ch:concrete-instances-lipschitz-extension-namecert}, the continuous-map row of \autoref{ch:concrete-instances-continuousmap-namecert}, and the metric-space carrier of \autoref{ch:concrete-instances-metric-namecert}. The packet names compact tests, displayed Lipschitz bounds, and a replayable modulus ledger without assuming open-cover compactness or a host function space.
+
+\begin{definition}[Compact-open Lipschitz modulus carrier]
+\label{def:compact-open-lipschitz-modulus-carrier}
+A $\CompactOpenLipschitzModulusUp$ carrier is a finite $\BHist$ packet
+$$
+L=(K,B,M,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact-test row, listing the compact-open test neighborhoods read from $\CompactOpenTopologyUp$ and the source $\MetricSpaceUp$ rows on which they are evaluated.
+\item $B$ is the Lipschitz-bound row, recording the displayed constants and metric-distance comparisons used by the $\LipschitzExtensionUp$ boundary.
+\item $M$ is the modulus row, assigning to each admitted compact test a finite tolerance request and its displayed response.
+\item $T$ is the transport row, preserving $K,B,M$ under componentwise $\hsame$ for the compact tests, metric observations, continuous-map graph rows, and Lipschitz-bound rows.
+\item $R$ is the replay row, recording displayed $\Cont$ reads from compact-open requests through the bound and modulus rows.
+\item $P$ is the provenance row over $\CompactOpenLipschitzModulusUp$, $\CompactOpenTopologyUp$, $\LipschitzExtensionUp$, $\ContinuousMapUp$, $\MetricSpaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactOpenLipschitzModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,B,M,T,R,P,N$. It has no coordinate for open-cover compactness, quotient equality of maps, an ambient compact-open function space, selected global moduli, or completeness of a host target space.
+\end{definition}
+
+\begin{theorem}[Compact-open Lipschitz modulus obligations]
+\label{thm:compact-open-lipschitz-modulus-obligations}
+For the carrier of \autoref{def:compact-open-lipschitz-modulus-carrier}, the local $\NameCert_{\CompactOpenLipschitzModulusUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for compact tests, Lipschitz bounds, modulus data, transport, replay, provenance, and local naming;
+\item compact-test exposure, requiring every compact-open read to pass through $K$ and the cited $\CompactOpenTopologyUp$ source rows;
+\item Lipschitz-bound exposure, requiring every extension-facing read to expose $B$ before a modulus value in $M$ can be consumed;
+\item modulus replay stability, requiring $T$ and $R$ to preserve the same compact-test and bound rows under componentwise transport and displayed continuation;
+\item provenance and local naming, requiring $P$ and $N$ to record the packet as the sole NameCert source for the compact-open Lipschitz modulus.
+\end{enumerate}
+No obligation is stored outside $K,B,M,T,R,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-open-lipschitz-modulus-carrier}. The displayed data are exactly the compact tests, Lipschitz-bound rows, modulus rows, transport rows, replay rows, provenance, and local naming.
+
+The compact-open side reads only through $K$. The Lipschitz side reads only through $B$, and the modulus row $M$ is consumed after those two rows have been displayed.
+
+Finally $T,R,P,N$ preserve, replay, source, and name the same finite route. Since the carrier has no coordinate for open-cover compactness, quotient map equality, host function spaces, selected global moduli, or target completeness, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\closureat{CompactOpenLipschitzModulusUp}{seedStr}
+
+\begin{closurestatus}{\CompactOpenLipschitzModulusUp}
+  \constructivestory{A $\CompactOpenLipschitzModulusUp$ packet is generated from compact-open test rows, displayed Lipschitz-bound rows, a finite modulus ledger, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-open-lipschitz-modulus-carrier} and \autoref{thm:compact-open-lipschitz-modulus-obligations} seed the finite compact-open Lipschitz modulus carrier and its five-row obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, host compact-open function spaces, quotient function equality, selected global moduli, target completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-test exposure, Lipschitz-bound exposure, modulus replay stability, provenance, and local naming for BEDC.Derived.CompactOpenLipschitzModulusUp.}
+\end{closurestatus}
