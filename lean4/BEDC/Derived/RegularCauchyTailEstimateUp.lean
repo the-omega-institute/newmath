@@ -521,4 +521,71 @@ theorem RegularCauchyTailEstimateCarrier_tail_difference [AskSetup] [PackageSetu
     ⟨cert, thresholdUnary0, toleranceUnary0, sealUnary0, thresholdUnary1,
       toleranceUnary1, sealUnary1, comparisonUnary⟩
 
+theorem RegularCauchyTailEstimateWindowMonotoneNesting [AskSetup] [PackageSetup]
+    {M W D R E H C P N coarseRead refinedRead toleranceRead sealRead nestedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailEstimateCarrier M W D R E H C P N bundle pkg →
+      Cont M W coarseRead → Cont coarseRead D toleranceRead →
+        Cont toleranceRead R sealRead → Cont sealRead W refinedRead →
+          Cont refinedRead E nestedRead → PkgSig bundle P pkg →
+            PkgSig bundle nestedRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row nestedRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row M ∨ hsame row W ∨ hsame row D ∨ hsame row R ∨
+                      hsame row E ∨ hsame row coarseRead ∨ hsame row refinedRead ∨
+                        hsame row nestedRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont M W coarseRead ∧
+                      Cont coarseRead D toleranceRead ∧ Cont toleranceRead R sealRead ∧
+                        Cont sealRead W refinedRead ∧ Cont refinedRead E nestedRead ∧
+                          PkgSig bundle P pkg ∧ PkgSig bundle nestedRead pkg)
+                  hsame ∧
+                UnaryHistory coarseRead ∧ UnaryHistory toleranceRead ∧
+                  UnaryHistory sealRead ∧ UnaryHistory refinedRead ∧
+                    UnaryHistory nestedRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame SemanticNameCert
+  intro carrier coarseRoute toleranceRoute sealRoute refinedRoute nestedRoute provenancePkg
+    nestedPkg
+  obtain ⟨unaryM, unaryW, unaryD, unaryR, unaryE, _unaryH, _unaryC, _unaryP, _unaryN,
+    _carrierPkg, _carrierName⟩ := carrier
+  have coarseUnary : UnaryHistory coarseRead := unary_cont_closed unaryM unaryW coarseRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed coarseUnary unaryD toleranceRoute
+  have sealUnary : UnaryHistory sealRead := unary_cont_closed toleranceUnary unaryR sealRoute
+  have refinedUnary : UnaryHistory refinedRead := unary_cont_closed sealUnary unaryW refinedRoute
+  have nestedUnary : UnaryHistory nestedRead := unary_cont_closed refinedUnary unaryE nestedRoute
+  have sourceNested :
+      (fun row : BHist => hsame row nestedRead ∧ UnaryHistory row) nestedRead := by
+    exact ⟨hsame_refl nestedRead, nestedUnary⟩
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro nestedRead sourceNested
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+      ledger_sound := by
+        intro _row source
+        exact
+          ⟨source.right, coarseRoute, toleranceRoute, sealRoute, refinedRoute, nestedRoute,
+            provenancePkg, nestedPkg⟩
+    }
+  · exact ⟨coarseUnary, toleranceUnary, sealUnary, refinedUnary, nestedUnary⟩
+
 end BEDC.Derived.RegularCauchyTailEstimateUp
