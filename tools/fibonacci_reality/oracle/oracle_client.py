@@ -472,14 +472,28 @@ def poll_result(
         return _error("invalid_task_id", "task_id is empty")
     deadline = time.monotonic() + max(0, max_wait_seconds)
     interval = max(0.1, float(poll_interval))
+    # Transport-level failures produced by our own _error() helper (subprocess
+    # timeout / proxy hiccup / transient broker reachability). A genuine ChatGPT
+    # Pro deep answer takes minutes and is saved relay-side regardless; a single
+    # slow GET must not be misread as a terminal task "error", or the saved
+    # answer never lands in the local transcript and bio-C never digests it.
+    transient_transport_kinds = {"timeout", "nyxid_unavailable", "nyxid_error", "invalid_json"}
     while True:
         data = _request_json("GET", server_url, f"/tasks/{task_id}", None, min(interval, 30.0))
         status = str(data.get("status") or "")
+        error_kind = str(data.get("error_kind") or "")
+        now = time.monotonic()
+        if status == "error" and error_kind in transient_transport_kinds:
+            # Keep polling until the overall deadline; the task is still alive on
+            # the relay even though this single poll attempt failed at transport.
+            if now >= deadline:
+                return _error("timeout", f"timed out waiting for oracle task {task_id}")
+            time.sleep(min(interval, max(0.0, deadline - now)))
+            continue
         if status in {"completed", "cancelled", "error"}:
             return data
         if status == "not_found":
             return _error("not_found", f"oracle task not found: {task_id}")
-        now = time.monotonic()
         if now >= deadline:
             return _error("timeout", f"timed out waiting for oracle task {task_id}")
         time.sleep(min(interval, max(0.0, deadline - now)))
