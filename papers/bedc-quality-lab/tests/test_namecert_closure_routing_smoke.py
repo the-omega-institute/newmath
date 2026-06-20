@@ -48,6 +48,37 @@ def test_smoke_audit_real_torch_contract():
     assert payload["json_artifact"] == "reports/namecert_audit.json"
 
 
+def test_custom_profile_can_pass_admission_gate():
+    profile = ncr.NameCertClosureRoutingProfile(
+        profile_id="smoke_closure_verify",
+        report_stem="fixture_admission",
+        admission_eligible=True,
+    )
+    payload = ncr.build_record(profile, device="cpu", generated_at="fixture-time").to_dict()
+
+    assert {row["status"] for row in payload["hardgates"].values()} == {"pass"}
+    assert payload["admission"]["eligible"] is True
+    assert payload["admission"]["admission_gate"] is True
+    assert payload["json_artifact"] == "reports/fixture_admission.json"
+
+
+def test_custom_profile_analytic_ceiling_failure_blocks_admission():
+    profile = ncr.NameCertClosureRoutingProfile(
+        profile_id="smoke_closure_verify",
+        report_stem="fixture_ceiling_fail",
+        analytic_bayes=0.75,
+        admission_eligible=True,
+    )
+    payload = ncr.build_record(profile, device="cpu", generated_at="fixture-time").to_dict()
+
+    assert payload["metrics"]["learned"]["accuracy"] == 1.0
+    assert payload["analytic_ceiling"]["status"] == "fail"
+    assert payload["hardgates"]["analytic_ceiling"]["status"] == "fail"
+    assert payload["hardgates"]["analytic_ceiling"]["limit"] == 0.75
+    assert payload["admission"]["eligible"] is True
+    assert payload["admission"]["admission_gate"] is False
+
+
 def test_runner_writes_authswap_and_audit_reports(tmp_path):
     authswap = ncr.run_and_write("smoke_authswap", root=tmp_path, device="cpu", generated_at="fixture-time")
     audit = ncr.run_and_write("smoke_audit", root=tmp_path, device="cpu", generated_at="fixture-time")
