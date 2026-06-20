@@ -1,0 +1,287 @@
+{
+  "artifact_id": "bedc-quality-lab:hidden-polarity-rotor",
+  "canonical_role": "owner_local_task_admission",
+  "claim_boundary": {
+    "boundary": "No bounded physical identifiability claim is opened by this artifact.",
+    "claim_kind": null,
+    "failed_gate": null,
+    "positive": false,
+    "status": "diagnostic",
+    "verdict": "diagnostic_only"
+  },
+  "config": {
+    "control_ids": [
+      "phase_shuffle",
+      "polarity_swap",
+      "rotor_blind"
+    ],
+    "control_margin": 0.03,
+    "identifiability_margin": 0.12,
+    "min_sample_count": 64,
+    "verdicts": [
+      "diagnostic_only",
+      "positive",
+      "bounded_negative",
+      "ill_posed"
+    ]
+  },
+  "controls": {
+    "control_margin": 0.03,
+    "controls": {
+      "phase_shuffle": {
+        "max_delta_over_chance": null,
+        "status": "not_evaluated"
+      },
+      "polarity_swap": {
+        "max_delta_over_chance": null,
+        "status": "not_evaluated"
+      },
+      "rotor_blind": {
+        "max_delta_over_chance": null,
+        "status": "not_evaluated"
+      }
+    },
+    "criterion": "each control upper_ci <= chance_upper_ci + control_margin",
+    "failed_controls": [],
+    "reason": "measured_result_not_provided",
+    "status": "not_evaluated"
+  },
+  "dependency_status": {
+    "fallback": "deterministic_diagnostic_fixture",
+    "reason": "measured_result_not_provided",
+    "required_for_claim": true,
+    "status": "downgraded"
+  },
+  "diagnostic_fixture": {
+    "arms": [
+      {
+        "arm_id": "aligned_rotor",
+        "expected_signal": "orientation recovers the hidden polarity",
+        "hidden_polarity": 1,
+        "observation_policy": "phase-and-polarity-observed",
+        "role": "target",
+        "rotor_phase_degrees": 0
+      },
+      {
+        "arm_id": "opposed_rotor",
+        "expected_signal": "orientation flips with the hidden polarity",
+        "hidden_polarity": -1,
+        "observation_policy": "phase-and-polarity-observed",
+        "role": "target",
+        "rotor_phase_degrees": 180
+      },
+      {
+        "arm_id": "phase_shuffle",
+        "expected_signal": "phase-only shortcut is not sufficient",
+        "hidden_polarity": 1,
+        "observation_policy": "phase-randomized",
+        "role": "control",
+        "rotor_phase_degrees": 90
+      },
+      {
+        "arm_id": "polarity_swap",
+        "expected_signal": "label leakage is not sufficient",
+        "hidden_polarity": -1,
+        "observation_policy": "polarity-label-swapped",
+        "role": "control",
+        "rotor_phase_degrees": 0
+      },
+      {
+        "arm_id": "rotor_blind",
+        "expected_signal": "metadata-only evidence is not sufficient",
+        "hidden_polarity": 1,
+        "observation_policy": "rotor-observation-masked",
+        "role": "control",
+        "rotor_phase_degrees": 0
+      }
+    ],
+    "control_arm_ids": [
+      "phase_shuffle",
+      "polarity_swap",
+      "rotor_blind"
+    ],
+    "fixture_digest": "eaa00d8615064694b7e79bcd63e96f3b3788223842cb9574e029d169e912237f",
+    "schema_id": "bedc-quality-lab:hidden-polarity-rotor-fixture",
+    "target_arm_ids": [
+      "aligned_rotor",
+      "opposed_rotor"
+    ]
+  },
+  "evidence_gate": {
+    "criterion": "effect_lower_ci - chance_upper_ci >= identifiability_margin",
+    "effect_margin": null,
+    "margin": 0.12,
+    "reason": "measured_result_not_provided",
+    "score": null,
+    "status": "not_evaluated"
+  },
+  "generated_at": "2026-06-20T00:00:00+00:00",
+  "hardgate": {
+    "failed_gate": null,
+    "gates": {
+      "CONTROL": {
+        "criterion": "negative controls remain within the preregistered chance envelope",
+        "evidence_pointer": "$.controls",
+        "status": "not_evaluated"
+      },
+      "FIXTURE": {
+        "criterion": "deterministic HPR fixture is present",
+        "evidence_pointer": "$.diagnostic_fixture",
+        "status": "pass"
+      },
+      "IDENTIFIABILITY": {
+        "criterion": "effect lower confidence bound clears chance upper confidence bound",
+        "evidence_pointer": "$.evidence_gate",
+        "status": "not_evaluated"
+      },
+      "MEASURED-RESULT": {
+        "criterion": "measured result is optional, but must validate when provided",
+        "evidence_pointer": "$.measured_result_intake",
+        "status": "not_evaluated"
+      },
+      "PAYLOAD": {
+        "criterion": "payload validates against owner-local HPR required fields",
+        "evidence_pointer": "$",
+        "status": "pass"
+      }
+    },
+    "status": "diagnostic"
+  },
+  "measured_result_intake": {
+    "normalized": null,
+    "shape_errors": [],
+    "source": null,
+    "status": "not_provided"
+  },
+  "not_claimed": [
+    "No claim is made from issue comments, task prose, controller logs, or temporary scripts.",
+    "No shared HPR admission framework is introduced.",
+    "No GPU, MuJoCo, torch, or external simulator dependency is required for the default artifact.",
+    "No downstream report may treat diagnostic_only as a positive physical identifiability claim."
+  ],
+  "preregistration": {
+    "control_rule": {
+      "controls": [
+        "phase_shuffle",
+        "polarity_swap",
+        "rotor_blind"
+      ],
+      "criterion": "each control upper_ci <= chance_upper_ci + control_margin",
+      "margin": 0.03
+    },
+    "diagnostic_fixture_rule": {
+      "criterion": "default artifact is diagnostic_only until a measured result is explicitly provided",
+      "fixture_digest_pointer": "$.diagnostic_fixture.fixture_digest"
+    },
+    "downstream_gate_pointer": "reports/canonical/hidden-polarity-rotor.json:$.claim_boundary",
+    "identifiability_rule": {
+      "criterion": "effect_lower_ci - chance_upper_ci >= identifiability_margin",
+      "margin": 0.12,
+      "minimum_sample_count": 64
+    },
+    "preregistration_digest": "efd29adff42de3d81f390ca0919155443b85aa61c5343841e206eb45b3f3a356",
+    "schema_id": "bedc-quality-lab:hidden-polarity-rotor-preregistration",
+    "source_ref": "gh-issue-1700",
+    "task": {
+      "allowed_verdicts": [
+        "diagnostic_only",
+        "positive",
+        "bounded_negative",
+        "ill_posed"
+      ],
+      "control_ids": [
+        "phase_shuffle",
+        "polarity_swap",
+        "rotor_blind"
+      ],
+      "control_margin": 0.03,
+      "evaluation_unit": "deterministic diagnostic fixture plus optional measured-result intake",
+      "fact_source": "owner-local",
+      "identifiability_margin": 0.12,
+      "min_sample_count": 64,
+      "owner": "bedc_quality_lab.tasks.hidden_polarity_rotor",
+      "source_ref": "gh-issue-1700",
+      "task_family": "bounded-physical-identifiability",
+      "task_id": "hidden-polarity-rotor"
+    },
+    "verdict_rule": {
+      "bounded_negative": "measured result validates but an evidence gate fails",
+      "diagnostic_only": "no measured result is provided and the fixture validates",
+      "ill_posed": "payload shape, dependency envelope, or control arms fail closed",
+      "positive": "measured result validates and all admission gates pass"
+    }
+  },
+  "producer": "bedc_quality_lab.tasks.hidden_polarity_rotor",
+  "raw_digest": "4ba32030f5d9b5973cf5875cbc31114ec16e41acfc9436dd0863a7b13a0eac84",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "fixed fixture rows, authorized controls, and measured confidence-bound intake",
+      "calibration_source": "$.preregistration",
+      "owner": "hidden-polarity-rotor"
+    },
+    "device_policy": {
+      "backend_details": {
+        "mujoco": "not-requested",
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "HPR admission consumes deterministic fixture data and optional JSON measurements",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "python": "not-material-to-deterministic-fixture"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.preregistration",
+        "comparison": "status_equal",
+        "owner": "hidden-polarity-rotor",
+        "pointer": "$.verdict",
+        "reference_value": "diagnostic_only",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "owner-local fixture or measured-result file"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "run_id": "hidden-polarity-rotor",
+  "schema_id": "bedc-quality-lab:hidden-polarity-rotor",
+  "source_artifacts": {
+    "measured_result_source": null,
+    "preregistration_digest": "efd29adff42de3d81f390ca0919155443b85aa61c5343841e206eb45b3f3a356",
+    "task_fact_owner": "bedc_quality_lab.tasks.hidden_polarity_rotor"
+  },
+  "source_ref": "gh-issue-1700",
+  "task_facts": {
+    "allowed_verdicts": [
+      "diagnostic_only",
+      "positive",
+      "bounded_negative",
+      "ill_posed"
+    ],
+    "control_ids": [
+      "phase_shuffle",
+      "polarity_swap",
+      "rotor_blind"
+    ],
+    "control_margin": 0.03,
+    "evaluation_unit": "deterministic diagnostic fixture plus optional measured-result intake",
+    "fact_source": "owner-local",
+    "identifiability_margin": 0.12,
+    "min_sample_count": 64,
+    "owner": "bedc_quality_lab.tasks.hidden_polarity_rotor",
+    "source_ref": "gh-issue-1700",
+    "task_family": "bounded-physical-identifiability",
+    "task_id": "hidden-polarity-rotor"
+  },
+  "verdict": "diagnostic_only",
+  "what_was_learned": "The HPR artifact is a deterministic diagnostic fixture and does not open the measured claim gate."
+}
