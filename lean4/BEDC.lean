@@ -7362,6 +7362,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualDyadicRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceCandidateFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceLedgerNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.L10SourceLedgerReadback
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceOwnerBlocker
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObjectwiseObligation
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
@@ -7377,6 +7378,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.MaturePackageConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
+import BEDC.Derived.MetaCICCriticalPathUp.NormalAuditSocketHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormPublicNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormReadbackBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
@@ -9252,6 +9254,7 @@ import BEDC.Derived.RealSeriesUp.TasteGate
 import BEDC.Derived.RealSineUp.TasteGate
 import BEDC.Derived.RealSpectrumUp
 import BEDC.Derived.RealSpectrumUp.TasteGate
+import BEDC.Derived.RealStepFunctionUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.DyadicWindowExactness
 import BEDC.Derived.RealTailAgreementSealUp.RealCompletionHandoff
 import BEDC.Derived.RealTailAgreementSealUp.RootBudget
@@ -9757,6 +9760,7 @@ import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyNetUp
 import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
+import BEDC.Derived.RegularCauchyNonzeroUp.TasteGate
 import BEDC.Derived.RegularCauchyOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
@@ -10370,6 +10374,7 @@ import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
 import BEDC.Derived.SetlikeUp.ExtensionalityRoot
 import BEDC.Derived.SetlikeUp.FamilyFiberModelSatisfactionRoute
+import BEDC.Derived.SetlikeUp.FamilyHandoffObligation
 import BEDC.Derived.SetlikeUp.MembershipClassifierRootUnblock
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute

@@ -6,6 +6,8 @@ import BEDC.Derived.MetaCICCriticalPathUp.FrontierCompanion
 import BEDC.Derived.MetaCICCriticalPathUp.MatureConsumerSynthesis
 import BEDC.Derived.MetaCICCriticalPathUp.MaturePackageConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationConsumerHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.L10SourceLedgerReadback
+import BEDC.Derived.MetaCICCriticalPathUp.NormalAuditSocketHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierSeed
