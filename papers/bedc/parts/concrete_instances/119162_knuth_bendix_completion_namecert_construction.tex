@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\KnuthBendixCompletionUp$}
+\label{ch:concrete-instances-knuth-bendix-completion-namecert}
+\origin{human}
+
+Following Knuth and Bendix, the $\KnuthBendixCompletionUp$ packet records the finite critical-pair completion route by which oriented rewrite rules, a well-founded reduction ordering, and residual join witnesses are packaged as NameCert data. It is a traditional completion-theory neighbor of the MetaCIC confluence route: the packet reads the critical-path pressure of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the finite parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, and the local critical-pair boundary of \autoref{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert}. The chapter names a finite completion ledger; it does not claim global termination, full Church--Rosser, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+
+\begin{definition}[Knuth--Bendix completion carrier]
+\label{def:knuth-bendix-completion-carrier}
+A $\KnuthBendixCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,O,C,S,J,U,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the finite rewrite-rule row, listing oriented rules $l_i \to r_i$ and the finite signature cells on which the rules are admitted.
+\item $O$ is the well-founded reduction ordering row, recording the displayed decrease checks used to orient each accepted equation.
+\item $C$ is the critical-pair ledger row, listing every displayed overlap inspected by the completion packet.
+\item $S$ is the completion-step row, recording whether an overlap is joined, oriented into a new displayed rule, or routed to an obstruction.
+\item $J$ is the residual join row, listing the finite reduct witnesses consumed when a critical pair is declared locally joinable.
+\item $U$ is the obstruction row, naming unorientable equations, failed decrease checks, unresolved joins, and resource bounds as visible obstructions rather than hidden proof debt.
+\item $H$ records componentwise $\hsame$ transport for rewrite rules, ordering checks, critical-pair rows, completion steps, residual joins, obstructions, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay by which a completion consumer reads
+$$
+R,O,C,S,J,U
+$$
+before any confluence-facing handoff is made.
+\item $P$ is the $\Pkg$ provenance over $\KnuthBendixCompletionUp$, finite rewrite rules, well-founded ordering rows, critical-pair ledgers, completion steps, residual joins, obstruction rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KnuthBendixCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for arbitrary term rewriting systems, external termination proofs, global Church--Rosser, quotient term equality, evaluator equality, subject reduction, MetaCIC kernel consistency, or unchecked residual-substitution discharge.
+\end{definition}
+
+\begin{theorem}[Knuth--Bendix critical-pair resolution]
+\label{thm:knuth-bendix-critical-pair-resolution}
+Let $K=(R,O,C,S,J,U,H,T,P,N)$ be an accepted $\KnuthBendixCompletionUp$ carrier. Every critical pair consumed from $K$ is resolved only through the displayed route
+$$
+C \longmapsto S \longmapsto J,U .
+$$
+A row of $S$ may certify a local join by pointing to $J$, may orient a new displayed rule by pointing back to the decrease checks in $O$, or may expose an obstruction in $U$. No consumer may read the route as full Church--Rosser, arbitrary termination, quotient term equality, evaluator equality, subject reduction, or MetaCIC kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:knuth-bendix-completion-carrier}. The only critical-pair ledger is $C$, the only completion-step ledger is $S$, the only residual join ledger is $J$, and the only obstruction ledger is $U$.
+
+A locally joinable pair is therefore witnessed by a row of $S$ whose target is a displayed residual join in $J$. An oriented equation is witnessed by a row of $S$ whose target is a displayed decrease check in $O$, and an unresolved pair is witnessed by a row of $S$ whose target is the obstruction row $U$.
+
+Rows $H,T,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no global termination theorem, Church--Rosser theorem, quotient equality, evaluator equality, subject-reduction row, or kernel-consistency certificate, none of those claims can be exported by a critical-pair consumer.
+\end{proof}
+
+\begin{theorem}[Knuth--Bendix NameCert obligations]
+\label{thm:knuth-bendix-namecert-obligations}
+For every accepted $\KnuthBendixCompletionUp$ carrier
+$$
+K=(R,O,C,S,J,U,H,T,P,N),
+$$
+the local $\NameCert_{\KnuthBendixCompletionUp}$ surface consists exactly of rewrite-rule admission, well-founded ordering checks, critical-pair ledgering, completion-step ledgering, residual join exposure, obstruction exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:knuth-bendix-completion-carrier}. It exposes the ten rows $R,O,C,S,J,U,H,T,P,N$ and no hidden row.
+
+The rule row $R$ and ordering row $O$ provide the only source for oriented rewrite rules. The critical-pair row $C$ and step row $S$ provide the only source for completion progress.
+
+The residual join row $J$ and obstruction row $U$ exhaust the possible displayed outcomes for inspected overlaps. Finally, $H,T,P,N$ carry transport, replay, provenance, and local naming for those same rows. Thus the listed obligations are exactly the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Knuth--Bendix MetaCIC frontier handoff]
+\label{thm:knuth-bendix-metacic-frontier-handoff}
+The $\KnuthBendixCompletionUp$ packet is a finite completion neighbor for the MetaCIC confluence frontier. A MetaCIC-facing consumer may compare its critical-pair ledger to \autoref{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert} and its obstruction rows to \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, but the handoff remains a local finite completion ledger controlled by the critical-path boundary of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{thm:knuth-bendix-critical-pair-resolution}. Its critical-pair rows are finite ledger entries, and each inspected row is sent either to a residual join, an oriented rule backed by the displayed ordering check, or an obstruction.
+
+The MetaCIC critical-pair boundary supplies a sibling finite ledger for confluence audit rows, while the parallel-diamond frontier supplies the residual-frontier and obstruction-facing handoff. The critical-path chapter is the upstream route that keeps these consumers from treating a local completion row as a kernel-wide confluence theorem.
+
+Therefore the comparison is a route comparison between finite NameCert packets. It does not add global termination, full Church--Rosser, subject reduction, evaluator equality, quotient equality, residual-substitution compatibility, or kernel consistency.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\KnuthBendixCompletionUp$ packet exposes finite rewrite rules, well-founded ordering checks, critical-pair ledger rows, completion-step rows, residual join rows, obstruction rows, transport, replay, provenance, and local NameCert rows before a completion consumer reads the packet.}
+
+\independenceWitness{Nearest siblings: MetaCICCriticalPath, MetaCICParallelDiamondFrontier, and MetaCICConfluenceCriticalPairBoundary. None is bijective to $\KnuthBendixCompletionUp$ because this packet jointly carries traditional rewrite rules, reduction-ordering checks, completion-step outcomes, residual joins, obstructions, transport, replay, provenance, and local naming.}
+
+\closureat{KnuthBendixCompletionUp}{seedStr}
+
+\begin{closurestatus}{\KnuthBendixCompletionUp}
+  \constructivestory{A $\KnuthBendixCompletionUp$ packet is generated from finite rewrite-rule rows, well-founded reduction-ordering checks, critical-pair ledger rows, completion-step rows, residual join rows, obstruction rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:knuth-bendix-completion-carrier}, \autoref{thm:knuth-bendix-critical-pair-resolution}, \autoref{thm:knuth-bendix-namecert-obligations}, and \autoref{thm:knuth-bendix-metacic-frontier-handoff} seed the finite completion route through rewrite rules, ordering checks, critical pairs, completion steps, residual joins, obstructions, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary termination, full Church--Rosser, subject reduction, evaluator equality, quotient term equality, residual-substitution compatibility, Lean verification, bridge checking, or MetaCIC kernel consistency.}
+  \upgradepath{Obligation closure requires checked carrier admission, ordering decrease rows, critical-pair coverage, completion-step locality, residual join exposure, obstruction exposure, transport, replay, provenance, and local naming for BEDC.Derived.KnuthBendixCompletionUp.}
+\end{closurestatus}
