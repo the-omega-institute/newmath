@@ -39,6 +39,9 @@
         },
         "evidence_basis": {
           "$ref": "#/$defs/bio_evidence_basis"
+        },
+        "bedc_minimal_form": {
+          "$ref": "#/$defs/bedc_minimal_form"
         }
       }
     },
@@ -72,6 +75,9 @@
         },
         "evidence_basis": {
           "$ref": "#/$defs/forced_window_evidence_basis"
+        },
+        "bedc_minimal_form": {
+          "$ref": "#/$defs/forced_window_bedc_minimal_form"
         },
         "certificate_refs": {
           "type": "array",
@@ -113,7 +119,7 @@
       "minLength": 1
     },
     "bedc_minimal_form": {
-      "$ref": "#/$defs/bedc_minimal_form"
+      "type": "object"
     },
     "claimed_layer": {
       "type": "string"
@@ -218,6 +224,52 @@
         }
       }
     },
+    "forced_window_bedc_minimal_form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "carrier",
+        "distinctions",
+        "readback",
+        "internal_structure"
+      ],
+      "properties": {
+        "carrier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "distinctions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "readback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "internal_structure": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "coordinate",
+              "closure",
+              "spectrum",
+              "trigger",
+              "rank",
+              "homology",
+              "relation",
+              "integer_matrix_power",
+              "lucas_recurrence",
+              "none"
+            ]
+          }
+        }
+      }
+    },
     "bio_evidence_basis": {
       "type": "array",
       "minItems": 1,
@@ -238,9 +290,6 @@
     "forced_window_evidence_basis": {
       "type": "array",
       "minItems": 1,
-      "contains": {
-        "const": "automath_certificate"
-      },
       "items": {
         "type": "string",
         "enum": [
@@ -249,11 +298,13 @@
           "bedc_coordinate",
           "bedc_closure",
           "bedc_spectrum",
-          "derived_probe",
-          "mismatch_ledger",
-          "mechanism_bridge",
-          "automath_certificate"
-        ]
+            "derived_probe",
+            "mismatch_ledger",
+            "mechanism_bridge",
+            "automath_certificate",
+            "integer_matrix_power",
+            "lucas_recurrence"
+          ]
       }
     },
     "certificate_ref": {
@@ -289,7 +340,8 @@
             "golden_mean_shift_certificate",
             "edge_flux_count_certificate",
             "green_kirchhoff_certificate",
-            "automath_paper_section"
+            "automath_paper_section",
+            "integer_matrix_lucas_kernel_certificate"
           ]
         }
       },
