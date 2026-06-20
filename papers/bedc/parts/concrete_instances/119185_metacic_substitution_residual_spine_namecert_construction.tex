@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubstitutionResidualSpineUp$}
+\label{ch:concrete-instances-metacic-substitution-residual-spine-namecert}
+\origin{ai}
+
+The $\MetaCICSubstitutionResidualSpineUp$ packet realizes the residual boundary of \autoref{ch:metacic-substitution-audit-map} as finite substitution-audit spine data. It sits beside the closed substitution spine of \autoref{ch:concrete-instances-metacic-substitution-spine-namecert}, the typed substitution window of \autoref{ch:concrete-instances-metacic-typed-substitution-window-namecert}, the residual substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, and the subject-reduction discharge route of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. The packet names the residual window that must remain visible before confluence or subject-reduction consumers use substitution data; it does not prove unrestricted substitution commutation, closed subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+
+\begin{definition}[MetaCIC substitution residual-spine carrier]
+\label{def:metacic-substitution-residual-spine-carrier}
+A $\MetaCICSubstitutionResidualSpineUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,W,B,O,T,E,P,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the substitution-audit source row, naming the closed shift, closed substitution, closed composition, and generator-closure facts available from the audit map.
+\item $W$ is the residual-window row, recording the finite binder depths, payload positions, and open residual cells that must be displayed before a consumer reads the packet.
+\item $B$ is the binder-seal row, separating closed-boundary cases from residual cases under lambda and Pi binders.
+\item $O$ is the obstruction row, naming missing unrestricted commutation, beta-substitution preservation, dependent-codomain preservation, and subject-reduction discharge boundaries.
+\item $T$ is the transport row for substitution source, residual windows, binder seals, obstructions, typed-window handoff, replay, provenance, and local naming data.
+\item $E$ is the confluence and subject-reduction exposure row, specifying which residual-window entries must be visible before any handoff to the confluence or subject-reduction frontier is consumed.
+\item $P$ is the provenance row over the substitution audit map, the typed substitution window, the residual substitution boundary, the subject-reduction discharge route, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from a residual-spine request through $S,W,B,O,T,E$ before any downstream handoff is used.
+\item $K$ is the $\Pkg$ source row over $\MetaCICSubstitutionResidualSpineUp$, $\MetaCICSubstitutionSpineUp$, $\MetaCICTypedSubstitutionWindowUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\SubjectReductionDischargeSocketUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICSubstitutionResidualSpineUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for unrestricted substitution calculus, closed subject reduction, confluence closure, evaluator equality, quotient syntax equality, or kernel consistency. Future Lean \texttt{TasteGate.lean} coverage for this packet must include both \texttt{Nontrivial} and \texttt{FieldFaithful} instances for the residual-window classifier.
+\end{definition}
+
+\begin{theorem}[MetaCIC substitution residual-spine obligations]
+\label{thm:metacic-substitution-residual-spine-obligations}
+For every accepted $\MetaCICSubstitutionResidualSpineUp$ carrier
+$$
+R=(S,W,B,O,T,E,P,H,C,K,N),
+$$
+the local $\NameCert_{\MetaCICSubstitutionResidualSpineUp}$ surface consists exactly of substitution-audit source admission through $S$, residual-window exposure through $W$, binder-seal exposure through $B$, obstruction exposure through $O$, transport through $T$ and $H$, confluence and subject-reduction exposure through $E$, displayed replay through $C$, provenance through $P$ and $K$, and local naming through $N$. Every confluence or subject-reduction consumer must keep the residual-window row visible before using the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-substitution-residual-spine-carrier}. The substitution-audit source is $S$, while $W$ and $B$ separate the visible residual windows from binder-sealed closed cases.
+
+Read the obstruction row $O$. It keeps unrestricted substitution commutation, beta-substitution preservation, dependent-codomain preservation, and subject-reduction discharge as explicit boundaries rather than hidden consequences of the spine.
+
+The exposure row $E$ then governs downstream handoff. A confluence or subject-reduction consumer may inspect the packet only after the relevant entries of $W$ have been displayed and transported through $T$ and $H$.
+
+Finally $C,P,K,N$ replay, source, and name the same finite route. Since no carrier coordinate stores closed subject reduction, full confluence, evaluator equality, quotient syntax equality, or kernel consistency, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-window handoff]
+\label{thm:metacic-substitution-residual-spine-window-handoff}
+Every accepted $\MetaCICSubstitutionResidualSpineUp$ read sent to a confluence or subject-reduction consumer factors through the finite route
+$$
+S,W,B,O,T,E \longmapsto H,C,P,K,N .
+$$
+The handoff may expose residual substitution windows, binder seals, and obstruction rows for downstream audit. It cannot be reread as unrestricted substitution compatibility, closed subject reduction, evaluator equality, quotient syntax equality, confluence closure, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the residual-spine obligation surface. The source row $S$ supplies only the closed substitution-audit facts, so any open residual demand must pass through $W$.
+
+The binder-seal row $B$ distinguishes closed-boundary cases from residual cases, while $O$ records the endpoints that remain unavailable. The handoff row $E$ therefore exposes a residual window before a confluence or subject-reduction consumer may proceed.
+
+Transport and replay through $T,H,C$ preserve the same route, and $P,K,N$ attach provenance and local naming. Because no hidden row discharges the obstruction endpoints, the packet remains a residual spine rather than a closed substitution or subject-reduction theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted read exposes the residual-window row before any subject-reduction or confluence handoff is consumed.}
+
+\independenceWitness{metacic-substitution-spine, metacic-typed-substitution-window, metacic-residual-substitution-boundary, subjectreductiondischarge: none is bijective to $\MetaCICSubstitutionResidualSpineUp$ because this packet jointly carries residual-window, binder-seal, obstruction, transport, replay, provenance, and local NameCert rows for the substitution audit boundary.}
+
+\closureat{MetaCICSubstitutionResidualSpineUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubstitutionResidualSpineUp}
+  \constructivestory{A $\MetaCICSubstitutionResidualSpineUp$ packet is generated from substitution-audit source rows, residual-window rows, binder-seal rows, obstruction rows, confluence and subject-reduction exposure rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-substitution-residual-spine-carrier}, \autoref{thm:metacic-substitution-residual-spine-obligations}, and \autoref{thm:metacic-substitution-residual-spine-window-handoff} seed the finite residual-substitution spine over MetaCIC substitution audit rows, residual windows, binder seals, obstructions, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted substitution commutation, closed subject reduction, confluence closure, evaluator equality, quotient syntax equality, Lean verification, bridge checking, or MetaCIC kernel consistency.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-window exposure, binder-seal exposure, obstruction exposure, handoff exposure, transport, replay, provenance, local naming, and TasteGate nontriviality and field-faithfulness for BEDC.Derived.MetaCICSubstitutionResidualSpineUp.}
+\end{closurestatus}
