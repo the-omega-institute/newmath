@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualPairLatticeUp$}
+\label{ch:concrete-instances-metacic-residual-pair-lattice-namecert}
+\origin{ai}
+
+The $\MetaCICResidualPairLatticeUp$ packet realizes the confluence audit route of \autoref{ch:metacic-confluence-audit-map} as finite local-pair and candidate-join data. It sits beside the residual substitution comparison of \autoref{ch:concrete-instances-metacic-residual-substitution-comparison-namecert}, the residual substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the local join ledger of \autoref{ch:concrete-instances-metacic-local-join-ledger-namecert}, and the parallel diamond residual route of \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}. The packet keeps local diamond candidates finite and obstruction-visible; it is not global confluence, subject reduction, evaluator equality, quotient syntax equality, or MetaCIC kernel consistency.
+
+\begin{definition}[MetaCIC residual-pair lattice carrier]
+\label{def:metacic-residual-pair-lattice-carrier}
+A $\MetaCICResidualPairLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,J,B,O,T,R,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite residual-pair row, listing the local peak source, left residual target, right residual target, and inspected binder window.
+\item $J$ is the candidate-join row, recording the bounded common-target attempts for the displayed pair.
+\item $B$ is the bounded-checker row, recording the finite search budget and the local tests performed inside that budget.
+\item $O$ is the obstruction row, retaining substitution-compatibility, closed-diamond, subject-reduction, evaluator-equality, and kernel-consistency boundaries when a candidate join is not certified.
+\item $T$ is the transport row for local pairs, candidate joins, bounded checks, obstructions, replay, provenance, and local naming.
+\item $R$ is the replay row specifying how a confluence audit consumer may inspect $Q,J,B,O,T$ before using a conditional parallel-diamond handoff.
+\item $V$ is the visible candidate lattice row, ordering accepted local pairs by inspected source shape, residual frontier, bounded checker outcome, and obstruction status.
+\item $H$ records componentwise $\hsame$ transport for every displayed row.
+\item $C$ records displayed $\Cont$ replay from a local diamond request through $Q,J,B,O,T,R,V,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualPairLatticeUp$, residual-substitution comparison rows, residual-substitution boundary rows, local-join ledger rows, parallel-diamond residual rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualPairLatticeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for global confluence, subject reduction, evaluator equality, quotient syntax equality, unrestricted substitution compatibility, or kernel consistency. Future Lean \texttt{TasteGate.lean} coverage for this packet must include both \texttt{Nontrivial} and \texttt{FieldFaithful} instances preserving $Q,J,B,O,T,R,V,H,C,P,N$ as separate fields.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual-pair lattice obligations]
+\label{thm:metacic-residual-pair-lattice-obligations}
+For every accepted $\MetaCICResidualPairLatticeUp$ carrier
+$$
+L=(Q,J,B,O,T,R,V,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICResidualPairLatticeUp}$ surface consists exactly of local-pair admission through $Q$, candidate-join exposure through $J$, bounded-checker exposure through $B$, obstruction visibility through $O$, transport through $T$ and $H$, replay through $R$ and $C$, finite lattice ordering through $V$, provenance through $P$, and local naming through $N$. Every conditional confluence consumer must display the residual-pair row and the bounded-checker row before it cites a candidate local diamond.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-pair-lattice-carrier}. The row $Q$ is the only source of local peak and residual-target data, while $J$ names candidate joins for that displayed pair.
+
+The row $B$ records the finite budget under which the candidate is checked. If that budget does not certify the candidate, the obstruction row $O$ remains visible instead of disappearing behind the confluence audit map.
+
+The lattice row $V$ orders the accepted local pairs by exactly these displayed fields. Transport and replay through $T,H,R,C$ preserve the same rows, and $P,N$ source and name them.
+
+No endpoint theorem is hidden in the packet. Global confluence, subject reduction, evaluator equality, quotient syntax equality, unrestricted substitution compatibility, and kernel consistency are absent from the carrier, so the listed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-pair lattice local-diamond budget]
+\label{thm:metacic-residual-pair-lattice-local-diamond-budget}
+Every local-diamond read exported by an accepted $\MetaCICResidualPairLatticeUp$ packet is budgeted by the finite route
+$$
+Q,J,B,O,T,R,V,H,C,P,N .
+$$
+The packet may certify a bounded local candidate join or expose the obstruction row for the same residual pair. It cannot be promoted to arbitrary closed-term confluence, subject reduction, evaluator equality, quotient syntax equality, unrestricted substitution compatibility, or MetaCIC kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the residual-pair row $Q$. It fixes the local peak, the residual targets, and the inspected binder window before any candidate join is considered.
+
+Next inspect the candidate and budget rows $J$ and $B$. A certified local candidate join is public only if the bounded checker row records the displayed success for the same pair.
+
+If the bounded checker does not certify the pair, the obstruction row $O$ is retained. Replay and transport through $T,R,V,H,C$ keep this success-or-obstruction distinction visible to the confluence audit consumer.
+
+The provenance and naming rows $P,N$ close only the finite packet. Since the excluded endpoint theorems have no row in the packet, the local-diamond read remains a bounded candidate handoff rather than a global confluence or consistency theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MetaCICResidualPairLatticeUp$ confluence-audit read is refuted if it reaches a local-diamond candidate without displaying the residual pair row, candidate-join row, bounded-checker row, obstruction row, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{metacic-residual-substitution-comparison, metacic-residual-substitution-boundary, metacic-local-join-ledger, parallel-diamond-residual: none is bijective to $\MetaCICResidualPairLatticeUp$ because this packet jointly carries residual local pairs, candidate joins, bounded checker outcomes, retained obstructions, finite lattice ordering, transport, replay, provenance, and local naming.}
+
+\closureat{MetaCICResidualPairLatticeUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualPairLatticeUp}
+  \constructivestory{A $\MetaCICResidualPairLatticeUp$ packet is generated from finite residual-pair rows, candidate-join rows, bounded-checker rows, obstruction rows, a visible candidate lattice row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-pair-lattice-carrier}, \autoref{thm:metacic-residual-pair-lattice-obligations}, and \autoref{thm:metacic-residual-pair-lattice-local-diamond-budget} seed the finite residual-pair lattice over local confluence candidates, bounded checks, retained obstructions, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global confluence, subject reduction, evaluator equality, quotient syntax equality, unrestricted substitution compatibility, Lean verification, bridge checking, or MetaCIC kernel consistency.}
+  \upgradepath{Obligation closure requires checked carrier admission, local-pair exposure, candidate-join exposure, bounded-checker exactness, obstruction retention, lattice ordering, transport, replay, provenance, local naming, and TasteGate nontriviality and field-faithfulness for BEDC.Derived.MetaCICResidualPairLatticeUp.}
+\end{closurestatus}
