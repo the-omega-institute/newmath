@@ -541,6 +541,18 @@ Use the public route \autoref{thm:metacic-normalization-audit-public-route}. The
 Finally apply the kernel-scope route and candidate-boundary scope above. They force every normalization read through displayed candidate, projection, finite scope, application boundary, refusal, replay, provenance, and naming rows. Since the refused endpoints are not carrier coordinates, the refusal scope is closed under all displayed reads.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit frontier formal target]
+\label{thm:metacic-normalization-audit-frontier-formal-target}
+A Lean formalization target for $\MetacicNormalizationAuditUp$ must cover exactly the displayed audit frontier of the accepted carrier $Z=(R,C,S,A,N,F,H,T,P,L)$: candidate evidence in $R$, closed projection in $C$, finite strong-normalization scope in $S$, application boundary in $A$, confluence refusal in $N$, and replay, transport, continuation, provenance, and local naming through $F,H,T,P,L$. The target must not export evidence-free global strong normalization, full Church--Rosser, arbitrary subject reduction, quotient equality over reductions, or host evaluator evidence.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface, finite SN scope, and candidate-boundary scope. These theorems display the candidate evidence row $R$, the closed projection row $C$, the finite scope row $S$, and the application boundary $A$ before any normalization export is visible.
+
+Next use the residual-substitution compatibility theorem. It keeps substitution-shaped reads inside the same candidate ledger and requires the replay, transport, continuation, provenance, and local naming rows $F,H,T,P,L$ before any confluence-facing socket is exposed.
+
+Finally apply the refusal-scope theorem above. The refusal row $N$ marks evidence-free global strong normalization, full Church--Rosser, arbitrary subject reduction, quotient equality, and host evaluator evidence as excluded endpoints rather than target obligations. Thus the formal target is exactly the finite frontier named in the statement.
+\end{proof}
+
 \closureat{MetacicNormalizationAuditUp}{obligationStr}
 
 \begin{closurestatus}{\MetacicNormalizationAuditUp}
