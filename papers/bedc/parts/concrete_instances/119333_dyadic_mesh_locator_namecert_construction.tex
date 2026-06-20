@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\DyadicMeshLocatorUp$}
+\label{ch:concrete-instances-dyadic-mesh-locator-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real approximation and finite dyadic partitions, the $\DyadicMeshLocatorUp$ packet records the finite cell-location read used when a regular real window is compared with a displayed dyadic mesh. It sits over the mesh rows of \autoref{ch:concrete-instances-finite-dyadic-mesh-namecert}, the rounded locator route of \autoref{ch:concrete-instances-rounded-dyadic-locator-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream window of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite locator primitive; it does not decide host trichotomy, select a nearest cell, quotient real names, import countable choice, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic mesh locator carrier]
+\label{def:dyadic-mesh-locator-carrier}
+A $\DyadicMeshLocatorUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,Q,S,E,T,W,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\FiniteDyadicMeshUp$ row naming the finite mesh and its ordered cell rows.
+\item $Q$ is the locator request row containing the requested precision and the inspected real-window address.
+\item $S$ is the selected mesh-cell row returned by the finite locator.
+\item $E$ is the endpoint-tolerance row proving that the selected cell endpoints were read at the requested dyadic precision.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance row used to compare the endpoints and the window.
+\item $W$ is the $\StreamNameUp$ finite-window row inspected by the locator.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to $W$.
+\item $A$ is the $\RealUp$ seal row reached only after $M,Q,S,E,T,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the mesh, request, selected cell, endpoint tolerances, stream window, regular readback, real seal, and structural rows.
+\item $C$ records displayed $\Cont$ replay from a locator request through the mesh, selected cell, endpoint tolerances, stream window, regular readback, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicMeshLocatorUp$, $\FiniteDyadicMeshUp$, $\RoundedDyadicLocatorUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicMeshLocatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,Q,S,E,T,W,R,A,H,C,P,N$. It has no coordinate for host trichotomy, a nearest-cell selector, quotient real equality, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic mesh locator NameCert obligations]
+\label{thm:dyadic-mesh-locator-namecert-obligations}
+For every accepted $\DyadicMeshLocatorUp$ carrier $L=(M,Q,S,E,T,W,R,A,H,C,P,N)$, the local $\NameCert_{\DyadicMeshLocatorUp}$ surface consists exactly of finite mesh admission, locator-request admission, selected-cell row exposure, endpoint-tolerance accounting, dyadic tolerance comparison, StreamName window read, RegSeqRat readback, Real seal handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-mesh-locator-carrier}. The visible inventory is $M,Q,S,E,T,W,R,A,H,C,P,N$, and every locator obligation is assigned to one of those rows.
+
+The finite mesh and request rows are read first. Row $M$ supplies the inspected dyadic mesh, while $Q$ records the precision and window address that the locator is allowed to use. The selected cell row $S$ is therefore a finite row of the same mesh rather than a host-side nearest-cell choice.
+
+The endpoint and tolerance data are then displayed. Row $E$ records the endpoint tolerances, and row $T$ supplies the dyadic rational comparison budget used by the locator. Rows $W$ and $R$ expose the stream window and regular rational readback that the real-facing request actually inspects.
+
+Finally $A,H,C,P,N$ seal, transport, replay, source, and name the same finite route. Since the carrier contains no trichotomy decision, nearest-cell selector, quotient real equality, countable-choice row, or ambient-completeness witness, those objects are not local obligations of the packet.
+\end{proof}
+
+\begin{theorem}[Dyadic mesh locator finite cell handoff]
+\label{thm:dyadic-mesh-locator-finite-cell-handoff}
+Every $\RealUp$ consumer of an accepted $\DyadicMeshLocatorUp$ carrier receives the finite route
+$$
+M \longrightarrow Q \longrightarrow S \longrightarrow E \longrightarrow T \longrightarrow W \longrightarrow R \longrightarrow A \longrightarrow H,C,P,N .
+$$
+Thus the consumer reads a displayed finite dyadic mesh, locator request, selected cell, endpoint tolerance ledger, dyadic rational tolerance row, StreamName window, and RegSeqRat readback before it may consume the terminal real seal.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The terminal real seal is $A$, and it appears only after the finite mesh, request, selected cell, endpoint tolerance, dyadic tolerance, stream window, and regular readback rows have been displayed.
+
+Apply \autoref{thm:dyadic-mesh-locator-namecert-obligations}. It makes the route through $M,Q,S,E,T,W,R$ part of the local NameCert surface, so a consumer cannot replace the route by trichotomy, a nearest-cell selector, quotient equality of real names, or a choice-based search over mesh cells.
+
+The transport and replay rows preserve the same finite order for downstream consumers, while $P$ and $N$ record provenance and local naming. The handoff is therefore the displayed mesh-cell route rather than an ambient completeness or choice principle.
+\end{proof}
+
+\closureat{DyadicMeshLocatorUp}{seedStr}
+
+\begin{closurestatus}{\DyadicMeshLocatorUp}
+  \constructivestory{A $\DyadicMeshLocatorUp$ packet is generated from a finite dyadic mesh row, locator request row, selected cell row, endpoint tolerance rows, DyadicRatCore tolerance row, StreamName window, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-mesh-locator-carrier}, \autoref{thm:dyadic-mesh-locator-namecert-obligations}, and \autoref{thm:dyadic-mesh-locator-finite-cell-handoff} seed the finite dyadic mesh cell-location packet for Real and Completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host trichotomy, selected nearest cells, quotient real equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh-row exactness, request exactness, selected-cell exposure, endpoint-tolerance accounting, StreamName and RegSeqRat handoff, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.DyadicMeshLocatorUp.}
+\end{closurestatus}
