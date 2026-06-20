@@ -91,6 +91,22 @@ Next apply \autoref{thm:finite-witnessed-refutation-ledger-exactness}. It forces
 Finally apply \autoref{thm:finite-witnessed-refutation-non-escape}. Since the carrier has no coordinate for a host law, global falsification principle, external observation selector, or erased $\Gap$, the exported object is exactly the finite public packet.
 \end{proof}
 
+\begin{theorem}[Finite witnessed refutation public export]
+\label{thm:finite-witnessed-refutation-public-export}
+Every downstream refutation consumer of an accepted $\FiniteWitnessedRefutationUp$ packet exports only the finite rows
+$$
+R,G,K,V,D,H,C,P,N
+$$
+of the carrier and the already displayed $\GapClosureBoundaryUp$ and $\BoundedSearchRefutationUp$ sibling route. The export contains no universal causality law, host-law selector, global falsification principle, all-future causal closure, or erased $\Gap$ commitment.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-witnessed-refutation-namecert-obligations}. It identifies the carrier, local naming, stability, witness, decision, transport, continuation, and package rows available to a refutation consumer.
+
+Apply \autoref{thm:finite-witnessed-refutation-ledger-exactness} and \autoref{thm:finite-witnessed-refutation-non-escape}. These force every read through the displayed rows $R,G,K,V,D,H,C,P,N$ and rule out host laws, external selectors, erased commitments, and global falsification data.
+
+Finally combine \autoref{thm:finite-witnessed-refutation-public-packet} with \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}. The public packet supplies the finite export surface, while the Gap boundary and bounded-search sibling route keep the contrary record local to the displayed branch rather than promoting it to universal causal closure.
+\end{proof}
+
 \begin{theorem}[Finite witnessed refutation Gap boundary crosslink]
 \label{thm:finite-witnessed-refutation-gap-boundary-crosslink}
 For an accepted $\FiniteWitnessedRefutationUp$ packet
