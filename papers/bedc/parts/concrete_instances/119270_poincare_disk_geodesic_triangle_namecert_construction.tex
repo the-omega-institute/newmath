@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\PoincareDiskGeodesicTriangleUp$}
+\label{ch:concrete-instances-poincare-disk-geodesic-triangle-namecert}
+\origin{ai}
+
+The $\PoincareDiskGeodesicTriangleUp$ packet realizes the disk-geodesic triangle branch of the hyperbolic observer-expansion reading as finite BEDC data. It sits after the disk carrier of \autoref{ch:concrete-instances-unitdisk-namecert}, the hyperbolic metric route of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the boundary-geodesic route of \autoref{ch:concrete-instances-hyperbolic-geodesic-boundary-namecert}, the phase-transport packet of \autoref{ch:concrete-instances-poincare-disk-phase-transport-namecert}, and the dynamic replay surface of \autoref{ch:concrete-instances-dynsystem-namecert}. The packet names three disk points, three geodesic sides, metric and phase rows, and local provenance; it does not assert global hyperbolic completeness, selected geodesic endpoints, quotient curve equality, smooth manifold structure, or ambient field completeness.
+
+\begin{definition}[Poincare disk geodesic triangle carrier]
+\label{def:poincare-disk-geodesic-triangle-carrier}
+A $\PoincareDiskGeodesicTriangleUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D,V,G,M,B,\Phi,Y,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\UnitDiskUp$ source row, exposing exactly the disk-coordinate windows inspected by the packet.
+\item $V$ is the vertex row. It records three named disk points and the finite distinctness checks visible to the triangle carrier.
+\item $G$ is the side row. It records the three $\HyperbolicGeodesicBoundaryUp$ side windows joining the displayed vertices.
+\item $M$ is the $\HyperbolicMetricUp$ row, carrying the finite side-length, comparison, and incidence reads consumed by metric-facing readers.
+\item $B$ is the boundary-incidence row. It records which boundary endpoints or limiting boundary guards are inspected by the side rows, without selecting a global boundary parametrization.
+\item $\Phi$ is the $\PoincareDiskPhaseTransportUp$ row, carrying the reversible phase transport used to compare the displayed sides inside the disk model.
+\item $Y$ is the $\DynSystemUp$ replay row for the finite phase-geodesic observation route.
+\item $H$ records componentwise $\hsame$ transport for disk points, vertices, sides, metric reads, boundary guards, phase transport, dynamic replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a triangle request through $D,V,G,M,B,\Phi,Y,H,P,N$ without adding selected geodesic endpoints or quotient curve equality.
+\item $P$ is the $\Pkg$ provenance over $\PoincareDiskGeodesicTriangleUp$, $\UnitDiskUp$, $\HyperbolicMetricUp$, $\HyperbolicGeodesicBoundaryUp$, $\PoincareDiskPhaseTransportUp$, $\DynSystemUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PoincareDiskGeodesicTriangleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,V,G,M,B,\Phi,Y,H,C,P,N$. It has no coordinate for a host disk model, selected complete geodesic, quotient curve equality, smooth tangent object, measure completion, global hyperbolic completion, Nontrivial instance, or FieldFaithful instance.
+\end{definition}
+
+\begin{theorem}[Poincare disk geodesic triangle NameCert obligations]
+\label{thm:poincare-disk-geodesic-triangle-namecert-obligations}
+For every accepted $\PoincareDiskGeodesicTriangleUp$ carrier $T=(D,V,G,M,B,\Phi,Y,H,C,P,N)$, the local $\NameCert_{\PoincareDiskGeodesicTriangleUp}$ surface consists exactly of carrier admission for the disk source, three-vertex row, three geodesic-side rows, hyperbolic-metric row, boundary-incidence guards, phase-transport row, dynamic replay row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every triangle read must pass through $D,V,G,M,B,\Phi,Y,H,C,P,N$, and no obligation is stored outside those finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The geometric rows are the disk source $D$, vertices $V$, geodesic sides $G$, metric reads $M$, boundary guards $B$, phase transport $\Phi$, and dynamic replay $Y$.
+
+The structural rows then preserve that route. Transport through $H$ and replay through $C$ act componentwise on the same displayed disk, side, metric, boundary, phase, and dynamic rows, while $P$ and $N$ source and name the packet.
+
+Since the carrier has no row for a host disk model, selected complete geodesic, quotient curve equality, smooth tangent object, measure completion, global completion, Nontrivial instance, or FieldFaithful instance, the local NameCert cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Poincare disk geodesic triangle phase route]
+\label{thm:poincare-disk-geodesic-triangle-phase-route}
+Every hyperbolic-metric, phase-transport, or dynamic consumer of an accepted $\PoincareDiskGeodesicTriangleUp$ packet must first read
+$$
+\UnitDiskUp,\quad
+\HyperbolicMetricUp,\quad
+\HyperbolicGeodesicBoundaryUp,\quad
+\PoincareDiskPhaseTransportUp,\quad
+\DynSystemUp
+$$
+through the displayed rows $D,V,G,M,B,\Phi,Y,H,C,P,N$. The consumer receives only finite disk-point, geodesic-side, hyperbolic-metric, boundary-guard, phase-transport, dynamic-replay, transport, provenance, and local naming rows. It receives no host disk metric, selected geodesic boundary parametrization, quotient curve equality, smooth geodesic flow, measure completion, global hyperbolic completion, Nontrivial instance, or FieldFaithful instance.
+\end{theorem}
+\begin{proof}
+Start with the disk and side data of \autoref{def:poincare-disk-geodesic-triangle-carrier}. The row $D$ exposes disk coordinates, $V$ names the three inspected vertices, and $G$ records the three side windows.
+
+Next read the metric and boundary guards. The row $M$ supplies only the hyperbolic-metric reads attached to those displayed sides, and $B$ records the finite boundary-incidence checks without selecting a boundary parametrization.
+
+Finally apply the phase and dynamic rows. The phase-transport row $\Phi$ and dynamic replay row $Y$ are transported by $H$, replayed by $C$, sourced by $P$, and named by $N$. Because no row contains a host disk metric, quotient curve equality, selected complete geodesic, smooth flow, measure completion, global completion, Nontrivial instance, or FieldFaithful instance, none can be read by the consumer.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\PoincareDiskGeodesicTriangleUp$ consumer that reaches a hyperbolic-metric, phase-transport, or dynamic read without first displaying $D,V,G,M,B,\Phi,Y,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{unitdisk, hyperbolic-metric, hyperbolic-geodesic-boundary, poincare-disk-phase-transport, dynsystem: no listed sibling supplies the whole packet $T=(D,V,G,M,B,\Phi,Y,H,C,P,N)$, because each sibling contributes only disk coordinates, metric reads, boundary-geodesic guards, phase transport, or dynamic replay while this chapter binds the finite geodesic triangle through local transport, provenance, and naming.}
+
+\closureat{PoincareDiskGeodesicTriangleUp}{seedStr}
+
+\begin{closurestatus}{\PoincareDiskGeodesicTriangleUp}
+  \constructivestory{A $\PoincareDiskGeodesicTriangleUp$ packet is generated from a UnitDisk source row, a three-vertex row, geodesic-side rows, a HyperbolicMetric row, boundary-incidence guards, PoincareDiskPhaseTransport, DynSystem replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-disk-geodesic-triangle-carrier}, \autoref{thm:poincare-disk-geodesic-triangle-namecert-obligations}, and \autoref{thm:poincare-disk-geodesic-triangle-phase-route} seed the finite disk-geodesic triangle route from disk points through geodesic sides, hyperbolic metric, boundary guards, phase transport, dynamic replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host disk metrics, selected geodesic boundary parametrizations, quotient curve equality, smooth geodesic flow, measure completion, global hyperbolic completion, Nontrivial instances, FieldFaithful instances, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, disk-point exposure, geodesic-side exactness, hyperbolic-metric handoff, boundary-guard scope, phase-transport compatibility, dynamic replay, Nontrivial and FieldFaithful instance supply, provenance exhaustion, and local naming for BEDC.Derived.PoincareDiskGeodesicTriangleUp.}
+\end{closurestatus}
