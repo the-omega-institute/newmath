@@ -1,0 +1,17 @@
+\begin{theorem}[GapClosureBoundary public certificate handoff]
+\label{thm:gapclosureboundary-public-certificate}
+The $\GapClosureBoundaryUp$ public certificate surface is the finite route obtained by packaging the scoped source-refusal record, the displayed source route, the displayed refusal route, and the root $\NameCert$ rows:
+$$
+G,S,R,H,C,P,N .
+$$
+Every public consumer receives the supported branch through $G \longrightarrow S$ or the unsupported branch through $G \longrightarrow R$, with the same transport, replay, provenance, and local naming rows. It receives no hidden closure witness, hidden $\mathsf{T}$ supply, private other-minds access, causal necessity primitive, quotient boundary equality, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with the scoped record of \autoref{thm:gap-closure-boundary-scoped-source-refusal-record}. It already binds the supported and unsupported reads to one displayed packet rather than to a private closure source.
+
+For the supported public route, apply \autoref{thm:gap-closure-boundary-source-route-totality}. The branch reaches the source row only through $G \longrightarrow S$ before downstream consumers inspect $H,C,P,N$.
+
+For the unsupported public route, apply \autoref{thm:gap-closure-boundary-refusal-route-exactness}. The branch reaches the refusal row only through $G \longrightarrow R$ with the same structural rows.
+
+Finally apply \autoref{thm:gap-closure-boundary-namecert-route-totality}. The root $\NameCert$ row packages the two branches with transport, replay, and provenance, so the public certificate has exactly the displayed finite surface and no coordinate for the excluded host objects.
+\end{proof}
