@@ -1,0 +1,48 @@
+\subsection{A Translation-Mediated Protein-Abundance Surface for $B^{*}_{Q6}$}
+\label{sec:q6-translation-mediated-protein-abundance-cross-layer}
+
+\paragraph{Finite surface.}
+The object in this subsection is a finite table of triples $(q_i,t_j,p_k)$, where $q_i$ ranges over the nine $B^{*}_{Q6}$ synonymous residual coordinates, $t_j$ is a translation-layer readout, and $p_k$ is a matched protein-abundance readout. The coordinates used in the powered table are
+$$\begin{aligned}
+&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress.
+\end{aligned}$$
+The translation coordinate in the main cross-layer table is per-protein mean modeled tAI,
+$$\begin{aligned}
+t_j=\frac{\sum_c n_{kc}w_c}{\sum_c n_{kc}},
+\end{aligned}$$
+where $n_{kc}$ is the codon count of codon $c$ in protein-coding sequence $k$, and $w_c$ is the GtRNAdb all-tRNA-copy and dos Reis wobble-weight readout for that codon. The protein coordinate is $p_k=\log_{10}(\mathrm{abundance\ ppm})$ from PAXdb, joined to real CDS codon counts. The control matrix contains an intercept, $\log(\mathrm{CDS\ length})$, the $20$ amino-acid composition proportions, GC3, and the $M$-density baseline, for $24$ control columns before the residual coordinates are fitted.
+
+\paragraph{Rows and ranks.}
+The main table contains twelve organism-scoped joins. The row counts are $4042$ for \emph{Bacillus subtilis} 168, $11661$ for \emph{Caenorhabditis elegans}, $14410$ for \emph{Danio rerio}, $13295$ for \emph{Drosophila melanogaster}, $3739$ for \emph{Escherichia coli} K-12 MG1655, $12418$ for \emph{Gallus gallus}, $19053$ for human, $19395$ for mouse, $4129$ for \emph{Mycobacterium smegmatis} MC2 155, $13322$ for rat, $5815$ for budding yeast, and $1656$ for \emph{Sulfolobus solfataricus}. In every organism table the residualized $Q$ block has rank $9$, the residualized translation block has rank $1$, the joint $QT$ block has rank $10$, and the controlled design has rank $23$ after the control projection. Thus the reported mediated fractions are not produced by a rank collapse of the finite design.
+
+\paragraph{Mediation statistic.}
+After residualizing by the control matrix $Z$, the total $Q$ to protein-abundance association is recorded as $c=R^2(P\sim Q)$, and the direct term after conditioning on the translation readout is $c'=R^2(P\sim Q\mid T)$. The finite mediation fraction is
+$$\begin{aligned}
+M^{QTP}=\frac{c-c'}{c}.
+\end{aligned}$$
+This is a descriptive variance decomposition on matched rows. It is not a perturbational effect, not a causal path coefficient, and not a claim that modeled tAI observes ribosome motion.
+
+\paragraph{Mediated fractions.}
+All twelve organism-level mediated fractions lie in $[0,1]$. Ordered by magnitude, the finite list is
+$$\begin{aligned}
+M^{QTP}_{\mathrm{yeast}}&=0.949155, & M^{QTP}_{\mathrm{Drosophila}}&=0.616517,\\
+M^{QTP}_{\mathrm{E.coli}}&=0.612922, & M^{QTP}_{\mathrm{Bacillus}}&=0.608459,\\
+M^{QTP}_{\mathrm{C.elegans}}&=0.487227, & M^{QTP}_{\mathrm{Danio}}&=0.315705,\\
+M^{QTP}_{\mathrm{human}}&=0.272063, & M^{QTP}_{\mathrm{Gallus}}&=0.197690,\\
+M^{QTP}_{\mathrm{rat}}&=0.174897, & M^{QTP}_{\mathrm{mouse}}&=0.154888,\\
+M^{QTP}_{\mathrm{Mycobacterium}}&=0.083976, & M^{QTP}_{\mathrm{Sulfolobus}}&=0.018507.
+\end{aligned}$$
+The largest yeast entry has $c=0.29837624994140827$ and $c'=0.0151709093608293$, giving an indirect difference $0.28320534058057895$. The smallest archaeal entry has $c=0.06397514251295629$ and $c'=0.06279117466131778$, giving an indirect difference $0.0011839678516385038$. Human and mouse provide large-row eukaryotic checks: human has $19053$ joined proteins with $M^{QTP}=0.27206289160119157$, while mouse has $19395$ joined proteins with $M^{QTP}=0.15488799907323988$.
+
+\paragraph{Translation-layer contact.}
+A separate modeled-tAI survival run computed the same nine $B^{*}_{Q6}$ residual coordinates for three organisms. It found $81$ modeled-tAI bounded-coupling entries above the $0.01$ threshold, with maximum absolute score $3801961.031607896$. The three-organism contact contained all $20$ standard amino-acid tRNA families in each organism: $87$ matched FASTA headers out of $89$ in \emph{E. coli} K-12, $432$ of $432$ in human, and $275$ of $275$ in budding yeast. Each modeled tAI readout covered all $61$ sense codons, with zero raw-weight fallback count $0$ in those three organisms. This supports a bounded modeled-readout contact, but the same finite record states that three organisms are insufficient for a powered survival law; it is not ribosome profiling and does not by itself establish translation realization.
+
+\paragraph{Adjacent finite checks.}
+The yeast five-way structure and abundance table joined $4759$ genes, with reported CDS join hit rate $0.9156038419146592$ and overall join hit rate $0.8818572656921754$. In that table, $R^2_{QP}=0.2715520808117803$, $R^2_{QP\mid S}=0.2706601505000995$, $R^2_{QP\mid T,M}=0.13773967696311287$, and $R^2_{QP\mid T,M,S}=0.13759011208318542$; the structure-only fraction is $0.003284564452662019$, the structure-after-translation-and-mRNA-stability fraction is $0.0005507778820193332$, the right-tail permutation value for $S_Q$ structure is $0.027972027972027972$, and the corresponding value for the structure-mediated term is $0.1258741258741259$. A structural-order axis check identified $f3\_stress$ as the single coordinate passing the fold-level sign-flip gate, with right-tail value $0.03125$ and weighted held-out $R^2$ gain $0.0031744502294756994$. By contrast, the cross-ortholog selection-imprint table did not pass its stronger gate: it used $80$ orthogroups, $240$ rows, and $3$ species, with $\Delta R^2=0.03250515015613468$, leave-clade-out $\Delta R^2=-0.0021477729853302424$, and null $95$ percent maximum $0.05427157066522958$. A dynamic mass-balance audit on $120$ genes and $718$ intervals also rejected promotion, with $R^2_{L0}=0.9960628201518571$, $R^2_{L1}=0.996410628851051$, $R^2_{L2}=0.9712443377743347$, $R^2_{L3}=0.8953999568421264$, $\Delta R^2=-0.07584438093220836$, $p_{TEbin}=0.6831683168316832$, and $p_{timeshuffle}=0.9306930693069307$. A turnover audit on $3290$ genes was also negative beyond expression, translation-efficiency, pLDDT, and N-end controls, with $R^2_{L2}=0.055740851626933985$, $R^2_{L3}=0.050278872193227464$, $\Delta R^2=-0.005461979433706483$, $p_{matchedbin}=0.8855721393034826$, and $p_{recoded}=1.0$.
+
+\paragraph{Genetic-code anchoring.}
+The lower-layer confirmatory table covered the module-classification target \texttt{h1.leave\_one\_codon\_out.module\_classification} together with the amino-acid-class-preserving null and the leave-one-code-out family target. Both the boundary probe and the independent replication used $40$ trials with $40$ successes, giving exact one-sided binomial upper-tail value $9.094947017729282\times 10^{-13}$ in each case. The negative-control and critical-ablation blocks each used $20$ trials with $0$ unexpected successes. This anchors the codon-geometry side of the record, but it does not raise the translation-mediated protein-abundance table to a mechanism or organism-wide law.
+
+\paragraph{Local interpretation boundary.}
+The finite result is therefore a cross-layer statistical relation: $B^{*}_{Q6}$ residual coordinates retain protein-abundance association after amino-acid composition, GC3, CDS length, and the $M$-density baseline are controlled, and a modeled tAI coordinate accounts for a positive fraction of that association in every one of the twelve organism tables. The admissible statement is only that the row-wise $Q\to T\to P$ decomposition is non-null on this finite surface. No direct $Q\to P$ association is counted as protein realization when the intervening translation readout is absent, null, or untested. No translation mechanism, ribosome-occupancy realization, folding pathway, physical admissibility, molecular function, perturbational rescue, selection law, phenotype, or universality follows from this table unless a separate layer-matched measurement supplies that contact and passes its own controlled finite statistic.
