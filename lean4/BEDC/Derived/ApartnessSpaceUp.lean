@@ -432,4 +432,70 @@ theorem ApartnessSpaceCarrier_classifier_stability [AskSetup] [PackageSetup]
     }
   exact ⟨cert, locatedUnary, gapUnary, classifierUnary⟩
 
+theorem ApartnessSpaceCarrier_namecert_obligation_package [AskSetup] [PackageSetup]
+    {object located gap transport classifierExclusion zeroBoundary htransport replay provenance
+      localName apartRead zeroDistanceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessSpaceCarrier object located gap transport classifierExclusion zeroBoundary
+        htransport replay provenance localName apartRead bundle pkg ->
+      Cont gap classifierExclusion apartRead ->
+        Cont zeroBoundary replay zeroDistanceRead ->
+          PkgSig bundle localName pkg ->
+            PkgSig bundle zeroDistanceRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row localName ∧ PkgSig bundle localName pkg)
+                  (fun row : BHist =>
+                    hsame row object ∨ hsame row located ∨ hsame row gap ∨
+                      hsame row classifierExclusion ∨ hsame row zeroBoundary ∨
+                        hsame row localName)
+                  (fun _row : BHist =>
+                    PkgSig bundle localName pkg ∧ Cont gap classifierExclusion apartRead ∧
+                      Cont zeroBoundary replay zeroDistanceRead)
+                  hsame ∧
+                UnaryHistory located ∧ UnaryHistory gap ∧
+                  UnaryHistory classifierExclusion ∧ UnaryHistory zeroBoundary := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier positiveGapRoute zeroDistanceRoute localNamePkg _zeroDistancePkg
+  obtain ⟨_objectUnary, locatedUnary, gapUnary, _transportUnary, classifierUnary,
+    zeroBoundaryUnary, _htransportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _locatedGapClassifier, _storedGapRoute, _zeroBoundaryReplayProvenance,
+    _replayProvenanceName, _storedLocalNamePkg⟩ := carrier
+  have sourceLocal :
+      (fun row : BHist => hsame row localName ∧ PkgSig bundle localName pkg)
+        localName := by
+    exact ⟨hsame_refl localName, localNamePkg⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row localName ∧ PkgSig bundle localName pkg)
+          (fun row : BHist =>
+            hsame row object ∨ hsame row located ∨ hsame row gap ∨
+              hsame row classifierExclusion ∨ hsame row zeroBoundary ∨ hsame row localName)
+          (fun _row : BHist =>
+            PkgSig bundle localName pkg ∧ Cont gap classifierExclusion apartRead ∧
+              Cont zeroBoundary replay zeroDistanceRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro localName sourceLocal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row _source
+      exact ⟨localNamePkg, positiveGapRoute, zeroDistanceRoute⟩
+  }
+  exact ⟨cert, locatedUnary, gapUnary, classifierUnary, zeroBoundaryUnary⟩
+
 end BEDC.Derived.ApartnessSpaceUp
