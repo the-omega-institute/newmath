@@ -123,6 +123,24 @@ Apply the residual-budget obligation \autoref{thm:metacic-normalization-audit-re
 Finally replay through $F,H,T,P,L$. These structural rows preserve the same candidate ledger and cannot supply global strong normalization, subject reduction, confluence, quotient equality, or a host evaluator, since none of those objects appears as a carrier row.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit public candidate export]
+\label{thm:metacic-normalization-audit-public-candidate-export}
+For an accepted $\MetacicNormalizationAuditUp$ packet
+$$
+Z=(R,C,S,A,N,F,H,T,P,L),
+$$
+the public export available to consistency consumers is exactly the candidate-mediated strong-normalization route through $R,C,S,A,N$ and replay through $F,H,T,P,L$. It may cite the finite SN inventory, the closed-term projection route, the application boundary, the residual-budget obligation, and candidate-ledger locality, but it exports no evidence-free global strong normalization, subject reduction, confluence, quotient equality, or host evaluator.
+\end{theorem}
+\begin{proof}
+First read the obligation surface and finite SN scope. Apply \autoref{thm:metacic-normalization-audit-obligation-surface} and \autoref{thm:metacic-normalization-audit-sn-scope}; together they place every positive normalization read behind candidate evidence $R$, checked projection $C$, and finite inventory $S$.
+
+Next use the closed-term projection route and application boundary. Apply \autoref{thm:metacic-normalization-audit-closed-term-projection-route}; the row $A$ remains visible, so a closed-term SN consumer cannot erase the candidate route and read the claim as global normalization.
+
+Now spend the residual budget. Apply \autoref{thm:metacic-normalization-audit-residual-budget-obligation}; the row $N$ keeps confluence, subject reduction, and full closed Church--Rosser outside the normalization export.
+
+Finally apply candidate-ledger locality. The replay rows $F,H,T,P,L$ preserve the same displayed ledger and add no host evaluator, quotient equality, confluence theorem, subject-reduction theorem, or evidence-free SN endpoint. Thus the public candidate export is exactly the finite route stated above.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit candidate-frontier refusal]
 \label{thm:metacic-normalization-audit-candidate-frontier-refusal}
 Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. Any strong-normalization export that crosses from candidate evidence to closed-term normalization must display the rows
