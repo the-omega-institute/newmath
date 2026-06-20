@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\CantorIntersectionWindowUp$}
+\label{ch:concrete-instances-cantor-intersection-window-namecert}
+\origin{human}
+
+Following Cantor and Bishop--Bridges on nested interval principles, the $\CantorIntersectionWindowUp$ packet records finite nested closed-window data at the point where a Real and Completion consumer asks for a displayed handoff. It sits after the nested-chain surface of \autoref{ch:concrete-instances-nestedinterval-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The route is the finite-window counterpart of the real-completeness vision in \autoref{sec:real-completeness-regular-cauchy}: it names inspected nested windows and their regular readback, not an ambient completeness theorem.
+
+\begin{definition}[Cantor intersection window carrier]
+\label{def:cantor-intersection-window-carrier}
+A $\CantorIntersectionWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(I,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\NestedIntervalUp$ row naming the finite nested closed-window chain under inspection.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint, width, and tolerance ledger for those same windows.
+\item $S$ is the $\StreamNameUp$ finite observation row listing the stages read by the handoff.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational name extracted from the displayed windows.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $I,D,S,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the nested-window, dyadic-ledger, stream-window, readback, seal, provenance, replay, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite window request through $I,D,S,R,E$ and back to the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\CantorIntersectionWindowUp$, $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorIntersectionWindowUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for interval compactness, countable choice, selected completed endpoints, quotient stream equality, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cantor intersection window NameCert obligations]
+\label{thm:cantor-intersection-window-namecert-obligations}
+For every accepted $\CantorIntersectionWindowUp$ carrier $W=(I,D,S,R,E,H,C,P,N)$, the local $\NameCert_{\CantorIntersectionWindowUp}$ surface consists exactly of the nested closed-window row $I$, dyadic endpoint and tolerance ledger $D$, finite stream window $S$, regular rational readback $R$, terminal Real seal $E$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$. A Real or Completion consumer must expose these rows before reading the finite nested-window handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-intersection-window-carrier}. The analytic rows $I,D,S,R,E$ list the only route from the displayed nested windows to a Real-facing seal.
+
+The nested interval row $I$ is read first, and the dyadic ledger $D$ records the endpoint and width data for that same finite chain. The stream row $S$ then identifies the inspected stages, while $R$ supplies the regular rational readback available at those stages.
+
+The seal row $E$ is downstream of this finite display. The structural rows $H,C,P,N$ transport, replay, source, and name the same packet, so no extra coordinate can introduce compactness, choice, quotient equality, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cantor intersection window Real and Completion handoff]
+\label{thm:cantor-intersection-window-real-completion-handoff}
+Every Real-facing or Completion-facing consumer of an accepted $\CantorIntersectionWindowUp$ packet factors through
+$$
+\NestedIntervalUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+using the displayed rows $I,D,S,R,E,H,C,P,N$. The handoff may transport and replay the finite nested-window route, but it cannot export interval compactness, countable choice, quotient stream equality, selected completed endpoints, a chosen limit real, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the NameCert-obligation theorem. It forces the consumer to expose the nested closed-window row, dyadic endpoint and tolerance ledger, finite stream window, and regular rational readback before the terminal Real seal is read.
+
+Read the sibling route in order. The $\NestedIntervalUp$ chapter supplies the retained finite chain, $\DyadicRatCoreUp$ supplies the endpoint and tolerance arithmetic, $\StreamNameUp$ supplies the inspected stages, $\RegSeqRatUp$ supplies the regular rational readback, and $\RealUp$ supplies only the terminal seal reached after those rows.
+
+The same route is the Completion-facing handoff: a completion consumer receives the finite window and regular readback rows before it can inspect a Real-facing seal. Since the packet contains no selector for an infinite branch, no quotient stream equality, no countable-choice schedule, no chosen limit real, and no ambient completeness theorem, the handoff remains finite NameCert data.
+\end{proof}
+
+\closureat{CantorIntersectionWindowUp}{seedStr}
+
+\begin{closurestatus}{\CantorIntersectionWindowUp}
+  \constructivestory{A $\CantorIntersectionWindowUp$ packet is generated from displayed NestedIntervalUp finite closed-window rows, a DyadicRatCoreUp endpoint and tolerance ledger, StreamNameUp finite observations, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-intersection-window-carrier}, \autoref{thm:cantor-intersection-window-namecert-obligations}, and \autoref{thm:cantor-intersection-window-real-completion-handoff} seed the finite nested-window Real and Completion handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close interval compactness, countable choice, quotient stream equality, selected completed endpoints, chosen limit reals, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nested-window exposure, dyadic tolerance exposure, finite-window readback, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.CantorIntersectionWindowUp.}
+\end{closurestatus}
