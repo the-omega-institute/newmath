@@ -5104,6 +5104,91 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T05:05:07+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T05:05:07+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "850d6662d590",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T05:11:21+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T05:11:21+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "22311be4ad30",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T05:17:32+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T05:17:32+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "7ff9e36b86b5",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T05:23:37+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T05:23:37+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "1aa8be21c557",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T05:39:47+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T05:39:47+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "bc4f7710b204",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -7347,6 +7432,34 @@
             "failed": 0
           },
           "script_sha": "6c10b099790171d7"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.mass_balance.b_star_q6_rpf_protein_closure_dynamic_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Dynamic mass-balance closure test (yeast meiosis time-course, GSE108778 mRNA+ribosome-footprint + Cell-2018 Cheng Table S3 TMT protein, 7 timepoints 0-10h): with ribosome footprint RPF taken as the OBSERVED input flux in the per-gene conservation law dP/dt = gamma*F - lambda*P (gamma = footprint->protein gain, NOT TE; lambda = apparent clearance), the 9D B*_Q6 synonymous residual -- after residualizing out static TE (E_stat=median log(F/M) over {veg,0h}) and controls -- carries NO held-out dynamic information beyond static TE: adding B_perp*F_mid and -B_perp*P_mid to the RPF-flux model DEGRADES gene-held-out prediction (R2_L2=0.971 -> R2_L3=0.895, delta-R2=-0.076, delta-DL=-669 bits, all 5 folds negative). Real effect is far below the static-TE-matched permutation null (p=0.68) and the time-shuffle null (p=0.93); it is NOT disguised_e_in (B also fails on M-input, delta-DL=-1060). Verdict = null: B*_Q6 is fully captured by static execution TE and does not carry rate-constant / conservation-law structure -- the dynamics/mass-balance escape from the vacuity ceiling FAILS. n_genes=120 (deterministic subsample of 4434 eligible, runtime-bounded; effect direction is a strong negative, not a marginal low-power null). cannot_claim: relative TMT protein not absolute; no independent growth-dilution/degradation so lambda is apparent not physical; meiosis-only not universal; RPF used as observed flux, k_tl=RPF/mRNA never estimated. Confirmed at 8x scale (n_genes=1000, 5994 intervals): verdict still null, delta-R2=-0.016 (shrinks toward 0 from the n=120 -0.076 as overfitting decreases with data, but stays non-positive), delta-DL=-2958 bits, static-TE-matched null p=0.89, time-shuffle null p=1.0, not disguised_e_in -- i.e. B*_Q6 adds essentially ZERO held-out dynamic information beyond static TE, robust to gene count. The landed bio-X experiment uses n_genes=120 (runtime-bounded) and reproduces the same null verdict.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_rpf_protein_closure_dynamic_powered",
+      "history": [
+        {
+          "ts": "2026-06-20T05:26:34+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-20T05:47:09+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "6a956431a53f",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "4d1437ba70fa6b2d"
         }
       ],
       "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
