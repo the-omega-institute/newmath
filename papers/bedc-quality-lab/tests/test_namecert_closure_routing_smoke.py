@@ -1,7 +1,12 @@
 import json
 
 from bedc_quality_lab import namecert_closure_routing as ncr
-from scripts import run_namecert_audit, run_namecert_authswap
+from scripts import (
+    run_namecert_audit,
+    run_namecert_authswap,
+    run_namecert_closure_routing,
+    run_namecert_closure_verify,
+)
 
 
 def _assert_smoke_contract(payload):
@@ -56,11 +61,26 @@ def test_runner_writes_authswap_and_audit_reports(tmp_path):
 
 
 def test_profile_scripts_are_thin_entrypoints(tmp_path, capsys):
+    assert run_namecert_closure_routing.main(["--root", str(tmp_path), "--device", "cpu", "--generated-at", "fixture-time"]) == 0
+    assert run_namecert_closure_verify.main(["--root", str(tmp_path), "--device", "cpu", "--generated-at", "fixture-time"]) == 0
     assert run_namecert_authswap.main(["--root", str(tmp_path), "--device", "cpu", "--generated-at", "fixture-time"]) == 0
     assert run_namecert_audit.main(["--root", str(tmp_path), "--device", "cpu", "--generated-at", "fixture-time"]) == 0
 
     lines = capsys.readouterr().out.strip().splitlines()
     summaries = [json.loads(line) for line in lines]
-    assert [summary["profile_id"] for summary in summaries] == ["smoke_authswap", "smoke_audit"]
-    assert (tmp_path / "reports" / "namecert_authswap.json").exists()
-    assert (tmp_path / "reports" / "namecert_audit.json").exists()
+    expected = [
+        ("smoke_closure_routing", "reports/namecert_closure_routing.json"),
+        ("smoke_closure_verify", "reports/namecert_closure_verify.json"),
+        ("smoke_authswap", "reports/namecert_authswap.json"),
+        ("smoke_audit", "reports/namecert_audit.json"),
+    ]
+    assert [(summary["profile_id"], summary["json_artifact"]) for summary in summaries] == expected
+    for profile_id, json_artifact in expected:
+        json_path = tmp_path / json_artifact
+        markdown_path = json_path.with_suffix(".md")
+        assert json_path.exists()
+        assert markdown_path.exists()
+        payload = json.loads(json_path.read_text(encoding="utf-8"))
+        _assert_smoke_contract(payload)
+        assert payload["profile"]["profile_id"] == profile_id
+        assert profile_id in markdown_path.read_text(encoding="utf-8")
