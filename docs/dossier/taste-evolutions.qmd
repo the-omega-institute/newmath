@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-20T19:20:19Z
+> 最后刷新: 2026-06-20T20:54:26Z
 
-**Daemon 状态**: monitor (monitor cycle 93, adjust_since_research 2, round_counter 15445, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 94, adjust_since_research 2, round_counter 15521, last_adjust rule_evolution_completed)
 
 **待处理 queue** (528 条 finding):
-- isolated_theorem: 372 条; 代表样本 `derived`, `derived`, `derived`
+- isolated_theorem: 371 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 28 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 29 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 27 次
-- TASTE ALERT category=low_entropy_template: 10 次
-- TASTE ALERT category=cycle_exception: 6 次
+- TASTE ALERT category=low_entropy_template: 11 次
+- TASTE ALERT category=cycle_exception: 5 次
 - TASTE ALERT category=dossier_snapshot_push_failed: 2 次
 - TASTE ALERT category=resolution_dossier_commit_failed: 1 次
 
@@ -347,6 +347,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - BEDC.Derived.StepIndexedTotalHostUp.Separation
 BEDC/Derived/StepIndexedTotalHostUp/Separation.lean:43:10: error: Function expected at SemanticNameCert; Hint: The identifier `SemanticNameCert` is unknown
 error: build failed, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-20T20:54:03Z: `resolved` `add_downstream_user` for `BEDC.Derived.LocatedCompactnessUp.LocatedCompactnessCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:locatedcompactness:BEDC.Derived.LocatedCompactnessUp.LocatedCompactnessCarrier_namecert_obligations:08fe9837`). Rationale: The target is not a trivial wrapper: it constructs a SemanticNameCert for the located compactness carrier and is the Lean counterpart of the paper's NameCert obligations theorem. It had no downstream Lean consumer, so I added a sibling bridge theorem in LocatedCompactUp that explicitly calls this NameCert obligation, reads its ledger_sound field, and packages the resulting local NameCert row into a LocatedCompactCarrier handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
