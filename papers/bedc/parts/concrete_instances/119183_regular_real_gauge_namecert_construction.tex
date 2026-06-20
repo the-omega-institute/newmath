@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RegularRealGaugeUp$}
+\label{ch:concrete-instances-regular-real-gauge-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular real names with explicit moduli, the $\RegularRealGaugeUp$ packet records finite modulus-gauge control for a regular real name before any completion consumer treats the name as a completed real. It sits over the $\StreamNameUp$ finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the $\IntervalDomainUp$ boundary of \autoref{ch:concrete-instances-intervaldomain-namecert}. The packet exposes a finite gauge route for later completion and interval consumers; it does not assert quotient real equality, trichotomy, selected limits, or ambient completeness.
+
+\begin{definition}[RegularRealGauge carrier]
+\label{def:regular-real-gauge-carrier}
+A $\RegularRealGaugeUp$ carrier is a finite $\BHist$ packet
+$$
+J=(W,R,D,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window row inspected from the regular real name;
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row obtained from the window $W$;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that records the displayed dyadic precision request and its admissible refinements;
+\item $G$ is the gauge and modulus row, recording the finite precision-to-window control visible to consumers;
+\item $E$ is the $\RealUp$ seal row by which the readback is treated as a real-name boundary after the gauge has been displayed;
+\item $H$ stores componentwise $\hsame$ transport for the window, readback, tolerance ledger, gauge row, real seal, replay, provenance, and local naming;
+\item $C$ stores the displayed $\Cont$ replay from $W$ through $R,D,G$ into the sealed $\RealUp$ readback;
+\item $P$ is the $\Pkg$ provenance over $\RegularRealGaugeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\IntervalDomainUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegularRealGaugeUp}$ row.
+\end{enumerate}
+The accepted packet stores only this finite gauge surface. It has no coordinate for host completeness, quotient real equality, trichotomy, selected limits, or an unbounded external modulus function.
+\end{definition}
+
+\begin{theorem}[RegularRealGauge NameCert obligations]
+\label{thm:regular-real-gauge-namecert-obligations}
+For the carrier of \autoref{def:regular-real-gauge-carrier}, the local $\NameCert_{\RegularRealGaugeUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $J=(W,R,D,G,E,H,C,P,N)$;
+\item gauge visibility: every accepted consumer sees the gauge and modulus row $G$ before reading the real seal $E$;
+\item tolerance monotonicity: refinements recorded by $D$ preserve the same stream window and regular-rational readback route;
+\item real-seal nonescape: the $\RealUp$ row $E$ is reached only through $W,R,D,G$ and the displayed replay row $C$;
+\item ledger refusal of host completeness: the packet exports no quotient equality of real names, no trichotomy principle, no selected limit, and no ambient completeness witness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-real-gauge-carrier}. The rows $W,R,D,G,E,H,C,P,N$ are displayed coordinates of one finite $\BHist$ packet.
+
+Gauge visibility is forced by the row order. A consumer reaches the real seal $E$ only after the finite window $W$, readback $R$, tolerance ledger $D$, and gauge row $G$ have been read.
+
+For tolerance monotonicity, the ledger $D$ is the only displayed dyadic budget. Refining a precision request therefore preserves the same route through $W$ and $R$ rather than selecting a detached real representative.
+
+The replay row $C$ and transport row $H$ carry exactly this finite route into the seal $E$. Since no row contains host completeness, quotient equality, trichotomy, or a selected limit operator, the local NameCert refuses those readings.
+\end{proof}
+
+\begin{theorem}[RegularRealGauge modulus readback]
+\label{thm:regular-real-gauge-modulus-readback}
+Every accepted modulus-gauge read for a $\RegularRealGaugeUp$ packet factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ in the carrier order of \autoref{def:regular-real-gauge-carrier}. The interval-facing consumer may read $\IntervalDomainUp$ provenance from $P$, but the only tolerance budget available to that consumer is the displayed dyadic ledger $D$ together with the gauge row $G$.
+
+In particular, the readback route exports no host function space of moduli, quotient real equality, trichotomy, selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier $J=(W,R,D,G,E,H,C,P,N)$. The stream window $W$ is read first, and the regular rational row $R$ is the only readback obtained from that window.
+
+Next read the dyadic ledger $D$ and the gauge row $G$. These rows jointly record the finite precision-to-window control, so the consumer sees a displayed modulus route rather than a host function space of moduli.
+
+The real seal $E$ is then reached through the replay row $C$, while $H$ transports the same rows componentwise and $P$ records the sibling provenance, including $\IntervalDomainUp$. Thus the readback factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ without exporting quotient equality, trichotomy, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\RegularRealGaugeUp}
+  \constructivestory{A $\RegularRealGaugeUp$ packet is generated from a StreamName finite window, a RegSeqRat readback, one DyadicRatCore tolerance ledger, a finite gauge and modulus row, a Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-real-gauge-carrier}, \autoref{thm:regular-real-gauge-namecert-obligations}, and \autoref{thm:regular-real-gauge-modulus-readback} seed the finite gauge route for regular real names over displayed dyadic tolerance data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completeness, trichotomy, quotient real equality, selected limits, host modulus functions, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, gauge visibility, tolerance monotonicity, Real-seal nonescape, and ledger refusal for the displayed packet.}
+\end{closurestatus}
