@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\FrechetUrysohnMetricUp$}
+\label{ch:concrete-instances-frechet-urysohn-metric-namecert}
+\origin{human}
+
+Following Frechet and Urysohn, the $\FrechetUrysohnMetricUp$ packet records the metric sequence-closure readback route as finite BEDC NameCert data. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the sequential metric packet of \autoref{ch:concrete-instances-sequential-metric-space-namecert}, the stream naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the traditional sequence-closure interface without importing a host sequence selector, quotient stream equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Frechet-Urysohn metric carrier]
+\label{def:frechet-urysohn-metric-carrier}
+A $\FrechetUrysohnMetricUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,M,Q,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the point carrier inherited from the underlying $\MetricSpaceUp$ surface.
+\item $M$ is the metric distance ledger, including only displayed tolerance comparisons and triangle rows used by the sequential closure test.
+\item $Q$ is the sequence-closure query row, recording the finite neighbourhood windows whose eventual membership is being read.
+\item $S$ is the $\StreamNameUp$ schedule row naming the inspected sequence positions and no external sequence selector.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational distance and tolerance observations requested by $M,Q,S$.
+\item $E$ is the terminal $\RealUp$ seal row, available only after the regular rational readback is displayed.
+\item $H$ records componentwise $\hsame$ transport for point, metric, query, stream, regular rational, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from sequence-closure queries through $M,Q,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FrechetUrysohnMetricUp$, $\MetricSpaceUp$, $\SequentialMetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrechetUrysohnMetricUp}$ row.
+\end{enumerate}
+The classifier of an accepted carrier compares packets only through these rows. It has no coordinate for a host sequence selector, quotient equality of streams, countable choice, selected representatives, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Frechet-Urysohn metric NameCert obligations]
+\label{thm:frechet-urysohn-metric-namecert-obligations}
+For every accepted $\FrechetUrysohnMetricUp$ carrier $F=(X,M,Q,S,R,E,H,C,P,N)$, the local $\NameCert_{\FrechetUrysohnMetricUp}$ surface consists exactly of metric carrier exposure, sequential query exposure, finite StreamName schedule readback, RegSeqRat tolerance readback, terminal Real seal discipline, componentwise transport, displayed continuation replay, package provenance, and local naming. Every sequence-closure consumer must display the metric row of \autoref{ch:concrete-instances-metric-namecert}, the sequential metric row of \autoref{ch:concrete-instances-sequential-metric-space-namecert}, the StreamName row of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat row of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real seal row of \autoref{ch:concrete-instances-real-namecert} before exporting a closure read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frechet-urysohn-metric-carrier}. The rows $X,M,Q$ give the point, metric, and sequence-closure query surface, while $S,R,E$ are the only rows that can expose sequence-indexed observations to downstream Real-facing consumers.
+
+The sibling chapters determine the read order. The metric carrier supplies the distance ledger, the sequential metric packet supplies the sequence-indexed observation discipline, StreamName supplies the finite schedule, RegSeqRat supplies the regular rational readback, and Real supplies only the terminal seal.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since no row contains a host sequence selector, quotient stream equality, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness theorem, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Frechet-Urysohn metric sequence readback]
+\label{thm:frechet-urysohn-metric-sequence-readback}
+Every accepted $\FrechetUrysohnMetricUp$ packet that witnesses a point in the sequence closure of a displayed metric set exports its Real-facing closure value only through the finite route
+$$
+\MetricSpaceUp
+\longmapsto
+\SequentialMetricSpaceUp
+\longmapsto
+\StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The readback may consume displayed metric neighbourhood rows and displayed sequence windows, but it cannot replace them by a host sequence selector, quotient stream equality, a selected representative, or an appeal to ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:frechet-urysohn-metric-namecert-obligations}. It places every accepted closure query behind the carrier rows $X,M,Q,S,R,E,H,C,P,N$.
+
+Use the sequential metric packet of \autoref{ch:concrete-instances-sequential-metric-space-namecert} to read sequence-indexed metric observations. Its consumer route already requires a StreamName handoff before any RegSeqRat or Real-facing read can be consumed.
+
+Now route the metric distance observations through \autoref{ch:concrete-instances-metric-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The result is a displayed schedule, a regular rational tolerance read, and a terminal Real seal.
+
+No excluded object is introduced by the support rows. Thus the exported sequence-closure value remains a finite BEDC readback through the displayed metric, sequential, stream, regular rational, and Real rows.
+\end{proof}
+
+\closureat{FrechetUrysohnMetricUp}{seedStr}
+
+\begin{closurestatus}{\FrechetUrysohnMetricUp}
+  \constructivestory{A $\FrechetUrysohnMetricUp$ packet is generated from MetricSpaceUp carrier rows, SequentialMetricSpaceUp sequence-query rows, StreamNameUp finite schedules, RegSeqRatUp tolerance readbacks, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-urysohn-metric-carrier}, \autoref{thm:frechet-urysohn-metric-namecert-obligations}, and \autoref{thm:frechet-urysohn-metric-sequence-readback} seed the metric sequence-closure readback route through StreamName, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove host sequence selection, quotient stream equality, selected representatives, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric query exactness, StreamName schedule readback, RegSeqRat tolerance readback, Real seal discipline, transport, replay, provenance, and nonescape for BEDC.Derived.FrechetUrysohnMetricUp.}
+\end{closurestatus}
