@@ -1,5 +1,7 @@
+import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CompactOperatorUp
 
