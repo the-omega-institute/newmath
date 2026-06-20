@@ -45,3 +45,21 @@ Apply \autoref{thm:setlike-membership-route} and \autoref{thm:setlike-bounded-co
 
 Finally use $H,C,P,N$ to transport, replay, source, and name that same route. These rows do not add a universe classifier, a powerset object, quotient set equality, or external equality of family fibers, so the TypeLike family read cannot escape the SetLike certificate surface.
 \end{proof}
+
+\begin{theorem}[SetLike root membership family exhaustion]
+\label{thm:setlike-root-membership-family-exhaustion}
+Every root consumer of an accepted $\SetLikeUp$ packet that combines membership reads, bounded-comprehension family reads, and $\TypeLikeUp$ family reads is exhausted by the displayed rows
+$$
+M,Q,I,R,E,H,C,P,N .
+$$
+The combined route supplies membership, the bounded implication and comprehension handoff, extensional comparison, componentwise transport, continuation replay, package provenance, and local naming. It supplies no powerset, unrestricted separation, host universe, quotient set equality, selected representatives, or external family equality.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:setlike-root-membership-obligation}. A root membership consumer must expose $M,Q,H,C,P,N$ before it can read membership, and that route has no ambient powerset or host equality field.
+
+Next apply \autoref{thm:setlike-bounded-comprehension-family-handoff}. A restricted-comprehension consumer may add only the implication and bounded-comprehension rows $I,R$ to the same displayed membership route.
+
+Finally apply \autoref{thm:setlike-typelike-family-nonescape}. A $\TypeLikeUp$ family read may cite the SetLike packet only through $M,Q,I,R,E,H,C,P,N$ and cannot reinterpret those rows as a host universe, quotient set equality, selected representatives, or external equality of family fibers.
+
+The three consumer routes therefore share the same finite row inventory. Their union is exactly $M,Q,I,R,E,H,C,P,N$, so no further family or set-forming coordinate is available to the root consumer.
+\end{proof}
