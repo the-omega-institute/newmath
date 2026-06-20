@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\NagumoViabilityUp$}
+\label{ch:concrete-instances-nagumo-viability-namecert}
+\origin{human}
+
+Following Nagumo's invariance theorem and the constructive ODE tradition, the $\NagumoViabilityUp$ packet records the finite boundary-viability surface by which a displayed vector field is read as staying inside a named closed constraint set. It consumes the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the local interval and vector-field rows of \autoref{ch:concrete-instances-peano-existence-namecert}, the initial-data packet of \autoref{ch:concrete-instances-initial-value-problem-namecert}, the continuous-map handoff of \autoref{ch:concrete-instances-continuousmap-namecert}, and the compact interval fixed-point boundary route of \autoref{ch:concrete-instances-compactintervalfixedpoint-namecert}. The packet names a finite viability-boundary certificate; it does not select a maximal flow, assert uniqueness, impose host compactness, choose a solution representative, or provide a standard bridge.
+
+\begin{definition}[Nagumo viability carrier]\label{def:nagumo-viability-carrier}
+A $\NagumoViabilityUp$ carrier is a finite $\BHist$ packet
+$$
+V=(O,I,F,K,B,T,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ source row carrying the time-state interface and vector-field request.
+\item $I$ is the $\InitialValueProblemUp$ row naming the initial time, initial state, local window, and solution-read surface.
+\item $F$ is the $\ContinuousMapUp$ vector-field graph and modulus row used for all boundary-facing reads.
+\item $K$ is the closed constraint row, read through the existing closed-set and Real boundary surfaces and exposing only the displayed membership and complement-neighborhood tests.
+\item $B$ is the Nagumo boundary row, recording the finite tangent or inward-pointing comparison data inspected at the displayed boundary cells of $K$.
+\item $T$ is the interval trap row inherited from the Peano local-existence route, keeping Euler polygon and local solution reads inside the certified Real time-state window.
+\item $E$ is the $\PeanoExistenceUp$ existence row that exports a local solution read only after $O,I,F,K,B,T$ have been displayed.
+\item $Q$ is the compact interval fixed-point comparison row used when a finite interval boundary or residual trap is needed to certify the viability step.
+\item $H$ stores componentwise $\hsame$ transports for the ODE, initial-data, continuous-map, closed-set, boundary, trap, existence, fixed-point, and local certificate rows.
+\item $C$ stores displayed $\Cont$ replay from the ODE request through the finite viability-boundary route.
+\item $P$ is the $\Pkg$ provenance over $\NagumoViabilityUp$, $\OdeUp$, $\InitialValueProblemUp$, $\PeanoExistenceUp$, $\ContinuousMapUp$, $\ClosedSetUp$, $\CompactIntervalFixedPointUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NagumoViabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It contains no coordinate for uniqueness, maximal-flow selection, host compactness, a choice-selected solution, quotient trajectory equality, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Nagumo viability NameCert obligations]\label{thm:nagumo-viability-obligations}
+For every accepted $\NagumoViabilityUp$ carrier
+$$
+V=(O,I,F,K,B,T,E,Q,H,C,P,N),
+$$
+the local $\NameCert_{\NagumoViabilityUp}$ obligations are exactly carrier admission for the ODE source, initial-data row, continuous vector-field row, closed constraint row, finite boundary comparison row, Peano interval trap, local existence row, compact interval fixed-point comparison row, componentwise transport, displayed replay, package provenance, and local naming. Any viability read must therefore pass through $O,I,F,K,B,T,E,Q,H,C,P,N$ before it can expose an invariant local solution segment.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:nagumo-viability-carrier}. The rows $O,I,F$ fix the displayed ODE request, initial data, and continuous vector-field read before any boundary comparison is inspected.
+
+The constraint-facing rows then supply the finite viability data. The closed-set row $K$ exposes the displayed boundary surface, $B$ records the Nagumo comparison at that boundary, and $T$ keeps the Peano polygon and solution reads inside the certified Real time-state window.
+
+The consumer-facing rows $E$ and $Q$ provide only the local existence and compact interval comparison data already routed through the previous rows. Finally $H,C,P,N$ transport, replay, package, and name the same finite route. Since no carrier coordinate stores uniqueness, maximal-flow selection, host compactness, a choice-selected solution, quotient trajectory equality, or a bridge schema, none of those objects belongs to the local NameCert obligations.
+\end{proof}
+
+\closureat{NagumoViabilityUp}{seedStr}
+
+\begin{closurestatus}{\NagumoViabilityUp}
+  \constructivestory{A $\NagumoViabilityUp$ packet is generated from an ODE source row, an initial-value row, a continuous vector-field row, a closed constraint row, a finite Nagumo boundary comparison row, a Peano interval trap, a local existence row, a compact interval fixed-point comparison row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nagumo-viability-carrier} and \autoref{thm:nagumo-viability-obligations} seed the finite viability-boundary packet over ODE, Peano existence, initial-value, continuous-map, closed-set, compact-interval, Real, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim uniqueness, maximal flow selection, host compactness, choice-selected solutions, quotient trajectory equality, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary comparison exposure, interval-trap exactness, Peano existence handoff, compact interval comparison nonescape, transport, replay, provenance, and local naming for BEDC.Derived.NagumoViabilityUp.}
+\end{closurestatus}
