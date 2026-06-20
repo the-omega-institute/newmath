@@ -8,8 +8,12 @@ over integers.  It does not evaluate, fit, or assert any physical constant.
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 from typing import Any
 
+
+EXPERIMENT_ID = "verify-window6-lucas-kernel-obstruction"
+CLAIM_ID = "window6.lucas-kernel.coefficient-gauge-obstruction.certificate"
 
 Mat2 = tuple[tuple[int, int], tuple[int, int]]
 
@@ -20,6 +24,10 @@ ZERO: Mat2 = ((0, 0), (0, 0))
 
 def check(name: str, passed: bool, reason: str) -> dict[str, Any]:
     return {"name": name, "passed": passed, "reason": reason}
+
+
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
 def mat_mul(left: Mat2, right: Mat2) -> Mat2:
@@ -74,6 +82,7 @@ def lucas(index: int) -> int:
 
 
 def main() -> None:
+    started_at = now_iso()
     powers = {exponent: mat_pow(M, exponent) for exponent in (7, 10, 17, 20, 27)}
     l10 = lucas(10)
     base_combo = mat_linear_combo(powers[20], 1, powers[10], -l10, I)
@@ -116,11 +125,18 @@ def main() -> None:
             "coefficient inference from numerical proximity",
         ],
     }
-    payload = {"status": status, "checks": checks, "result": result}
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": status,
+        "checks": checks,
+        "result": result,
+        "started_at": started_at,
+        "completed_at": now_iso(),
+    }
     print(json.dumps(payload, ensure_ascii=False, sort_keys=True))
     if status != "passed":
         raise SystemExit(1)
-    print("PASS verify-window6-lucas-kernel-obstruction")
 
 
 if __name__ == "__main__":
