@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyNonzeroUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -132,6 +144,97 @@ instance regularCauchyNonzeroChapterTasteGate :
 def taste_gate : ChapterTasteGate RegularCauchyNonzeroUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyNonzeroChapterTasteGate
+
+def RegularCauchyNonzeroCarrier [AskSetup] [PackageSetup]
+    (Q A W D R E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg PkgSig UnaryHistory
+  UnaryHistory Q ∧ UnaryHistory A ∧ UnaryHistory W ∧ UnaryHistory D ∧
+    UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ PkgSig bundle P pkg
+
+theorem RegularCauchyNonzeroNamecertObligations [AskSetup] [PackageSetup]
+    {Q A W D R E H C P N sourceRead apartnessRead windowRead lowerBoundRead handoffRead
+      realRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNonzeroCarrier Q A W D R E H C P N bundle pkg ->
+      Cont Q A sourceRead ->
+        Cont sourceRead W apartnessRead ->
+          Cont apartnessRead D windowRead ->
+            Cont windowRead R handoffRead ->
+              Cont handoffRead E realRead ->
+                Cont realRead N namedRead ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row Q ∨ hsame row A ∨ hsame row W ∨ hsame row D ∨
+                          hsame row R ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨
+                            hsame row P ∨ hsame row N ∨ hsame row namedRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont Q A sourceRead ∧
+                          Cont sourceRead W apartnessRead ∧
+                            Cont apartnessRead D windowRead ∧
+                              Cont windowRead R handoffRead ∧
+                                Cont handoffRead E realRead ∧
+                                  Cont realRead N namedRead ∧ PkgSig bundle P pkg)
+                      hsame ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier sourceRoute apartnessRoute windowRoute handoffRoute realRoute namedRoute
+  obtain ⟨qUnary, aUnary, wUnary, dUnary, rUnary, eUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, provenancePkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed qUnary aUnary sourceRoute
+  have apartnessUnary : UnaryHistory apartnessRead :=
+    unary_cont_closed sourceUnary wUnary apartnessRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed apartnessUnary dUnary windowRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed windowUnary rUnary handoffRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed handoffUnary eUnary realRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed realUnary nUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row Q ∨ hsame row A ∨ hsame row W ∨ hsame row D ∨ hsame row R ∨
+              hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont Q A sourceRead ∧ Cont sourceRead W apartnessRead ∧
+              Cont apartnessRead D windowRead ∧ Cont windowRead R handoffRead ∧
+                Cont handoffRead E realRead ∧ Cont realRead N namedRead ∧
+                  PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+        Or.inr <| Or.inr <| Or.inr <| Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, sourceRoute, apartnessRoute, windowRoute, handoffRoute, realRoute,
+          namedRoute, provenancePkg⟩
+  }
+  exact ⟨cert, namedUnary⟩
 
 theorem RegularCauchyNonzeroTasteGate_single_carrier_alignment :
     (∀ h : BHist, regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEncodeBHist h) = h) ∧
