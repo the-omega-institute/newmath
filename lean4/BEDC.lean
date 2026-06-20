@@ -1377,12 +1377,11 @@ import BEDC.Derived.CalculusUp.LimitDependencyRefusalBoundary
 import BEDC.Derived.CalculusUp.LimitDependencyRoute
 import BEDC.Derived.CalculusUp.LimitRealHandoff
 import BEDC.Derived.CalculusUp.LimitRealSealObligation
-import BEDC.Derived.CalculusUp.LimitRealTerminalExport
 import BEDC.Derived.CalculusUp.LocalLinearizationCarrier
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
 import BEDC.Derived.CalculusUp.LocatedCompactDependencyRoute
 import BEDC.Derived.CalculusUp.PeanoDependencyRoute
-import BEDC.Derived.CalculusUp.ProductMetricForwardLink
+import BEDC.Derived.CalculusUp.RealCompletionForwardLink
 import BEDC.Derived.CalculusUp.RealSealErrorBudget
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
 import BEDC.Derived.CalculusUp.RegSeqRatReadbackRootObligation
@@ -8530,6 +8529,7 @@ import BEDC.Derived.PointwiseContinuityModulusUp.Obligations
 import BEDC.Derived.PointwiseContinuityModulusUp.TasteGate
 import BEDC.Derived.PointwiseLimitUp.TasteGate
 import BEDC.Derived.PointwiseModulusLedgerUp.TasteGate
+import BEDC.Derived.PointwiseStreamMetricUp
 import BEDC.Derived.PoissonKernelUp.TasteGate
 import BEDC.Derived.PoissonSummationUp.NameCertObligations
 import BEDC.Derived.PoissonSummationUp.TasteGate
@@ -8660,7 +8660,6 @@ import BEDC.Derived.PrefixObserverUp
 import BEDC.Derived.PrefixObserverUp.NameCertObligations
 import BEDC.Derived.PrefixObserverUp.TasteGate
 import BEDC.Derived.PrefixTreeUp.TasteGate
-import BEDC.Derived.PremetricUp.TasteGate
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
 import BEDC.Derived.PrimeUp
