@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\EulerPhiUp$}
+\label{ch:concrete-instances-euler-phi-namecert}
+\origin{human}
+
+Following Hardy and Wright on elementary number theory, the $\EulerPhiUp$ packet records Euler's totient function as a finite coprime-count certificate rather than as an ambient arithmetic oracle. It sits over the natural-number divisor rows of $\NatUp$, the prime and coprimality surface of \autoref{ch:concrete-instances-prime-namecert}, the rational denominator route of \autoref{ch:concrete-instances-rat-namecert}, and the dyadic exponent and denominator ledgers of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet is intended for rational normalization, dyadic denominator accounting, Real-facing denominator handoffs, and later cyclotomic degree consumers that require a displayed totient row instead of reading totient data from \autoref{ch:concrete-instances-cyclotomic-namecert}.
+
+\begin{definition}[EulerPhi carrier]
+\label{def:euler-phi-carrier}
+An $\EulerPhiUp$ carrier is a finite $\BHist$ packet
+$$
+E=(N,D,C,Q,R,H,T,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the $\NatUp$ source row naming the inspected natural number and the finite divisor schedule.
+\item $D$ is the divisor ledger: for every displayed candidate $d$, it records the bounded Nat divisor test, the complementary quotient row when the divisor test succeeds, and the finite exclusion row when it fails.
+\item $C$ is the $\PrimeUp$ and coprime classifier row, read only through the finite prime-factor and gcd witnesses supplied by the prime certificate surface of \autoref{ch:concrete-instances-prime-namecert}.
+\item $Q$ is the coprime-count row. It counts exactly the displayed residues whose entries in $C$ certify coprimality with the source row $N$.
+\item $R$ is the $\RatUp$ denominator-normalization handoff row. It exposes the same coprime count to rational denominator consumers after the rational source route of \autoref{ch:concrete-instances-rat-namecert} has displayed the denominator row.
+\item $H$ records componentwise $\hsame$ transport for the Nat source, divisor ledger, coprime classifier, coprime count, rational denominator handoff, dyadic ledger, replay, provenance, and local naming rows.
+\item $T$ is the $\DyadicRatCoreUp$ exponent and denominator ledger used when a denominator consumer restricts the totient row to powers of two or dyadic denominator refinements.
+\item $P$ is the $\Pkg$ provenance over $\EulerPhiUp$, $\NatUp$, $\PrimeUp$, $\RatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\EulerPhiUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for unbounded search over residues, host integer factorization, selected primitive roots, cyclotomic minimal polynomials, host real equality, or an ambient arithmetic oracle.
+\end{definition}
+\leanstmt{BEDC.Derived.EulerPhiUp}
+
+\begin{theorem}[EulerPhi NameCert obligations]
+\label{thm:euler-phi-namecert-obligations}
+For every accepted $\EulerPhiUp$ carrier $E=(N,D,C,Q,R,H,T,P,L)$, the local $\NameCert_{\EulerPhiUp}$ obligation surface consists exactly of the Nat source, finite divisor ledger, Prime coprime classifier, coprime-count row, Rat denominator-normalization handoff, DyadicRatCore exponent and denominator ledger, componentwise transport, displayed replay, provenance, and local naming rows. Every consumer must read the finite route
+$$
+N \longrightarrow D \longrightarrow C \longrightarrow Q
+$$
+before it may use the rational or dyadic handoff rows, and no consumer may replace that route by unbounded residue search, host integer factorization, selected primitive roots, cyclotomic minimal-polynomial data, host real equality, or an ambient arithmetic oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:euler-phi-carrier}. The source row is $N$, the divisor schedule is $D$, the coprime classifier is $C$, and the displayed count is $Q$.
+
+The prime and coprime information is then read through \autoref{ch:concrete-instances-prime-namecert}. The carrier does not expose a separate factorization oracle; it exposes only the finite prime and gcd witnesses already recorded in $C$.
+
+Finally inspect the handoff rows. The rational denominator row $R$ and the dyadic ledger $T$ occur after the count row $Q$, while $H$, replay, provenance, and $L$ only transport or repack the same displayed route. Thus every downstream use is forced through the finite Nat, divisor, coprime, and count rows named above.
+\end{proof}
+
+\begin{theorem}[EulerPhi coprime-denominator handoff]
+\label{thm:euler-phi-coprime-denominator-handoff}
+Every $\RatUp$, $\DyadicRatCoreUp$, or Real-facing denominator consumer of an accepted $\EulerPhiUp$ carrier receives the totient data only through the packet
+$$
+N,D,C,Q,R,H,T,P,L.
+$$
+In particular, a rational denominator normalization may read $R$ only after $N,D,C,Q$ have displayed the finite coprime-count route, and a dyadic exponent or denominator refinement may read $T$ only as the same route repacked for \autoref{ch:concrete-instances-dyadicratcore-namecert}. The handoff exports no primitive-root selector, cyclotomic minimal polynomial, host factorization theorem, host real equality, or infinite residue enumeration.
+\end{theorem}
+\begin{proof}
+Begin with a denominator-facing read. The rational route of \autoref{ch:concrete-instances-rat-namecert} can use only the displayed denominator row, so the $\EulerPhiUp$ packet supplies $R$ as a handoff after the Nat source, divisor ledger, coprime classifier, and count row have been opened.
+
+For dyadic consumers, use the dyadic denominator and exponent discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The row $T$ is not a new arithmetic source; it is the same finite coprime-count route repacked for powers-of-two and denominator-refinement ledgers.
+
+The remaining rows $H,P,L$ and the displayed replay data preserve provenance and local naming. Since neither the carrier nor the preceding NameCert obligation includes primitive roots, minimal polynomials, host factorization theorems, host real equality, or infinite residue enumeration, no denominator consumer receives those objects from the handoff.
+\end{proof}
+
+\closureat{EulerPhiUp}{seedStr}
+
+\begin{closurestatus}{\EulerPhiUp}
+  \constructivestory{An $\EulerPhiUp$ packet is generated from a Nat source row, finite divisor ledger, Prime coprime classifier, coprime-count row, Rat denominator-normalization handoff, DyadicRatCore exponent and denominator ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euler-phi-carrier}, \autoref{thm:euler-phi-namecert-obligations}, and \autoref{thm:euler-phi-coprime-denominator-handoff} seed the finite coprime-count and denominator-handoff packet over displayed Nat, Prime, Rat, and DyadicRatCore rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host integer factorization, primitive-root selection, cyclotomic minimal-polynomial data, host real equality, complete Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, divisor-ledger exactness, coprime-count stability, rational denominator handoff, dyadic denominator handoff, and transport stability for BEDC.Derived.EulerPhiUp.}
+\end{closurestatus}
