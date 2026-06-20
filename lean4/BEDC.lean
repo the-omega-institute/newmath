@@ -10097,6 +10097,7 @@ import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.SchurLemmaUp
+import BEDC.Derived.SchurLemmaUp.TasteGate
 import BEDC.Derived.SchurMatrixSummabilityUp.TasteGate
 import BEDC.Derived.SchurOrthogonalityUp
 import BEDC.Derived.SchurOrthogonalityUp.CharacterInnerProduct
@@ -10330,6 +10331,7 @@ import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipStability
 import BEDC.Derived.SetlikeUp.RootMembershipFamilyExhaustion
+import BEDC.Derived.SetlikeUp.RootMembershipFamilyObligations
 import BEDC.Derived.SetlikeUp.RootMembershipProvenance
 import BEDC.Derived.SetlikeUp.RootMembershipTransport
 import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
