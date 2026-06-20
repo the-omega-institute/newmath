@@ -410,4 +410,115 @@ theorem RegularCauchyTailEstimateCarrier_obligation_scope [AskSetup] [PackageSet
   }
   exact ⟨cert, namedUnary⟩
 
+theorem RegularCauchyTailEstimateCarrier_tail_difference [AskSetup] [PackageSetup]
+    {M0 W0 D0 R0 E0 H0 C0 P0 N0 M1 W1 D1 R1 E1 H1 C1 P1 N1 thresholdRead0
+      toleranceRead0 sealRead0 thresholdRead1 toleranceRead1 sealRead1 comparisonRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailEstimateCarrier M0 W0 D0 R0 E0 H0 C0 P0 N0 bundle pkg ->
+      RegularCauchyTailEstimateCarrier M1 W1 D1 R1 E1 H1 C1 P1 N1 bundle pkg ->
+        hsame M0 M1 ->
+          hsame D0 D1 ->
+            Cont M0 W0 thresholdRead0 ->
+              Cont thresholdRead0 D0 toleranceRead0 ->
+                Cont toleranceRead0 R0 sealRead0 ->
+                  Cont M1 W1 thresholdRead1 ->
+                    Cont thresholdRead1 D1 toleranceRead1 ->
+                      Cont toleranceRead1 R1 sealRead1 ->
+                        Cont sealRead0 sealRead1 comparisonRead ->
+                          PkgSig bundle P0 pkg ->
+                            PkgSig bundle P1 pkg ->
+                              SemanticNameCert
+                                  (fun row : BHist =>
+                                    hsame row comparisonRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row M0 ∨ hsame row M1 ∨ hsame row D0 ∨
+                                      hsame row D1 ∨ hsame row sealRead0 ∨
+                                        hsame row sealRead1 ∨ hsame row comparisonRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ hsame M0 M1 ∧ hsame D0 D1 ∧
+                                      Cont M0 W0 thresholdRead0 ∧
+                                        Cont thresholdRead0 D0 toleranceRead0 ∧
+                                          Cont toleranceRead0 R0 sealRead0 ∧
+                                            Cont M1 W1 thresholdRead1 ∧
+                                              Cont thresholdRead1 D1 toleranceRead1 ∧
+                                                Cont toleranceRead1 R1 sealRead1 ∧
+                                                  Cont sealRead0 sealRead1 comparisonRead ∧
+                                                    PkgSig bundle P0 pkg ∧
+                                                      PkgSig bundle P1 pkg)
+                                  hsame ∧
+                                UnaryHistory thresholdRead0 ∧ UnaryHistory toleranceRead0 ∧
+                                  UnaryHistory sealRead0 ∧ UnaryHistory thresholdRead1 ∧
+                                    UnaryHistory toleranceRead1 ∧ UnaryHistory sealRead1 ∧
+                                      UnaryHistory comparisonRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier0 carrier1 sameM sameD routeThreshold0 routeTolerance0 routeSeal0
+    routeThreshold1 routeTolerance1 routeSeal1 routeComparison provenance0 provenance1
+  obtain ⟨unaryM0, unaryW0, unaryD0, unaryR0, _unaryE0, _unaryH0, _unaryC0, _unaryP0,
+    _unaryN0, _carrierPkg0, _carrierName0⟩ := carrier0
+  obtain ⟨unaryM1, unaryW1, unaryD1, unaryR1, _unaryE1, _unaryH1, _unaryC1, _unaryP1,
+    _unaryN1, _carrierPkg1, _carrierName1⟩ := carrier1
+  have thresholdUnary0 : UnaryHistory thresholdRead0 :=
+    unary_cont_closed unaryM0 unaryW0 routeThreshold0
+  have toleranceUnary0 : UnaryHistory toleranceRead0 :=
+    unary_cont_closed thresholdUnary0 unaryD0 routeTolerance0
+  have sealUnary0 : UnaryHistory sealRead0 :=
+    unary_cont_closed toleranceUnary0 unaryR0 routeSeal0
+  have thresholdUnary1 : UnaryHistory thresholdRead1 :=
+    unary_cont_closed unaryM1 unaryW1 routeThreshold1
+  have toleranceUnary1 : UnaryHistory toleranceRead1 :=
+    unary_cont_closed thresholdUnary1 unaryD1 routeTolerance1
+  have sealUnary1 : UnaryHistory sealRead1 :=
+    unary_cont_closed toleranceUnary1 unaryR1 routeSeal1
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed sealUnary0 sealUnary1 routeComparison
+  have sourceComparison :
+      (fun row : BHist => hsame row comparisonRead ∧ UnaryHistory row) comparisonRead := by
+    exact ⟨hsame_refl comparisonRead, comparisonUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row comparisonRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M0 ∨ hsame row M1 ∨ hsame row D0 ∨ hsame row D1 ∨
+              hsame row sealRead0 ∨ hsame row sealRead1 ∨ hsame row comparisonRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ hsame M0 M1 ∧ hsame D0 D1 ∧
+              Cont M0 W0 thresholdRead0 ∧ Cont thresholdRead0 D0 toleranceRead0 ∧
+                Cont toleranceRead0 R0 sealRead0 ∧ Cont M1 W1 thresholdRead1 ∧
+                  Cont thresholdRead1 D1 toleranceRead1 ∧
+                    Cont toleranceRead1 R1 sealRead1 ∧
+                      Cont sealRead0 sealRead1 comparisonRead ∧ PkgSig bundle P0 pkg ∧
+                        PkgSig bundle P1 pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro comparisonRead sourceComparison
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, sameM, sameD, routeThreshold0, routeTolerance0, routeSeal0,
+          routeThreshold1, routeTolerance1, routeSeal1, routeComparison, provenance0,
+          provenance1⟩
+  }
+  exact
+    ⟨cert, thresholdUnary0, toleranceUnary0, sealUnary0, thresholdUnary1,
+      toleranceUnary1, sealUnary1, comparisonUnary⟩
+
 end BEDC.Derived.RegularCauchyTailEstimateUp
