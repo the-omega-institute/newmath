@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CeaLemmaUp$}
+\label{ch:concrete-instances-cea-lemma-namecert}
+\origin{human}
+
+Following Cea and standard Galerkin error analysis, the $\CeaLemmaUp$ packet records the finite quasi-optimality route that turns coercivity, continuity, variational exactness, and Galerkin residual orthogonality into a displayed best-approximation certificate. It sits after the projection row of \autoref{ch:concrete-instances-galerkin-projection-namecert}, the error-estimate surface of \autoref{ch:concrete-instances-galerkin-error-estimate-namecert}, the variational solve of \autoref{ch:concrete-instances-lax-milgram-namecert}, the Hilbert comparison route of \autoref{ch:concrete-instances-hilbert-namecert}, and the norm ledger of \autoref{ch:concrete-instances-norm-namecert}. The packet names the quasi-optimal projection bound without importing a host Hilbert projection theorem, quotient function space, selected minimizer, or choice principle.
+
+\begin{definition}[Cea lemma carrier]
+\label{def:cea-lemma-carrier}
+A $\CeaLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+K=(V,a,u,u_h,c,M,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite trial-space row consumed from $\GalerkinProjectionUp$.
+\item $a$ is the coercive bilinear-form row, read through $\LaxMilgramUp$ and the Hilbert comparison surface.
+\item $u$ is the exact variational solution row supplied by the displayed Lax--Milgram route.
+\item $u_h$ is the Galerkin projection row, including residual orthogonality over $V$.
+\item $c$ is the coercivity scalar row.
+\item $M$ is the continuity scalar row for the same bilinear-form comparison.
+\item $B$ is the finite best-approximation ledger comparing $u$ to each displayed trial competitor.
+\item $E$ is the $\RealUp$ bound row recording the quasi-optimal estimate against the $\NormUp$ ledger.
+\item $H$ records componentwise $\hsame$ transport for trial-space, bilinear-form, exact-solution, Galerkin, scalar, best-approximation, bound, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+V,a,u,u_h,c,M,B \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CeaLemmaUp$, $\GalerkinProjectionUp$, $\GalerkinErrorEstimateUp$, $\LaxMilgramUp$, $\HilbertUp$, $\NormUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CeaLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,a,u,u_h,c,M,B,E,H,T,P,N$. It has no coordinate for a quotient function space, selected best approximant, host projection operator, global minimizer, countable choice, or ambient Hilbert-space theorem.
+\end{definition}
+
+\begin{theorem}[Cea lemma NameCert obligations]
+\label{thm:cea-lemma-namecert-obligations}
+For every accepted $\CeaLemmaUp$ carrier
+$$
+K=(V,a,u,u_h,c,M,B,E,H,C,P,N),
+$$
+the local $\NameCert_{\CeaLemmaUp}$ surface consists exactly of carrier admission, Galerkin residual-orthogonality exposure, Lax--Milgram variational exposure, coercivity and continuity scalar exposure, finite best-approximation comparison, scalar-bound readback, componentwise transport, displayed replay, provenance, and local naming. Every row is read through the displayed siblings $\GalerkinProjectionUp$, $\GalerkinErrorEstimateUp$, $\LaxMilgramUp$, $\HilbertUp$, and $\NormUp$ before the quasi-optimality seal $E$ is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cea-lemma-carrier}. The finite trial row, bilinear form, exact solution, Galerkin row, scalar constants, comparison ledger, bound, transport, replay, provenance, and local name are the full visible inventory.
+
+The Galerkin side is read through \autoref{ch:concrete-instances-galerkin-projection-namecert}; the exact variational side is read through \autoref{ch:concrete-instances-lax-milgram-namecert}. The scalar rows $c,M$ are attached to the same Hilbert and norm comparison surface, so the estimate cannot switch to a host norm or a different bilinear form.
+
+The best-approximation row $B$ then compares only displayed trial competitors, and the error-estimate sibling of \autoref{ch:concrete-instances-galerkin-error-estimate-namecert} supplies the route to the bound row $E$. Since $H,C,P,N$ transport, replay, source, and name only these rows, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Cea quasi-optimal projection route]
+\label{thm:cea-lemma-quasi-optimal-projection-route}
+Every public $\CeaLemmaUp$ quasi-optimality read factors through the route
+$$
+\GalerkinProjectionUp \longmapsto \GalerkinErrorEstimateUp \longmapsto \LaxMilgramUp \longmapsto (\HilbertUp,\NormUp) \longmapsto \RealUp .
+$$
+The consumer must first display the finite trial space, residual orthogonality, variational exactness, coercivity and continuity constants, and best-approximation ledger before reading the scalar quasi-optimal bound. No quotient function space, selected minimizer, host projection theorem, or choice principle is exported.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:cea-lemma-namecert-obligations}. It orders the finite trial row, the exact variational row, the Galerkin row, the scalar constants, and the best-approximation ledger before the bound row.
+
+Use the Galerkin projection sibling to obtain residual orthogonality on the displayed trial space. Use the Lax--Milgram sibling for the exact variational equation and the Hilbert and norm siblings for the comparison surface on which coercivity and continuity are read.
+
+Finally consume the Galerkin error-estimate route. Its best-approximation comparison feeds the same scalar bound row $E$, and the structural rows preserve the displayed path. The refused quotient, minimizer, host projection, and choice objects are absent from the carrier, so they cannot be exported by the quasi-optimality read.
+\end{proof}
+
+\closureat{CeaLemmaUp}{seedStr}
+
+\begin{closurestatus}{\CeaLemmaUp}
+  \constructivestory{A $\CeaLemmaUp$ packet is generated from finite Galerkin trial-space rows, coercive bilinear-form rows, exact variational rows, Galerkin projection rows, coercivity and continuity scalar rows, a best-approximation ledger, a RealUp bound row, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cea-lemma-carrier}, \autoref{thm:cea-lemma-namecert-obligations}, and \autoref{thm:cea-lemma-quasi-optimal-projection-route} seed the finite quasi-optimal Galerkin projection route over GalerkinProjection, GalerkinErrorEstimate, LaxMilgram, Hilbert, Norm, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient function spaces, selected minimizers, host Hilbert projection theorems, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-orthogonality exposure, variational exposure, coercivity and continuity scalar exposure, best-approximation comparison, scalar-bound readback, transport, replay, provenance, and local naming for BEDC.Derived.CeaLemmaUp.}
+\end{closurestatus}
