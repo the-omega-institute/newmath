@@ -1,0 +1,184 @@
+\chapter{A Concrete Naming Certificate for $\CompactIntervalUniformContinuityUp$}
+\label{ch:concrete-instances-compact-interval-uniform-continuity-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the
+$\CompactIntervalUniformContinuityUp$ packet records the finite closed-interval
+route by which a displayed continuous map receives one source tolerance for a
+requested target tolerance. It reads its interval endpoints from
+\autoref{ch:concrete-instances-locatedinterval-namecert}, its graph and
+pointwise-radius rows from \autoref{ch:concrete-instances-continuousmap-namecert},
+its finite window discipline from \autoref{ch:concrete-instances-streamname-namecert},
+its regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert},
+its terminal value boundary from \autoref{ch:concrete-instances-real-namecert},
+the fixed-point consumer route of
+\autoref{ch:concrete-instances-compactintervalfixedpoint-namecert}, and the
+separate modulus-object surface of
+\autoref{ch:concrete-instances-compact-uniform-continuity-modulus-namecert}.
+The packet names a displayed finite-net modulus route for one located closed
+interval; it does not claim general Heine--Borel compactness, sequential
+compactness, selected limits, quotient reals, or $\RealUp$ completeness.
+
+\begin{definition}[Compact interval uniform-continuity carrier]
+\label{def:compact-interval-uniform-continuity-carrier}
+A $\CompactIntervalUniformContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+U=(J,F,N_\varepsilon,M,W,Q,E,H,C,P,L)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $J$ is the $\LocatedIntervalUp$ closed-interval row, including the
+displayed endpoint names and the located endpoint-order evidence consumed by
+all later reads.
+\item $F$ is the $\ContinuousMapUp$ graph and pointwise-radius row for the
+displayed map on $J$.
+\item $N_\varepsilon$ is the finite interval-net row at the requested target
+tolerance, listing the inspected subinterval centers and their covering
+radii.
+\item $M$ is the rational lower-bound fold over the pointwise source radii
+attached to those centers, producing the uniform source tolerance.
+\item $W$ is the $\StreamNameUp$ finite-window surface for the interval
+endpoints, inspected centers, nearby input names, and output reads.
+\item $Q$ is the $\RegSeqRatUp$ readback row translating the retained finite
+windows into regular rational comparisons.
+\item $E$ is the $\RealUp$ seal row used only after $W$ and $Q$ have displayed
+the required input and output comparisons.
+\item $H$ records componentwise $\hsame$ transport for $J,F,N_\varepsilon,M,W,Q,E$
+and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from a target tolerance request
+through the interval net, centerwise pointwise-continuity rows, lower-bound
+fold, window/readback rows, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalUp$,
+$\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\CompactIntervalFixedPointUp$, $\CompactUniformContinuityModulusUp$,
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CompactIntervalUniformContinuityUp}$ row.
+\end{enumerate}
+The carrier is an interval-specific uniform-continuity certificate over
+displayed finite rows. It has no coordinate for general Heine--Borel
+compactness, sequential compactness, selected limits, quotient real equality,
+open-cover subcover selection, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[CompactIntervalUniformContinuity NameCert obligations]
+\label{thm:compact-interval-uniform-continuity-namecert-obligations}
+For an accepted $\CompactIntervalUniformContinuityUp$ carrier
+$U=(J,F,N_\varepsilon,M,W,Q,E,H,C,P,L)$, the local
+$\NameCert_{\CompactIntervalUniformContinuityUp}$ surface consists exactly of
+the following obligations:
+\begin{enumerate}
+\item carrier admission for the located interval, continuous-map row, finite
+interval-net row, lower-bound fold, finite windows, regular readback, real
+seal, componentwise transport, continuation replay, provenance, and local
+naming;
+\item source lock, requiring $J$ and the source of $F$ to name the same
+located closed interval before any pointwise radius is read;
+\item finite-net coverage, requiring every input comparison to pass through
+one displayed center of $N_\varepsilon$ before the pointwise row in $F$ is
+used;
+\item lower-bound exactness, requiring the uniform source tolerance to be read
+from $M$ and not from a host minimum or selected Lebesgue number;
+\item window and seal nonescape, requiring each downstream value comparison to
+pass through $W$, $Q$, and $E$ before it can be consumed by fixed-point or
+modulus-object users.
+\end{enumerate}
+No obligation may call on general Heine--Borel compactness, sequential
+compactness, selected limits, quotient reals, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of
+\autoref{def:compact-interval-uniform-continuity-carrier}. The interval row
+$J$ and continuous-map row $F$ are the only sources for endpoint, graph, and
+pointwise-radius information.
+
+The finite-net obligation is carried by $N_\varepsilon$. Each input comparison
+is routed to one displayed center before the corresponding pointwise radius in
+$F$ is used, so no open-cover subcover selection or host compactness step is
+available.
+
+The uniform source tolerance is then computed by the finite fold $M$. The
+window/readback rows $W$ and $Q$ expose exactly the input and output
+comparisons needed by the requested target tolerance, and the real seal $E$ is
+read only after those rows have been displayed.
+
+Transport, replay, provenance, and local naming preserve the same route. Since
+the carrier has no coordinate for the excluded compactness or completion
+principles, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Compact interval finite-net modulus]
+\label{thm:compact-interval-uniform-continuity-finite-net-modulus}
+For every accepted $\CompactIntervalUniformContinuityUp$ carrier
+$U=(J,F,N_\varepsilon,M,W,Q,E,H,C,P,L)$ and every displayed target tolerance,
+the source tolerance exported by the packet is obtained by the finite route
+$$
+J,F,N_\varepsilon,M,W,Q,E,H,C,P,L .
+$$
+If two input names are read within that source tolerance through $W$ and $Q$,
+then the output comparison is accepted only through the same centerwise
+pointwise-continuity rows and the same real-seal row $E$. The route is a
+finite-net modulus route, not a general compactness theorem or a selected
+limit construction.
+\end{theorem}
+\begin{proof}
+Begin with the target tolerance request. The continuation row $C$ sends it to
+the displayed interval-net row $N_\varepsilon$, whose centers and covering
+radii are finite rows over the same located interval $J$.
+
+For each listed center, the continuous-map row $F$ supplies a pointwise source
+radius. The fold $M$ computes one rational lower bound from those displayed
+radii, giving the source tolerance exported by the packet.
+
+Input names and output values are then inspected through $W$ and translated
+through $Q$. The real seal $E$ can be consumed only after these window and
+readback rows have displayed the required comparisons.
+
+Thus the modulus route is finite and internal to the packet. It neither
+selects a limit point nor appeals to open-cover compactness, sequential
+compactness, quotient real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Compact interval uniform-continuity Real-seal boundary]
+\label{thm:compact-interval-uniform-continuity-real-seal}
+Every $\RealUp$-facing consumer of an accepted
+$\CompactIntervalUniformContinuityUp$ packet receives value comparisons only
+after the route
+$$
+\LocatedIntervalUp,\ \ContinuousMapUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+has passed through the displayed finite-net and lower-bound rows
+$N_\varepsilon$ and $M$. In particular, the fixed-point consumer of
+\autoref{ch:concrete-instances-compactintervalfixedpoint-namecert} and the
+modulus-object consumer of
+\autoref{ch:concrete-instances-compact-uniform-continuity-modulus-namecert}
+receive only this displayed seal boundary.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The located interval $J$ fixes the endpoint
+surface, while the continuous-map row $F$ fixes the graph and pointwise
+continuity data over that same interval.
+
+The finite-net row $N_\varepsilon$ and lower-bound fold $M$ must be displayed
+before any uniform source tolerance is public. They are the only rows that
+turn centerwise pointwise data into one tolerance for the whole interval.
+
+The remaining value comparisons pass through the stream windows $W$, regular
+readback $Q$, and real seal $E$. These are the only Real-facing rows available
+to consumers such as $\CompactIntervalFixedPointUp$ and
+$\CompactUniformContinuityModulusUp$.
+
+Consequently any consumer that bypasses $N_\varepsilon,M,W,Q,E$ has left the
+accepted packet. The chapter supplies no quotient real equality, selected
+limit, sequential compactness, general Heine--Borel compactness, or
+$\RealUp$ completeness principle.
+\end{proof}
+
+\begin{closurestatus}{\CompactIntervalUniformContinuityUp}
+  \constructivestory{A $\CompactIntervalUniformContinuityUp$ packet is generated from a $\LocatedIntervalUp$ endpoint row, $\ContinuousMapUp$ pointwise-radius rows, a finite interval-net row, a rational lower-bound fold, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-interval-uniform-continuity-carrier}, \autoref{thm:compact-interval-uniform-continuity-namecert-obligations}, \autoref{thm:compact-interval-uniform-continuity-finite-net-modulus}, and \autoref{thm:compact-interval-uniform-continuity-real-seal} seed the interval-specific finite-net uniform-continuity route over located interval, continuous-map, stream-window, regular-readback, real-seal, fixed-point, and modulus-object consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim general Heine--Borel compactness, sequential compactness, selected limits, quotient reals, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source lock, finite-net coverage, lower-bound exactness, window and seal nonescape, transport and replay stability, and TasteGate field faithfulness for BEDC.Derived.CompactIntervalUniformContinuityUp.}
+\end{closurestatus}
