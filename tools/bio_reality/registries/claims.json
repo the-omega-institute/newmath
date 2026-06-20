@@ -5971,6 +5971,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T17:46:21+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T17:46:21+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "a896a2aa0ecc",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -8371,6 +8388,34 @@
             "failed": 0
           },
           "script_sha": "f1a01c748ba04b74"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.synonymous_perturbation.b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Cross-species whole-gene synonymous perturbation (does B_window predict protein output beyond optimality in E.coli?): on Nieuwkoop 2023 E.coli mRFP whole-gene synonymous-variant library (1459 variants, full-CDS recoded, GFP-normalized protein output; tools/bio_reality/data/nieuwkoop_mrfp.xlsx), the 9D B_window of each variant's whole CDS, residualized train-fold against CAI + tAI + GC + GC3 + log-length, PREDICTS protein output beyond those controls: 5-fold held-out ΔR²=0.074, ΔDL=+42.6 bits, exceeding both the within-library shuffle null95 (-48.5) and matched CAI/tAI/GC3-bin shuffle null95 (-44.1), p=0.005 both, deterministic. Verdict bacterial_synonymous_protein_output_candidate. cannot_claim (candidate): no mRNA so this is protein OUTPUT not beyond-mRNA escape (may be largely execution-mediated); CAI/tAI are library-internal proxies (no E.coli HEG/tRNA reference) so a real optimality control could absorb part (cf. Shen proxy-CSC); RNA-MFE uncontrolled (stdlib); whole-CDS not window; bacterial. Perturbation matrix: Shen yeast fitness-beyond-mRNA escape (real_csc_robust) | Chen2017 yeast GFP NO protein-beyond-mRNA escape | Niu human fitness null | Nieuwkoop E.coli protein-output beyond-proxy-optimality POSITIVE.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
+      "history": [
+        {
+          "ts": "2026-06-20T17:00:00+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-20T17:51:16+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "186a54a4b21e",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "26066bbf37ddc087"
         }
       ],
       "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
