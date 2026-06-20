@@ -1,0 +1,57 @@
+\chapter{Located Dyadic Apartness Window NameCert Construction}
+\label{ch:concrete-instances-located-dyadic-apartness-window-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive real analysis, the $\LocatedDyadicApartnessWindowUp$ packet records the finite dyadic window in which two regular real names are witnessed apart before a Real-facing comparison may be consumed. It sits over the dyadic endpoint arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the located apartness surface of \autoref{ch:concrete-instances-located-real-apartness-namecert}. The packet supplies a constructive comparison window for Real and Completion routes without importing trichotomy, quotient Real equality, or ambient completeness.
+
+\begin{definition}[Located dyadic apartness window carrier]
+\label{def:located-dyadic-apartness-window-carrier}
+A $\LocatedDyadicApartnessWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(L,U,S_0,S_1,R_0,R_1,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the finite lower-endpoint history in $\DyadicRatCoreUp$, recording the dyadic lower cells inspected for the two regular names.
+\item $U$ is the finite upper-endpoint history in $\DyadicRatCoreUp$, recording the matching upper cells and the endpoint-order ledger used by the window.
+\item $S_0$ and $S_1$ are the two $\StreamNameUp$ observation windows opened at the displayed dyadic precision.
+\item $R_0$ and $R_1$ are the $\RegSeqRatUp$ readback rows for those windows.
+\item $G$ is a positive dyadic gap row proving that the displayed lower and upper endpoint histories are separated before the terminal Real seal is read.
+\item $E$ is the $\RealUp$ seal row. It is consumed only after $L,U,S_0,S_1,R_0,R_1,G$ have already been displayed.
+\item $H$ stores componentwise $\hsame$ transport for endpoints, stream windows, readback rows, gap ledger, seal, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay through the same finite endpoint and readback route.
+\item $P$ is the $\Pkg$ provenance over $\LocatedDyadicApartnessWindowUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedRealApartnessUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedDyadicApartnessWindowUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for trichotomy, quotient Real equality, selected representatives, countable choice, ambient Real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Located dyadic apartness window stability]
+\label{thm:located-dyadic-apartness-window-stability}
+For every accepted $\LocatedDyadicApartnessWindowUp$ carrier
+$$
+W=(L,U,S_0,S_1,R_0,R_1,G,E,H,C,P,N),
+$$
+componentwise $\hsame$ transport of the dyadic endpoint histories, stream observations, regular rational readbacks, positive dyadic gap ledger, and terminal Real seal preserves the same located apartness window. Consequently every Real or Completion consumer receives the transported finite window through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedRealApartnessUp$, and $\RealUp$ rows, not through trichotomy, quotient Real equality, selected representatives, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-dyadic-apartness-window-carrier}. The only analytic rows are the dyadic endpoint histories $L,U$, the finite stream windows $S_0,S_1$, the regular rational readbacks $R_0,R_1$, the positive gap ledger $G$, and the terminal Real seal $E$.
+
+Transport first applies to the endpoint histories. Componentwise $\hsame$ sends the displayed lower and upper dyadic cells to transported endpoint histories while preserving the endpoint-order ledger carried by $L,U$.
+
+Transport then applies to the observation and readback rows. The windows $S_0,S_1$ and readbacks $R_0,R_1$ remain attached to the same dyadic precision because the replay row $C$ follows the displayed $\StreamNameUp$ and $\RegSeqRatUp$ route.
+
+Finally transport preserves the positive dyadic gap row $G$ and the terminal seal $E$. The gap is still read before the Real seal, and the provenance and local naming rows $P,N$ name exactly that transported packet. Since no row contains trichotomy, quotient Real equality, selected representatives, countable choice, or ambient completeness, the transported window exports none of those objects.
+\end{proof}
+
+\closureat{LocatedDyadicApartnessWindowUp}{seedStr}
+
+\begin{closurestatus}{\LocatedDyadicApartnessWindowUp}
+  \constructivestory{A $\LocatedDyadicApartnessWindowUp$ packet is generated from finite dyadic lower and upper endpoint histories, paired StreamName windows, RegSeqRat readbacks, a positive dyadic gap ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-dyadic-apartness-window-carrier} and \autoref{thm:located-dyadic-apartness-window-stability} seed the finite located dyadic apartness window route from endpoint histories through stream and regular-rational readback to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, quotient Real equality, selected representatives, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-order exactness, paired-window readback, positive dyadic gap preservation, Real seal nonescape, transport and replay stability, and exclusion coverage for BEDC.Derived.LocatedDyadicApartnessWindowUp.}
+\end{closurestatus}
