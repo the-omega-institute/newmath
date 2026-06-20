@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\DeckTransformationUp$}
+\label{ch:concrete-instances-deck-transformation-namecert}
+\origin{human}
+
+Following Hatcher and Spanier on covering-space automorphisms, the $\DeckTransformationUp$ packet records the finite BEDC surface by which a covering projection admits a fiber-preserving automorphism route with displayed inverse and composition rows. It sits beside the path-lifting certificate of \autoref{ch:concrete-instances-covering-space-path-lifting-namecert}, the homotopy rows of \autoref{ch:concrete-instances-homotopy-namecert}, the continuous-map carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, and the topology surface of \autoref{ch:concrete-instances-topology-namecert}. The packet names deck transformation data as finite carrier and NameCert rows; it does not import a universal cover, monodromy action, quotient path space, selected global sheet, or host equality of maps.
+
+\begin{definition}[DeckTransformation carrier]
+\label{def:deck-transformation-carrier}
+A $\DeckTransformationUp$ carrier is a finite $\BHist$ packet
+$$
+D=(\pi,a,u,i,c,s,h,r,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\pi$ is the covering projection row, read as a $\ContinuousMapUp$ packet from the displayed total-space topology to the base $\TopologyUp$ row.
+\item $a$ is the automorphism route. It records a displayed total-space self-map whose projection readback follows $\pi$ on every accepted finite test row.
+\item $u$ is the base-preservation ledger. It exposes the row-by-row comparison witnessing that $\pi$ after $a$ reads as the same covering projection route.
+\item $i$ is the inverse row. It records the displayed inverse route and the two finite identity readbacks for $a$ followed by $i$ and $i$ followed by $a$.
+\item $c$ is the composition row. It records closure of accepted automorphism routes under displayed composition over the same projection ledger.
+\item $s$ is the sheet-action classifier. It compares finite sheet reads by the covering projection, path-lifting route, and endpoint seal, not by a host-level global sheet selector.
+\item $h$ records componentwise $\hsame$ transport for the projection, automorphism route, preservation ledger, inverse row, composition row, sheet classifier, replay, provenance, and local naming rows.
+\item $r$ records displayed $\Cont$ replay from a deck-transformation request through $\pi,a,u,i,c,s,h,p,n$.
+\item $p$ is the $\Pkg$ provenance over $\DeckTransformationUp$, $\CoveringSpacePathLiftingUp$, $\HomotopyUp$, $\ContinuousMapUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $n$ is the local $\NameCert_{\DeckTransformationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a universal covering space, monodromy action, quotient path object, hidden group representation, selected global sheet, or host equality of continuous maps.
+\end{definition}
+
+\begin{theorem}[DeckTransformation NameCert obligations]
+\label{thm:deck-transformation-namecert-obligations}
+For every accepted $\DeckTransformationUp$ carrier
+$$
+D=(\pi,a,u,i,c,s,h,r,p,n),
+$$
+the local $\NameCert_{\DeckTransformationUp}$ surface consists exactly of carrier admission, projection preservation through $\pi,a,u$, inverse exactness through $i$, composition closure through $c$, sheet-classifier stability through $s$, componentwise $\hsame$ transport through $h$, displayed $\Cont$ replay through $r$, $\Pkg$ provenance through $p$, and local naming through $n$. Every deck-transformation consumer can inspect these rows, but cannot escape to universal-cover data, quotient-path data, monodromy actions, fundamental-group representations, selected global sheets, or host equality of maps.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:deck-transformation-carrier}. The accepted tuple displays the covering projection, automorphism route, base-preservation ledger, inverse row, composition row, sheet classifier, transport, replay, provenance, and local naming rows.
+
+Projection preservation is the content of $u$. It forces every accepted read of $a$ to return through the same covering projection route $\pi$, so the automorphism is fiber-preserving at the level visible to the packet.
+
+Inverse exactness is read from $i$. The two identity readbacks are finite rows in the carrier, and no host-level equality of continuous maps is added beyond those displayed rows.
+
+Composition closure is read from $c$. Whenever two accepted automorphism routes share the displayed covering projection ledger, their composite is admitted by the same finite surface and remains attached to $\pi$.
+
+The sheet-action classifier $s$ is stable because it is computed from the projection ledger, the path-lifting route of \autoref{ch:concrete-instances-covering-space-path-lifting-namecert}, and the endpoint seal already named there. Transport, replay, provenance, and naming through $h,r,p,n$ preserve the same rows, so the certificate has no remaining place to store universal-cover data, quotient-path data, monodromy actions, or fundamental-group representations.
+\end{proof}
+
+\closureat{DeckTransformationUp}{seedStr}
+
+\begin{closurestatus}{\DeckTransformationUp}
+  \constructivestory{A $\DeckTransformationUp$ packet is generated from a covering projection, a fiber-preserving automorphism route, base-preservation ledger, inverse row, composition row, sheet-action classifier, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:deck-transformation-carrier} and \autoref{thm:deck-transformation-namecert-obligations} seed the finite projection-preservation, inverse, composition, sheet-classifier, transport, replay, provenance, and local naming surface for covering-space automorphisms.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close universal covers, monodromy actions, fundamental-group representations, quotient path spaces, selected global sheets, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked projection preservation, inverse exactness, composition closure, sheet-classifier stability, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.DeckTransformationUp.}
+\end{closurestatus}
