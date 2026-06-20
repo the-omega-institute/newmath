@@ -123,6 +123,24 @@ Apply the residual-budget obligation \autoref{thm:metacic-normalization-audit-re
 Finally replay through $F,H,T,P,L$. These structural rows preserve the same candidate ledger and cannot supply global strong normalization, subject reduction, confluence, quotient equality, or a host evaluator, since none of those objects appears as a carrier row.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit confluence refusal split]
+\label{thm:metacic-normalization-audit-confluence-refusal-split}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. The packet may export candidate-mediated strong normalization only through the displayed rows
+$$
+R,C,S,A,N,F,H,T,P,L .
+$$
+The row $N$ keeps confluence, subject-reduction transport, quotient reduction equality, and host evaluator evidence outside the export unless a downstream confluence packet supplies those rows explicitly. Thus a consistency consumer may read candidate evidence, closed projection, finite SN scope, application boundary, refusal boundary, replay, transport, continuation, provenance, and local naming, but it may not turn that read into confluence or subject reduction by erasing $N$.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:metacic-normalization-audit-obligation-surface}. It makes $R,C,S,A,N,F,H,T,P,L$ the complete carrier inventory for an accepted normalization audit packet.
+
+Use the finite SN scope theorem \autoref{thm:metacic-normalization-audit-sn-scope}. Positive normalization content is confined to the candidate-mediated rows $R,C,S$, with the application boundary $A$ still visible.
+
+Next apply the residual-budget obligation of \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. The budget explicitly spends the refusal row $N$ before an SN export can reach downstream replay.
+
+Finally apply candidate-ledger locality, \autoref{thm:metacic-normalization-audit-candidate-ledger-locality}. The replay and provenance rows $F,H,T,P,L$ preserve the same candidate ledger and add no confluence, subject-reduction transport, quotient reduction equality, or host evaluator evidence. Those objects can enter only from a separate downstream confluence packet that displays them as its own rows.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit public candidate export]
 \label{thm:metacic-normalization-audit-public-candidate-export}
 For an accepted $\MetacicNormalizationAuditUp$ packet
