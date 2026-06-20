@@ -1827,6 +1827,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.evolutionary_selection_imprint.b_star_q6_cross_ortholog_selection_imprint_powered",
+   "experiment_id": "b_star_q6_cross_ortholog_selection_imprint_powered",
+   "hypothesis_level": "H3",
+   "statement": "Offline self-contained cross-ortholog selection-imprint model over a compact reconciled dataset (tools/bio_reality/data/cross_ortholog_selection_dataset_saccharomyces_fungi.json; 240 rows = 80 single-copy OGs x 3 fungal species, per-organism aa-fiber-centered 9D B*_Q6 residual Q, organism-normalized log ppm, length/aa/GC3/organism-GC controls, clade labels). M0: logP ~ alpha_h + gamma_o + C; M1: + beta.Q; leave-clade-out CV held-out delta-R2/delta-logpd + DL; three nulls (ortholog-internal cross-species Q permutation, within-species matched-Q permutation, clade-block permutation). Deterministic (fixed seed). Verdict evolutionary_design_imprint (positive) only if Q beats all robust phylo/matched nulls with DL gain; else codon_bias_expression_correlation (honest negative). cannot_claim: PaxDb cross-study ppm; non-random reconciliation loss; statistical residual != mechanism; n_OG=80 underpowered.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_q6_cross_ortholog_selection_imprint_powered.py",
+   "timeout_seconds": 600,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-20T03:43:57+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
