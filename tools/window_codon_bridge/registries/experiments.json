@@ -408,6 +408,14 @@
    "status": "closed",
    "timeout_seconds": 600,
    "note": "COINCIDENCE (adversarially-verified TRUE null). Flagship functional test of BC7 edge-hiding via public ProteinGym DMS + UniProt/ENA native CDS (frozen panel synced/dms_codon_escape_panel.json: 144 assays, 119 proteins, 27 organisms, 6307 Leu/Arg/Ser sites). Oracle's VALID conditional codon-choice logit (not the invalid permutation null): does site intolerance favor high synonymous-escape-degree codons BEYOND codon composition + optimality? beta_h=0.015, Wald p=0.31, cluster-bootstrap lower-95<0; h identifiable (collinearity h-comp 0.35); POSITIVE CONTROL beta_RSCU=0.068 p=0.016 significant -> model works, h-null is real + well-powered. CONCLUSION: edge-hiding has NO detected functional codon-allocation signal in DMS fitness data beyond composition/optimality; organisms bias codons at intolerant sites toward OPTIMAL (not high-escape) codons. tAI/decoding-accuracy + dinucleotide/dMFE are documented sensitivity extensions (not expected to revive a null marginal)."
+  },
+  {
+   "experiment_id": "codon_e1_transport_gate",
+   "claim_id": "bridge.genetic_code.codon_e1_conservation_transportability",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_transport_gate.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "CERTIFIED transportability. Extends #18 (codon-E1 conservation across 29 bacteria) to archaea + eukaryotes as SEPARATE strata (Kazusa CUTG standard-code codon usage, frozen synced/codon_e1_transport_panel.json: 12 archaea + 14 eukaryotes, all genetic code table 1). Each domain's d_resid4 projected onto the #18 codon-E1 subspace B1 (rank 6) vs the matched-synonymous-relabel null. ARCHAEA: T=0.522 vs null 0.137 (z=9.6, p=5e-5, bootstrap-lo95 0.294>0) -> conserved. EUKARYOTA: T=0.515 vs null 0.140 (z=8.8, p=5e-5, bootstrap-lo95 0.270>0) -> conserved. Both independently pass; chance baseline 6/41=0.146. Adversarially verified (Kazusa counts live-matched to all 26 taxids, standard-code-only, fair null ~chance, same B1, separate strata). With #18 (bacteria T=0.571) -> codon-E1 first-order conservation holds across ALL 3 domains of life. NOT Window6, NOT causal."
   }
  ]
 }
