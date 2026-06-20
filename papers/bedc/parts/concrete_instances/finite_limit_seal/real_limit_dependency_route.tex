@@ -25,3 +25,21 @@ Next project the structural rows of \autoref{def:finite-limit-seal-carrier}. The
 
 Finally compose this route with \autoref{ch:concrete-instances-metriccompletionfinite-namecert}. A $\MetricCompletionFiniteUp$ consumer therefore receives the finite-limit seal only after the StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and naming rows are exposed, with no selected limit, quotient stream equality, countable-choice schedule, host real equality, trichotomy branch, or ambient Real completeness.
 \end{proof}
+
+\begin{theorem}[FiniteLimitSeal Real-completion route]
+\label{thm:finite-limit-seal-real-completion-route}
+Every accepted $\FiniteLimitSealUp$ completion-facing consumer factors through the route
+$$
+M,W,R,D,E,H,C,P,N.
+$$
+Here $W$ is supplied by $\StreamNameUp$, $R$ by $\RegSeqRatUp$, $D$ by $\DyadicRatCoreUp$, $E$ by $\RealUp$, and downstream completion is read only through $\MetricCompletionUp$ or $\MetricCompletionFiniteUp$. No selected limit, quotient stream equality, countable-choice schedule, host real equality, trichotomy branch, or ambient Real completeness enters the route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-limit-seal-carrier}. The completion-facing rows available to a consumer are the displayed modulus, window, readback, dyadic tolerance, Real seal, transport, replay, provenance, and local naming rows.
+
+Use route nonescape, \autoref{thm:finite-limit-seal-route-nonescape}. It prevents a completion consumer from bypassing $M,W,R,D,E$ or replacing them by a selected limit, quotient stream equality, host equality, trichotomy branch, or ambient completeness theorem.
+
+Apply the real dependency route above. It identifies $W$ as the $\StreamNameUp$ window row, $R$ as the $\RegSeqRatUp$ readback row, $D$ as the dyadic tolerance row, and $E$ as the terminal $\RealUp$ seal.
+
+Finally use the $\MetricCompletionFiniteUp$ forward link, \autoref{thm:finite-limit-seal-metriccompletionfinite-forward-link}. It records the finite completion handoff and leaves downstream completion only through $\MetricCompletionUp$ or $\MetricCompletionFiniteUp$, so the displayed route is exhausted by $M,W,R,D,E,H,C,P,N$.
+\end{proof}
