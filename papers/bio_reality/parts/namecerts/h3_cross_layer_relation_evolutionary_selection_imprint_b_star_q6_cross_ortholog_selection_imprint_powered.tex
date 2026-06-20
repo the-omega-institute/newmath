@@ -1,0 +1,75 @@
+\origin{ai}
+\subsection{Cross-Ortholog Selection Imprint for $B^\ast_{Q6}$ Residual Coordinates}
+\label{sec:biorreality-q6-cross-ortholog-selection-imprint}
+
+\paragraph{Finite row object.}
+The finite object for this record is a controlled mediation and imprint table whose rows are triples $(q_i,t_j,p_k)$: $q_i$ ranges over the nine $B^\ast_{Q6}$ synonymous residual coordinates, $t_j$ ranges over bounded translation readouts such as modeled tAI, stAI, ribosome occupancy, or translation efficiency, and $p_k$ ranges over matched downstream protein-abundance readouts.  The coordinates used in the linked runs are
+$$
+\begin{aligned}
+Q=\{&\mathrm{K\_AAA},\mathrm{Arg\_AGR},\mathrm{Ile\_AUA},\mathrm{Leu\_CUN\_vs\_UUR},\mathrm{Leu\_UUA\_vs\_UUG},\\
+&\mathrm{Ser\_UCR\_vs\_AGY},\mathrm{Ser\_UCA\_vs\_UCG},\mathrm{Thr\_ACR\_vs\_ACY},\mathrm{f3\_stress}\}.
+\end{aligned}
+$$
+A residual-to-protein edge is not admitted as a protein realization edge unless the same residual first passes through a controlled translation-readout surface.  The baseline covariates remain covariates rather than promoted coordinates: amino-acid composition, organism, GC3, coding-sequence length, the $M$-density baseline, matched mRNA abundance, and simpler codon-count explanations.
+
+\paragraph{Ortholog imprint audit.}
+The direct cross-ortholog selection-imprint experiment ran to completion on $80$ single-copy fungal orthogroups, giving $240$ species-by-orthogroup rows over $3$ species.  The source table was OrthoDB v12 at Fungi level 4751, Ensembl Fungi release 63 coding sequences, and PaxDb v6 integrated ppm abundance.  The evaluated gate was not positive for the strong imprint claim:
+$$
+\begin{aligned}
+\Delta R^2 &= 0.03250515015613468,\\
+\Delta L_{\mathrm{bits}} &= -258.6010084301837,\\
+\Delta R^2_{\mathrm{leave\ clade\ out}} &= -0.0021477729853302424,\\
+\max \Delta R^2_{\mathrm{null95}} &= 0.05427157066522958,\\
+\mathrm{positive\ selection\ imprint} &= \mathrm{false}.
+\end{aligned}
+$$
+Thus the finite verdict is a bounded codon-bias/expression correlation rather than a powered evolutionary selection imprint.  The negative gate is informative: the observed residual association does not exceed the declared null envelope, and the leave-clade-out score changes sign.  The chapter therefore records a completed finite test with an honest negative answer for the strong selection-imprint statement.
+
+\paragraph{Translation-layer context.}
+The same residual family has bounded translation-readout contact, but this contact is not the same as measured ribosome dynamics.  In the three-organism modeled-tAI run, the local GtRNAdb payload included all standard amino-acid families for \emph{Escherichia coli} K12, human, and yeast, with $89$, $432$, and $275$ FASTA headers respectively; the matched header counts were $87$, $432$, and $275$.  The modeled tAI construction used $61$ sense codons in each organism and had zero raw-weight fallback count $0$ for each of the three organisms.  The bounded coupling matrix had $81$ entries above the threshold $0.01$, with
+$$
+\begin{aligned}
+\max |S_{ij}| &= 3801961.031607896,\\
+\max |S_i|_{\mathrm{diagonal}} &= 3801961.031607896,\\
+N_{\mathrm{organisms}} &= 3.
+\end{aligned}
+$$
+This is a modeled codon-adaptation contact, not ribosome profiling, not proteomics validation, and not a powered multi-species survival claim; the recorded break rule explicitly requires more species for powered survival.
+
+\paragraph{Protein-abundance mediation surface.}
+A broader translation-mediated protein-abundance run evaluated a joint nine-dimensional $Q$ surface against modeled per-protein tAI and PaxDb abundance in $12$ organisms.  The joined protein counts were $4042$ for \emph{Bacillus subtilis}, $11661$ for \emph{Caenorhabditis elegans}, $14410$ for zebrafish, $13295$ for fly, $3739$ for \emph{E. coli} K12 MG1655, $12418$ for chicken, $19053$ for human, $19395$ for mouse, $4129$ for \emph{Mycobacterium smegmatis}, $13322$ for rat, $5815$ for yeast, and $1656$ for \emph{Sulfolobus solfataricus}.  The mediated fractions $M^{QTP}$ were all in the unit interval:
+$$
+\begin{aligned}
+M^{QTP}_{\mathrm{B.subtilis}} &= 0.6084594553474505, &
+M^{QTP}_{\mathrm{C.elegans}} &= 0.4872268357227724,\\
+M^{QTP}_{\mathrm{zebrafish}} &= 0.3157053953614641, &
+M^{QTP}_{\mathrm{fly}} &= 0.6165167748739756,\\
+M^{QTP}_{\mathrm{E.coli}} &= 0.612922252793667, &
+M^{QTP}_{\mathrm{chicken}} &= 0.1976903964724546,\\
+M^{QTP}_{\mathrm{human}} &= 0.27206289160119157, &
+M^{QTP}_{\mathrm{mouse}} &= 0.15488799907323988,\\
+M^{QTP}_{\mathrm{M.smegmatis}} &= 0.08397602919861291, &
+M^{QTP}_{\mathrm{rat}} &= 0.17489681798543982,\\
+M^{QTP}_{\mathrm{yeast}} &= 0.9491551041216973, &
+M^{QTP}_{\mathrm{S.solfataricus}} &= 0.01850668564589326.
+\end{aligned}
+$$
+These values support a statistical decomposition of residual-to-abundance association through modeled tAI, with the largest mediated fraction in yeast and the smallest in \emph{S. solfataricus}.  They do not make the cross-ortholog selection-imprint gate positive, because the ortholog imprint test used a separate finite surface and failed its declared null comparison.
+
+\paragraph{Yeast decomposition and structural side condition.}
+The yeast five-way join used $4759$ rows, with reported CDS join hit rate $0.9156038419146592$ and overall join hit rate $0.8818572656921754$.  In that surface, the direct $B^\ast_{Q6}$ to protein-abundance residual association had
+$$
+\begin{aligned}
+R^2_{QP} &= 0.2715520808117803,\\
+R^2_{QP\mid S} &= 0.2706601505000995,\\
+R^2_{QP\mid T,M} &= 0.13773967696311287,\\
+R^2_{QP\mid T,M,S} &= 0.13759011208318542.
+\end{aligned}
+$$
+The structure-only fraction was $0.003284564452662019$, the structure-incremental fraction was $0.0005507778820193332$, and $S_Q$ structure $R^2$ was $0.003774248455422586$ with right-tail permutation values $0.027972027972027972$ for $S_Q$ structure and $0.1258741258741259$ for the incremental structure fraction.  A separate structural-order axis run identified $\mathrm{f3\_stress}$ as the only fold-level sign-flip survivor, with weighted held-out $\Delta R^2=0.0031744502294756994$, weighted absolute unit loading $0.5109586606724208$, and sign-flip $p=0.03125$.  These numbers describe statistical side surfaces around abundance and structure proxies; they are not evidence of folding, physical admissibility, molecular function, or a universal mechanism.
+
+\paragraph{Observable execution and boundary controls.}
+The observable execution decomposition in yeast used $3289$ genes and concluded that at least one observed rate proxy slot passed both effective null classes.  The earlier codon-geometry confirmatory table supplied strong finite controls at a different layer: two one-sided binomial checks each had $40$ successes out of $40$ trials with upper-tail probability $9.094947017729282\times 10^{-13}$, while $20$ negative-control rows and $20$ critical-ablation rows had $0$ unexpected successes.  Those controls show that finite codon-table contact can be sharply audited, but they do not transfer the cross-ortholog imprint claim across layers.
+
+\paragraph{Local cannot-claim boundary.}
+The allowed conclusion is narrow.  The cross-ortholog experiment is a completed finite audit whose strong selection-imprint gate is false; its bounded verdict is codon-bias/expression correlation in an underpowered fungal orthogroup surface.  PaxDb ppm values are integrated across studies and species, failed cross-reference reconciliation can remove proteins non-randomly, and $N_{OG}=80$ is too small for a strong evolutionary selection-imprint claim.  No translation realization, ribosome mechanism, protein folding, physical admissibility, molecular function, organismal phenotype, causal adaptation, or universal biological law follows from this chapter.  Any such assertion would require a separate layer-matched contact and its own controlled statistic after the residual-to-translation step is established.
