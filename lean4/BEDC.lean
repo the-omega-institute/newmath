@@ -7881,6 +7881,7 @@ import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.ModulusOfConvergenceUp.DoubleTail
+import BEDC.Derived.ModulusOfRegularConvergenceUp.TasteGate
 import BEDC.Derived.ModulusOfSequentialContinuityUp.TasteGate
 import BEDC.Derived.ModulusOfTotalBoundednessUp.TasteGate
 import BEDC.Derived.ModulusOfUniformConvergenceUp.TasteGate
@@ -9960,6 +9961,7 @@ import BEDC.Derived.RiemannIntegralUp.DarbouxStepScope
 import BEDC.Derived.RiemannIntegralUp.PublicTaggedMeshCertificate
 import BEDC.Derived.RiemannIntegralUp.RegSeqRatHandoffTotality
 import BEDC.Derived.RiemannIntegralUp.TasteGate
+import BEDC.Derived.RiemannIntegrationCompletionUp.TasteGate
 import BEDC.Derived.RiemannLebesgueLemmaUp.OscillatoryHandoff
 import BEDC.Derived.RiemannLebesgueLemmaUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
