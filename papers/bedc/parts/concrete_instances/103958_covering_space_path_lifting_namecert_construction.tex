@@ -64,11 +64,25 @@ Proceed along the finite lifted segment ledger. At each next window, the previou
 The final endpoint rows $E$ and $E'$ are therefore read through the same sequence of segment and sheet rows. Replaying and transporting by $H,C,P,N$ preserves that route and exports no global sheet selector, quotient path equality, monodromy action, or fundamental-group representation.
 \end{proof}
 
+\begin{theorem}[CoveringSpacePathLifting monodromy boundary]
+\label{thm:covering-space-path-lifting-monodromy-boundary}
+Let $L=(\gamma,\pi,e_0,U,S,\Sigma,E,H,C,P,N)$ be an accepted $\CoveringSpacePathLiftingUp$ packet. Any attempted loop-consumer read from $L$ must factor through the displayed base path $\gamma$, covering projection $\pi$, initial lift point $e_0$, evenly covered window ledger $U$, lifted segment ledger $S$, sheet classifier $\Sigma$, endpoint seal $E$, transport $H$, replay $C$, provenance $P$, and local NameCert row $N$. Consequently the packet can expose endpoint and sheet-classifier reads along the displayed lifting route, but it cannot export a monodromy action, a fundamental-group representation, a host path quotient, or a universal-cover carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:covering-space-path-lifting-carrier}. The only rows available to a consumer are the displayed base path, projection, initial lift point, window ledger, lifted segments, sheet classifier, endpoint seal, transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:covering-space-path-lifting-namecert-obligations}. The NameCert surface admits inspection of those rows and refuses replacement by a universal cover, host path quotient, selected global sheet, monodromy action, or fundamental-group representation.
+
+Apply \autoref{thm:covering-space-path-lifting-unique-lift-route} to the lifted segment route whenever the loop consumer asks for endpoint or intermediate segment reads along the displayed window ledger. The theorem identifies the finite sheet-classifier route through $U,\Sigma,E,H,C,P,N$ and does not add a completed path space.
+
+Thus every accepted read remains a path-lifting read through the finite carrier. Exporting monodromy or a representation would require an additional coordinate that stores loop composition on path classes, and no such coordinate is present in $L$.
+\end{proof}
+
 \closureat{CoveringSpacePathLiftingUp}{seedStr}
 
 \begin{closurestatus}{\CoveringSpacePathLiftingUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:covering-space-path-lifting-carrier}, \autoref{thm:covering-space-path-lifting-namecert-obligations}, and \autoref{thm:covering-space-path-lifting-unique-lift-route} seed the finite base-path, covering-projection, evenly covered window, lifted segment, sheet-classifier, and endpoint-seal surface for path lifting.}
+  \scopeclosed{\autoref{def:covering-space-path-lifting-carrier}, \autoref{thm:covering-space-path-lifting-namecert-obligations}, \autoref{thm:covering-space-path-lifting-unique-lift-route}, and \autoref{thm:covering-space-path-lifting-monodromy-boundary} seed the finite base-path, covering-projection, evenly covered window, lifted segment, sheet-classifier, endpoint-seal, and loop-consumer boundary surface for path lifting.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close universal covers, monodromy actions, fundamental-group representations, host path quotients, selected global sheets, Lean verification, or bridge checking.}
