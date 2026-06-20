@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FenchelYoungInequalityUp$}
+\label{ch:concrete-instances-fenchel-young-inequality-namecert}
+\origin{human}
+
+Following Rockafellar and Boyd--Vandenberghe, the $\FenchelYoungInequalityUp$ packet records the finite convex-analysis surface for the inequality $f(x)+f^\ast(y)\geq \langle y,x\rangle$. It sits between the convex-set, vector-space, real-name, conjugate, and duality rows of \autoref{ch:concrete-instances-convexset-namecert}, \autoref{ch:concrete-instances-vecspace-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-convex-conjugate-namecert}, and \autoref{ch:concrete-instances-fenchelduality-namecert}. The packet names the displayed inequality as BEDC carrier data; it does not import host suprema, quotient function spaces, selected minimizers, choice, or ambient completeness.
+
+\begin{definition}[Fenchel--Young inequality carrier]\label{def:fenchel-young-inequality-carrier}
+A $\FenchelYoungInequalityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,V,R,F,D,E,P,L,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the displayed $\ConvexSetUp$ row carrying the primal convex-domain boundary.
+\item $V$ is the displayed $\VecSpaceUp$ row carrying the primal and dual vector-space read.
+\item $R$ is the $\RealUp$ comparison row that records the ordered scalar boundary.
+\item $F$ is the $\ConvexConjugateUp$ row carrying the finite conjugate packet for $f^\ast$.
+\item $D$ is the $\FenchelDualityUp$ row that records the surrounding primal-dual ledger.
+\item $E$ is the pairing-evaluation row for the finite read of $\langle y,x\rangle$.
+\item $P$ is the comparison ledger row displaying $f(x)$, $f^\ast(y)$, the sum row, the pairing row, and the inequality comparison.
+\item $L$ is the handoff ledger that orders the convex-set, vector-space, real, conjugate, duality, pairing, and comparison rows before any optimization consumer reads the inequality.
+\item $H$ stores componentwise $\hsame$ transport for all displayed rows.
+\item $C$ stores displayed $\Cont$ replay from primal and dual reads to pairing evaluation, from conjugate read to comparison, and from comparison to the inequality handoff.
+\item $Q$ is the $\Pkg$ provenance over $\FenchelYoungInequalityUp$, $\ConvexSetUp$, $\VecSpaceUp$, $\RealUp$, $\ConvexConjugateUp$, $\FenchelDualityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FenchelYoungInequalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,V,R,F,D,E,P,L,H,C,Q,N$. It has no coordinate for a host supremum operator, quotient function space, selected optimizer, separating hyperplane principle, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Fenchel--Young inequality NameCert obligations]\label{thm:fenchel-young-inequality-namecert-obligations}
+For every accepted $\FenchelYoungInequalityUp$ carrier $K=(X,V,R,F,D,E,P,L,H,C,Q,N)$, the local $\NameCert_{\FenchelYoungInequalityUp}$ surface consists exactly of carrier admission for the twelve displayed rows, classifier stability under componentwise $\hsame$ transport, pairing replay through the $\VecSpaceUp$ and $\RealUp$ rows, conjugate handoff through $\ConvexConjugateUp$, primal-dual ledger handoff through $\FenchelDualityUp$, comparison-ledger exactness through $P,L$, and local provenance through $Q,N$. Every inequality read must pass through the convex domain row, vector-space row, real comparison row, conjugate row, duality row, pairing row, and displayed comparison ledger before an optimization consumer can inspect it.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fenchel-young-inequality-carrier}. The visible coordinates are exactly $X,V,R,F,D,E,P,L,H,C,Q,N$, so carrier admission and classifier comparison are componentwise on those rows.
+
+The analytic sources are read only through sibling packets. The rows $X,V,R$ provide the convex-domain, vector-space, and scalar-order boundaries, while $F$ and $D$ import only the displayed conjugate and primal-dual ledgers of \autoref{ch:concrete-instances-convex-conjugate-namecert} and \autoref{ch:concrete-instances-fenchelduality-namecert}.
+
+The pairing and comparison rows then determine the inequality surface. The replay row $C$ routes primal and dual reads to $E$, routes the conjugate read to $P$, and routes the comparison ledger to $L,Q,N$. Since no host supremum, quotient function space, optimizer selector, or completeness row is present in the carrier, the listed rows form the whole local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Fenchel--Young inequality conjugate handoff]\label{thm:fenchel-young-inequality-conjugate-handoff}
+Every $\FenchelDualityUp$ or optimization consumer that reads a Fenchel--Young inequality through an accepted $\FenchelYoungInequalityUp$ carrier receives only the displayed route
+$$
+X,V,R,F,D,E,P,L\longmapsto H,C,Q,N.
+$$
+The consumer reads convex-domain data, vector-space data, real comparison data, conjugate data, primal-dual ledger data, pairing evaluation, and the comparison ledger before receiving the local $\NameCert$ row. The route exports no host supremum, quotient function space, selected minimizer, Hahn--Banach separation, strong-duality existence, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:fenchel-young-inequality-namecert-obligations}. It places each inequality read on $X,V,R,F,D,E,P,L$ before the transport, replay, provenance, and local naming rows can return an answer.
+
+Now read the conjugate dependency. The $\ConvexConjugateUp$ row $F$ supplies conjugacy only as the finite packet of \autoref{ch:concrete-instances-convex-conjugate-namecert}; the $\FenchelDualityUp$ row $D$ supplies only the surrounding primal-dual ledger of \autoref{ch:concrete-instances-fenchelduality-namecert}. Thus the inequality handoff is a finite comparison route rather than an imported theorem of host convex analysis.
+
+The refused objects are absent from \autoref{def:fenchel-young-inequality-carrier}. Therefore the handoff can deliver the displayed inequality surface to downstream optimization chapters, but it cannot deliver a selected optimizer, host supremum, quotient-function equality, separation theorem, strong-duality existence witness, or ambient completeness result.
+\end{proof}
+
+\falsifiablePrediction{Every $\FenchelYoungInequalityUp$ consumer reads the inequality through convex-domain, vector-space, real-comparison, convex-conjugate, Fenchel-duality, pairing-evaluation, comparison-ledger, handoff-ledger, transport, continuation replay, provenance, and local naming rows.}
+
+\independenceWitness{convexset, vecspace, real, convex-conjugate, fenchelduality: $\FenchelYoungInequalityUp$ is not bijective to any listed sibling because it jointly carries the conjugate comparison, pairing evaluation, primal-dual ledger, inequality ledger, transport, replay, provenance, and local naming rows as one finite packet.}
+
+\closureat{FenchelYoungInequalityUp}{seedStr}
+
+\begin{closurestatus}{\FenchelYoungInequalityUp}
+  \constructivestory{A $\FenchelYoungInequalityUp$ packet is generated from displayed convex-domain, vector-space, real-comparison, convex-conjugate, Fenchel-duality, pairing-evaluation, comparison-ledger, handoff-ledger, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fenchel-young-inequality-carrier}, \autoref{thm:fenchel-young-inequality-namecert-obligations}, and \autoref{thm:fenchel-young-inequality-conjugate-handoff} bind the finite Fenchel--Young inequality certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host convex analysis, host suprema, quotient function spaces, selected minimizers, separation theorems, strong duality, choice, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, conjugate handoff, comparison-ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.FenchelYoungInequalityUp.}
+\end{closurestatus}
