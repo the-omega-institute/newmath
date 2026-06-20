@@ -416,12 +416,55 @@ The dyadic-modulus scope and window triangle then account for all tolerance and 
 Finally apply the obligation scope and finite precision induction. The obligation scope lists the full sibling route surface, while the induction shows that finite precision extensions stay inside the same packet. These rows cover every displayed obligation named by the carrier, so the packet has no further NameCert basis outside the cited surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail estimate RegSeqRat handoff]
+\label{thm:regular-cauchy-tail-estimate-regseqrat-handoff}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, any completion-facing consumer must first expose the
+handoff route
+$$
+D,W,R,E,H,C,P,N .
+$$
+Thus the consumer reads the dyadic tolerance row, the $\StreamNameUp$ finite
+windows, the $\RegSeqRatUp$ readback, the terminal $\RealUp$ seal,
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance,
+and the local $\NameCert_{\RegularCauchyTailEstimateUp}$ row before any
+completion-facing tail estimate is public.
+
+The route exports no quotient stream, selected limit, countable-choice
+schedule, host equality, open-cover compactness, or ambient $\RealUp$
+completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the Real seal route of
+\autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. It places every
+seal-facing read behind the threshold row $M$, finite window $W$, dyadic
+tolerance row $D$, and regular readback row $R$ before $E$ is consumed.
+
+Use the dyadic-modulus scope and window triangle,
+\autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope} and
+\autoref{thm:regular-cauchy-tail-estimate-window-triangle}. These results keep
+the dyadic tolerance ledger and shared finite windows attached to the same
+$\RegSeqRatUp$ readback row, so the consumer cannot detach the tail estimate
+from $D,W,R$.
+
+Next apply monotone nesting,
+\autoref{thm:regular-cauchy-tail-estimate-window-monotone-nesting}. Refining a
+finite tail window stays inside the same packet and adds only displayed
+tolerance and window rows before the readback and seal are replayed.
+
+Finally invoke the obligation basis of
+\autoref{thm:regular-cauchy-tail-estimate-obligation-basis}. It exhausts the
+available NameCert rows by $M,W,D,R,E,H,C,P,N$ and the named sibling routes, so
+completion-facing consumers receive only the displayed RegSeqRat-to-Real
+handoff and none of the excluded completion principles.
+\end{proof}
+
 \closureat{RegularCauchyTailEstimateUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyTailEstimateUp}
   \constructivestory{A $\RegularCauchyTailEstimateUp$ packet is generated from a $\RealCauchyModulusUp$ threshold row, a finite $\StreamNameUp$ window, a $\DyadicRatCoreUp$ tolerance row, a $\RegSeqRatUp$ readback, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:regular-cauchy-tail-estimate-obligation-scope}, \autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}, \autoref{thm:regular-cauchy-tail-estimate-finite-induction}, and \autoref{thm:regular-cauchy-tail-estimate-obligation-basis} bind the primitive BEDC scope over carrier admission, NameCert obligations, dyadic-modulus rows, finite precision induction, and the displayed obligation basis.}
+  \scopeclosed{\autoref{thm:regular-cauchy-tail-estimate-obligation-scope}, \autoref{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}, \autoref{thm:regular-cauchy-tail-estimate-finite-induction}, \autoref{thm:regular-cauchy-tail-estimate-obligation-basis}, and \autoref{thm:regular-cauchy-tail-estimate-regseqrat-handoff} bind the primitive BEDC scope over carrier admission, NameCert obligations, dyadic-modulus rows, finite precision induction, displayed obligation basis, and RegSeqRat handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, choice, trichotomy, selected limits, open-cover compactness, Lean verification, or bridge checking.}
