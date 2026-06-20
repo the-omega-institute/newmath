@@ -387,6 +387,41 @@ compatibility, subject reduction, quotient conversion, global normalization,
 or a host evaluator, none of those endpoints is exported by the handoff.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit candidate-confluence boundary]
+\label{thm:metacic-normalization-audit-candidate-confluence-boundary}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted
+$\MetacicNormalizationAuditUp$ packet. Any consumer comparing the
+normalization-audit rows of $Z$ with the confluence-audit siblings must display
+candidate evidence $R$, closed projection $C$, finite SN scope $S$, application
+boundary $A$, residual-fuel and replay rows $F,H,T,P,L$, and the confluence
+refusal $N$ in the same route. Omitting any of these rows leaves only the local
+normalization-audit surface, not substitution compatibility, subject reduction,
+closed Church--Rosser, quotient conversion, global normalization, or evaluator
+evidence.
+\end{theorem}
+\begin{proof}
+Start with the candidate-confluence handoff above. It permits comparison with
+the sibling confluence audits only through displayed candidate-frontier,
+residual-substitution, residual-fuel, and confluence-socket rows.
+
+Use the residual-substitution compatibility theorem below. It keeps every
+substitution-shaped read inside the same candidate ledger before any socket
+read is exported, so the comparison cannot drop $R,C,S,A$ or the replay rows
+$F,H,T,P,L$.
+
+Now inspect the confluence socket of
+\autoref{thm:metacic-normalization-audit-confluence-socket}. The socket names a
+place where finite audit surfaces can be compared; it is not itself full
+confluence, substitution compatibility, subject reduction, quotient conversion,
+global normalization, or evaluator evidence.
+
+Finally apply the refusal scope of
+\autoref{thm:metacic-normalization-audit-refusal-scope}. The refusal row $N$
+keeps those endpoints outside the packet unless a separate confluence-side
+certificate displays them. Hence a consumer that omits any listed row has only
+the local normalization-audit surface.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit residual-substitution compatibility]
 \label{thm:metacic-normalization-audit-residual-substitution-compatibility}
 Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. If the candidate frontier is extended by displayed candidate evidence and the residual-fuel ledger decreases along the accepted replay, then every substitution-shaped read remains inside the same candidate ledger $R,C,S,A$ before any confluence-socket read through $N$ is exported. The packet may therefore compare the resulting finite audit surface with its confluence siblings, but it cannot export arbitrary substitution compatibility, subject reduction, full closed Church--Rosser, quotient reduction equality, or a host evaluator.

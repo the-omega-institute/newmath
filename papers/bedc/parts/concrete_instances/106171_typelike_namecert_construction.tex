@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-typelike-namecert}
 \origin{human}
 
-Following Martin-Lof type theory, categorical families, and displayed fibrations, the $\TypeLikeUp$ packet records the carrier-plus-classifier-plus-transport interface used when BEDC data are read as typed families rather than as an unindexed host universe. It sits beside the membership discipline of $\SetLikeUp$, the syntactic carrier of \autoref{ch:concrete-instances-firstorder-namecert}, and the satisfaction carrier of \autoref{ch:concrete-instances-modeltheory-namecert}. The packet names only displayed classifier families, fiber rows, classifier transport, componentwise history transport, continuation replay, package provenance, and local naming; it does not introduce a universe hierarchy, quotient type equality, impredicative comprehension, host isomorphism of types, or an external category of families.
+Following Martin-Lof type theory, categorical families, and displayed fibrations, the $\TypeLikeUp$ packet records the carrier-plus-classifier-plus-transport interface used when BEDC data are read as typed families rather than as an unindexed host universe. It sits beside the membership discipline of \autoref{ch:concrete-instances-setlike-namecert}, the syntactic carrier of \autoref{ch:concrete-instances-firstorder-namecert}, and the satisfaction carrier of \autoref{ch:concrete-instances-modeltheory-namecert}. The packet names only displayed classifier families, fiber rows, classifier transport, componentwise history transport, continuation replay, package provenance, and local naming; it does not introduce a universe hierarchy, quotient type equality, impredicative comprehension, host isomorphism of types, or an external category of families.
 
 \begin{definition}[TypeLike carrier]
 \label{def:typelike-carrier}
@@ -70,6 +70,22 @@ Begin with the accepted carrier $T=(B,F,Q,E,H,C,P,N)$ of \autoref{def:typelike-c
 Apply \autoref{thm:typelike-classifier-transport}. Any endpoint transport used by a sibling consumer must preserve those four rows before the structural rows are available.
 
 Finally inspect the sibling reads. $\SetLikeUp$ can supply membership only through $Q$, $\FirstOrderUp$ can supply syntax only through the provenance row $P$ and replay row $C$, and $\ModelTheoryUp$ can supply satisfaction only after the same displayed classifier route has been named locally by $N$. Thus the three consumer families are exhausted by $B,F,Q,E,H,C,P,N$ and cannot add an ambient universe, quotient type equality, or external category of families.
+\end{proof}
+
+\begin{theorem}[TypeLike SetLike FirstOrder ModelTheory carrier boundary]
+\label{thm:typelike-setlike-firstorder-modeltheory-carrier-boundary}
+Every accepted $\TypeLikeUp$ endpoint consumed by \autoref{ch:concrete-instances-setlike-namecert}, \autoref{ch:concrete-instances-firstorder-namecert}, or \autoref{ch:concrete-instances-modeltheory-namecert} must expose the finite displayed-family route
+$$
+B,F,Q,E \longmapsto H,C,P,N
+$$
+before the sibling read. The consumer may then interpret the exposed row as membership, syntax, or satisfaction-facing data, but it cannot replace the TypeLike carrier by unindexed SetLike membership, bare FirstOrder syntax, external ModelTheory satisfaction, quotient type equality, or an ambient host family.
+\end{theorem}
+\begin{proof}
+Start with classifier transport, \autoref{thm:typelike-classifier-transport}. It forces endpoint movement to preserve the displayed base classifier, fiber carrier, classifier row, and endpoint-exactness ledger.
+
+Then apply consumer exhaustion, \autoref{thm:typelike-displayed-family-consumer-exhaustion}. The SetLike, FirstOrder, and ModelTheory consumers enter only after the displayed route has reached the transport, replay, provenance, and local naming rows.
+
+Thus the sibling chapters can consume the endpoint only through $B,F,Q,E,H,C,P,N$. Since the carrier contains no unindexed membership source, bare syntax row, external satisfaction predicate, quotient equality, or ambient family coordinate, none of those can serve as a replacement boundary.
 \end{proof}
 
 \begin{theorem}[TypeLike displayed-family inversion]
