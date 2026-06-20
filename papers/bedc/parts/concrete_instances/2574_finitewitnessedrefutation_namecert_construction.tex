@@ -91,13 +91,13 @@ Next apply \autoref{thm:finite-witnessed-refutation-ledger-exactness}. It forces
 Finally apply \autoref{thm:finite-witnessed-refutation-non-escape}. Since the carrier has no coordinate for a host law, global falsification principle, external observation selector, or erased $\Gap$, the exported object is exactly the finite public packet.
 \end{proof}
 
-\begin{theorem}[Finite witnessed refutation public export]
-\label{thm:finite-witnessed-refutation-public-export}
-Every downstream refutation consumer of an accepted $\FiniteWitnessedRefutationUp$ packet exports only the finite rows
+\begin{theorem}[Finite witnessed refutation public consumer export]
+\label{thm:finite-witnessed-refutation-public-consumer-export}
+Every downstream consumer reading an accepted $\FiniteWitnessedRefutationUp$ packet through
 $$
 R,G,K,V,D,H,C,P,N
 $$
-of the carrier and the already displayed $\GapClosureBoundaryUp$ and $\BoundedSearchRefutationUp$ sibling route. The export contains no universal causality law, host-law selector, global falsification principle, all-future causal closure, or erased $\Gap$ commitment.
+must also expose the $\GapClosureBoundaryUp$ and $\BoundedSearchRefutationUp$ sibling routes before treating the contrary record as public refutation data. The exported surface contains only the finite carrier rows, local $\NameCert$ obligations, ledger exactness, non-escape, public packet route, and Gap boundary crosslink; it contains no universal causality law, host-law selector, global falsification principle, all-future causal closure, or erased $\Gap$ commitment.
 \end{theorem}
 \begin{proof}
 Begin with \autoref{thm:finite-witnessed-refutation-namecert-obligations}. It identifies the carrier, local naming, stability, witness, decision, transport, continuation, and package rows available to a refutation consumer.
@@ -132,7 +132,7 @@ Now use the GapClosureBoundary source and refusal surface of \autoref{thm:gap-cl
 \begin{closurestatus}{\FiniteWitnessedRefutationUp}
   \constructivestory{A $\FiniteWitnessedRefutationUp$ packet is generated from a finite support ledger, a forward-binding $\Gap$ row, a commitment key, a contrary witness, a decision ledger, displayed transports, continuation routes, provenance, and local naming.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface over $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ is exactly \autoref{def:finite-witnessed-refutation-carrier}, \autoref{thm:finite-witnessed-refutation-namecert-obligations}, \autoref{thm:finite-witnessed-refutation-ledger-exactness}, \autoref{thm:finite-witnessed-refutation-non-escape}, \autoref{thm:finite-witnessed-refutation-public-packet}, and \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}.}
+  \scopeclosed{The scoped surface over $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ is exactly \autoref{def:finite-witnessed-refutation-carrier}, \autoref{thm:finite-witnessed-refutation-namecert-obligations}, \autoref{thm:finite-witnessed-refutation-ledger-exactness}, \autoref{thm:finite-witnessed-refutation-non-escape}, \autoref{thm:finite-witnessed-refutation-public-packet}, \autoref{thm:finite-witnessed-refutation-public-consumer-export}, and \autoref{thm:finite-witnessed-refutation-gap-boundary-crosslink}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
