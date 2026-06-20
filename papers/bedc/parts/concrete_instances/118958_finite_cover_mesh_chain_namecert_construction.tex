@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCoverMeshChainUp$}
+\label{ch:concrete-instances-finite-cover-mesh-chain-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite-cover proofs of Heine--Cantor, the $\FiniteCoverMeshChainUp$ packet records the mesh-chain route from compact finite-cover data to a tolerance-only uniform-modulus handoff. It sits over the compact source of \autoref{ch:concrete-instances-compact-namecert}, continuous-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, rational lower-bound reads from \autoref{ch:concrete-instances-rat-namecert}, and the downstream $\UniformModulusUp$ consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names only finite cover rows, dyadic mesh bounds, star-refinement transport, rational lower-bound folds, and uniform-modulus handoff data.
+
+\begin{definition}[Finite cover mesh-chain carrier]
+\label{def:finite-cover-mesh-chain-carrier}
+A $\FiniteCoverMeshChainUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,M,G,B,D,S,L,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the consumed $\CompactUp$ finite-cover source row, exposed as finite $\ProbeBundleUp$ cover data.
+\item $M$ is the $\MetricUp$ source row used for mesh-radius comparisons and triangle transport.
+\item $G$ is the $\ContinuousMapUp$ pointwise-modulus row over the displayed compact source.
+\item $B$ is the dyadic mesh-bound row, recording the finite mesh scale and cover-radius comparisons.
+\item $D$ is the finite cover-chain ledger connecting each mesh cell to a displayed cover member.
+\item $S$ is the star-refinement transport row, carrying local pointwise moduli along neighbouring mesh cells.
+\item $L$ is the $\RatUp$ rational lower-bound fold over the finitely many displayed radii.
+\item $U$ is the $\UniformModulusUp$ handoff row consumed only after $B,D,S,L$ have been read.
+\item $H$ records componentwise $\hsame$ transport for $K,M,G,B,D,S,L,U$ and the local certificate row.
+\item $C$ records displayed $\Cont$ replay from compact-cover reads through mesh bounds, refinement transport, rational folding, and uniform-modulus handoff.
+\item $P$ is the $\Pkg$ provenance over $\CompactUp$, $\ProbeBundleUp$, $\ContinuousMapUp$, $\MetricUp$, $\RatUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteCoverMeshChainUp}$ registration row.
+\end{enumerate}
+The classifier compares accepted carriers only through these finite rows. It has no coordinate for open-cover compactness, a host Lebesgue number, semantic continuity, quotient metric equality, selected centres outside the displayed cover, or an external modulus oracle.
+\end{definition}
+
+\begin{theorem}[Finite cover mesh-chain NameCert obligations]
+\label{thm:finite-cover-mesh-chain-namecert-obligations}
+For every accepted $\FiniteCoverMeshChainUp$ carrier $F=(K,M,G,B,D,S,L,U,H,C,P,N)$, the local $\NameCert_{\FiniteCoverMeshChainUp}$ obligations are exactly compact cover exposure, metric source exposure, continuous-map row admission, dyadic mesh-bound admission, finite cover-chain routing, star-refinement transport, rational lower-bound folding, UniformModulus handoff, componentwise stability transport, displayed replay, provenance, and local naming. The obligations do not include open-cover compactness, a host Lebesgue number, semantic continuity, quotient metric equality, hidden centre selection, or an external modulus oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cover-mesh-chain-carrier}. Its compact-uniform data are the finite cover row $K$, metric source $M$, continuous-map row $G$, mesh bound $B$, cover chain $D$, star-refinement row $S$, rational fold $L$, and uniform-modulus handoff $U$.
+
+The finite-cover route is ordered. Mesh bounds are inspected before cover-chain transport, star refinement moves only along the displayed finite chain, and the rational lower-bound fold reads only the finitely many radii exposed by that chain.
+
+The UniformModulus handoff is downstream of those rows. Transport, replay, provenance, and local naming preserve the same displayed route, so none of the excluded host compactness, semantic-continuity, quotient, hidden-selection, or oracle principles can enter the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite cover mesh-chain UniformModulus handoff]
+\label{thm:finite-cover-mesh-chain-uniform-modulus-handoff}
+Every consumer of an accepted $\FiniteCoverMeshChainUp$ packet must read the compact finite-cover row $K$, metric row $M$, continuous-map row $G$, dyadic mesh bound $B$, cover-chain ledger $D$, star-refinement transport $S$, rational lower-bound fold $L$, and $\UniformModulusUp$ handoff $U$ before using the exported modulus. Thus the packet realizes the finite-cover mesh route as concrete NameCert data rather than as a host compactness theorem.
+\end{theorem}
+\begin{proof}
+Start with the compact and metric sources. The row $K$ supplies finite cover data, $M$ supplies mesh comparisons, and $G$ supplies the pointwise-modulus rows that will be transported.
+
+The mesh chain is then read through $B,D,S$. These rows expose the dyadic mesh scale, the finite cover member attached to each mesh cell, and the star-refinement transport that keeps local moduli valid along neighbouring cells.
+
+Finally the rational lower-bound fold $L$ produces the tolerance-only value consumed by $U$. The rows $H,C,P,N$ preserve and name this same finite path, so the exported modulus has no bypass through open-cover compactness, a host Lebesgue number, hidden centre selection, quotient metric equality, or an external oracle.
+\end{proof}
+
+\falsifiablePrediction{A $\FiniteCoverMeshChainUp$ consumer is refuted whenever a uniform-modulus read bypasses the compact cover row, metric source, continuous-map row, dyadic mesh bound, cover-chain ledger, star-refinement transport, rational lower-bound fold, UniformModulus handoff, transport, replay, provenance, or local NameCert row.}
+
+\closureat{FiniteCoverMeshChainUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCoverMeshChainUp}
+  \constructivestory{A $\FiniteCoverMeshChainUp$ packet is generated from compact finite-cover data, metric source rows, continuous-map pointwise moduli, dyadic mesh bounds, finite cover-chain routing, star-refinement transport, rational lower-bound folding, UniformModulus handoff, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cover-mesh-chain-carrier}, \autoref{thm:finite-cover-mesh-chain-namecert-obligations}, and \autoref{thm:finite-cover-mesh-chain-uniform-modulus-handoff} seed the compact-uniform-continuity finite-cover mesh route as concrete NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, host Lebesgue-number existence, semantic continuity, quotient metric equality, hidden centre selection, external modulus oracles, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite cover exposure, dyadic mesh bounds, star-refinement transport, rational lower-bound folding, UniformModulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteCoverMeshChainUp.}
+\end{closurestatus}

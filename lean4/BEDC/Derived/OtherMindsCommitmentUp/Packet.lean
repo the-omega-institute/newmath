@@ -5,6 +5,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
 
 namespace BEDC.Derived.OtherMindsCommitmentUp
 
@@ -15,6 +16,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Meta.TasteGate
 
 def OtherMindsCommitmentCarrier [AskSetup] [PackageSetup]
     (observer candidate locality evidence gap transports routes provenance nameCert : BHist)
@@ -240,5 +242,116 @@ theorem OtherMindsCommitmentObligationClosurePackage [AskSetup] [PackageSetup]
   exact
     ⟨cert, publicUnary, closureUnary, observerCandidateLocality, publicCont,
       closureCont, provenancePkg, hsame_refl nameCert⟩
+
+theorem OtherMindsCommitmentTasteGateObligationBoundary [AskSetup] [PackageSetup]
+    {observer candidate locality evidence gap transports routes provenance nameCert
+      publicRead closureRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OtherMindsCommitmentCarrier observer candidate locality evidence gap transports routes
+        provenance nameCert bundle pkg →
+      Cont locality evidence publicRead →
+        Cont provenance nameCert closureRead →
+          PkgSig bundle provenance pkg →
+            ChapterTasteGate OtherMindsCommitmentUp ∧
+              SemanticNameCert
+                (fun row : BHist =>
+                  OtherMindsCommitmentCarrier observer candidate locality evidence gap transports
+                    routes provenance nameCert bundle pkg ∧ hsame row nameCert)
+                (fun row : BHist =>
+                  hsame row nameCert ∧ Cont observer candidate locality ∧
+                    Cont locality evidence routes)
+                (fun row : BHist => PkgSig bundle provenance pkg ∧ hsame row nameCert)
+                hsame ∧ UnaryHistory publicRead ∧ UnaryHistory closureRead ∧
+                  Cont observer candidate locality ∧ Cont locality evidence publicRead ∧
+                    Cont provenance nameCert closureRead ∧ PkgSig bundle provenance pkg ∧
+                      hsame nameCert nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert ChapterTasteGate
+  intro carrier publicCont closureCont provenancePkg
+  have package :=
+    OtherMindsCommitmentObligationClosurePackage
+      (observer := observer) (candidate := candidate) (locality := locality)
+      (evidence := evidence) (gap := gap) (transports := transports)
+      (routes := routes) (provenance := provenance) (nameCert := nameCert)
+      (publicRead := publicRead) (closureRead := closureRead) (bundle := bundle)
+      (pkg := pkg) carrier publicCont closureCont provenancePkg
+  exact And.intro otherMindsCommitmentTasteGate package
+
+theorem OtherMindsCommitmentBridgeFacingLocalityRoute [AskSetup] [PackageSetup]
+    {observer candidate locality evidence gap transports routes provenance nameCert
+      publicRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OtherMindsCommitmentCarrier observer candidate locality evidence gap transports routes
+        provenance nameCert bundle pkg →
+      Cont locality evidence publicRead →
+        Cont publicRead provenance bridgeRead →
+          PkgSig bundle provenance pkg →
+            SemanticNameCert
+              (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row locality ∨ hsame row evidence ∨ hsame row publicRead ∨
+                  hsame row bridgeRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont locality evidence publicRead ∧
+                  Cont publicRead provenance bridgeRead ∧ PkgSig bundle provenance pkg)
+              hsame ∧ UnaryHistory locality ∧ UnaryHistory evidence ∧
+                UnaryHistory publicRead ∧ UnaryHistory bridgeRead ∧
+                  Cont observer candidate locality ∧ Cont locality evidence publicRead ∧
+                    Cont publicRead provenance bridgeRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier publicCont bridgeCont provenancePkg
+  rcases carrier with
+    ⟨_observerUnary, _candidateUnary, localityUnary, evidenceUnary, _gapUnary,
+      _transportsUnary, _routesUnary, provenanceUnary, _nameCertUnary,
+      observerCandidateLocality, _localityEvidenceRoutes, _carrierPkg⟩
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed localityUnary evidenceUnary publicCont
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed publicUnary provenanceUnary bridgeCont
+  have sourceAtBridge :
+      (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row) bridgeRead := by
+    exact And.intro (hsame_refl bridgeRead) bridgeUnary
+  have core :
+      NameCert (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row) hsame := by
+    exact {
+      carrier_inhabited := Exists.intro bridgeRead sourceAtBridge
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same sourceRow
+        have sameOtherBridge : hsame other bridgeRead :=
+          hsame_trans (hsame_symm same) sourceRow.left
+        have otherUnary : UnaryHistory other :=
+          unary_transport sourceRow.right same
+        exact And.intro sameOtherBridge otherUnary
+    }
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row locality ∨ hsame row evidence ∨ hsame row publicRead ∨
+            hsame row bridgeRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont locality evidence publicRead ∧
+            Cont publicRead provenance bridgeRead ∧ PkgSig bundle provenance pkg)
+        hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro row sourceRow
+        exact Or.inr (Or.inr (Or.inr sourceRow.left))
+      ledger_sound := by
+        intro row sourceRow
+        exact ⟨sourceRow.right, publicCont, bridgeCont, provenancePkg⟩
+    }
+  exact
+    ⟨cert, localityUnary, evidenceUnary, publicUnary, bridgeUnary,
+      observerCandidateLocality, publicCont, bridgeCont, provenancePkg⟩
 
 end BEDC.Derived.OtherMindsCommitmentUp

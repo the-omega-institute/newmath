@@ -44,6 +44,87 @@ The comparison route reads those rows in order. The two finite windows are inspe
 The Real seal $E$ is downstream of the displayed comparison surface. The rows $H,C,P,N$ transport, replay, source, and name that same finite route; none of them adds quotient stream equality, selected representatives, host real equality, choice, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence comparison carrier transport]
+\label{thm:regular-cauchy-sequence-comparison-carrier-transport}
+Let
+$$
+K=(S_0,S_1,R_0,R_1,D,Q,E,H,C,P,N)
+$$
+and
+$$
+K'=(S'_0,S'_1,R'_0,R'_1,D',Q',E',H',C',P',N')
+$$
+be $\RegularCauchySequenceComparisonUp$ carrier packets. If the displayed row $H$ supplies componentwise $\hsame$ transport from each row of $K$ to the corresponding row of $K'$, then carrier admission for $K$ transports to carrier admission for $K'$ along exactly the rows
+$$
+S_0,S_1,R_0,R_1,D,Q,E,H,C,P,N.
+$$
+The transported packet has no added coordinate for quotient stream equality, host real equality, selected representative, countable choice, selected limit, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:regular-cauchy-sequence-comparison-carrier}. The only exposed coordinates are the two StreamName rows, two RegSeqRat readback rows, DyadicRatCore tolerance ledger, classifier, Real seal, transport, replay, provenance, and local naming rows.
+
+Use the NameCert obligations of \autoref{thm:regular-cauchy-sequence-comparison-namecert-obligations}. They require componentwise transport to act row by row on the displayed packet rather than by replacing the packet with a host quotient or selected real representative.
+
+The sibling routes keep each transported row inside its own finite surface: StreamName supplies finite windows, RegSeqRat supplies rational readbacks, DyadicRatCore supplies tolerance cells, CauchyEquivalenceSetoid supplies the classifier boundary, and Real supplies only the terminal seal. Therefore the transported accepted packet is still read through the same carrier coordinates, and no excluded equality, choice, limit, or completeness datum is introduced.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy sequence comparison classifier stability]
+\label{thm:regular-cauchy-sequence-comparison-classifier-stability}
+For an accepted packet
+$$
+K=(S_0,S_1,R_0,R_1,D,Q,E,H,C,P,N),
+$$
+replace the finite StreamName windows, RegSeqRat readbacks, and DyadicRatCore tolerance rows by rows displayed in $H$ as componentwise $\hsame$-stable. Then the CauchyEquivalenceSetoid classifier row $Q$ remains the classifier row for the transported comparison route. In particular, classifier stability is witnessed before any Real seal is consumed and does not use quotient stream equality or host real equality.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection in \autoref{def:regular-cauchy-sequence-comparison-carrier}. The row $Q$ is named there only over $S_0,S_1,R_0,R_1,D$, so its inputs are the finite StreamName windows, the RegSeqRat readbacks, and the DyadicRatCore tolerance ledger.
+
+Apply the obligation surface of \autoref{thm:regular-cauchy-sequence-comparison-namecert-obligations}. It places componentwise transport in the displayed row $H$ and keeps replay in $C$, so replacing the finite windows, readbacks, and tolerance rows by $H$-stable rows preserves the same inspected classifier boundary.
+
+The chapter's sibling routes enforce the order of reading: finite windows first, regular rational readbacks next, dyadic tolerance accounting next, and only then the CauchyEquivalenceSetoid row. The Real seal $E$ is downstream, so classifier stability is decided without a host quotient, host equality, selected representative, choice, selected limit, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy sequence comparison ledger exactness]
+\label{thm:regular-cauchy-sequence-comparison-ledger-exactness}
+Every $\RealUp$-facing or completion-facing consumer of an accepted $\RegularCauchySequenceComparisonUp$ comparison packet factors through exactly
+$$
+S_0,S_1,R_0,R_1,D,Q,E,H,C,P,N.
+$$
+The exported ledger gives the consumer finite StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, the CauchyEquivalenceSetoid classifier, the Real seal, componentwise transport, displayed replay, provenance, and local naming, and gives no selected representative, quotient equality, host real equality, countable choice, selected limit, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-sequence-comparison-carrier}. Its displayed coordinates are exactly $S_0,S_1,R_0,R_1,D,Q,E,H,C,P,N$, and the definition explicitly leaves out representative selection, quotient equality, host equality, choice, selected limits, and ambient completeness.
+
+Use \autoref{thm:regular-cauchy-sequence-comparison-namecert-obligations} to read the ledger as a NameCert surface. Carrier admission exposes the finite windows, readbacks, tolerance ledger, classifier, Real seal, transport, replay, provenance, and local name as the complete comparison route.
+
+The StreamName, RegSeqRat, DyadicRatCore, CauchyEquivalenceSetoid, and Real sibling chapters provide only their named local rows to this route. Hence any $\RealUp$ or completion-facing consumer receives precisely the displayed packet rows and cannot obtain any excluded external equality, selection, choice, limit, or completeness datum from the ledger.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy sequence comparison transitive window]\label{thm:regular-cauchy-sequence-comparison-transitive-window}
+Let
+$$
+K_{01}=(S_0,S_1,R_0,R_1,D_{01},Q_{01},E_{01},H_{01},C_{01},P_{01},N_{01})
+$$
+and
+$$
+K_{12}=(S'_1,S_2,R'_1,R_2,D_{12},Q_{12},E_{12},H_{12},C_{12},P_{12},N_{12})
+$$
+be accepted $\RegularCauchySequenceComparisonUp$ packets. If the middle presentation rows $S_1,R_1$ and $S'_1,R'_1$ are linked by the displayed componentwise $\hsame$ transport, and the dyadic tolerance/readback rows $D_{01}$ and $D_{12}$ expose compatible comparison windows, then the composed comparison from the first presentation to the third is forced through the same finite route
+$$
+S_0,S_1,S_2,R_0,R_1,R_2,D_{01},D_{12},Q_{01},Q_{12},E_{01},E_{12},H_{01},H_{12},C_{01},C_{12},P_{01},P_{12},N_{01},N_{12}.
+$$
+In particular, a Real or Completion consumer of the composed read receives only finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and receives no quotient stream equality, selected representative, host real equality, countable choice, selected limit, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The first packet exposes the finite route from $S_0,R_0$ to $S_1,R_1$ through $D_{01},Q_{01},E_{01},H_{01},C_{01},P_{01},N_{01}$, and the second exposes the corresponding route from $S'_1,R'_1$ to $S_2,R_2$ through $D_{12},Q_{12},E_{12},H_{12},C_{12},P_{12},N_{12}$.
+
+Use the displayed componentwise $\hsame$ data on the shared middle presentation. It identifies only the carried StreamName and RegSeqRat rows needed to splice the two finite comparison windows; it does not create a quotient equality of streams or a host equality of real names.
+
+The compatible dyadic rows concatenate the displayed tolerance/readback windows. Therefore the composed read is still inspected through the listed StreamName, RegSeqRat, DyadicRatCore, classifier, Real seal, transport, replay, provenance, and local naming rows.
+
+Since neither carrier has a coordinate for selected representatives, host real equality, selected limits, choice, or ambient completeness, the composed comparison has no such coordinate either. The transitive window is exactly the finite route displayed above.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence comparison RegSeqRat handoff]
 \label{thm:regular-cauchy-sequence-comparison-regseqrat-handoff}
 Every completion-facing or Real-facing consumer of an accepted $\RegularCauchySequenceComparisonUp$ packet reads the $\RegSeqRatUp$ handoff before it reaches the $\CauchyEquivalenceSetoidUp$ classifier or the $\RealUp$ seal. More precisely, every exported comparison factors through
@@ -60,14 +141,30 @@ Apply the NameCert obligations of \autoref{thm:regular-cauchy-sequence-compariso
 Finally use the sibling routes named in the chapter introduction: StreamName supplies finite windows, RegSeqRat supplies regular rational readback, DyadicRatCore supplies tolerance cells, CauchyEquivalenceSetoid supplies the non-quotient classifier, and Real supplies the terminal seal. The carrier contains no row for any excluded equality or selection principle.
 \end{proof}
 
-\closureat{RegularCauchySequenceComparisonUp}{seedStr}
+\begin{theorem}[Regular Cauchy sequence comparison Real-seal route]
+\label{thm:regular-cauchy-sequence-comparison-real-seal-route}
+Every $\RealUp$-facing consumer of an accepted $\RegularCauchySequenceComparisonUp$ packet reads comparison evidence only after passing through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and the $\CauchyEquivalenceSetoidUp$ boundary. Thus equality or separation evidence is available only along the finite route
+$$
+S_0,S_1 \longmapsto R_0,R_1 \longmapsto D \longmapsto Q \longmapsto E \longmapsto H,C,P,N,
+$$
+and not through host quotient equality, a selected representative, countable choice, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the RegSeqRat handoff of \autoref{thm:regular-cauchy-sequence-comparison-regseqrat-handoff}. It already forces every completion-facing or Real-facing read through finite StreamName windows, RegSeqRat readbacks, and the DyadicRatCore ledger before the classifier row $Q$ and Real seal $E$ are available.
+
+The classifier row $Q$ is the Cauchy-equivalence boundary for the displayed rows $S_0,S_1,R_0,R_1,D$. Reading equality or separation evidence before $Q$ would skip the boundary named by the carrier, while reading it after $E$ without $Q$ would replace the packet by a host quotient.
+
+The structural rows $H,C,P,N$ preserve and name the same route. This is therefore a substantive sibling dependency among StreamName, RegSeqRat, DyadicRatCore, CauchyEquivalenceSetoid, and Real, not a host quotient or a selected representative.
+\end{proof}
+
+\closureat{RegularCauchySequenceComparisonUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchySequenceComparisonUp}
   \constructivestory{A $\RegularCauchySequenceComparisonUp$ packet is generated from two StreamName finite-window rows, two RegSeqRat readback rows, a DyadicRatCore tolerance ledger, a CauchyEquivalenceSetoid classifier row, a Real seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-sequence-comparison-carrier}, \autoref{thm:regular-cauchy-sequence-comparison-namecert-obligations}, and \autoref{thm:regular-cauchy-sequence-comparison-regseqrat-handoff} seed the finite comparison route for regular Cauchy presentations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-sequence-comparison-carrier}, \autoref{thm:regular-cauchy-sequence-comparison-namecert-obligations}, \autoref{thm:regular-cauchy-sequence-comparison-carrier-transport}, \autoref{thm:regular-cauchy-sequence-comparison-classifier-stability}, \autoref{thm:regular-cauchy-sequence-comparison-ledger-exactness}, \autoref{thm:regular-cauchy-sequence-comparison-transitive-window}, and \autoref{thm:regular-cauchy-sequence-comparison-regseqrat-handoff} bind the obligation surface for the finite comparison route of regular Cauchy presentations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, host real equality, selected representatives, countable choice, selected limits, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, comparison-route exactness, RegSeqRat handoff, classifier stability, transport, replay, provenance, and local naming for the displayed $\RegularCauchySequenceComparisonUp$ packet.}
+  \upgradepath{Scoped closure requires binding the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, StreamName, RegSeqRat, DyadicRatCore, CauchyEquivalenceSetoid, and Real rows as the complete BEDC primitive scope for the same comparison packet.}
 \end{closurestatus}
