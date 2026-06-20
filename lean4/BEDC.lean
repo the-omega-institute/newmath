@@ -276,6 +276,7 @@ import BEDC.Derived.ArchimedeanCompletionUp.TasteGate
 import BEDC.Derived.ArchimedeanDyadicApproximationUp
 import BEDC.Derived.ArchimedeanModulusUp.NameCertObligations
 import BEDC.Derived.ArchimedeanModulusUp.TasteGate
+import BEDC.Derived.ArchimedeanOrderedCauchyCompletionUp.TasteGate
 import BEDC.Derived.ArchimedeanOrderedFieldUp.Carrier
 import BEDC.Derived.ArchimedeanOrderedFieldUp.TasteGate
 import BEDC.Derived.ArchimedeanRealDensityUp.TasteGate
@@ -7940,6 +7941,7 @@ import BEDC.Derived.MooreSmithConvergenceUp.DirectedWindowTotality
 import BEDC.Derived.MooreSmithConvergenceUp.LedgerRefusal
 import BEDC.Derived.MooreSmithConvergenceUp.TasteGate
 import BEDC.Derived.MooreSmithNetUp.TasteGate
+import BEDC.Derived.MooreSmithSubnetUp.TasteGate
 import BEDC.Derived.MooreSpaceUp.TasteGate
 import BEDC.Derived.MorreySpaceUp.TasteGate
 import BEDC.Derived.MorseTheoryUp.TasteGate
@@ -8972,6 +8974,7 @@ import BEDC.Derived.RealCauchyCompletionUp.StandardBishopReading
 import BEDC.Derived.RealCauchyCompletionUp.StdBridge
 import BEDC.Derived.RealCauchyCompletionUp.StreamRegseqTailSealFactorization
 import BEDC.Derived.RealCauchyCompletionUp.SynchronizedNullTailConsumer
+import BEDC.Derived.RealCauchyConvergenceUp.TasteGate
 import BEDC.Derived.RealCauchyDenseEmbeddingUp.TasteGate
 import BEDC.Derived.RealCauchyFilterMonadUnitUp
 import BEDC.Derived.RealCauchyFilterMonadUnitUp.TasteGate
