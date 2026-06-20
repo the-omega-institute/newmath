@@ -7362,6 +7362,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualDyadicRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceCandidateFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceLedgerNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.L10SourceLedgerReadback
 import BEDC.Derived.MetaCICCriticalPathUp.L10SourceOwnerBlocker
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObjectwiseObligation
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
@@ -7377,6 +7378,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.MaturePackageConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
+import BEDC.Derived.MetaCICCriticalPathUp.NormalAuditSocketHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormPublicNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormReadbackBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
@@ -7691,6 +7693,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateBoundaryRoute
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateConfluenceBoundary
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateConfluenceHandoff
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierExtension
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusal
@@ -9756,6 +9759,7 @@ import BEDC.Derived.RegularCauchyNameUp.WindowRadiusSeal
 import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyNetUp
 import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
+import BEDC.Derived.RegularCauchyNonzeroUp.TasteGate
 import BEDC.Derived.RegularCauchyOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
@@ -9948,6 +9952,7 @@ import BEDC.Derived.RegularModulusUp.NameCertObligations
 import BEDC.Derived.RegularModulusUp.TasteGate
 import BEDC.Derived.RegularRealCauchySelectorUp
 import BEDC.Derived.RegularRealCauchySelectorUp.TasteGate
+import BEDC.Derived.RegularSeqApartnessSeparatorUp
 import BEDC.Derived.RegularSequenceBishopUp
 import BEDC.Derived.RegularSequenceBishopUp.TasteGate
 import BEDC.Derived.RegularSequenceLimitUp.TasteGate
