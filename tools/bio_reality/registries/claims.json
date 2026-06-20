@@ -6056,6 +6056,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T20:20:17+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T20:20:18+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "7af8a1096b1a",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -8464,7 +8481,7 @@
       "claim_id": "h3.cross_layer_relation.synonymous_perturbation.b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
       "hypothesis_level": "H3",
       "claimed_layer": "cross_layer_relation",
-      "statement": "Cross-species whole-gene synonymous perturbation (does B_window predict protein output beyond optimality in E.coli?): on Nieuwkoop 2023 E.coli mRFP whole-gene synonymous-variant library (1459 variants, full-CDS recoded, GFP-normalized protein output; tools/bio_reality/data/nieuwkoop_mrfp.xlsx), the 9D B_window of each variant's whole CDS, residualized train-fold against CAI + tAI + GC + GC3 + log-length, PREDICTS protein output beyond those controls: 5-fold held-out ΔR²=0.074, ΔDL=+42.6 bits, exceeding both the within-library shuffle null95 (-48.5) and matched CAI/tAI/GC3-bin shuffle null95 (-44.1), p=0.005 both, deterministic. Verdict bacterial_synonymous_protein_output_candidate. cannot_claim (candidate): no mRNA so this is protein OUTPUT not beyond-mRNA escape (may be largely execution-mediated); CAI/tAI are library-internal proxies (no E.coli HEG/tRNA reference) so a real optimality control could absorb part (cf. Shen proxy-CSC); RNA-MFE uncontrolled (stdlib); whole-CDS not window; bacterial. Perturbation matrix: Shen yeast fitness-beyond-mRNA escape (real_csc_robust) | Chen2017 yeast GFP NO protein-beyond-mRNA escape | Niu human fitness null | Nieuwkoop E.coli protein-output beyond-proxy-optimality POSITIVE. STRENGTHENED against a real genome-derived CAI: recomputing CAI from the E.coli K-12 MG1655 genome CDS RSCU (3739 CDS, genome-derived not library-internal; only 0.18-correlated with the earlier library-internal proxy) and using it as the optimality control, the positive SURVIVES: held-out ΔR²=0.053, ΔDL=+19.1 bits (shrank from the proxy's +42.6 as the stronger control absorbed part, but stays well above both the within-library null95=-48.5 and matched-bin null95=-42.9, p=0.005 both, deterministic). real_cai_robust=True: B_window predicts E.coli protein output beyond a proper genome-level codon-optimality control, not just the library-internal proxy. (Still protein-OUTPUT not beyond-mRNA; tAI remains a proxy; CAI reference is genome-wide RSCU not HEG-only.)",
+      "statement": "Cross-species whole-gene synonymous perturbation (does B_window predict protein output beyond optimality in E.coli?): on Nieuwkoop 2023 E.coli mRFP whole-gene synonymous-variant library (1459 variants, full-CDS recoded, GFP-normalized protein output; tools/bio_reality/data/nieuwkoop_mrfp.xlsx), the 9D B_window of each variant's whole CDS, residualized train-fold against CAI + tAI + GC + GC3 + log-length, PREDICTS protein output beyond those controls: 5-fold held-out ΔR²=0.074, ΔDL=+42.6 bits, exceeding both the within-library shuffle null95 (-48.5) and matched CAI/tAI/GC3-bin shuffle null95 (-44.1), p=0.005 both, deterministic. Verdict bacterial_synonymous_protein_output_candidate. cannot_claim (candidate): no mRNA so this is protein OUTPUT not beyond-mRNA escape (may be largely execution-mediated); CAI/tAI are library-internal proxies (no E.coli HEG/tRNA reference) so a real optimality control could absorb part (cf. Shen proxy-CSC); RNA-MFE uncontrolled (stdlib); whole-CDS not window; bacterial. Perturbation matrix: Shen yeast fitness-beyond-mRNA escape (real_csc_robust) | Chen2017 yeast GFP NO protein-beyond-mRNA escape | Niu human fitness null | Nieuwkoop E.coli protein-output beyond-proxy-optimality POSITIVE. STRENGTHENED against a real genome-derived CAI: recomputing CAI from the E.coli K-12 MG1655 genome CDS RSCU (3739 CDS, genome-derived not library-internal; only 0.18-correlated with the earlier library-internal proxy) and using it as the optimality control, the positive SURVIVES: held-out ΔR²=0.053, ΔDL=+19.1 bits (shrank from the proxy's +42.6 as the stronger control absorbed part, but stays well above both the within-library null95=-48.5 and matched-bin null95=-42.9, p=0.005 both, deterministic). real_cai_robust=True: B_window predicts E.coli protein output beyond a proper genome-level codon-optimality control, not just the library-internal proxy. (Still protein-OUTPUT not beyond-mRNA; tAI remains a proxy; CAI reference is genome-wide RSCU not HEG-only.) 5'-BOUNDARY REFINEMENT: a follow-up audit (b_star_window_nieuwkoop_5prime_boundary_audit_powered) shows this positive is ABSORBED BY the 5'-initiation region -- after adding first-8-codon composition + a 5' structure proxy (which jump R² 0.067->0.606), B adds nothing (B_downstream ΔLL negative, p=0.17). So this E.coli signal is a 5'-initiation/first-8-codon effect, NOT an independent distributed beyond-optimality whole-gene B axis. The real_cai_robust result stands as 'B beyond CAI' but is initiation-localized.",
       "depends_on": [],
       "status": "passed",
       "experiment_id": "b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
@@ -8501,6 +8518,62 @@
             "failed": 0
           },
           "script_sha": "36f78881cc962b0f"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.synonymous_perturbation_meta.b_star_window_cross_dataset_axis_transfer_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Cross-dataset 9D B_window axis-transfer meta-analysis (capstone of the perturbation program; anti-post-hoc, all 4 perturbation datasets): asks whether a FIXED 9D synonymous-codon basis has a residual axis direction that transfers between the two positives (Shen yeast fitness|mRNA, Nieuwkoop E.coli protein|CAI) yet stays silent on the two predeclared negatives (Chen yeast GFP protein|mRNA, Niu human fitness|editing). Three-layer protocol: (1) per-dataset omnibus B9-beyond-controls (block-permutation null): Shen ΔR²=0.039 p=0.005 PASS, Nieuwkoop ΔR²=0.060 p=0.005 PASS, Chen ΔR²=0.0036 p=0.005 weak-pass, Niu ΔR²=-0.002 p=0.55 FAIL (clean negative). (2) frozen-direction transfer (single-scale projection, not relearned): Shen->Nieuwkoop IS significant (proj ΔLL=3.55, p=0.005, null95=0.50), but Nieuwkoop->Shen is NOT (p=0.80) -- one-directional. (3) negative falsification: the same frozen Shen direction ALSO fires in Chen (p=0.005, a predeclared NEGATIVE) -> over-generalization. VERDICT no_stable_axis: although a one-way Shen->Nieuwkoop transferable direction exists, it FAILS specificity (it also predicts the Chen negative), so there is NO clean cross-system single-9D-axis mechanism. Conclusion: B_window is a ROBUST perturbation predictor (both positives real-CSC/CAI-robust) but its predictive direction is a broad codon-composition residual, not a specific transferable axis -- the perturbation program resolves to 'beyond-optimality predictive signal, no resolved axis-level mechanism'. This is an honest negative result produced BY the anti-post-hoc gate (the apparent transferable axis was caught leaking into a negative). cannot_claim: 4 datasets are species/readout/scale heterogeneous; frozen-direction transfer is statistical not mechanistic; 9D basis predefined not exhaustive; Niu editing-confounded; Nieuwkoop no-mRNA (protein|CAI not beyond-mRNA); Chen 12-codon window.",
+      "depends_on": [],
+      "status": "error",
+      "experiment_id": "b_star_window_cross_dataset_axis_transfer_powered",
+      "history": [
+        {
+          "ts": "2026-06-20T19:50:22+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-20T20:30:18+00:00",
+          "status": "error",
+          "reason": "experiment result",
+          "experiment_run_id": "cb894109207b",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "46ba64e2ae0b7fe4"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.synonymous_perturbation.b_star_window_nieuwkoop_5prime_boundary_audit_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "5'-initiation boundary audit of the Nieuwkoop E.coli B_window positive (oracle-mandated): splits B_window into B_start (codons 2-8) vs B_downstream (codons 9+) and adds first-8-codon composition + a 5' structure proxy to the controls. Ladder: step1 (CAI/tAI/GC3) R²=0.067 -> step2 (+5'-proxy + first-8 controls) R²=0.606 -> step3 (+B_start+B_downstream) R²=0.605. VERDICT absorbed_by_5prime: once the 5'-initiation region is controlled (the first-8-codon + 5' controls alone jump R² 0.067->0.606, matching Nieuwkoop's own finding that the first 8 codons + 5' mRNA structure dominate protein output), B adds NOTHING -- B_downstream ΔLL=-2.08 (negative), p_block=0.17, sign-unstable; B_start ΔLL~0. So the earlier Nieuwkoop real_cai_robust positive is NOT an independent distributed beyond-optimality whole-gene signal: it is LOCALIZED to / absorbed by the 5'-initiation region. This narrows the E.coli positive to a 5'-initiation/first-8-codon effect. Honest correction produced by the proper initiation control. cannot_claim: 5' structure is a stdlib GC/pairing PROXY not real RNA MFE/accessibility (initiation control incomplete, though the first-8-codon composition control alone -- which IS exact -- already absorbs B); E.coli reporter; no mRNA; whole-CDS aggregate B.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_window_nieuwkoop_5prime_boundary_audit_powered",
+      "history": [
+        {
+          "ts": "2026-06-20T20:06:12+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-20T20:35:45+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "3cb8ca415be5",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "7dc1873d20ba4199"
         }
       ],
       "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
