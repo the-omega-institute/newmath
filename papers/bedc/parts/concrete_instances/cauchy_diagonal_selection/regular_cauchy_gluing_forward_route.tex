@@ -1,0 +1,11 @@
+\begin{theorem}[Cauchy diagonal selection regular-Cauchy gluing forward route]
+\label{thm:cauchy-diagonal-selection-regular-cauchy-gluing-forward-route}
+Every $\RegularCauchyGluingUp$ consumer that uses a diagonal-selection window from $\CauchyDiagonalSelectionUp$ must first expose the finite subsequence window, rowwise Cauchy budget, diagonal index ledger, and componentwise replay rows supplied by the diagonal-selection packet. The handoff supplies the finite window consumed by \autoref{ch:concrete-instances-regular-cauchy-gluing-namecert}; it does not choose endpoints, assert completion, select a limit, or replace the gluing packet's own regular-Cauchy compatibility rows.
+\end{theorem}
+\begin{proof}
+Read the diagonal-selection packet through its local carrier rows. The selected diagonal window, rowwise Cauchy budget, index ledger, transport, replay, provenance, and local naming rows are the only data exported to a downstream gluing consumer.
+
+Feed exactly those rows to the regular-Cauchy gluing route of \autoref{ch:concrete-instances-regular-cauchy-gluing-namecert}. The gluing packet may use the finite subsequence window as input, but it must still display its own regular-Cauchy compatibility and gluing rows.
+
+Since the diagonal-selection packet contains no endpoint selector, completion principle, selected limit, or ambient Real-completeness row, the forward route exports none of those claims.
+\end{proof}
