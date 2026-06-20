@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyRateEnvelopeUp$}
+\label{ch:concrete-instances-regular-cauchy-rate-envelope-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyRateEnvelopeUp$ packet records the finite rate-envelope surface by which a regular Cauchy read answers dyadic precision requests before a terminal real-name seal is consumed. It sits over the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the tail-control handoff of \autoref{ch:concrete-instances-regularcauchytailestimate-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite envelope for rate requests; it is not quotient stream equality, a selected host limit, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Regular Cauchy rate-envelope carrier]
+\label{def:regular-cauchy-rate-envelope-carrier}
+A $\RegularCauchyRateEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,W,R,T,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ rate-request ledger, recording the dyadic precision asked of the regular Cauchy name and the tolerance cells used by the envelope.
+\item $W$ is the finite $\StreamNameUp$ window row opened for that dyadic request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed window $W$ under the same tolerance ledger $D$.
+\item $T$ is the $\RegularCauchyTailEstimateUp$ handoff row, asserting that the inspected window dominates every later read at the requested dyadic rate.
+\item $S$ is the terminal $\RealUp$ seal row, public only after $D,W,R,T$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the dyadic request ledger, stream window, regular readback, tail handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite rate request through
+$$
+D,W,R,T \longmapsto S,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyRateEnvelopeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyTailEstimateUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyRateEnvelopeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for quotient equality of streams, a selected representative, countable-choice tail selection, host real equality, or an ambient completeness field for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy rate-envelope NameCert obligations]
+\label{thm:regular-cauchy-rate-envelope-namecert-obligations}
+For every accepted $\RegularCauchyRateEnvelopeUp$ carrier
+$$
+E=(D,W,R,T,S,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyRateEnvelopeUp}$ surface consists exactly of dyadic rate-request admission, finite StreamName window exposure, RegSeqRat readback, RegularCauchyTailEstimate handoff, terminal Real sealing, componentwise transport, displayed continuation replay, package provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-rate-envelope-carrier}. The dyadic request row $D$ is the only rate coordinate, and the finite window row $W$ is opened under that request.
+
+Read the regular rational data through $R$. The tail handoff $T$ is attached to the same $D,W,R$ surface, so it records domination of later reads at the displayed rate rather than a detached convergence predicate.
+
+The terminal Real seal $S$ occurs after the rate ledger, window, readback, and tail handoff. The rows $H,C,P,N$ transport, replay, source, and name this displayed packet, and no excluded quotient, selected limit, choice, trichotomy, host equality, or ambient-completeness row appears in the carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy rate-envelope finite-window induction]
+\label{thm:regular-cauchy-rate-envelope-finite-induction}
+Let
+$$
+E=(D,W,R,T,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyRateEnvelopeUp$ carrier. Every $\RegSeqRatUp$ or $\RealUp$ consumer of $E$ factors through a finite induction on the displayed window $W$: the base window exposes the first inspected rational read under $D$, and each extension appends one displayed StreamName entry whose RegSeqRat readback remains controlled by the same RegularCauchyTailEstimate handoff $T$. Therefore the terminal seal $S$ can be reached only through the finite rate-envelope route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RegularCauchyTailEstimateUp,\ \RealUp .
+$$
+\end{theorem}
+\begin{proof}
+Induct on the finite window row $W$. In the base case the carrier exposes one inspected StreamName entry, the dyadic request ledger $D$, and the corresponding RegSeqRat readback $R$.
+
+For the extension step, append one displayed window entry. The carrier keeps the same request ledger $D$ and the same tail handoff $T$, so the appended read is still part of the finite rate envelope rather than a separate representative or choice schedule.
+
+After the induction, the consumer reaches $S$ only through $D,W,R,T$. Componentwise transport $H$ and replay $C$ preserve that order, while $P$ and $N$ only record provenance and naming. Hence no Real-facing read bypasses the finite envelope route.
+\end{proof}
+
+\falsifiablePrediction{A $\RegularCauchyRateEnvelopeUp$ read is refuted whenever a $\RegSeqRatUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the dyadic rate request, finite StreamName window, RegSeqRat readback, RegularCauchyTailEstimate handoff, componentwise transport, continuation replay, package provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, regularcauchytailestimate, real: none alone is bijective with $\RegularCauchyRateEnvelopeUp$ because only this packet binds dyadic rate requests, finite StreamName windows, RegSeqRat readback, tail-estimate handoff, Real sealing, transport, replay, provenance, and local naming as one NameCert route.}
+
+\closureat{RegularCauchyRateEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyRateEnvelopeUp}
+  \constructivestory{A $\RegularCauchyRateEnvelopeUp$ packet is generated from a dyadic rate-request ledger, finite StreamName windows, RegSeqRat readback, a RegularCauchyTailEstimate handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-rate-envelope-carrier}, \autoref{thm:regular-cauchy-rate-envelope-namecert-obligations}, and \autoref{thm:regular-cauchy-rate-envelope-finite-induction} seed the finite rate-envelope route over dyadic requests, StreamName windows, RegSeqRat readback, tail estimates, Real seals, transport, replay, provenance, and naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, countable choice, trichotomy, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked dyadic rate-request admission, StreamName window stability, RegSeqRat readback, RegularCauchyTailEstimate handoff, Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyRateEnvelopeUp.}
+\end{closurestatus}
