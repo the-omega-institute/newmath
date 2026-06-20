@@ -1,0 +1,171 @@
+{
+  "admission": {
+    "admission_gate": false,
+    "eligible": false,
+    "not_claimed": [
+      "not a formal BEDC NameCert",
+      "not Lean verification",
+      "not a paper closurestatus",
+      "not an external benchmark superiority claim"
+    ]
+  },
+  "analytic_ceiling": {
+    "analytic_bayes": 1.0,
+    "learned_accuracy": 1.0,
+    "status": "pass",
+    "tolerance": 0.0
+  },
+  "artifact_id": "bedc-quality-lab:namecert-closure-routing",
+  "device_policy": {
+    "cuda_available": true,
+    "owner": "bedc_quality_lab.namecert_closure_routing",
+    "requested": "cpu",
+    "selected": "cpu"
+  },
+  "generated_at": "2026-06-20T00:00:00+00:00",
+  "hardgates": {
+    "analytic_ceiling": {
+      "limit": 1.0,
+      "observed": 1.0,
+      "predicate": "learned_accuracy <= analytic_bayes + tolerance",
+      "status": "pass"
+    },
+    "bounded_pattern_chance": {
+      "observed": {
+        "accuracy": 0.5,
+        "ci": [
+          0.3267588386092959,
+          0.6732411613907041
+        ],
+        "correct": 16,
+        "predictor": "train-depth-majority",
+        "total": 32
+      },
+      "predicate": "bounded-pattern control CI contains chance",
+      "status": "pass"
+    },
+    "heldout_depth_above_chance": {
+      "observed": {
+        "accuracy": 1.0,
+        "ci": [
+          1.0,
+          1.0
+        ],
+        "correct": 32,
+        "depth": 4,
+        "total": 32,
+        "train_max_depth": 3
+      },
+      "predicate": "held-out depth exceeds train max depth and remains above chance",
+      "status": "pass"
+    },
+    "learned_above_chance": {
+      "observed": {
+        "accuracy": 1.0,
+        "ci": [
+          1.0,
+          1.0
+        ],
+        "correct": 96,
+        "total": 96
+      },
+      "predicate": "learned route classifier is above chance",
+      "status": "pass"
+    },
+    "matched_twin_closure_blind_chance": {
+      "observed": {
+        "accuracy": 0.5,
+        "ci": [
+          0.39997916883635354,
+          0.6000208311636465
+        ],
+        "correct": 48,
+        "total": 96
+      },
+      "predicate": "matched-twin closure-blind CI contains chance",
+      "status": "pass"
+    },
+    "serialization_only_adversary_chance": {
+      "observed": {
+        "accuracy": 0.5,
+        "ci": [
+          0.39997916883635354,
+          0.6000208311636465
+        ],
+        "correct": 48,
+        "total": 96
+      },
+      "predicate": "serialization-only adversary CI contains chance",
+      "status": "pass"
+    }
+  },
+  "json_artifact": "reports/namecert_audit.json",
+  "markdown_artifact": "reports/namecert_audit.md",
+  "metrics": {
+    "bounded_pattern_control": {
+      "accuracy": 0.5,
+      "ci": [
+        0.3267588386092959,
+        0.6732411613907041
+      ],
+      "correct": 16,
+      "predictor": "train-depth-majority",
+      "total": 32
+    },
+    "heldout_depth": {
+      "accuracy": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ],
+      "correct": 32,
+      "depth": 4,
+      "total": 32,
+      "train_max_depth": 3
+    },
+    "learned": {
+      "accuracy": 1.0,
+      "ci": [
+        1.0,
+        1.0
+      ],
+      "correct": 96,
+      "total": 96
+    },
+    "matched_twin_closure_blind": {
+      "accuracy": 0.5,
+      "ci": [
+        0.39997916883635354,
+        0.6000208311636465
+      ],
+      "correct": 48,
+      "total": 96
+    },
+    "serialization_only_adversary": {
+      "accuracy": 0.5,
+      "ci": [
+        0.39997916883635354,
+        0.6000208311636465
+      ],
+      "correct": 48,
+      "total": 96
+    }
+  },
+  "producer": "bedc_quality_lab.namecert_closure_routing",
+  "profile": {
+    "epochs": 64,
+    "heldout_depth": 4,
+    "learning_rate": 0.75,
+    "profile_id": "smoke_audit",
+    "repeats": 4,
+    "train_max_depth": 3
+  },
+  "schema_id": "bedc-quality-lab:namecert-closure-routing",
+  "source_scope": {
+    "bounded_pattern_control": true,
+    "heldout_depth": true,
+    "matched_twin": true,
+    "semantics": "lab-local NameCert closure-routing construct-validity smoke",
+    "serialization_adversary": true
+  }
+}
