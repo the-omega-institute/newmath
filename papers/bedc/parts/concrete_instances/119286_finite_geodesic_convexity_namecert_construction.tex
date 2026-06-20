@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\FiniteGeodesicConvexityUp$}
+\label{ch:concrete-instances-finite-geodesic-convexity-namecert}
+\origin{human}
+
+Following Bridson--Haefliger and Burago--Burago--Ivanov on geodesic metric spaces and convex subsets, the $\FiniteGeodesicConvexityUp$ packet records the finite BEDC surface on which a displayed geodesic segment remains inside a displayed convex target. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the segment witness of \autoref{ch:concrete-instances-geodesic-metric-namecert}, the convex membership carrier of \autoref{ch:concrete-instances-convexset-namecert}, the CAT(0) comparison packet of \autoref{ch:concrete-instances-cat-zero-metric-namecert}, and the terminal scalar readback of \autoref{ch:concrete-instances-real-namecert}. The packet names only endpoint, segment, convex-target, comparison, transport, replay, provenance, and local naming rows; it does not select global geodesics, quotient paths, ambient closed convex subsets, or real-completeness data.
+
+\begin{definition}[Finite geodesic convexity carrier]
+\label{def:finite-geodesic-convexity-carrier}
+A $\FiniteGeodesicConvexityUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,E,G,V,Z,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row, exposing only the distance observations and endpoint identifiers inspected by the packet.
+\item $E$ is the endpoint row, recording the two displayed endpoints and their admitted membership in the target convex carrier.
+\item $G$ is the finite $\GeodesicMetricUp$ segment-witness row joining the endpoints through named segment parameters and metric-distance ledgers.
+\item $V$ is the $\ConvexSetUp$ target row, exposing the membership and convex-combination obligations that the inspected segment must respect.
+\item $Z$ is the comparison ledger, optionally read through $\CatZeroMetricUp$ or a sibling metric-convexity packet when a downstream route needs curvature-facing convexity.
+\item $R$ is the $\RealUp$ readback row for segment parameters, distance budgets, and comparison tolerances; it is terminal and exports no ambient real-completeness principle.
+\item $H$ records componentwise $\hsame$ transport for the metric source, endpoints, geodesic witness, convex target, comparison ledger, scalar readback, continuation, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a convexity request through $M,E,G,V,Z,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteGeodesicConvexityUp$, $\MetricUp$, $\GeodesicMetricUp$, $\ConvexSetUp$, $\CatZeroMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteGeodesicConvexityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,E,G,V,Z,R,H,C,P,N$. It has no coordinate for a host path space, selected geodesic family, quotient path equality, global convex hull operator, projection selector, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite geodesic convexity NameCert obligations]
+\label{thm:finite-geodesic-convexity-namecert-obligations}
+For every accepted $\FiniteGeodesicConvexityUp$ carrier $F=(M,E,G,V,Z,R,H,C,P,N)$, the local $\NameCert_{\FiniteGeodesicConvexityUp}$ surface consists exactly of carrier admission for the metric source, endpoint membership, finite geodesic segment witness, convex target row, comparison ledger, terminal real readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every CAT(0), Hadamard, projection, or Alexandrov consumer must read the finite segment-inside-target route through those rows before using the packet as metric-convexity data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-geodesic-convexity-carrier}. The metric and endpoint data are exactly $M$ and $E$, so the packet fixes the inspected source and target endpoints before a segment can be read.
+
+Read the geodesic and convex rows next. The row $G$ supplies the finite segment witness, while $V$ supplies the convex target and membership obligations. The comparison row $Z$ and scalar row $R$ only annotate this same finite segment route with downstream comparison and tolerance data.
+
+Finally inspect the structural rows. Transport through $H$ and replay through $C$ preserve the same metric, endpoint, segment, convex-target, comparison, and scalar rows, while $P$ and $N$ source and name the accepted packet. Since no row stores a host path space, selected geodesic family, quotient path equality, global convex hull operator, projection selector, or ambient real-completeness principle, the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteGeodesicConvexityUp$ consumer that exports a segment-inside-convex-target read without displaying $M,E,G,V,Z,R,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{metric, geodesic-metric, convex-set, cat-zero-metric, real: no listed sibling supplies the whole packet $F=(M,E,G,V,Z,R,H,C,P,N)$, because the siblings contribute only distance observations, segment witnesses, convex membership rows, comparison ledgers, or scalar readback while this chapter binds them into one finite metric-convexity carrier.}
+
+\closureat{FiniteGeodesicConvexityUp}{seedStr}
+
+\begin{closurestatus}{\FiniteGeodesicConvexityUp}
+  \constructivestory{A $\FiniteGeodesicConvexityUp$ packet is generated from a Metric source row, endpoint membership rows, a finite GeodesicMetric segment witness, a ConvexSet target row, a comparison ledger, terminal Real readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-geodesic-convexity-carrier} and \autoref{thm:finite-geodesic-convexity-namecert-obligations} seed the finite segment-inside-convex-target carrier over metric, geodesic, convex, comparison, scalar, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected global geodesics, quotient path equality, global convex hull operators, projection existence, CAT(0) comparison theorems, Hadamard projection theorems, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint membership, geodesic segment exactness, convex target exposure, comparison-ledger scope, scalar-readback nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteGeodesicConvexityUp.}
+\end{closurestatus}
