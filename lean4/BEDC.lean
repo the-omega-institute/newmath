@@ -302,6 +302,7 @@ import BEDC.Derived.Arzela_ascoli_finite_modulusUp
 import BEDC.Derived.AscoliDiagonalUp.TasteGate
 import BEDC.Derived.AscoliEquicontinuityCriterionUp.TasteGate
 import BEDC.Derived.AscoliModulusUp
+import BEDC.Derived.AspectChainUp.ConsumerBoundary
 import BEDC.Derived.AspectChainUp.NameCertObligations
 import BEDC.Derived.AspectChainUp.TasteGate
 import BEDC.Derived.AsymptoticEquicontinuityUp.TasteGate
@@ -9833,6 +9834,7 @@ import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCompositionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp
+import BEDC.Derived.RegularCauchyTailEstimateUp.FinitePrecisionInduction
 import BEDC.Derived.RegularCauchyTailEstimateUp.ModulusDominanceCriterion
 import BEDC.Derived.RegularCauchyTailEstimateUp.TailEnvelopeLock
 import BEDC.Derived.RegularCauchyTailEstimateUp.TailEstimateObligationBasis
@@ -10631,6 +10633,7 @@ import BEDC.Derived.StreamNameUp.StreamnameRegseqratUniformFiniteWindowSeal
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
+import BEDC.Derived.StreamNameUp.WindowReindexDeterminacy
 import BEDC.Derived.StrongLawFiniteWindowUp.TasteGate
 import BEDC.Derived.StronglyExtensionalRealMapUp.TasteGate
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate

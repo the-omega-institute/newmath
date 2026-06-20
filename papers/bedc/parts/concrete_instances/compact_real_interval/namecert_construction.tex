@@ -78,6 +78,20 @@ The compactness siblings are read only through the same finite rows. The $\Compa
 The structural rows $H,C,P,N$ preserve the route by transport, replay, sourcing, and local naming. Since no refused object appears in the carrier, every accepted consumer remains inside the stated scope.
 \end{proof}
 
+\begin{theorem}[Compact real interval effective completion route]
+\label{thm:compact-real-interval-effective-completion-route}
+Let $I=(A,B,O,D,W,S,R,E,H,C,P,N)$ be an accepted $\CompactRealIntervalUp$ carrier. Any consumer that exports endpoint or mesh data to a completion-facing reader must pass through finite interval nets, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, and then the $\EffectiveCauchyCompletionUp$ route of \autoref{ch:concrete-instances-effective-cauchy-completion-namecert}. The export does not assert open-cover compactness, selected subcovers, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-real-interval-carrier}. Endpoint and mesh data are displayed only by $A,B,O,D,W,S,R,E$ before the structural rows $H,C,P,N$ are consumed.
+
+Apply \autoref{thm:compact-real-interval-net-obligations}. The finite-net obligation exposes endpoint admission, order and apartness, dyadic scale and tolerance, the finite net schedule, StreamName windows, regular rational readback, and the terminal Real seal in that order.
+
+Apply \autoref{thm:compact-real-interval-namecert-scope}. The compactness side is finite-net compactness through $\CompactMetricUp$ and $\HeineBorelFiniteNetUp$, not an arbitrary open-cover selector.
+
+The completion-facing reader therefore receives the same finite data through $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ before entering \autoref{ch:concrete-instances-effective-cauchy-completion-namecert}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the route, so no quotient, choice, selected-subcover, or ambient-completeness coordinate is introduced.
+\end{proof}
+
 \falsifiablePrediction{Every $\CompactRealIntervalUp$ read factors through two located $\RealUp$ endpoint rows, a $\DyadicRatCoreUp$ tolerance ledger, a finite dyadic net schedule, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readback, finite-net compactness sibling provenance, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert_{\CompactRealIntervalUp}$ rows.}
 
 \independenceWitness{real, dyadicratcore, streamname, regseqrat, compactmetric, heineborelfinitemesh: $\CompactRealIntervalUp$ is not bijective to any listed sibling because it jointly carries endpoint Real seals, order/apartness data, dyadic common-scale tolerances, a finite interval net schedule, finite stream windows, regular readback, finite-net compactness provenance, transport, replay, provenance, and local naming.}
