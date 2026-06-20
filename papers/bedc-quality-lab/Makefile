@@ -1,4 +1,4 @@
-.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-bedc-multistep-latent-prediction run-hidden-polarity-rotor run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-vjepa2-native-boundary build-vjepa2-near-native-reproduction run-public-minigrid-native run-public-minigrid-native-seed-sweep build-public-minigrid-debt-closure build-public-minigrid-calibration-extension build-public-benchmark-scope-contracts export-public-minigrid-result import-public-minigrid-result probe-public-jepa-baseline run-public-jepa-structure-adapter run-public-jepa-ac-giant-adapter build-public-jepa-adapter-comparison build-public-jepa-cuda-comparison export-public-jepa-baseline-result import-public-jepa-baseline-result build-public-jepa-registry build-public-baseline-native-metric-contract build-public-baseline-native-metric-template build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-rollup probe-public-minigrid clean-reports
+.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa run-torch-retraining-loss-ablation run-bedc-multistep-latent-prediction run-hidden-polarity-rotor run-hpr-achievement run-lccp run-vjepa2-lccp run-vjepa2-latent-prediction build-vjepa2-native-boundary build-vjepa2-near-native-reproduction run-public-minigrid-native run-public-minigrid-native-seed-sweep build-public-minigrid-debt-closure build-public-minigrid-calibration-extension build-public-benchmark-scope-contracts export-public-minigrid-result import-public-minigrid-result probe-public-jepa-baseline run-public-jepa-structure-adapter run-public-jepa-ac-giant-adapter build-public-jepa-adapter-comparison build-public-jepa-cuda-comparison export-public-jepa-baseline-result import-public-jepa-baseline-result build-public-jepa-registry build-public-baseline-native-metric-contract build-public-baseline-native-metric-template build-bedc-jepa-manifest build-bedc-jepa-run-kit build-bedc-jepa-readiness build-bedc-jepa-review-bundle build-bedc-jepa-quality-backend build-bedc-jepa-quality-lab-export build-bedc-jepa-paper-writeback-packet build-bedc-jepa-rollup probe-public-minigrid clean-reports
 
 test:
 	python3 -m pytest -q
@@ -23,6 +23,9 @@ run-bedc-multistep-latent-prediction:
 
 run-hidden-polarity-rotor:
 	python3 scripts/run_hidden_polarity_rotor.py
+
+run-hpr-achievement:
+	python3 scripts/run_hpr_achievement.py
 
 run-lccp:
 	python3 scripts/run_bedc_latent_claim_certificate.py
