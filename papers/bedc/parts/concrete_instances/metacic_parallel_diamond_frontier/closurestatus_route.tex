@@ -31,6 +31,18 @@ Now apply the bridged handoff of \autoref{thm:metacic-parallel-diamond-bridged-h
 Since none of those rows is a residual-substitution discharge, subject-reduction theorem, unrestricted Church--Rosser proof, evaluator equality, quotient equality, or kernel-consistency certificate, a consumer that claims one of those endpoints has left the displayed $\MetaCICParallelDiamondFrontierUp$ route.
 \end{proof}
 
+\begin{theorem}[Candidate SN residual budget]
+\label{thm:metacic-parallel-diamond-frontier-candidate-sn-residual-budget}
+Any candidate-mediated strong-normalization or confluence consumer of $\MetaCICParallelDiamondFrontierUp$ must preserve the residual-substitution premise row $P$, candidate-join row $J$, residual-frontier row $R$, bounded-check row $B$, and obstruction row $O$ as one finite residual budget before reading the public diamond handoff. The budget is read as a retained row family, not as residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Use the public certificate of \autoref{thm:metacic-parallel-diamond-frontier-public-certificate}. It exposes the residual premise, candidate join, residual frontier, bounded check, and obstruction rows inside the same finite public handoff rather than as separate global principles.
+
+Apply finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-finite-residual-witness-consumption}. The candidate-mediated consumer can inspect the route $P,K,J,R,S,C,B,O,H,T,G,N$, but the residual budget needed for SN/confluence use is the retained subroute $P,J,R,B,O$.
+
+Finally compare with the public closure theorem, \autoref{thm:metacic-parallel-diamond-frontier-public-closure}. Since public closure keeps residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient equality, and kernel consistency outside the packet, the candidate SN/confluence reader must carry $P,J,R,B,O$ forward before it reads the public diamond handoff.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond frontier public closure]
 \label{thm:metacic-parallel-diamond-frontier-public-closure}
 Public closure for $\MetaCICParallelDiamondFrontierUp$ is available only over the retained finite route
