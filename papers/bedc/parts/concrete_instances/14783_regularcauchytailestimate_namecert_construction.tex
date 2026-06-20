@@ -207,6 +207,23 @@ tail surface. Since no host limit, quotient stream equality, selected tail, or
 ambient completeness coordinate occurs in the carrier, none can be exported.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail estimate tail-induction scope]
+\label{thm:regular-cauchy-tail-estimate-tail-induction-scope}
+For every accepted $\RegularCauchyTailEstimateUp$ carrier
+$T=(M,W,D,R,E,H,C,P,N)$, induction over displayed finite tail windows preserves the route
+$$
+M,W,D,R,E,H,C,P,N .
+$$
+The threshold row $M$ and dyadic tolerance row $D$ supply the modulus and tolerance scope before any $\RegSeqRatUp$ readback through $R$ or $\RealUp$ seal through $E$ is visible. The induction is confined to displayed finite windows in $W$ and exports no quotient streams, selected limits, choice, trichotomy, open-cover compactness, ambient completeness, or independent Real seal.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition, \autoref{def:regular-cauchy-tail-estimate-carrier}. The only rows available to a finite tail-window induction are the threshold, window, dyadic tolerance, readback, seal, transport, replay, provenance, and local naming rows $M,W,D,R,E,H,C,P,N$.
+
+Apply the Real-seal route, tail-envelope lock, and tail dominance results. Theorems \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}, \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}, and \autoref{thm:regular-cauchy-tail-estimate-tail-dominance} force every step to read $M,W,D$ before $R$ and to keep the terminal seal $E$ downstream of the same finite tail-envelope route.
+
+For the induction step, extend only the displayed finite window row $W$ while keeping the same $M,D,R,E,H,C,P,N$ surface. Since the carrier has no quotient stream, selected limit, choice, trichotomy, open-cover compactness, ambient-completeness, or second-seal coordinate, the induction preserves exactly the displayed route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy tail estimate dyadic-modulus scope]
 \label{thm:regular-cauchy-tail-estimate-dyadic-modulus-scope}
 For every accepted $\RegularCauchyTailEstimateUp$ carrier
@@ -436,6 +453,7 @@ The route exports no quotient stream, selected limit, countable-choice
 schedule, host equality, open-cover compactness, or ambient $\RealUp$
 completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailEstimateUp.RegularCauchyTailEstimateRegSeqRatHandoff}
 \begin{proof}
 Begin with the Real seal route of
 \autoref{thm:regular-cauchy-tail-estimate-real-seal-route}. It places every
