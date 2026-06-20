@@ -2647,6 +2647,9 @@ import BEDC.Derived.ChurchRosserUp.TasteGate
 import BEDC.Derived.CircleUp.TasteGate
 import BEDC.Derived.ClaimRegistryLayerUp
 import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
+import BEDC.Derived.ClaimStatusAuditUp
+import BEDC.Derived.ClaimStatusAuditUp.NameCertObligations
+import BEDC.Derived.ClaimStatusAuditUp.TasteGate
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.ClassFieldUp.TasteGate
 import BEDC.Derived.ClassifierBoundaryUp
@@ -9836,6 +9839,7 @@ import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp
 import BEDC.Derived.RegularCauchyTailEstimateUp.FinitePrecisionInduction
 import BEDC.Derived.RegularCauchyTailEstimateUp.ModulusDominanceCriterion
+import BEDC.Derived.RegularCauchyTailEstimateUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyTailEstimateUp.TailEnvelopeLock
 import BEDC.Derived.RegularCauchyTailEstimateUp.TailEstimateObligationBasis
 import BEDC.Derived.RegularCauchyTailEstimateUp.TasteGate
