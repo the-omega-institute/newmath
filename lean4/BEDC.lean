@@ -7666,6 +7666,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateBoundaryRoute
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateConfluenceHandoff
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierExtension
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusal
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateLedgerLocality
@@ -10652,6 +10653,7 @@ import BEDC.Derived.StreamNameUp.RegSeqRatPointwiseHandoffExhaustion
 import BEDC.Derived.StreamNameUp.RegSeqRatRealDyadicPullbackSealDeterminacy
 import BEDC.Derived.StreamNameUp.RegseqratPointwiseSealStability
 import BEDC.Derived.StreamNameUp.RegseqratRealDyadicWindowPullback
+import BEDC.Derived.StreamNameUp.ReindexTerminalCoverage
 import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.StdBridge
 import BEDC.Derived.StreamNameUp.StreamnameRegseqratUniformFiniteWindowSeal
