@@ -440,6 +440,43 @@ certificate displays them. Hence a consumer that omits any listed row has only
 the local normalization-audit surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit retained-premise budget]
+\label{thm:metacic-normalization-audit-retained-premise-budget}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted
+$\MetacicNormalizationAuditUp$ packet. Every normalization-audit consumer that
+uses candidate-mediated strong normalization must retain, in the same finite
+route, the candidate witness in $R$, the closed-candidate wrapper or
+candidate-set membership row in $C$, the $\Pi$ and application adequacy row in
+$A$, the residual-fuel row through $F,H,T,P,L$, and the confluence-refusal row
+$N$ before citing any closed-term budget. A consumer that drops one of these
+premises has only the local candidate ledger, not full Church--Rosser, subject
+reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the candidate boundary
+\autoref{thm:metacic-normalization-audit-candidate-boundary}. It keeps the
+candidate witness, closed projection, and finite strong-normalization inventory
+visible as rows of the accepted packet before any closed-term consequence is
+read.
+
+Next spend the residual budget by
+\autoref{thm:metacic-normalization-audit-residual-budget-obligation}. The
+closed-term budget is tied to the application boundary and to the confluence
+refusal before replay through $F,H,T,P,L$ can expose it downstream.
+
+Now pass through the public route
+\autoref{thm:metacic-normalization-audit-public-route}. That route displays
+exactly $R,C,S,A,N,F,H,T,P,L$, so the candidate witness, closed-candidate or
+candidate-set row, adequacy row, residual fuel, and refusal row remain retained
+premises rather than ambient assumptions.
+
+Finally apply the candidate-confluence boundary above and the refusal scope of
+\autoref{thm:metacic-normalization-audit-refusal-scope}. These theorems allow
+only compatibility with displayed audit surfaces and explicitly keep full
+Church--Rosser, subject reduction, evaluator equality, quotient term equality,
+and kernel consistency outside the normalization-audit packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit candidate-mediated SN/confluence boundary]
 \label{thm:metacic-normalization-audit-candidate-mediated-sn-confluence}
 Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted
