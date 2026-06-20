@@ -348,6 +348,8 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 BEDC/Derived/StepIndexedTotalHostUp/Separation.lean:43:10: error: Function expected at SemanticNameCert; Hint: The identifier `SemanticNameCert` is unknown
 error: build failed, audit=skipped, phase_d_lint=skipped.
 
+- 2026-06-20T20:54:03Z: `resolved` `add_downstream_user` for `BEDC.Derived.LocatedCompactnessUp.LocatedCompactnessCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:locatedcompactness:BEDC.Derived.LocatedCompactnessUp.LocatedCompactnessCarrier_namecert_obligations:08fe9837`). Rationale: The target is not a trivial wrapper: it constructs a SemanticNameCert for the located compactness carrier and is the Lean counterpart of the paper's NameCert obligations theorem. It had no downstream Lean consumer, so I added a sibling bridge theorem in LocatedCompactUp that explicitly calls this NameCert obligation, reads its ledger_sound field, and packages the resulting local NameCert row into a LocatedCompactCarrier handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
