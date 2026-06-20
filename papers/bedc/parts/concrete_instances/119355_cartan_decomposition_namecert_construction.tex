@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\CartanDecompositionUp$}
+\label{ch:concrete-instances-cartan-decomposition-namecert}
+\origin{human}
+
+Following Helgason and Knapp, the $\CartanDecompositionUp$ packet records the finite involution and eigenspace surface used to read a Lie algebra or Lie group through its compact and noncompact rows. It is grounded in the Lie-group route of \autoref{ch:concrete-instances-liegroup-namecert}, the Lie-algebra carrier of \autoref{ch:concrete-instances-liealgebra-namecert}, the root-system and Weyl-group consumers of \autoref{ch:concrete-instances-rootsystem-namecert} and \autoref{ch:concrete-instances-weylgroup-namecert}, and the bilinear-form row of \autoref{ch:concrete-instances-bilinform-namecert}. The chapter names the displayed decomposition as finite NameCert data; it does not assert classification of real reductive groups, global symmetric-space theory, selected Cartan subalgebras, or analytic integration.
+
+\begin{definition}[Cartan decomposition carrier]
+\label{def:cartan-decomposition-carrier}
+A $\CartanDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(G,L,\Theta,K,P,E,B,R,W,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\LieGroupUp$ source row when a group-level source is present; otherwise it is the explicit absence row for group-level data.
+\item $L$ is the $\LieAlgebraUp$ row whose bracket and additive vector-space operations are the only algebraic operations read by the packet.
+\item $\Theta$ is the involution row. It records an endomap of the displayed Lie-algebra carrier with $\Theta^2$ classified with the identity by the local carrier relation.
+\item $K$ is the compact eigenspace row, recording the displayed fixed endpoints of $\Theta$.
+\item $P$ is the noncompact eigenspace row, recording the displayed negated endpoints of $\Theta$.
+\item $E$ is the eigenspace stability ledger. It records bracket routing for $[K,K]$ into $K$, $[K,P]$ into $P$, and $[P,P]$ into $K$ whenever those brackets are displayed.
+\item $B$ is the $\BilinFormUp$ compatibility row used by consumers that inspect orthogonality, sign, or Killing-form-style pairings.
+\item $R$ is the $\RootSystemUp$ consumer row for restricted-root reads of the displayed $P$-side direction data.
+\item $W$ is the $\WeylGroupUp$ consumer row for reflection reads that are sourced through the same root-system row $R$.
+\item $H$ stores componentwise $\hsame$ transport for the group source, Lie algebra, involution, eigenspace, bracket-stability, bilinear-form, root, Weyl, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a decomposition request through the rows $G,L,\Theta,K,P,E,B,R,W,H$.
+\item $Q$ is the $\Pkg$ provenance over $\CartanDecompositionUp$, $\LieGroupUp$, $\LieAlgebraUp$, $\RootSystemUp$, $\WeylGroupUp$, $\BilinFormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CartanDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host symmetric space, a selected maximal abelian subspace, analytic integration, or classification of real forms.
+\end{definition}
+
+\begin{theorem}[Cartan decomposition involution eigenspace stability]
+\label{thm:cartan-decomposition-involution-eigenspace-stability}
+For every accepted $\CartanDecompositionUp$ carrier
+$$
+D=(G,L,\Theta,K,P,E,B,R,W,H,C,Q,N),
+$$
+any consumer that reads the public decomposition must first retain the involution row $\Theta$, the compact row $K$, the noncompact row $P$, and the bracket-stability ledger $E$. The public read may then pass to the $\BilinFormUp$, $\RootSystemUp$, and $\WeylGroupUp$ rows, but it cannot replace the finite rows by a host symmetric-space theorem, a selected Cartan subspace, analytic integration, or classification of real forms.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cartan-decomposition-carrier}. The Lie-algebra source is the row $L$, and the decomposition data are exactly the involution $\Theta$ with the displayed fixed and negated rows $K$ and $P$.
+
+The stability claim is the row $E$. It keeps the three bracket routes $[K,K]$, $[K,P]$, and $[P,P]$ attached to the same involution and eigenspace rows before any downstream consumer can inspect the decomposition.
+
+The bilinear-form and root-theoretic consumers are downstream from this retained surface. Rows $B,R,W$ may read only the pairing, restricted-root, and reflection data named by the carrier, while $H,C,Q,N$ transport, replay, source, and name the same finite packet. Since no excluded symmetric-space, selected-subspace, analytic, or classification row is present, the consumer is confined to the displayed NameCert route.
+\end{proof}
+
+\falsifiablePrediction{Every $\CartanDecompositionUp$ consumer that reaches a restricted-root or Weyl read must first expose the Lie-algebra row, involution row, compact eigenspace row, noncompact eigenspace row, bracket-stability ledger, bilinear-form row, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{liegroup, liealgebra, rootsystem, weylgroup, bilinform: $\CartanDecompositionUp$ is not bijective to any listed sibling because it jointly carries an involution, two eigenspace rows, a three-branch bracket-stability ledger, bilinear-form compatibility, root consumers, Weyl consumers, structural replay, provenance, and local naming.}
+
+\closureat{CartanDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\CartanDecompositionUp}
+  \constructivestory{A $\CartanDecompositionUp$ packet is generated from optional LieGroup source data, a LieAlgebra carrier, an involutive endomap row, compact and noncompact eigenspace rows, a bracket-stability ledger, a BilinForm compatibility row, RootSystem and WeylGroup consumer rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cartan-decomposition-carrier} and \autoref{thm:cartan-decomposition-involution-eigenspace-stability} seed the finite involution, eigenspace, bracket-stability, bilinear-form, root, and Weyl consumer surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close classification of real reductive groups, global symmetric-space theory, selected Cartan subspaces, analytic integration, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, involution exactness, eigenspace stability, bilinear-form compatibility, root and Weyl consumer routing, structural replay, provenance, and local naming for BEDC.Derived.CartanDecompositionUp.}
+\end{closurestatus}
