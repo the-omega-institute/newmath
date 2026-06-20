@@ -1,0 +1,49 @@
+\chapter{Metric Completion Unit NameCert Construction}
+\label{ch:concrete-instances-metric-completion-unit-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive completion theory, the $\MetricCompletionUnitUp$ packet records the unit map that sends a displayed metric point into its completion by the constant regular name. It sits between the metric completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, the Cauchy-completion adjunction of \autoref{ch:concrete-instances-cauchy-completion-adjunction-namecert}, the stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the completion unit as finite NameCert data, not as an ambient embedding into a preexisting completed object.
+
+\begin{definition}[Metric completion unit carrier]
+\label{def:metric-completion-unit-carrier}
+A $\MetricCompletionUnitUp$ carrier is a finite packet
+$$
+U=(X,x,S,R,T,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ carrier and $x$ is the displayed source-point history.
+\item $S$ is the constant $\StreamNameUp$ row repeatedly exposing $x$ at each precision request.
+\item $R$ is the $\RegSeqRatUp$ handoff certifying the constant stream as a regular rational Cauchy name.
+\item $T$ is the target $\MetricCompletionUp$ row receiving that regular name.
+\item $E$ is the $\RealUp$ and metric seal row comparing source distances with the completed endpoint.
+\item $H,C,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and the local $\NameCert_{\MetricCompletionUnitUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient Cauchy classes, selected limits, ambient completion equality, or a host embedding function.
+\end{definition}
+
+\begin{theorem}[Metric completion unit NameCert obligations]
+\label{thm:metric-completion-unit-namecert-obligations}
+Every accepted $\MetricCompletionUnitUp$ carrier $U=(X,x,S,R,T,E,H,C,P,N)$ exposes the source metric point, constant stream row, regular-sequence handoff, completion target row, metric-real seal, transport, replay, provenance, and local naming rows before any completion-unit consumer reads the completed endpoint. The consumer cannot replace these rows by an ambient dense embedding, a quotient class of Cauchy names, a selected limit, or host equality in the completion.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:metric-completion-unit-carrier}. The only source data are the metric carrier $X$ and point history $x$, and the only completion-facing source is the constant $\StreamNameUp$ row $S$.
+
+Read the regular handoff and target rows. The row $R$ certifies the constant stream as a regular rational name, while $T$ records that same name as a $\MetricCompletionUp$ target; the seal row $E$ is therefore downstream of the displayed stream and regular-sequence data.
+
+Finally apply the structural rows $H,C,P,N$. They replay exactly the same route under $\hsame$ and $\Cont$, record provenance, and name the local certificate, so no quotient class, selected limit, ambient embedding, or host equality coordinate is available.
+\end{proof}
+
+\begin{theorem}[Metric completion unit real handoff]
+\label{thm:metric-completion-unit-real-handoff}
+For every accepted $\MetricCompletionUnitUp$ carrier $U=(X,x,S,R,T,E,H,C,P,N)$, the $\RealUp$ seal row $E$ may be read only after the constant $\StreamNameUp$ row, the $\RegSeqRatUp$ handoff, and the $\MetricCompletionUp$ target row have been exposed. The handoff is the finite constant-name route from the source metric point to the completed endpoint; it is not an appeal to ambient real completeness or an external limit operation.
+\end{theorem}
+\begin{proof}
+Start with the constant stream row $S$. It repeats the displayed source point history, so every later precision request remains tied to the same metric source row.
+
+Next read the regular rational handoff $R$ and the completion target row $T$. These rows certify the constant stream as a regular name and then as the completion endpoint named by the packet.
+
+The seal row $E$ is projected only after those rows. Since $H,C,P,N$ merely transport and replay the displayed route, the $\RealUp$ handoff cannot be replaced by an external completion map, a selected Cauchy-class representative, or ambient real completeness.
+\end{proof}
+
+\independenceWitness{metriccompletion, cauchy-completion-adjunction, streamname, regseqrat, real: no listed sibling is bijective to $\MetricCompletionUnitUp$ because this packet jointly carries a source metric point, constant stream name, regular handoff, completion target, real seal, transport, replay, provenance, and local naming as one finite unit-map surface.}
