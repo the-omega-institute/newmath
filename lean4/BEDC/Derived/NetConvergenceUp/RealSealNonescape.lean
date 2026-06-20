@@ -4,6 +4,7 @@ namespace BEDC.Derived.NetConvergenceUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 theorem NetConvergenceCarrier_real_seal_nonescape
     {D T E A F S R L H C P M filterRead streamRead sealRead : BHist} :
@@ -23,5 +24,83 @@ theorem NetConvergenceCarrier_real_seal_nonescape
     _sameC, _sameP, _sameM, fields⟩ := carrier
   exact
     ⟨directedRoute, filterRoute, streamRoute, sealRoute, sealSame, sameL, fields⟩
+
+theorem NetConvergenceCarrier_tail_window_real_seal_bridge
+    {D T E A F S R L H C P M filterRead streamRead sealRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M →
+      Cont D T E →
+        Cont E F filterRead →
+          Cont filterRead S streamRead →
+            Cont F S streamRead →
+              Cont streamRead R sealRead →
+                hsame streamRead D →
+                  hsame sealRead L →
+                    SemanticNameCert
+                        (fun row : BHist =>
+                          hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+                        (fun row : BHist =>
+                          Cont D T E ∧ Cont E F filterRead ∧
+                            Cont filterRead S streamRead ∧ hsame row D)
+                        (fun row : BHist =>
+                          Cont F S streamRead ∧ Cont streamRead R sealRead ∧
+                            hsame sealRead L ∧ hsame row D ∧ hsame F F ∧ hsame S S ∧
+                              hsame L L)
+                        hsame ∧
+                      Cont D T E ∧ Cont E F filterRead ∧ Cont filterRead S streamRead ∧
+                        Cont F S streamRead ∧ Cont streamRead R sealRead ∧
+                          hsame streamRead D ∧ hsame sealRead L ∧ hsame F F ∧
+                            hsame S S ∧ hsame L L ∧
+                              netConvergenceFields
+                                  (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                                [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro carrier directedRoute filterRoute windowRoute streamRoute sealRoute streamSame sealSame
+  have tailAdmission :=
+    NetConvergenceCarrier_tail_window_admission carrier directedRoute filterRoute windowRoute
+      streamSame
+  have sealAdmission :=
+    NetConvergenceCarrier_real_seal_nonescape carrier directedRoute filterRoute streamRoute
+      sealRoute sealSame
+  obtain ⟨_sameD, _sameT, _sameE, sameF, sameS, _tailRoute, _filterRoute,
+    _windowRoute, _streamSame, fields⟩ := tailAdmission
+  obtain ⟨_directedRoute, _filterRouteForSeal, _streamRoute, _sealRoute, _sealSame,
+    sameL, _fieldsForSeal⟩ := sealAdmission
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+          (fun row : BHist =>
+            Cont D T E ∧ Cont E F filterRead ∧ Cont filterRead S streamRead ∧
+              hsame row D)
+          (fun row : BHist =>
+            Cont F S streamRead ∧ Cont streamRead R sealRead ∧ hsame sealRead L ∧
+              hsame row D ∧ hsame F F ∧ hsame S S ∧ hsame L L)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro D ⟨hsame_refl D, carrier⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨directedRoute, filterRoute, windowRoute, source.left⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨streamRoute, sealRoute, sealSame, source.left, sameF, sameS, sameL⟩
+  }
+  exact
+    ⟨cert, directedRoute, filterRoute, windowRoute, streamRoute, sealRoute, streamSame,
+      sealSame, sameF, sameS, sameL, fields⟩
 
 end BEDC.Derived.NetConvergenceUp
