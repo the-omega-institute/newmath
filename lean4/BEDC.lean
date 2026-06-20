@@ -5053,6 +5053,7 @@ import BEDC.Derived.EvenOddCauchyCriterionUp.SharedModulusTransport
 import BEDC.Derived.EvenOddCauchyCriterionUp.SingleModulus
 import BEDC.Derived.EvenOddCauchyCriterionUp.TailMerge
 import BEDC.Derived.EvenOddCauchyCriterionUp.TasteGate
+import BEDC.Derived.EventualEqualityUp
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
 import BEDC.Derived.EventuallyConstantSequenceUp.NameCertObligations
 import BEDC.Derived.EventuallyConstantSequenceUp.TailFilterHandoff
