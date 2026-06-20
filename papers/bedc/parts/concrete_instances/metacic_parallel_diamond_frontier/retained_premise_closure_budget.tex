@@ -1,0 +1,15 @@
+\begin{theorem}[MetaCIC parallel-diamond retained-premise closure]
+\label{thm:metacic-parallel-diamond-frontier-retained-premise-closure}
+A retained-premise read used by a candidate-mediated strong-normalization or local-confluence consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose residual-substitution compatibility rows, candidate-normalization rows, local-join rows, the critical-pair envelope, finite residual witnesses, typed-window rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row before it is consumed as a closure budget. The budget is a finite frontier read over
+$$
+P,K,J,R,S,C,B,O,H,T,G,N,
+$$
+not subject reduction, unrestricted confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the critical-pair envelope and candidate-normalization scope, \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope} and \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}. They keep $P,K,J,R,S,C,B,O,H,T,G,N$ visible before candidate-mediated normalization can read the candidate row.
+
+Apply residual-join locality and finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality} and \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. These force the retained premise, typed windows, residual frontier, local-join checker, finite witness, transport, replay, provenance, and local naming rows to be consumed as one finite packet.
+
+Finally read the retained-premise mature budget, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-mature-budget}. It allows the premise to serve as a closure budget only while the obstruction and residual-substitution rows remain displayed, so the read cannot become subject reduction, unrestricted confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
