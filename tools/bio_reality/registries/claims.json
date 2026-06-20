@@ -5189,6 +5189,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T06:30:29+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T06:30:29+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "02a9643ed9a7",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -7460,6 +7477,34 @@
             "failed": 0
           },
           "script_sha": "4d1437ba70fa6b2d"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.proteostasis_turnover_residual.b_star_q6_turnover_residual_audit_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Final post-translational proteostasis audit (current-data domain closure): with experimentally-MEASURED protein half-life (Christiano 2014 SGD) as outcome y=log(ln2/t_half) -- NOT the inferred mass-balance lambda -- the 9D B*_Q6 synonymous residual, after residualizing against a full 65-column control set (logL, AA20, GC3, N-end-after-Met, mean+low pLDDT, logM, logRPF, logP, E_stat=logTE, mRNA-HL, localization, membrane, essentiality), carries NO held-out information about measured turnover: 5-fold gene-held-out R2_L2=0.056 -> R2_L3=0.050 (delta-R2=-0.0055, delta-DL=-13.7, B perp HURTS), real far below both the matched-bin permutation null (p=0.89) and the synonymous-recoding null (p=1.0), fold signs unstable (4 neg / 1 pos), and the no-ribosomal/mito/membrane sensitivity (n=2072) still holds. Verdict turnover_null_current_domain_closed. This was the only remaining non-vacuous current-data B*_Q6 test (per oracle); its null CLOSES the endogenous-yeast observational domain: B*_Q6 is a pure static execution-TE proxy with no order/structure/condition/cross-selection/dynamics/post-translational residual. cannot_claim: single steady-state turnover dataset (not pulse-chase per-condition); not a causal folding code / physical degradation constant / universal law; complex-membership control unavailable.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_q6_turnover_residual_audit_powered",
+      "history": [
+        {
+          "ts": "2026-06-20T06:21:37+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-20T06:35:02+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "eab3c5dee757",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "9db9050008586930"
         }
       ],
       "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
