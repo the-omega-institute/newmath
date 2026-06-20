@@ -89,6 +89,42 @@ def test_committed_canonical_capsule_has_consistent_base_chance_numbers():
         assert row["base_minus_chance"]["mean"] == row["base"] - row["chance"]
 
 
+def _assert_unlock_boundary_construct_validity(row):
+    assert row["owner_artifact_id"] == probe.ARTIFACT_ID
+    assert row["source_issue"] == "#1691"
+    assert row["protocol_id"] == "doorkey-unlock-boundary"
+    assert row["status"] == "construct-validity-failed"
+    assert row["claim_policy"] == "bounded-negative"
+    assert row["failure_mode"] == "observable-trace-confound"
+    assert row["repo_local_pointer"] == probe.UNLOCK_BOUNDARY_POINTER
+    assert row["claim_boundary"]["positive_discovery"] is False
+    assert row["trust_boundary"]["single_canonical_owner"] == probe.ARTIFACT_ID
+    assert row["trust_boundary"]["second_doorkey_producer"] is False
+    assert row["publication_risk"]["strong_metric_claim"] is False
+    assert row["not_claimed"] == list(probe.UNLOCK_BOUNDARY_NOT_CLAIMED)
+    assert row["hard_fail_required_fields"] == list(probe.UNLOCK_BOUNDARY_HARD_FAIL_FIELDS)
+    assert row["diagnostics"]["reader_compatible"] is True
+    assert row["diagnostics"]["auroc"] == 0.989
+    assert row["diagnostics"]["ubd"] == 0.489
+
+
+def test_unlock_boundary_construct_validity_is_owner_local_bounded_negative(monkeypatch):
+    monkeypatch.setattr(probe, "dependency_status", lambda: {"gymnasium": "missing", "minigrid": "missing", "torch": "missing"})
+
+    payload = probe.build_payload(generated_at="fixture", sample_budget=64, bootstrap_resamples=16)
+
+    _assert_unlock_boundary_construct_validity(payload["unlock_boundary_construct_validity"])
+    assert payload["artifact_id"] == probe.ARTIFACT_ID
+    assert payload["schema_id"] == probe.SCHEMA_ID
+    assert payload["source_issue"] == "#1515"
+
+
+def test_committed_canonical_records_unlock_boundary_construct_validity():
+    payload = json.loads((ROOT / probe.JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    _assert_unlock_boundary_construct_validity(payload["unlock_boundary_construct_validity"])
+
+
 def test_base_gate_failure_returns_abstain_and_skips_downstream(monkeypatch):
     monkeypatch.setattr(probe, "dependency_status", lambda: {"gymnasium": "installed", "minigrid": "installed", "torch": "installed"})
     monkeypatch.setattr(
@@ -124,6 +160,9 @@ def test_payload_writes_canonical_json_and_markdown(tmp_path, monkeypatch):
     payload = probe.write_artifacts(json_path=json_path, markdown_path=markdown_path, generated_at="fixture")
 
     assert json.loads(json_path.read_text(encoding="utf-8")) == payload
-    assert markdown_path.read_text(encoding="utf-8").startswith("# MiniGrid DoorKey Task Probe")
+    markdown = markdown_path.read_text(encoding="utf-8")
+    assert markdown.startswith("# MiniGrid DoorKey Task Probe")
+    assert "## Unlock Boundary Construct Validity" in markdown
+    assert probe.UNLOCK_BOUNDARY_POINTER in markdown
     assert payload["execution_status"] == "abstain"
     assert payload["hardgate"]["status"] == "fail"

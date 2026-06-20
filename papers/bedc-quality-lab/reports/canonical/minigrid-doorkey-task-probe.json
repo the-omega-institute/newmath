@@ -425,6 +425,49 @@
       "seed": 20260616
     }
   },
+  "unlock_boundary_construct_validity": {
+    "claim_boundary": {
+      "positive_discovery": false,
+      "status": "bounded-negative",
+      "terminal_verdict": "negative_discovery"
+    },
+    "claim_policy": "bounded-negative",
+    "diagnostics": {
+      "auroc": 0.989,
+      "interpretation": "diagnostic-only; not a promotion authority",
+      "pair_count_rows": [],
+      "reader_compatible": true,
+      "ubd": 0.489
+    },
+    "failure_mode": "observable-trace-confound",
+    "hard_fail_required_fields": [
+      "owner_artifact_id",
+      "source_issue",
+      "protocol_id",
+      "repo_local_pointer",
+      "trust_boundary.single_canonical_owner"
+    ],
+    "not_claimed": [
+      "No publishable strong DoorKey unlock-boundary metric is claimed from the AUROC/UBD diagnostic.",
+      "No positive discovery is claimed for the withdrawn unlock-boundary construct.",
+      "No second DoorKey canonical producer or owner is created."
+    ],
+    "owner_artifact_id": "bedc-quality-lab:minigrid-doorkey-task-probe",
+    "protocol_id": "doorkey-unlock-boundary",
+    "publication_risk": {
+      "allowed_use": "owner-local bounded-negative diagnostic",
+      "blocked_use": "publishable strong DoorKey unlock-boundary metric",
+      "strong_metric_claim": false
+    },
+    "repo_local_pointer": "reports/canonical/minigrid-doorkey-task-probe.json:$.unlock_boundary_construct_validity",
+    "source_issue": "#1691",
+    "status": "construct-validity-failed",
+    "trust_boundary": {
+      "external_lifecycle_authority": false,
+      "second_doorkey_producer": false,
+      "single_canonical_owner": "bedc-quality-lab:minigrid-doorkey-task-probe"
+    }
+  },
   "verdict": "rejected",
   "what_was_learned": "base gate or environment boundary prevented downstream task-probe claims"
 }

@@ -31,3 +31,16 @@
 - No OOD generalization claim when heldout gates fail.
 - No downstream gap-head or DRT claim when the base-chance gate fails.
 - No production policy or robotics claim.
+
+## Unlock Boundary Construct Validity
+
+- Status: `construct-validity-failed`
+- Claim policy: `bounded-negative`
+- Failure mode: `observable-trace-confound`
+- Pointer: `reports/canonical/minigrid-doorkey-task-probe.json:$.unlock_boundary_construct_validity`
+
+### Unlock Boundary Not Claimed
+
+- No publishable strong DoorKey unlock-boundary metric is claimed from the AUROC/UBD diagnostic.
+- No positive discovery is claimed for the withdrawn unlock-boundary construct.
+- No second DoorKey canonical producer or owner is created.
