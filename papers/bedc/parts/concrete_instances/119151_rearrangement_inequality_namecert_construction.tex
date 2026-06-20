@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RearrangementInequalityUp$}
+\label{ch:concrete-instances-rearrangement-inequality-namecert}
+\origin{human}
+
+Following Hardy, Littlewood, and Polya, the $\RearrangementInequalityUp$ packet records the finite sorted-sum certificate for two equally indexed real rows. It consumes finite sequence structure from \autoref{ch:concrete-instances-list-namecert}, order comparison from the $\TotalOrderUp$ surface, rational readback through $\RatUp$ and $\RegSeqRatUp$, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. It is adjacent to the convex inequality route of $\JensenInequalityUp$ and the majorization route of $\KaramataInequalityUp$, but it does not duplicate either packet: rearrangement names the finite permutation ledger and sorted pairwise-product comparison.
+
+\begin{definition}[Rearrangement inequality carrier]
+\label{def:rearrangement-inequality-carrier}
+A $\RearrangementInequalityUp$ carrier is a finite $\BHist$ packet
+$$
+\mathcal{R}=(A,B,O,L,\Pi,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are finite $\ListUp$ rows of equal displayed length whose entries are sealed as $\RealUp$ names.
+\item $O$ is the $\TotalOrderUp$ comparison ledger certifying that both rows are read in nondecreasing order.
+\item $L$ is the length and index ledger tying the two rows to the same finite index set.
+\item $\Pi$ is the permutation ledger, recording how any compared arrangement is obtained from the sorted row by a finite list permutation.
+\item $S$ is the finite sorted-sum comparison row for the two product sums.
+\item $Q$ is the $\RatUp$ and $\RegSeqRatUp$ readback row for the rational windows used to inspect the real products and sums.
+\item $E$ is the $\RealUp$ seal for the sum endpoints after the finite comparison has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the list, order, index, permutation, sum, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a rearrangement request through $A,B,O,L,\Pi,S,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RearrangementInequalityUp$, $\RealUp$, $\RatUp$, $\RegSeqRatUp$, $\TotalOrderUp$, $\ListUp$, $\JensenInequalityUp$, $\KaramataInequalityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RearrangementInequalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for ambient completeness of $\RealUp$, host real ordering, quotient equality of real names, selected extrema, infinite series, or a hidden optimization principle.
+\end{definition}
+
+\begin{theorem}[Rearrangement inequality NameCert obligations]
+\label{thm:rearrangement-inequality-namecert-obligations}
+For every accepted $\RearrangementInequalityUp$ carrier
+$$
+\mathcal{R}=(A,B,O,L,\Pi,S,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\RearrangementInequalityUp}$ surface consists exactly of sorted finite RealUp rows, the order comparison ledger, equal-length and index alignment, finite permutation provenance, finite product-sum comparison, RatUp and RegSeqRat readback, RealUp sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and nonescape from ambient completeness, host order, quotient equality, selected extrema, or infinite-series assertions.
+\end{theorem}
+\begin{proof}
+Project the carrier. The finite rows $A$ and $B$ supply the displayed list spines and RealUp entries, while $O$ and $L$ bind the sortedness and common index surface.
+
+The permutation and comparison data are the rows $\Pi$ and $S$. They record only finite rearrangements of the displayed list spines and the corresponding finite product-sum comparison.
+
+The readback and endpoint rows are $Q$ and $E$. They route rational windows through $\RatUp$ and $\RegSeqRatUp$ before sealing the compared sums as $\RealUp$ endpoints.
+
+Transport, replay, provenance, and naming are carried by $H,C,P,N$. Since no remaining row stores completeness, host order, quotient equality, selected extrema, or infinite series, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Rearrangement inequality sorted-sum handoff]
+\label{thm:rearrangement-inequality-sorted-sum-handoff}
+Every accepted $\RearrangementInequalityUp$ packet exports its finite sorted-sum comparison only through the route
+$$
+\ListUp,\ \TotalOrderUp,\ \RatUp,\ \RegSeqRatUp,\ \RealUp
+\longmapsto
+\RearrangementInequalityUp .
+$$
+A Jensen or Karamata consumer may inspect this handoff as a finite inequality certificate only after the sorted rows, common index ledger, permutation ledger, rational readback, RealUp seals, transport, replay, provenance, and local naming rows have been displayed.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $\mathcal{R}=(A,B,O,L,\Pi,S,Q,E,H,C,P,N)$. The finite list rows and common index ledger determine the product positions that can be compared.
+
+The order row $O$ and permutation row $\Pi$ force every admissible arrangement to be read as a finite permutation of the displayed sorted rows. The comparison row $S$ then records the sorted product-sum inequality for that finite index set.
+
+The rational readback row $Q$ and RealUp seal $E$ keep the numerical comparison inside the displayed BEDC real surface. The rows $H,C,P,N$ transport, replay, source, and name the same data.
+
+Thus the handoff can be consumed by $\JensenInequalityUp$ or $\KaramataInequalityUp$ only as a finite sorted-sum certificate. It exports no ambient completeness theorem, host real-order theorem, quotient equality, selected extremum, or infinite-series claim.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RearrangementInequalityUp$ packet displays sorted finite $\RealUp$ rows, common finite indices, an order ledger, a permutation ledger, finite sum comparison, $\RatUp$ and $\RegSeqRatUp$ readback, a $\RealUp$ seal, transport, replay, provenance, and local $\NameCert$ rows before any inequality consumer reads the sorted-sum comparison.}
+
+\independenceWitness{real, rat, regseqrat, totalorder, list, jenseninequality, and karamatainequality: no listed sibling is bijective to $\RearrangementInequalityUp$ because this packet jointly stores the finite sorted-row ledger, permutation provenance, and sorted product-sum comparison as one local NameCert surface.}
+
+\closureat{RearrangementInequalityUp}{seedStr}
+
+\begin{closurestatus}{\RearrangementInequalityUp}
+  \constructivestory{A $\RearrangementInequalityUp$ packet is generated from sorted finite RealUp list rows, a TotalOrder comparison ledger, common finite index data, permutation provenance, finite product-sum comparison, RatUp and RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rearrangement-inequality-carrier}, \autoref{thm:rearrangement-inequality-namecert-obligations}, and \autoref{thm:rearrangement-inequality-sorted-sum-handoff} seed the finite rearrangement-inequality carrier over RealUp, RatUp, RegSeqRat, TotalOrder, List, Jensen, and Karamata rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient completeness of RealUp, host real ordering, quotient equality of real names, selected extrema, infinite series, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked sorted finite RealUp rows, order and permutation ledgers, finite sum comparison, RatUp and RegSeqRat readback, RealUp sealing, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.RearrangementInequalityUp.}
+\end{closurestatus}

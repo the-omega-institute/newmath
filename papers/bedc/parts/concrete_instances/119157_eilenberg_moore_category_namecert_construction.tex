@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\EilenbergMooreCategoryUp$}
+\label{ch:concrete-instances-eilenberg-moore-category-namecert}
+\origin{human}
+
+Following Mac Lane's categorical account of monads and the Eilenberg--Moore construction, the $\EilenbergMooreCategoryUp$ packet names the category of displayed algebra objects for a displayed monad. It sits after the categorical carrier of \autoref{ch:concrete-instances-category-namecert}, the functorial transport surface of \autoref{ch:concrete-instances-functor-namecert}, the monad packet of \autoref{ch:concrete-instances-monad-namecert}, the Kleisli completion category of \autoref{ch:concrete-instances-cauchy-completion-kleisli-category-namecert}, and the completion-algebra surface of \autoref{ch:concrete-instances-eilenberg-moore-completion-algebra-namecert}. The chapter records the finite NameCert rows by which monad algebras and their homomorphisms become a category-level consumer interface.
+
+The packet is the algebra-object companion to the Kleisli category route. It does not identify algebras by quotient equality, select representatives, construct a host category of algebras, or import ambient equality of algebra maps.
+
+\begin{definition}[Eilenberg--Moore category carrier]
+\label{def:eilenberg-moore-category-carrier}
+An $\EilenbergMooreCategoryUp$ carrier is a finite $\BHist$ packet
+$$
+E=(B,T,A,S,U,M,H,C,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the base $\CategoryUp$ row, exposing object and hom histories before any algebra row is read.
+\item $T$ is the $\MonadUp$ row on the base category, with its endofunctor, unit, and multiplication data displayed as finite BEDC carrier rows.
+\item $A$ is the algebra-object row, listing the displayed object on which the monad acts.
+\item $S$ is the structure-map row from the monad-applied object back to the algebra object.
+\item $U$ is the unit-law row, comparing the unit route followed by $S$ with the displayed identity route on the algebra object.
+\item $M$ is the multiplication-law row, comparing the multiplication route followed by $S$ with the route that first applies the monad to $S$ and then applies $S$.
+\item $H$ is the algebra-homomorphism row, recording maps between displayed algebra objects whose square with the two structure maps is certified by the same finite carrier route.
+\item $C$ is the composition ledger for algebra homomorphisms, including identity homomorphisms and associative composition as displayed $\CategoryUp$ and $\MonadUp$ route comparisons.
+\item $R$ records componentwise $\hsame$ transport and displayed $\Cont$ replay for $B,T,A,S,U,M,H,C$.
+\item $P$ is the $\Pkg$ provenance over $\EilenbergMooreCategoryUp$, $\CategoryUp$, $\FunctorUp$, $\MonadUp$, $\NatTransUp$, $\CauchyCompletionKleisliCategoryUp$, $\EilenbergMooreCompletionAlgebraUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EilenbergMooreCategoryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,T,A,S,U,M,H,C,R,P,N$. It has no coordinate for quotient algebras, selected representatives, host equality of algebra maps, ambient category objects, or a collapse of the Eilenberg--Moore route into the Kleisli route.
+\end{definition}
+
+\begin{theorem}[Eilenberg--Moore category NameCert obligations]
+\label{thm:eilenberg-moore-category-namecert-obligations}
+For every accepted $\EilenbergMooreCategoryUp$ carrier
+$$
+E=(B,T,A,S,U,M,H,C,R,P,N),
+$$
+the local $\NameCert_{\EilenbergMooreCategoryUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the base category, monad, algebra object, structure map, unit law, multiplication law, algebra homomorphism, composition ledger, transport, provenance, and local naming rows;
+\item monad-source exposure, requiring the base category and monad rows $B,T$ before any algebra object or homomorphism can be inspected;
+\item algebra-object exposure, requiring $A$ and $S$ to display the object and its structure map before either law row is public;
+\item law exactness, requiring $U$ and $M$ to compare only the displayed unit and multiplication routes of the same monad row;
+\item homomorphism and composition exactness, requiring $H$ and $C$ to keep algebra maps, identities, and composites inside the displayed algebra rows;
+\item structural exhaustion, requiring $R,P,N$ to transport, replay, source, and name the listed rows without adding quotient algebras, selected representatives, host equality of algebra maps, ambient category objects, or a Kleisli-category identification.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:eilenberg-moore-category-carrier}. The accepted packet exposes exactly the base category, monad, algebra-object, structure-map, law, homomorphism, composition, transport, provenance, and local naming rows.
+
+Monad-source exposure is read from $B$ and $T$. Since the monad is displayed over the same base category row, an algebra consumer cannot begin from a separate host category or from an unrecorded endofunctor.
+
+Algebra-object exposure is read from $A$ and $S$. The object row is available before the structure-map row, and the structure map is the only coordinate that turns the monad-applied object back into the algebra object.
+
+Law exactness is read from $U$ and $M$. The unit law compares the displayed unit route with the identity route, while the multiplication law compares the displayed multiplication route with the two-step action route; both comparisons use the same $B,T,A,S$ rows.
+
+Finally $H,C,R,P,N$ bind maps, composites, transport, provenance, and local naming to the same finite packet. Because no other coordinate occurs in the carrier, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Eilenberg--Moore category algebra route]
+\label{thm:eilenberg-moore-category-algebra-route}
+Every consumer that reads an accepted $\EilenbergMooreCategoryUp$ packet as a category of algebra objects factors through the route
+$$
+\CategoryUp,\ \FunctorUp,\ \MonadUp,\ \NatTransUp,\ \EilenbergMooreCompletionAlgebraUp,\ \CauchyCompletionKleisliCategoryUp .
+$$
+The object side reads $B,T,A,S,U,M$ before any algebra homomorphism is public, and the arrow side reads $H,C,R,P,N$ before identities or composites can be exported. Thus the packet gives a finite category-level algebra interface without quotient categories, selected algebra representatives, host equality of algebra maps, ambient category equality, or identification with the Kleisli category.
+\end{theorem}
+\begin{proof}
+Start with the object side. Projection of the carrier supplies $B$ and $T$ as the base category and monad rows, then $A$ and $S$ as the displayed algebra object and structure map.
+
+The law rows are then forced in order. The unit row $U$ compares the unit action against the displayed identity route, and the multiplication row $M$ compares the two monad-action schedules against the same structure map.
+
+Turn to arrows. The homomorphism row $H$ reads maps only after their source and target algebra rows have exposed the same $B,T,A,S,U,M$ data, and the composition ledger $C$ records identities and composites as displayed category and monad route comparisons.
+
+The dependency route is therefore the advertised sibling route: the base categorical rows come from $\CategoryUp$, $\FunctorUp$, $\MonadUp$, and $\NatTransUp$, while the completion-facing algebra and Kleisli consumers cite \autoref{ch:concrete-instances-eilenberg-moore-completion-algebra-namecert} and \autoref{ch:concrete-instances-cauchy-completion-kleisli-category-namecert}. The structural rows $R,P,N$ add transport, replay, provenance, and local naming only, so no quotient or host equality coordinate is exported.
+\end{proof}
+
+\closureat{EilenbergMooreCategoryUp}{seedStr}
+
+\begin{closurestatus}{\EilenbergMooreCategoryUp}
+  \constructivestory{An $\EilenbergMooreCategoryUp$ packet is generated from a base category row, a monad row, an algebra-object row, a structure-map row, unit and multiplication law rows, an algebra-homomorphism row, a composition ledger, componentwise hsame and Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eilenberg-moore-category-carrier}, \autoref{thm:eilenberg-moore-category-namecert-obligations}, and \autoref{thm:eilenberg-moore-category-algebra-route} seed the finite category-level Eilenberg--Moore algebra interface for monad and completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient categories of algebras, selected representatives, host equality of algebra maps, ambient category equality, Lean verification, bridge checking, or an identification with the Kleisli category.}
+  \upgradepath{Obligation closure requires checked carrier admission, monad-source exposure, algebra-object exposure, unit-law exactness, multiplication-law exactness, homomorphism and composition exactness, structural replay, and ledger non-escape for BEDC.Derived.EilenbergMooreCategoryUp.}
+\end{closurestatus}

@@ -4894,6 +4894,8 @@ import BEDC.Derived.DyadicUp.CommonExponentNormalization
 import BEDC.Derived.DyadicUp.CommonExponentTotality
 import BEDC.Derived.DyadicUp.CoreSiblingRoute
 import BEDC.Derived.DyadicUp.ExponentShiftComposition
+import BEDC.Derived.DyadicUp.ObligationClosureDependencySurface
+import BEDC.Derived.DyadicUp.ObligationClosureRoute
 import BEDC.Derived.DyadicUp.RealSealFactorization
 import BEDC.Derived.DyadicUp.TasteGate
 import BEDC.Derived.DyadicUp.TerminalRealSealBoundary
@@ -6039,6 +6041,7 @@ import BEDC.Derived.HaltingObstructionUp
 import BEDC.Derived.HaltingObstructionUp.NameCertObligations
 import BEDC.Derived.HaltingObstructionUp.TasteGate
 import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
+import BEDC.Derived.HamiltonJacobiActionUp
 import BEDC.Derived.HankelOperatorUp
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.HardProblemClosureUp.TasteGate
@@ -7633,6 +7636,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedConversionNonescape
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedNormalFormSplit
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedSearchExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
+import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelMonotonicity
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ScopeAssignment
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
@@ -9828,6 +9832,7 @@ import BEDC.Derived.RegularCauchyTailFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.SharedThresholdExhaustion
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
+import BEDC.Derived.RegularCauchyTailMajorantUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMeetUp
 import BEDC.Derived.RegularCauchyTailMeetUp.DyadicAbsoluteValueHandoff
 import BEDC.Derived.RegularCauchyTailMeetUp.DyadicEndpointMeet
