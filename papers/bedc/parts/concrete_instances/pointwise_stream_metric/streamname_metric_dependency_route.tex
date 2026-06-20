@@ -1,0 +1,6 @@
+The $\PointwiseStreamMetricUp$ route consumes the finite-window stream rows of \autoref{ch:concrete-instances-streamname-namecert} and the distance rows of \autoref{ch:concrete-instances-metric-namecert} before any Real seal or completion-facing read is available. This dependency keeps pointwise stream metrics attached to the stream-name carrier and the metric carrier that their local classifier actually reads.
+
+\begin{proposition}[Pointwise stream metric StreamName--Metric dependency]
+\label{prop:pointwise-stream-metric-streamname-metric-dependency}
+Every $\PointwiseStreamMetricUp$ consumer that reaches a Real seal, a $\MetricCompletionUp$ route, or another completion-facing read first factors through the displayed $\StreamNameUp$ finite windows and the displayed $\MetricUp$ distance rows. No completion-facing consumer can bypass those two carrier surfaces.
+\end{proposition}
