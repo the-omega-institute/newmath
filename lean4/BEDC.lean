@@ -10646,6 +10646,7 @@ import BEDC.Derived.StolzCesaroUp.TasteGate
 import BEDC.Derived.StoneCechCompactificationUp.TasteGate
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.StoneDualityUp.TasteGate
+import BEDC.Derived.StoneRepresentationBooleanAlgebraUp
 import BEDC.Derived.StoneWeierstrassUp.TasteGate
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.BridgeBoundary
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.TasteGate
