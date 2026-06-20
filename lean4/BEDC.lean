@@ -1300,6 +1300,8 @@ import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.NameCertObligations
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.TasteGate
+import BEDC.Derived.BoundedSearchRefutationUp
+import BEDC.Derived.BoundedSearchRefutationUp.TasteGate
 import BEDC.Derived.BoundedSelfAdjointOperatorUp.TasteGate
 import BEDC.Derived.BoundedSetUp.BallContainmentRoute
 import BEDC.Derived.BoundedSetUp.BallRadiusLedgerFactorization
@@ -6916,6 +6918,7 @@ import BEDC.Derived.LocatedSetUp.TasteGate
 import BEDC.Derived.LocatedSpaceUp.ApartnessRequestScope
 import BEDC.Derived.LocatedSpaceUp.MetricRequestLedger
 import BEDC.Derived.LocatedSpaceUp.NameCertObligations
+import BEDC.Derived.LocatedSpaceUp.ObligationClosureRoute
 import BEDC.Derived.LocatedSpaceUp.PositiveGapExactness
 import BEDC.Derived.LocatedSpaceUp.PositiveGapExactnessRoute
 import BEDC.Derived.LocatedSpaceUp.RealCompletionBoundary
@@ -8827,6 +8830,7 @@ import BEDC.Derived.PuncturedCubeSkeletonUp.TasteGate
 import BEDC.Derived.PushdownAutomatonUp.TasteGate
 import BEDC.Derived.QRDecompositionUp.TasteGate
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
+import BEDC.Derived.QuadraticFormUp.TasteGate
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.QuantumStateUp
@@ -10360,6 +10364,8 @@ import BEDC.Derived.SetlikeUp.BoundedComprehensionInduction
 import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
 import BEDC.Derived.SetlikeUp.ExtensionalityRoot
+import BEDC.Derived.SetlikeUp.FamilyFiberModelSatisfactionRoute
+import BEDC.Derived.SetlikeUp.MembershipClassifierRootUnblock
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipStability

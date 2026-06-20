@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\EventFlowRecognizerUp$}
+\label{ch:concrete-instances-event-flow-recognizer-namecert}
+\origin{ai}
+
+The $\EventFlowRecognizerUp$ packet realizes the inscription-event carrier of \autoref{ch:visions-inscription-event-as-concrete-instance} as finite recognizer data. It sits after the inscription-event surface of \autoref{ch:concrete-instances-inscriptionevent-namecert}, the named route packet of \autoref{ch:concrete-instances-inscribedroute-namecert}, the recognizer-flow dependency of \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert}, and the GAP-ledger boundary of \autoref{ch:concrete-instances-inscription-gap-ledger-namecert}. The packet names event recognition as visible source, route, role, ledger, transport, replay, provenance, and local naming rows; it does not add private intention, hidden generator state, evaluator equality, or unbounded kernel authority.
+
+\begin{definition}[Event-flow recognizer carrier]
+\label{def:event-flow-recognizer-carrier}
+An $\EventFlowRecognizerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(E,I,G,L,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the $\InscriptionEventUp$ source row naming the accepted event transition and its public record boundary.
+\item $I$ is the $\InscribedRouteUp$ row naming the finite route from visible gap through accepted record and downstream consumer ledger.
+\item $G$ is the $\GroundCompilerRecognizerFlowUp$ row naming the recognizer flow that checks the accepted route against the compiler-facing record.
+\item $L$ is the $\InscriptionGapLedgerUp$ row recording the gap residue, accountability, and non-escape boundary for the same event.
+\item $F$ is the recognizer-role row, naming which finite consumer role may read $E,I,G,L$ as one event-flow packet.
+\item $H$ records componentwise $\hsame$ transport for source event, route, recognizer flow, gap ledger, role, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the route
+$$
+E,I,G,L,F \longmapsto N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EventFlowRecognizerUp$, $\InscriptionEventUp$, $\InscribedRouteUp$, $\GroundCompilerRecognizerFlowUp$, $\InscriptionGapLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EventFlowRecognizerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these rows. It has no coordinate for private agency, hidden generator choice, evaluator equality, quotient equality of routes, global kernel consistency, or an unbounded recognizer oracle.
+\end{definition}
+
+\begin{theorem}[Event-flow recognizer NameCert obligations]
+\label{thm:event-flow-recognizer-namecert-obligations}
+For every accepted $\EventFlowRecognizerUp$ carrier
+$$
+R=(E,I,G,L,F,H,C,P,N),
+$$
+the local $\NameCert_{\EventFlowRecognizerUp}$ surface consists exactly of inscription-event exposure through $E$, inscribed-route exposure through $I$, ground-compiler recognizer flow through $G$, GAP-ledger accountability through $L$, recognizer role through $F$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:event-flow-recognizer-carrier}. The rows $E,I,G,L,F$ are the only event, route, recognizer-flow, gap-ledger, and consumer-role data visible before an event-flow consumer reads the packet.
+
+The structural rows $H,C,P,N$ preserve this route. Transport is componentwise, replay follows the displayed recognizer flow, provenance names the same source packets, and local naming registers the finite event-flow recognizer.
+
+Thus the listed rows exhaust the NameCert surface. Since no private intention, hidden generator choice, evaluator equality, quotient route equality, global consistency theorem, or unbounded recognizer oracle appears in the carrier, no accepted consumer can read such data from the packet.
+\end{proof}
+
+\begin{theorem}[Event-flow recognizer ledger nonescape]
+\label{thm:event-flow-recognizer-ledger-nonescape}
+Every $\EventFlowRecognizerUp$ consumer reading an inscription event as a recognizer flow must expose
+$$
+E,I,G,L,F,H,C,P,N
+$$
+before it may use the recognized event. The GAP-ledger row $L$ remains visible beside the route and recognizer-flow rows, so the read is a finite inscription-event recognition packet, not a hidden agency explanation, an evaluator-equality theorem, a quotient route equality, global kernel consistency, or a private generator-state claim.
+\end{theorem}
+\begin{proof}
+Start with the event and route rows $E$ and $I$. They display the accepted inscription transition and the finite route that carries it to a public record.
+
+Next read the recognizer-flow and ledger rows $G$ and $L$. These keep the ground-compiler-facing recognizer route and the gap-accountability ledger visible before the consumer role $F$ can treat the transition as recognized.
+
+Finally attach $H,C,P,N$. They transport, replay, source, and locally name the same finite packet. Because every consumed row is displayed, the route cannot escape to hidden agency, evaluator equality, quotient route equality, global kernel consistency, or private generator state.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\EventFlowRecognizerUp$ read is refuted if a consumer recognizes an inscription event without displaying the inscription-event source row, inscribed-route row, ground-compiler recognizer-flow row, GAP-ledger row, recognizer-role row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{inscriptionevent, inscribedroute, groundcompilerrecognizerflow, inscription-gap-ledger: $\EventFlowRecognizerUp$ is not bijective to any listed sibling because it binds event source, accepted route, recognizer flow, gap accountability, consumer role, transport, replay, provenance, and local naming into one finite NameCert packet.}
+
+Later Lean TasteGate work supplies the nontriviality and field-faithfulness instances for the recognizer classifier. This chapter records only the concrete packet surface that those instances must inspect: the finite event, route, recognizer-flow, ledger, role, transport, replay, provenance, and local naming rows.
+
+\closureat{EventFlowRecognizerUp}{seedStr}
+
+\begin{closurestatus}{\EventFlowRecognizerUp}
+  \constructivestory{An $\EventFlowRecognizerUp$ packet is generated from an InscriptionEventUp source row, an InscribedRouteUp route row, a GroundCompilerRecognizerFlowUp recognizer row, an InscriptionGapLedgerUp accountability row, a recognizer-role row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:event-flow-recognizer-carrier}, \autoref{thm:event-flow-recognizer-namecert-obligations}, and \autoref{thm:event-flow-recognizer-ledger-nonescape} seed the finite inscription-event recognizer route over source event, route, recognizer-flow, GAP-ledger, role, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim private intention, hidden generator choice, evaluator equality, quotient route equality, global kernel consistency, unbounded recognizer authority, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, recognizer-role exactness, GAP-ledger nonescape, route compatibility, transport, replay, provenance, local naming, and TasteGate nontriviality and field-faithfulness instances for BEDC.Derived.EventFlowRecognizerUp.}
+\end{closurestatus}
