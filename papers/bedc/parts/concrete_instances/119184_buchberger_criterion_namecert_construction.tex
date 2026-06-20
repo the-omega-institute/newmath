@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\BuchbergerCriterionUp$}
+\label{ch:concrete-instances-buchberger-criterion-namecert}
+\origin{human}
+
+Following Buchberger's critical-pair criterion, the $\BuchbergerCriterionUp$ packet records the finite sufficiency surface by which displayed S-polynomial reductions certify that a finite generator list is already a Groebner basis. It sits after the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the ideal source of \autoref{ch:concrete-instances-ideal-namecert}, the coefficient algebra rows of \autoref{ch:concrete-instances-ring-namecert} and \autoref{ch:concrete-instances-commring-namecert}, and the finite reduction packet of \autoref{ch:concrete-instances-groebner-basis-namecert}. The chapter names the traditional finite critical-pair test as BEDC NameCert data; it does not import quotient ideal equality, an ambient term-order oracle, algebraic closure, selected normal forms outside the displayed rows, or a global ideal-membership decision procedure.
+
+\begin{definition}[Buchberger criterion carrier]
+\label{def:buchberger-criterion-carrier}
+A $\BuchbergerCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(P,I,O,L,A,S,R,Z,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite $\PolynomialUp$ source row, including the coefficient operations and polynomial syntax inspected by the packet.
+\item $I$ is the $\IdealUp$ generator row naming the displayed generator list and its ambient ideal-membership surface.
+\item $O$ is the finite monomial-order row used only for the inspected leading-term comparisons and descent witnesses.
+\item $L$ is the leading-term ledger for the displayed generators and intermediate reduction rows.
+\item $A$ is the finite critical-pair index row, listing exactly the generator pairs inspected by the criterion.
+\item $S$ is the S-polynomial construction row, displaying common multiples, multiplier rows, and subtraction rows for every pair in $A$.
+\item $R$ is the reduction-trace row, listing reducer choices, multiplier rows, subtraction steps, and descent evidence for each displayed S-polynomial.
+\item $Z$ is the zero-remainder row, recording that each inspected S-polynomial reduction terminates at the displayed zero normal form.
+\item $H$ records componentwise $\hsame$ transport for polynomial, ideal, ordering, leading-term, critical-pair, S-polynomial, reduction, zero-remainder, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Buchberger-criterion request through $P,I,O,L,A,S,R,Z$ before any Groebner-basis handoff is consumed.
+\item $K$ is the $\Pkg$ provenance over $\BuchbergerCriterionUp$, $\PolynomialUp$, $\IdealUp$, $\RingUp$, $\CommRingUp$, $\GroebnerBasisUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BuchbergerCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient polynomial-ring equality, a hidden global term order, algebraic closure, a selected infinite basis, or a normal-form oracle outside $R$ and $Z$.
+\end{definition}
+
+\begin{theorem}[Buchberger criterion obligation surface]
+\label{thm:buchberger-criterion-obligation-surface}
+For every accepted $\BuchbergerCriterionUp$ carrier
+$$
+B=(P,I,O,L,A,S,R,Z,H,C,K,N),
+$$
+the local $\NameCert_{\BuchbergerCriterionUp}$ surface consists exactly of polynomial-source admission, ideal-generator admission, inspected monomial-order and leading-term exposure, critical-pair coverage through $A$, S-polynomial construction through $S$, reduction-trace exactness through $R$, zero-remainder exposure through $Z$, componentwise transport through $H$, displayed replay through $C$, provenance through $K$, and local naming through $N$. A downstream $\GroebnerBasisUp$ consumer may read the packet only as this finite criterion surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:buchberger-criterion-carrier}. The algebraic source rows are $P$ and $I$, and the inspected comparison rows are $O$ and $L$.
+
+Read the finite critical-pair row $A$. Each listed pair is expanded by $S$ into the displayed common multiple, multiplier rows, and subtraction row that form the corresponding S-polynomial.
+
+Induct over the reduction trace $R$ for each listed pair. The base step is the S-polynomial row supplied by $S$; each later step names a reducer from the displayed generator surface, a multiplier row over $P$, a subtraction row, and a descent witness from $O$ and $L$.
+
+At the terminal step, $Z$ records the zero remainder for every inspected pair. Thus the criterion exports only the finite zero-reduction surface consumed by the Groebner-basis route of \autoref{ch:concrete-instances-groebner-basis-namecert}.
+
+Finally $H,C,K,N$ transport, replay, source, and name the same rows. Since no carrier coordinate stores quotient ideal equality, a hidden term-order oracle, algebraic closure, selected infinite bases, or external normal forms, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Buchberger criterion Groebner handoff]
+\label{thm:buchberger-criterion-groebner-handoff}
+Every accepted $\BuchbergerCriterionUp$ read handed to a $\GroebnerBasisUp$ consumer factors through the finite route
+$$
+P,I,O,L,A,S,R,Z \longmapsto H,C,K,N .
+$$
+The handoff supplies the critical-pair sufficiency rows required by the Groebner-basis finite reduction surface, but it does not supply quotient ideal equality, completed ideal membership, a selected normal-form function, an infinite basis, or a host proof of global algebraic closure.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface above. A Groebner-facing consumer first sees the polynomial and ideal source rows, then the inspected monomial-order and leading-term rows.
+
+The critical-pair index row $A$ determines the finite scope of the criterion. The S-polynomial row $S$ and reduction trace $R$ show how each pair is reduced, while $Z$ records that the displayed terminal row is zero.
+
+Transport and replay preserve that same finite handoff through $H$ and $C$, with provenance and local naming supplied by $K$ and $N$. No other row is available, so the consumer cannot reinterpret the criterion as a quotient-ring theorem, a hidden normal-form oracle, or a complete ideal-membership decision procedure.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BuchbergerCriterionUp$ consumer must display the polynomial source, ideal source, inspected monomial-order and leading-term rows, critical-pair index row, S-polynomial construction row, reduction trace, zero-remainder row, transport, replay, provenance, and local naming before using the Buchberger criterion as a Groebner-basis handoff.}
+
+\independenceWitness{polynomial, ideal, groebner-basis: $\BuchbergerCriterionUp$ is not bijective to any listed sibling because it jointly carries finite critical-pair coverage, S-polynomial construction, zero-reduction traces, criterion-specific transport, replay, provenance, and local NameCert rows.}
+
+\closureat{BuchbergerCriterionUp}{seedStr}
+
+\begin{closurestatus}{\BuchbergerCriterionUp}
+  \constructivestory{A $\BuchbergerCriterionUp$ packet is generated from polynomial rows, ideal-generator rows, finite monomial-order and leading-term rows, critical-pair index rows, S-polynomial rows, reduction traces, zero-remainder rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:buchberger-criterion-carrier}, \autoref{thm:buchberger-criterion-obligation-surface}, and \autoref{thm:buchberger-criterion-groebner-handoff} seed the finite Buchberger critical-pair criterion over PolynomialUp, IdealUp, RingUp, CommRingUp, GroebnerBasisUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient ideal equality, a completed ideal-membership decision procedure, algebraic closure, a hidden term-order oracle, selected infinite bases, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, critical-pair coverage, S-polynomial exactness, reduction-trace exactness, zero-remainder exposure, Groebner handoff, transport, replay, provenance, and local naming for BEDC.Derived.BuchbergerCriterionUp.}
+\end{closurestatus}

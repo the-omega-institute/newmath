@@ -138,6 +138,105 @@ selects a limit point nor appeals to open-cover compactness, sequential
 compactness, quotient real equality, or ambient completeness.
 \end{proof}
 
+\begin{definition}[Compact interval uniform-continuity modulus carrier]
+\label{def:compact-interval-uniform-continuity-modulus-carrier}
+The modulus carrier extracted from an accepted
+$\CompactIntervalUniformContinuityUp$ packet is the finite $\BHist$ row
+$$
+U_{\mathrm{mod}}=(J,F,N_\varepsilon,X,W,Q,E,H,C,P,L_{\mathrm{mod}})
+$$
+where $J$ is the located closed-interval row, $F$ is the
+$\ContinuousMapUp$ graph and pointwise-modulus row, $N_\varepsilon$ is the
+finite interval-net row, and $X$ is the sibling
+$\CompactModulusExtractionUp$ row that folds the displayed centerwise radii
+into one source tolerance. The remaining rows are the $\StreamNameUp$ finite
+windows $W$, $\RegSeqRatUp$ readback $Q$, terminal $\RealUp$ seal $E$,
+componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$
+provenance $P$, and the local
+$\NameCert_{\CompactIntervalUniformContinuityUp}$ modulus row
+$L_{\mathrm{mod}}$.
+
+This carrier is an interval-local modulus surface. It has no row for
+open-cover compactness, selected subcovers, sequential compactness, quotient
+real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Compact interval uniform-continuity modulus obligations]
+\label{thm:compact-interval-uniform-continuity-modulus-obligations}
+For every accepted $\CompactIntervalUniformContinuityUp$ packet
+$U=(J,F,N_\varepsilon,M,W,Q,E,H,C,P,L)$, the modulus carrier
+$U_{\mathrm{mod}}$ of
+\autoref{def:compact-interval-uniform-continuity-modulus-carrier} exposes
+exactly the following obligation surface:
+\begin{enumerate}
+\item the located interval row $J$ and the continuous-map row $F$ must be read
+before any centerwise radius is folded;
+\item the finite-net row $N_\varepsilon$ must display the inspected centers
+and covering radii for the requested target tolerance;
+\item the $\CompactModulusExtractionUp$ sibling row $X$ must perform the
+finite lower-bound extraction from the displayed centerwise data;
+\item the windows $W$, readback $Q$, and seal $E$ must be displayed before a
+$\RealUp$-facing consumer reads the exported comparison;
+\item the transport, replay, provenance, and local naming rows $H,C,P,L_{\mathrm{mod}}$
+must preserve that same route.
+\end{enumerate}
+No obligation can be discharged by open-cover compactness, a selected
+Lebesgue-number object, sequential compactness, quotient real equality, or
+ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet and read
+\autoref{thm:compact-interval-uniform-continuity-finite-net-modulus}. It places
+the exported source tolerance behind the located interval row, the displayed
+continuous-map row, the finite-net row, and the rational fold already present
+in the packet.
+
+Replace the fold read by the sibling extraction surface of
+\autoref{ch:concrete-instances-compact-modulus-extraction-namecert}. That
+chapter supplies only the finite-net, pointwise-modulus, lower-bound, metric,
+and modulus handoff rows, so the extraction remains a displayed finite route.
+
+The remaining rows are inherited without widening the carrier. The stream
+windows, regular readback, real seal, transport, replay, provenance, and local
+name are exactly the rows already admitted by the interval packet, and none of
+them contains a compactness or completion principle outside the displayed
+finite surface.
+\end{proof}
+
+\begin{theorem}[Compact interval uniform-continuity finite-net route]
+\label{thm:compact-interval-uniform-continuity-finite-net-route}
+Every finite-modulus consumer of an accepted
+$\CompactIntervalUniformContinuityUp$ packet must read the interval-specific
+route
+$$
+J,F,N_\varepsilon,\CompactModulusExtractionUp,W,Q,E,H,C,P,L_{\mathrm{mod}} .
+$$
+In particular, the consumer receives the located interval row, continuous-map
+graph and pointwise-modulus rows, finite net row, sibling compact-modulus
+extraction row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$
+seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$
+provenance, and local $\NameCert$ row before it can use the extracted source
+tolerance.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:compact-interval-uniform-continuity-modulus-obligations}.
+The obligation surface orders the interval, graph, finite-net, and extraction
+rows before any consumer-facing modulus read.
+
+Now use the finite-net modulus theorem
+\autoref{thm:compact-interval-uniform-continuity-finite-net-modulus}. It shows
+that the source tolerance exported by the interval packet is obtained from the
+displayed finite route rather than from a selected limit or ambient compactness
+argument.
+
+Finally replay the structural rows. The $\StreamNameUp$ windows and
+$\RegSeqRatUp$ readback expose the finite comparisons, the $\RealUp$ seal is
+read only after those comparisons, and $H,C,P,L_{\mathrm{mod}}$ transport,
+replay, source, and name the same packet. The route therefore reaches later
+uniform-continuity and compact-interval consumers only through the displayed
+finite modulus surface.
+\end{proof}
+
 \begin{theorem}[Compact interval uniform-continuity Real-seal boundary]
 \label{thm:compact-interval-uniform-continuity-real-seal}
 Every $\RealUp$-facing consumer of an accepted
@@ -176,7 +275,7 @@ $\RealUp$ completeness principle.
 \begin{closurestatus}{\CompactIntervalUniformContinuityUp}
   \constructivestory{A $\CompactIntervalUniformContinuityUp$ packet is generated from a $\LocatedIntervalUp$ endpoint row, $\ContinuousMapUp$ pointwise-radius rows, a finite interval-net row, a rational lower-bound fold, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:compact-interval-uniform-continuity-carrier}, \autoref{thm:compact-interval-uniform-continuity-namecert-obligations}, \autoref{thm:compact-interval-uniform-continuity-finite-net-modulus}, and \autoref{thm:compact-interval-uniform-continuity-real-seal} seed the interval-specific finite-net uniform-continuity route over located interval, continuous-map, stream-window, regular-readback, real-seal, fixed-point, and modulus-object consumers.}
+  \scopeclosed{\autoref{def:compact-interval-uniform-continuity-carrier}, \autoref{thm:compact-interval-uniform-continuity-namecert-obligations}, \autoref{thm:compact-interval-uniform-continuity-finite-net-modulus}, \autoref{def:compact-interval-uniform-continuity-modulus-carrier}, \autoref{thm:compact-interval-uniform-continuity-modulus-obligations}, \autoref{thm:compact-interval-uniform-continuity-finite-net-route}, and \autoref{thm:compact-interval-uniform-continuity-real-seal} seed the interval-specific finite-net uniform-continuity route over located interval, continuous-map, stream-window, regular-readback, real-seal, compact-modulus extraction, fixed-point, and modulus-object consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim general Heine--Borel compactness, sequential compactness, selected limits, quotient reals, $\RealUp$ completeness, Lean verification, or bridge checking.}

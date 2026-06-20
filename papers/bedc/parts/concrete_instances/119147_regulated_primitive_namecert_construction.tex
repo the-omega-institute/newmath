@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedPrimitiveUp$}
+\label{ch:concrete-instances-regulated-primitive-namecert}
+\origin{human}
+
+Following Saks and Bishop--Bridges on regulated functions and primitive integration, the $\RegulatedPrimitiveUp$ packet records a finite primitive-window object for a regulated integral source. It sits after the regulated-integral rows of \autoref{ch:concrete-instances-regulatedintegral-namecert}, the gauge-integral handoff of \autoref{ch:concrete-instances-gauge-integral-namecert}, the dyadic tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite family of primitive windows; it is not a host antiderivative, not a quotient of functions, not a global selection of primitives, and not an ambient completeness claim for $\RealUp$.
+
+\begin{definition}[Regulated primitive carrier]
+\label{def:regulated-primitive-carrier}
+A $\RegulatedPrimitiveUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{RegulatedPrimitive}(I,G,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the regulated integral source row, naming the interval, integrand window, and finite regulated-integral ledger consumed from $\RegulatedIntegralUp$.
+\item $G$ is the gauge and integral handoff row, recording the compatible $\GaugeIntegralUp$ route whenever the same primitive window is read through tagged subdivisions.
+\item $W$ is the primitive-window row, a finite ordered list of subintervals with basepoint, endpoint, orientation, and local integral-read data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row controlling endpoint brackets, window overlap comparisons, and the local error budget for adjacent primitive reads.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the windowed step sums and gauge sums into regular rational names.
+\item $E$ is the $\RealUp$ seal row reached only after $I,G,W,D,R$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the regulated source, gauge handoff, primitive windows, dyadic tolerances, regular rational readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay along the route from regulated integral source to primitive window, then through gauge handoff, dyadic tolerance, regular rational readback, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedPrimitiveUp$, $\RegulatedIntegralUp$, $\GaugeIntegralUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedPrimitiveUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,G,W,D,R,E,H,C,P,N$. It has no coordinate for a host antiderivative, quotient function equality, an unrestricted primitive selector, measure completion, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regulated primitive NameCert obligations]
+\label{thm:regulated-primitive-namecert-obligations}
+For every accepted $\RegulatedPrimitiveUp$ carrier
+$$
+\mathsf{RegulatedPrimitive}(I,G,W,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegulatedPrimitiveUp}$ surface consists exactly of carrier admission for the regulated integral source, gauge/integral handoff, finite primitive windows, $\DyadicRatCoreUp$ tolerances, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+
+Every accepted primitive consumer must read the finite window row $W$ before reading $D,R,E,H,C,P,N$. No obligation is stored in a host antiderivative, a quotient of functions, a selected global primitive, a measure-completion object, or an ambient completeness principle for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regulated-primitive-carrier}. The accepted packet displays the regulated source, gauge handoff, primitive windows, tolerance ledger, rational readback, real seal, transport, replay, provenance, and local naming rows.
+
+The primitive-window row is decisive. It lists the basepoint, endpoint, orientation, and local integral read for each inspected subinterval, so a consumer omitting $W$ is not reading the accepted primitive carrier.
+
+The rows $D,R,E$ then control the analytic handoff. The dyadic tolerance row compares adjacent windows and endpoint brackets, the regular rational row records the finite readback, and the real seal is available only after those rows have been consumed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same finite route. Since the excluded objects have no carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regulated primitive integral handoff]
+\label{thm:regulated-primitive-integral-handoff}
+Every $\RealUp$-facing read exported by an accepted $\RegulatedPrimitiveUp$ packet factors through
+$$
+I,G,W \longmapsto D,R \longmapsto E,H,C,P,N .
+$$
+Thus the regulated integral source, gauge/integral handoff, and primitive-window row are present before any regular rational or real-facing primitive value is exposed.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:regulated-primitive-carrier}. The rows $I$ and $G$ identify the regulated-integral and gauge-integral sources, while $W$ binds those sources to finite primitive windows.
+
+Next consume $D$ and $R$. The dyadic tolerance row fixes endpoint brackets and overlap comparisons, and the regular rational row reads the windowed sums as rational names. These rows are the only bridge from window data toward a real-facing value.
+
+Finally consume $E,H,C,P,N$. The real seal, transport, continuation replay, provenance, and local naming rows preserve the same order of inspection. Since no host antiderivative or selected global primitive appears in the carrier, every accepted real-facing primitive read factors through the displayed finite handoff.
+\end{proof}
+
+\falsifiablePrediction{Any primitive consumer that reads a $\RealUp$ value without first reading $I,G,W,D,R$ fails to read the accepted $\RegulatedPrimitiveUp$ packet.}
+
+\independenceWitness{regulated-integral, gauge-integral, dyadic-rational-core, regular-rational-readback, and real seal: none is bijective to $\RegulatedPrimitiveUp$ because this packet binds those source rows to finite primitive windows, overlap tolerances, readback, transport, replay, provenance, and local naming in one carrier.}
+
+\closureat{RegulatedPrimitiveUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedPrimitiveUp}
+  \constructivestory{A $\RegulatedPrimitiveUp$ packet is generated from a regulated integral source row, gauge/integral handoff row, finite primitive-window row, DyadicRatCore tolerance row, RegSeqRat readback row, Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-primitive-carrier}, \autoref{thm:regulated-primitive-namecert-obligations}, and \autoref{thm:regulated-primitive-integral-handoff} seed the finite primitive-window route over regulated integral source, gauge handoff, dyadic tolerance, regular rational readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host antiderivatives, quotient function equality, selected global primitive families, measure completion, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, primitive-window exactness, gauge/integral handoff exactness, DyadicRatCore tolerance exposure, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming for BEDC.Derived.RegulatedPrimitiveUp.}
+\end{closurestatus}
