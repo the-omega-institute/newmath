@@ -9254,6 +9254,7 @@ import BEDC.Derived.RealSeriesUp.TasteGate
 import BEDC.Derived.RealSineUp.TasteGate
 import BEDC.Derived.RealSpectrumUp
 import BEDC.Derived.RealSpectrumUp.TasteGate
+import BEDC.Derived.RealStepFunctionUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.DyadicWindowExactness
 import BEDC.Derived.RealTailAgreementSealUp.RealCompletionHandoff
 import BEDC.Derived.RealTailAgreementSealUp.RootBudget
@@ -9952,7 +9953,6 @@ import BEDC.Derived.RegularModulusUp.NameCertObligations
 import BEDC.Derived.RegularModulusUp.TasteGate
 import BEDC.Derived.RegularRealCauchySelectorUp
 import BEDC.Derived.RegularRealCauchySelectorUp.TasteGate
-import BEDC.Derived.RegularSeqApartnessSeparatorUp
 import BEDC.Derived.RegularSequenceBishopUp
 import BEDC.Derived.RegularSequenceBishopUp.TasteGate
 import BEDC.Derived.RegularSequenceLimitUp.TasteGate
@@ -10374,6 +10374,7 @@ import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
 import BEDC.Derived.SetlikeUp.ExtensionalityRoot
 import BEDC.Derived.SetlikeUp.FamilyFiberModelSatisfactionRoute
+import BEDC.Derived.SetlikeUp.FamilyHandoffObligation
 import BEDC.Derived.SetlikeUp.MembershipClassifierRootUnblock
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
