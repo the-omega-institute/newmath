@@ -1912,6 +1912,40 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.synonymous_perturbation.b_star_window_chen2017_gfp_synonymous_protein_escape_powered",
+   "experiment_id": "b_star_window_chen2017_gfp_synonymous_protein_escape_powered",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib B_window protein-escape audit over Chen-2017 yeast GFP synonymous variants (tools/bio_reality/data/chen2017_gfp_synonymous.json; 3556 variants, 2 regions, mRNA+protein). b_window per 12-codon variant; L2(region+CAI+tAI+MFE+GC3) vs L3(+b_perp); targets mRNA / protein / protein|mRNA(out-of-fold); 5-fold + leave-region-out; within-region + matched-bin nulls (B=200); verdict post_mRNA_protein_escape_candidate / causal_execution_only / composition_artifact / public_perturbation_B_window_null. Deterministic, <90s.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_window_chen2017_gfp_synonymous_protein_escape_powered.py",
+   "timeout_seconds": 600,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-20T16:56:46+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.synonymous_perturbation.b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
+   "experiment_id": "b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib B_window protein-output audit over Nieuwkoop-2023 E.coli mRFP whole-gene synonymous variants (tools/bio_reality/data/nieuwkoop_mrfp.xlsx; 1459 variants). b_window on whole CDS; L2(CAI/tAI/GC/GC3/length) vs L3(+b_perp); target log GFP-normalized protein output; 5-fold; within-library + matched CAI/tAI/GC3-bin nulls (B=200); verdict bacterial_synonymous_protein_output_candidate / causal_execution_only / composition_artifact / public_perturbation_B_window_null. Deterministic, <90s. No mRNA (protein output only); CAI/tAI library-internal proxies.",
+   "script_path": "tools/bio_reality/experiments/run_b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered.py",
+   "timeout_seconds": 600,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-20T17:09:51+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }

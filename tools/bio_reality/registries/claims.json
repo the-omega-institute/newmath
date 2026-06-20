@@ -5954,6 +5954,40 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T17:04:37+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T17:04:37+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "19661bbe9543",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T17:46:21+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T17:46:21+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "a896a2aa0ecc",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -8326,6 +8360,62 @@
             "failed": 0
           },
           "script_sha": "79aea617e59ce429"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.synonymous_perturbation.b_star_window_chen2017_gfp_synonymous_protein_escape_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Independent yeast reporter replication of the Shen escape, at the PROTEIN readout (does B_window predict protein beyond mRNA in a controlled GFP synonymous-variant library?): on Chen 2017 GFP synonymous variants (3556 variants across 2 12-codon regions, mRNA + protein FACS readouts, CAI/tAI/MFE/GC3 provided), the 9D B_window of each synonymous variant, residualized train-fold against region + CAI + tAI + MFE + GC3, PREDICTS mRNA (5-fold held-out ΔR²=0.043, ΔDL=+136 bits, beats matched-composition null95=57, p=0.005) but does NOT predict protein or the out-of-fold protein|mRNA residual (ΔDL=-43.5 and -44.3, both NEGATIVE, below null). Verdict causal_execution_only: in this reporter B_window acts purely through the mRNA / codon-optimality (execution) channel and shows NO protein-beyond-mRNA escape. This does NOT replicate the Shen fitness-beyond-mRNA escape at the protein level -- consistent with the Shen escape being fitness-specific (fitness != protein abundance), or the GFP reporter region differing from an endogenous gene, or the 12-codon window being too narrow. leave-region-out is strongly negative (the mRNA signal is region-local, does not transfer between the 2 regions). Deterministic, out-of-fold protein|mRNA (leakage-safe). cannot_claim: GFP reporter region not whole-gene/endogenous; 12-codon window; protein is a log2 FACS-bin estimate not absolute copies; mRNA/protein same study; replicate-averaged; only 2 regions limits generalization.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_window_chen2017_gfp_synonymous_protein_escape_powered",
+      "history": [
+        {
+          "ts": "2026-06-20T16:56:46+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-20T17:12:05+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "32de547f1ca8",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "f1a01c748ba04b74"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.synonymous_perturbation.b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Cross-species whole-gene synonymous perturbation (does B_window predict protein output beyond optimality in E.coli?): on Nieuwkoop 2023 E.coli mRFP whole-gene synonymous-variant library (1459 variants, full-CDS recoded, GFP-normalized protein output; tools/bio_reality/data/nieuwkoop_mrfp.xlsx), the 9D B_window of each variant's whole CDS, residualized train-fold against CAI + tAI + GC + GC3 + log-length, PREDICTS protein output beyond those controls: 5-fold held-out ΔR²=0.074, ΔDL=+42.6 bits, exceeding both the within-library shuffle null95 (-48.5) and matched CAI/tAI/GC3-bin shuffle null95 (-44.1), p=0.005 both, deterministic. Verdict bacterial_synonymous_protein_output_candidate. cannot_claim (candidate): no mRNA so this is protein OUTPUT not beyond-mRNA escape (may be largely execution-mediated); CAI/tAI are library-internal proxies (no E.coli HEG/tRNA reference) so a real optimality control could absorb part (cf. Shen proxy-CSC); RNA-MFE uncontrolled (stdlib); whole-CDS not window; bacterial. Perturbation matrix: Shen yeast fitness-beyond-mRNA escape (real_csc_robust) | Chen2017 yeast GFP NO protein-beyond-mRNA escape | Niu human fitness null | Nieuwkoop E.coli protein-output beyond-proxy-optimality POSITIVE.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
+      "history": [
+        {
+          "ts": "2026-06-20T17:00:00+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-20T17:51:16+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "186a54a4b21e",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "26066bbf37ddc087"
         }
       ],
       "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
