@@ -105,6 +105,7 @@ import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ApartnessRealUp.TasteGate
 import BEDC.Derived.ApartnessSpaceUp
+import BEDC.Derived.ApartnessSpaceUp.ScopedSeparatedPositiveGapRoute
 import BEDC.Derived.ApartnessSpaceUp.TasteGate
 import BEDC.Derived.ApartnessTopologyUp.Route
 import BEDC.Derived.ApartnessTopologyUp.TasteGate
@@ -5447,6 +5448,7 @@ import BEDC.Derived.FiniteDifferenceTableUp.TasteGate
 import BEDC.Derived.FiniteDifferenceUp.TasteGate
 import BEDC.Derived.FiniteDimensionalCompactnessUp.TasteGate
 import BEDC.Derived.FiniteDimensionalHahnBanachSeparationUp.TasteGate
+import BEDC.Derived.FiniteDimensionalNormEquivalenceUp
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.NameCertObligations
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
 import BEDC.Derived.FiniteDyadicRefinementBudgetUp.TasteGate
@@ -9830,7 +9832,9 @@ import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCompositionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp
+import BEDC.Derived.RegularCauchyTailEstimateUp.ModulusDominanceCriterion
 import BEDC.Derived.RegularCauchyTailEstimateUp.TailEnvelopeLock
+import BEDC.Derived.RegularCauchyTailEstimateUp.TailEstimateObligationBasis
 import BEDC.Derived.RegularCauchyTailEstimateUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp.WindowTriangle
 import BEDC.Derived.RegularCauchyTailFiberUp
@@ -10300,6 +10304,8 @@ import BEDC.Derived.SeriesLimitComparisonUp.TasteGate
 import BEDC.Derived.SeriesTermTestUp.TasteGate
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
+import BEDC.Derived.SetlikeUp.ComprehensionScope
+import BEDC.Derived.SetlikeUp.ExtensionalityRoot
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipStability
@@ -11371,6 +11377,7 @@ import BEDC.Derived.YonedaUp
 import BEDC.Derived.YoungInequalityUp.TasteGate
 import BEDC.Derived.YoungIntegralUp.TasteGate
 import BEDC.Derived.YoungIntegrationUp.TasteGate
+import BEDC.Derived.YoungSymmetrizerUp.TasteGate
 import BEDC.Derived.YoungTableauUp
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
