@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier contains no host-level proof search, no unbounded recursion principle, no truth predicate for all naming certificates, no excluded-middle branch, and no witness selected outside the displayed frontier.
 \end{definition}
+\leanchecked{BEDC.Derived.BoundedSearchRefutationUp.BoundedSearchRefutationTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[BoundedSearchRefutation NameCert obligations]
 \label{thm:bounded-search-refutation-obligations}
@@ -59,6 +60,20 @@ The continuation routes $C$ replay only the local frontier edges recorded in $F$
 For a gap read, the same bounded ledger is inspected. The row $G$ records the absence of a displayed witness within $F$ at budget $K$, not the absence of all refutations and not a truth value for $A$. Thus depth soundness is exactly the finite replay discipline of the carrier.
 \end{proof}
 
+\begin{theorem}[BoundedSearchRefutation obligation scope]
+\label{thm:bounded-search-refutation-obligation-scope}
+For an accepted $\BoundedSearchRefutationUp$ carrier $B=(A,K,F,R,G,H,C,P,N)$, every accepted frontier replay is derived by induction over the displayed finite depth row $K$. The base case is the initial frontier displayed in $F$, and the step case is exactly the displayed local edge extension in $F$ from a depth row already admitted by $K$ to its successor row. Consequently the bounded-search obligation surface contains no replay step outside $K$, no frontier entry outside $F$, and no refutation or $\Gap$ read outside the carrier rows of \autoref{def:bounded-search-refutation-carrier}.
+\end{theorem}
+\begin{proof}
+The carrier inventory in \autoref{def:bounded-search-refutation-carrier} supplies the only rows used by the replay: the finite budget $K$, the frontier $F$, the refutation-or-gap rows $R,G$, and the transport, continuation, package, and naming rows $H,C,P,N$.
+
+Use the obligations of \autoref{thm:bounded-search-refutation-obligations}. They identify $K$ as the finite depth budget and $F$ as the complete displayed frontier generated within that budget. The induction base reads the initial frontier row already displayed in $F$.
+
+For the induction step, assume a frontier entry has been admitted at a displayed row of $K$. The only possible successor read is one of the local edge extensions recorded in $F$ and indexed by the successor ledger of $K$. This step adds no host search and no unrecorded proof state.
+
+Apply \autoref{thm:bounded-search-refutation-depth-soundness}. A refutation witness read from $R$ is therefore a bounded replay path through those same induction steps, while a $\Gap$ read from $G$ is only the report that no witness is displayed by the resulting finite frontier.
+\end{proof}
+
 \begin{theorem}[BoundedSearchRefutation non-escape]
 \label{thm:bounded-search-refutation-nonescape}
 No accepted $\BoundedSearchRefutationUp$ packet exports a global proof-search oracle. Every consumer read factors through $A,K,F,R,G,H,C,P,N$, and the packet has no coordinate for unbounded search, excluded middle over certificate predicates, host truth, quotient proof equality, or witness selection outside the displayed frontier.
@@ -85,12 +100,12 @@ If a consumer reads $G$, non-escape gives the boundary. The row reports only tha
 Therefore the public boundary is a finite BEDC search certificate. It supports bounded refutation and bounded gap reporting, while refusing any global proof-search, truth-branch, or unbounded-depth conclusion.
 \end{proof}
 
-\closureat{BoundedSearchRefutationUp}{seedStr}
+\closureat{BoundedSearchRefutationUp}{obligationStr}
 
 \begin{closurestatus}{\BoundedSearchRefutationUp}
   \constructivestory{A $\BoundedSearchRefutationUp$ packet is generated from a proposition row, a finite depth budget, a bounded search frontier, a displayed refutation witness or $\Gap$ row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-search-refutation-carrier}, \autoref{thm:bounded-search-refutation-obligations}, \autoref{thm:bounded-search-refutation-depth-soundness}, \autoref{thm:bounded-search-refutation-nonescape}, and \autoref{thm:bounded-search-refutation-namecert-boundary} bind the finite bounded-search carrier, depth discipline, non-escape boundary, and NameCert consumer surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:bounded-search-refutation-carrier}, \autoref{thm:bounded-search-refutation-obligations}, \autoref{thm:bounded-search-refutation-depth-soundness}, \autoref{thm:bounded-search-refutation-obligation-scope}, \autoref{thm:bounded-search-refutation-nonescape}, and \autoref{thm:bounded-search-refutation-namecert-boundary} bind the finite bounded-search carrier, obligation scope, depth discipline, non-escape boundary, and NameCert consumer surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
