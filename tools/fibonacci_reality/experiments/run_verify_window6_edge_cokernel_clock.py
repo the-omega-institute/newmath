@@ -6,29 +6,74 @@ from __future__ import annotations
 import json
 import math
 from itertools import product
+from datetime import datetime, timezone
 from typing import Any
 
-import sympy as sp
-from sympy.matrices.normalforms import smith_normal_form
 
-
+EXPERIMENT_ID = "verify-window6-edge-cokernel-clock"
+CLAIM_ID = "window6.edge-cokernel-clock.internal-residue-7-locking.certificate"
 MODULUS = 10
 CELL_NAMES = ["U_2", "U_1", "U_L", "U_R"]
-EDGE_MATRIX = sp.Matrix(
-    [
-        [28, 63, 23, 20],
-        [63, 21, 21, 6],
-        [23, 21, 2, 6],
-        [20, 6, 6, 2],
-    ]
-)
+EDGE_MATRIX = [
+    [28, 63, 23, 20],
+    [63, 21, 21, 6],
+    [23, 21, 2, 6],
+    [20, 6, 6, 2],
+]
 CHI = (2, 8, 0, 1)
 RHO_6 = 10
 S_6 = 7
 
 
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
 def check(name: str, passed: bool, reason: str) -> dict[str, Any]:
     return {"name": name, "passed": bool(passed), "reason": reason}
+
+
+def determinant(matrix: list[list[int]]) -> int:
+    size = len(matrix)
+    if size == 1:
+        return matrix[0][0]
+    if size == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+    total = 0
+    for col, value in enumerate(matrix[0]):
+        minor = [row[:col] + row[col + 1 :] for row in matrix[1:]]
+        total += ((-1) ** col) * value * determinant(minor)
+    return total
+
+
+def submatrix(matrix: list[list[int]], rows: tuple[int, ...], cols: tuple[int, ...]) -> list[list[int]]:
+    return [[matrix[row][col] for col in cols] for row in rows]
+
+
+def combinations(values: tuple[int, ...], size: int) -> list[tuple[int, ...]]:
+    if size == 0:
+        return [()]
+    if len(values) < size:
+        return []
+    head, tail = values[0], values[1:]
+    return [(head,) + item for item in combinations(tail, size - 1)] + combinations(tail, size)
+
+
+def minor_gcd(matrix: list[list[int]], size: int) -> int:
+    indexes = tuple(range(len(matrix)))
+    value = 0
+    for rows in combinations(indexes, size):
+        for cols in combinations(indexes, size):
+            value = math.gcd(value, abs(determinant(submatrix(matrix, rows, cols))))
+    return value
+
+
+def smith_diagonal_from_minors(matrix: list[list[int]]) -> list[int]:
+    determinantal_divisors = [1] + [minor_gcd(matrix, size) for size in range(1, len(matrix) + 1)]
+    return [
+        determinantal_divisors[index] // determinantal_divisors[index - 1]
+        for index in range(1, len(determinantal_divisors))
+    ]
 
 
 def mod10_vector(values: list[int] | tuple[int, ...]) -> tuple[int, ...]:
@@ -36,11 +81,11 @@ def mod10_vector(values: list[int] | tuple[int, ...]) -> tuple[int, ...]:
 
 
 def row_times_matrix_mod10(row: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
-    return mod10_vector([sum(row[i] * int(EDGE_MATRIX[i, j]) for i in range(4)) for j in range(4)])
+    return mod10_vector([sum(row[i] * EDGE_MATRIX[i][j] for i in range(4)) for j in range(4)])
 
 
 def matrix_times_col_mod10(col: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
-    return mod10_vector([sum(int(EDGE_MATRIX[i, j]) * col[j] for j in range(4)) for i in range(4)])
+    return mod10_vector([sum(EDGE_MATRIX[i][j] * col[j] for j in range(4)) for i in range(4)])
 
 
 def left_kernel_mod10() -> list[tuple[int, int, int, int]]:
@@ -56,9 +101,9 @@ def cyclic_chi_subgroup() -> list[tuple[int, int, int, int]]:
 
 
 def main() -> None:
-    det_e = int(EDGE_MATRIX.det())
-    snf = smith_normal_form(EDGE_MATRIX, domain=sp.ZZ)
-    snf_diag = [int(snf[i, i]) for i in range(4)]
+    started_at = now_iso()
+    det_e = determinant(EDGE_MATRIX)
+    snf_diag = smith_diagonal_from_minors(EDGE_MATRIX)
 
     kernel = left_kernel_mod10()
     cyclic = sorted(cyclic_chi_subgroup())
@@ -133,12 +178,13 @@ def main() -> None:
         "clock-identity-fork: either residue clock is the P_10 torsor or K_6^edge needs an equivariant realization into P_10",
     ]
 
-    result: dict[str, Any] = {
+    details: dict[str, Any] = {
         "definition": "E is the Window6 edge-flux matrix in basis (U_2,U_1,U_L,U_R); K_6^edge=coker(E)/10 coker(E).",
         "basis": CELL_NAMES,
-        "E": [[int(EDGE_MATRIX[i, j]) for j in range(4)] for i in range(4)],
+        "E": EDGE_MATRIX,
         "det_E": det_e,
         "SNF": snf_diag,
+        "determinantal_divisors": [minor_gcd(EDGE_MATRIX, size) for size in range(1, 5)],
         "coker": ["Z/3", "Z/3450"],
         "K6edge": {
             "group": "Z/10",
@@ -161,10 +207,19 @@ def main() -> None:
         "checks": checks,
         "open_obligations": open_obligations,
         "not_claimed": not_claimed,
-        "status": "passed" if all(item["passed"] for item in checks) else "failed",
     }
-    print(json.dumps(result, indent=2, sort_keys=True))
-    if result["status"] != "passed":
+    status = "passed" if all(item["passed"] for item in checks) else "failed"
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": status,
+        "checks": checks,
+        "result": details,
+        "started_at": started_at,
+        "completed_at": now_iso(),
+    }
+    print(json.dumps(payload, sort_keys=True, separators=(",", ":")))
+    if status != "passed":
         raise SystemExit(1)
 
 
