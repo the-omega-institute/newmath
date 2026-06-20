@@ -5988,6 +5988,74 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T18:26:54+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T18:26:54+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "f996287f26e4",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T18:57:52+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T18:57:53+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "9a6f219f399b",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T19:24:17+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T19:24:17+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "3ece42c52ecb",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-20T19:40:41+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-20T19:40:41+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "43e3ab09cffd",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -8396,7 +8464,7 @@
       "claim_id": "h3.cross_layer_relation.synonymous_perturbation.b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
       "hypothesis_level": "H3",
       "claimed_layer": "cross_layer_relation",
-      "statement": "Cross-species whole-gene synonymous perturbation (does B_window predict protein output beyond optimality in E.coli?): on Nieuwkoop 2023 E.coli mRFP whole-gene synonymous-variant library (1459 variants, full-CDS recoded, GFP-normalized protein output; tools/bio_reality/data/nieuwkoop_mrfp.xlsx), the 9D B_window of each variant's whole CDS, residualized train-fold against CAI + tAI + GC + GC3 + log-length, PREDICTS protein output beyond those controls: 5-fold held-out ΔR²=0.074, ΔDL=+42.6 bits, exceeding both the within-library shuffle null95 (-48.5) and matched CAI/tAI/GC3-bin shuffle null95 (-44.1), p=0.005 both, deterministic. Verdict bacterial_synonymous_protein_output_candidate. cannot_claim (candidate): no mRNA so this is protein OUTPUT not beyond-mRNA escape (may be largely execution-mediated); CAI/tAI are library-internal proxies (no E.coli HEG/tRNA reference) so a real optimality control could absorb part (cf. Shen proxy-CSC); RNA-MFE uncontrolled (stdlib); whole-CDS not window; bacterial. Perturbation matrix: Shen yeast fitness-beyond-mRNA escape (real_csc_robust) | Chen2017 yeast GFP NO protein-beyond-mRNA escape | Niu human fitness null | Nieuwkoop E.coli protein-output beyond-proxy-optimality POSITIVE.",
+      "statement": "Cross-species whole-gene synonymous perturbation (does B_window predict protein output beyond optimality in E.coli?): on Nieuwkoop 2023 E.coli mRFP whole-gene synonymous-variant library (1459 variants, full-CDS recoded, GFP-normalized protein output; tools/bio_reality/data/nieuwkoop_mrfp.xlsx), the 9D B_window of each variant's whole CDS, residualized train-fold against CAI + tAI + GC + GC3 + log-length, PREDICTS protein output beyond those controls: 5-fold held-out ΔR²=0.074, ΔDL=+42.6 bits, exceeding both the within-library shuffle null95 (-48.5) and matched CAI/tAI/GC3-bin shuffle null95 (-44.1), p=0.005 both, deterministic. Verdict bacterial_synonymous_protein_output_candidate. cannot_claim (candidate): no mRNA so this is protein OUTPUT not beyond-mRNA escape (may be largely execution-mediated); CAI/tAI are library-internal proxies (no E.coli HEG/tRNA reference) so a real optimality control could absorb part (cf. Shen proxy-CSC); RNA-MFE uncontrolled (stdlib); whole-CDS not window; bacterial. Perturbation matrix: Shen yeast fitness-beyond-mRNA escape (real_csc_robust) | Chen2017 yeast GFP NO protein-beyond-mRNA escape | Niu human fitness null | Nieuwkoop E.coli protein-output beyond-proxy-optimality POSITIVE. STRENGTHENED against a real genome-derived CAI: recomputing CAI from the E.coli K-12 MG1655 genome CDS RSCU (3739 CDS, genome-derived not library-internal; only 0.18-correlated with the earlier library-internal proxy) and using it as the optimality control, the positive SURVIVES: held-out ΔR²=0.053, ΔDL=+19.1 bits (shrank from the proxy's +42.6 as the stronger control absorbed part, but stays well above both the within-library null95=-48.5 and matched-bin null95=-42.9, p=0.005 both, deterministic). real_cai_robust=True: B_window predicts E.coli protein output beyond a proper genome-level codon-optimality control, not just the library-internal proxy. (Still protein-OUTPUT not beyond-mRNA; tAI remains a proxy; CAI reference is genome-wide RSCU not HEG-only.)",
       "depends_on": [],
       "status": "passed",
       "experiment_id": "b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered",
@@ -8416,6 +8484,23 @@
             "failed": 0
           },
           "script_sha": "26066bbf37ddc087"
+        },
+        {
+          "ts": "2026-06-20T18:57:53+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-06-20T19:02:59+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "a18abe395a72",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "36f78881cc962b0f"
         }
       ],
       "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"

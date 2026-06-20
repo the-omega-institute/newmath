@@ -22,9 +22,13 @@ import xml.etree.ElementTree as ET
 
 EXPERIMENT_ID = "b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered"
 CLAIM_ID = "h3.cross_layer_relation.synonymous_perturbation.b_star_window_nieuwkoop_ecoli_mrfp_protein_output_powered"
-WORKDIR = pathlib.Path("/tmp")
+WORKDIR = pathlib.Path("/tmp/nieu-csc")
 XLSX_PATH = pathlib.Path("tools/bio_reality/data/nieuwkoop_mrfp.xlsx")
-COMPACT_JSON_PATH = pathlib.Path("/tmp/nieuwkoop_mrfp_compact.json")
+COMPACT_JSON_PATH = pathlib.Path("/tmp/nieuwkoop_mrfp_compact_real_cai.json")
+CAI_WEIGHTS_PATHS = [
+    pathlib.Path("tools/bio_reality/data/ecoli_genome_cai_weights.json"),
+    WORKDIR / "ecoli_genome_cai_weights.json",
+]
 
 FOLD_COUNT = 5
 NULL_B = 200
@@ -463,6 +467,53 @@ def build_reference_weights(rows: list[dict[str, object]], context: dict[str, ob
     }
 
 
+def load_genome_cai_reference(context: dict[str, object]) -> dict[str, object]:
+    codons = context["codons"]
+    fibers = context["fibers"]
+    if not isinstance(codons, list) or not isinstance(fibers, dict):
+        raise ValueError("B context malformed")
+    path = None
+    payload = None
+    for candidate in CAI_WEIGHTS_PATHS:
+        if candidate.exists():
+            path = candidate
+            payload = json.loads(candidate.read_text(encoding="utf-8"))
+            break
+    if payload is None or path is None:
+        raise FileNotFoundError("ecoli_genome_cai_weights.json not found in repo data or /tmp/nieu-csc")
+    weights = payload.get("weights_rna")
+    rscu_dna = payload.get("rscu_dna", {})
+    counts_dna = payload.get("codon_counts_dna", {})
+    if not isinstance(weights, dict) or len(weights) < 61:
+        raise ValueError("genome CAI weights malformed")
+    cai_weight = {codon: max(float(weights[codon]), EPS) for codon in codons}
+    rscu = {codon: float(rscu_dna.get(codon.replace("U", "T"), 0.0)) for codon in codons}
+    total_counts = sum(float(counts_dna.get(codon.replace("U", "T"), 0.0)) for codon in codons)
+    if total_counts <= EPS:
+        genome_gc3 = 0.5
+    else:
+        gc3_counts = sum(float(counts_dna.get(codon.replace("U", "T"), 0.0)) for codon in codons if codon[2] in {"G", "C"})
+        genome_gc3 = gc3_counts / total_counts
+    tai_proxy_weight: dict[str, float] = {}
+    for _aa, fiber in fibers.items():
+        if not isinstance(fiber, list):
+            continue
+        raw = {}
+        for codon in fiber:
+            gc_class = genome_gc3 if codon[2] in {"G", "C"} else (1.0 - genome_gc3)
+            raw[codon] = max(rscu.get(codon, 0.0), EPS) * max(gc_class, EPS)
+        max_raw = max(raw.values()) if raw else 1.0
+        for codon in fiber:
+            tai_proxy_weight[codon] = max(raw[codon] / max_raw, EPS)
+    return {
+        "path": str(path),
+        "payload": payload,
+        "cai_weight": cai_weight,
+        "tai_proxy_weight": tai_proxy_weight,
+        "genome_gc3": genome_gc3,
+    }
+
+
 def geometric_index(counts: dict[str, int], weights: dict[str, float]) -> float:
     total = sum(counts.values())
     if total <= 0:
@@ -476,23 +527,30 @@ def build_dataset(rows: list[dict[str, object]]) -> dict[str, object]:
     if not isinstance(codons, list):
         raise ValueError("B context malformed")
     refs = build_reference_weights(rows, context)
-    cai_weight = refs["cai_weight"]
-    tai_weight = refs["tai_proxy_weight"]
-    if not isinstance(cai_weight, dict) or not isinstance(tai_weight, dict):
+    library_cai_weight = refs["cai_weight"]
+    genome_refs = load_genome_cai_reference(context)
+    cai_weight = genome_refs["cai_weight"]
+    tai_weight = genome_refs["tai_proxy_weight"]
+    if not isinstance(library_cai_weight, dict) or not isinstance(cai_weight, dict) or not isinstance(tai_weight, dict):
         raise ValueError("reference weights malformed")
     b_matrix: list[list[float]] = []
     controls: list[list[float]] = []
     targets: list[float] = []
     target_raw: list[float] = []
-    control_names = ["CAI_library", "tAI_proxy_library_GC3", "GC", "GC3", "log_CDS_length"]
+    library_cai_values: list[float] = []
+    genome_cai_values: list[float] = []
+    control_names = ["CAI_Ecoli_K12_genome_RSCU", "tAI_proxy_Ecoli_K12_genome_RSCU_GC3", "GC", "GC3", "log_CDS_length"]
     for row in rows:
         seq = str(row["sequence"])
         counts = codon_counts(seq, codons)
         total_codons = sum(counts.values())
         gc = (seq.count("G") + seq.count("C")) / len(seq)
         gc3 = sum(counts[codon] for codon in codons if codon[2] in {"G", "C"}) / total_codons
+        library_cai = geometric_index(counts, library_cai_weight)  # type: ignore[arg-type]
         cai = geometric_index(counts, cai_weight)  # type: ignore[arg-type]
         tai_proxy = geometric_index(counts, tai_weight)  # type: ignore[arg-type]
+        library_cai_values.append(library_cai)
+        genome_cai_values.append(cai)
         b_matrix.append(q_row_from_counts(counts, context))
         controls.append([cai, tai_proxy, gc, gc3, math.log(total_codons * 3)])
         targets.append(float(row["log_protein_output"]))
@@ -505,6 +563,10 @@ def build_dataset(rows: list[dict[str, object]]) -> dict[str, object]:
         "targets": targets,
         "target_raw": target_raw,
         "reference": refs,
+        "genome_reference": genome_refs,
+        "library_cai_values": library_cai_values,
+        "genome_cai_values": genome_cai_values,
+        "real_cai_vs_proxy_corr": pearson(genome_cai_values, library_cai_values),
     }
 
 
@@ -790,8 +852,9 @@ def main() -> None:
         checks["controls_built"] = {
             "passed": True,
             "controls": dataset["control_names"],
-            "cai": "library-wide synonymous-family codon frequency with pseudocount=1",
-            "tai": "proxy only: library codon frequency adjusted by library GC3-ending availability; no E.coli tRNA-copy table used",
+            "cai": "Sharp CAI from E.coli K-12 MG1655 genome-derived CDS RSCU weights, CAI=exp(mean log w_c) over sense codons",
+            "cai_source": dataset["genome_reference"]["path"] if isinstance(dataset.get("genome_reference"), dict) else "",
+            "tai": "proxy only: genome RSCU weight adjusted by genome GC3-ending availability; no E.coli tRNA-copy table used",
             "mfe": "skipped_stdlib_no_thermodynamics",
         }
 
@@ -846,11 +909,45 @@ def main() -> None:
             "null95": null95,
         }
 
-        verdict = verdict_from_stats(actual, nulls, base_r2, beta_sign)
+        candidate_verdict = verdict_from_stats(actual, nulls, base_r2, beta_sign)
+        real_cai_robust = candidate_verdict == "bacterial_synonymous_protein_output_candidate"
+        verdict = candidate_verdict if real_cai_robust else "causal_execution_only"
         checks["protein_output_verdict"] = {
             "passed": True,
-            "rule": "candidate iff b_perp improves held-out protein output beyond C, exceeds both null95 classes, p<=0.05 for both nulls, and beta/contribution signs are stable",
+            "rule": "candidate survives real genome CAI iff b_perp improves held-out protein output beyond C including E.coli genome CAI, exceeds both null95 classes, p<=0.05 for both nulls, and beta/contribution signs are stable; otherwise honest downgrade to causal_execution_only",
             "verdict": verdict,
+            "pre_downgrade_verdict": candidate_verdict,
+            "real_cai_robust": real_cai_robust,
+        }
+        genome_ref = dataset["genome_reference"]
+        if not isinstance(genome_ref, dict):
+            raise ValueError("genome reference malformed")
+        genome_payload = genome_ref["payload"]
+        if not isinstance(genome_payload, dict):
+            raise ValueError("genome CAI payload malformed")
+        cai_source = {
+            "path": genome_ref["path"],
+            "source": genome_payload.get("source"),
+            "organism": genome_payload.get("organism"),
+            "sharp_cai_definition": genome_payload.get("sharp_cai_definition"),
+            "reference_set_note": genome_payload.get("reference_set_note"),
+            "cds_records_used": genome_payload.get("cds_records_used"),
+            "repo_n_cds_records": genome_payload.get("repo_n_cds_records"),
+            "repo_n_joined": genome_payload.get("repo_n_joined"),
+            "total_sense_codons": genome_payload.get("total_sense_codons"),
+            "gzip_prefix_recovery_note": genome_payload.get("gzip_prefix_recovery_note"),
+        }
+        target_metrics = {
+            "log_mRFP_Mean_Corrected": {
+                "base_r2_L2_controls": base_r2,
+                "full_r2_L3_controls_plus_b_perp": full_r2,
+                "delta_r2": actual_r2,
+                "delta_dl_bits": actual_dl,
+                "p_within": p_within,
+                "p_matched": p_matched,
+                "null95": null95,
+                "real_cai_robust": real_cai_robust,
+            }
         }
         cannot_claim = [
             "E.coli 非 yeast；本结果不能直接声称 Shen2022 yeast 机制复现。",
@@ -858,12 +955,18 @@ def main() -> None:
             "细菌翻译上下文与 yeast 不同，不能外推到真核翻译调控。",
             "这里是整 CDS B 特征，不是局部 12-codon window B_window 动态定位。",
             "MFE 未控：纯 stdlib 无 RNA 热力学模型，因此 cannot_claim RNA 结构独立性。",
-            "tAI 使用库内 codon frequency + GC3 近似；没有使用 E.coli tRNA copy 实测表。",
-            "CAI 使用本库变体 codon frequency 参考，不是外部 E.coli HEG 参考。",
+            "CAI 使用 E.coli K-12 MG1655 genome-derived CDS RSCU weights；参考集为 joined CDS codon counts，不是 HEG-only。",
+            "repo JSON 的 cds_payload_raw_prefix_base64 是 gzip raw prefix，不能还原完整 FASTA；本次使用 JSON joined 记录内 3739 条 CDS codon_counts，比 decompressed_prefix_text 覆盖更多 CDS。",
+            "tAI 仍是 genome RSCU + GC3 ending availability proxy；没有使用 E.coli tRNA copy 或 wobble 实测表。",
         ]
         result = {
             "n_variants": len(rows),
             "actual_B": NULL_B,
+            "cai_source": cai_source,
+            "real_cai_robust": real_cai_robust,
+            "real_cai_absorbs": not real_cai_robust,
+            "real_cai_vs_proxy_corr": dataset["real_cai_vs_proxy_corr"],
+            "per_target": target_metrics,
             "delta_r2": actual_r2,
             "delta_dl_bits": actual_dl,
             "p_within": p_within,
