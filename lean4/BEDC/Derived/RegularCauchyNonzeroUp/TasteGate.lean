@@ -37,8 +37,9 @@ def regularCauchyNonzeroDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyNonzeroDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyNonzeroDecodeBHist tail)
 
-private theorem regularCauchyNonzero_decode_encode :
-    ∀ h : BHist, regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEncodeBHist h) = h := by
+private theorem RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist,
+      regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -50,9 +51,9 @@ def regularCauchyNonzeroFields : RegularCauchyNonzeroUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyNonzeroUp.mk Q A W D R E H C P N => [Q, A, W, D, R, E, H, C, P, N]
 
-def regularCauchyNonzeroToEventFlow : RegularCauchyNonzeroUp → EventFlow :=
+def regularCauchyNonzeroToEventFlow : RegularCauchyNonzeroUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (regularCauchyNonzeroFields x).map regularCauchyNonzeroEncodeBHist
+  | x => (regularCauchyNonzeroFields x).map regularCauchyNonzeroEncodeBHist
 
 private def regularCauchyNonzeroEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -61,22 +62,23 @@ private def regularCauchyNonzeroEventAtDefault : Nat → EventFlow → RawEvent
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => regularCauchyNonzeroEventAtDefault index rest
 
-def regularCauchyNonzeroFromEventFlow (ef : EventFlow) : Option RegularCauchyNonzeroUp :=
+def regularCauchyNonzeroFromEventFlow : EventFlow → Option RegularCauchyNonzeroUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RegularCauchyNonzeroUp.mk
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 0 ef))
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 1 ef))
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 2 ef))
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 3 ef))
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 4 ef))
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 5 ef))
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 6 ef))
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 7 ef))
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 8 ef))
-      (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 9 ef)))
+  fun flow =>
+    some
+      (RegularCauchyNonzeroUp.mk
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 0 flow))
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 1 flow))
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 2 flow))
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 3 flow))
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 4 flow))
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 5 flow))
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 6 flow))
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 7 flow))
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 8 flow))
+        (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEventAtDefault 9 flow)))
 
-private theorem regularCauchyNonzero_round_trip :
+private theorem RegularCauchyNonzeroTasteGate_single_carrier_alignment_round_trip :
     ∀ x : RegularCauchyNonzeroUp,
       regularCauchyNonzeroFromEventFlow (regularCauchyNonzeroToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -97,13 +99,19 @@ private theorem regularCauchyNonzero_round_trip :
             (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEncodeBHist P))
             (regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEncodeBHist N))) =
           some (RegularCauchyNonzeroUp.mk Q A W D R E H C P N)
-      rw [regularCauchyNonzero_decode_encode Q, regularCauchyNonzero_decode_encode A,
-        regularCauchyNonzero_decode_encode W, regularCauchyNonzero_decode_encode D,
-        regularCauchyNonzero_decode_encode R, regularCauchyNonzero_decode_encode E,
-        regularCauchyNonzero_decode_encode H, regularCauchyNonzero_decode_encode C,
-        regularCauchyNonzero_decode_encode P, regularCauchyNonzero_decode_encode N]
+      rw [RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode Q,
+        RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode A,
+        RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode W,
+        RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode D,
+        RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode R,
+        RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode E,
+        RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode H,
+        RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode C,
+        RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode P,
+        RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem regularCauchyNonzero_toEventFlow_injective {x y : RegularCauchyNonzeroUp} :
+private theorem RegularCauchyNonzeroTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : RegularCauchyNonzeroUp} :
     regularCauchyNonzeroToEventFlow x = regularCauchyNonzeroToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -112,23 +120,26 @@ private theorem regularCauchyNonzero_toEventFlow_injective {x y : RegularCauchyN
         regularCauchyNonzeroFromEventFlow (regularCauchyNonzeroToEventFlow y) :=
     congrArg regularCauchyNonzeroFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (regularCauchyNonzero_round_trip x).symm
-      (Eq.trans hread (regularCauchyNonzero_round_trip y)))
+    (Eq.trans
+      (RegularCauchyNonzeroTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (RegularCauchyNonzeroTasteGate_single_carrier_alignment_round_trip y)))
 
 instance regularCauchyNonzeroBHistCarrier : BHistCarrier RegularCauchyNonzeroUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := regularCauchyNonzeroToEventFlow
   fromEventFlow := regularCauchyNonzeroFromEventFlow
 
-instance regularCauchyNonzeroChapterTasteGate : ChapterTasteGate RegularCauchyNonzeroUp where
+instance regularCauchyNonzeroChapterTasteGate :
+    ChapterTasteGate RegularCauchyNonzeroUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change regularCauchyNonzeroFromEventFlow (regularCauchyNonzeroToEventFlow x) = some x
-    exact regularCauchyNonzero_round_trip x
+    exact RegularCauchyNonzeroTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (regularCauchyNonzero_toEventFlow_injective heq)
+    exact hxy (RegularCauchyNonzeroTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate RegularCauchyNonzeroUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -224,5 +235,17 @@ theorem RegularCauchyNonzeroNamecertObligations [AskSetup] [PackageSetup]
           namedRoute, provenancePkg⟩
   }
   exact ⟨cert, namedUnary⟩
+
+theorem RegularCauchyNonzeroTasteGate_single_carrier_alignment :
+    (∀ h : BHist, regularCauchyNonzeroDecodeBHist (regularCauchyNonzeroEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier RegularCauchyNonzeroUp) ∧
+        Nonempty (ChapterTasteGate RegularCauchyNonzeroUp) ∧
+          regularCauchyNonzeroEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨RegularCauchyNonzeroTasteGate_single_carrier_alignment_decode_encode,
+      ⟨regularCauchyNonzeroBHistCarrier⟩,
+      ⟨regularCauchyNonzeroChapterTasteGate⟩,
+      rfl⟩
 
 end BEDC.Derived.RegularCauchyNonzeroUp
