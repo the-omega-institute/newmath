@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\VerificationCoverageLedgerUp$}
+\label{ch:concrete-instances-verification-coverage-ledger-namecert}
+\origin{ai}
+
+The $\VerificationCoverageLedgerUp$ packet realizes certified-interpretability coverage as finite BEDC data: a component is counted as verified only through a displayed claim row, transcription row, backend proof row, coverage row, residue row, explanation scope, transport, replay, provenance, and local naming. It refines the formal-verification vision of \autoref{thm:philosophy-formal-verification-certified-interpretability-theorem} by giving the coverage accounting its own NameCert surface. The packet consumes classifier and explanation siblings such as \autoref{ch:concrete-instances-positive-interpretability-classifier-namecert}, \autoref{ch:concrete-instances-classifier-novelty-witness-namecert}, \autoref{ch:concrete-instances-black-box-fiber-witness-namecert}, and \autoref{ch:concrete-instances-scoped-explanation-ledger-namecert}; it does not certify the hidden model, replace the explanation ledger, prove classifier novelty, or turn proof coverage into semantic interpretability.
+
+\begin{definition}[Verification coverage ledger carrier]
+\label{def:verification-coverage-ledger-carrier}
+A $\VerificationCoverageLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+V=(K,T,B,C,R,E,F,H,D,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the verified-component key naming the finite interpretability component under audit.
+\item $T$ is the transcription ledger row that states which BEDC claim was submitted to a proof backend.
+\item $B$ is the backend proof row naming the verifier transcript and proof object boundary.
+\item $C$ is the coverage row recording which component clauses are covered by $T$ and $B$.
+\item $R$ is the residue row listing component clauses not covered by the verification transcript.
+\item $E$ is the scoped explanation row consumed from $\ScopedExplanationLedgerUp$.
+\item $F$ is the classifier-facing row consumed from the positive-interpretability, novelty-witness, and black-box-fiber sibling packets.
+\item $H$ records componentwise $\hsame$ transport for the component key, transcription, backend proof, coverage, residue, explanation, classifier-facing, and structural rows.
+\item $D$ records displayed $\Cont$ replay from the component key through transcription, proof, coverage, residue, explanation, and classifier-facing rows.
+\item $P$ is the $\Pkg$ provenance over $\VerificationCoverageLedgerUp$, $\PositiveInterpretabilityClassifierUp$, $\ClassifierNoveltyWitnessUp$, $\BlackBoxFiberWitnessUp$, $\ScopedExplanationLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VerificationCoverageLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,T,B,C,R,E,F,H,D,P,N$. It has no coordinate for hidden backend trust, whole-model transparency, proof coverage outside the transcription ledger, unscoped explanation transfer, or discovery status without a classifier-novelty witness.
+\end{definition}
+
+\begin{theorem}[Verification coverage ledger NameCert obligations]
+\label{thm:verification-coverage-ledger-namecert-obligations}
+For every accepted $\VerificationCoverageLedgerUp$ carrier $V=(K,T,B,C,R,E,F,H,D,P,N)$, the local $\NameCert_{\VerificationCoverageLedgerUp}$ surface consists exactly of verified-component admission, transcription-ledger admission, backend proof-boundary exposure, coverage-row accounting, residue-row accounting, scoped-explanation handoff, classifier-facing handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:verification-coverage-ledger-carrier}. The visible verification inventory is $K,T,B,C,R,E,F,H,D,P,N$, so each accepted coverage claim must name the component, transcription, backend proof boundary, coverage row, and residue row.
+
+The transcription row is the only path from a component claim to backend verification. Thus the backend proof row $B$ cannot certify a claim not displayed by $T$, and the coverage row $C$ cannot silently cover a clause listed in the residue row $R$.
+
+The explanation and classifier-facing rows keep interpretability separate from proof accounting. Row $E$ scopes the explanation ledger, while row $F$ records the classifier and novelty surfaces that remain external obligations.
+
+Finally $H,D,P,N$ transport, replay, source, and name the same route. Since the carrier has no hidden backend-trust coordinate, whole-model transparency coordinate, unscoped explanation transfer, or discovery-status coordinate, those objects are not local obligations of the packet.
+\end{proof}
+
+\begin{theorem}[Verification coverage residue handoff]
+\label{thm:verification-coverage-ledger-residue-handoff}
+Every certified-interpretability consumer of an accepted $\VerificationCoverageLedgerUp$ packet receives the route
+$$
+K \longrightarrow T \longrightarrow B \longrightarrow C,R \longrightarrow E,F \longrightarrow H,D,P,N .
+$$
+Thus verification coverage is read together with its residue ledger before it can be consumed by scoped explanation or classifier-facing rows.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:verification-coverage-ledger-namecert-obligations}. It requires the component key, transcription ledger, backend proof boundary, coverage row, and residue row before any consumer reads the packet.
+
+The coverage and residue rows are paired. A covered clause must pass through $C$, while any uncovered clause remains visible in $R$ and cannot be erased by the backend proof transcript.
+
+The explanation and classifier-facing rows are downstream of the coverage ledger. They may consume the certified component only with its displayed residue, and they do not create novelty or whole-model transparency by themselves.
+
+The transport, replay, provenance, and naming rows preserve the same route. The packet therefore exposes a falsifiable coverage surface rather than a hidden proof-quality score.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\VerificationCoverageLedgerUp$ read exposes a component key, transcription ledger, backend proof boundary, coverage row, residue row, scoped explanation row, classifier-facing row, transport, replay, provenance, and local naming before claiming certified interpretability coverage.}
+
+\independenceWitness{positive-interpretability-classifier, classifier-novelty-witness, black-box-fiber-witness, scoped-explanation-ledger, namecert: $\VerificationCoverageLedgerUp$ is not bijective to any listed sibling because it joins backend proof coverage with explicit residue accounting while leaving classifier novelty, black-box fiber exposure, scoped explanation, and generic NameCert obligations as separately named rows.}
+
+Future TasteGate work for $\VerificationCoverageLedgerUp$ must provide explicit $\mathsf{Nontrivial}\ \VerificationCoverageLedgerUp$ and $\mathsf{FieldFaithful}\ \VerificationCoverageLedgerUp$ instances. Nontriviality is witnessed by a packet with a nonempty residue row and the same component key, transcription, proof boundary, explanation, classifier-facing, transport, replay, provenance, and naming rows; field faithfulness requires every accepted read to preserve $K,T,B,C,R,E,F,H,D,P,N$ as displayed.
+
+\closureat{VerificationCoverageLedgerUp}{seedStr}
+
+\begin{closurestatus}{\VerificationCoverageLedgerUp}
+  \constructivestory{A $\VerificationCoverageLedgerUp$ packet is generated from verified-component keys, transcription ledgers, backend proof-boundary rows, coverage rows, residue rows, scoped explanation rows, classifier-facing rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:verification-coverage-ledger-carrier}, \autoref{thm:verification-coverage-ledger-namecert-obligations}, \autoref{thm:verification-coverage-ledger-residue-handoff}, the falsifiable prediction, the independence witness, and the future TasteGate obligations seed the certified-interpretability verification coverage packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, hidden backend trust, whole-model transparency, classifier novelty, black-box fiber exposure, unscoped explanation transfer, or discovery status.}
+  \upgradepath{Obligation closure requires checked carrier admission, transcription exactness, backend proof-boundary exposure, coverage and residue accounting, scoped-explanation handoff, classifier-facing handoff, transport stability, replay, provenance, local naming, and TasteGate nontriviality with field faithfulness for BEDC.Derived.VerificationCoverageLedgerUp.}
+\end{closurestatus}
