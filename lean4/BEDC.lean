@@ -6865,6 +6865,7 @@ import BEDC.Derived.LocatedSequenceSupremumUp.TasteGate
 import BEDC.Derived.LocatedSequenceUp.TasteGate
 import BEDC.Derived.LocatedSetUp
 import BEDC.Derived.LocatedSetUp.TasteGate
+import BEDC.Derived.LocatedSpaceUp.ApartnessRequestScope
 import BEDC.Derived.LocatedSpaceUp.NameCertObligations
 import BEDC.Derived.LocatedSpaceUp.RealCompletionBoundary
 import BEDC.Derived.LocatedSpaceUp.TasteGate
