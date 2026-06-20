@@ -645,8 +645,15 @@
   {
    "claim_id": "bridge.genetic_code.codon_e1_conservation_transportability",
    "statement": "CERTIFIED (held-out, scoped E1-transportability; extends #18, NOT Window6, NOT causal): the first-order codon-E1 structure of the synonymous codon-usage residual is conserved NOT ONLY in bacteria (the landed #18 result: 29 organisms / 18 genera, T=0.571) but INDEPENDENTLY in archaea AND in eukaryotes, analyzed as SEPARATE external strata (never pooled). From Kazusa CUTG standard-nuclear-code (genetic code table 1) per-species codon usage (frozen panel synced/codon_e1_transport_panel.json: 12 archaea + 14 eukaryotes), each organism's d_resid4 = relative codon frequencies over the 61 sense codons with synonymous-family means removed; r_o = ||P_B1 d_resid4,o||^2/||d_resid4,o||^2 onto the SAME codon-E1 subspace B1 = col(Q_syn R U1) (rank 6, U1 = first-order lambda=5 H(3,4) eigenspace) used in #18; T = organism-mean r_o per domain; the null is the same matched-synonymous-relabel control (global within-synonymous codon relabel, 20000 draws). RESULT: ARCHAEA (n=12) T=0.522 vs null mean 0.137 (z=9.62, one-sided p=5e-5), cluster/organism bootstrap lower-95% excess 0.294>0 -> conserved; EUKARYOTA (n=14) T=0.515 vs null mean 0.140 (z=8.80, one-sided p=5e-5), bootstrap lower-95% 0.270>0 -> conserved. Both domains independently clear the pre-registered gate; the chance projection onto the 6-dim B1 of a within-synonymous (~41-dim) vector is ~6/41=0.146, which the null reproduces, and the data sits ~3.5x above it. INTERPRETATION: combined with #18 (bacteria), the genetic code's first-order (additive, wobble-dominated) translation-residual structure is UNIVERSALLY conserved across ALL THREE DOMAINS OF LIFE (bacteria, archaea, eukaryotes), at ~0.51-0.57 of each organism's synonymous-residual norm vs ~0.146 chance. SCOPE / not-claimed: this is E1-transportability (a generalization of #18 to new domains), NOT Window6 (the Window6 spectrum is provably disjoint from codon E1); NOT a causal/selection mechanism; standard-nuclear-code species only (alternative-code taxa excluded). ROBUSTNESS: adversarially verified -- Kazusa codon counts are genuine per-species tables (live re-fetch matched all 26 taxids exactly; 61 RNA sense codons, stops excluded, nonuniform real counts), all genetic_code_table=1 with no alternative-code contaminants, the null is fair (~chance baseline, independent draws reproduce), the SAME rank-6 B1 as #18, archaea and eukaryota analyzed strictly separately. Evaluated only by its registered deterministic experiment.",
-   "status": "open",
-   "experiment_id": "codon_e1_transport_gate"
+   "status": "certified",
+   "experiment_id": "codon_e1_transport_gate",
+   "history": [
+    {
+     "ts": "2026-06-20T06:31:58+00:00",
+     "status": "certified",
+     "reason": "certified because codon-E1 conservation transports in archaea, eukaryota. Archaea: n=12, T=0.52174389705, null_mean=0.137488901465, p=4.99975e-05, bootstrap_lower95=0.294253583243. Eukaryota: n=14, T=0.514807573047, null_mean=0.14013347593, p=4.99975e-05, bootstrap_lower95=0.269570859634. Chance baseline is approximately 6/41=0.1463. n_dropped=4. This is E1-TRANSPORTABILITY, a generalization of the #18 bacterial codon-E1 certificate; it is not Window6 evidence, not a causal claim, and the archaea and eukaryota strata are analyzed separately and never pooled with the 29-bacteria certificate."
+    }
+   ]
   }
  ]
 }
