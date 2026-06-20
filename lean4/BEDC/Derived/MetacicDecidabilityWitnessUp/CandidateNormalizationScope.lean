@@ -49,4 +49,52 @@ theorem MetacicDecidabilityWitnessCarrier_candidate_normalization_scope
     ⟨typingUnary, sameUnary, boundedUnary, normalUnary, scopeUnary, hH, hTyping,
       hSame, hBounded, hNormal, hScope, hReplay⟩
 
+theorem MetacicDecidabilityWitnessCarrier_scope_routes
+    {T S B F R H C P N typingRead sameRead boundedRead normalRead scopeRead
+      routeRead : BHist} :
+    UnaryHistory T →
+      UnaryHistory S →
+        UnaryHistory B →
+          UnaryHistory F →
+            UnaryHistory R →
+              hsame H (append T S) →
+                Cont T S typingRead →
+                  Cont typingRead S sameRead →
+                    Cont sameRead B boundedRead →
+                      Cont boundedRead F normalRead →
+                        Cont normalRead R scopeRead →
+                          Cont scopeRead R routeRead →
+                            Cont C P N →
+                              UnaryHistory typingRead ∧
+                                UnaryHistory sameRead ∧
+                                  UnaryHistory boundedRead ∧
+                                    UnaryHistory normalRead ∧
+                                      UnaryHistory scopeRead ∧
+                                        UnaryHistory routeRead ∧
+                                          hsame H (append T S) ∧
+                                            Cont T S typingRead ∧
+                                              Cont typingRead S sameRead ∧
+                                                Cont sameRead B boundedRead ∧
+                                                  Cont boundedRead F normalRead ∧
+                                                    Cont normalRead R scopeRead ∧
+                                                      Cont scopeRead R routeRead ∧
+                                                        Cont C P N := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory append
+  intro hT hS hB hF hR hH hTyping hSame hBounded hNormal hScope hRoute hReplay
+  have typingUnary : UnaryHistory typingRead :=
+    unary_cont_closed hT hS hTyping
+  have sameUnary : UnaryHistory sameRead :=
+    unary_cont_closed typingUnary hS hSame
+  have boundedUnary : UnaryHistory boundedRead :=
+    unary_cont_closed sameUnary hB hBounded
+  have normalUnary : UnaryHistory normalRead :=
+    unary_cont_closed boundedUnary hF hNormal
+  have scopeUnary : UnaryHistory scopeRead :=
+    unary_cont_closed normalUnary hR hScope
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed scopeUnary hR hRoute
+  exact
+    ⟨typingUnary, sameUnary, boundedUnary, normalUnary, scopeUnary, routeUnary, hH,
+      hTyping, hSame, hBounded, hNormal, hScope, hRoute, hReplay⟩
+
 end BEDC.Derived.MetacicDecidabilityWitnessUp
