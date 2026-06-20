@@ -2997,6 +2997,7 @@ import BEDC.Derived.CompactImageClosedUp.TasteGate
 import BEDC.Derived.CompactIntervalChoiceSequenceUp.TasteGate
 import BEDC.Derived.CompactIntervalFixedPointUp.IntervalReturnRoute
 import BEDC.Derived.CompactIntervalFixedPointUp.NameCertObligations
+import BEDC.Derived.CompactIntervalFixedPointUp.ResidualBisectionHandoff
 import BEDC.Derived.CompactIntervalFixedPointUp.ScopedRoute
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalFixedPointUp.WindowRegularity
@@ -6900,6 +6901,7 @@ import BEDC.Derived.LocatedSetUp.TasteGate
 import BEDC.Derived.LocatedSpaceUp.ApartnessRequestScope
 import BEDC.Derived.LocatedSpaceUp.MetricRequestLedger
 import BEDC.Derived.LocatedSpaceUp.NameCertObligations
+import BEDC.Derived.LocatedSpaceUp.PositiveGapExactnessRoute
 import BEDC.Derived.LocatedSpaceUp.RealCompletionBoundary
 import BEDC.Derived.LocatedSpaceUp.TasteGate
 import BEDC.Derived.LocatedSubsetUp.TasteGate
@@ -9936,6 +9938,7 @@ import BEDC.Derived.RegulatedFunctionCompactOscillationUp.TasteGate
 import BEDC.Derived.RegulatedFunctionFiniteJumpUp.TasteGate
 import BEDC.Derived.RegulatedFunctionUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.DarbouxRiemannCompatibility
+import BEDC.Derived.RegulatedIntegralUp.KernelSourceScope
 import BEDC.Derived.RegulatedIntegralUp.Nonescape
 import BEDC.Derived.RegulatedIntegralUp.PublicInterface
 import BEDC.Derived.RegulatedIntegralUp.RealCompletionRoute
