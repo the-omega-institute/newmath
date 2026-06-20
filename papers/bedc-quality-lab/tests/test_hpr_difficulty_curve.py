@@ -63,6 +63,15 @@ def test_learned_empirical_proximity_is_bounded():
     assert gate["max_gap"] <= gate["max_allowed"]
 
 
+def test_empirical_analytic_proximity_failure_fails_aggregate_hardgate():
+    payload = runner.run_curve(small_config(empirical_analytic_max_gap=0.0))
+    gate = payload["hardgate"]["gates"]["empirical_analytic_proximity"]
+
+    assert gate["status"] == "fail"
+    assert gate["max_gap"] > gate["max_allowed"]
+    assert payload["hardgate"]["status"] == "fail"
+
+
 def test_obs_only_and_independent_fresh_action_controls_include_chance():
     payload = runner.run_curve(small_config())
 
@@ -118,12 +127,11 @@ def test_config_validation_fails_closed(overrides, expected):
         runner.run_curve(small_config(**overrides))
 
 
-def test_cli_writes_same_payload_shape_as_shared_api(tmp_path):
-    output = tmp_path / "hpr-difficulty.json"
-    completed = subprocess.run(
+def run_cli(script: str, output, *extra_args: str):
+    return subprocess.run(
         [
             sys.executable,
-            "scripts/run_hpr_difficulty_curve.py",
+            script,
             "--sample-count",
             "512",
             "--seed",
@@ -139,15 +147,71 @@ def test_cli_writes_same_payload_shape_as_shared_api(tmp_path):
             "--output",
             str(output),
             "--stdout",
+            *extra_args,
         ],
-        check=True,
         text=True,
         capture_output=True,
     )
 
+
+def test_cli_writes_same_payload_shape_as_shared_api(tmp_path):
+    output = tmp_path / "hpr-difficulty.json"
+    completed = run_cli("scripts/run_hpr_difficulty_curve.py", output)
+
+    assert completed.returncode == 0
     written = json.loads(output.read_text(encoding="utf-8"))
     printed = json.loads(completed.stdout)
     api_payload = runner.run_curve(small_config())
 
     assert written == printed
     assert written == api_payload
+
+
+def test_cli_returns_nonzero_when_proximity_gate_fails(tmp_path):
+    output = tmp_path / "hpr-difficulty-fail.json"
+    completed = run_cli("scripts/run_hpr_difficulty_curve.py", output, "--empirical-analytic-max-gap", "0.0")
+
+    assert completed.returncode == 1
+    written = json.loads(output.read_text(encoding="utf-8"))
+    printed = json.loads(completed.stdout)
+    assert written == printed
+    assert written["hardgate"]["status"] == "fail"
+    assert written["hardgate"]["gates"]["empirical_analytic_proximity"]["status"] == "fail"
+
+
+def test_empirical_bayes_cli_writes_reference_projection(tmp_path):
+    output = tmp_path / "hpr-empirical-bayes.json"
+    completed = run_cli("scripts/run_hpr_empirical_bayes_curve.py", output)
+
+    assert completed.returncode == 0
+    written = json.loads(output.read_text(encoding="utf-8"))
+    printed = json.loads(completed.stdout)
+    api_payload = empirical.run_empirical_bayes_curve(small_config())
+
+    assert written == printed
+    assert written == api_payload
+    assert written["schema_id"] == empirical.SCHEMA_ID
+    assert set(written["curve"][0]) == {
+        "complexity",
+        "horizon",
+        "analytic_reference",
+        "empirical_reference",
+    }
+
+
+def test_control_verify_cli_writes_control_projection(tmp_path):
+    output = tmp_path / "hpr-control-verify.json"
+    completed = run_cli("scripts/run_hpr_control_verify.py", output)
+
+    assert completed.returncode == 0
+    written = json.loads(output.read_text(encoding="utf-8"))
+    printed = json.loads(completed.stdout)
+    api_payload = controls.run_control_verify(small_config())
+
+    assert written == printed
+    assert written == api_payload
+    assert written["schema_id"] == controls.SCHEMA_ID
+    assert set(written["hardgate"]["gates"]) == {
+        "obs_only_chance_control",
+        "independent_fresh_action_chance_control",
+    }
