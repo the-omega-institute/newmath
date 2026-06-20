@@ -6039,6 +6039,7 @@ import BEDC.Derived.HaltingObstructionUp
 import BEDC.Derived.HaltingObstructionUp.NameCertObligations
 import BEDC.Derived.HaltingObstructionUp.TasteGate
 import BEDC.Derived.HaltingTraceClassifierUp.TasteGate
+import BEDC.Derived.HamiltonJacobiActionUp
 import BEDC.Derived.HankelOperatorUp
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.HardProblemClosureUp.TasteGate
