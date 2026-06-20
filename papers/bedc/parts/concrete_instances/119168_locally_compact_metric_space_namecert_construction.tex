@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\LocallyCompactMetricSpaceUp$}
+\label{ch:concrete-instances-locally-compact-metric-space-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on local compactness in metric spaces, the $\LocallyCompactMetricSpaceUp$ packet records the finite certificate surface for a pointwise compact-neighbourhood witness around a displayed metric source. It sits between the metric source of \autoref{ch:concrete-instances-metric-namecert} and the compact metric surface of \autoref{ch:concrete-instances-compactmetric-namecert}: the packet names a local compact ball handoff, not an open-cover compactness theorem, a choice-selected neighbourhood family, a host topology, or ambient completeness.
+
+\begin{definition}[Locally compact metric space carrier]
+\label{def:locally-compact-metric-space-carrier}
+A $\LocallyCompactMetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,K,r,B,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ source row, exposing the points, distance requests, symmetry, triangle, and zero-distance comparison used by the local certificate.
+\item $K$ is the compact-neighbourhood witness row, naming the local $\CompactMetricUp$ packet that contains the displayed point after the radius and containment rows have been checked.
+\item $r$ is the $\PositiveRealUp$ radius row, recording that the inspected point has a positive metric radius available to the local packet.
+\item $B$ is the local ball-containment row, displaying that the metric ball determined by $M$ and $r$ is contained in the compact-neighbourhood witness $K$.
+\item $J$ is the compact-ball handoff row from the metric source and positive-radius request into the local compact metric certificate.
+\item $H$ records componentwise $\hsame$ transport for the metric source, compact-neighbourhood witness, radius, containment, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every local compactness read through
+$$
+M,r,B,K \longmapsto J .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocallyCompactMetricSpaceUp$, $\MetricSpaceUp$, $\CompactMetricUp$, $\PositiveRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocallyCompactMetricSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,K,r,B,J,H,C,P,N$. It has no coordinate for open-cover compactness, choice-selected neighbourhoods, host topological interiors, ambient completion, quotient metric equality, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Locally compact metric space compact-ball handoff]
+\label{thm:locally-compact-metric-space-compact-ball-handoff}
+For every accepted $\LocallyCompactMetricSpaceUp$ carrier
+$$
+L=(M,K,r,B,J,H,C,P,N),
+$$
+each local compactness read first exposes the $\MetricSpaceUp$ source $M$, the $\PositiveRealUp$ radius row $r$, and the local ball-containment row $B$, and only then hands the request to the $\CompactMetricUp$ witness $K$ through $J$. The handoff preserves componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\LocallyCompactMetricSpaceUp}$ row. It exports no open-cover compactness, choice-selected neighbourhood family, host topology, quotient metric equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locally-compact-metric-space-carrier}. The metric source $M$, positive radius $r$, ball-containment row $B$, compact-neighbourhood witness $K$, and handoff row $J$ are the only mathematical rows available to a local compactness consumer.
+
+The read order is forced by the rows themselves. A compact witness can be consumed only after the point and radius have been displayed in the metric source and the containment row has placed the resulting ball inside the compact neighbourhood.
+
+Transport and replay are componentwise. The $\hsame$ row $H$ keeps the same metric source, radius, containment, and compact witness, while the displayed $\Cont$ row $C$ repeats the same route for later consumers.
+
+Finally, $P$ and $N$ source and name only the displayed packet. Since no excluded coordinate appears in the carrier, the compact-ball handoff is the whole local compactness surface.
+\end{proof}
+
+\begin{theorem}[Locally compact metric space NameCert obligations]
+\label{thm:locally-compact-metric-space-namecert-obligations}
+For every accepted $\LocallyCompactMetricSpaceUp$ carrier $L=(M,K,r,B,J,H,C,P,N)$, the local $\NameCert_{\LocallyCompactMetricSpaceUp}$ surface consists exactly of metric-source admission, compact-neighbourhood witness exposure, positive-radius admission, local ball containment, compact-ball handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:locally-compact-metric-space-carrier}. The accepted packet displays the metric source, compact-neighbourhood witness, radius, containment, handoff, transport, replay, provenance, and naming rows.
+
+The compactness obligation is local. It is read only through $K$ after $M,r,B$ have been displayed, so the packet does not assert a global open-cover compactness theorem or select a neighbourhood family by choice.
+
+The structural rows $H,C,P,N$ preserve and name the same finite route. No remaining row stores host topology, quotient metric equality, ambient completion, Lean verification, or a bridge credential, so the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocallyCompactMetricSpaceUp$ packet displays a $\MetricSpaceUp$ source, a $\PositiveRealUp$ radius row, a local ball-containment row, a $\CompactMetricUp$ witness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row before any compact-neighbourhood read is public.}
+
+\independenceWitness{metric and compactmetric: neither sibling is bijective to $\LocallyCompactMetricSpaceUp$ because this packet jointly stores the pointwise positive-radius row and the local ball-containment handoff from \autoref{ch:concrete-instances-metric-namecert} into \autoref{ch:concrete-instances-compactmetric-namecert}.}
+
+\closureat{LocallyCompactMetricSpaceUp}{seedStr}
+
+\begin{closurestatus}{\LocallyCompactMetricSpaceUp}
+  \constructivestory{A $\LocallyCompactMetricSpaceUp$ packet is generated from a MetricSpace source row, a CompactMetric witness row, a positive-radius row, local ball containment, a compact-ball handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:locally-compact-metric-space-carrier}, \autoref{thm:locally-compact-metric-space-compact-ball-handoff}, and \autoref{thm:locally-compact-metric-space-namecert-obligations} seed the finite local compactness route from MetricSpace rows to compact metric witnesses.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, choice-selected neighbourhoods, host topology, quotient metric equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive-radius admission, ball-containment exactness, compact-neighbourhood exposure, handoff nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocallyCompactMetricSpaceUp.}
+\end{closurestatus}

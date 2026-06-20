@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicHoroballUp$}
+\label{ch:concrete-instances-hyperbolic-horoball-namecert}
+\origin{human}
+
+Following Gromov and Bridson--Haefliger on hyperbolic spaces, the $\HyperbolicHoroballUp$ packet records a horoball by finite boundary-point, Busemann-threshold, and visual-shadow rows. It sits after the metric-read surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the Busemann-boundary packet of \autoref{ch:concrete-instances-hyperbolic-busemann-boundary-namecert}, the boundary-shadow packet of \autoref{ch:concrete-instances-hyperbolic-boundary-shadow-namecert}, the visual-metric packet of \autoref{ch:concrete-instances-hyperbolic-visual-metric-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite horoball carrier; it is not a completed ideal-boundary quotient, not a global geodesic selection, not a measure class at infinity, and not an ambient hyperbolic space.
+
+\begin{definition}[Hyperbolic horoball carrier]
+\label{def:hyperbolic-horoball-carrier}
+A $\HyperbolicHoroballUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{HyperbolicHoroball}(B,U,S,M,V,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the boundary-point row consumed from $\HyperbolicBusemannBoundaryUp$, naming the finite boundary end and its Busemann-level read.
+\item $U$ is the Busemann-threshold row, a displayed $\RealUp$-sealed level used to decide the local horoball side.
+\item $S$ is the visual-shadow row consumed from $\HyperbolicBoundaryShadowUp$, recording the finite boundary-shadow window seen by downstream observer-expansion reads.
+\item $M$ is the $\HyperbolicMetricUp$ metric row over the same disk or hyperbolic source observations.
+\item $V$ is the $\HyperbolicVisualMetricUp$ row comparing the shadow window with the visual metric read at the same boundary end.
+\item $R$ is the $\RealUp$ seal row for Busemann levels, threshold comparisons, shadow radii, and metric-read tolerances.
+\item $H$ records componentwise $\hsame$ transport for boundary point, threshold, visual shadow, hyperbolic metric, visual metric, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through boundary-point admission, Busemann-threshold comparison, visual-shadow exposure, hyperbolic-metric readback, visual-metric comparison, and real sealing.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicHoroballUp$, $\HyperbolicMetricUp$, $\HyperbolicBusemannBoundaryUp$, $\HyperbolicBoundaryShadowUp$, $\HyperbolicVisualMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicHoroballUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,U,S,M,V,R,H,C,P,N$. It has no coordinate for quotient ideal-boundary equality, a selected global geodesic ray, a Patterson--Sullivan measure class, a completed hyperbolic space, or physical horizon geometry.
+\end{definition}
+
+\begin{theorem}[Hyperbolic horoball NameCert obligations]
+\label{thm:hyperbolic-horoball-namecert-obligations}
+For every accepted $\HyperbolicHoroballUp$ carrier
+$$
+\mathsf{HyperbolicHoroball}(B,U,S,M,V,R,H,C,P,N),
+$$
+the local $\NameCert_{\HyperbolicHoroballUp}$ surface consists exactly of carrier admission for the boundary-point row, Busemann-threshold row, visual-shadow row, $\HyperbolicMetricUp$ metric row, $\HyperbolicVisualMetricUp$ comparison row, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+
+Every accepted horoball consumer must read $B$ and $U$ before reading the shadow, metric, visual-metric, real-seal, transport, replay, provenance, and naming rows. No obligation is stored in quotient boundary equality, selected geodesic representatives, measure classes at infinity, completed hyperbolic spaces, or physical horizon geometry.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hyperbolic-horoball-carrier}. The accepted packet displays the boundary point, threshold, shadow, metric, visual metric, real seal, transport, replay, provenance, and naming rows.
+
+The boundary and threshold rows determine the horoball side. A consumer that omits either $B$ or $U$ has not read the displayed Busemann boundary end and level comparison, so it is outside the accepted carrier.
+
+The rows $S,M,V,R$ then expose the visible geometry. The boundary-shadow row records the finite visual shadow, the metric row supplies distance readback, the visual-metric row compares the shadow at the same boundary end, and the real row seals the threshold and tolerance data.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name this finite route. Since the excluded global objects have no carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hyperbolic horoball shadow route]
+\label{thm:hyperbolic-horoball-shadow-route}
+Every visual-shadow read exported by an accepted $\HyperbolicHoroballUp$ packet factors through
+$$
+B,U \longmapsto S,M,V \longmapsto R,H,C,P,N .
+$$
+Thus the boundary-point and Busemann-threshold rows are present before the horoball can expose a boundary shadow, hyperbolic metric read, visual metric comparison, or real-sealed radius.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:hyperbolic-horoball-carrier}. The row $B$ names the Busemann boundary end and $U$ names the real-sealed threshold level, so these rows are the only source of horoball membership data.
+
+Next consume $S,M,V$. The visual-shadow row is read from the same boundary end, the hyperbolic-metric row supplies the metric readback, and the visual-metric row compares the resulting shadow window with the displayed visual metric surface.
+
+Finally consume $R,H,C,P,N$. The real seal records the threshold and tolerance data, while transport, replay, provenance, and local naming preserve the same order. Since no selected geodesic ray or completed boundary quotient appears in the carrier, every accepted visual-shadow read follows the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{Any horoball consumer that exposes a visual shadow without first reading $B,U,S,M,V$ fails to read the accepted $\HyperbolicHoroballUp$ packet.}
+
+\independenceWitness{hyperbolic-metric, hyperbolic-busemann-boundary, hyperbolic-boundary-shadow, hyperbolic-visual-metric, real seal: none is bijective to $\HyperbolicHoroballUp$ because this packet binds boundary end, Busemann threshold, visual shadow, metric read, visual metric comparison, Real sealing, transport, replay, provenance, and local naming in one carrier.}
+
+\closureat{HyperbolicHoroballUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicHoroballUp}
+  \constructivestory{A $\HyperbolicHoroballUp$ packet is generated from a boundary-point row, Busemann-threshold row, visual-shadow row, HyperbolicMetric row, HyperbolicVisualMetric row, Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-horoball-carrier}, \autoref{thm:hyperbolic-horoball-namecert-obligations}, and \autoref{thm:hyperbolic-horoball-shadow-route} seed the finite horoball route over boundary point, Busemann threshold, visual shadow, hyperbolic metric, visual metric, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient ideal-boundary equality, selected geodesic representatives, measure classes at infinity, completed hyperbolic spaces, physical horizon geometry, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary-point exactness, Busemann-threshold exactness, shadow-route exactness, HyperbolicMetric and HyperbolicVisualMetric handoff, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicHoroballUp.}
+\end{closurestatus}
