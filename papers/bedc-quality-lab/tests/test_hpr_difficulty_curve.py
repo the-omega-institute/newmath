@@ -98,11 +98,64 @@ def test_empirical_bayes_curve_exposes_only_reference_rows():
     }
 
 
+def test_empirical_bayes_curve_propagates_failing_hardgate():
+    payload = empirical.run_empirical_bayes_curve(small_config(empirical_analytic_max_gap=0.0))
+
+    assert payload["hardgate"]["status"] == "fail"
+    assert payload["hardgate"]["gates"]["empirical_analytic_proximity"]["status"] == "fail"
+
+
 def test_control_verify_reports_only_control_gates():
     payload = controls.run_control_verify(small_config())
 
     assert payload["schema_id"] == controls.SCHEMA_ID
     assert payload["hardgate"]["status"] == "pass"
+    assert set(payload["hardgate"]["gates"]) == {
+        "obs_only_chance_control",
+        "independent_fresh_action_chance_control",
+    }
+
+
+def failed_control_source_payload():
+    return {
+        "schema_id": runner.SCHEMA_ID,
+        "controls": {
+            "obs_only": {
+                "role": "negative_control",
+                "accuracy": {"mean": 0.75, "ci95_low": 0.7, "ci95_high": 0.8, "n": 512},
+                "ci95_includes_chance": False,
+            },
+            "independent_fresh_action": {
+                "role": "negative_control",
+                "source": "fresh_independent_rademacher",
+                "accuracy": {"mean": 0.5, "ci95_low": 0.45, "ci95_high": 0.55, "n": 512},
+                "ci95_includes_chance": True,
+            },
+        },
+        "hardgate": {
+            "status": "fail",
+            "gates": {
+                "learned_empirical_proximity": {"status": "pass"},
+                "obs_only_chance_control": {
+                    "status": "fail",
+                    "metric": "controls.obs_only.accuracy",
+                },
+                "independent_fresh_action_chance_control": {
+                    "status": "pass",
+                    "metric": "controls.independent_fresh_action.accuracy",
+                },
+            },
+        },
+    }
+
+
+def test_control_verify_fails_closed_when_a_control_gate_fails(monkeypatch):
+    monkeypatch.setattr(controls, "run_curve", lambda config: failed_control_source_payload())
+
+    payload = controls.run_control_verify(small_config())
+
+    assert payload["hardgate"]["status"] == "fail"
+    assert payload["hardgate"]["gates"]["obs_only_chance_control"]["status"] == "fail"
     assert set(payload["hardgate"]["gates"]) == {
         "obs_only_chance_control",
         "independent_fresh_action_chance_control",
@@ -199,6 +252,24 @@ def test_empirical_bayes_cli_writes_reference_projection(tmp_path):
     }
 
 
+def test_empirical_bayes_cli_returns_nonzero_when_hardgate_fails(tmp_path):
+    output = tmp_path / "hpr-empirical-bayes-fail.json"
+    completed = run_cli(
+        "scripts/run_hpr_empirical_bayes_curve.py",
+        output,
+        "--empirical-analytic-max-gap",
+        "0.0",
+    )
+
+    assert completed.returncode == 1
+    written = json.loads(output.read_text(encoding="utf-8"))
+    printed = json.loads(completed.stdout)
+    assert written == printed
+    assert written["schema_id"] == empirical.SCHEMA_ID
+    assert written["hardgate"]["status"] == "fail"
+    assert written["hardgate"]["gates"]["empirical_analytic_proximity"]["status"] == "fail"
+
+
 def test_control_verify_cli_writes_control_projection(tmp_path):
     output = tmp_path / "hpr-control-verify.json"
     completed = run_cli("scripts/run_hpr_control_verify.py", output)
@@ -215,3 +286,18 @@ def test_control_verify_cli_writes_control_projection(tmp_path):
         "obs_only_chance_control",
         "independent_fresh_action_chance_control",
     }
+
+
+def test_control_verify_cli_returns_nonzero_when_control_gate_fails(tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(controls, "run_curve", lambda config: failed_control_source_payload())
+    output = tmp_path / "hpr-control-verify-fail.json"
+
+    exit_code = controls.main(["--output", str(output), "--stdout"])
+
+    assert exit_code == 1
+    written = json.loads(output.read_text(encoding="utf-8"))
+    printed = json.loads(capsys.readouterr().out)
+    assert written == printed
+    assert written["schema_id"] == controls.SCHEMA_ID
+    assert written["hardgate"]["status"] == "fail"
+    assert written["hardgate"]["gates"]["obs_only_chance_control"]["status"] == "fail"
