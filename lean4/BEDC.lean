@@ -107,6 +107,7 @@ import BEDC.Derived.ApartnessRealUp.TasteGate
 import BEDC.Derived.ApartnessSpaceUp
 import BEDC.Derived.ApartnessSpaceUp.ScopedSeparatedPositiveGapRoute
 import BEDC.Derived.ApartnessSpaceUp.TasteGate
+import BEDC.Derived.ApartnessSpaceUp.TransportAndReplay
 import BEDC.Derived.ApartnessTopologyUp.Route
 import BEDC.Derived.ApartnessTopologyUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
@@ -9848,6 +9849,7 @@ import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp
 import BEDC.Derived.RegularCauchyTailEstimateUp.FinitePrecisionInduction
 import BEDC.Derived.RegularCauchyTailEstimateUp.ModulusDominanceCriterion
+import BEDC.Derived.RegularCauchyTailEstimateUp.ObligationRegister
 import BEDC.Derived.RegularCauchyTailEstimateUp.PublicInterface
 import BEDC.Derived.RegularCauchyTailEstimateUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyTailEstimateUp.TailEnvelopeLock
@@ -10329,7 +10331,9 @@ import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipStability
 import BEDC.Derived.SetlikeUp.RootMembershipFamilyExhaustion
 import BEDC.Derived.SetlikeUp.RootMembershipProvenance
+import BEDC.Derived.SetlikeUp.RootMembershipTransport
 import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
+import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
 import BEDC.Derived.SetlikeUp.SubsetLedger
 import BEDC.Derived.SetlikeUp.TasteGate
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
