@@ -120,4 +120,86 @@ theorem SetlikeRootMembershipTripleUnblock [AskSetup] [PackageSetup] (S : Setlik
   }
   exact ⟨cert, membershipUnary, firstOrderUnary, modelUnary, typeUnary⟩
 
+theorem SetlikeRootMembershipSourceTriple [AskSetup] [PackageSetup] (S : SetlikeUp)
+    {M Q I R E H C P N membershipReplay firstOrderRead modelRead typeRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    setlikeFields S = [M, Q, I, R, E, H, C, P, N] ->
+      UnaryHistory M ->
+        UnaryHistory Q ->
+          UnaryHistory H ->
+            UnaryHistory C ->
+              UnaryHistory P ->
+                UnaryHistory N ->
+                  Cont M Q membershipReplay ->
+                    Cont membershipReplay H firstOrderRead ->
+                      Cont membershipReplay C modelRead ->
+                        Cont membershipReplay P typeRead ->
+                          Cont typeRead N namedRead ->
+                            PkgSig bundle P pkg ->
+                              SemanticNameCert
+                                  (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row M ∨ hsame row Q ∨
+                                      hsame row membershipReplay ∨
+                                        hsame row firstOrderRead ∨ hsame row modelRead ∨
+                                          hsame row typeRead ∨ hsame row namedRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ Cont M Q membershipReplay ∧
+                                      PkgSig bundle P pkg)
+                                  hsame ∧
+                                UnaryHistory membershipReplay ∧
+                                  UnaryHistory firstOrderRead ∧
+                                    UnaryHistory modelRead ∧
+                                      UnaryHistory typeRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: SetlikeUp setlikeFields BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro fields rowsM rowsQ rowsH rowsC rowsP rowsN membershipRoute firstOrderRoute
+    modelRoute typeRoute namedRoute packageRead
+  have _acceptedFields : setlikeFields S = [M, Q, I, R, E, H, C, P, N] := fields
+  have membershipUnary : UnaryHistory membershipReplay :=
+    unary_cont_closed rowsM rowsQ membershipRoute
+  have firstOrderUnary : UnaryHistory firstOrderRead :=
+    unary_cont_closed membershipUnary rowsH firstOrderRoute
+  have modelUnary : UnaryHistory modelRead :=
+    unary_cont_closed membershipUnary rowsC modelRoute
+  have typeUnary : UnaryHistory typeRead :=
+    unary_cont_closed membershipUnary rowsP typeRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed typeUnary rowsN namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row Q ∨ hsame row membershipReplay ∨
+              hsame row firstOrderRead ∨ hsame row modelRead ∨ hsame row typeRead ∨
+                hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M Q membershipReplay ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, membershipRoute, packageRead⟩
+  }
+  exact ⟨cert, membershipUnary, firstOrderUnary, modelUnary, typeUnary, namedUnary⟩
+
 end BEDC.Derived.SetlikeUp
