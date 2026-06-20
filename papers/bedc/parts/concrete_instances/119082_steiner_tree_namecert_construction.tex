@@ -1,0 +1,161 @@
+\chapter{A Concrete Naming Certificate for $\SteinerTreeUp$}
+\label{ch:concrete-instances-steiner-tree-namecert}
+\origin{human}
+
+Following Gilbert and Pollak and standard finite network optimization, the
+$\SteinerTreeUp$ packet names the finite certificate that connects a displayed
+terminal family inside a weighted graph by a tree-shaped subnetwork. It sits
+over the graph carrier of \autoref{ch:concrete-instances-graph-namecert}, the
+acyclic connected carrier of \autoref{ch:concrete-instances-tree-namecert},
+the spanning-tree surface of
+\autoref{ch:concrete-instances-spanningtree-namecert}, the shortest-path
+ledger of \autoref{ch:concrete-instances-shortestpath-namecert}, and the
+metric-graph route of \autoref{ch:concrete-instances-metric-graph-namecert}.
+The packet is a finite optimization certificate; it does not import ambient
+network-flow duality, a host minimum oracle, graph isomorphism, an infinite
+network limit, or quotient equality of vertex sets.
+
+\begin{definition}[Steiner tree carrier]
+\label{def:steiner-tree-carrier}
+A $\SteinerTreeUp$ carrier is a finite $\BHist$ packet
+$$
+S=(G,W,T,R,E,A,L,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GraphUp$ row naming the finite vertex and edge incidence
+data.
+\item $W$ is the finite edge-weight ledger over $G$, read through the same
+weighted path surface used by $\ShortestPathUp$ and $\MetricGraphUp$.
+\item $T$ is the terminal-family row, a finite list or finite subset of
+vertices of $G$ that must be connected.
+\item $R$ is the selected root or anchor row used only to orient the finite
+certificate and not to choose a canonical optimum.
+\item $E$ is the candidate edge-subset row, naming the displayed subgraph used
+by the certificate.
+\item $A$ is the admitted auxiliary-vertex row, naming nonterminal vertices of
+$G$ that may appear in the candidate subgraph.
+\item $L$ is the length ledger, summing the displayed edge weights of $E$.
+\item $B$ is the bound row, comparing $L$ with the finite competitor ledgers
+that the packet chooses to expose.
+\item $H$ records componentwise $\hsame$ transport for graph, weight,
+terminal, anchor, candidate-edge, auxiliary-vertex, length, bound, replay,
+provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from graph incidence and terminal
+rows through the candidate tree route, length ledger, and bound row.
+\item $P$ is the $\Pkg$ provenance over $\SteinerTreeUp$, $\GraphUp$,
+$\TreeUp$, $\SpanningTreeUp$, $\ShortestPathUp$, $\MetricGraphUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SteinerTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It carries
+no coordinate for a hidden global optimizer, unlisted terminals, quotient graph
+isomorphism, network-flow duality, infinite graph limits, or a host
+enumeration of all candidate subnetworks.
+\end{definition}
+
+\begin{theorem}[Steiner tree NameCert obligations]
+\label{thm:steiner-tree-namecert-obligations}
+For every accepted $\SteinerTreeUp$ carrier
+$S=(G,W,T,R,E,A,L,B,H,C,P,N)$, the local
+$\NameCert_{\SteinerTreeUp}$ surface consists exactly of carrier admission for
+the displayed graph row, edge-weight ledger, terminal-family row, anchor row,
+candidate edge-subset row, auxiliary-vertex row, length ledger, bound row,
+componentwise transport, displayed replay, package provenance, and local
+naming. Every public read must keep the $\GraphUp$, $\TreeUp$,
+$\SpanningTreeUp$, $\ShortestPathUp$, and $\MetricGraphUp$ source rows visible
+before it cites the Steiner certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:steiner-tree-carrier}. The graph,
+weights, terminal family, candidate edge set, auxiliary vertices, length, and
+bound rows are the only optimization-facing coordinates.
+
+Read the graph-theoretic rows first. The $\GraphUp$ row supplies finite
+incidence, the $\TreeUp$ row supplies connected acyclic recognition for the
+candidate subgraph, and the $\SpanningTreeUp$ row supplies the spanning
+comparison surface when all graph vertices are required rather than only the
+displayed terminal family.
+
+Now read the metric rows. $\ShortestPathUp$ and $\MetricGraphUp$ provide the
+finite path and weight ledgers used by $L$ and $B$. The structural rows
+$H,C,P,N$ transport, replay, source, and name the same displayed packet, so no
+hidden optimizer or external graph enumeration is available.
+\end{proof}
+
+\begin{theorem}[Steiner tree finite-terminal nonescape]
+\label{thm:steiner-tree-finite-terminal-nonescape}
+Every accepted $\SteinerTreeUp$ consumer must display the terminal-family row
+$T$ and the candidate tree route through $E,A$ before reading the length and
+bound rows $L,B$. A consumer that adds a terminal, removes a required terminal,
+or reads a bound for a different terminal family has left the accepted carrier.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory. The terminal-family row $T$ is separate from
+the graph row $G$, the candidate edge-subset row $E$, and the auxiliary-vertex
+row $A$.
+
+The tree certificate is downstream of the displayed terminal family. The
+candidate subgraph must connect every vertex named by $T$, while auxiliary
+vertices may appear only through the admitted row $A$ and the same graph row
+$G$.
+
+Finally read $L$ and $B$. These rows sum and compare only the candidate edge
+rows visible through $E$ for the terminal family visible through $T$.
+Transport and replay preserve those rows componentwise, so a different
+terminal family is not a read of the same $\SteinerTreeUp$ packet.
+\end{proof}
+
+\begin{theorem}[Steiner tree network-flow boundary]
+\label{thm:steiner-tree-network-flow-boundary}
+The $\SteinerTreeUp$ packet may be consumed by network or flow-facing
+arguments only through the displayed finite graph, path, tree, weight, length,
+and bound rows
+$$
+\GraphUp,\ \TreeUp,\ \SpanningTreeUp,\ \ShortestPathUp,\ \MetricGraphUp,\
+G,W,T,E,A,L,B,H,C,P,N .
+$$
+It does not export a max-flow min-cut theorem, a linear-programming dual, a
+host optimum oracle, quotient equality of graphs, or an infinite-network
+compactness principle.
+\end{theorem}
+\begin{proof}
+Project the displayed route. The graph and metric rows supply finite
+incidence, edge weights, path ledgers, and metric reads; the tree rows supply
+connected acyclic recognition for the selected subnetwork.
+
+The bound row $B$ is a finite comparison row inside the packet. It may be read
+as a certificate boundary for exposed competitors, but it is not a duality
+theorem and not an external optimization oracle.
+
+Since the carrier has no coordinate for max-flow min-cut data, linear
+programming dual variables, quotient graph equality, or infinite-network
+compactness, any consumer claiming those endpoints has left the displayed
+NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SteinerTreeUp$ read is refuted if it
+claims a Steiner certificate without displaying the graph row, terminal-family
+row, candidate tree route, edge-weight ledger, finite length comparison,
+transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{graph, tree, spanningtree, shortestpath, metric-graph:
+$\GraphUp$ supplies incidence without terminal optimization; $\TreeUp$
+supplies connected acyclic recognition without weighted terminal bounds;
+$\SpanningTreeUp$ supplies full-vertex spanning witnesses without auxiliary
+terminal selection; $\ShortestPathUp$ supplies path comparisons without a
+tree-shaped terminal subnetwork; and $\MetricGraphUp$ supplies graph metric
+reads without a Steiner certificate. None is bijective to
+$\SteinerTreeUp$ under NameCert-row preservation.}
+
+\closureat{SteinerTreeUp}{seedStr}
+
+\begin{closurestatus}{\SteinerTreeUp}
+  \constructivestory{A $\SteinerTreeUp$ packet is generated from a finite GraphUp row, an edge-weight ledger, a finite terminal-family row, a candidate tree-shaped edge set, admitted auxiliary vertices, a length ledger, a bound row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:steiner-tree-carrier}, \autoref{thm:steiner-tree-namecert-obligations}, \autoref{thm:steiner-tree-finite-terminal-nonescape}, and \autoref{thm:steiner-tree-network-flow-boundary} seed the finite Steiner-tree certificate over GraphUp, TreeUp, SpanningTreeUp, ShortestPathUp, MetricGraphUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, max-flow min-cut duality, host optimality, quotient graph equality, infinite network compactness, or an exhaustive external enumeration of candidate subnetworks.}
+  \upgradepath{Obligation closure requires checked carrier admission, terminal-family stability, candidate-tree validity, auxiliary-vertex boundary, length-ledger exactness, bound-row replay, provenance, and local naming for BEDC.Derived.SteinerTreeUp.}
+\end{closurestatus}
