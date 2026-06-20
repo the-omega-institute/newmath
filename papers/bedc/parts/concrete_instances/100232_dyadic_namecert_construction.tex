@@ -59,6 +59,7 @@ Finally inspect $P$ and $N$. Provenance and local naming mention only $Q,S,R,E,H
 \label{thm:dyadic-up-obligation-closure-route}
 For every accepted $\DyadicUp$ carrier $D=(Q,S,R,E,H,C,P,N)$, the rows $Q,S,R,E,H,C,P,N$ listed in \autoref{def:dyadic-up-carrier} and certified by \autoref{thm:dyadic-up-namecert-obligations} are sufficient to witness the $\obligationClosure$ surface consumed by downstream $\DyadicUp$ readers. The route binds $Q$ to $\DyadicRatCoreUp$, $S$ to $\StreamNameUp$, $R$ to $\RegSeqRatUp$, $E$ to $\RealUp$, and $H,C,P,N$ to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before any Real-facing or Completion-facing read can inspect the dyadic packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUp\_obligation\_closure\_route}
 \begin{proof}
 Start from the carrier and NameCert obligations. The carrier displays exactly the dyadic core, stream window, regular rational readback, Real seal, transport, replay, provenance, and local naming rows, while the obligation theorem states that no local naming obligation is stored outside those rows.
 
@@ -75,6 +76,7 @@ Q,S,R,E,H,C,P,N .
 $$
 Here $Q$ is read from $\DyadicRatCoreUp$, $S$ from $\StreamNameUp$, $R$ from $\RegSeqRatUp$, and $E$ from $\RealUp$ before any Real or Completion consumer can use the dyadic packet. The rows $H,C,P,N$ then transport, replay, source, and locally name that same route. No selected binary expansion, quotient stream, trichotomy, countable choice, host equality, or ambient completeness row is admitted by the dependency surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicUp.DyadicUp\_obligation\_closure\_dependency\_surface}
 \begin{proof}
 Start with \autoref{thm:dyadic-up-namecert-obligations}. Its finite obligation list admits only the dyadic core, stream window, regular rational sequence, real seal, transport, replay, provenance, and local naming rows of the carrier.
 
