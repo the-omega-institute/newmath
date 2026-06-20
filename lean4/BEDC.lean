@@ -105,6 +105,7 @@ import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ApartnessRealUp.TasteGate
 import BEDC.Derived.ApartnessSpaceUp
+import BEDC.Derived.ApartnessSpaceUp.ScopedSeparatedPositiveGapRoute
 import BEDC.Derived.ApartnessSpaceUp.TasteGate
 import BEDC.Derived.ApartnessTopologyUp.Route
 import BEDC.Derived.ApartnessTopologyUp.TasteGate
@@ -5447,6 +5448,7 @@ import BEDC.Derived.FiniteDifferenceTableUp.TasteGate
 import BEDC.Derived.FiniteDifferenceUp.TasteGate
 import BEDC.Derived.FiniteDimensionalCompactnessUp.TasteGate
 import BEDC.Derived.FiniteDimensionalHahnBanachSeparationUp.TasteGate
+import BEDC.Derived.FiniteDimensionalNormEquivalenceUp
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.NameCertObligations
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
 import BEDC.Derived.FiniteDyadicRefinementBudgetUp.TasteGate
@@ -9830,6 +9832,7 @@ import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCompositionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp
+import BEDC.Derived.RegularCauchyTailEstimateUp.ModulusDominanceCriterion
 import BEDC.Derived.RegularCauchyTailEstimateUp.TailEnvelopeLock
 import BEDC.Derived.RegularCauchyTailEstimateUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp.WindowTriangle
