@@ -205,6 +205,97 @@ theorem FiniteWitnessedRefutationCarrier_gap_boundary_crosslink [AskSetup] [Pack
       decisionRoutePublic, gapRouteRefusal, gapRefusalDecisionConsumer, provenancePkg,
       publicPkg, consumerPkg⟩
 
+theorem FiniteWitnessedRefutationCarrier_public_export [AskSetup] [PackageSetup]
+    {regularity gap key witness decision transport route provenance name publicRead gapRefusal
+      consumer exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWitnessedRefutationCarrier regularity gap key witness decision transport route
+        provenance name bundle pkg ->
+      Cont decision route publicRead ->
+        Cont gap route gapRefusal ->
+          Cont gapRefusal decision consumer ->
+            Cont publicRead consumer exportRead ->
+              PkgSig bundle publicRead pkg ->
+                PkgSig bundle consumer pkg ->
+                  PkgSig bundle exportRead pkg ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row regularity ∨ hsame row gap ∨ hsame row key ∨
+                            hsame row witness ∨ hsame row decision ∨ hsame row publicRead ∨
+                              hsame row gapRefusal ∨ hsame row consumer ∨
+                                hsame row exportRead)
+                        (fun _row : BHist =>
+                          Cont decision route publicRead ∧ Cont gap route gapRefusal ∧
+                            Cont gapRefusal decision consumer ∧
+                              Cont publicRead consumer exportRead ∧
+                                PkgSig bundle provenance pkg ∧ PkgSig bundle exportRead pkg)
+                        hsame ∧ UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier decisionRoutePublic gapRouteRefusal gapRefusalDecisionConsumer
+    publicConsumerExport publicPkg consumerPkg exportPkg
+  obtain ⟨regularityUnary, gapUnary, witnessUnary, routeUnary, regularityGapKey,
+    keyWitnessDecision, _decisionRouteTransport, provenancePkg, _namePkg⟩ := carrier
+  have keyUnary : UnaryHistory key :=
+    unary_cont_closed regularityUnary gapUnary regularityGapKey
+  have decisionUnary : UnaryHistory decision :=
+    unary_cont_closed keyUnary witnessUnary keyWitnessDecision
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed decisionUnary routeUnary decisionRoutePublic
+  have gapRefusalUnary : UnaryHistory gapRefusal :=
+    unary_cont_closed gapUnary routeUnary gapRouteRefusal
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed gapRefusalUnary decisionUnary gapRefusalDecisionConsumer
+  have exportUnary : UnaryHistory exportRead :=
+    unary_cont_closed publicUnary consumerUnary publicConsumerExport
+  have certCore :
+      NameCert (fun row : BHist => hsame row exportRead ∧ UnaryHistory row) hsame := by
+    exact {
+      carrier_inhabited := Exists.intro exportRead
+        (And.intro (hsame_refl exportRead) exportUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same source
+        have otherExport : hsame other exportRead :=
+          hsame_trans (hsame_symm same) source.left
+        have otherUnary : UnaryHistory other :=
+          unary_transport source.right same
+        exact And.intro otherExport otherUnary
+    }
+  have semantic :
+      SemanticNameCert
+          (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row regularity ∨ hsame row gap ∨ hsame row key ∨
+              hsame row witness ∨ hsame row decision ∨ hsame row publicRead ∨
+                hsame row gapRefusal ∨ hsame row consumer ∨ hsame row exportRead)
+          (fun _row : BHist =>
+            Cont decision route publicRead ∧ Cont gap route gapRefusal ∧
+              Cont gapRefusal decision consumer ∧ Cont publicRead consumer exportRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle exportRead pkg)
+          hsame := by
+    exact {
+      core := certCore
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))
+      ledger_sound := by
+        intro _row _source
+        exact And.intro decisionRoutePublic
+          (And.intro gapRouteRefusal
+            (And.intro gapRefusalDecisionConsumer
+              (And.intro publicConsumerExport (And.intro provenancePkg exportPkg))))
+    }
+  exact And.intro semantic exportUnary
+
 theorem FiniteWitnessedRefutationCarrier_non_escape [AskSetup] [PackageSetup]
     {regularity gap key witness decision transport route provenance name publicRead
       consumer : BHist}
