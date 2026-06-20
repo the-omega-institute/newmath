@@ -1393,6 +1393,7 @@ import BEDC.Derived.CalculusUp.LocalOperationNonescape
 import BEDC.Derived.CalculusUp.LocatedCompactDependencyRoute
 import BEDC.Derived.CalculusUp.PeanoDependencyRoute
 import BEDC.Derived.CalculusUp.ProductMetricForwardLink
+import BEDC.Derived.CalculusUp.ProductMetricForwardLinkExport
 import BEDC.Derived.CalculusUp.ProductMetricForwardModulusRoute
 import BEDC.Derived.CalculusUp.ProductMetricModulusHandoff
 import BEDC.Derived.CalculusUp.ProductMetricRealRoute
@@ -9000,6 +9001,7 @@ import BEDC.Derived.RealBolzanoWeierstrassUp.TasteGate
 import BEDC.Derived.RealBoundedIntervalUp.TasteGate
 import BEDC.Derived.RealBoundedSequenceUp.TasteGate
 import BEDC.Derived.RealBudgetTailMeetUp.TasteGate
+import BEDC.Derived.RealCantorIntersectionFiniteWindowUp.TasteGate
 import BEDC.Derived.RealCauchyCompletenessUp.TasteGate
 import BEDC.Derived.RealCauchyCompletionUp
 import BEDC.Derived.RealCauchyCompletionUp.BridgeHandoff
