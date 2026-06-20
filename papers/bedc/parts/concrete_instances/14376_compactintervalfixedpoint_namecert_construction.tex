@@ -152,6 +152,24 @@ The interval-return theorem \autoref{thm:compact-interval-fixed-point-interval-r
 The Real-facing end of the route is fixed by \autoref{thm:compact-interval-fixed-point-real-seal-nonescape} and \autoref{thm:compact-interval-fixed-point-real-seal-uniqueness}. The structural rows $H,C,P,N$ carry componentwise transport, replay, provenance, and local naming without adding another primitive source. Thus the scoped primitive route is exactly the displayed chain from $\LocatedIntervalUp$ to $\RealUp$.
 \end{proof}
 
+\begin{theorem}[CompactIntervalFixedPoint public seal]
+\label{thm:compact-interval-fixed-point-public-seal}
+Every public $\CompactIntervalFixedPointUp$ consumer receives a fixed-point seal only through the displayed route
+$$
+\LocatedIntervalUp\longrightarrow\ContinuousMapUp\longrightarrow\IntermediateValueBisectionUp\longrightarrow\StreamNameUp\longrightarrow\RegSeqRatUp\longrightarrow\RealUp
+$$
+together with the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the accepted carrier. The public seal exposes carrier admission, interval-return exactness, residual-bisection handoff, retained-window regularity, Real-seal nonescape, Real-seal uniqueness, and the scoped route; it exports no general Brouwer fixed-point theorem, Heine--Borel compactness, host fixed-point existence, selected limit, quotient stream equality, real trichotomy, countable-choice selector, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert surface. The carrier of \autoref{def:compact-interval-fixed-point-carrier} supplies exactly $J,G,R,B,W,Q,E,H,C,P,N$, and \autoref{thm:compact-interval-fixed-point-namecert-obligations} binds carrier admission, interval-return exactness, continuous-map replay, residual bisection, finite windows, regular readback, Real seal, transport, replay, provenance, and naming to those rows.
+
+Next compose the route the consumer can read. The interval-return route of \autoref{thm:compact-interval-fixed-point-interval-return-route} places $J,G,R$ before residual signs, and \autoref{thm:compact-interval-fixed-point-residual-bisection-handoff} moves the read from the residual row $B$ to retained windows $W$ and regular readback $Q$.
+
+The public Real boundary is then fixed by window regularity, Real-seal nonescape, and Real-seal uniqueness, namely \autoref{thm:compact-interval-fixed-point-window-regularity}, \autoref{thm:compact-interval-fixed-point-real-seal-nonescape}, and \autoref{thm:compact-interval-fixed-point-real-seal-uniqueness}. These theorems make $E$ reachable only after $B,W,Q$ have been displayed and prevent a second seal that bypasses the same route.
+
+Finally apply the scoped route of \autoref{thm:compact-interval-fixed-point-scope-route}. It identifies the primitive public chain from $\LocatedIntervalUp$ through $\RealUp$, while $H,C,P,N$ preserve the route under transport, continuation replay, provenance, and local naming. Since the carrier contains no row for Brouwer fixed points in higher dimension, Heine--Borel compactness, host fixed-point existence, selected limits, quotient stream equality, real trichotomy, countable choice, or ambient completeness, none of those objects is exported by the public seal.
+\end{proof}
+
 \falsifiablePrediction{Any accepted fixed-point consumer that reaches a candidate seal while bypassing the interval-return row, the residual-bisection row, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback, or the $\RealUp$ seal row refutes the carrier surface of $\CompactIntervalFixedPointUp$.}
 
 \independenceWitness{intermediatevalue, intermediate-value-bisection, real, continuousmap, locatedinterval: none is bijective to $\CompactIntervalFixedPointUp$ because this packet binds interval endpoints, interval-returning continuous-map evidence, residual bisection, finite windows, regular readback, terminal Real seal, componentwise transport, continuation replay, package provenance, and local NameCert registration as one fixed-point route.}
@@ -159,9 +177,9 @@ The Real-facing end of the route is fixed by \autoref{thm:compact-interval-fixed
 \begin{closurestatus}{\CompactIntervalFixedPointUp}
   \constructivestory{A $\CompactIntervalFixedPointUp$ packet is generated from a $\LocatedIntervalUp$ endpoint packet, $\ContinuousMapUp$ graph and modulus evidence, an interval-return row, an $\IntermediateValueBisectionUp$ residual bisection row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:compact-interval-fixed-point-scope-route} binds the carrier, NameCert obligations, interval-return route, residual-bisection handoff, window regularity, Real-seal nonescape, and Real-seal uniqueness to the primitive route from $\LocatedIntervalUp$ through $\RealUp$.}
+  \scopeclosed{\autoref{thm:compact-interval-fixed-point-scope-route} and \autoref{thm:compact-interval-fixed-point-public-seal} bind the carrier, NameCert obligations, interval-return route, residual-bisection handoff, window regularity, Real-seal nonescape, Real-seal uniqueness, and public fixed-point seal to the primitive route from $\LocatedIntervalUp$ through $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim general Brouwer fixed points, open-cover compactness, Heine--Borel compactness, host fixed-point existence, real trichotomy, quotient stream equality, selected limits, countable choice, Real completeness, or a standard bridge.}
-  \upgradepath{Public closure requires a public-object surface for the fixed-point seal and a Lean formalization of BEDC.Derived.CompactIntervalFixedPointUp.CompactIntervalFixedPointScopedRoute.}
+  \upgradepath{Public closure requires Lean formalization of the public fixed-point seal and the existing scoped route for BEDC.Derived.CompactIntervalFixedPointUp.}
 \end{closurestatus}
