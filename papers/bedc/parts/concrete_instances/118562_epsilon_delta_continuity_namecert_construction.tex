@@ -62,6 +62,20 @@ Read the $\EpsilonDeltaLimitUp$ coordinate $L$ only as a boundary row tied to th
 The structural rows $H,C,P,N$ preserve this order under transport and replay. Since no excluded external coordinate appears in the carrier, every accepted continuity read is confined to the listed finite route.
 \end{proof}
 
+\begin{theorem}[Epsilon-delta sequential Cauchy handoff]
+\label{thm:epsilon-delta-sequential-continuity-cauchy-handoff}
+Let $K$ be an accepted $\EpsilonDeltaContinuityUp$ packet. If the source stream of $K$ is read through a displayed $\StreamNameUp$ row and the image windows are read through a displayed $\RegSeqRatUp$ row, then the local radius ledger supplied by \autoref{thm:epsilon-delta-continuity-local-route} may feed the $\CauchySequentialContinuityUp$ preservation surface before the terminal $\RealUp$ seal is inspected.
+
+The handoff is a finite same-packet route through the source-window, radius-ledger, image-window, readback, transport, replay, provenance, and local-name rows. It does not assert host sequential continuity, selected subsequences, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the local route theorem \autoref{thm:epsilon-delta-continuity-local-route}. It exposes the displayed tolerance request, source-radius witness, finite source and target windows, regular readback, modulus handoff, and epsilon-delta limit boundary before any Real-facing consumer reads the packet.
+
+Now read the sequential dependencies. The $\StreamNameUp$ source row supplies the finite inspected windows, and the $\RegSeqRatUp$ row supplies the regular-rational readback consumed by the Cauchy image route of \autoref{ch:concrete-instances-cauchy-sequential-continuity-namecert}. The terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} is therefore reached only after the preservation surface has seen the local radius ledger and image windows.
+
+The construction uses only the displayed rows named in this chapter together with \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Since the route has no coordinate for host sequential continuity, selected subsequences, quotient stream equality, countable choice, or ambient completeness, none of those endpoints is exported.
+\end{proof}
+
 \falsifiablePrediction{Every epsilon-delta continuity read of an $\EpsilonDeltaContinuityUp$ packet factors through displayed MetricSpace rows, a ContinuousMap graph row, finite tolerance and radius rows, RegSeqRat readback, a ModulusContinuity handoff, and an EpsilonDeltaLimit boundary.}
 
 \independenceWitness{metricspace, real, continuousmap, moduluscontinuity, epsilondeltalimit: $\EpsilonDeltaContinuityUp$ is not bijective to any listed sibling because it jointly carries source and target metric rows, a graph row, a point row, paired tolerance and radius rows, finite windows, regular readback, modulus handoff, limit boundary, transport, replay, provenance, and local naming.}
@@ -71,7 +85,7 @@ The structural rows $H,C,P,N$ preserve this order under transport and replay. Si
 \begin{closurestatus}{\EpsilonDeltaContinuityUp}
   \constructivestory{An $\EpsilonDeltaContinuityUp$ packet is generated from source and target MetricSpace rows, a Real-valued target-distance seal, a ContinuousMap graph row, a displayed source point, target-tolerance and source-radius rows, finite windows, RegSeqRat readback, ModulusContinuity handoff, EpsilonDeltaLimit boundary, hsame transport, Cont replay, provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:epsilon-delta-continuity-carrier}, \autoref{thm:epsilon-delta-continuity-namecert-obligations}, and \autoref{thm:epsilon-delta-continuity-local-route} seed the local epsilon-delta continuity interface for metric and continuous-map consumers.}
+  \scopeclosed{\autoref{def:epsilon-delta-continuity-carrier}, \autoref{thm:epsilon-delta-continuity-namecert-obligations}, \autoref{thm:epsilon-delta-continuity-local-route}, and \autoref{thm:epsilon-delta-sequential-continuity-cauchy-handoff} seed the local epsilon-delta continuity interface for metric, continuous-map, and sequential Cauchy consumers.}
   \formalstatus{\formalTargetV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close classical open-cover compactness, host function equality, quotient real equality, global uniform continuity, countable choice, trichotomy, ambient Real completeness, Lean theorem verification, or bridge checking.}
