@@ -4820,6 +4820,7 @@ import BEDC.Derived.DyadicIntervalDiameterUp.TasteGate
 import BEDC.Derived.DyadicIntervalEnclosureUp
 import BEDC.Derived.DyadicIntervalHullUp.TasteGate
 import BEDC.Derived.DyadicIntervalNestingUp.TasteGate
+import BEDC.Derived.DyadicIntervalRefinementLadderUp.TasteGate
 import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalTreeUp
 import BEDC.Derived.DyadicIntervalTreeUp.TasteGate
