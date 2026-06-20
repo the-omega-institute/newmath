@@ -191,6 +191,22 @@ Now apply the residual-budget obligation of \autoref{thm:metacic-normalization-a
 If any of $R,C,S$ is absent, the route lacks the evidence needed to cross the frontier. The structural rows $F,H,T,P,L$ can only replay and name the local obligation surface, so the packet refuses evidence-free closed-term normalization.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit candidate-frontier refusal tightening]
+\label{thm:metacic-normalization-audit-candidate-frontier-refusal-tightening}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. If a consumer route omits at least one of the reducibility-candidate row $R$, the closed projection row $C$, or the finite scope row $S$, then the accepted packet exports only the local obligation surface. In particular it exports no closed-term strong-normalization claim.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:metacic-normalization-audit-obligation-surface}. It separates candidate evidence, closed projection, finite SN scope, application boundary, confluence refusal, replay, transport, provenance, and local naming into distinct rows.
+
+If $R$ is absent, no reducibility-candidate evidence is available. The finite SN scope theorem \autoref{thm:metacic-normalization-audit-sn-scope} therefore has no candidate source from which a positive normalization read can begin.
+
+If $C$ is absent, the closed-term projection route of \autoref{thm:metacic-normalization-audit-closed-term-projection-route} cannot connect candidate evidence to a closed term. The route remains an internal candidate ledger, not a closed-term SN export.
+
+If $S$ is absent, the finite inventory of accepted normalization entries is missing. The residual-budget obligation of \autoref{thm:metacic-normalization-audit-residual-budget-obligation} and candidate-ledger locality of \autoref{thm:metacic-normalization-audit-candidate-ledger-locality} can only preserve replay of the local obligation surface.
+
+Thus every missing-row case leaves the consumer below the candidate frontier isolated by \autoref{thm:metacic-normalization-audit-candidate-frontier-refusal}. The packet may still expose carrier, boundary, replay, transport, provenance, and naming data, but it cannot export closed-term strong normalization.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit closed-term budget totality]
 \label{thm:metacic-normalization-audit-closed-term-budget-totality}
 Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. Every closed-term strong-normalization export must display all rows
