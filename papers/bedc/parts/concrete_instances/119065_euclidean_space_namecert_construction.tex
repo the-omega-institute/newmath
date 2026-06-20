@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\EuclideanSpaceUp$}
+\label{ch:concrete-instances-euclidean-space-namecert}
+\origin{human}
+
+Following Euclid, Hilbert, and Bourbaki, the $\EuclideanSpaceUp$ packet records a finite-dimensional real coordinate carrier whose metric, vector-space, inner-product, and matrix-readback rows are all displayed before any geometric consumer reads a distance, norm, projection, or coordinate transform. It sits beside the real scalar seal of \autoref{ch:concrete-instances-real-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert} read as $\MetricSpaceUp$, the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}, the inner-product surface of \autoref{ch:concrete-instances-innerproduct-namecert}, and the finite matrix row of \autoref{ch:concrete-instances-matrix-namecert}. The packet is a finite coordinate NameCert surface for Euclidean spaces; it is not a host theorem about all finite-dimensional normed spaces, a selected orthonormal basis, quotient linear algebra, spectral completeness, or an ambient completeness claim for $\RealUp$.
+
+\begin{definition}[EuclideanSpace carrier]
+\label{def:euclidean-space-carrier}
+A $\EuclideanSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,M,V,I,A,D,N,H,C,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ scalar seal and finite coordinate readback row.
+\item $M$ is the $\MetricSpaceUp$ distance row for the displayed coordinate carrier.
+\item $V$ is the $\VecSpaceUp$ row recording zero, addition, inverse, and real scalar multiplication on the displayed finite coordinate windows.
+\item $I$ is the $\InnerProductUp$ row whose bilinear and positive rows compute the Euclidean norm and distance used by $M$.
+\item $A$ is the $\MatrixUp$ coordinate-transform row, used only for displayed finite matrices between certified coordinate presentations.
+\item $D$ records the finite dimension tag, coordinate index window, and endpoint-radius ledger for all inspected coordinates.
+\item $N$ records the norm, distance, projection, and affine-combination readback rows computed from $R,M,V,I,A,D$.
+\item $H$ records componentwise $\hsame$ transport for the scalar, metric, vector-space, inner-product, matrix, dimension, readback, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of every Euclidean read through
+$$
+R,M,V,I,A,D \longmapsto N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EuclideanSpaceUp$, $\RealUp$, $\MetricSpaceUp$, $\VecSpaceUp$, $\InnerProductUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the local $\NameCert_{\EuclideanSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,M,V,I,A,D,N,H,C,P,Q$. It has no coordinate for a hidden basis choice, host equality of coordinate functions, quotient vector spaces, spectral diagonalization, compactness, countable choice, excluded middle, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[EuclideanSpace NameCert obligations]
+\label{thm:euclidean-space-namecert-obligations}
+For every accepted $\EuclideanSpaceUp$ carrier
+$$
+E=(R,M,V,I,A,D,N,H,C,P,Q),
+$$
+the local $\NameCert_{\EuclideanSpaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the real scalar seal, metric distance row, vector-space operation row, inner-product row, finite matrix row, dimension and coordinate-window ledger, norm and distance readback, transport, replay, provenance, and local naming rows;
+\item scalar and coordinate stability, requiring every vector operation, inner-product read, and matrix transform to use the displayed $\RealUp$ scalar row and the same finite coordinate window $D$;
+\item metric and inner-product compatibility, requiring the distance row $M$ and norm readback $N$ to be computed from the displayed $\InnerProductUp$ row $I$ rather than from an external metric predicate;
+\item finite-coordinate exactness, requiring every projection, affine combination, and coordinate transform to pass through the displayed $\VecSpaceUp$ and $\MatrixUp$ rows before any downstream consumer reads it;
+\item ledger refusal, requiring $H,C,P,Q$ to transport, replay, source, and name only the displayed rows, with no hidden basis selector, quotient vector-space equality, host coordinate-function equality, spectral theorem, compactness, countable choice, excluded middle, Lean verification, or bridge credential.
+\end{enumerate}
+No EuclideanSpace NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:euclidean-space-carrier}. The accepted packet displays the real scalar seal, metric row, vector-space operations, inner-product row, finite matrix row, coordinate ledger, readback rows, and structural rows.
+
+Scalar and coordinate stability are componentwise. The same $R$ and $D$ rows are read before vector addition, scalar multiplication, inner-product evaluation, distance computation, and matrix transport, so no hidden coordinate source is available.
+
+Metric and inner-product compatibility is the role of $M,I,N$. The distance and norm rows are read from the displayed inner-product computation, not from a host metric predicate or an external norm theorem.
+
+Finite-coordinate exactness follows through $V,A,D,N$. Projections, affine combinations, and coordinate transforms are inspected as finite rows before a consumer can read the resulting point, vector, distance, or norm.
+
+Finally, $H,C,P,Q$ only transport, replay, source, and name the displayed rows. Since the carrier contains no hidden basis selector, quotient equality, host coordinate-function equality, spectral theorem, compactness row, choice row, Lean verification, or bridge credential, the five listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[EuclideanSpace finite-coordinate route]
+\label{thm:euclidean-space-finite-coordinate-route}
+Every accepted $\EuclideanSpaceUp$ carrier
+$$
+E=(R,M,V,I,A,D,N,H,C,P,Q)
+$$
+exports geometric data only through the finite route
+$$
+\RealUp,\MetricSpaceUp,\VecSpaceUp,\InnerProductUp,\MatrixUp
+\longmapsto
+D,N,H,C,P,Q .
+$$
+A downstream consumer reading a Euclidean distance, norm, projection, affine combination, or coordinate transform must first read the scalar seal, metric row, vector-space row, inner-product row, matrix row, and finite coordinate ledger displayed by the packet. No hidden basis choice, quotient vector-space equality, host coordinate-function equality, compactness theorem, spectral theorem, countable-choice schedule, Lean verification, or bridge credential is exported.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The scalar, metric, vector-space, inner-product, matrix, and finite coordinate rows are the only upstream rows available to a Euclidean read.
+
+The norm and distance readback is computed through $I,M,N$, while projection, affine-combination, and coordinate-transform reads pass through $V,A,D,N$. Each read is finite because the coordinate window $D$ is displayed before $N$ is consumed.
+
+Transport, replay, provenance, and naming through $H,C,P,Q$ preserve the same route. The excluded host equality, hidden basis, quotient, compactness, spectral, choice, verification, and bridge data are absent from the accepted carrier, so no consumer can export them from the packet.
+\end{proof}
+
+\closureat{EuclideanSpaceUp}{seedStr}
+
+\begin{closurestatus}{\EuclideanSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euclidean-space-carrier}, \autoref{thm:euclidean-space-namecert-obligations}, and \autoref{thm:euclidean-space-finite-coordinate-route} seed the finite Euclidean coordinate route over RealUp scalars, MetricSpace distance, VecSpace operations, InnerProduct norms, Matrix coordinate transforms, finite coordinate windows, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary finite-dimensional normed-space equivalence, hidden basis selection, quotient linear algebra, spectral diagonalization, compactness, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, scalar and coordinate stability, metric and inner-product compatibility, finite-coordinate exactness, and provenance locality for BEDC.Derived.EuclideanSpaceUp.}
+  \constructivestory{A $\EuclideanSpaceUp$ packet is generated from a RealUp scalar seal, MetricSpace distance row, VecSpace operation row, InnerProduct row, Matrix coordinate-transform row, finite dimension and coordinate-window ledger, norm and distance readback rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
