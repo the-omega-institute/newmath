@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\HamiltonJacobiBellmanUp$}
+\label{ch:concrete-instances-hamilton-jacobi-bellman-namecert}
+\origin{human}
+
+Following Bellman, Fleming--Rishel, and Evans, the $\HamiltonJacobiBellmanUp$ packet records the finite dynamic-programming, PDE, and control interface at which a displayed value row is read through a Hamiltonian minimization surface. It sits after the finite Bellman recursion of \autoref{ch:concrete-instances-dynamic-programming-namecert}, the Hamilton-Jacobi readback packet of \autoref{ch:concrete-instances-hamilton-jacobi-namecert}, the PDE relation surface of \autoref{ch:concrete-instances-pde-namecert}, the quadratic-control dependency of \autoref{ch:concrete-instances-control-riccati-namecert}, and the finite LQR route of \autoref{ch:concrete-instances-lqr-namecert}. The packet names only displayed state, control, value, Hamiltonian, PDE-relation, dynamic-programming, Riccati, LQR, transport, replay, provenance, and local naming rows; it is not an existence theorem for optimal controls, not a classical viscosity-solution theorem, not a global PDE regularity theorem, and not an ambient completeness assertion for $\RealUp$.
+
+\begin{definition}[Hamilton-Jacobi-Bellman carrier]
+\label{def:hamilton-jacobi-bellman-carrier}
+A $\HamiltonJacobiBellmanUp$ carrier is a finite $\BHist$ packet
+$$
+H=(X,U,T,C,V,G,E,D,J,Q,L,R,A,M,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the displayed state row and $U$ is the admissible control row consumed by the finite control request.
+\item $T$ is the transition or dynamics row, and $C$ is the running-cost row sealed only through displayed $\RealUp$ data.
+\item $V$ is the value-row name, $G$ is the finite slope or gradient-read row, and $E$ is the terminal or boundary value row.
+\item $D$ is the $\DynamicProgrammingUp$ recursion row that supplies finite Bellman table readback.
+\item $J$ is the $\HamiltonJacobiUp$ Hamiltonian readback row, and $Q$ is the $\PdeUp$ relation row tying the value surface to a displayed PDE request.
+\item $L$ is the $\LQRUp$ quadratic-control dependency row, and $R$ is the $\ControlRiccatiUp$ Riccati comparison row available for the linear-quadratic face.
+\item $A$ records componentwise $\hsame$ transport for $X,U,T,C,V,G,E,D,J,Q,L,R$.
+\item $M$ records displayed $\Cont$ replay through the route
+$$
+D,J,Q,L,R \longmapsto V .
+$$
+\item $K$ is the $\Pkg$ provenance over $\HamiltonJacobiBellmanUp$, $\DynamicProgrammingUp$, $\HamiltonJacobiUp$, $\PdeUp$, $\ControlRiccatiUp$, $\LQRUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $P,N$ are the refusal and local $\NameCert_{\HamiltonJacobiBellmanUp}$ rows.
+\end{enumerate}
+The classifier compares accepted packets only through $X,U,T,C,V,G,E,D,J,Q,L,R,A,M,K,P,N$. It has no coordinate for selected optimal controls, classical solution existence, viscosity uniqueness, unbounded PDE regularity, host minimizers, quotient value-function equality, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Hamilton-Jacobi-Bellman NameCert obligations]
+\label{thm:hamilton-jacobi-bellman-namecert-obligations}
+For every accepted $\HamiltonJacobiBellmanUp$ carrier
+$$
+H=(X,U,T,C,V,G,E,D,J,Q,L,R,A,M,K,P,N),
+$$
+the local $\NameCert_{\HamiltonJacobiBellmanUp}$ surface is the following five-row obligation surface:
+\begin{enumerate}
+\item carrier admission exposes the displayed state, control, transition, running-cost, value, slope, and terminal rows $X,U,T,C,V,G,E$;
+\item dynamic-programming exposure routes finite Bellman recursion through $D$ and \autoref{ch:concrete-instances-dynamic-programming-namecert};
+\item Hamilton-Jacobi and PDE exposure routes Hamiltonian and relation reads through $J,Q$ and \autoref{ch:concrete-instances-hamilton-jacobi-namecert}, \autoref{ch:concrete-instances-pde-namecert};
+\item quadratic-control exposure routes the LQR and Riccati faces through $L,R$ and \autoref{ch:concrete-instances-lqr-namecert}, \autoref{ch:concrete-instances-control-riccati-namecert};
+\item structural exposure routes componentwise transport, replay, provenance, refusal, and local naming through $A,M,K,P,N$.
+\end{enumerate}
+No listed row exports selected optimal controls, classical solution existence, viscosity uniqueness, unbounded PDE regularity, host minimizers, quotient value-function equality, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hamilton-jacobi-bellman-carrier}. The rows $X,U,T,C,V,G,E$ give the visible finite control and value surface before any Bellman or PDE request is read.
+
+Read the sibling rows next. The dynamic-programming row $D$ supplies finite Bellman recursion, the Hamilton-Jacobi row $J$ supplies Hamiltonian readback, and the PDE row $Q$ supplies the displayed relation surface.
+
+For the quadratic-control face, the LQR row $L$ and Riccati row $R$ are dependency rows inside the same packet. A consumer may read them only after the finite value, Hamiltonian, and relation rows have been displayed.
+
+Finally use $A,M,K,P,N$ for transport, replay, provenance, refusal, and local naming. Since the carrier has no further coordinate, none of the refused analytic or choice-theoretic objects can be exported by the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hamilton-Jacobi-Bellman sibling dependency route]
+\label{thm:hamilton-jacobi-bellman-sibling-dependency-route}
+Every downstream consumer of an accepted $\HamiltonJacobiBellmanUp$ packet that asks for a control-facing PDE read must pass through
+$$
+\DynamicProgrammingUp,\HamiltonJacobiUp,\PdeUp,\ControlRiccatiUp,\LQRUp \longmapsto \HamiltonJacobiBellmanUp
+$$
+as displayed sibling rows. The route binds finite Bellman recursion, Hamiltonian readback, PDE relation data, Riccati comparison, and LQR specialization as one NameCert packet, without turning any sibling into an optimal-control existence theorem or a classical PDE regularity theorem.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:hamilton-jacobi-bellman-namecert-obligations}. The dynamic-programming, Hamilton-Jacobi, PDE, LQR, and Riccati obligations are separate displayed rows of the same accepted carrier.
+
+The structural rows $A,M,K,P,N$ preserve that row inventory under transport and replay. They do not add a host minimizer, a selected policy, a viscosity uniqueness theorem, or an ambient completion principle.
+
+Thus a consumer reaches $\HamiltonJacobiBellmanUp$ only through the finite sibling route shown above, and the refused analytic objects remain outside the packet.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\HamiltonJacobiBellmanUp$ read that reaches a PDE relation or quadratic-control face without displaying the DynamicProgramming, HamiltonJacobi, Pde, ControlRiccati, and LQR rows refutes the carrier.}
+
+\independenceWitness{dynamic-programming, hamilton-jacobi, pde, control-riccati, lqr: no listed sibling is bijective to $\HamiltonJacobiBellmanUp$ because only this packet binds finite Bellman recursion, Hamiltonian readback, PDE relation data, Riccati comparison, LQR specialization, value rows, transport, replay, provenance, refusal, and local naming as one HJB interface.}
+
+\closureat{HamiltonJacobiBellmanUp}{seedStr}
+
+\begin{closurestatus}{\HamiltonJacobiBellmanUp}
+  \constructivestory{A $\HamiltonJacobiBellmanUp$ packet is generated from displayed state, control, transition, cost, value, slope, terminal, DynamicProgramming, HamiltonJacobi, Pde, ControlRiccati, LQR, transport, replay, provenance, refusal, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hamilton-jacobi-bellman-carrier}, \autoref{thm:hamilton-jacobi-bellman-namecert-obligations}, and \autoref{thm:hamilton-jacobi-bellman-sibling-dependency-route} seed the finite HJB control-PDE interface over dynamic programming, Hamilton-Jacobi, PDE, Riccati, and LQR rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected optimal controls, classical solution existence, viscosity uniqueness, global PDE regularity, host minimizers, quotient value-function equality, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dynamic-programming exposure, Hamilton-Jacobi and PDE exposure, quadratic-control exposure, transport, replay, provenance, refusal, and local naming for BEDC.Derived.HamiltonJacobiBellmanUp.}
+\end{closurestatus}
