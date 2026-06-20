@@ -804,6 +804,7 @@ import BEDC.Derived.BanachUp.IdentityUnits
 import BEDC.Derived.BarTheoremUp.TasteGate
 import BEDC.Derived.BareObjectRefusalUp.TasteGate
 import BEDC.Derived.BareissFractionFreeEliminationUp.TasteGate
+import BEDC.Derived.BarrBeckMonadicityUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BayesianUp.TasteGate
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
@@ -4819,6 +4820,7 @@ import BEDC.Derived.DyadicIntervalDiameterUp.TasteGate
 import BEDC.Derived.DyadicIntervalEnclosureUp
 import BEDC.Derived.DyadicIntervalHullUp.TasteGate
 import BEDC.Derived.DyadicIntervalNestingUp.TasteGate
+import BEDC.Derived.DyadicIntervalRefinementLadderUp.TasteGate
 import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
 import BEDC.Derived.DyadicIntervalTreeUp
 import BEDC.Derived.DyadicIntervalTreeUp.TasteGate
@@ -7702,6 +7704,7 @@ import BEDC.Derived.MetacicNormalizationAuditUp.ConfluenceSocket
 import BEDC.Derived.MetacicNormalizationAuditUp.KernelScopeRoute
 import BEDC.Derived.MetacicNormalizationAuditUp.NormalizationAuditCandidateBoundary
 import BEDC.Derived.MetacicNormalizationAuditUp.ObligationPack
+import BEDC.Derived.MetacicNormalizationAuditUp.PublicCandidateConfluenceRefusal
 import BEDC.Derived.MetacicNormalizationAuditUp.PublicCandidateExport
 import BEDC.Derived.MetacicNormalizationAuditUp.PublicRouteExport
 import BEDC.Derived.MetacicNormalizationAuditUp.ResidualSubstitutionCompatibility
