@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MetacicResidualSubstitutionSocketUp$}
+\label{ch:concrete-instances-metacic-residual-substitution-socket-namecert}
+\origin{human}
+
+Following the standard MetaCIC proof-engineering route for substitution, residuals, and confluence boundaries, the $\MetacicResidualSubstitutionSocketUp$ packet records the finite socket where a residual source and a substitution window must agree before normalization or confluence audit data may be consumed. It sits beside the residual-substitution compatibility packet of \autoref{ch:concrete-instances-metacic-residual-substitution-compatibility-namecert}, the residual diamond budget of \autoref{ch:concrete-instances-metacic-residual-diamond-budget-namecert}, and the closure-substitution frontier of \autoref{ch:concrete-instances-metacic-closure-substitution-frontier-namecert}. The packet is a socket for audit surfaces; it does not claim full subject reduction, full confluence, normalization, conversion typing, or kernel consistency.
+
+\begin{definition}[MetaCIC residual-substitution socket carrier]
+\label{def:metacic-residual-substitution-socket-carrier}
+A $\MetacicResidualSubstitutionSocketUp$ carrier is a finite $\BHist$ packet
+$$
+S=(R,W,B,J,F,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the residual source row, naming the redex or residual family whose descendants are being audited.
+\item $W$ is the substitution-window row, listing the binder depth, occurrence window, and substitution request visible before residual transport.
+\item $B$ is the candidate-boundary row, exposing the candidate branch or normalization boundary that will consume the socket.
+\item $J$ is the confluence socket row, recording the finite join or conditional-diamond handoff available after $R,W,B$ have been displayed.
+\item $F$ is the refusal row, listing the subject-reduction, full confluence, normalization, conversion-typing, quotient-syntax, and consistency claims not exported by this socket.
+\item $V$ is the provenance row for the MetaCIC audit-map route, retaining which normalization and confluence audit surfaces supplied the residual and substitution data.
+\item $H$ records componentwise $\hsame$ transport for residual source, substitution window, candidate boundary, confluence socket, refusal, provenance, replay, package, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+R,W,B \longmapsto J \longmapsto F,V .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetacicResidualSubstitutionSocketUp$, $\MetaCICResidualSubstitutionCompatibilityUp$, $\MetaCICResidualDiamondBudgetUp$, $\MetaCICClosureSubstitutionFrontierUp$, $\MetaCICConfluenceSubstitutionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetacicResidualSubstitutionSocketUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,W,B,J,F,V,H,C,P,N$. It has no coordinate for full subject reduction, full confluence, normalization, conversion typing, quotient syntax equality, hidden substitution admissibility, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual-substitution socket NameCert obligations]
+\label{thm:metacic-residual-substitution-socket-namecert-obligations}
+For every accepted $\MetacicResidualSubstitutionSocketUp$ carrier
+$$
+S=(R,W,B,J,F,V,H,C,P,N),
+$$
+the local $\NameCert_{\MetacicResidualSubstitutionSocketUp}$ surface consists exactly of carrier admission for residual source, substitution-window compatibility, candidate-boundary exposure, confluence socket handoff, refusal and provenance rows, componentwise transport, displayed replay, package provenance, and local naming. Any normalization or confluence audit consumer must read
+$$
+R,W,B \longmapsto J
+$$
+before it may use the socket-facing row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-substitution-socket-carrier}. The residual source, substitution window, candidate boundary, confluence socket, refusal, provenance, and structural rows are exactly the displayed coordinates.
+
+Substitution-window compatibility is the pair $R,W$. The source residual data and the binder-window request are read together before a candidate branch is exposed.
+
+The candidate-boundary row $B$ fixes the branch that may consume the socket. The confluence socket row $J$ can therefore be read only after $R,W,B$ are visible.
+
+The refusal and provenance rows $F,V$ keep the audit boundary explicit. They record which large MetaCIC claims are absent and which normalization or confluence audit surfaces supplied the data.
+
+Finally $H,C,P,N$ transport, replay, source, and name only those rows. Since the carrier has no coordinate for full subject reduction, confluence, normalization, conversion typing, quotient syntax equality, hidden substitution admissibility, or consistency, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-substitution socket audit route]
+\label{thm:metacic-residual-substitution-socket-audit-route}
+Every audit consumer of an accepted $\MetacicResidualSubstitutionSocketUp$ packet must expose the residual source row $R$, substitution-window row $W$, candidate-boundary row $B$, confluence socket row $J$, refusal row $F$, provenance row $V$, and structural rows $H,C,P,N$. The packet connects normalization and confluence audit surfaces through finite socket data without exporting full subject reduction, full confluence, normalization, conversion typing, quotient syntax equality, hidden substitution admissibility, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with an audit consumer of the socket. Projection from \autoref{def:metacic-residual-substitution-socket-carrier} gives the rows $R,W,B,J,F,V,H,C,P,N$ and no global preservation theorem.
+
+The consumer first reads the residual source and substitution window. This fixes the redex family, binder depth, occurrence window, and substitution request as finite packet data.
+
+Next it reads the candidate boundary and confluence socket. These rows identify the finite branch and conditional join handoff available to the audit route.
+
+The refusal and provenance rows are read before the socket is exported. They retain the absence of subject reduction, full confluence, normalization, conversion typing, quotient syntax equality, hidden substitution admissibility, and consistency, while naming the audit surfaces that supplied the socket data.
+
+The structural rows preserve only that displayed route. Thus the packet connects the normalization and confluence audit surfaces without turning the socket into any of the excluded MetaCIC theorems.
+\end{proof}
+
+\closureat{MetacicResidualSubstitutionSocketUp}{seedStr}
+
+\begin{closurestatus}{\MetacicResidualSubstitutionSocketUp}
+  \constructivestory{A $\MetacicResidualSubstitutionSocketUp$ packet is generated from residual source rows, substitution-window rows, candidate-boundary rows, confluence socket rows, refusal and provenance rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-substitution-socket-carrier}, \autoref{thm:metacic-residual-substitution-socket-namecert-obligations}, and \autoref{thm:metacic-residual-substitution-socket-audit-route} seed the finite residual-substitution socket connecting normalization and confluence audit surfaces through residual source, substitution-window, candidate-boundary, confluence socket, refusal, provenance, transport, replay, package, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close subject reduction, full confluence, normalization, conversion typing, quotient syntax equality, hidden substitution admissibility, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier admission, residual source exposure, substitution-window compatibility, candidate-boundary exposure, confluence socket handoff, refusal/provenance stability, and local naming for BEDC.Derived.MetacicResidualSubstitutionSocketUp.}
+\end{closurestatus}

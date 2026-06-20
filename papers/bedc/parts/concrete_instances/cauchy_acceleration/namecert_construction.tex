@@ -79,6 +79,26 @@ Apply \autoref{thm:cauchy-acceleration-namecert-obligations}. The cofinality row
 Now apply \autoref{thm:cauchy-acceleration-l10-handoff}. Transport and replay through $H$ and $C$ preserve the route named by $P$ and $N$, so no quotient representative, selected subsequence outside the ledger, or ambient completeness row is exported.
 \end{proof}
 
+\begin{theorem}[Cauchy acceleration cofinal-ledger determinism]
+\label{thm:cauchy-acceleration-cofinal-ledger-determinism}
+Let
+$$
+A=(S,T,\alpha,R,E,H,C,P,N)
+$$
+and
+$$
+A'=(S,T,\alpha',R',E',H,C,P,N)
+$$
+be accepted $\CauchyAccelerationUp$ carriers sharing the same displayed source stream, tolerance schedule, structural replay rows, provenance rows, and local naming boundary through $S,T,H,C,P,N$. If the two cofinal ledgers $\alpha$ and $\alpha'$ choose the same source window for every inspected precision request, then their accelerated $\RegSeqRatUp$ readback and terminal $\RealUp$ seal follow the same finite route. In particular, neither ledger can replace the displayed source-window or tolerance route before $R,R'$ and $E,E'$ are read.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers through \autoref{def:cauchy-acceleration-carrier}. The shared rows expose the same $\StreamNameUp$ source windows, the same $\DyadicRatCoreUp$ tolerance schedule, and the same replay and provenance boundary.
+
+Apply \autoref{thm:cauchy-acceleration-namecert-obligations} to both packets. The only ledger freedom available before the accelerated readback is the cofinal row, and by hypothesis the displayed source window selected for each inspected request is identical in $\alpha$ and $\alpha'$.
+
+Now use \autoref{thm:cauchy-acceleration-rectangular-window-route}. Since the rectangular source-window and tolerance route is fixed, the regular rational rows $R,R'$ and the Real seals $E,E'$ are reached through the same finite route. The packet therefore has no row through which a second ledger can substitute a hidden subsequence, quotient representative, or ambient completeness argument.
+\end{proof}
+
 \closureat{CauchyAccelerationUp}{seedStr}
 
 \begin{closurestatus}{\CauchyAccelerationUp}

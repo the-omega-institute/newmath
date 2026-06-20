@@ -1,0 +1,11 @@
+\begin{theorem}[Calculus Peano dependency route]\label{thm:calculus-peano-dependency-route}
+Every $\CalculusUp$ read that is used as an ODE-facing derivative row or local-flow row must consume the Peano and initial-value surfaces after the Real and continuous-map rows have already been displayed. Concretely, such a read is routed through the $\RealUp$ seal, the $\ContinuousMapUp$ graph and modulus rows, \autoref{ch:concrete-instances-peano-existence-namecert}, and \autoref{ch:concrete-instances-initial-value-problem-namecert} before it may be exported as an ODE existence consumer.
+\end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.PeanoDependencyRoute.CalculusPeanoDependencyRoute}
+\begin{proof}
+The hub spine fixes $\CalculusUp$ as a packet over Real-facing limits, local operations, and continuous-map readback. The existing Real handoff and finite-difference routes make any derivative read visible only after the terminal $\RealUp$ and $\ContinuousMapUp$ rows have been named.
+
+An ODE-facing consumer needs more than that derivative row. It must also expose the local existence packet of \autoref{ch:concrete-instances-peano-existence-namecert} and the initial-data packet of \autoref{ch:concrete-instances-initial-value-problem-namecert}, since those chapters bind the interval source, vector-field row, local window, and solution-read surface used by the existence request.
+
+Thus the calculus derivative or local-flow read is not a detached host derivative. It is an additive child route from the already displayed Real and continuous-map rows through Peano existence and initial-value data before any ODE existence consumer is public.
+\end{proof}
