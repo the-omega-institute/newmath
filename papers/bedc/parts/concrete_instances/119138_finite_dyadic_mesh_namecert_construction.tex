@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDyadicMeshUp$}
+\label{ch:concrete-instances-finite-dyadic-mesh-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite partitions of compact real intervals, the $\FiniteDyadicMeshUp$ packet records the finite dyadic interval mesh used by L10 Real and Completion consumers before any compactness theorem or selected limit is available. It sits over the endpoint arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located-cell surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite partition carrier, not an open-cover compactness principle, a host list equality theorem, countable choice, quotient-real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite dyadic interval mesh carrier]
+\label{def:finite-dyadic-mesh-carrier}
+A $\FiniteDyadicMeshUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,Z,C,W,R,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the lower endpoint ledger, a finite row of $\DyadicRatCoreUp$ names for the left endpoints inspected by the mesh.
+\item $Z$ is the upper endpoint ledger, a finite row of $\DyadicRatCoreUp$ names for the matching right endpoints, with each row read at the same dyadic scale as its lower endpoint.
+\item $C$ is the finite $\LocatedIntervalUp$ cell table, assigning to each displayed adjacent endpoint pair the located interval cell consumed by later Real or Completion reads.
+\item $W$ is the $\StreamNameUp$ finite-window row that records the endpoint, adjacency, and cell observations requested by the consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained after $W$ has exposed the endpoint and cell windows.
+\item $E$ is the terminal $\RealUp$ seal row, available only after the finite mesh windows and regular rational readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for endpoint, cell, window, readback, seal, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay of every accepted mesh read through
+$$
+A,Z,C,W \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteDyadicMeshUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteDyadicMeshUp}$ row.
+\end{enumerate}
+The classifier compares accepted mesh packets only through $A,Z,C,W,R,E,H,K,P,N$. It has no coordinate for host list equality, selected refinement trees, countable choice, open-cover compactness, quotient real equality, host real equality, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite dyadic mesh NameCert obligations]
+\label{thm:finite-dyadic-mesh-namecert-obligations}
+For every accepted $\FiniteDyadicMeshUp$ carrier
+$$
+M=(A,Z,C,W,R,E,H,K,P,N),
+$$
+the local $\NameCert_{\FiniteDyadicMeshUp}$ surface consists exactly of lower endpoint exposure, upper endpoint exposure, finite located-cell admission, finite $\StreamNameUp$ window coverage, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Every L10 Real or Completion consumer of the mesh must display those rows before it may read the terminal seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-dyadic-mesh-carrier}. The only endpoint data are the two finite dyadic ledgers $A,Z$, and the only cell data are the located interval rows $C$.
+
+The finite observation row $W$ records the requested endpoint and cell windows. The readback row $R$ is therefore downstream of the displayed mesh observations, not an independent list selector or completed subdivision tree.
+
+The Real-facing output is the seal row $E$, and it appears only after $R$. The structural rows $H,K,P,N$ transport, replay, source, and name the same finite route without adding a second Real, Completion, compactness, or equality coordinate.
+
+Thus the listed rows exhaust the local NameCert surface, and any consumer using host list equality, countable choice, open-cover compactness, quotient real equality, selected limits, or ambient completeness has left the accepted packet.
+\end{proof}
+
+\begin{theorem}[Finite dyadic mesh subdivision induction]
+\label{thm:finite-dyadic-mesh-induction}
+Let $M=(A,Z,C,W,R,E,H,K,P,N)$ be an accepted $\FiniteDyadicMeshUp$ carrier. Suppose a displayed finite subdivision step replaces one located dyadic cell in $C$ by its two adjacent located dyadic subcells, with the new endpoints read through $\DyadicRatCoreUp$ and the new cells admitted through $\LocatedIntervalUp$. Then the resulting finite mesh read still factors through the route
+$$
+A,Z,C,W \longmapsto R \longmapsto E
+$$
+with the same transport, replay, provenance, and local naming rows. Induction over displayed finite subdivision steps never invokes host natural-number recursion, host list equality, selected infinite branches, countable choice, open-cover compactness, quotient real equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The base case is the accepted carrier itself. By \autoref{thm:finite-dyadic-mesh-namecert-obligations}, every visible read passes through the endpoint ledgers, located cells, finite windows, regular readback, and Real seal.
+
+For one subdivision step, the replacement cell contributes only two new endpoint reads through $\DyadicRatCoreUp$ and two new located-cell rows through $\LocatedIntervalUp$. The finite window row $W$ records those displayed reads before $R$ is available.
+
+Now iterate over the displayed subdivision history inside the finite $\BHist$ packet. Each step rewrites only the finite endpoint and cell rows already named by $A,Z,C$; the downstream window, readback, and seal route remains $W,R,E$.
+
+The structural rows $H,K,P,N$ preserve that route under transport, replay, provenance, and local naming. Since the induction ranges only over displayed finite subdivision entries, no host recursion principle, list equality, infinite branch, choice selector, compactness theorem, quotient equality, selected limit, or ambient completeness coordinate is introduced.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteDyadicMeshUp$ Real or Completion read must expose dyadic endpoint rows, located interval cells, finite StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before the mesh is consumed.}
+
+\independenceWitness{dyadicratcore, locatedinterval, streamname, regseqrat, real: $\FiniteDyadicMeshUp$ is not bijective to any listed sibling because it binds two endpoint ledgers, a located-cell table, finite observation windows, regular readback, terminal Real seal, transport, replay, provenance, and local naming as one finite mesh certificate.}
+
+\closureat{FiniteDyadicMeshUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDyadicMeshUp}
+  \constructivestory{A $\FiniteDyadicMeshUp$ packet is generated from lower and upper DyadicRatCore endpoint ledgers, a finite LocatedInterval cell table, a StreamName finite-window row, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-dyadic-mesh-carrier}, \autoref{thm:finite-dyadic-mesh-namecert-obligations}, and \autoref{thm:finite-dyadic-mesh-induction} seed the finite dyadic mesh route over endpoint ledgers, located cells, finite windows, regular readback, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host list equality, selected refinement trees, countable choice, open-cover compactness, quotient real equality, host real equality, selected limits, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint exposure, located-cell admission, finite StreamName coverage, RegSeqRat readback, Real-seal nonescape, subdivision induction, transport, replay, provenance, and local naming for BEDC.Derived.FiniteDyadicMeshUp.}
+\end{closurestatus}

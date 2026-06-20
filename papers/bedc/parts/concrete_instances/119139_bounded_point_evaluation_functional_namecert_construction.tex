@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\BoundedPointEvaluationFunctionalUp$}
+\label{ch:concrete-instances-bounded-point-evaluation-functional-namecert}
+\origin{human}
+
+Following Bishop and Bridges and standard functional analysis, the $\BoundedPointEvaluationFunctionalUp$ packet records the scalar read $f \mapsto f(x)$ as finite NameCert data over a compact displayed source and a continuous real-valued map. It reads compactness through \autoref{ch:concrete-instances-compact-namecert}, continuity through \autoref{ch:concrete-instances-continuousmap-namecert}, scalar endpoints through \autoref{ch:concrete-instances-real-namecert}, metric support through \autoref{ch:concrete-instances-metric-space-namecert}, and dual-facing scalar-functional rows through \autoref{ch:concrete-instances-bounded-linear-functional-namecert} and \autoref{ch:concrete-instances-banach-dual-namecert}. The packet names only displayed point evaluation and its boundedness ledger; it does not introduce a host function space, quotient equality of maps, selected norm-attaining witness, or bridge theorem.
+
+\begin{definition}[Bounded point-evaluation functional carrier]
+\label{def:bounded-point-evaluation-functional-carrier}
+For a displayed compact metric source row $K$ and a continuous real-valued map row $F$, a $\BoundedPointEvaluationFunctionalUp(K,F)$ carrier is a finite $\BHist$ packet
+$$
+\mathcal{E}=(K,F,X,V,B,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact source row, including the underlying $\MetricSpaceUp$ carrier and the finite compactness ledger consumed by uniform and dual-facing reads.
+\item $F$ is the $\ContinuousMapUp(K,\RealUp)$ row for the real-valued input map.
+\item $X$ is the point row, naming the displayed element of the compact source.
+\item $V$ is the evaluation readback row, recording the scalar endpoint $F(X)$ as a $\RealUp$ row.
+\item $B$ is the boundedness ledger, recording that the point-evaluation read is bounded by the displayed scalar-control surface supplied by the compact source and continuous-map rows.
+\item $S$ is the $\RealUp$ seal for the value and bound endpoints read by $V$ and $B$.
+\item $H$ records componentwise $\hsame$ transport for the compact source, continuous real-valued map, point row, evaluation readback, boundedness ledger, scalar seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a point-evaluation request through $K,F,X,V,B,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedPointEvaluationFunctionalUp$, $\CompactUp$, $\ContinuousMapUp$, $\RealUp$, $\MetricSpaceUp$, $\BoundedLinearFunctionalUp$, $\BanachDualUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedPointEvaluationFunctionalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,F,X,V,B,S,H,C,P,N$. It has no coordinate for an ambient function space, quotient equality of continuous maps, unrestricted Banach-dual object, selected representative, or checked standard bridge.
+\end{definition}
+
+\begin{theorem}[Bounded point-evaluation functional NameCert obligations]
+\label{thm:bounded-point-evaluation-functional-namecert-obligations}
+For every accepted $\BoundedPointEvaluationFunctionalUp(K,F)$ carrier
+$$
+\mathcal{E}=(K,F,X,V,B,S,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedPointEvaluationFunctionalUp}$ surface consists exactly of compact-source admission, continuous real-valued map admission, point-row exposure, evaluation readback, boundedness ledger exposure, RealUp value-and-bound sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and nonescape from host function-space or quotient-dual objects. A Banach-dual or bounded-functional consumer may inspect the rows $K,F,X,V,B,S,H,C,P,N$, but it cannot replace them by an ambient evaluation operator without displaying those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The source of the read is the compact metric row $K$, the scalar-valued map is the continuous row $F$, and the inspected source element is the point row $X$.
+
+The evaluation readback row $V$ then records the RealUp scalar endpoint $F(X)$. The boundedness ledger $B$ records the finite control needed by a scalar-functional consumer, while the seal $S$ keeps the value and bound endpoints inside the same RealUp surface.
+
+Transport and replay preserve these displayed rows through $H$ and $C$. The provenance row $P$ exposes exactly the compact, continuous-map, scalar, metric, bounded-functional, and Banach-dual neighbours that may consume the packet.
+
+No remaining carrier coordinate names a host function space, quotient equality of maps, selected representative, unrestricted dual object, or checked bridge. Hence the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bounded point-evaluation dual handoff]
+\label{thm:bounded-point-evaluation-dual-handoff}
+Every accepted $\BoundedPointEvaluationFunctionalUp(K,F)$ read exported to a $\BoundedLinearFunctionalUp$ or $\BanachDualUp$ consumer factors through the finite route
+$$
+\CompactUp,\ContinuousMapUp,\MetricSpaceUp,\RealUp
+\longmapsto
+\BoundedPointEvaluationFunctionalUp .
+$$
+The route displays the compact source, continuous real-valued map, point row, RealUp evaluation endpoint, boundedness ledger, transport, replay, provenance, and local naming before any dual-facing scalar-functional read is consumed.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $\mathcal{E}=(K,F,X,V,B,S,H,C,P,N)$. The compact source and metric support are read through $K$, while the scalar-valued continuity data are read through $F$.
+
+The point row $X$ and evaluation row $V$ force the scalar read to be the displayed endpoint $F(X)$. The boundedness ledger $B$ and RealUp seal $S$ then provide the finite scalar-control surface that a bounded-functional or Banach-dual consumer may inspect.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same rows. Since no host evaluation operator, quotient function class, selected representative, or bridge theorem is present, the exported handoff remains the displayed point-evaluation NameCert route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BoundedPointEvaluationFunctionalUp$ read displays a compact source, continuous real-valued map, point row, RealUp evaluation endpoint, boundedness ledger, scalar seal, transport, replay, provenance, and local $\NameCert$ row before any bounded-functional or Banach-dual consumer reads the scalar value.}
+
+\independenceWitness{compact, continuousmap, real, metricspace, boundedlinearfunctional, and banachdual: no listed sibling is bijective to $\BoundedPointEvaluationFunctionalUp$ because this packet jointly stores the point row, evaluation readback, boundedness ledger, scalar seal, transport, replay, provenance, and local naming as one finite point-evaluation surface.}
+
+\closureat{BoundedPointEvaluationFunctionalUp}{seedStr}
+
+\begin{closurestatus}{\BoundedPointEvaluationFunctionalUp}
+  \constructivestory{A $\BoundedPointEvaluationFunctionalUp$ packet is generated from a displayed compact metric source, a continuous real-valued map row, a point row, an evaluation readback row, a boundedness ledger, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-point-evaluation-functional-carrier}, \autoref{thm:bounded-point-evaluation-functional-namecert-obligations}, and \autoref{thm:bounded-point-evaluation-dual-handoff} seed the finite point-evaluation carrier over compact, continuous-map, RealUp, metric, bounded-functional, and Banach-dual rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient function spaces, quotient equality of maps, selected representatives, unrestricted Banach-dual objects, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked compact-source admission, continuous real-valued map admission, point-row exposure, evaluation readback, boundedness ledger exactness, RealUp sealing, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.BoundedPointEvaluationFunctionalUp.}
+\end{closurestatus}
