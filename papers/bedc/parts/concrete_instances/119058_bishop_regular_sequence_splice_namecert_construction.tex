@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularSequenceSpliceUp$}
+\label{ch:concrete-instances-bishop-regular-sequence-splice-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive analysis, the $\BishopRegularSequenceSpliceUp$ packet records the finite certificate surface for replacing a bounded window of one regular rational Cauchy name by a compatible window from another. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite stream-surgery interface for Real and Completion consumers; it is not host sequence equality, quotient representative selection, countable choice, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop regular sequence splice carrier]
+\label{def:bishop-regular-sequence-splice-carrier}
+A $\BishopRegularSequenceSpliceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,R,U,B,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the left and right $\RegSeqRatUp$ stream rows whose finite windows are candidates for the splice.
+\item $U$ is a unary splice-window row, recording the displayed interval of stream positions where the right row is read instead of the left row.
+\item $B$ is the dyadic boundary agreement ledger at the two splice edges.
+\item $W$ records the paired $\StreamNameUp$ finite windows inspected before, inside, and after $U$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for all comparisons in $W$ and across $B$.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the spliced stream assembled from $L,R,U,B,W,D$.
+\item $E$ is the downstream $\RealUp$ seal, exposed only after the splice window, boundary ledger, stream observations, dyadic tolerances, and regular readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for both source streams, the splice window, boundary agreement, stream windows, dyadic ledger, regular readback, seal boundary, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ records $\Pkg$ provenance over $\BishopRegularSequenceSpliceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRegularSequenceSpliceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $L,R,U,B,W,D,Q,E,H,C,P,N$. It has no coordinate for host sequence equality, quotient representatives, countable choice, selected limits, host real equality, or a completeness principle for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Bishop regular sequence splice regularity]
+\label{thm:bishop-regular-sequence-splice-regularity}
+For every accepted $\BishopRegularSequenceSpliceUp$ carrier
+$$
+S=(L,R,U,B,W,D,Q,E,H,C,P,N),
+$$
+the spliced row $Q$ is a regular rational Cauchy readback over the displayed finite route. Its regularity is witnessed by the left $\RegSeqRatUp$ row before $U$, by the right $\RegSeqRatUp$ row inside $U$, by the left $\RegSeqRatUp$ row after $U$, and by the boundary agreement ledger
+$$
+B:\quad
+\begin{gathered}
+L(a) \sim_D R(a),\\
+R(b) \sim_D L(b)
+\end{gathered}
+$$
+at the displayed endpoints $a,b$ of the unary splice window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-regular-sequence-splice-carrier}. The rows $L$ and $R$ supply the two regular rational source streams, $U$ names the finite splice interval, $W$ names the inspected stream windows, and $D$ supplies the dyadic tolerances used by every comparison.
+
+Before the splice window, the assembled row $Q$ reads from $L$. Regularity there is exactly the regularity already displayed by the left $\RegSeqRatUp$ row, transported through the corresponding coordinates of $H$ and replayed through $C$.
+
+Inside the splice window, $Q$ reads from $R$. Regularity there is exactly the regularity already displayed by the right $\RegSeqRatUp$ row, with the same dyadic tolerance row $D$ and the same finite observations $W$.
+
+After the splice window, $Q$ returns to $L$. This is the same left-row regularity argument as before the window, again transported and replayed by the structural rows.
+
+It remains to cross the two boundaries. The ledger $B$ gives the displayed dyadic agreement at $a$ and $b$, and $D$ records the comparison budgets used at those edges. Combining the source regularity rows with the two boundary agreements yields the regularity of $Q$ across the splice boundary.
+
+No other equality source is available in the carrier. Thus the regularity proof is confined to the displayed source streams, unary window, dyadic ledger, stream observations, transport, replay, provenance, and local naming rows.
+\end{proof}
+
+\begin{theorem}[Bishop regular sequence splice Real seal]
+\label{thm:bishop-regular-sequence-splice-real-seal}
+Every Real and Completion consumer of an accepted $\BishopRegularSequenceSpliceUp$ carrier reaches terminal $\RealUp$ evidence only through the finite route
+$$
+\RegSeqRatUp,\quad \StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+The route first displays the left and right source streams, the unary splice window, the dyadic boundary agreement ledger, finite stream windows, and the spliced regular readback. It exports no host sequence equality, quotient representative, countable-choice schedule, selected limit, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bishop-regular-sequence-splice-regularity}. The theorem identifies $Q$ as the regular rational readback produced from $L,R,U,B,W,D$ and the structural rows.
+
+The seal row $E$ is downstream of that route in the carrier definition. A consumer therefore reaches $E$ only after the source streams, splice window, boundary agreement, stream observations, dyadic tolerances, and regular readback have been displayed.
+
+Inspect the remaining rows. The transport row $H$, continuation row $C$, provenance row $P$, and naming row $N$ preserve the same finite packet and do not add a quotient representative, selected limit, countable-choice schedule, host sequence equality, host real equality, or ambient completeness principle.
+\end{proof}
+
+\closureat{BishopRegularSequenceSpliceUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularSequenceSpliceUp}
+  \constructivestory{A $\BishopRegularSequenceSpliceUp$ packet is generated from left and right RegSeqRat streams, a unary splice window, a dyadic boundary agreement ledger, finite StreamName windows, DyadicRatCore tolerance accounting, a spliced RegSeqRat readback, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-sequence-splice-carrier}, \autoref{thm:bishop-regular-sequence-splice-regularity}, and \autoref{thm:bishop-regular-sequence-splice-real-seal} seed the finite regular-sequence splice route from RegSeqRat windows to Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host sequence equality, quotient representatives, countable choice, selected limits, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, splice-window coverage, boundary agreement, regularity preservation, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopRegularSequenceSpliceUp.}
+\end{closurestatus}
