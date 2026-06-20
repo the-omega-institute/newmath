@@ -541,18 +541,46 @@ empirical laws, and selected future observations. Therefore the exported
 NameCert is exactly the displayed forward-GAP obligation surface.
 \end{proof}
 
+\begin{theorem}[CausalCommitment standard bridge surface]
+\label{thm:causal-commitment-standard-bridge-surface}
+The public $\NameCert_{\CausalCommitmentUp}$ export of
+\autoref{thm:causal-commitment-forward-gap-namecert-export} factors through the
+standard bridge surface by displaying exactly the observed-history ledger $O$,
+regularity ledger $R$, $\mathsf{GAP}$ socket $G$, forward-binding route $F$,
+locality handoff $L$, componentwise transport row $H$, displayed replay row
+$C$, provenance row $P$, and local name $N$. The bridge exports no selected
+future observation, ambient causal primitive, hidden induction rule,
+synchronized global frame, or universal empirical law.
+\end{theorem}
+\begin{proof}
+Start from the public forward-GAP export. It already packages the carrier, GAP
+socket, forward-binding route, locality handoff, classifier stability, and
+ledger non-escape rows as the local NameCert surface.
+
+Read the rows through the bridge surface. The observed-history and regularity
+ledgers supply $O,R$, the GAP socket and forward-binding route supply $G,F$,
+the locality handoff supplies $L$, and the transport, replay, provenance, and
+local naming rows supply $H,C,P,N$.
+
+Finally apply the ledger non-escape boundary. The forbidden causal objects have
+no coordinate in $O,R,G,F,L,H,C,P,N$, so the standard bridge surface receives
+only the displayed public NameCert export and no selected future observation or
+ambient causal primitive.
+\end{proof}
+
 \closureat{CausalCommitmentUp}{seedStr}
 \closureat{CausalCommitmentUp}{obligationStr}
 \closureat{CausalCommitmentUp}{scopedStr}
 \closureat{CausalCommitmentUp}{publicStr}
+\closureat{CausalCommitmentUp}{bridgedStr}
 
 \begin{closurestatus}{\CausalCommitmentUp}
   \constructivestory{A $\CausalCommitmentUp$ packet is generated from a finite observed-history ledger, an observed regularity ledger, a displayed $\mathsf{GAP}$ socket, a forward-binding route, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:causal-commitment-forward-gap-namecert-export} exports the finite observed-history, regularity, GAP socket, forward-binding, locality, transport, replay, provenance, naming, stability, and ledger non-escape rows as the public NameCert surface.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:causal-commitment-standard-bridge-surface} factors the public NameCert export through the observed-history, regularity, GAP socket, forward-binding, locality, transport, replay, provenance, and local naming rows of the standard bridge surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a Lean implementation, bridge status, selected future observation, universal empirical law, hidden induction rule, synchronized global frame, or ambient causal primitive.}
-  \upgradepath{The next paper-side step is a bridgedClosure theorem connecting the public NameCert export to the standard bridge surface.}
+  \upgradepath{Lean verification, axiom-purity certification, and bridge checking remain separate formal-axis work for the standard bridge surface.}
 \end{closurestatus}
