@@ -72,6 +72,22 @@ Apply \autoref{thm:typelike-classifier-transport}. Any endpoint transport used b
 Finally inspect the sibling reads. $\SetLikeUp$ can supply membership only through $Q$, $\FirstOrderUp$ can supply syntax only through the provenance row $P$ and replay row $C$, and $\ModelTheoryUp$ can supply satisfaction only after the same displayed classifier route has been named locally by $N$. Thus the three consumer families are exhausted by $B,F,Q,E,H,C,P,N$ and cannot add an ambient universe, quotient type equality, or external category of families.
 \end{proof}
 
+\begin{theorem}[TypeLike displayed-family inversion]
+\label{thm:typelike-displayed-family-inversion}
+Let $T=(B,F,Q,E,H,C,P,N)$ be an accepted $\TypeLikeUp$ carrier. Any endpoint read classified as $\TypeLikeUp$ data determines the displayed base classifier row $B$, the fiber-carrier row $F$, the classifier row $Q$, and the endpoint-exactness ledger $E$ before any structural row $H,C,P,N$ is used. Thus endpoint readback is inverted through the concrete displayed-family spine
+$$
+B,F,Q,E \longmapsto H,C,P,N
+$$
+and cannot be read first as host type equality, unindexed $\SetLikeUp$ membership, bare $\FirstOrderUp$ syntax, or $\ModelTheoryUp$ satisfaction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typelike-carrier}. The endpoint-facing data appear in the first four rows: base classifier, indexed fiber carrier, family-compatible classifier, and endpoint-exactness ledger.
+
+Use classifier transport, \autoref{thm:typelike-classifier-transport}. It keeps any transported endpoint inside the displayed classifier family and prevents a downstream consumer from replacing the route by host type equality or an untracked fiber equivalence.
+
+Finally apply consumer exhaustion, \autoref{thm:typelike-displayed-family-consumer-exhaustion}. The SetLike, FirstOrder, and ModelTheory consumers may enter only after $B,F,Q,E$ have been exposed and carried through $H,C,P,N$. Hence an accepted endpoint read determines those four displayed rows before the structural rows are consumed.
+\end{proof}
+
 \falsifiablePrediction{A consumer that claims a $\TypeLikeUp$ endpoint transport while omitting the base classifier row, fiber-carrier row, classifier row, endpoint-exactness ledger, $\hsame$, $\Cont$, $\Pkg$, or local $\NameCert$ rows refutes the carrier of \autoref{def:typelike-carrier}.}
 
 \independenceWitness{setlike, firstorder, modeltheory: $\TypeLikeUp$ is not bijective to any listed sibling because it jointly carries a displayed base classifier family, indexed fiber carrier, classifier row, endpoint-exactness ledger, componentwise transport, continuation replay, provenance, and local NameCert row. SetLikeUp has membership without indexed fiber transport; FirstOrderUp has syntax and deduction rows without the carrier family; ModelTheoryUp has satisfaction rows over FirstOrderUp without a general classifier-family transport interface.}
