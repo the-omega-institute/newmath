@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\RealRegularSubsequenceClusterUp$}
+\label{ch:concrete-instances-real-regular-subsequence-cluster-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealRegularSubsequenceClusterUp$ packet records finite regular-subsequence cluster evidence downstream of the StreamName certificate of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence certificate of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Real certificate of \autoref{ch:concrete-instances-real-namecert}, and the regular Cauchy tail estimate of \autoref{ch:concrete-instances-regularcauchytailestimate-namecert}. The packet names a finite cluster-window surface for a displayed regular subsequence; it does not assert a Bolzano-Weierstrass theorem, choose a cluster point, or import an ambient completeness principle.
+
+\begin{definition}[Real regular-subsequence cluster carrier]
+\label{def:real-regular-subsequence-cluster-carrier}
+A $\RealRegularSubsequenceClusterUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,D,T,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the subsequence schedule row: a finite $\StreamNameUp$-indexed list of selected positions, monotone schedule comparisons, and source-window names.
+\item $R$ is the regular rational readback row: the $\RegSeqRatUp$ endpoint data read at the scheduled positions, with the source classifier and regular readback ledger still visible.
+\item $D$ is the dyadic tolerance ledger: a $\DyadicRatCoreUp$ precision row recording the tolerances used to compare scheduled readbacks inside a finite cluster window.
+\item $T$ is the tail-estimate row: a $\RegularCauchyTailEstimateUp$ packet certifying that the scheduled window is read through displayed finite tail data before any Real-facing seal is consumed.
+\item $W$ is the cluster-window witness row: a finite family of scheduled positions whose regular rational readbacks are pairwise inside the displayed dyadic tolerance ledger.
+\item $E$ is the terminal $\RealUp$ seal row: the Real-facing endpoint exposed only after $S,R,D,T,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, readback, tolerance, tail, window, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,R,D,T,W\longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RealRegularSubsequenceClusterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailEstimateUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealRegularSubsequenceClusterUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for selecting a cluster point, quotienting streams, invoking countable choice, deciding trichotomy, or replacing the finite tail route by ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Real regular-subsequence cluster NameCert obligations]
+\label{thm:real-regular-subsequence-cluster-namecert-obligations}
+For every accepted $\RealRegularSubsequenceClusterUp$ carrier $K=(S,R,D,T,W,E,H,C,P,N)$, the local $\NameCert_{\RealRegularSubsequenceClusterUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the subsequence schedule $S$, regular rational readback $R$, dyadic tolerance ledger $D$, tail-estimate row $T$, cluster-window witness $W$, terminal Real seal $E$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$;
+\item schedule-readback compatibility, requiring every selected position in $S$ to be read through the same displayed $\RegSeqRatUp$ row $R$;
+\item dyadic-window stability, requiring the cluster-window comparisons in $W$ to use only the tolerance ledger $D$ and the finite tail surface $T$;
+\item seal-route exactness, requiring the $\RealUp$ row $E$ to be consumed only after the schedule, readback, dyadic tolerance, tail estimate, and cluster window have been displayed;
+\item ledger non-escape, requiring $P$ and $N$ to source no Bolzano-Weierstrass theorem, selected cluster point, quotient stream equality, countable choice, trichotomy, or ambient Real completeness.
+\end{enumerate}
+No cluster obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(S,R,D,T,W,E,H,C,P,N)$. The analytic data available to a consumer are the subsequence schedule, regular rational readback, dyadic tolerance ledger, regular Cauchy tail estimate, finite cluster window, and terminal Real seal.
+
+The schedule-readback clause follows by reading $S$ through the StreamName route and then through the $\RegSeqRatUp$ row $R$. A selected position has no independent value row unless the corresponding regular rational readback is displayed.
+
+The dyadic-window clause uses $D,T,W$ together. The dyadic ledger records the tolerance, the tail-estimate row records the finite Real-facing route, and the cluster-window witness records only pairwise comparisons inside that displayed tolerance.
+
+The seal-route clause places $E$ after $S,R,D,T,W$. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same finite packet, while $\Pkg$ provenance and the local $\NameCert$ name only those rows.
+
+Finally inspect the non-escape clause. Since the carrier has no row for a selected cluster point, quotient stream equality, countable choice, trichotomy, or ambient completeness, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\falsifiablePrediction{A compactness consumer that reads a chosen cluster point or a Bolzano-Weierstrass theorem from $\RealRegularSubsequenceClusterUp$ refutes this packet.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, regularcauchytailestimate: $\RealRegularSubsequenceClusterUp$ is not bijective to any listed sibling because it carries the subsequence schedule, regular readback, dyadic tolerance ledger, tail estimate, cluster-window witness, terminal Real seal, transport, replay, provenance, and local naming rows in one finite packet.}
+
+\begin{closurestatus}{\RealRegularSubsequenceClusterUp}
+  \constructivestory{A $\RealRegularSubsequenceClusterUp$ packet is generated from a finite subsequence schedule, regular rational readback, dyadic tolerance ledger, regular Cauchy tail estimate, cluster-window witness, terminal Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:real-regular-subsequence-cluster-carrier} and \autoref{thm:real-regular-subsequence-cluster-namecert-obligations} bind the finite cluster-window packet over StreamName, RegSeqRat, DyadicRatCore, RegularCauchyTailEstimate, and Real rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Bolzano-Weierstrass, selected cluster points, quotient stream equality, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{To reach scopedClosure, a scope theorem must bind the schedule, readback, tolerance, tail, cluster-window, seal, transport, replay, provenance, and local naming rows as the only accepted packet surface.}
+\end{closurestatus}
