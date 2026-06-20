@@ -84,17 +84,30 @@ Consequently each sibling can be cited as a component or comparison anchor, whil
 \end{proof}
 \leanchecked{BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier\_sibling\_boundary}
 
+\begin{theorem}[StepIndexedTotalHost obligation surface]
+\label{thm:step-indexed-total-host-obligation-surface}
+The fuel-indexed total-host packet has exactly the obligations of total-host row exposure through $A$, unary fuel exposure through $F$, finite substrate trace exposure through $R$, normal-form boundary exposure through $N$, bounded universal trace witness exposure through $Z$, refusal-ledger exactness through $B$, componentwise $\hsame$ transport through $Hs$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local $\NameCert_{\StepIndexedTotalHostUp}$ through $K$. Every host/substrate comparison must pass through the same fuel row $F$ before any normal-form read or bounded universal trace read is accepted.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations, \autoref{def:step-indexed-total-host-carrier} and \autoref{thm:step-indexed-total-host-namecert-obligations}. They list the total-host row, unary fuel row, finite substrate trace, normal-form boundary, bounded universal trace witness, refusal ledger, transport, replay, provenance, and local name as the complete obligation surface.
+
+Use the separation theorem. It routes every host-facing and substrate-facing read through $A,F,R,Z,N,B,Hs,C,P,K$, so the fuel row $F$ is the shared boundary before either the normal-form row $N$ or bounded universal trace row $Z$ can be inspected.
+
+Apply the sibling boundary theorem. The Turing-machine, bounded universal trace, normal-form, and closed-normal consistency siblings can each provide comparison data, but none replaces the displayed fuel row or the refusal ledger that keeps host and substrate readings separated.
+\end{proof}
+
 The Lean \texttt{TasteGate.lean} development for $\StepIndexedTotalHostUp$ must include explicit $\mathsf{Nontrivial}\ \StepIndexedTotalHostUp$ and $\mathsf{FieldFaithful}\ \StepIndexedTotalHostUp$ instances. These instances must preserve the total host row, unary fuel row, finite substrate trace, normal-form boundary, bounded universal trace witness, refusal ledger, componentwise transports, displayed routes, package provenance, and local naming row.
 
 \closureat{StepIndexedTotalHostUp}{seedStr}
+\closureat{StepIndexedTotalHostUp}{obligationStr}[BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\StepIndexedTotalHostUp}
   \constructivestory{A $\StepIndexedTotalHostUp$ packet is generated from a total host term or evaluator row, unary fuel row, finite substrate trace row, normal-form boundary row, bounded universal trace witness row, refusal ledger, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:step-indexed-total-host-carrier}, \autoref{thm:step-indexed-total-host-namecert-obligations}, \autoref{thm:step-indexed-total-host-separation}, and \autoref{thm:step-indexed-total-host-sibling-boundary} specify the finite total-host and universal-substrate boundary packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:step-indexed-total-host-carrier}, \autoref{thm:step-indexed-total-host-namecert-obligations}, \autoref{thm:step-indexed-total-host-separation}, \autoref{thm:step-indexed-total-host-sibling-boundary}, and \autoref{thm:step-indexed-total-host-obligation-surface} specify the finite total-host and universal-substrate boundary packet and its fuel-indexed obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, unbounded halting, partial evaluator semantics, host evaluator equality, quotient behaviour, or transfer of substrate universality to the total host.}
-  \upgradepath{Obligation closure requires checked carrier admission, fuel-indexed trace exposure, host normal-form boundary exposure, bounded universal trace witness exactness, refusal-ledger exactness, nontriviality, and field faithfulness for the same packet.}
+  \upgradepath{Scoped closure requires checked carrier admission, fuel-indexed trace exposure, host normal-form boundary exposure, bounded universal trace witness exactness, refusal-ledger exactness, nontriviality, and field faithfulness for the same packet.}
 \end{closurestatus}
