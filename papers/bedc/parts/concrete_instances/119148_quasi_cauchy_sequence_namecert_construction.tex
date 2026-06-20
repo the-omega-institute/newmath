@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\QuasiCauchySequenceUp$}
+\label{ch:concrete-instances-quasi-cauchy-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real sequences, the $\QuasiCauchySequenceUp$ packet records the adjacent-difference boundary of a real sequence as finite BEDC NameCert data. It sits on the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later Real and Completion arguments a sequence frontier where adjacent gaps vanish without asserting the full Cauchy condition, selecting limits, quotienting streams, invoking countable choice, or claiming ambient $\RealUp$ completeness.
+
+\begin{definition}[Quasi-Cauchy sequence carrier]
+\label{def:quasi-cauchy-sequence-carrier}
+A $\QuasiCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,W,D,R,E,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row naming the inspected real sequence by finite windows.
+\item $W$ is the adjacent-window schedule row exposing each displayed pair $(x_n,x_{n+1})$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare adjacent differences.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational difference stream attached to the displayed windows.
+\item $E$ is the terminal $\RealUp$ seal for each inspected adjacent distance value.
+\item $A$ is the adjacent-difference ledger, recording that every accepted tolerance request is eventually met by the displayed adjacent rows.
+\item $H$ records componentwise $\hsame$ transport for the stream, schedule, dyadic, regular-rational, Real-seal, adjacent-ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a quasi-Cauchy request through $S,W,D,R,E,A,H$.
+\item $P$ is the $\Pkg$ provenance over $\QuasiCauchySequenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\QuasiCauchySequenceUp}$ row.
+\end{enumerate}
+The classifier accepts a sequence read only through $S,W,D,R,E,A,H,C,P,N$. It has no coordinate for arbitrary tail-pair Cauchy comparison, selected limit, quotient stream equality, countable-choice schedule, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Quasi-Cauchy sequence NameCert obligations]
+\label{thm:quasi-cauchy-sequence-namecert-obligations}
+For every accepted $\QuasiCauchySequenceUp$ carrier
+$$
+Q=(S,W,D,R,E,A,H,C,P,N),
+$$
+the local $\NameCert_{\QuasiCauchySequenceUp}$ surface consists exactly of carrier admission for the finite stream source, adjacent-window schedule, dyadic tolerance ledger, regular-rational readback, terminal Real seal, adjacent-difference ledger, componentwise transport, displayed replay, provenance, and local naming rows; adjacent-window exposure before any difference read; tolerance-readback coherence through $D,R,E$; eventual adjacent-smallness through $A$; and structural preservation through $H,C,P,N$. No quasi-Cauchy obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quasi-cauchy-sequence-carrier}. The tuple displays the stream source, adjacent schedule, dyadic tolerance ledger, regular-rational readback, Real seal, adjacent-difference ledger, and structural rows.
+
+The adjacent-window exposure clause is exactly the row pair $S,W$. It forces a consumer to inspect displayed neighbouring entries before reading any distance or tolerance datum.
+
+The tolerance coherence clause is stored in $D,R,E$. The dyadic tolerance row supplies the requested precision, the regular-rational row reads the finite rational difference stream, and the Real seal records the accepted adjacent distance as a displayed real-name boundary.
+
+Finally $A,H,C,P,N$ record eventual adjacent-smallness, transport, replay, source, and local naming. Since no carrier coordinate compares arbitrary distant tail pairs or chooses a limit, the listed obligations exhaust the local NameCert surface without promoting the packet to a full Cauchy or completion theorem.
+\end{proof}
+
+\begin{theorem}[Quasi-Cauchy adjacent-difference ledger]
+\label{thm:quasi-cauchy-sequence-adjacent-difference-ledger}
+Every accepted $\QuasiCauchySequenceUp$ packet routes each Real- or Completion-facing adjacent-difference request through
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp
+$$
+and then through the adjacent ledger $A$ and structural rows $H,C,P,N$. The route certifies only that displayed adjacent differences become small along the inspected schedule; it does not certify the full Cauchy comparison of arbitrary tail pairs, a selected limiting real, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted adjacent-difference request. The carrier forces the request to read $S$ and $W$, so the compared entries are the displayed neighbours of the same finite stream schedule.
+
+The request then passes through $D,R,E$. These rows expose the dyadic tolerance, the regular rational readback of the difference stream, and the terminal Real seal before any completion-facing consumer can inspect the ledger.
+
+The row $A$ records the eventual adjacent-smallness claim for exactly those displayed neighbouring entries. The structural rows $H,C,P,N$ preserve and name the same packet.
+
+Because the route never adds a coordinate comparing arbitrary $x_m$ and $x_n$ in the tail, it remains the quasi-Cauchy adjacent-difference ledger and cannot be reread as full Cauchy convergence, selected completion, quotient stream equality, countable choice, or ambient Real completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\QuasiCauchySequenceUp$ consumer is refuted if it treats adjacent-smallness as a full Cauchy tail comparison without displaying a separate arbitrary-tail Cauchy ledger.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\QuasiCauchySequenceUp$ is not bijective to any listed sibling because it jointly carries the adjacent-window schedule, dyadic tolerance ledger, regular-rational difference readback, Real seal, adjacent-smallness ledger, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{QuasiCauchySequenceUp}{seedStr}
+
+\begin{closurestatus}{\QuasiCauchySequenceUp}
+  \constructivestory{A $\QuasiCauchySequenceUp$ packet is generated from finite StreamName windows, adjacent-pair schedules, DyadicRatCore tolerance rows, RegSeqRat difference readback, Real seal rows, adjacent-smallness ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:quasi-cauchy-sequence-carrier}, \autoref{thm:quasi-cauchy-sequence-namecert-obligations}, and \autoref{thm:quasi-cauchy-sequence-adjacent-difference-ledger} seed the finite adjacent-difference packet over StreamName, DyadicRatCore, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, full Cauchy convergence, selected limits, quotient stream equality, countable choice, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, adjacent-window exposure, dyadic and regular readback coherence, Real-seal preservation, adjacent-smallness exactness, transport stability, and replay stability for BEDC.Derived.QuasiCauchySequenceUp.}
+\end{closurestatus}
