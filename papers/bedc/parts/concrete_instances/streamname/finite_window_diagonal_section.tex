@@ -14,3 +14,23 @@ Use the RegSeqRat handoff of \autoref{thm:streamname-regseqrat-real-seal-handoff
 
 Finally apply the Real seal non-escape boundary of \autoref{thm:streamname-real-seal-request-section-nonescape} and the finite request seal lock of \autoref{thm:streamname-finite-request-section-real-seal-lock}. They exclude quotient streams, quotient Cauchy-presentation equality, selected limits, host real equality, countable choice, metric completeness, and ambient completion from the route. Thus the diagonal section is exactly the finite StreamName request transported and replayed through the listed BEDC rows.
 \end{proof}
+
+\begin{theorem}[StreamName finite-window nested-refinement induction]
+\label{thm:streamname-finite-window-nested-refinement-induction}
+Let
+$$
+W_0,W_1,\ldots,W_k
+$$
+be an accepted finite chain of $\StreamNameUp$ windows such that each successor row $W_{i+1}$ refines the previous window $W_i$ by retaining the displayed pointwise rational observations and only appending later finite requests. Then the whole chain preserves the displayed pointwise rational observations, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\StreamNameUp}$ row exposed by $W_0$. The induction exports no quotient stream equality, selected limit, host sequence equality, countable-choice schedule, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite refinement chain.
+
+The base chain has only $W_0$. The conclusion is exactly the local finite-window diagonal section of \autoref{thm:streamname-finite-window-diagonal-section}: the displayed observations, transport, replay, provenance, and local NameCert rows are already present, and no excluded coordinate is available.
+
+For the successor step, assume the claim for the chain ending at $W_i$ and read the accepted refinement row from $W_i$ to $W_{i+1}$. The finite-window pullback of \autoref{thm:streamname-regseqrat-window-budget-section} keeps the old rational observations visible inside the later window, while the reindexing route of \autoref{thm:streamname-real-regseq-finite-window-budget-handoff} places the same $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ consumers behind that retained window surface.
+
+Transport is componentwise. The $\hsame$ row of the successor refinement agrees with the previously displayed observations on the old window and only names the appended finite requests separately. The displayed $\Cont$ replay and $\Pkg$ provenance therefore compose along the same finite route, and the local $\NameCert_{\StreamNameUp}$ row remains the one read by the refined window chain.
+
+Finally, \autoref{thm:streamname-real-seal-request-section-nonescape} and \autoref{thm:streamname-finite-request-section-real-seal-lock} exclude quotient streams, selected limits, host sequence equality, countable choice, and ambient Real completeness at each successor stage. The finite induction therefore preserves exactly the listed StreamName rows for the whole chain.
+\end{proof}
