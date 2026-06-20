@@ -848,6 +848,7 @@ import BEDC.Derived.BinaryEndpointNormalizationUp.TasteGate
 import BEDC.Derived.BinaryEndpointUniquenessUp.TasteGate
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinaryExpansionUp.TasteGate
+import BEDC.Derived.BinaryTreeUp.TasteGate
 import BEDC.Derived.BinderBudgetSealUp.CarrierAdmission
 import BEDC.Derived.BinderBudgetSealUp.CompilerBoundary
 import BEDC.Derived.BinderBudgetSealUp.ObligationSurface
@@ -2647,6 +2648,9 @@ import BEDC.Derived.ChurchRosserUp.TasteGate
 import BEDC.Derived.CircleUp.TasteGate
 import BEDC.Derived.ClaimRegistryLayerUp
 import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
+import BEDC.Derived.ClaimStatusAuditUp
+import BEDC.Derived.ClaimStatusAuditUp.NameCertObligations
+import BEDC.Derived.ClaimStatusAuditUp.TasteGate
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.ClassFieldUp.TasteGate
 import BEDC.Derived.ClassifierBoundaryUp
@@ -3100,6 +3104,7 @@ import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
 import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteCoverSelectorUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteNetRealizationUp.TasteGate
+import BEDC.Derived.CompactUniformFiniteNetUp.TasteGate
 import BEDC.Derived.CompactUniformLocalToGlobalModulusUp.TasteGate
 import BEDC.Derived.CompactUniformModulusCertificateUp.TasteGate
 import BEDC.Derived.CompactUniformModulusCompositionUp.TasteGate
@@ -3162,6 +3167,7 @@ import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionAdjointUp.TasteGate
 import BEDC.Derived.CompletionComparisonUp.TasteGate
+import BEDC.Derived.CompletionDenseExtensionModulusUp
 import BEDC.Derived.CompletionDenseExtensionUp.TasteGate
 import BEDC.Derived.CompletionDenseRangeUp
 import BEDC.Derived.CompletionEmbeddingUp
@@ -9837,6 +9843,7 @@ import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp
 import BEDC.Derived.RegularCauchyTailEstimateUp.FinitePrecisionInduction
 import BEDC.Derived.RegularCauchyTailEstimateUp.ModulusDominanceCriterion
+import BEDC.Derived.RegularCauchyTailEstimateUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyTailEstimateUp.TailEnvelopeLock
 import BEDC.Derived.RegularCauchyTailEstimateUp.TailEstimateObligationBasis
 import BEDC.Derived.RegularCauchyTailEstimateUp.TasteGate
@@ -10001,6 +10008,7 @@ import BEDC.Derived.RiemannStieltjesUp.RouteClosure
 import BEDC.Derived.RiemannStieltjesUp.StepIntegratorExactness
 import BEDC.Derived.RiemannStieltjesUp.TaggedPartitionInduction
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
+import BEDC.Derived.RiemannSumConsistencyUp.TasteGate
 import BEDC.Derived.RiemannSumGaugeUp.TasteGate
 import BEDC.Derived.RiemannSumUp
 import BEDC.Derived.RiemannSumUp.MatureFiniteMeshExamples

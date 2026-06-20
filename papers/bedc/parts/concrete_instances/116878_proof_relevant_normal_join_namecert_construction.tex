@@ -61,6 +61,55 @@ Apply \autoref{thm:proof-relevant-normal-join-diamond-fragment}. The exported di
 The boundary ledger $L$ is part of every accepted read by \autoref{thm:proof-relevant-normal-join-namecert-obligations}. Therefore a consumer that drops residual-substitution compatibility, arbitrary closed-source confluence, subject reduction, or host conversion equality leaves the packet.
 \end{proof}
 
+\begin{definition}[MetaCIC proof-relevant candidate-diamond carrier]\label{def:metacic-proof-relevant-candidate-diamond-carrier}
+A MetaCIC proof-relevant candidate-diamond carrier is a finite $\BHist$ packet
+$$
+D=(R,L_1,L_2,Q,B,E,H,C,P,O,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the candidate source row, naming the inspected MetaCIC expression, its closedness boundary, and the classifier row used by the confluence audit.
+\item $L_1$ and $L_2$ are the left and right one-step rows from the same source row.
+\item $Q$ is the proof-relevant common-reduct witness row for the candidate pair.
+\item $B$ is the beta-star handoff from $L_1,L_2,Q$ into the multi-step reduction route.
+\item $E$ is the residual-boundary ledger, recording the exact residual-substitution, subject-reduction, arbitrary closed-source confluence, and host-conversion boundaries still outside the carrier.
+\item $H$ records componentwise $\hsame$ transport for source, one-step, witness, beta-star, boundary, replay, provenance, public readback, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the candidate source request through the two one-step rows, witness row, beta-star handoff, and boundary ledger.
+\item $P$ is the $\Pkg$ provenance over $\ProofRelevantNormalJoinUp$, MetaCIC one-step reduction, beta-star handoff, confluence-audit rows, residual-boundary rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $O$ is the public readback row, exposing the candidate-mediated local diamond only after the proof-relevant witness and the residual-boundary ledger are both visible.
+\item $N$ is the local $\NameCert$ row for the candidate-diamond packet.
+\end{enumerate}
+The classifier compares accepted candidate-diamond packets only by $R,L_1,L_2,Q,B,E,H,C,P,O,N$. It has no coordinate for arbitrary closed-source confluence, residual-substitution compatibility, subject reduction, host conversion equality, or a proof-erased diamond oracle.
+\end{definition}
+
+\begin{theorem}[MetaCIC proof-relevant candidate-diamond NameCert obligations]\label{thm:metacic-proof-relevant-candidate-diamond-namecert-obligations}
+For every accepted MetaCIC proof-relevant candidate-diamond carrier
+$$
+D=(R,L_1,L_2,Q,B,E,H,C,P,O,N),
+$$
+the local $\NameCert$ surface consists exactly of candidate source exposure, left and right one-step row exposure, proof-relevant common-reduct witness exposure, beta-star handoff, residual-boundary ledger exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, public readback, local naming, and nonescape from arbitrary closed-source confluence, residual-substitution compatibility, subject reduction, and host conversion equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-proof-relevant-candidate-diamond-carrier}. The source and two one-step rows are $R,L_1,L_2$, so any candidate pair is read through a single displayed source classifier and two displayed one-step reductions.
+
+The proof-relevant join data are $Q$ and $B$. The witness row $Q$ names the common reduct for this candidate pair, and the beta-star handoff $B$ records how the two one-step rows reach that common reduct in the multi-step route.
+
+The boundary and structural rows are $E,H,C,P,O,N$. The ledger $E$ keeps the residual-substitution, subject-reduction, arbitrary closed-source, and host-conversion boundaries visible, while $H,C,P,O,N$ transport, replay, source, read back, and name only the displayed rows.
+
+Because no further coordinate appears in the carrier, the listed rows exhaust the local NameCert obligations and no proof-erased diamond oracle is exported.
+\end{proof}
+
+\begin{theorem}[MetaCIC proof-relevant candidate-diamond boundary]\label{thm:metacic-proof-relevant-candidate-diamond-boundary}
+An accepted MetaCIC proof-relevant candidate-diamond packet exports a candidate-mediated local diamond only when the proof-relevant common-reduct witness $Q$ and the residual-boundary ledger $E$ are both public rows. The packet may hand the displayed candidate pair to the beta-star route through $B$ and public readback row $O$, but it still refuses arbitrary closed-source confluence, residual-substitution compatibility, subject reduction, and host conversion equality.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-proof-relevant-candidate-diamond-namecert-obligations}. A public candidate-diamond read must expose the source row, the two one-step rows, the proof-relevant witness, the beta-star handoff, and the residual-boundary ledger.
+
+The local diamond is therefore candidate-mediated. It is witnessed by $Q$ for the displayed pair $L_1,L_2$ and is transported into beta-star by $B$, then exposed by the readback row $O$.
+
+The same read must retain $E$. Since $E$ names the residual-substitution, subject-reduction, arbitrary closed-source, and host-conversion boundaries as still outside the packet, removing those boundaries would leave the accepted candidate-diamond carrier.
+\end{proof}
+
 \falsifiablePrediction{Every public $\ProofRelevantNormalJoinUp$ read factors through closed-normal source, join witness, beta-star handoff, conditional-boundary ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any confluence-fragment output is visible.}
 
 \independenceWitness{metacic-confluence-audit-packet, closednormalconfluenceseal, metaciccriticalpath, metacicconfluenceauditwitness: $\ProofRelevantNormalJoinUp$ is not bijective to any listed sibling because it jointly carries a proof-relevant join witness, beta-star handoff, conditional-boundary ledger, transport, replay, provenance, public readback, and local naming while refusing arbitrary closed-source confluence and unrestricted substitution compatibility.}
@@ -72,7 +121,7 @@ Later Lean TasteGate work for $\ProofRelevantNormalJoinUp$ must provide explicit
 \begin{closurestatus}{\ProofRelevantNormalJoinUp}
   \constructivestory{A $\ProofRelevantNormalJoinUp$ packet is generated from a closed-normal source row, proof-relevant join witness, beta-star handoff, conditional-boundary ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, public readback, and local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:proof-relevant-normal-join-carrier}, \autoref{thm:proof-relevant-normal-join-namecert-obligations}, \autoref{thm:proof-relevant-normal-join-diamond-fragment}, and \autoref{thm:proof-relevant-normal-join-full-confluence-nonescape} seed the proof-relevant closed-normal and atom join packet.}
+  \scopeclosed{\autoref{def:proof-relevant-normal-join-carrier}, \autoref{thm:proof-relevant-normal-join-namecert-obligations}, \autoref{thm:proof-relevant-normal-join-diamond-fragment}, \autoref{thm:proof-relevant-normal-join-full-confluence-nonescape}, and \autoref{thm:metacic-proof-relevant-candidate-diamond-boundary} seed the proof-relevant closed-normal, atom join, and candidate-diamond boundary packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, full parallel diamond, arbitrary closed Church--Rosser, residual substitution compatibility, subject reduction, or host conversion equality.}

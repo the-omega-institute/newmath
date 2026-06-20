@@ -54,3 +54,19 @@ Next apply the residual-normalization window, \autoref{thm:metacic-parallel-diam
 
 Finally use the candidate strong-normalization handoff, \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. It lets the consumer pass the bounded candidate data onward only after the checker rows and obstruction row are still displayed, so the resulting envelope remains a local residual-normalization boundary rather than full confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-premise budget scope]
+\label{thm:metacic-parallel-diamond-frontier-residual-premise-budget-scope}
+Every candidate-mediated strong-normalization or local residual-join consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must keep the retained residual-substitution premise row $P$ and obstruction row $O$ visible through the finite route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+before exporting a budgeted join. The budget is the displayed carrier-local budget over residual premise, critical pair, candidate row, residual witness, closed checker, closed-normal fragment, bounded checker, obstruction, transport, replay, provenance, and local naming; it is not a discharge of residual substitution, global confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the residual-join obligations and critical-pair coverage, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-obligations} and \autoref{thm:metacic-parallel-diamond-frontier-residual-critical-pair-coverage}. They require every exported local join to display $P,K,J,R,S,C,B,O,H,T,G,N$, with the residual-substitution premise and obstruction rows still present.
+
+Next apply the residual-normalization envelope, \autoref{thm:metacic-parallel-diamond-frontier-residual-normalization-envelope}. It keeps candidate-mediated normalization behind the same finite route and prevents the candidate row from becoming a premise-free normalization theorem.
+
+Finally use the candidate strong-normalization handoff, \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. The handoff can export only the displayed budgeted join, so any consumer claiming global confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency has left the retained residual-premise surface.
+\end{proof}
