@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-20T17:55:40Z
+> 最后刷新: 2026-06-20T19:20:19Z
 
-**Daemon 状态**: monitor (monitor cycle 92, adjust_since_research 2, round_counter 15368, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 93, adjust_since_research 2, round_counter 15445, last_adjust rule_evolution_completed)
 
 **待处理 queue** (528 条 finding):
 - isolated_theorem: 372 条; 代表样本 `derived`, `derived`, `derived`
@@ -35,7 +35,6 @@ date-modified: today
 - TASTE ALERT category=cycle_exception: 6 次
 - TASTE ALERT category=dossier_snapshot_push_failed: 2 次
 - TASTE ALERT category=resolution_dossier_commit_failed: 1 次
-- TASTE ALERT category=resolution_gate_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -343,6 +342,11 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-19T08:34:40Z: `resolved` `delete_theorem` for `BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:filterlimitbasis:BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisTasteGate_single_carrier_alignment:dd551166`). Rationale: The declaration was an isolated public wrapper around existing local implementation facts: the BHist encode/decode round trip, existing BHistCarrier and ChapterTasteGate instances, and the empty encoding by rfl. Repository search found no Lean downstream consumers and only the removable paper marker, while the chapter already has substantive checked targets for NameCert obligations and CauchyFilterCompletion handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-20T01:19:14Z: `resolved` `leave_with_rationale` for `BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap_modulus_boundary_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap_modulus_boundary_nonescape:16133241`). Rationale: The theorem is not a paper-only stray: the CauchyContinuousMap chapter has a primary leanchecked marker for it and later paper proofs use it as the modulus-facing boundary step before the uniform-window and uniform-modulus factorization claims. I attempted to add a Lean downstream consumer in the sibling UniformWindowObligation module, but the required lake build gate failed on BEDC.Derived.CauchyContinuousMapUp.UniformWindowObligation after the full project build reached the final stage, so I reverted the edit per instruction and am leaving the theorem with rationale rather than changing files. Gate results: lake_build=Some required targets logged failures: - BEDC.Derived.CauchyContinuousMapUp.UniformWindowObligation; error: build failed, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-20T19:19:50Z: `resolved` `leave_with_rationale` for `BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_namecert_obligations:40d18d90`). Rationale: The theorem has real BEDC content: it constructs the local SemanticNameCert surface for the StepIndexedTotalHost carrier and exposes the carrier's unary, Cont, and Pkg obligations, so deleting it would remove the paper's canonical NameCert obligation target. I attempted to add a substantive downstream consumer in the separation sibling, but the required gate failed on BEDC.Derived.StepIndexedTotalHostUp.Separation because the new theorem referenced SemanticNameCert without that name being available in the sibling namespace/import context; per instruction, I reverted the edit and left the target unchanged. Gate results: lake_build=Some required targets logged failures:
+- BEDC.Derived.StepIndexedTotalHostUp.Separation
+BEDC/Derived/StepIndexedTotalHostUp/Separation.lean:43:10: error: Function expected at SemanticNameCert; Hint: The identifier `SemanticNameCert` is unknown
+error: build failed, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
