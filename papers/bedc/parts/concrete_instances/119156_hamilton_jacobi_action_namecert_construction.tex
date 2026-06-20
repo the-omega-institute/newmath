@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\HamiltonJacobiActionUp$}
+\label{ch:concrete-instances-hamilton-jacobi-action-namecert}
+\origin{human}
+
+Following Evans and Arnold, the $\HamiltonJacobiActionUp$ packet records the finite action-functional surface that sits between variational mechanics and Hamilton-Jacobi readback. It reads the Lagrangian action row of \autoref{ch:concrete-instances-lagrangianmechanics-namecert}, the Hamilton-Jacobi row of \autoref{ch:concrete-instances-hamilton-jacobi-namecert}, the Hamilton-Jacobi-Bellman row of \autoref{ch:concrete-instances-hamilton-jacobi-bellman-namecert}, the routed dynamics rows of \autoref{ch:concrete-instances-dynsystem-namecert} and \autoref{ch:concrete-instances-ode-namecert}, the scalar readback of \autoref{ch:concrete-instances-real-namecert}, and the linear state displays of \autoref{ch:concrete-instances-matrix-namecert} and \autoref{ch:concrete-instances-vecspace-namecert}. The packet names action data for a displayed trajectory window; it is not a viscosity-solution theorem, not a global minimizer existence result, not a selected optimal-control policy, and not an ambient completeness assertion for $\RealUp$.
+
+\begin{definition}[Hamilton-Jacobi action carrier]
+\label{def:hamilton-jacobi-action-carrier}
+A $\HamiltonJacobiActionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,T,Q,V,L,S,G,J,B,D,O,M,R,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\VecSpaceUp$ state row and $T$ is the finite time-window row for the displayed path segment.
+\item $Q$ is the path or configuration row exposed by $\LagrangianMechanicsUp$, and $V$ is the velocity or tangent readback row.
+\item $L$ is the displayed Lagrangian row and $S$ is the action-accumulation row sealed only through finite $\RealUp$ data.
+\item $G$ is the endpoint-gradient or momentum readback row consumed by the Hamilton-Jacobi interface.
+\item $J$ is the $\HamiltonJacobiUp$ Hamiltonian-readback row and $B$ is the $\HamiltonJacobiBellmanUp$ control-facing sibling row.
+\item $D$ and $O$ are the $\DynSystemUp$ and $\OdeUp$ route rows that tie the path segment to displayed dynamics.
+\item $M$ is the $\MatrixUp$ coefficient row used when the action request is specialized to a finite linear or quadratic display.
+\item $R$ is the componentwise $\hsame$ transport row for $X,T,Q,V,L,S,G,J,B,D,O,M$.
+\item $C$ records displayed $\Cont$ replay through the route
+$$
+Q,V,L,D,O \longmapsto S .
+$$
+\item $P$ is the $\Pkg$ provenance over $\HamiltonJacobiActionUp$, $\HamiltonJacobiUp$, $\HamiltonJacobiBellmanUp$, $\LagrangianMechanicsUp$, $\DynSystemUp$, $\OdeUp$, $\RealUp$, $\MatrixUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HamiltonJacobiActionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,T,Q,V,L,S,G,J,B,D,O,M,R,C,P,N$. It has no coordinate for a selected minimizer, a host path space, classical differentiability of all trajectories, viscosity uniqueness, PDE regularity, quotient equality of actions, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Hamilton-Jacobi action NameCert obligations]
+\label{thm:hamilton-jacobi-action-namecert-obligations}
+For every accepted $\HamiltonJacobiActionUp$ carrier
+$$
+A=(X,T,Q,V,L,S,G,J,B,D,O,M,R,C,P,N),
+$$
+the local $\NameCert_{\HamiltonJacobiActionUp}$ surface consists exactly of carrier admission, path-window exposure, Lagrangian action exposure, Hamilton-Jacobi readback, Hamilton-Jacobi-Bellman sibling exposure, routed dynamics exposure, linear coefficient exposure, componentwise transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hamilton-jacobi-action-carrier}. The rows $X,T,Q,V,L,S,G$ expose the finite state, path-window, Lagrangian, action, and endpoint-gradient data before any Hamilton-Jacobi read is available.
+
+Read the sibling rows next. The Hamilton-Jacobi row $J$ supplies Hamiltonian readback, while the Hamilton-Jacobi-Bellman row $B$ supplies the control-facing sibling surface. The dynamics rows $D,O$ keep the path segment tied to displayed DynSystem and Ode data.
+
+The matrix row $M$ is only a finite coefficient display for specialized linear or quadratic requests. Transport, replay, provenance, and local naming then pass through $R,C,P,N$.
+
+Since no carrier coordinate contains a selected minimizer, host path space, global differentiability theorem, viscosity uniqueness theorem, PDE regularity theorem, quotient action equality, or real-completeness principle, none of those objects can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hamilton-Jacobi action HJB route]
+\label{thm:hamilton-jacobi-action-hjb-route}
+Every downstream consumer of an accepted $\HamiltonJacobiActionUp$ packet that asks for a control-facing action read must pass through the displayed sibling route
+$$
+\LagrangianMechanicsUp,\DynSystemUp,\OdeUp,\HamiltonJacobiUp,\HamiltonJacobiBellmanUp \longmapsto \HamiltonJacobiActionUp .
+$$
+The route binds finite Lagrangian action data, dynamics rows, Hamiltonian readback, and HJB-facing control rows without converting the packet into an optimal-control existence theorem or a global PDE regularity theorem.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:hamilton-jacobi-action-namecert-obligations}. The Lagrangian action rows $Q,V,L,S$, the dynamics rows $D,O$, the Hamilton-Jacobi row $J$, and the HJB row $B$ are separate displayed rows of the same accepted carrier.
+
+Use $R,C,P,N$ to preserve that row inventory under transport, replay, provenance, and local naming. These structural rows do not add a host minimizer, a selected policy, a viscosity uniqueness theorem, or an ambient completion principle.
+
+Thus a consumer reaches the control-facing action read only through the displayed finite route, and the refused analytic objects remain outside the packet.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\HamiltonJacobiActionUp$ read that reaches a control-facing action row without displaying the LagrangianMechanics, DynSystem, Ode, HamiltonJacobi, and HamiltonJacobiBellman sibling rows refutes the carrier.}
+
+\independenceWitness{hamilton-jacobi, hamilton-jacobi-bellman, lagrangianmechanics, dynsystem, ode, real, matrix, vecspace: no listed sibling is bijective to $\HamiltonJacobiActionUp$ because only this packet binds finite action accumulation, endpoint-gradient readback, Hamilton-Jacobi readback, HJB-facing control exposure, dynamics routes, coefficient display, transport, replay, provenance, and local naming as one action-functional packet.}
+
+\closureat{HamiltonJacobiActionUp}{seedStr}
+
+\begin{closurestatus}{\HamiltonJacobiActionUp}
+  \constructivestory{A $\HamiltonJacobiActionUp$ packet is generated from finite state, time-window, path, velocity, Lagrangian, action, endpoint-gradient, HamiltonJacobi, HamiltonJacobiBellman, DynSystem, Ode, Matrix, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hamilton-jacobi-action-carrier}, \autoref{thm:hamilton-jacobi-action-namecert-obligations}, and \autoref{thm:hamilton-jacobi-action-hjb-route} seed the finite Hamilton-Jacobi action surface over Lagrangian mechanics, dynamics, Hamilton-Jacobi, and HJB rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.HamiltonJacobiActionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected minimizers, optimal-control existence, viscosity uniqueness, global PDE regularity, classical differentiability of all paths, quotient equality of actions, ambient real completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Lagrangian action exposure, Hamilton-Jacobi and HJB exposure, dynamics exposure, coefficient exposure, transport, replay, provenance, and local naming for BEDC.Derived.HamiltonJacobiActionUp.}
+\end{closurestatus}
