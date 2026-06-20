@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailPastingUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-pasting-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names and tail-equivalent representatives, the $\RegularCauchyTailPastingUp$ packet records the finite shared-tail pasting surface used before a real-name seal is read. It sits beside the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite tail-pasting route; it is not quotient sequence equality, a selected limit, countable choice, host real equality, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Regular Cauchy tail pasting carrier]
+\label{def:regular-cauchy-tail-pasting-carrier}
+A $\RegularCauchyTailPastingUp$ carrier is a finite $\BHist$ packet
+$$
+T=(L,R,\tau,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the left and right $\RegSeqRatUp$ rows whose late observations are pasted along a shared tail.
+\item $\tau$ is the finite tail threshold row, naming the stage after which the two rows are compared through the same observed tail window.
+\item $W$ is the $\StreamNameUp$ shared-tail window row containing the inspected rational observations after $\tau$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used for every tail comparison and pasted readback.
+\item $Q$ is the pasted $\RegSeqRatUp$ readback row assembled from $L,R,\tau,W,D$.
+\item $E$ is the terminal $\RealUp$ seal, available only after the shared-tail window, dyadic ledger, and pasted regular readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source rows, tail threshold, shared window, tolerance ledger, pasted readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the tail-pasting route
+$$
+L,R,\tau,W,D \longmapsto Q \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailPastingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailPastingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,R,\tau,W,D,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, selected limits, host sequence equality, host real equality, countable choice, ambient completeness, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail pasting shared-tail handoff]
+\label{thm:regular-cauchy-tail-pasting-shared-tail-handoff}
+For every accepted $\RegularCauchyTailPastingUp$ carrier
+$$
+T=(L,R,\tau,W,D,Q,E,H,C,P,N),
+$$
+each Real-completion consumer reads the shared-tail route in the order
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp .
+$$
+The consumer first displays the tail threshold $\tau$ and shared $\StreamNameUp$ window $W$, then the two $\RegSeqRatUp$ source rows $L,R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the pasted readback $Q$, and finally the terminal $\RealUp$ seal $E$. The handoff preserves componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegularCauchyTailPastingUp}$ row, and it exports no quotient stream equality, selected limit, host sequence equality, countable-choice schedule, or ambient Real completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-pasting-carrier}. The mathematical rows are exactly the two source readbacks, the tail threshold, the shared window, the dyadic tolerance ledger, the pasted readback, and the terminal real seal.
+
+The shared-tail route begins with $\tau$ and $W$. These rows state which finite tail is visible and which rational observations are inspected before any pasted readback can be consumed.
+
+Next read $L,R,D,Q$. The two regular rational rows supply the source observations, the dyadic ledger records the comparison budgets on the shared tail, and the pasted row $Q$ is assembled only from those displayed rows.
+
+Only after $Q$ is public can the terminal seal $E$ be read. The structural rows $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming.
+
+Since the carrier has no quotient-stream, selected-limit, host-sequence, choice, or ambient-completeness coordinate, the handoff is confined to the listed StreamName, RegSeqRat, DyadicRatCore, RealUp, and structural rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail pasting NameCert obligations]
+\label{thm:regular-cauchy-tail-pasting-namecert-obligations}
+For every accepted $\RegularCauchyTailPastingUp$ carrier $T=(L,R,\tau,W,D,Q,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTailPastingUp}$ surface consists exactly of left and right RegSeqRat source admission, finite tail-threshold exposure, shared StreamName window exposure, DyadicRatCore tolerance exactness, pasted RegSeqRat readback, RealUp seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-tail-pasting-carrier}. The accepted packet displays the two regular rational source rows, the finite tail threshold, the shared window, the tolerance ledger, the pasted readback, the Real seal, and the structural rows.
+
+The tail-pasting obligation is finite. The threshold and window rows determine the only observations available to the pasted readback, while the dyadic ledger supplies all comparison budgets used on that tail.
+
+The Real seal is downstream of the pasted readback. Thus a consumer reaches $\RealUp$ only after the StreamName, RegSeqRat, and DyadicRatCore rows have been displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name only these rows. Because the carrier contains no quotient equality, selected representative, selected limit, host equality, countable-choice schedule, ambient completeness, Lean verification, or bridge coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyTailPastingUp$ packet displays two $\RegSeqRatUp$ source rows, a finite tail threshold, a shared $\StreamNameUp$ window, a $\DyadicRatCoreUp$ tolerance ledger, a pasted readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row before any Real seal read is public.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, and real: no listed sibling is bijective to $\RegularCauchyTailPastingUp$ because this packet jointly stores the shared-tail threshold, pasted readback, and terminal RealUp seal route as one local NameCert surface.}
+
+\closureat{RegularCauchyTailPastingUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailPastingUp}
+  \constructivestory{A $\RegularCauchyTailPastingUp$ packet is generated from left and right RegSeqRat rows, a finite tail threshold, a shared StreamName window, a DyadicRatCore tolerance ledger, a pasted RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-pasting-carrier}, \autoref{thm:regular-cauchy-tail-pasting-shared-tail-handoff}, and \autoref{thm:regular-cauchy-tail-pasting-namecert-obligations} seed the finite shared-tail pasting route before terminal RealUp seal reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, selected limits, host sequence equality, host real equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source admission, tail-threshold exposure, shared-window exactness, dyadic tolerance exactness, pasted readback stability, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyTailPastingUp.}
+\end{closurestatus}
