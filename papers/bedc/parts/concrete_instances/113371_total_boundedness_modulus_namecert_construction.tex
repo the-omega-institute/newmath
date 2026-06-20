@@ -57,6 +57,34 @@ Apply the obligation surface of \autoref{thm:total-boundedness-modulus-namecert-
 Because the carrier contains no open-cover, subcover-selection, choice, quotient, host-completeness, or ambient-real-equality coordinate, the finite-net handoff cannot export any of those objects.
 \end{proof}
 
+\begin{theorem}[Total boundedness modulus schedule induction]
+\label{thm:total-boundedness-modulus-schedule-induction}
+Let $T=(M,N,D,R,E,H,C,P,L)$ be an accepted $\TotalBoundednessModulusUp$ carrier. For every finite displayed request list
+$$
+\varepsilon_1,\ldots,\varepsilon_k
+$$
+whose entries are admitted positive dyadic tolerances in $D$, the carrier answers the list by finite induction over the displayed order. The empty list uses the empty schedule read. The cons step reads the next tolerance through $D$, obtains the finite center list and coverage witness for that tolerance from $N$, exposes the distance comparison through $R$, passes it across the compact-metric handoff row $E$, and keeps the rows $H,C,P,L$ as the transport, replay, provenance, and local naming data for the same request.
+\end{theorem}
+\begin{proof}
+Induct on the displayed request list. For the empty list, no tolerance is requested, so the empty schedule read is the unique finite response and no row outside $M,N,D,R,E,H,C,P,L$ is inspected.
+
+For the cons step, assume the tail list has already been answered by the induction hypothesis. The head tolerance is admitted by $D$, so $N$ supplies its finite center list and coverage row. The comparison used by that coverage row is exposed through $R$, and the compact-facing access is routed through $E$.
+
+The structural rows $H,C,P,L$ transport, replay, source, and name the head response together with the tail response. Thus the enlarged finite list is answered by the same displayed rows, and the induction constructs the whole tolerance-indexed net schedule without invoking open covers, selected subcovers, countable choice, quotient point equality, host completeness, or ambient $\RealUp$ equality.
+\end{proof}
+
+\begin{theorem}[Total boundedness modulus request monotonicity]
+\label{thm:total-boundedness-modulus-request-monotonicity}
+Let $T=(M,N,D,R,E,H,C,P,L)$ be an accepted $\TotalBoundednessModulusUp$ carrier. If an admitted positive dyadic tolerance request is refined through the ledger row $D$, then the finite center list read from $N$ for the refined request is obtained by reusing the earlier displayed list when the ledger records equality of tolerance reads, or by reading the refined finite list and coverage row from $N$ when $D$ records a proper refinement. In both cases the refined request remains inside the same $M,N,D,R,E,H,C,P,L$ carrier surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:total-boundedness-modulus-schedule-induction} to the two-request list consisting of the original tolerance and its displayed refinement. The first request produces the earlier finite center list and coverage row through $N$, with its tolerance comparison controlled by $D$ and sealed through $R$.
+
+For the second request, the ledger $D$ decides whether the displayed refinement is the same tolerance read or a proper smaller request. In the equal-read case, the first center list may be reused because the schedule row is indexed by the same admitted tolerance. In the proper-refinement case, the second induction step reads the refined finite center list and coverage row from $N$.
+
+The projection to the second request keeps the compact-facing handoff $E$ and the structural rows $H,C,P,L$ attached to the refined row. Hence request refinement changes only the tolerance-indexed read inside $D$ and $N$; it does not leave the accepted $\TotalBoundednessModulusUp$ carrier surface.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\TotalBoundednessModulusUp$ finite-net read factors through one $\MetricSpaceUp$ source row, one $\TotallyBoundedUp$ schedule row, one $\DyadicRatCoreUp$ tolerance ledger, one $\RealUp$ distance seal, one $\CompactMetricUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.}
 
 \independenceWitness{metric, totallybounded, compactmetric, dyadicratcore, real: $\TotalBoundednessModulusUp$ is not bijective to any listed sibling because it jointly binds metric observations, tolerance-indexed finite-net schedules, dyadic tolerance arithmetic, Real-facing distance seals, compact-metric handoff, transport, replay, provenance, and local naming.}
@@ -65,7 +93,7 @@ Because the carrier contains no open-cover, subcover-selection, choice, quotient
 
 \begin{closurestatus}{\TotalBoundednessModulusUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:total-boundedness-modulus-carrier}, \autoref{thm:total-boundedness-modulus-namecert-obligations}, and \autoref{thm:total-boundedness-modulus-finite-net-handoff} seed the finite-net modulus route over MetricSpace, TotallyBounded, CompactMetric, DyadicRatCore, and Real rows.}
+  \scopeclosed{\autoref{def:total-boundedness-modulus-carrier}, \autoref{thm:total-boundedness-modulus-namecert-obligations}, \autoref{thm:total-boundedness-modulus-finite-net-handoff}, \autoref{thm:total-boundedness-modulus-schedule-induction}, and \autoref{thm:total-boundedness-modulus-request-monotonicity} seed the finite-net modulus route over MetricSpace, TotallyBounded, CompactMetric, DyadicRatCore, and Real rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, selected finite subcovers, countable choice, quotient point equality, host metric completeness, ambient Real equality, Lean verification, or bridge checking.}
