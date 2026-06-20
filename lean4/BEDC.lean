@@ -4209,6 +4209,7 @@ import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
 import BEDC.Derived.DedekindEtaCompletionUp.TasteGate
 import BEDC.Derived.DedekindGapLocatedCutUp.TasteGate
+import BEDC.Derived.DedekindLocatedIntervalUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.CutClosure
 import BEDC.Derived.DedekindMacNeilleCompletionUp.NameCertObligations
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
@@ -7642,6 +7643,7 @@ import BEDC.Derived.MetacicNormalizationAuditUp.KernelScopeRoute
 import BEDC.Derived.MetacicNormalizationAuditUp.NormalizationAuditCandidateBoundary
 import BEDC.Derived.MetacicNormalizationAuditUp.ObligationPack
 import BEDC.Derived.MetacicNormalizationAuditUp.PublicRouteExport
+import BEDC.Derived.MetacicNormalizationAuditUp.ResidualSubstitutionCompatibility
 import BEDC.Derived.MetacicNormalizationAuditUp.TasteGate
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
