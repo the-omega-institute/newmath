@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\SternBrocotDyadicApproximationUp$}
+\label{ch:concrete-instances-stern-brocot-dyadic-approximation-namecert}
+\origin{human}
+
+Following Hardy--Wright on the Stern--Brocot tree and Bishop--Bridges on finite rational approximation, the $\SternBrocotDyadicApproximationUp$ packet records a finite dyadic approximation window cut out by a displayed Stern--Brocot bracket. It sits after the tree route of \autoref{ch:concrete-instances-stern-brocot-namecert}, the bracketing packet of \autoref{ch:concrete-instances-stern-brocot-approximation-namecert}, the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rational source of \autoref{ch:concrete-instances-rat-namecert}, the finite readback route of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only inspected finite windows; it does not import infinite continued fractions, quotient real equality, trichotomy, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Stern--Brocot dyadic approximation carrier]
+\label{def:stern-brocot-dyadic-approximation-carrier}
+A $\SternBrocotDyadicApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,B,D,Q,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite $\SternBrocotUp$ branch-prefix row, recording the left/right address and inspected mediant route.
+\item $B$ is the $\SternBrocotApproximationUp$ bracket row, exposing the lower and upper rational endpoints delivered by the branch-prefix route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, storing the requested dyadic scale, endpoint-width comparison, and admissible error window.
+\item $Q$ is the $\RatUp$ dyadic candidate row extracted from the displayed bracket and dyadic ledger.
+\item $W$ is the finite $\StreamNameUp$ observation window through which the bracket and candidate rows are read.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from $B,D,Q,W$ after the Stern--Brocot branch row has been displayed.
+\item $E$ is the terminal $\RealUp$ seal available only after the rational bracket, dyadic candidate, finite window, and regular rational rows have been read.
+\item $H$ records componentwise $\hsame$ transport for the branch prefix, bracket, dyadic ledger, candidate, window, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,B,D,Q,W \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\SternBrocotDyadicApproximationUp$, $\SternBrocotUp$, $\SternBrocotApproximationUp$, $\DyadicRatCoreUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SternBrocotDyadicApproximationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,B,D,Q,W,R,E,H,C,P,N$. It has no coordinate for infinite continued fractions, quotient real equality, host trichotomy, a selected real representative, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.SternBrocotDyadicApproximationUp}
+
+\begin{theorem}[Stern--Brocot dyadic approximation NameCert obligations]
+\label{thm:stern-brocot-dyadic-approximation-namecert-obligations}
+For every accepted $\SternBrocotDyadicApproximationUp$ carrier
+$$
+A=(S,B,D,Q,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SternBrocotDyadicApproximationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed Stern--Brocot branch prefix, rational bracket, dyadic tolerance ledger, rational candidate, finite window, regular rational handoff, Real seal, transport, replay, provenance, and local naming rows;
+\item branch-bracket exactness, requiring $B$ to expose only rational endpoints reached by the finite branch-prefix row $S$;
+\item dyadic-window compatibility, requiring $D$ to bind the requested dyadic scale to the displayed bracket before the candidate row $Q$ is read;
+\item finite readback discipline, requiring $W$ and $R$ to preserve the same branch, bracket, tolerance, and candidate rows before the terminal seal $E$ is available;
+\item transport, replay, provenance, and naming exhaustion through $H,C,P,N$;
+\item nonescape from infinite continued fractions, quotient real equality, host trichotomy, selected representatives, countable choice, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:stern-brocot-dyadic-approximation-carrier}. The accepted packet displays exactly the Stern--Brocot branch prefix, rational bracket, dyadic tolerance ledger, rational candidate, finite window, regular readback, Real seal, and structural rows.
+
+Branch-bracket exactness reads $S$ and $B$ together. The bracket is not a host real interval; it is the finite rational endpoint pair reached by the inspected Stern--Brocot path.
+
+Dyadic-window compatibility then reads $D$ and $Q$ over the same bracket. The dyadic ledger supplies the scale and endpoint-width comparison used to admit the rational candidate, so the candidate cannot be detached from the displayed branch.
+
+The readback discipline follows the route through $W,R,E$. A consumer first sees the finite observation window, then the regular rational handoff, and only then the terminal Real seal.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same finite route. Since the carrier has no coordinate for infinite continued fractions, quotient equality, trichotomy, selected representatives, countable choice, or ambient completeness, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Stern--Brocot dyadic approximation rational bracket handoff]
+\label{thm:stern-brocot-dyadic-approximation-rational-bracket-handoff}
+Every $\RatUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of an accepted $\SternBrocotDyadicApproximationUp$ packet must read through the finite handoff
+$$
+\SternBrocotUp,\ \SternBrocotApproximationUp \longmapsto \DyadicRatCoreUp,\ \RatUp \longmapsto \StreamNameUp,\ \RegSeqRatUp \longmapsto \RealUp .
+$$
+The handoff supplies a displayed rational bracket, a dyadic tolerance ledger, a rational candidate row, finite observation windows, regular rational readback, and a terminal Real seal. It supplies no infinite continued-fraction selector, quotient-real representative, host trichotomy, selected limit, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $A=(S,B,D,Q,W,R,E,H,C,P,N)$. The branch row $S$ and bracket row $B$ are the only source of rational endpoint data.
+
+The dyadic and rational rows $D,Q$ are downstream of that bracket. Thus a rational consumer must read the displayed branch and bracket before it can consume the dyadic candidate.
+
+The finite observation route is then $W,R,E$. The window row records what was inspected, the regular rational row records the readback, and the Real seal is terminal with respect to that readback.
+
+Transport, replay, provenance, and local naming preserve the same route. Therefore every rational-bracket handoff remains inside the finite Stern--Brocot and dyadic window packet and cannot export any of the excluded real-completeness or choice data.
+\end{proof}
+
+\closureat{SternBrocotDyadicApproximationUp}{seedStr}
+
+\begin{closurestatus}{\SternBrocotDyadicApproximationUp}
+  \constructivestory{A $\SternBrocotDyadicApproximationUp$ packet is generated from a finite SternBrocot branch prefix, a SternBrocotApproximation bracket, a DyadicRatCore tolerance ledger, a RatUp dyadic candidate, finite StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stern-brocot-dyadic-approximation-carrier}, \autoref{thm:stern-brocot-dyadic-approximation-namecert-obligations}, and \autoref{thm:stern-brocot-dyadic-approximation-rational-bracket-handoff} seed the finite Stern--Brocot dyadic approximation window over displayed SternBrocot, DyadicRatCore, Rat, StreamName, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.SternBrocotDyadicApproximationUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite continued fractions, quotient real equality, trichotomy, selected real representatives, countable choice, ambient $\RealUp$ completeness, Lean proof obligations, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, branch-bracket exactness, dyadic-window compatibility, finite readback discipline, transport, replay, provenance, local naming, and rational bracket handoff for BEDC.Derived.SternBrocotDyadicApproximationUp.}
+\end{closurestatus}
