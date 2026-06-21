@@ -67,6 +67,21 @@ The sequence source is then opened through $A$ and $W$. The row $A$ supplies the
 Only after these rows have been displayed can the selector row $S$ be inspected. Thus the bounded-variation window route reaches the selected windows without introducing open-cover compactness, trichotomy, quotient stream equality, ambient completeness, or any choice-selected subsequence.
 \end{proof}
 
+\begin{theorem}[Helly selection finite-variation window handoff]\label{thm:helly-selection-finite-variation-window-handoff}
+Every accepted $\HellySelectionUp$ packet must expose the $\BoundedVariationUp$ row, the $\RealSequenceAlgebraUp$ row, the finite $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback, and the terminal $\RealUp$ seal before any selected-subsequence consumer reads the route
+$$
+B,A,W \longmapsto S \longmapsto R,E .
+$$
+The handoff is therefore a finite variation-window route: the consumer sees the displayed variation budget, source algebra observations, finite window schedule, selector row, regular rational tail budgets, and real seal in that order, not an ambient compactness principle or a choice-selected subsequence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:helly-selection-carrier}. The rows $B,A,W$ are the only source-facing rows available before the selector is inspected, so a selected-subsequence consumer first reads the bounded-variation budget, sequence-algebra observations, and finite window schedule.
+
+Apply \autoref{thm:helly-selection-bounded-variation-window}. It forces the displayed route from $B$ through $A$ and $W$ into $S$, and prevents a consumer from replacing the finite variation window by open-cover compactness, trichotomy, quotient stream equality, ambient completeness, or a choice-selected subsequence.
+
+Finally apply \autoref{thm:helly-selection-subsequence-handoff}. Once $S$ has been displayed, every selected-window read passes through $R$ and then $E$, with $T,C,P,N$ preserving the same route. Thus the finite variation-window handoff is visible before any downstream subsequence read is exported.
+\end{proof}
+
 \begin{theorem}[Helly selection subsequence handoff]\label{thm:helly-selection-subsequence-handoff}
 Every selected subsequence read exported by an accepted $\HellySelectionUp$ carrier factors through the displayed selector row, regular rational handoff, terminal real seal, and structural rows
 $$
