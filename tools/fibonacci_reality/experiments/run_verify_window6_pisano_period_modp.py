@@ -149,7 +149,6 @@ def main() -> None:
         "completed_at": now_iso(),
     }
     print(json.dumps(result, ensure_ascii=False))
-    print("PASS" if status == "passed" else "FAIL")
     if status != "passed":
         raise SystemExit(1)
 
