@@ -457,6 +457,33 @@ theorem BoundedNormalEqualityCheckerScopeClosure [AskSetup] [PackageSetup]
     unary_cont_closed transportUnary routeUnary packageReadRoute
   exact ⟨cert, equalityReadUnary, finishedReadUnary, packageReadUnary⟩
 
+theorem BoundedNormalEqualityCheckerPackageRead_public_consumer [AskSetup] [PackageSetup]
+    {left right fuel normalLeft normalRight equality witness closed transport route provenance
+      nameCert packageRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedNormalEqualityCheckerCarrier left right fuel normalLeft normalRight equality witness
+        closed transport route provenance nameCert bundle pkg ->
+      Cont transport route packageRead ->
+        Cont packageRead nameCert publicRead ->
+          UnaryHistory packageRead ∧ UnaryHistory publicRead ∧
+            Cont transport route packageRead ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier packageReadRoute publicReadRoute
+  have package :=
+    BoundedNormalEqualityCheckerCarrier_obligation_package carrier packageReadRoute
+  obtain ⟨_leftUnary, _rightUnary, _fuelUnary, _normalLeftUnary, _normalRightUnary,
+    _equalityUnary, _witnessUnary, _closedUnary, _transportUnary, _routeUnary,
+    packageReadUnary, _leftRoute, _rightRoute, _equalityRoute, packageRoute,
+    provenancePkg, nameCertPkg⟩ := package
+  obtain ⟨_leftUnary, _rightUnary, _fuelUnary, _normalLeftUnary, _normalRightUnary,
+    _equalityUnary, _witnessUnary, _closedUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, nameCertUnary, _leftRoute, _rightRoute, _equalityRoute,
+    _provenancePkg, _nameCertPkg⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed packageReadUnary nameCertUnary publicReadRoute
+  exact ⟨packageReadUnary, publicReadUnary, packageRoute, provenancePkg, nameCertPkg⟩
+
 theorem BoundedNormalEqualityCheckerPublicExport [AskSetup] [PackageSetup]
     {left right fuel normalLeft normalRight equality witness closed transport route provenance
       nameCert equalityRead finishedRead packageRead publicRead : BHist}
