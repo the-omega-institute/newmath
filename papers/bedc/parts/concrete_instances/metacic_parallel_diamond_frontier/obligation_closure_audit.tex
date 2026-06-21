@@ -1,0 +1,17 @@
+\begin{theorem}[MetaCIC parallel diamond frontier obligation-closure audit]
+\label{thm:metacic-parallel-diamond-frontier-obligation-closure-audit}
+For every accepted $\MetaCICParallelDiamondFrontierUp$ packet, the residual-join, candidate-normalization, retained-premise, and seed-readiness rows form the finite obligation surface a local confluence consumer must read before claiming a parallel diamond frontier. The audit surface is the displayed route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N ,
+$$
+with residual joins carrier-local, candidate normalization scoped to the displayed frontier, retained premises still visible, and seed status read only through the packet's closurestatus guard.
+\end{theorem}
+\begin{proof}
+Begin with the seed status theorem, \autoref{thm:metacic-parallel-diamond-seed-status}. It identifies the frontier seed surface as the finite route through the critical-pair envelope, residual join locality, candidate normalization scope, and finite residual witness rows.
+
+Read residual join locality next, using \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. This keeps every local join inside the displayed packet and prevents the consumer from treating a frontier join as unrestricted confluence.
+
+Attach the finite residual diamond ledger through \autoref{thm:metacic-finite-residual-diamond-ledger-local-join-obligations}. The ledger supplies the bounded residual-diamond rows and local-join obligations that a confluence consumer must inspect before the frontier can be read.
+
+Finally apply the retained-premise budget and the closurestatus guard, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-closure} and \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-guard}. They keep the retained premise and obstruction rows visible while the seed marker is consumed, so the audit surface remains a finite obligation packet rather than subject reduction, full Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
