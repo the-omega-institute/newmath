@@ -909,7 +909,9 @@ import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusSelectionUp.NameCertObligations
 import BEDC.Derived.BishopCompletionModulusSelectionUp.TasteGate
+import BEDC.Derived.BishopCompletionModulusUp.BridgeFacingRealSealBoundary
 import BEDC.Derived.BishopCompletionModulusUp.ObligationPackage
+import BEDC.Derived.BishopCompletionModulusUp.PublicCompletionCertificate
 import BEDC.Derived.BishopCompletionModulusUp.RealSealOrdering
 import BEDC.Derived.BishopCompletionModulusUp.SameThresholdTransport
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
@@ -1842,6 +1844,7 @@ import BEDC.Derived.CauchyFilterLocatedRealExtractionUp.TasteGate
 import BEDC.Derived.CauchyFilterMeetUp
 import BEDC.Derived.CauchyFilterMeetUp.TasteGate
 import BEDC.Derived.CauchyFilterModulusTransferUp.TasteGate
+import BEDC.Derived.CauchyFilterModulusUp.TasteGate
 import BEDC.Derived.CauchyFilterNetCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyFilterRegularizationUp.TasteGate
 import BEDC.Derived.CauchyFilterSelectorUp.TasteGate
