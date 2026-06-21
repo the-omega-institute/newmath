@@ -6887,6 +6887,7 @@ import BEDC.Derived.LocallyCompactUp.LocatedHandoffBoundary
 import BEDC.Derived.LocallyCompactUp.ProperMetricNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessComparisonNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessLocalityRootBoundary
+import BEDC.Derived.LocallyCompactUp.PublicNeighbourhoodBaseExport
 import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocallyConnectedContinuumUp
 import BEDC.Derived.LocallyConnectedUp.TasteGate
@@ -7781,6 +7782,7 @@ import BEDC.Derived.MetaCICOpenProblemLedgerUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.CriticalPairEnvelope
+import BEDC.Derived.MetaCICParallelDiamondFrontierUp.ResidualJoinLocality
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondSelectorUp
 import BEDC.Derived.MetaCICPiAdequacyBudgetUp.TasteGate
@@ -7955,6 +7957,7 @@ import BEDC.Derived.MetricEmbeddingUp.SeparatedCompletionHandoff
 import BEDC.Derived.MetricEmbeddingUp.TasteGate
 import BEDC.Derived.MetricEntourageUp
 import BEDC.Derived.MetricEntourageUp.TasteGate
+import BEDC.Derived.MetricEntropyUp.TasteGate
 import BEDC.Derived.MetricGraphUp.TasteGate
 import BEDC.Derived.MetricIdentificationUp.TasteGate
 import BEDC.Derived.MetricProjectionUp
@@ -8665,6 +8668,7 @@ import BEDC.Derived.PhysicalInductionUp.TasteGate
 import BEDC.Derived.PhysicalLawBridgeUp.FalsificationBoundary
 import BEDC.Derived.PhysicalLawBridgeUp.LawGapNonescape
 import BEDC.Derived.PhysicalLawBridgeUp.NameCertSurface
+import BEDC.Derived.PhysicalLawBridgeUp.ObligationPackage
 import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
