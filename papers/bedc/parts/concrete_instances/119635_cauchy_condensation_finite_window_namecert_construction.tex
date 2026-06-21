@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCondensationFiniteWindowUp$}
+\label{ch:concrete-instances-cauchy-condensation-finite-window-namecert}
+\origin{human}
+
+Following Cauchy and Bishop--Bridges constructive analysis, the $\CauchyCondensationFiniteWindowUp$ packet isolates the finite inspection window that sits between the broad condensation packet of \autoref{ch:concrete-instances-cauchy-condensation-packet-namecert} and the tail-lock consumer of \autoref{ch:concrete-instances-cauchy-condensation-tail-lock-namecert}. It records a source series window, dyadic block schedule, comparison ledger, readback route, and local naming surface before any completion-facing consumer may read a tail-lock seal.
+
+\begin{definition}[Cauchy condensation finite-window carrier]
+\label{def:cauchy-condensation-finite-window-carrier}
+A $\CauchyCondensationFiniteWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,D,L,M,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-series window, recording the inspected monotone nonnegative $\RealSeriesUp$ terms inherited from the condensation packet.
+\item $D$ is the dyadic block schedule, recording finite powers-of-two cut points, block endpoints, and block lengths as $\DyadicRatCoreUp$ data.
+\item $L$ is the finite block ledger, storing the displayed source block sums and condensed representative terms on the same schedule.
+\item $M$ is the monotone comparison row, recording the endpoint comparisons that bind each source block to its condensed representative.
+\item $T$ is the tail-lock handoff row, recording exactly the finite tail data handed to $\CauchyCondensationTailLockUp$.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from $S,D,L,M,T$.
+\item $E$ is the $\RealUp$ seal row available only after the regular readback has been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the source window, dyadic schedule, block ledger, comparison row, tail-lock handoff, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a finite precision request through $S,D,L,M,T,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCondensationFiniteWindowUp$, $\CauchyCondensationPacketUp$, $\CauchyCondensationTailLockUp$, $\RealSeriesUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyCondensationFiniteWindowUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a quotient of term streams, a selected infinite sum, countable choice, order trichotomy outside the displayed window, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy condensation finite-window NameCert obligations]
+\label{thm:cauchy-condensation-finite-window-namecert-obligations}
+For every accepted $\CauchyCondensationFiniteWindowUp$ carrier $W=(S,D,L,M,T,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyCondensationFiniteWindowUp}$ surface consists exactly of source-window exposure by $S$, dyadic schedule exposure by $D$, finite block-ledger exposure by $L$, monotone comparison exposure by $M$, tail-lock handoff by $T$, $\RegSeqRatUp$ readback by $R$, $\RealUp$ sealing by $E$, componentwise transport by $H$, displayed replay by $C$, provenance by $P$, and local naming by $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The analytic rows $S,D,L,M,T$ are the entire finite condensation window: they name the inspected source terms, the dyadic block cuts, the block ledger, the monotone endpoint comparisons, and the tail data exported to the tail-lock consumer.
+
+The readback rows are downstream of that window. The row $R$ repacks only the displayed finite data as $\RegSeqRatUp$ readback, and the seal row $E$ is reachable only through $R$.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same route. Since the carrier has no additional analytic coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy condensation finite-window tail-lock handoff]
+\label{thm:cauchy-condensation-finite-window-tail-lock-handoff}
+Every accepted $\CauchyCondensationFiniteWindowUp$ carrier hands condensation data to $\CauchyCondensationTailLockUp$ only through the displayed route
+$$
+S,D,L,M \longmapsto T \longmapsto R \longmapsto E .
+$$
+Thus a tail-lock consumer may read the source series window, dyadic block schedule, finite block ledger, monotone comparison row, $\RegSeqRatUp$ readback, $\RealUp$ seal, transport, replay, provenance, and local NameCert rows, but it receives no quotient stream equality, selected sum, choice functional, trichotomy oracle, or ambient completeness field.
+\end{theorem}
+\begin{proof}
+Begin with a tail-lock read. By \autoref{def:cauchy-condensation-finite-window-carrier}, the only rows available before the handoff are the source window $S$, dyadic schedule $D$, finite block ledger $L$, and monotone comparison row $M$.
+
+Read $T$ next. It is the unique row whose purpose is to present the finite condensation window to $\CauchyCondensationTailLockUp$.
+
+The regular readback and seal are downstream. The row $R$ consumes the displayed handoff, and $E$ is read only after $R$. Transport, replay, provenance, and local naming preserve this order, so no unlisted infinite or classical principle can supply an alternate tail-lock route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyCondensationFiniteWindowUp$ consumer that reaches a tail-lock or $\RealUp$ seal without first reading $S,D,L,M,T,R$ refutes the finite-window carrier.}
+
+\independenceWitness{cauchy-condensation-packet, cauchy-condensation-tail-lock, realseries, dyadicratcore, regseqrat, real: no listed sibling is bijective to $\CauchyCondensationFiniteWindowUp$ because this packet binds the source series window, dyadic block schedule, finite block ledger, monotone comparison row, tail-lock handoff, regular readback, real seal, transport, replay, provenance, and local NameCert in one finite route.}
+
+\closureat{CauchyCondensationFiniteWindowUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCondensationFiniteWindowUp}
+  \constructivestory{A $\CauchyCondensationFiniteWindowUp$ packet is generated from a source series window, dyadic block schedule, finite block ledger, monotone comparison row, tail-lock handoff, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-condensation-finite-window-carrier}, \autoref{thm:cauchy-condensation-finite-window-namecert-obligations}, and \autoref{thm:cauchy-condensation-finite-window-tail-lock-handoff} seed the finite condensation window between the packet and tail-lock surfaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host infinite sums, quotient stream equality, selected sums, order trichotomy, countable choice, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked source-window exposure, dyadic scheduling, finite block-ledger exactness, monotone comparison stability, tail-lock handoff, regular readback, real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCondensationFiniteWindowUp.}
+\end{closurestatus}
