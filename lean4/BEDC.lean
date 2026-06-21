@@ -9757,6 +9757,7 @@ import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinimumUp.LeftBound
 import BEDC.Derived.RegularCauchyMinimumUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusAlgebraUp.TasteGate
+import BEDC.Derived.RegularCauchyModulusCofinalRefinementUp
 import BEDC.Derived.RegularCauchyModulusCompressionUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusDominationUp
 import BEDC.Derived.RegularCauchyModulusExtractionUp.TasteGate
