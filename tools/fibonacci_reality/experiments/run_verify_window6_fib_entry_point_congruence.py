@@ -4,11 +4,19 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 from typing import Any
+
+EXPERIMENT_ID = "verify-window6-fib-entry-point-congruence"
+CLAIM_ID = "window6.fib-entry-point.fermat-congruence-law.certificate"
 
 
 def check(name: str, passed: bool, reason: str) -> dict[str, Any]:
     return {"name": name, "passed": bool(passed), "reason": reason}
+
+
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
 def is_prime(n: int) -> bool:
@@ -53,6 +61,7 @@ def fib_entry_residue(p: int) -> int:
 
 
 def main() -> None:
+    started_at = now_iso()
     primes = primes_below(80)
     nonramified = [p for p in primes if p != 5]
     rows = [
@@ -106,6 +115,8 @@ def main() -> None:
     ]
     status = "passed" if all(item["passed"] for item in checks) else "failed"
     result = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
         "status": status,
         "checks": checks,
         "result": {
@@ -119,11 +130,11 @@ def main() -> None:
                 "physical alpha as input, target, numerical proximity, or reverse fit",
             ],
         },
+        "started_at": started_at,
+        "completed_at": now_iso(),
     }
     print(json.dumps(result, ensure_ascii=False))
-    if status == "passed":
-        print("PASS verify-window6-fib-entry-point-congruence")
-    else:
+    if status != "passed":
         raise SystemExit(1)
 
 
