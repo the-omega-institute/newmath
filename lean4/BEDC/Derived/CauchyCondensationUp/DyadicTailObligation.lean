@@ -30,9 +30,9 @@ theorem CauchyCondensationCarrier_dyadic_tail_obligation [AskSetup] [PackageSetu
                 hsame ∧ UnaryHistory blockRead ∧ UnaryHistory tailRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory SemanticNameCert hsame
   intro carrier windowsBlocks blockSums provenancePkg
-  obtain ⟨_sourceUnary, windowsUnary, blocksUnary, sumsUnary, _tailsUnary, _sealUnary,
-    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, _carrierProvenancePkg,
-    _localNamePkg⟩ := carrier
+  obtain ⟨_sourceUnary, windowsUnary, blocksUnary, sumsUnary, _tailsUnary, _readbackUnary,
+    _sealUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _carrierProvenancePkg, _localNamePkg⟩ := carrier
   have blockReadUnary : UnaryHistory blockRead :=
     unary_cont_closed windowsUnary blocksUnary windowsBlocks
   have tailReadUnary : UnaryHistory tailRead :=
