@@ -4875,6 +4875,7 @@ import BEDC.Derived.DyadicMidpointUp.FiniteWindowConsumerRoute
 import BEDC.Derived.DyadicMidpointUp.RadiusHalvingWindow
 import BEDC.Derived.DyadicMidpointUp.SelectedWindowDenominatorSeal
 import BEDC.Derived.DyadicMidpointUp.WindowPackage
+import BEDC.Derived.DyadicModulusChoiceFreeRefinementUp.TasteGate
 import BEDC.Derived.DyadicModulusRegularityUp
 import BEDC.Derived.DyadicModulusUp.TasteGate
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.NameCertObligations
@@ -6988,6 +6989,7 @@ import BEDC.Derived.LocatednessModulusUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.NameCertObligations
 import BEDC.Derived.LogicContradictionMetaLoopUp.SiblingDependencyRoute
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
+import BEDC.Derived.LongLineUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
 import BEDC.Derived.LowerRealUp.DirectedLowerCutBudget
@@ -7696,6 +7698,7 @@ import BEDC.Derived.MetaCICRedexFrontierUp.NameCertObligations
 import BEDC.Derived.MetaCICRedexFrontierUp.Nonescape
 import BEDC.Derived.MetaCICRedexFrontierUp.NormalizationWindowHandoff
 import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
+import BEDC.Derived.MetaCICResidualCommutationWitnessUp
 import BEDC.Derived.MetaCICResidualDiamondWitnessUp
 import BEDC.Derived.MetaCICResidualSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICResidualSubstitutionComparisonUp
