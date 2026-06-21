@@ -8081,7 +8081,6 @@ import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.MonoidalCompletionUp.TasteGate
 import BEDC.Derived.MonotoneBarModulusUp
-import BEDC.Derived.MonotoneBoundedConvergenceUp
 import BEDC.Derived.MonotoneBoundedSequenceUp.TasteGate
 import BEDC.Derived.MonotoneCauchyCriterionUp.TasteGate
 import BEDC.Derived.MonotoneCauchySequenceUp.TasteGate
@@ -9748,6 +9747,7 @@ import BEDC.Derived.RegularCauchyDiagonalExchangeUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.Nonescape
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.ObligationClosure
+import BEDC.Derived.RegularCauchyDiagonalMeetUp.ScopedConsumerBoundary
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.SharedThresholdFactorization
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.TransportInduction
