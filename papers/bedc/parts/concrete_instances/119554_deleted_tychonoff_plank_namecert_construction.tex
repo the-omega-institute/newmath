@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\DeletedTychonoffPlankUp$}
+\label{ch:concrete-instances-deleted-tychonoff-plank-namecert}
+\origin{human}
+
+Following Kelley and Steen--Seebach point-set topology, the $\DeletedTychonoffPlankUp$ packet records the open deleted-corner surface of the Tychonoff plank as finite NameCert data. It sits beside the closed plank reconstruction of \autoref{ch:concrete-instances-tychonoff-plank-namecert}, reads rectangular neighbourhoods through \autoref{ch:concrete-instances-topology-namecert}, keeps its compact-side boundary visible through \autoref{ch:concrete-instances-compact-namecert}, and exposes corner tests through \autoref{ch:concrete-instances-sierpinski-space-namecert}. The packet names only the displayed plank row, deleted-corner row, product-boundary row, topology row, compact row, observable-open row, transport, replay, provenance, and local naming; it does not claim unrestricted product compactness, a host ordinal topology, quotient open equality, selected subcovers, or choice-based compactness.
+
+\begin{definition}[Deleted Tychonoff plank carrier]
+\label{def:deleted-tychonoff-plank-carrier}
+A $\DeletedTychonoffPlankUp$ carrier is a finite $\BHist$ packet
+$$
+D=(P,X,B,O,K,S,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the sibling $\TychonoffPlankUp$ row that supplies the closed plank surface read by the deleted packet.
+\item $X$ is the deleted-corner row, naming the removed top corner as displayed boundary data rather than as a host ordinal point.
+\item $B$ is the product-boundary row, recording which long-edge and corner-neighbourhood observations remain visible after the deletion.
+\item $O$ is the $\TopologyUp$ row for rectangular neighbourhood reads, finite meet rows, finite union rows, and boundary-open observations.
+\item $K$ is the $\CompactUp$ row for the compact side or closed-rectangle witness inherited from the sibling plank packet.
+\item $S$ is the $\SierpinskiSpaceUp$ observable-open row that records whether the deleted corner, remaining edge, or boundary neighbourhood is visible to a finite read.
+\item $H$ records componentwise $\hsame$ transport for $P,X,B,O,K,S,C,G,N$.
+\item $C$ records displayed $\Cont$ replay from a deleted-plank observation through $P,X,B,O,K,S,H,G,N$.
+\item $G$ is the $\Pkg$ provenance over $\DeletedTychonoffPlankUp$, $\TychonoffPlankUp$, $\TopologyUp$, $\CompactUp$, $\SierpinskiSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DeletedTychonoffPlankUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,X,B,O,K,S,H,C,G,N$. It has no coordinate for unrestricted product compactness, a selected subcover, quotient open equality, a host ordinal topology, countable choice, Lean verification, or bridge checking.
+\end{definition}
+\leanstmt{BEDC.Derived.DeletedTychonoffPlankUp}
+
+\begin{theorem}[Deleted Tychonoff plank NameCert obligations]
+\label{thm:deleted-tychonoff-plank-namecert-obligations}
+For every accepted $\DeletedTychonoffPlankUp$ carrier $D=(P,X,B,O,K,S,H,C,G,N)$, the local $\NameCert_{\DeletedTychonoffPlankUp}$ surface consists exactly of carrier admission for the sibling plank row, deleted-corner row, product-boundary row, topology row, compact row, observable-open row, transport, replay, provenance, and local naming; deletion visibility through $X$ and $S$; rectangular neighbourhood readback through $O$; compact-side visibility through $K$; product-boundary stability through $B$ and $H$; displayed $\Cont$ replay; provenance nonescape; and local naming exactness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:deleted-tychonoff-plank-carrier}. The rows $P,X,B$ are the only data by which a consumer can inspect the closed plank, the deleted corner, and the remaining product boundary.
+
+The topology-facing obligations are read through $O$ and $S$. Rectangular neighbourhoods and finite Boolean operations use the $\TopologyUp$ row, while the visible deleted-corner and edge tests use the $\SierpinskiSpaceUp$ row.
+
+The compact-side obligation is rowwise. The row $K$ exposes only the compact-side witness inherited by the packet, and $B$ records which boundary observations remain available after the deleted corner is removed.
+
+Finally $H,C,G,N$ transport, replay, source, and name exactly the same rows. Since the carrier has no coordinate for unrestricted product compactness, selected subcovers, quotient open equality, host ordinal topology, or countable choice, those objects cannot become local NameCert data.
+\end{proof}
+
+\begin{theorem}[Deleted Tychonoff plank product-boundary handoff]
+\label{thm:deleted-tychonoff-plank-product-boundary-handoff}
+Every product-boundary read exported by an accepted $\DeletedTychonoffPlankUp$ packet factors through
+$$
+P,X,B \longmapsto O,K,S \longmapsto H,C,G,N .
+$$
+The handoff first exposes the sibling $\TychonoffPlankUp$ row, the deleted-corner row, and the finite product-boundary row, then reads the $\TopologyUp$ neighbourhood row, the $\CompactUp$ side row, and the $\SierpinskiSpaceUp$ observable-open row before any public consumer can use the route.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. A product-boundary consumer can only start from $P,X,B$, so the closed plank, deleted corner, and remaining edge observations are fixed as displayed rows before any topology-facing read occurs.
+
+The rows $O,K,S$ then expose the neighbourhood, compact-side, and observable-open interfaces. This makes the boundary handoff a finite product-neighbourhood route rather than an appeal to unrestricted product compactness or a host ordinal topology.
+
+The structural rows $H,C,G,N$ preserve the same route by componentwise transport, displayed replay, provenance, and local naming. Therefore the exported boundary remains the displayed finite packet and cannot be replaced by quotient open equality, a selected subcover, or countable choice.
+\end{proof}
+
+\closureat{DeletedTychonoffPlankUp}{seedStr}
+
+\begin{closurestatus}{\DeletedTychonoffPlankUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:deleted-tychonoff-plank-carrier}, \autoref{thm:deleted-tychonoff-plank-namecert-obligations}, and \autoref{thm:deleted-tychonoff-plank-product-boundary-handoff} seed the finite deleted-plank packet over displayed plank, deleted-corner, product-boundary, topology, compactness, observable-open, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.DeletedTychonoffPlankUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted product compactness, host ordinal topology, quotient open equality, selected subcovers, countable choice, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, deleted-corner visibility, topology readback, compact-side visibility, observable-open tests, product-boundary stability, handoff factoring, transport, replay, provenance, and local naming for BEDC.Derived.DeletedTychonoffPlankUp.}
+  \constructivestory{A $\DeletedTychonoffPlankUp$ packet is generated from a TychonoffPlankUp row, deleted-corner row, product-boundary row, TopologyUp neighbourhood row, CompactUp side row, SierpinskiSpaceUp observable-open row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
