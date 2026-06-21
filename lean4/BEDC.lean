@@ -1713,6 +1713,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyContinuousMapUp.CompletionConsumerScope
+import BEDC.Derived.CauchyContinuousMapUp.RealCompletionScope
 import BEDC.Derived.CauchyContinuousMapUp.ScopedSurface
 import BEDC.Derived.CauchyContinuousMapUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp.UniformModulusFactorization
@@ -9503,6 +9504,7 @@ import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
 import BEDC.Derived.RecursorGeneratorUp
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
 import BEDC.Derived.ReducedProductUp
+import BEDC.Derived.ReductionFuelBoundaryUp.EndpointTimeoutDisjointness
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
