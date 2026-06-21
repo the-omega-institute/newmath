@@ -1399,6 +1399,7 @@ import BEDC.Derived.CalculusUp.LocalLinearizationCarrier
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
 import BEDC.Derived.CalculusUp.LocatedCompactDependencyRoute
 import BEDC.Derived.CalculusUp.LowerEnvelopeRealFacingRoute
+import BEDC.Derived.CalculusUp.LowerEnvelopeRegularizationHandoff
 import BEDC.Derived.CalculusUp.PeanoDependencyRoute
 import BEDC.Derived.CalculusUp.ProductMetricForwardLink
 import BEDC.Derived.CalculusUp.ProductMetricForwardLinkExport
@@ -5017,7 +5018,9 @@ import BEDC.Derived.EntropyUp
 import BEDC.Derived.EntropyUp.TasteGate
 import BEDC.Derived.EpigraphUp
 import BEDC.Derived.EpigraphUp.CarrierRowTransportSurface
+import BEDC.Derived.EpigraphUp.LedgerExactness
 import BEDC.Derived.EpigraphUp.LowerSemicontinuousHandoff
+import BEDC.Derived.EpigraphUp.LowerSetTransport
 import BEDC.Derived.EpigraphUp.TasteGate
 import BEDC.Derived.EpigraphicalLimitUp
 import BEDC.Derived.EpigraphicalLimitUp.TasteGate
@@ -7731,6 +7734,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.MatureNormalFormBoundary
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelMonotonicity
+import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelWindow
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ScopeAssignment
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
@@ -9530,6 +9534,7 @@ import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
 import BEDC.Derived.ReducedProductUp
 import BEDC.Derived.ReductionFuelBoundaryUp.EndpointTimeoutDisjointness
 import BEDC.Derived.ReductionFuelBoundaryUp.FuelTimeoutExactness
+import BEDC.Derived.ReductionFuelBoundaryUp.ObligationClosurePackage
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.ReductionFuelBoundaryUp.TotalHostNonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
