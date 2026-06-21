@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\SequentialContinuityRealUp$}
+\label{ch:concrete-instances-sequential-continuity-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\SequentialContinuityRealUp$ packet specializes the existing $\SequentialContinuityUp$ route to Real-and-Completion consumers over $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. It sits after the certified sequence-consumer packet of \autoref{ch:concrete-instances-sequentialcontinuity-namecert}, the finite stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives completion-facing consumers a finite handoff surface without restating the general sequential-continuity carrier or importing host completeness.
+
+\begin{definition}[Sequential continuity Real carrier]
+\label{def:sequential-continuity-real-carrier}
+A $\SequentialContinuityRealUp$ carrier is a finite $\BHist$ packet
+$$
+R=(Q,S,L,W_X,W_Y,A_X,A_Y,E_X,E_Y,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the already accepted $\SequentialContinuityUp$ packet whose pointwise-continuity, metric-row, and inspected-threshold data are being consumed.
+\item $S$ is the source sequence surface, exposed only through finite $\StreamNameUp$ windows.
+\item $L$ is the finite ledger of inspected convergence thresholds read from the sequential-continuity packet.
+\item $W_X$ and $W_Y$ are the displayed source and image windows used by the Real-facing consumer.
+\item $A_X$ and $A_Y$ are the $\RegSeqRatUp$ readback rows attached to the source and image windows.
+\item $E_X$ and $E_Y$ are the corresponding $\RealUp$ seal rows available only after the regular-rational readbacks.
+\item $H$ records componentwise $\hsame$ transport for the sequential-continuity packet, stream rows, regular readbacks, Real seals, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from $Q,S,L$ to $W_X,W_Y,A_X,A_Y,E_X,E_Y$.
+\item $P$ is the $\Pkg$ provenance over $\SequentialContinuityRealUp$, $\SequentialContinuityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialContinuityRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a host sequential-continuity theorem, quotient stream equality, selected limit, countable choice, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Sequential continuity Real NameCert obligations]
+\label{thm:sequential-continuity-real-namecert-obligations}
+For every accepted $\SequentialContinuityRealUp$ carrier $R=(Q,S,L,W_X,W_Y,A_X,A_Y,E_X,E_Y,H,C,P,N)$, the local $\NameCert_{\SequentialContinuityRealUp}$ surface consists exactly of carrier admission, consumption of the displayed $\SequentialContinuityUp$ row $Q$, finite stream-window exposure through $S,L,W_X,W_Y$, source and image $\RegSeqRatUp$ readback through $A_X,A_Y$, source and image $\RealUp$ seal handoff through $E_X,E_Y$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-continuity-real-carrier}. The only analytic input from sequential continuity is the displayed row $Q$, and the only sequence observations are the finite windows $W_X$ and $W_Y$ read from the stream surface $S$ at the thresholds listed in $L$.
+
+The Real-facing rows are downstream from regular readback. The source side passes through $A_X$ before $E_X$ can be consumed, and the image side passes through $A_Y$ before $E_Y$ can be consumed.
+
+The remaining rows do not add a second analytic surface. They transport, replay, source, and name the same finite route through $H,C,P,N$, so the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Sequential continuity Real stream readback]
+\label{thm:sequential-continuity-real-stream-readback}
+Every accepted $\SequentialContinuityRealUp$ packet reads any source or image stream observation through a finite $\StreamNameUp$ window before presenting it to a $\RegSeqRatUp$ row. In particular, every Real-facing route factors through
+$$
+Q,S,L
+\longmapsto
+W_X,W_Y
+\longmapsto
+A_X,A_Y
+\longmapsto
+E_X,E_Y
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the stream coordinates. The carrier exposes $S$ only through the finite threshold ledger $L$, and the displayed windows $W_X,W_Y$ are the only observations obtained from that schedule.
+
+Next read the regular-rational rows. The rows $A_X$ and $A_Y$ are attached to those same windows, so a consumer cannot reach the source or image Real seal directly from $S$ or from an unrecorded stream equality.
+
+Finally the seal rows $E_X,E_Y$ are downstream from the regular readbacks, while $H,C,P,N$ preserve and name the same dependency route. This proves the stated factorization.
+\end{proof}
+
+\begin{theorem}[Sequential continuity Real composition handoff]
+\label{thm:sequential-continuity-real-composition-handoff}
+Let $R=(Q,S,L,W_X,W_Y,A_X,A_Y,E_X,E_Y,H,C,P,N)$ be an accepted $\SequentialContinuityRealUp$ carrier. Any completion-facing consumer that composes the displayed sequential-continuity packet with Real readback must use $Q$ only before the finite window and regular-rational stages, and must use $E_X,E_Y$ only after $A_X,A_Y$. Thus the handoff is a finite BEDC route over $\SequentialContinuityUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, not a separate host theorem about completed real functions.
+\end{theorem}
+\begin{proof}
+Read the composition order from the carrier. The row $Q$ supplies the certified sequential-continuity route, but the Real consumer does not inspect it as a completed function; it is consumed only through the stream windows named by $S,L,W_X,W_Y$.
+
+The regular readback stage then mediates the passage to Real seals. The rows $A_X,A_Y$ are the only regular-rational handoffs in the packet, and the rows $E_X,E_Y$ are downstream from them.
+
+The transport, replay, provenance, and naming rows keep this order stable under componentwise comparison of accepted packets. Therefore the completion-facing composition is exactly the finite handoff named in the statement.
+\end{proof}
+
+\closureat{SequentialContinuityRealUp}{seedStr}
+
+\begin{closurestatus}{\SequentialContinuityRealUp}
+  \constructivestory{A $\SequentialContinuityRealUp$ packet is generated from an accepted SequentialContinuity row, finite StreamName windows, RegSeqRat readback rows, RealUp seal rows, componentwise transport, displayed replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-continuity-real-carrier}, \autoref{thm:sequential-continuity-real-namecert-obligations}, \autoref{thm:sequential-continuity-real-stream-readback}, and \autoref{thm:sequential-continuity-real-composition-handoff} seed the Real-and-Completion handoff surface for sequential-continuity consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host sequential-continuity theorems, quotient stream equality, selected limits, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, stream-window readback, RegSeqRat handoff, RealUp seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.SequentialContinuityRealUp.}
+\end{closurestatus}
