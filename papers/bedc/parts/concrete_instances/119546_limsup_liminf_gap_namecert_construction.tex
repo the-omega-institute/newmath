@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\LimsupLiminfGapUp$}
+\label{ch:concrete-instances-limsup-liminf-gap-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LimsupLiminfGapUp$ packet records the finite oscillation-width surface of a bounded real sequence by reading its lower-tail endpoint through \autoref{ch:concrete-instances-liminf-namecert} and its upper-tail endpoint through \autoref{ch:concrete-instances-bounded-real-limsup-namecert}. It gives Real-and-Completion consumers a named gap boundary for comparing displayed tail envelopes without importing host suprema, host infima, quotient streams, selected subsequences, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Limsup-liminf gap carrier]
+\label{def:limsup-liminf-gap-carrier}
+A $\LimsupLiminfGapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,I,U,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the bounded $\BoundedRealSequenceUp$ source row whose finite tail windows and bound ledger are inspected.
+\item $I$ is the $\LiminfUp$ endpoint row, read as the lower tail-envelope endpoint for the same bounded source.
+\item $U$ is the $\BoundedRealLimsupUp$ endpoint row, read as the upper tail-envelope endpoint for the same bounded source.
+\item $D$ is the dyadic tolerance ledger, recording the rational comparison budgets used to compare $U$ with $I$.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the displayed rational windows and tolerance requests.
+\item $E$ is the terminal $\RealUp$ seal row naming the displayed gap request after the two endpoints and tolerance ledger have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the bounded source, endpoint rows, dyadic ledger, rational readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the bounded source, lower endpoint, upper endpoint, tolerance ledger, readback row, real seal, transports, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\LimsupLiminfGapUp$, $\BoundedRealSequenceUp$, $\LiminfUp$, $\BoundedRealLimsupUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LimsupLiminfGapUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,I,U,D,Q,E,H,C,P,N$. It has no coordinate for ambient completeness, host supremum or infimum selection, quotient equality of real streams, selected oscillating subsequences, trichotomy, or a convergence theorem.
+\end{definition}
+
+\begin{theorem}[Limsup-liminf gap NameCert obligations]
+\label{thm:limsup-liminf-gap-namecert-obligations}
+For every accepted $\LimsupLiminfGapUp$ carrier
+$$
+G=(S,I,U,D,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\LimsupLiminfGapUp}$ surface consists exactly of carrier admission for the bounded source, $\LiminfUp$ lower endpoint, $\BoundedRealLimsupUp$ upper endpoint, dyadic tolerance ledger, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row; endpoint alignment requiring $I$ and $U$ to consume the same bounded source row $S$; tolerance exactness requiring every comparison in $D$ to be read through the rational row $Q$ before the seal $E$ is exposed; and nonescape from the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:limsup-liminf-gap-carrier}. The analytic rows are exactly the bounded source $S$, lower endpoint $I$, upper endpoint $U$, dyadic ledger $D$, rational readback $Q$, and terminal real seal $E$.
+
+Endpoint alignment is rowwise. The $\LiminfUp$ endpoint supplies lower-tail envelope data for $S$, while the $\BoundedRealLimsupUp$ endpoint supplies the upper-tail envelope data for the same bounded source. A consumer may compare the endpoints only after both endpoint rows have been displayed.
+
+Tolerance exactness is supplied by $D$ and $Q$. The dyadic ledger records finite comparison budgets, and the regular rational readback exposes the rational windows through which those budgets are checked before the terminal $\RealUp$ seal is reached.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no row stores host completeness, a selected subsequence, quotient stream equality, trichotomy, or a convergence theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Limsup-liminf gap endpoint route]
+\label{thm:limsup-liminf-gap-endpoint-route}
+Every Real-and-Completion consumer of an accepted $\LimsupLiminfGapUp$ carrier factors through the finite route
+$$
+S \longmapsto I,U \longmapsto D \longmapsto Q \longmapsto E \longmapsto H,C,P,N
+$$
+before reading the displayed oscillation-width surface.
+\end{theorem}
+\begin{proof}
+Begin with the bounded source row $S$. It is the only source of sequence entries, finite windows, and bound data available to the packet.
+
+The endpoint rows $I$ and $U$ are then read as lower and upper tail-envelope data for that same source. The packet therefore compares two displayed endpoint certificates, not two host-selected limits.
+
+The dyadic ledger $D$ and rational readback $Q$ carry the finite comparison budget. Only after those rows are replayed can a consumer reach the terminal $\RealUp$ seal $E$ and the structural rows $H,C,P,N$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LimsupLiminfGapUp$ Real-facing read factors through a bounded real sequence source, Liminf endpoint, bounded Real limsup endpoint, dyadic tolerance ledger, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{liminf, bounded-real-limsup, boundedrealsequence, regseqrat, real: no listed sibling supplies the whole packet $G=(S,I,U,D,Q,E,H,C,P,N)$, because each sibling contributes only the lower endpoint, upper endpoint, bounded source, rational readback, or terminal real seal while this chapter binds them into one oscillation-width carrier.}
+
+\closureat{LimsupLiminfGapUp}{seedStr}
+
+\begin{closurestatus}{\LimsupLiminfGapUp}
+  \constructivestory{A $\LimsupLiminfGapUp$ packet is generated from a bounded real sequence source, a Liminf endpoint row, a bounded Real limsup endpoint row, a dyadic tolerance ledger, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transports, Cont replay routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:limsup-liminf-gap-carrier}, \autoref{thm:limsup-liminf-gap-namecert-obligations}, and \autoref{thm:limsup-liminf-gap-endpoint-route} seed the finite oscillation-width surface for bounded real sequences.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, trichotomy, host supremum or infimum selection, quotient stream equality, selected subsequences, zero-gap convergence, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-source endpoint alignment, dyadic tolerance exactness, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.LimsupLiminfGapUp.}
+\end{closurestatus}
