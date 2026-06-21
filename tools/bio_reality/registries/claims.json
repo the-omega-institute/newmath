@@ -7807,6 +7807,40 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-21T21:59:01+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-21T21:59:03+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "920f18fd0b2f",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-21T22:38:28+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-21T22:38:28+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "4dcc410a591b",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -10627,6 +10661,34 @@
         }
       ],
       "linked_conjecture_id": "decay-factor-rbp.rna-half-life.with-translation-boundary.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.cis_regulatory_grammar.random_promoter_tf_motif_expression_boundary_deboer2020",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Aggregate TF-activator-motif COUNT does NOT cross the readback boundary to predict random-promoter expression beyond GC+dinucleotide composition, even though specific strong motifs do (pre-registered test; new layer = cis-regulatory grammar; conclusive composition_artifact with a working positive control). de Boer et al 2020 (GEO GSE104878) fully-random synthetic yeast promoter MPRA — the carrier is RANDOM DNA so motif occurrence is a coin-flip, the cleanest possible composition control. 8027 high-quality random promoters (canonical 80nt variable region) + 75111 designed/tiling constructs; JASPAR fungi PWMs (REB1/RAP1/GCR1/MSN2-4/GCN4) scored stdlib (log-odds, both strands, 80%-max threshold); sequence and FACS expression-level (EL) are in the same row (no join). POSITIVE CONTROL reproduced (de Boer's established result): individual REB1 (Spearman rho=0.12) and RAP1 (0.073) hit-counts raise EL, and designed REB1/RAP1 copy number is monotone with EL (0 hits 9.07 -> 1 hit 13.9 -> >=2 hits 14.6) — so the pipeline DOES detect real motif effects (the null is not insensitivity). MAIN result: the AGGREGATE activator-hit-count has raw rho=0.12 (and hit-vs-nohit delta +1.22) but after partialling GC + the 16 dinucleotide frequencies, rho_partial = -0.014, which does NOT exceed the dinucleotide-preserving shuffle null 99th percentile (0.020); permutation p=0.64. The shuffle is non-degenerate (677 sequences change motif hits per shuffle). Frozen verdict composition_artifact: the simple aggregate-motif-count statistic is fully explained by base composition in random promoters, even though specific high-affinity activators (REB1/RAP1) causally raise expression. Escapes the confound triangle: random carrier makes motif presence a coin-flip not genomic-context-inherited (not disguised-e_in); the dinucleotide-preserving shuffle null + GC/dinuc partial IS the composition control (and the result is that composition explains it); TF panel/threshold/verdict pre-registered (post-hoc-separator). cannot_claim: synthetic context-free pTpA reporter (episomal-like), not native genomic grammar/chromatin/distal context; single organism (S. cerevisiae), single TSS architecture; PWM log-odds is not thermodynamic occupancy; the null is about the AGGREGATE-COUNT operationalization specifically (individual strong motifs DO act, per the positive control); FACS EL is an 18-bin log estimate.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "random_promoter_tf_motif_expression_boundary_deboer2020",
+      "history": [
+        {
+          "ts": "2026-06-21T21:58:00+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-21T22:07:54+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "8d1d1ac78ab7",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "ffd0cd7b4597f5ea"
+        }
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-translation-survival.cross-layer"
     }
   ]
 }
