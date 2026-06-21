@@ -9063,8 +9063,6 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelDependencyRoute
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.NameCertLedger
-import BEDC.Derived.QuotientSoundnessBoundaryUp.NegativeBoundaryRoute
-import BEDC.Derived.QuotientSoundnessBoundaryUp.NegativeRouteVisibility
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameBridgeHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameConsumerClosure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameOnlyDescent
@@ -10751,6 +10749,7 @@ import BEDC.Derived.SixBoundaryTileCoverageUp.TasteGate
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SliceCategoryUp.TasteGate
 import BEDC.Derived.SmithNormalFormUp.TasteGate
+import BEDC.Derived.SmoothManifoldUp.BundleReadinessRoute
 import BEDC.Derived.SmoothManifoldUp.TasteGate
 import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SmythCompletionUp
