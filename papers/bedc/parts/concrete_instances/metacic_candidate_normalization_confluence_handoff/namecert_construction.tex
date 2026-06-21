@@ -178,6 +178,20 @@ Use the consumer boundary, residual progress, decider boundary, and finite conve
 Therefore collapsing any one of $K,N,F,C,D,B,T,R,P,L$ would remove a row required by the carrier and by the displayed boundary theorems. Since the excluded global endpoints are not carrier coordinates, the obligation rows remain non-collapsible without promoting the packet beyond the finite handoff surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate retained-edge handoff]
+\label{thm:metacic-candidate-normalization-confluence-handoff-retained-edge}
+Every finite successor handoff from candidate normalization toward confluence in an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet must retain the candidate-gate rows $K,F,N$, the residual-envelope row $C$, the decidable-boundary row $D$, the blocked-edge row $B$, and the structural rows $T,R,P,L$ before any consumer reads endpoint or conversion data. The retained edge is a finite successor route inside $H=(A,K,N,F,C,D,B,T,R,P,L)$; it does not assert Church--Rosser, strong normalization, subject reduction, evaluator equality, quotient equality, or consistency.
+\end{theorem}
+\begin{proof}
+Start with the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. Candidate-gate exactness keeps $K,F,N$ visible in the successor handoff, while confluence handoff discipline keeps $C$ and $B$ visible.
+
+Apply the consumer boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary}. A confluence-facing consumer receives the handoff only through the displayed public route, so endpoint data cannot be read before the retained candidate and residual rows.
+
+Use the decider boundary from \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}. Any bounded conversion comparison passes through $D$ after the candidate, endpoint, residual-envelope, blocked-edge, and structural rows are displayed.
+
+Finally apply \autoref{thm:metacic-candidate-normalization-confluence-handoff-obligation-rows}. It makes $K,F,N,C,D,B,T,R,P,L$ non-collapsible rows of the obligation surface. Since the excluded global endpoints are not carrier coordinates, a finite successor handoff retains those rows without proving Church--Rosser, strong normalization, subject reduction, evaluator equality, quotient equality, or consistency.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate normalization handoff obligation stability]
 \label{thm:metacic-candidate-normalization-handoff-obligation-stability}
 Let $H=(A,K,N,F,C,D,B,T,R,P,L)$ be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. Any public read preserving the handoff rows must preserve candidate evidence $K$, endpoint row $N$, frontier row $F$, residual envelope $C$, decidable boundary $D$, blocked edge $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$. No $\hsame$ transport or $\Cont$ replay may erase candidate or residual obligations, and no public read may collapse the handoff into unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
