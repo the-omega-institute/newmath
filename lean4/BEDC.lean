@@ -4273,6 +4273,7 @@ import BEDC.Derived.DecimalExpansionUp.Nonescape
 import BEDC.Derived.DecimalExpansionUp.PrefixDensityExhaustion
 import BEDC.Derived.DecimalExpansionUp.PrefixNormalizationTriad
 import BEDC.Derived.DecimalExpansionUp.PrefixStability
+import BEDC.Derived.DecimalExpansionUp.PublicWindowExport
 import BEDC.Derived.DecimalExpansionUp.RatRealHandoff
 import BEDC.Derived.DecimalExpansionUp.RealReadbackBoundary
 import BEDC.Derived.DecimalExpansionUp.RealSealFactorization
@@ -6956,6 +6957,8 @@ import BEDC.Derived.LocatedDyadicCompletionUp
 import BEDC.Derived.LocatedFormalBarUp.TasteGate
 import BEDC.Derived.LocatedHeineBorelSubcoverUp.TasteGate
 import BEDC.Derived.LocatedInfimumUp
+import BEDC.Derived.LocatedInfimumUp.BoundedFamilyHandoff
+import BEDC.Derived.LocatedInfimumUp.ClassifierStability
 import BEDC.Derived.LocatedInfimumUp.GreatestLowerBoundObligation
 import BEDC.Derived.LocatedInfimumUp.LowerBoundObligation
 import BEDC.Derived.LocatedIntermediateValueUp.TasteGate
