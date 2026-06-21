@@ -1405,6 +1405,7 @@ import BEDC.Derived.CalculusUp.ProductMetricForwardModulusRoute
 import BEDC.Derived.CalculusUp.ProductMetricModulusHandoff
 import BEDC.Derived.CalculusUp.ProductMetricRealRoute
 import BEDC.Derived.CalculusUp.RealCompletionForwardLink
+import BEDC.Derived.CalculusUp.RealCompletionOrphanLatticeRoute
 import BEDC.Derived.CalculusUp.RealCompletionSiblingRoute
 import BEDC.Derived.CalculusUp.RealSealErrorBudget
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
@@ -4633,6 +4634,7 @@ import BEDC.Derived.DirectedSubnetUp
 import BEDC.Derived.DirectedSubnetUp.TasteGate
 import BEDC.Derived.DirichletAbelSummabilityUp
 import BEDC.Derived.DirichletApproximationUp.TasteGate
+import BEDC.Derived.DirichletBoxApproximationUp.TasteGate
 import BEDC.Derived.DirichletKernelUp
 import BEDC.Derived.DirichletKernelUp.NameCertObligations
 import BEDC.Derived.DirichletKernelUp.TasteGate
@@ -5978,6 +5980,7 @@ import BEDC.Derived.GoldenMeanShiftUp.TasteGate
 import BEDC.Derived.GoursatUp
 import BEDC.Derived.GoursatUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
+import BEDC.Derived.GramDeterminantUp.TasteGate
 import BEDC.Derived.GramSchmidtUp.TasteGate
 import BEDC.Derived.GraphUp
 import BEDC.Derived.GreedySpectralClosureUp.TasteGate
