@@ -79,10 +79,29 @@ The structural rows $H,C,Q,N$ preserve and replay those obligations without intr
 \end{proof}
 \leanchecked{BEDC.Derived.PhysicalLawBridgeUp.PhysicalLawBridgeObligationPackage}
 
+\begin{theorem}[Physical law bridge scoped export]
+\label{thm:physical-law-bridge-scope-export}
+Every accepted $\PhysicalLawBridgeUp$ export factors through the displayed carrier rows
+$$
+L,E,B,O,F,G,H,C,Q,N .
+$$
+The rows $L,E,B,O,F$ are respectively the $\LawCertificateUp$ route of \autoref{ch:concrete-instances-law-certificate-namecert}, the $\EmpiricalRegularityPersistenceUp$ route of \autoref{ch:concrete-instances-empirical-regularity-persistence-namecert}, the $\StandardBridgeAuditPacketUp$ route of \autoref{ch:concrete-instances-standardbridgeauditpacket-namecert}, the $\ScientificObjectUp$ route of \autoref{ch:concrete-instances-scientificobject-namecert}, and the $\OpenPhysicalFitUp$ route of \autoref{ch:concrete-instances-open-physical-fit-namecert}. The row $G$ is the falsification branch, and $H,C,Q,N$ are the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. No export that omits one of these rows is an accepted physical-law bridge export.
+\end{theorem}
+\begin{proof}
+Project the obligation package of \autoref{thm:physical-law-bridge-obligation-package}. It already lists carrier admission, law-certificate exposure, empirical-persistence exposure, bridge-audit exposure, scientific-object anchoring, open-fit exposure, falsification exposure, transport, replay, provenance, and local naming as the displayed package.
+
+Read the five upstream science-bridge siblings through the introduction's carrier order. The law-certificate row $L$ supplies law status, $E$ supplies empirical persistence, $B$ supplies standard bridge audit, $O$ supplies scientific-object anchoring, and $F$ supplies open physical fit.
+
+Now retain the falsification and structural rows. The row $G$ records the refusal or falsification branch, while $H,C,Q,N$ transport, replay, source, and name the same packet. Removing any one of these rows leaves only a projection because the local $\NameCert_{\PhysicalLawBridgeUp}$ is issued for the complete displayed carrier.
+
+Thus every accepted export is scoped by the carrier rows themselves. The theorem supplies no additional physical truth predicate, no final model authority, and no bridge-recognition shortcut outside the sibling rows.
+\end{proof}
+
 \begin{theorem}[Physical law bridge field-faithful obligation]
 \label{thm:physical-law-bridge-field-faithful-obligation}
 No accepted $\PhysicalLawBridgeUp$ read can erase any of the rows $L,E,B,O,F,G,H,C,Q,N$. If two accepted reads agree after deleting one of these coordinates, the agreement is only a projection-level agreement and is not an accepted field-faithful bridge read.
 \end{theorem}
+\leanchecked{BEDC.Derived.PhysicalLawBridgeUp.PhysicalLawBridgeFieldFaithfulObligation}
 \begin{proof}
 Use \autoref{thm:physical-law-bridge-obligation-package}. Each row is named as part of the obligation package and is transported by $H$ and replayed by $C$ before provenance and local naming are read.
 
