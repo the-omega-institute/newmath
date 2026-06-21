@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\MetacicResidualFuelRankUp$}
+\label{ch:concrete-instances-metacic-residual-fuel-rank-namecert}
+\origin{ai}
+
+The $\MetacicResidualFuelRankUp$ packet realizes the residual-fuel branch of \autoref{ch:visions-strong-normalization-vs-turing-completeness} as finite MetaCIC NameCert data. It sits beside the candidate-mediated boundary of \autoref{ch:concrete-instances-metacic-candidate-strong-normalization-namecert}, the normalization audit packet of \autoref{ch:concrete-instances-metacicnormalizationaudit-namecert}, the bounded fuel endpoint packet of \autoref{ch:concrete-instances-bounded-normalization-fuel-namecert}, the residual-diamond readback packet of \autoref{ch:concrete-instances-metacic-residual-diamond-readback-namecert}, and the residual substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}. The packet names the finite rank by which residual replay spends fuel before a normalization-facing or confluence-facing consumer may read an endpoint; it does not claim evidence-free strong normalization, global confluence, subject reduction, quotient syntax equality, a hidden normalizer, or MetaCIC kernel consistency.
+
+\begin{definition}[MetaCIC residual fuel-rank carrier]
+\label{def:metacic-residual-fuel-rank-carrier}
+A $\MetacicResidualFuelRankUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,K,F,Q,D,E,A,O,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed MetaCIC typed-term row whose residual replay is being inspected.
+\item $K$ is the candidate evidence row, displaying Candidate, ClosedCandidate, or CandidateSet membership before any strong-normalization read.
+\item $F$ is the residual fuel ledger, recording the visible fuel before and after each accepted residual step.
+\item $Q$ is the fuel-rank row, a finite lexicographic rank over residual depth, candidate scope, and bounded endpoint budget.
+\item $D$ is the residual descent row, pairing each replayed residual with a strict decrease in $Q$ or a displayed timeout boundary.
+\item $E$ is the bounded endpoint row, read through $\BoundedNormalizationFuelUp$ and the normalization audit surface.
+\item $A$ is the audit-handoff row, tying $T,K,F,Q,D,E$ to $\MetaCICCandidateStrongNormalizationUp$, $\MetaCICNormalizationAuditUp$, $\MetacicResidualDiamondReadbackUp$, and $\MetaCICResidualSubstitutionBoundaryUp$.
+\item $O$ is the obstruction row for evidence-free strong normalization, global confluence, subject reduction, quotient syntax equality, hidden normalizers, and MetaCIC kernel consistency.
+\item $G$ is the TasteGate-facing row requiring later Lean $\mathsf{Nontrivial}\ \MetacicResidualFuelRankUp$ and $\mathsf{FieldFaithful}\ \MetacicResidualFuelRankUp$ instances for the same carrier fields.
+\item $H$ records componentwise $\hsame$ transport for term, candidate, fuel, rank, descent, endpoint, audit-handoff, obstruction, TasteGate-facing, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the route
+$$
+T,K,F,Q,D \longmapsto E,A \longmapsto O,G .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetacicResidualFuelRankUp$, $\MetaCICCandidateStrongNormalizationUp$, $\MetaCICNormalizationAuditUp$, $\BoundedNormalizationFuelUp$, $\MetacicResidualDiamondReadbackUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetacicResidualFuelRankUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,F,Q,D,E,A,O,G,H,C,P,N$. It has no coordinate for a global strong-normalization theorem, full Church--Rosser proof, closed subject-reduction theorem, quotient syntax equality, hidden evaluator, or MetaCIC consistency claim.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual fuel-rank obligations]
+\label{thm:metacic-residual-fuel-rank-namecert-obligations}
+For every accepted $\MetacicResidualFuelRankUp$ carrier $R=(T,K,F,Q,D,E,A,O,G,H,C,P,N)$, the local $\NameCert_{\MetacicResidualFuelRankUp}$ surface consists exactly of closed typed-term admission, candidate evidence, residual fuel-ledger exposure, finite rank exposure, descent-or-timeout exposure, bounded endpoint readback, audit handoff, obstruction retention, TasteGate-facing nontriviality and field-faithfulness requirements, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-fuel-rank-carrier}. The term, candidate, fuel, rank, descent, endpoint, audit, obstruction, and TasteGate-facing rows are all visible coordinates.
+
+The candidate row $K$ prevents the read from becoming evidence-free strong normalization. The residual fuel ledger $F$ and rank row $Q$ make every replayed residual step fuel-sensitive before the endpoint row $E$ can be read.
+
+The descent row $D$ either spends the displayed rank or records a timeout boundary. The audit-handoff row $A$ then routes the endpoint read through the candidate strong-normalization, normalization audit, bounded fuel, residual readback, and residual-substitution sibling surfaces.
+
+Rows $O,G,H,C,P,N$ retain the refused endpoints, field-separation requirements, transport, replay, provenance, and local name. Since no carrier coordinate stores global normalization, confluence, subject reduction, quotient syntax equality, hidden evaluation, or kernel consistency, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual fuel-rank endpoint route]
+\label{thm:metacic-residual-fuel-rank-endpoint-route}
+Every normalization-facing or confluence-facing consumer of an accepted $\MetacicResidualFuelRankUp$ carrier must expose
+$$
+T,K,F,Q,D \longmapsto E,A \longmapsto H,C,P,N
+$$
+before it can read an endpoint. The rank row $Q$ is retained with the fuel ledger $F$, and each residual replay either decreases that rank through $D$ or stops at the obstruction row $O$. The route exports a finite residual fuel-rank packet, not evidence-free strong normalization, global confluence, subject reduction, quotient syntax equality, a hidden normalizer, or MetaCIC kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:metacic-residual-fuel-rank-namecert-obligations}. It places the closed term $T$, candidate evidence $K$, fuel ledger $F$, rank row $Q$, and descent row $D$ before endpoint readback.
+
+The endpoint row $E$ is bounded. It is consumed through the bounded-fuel sibling and the normalization audit surface named by $A$, so the consumer receives an audited residual route rather than an unrestricted normalizer.
+
+If the residual replay continues, $D$ records the strict rank decrease. If the replay cannot spend the displayed rank, the same row reaches the obstruction boundary $O$. In neither case can the route delete $F$ or $Q$.
+
+The structural rows $H,C,P,N$ preserve only this displayed route. The TasteGate-facing row $G$ records that later Lean instances must keep the fields noncollapsed before a checked carrier-alignment theorem can serve as a public realization.
+\end{proof}
+
+\falsifiablePrediction{A purported $\MetacicResidualFuelRankUp$ consumer is refuted if it reaches a normalization endpoint while omitting the candidate row, residual fuel ledger, fuel-rank row, descent-or-timeout row, audit handoff, obstruction row, transport, replay, provenance, or local $\NameCert$ row.}
+
+\independenceWitness{metacic-candidate-strong-normalization, metacicnormalizationaudit, bounded-normalization-fuel, metacic-residual-diamond-readback, metacic-residual-substitution-boundary: none is bijective to $\MetacicResidualFuelRankUp$ because this packet jointly carries closed typed terms, candidate evidence, residual fuel, finite rank, descent-or-timeout data, bounded endpoint readback, audit handoff, obstruction retention, TasteGate-facing field separation, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate file \texttt{lean4/BEDC/Derived/MetacicResidualFuelRankUp/TasteGate.lean} must provide explicit \texttt{Nontrivial} and \texttt{FieldFaithful} instances for $\MetacicResidualFuelRankUp$. Those instances must preserve $T,K,F,Q,D,E,A,O,G,H,C,P,N$ as distinct fields before any carrier-alignment theorem can serve as a public TasteGate realization.
+
+\closureat{MetacicResidualFuelRankUp}{seedStr}
+
+\begin{closurestatus}{\MetacicResidualFuelRankUp}
+  \constructivestory{A $\MetacicResidualFuelRankUp$ packet is generated from a closed MetaCIC typed-term row, candidate evidence row, residual fuel ledger, finite fuel-rank row, descent-or-timeout row, bounded endpoint row, audit handoff, obstruction row, TasteGate-facing field-separation requirements, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-fuel-rank-carrier}, \autoref{thm:metacic-residual-fuel-rank-namecert-obligations}, and \autoref{thm:metacic-residual-fuel-rank-endpoint-route} seed the finite residual fuel-rank packet over MetaCIC candidates, fuel ledgers, descent rows, bounded endpoints, audit handoffs, obstruction, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close evidence-free strong normalization, global confluence, subject reduction, quotient syntax equality, hidden normalization, Lean verification, bridge checking, or MetaCIC kernel consistency.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate evidence, residual fuel-ledger exactness, rank decrease or timeout exactness, bounded endpoint readback, audit handoff, obstruction retention, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.MetacicResidualFuelRankUp.}
+\end{closurestatus}
