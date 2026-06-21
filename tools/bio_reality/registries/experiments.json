@@ -2065,6 +2065,40 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.transcript_surveillance.nmd_position_rule_reality_boundary_teran2021",
+   "experiment_id": "nmd_position_rule_reality_boundary_teran2021",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib NMD 50-nt position-rule reality-boundary test over Teran 2021 AJHG GTEx ASE PTC table (tools/bio_reality/data/nmd_position_boundary_teran2021.json; from mmc4.xlsx via stdlib zipfile/xml). y=REF_RATIO; boundary step (triggering >55nt vs escape <=50nt/last-exon) with position-label permutation; breakage map over escape-predicted classes (Long_Exon/Near_Start/last-exon/Exon_Length quartiles, binomial vs 0.5, breakage iff mean_y>=0.60 & p<0.001); tissue-conditional flip count; X50_BP_RULE PASS/FAIL positive control (must reproduce Δ>=0.08). Verdict nmd_boundary_contact / bounded_descriptor_only / no_contact. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_nmd_position_rule_reality_boundary_teran2021.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-21T17:38:36+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_modification.m6a_site_load_mrna_halflife_boundary_gse163500",
+   "experiment_id": "m6a_site_load_mrna_halflife_boundary_gse163500",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib m6A-site-load vs measured mRNA half-life test over GSE163500/PMC10442230 mESC (tools/bio_reality/data/m6a_load_halflife_gse163500.json; Table S1 DMSO+STM2457 half-lives, Table S3 miCLIP2 m6A sites, Ensembl cDNA transcript length). Static arm Spearman(m6A_load, log2 HL_DMSO); causal arm Spearman(m6A_load, log2 HL_STM2457 - log2 HL_DMSO) with length partial-correlation + partial-permutation; m6A_load-bin dose-response + hi-vs-zero permutation; sanity = sign directions match known m6A destabilization. Verdict crosses_boundary / confounded_by_composition / does_not_cross. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_m6a_site_load_mrna_halflife_boundary_gse163500.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-21T17:55:09+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
