@@ -928,6 +928,7 @@ import BEDC.Derived.BishopCompletionUniversalCompositionUp.TasteGate
 import BEDC.Derived.BishopCompletionUp
 import BEDC.Derived.BishopCompletionUp.TasteGate
 import BEDC.Derived.BishopCompletionUp.UniversalFilterReadback
+import BEDC.Derived.BishopCutUp
 import BEDC.Derived.BishopDyadicSqueezeUp.TasteGate
 import BEDC.Derived.BishopEquicontinuityModulusUp
 import BEDC.Derived.BishopFanCompactUniformUp.TasteGate
