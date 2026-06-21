@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\SylowTheoremUp$}
+\label{ch:concrete-instances-sylow-theorem-namecert}
+\origin{human}
+
+Following Sylow and the finite-group presentation in Rotman, the $\SylowTheoremUp$ packet names the theorem-facing finite-action route over the existing $\SylowUp$ witness packet. It consumes the displayed finite $\GroupUp$, $\SubgroupUp$, $\PrimeUp$, $\NatUp$, $\SylowUp$, $\OrbitStabilizerUp$, and $\ClassEquationUp$ rows of \autoref{ch:concrete-instances-group-namecert}, \autoref{ch:concrete-instances-subgroup-namecert}, \autoref{ch:concrete-instances-prime-namecert}, \autoref{ch:concrete-instances-nat-namecert}, \autoref{ch:concrete-instances-sylow-namecert}, \autoref{ch:concrete-instances-orbit-stabilizer-namecert}, and \autoref{ch:concrete-instances-class-equation-namecert}. The packet records only the finite action and counting route that a theorem consumer may read; it is not a host subgroup-lattice oracle, quotient classification, canonical Sylow selector, normalizer calculator, or complete finite-group structure theorem.
+
+\begin{definition}[Sylow theorem carrier]
+\label{def:sylow-theorem-carrier}
+A $\SylowTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+T=(G,p,n,Y,A,O,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\NameCert_{\GroupUp}$ source row whose multiplication, unit, inverse, and finite support are already displayed.
+\item $p$ is the consumed $\NameCert_{\PrimeUp}$ row and $n$ is the $\NatUp$ exponent row for the displayed $p^{n}$ divisor route.
+\item $Y$ is the consumed $\SylowUp$ packet naming the prime-power subgroup witness and its coverage ledger inside $G$.
+\item $A$ is the finite conjugation-action row read through $\OrbitStabilizerUp$.
+\item $O$ is the orbit-stabilizer counting row for the displayed conjugation orbit of Sylow witnesses.
+\item $Q$ is the class-equation remainder row recording the finite congruence and divisibility boundary used by the theorem-facing route.
+\item $R$ is the theorem-read row assembling existence, conjugacy, and counting conclusions only as finite BEDC rows over $G,p,n,Y,A,O,Q$.
+\item $H$ records componentwise $\hsame$ transport for the group, prime, exponent, Sylow witness, action, counting, theorem-read, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a theorem request through the same finite action and counting route.
+\item $P$ is the $\Pkg$ provenance over $\SylowTheoremUp$, $\GroupUp$, $\SubgroupUp$, $\PrimeUp$, $\NatUp$, $\SylowUp$, $\OrbitStabilizerUp$, $\ClassEquationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SylowTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for an ambient subgroup lattice, quotient group classification, selected canonical Sylow subgroup, arbitrary normalizer computation, character table, or complete finite-group structure theorem.
+\end{definition}
+
+\begin{theorem}[Sylow theorem NameCert obligations]
+\label{thm:sylow-theorem-namecert-obligations}
+For every accepted $\SylowTheoremUp$ carrier $T=(G,p,n,Y,A,O,Q,R,H,C,P,N)$, the local $\NameCert_{\SylowTheoremUp}$ surface consists exactly of finite group admission through $G$, prime and exponent admission through $p,n$, Sylow witness consumption through $Y$, conjugation-action exposure through $A$, orbit-stabilizer counting through $O$, class-equation remainder exposure through $Q$, theorem-read assembly through $R$, componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sylow-theorem-carrier}. The group, prime, exponent, and Sylow rows $G,p,n,Y$ are displayed before any theorem-facing read may inspect existence, conjugacy, or counting conclusions.
+
+The finite action rows $A,O$ are read through the orbit-stabilizer packet, and the remainder row $Q$ is read through the class-equation packet. Thus the theorem-read row $R$ can assemble only the displayed finite action and counting route.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route. Since no carrier coordinate stores a host subgroup lattice, quotient classification, canonical Sylow selector, normalizer calculator, character table, or complete finite-group structure theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Sylow theorem finite-action route]
+\label{thm:sylow-theorem-finite-action-route}
+Every theorem-facing read from an accepted $\SylowTheoremUp$ packet factors through the displayed finite route
+$$
+\SylowUp\longmapsto \OrbitStabilizerUp\longmapsto \ClassEquationUp.
+$$
+The route may expose the existence, conjugacy, and counting rows assembled in $R$, but only after the group row $G$, prime row $p$, exponent row $n$, Sylow witness row $Y$, conjugation-action row $A$, orbit-stabilizer row $O$, and class-equation row $Q$ have all been displayed.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:sylow-theorem-namecert-obligations}. It requires a theorem request to read $G,p,n,Y$ before the finite action and counting rows become available.
+
+Next consume the $\SylowUp$ witness row $Y$. Its own carrier already exposes the prime-power subgroup witness inside the displayed group row, so the theorem-facing packet does not select a new subgroup.
+
+Finally route the conjugation action through $A,O$ and the counting remainder through $Q$. The replay and provenance rows $C,P,N$ can name only this finite route, so $R$ is a theorem-facing readback of displayed action and counting data rather than a host finite-group theorem.
+\end{proof}
+
+\begin{theorem}[Sylow theorem nonescape]
+\label{thm:sylow-theorem-nonescape}
+An accepted $\SylowTheoremUp$ carrier cannot be used to recover data outside the displayed tuple $G,p,n,Y,A,O,Q,R,H,C,P,N$. In particular, it exports no host subgroup lattice, quotient classification of subgroups, canonical Sylow selector, arbitrary normalizer computation, character table, or complete finite-group structure theorem.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:sylow-theorem-carrier}. The only theorem-facing mathematical rows are the displayed group, prime, exponent, Sylow witness, finite action, orbit-stabilizer, class-equation, and theorem-read rows.
+
+Apply \autoref{thm:sylow-theorem-finite-action-route}. Every theorem read must pass through $\SylowUp$, $\OrbitStabilizerUp$, and $\ClassEquationUp$ before $R$ may be consumed.
+
+The structural rows $H,C,P,N$ preserve that same finite packet. Because no row contains a subgroup lattice, quotient classification, canonical selector, normalizer calculator, character table, or complete structure theorem, no such object can be recovered from the carrier.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SylowTheoremUp$ read is refuted if it preserves the theorem-read row $R$ while removing the consumed $\SylowUp$, $\OrbitStabilizerUp$, or $\ClassEquationUp$ rows.}
+
+\independenceWitness{sylow, orbit-stabilizer, class-equation: none of the sibling packets is bijective with $\SylowTheoremUp$ because this packet jointly carries a Sylow witness row, a conjugation-action route, an orbit-stabilizer count, a class-equation remainder, theorem-read assembly, transport, replay, provenance, and local naming.}
+
+\closureat{SylowTheoremUp}{seedStr}
+
+\begin{closurestatus}{\SylowTheoremUp}
+  \constructivestory{A $\SylowTheoremUp$ packet is generated from a finite GroupUp row, a PrimeUp row, a NatUp exponent row, a SylowUp witness row, OrbitStabilizerUp action-counting rows, ClassEquationUp remainder rows, theorem-read assembly, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sylow-theorem-carrier}, \autoref{thm:sylow-theorem-namecert-obligations}, \autoref{thm:sylow-theorem-finite-action-route}, and \autoref{thm:sylow-theorem-nonescape} seed the theorem-facing finite-action Sylow route over displayed group, subgroup, prime, natural-number, Sylow, orbit-stabilizer, and class-equation rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host subgroup lattices, quotient classification, canonical Sylow selection, arbitrary normalizer calculation, character-table computation, complete finite-group structure, Lean verification, or bridge checking.}
+  \upgradepath{Formal closure requires checked carrier admission, finite-action routing, orbit-stabilizer counting, class-equation remainder exposure, theorem-read assembly, transport, replay, provenance, and nonescape for BEDC.Derived.SylowTheoremUp.}
+\end{closurestatus}
