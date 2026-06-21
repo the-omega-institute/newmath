@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\PrincipalIdealDomainUp$}
+\label{ch:concrete-instances-principal-ideal-domain-namecert}
+\origin{human}
+
+Following Atiyah--Macdonald and Lang, the $\PrincipalIdealDomainUp$ packet records the traditional principal-ideal-domain interface as finite BEDC NameCert data over a displayed commutative ring carrier. It sits after the algebraic operation rows of \autoref{ch:concrete-instances-ring-namecert} and \autoref{ch:concrete-instances-commring-namecert}, reads ideal membership through \autoref{ch:concrete-instances-ideal-namecert}, accepts Euclidean-domain evidence from \autoref{ch:concrete-instances-euclidean-domain-namecert} as one sufficient producer, and supplies the principal-ideal matrix surface consumed by \autoref{ch:concrete-instances-smith-normal-form-namecert}. The packet names finite ideal-generator ledgers; it does not claim quotient ideals, selected generators by choice, unique-factorization classification, or a Euclidean algorithm.
+
+\begin{definition}[Principal ideal domain carrier]
+\label{def:principal-ideal-domain-carrier}
+A $\PrincipalIdealDomainUp$ carrier is a finite $\BHist$ packet
+$$
+P=(R,C,I,G,E,H,K,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the underlying $\RingUp$ row for addition, multiplication, zero, one, negation, and distributivity;
+\item $C$ is the $\CommRingUp$ row making multiplication commute on the same displayed carrier;
+\item $I$ is the finite $\IdealUp$ membership and absorption surface for the ideal under inspection;
+\item $G$ is the principal-generator ledger, displaying a generator row and the two containment reads between the ideal row and the generated principal row;
+\item $E$ is the optional $\EuclideanDomainUp$ producer row when the packet is supplied through division-with-remainder evidence;
+\item $H$ records componentwise $\hsame$ transport for the ring, commutative-ring, ideal, generator, producer, provenance, and local naming rows;
+\item $K$ records displayed $\Cont$ routes for ideal membership, generator readback, containment in both directions, and downstream matrix consumers;
+\item $Q$ is the $\Pkg$ provenance over $\PrincipalIdealDomainUp$, $\RingUp$, $\CommRingUp$, $\IdealUp$, $\EuclideanDomainUp$, $\SmithNormalFormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\PrincipalIdealDomainUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through the displayed rows $R,C,I,G,E,H,K,Q,N$.
+\end{definition}
+
+\begin{theorem}[Principal ideal domain NameCert obligations]
+\label{thm:principal-ideal-domain-obligations}
+Every accepted $\PrincipalIdealDomainUp$ packet exposes exactly the rows
+$$
+R,C,I,G,E,H,K,Q,N
+$$
+of \autoref{def:principal-ideal-domain-carrier}. The local $\NameCert_{\PrincipalIdealDomainUp}$ surface consists of ring-source admission, commutative multiplication, ideal membership and absorption, a displayed principal-generator ledger, optional Euclidean-domain producer evidence, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. It has no coordinate for quotient ideals, selected generators by choice, unique-factorization classification, or a Euclidean algorithm.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:principal-ideal-domain-carrier}. The algebraic source is read through $R$ and $C$, while ideal membership and absorption are read through $I$.
+
+The generator ledger $G$ supplies the only principal-ideal assertion available to the packet: the named generator row and the two displayed containment reads between the ideal and the principal row it generates.
+
+The optional producer row $E$ records that a $\EuclideanDomainUp$ packet can supply this surface, but it is not itself the Euclidean algorithm and does not add quotient ideal data. Transport through $H$, replay through $K$, provenance through $Q$, and local naming through $N$ preserve the same finite row family, so the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Principal ideal domain ideal-generator ledger]
+\label{thm:principal-ideal-domain-ideal-generator-ledger}
+For every accepted $\PrincipalIdealDomainUp$ packet, an ideal-facing consumer may read a generator only by passing through
+$$
+\RingUp,\ \CommRingUp,\ \IdealUp,\ G,\ H,\ K,\ Q,\ N.
+$$
+The $\SmithNormalFormUp$ consumer receives this ledger as a principal-ideal matrix input, not as a quotient module, selected basis, chosen generator function, unique-factorization classification, or Euclidean algorithm. If the generator row is supplied by a $\EuclideanDomainUp$ producer, that producer is recorded in $E$ and remains a dependency row rather than an ambient division service.
+\end{theorem}
+\begin{proof}
+Start with the ideal row $I$ and the generator ledger $G$ in the carrier. The containment reads in $G$ are the only route from ideal membership to a principal row.
+
+Next use the structural rows. Componentwise $\hsame$ transport through $H$ keeps the ring, commutative-ring, ideal, and generator endpoints aligned; $\Cont$ replay through $K$ records the finite readback route; and $Q,N$ provide provenance and local naming.
+
+Finally read the Smith-normal-form edge through \autoref{ch:concrete-instances-smith-normal-form-namecert}. A matrix consumer may use the principal-ideal ledger only after the displayed algebra and ideal rows have been exposed, so the route exports generator bookkeeping without adding quotient ideals, a selected generator function, unique-factorization classification, or Euclidean algorithm access.
+\end{proof}
+
+\closureat{PrincipalIdealDomainUp}{seedStr}
+
+\begin{closurestatus}{\PrincipalIdealDomainUp}
+  \constructivestory{A $\PrincipalIdealDomainUp$ packet is generated from a ring row, commutative-ring row, ideal membership and absorption row, displayed generator ledger, optional Euclidean-domain producer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:principal-ideal-domain-carrier}, \autoref{thm:principal-ideal-domain-obligations}, and \autoref{thm:principal-ideal-domain-ideal-generator-ledger} name the finite carrier and ideal-generator surface for principal ideal domain consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, quotient ideals, selected generators by choice, unique-factorization classification, Euclidean algorithm access, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, generator-ledger exactness, transport stability, route stability, and SmithNormalForm-facing nonescape for the same finite packet.}
+\end{closurestatus}
