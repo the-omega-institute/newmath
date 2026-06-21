@@ -35,8 +35,8 @@ theorem CauchyCondensationCarrier_dyadic_block_tail_transport [AskSetup] [Packag
                     PkgSig bundle provenance pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory SemanticNameCert hsame
   intro carrier windowsBlocks blockSums tailTails readbackSeal sealPkg sameReadback
-  obtain ⟨_sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, sealUnary,
-    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, provenancePkg,
+  obtain ⟨_sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, _readbackUnary,
+    sealUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, provenancePkg,
     _localNamePkg⟩ := carrier
   have blockReadUnary : UnaryHistory blockRead :=
     unary_cont_closed windowsUnary blocksUnary windowsBlocks
