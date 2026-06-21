@@ -1,0 +1,26 @@
+\subsection{N-end degron turnover boundary in the Mathieson human half-life table}\label{sec:bioreality-nend-degron-turnover-mathieson}
+\origin{ai}
+
+\paragraph{Finite carrier.}
+This record tests a narrow protein-turnover boundary for the human Mathieson half-life contact.  The finite row consists of the Mathieson human primary-cell protein half-life table, a same-organism protein identifier join, a bounded N-end/degron-style feature packet, and a permutation schedule that replays the sign test across the declared model cells.  The completed run used seed $20260621$, joined $3898$ proteins, ran $1000$ permutations per model cell, and reported $12000$ total permutation draws.  Thus the run has twelve model/permutation cells, each with the same permutation budget.  The elapsed runtime was $232.525$ seconds, and the cached table used by the run was recorded at \texttt{tools/bio\_reality/data/nend\_turnover\_mathieson.json}.
+
+\paragraph{Mathieson contact context.}
+The same human turnover contact appears in the larger human turnover readout audit as the Mathieson et al. 2018 primary-cell half-life source, represented by the median half-life across cell types and replicates in the high-quality sheet.  That contact reported $8164$ valid turnover proteins before the abundance/CDS join and $8057$ joined rows for the broad human turnover projection.  In that broader projection, turnover was a very weak absorber of the large human modeled-translation-complement residual: the absorbed fraction was $3.5740764900116538\times 10^{-6}$, the dof-matched null had mean $0.0001262572958089998$ and $95$th percentile $0.0004342285066808464$, and the turnover readout did not exceed that null.  The present N-end/degron row is therefore not introduced as a mechanism-completion claim; it is a sharper finite boundary test inside an already weak turnover contact.
+
+\paragraph{Sign-readback statistic.}
+The observed cross-cell sign consistency fraction was
+$$
+\begin{aligned}
+  \mathrm{consistent\_sign\_frac} &= 0.5,\\
+  n_{\mathrm{joined}} &= 3898,\\
+  N_{\mathrm{perm,total}} &= 12000,\\
+  N_{\mathrm{perm/model}} &= 1000.
+\end{aligned}
+$$
+A value of $0.5$ means that exactly half of the finite model cells agreed in sign under the recorded sign-consistency summary.  This is a boundary result rather than a positive biological identification.  It does not isolate an N-end rule, degron rule, pathway, proteostasis mechanism, or causal turnover channel for the $B^*_{Q6}$ non-translation residual.  The reported field \texttt{negctrl\_null=false} is kept as a finite run flag: it says that the run did not mark the negative-control null condition as true under the implementation's recorded diagnostic, but it is not by itself evidence for a mechanism or for a universal turnover law.
+
+\paragraph{Relation to the direction-aware H table.}
+The direction-aware H-ranking table used $\lambda=0.01$ with $DL(H)=\log_2(1+n_{\mathrm{columns}})$ and reported both raw $A_H C_H$ and penalized Score.  In the human H-ranking table, the turnover row had $A_H=0.0005945344095654461$, $C_H=0.6818556702481351$, $A_HC_H=0.0004053866583198265$, $DL_H=1.0$, and $\mathrm{Score}=-0.009594613341680174$ on $8057$ joined proteins.  Its Bonferroni threshold was $0.0013532753575986216$, with null $95$th percentile $0.0005731841659980483$, and it did not exceed the Bonferroni boundary.  The N-end/degron test does not overturn that ranking.  It refines the same contact family by asking whether a more specific turnover-facing feature packet has a stable finite sign pattern in the Mathieson data; the observed answer is balanced at $0.5$ sign consistency.
+
+\paragraph{Local conclusion.}
+The finite conclusion is negative and useful: within the $3898$-row Mathieson join and the $12000$ recorded permutation draws, the N-end/degron turnover packet does not supply a stable sign-consistent readout that can explain the human non-translation residual.  The row remains a bounded descriptive audit over one human half-life contact.  No translation realization, folded-state assertion, physical admissibility statement, protein-function claim, degradation mechanism, causal pathway, organism-wide universality, or cross-species law follows from these numbers.  Any such stronger statement would require a separate contact with matched perturbational or mechanistic evidence rather than a finite sign summary over steady-state half-life rows.
