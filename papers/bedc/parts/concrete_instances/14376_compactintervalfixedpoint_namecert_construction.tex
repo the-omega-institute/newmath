@@ -115,6 +115,24 @@ A residual tolerance refinement therefore has only one source for endpoint and c
 Continuation replay in $C$ and componentwise transport in $H$ preserve the same row order. Since no carrier coordinate stores a second interval packet, a host order test, trichotomy, selected representatives, or ambient compactness, the residual signs remain scoped to $J$.
 \end{proof}
 
+\begin{theorem}[CompactIntervalFixedPoint residual-modulus readback]
+\label{thm:compact-interval-fixed-point-residual-modulus-readback}
+For every accepted $\CompactIntervalFixedPointUp$ carrier
+$$
+F=(J,G,R,B,W,Q,E,H,C,P,N),
+$$
+each residual sign read for $g(x)=f(x)-x$ must consume the $\ContinuousMapUp$ modulus row $G$, the interval-return row $R$, and the retained residual-bisection row $B$ before the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, and the $\RealUp$ seal row $E$ are public. Thus residual-modulus information reaches the fixed-point seal only as a finite L10 readback over $J,G,R,B,W,Q,E,H,C,P,N$, not as a host fixed point, selected limit, quotient stream equality, real trichotomy, or ambient Real completeness claim.
+\end{theorem}
+\begin{proof}
+First use modulus residual stability, \autoref{thm:compact-interval-fixed-point-modulus-residual-stability}. It keeps every residual sign read scoped to the same located interval packet $J$ after the continuous-map modulus row $G$ and interval-return row $R$ have fixed the displayed source of the residual comparison.
+
+Next apply the residual-bisection handoff of \autoref{thm:compact-interval-fixed-point-residual-bisection-handoff}. The residual signs can produce public fixed-point data only by entering the retained bisection row $B$ and then handing that finite interval data to the window row $W$ and regular readback row $Q$.
+
+Finally use window regularity, \autoref{thm:compact-interval-fixed-point-window-regularity}. It preserves the order from $B$ to $W$ to $Q$, while the Real seal $E$ remains downstream of those rows and the structural rows $H,C,P,N$ transport, replay, record, and name the same route.
+
+Since the carrier contains no coordinate for a host fixed point, selected limit, quotient stream equality, real trichotomy, or ambient Real completeness, no residual-modulus read can bypass the displayed finite route.
+\end{proof}
+
 \begin{theorem}[CompactIntervalFixedPoint bisection-window monotonicity]
 \label{thm:compact-interval-fixed-point-bisection-window-monotonicity}
 For every accepted $\CompactIntervalFixedPointUp$ carrier $F=(J,G,R,B,W,Q,E,H,C,P,N)$, each retained residual-bisection window produced by $B$ is consumed as a narrower finite $\StreamNameUp$ window in $W$ before any $\RegSeqRatUp$ readback in $Q$ is available. Extending the bisection schedule refines the retained window and preserves the route $J,G,R,B,W,Q,E$; it cannot introduce a selected limit, quotient stream equality, host fixed point, or ambient Real completeness.
