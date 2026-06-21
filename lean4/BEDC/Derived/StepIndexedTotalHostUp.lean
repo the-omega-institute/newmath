@@ -173,4 +173,87 @@ theorem StepIndexedTotalHostCarrier_obligation_surface [AskSetup] [PackageSetup]
     ⟨cert, boundaryUnary, namedUnary, carrier.host_fuel_trace,
       carrier.trace_bounded_normal, carrier.provenance_pkg⟩
 
+theorem StepIndexedTotalHostCarrier_scoped_kernel_route [AskSetup] [PackageSetup]
+    {host fuel trace normal bounded refusal transport route provenance nameCert boundaryRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StepIndexedTotalHostCarrier host fuel trace normal bounded refusal transport route
+        provenance nameCert bundle pkg →
+      Cont normal refusal boundaryRead →
+        Cont boundaryRead nameCert namedRead →
+          PkgSig bundle namedRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row host ∨ hsame row fuel ∨ hsame row trace ∨
+                    hsame row normal ∨ hsame row bounded ∨ hsame row refusal ∨
+                      hsame row transport ∨ hsame row route ∨ hsame row boundaryRead ∨
+                        hsame row namedRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+                    Cont refusal transport route ∧ Cont normal refusal boundaryRead ∧
+                      Cont boundaryRead nameCert namedRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle namedRead pkg)
+                hsame ∧
+              UnaryHistory boundaryRead ∧ UnaryHistory namedRead ∧ Cont host fuel trace ∧
+                Cont trace bounded normal ∧ Cont refusal transport route := by
+  -- BEDC touchpoint anchor: StepIndexedTotalHostCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier boundaryRoute namedRoute namedPkg
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed carrier.normal_unary carrier.refusal_unary boundaryRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed boundaryUnary carrier.nameCert_unary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row host ∨ hsame row fuel ∨ hsame row trace ∨ hsame row normal ∨
+              hsame row bounded ∨ hsame row refusal ∨ hsame row transport ∨
+                hsame row route ∨ hsame row boundaryRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont host fuel trace ∧ Cont trace bounded normal ∧
+              Cont refusal transport route ∧ Cont normal refusal boundaryRead ∧
+                Cont boundaryRead nameCert namedRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, carrier.host_fuel_trace, carrier.trace_bounded_normal,
+          carrier.refusal_transport_route, boundaryRoute, namedRoute, carrier.provenance_pkg,
+          namedPkg⟩
+  }
+  exact
+    ⟨cert, boundaryUnary, namedUnary, carrier.host_fuel_trace,
+      carrier.trace_bounded_normal, carrier.refusal_transport_route⟩
+
 end BEDC.Derived.StepIndexedTotalHostUp

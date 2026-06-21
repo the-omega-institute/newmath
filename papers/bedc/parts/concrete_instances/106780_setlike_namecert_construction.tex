@@ -106,6 +106,18 @@ Induct over the displayed $\BHist$ packet. The base case reads the empty or init
 Transport through $H$ and replay through $C$ preserve the same generated route, while $P$ and $N$ only source and name the finite packet. Thus every accepted restricted-comprehension read is produced by the finite row induction and cannot export any refused comprehension principle.
 \end{proof}
 
+\begin{theorem}[SetLike finite membership induction]
+\label{thm:setlike-finite-membership-induction}
+Every accepted finite $\SetLikeUp$ membership ledger whose rows are generated from displayed $\BHist$ membership observations and transported by $\hsame$ can be consumed by induction over the displayed ledger rows. The induction exports only the carrier row, membership row, classifier row, transport row, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\SetLikeUp}$ row; it exports no host powerset membership, quotient-set equality, unrestricted comprehension, selected representatives, or ambient extensional equality.
+\end{theorem}
+\begin{proof}
+Start from the membership carrier of \autoref{def:setlike-membership-carrier}. Its displayed ledger exposes only $M,Q,H,C,P,N$, so the base case is the empty or initial membership observation together with the same carrier, replay, provenance, and naming rows.
+
+For the finite step case, append one displayed $\BHist$ membership observation. The row is admitted only through the classifier row $Q$ and then transported componentwise by $\hsame$ through $H$.
+
+Finally read the structural rows. The $\Cont$ replay $C$, provenance $P$, and local $\NameCert_{\SetLikeUp}$ row $N$ repack the same finite ledger for downstream consumers, while \autoref{thm:setlike-membership-stability} blocks replacement by host powerset membership or ambient extensional equality.
+\end{proof}
+
 \begin{theorem}[SetLike membership-family BHist induction]
 \label{thm:setlike-membership-family-bhist-induction}
 For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, any finite membership-family consumer generated from $M,Q,I,R,E,H,C,P,N$ is obtained by induction on the displayed $\BHist$ membership source of \autoref{def:setlike-membership-carrier}. The step case first routes a displayed membership request through the classifier row $Q$, then through the subset-implication row $I$, and only then may the restricted-comprehension row $R$ consume it. The induction has no branch for powersets, unrestricted separation, quotient set equality, host universe rows, selected representatives, or ambient elementhood.
