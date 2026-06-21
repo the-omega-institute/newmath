@@ -1,0 +1,51 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCutSequenceUp$}
+\label{ch:concrete-instances-located-cut-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedCutSequenceUp$ packet records located lower and upper dyadic cut observations as finite rows, not as a Dedekind construction of $\RealUp$. It sits beside the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a sequence-indexed located-cut observation surface while keeping quotient cuts, selected limits, trichotomy, and ambient completeness outside the carrier.
+
+\begin{definition}[Located cut sequence carrier]
+\label{def:located-cut-sequence-carrier}
+A $\LocatedCutSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,D,W,O,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the side-tag row. Each finite observation is tagged as a lower cut read, an upper cut read, or a paired located-window request, and the tag is part of the packet data.
+\item $D$ is the $\DyadicRatCoreUp$ bound row. It records the dyadic endpoint, tolerance cell, and finite refinement scale inspected by the tagged observation.
+\item $W$ is the located witness-window row. It records the finite bracket, separation, or refinement witness attached to the tagged endpoint request.
+\item $O$ is the $\StreamNameUp$ observation row. It lists the finite sequence positions and stream windows through which the cut observation is read.
+\item $R$ is the $\RegSeqRatUp$ readback row. It compares the finite window observations with a regular rational route before any real-name seal is consumed.
+\item $E$ is the $\RealUp$ seal handoff. It is reached only after the side tag, dyadic bound, located witness window, stream observation, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tag, dyadic, witness-window, stream, regular-readback, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite located-cut request through $S,D,W,O,R$ before the seal row $E$ is read.
+\item $P$ is the $\Pkg$ provenance over $\LocatedCutSequenceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedCutSequenceUp}$ row naming exactly this finite sequence of located cut observations.
+\end{enumerate}
+The classifier accepts only packets that display those rows. It has no coordinate for a primitive Dedekind cut, quotient cut equality, trichotomy branch, selected limit, or ambient completeness principle for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Located cut sequence NameCert obligations]
+\label{thm:located-cut-sequence-namecert-obligations}
+For every accepted $\LocatedCutSequenceUp$ carrier $L=(S,D,W,O,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedCutSequenceUp}$ surface consists exactly of carrier admission for the side tag, dyadic bound, located witness window, finite $\StreamNameUp$ observations, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows. Any Real or Completion consumer reading the packet factors through these rows and cannot cite the packet as a Dedekind-cut construction of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-cut-sequence-carrier}. The analytic rows are exactly the side tag $S$, dyadic bound row $D$, located witness-window row $W$, finite stream observation row $O$, regular rational readback row $R$, and terminal seal row $E$.
+
+The route order is load-bearing. A consumer first reads the side tag, then the dyadic endpoint and located witness window, then the finite stream positions, and only then the regular rational readback that can hand off to the real seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no row for quotient cuts, trichotomy, selected limits, or host completeness, the local naming certificate cannot export a Dedekind construction of $\RealUp$.
+\end{proof}
+
+\closureat{LocatedCutSequenceUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCutSequenceUp}
+  \constructivestory{A $\LocatedCutSequenceUp$ packet is generated from side-tagged lower and upper dyadic cut observations, located witness windows, finite StreamName rows, RegSeqRat readback, a terminal Real seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cut-sequence-carrier} and \autoref{thm:located-cut-sequence-namecert-obligations} seed the finite sequence-indexed located-cut observation surface for Real and Completion boundary comparisons.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Dedekind-cut construction of reals, quotient cuts, trichotomy, selected limits, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, side-tag exactness, dyadic bound readback, located witness-window locality, finite StreamName observation coverage, RegSeqRat handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedCutSequenceUp.}
+\end{closurestatus}
