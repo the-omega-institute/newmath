@@ -607,14 +607,14 @@ Finally apply the kernel-scope route and candidate-boundary scope above. They fo
 
 \begin{theorem}[MetaCIC normalization audit frontier formal target]
 \label{thm:metacic-normalization-audit-frontier-formal-target}
-A Lean formalization target for $\MetacicNormalizationAuditUp$ must cover exactly the displayed audit frontier of the accepted carrier $Z=(R,C,S,A,N,F,H,T,P,L)$: candidate evidence in $R$, closed projection in $C$, finite strong-normalization scope in $S$, application boundary in $A$, confluence refusal in $N$, and replay, transport, continuation, provenance, and local naming through $F,H,T,P,L$. The target must not export evidence-free global strong normalization, full Church--Rosser, arbitrary subject reduction, quotient equality over reductions, or host evaluator evidence.
+A Lean formalization target for $\MetacicNormalizationAuditUp$ must cover exactly the finite candidate-ledger route of the accepted carrier $Z=(R,C,S,A,N,F,H,T,P,L)$. The route starts with candidate evidence in $R$, closed projection in $C$, finite strong-normalization inventory in $S$, application boundary in $A$, and confluence refusal in $N$, then exposes replay, transport, continuation, provenance, and local naming through $F,H,T,P,L$. The target is therefore a candidate-mediated frontier statement, not a broad closed-term normalization theorem, and it must not export evidence-free global strong normalization, arbitrary subject reduction, quotient reduction equality, or host evaluator evidence.
 \end{theorem}
 \begin{proof}
-Start with the obligation surface, finite SN scope, and candidate-boundary scope. These theorems display the candidate evidence row $R$, the closed projection row $C$, the finite scope row $S$, and the application boundary $A$ before any normalization export is visible.
+Start with the public candidate export of \autoref{thm:metacic-normalization-audit-public-candidate-export}. It exposes exactly the candidate-mediated route through $R,C,S,A,N$ and replay through $F,H,T,P,L$, rather than a syntax-wide normalization theorem.
 
-Next use the residual-substitution compatibility theorem. It keeps substitution-shaped reads inside the same candidate ledger and requires the replay, transport, continuation, provenance, and local naming rows $F,H,T,P,L$ before any confluence-facing socket is exposed.
+Spend the residual budget by \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. The budget keeps candidate evidence, closed projection, finite scope, application boundary, and confluence refusal in the same finite ledger before any public read leaves the packet.
 
-Finally apply the refusal-scope theorem above. The refusal row $N$ marks evidence-free global strong normalization, full Church--Rosser, arbitrary subject reduction, quotient equality, and host evaluator evidence as excluded endpoints rather than target obligations. Thus the formal target is exactly the finite frontier named in the statement.
+Use candidate-ledger locality, \autoref{thm:metacic-normalization-audit-candidate-ledger-locality}, and the confluence-refusal split, \autoref{thm:metacic-normalization-audit-confluence-refusal-split}. The replay rows $F,H,T,P,L$ preserve the candidate ledger, while $N$ keeps evidence-free global strong normalization, subject reduction, quotient reduction equality, and host evaluator evidence as refused endpoints. Thus the formal target is exactly the finite candidate-mediated frontier named in the statement.
 \end{proof}
 
 \closureat{MetacicNormalizationAuditUp}{obligationStr}

@@ -1,4 +1,4 @@
-import BEDC.Derived.CauchyContinuousMapUp
+import BEDC.Derived.CauchyContinuousMapUp.CompletionConsumerScope
 
 namespace BEDC.Derived.CauchyContinuousMapUp.RealCompletionScope
 
@@ -10,64 +10,81 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived
+open BEDC.Derived.CauchyContinuousMapUp
 
-theorem CauchyContinuousMapRealCompletionScope [AskSetup] [PackageSetup]
-    (M : BEDC.Derived.CauchyContinuousMapUp)
-    {imageRead sealRead boundaryRead completionRead : BHist}
+theorem CauchyContinuousMap_real_completion_scope [AskSetup] [PackageSetup]
+    (M : CauchyContinuousMapUp)
+    {imageRead sealRead boundaryRead modulusRead completionRead realCompletionRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     CauchyContinuousMapPacket M.windows M.imageReadback M.toleranceLedger
         M.realSealHandoff M.transport M.replay M.provenance M.localName bundle pkg →
-      Cont M.windows M.toleranceLedger imageRead →
+      Cont M.windows M.imageReadback imageRead →
         Cont imageRead M.realSealHandoff sealRead →
           Cont sealRead M.replay boundaryRead →
-            Cont boundaryRead M.provenance completionRead →
-              PkgSig bundle completionRead pkg →
-                SemanticNameCert
-                    (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
-                    (fun row : BHist =>
-                      hsame row M.windows ∨ hsame row M.toleranceLedger ∨
-                        hsame row imageRead ∨ hsame row sealRead ∨
-                          hsame row boundaryRead ∨ hsame row completionRead ∨
-                            hsame row M.provenance)
-                    (fun row : BHist =>
-                      UnaryHistory row ∧ Cont M.windows M.toleranceLedger imageRead ∧
-                        Cont imageRead M.realSealHandoff sealRead ∧
-                          Cont sealRead M.replay boundaryRead ∧
-                            Cont boundaryRead M.provenance completionRead ∧
-                              PkgSig bundle completionRead pkg)
-                    hsame ∧
-                  UnaryHistory imageRead ∧ UnaryHistory sealRead ∧
-                    UnaryHistory boundaryRead ∧ UnaryHistory completionRead := by
+            Cont boundaryRead M.localName modulusRead →
+              Cont modulusRead M.provenance completionRead →
+                Cont completionRead M.realSealHandoff realCompletionRead →
+                  PkgSig bundle realCompletionRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row realCompletionRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row M.windows ∨ hsame row M.imageReadback ∨
+                            hsame row M.toleranceLedger ∨ hsame row M.realSealHandoff ∨
+                              hsame row M.replay ∨ hsame row M.localName ∨
+                                hsame row M.provenance ∨ hsame row realCompletionRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont M.windows M.imageReadback imageRead ∧
+                            Cont imageRead M.realSealHandoff sealRead ∧
+                              Cont sealRead M.replay boundaryRead ∧
+                                Cont boundaryRead M.localName modulusRead ∧
+                                  Cont modulusRead M.provenance completionRead ∧
+                                    Cont completionRead M.realSealHandoff realCompletionRead ∧
+                                      PkgSig bundle realCompletionRead pkg)
+                        hsame ∧
+                      UnaryHistory imageRead ∧ UnaryHistory sealRead ∧
+                        UnaryHistory boundaryRead ∧ UnaryHistory modulusRead ∧
+                          UnaryHistory completionRead ∧ UnaryHistory realCompletionRead := by
   -- BEDC touchpoint anchor: BHist Cont hsame PkgSig SemanticNameCert UnaryHistory
-  intro packet imageRoute sealRoute boundaryRoute completionRoute completionPkg
-  obtain ⟨windowsUnary, _imageReadbackUnary, toleranceUnary, sealUnary,
-    _transportUnary, replayUnary, provenanceUnary, _localNameUnary, _provenancePkg⟩ :=
+  intro packet imageRoute sealRoute boundaryRoute modulusRoute completionRoute
+    realCompletionRoute realCompletionPkg
+  obtain ⟨windowsUnary, imageReadbackUnary, _toleranceUnary, realSealUnary,
+    _transportUnary, replayUnary, provenanceUnary, localNameUnary, _provenancePkg⟩ :=
     packet
   have imageUnary : UnaryHistory imageRead :=
-    unary_cont_closed windowsUnary toleranceUnary imageRoute
+    unary_cont_closed windowsUnary imageReadbackUnary imageRoute
   have sealReadUnary : UnaryHistory sealRead :=
-    unary_cont_closed imageUnary sealUnary sealRoute
+    unary_cont_closed imageUnary realSealUnary sealRoute
   have boundaryUnary : UnaryHistory boundaryRead :=
     unary_cont_closed sealReadUnary replayUnary boundaryRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed boundaryUnary localNameUnary modulusRoute
   have completionUnary : UnaryHistory completionRead :=
-    unary_cont_closed boundaryUnary provenanceUnary completionRoute
+    unary_cont_closed modulusUnary provenanceUnary completionRoute
+  have realCompletionUnary : UnaryHistory realCompletionRead :=
+    unary_cont_closed completionUnary realSealUnary realCompletionRoute
+  have sourceRealCompletion :
+      (fun row : BHist => hsame row realCompletionRead ∧ UnaryHistory row)
+        realCompletionRead :=
+    ⟨hsame_refl realCompletionRead, realCompletionUnary⟩
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row realCompletionRead ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row M.windows ∨ hsame row M.toleranceLedger ∨ hsame row imageRead ∨
-              hsame row sealRead ∨ hsame row boundaryRead ∨ hsame row completionRead ∨
-                hsame row M.provenance)
+            hsame row M.windows ∨ hsame row M.imageReadback ∨
+              hsame row M.toleranceLedger ∨ hsame row M.realSealHandoff ∨
+                hsame row M.replay ∨ hsame row M.localName ∨ hsame row M.provenance ∨
+                  hsame row realCompletionRead)
           (fun row : BHist =>
-            UnaryHistory row ∧ Cont M.windows M.toleranceLedger imageRead ∧
+            UnaryHistory row ∧ Cont M.windows M.imageReadback imageRead ∧
               Cont imageRead M.realSealHandoff sealRead ∧
                 Cont sealRead M.replay boundaryRead ∧
-                  Cont boundaryRead M.provenance completionRead ∧
-                    PkgSig bundle completionRead pkg)
+                  Cont boundaryRead M.localName modulusRead ∧
+                    Cont modulusRead M.provenance completionRead ∧
+                      Cont completionRead M.realSealHandoff realCompletionRead ∧
+                        PkgSig bundle realCompletionRead pkg)
           hsame := {
     core := {
-      carrier_inhabited := Exists.intro completionRead
-        ⟨hsame_refl completionRead, completionUnary⟩
+      carrier_inhabited := Exists.intro realCompletionRead sourceRealCompletion
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -85,11 +102,22 @@ theorem CauchyContinuousMapRealCompletionScope [AskSetup] [PackageSetup]
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left)))))
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
     ledger_sound := by
       intro _row source
-      exact ⟨source.right, imageRoute, sealRoute, boundaryRoute, completionRoute, completionPkg⟩
+      exact
+        ⟨source.right, imageRoute, sealRoute, boundaryRoute, modulusRoute,
+          completionRoute, realCompletionRoute, realCompletionPkg⟩
   }
-  exact ⟨cert, imageUnary, sealReadUnary, boundaryUnary, completionUnary⟩
+  exact
+    ⟨cert, imageUnary, sealReadUnary, boundaryUnary, modulusUnary, completionUnary,
+      realCompletionUnary⟩
 
 end BEDC.Derived.CauchyContinuousMapUp.RealCompletionScope
