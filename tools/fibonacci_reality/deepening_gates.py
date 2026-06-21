@@ -66,6 +66,11 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "green_kirchhoff_certificate",
     "automath_paper_section",
     "integer_matrix_lucas_kernel_certificate",
+    "lucas_fib_norm_relation_certificate",
+    "fibonacci_entry_point_congruence_certificate",
+    "pisano_period_modp_divisibility_certificate",
+    "modp_root_enumeration_certificate",
+    "bedc_finite_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -103,6 +108,11 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "lean_finite_certificate",
         "automath_paper_section",
         "integer_matrix_lucas_kernel_certificate",
+        "lucas_fib_norm_relation_certificate",
+        "fibonacci_entry_point_congruence_certificate",
+        "pisano_period_modp_divisibility_certificate",
+        "modp_root_enumeration_certificate",
+        "bedc_finite_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -117,7 +127,20 @@ EVIDENCE_BASIS = {
     "mismatch_ledger",
     "mechanism_bridge",
 }
-FORCED_WINDOW_ARITHMETIC_BASIS = {"integer_matrix_power", "lucas_recurrence"}
+FORCED_WINDOW_ARITHMETIC_BASIS = {
+    "integer_matrix_power",
+    "lucas_recurrence",
+    "integer_recurrence_evaluation",
+    "integer_prime_enumeration",
+    "modular_root_enumeration",
+    "pisano_residue_pair_search",
+    "mod_5_branch_divisibility_check",
+    "fibonacci_residue_enumeration",
+    "lucas_residue_enumeration",
+    "lucas_fibonacci_norm_enumeration",
+    "lucas_doubling_enumeration",
+    "bedc_finite_certificate",
+}
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
 CONTACT_KINDS = {
     "genetic_code_table",
@@ -216,7 +239,17 @@ MISMATCH_KINDS = {
     "none",
 }
 INTERNAL_STRUCTURES = {"coordinate", "closure", "spectrum", "trigger", "rank", "homology", "relation", "none"}
-FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMETIC_BASIS
+FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMETIC_BASIS | {
+    "fibonacci_recurrence",
+    "prime_window",
+    "pisano_period",
+    "residue_pair_recurrence",
+    "quadratic_residue_class",
+    "mod_5_quadratic_residue_class",
+    "mod_5_divisibility_branch",
+    "integer_norm_relation",
+    "lucas_doubling",
+}
 MECHANISM_WORDS = {
     "cause",
     "causes",
@@ -2026,8 +2059,135 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    lucas_fib_norm_conjecture = {
+        "conjecture_id": "window6.lucas-fib.norm-relation-law",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Lucas-Fibonacci norm relation",
+        "informal_statement": "Integer recurrence enumeration checks the Lucas-Fibonacci norm relation as a finite BEDC arithmetic certificate.",
+        "bedc_minimal_form": {
+            "carrier": "Integer recurrence evaluations for Fibonacci and Lucas values.",
+            "distinctions": ["Fibonacci recurrence", "Lucas doubling", "integer norm relation"],
+            "readback": "The finite certificate records the recurrence and doubling checks without biological realization claims.",
+            "internal_structure": ["fibonacci_recurrence", "integer_norm_relation", "lucas_doubling"],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": [
+            "integer_recurrence_evaluation",
+            "lucas_fibonacci_norm_enumeration",
+            "lucas_doubling_enumeration",
+            "bedc_finite_certificate",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_lucas_fib_norm_relation.py",
+                "object": "verify-window6-lucas-fib-norm-relation",
+                "kind": "lucas_fib_norm_relation_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law."
+        ],
+        "null_reason": "",
+    }
+    fib_entry_point_conjecture = {
+        "conjecture_id": "window6.fib-entry-point.fermat-congruence-law",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Fibonacci entry-point Fermat congruence law",
+        "informal_statement": (
+            "Direct integer enumeration checks F_p mod p by p mod 5 and L_p mod p over the finite "
+            "prime window p<80 as an arithmetic certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Finite prime-window residue table for Fibonacci and Lucas recurrences.",
+            "distinctions": [
+                "prime window",
+                "Fibonacci residue enumeration",
+                "Lucas residue enumeration",
+                "mod 5 quadratic residue class",
+            ],
+            "readback": "The certificate records recurrence residues only and makes no biological realization claim.",
+            "internal_structure": [
+                "prime_window",
+                "fibonacci_residue_enumeration",
+                "lucas_residue_enumeration",
+                "mod_5_quadratic_residue_class",
+            ],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": [
+            "integer_prime_enumeration",
+            "fibonacci_residue_enumeration",
+            "lucas_residue_enumeration",
+            "bedc_finite_certificate",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_fib_entry_point_congruence.py",
+                "object": "verify-window6-fib-entry-point-congruence",
+                "kind": "fibonacci_entry_point_congruence_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law."
+        ],
+        "null_reason": "",
+    }
+    pisano_period_conjecture = {
+        "conjecture_id": "window6.pisano-period.modp-divisibility-law",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Pisano period mod-p divisibility law",
+        "informal_statement": (
+            "Direct residue-pair search checks the Pisano period p mod 5 divisibility law over "
+            "the finite prime window p<60 as an arithmetic certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Finite residue-pair recurrence table for Pisano period search.",
+            "distinctions": [
+                "Pisano period",
+                "residue-pair recurrence",
+                "prime window",
+                "mod 5 divisibility branch",
+            ],
+            "readback": "The certificate records exact period and divisibility checks only.",
+            "internal_structure": [
+                "pisano_period",
+                "residue_pair_recurrence",
+                "prime_window",
+                "mod_5_divisibility_branch",
+            ],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": [
+            "integer_prime_enumeration",
+            "pisano_residue_pair_search",
+            "mod_5_branch_divisibility_check",
+            "bedc_finite_certificate",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_pisano_period_modp.py",
+                "object": "verify-window6-pisano-period-modp",
+                "kind": "pisano_period_modp_divisibility_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law."
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
-        [edge_flux_conjecture, alpha_fit_conjecture, missing_arithmetic_certificate, lucas_kernel_conjecture],
+        [
+            edge_flux_conjecture,
+            alpha_fit_conjecture,
+            missing_arithmetic_certificate,
+            lucas_kernel_conjecture,
+            lucas_fib_norm_conjecture,
+            fib_entry_point_conjecture,
+            pisano_period_conjecture,
+        ],
         [],
         [],
         [],
@@ -2051,6 +2211,15 @@ def self_test() -> int:
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window6.lucas-kernel.coefficient-gauge-obstruction"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.lucas-fib.norm-relation-law"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.fib-entry-point.fermat-congruence-law"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.pisano-period.modp-divisibility-law"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
