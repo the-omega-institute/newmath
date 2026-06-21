@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusSumUp$}
+\label{ch:concrete-instances-cauchy-modulus-sum-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyModulusSumUp$ packet records the finite data needed to add two regular Cauchy modulus presentations before any quotient sequence equality, selected representative, or ambient completeness principle is available. It sits over the two $\CauchyModulusUp$ source rows, the finite observation schedules of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledgers of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite addition of modulus-controlled regular data; it is not a construction of quotient reals, countable-choice representatives, or a host-level addition theorem.
+
+\begin{definition}[Cauchy modulus sum carrier]
+\label{def:cauchy-modulus-sum-carrier}
+A $\CauchyModulusSumUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M_0,M_1,W_0,W_1,D_0,D_1,D_+,R_0,R_1,R_+,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M_0$ and $M_1$ are the two $\CauchyModulusUp$ source rows whose regular Cauchy data are being added.
+\item $W_0$ and $W_1$ are $\StreamNameUp$ schedule rows selecting the finite source windows consumed at the requested dyadic tolerance.
+\item $D_0$ and $D_1$ are the $\DyadicRatCoreUp$ tolerance ledgers for the two summands, while $D_+$ is the dyadic ledger for the output tolerance and the finite addition budget.
+\item $R_0$ and $R_1$ are the $\RegSeqRatUp$ readback rows for the two summands, and $R_+$ is the displayed $\RegSeqRatUp$ readback row for the summed rational values.
+\item $E$ is the terminal $\RealUp$ seal reached only after the source modulus rows, finite schedules, dyadic ledgers, and regular rational readbacks have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two modulus rows, schedule rows, dyadic ledgers, readback rows, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from $M_0,M_1$ through $W_0,W_1,D_0,D_1,D_+,R_0,R_1,R_+$ to the Real-facing seal $E$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusSumUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M_0,M_1,W_0,W_1,D_0,D_1,D_+,R_0,R_1,R_+,E,H,C,P,N$. It has no coordinate for quotient sequence equality, selected representatives, countable choice over moduli, host real equality, unbounded limit selection, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus sum NameCert obligations]
+\label{thm:cauchy-modulus-sum-namecert-obligations}
+For every accepted $\CauchyModulusSumUp$ carrier
+$$
+S=(M_0,M_1,W_0,W_1,D_0,D_1,D_+,R_0,R_1,R_+,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyModulusSumUp}$ surface consists exactly of carrier admission for the two $\CauchyModulusUp$ source rows, finite $\StreamNameUp$ schedule exposure, $\DyadicRatCoreUp$ tolerance accounting for the summands and sum, $\RegSeqRatUp$ source readback, $\RegSeqRatUp$ summed readback, downstream $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and refusal of quotient sequence equality, selected representatives, countable-choice modulus selection, host real equality, unbounded limit selection, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-sum-carrier}. The accepted packet displays exactly the two source modulus rows, the two finite schedule rows, the three dyadic ledgers, the two source readbacks, the summed readback, and the terminal Real seal.
+
+The addition read is then forced through the displayed finite route. The requested tolerance is decoded by $D_+$, the summand budgets are read through $D_0,D_1$, and the inspected source values are exposed only through $W_0,W_1,R_0,R_1$ before the summed readback row $R_+$ is available.
+
+Transport and replay preserve the same rows. The componentwise $\hsame$ row $H$ moves the listed coordinates together, while $C$ replays the continuation from the two modulus rows through the schedules, dyadic ledgers, and rational readbacks to the seal $E$.
+
+Finally inspect $P,N$. Provenance and local naming record only the displayed carrier rows, so no public obligation can call on quotient sequence equality, selected representatives, countable choice, host real equality, unbounded limit selection, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Deleting either source $\CauchyModulusUp$ row or the output dyadic ledger $D_+$ makes the summed $\RegSeqRatUp$ readback indistinguishable from an unbudgeted rational addition request; the accepted carrier must reject that packet because the finite tolerance route can no longer be reconstructed.}
+
+\independenceWitness{cauchymodulus, streamname, dyadicratcore, regseqrat, real: none is bijective with $\CauchyModulusSumUp$ because this packet jointly carries two modulus source rows, two finite schedules, summand and sum dyadic ledgers, source readbacks, summed readback, terminal Real seal, transport, replay, provenance, and local naming for the same finite addition route.}
+
+\closureat{CauchyModulusSumUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusSumUp}
+  \constructivestory{A $\CauchyModulusSumUp$ packet is generated from two CauchyModulus source rows, StreamName schedule rows, DyadicRatCore tolerance ledgers for the summands and sum, RegSeqRat source and sum readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-sum-carrier} and \autoref{thm:cauchy-modulus-sum-namecert-obligations} seed the finite addition route for regular Cauchy modulus data through schedule, tolerance, readback, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient sequence equality, selected representatives, countable-choice modulus selection, host real equality, unbounded limit selection, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source modulus exposure, schedule stability, dyadic tolerance accounting, summed RegSeqRat readback, RealUp seal routing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusSumUp.}
+\end{closurestatus}
