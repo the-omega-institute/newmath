@@ -69,12 +69,28 @@ Finally apply the GAP socket non-escape theorem, \autoref{thm:closed-observation
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedObservationSystemUp.ClosedObservationSystemPrimitiveScope}
 
-\closureat{ClosedObservationSystemUp}{publicStr}
+\begin{theorem}[ClosedObservationSystem bridge-facing handoff]
+\label{thm:closed-observation-system-bridge-facing-handoff}
+Every bridge-facing consumer of an accepted $\ClosedObservationSystemUp$ carrier
+$$
+Q=(O,R,G,H,C,P,N)
+$$
+may read only the observation-state row $O$, the finite observation-record ledger $R$, the information-conservation row $G$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ routes $C$, the $\Pkg$ provenance row $P$, the local $\NameCert$ row $N$, and the GAP socket boundary exposed by those continuation routes. The handoff does not export universal quantifier closure, substrate axioms, host induction, infinite observation tails, or future-record selectors.
+\end{theorem}
+\begin{proof}
+Project the primitive scope theorem, \autoref{thm:closed-observation-system-primitive-scope}. It exhausts the consumer-visible packet by $O,R,G,H,C,P,N$ over the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitives.
+
+Apply GAP socket non-escape, \autoref{thm:closed-observation-system-gap-socket-nonescape}. Requests for universal closure, substrate axioms, host induction, infinite tails, or future selectors land at the boundary rather than becoming observation records.
+
+Thus a bridge-facing reader receives exactly the displayed finite rows and the boundary classification of non-exported requests. No additional closure principle or hidden future-record selector is part of the handoff.
+\end{proof}
+
+\closureat{ClosedObservationSystemUp}{bridgedStr}
 
 \begin{closurestatus}{\ClosedObservationSystemUp}
   \constructivestory{A $\ClosedObservationSystemUp$ packet is generated from an observation-state row, a finite observation-record ledger, an information-conservation order row, a GAP socket, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:closed-observation-system-primitive-scope} exports the primitive-scope finite observation-ledger surface: carrier rows, local NameCert rows, GAP non-escape boundary, and observation-conservation sibling over BHist, hsame, Cont, Pkg, and NameCert primitives.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:closed-observation-system-primitive-scope} and \autoref{thm:closed-observation-system-bridge-facing-handoff} export the primitive-scope finite observation-ledger surface, the GAP non-escape boundary, and the bridge-facing read surface over BHist, hsame, Cont, Pkg, and NameCert primitives.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
