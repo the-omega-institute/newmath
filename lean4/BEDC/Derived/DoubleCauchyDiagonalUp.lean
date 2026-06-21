@@ -87,4 +87,74 @@ theorem DoubleCauchyDiagonalNamecertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, endpointUnary⟩
 
+theorem DoubleCauchyDiagonalRealSealBoundary [AskSetup] [PackageSetup]
+    {R W D K H C P N completionSeal realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DoubleCauchyDiagonalCarrier R W D K H C P N bundle pkg ->
+      Cont K C completionSeal ->
+        Cont completionSeal P realSeal ->
+          PkgSig bundle completionSeal pkg ->
+            PkgSig bundle realSeal pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row realSeal ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row K ∨
+                      hsame row completionSeal ∨ hsame row realSeal)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont K C completionSeal ∧
+                      Cont completionSeal P realSeal ∧ PkgSig bundle completionSeal pkg ∧
+                        PkgSig bundle realSeal pkg)
+                  hsame ∧ UnaryHistory realSeal := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier completionRoute realSealRoute completionPkg realSealPkg
+  obtain ⟨_rUnary, _wUnary, _dUnary, kUnary, _hUnary, cUnary, pUnary, _nUnary,
+    _regularWindowRoute, _diagonalDyadicRoute, _transportRoute, _provenancePkg,
+    _localNamePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionSeal :=
+    unary_cont_closed kUnary cUnary completionRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed completionUnary pUnary realSealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realSeal ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row K ∨
+              hsame row completionSeal ∨ hsame row realSeal)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont K C completionSeal ∧ Cont completionSeal P realSeal ∧
+              PkgSig bundle completionSeal pkg ∧ PkgSig bundle realSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro realSeal ⟨hsame_refl realSeal, realSealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, completionRoute, realSealRoute, completionPkg, realSealPkg⟩
+  }
+  exact ⟨cert, realSealUnary⟩
+
 end BEDC.Derived.DoubleCauchyDiagonalUp
