@@ -4297,6 +4297,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.KernelDependencyBinding
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DeletedTychonoffPlankUp
 import BEDC.Derived.DemicontinuityUp
 import BEDC.Derived.DendriteUp.TasteGate
 import BEDC.Derived.DenjoyIntegralUp.TasteGate
