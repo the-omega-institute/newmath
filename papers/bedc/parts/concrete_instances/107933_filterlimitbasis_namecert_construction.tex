@@ -112,6 +112,27 @@ Finally use the handoff theorem \autoref{thm:filter-limit-basis-cauchyfiltercomp
 \end{proof}
 \leanchecked{BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisRealHandoffStability}
 
+\begin{theorem}[FilterLimitBasis scoped route]
+\label{thm:filter-limit-basis-scoped-route}
+Every accepted $\FilterLimitBasisUp$ packet exposes completion-facing limit evidence only through the finite route
+$$
+\CauchyFilterCompletionUp \longrightarrow \CauchyFilterUp
+  \longrightarrow \CauchyFilterLimitUp \longrightarrow \StreamNameUp
+  \longrightarrow \RegSeqRatUp \longrightarrow \DyadicRatCoreUp
+  \longrightarrow \RealUp ,
+$$
+followed by the structural $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\FilterLimitBasisUp}$ rows. Equivalently, in the carrier notation of \autoref{def:filter-limit-basis-carrier}, every completion-facing, limit-facing, or Real-facing read must pass through $Q,F,L,W,R,D,E,H,C,P,N$ in that order before it is exported as limit-basis evidence.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}. They make carrier admission, completion-basis exposure, limit compatibility, Real handoff, and ledger refusal the only local obligation rows.
+
+Apply the CauchyFilterCompletion handoff of \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. It forces every completion-facing and Real-facing consumer through $Q,F,L,W,R,D$ before the terminal seal $E$ and the structural rows are available.
+
+Next use the limit compatibility theorem \autoref{thm:filter-limit-basis-limit-compatibility}. The $\CauchyFilterLimitUp$ row $L$, finite window row $W$, regular readback row $R$, and dyadic tolerance row $D$ remain attached to the same displayed filter-basis data exposed by $Q$ and $F$.
+
+Finally apply Real handoff stability from \autoref{thm:filter-limit-basis-real-handoff-stability}. Componentwise transport preserves the same route through $H,C,P,N$, so the scoped route is exactly the displayed completion, filter, limit, stream, regular-rational, dyadic, Real, and structural sequence.
+\end{proof}
+
 \begin{theorem}[FilterLimitBasis window-basis exhaustion]
 \label{thm:filter-limit-basis-window-basis-exhaustion}
 Every accepted $\FilterLimitBasisUp$ request must expose the completion row $Q$, the Cauchy-filter row $F$, the limit-boundary row $L$, the finite-window row $W$, the regular readback row $R$, and the dyadic tolerance row $D$ before it may read the terminal seal $E$. Only after that finite basis has been displayed may the request continue through $H,C,P,N$. Consequently the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyFilterUp$, and $\CauchyFilterLimitUp$ rows are all visible before any $\RealUp$ consumer can inspect the seal.
