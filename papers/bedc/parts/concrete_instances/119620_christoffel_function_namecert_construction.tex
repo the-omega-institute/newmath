@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\ChristoffelFunctionUp$}
+\label{ch:concrete-instances-christoffel-function-namecert}
+\origin{human}
+
+Following Szego and the finite orthogonal-polynomial formulation of Gaussian quadrature, the $\ChristoffelFunctionUp$ packet records the reciprocal diagonal kernel row used to control polynomial evaluation from displayed orthogonal-polynomial data. It sits after the recurrence and moment ledgers of \autoref{ch:concrete-instances-orthogonal-polynomial-namecert}, the node-weight rule of \autoref{ch:concrete-instances-gauss-quadrature-namecert}, the coefficient source of \autoref{ch:concrete-instances-polynomial-namecert}, the terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic comparison route of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names only finite kernel, denominator, tolerance, and replay rows; it does not claim measure-theoretic completeness, spectral completeness, selected roots, quotient polynomial equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Christoffel function carrier]
+\label{def:christoffel-function-carrier}
+A $\ChristoffelFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(O,Q,P,X,D,L,E,H,C,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OrthogonalPolynomialUp$ source row, displaying the finite orthogonal-polynomial window, normalization ledger, recurrence coefficients, and moment reads used by the kernel.
+\item $Q$ is the $\GaussQuadratureUp$ source row, exposing the finite node-weight rule through which quadrature-facing consumers read Christoffel weights and diagonal kernel values.
+\item $P$ is the $\PolynomialUp$ coefficient row for the polynomial family and for the finite products inspected by the diagonal kernel.
+\item $X$ is the evaluation-window row. It lists the displayed real-name evaluation points and the finite polynomial rows inspected at those points.
+\item $D$ is the diagonal denominator ledger, displaying the finite sum of normalized square evaluations or the equivalent reciprocal-weight row attached to the same orthogonal-polynomial window.
+\item $L$ is the local Christoffel-value row. It records the displayed reciprocal read of $D$ as a $\RealUp$-sealed scalar whenever the denominator row is admitted.
+\item $E$ is the $\DyadicRatCoreUp$ comparison row for denominator positivity, reciprocal tolerance, and node-weight comparison.
+\item $H$ stores componentwise $\hsame$ transport for $O,Q,P,X,D,L,E$ and the local naming data.
+\item $C$ stores displayed $\Cont$ replay from orthogonal-polynomial source rows through evaluation, denominator formation, reciprocal readback, quadrature handoff, dyadic comparison, provenance, and local naming.
+\item $N$ is the combined $\Pkg$ provenance and local $\NameCert_{\ChristoffelFunctionUp}$ row over $\ChristoffelFunctionUp$, $\OrthogonalPolynomialUp$, $\GaussQuadratureUp$, $\PolynomialUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{enumerate}
+The classifier compares accepted packets only through $O,Q,P,X,D,L,E,H,C,N$. It has no coordinate for a host measure space, an infinite orthogonal expansion, a spectral-completeness theorem, quotient polynomial equality, selected quadrature nodes outside $Q$, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Christoffel function NameCert obligations]
+\label{thm:christoffel-function-namecert-obligations}
+For every accepted $\ChristoffelFunctionUp$ carrier
+$$
+K=(O,Q,P,X,D,L,E,H,C,N),
+$$
+the local $\NameCert_{\ChristoffelFunctionUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item source admission: the orthogonal-polynomial row $O$, quadrature row $Q$, and polynomial coefficient row $P$ must be displayed before a Christoffel read is available;
+\item evaluation admission: the point row $X$ must name the finite evaluation windows and the polynomial rows inspected at those points;
+\item denominator exactness: the row $D$ must display the finite diagonal-kernel denominator or the equivalent reciprocal-weight row over the same source window;
+\item reciprocal and comparison exposure: the row $L$ must be read only after $D$, and the dyadic comparison row $E$ must carry the displayed positivity, reciprocal tolerance, and node-weight comparisons;
+\item preservation and naming: the transport, replay, provenance, and local naming rows $H,C,N$ must preserve exactly $O,Q,P,X,D,L,E$ and must not add a host measure space, spectral-completeness theorem, selected root solver, quotient polynomial equality, or ambient real-completeness principle.
+\end{enumerate}
+No Christoffel-function obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:christoffel-function-carrier}. The source rows are $O,Q,P$, so the packet starts from an already displayed orthogonal-polynomial window, quadrature rule, and polynomial coefficient ledger.
+
+The evaluation and denominator rows are then finite. The row $X$ lists the inspected evaluation points and polynomial rows, while $D$ records the diagonal denominator or reciprocal-weight expression over the same displayed source window.
+
+The reciprocal read is local to $L$ and the comparison data are local to $E$. These rows expose only the admitted denominator, tolerance, and node-weight comparisons; they do not select roots or import an analytic measure object.
+
+Finally, $H,C,N$ transport, replay, source, and name the same finite rows. Since the carrier has no coordinate for measure-theoretic completeness, spectral completeness, quotient polynomial equality, selected roots outside the quadrature row, or ambient $\RealUp$ completeness, the five listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Christoffel function quadrature handoff]
+\label{thm:christoffel-function-quadrature-handoff}
+Every quadrature-facing read of an accepted $\ChristoffelFunctionUp$ packet factors through the finite route
+$$
+\OrthogonalPolynomialUp \longmapsto \GaussQuadratureUp \longmapsto X \longmapsto D \longmapsto L .
+$$
+The consumer receives the displayed source rows, evaluation windows, diagonal denominator, reciprocal scalar, dyadic comparison row, transport, replay, provenance, and local name, but receives no measure-theoretic completeness, spectral completeness, quotient polynomial equality, selected root solver, undisplayed node family, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with an integration- or quadrature-facing read. The packet first exposes the orthogonal-polynomial source $O$ and the Gauss-quadrature source $Q$, so the consumer reads the Christoffel data only after the recurrence, moment, node, and weight ledgers are already visible.
+
+Next inspect the evaluation and denominator rows. The row $X$ fixes the displayed evaluation window, and $D$ forms the finite diagonal-kernel denominator over that same window.
+
+The local value row $L$ records the reciprocal read, and $E$ supplies the dyadic comparison data needed to inspect positivity and reciprocal tolerance. The rows $H,C,N$ preserve and name this route without adding any further analytic principle. Hence every quadrature-facing read remains inside the displayed finite handoff.
+\end{proof}
+
+\falsifiablePrediction{Every $\ChristoffelFunctionUp$ read factors through an $\OrthogonalPolynomialUp$ source row, a $\GaussQuadratureUp$ node-weight row, a $\PolynomialUp$ coefficient row, a finite evaluation window, a diagonal denominator ledger, a reciprocal $\RealUp$ value row, dyadic comparison data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+
+\independenceWitness{orthogonal-polynomial, gauss-quadrature, polynomial, real, dyadicratcore: $\ChristoffelFunctionUp$ is not bijective to any listed sibling because it jointly carries the orthogonal-polynomial source, quadrature source, evaluation window, diagonal denominator, reciprocal value, dyadic comparison, transport, replay, provenance, and local naming rows as one certificate.}
+
+\closureat{ChristoffelFunctionUp}{seedStr}
+
+\begin{closurestatus}{\ChristoffelFunctionUp}
+  \constructivestory{A $\ChristoffelFunctionUp$ packet is generated from an OrthogonalPolynomialUp source row, a GaussQuadratureUp node-weight source row, a PolynomialUp coefficient row, a finite evaluation window, a diagonal denominator ledger, a reciprocal RealUp value row, DyadicRatCoreUp comparison data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:christoffel-function-carrier}, \autoref{thm:christoffel-function-namecert-obligations}, and \autoref{thm:christoffel-function-quadrature-handoff} seed the finite Christoffel-function certificate over displayed orthogonal-polynomial, quadrature, polynomial, real-scalar, and dyadic comparison rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure-theoretic completeness, spectral completeness, quotient polynomial equality, selected root solvers, infinite orthogonal expansions, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source admission, evaluation-window admission, denominator exactness, reciprocal readback, quadrature handoff, dyadic comparison replay, transport, non-escape, and field faithfulness for BEDC.Derived.ChristoffelFunctionUp.}
+\end{closurestatus}
