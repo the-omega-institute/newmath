@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealEquivalenceModulusUp$}
+\label{ch:concrete-instances-cauchy-real-equivalence-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyRealEquivalenceModulusUp$ packet records equality of constructive real names by a displayed tail-modulus comparison between two regular Cauchy rational representatives. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names a finite modulus route for a pair of representatives; it does not identify host sequences, quotient streams, selected limits, real trichotomy, or ambient real completeness.
+
+\begin{definition}[Cauchy real equivalence modulus carrier]
+\label{def:cauchy-real-equivalence-modulus-carrier}
+A $\CauchyRealEquivalenceModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,B,T,D_A,D_B,Q_A,Q_B,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ representative rows whose stream names are compared by the packet.
+\item $T$ is the shared dyadic tail-modulus row. For each requested dyadic tolerance, $T$ names a finite tail bound after which the two representatives are read in the same tolerance window.
+\item $D_A$ and $D_B$ are the $\DyadicRatCoreUp$ tolerance readback rows used to decode the two representative values at the requested dyadic precision.
+\item $Q_A$ and $Q_B$ are the $\StreamNameUp$ finite-window rows exposing only the retained prefixes and tail cells needed by $T,D_A,D_B$.
+\item $E$ is the $\RealUp$ seal that downstream consumers may read only after the two regular representatives, shared tail modulus, dyadic readbacks, and stream windows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $A,B,T,D_A,D_B,Q_A,Q_B,E$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from the pair of representatives through the shared tail-modulus row and dyadic readbacks to the real-name seal:
+$$
+A,B,T,D_A,D_B\longmapsto Q_A,Q_B,E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealEquivalenceModulusUp}$ row.
+\end{enumerate}
+The carrier exports a finite modulus witness for equality of the two real names. It has no coordinate for quotient equality of streams, a selected representative of an equivalence class, real trichotomy, a host Cauchy-completion object, or an ambient completeness principle.
+\end{definition}
+\leanstmt{BEDC.Derived.CauchyRealEquivalenceModulusUp}
+
+\begin{theorem}[Cauchy real equivalence modulus NameCert obligations]
+\label{thm:cauchy-real-equivalence-modulus-namecert-obligations}
+For every accepted $\CauchyRealEquivalenceModulusUp$ carrier
+$$
+M=(A,B,T,D_A,D_B,Q_A,Q_B,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRealEquivalenceModulusUp}$ surface consists exactly of carrier admission for the two $\RegSeqRatUp$ representatives, the shared dyadic tail-modulus row, the two $\DyadicRatCoreUp$ tolerance readbacks, the two $\StreamNameUp$ finite-window rows, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every equality read between the two real names must pass through $T,D_A,D_B,Q_A,Q_B$ before $E$ is public, and no obligation may call on quotient stream equality, chosen representatives, real trichotomy, host completion, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-real-equivalence-modulus-carrier}. The packet exposes exactly the two regular rational representatives, one shared dyadic tail-modulus row, two dyadic readbacks, two stream windows, the Real-facing seal, and the structural rows.
+
+The equality read is then forced through the displayed modulus route. A requested tolerance is decoded by the dyadic rows $D_A,D_B$, the shared tail bound is read from $T$, and only the finite stream windows $Q_A,Q_B$ can expose the representative data at that tolerance.
+
+Transport and replay preserve the same route. The row $H$ carries componentwise $\hsame$ evidence for the listed coordinates, while $C$ replays the continuation from the two representative rows through the shared tail-modulus comparison to the seal row $E$.
+
+Finally inspect $P,N$. Provenance and local naming record only the displayed carrier rows, so a downstream Real consumer has no projection from which to read quotient stream equality, selected representatives, real trichotomy, host completion, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\CauchyRealEquivalenceModulusUp}
+  \constructivestory{A $\CauchyRealEquivalenceModulusUp$ packet is generated from two $\RegSeqRatUp$ representatives, a shared dyadic tail-modulus row, $\DyadicRatCoreUp$ tolerance readbacks, $\StreamNameUp$ finite-window rows, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-equivalence-modulus-carrier} and \autoref{thm:cauchy-real-equivalence-modulus-namecert-obligations} specify the finite modulus carrier and its local naming obligations over regular Cauchy representatives, dyadic tolerance readbacks, stream windows, and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, chosen representatives, real trichotomy, host Cauchy completion, ambient Real completeness, or a standard bridge.}
+  \upgradepath{Scoped closure requires formal carrier exactness, transport stability, and downstream nonescape for the displayed Cauchy real equivalence modulus route.}
+\end{closurestatus}
