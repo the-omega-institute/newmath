@@ -3082,6 +3082,7 @@ import BEDC.Derived.CompactMetricCompletionUp.LebesgueNumberConsumerRoute
 import BEDC.Derived.CompactMetricCompletionUp.TasteGate
 import BEDC.Derived.CompactMetricCompletionUp.UniformModulusSeal
 import BEDC.Derived.CompactMetricContinuousImageUp.TasteGate
+import BEDC.Derived.CompactMetricHyperspaceUp.TasteGate
 import BEDC.Derived.CompactMetricLocatedNetSelectionUp
 import BEDC.Derived.CompactMetricProductUp.TasteGate
 import BEDC.Derived.CompactMetricSequentialNetUp.TasteGate
@@ -5367,6 +5368,7 @@ import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastSeriesProductUp.TasteGate
 import BEDC.Derived.FatouLemmaUp.TasteGate
 import BEDC.Derived.FejerKernelUp.TasteGate
+import BEDC.Derived.FejerTheoremUp.TasteGate
 import BEDC.Derived.FeketeSubadditiveUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FftUp
@@ -5523,6 +5525,7 @@ import BEDC.Derived.FilterCompletionMonadUp.TasteGate
 import BEDC.Derived.FilterCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
+import BEDC.Derived.FilterLimitBasisUp.RealWindowExhaustion
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.WindowBasisExhaustion
 import BEDC.Derived.FilterLimitCriterionUp
@@ -6351,6 +6354,7 @@ import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.HyperspaceUp.BridgedInterfaceRoute
 import BEDC.Derived.HyperspaceUp.CarrierObligations
 import BEDC.Derived.HyperspaceUp.CauchyNetCompactHandoff
 import BEDC.Derived.HyperspaceUp.CauchyUniformCompleteHandoff
@@ -8544,6 +8548,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.DuplicateObstructionRoutePreservatio
 import BEDC.Derived.PaperLeanDriftWitnessUp.LeanInventoryHitExhaustion
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerFamilyResolutionReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerInventoryKindLock
+import BEDC.Derived.PaperLeanDriftWitnessUp.NameNormalizationNoescape
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObligationClosurePackage
 import BEDC.Derived.PaperLeanDriftWitnessUp.ResolutionConsumerReadiness
