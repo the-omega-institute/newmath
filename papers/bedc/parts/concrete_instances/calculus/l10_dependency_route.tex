@@ -1,0 +1,11 @@
+\begin{theorem}[Calculus L10 dependency route]
+\label{thm:calculus-l10-dependency-route}
+Every accepted $\CalculusUp$ consumer reads derivative and integral data only after the displayed $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\LimitUp$, and $\ContinuousMapUp$ style rows have been exposed. The route is therefore horizontal through \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-limit-namecert}, and \autoref{ch:concrete-instances-continuousmap-namecert}; it is not a host differentiability oracle, a selected antiderivative, an ambient completeness principle, or a quotient of function germs.
+\end{theorem}
+\begin{proof}
+Project an accepted $\CalculusUp$ packet through the existing dependency routes in this hub. The Real-facing row supplies the scalar seal, the regular rational and stream-name rows supply finite approximation schedules, the limit row supplies the local convergence boundary, and the continuous-map row supplies the function readback surface.
+
+Derivative and integral reads occur only after those rows are displayed. The packet may replay them through its structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, but those rows preserve the displayed dependencies rather than adding a host-level analytic oracle.
+
+Thus an L10 consumer sees calculus data as a finite dependency route through the sibling chapters named above. No row exports selected antiderivatives, ambient completeness, quotient germs, or an untyped host computation.
+\end{proof}

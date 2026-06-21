@@ -126,4 +126,48 @@ theorem MetricReverseTriangleInequalityCarrier_namecert_obligations [AskSetup] [
   }
   exact ⟨cert, namedUnary⟩
 
+namespace MetricReverseTriangleInequalityUp
+
+theorem MetricReverseTriangleInequality_distance_gap [AskSetup] [PackageSetup]
+    (T : BEDC.Derived.MetricReverseTriangleInequalityUp)
+    {M DXZ DYZ G E W R S H C P N distanceGap toleranceRead windowRead regularRead
+      realSeal : BHist} :
+    BEDC.Derived.metricReverseTriangleInequalityFields T =
+        [M, DXZ, DYZ, G, E, W, R, S, H, C, P, N] ->
+      UnaryHistory DXZ ->
+        UnaryHistory DYZ ->
+          UnaryHistory G ->
+            UnaryHistory E ->
+              UnaryHistory W ->
+                UnaryHistory R ->
+                  Cont DXZ DYZ distanceGap ->
+                    Cont distanceGap G toleranceRead ->
+                      Cont toleranceRead E windowRead ->
+                        Cont windowRead W regularRead ->
+                          Cont regularRead R realSeal ->
+                            UnaryHistory distanceGap ∧ UnaryHistory toleranceRead ∧
+                              UnaryHistory windowRead ∧ UnaryHistory regularRead ∧
+                                UnaryHistory realSeal ∧ hsame distanceGap (append DXZ DYZ) := by
+  -- BEDC touchpoint anchor: MetricReverseTriangleInequalityUp metricReverseTriangleInequalityFields BHist Cont hsame UnaryHistory
+  intro fields rowsDXZ rowsDYZ rowsG rowsE rowsW rowsR distanceRoute toleranceRoute
+    windowRoute regularRoute sealRoute
+  have _acceptedFields :
+      BEDC.Derived.metricReverseTriangleInequalityFields T =
+        [M, DXZ, DYZ, G, E, W, R, S, H, C, P, N] :=
+    fields
+  have distanceUnary : UnaryHistory distanceGap :=
+    unary_cont_closed rowsDXZ rowsDYZ distanceRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed distanceUnary rowsG toleranceRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed toleranceUnary rowsE windowRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed windowUnary rowsW regularRoute
+  have sealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regularUnary rowsR sealRoute
+  exact
+    ⟨distanceUnary, toleranceUnary, windowUnary, regularUnary, sealUnary, distanceRoute⟩
+
+end MetricReverseTriangleInequalityUp
+
 end BEDC.Derived
