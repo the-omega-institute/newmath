@@ -361,6 +361,45 @@ Use \autoref{thm:bounded-real-sequence-dyadic-bound-transport} to keep the dyadi
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedRealSequenceUp.BoundedRealSequenceCarrier\_bolzano\_source\_exactness}
 
+\begin{theorem}[Bounded real sequence compact-interval subsequence boundary]
+\label{thm:bounded-real-sequence-compact-interval-subsequence-boundary}
+Every Bolzano--Weierstrass or compact-interval consumer of an accepted
+$\BoundedRealSequenceUp$ packet must read finite $\StreamNameUp$ windows,
+$\RegSeqRatUp$ readback, $\RealUp$ seals, and
+$\ClosedBoundedIntervalNetUp$ bound rows before any subsequence-facing claim is
+visible. The packet exposes the finite route
+$$
+S \to W \to Q \to R \to I \to H \to C \to P \to N
+$$
+and does not export a selected subsequence, open-cover compactness, quotient
+sequence equality, countable choice, trichotomy, or ambient $\RealUp$
+completeness.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window bound of
+\autoref{thm:bounded-real-sequence-finite-window-bound}. It ties every
+inspected sequence value to the route from $S$ through $W,Q,R$ into the
+closed-bounded interval-net row $I$.
+
+Apply the Bolzano--Weierstrass handoff and the window envelope,
+\autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff} and
+\autoref{thm:bounded-real-sequence-window-envelope}. They require a
+Bolzano-facing consumer to read the bounded source through the same finite
+window rows rather than through a selected subsequence or a host compactness
+principle.
+
+Use Bolzano source exactness,
+\autoref{thm:bounded-real-sequence-bolzano-source-exactness}. This identifies
+the visible source as the finite path through $S,W,Q,R,I,H,C,P,N$.
+
+Finally apply finite-window net extraction,
+\autoref{thm:bounded-real-sequence-finite-window-net-extraction}. The
+interval-net packet supplies the compact-interval-facing bound row while the
+structural rows transport, replay, source, and name the same route, leaving no
+coordinate for quotient equality, countable choice, open-cover compactness,
+selected subsequences, trichotomy, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Bounded real sequence bridge-facing route]
 \label{thm:bounded-real-sequence-bridge-facing-route}
 The public bounded-source export for $\BoundedRealSequenceUp$ is bridge-facing exactly through the checked finite-window closure package and the Bolzano--Weierstrass source exactness route. A bridge consumer must first read \autoref{thm:bounded-real-sequence-obligation-closure-package} to expose the rows $S,W,Q,R,I,H,C,P,N$ and then read \autoref{thm:bounded-real-sequence-bolzano-source-exactness} before the bounded source can be handed to a standard bridge comparison. Thus the paper bridge surface is the finite-window route grounded by $\mathsf{BEDC.Derived.BoundedRealSequenceUp.NameCertObligations.BoundedRealSequenceObligation\_closure\_package}$, not a selected subsequence, open-cover compactness proof, quotient stream equality, or ambient $\RealUp$ completeness principle.
