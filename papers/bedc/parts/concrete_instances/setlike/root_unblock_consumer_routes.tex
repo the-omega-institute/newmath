@@ -53,6 +53,7 @@ Finally replay ledger scope closure and the sibling consumer boundary, \autoref{
 \label{thm:setlike-typelike-signature-scope}
 Let $S=(M,Q,I,R,E,H,C,P,N)$ be an accepted $\SetLikeUp$ packet. Any TypeLike, FirstOrder, or ModelTheory consumer that reads $S$ as a set-like signature must first read the membership source row $M$, membership classifier row $Q$, subset implication row $I$, restricted-comprehension row $R$, extensional boundary row $E$, componentwise transport row $H$, continuation row $C$, provenance row $P$, and local $\NameCert_{\SetLikeUp}$ row $N$. The signature read exports no ambient powerset, unrestricted separation, quotient equality of sets, selected representative, or host equality oracle outside $M,Q,I,R,E,H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeTypelikeSignatureScope}
 \begin{proof}
 Start with the membership route of \autoref{thm:setlike-membership-route}. It makes $M$ and $Q$ the visible source of every membership read before a typed, syntactic, or satisfaction-facing consumer can inspect the packet.
 
@@ -69,6 +70,7 @@ M,Q,I,R \longmapsto H,C,P,N .
 $$
 Here $M$ is the $\BHist$ membership source, $Q$ is the classifier-bounded membership row, $I$ is subset implication over that classifier, and $R$ is restricted comprehension over the same displayed rows. The envelope cannot be read as an ambient powerset, a host universe, unrestricted separation, quotient equality of sets, or an external comprehension predicate.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeTypedComprehensionKernelEnvelope}
 \begin{proof}
 Project the carrier. The rows $M,Q,I,R$ are the only membership, classifier, subset, and restricted-comprehension data before the structural tail.
 

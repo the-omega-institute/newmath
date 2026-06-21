@@ -63,6 +63,24 @@ For the mixed boundary, apply the signed adjacent-transposition ledger $S$ to th
 Finally use the wedge row $W$ to identify each length-two tensor word as the product of the corresponding degree-one exterior words. Transport by $H$ and replay by $C$ keep the source letters, tensor words, alternating rows, sign rows, and wedge products inside the same local NameCert packet.
 \end{proof}
 
+\begin{theorem}[Exterior algebra tensor-product dependency route]
+\label{thm:exterior-algebra-tensor-product-dependency-route}
+Every $\ExteriorAlgebraUp$ wedge read first consumes the alternating quotient-free tensor route from \autoref{ch:concrete-instances-tensorproduct-namecert} and the bilinear or alternating witness surface from \autoref{ch:concrete-instances-bilinform-namecert}. Only after those sibling rows are displayed may the local carrier
+$$
+E=(R,V,T,A,S,W,H,C,P,N)
+$$
+read its wedge row $W$ and local $\NameCert_{\ExteriorAlgebraUp}$ row $N$. The alternation row is a finite classifier row on tensor words, not a quotient of tensors.
+\end{theorem}
+\begin{proof}
+Project the exterior carrier of \autoref{def:exterior-algebra-carrier}. The rows $R,V,T$ give the scalar source, the module or vector-space source, and the finite tensor-word source before any wedge product is read.
+
+The tensor-product source of wedge multiplication is the row $T$. The chapter therefore consumes the sibling tensor route of \autoref{ch:concrete-instances-tensorproduct-namecert} before $W$ can concatenate tensor words and return an exterior product.
+
+The alternating witness surface is supplied by $A$ and $S$, with bilinear provenance recorded in $P$ through \autoref{ch:concrete-instances-bilinform-namecert}. These rows classify repeated letters and adjacent transpositions as finite packet data; they do not form a tensor quotient.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same dependency route. Thus every accepted wedge read uses the tensor-product and bilinear-form sibling surfaces before the local exterior certificate is read.
+\end{proof}
+
 \falsifiablePrediction{A consumer requesting an exterior product must expose the tensor-word row, alternating ledger, signed-transposition ledger, wedge row, transport, replay, provenance, and local naming rows; a request that supplies only a host quotient algebra is rejected by this certificate.}
 
 \independenceWitness{tensor-algebra, bilinform, module, vecspace, clifford: $\ExteriorAlgebraUp$ is not bijective to any listed sibling because it jointly carries alternating finite tensor words, repeated-letter refusal, signed adjacent-transposition rows, wedge multiplication, transport, replay, provenance, and a local NameCert row.}

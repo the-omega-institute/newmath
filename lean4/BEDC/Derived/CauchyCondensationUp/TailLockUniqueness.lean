@@ -24,8 +24,8 @@ theorem CauchyCondensationCarrier_tail_lock_uniqueness [AskSetup] [PackageSetup]
                   PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
   intro carrier readbackUnary leftRoute rightRoute _leftPkg _rightPkg
-  obtain ⟨_sourceUnary, _windowsUnary, _blocksUnary, _sumsUnary, _tailsUnary, sealUnary,
-    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, provenancePkg,
+  obtain ⟨_sourceUnary, _windowsUnary, _blocksUnary, _sumsUnary, _tailsUnary, _carrierReadbackUnary,
+    sealUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, provenancePkg,
     localNamePkg⟩ := carrier
   have sameReads : hsame leftRead rightRead :=
     cont_deterministic leftRoute rightRoute

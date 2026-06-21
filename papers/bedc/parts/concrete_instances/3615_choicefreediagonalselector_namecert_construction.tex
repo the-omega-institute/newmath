@@ -28,6 +28,45 @@ The local classifier compares accepted carriers only through the visible rows $\
 \end{definition}
 \leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ChoiceFreeDiagonalSelectorTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Choice-free diagonal selector carrier obligation]
+\label{thm:choice-free-diagonal-selector-obligation-carrier}
+Every accepted $\ChoiceFreeDiagonalSelectorUp$ packet exposes exactly the displayed rows
+$$
+\varepsilon,W,S,R,E,H,C,P,N
+$$
+of \autoref{def:choice-free-diagonal-selector-carrier}. The window route of \autoref{thm:choice-free-diagonal-selector-window-route}, the stage induction of \autoref{thm:choice-free-diagonal-selector-stage-induction}, and the non-escape theorem of \autoref{thm:choice-free-diagonal-selector-nonescape} may inspect those rows, but they cannot add a hidden selector row, quotient stream row, selected host limit, or ambient completeness row.
+\end{theorem}
+\leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ObligationCarrier.ChoiceFreeDiagonalSelectorCarrier\_obligation\_carrier}
+\begin{proof}
+Project the carrier in \autoref{def:choice-free-diagonal-selector-carrier}. Its content rows are the precision request, selected cofinal window, StreamName observations, RegSeqRat witness, RealUp seal, componentwise transport, displayed replay, provenance, and local naming.
+
+Apply the window route to order the analytic rows, then apply stage induction to retain the same row family across displayed finite stages. Finally use non-escape to rule out any additional host choice, quotient, selected-limit, or completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Choice-free diagonal selector classifier obligation]
+\label{thm:choice-free-diagonal-selector-obligation-classifier}
+Componentwise $\hsame$ transport of accepted $\ChoiceFreeDiagonalSelectorUp$ packets preserves the classifier route
+$$
+\StreamNameUp\longmapsto \RegSeqRatUp\longmapsto \RealUp.
+$$
+If the rows $\varepsilon,W,S,R,E,H,C,P,N$ are transported componentwise through the displayed $H$ coordinate, then the window, stage, and non-escape results still force each selector read through StreamName observations, RegSeqRat handoff, and RealUp seal in that order.
+\end{theorem}
+\begin{proof}
+Read the transport row $H$ in the carrier definition. It is componentwise over the request, window, StreamName observations, RegSeqRat witness, RealUp seal, and structural rows.
+
+The window route fixes the order from selected window to StreamName observations, RegSeqRat witness, and RealUp seal. Stage induction preserves that order at each finite stage, and non-escape prevents the transported packet from acquiring a different classifier through host equality, quotient streams, or ambient RealUp completeness.
+\end{proof}
+
+\begin{theorem}[Choice-free diagonal selector ledger obligation]
+\label{thm:choice-free-diagonal-selector-obligation-ledger}
+For every accepted $\ChoiceFreeDiagonalSelectorUp$ packet, the ledger rows $P,N$ record provenance and naming for the finite selector route only. Together with \autoref{thm:choice-free-diagonal-selector-window-route}, \autoref{thm:choice-free-diagonal-selector-stage-induction}, and \autoref{thm:choice-free-diagonal-selector-nonescape}, they certify the displayed route without supplying host choice, quotient streams, selected host limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the provenance row $P$ and local naming row $N$ from the carrier. They name the same finite packet already displayed by the analytic and structural rows.
+
+The window route and stage induction identify the finite selector path that those ledger rows can certify. The non-escape theorem then excludes host choice, quotient stream equality, selected host limits, hidden cofinal-window selection, unbounded StreamName scans, and ambient RealUp completeness from the ledger surface.
+\end{proof}
+
 \begin{theorem}[Choice-free diagonal selector window route]
 \label{thm:choice-free-diagonal-selector-window-route}
 Every accepted $\ChoiceFreeDiagonalSelectorUp$ carrier routes a diagonal precision request through the displayed finite cofinal window before any RegSeqRat or RealUp data can be consumed. For

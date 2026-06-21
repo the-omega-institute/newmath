@@ -16,12 +16,12 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def CauchyCondensationCarrier [AskSetup] [PackageSetup]
-    (source windows blocks sums tails _readback sealRow transportRow replayRow provenance localName :
+    (source windows blocks sums tails readback sealRow transportRow replayRow provenance localName :
       BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
   UnaryHistory source ∧ UnaryHistory windows ∧ UnaryHistory blocks ∧
-    UnaryHistory sums ∧ UnaryHistory tails ∧ UnaryHistory sealRow ∧
+    UnaryHistory sums ∧ UnaryHistory tails ∧ UnaryHistory readback ∧ UnaryHistory sealRow ∧
       UnaryHistory transportRow ∧ UnaryHistory replayRow ∧ UnaryHistory provenance ∧
         UnaryHistory localName ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
 
@@ -51,9 +51,9 @@ theorem CauchyCondensationCarrier_dyadic_block_handoff [AskSetup] [PackageSetup]
                 UnaryHistory readback := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory SemanticNameCert hsame
   intro carrier windowsBlocks blockSums tailTails readbackPkg
-  obtain ⟨_sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, _sealUnary,
-    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, _provenancePkg,
-    _localNamePkg⟩ := carrier
+  obtain ⟨_sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, _readbackUnary,
+    _sealUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _provenancePkg, _localNamePkg⟩ := carrier
   have blockReadUnary : UnaryHistory blockRead :=
     unary_cont_closed windowsUnary blocksUnary windowsBlocks
   have tailReadUnary : UnaryHistory tailRead :=
@@ -137,8 +137,8 @@ theorem CauchyCondensationCarrier_namecert_obligations [AskSetup] [PackageSetup]
           PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory SemanticNameCert hsame
   intro carrier
-  obtain ⟨sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, sealUnary,
-    _transportUnary, _replayUnary, provenanceUnary, localNameUnary, provenancePkg,
+  obtain ⟨sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, readbackUnary,
+    sealUnary, _transportUnary, _replayUnary, provenanceUnary, localNameUnary, provenancePkg,
     localNamePkg⟩ := carrier
   have localSource :
       (fun row : BHist => hsame row localName ∧ UnaryHistory row) localName := by
@@ -206,8 +206,8 @@ theorem CauchyCondensationCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
                 PkgSig bundle localName pkg ∧ PkgSig bundle sealRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory SemanticNameCert hsame
   intro carrier readbackUnary readbackSeal sealReadPkg
-  obtain ⟨_sourceUnary, _windowsUnary, _blocksUnary, _sumsUnary, _tailsUnary, sealUnary,
-    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, provenancePkg,
+  obtain ⟨_sourceUnary, _windowsUnary, _blocksUnary, _sumsUnary, _tailsUnary, _carrierReadbackUnary,
+    sealUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, provenancePkg,
     localNamePkg⟩ := carrier
   have sealReadUnary : UnaryHistory sealRead :=
     unary_cont_closed readbackUnary sealUnary readbackSeal
