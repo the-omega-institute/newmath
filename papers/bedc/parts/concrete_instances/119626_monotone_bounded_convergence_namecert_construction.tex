@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneBoundedConvergenceUp$}
+\label{ch:concrete-instances-monotone-bounded-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\MonotoneBoundedConvergenceUp$ packet records the finite route by which a bounded monotone real sequence is handed to a located supremum surface and then read back as a regular Cauchy real name. It sits beside the monotone bounded sequence carrier of \autoref{ch:concrete-instances-monotone-bounded-sequence-namecert}, the located-supremum handoff of \autoref{ch:concrete-instances-locatedsupremum-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet records a convergence certificate for the displayed sequence route; it does not claim Dedekind completeness, trichotomy, quotient equality, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Monotone bounded convergence carrier]
+\label{def:monotone-bounded-convergence-carrier}
+A $\MonotoneBoundedConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,L,B,U,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\MonotoneBoundedSequenceUp$ source row, exposing the inspected real-sequence windows and their monotonicity ledger.
+\item $L$ is the monotonicity ledger stability row, recording that the displayed order comparisons are preserved under the finite window extensions used downstream.
+\item $B$ is the boundedness exactness row, naming the upper-bound evidence available for the same displayed sequence route.
+\item $U$ is the $\LocatedSupremumUp$ handoff row attached to the bounded monotone source, not to an ambient host set.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from the located-supremum handoff and the displayed sequence windows.
+\item $E$ is the terminal $\RealUp$ seal row, read only after $S,L,B,U,R$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the sequence source, ledger, boundedness row, located-supremum handoff, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a convergence request through $S,L,B,U,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneBoundedConvergenceUp$, $\MonotoneBoundedSequenceUp$, $\LocatedSupremumUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MonotoneBoundedConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows and their structural provenance.
+\end{definition}
+\leanstmt{BEDC.Derived.MonotoneBoundedConvergenceUp}
+
+\begin{theorem}[MonotoneBoundedConvergence obligation surface]
+\label{thm:monotone-bounded-convergence-namecert-obligation-surface}
+For every accepted $\MonotoneBoundedConvergenceUp$ carrier $M=(S,L,B,U,R,E,H,C,P,N)$, the local $\NameCert_{\MonotoneBoundedConvergenceUp}$ surface consists exactly of carrier admission for the displayed rows, monotonicity ledger stability through $L$, boundedness exactness through $B$, located-supremum handoff through $U$, regular-Cauchy real-seal readback through $R,E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:monotone-bounded-convergence-carrier}. The analytic route is the displayed tuple $S,L,B,U,R,E$, and no convergence-facing consumer can enter the packet before those rows are named.
+
+The monotonicity ledger remains stable because $L$ is attached to the same $\MonotoneBoundedSequenceUp$ source row $S$ used by every later window read. Extending a displayed window therefore preserves the listed order comparisons rather than opening a second sequence classifier.
+
+Boundedness is exact at row $B$. The upper-bound evidence is read from the same finite source route as the monotonicity ledger, so it cannot be replaced by a host least-upper-bound theorem, trichotomy, or an unrecorded completeness principle.
+
+The located-supremum handoff is row $U$. It consumes the monotone bounded source through $S,L,B$ and exports only the located supremum boundary needed for the downstream regular readback.
+
+Finally the regular-Cauchy real-seal readback passes through $R,E,H,C,P,N$. Row $R$ supplies the $\RegSeqRatUp$ presentation obtained from the handoff, row $E$ supplies the terminal $\RealUp$ seal, and the structural rows transport, replay, source, and name the same route. Since no coordinate stores Dedekind completeness, quotient equality, countable choice, or ambient real completeness, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\closureat{MonotoneBoundedConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneBoundedConvergenceUp}
+  \constructivestory{A $\MonotoneBoundedConvergenceUp$ packet is generated from a MonotoneBoundedSequence source row, a monotonicity ledger stability row, boundedness exactness, a LocatedSupremum handoff, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-bounded-convergence-carrier} and \autoref{thm:monotone-bounded-convergence-namecert-obligation-surface} name the finite convergence route from bounded monotone sequence data to located-supremum and regular-Cauchy real-seal readback.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind completeness, trichotomy, quotient equality, countable choice, ambient Real completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotonicity ledger stability, boundedness exactness, located-supremum handoff, regular readback, Real seal, transport, replay, provenance, and local naming for BEDC.Derived.MonotoneBoundedConvergenceUp.}
+\end{closurestatus}
