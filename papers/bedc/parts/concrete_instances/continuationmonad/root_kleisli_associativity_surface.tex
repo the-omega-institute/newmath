@@ -16,6 +16,7 @@ Finally combine \autoref{thm:continuation-monad-root-route-source-exposure}, \au
 \label{thm:continuation-monad-bhist-bind-associativity-induction}
 For every accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, nested bind replay over the displayed finite source rows is associative by induction on the finite continuation schedule. The induction uses only the $\BHist$ source rows $A,B,C$, the displayed bind schedule $f,g,K,L$, the unit row $u$, componentwise $\hsame$ transport $H$, $\Cont$ replay through $K$, $\Pkg$ provenance through $L$, and the local $\NameCert$ row $N$. It exports no quotient Kleisli arrow, host function composition, ambient category completion, or evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadBHistBindAssociativityInduction}
 \begin{proof}
 Induct on the displayed finite continuation schedule. In the base case the schedule has only the source and unit rows, so \autoref{thm:continuation-monad-unit-laws} and the root unit-bind exhaustion identify the two nested bind replays through $u,H,K,L,N$.
 
