@@ -180,6 +180,16 @@ private theorem diffNorm_add_add_common (a b k : Nat) :
 private theorem diffNorm_zero_right (a : Nat) : diffNorm a 0 = _root_.Int.ofNat a := by
   cases a <;> rfl
 
+private theorem diffNorm_eq_ofNat_common (b k : Nat) : diffNorm (b + k) b = _root_.Int.ofNat k := by
+  induction b with
+  | zero =>
+      rw [Nat.zero_add]
+      exact diffNorm_zero_right k
+  | succ b ih =>
+      rw [Nat.succ_add]
+      change diffNorm (b + k) b = _root_.Int.ofNat k
+      exact ih
+
 private theorem diffNorm_add_right_ofNat (a b c : Nat) :
     diffNorm a b + _root_.Int.ofNat c = diffNorm (a + c) b := by
   induction b generalizing a c with
@@ -259,6 +269,81 @@ private theorem diffNorm_add (a b c d : Nat) :
       rw [negDenominatorShuffle b c k]
       exact (diffNorm_add_add_common a (b + Nat.succ k) c).symm
 
+private theorem nat_le_iff_exists_add_right {a b : Nat} :
+    a ≤ b ↔ ∃ k : Nat, b = a + k := by
+  constructor
+  · intro h
+    cases Nat.le.dest h with
+    | intro k hk =>
+        exact ⟨k, hk.symm⟩
+  · intro h
+    cases h with
+    | intro k hk =>
+        exact Nat.le.intro hk.symm
+
+private theorem nat_add_cancel_right_pure {a b k : Nat} (h : a + k = b + k) : a = b := by
+  induction k generalizing a b with
+  | zero =>
+      rw [Nat.add_zero, Nat.add_zero] at h
+      exact h
+  | succ k ih =>
+      rw [Nat.add_succ, Nat.add_succ] at h
+      exact ih (Nat.succ.inj h)
+
+private theorem nat_le_cancel_right_pure {a b k : Nat} (h : a + k ≤ b + k) : a ≤ b := by
+  cases (nat_le_iff_exists_add_right.mp h) with
+  | intro d hd =>
+      apply nat_le_iff_exists_add_right.mpr
+      refine ⟨d, ?_⟩
+      apply nat_add_cancel_right_pure (k := k)
+      calc
+        (b + k) = (a + k) + d := hd
+        _ = a + (k + d) := Nat.add_assoc a k d
+        _ = a + (d + k) := congrArg (fun t => a + t) (Nat.add_comm k d)
+        _ = (a + d) + k := (Nat.add_assoc a d k).symm
+
+private theorem nat_add_right_comm_pure (a b c : Nat) : a + b + c = a + c + b := by
+  calc
+    a + b + c = a + (b + c) := Nat.add_assoc a b c
+    _ = a + (c + b) := congrArg (fun t => a + t) (Nat.add_comm b c)
+    _ = a + c + b := (Nat.add_assoc a c b).symm
+
+private theorem cross_le_trans {p n q m r s : Nat}
+    (hxy : p + m ≤ q + n) (hyz : q + s ≤ r + m) :
+    p + s ≤ r + n := by
+  have h1 : p + s + m ≤ q + n + s := by
+    calc
+      p + s + m = p + m + s := nat_add_right_comm_pure p s m
+      _ ≤ q + n + s := Nat.add_le_add_right hxy s
+  have h2 : q + n + s ≤ r + n + m := by
+    calc
+      q + n + s = q + s + n := nat_add_right_comm_pure q n s
+      _ ≤ r + m + n := Nat.add_le_add_right hyz n
+      _ = r + n + m := nat_add_right_comm_pure r m n
+  exact nat_le_cancel_right_pure (Nat.le_trans h1 h2)
+
+private theorem diffNorm_sub (a b c d : Nat) :
+    diffNorm a b - diffNorm c d = diffNorm (a + d) (b + c) := by
+  change diffNorm a b + -diffNorm c d = diffNorm (a + d) (b + c)
+  rw [← diffNorm_neg c d]
+  exact diffNorm_add a b d c
+
+private theorem diffNorm_nonneg_iff_le (a b : Nat) :
+    (diffNorm a b).NonNeg ↔ b ≤ a := by
+  constructor
+  · intro nonneg
+    cases hv : diffNorm a b with
+    | ofNat k =>
+        exact nat_le_iff_exists_add_right.mpr ⟨k, diffNorm_ofNat_spec hv⟩
+    | negSucc k =>
+        rw [hv] at nonneg
+        cases nonneg
+  · intro hle
+    cases nat_le_iff_exists_add_right.mp hle with
+    | intro k hk =>
+        rw [hk, diffNorm_eq_ofNat_common]
+        exact _root_.Int.NonNeg.mk k
+
 private theorem nat_add_mul_pure (a b c : Nat) : (a + b) * c = a * c + b * c := by
   induction c with
   | zero =>
@@ -308,16 +393,6 @@ private theorem nat_mul_cross_nonneg (b k d l : Nat) :
       nat_add_perm_four (b * d) (k * d) (b * l) (k * l)
     _ = ((b * d + k * d) + b * (d + l)) + k * l := by rw [Nat.mul_add]
     _ = ((b + k) * d + b * (d + l)) + k * l := by rw [nat_add_mul_pure]
-
-private theorem diffNorm_eq_ofNat_common (b k : Nat) : diffNorm (b + k) b = _root_.Int.ofNat k := by
-  induction b with
-  | zero =>
-      rw [Nat.zero_add]
-      exact diffNorm_zero_right k
-  | succ b ih =>
-      rw [Nat.succ_add]
-      change diffNorm (b + k) b = _root_.Int.ofNat k
-      exact ih
 
 private theorem diffNorm_self (a : Nat) : diffNorm a a = 0 := by
   induction a with
@@ -695,6 +770,74 @@ theorem pairLe_reflects_length_order {x y : BHist × BHist}
   rw [bwordLength_append x.1 y.2] at lengthEq
   exact lengthEq
 
+theorem pairLe_of_length_order {x y : BHist × BHist}
+    (hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)
+    (hy : BEDC.Derived.IntUp.IntPairCarrier y.1 y.2) :
+    (bwordLength x.1 + bwordLength y.2 ≤ bwordLength y.1 + bwordLength x.2) ->
+      pairLe x y := by
+  intro hle
+  cases nat_le_iff_exists_add_right.mp hle with
+  | intro k hk =>
+      refine ⟨natToUnary k, natToUnary_unary k, ?_⟩
+      apply BEDC.FKernel.Cont.cont_intro
+      have lengthEq :
+          bwordLength (append (append x.1 y.2) (natToUnary k)) =
+            bwordLength (append y.1 x.2) := by
+        rw [bwordLength_append (append x.1 y.2) (natToUnary k)]
+        rw [bwordLength_append x.1 y.2]
+        rw [natToUnary_length k]
+        rw [bwordLength_append y.1 x.2]
+        exact hk.symm
+      exact ((BEDC.Derived.NatUp.NatUp_unary_standard_bridge.right.right.right.left
+        (unary_append_closed (unary_append_closed hx.left hy.right) (natToUnary_unary k))
+        (unary_append_closed hy.left hx.right)).mpr lengthEq).symm
+
+theorem pairLe_iff_length_order {x y : BHist × BHist}
+    (hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)
+    (hy : BEDC.Derived.IntUp.IntPairCarrier y.1 y.2) :
+    pairLe x y ↔
+      bwordLength x.1 + bwordLength y.2 ≤ bwordLength y.1 + bwordLength x.2 := by
+  constructor
+  · intro hle
+    exact nat_le_iff_exists_add_right.mpr (pairLe_reflects_length_order hx hy hle)
+  · exact pairLe_of_length_order hx hy
+
+theorem toInt_le_iff_length_order {x y : BHist × BHist} :
+    toInt x ≤ toInt y ↔
+      bwordLength x.1 + bwordLength y.2 ≤ bwordLength y.1 + bwordLength x.2 := by
+  rcases x with ⟨p, n⟩
+  rcases y with ⟨q, m⟩
+  unfold toInt
+  change (((q : BHist) |> bwordLength : _root_.Int) -
+      (bwordLength m : _root_.Int) -
+        ((bwordLength p : _root_.Int) - (bwordLength n : _root_.Int))).NonNeg ↔
+    bwordLength p + bwordLength m ≤ bwordLength q + bwordLength n
+  rw [diff_eq_subNatNat (bwordLength q) (bwordLength m)]
+  rw [diff_eq_subNatNat (bwordLength p) (bwordLength n)]
+  rw [subNatNat_eq_diffNorm (bwordLength q) (bwordLength m)]
+  rw [subNatNat_eq_diffNorm (bwordLength p) (bwordLength n)]
+  rw [diffNorm_sub (bwordLength q) (bwordLength m) (bwordLength p) (bwordLength n)]
+  constructor
+  · intro h
+    rw [Nat.add_comm (bwordLength p) (bwordLength m)]
+    exact (diffNorm_nonneg_iff_le
+      (bwordLength q + bwordLength n) (bwordLength m + bwordLength p)).mp h
+  · intro h
+    apply (diffNorm_nonneg_iff_le
+      (bwordLength q + bwordLength n) (bwordLength m + bwordLength p)).mpr
+    rw [Nat.add_comm (bwordLength m) (bwordLength p)]
+    exact h
+
+theorem pairLe_iff_toInt_le {x y : BHist × BHist}
+    (hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)
+    (hy : BEDC.Derived.IntUp.IntPairCarrier y.1 y.2) :
+    pairLe x y ↔ toInt x ≤ toInt y := by
+  constructor
+  · intro hle
+    exact toInt_le_iff_length_order.mpr ((pairLe_iff_length_order hx hy).mp hle)
+  · intro hle
+    exact (pairLe_iff_length_order hx hy).mpr (toInt_le_iff_length_order.mp hle)
+
 theorem pairLe_total {x y : BHist × BHist}
     (hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)
     (hy : BEDC.Derived.IntUp.IntPairCarrier y.1 y.2) :
@@ -822,6 +965,9 @@ instance : One CInt where
 instance : Mul CInt where
   mul x y := normalize (pairMul x.val y.val)
 
+instance : LE CInt where
+  le x y := pairLe x.val y.val
+
 theorem CInt.toInt_zero : (0 : CInt).toInt = 0 := by
   exact CInt.toInt_ofInt 0
 
@@ -861,6 +1007,62 @@ theorem CInt.toInt_mul (x y : CInt) : (x * y).toInt = x.toInt * y.toInt := by
     BedcMathlibBridge.Constructive.Int.toInt x * BedcMathlibBridge.Constructive.Int.toInt y
   rw [rightInv]
   exact pairMul_toInt hx.left hy.left
+
+theorem CInt.le_iff_toInt_le (x y : CInt) : x ≤ y ↔ x.toInt ≤ y.toInt := by
+  rcases x with ⟨x, hx⟩
+  rcases y with ⟨y, hy⟩
+  exact pairLe_iff_toInt_le hx.left hy.left
+
+theorem CInt.le_iff_length_order (x y : CInt) :
+    x ≤ y ↔
+      bwordLength x.val.1 + bwordLength y.val.2 ≤
+        bwordLength y.val.1 + bwordLength x.val.2 := by
+  rcases x with ⟨x, hx⟩
+  rcases y with ⟨y, hy⟩
+  exact pairLe_iff_length_order hx.left hy.left
+
+theorem CInt.le_total (x y : CInt) : x ≤ y ∨ y ≤ x := by
+  rcases x with ⟨x, hx⟩
+  rcases y with ⟨y, hy⟩
+  exact pairLe_total hx.left hy.left
+
+theorem CInt.le_antisymm {x y : CInt} : x ≤ y -> y ≤ x -> x = y := by
+  intro hxy hyx
+  apply CInt.canonical_ext
+  rcases x with ⟨x, hx⟩
+  rcases y with ⟨y, hy⟩
+  rcases x with ⟨p, n⟩
+  rcases y with ⟨q, m⟩
+  have xyNat :
+      bwordLength p + bwordLength m ≤ bwordLength q + bwordLength n :=
+    (pairLe_iff_length_order hx.left hy.left).mp hxy
+  have yxNat :
+      bwordLength q + bwordLength n ≤ bwordLength p + bwordLength m :=
+    (pairLe_iff_length_order hy.left hx.left).mp hyx
+  have cross :
+      bwordLength p + bwordLength m = bwordLength q + bwordLength n :=
+    Nat.le_antisymm xyNat yxNat
+  have intEq :
+      BedcMathlibBridge.Constructive.Int.toInt (p, n) =
+        BedcMathlibBridge.Constructive.Int.toInt (q, m) := by
+    change (bwordLength p : _root_.Int) - (bwordLength n : _root_.Int) =
+      (bwordLength q : _root_.Int) - (bwordLength m : _root_.Int)
+    exact cross_to_diff cross
+  exact intEq
+
+theorem CInt.le_trans {x y z : CInt} : x ≤ y -> y ≤ z -> x ≤ z := by
+  intro hxy hyz
+  rcases x with ⟨x, hx⟩
+  rcases y with ⟨y, hy⟩
+  rcases z with ⟨z, hz⟩
+  apply (pairLe_iff_length_order hx.left hz.left).mpr
+  have xyNat :
+      bwordLength x.1 + bwordLength y.2 ≤ bwordLength y.1 + bwordLength x.2 :=
+    (pairLe_iff_length_order hx.left hy.left).mp hxy
+  have yzNat :
+      bwordLength y.1 + bwordLength z.2 ≤ bwordLength z.1 + bwordLength y.2 :=
+    (pairLe_iff_length_order hy.left hz.left).mp hyz
+  exact cross_le_trans xyNat yzNat
 
 def CInt.toIntEquiv : CInt ≃ _root_.Int where
   toFun := CInt.toInt
