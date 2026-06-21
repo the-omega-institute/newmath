@@ -69,14 +69,14 @@ Thus every public report must keep the rows jointly visible. Any route that infe
 
 The Lean-side boundary is expected to provide explicit $\Nontrivial\ \ProgrammeStrengthLedgerUp$ and $\FieldFaithful\ \ProgrammeStrengthLedgerUp$ instances in \texttt{lean4/BEDC/Derived/ProgrammeStrengthLedgerUp/TasteGate.lean}. The field-faithfulness witness must keep $Q,S,D,V,B,R,H,C,P,N$ as distinct rows before the target \texttt{BEDC.Derived.ProgrammeStrengthLedgerUp.taste\_gate} can classify strength-ledger packets.
 
-\closureat{ProgrammeStrengthLedgerUp}{obligationStr}
+\closureat{ProgrammeStrengthLedgerUp}{scopedStr}
 
 \begin{closurestatus}{\ProgrammeStrengthLedgerUp}
   \constructivestory{A $\ProgrammeStrengthLedgerUp$ packet is generated from a claim site, reported strength, dependency row, theory/formal status pair, bridge-status row, refusal row, componentwise transport, displayed replay, package provenance, and local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:programme-strength-ledger-carrier}, \autoref{thm:programme-strength-ledger-namecert-obligations}, \autoref{thm:programme-strength-ledger-no-strength-inflation}, and \autoref{thm:programme-strength-ledger-axis-separation} bind reported claim strength to one finite audit packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:programme-strength-ledger-carrier}, \autoref{thm:programme-strength-ledger-namecert-obligations}, \autoref{thm:programme-strength-ledger-no-strength-inflation}, and \autoref{thm:programme-strength-ledger-axis-separation} scope the displayed carrier, NameCert obligations, no-strength-inflation row, and axis-separation row through finite audit rows, $\hsame$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, correctness of every package row, discharge of every dependency blocker, or promotion of any named claim beyond its displayed strength row.}
-  \upgradepath{Scoped closure requires binding the obligation rows to their exact BEDC primitive scope.}
+  \upgradepath{Public closure requires a public strength-report consumer surface without claiming Lean verification, bridge checking, or promotion beyond the displayed strength row.}
 \end{closurestatus}
