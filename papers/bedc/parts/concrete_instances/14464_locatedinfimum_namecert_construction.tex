@@ -50,6 +50,18 @@ Read the corresponding $G$ entry. It supplies a finite family-side witness, and 
 The comparison is therefore local: the witness is checked against the lower surface and against the stronger lower-bound candidates that are actually present in the window. Since the packet has no coordinate for arbitrary families or an ambient completeness principle, the row proves only the displayed finite greatest-lower-bound obligation.
 \end{proof}
 
+\begin{theorem}[LocatedInfimum precision-window induction]
+\label{thm:located-infimum-window-induction}
+For an accepted $\LocatedInfimumUp$ packet $I=(F,L,G,W,R,E,H,C,P,N)$, induction over the finite precision-window row $W$ builds the displayed witness ledger $G$ from the bounded-family row $F$, lower-bound ledger $L$, precision window $W$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $E$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$. The induction uses no Dedekind completeness, arbitrary infimum operator, quotient real equality, trichotomy, countable choice, or host completeness.
+\end{theorem}
+\begin{proof}
+Proceed over the displayed finite window $W$. The empty window has no precision request, so the witness ledger contributes no greatest-lower-approximation entry.
+
+For a nonempty window, read the next precision request together with the already displayed bounded-family and lower-bound rows $F$ and $L$. The finite comparison data at that request supplies the corresponding $G$ entry, and the remaining window is handled by the induction hypothesis.
+
+The handoff and seal rows are structural at this stage. The row $R$ repacks the constructed window ledger as regular rational readback, and $E$ seals only that readback. The rows $H,C,P,N$ transport, replay, source, and name the same finite construction, so no completeness, quotient-equality, trichotomy, or choice principle enters the induction.
+\end{proof}
+
 \begin{theorem}[LocatedInfimum classifier stability]
 \label{thm:located-infimum-classifier-stability}
 Let $I=(F,L,G,W,R,E,H,C,P,N)$ be an accepted $\LocatedInfimumUp$ packet. Replacing any displayed component along the corresponding $\hsame$ transport in $H$ preserves lower-bound reads, greatest-lower-approximation reads, $\RegSeqRatUp$ handoff, $\RealUp$ seal access, continuation replay, provenance, and the local $\NameCert_{\LocatedInfimumUp}$ classifier. Thus the classifier is stable under componentwise BEDC transport.
@@ -68,6 +80,7 @@ Finally replay $C$ and $P$ after transport. They can only replay and source the 
 \label{thm:located-infimum-ledger-exactness}
 Every Real-facing observation exported by an accepted $\LocatedInfimumUp$ packet is obtained from one of the displayed rows $F,L,G,W,R,E,H,C,P,N$. In particular, lower-bound, greatest-lower-approximation, handoff, and seal observations are exhausted by the ledger rows, and the packet exports no hidden Dedekind-completeness, arbitrary-infimum, quotient-equality, trichotomy, countable-choice, or host-completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedInfimumUp.LocatedInfimumLedgerExactness}
 \begin{proof}
 Begin with a Real-facing observation. The carrier contains only one real seal row, namely $E$, and the definition makes $E$ reachable only after the bounded-family row, lower-bound ledger, greatest-lower-approximation ledger, precision window, and regular handoff have been displayed.
 

@@ -5524,6 +5524,7 @@ import BEDC.Derived.FilterBaseUp.TasteGate
 import BEDC.Derived.FilterCompletionMonadUp.TasteGate
 import BEDC.Derived.FilterCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
+import BEDC.Derived.FilterLimitBasisUp.ObligationClosureReadiness
 import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.RealWindowExhaustion
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
@@ -6950,6 +6951,7 @@ import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
 import BEDC.Derived.LocatedFormalBarUp.TasteGate
 import BEDC.Derived.LocatedHeineBorelSubcoverUp.TasteGate
+import BEDC.Derived.LocatedInfimumUp
 import BEDC.Derived.LocatedIntermediateValueUp.TasteGate
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalBolzanoUp.TasteGate
@@ -8384,6 +8386,7 @@ import BEDC.Derived.ObserverTimeStepUp.TasteGate
 import BEDC.Derived.ObserverTraceKernelUp.TasteGate
 import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ObserverperspectiveclassifierUp
+import BEDC.Derived.OdeComparisonUp.TasteGate
 import BEDC.Derived.OdeUp
 import BEDC.Derived.OlivierTheoremUp.TasteGate
 import BEDC.Derived.OnePointCompactificationUp.TasteGate
