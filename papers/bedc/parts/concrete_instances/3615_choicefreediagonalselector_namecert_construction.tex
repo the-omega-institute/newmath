@@ -45,6 +45,26 @@ The observation rows $S$ are listed as the finite family opened by $W$. Hence a 
 The witness row $R$ appears after those observations, and the seal row $E$ appears after $R$. The structural rows $H,C,P,N$ transport, replay, package, and name the same finite route, so the selector boundary is exactly $\varepsilon,W,S,R,E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Choice-free diagonal selector RegSeqRat seal factorization]
+\label{thm:choice-free-diagonal-selector-regseqrat-seal-factorization}
+For an accepted $\ChoiceFreeDiagonalSelectorUp$ carrier
+$$
+D=(\varepsilon,W,S,R,E,H,C,P,N),
+$$
+any $\RealUp$ seal read from the selector factors first through the finite $\StreamNameUp$ observations $S$ and the $\RegSeqRatUp$ witness row $R$. The seal row $E$ is therefore available only as the terminal handoff of the displayed route
+$$
+S\longmapsto R\longmapsto E,
+$$
+with $H,C,P,N$ preserving that same factorization by transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:choice-free-diagonal-selector-carrier}. The only observation rows before the Real-facing endpoint are the finite StreamName family $S$ and the RegSeqRat witness row $R$.
+
+Apply \autoref{thm:choice-free-diagonal-selector-window-route}. It forces each observation in $S$ to be opened inside the selected cofinal window $W$, then assembles the RegSeqRat witness $R$ from those observations before the RealUp seal row $E$ can be reached.
+
+The structural rows do not add another seal route. Componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$ preserve the same $S\longmapsto R\longmapsto E$ route, so every selector RealUp read factors through the RegSeqRat handoff first.
+\end{proof}
+
 \begin{definition}[Choice-free diagonal selector stage carrier]
 \label{def:choice-free-diagonal-selector-stage-carrier}
 For an accepted $\ChoiceFreeDiagonalSelectorUp$ carrier
@@ -70,6 +90,7 @@ $$
 $$
 before the selector boundary is sealed by $E$. No successor stage may introduce a hidden cofinal-window selector, quotient stream equality, host choice rule, selected host limit, unbounded StreamName scan, or ambient completeness principle for $\RealUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.StageInduction.ChoiceFreeDiagonalSelectorCarrier\_stage\_induction}
 \begin{proof}
 For the base row, inspect the first displayed finite prefix $W_0$ of the selected cofinal window. Its observation family $S_0$ is read through $\StreamNameUp$, the witness $R_0$ is assembled as the corresponding $\RegSeqRatUp$ handoff, and the boundary $E_0$ is reached only after that handoff.
 
