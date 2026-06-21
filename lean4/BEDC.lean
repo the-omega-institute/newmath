@@ -7726,6 +7726,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeFacingSurface
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
 import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
+import BEDC.Derived.MetacicDecidabilityWitnessUp.MatureNormalFormBoundary
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelMonotonicity
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ScopeAssignment
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
@@ -8959,6 +8960,8 @@ import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RHRouteHaltingBoundaryUp.TasteGate
 import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
 import BEDC.Derived.RaabeTestUp.TasteGate
+import BEDC.Derived.RademacherUp
+import BEDC.Derived.RademacherUp.TasteGate
 import BEDC.Derived.RadialWobbleSpectrumUp.TasteGate
 import BEDC.Derived.RadonMeasureUp
 import BEDC.Derived.RadonMeasureUp.TasteGate
@@ -9525,6 +9528,7 @@ import BEDC.Derived.ReducedProductUp
 import BEDC.Derived.ReductionFuelBoundaryUp.EndpointTimeoutDisjointness
 import BEDC.Derived.ReductionFuelBoundaryUp.FuelTimeoutExactness
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
+import BEDC.Derived.ReductionFuelBoundaryUp.TotalHostNonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ReflectionLimitBoundaryUp.TasteGate
@@ -10454,6 +10458,7 @@ import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
 import BEDC.Derived.SetlikeUp.SubsetComprehensionRootUnblock
 import BEDC.Derived.SetlikeUp.SubsetLedger
 import BEDC.Derived.SetlikeUp.TasteGate
+import BEDC.Derived.SetlikeUp.TypeModelSatisfactionBoundary
 import BEDC.Derived.SetlikeUp.TypelikeModeltheoryHandoff
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
 import BEDC.Derived.SheafUp
