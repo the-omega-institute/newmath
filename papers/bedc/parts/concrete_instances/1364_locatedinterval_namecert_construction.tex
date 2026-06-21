@@ -649,6 +649,24 @@ For the stream-facing side, use the StreamName-RegSeqRat pointwise handoff toget
 Finally apply the RealStreamClassifier selected endpoint readback at the $\RealUp$ endpoint surface. Since the classifier reads only the finite windows and their Real seal rows, the two displayed reads are inverse descriptions of the same certificate route. No step introduces host intervals, selected endpoints, quotient-real equality, order completeness, or ambient completion.
 \end{proof}
 
+\begin{theorem}[LocatedInterval dyadic refinement induction]
+\label{thm:located-interval-dyadic-refinement-induction}
+Let
+$$
+J=(L,U,I,D,S,R,E,H,C,P,N)
+$$
+be an accepted $\LocatedIntervalUp$ packet. For any finite displayed list of dyadic refinement rows in $D$, if the initial row is attached to its rational parent cell in $I$ and to the endpoint-window rows $L,U,S,R,E$, and if each successor row is obtained by the displayed dyadic refinement handoff from the preceding row, then every row in the list remains attached to the same rational parent cell and endpoint-window package. The induction surface is only the finite rows $D,I,L,U,S,R,E,H,C,P,N$; it does not use a host interval subdivision tree, selected endpoints, quotient-real equality, order completeness, or ambient completion.
+\end{theorem}
+\begin{proof}
+The base case is the displayed attachment supplied by \autoref{thm:locatedinterval-rational-dyadic-cell-chain}. A dyadic row in $D$ is read together with its rational parent cell in $I$, and the lower and upper endpoint windows are already the rows $L,U,S,R,E$ of the same packet.
+
+For the successor step, apply \autoref{thm:locatedinterval-dyadic-refinement-handoff}. The handoff replaces the current dyadic cell by the next displayed refinement row while retaining the rational parent cell and the same endpoint-window rows.
+
+Endpoint transport is controlled by \autoref{thm:located-interval-endpoint-transport}. Transport through $H$ and replay through $C$ preserve the lower endpoint, upper endpoint, stream window, regular readback, and Real-seal rows componentwise, so the refinement step cannot detach from $L,U,S,R,E$.
+
+Finally use \autoref{thm:located-interval-real-stream-bracket-correspondence}. It identifies the interval-side dyadic bracket read and the Real-facing stream read as the same packet-local certificate route. Finite induction over the displayed rows of $D$ therefore preserves attachment to $I$ and to $L,U,S,R,E$ at every stage.
+\end{proof}
+
 \closureat{LocatedIntervalUp}{obligationStr}
 \closureat{LocatedIntervalUp}{scopedStr}
 \closureat{LocatedIntervalUp}{bridgedStr}
