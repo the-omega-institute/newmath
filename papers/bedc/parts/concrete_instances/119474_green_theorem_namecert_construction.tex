@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\GreenTheoremUp$}
+\label{ch:concrete-instances-green-theorem-namecert}
+\origin{human}
+
+Following Green's theorem as the plane Stokes specialization, and the Cartan--de Rham reading of boundary integration, the $\GreenTheoremUp$ packet records the finite BEDC route by which an oriented planar region, its boundary curve, a differential-form row, a scalar curl or divergence row, and a Riemann integral handoff are read as one plane-boundary certificate. It consumes the Stokes theorem packet of \autoref{ch:concrete-instances-stokes-theorem-namecert}, the differential-form surface of \autoref{ch:concrete-instances-diffform-namecert}, and the tagged integration boundary of \autoref{ch:concrete-instances-riemannintegral-namecert}. The packet names only this finite plane route; it does not provide a host vector-calculus theorem, selected parametrizations, a measure-completion carrier, quotient equality of functions, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Green theorem carrier]\label{def:green-theorem-carrier}
+A $\GreenTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+G=(R,B,F,S,T,I,H,C,P,N)
+$$
+whose rows have the following BEDC-facing meaning.
+\begin{itemize}
+\item $R$ is the plane-region row, including the displayed chart window, orientation, and finite boundary incidence data.
+\item $B$ is the oriented boundary row for the same region, read as the plane curve boundary consumed by the Stokes packet.
+\item $F$ is the vector-field or differential-form row, routed through $\DiffFormUp$ and carrying the two scalar component reads needed for the planar expression.
+\item $S$ is the scalar curl or divergence row obtained from the same displayed form data, with no separate host vector-field equality.
+\item $T$ is the $\StokesTheoremUp$ specialization row that reads the planar boundary as the two-dimensional Stokes boundary route.
+\item $I$ is the $\RiemannIntegralUp$ handoff for the displayed line and region integral reads over the same rows $R,B,F,S,T$.
+\item $H$ records componentwise $\hsame$ transport for the region, boundary, form, scalar, Stokes, and integration rows.
+\item $C$ records displayed $\Cont$ replay from the plane-region source through the boundary and differential-form rows to the integration handoff.
+\item $P$ is the $\Pkg$ provenance over $\GreenTheoremUp$, $\StokesTheoremUp$, $\DiffFormUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, and sibling $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GreenTheoremUp}$ row.
+\end{itemize}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a host smooth-domain theorem, a chosen boundary parametrization, measure completion, quotient equality of vector fields, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Green theorem NameCert obligations]\label{thm:green-theorem-namecert-obligations}
+For every accepted $\GreenTheoremUp$ carrier $G=(R,B,F,S,T,I,H,C,P,N)$, the local $\NameCert_{\GreenTheoremUp}$ surface is exhausted by carrier admission for the plane region, oriented boundary, differential-form or vector-field row, scalar curl or divergence row, Stokes specialization, Riemann integral handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The obligations are discharged only over the finite route
+$$
+R,B,F,S,T,I,H,C,P,N .
+$$
+The certificate exports no selected parametrization, host Green theorem, measure-space integral, quotient function equality, or ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:green-theorem-carrier}. The analytic rows are exactly the plane-region row $R$, boundary row $B$, differential-form or vector-field row $F$, scalar curl or divergence row $S$, Stokes specialization row $T$, and Riemann handoff row $I$.
+
+The boundary compatibility is local. The row $B$ is read over the same oriented plane region $R$, while $T$ routes that boundary through the Stokes packet of \autoref{ch:concrete-instances-stokes-theorem-namecert}. The scalar row $S$ is read from the displayed form data $F$, so the packet does not compare hidden host vector fields.
+
+Finally attach $H,C,P,N$. These structural rows transport, replay, source, and name the same finite route. Since none of the carrier coordinates contains a selected parametrization, host theorem, measure-completion carrier, quotient equality, or ambient completeness assertion, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Green theorem Stokes plane boundary route]\label{thm:green-theorem-stokes-plane-boundary-route}
+Every $\GreenTheoremUp$ consumer of a plane boundary integration statement must first read the finite route
+$$
+\DiffFormUp,\ \StokesTheoremUp,\ \RiemannIntegralUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+through the rows $F,T,I,H,C,P,N$ of \autoref{def:green-theorem-carrier}, after the plane-region row $R$ and oriented-boundary row $B$ have been displayed. The Green packet is therefore the planar specialization of the Stokes boundary route, with the scalar curl or divergence row $S$ tied to the same differential-form data before the Riemann handoff is read. It is not an independent host vector-calculus theorem, a measure-completion route, a quotient equality of vector fields, or a selected boundary parametrization.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory. The rows $R$ and $B$ expose the region and its oriented boundary before any analytic read is public.
+
+The differential-form and scalar rows are then read through $F$ and $S$. The form row is the $\DiffFormUp$ input of \autoref{ch:concrete-instances-diffform-namecert}, while the scalar curl or divergence row is a displayed read from that same plane data rather than a second host object.
+
+Next consume the Stokes specialization row $T$ and the Riemann handoff row $I$. The Stokes packet of \autoref{ch:concrete-instances-stokes-theorem-namecert} supplies the boundary comparison, and the Riemann packet of \autoref{ch:concrete-instances-riemannintegral-namecert} supplies the finite tagged-integration read. The structural rows $H,C,P,N$ preserve this route without adding any of the excluded host principles.
+\end{proof}
+
+\closureat{GreenTheoremUp}{seedStr}
+
+\begin{closurestatus}{\GreenTheoremUp}
+  \constructivestory{A $\GreenTheoremUp$ packet is generated from a plane-region row, oriented-boundary row, differential-form or vector-field row, scalar curl or divergence row, Stokes-specialization row, Riemann-integral handoff, componentwise transport, continuation replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:green-theorem-carrier}, \autoref{thm:green-theorem-namecert-obligations}, and \autoref{thm:green-theorem-stokes-plane-boundary-route} bind the finite plane-boundary route through $\DiffFormUp$, $\StokesTheoremUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close a host vector-calculus theorem, selected boundary parametrizations, quotient equality of vector fields, measure completion, or ambient completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, scalar-row exactness, Stokes specialization, Riemann handoff, transport, replay, provenance, and ledger non-escape for BEDC.Derived.GreenTheoremUp.}
+\end{closurestatus}

@@ -16,6 +16,24 @@ Next read candidate normalization and finite residual witnesses. The candidate-n
 Finally use the local NameCert obligation surface. Since $H,T,G,N$ preserve only this finite packet and the obstruction row $O$ remains visible, the residual join is local to the displayed frontier and cannot be promoted to global confluence, unbounded normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual-join locality budget]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-locality-budget}
+Every accepted residual-join locality read for a $\MetaCICParallelDiamondFrontierUp$ packet keeps the residual premise row $P$, critical-pair row $K$, candidate-join row $J$, residual witness row $R$, typed-window row $S$, bounded checker row $B$, obstruction row $O$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $G$, and local $\NameCert$ row $N$ inside the displayed finite packet before any normalization or confluence consumer reads it. The budget is
+$$
+P,K,J,R,S,C,B,O,H,T,G,N ,
+$$
+and it exports no residual-substitution discharge, subject reduction, unrestricted confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with residual-join locality, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. It already forces every join read through the displayed frontier rows and keeps the retained premise and obstruction rows visible.
+
+Next use finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. That route requires the typed windows, residual witness data, bounded checker rows, transport, replay, provenance, and local naming to be exposed before a local join is available to a downstream consumer.
+
+The two routes combine as a finite budget. Rows $P,K,J,R,S,C,B,O$ remain the residual, critical-pair, candidate-join, witness, window, certificate, checker, and obstruction surface, while $H,T,G,N$ preserve the same packet under transport, replay, provenance, and local naming.
+
+Since the carrier contains no coordinate for residual-substitution discharge, subject reduction, unrestricted confluence, evaluator equality, quotient term equality, or kernel consistency, a normalization or confluence consumer can read only the displayed finite budget.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond residual-substitution window]
 \label{thm:metacic-parallel-diamond-residual-substitution-window}
 Every candidate-mediated parallel-diamond read that invokes residual substitution must first display the critical-pair envelope, residual-substitution dependency row, finite residual witness, residual-join locality row, and candidate-normalization row before any strong-normalization or confluence-facing handoff is public. The public window is the carrier-local route

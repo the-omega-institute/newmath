@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BromwichInversionWindowUp$}
+\label{ch:concrete-instances-bromwich-inversion-window-namecert}
+\origin{human}
+
+Following Bromwich and Doetsch on inverse Laplace transforms, the $\BromwichInversionWindowUp$ packet records only the finite vertical-line window data that BEDC consumers may inspect before any inversion theorem is available. It sits after the transform packet of \autoref{ch:concrete-instances-laplace-transform-namecert}, the contour socket of \autoref{ch:concrete-instances-contourintegralsocket-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a finite abscissa, height window, rational quadrature readback, contour-socket handoff, Real output seal, transport, replay, provenance, and local NameCert row; it does not assert a host Bromwich inversion theorem, analytic continuation of a transform, selected improper integrals, quotient path equality, or ambient completeness for $\RealUp$.
+
+\begin{definition}[Bromwich inversion window carrier]
+\label{def:bromwich-inversion-window-carrier}
+A $\BromwichInversionWindowUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,A,W,Q,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LaplaceTransformUp$ input row whose transform data are being read.
+\item $A$ is the abscissa row naming the finite vertical line $\operatorname{Re}(s)=a$ inspected by the window.
+\item $W$ is the height-window row naming the finite interval $[-T,T]$ on that vertical line.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the finite quadrature samples attached to $W$.
+\item $S$ is the $\ContourIntegralSocketUp$ row that supplies the contour-window socket used by the read.
+\item $R$ is the terminal $\RealUp$ seal for the windowed inversion value returned to Real-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for $L,A,W,Q,S,R$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+L \longmapsto A \longmapsto W \longmapsto Q \longmapsto S \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BromwichInversionWindowUp$, $\LaplaceTransformUp$, $\ContourIntegralSocketUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BromwichInversionWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed transform, vertical-line, height-window, rational readback, contour socket, Real seal, transport, replay, provenance, and naming rows. It has no coordinate for a host inversion theorem, ambient complex analytic continuation, quotient contour equality, selected improper integral, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BromwichInversionWindow NameCert obligations]
+\label{thm:bromwich-inversion-window-namecert-obligations}
+For an accepted $\BromwichInversionWindowUp$ carrier $B=(L,A,W,Q,S,R,H,C,P,N)$, the local $\NameCert_{\BromwichInversionWindowUp}$ surface consists exactly of six finite obligations: carrier admission for the ten displayed rows; transform-source compatibility binding $L$ to the same window; vertical-line stability binding $A$ and $W$ under componentwise transport; regular readback exactness for the quadrature row $Q$; contour-socket handoff through $S$; and local provenance plus naming over $H,C,P,N$. These obligations export no host Bromwich inversion theorem, analytic-continuation theorem, selected improper integral, quotient contour equality, countable-choice schedule, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bromwich-inversion-window-carrier}. The packet exposes exactly the transform row, abscissa row, height window, regular rational readback, contour socket, Real seal, transport, replay, provenance, and local naming rows.
+
+Transform-source compatibility reads $L,A,W$. The window may inspect only the finite transform data attached to the displayed abscissa and height rows, so it cannot call an external inverse-transform operator.
+
+Vertical-line stability reads $A,W,H,C$. A transported abscissa row and height row remain the same finite vertical-line window through the displayed replay route.
+
+Regular readback exactness reads $Q$ after $W$. The finite samples attached to the height window are returned only through the displayed $\RegSeqRatUp$ row, not through a selected improper integral.
+
+The contour-socket handoff reads $S$ and then the Real seal $R$. The socket row supplies the contour-window boundary, and the terminal seal is the only Real-facing output coordinate.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no carrier coordinate supplies a host inversion theorem, analytic continuation, quotient contour equality, selected improper integral, countable choice, or ambient completeness, the six obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BromwichInversionWindow Real seal non-escape]
+\label{thm:bromwich-inversion-window-real-seal-nonescape}
+Every Real-facing consumer of an accepted $\BromwichInversionWindowUp$ packet must read the displayed route
+$$
+\LaplaceTransformUp \longrightarrow \RegSeqRatUp \longrightarrow \ContourIntegralSocketUp \longrightarrow \RealUp
+$$
+through the finite rows $L,Q,S,R$ before any windowed inversion value is public. The packet returns only the terminal $\RealUp$ seal $R$ for the displayed finite window; it does not certify a host Bromwich inversion theorem, analytic continuation of the transform, a selected improper integral, quotient contour equality, countable choice, or ambient completeness for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only Real-facing coordinate is $R$, and it is listed after the transform row $L$, the height-window readback row $Q$, and the contour socket row $S$.
+
+Apply the obligation surface from \autoref{thm:bromwich-inversion-window-namecert-obligations}. Transform-source compatibility, regular readback exactness, and contour-socket handoff force a consumer to expose $L,Q,S$ before $R$ can be read.
+
+The absence clauses in the carrier then give non-escape. There is no coordinate for an inverse-transform theorem, analytic-continuation theorem, selected improper integral, quotient contour equality, countable-choice schedule, or ambient Real completeness, so no such object can be returned as part of the window seal.
+\end{proof}
+
+\closureat{BromwichInversionWindowUp}{seedStr}
+
+\begin{closurestatus}{\BromwichInversionWindowUp}
+  \constructivestory{A $\BromwichInversionWindowUp$ packet is generated from a Laplace-transform row, a vertical-line abscissa row, a finite height window, a RegSeqRat quadrature readback row, a ContourIntegralSocket row, a terminal Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bromwich-inversion-window-carrier}, \autoref{thm:bromwich-inversion-window-namecert-obligations}, and \autoref{thm:bromwich-inversion-window-real-seal-nonescape} seed the finite vertical-line inversion window over LaplaceTransform, ContourIntegralSocket, RegSeqRat, Real, hsame, Cont, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host Bromwich inversion theorem, analytic continuation of a transform, selected improper integrals, quotient contour equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, transform-source compatibility, vertical-line stability, regular readback exactness, contour-socket handoff, Real seal non-escape, provenance, and local naming for the Bromwich inversion window packet.}
+\end{closurestatus}

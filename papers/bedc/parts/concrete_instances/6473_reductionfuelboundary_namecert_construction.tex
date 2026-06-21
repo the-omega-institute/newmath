@@ -48,6 +48,7 @@ The timeout branch is also finite. The refusal row $U$ records fuel exhaustion a
 
 Transport, continuation replay, provenance, and local naming are the remaining rows $X,C,P,N$. Since no carrier coordinate names an unbounded reduction or global halting predicate, the listed rows exhaust the local NameCert obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.ReductionFuelBoundaryUp.ReductionFuelBoundary\_namecert\_obligations}
 
 \begin{theorem}[ReductionFuelBoundary total-host nonescape]
 \label{thm:reduction-fuel-boundary-total-host-nonescape}
@@ -57,6 +58,7 @@ H,F,T,E,U,A,X,C,P,N .
 $$
 A downstream consumer may read a bounded trace, a typed endpoint when displayed, or a timeout refusal at the same fuel boundary. It may not convert timeout into nontermination, convert endpoint readback into an unbounded convergence theorem, identify host reduction with substrate universality, or replace the audit row by quotient endpoint equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReductionFuelBoundaryUp.TotalHostNonescape.ReductionFuelBoundaryTotalHostNonescape}
 \begin{proof}
 Begin with the displayed route row $C$. Its admissible paths pass from the host reduction row $H$ to the fuel row $F$, then to the bounded trace row $T$, and then to either the typed endpoint row $E$ or the timeout-refusal row $U$.
 
@@ -75,6 +77,7 @@ Q=(H,F,T,E,U,A,X,C,P,N),
 $$
 the timeout refusal row $U$ is exact at the displayed fuel boundary $F$. A consumer may read timeout only through the common route from $H$ to $F$ to $T$ and then to $U$; it may not read timeout from a detached fuel row, from an absent bounded trace, from endpoint equality, or from a host-level nontermination predicate.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReductionFuelBoundaryUp.FuelTimeoutExactness.ReductionFuelBoundary\_fuel\_timeout\_exactness}
 \begin{proof}
 Project the carrier rows of \autoref{def:reduction-fuel-boundary-carrier}. The rows $H,F,T,E,U,A,X,C,P,N$ are the whole accepted packet, so the timeout coordinate is not available independently of the fuel and trace coordinates.
 
