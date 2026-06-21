@@ -1,0 +1,39 @@
+name: Bridge Build
+
+on:
+  push:
+    paths:
+      - "papers/bedc_mathlib_bridge/**"
+      - ".github/workflows/bridge-build.yml"
+  pull_request:
+    paths:
+      - "papers/bedc_mathlib_bridge/**"
+      - ".github/workflows/bridge-build.yml"
+
+jobs:
+  bridge-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Get mathlib cache
+        run: |
+          cd papers/bedc_mathlib_bridge/lean4
+          lake exe cache get
+
+      - name: Build bridge
+        run: |
+          cd papers/bedc_mathlib_bridge/lean4
+          lake build
+
+      - name: Check constructive axioms
+        run: python3 papers/bedc_mathlib_bridge/scripts/check_bridge_axioms.py
+
+      - name: Check no BEDC back-edge
+        run: python3 papers/bedc_mathlib_bridge/scripts/check_no_back_edge.py

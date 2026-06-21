@@ -1,2 +1,3 @@
 import BedcMathlibBridge.Core.RelEquiv
+import BedcMathlibBridge.Adapter.MathlibEquiv
 import BedcMathlibBridge.Constructive.Bool

@@ -1,5 +1,5 @@
 import BEDC.FKernel.Mark
-import BedcMathlibBridge.Core.RelEquiv
+import BedcMathlibBridge.Adapter.MathlibEquiv
 
 namespace BedcMathlibBridge.Constructive.Bool
 
@@ -18,6 +18,13 @@ theorem toBool_b0 : toBool BMark.b0 = false := by
 
 theorem toBool_b1 : toBool BMark.b1 = true := by
   rfl
+
+theorem toBool_b0_ne_b1 : toBool BMark.b0 ≠ toBool BMark.b1 := by
+  intro h
+  exact Bool.noConfusion h
+
+theorem not_msame_b0_b1_via_bridge : ¬ msame BMark.b0 BMark.b1 := by
+  exact not_msame_b0_b1
 
 theorem ofBool_toBool : ∀ m : BMark, ofBool (toBool m) = m := by
   intro m
@@ -70,9 +77,5 @@ def bmarkBoolRelEquiv : BedcMathlibBridge.RelEquiv BMark msame Bool where
 
 def bmarkBoolEquiv : BMark ≃ Bool :=
   bmarkBoolRelEquiv.toEquiv
-
-#print axioms bmarkBoolEquiv
-#print axioms bmarkBoolRelEquiv
-#print axioms msame_iff_toBool_eq
 
 end BedcMathlibBridge.Constructive.Bool
