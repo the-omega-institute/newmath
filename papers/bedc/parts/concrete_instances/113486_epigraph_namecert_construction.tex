@@ -65,6 +65,7 @@ For an accepted $\EpigraphUp$ carrier $E=(D,V,L,O,H,C,P,N)$, classifier stabilit
 \label{thm:epigraph-lower-set-transport}
 Every lower-set read exported by an accepted $\EpigraphUp$ packet preserves the rows $D,V,L,O,H,C,P,N$ before a $\LowerSemicontinuousUp$ consumer may inspect it. In particular, the comparison row $O$ can be transported only together with the displayed domain point, value row, lower-bound row, componentwise transport, replay, provenance, and local naming rows required by \autoref{thm:epigraph-namecert-obligations}.
 \end{theorem}
+\leanchecked{BEDC.Derived.EpigraphUp.EpigraphLowerSetTransport}
 \begin{proof}
 Project the carrier of \autoref{def:epigraph-carrier}. The lower-set information appears only as the comparison row $O$ attached to $D,V,L$.
 
@@ -77,6 +78,7 @@ The provenance and naming rows $P,N$ source the transported packet. Since no hos
 \label{thm:epigraph-ledger-exactness}
 For every accepted $\EpigraphUp$ carrier $E=(D,V,L,O,H,C,P,N)$, the ledger rows $C,P,N$ are exact for the classifier of \autoref{def:epigraph-classifier-stability}: they replay, source, and name only the displayed domain-point, value, lower-bound, comparison, and transport rows. Together with \autoref{thm:epigraph-namecert-obligations}, these rows close the obligation surface without asserting host topology, quotient graph equality, arbitrary function extensionality, selected minimizers, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.EpigraphUp.EpigraphLedgerExactness}
 \begin{proof}
 Read the classifier stability definition. It allows repeated reads only through $D,V,L,O,H,C,P,N$.
 

@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\RieszProjectionUp$}
+\label{ch:concrete-instances-riesz-projection-namecert}
+\origin{human}
+
+Following Dunford--Schwartz and standard Banach-algebra spectral theory, the $\RieszProjectionUp$ packet records the finite contour-resolvent surface by which an isolated spectral window is read as a projection before any ambient functional calculus, host spectral measure, or quotient operator equality is available. It sits after the resolvent identity route of \autoref{ch:concrete-instances-resolvent-identity-namecert}, the spectral-radius separator of \autoref{ch:concrete-instances-spectral-radius-namecert}, and the bounded-operator carrier of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}.
+
+\begin{definition}[RieszProjection carrier]
+\label{def:riesz-projection-carrier}
+A $\RieszProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,T,G,C,R,S,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\BanachAlgebraUp$ source row carrying the complete normed algebra surface in which the operator and resolvent products are read.
+\item $T$ is the $\BoundedLinearOperatorUp$ row for the displayed operator whose isolated spectral window is inspected.
+\item $G$ is the contour-window row. It stores the finite contour samples, orientation ledger, and inside/outside window labels used by the projection read.
+\item $C$ is the shifted-resolvent graph. For each contour sample it records the displayed shifted operator and the inverse-check row supplied to the resolvent route.
+\item $R$ is the $\ResolventIdentityUp$ row, exposing the finite identity checks that keep neighbouring shifted-resolvent reads on one contour route.
+\item $S$ is the $\SpectralRadiusUp$ separator row. It records the radius and gap evidence that keeps the contour window separated from the refused spectral side.
+\item $E$ is the $\RealUp$ tolerance seal for contour mesh, separator gap, and norm-bound readback.
+\item $H$ records componentwise $\hsame$ transport for $A,T,G,C,R,S,E$ and the structural rows.
+\item $K$ records displayed $\Cont$ replay of the route
+$$
+\BanachAlgebraUp,\BoundedLinearOperatorUp,\ResolventIdentityUp,\SpectralRadiusUp,\RealUp
+\longmapsto \RieszProjectionUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RieszProjectionUp$, $\BanachAlgebraUp$, $\BoundedLinearOperatorUp$, $\ResolventIdentityUp$, $\SpectralRadiusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RieszProjectionUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. Its classifier compares accepted packets only through $A,T,G,C,R,S,E,H,K,P,N$ and has no coordinate for a host spectral projection, a selected contour integral value, spectral-measure additivity, quotient operator equality, maximal ideal space, countable choice, or an ambient holomorphic functional calculus.
+\end{definition}
+
+\begin{theorem}[RieszProjection NameCert obligations]
+\label{thm:riesz-projection-namecert-obligations}
+For every accepted $\RieszProjectionUp$ carrier
+$$
+Q=(A,T,G,C,R,S,E,H,K,P,N),
+$$
+the local $\NameCert_{\RieszProjectionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the Banach-algebra source, bounded-operator row, contour window, shifted-resolvent graph, resolvent-identity row, spectral-radius separator, Real tolerance seal, transport, replay, provenance, and local naming row;
+\item contour-window stability, requiring every projection read to use only the finite samples and orientation ledger stored in $G$;
+\item shifted-resolvent locality, requiring each sample read to pass through $C$ and then the displayed $\ResolventIdentityUp$ row $R$ before it is used by the projection route;
+\item separator discipline, requiring the gap and refusal side to be read through the $\SpectralRadiusUp$ row $S$ and the $\RealUp$ tolerance seal $E$;
+\item classifier transport, requiring $H$ and $K$ to preserve the contour, resolvent, separator, tolerance, provenance, and local name componentwise;
+\item consumer non-escape, excluding host spectral projections, selected contour integrals, spectral-measure algebra, quotient operator equality, maximal ideal spaces, choice schedules, and ambient functional calculus from the packet.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:riesz-projection-carrier}. The accepted packet exposes exactly the Banach-algebra source, bounded-operator row, contour window, shifted-resolvent graph, resolvent-identity row, spectral-radius separator, Real tolerance seal, transport, replay, provenance, and local naming row.
+
+Contour stability is finite. The row $G$ names the contour samples and orientation ledger, so a projection read cannot enlarge the contour or replace it by an unbounded functional-calculus object.
+
+The shifted-resolvent graph $C$ and the resolvent identity row $R$ then bind the local inverse checks. Every sample read reaches the projection route only through the same displayed resolvent-contour data.
+
+The separator row $S$ and the Real seal $E$ record the finite gap and tolerance evidence. Since $H,K,P,N$ only transport, replay, source, and name those rows, none of the excluded host-side spectral objects can appear as a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[RieszProjection resolvent-contour route]
+\label{thm:riesz-projection-resolvent-contour-route}
+For every accepted $\RieszProjectionUp$ carrier $Q=(A,T,G,C,R,S,E,H,K,P,N)$, each projection-facing read factors through the displayed route
+$$
+\BoundedLinearOperatorUp,\ \ResolventIdentityUp,\ \SpectralRadiusUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The read first fixes the operator row $T$, then the finite contour window $G$, then the shifted-resolvent graph $C$, then the identity row $R$, then the separator row $S$ and tolerance seal $E$, before $H,K,P,N$ export the local name. It does not pass through a host spectral projection, selected contour integral, quotient operator equality, or ambient holomorphic functional calculus.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The only operator-facing coordinate is $T$, and the only contour-facing coordinate is $G$. Thus a projection read begins with the bounded-operator row and the finite contour ledger.
+
+The next coordinates are $C$ and $R$. These rows expose shifted-resolvent checks and the sibling resolvent identity route; no projection value is public before those rows are replayed.
+
+The separator and tolerance rows $S,E$ then guard the spectral side of the contour. Finally $H,K,P,N$ transport, replay, source, and name the same finite route, so every projection-facing read factors through the displayed resolvent-contour surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RieszProjectionUp$ consumer exposes the Banach-algebra source, bounded-operator row, finite contour window, shifted-resolvent graph, resolvent identity row, spectral-radius separator, Real tolerance seal, componentwise hsame transport, Cont replay, Pkg provenance, and local naming before reading a projection-facing boundary.}
+
+\independenceWitness{resolvent-identity, spectral-radius, boundedlinearoperator, banachalgebra, real: ResolventIdentityUp supplies shifted inverse identity rows without an isolated contour window; SpectralRadiusUp supplies radius and gap evidence without a projection carrier; BoundedLinearOperatorUp supplies operator action and norm-bound rows without contour-resolvent data; BanachAlgebraUp supplies the product surface without the isolated-window separator; RealUp seals tolerances without naming the projection route.}
+
+\closureat{RieszProjectionUp}{seedStr}
+
+\begin{closurestatus}{\RieszProjectionUp}
+  \constructivestory{A $\RieszProjectionUp$ packet is generated from a BanachAlgebraUp source, a BoundedLinearOperatorUp row, a finite contour window, shifted-resolvent graph data, a ResolventIdentityUp row, a SpectralRadiusUp separator, a RealUp tolerance seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riesz-projection-carrier}, \autoref{thm:riesz-projection-namecert-obligations}, and \autoref{thm:riesz-projection-resolvent-contour-route} seed the finite resolvent-contour projection route over BanachAlgebraUp, BoundedLinearOperatorUp, ResolventIdentityUp, SpectralRadiusUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host spectral projections, selected contour integrals, spectral-measure algebra, quotient operator equality, maximal ideal spaces, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, contour-window stability, shifted-resolvent locality, separator discipline, classifier transport, and consumer non-escape for BEDC.Derived.RieszProjectionUp.}
+\end{closurestatus}

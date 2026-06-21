@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualCommutationWitnessUp$}
+\label{ch:concrete-instances-metacic-residual-commutation-witness-namecert}
+\origin{ai}
+
+The $\MetaCICResidualCommutationWitnessUp$ packet realizes the residual-substitution boundary isolated by \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It records the local residual window, substitution-site ledger, candidate join row, and conditional confluence handoff that a later MetaCIC proof must consume before a residual beta branch can be read as commuting with substitution.
+
+\begin{definition}[MetaCIC residual-commutation witness carrier]
+\label{def:metacic-residual-commutation-witness-carrier}
+A $\MetaCICResidualCommutationWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(M,R,S,J,D,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC source row, naming the term constructor window, closure side condition, beta branch, and parallel-step boundary under inspection.
+\item $R$ is the residual window. It records the finite residual redex positions that remain visible after the displayed beta branch is taken.
+\item $S$ is the substitution-site ledger, listing the binder depth, substituted argument window, freshness side rows, and transported site indices used by the residual branch.
+\item $J$ is the candidate join row. It records the two displayed reducts and the bounded local join data that would close the residual beta peak.
+\item $D$ is the conditional confluence handoff row, pointing to the named substitution-compatibility premise consumed by the MetaCIC confluence bridge.
+\item $T$ records componentwise $\hsame$ transport for $M,R,S,J,D$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\MetaCICResidualCommutationWitnessUp
+\longmapsto D
+\longmapsto \text{conditional MetaCIC confluence bridge}.
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualCommutationWitnessUp$, the MetaCIC confluence audit map, residual windows, substitution-site ledgers, candidate joins, conditional handoffs, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICResidualCommutationWitnessUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. Its classifier compares accepted packets only through $M,R,S,J,D,T,C,P,N$ and has no coordinate for an unconditional closed Church--Rosser theorem, a hidden substitution axiom, quotient term equality, host freshness choice, global normalization, or an ambient confluence oracle.
+\end{definition}
+\leanstmt{BEDC.Derived.MetaCICResidualCommutationWitnessUp}
+
+\begin{theorem}[MetaCIC residual-commutation witness obligations]
+\label{thm:metacic-residual-commutation-witness-obligations}
+For every accepted $\MetaCICResidualCommutationWitnessUp$ carrier
+$$
+W=(M,R,S,J,D,T,C,P,N),
+$$
+the local $\NameCert_{\MetaCICResidualCommutationWitnessUp}$ surface consists exactly of carrier admission, residual-window exposure, substitution-site ledger exposure, candidate-join recording, conditional confluence handoff, componentwise transport, replay, provenance, and local naming. A confluence consumer may read the witness only after it has displayed the same residual window $R$, the same substitution ledger $S$, the same candidate join row $J$, and the same conditional handoff $D$.
+
+The certificate exports no unconditional MetaCIC confluence theorem, no hidden substitution principle, no quotient term equality, no selected freshness schedule, no global normalization theorem, and no ambient confluence oracle.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metacic-residual-commutation-witness-carrier}. The accepted packet exposes exactly the MetaCIC source row, residual window, substitution-site ledger, candidate join row, conditional handoff, transport, replay, provenance, and local naming.
+
+The residual and substitution rows $R,S$ are finite. They name the positions and binder-site data used by the local branch, so the packet cannot silently quantify over all residual beta branches.
+
+The candidate join row $J$ is then read only as displayed local join data. The handoff row $D$ keeps the confluence result conditional on the named substitution-compatibility boundary rather than presenting the witness as a closed Church--Rosser theorem.
+
+Finally $T,C,P,N$ transport, replay, source, and name only those rows. Since the excluded confluence and equality principles have no coordinate in the carrier, they cannot appear as local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-commutation witness confluence-map route]
+\label{thm:metacic-residual-commutation-witness-confluence-map-route}
+Every confluence-map read of an accepted $\MetaCICResidualCommutationWitnessUp$ packet factors through the displayed route
+$$
+\text{residual window},\ \text{substitution-site ledger},\ \text{candidate join},\ \text{conditional handoff},\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The read first fixes the MetaCIC source row $M$, then the residual window $R$, then the substitution-site ledger $S$, then the candidate join row $J$, and only then the conditional handoff $D$ consumed by the confluence audit map. It does not claim the missing substitution-compatibility input, arbitrary closed-term Church--Rosser, quotient term equality, or global normalization.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. A confluence-map consumer receives no row except $M,R,S,J,D,T,C,P,N$, so its first data are the displayed source and residual window.
+
+The substitution-site ledger $S$ and candidate join row $J$ then bind the local peak. They provide bounded branch data, not a global substitution theorem.
+
+The handoff $D$ keeps the route aligned with \autoref{ch:metacic-confluence-audit-map}. Transport, replay, provenance, and local naming preserve that same conditional boundary, so every confluence-map read factors through the stated finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICResidualCommutationWitnessUp$ consumer exposes a MetaCIC source row, residual window, substitution-site ledger, candidate join row, conditional confluence handoff, componentwise hsame transport, Cont replay, Pkg provenance, and local naming before reading the confluence-map boundary.}
+
+\independenceWitness{metacic-confluence-audit, metacic-residual-substitution-boundary, metacic-local-join-ledger, metacic-confluence-residual-checker, parallel-diamond-residual: the confluence audit map names the conditional boundary without a local witness carrier; the residual-substitution boundary stores premise shape without the candidate join row; the local-join ledger records joins without substitution-site commutation data; the residual checker exposes bounded checks without the confluence handoff; the parallel-diamond residual packet names a diamond-facing route without this residual-substitution witness.}
+
+\closureat{MetaCICResidualCommutationWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualCommutationWitnessUp}
+  \constructivestory{A $\MetaCICResidualCommutationWitnessUp$ packet is generated from a MetaCIC source row, a residual window, a substitution-site ledger, a candidate join row, a conditional confluence handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-commutation-witness-carrier}, \autoref{thm:metacic-residual-commutation-witness-obligations}, and \autoref{thm:metacic-residual-commutation-witness-confluence-map-route} seed the finite residual-commutation witness route over MetaCIC residual windows, substitution-site ledgers, candidate joins, conditional handoffs, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim substitution compatibility, arbitrary closed-term Church--Rosser, quotient term equality, selected freshness schedules, global normalization, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-window exposure, substitution-site ledger exposure, candidate-join recording, conditional handoff exactness, classifier transport, and consumer non-escape for BEDC.Derived.MetaCICResidualCommutationWitnessUp.}
+\end{closurestatus}
