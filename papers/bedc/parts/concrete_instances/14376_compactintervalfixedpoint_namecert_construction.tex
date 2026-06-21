@@ -125,6 +125,7 @@ F=(J,G,R,B,W,Q,E,H,C,P,N),
 $$
 each residual sign read for $g(x)=f(x)-x$ must consume the $\ContinuousMapUp$ modulus row $G$, the interval-return row $R$, and the retained residual-bisection row $B$ before the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, and the $\RealUp$ seal row $E$ are public. Thus residual-modulus information reaches the fixed-point seal only as a finite L10 readback over $J,G,R,B,W,Q,E,H,C,P,N$, not as a host fixed point, selected limit, quotient stream equality, real trichotomy, or ambient Real completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompactIntervalFixedPointUp.ResidualModulusReadback.CompactIntervalFixedPointResidualModulusReadback}
 \begin{proof}
 First use modulus residual stability, \autoref{thm:compact-interval-fixed-point-modulus-residual-stability}. It keeps every residual sign read scoped to the same located interval packet $J$ after the continuous-map modulus row $G$ and interval-return row $R$ have fixed the displayed source of the residual comparison.
 
@@ -193,6 +194,24 @@ Next compose the route the consumer can read. The interval-return route of \auto
 The public Real boundary is then fixed by window regularity, Real-seal nonescape, and Real-seal uniqueness, namely \autoref{thm:compact-interval-fixed-point-window-regularity}, \autoref{thm:compact-interval-fixed-point-real-seal-nonescape}, and \autoref{thm:compact-interval-fixed-point-real-seal-uniqueness}. These theorems make $E$ reachable only after $B,W,Q$ have been displayed and prevent a second seal that bypasses the same route.
 
 Finally apply the scoped route of \autoref{thm:compact-interval-fixed-point-scope-route}. It identifies the primitive public chain from $\LocatedIntervalUp$ through $\RealUp$, while $H,C,P,N$ preserve the route under transport, continuation replay, provenance, and local naming. Since the carrier contains no row for Brouwer fixed points in higher dimension, Heine--Borel compactness, host fixed-point existence, selected limits, quotient stream equality, real trichotomy, countable choice, or ambient completeness, none of those objects is exported by the public seal.
+\end{proof}
+
+\begin{theorem}[CompactIntervalFixedPoint public consumer route]
+\label{thm:compact-interval-fixed-point-public-consumer-route}
+Every public consumer of an accepted $\CompactIntervalFixedPointUp$ packet must read the located interval row $J$, continuous-map row $G$, interval-return row $R$, residual-bisection row $B$, $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ readback $Q$, $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before it may use the fixed-point seal. The route is the finite public surface
+$$
+J,G,R,B,W,Q,E,H,C,P,N ,
+$$
+not a general Brouwer fixed-point theorem, Heine--Borel compactness, selected fixed point, quotient stream equality, real trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the interval-return route of \autoref{thm:compact-interval-fixed-point-interval-return-route}. It forces a public read through the located interval row, the continuous-map row, and the interval-return row before residual signs can be inspected.
+
+Next apply the residual-bisection handoff of \autoref{thm:compact-interval-fixed-point-residual-bisection-handoff}. The handoff moves the accepted read from $B$ into the finite $\StreamNameUp$ windows $W$ and then into the $\RegSeqRatUp$ readback row $Q$.
+
+The Real-facing boundary is fixed by \autoref{thm:compact-interval-fixed-point-real-seal-nonescape}. It makes $E$ reachable only after the displayed bisection, window, and readback rows have been exposed.
+
+Finally compose with the public seal theorem, \autoref{thm:compact-interval-fixed-point-public-seal}. The structural rows $H,C,P,N$ preserve the same carrier-local route, so no public consumer can replace it by general Brouwer fixed points, Heine--Borel compactness, selected fixed points, quotient stream equality, real trichotomy, countable choice, or ambient $\RealUp$ completeness.
 \end{proof}
 
 \falsifiablePrediction{Any accepted fixed-point consumer that reaches a candidate seal while bypassing the interval-return row, the residual-bisection row, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback, or the $\RealUp$ seal row refutes the carrier surface of $\CompactIntervalFixedPointUp$.}
