@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCutGapUp$}
+\label{ch:concrete-instances-located-cut-gap-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedCutGapUp$ packet names the finite gap surface between located lower and upper cut evidence before any consumer reads a completed real. It sits beside the located bracket completion of \autoref{ch:concrete-instances-located-cut-completion-namecert}, the Dedekind-cut completion interface of \autoref{ch:concrete-instances-dedekind-cut-completion-namecert}, the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The chapter records a gap carrier for finite readback only; it does not assert Dedekind completeness, quotient cuts, selected suprema, or a construction of $\RealUp$ from primitive cut data.
+
+\begin{definition}[LocatedCutGap carrier]\label{def:located-cut-gap-carrier}
+A $\LocatedCutGapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(L,U,A,B,Q,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower located-cut observation row. It records only finitely displayed lower cells, lower endpoint witnesses, and lower refinement requests.
+\item $U$ is the upper located-cut observation row. It records only finitely displayed upper cells, upper endpoint witnesses, and upper refinement requests.
+\item $A$ is the lower--upper admission row. It records that each displayed lower request and upper request belongs to the same located-cut comparison packet.
+\item $B$ is the $\DyadicRatCoreUp$ bracket ledger. It stores the common dyadic scale on which the displayed lower and upper endpoint rows can be compared.
+\item $Q$ is the finite gap row. It records, for each displayed comparison request, whether the packet supplies a separated dyadic gap, an overlap witness, or a refinement demand back into $B$.
+\item $W$ is the $\StreamNameUp$ window row that exposes only the requested finite observations of $L,U,B,Q$.
+\item $S$ is the $\LocatedCutCompletionUp$ route row. It packages the displayed lower row, upper row, dyadic bracket ledger, and gap row as a located-completion-facing read.
+\item $R$ is the $\RegSeqRatUp$ readback row. It records the regular rational Cauchy approximants read from the displayed window and gap data.
+\item $E$ is the terminal $\RealUp$ seal reached only after $L,U,A,B,Q,W,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the lower row, upper row, admission row, dyadic bracket ledger, gap row, stream window, located-completion route, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+L,U,A,B,Q \longmapsto W,S,R \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedCutGapUp$, $\LocatedCutCompletionUp$, $\DedekindCutCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedCutGapUp}$ row.
+\end{enumerate}
+The classifier accepts only packets displaying both located cut sides, their shared admission row, a common dyadic bracket ledger, the finite gap row, the stream window, the located-completion route, the regular rational readback row, the terminal real seal, and the structural rows. It has no coordinate for quotient cut equality, arbitrary suprema, trichotomy, selected limits, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[LocatedCutGap NameCert obligations]\label{thm:located-cut-gap-namecert-obligations}
+For every accepted $\LocatedCutGapUp$ carrier $G=(L,U,A,B,Q,W,S,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedCutGapUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the lower located-cut row, upper located-cut row, common admission row, dyadic bracket ledger, gap row, stream window, located-completion route, regular rational readback, real seal, transport, replay, provenance, and local naming row;
+\item two-sided gap discipline, requiring every comparison-facing read to pass through $L,U,A,B,Q$ before it can be exposed to a stream or completion consumer;
+\item dyadic common-scale stability, requiring lower and upper refinements to remain inside the shared $\DyadicRatCoreUp$ bracket ledger $B$;
+\item finite-window readback, requiring $W$ to determine which displayed rows are opened before the $\LocatedCutCompletionUp$ route $S$ or the $\RegSeqRatUp$ readback row $R$ is visible;
+\item classifier transport, requiring componentwise $\hsame$ transport in $H$ and displayed $\Cont$ replay in $C$ to preserve the same row route;
+\item ledger exhaustion, requiring $P$ and $N$ to name exactly the displayed packet and no Dedekind completeness principle, quotient cut, selected supremum, trichotomy, or hidden real representative.
+\end{enumerate}
+No $\LocatedCutGapUp$ NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-cut-gap-carrier}. The accepted packet exposes the lower row, upper row, common admission row, dyadic bracket ledger, gap row, stream window, located-completion route, regular rational readback, real seal, and structural rows.
+
+Two-sided gap discipline follows because $Q$ is the only row relating displayed lower and upper requests after they have entered the same admission row $A$ and common dyadic scale $B$. Without $Q$, a consumer has two finite located-cut sides but no displayed gap surface.
+
+The common-scale condition is forced by $B$. Lower and upper refinements remain in the same dyadic ledger, so a read cannot replace the packet by independent cut refinements.
+
+The window and readback rows then expose only finitely requested observations. The rows $S$ and $R$ read the same displayed gap data through located completion and regular rational Cauchy routes before the terminal real seal $E$ is available.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the displayed route. Since the excluded principles have no carrier coordinate, the local certificate cannot export them as hidden obligations.
+\end{proof}
+
+\begin{theorem}[LocatedCutGap Real seal handoff]\label{thm:located-cut-gap-real-seal-handoff}
+Every $\RealUp$-facing read exported by an accepted $\LocatedCutGapUp$ carrier factors through
+$$
+\LocatedCutCompletionUp,\ \DedekindCutCompletionUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The terminal seal $E$ is reached only after the lower located-cut row, upper located-cut row, common admission row, dyadic bracket ledger, finite gap row, stream window, located-completion route, and regular rational readback row have been displayed. The handoff therefore records a finite readback route between located cuts and the real-name seal, not Dedekind completeness or quotient equality of cuts.
+\end{theorem}
+\begin{proof}
+Start from the two located cut sides $L,U$ and the common admission row $A$. The dyadic bracket ledger $B$ fixes the shared endpoint scale on which the finite gap row $Q$ can be read.
+
+The stream row $W$ exposes only bounded observations of those rows. The located-completion route $S$ then reads the lower side, upper side, bracket ledger, and gap row as the finite surface already used by \autoref{ch:concrete-instances-located-cut-completion-namecert}; the Dedekind-cut completion sibling of \autoref{ch:concrete-instances-dedekind-cut-completion-namecert} is reached only as a comparison interface for displayed cut-shaped evidence.
+
+The regular rational row $R$ supplies the $\RegSeqRatUp$ readback from the same windowed data, while \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert} provide the dyadic, stream, and regular Cauchy carrier surfaces used by the route.
+
+Only after these finite rows are visible does the terminal $\RealUp$ seal $E$ become readable, as in \autoref{ch:concrete-instances-real-namecert}. The structural rows $H,C,P,N$ preserve and name that handoff, so the packet has no projection to Dedekind completeness, quotient cut equality, selected suprema, trichotomy, or hidden representatives.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedCutGapUp$ Real or Completion read factors through displayed lower located-cut, upper located-cut, common admission, dyadic bracket, finite gap, stream window, located-completion, regular rational readback, Real seal, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{located-cut-completion, dedekind-cut-completion, dyadicratcore, streamname, regseqrat, real: $\LocatedCutGapUp$ is not bijective to any listed sibling because it carries the finite lower--upper gap row and common admission row before the located-completion, regular-Cauchy, and Real-seal handoff.}
+
+\closureat{LocatedCutGapUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCutGapUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cut-gap-carrier}, \autoref{thm:located-cut-gap-namecert-obligations}, and \autoref{thm:located-cut-gap-real-seal-handoff} seed the finite located lower--upper gap surface between located cuts and regular Cauchy real-name readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Dedekind completeness, quotient cuts, selected suprema, trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-sided gap discipline, dyadic common-scale stability, finite-window readback, classifier transport, ledger exhaustion, and Real seal handoff for BEDC.Derived.LocatedCutGapUp.}
+  \constructivestory{A $\LocatedCutGapUp$ packet is generated from lower and upper located-cut rows, a common admission row, a DyadicRatCore bracket ledger, a finite gap row, StreamName windows, LocatedCutCompletion routing, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

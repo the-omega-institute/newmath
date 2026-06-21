@@ -59,6 +59,7 @@ displayed finite rows. It has no coordinate for general Heine--Borel
 compactness, sequential compactness, selected limits, quotient real equality,
 open-cover subcover selection, or ambient completeness of $\RealUp$.
 \end{definition}
+\leanchecked{BEDC.Derived.CompactIntervalUniformContinuityUp.CompactIntervalUniformContinuityTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[CompactIntervalUniformContinuity NameCert obligations]
 \label{thm:compact-interval-uniform-continuity-namecert-obligations}
@@ -104,6 +105,33 @@ read only after those rows have been displayed.
 Transport, replay, provenance, and local naming preserve the same route. Since
 the carrier has no coordinate for the excluded compactness or completion
 principles, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Compact interval uniform-continuity source lock]
+\label{thm:compact-interval-uniform-continuity-source-lock}
+Every accepted $\CompactIntervalUniformContinuityUp$ carrier
+$U=(J,F,N_\varepsilon,M,W,Q,E,H,C,P,L)$ must expose the same located closed
+interval row $J$ as the source of the continuous-map row $F$ before any
+consumer reads $N_\varepsilon$, $M$, $W$, $Q$, or $E$. Thus the finite-net
+radius rows, lower-bound fold, finite windows, regular readback, and real seal
+all remain locked to the displayed source interval of $F$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:compact-interval-uniform-continuity-carrier}. The displayed row
+$J$ is the only located closed interval coordinate, and $F$ is explicitly the
+continuous-map row for the displayed map on $J$.
+
+Now apply the source-lock obligation in
+\autoref{thm:compact-interval-uniform-continuity-namecert-obligations}. Before
+any pointwise radius is read, the NameCert surface requires $J$ and the source
+of $F$ to name the same located closed interval.
+
+The remaining rows are downstream of that obligation. The finite net
+$N_\varepsilon$, the lower-bound fold $M$, the window row $W$, the readback row
+$Q$, and the real seal $E$ consume pointwise-radius and comparison data only
+after the source lock has been exposed, so none of them can be read from a
+different source interval.
 \end{proof}
 
 \begin{theorem}[Compact interval finite-net modulus]

@@ -67,6 +67,7 @@ The transport, continuation, provenance, and local naming rows preserve this ord
 \label{thm:compact-interval-fixed-point-residual-bisection-handoff}
 Every accepted $\CompactIntervalFixedPointUp$ fixed-point read must expose, in order, the $\LocatedIntervalUp$ endpoint packet $J$, the $\ContinuousMapUp$ graph and modulus row $G$, the interval-return row $R$, the $\IntermediateValueBisectionUp$ residual-bisection row $B$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, and the $\RealUp$ seal row $E$ before the endpoint seal is public. Thus the public fixed-point seal is a residual-bisection handoff over displayed finite rows, not a host fixed-point existence assertion.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompactIntervalFixedPointUp.ResidualBisectionHandoff.CompactIntervalFixedPoint\_residual\_bisection\_handoff}
 \begin{proof}
 The carrier of \autoref{def:compact-interval-fixed-point-carrier} lists the only rows from which an accepted read can be assembled. The NameCert obligations of \autoref{thm:compact-interval-fixed-point-namecert-obligations} require carrier admission, interval-return exactness, residual bisection, stream-window exposure, regular-rational readback, and real-seal nonescape.
 
@@ -92,6 +93,8 @@ Transport and replay do not change this order. The row $H$ carries componentwise
 \label{thm:compact-interval-fixed-point-real-seal-nonescape}
 The $\RealUp$ seal exported by an accepted $\CompactIntervalFixedPointUp$ packet is reachable only through $J,G,R,B,W,Q,E,H,C,P,N$. The packet exports no host fixed point, no open-cover compactness, no general Brouwer fixed-point theorem, no real trichotomy, no quotient stream equality, no selected limit, and no ambient completeness principle for $\RealUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompactIntervalFixedPointUp.RealSealNonescape.CompactIntervalFixedPoint\_real\_seal\_nonescape}
+\leanvariant{BEDC.Derived.CompactIntervalFixedPointUp.CompactIntervalFixedPointRealSealNonescape}
 \begin{proof}
 The only Real-facing coordinate is $E$. By definition of the carrier, $E$ is paired with the windows $W$ and the regular rational readback $Q$, and both are paired with the residual bisection row $B$.
 
@@ -104,12 +107,32 @@ Package provenance $P$ and the local naming row $N$ register precisely this fini
 \label{thm:compact-interval-fixed-point-modulus-residual-stability}
 For every accepted $\CompactIntervalFixedPointUp$ carrier $F=(J,G,R,B,W,Q,E,H,C,P,N)$, the $\ContinuousMapUp$ modulus row $G$ and interval-return row $R$ keep every residual sign read for $g(x)=f(x)-x$ scoped to the same $\LocatedIntervalUp$ packet $J$. Refining the residual tolerance or replaying the read through $C$ may refine the displayed cells of $J$, but it cannot move the residual comparison to a different interval packet, host order, real trichotomy, selected representative, or ambient compactness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompactIntervalFixedPointUp.ModulusResidualStability.CompactIntervalFixedPointModulusResidualStability}
+\leanchecked{BEDC.Derived.CompactIntervalFixedPointUp.ModulusResidualStability.CompactIntervalFixedPoint\_modulus\_residual\_stability}
 \begin{proof}
 Project the rows $J,G,R$ from the carrier. The graph and modulus row $G$ supplies the displayed map read, while $R$ records that the value is read back inside the same located interval packet before residual signs are inspected.
 
 A residual tolerance refinement therefore has only one source for endpoint and cell data: the interval packet $J$. The bisection row $B$ can consume the residual signs only after $G$ and $R$ have fixed that source.
 
 Continuation replay in $C$ and componentwise transport in $H$ preserve the same row order. Since no carrier coordinate stores a second interval packet, a host order test, trichotomy, selected representatives, or ambient compactness, the residual signs remain scoped to $J$.
+\end{proof}
+
+\begin{theorem}[CompactIntervalFixedPoint residual-modulus readback]
+\label{thm:compact-interval-fixed-point-residual-modulus-readback}
+For every accepted $\CompactIntervalFixedPointUp$ carrier
+$$
+F=(J,G,R,B,W,Q,E,H,C,P,N),
+$$
+each residual sign read for $g(x)=f(x)-x$ must consume the $\ContinuousMapUp$ modulus row $G$, the interval-return row $R$, and the retained residual-bisection row $B$ before the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, and the $\RealUp$ seal row $E$ are public. Thus residual-modulus information reaches the fixed-point seal only as a finite L10 readback over $J,G,R,B,W,Q,E,H,C,P,N$, not as a host fixed point, selected limit, quotient stream equality, real trichotomy, or ambient Real completeness claim.
+\end{theorem}
+\begin{proof}
+First use modulus residual stability, \autoref{thm:compact-interval-fixed-point-modulus-residual-stability}. It keeps every residual sign read scoped to the same located interval packet $J$ after the continuous-map modulus row $G$ and interval-return row $R$ have fixed the displayed source of the residual comparison.
+
+Next apply the residual-bisection handoff of \autoref{thm:compact-interval-fixed-point-residual-bisection-handoff}. The residual signs can produce public fixed-point data only by entering the retained bisection row $B$ and then handing that finite interval data to the window row $W$ and regular readback row $Q$.
+
+Finally use window regularity, \autoref{thm:compact-interval-fixed-point-window-regularity}. It preserves the order from $B$ to $W$ to $Q$, while the Real seal $E$ remains downstream of those rows and the structural rows $H,C,P,N$ transport, replay, record, and name the same route.
+
+Since the carrier contains no coordinate for a host fixed point, selected limit, quotient stream equality, real trichotomy, or ambient Real completeness, no residual-modulus read can bypass the displayed finite route.
 \end{proof}
 
 \begin{theorem}[CompactIntervalFixedPoint bisection-window monotonicity]
@@ -123,6 +146,7 @@ When the bisection schedule is extended, the retained interval is refined inside
 
 The regular rational readback row $Q$ is downstream of $W$, and the Real seal $E$ is downstream of $Q$. Transport and replay preserve this order, leaving no coordinate for selected limits, quotient stream equality, host fixed points, or ambient Real completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.CompactIntervalFixedPointUp.BisectionWindowMonotonicity.CompactIntervalFixedPointBisectionWindowMonotonicity}
 
 \begin{theorem}[CompactIntervalFixedPoint Real-seal uniqueness]
 \label{thm:compact-interval-fixed-point-real-seal-uniqueness}
@@ -160,6 +184,7 @@ $$
 $$
 together with the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the accepted carrier. The public seal exposes carrier admission, interval-return exactness, residual-bisection handoff, retained-window regularity, Real-seal nonescape, Real-seal uniqueness, and the scoped route; it exports no general Brouwer fixed-point theorem, Heine--Borel compactness, host fixed-point existence, selected limit, quotient stream equality, real trichotomy, countable-choice selector, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompactIntervalFixedPointUp.CompactIntervalFixedPointPublicSeal}
 \begin{proof}
 Start with the carrier and NameCert surface. The carrier of \autoref{def:compact-interval-fixed-point-carrier} supplies exactly $J,G,R,B,W,Q,E,H,C,P,N$, and \autoref{thm:compact-interval-fixed-point-namecert-obligations} binds carrier admission, interval-return exactness, continuous-map replay, residual bisection, finite windows, regular readback, Real seal, transport, replay, provenance, and naming to those rows.
 

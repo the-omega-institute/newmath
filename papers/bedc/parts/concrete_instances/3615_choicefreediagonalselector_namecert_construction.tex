@@ -45,6 +45,45 @@ The observation rows $S$ are listed as the finite family opened by $W$. Hence a 
 The witness row $R$ appears after those observations, and the seal row $E$ appears after $R$. The structural rows $H,C,P,N$ transport, replay, package, and name the same finite route, so the selector boundary is exactly $\varepsilon,W,S,R,E,H,C,P,N$.
 \end{proof}
 
+\begin{definition}[Choice-free diagonal selector stage carrier]
+\label{def:choice-free-diagonal-selector-stage-carrier}
+For an accepted $\ChoiceFreeDiagonalSelectorUp$ carrier
+$$
+D=(\varepsilon,W,S,R,E,H,C,P,N),
+$$
+a stage carrier is a finite row
+$$
+D_j=(\varepsilon,W_j,S_j,R_j,E_j,H_j,C_j,P,N)
+$$
+displayed inside the selected cofinal window $W$. The row $W_j$ is a finite prefix of $W$, $S_j$ is the corresponding finite $\StreamNameUp$ observation family, $R_j$ is the $\RegSeqRatUp$ handoff assembled from $S_j$, and $E_j$ is the $\RealUp$ seal boundary reached from $R_j$. The structural rows $H_j,C_j,P,N$ are the restrictions of the same transport, continuation, provenance, and local naming rows to that finite stage.
+\end{definition}
+
+\begin{theorem}[Choice-free diagonal selector stage induction]
+\label{thm:choice-free-diagonal-selector-stage-induction}
+Let $D=(\varepsilon,W,S,R,E,H,C,P,N)$ be an accepted $\ChoiceFreeDiagonalSelectorUp$ carrier whose selected cofinal window $W$ is displayed as finite stage rows. Induction over those rows preserves the route
+$$
+\varepsilon,W,S,R,E,H,C,P,N
+$$
+and proves that every successor stage remains inside the displayed path
+$$
+\StreamNameUp\longmapsto \RegSeqRatUp\longmapsto \RealUp
+$$
+before the selector boundary is sealed by $E$. No successor stage may introduce a hidden cofinal-window selector, quotient stream equality, host choice rule, selected host limit, unbounded StreamName scan, or ambient completeness principle for $\RealUp$.
+\end{theorem}
+\begin{proof}
+For the base row, inspect the first displayed finite prefix $W_0$ of the selected cofinal window. Its observation family $S_0$ is read through $\StreamNameUp$, the witness $R_0$ is assembled as the corresponding $\RegSeqRatUp$ handoff, and the boundary $E_0$ is reached only after that handoff.
+
+For the successor row, assume the stage carrier
+$$
+D_j=(\varepsilon,W_j,S_j,R_j,E_j,H_j,C_j,P,N)
+$$
+has preserved the displayed route. The next row extends the finite prefix of $W$ by one displayed window entry, so the new observation is appended inside the same $\StreamNameUp$ family, the RegSeqRat witness is rebuilt from the enlarged finite family, and the RealUp seal remains downstream of that witness.
+
+The transport and replay restrictions $H_j,C_j$ are inherited from the original carrier rows $H,C$, while $P,N$ keep the same provenance and local naming. Thus the induction invariant is exactly the finite route $\varepsilon,W,S,R,E,H,C,P,N$, and every successor stage stays inside $\StreamNameUp\longmapsto \RegSeqRatUp\longmapsto \RealUp$ before sealing.
+
+Since each step only inspects a displayed finite row of $W$, the induction has no coordinate for hidden selection, quotient stream equality, host choice, selected host limits, unbounded observation scans, or ambient RealUp completeness.
+\end{proof}
+
 \begin{theorem}[Choice-free diagonal selector non-escape]
 \label{thm:choice-free-diagonal-selector-nonescape}
 An accepted $\ChoiceFreeDiagonalSelectorUp$ carrier cannot be used to recover data outside the displayed tuple $\varepsilon,W,S,R,E,H,C,P,N$. In particular, it exports no host choice rule, quotient stream equality, selected host limit, hidden cofinal-window selector, unbounded StreamName scan, or ambient completeness principle for $\RealUp$.

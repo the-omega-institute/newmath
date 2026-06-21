@@ -1,0 +1,15 @@
+The exterior-algebra alternating-form dependency route records the downstream form and cohomology consumers that read wedge rows from the local $\ExteriorAlgebraUp$ packet. It is a consumer edge, not a second exterior-algebra carrier.
+
+\begin{theorem}[Exterior algebra alternating-form dependency route]
+\label{thm:exterior-algebra-alternating-form-dependency-route}
+Every $\DiffFormUp$ or $\DeRhamUp$ consumer that reads alternating form rows, wedge products, or exterior-derivative wedge ladders must first read $\ExteriorAlgebraUp$ through $\TensorAlgebraUp$, the displayed $\ModuleUp$ or $\VecSpaceUp$ source rows, the alternating ledger, signed-transposition ledger, wedge row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\ExteriorAlgebraUp}$ row. The route exports no host quotient exterior algebra, selected basis, determinant expansion, ambient differential-form sheaf, de Rham quotient class, or completed graded algebra object.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:exterior-algebra-carrier}. Its only exterior words are finite $\TensorAlgebraUp$ words over the displayed $\ModuleUp$ or $\VecSpaceUp$ source rows, and its only alternating operations are the repeated-letter ledger $A$, signed-transposition ledger $S$, and wedge row $W$.
+
+Apply the wedge alternation theorem \autoref{thm:exterior-algebra-wedge-alternation}. It forces the degree-one repeated-letter and signed-transposition boundaries to be read through $T,A,S,W,H,C,P,N$ rather than through a host quotient algebra or determinant coordinate.
+
+Now inspect the consumers. The $\DiffFormUp$ root threshold of \autoref{ch:concrete-instances-diffform-namecert} routes form reads through carried form rows and wedge thresholds, while the $\DeRhamUp$ chapter \autoref{ch:concrete-instances-derham-namecert} consumes those carried $\DiffFormUp$ rows for the exterior-derivative chain-complex boundary. Thus any alternating-form or cohomology-facing read that uses wedge data must pass through the displayed exterior-algebra rows before it reaches the differential-form or de Rham surface.
+
+The excluded objects are absent from all three displayed packets. The exterior carrier contains no host quotient algebra, selected basis, determinant expansion, differential-form sheaf, de Rham quotient class, or completed graded algebra row, and the DiffForm/DeRham consumers read only the routed form and cochain rows. Therefore the alternating-form dependency route is exactly the stated finite NameCert route.
+\end{proof}

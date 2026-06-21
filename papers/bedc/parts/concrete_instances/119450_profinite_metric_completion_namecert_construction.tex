@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\ProfiniteMetricCompletionUp$}
+\label{ch:concrete-instances-profinite-metric-completion-namecert}
+\origin{human}
+
+Following Serre and Bourbaki on profinite completion and the Kelley/Bishop-style treatment of metric completion, the $\ProfiniteMetricCompletionUp$ packet records the finite inverse-limit metric completion neighbour obtained by reading profinite finite-stage data through a metric-completion boundary. It sits beside the finite quotient-stage certificate of \autoref{ch:concrete-instances-profinite-completion-namecert}, the projection-window metric route of \autoref{ch:concrete-instances-inverse-limit-metric-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the completion handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the compact metric readback of \autoref{ch:concrete-instances-compactmetric-namecert}. The packet names finite stages, finite projection checks, windowed metric readback, completion handoff, compact boundary evidence, transport, replay, provenance, and local naming; it does not construct quotient completions, select infinite representatives, import Haar measure, or assert ambient compactness beyond the displayed row.
+
+\begin{definition}[Profinite metric completion carrier]
+\label{def:profinite-metric-completion-carrier}
+A $\ProfiniteMetricCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(F,I,W,M,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\ProfiniteCompletionUp$ finite quotient-stage row, carrying only the displayed finite stages and bonding checks accepted by the profinite packet;
+\item $I$ is the $\InverseLimitMetricUp$ projection-metric row that reads those finite stages as a finite inverse-limit metric diagram;
+\item $W$ is the $\StreamNameUp$ finite-window row that selects the visible quotient stages, projection comparisons, and metric observations;
+\item $M$ is the $\MetricCompletionUp$ handoff row reached from the inverse-limit metric route without choosing a quotient representative;
+\item $K$ is the $\CompactMetricUp$ boundary row used to read the resulting compact metric surface through finite evidence;
+\item $H$ records componentwise $\hsame$ transports for $F,I,W,M,K$ and the structural rows;
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+F\longmapsto I\longmapsto W\longmapsto M\longmapsto K ;
+$$
+\item $P$ is the $\Pkg$ provenance over $\ProfiniteMetricCompletionUp$, $\ProfiniteCompletionUp$, $\InverseLimitMetricUp$, $\StreamNameUp$, $\MetricCompletionUp$, $\CompactMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ProfiniteMetricCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $F,I,W,M,K,H,C,P,N$. It has no coordinate for quotient completion equality, selected infinite representatives, Haar measure, host group completion, or ambient compactness outside the displayed $\CompactMetricUp$ row.
+\end{definition}
+
+\begin{theorem}[Profinite metric completion NameCert obligations]
+\label{thm:profinite-metric-completion-namecert-obligations}
+For every accepted $\ProfiniteMetricCompletionUp$ carrier $Q=(F,I,W,M,K,H,C,P,N)$, the local $\NameCert_{\ProfiniteMetricCompletionUp}$ surface consists exactly of carrier admission for the displayed $\ProfiniteCompletionUp$ finite-stage row, the $\InverseLimitMetricUp$ projection-metric row, the $\StreamNameUp$ finite-window row, the $\MetricCompletionUp$ handoff row, the $\CompactMetricUp$ boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every completion-facing read must pass through the route stored in $C$ before any compact metric boundary is exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:profinite-metric-completion-carrier}. The mathematical rows are $F,I,W,M,K$: profinite finite-stage data, inverse-limit metric projection data, finite StreamName windows, the metric-completion handoff, and the compact metric boundary.
+
+The replay row $C$ fixes the order of consumption. A reader first inspects the profinite stage row $F$, then the inverse-limit metric row $I$, then the finite window row $W$, and only then reaches the completion handoff $M$ and compact boundary $K$.
+
+The transport, provenance, and naming rows $H,P,N$ preserve and source that same finite route. Since no coordinate supplies quotient completion equality, a selected infinite representative, Haar measure, host group completion, or ambient compactness outside $K$, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{ProfiniteMetricCompletionUp}{seedStr}
+
+\begin{closurestatus}{\ProfiniteMetricCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:profinite-metric-completion-carrier} and \autoref{thm:profinite-metric-completion-namecert-obligations} seed the finite profinite metric completion packet over profinite finite-stage data, inverse-limit metric rows, StreamName windows, MetricCompletion handoff, CompactMetric boundary, transport, replay, provenance, and naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected infinite representatives, Haar measure, host group completion, ambient compactness beyond the displayed CompactMetric row, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-stage routing, projection-metric compatibility, StreamName window routing, MetricCompletion handoff exactness, CompactMetric boundary readback, transport stability, provenance, and local naming for BEDC.Derived.ProfiniteMetricCompletionUp.}
+  \constructivestory{A $\ProfiniteMetricCompletionUp$ packet is generated from ProfiniteCompletion finite-stage rows, InverseLimitMetric projection rows, StreamName finite-window rows, MetricCompletion handoff rows, CompactMetric boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+\end{closurestatus}

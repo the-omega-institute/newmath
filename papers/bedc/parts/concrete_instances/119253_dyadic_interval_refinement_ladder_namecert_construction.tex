@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalRefinementLadderUp$}
+\label{ch:concrete-instances-dyadic-interval-refinement-ladder-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicIntervalRefinementLadderUp$ packet records a finite ladder of dyadic interval refinements before any Real or Completion consumer reads a limit-facing seal. It sits after the endpoint core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the compact interval boundary of \autoref{ch:concrete-instances-compact-real-interval-namecert}. The packet is a displayed finite refinement surface, not an infinite branch selector, quotient stream equality, compactness proof, choice principle, or ambient real-completeness assertion.
+
+\begin{definition}[Dyadic interval refinement ladder carrier]
+\label{def:dyadic-interval-refinement-ladder-carrier}
+A $\DyadicIntervalRefinementLadderUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,J,d,E,S,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the parent interval row. Its lower and upper endpoints are exposed through $\DyadicRatCoreUp$ and are the only outer endpoints available to the ladder.
+\item $J$ is the child interval row retained at the last displayed rung. Its endpoints are dyadic rows produced from the parent by the finite refinement trace.
+\item $d$ is the dyadic mesh depth. It records the finite number of bisection or refinement steps whose mesh scale bounds $J$ inside $I$.
+\item $E$ is the endpoint-containment ledger. It records that the child endpoints lie inside the parent endpoints and that every intermediate endpoint is a displayed dyadic mesh point.
+\item $S$ is the $\StreamNameUp$ finite-window row opened for the parent endpoints, child endpoints, mesh depth, endpoint-containment checks, and retained-rung flag.
+\item $R$ is the $\RegSeqRatUp$ readback row. It repacks exactly the scheduled dyadic observations from $S$ as regular rational data for completion-facing consumers.
+\item $A$ is the $\RealUp$ seal. It is terminal after the dyadic endpoint rows, mesh-depth row, endpoint-containment ledger, StreamName windows, and RegSeqRat readback.
+\item $H$ records componentwise $\hsame$ transport for the parent interval, child interval, mesh depth, endpoint-containment ledger, StreamName windows, RegSeqRat readback, Real seal, replay rows, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a refinement-ladder request through $I,J,d,E,S,R,A,H,P,N$ without adding a selected infinite branch or quotient stream.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalRefinementLadderUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompactRealIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicIntervalRefinementLadderUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven displayed rows. The carrier has no coordinate for a selected infinite refinement path, quotient stream equality, open-cover compactness, trichotomy, countable choice, host interval equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicIntervalRefinementLadderUp.DyadicIntervalRefinementLadderTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic interval refinement ladder NameCert obligations]
+\label{thm:dyadic-interval-refinement-ladder-namecert-obligations}
+For every accepted $\DyadicIntervalRefinementLadderUp$ carrier
+$$
+L=(I,J,d,E,S,R,A,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicIntervalRefinementLadderUp}$ surface consists exactly of carrier admission, parent interval exposure, child interval exposure, finite dyadic mesh-depth exposure, endpoint-containment exactness, finite StreamName window exposure, RegSeqRat readback, terminal Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row. No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-refinement-ladder-carrier}. The projection exposes one parent interval row, one retained child interval row, one mesh-depth row, one endpoint-containment ledger, one StreamName window, one regular rational readback, one Real seal, and the structural rows.
+
+The parent and child exposure obligations are forced by $I$ and $J$. The mesh-depth obligation is forced by $d$, while endpoint containment and intermediate dyadic mesh membership are forced by $E$.
+
+The readback route is forced by $S,R,A$. The StreamName row fixes the finite observations opened by the ladder, the RegSeqRat row repacks only those observations, and the Real seal is terminal after that readback.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same displayed route. Since the carrier has no extra coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic interval refinement ladder Real-seal nonescape]
+\label{thm:dyadic-interval-refinement-ladder-real-seal-nonescape}
+Let $L=(I,J,d,E,S,R,A,H,C,P,N)$ be an accepted $\DyadicIntervalRefinementLadderUp$ carrier. Every $\CompactRealIntervalUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of the ladder must first read the finite route
+$$
+I,J,d,E \longmapsto S \longmapsto R \longmapsto A \longmapsto H,C,P,N .
+$$
+Thus the consumer receives a parent interval, a retained child interval, a displayed mesh depth, endpoint containment, finite StreamName windows, regular rational readback, and a terminal Real seal, but receives no selected infinite branch, quotient stream equality, open-cover compactness proof, countable-choice schedule, host interval equality, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the interval and mesh rows. The only parent interval is $I$, the only retained child interval is $J$, and the only mesh-scale record is $d$.
+
+Use $E$ to read endpoint containment and intermediate dyadic mesh membership. This keeps the child interval inside the parent through displayed dyadic endpoint rows before any stream or real-facing consumer can inspect the ladder.
+
+Now read $S,R,A$. The StreamName window fixes the finite observations, the RegSeqRat row repacks those observations as regular rational data, and the Real seal is terminal after the readback row.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name this route. They do not add a branch selector, quotient stream, compactness proof, choice schedule, host interval equality, or ambient completeness row, so none of those objects can escape through the Real seal.
+\end{proof}
+
+\closureat{DyadicIntervalRefinementLadderUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalRefinementLadderUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-refinement-ladder-carrier}, \autoref{thm:dyadic-interval-refinement-ladder-namecert-obligations}, and \autoref{thm:dyadic-interval-refinement-ladder-real-seal-nonescape} seed the finite dyadic refinement ladder route from parent and child intervals through mesh depth, endpoint containment, StreamName windows, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite branches, quotient stream equality, open-cover compactness, trichotomy, countable choice, host interval equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh-depth exposure, endpoint-containment exactness, finite window exposure, RegSeqRat readback, Real-seal nonescape, provenance exhaustion, and local naming for BEDC.Derived.DyadicIntervalRefinementLadderUp.}
+  \constructivestory{A $\DyadicIntervalRefinementLadderUp$ packet is generated from a parent interval row, a retained child interval row, a dyadic mesh-depth row, endpoint containment, StreamName finite windows, RegSeqRat readback, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -140,6 +140,7 @@ Next apply the residual-budget obligation of \autoref{thm:metacic-normalization-
 
 Finally apply candidate-ledger locality, \autoref{thm:metacic-normalization-audit-candidate-ledger-locality}. The replay and provenance rows $F,H,T,P,L$ preserve the same candidate ledger and add no confluence, subject-reduction transport, quotient reduction equality, or host evaluator evidence. Those objects can enter only from a separate downstream confluence packet that displays them as its own rows.
 \end{proof}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditConfluenceRefusalSplit}
 
 \begin{theorem}[MetaCIC normalization audit public candidate export]
 \label{thm:metacic-normalization-audit-public-candidate-export}
@@ -158,11 +159,13 @@ Now spend the residual budget. Apply \autoref{thm:metacic-normalization-audit-re
 
 Finally apply candidate-ledger locality. The replay rows $F,H,T,P,L$ preserve the same displayed ledger and add no host evaluator, quotient equality, confluence theorem, subject-reduction theorem, or evidence-free SN endpoint. Thus the public candidate export is exactly the finite route stated above.
 \end{proof}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditPublicCandidateExport}
 
 \begin{theorem}[MetaCIC normalization audit public candidate-confluence refusal]
 \label{thm:metacic-normalization-audit-public-candidate-confluence-refusal}
 Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. A public consumer that combines this normalization audit with confluence claims must display the candidate rows $R,C,S,A,N$ and the confluence-audit sibling rows of \autoref{ch:concrete-instances-metacic-confluence-audit-namecert} and \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert} before exporting any route. Without those displayed sibling rows, the consumer receives only candidate-mediated strong normalization through $R,C,S,A,N,F,H,T,P,L$, not confluence, subject reduction, quotient conversion, or global normalization.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetaCICNormalizationAuditPublicCandidateConfluenceRefusal}
 \begin{proof}
 Start with the obligation surface and finite SN scope. Theorems~\ref{thm:metacic-normalization-audit-obligation-surface} and~\ref{thm:metacic-normalization-audit-sn-scope} force every positive normalization read through the candidate, projection, finite-scope, application-boundary, and refusal rows $R,C,S,A,N$.
 
@@ -170,6 +173,7 @@ Next apply the public candidate export of \autoref{thm:metacic-normalization-aud
 
 Finally use the confluence boundary of \autoref{thm:metacic-normalization-audit-confluence-boundary}. The row $N$ points to the confluence-audit siblings, but it does not contain their confluence, subject-reduction, or quotient-conversion rows. A public route that omits those siblings therefore has only the normalization packet's candidate-mediated SN export.
 \end{proof}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditPublicCandidateConfluenceRefusal}
 
 \begin{theorem}[MetaCIC normalization audit candidate-frontier refusal]
 \label{thm:metacic-normalization-audit-candidate-frontier-refusal}
@@ -189,6 +193,23 @@ Now apply the residual-budget obligation of \autoref{thm:metacic-normalization-a
 
 If any of $R,C,S$ is absent, the route lacks the evidence needed to cross the frontier. The structural rows $F,H,T,P,L$ can only replay and name the local obligation surface, so the packet refuses evidence-free closed-term normalization.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization audit candidate-frontier refusal tightening]
+\label{thm:metacic-normalization-audit-candidate-frontier-refusal-tightening}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. If a consumer route omits at least one of the reducibility-candidate row $R$, the closed projection row $C$, or the finite scope row $S$, then the accepted packet exports only the local obligation surface. In particular it exports no closed-term strong-normalization claim.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:metacic-normalization-audit-obligation-surface}. It separates candidate evidence, closed projection, finite SN scope, application boundary, confluence refusal, replay, transport, provenance, and local naming into distinct rows.
+
+If $R$ is absent, no reducibility-candidate evidence is available. The finite SN scope theorem \autoref{thm:metacic-normalization-audit-sn-scope} therefore has no candidate source from which a positive normalization read can begin.
+
+If $C$ is absent, the closed-term projection route of \autoref{thm:metacic-normalization-audit-closed-term-projection-route} cannot connect candidate evidence to a closed term. The route remains an internal candidate ledger, not a closed-term SN export.
+
+If $S$ is absent, the finite inventory of accepted normalization entries is missing. The residual-budget obligation of \autoref{thm:metacic-normalization-audit-residual-budget-obligation} and candidate-ledger locality of \autoref{thm:metacic-normalization-audit-candidate-ledger-locality} can only preserve replay of the local obligation surface.
+
+Thus every missing-row case leaves the consumer below the candidate frontier isolated by \autoref{thm:metacic-normalization-audit-candidate-frontier-refusal}. The packet may still expose carrier, boundary, replay, transport, provenance, and naming data, but it cannot export closed-term strong normalization.
+\end{proof}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusalTightening.MetacicNormalizationAuditCandidateFrontierRefusalTightening}
 
 \begin{theorem}[MetaCIC normalization audit closed-term budget totality]
 \label{thm:metacic-normalization-audit-closed-term-budget-totality}
@@ -364,6 +385,7 @@ The handoff is not full Church--Rosser, arbitrary substitution compatibility,
 subject reduction, quotient conversion, global normalization, or a host
 evaluator read.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditCandidateConfluenceHandoff}
 \begin{proof}
 Start with the candidate-substitution boundary above. It already requires
 candidate evidence $R$, closed projection $C$, finite scope $S$, application
@@ -387,6 +409,126 @@ compatibility, subject reduction, quotient conversion, global normalization,
 or a host evaluator, none of those endpoints is exported by the handoff.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit candidate-confluence boundary]
+\label{thm:metacic-normalization-audit-candidate-confluence-boundary}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted
+$\MetacicNormalizationAuditUp$ packet. Any consumer comparing the
+normalization-audit rows of $Z$ with the confluence-audit siblings must display
+candidate evidence $R$, closed projection $C$, finite SN scope $S$, application
+boundary $A$, residual-fuel and replay rows $F,H,T,P,L$, and the confluence
+refusal $N$ in the same route. Omitting any of these rows leaves only the local
+normalization-audit surface, not substitution compatibility, subject reduction,
+closed Church--Rosser, quotient conversion, global normalization, or evaluator
+evidence.
+\end{theorem}
+\begin{proof}
+Start with the candidate-confluence handoff above. It permits comparison with
+the sibling confluence audits only through displayed candidate-frontier,
+residual-substitution, residual-fuel, and confluence-socket rows.
+
+Use the residual-substitution compatibility theorem below. It keeps every
+substitution-shaped read inside the same candidate ledger before any socket
+read is exported, so the comparison cannot drop $R,C,S,A$ or the replay rows
+$F,H,T,P,L$.
+
+Now inspect the confluence socket of
+\autoref{thm:metacic-normalization-audit-confluence-socket}. The socket names a
+place where finite audit surfaces can be compared; it is not itself full
+confluence, substitution compatibility, subject reduction, quotient conversion,
+global normalization, or evaluator evidence.
+
+Finally apply the refusal scope of
+\autoref{thm:metacic-normalization-audit-refusal-scope}. The refusal row $N$
+keeps those endpoints outside the packet unless a separate confluence-side
+certificate displays them. Hence a consumer that omits any listed row has only
+the local normalization-audit surface.
+\end{proof}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditCandidateConfluenceBoundary}
+
+\begin{theorem}[MetaCIC normalization audit retained-premise budget]
+\label{thm:metacic-normalization-audit-retained-premise-budget}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted
+$\MetacicNormalizationAuditUp$ packet. Every normalization-audit consumer that
+uses candidate-mediated strong normalization must retain, in the same finite
+route, the candidate witness in $R$, the closed-candidate wrapper or
+candidate-set membership row in $C$, the $\Pi$ and application adequacy row in
+$A$, the residual-fuel row through $F,H,T,P,L$, and the confluence-refusal row
+$N$ before citing any closed-term budget. A consumer that drops one of these
+premises has only the local candidate ledger, not full Church--Rosser, subject
+reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the candidate boundary
+\autoref{thm:metacic-normalization-audit-candidate-boundary}. It keeps the
+candidate witness, closed projection, and finite strong-normalization inventory
+visible as rows of the accepted packet before any closed-term consequence is
+read.
+
+Next spend the residual budget by
+\autoref{thm:metacic-normalization-audit-residual-budget-obligation}. The
+closed-term budget is tied to the application boundary and to the confluence
+refusal before replay through $F,H,T,P,L$ can expose it downstream.
+
+Now pass through the public route
+\autoref{thm:metacic-normalization-audit-public-route}. That route displays
+exactly $R,C,S,A,N,F,H,T,P,L$, so the candidate witness, closed-candidate or
+candidate-set row, adequacy row, residual fuel, and refusal row remain retained
+premises rather than ambient assumptions.
+
+Finally apply the candidate-confluence boundary above and the refusal scope of
+\autoref{thm:metacic-normalization-audit-refusal-scope}. These theorems allow
+only compatibility with displayed audit surfaces and explicitly keep full
+Church--Rosser, subject reduction, evaluator equality, quotient term equality,
+and kernel consistency outside the normalization-audit packet.
+\end{proof}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditRetainedPremiseBudget}
+
+\begin{theorem}[MetaCIC normalization audit candidate-mediated SN/confluence boundary]
+\label{thm:metacic-normalization-audit-candidate-mediated-sn-confluence}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted
+$\MetacicNormalizationAuditUp$ packet. Any candidate-mediated read that joins
+strong-normalization evidence to the public candidate-confluence handoff must
+retain the closed-term budget $C$, residual fuel and replay rows $F,H,T,P,L$,
+candidate frontier $R$, finite scope $S$, substitution boundary $A$, and
+confluence refusal $N$ in the same finite route. Only after those rows are
+displayed may the read use
+\autoref{thm:metacic-normalization-audit-candidate-confluence-handoff}.
+
+The boundary refuses evidence-free global strong normalization, unconditional
+application SN, full Church--Rosser, quotient equality over reductions, and
+arbitrary subject-reduction transport.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditCandidateMediatedSNConfluence}
+\begin{proof}
+Begin with the finite SN scope
+\autoref{thm:metacic-normalization-audit-sn-scope} and the residual-budget
+obligation \autoref{thm:metacic-normalization-audit-residual-budget-obligation}.
+They keep the normalization read inside the displayed closed projection,
+finite scope, application boundary, confluence refusal, and replay rows before
+any public comparison is made.
+
+Next apply the residual-fuel decrease theorem
+\autoref{thm:metacic-normalization-audit-residual-fuel-decreases}. The fuel row
+is spent along the accepted replay, so a candidate-mediated SN read cannot be
+detached from $F,H,T,P,L$ or treated as a global normalization theorem.
+
+Now use the candidate-frontier extension
+\autoref{thm:metacic-normalization-audit-candidate-frontier-extension} and the
+candidate-substitution boundary
+\autoref{thm:metacic-normalization-audit-candidate-substitution-boundary}. The
+frontier admits only displayed candidate evidence with a matching closed-term
+projection, and the substitution boundary keeps application-shaped reads
+inside $R,C,S,A,N,F,H,T,P,L$.
+
+Finally apply the candidate-confluence handoff and boundary,
+\autoref{thm:metacic-normalization-audit-candidate-confluence-handoff} and
+\autoref{thm:metacic-normalization-audit-candidate-confluence-boundary}. They
+permit comparison with confluence-audit siblings only as a finite audit-surface
+handoff. Since the refused endpoints are not carrier rows, the accepted packet
+cannot export global SN, unconditional application SN, full Church--Rosser,
+quotient reduction equality, or arbitrary subject-reduction transport.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit residual-substitution compatibility]
 \label{thm:metacic-normalization-audit-residual-substitution-compatibility}
 Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. If the candidate frontier is extended by displayed candidate evidence and the residual-fuel ledger decreases along the accepted replay, then every substitution-shaped read remains inside the same candidate ledger $R,C,S,A$ before any confluence-socket read through $N$ is exported. The packet may therefore compare the resulting finite audit surface with its confluence siblings, but it cannot export arbitrary substitution compatibility, subject reduction, full closed Church--Rosser, quotient reduction equality, or a host evaluator.
@@ -401,6 +543,25 @@ Now use the candidate-substitution boundary of \autoref{thm:metacic-normalizatio
 Finally read the confluence socket of \autoref{thm:metacic-normalization-audit-confluence-socket}. The socket can be exported only after the residual-fuel and candidate-frontier obligations have been displayed, so the compatibility result is a finite audit-surface route and not a global substitution, subject-reduction, confluence, quotient, or evaluator theorem.
 \end{proof}
 \leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditResidualSubstitutionCompatibility}
+
+\begin{theorem}[MetaCIC normalization audit candidate residual replay handoff]
+\label{thm:metacic-normalization-audit-candidate-residual-replay-handoff}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. Any public strong-normalization consumer that combines candidate evidence, residual-fuel replay, and confluence-facing comparison must pass through
+$$
+R,C,S,A,N,F,H,T,P,L
+$$
+in that order. The handoff cannot erase $N$ into subject reduction, full Church--Rosser, arbitrary substitution compatibility, quotient equality, or a host evaluator.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.CandidateResidualReplayHandoff.MetacicNormalizationAuditCandidateResidualReplayHandoff}
+\begin{proof}
+Apply the residual-budget obligation \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. It places candidate evidence, closed projection, finite strong-normalization scope, application boundary, and confluence refusal in the ordered ledger $R,C,S,A,N$ before any public read leaves the packet.
+
+Next use the residual-fuel decrease theorem \autoref{thm:metacic-normalization-audit-residual-fuel-decreases}. The finite replay spends displayed fuel and then returns through $F,H,T,P,L$, so the consumer receives replayed candidate evidence rather than an evidence-free global normalization endpoint.
+
+Now read the confluence socket of \autoref{thm:metacic-normalization-audit-confluence-socket}. The socket permits comparison with the confluence-audit siblings only after the candidate frontier and residual fuel are visible, and it keeps the refusal row $N$ as a displayed boundary.
+
+Finally apply the residual-substitution compatibility theorem above. Substitution-shaped reads remain inside the same candidate ledger and confluence-facing socket, so the public handoff cannot replace $N$ by subject reduction, full Church--Rosser, arbitrary substitution compatibility, quotient equality, or a host evaluator.
+\end{proof}
 
 \begin{theorem}[MetaCIC normalization audit kernel-scope route]
 \label{thm:metacic-normalization-audit-kernel-scope-route}
@@ -423,6 +584,7 @@ Finally apply the residual-budget obligation \autoref{thm:metacic-normalization-
 \label{thm:metacic-normalization-audit-candidate-boundary-scope}
 Before any strong-normalization export from $\MetacicNormalizationAuditUp$ is visible, the consumer must display candidate evidence $R$, closed projection $C$, finite scope $S$, application boundary $A$, and confluence refusal $N$ together with the replay rows $F,H,T,P,L$. Thus the export remains a candidate-ledger read and not an evidence-free global SN theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditCandidateBoundaryScope}
 \begin{proof}
 Start with candidate-ledger locality, \autoref{thm:metacic-normalization-audit-candidate-ledger-locality}. It keeps every positive SN read inside candidate evidence, closed projection, and finite scope.
 
@@ -443,12 +605,24 @@ Use the public route \autoref{thm:metacic-normalization-audit-public-route}. The
 Finally apply the kernel-scope route and candidate-boundary scope above. They force every normalization read through displayed candidate, projection, finite scope, application boundary, refusal, replay, provenance, and naming rows. Since the refused endpoints are not carrier coordinates, the refusal scope is closed under all displayed reads.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit frontier formal target]
+\label{thm:metacic-normalization-audit-frontier-formal-target}
+A Lean formalization target for $\MetacicNormalizationAuditUp$ must cover exactly the finite candidate-ledger route of the accepted carrier $Z=(R,C,S,A,N,F,H,T,P,L)$. The route starts with candidate evidence in $R$, closed projection in $C$, finite strong-normalization inventory in $S$, application boundary in $A$, and confluence refusal in $N$, then exposes replay, transport, continuation, provenance, and local naming through $F,H,T,P,L$. The target is therefore a candidate-mediated frontier statement, not a broad closed-term normalization theorem, and it must not export evidence-free global strong normalization, arbitrary subject reduction, quotient reduction equality, or host evaluator evidence.
+\end{theorem}
+\begin{proof}
+Start with the public candidate export of \autoref{thm:metacic-normalization-audit-public-candidate-export}. It exposes exactly the candidate-mediated route through $R,C,S,A,N$ and replay through $F,H,T,P,L$, rather than a syntax-wide normalization theorem.
+
+Spend the residual budget by \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. The budget keeps candidate evidence, closed projection, finite scope, application boundary, and confluence refusal in the same finite ledger before any public read leaves the packet.
+
+Use candidate-ledger locality, \autoref{thm:metacic-normalization-audit-candidate-ledger-locality}, and the confluence-refusal split, \autoref{thm:metacic-normalization-audit-confluence-refusal-split}. The replay rows $F,H,T,P,L$ preserve the candidate ledger, while $N$ keeps evidence-free global strong normalization, subject reduction, quotient reduction equality, and host evaluator evidence as refused endpoints. Thus the formal target is exactly the finite candidate-mediated frontier named in the statement.
+\end{proof}
+
 \closureat{MetacicNormalizationAuditUp}{obligationStr}
 
 \begin{closurestatus}{\MetacicNormalizationAuditUp}
   \constructivestory{A $\MetacicNormalizationAuditUp$ packet is generated from candidate evidence rows, checked closed-term SN projection rows, finite strong-normalization scope rows, application-boundary rows, confluence-boundary refusal rows, route replay, componentwise transport, package provenance, and a local NameCert row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:metacic-normalization-audit-carrier}, \autoref{thm:metacic-normalization-audit-obligation-surface}, \autoref{thm:metacic-normalization-audit-candidate-boundary}, \autoref{thm:metacic-normalization-audit-sn-scope}, \autoref{thm:metacic-normalization-audit-closed-term-projection-route}, \autoref{thm:metacic-normalization-audit-residual-budget-obligation}, \autoref{thm:metacic-normalization-audit-candidate-confluence-handoff}, \autoref{thm:metacic-normalization-audit-kernel-scope-route}, \autoref{thm:metacic-normalization-audit-candidate-boundary-scope}, and \autoref{thm:metacic-normalization-audit-refusal-scope} display the exact scoped package: carrier admission, candidate boundary, finite SN scope, closed-term projection, residual-budget spending, candidate-confluence handoff, kernel rows, candidate-boundary scope, and refusal boundaries.}
+  \scopeclosed{\autoref{def:metacic-normalization-audit-carrier}, \autoref{thm:metacic-normalization-audit-obligation-surface}, \autoref{thm:metacic-normalization-audit-candidate-boundary}, \autoref{thm:metacic-normalization-audit-sn-scope}, \autoref{thm:metacic-normalization-audit-closed-term-projection-route}, \autoref{thm:metacic-normalization-audit-residual-budget-obligation}, \autoref{thm:metacic-normalization-audit-candidate-confluence-handoff}, \autoref{thm:metacic-normalization-audit-candidate-mediated-sn-confluence}, \autoref{thm:metacic-normalization-audit-kernel-scope-route}, \autoref{thm:metacic-normalization-audit-candidate-boundary-scope}, and \autoref{thm:metacic-normalization-audit-refusal-scope} display the exact scoped package: carrier admission, candidate boundary, finite SN scope, closed-term projection, residual-budget spending, candidate-confluence handoff, candidate-mediated SN/confluence boundary, kernel rows, candidate-boundary scope, and refusal boundaries.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close evidence-free global strong normalization, unconditional application SN, full closed Church--Rosser, substitution compatibility, subject-reduction transport for arbitrary closed proofs, quotient equality over reductions, or bridge checking.}
