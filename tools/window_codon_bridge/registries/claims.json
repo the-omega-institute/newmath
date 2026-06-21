@@ -680,6 +680,19 @@
      "reason": "At least one domain is not an exceptional positive upper-tail alignment after deflating the algebraically forced E1 trace and conditioning on the exact null."
     }
    ]
+  },
+  {
+   "claim_id": "bridge.genetic_code.codon_e1_frameshift_mpra_translation_dependent_function",
+   "statement": "COINCIDENCE (well-controlled, CSC-validity-gated honest negative; scope: codon biology, NOT Window6, NOT causal-certified): the universal codon-E1 direction (first-order/wobble synonymous codon-usage residual, conserved across all 3 domains of life) has NO detected GC-orthogonal TRANSLATION-DEPENDENT functional effect on mRNA level in the Chen-Park-Subramaniam 2024 yeast 8x-dicodon reporter. METHOD: bridge reconstructed per-codon-pair mRNA effects from raw SRA (PRJNA974090) for the in-frame (pHPSC1142) and -1 frameshift (pHPSC1114) libraries by faithfully reproducing the rasilab counting+linkage pipeline (validated: known destabilizing dipeptides KK/RR/KW/proline sit in the bottom in-frame tail and the -1 frameshift relieves them, Delta up to +1.6; non-destabilizer AA positive). Translation-dependent contrast Delta_y=y_inframe-y_frameshift per codon-pair. v_star in R^61 = leave-S.cerevisiae-out cross-domain codon-E1 consensus (54 non-yeast organisms / 41 genus groups, rank-6 B1 subspace, sign fixed externally -> non-circular, does not use the yeast reporter). T_causal=weighted corr of residualized(Delta_y, s_cd=(v_star[c]+v_star[d])/2) against control matrix Z; within-synonymous-family permutation null (100k), sign-invariant two-sided; mandatory CSC assay-validity gate. RESULT: baseline Z (in-frame aa-pair FE + -1-frame aa-pair FE + yeast CSC both frames + yeast tAI both frames + read-depth) gives |T|=0.154, two-sided p=0.0052, bootstrap CI [-0.221,-0.085] (excludes 0); ADDING GC + GC3 + the 16 dinucleotide sequence controls COLLAPSES it to |T|=0.029, p=0.605, bootstrap CI [-0.090,+0.032] (includes 0), with s still estimable (residual frac 0.185, control rank 9->24). CSC positive control passed (corr 0.157, p 0.0013) -> the assay genuinely detects translation-dependent stability, so this is a real, powered null. INTERPRETATION: the apparent codon-E1 reporter association is the GC/RNA-secondary-structure (Delta-MFE) composition confound -- which is FRAME-INVARIANT and therefore NOT removed by the in-frame-minus-frameshift subtraction -- not a codon-E1 translation-dependent effect; codon-E1 remains a conserved usage GEOMETRY without a detected direct functional phenotype beyond composition. PROCESS: an sshx adversarial panel (2 needs_derivation / 1 coincidence) caught that the original one-sided test was ill-posed (arbitrary v_star sign) AND that the omitted Delta-MFE/GC confound could manufacture the magnitude; the GC3+dinucleotide control was the decisive numpy-free fix that resolved it to a clean coincidence. NOT-CLAIMED: an exact ViennaRNA-Delta-MFE-controlled + within-site randomized synonymous-recoding (MAVE) CAUSAL test (relayed to bio as needs_bio_data) could still detect a GC/folding-orthogonal effect; this result bounds the OBSERVATIONAL public-reporter reach only, and is not Window6 (the structural fibonacci<->codon frontier is separately closed). Evaluated only by its registered deterministic experiment.",
+   "status": "coincidence",
+   "experiment_id": "codon_e1_frameshift_mpra_tcausal",
+   "history": [
+    {
+     "ts": "2026-06-21T18:07:02+00:00",
+     "status": "coincidence",
+     "reason": "The apparent codon-E1 association collapses after GC3+dinucleotide sequence controls; the reporter result is consistent with a GC/RNA-folding composition confound, not a GC-orthogonal translation-dependent codon-E1 effect."
+    }
+   ]
   }
  ]
 }

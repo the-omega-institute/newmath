@@ -432,6 +432,14 @@
    "status": "open",
    "timeout_seconds": 1200,
    "note": "Are the two certified positives (edge-hiding e_in / BC7 vs codon-E1 usage residual) the SAME signal? REFUTED -> operationally independent. Anti-tautology guard (oracle): tr(U1^T S_g U1)=(5/32)e_in EXACTLY for every code, so 'edge-hiding has E1 mass' is algebraically guaranteed; deflate it (C_g=U1^T S_g U1-(5 e_in/288)I; B_g=P C_g P-(tr/6)P, rank-6 P=L^+L) and test orientation alignment T_same=tr[Sigma_bio B_g^2/tr(B_g^2)] vs the EXACT Omega_{BW,E,d,comp} null (162468 states, conditions out e_in+box/wobble+edge-margins+boundary-degrees+component-structure). Per domain: bacteria p=0.984/lo95 -0.024, archaea p=0.677/lo95 -0.014, eukaryota p=0.443/lo95 -0.023 -> no exceptional alignment in any domain. |R|=13 support excluded (design-induced). Identity sanity check passed (10.46875). Adversarially verified, numpy-free."
+  },
+  {
+   "experiment_id": "codon_e1_frameshift_mpra_tcausal",
+   "claim_id": "bridge.genetic_code.codon_e1_frameshift_mpra_translation_dependent_function",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_frameshift_mpra_tcausal.py",
+   "status": "open",
+   "timeout_seconds": 1800,
+   "note": "Functional test of the certified codon-E1 positive: does codon-E1 have a TRANSLATION-DEPENDENT effect on mRNA level? Bridge reran the Chen-2023 yeast 8x-dicodon MPRA pipeline from raw SRA (PRJNA974090; in-frame pHPSC1142 + -1 frameshift pHPSC1114; validated against known destabilizing dipeptides KK/RR/KW/proline + frameshift relief) -> per-codon-pair Delta_y=y_inframe-y_frameshift. v_star=leave-S.cerevisiae-out cross-domain codon-E1 consensus (54 orgs, non-circular); T_causal=residualized weighted corr vs within-syn 100k permutation null + CSC validity gate. RESULT coincidence: baseline |T|=0.154 (two-sided p=0.005, CI excludes 0) COLLAPSES to |T|=0.029 (p=0.61, CI includes 0) after GC3+dinucleotide controls -> apparent association is the GC/RNA-folding composition confound (frame-invariant, survives the frameshift subtraction), NOT a GC-orthogonal codon-E1 translation effect. CSC gate passed (p=0.001). sshx-adjudicated (caught the one-sided/sign-arbitrary + omitted-GC flaw, GC control was the decisive fix). codon-E1 stays a conserved usage GEOMETRY without a detected direct functional phenotype. Exact ViennaRNA-DeltaMFE + MAVE causal version relayed to bio."
   }
  ]
 }
