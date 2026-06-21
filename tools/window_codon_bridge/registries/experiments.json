@@ -416,6 +416,22 @@
    "status": "open",
    "timeout_seconds": 600,
    "note": "CERTIFIED transportability. Extends #18 (codon-E1 conservation across 29 bacteria) to archaea + eukaryotes as SEPARATE strata (Kazusa CUTG standard-code codon usage, frozen synced/codon_e1_transport_panel.json: 12 archaea + 14 eukaryotes, all genetic code table 1). Each domain's d_resid4 projected onto the #18 codon-E1 subspace B1 (rank 6) vs the matched-synonymous-relabel null. ARCHAEA: T=0.522 vs null 0.137 (z=9.6, p=5e-5, bootstrap-lo95 0.294>0) -> conserved. EUKARYOTA: T=0.515 vs null 0.140 (z=8.8, p=5e-5, bootstrap-lo95 0.270>0) -> conserved. Both independently pass; chance baseline 6/41=0.146. Adversarially verified (Kazusa counts live-matched to all 26 taxids, standard-code-only, fair null ~chance, same B1, separate strata). With #18 (bacteria T=0.571) -> codon-E1 first-order conservation holds across ALL 3 domains of life. NOT Window6, NOT causal."
+  },
+  {
+   "experiment_id": "translation_kernel_golden_impossibility",
+   "claim_id": "bridge.translation_kernel.golden_fibonacci_impossibility",
+   "script_path": "tools/window_codon_bridge/experiments/run_translation_kernel_golden_impossibility.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Closes bridge direction C (dynamical-kernel Fibonacci program). Certifies an impossibility: no biology-defined translation kernel K_theta can carry x^2-x-1 (root phi>1). Any column-(sub)stochastic decoding matrix P has rho(P)<=1<phi so x^2-x-1 cannot divide chi_P; any CTMC generator Q has eigenvalues with non-positive real part (and inverse-time units); the golden companion [[1,1],[1,0]] needs an unnormalized 2-state no-consecutive-state counting quotient biology does not supply. Oracle-derived spectral-radius argument + codex-implemented + orchestrator re-ran (status refuted, stdlib structural-bounds fallback since the env is numpy-free)."
+  },
+  {
+   "experiment_id": "edge_hiding_e1_orientation_same_signal",
+   "claim_id": "bridge.genetic_code.edge_hiding_e1_orientation_same_signal",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_e1_orientation_same_signal.py",
+   "status": "open",
+   "timeout_seconds": 1200,
+   "note": "Are the two certified positives (edge-hiding e_in / BC7 vs codon-E1 usage residual) the SAME signal? REFUTED -> operationally independent. Anti-tautology guard (oracle): tr(U1^T S_g U1)=(5/32)e_in EXACTLY for every code, so 'edge-hiding has E1 mass' is algebraically guaranteed; deflate it (C_g=U1^T S_g U1-(5 e_in/288)I; B_g=P C_g P-(tr/6)P, rank-6 P=L^+L) and test orientation alignment T_same=tr[Sigma_bio B_g^2/tr(B_g^2)] vs the EXACT Omega_{BW,E,d,comp} null (162468 states, conditions out e_in+box/wobble+edge-margins+boundary-degrees+component-structure). Per domain: bacteria p=0.984/lo95 -0.024, archaea p=0.677/lo95 -0.014, eukaryota p=0.443/lo95 -0.023 -> no exceptional alignment in any domain. |R|=13 support excluded (design-induced). Identity sanity check passed (10.46875). Adversarially verified, numpy-free."
   }
  ]
 }

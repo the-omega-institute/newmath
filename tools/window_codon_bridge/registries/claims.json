@@ -654,6 +654,32 @@
      "reason": "certified because codon-E1 conservation transports in archaea, eukaryota. Archaea: n=12, T=0.52174389705, null_mean=0.137488901465, p=4.99975e-05, bootstrap_lower95=0.294253583243. Eukaryota: n=14, T=0.514807573047, null_mean=0.14013347593, p=4.99975e-05, bootstrap_lower95=0.269570859634. Chance baseline is approximately 6/41=0.1463. n_dropped=4. This is E1-TRANSPORTABILITY, a generalization of the #18 bacterial codon-E1 certificate; it is not Window6 evidence, not a causal claim, and the archaea and eukaryota strata are analyzed separately and never pooled with the 29-bacteria certificate."
     }
    ]
+  },
+  {
+   "claim_id": "bridge.translation_kernel.golden_fibonacci_impossibility",
+   "statement": "REFUTED (correspondence-negative; closes bridge direction C, the dynamical-kernel Fibonacci program): no biology-defined dynamical translation kernel K_theta (an operator pushing an ORF through codon->tRNA-decoding->protein) can carry the actual Fibonacci recurrence x^2-x-1 (golden, root phi=(1+sqrt5)/2~1.618) in its characteristic polynomial / spectrum / trace recurrence. A biologically legitimate discrete decoding kernel is a nonnegative column-(sub)stochastic matrix P, whose spectral radius rho(P)<=1; since phi>1, x^2-x-1 cannot divide chi_P (divisibility would require phi as an eigenvalue). A CTMC generator Q (nonneg off-diagonal, <=0 column sums) has all eigenvalues with non-positive real part, so phi cannot appear there either, and its eigenvalues carry inverse-time units so a unit-free integer polynomial is not an invariant. The companion/golden matrix [[1,1],[1,0]] realizing x^2-x-1 requires an UNNORMALIZED two-state path-counting quotient with a no-consecutive-state rule -- an imposed Window6 automaton biology does not supply. Oracle-derived (spectral-radius argument) + codex-implemented + orchestrator re-ran. SCOPE: closes the dynamical-Fibonacci route; does NOT touch the certified edge-hiding extremality (the sole certified Window6<->codon relation, a static code-table functional not a dynamical operator). REOPENING CONDITION: a biology-defined, parameter-independent two-dimensional invariant quotient with a canonically integer-valued, unit-invariant transfer matrix whose characteristic polynomial is forced to x^2-x-1 for every admissible theta -- not currently specifiable. Evaluated only by its registered deterministic experiment.",
+   "status": "refuted",
+   "experiment_id": "translation_kernel_golden_impossibility",
+   "history": [
+    {
+     "ts": "2026-06-21T05:41:24+00:00",
+     "status": "refuted",
+     "reason": "any biological (sub)stochastic translation operator has spectral radius <= 1 < phi, and any CTMC generator has eigenvalues with non-positive real part; x^2-x-1 cannot divide their characteristic polynomial because divisibility would require the forbidden root phi; realizing it needs an unnormalized 2-state no-adjacent counting quotient biology does not supply"
+    }
+   ]
+  },
+  {
+   "claim_id": "bridge.genetic_code.edge_hiding_e1_orientation_same_signal",
+   "statement": "REFUTED (operational independence of the two certified bridge positives): the static code-table edge-hiding extremality (e_in / BC7) and the live codon-E1 synonymous codon-usage residual are NOT the same structural signal. They share the |R|=13 support set, but that equality is design-induced (the three sixfold families canonically give 18 codons in three 4+2 branches, not 13) and is excluded from the statistic. CRITICAL anti-tautology guard (oracle-identified): the E1 projector satisfies (P_1)_{cc'}=(9-4 d_H)/64, hence tr(U1^T S_g U1)=(5/32) e_in(g) EXACTLY for every code -- the scalar 'edge-hiding has E1 mass' is algebraically guaranteed and is NOT evidence. The test deflates this: C_g=U1^T S_g U1-(5 e_in/288) I_9; B_g=P C_g P-(tr(P C_g P)/6) P (trace-deflated orientation operator in the rank-6 identifiable E1 subspace, P=L^+L, L=Q_syn R U1); bio side a_o=L^+ d_resid4,o, Sigma_bio=sum_o w_o a_o a_o^T/||a_o||^2 (equal-genus, equal-domain); statistic T_same=tr[Sigma_bio B_g^2/tr(B_g^2)]. Null = exact Omega_{BW,E,d,comp} (162468 states; conditions OUT e_in + box/wobble + edge-margins + boundary-degrees + component-structure), recomputing B_g per code while holding the measured Sigma_bio fixed. RESULT (per domain, separately): bacteria T=0.1920 vs null mean 0.1981 (upper-tail p=0.984, bootstrap lo95 excess -0.024); archaea T=0.1733 vs null 0.1761 (p=0.677, lo95 -0.014); eukaryota T=0.1726 vs null 0.1722 (p=0.443, lo95 -0.023). No domain shows exceptional positive orientation alignment; all three bootstrap lower-95% excess < 0. INTERPRETATION: edge-hiding is static code-table geometry; codon-E1 is an independent live usage residual -> the bridge holds TWO INDEPENDENT certified positives, not one. SCOPE: bio-internal (relates two genetic-code positives), does NOT reopen Window6. ROBUSTNESS: adversarially verified -- algebraic-identity sanity check passed exactly (tr=10.46875=(5/32)e_in), |R|=13 excluded from the statistic, exact 162468-state null, deflation faithful to the oracle formula, no scratch-file dependency, numpy-free. Evaluated only by its registered deterministic experiment.",
+   "status": "refuted",
+   "experiment_id": "edge_hiding_e1_orientation_same_signal",
+   "history": [
+    {
+     "ts": "2026-06-21T05:41:24+00:00",
+     "status": "refuted",
+     "reason": "At least one domain is not an exceptional positive upper-tail alignment after deflating the algebraically forced E1 trace and conditioning on the exact null."
+    }
+   ]
   }
  ]
 }
