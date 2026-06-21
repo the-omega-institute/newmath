@@ -1,0 +1,71 @@
+\chapter{McShaneIntegralUp NameCert construction}
+\label{ch:concrete-instances-mcshane-integral-namecert}
+\origin{human}
+
+Following McShane's gauge integral formulation, the $\McShaneIntegralUp$ packet records the finite tagged-partition and gauge-refinement ledger by which a displayed real-valued integrand is read as having a McShane integral candidate. It sits after the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational tolerance route of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite tagged-partition carrier of \autoref{ch:concrete-instances-tagged-partition-namecert}, and the gauge-integral boundary of \autoref{ch:concrete-instances-henstock-kurzweil-gauge-integral-namecert}. The packet names a finite gauge-integration certificate only; it does not import measure-theoretic integration, selected gauges, countable choice, ambient $\RealUp$ completeness, or a host equality of functions.
+
+\begin{definition}[McShaneIntegral carrier]
+\label{def:mcshane-integral-carrier}
+A $\McShaneIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,I,F,G,T,S,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the integration-domain row, carrying the bounded interval or displayed finite-measure cell family over which tags may be chosen.
+\item $I$ is the integrand row, exposing only finite $\RealUp$ value reads of the displayed real-valued function.
+\item $F$ is the finite tagged-partition row, read through $\TaggedPartitionUp$, whose entries record cells, tags, and coverage data.
+\item $G$ is the gauge-admissibility row, assigning to each displayed tag a positive local radius and checking that every cell in $F$ is subordinate to that radius.
+\item $T$ is the $\RegSeqRatUp$ tolerance row, giving the Cauchy-style comparison budget for two admissible tagged partitions.
+\item $S$ is the Real-valued sum row, recording finite sums of cell-size data multiplied by the corresponding integrand reads and sealed through $\RealUp$.
+\item $R$ is the refinement ledger, relating two admissible tagged partitions by a common gauge-refinement surface rather than by a selected infinite refinement procedure.
+\item $Q$ is the integral-candidate row, a regular rational name whose finite windows are checked against $S,T,R$.
+\item $H,C,P,N$ are the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance over $\McShaneIntegralUp$, $\TaggedPartitionUp$, $\GaugeIntegralUp$, $\HenstockKurzweilGaugeIntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, and $\NameCert$, and the local $\NameCert_{\McShaneIntegralUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[McShaneIntegral NameCert obligations]
+\label{thm:mcshane-integral-namecert-obligations}
+For every accepted $\McShaneIntegralUp$ carrier $M=(D,I,F,G,T,S,R,Q,H,C,P,N)$, the local $\NameCert_{\McShaneIntegralUp}$ surface consists exactly of domain admission, integrand finite-read admission, tagged-partition coverage, gauge admissibility, regular-rational tolerance comparison, Real-valued finite-sum sealing, common-refinement ledger exposure, integral-candidate readback, componentwise transport, displayed replay, provenance, and local naming.
+
+The obligation surface may cite the real seal of \autoref{ch:concrete-instances-real-namecert}, the regular-rational tolerance source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite tagged-partition carrier of \autoref{ch:concrete-instances-tagged-partition-namecert}, and the gauge-integral boundary of \autoref{ch:concrete-instances-henstock-kurzweil-gauge-integral-namecert}. It cannot add a measure space, a selected gauge, a countable refinement sequence, a quotient equality of functions, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The domain, integrand, tagged-partition, gauge, tolerance, sum, refinement, and candidate rows are displayed before the local naming row can be read.
+
+The tagged-partition row supplies only finite cells and tags, and the gauge row checks admissibility cell by cell. The Real-valued sum row is therefore a finite read through $\RealUp$, while the tolerance row keeps the comparison budget in $\RegSeqRatUp$.
+
+Finally the refinement ledger mediates comparisons between admissible tagged partitions. Since the carrier has no coordinate for a measure space, selected gauge, countable refinement sequence, quotient function equality, or ambient completeness argument, the local $\NameCert$ row exports exactly the finite obligation surface listed above.
+\end{proof}
+
+\begin{theorem}[McShaneIntegral gauge-refinement stability]
+\label{thm:mcshane-integral-gauge-refinement-stability}
+Let $M=(D,I,F,G,T,S,R,Q,H,C,P,N)$ be an accepted $\McShaneIntegralUp$ carrier. If a consumer replaces the displayed tagged partition $F$ by another finite tagged partition that is admitted by the same gauge row $G$ and related to $F$ through the common-refinement ledger $R$, then the integral-candidate readback $Q$ is consumed through the same tolerance and finite-sum surface
+$$
+T,S,R,Q,H,C,P,N.
+$$
+The stability claim is internal to the finite gauge-refinement ledger. It is not a proof of measure-theoretic integrability, not a selected refining sequence, not a global convergence theorem for arbitrary partitions, and not a host function-equality principle.
+\end{theorem}
+\begin{proof}
+Start with the two displayed tagged partitions and the shared gauge row. Gauge admissibility is checked by the finite row $G$, so each partition contributes only the cells and tags that the carrier already exposes.
+
+Next read the common-refinement ledger $R$. It records the finite comparison surface between the two admissible partitions and sends their Real-valued finite sums through the same tolerance row $T$ and sum row $S$.
+
+The candidate row $Q$ is then reached only through $T,S,R$ and the structural rows $H,C,P,N$. Thus a consumer may transport the partition read inside the displayed ledger, but cannot reinterpret the result as a measure-theoretic integral, a selected refinement sequence, unrestricted partition convergence, or host equality of functions.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\McShaneIntegralUp$ consumer that reaches the integral-candidate row without first reading the tagged-partition row, gauge-admissibility row, regular-rational tolerance row, Real-valued finite-sum row, and common-refinement ledger refutes the carrier surface.}
+
+\independenceWitness{real, regseqrat, tagged-partition, henstock-kurzweil-gauge-integral: no listed sibling supplies the full twelve-row packet $M=(D,I,F,G,T,S,R,Q,H,C,P,N)$, because each sibling contributes only a real seal, regular-rational tolerance route, finite tagged-partition carrier, or gauge-integral boundary while this chapter binds them into one McShane integral NameCert surface.}
+
+\closureat{McShaneIntegralUp}{seedStr}
+
+\begin{closurestatus}{\McShaneIntegralUp}
+  \constructivestory{A $\McShaneIntegralUp$ packet is generated from a displayed integration domain, finite real-valued integrand reads, a finite tagged-partition row, a gauge-admissibility row, a regular-rational tolerance row, a Real-valued finite-sum row, a common-refinement ledger, an integral-candidate readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mcshane-integral-carrier}, \autoref{thm:mcshane-integral-namecert-obligations}, and \autoref{thm:mcshane-integral-gauge-refinement-stability} seed the finite McShane gauge-integration certificate over tagged partitions, gauge-admissibility rows, Real-valued sums, regular-rational tolerance, and common-refinement ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim measure-theoretic integration, selected gauges, countable refinement procedures, full convergence for arbitrary partition nets, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, tagged-partition coverage, gauge admissibility, finite-sum sealing, regular-rational tolerance comparison, refinement-ledger stability, and a Lean carrier/obligation formalization for BEDC.Derived.McShaneIntegralUp.}
+\end{closurestatus}

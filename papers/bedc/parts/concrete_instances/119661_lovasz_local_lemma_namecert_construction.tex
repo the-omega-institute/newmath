@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\LovaszLocalLemmaUp$}
+\label{ch:concrete-instances-lovasz-local-lemma-namecert}
+\origin{human}
+
+Following Erdos--Lovasz on the Lovasz local lemma, the $\LovaszLocalLemmaUp$ packet presents the finite bad-event dependency graph data over $\ProbSpaceUp$, $\IndependenceUp$, $\RandomVarUp$, and $\FiniteBorelCantelliUp$. It sits after the probability-space normalization rows of \autoref{ch:concrete-instances-probspace-namecert}, the finite-family independence rows of \autoref{ch:concrete-instances-independence-namecert}, the random-variable preimage rows of \autoref{ch:concrete-instances-randomvar-namecert}, and the finite exceptional-event ledger of \autoref{ch:concrete-instances-finite-borel-cantelli-namecert}. The packet is a finite dependency certificate for bad events; it does not import a completed measure algebra, countable choice, host product measure, selected avoiding assignment, or ambient compactness principle.
+
+\begin{definition}[Lovasz local lemma carrier]
+\label{def:lovasz-local-lemma-carrier}
+A $\LovaszLocalLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+L=(\Omega,E,D,R,A,B,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ source row carrying the finite probability-space normalization and event-complement surface.
+\item $E$ is the finite bad-event inventory, listing the displayed event rows whose simultaneous avoidance is being certified.
+\item $D$ is the finite dependency graph row, recording for each bad event the displayed neighbor list on which independence may fail.
+\item $R$ records the $\RandomVarUp$ rows whose cylinder or preimage events give the bad-event rows in $E$.
+\item $A$ is the avoidance request row, naming the finite conjunction of complements to be kept nonzero inside the packet.
+\item $B$ is the finite bound ledger, recording the displayed probability bounds and dependency-degree comparisons used by the local-lemma route.
+\item $I$ is the $\IndependenceUp$ ledger, certifying independence of each bad event from the finite outside-neighborhood family named by $D$.
+\item $H$ records componentwise $\hsame$ transport for the probability, event, dependency, random-variable, avoidance, bound, independence, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a local-lemma request through $\Omega,E,D,R,A,B,I,H$.
+\item $P$ is the $\Pkg$ provenance over $\LovaszLocalLemmaUp$, $\ProbSpaceUp$, $\IndependenceUp$, $\RandomVarUp$, $\FiniteBorelCantelliUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LovaszLocalLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a completed probability space, a host dependency theorem, a global product-measure construction, a selected avoiding assignment, quotient event equality, or countable-choice data.
+\end{definition}
+\leanstmt{BEDC.Derived.LovaszLocalLemmaUp}
+
+\begin{theorem}[Lovasz local lemma NameCert obligations]
+\label{thm:lovasz-local-lemma-namecert-obligations}
+For every accepted $\LovaszLocalLemmaUp$ carrier $L=(\Omega,E,D,R,A,B,I,H,C,P,N)$, the local $\NameCert_{\LovaszLocalLemmaUp}$ surface consists exactly of probability-space source admission through $\Omega$, finite bad-event exposure through $E$, dependency-graph exposure through $D$, random-variable preimage exposure through $R$, avoidance request exposure through $A$, bound-ledger exposure through $B$, outside-neighborhood independence exposure through $I$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lovasz-local-lemma-carrier}. The rows $\Omega,E,D,R,A,B,I$ expose the finite probability source, bad-event inventory, dependency graph, random-variable preimage data, avoidance request, bound ledger, and independence ledger before any avoidance-facing consumer can inspect the local certificate.
+
+The dependency graph row $D$ fixes the finite neighborhood for each bad event. Thus the independence row $I$ can only certify independence from the named outside-neighborhood family, and it cannot be replaced by an unlisted host product-measure theorem.
+
+The finite bound ledger $B$ is read together with the finite exceptional-event discipline of $\FiniteBorelCantelliUp$. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same finite route. Since the carrier has no coordinate for completed measure, quotient event equality, selected avoiding assignments, or countable choice, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{A purported $\LovaszLocalLemmaUp$ consumer is refuted if it reaches an avoidance conclusion while omitting any of the displayed probability-space, bad-event, dependency-graph, random-variable, avoidance, bound, independence, transport, replay, provenance, or local NameCert rows.}
+
+\independenceWitness{probspace, independence, randomvar, finite-borel-cantelli: no listed sibling is bijective to $\LovaszLocalLemmaUp$ because this packet jointly carries bad-event inventory, finite dependency graph, random-variable preimage rows, avoidance request, probability bounds, outside-neighborhood independence, transport, replay, provenance, and local naming rows.}
+
+\closureat{LovaszLocalLemmaUp}{seedStr}
+
+\begin{closurestatus}{\LovaszLocalLemmaUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lovasz-local-lemma-carrier} and \autoref{thm:lovasz-local-lemma-namecert-obligations} seed the finite bad-event dependency certificate over probability-space, random-variable, independence, finite exceptional-event, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a completed measure algebra, host product-measure theorem, selected avoiding assignment, countable-choice principle, Lean-checked obligation theorem, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bad-event exposure, dependency-graph exposure, random-variable preimage exposure, avoidance request exposure, bound-ledger exactness, outside-neighborhood independence exposure, transport, replay, provenance, and local naming for BEDC.Derived.LovaszLocalLemmaUp.}
+  \constructivestory{A $\LovaszLocalLemmaUp$ packet is generated from ProbSpaceUp source data, finite bad-event rows, dependency graph rows, RandomVarUp preimage rows, an avoidance request, probability-bound rows, IndependenceUp outside-neighborhood rows, finite exceptional-event discipline, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
