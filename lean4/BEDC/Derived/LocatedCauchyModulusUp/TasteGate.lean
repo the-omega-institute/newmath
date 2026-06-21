@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LocatedCauchyModulusUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -225,6 +237,95 @@ def taste_gate : ChapterTasteGate LocatedCauchyModulusUp where
   layer_separation := by
     intro x y hxy heq
     exact hxy (locatedCauchyModulusToEventFlow_injective heq)
+
+def LocatedCauchyModulusCarrier [AskSetup] [PackageSetup]
+    (S R D T L E H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig UnaryHistory
+  UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory T ∧
+    UnaryHistory L ∧ UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ PkgSig bundle P pkg
+
+theorem LocatedCauchyModulusNameCertObligations [AskSetup] [PackageSetup]
+    {S R D T L E H C P N windowRead modulusRead sealRead localRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedCauchyModulusCarrier S R D T L E H C P N bundle pkg →
+      Cont S R windowRead →
+        Cont windowRead D modulusRead →
+          Cont T L sealRead →
+            Cont H C localRead →
+              PkgSig bundle localRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row localRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row S ∨ hsame row R ∨ hsame row D ∨ hsame row T ∨
+                        hsame row L ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨
+                          hsame row P ∨ hsame row N ∨ hsame row windowRead ∨
+                            hsame row modulusRead ∨ hsame row sealRead ∨
+                              hsame row localRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont S R windowRead ∧
+                        Cont windowRead D modulusRead ∧ Cont T L sealRead ∧
+                          Cont H C localRead ∧ PkgSig bundle P pkg ∧
+                            PkgSig bundle localRead pkg)
+                    hsame ∧
+                  UnaryHistory windowRead ∧ UnaryHistory modulusRead ∧
+                    UnaryHistory sealRead ∧ UnaryHistory localRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier sr windowD tl hc pkgLocal
+  obtain
+    ⟨sUnary, rUnary, dUnary, tUnary, lUnary, _eUnary, hUnary, cUnary, _pUnary,
+      _nUnary, carrierPkg⟩ := carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed sUnary rUnary sr
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed windowUnary dUnary windowD
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed tUnary lUnary tl
+  have localUnary : UnaryHistory localRead :=
+    unary_cont_closed hUnary cUnary hc
+  have sourceLocal :
+      (fun row : BHist => hsame row localRead ∧ UnaryHistory row) localRead := by
+    exact ⟨hsame_refl localRead, localUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row localRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row R ∨ hsame row D ∨ hsame row T ∨
+              hsame row L ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨
+                hsame row P ∨ hsame row N ∨ hsame row windowRead ∨
+                  hsame row modulusRead ∨ hsame row sealRead ∨ hsame row localRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S R windowRead ∧ Cont windowRead D modulusRead ∧
+              Cont T L sealRead ∧ Cont H C localRead ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle localRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro localRead sourceLocal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, sr, windowD, tl, hc, carrierPkg, pkgLocal⟩
+  }
+  exact ⟨cert, windowUnary, modulusUnary, sealUnary, localUnary⟩
 
 theorem LocatedCauchyModulusTasteGate_single_carrier_alignment :
     (∀ h : BHist,

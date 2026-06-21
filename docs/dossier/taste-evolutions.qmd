@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-21T17:24:47Z
+> 最后刷新: 2026-06-21T19:02:56Z
 
-**Daemon 状态**: monitor (monitor cycle 106, adjust_since_research 2, round_counter 16648, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 107, adjust_since_research 2, round_counter 16749, last_adjust rule_evolution_completed)
 
 **待处理 queue** (548 条 finding):
 - isolated_theorem: 386 条; 代表样本 `derived`, `derived`, `derived`
@@ -30,8 +30,8 @@ date-modified: today
 - low_entropy_template: 34 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 43 次
-- TASTE ALERT category=low_entropy_template: 25 次
+- TASTE ALERT category=isolated_theorem: 42 次
+- TASTE ALERT category=low_entropy_template: 24 次
 - TASTE ALERT category=missing_origin: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -371,6 +371,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-21T15:29:33Z: `resolved` `add_downstream_user` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_deterministic_normal_form_readback` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_deterministic_normal_form_readback:d2955ab8`). Rationale: The target theorem carries real BEDC content: it packages normal-left, normal-right, equality, finished-readback, route, and provenance facts from the bounded checker carrier. A sibling consumer in MetaCICDecidableBoundaryUp now uses it to hand readback evidence into the boundary provenance certificate, so the theorem is no longer isolated. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-21T17:23:56Z: `resolved` `add_downstream_user` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_consumer_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_consumer_nonescape:d2955ab8`). Rationale: The target theorem has real BEDC content: it packages the bounded normal equality checker consumer boundary into concrete UnaryHistory, Cont, and PkgSig rows, but it previously had no downstream Lean caller beyond the paper marker. I added MetaCICDecidableBoundary_bounded_checker_consumer_handoff in the MetaCIC decidable boundary sibling provenance file, where related checker scope, fuel, and readback handoffs already live; the new theorem uses the target theorem directly and connects its non-escape result to boundary sibling provenance through the bounded finished-read row. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-21T19:02:20Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_classifier_stability_row` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_classifier_stability_row:d2955ab8`). Rationale: The theorem has real BEDC content: it transports the accepted BoundedNormalEqualityChecker carrier's componentwise classifier rows into UnaryHistory evidence plus provenance, and the paper chapter treats it as part of the checker surface rather than a disposable wrapper. I attempted to add a downstream MetaCICDecidableBoundary sibling handoff consuming it, but the required lake build failed on BEDC.Derived.MetaCICDecidableBoundaryUp.SiblingProvenance, so I reverted the attempted change per instruction and leave the target with this rationale. Gate results: lake_build=error: build failed; Some required targets logged failures: BEDC.Derived.MetaCICDecidableBoundaryUp.SiblingProvenance. Local lean error tail: Unknown identifier `BEDC.Derived.BoundedNormalEqualityCheckerUp` at SiblingProvenance.lean:299:4, followed by unsolved goals., audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
