@@ -170,6 +170,18 @@ Next apply \autoref{thm:filter-limit-basis-ledger-refusal}, \autoref{thm:filter-
 Finally use \autoref{thm:filter-limit-basis-window-induction} and \autoref{thm:filter-limit-basis-real-window-exhaustion}. Finite replay preserves the same window route through every ledger prefix, so the chapter has the paper-side obligation surface required for the next closure step without adding any object outside the accepted $\FilterLimitBasisUp$ carrier.
 \end{proof}
 
+\begin{theorem}[FilterLimitBasis scoped obligation]
+\label{thm:filterlimitbasis-scope-obligation}
+For an accepted $\FilterLimitBasisUp$ carrier $B=(Q,F,L,W,R,D,E,H,C,P,N)$, the obligation surface is scoped exactly by the displayed route through $\CauchyFilterCompletionUp$, $\CauchyFilterUp$, $\CauchyFilterLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\FilterLimitBasisUp}$ rows. Every completion-facing, limit-facing, or Real-facing read must pass through those rows, and no quotient filter, selected limit, ultrafilter, countable-choice schedule, host filter equality, host real equality, ambient completeness, or bridge certificate is part of the scope.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:filter-limit-basis-carrier}. It displays precisely the rows $Q,F,L,W,R,D,E,H,C,P,N$, so the candidate scope is already bounded by the completion boundary, Cauchy-filter surface, limit boundary, window, readback, tolerance, Real seal, transport, replay, provenance, and local naming data.
+
+Apply the NameCert obligations and the CauchyFilterCompletion handoff, \autoref{thm:filter-limit-basis-namecert-obligations} and \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. They force every completion-facing consumer through $Q,F,L,W,R,D$ before $E$ and keep $H,C,P,N$ attached to the same finite route.
+
+Use limit compatibility, window induction, and real-window exhaustion from \autoref{thm:filter-limit-basis-limit-compatibility}, \autoref{thm:filter-limit-basis-window-induction}, and \autoref{thm:filter-limit-basis-real-window-exhaustion}. These theorems preserve the same route for limit-facing and Real-facing reads, so the scoped obligation is exactly the displayed L10 completion route and contains no additional host or bridge coordinate.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FilterLimitBasisUp$ read is refuted if a $\CauchyFilterCompletionUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the Cauchy-filter completion row, Cauchy-filter row, Cauchy-filter limit row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming.}
 
 \independenceWitness{cauchyfiltercompletion, cauchyfilter, cauchyfilterlimit, streamname, regseqrat, dyadicratcore, real: none alone is bijective with $\FilterLimitBasisUp$ because the packet jointly records completion-boundary, saturated-filter, limit-boundary, finite-window, readback, tolerance, seal, transport, replay, provenance, and local NameCert rows.}
