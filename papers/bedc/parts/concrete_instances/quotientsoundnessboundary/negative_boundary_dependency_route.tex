@@ -9,3 +9,15 @@ The negative-name boundary of \autoref{ch:concrete-instances-negative-name-bound
 
 After this refusal route is visible, apply \autoref{thm:quotient-soundness-boundary-transport-replacement}. The surviving operation is the classifier-respecting $\psame$ route through the displayed relation rows, componentwise $\hsame$ transport, visible $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. No quotient representative, quotient eliminator, erased derivation recovery map, or $\mathsf{Quot.sound}$ dependency is exported.
 \end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary negative-route visibility]
+\label{thm:quotient-soundness-boundary-negative-route-visibility}
+Any quotient-style representative request exposed to an accepted $\QuotientSoundnessBoundaryUp$ packet must display the negative-name boundary row and its refusal verdict before the local $\psame$ transport replacement can be read. The request may not consume quotient representatives, quotient eliminators, erased derivation recovery, or $\mathsf{Quot.sound}$ as hidden data behind the transport row.
+\end{theorem}
+\begin{proof}
+Apply the negative-boundary route of \autoref{thm:quotient-soundness-boundary-negative-boundary-route}. It places every representative request on the visible refusal surface before the packet admits any replacement transport.
+
+Then use the transport replacement theorem, \autoref{thm:quotient-soundness-boundary-transport-replacement}. The replacement is the local $\psame$ route over displayed relation data, componentwise $\hsame$ transport, continuation replay, package provenance, and local naming.
+
+Since the refusal verdict precedes the transport read, no consumer can reinterpret the replacement as a quotient representative, quotient eliminator, erased derivation recovery map, or $\mathsf{Quot.sound}$ dependency. Those requests remain visible as refused boundary rows.
+\end{proof}
