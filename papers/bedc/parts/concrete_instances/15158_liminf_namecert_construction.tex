@@ -27,6 +27,21 @@ The carrier stores a finite lower-tail cut surface for a bounded real sequence. 
 \end{definition}
 \leandef{BEDC.Derived.LiminfUp.LiminfCarrier}
 
+\begin{lemma}[Liminf carrier route rows]
+\label{lem:liminf-carrier-route-rows}
+Every accepted $\LiminfUp$ carrier of \autoref{def:liminf-carrier} projects the three route rows
+$$
+\Cont(S,L,D),\qquad \Cont(D,T,C),\qquad \PkgSig(B,P,\mathsf{pkg}),
+$$
+namely bounded-sequence to lower-cut to dyadic replay, dyadic to terminal-real to continuation replay, and bundle provenance through the displayed package row.
+\end{lemma}
+\leanchecked{BEDC.Derived.LiminfUp.LiminfCarrier\_route\_rows}
+\begin{proof}
+Project the displayed carrier rows of \autoref{def:liminf-carrier}. The route coordinate $C$ contains the bounded sequence, lower-cut, dyadic, terminal, and replay continuations, while the provenance row $P$ supplies the package signature.
+
+Thus the accepted carrier exposes exactly the two $\Cont$ rows and the $\PkgSig$ provenance row named above, without adding a lower-envelope theorem or a host infimum.
+\end{proof}
+
 \begin{definition}[Liminf classifier]
 \label{def:liminf-classifier}
 Two $\LiminfUp$ carriers
@@ -80,6 +95,7 @@ The tail lower-cut schedule $L$ then names which tails and lower observations ar
 
 Only after those rows are replayed can a consumer inspect the terminal real seal $T$. The structural rows $H,C,P,N$ then transport, replay, source, and name the same finite route, so the consumer cannot bypass the tail-cut surface by reading a host infimum or a selected subsequence.
 \end{proof}
+\leanchecked{BEDC.Derived.LiminfUp.LiminfTailCutRoute}
 
 \begin{theorem}[Liminf tail lower-envelope compatibility]
 \label{thm:liminf-tail-lower-envelope-compatibility}
@@ -113,6 +129,7 @@ Apply the lower-envelope compatibility theorem above. It already forces every li
 
 The structural rows $H,C,P,N$ transport, replay, source, and name the refined route. Since the refinement changes only the displayed tail schedule and preserves the bounded sequence row, lower-cut route, upper-cut tolerance ledger, and terminal Real seal, no zero-gap consumer can bypass the finite envelope or read a host infimum, selected subsequence, quotient stream equality, or ambient completeness principle.
 \end{proof}
+\leanchecked{BEDC.Derived.LiminfUp.LiminfTailEnvelopeMonotoneRefinement}
 
 \begin{theorem}[Liminf Real seal non-escape]
 \label{thm:liminf-real-seal-nonescape}
