@@ -2663,6 +2663,7 @@ import BEDC.Derived.ChernWeilUp
 import BEDC.Derived.ChernWeilUp.ChernWeilBridgeBoundary
 import BEDC.Derived.ChernWeilUp.EnvelopeClassifier
 import BEDC.Derived.ChernWeilUp.NameCertObligationSurface
+import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.Nonescape
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.StageInduction
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.WindowRoute
@@ -3031,6 +3032,7 @@ import BEDC.Derived.CompactIntervalFixedPointUp.NameCertObligations
 import BEDC.Derived.CompactIntervalFixedPointUp.PublicSeal
 import BEDC.Derived.CompactIntervalFixedPointUp.RealSealNonescape
 import BEDC.Derived.CompactIntervalFixedPointUp.ResidualBisectionHandoff
+import BEDC.Derived.CompactIntervalFixedPointUp.ResidualModulusReadback
 import BEDC.Derived.CompactIntervalFixedPointUp.ScopedRoute
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalFixedPointUp.WindowRegularity
