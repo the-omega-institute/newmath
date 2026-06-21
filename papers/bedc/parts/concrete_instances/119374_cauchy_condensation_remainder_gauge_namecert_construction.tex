@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCondensationRemainderGaugeUp$}
+\label{ch:concrete-instances-cauchy-condensation-remainder-gauge-namecert}
+\origin{human}
+
+Following Cauchy and Hardy on condensation of monotone positive series, the $\CauchyCondensationRemainderGaugeUp$ packet records the finite remainder-budget surface used when a dyadic tail estimate is read through condensed blocks. It sits after the condensation witness of \autoref{ch:concrete-instances-cauchycondensation-namecert}, the tail-diameter packet of \autoref{ch:concrete-instances-cauchy-tail-diameter-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a named BEDC object for condensation-style remainder budgets; it is not a convergence theorem for arbitrary series, a quotient-real equality principle, a selected limit, or a completeness row.
+
+\begin{definition}[Cauchy condensation remainder gauge carrier]
+\label{def:cauchy-condensation-remainder-gauge-carrier}
+A $\CauchyCondensationRemainderGaugeUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,M,Q,B,R,D,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source positive monotone series or $\RegSeqRatUp$ tail row whose remainder is being budgeted.
+\item $M$ is the monotonicity certificate row required before the condensation block route can be read.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance query requested by the downstream tail or real-completion consumer.
+\item $B$ is the finite block schedule row, naming the condensed dyadic blocks inspected by the gauge.
+\item $R$ is the block-remainder ledger, recording the displayed upper budget for all blocks beyond the named block schedule.
+\item $D$ is the $\CauchyTailDiameterUp$ dependency row tying the block-remainder budget to tail-diameter control.
+\item $W$ is the window-stability row requiring the source, block schedule, dyadic tolerance, and remainder ledger to be read through the same finite $\StreamNameUp$ window family.
+\item $E$ is the $\RegSeqRatUp$ or $\RealUp$ handoff row reached only after $S,M,Q,B,R,D,W$ are visible.
+\item $H$ records componentwise $\hsame$ transport for the source, monotonicity, tolerance, block schedule, remainder ledger, tail-diameter dependency, window stability, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the source row through the monotonicity, tolerance, block schedule, remainder, tail-diameter, window-stability, and handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCondensationRemainderGaugeUp$, $\CauchyCondensationUp$, $\CauchyTailDiameterUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCondensationRemainderGaugeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,M,Q,B,R,D,W,E,H,C,P,N$. It has no coordinate for a host summation theorem, arbitrary-series convergence, quotient real equality, selected limits, countable choice, ambient $\RealUp$ completeness, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Cauchy condensation remainder gauge block stability]
+\label{thm:cauchy-condensation-remainder-gauge-block-stability}
+For every accepted $\CauchyCondensationRemainderGaugeUp$ carrier $G=(S,M,Q,B,R,D,W,E,H,C,P,N)$, a remainder read is stable under refinement of the displayed condensed block schedule precisely when the refined request preserves the same source row $S$, monotonicity row $M$, dyadic tolerance $Q$, block schedule face $B$, block-remainder ledger $R$, tail-diameter dependency $D$, window-stability row $W$, and handoff row $E$. The refined read therefore remains a finite block-budget comparison and exports no host summation theorem, arbitrary-series convergence, quotient real equality, selected limit, countable-choice row, ambient completeness claim, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only rows from which a condensed remainder can be read are $S,M,Q,B,R,D,W,E$ together with the structural rows $H,C,P,N$.
+
+For a refinement of the block schedule, require preservation of $S,M,Q,B,R,D,W,E$. The remainder ledger $R$ is then still read against the same dyadic tolerance row $Q$, while $D$ keeps the budget tied to the tail-diameter surface and $W$ keeps all observations inside one finite window family.
+
+Transport and replay do not add analytic coordinates. The row $H$ moves exactly the displayed components, and $C$ replays the same source-monotonicity-tolerance-block-remainder-tail route.
+
+Thus the refined request is another presentation of the same finite budget. Since no carrier row names a host summation theorem, arbitrary-series convergence, quotient equality, selected limit, countable choice, ambient completeness, or bridge datum, none is exported by the refinement.
+\end{proof}
+
+\begin{theorem}[Cauchy condensation remainder gauge NameCert obligations]
+\label{thm:cauchy-condensation-remainder-gauge-namecert-obligations}
+For every accepted $\CauchyCondensationRemainderGaugeUp$ carrier $G=(S,M,Q,B,R,D,W,E,H,C,P,N)$, the local $\NameCert_{\CauchyCondensationRemainderGaugeUp}$ surface consists exactly of carrier admission, monotonicity exposure, dyadic tolerance routing, finite condensed-block scheduling, block-remainder ledger exactness, tail-diameter dependency, finite-window stability, $\RegSeqRatUp$ or $\RealUp$ handoff, componentwise transport, displayed replay, package provenance, local naming, and refusal of host summation, arbitrary-series convergence, quotient real equality, selected limits, countable choice, ambient completeness, and standard-bridge data.
+\end{theorem}
+\begin{proof}
+Carrier admission exposes the tuple $S,M,Q,B,R,D,W,E,H,C,P,N$. The monotonicity row $M$ and block schedule $B$ are the only condensation-specific rows, while $Q,R,D,W$ record the dyadic budget, remainder ledger, tail-diameter dependency, and finite-window discipline.
+
+The handoff row $E$ is downstream of those analytic rows. A $\RegSeqRatUp$ or $\RealUp$ consumer can therefore read a remainder budget only after the source, monotonicity, tolerance, block, remainder, tail-diameter, and window rows have been displayed.
+
+The remaining rows are structural. Componentwise transport, displayed replay, provenance, and local naming preserve the same finite coordinates and do not introduce any ambient summation or completion object.
+
+Therefore the NameCert obligations are exhausted by the listed rows. The refused host summation, arbitrary convergence, quotient equality, selected limit, countable-choice, completeness, and bridge objects are absent because no coordinate of the carrier stores them.
+\end{proof}
+
+\begin{theorem}[Cauchy condensation remainder gauge real handoff]
+\label{thm:cauchy-condensation-remainder-gauge-real-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ tail consumer that uses a $\CauchyCondensationRemainderGaugeUp$ packet must pass through the ordered finite route
+$$
+S,M,Q \longmapsto B,R \longmapsto D,W \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a displayed monotone-series source, dyadic tolerance, condensed block schedule, remainder ledger, tail-diameter dependency, finite-window stability, and regular-rational or real-name handoff. It receives no host summation theorem, arbitrary-series convergence, quotient real equality, selected limit, countable choice, ambient $\RealUp$ completeness, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with a $\RegSeqRatUp$ or $\RealUp$ tail consumer. The carrier gives the consumer a finite packet $G=(S,M,Q,B,R,D,W,E,H,C,P,N)$, so the read must start from the displayed source and monotonicity rows.
+
+Next read the condensation budget. The dyadic tolerance $Q$ fixes the requested size, the block schedule $B$ names the condensed blocks, and the ledger $R$ records the remainder budget for the tail beyond the displayed schedule.
+
+The handoff is guarded by $D$ and $W$. The tail-diameter dependency $D$ ties the block budget to tail control, while the window-stability row $W$ keeps the source observations, block rows, and remainder ledger in one finite $\StreamNameUp$ family.
+
+Finally, $E,H,C,P,N$ hand the same data to the regular-rational or real-name consumer and preserve it under transport and replay. Since the route never opens any additional coordinate, it cannot export host summation, arbitrary convergence, quotient equality, selected limits, countable choice, ambient completeness, or a standard bridge.
+\end{proof}
+
+\closureat{CauchyCondensationRemainderGaugeUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCondensationRemainderGaugeUp}
+  \constructivestory{A $\CauchyCondensationRemainderGaugeUp$ packet is generated from a positive monotone source row, dyadic tolerance query, finite condensed-block schedule, block-remainder ledger, tail-diameter dependency, StreamName window-stability row, RegSeqRat or Real handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-condensation-remainder-gauge-carrier}, \autoref{thm:cauchy-condensation-remainder-gauge-block-stability}, \autoref{thm:cauchy-condensation-remainder-gauge-namecert-obligations}, and \autoref{thm:cauchy-condensation-remainder-gauge-real-handoff} seed the finite condensation remainder-budget packet over monotone source rows, dyadic tolerances, condensed block schedules, block-remainder ledgers, tail-diameter dependencies, finite-window stability, and RegSeqRat or Real handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, host summation, arbitrary-series convergence, quotient real equality, selected limits, countable choice, ambient RealUp completeness, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, block stability, NameCert obligations, and RegSeqRat or Real handoff for BEDC.Derived.CauchyCondensationRemainderGaugeUp.}
+\end{closurestatus}
