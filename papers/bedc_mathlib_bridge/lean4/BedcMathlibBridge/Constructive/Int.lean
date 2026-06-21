@@ -445,12 +445,4 @@ theorem zero_toInt : toInt (BHist.Empty, BHist.Empty) = 0 := by
   rw [emptyLength]
   rfl
 
-#print axioms BedcMathlibBridge.Constructive.Int.relIff
-#print axioms BedcMathlibBridge.Constructive.Int.rightInv
-#print axioms BedcMathlibBridge.Constructive.Int.leftInvRel
-#print axioms BedcMathlibBridge.Constructive.Int.intRelQuotEquiv
-#print axioms BedcMathlibBridge.Constructive.Int.pairAdd_toInt
-#print axioms BedcMathlibBridge.Constructive.Int.pairNeg_toInt
-#print axioms BedcMathlibBridge.Constructive.Int.zero_toInt
-
 end BedcMathlibBridge.Constructive.Int

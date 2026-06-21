@@ -1,5 +1,5 @@
 import BedcMathlibBridge.Core.RelEquiv
 import BedcMathlibBridge.Core.RelQuotEquiv
 import BedcMathlibBridge.Adapter.MathlibEquiv
-import BedcMathlibBridge.Constructive.Bool
-import BedcMathlibBridge.Constructive.Int
+import BedcMathlibBridge.Constructive
+import BedcMathlibBridge.Audit.ConstructiveAxiomGuard
