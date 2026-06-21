@@ -389,6 +389,70 @@ pattern and ledger through the equivalence or classifier paths that the
 interface licenses.
 \end{proof}
 
+\subsection{Certificate-organized clusters}
+\label{subsec:philosophy-certificate-organized-clusters}
+
+\begin{definition}[Certificate-organized cluster]
+\label{def:philosophy-certificate-organized-cluster}
+A certificate-organized cluster is a paper-level interface
+$$
+\mathsf{ClusterCert}(S,P,L,R,B,F,O)
+$$
+whose first component is a semantic naming certificate over source
+rows $S$, pattern rows $P$, ledger rows $L$, and classifier relation
+$R$. The remaining rows record, respectively, a connectivity or
+membership witness for the cluster, a boundary predicate $B$, forbidden
+claims $F$, and open obligations $O$. The interface is a derived
+certificate protocol; it is not a kernel primitive and not an axiom
+schema.
+\end{definition}
+
+\begin{theorem}[Cluster names are licensed names]
+\label{thm:philosophy-cluster-names-licensed}
+If a certificate-organized cluster is accepted, then its public name is a
+licensed BEDC name rather than a bare cluster label.
+\end{theorem}
+\begin{proof}
+The cluster interface contains a semantic naming certificate. By
+\autoref{thm:philosophy-semantic-certificates-pattern-ledger-witnesses},
+that certificate supplies a source witness together with pattern and
+ledger witnesses. The classifier core supplies transport across the
+cluster by \autoref{thm:philosophy-pattern-ledger-transport} and
+\autoref{thm:philosophy-classifier-chain-transport}. Therefore the
+cluster name is admitted through source, pattern, classifier, stability,
+and ledger data, not through a detached label.
+\end{proof}
+
+\begin{corollary}[Cluster objects are transportable source families]
+\label{cor:philosophy-cluster-objects-transportable-source-families}
+A certificate-organized cluster names a transportable source family
+under a displayed classifier, not a single unqualified point.
+\end{corollary}
+\begin{proof}
+Pattern and ledger rows transport along licensed classifier paths by
+\autoref{thm:philosophy-pattern-ledger-transport} and
+\autoref{thm:philosophy-classifier-chain-transport}. The named object is
+therefore the classifier-stable family of admissible source rows
+together with its ledger, boundary, forbidden-claim, and open-obligation
+surface.
+\end{proof}
+
+\begin{corollary}[Cluster compression preserves memory]
+\label{cor:philosophy-cluster-compression-preserves-memory}
+Any readout, coordinate, probability, or model token exported from a
+certificate-organized cluster must preserve its source memory through a
+ledger or expose the missing source as a boundary.
+\end{corollary}
+\begin{proof}
+The cluster interface contains the ledger row of its semantic
+certificate and the explicit boundary row $B$. A readout that hides
+source material is a compression, so
+\autoref{thm:philosophy-compression-must-remember} applies. If the
+source fiber cannot be fully displayed, the remaining material belongs
+to the boundary or gap surface rather than to a closed object-layer
+claim.
+\end{proof}
+
 \subsection{Acceptance gates and strength}
 \label{subsec:philosophy-acceptance-gates-strength}
 
