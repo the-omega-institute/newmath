@@ -180,7 +180,23 @@ Next use the metric handoff and classifier-transport routes, \autoref{thm:hausdo
 Finally apply \autoref{thm:hausdorff-space-point-separation-choicefree} and \autoref{thm:hausdorff-space-realseal-nonescape}. The public export is therefore exactly the finite separation packet over topology, metric, Real, history, transport, continuation, provenance, and naming rows, while quotient point equality, representatives, compactness, completeness, Lean verification, and bridge closure remain unavailable.
 \end{proof}
 
-\closureat{HausdorffSpaceUp}{publicStr}
+\begin{theorem}[HausdorffSpace mature standard-bridge readiness]
+\label{thm:hausdorff-space-mature-standard-bridge-readiness}
+For an accepted $\HausdorffSpaceUp$ carrier
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N),
+$$
+the public separation export of \autoref{thm:hausdorff-space-public-separation-export}, the metric handoff of \autoref{thm:hausdorff-space-metric-separation-handoff}, the classifier transport of \autoref{thm:hausdorff-space-open-neighborhood-classifier-transport}, the choice-free point separation of \autoref{thm:hausdorff-space-point-separation-choicefree}, and the Real-seal nonescape of \autoref{thm:hausdorff-space-realseal-nonescape} are the complete paper-side mature interface for the packet. Lean verification and the standard bridge remain separate verification-axis obligations, but the theory-side carrier exports no additional coordinate beyond $T,x,y,U,V,D,M,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the public separation export. It assembles the carrier admission, NameCert obligations, metric handoff, classifier transport, choice-free point separation, and Real-seal boundary into one public $\NameCert_{\HausdorffSpaceUp}$ surface.
+
+Inspect the listed routes. Metric-generated separation must pass through $M,E$ before it returns to $U,V,D$, classifier transport preserves the displayed rows through $H,C$, and point separation selects no representatives or quotient points.
+
+Finally inspect provenance and local naming. The rows $P,N$ name only the displayed packet, so the paper-side mature interface is exhausted by $T,x,y,U,V,D,M,E,H,C,P,N$. The Lean target and the standard bridge are therefore verification-axis tasks rather than additional theory-side coordinates.
+\end{proof}
+
+\closureat{HausdorffSpaceUp}{matureStr}
 
 \begin{theorem}[HausdorffSpace bridge-facing certificate]
 \label{thm:hausdorffspace-bridge-certificate}
@@ -201,7 +217,7 @@ Since the carrier has no coordinate for quotient point equality, open-cover comp
 \end{proof}
 
 \begin{closurestatus}{\HausdorffSpaceUp}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:hausdorff-space-carrier}, \autoref{thm:hausdorff-space-namecert-obligations}, \autoref{thm:hausdorff-space-metric-separation-handoff}, \autoref{thm:hausdorff-space-open-neighborhood-classifier-transport}, \autoref{thm:hausdorff-space-point-separation-choicefree}, \autoref{thm:hausdorff-space-realseal-nonescape}, and \autoref{thm:hausdorff-space-public-separation-export} bind the public separated-topology export over carrier admission, NameCert obligations, metric separation handoff, classifier transport, choice-free point separation, and Real seal nonescape.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
