@@ -6,8 +6,11 @@ import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived
 
-def ConstructiveHeineBorelIntervalUp : Type :=
-  Unit
+open BEDC.FKernel.Hist
+
+inductive ConstructiveHeineBorelIntervalUp : Type where
+  | mk (I D R S E M U H C P N : BHist) : ConstructiveHeineBorelIntervalUp
+  deriving DecidableEq
 
 end BEDC.Derived
 
