@@ -1302,7 +1302,6 @@ import BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.NameCertObligations
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.TasteGate
 import BEDC.Derived.BoundedSearchRefutationUp
-import BEDC.Derived.BoundedSearchRefutationUp.NameCertBoundary
 import BEDC.Derived.BoundedSearchRefutationUp.TasteGate
 import BEDC.Derived.BoundedSelfAdjointOperatorUp.TasteGate
 import BEDC.Derived.BoundedSetUp.BallContainmentRoute
@@ -6879,7 +6878,6 @@ import BEDC.Derived.LocatedLimitUp.ScheduleTailCofinality
 import BEDC.Derived.LocatedLimitUp.SourceRowScope
 import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedLimitUp.WindowScheduleExactness
-import BEDC.Derived.LocatedLimsupUp
 import BEDC.Derived.LocatedLowerBoundUp
 import BEDC.Derived.LocatedMetricCompletionUp.TasteGate
 import BEDC.Derived.LocatedMetricSpaceUp.TasteGate
@@ -10385,8 +10383,8 @@ import BEDC.Derived.SetlikeUp.ComprehensionScope
 import BEDC.Derived.SetlikeUp.ExtensionalityRoot
 import BEDC.Derived.SetlikeUp.FamilyFiberModelSatisfactionRoute
 import BEDC.Derived.SetlikeUp.FamilyHandoffObligation
-import BEDC.Derived.SetlikeUp.MembershipCarrierRootSurface
 import BEDC.Derived.SetlikeUp.MembershipClassifierRootUnblock
+import BEDC.Derived.SetlikeUp.MembershipFamilyBHistInduction
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipStability
