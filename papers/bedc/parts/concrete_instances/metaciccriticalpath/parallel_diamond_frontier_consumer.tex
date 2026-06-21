@@ -71,15 +71,15 @@ Next use the residual handoff and residual witness consumption routes,
 the residual witness to be read as displayed frontier data rather than as a
 global confluence or normalization theorem.
 
-Finally use the parallel-diamond consumer readback theorem,
-\autoref{thm:metacic-critical-path-parallel-diamond-consumer-readback}. It
-packages the residual witness, critical pair, local join, bounded checker,
-obstruction, structural rows, provenance, and local naming on the same
-critical-path route. Since each component route keeps the L10 rows displayed
-and none supplies subject reduction, full Church--Rosser, evaluator equality,
-quotient equality, global normalization, kernel consistency, selected limits,
-or $\RealUp$ completeness, the composed readback exports none of those
-endpoints.
+Finally use the checked parallel-diamond frontier handoff,
+\autoref{thm:metacic-critical-path-parallel-diamond-frontier-consumer}. Its
+residual witness, critical pair, local join, bounded checker, obstruction, L10
+source ledger, transport, replay, provenance, and local naming rows are exactly
+the rows exposed by the frontier-handoff route. Since each component route keeps
+the L10 rows displayed and none supplies subject reduction, full Church--Rosser,
+evaluator equality, quotient equality, global normalization, kernel
+consistency, selected limits, or $\RealUp$ completeness, the composed readback
+exports none of those endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathL10SourceLedgerReadback}
 
@@ -135,40 +135,4 @@ Next read the frontier exports cited in that handoff. The public export of \auto
 The extra consumer precondition is the concrete residual witness row. Placing that row beside the critical-pair, candidate-join, bounded-checker, obstruction, structural, and L10 source-ledger rows forces a normal-form or confluence consumer to read a displayed witness packet before it can inspect the handoff.
 
 Since all consumed data are displayed rows of the finite frontier and critical-path ledgers, the route has no coordinate for subject reduction, global Church--Rosser, evaluator equality, quotient term equality, global normalization, kernel consistency, selected limits, or ambient $\RealUp$ completeness.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path parallel-diamond consumer readback]
-\label{thm:metacic-critical-path-parallel-diamond-consumer-readback}
-Any $\MetaCICCriticalPathUp$ consumer that reads the
-$\MetaCICParallelDiamondFrontierUp$ frontier must expose the residual witness,
-critical pair, local join, bounded checker, obstruction, L10 source ledger,
-$\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$
-rows before any normal-form or consistency-facing output is inspected. This is
-a residual-frontier readback obligation for the critical path; it is not
-subject reduction, global Church--Rosser, evaluator equality, quotient term
-equality, global normalization, or kernel consistency.
-\end{theorem}
-\begin{proof}
-Start with the diamond-frontier consumer route,
-\autoref{thm:metacic-critical-path-diamond-frontier-consumer}. It places the
-parallel-diamond frontier on the critical-path read before a normal-form
-consistency consumer can inspect the handoff.
-
-Use frontier nonescape,
-\autoref{thm:metacic-critical-path-frontier-consumer-nonescape}. This keeps
-the residual-substitution, critical-pair, candidate-join, bounded-check,
-obstruction, L10 source-ledger, transport, replay, provenance, and local naming
-rows visible as finite packet data.
-
-Next apply the residual handoff and witness-consumption routes,
-\autoref{thm:metacic-critical-path-residual-handoff} and
-\autoref{thm:metacic-critical-path-residual-witness-consumption}. These add
-the concrete residual witness row and force it to be read beside the critical
-pair, local join, bounded checker, obstruction, structural rows, and L10 source
-ledger before any normal-form or confluence consumer may use the frontier.
-
-The composed readback therefore exposes exactly the listed rows. None of the
-component routes supplies subject reduction, global Church--Rosser, evaluator
-equality, quotient term equality, global normalization, or kernel consistency,
-so the critical-path consumer exports none of those global endpoints.
 \end{proof}
