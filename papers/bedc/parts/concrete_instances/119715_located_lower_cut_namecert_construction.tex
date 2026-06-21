@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\LocatedLowerCutUp$}
+\label{ch:concrete-instances-located-lower-cut-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\LocatedLowerCutUp$ packet records the lower-cut face of a bounded real family by finite lower-bound ledgers, located approximation windows, and regular-rational readback, before any ambient completeness principle for $\RealUp$ is available. It is the constructive lower-cut companion to the located-infimum route of \autoref{ch:concrete-instances-locatedinfimum-namecert} and the upper-bound sibling route of \autoref{ch:concrete-instances-locatedsupremum-namecert}, with the bounded-family source supplied by \autoref{ch:concrete-instances-boundedrealfamily-namecert}.
+
+\begin{definition}[LocatedLowerCut carrier]
+\label{def:located-lower-cut-carrier}
+A $\LocatedLowerCutUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,L,A,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the bounded-family source row, read through the finite family window and the common-bound data of $\BoundedRealFamilyUp$.
+\item $L$ is the lower-bound ledger. It stores the finite comparisons certifying that inspected family values lie above the proposed lower surface.
+\item $A$ is the located approximation ledger. For each displayed precision request, it gives a finite family-side approximation that separates accepted lower reads from rejected stronger lower candidates at that precision.
+\item $W$ is the $\StreamNameUp$ window row that fixes the finite observations of $F,L,A$ admitted by the packet.
+\item $R$ is the $\RegSeqRatUp$ handoff row for the windowed rational readback.
+\item $E$ is the $\RealUp$ seal reached only after $F,L,A,W,R$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the bounded-family row, lower-bound ledger, located approximation ledger, window, handoff, real seal, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay for lower-bound reads, located approximation reads, classifier transport, regular-rational handoff, and real-seal readback.
+\item $P$ is the $\Pkg$ provenance over $\LocatedLowerCutUp$, $\LocatedInfimumUp$, $\LocatedSupremumUp$, $\BoundedRealFamilyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedLowerCutUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Dedekind completeness, quotient real equality, trichotomy, arbitrary infimum, countable choice, or host completeness.
+\end{definition}
+
+\begin{theorem}[LocatedLowerCut NameCert obligations]
+\label{thm:located-lower-cut-namecert-obligations}
+For every accepted $\LocatedLowerCutUp$ packet $K=(F,L,A,W,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedLowerCutUp}$ obligation surface is exhausted by the bounded-family source, lower-bound ledger, located approximation ledger, $\StreamNameUp$ window, $\RegSeqRatUp$ handoff, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming rows. A consumer asking for Dedekind completeness, quotient real equality, trichotomy, arbitrary infimum, countable choice, host completeness, or a standard bridge asks for data outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-lower-cut-carrier}. The analytic rows are exactly $F,L,A,W,R,E$: the family source, lower-bound ledger, located approximation ledger, finite observation window, regular-rational handoff, and real seal.
+
+Read the lower-cut obligations through those rows. The lower-bound part is sourced by $L$ over $F$, while the located approximation part is sourced by $A$ inside the finite window $W$. The rows $R$ and $E$ only repack and seal the displayed windowed observations.
+
+The structural rows do not add analytic strength. The transports in $H$, replays in $C$, provenance in $P$, and local name row $N$ preserve the same finite route. Since none of the displayed rows contains Dedekind completeness, quotient equality, trichotomy, arbitrary infimum, countable choice, host completeness, or a standard bridge coordinate, none can be exported by the certificate.
+\end{proof}
+
+\begin{theorem}[LocatedLowerCut window induction]
+\label{thm:located-lower-cut-window-induction}
+For every accepted $\LocatedLowerCutUp$ packet $K=(F,L,A,W,R,E,H,C,P,N)$, induction over the finite $\StreamNameUp$ window $W$ constructs the displayed located approximation ledger $A$ from the bounded-family source $F$, lower-bound ledger $L$, handoff row $R$, real seal $E$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. The induction does not use Dedekind completeness, quotient real equality, trichotomy, arbitrary infimum, countable choice, or host completeness.
+\end{theorem}
+\begin{proof}
+Proceed over the finite window row $W$. The empty window has no precision request, so no located approximation entry is required.
+
+For a successor window, read the next precision request together with the bounded-family source $F$ and the lower-bound ledger $L$. The carrier requires the corresponding located approximation entry in $A$, and the induction hypothesis handles the remaining window entries.
+
+After the window ledger is built, $R$ repacks those entries as regular-rational readback and $E$ seals only that readback. The rows $H,C,P,N$ transport, replay, source, and name the same finite construction. No step asks for a completed Dedekind cut, quotient equality of real names, trichotomy, arbitrary infimum, countable-choice selector, or host-completeness theorem.
+\end{proof}
+
+\begin{closurestatus}{\LocatedLowerCutUp}
+  \constructivestory{A $\LocatedLowerCutUp$ packet is generated from a bounded-family source row, a lower-bound ledger, a located approximation ledger, a StreamName window, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-lower-cut-carrier}, \autoref{thm:located-lower-cut-namecert-obligations}, and \autoref{thm:located-lower-cut-window-induction} bind the finite lower-cut seed over the L10 Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Dedekind completeness, quotient real equality, trichotomy, arbitrary infimum, countable choice, host completeness, or a standard bridge.}
+  \upgradepath{Formal verification can encode carrier admission, lower-bound readback, located approximation witnessing, window induction, handoff stability, and real-seal factorization for BEDC.Derived.LocatedLowerCutUp.}
+\end{closurestatus}
