@@ -3082,6 +3082,7 @@ import BEDC.Derived.CompactMetricCompletionUp.LebesgueNumberConsumerRoute
 import BEDC.Derived.CompactMetricCompletionUp.TasteGate
 import BEDC.Derived.CompactMetricCompletionUp.UniformModulusSeal
 import BEDC.Derived.CompactMetricContinuousImageUp.TasteGate
+import BEDC.Derived.CompactMetricHyperspaceUp.TasteGate
 import BEDC.Derived.CompactMetricLocatedNetSelectionUp
 import BEDC.Derived.CompactMetricProductUp.TasteGate
 import BEDC.Derived.CompactMetricSequentialNetUp.TasteGate
@@ -5367,6 +5368,7 @@ import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastSeriesProductUp.TasteGate
 import BEDC.Derived.FatouLemmaUp.TasteGate
 import BEDC.Derived.FejerKernelUp.TasteGate
+import BEDC.Derived.FejerTheoremUp.TasteGate
 import BEDC.Derived.FeketeSubadditiveUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FftUp
@@ -6352,6 +6354,7 @@ import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.HyperspaceUp.BridgedInterfaceRoute
 import BEDC.Derived.HyperspaceUp.CarrierObligations
 import BEDC.Derived.HyperspaceUp.CauchyNetCompactHandoff
 import BEDC.Derived.HyperspaceUp.CauchyUniformCompleteHandoff
