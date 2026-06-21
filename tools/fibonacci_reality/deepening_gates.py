@@ -66,6 +66,8 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "green_kirchhoff_certificate",
     "automath_paper_section",
     "integer_matrix_lucas_kernel_certificate",
+    "lucas_fib_norm_relation_certificate",
+    "bedc_finite_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -103,6 +105,8 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "lean_finite_certificate",
         "automath_paper_section",
         "integer_matrix_lucas_kernel_certificate",
+        "lucas_fib_norm_relation_certificate",
+        "bedc_finite_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -117,7 +121,14 @@ EVIDENCE_BASIS = {
     "mismatch_ledger",
     "mechanism_bridge",
 }
-FORCED_WINDOW_ARITHMETIC_BASIS = {"integer_matrix_power", "lucas_recurrence"}
+FORCED_WINDOW_ARITHMETIC_BASIS = {
+    "integer_matrix_power",
+    "lucas_recurrence",
+    "integer_recurrence_evaluation",
+    "lucas_fibonacci_norm_enumeration",
+    "lucas_doubling_enumeration",
+    "bedc_finite_certificate",
+}
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
 CONTACT_KINDS = {
     "genetic_code_table",
@@ -216,7 +227,11 @@ MISMATCH_KINDS = {
     "none",
 }
 INTERNAL_STRUCTURES = {"coordinate", "closure", "spectrum", "trigger", "rank", "homology", "relation", "none"}
-FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMETIC_BASIS
+FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMETIC_BASIS | {
+    "fibonacci_recurrence",
+    "integer_norm_relation",
+    "lucas_doubling",
+}
 MECHANISM_WORDS = {
     "cause",
     "causes",
@@ -2026,8 +2041,45 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    lucas_fib_norm_conjecture = {
+        "conjecture_id": "window6.lucas-fib.norm-relation-law",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Lucas-Fibonacci norm relation",
+        "informal_statement": "Integer recurrence enumeration checks the Lucas-Fibonacci norm relation as a finite BEDC arithmetic certificate.",
+        "bedc_minimal_form": {
+            "carrier": "Integer recurrence evaluations for Fibonacci and Lucas values.",
+            "distinctions": ["Fibonacci recurrence", "Lucas doubling", "integer norm relation"],
+            "readback": "The finite certificate records the recurrence and doubling checks without biological realization claims.",
+            "internal_structure": ["fibonacci_recurrence", "integer_norm_relation", "lucas_doubling"],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": [
+            "integer_recurrence_evaluation",
+            "lucas_fibonacci_norm_enumeration",
+            "lucas_doubling_enumeration",
+            "bedc_finite_certificate",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_lucas_fib_norm_relation.py",
+                "object": "verify-window6-lucas-fib-norm-relation",
+                "kind": "lucas_fib_norm_relation_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law."
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
-        [edge_flux_conjecture, alpha_fit_conjecture, missing_arithmetic_certificate, lucas_kernel_conjecture],
+        [
+            edge_flux_conjecture,
+            alpha_fit_conjecture,
+            missing_arithmetic_certificate,
+            lucas_kernel_conjecture,
+            lucas_fib_norm_conjecture,
+        ],
         [],
         [],
         [],
@@ -2051,6 +2103,9 @@ def self_test() -> int:
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window6.lucas-kernel.coefficient-gauge-obstruction"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.lucas-fib.norm-relation-law"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
