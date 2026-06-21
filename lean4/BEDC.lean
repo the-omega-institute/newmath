@@ -2684,6 +2684,7 @@ import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.Nonescape
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ObligationCarrier
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.RegSeqRatSealFactorization
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ScopedKernelRoute
+import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ScopedWindowConsumer
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.StageInduction
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.WindowRoute
