@@ -155,6 +155,25 @@ Now attach the sibling $\BoundedRealLimsupUp$ packet. Its upper-envelope surface
 Therefore the zero-gap read can only identify the two envelope surfaces after the common route $S,L,D,T,H,C,P,N$ has been displayed. The packet exports no Real completeness principle, trichotomy, selected subsequence, quotient stream equality, host infimum, or host supremum as a substitute for that finite route.
 \end{proof}
 
+\begin{theorem}[Liminf tail lower-upper gap width]
+\label{thm:liminf-tail-lower-upper-gap-width}
+Let an accepted $\LiminfUp$ packet
+$$
+I=(S,L,D,T,H,C,P,N)
+$$
+be paired with a $\BoundedRealLimsupUp$ upper-envelope packet over the same bounded sequence row $S$. Any zero-gap or convergence-facing read from the pair is exposed only after the shared bounded sequence row $S$, lower-cut schedule $L$, upper-cut comparison surface, dyadic tolerance ledger $D$, terminal $\RealUp$ seal $T$, and structural rows $H,C,P,N$ have been displayed. The resulting gap-width handoff is a finite dyadic envelope route, not a Real completeness principle, host infimum or supremum, selected subsequence, or quotient stream equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.LiminfUp.LiminfTailLowerUpperGapWidth}
+\begin{proof}
+Start with lower-tail compatibility, \autoref{thm:liminf-tail-lower-envelope-compatibility}. It forces the $\LiminfUp$ half of the pair to expose $S,L,D,T$ before any lower-envelope consumer can inspect the terminal seal.
+
+Next apply monotone refinement, \autoref{thm:liminf-tail-envelope-monotone-refinement}. It keeps later tail reads on the same bounded-sequence, lower-cut, upper-comparison, dyadic-tolerance, and terminal-seal route whenever the schedule is refined without changing $S,D,T$.
+
+Finally use zero-gap convergence, \autoref{thm:liminf-limsup-zero-gap-convergence}. Once the $\BoundedRealLimsupUp$ packet is paired with the same $S$ and dyadic tolerance row $D$, a convergence-facing read can only pass through the shared finite gap-width route.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that route. Since the proof uses only the displayed lower envelope, upper comparison surface, dyadic ledger, and Real seal, it introduces no Real completeness, host infimum, host supremum, selected subsequence, or quotient stream equality.
+\end{proof}
+
 \begin{theorem}[Liminf Real seal non-escape]
 \label{thm:liminf-real-seal-nonescape}
 An accepted $\LiminfUp$ packet exposes its candidate value only as the terminal $\RealUp$ row $T$ reached through the displayed tail-cut route. In particular, it does not export Real completeness, trichotomy, a host infimum, quotient stream equality, selected subsequences, or open-cover compactness.
@@ -209,6 +228,7 @@ The obligation route of \autoref{thm:liminf-obligation-tail-infimum-route} gives
 
 No carrier row remains after $T$ except the structural transport, replay, provenance, and local naming rows already listed. Hence the displayed Real seal exhausts the value-facing surface and the excluded host principles are not exported by the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.LiminfUp.LiminfRealSealExhaustionObligation}
 
 \begin{theorem}[Liminf lower-cut readback scope]
 \label{thm:liminf-lower-cut-readback-scope}
@@ -224,12 +244,30 @@ Apply the tail-cut route of \autoref{thm:liminf-tail-cut-route}. It orders the r
 Finally use the Real-seal non-escape theorem, \autoref{thm:liminf-real-seal-nonescape}. The endpoint is only the row $T$, not a host infimum, trichotomy decision, selected subsequence, quotient stream equality, or ambient completeness principle.
 \end{proof}
 
+\begin{theorem}[Liminf scoped tail envelope]
+\label{thm:liminf-scoped-tail-envelope}
+Every accepted $\LiminfUp$ consumer must route lower-tail data through the shared $\BoundedRealSequenceUp$ row, the $\BoundedRealLowerCutUp$ schedule, the $\DyadicRatCoreUp$ tolerance ledger, the $\BoundedRealUpperCutUp$ comparison surface, and the terminal $\RealUp$ seal before any tail-envelope read is public. The scoped route is the finite envelope
+$$
+S,L,D,T,H,C,P,N
+$$
+read through $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it exports no host infimum, trichotomy decision, selected subsequence, quotient stream equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:liminf-namecert-obligations}. They identify the accepted packet as the finite row family $S,L,D,T,H,C,P,N$ and place lower-tail exactness, upper-cut compatibility, terminal sealing, transport, replay, provenance, and local naming in that family.
+
+Use the tail-cut route of \autoref{thm:liminf-tail-cut-route}. It orders every value-facing read through the bounded sequence row, lower-tail schedule, dyadic tolerance ledger, and terminal Real seal before the structural rows can replay the packet to a consumer.
+
+Apply the bounded-cut compatibility obligation, \autoref{thm:liminf-obligation-bounded-cut-compatibility}. It forces lower-cut and upper-cut comparisons to use the same source row $S$ and the same tolerance ledger $D$, so the lower envelope cannot be paired with an unrelated upper surface.
+
+Finally read the lower-cut scope theorem, \autoref{thm:liminf-lower-cut-readback-scope}. It identifies the public lower-tail readback as a route through $\BoundedRealSequenceUp$, $\BoundedRealLowerCutUp$, $\BoundedRealUpperCutUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and the terminal $\RealUp$ seal, with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ preserving the same displayed rows.
+\end{proof}
+
 \begin{closurestatus}{\LiminfUp}
   \constructivestory{A $\LiminfUp$ packet is generated from a bounded RealUp sequence row, a finite tail lower-cut schedule, a dyadic tolerance ledger, a terminal RealUp seal, componentwise hsame transports, Cont replay routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:liminf-carrier}, \autoref{def:liminf-classifier}, \autoref{thm:liminf-namecert-obligations}, \autoref{thm:liminf-tail-cut-route}, and \autoref{thm:liminf-real-seal-nonescape} seed the finite tail-cut liminf surface for bounded real sequences.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:liminf-carrier}, \autoref{def:liminf-classifier}, \autoref{thm:liminf-namecert-obligations}, \autoref{thm:liminf-tail-cut-route}, \autoref{thm:liminf-real-seal-nonescape}, \autoref{thm:liminf-lower-cut-readback-scope}, and \autoref{thm:liminf-scoped-tail-envelope} scope the finite tail-cut liminf surface for bounded real sequences.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Real completeness, trichotomy, a host infimum, quotient stream equality, selected subsequences, open-cover compactness, Lean verification, or a standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier formation, classifier stability, lower-tail exactness, upper-cut compatibility, terminal seal routing, tail-cut route ordering, and Real seal non-escape for the displayed packet.}
+  \upgradepath{Public closure requires checked carrier formation, classifier stability, lower-tail exactness, upper-cut compatibility, terminal seal routing, tail-cut route ordering, lower-cut readback, and Real seal non-escape for the displayed packet.}
 \end{closurestatus}

@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FareyApproximationUp$}
+\label{ch:concrete-instances-farey-approximation-namecert}
+\origin{human}
+
+Following Hardy--Wright on rational approximation through Farey neighbors, the $\FareyApproximationUp$ packet records the finite rational-density route that passes from denominator-bounded Farey rows to real-name approximation consumers. It sits between the ordered neighbor surface of \autoref{ch:concrete-instances-farey-sequence-namecert}, the branch-address surface of \autoref{ch:concrete-instances-stern-brocot-namecert}, the rational readback window of \autoref{ch:concrete-instances-real-rational-approximation-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name interface of \autoref{ch:concrete-instances-real-namecert}. The packet names finite inspection data for a displayed real input and tolerance budget; it does not assert ambient $\RealUp$ completeness, a global choice of best approximants, or a quotient-real equality theorem.
+
+\begin{definition}[FareyApproximationUp carrier]
+\label{def:farey-approximation-carrier}
+A $\FareyApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(E,Q,B,F,S,R,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the $\RealUp$ input name whose finite rational window is being inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row exposing the rational samples available at the requested budget.
+\item $B$ is the denominator and tolerance bound row.
+\item $F$ is the $\FareySequenceUp$ neighbor row, recording the adjacent rational endpoints selected at the displayed denominator level.
+\item $S$ is the $\SternBrocotUp$ branch row that replays the same endpoints as a finite left-right address.
+\item $R$ is the rational output row admitted by the Farey bracket.
+\item $W$ is the finite error-window row witnessing that $R$ lies inside the displayed tolerance read from $B$ and $Q$.
+\item $H$ records componentwise $\hsame$ transports for the real name, readback, bound, neighbor, branch, rational output, window, provenance, and local certificate rows.
+\item $C$ records the displayed $\Cont$ replays by which consumers read the finite approximation window.
+\item $P$ is the $\Pkg$ provenance over $\FareyApproximationUp$, $\FareySequenceUp$, $\SternBrocotUp$, $\RealRationalApproximationUp$, $\RegSeqRatUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FareyApproximationUp}$ row.
+\end{enumerate}
+No coordinate supplies a selected best approximation, an infinite Farey process, a real-completeness proof, or a countable-choice selector.
+\end{definition}
+
+\begin{theorem}[FareyApproximationUp NameCert obligations]
+\label{thm:farey-approximation-namecert-obligations}
+For every accepted $\FareyApproximationUp$ carrier $A$, the local $\NameCert_{\FareyApproximationUp}$ surface consists exactly of carrier admission for
+$$
+E,Q,B,F,S,R,W,H,C,P,N,
+$$
+Farey-neighbor exposure, Stern--Brocot branch replay, rational readback from the displayed real-name samples, finite tolerance-window exactness, componentwise transport, continuation replay, provenance, and nonescape from selected-best-approximant or $\RealUp$ completeness claims.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:farey-approximation-carrier}. The rows $E,Q,B,F,S,R,W$ are the whole mathematical surface: a displayed real name, a finite rational readback, a denominator and tolerance budget, the Farey neighbor bracket, the matching Stern--Brocot branch address, a rational output row, and the finite window check.
+
+The route through \autoref{ch:concrete-instances-farey-sequence-namecert} supplies the ordered neighbor inspection, while \autoref{ch:concrete-instances-stern-brocot-namecert} supplies the branch replay for the same bracket. The rows $H$ and $C$ keep these reads componentwise and displayed.
+
+The provenance row $P$ and local row $N$ record that no other obligation is available. Since no coordinate carries a selector for best approximants or a real-completeness witness, the NameCert surface stops at the finite rational-density window.
+\end{proof}
+
+\begin{theorem}[FareyApproximationUp real-density handoff]
+\label{thm:farey-approximation-real-density-handoff}
+Every accepted $\FareyApproximationUp$ carrier exposes a finite rational-density handoff
+$$
+\RealUp \longleftarrow \RegSeqRatUp \longleftarrow \FareySequenceUp \longleftrightarrow \SternBrocotUp \longrightarrow \RealRationalApproximationUp
+$$
+for the displayed input row $E$ and budget row $B$. The handoff gives downstream consumers the rational output $R$ together with the finite error window $W$, but it does not select a denominator-optimal approximant and does not close the ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Read $Q$ from the displayed real-name input $E$ at the budget $B$. This produces only the finite rational samples admitted by the regular rational sequence route.
+
+Next read the Farey neighbor row $F$ and the Stern--Brocot branch row $S$. These two rows identify the same finite rational bracket: $F$ as an ordered neighbor inspection and $S$ as a branch-address replay. The rational output row $R$ and window row $W$ are consumed through that bracket.
+
+Finally, the continuation row $C$ exposes the resulting finite approximation window to the $\RealRationalApproximationUp$ consumer. Because the carrier contains neither a best-approximant selector nor a completeness construction for all Cauchy data, the handoff remains a finite rational-density packet.
+\end{proof}
+
+\closureat{FareyApproximationUp}{seedStr}
+
+\begin{closurestatus}{\FareyApproximationUp}
+  \constructivestory{A $\FareyApproximationUp$ packet is generated from a displayed RealUp name, RegSeqRat finite readback, denominator and tolerance budget, FareySequence neighbor row, SternBrocot branch replay, rational output row, finite error-window row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:farey-approximation-carrier}, \autoref{thm:farey-approximation-namecert-obligations}, and \autoref{thm:farey-approximation-real-density-handoff} bind the finite carrier, NameCert obligation surface, and rational-density handoff route for the displayed budget.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim RealUp completeness, selected best approximants, global rational-density choice, quotient-real equality, countable choice, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires checked carrier admission, Farey-neighbor exposure, Stern--Brocot branch replay, rational-window exactness, transport, replay, provenance, and local naming for BEDC.Derived.FareyApproximationUp.}
+\end{closurestatus}
