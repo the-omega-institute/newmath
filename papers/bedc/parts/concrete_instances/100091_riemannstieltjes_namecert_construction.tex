@@ -269,12 +269,24 @@ Finally apply tagged-partition induction over the finite $\BHist$ refinement led
 \end{proof}
 \leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_scope\_ledger}
 
+\begin{theorem}[Riemann--Stieltjes public witness export]
+\label{thm:riemann-stieltjes-public-witness-export}
+For every accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, the regulated integrand row $F$, bounded-variation integrator row $A$, tagged partition and $\RiemannSumUp$ row $T$, dyadic step approximation row $S$, regulated-integral handoff row $I$, and $\RealUp$ endpoint seal $E$ form the public finite witness packet consumed by downstream integration chapters. The exported packet is read only through $H,C,P,N$ and contains no Lebesgue integral, measure completion, selected limiting partition, or host quotient of integrands or integrators.
+\end{theorem}
+\begin{proof}
+Start with the scoped ledger of \autoref{thm:riemann-stieltjes-scope-ledger}. It already forces every integral-facing consumer to pass through the displayed dependency rows before the endpoint seal is visible.
+
+The witness packet is the front face of that ledger. Rows $F,A,T,S,I,E$ expose the regulated integrand, bounded-variation integrator, tagged Riemann sum, dyadic step approximation, handoff, and endpoint seal; rows $H,C,P,N$ only transport, replay, source, and name the same finite data.
+
+Because the carrier has no coordinate for measure completion, selected limiting partitions, or quotient equality of integrands and integrators, exporting these rows as public data does not add a stronger analytic claim. It only makes the finite Riemann--Stieltjes witness available to downstream integration chapters.
+\end{proof}
+
 \closureat{RiemannStieltjesUp}{seedStr}
 
 \begin{closurestatus}{\RiemannStieltjesUp}
   \constructivestory{A $\RiemannStieltjesUp$ packet is generated from a regulated integrand row, bounded-variation integrator row, tagged partition and Riemann-sum row, dyadic step approximation row, regulated-integral handoff row, Real endpoint seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:riemann-stieltjes-carrier}, \autoref{thm:riemann-stieltjes-namecert-obligations}, \autoref{thm:riemann-stieltjes-regulated-integral-handoff}, \autoref{thm:riemann-stieltjes-mesh-refinement-stability}, the bounded-variation jump boundary, and \autoref{thm:riemann-stieltjes-tagged-partition-induction} bind the carrier, NameCert obligations, regulated-integral handoff, Darboux mesh refinement, bounded-variation control, and refinement-window exhaustion as the finite Riemann--Stieltjes route over $\RegulatedIntegralUp$, $\BoundedVariationUp$, $\RiemannSumUp$, $\DyadicStepFunctionUp$, and $\RealUp$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:riemann-stieltjes-carrier}, \autoref{thm:riemann-stieltjes-namecert-obligations}, \autoref{thm:riemann-stieltjes-regulated-integral-handoff}, \autoref{thm:riemann-stieltjes-mesh-refinement-stability}, the bounded-variation jump boundary, \autoref{thm:riemann-stieltjes-tagged-partition-induction}, and \autoref{thm:riemann-stieltjes-public-witness-export} bind the carrier, NameCert obligations, regulated-integral handoff, Darboux mesh refinement, bounded-variation control, refinement-window exhaustion, and public finite witness export as the Riemann--Stieltjes route over $\RegulatedIntegralUp$, $\BoundedVariationUp$, $\RiemannSumUp$, $\DyadicStepFunctionUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lebesgue integration, measure completion, selected limits, host real equality, any quotient of integrands or integrators, Lean verification, or any standard bridge.}
