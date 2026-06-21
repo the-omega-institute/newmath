@@ -5,6 +5,13 @@ open Lean
 
 namespace BedcGate
 
+/-!
+Gate B records that the registered BEDC primitive occurs in the declaration's
+value dependency graph. This is necessary but not sufficient: it prevents
+omitted registrations and no-dependency grafts, but it cannot rule out dead
+anchors or mixed-in mathlib computation. Semantic faithfulness still rests on
+the object's adequacy theorem and review.
+-/
 namespace ValueDeps
 
 structure State where

@@ -6,7 +6,7 @@
 
 ## 四条硬规则
 
-1. **BEDC 一侧必须是 BEDC 自己的对象.** 桥的 BEDC 侧结构 (carrier / 运算 / 关系, 如 `bwordLength`/`append`、`NatMul`、`NatUnaryPrefix`、`IntPairClassifier`) 必须取自 BEDC; mathlib 只是**对照目标**, 永远不是 BEDC 侧结构的来源. **禁止** `ofX (运算 (toX a) (toX b))` 这类把 mathlib 运算拉回冒充 "BEDC 的运算" (structure-grafting = laundering). 加法用 BEDC `append`↔`Nat.add`, 乘法就得用 BEDC `NatMul`↔`Nat.mul`, 序用 BEDC `NatUnaryPrefix`, 对称.
+1. **BEDC 一侧必须是 BEDC 自己的对象.** 桥的 BEDC 侧结构 (carrier / 运算 / 关系, 如 `bwordLength`/`append`、`NatMul`、`NatUnaryPrefix`、`IntPairClassifier`) 必须取自 BEDC; mathlib 只是**对照目标**, 永远不是 BEDC 侧结构的来源. **禁止** `ofX (运算 (toX a) (toX b))` 这类把 mathlib 运算拉回冒充 "BEDC 的运算" (structure-grafting = laundering). 加法用 BEDC `append`↔`Nat.add`, 乘法就得用 BEDC `NatMul`↔`Nat.mul`, 序用 BEDC `NatUnaryPrefix`, 对称. Gate B 只证明登记的 BEDC primitive 出现在 value 依赖图里, 可防忘登记和无依赖 graft, 但这是必要非充分条件: 它不能证明没有死 anchor, 也不能证明没混入 mathlib 运算; 机器 gate 不等于完整语义诚实证明, 语义保真仍靠对象自己的 adequacy theorem 和 review.
 
 2. **BEDC 缺的, 记成 BEDC 缺口写回 BEDC, 不在桥里补造.** 若桥需要的 BEDC 对象不存在: **不**用 mathlib 顶替, 也**不**在桥里把它造出来冒充 BEDC 声明. 在 `MISSING_IN_BEDC.md` 记一行 (缺的对象 + 桥哪行需要它 + 该归 BEDC 哪章), 该 matrix 行标 `blocked-on-bedc`; 真正的构造写进 `lean4/BEDC/`. 桥保持薄, 缺口薄呈现.
 
