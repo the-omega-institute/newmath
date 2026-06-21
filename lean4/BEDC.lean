@@ -9762,6 +9762,7 @@ import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
 import BEDC.Derived.RegularCauchyDivisionUp.TasteGate
 import BEDC.Derived.RegularCauchyEnclosureFilterUp.TasteGate
 import BEDC.Derived.RegularCauchyEntourageBasisUp.TasteGate
+import BEDC.Derived.RegularCauchyEpsilonTailUp
 import BEDC.Derived.RegularCauchyEqualityCriterionUp
 import BEDC.Derived.RegularCauchyEquivalenceUp.RefinementTransport
 import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
