@@ -1,13 +1,19 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegulatedIntegralUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -331,5 +337,99 @@ theorem RegulatedIntegralStepPrimitive {I G A S D R E H C P N stepRead : BHist} 
   exact
     ⟨intervalUnary, integrandUnary, approximationUnary, stepPrimitiveUnary, stepReadUnary,
       intervalIntegrand, stepRoute⟩
+
+theorem RegulatedIntegralDyadicStepApproximationFactorization
+    {I G A S D R E H C P N stepRead compatibilityRead realRead : BHist} :
+    RegulatedIntegralCarrier I G A S D R E H C P N →
+      Cont I G A →
+        Cont A S stepRead →
+          hsame stepRead S →
+            Cont stepRead D compatibilityRead →
+              Cont compatibilityRead R realRead →
+                UnaryHistory A ∧ UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory R ∧
+                  UnaryHistory E ∧ UnaryHistory stepRead ∧
+                    UnaryHistory compatibilityRead ∧ UnaryHistory realRead ∧
+                      Cont I G A ∧ Cont A S stepRead ∧
+                        Cont stepRead D compatibilityRead ∧
+                          Cont compatibilityRead R realRead ∧ hsame stepRead S := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier intervalIntegrand stepRoute sameStep compatibilityRoute realRoute
+  obtain ⟨_intervalUnary, _integrandUnary, approximationUnary, stepPrimitiveUnary,
+    compatibilityUnary, realUnary, errorUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _nameUnary, _intervalApproximationRoute, _stepCompatibilityRoute,
+    _realHandoffRoute⟩ := carrier
+  have stepReadUnary : UnaryHistory stepRead :=
+    unary_cont_closed approximationUnary stepPrimitiveUnary stepRoute
+  have compatibilityReadUnary : UnaryHistory compatibilityRead :=
+    unary_cont_closed stepReadUnary compatibilityUnary compatibilityRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed compatibilityReadUnary realUnary realRoute
+  exact
+    ⟨approximationUnary, stepPrimitiveUnary, compatibilityUnary, realUnary, errorUnary,
+      stepReadUnary, compatibilityReadUnary, realReadUnary, intervalIntegrand, stepRoute,
+      compatibilityRoute, realRoute, sameStep⟩
+
+theorem RegulatedIntegralConvergenceConsumerBoundary [AskSetup] [PackageSetup]
+    {I G A S D R E H C P N endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegulatedIntegralCarrier I G A S D R E H C P N →
+      Cont R H endpointRead →
+        PkgSig bundle endpointRead pkg →
+          PkgSig bundle P pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row G ∨ hsame row A ∨ hsame row E ∨ hsame row R ∨
+                    hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                      hsame row endpointRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle endpointRead pkg ∧
+                    PkgSig bundle P pkg)
+                hsame ∧
+              UnaryHistory endpointRead := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier endpointRoute endpointPkg provenancePkg
+  obtain ⟨_intervalUnary, _integrandUnary, _approximationUnary, _stepPrimitiveUnary,
+    _compatibilityUnary, realUnary, _errorUnary, transportUnary, _replayUnary,
+    _provenanceUnary, _nameUnary, _intervalApproximationRoute, _stepCompatibilityRoute,
+    _realHandoffRoute⟩ := carrier
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed realUnary transportUnary endpointRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row G ∨ hsame row A ∨ hsame row E ∨ hsame row R ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row endpointRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle endpointRead pkg ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro endpointRead ⟨hsame_refl endpointRead, endpointUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' same same'
+        exact hsame_trans same same'
+      carrier_respects_equiv := by
+        intro row row' same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, endpointPkg, provenancePkg⟩
+  }
+  exact ⟨cert, endpointUnary⟩
 
 end BEDC.Derived.RegulatedIntegralUp
