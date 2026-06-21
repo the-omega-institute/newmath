@@ -1,0 +1,46 @@
+\chapter{A Concrete Naming Certificate for $\FiniteTailSeriesUp$}
+\label{ch:concrete-instances-finite-tail-series-namecert}
+\origin{human}
+
+Following Hardy and Bishop--Bridges, $\FiniteTailSeriesUp$ records the finite tail ledger by which a displayed series is read as Cauchy-facing data before any completion consumer asks for a real value. The packet sits beside the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the reusable tail envelope $\RegularCauchyTailEnvelopeUp$. It gives Real-and-Completion consumers a finite series-tail handoff without importing an infinite sum object, a selected limit, quotient sequence equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[FiniteTailSeries carrier]
+\label{def:finite-tail-series-carrier}
+A $\FiniteTailSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,W,D,R,E,H,C,P,N)
+$$
+with the following five-row NameCert surface:
+\begin{enumerate}
+\item The source row $S$ names the displayed finite series ledger and the tail interval being inspected.
+\item The observation row $W$ records the $\StreamNameUp$ windows of terms and partial sums available on that finite tail.
+\item The tolerance row $D$ records the $\DyadicRatCoreUp$ dyadic budgets assigned to the tail comparison.
+\item The readback row $R$ records the $\RegSeqRatUp$ regular-rational comparison by which the finite tail is handed to Cauchy consumers.
+\item The seal row $E$ records the terminal $\RealUp$ or $\RegularCauchyTailEnvelopeUp$ handoff reached only after $S,W,D,R$ have been displayed.
+\end{enumerate}
+The structural rows $H,C,P,N$ carry componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\FiniteTailSeriesUp}$ row for the same surface. The carrier has no coordinate for an infinite sum object, selected limit, quotient sequence equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FiniteTailSeries Cauchy handoff]
+\label{thm:finite-tail-series-cauchy-handoff}
+Every Real-and-Completion consumer of an accepted $\FiniteTailSeriesUp$ packet must read the finite source ledger $S$, the $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance row $D$, the $\RegSeqRatUp$ readback row $R$, the terminal seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$ before treating the tail as Cauchy-series data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-tail-series-carrier}. The analytic rows are $S,W,D,R,E$, and the structural rows are $H,C,P,N$.
+
+The source row fixes the finite tail interval. The StreamName row then exposes the term and partial-sum windows, and the DyadicRatCore row attaches the rational tolerance budgets to those same windows.
+
+The RegSeqRat readback row is downstream from the windows and tolerance ledger. It is therefore the first point at which the finite tail may be consumed as regular Cauchy data, and the terminal seal $E$ remains behind that readback route.
+
+The structural rows transport, replay, source, and name the same ordered route. Since no carrier coordinate stores an infinite sum object, selected limit, quotient sequence equality, countable choice, or ambient real-completeness principle, the Cauchy-series handoff is exactly the displayed finite tail ledger.
+\end{proof}
+
+\begin{closurestatus}{\FiniteTailSeriesUp}
+  \constructivestory{A $\FiniteTailSeriesUp$ packet is generated from a finite series-tail source ledger, StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, a RealUp or RegularCauchyTailEnvelopeUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-tail-series-carrier} and \autoref{thm:finite-tail-series-cauchy-handoff} seed the finite tail Cauchy-series ledger used by Real-and-Completion consumers.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not provide Lean verification, an infinite sum object, a selected limit, quotient sequence equality, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName window exposure, DyadicRatCore tolerance exactness, RegSeqRat readback, terminal seal handoff, transport, replay, provenance, and local naming for $\FiniteTailSeriesUp$.}
+\end{closurestatus}
