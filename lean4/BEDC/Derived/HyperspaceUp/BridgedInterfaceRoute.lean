@@ -113,4 +113,30 @@ theorem HyperspaceBridgedInterfaceRoute [AskSetup] [PackageSetup]
     }
   · exact bridgeUnary
 
+theorem HyperspaceBridgedRouteFormalTarget [AskSetup] [PackageSetup]
+    {X K0 K1 N0 N1 D0 D1 R Hs C P M publicRead bridgeRead targetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HyperspaceCarrier X K0 K1 N0 N1 D0 D1 R Hs C P M bundle pkg →
+      Cont P M publicRead →
+        Cont publicRead Hs bridgeRead →
+          Cont bridgeRead C targetRead →
+            PkgSig bundle targetRead pkg →
+              UnaryHistory publicRead ∧ UnaryHistory bridgeRead ∧
+                UnaryHistory targetRead ∧ Cont P M publicRead ∧
+                  Cont publicRead Hs bridgeRead ∧ Cont bridgeRead C targetRead ∧
+                    PkgSig bundle P pkg ∧ PkgSig bundle targetRead pkg := by
+  -- BEDC touchpoint anchor: BHist HyperspaceCarrier Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier publicRoute bridgeRoute targetRoute targetPkg
+  obtain ⟨_xUnary, _k0Unary, _k1Unary, _n0Unary, _n1Unary, _d0Unary, _d1Unary,
+    _rUnary, hsUnary, cUnary, pUnary, mUnary, provenancePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed pUnary mUnary publicRoute
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed publicUnary hsUnary bridgeRoute
+  have targetUnary : UnaryHistory targetRead :=
+    unary_cont_closed bridgeUnary cUnary targetRoute
+  exact
+    ⟨publicUnary, bridgeUnary, targetUnary, publicRoute, bridgeRoute, targetRoute,
+      provenancePkg, targetPkg⟩
+
 end BEDC.Derived.HyperspaceUp
