@@ -1,3 +1,4 @@
+import BEDC.Derived.ReductionFuelBoundaryUp.ScopedSubstrateRoute
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -128,5 +129,84 @@ theorem ReductionFuelBoundaryScopedTimeoutRoute [AskSetup] [PackageSetup]
           replayRoute, timeoutExportRoute, endpointExportRoute, provenancePkg, namePkg⟩
   }
   exact ⟨cert, timeoutExportUnary, endpointExportUnary⟩
+
+theorem ReductionFuelBoundaryScopedRoute [AskSetup] [PackageSetup]
+    {H F T E U A X C P N endpointRead timeoutRead auditRead replayRead timeoutExport
+      endpointExport hostExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory H →
+      UnaryHistory F →
+        UnaryHistory T →
+          UnaryHistory E →
+            UnaryHistory U →
+              UnaryHistory A →
+                UnaryHistory X →
+                  UnaryHistory C →
+                    Cont H F T →
+                      Cont T E endpointRead →
+                        Cont T U timeoutRead →
+                          Cont endpointRead A auditRead →
+                            Cont timeoutRead A replayRead →
+                              Cont timeoutRead C timeoutExport →
+                                Cont endpointRead C endpointExport →
+                                  Cont auditRead C hostExport →
+                                    PkgSig bundle P pkg →
+                                      PkgSig bundle N pkg →
+                                        SemanticNameCert
+                                            (fun row : BHist =>
+                                              hsame row hostExport ∧ UnaryHistory row)
+                                            (fun row : BHist =>
+                                              hsame row H ∨ hsame row F ∨ hsame row T ∨
+                                                hsame row E ∨ hsame row U ∨ hsame row A ∨
+                                                  hsame row C ∨ hsame row hostExport)
+                                            (fun row : BHist =>
+                                              UnaryHistory row ∧ Cont H F T ∧
+                                                Cont T E endpointRead ∧
+                                                  Cont T U timeoutRead ∧
+                                                    Cont endpointRead A auditRead ∧
+                                                      Cont timeoutRead A replayRead ∧
+                                                        Cont auditRead C hostExport ∧
+                                                          PkgSig bundle P pkg ∧
+                                                            PkgSig bundle N pkg)
+                                            hsame ∧
+                                          SemanticNameCert
+                                              (fun row : BHist =>
+                                                (hsame row timeoutExport ∨
+                                                    hsame row endpointExport) ∧
+                                                  UnaryHistory row)
+                                              (fun row : BHist =>
+                                                hsame row H ∨ hsame row F ∨ hsame row T ∨
+                                                  hsame row E ∨ hsame row U ∨ hsame row A ∨
+                                                    hsame row C ∨ hsame row timeoutExport ∨
+                                                      hsame row endpointExport)
+                                              (fun row : BHist =>
+                                                UnaryHistory row ∧ Cont H F T ∧
+                                                  Cont T E endpointRead ∧
+                                                    Cont T U timeoutRead ∧
+                                                      Cont endpointRead A auditRead ∧
+                                                        Cont timeoutRead A replayRead ∧
+                                                          Cont timeoutRead C timeoutExport ∧
+                                                            Cont endpointRead C endpointExport ∧
+                                                              PkgSig bundle P pkg ∧
+                                                                PkgSig bundle N pkg)
+                                              hsame ∧
+                                            UnaryHistory hostExport ∧
+                                              UnaryHistory timeoutExport ∧
+                                                UnaryHistory endpointExport := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro hUnary fUnary tUnary eUnary uUnary aUnary xUnary cUnary hostFuelRoute
+    endpointRoute timeoutRoute auditRoute replayRoute timeoutExportRoute endpointExportRoute
+    hostExportRoute provenancePkg namePkg
+  have hostCert :=
+    ReductionFuelBoundaryScopedSubstrateRoute hUnary fUnary tUnary eUnary uUnary aUnary
+      xUnary cUnary hostFuelRoute endpointRoute timeoutRoute auditRoute replayRoute
+      hostExportRoute provenancePkg namePkg
+  have timeoutCert :=
+    ReductionFuelBoundaryScopedTimeoutRoute hUnary fUnary tUnary eUnary uUnary aUnary
+      xUnary cUnary hostFuelRoute endpointRoute timeoutRoute auditRoute replayRoute
+      timeoutExportRoute endpointExportRoute provenancePkg namePkg
+  exact
+    ⟨hostCert.left, timeoutCert.left, hostCert.right, timeoutCert.right.left,
+      timeoutCert.right.right⟩
 
 end BEDC.Derived.ReductionFuelBoundaryUp
