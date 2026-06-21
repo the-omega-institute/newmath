@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MinCostFlowUp$}
+\label{ch:concrete-instances-min-cost-flow-namecert}
+\origin{human}
+
+Following Ahuja, Magnanti, and Orlin, the $\MinCostFlowUp$ packet records the finite minimum-cost network-flow certificate surface. It sits after the feasible-flow rows of \autoref{ch:concrete-instances-networkflow-namecert}, the residual shortest-path and potential discipline of \autoref{ch:concrete-instances-shortestpath-namecert}, and the primal-dual comparison ledger of \autoref{ch:concrete-instances-lpduality-namecert}. The packet names displayed capacity, conservation, cost, residual-potential, dual-certificate, transport, replay, provenance, and local naming rows; it is not a host optimizer, selected optimal flow, unbounded graph search, or ambient linear-programming oracle.
+
+\begin{definition}[Minimum-cost flow carrier]
+\label{def:min-cost-flow-carrier}
+A $\MinCostFlowUp$ carrier is a finite $\BHist$ packet
+$$
+M=(G,U,B,K,F,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\NetworkFlowUp$ source row, carrying the directed graph, source and sink endpoints, and finite edge inventory.
+\item $U$ is the capacity row, recording displayed lower and upper capacity bounds on each inspected edge.
+\item $B$ is the conservation row, recording the finite supply, demand, and balance equations for the displayed vertices.
+\item $K$ is the integer or rational cost ledger, attaching a cost row to each displayed edge and naming the total-cost accumulator.
+\item $F$ is the feasible-flow row, exposing edge-flow values that obey $U$ and $B$ through the $\NetworkFlowUp$ route.
+\item $R$ is the residual shortest-path and potential row, read through $\ShortestPathUp$ and recording reduced-cost comparisons on the displayed residual arcs.
+\item $D$ is the $\LPDualityUp$ certificate row, pairing the primal feasible flow with displayed dual potentials, slack rows, and complementary tightness checks.
+\item $H$ records componentwise $\hsame$ transport for network source, capacity, conservation, cost, feasible-flow, residual-potential, dual-certificate, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a minimum-cost-flow query through $G,U,B,K,F,R,D,H$.
+\item $P$ is the $\Pkg$ provenance over $\MinCostFlowUp$, $\NetworkFlowUp$, $\ShortestPathUp$, $\LPDualityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MinCostFlowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a selected optimal flow, a host simplex method, an unrestricted residual search, quotient equality of flows, or an ambient existence theorem for arbitrary instances.
+\end{definition}
+
+\begin{theorem}[Minimum-cost flow NameCert obligations]
+\label{thm:min-cost-flow-namecert-obligations}
+For every accepted $\MinCostFlowUp$ carrier $M=(G,U,B,K,F,R,D,H,C,P,N)$, the local $\NameCert_{\MinCostFlowUp}$ surface consists exactly of network-flow source admission through $G$, capacity exposure through $U$, conservation exposure through $B$, integer or rational cost-ledger exposure through $K$, feasible-flow exposure through $F$, residual shortest-path and potential exposure through $R$, $\LPDualityUp$ certificate exposure through $D$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:min-cost-flow-carrier}. The source, capacity, conservation, cost, feasible-flow, residual-potential, and dual-certificate data are exactly $G,U,B,K,F,R,D$.
+
+The feasible-flow row is read only after the capacity and conservation rows. Thus the packet cannot detach a flow value from the displayed $\NetworkFlowUp$ source or from the finite balance ledger.
+
+The residual shortest-path and potential row $R$ then records the reduced-cost boundary used by improvement and non-improvement consumers, while $D$ records the corresponding primal-dual certificate through $\LPDualityUp$. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet.
+
+Since no carrier coordinate stores a selected optimizer, host residual oracle, quotient flow equality, or ambient existence theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Minimum-cost flow LP-duality handoff]
+\label{thm:min-cost-flow-lp-duality-handoff}
+Every optimality-facing consumer of an accepted $\MinCostFlowUp$ packet must read the finite route
+$$
+\NetworkFlowUp,\ \ShortestPathUp,\ \LPDualityUp
+\longmapsto
+G,U,B,K,F,R,D,H,C,P,N .
+$$
+The handoff supplies a displayed feasible flow, cost ledger, residual shortest-path or potential row, and primal-dual certificate row. It does not assert existence of an optimal flow beyond the displayed certificate, does not choose an optimizer for every network, and does not export a host linear-programming theorem outside the finite rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:min-cost-flow-namecert-obligations}. A consumer must expose $G,U,B,K,F$ before any optimality row can be inspected, so feasibility remains attached to the displayed network-flow source.
+
+Next read $R$ through the residual shortest-path surface. This row records the inspected residual arcs and potentials, not an unrestricted shortest-path oracle over an ambient graph.
+
+Finally read the dual-certificate row $D$. It packages the $\LPDualityUp$ comparison and complementary tightness checks for the same displayed rows $G,U,B,K,F,R$. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve that route, so the handoff is a finite certificate and not a global optimizer-existence claim.
+\end{proof}
+
+\falsifiablePrediction{A purported $\MinCostFlowUp$ consumer is refuted if it reads a cost-optimality conclusion while omitting any of the displayed network source, capacity, conservation, cost, feasible-flow, residual-potential, LP-duality, transport, replay, provenance, or local NameCert rows.}
+
+\independenceWitness{networkflow, shortestpath, lpduality: none is bijective to $\MinCostFlowUp$ because this packet jointly carries feasible-flow, cost-ledger, residual-potential, LP-duality, transport, replay, provenance, and local NameCert rows in one carrier.}
+
+\closureat{MinCostFlowUp}{seedStr}
+
+\begin{closurestatus}{\MinCostFlowUp}
+  \constructivestory{A $\MinCostFlowUp$ packet is generated from NetworkFlowUp source rows, capacity rows, conservation rows, integer or rational cost ledgers, feasible-flow rows, residual shortest-path and potential rows, LPDualityUp certificate rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:min-cost-flow-carrier}, \autoref{thm:min-cost-flow-namecert-obligations}, and \autoref{thm:min-cost-flow-lp-duality-handoff} seed the finite minimum-cost-flow certificate over feasible-flow, cost, residual-potential, dual-certificate, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close optimal-flow existence beyond the displayed finite certificate, selected optimizers for arbitrary networks, unrestricted residual search, quotient equality of flows, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, capacity exposure, conservation exposure, cost-ledger exactness, feasible-flow exposure, residual-potential ordering, LP-duality certificate exposure, transport, replay, provenance, and local naming for BEDC.Derived.MinCostFlowUp.}
+\end{closurestatus}

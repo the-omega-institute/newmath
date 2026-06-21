@@ -30,6 +30,7 @@ The accepted carrier stores no Dedekind cut completion, no arbitrary infimum ope
 \label{thm:located-infimum-lower-bound-obligation}
 For an accepted packet $I=(F,L,G,W,R,E,H,C,P,N)$, every lower-bound read exposed by the local $\NameCert_{\LocatedInfimumUp}$ row factors through the bounded-family row $F$, the lower-bound ledger $L$, the precision window $W$, the regular-rational handoff $R$, and the $\RealUp$ seal $E$, together with the transport, continuation, provenance, and local naming rows. No lower-bound obligation may invoke Dedekind completeness, an arbitrary infimum operator, quotient real equality, trichotomy, countable choice, or host completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedInfimumUp.LocatedInfimumLowerBoundObligation}
 \begin{proof}
 Project the accepted carrier. The only family source is $F$, and the only lower-bound source is $L$, so a lower-bound consumer must first inspect the bounded-family row and then one of the displayed comparison entries of $L$.
 
@@ -42,6 +43,7 @@ The structural rows cannot enlarge the obligation surface. The transports in $H$
 \label{thm:located-infimum-greatest-lower-bound-obligation}
 For an accepted packet $I=(F,L,G,W,R,E,H,C,P,N)$, the greatest-lower-bound obligation is exactly the finite demand that each precision row of $W$ receives a displayed witness in $G$ whose readback lies above the proposed lower surface and blocks every displayed stronger lower-bound candidate at that precision. The obligation is local to $F,L,G,W,R,E,H,C,P,N$ and does not assert a global infimum for arbitrary real families.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedInfimumUp.LocatedInfimumGreatestLowerBoundObligation}
 \begin{proof}
 Fix a precision row in $W$. By definition of the carrier, $G$ is the only ledger that can answer greatest-lower-approximation requests at that precision.
 
