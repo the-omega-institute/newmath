@@ -52,6 +52,20 @@ Transport is componentwise through $H$, and replay is displayed through $C$. The
 The rows $P$ and $N$ source and name the same finite packet. Hence a transported membership read remains a $\BHist$ read through $M,Q,H,C,P,N$ and cannot become host elementhood, a powerset coordinate, quotient equality, or unrestricted comprehension.
 \end{proof}
 
+\begin{theorem}[SetLike membership classifier public boundary]
+\label{thm:setlike-membership-classifier-public-boundary}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every $\TypeLikeUp$, $\FirstOrderUp$, $\ModelTheoryUp$, or root consumer must read membership through $M,Q,H,C,P,N$, subset and restricted-comprehension data through $I,R$, and the extensional boundary through $E$. The public boundary exports no host membership relation, powerset, unrestricted separation rule, quotient set equality, selected representative, or external satisfaction predicate.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:setlike-carrier} and \autoref{def:setlike-membership-carrier}. The membership carrier exposes only the source row $M$, classifier row $Q$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$.
+
+Apply \autoref{thm:setlike-membership-stability}. A membership read transported through the public boundary remains the same finite classifier read, so a downstream root or typed consumer cannot replace it by host elementhood or an external satisfaction predicate.
+
+For subset and comprehension consumers, use \autoref{thm:setlike-subset-ledger-exactness} and \autoref{thm:setlike-comprehension-scope}. These place subset implication and restricted comprehension behind $I,R$ over the displayed membership classifier.
+
+Finally read the extensional boundary through $E$ and close by the existing consumer-boundary rows. Since no coordinate of $S$ stores a powerset, unrestricted separation rule, quotient set equality, selected representative, or external satisfaction predicate, the public boundary exports exactly the displayed rows.
+\end{proof}
+
 \begin{theorem}[SetLike subset ledger exactness]
 \label{thm:setlike-subset-ledger-exactness}
 For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the subset ledger is exact: every accepted subset read is the implication row $I$ over the classifier-based membership carrier $S_{\in}$, together with the restricted-comprehension row $R$ only as a bounded consumer of $M,Q,I$. No subset consumer receives host-set extensionality, a global inclusion predicate, quotient equality of sets, or a powerset row outside $M,Q,I,R,H,C,P,N$.
