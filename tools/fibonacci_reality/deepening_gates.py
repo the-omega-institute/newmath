@@ -70,6 +70,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "fibonacci_entry_point_congruence_certificate",
     "pisano_period_modp_divisibility_certificate",
     "modp_root_enumeration_certificate",
+    "fibonacci_gcd_strong_divisibility_certificate",
     "bedc_finite_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
@@ -112,6 +113,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "fibonacci_entry_point_congruence_certificate",
         "pisano_period_modp_divisibility_certificate",
         "modp_root_enumeration_certificate",
+        "fibonacci_gcd_strong_divisibility_certificate",
         "bedc_finite_certificate",
     },
 }
@@ -139,6 +141,8 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "lucas_residue_enumeration",
     "lucas_fibonacci_norm_enumeration",
     "lucas_doubling_enumeration",
+    "integer_gcd_enumeration",
+    "divisibility_remainder_enumeration",
     "bedc_finite_certificate",
 }
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
@@ -249,6 +253,8 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "mod_5_divisibility_branch",
     "integer_norm_relation",
     "lucas_doubling",
+    "integer_gcd_grid",
+    "divisibility_remainder_grid",
 }
 MECHANISM_WORDS = {
     "cause",
