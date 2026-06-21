@@ -36,6 +36,18 @@ Read the sibling routes in order. The registry export surface fixes the public s
 Finally use $H,C,P,N$. These rows transport, replay, package, and name the same export route, with $\NameCertMorphismUp$ present only as provenance for certificate-preserving handoff. Since the carrier has no hidden export or proof-producing report coordinate, the listed rows exhaust the NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Machine export boundary registry route]
+\label{thm:machine-export-boundary-registry-route}
+Every machine export read from an accepted $\MachineExportBoundaryUp$ packet must pass through $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, and $\NameCertMorphismUp$ before the local $\MachineExportBoundaryUp$ naming row is consumed. In particular, the registry status route of \autoref{ch:concrete-instances-registry-export-surface-namecert} is a required sibling surface for any machine-facing export read.
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(R,T,A,F,H,C,P,N)$. The first row $R$ is the registry export surface, so a machine read begins with a displayed registry status rather than with a local machine target.
+
+Next inspect $A$ and $F$. The machine-readable audit interface fixes the audit report and non-evidence boundary, while the cannot-claim export gate preserves any refused claim that must remain visible.
+
+The morphism route is then carried in $P$ as certificate-preserving provenance before $N$ is read as the local name. The transport and replay rows $H,C$ preserve this sibling route, so the packet exposes no direct machine export that skips registry status, audit readback, refusal visibility, or NameCert morphism provenance.
+\end{proof}
+
 \falsifiablePrediction{Any machine export omitting target, audit, refusal, transport, replay, provenance, or local NameCert rows refutes the $\MachineExportBoundaryUp$ carrier.}
 
 \independenceWitness{registryexportsurface, machinereadableauditinterface, cannotclaimexportgate, namecertmorphism: none is bijective to MachineExportBoundaryUp because the boundary jointly carries registry export status, machine target, audit readback, refusal preservation, transport, replay, provenance, and local NameCert rows.}

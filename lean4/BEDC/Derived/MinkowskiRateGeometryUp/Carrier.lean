@@ -149,4 +149,26 @@ theorem MinkowskiRateGeometrySymmetry [AskSetup] [PackageSetup]
   }
   exact ⟨cert, mirroredUnary⟩
 
+theorem MinkowskiRateGeometryNonescape [AskSetup] [PackageSetup]
+    {config causal rate frame distance transport replay provenance localName boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MinkowskiRateGeometryCarrier config causal rate frame distance transport replay provenance
+        localName bundle pkg ->
+      Cont rate frame boundaryRead ->
+        PkgSig bundle boundaryRead pkg ->
+          UnaryHistory config ∧ UnaryHistory causal ∧ UnaryHistory rate ∧
+            UnaryHistory frame ∧ UnaryHistory boundaryRead ∧ Cont config causal rate ∧
+              Cont rate frame boundaryRead ∧ PkgSig bundle distance pkg ∧
+                PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier rateFrameBoundary boundaryPkg
+  obtain ⟨configUnary, causalUnary, rateUnary, frameUnary, _distanceUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, configCausalRate,
+    _rateFrameDistance, distancePkg⟩ := carrier
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed rateUnary frameUnary rateFrameBoundary
+  exact
+    ⟨configUnary, causalUnary, rateUnary, frameUnary, boundaryUnary, configCausalRate,
+      rateFrameBoundary, distancePkg, boundaryPkg⟩
+
 end BEDC.Derived.MinkowskiRateGeometryUp
