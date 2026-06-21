@@ -156,6 +156,22 @@ private theorem ModulusOfUniformContinuityTasteGate_single_carrier_alignment_toE
       (Eq.trans hread
         (ModulusOfUniformContinuityTasteGate_single_carrier_alignment_round_trip y)))
 
+def modulusOfUniformContinuityFields : ModulusOfUniformContinuityUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ModulusOfUniformContinuityUp.mk X Y F D S E H C P N => [X, Y, F, D, S, E, H, C, P, N]
+
+private theorem ModulusOfUniformContinuityTasteGate_single_carrier_alignment_fields :
+    ∀ x y : ModulusOfUniformContinuityUp,
+      modulusOfUniformContinuityFields x = modulusOfUniformContinuityFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk X1 Y1 F1 D1 S1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk X2 Y2 F2 D2 S2 E2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance modulusOfUniformContinuityBHistCarrier :
     BHistCarrier ModulusOfUniformContinuityUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -176,21 +192,47 @@ instance modulusOfUniformContinuityChapterTasteGate :
     exact hxy
       (ModulusOfUniformContinuityTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem ModulusOfUniformContinuityTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      modulusOfUniformContinuityDecodeBHist (modulusOfUniformContinuityEncodeBHist h) = h) ∧
-      (modulusOfUniformContinuityEncodeBHist BHist.Empty = ([] : List BMark)) ∧
-        (∀ x : ModulusOfUniformContinuityUp,
-          modulusOfUniformContinuityFromEventFlow
-            (modulusOfUniformContinuityToEventFlow x) = some x) ∧
-          Nonempty (BHistCarrier ModulusOfUniformContinuityUp) ∧
-            Nonempty (ChapterTasteGate ModulusOfUniformContinuityUp) := by
+instance modulusOfUniformContinuityFieldFaithful :
+    FieldFaithful ModulusOfUniformContinuityUp where
   -- BEDC touchpoint anchor: BHist BMark
+  fields := modulusOfUniformContinuityFields
+  field_faithful := ModulusOfUniformContinuityTasteGate_single_carrier_alignment_fields
+
+instance modulusOfUniformContinuityNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial ModulusOfUniformContinuityUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ModulusOfUniformContinuityUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ModulusOfUniformContinuityUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+theorem ModulusOfUniformContinuityTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate ModulusOfUniformContinuityUp) ∧
+      Nonempty (FieldFaithful ModulusOfUniformContinuityUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial ModulusOfUniformContinuityUp) ∧
+          (∀ h : BHist,
+            modulusOfUniformContinuityDecodeBHist
+              (modulusOfUniformContinuityEncodeBHist h) = h) ∧
+            (∀ x : ModulusOfUniformContinuityUp,
+              modulusOfUniformContinuityFromEventFlow
+                (modulusOfUniformContinuityToEventFlow x) = some x) ∧
+              (∀ x y : ModulusOfUniformContinuityUp,
+                modulusOfUniformContinuityToEventFlow x =
+                  modulusOfUniformContinuityToEventFlow y → x = y) ∧
+                modulusOfUniformContinuityEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨ModulusOfUniformContinuityTasteGate_single_carrier_alignment_decode_encode,
-      rfl,
+    ⟨⟨modulusOfUniformContinuityChapterTasteGate⟩,
+      ⟨modulusOfUniformContinuityFieldFaithful⟩,
+      ⟨modulusOfUniformContinuityNontrivial⟩,
+      ModulusOfUniformContinuityTasteGate_single_carrier_alignment_decode_encode,
       ModulusOfUniformContinuityTasteGate_single_carrier_alignment_round_trip,
-      ⟨modulusOfUniformContinuityBHistCarrier⟩,
-      ⟨modulusOfUniformContinuityChapterTasteGate⟩⟩
+      (fun _ _ heq =>
+        ModulusOfUniformContinuityTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.ModulusOfUniformContinuityUp
