@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ConfigurationSpaceUp$}
+\label{ch:concrete-instances-configuration-space-namecert}
+\origin{human}
+
+Following the classical configuration-space treatment of ordered collision-free point tuples, the $\ConfigurationSpaceUp$ packet records the finite inspection surface for $n$ displayed points in an ambient space before any quotient by permutations, compactification, or path-space completion is available. It sits after the ambient open-set discipline of \autoref{ch:concrete-instances-topology-namecert}, the distance and separation rows of \autoref{ch:concrete-instances-metric-namecert}, the finite index spine of \autoref{ch:concrete-instances-finset-namecert}, and the membership provenance of \autoref{ch:concrete-instances-setlike-namecert}. It also exposes the finite ordered-strand boundary consumed by \autoref{ch:concrete-instances-braidgroup-namecert}, but it does not claim braid isotopy completeness or unordered configuration quotients.
+
+\begin{definition}[ConfigurationSpace carrier]
+\label{def:configuration-space-carrier}
+A $\ConfigurationSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+X=(I,M,T,U,Q,A,D,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\FinSetUp$ index row naming the finite ordered tuple positions.
+\item $M$ is the ambient $\MetricUp$ row and $T$ is the compatible $\TopologyUp$ row used for open-neighbourhood reads.
+\item $U$ is the tuple row, assigning each displayed index in $I$ a point admitted by the ambient carrier.
+\item $Q$ is the $\SetLikeUp$ membership row recording that every tuple coordinate belongs to the ambient space and to the displayed configuration window.
+\item $A$ is the pairwise apartness row: for each distinct pair of indices in $I$, it displays positive separation or an equivalent collision-refusal witness.
+\item $D$ is the diagonal-refusal row, recording that no admitted read of $U$ factors through the collision diagonal.
+\item $W$ is the finite observation-window row exposing the open neighbourhoods and separation thresholds read by downstream consumers.
+\item $H$ records componentwise $\hsame$ transport for the finite index row, ambient metric and topology rows, tuple row, membership row, apartness row, diagonal-refusal row, window row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the same finite configuration rows.
+\item $P$ is the $\Pkg$ provenance over $\ConfigurationSpaceUp$, $\FinSetUp$, $\MetricUp$, $\TopologyUp$, $\SetLikeUp$, $\BraidGroupUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConfigurationSpaceUp}$ row.
+\end{enumerate}
+No coordinate supplies an unordered quotient, a completed path space, compactification boundary, global section of a covering map, or host equality of point tuples.
+\end{definition}
+
+\begin{theorem}[ConfigurationSpace NameCert obligations]
+\label{thm:configuration-space-namecert-obligations}
+For every accepted $\ConfigurationSpaceUp$ carrier $X=(I,M,T,U,Q,A,D,W,H,C,P,N)$, the local $\NameCert_{\ConfigurationSpaceUp}$ surface consists exactly of carrier admission for the finite index row, ambient metric and topology rows, tuple row, set-membership row, pairwise apartness row, collision-diagonal refusal row, observation window, componentwise transport, continuation replay, provenance, and local naming row. Every consumer-facing read must display $I,M,T,U,Q,A,D,W$ before the structural rows $H,C,P,N$ are consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:configuration-space-carrier}. The finite mathematical surface is exhausted by the displayed rows $I,M,T,U,Q,A,D,W$; the remaining rows only transport, replay, source, and name that surface.
+
+The index and membership obligations are finite. The row $I$ supplies the tuple positions through $\FinSetUp$, while $Q$ records ambient and window membership through $\SetLikeUp$, so no host powerset or infinite family of coordinates is available.
+
+The topology and metric obligations are likewise displayed. The rows $M,T,W$ expose only the neighbourhood and separation data read in the current window, and $A,D$ record the pairwise apartness and diagonal refusal used by the configuration read. Thus the NameCert surface stops at the finite collision-free tuple packet.
+\end{proof}
+
+\begin{theorem}[ConfigurationSpace collision nonescape]
+\label{thm:configuration-space-collision-nonescape}
+Every accepted $\ConfigurationSpaceUp$ read refuses collision escape through the finite route
+$$
+\FinSetUp,\MetricUp,\TopologyUp,\SetLikeUp
+  \longrightarrow U,Q,A,D,W
+  \longrightarrow H,C,P,N .
+$$
+In particular, if two displayed indices are distinct in $I$, every downstream read of their coordinates must pass through the apartness row $A$ and the diagonal-refusal row $D$ before it can be replayed as a configuration-space observation.
+\end{theorem}
+\begin{proof}
+Begin with a read of two displayed tuple positions. Distinctness is visible only through the finite index row $I$, and the corresponding coordinate membership is visible only through the tuple and membership rows $U,Q$.
+
+The collision-refusal step is forced by the carrier order. The pairwise apartness row $A$ supplies the separation witness for the two indices, and $D$ records that the read does not factor through the collision diagonal.
+
+Finally replay through $W,H,C,P,N$. These rows can expose neighbourhoods, transport the same finite evidence, and name the packet, but they cannot add a missing collision witness or replace $A,D$ by host tuple equality.
+\end{proof}
+
+\begin{theorem}[ConfigurationSpace finite product route]
+\label{thm:configuration-space-finite-product-route}
+Every product-facing consumer of an accepted $\ConfigurationSpaceUp$ packet receives the ordered finite tuple through the $\FinSetUp$ index spine and the ambient $\MetricUp$ and $\TopologyUp$ rows, with $\SetLikeUp$ membership and pairwise apartness displayed before any $\BraidGroupUp$ strand-boundary read is available. The route exports a finite ordered configuration packet and does not claim unordered quotient configurations, braid isotopy completeness, compactification, or path lifting.
+\end{theorem}
+\begin{proof}
+Read the product request through $I$ and $U$. The finite index spine determines the ordered tuple slots, and the tuple row supplies the coordinate reads without constructing an ambient host product object.
+
+Next expose the ambient rows. The metric and topology data in $M,T$ and the membership row $Q$ place each coordinate inside the displayed ambient window; the apartness and diagonal-refusal rows $A,D$ then certify collision-free status for every displayed pair.
+
+Only after those rows are visible can a strand-boundary consumer read the packet through the $\BraidGroupUp$ provenance in $P$. That boundary sees ordered, collision-free strands, not an unordered quotient, a completed braid isotopy theorem, or a compactified configuration space.
+\end{proof}
+
+\closureat{ConfigurationSpaceUp}{seedStr}
+
+\begin{closurestatus}{\ConfigurationSpaceUp}
+  \constructivestory{A $\ConfigurationSpaceUp$ packet is generated from a FinSet index row, ambient Metric and Topology rows, finite point tuple row, SetLike membership row, pairwise apartness and collision-refusal rows, observation window, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:configuration-space-carrier}, \autoref{thm:configuration-space-namecert-obligations}, \autoref{thm:configuration-space-collision-nonescape}, and \autoref{thm:configuration-space-finite-product-route} bind the finite ordered collision-free point tuple seed and its ambient topology, metric, membership, and braid-boundary route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unordered configuration quotients, compactification, path-space completion, braid isotopy completeness, covering-space lifting, Lean verification, or any standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, pairwise apartness exactness, collision-diagonal refusal, finite product routing, transport, replay, provenance, and local naming for BEDC.Derived.ConfigurationSpaceUp.}
+\end{closurestatus}
