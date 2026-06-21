@@ -151,11 +151,27 @@ Apply \autoref{thm:writing-item-audit-axis-separation}. It permits joint reporti
 Finally use \autoref{thm:writing-item-audit-nonescape}. Since no accepted projection can prove $Q$, discharge $G$, upgrade either status row, or authorize a stronger registry claim, the public export surface consists exactly of the two displayed audit fields together with their carrier, ledger, claim, transport, replay, provenance, and naming rows.
 \end{proof}
 
-\closureat{WritingItemAuditUp}{scopedStr}
+\begin{theorem}[Writing item audit public status]
+\label{thm:writing-item-audit-public-status}
+The public export of an accepted $\WritingItemAuditUp$ packet is exactly the separated packet
+$$
+K,C,R,L,T,F,G,Q,H,U,P,N.
+$$
+The rows $T$ and $F$ are read as independent public audit fields: $T$ records paper closure, while $F$ records formal verification. The export may cite the TasteGate obligation surface for nontriviality and field-faithfulness of the same carrier, but it does not derive either axis from the other, prove the claim row, discharge the gap row, or publish a stronger status than the displayed rows carry.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:writing-item-audit-public-axis-export}. It already forces every registry or export consumer to read the separated rows $K,C,R,L,T,F,G,Q,H,U,P,N$ before publishing the item.
+
+Use \autoref{thm:writing-item-audit-axis-separation} to keep the paper-closure row and formal-verification row independent. The public packet can display them together, but no projection computes one from the other.
+
+Finally apply \autoref{thm:writing-item-audit-tastegate-obligation}. Its nontriviality and field-faithfulness requirements attach to the same displayed carrier rows, so the public status record is a public-facing packet surface rather than a verification upgrade or a proof of the claim text.
+\end{proof}
+
+\closureat{WritingItemAuditUp}{publicStr}
 
 \begin{closurestatus}{\WritingItemAuditUp}
   \constructivestory{A $\WritingItemAuditUp$ packet is generated from item kind, carrier, classifier, ledger, theory-status, formal-status, gap-report, claim-text, hsame transport, Cont continuation, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{def:writing-item-audit-carrier}, \autoref{thm:writing-item-audit-namecert-obligations}, \autoref{thm:writing-item-audit-axis-separation}, and \autoref{thm:writing-item-audit-nonescape} bind writing-item legality, closure-status blocks, registry export rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ to finite packets with separated closure and verification axes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
