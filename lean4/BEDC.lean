@@ -6995,6 +6995,7 @@ import BEDC.Derived.LocatednessModulusUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.NameCertObligations
 import BEDC.Derived.LogicContradictionMetaLoopUp.SiblingDependencyRoute
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
+import BEDC.Derived.LongLineUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
 import BEDC.Derived.LowerRealUp.DirectedLowerCutBudget
