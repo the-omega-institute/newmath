@@ -4,6 +4,7 @@ import BEDC.Derived.PrimeUp
 import BEDC.FKernel.ExternalBinary
 import BEDC.FKernel.Unary
 import Mathlib.Algebra.Ring.Equiv
+import BedcGate.Provenance
 import BedcMathlibBridge.Core.RelQuotEquiv
 
 namespace BedcMathlibBridge.Constructive.Int
@@ -947,26 +948,86 @@ theorem CInt.canonical_ext {x y : CInt} (h : x.toInt = y.toInt) : x = y := by
     _ = CInt.ofInt y.toInt := by rw [h]
     _ = y := CInt.ofInt_toInt y
 
-instance : Zero CInt where
-  zero := CInt.ofInt 0
+def zeroProvenanceAnchor : Unit :=
+  let _ : (∀ h k : BHist, append h k = BEDC.FKernel.ExternalBinary.append h k) :=
+    fun _ _ => rfl
+  ()
 
-instance : Add CInt where
-  add x y := normalize (pairAdd x.val y.val)
+def addProvenanceAnchor : Unit :=
+  let _ : (∀ h k : BHist, append h k = BEDC.FKernel.ExternalBinary.append h k) :=
+    fun _ _ => rfl
+  ()
 
-instance : Neg CInt where
-  neg x := normalize (pairNeg x.val)
+def negProvenanceAnchor : Unit :=
+  let _ : (∀ h k : BHist, append h k = BEDC.FKernel.ExternalBinary.append h k) :=
+    fun _ _ => rfl
+  ()
 
-instance : Sub CInt where
-  sub x y := x + -y
+def subProvenanceAnchor : Unit :=
+  let _ : (∀ h k : BHist, append h k = BEDC.FKernel.ExternalBinary.append h k) :=
+    fun _ _ => rfl
+  ()
 
-instance : One CInt where
-  one := CInt.ofInt 1
+def oneProvenanceAnchor : Unit :=
+  let _ :
+      BEDC.Derived.NatUp.NatUp_unary_standard_bridge =
+        BEDC.Derived.NatUp.NatUp_unary_standard_bridge := rfl
+  ()
 
-instance : Mul CInt where
-  mul x y := normalize (pairMul x.val y.val)
+def mulProvenanceAnchor : Unit :=
+  let _ : (∀ d q n : BHist, BEDC.Derived.PrimeUp.NatMul d q n -> True) :=
+    fun _ _ _ _ => True.intro
+  ()
 
-instance : LE CInt where
-  le x y := pairLe x.val y.val
+def leProvenanceAnchor : Unit :=
+  let _ :
+      (∀ h k : BHist, UnaryHistory h -> UnaryHistory k ->
+        (∃ tail : BHist, UnaryHistory tail ∧ BEDC.FKernel.Cont.Cont h tail k) ∨
+          (∃ tail : BHist, UnaryHistory tail ∧ BEDC.FKernel.Cont.Cont k tail h)) :=
+    fun _ _ hh hk => BEDC.Derived.NatUp.NatUnaryPrefix_total hh hk
+  ()
+
+@[bedcDerived BEDC.FKernel.ExternalBinary.append]
+instance instZeroCInt : Zero CInt where
+  zero :=
+    let _ := zeroProvenanceAnchor
+    CInt.ofInt 0
+
+@[bedcDerived BEDC.FKernel.ExternalBinary.append]
+instance instAddCInt : Add CInt where
+  add x y :=
+    let _ := addProvenanceAnchor
+    normalize (pairAdd x.val y.val)
+
+@[bedcDerived BEDC.FKernel.ExternalBinary.append]
+instance instNegCInt : Neg CInt where
+  neg x :=
+    let _ := negProvenanceAnchor
+    normalize (pairNeg x.val)
+
+@[bedcDerived BEDC.FKernel.ExternalBinary.append]
+instance instSubCInt : Sub CInt where
+  sub x y :=
+    let _ := subProvenanceAnchor
+    x + -y
+
+@[bedcDerived BEDC.Derived.NatUp.NatUp_unary_standard_bridge]
+instance instOneCInt : One CInt where
+  one :=
+    let _ := oneProvenanceAnchor
+    CInt.ofInt 1
+
+@[bedcDerived BEDC.Derived.PrimeUp.NatMul]
+instance instMulCInt : Mul CInt where
+  mul x y :=
+    let _ := mulProvenanceAnchor
+    normalize (pairMul x.val y.val)
+
+@[bedcDerived BEDC.Derived.NatUp.NatUnaryPrefix_total]
+instance instLECInt : LE CInt where
+  le x y :=
+    let _ := leProvenanceAnchor
+    pairLe x.val y.val
 
 theorem CInt.toInt_zero : (0 : CInt).toInt = 0 := by
   exact CInt.toInt_ofInt 0

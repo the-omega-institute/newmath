@@ -34,8 +34,19 @@ jobs:
           cd papers/bedc_mathlib_bridge/lean4
           lake build
 
-      - name: Check constructive axioms
+      - name: Gate A bridge axioms
         run: python3 papers/bedc_mathlib_bridge/scripts/check_bridge_axioms.py
+
+      - name: Gate B provenance
+        run: |
+          cd papers/bedc_mathlib_bridge/lean4
+          lake build BedcMathlibBridge.CI.Audit
+
+      - name: Gate C gap sync
+        run: |
+          python3 papers/bedc_mathlib_bridge/scripts/check_gap_sync.py \
+            papers/bedc_mathlib_bridge/MISSING_IN_BEDC.md \
+            papers/bedc_mathlib_bridge/MATRIX.md
 
       - name: Check no BEDC back-edge
         run: python3 papers/bedc_mathlib_bridge/scripts/check_no_back_edge.py

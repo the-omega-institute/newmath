@@ -10,6 +10,6 @@
 
 2. **BEDC 缺的, 记成 BEDC 缺口写回 BEDC, 不在桥里补造.** 若桥需要的 BEDC 对象不存在: **不**用 mathlib 顶替, 也**不**在桥里把它造出来冒充 BEDC 声明. 在 `MISSING_IN_BEDC.md` 记一行 (缺的对象 + 桥哪行需要它 + 该归 BEDC 哪章), 该 matrix 行标 `blocked-on-bedc`; 真正的构造写进 `lean4/BEDC/`. 桥保持薄, 缺口薄呈现.
 
-3. **constructive 行 0-axiom, classical 行带账本.** `BedcMathlibBridge.Constructive.*` 每条公开声明 `#print axioms` 必须空 (`scripts/check_bridge_axioms.py` + `Audit/ConstructiveAxiomGuard.lean` 自动审, 加新定理自动纳入). 触 `Classical.choice`/`Quot.sound`/`propext` 的移 `BedcMathlibBridge.Classical.*` 并在 matrix 记 ledger, **绝不假装 0-axiom**.
+3. **bridge surface 0-axiom.** `BedcMathlibBridge.All` 覆盖的 Core / Adapter / Constructive surface 每条公开声明 `#print axioms` 必须空 (`scripts/check_bridge_axioms.py` + `Audit/BridgeAxiomGuard.lean` 自动审, 加新定理自动纳入). 触 `Classical.choice`/`Quot.sound`/`propext` 的声明不得进入该 surface, **绝不假装 0-axiom**.
 
 4. **单向 + 薄.** `lean4/BEDC/**` 永不 import Mathlib 或本桥 (`scripts/check_no_back_edge.py` 守). 不在桥里堆数学; 每个对象一行 matrix, 不复制事实正文.

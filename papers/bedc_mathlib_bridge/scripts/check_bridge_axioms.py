@@ -5,7 +5,7 @@ import subprocess
 from pathlib import Path
 
 
-GUARD_MODULE = "BedcMathlibBridge.Audit.ConstructiveAxiomGuard"
+GUARD_MODULE = "BedcMathlibBridge.Audit.BridgeAxiomGuard"
 
 
 def find_bridge_root() -> Path:
@@ -40,7 +40,7 @@ def main() -> int:
         print(f"[bridge-axioms] FAIL: {GUARD_MODULE} exited {result.returncode}")
         return result.returncode
 
-    print("[bridge-axioms] PASS: constructive namespace is 0-axiom")
+    print("[bridge-axioms] PASS: bridge namespace is 0-axiom")
     return 0
 
 

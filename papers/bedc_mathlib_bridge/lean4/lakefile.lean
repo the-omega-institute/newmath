@@ -9,3 +9,5 @@ package "bedc_mathlib_bridge" where
 
 @[default_target]
 lean_lib BedcMathlibBridge where
+
+lean_lib BedcGate where
