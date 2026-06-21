@@ -6371,6 +6371,7 @@ import BEDC.Derived.HyperspaceUp.CauchyUniformNetHandoff
 import BEDC.Derived.HyperspaceUp.CompactCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
 import BEDC.Derived.HyperspaceUp.CompactMetricHandoff
+import BEDC.Derived.HyperspaceUp.CompactMetricVietorisMaturityRoute
 import BEDC.Derived.HyperspaceUp.CompactMetricVietorisUnblock
 import BEDC.Derived.HyperspaceUp.CompactSourceCarrierObligations
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
