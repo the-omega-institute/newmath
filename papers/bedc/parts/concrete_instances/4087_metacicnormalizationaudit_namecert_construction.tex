@@ -541,6 +541,24 @@ Finally read the confluence socket of \autoref{thm:metacic-normalization-audit-c
 \end{proof}
 \leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditResidualSubstitutionCompatibility}
 
+\begin{theorem}[MetaCIC normalization audit candidate residual replay handoff]
+\label{thm:metacic-normalization-audit-candidate-residual-replay-handoff}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. Any public strong-normalization consumer that combines candidate evidence, residual-fuel replay, and confluence-facing comparison must pass through
+$$
+R,C,S,A,N,F,H,T,P,L
+$$
+in that order. The handoff cannot erase $N$ into subject reduction, full Church--Rosser, arbitrary substitution compatibility, quotient equality, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Apply the residual-budget obligation \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. It places candidate evidence, closed projection, finite strong-normalization scope, application boundary, and confluence refusal in the ordered ledger $R,C,S,A,N$ before any public read leaves the packet.
+
+Next use the residual-fuel decrease theorem \autoref{thm:metacic-normalization-audit-residual-fuel-decreases}. The finite replay spends displayed fuel and then returns through $F,H,T,P,L$, so the consumer receives replayed candidate evidence rather than an evidence-free global normalization endpoint.
+
+Now read the confluence socket of \autoref{thm:metacic-normalization-audit-confluence-socket}. The socket permits comparison with the confluence-audit siblings only after the candidate frontier and residual fuel are visible, and it keeps the refusal row $N$ as a displayed boundary.
+
+Finally apply the residual-substitution compatibility theorem above. Substitution-shaped reads remain inside the same candidate ledger and confluence-facing socket, so the public handoff cannot replace $N$ by subject reduction, full Church--Rosser, arbitrary substitution compatibility, quotient equality, or a host evaluator.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit kernel-scope route]
 \label{thm:metacic-normalization-audit-kernel-scope-route}
 Every normalization-audit read from an accepted $\MetacicNormalizationAuditUp$ packet is scoped to the displayed kernel and certificate rows
