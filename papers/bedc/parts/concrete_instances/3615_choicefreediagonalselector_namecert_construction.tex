@@ -194,6 +194,7 @@ Use stage induction to keep the same route across finite window prefixes. Then a
 \label{thm:choice-free-diagonal-selector-scoped-window-consumer}
 Every diagonal consumer of an accepted $\ChoiceFreeDiagonalSelectorUp$ packet must preserve the same $\StreamNameUp$ window row, $\RegSeqRatUp$ witness row, $\RealUp$ seal row, $\BHist$ event history, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row already exposed by the scoped kernel route. A consumer that changes any of these rows is outside the scoped packet and cannot be read as the same choice-free diagonal selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ChoiceFreeDiagonalSelectorScopedWindowConsumer}
 \begin{proof}
 Apply the scoped kernel route of \autoref{thm:choice-free-diagonal-selector-scope}. It forces the selector output through the displayed StreamName, RegSeqRat, RealUp, transport, replay, provenance, and naming rows before any diagonal consumer can inspect it.
 

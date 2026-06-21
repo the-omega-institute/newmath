@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -35,5 +37,74 @@ theorem LiminfCarrier_route_rows [AskSetup] [PackageSetup]
   exact ⟨carrier.right.right.right.right.right.right.right.right.left,
     carrier.right.right.right.right.right.right.right.right.right.left,
     carrier.right.right.right.right.right.right.right.right.right.right⟩
+
+theorem LiminfNameCertObligations [AskSetup] [PackageSetup]
+    {sequence lowerCut dyadic terminal transport replay provenance localName sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LiminfCarrier sequence lowerCut dyadic terminal transport replay provenance localName
+        bundle pkg →
+      Cont terminal transport sealRead →
+      PkgSig bundle sealRead pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sequence ∨ hsame row lowerCut ∨ hsame row dyadic ∨
+              hsame row terminal ∨ hsame row sealRead)
+          (fun row : BHist => PkgSig bundle sealRead pkg ∧ hsame row sealRead)
+          hsame ∧
+        UnaryHistory sequence ∧ UnaryHistory lowerCut ∧ UnaryHistory dyadic ∧
+          UnaryHistory terminal ∧ UnaryHistory sealRead ∧ Cont sequence lowerCut dyadic ∧
+            Cont dyadic terminal replay ∧ Cont terminal transport sealRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier terminalTransport sealPkg
+  have sequenceUnary : UnaryHistory sequence := carrier.left
+  have lowerCutUnary : UnaryHistory lowerCut := carrier.right.left
+  have dyadicUnary : UnaryHistory dyadic := carrier.right.right.left
+  have terminalUnary : UnaryHistory terminal := carrier.right.right.right.left
+  have transportUnary : UnaryHistory transport := carrier.right.right.right.right.left
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed terminalUnary transportUnary terminalTransport
+  have sequenceRoute : Cont sequence lowerCut dyadic :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have terminalRoute : Cont dyadic terminal replay :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sequence ∨ hsame row lowerCut ∨ hsame row dyadic ∨
+              hsame row terminal ∨ hsame row sealRead)
+          (fun row : BHist => PkgSig bundle sealRead pkg ∧ hsame row sealRead)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro sealRead ⟨hsame_refl sealRead, sealUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row other third sameRO sameOT
+          exact hsame_trans sameRO sameOT
+        carrier_respects_equiv := by
+          intro row other same source
+          cases same
+          exact source
+      }
+      pattern_sound := by
+        intro row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+      ledger_sound := by
+        intro row source
+        exact ⟨sealPkg, source.left⟩
+    }
+  exact
+    ⟨cert, sequenceUnary, lowerCutUnary, dyadicUnary, terminalUnary, sealUnary,
+      sequenceRoute, terminalRoute, terminalTransport, provenancePkg, sealPkg⟩
 
 end BEDC.Derived.LiminfUp
