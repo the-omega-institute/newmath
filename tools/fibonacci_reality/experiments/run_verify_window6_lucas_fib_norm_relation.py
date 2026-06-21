@@ -92,6 +92,11 @@ def main() -> None:
             examples_ok,
             "The witness rows include n=5 giving -4 and n=8 giving 4.",
         ),
+        check(
+            "single_json_stdout_contract",
+            True,
+            "The experiment emits exactly one machine-readable JSON result line and no status trailer.",
+        ),
     ]
     status = "passed" if all(item["passed"] for item in checks) else "failed"
     result = {
@@ -113,7 +118,6 @@ def main() -> None:
         "completed_at": now_iso(),
     }
     print(json.dumps(result, ensure_ascii=False))
-    print("PASS" if status == "passed" else "FAIL")
     if status != "passed":
         raise SystemExit(1)
 
