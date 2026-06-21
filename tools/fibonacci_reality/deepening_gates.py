@@ -67,6 +67,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "automath_paper_section",
     "integer_matrix_lucas_kernel_certificate",
     "lucas_fib_norm_relation_certificate",
+    "fibonacci_entry_point_congruence_certificate",
     "bedc_finite_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
@@ -106,6 +107,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "automath_paper_section",
         "integer_matrix_lucas_kernel_certificate",
         "lucas_fib_norm_relation_certificate",
+        "fibonacci_entry_point_congruence_certificate",
         "bedc_finite_certificate",
     },
 }
@@ -125,6 +127,9 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "integer_matrix_power",
     "lucas_recurrence",
     "integer_recurrence_evaluation",
+    "integer_prime_enumeration",
+    "fibonacci_residue_enumeration",
+    "lucas_residue_enumeration",
     "lucas_fibonacci_norm_enumeration",
     "lucas_doubling_enumeration",
     "bedc_finite_certificate",
@@ -229,6 +234,8 @@ MISMATCH_KINDS = {
 INTERNAL_STRUCTURES = {"coordinate", "closure", "spectrum", "trigger", "rank", "homology", "relation", "none"}
 FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMETIC_BASIS | {
     "fibonacci_recurrence",
+    "prime_window",
+    "mod_5_quadratic_residue_class",
     "integer_norm_relation",
     "lucas_doubling",
 }
@@ -2072,6 +2079,50 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    fib_entry_point_conjecture = {
+        "conjecture_id": "window6.fib-entry-point.fermat-congruence-law",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Fibonacci entry-point Fermat congruence law",
+        "informal_statement": (
+            "Direct integer enumeration checks F_p mod p by p mod 5 and L_p mod p over the finite "
+            "prime window p<80 as an arithmetic certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Finite prime-window residue table for Fibonacci and Lucas recurrences.",
+            "distinctions": [
+                "prime window",
+                "Fibonacci residue enumeration",
+                "Lucas residue enumeration",
+                "mod 5 quadratic residue class",
+            ],
+            "readback": "The certificate records recurrence residues only and makes no biological realization claim.",
+            "internal_structure": [
+                "prime_window",
+                "fibonacci_residue_enumeration",
+                "lucas_residue_enumeration",
+                "mod_5_quadratic_residue_class",
+            ],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": [
+            "integer_prime_enumeration",
+            "fibonacci_residue_enumeration",
+            "lucas_residue_enumeration",
+            "bedc_finite_certificate",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_fib_entry_point_congruence.py",
+                "object": "verify-window6-fib-entry-point-congruence",
+                "kind": "fibonacci_entry_point_congruence_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law."
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
         [
             edge_flux_conjecture,
@@ -2079,6 +2130,7 @@ def self_test() -> int:
             missing_arithmetic_certificate,
             lucas_kernel_conjecture,
             lucas_fib_norm_conjecture,
+            fib_entry_point_conjecture,
         ],
         [],
         [],
@@ -2106,6 +2158,9 @@ def self_test() -> int:
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window6.lucas-fib.norm-relation-law"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.fib-entry-point.fermat-congruence-law"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
