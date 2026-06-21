@@ -211,4 +211,82 @@ theorem ClosedObservationSystemPrimitiveScope [AskSetup] [PackageSetup]
   }
   exact ⟨cert, conservationUnary, primitiveUnary⟩
 
+theorem ClosedObservationSystemBridgeFacingHandoff [AskSetup] [PackageSetup]
+    {observation record conservation transport continuation provenance localName primitiveRead
+      bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedObservationSystemCarrier observation record conservation transport continuation
+        provenance localName bundle pkg ->
+      Cont continuation provenance primitiveRead ->
+        Cont primitiveRead localName bridgeRead ->
+          PkgSig bundle provenance pkg ->
+            PkgSig bundle bridgeRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row observation ∨ hsame row record ∨ hsame row conservation ∨
+                      hsame row transport ∨ hsame row continuation ∨ hsame row provenance ∨
+                        hsame row localName ∨ hsame row primitiveRead ∨ hsame row bridgeRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont observation record conservation ∧
+                      Cont continuation provenance primitiveRead ∧
+                        Cont primitiveRead localName bridgeRead ∧
+                          hsame transport (append observation record) ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle bridgeRead pkg)
+                  hsame ∧
+                UnaryHistory primitiveRead ∧ UnaryHistory bridgeRead := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier primitiveRoute bridgeRoute provenancePkg bridgePkg
+  obtain ⟨observationUnary, recordUnary, _transportUnary, continuationUnary,
+    provenanceUnary, localNameUnary, observationRecordConservation, transportSame,
+    _carrierProvenancePkg⟩ := carrier
+  have conservationUnary : UnaryHistory conservation :=
+    unary_cont_closed observationUnary recordUnary observationRecordConservation
+  have primitiveUnary : UnaryHistory primitiveRead :=
+    unary_cont_closed continuationUnary provenanceUnary primitiveRoute
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed primitiveUnary localNameUnary bridgeRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row observation ∨ hsame row record ∨ hsame row conservation ∨
+              hsame row transport ∨ hsame row continuation ∨ hsame row provenance ∨
+                hsame row localName ∨ hsame row primitiveRead ∨ hsame row bridgeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont observation record conservation ∧
+              Cont continuation provenance primitiveRead ∧
+                Cont primitiveRead localName bridgeRead ∧
+                  hsame transport (append observation record) ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle bridgeRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridgeRead ⟨hsame_refl bridgeRead, bridgeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+        Or.inr <| Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, observationRecordConservation, primitiveRoute, bridgeRoute,
+          transportSame, provenancePkg, bridgePkg⟩
+  }
+  exact ⟨cert, primitiveUnary, bridgeUnary⟩
+
 end BEDC.Derived.ClosedObservationSystemUp

@@ -61,6 +61,30 @@ The regular readback row $R$ is the only handoff to $\RegSeqRatUp$, and the term
 Transport, replay, provenance, and local naming are supplied by $H,C,P,N$. None of these rows adds quotient stream equality, a selected limit, countable choice, full Real completeness, or an ambient completion operator, so every accepted read remains inside the displayed finite route.
 \end{proof}
 
+\begin{theorem}[Located real spread obligation closure]
+\label{thm:located-real-spread-obligation-closure}
+The carrier of \autoref{def:located-real-spread-carrier}, the NameCert surface of \autoref{thm:located-real-spread-namecert-obligations}, and the regular readback route of \autoref{thm:located-real-spread-regular-readback} form the obligation surface for $\LocatedRealSpreadUp$. Every local obligation is one of the displayed rows $W,L,D,R,E,H,C,P,N$, and every completion-facing read factors through those rows before it can be used as located Real-spread data.
+\end{theorem}
+\begin{proof}
+Use the carrier projection. The rows $W,L,D,R,E$ provide the finite spread windows, located bracketing reads, dyadic tail budgets, regular rational readbacks, and Real seals.
+
+Apply the NameCert obligations to identify the structural rows $H,C,P,N$ as transport, replay, provenance, and local naming for the same packet.
+
+Finally use the regular readback theorem. It forces every completion-facing consumer through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ before the located spread is exported, so no additional local obligation remains outside $W,L,D,R,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Located real spread L10 scope]
+\label{thm:located-real-spread-l10-scope}
+The $\LocatedRealSpreadUp$ packet is scoped to the L10 Real and Completion substrate consisting of $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, displayed $\Cont$ replay, componentwise $\hsame$ transport, and finite located-window rows. It exports no obligation that reads a quotient stream, selected limit, countable-choice schedule, full $\RealUp$ completeness theorem, or ambient completion operator.
+\end{theorem}
+\begin{proof}
+Read the finite located-window rows first. The window ledger $W$ and located row $L$ determine the inspected spread requests and their dyadic bracketing data.
+
+The dyadic row $D$, regular readback row $R$, and Real seal row $E$ place those requests inside $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+The structural rows $H$ and $C$ provide exactly componentwise $\hsame$ transport and displayed $\Cont$ replay, while $P,N$ record provenance and local naming. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, full Real completeness, or ambient completion, the L10 scope is precisely the listed substrate.
+\end{proof}
+
 \falsifiablePrediction{Every $\LocatedRealSpreadUp$ read factors through finite spread windows, located Real reads, dyadic tail budgets, $\RegSeqRatUp$ readback, terminal $\RealUp$ seals, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and a local $\NameCert_{\LocatedRealSpreadUp}$ row.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, real, tailbudget: $\LocatedRealSpreadUp$ is not bijective to any listed sibling because it jointly carries finite spread windows, located bracketing reads, dyadic tail-budget rows, regular rational readbacks, Real seals, transport, replay, provenance, and local naming.}
@@ -69,8 +93,8 @@ Transport, replay, provenance, and local naming are supplied by $H,C,P,N$. None 
 
 \begin{closurestatus}{\LocatedRealSpreadUp}
   \constructivestory{A $\LocatedRealSpreadUp$ packet is generated from finite spread windows, located Real reads, dyadic tail budgets, RegSeqRat readback, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-real-spread-carrier}, \autoref{thm:located-real-spread-namecert-obligations}, and \autoref{thm:located-real-spread-regular-readback} seed the finite located-window, dyadic-tail, RegSeqRat readback, StreamName, Real seal, transport, replay, provenance, and local naming packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:located-real-spread-carrier}, \autoref{thm:located-real-spread-namecert-obligations}, \autoref{thm:located-real-spread-regular-readback}, \autoref{thm:located-real-spread-obligation-closure}, and \autoref{thm:located-real-spread-l10-scope} bind the finite located-window, dyadic-tail, RegSeqRat readback, StreamName, Real seal, transport, replay, provenance, and local naming obligation packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, full $\RealUp$ completeness, ambient completion, Lean verification, or bridge checking for $\LocatedRealSpreadUp$.}
