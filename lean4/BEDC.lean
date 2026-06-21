@@ -9,6 +9,7 @@ import BEDC.BaseReflection.GeneratedSameSig
 import BEDC.BaseReflection.PackageReflection
 import BEDC.BaseReflection.Psame
 import BEDC.BaseReflection.Token
+import BEDC.Derived.AIConsciousnessSelfProxyLedgerUp.TasteGate
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.AbGroupUp.ForgetGroupCertificate
 import BEDC.Derived.AbGroupUp.TasteGate
@@ -7698,6 +7699,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedNormalFormSplit
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedSearchExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
 import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
+import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelMonotonicity
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ScopeAssignment
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
@@ -10410,6 +10412,7 @@ import BEDC.Derived.SetlikeUp.RootSubsetLedgerNonescape
 import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
 import BEDC.Derived.SetlikeUp.SatisfactionHandoffObligation
 import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
+import BEDC.Derived.SetlikeUp.SubsetComprehensionRootUnblock
 import BEDC.Derived.SetlikeUp.SubsetLedger
 import BEDC.Derived.SetlikeUp.TasteGate
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
