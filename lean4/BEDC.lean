@@ -9,6 +9,7 @@ import BEDC.BaseReflection.GeneratedSameSig
 import BEDC.BaseReflection.PackageReflection
 import BEDC.BaseReflection.Psame
 import BEDC.BaseReflection.Token
+import BEDC.Derived.AIConsciousnessSelfProxyLedgerUp.TasteGate
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.AbGroupUp.ForgetGroupCertificate
 import BEDC.Derived.AbGroupUp.TasteGate
@@ -3016,6 +3017,7 @@ import BEDC.Derived.CompactImageClosedUp.TasteGate
 import BEDC.Derived.CompactIntervalChoiceSequenceUp.TasteGate
 import BEDC.Derived.CompactIntervalFixedPointUp.IntervalReturnRoute
 import BEDC.Derived.CompactIntervalFixedPointUp.NameCertObligations
+import BEDC.Derived.CompactIntervalFixedPointUp.PublicSeal
 import BEDC.Derived.CompactIntervalFixedPointUp.RealSealNonescape
 import BEDC.Derived.CompactIntervalFixedPointUp.ResidualBisectionHandoff
 import BEDC.Derived.CompactIntervalFixedPointUp.ScopedRoute
@@ -3340,6 +3342,7 @@ import BEDC.Derived.ConstructiveDiniTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveGreenFunctionUp.TasteGate
 import BEDC.Derived.ConstructiveHeineBorelIntervalUp
 import BEDC.Derived.ConstructiveHeineBorelIntervalUp.TasteGate
+import BEDC.Derived.ConstructiveHeineBorelUp.TasteGate
 import BEDC.Derived.ConstructiveImplicitFunctionUp.TasteGate
 import BEDC.Derived.ConstructiveLipschitzFlowUp.TasteGate
 import BEDC.Derived.ConstructiveLocatedRealUp
@@ -7697,6 +7700,8 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedConversionNonescape
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedNormalFormSplit
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedSearchExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
+import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
+import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelMonotonicity
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ScopeAssignment
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
@@ -7704,6 +7709,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateBoundaryRoute
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateBoundaryScope
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateConfluenceBoundary
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateConfluenceHandoff
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierExtension
@@ -8091,6 +8097,7 @@ import BEDC.Derived.NestedIntervalTheoremUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedIntervalsTheoremUp.TasteGate
 import BEDC.Derived.NestedShrinkingIntervalUp.TasteGate
+import BEDC.Derived.NetClusterPointUp.NeighbourhoodHitRoute
 import BEDC.Derived.NetClusterPointUp.TasteGate
 import BEDC.Derived.NetConvergenceUp
 import BEDC.Derived.NetConvergenceUp.RealSealNonescape
