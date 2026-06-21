@@ -6781,6 +6781,7 @@ import BEDC.Derived.LieGroupUp.TasteGate
 import BEDC.Derived.LiminfUp
 import BEDC.Derived.LiminfUp.BoundedCutCompatibility
 import BEDC.Derived.LiminfUp.GapWidth
+import BEDC.Derived.LiminfUp.LowerCutReadbackScope
 import BEDC.Derived.LiminfUp.RealSealExhaustion
 import BEDC.Derived.LiminfUp.ZeroGapConvergence
 import BEDC.Derived.LimitComparisonTestUp.TasteGate
@@ -8689,6 +8690,7 @@ import BEDC.Derived.PhysicalLawBridgeUp.FalsificationBoundary
 import BEDC.Derived.PhysicalLawBridgeUp.FieldFaithfulObligation
 import BEDC.Derived.PhysicalLawBridgeUp.LawGapNonescape
 import BEDC.Derived.PhysicalLawBridgeUp.NameCertSurface
+import BEDC.Derived.PhysicalLawBridgeUp.NontrivialObligation
 import BEDC.Derived.PhysicalLawBridgeUp.ObligationPackage
 import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
@@ -10751,6 +10753,7 @@ import BEDC.Derived.SixBoundaryTileCoverageUp.TasteGate
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SliceCategoryUp.TasteGate
 import BEDC.Derived.SmithNormalFormUp.TasteGate
+import BEDC.Derived.SmoothManifoldUp.BundleReadinessRoute
 import BEDC.Derived.SmoothManifoldUp.TasteGate
 import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SmythCompletionUp
