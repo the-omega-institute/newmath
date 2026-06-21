@@ -238,16 +238,28 @@ Next use the readback handoff and Real-seal factorization, \autoref{thm:dyadicro
 Finally combine ledger nonescape, \autoref{thm:dyadicroundingwindow-ledger-nonescape}, with the scoped consumer boundary of \autoref{thm:dyadicroundingwindow-scoped-consumer-boundary}. The structural rows $H,C,P,N$ supply transport, replay, provenance, and local naming for the same route, so the listed dependencies exhaust the scoped kernel surface.
 \end{proof}
 
+\begin{theorem}[DyadicRoundingWindow bridge-facing handoff]
+\label{thm:dyadic-rounding-window-bridge-facing-handoff}
+Every standard-facing read of an accepted $\DyadicRoundingWindowUp$ packet preserves the dyadic source row, the precision-window row, the tolerance budget, componentwise transport, displayed replay, provenance, and local $\NameCert_{\DyadicRoundingWindowUp}$ rows before any rounded observation is exposed. The bridge-facing handoff is exactly the displayed route through $\StreamNameUp$, $\DyadicRoundingUp$, $\DyadicApproximationUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ already scoped by \autoref{thm:dyadic-rounding-window-scoped-kernel-dependencies}. It does not assert $\RealUp$ completeness, quotient equality, selected limits, trichotomy, host rounding, or an ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadic-rounding-window-scoped-kernel-dependencies}. It fixes the finite dependency route through the stream window, regular rational readback, dyadic tolerance arithmetic, adjacent endpoint rows, transport, replay, provenance, and the terminal real seal.
+
+Apply \autoref{thm:dyadicroundingwindow-scoped-consumer-boundary}. A consumer cannot read the rounded observation without preserving $S,q,D,A,R,E,H,C,P,N$, so the standard-facing route keeps the dyadic source row, window row, tolerance budget, and local naming together.
+
+Use ledger nonescape from \autoref{thm:dyadicroundingwindow-ledger-nonescape}. The structural rows only preserve and name the displayed finite route. Since no carrier coordinate stores $\RealUp$ completeness, quotient equality, selected limits, trichotomy, host rounding, or ambient completion, the bridge-facing handoff cannot export those claims.
+\end{proof}
+
 \falsifiablePrediction{Every $\RegSeqRatUp$ or $\RealUp$ read from a $\DyadicRoundingWindowUp$ packet factors through the displayed stream window, unary precision, adjacent $\DyadicRoundingUp$ endpoint packet, $\DyadicApproximationUp$ readback, regular rational handoff, real seal row, componentwise transport, continuation replay, provenance, and local naming before the rounded observation is consumed.}
 
 \independenceWitness{streamname, dyadicrounding, dyadicapproximation, regseqrat, real, dyadicratcore: $\DyadicRoundingWindowUp$ is not bijective to any listed sibling because it jointly carries a stream window, unary precision request, adjacent endpoint packet, dyadic readback, regular rational handoff, real seal, componentwise transport, continuation replay, provenance, and local naming.}
 
-\closureat{DyadicRoundingWindowUp}{publicStr}
+\closureat{DyadicRoundingWindowUp}{bridgedStr}
 
 \begin{closurestatus}{\DyadicRoundingWindowUp}
   \constructivestory{A $\DyadicRoundingWindowUp$ packet is generated from a StreamName window, a unary precision request, an adjacent DyadicRounding endpoint packet, a DyadicApproximation readback row, a RegSeqRat handoff, a RealUp seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:dyadicroundingwindow-obligation-closure-package} exports the public obligation surface, and \autoref{thm:dyadic-rounding-window-scoped-kernel-dependencies} binds every public consumer to the displayed StreamName, DyadicRounding, DyadicApproximation, RegSeqRat, DyadicRatCore, RealUp, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:dyadicroundingwindow-obligation-closure-package}, \autoref{thm:dyadic-rounding-window-scoped-kernel-dependencies}, and \autoref{thm:dyadic-rounding-window-bridge-facing-handoff} bind every public and standard-facing consumer to the displayed StreamName, DyadicRounding, DyadicApproximation, RegSeqRat, DyadicRatCore, RealUp, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient real equality, selected limits, trichotomy, host rounding, ambient completeness, Lean verification, or bridge checking.}
