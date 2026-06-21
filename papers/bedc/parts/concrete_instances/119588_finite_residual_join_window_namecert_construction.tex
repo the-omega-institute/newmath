@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FiniteResidualJoinWindowUp$}
+\label{ch:concrete-instances-finite-residual-join-window-namecert}
+\origin{ai}
+
+The $\FiniteResidualJoinWindowUp$ packet realizes the conditional MetaCIC confluence boundary of \autoref{ch:metacic-confluence-audit-map} as a finite residual-join window. It sits beside the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the residual-substitution compatibility boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-compatibility-namecert}, the residual-join determinacy packet of \autoref{ch:concrete-instances-metacic-residual-join-determinacy-namecert}, the local-join ledger of \autoref{ch:concrete-instances-metacic-local-join-ledger-namecert}, and the finite residual-confluence window of \autoref{ch:concrete-instances-finite-residual-confluence-window-namecert}. The packet keeps the retained premise visible while a bounded checker inspects a local join; it does not prove full confluence, subject reduction, residual-substitution compatibility, evaluator equality, quotient term equality, or kernel consistency.
+
+\begin{definition}[Finite residual-join window carrier]
+\label{def:finite-residual-join-window-carrier}
+A $\FiniteResidualJoinWindowUp$ carrier is a finite $\BHist$ packet
+$$
+J=(P,L,O,B,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the retained residual-substitution premise row consumed by the conditional confluence boundary.
+\item $L$ is the local residual-join row, recording the finite peak, candidate join, and residual window inspected by the packet.
+\item $O$ is the obstruction row, retaining the unavailable global endpoints and preventing a local join from being reread as premise-free confluence.
+\item $B$ is the bounded checker row, recording the finite branch check performed inside the window.
+\item $H$ records componentwise $\hsame$ transport for the premise, local join, obstruction, checker, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the retained premise through the local join, obstruction, bounded checker, transport, provenance, and local name.
+\item $G$ is the $\Pkg$ provenance over $\FiniteResidualJoinWindowUp$, $\MetaCICParallelDiamondFrontierUp$, $\MetaCICResidualSubstitutionCompatibilityUp$, $\MetaCICResidualJoinDeterminacyUp$, $\MetaCICLocalJoinLedgerUp$, $\FiniteResidualConfluenceWindowUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteResidualJoinWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,L,O,B,H,C,G,N$. It has no coordinate for discharging $P$, erasing $O$, promoting $L$ to global Church--Rosser, or importing subject reduction, evaluator equality, quotient equality, or kernel consistency.
+\end{definition}
+\leanstmt{BEDC.Derived.FiniteResidualJoinWindowUp}
+
+\begin{theorem}[Finite residual-join window NameCert obligations]
+\label{thm:finite-residual-join-window-namecert-obligations}
+For every accepted $\FiniteResidualJoinWindowUp$ carrier $J=(P,L,O,B,H,C,G,N)$, the local $\NameCert_{\FiniteResidualJoinWindowUp}$ surface consists exactly of retained-premise exposure through $P$, local residual-join exposure through $L$, obstruction retention through $O$, bounded-checker exposure through $B$, componentwise transport through $H$, displayed replay through $C$, provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-residual-join-window-carrier}. The retained premise, local join, obstruction, and bounded checker rows are displayed before the structural rows can be consumed.
+
+The confluence-facing content is local. The row $L$ records only the finite residual join inside the window, while $P$ and $O$ remain visible as premise and obstruction rows for the same packet.
+
+The rows $H,C,G,N$ transport, replay, source, and name that finite packet. Since no row discharges the premise or removes the obstruction, the NameCert surface cannot export full confluence, subject reduction, evaluator equality, quotient equality, or kernel consistency.
+\end{proof}
+
+\begin{theorem}[Finite residual-join window conditional route]
+\label{thm:finite-residual-join-window-conditional-route}
+Every confluence-audit consumer of an accepted $\FiniteResidualJoinWindowUp$ packet may read the local residual join only through
+$$
+P,L,O,B,H,C,G,N .
+$$
+The retained premise $P$, obstruction row $O$, bounded checker $B$, transport $H$, replay $C$, provenance $G$, and local name $N$ remain attached to the local join $L$ before any conditional handoff is read.
+\end{theorem}
+\begin{proof}
+Start with the retained premise row $P$. It records the substitution-sensitive input that the MetaCIC confluence audit map keeps visible at the conditional boundary.
+
+Next inspect $L,O,B$. The local residual join is bounded by the displayed window, the obstruction row records the unavailable global endpoints, and the checker row limits the read to the finite branch inspection.
+
+Finally read $H,C,G,N$. These rows preserve the same finite window under transport, replay, provenance, and local naming, so the handoff remains a retained-premise local join rather than a full confluence theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteResidualJoinWindowUp$ packet is refuted by any confluence consumer that reads a local residual join while erasing the retained premise row, obstruction row, bounded checker, transport, replay, provenance, or local naming row.}
+
+\independenceWitness{metacic-parallel-diamond-frontier, metacic-residual-substitution-compatibility, metacic-residual-join-determinacy, metacic-local-join-ledger, finite-residual-confluence-window: no listed sibling is bijective to $\FiniteResidualJoinWindowUp$ because this packet jointly carries retained premise, local join, obstruction, bounded checker, transport, replay, provenance, and local NameCert rows. The Lean follow-up must provide $\mathsf{Nontrivial}\ \FiniteResidualJoinWindowUp$ and $\mathsf{FieldFaithful}\ \FiniteResidualJoinWindowUp$ instances.}
+
+\closureat{FiniteResidualJoinWindowUp}{seedStr}
+
+\begin{closurestatus}{\FiniteResidualJoinWindowUp}
+  \constructivestory{A $\FiniteResidualJoinWindowUp$ packet is generated from a retained residual-substitution premise, local residual-join row, obstruction row, bounded checker row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-residual-join-window-carrier}, \autoref{thm:finite-residual-join-window-namecert-obligations}, and \autoref{thm:finite-residual-join-window-conditional-route} seed the finite residual-join window over retained premise, local join, obstruction, bounded checker, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, residual-substitution discharge, full confluence, subject reduction, evaluator equality, quotient term equality, kernel consistency, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, retained-premise exposure, local-join exactness, obstruction retention, bounded-checker exposure, transport, replay, provenance, and local naming for BEDC.Derived.FiniteResidualJoinWindowUp.}
+\end{closurestatus}
