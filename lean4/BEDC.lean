@@ -987,6 +987,7 @@ import BEDC.Derived.BishopMonotoneRealLimitUp.TasteGate
 import BEDC.Derived.BishopNestedClosedSetPrincipleUp
 import BEDC.Derived.BishopOrderCompletionUp.TasteGate
 import BEDC.Derived.BishopRealApartnessTopologyUp.TasteGate
+import BEDC.Derived.BishopRealCauchyInterleavingUp.TasteGate
 import BEDC.Derived.BishopRealComparisonModulusUp.TasteGate
 import BEDC.Derived.BishopRealComparisonUp
 import BEDC.Derived.BishopRealComparisonUp.CauchyDedekindBoundary
@@ -6372,6 +6373,7 @@ import BEDC.Derived.HyperspaceUp.CauchyUniformNetHandoff
 import BEDC.Derived.HyperspaceUp.CompactCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
 import BEDC.Derived.HyperspaceUp.CompactMetricHandoff
+import BEDC.Derived.HyperspaceUp.CompactMetricVietorisMaturityRoute
 import BEDC.Derived.HyperspaceUp.CompactMetricVietorisUnblock
 import BEDC.Derived.HyperspaceUp.CompactSourceCarrierObligations
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
@@ -7183,6 +7185,7 @@ import BEDC.Derived.LowerSemicontinuousUp.TransportReplayExactness
 import BEDC.Derived.LowerSemicontinuousUp.WindowFactorization
 import BEDC.Derived.LowerUpperRealCutUp
 import BEDC.Derived.LowerUpperRealCutUp.TasteGate
+import BEDC.Derived.LpSpaceUp.TasteGate
 import BEDC.Derived.LusinApproximationUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
@@ -9777,6 +9780,7 @@ import BEDC.Derived.RegularCauchyCriterionUp.CauchyEquivalence
 import BEDC.Derived.RegularCauchyCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCriterionUp.RouteScope
 import BEDC.Derived.RegularCauchyCriterionUp.TasteGate
+import BEDC.Derived.RegularCauchyCutoffUp.TasteGate
 import BEDC.Derived.RegularCauchyDensityUp
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.NameCertObligations
 import BEDC.Derived.RegularCauchyDiagonalArgumentUp.TasteGate
