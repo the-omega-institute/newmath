@@ -78,6 +78,34 @@ parallel diamond, or a substitution-compatibility discharge, the accepted seal
 cannot be repacked into full closed Church--Rosser.
 \end{proof}
 
+\begin{theorem}[Closed normal confluence seal public export]
+\label{thm:closed-normal-confluence-seal-public-export}
+The public export of an accepted $\ClosedNormalConfluenceSealUp$ packet is
+exactly the displayed closed beta-normal source row $t$, the beta-normality
+witness row $n$, the two beta-star route rows $r_1,r_2$, the join row $j$, and
+the structural surface $H,C,P,N$ for componentwise $\hsame$ transport,
+displayed $\Cont$ replay, package provenance, and local naming. This export
+contains no arbitrary closed Church--Rosser theorem, no
+$\mathrm{BetaParallelSubstitutionCompatibility}$ discharge, no closed parallel
+diamond, and no subject-reduction or normalization oracle.
+\end{theorem}
+\begin{proof}
+Start with the normal-source theorem
+\autoref{thm:closed-normal-confluence-seal-normal-source}. It identifies the
+source of the export as the displayed closed beta-normal row $t$ together with
+the normality witness $n$ and the two beta-star route rows $r_1,r_2$.
+
+The join row $j$ is therefore read only as the join for those two displayed
+routes. The transport, replay, provenance, and naming rows $H,C,P,N$ preserve
+that finite surface for public consumers without adding a new source or a
+substitution theorem.
+
+The carrier of \autoref{def:closed-normal-confluence-seal-carrier} has no
+coordinate for arbitrary closed Church--Rosser, closed parallel diamond,
+subject reduction, or normalization. Hence the public export is exactly the
+finite normal-source seal and not any of the excluded global endpoints.
+\end{proof}
+
 \begin{theorem}[Closed normal confluence seal substitution boundary]
 \label{thm:closed-normal-confluence-seal-substitution-boundary}
 The $\ClosedNormalConfluenceSealUp$ carrier separates the available
@@ -254,11 +282,12 @@ or arbitrary closed-term confluence endpoint.
 \closureat{ClosedNormalConfluenceSealUp}{seedStr}
 \closureat{ClosedNormalConfluenceSealUp}{obligationStr}
 \closureat{ClosedNormalConfluenceSealUp}{scopedStr}
+\closureat{ClosedNormalConfluenceSealUp}{publicStr}
 
 \begin{closurestatus}{\ClosedNormalConfluenceSealUp}
   \constructivestory{A $\ClosedNormalConfluenceSealUp$ packet is generated from a closed term row, beta-normality witness row, two beta-star route rows, a displayed join row, componentwise $\hsame$ transports, displayed $\Cont$ reads, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:closed-normal-confluence-seal-carrier}, \autoref{thm:closed-normal-confluence-seal-obligation-surface}, \autoref{thm:closed-normal-confluence-seal-carrier-admission-ledger}, \autoref{thm:closed-normal-confluence-seal-route-stability}, \autoref{thm:closed-normal-confluence-seal-scoped-route}, \autoref{thm:closed-normal-confluence-seal-kernel-scope}, and \autoref{thm:closed-normal-confluence-seal-boundary-nonescape} bind carrier admission, route stability, kernel scope, and boundary non-escape for the finite normal-source confluence seal.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:closed-normal-confluence-seal-carrier}, \autoref{thm:closed-normal-confluence-seal-obligation-surface}, \autoref{thm:closed-normal-confluence-seal-carrier-admission-ledger}, \autoref{thm:closed-normal-confluence-seal-route-stability}, \autoref{thm:closed-normal-confluence-seal-scoped-route}, \autoref{thm:closed-normal-confluence-seal-kernel-scope}, \autoref{thm:closed-normal-confluence-seal-boundary-nonescape}, and \autoref{thm:closed-normal-confluence-seal-public-export} bind carrier admission, route stability, kernel scope, boundary non-escape, and the public finite normal-source export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close arbitrary closed-term Church--Rosser, $\mathrm{BetaParallelSubstitutionCompatibility}$, $\mathrm{BetaParallelDiamondClosed}$, a subject-reduction theorem, a normalization oracle, checked Lean certificate coverage, or a public standard bridge.}
