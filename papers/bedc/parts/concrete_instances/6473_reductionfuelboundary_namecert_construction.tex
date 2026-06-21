@@ -182,7 +182,9 @@ Project the carrier rows. The total-host row $H$, fuel row $F$, bounded trace ro
 
 The sibling route theorems fix the dependencies. The obligation package enumerates carrier admission and field faithfulness for those rows, while the substrate and timeout route theorems keep the endpoint and timeout branches inside the same finite packet.
 
-The remaining required names are structural rows of that packet. The $\ZNormalUp$ boundary is read only as part of the typed endpoint surface and audit separation, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows preserve the displayed route rather than adding a semantic shortcut. Thus any scoped consumer must read the listed rows before the fuel boundary can be consumed.
+The remaining required names are structural rows of that packet. The $\ZNormalUp$ boundary is read only as part of the typed endpoint surface and audit separation, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows preserve the displayed route rather than adding a semantic shortcut.
+
+Downstream residual-normalization and candidate-mediated SN consumers, including the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, may read the fuel boundary only after the bounded trace, typed endpoint, timeout refusal, and audit rows are displayed. Thus any scoped consumer must read the listed rows before the fuel boundary can be consumed.
 \end{proof}
 
 \closureat{ReductionFuelBoundaryUp}{scopedStr}
