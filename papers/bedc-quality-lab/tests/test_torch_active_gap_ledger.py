@@ -7,9 +7,12 @@ import pytest
 
 from bedc_quality_lab.torch_bedc_jepa import (
     ActiveGapLedgerConfig,
+    _active_gap_ledger_sampling,
     _active_gap_guardrail,
     run_active_gap_ledger_curriculum,
+    run_active_gap_ledger_controlled,
 )
+from bedc_quality_lab.bedc_jepa_world import make_boundary_gated_batch
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -74,6 +77,40 @@ def test_active_gap_sampling_reasons_are_budgeted_and_mutually_exclusive():
         all_indices.extend(row["indices"])
     assert len(all_indices) == len(set(all_indices))
     assert sampling["selected_indices"] == all_indices
+
+
+def test_active_gap_sampling_support_anchor_and_scrambled_placebo_are_explicit():
+    pool = make_boundary_gated_batch(96, rho=0.84, radius=1.0, gap_width=0.14, seed=909)
+    scores = {
+        "gap": pool.gap.astype(float) * 0.8 + (~pool.gap).astype(float) * 0.1,
+        "distinction": pool.distinction.astype(float),
+    }
+
+    selected, sampling = _active_gap_ledger_sampling(
+        pool,
+        scores,
+        active_budget=24,
+        arm="coverage_preserving",
+        preserve_fraction=0.5,
+    )
+    support_indices = sampling["reasons"]["support_anchor"]["indices"]
+
+    assert sampling["arm"] == "coverage_preserving"
+    assert sampling["reason_order"][0] == "support_anchor"
+    assert sampling["mutually_exclusive"] is True
+    assert len(selected) <= 24
+    assert support_indices
+    assert all(not bool(pool.gap[idx]) for idx in support_indices)
+    assert all(float(scores["gap"][idx]) < 0.5 for idx in support_indices)
+
+    _, placebo = _active_gap_ledger_sampling(
+        pool,
+        scores,
+        active_budget=24,
+        arm="placebo",
+    )
+    assert placebo["arm"] == "placebo"
+    assert placebo["score_source"] == "scrambled_gap"
 
 
 def test_active_gap_guardrail_fails_closed_when_thresholds_are_unreachable():
@@ -155,6 +192,52 @@ def test_active_gap_curriculum_rejects_mixed_config_and_overrides():
 def test_active_gap_curriculum_rejects_empty_active_budget():
     with pytest.raises(ValueError, match="active_budget must be positive"):
         run_active_gap_ledger_curriculum(_small_config(active_budget=0))
+
+
+def test_active_gap_controlled_runner_summarizes_three_arms(monkeypatch):
+    def fake_arm(config=None, *, arm, preserve_fraction=0.5, **overrides):
+        base = {"real": 0.70, "coverage_preserving": 0.72, "placebo": 0.69}[arm]
+        before = {
+            "gap_detection_auc": 0.68,
+            "bedc_debt_score": 0.20,
+            "certified_coverage": 0.40,
+            "linear_identifiability_r2": 0.80,
+            "unlogged_error_rate": 0.03,
+            "distinction_accuracy_outside_gap": 0.90,
+        }
+        after = {
+            "gap_detection_auc": base,
+            "bedc_debt_score": 0.18,
+            "certified_coverage": 0.41,
+            "linear_identifiability_r2": 0.798,
+            "unlogged_error_rate": 0.02,
+            "distinction_accuracy_outside_gap": 0.91,
+        }
+        deltas = {key: after[key] - before[key] for key in before}
+        seed = config.seed if config is not None else overrides["seed"]
+        return {
+            "status": "executed",
+            "source": {"seed": float(seed)},
+            "torch_environment": {"resolved_device": "cuda"},
+            "sampling": {"arm": arm},
+            "guardrail": {"passed": True},
+            "metrics_before": before,
+            "metrics_after": after,
+            "deltas": deltas,
+        }
+
+    monkeypatch.setattr(
+        "bedc_quality_lab.torch_bedc_jepa._run_active_gap_ledger_curriculum_arm",
+        fake_arm,
+    )
+
+    packet = run_active_gap_ledger_controlled(seeds=(1, 2), config=_small_config())
+
+    assert packet["schema_id"] == "bedc-jepa-active-gap-ledger-controlled"
+    assert set(packet["arms"]) == {"real", "coverage_preserving", "placebo"}
+    assert len(packet["arms"]["real"]["runs"]) == 2
+    assert packet["arms"]["coverage_preserving"]["summary"]["gap_detection_auc"]["mean"] == 0.72
+    assert packet["decision"]["verdict"] == "real-capability-win"
 
 
 def test_active_gap_ledger_cli_writes_fixed_report(monkeypatch):

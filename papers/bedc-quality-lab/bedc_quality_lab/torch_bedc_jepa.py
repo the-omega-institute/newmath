@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from collections.abc import Sequence
 from typing import Any
 
@@ -338,17 +338,48 @@ def _active_gap_ledger_sampling(
     scores: dict[str, np.ndarray],
     *,
     active_budget: int,
+    arm: str = "real",
+    preserve_fraction: float = 0.5,
+    rng: np.random.Generator | None = None,
 ) -> tuple[np.ndarray, dict[str, Any]]:
+    if arm not in {"real", "coverage_preserving", "placebo"}:
+        raise ValueError(f"unsupported active gap-ledger arm: {arm}")
+    if not 0.0 <= float(preserve_fraction) <= 1.0:
+        raise ValueError("preserve_fraction must be in [0, 1]")
     budgets = _sampling_budgets(active_budget)
     gap_scores = np.asarray(scores["gap"], dtype=np.float64)
+    score_source = "true_gap"
+    if arm == "placebo":
+        if rng is None:
+            rng = np.random.default_rng(0)
+        gap_scores = gap_scores[np.asarray(rng.permutation(gap_scores.shape[0]), dtype=np.int64)]
+        score_source = "scrambled_gap"
     distinction_scores = np.asarray(scores["distinction"], dtype=np.float64)
     errors = (distinction_scores >= 0.5) != pool.distinction
+    selected: set[int] = set()
+    anchor_indices: list[int] = []
+    anchor_requested = 0
+    if arm == "coverage_preserving":
+        anchor_requested = int(round(int(active_budget) * float(preserve_fraction)))
+        anchor_candidates = np.asarray(
+            [
+                int(idx)
+                for idx in np.argsort(gap_scores)
+                if (not bool(pool.gap[int(idx)])) and float(gap_scores[int(idx)]) < 0.5
+            ],
+            dtype=np.int64,
+        )
+        anchor_indices = _choose_ranked_indices(
+            anchor_candidates,
+            requested=anchor_requested,
+            selected=selected,
+        )
+        budgets = _sampling_budgets(max(0, int(active_budget) - len(anchor_indices)))
     candidates = {
         "high_gap": np.argsort(-gap_scores),
         "boundary_band": np.flatnonzero(pool.gap),
         "unlogged_transition": np.flatnonzero(errors & (gap_scores < 0.5)),
     }
-    selected: set[int] = set()
     by_reason: dict[str, list[int]] = {}
     for reason in ("high_gap", "boundary_band", "unlogged_transition"):
         by_reason[reason] = _choose_ranked_indices(
@@ -356,7 +387,7 @@ def _active_gap_ledger_sampling(
             requested=int(budgets[reason]),
             selected=selected,
         )
-    shortfall = int(active_budget) - sum(len(indices) for indices in by_reason.values())
+    shortfall = int(active_budget) - len(anchor_indices) - sum(len(indices) for indices in by_reason.values())
     if shortfall > 0:
         backfill = _choose_ranked_indices(
             candidates["high_gap"],
@@ -366,7 +397,10 @@ def _active_gap_ledger_sampling(
         by_reason["high_gap"].extend(backfill)
         budgets["high_gap"] += len(backfill)
     selected_indices = np.asarray(
-        [idx for reason in ("high_gap", "boundary_band", "unlogged_transition") for idx in by_reason[reason]],
+        [
+            *anchor_indices,
+            *[idx for reason in ("high_gap", "boundary_band", "unlogged_transition") for idx in by_reason[reason]],
+        ],
         dtype=np.int64,
     )
     reason_rows = {
@@ -378,11 +412,29 @@ def _active_gap_ledger_sampling(
         }
         for reason in ("high_gap", "boundary_band", "unlogged_transition")
     }
+    if arm == "coverage_preserving":
+        reason_rows = {
+            "support_anchor": {
+                "requested": int(anchor_requested),
+                "selected": int(len(anchor_indices)),
+                "candidate_count": int(
+                    np.sum((~np.asarray(pool.gap, dtype=bool)) & (gap_scores < 0.5))
+                ),
+                "indices": [int(idx) for idx in anchor_indices],
+            },
+            **reason_rows,
+        }
+        reason_order = ["support_anchor", "high_gap", "boundary_band", "unlogged_transition"]
+    else:
+        reason_order = ["high_gap", "boundary_band", "unlogged_transition"]
     return selected_indices, {
         "budget": int(active_budget),
         "selected": int(selected_indices.shape[0]),
         "selected_indices": [int(idx) for idx in selected_indices.tolist()],
-        "reason_order": ["high_gap", "boundary_band", "unlogged_transition"],
+        "arm": arm,
+        "score_source": score_source,
+        "preserve_fraction": float(preserve_fraction) if arm == "coverage_preserving" else 0.0,
+        "reason_order": reason_order,
         "reasons": reason_rows,
         "mutually_exclusive": bool(selected_indices.shape[0] == len(set(int(idx) for idx in selected_indices.tolist()))),
         "pool_count": int(pool.z.shape[0]),
@@ -739,6 +791,16 @@ def run_active_gap_ledger_curriculum(
     config: ActiveGapLedgerConfig | None = None,
     **overrides: Any,
 ) -> dict[str, Any]:
+    return _run_active_gap_ledger_curriculum_arm(config, arm="real", **overrides)
+
+
+def _run_active_gap_ledger_curriculum_arm(
+    config: ActiveGapLedgerConfig | None = None,
+    *,
+    arm: str,
+    preserve_fraction: float = 0.5,
+    **overrides: Any,
+) -> dict[str, Any]:
     if config is None:
         config = ActiveGapLedgerConfig(**overrides)
     elif overrides:
@@ -787,6 +849,9 @@ def run_active_gap_ledger_curriculum(
         pool,
         pool_scores,
         active_budget=config.active_budget,
+        arm=arm,
+        preserve_fraction=preserve_fraction,
+        rng=np.random.default_rng(config.seed + 919),
     )
     selected_train = _take_boundary_batch(pool, selected_indices)
     retrain = _concat_boundary_batches([train, selected_train])
@@ -807,6 +872,7 @@ def run_active_gap_ledger_curriculum(
         "source": {
             "name": "boundary-gated-ou-world",
             "training": "torch-active-gap-ledger-curriculum",
+            "arm": arm,
             "train_count_initial": float(config.initial_train_count),
             "train_count_after_active_sampling": float(retrain.z.shape[0]),
             "pool_count": float(config.pool_count),
@@ -844,6 +910,170 @@ def run_active_gap_ledger_curriculum(
             "native V-JEPA2-AC active retraining",
             "natural-video active curriculum",
             "robot-control active curriculum",
+        ],
+    }
+
+
+def _controlled_metric_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    metric_keys = (
+        "gap_detection_auc",
+        "bedc_debt_score",
+        "certified_coverage",
+        "linear_identifiability_r2",
+        "unlogged_error_rate",
+    )
+    delta_keys = (
+        "gap_detection_auc",
+        "bedc_debt_score",
+        "certified_coverage",
+        "linear_identifiability_r2",
+        "unlogged_error_rate",
+    )
+    summary: dict[str, Any] = {}
+    for key in metric_keys:
+        values = [float(row["metrics_after"][key]) for row in rows]
+        summary[key] = {
+            "mean": float(np.mean(values)) if values else 0.0,
+            "ci95": _ci95(values),
+        }
+    for key in delta_keys:
+        values = [float(row["deltas"][key]) for row in rows]
+        summary[f"{key}_delta"] = {
+            "mean": float(np.mean(values)) if values else 0.0,
+            "ci95": _ci95(values),
+        }
+    return summary
+
+
+def _controlled_arm_row(packet: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "seed": int(float(packet["source"]["seed"])),
+        "status": packet["status"],
+        "sampling": packet["sampling"],
+        "guardrail": packet["guardrail"],
+        "metrics_before": {
+            "gap_detection_auc": float(packet["metrics_before"]["gap_detection_auc"]),
+            "bedc_debt_score": float(packet["metrics_before"]["bedc_debt_score"]),
+            "certified_coverage": float(packet["metrics_before"]["certified_coverage"]),
+            "linear_identifiability_r2": float(packet["metrics_before"]["linear_identifiability_r2"]),
+            "unlogged_error_rate": float(packet["metrics_before"]["unlogged_error_rate"]),
+        },
+        "metrics_after": {
+            "gap_detection_auc": float(packet["metrics_after"]["gap_detection_auc"]),
+            "bedc_debt_score": float(packet["metrics_after"]["bedc_debt_score"]),
+            "certified_coverage": float(packet["metrics_after"]["certified_coverage"]),
+            "linear_identifiability_r2": float(packet["metrics_after"]["linear_identifiability_r2"]),
+            "unlogged_error_rate": float(packet["metrics_after"]["unlogged_error_rate"]),
+        },
+        "deltas": {
+            "gap_detection_auc": float(packet["deltas"]["gap_detection_auc"]),
+            "bedc_debt_score": float(packet["deltas"]["bedc_debt_score"]),
+            "certified_coverage": float(packet["deltas"]["certified_coverage"]),
+            "linear_identifiability_r2": float(packet["deltas"]["linear_identifiability_r2"]),
+            "unlogged_error_rate": float(packet["deltas"]["unlogged_error_rate"]),
+        },
+    }
+
+
+def _controlled_decision(summary: dict[str, Any]) -> dict[str, Any]:
+    placebo = summary["placebo"]
+    placebo_auc = float(placebo["gap_detection_auc"]["mean"])
+    placebo_coverage_delta = float(placebo["certified_coverage_delta"]["mean"])
+    placebo_r2_delta = float(placebo["linear_identifiability_r2_delta"]["mean"])
+    qualifying: list[str] = []
+    for arm in ("real", "coverage_preserving"):
+        row = summary[arm]
+        auc = float(row["gap_detection_auc"]["mean"])
+        coverage_delta = float(row["certified_coverage_delta"]["mean"])
+        r2_delta = float(row["linear_identifiability_r2_delta"]["mean"])
+        beats_placebo_net = (
+            auc >= placebo_auc
+            and coverage_delta >= placebo_coverage_delta
+            and r2_delta >= placebo_r2_delta
+        )
+        if auc >= placebo_auc and coverage_delta >= 0.0 and r2_delta >= -0.005 and beats_placebo_net:
+            qualifying.append(arm)
+    if qualifying:
+        verdict = "real-capability-win"
+        deciding_arm = qualifying[0]
+    else:
+        regress_everywhere = all(
+            float(summary[arm]["certified_coverage_delta"]["mean"]) < 0.0
+            or float(summary[arm]["linear_identifiability_r2_delta"]["mean"]) < -0.005
+            for arm in ("real", "coverage_preserving", "placebo")
+        )
+        verdict = "decisive-negative-saturation" if regress_everywhere else "partial"
+        deciding_arm = ""
+    return {
+        "verdict": verdict,
+        "qualifying_arms": qualifying,
+        "deciding_arm": deciding_arm,
+        "placebo_gap_detection_auc": placebo_auc,
+        "placebo_certified_coverage_delta": placebo_coverage_delta,
+        "placebo_linear_identifiability_r2_delta": placebo_r2_delta,
+    }
+
+
+def run_active_gap_ledger_controlled(
+    *,
+    seeds: Sequence[int] = (4242, 4259, 4276),
+    config: ActiveGapLedgerConfig | None = None,
+    preserve_fraction: float = 0.5,
+) -> dict[str, Any]:
+    if not seeds:
+        raise ValueError("at least one seed is required")
+    base_config = config if config is not None else ActiveGapLedgerConfig()
+    arms = ("real", "coverage_preserving", "placebo")
+    runs: dict[str, list[dict[str, Any]]] = {arm: [] for arm in arms}
+    packets: dict[str, list[dict[str, Any]]] = {arm: [] for arm in arms}
+    for seed in seeds:
+        seed_config = replace(base_config, seed=int(seed))
+        for arm in arms:
+            packet = _run_active_gap_ledger_curriculum_arm(
+                seed_config,
+                arm=arm,
+                preserve_fraction=preserve_fraction,
+            )
+            packets[arm].append(packet)
+            runs[arm].append(_controlled_arm_row(packet))
+    summary = {arm: _controlled_metric_summary(rows) for arm, rows in runs.items()}
+    decision = _controlled_decision(summary)
+    first_packet = packets[arms[0]][0]
+    return {
+        "schema_id": "bedc-jepa-active-gap-ledger-controlled",
+        "status": "executed",
+        "source": {
+            "name": "boundary-gated-ou-world",
+            "training": "torch-active-gap-ledger-controlled",
+            "seeds": [int(seed) for seed in seeds],
+            "initial_train_count": float(base_config.initial_train_count),
+            "pool_count": float(base_config.pool_count),
+            "test_count": float(base_config.test_count),
+            "active_budget": float(base_config.active_budget),
+            "epochs": float(base_config.epochs),
+            "preserve_fraction": float(preserve_fraction),
+            "identical_seed_pool_budget_per_arm": True,
+        },
+        "torch_environment": first_packet["torch_environment"],
+        "arms": {
+            arm: {
+                "runs": runs[arm],
+                "summary": summary[arm],
+            }
+            for arm in arms
+        },
+        "decision_rule": {
+            "gap_auc_not_lower_than_placebo": True,
+            "coverage_delta_floor": 0.0,
+            "latent_r2_delta_floor": -0.005,
+            "net_placebo_comparison": "coverage and R2 deltas not worse than placebo while final gap AUC is at least placebo",
+        },
+        "decision": decision,
+        "cannot_claim": [
+            "public MiniGrid controlled active retraining",
+            "native V-JEPA2-AC controlled active retraining",
+            "natural-video controlled active curriculum",
+            "robot-control controlled active curriculum",
         ],
     }
 
