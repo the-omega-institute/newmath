@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealLowerCutUp$}
+\label{ch:concrete-instances-located-real-lower-cut-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedRealLowerCutUp$ packet records a finite lower-cut locatedness surface for Real and Completion consumers. It sits beside the located-real comparison route of \autoref{ch:concrete-instances-locatedreal-namecert}, the finite stream observations of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names lower-cut evidence available to downstream comparison or completion routes without asserting Dedekind-cut reals, quotient equality, selected suprema, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located-real lower-cut carrier]
+\label{def:located-real-lower-cut-carrier}
+A $\LocatedRealLowerCutUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the lower-cut query row. It lists the finitely many rational thresholds whose membership in the lower approximation is inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached to those thresholds, including the finite precision and separation budget used by the locator.
+\item $W$ is the $\StreamNameUp$ observation-window row through which the threshold data are read.
+\item $R$ is the $\RegSeqRatUp$ readback row comparing the observed windows with a regular rational route.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $Q,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the threshold, tolerance, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a lower-cut query through $Q,D,W,R$ before the seal row $E$ is consumed.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealLowerCutUp$, $\LocatedRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedRealLowerCutUp}$ row.
+\end{enumerate}
+The classifier accepts only packets displaying these rows. It has no coordinate for a completed Dedekind cut, quotient equality of cuts, a least upper bound selector, trichotomy, countable choice, or ambient completeness for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Located-real lower-cut NameCert obligations]
+\label{thm:located-real-lower-cut-namecert-obligations}
+For every accepted $\LocatedRealLowerCutUp$ carrier $L=(Q,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedRealLowerCutUp}$ surface consists exactly of carrier admission for the lower-cut query row, dyadic tolerance row, finite $\StreamNameUp$ observation windows, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. Any Real or Completion consumer reading the packet factors through these rows and cannot cite the packet as a Dedekind-cut construction of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-lower-cut-carrier}. The analytic rows are exactly $Q,D,W,R,E$: a lower-cut query, a dyadic tolerance ledger, finite stream observations, regular rational readback, and the terminal real seal.
+
+The route order is part of the packet. A consumer reads the rational threshold row $Q$, then the dyadic budget $D$, then the finite observation window $W$, and only then the regular rational readback $R$ that can reach the real seal $E$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no row for completed cuts, quotient equality, selected suprema, trichotomy, countable choice, or host completeness, the local naming certificate cannot export those objects.
+\end{proof}
+
+\begin{theorem}[Located-real lower-cut RegSeqRat handoff]
+\label{thm:located-real-lower-cut-regseqrat-handoff}
+Every $\RegSeqRatUp$, $\RealUp$, or completion-facing read of an accepted $\LocatedRealLowerCutUp$ carrier factors through the finite route
+$$
+\DyadicRatCoreUp\longmapsto\StreamNameUp\longmapsto\RegSeqRatUp\longmapsto\RealUp .
+$$
+The handoff exposes only the lower-cut thresholds, dyadic tolerance ledger, finite stream windows, regular rational readback, terminal seal, componentwise transport, replay, provenance, and local naming rows already displayed in the carrier.
+\end{theorem}
+\begin{proof}
+Start with the obligations of \autoref{thm:located-real-lower-cut-namecert-obligations}. They expose $Q,D,W,R,E,H,C,P,N$ as the whole local NameCert surface.
+
+The lower-cut information reaches a regular rational consumer through $D,W,R$. The dyadic threshold and tolerance row supplies the finite budget, the stream row supplies the inspected windows, and the readback row is the first point at which a $\RegSeqRatUp$ consumer can receive data.
+
+The terminal Real or Completion consumer then reads only through $E$. The structural rows preserve the same packet under transport and replay, so the handoff cannot add Dedekind-cut equality, selected suprema, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{LocatedRealLowerCutUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealLowerCutUp}
+  \constructivestory{A $\LocatedRealLowerCutUp$ packet is generated from finite lower-cut threshold queries, a DyadicRatCore tolerance ledger, StreamName observation windows, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-lower-cut-carrier}, \autoref{thm:located-real-lower-cut-namecert-obligations}, and \autoref{thm:located-real-lower-cut-regseqrat-handoff} seed the finite lower-cut locatedness route through dyadic thresholds, stream windows, regular rational readback, and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind-cut reals, quotient equality, selected suprema, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower-cut query exactness, dyadic tolerance coverage, StreamName window exposure, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedRealLowerCutUp.}
+\end{closurestatus}
