@@ -7724,6 +7724,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeFacingSurface
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
 import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
+import BEDC.Derived.MetacicDecidabilityWitnessUp.MatureNormalFormBoundary
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelMonotonicity
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ScopeAssignment
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
@@ -8957,6 +8958,8 @@ import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RHRouteHaltingBoundaryUp.TasteGate
 import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
 import BEDC.Derived.RaabeTestUp.TasteGate
+import BEDC.Derived.RademacherUp
+import BEDC.Derived.RademacherUp.TasteGate
 import BEDC.Derived.RadialWobbleSpectrumUp.TasteGate
 import BEDC.Derived.RadonMeasureUp
 import BEDC.Derived.RadonMeasureUp.TasteGate
