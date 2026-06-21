@@ -190,6 +190,7 @@ Finally use \autoref{thm:filter-limit-basis-window-induction} and \autoref{thm:f
 \label{thm:filterlimitbasis-scope-obligation}
 For an accepted $\FilterLimitBasisUp$ carrier $B=(Q,F,L,W,R,D,E,H,C,P,N)$, the obligation surface is scoped exactly by the displayed route through $\CauchyFilterCompletionUp$, $\CauchyFilterUp$, $\CauchyFilterLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\FilterLimitBasisUp}$ rows. Every completion-facing, limit-facing, or Real-facing read must pass through those rows, and no quotient filter, selected limit, ultrafilter, countable-choice schedule, host filter equality, host real equality, ambient completeness, or bridge certificate is part of the scope.
 \end{theorem}
+\leanchecked{BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisScopedObligation}
 \begin{proof}
 Start from the carrier of \autoref{def:filter-limit-basis-carrier}. It displays precisely the rows $Q,F,L,W,R,D,E,H,C,P,N$, so the candidate scope is already bounded by the completion boundary, Cauchy-filter surface, limit boundary, window, readback, tolerance, Real seal, transport, replay, provenance, and local naming data.
 
@@ -202,11 +203,11 @@ Use limit compatibility, window induction, and real-window exhaustion from \auto
 
 \independenceWitness{cauchyfiltercompletion, cauchyfilter, cauchyfilterlimit, streamname, regseqrat, dyadicratcore, real: none alone is bijective with $\FilterLimitBasisUp$ because the packet jointly records completion-boundary, saturated-filter, limit-boundary, finite-window, readback, tolerance, seal, transport, replay, provenance, and local NameCert rows.}
 
-\closureat{FilterLimitBasisUp}{seedStr}
+\closureat{FilterLimitBasisUp}{obligationStr}
 
 \begin{closurestatus}{\FilterLimitBasisUp}
   \constructivestory{A $\FilterLimitBasisUp$ packet is generated from a CauchyFilterCompletion row, a CauchyFilter row, a CauchyFilterLimit row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:filter-limit-basis-carrier}, \autoref{thm:filter-limit-basis-namecert-obligations}, and \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff} seed the finite filter-limit basis route consumed by Cauchy-filter completion and Real readers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
