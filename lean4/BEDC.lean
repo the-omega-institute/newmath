@@ -6888,6 +6888,7 @@ import BEDC.Derived.LocallyCompactUp.LocatedHandoffBoundary
 import BEDC.Derived.LocallyCompactUp.ProperMetricNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessComparisonNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessLocalityRootBoundary
+import BEDC.Derived.LocallyCompactUp.PublicNeighbourhoodBaseExport
 import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocallyConnectedContinuumUp
 import BEDC.Derived.LocallyConnectedUp.TasteGate
@@ -7957,6 +7958,7 @@ import BEDC.Derived.MetricEmbeddingUp.SeparatedCompletionHandoff
 import BEDC.Derived.MetricEmbeddingUp.TasteGate
 import BEDC.Derived.MetricEntourageUp
 import BEDC.Derived.MetricEntourageUp.TasteGate
+import BEDC.Derived.MetricEntropyUp.TasteGate
 import BEDC.Derived.MetricGraphUp.TasteGate
 import BEDC.Derived.MetricIdentificationUp.TasteGate
 import BEDC.Derived.MetricProjectionUp
@@ -8668,6 +8670,7 @@ import BEDC.Derived.PhysicalInductionUp.TasteGate
 import BEDC.Derived.PhysicalLawBridgeUp.FalsificationBoundary
 import BEDC.Derived.PhysicalLawBridgeUp.LawGapNonescape
 import BEDC.Derived.PhysicalLawBridgeUp.NameCertSurface
+import BEDC.Derived.PhysicalLawBridgeUp.ObligationPackage
 import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
@@ -10245,6 +10248,7 @@ import BEDC.Derived.RiemannStieltjesUp.StepIntegratorExactness
 import BEDC.Derived.RiemannStieltjesUp.TaggedPartitionInduction
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
 import BEDC.Derived.RiemannSumConsistencyUp.TasteGate
+import BEDC.Derived.RiemannSumCriterionUp
 import BEDC.Derived.RiemannSumGaugeUp.TasteGate
 import BEDC.Derived.RiemannSumUp
 import BEDC.Derived.RiemannSumUp.MatureFiniteMeshExamples
