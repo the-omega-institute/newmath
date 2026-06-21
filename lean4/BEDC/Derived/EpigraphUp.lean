@@ -110,6 +110,33 @@ def EpigraphContPkgCarrier [AskSetup] [PackageSetup]
                       PkgSig bundle P pkg ∧
                         PkgSig bundle N pkg
 
+def EpigraphClassifierStability [AskSetup] [PackageSetup]
+    (D V L O H C P N queryRead replayRead : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  EpigraphContPkgCarrier D V L O H C P N bundle pkg ∧
+    Cont L O queryRead ∧ Cont queryRead H replayRead ∧ hsame replayRead C
+
+theorem EpigraphClassifierStability_replay_row_unary [AskSetup] [PackageSetup]
+    {D V L O H C P N queryRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EpigraphClassifierStability D V L O H C P N queryRead replayRead bundle pkg →
+      UnaryHistory queryRead ∧ UnaryHistory replayRead ∧ UnaryHistory C ∧
+        PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro stable
+  obtain ⟨carrier, queryRoute, replayRoute, replaySameCarrier⟩ := stable
+  obtain ⟨_domainUnary, _valueUnary, lowerUnary, comparisonUnary, transportUnary,
+    carrierReplayUnary, _provenanceUnary, _localNameUnary, _domainValueRoute,
+      _comparisonRoute, provenancePkg, localNamePkg⟩ := carrier
+  have queryUnary : UnaryHistory queryRead :=
+    unary_cont_closed lowerUnary comparisonUnary queryRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed queryUnary transportUnary replayRoute
+  have carrierReplayTransported : UnaryHistory C :=
+    unary_transport replayUnary replaySameCarrier
+  exact ⟨queryUnary, replayUnary, carrierReplayTransported, provenancePkg, localNamePkg⟩
+
 theorem EpigraphNamecertObligations [AskSetup] [PackageSetup]
     {D V L O H C P N queryRead replayRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
