@@ -38,6 +38,33 @@ theorem LiminfCarrier_route_rows [AskSetup] [PackageSetup]
     carrier.right.right.right.right.right.right.right.right.right.left,
     carrier.right.right.right.right.right.right.right.right.right.right⟩
 
+def LiminfClassifier [AskSetup] [PackageSetup]
+    (sequence lowerCut dyadic terminal transport replay provenance localName
+      sequence' lowerCut' dyadic' terminal' transport' replay' provenance' localName' :
+        BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg PkgSig
+  hsame sequence sequence' ∧ hsame lowerCut lowerCut' ∧ hsame dyadic dyadic' ∧
+    hsame terminal terminal' ∧ Cont sequence lowerCut dyadic ∧
+      Cont sequence' lowerCut' dyadic' ∧ PkgSig bundle provenance pkg ∧
+        PkgSig bundle provenance' pkg
+
+theorem LiminfClassifier_rows [AskSetup] [PackageSetup]
+    {sequence lowerCut dyadic terminal transport replay provenance localName
+      sequence' lowerCut' dyadic' terminal' transport' replay' provenance' localName' :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LiminfClassifier sequence lowerCut dyadic terminal transport replay provenance localName
+        sequence' lowerCut' dyadic' terminal' transport' replay' provenance' localName'
+        bundle pkg →
+      hsame sequence sequence' ∧ hsame lowerCut lowerCut' ∧ hsame dyadic dyadic' ∧
+        hsame terminal terminal' ∧ Cont sequence lowerCut dyadic ∧
+          Cont sequence' lowerCut' dyadic' ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle provenance' pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg LiminfClassifier
+  intro classifier
+  exact classifier
+
 theorem LiminfNameCertObligations [AskSetup] [PackageSetup]
     {sequence lowerCut dyadic terminal transport replay provenance localName sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

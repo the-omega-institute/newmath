@@ -52,6 +52,7 @@ I'=(S',L',D',T',H',C',P',N')
 $$
 are classified as the same displayed liminf packet exactly when the bounded sequence rows match componentwise, the tail lower-cut schedules expose the same finite tail observations, the dyadic tolerance ledgers carry the same rational comparison budgets, the terminal $\RealUp$ seals are transported by the displayed $\hsame$ data, the continuation replays preserve the same consumer routes, and the provenance and local NameCert rows name the same $\LiminfUp$ surface. The classifier is therefore rowwise over $S,L,D,T,H,C,P,N$ and does not identify carriers by host sequence equality, quotient streams, selected cofinal subsequences, or a completed infimum construction.
 \end{definition}
+\leandef{BEDC.Derived.LiminfUp.LiminfClassifier}
 
 \begin{theorem}[Liminf NameCert obligations]
 \label{thm:liminf-namecert-obligations}
@@ -144,9 +145,49 @@ A consumer that asks for the candidate value must therefore follow the continuat
 Since no carrier field stores the excluded principles, componentwise transport and continuation replay cannot introduce them. The $\RealUp$ seal remains terminal for the packet, and the liminf surface remains a finite tail-cut certificate.
 \end{proof}
 
+\begin{theorem}[Liminf tail-infimum obligation route]
+\label{thm:liminf-obligation-tail-infimum-route}
+Every accepted $\LiminfUp$ obligation read must expose the rows
+$$
+S,L,D,T,H,C,P,N
+$$
+before any tail-infimum consumer can read the packet. The source row $S$, tail lower-cut schedule $L$, dyadic tolerance ledger $D$, terminal $\RealUp$ seal $T$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ are therefore the whole tail-infimum surface visible to the consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:liminf-carrier}. Its tuple already orders the bounded sequence source, lower-tail schedule, dyadic ledger, terminal seal, transport, replay, provenance, and local naming rows.
+
+Apply the route theorem \autoref{thm:liminf-tail-cut-route}. It forces every Real-and-Completion consumer to replay $S,L,D,T,H,C,P,N$ before using the displayed liminf surface.
+
+A tail-infimum consumer is such a value-facing consumer, so it receives no additional row. The read is exhausted by the displayed carrier route and cannot bypass it through a host infimum or selected subsequence.
+\end{proof}
+
+\begin{theorem}[Liminf bounded-cut compatibility obligation]
+\label{thm:liminf-obligation-bounded-cut-compatibility}
+Every accepted $\LiminfUp$ obligation read that compares lower-cut and upper-cut data must use the same bounded sequence row $S$ and the same dyadic tolerance ledger $D$. The lower-cut observations in $L$ and the upper-cut comparison surface are compatible only as finite reads from that shared bounded sequence and shared tolerance ledger before the terminal $\RealUp$ seal $T$ is consumed.
+\end{theorem}
+\begin{proof}
+Read the carrier rows $S,L,D,T,H,C,P,N$. The row $S$ is the only bounded sequence source, and $D$ is the only displayed tolerance ledger available to comparisons.
+
+Use \autoref{thm:liminf-namecert-obligations}. Its lower-tail exactness row routes lower observations through the finite tail data of $S$, while its upper-cut compatibility row uses $D$ to compare that same tail data against the bounded upper-cut surface.
+
+The structural rows $H,C,P,N$ preserve this common source and tolerance ledger under transport, replay, provenance, and local naming. Thus a consumer cannot pair the lower cut with a different bounded sequence, a different dyadic budget, a host supremum, or ambient completeness data.
+\end{proof}
+
+\begin{theorem}[Liminf Real-seal exhaustion obligation]
+\label{thm:liminf-obligation-real-seal-exhaustion}
+Every value-facing read of an accepted $\LiminfUp$ packet ends at the displayed $\RealUp$ seal $T$. It cannot expose a host infimum, selected subsequence, trichotomy, quotient stream equality, open-cover compactness, or ambient $\RealUp$ completeness beyond the finite route $S,L,D,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:liminf-real-seal-nonescape}. The theorem identifies $T$ as the only value-facing coordinate and places it after the bounded sequence, lower-cut, and tolerance rows.
+
+The obligation route of \autoref{thm:liminf-obligation-tail-infimum-route} gives the complete list of rows a value-facing consumer may read. The bounded-cut compatibility obligation keeps lower-cut and upper-cut reads on the same $S,D$ route before $T$ is reached.
+
+No carrier row remains after $T$ except the structural transport, replay, provenance, and local naming rows already listed. Hence the displayed Real seal exhausts the value-facing surface and the excluded host principles are not exported by the packet.
+\end{proof}
+
 \begin{closurestatus}{\LiminfUp}
   \constructivestory{A $\LiminfUp$ packet is generated from a bounded RealUp sequence row, a finite tail lower-cut schedule, a dyadic tolerance ledger, a terminal RealUp seal, componentwise hsame transports, Cont replay routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:liminf-carrier}, \autoref{def:liminf-classifier}, \autoref{thm:liminf-namecert-obligations}, \autoref{thm:liminf-tail-cut-route}, and \autoref{thm:liminf-real-seal-nonescape} seed the finite tail-cut liminf surface for bounded real sequences.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
